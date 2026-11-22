@@ -9,26 +9,11 @@ import { layers, select, toggleLayer } from '../../lib/store';
 import { infraCapacity, infraColor, infraMatches, loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META, CompanyRows } from '../ui';
 import { useLoaded } from './shared';
+import { openPrices } from '../../lib/prices';
 
-// Price history button: only offered when lib/prices.ts exists and exports openPriceDrawer.
-const priceModules = import.meta.glob('../../lib/prices.ts') as Record<string, () => Promise<{ openPriceDrawer?: (id: string) => void }>>;
-const loadPriceModule = Object.values(priceModules)[0];
-
+/** Opens the bottom price drawer on this commodity's series. */
 function usePriceDrawer(): ((id: string) => void) | null {
-  const [fn, setFn] = useState<((id: string) => void) | null>(null);
-  useEffect(() => {
-    let live = true;
-    loadPriceModule?.()
-      .then((m) => {
-        const f = m.openPriceDrawer;
-        if (live && typeof f === 'function') setFn(() => f);
-      })
-      .catch(() => undefined);
-    return () => {
-      live = false;
-    };
-  }, []);
-  return fn;
+  return (id: string) => openPrices({ commodity: id });
 }
 
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
