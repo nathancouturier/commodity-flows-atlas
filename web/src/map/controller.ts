@@ -147,13 +147,15 @@ function wireCountryInteraction(m: MLMap) {
     if (!lineHover()) hovered.value = null;
   });
   m.on('click', (e) => {
-    // HTML markers (chokepoints) and lines take priority over countries
-    if ((e.originalEvent.target as HTMLElement | null)?.closest?.('.cp')) return;
+    // HTML markers (chokepoints, share labels) and lines take priority over countries
+    if ((e.originalEvent.target as HTMLElement | null)?.closest?.('.cp, .share-label, .maplibregl-marker')) return;
     const hits = m.queryRenderedFeatures(e.point, { layers: interactiveLayers.filter((l) => m.getLayer(l)) });
     if (hits.length) return; // handled by the layer's own click handler
     const land = m.queryRenderedFeatures(e.point, { layers: ['land'] })[0];
     const id = land?.properties?.c as string | undefined;
     if (id && id !== '-99') select({ kind: 'country', id });
+    // a click on empty sea closes the open selection (and the map zooms back out)
+    else if (selection.peek()) select(null);
   });
 
   // reflect selected country on the map
