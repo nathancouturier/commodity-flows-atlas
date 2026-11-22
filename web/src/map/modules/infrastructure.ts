@@ -13,7 +13,7 @@ import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'ge
 import type { Family, InfraProps, InfraType } from '../../types';
 import { registerLayerModule } from '../layers';
 import { flyToBounds, registerInteractiveLayer, registerPointLayer } from '../controller';
-import { commodity, family, hovered, infraAvailable, infraTypes, layers, select, selection } from '../../lib/store';
+import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
 import { INFRA_META, INFRA_ORDER, infraSvg } from '../../components/ui';
@@ -437,7 +437,7 @@ registerLayerModule((m) => {
     const on = layers.value.infrastructure;
     const k = commodity.value;
     const tab = family.value;
-    const types = infraTypes.value;
+    const hidden = infraHidden.value;
     const sel = selection.value;
     void [commodities.value, sources.value];
     const selInfra = sel?.kind === 'infra' ? `${sel.layer}:${sel.id}` : null;
@@ -461,7 +461,6 @@ registerLayerModule((m) => {
       const available = new Set(all.filter(relevant).map((f) => f.p.type));
       infraAvailable.value = available;
       // type chips that do not exist for this selection are ignored rather than emptying the map
-      const effTypes = new Set([...types].filter((t) => available.has(t)));
       for (const f of all) {
         const key = `${f.p.type}:${f.p.id}`;
         const isSelected = key === selInfra;
@@ -469,9 +468,11 @@ registerLayerModule((m) => {
           if (!isSelected) continue; // layer off: only the opened asset
         } else if (!isSelected) {
           if (!relevant(f)) continue;
-          if (effTypes.size && !effTypes.has(f.p.type)) continue;
+          if (hidden.has(f.p.type)) continue;
         }
         const mine = selCountry ? f.p.c === selCountry || (f.p.cs?.includes(selCountry) ?? false) : true;
+        // a selected country is isolated: other countries' assets are hidden
+        if (!mine && !isSelected) continue;
         const st = statusClass(f.p.status);
         const op = (st === 'ok' || st === 'damaged' ? 1 : 0.85) * (mine ? 1 : 0.25);
         if (f.p.type === 'pipeline') {

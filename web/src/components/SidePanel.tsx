@@ -16,7 +16,8 @@ import {
   toggleInSet,
   sheetSnap,
   layers,
-  infraTypes,
+  infraHidden,
+  infraAvailable,
   rfOrigin,
   rfDest,
   setFamily,
@@ -48,6 +49,7 @@ export function SidePanel() {
   const freight = fam === 'freight';
   const current = commodities.value.find((c) => c.id === commodity.value);
 
+  const hidden = panelCollapsed.value;
   return (
     <aside
       id="controls"
@@ -56,7 +58,26 @@ export function SidePanel() {
       aria-label="Map parameters"
     >
       <SheetHead summary={current?.name} />
-      <div class="panel-scroll">
+      {/* desktop: this button stays in the top-left corner and folds the panel into itself */}
+      <button
+        class="panel-head"
+        aria-controls="controls-body"
+        aria-expanded={!hidden}
+        title={hidden ? 'Show the map controls' : 'Hide the map controls'}
+        onClick={() => (panelCollapsed.value = !hidden)}
+      >
+        <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true">
+          <path d="M2 3.5h10M2 7h10M2 10.5h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          <circle cx="5" cy="3.5" r="1.6" fill="var(--panel-solid)" stroke="currentColor" stroke-width="1.3" />
+          <circle cx="9.5" cy="7" r="1.6" fill="var(--panel-solid)" stroke="currentColor" stroke-width="1.3" />
+          <circle cx="6.5" cy="10.5" r="1.6" fill="var(--panel-solid)" stroke="currentColor" stroke-width="1.3" />
+        </svg>
+        Controls
+        <svg class="panel-head-chev" width="11" height="11" viewBox="0 0 12 12" aria-hidden="true">
+          <path d={hidden ? 'M3 4.5 6 7.5 9 4.5' : 'M3 7.5 6 4.5 9 7.5'} fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <div class="panel-scroll" id="controls-body">
         <CommoditySection current={current} />
         <div class="panel-block">
           {freight ? (
@@ -80,7 +101,7 @@ export function SidePanel() {
         </div>
         {layers.value.infrastructure && (
           <div class="panel-block">
-            <Dropdown name="Infrastructure types" value={<InfraSummary />} onClear={infraTypes.value.size ? () => (infraTypes.value = new Set()) : undefined}>
+            <Dropdown name="Infrastructure types" value={<InfraSummary />} onClear={infraHidden.value.size ? () => (infraHidden.value = new Set()) : undefined}>
               <InfraTypeChips />
             </Dropdown>
           </div>
@@ -384,9 +405,12 @@ function LayersSummary() {
 
 /** Summary line of the infrastructure dropdown: the asset types shown. */
 function InfraSummary() {
-  const sel = infraTypes.value;
-  if (!sel.size) return <>All</>;
-  return <>{INFRA_ORDER.filter((t) => sel.has(t)).map((t) => INFRA_META[t].plural).join(', ')}</>;
+  const hidden = infraHidden.value;
+  const avail = infraAvailable.value;
+  const shown = INFRA_ORDER.filter((t) => !avail || avail.has(t));
+  const on = shown.filter((t) => !hidden.has(t));
+  if (on.length === shown.length) return <>All</>;
+  return <>{on.length ? on.map((t) => INFRA_META[t].plural).join(', ') : 'None'}</>;
 }
 
 /** Summary line of the route finder dropdown: the current question, if any. */

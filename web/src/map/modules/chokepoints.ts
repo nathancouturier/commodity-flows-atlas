@@ -10,7 +10,7 @@ import { effect, signal } from '@preact/signals';
 import maplibregl, { type Map as MLMap } from 'maplibre-gl';
 import type { Chokepoint } from '../../types';
 import { registerLayerModule } from '../layers';
-import { hovered, family, layers, select, selection } from '../../lib/store';
+import { hovered, family, laneVia, layers, routeVia, select, selection } from '../../lib/store';
 import { sourceLabel, sources } from '../../lib/data';
 import { MAJOR_CHOKEPOINTS, chokepointList, laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
@@ -91,7 +91,11 @@ registerLayerModule((m: MLMap) => {
       }
     };
 
-    if (sel?.kind === 'chokepoint') {
+    if (sel?.kind === 'country') {
+      const lv = laneVia.value;
+      const rv = routeVia.value;
+      apply(new Set([...(lv ?? []), ...(rv ?? [])]), null);
+    } else if (sel?.kind === 'chokepoint') {
       apply(new Set([sel.id]), sel.id);
     } else if (sel?.kind === 'route') {
       apply(null, null); // provisional, avoids a flash of the wrong set

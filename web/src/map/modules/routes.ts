@@ -8,9 +8,9 @@ import type { Feature, LineString } from 'geojson';
 import type { Route } from '../../types';
 import { registerLayerModule } from '../layers';
 import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
-import { family, layers, selection, vesselClasses } from '../../lib/store';
+import { family, layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
-import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
+import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
 
 function routeLabel(r: Route): string {
@@ -35,11 +35,14 @@ registerLayerModule(() => {
     const on = layers.value.routes || family.value === 'freight' || vc.size > 0;
     const sel = selection.value;
     const selId = sel?.kind === 'route' ? sel.id : null;
+    const iso = sel?.kind === 'country' ? sel.id : null;
     void [vesselClassList.value, commodities.value, sources.value];
+    if (!iso) routeVia.value = null;
 
     const my = ++seq;
     if (!on && !selId) {
       setLineSet('routes', []);
+      if (iso) routeVia.value = new Set();
       return;
     }
     Promise.all([loadRoutes(), loadRouteGeo()])
@@ -58,6 +61,8 @@ registerLayerModule(() => {
           if (!isSel) {
             if (!on || r.discontinued) continue;
             if (!vesselMatches(r.vclass, vc)) continue;
+            // a selected country is isolated: only routes that load or discharge there
+            if (iso && !routeTouches(r, iso)) continue;
           }
           features.push({
             type: 'Feature',
@@ -75,6 +80,7 @@ registerLayerModule(() => {
           });
         }
         setLineSet('routes', features);
+        if (iso) routeVia.value = new Set(features.flatMap((f) => byId.get(f.properties.id.replace(/:alt$/, ''))?.via ?? []));
         // a new vessel-class selection frames all its routes
         const key = [...vc].sort().join(',');
         if (key && key !== framed && !selId && features.length) {

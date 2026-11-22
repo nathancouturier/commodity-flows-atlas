@@ -144,6 +144,12 @@ export function sameVesselFamily(a: string, b: string): boolean {
 }
 
 /** Does any of the vessel classes `have` match the selected set, by family? */
+/** Does the route load or discharge in this country (its drawn ends, or its trade corridor)? */
+export function routeTouches(r: Route, iso3: string): boolean {
+  if (r.ends?.includes(iso3)) return true;
+  return r.corridor?.some((c) => c.o.includes(iso3) || c.d.includes(iso3)) ?? false;
+}
+
 export function vesselMatches(have: string | string[], selected: { has(id: string): boolean; size: number }): boolean {
   if (!selected.size) return true;
   const list = Array.isArray(have) ? have : [have];

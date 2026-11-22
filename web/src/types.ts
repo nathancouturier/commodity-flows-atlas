@@ -218,6 +218,8 @@ export interface Route {
   b: [number, number];
   /** bilateral flows this route represents: commodity id, origin and destination ISO3 lists */
   corridor?: { k: string; o: string[]; d: string[] }[];
+  /** country (ISO3) of each end of the drawn leg: load area, discharge area */
+  ends?: [string | null, string | null];
   /** share of each cargo's seaborne trade carried on this corridor */
   shares?: { k: string; f: Fig }[];
   shareCommodity?: Fig;

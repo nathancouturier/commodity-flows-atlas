@@ -94,7 +94,9 @@ registerLayerModule(() => {
         const a = countries.value[f.o]?.at;
         const b = countries.value[f.d]?.at;
         if (!a || !b) continue;
-        const bright = sel?.kind === 'country' ? f.o === sel.id || f.d === sel.id : true;
+        // a selected country is isolated: only its own overland / pipeline flows
+        if (sel?.kind === 'country' && f.o !== sel.id && f.d !== sel.id) continue;
+        const bright = true;
         features.push({
           type: 'Feature',
           geometry: { type: 'LineString', coordinates: arc(a, b) },

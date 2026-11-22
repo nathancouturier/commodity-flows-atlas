@@ -23,6 +23,7 @@ import ports as P  # noqa: E402
 import build_lanes as BL  # noqa: E402
 import build_portwatch as BW  # noqa: E402
 import vessel_rules as VR  # noqa: E402
+import route_countries as RC  # noqa: E402
 
 ROOT = BL.ROOT
 OUT = os.path.join(ROOT, "data", "freight")
@@ -179,6 +180,7 @@ def main():
         routes.append(out)
 
     os.makedirs(OUT, exist_ok=True)
+    RC.add_end_countries(routes)  # load / discharge country of each route end (site: country isolation)
     json.dump(routes, open(os.path.join(OUT, "routes.json"), "w"), separators=(",", ":"))
     json.dump({"type": "FeatureCollection", "features": feats}, open(os.path.join(OUT, "routes.geo.json"), "w"), separators=(",", ":"))
     print("routes", len(routes), "with shares", sum(1 for r in routes if r.get("shares")))

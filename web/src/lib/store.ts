@@ -33,7 +33,8 @@ export const layers = signal<Record<LayerId, boolean>>({
   infrastructure: true,
 });
 export const metric = signal<Metric>('none');
-export const infraTypes = signal<Set<InfraType>>(new Set());
+/** Infrastructure types the user switched off (empty = every type shown, the default). */
+export const infraHidden = signal<Set<InfraType>>(new Set());
 /** Infrastructure types that exist for the current tab / commodity (set by the infrastructure layer). */
 export const infraAvailable = signal<Set<InfraType> | null>(null);
 export const vesselClasses = signal<Set<string>>(new Set());
@@ -67,6 +68,10 @@ export const detailOpen = computed(() => selection.value !== null);
 /** Bottom-sheet snap heights of the side panel (tablet / phone layout). */
 export type SheetSnap = 'peek' | 'half' | 'full';
 export const sheetSnap = signal<SheetSnap>('half');
+
+/** Chokepoints crossed by the lanes / routes kept on the map for a selected country (null = no country). */
+export const laneVia = signal<Set<string> | null>(null);
+export const routeVia = signal<Set<string> | null>(null);
 
 /** Number of overland / pipeline flow arcs currently drawn (drives the legend). */
 export const landFlowsShown = signal(0);

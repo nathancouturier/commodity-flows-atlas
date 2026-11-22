@@ -11,7 +11,7 @@ import type { Feature, LineString } from 'geojson';
 import type { Lane, LaneFile } from '../../types';
 import { registerLayerModule } from '../layers';
 import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
-import { commodity, family, layers, selection, vesselClasses, year } from '../../lib/store';
+import { commodity, family, laneVia, layers, selection, vesselClasses, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
 import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt, pct } from '../../lib/format';
@@ -42,6 +42,9 @@ function laneLabel(lane: Lane, file: LaneFile, v: number, yr: number | null): st
   );
 }
 
+/** With a country selected: its biggest lanes in each commodity group. */
+const COUNTRY_TOP = 12;
+
 registerLayerModule(() => {
   let seq = 0;
   let flown: string | null = null;
@@ -61,15 +64,20 @@ registerLayerModule(() => {
     // with Physical flows off (e.g. on the Freight tab) a selected lane is still drawn
     if (!on && !selLane0) {
       setLineSet('lanes', []);
+      laneVia.value = sel?.kind === 'country' ? new Set() : null;
       return;
     }
 
+    // a selected country is isolated: only the lanes that load or discharge there are drawn
+    const iso = sel?.kind === 'country' ? sel.id : null;
     // which groups to load, and how many lanes of each to keep (undefined = all)
     let plan: { group: string; top?: number }[];
     if (!on) plan = [];
     else if (k) plan = (LANE_GROUPS[k] ?? []).map((group) => ({ group }));
     else if (fam === 'freight') plan = [];
+    else if (iso) plan = [...new Set(Object.values(LANE_GROUPS).flat())].map((group) => ({ group, top: COUNTRY_TOP }));
     else plan = OVERVIEW;
+    if (!iso) laneVia.value = null;
     const selLane = sel?.kind === 'lane' ? sel.id : null;
     const groups = new Set(plan.map((p) => p.group));
     if (selLane) groups.add(laneGroup(selLane));
@@ -85,6 +93,7 @@ registerLayerModule(() => {
         if (!file) continue;
         let part: Item[] = [];
         for (const lane of file.lanes) {
+          if (iso && lane.o !== iso && lane.d !== iso) continue;
           if (!k && fam !== 'all' && commodityMeta(lane.k)?.family !== fam) continue;
           if (!vesselMatches(lane.vclass, vc)) continue;
           const v = laneValue(lane, file, yr);
@@ -106,6 +115,7 @@ registerLayerModule(() => {
         }
       }
 
+      if (iso) laneVia.value = new Set(items.flatMap((i) => i.lane.via));
       const max = Math.max(...items.map((i) => i.v), 1e-9);
       const isBright = (l: Lane): boolean => {
         if (selLane) return l.id === selLane;
