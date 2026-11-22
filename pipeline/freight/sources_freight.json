@@ -46,5 +46,13 @@
   "url": "https://gmk.center/en/news/the-first-commercial-shipment-of-iron-ore-from-simandou-has-departed-for-china/",
   "licence": "Public web page, facts cited",
   "update": "n/a"
+ },
+ {
+  "id": "wikipedia-vessel-classes",
+  "name": "Wikipedia ship-size articles (Suezmax, Malaccamax, Q-Max, Handymax, Oil tanker)",
+  "publisher": "Wikipedia contributors",
+  "url": "https://en.wikipedia.org/wiki/Suezmax",
+  "licence": "CC BY-SA 4.0 (Wikipedia)",
+  "update": "irregular"
  }
 ]

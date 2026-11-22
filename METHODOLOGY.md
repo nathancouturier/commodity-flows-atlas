@@ -6,8 +6,13 @@ and carry the source id `atlas`.
 
 ## 1. Bilateral trade flows
 
-- **Source**: CEPII BACI, HS 1992 version (1995–2024), which reconciles exporter and importer
-  declarations from UN Comtrade. Quantities are metric tonnes, values thousand USD.
+- **Source**: CEPII BACI, HS 1992 version (the database covers 1995–2024), which reconciles
+  exporter and importer declarations from UN Comtrade. Quantities are metric tonnes, values
+  thousand USD. The atlas keeps the years from 2000 in its cache
+  (`pipeline/cache/baci_flows.csv.gz`, written by `pipeline/trade/extract_baci.py`, rows below
+  both 1,000 t and USD 1 million dropped); lanes and their history start in 2005. The 2.4 GB database is
+  not in the repository: a new version is downloaded when CEPII publishes one, normally by hand
+  (see the README).
 - **Commodity groups**: HS six-digit codes are grouped per commodity in
   `pipeline/trade/hs_map.py` (e.g. coal = 2701.11 + 2701.12 + 2701.19).
 - **Known limits of customs data**
@@ -82,13 +87,23 @@ are therefore slightly understated for those pairs.
   avoiding them is computed, with its extra distance and laden days.
 - **Chokepoints crossed** are detected geometrically: the path passes within a set radius of the
   strait or canal.
-- **Laden days** are distance ÷ typical laden speed for the class: about 11 kn for Capesize,
-  Newcastlemax and VLOC, 12 kn for other dry bulk,
-  12.5–13 kn for tankers, 15.5 kn for VLGCs and 17 kn for LNG carriers. These are Atlas assumptions.
-- **Lane selection**: per commodity group, the largest seaborne pairs covering 80% of volume (at
-  most 22 pairs) in each of 2005, 2010, 2015, 2019, 2021, 2022, 2023 and 2024. The union of those
+- **Laden days** are distance ÷ typical laden speed for the class (`SPEED` in
+  `pipeline/freight/vessel_rules.py`): 11 kn for Capesize, Newcastlemax and VLOC; 12 kn for
+  Panamax, Kamsarmax, Supramax and Ultramax; 11.5 kn for Handysize; 12.5 kn for VLCC, MR and
+  handy tankers; 13 kn for Suezmax, Aframax, LR1 and LR2; 15.5 kn for VLGCs; and 17 kn for LNG
+  carriers and container ships. These are Atlas assumptions.
+- **Lane selection** (`pipeline/freight/build_lanes.py`): per commodity group, in each of 2005,
+  2010, 2015, 2019, 2021, 2022, 2023 and 2024, the seaborne pairs are taken from the largest down
+  until their cumulative share of that year's volume passes 80% (so the pair that crosses 80% is
+  kept), stopping at 22 pairs, or at a pair below 0.6% of the year's volume. The union of those
   pairs is kept, at most 45, so the history view shows lanes that later shrank, such as Russia to
   Europe.
+- **Curated tables.** Some rules are entered by hand and are Atlas judgements, not figures from a
+  dataset: the gateway ports (`ports.py`), `SEA_NEIGHBOURS` and `SEA_OUTLET` (`build_lanes.py`),
+  the vessel class rules (`vessel_rules.py`), the benchmark route definitions
+  (`routes_def.json`) and the vessel size ranges (`vessel_classes.json`). The size ranges are
+  conventional industry ranges, not a single authoritative table, and several benchmark route
+  definitions are marked uncertain in `pipeline/freight/NOTES_routes.md`.
 
 ## 4. Vessel classes per lane
 
@@ -107,12 +122,20 @@ These are labelled "typical" in the interface. They are not measured shares of e
 - **Route share of a commodity's seaborne trade** = corridor volume ÷ world seaborne volume of
   that commodity, both from BACI for the latest year. The corridor is the set of origin and
   destination countries the route represents, listed per route in `routes_def.json`.
+  - A customs group is counted once per country pair and route (thermal and metallurgical coal
+    are one group, "coal").
+  - A share that rounds to 0.0% is not shown: the route page says "n/a" with the reason (corridor
+    too small, no seaborne flow, or no corridor for that benchmark).
 - **Route share of vessel-class activity** (Atlas estimate) = corridor tonne-miles ÷ total
-  tonne-miles of all seaborne flows whose typical primary class belongs to the same size family
+  tonne-miles of the atlas-mapped seaborne flows whose typical primary class belongs to the same size family
   (for example Capesize, Newcastlemax and VLOC together).
+  - It is published only for Capesize (with Newcastlemax and VLOC), VLCC, LNG carriers and VLGC,
+    where the atlas's commodity list covers nearly all of the class's cargo. For the other
+    classes (Handysize, Supramax, Panamax, the smaller tankers) the main cargoes are outside the
+    atlas, so no share is shown.
   - Routed lanes use their sea-route distance.
   - Other pairs use the great-circle distance between gateway ports × 1.3.
-  - Overlapping routes (C5 and the C10_14 round voyage, for example) share the same corridor.
+  - Routes that share a corridor (C3 and the Valemax route, for example) count the same tonnes.
 - **Lane share of destination imports** = lane volume ÷ the destination's total imports of that
   commodity group (all modes).
 - **Chokepoint commodity share** (Atlas estimate) = seaborne volume on mapped lanes crossing the
@@ -124,8 +147,10 @@ These are labelled "typical" in the interface. They are not measured shares of e
     latest year are left out.
 - **Chokepoint traffic** is IMF PortWatch's daily count of tankers, dry bulk, container, general
   cargo and ro-ro vessels, and PortWatch's estimate of the trade volume they carry (tonnes of
-  cargo, not deadweight). Both are shown as weekly averages and as the average of the last 28
-  days. PortWatch counts the Oresund but not the Great Belt, so the Danish Straits series is
+  cargo, not deadweight). Both are shown as weekly averages (calendar weeks starting on Monday,
+  `pipeline/freight/build_portwatch.py`) and as the average of the last 28 days. These averages
+  are a transformation of PortWatch's daily data ("Atlas weekly averages of IMF PortWatch daily
+  counts"); the counts are aggregated, no vessel position or track is used. PortWatch counts the Oresund but not the Great Belt, so the Danish Straits series is
   labelled as Oresund only; it has no counter for the Singapore Strait or for Cape Horn, whose
   page shows the Magellan Strait counter under its own name.
 
@@ -163,9 +188,19 @@ or alumina).
   month.
 - Daily prices: EIA spot series (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating
   oil, US Gulf jet fuel, Mont Belvieu propane).
+- Freight cost proxy: the US producer price index for deep-sea freight transportation
+  (series PCU483111483111, U.S. Bureau of Labor Statistics, index June 1988 = 100, not seasonally
+  adjusted), monthly, fetched through FRED when the owner's free `FRED_API_KEY` is set.
+- Each series carries a note on what it measures (for example, the Brent series is a posted-price
+  proxy before the mid-1980s). A series with fewer than 24 values is rejected.
 - Baltic Exchange freight indices are proprietary and are not shown.
 
 ## 8. Discrepancies
 
 When sources disagree (for example USGS and EIA, or USDA PSD and customs data), the official or
 primary source is shown and the difference is noted in the commodity file's `discrepancies` field.
+
+## 9. Licences of derived figures
+
+Figures computed by the atlas (source id `atlas`) are released under CC BY 4.0; the third-party
+datasets they are computed from keep their own licences. See `NOTICE.md`.

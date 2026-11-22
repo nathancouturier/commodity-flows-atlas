@@ -38,7 +38,7 @@ export default function VesselView({ id }: { id: string }) {
               {d.beam != null && <div><span class="num">{fmt(d.beam)} m</span><small>Beam</small></div>}
               {d.draft != null && <div><span class="num">{fmt(d.draft)} m</span><small>Draft</small></div>}
             </div>
-            <SourceLine s={v.s} />
+            <SourceLine s={d.s ?? v.s} />
           </Section>
         )}
         {v.cargoes.length > 0 && (
@@ -64,6 +64,7 @@ export default function VesselView({ id }: { id: string }) {
               <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
                 {r.benchmark && <span class="code-badge sm">{r.id}</span>}
                 <span class="grow">{r.name}</span>
+                {r.standIn && <span class="meta" title={r.standIn}>stand-in</span>}
                 <span class="meta num">{fmt(r.distanceNm)} nm</span>
               </button>
             ))}

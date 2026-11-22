@@ -97,7 +97,7 @@
    2.5
   ],
   "portwatch": "chokepoint5",
-  "limits": "Shallow sections constrain the largest tankers (the \"Malaccamax\" design draft is about 25 m); not stated in the EIA page.",
+  "limits": "Shallow sections constrain the largest tankers. Wikipedia (Malaccamax, 2026) gives the strait as about 25 m deep and the Malaccamax design draught as about 20.5 m, for a ship of about 333 m by 60 m and 300,000 dwt; not stated in the EIA page.",
   "shares": [
    {
     "k": "crude-oil",
@@ -166,7 +166,8 @@
   ],
   "portwatch": "chokepoint19",
   "summary": "Indonesian strait between Java and Sumatra, an alternative to Malacca for some Indian Ocean to South China Sea traffic, notably from the Cape; heavy volcanic and shallow hazards limit size.",
-  "s": "portwatch"
+  "s": "portwatch",
+  "limits": "Shallow: Wikipedia (Sunda Strait, 2026) gives a depth of about 20 m."
  },
  {
   "id": "lombok",
@@ -177,7 +178,7 @@
    -8.42
   ],
   "portwatch": "chokepoint15",
-  "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; exact limits not sourced.",
+  "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; Wikipedia (Lombok Strait, 2026) gives a depth of about 250 m.",
   "summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
   "s": "portwatch"
  },
@@ -396,7 +397,7 @@
    41.17
   ],
   "portwatch": "chokepoint3",
-  "limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); draft limit not sourced.",
+  "limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); no draft limit is given in the sources the atlas uses.",
   "shares": [
    {
     "k": "crude-oil",
@@ -466,7 +467,7 @@
   "portwatch": "chokepoint10",
   "portwatchLabel": "Oresund (PortWatch); Great Belt not covered",
   "portwatchNote": "IMF PortWatch counts the Oresund only. It has no counter for the Great Belt, the other main passage of the Danish Straits, so this series is not the traffic of the Danish Straits as a whole.",
-  "limits": "Shallow, draft-restricted passages in the Great Belt and Oresund; limits not sourced here.",
+  "limits": "Shallow, draft-restricted passages in the Great Belt and Oresund. The Drogden channel (Oresund) lets ships pass in a maximum depth of about 8 m (Wikipedia, Drogden, 2026); no Great Belt draft limit is given in the sources the atlas uses.",
   "shares": [
    {
     "k": "crude-oil",
@@ -530,7 +531,7 @@
    51.0
   ],
   "portwatch": "chokepoint9",
-  "limits": "Deep-draft route (the Dover Strait traffic separation scheme); exact draft not sourced.",
+  "limits": "Deep-draft route (the Dover Strait traffic separation scheme); the strait is about 20 m deep over its highest banks and 68 m in its deepest part (Wikipedia, Strait of Dover, 2026).",
   "summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
   "s": "portwatch"
  },

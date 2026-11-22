@@ -39,7 +39,7 @@
     ]
    }
   ],
-  "notes": "Benchmark Brazil-China ore laden voyage, roughly 45-50 days; Baltic revised C2/C3/C7/C14 descriptions in 2024-25 (cargo size not re-verified).",
+  "notes": "Benchmark Brazil-China ore laden voyage; Baltic revised C2/C3/C7/C14 descriptions in 2024-25 (cargo size not re-verified).",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -193,9 +193,10 @@
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Time-charter round voyage: delivery China-Japan, Pacific (Australia/transpacific) cargo, redelivery China-Japan. Veson lists it as 'transpacific'. Weighted 0.25 in the C5TC.",
+  "notes": "Time-charter round voyage: delivery China-Japan, Pacific (Australia/transpacific) cargo, redelivery China-Japan. Veson lists it as 'transpacific'. Weighted 0.25 in the C5TC. The definition is to be checked against the current Baltic route list (its status is not confirmed here).",
   "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C5 (West Australia – Qingdao), not of this round voyage."
  },
  {
   "id": "C14",
@@ -223,9 +224,10 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter round voyage via Brazil, redelivery China-Japan; approx 80-90 days; weighted 0.25 in the C5TC.",
+  "notes": "Time-charter round voyage via Brazil, redelivery China-Japan; approx 80-90 days; weighted 0.25 in the C5TC. The definition is to be checked against the current Baltic route list (its status is not confirmed here).",
   "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage."
  },
  {
   "id": "P1A_82",
@@ -303,7 +305,11 @@
   "name": "Singapore round voyage via Atlantic",
   "benchmark": true,
   "vclass": "kamsarmax",
-  "cargoes": [],
+  "cargoes": [
+   "corn",
+   "soybeans",
+   "thermal-coal"
+  ],
   "from": {
    "region": "Singapore (delivery)",
    "ports": [
@@ -322,7 +328,7 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter RV from Singapore via the Atlantic; Veson lists it as 'Singapore round voyage via Atlantic'. Exact load range not verified.",
+  "notes": "Time-charter RV: delivery Singapore, a trip of 90-105 days via the Atlantic, redelivery Hong Kong-S Korea range including Taiwan (Veson, Baltic definition). The definition names no cargo and no loading range: the cargoes listed are those the atlas uses for the other 82kdwt Panamax routes (P1A, P2A, P3A), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -519,7 +525,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "Skaw-Passero (delivery)",
@@ -530,7 +540,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -540,7 +550,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "Skaw-Passero (delivery)",
@@ -551,7 +565,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -561,7 +575,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "Rio de Janeiro-Recalada (delivery)",
@@ -572,7 +590,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -582,7 +600,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "US Gulf (delivery)",
@@ -593,7 +615,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -603,7 +625,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "SE Asia (delivery)",
@@ -614,7 +640,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -624,7 +650,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
@@ -635,7 +665,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -645,7 +675,11 @@
   "benchmark": true,
   "vclass": "handysize",
   "cargoes": [
-   "steel"
+   "steel",
+   "corn",
+   "wheat",
+   "potash",
+   "phosphate"
   ],
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
@@ -656,7 +690,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -1446,7 +1480,8 @@
   "corridor": [],
   "notes": "Corridor assigned to TC5 / middle-east-japan-products to avoid double counting. Lloyd's List flagged possible suspension in 2026.",
   "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "shareNa": "Its flow is counted on TC5 (same Gulf–Japan products corridor), not twice"
  },
  {
   "id": "TC5",
@@ -1537,7 +1572,8 @@
   "corridor": [],
   "notes": "Corridor assigned to middle-east-europe-diesel. Current status not verified.",
   "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
  },
  {
   "id": "TC15",
@@ -1653,7 +1689,8 @@
   "corridor": [],
   "notes": "Cargo size and ports not verified in this research.",
   "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
  },
  {
   "id": "TC2_37",
@@ -3451,7 +3488,8 @@
   },
   "corridor": [],
   "notes": "Lithium is not in the atlas commodity list, so no cargo/corridor is attached.",
-  "s": "atlas"
+  "s": "atlas",
+  "shareNa": "Lithium (spodumene) is not in the atlas commodity list"
  },
  {
   "id": "indo-malay-india-palm-oil",
@@ -3828,7 +3866,8 @@
    }
   ],
   "notes": "Seaborne ESPO exports only; pipeline flows to China are not included.",
-  "s": "atlas"
+  "s": "atlas",
+  "shareNa": "Russia and China share a land border, so the atlas's customs-based seaborne table classes their crude trade as land (pipeline) trade and holds no sea flow for this pair"
  },
  {
   "id": "brazil-china-crude",
@@ -4076,7 +4115,8 @@
   },
   "corridor": [],
   "notes": "Covered by the TD27 benchmark corridor; kept for reference without a separate corridor.",
-  "s": "atlas"
+  "s": "atlas",
+  "shareNa": "Its flow is counted on TD27 (same corridor), not twice"
  },
  {
   "id": "india-europe-diesel",
@@ -4232,7 +4272,8 @@
   ],
   "corridor": [],
   "notes": "See TC5 corridor.",
-  "s": "atlas"
+  "s": "atlas",
+  "shareNa": "Its flow is counted on TC5 (same corridor), not twice"
  },
  {
   "id": "usgulf-latam-products",

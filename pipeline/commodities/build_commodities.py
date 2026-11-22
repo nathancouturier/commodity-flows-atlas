@@ -1396,7 +1396,7 @@ def write_qa(index, docs):
 # year and is printed with them; none is used in a table.
 LNG_REFERENCE = [
     # (publisher, publication, figure, unit, year, what)
-    ("GIIGNL", "Annual Report 2025", 406, "Mt", 2024, "world LNG imports"),
+    ("GIIGNL", "Annual Report 2025", 406.24, "Mt", 2024, "world LNG trade"),
     ("IGU", "World LNG Report 2025", 411.24, "Mt", 2024, "world LNG trade"),
 ]
 
@@ -1436,9 +1436,10 @@ def caveats(docs, eia):
 
     # LNG: customs total against the two industry surveys
     lx = docs["lng"]["exports"]
+    lw = lx["world"]
     refs = "; ".join(f"{pub} ({doc}): {v:g} {u} of {what} in {y}" for pub, doc, v, u, y, what in LNG_REFERENCE)
-    out["lng"] = {"exports": f"Customs (BACI) tonnage, {_fmt(lx['world'])} Mt in {lx['y']}, is below the industry surveys. {refs}.",
-                  "discrepancies": [f"BACI LNG exporter tonnage ({_fmt(lx['world'])} Mt in {lx['y']}) is below the industry surveys: {refs}."]}
+    out["lng"] = {"exports": f"Customs (BACI) tonnage, {lw:.2f} Mt in {lx['y']}, is below the industry surveys. {refs}.",
+                  "discrepancies": [f"BACI LNG exporter tonnage ({lw:.2f} Mt in {lx['y']}) is below the industry surveys: {refs}."]}
 
     out["gold"] = {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
                    "imports": "Includes refining and vaulting hubs; not a measure of final demand."}

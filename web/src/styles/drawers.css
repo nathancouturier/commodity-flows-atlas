@@ -1155,3 +1155,33 @@
     max-height: max(240px, calc(60dvh - var(--tl-h, 0px)));
   }
 }
+
+/* ---------------------------------------------------------------- price drawer on phones and tablets: the chart gets the room */
+
+/* stacked layout (drawer narrower than 860 px): the chart has its own tall box, the statistics and sources
+   scroll under it. It used to share a 360 px column with the controls and kept about 100 px.
+   The column is as tall as its content, so that the sources never run over the statistics below. */
+@media (max-width: 1024px) and (min-height: 501px) {
+  @container pd (max-width: 859px) {
+    .pd-main {
+      min-height: 0;
+      height: max-content;
+    }
+    .pd-main .pd-chart {
+      flex: none;
+      height: clamp(230px, 38dvh, 360px);
+      min-height: 0;
+    }
+  }
+}
+/* phones: the drawer opens nearly full height; the top bar stays so that Prices can be toggled */
+@media (max-width: 760px) and (min-height: 501px) {
+  .pd {
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
+  }
+}
+/* a vertical drag on the chart scrolls the drawer; a horizontal one moves the cursor */
+.pd .u-over {
+  touch-action: pan-y;
+}

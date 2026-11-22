@@ -4,8 +4,10 @@
   "name": "Natural Earth Admin 0 Countries 1:50m",
   "publisher": "Natural Earth",
   "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/",
-  "licence": "Public domain",
-  "update": "irregular"
+  "licence": "Public domain (no credit required)",
+  "update": "irregular",
+  "access": "Zip from naciscdn.org, read once by pipeline/geo/build_countries.mjs; not refreshed by a workflow",
+  "use": "Country shapes, borders, coastlines and the basemap"
  },
  {
   "id": "usgs-mcs",
@@ -13,7 +15,9 @@
   "publisher": "U.S. Geological Survey",
   "url": "https://pubs.usgs.gov/periodicals/mcs2026/",
   "licence": "Public domain (US Government)",
-  "update": "annual (late January)"
+  "update": "annual (late January)",
+  "access": "Data release (CSV) found through the ScienceBase search API, monthly check",
+  "use": "Mine, refinery and smelter production and reserves of metals, minerals and fertilisers"
  },
  {
   "id": "baci",
@@ -21,7 +25,9 @@
   "publisher": "CEPII",
   "url": "https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37",
   "licence": "Etalab Open Licence 2.0",
-  "update": "annual (January)"
+  "update": "annual (January)",
+  "access": "One zip (about 2.4 GB) from cepii.fr, reduced by pipeline/trade/extract_baci.py to pipeline/cache/baci_flows.csv.gz (years from 2000). The monthly job downloads it only when a newer version exists; CEPII can refuse cloud runners, so the refresh is normally run locally",
+  "use": "Flows, exports and imports, lanes (from 2005), route shares, 20-year history"
  },
  {
   "id": "wb-pink",
@@ -29,15 +35,20 @@
   "publisher": "World Bank",
   "url": "https://www.worldbank.org/en/research/commodity-markets",
   "licence": "CC BY 4.0",
-  "update": "monthly (2nd business day)"
+  "update": "monthly (2nd business day)",
+  "access": "CMO-Historical-Data-Monthly.xlsx, weekly check",
+  "use": "Monthly prices since 1960"
  },
  {
   "id": "fred",
   "name": "FRED, Federal Reserve Bank of St. Louis",
   "publisher": "Federal Reserve Bank of St. Louis",
   "url": "https://fred.stlouisfed.org/",
-  "licence": "Series-specific; public domain for EIA and IMF series",
-  "update": "daily / monthly"
+  "licence": "Per series. The series used is a U.S. Bureau of Labor Statistics series: public domain, citation requested (Source: BLS via FRED). Other FRED series can be copyrighted",
+  "update": "daily / monthly",
+  "access": "FRED API (api.stlouisfed.org), needs a free API key stored as the FRED_API_KEY secret; without it the series is skipped",
+  "use": "One series: US producer price index for deep-sea freight (BLS series PCU483111483111)",
+  "key": "Free FRED API key, created by the project owner and stored as the GitHub secret FRED_API_KEY; without it the series is skipped"
  },
  {
   "id": "usda-psd",
@@ -45,15 +56,19 @@
   "publisher": "USDA Foreign Agricultural Service",
   "url": "https://apps.fas.usda.gov/psdonline/",
   "licence": "Public domain (US Government)",
-  "update": "monthly (WASDE day)"
+  "update": "monthly (WASDE day)",
+  "access": "psd_alldata_csv.zip, monthly",
+  "use": "Grains, oilseeds, meals, vegetable oils, sugar, coffee, cotton: production, consumption, exports and imports"
  },
  {
   "id": "portwatch",
-  "name": "IMF PortWatch chokepoint transits",
+  "name": "IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily counts)",
   "publisher": "IMF and University of Oxford",
   "url": "https://portwatch.imf.org/",
-  "licence": "CC BY 4.0 (attribution: IMF PortWatch)",
-  "update": "weekly"
+  "licence": "IMF terms of use for statistical data: attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford), data adapted",
+  "update": "weekly",
+  "access": "ArcGIS feature service Daily_Chokepoints_Data, paged, weekly",
+  "use": "Chokepoint transit counts and trade volume estimates since 2019, as weekly averages and a 28-day average"
  },
  {
   "id": "nga-wpi",
@@ -61,31 +76,39 @@
   "publisher": "US National Geospatial-Intelligence Agency",
   "url": "https://msi.nga.mil/Publications/WPI",
   "licence": "Public domain (US Government)",
-  "update": "irregular"
+  "update": "irregular",
+  "access": "Not used: the server did not respond",
+  "use": "Nothing; port coordinates come from UN/LOCODE through searoute"
  },
  {
   "id": "baltic",
   "name": "Baltic Exchange route definitions",
   "publisher": "The Baltic Exchange",
   "url": "https://www.balticexchange.com/en/data-services/market-information0/indices.html",
-  "licence": "Route definitions are public; index values are proprietary and not shown",
-  "update": "n/a"
+  "licence": "Route names and definitions are public facts; index values are proprietary and not shown; not affiliated with the Baltic Exchange",
+  "update": "n/a",
+  "access": "Web pages, read by hand",
+  "use": "Names and definitions of the benchmark routes; no index value"
  },
  {
   "id": "eurostat-searoute",
   "name": "SeaRoute maritime network (Eurostat), via the searoute Python package",
-  "publisher": "Eurostat / searoute",
+  "publisher": "Eurostat (SeaRoute) / searoute-py",
   "url": "https://github.com/genthalili/searoute-py",
-  "licence": "EUPL 1.2 (network) / Apache 2.0 (package)",
-  "update": "n/a"
+  "licence": "Package searoute-py: Apache 2.0. Eurostat SeaRoute network: EUPL 1.2, built on the Oak Ridge National Laboratory Global Shipping Lane Network (terms to be confirmed)",
+  "update": "n/a",
+  "access": "Python package searoute 1.6.0 (pip), which bundles the network",
+  "use": "Sea-route geometry and distances"
  },
  {
   "id": "atlas",
   "name": "Commodity Flows Atlas estimate (derived; see METHODOLOGY.md)",
   "publisher": "Commodity Flows Atlas",
   "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/METHODOLOGY.md",
-  "licence": "MIT",
-  "update": "rebuilt with each data refresh"
+  "licence": "CC BY 4.0 (attribution: Commodity Flows Atlas)",
+  "update": "rebuilt with each data refresh",
+  "access": "Computed by the pipeline builders at each rebuild; method in METHODOLOGY.md",
+  "use": "Route and chokepoint shares, vessel-class tonne-mile shares, laden days, lane and route geometry"
  },
  {
   "id": "eia-chokepoints",
@@ -93,7 +116,9 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints",
   "licence": "Public domain (US Government)",
-  "update": "irregular (last updated 3 March 2026)"
+  "update": "irregular (last updated 3 March 2026)",
+  "access": "Web page, read by hand",
+  "use": "Oil and LNG flows through chokepoints"
  },
  {
   "id": "eia-tie",
@@ -101,63 +126,79 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/todayinenergy/detail.php?id=68485",
   "licence": "Public domain (US Government)",
-  "update": "quarterly chokepoint updates"
+  "update": "quarterly chokepoint updates",
+  "access": "Web pages, read by hand",
+  "use": "Oil and LNG flows through chokepoints"
  },
  {
   "id": "pca-stats",
   "name": "Panama Canal Authority fiscal-year statistics and results",
   "publisher": "Autoridad del Canal de Panama",
   "url": "https://pancanal.com/en/panama-canal-maintains-operational-and-financial-strength/",
-  "licence": "Public statistics, attribution",
-  "update": "annual (fiscal year ends 30 Sep)"
+  "licence": "No licence stated; facts cited with attribution (terms to be confirmed)",
+  "update": "annual (fiscal year ends 30 Sep)",
+  "access": "Web pages, read by hand",
+  "use": "Panama Canal transits"
  },
  {
   "id": "veson-baltic-defs",
   "name": "Baltic Exchange time-series/route definitions (Veson VesselsValue help)",
   "publisher": "Veson Nautical (summarising Baltic Exchange)",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "licence": "Public web page, facts cited",
-  "update": "irregular"
+  "licence": "Public web page; facts cited (terms to be confirmed)",
+  "update": "irregular",
+  "access": "Web page, read by hand",
+  "use": "Benchmark route definitions"
  },
  {
   "id": "baltic-circulars",
   "name": "Baltic Exchange circulars and service pages (TD27, TD2/TD17/TC9 cessation, BLNG-174, BSI 63.5, C5TC 182)",
   "publisher": "The Baltic Exchange",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/",
-  "licence": "Route definitions are public; index values are proprietary and not shown",
-  "update": "as published"
+  "licence": "Route names and definitions are public facts; index values are proprietary and not shown; not affiliated with the Baltic Exchange",
+  "update": "as published",
+  "access": "Web pages, read by hand",
+  "use": "Benchmark route changes and cessations"
  },
  {
   "id": "pca-vessel-requirements",
   "name": "Panama Canal vessel size limits (Panamax/Neopanamax)",
   "publisher": "Panama Canal Authority (via PCA news release and Wikipedia Panamax)",
   "url": "https://pancanal.com/en/panama-canal-extends-maximum-length-overall-and-increases-draft-for-neopanamax-locks/",
-  "licence": "Public web page, facts cited",
-  "update": "irregular"
+  "licence": "No licence stated; facts cited with attribution (terms to be confirmed)",
+  "update": "irregular",
+  "access": "Web page, read by hand",
+  "use": "Panama Canal vessel size limits"
  },
  {
   "id": "sca-rules",
   "name": "Suez Canal transit limits (20.1 m draft, 1,006 m2 wetted area, 50 m beam)",
   "publisher": "Suez Canal Authority (via Wikipedia Suezmax and EIA)",
   "url": "https://www.eia.gov/todayinenergy/detail.php?id=18011",
-  "licence": "Public web page, facts cited",
-  "update": "irregular"
+  "licence": "No licence stated; facts cited with attribution (terms to be confirmed)",
+  "update": "irregular",
+  "access": "Web page, read by hand",
+  "use": "Suez Canal transit limits"
  },
  {
   "id": "vessel-size-conventions",
   "name": "Conventional vessel class size ranges (industry convention, Baltic reference vessels, Wikipedia bulk carrier)",
   "publisher": "Various",
   "url": "https://en.wikipedia.org/wiki/Bulk_carrier",
-  "licence": "Public web page, facts cited (CC BY-SA for Wikipedia)",
-  "update": "irregular"
+  "licence": "Industry convention; facts cited (Wikipedia text is CC BY-SA 4.0)",
+  "update": "irregular",
+  "access": "Web pages, read by hand",
+  "use": "Vessel class size ranges"
  },
  {
   "id": "simandou-news",
   "name": "First commercial shipment from Simandou departs for China",
   "publisher": "GMK Center / Caixin / Argus (press)",
   "url": "https://gmk.center/en/news/the-first-commercial-shipment-of-iron-ore-from-simandou-has-departed-for-china/",
-  "licence": "Public web page, facts cited",
-  "update": "n/a"
+  "licence": "Press article; facts cited with a link (terms to be confirmed)",
+  "update": "n/a",
+  "access": "Web page, read by hand",
+  "use": "One dated event: the first Simandou shipment"
  },
  {
   "id": "eia-spot",
@@ -165,7 +206,9 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
   "licence": "Public domain (US Government)",
-  "update": "weekly (daily data)"
+  "update": "weekly (daily data)",
+  "access": "eia.gov/dnav/.../hist_xls/*.xls, weekly check",
+  "use": "Daily Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating oil, US Gulf jet, Mont Belvieu propane"
  },
  {
   "id": "eia-intl",
@@ -173,63 +216,79 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/international/data/world",
   "licence": "Public domain (US Government)",
-  "update": "annual, partial monthly"
+  "update": "annual, partial monthly",
+  "access": "Bulk file INTL.zip, monthly check",
+  "use": "Production and consumption of crude, products, gas and coal; coal reserves"
  },
  {
   "id": "faostat",
   "name": "FAOSTAT Crops and livestock products (QCL)",
   "publisher": "Food and Agriculture Organization of the United Nations",
   "url": "https://www.fao.org/faostat/en/data/QCL",
-  "licence": "CC BY 4.0",
-  "update": "annual"
+  "licence": "CC BY 4.0 (FAO statistical database terms of use also apply)",
+  "update": "annual",
+  "access": "Bulk zip Production_Crops_Livestock_E_All_Data_(Normalized).zip, at most every 80 days (the API was unreachable)",
+  "use": "Cocoa production"
  },
  {
   "id": "wna",
   "name": "World Nuclear Association: World Uranium Mining Production",
   "publisher": "World Nuclear Association",
   "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
-  "licence": "Copyright World Nuclear Association; figures cited with attribution (see website terms of use)",
-  "update": "annual"
+  "licence": "Copyright World Nuclear Association; figures cited with attribution (terms to be confirmed)",
+  "update": "annual",
+  "access": "Web page, scraped, at most every 80 days",
+  "use": "Uranium production by country"
  },
  {
   "id": "company-reports",
   "name": "Company annual and production reports",
   "publisher": "Individual companies",
   "url": "https://www.vitol.com/",
-  "licence": "Per company; facts only cited",
-  "update": "annual"
+  "licence": "Per company; facts cited with a link (terms to be confirmed)",
+  "update": "annual",
+  "access": "Web pages, cited per entry (url)",
+  "use": "Producers and traders: production and capacity figures"
  },
  {
   "id": "trade-press",
   "name": "Trade press citing company data",
   "publisher": "Various",
   "url": "https://www.reuters.com/markets/commodities/",
-  "licence": "Facts only cited",
-  "update": "continuous"
+  "licence": "Press articles; facts cited with a link (terms to be confirmed)",
+  "update": "continuous",
+  "access": "Web pages, cited per entry (url)",
+  "use": "Company figures not found in reports"
  },
  {
   "id": "wikipedia",
-  "name": "Wikipedia company articles",
-  "publisher": "Wikimedia Foundation",
+  "name": "Wikipedia articles (infrastructure, companies, events)",
+  "publisher": "Wikimedia Foundation (text by Wikipedia contributors)",
   "url": "https://en.wikipedia.org/",
-  "licence": "CC BY-SA 4.0",
-  "update": "continuous"
+  "licence": "CC BY-SA 4.0 (adapted; each item links its article; see NOTICE.md)",
+  "update": "continuous",
+  "access": "Articles read by hand, cited per entry (url)",
+  "use": "Infrastructure assets, companies, events and vessel and canal facts"
  },
  {
   "id": "port-authorities",
   "name": "Port authority and government port statistics (Pilbara Ports, Queensland TMR, MPA Singapore, Port of Rotterdam, PCCA, Santos, Portos do Parana, RBCT via press)",
   "publisher": "various port authorities",
   "url": "https://www.pilbaraports.com.au/",
-  "licence": "Public statistics; cite with attribution",
-  "update": "annual"
+  "licence": "No licence stated; statistics cited with attribution (terms to be confirmed)",
+  "update": "annual",
+  "access": "Web pages, cited per asset (url)",
+  "use": "Port throughput"
  },
  {
   "id": "giignl-2026",
   "name": "GIIGNL Annual Report 2026 (2025 data): liquefaction and regasification tables, market and project narrative",
   "publisher": "GIIGNL (International Group of LNG Importers)",
   "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf",
-  "licence": "Public PDF, (c) GIIGNL; facts cited with attribution, not redistributed",
-  "update": "Annual (2026 edition covers calendar 2025, with some 2026 events)"
+  "licence": "Public PDF, (c) GIIGNL; a few facts cited with attribution, nothing redistributed (terms to be confirmed)",
+  "update": "Annual (2026 edition covers calendar 2025, with some 2026 events)",
+  "access": "Public PDF report, read by hand",
+  "use": "LNG liquefaction and regasification capacities"
  },
  {
   "id": "eia-briefs",
@@ -237,14 +296,26 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/todayinenergy/",
   "licence": "US Government public domain",
-  "update": "Continuous"
+  "update": "Continuous",
+  "access": "Web pages, read by hand",
+  "use": "US LNG export capacity and project status"
  },
  {
   "id": "press-2026",
   "name": "2026 Gulf conflict status reporting (Bloomberg list via gCaptain, 11 Apr 2026; Cyprus Mail 12 Oct 2026)",
   "publisher": "Bloomberg / gCaptain / Cyprus Mail",
   "url": "https://gcaptain.com/heres-a-list-of-gulf-energy-infrastructure-damaged-in-iran-war/",
-  "licence": "Proprietary; short facts cited with attribution",
-  "update": "Point-in-time (Apr and Oct 2026); status needs re-check"
+  "licence": "Proprietary press; short facts cited with a link",
+  "update": "Point-in-time (Apr and Oct 2026); status needs re-check",
+  "access": "Web pages, read by hand",
+  "use": "Status of Gulf energy infrastructure in 2026"
+ },
+ {
+  "id": "wikipedia-vessel-classes",
+  "name": "Wikipedia ship-size articles (Suezmax, Malaccamax, Q-Max, Handymax, Oil tanker)",
+  "publisher": "Wikipedia contributors",
+  "url": "https://en.wikipedia.org/wiki/Suezmax",
+  "licence": "CC BY-SA 4.0 (Wikipedia)",
+  "update": "irregular"
  }
 ]

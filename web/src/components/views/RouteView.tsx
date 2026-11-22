@@ -78,9 +78,14 @@ function Body({ r }: { r: Route }) {
           {r.benchmark && <span class="code-badge" title="Baltic Exchange route code">{r.id}</span>}
           {r.discontinued && <span class="badge badge-warn">Discontinued {r.discontinued}</span>}
           {r.roundVoyage && <span class="badge" title="Benchmark is quoted for a round voyage">Round voyage</span>}
+          {r.standIn && <span class="badge badge-warn" title={r.standIn}>Stand-in trace</span>}
         </div>
         {r.roundVoyage && <div class="muted small" style={{ marginTop: '6px' }}>Benchmark is a round voyage (delivery → redelivery); distance shown is the typical laden leg.</div>}
-        {r.drawnAs && <div class="muted small" style={{ marginTop: '6px' }}>Drawn as its {r.drawnAs}.</div>}
+        {r.standIn ? (
+          <div class="muted small" style={{ marginTop: '6px' }}>{r.standIn}</div>
+        ) : (
+          r.drawnAs && <div class="muted small" style={{ marginTop: '6px' }}>Drawn as its {r.drawnAs}.</div>
+        )}
       </div>
       <div class="panel-scroll">
         <AlertBanners chokepoints={r.via} status={r.status} />
@@ -90,8 +95,9 @@ function Body({ r }: { r: Route }) {
           {shares.map((s) => (
             <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
+          {!r.shareCommodity && r.shareNa && <Kpi label="Corridor share" value="n/a" note={r.shareNa} span />}
           {r.shareClass && (
-            <Kpi label="Share of class tonne-miles" f={r.shareClass} sub={`Atlas estimate · ${r.shareClass.y}`} />
+            <Kpi label="Share of class tonne-miles" f={r.shareClass} sub={`Atlas estimate · ${r.shareClass.y}`} note={r.shareClass.n} span />
           )}
           {parcel && <Kpi label="Standard parcel" value={parcel} sub={pub} title={`Parcel size per route definition (${r.s})`} />}
         </div>

@@ -181,7 +181,7 @@ export interface VesselClass {
   segment: Segment;
   /** deadweight range in tonnes (or cbm for gas carriers, see unit) */
   size: { min: number; max: number; typical: number; u: 'dwt' | 'cbm' | 'teu' };
-  dims?: { loa?: number; beam?: number; draft?: number };
+  dims?: { loa?: number; beam?: number; draft?: number; s?: string };
   cargoes: string[];
   constraints: string[];
   canals: { suez: string; panama: string };
@@ -218,6 +218,8 @@ export interface Route {
   roundVoyage?: boolean;
   /** "typical laden leg" when a time-charter trip is drawn as its laden leg */
   drawnAs?: string;
+  /** set when the line, distance and days are borrowed from another route (the benchmark has no fixed ports) */
+  standIn?: string;
   vclass: string;
   cargoes: string[];
   from: { region: string; ports: string[] };
@@ -240,7 +242,9 @@ export interface Route {
   /** share of each cargo's seaborne trade carried on this corridor */
   shares?: { k: string; f: Fig }[];
   shareCommodity?: Fig;
-  /** share of the vessel size class's tonne-mile demand (Atlas estimate) */
+  /** why the route has no corridor share (shown as "n/a") */
+  shareNa?: string;
+  /** share of the vessel size class's tonne-mile demand (Atlas estimate); only for classes whose cargo base the atlas covers */
   shareClass?: Fig;
   alt?: AltRouting;
   /** active disruptions touching this route */

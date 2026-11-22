@@ -64,30 +64,41 @@ export function VesselChip(props: { id: string }) {
   );
 }
 
-/** Horizontal strip: load port, true chokepoints in order, discharge port. Ports are plain muted end labels. */
+/**
+ * Voyage strip: load port, the chokepoints crossed in order, discharge port. The two ports are captioned
+ * text ("From", "To"); only chokepoints are chips, so a port is never read as a chokepoint.
+ */
 export function RouteStrip(props: { from: string; to: string; via: string[] }) {
   return (
-    <div class="strip" role="list">
-      <span class="strip-port" role="listitem" title={props.from}>{props.from}</span>
-      <span class="strip-link" aria-hidden="true" />
-      {props.via.length === 0 && <span class="muted small strip-none" role="listitem">No major chokepoint</span>}
-      {props.via.map((id) => (
-        <>
-          <button class="strip-cp" role="listitem" key={id} onClick={() => select({ kind: 'chokepoint', id })} title={`Open ${chokepointName(id)}`}>
-            {chokepointName(id)}
-          </button>
+    <>
+      <div class="strip" role="list">
+        <span class="strip-port" role="listitem" title={`From ${props.from}`}>
+          <span class="strip-k">From</span> {props.from}
+        </span>
+        {props.via.map((id) => (
+          <span class="strip-step" role="listitem" key={id}>
+            <span class="strip-link" aria-hidden="true" />
+            <button class="strip-cp" onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
+              {chokepointName(id)}
+            </button>
+          </span>
+        ))}
+        <span class="strip-step" role="listitem" title={`To ${props.to}`}>
           <span class="strip-link" aria-hidden="true" />
-        </>
-      ))}
-      {props.via.length === 0 && <span class="strip-link" aria-hidden="true" />}
-      <span class="strip-port" role="listitem" title={props.to}>{props.to}</span>
-    </div>
+          <span class="strip-port">
+            <span class="strip-k">To</span> {props.to}
+          </span>
+        </span>
+      </div>
+      {props.via.length === 0 && <div class="muted small strip-none">No tracked chokepoint on this voyage.</div>}
+    </>
   );
 }
 
 export function ViaSection(props: { from: string; to: string; via: string[] }) {
+  const n = props.via.length;
   return (
-    <Section title="Chokepoints crossed">
+    <Section title="Voyage" aside={n > 0 && <span class="muted strip-count">{n} chokepoint{n === 1 ? '' : 's'} crossed</span>}>
       <RouteStrip from={props.from} to={props.to} via={props.via} />
     </Section>
   );

@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "Customs (BACI) tonnage, 371.3 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406 Mt of world LNG imports in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
+   "n": "Customs (BACI) tonnage, 371.32 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406.24 Mt of world LNG trade in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
   },
   "seaborne": {
    "v": 360.04,
@@ -71,8 +71,8 @@
     "v": 4.95
    }
   ],
-  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Customs (BACI) tonnage, 371.3 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406 Mt of world LNG imports in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024.",
-  "caveat": "Customs (BACI) tonnage, 371.3 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406 Mt of world LNG imports in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
+  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Customs (BACI) tonnage, 371.32 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406.24 Mt of world LNG trade in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024.",
+  "caveat": "Customs (BACI) tonnage, 371.32 Mt in 2024, is below the industry surveys. GIIGNL (Annual Report 2025): 406.24 Mt of world LNG trade in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
  },
  "imports": {
   "y": 2024,
@@ -336,6 +336,6 @@
   "LNG volumes are in Mt (1 Mt LNG is about 1.36 bcm of gas); no production table: liquefaction output is not in the loaded sources."
  ],
  "discrepancies": [
-  "BACI LNG exporter tonnage (371.3 Mt in 2024) is below the industry surveys: GIIGNL (Annual Report 2025): 406 Mt of world LNG imports in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
+  "BACI LNG exporter tonnage (371.32 Mt in 2024) is below the industry surveys: GIIGNL (Annual Report 2025): 406.24 Mt of world LNG trade in 2024; IGU (World LNG Report 2025): 411.24 Mt of world LNG trade in 2024."
  ]
 }

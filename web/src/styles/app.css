@@ -888,7 +888,7 @@ button {
     z-index: 13;
   }
   html .app .pd {
-    height: min(60dvh, 520px);
+    height: min(70dvh, 760px);
   }
   html .app.tl-open .legend {
     bottom: auto;

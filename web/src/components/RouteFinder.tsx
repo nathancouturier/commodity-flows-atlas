@@ -266,6 +266,7 @@ function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
       {benchmarks.length > 0 && (
         <>
           <div class="rf-sub">Benchmark routes</div>
+          <div class="muted small">Ports and distance above are this country-to-country lane's own; the routes below have their own ports and distance.</div>
           {benchmarks.map((r) => (
             <button class="list-btn rf-route" onClick={() => select({ kind: 'route', id: r.id })}>
               {r.benchmark && <span class="code">{r.id}</span>}

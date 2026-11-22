@@ -41,6 +41,13 @@ GROUPS_OF = {
 FAMILY = {"vloc": "capesize", "newcastlemax": "capesize", "capesize": "capesize", "kamsarmax": "panamax", "panamax": "panamax",
           "ultramax": "supramax", "supramax": "supramax", "handysize": "handysize", "vlcc": "vlcc", "suezmax": "suezmax",
           "aframax": "aframax", "lr2": "lr2", "lr1": "lr1", "mr": "mr", "handy-tanker": "mr", "lng": "lng", "vlgc": "vlgc"}
+# The class share is published only for classes whose cargo base the atlas covers almost completely.
+# Elsewhere the atlas's commodity list leaves out the main cargoes (minor bulks, grain parcels, products of
+# smaller tankers), so a share would divide one cargo by a fraction of the class's real work.
+CLASS_SHARE_BASIS = {
+    "capesize": "iron-ore, coal and bauxite", "vlcc": "crude-oil", "lng": "LNG", "vlgc": "LPG",
+}
+CLASS_SHARE_NAME = {"capesize": "Capesize, Newcastlemax and VLOC", "vlcc": "VLCC", "lng": "LNG carrier", "vlgc": "VLGC"}
 
 
 # Time-charter trips and round voyages have delivery/redelivery areas rather than ports.
@@ -123,6 +130,8 @@ def main():
         out = {k: r[k] for k in ("id", "name", "benchmark", "vclass", "cargoes", "notes", "s") if k in r}
         if r.get("discontinued"):
             out["discontinued"] = r["discontinued"]
+        if r.get("standIn"):
+            out["standIn"] = r["standIn"]
         if cor:
             out["corridor"] = cor
         if r.get("roundVoyage"):
@@ -153,27 +162,56 @@ def main():
             out["alt"] = alt
             feats.append({"type": "Feature", "properties": {"id": r["id"] + ":alt", "kind": "alt"}, "geometry": {"type": "LineString", "coordinates": ag}})
 
-        # corridor volumes from customs data (cleaned seaborne pairs)
-        shares, hist_tot, cor_tm = [], defaultdict(float), 0.0
+        # corridor volumes from customs data (cleaned seaborne pairs). A customs group is counted once per
+        # country pair and route: thermal and metallurgical coal are the same group "coal".
+        shares, hist_tot, cor_tm, tiny = [], defaultdict(float), 0.0, []
+        counted = set()
         for c in cor:
             groups = GROUPS_OF.get(c["k"], [c["k"]])
             sub = df[df["group"].isin(groups) & df["o"].isin(c["o"]) & df["d"].isin(c["d"])]
+            if counted:
+                sub = sub[~pd.MultiIndex.from_frame(sub[["group", "o", "d"]]).isin(counted)]
+            fresh = {(g, o, d) for g in groups for o in c["o"] for d in c["d"]} - counted
+            if not fresh:
+                continue
+            counted |= fresh
             per_year = (sub.groupby("year")["t"].sum() / 1e6).to_dict()
             sea_tot = sum(totals[g][str(latest)]["sea"] for g in groups if g in totals) / 1e6
             v = per_year.get(latest, 0.0)
-            if v > 0 and sea_tot > 0:
-                shares.append({"k": c["k"], "f": {"v": round(100 * v / sea_tot, 1), "u": "%", "y": latest, "s": "atlas",
+            share = round(100 * v / sea_tot, 1) if v > 0 and sea_tot > 0 else 0.0
+            if share > 0:
+                shares.append({"k": c["k"], "f": {"v": share, "u": "%", "y": latest, "s": "atlas",
                                                   "n": f"Country-pair corridor (all ports and vessel sizes): {v:.1f} Mt of {sea_tot:.0f} Mt seaborne {'all-coal (thermal and metallurgical)' if groups == ['coal'] else c['k']} trade, CEPII BACI customs data"}})
+            elif v > 0 and sea_tot > 0:
+                tiny.append((c["k"], v, sea_tot, groups))
             for y in years:
                 hist_tot[y] += per_year.get(y, 0.0)
-            cor_tm += sum(pair_tm.get((g, o, d), 0.0) for g in groups for o in c["o"] for d in c["d"])
+            cor_tm += sum(pair_tm.get(p, 0.0) for p in fresh)
         if shares:
             out["shares"] = shares
             out["shareCommodity"] = shares[0]["f"]
             fam = FAMILY.get(r["vclass"], r["vclass"])
-            if class_tm.get(fam) and cor_tm:
+            if fam in CLASS_SHARE_BASIS and class_tm.get(fam) and cor_tm:
                 out["shareClass"] = {"v": round(100 * cor_tm / class_tm[fam], 1), "u": "%", "y": latest, "s": "atlas",
-                                     "n": f"Estimated share of {fam}-size tonne-mile demand (all seaborne flows of the atlas commodities); overlapping routes share the same corridor"}
+                                     "n": f"Atlas estimate: tonne-miles of this corridor (tonnes x mapped distance) as a share of the tonne-miles of all atlas-mapped {CLASS_SHARE_BASIS[fam]} flows whose typical main class is {CLASS_SHARE_NAME[fam]}. It is not a measured fleet share, and routes that share a corridor count the same tonnes"}
+        elif cor:
+            # no share to show: say why instead of printing 0.0 %
+            if r.get("shareNa"):
+                out["shareNa"] = r["shareNa"]
+            elif tiny:
+                k, v, sea_tot, groups = tiny[0]
+                out["shareNa"] = f"Corridor volume in {latest} is {v:.2f} Mt, under 0.05% of the {sea_tot:.0f} Mt of seaborne {'coal' if groups == ['coal'] else k.replace('-', ' ')} trade: too small for a meaningful share"
+            else:
+                out["shareNa"] = f"The atlas's seaborne customs table holds no flow for this country pair in {latest}"
+        elif r.get("shareNa"):
+            out["shareNa"] = r["shareNa"]
+        elif r.get("discontinued"):
+            out["shareNa"] = "Discontinued benchmark: no corridor volume is attached to it"
+        elif "time-charter" in (r.get("notes") or "").lower():
+            out["shareNa"] = "Time-charter benchmark: it is priced between a delivery and a redelivery area, not for one country-pair flow"
+        else:
+            out["shareNa"] = "No country-pair corridor is attached to this route"
+        if any(hist_tot.values()):
             series, spikes = BL.despike([round(hist_tot[y], 2) for y in years])
             out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None]
             if spikes:

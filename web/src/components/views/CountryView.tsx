@@ -5,10 +5,11 @@ import { loadOptional, countryName, commodityMeta, countries, sourceLabel } from
 import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
-import { infraCapacity, infraColor, infraRef, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
+import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourcesLine, Kpi, RowBtn, InfraIcon, INFRA_META, CompanyRows, AlertBanners, StatusBadge, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, SourcesLine, Kpi, RowBtn, CompanyRows, AlertBanners, shortSource } from '../ui';
 import { publisher, useLoaded } from './shared';
+import { InfraList } from './InfraList';
 
 /** Rows shown before "Show all N": the profile file holds every row that passes the relevance rule. */
 const FIRST_ROWS = 8;
@@ -143,42 +144,15 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
 
 function CountryInfra({ ids }: { ids: string[] }) {
   const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
-  const [showAll, setShowAll] = useState(false);
   const items = useMemo(() => {
     if (!all) return [];
     const map = new Map(all.map((f) => [`${f.p.type}:${f.p.id}`, f]));
     return ids.map((k) => map.get(k)).filter((f): f is InfraFeature => !!f);
   }, [all, ids.join()]);
   if (!items.length) return null;
-  const shown = showAll ? items : items.slice(0, 8);
   return (
     <Section title="Main infrastructure" aside={<span class="muted num">{items.length}</span>}>
-      {shown.map((f) => (
-        <RowBtn
-          key={f.p.type + f.p.id}
-          lead={<InfraIcon type={f.p.type} color={infraColor(f)} size={22} />}
-          title={f.p.name}
-          sub={
-            <>
-              {[INFRA_META[f.p.type].label, f.p.capacity ? infraCapacity(f.p) : null].filter(Boolean).join(' · ')}
-              {f.p.status && (
-                <>
-                  {' '}
-                  <StatusBadge status={f.p.status} />
-                </>
-              )}
-            </>
-          }
-          tip={`${sourceLabel(f.p.s)} · ${f.p.y}`}
-          onClick={() => select(infraRef(f))}
-        />
-      ))}
-      {items.length > 8 && (
-        <button class="act-btn" onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
-          {showAll ? 'Show fewer' : `Show all ${items.length}`}
-        </button>
-      )}
-      <SourcesLine items={shown.map((f) => f.p)} n="capacity per asset in its own panel" />
+      <InfraList key={ids.join()} items={items} allStatus />
     </Section>
   );
 }

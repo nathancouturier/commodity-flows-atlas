@@ -66,8 +66,11 @@
 "suez": "Transits at the SCA beam limit (50 m beam allows 20.1 m draft); verify per vessel",
 "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
 },
-"routes": [],
-"notes": "Dimensions are design maxima from Wikipedia, not typical.",
+"routes": [
+"C5",
+"pilbara-japan-korea-iron-ore"
+],
+"notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules (vessel_rules.py) give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
 "s": "vessel-size-conventions"
 },
 {
@@ -130,9 +133,13 @@
 "brazil-china-soybeans",
 "usgulf-china-grain",
 "uspnw-asia-grain",
-"argentina-soymeal-corn"
+"argentina-soymeal-corn",
+"P1A_82",
+"P2A_82",
+"P3A_82",
+"P6_82"
 ],
-"notes": "Baltic 'Panamax' benchmark routes use the 82kdwt ship (see kamsarmax).",
+"notes": "Baltic 'Panamax' benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) use an 82,000 dwt ship, which the atlas files under Kamsarmax by size; they are listed here too.",
 "s": "vessel-size-conventions"
 },
 {
@@ -176,7 +183,7 @@
 "name": "Supramax",
 "segment": "dry",
 "size": {
-"min": 50000,
+"min": 40000,
 "max": 60000,
 "typical": 58000,
 "u": "dwt"
@@ -209,9 +216,13 @@
 "vancouver-asia-potash",
 "baltic-brazil-potash",
 "morocco-india-phosphate",
-"gulf-india-urea"
+"gulf-india-urea",
+"S1C_63",
+"S2_63",
+"S4A_63",
+"S10_63"
 ],
-"notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes.",
+"notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes. The range starts at 40,000 dwt so that no size is left uncovered above Handysize: it includes the Handymax ships of 40,000-50,000 dwt (Wikipedia, Handymax).",
 "s": "vessel-size-conventions"
 },
 {
@@ -247,7 +258,7 @@
 "S4A_63",
 "S10_63"
 ],
-"notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23).",
+"notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23). The Baltic calls this 63,500 dwt ship its Standard Supramax, so its S*_63 routes are listed under Supramax too.",
 "s": "vessel-size-conventions"
 },
 {
@@ -333,8 +344,8 @@
 "u": "dwt"
 },
 "dims": {
-"draft": 20.1,
-"beam": 50
+"beam": 48,
+"s": "wikipedia-vessel-classes"
 },
 "cargoes": [
 "crude-oil"
@@ -355,7 +366,7 @@
 "usgulf-med-crude",
 "guyana-europe-crude"
 ],
-"notes": "Dims are SCA design limits. Baltic TD20/TD27 cargo 130kt.",
+"notes": "Typical beam from Wikipedia (Suezmax): about 48 m for a 160,000 dwt ship. The canal limits (20.1 m draft up to 50 m beam) are not dimensions of a typical ship and are given under Canals. Baltic TD20/TD27 cargo 130kt.",
 "s": "vessel-size-conventions"
 },
 {
@@ -457,7 +468,7 @@
 "name": "MR",
 "segment": "tanker",
 "size": {
-"min": 25000,
+"min": 40000,
 "max": 55000,
 "typical": 47000,
 "u": "dwt"
@@ -484,7 +495,7 @@
 "TC21",
 "usgulf-latam-products"
 ],
-"notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt.",
+"notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt. The range starts at 40,000 dwt, where Handy tanker ends, so the two bands do not overlap (an Atlas convention; other published scales cut the classes differently).",
 "s": "vessel-size-conventions"
 },
 {
@@ -513,7 +524,7 @@
 "TC9",
 "indo-malay-india-palm-oil"
 ],
-"notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt.",
+"notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt. Up to 40,000 dwt; MR starts there.",
 "s": "vessel-size-conventions"
 },
 {
@@ -534,7 +545,7 @@
 "Terminal draft and berth restrictions at some US/European terminals"
 ],
 "canals": {
-"suez": "Conventional carriers and Q-Flex transit laden; Q-Max has beam/draft limits",
+"suez": "Conventional carriers, Q-Flex and Q-Max transit laden (the first Q-Max, Mozah, transited Suez in January 2009: Wikipedia, Q-Max)",
 "panama": "Conventional 174k cbm fits Neopanamax locks; Q-Flex fits; Q-Max too wide"
 },
 "routes": [

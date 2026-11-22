@@ -6,9 +6,10 @@ import { loadOptional, commodityMeta, countryName, sourceLabel } from '../../lib
 import { FAMILY_COLOR, FAMILY_LABEL, fmt } from '../../lib/format';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
-import { infraCapacity, infraColor, infraMatches, loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META, CompanyRows, AlertBanners, shortSource } from '../ui';
+import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, CompanyRows, AlertBanners, shortSource } from '../ui';
 import { useLoaded } from './shared';
+import { InfraList } from './InfraList';
 import '../../styles/history-year.css';
 import { PRICE_COVERAGE_NOTE, loadPriceIndex, lowerName, openPrices, priceIndex, seriesForCommodity } from '../../lib/prices';
 
@@ -170,37 +171,11 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
 function KeyInfra({ id }: { id: string }) {
   const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
   const on = layers.value.infrastructure;
-  const mine = useMemo(
-    () =>
-      (all ?? [])
-        .filter((f) => infraMatches(f.p.k, id))
-        .sort((a, b) => a.pri - b.pri || (b.p.capacity?.v ?? 0) - (a.p.capacity?.v ?? 0)),
-    [all, id],
-  );
+  const mine = useMemo(() => (all ?? []).filter((f) => infraMatches(f.p.k, id)), [all, id]);
   if (!mine.length) return null;
   return (
     <Section title="Key infrastructure" aside={<span class="muted num">{mine.length}</span>}>
-      {mine.slice(0, 8).map((f) => {
-        const first = f.p.k[0];
-        const own = first === id || ((id === 'thermal-coal' || id === 'met-coal') && first === 'coal');
-        const other = commodityMeta(first)?.name ?? first;
-        return (
-          <RowBtn
-            key={f.p.type + f.p.id}
-            lead={<InfraIcon type={f.p.type} color={infraColor(f)} size={22} />}
-            title={f.p.name}
-            sub={
-              <>
-                {[INFRA_META[f.p.type].label, countryName(f.p.c), f.p.capacity && own ? infraCapacity(f.p) : null].filter(Boolean).join(' · ')}
-                {f.p.capacity && !own && <span class="muted-cap"> · (capacity for {other})</span>}
-              </>
-            }
-            tip={`${sourceLabel(f.p.s)} · ${f.p.y}`}
-            onClick={() => select(infraRef(f))}
-          />
-        );
-      })}
-      <SourceLine s={mine[0].p.s} y={mine[0].p.y} n="capacity figures per asset in its own panel" />
+      <InfraList key={id} items={mine} commodity={id} showCountry />
       <button class="act-btn" disabled={on} onClick={() => toggleLayer('infrastructure', true)}>
         {on ? `${mine.length} asset${mine.length === 1 ? '' : 's'} shown on the map` : `Show ${mine.length} asset${mine.length === 1 ? '' : 's'} on the map`}
       </button>

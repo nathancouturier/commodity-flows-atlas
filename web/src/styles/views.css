@@ -25,7 +25,8 @@
 .panel-scroll > .kpis { margin: 4px 0 2px; }
 .kpi-span { grid-column: 1 / -1; }
 .kpi { min-width: 0; }
-.kpi-value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* a figure is never cut: a long value wraps (at a space or a dash first) instead of ending in an ellipsis */
+.kpi-value { overflow-wrap: anywhere; line-height: 1.25; }
 .kpi-note { font-size: 11px; color: var(--ink-2); margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; }
 .kpi-note-btn { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; text-align: left; padding: 0; cursor: pointer; width: 100%; }
 .kpi-note-btn.open { -webkit-line-clamp: unset; display: block; }
@@ -58,12 +59,16 @@
 .dot + * { min-width: 0; }
 .chip .dot { width: 7px; height: 7px; }
 
-/* route strip: ports are plain muted labels, only chokepoints are chips */
+/* voyage strip: the two ports are captioned text ("From", "To"), only chokepoints are chips */
 .strip-port {
-  flex: none; font-size: var(--fs-xs); color: var(--ink-2); padding: 4px 2px; max-width: 100%;
+  flex: 0 1 auto; min-width: 0; font-size: var(--fs-xs); color: var(--ink-1); padding: 4px 2px; max-width: 100%;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.strip-none { padding: 0 2px; }
+.strip-k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); margin-right: 5px; }
+/* a stop and the line that leads to it wrap together: no line is left hanging at the end of a row */
+.strip-step { display: inline-flex; align-items: center; flex: 0 1 auto; min-width: 0; max-width: 100%; }
+.strip-none { padding: 2px 2px 0; }
+.strip-count { font-weight: 400; letter-spacing: 0.04em; text-transform: none; }
 /* route strip (legacy end style) */
 .strip { display: flex; align-items: center; flex-wrap: wrap; row-gap: 8px; padding: 2px 0; }
 .strip-end {
@@ -161,6 +166,14 @@
 .bar-sub { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 3px; }
 .co-group + .co-group { margin-top: 10px; }
 .co-group .route-sub { margin: 4px 0 2px 6px; }
+/* infrastructure lists: a type heading with its count, then blocks of comparable figures */
+.co-group .infra-group { display: flex; justify-content: space-between; align-items: baseline; margin-right: 6px; }
+.infra-group .num { font-weight: 400; letter-spacing: 0; }
+.infra-block {
+  display: flex; align-items: center; gap: 8px; margin: 6px 6px 2px; font-size: 10.5px; color: var(--ink-3);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.infra-block::after { content: ''; flex: 1; height: 1px; background: var(--hairline); }
 .small-print { font-size: 11px; color: var(--ink-2); }
 .small-print .disc { color: var(--ink-3); }
 

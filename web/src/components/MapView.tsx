@@ -13,7 +13,7 @@ export function MapView() {
     if (m) installLayers(m);
   }, []);
   const notice = mapFailed.value
-    ? 'The map needs WebGL, which this browser has switched off. The panels, the Route finder and the prices work without it.'
+    ? 'The map needs WebGL, which this browser has switched off or does not support. The panels, the Route finder and the prices work without it.'
     : layers.value.flows
       ? mapNotice.value
       : null;
