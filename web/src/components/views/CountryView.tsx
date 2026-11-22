@@ -129,9 +129,10 @@ export default function CountryView({ id }: { id: string }) {
     const all = [...p.exports, ...p.imports, ...p.production];
     const top10 = new Set(all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k)).map((e) => e.k));
     const ents = all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k));
-    const srcs = [...new Set(ents.map((e) => publisher(e.s)))].slice(0, 2).join(' / ');
-    const yrs = ents.map((e) => String(e.y));
-    const yr = yrs.length ? yrs.sort().pop() : '';
+    const pubs = [...new Set(ents.map((e) => publisher(e.s)))];
+    const srcs = pubs[0] + (pubs.length > 1 ? ` +${pubs.length - 1}` : '');
+    const yrs = [...new Set(ents.map((e) => String(e.y)))].sort();
+    const yr = yrs.length > 1 ? `${yrs[0]}–${yrs[yrs.length - 1]}` : (yrs[0] ?? '');
     const topExp = [...p.exports].filter((e) => e.usd != null).sort(byUsd)[0];
     kpis = (
       <div class="kpis">

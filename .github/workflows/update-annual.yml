@@ -1,0 +1,58 @@
+# Monthly update (15th, after WASDE): USDA PSD, USGS MCS, EIA INTL, CEPII BACI (only when a newer version exists), then rebuild dependent data.
+# Never fails because a source is down: each step is continue-on-error, invalid data is discarded,
+# and the owner is only alerted (one GitHub issue per source) after 3 failed runs in a row.
+name: Update annual sources
+
+on:
+  schedule:
+    - cron: "17 22 15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: update-annual
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    outputs:
+      deploy: ${{ steps.finish.outputs.deploy }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Python dependencies
+        continue-on-error: true
+        run: pip install -r pipeline/requirements.txt || (sleep 30 && pip install -r pipeline/requirements.txt)
+      - name: Update annual sources and rebuild dependent data
+        continue-on-error: true
+        run: python pipeline/annual/update_annual.py
+      - name: Validate, commit, alert
+        id: finish
+        uses: ./.github/actions/finish-data-update
+        with:
+          sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-commodities build-profiles"
+          paths: "data pipeline/cache"
+          message: "data: monthly update of annual sources"
+
+  deploy:
+    needs: update
+    if: needs.update.outputs.deploy == 'true'
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ref: ${{ github.event.repository.default_branch }}

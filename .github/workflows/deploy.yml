@@ -1,4 +1,4 @@
-# Builds the web app and deploys it to GitHub Pages on every push to main.
+# Builds the web app and deploys it to GitHub Pages on every push to main (and when called by the update workflows).
 # If Pages is not enabled yet (Settings > Pages > Source: GitHub Actions), the job
 # finishes green with a notice instead of failing, so no failure e-mail is sent.
 name: Deploy site
@@ -7,6 +7,14 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Called by the update-* workflows after they push new data (pushes made with GITHUB_TOKEN
+  # do not trigger the push event above).
+  workflow_call:
+    inputs:
+      ref:
+        description: "Git ref to build (default is the triggering commit)"
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -25,6 +33,8 @@ jobs:
       pages: ${{ steps.pages.outcome }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@v4
         with:
           node-version: 22

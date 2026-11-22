@@ -26,14 +26,13 @@
 
 /* the legend sits at the bottom edge; lift it above the timeline */
 .app.tl-open .legend {
-  bottom: 84px;
+  bottom: 108px;
 }
 
 /* ---------------------------------------------------------------- price drawer */
 
 .pd {
-  height: 38vh;
-  min-height: 300px;
+  height: clamp(330px, 39vh, 470px);
   display: flex;
   container-type: inline-size;
   container-name: pd;
@@ -147,7 +146,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 190px;
+  max-width: 150px;
 }
 .pd-chip-main small {
   color: var(--ink-2);
@@ -210,10 +209,10 @@
 .pd-pop {
   position: absolute;
   z-index: 5;
-  top: calc(100% + 6px);
+  bottom: calc(100% + 6px);
   left: 0;
   width: min(380px, 86vw);
-  max-height: calc(38vh - 60px);
+  max-height: min(300px, 34vh);
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -420,6 +419,11 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
+}
+@container pd (max-width: 520px) {
+  .pd-tiles {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 @container pd (min-width: 860px) {
   .pd-tiles {
@@ -736,8 +740,15 @@
   .pd-chip-name {
     max-width: 140px;
   }
+  .pd-lookup {
+    flex: 1 1 100%;
+  }
+  .pd-lookup label {
+    flex: 1;
+  }
   .pd-lookup input {
-    width: 160px;
+    width: 100%;
+    flex: 1;
   }
   .pd-pop {
     max-height: 52vh;

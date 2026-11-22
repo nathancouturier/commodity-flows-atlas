@@ -359,9 +359,9 @@ export function PriceDrawer() {
                     >
                       <i />
                       <span class="pd-chip-name">{d.meta.name}</span>
-                      <small class="num">
+                      <small class="num" title={chartSeries[i]?.scale === 'y2' ? 'Plotted on the right axis' : undefined}>
                         {d.meta.unit}
-                        {chartSeries[i]?.scale === 'y2' ? ' · right axis' : ''}
+                        {chartSeries[i]?.scale === 'y2' ? ' · R' : ''}
                       </small>
                     </button>
                     {data.length > 1 && (
@@ -371,7 +371,6 @@ export function PriceDrawer() {
                     )}
                   </span>
                 ))}
-                <Picker meta={meta} ids={ids} onPick={(id) => setIds([...ids, id])} onRemove={(id) => setIds(ids.filter((x) => x !== id))} />
               </div>
               <button class="pd-close" aria-label="Close price explorer" onClick={closePrices}>
                 <CloseIcon />
@@ -379,6 +378,7 @@ export function PriceDrawer() {
             </div>
 
             <div class="pd-tools">
+              <Picker meta={meta} ids={ids} onPick={(id) => setIds(ids.length >= MAX_SERIES ? ids.map((x, i) => (i === fi ? id : x)) : [...ids, id])} onRemove={(id) => setIds(ids.filter((x) => x !== id))} />
               <div class="tc-ranges" role="group" aria-label="Time range">
                 {shown.map((r) => (
                   <button
@@ -614,7 +614,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
           <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
         </svg>
-        {full ? 'Series (3 of 3)' : 'Add series'}
+        {full ? 'Series 3/3' : 'Add series'}
       </button>
       {open && (
         <div class="pd-pop" role="dialog" aria-label="Choose price series">
@@ -636,15 +636,13 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
                 </div>
                 {g.items.map((m) => {
                   const sel = props.ids.includes(m.id);
-                  const lock = full && !sel;
                   return (
                     <button
                       key={m.id}
                       role="option"
                       aria-selected={sel}
                       class="pd-opt"
-                      disabled={lock}
-                      title={lock ? 'Up to 3 series can be compared; remove one first' : undefined}
+                      title={full && !sel ? 'Replaces the series selected in the chips above' : undefined}
                       onClick={() => {
                         if (sel) {
                           if (props.ids.length > 1) props.onRemove(m.id);

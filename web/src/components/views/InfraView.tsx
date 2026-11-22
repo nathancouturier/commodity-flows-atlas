@@ -45,6 +45,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
   const color = infraColor(f);
   const meta = INFRA_META[p.type];
   const cap = infraCapacity(p);
+  const [capU = '', ...capRestParts] = (p.capacity?.u ?? '').split(' ');
+  const capRest = capRestParts.join(' ');
   const crossed = (p.cs ?? []).filter((c) => c !== p.c);
   return (
     <>
@@ -64,16 +66,15 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
           {p.capacity && (
             <Kpi
               label="Capacity"
-              value={`${fmt(p.capacity.v)}`}
-              sub={`${p.capacity.u} · ${sourceLabel(p.s)} · ${p.y}`}
+              value={`${fmt(p.capacity.v)} ${capU}`}
+              sub={`${capRest ? capRest + ' · ' : ''}${sourceLabel(p.s)} · ${p.y}`}
               title={`${cap} · ${p.s} · ${p.y}`}
               span
             />
           )}
-          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} sub={`${sourceLabel(p.s)}`} title={`${p.s} · ${p.y}`} />}
-          {p.operator && <Kpi label="Operator" value={p.operator.length > 18 ? p.operator.split(/[,(]/)[0].trim() : p.operator} sub="as listed" title={p.operator} />}
+          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} sub={`${sourceLabel(p.s)}`} title={`${p.s} · ${p.y}`} span />}
         </div>
-        {p.operator && p.operator.length > 18 && (
+        {p.operator && (
           <Section title="Operator / owners">
             <p class="prose">{p.operator}</p>
           </Section>
