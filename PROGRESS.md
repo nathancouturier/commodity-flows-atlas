@@ -1,6 +1,6 @@
 # Commodity Flows Atlas — Progress
 
-_Last updated: 2026-11-22, about 4 hours into the project_
+_Last updated: 2026-11-22, about 5 h 30 min into the project_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -9,20 +9,49 @@ Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 | Phase | Scope | Status | Complete |
 |---|---|---|---|
 | 1 | Foundation: stack, map engine, data model, design system, Pages deploy | done, live | 100% |
-| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards, route finder | done, live | 95% |
-| 3 | Key energy and metals with infrastructure and country profiles | done, live; trader review pending | 85% |
-| 4 | Remaining commodities: other metals, softs, fertilisers | data and pages live for all 39 commodities | 80% |
-| 5 | History and prices: price charts with date lookup, route history by year | done, live | 85% |
-| 6 | Automation: scheduled robust updates | built and tested locally; first scheduled runs pending | 80% |
-| 7 | Polish, mobile, performance, accessibility, fresh-eyes review | starting | 10% |
-| **Overall** | | | **~80%** |
+| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards, route finder | done, live, reviewed | 100% |
+| 3 | Key energy and metals with infrastructure and country profiles | done, live, reviewed | 100% |
+| 4 | Remaining commodities: other metals, softs, fertilisers | done, live, reviewed | 95% |
+| 5 | History and prices: price charts with date lookup, route history by year | done, live, reviewed | 95% |
+| 6 | Automation: scheduled robust updates | built; first run on GitHub being checked | 90% |
+| 7 | Polish, mobile, performance, accessibility, fresh-eyes review | review fixes shipped; final fresh-eyes pass next | 75% |
+| **Overall** | | | **~92%** |
 
 ## Budget
 
-- Usage so far: roughly 45–55% of the first usage window (estimate).
+- Usage so far: roughly 75–85% of the first usage window (estimate; the meter is not visible to me).
 - On track to finish within two resets: **yes**. Remaining work is review, fixes and polish.
 
-## Done since last update
+## Done since last update (latest first)
+
+- **Trader and UX review of the live site**: four independent reviewers (freight desk, energy
+  trader, metals and agriculture trader, designer/accessibility). Fixes shipped:
+  - Overland and pipeline flows now drawn: natural gas, and Canada→US crude.
+  - Dated banners for active disruptions (Hormuz closure 2026, Red Sea diversions, Black Sea
+    attacks) on the affected commodity, country, route and lane pages.
+  - Chokepoint traffic now shows the last 28 days, e.g. Hormuz 3.5 vessels/day against 92 in
+    2023, plus the typical detour when a passage is avoided.
+  - Commodity pages:
+    - Refined copper, nickel intermediates, alumina and refined zinc tables.
+    - USDA ending stocks with marketing-year captions.
+    - Corridor shares labelled as country-pair corridors.
+  - Freight:
+    - Vessel-class families in the filters (Panamax/Kamsarmax and others).
+    - A single "Coal (thermal + met)" entry in the route finder.
+    - Indonesian coal now discharges in South China.
+    - Two new Capesize/VLOC routes.
+  - EU27 shown on member states; a colour legend for maps coloured by country; options with no
+    data are greyed out.
+  - Price explorer:
+    - Daily series by default.
+    - Year lookup gives average, low and high with dates.
+    - Index-to-100 comparison.
+    - A basis note on each series (e.g. Brent before the 1980s is a posted-price proxy).
+  - 48 more sourced assets: lithium, cobalt, gold, uranium, potash, rare earths, aluminium
+    smelters, grain/cocoa/palm-oil ports. Company lists enriched to 247 entries.
+  - Mobile and tablet layout below 1024 px, keyboard (Escape), landmarks, contrast; charts load
+    only when needed.
+
 
 - **Commodity data for all 39 commodities**:
   - Production and reserves: USGS 2026 for minerals, EIA for oil, gas and coal.
