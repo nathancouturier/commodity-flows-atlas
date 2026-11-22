@@ -1,0 +1,26 @@
+[
+ {
+  "id": "eia-chokepoints",
+  "name": "World Oil Transit Chokepoints",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints",
+  "licence": "Public domain (US Government)",
+  "update": "irregular (last updated 3 March 2026)"
+ },
+ {
+  "id": "eia-tie",
+  "name": "Today in Energy and STEO chokepoint articles",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/todayinenergy/detail.php?id=68485",
+  "licence": "Public domain (US Government)",
+  "update": "quarterly chokepoint updates"
+ },
+ {
+  "id": "pca-stats",
+  "name": "Panama Canal Authority fiscal-year statistics and results",
+  "publisher": "Autoridad del Canal de Panama",
+  "url": "https://pancanal.com/en/panama-canal-maintains-operational-and-financial-strength/",
+  "licence": "Public statistics, attribution",
+  "update": "annual (fiscal year ends 30 Sep)"
+ }
+]

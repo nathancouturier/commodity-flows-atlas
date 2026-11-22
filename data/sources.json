@@ -86,5 +86,77 @@
   "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/METHODOLOGY.md",
   "licence": "MIT",
   "update": "rebuilt with each data refresh"
+ },
+ {
+  "id": "eia-chokepoints",
+  "name": "World Oil Transit Chokepoints",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints",
+  "licence": "Public domain (US Government)",
+  "update": "irregular (last updated 3 March 2026)"
+ },
+ {
+  "id": "eia-tie",
+  "name": "Today in Energy and STEO chokepoint articles",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/todayinenergy/detail.php?id=68485",
+  "licence": "Public domain (US Government)",
+  "update": "quarterly chokepoint updates"
+ },
+ {
+  "id": "pca-stats",
+  "name": "Panama Canal Authority fiscal-year statistics and results",
+  "publisher": "Autoridad del Canal de Panama",
+  "url": "https://pancanal.com/en/panama-canal-maintains-operational-and-financial-strength/",
+  "licence": "Public statistics, attribution",
+  "update": "annual (fiscal year ends 30 Sep)"
+ },
+ {
+  "id": "veson-baltic-defs",
+  "name": "Baltic Exchange time-series/route definitions (Veson VesselsValue help)",
+  "publisher": "Veson Nautical (summarising Baltic Exchange)",
+  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+  "licence": "Public web page, facts cited",
+  "update": "irregular"
+ },
+ {
+  "id": "baltic-circulars",
+  "name": "Baltic Exchange circulars and service pages (TD27, TD2/TD17/TC9 cessation, BLNG-174, BSI 63.5, C5TC 182)",
+  "publisher": "The Baltic Exchange",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/",
+  "licence": "Route definitions are public; index values are proprietary and not shown",
+  "update": "as published"
+ },
+ {
+  "id": "pca-vessel-requirements",
+  "name": "Panama Canal vessel size limits (Panamax/Neopanamax)",
+  "publisher": "Panama Canal Authority (via PCA news release and Wikipedia Panamax)",
+  "url": "https://pancanal.com/en/panama-canal-extends-maximum-length-overall-and-increases-draft-for-neopanamax-locks/",
+  "licence": "Public web page, facts cited",
+  "update": "irregular"
+ },
+ {
+  "id": "sca-rules",
+  "name": "Suez Canal transit limits (20.1 m draft, 1,006 m2 wetted area, 50 m beam)",
+  "publisher": "Suez Canal Authority (via Wikipedia Suezmax and EIA)",
+  "url": "https://www.eia.gov/todayinenergy/detail.php?id=18011",
+  "licence": "Public web page, facts cited",
+  "update": "irregular"
+ },
+ {
+  "id": "vessel-size-conventions",
+  "name": "Conventional vessel class size ranges (industry convention, Baltic reference vessels, Wikipedia bulk carrier)",
+  "publisher": "Various",
+  "url": "https://en.wikipedia.org/wiki/Bulk_carrier",
+  "licence": "Public web page, facts cited (CC BY-SA for Wikipedia)",
+  "update": "irregular"
+ },
+ {
+  "id": "simandou-news",
+  "name": "First commercial shipment from Simandou departs for China",
+  "publisher": "GMK Center / Caixin / Argus (press)",
+  "url": "https://gmk.center/en/news/the-first-commercial-shipment-of-iron-ore-from-simandou-has-departed-for-china/",
+  "licence": "Public web page, facts cited",
+  "update": "n/a"
  }
 ]

@@ -1,0 +1,1563 @@
+[
+{
+"id": "hormuz",
+"name": "Strait of Hormuz",
+"kind": "strait",
+"at": [
+56.5,
+26.55
+],
+"portwatch": "chokepoint6",
+"limits": "EIA: deep and wide enough for the largest crude tankers; traffic separation scheme runs through Omani waters.",
+"traffic": {
+"v": 3.8,
+"u": "vessels/day",
+"y": "2026-10",
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data; compare about 78/day in Feb 2026 and 85.5/day for 2025"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 14.7,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Crude and condensate"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 6.1,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 20.7,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints",
+"n": "Total oil; EIA 1H25 20.9"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 21.6,
+"u": "mb/d",
+"y": "4Q25",
+"s": "eia-tie",
+"n": "Pre-war level per EIA STEO, as reported by Rigzone"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 4.9,
+"u": "mb/d",
+"y": "2Q26",
+"s": "eia-tie",
+"n": "EIA estimate via Rigzone, 12 Aug 2026"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 20,
+"u": "%",
+"y": 2024,
+"s": "eia-chokepoints",
+"n": "About one-fifth of global LNG trade, mainly Qatar"
+}
+}
+],
+"alternatives": [
+{
+"label": "Saudi East-West pipeline to Yanbu (Red Sea) plus UAE Abu Dhabi-Fujairah pipeline",
+"note": "EIA lists about 4.7 mb/d combined capacity; Goreh-Jask (Iran) about 0.3 mb/d effective; a planned UAE Jebel Dhanna-Fujairah line of 1.5 mb/d by 2027. Yanbu route depends on Red Sea security."
+}
+],
+"events": [
+"hormuz-tanker-attacks-2019",
+"abqaiq-2019",
+"hormuz-israel-iran-2025",
+"iran-war-hormuz-2026",
+"hormuz-ceasefire-2026",
+"hormuz-memorandum-2026",
+"hormuz-collapse-2026"
+],
+"summary": "The only sea exit from the Persian Gulf, carrying about a fifth of world oil consumption and roughly a fifth of global LNG trade in 2024. Since the US-Israeli strikes on Iran in February 2026 it has been largely closed to commercial traffic, the largest oil supply disruption on record.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 21.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "395 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 16.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "57 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lpg",
+"f": {
+"v": 27.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "36 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 4.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "7 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "21 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "malacca",
+"name": "Strait of Malacca",
+"kind": "strait",
+"at": [
+101.2,
+2.5
+],
+"portwatch": "chokepoint5",
+"limits": "Shallow sections constrain the largest tankers (the \"Malaccamax\" design draft is about 25 m); not stated in the EIA page.",
+"traffic": {
+"v": 234.5,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 16.6,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 6.5,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 22.5,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints"
+}
+}
+],
+"alternatives": [
+{
+"label": "Lombok / Makassar and Sunda Straits",
+"note": "Deeper Indonesian routes for ultra-large vessels, adding distance."
+},
+{
+"label": "Myanmar-China crude pipeline",
+"note": "Capacity not stated in EIA source."
+}
+],
+"events": [],
+"summary": "The shortest sea route between the Indian Ocean and the Pacific, carrying the largest oil flow of any chokepoint and most Gulf crude, LNG, and Indonesian coal and Australian ore routes to north Asia.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 25.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "455 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 12.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "44 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lpg",
+"f": {
+"v": 12.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "17 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 20.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "234 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 2.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "34 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 2.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.9,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "28 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "singapore",
+"name": "Singapore Strait",
+"kind": "strait",
+"at": [
+103.85,
+1.18
+],
+"portwatch": "chokepoint5",
+"summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density. PortWatch tracks it within the Malacca corridor.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 25.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "455 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 12.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "44 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lpg",
+"f": {
+"v": 12.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "17 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 20.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "234 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 2.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "34 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 2.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 10.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "102 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "sunda",
+"name": "Sunda Strait",
+"kind": "strait",
+"at": [
+105.78,
+-5.97
+],
+"portwatch": "chokepoint19",
+"traffic": {
+"v": 31.9,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"summary": "Indonesian strait between Java and Sumatra, an alternative to Malacca for some Indian Ocean to South China Sea traffic, notably from the Cape; heavy volcanic and shallow hazards limit size.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 3.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "68 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 23.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "365 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 3.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 12.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "19 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "soybeans",
+"f": {
+"v": 51.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "81 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "bauxite",
+"f": {
+"v": 75.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "111 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "lombok",
+"name": "Lombok Strait",
+"kind": "strait",
+"at": [
+115.8,
+-8.42
+],
+"portwatch": "chokepoint15",
+"traffic": {
+"v": 35.8,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"limits": "Deep water suitable for fully laden Capesize and VLCC vessels; exact limits not sourced.",
+"summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "lng",
+"f": {
+"v": 18.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "63 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 51.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "806 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 5.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "9 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "25 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "suez",
+"name": "Suez Canal",
+"kind": "canal",
+"at": [
+32.35,
+30.5
+],
+"portwatch": "chokepoint1",
+"limits": "Max draft about 20.1 m (66 ft) for Suezmax; larger ballast VLCCs transit, laden VLCCs need partial lightering or the SUMED pipeline. Check Suez Canal Authority for current limits.",
+"traffic": {
+"v": 38.5,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data; 73.7/day in 2023"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 2.8,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Suez plus SUMED"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.1,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 4.8,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 5.8,
+"u": "mb/d",
+"y": "2Q26",
+"s": "eia-tie",
+"n": "EIA via Rigzone"
+}
+}
+],
+"alternatives": [
+{
+"label": "Cape of Good Hope",
+"note": "Adds roughly 3,500 nm / 10-14 days on Asia-Europe voyages (commonly cited; not from the EIA page)."
+},
+{
+"label": "SUMED pipeline",
+"note": "EIA lists 2.5 mb/d capacity, Ain Sukhna to Sidi Kerir."
+}
+],
+"events": [
+"suez-new-canal-2015",
+"ever-given-2021",
+"eu-products-embargo-2023",
+"red-sea-houthi-2023",
+"gaza-ceasefire-2025",
+"suez-return-2026"
+],
+"summary": "Shortcut between the Mediterranean and Red Sea carrying tankers, LNG, boxships and Black Sea/Mediterranean cargoes to Asia. Traffic collapsed after the Houthi attacks of 2023 and has been recovering in 2026 as carriers return.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 7.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "130 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 6.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "20 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 4.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "46 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 2.9,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 2.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "bab-el-mandeb",
+"name": "Bab el-Mandeb",
+"kind": "strait",
+"at": [
+43.35,
+12.65
+],
+"portwatch": "chokepoint4",
+"limits": "About 18 miles wide at the narrowest point, with the shipping lanes in the Perim channel; no draft limit for oil tankers.",
+"traffic": {
+"v": 33.5,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data; 74.0/day in 2023"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 2.4,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 1.8,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 4.1,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 8.1,
+"u": "mb/d",
+"y": "2Q26",
+"s": "eia-tie",
+"n": "EIA via Rigzone; higher because Saudi crude rerouted to Yanbu"
+}
+}
+],
+"alternatives": [
+{
+"label": "Cape of Good Hope",
+"note": "Main alternative; no pipeline bypass listed by EIA."
+}
+],
+"events": [
+"somali-piracy-2008-2011",
+"red-sea-houthi-2023",
+"red-sea-sinkings-2025",
+"gaza-ceasefire-2025",
+"iran-war-hormuz-2026",
+"houthi-saudi-2026",
+"suez-return-2026"
+],
+"summary": "Southern entrance to the Red Sea, connecting Suez to the Indian Ocean. Targeted by Houthi attacks since November 2023 and again by the Houthi blockade of Saudi Arabia in 2026; now also carrying Saudi bypass crude from Yanbu.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 7.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "130 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 6.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "20 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 4.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "46 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 2.9,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 2.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "panama",
+"name": "Panama Canal",
+"kind": "canal",
+"at": [
+-79.77,
+9.12
+],
+"portwatch": "chokepoint2",
+"limits": "Two lock systems: Panamax (about 32.3 m beam) and Neopanamax (since 2016, larger LNG and LPG carriers). Draft and slot limits vary with Gatun Lake levels.",
+"traffic": {
+"v": 13404,
+"u": "transits/year",
+"y": "FY2025",
+"s": "pca-stats",
+"n": "Fiscal year ending 30 Sep 2025; 3,342 Neopanamax, 10,062 Panamax"
+},
+"shares": [
+{
+"k": "refined-products",
+"f": {
+"v": 2.2,
+"u": "mb/d",
+"y": "FY2025",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "crude-oil",
+"f": {
+"v": 0.1,
+"u": "mb/d",
+"y": "FY2025",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 2.3,
+"u": "mb/d",
+"y": "FY2025",
+"s": "eia-chokepoints"
+}
+}
+],
+"alternatives": [
+{
+"label": "Cape Horn / Magellan / Drake Passage",
+"note": "EIA says adds up to about 8,000 miles."
+},
+{
+"label": "Cape of Good Hope or Suez",
+"note": "Alternative from US Gulf to Asia."
+},
+{
+"label": "Trans-Panama pipeline",
+"note": "0.864 mb/d capacity, about 0.4 mb/d moved in 2024-25 (EIA)."
+}
+],
+"events": [
+"panama-expansion-2016",
+"panama-drought-2023",
+"panama-fy2025-2025"
+],
+"summary": "Connects Atlantic and Pacific, key for US Gulf LPG, grain and products to Asia and west-coast South America, and for containers. Drought in 2023-24 limited transits; FY2025 transits recovered to 13,404.",
+"s": "pca-stats",
+"estimates": [
+{
+"k": "lng",
+"f": {
+"v": 4.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "15 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lpg",
+"f": {
+"v": 26.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "35 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 2.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "24 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 4.9,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "9 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 10.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "16 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "soybeans",
+"f": {
+"v": 18.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "29 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "bosphorus",
+"name": "Turkish Straits (Bosphorus and Dardanelles)",
+"kind": "strait",
+"at": [
+29.09,
+41.17
+],
+"portwatch": "chokepoint3",
+"limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); draft limit not sourced.",
+"traffic": {
+"v": 92.4,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 2.1,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Bosphorus"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 1.3,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Bosphorus"
+}
+},
+{
+"k": "crude-oil",
+"f": {
+"v": 2.2,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Dardanelles"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 1.5,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints",
+"n": "Dardanelles"
+}
+}
+],
+"alternatives": [
+{
+"label": "BTC and CPC pipelines",
+"note": "BTC to Ceyhan and Iraq-Turkey pipelines; capacities not in the EIA source."
+}
+],
+"events": [
+"russia-invasion-2022",
+"black-sea-grain-initiative-2022",
+"eu-crude-embargo-2022",
+"ukraine-corridor-2023",
+"black-sea-attacks-2026"
+],
+"summary": "Only outlet of the Black Sea, carrying Russian and CPC (Kazakh) crude, Russian and Ukrainian grain and Black Sea products. Large tankers face daylight-only and traffic-control rules; LNG carriers may not transit.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "wheat",
+"f": {
+"v": 16.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "29 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 11.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "18 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "danish-straits",
+"name": "Danish Straits",
+"kind": "strait",
+"at": [
+12.85,
+55.5
+],
+"portwatch": "chokepoint10",
+"limits": "Shallow, draft-restricted passages in the Great Belt and Oresund; limits not sourced here.",
+"traffic": {
+"v": 47.1,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data, Oresund"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 2.7,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.2,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 4.9,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints"
+}
+}
+],
+"alternatives": [
+{
+"label": "Kiel Canal",
+"note": "About 0.2 mb/d in 1H25, small tankers and mainly products (EIA)."
+}
+],
+"events": [
+"nord-stream-2022",
+"eu-crude-embargo-2022"
+],
+"summary": "Exit for Baltic exports, notably Russian Primorsk and Ust-Luga crude and products, and a feeder for Baltic coal and grain.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 5.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "93 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 5.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "18 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "23 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "gibraltar",
+"name": "Strait of Gibraltar",
+"kind": "strait",
+"at": [
+-5.6,
+35.97
+],
+"portwatch": "chokepoint8",
+"traffic": {
+"v": 135.4,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"summary": "Gateway between the Atlantic and the Mediterranean, linking Suez-bound and Cape-diverted traffic with Europe.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 7.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "131 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 11.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "40 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 2.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "30 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 7.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "13 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 13.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "20 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "soybeans",
+"f": {
+"v": 7.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "12 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "27 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "dover",
+"name": "Dover Strait",
+"kind": "strait",
+"at": [
+1.45,
+51.0
+],
+"portwatch": "chokepoint9",
+"traffic": {
+"v": 174.7,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"limits": "Deep-draft route (the Dover Strait traffic separation scheme); exact draft not sourced.",
+"summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 6.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "117 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 8.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "28 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "wheat",
+"f": {
+"v": 2.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 2.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 3.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "35 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "cape-good-hope",
+"name": "Cape of Good Hope",
+"kind": "cape",
+"at": [
+18.47,
+-34.36
+],
+"portwatch": "chokepoint7",
+"traffic": {
+"v": 89.5,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data; 49.1/day in 2023"
+},
+"shares": [
+{
+"k": "crude-oil",
+"f": {
+"v": 6.1,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 2.9,
+"u": "mb/d",
+"y": "1H25",
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 9.3,
+"u": "mb/d",
+"y": 2024,
+"s": "eia-chokepoints"
+}
+},
+{
+"k": "petroleum-liquids",
+"f": {
+"v": 9.4,
+"u": "mb/d",
+"y": "2Q26",
+"s": "eia-tie",
+"n": "EIA via Rigzone"
+}
+}
+],
+"events": [
+"somali-piracy-2008-2011",
+"eu-crude-embargo-2022",
+"eu-products-embargo-2023",
+"red-sea-houthi-2023",
+"simandou-first-2025",
+"suez-return-2026"
+],
+"summary": "Not a chokepoint but the main alternative to Suez/Bab el-Mandeb; also the usual route for ultra-large vessels. Traffic rose sharply after the Red Sea crisis began.",
+"s": "eia-chokepoints",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 4.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "75 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 23.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "375 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 9.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "15 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "soybeans",
+"f": {
+"v": 49.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "78 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "bauxite",
+"f": {
+"v": 78.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "115 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "cape-horn",
+"name": "Cape Horn",
+"kind": "cape",
+"at": [
+-67.27,
+-55.98
+],
+"alternatives": [
+{
+"label": "Magellan Strait (PortWatch chokepoint21)",
+"note": "Sheltered alternative with pilotage."
+}
+],
+"summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather. No PortWatch coverage.",
+"s": "portwatch"
+},
+{
+"id": "taiwan-strait",
+"name": "Taiwan Strait",
+"kind": "strait",
+"at": [
+119.8,
+24.7
+],
+"portwatch": "chokepoint11",
+"traffic": {
+"v": 238.8,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"summary": "Main north-south route for China-Japan-Korea trade, container and crude flows.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 24.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "436 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 26.9,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "92 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lpg",
+"f": {
+"v": 11.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "16 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 14.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "163 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 73.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "1159 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "corn",
+"f": {
+"v": 4.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "7 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "soybeans",
+"f": {
+"v": 49.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "78 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 3.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "31 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "bauxite",
+"f": {
+"v": 76.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "113 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+},
+{
+"id": "korea-strait",
+"name": "Korea Strait",
+"kind": "strait",
+"at": [
+129.2,
+34.1
+],
+"portwatch": "chokepoint12",
+"traffic": {
+"v": 219.4,
+"u": "vessels/day",
+"y": 2025,
+"s": "portwatch",
+"n": "All vessel types, daily average from IMF PortWatch daily data"
+},
+"summary": "Link between the East China Sea and the Sea of Japan between Korea and Japan.",
+"s": "portwatch",
+"estimates": [
+{
+"k": "crude-oil",
+"f": {
+"v": 5.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "92 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "lng",
+"f": {
+"v": 10.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "36 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "thermal-coal",
+"f": {
+"v": 9.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "104 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "iron-ore",
+"f": {
+"v": 3.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "58 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+},
+{
+"k": "refined-products",
+"f": {
+"v": 3.3,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "33 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
+}
+]

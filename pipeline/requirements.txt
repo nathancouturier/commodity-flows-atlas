@@ -1,0 +1,6 @@
+# Python dependencies for the data pipeline (pipeline/*). Python >= 3.11.
+pandas>=2.2
+openpyxl>=3.1
+requests>=2.31
+searoute==1.6.0
+shapely>=2.0

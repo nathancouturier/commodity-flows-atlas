@@ -1,0 +1,579 @@
+[
+ {
+  "id": "capesize",
+  "name": "Capesize",
+  "segment": "dry",
+  "size": {
+   "min": 100000,
+   "max": 200000,
+   "typical": 182000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal",
+   "met-coal",
+   "bauxite",
+   "manganese"
+  ],
+  "constraints": [
+   "Loads only at deep-water terminals",
+   "Cannot use Panama laden; routes via Cape of Good Hope/Cape Horn"
+  ],
+  "canals": {
+   "suez": "Transits laden within SCA limits (max draft 20.1 m at beam up to 50 m)",
+   "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
+  },
+  "routes": [
+   "C3",
+   "C5",
+   "C7",
+   "C17",
+   "C10_14",
+   "C14",
+   "guinea-china-bauxite",
+   "simandou-china-iron-ore",
+   "queensland-india-met-coal"
+  ],
+  "notes": "Baltic standard vessel moved from 180,000 to 182,000 dwt (C5TC(182), effective 2 Jan 2026).",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "newcastlemax",
+  "name": "Newcastlemax",
+  "segment": "dry",
+  "size": {
+   "min": 185000,
+   "max": 210000,
+   "typical": 205000,
+   "u": "dwt"
+  },
+  "dims": {
+   "loa": 300,
+   "beam": 50
+  },
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal",
+   "bauxite"
+  ],
+  "constraints": [
+   "Max LOA ~300 m, beam ~50 m (design limits at Newcastle)",
+   "Deep-water terminals only"
+  ],
+  "canals": {
+   "suez": "Transits at the SCA beam limit (50 m beam allows 20.1 m draft); verify per vessel",
+   "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
+  },
+  "routes": [],
+  "notes": "Dimensions are design maxima from Wikipedia, not typical.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "vloc",
+  "name": "VLOC (Valemax/Guaibamax)",
+  "segment": "dry",
+  "size": {
+   "min": 230000,
+   "max": 400000,
+   "typical": 400000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "iron-ore"
+  ],
+  "constraints": [
+   "Only a few ports can take them (e.g. Ponta da Madeira, Tubarao, Qingdao, Dalian, Rizhao, Rotterdam via Maasvlakte)",
+   "Valemax had a Chinese port ban until 2016, then restricted to approved berths"
+  ],
+  "canals": {
+   "suez": "Cannot transit Suez laden (beam/draft beyond the SCA wetted-area limit)",
+   "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
+  },
+  "routes": [],
+  "notes": "Chinamax/Valemax typically ~ 400,000 dwt; sizes are conventional.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "panamax",
+  "name": "Panamax",
+  "segment": "dry",
+  "size": {
+   "min": 60000,
+   "max": 80000,
+   "typical": 75000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "thermal-coal",
+   "met-coal",
+   "corn",
+   "soybeans",
+   "wheat",
+   "soymeal"
+  ],
+  "constraints": [
+   "Draft limits at US Gulf river terminals, Up-River Parana and Columbia River restrict cargo size (cargo then topped off elsewhere)"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Fits Panamax locks (design size: LOA 289.56 m, beam 32.31 m, TFW draft 12.04 m)"
+  },
+  "routes": [
+   "newcastle-northeast-asia-coal",
+   "vostochny-china-korea-coal",
+   "colombia-med-coal",
+   "richards-bay-india-coal",
+   "brazil-china-soybeans",
+   "usgulf-china-grain",
+   "uspnw-asia-grain",
+   "argentina-soymeal-corn"
+  ],
+  "notes": "Baltic 'Panamax' benchmark routes use the 82kdwt ship (see kamsarmax).",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "kamsarmax",
+  "name": "Kamsarmax",
+  "segment": "dry",
+  "size": {
+   "min": 80000,
+   "max": 85000,
+   "typical": 82000,
+   "u": "dwt"
+  },
+  "dims": {
+   "loa": 229
+  },
+  "cargoes": [
+   "thermal-coal",
+   "met-coal",
+   "corn",
+   "soybeans",
+   "wheat"
+  ],
+  "constraints": [
+   "229 m LOA limit set by Kamsar port, Guinea"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Beam fits Panamax locks (32.31 m) but laden draft typically exceeds the 12.04 m TFW limit; usually uses Neopanamax locks or goes via Suez/Cape"
+  },
+  "routes": [
+   "P1A_82",
+   "P2A_82",
+   "P3A_82",
+   "P6_82"
+  ],
+  "notes": "Baltic P1A_82, P2A_82, P3A_82, P6_82 use an 82,000 dwt vessel.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "supramax",
+  "name": "Supramax",
+  "segment": "dry",
+  "size": {
+   "min": 50000,
+   "max": 60000,
+   "typical": 58000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "thermal-coal",
+   "corn",
+   "soybeans",
+   "wheat",
+   "potash",
+   "phosphate",
+   "urea",
+   "steel",
+   "nickel"
+  ],
+  "constraints": [
+   "Geared; used at ports lacking shore cranes"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Transits Panamax locks (beam ~32 m, draft up to 12.04 m TFW)"
+  },
+  "routes": [
+   "indonesia-china-coal",
+   "indonesia-india-coal",
+   "blacksea-egypt-wheat",
+   "australia-seasia-wheat",
+   "philippines-china-nickel-ore",
+   "australia-china-spodumene",
+   "vancouver-asia-potash",
+   "baltic-brazil-potash",
+   "morocco-india-phosphate",
+   "gulf-india-urea"
+  ],
+  "notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "ultramax",
+  "name": "Ultramax",
+  "segment": "dry",
+  "size": {
+   "min": 60000,
+   "max": 67000,
+   "typical": 63500,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "thermal-coal",
+   "corn",
+   "soybeans",
+   "wheat",
+   "potash",
+   "phosphate",
+   "urea",
+   "steel"
+  ],
+  "constraints": [
+   "Geared, ~ 60-65 kdwt"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Transits Panamax locks (beam ~ 32 m, draft 12.04 m)"
+  },
+  "routes": [
+   "S1C_63",
+   "S2_63",
+   "S4A_63",
+   "S10_63"
+  ],
+  "notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23).",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "handysize",
+  "name": "Handysize",
+  "segment": "dry",
+  "size": {
+   "min": 15000,
+   "max": 40000,
+   "typical": 38000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "steel",
+   "potash",
+   "phosphate",
+   "corn",
+   "wheat"
+  ],
+  "constraints": [
+   "Can call at shallow ports and use own cranes"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Transits Panamax locks"
+  },
+  "routes": [
+   "HS1_38",
+   "HS2_38",
+   "HS3_38",
+   "HS4_38",
+   "HS5_38",
+   "HS6_38",
+   "HS7_38",
+   "chile-china-copper",
+   "peru-china-copper"
+  ],
+  "notes": "Baltic Handysize reference 38,000 dwt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "vlcc",
+  "name": "VLCC",
+  "segment": "tanker",
+  "size": {
+   "min": 200000,
+   "max": 320000,
+   "typical": 300000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "crude-oil"
+  ],
+  "constraints": [
+   "Deep draft: loads at offshore/deep-water terminals (e.g. LOOP, Corpus Christi, Ras Tanura)",
+   "Cannot enter most US Gulf ports fully laden - lightering/reverse lightering"
+  ],
+  "canals": {
+   "suez": "Cannot transit laden (ballast only or partially laden); cargo goes via SUMED or Cape",
+   "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
+  },
+  "routes": [
+   "TD3C",
+   "TD34",
+   "TD15",
+   "TD22",
+   "TD2",
+   "brazil-china-crude",
+   "middle-east-india-crude",
+   "middle-east-japan-korea-crude"
+  ],
+  "notes": "Baltic TD3C/TD22 VLCC cargo 270kt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "suezmax",
+  "name": "Suezmax",
+  "segment": "tanker",
+  "size": {
+   "min": 120000,
+   "max": 200000,
+   "typical": 160000,
+   "u": "dwt"
+  },
+  "dims": {
+   "draft": 20.1,
+   "beam": 50
+  },
+  "cargoes": [
+   "crude-oil"
+  ],
+  "constraints": [
+   "Maximum laden draft 20.1 m (66 ft), beam 50 m (164 ft)"
+  ],
+  "canals": {
+   "suez": "Transits laden at 20.1 m max draft (design size)",
+   "panama": "Too wide for Panamax locks; Neopanamax locks since 2020 allow laden Suezmax up to 15.24 m draft (below typical full draft)"
+  },
+  "routes": [
+   "TD6",
+   "TD20",
+   "TD23",
+   "TD27",
+   "russia-baltic-india-crude",
+   "usgulf-med-crude",
+   "guyana-europe-crude"
+  ],
+  "notes": "Dims are SCA design limits. Baltic TD20/TD27 cargo 130kt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "aframax",
+  "name": "Aframax",
+  "segment": "tanker",
+  "size": {
+   "min": 80000,
+   "max": 120000,
+   "typical": 105000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "crude-oil",
+   "refined-products"
+  ],
+  "constraints": [
+   "Used for short-haul and ship-to-ship transfer"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Neopanamax locks yes (full cargo); too wide for Panamax locks"
+  },
+  "routes": [
+   "TD7",
+   "TD8",
+   "TD9",
+   "TD17",
+   "TD19",
+   "TD25",
+   "TD26",
+   "kozmino-china-espo"
+  ],
+  "notes": "Baltic TD7 reference 105kdwt (Veson FFA table).",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "lr2",
+  "name": "LR2",
+  "segment": "tanker",
+  "size": {
+   "min": 80000,
+   "max": 120000,
+   "typical": 110000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "refined-products"
+  ],
+  "constraints": [
+   "Aframax-size clean tanker",
+   "Used for Gulf-Europe diesel/jet and naphtha"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Neopanamax locks yes; too wide for Panamax locks"
+  },
+  "routes": [
+   "TC1",
+   "TC15",
+   "TC20",
+   "india-europe-diesel",
+   "middle-east-europe-diesel"
+  ],
+  "notes": "Dwt range conventional; TC1 cargo 75kt, TC15 80kt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "lr1",
+  "name": "LR1",
+  "segment": "tanker",
+  "size": {
+   "min": 55000,
+   "max": 80000,
+   "typical": 75000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "refined-products"
+  ],
+  "constraints": [
+   "Panamax-size clean tanker"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Fits Panamax locks (design size, beam ~32 m)"
+  },
+  "routes": [
+   "TC5",
+   "TC8",
+   "TC16",
+   "middle-east-japan-products"
+  ],
+  "notes": "Veson page: TC5 55kt cargo, LR1 75kdwt reference.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "mr",
+  "name": "MR",
+  "segment": "tanker",
+  "size": {
+   "min": 25000,
+   "max": 55000,
+   "typical": 47000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "refined-products"
+  ],
+  "constraints": [
+   "Most flexible clean carrier; calls at most refinery jetties"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Fits Panamax locks"
+  },
+  "routes": [
+   "TC2_37",
+   "TC7",
+   "TC10",
+   "TC12",
+   "TC14",
+   "TC17",
+   "TC18",
+   "TC19",
+   "TC21",
+   "usgulf-latam-products"
+  ],
+  "notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "handy-tanker",
+  "name": "Handy tanker",
+  "segment": "tanker",
+  "size": {
+   "min": 10000,
+   "max": 40000,
+   "typical": 37000,
+   "u": "dwt"
+  },
+  "cargoes": [
+   "refined-products",
+   "palm-oil"
+  ],
+  "constraints": [
+   "Small ports and coastal trades; often IMO II/III chemical-capable"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Fits Panamax locks"
+  },
+  "routes": [
+   "TC6",
+   "TC9",
+   "indo-malay-india-palm-oil"
+  ],
+  "notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "lng",
+  "name": "LNG carrier",
+  "segment": "gas",
+  "size": {
+   "min": 140000,
+   "max": 266000,
+   "typical": 174000,
+   "u": "cbm"
+  },
+  "cargoes": [
+   "lng"
+  ],
+  "constraints": [
+   "Conventional ~174,000 cbm (Baltic standard vessel); Q-Flex ~210-217k cbm, Q-Max ~266k cbm",
+   "Terminal draft and berth restrictions at some US/European terminals"
+  ],
+  "canals": {
+   "suez": "Conventional carriers and Q-Flex transit laden; Q-Max has beam/draft limits",
+   "panama": "Conventional 174k cbm fits Neopanamax locks; Q-Flex fits; Q-Max too wide"
+  },
+  "routes": [
+   "BLNG1",
+   "BLNG2",
+   "BLNG3",
+   "qatar-northeast-asia-lng",
+   "qatar-europe-lng",
+   "qatar-india-lng",
+   "australia-china-lng",
+   "usgulf-asia-lng"
+  ],
+  "notes": "Ranges conventional: Q-Flex/Q-Max sizes from industry sources not independently verified here.",
+  "s": "vessel-size-conventions"
+ },
+ {
+  "id": "vlgc",
+  "name": "VLGC",
+  "segment": "gas",
+  "size": {
+   "min": 80000,
+   "max": 100000,
+   "typical": 84000,
+   "u": "cbm"
+  },
+  "cargoes": [
+   "lpg"
+  ],
+  "constraints": [
+   "Fully refrigerated LPG carrier; Neopanamax-size (beam > 32.31 m)"
+  ],
+  "canals": {
+   "suez": "Transits laden",
+   "panama": "Neopanamax locks only; too wide for Panamax locks"
+  },
+  "routes": [
+   "BLPG1",
+   "BLPG2",
+   "BLPG3",
+   "middle-east-india-lpg"
+  ],
+  "notes": "Baltic VLGC TCE references an 84,000 cbm vessel (Veson page: 84kt); BLPG parcel 44kt.",
+  "s": "vessel-size-conventions"
+ }
+]

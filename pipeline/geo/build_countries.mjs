@@ -29,13 +29,13 @@ const NAME_FIX = {
 
 const cmd = [
   `-i "${shp}" encoding=utf8`,
-  `-each "c = (ISO_A3_EH && ISO_A3_EH !== '-99') ? ISO_A3_EH : ADM0_A3, nm = NAME, rg = SUBREGION, lx = LABEL_X, ly = LABEL_Y"`,
+  `-each "c = (ISO_A3_EH && ISO_A3_EH !== '-99') ? ISO_A3_EH : ADM0_A3, a2 = (ISO_A2_EH && ISO_A2_EH !== '-99') ? ISO_A2_EH : ISO_A2, nm = NAME, rg = SUBREGION, lx = LABEL_X, ly = LABEL_Y"`,
   `-filter "c !== 'ATA'"`, // Antarctica adds weight and no trade
   `-each "a = this.area"`,
   `-sort a descending`,
   // merge dependencies that share a code (e.g. Australian islands); keep attributes of the largest part
-  `-dissolve c copy-fields=nm,rg,lx,ly`,
-  `-filter-fields c,nm,rg,lx,ly`,
+  `-dissolve c copy-fields=a2,nm,rg,lx,ly`,
+  `-filter-fields c,a2,nm,rg,lx,ly`,
   `-simplify 35% keep-shapes`,
   `-o out.json format=geojson`,
 ].join(' ');
@@ -74,7 +74,7 @@ for (const f of gj.features) {
     e = Math.max(...shifted);
   }
   const r = (x) => Math.round(x * 100) / 100;
-  index.push({ c: p.c, name: NAME_FIX[p.c] ?? p.nm, at: [r(p.lx), r(p.ly)], bb: [r(w), r(Math.min(...lats)), r(e), r(Math.max(...lats))], region: p.rg });
+  index.push({ c: p.c, a2: p.a2, name: NAME_FIX[p.c] ?? p.nm, at: [r(p.lx), r(p.ly)], bb: [r(w), r(Math.min(...lats)), r(e), r(Math.max(...lats))], region: p.rg });
 }
 index.sort((a, b) => a.name.localeCompare(b.name));
 
