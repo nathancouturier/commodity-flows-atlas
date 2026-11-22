@@ -21,13 +21,12 @@ import {
   rfDest,
   rfCommodity,
   setFamily,
-  toggleLayer,
   type FamilyFilter,
   type Metric,
   type SheetSnap,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
+import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, segmentOf, vesselClassList, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
@@ -50,12 +49,6 @@ function vesselSize(v: VesselClass): string {
   const u = v.size.u === 'cbm' ? 'm³' : v.size.u === 'teu' ? 'TEU' : 'dwt';
   const t = v.size.typical;
   return `${t >= 1000 ? `${Math.round(t / 1000)}k` : t} ${u}`;
-}
-
-// a shared link that opens a vessel class (#sel=vessel:capesize) also filters the map to its routes
-{
-  const s0 = selection.peek();
-  if (s0?.kind === 'vessel' && !vesselClasses.peek().size) vesselClasses.value = new Set(vesselFamily(s0.id));
 }
 
 /** A whole family (Freight, Energy, Metals, Softs or all): no commodity, no vessel-class filter. */
@@ -114,7 +107,7 @@ export function SidePanel() {
         <CommoditySection current={current} />
         <FreightSection />
         <div class="panel-block">
-          <Dropdown name="Route finder" value={<RouteFinderSummary />}>
+          <Dropdown name="Route finder" stack value={<RouteFinderSummary />}>
             <RouteFinderSlot always />
           </Dropdown>
         </div>
@@ -143,6 +136,8 @@ export function SidePanel() {
 function Dropdown(props: {
   name: string;
   value?: ComponentChildren;
+  /** long values (a commodity, a vessel class, a route question) go on their own line under the name */
+  stack?: boolean;
   onClear?: () => void;
   defaultOpen?: boolean;
   open?: boolean;
@@ -154,7 +149,7 @@ function Dropdown(props: {
   const hasValue = props.value != null && props.value !== false && props.value !== '';
   return (
     <details
-      class="cc-browse dd"
+      class={`cc-browse dd${props.stack ? ' dd-stack' : ''}`}
       open={open}
       onToggle={(e) => {
         const o = (e.currentTarget as HTMLDetailsElement).open;
@@ -261,6 +256,7 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
     <div class="panel-block">
       <Dropdown
         name="All commodities"
+        stack
         value={value}
         onClear={current || commodityFamily ? () => pick('all') : undefined}
         open={browseOpen}
@@ -321,11 +317,7 @@ function FreightSection() {
   const chooseVessel = (id: string) => {
     setOpen(false);
     if (sel?.kind === 'vessel' && sel.id === id) return pickFamily('freight'); // second click: every route
-    if (family.peek() !== 'freight') setFamily('freight');
-    commodity.value = null;
-    vesselClasses.value = new Set(vesselFamily(id));
-    if (!layers.peek().routes) toggleLayer('routes', true);
-    select({ kind: 'vessel', id });
+    openVesselClass(id);
   };
   // the class named in the summary: the open one, else the first class of the active filter
   const head = vc.size ? (vessels.find((v) => sel?.kind === 'vessel' && v.id === sel.id && vc.has(v.id)) ?? vessels.find((v) => vc.has(v.id))) : undefined;
@@ -339,6 +331,7 @@ function FreightSection() {
     <div class="panel-block">
       <Dropdown
         name="Routes by vessel class"
+        stack
         value={value}
         onClear={freight || vc.size ? () => { setOpen(false); pickFamily('all'); } : undefined}
         open={open}

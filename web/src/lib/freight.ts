@@ -5,6 +5,7 @@
 import { computed, signal } from '@preact/signals';
 import type { Chokepoint, FreightEvent, LaneFile, PortwatchSeries, Route, Segment, VesselClass } from '../types';
 import { load } from './data';
+import { commodity, family, layers, select, selection, setFamily, toggleLayer, vesselClasses } from './store';
 
 /** Customs product groups with lanes, per atlas commodity id. */
 export const LANE_GROUPS: Record<string, string[]> = {
@@ -163,3 +164,31 @@ export const MAJOR_CHOKEPOINTS = new Set([
 
 /** Lane/route status notes carried by the lane files (e.g. Red Sea diversion). */
 export interface LaneStatus { text: string; event?: string }
+
+/**
+ * Open a vessel class the way the Routes by vessel class list does: Freight view, the map's routes
+ * filtered to the class's family, the routes layer on and (unless `page` is false) the class page.
+ */
+export function openVesselClass(id: string, page = true) {
+  if (family.peek() !== 'freight') setFamily('freight');
+  commodity.value = null;
+  vesselClasses.value = new Set(vesselFamily(id));
+  if (!layers.peek().routes) toggleLayer('routes', true);
+  if (page) select({ kind: 'vessel', id });
+}
+
+// a link that opens a vessel class without its filter (#sel=vessel:vlcc) gets the same Freight view
+{
+  const s0 = selection.peek();
+  if (s0?.kind === 'vessel' && !vesselClasses.peek().size) openVesselClass(s0.id, false);
+}
+
+// unknown classes in a link are dropped once the catalogue is known
+vesselClassList.subscribe((list) => {
+  if (!list.length) return;
+  const known = new Set(list.map((v) => v.id));
+  const vc = vesselClasses.peek();
+  if ([...vc].some((id) => !known.has(id))) vesselClasses.value = new Set([...vc].filter((id) => known.has(id)));
+  const s = selection.peek();
+  if (s?.kind === 'vessel' && !known.has(s.id)) select(null);
+});

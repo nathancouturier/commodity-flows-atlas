@@ -9,7 +9,7 @@ import { Legend } from './components/Legend';
 import { PriceDrawer } from './components/PriceDrawer';
 import { Timeline } from './components/Timeline';
 import * as prices from './lib/prices';
-import { detailOpen, writeHash, family, commodity, metric, year, selection, select, historyOpen, priceDrawer, panelCollapsed } from './lib/store';
+import { detailOpen, writeHash, family, commodity, metric, year, selection, select, historyOpen, priceDrawer, panelCollapsed, vesselClasses } from './lib/store';
 
 /** Remembers which control opened a panel so Escape can hand focus back to it. */
 function useFocusReturn() {
@@ -92,7 +92,7 @@ export function App() {
     () =>
       effect(() => {
         // touch the signals that make up the shareable view, then mirror them in the URL hash
-        void [family.value, commodity.value, metric.value, year.value, selection.value];
+        void [family.value, commodity.value, metric.value, year.value, selection.value, vesselClasses.value];
         writeHash();
       }),
     [],

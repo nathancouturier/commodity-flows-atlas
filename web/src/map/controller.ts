@@ -130,7 +130,7 @@ function wireCountryInteraction(m: MLMap) {
       hoverId = id;
       if (id) m.setFeatureState({ source: 'countries', id }, { hover: true });
     }
-    if (!lineHover() && id) {
+    if (!lineHover() && !markerHover && id) {
       const extra = countryTooltipExtra?.(id) ?? '';
       hovered.value = { x: e.point.x, y: e.point.y, html: `<b>${escapeHtml(countryName(id))}</b>${extra}` };
     }
@@ -138,7 +138,7 @@ function wireCountryInteraction(m: MLMap) {
   m.on('mouseleave', 'land', () => {
     if (hoverId) m.setFeatureState({ source: 'countries', id: hoverId }, { hover: false });
     hoverId = null;
-    if (!lineHover()) hovered.value = null;
+    if (!lineHover() && !markerHover) hovered.value = null;
   });
   m.on('click', (e) => {
     // HTML markers (chokepoints, share labels) and lines take priority over countries
@@ -187,6 +187,18 @@ const lineHover = () => hoverLayers.size > 0;
 
 export function registerInteractiveLayer(id: string) {
   if (!interactiveLayers.includes(id)) interactiveLayers.push(id);
+}
+
+/**
+ * True while the pointer is over an HTML marker that shows its own tooltip (chokepoints): the map layers
+ * underneath (countries, lines, icons) then leave the tooltip alone.
+ */
+let markerHover = false;
+export function setMarkerHover(on: boolean) {
+  markerHover = on;
+}
+export function isMarkerHover() {
+  return markerHover;
 }
 
 /** Icon layers drawn over the lines: under the pointer they keep the tooltip (see the line hover). */
@@ -288,7 +300,7 @@ function ensureLineSet(m: MLMap, key: string) {
     hoverLayers.delete(hit);
     m.getCanvas().style.cursor = '';
     unhover();
-    if (!lineHover()) hovered.value = null;
+    if (!lineHover() && !markerHover) hovered.value = null;
   });
   m.on('click', hit, (e) => {
     const p = e.features?.[0]?.properties as LineFeatureProps | undefined;

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { AltRouting } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
-import { chokepointName, loadFreightCatalogue, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { chokepointName, loadFreightCatalogue, openVesselClass, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { Section } from '../ui';
 import { TimeChart } from '../charts/TimeChart';
@@ -57,7 +57,7 @@ export function CommodityChips(props: { ids: string[] }) {
 export function VesselChip(props: { id: string }) {
   const color = SEGMENT_COLOR[segmentOf(props.id)];
   return (
-    <button class="chip" onClick={() => select({ kind: 'vessel', id: props.id })}>
+    <button class="chip" onClick={() => openVesselClass(props.id)}>
       <i class="dot" style={{ background: color }} />
       {vesselName(props.id)}
     </button>

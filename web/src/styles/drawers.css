@@ -24,10 +24,6 @@
   transition-delay: 0s;
 }
 
-/* the legend would overlap the timeline strip: hide it while the timeline is open */
-.app.tl-open .legend {
-  display: none;
-}
 
 /* ---------------------------------------------------------------- price drawer */
 

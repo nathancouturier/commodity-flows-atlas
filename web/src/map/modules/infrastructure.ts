@@ -11,7 +11,7 @@ import type { Map as MLMap, GeoJSONSource, ExpressionSpecification } from 'mapli
 import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
 import type { Family, InfraProps, InfraType } from '../../types';
 import { registerLayerModule } from '../layers';
-import { registerInteractiveLayer, registerPointLayer } from '../controller';
+import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../controller';
 import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
@@ -308,6 +308,7 @@ registerLayerModule((m) => {
   void loadInfra().then((all) => (byKey = new Map(all.map((f) => [`${f.p.type}:${f.p.id}`, f]))));
   for (const layer of hitLayers) {
     m.on('mousemove', layer, (e) => {
+      if ((e.originalEvent.target as HTMLElement | null)?.closest?.('.cp, .share-label')) return;
       const key = e.features?.[0]?.properties?.key as string | undefined;
       const f = key ? byKey.get(key) : undefined;
       if (!f) return;
@@ -316,7 +317,7 @@ registerLayerModule((m) => {
     });
     m.on('mouseleave', layer, () => {
       m.getCanvas().style.cursor = '';
-      hovered.value = null;
+      if (!isMarkerHover()) hovered.value = null;
     });
     m.on('click', layer, (e) => {
       const key = e.features?.[0]?.properties?.key as string | undefined;

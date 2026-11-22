@@ -122,6 +122,8 @@ function readHash() {
   if (p.get('c')) commodity.value = p.get('c');
   const m = p.get('m') as Metric | null;
   if (m) metric.value = m;
+  const v = p.get('v');
+  if (v) vesselClasses.value = new Set(v.split(',').filter(Boolean));
   const y = p.get('y');
   if (y && /^\d{4}$/.test(y)) year.value = Number(y);
   const sel = p.get('sel');
@@ -145,6 +147,7 @@ export function writeHash() {
   if (family.value !== 'all') p.set('f', family.value);
   if (commodity.value) p.set('c', commodity.value);
   if (metric.value !== 'none') p.set('m', metric.value);
+  if (vesselClasses.value.size) p.set('v', [...vesselClasses.value].join(','));
   if (year.value) p.set('y', String(year.value));
   const s = selection.value;
   if (s) p.set('sel', s.kind === 'infra' ? `${s.kind}:${s.id}:${s.layer}` : `${s.kind}:${s.id}`);
@@ -156,7 +159,9 @@ readHash();
 // a link pasted into the address bar (or an edited hash) re-applies the view; writeHash uses
 // replaceState, which does not fire hashchange, so there is no loop
 window.addEventListener('hashchange', () => {
+  // a pasted link describes the whole view: its vessel filter replaces the current one
   selection.value = null;
+  vesselClasses.value = new Set();
   readHash();
 });
 // a shared Freight-tab link opens with its routes and chokepoints visible

@@ -1691,10 +1691,13 @@ html,
     flex: 0 1 auto;
     padding-right: 12px;
   }
-  /* the price drawer and the timeline open where the legend sits */
+  /* the price drawer and the timeline take the bottom edge right of the side panel: the legend moves
+     into the left column (Legend button at the bottom, the legend above it) */
   .app.pd-open .legend-dock,
   .app.tl-open .legend-dock {
-    display: none;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    max-width: var(--panel-w);
   }
 
   /* the side panel never runs over the legend in the bottom-left corner */
@@ -1840,4 +1843,17 @@ html,
 .cp.cp-minor .cp-ring {
   inset: 5px;
   opacity: 0.8;
+}
+
+/* long dropdown values (a commodity, a vessel class, a route question) sit on their own line */
+.dd.dd-stack > summary {
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+.dd.dd-stack > summary .dd-value {
+  order: 5;
+  flex: 1 0 100%;
+  max-width: none;
+  justify-content: flex-start;
+  font-size: 12px;
 }

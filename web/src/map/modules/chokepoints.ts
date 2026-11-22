@@ -9,6 +9,7 @@
 import { effect, signal } from '@preact/signals';
 import maplibregl, { type Map as MLMap } from 'maplibre-gl';
 import type { Chokepoint } from '../../types';
+import { setMarkerHover } from '../controller';
 import { registerLayerModule } from '../layers';
 import { hovered, laneVia, layers, routeVia, select, selection } from '../../lib/store';
 import { sourceLabel, sources } from '../../lib/data';
@@ -58,13 +59,18 @@ registerLayerModule((m: MLMap) => {
       };
       el.addEventListener('click', open);
       el.addEventListener('keydown', (ev) => (ev as KeyboardEvent).key === 'Enter' && open(ev));
+      // the marker owns the tooltip while the pointer is on it (the layers underneath stay quiet)
       el.addEventListener('mouseenter', (ev) => {
+        setMarkerHover(true);
         hovered.value = { x: ev.clientX, y: ev.clientY, html: tooltip(c) };
       });
       el.addEventListener('mousemove', (ev) => {
         hovered.value = { x: ev.clientX, y: ev.clientY, html: tooltip(c) };
       });
-      el.addEventListener('mouseleave', () => (hovered.value = null));
+      el.addEventListener('mouseleave', () => {
+        setMarkerHover(false);
+        hovered.value = null;
+      });
       const marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(c.at).addTo(m);
       entries.set(c.id, { el, marker });
     }
