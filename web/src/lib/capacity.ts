@@ -81,7 +81,8 @@ function concerns(subject: string, id: string): boolean {
 }
 
 function formOf(rest: string): Form {
-  if (/\bin concentrate\b/i.test(rest)) return 'product';
+  // "in concentrate" is metal content; a source that does not say what its figure counts is not reclassified
+  if (/\bin concentrate\b|does not say/i.test(rest)) return 'product';
   if (/concentrate feed|feed capacity/i.test(rest)) return 'feed';
   if (/concentrate/i.test(rest)) return 'concentrate';
   if (/ore processing|processing capacity/i.test(rest)) return 'ore';

@@ -3,9 +3,9 @@
  * Views are lazy so their code only loads when first opened.
  */
 import { lazy, Suspense } from 'preact/compat';
-import { useEffect, useRef } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import '../styles/views.css';
-import { selection, select } from '../lib/store';
+import { selection, select, type SheetSnap } from '../lib/store';
 import { detailTitle, unknownKind } from '../lib/view';
 import { CloseIcon, Placeholder, Skeleton } from './ui';
 
@@ -45,9 +45,47 @@ function readTitle(panel: HTMLElement): string | null {
   return kicker && kicker !== 'Seaborne lane' ? `${kicker}: ${title}` : title;
 }
 
+const SNAPS: SheetSnap[] = ['peek', 'half', 'full'];
+
+/** Grab handle of the detail sheet (tablet / phone, hidden by CSS elsewhere): same gestures as the controls sheet. */
+function DetailHandle({ snap, setSnap }: { snap: SheetSnap; setSnap: (s: SheetSnap) => void }) {
+  const start = useRef<number | null>(null);
+  const step = (dir: 1 | -1) => setSnap(SNAPS[Math.max(0, Math.min(SNAPS.length - 1, SNAPS.indexOf(snap) + dir))]);
+  const cycle = () => setSnap(SNAPS[(SNAPS.indexOf(snap) + 1) % SNAPS.length]);
+  return (
+    <div class="sheet-head detail-sheet-head">
+      <button
+        class="sheet-handle"
+        aria-label={`Resize details, now ${snap === 'peek' ? 'minimised' : snap === 'half' ? 'half height' : 'full height'}`}
+        onPointerDown={(e) => {
+          start.current = e.clientY;
+          (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+        }}
+        onPointerUp={(e) => {
+          const dy = start.current == null ? 0 : e.clientY - start.current;
+          start.current = null;
+          if (Math.abs(dy) > 24) step(dy < 0 ? 1 : -1);
+          else cycle();
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowUp') step(1);
+          else if (e.key === 'ArrowDown') step(-1);
+        }}
+        onClick={(e) => e.detail === 0 && cycle()}
+      >
+        <span class="sheet-grip" aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
+
 export function DetailPanel() {
   const s = selection.value;
   const ref = useRef<HTMLElement>(null);
+  // bottom sheet height (tablet / phone): every new page opens at half height
+  const [snap, setSnap] = useState<SheetSnap>('half');
+  const selKey = s ? `${s.kind}:${s.id}` : '';
+  useEffect(() => setSnap('half'), [selKey]);
   // the views load their own data and write their own heading: follow it as it appears
   useEffect(() => {
     const el = ref.current;
@@ -60,9 +98,10 @@ export function DetailPanel() {
   }, []);
   const unknown = s ? unknownKind(s) : null;
   return (
-    <aside ref={ref} class={`detail-panel glass ${s ? 'open' : ''}`} aria-label="Details" aria-hidden={!s}>
+    <aside ref={ref} class={`detail-panel glass snap-${snap} ${s ? 'open' : ''}`} data-snap={snap} aria-label="Details" aria-hidden={!s}>
       {s && (
         <>
+          <DetailHandle snap={snap} setSnap={setSnap} />
           <button class="close-btn" onClick={() => select(null)} aria-label="Close details">
             <CloseIcon />
           </button>

@@ -845,6 +845,30 @@ button {
     transform: none;
   }
 
+  /* the detail sheet snaps like the controls sheet: peek (title and first figures), half, full */
+  .detail-panel {
+    transition: transform var(--t-med) var(--ease), opacity var(--t-med), height var(--t-med) var(--ease);
+  }
+
+  .detail-panel.snap-peek {
+    height: max(170px, 28vh);
+    height: max(170px, 28dvh);
+    max-height: max(170px, 28vh);
+    max-height: max(170px, 28dvh);
+  }
+
+  .detail-panel.snap-full {
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
+    max-height: calc(100vh - 64px);
+    max-height: calc(100dvh - 64px);
+  }
+
+  .detail-panel .sheet-head {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
   .detail-panel,
   .detail-panel * {
     overscroll-behavior: contain;

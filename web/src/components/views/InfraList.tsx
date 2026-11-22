@@ -170,7 +170,8 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
           {showAll ? 'Show fewer' : `Show all ${items.length}`}
         </button>
       )}
-      <SourcesLine items={shown.map((r) => r.f.p)} n="ranked within each type among figures of the same kind; each figure in its source's unit" />
+      {/* each figure carries its own source and year on its row: the foot names and links the sources */}
+      <SourcesLine items={shown.map((r) => ({ s: r.f.p.s }))} n="ranked within each type among figures of the same kind, each in its source's unit" />
     </>
   );
 }

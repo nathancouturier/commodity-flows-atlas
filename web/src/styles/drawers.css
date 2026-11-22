@@ -1154,6 +1154,14 @@
     height: max(240px, calc(60dvh - var(--tl-h, 0px)));
     max-height: max(240px, calc(60dvh - var(--tl-h, 0px)));
   }
+  .app.tl-open .detail-panel.snap-peek {
+    height: max(170px, calc(28dvh - var(--tl-h, 0px)));
+    max-height: max(170px, calc(28dvh - var(--tl-h, 0px)));
+  }
+  .app.tl-open .detail-panel.snap-full {
+    height: calc(100dvh - 64px - var(--tl-h, 0px));
+    max-height: calc(100dvh - 64px - var(--tl-h, 0px));
+  }
 }
 
 /* ---------------------------------------------------------------- price drawer on phones and tablets: the chart gets the room */
