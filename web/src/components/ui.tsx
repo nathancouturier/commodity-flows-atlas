@@ -1,7 +1,8 @@
 /** Small shared UI primitives: switches, ranked bars, KPI tiles, source lines. */
 import type { ComponentChildren } from 'preact';
-import type { Company, Fig, InfraType, Ranked } from '../types';
-import { commodityMeta, countryName, sourceLabel, sources } from '../lib/data';
+import { useEffect, useState } from 'preact/hooks';
+import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../types';
+import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
 import { fmt, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
 
@@ -52,9 +53,149 @@ export function SourceLine(props: { s?: string; y?: number | string; n?: string 
   );
 }
 
+/** Short publisher label for footnotes ("CEPII BACI", "USGS", "EIA"...). */
+const SHORT_SOURCE: Record<string, string> = {
+  baci: 'CEPII BACI',
+  'usgs-mcs': 'USGS',
+  'usda-psd': 'USDA',
+  'eia-intl': 'EIA',
+  'eia-spot': 'EIA',
+  'eia-briefs': 'EIA',
+  'eia-tie': 'EIA',
+  'eia-chokepoints': 'EIA',
+  'wb-pink': 'World Bank',
+  faostat: 'FAOSTAT',
+  wna: 'World Nuclear Association',
+  portwatch: 'IMF PortWatch',
+  atlas: 'Atlas estimate',
+  'port-authorities': 'port authorities',
+  'company-reports': 'company reports',
+  'trade-press': 'trade press',
+  wikipedia: 'Wikipedia',
+};
+export function shortSource(id: string): string {
+  return SHORT_SOURCE[id] ?? sources.value[id]?.publisher ?? id;
+}
+
+/** "Sources: CEPII BACI 2024 · USGS 2024, 2025 · EIA 2023": every distinct source and year of a block. */
+export function SourcesLine(props: { items: { s: string; y?: number | string }[]; n?: string }) {
+  const by = new Map<string, { s: string; ys: Set<string> }>();
+  for (const it of props.items) {
+    if (!it.s) continue;
+    const key = shortSource(it.s);
+    const e = by.get(key) ?? { s: it.s, ys: new Set<string>() };
+    if (it.y != null) e.ys.add(String(it.y));
+    by.set(key, e);
+  }
+  if (!by.size) return null;
+  const list = [...by.entries()];
+  return (
+    <div class="src-line">
+      {list.length > 1 ? 'Sources: ' : 'Source: '}
+      {list.map(([label, e], i) => {
+        const src = sources.value[e.s];
+        const ys = [...e.ys].sort();
+        return (
+          <>
+            {i > 0 && ' · '}
+            {src ? (
+              <a href={src.url} target="_blank" rel="noopener" title={src.name}>
+                {label}
+              </a>
+            ) : (
+              label
+            )}
+            {ys.length > 0 && <> {ys.join(', ')}</>}
+          </>
+        );
+      })}
+      {props.n && <> · {props.n}</>}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------- active disruptions
+
+let alertsPromise: Promise<Alert[]> | null = null;
+function useAlerts(): Alert[] {
+  const [a, setA] = useState<Alert[]>([]);
+  useEffect(() => {
+    alertsPromise ??= load<Alert[]>('freight/alerts.json').catch(() => []);
+    let live = true;
+    alertsPromise.then((r) => live && setA(r));
+    return () => {
+      live = false;
+    };
+  }, []);
+  return a;
+}
+
+const MON_S = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function sinceLabel(s: string): string {
+  const [y, m] = s.split('-');
+  return m ? `${MON_S[Number(m) - 1] ?? m} ${y}` : y;
+}
+
+/**
+ * Dated disruption banners. Alerts are matched by commodity, country, or chokepoint ids;
+ * `status` are lane/route-specific notes, de-duplicated against the alerts by event id.
+ */
+export function AlertBanners(props: { commodity?: string; country?: string; chokepoints?: string[]; status?: StatusNote[] }) {
+  const all = useAlerts();
+  const cps = props.chokepoints ?? [];
+  const hit = all.filter(
+    (a) =>
+      (props.commodity != null && a.commodities.includes(props.commodity)) ||
+      (props.country != null && a.countries.includes(props.country)) ||
+      cps.some((c) => a.chokepoints.includes(c)),
+  );
+  const seen = new Set(hit.map((a) => a.event));
+  const notes = (props.status ?? []).filter((n) => {
+    const key = n.event ?? n.text;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  // high severity first
+  hit.sort((a, b) => (a.severity === b.severity ? 0 : a.severity === 'high' ? -1 : 1));
+  if (!hit.length && !notes.length) return null;
+  return (
+    <div class="alerts">
+      {hit.map((a) => (
+        <div class={`alert alert-${a.severity}`} role="note" key={a.id}>
+          <div class="alert-head">
+            <b>{a.title}</b>
+            <span class="alert-since num">since {sinceLabel(a.since)}</span>
+          </div>
+          <p>{a.text}</p>
+          <div class="alert-links">
+            <button onClick={() => select({ kind: 'event', id: a.event })}>Details</button>
+            <a href={a.src} target="_blank" rel="noopener">
+              Source ↗
+            </a>
+          </div>
+        </div>
+      ))}
+      {notes.map((n, i) => (
+        <div class="alert alert-medium" role="note" key={'n' + i}>
+          <p>{n.text}</p>
+          {n.event && (
+            <div class="alert-links">
+              <button onClick={() => select({ kind: 'event', id: n.event! })}>Details</button>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: string; note?: string; title?: string; span?: boolean }) {
   const f = props.f;
+  const [open, setOpen] = useState(false);
   const title = props.title ?? (f ? `${f.s} · ${f.y}${f.n ? ' · ' + f.n : ''}` : undefined);
+  const note = props.note;
+  const long = !!note && note.length > 90;
   return (
     <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title}>
       <div class="kpi-label">{props.label}</div>
@@ -62,7 +203,14 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
       {(f || props.sub) && (
         <div class="kpi-src">{props.sub ?? `${sources.value[f!.s]?.publisher ?? f!.s} · ${f!.y}`}</div>
       )}
-      {props.note && <div class="kpi-note">{props.note}</div>}
+      {note &&
+        (long ? (
+          <button class={`kpi-note kpi-note-btn${open ? ' open' : ''}`} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
+            {note}
+          </button>
+        ) : (
+          <div class="kpi-note">{note}</div>
+        ))}
     </div>
   );
 }

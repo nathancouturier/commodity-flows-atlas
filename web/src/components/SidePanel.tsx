@@ -19,7 +19,7 @@ import {
   type Metric,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselName } from '../lib/freight';
+import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { Section, Switch, InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
 import type { Family, Route, Segment } from '../types';
@@ -199,7 +199,7 @@ function RouteList() {
   void vesselClassList.value; // segmentOf() depends on the class list
 
   const visible = routes
-    .filter((r) => !vc.size || vc.has(r.vclass))
+    .filter((r) => vesselMatches(r.vclass, vc))
     .sort((a, b) => Number(!!a.discontinued) - Number(!!b.discontinued)); // stable: discontinued last
   const selSeg = selId ? segmentOf(routes.find((r) => r.id === selId)?.vclass ?? '') : null;
 

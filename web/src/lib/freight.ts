@@ -112,3 +112,48 @@ export function laneGroup(laneId: string): string {
 export function segmentOf(vclass: string): Segment {
   return vesselById.value[vclass]?.segment ?? (vclass === 'container' ? 'container' : 'dry');
 }
+
+// ---------------------------------------------------------------- vessel families
+
+/** Vessel classes that trade interchangeably on a lane (Atlas grouping; tankers stay exact except Handy tanker / MR). */
+const FAMILIES: string[][] = [
+  ['panamax', 'kamsarmax'],
+  ['capesize', 'newcastlemax', 'vloc'],
+  ['supramax', 'ultramax'],
+  ['handy-tanker', 'mr'],
+];
+const FAMILY_OF = new Map<string, string[]>();
+for (const f of FAMILIES) for (const id of f) FAMILY_OF.set(id, f);
+
+/** The class itself plus its family members. */
+export function vesselFamily(id: string): string[] {
+  return FAMILY_OF.get(id) ?? [id];
+}
+
+/** Family label for the classes of a multi-member family, e.g. "Panamax family"; null for single classes. */
+export function familyLabel(id: string): string | null {
+  const f = FAMILY_OF.get(id);
+  if (!f) return null;
+  const head: Record<string, string> = { panamax: 'Panamax', capesize: 'Capesize', supramax: 'Supramax', 'handy-tanker': 'Handy tanker / MR' };
+  return `${head[f[0]] ?? vesselName(f[0])} family`;
+}
+
+/** Same family (including identical)? */
+export function sameVesselFamily(a: string, b: string): boolean {
+  return a === b || vesselFamily(a).includes(b);
+}
+
+/** Does any of the vessel classes `have` match the selected set, by family? */
+export function vesselMatches(have: string | string[], selected: { has(id: string): boolean; size: number }): boolean {
+  if (!selected.size) return true;
+  const list = Array.isArray(have) ? have : [have];
+  return list.some((c) => vesselFamily(c).some((m) => selected.has(m)));
+}
+
+/** Chokepoints shown at world zoom on the Freight tab. */
+export const MAJOR_CHOKEPOINTS = new Set([
+  'hormuz', 'malacca', 'suez', 'bab-el-mandeb', 'panama', 'cape-good-hope', 'bosphorus', 'gibraltar', 'taiwan-strait', 'danish-straits',
+]);
+
+/** Lane/route status notes carried by the lane files (e.g. Red Sea diversion). */
+export interface LaneStatus { text: string; event?: string }

@@ -13,7 +13,7 @@ import { registerLayerModule } from '../layers';
 import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { commodity, family, layers, selection, vesselClasses, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
-import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadLaneFile, vesselClassList, vesselName } from '../../lib/freight';
+import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt, pct } from '../../lib/format';
 
 const NEUTRAL = '#8aa0b8';
@@ -83,7 +83,7 @@ registerLayerModule(() => {
         let part: Item[] = [];
         for (const lane of file.lanes) {
           if (!k && fam !== 'all' && commodityMeta(lane.k)?.family !== fam) continue;
-          if (vc.size && !lane.vclass.some((c) => vc.has(c))) continue;
+          if (!vesselMatches(lane.vclass, vc)) continue;
           const v = laneValue(lane, file, yr);
           if (v > 0) part.push({ lane, file, v });
         }

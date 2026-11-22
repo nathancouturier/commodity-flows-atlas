@@ -100,6 +100,8 @@ export interface CommodityData {
   id: string;
   summary: Partial<Record<'production' | 'exports' | 'reserves' | 'consumption' | 'seaborne', Fig>>;
   production?: Ranked;
+  /** additional ranked tables (refined copper, alumina, USDA ending stocks...) */
+  extra?: { key: string; title: string; table: Ranked }[];
   /** refinery / smelter output by country */
   refinery?: Ranked;
   reserves?: Ranked;
@@ -222,6 +224,8 @@ export interface Route {
   /** share of the vessel size class's tonne-mile demand (Atlas estimate) */
   shareClass?: Fig;
   alt?: AltRouting;
+  /** active disruptions touching this route */
+  status?: StatusNote[];
   /** annual corridor volumes, all cargoes of the corridor */
   history?: { y: number; v: number }[];
   historyUnit?: string;
@@ -232,6 +236,28 @@ export interface Route {
   s: string;
 }
 
+/** A short dated status line on a lane or route, linked to an event. */
+export interface StatusNote {
+  text: string;
+  event?: string;
+}
+
+/** data/freight/alerts.json entry: an active disruption. */
+export interface Alert {
+  id: string;
+  title: string;
+  /** "YYYY-MM" */
+  since: string;
+  severity: 'medium' | 'high';
+  text: string;
+  chokepoints: string[];
+  commodities: string[];
+  countries: Iso3[];
+  event: string;
+  /** source URL */
+  src: string;
+}
+
 export interface Chokepoint {
   id: string;
   name: string;
@@ -239,6 +265,10 @@ export interface Chokepoint {
   at: [number, number];
   limits?: string;
   traffic?: Fig;
+  /** reference traffic figure from the operator (e.g. Panama Canal Authority fiscal-year transits) */
+  trafficRef?: Fig;
+  /** typical extra distance and days of the main alternative route on mapped lanes (Atlas estimate) */
+  detour?: { nm: number; days: number; lanes: number; y: number | string; s: string; n?: string };
   /** published commodity flows through the chokepoint; k may be a commodity id or "petroleum-liquids" */
   shares?: { k: string; f: Fig }[];
   /** Atlas estimates: share of seaborne trade on mapped lanes crossing it */
@@ -312,6 +342,7 @@ export interface Lane {
   /** geometry [lon, lat][]; longitudes are unwrapped (may exceed ±180) */
   g: [number, number][];
   alt?: AltRouting & { g: [number, number][] };
+  status?: StatusNote[];
 }
 
 /** data/freight/lanes/<group>.json */

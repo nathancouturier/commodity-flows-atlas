@@ -10,7 +10,7 @@ import { registerLayerModule } from '../layers';
 import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { family, layers, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
-import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, segmentOf, vesselClassList, vesselName } from '../../lib/freight';
+import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
 
 function routeLabel(r: Route): string {
@@ -55,7 +55,7 @@ registerLayerModule(() => {
           if (isAlt && !isSel) continue;
           if (!isSel) {
             if (!on || r.discontinued) continue;
-            if (vc.size && !vc.has(r.vclass)) continue;
+            if (!vesselMatches(r.vclass, vc)) continue;
           }
           features.push({
             type: 'Feature',
