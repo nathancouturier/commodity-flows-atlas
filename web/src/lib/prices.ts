@@ -1,7 +1,7 @@
 /**
  * Price series access: lazy loading with a cache, packed -> uPlot arrays (x in seconds),
- * merging of several series on a common time axis, nearest-observation lookup and
- * free-text date parsing for the price explorer.
+ * merging of several series on a common time axis, lookup of the observation that covers a
+ * date and free-text date parsing for the price explorer.
  */
 import { signal } from '@preact/signals';
 import type { PriceSeries, PriceSeriesMeta } from '../types';
@@ -83,33 +83,54 @@ export function mergeSeries(list: LoadedSeries[]): { x: number[]; cols: (number 
   return { x, cols };
 }
 
-/** Index of the non-null observation closest to time t, or -1. */
-export function nearestIndex(s: { x: number[]; v: (number | null)[] }, t: number): number {
-  const { x, v } = s;
-  if (!x.length) return -1;
-  let lo = 0;
-  let hi = x.length - 1;
-  while (lo < hi) {
-    const mid = (lo + hi) >> 1;
-    if (x[mid] < t) lo = mid + 1;
-    else hi = mid;
-  }
-  let best = -1;
-  let bd = Infinity;
-  for (let k = lo - 1; k >= 0 && k >= lo - 40; k--) {
-    if (v[k] != null) {
-      best = k;
-      bd = Math.abs(x[k] - t);
-      break;
-    }
-  }
-  for (let k = lo; k < x.length && k <= lo + 40; k++) {
-    if (v[k] != null) {
-      if (Math.abs(x[k] - t) < bd) best = k;
-      break;
-    }
-  }
-  return best;
+/**
+ * End (exclusive, seconds) of the period an observation stamped t stands for: one day for a daily
+ * series, the whole calendar month for a monthly one (stamped on the 1st), the calendar year otherwise.
+ */
+export function obsEnd(t: number, freq: string): number {
+  if (freq === 'D') return t + DAY_S;
+  const d = new Date(t * 1000);
+  return (freq === 'M' ? Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1) : Date.UTC(d.getUTCFullYear() + 1, 0, 1)) / 1000;
+}
+
+/**
+ * How a series answers "the price at time t":
+ * - exact: a daily quote for that very day;
+ * - period: the monthly (or annual) value whose calendar period contains t;
+ * - previous: no quote that day (weekend, holiday, gap): the last quote before it;
+ * - before / after: t is outside the series; i is the first / last observation, to name the limit;
+ * - missing: nothing to show (i = -1).
+ */
+export type ObsKind = 'exact' | 'period' | 'previous' | 'before' | 'after' | 'missing';
+export interface ObsAt {
+  kind: ObsKind;
+  i: number;
+}
+
+/** First and last non-null observations, or null for an empty series. */
+export function seriesBounds(s: { x: number[]; v: (number | null)[] }): { first: number; last: number } | null {
+  let first = 0;
+  while (first < s.x.length && s.v[first] == null) first++;
+  let last = s.x.length - 1;
+  while (last >= 0 && s.v[last] == null) last--;
+  return last < 0 ? null : { first, last };
+}
+
+/**
+ * The observation that covers time t. A date never resolves to a later observation: a monthly value
+ * stands for its whole month (so the 25th belongs to that month, not to the next stamp), and a day
+ * without a quote takes the last price on or before it.
+ */
+export function observationAt(s: { x: number[]; v: (number | null)[] }, freq: string, t: number): ObsAt {
+  const b = seriesBounds(s);
+  if (!b) return { kind: 'missing', i: -1 };
+  if (t < s.x[b.first]) return { kind: 'before', i: b.first };
+  if (t >= obsEnd(s.x[b.last], freq)) return { kind: 'after', i: b.last };
+  let i = lowerBound(s.x, t + 1) - 1;
+  if (freq !== 'D') return s.v[i] != null && t < obsEnd(s.x[i], freq) ? { kind: 'period', i } : { kind: 'missing', i: -1 };
+  if (s.v[i] != null && t < s.x[i] + DAY_S) return { kind: 'exact', i };
+  while (i >= 0 && s.v[i] == null) i--;
+  return i < 0 ? { kind: 'missing', i: -1 } : { kind: 'previous', i };
 }
 
 export interface PeriodStats {
@@ -156,16 +177,31 @@ export function lowerBound(x: number[], t: number): number {
 
 // ---------------------------------------------------------------- date lookup
 
-export type Precision = 'year' | 'month' | 'day';
+export type Precision = 'year' | 'quarter' | 'month' | 'day';
 export interface ParsedDate {
   /** seconds, start of the named period */
   t: number;
   precision: Precision;
 }
 
+/** End (exclusive, seconds) of the period a lookup names. */
+export function lookupEnd(p: ParsedDate): number {
+  const d = new Date(p.t * 1000);
+  const y = d.getUTCFullYear();
+  const m = d.getUTCMonth();
+  if (p.precision === 'year') return Date.UTC(y + 1, 0, 1) / 1000;
+  if (p.precision === 'quarter') return Date.UTC(y, m + 3, 1) / 1000;
+  if (p.precision === 'month') return Date.UTC(y, m + 1, 1) / 1000;
+  return p.t + DAY_S;
+}
+
 const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
-/** Accepts "1986", "2008-03", "2008/03", "2008-03-14", "Mar 2008", "March 2008", "14 Mar 2008". */
+/**
+ * Accepts "1986", "Q3 2008", "2008 Q3", "2008-03", "03/2008", "2008-03-14", "Mar 2008", "March 2008",
+ * "14 Mar 2008" and "14/03/2008". An all-digit day/month/year is read day first, as the site writes its
+ * dates ("14 Mar 2008"); it is read month first only when the second number cannot be a month.
+ */
 export function parseLookup(input: string): ParsedDate | null {
   const s = input.trim().toLowerCase().replace(/,/g, ' ').replace(/\s+/g, ' ');
   let m: RegExpMatchArray | null;
@@ -179,9 +215,22 @@ export function parseLookup(input: string): ParsedDate | null {
     const t = valid(+m[1], 1, 1);
     return t == null ? null : { t, precision: 'year' };
   }
+  if ((m = s.match(/^(\d{4})[- ]?q([1-4])$/)) || (m = s.match(/^q([1-4])[- ]?(\d{4})$/))) {
+    const [y, q] = m[1].length === 4 ? [+m[1], +m[2]] : [+m[2], +m[1]];
+    const t = valid(y, q * 3 - 2, 1);
+    return t == null ? null : { t, precision: 'quarter' };
+  }
   if ((m = s.match(/^(\d{4})[-/.](\d{1,2})$/))) {
     const t = valid(+m[1], +m[2], 1);
     return t == null ? null : { t, precision: 'month' };
+  }
+  if ((m = s.match(/^(\d{1,2})[-/.](\d{4})$/))) {
+    const t = valid(+m[2], +m[1], 1);
+    return t == null ? null : { t, precision: 'month' };
+  }
+  if ((m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/))) {
+    const t = +m[2] > 12 ? valid(+m[3], +m[1], +m[2]) : valid(+m[3], +m[2], +m[1]);
+    return t == null ? null : { t, precision: 'day' };
   }
   if ((m = s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/))) {
     const t = valid(+m[1], +m[2], +m[3]);
@@ -240,9 +289,31 @@ export function seriesForCommodity(k: string | null | undefined, idx = priceInde
   return idx.filter((m) => m.k === k).sort((a, b) => (a.freq === b.freq ? 0 : a.freq === 'D' ? -1 : 1));
 }
 
+/** A commodity opens on its own series, or on nothing when it has none: never on another commodity's price. */
 export function defaultSeriesIds(k: string | null | undefined): string[] {
+  if (!k) return [DEFAULT_SERIES];
   const l = seriesForCommodity(k);
-  return l.length ? [l[0].id] : [DEFAULT_SERIES];
+  return l.length ? [l[0].id] : [];
+}
+
+/** Commodities whose price series cover only part of what the page describes. */
+export const PRICE_COVERAGE_NOTE: Record<string, string> = {
+  pgm: 'Platinum only: no free price series for palladium or rhodium yet.',
+};
+
+/** "uranium", "rare earths": a catalogue name inside a sentence (acronyms such as LNG keep their capitals). */
+export function lowerName(name: string): string {
+  return /^[A-Z][a-z]/.test(name) ? name[0].toLowerCase() + name.slice(1) : name;
+}
+
+const stamp = (s: string): number => {
+  const [y, m = '1', d = '1'] = s.split('-');
+  return Date.UTC(Number(y), Number(m) - 1, Number(d)) / 1000;
+};
+
+/** Other series of the same commodity whose published range overlaps t0 <= t < t1. */
+export function seriesCovering(k: string, t0: number, t1: number, exclude: string[], idx = priceIndex.value): PriceMeta[] {
+  return idx.filter((m) => m.k === k && !exclude.includes(m.id) && stamp(m.start) < t1 && obsEnd(stamp(m.end), m.freq) > t0);
 }
 
 let nonce = 0;

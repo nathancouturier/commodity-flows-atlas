@@ -7,7 +7,8 @@ Source  ArcGIS feature service Daily_Chokepoints_Data (services9.arcgis.com/weJ1
         2000 records at a time ordered by ObjectId, 1-2 s pause between pages.
 Validation  record count not lower than 95% of the previous run, latest date not older than the
         previous run's, every page well formed. Only then are raw/portwatch/*.json pages replaced and
-        build_portwatch.py run (into a temporary folder, then moved into data/freight/portwatch/).
+        build_portwatch.py run (into a temporary folder, then moved into data/freight/portwatch/), and
+        the traffic figures of data/freight/chokepoints.json refreshed from the new series files.
 
 Always exits 0: a failure is recorded in data/_status/updates.json and the previous files are kept.
 """
@@ -33,7 +34,8 @@ PAGE = 2000
 MAX_PAGES = 200
 RAW = os.path.join(ROOT, "raw", "portwatch")
 OUT = os.path.join(ROOT, "data", "freight", "portwatch")
-NEEDED = {"date", "portid", "n_tanker", "n_dry_bulk", "n_container", "n_general_cargo", "n_roro", "n_total", "capacity"}
+NEEDED = {"date", "portid", "portname", "n_tanker", "n_dry_bulk", "n_container", "n_general_cargo", "n_roro", "n_total",
+          "capacity_tanker", "capacity_dry_bulk", "capacity_container", "capacity_general_cargo", "capacity_roro", "capacity"}
 
 
 def fetch_pages(stage):
@@ -88,8 +90,9 @@ def main():
             if len(rows) != total:
                 raise fetch.FetchError("page files do not match the record count")
             BW.build(rows, chk, built)
-            if len(glob.glob(os.path.join(built, "*.json"))) < 10:
-                raise fetch.FetchError("too few chokepoint series built")
+            wanted = len(BW.mapped(chk))
+            if len(glob.glob(os.path.join(built, "*.json"))) < max(10, 0.9 * wanted):
+                raise fetch.FetchError(f"too few chokepoint series built (of {wanted} mapped)")
             # all good: replace raw pages, then the data files
             os.makedirs(RAW, exist_ok=True)
             for old in glob.glob(os.path.join(RAW, "chokepoints_daily_page*.json")):
@@ -99,6 +102,9 @@ def main():
             os.makedirs(OUT, exist_ok=True)
             for p in glob.glob(os.path.join(built, "*.json")):
                 shutil.copy2(p, os.path.join(OUT, os.path.basename(p)))
+            BW.prune(OUT, chk)
+            # the chokepoint cards read their traffic figures from chokepoints.json: refresh them from the new series
+            BW.update_headlines()
         status.record_success(SOURCE, records=total, data_to=latest)
         print("done: updated")
     except Exception as e:  # noqa: BLE001

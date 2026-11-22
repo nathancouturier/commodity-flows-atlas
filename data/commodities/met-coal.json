@@ -23,6 +23,13 @@
    "n": "EIA International Energy Data, metallurgical coal exports; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
   }
  },
+ "labels": {
+  "production": "Top producers — metallurgical coal, EIA 2025",
+  "consumption": "Top consumers — metallurgical coal, EIA 2025",
+  "exports": "Top exporters — metallurgical coal, EIA 2025",
+  "imports": "Top importers — metallurgical coal, EIA 2025",
+  "flows": "Main flows — all coal, customs data 2024"
+ },
  "production": {
   "y": 2025,
   "s": "eia-intl",

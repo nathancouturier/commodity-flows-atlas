@@ -1,0 +1,22 @@
+/* Map legend: lanes and freight routes as two labelled groups, each with its own line-width key */
+
+.legend-head {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.legend-scale {
+  gap: 8px;
+}
+.legend-ref {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.legend-ref + .legend-ref {
+  margin-left: 4px;
+}
+.legend-line {
+  flex: none;
+  color: var(--ink-1);
+}

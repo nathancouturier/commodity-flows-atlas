@@ -77,7 +77,8 @@
     "v": 230.0
    }
   ],
-  "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores."
+  "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores.",
+  "basis": "contained zinc"
  },
  "reserves": {
   "y": 2025,
@@ -122,7 +123,8 @@
     "v": 4100.0
    }
   ],
-  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded"
+  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded",
+  "basis": "contained zinc"
  },
  "exports": {
   "y": 2024,
@@ -179,7 +181,8 @@
     "v": 0.2518
    }
   ],
-  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -236,7 +239,8 @@
     "v": 0.2421
    }
   ],
-  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight"
  },
  "extra": [
   {
@@ -297,7 +301,8 @@
       "v": 0.1758
      }
     ],
-    "n": "CEPII BACI HS92 unwrought zinc (HS 7901), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+    "n": "CEPII BACI HS92 unwrought zinc (HS 7901), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
    }
   }
  ],

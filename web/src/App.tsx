@@ -8,6 +8,7 @@ import { Tooltip } from './components/Tooltip';
 import { Legend } from './components/Legend';
 import { PriceDrawer } from './components/PriceDrawer';
 import { Timeline } from './components/Timeline';
+import { AboutHost } from './components/AboutHost';
 import * as prices from './lib/prices';
 import { detailOpen, writeHash, family, commodity, metric, year, selection, select, historyOpen, priceDrawer, panelCollapsed, vesselClasses } from './lib/store';
 
@@ -130,9 +131,21 @@ export function App() {
       <DetailPanel />
       <PriceDrawer />
       <Timeline />
+      {/* the map holds one tab stop per chokepoint marker: this link jumps past them to the zoom buttons and the legend */}
+      <a
+        class="skip-link"
+        href="#map"
+        onClick={(e) => {
+          e.preventDefault();
+          document.querySelector<HTMLElement>('.maplibregl-ctrl-zoom-in, .legend-pill')?.focus();
+        }}
+      >
+        Skip map markers
+      </a>
       <MapView />
       <Legend />
       <Tooltip />
+      <AboutHost />
     </div>
   );
 }

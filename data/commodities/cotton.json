@@ -20,7 +20,7 @@
    "u": "kt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Cotton, cotton exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+   "n": "USDA PSD, Cotton, cotton exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD lists the EU members one by one for this commodity; local marketing years, which start in different months by country; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
   },
   "seaborne": {
    "v": 7.76,
@@ -199,7 +199,7 @@
     "v": 117.57
    }
   ],
-  "n": "USDA PSD, Cotton, cotton exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+  "n": "USDA PSD, Cotton, cotton exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD lists the EU members one by one for this commodity; local marketing years, which start in different months by country; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
  },
  "imports": {
   "y": "2025/26",
@@ -256,7 +256,7 @@
     "v": 90.138
    }
   ],
-  "n": "USDA PSD, Cotton, cotton imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+  "n": "USDA PSD, Cotton, cotton imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD lists the EU members one by one for this commodity; local marketing years, which start in different months by country; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
  },
  "extra": [
   {
@@ -526,6 +526,6 @@
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
  ],
  "discrepancies": [
-  "World exports: USDA PSD 2025/26 9993.1 kt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 8632.3 kt (+16%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."
+  "World exports: USDA PSD 2025/26 9993.1 kt (sum of reporting countries) vs BACI 2024 8632.3 kt (+16%); different year and basis (marketing year vs calendar year); PSD shown in the table."
  ]
 }

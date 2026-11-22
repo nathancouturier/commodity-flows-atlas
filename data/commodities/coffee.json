@@ -6,21 +6,21 @@
    "u": "kt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
   },
   "consumption": {
    "v": 10407.5,
    "u": "kt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
   },
   "exports": {
    "v": 8756.5,
    "u": "kt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
   },
   "seaborne": {
    "v": 6.55,
@@ -85,7 +85,7 @@
     "v": 153.6
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
  },
  "consumption": {
   "y": "2025/26",
@@ -142,7 +142,7 @@
     "v": 270.0
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
  },
  "exports": {
   "y": "2025/26",
@@ -199,7 +199,7 @@
     "v": 178.8
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
  },
  "imports": {
   "y": "2025/26",
@@ -256,7 +256,7 @@
     "v": 151.8
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
  },
  "extra": [
   {
@@ -317,7 +317,7 @@
       "v": 18.0
      }
     ],
-    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
    }
   }
  ],

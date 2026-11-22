@@ -1,12 +1,14 @@
 /**
  * Reusable uPlot time-series wrapper in the Abyssal style.
  * x = unix timestamps in seconds. Supports lines, stacked areas, bars, a crosshair
- * readout (instead of uPlot's legend), event markers, range buttons, drag-to-zoom
- * (double-click resets) and a "jump to date" month input.
+ * readout (instead of uPlot's legend), event markers (hover lists every event under the
+ * cursor, a click opens one), range buttons, drag-to-zoom (double-click resets) and a
+ * "jump to date" month input.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type uPlot from 'uplot';
 import { fmt, TOUCH } from '../../lib/format';
+import '../../styles/timechart.css';
 
 export interface TimeSeries {
   label: string;
@@ -23,8 +25,15 @@ export interface TimeMarker {
   end?: number;
   title: string;
   color?: string;
-  /** thin, faint line without the top flag (dense event sets) */
+  /**
+   * dense event sets: a thin line with a small top mark instead of the flag, and a period drawn as a
+   * ribbon along the bottom of the plot instead of a full-height shade, so that it hides nothing
+   */
   subtle?: boolean;
+  /** opaque key handed back to onMarker; a marker without one is not clickable */
+  id?: string;
+  /** short qualifier shown after the title in the hover list (e.g. the kind of event) */
+  tag?: string;
 }
 
 export interface TimeRange {
@@ -65,6 +74,8 @@ export interface TimeChartProps {
   onRange?: (min: number, max: number) => void;
   /** called with the cursor index into `x` (null = cursor left the plot) */
   onCursor?: (i: number | null) => void;
+  /** called when a marker that has an `id` is clicked */
+  onMarker?: (m: TimeMarker) => void;
 }
 
 export const DAY = 86400;
@@ -74,6 +85,78 @@ const MONO = '11px "IBM Plex Mono", ui-monospace, monospace';
 const MUTED = '#7d8a99';
 const GRID = 'rgba(255,255,255,0.06)';
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** x-axis labels, day first like every other date of the site (uPlot's default writes 3/14). */
+const DATE_AXIS = [
+  [365 * DAY, '{YYYY}', null, null, null, null, null, null, 1],
+  [28 * DAY, '{MMM}', '\n{YYYY}', null, null, null, null, null, 1],
+  [DAY, '{D} {MMM}', '\n{YYYY}', null, null, null, null, null, 1],
+  [3600, '{HH}:{mm}', '\n{D} {MMM} {YYYY}', null, '\n{D} {MMM}', null, null, null, 1],
+];
+
+/** Pointer tolerance around a point marker, CSS px. */
+const HIT = 5;
+/** Period ribbons along the bottom of the plot: height, gap and number of rows, CSS px. */
+const RIBBON = { h: 3, gap: 2, rows: 4 };
+/** Rows of the hover list before "+ n more". */
+const MK_ROWS = 5;
+
+interface Band {
+  m: TimeMarker;
+  x1: number;
+  x2: number;
+  row: number;
+}
+
+/** Ribbon rows for subtle periods: each takes the lowest row free at its start (CSS px along x). */
+function layoutBands(u: uPlot, markers: TimeMarker[]): Band[] {
+  const ends: number[] = [];
+  const out: Band[] = [];
+  const list = markers.filter((m) => m.subtle && m.end != null).sort((a, b) => a.t - b.t);
+  for (const m of list) {
+    const x1 = u.valToPos(m.t, 'x');
+    const x2 = Math.max(x1 + 2, u.valToPos(m.end!, 'x'));
+    let row = ends.findIndex((e) => e <= x1 - 2);
+    if (row < 0) row = ends.length < RIBBON.rows ? ends.length : ends.indexOf(Math.min(...ends));
+    ends[row] = x2;
+    out.push({ m, x1, x2, row });
+  }
+  return out;
+}
+/** Top of a ribbon row, CSS px from the top of the plot area. */
+const ribbonTop = (plotH: number, row: number) => plotH - (row + 1) * (RIBBON.h + RIBBON.gap);
+
+/**
+ * Markers under the pointer: point events first (nearest first), then the periods that contain it
+ * (most recent first). A long period therefore never hides the events inside it.
+ */
+function markersAt(u: uPlot, markers: TimeMarker[], left: number): TimeMarker[] {
+  const pts: { m: TimeMarker; d: number }[] = [];
+  const spans: TimeMarker[] = [];
+  for (const m of markers) {
+    const x1 = u.valToPos(m.t, 'x');
+    if (m.end == null) {
+      if (Math.abs(left - x1) <= HIT) pts.push({ m, d: Math.abs(left - x1) });
+    } else {
+      const x2 = u.valToPos(m.end, 'x');
+      if (left >= Math.min(x1, x2) - 2 && left <= Math.max(x1, x2) + 2) spans.push(m);
+    }
+  }
+  pts.sort((a, b) => a.d - b.d);
+  spans.sort((a, b) => b.t - a.t);
+  return [...pts.map((p) => p.m), ...spans];
+}
+
+/** The marker a click at (left, top) opens: the nearest point event, else the period whose ribbon is under the pointer. */
+function clickTarget(u: uPlot, markers: TimeMarker[], left: number, top: number): TimeMarker | null {
+  const pt = markersAt(u, markers, left).find((m) => m.end == null && m.id);
+  if (pt) return pt;
+  const plotH = u.over.clientHeight;
+  for (const b of layoutBands(u, markers)) {
+    const y = ribbonTop(plotH, b.row);
+    if (b.m.id && left >= b.x1 - 2 && left <= b.x2 + 2 && top >= y - 3 && top <= y + RIBBON.h + 3) return b.m;
+  }
+  return null;
+}
 
 export function fmtTime(t: number, f: XFormat): string {
   const d = new Date(t * 1000);
@@ -105,13 +188,14 @@ export function TimeChart(props: TimeChartProps) {
   const uref = useRef<uPlot | null>(null);
   const expected = useRef<[number, number] | null>(null);
   const [idx, setIdx] = useState<number | null>(null);
-  const [mk, setMk] = useState<TimeMarker | null>(null);
+  const [mk, setMk] = useState<TimeMarker[]>([]);
+  const [mkHot, setMkHot] = useState<TimeMarker | null>(null);
   const initial = props.defaultRange ?? (ranges && ranges.length ? ranges[ranges.length - 1].label : undefined);
   const [active, setActive] = useState<string | null>(initial ?? null);
   const markersRef = useRef<TimeMarker[]>([]);
   markersRef.current = markers ?? [];
-  const cbRef = useRef({ onRange: props.onRange, onCursor: props.onCursor, view: props.view });
-  cbRef.current = { onRange: props.onRange, onCursor: props.onCursor, view: props.view };
+  const cbRef = useRef({ onRange: props.onRange, onCursor: props.onCursor, onMarker: props.onMarker, view: props.view });
+  cbRef.current = { onRange: props.onRange, onCursor: props.onCursor, onMarker: props.onMarker, view: props.view };
   const yZero = props.yZero !== false;
   const hasY2 = series.some((s) => s.scale === 'y2');
 
@@ -187,7 +271,7 @@ export function TimeChart(props: TimeChartProps) {
             ticks: { show: false },
             size: 40,
             gap: 2,
-            ...(xf === 'year' ? { values: (_u: uPlot, sp: number[]) => sp.map((v) => String(new Date(v * 1000).getUTCFullYear())) } : {}),
+            ...(xf === 'year' ? { values: (_u: uPlot, sp: number[]) => sp.map((v) => String(new Date(v * 1000).getUTCFullYear())) } : { values: DATE_AXIS }),
           },
           {
             stroke: MUTED,
@@ -234,18 +318,12 @@ export function TimeChart(props: TimeChartProps) {
               setIdx(i == null ? null : i);
               cbRef.current.onCursor?.(i == null ? null : i);
               const left = u.cursor.left;
-              let hit: TimeMarker | null = null;
-              if (left != null && left >= 0) {
-                for (const m of markersRef.current) {
-                  const x1 = u.valToPos(m.t, 'x');
-                  const x2 = m.end != null ? u.valToPos(m.end, 'x') : x1;
-                  if (left >= Math.min(x1, x2) - 5 && left <= Math.max(x1, x2) + 5) {
-                    hit = m;
-                    break;
-                  }
-                }
-              }
-              setMk(hit);
+              const top = u.cursor.top;
+              const hits = left != null && left >= 0 ? markersAt(u, markersRef.current, left) : [];
+              setMk((prev) => (prev.length === hits.length && prev.every((m, k) => m === hits[k]) ? prev : hits));
+              const hot = cbRef.current.onMarker && left != null && left >= 0 && top != null ? clickTarget(u, markersRef.current, left, top) : null;
+              setMkHot(hot);
+              u.over.style.cursor = hot ? 'pointer' : '';
             },
           ],
           setScale: [
@@ -266,15 +344,21 @@ export function TimeChart(props: TimeChartProps) {
               ctx.beginPath();
               ctx.rect(left, top, width, h);
               ctx.clip();
+              // subtle periods: ribbons along the bottom, so that a long one covers no point marker
+              for (const b of layoutBands(u, markersRef.current)) {
+                ctx.fillStyle = (b.m.color ?? '#ff5c7a') + 'd9';
+                ctx.fillRect(left + b.x1 * dpr, top + ribbonTop(h / dpr, b.row) * dpr, Math.max(2 * dpr, (b.x2 - b.x1) * dpr), RIBBON.h * dpr);
+              }
               for (const m of markersRef.current) {
+                if (m.subtle && m.end != null) continue;
                 const c = m.color ?? '#ff5c7a';
                 const x1 = u.valToPos(m.t, 'x', true);
                 if (m.end != null) {
                   const x2 = u.valToPos(m.end, 'x', true);
-                  ctx.fillStyle = c + (m.subtle ? '12' : '1f');
+                  ctx.fillStyle = c + '1f';
                   ctx.fillRect(x1, top, Math.max(1, x2 - x1), h);
                 }
-                ctx.strokeStyle = c + (m.subtle ? '55' : 'cc');
+                ctx.strokeStyle = c + (m.subtle ? '8c' : 'cc');
                 ctx.lineWidth = dpr;
                 ctx.setLineDash([3 * dpr, 3 * dpr]);
                 ctx.beginPath();
@@ -282,8 +366,9 @@ export function TimeChart(props: TimeChartProps) {
                 ctx.lineTo(x1, top + h);
                 ctx.stroke();
                 ctx.setLineDash([]);
-                if (!m.subtle) {
-                  ctx.fillStyle = c;
+                ctx.fillStyle = c;
+                if (m.subtle) ctx.fillRect(x1 - 2 * dpr, top, 4 * dpr, 4 * dpr);
+                else {
                   ctx.beginPath();
                   ctx.moveTo(x1 - 4 * dpr, top);
                   ctx.lineTo(x1 + 4 * dpr, top);
@@ -314,7 +399,20 @@ export function TimeChart(props: TimeChartProps) {
       u.over.addEventListener('mouseleave', () => {
         cbRef.current.onCursor?.(null);
         setIdx(null);
-        setMk(null);
+        setMk([]);
+        setMkHot(null);
+      });
+      // a click (not the end of a drag-zoom) on a marker opens it
+      let downX = 0;
+      u.over.addEventListener('mousedown', (ev) => {
+        downX = ev.clientX;
+      });
+      u.over.addEventListener('click', (ev) => {
+        const cb = cbRef.current.onMarker;
+        if (!cb || Math.abs(ev.clientX - downX) > 3) return;
+        const r = u.over.getBoundingClientRect();
+        const hit = clickTarget(u, markersRef.current, ev.clientX - r.left, ev.clientY - r.top);
+        if (hit) cb(hit);
       });
       const v0 = cbRef.current.view;
       if (v0) {
@@ -438,12 +536,21 @@ export function TimeChart(props: TimeChartProps) {
         ) : null}
       </div>
       )}
-      <div class="tc-mk" style={{ visibility: mk ? 'visible' : 'hidden' }}>
-        {mk ? (
-          <>
-            <i style={{ background: mk.color ?? '#ff5c7a' }} />
-            {mk.title}
-          </>
+      <div class="tc-mk" style={{ visibility: mk.length ? 'visible' : 'hidden' }}>
+        {mk.length ? (
+          <div class="tc-mk-list">
+            {mk.slice(0, MK_ROWS).map((m, k) => (
+              <div class="tc-mk-row" key={k}>
+                <i style={{ background: m.color ?? '#ff5c7a' }} />
+                <span>
+                  {m.title}
+                  {m.tag && <small> · {m.tag}</small>}
+                  {m === mkHot && <small> · click to open</small>}
+                </span>
+              </div>
+            ))}
+            {mk.length > MK_ROWS && <div class="tc-mk-row tc-mk-more">+ {mk.length - MK_ROWS} more: zoom in to separate them</div>}
+          </div>
         ) : (
           ' '
         )}

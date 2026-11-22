@@ -156,6 +156,17 @@ function Dropdown(props: {
         if (props.onToggle) props.onToggle(o);
         else setInner(o);
       }}
+      onKeyDown={(e) => {
+        // Escape folds the dropdown the focus is in and hands the focus back to its button;
+        // a menu open inside it closes first (App's Escape handler)
+        if (e.key !== 'Escape' || e.defaultPrevented || !open) return;
+        const el = e.currentTarget as HTMLDetailsElement;
+        if (el.querySelector('[aria-haspopup][aria-expanded="true"]')) return;
+        e.preventDefault();
+        if (props.onToggle) props.onToggle(false);
+        else setInner(false);
+        el.querySelector('summary')?.focus();
+      }}
     >
       <summary>
         <span class="dd-name">{props.name}</span>

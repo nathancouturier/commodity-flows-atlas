@@ -9,13 +9,6 @@
   ],
   "portwatch": "chokepoint6",
   "limits": "EIA: deep and wide enough for the largest crude tankers; traffic separation scheme runs through Omani waters.",
-  "traffic": {
-   "v": 3.8,
-   "u": "vessels/day",
-   "y": "2026-10",
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data; compare about 78/day in Feb 2026 and 85.5/day for 2025"
-  },
   "shares": [
    {
     "k": "petroleum-liquids",
@@ -105,13 +98,6 @@
   ],
   "portwatch": "chokepoint5",
   "limits": "Shallow sections constrain the largest tankers (the \"Malaccamax\" design draft is about 25 m); not stated in the EIA page.",
-  "traffic": {
-   "v": 234.5,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "shares": [
    {
     "k": "crude-oil",
@@ -163,8 +149,11 @@
    103.85,
    1.18
   ],
-  "portwatch": "chokepoint5",
-  "summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density. PortWatch tracks it within the Malacca corridor.",
+  "portwatchNote": "IMF PortWatch has no counter for the Singapore Strait. Its nearest counter is the Malacca Strait, shown on the Strait of Malacca page.",
+  "seeAlso": [
+   "malacca"
+  ],
+  "summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density.",
   "s": "portwatch"
  },
  {
@@ -176,13 +165,6 @@
    -5.97
   ],
   "portwatch": "chokepoint19",
-  "traffic": {
-   "v": 31.9,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "summary": "Indonesian strait between Java and Sumatra, an alternative to Malacca for some Indian Ocean to South China Sea traffic, notably from the Cape; heavy volcanic and shallow hazards limit size.",
   "s": "portwatch"
  },
@@ -195,13 +177,6 @@
    -8.42
   ],
   "portwatch": "chokepoint15",
-  "traffic": {
-   "v": 35.8,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; exact limits not sourced.",
   "summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
   "s": "portwatch"
@@ -216,13 +191,6 @@
   ],
   "portwatch": "chokepoint1",
   "limits": "Max draft about 20.1 m (66 ft) for Suezmax; larger ballast VLCCs transit, laden VLCCs need partial lightering or the SUMED pipeline. Check Suez Canal Authority for current limits.",
-  "traffic": {
-   "v": 38.5,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data; 73.7/day in 2023"
-  },
   "shares": [
    {
     "k": "petroleum-liquids",
@@ -266,7 +234,7 @@
   "alternatives": [
    {
     "label": "Cape of Good Hope",
-    "note": "Adds roughly 3,500 nm / 10-14 days on Asia-Europe voyages (commonly cited; not from the EIA page)."
+    "note": "Main alternative. The extra distance depends on the voyage: the typical detour above is measured on the atlas's mapped lanes."
    },
    {
     "label": "SUMED pipeline",
@@ -294,13 +262,6 @@
   ],
   "portwatch": "chokepoint4",
   "limits": "About 18 miles wide at the narrowest point, with the shipping lanes in the Perim channel; no draft limit for oil tankers.",
-  "traffic": {
-   "v": 33.5,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data; 74.0/day in 2023"
-  },
   "shares": [
    {
     "k": "petroleum-liquids",
@@ -368,7 +329,7 @@
   ],
   "portwatch": "chokepoint2",
   "limits": "Two lock systems: Panamax (about 32.3 m beam) and Neopanamax (since 2016, larger LNG and LPG carriers). Draft and slot limits vary with Gatun Lake levels.",
-  "traffic": {
+  "trafficRef": {
    "v": 13404,
    "u": "transits/year",
    "y": "FY2025",
@@ -436,13 +397,6 @@
   ],
   "portwatch": "chokepoint3",
   "limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); draft limit not sourced.",
-  "traffic": {
-   "v": 92.4,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "shares": [
    {
     "k": "crude-oil",
@@ -510,14 +464,9 @@
    55.5
   ],
   "portwatch": "chokepoint10",
+  "portwatchLabel": "Oresund (PortWatch); Great Belt not covered",
+  "portwatchNote": "IMF PortWatch counts the Oresund only. It has no counter for the Great Belt, the other main passage of the Danish Straits, so this series is not the traffic of the Danish Straits as a whole.",
   "limits": "Shallow, draft-restricted passages in the Great Belt and Oresund; limits not sourced here.",
-  "traffic": {
-   "v": 47.1,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data, Oresund"
-  },
   "shares": [
    {
     "k": "crude-oil",
@@ -569,13 +518,6 @@
    35.97
   ],
   "portwatch": "chokepoint8",
-  "traffic": {
-   "v": 135.4,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "summary": "Gateway between the Atlantic and the Mediterranean, linking Suez-bound and Cape-diverted traffic with Europe.",
   "s": "portwatch"
  },
@@ -588,13 +530,6 @@
    51.0
   ],
   "portwatch": "chokepoint9",
-  "traffic": {
-   "v": 174.7,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "limits": "Deep-draft route (the Dover Strait traffic separation scheme); exact draft not sourced.",
   "summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
   "s": "portwatch"
@@ -608,13 +543,6 @@
    -34.36
   ],
   "portwatch": "chokepoint7",
-  "traffic": {
-   "v": 89.5,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data; 49.1/day in 2023"
-  },
   "shares": [
    {
     "k": "petroleum-liquids",
@@ -675,11 +603,13 @@
   ],
   "alternatives": [
    {
-    "label": "Magellan Strait (PortWatch chokepoint21)",
+    "label": "Magellan Strait",
     "note": "Sheltered alternative with pilotage."
    }
   ],
-  "summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather. No PortWatch coverage.",
+  "seriesFrom": "magellan",
+  "portwatchNote": "IMF PortWatch has no counter for Cape Horn. It counts the Magellan Strait, the sheltered passage to the north: that series is shown here under its own name.",
+  "summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather.",
   "s": "portwatch"
  },
  {
@@ -691,13 +621,6 @@
    24.7
   ],
   "portwatch": "chokepoint11",
-  "traffic": {
-   "v": 238.8,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "summary": "Main north-south route for China-Japan-Korea trade, container and crude flows.",
   "s": "portwatch"
  },
@@ -710,14 +633,175 @@
    34.1
   ],
   "portwatch": "chokepoint12",
-  "traffic": {
-   "v": 219.4,
-   "u": "vessels/day",
-   "y": 2025,
-   "s": "portwatch",
-   "n": "All vessel types, daily average from IMF PortWatch daily data"
-  },
   "summary": "Link between the East China Sea and the Sea of Japan between Korea and Japan.",
+  "s": "portwatch"
+ },
+ {
+  "id": "makassar",
+  "name": "Makassar Strait",
+  "kind": "strait",
+  "at": [
+   119.26,
+   0.35
+  ],
+  "portwatch": "chokepoint20",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "luzon",
+  "name": "Luzon Strait",
+  "kind": "strait",
+  "at": [
+   121.35,
+   20.49
+  ],
+  "portwatch": "chokepoint14",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "bohai",
+  "name": "Bohai Strait",
+  "kind": "strait",
+  "at": [
+   120.9,
+   38.37
+  ],
+  "portwatch": "chokepoint17",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "yucatan",
+  "name": "Yucatan Channel",
+  "kind": "channel",
+  "at": [
+   -85.65,
+   21.82
+  ],
+  "portwatch": "chokepoint22",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "kerch",
+  "name": "Kerch Strait",
+  "kind": "strait",
+  "at": [
+   36.54,
+   45.27
+  ],
+  "portwatch": "chokepoint28",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "magellan",
+  "name": "Magellan Strait",
+  "kind": "strait",
+  "at": [
+   -69.59,
+   -52.64
+  ],
+  "portwatch": "chokepoint21",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "mindoro",
+  "name": "Mindoro Strait",
+  "kind": "strait",
+  "at": [
+   120.4,
+   12.47
+  ],
+  "portwatch": "chokepoint27",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "tsugaru",
+  "name": "Tsugaru Strait",
+  "kind": "strait",
+  "at": [
+   140.35,
+   41.33
+  ],
+  "portwatch": "chokepoint13",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "ombai",
+  "name": "Ombai Strait",
+  "kind": "strait",
+  "at": [
+   125.09,
+   -8.4
+  ],
+  "portwatch": "chokepoint16",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "mona",
+  "name": "Mona Passage",
+  "kind": "passage",
+  "at": [
+   -67.71,
+   18.45
+  ],
+  "portwatch": "chokepoint24",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "windward",
+  "name": "Windward Passage",
+  "kind": "passage",
+  "at": [
+   -73.7,
+   19.99
+  ],
+  "portwatch": "chokepoint23",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "balabac",
+  "name": "Balabac Strait",
+  "kind": "strait",
+  "at": [
+   117.11,
+   7.41
+  ],
+  "portwatch": "chokepoint25",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "torres",
+  "name": "Torres Strait",
+  "kind": "strait",
+  "at": [
+   142.25,
+   -9.86
+  ],
+  "portwatch": "chokepoint18",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "s": "portwatch"
+ },
+ {
+  "id": "bering",
+  "name": "Bering Strait",
+  "kind": "strait",
+  "at": [
+   -165.55,
+   65.97
+  ],
+  "portwatch": "chokepoint26",
+  "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
   "s": "portwatch"
  }
 ]

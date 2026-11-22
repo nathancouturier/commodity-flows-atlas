@@ -54,7 +54,9 @@ function Body({ r }: { r: Route }) {
       const key = `${k}:${f.v}`;
       if (seen.has(key)) return;
       seen.add(key);
-      out.push({ label: `Corridor share of seaborne ${(commodityMeta(k)?.name ?? k).toLowerCase()}`, f });
+      // customs codes do not separate thermal from metallurgical coal: both shares are computed on all coal
+      const name = k === 'thermal-coal' || k === 'met-coal' ? 'coal (all types)' : (commodityMeta(k)?.name ?? k).toLowerCase();
+      out.push({ label: `Corridor share of seaborne ${name}`, f });
     };
     if (r.shareCommodity) {
       const match = r.shares?.find((s) => s.f.v === r.shareCommodity!.v);

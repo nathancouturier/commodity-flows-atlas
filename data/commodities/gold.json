@@ -192,7 +192,8 @@
     "v": 211.22
    }
   ],
-  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply."
+  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
+  "caveat": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply."
  },
  "imports": {
   "y": 2024,
@@ -249,7 +250,8 @@
     "v": 208.01
    }
   ],
-  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining and vaulting hubs; not a measure of final demand."
+  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining and vaulting hubs; not a measure of final demand.",
+  "caveat": "Includes refining and vaulting hubs; not a measure of final demand."
  },
  "flows": [
   {

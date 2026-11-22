@@ -10,40 +10,92 @@ import { commodity, select } from '../../lib/store';
 import { Section, Placeholder, Skeleton, SourcesLine, Kpi, RowBtn, InfraIcon, INFRA_META, CompanyRows, AlertBanners, StatusBadge, shortSource } from '../ui';
 import { publisher, useLoaded } from './shared';
 
+/** Rows shown before "Show all N": the profile file holds every row that passes the relevance rule. */
+const FIRST_ROWS = 8;
+
+/** Row note and table warning (trade hubs, gross weight). Long text folds to three lines and opens on a tap. */
+function RowNote({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  const style = { margin: '0 4px 3px 30px', width: 'auto' };
+  if (text.length <= 110) return <div class="kpi-note" style={style}>{text}</div>;
+  return (
+    <button class={`kpi-note kpi-note-btn${open ? ' open' : ''}`} style={style} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
+      {text}
+    </button>
+  );
+}
+
+/** "CEPII BACI 2024": short publisher and year, as printed on a row. */
+const srcYear = (s: string, y: number | string) => `${shortSource(s)} ${y}`;
+
+/**
+ * Ranked rows of a profile section. The source and year of the tonnage and of the USD value are printed
+ * on each row, with what the tonnage measures and the warnings of its table: a hover tooltip cannot be
+ * read on a touch screen.
+ */
 function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
+  const [showAll, setShowAll] = useState(false);
+  const shown = showAll ? props.rows : props.rows.slice(0, FIRST_ROWS);
+  const usdOf = (e: ProfileEntry) => (props.showUsd && e.usd != null ? { s: e.usdS ?? e.s, y: e.usdY ?? e.y } : null);
   return (
     <div class="bars">
-      {props.rows.map((e, i) => {
+      {shown.map((e, i) => {
         const meta = commodityMeta(e.k);
         const color = meta ? FAMILY_COLOR[meta.family] : '#8892a0';
-        const sub = [e.rank ? `world #${e.rank}` : null, props.showUsd && e.usd != null ? `${fmt(e.usd)} bn USD` : null].filter(Boolean).join(' · ');
+        const usd = usdOf(e);
+        const vol = srcYear(e.s, e.y);
+        const val = usd ? srcYear(usd.s, usd.y) : null;
+        // one mention when tonnage and value share a source and year, else each figure names its own
+        const sub = [
+          e.rank ? `world #${e.rank}` : null,
+          usd ? (val === vol ? `${fmt(e.usd)} bn USD` : `${fmt(e.usd)} bn USD (${val})`) : null,
+          val && val !== vol ? `volume ${vol}` : vol,
+        ]
+          .filter(Boolean)
+          .join(' · ');
+        const note = [e.n, e.warn].filter(Boolean).join('. ');
         return (
-          <button
-            class="bar-row"
-            key={e.k + i}
-            title={`${sourceLabel(e.s)} · ${e.y}${e.n ? ' · ' + e.n : ''}`}
-            onClick={() => {
-              if (!meta) return;
-              commodity.value = e.k;
-              select({ kind: 'commodity', id: e.k });
-            }}
-          >
-            <span class="bar-rank">{i + 1}</span>
-            <span>
-              <span class="bar-label">{e.label ?? meta?.name ?? e.k}</span>
-              <div class="bar-track">
-                <div class="bar-fill" style={{ width: `${Math.max(2, (e.share ?? 0) * 100)}%`, background: color }} />
-              </div>
-              {sub && <span class="bar-sub">{sub}</span>}
-            </span>
-            <span class="bar-value">
-              {fmt(e.v)} {e.u}
-              {e.share != null && <small>{pct(e.share)} of world</small>}
-            </span>
-          </button>
+          <div key={e.k + (e.label ?? '') + i}>
+            <button
+              class="bar-row"
+              style={{ width: '100%' }}
+              title={`${sourceLabel(e.s)} · ${e.y}${usd && val !== vol ? ` · value: ${sourceLabel(usd.s)} · ${usd.y}` : ''}${e.n ? ' · ' + e.n : ''}`}
+              onClick={() => {
+                if (!meta) return;
+                commodity.value = e.k;
+                select({ kind: 'commodity', id: e.k });
+              }}
+            >
+              <span class="bar-rank">{i + 1}</span>
+              <span>
+                <span class="bar-label">{e.label ?? meta?.name ?? e.k}</span>
+                <div class="bar-track">
+                  <div class="bar-fill" style={{ width: `${Math.max(2, (e.share ?? 0) * 100)}%`, background: color }} />
+                </div>
+                <span class="bar-sub">{sub}</span>
+                {e.basis && <span class="bar-sub">{e.basis}</span>}
+              </span>
+              <span class="bar-value">
+                {fmt(e.v)} {e.u}
+                {e.share != null && <small>{pct(e.share)} of world</small>}
+              </span>
+            </button>
+            {note && <RowNote text={note} />}
+          </div>
         );
       })}
-      <SourcesLine items={props.rows} />
+      {props.rows.length > FIRST_ROWS && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
+          {showAll ? 'Show fewer' : `Show all ${props.rows.length}`}
+        </button>
+      )}
+      <SourcesLine
+        items={shown.flatMap((e) => {
+          const usd = usdOf(e);
+          return usd ? [e, usd] : [e];
+        })}
+        n="shares are of the world total of the same source and year"
+      />
     </div>
   );
 }
@@ -145,8 +197,9 @@ export default function CountryView({ id }: { id: string }) {
   let kpis: preact.ComponentChildren = null;
   if (p) {
     const all = [...p.exports, ...p.imports, ...p.production];
-    const top10 = new Set(all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k)).map((e) => e.k));
     const ents = all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k));
+    // counted by the pipeline on every table row; the rows themselves are listed below
+    const top10 = p.top10 ?? new Set(ents.map((e) => e.k)).size;
     const pubs = [...new Set(ents.map((e) => shortSource(e.s)))];
     const srcs = `${pubs.length > 1 ? 'Sources' : 'Source'}: ${pubs.join(', ')}`;
     const yrs = [...new Set(ents.map((e) => String(e.y)))].sort();
@@ -154,10 +207,10 @@ export default function CountryView({ id }: { id: string }) {
     const topExp = [...p.exports].filter((e) => e.usd != null).sort(byUsd)[0];
     kpis = (
       <div class="kpis">
-        {top10.size > 0 && (
+        {top10 > 0 && (
           <Kpi
             label="World top-10 in"
-            value={`${top10.size} commodit${top10.size === 1 ? 'y' : 'ies'}`}
+            value={`${top10} commodit${top10 === 1 ? 'y' : 'ies'}`}
             sub={`${srcs} · ${yr}`}
             title="Atlas catalogue commodities where this country ranks in the top 10 of production, exports or imports"
           />
@@ -166,16 +219,18 @@ export default function CountryView({ id }: { id: string }) {
           <Kpi
             label={`Largest export`}
             value={`${fmt(topExp.usd)} bn USD`}
-            sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · ${shortSource(topExp.s)} · ${topExp.y}`}
-            title={`${sourceLabel(topExp.s)} · ${topExp.y}`}
+            sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · ${shortSource(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}`}
+            title={`${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}`}
+            note={topExp.warn}
           />
         )}
       </div>
     );
   }
 
-  const exports = p ? [...p.exports].sort((a, b) => (a.usd != null || b.usd != null ? byUsd(a, b) : 0)) : [];
-  const imports = p ? [...p.imports].sort((a, b) => (a.usd != null || b.usd != null ? byUsd(a, b) : 0)) : [];
+  // order set by the pipeline: by trade value, thermal and metallurgical coal under the all-coal row that carries their value
+  const exports = p?.exports ?? [];
+  const imports = p?.imports ?? [];
   return (
     <>
       <div class="detail-head">
@@ -192,18 +247,18 @@ export default function CountryView({ id }: { id: string }) {
         ) : (
           <>
             {exports.length > 0 && (
-              <Section title="Key exports">
-                <EntryList rows={exports} showUsd />
+              <Section title="Key exports" aside={<span class="muted num">{exports.length}</span>}>
+                <EntryList key={id} rows={exports} showUsd />
               </Section>
             )}
             {imports.length > 0 && (
-              <Section title="Key imports">
-                <EntryList rows={imports} showUsd />
+              <Section title="Key imports" aside={<span class="muted num">{imports.length}</span>}>
+                <EntryList key={id} rows={imports} showUsd />
               </Section>
             )}
             {p.production.length > 0 && (
-              <Section title="Production, share of world">
-                <EntryList rows={p.production} />
+              <Section title="Production, share of world" aside={<span class="muted num">{p.production.length}</span>}>
+                <EntryList key={id} rows={p.production} />
               </Section>
             )}
             {p.other && p.other.length > 0 && (

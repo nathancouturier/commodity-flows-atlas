@@ -49,7 +49,7 @@ export function Tooltip() {
     <div
       ref={ref}
       class="tooltip"
-      role="status"
+      aria-hidden="true"
       style={{ left: `${h.x}px`, top: `${h.y}px`, visibility: 'hidden' }}
       dangerouslySetInnerHTML={{ __html: h.html }}
     />

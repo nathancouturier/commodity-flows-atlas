@@ -119,12 +119,43 @@ These are labelled "typical" in the interface. They are not measured shares of e
   chokepoint ÷ world seaborne volume. This is a lower bound, because unmapped smaller flows are
   not routed. Published figures (EIA oil flows, canal authority statistics) are shown separately
   and take precedence.
+  - The cargo table of a chokepoint page lists the same mapped lanes one by one (commodity,
+    origin, destination, Mt, share of the commodity's seaborne trade). Lanes with no flow in the
+    latest year are left out.
+- **Chokepoint traffic** is IMF PortWatch's daily count of tankers, dry bulk, container, general
+  cargo and ro-ro vessels, and PortWatch's estimate of the trade volume they carry (tonnes of
+  cargo, not deadweight). Both are shown as weekly averages and as the average of the last 28
+  days. PortWatch counts the Oresund but not the Great Belt, so the Danish Straits series is
+  labelled as Oresund only; it has no counter for the Singapore Strait or for Cape Horn, whose
+  page shows the Magellan Strait counter under its own name.
 
 ## 6. Country profiles
 
-A commodity appears in a country's profile when the country ranks in the world top 10 for
-production, exports or imports of it, or holds at least a 3% share. Shares are against the world
-total of the same source and year.
+Profiles are built by `pipeline/commodities/build_profiles.py` from the ranked tables of the
+commodity pages (production, exports, imports, and the second trade tables such as refined copper
+or alumina).
+
+- **Which rows appear.** A row enters a country's profile when one of these holds:
+  - the country ranks in the world top 10 of the table;
+  - it holds at least 3% of the table's world total;
+  - the row is worth at least 10% of the country's own export (or import) value across the atlas
+    commodities.
+- **Limit.** Each commodity table keeps its 12 largest countries, so a country below rank 12 has
+  no row for that commodity, whatever its share of its own trade.
+- **Nothing is cut.** Every row that passes is published. The page shows the first eight rows of
+  each section and the rest behind "Show all".
+- **Order.** Exports and imports are ordered by trade value, production by share of the world
+  total.
+- **Shares** are against the world total of the same table, so of the same source and year.
+- **Trade value** (bn USD) always comes from CEPII BACI for its latest year, whatever the source
+  and year of the tonnage on the same row; the row names both.
+- **Coal.** Customs codes do not separate thermal from metallurgical coal, so the value of coal
+  is shown on one row, "Coal (all types)", with the customs tonnage of all coal. The thermal and
+  metallurgical rows below it carry EIA tonnage and no value.
+- **"World top-10 in N commodities"** counts the catalogue commodities for which the country is in
+  the top 10 of at least one table. It is counted on the full tables.
+- **Warnings** of a commodity table (trade hubs that re-export, gross weight against contained
+  metal) are repeated on the country rows built from it.
 
 ## 7. Prices
 

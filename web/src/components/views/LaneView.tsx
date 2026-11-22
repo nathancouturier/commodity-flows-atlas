@@ -5,7 +5,7 @@ import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
 import { laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
-import { select } from '../../lib/store';
+import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 
@@ -51,6 +51,15 @@ export default function LaneView({ id }: { id: string }) {
   const matching = (routes ?? []).filter((r) => r.corridor?.some((c) => c.k === lane.k && c.o.includes(lane.o) && c.d.includes(lane.d)));
   const groupName = file.label ?? meta?.name ?? file.group;
   const n = lane.flow.n;
+  // History timeline: the flow and its share of seaborne trade are those of the selected year
+  const yr = year.value;
+  const yi = yr != null ? file.years.indexOf(yr) : -1;
+  const past = yi >= 0 && yr !== lane.flow.y;
+  const flowV = past ? lane.hist[yi] : lane.flow.v;
+  const flowY = past ? yr! : lane.flow.y;
+  const seaV = past ? file.seaborne[yi] : null;
+  const share = past ? (flowV != null && seaV ? flowV / seaV : null) : lane.share;
+  const shareY = past ? yr! : file.y;
 
   return (
     <>
@@ -61,10 +70,14 @@ export default function LaneView({ id }: { id: string }) {
       <div class="panel-scroll">
         <AlertBanners chokepoints={lane.via} status={lane.status} />
         <div class="kpis">
-          <Kpi label={`Flow · ${lane.flow.y}`} f={lane.flow} note={n} span={!!n} />
-          <Kpi label="Share of seaborne trade" value={pct(lane.share)} sub={`${pub} · ${file.y}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${file.y}); Atlas calc`} />
+          {flowV != null ? (
+            <Kpi label={`Flow · ${flowY}`} f={past ? { v: flowV, u: file.unit, y: flowY, s: file.s } : lane.flow} note={n} span={!!n} />
+          ) : (
+            <Kpi label={`Flow · ${flowY}`} value="—" sub={`${pub} · ${flowY}`} note={lane.histNote ?? `No figure for ${flowY}`} span />
+          )}
+          <Kpi label="Share of seaborne trade" value={pct(share)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           {lane.shareDest != null && (
-            <Kpi label={`Share of ${countryName(lane.d)} imports`} value={pct(lane.shareDest)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
+            <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
           )}
           <Kpi label="Distance" value={`${fmt(lane.distanceNm)} nm`} sub="Atlas routing" title="Along the mapped sea route" />
           <Kpi label="Laden days" value={`${fmt(lane.days)} d`} sub="Atlas estimate" title="At the typical laden speed of the primary vessel class" />

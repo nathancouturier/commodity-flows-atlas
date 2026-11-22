@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Oil, Soybean, soybean oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+   "n": "USDA PSD, Oil, Soybean, soybean oil exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
    "v": 10.93,
@@ -199,7 +199,7 @@
     "v": 0.227
    }
   ],
-  "n": "USDA PSD, Oil, Soybean, soybean oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Oil, Soybean, soybean oil exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
  },
  "imports": {
   "y": "2025/26",
@@ -256,7 +256,7 @@
     "v": 0.239
    }
   ],
-  "n": "USDA PSD, Oil, Soybean, soybean oil imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Oil, Soybean, soybean oil imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
  },
  "extra": [
   {

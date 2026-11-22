@@ -73,7 +73,8 @@
     "v": 10.0
    }
   ],
-  "n": "USGS MCS 2026, nickel mine production, contained nickel; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, nickel mine production, contained nickel; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "contained nickel"
  },
  "reserves": {
   "y": 2025,
@@ -118,7 +119,8 @@
     "v": 340.0
    }
   ],
-  "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)"
+  "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)",
+  "basis": "contained nickel"
  },
  "exports": {
   "y": 2024,
@@ -181,7 +183,8 @@
     "v": 0.0685
    }
   ],
-  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -245,7 +248,8 @@
     "v": 0.0323
    }
   ],
-  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight"
  },
  "extra": [
   {
@@ -306,7 +310,8 @@
       "v": 0.0532
      }
     ],
-    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
    }
   },
   {
@@ -367,7 +372,8 @@
       "v": 0.0426
      }
     ],
-    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
    }
   }
  ],

@@ -78,7 +78,8 @@
     "v": 4500.0
    }
   ],
-  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "contained tin"
  },
  "reserves": {
   "y": 2025,
@@ -127,7 +128,8 @@
     "v": 23000.0
    }
   ],
-  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)"
+  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)",
+  "basis": "contained tin"
  },
  "exports": {
   "y": 2024,
@@ -185,7 +187,8 @@
     "n": "56% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "unwrought metal, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -243,7 +246,8 @@
     "v": 6.831
    }
   ],
-  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "unwrought metal, gross weight"
  },
  "flows": [
   {

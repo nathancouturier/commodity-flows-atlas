@@ -189,6 +189,5 @@ vesselClassList.subscribe((list) => {
   const known = new Set(list.map((v) => v.id));
   const vc = vesselClasses.peek();
   if ([...vc].some((id) => !known.has(id))) vesselClasses.value = new Set([...vc].filter((id) => known.has(id)));
-  const s = selection.peek();
-  if (s?.kind === 'vessel' && !known.has(s.id)) select(null);
+  // an unknown class stays selected: its page says that it is not in the catalogue
 });

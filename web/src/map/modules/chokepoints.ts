@@ -25,6 +25,8 @@ function tooltip(c: Chokepoint): string {
   const t = c.traffic;
   return (
     `<div><b>${esc(c.name)}</b></div>` +
+    // a counter that covers only part of the chokepoint is named next to its figure
+    (t && c.portwatchLabel ? `<div class="src-line">${esc(c.portwatchLabel)}</div>` : '') +
     (t ? `<div class="num">${fmt(t.v)} ${esc(t.u)}</div><div class="src-line">${esc(sourceLabel(t.s))} · ${esc(String(t.y))}</div>` : '')
   );
 }
@@ -58,7 +60,13 @@ registerLayerModule((m: MLMap) => {
         select({ kind: 'chokepoint', id: c.id });
       };
       el.addEventListener('click', open);
-      el.addEventListener('keydown', (ev) => (ev as KeyboardEvent).key === 'Enter' && open(ev));
+      // role=button: Enter and Space both activate (Space must not scroll the page or pan the map)
+      el.addEventListener('keydown', (ev) => {
+        const key = (ev as KeyboardEvent).key;
+        if (key !== 'Enter' && key !== ' ') return;
+        ev.preventDefault();
+        open(ev);
+      });
       // the marker owns the tooltip while the pointer is on it (the layers underneath stay quiet)
       el.addEventListener('mouseenter', (ev) => {
         setMarkerHover(true);

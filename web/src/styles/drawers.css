@@ -445,6 +445,8 @@
   font-weight: 500;
   color: var(--ink-0);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .pd-tile-v small {
   margin-left: 4px;
@@ -799,6 +801,191 @@
   border-color: var(--hairline-strong);
 }
 
+/* ---------------------------------------------------------------- price explorer: audit fixes */
+
+/* statistics of every series when two or three are charted: one compact row per series under shared column heads */
+.pd-st-g {
+  display: grid;
+  grid-template-columns: 0.9fr 1.45fr 0.9fr 0.9fr;
+  gap: 0 6px;
+}
+.pd-st-g > span {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+.pd-st-cols {
+  margin-bottom: 3px;
+  padding-left: 10px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.pd-st {
+  padding: 2px 0 3px 8px;
+  border-left: 2px solid color-mix(in srgb, var(--c) 40%, transparent);
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--ink-2);
+}
+.pd-st + .pd-st {
+  margin-top: 6px;
+}
+.pd-st.on {
+  border-left-color: var(--c);
+}
+.pd-st-h {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+.pd-st-h i {
+  flex: none;
+  width: 8px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--c);
+  align-self: center;
+}
+.pd-st-h b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-0);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.pd-st-h small {
+  flex: 0 1 auto;
+  min-width: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+}
+.pd-st-g b {
+  color: var(--ink-0);
+  font-weight: 500;
+  font-size: 11.5px;
+}
+.pd-st-g b.up {
+  color: var(--positive);
+}
+.pd-st-g b.down {
+  color: var(--alert);
+}
+.pd-st-g small {
+  font-size: 9.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* three series: a taller sheet, so that the plot keeps its height under three chips and three source lines */
+@media (min-width: 1025px) {
+  .pd.pd-tall {
+    height: clamp(390px, 46vh, 530px);
+  }
+}
+
+/* notes in the main column: no series for the commodity, partial coverage */
+.pd-main > .pd-note {
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid color-mix(in srgb, var(--energy) 35%, transparent);
+  background: color-mix(in srgb, var(--energy) 8%, transparent);
+}
+.pd-msg span {
+  text-align: center;
+  line-height: 1.5;
+}
+.pd-msg b {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.pd-warn {
+  color: var(--energy);
+}
+.pd-toggle:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+/* legend of the event kinds under the chart */
+.pd-kinds {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 9px;
+  align-items: center;
+}
+.pd-kinds span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+.pd-kinds i {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+/* a series that covers the date asked, offered under a "no data" answer */
+.pd-offers {
+  display: block;
+  margin-top: 3px;
+  color: var(--ink-2);
+}
+.pd-offer {
+  display: block;
+  margin-top: 3px;
+  padding: 2px 7px;
+  border-radius: 7px;
+  border: 1px solid rgba(62, 230, 255, 0.3);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: left;
+}
+.pd-offer:hover:not(:disabled) {
+  background: rgba(62, 230, 255, 0.24);
+}
+.pd-offer:disabled {
+  color: var(--ink-2);
+  background: none;
+  border-color: var(--hairline);
+  cursor: default;
+}
+
+/* picker at the limit of three series */
+.pd-max {
+  margin: 0 8px 6px;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--energy) 10%, transparent);
+  color: var(--energy);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+/* narrow drawer on a desktop (detail panel open): the sheet scrolls, so the picker opens downward
+   (upward it was clipped by the sheet), and the plot keeps a readable height under three chips */
+@container pd (max-width: 859px) {
+  .pd-pop {
+    bottom: auto;
+    top: calc(100% + 6px);
+    min-height: 0;
+    max-height: 230px;
+  }
+  .pd-main .pd-chart {
+    min-height: 190px;
+  }
+}
 /* ---------------------------------------------------------------- touch and small screens (QA fixes) */
 
 /* tablets and phones: the series picker opens downward, inside the drawer (upward it was clipped) */
@@ -859,5 +1046,112 @@
   .pd-hint,
   .pd-fam {
     font-size: 11px;
+  }
+}
+
+/* ---------------------------------------------------------------- timeline: events to the present, touch */
+
+/* the stretch after the last year of flow data: events only (dashed, on the line of the slider track) */
+.tl-track {
+  --tl-ticks-h: 14px;
+}
+.tl-after {
+  position: absolute;
+  right: 9px;
+  top: calc(var(--tl-ticks-h) + 9px);
+  height: 4px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.24) 0 4px, transparent 4px 8px);
+}
+.tl-years .tl-nodata {
+  left: auto;
+  right: 0;
+  transform: none;
+  white-space: nowrap;
+  font-family: var(--font-ui, inherit);
+  color: var(--ink-3);
+}
+
+/* previous / next event (touch only: the ticks are too close together for a finger) */
+.tl-step {
+  flex: 1 0 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: 2px;
+}
+.tl-step-btn {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid var(--hairline-strong);
+  color: var(--ink-0);
+}
+.tl-step-btn:disabled {
+  color: var(--ink-3);
+  border-color: var(--hairline);
+}
+.tl-step-cur {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 11.5px;
+}
+
+/* touch: every tick is a 24 x 32 px target and the strip opens the event nearest to the finger;
+   the visible mark keeps its size at the foot of the strip */
+@media (pointer: coarse) {
+  .tl-track {
+    --tl-ticks-h: 32px;
+    padding-top: 32px;
+  }
+  .tl-ticks {
+    height: 32px;
+  }
+  .tl-tick {
+    width: 24px;
+    height: 32px;
+    margin-left: -12px;
+  }
+  .tl-tick::before {
+    content: none;
+  }
+  .tl-tick::after {
+    left: 11px;
+    top: 18px;
+  }
+  .tl-tick.on::after {
+    top: 6px;
+    opacity: 1;
+    transform: scaleX(1.8);
+  }
+}
+
+/* phones and tablets: the timeline takes the bottom edge, the controls sheet and the detail sheet sit
+   above it instead of under it (--tl-h is the height of the open timeline, set by Timeline.tsx) */
+@media (max-width: 1024px) {
+  .tl {
+    grid-template-areas: 'play track close' 'cap cap cap';
+  }
+  .app.tl-open .side-panel {
+    bottom: var(--tl-h, 0px);
+  }
+  .app.tl-open .side-panel.snap-half {
+    max-height: max(180px, calc(50dvh - var(--tl-h, 0px)));
+  }
+  .app.tl-open .side-panel.snap-full {
+    height: calc(100dvh - 64px - var(--tl-h, 0px));
+  }
+  .app.tl-open .detail-panel {
+    bottom: var(--tl-h, 0px);
+    height: max(240px, calc(60dvh - var(--tl-h, 0px)));
+    max-height: max(240px, calc(60dvh - var(--tl-h, 0px)));
   }
 }

@@ -45,6 +45,10 @@ export interface Ranked {
   world?: number;
   rows: { c: Iso3; v: number; n?: string }[];
   n?: string;
+  /** what the tonnage measures when it is not the finished commodity, e.g. "ores and concentrates, gross weight" */
+  basis?: string;
+  /** warning that applies to the whole table (trade hubs, unit mismatch); also part of `n` */
+  caveat?: string;
 }
 
 export interface Company {
@@ -99,6 +103,10 @@ export interface CommodityMeta {
 export interface CommodityData {
   id: string;
   summary: Partial<Record<'production' | 'exports' | 'reserves' | 'consumption' | 'seaborne', Fig>>;
+  /** KPI labels that replace the default wording, e.g. seaborne: "Seaborne trade (all coal)" */
+  kpis?: Partial<Record<'production' | 'exports' | 'reserves' | 'consumption' | 'seaborne', string>>;
+  /** section titles that replace the default wording, e.g. flows: "Main flows — all coal, customs data 2024" */
+  labels?: Partial<Record<'production' | 'reserves' | 'consumption' | 'exports' | 'imports' | 'flows', string>>;
   production?: Ranked;
   /** additional ranked tables (refined copper, alumina, USDA ending stocks...) */
   extra?: { key: string; title: string; table: Ranked }[];
@@ -134,6 +142,8 @@ export interface CountryProfile {
   other?: ProfileEntry[];
   infra?: string[];
   companies?: Company[];
+  /** catalogue commodities in which the country ranks in the world top 10 of production, exports or imports */
+  top10?: number;
 }
 
 export interface ProfileEntry {
@@ -152,6 +162,13 @@ export interface ProfileEntry {
   n?: string;
   /** trade value in bn USD, when known */
   usd?: number;
+  /** source id and year of `usd` (the tonnage may come from another source and year) */
+  usdS?: string;
+  usdY?: number | string;
+  /** what the tonnage measures, e.g. "ores and concentrates, gross weight", "contained cobalt" */
+  basis?: string;
+  /** warning carried from the commodity table (trade hubs, gross weight against contained metal) */
+  warn?: string;
 }
 
 // ---------------------------------------------------------------- freight
@@ -263,10 +280,12 @@ export interface Alert {
 export interface Chokepoint {
   id: string;
   name: string;
-  kind: 'strait' | 'canal' | 'cape' | 'channel';
+  kind: 'strait' | 'canal' | 'cape' | 'channel' | 'passage';
   at: [number, number];
   limits?: string;
   traffic?: Fig;
+  /** PortWatch's estimated trade volume of the vessels counted, last 28 days (Mt/day) */
+  trafficVol?: Fig;
   /** reference traffic figure from the operator (e.g. Panama Canal Authority fiscal-year transits) */
   trafficRef?: Fig;
   /** typical extra distance and days of the main alternative route on mapped lanes (Atlas estimate) */
@@ -278,6 +297,16 @@ export interface Chokepoint {
   alternatives?: { label: string; extraNm?: number; extraDays?: number; note?: string }[];
   events?: string[];
   portwatch?: string;
+  /** PortWatch's own name for the counter behind `traffic` and the weekly series (e.g. "Oresund Strait") */
+  portwatchName?: string;
+  /** label of the series when the counter covers only part of the chokepoint */
+  portwatchLabel?: string;
+  /** what PortWatch does or does not count here */
+  portwatchNote?: string;
+  /** chokepoint id whose PortWatch series is shown on this page, under that chokepoint's own name */
+  seriesFrom?: string;
+  /** related chokepoint ids offered as links */
+  seeAlso?: string[];
   summary: string;
   s: string;
 }
@@ -297,8 +326,26 @@ export interface PortwatchSeries {
   container: number[];
   other: number[];
   total: number[];
-  /** deadweight capacity, million tonnes per day */
-  dwt: number[];
+  /** PortWatch's name for the counter */
+  name?: string;
+  /** PortWatch's estimated trade volume of the transiting vessels (tonnes of cargo, not deadweight), Mt per day */
+  vol?: { unit: string; tanker: number[]; dry: number[]; container: number[]; other: number[]; total: number[] };
+  /** complete calendar years: transits and estimated trade volume (Mt) */
+  annual?: { years: number[]; transits: number[]; mt: number[] };
+  headline?: Fig;
+  headlineVol?: Fig;
+}
+
+/** data/freight/chokepoint-lanes.json — mapped lanes that cross each chokepoint (from the lanes' `via`). */
+export interface ChokepointLanes {
+  s: string;
+  y: number | string;
+  unit: string;
+  n?: string;
+  /** lane group -> commodity id, label, year, customs source and seaborne trade of the group (Mt) */
+  groups: Record<string, { k: string; label: string | null; y: number; s: string; seaborne: number }>;
+  /** chokepoint id -> [group, origin ISO3, destination ISO3, Mt], largest first */
+  chokepoints: Record<string, [string, string, string, number][]>;
 }
 
 export interface FreightEvent {

@@ -192,7 +192,8 @@
     "v": 1401.0
    }
   ],
-  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
+  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+  "caveat": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
  },
  "imports": {
   "y": 2024,

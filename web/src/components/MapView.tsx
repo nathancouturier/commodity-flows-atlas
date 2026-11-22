@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'preact/hooks';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { initMap } from '../map/controller';
 import { installLayers } from '../map/layers';
-import { layers, mapNotice } from '../lib/store';
+import { layers, mapFailed, mapNotice } from '../lib/store';
 
 /** The map is the page's <main> landmark; it comes last in the DOM so the controls are reached first by keyboard. */
 export function MapView() {
@@ -10,9 +10,13 @@ export function MapView() {
   useEffect(() => {
     if (!ref.current) return;
     const m = initMap(ref.current);
-    installLayers(m);
+    if (m) installLayers(m);
   }, []);
-  const notice = layers.value.flows ? mapNotice.value : null;
+  const notice = mapFailed.value
+    ? 'The map needs WebGL, which this browser has switched off. The panels, the Route finder and the prices work without it.'
+    : layers.value.flows
+      ? mapNotice.value
+      : null;
   return (
     <main id="map" class="map-main" aria-label="Map">
       <div ref={ref} class="map-root" role="application" aria-label="World map of commodity flows" />

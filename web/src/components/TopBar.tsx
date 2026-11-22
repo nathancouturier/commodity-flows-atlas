@@ -1,6 +1,7 @@
 import { BrandMark } from './ui';
 import { priceDrawer, historyOpen } from '../lib/store';
 import { togglePrices, toggleHistory } from '../lib/prices';
+import { openAbout } from './AboutHost';
 
 export function TopBar() {
   return (
@@ -30,6 +31,14 @@ export function TopBar() {
             <path d="M7 4v3.2l2.2 1.3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
           </svg>
           <span>History</span>
+        </button>
+        <button class="tool-btn" aria-haspopup="dialog" aria-label="About" title="About, sources and data freshness" onClick={(e) => openAbout('about', e.currentTarget)}>
+          <svg viewBox="0 0 14 14" aria-hidden="true">
+            <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M7 6.4v3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <circle cx="7" cy="4.2" r="0.9" fill="currentColor" />
+          </svg>
+          <span>About</span>
         </button>
       </div>
     </header>

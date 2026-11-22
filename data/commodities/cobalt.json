@@ -20,7 +20,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   "n": "Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt."
   }
  },
  "production": {
@@ -78,7 +78,8 @@
     "v": 300.0
    }
   ],
-  "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "contained cobalt"
  },
  "reserves": {
   "y": 2025,
@@ -135,7 +136,8 @@
     "v": 70000.0
    }
   ],
-  "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded"
+  "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded",
+  "basis": "contained cobalt"
  },
  "exports": {
   "y": 2024,
@@ -193,7 +195,9 @@
     "n": "36% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt.",
+  "basis": "ores and unwrought metal, gross weight",
+  "caveat": "Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt."
  },
  "imports": {
   "y": 2024,
@@ -252,7 +256,9 @@
     "n": "45% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt, not contained cobalt.",
+  "basis": "ores and unwrought metal, gross weight",
+  "caveat": "Gross weight of ores and unwrought cobalt, not contained cobalt."
  },
  "flows": [
   {

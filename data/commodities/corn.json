@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Corn, corn exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+   "n": "USDA PSD, Corn, corn exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 207.6 Mt"
   },
   "seaborne": {
    "v": 159.29,
@@ -199,7 +199,7 @@
     "v": 1.0
    }
   ],
-  "n": "USDA PSD, Corn, corn exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Corn, corn exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 207.6 Mt"
  },
  "imports": {
   "y": "2025/26",
@@ -256,7 +256,7 @@
     "v": 4.915
    }
   ],
-  "n": "USDA PSD, Corn, corn imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Corn, corn imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Imports') the world total is 200.2 Mt"
  },
  "extra": [
   {

@@ -69,7 +69,8 @@
     "v": 350.0
    }
   ],
-  "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "manganese content"
  },
  "reserves": {
   "y": 2025,
@@ -106,7 +107,8 @@
     "v": 13000.0
    }
   ],
-  "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total"
+  "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total",
+  "basis": "manganese content"
  },
  "exports": {
   "y": 2024,
@@ -163,7 +165,8 @@
     "v": 0.1299
    }
   ],
-  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ore, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -220,7 +223,8 @@
     "v": 0.2144
    }
   ],
-  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ore, gross weight"
  },
  "flows": [
   {

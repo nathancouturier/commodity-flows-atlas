@@ -8,7 +8,7 @@ import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
-import { hovered, panelCollapsed, select, selection } from '../lib/store';
+import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
 import { escapeHtml } from '../lib/format';
 
 export interface LineFeatureProps {
@@ -70,30 +70,40 @@ export function onMapReady(fn: (m: MLMap) => void) {
   else readyCallbacks.push(fn);
 }
 
-export function initMap(container: HTMLElement) {
+/** Null when the map cannot start (no WebGL): the caller shows a message and the panels carry on. */
+export function initMap(container: HTMLElement): MLMap | null {
   if (map) return map;
-  map = new maplibregl.Map({
-    container,
-    style: baseStyle(),
-    center: [20, 22],
-    zoom: 1.2,
-    minZoom: 0.5,
-    maxZoom: 9,
-    renderWorldCopies: true,
-    attributionControl: false,
-    dragRotate: false,
-    pitchWithRotate: false,
-    fadeDuration: 0,
-  });
-  // first-load framing: fit the trading world into the area the panels leave free
   try {
-    map.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: false }), maxZoom: 2.4, duration: 0 });
+    map = new maplibregl.Map({
+      container,
+      style: baseStyle(),
+      center: [20, 22],
+      zoom: 1.2,
+      minZoom: 0.5,
+      maxZoom: 9,
+      renderWorldCopies: true,
+      attributionControl: false,
+      dragRotate: false,
+      pitchWithRotate: false,
+      fadeDuration: 0,
+    });
+  } catch (e) {
+    // MapLibre throws when the browser gives it no WebGL context (switched off by policy, remote desktop)
+    console.warn('the map could not start', e);
+    map = null;
+    mapFailed.value = true;
+    return null;
+  }
+  // first-load framing: fit the trading world into the area the panels leave free; a link that opens a
+  // page (a commodity above all, whose view does not move the map) keeps the world clear of that page too
+  try {
+    map.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: selection.peek() !== null }), maxZoom: 2.4, duration: 0 });
   } catch (e) {
     console.error('initial framing failed', e);
   }
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-  // no attribution box on the map: Natural Earth and every data source are credited in the sources panel
+  // no attribution box on the map: Natural Earth and every data source are credited in the About / Sources window
 
   map.on('load', async () => {
     const m = map!;
@@ -373,12 +383,18 @@ export function flyToWorld(detail = !!document.querySelector('.detail-panel.open
 let hadSelection = selection.peek() !== null;
 selection.subscribe((s) => {
   if (hadSelection && s === null) {
-    // the hashchange handler clears and re-applies a selection in one go: only zoom out if it stays closed
+    // an action can close a selection and open another in one go: only zoom out if it stays closed
     queueMicrotask(() => {
       if (selection.peek() === null) flyToWorld(false);
     });
   }
   hadSelection = s !== null;
+});
+
+// A commodity link applied to the open atlas (pasted address, Back, Forward) shows the world beside its
+// page, as a fresh load does; the other pages move the map themselves.
+linkApplied.subscribe((link) => {
+  if (link && selection.peek()?.kind === 'commodity') flyToWorld(true);
 });
 
 export function flyToCountry(iso3: string) {

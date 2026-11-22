@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold."
+   "n": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes."
   }
  },
  "production": {
@@ -192,7 +192,8 @@
     "v": 5.04
    }
   ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold."
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes.",
+  "caveat": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes."
  },
  "imports": {
   "y": 2024,
@@ -249,7 +250,8 @@
     "v": 7.163
    }
   ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · See exports note: North American pipeline-gas tonnage is understated in customs data."
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America (see the exporters table).",
+  "caveat": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America (see the exporters table)."
  },
  "flows": [
   {
@@ -436,6 +438,6 @@
  "notes": [
   "Trade tables cover gas in gaseous state (HS 271121: pipeline) in Mt; LNG is under 'lng'. Flows are shown as pipeline mode.",
   "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
-  "Customs tonnage for pipeline gas is unreliable for North America (value-based estimates at about USD 500/t); use EIA bcm figures for production and consumption."
+  "Customs tonnage for pipeline gas is unreliable for North America, where it is estimated from value; use EIA bcm figures for production and consumption."
  ]
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The atlas is one page: views are held in the #... part of the address, which search engines do not index. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://nathancouturier.github.io/commodity-flows-atlas/</loc>
+  </url>
+</urlset>

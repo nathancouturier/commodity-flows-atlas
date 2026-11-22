@@ -20,15 +20,18 @@
    "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Rice, Milled, milled rice exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+   "n": "USDA PSD, Rice, Milled, milled rice exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 59.0 Mt"
   },
   "seaborne": {
    "v": 49.13,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (rice) under the Atlas lane method (data/freight/lanes/rice.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. Seaborne subset of BACI flows (rice) under the Atlas lane method (data/freight/lanes/rice.json); both countries need a sea gateway and must not be land neighbours."
   }
+ },
+ "labels": {
+  "flows": "Main flows — milled equivalent"
  },
  "production": {
   "y": "2025/26",
@@ -199,7 +202,7 @@
     "v": 0.442
    }
   ],
-  "n": "USDA PSD, Rice, Milled, milled rice exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Rice, Milled, milled rice exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 59.0 Mt"
  },
  "imports": {
   "y": "2025/26",
@@ -256,7 +259,7 @@
     "v": 1.208
    }
   ],
-  "n": "USDA PSD, Rice, Milled, milled rice imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  "n": "USDA PSD, Rice, Milled, milled rice imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Imports') the world total is 56.5 Mt"
  },
  "extra": [
   {
@@ -323,15 +326,6 @@
  ],
  "flows": [
   {
-   "o": "KHM",
-   "d": "VNM",
-   "v": 5.004,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "land"
-  },
-  {
    "o": "VNM",
    "d": "PHL",
    "v": 3.55,
@@ -340,6 +334,16 @@
    "s": "baci",
    "mode": "sea",
    "lane": "rice:VNM-PHL"
+  },
+  {
+   "o": "KHM",
+   "d": "VNM",
+   "v": 3.053,
+   "u": "Mt",
+   "y": 2024,
+   "s": "atlas",
+   "mode": "land",
+   "n": "Atlas estimate, milled equivalent: CEPII BACI 2024 customs weight is 5.00 Mt, of which 5.00 Mt is paddy (HS 1006.10), converted at the USDA PSD milling rate of Cambodia (0.61, market year 2025/26)"
   },
   {
    "o": "IND",
@@ -449,16 +453,6 @@
    "mode": "sea"
   },
   {
-   "o": "USA",
-   "d": "MEX",
-   "v": 0.7981,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "sea",
-   "lane": "rice:USA-MEX"
-  },
-  {
    "o": "IND",
    "d": "IRN",
    "v": 0.7453,
@@ -514,10 +508,21 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea"
+  },
+  {
+   "o": "IND",
+   "d": "ARE",
+   "v": 0.5984,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-ARE"
   }
  ],
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
-  "PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures."
+  "PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures.",
+  "Customs flows cover HS 1006.10 to 1006.40. Paddy (7.95 Mt in 2024, CEPII BACI) is converted to milled equivalent with the USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas estimate. Husked rice (HS 1006.20) stays at customs weight. The seaborne total and the map lanes still use customs weight."
  ]
 }

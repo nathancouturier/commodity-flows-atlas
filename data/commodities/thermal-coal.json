@@ -6,36 +6,51 @@
    "u": "Mt",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+   "n": "All coal minus metallurgical coal (EIA), so lignite is included: 963.4 Mt, 12% of the total."
   },
   "consumption": {
    "v": 7820.2,
    "u": "Mt",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+   "n": "All coal minus metallurgical coal (EIA), so lignite is included: 953.2 Mt, 12% of the total."
   },
   "reserves": {
    "v": 1165892.6,
    "u": "Mt",
-   "y": 2025,
+   "y": 2022,
    "s": "eia-intl",
-   "n": "EIA coal reserves, all coal (not split thermal/metallurgical)"
+   "n": "All coal, not split thermal/metallurgical. EIA estimates last revised in 2022."
   },
   "exports": {
    "v": 1119.5,
    "u": "Mt",
    "y": 2025,
    "s": "eia-intl",
-   "n": "thermal coal exports (EIA: all coal minus metallurgical coal)"
+   "n": "Thermal coal only (EIA: all coal minus metallurgical coal). Not the basis of the seaborne figure, which is all coal."
   },
   "seaborne": {
    "v": 1364.4,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (coal) under the Atlas lane method (data/freight/lanes/coal.json); both countries need a sea gateway and must not be land neighbours; all coal (thermal and metallurgical)"
+   "n": "All coal, thermal and metallurgical: customs codes do not separate them, so this is not comparable with the thermal-only exports figure. Customs data give 1,609 Mt of all-coal trade by all modes in 2024; EIA puts world exports of all coal at 1,533 Mt in 2024. Seaborne subset of BACI flows (coal) under the Atlas lane method (data/freight/lanes/coal.json); both countries need a sea gateway and must not be land neighbours; all coal (thermal and metallurgical)."
   }
+ },
+ "kpis": {
+  "production": "World production (incl. lignite)",
+  "consumption": "World consumption (incl. lignite)",
+  "exports": "World exports (thermal coal)",
+  "reserves": "World reserves (all coal)",
+  "seaborne": "Seaborne trade (all coal)"
+ },
+ "labels": {
+  "production": "Top producers — thermal coal incl. lignite, EIA 2025",
+  "consumption": "Top consumers — thermal coal incl. lignite, EIA 2025",
+  "exports": "Top exporters — thermal coal, EIA 2025",
+  "imports": "Top importers — thermal coal, EIA 2025",
+  "reserves": "Reserves — all coal, EIA, last revised 2022",
+  "flows": "Main flows — all coal, customs data 2024"
  },
  "production": {
   "y": 2025,
@@ -45,27 +60,33 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 3916.8
+    "v": 3916.8,
+    "n": "of which lignite 232.4 Mt (6%)"
    },
    {
     "c": "IND",
-    "v": 946.61
+    "v": 946.61,
+    "n": "of which lignite 40.7 Mt (4%)"
    },
    {
     "c": "IDN",
-    "v": 784.19
+    "v": 784.19,
+    "n": "of which lignite 156.9 Mt (20%)"
    },
    {
     "c": "USA",
-    "v": 420.91
+    "v": 420.91,
+    "n": "of which lignite 35.6 Mt (8%)"
    },
    {
     "c": "RUS",
-    "v": 374.74
+    "v": 374.74,
+    "n": "of which lignite 75.5 Mt (20%)"
    },
    {
     "c": "AUS",
-    "v": 282.64
+    "v": 282.64,
+    "n": "of which lignite 38.7 Mt (14%)"
    },
    {
     "c": "ZAF",
@@ -73,29 +94,34 @@
    },
    {
     "c": "KAZ",
-    "v": 115.72
+    "v": 115.72,
+    "n": "of which lignite 4.53 Mt (4%)"
    },
    {
     "c": "DEU",
-    "v": 84.403
+    "v": 84.403,
+    "n": "of which lignite 84.4 Mt (100%)"
    },
    {
     "c": "TUR",
-    "v": 75.275
+    "v": 75.275,
+    "n": "of which lignite 72.6 Mt (97%)"
    },
    {
     "c": "POL",
-    "v": 68.569
+    "v": 68.569,
+    "n": "of which lignite 37.8 Mt (55%)"
    },
    {
     "c": "VNM",
     "v": 51.942
    }
   ],
-  "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+  "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt; includes lignite: 963.4 Mt of the world total (12%, EIA lignite production)",
+  "basis": "incl. lignite"
  },
  "reserves": {
-  "y": 2025,
+  "y": 2022,
   "s": "eia-intl",
   "u": "Mt",
   "world": 1165892.6,
@@ -106,7 +132,8 @@
    },
    {
     "c": "RUS",
-    "v": 162165.8
+    "v": 162165.8,
+    "n": "EIA value unchanged since 2018"
    },
    {
     "c": "CHN",
@@ -130,11 +157,13 @@
    },
    {
     "c": "UKR",
-    "v": 34375.0
+    "v": 34375.0,
+    "n": "EIA value unchanged since 2008"
    },
    {
     "c": "KGZ",
-    "v": 28499.0
+    "v": 28499.0,
+    "n": "EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution"
    },
    {
     "c": "POL",
@@ -142,14 +171,16 @@
    },
    {
     "c": "KAZ",
-    "v": 25605.0
+    "v": 25605.0,
+    "n": "EIA value unchanged since 2012"
    },
    {
     "c": "TUR",
     "v": 10975.0
    }
   ],
-  "n": "EIA International Energy Data, coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt; world total as published by EIA (all countries); 4 of 12 listed countries report an unchanged value over the last 5 years (reserve estimates are not revised annually)"
+  "n": "EIA International Energy Data, coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt; world total as published by EIA (all countries); last revised by EIA in 2022 and repeated unchanged to 2025 (reserve estimates are not revised every year) · Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution.",
+  "caveat": "Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution."
  },
  "consumption": {
   "y": 2025,
@@ -159,23 +190,28 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 4312.1
+    "v": 4312.1,
+    "n": "of which lignite 389.1 Mt (9%)"
    },
    {
     "c": "IND",
-    "v": 1126.0
+    "v": 1126.0,
+    "n": "of which lignite 44.3 Mt (4%)"
    },
    {
     "c": "USA",
-    "v": 396.82
+    "v": 396.82,
+    "n": "of which lignite 30.7 Mt (8%)"
    },
    {
     "c": "IDN",
-    "v": 264.37
+    "v": 264.37,
+    "n": "of which lignite 13.2 Mt (5%)"
    },
    {
     "c": "RUS",
-    "v": 193.85
+    "v": 193.85,
+    "n": "of which lignite 58.4 Mt (30%)"
    },
    {
     "c": "ZAF",
@@ -187,7 +223,8 @@
    },
    {
     "c": "TUR",
-    "v": 114.44
+    "v": 114.44,
+    "n": "of which lignite 73.1 Mt (64%)"
    },
    {
     "c": "VNM",
@@ -195,18 +232,21 @@
    },
    {
     "c": "DEU",
-    "v": 102.51
+    "v": 102.51,
+    "n": "of which lignite 84.5 Mt (82%)"
    },
    {
     "c": "AUS",
-    "v": 91.256
+    "v": 91.256,
+    "n": "of which lignite 38.7 Mt (42%)"
    },
    {
     "c": "KOR",
     "v": 87.758
    }
   ],
-  "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+  "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt; includes lignite: 953.2 Mt of the world total (12%, EIA lignite consumption)",
+  "basis": "incl. lignite"
  },
  "exports": {
   "y": 2025,
@@ -322,6 +362,193 @@
   ],
   "n": "EIA International Energy Data, coal imports; all coal imports minus metallurgical coal imports (EIA), per country; 1000 metric tons converted to Mt"
  },
+ "extra": [
+  {
+   "key": "lignite-production",
+   "title": "Lignite producers, EIA 2025 (included above)",
+   "table": {
+    "y": 2025,
+    "s": "eia-intl",
+    "u": "Mt",
+    "world": 963.38,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 232.36
+     },
+     {
+      "c": "IDN",
+      "v": 156.88
+     },
+     {
+      "c": "DEU",
+      "v": 84.403
+     },
+     {
+      "c": "RUS",
+      "v": 75.474
+     },
+     {
+      "c": "TUR",
+      "v": 72.65
+     },
+     {
+      "c": "IND",
+      "v": 40.671
+     },
+     {
+      "c": "AUS",
+      "v": 38.657
+     },
+     {
+      "c": "POL",
+      "v": 37.793
+     },
+     {
+      "c": "USA",
+      "v": 35.639
+     },
+     {
+      "c": "SRB",
+      "v": 33.3
+     },
+     {
+      "c": "CZE",
+      "v": 23.232
+     },
+     {
+      "c": "BGR",
+      "v": 17.201
+     }
+    ],
+    "n": "EIA International Energy Data, lignite production; 1000 metric tons converted to Mt; world total as published by EIA (all countries); these tonnages are included in the thermal coal production table"
+   }
+  },
+  {
+   "key": "allcoal-exports",
+   "title": "All coal exporters, customs data 2024",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 1608.5,
+    "rows": [
+     {
+      "c": "IDN",
+      "v": 564.38
+     },
+     {
+      "c": "AUS",
+      "v": 388.56
+     },
+     {
+      "c": "RUS",
+      "v": 183.54
+     },
+     {
+      "c": "USA",
+      "v": 108.22
+     },
+     {
+      "c": "MNG",
+      "v": 82.911
+     },
+     {
+      "c": "ZAF",
+      "v": 70.907
+     },
+     {
+      "c": "COL",
+      "v": 65.112
+     },
+     {
+      "c": "CAN",
+      "v": 37.299
+     },
+     {
+      "c": "KAZ",
+      "v": 31.321
+     },
+     {
+      "c": "MOZ",
+      "v": 19.851
+     },
+     {
+      "c": "PHL",
+      "v": 17.502
+     },
+     {
+      "c": "POL",
+      "v": 4.219
+     }
+    ],
+    "n": "CEPII BACI HS92 coal and lignite, thermal and metallurgical together (HS 270111, 270112, 270119, 270210, 270220), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal",
+    "basis": "thermal and metallurgical, customs data"
+   }
+  },
+  {
+   "key": "allcoal-imports",
+   "title": "All coal importers, customs data 2024",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 1608.5,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 552.71
+     },
+     {
+      "c": "IND",
+      "v": 264.17
+     },
+     {
+      "c": "JPN",
+      "v": 166.59
+     },
+     {
+      "c": "KOR",
+      "v": 119.79
+     },
+     {
+      "c": "VNM",
+      "v": 53.993
+     },
+     {
+      "c": "TWN",
+      "v": 51.469
+     },
+     {
+      "c": "MYS",
+      "v": 44.461
+     },
+     {
+      "c": "TUR",
+      "v": 39.832
+     },
+     {
+      "c": "PHL",
+      "v": 39.292
+     },
+     {
+      "c": "DEU",
+      "v": 20.198
+     },
+     {
+      "c": "NLD",
+      "v": 19.97
+     },
+     {
+      "c": "THA",
+      "v": 18.478
+     }
+    ],
+    "n": "CEPII BACI HS92 coal and lignite, thermal and metallurgical together (HS 270111, 270112, 270119, 270210, 270220), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal",
+    "basis": "thermal and metallurgical, customs data"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "IDN",
@@ -331,7 +558,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-CHN"
+   "lane": "coal:IDN-CHN",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -341,7 +569,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-IND"
+   "lane": "coal:IDN-IND",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -351,7 +580,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-JPN"
+   "lane": "coal:AUS-JPN",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "RUS",
@@ -360,7 +590,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "land",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -370,7 +601,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-CHN"
+   "lane": "coal:AUS-CHN",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "MNG",
@@ -379,7 +611,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "land",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -389,7 +622,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-IND"
+   "lane": "coal:AUS-IND",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -399,7 +633,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-PHL"
+   "lane": "coal:IDN-PHL",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -409,7 +644,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-KOR"
+   "lane": "coal:AUS-KOR",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "ZAF",
@@ -419,7 +655,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:ZAF-IND"
+   "lane": "coal:ZAF-IND",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -429,7 +666,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-KOR"
+   "lane": "coal:IDN-KOR",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -439,7 +677,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-JPN"
+   "lane": "coal:IDN-JPN",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -449,7 +688,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-TWN"
+   "lane": "coal:AUS-TWN",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -459,7 +699,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-VNM"
+   "lane": "coal:IDN-VNM",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "IDN",
@@ -469,7 +710,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:IDN-MYS"
+   "lane": "coal:IDN-MYS",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "RUS",
@@ -479,7 +721,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:RUS-IND"
+   "lane": "coal:RUS-IND",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "RUS",
@@ -489,7 +732,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:RUS-TUR"
+   "lane": "coal:RUS-TUR",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "USA",
@@ -499,7 +743,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:USA-IND"
+   "lane": "coal:USA-IND",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "RUS",
@@ -509,7 +754,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:RUS-KOR"
+   "lane": "coal:RUS-KOR",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -519,11 +765,12 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-VNM"
+   "lane": "coal:AUS-VNM",
+   "n": "all coal (HS 2701, 2702): thermal and metallurgical not separated"
   }
  ],
  "notes": [
-  "Export and import rankings are thermal coal only (EIA). Bilateral flows and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
-  "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."
+  "Export and import rankings are thermal coal only (EIA). Bilateral flows, the all-coal tables and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
+  "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country, and so include lignite; reserves are for all coal."
  ]
 }

@@ -3,10 +3,14 @@ Build country profiles (data/countries/profiles.json) from the commodity files.
 
     python pipeline/commodities/build_profiles.py
 
-Relevance rule (METHODOLOGY.md §6): a commodity enters a country's profile when the country is in
-the world top 10 or holds >= 3% of world production, exports or imports. Within a profile,
-exports and imports are ordered by trade value (CEPII BACI, USD) so the country's economically
-largest flows come first; production is ordered by world share.
+Relevance rule (METHODOLOGY.md §6): a row enters a country's profile when the country is in the world
+top 10 of the table (production, exports or imports of a commodity), or holds >= 3% of its world
+total, or when the row is worth >= 10% of the country's own trade value across the atlas commodities.
+The commodity tables hold their 12 largest countries, so no row exists beyond rank 12. Every row
+that passes is published: the page shows the first eight and the rest behind "Show all".
+Exports and imports are ordered by trade value (CEPII BACI, USD) so the country's economically
+largest flows come first; production is ordered by world share. `top10` counts the catalogue
+commodities in which the country ranks in the world top 10 of any table.
 
 "Country check": if a country's largest raw-material export (BACI, HS4, latest year) is not one of
 the atlas commodities (e.g. diamonds for Botswana, logs for Gabon), it is added under `other`.
@@ -22,13 +26,23 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "pipeline", "trade"))
 from hs_map import HS  # noqa: E402
 
-TOP_RANK, MIN_SHARE, MAX_ITEMS = 10, 0.03, 8
+TOP_RANK, MIN_SHARE, MIN_WEIGHT = 10, 0.03, 0.10
 
-# atlas commodity -> BACI groups used to value its trade
+# atlas commodity -> BACI groups used to value its trade.
+# Customs codes do not separate thermal from metallurgical coal: the value of all coal belongs to
+# neither row, it is carried by the "Coal (all types)" row built from the all-coal customs tables.
 VALUE_GROUPS = {
-    "thermal-coal": ["coal"], "copper": ["copper-ore"], "bauxite": ["bauxite"], "nickel": ["nickel-ore"],
+    "thermal-coal": [], "copper": ["copper-ore"], "bauxite": ["bauxite"], "nickel": ["nickel-ore"],
     "zinc": ["zinc-ore"], "lead": ["lead-ore"], "tin": ["tin-metal"], "phosphate": ["phosphate-rock"], "met-coal": [],
 }
+COAL = ("thermal-coal", "met-coal")
+ALL_COAL = "Coal (all types)"
+
+# What the main trade table of a commodity really is, where the commodity name alone would mislead
+# (names as in pipeline/freight/build_lanes.py).
+TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nickel": "Nickel ore", "lead": "Lead concentrate",
+               "bauxite": "Bauxite"}
+PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
 HS4_LABEL = {
     "7102": "Diamonds", "4403": "Logs (roundwood)", "4407": "Sawn timber", "4401": "Wood chips and pellets",
@@ -94,7 +108,9 @@ def main():
                   "int-exports": ("exports", "nickel-int", "Nickel (intermediates & metal)"),
                   "int-imports": ("imports", "nickel-int", "Nickel (intermediates & metal)"),
                   "alumina-exports": ("exports", "alumina", "Alumina"),
-                  "metal-exports": ("exports", "zinc-metal", "Zinc (refined)")}
+                  "metal-exports": ("exports", "zinc-metal", "Zinc (refined)"),
+                  "allcoal-exports": ("exports", "coal", ALL_COAL),
+                  "allcoal-imports": ("imports", "coal", ALL_COAL)}
     candidates = []  # (iso, section, entry)
     for k, d in tables.items():
         sections = [(sec, d.get(sec), None, None) for sec in ("exports", "imports", "production")]
@@ -109,18 +125,24 @@ def main():
             for i, r in enumerate(t["rows"]):
                 share = r["v"] / world if world else None
                 e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
+                label = label or (PRODUCTION_LABEL.get(k) if section == "production" else TRADE_LABEL.get(k))
                 if label:
                     e["label"] = label
+                if t.get("basis"):
+                    e["basis"] = t["basis"]
                 if section in ("exports", "imports"):
                     series = exp_usd if section == "exports" else imp_usd
                     val = float(sum(series.get((r["c"], g), 0.0) for g in [grp])) * 1000 if grp else usd(series, r["c"], k)
                     if val:
-                        e["usd"] = round(val / 1e9, 3)
+                        # the value has its own source and year, whatever the tonnage comes from
+                        e["usd"], e["usdS"], e["usdY"] = round(val / 1e9, 3), "baci", latest
                 if r.get("n"):
                     e["n"] = r["n"]
+                if t.get("caveat"):
+                    e["warn"] = t["caveat"]  # warning of the whole table (trade hubs, gross weight...)
                 candidates.append((r["c"], section, e))
 
-    # relevance rule (METHODOLOGY.md §6): world top 5, or >= 3% of world, or >= 10% of the
+    # relevance rule (METHODOLOGY.md §6): world top 10, or >= 3% of world, or >= 10% of the
     # country's own trade value across atlas commodities
     own = {}
     for iso, section, e in candidates:
@@ -129,13 +151,32 @@ def main():
     for iso, section, e in candidates:
         tot = own.get((iso, section)) or 0
         weight = (e.get("usd") or 0) / tot if tot else 0
-        if e["rank"] <= 5 or (e["share"] or 0) >= MIN_SHARE or weight >= 0.10:
+        if e["rank"] <= TOP_RANK or (e["share"] or 0) >= MIN_SHARE or weight >= MIN_WEIGHT:
             add(iso, section, e)
 
-    for p in profiles.values():
-        p["exports"] = sorted(p["exports"], key=lambda e: -(e.get("usd") or 0) - (e["share"] or 0) * 1e-3)[:MAX_ITEMS]
-        p["imports"] = sorted(p["imports"], key=lambda e: -(e.get("usd") or 0) - (e["share"] or 0) * 1e-3)[:MAX_ITEMS]
-        p["production"] = sorted(p["production"], key=lambda e: -(e["share"] or 0))[:MAX_ITEMS]
+    # KPI "World top-10 in N commodities": counted on every table row, before any selection
+    top10 = {}
+    for iso, section, e in candidates:
+        if e["rank"] <= TOP_RANK:
+            top10.setdefault(iso, set()).add(e["k"])
+
+    def by_value(rows):
+        # thermal and metallurgical coal carry no value of their own: they follow the all-coal row
+        coal = next((e["usd"] for e in rows if e.get("label") == ALL_COAL and e.get("usd")), None)
+
+        def key(e):
+            v = e.get("usd") or 0
+            if not v and coal and e["k"] in COAL:
+                return (-coal, 1, -(e["share"] or 0))
+            return (-v, 0, -(e["share"] or 0))
+        return sorted(rows, key=key)
+
+    for iso, p in profiles.items():
+        p["exports"] = by_value(p["exports"])
+        p["imports"] = by_value(p["imports"])
+        p["production"] = sorted(p["production"], key=lambda e: -(e["share"] or 0))
+        if top10.get(iso):
+            p["top10"] = len(top10[iso])
 
     # ---- country check: top raw-material export outside the catalogue
     hs4p = os.path.join(ROOT, "pipeline", "cache", "hs4_exports.csv.gz")

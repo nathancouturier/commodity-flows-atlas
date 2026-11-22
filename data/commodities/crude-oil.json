@@ -15,6 +15,13 @@
    "s": "baci",
    "n": "sum of all BACI crude oil flows, tonnes (all modes)"
   },
+  "consumption": {
+   "v": 104800.5,
+   "u": "kb/d",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "Total oil demand (EIA petroleum and other liquids consumption): all liquids, not crude or refined products alone."
+  },
   "seaborne": {
    "v": 1861.2,
    "u": "Mt",
@@ -22,6 +29,12 @@
    "s": "baci",
    "n": "seaborne subset of BACI flows (crude-oil) under the Atlas lane method (data/freight/lanes/crude-oil.json); both countries need a sea gateway and must not be land neighbours"
   }
+ },
+ "kpis": {
+  "consumption": "Oil demand (all liquids)"
+ },
+ "labels": {
+  "consumption": "Top consumers — oil demand, all liquids"
  },
  "production": {
   "y": 2025,
@@ -79,6 +92,64 @@
    }
   ],
   "n": "EIA International Energy Data, crude oil including lease condensate production; world total as published by EIA (all countries)"
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "kb/d",
+  "world": 104800.5,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 20736.1
+   },
+   {
+    "c": "CHN",
+    "v": 17163.4
+   },
+   {
+    "c": "IND",
+    "v": 5663.5
+   },
+   {
+    "c": "SAU",
+    "v": 3735.9
+   },
+   {
+    "c": "RUS",
+    "v": 3715.8
+   },
+   {
+    "c": "BRA",
+    "v": 3241.2
+   },
+   {
+    "c": "JPN",
+    "v": 3094.1
+   },
+   {
+    "c": "CAN",
+    "v": 2535.8
+   },
+   {
+    "c": "KOR",
+    "v": 2464.3
+   },
+   {
+    "c": "DEU",
+    "v": 2027.7
+   },
+   {
+    "c": "IRN",
+    "v": 1931.9
+   },
+   {
+    "c": "MEX",
+    "v": 1905.7
+   }
+  ],
+  "n": "EIA International Energy Data, petroleum and other liquids consumption: total oil demand, all liquids (the EIA series 'refined petroleum products consumption' carries the same values); world total as published by EIA (all countries)",
+  "basis": "oil demand, all liquids"
  },
  "exports": {
   "y": 2024,
@@ -399,6 +470,7 @@
  ],
  "notes": [
   "Production is in kb/d (EIA); trade tables are in Mt/year (BACI tonnage). Conversion depends on grade, so none is applied.",
-  "No proved-reserves or crude-specific consumption series exists in the EIA bulk file used (INTL.txt); refined-product demand is under 'refined-products'."
+  "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
+  "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."
  ]
 }

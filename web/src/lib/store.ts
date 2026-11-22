@@ -4,7 +4,7 @@
  *
  * Progressive disclosure: only the `flows` layer is on at start.
  */
-import { signal, computed } from '@preact/signals';
+import { signal, computed, batch } from '@preact/signals';
 import type { Family, InfraType } from '../types';
 
 export type FamilyFilter = Family | 'all';
@@ -60,6 +60,8 @@ export const routeVia = signal<Set<string> | null>(null);
 export const landFlowsShown = signal(0);
 /** Small empty-state notice on the map (e.g. commodity without any mapped flows). */
 export const mapNotice = signal<string | null>(null);
+/** The map could not start (WebGL switched off or missing): the panels work without it. */
+export const mapFailed = signal(false);
 
 /** Active country colouring, for the colour-ramp legend. Shares are 0..1 of the world total. */
 export interface ChoroInfo {
@@ -115,34 +117,81 @@ export function select(s: Selection | null) {
 // ---------------------------------------------------------------- URL hash sync
 // The hash keeps the view shareable: #c=crude-oil&sel=country:SAU&m=production
 
-function readHash() {
-  const p = new URLSearchParams(location.hash.slice(1));
+const HASH_FAMILIES: readonly string[] = ['energy', 'metals', 'softs', 'freight'];
+const HASH_METRICS: readonly string[] = ['production', 'reserves', 'consumption', 'exports', 'imports'];
+const HASH_KINDS: readonly string[] = ['country', 'commodity', 'route', 'lane', 'chokepoint', 'infra', 'vessel', 'event'];
+
+/** The part of the view a link carries. */
+interface HashState {
+  family: FamilyFilter;
+  commodity: string | null;
+  metric: Metric;
+  vessels: string[];
+  year: number | null;
+  selection: Selection | null;
+}
+
+/**
+ * The view a hash describes. A key the hash does not carry is at its default, and so is a key whose value
+ * the atlas cannot read (an unknown tab, colouring or kind of page). Ids are checked later, against the
+ * catalogues, by the code that owns them.
+ */
+function parseHash(hash: string): HashState {
+  const p = new URLSearchParams(hash.replace(/^#/, ''));
   const f = p.get('f');
-  if (f === 'energy' || f === 'metals' || f === 'softs' || f === 'freight') family.value = f;
-  if (p.get('c')) commodity.value = p.get('c');
-  const m = p.get('m') as Metric | null;
-  if (m) metric.value = m;
-  const v = p.get('v');
-  if (v) vesselClasses.value = new Set(v.split(',').filter(Boolean));
+  const m = p.get('m');
   const y = p.get('y');
-  if (y && /^\d{4}$/.test(y)) year.value = Number(y);
-  const sel = p.get('sel');
-  if (sel) {
+  let sel: Selection | null = null;
+  const raw = p.get('sel');
+  if (raw) {
     // ids may contain ':' (lane ids are "<group>:<o>-<d>"); only infra selections carry a trailing layer
-    const i = sel.indexOf(':');
-    const kind = sel.slice(0, i);
-    let id = sel.slice(i + 1);
+    const i = raw.indexOf(':');
+    const kind = raw.slice(0, i);
+    let id = raw.slice(i + 1);
     let layer: string | undefined;
     if (kind === 'infra') {
       const j = id.lastIndexOf(':');
-      layer = id.slice(j + 1);
-      id = id.slice(0, j);
+      layer = j > 0 ? id.slice(j + 1) : '';
+      id = j > 0 ? id.slice(0, j) : '';
     }
-    if (i > 0 && id) selection.value = { kind, id, layer } as Selection;
+    if (i > 0 && id && HASH_KINDS.includes(kind) && layer !== '') sel = { kind, id, layer } as Selection;
   }
+  return {
+    family: f && HASH_FAMILIES.includes(f) ? (f as FamilyFilter) : 'all',
+    commodity: p.get('c') || null,
+    metric: m && HASH_METRICS.includes(m) ? (m as Metric) : 'none',
+    vessels: (p.get('v') ?? '').split(',').filter(Boolean),
+    year: y && /^\d{4}$/.test(y) ? Number(y) : null,
+    selection: sel,
+  };
 }
 
-export function writeHash() {
+const selKey = (s: Selection | null) => (s ? (s.kind === 'infra' ? `${s.kind}:${s.id}:${s.layer}` : `${s.kind}:${s.id}`) : '');
+
+/**
+ * Set each time an address is applied to the open atlas. `own` is true for Back or Forward to a view the
+ * atlas wrote itself (restored as it was), false for a link that came from outside (pasted or edited
+ * address, bookmark), which is treated like a fresh load of that link.
+ */
+export const linkApplied = signal<{ own: boolean } | null>(null);
+
+/** Put the whole view in the state a link describes, in one go (nothing is written to the address meanwhile). */
+function applyHash(st: HashState) {
+  batch(() => {
+    // a shared Freight-tab link opens with its routes and chokepoints visible; leaving the tab restores the layers
+    setFamily(st.family);
+    commodity.value = st.commodity;
+    metric.value = st.metric;
+    const vc = vesselClasses.peek();
+    if (vc.size !== st.vessels.length || st.vessels.some((v) => !vc.has(v))) vesselClasses.value = new Set(st.vessels);
+    year.value = st.year;
+    // the timeline is what sets a year: a link with #y=2016 opens it, a link without closes it
+    historyOpen.value = st.year != null;
+    if (selKey(st.selection) !== selKey(selection.peek())) selection.value = st.selection;
+  });
+}
+
+function currentHash(): string {
   const p = new URLSearchParams();
   if (family.value !== 'all') p.set('f', family.value);
   if (commodity.value) p.set('c', commodity.value);
@@ -150,24 +199,48 @@ export function writeHash() {
   if (vesselClasses.value.size) p.set('v', [...vesselClasses.value].join(','));
   if (year.value) p.set('y', String(year.value));
   const s = selection.value;
-  if (s) p.set('sel', s.kind === 'infra' ? `${s.kind}:${s.id}:${s.layer}` : `${s.kind}:${s.id}`);
+  if (s) p.set('sel', selKey(s));
   const h = p.toString();
-  history.replaceState(null, '', h ? `#${h}` : location.pathname + location.search);
+  return h ? `#${h}` : '';
 }
 
-readHash();
-// a link pasted into the address bar (or an edited hash) re-applies the view; writeHash uses
-// replaceState, which does not fire hashchange, so there is no loop
-window.addEventListener('hashchange', () => {
-  // a pasted link describes the whole view: its vessel filter replaces the current one
-  selection.value = null;
-  vesselClasses.value = new Set();
-  readHash();
-});
-// a shared Freight-tab link opens with its routes and chokepoints visible
-if (family.value === 'freight') {
-  layersBeforeFreight = { ...layers.value };
-  layers.value = { ...layers.value, routes: true, chokepoints: true, flows: false };
+/** Page (selection) shown by the history entry the address is on. */
+let entrySel = '';
+/** State of the history entries the atlas writes, to tell them from the addresses that come from outside. */
+const OWN_ENTRY = { atlas: true };
+let writePending = false;
+
+/**
+ * Mirror the view in the address. Opening or closing a page adds a history entry, so Back returns to the
+ * page before; everything else (tab, commodity, colouring, year) updates the current entry. The write
+ * waits for the end of the current task, so one action that changes several signals makes one entry.
+ */
+export function writeHash() {
+  if (writePending) return;
+  writePending = true;
+  queueMicrotask(() => {
+    writePending = false;
+    const h = currentHash();
+    const sel = selKey(selection.peek());
+    if (h !== location.hash) {
+      const url = h || location.pathname + location.search;
+      if (sel !== entrySel) history.pushState(OWN_ENTRY, '', url);
+      else history.replaceState(OWN_ENTRY, '', url);
+    }
+    entrySel = sel;
+  });
+}
+
+/**
+ * A link pasted into the address bar, an edited hash, Back or Forward: show exactly the view the address
+ * describes. pushState and replaceState fire neither event, so the atlas's own writes do not come back here.
+ */
+function onNavigate() {
+  if (location.hash === currentHash()) return;
+  const st = parseHash(location.hash);
+  entrySel = selKey(st.selection);
+  applyHash(st);
+  linkApplied.value = { own: history.state?.atlas === true };
 }
 
 // ---------------------------------------------------------------- route finder (side panel)
@@ -195,3 +268,13 @@ export const priceDrawer = signal<PriceDrawerState | null>(null);
 export const priceSeries = signal<string[]>([]);
 /** History timeline open (drives `year` while open). */
 export const historyOpen = signal(false);
+
+// ---------------------------------------------------------------- start
+// Last, because the view a link describes touches signals declared all over this file.
+{
+  const st = parseHash(location.hash);
+  entrySel = selKey(st.selection);
+  applyHash(st);
+  window.addEventListener('popstate', onNavigate);
+  window.addEventListener('hashchange', onNavigate);
+}

@@ -9,13 +9,6 @@
 ],
 "portwatch": "chokepoint6",
 "limits": "EIA: deep and wide enough for the largest crude tankers; traffic separation scheme runs through Omani waters.",
-"traffic": {
-"v": 3.5,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 92.3/day; 2025 average 85.5/day"
-},
 "shares": [
 {
 "k": "petroleum-liquids",
@@ -145,7 +138,22 @@
 "n": "24 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 3.5,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 92.3/day; 2025 average 85.5/day"
+},
+"trafficVol": {
+"v": 0.05,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.69 Mt/day; 2025 average 3.22 Mt/day"
+},
+"portwatchName": "Strait of Hormuz"
 },
 {
 "id": "malacca",
@@ -157,13 +165,6 @@
 ],
 "portwatch": "chokepoint5",
 "limits": "Shallow sections constrain the largest tankers (the \"Malaccamax\" design draft is about 25 m); not stated in the EIA page.",
-"traffic": {
-"v": 234.5,
-"u": "vessels/day",
-"y": 2025,
-"s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
-},
 "shares": [
 {
 "k": "crude-oil",
@@ -277,7 +278,22 @@
 "n": "21 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 224.1,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 220.1/day; 2025 average 234.5/day"
+},
+"trafficVol": {
+"v": 8.44,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 8.32 Mt/day; 2025 average 9.07 Mt/day"
+},
+"portwatchName": "Malacca Strait"
 },
 {
 "id": "singapore",
@@ -287,8 +303,11 @@
 103.85,
 1.18
 ],
-"portwatch": "chokepoint5",
-"summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density. PortWatch tracks it within the Malacca corridor.",
+"portwatchNote": "IMF PortWatch has no counter for the Singapore Strait. Its nearest counter is the Malacca Strait, shown on the Strait of Malacca page.",
+"seeAlso": [
+"malacca"
+],
+"summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density.",
 "s": "portwatch",
 "estimates": [
 {
@@ -361,14 +380,7 @@
 "n": "108 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-],
-"traffic": {
-"v": 224.1,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 220.1/day; 2025 average 234.5/day"
-}
+]
 },
 {
 "id": "sunda",
@@ -379,13 +391,6 @@
 -5.97
 ],
 "portwatch": "chokepoint19",
-"traffic": {
-"v": 31.0,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 30.4/day; 2025 average 31.9/day"
-},
 "summary": "Indonesian strait between Java and Sumatra, an alternative to Malacca for some Indian Ocean to South China Sea traffic, notably from the Cape; heavy volcanic and shallow hazards limit size.",
 "s": "portwatch",
 "estimates": [
@@ -449,7 +454,22 @@
 "n": "110 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 31.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 30.4/day; 2025 average 31.9/day"
+},
+"trafficVol": {
+"v": 1.14,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.10 Mt/day; 2025 average 1.27 Mt/day"
+},
+"portwatchName": "Sunda Strait"
 },
 {
 "id": "lombok",
@@ -460,13 +480,6 @@
 -8.42
 ],
 "portwatch": "chokepoint15",
-"traffic": {
-"v": 37.8,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 37.5/day; 2025 average 35.8/day"
-},
 "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; exact limits not sourced.",
 "summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
 "s": "portwatch",
@@ -511,7 +524,22 @@
 "n": "25 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 37.8,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 37.5/day; 2025 average 35.8/day"
+},
+"trafficVol": {
+"v": 3.08,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.66 Mt/day; 2025 average 2.96 Mt/day"
+},
+"portwatchName": "Lombok Strait"
 },
 {
 "id": "suez",
@@ -523,13 +551,6 @@
 ],
 "portwatch": "chokepoint1",
 "limits": "Max draft about 20.1 m (66 ft) for Suezmax; larger ballast VLCCs transit, laden VLCCs need partial lightering or the SUMED pipeline. Check Suez Canal Authority for current limits.",
-"traffic": {
-"v": 43.7,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 73.7/day; 2025 average 38.5/day"
-},
 "shares": [
 {
 "k": "petroleum-liquids",
@@ -573,7 +594,7 @@
 "alternatives": [
 {
 "label": "Cape of Good Hope",
-"note": "Adds roughly 3,500 nm / 10-14 days on Asia-Europe voyages (commonly cited; not from the EIA page)."
+"note": "Main alternative. The extra distance depends on the voyage: the typical detour above is measured on the atlas's mapped lanes."
 },
 {
 "label": "SUMED pipeline",
@@ -649,7 +670,22 @@
 "y": 2024,
 "s": "atlas",
 "n": "Volume-weighted median over 41 mapped lanes that use this passage, at each lane's typical laden speed"
-}
+},
+"traffic": {
+"v": 43.7,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 73.7/day; 2025 average 38.5/day"
+},
+"trafficVol": {
+"v": 1.85,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.35 Mt/day; 2025 average 1.39 Mt/day"
+},
+"portwatchName": "Suez Canal"
 },
 {
 "id": "bab-el-mandeb",
@@ -661,13 +697,6 @@
 ],
 "portwatch": "chokepoint4",
 "limits": "About 18 miles wide at the narrowest point, with the shipping lanes in the Perim channel; no draft limit for oil tankers.",
-"traffic": {
-"v": 27.0,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 74.0/day; 2025 average 33.5/day"
-},
 "shares": [
 {
 "k": "petroleum-liquids",
@@ -783,7 +812,22 @@
 "y": 2024,
 "s": "atlas",
 "n": "Volume-weighted median over 41 mapped lanes that use this passage, at each lane's typical laden speed"
-}
+},
+"traffic": {
+"v": 27.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 74.0/day; 2025 average 33.5/day"
+},
+"trafficVol": {
+"v": 0.94,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.37 Mt/day; 2025 average 1.20 Mt/day"
+},
+"portwatchName": "Bab el-Mandeb Strait"
 },
 {
 "id": "panama",
@@ -795,12 +839,12 @@
 ],
 "portwatch": "chokepoint2",
 "limits": "Two lock systems: Panamax (about 32.3 m beam) and Neopanamax (since 2016, larger LNG and LPG carriers). Draft and slot limits vary with Gatun Lake levels.",
-"traffic": {
-"v": 27.9,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 30.2/day; 2025 average 31.1/day"
+"trafficRef": {
+"v": 13404,
+"u": "transits/year",
+"y": "FY2025",
+"s": "pca-stats",
+"n": "Fiscal year ending 30 Sep 2025; 3,342 Neopanamax, 10,062 Panamax"
 },
 "shares": [
 {
@@ -912,13 +956,21 @@
 "s": "atlas",
 "n": "Volume-weighted median over 29 mapped lanes that use this passage, at each lane's typical laden speed"
 },
-"trafficRef": {
-"v": 13404,
-"u": "transits/year",
-"y": "FY2025",
-"s": "pca-stats",
-"n": "Fiscal year ending 30 Sep 2025; 3,342 Neopanamax, 10,062 Panamax"
-}
+"traffic": {
+"v": 27.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 30.2/day; 2025 average 31.1/day"
+},
+"trafficVol": {
+"v": 0.796,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.820 Mt/day; 2025 average 0.894 Mt/day"
+},
+"portwatchName": "Panama Canal"
 },
 {
 "id": "bosphorus",
@@ -930,13 +982,6 @@
 ],
 "portwatch": "chokepoint3",
 "limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); draft limit not sourced.",
-"traffic": {
-"v": 48.0,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 96.7/day; 2025 average 92.4/day"
-},
 "shares": [
 {
 "k": "crude-oil",
@@ -1015,7 +1060,22 @@
 "n": "18 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 48.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 96.7/day; 2025 average 92.4/day"
+},
+"trafficVol": {
+"v": 0.56,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.14 Mt/day; 2025 average 1.16 Mt/day"
+},
+"portwatchName": "Bosporus Strait"
 },
 {
 "id": "danish-straits",
@@ -1026,14 +1086,9 @@
 55.5
 ],
 "portwatch": "chokepoint10",
+"portwatchLabel": "Oresund (PortWatch); Great Belt not covered",
+"portwatchNote": "IMF PortWatch counts the Oresund only. It has no counter for the Great Belt, the other main passage of the Danish Straits, so this series is not the traffic of the Danish Straits as a whole.",
 "limits": "Shallow, draft-restricted passages in the Great Belt and Oresund; limits not sourced here.",
-"traffic": {
-"v": 41.0,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 45.3/day; 2025 average 47.1/day"
-},
 "shares": [
 {
 "k": "crude-oil",
@@ -1086,7 +1141,22 @@
 "n": "93 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 41.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 45.3/day; 2025 average 47.1/day"
+},
+"trafficVol": {
+"v": 0.096,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.097 Mt/day; 2025 average 0.110 Mt/day"
+},
+"portwatchName": "Oresund Strait"
 },
 {
 "id": "gibraltar",
@@ -1097,13 +1167,6 @@
 35.97
 ],
 "portwatch": "chokepoint8",
-"traffic": {
-"v": 126.9,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 146.4/day; 2025 average 135.4/day"
-},
 "summary": "Gateway between the Atlantic and the Mediterranean, linking Suez-bound and Cape-diverted traffic with Europe.",
 "s": "portwatch",
 "estimates": [
@@ -1167,7 +1230,22 @@
 "n": "13 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 126.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 146.4/day; 2025 average 135.4/day"
+},
+"trafficVol": {
+"v": 3.47,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 4.11 Mt/day; 2025 average 3.54 Mt/day"
+},
+"portwatchName": "Gibraltar Strait"
 },
 {
 "id": "dover",
@@ -1178,13 +1256,6 @@
 51.0
 ],
 "portwatch": "chokepoint9",
-"traffic": {
-"v": 162.4,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 174.7/day; 2025 average 174.7/day"
-},
 "limits": "Deep-draft route (the Dover Strait traffic separation scheme); exact draft not sourced.",
 "summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
 "s": "portwatch",
@@ -1229,7 +1300,22 @@
 "n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 162.4,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 174.7/day; 2025 average 174.7/day"
+},
+"trafficVol": {
+"v": 3.42,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.55 Mt/day; 2025 average 3.57 Mt/day"
+},
+"portwatchName": "Dover Strait"
 },
 {
 "id": "cape-good-hope",
@@ -1240,13 +1326,6 @@
 -34.36
 ],
 "portwatch": "chokepoint7",
-"traffic": {
-"v": 83.0,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 49.1/day; 2025 average 89.5/day"
-},
 "shares": [
 {
 "k": "petroleum-liquids",
@@ -1347,7 +1426,22 @@
 "n": "114 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 83.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 49.1/day; 2025 average 89.5/day"
+},
+"trafficVol": {
+"v": 5.12,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.03 Mt/day; 2025 average 5.68 Mt/day"
+},
+"portwatchName": "Cape of Good Hope"
 },
 {
 "id": "cape-horn",
@@ -1359,11 +1453,13 @@
 ],
 "alternatives": [
 {
-"label": "Magellan Strait (PortWatch chokepoint21)",
+"label": "Magellan Strait",
 "note": "Sheltered alternative with pilotage."
 }
 ],
-"summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather. No PortWatch coverage.",
+"seriesFrom": "magellan",
+"portwatchNote": "IMF PortWatch has no counter for Cape Horn. It counts the Magellan Strait, the sheltered passage to the north: that series is shown here under its own name.",
+"summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather.",
 "s": "portwatch",
 "estimates": [
 {
@@ -1387,13 +1483,6 @@
 24.7
 ],
 "portwatch": "chokepoint11",
-"traffic": {
-"v": 221.9,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 239.9/day; 2025 average 238.8/day"
-},
 "summary": "Main north-south route for China-Japan-Korea trade, container and crude flows.",
 "s": "portwatch",
 "estimates": [
@@ -1487,7 +1576,22 @@
 "n": "111 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 221.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 239.9/day; 2025 average 238.8/day"
+},
+"trafficVol": {
+"v": 5.51,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 5.61 Mt/day; 2025 average 5.94 Mt/day"
+},
+"portwatchName": "Taiwan Strait"
 },
 {
 "id": "korea-strait",
@@ -1498,13 +1602,6 @@
 34.1
 ],
 "portwatch": "chokepoint12",
-"traffic": {
-"v": 203.6,
-"u": "vessels/day",
-"y": "28 days to 2026-11-15",
-"s": "portwatch",
-"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 234.1/day; 2025 average 219.4/day"
-},
 "summary": "Link between the East China Sea and the Sea of Japan between Korea and Japan.",
 "s": "portwatch",
 "estimates": [
@@ -1558,6 +1655,399 @@
 "n": "40 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 203.6,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 234.1/day; 2025 average 219.4/day"
+},
+"trafficVol": {
+"v": 2.89,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.92 Mt/day; 2025 average 3.14 Mt/day"
+},
+"portwatchName": "Korea Strait"
+},
+{
+"id": "makassar",
+"name": "Makassar Strait",
+"kind": "strait",
+"at": [
+119.26,
+0.35
+],
+"portwatch": "chokepoint20",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 51.4,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 58.4/day; 2025 average 46.4/day"
+},
+"trafficVol": {
+"v": 3.2,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.18 Mt/day; 2025 average 2.87 Mt/day"
+},
+"portwatchName": "Makassar Strait"
+},
+{
+"id": "luzon",
+"name": "Luzon Strait",
+"kind": "strait",
+"at": [
+121.35,
+20.49
+],
+"portwatch": "chokepoint14",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 94.5,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 75.1/day; 2025 average 66.4/day"
+},
+"trafficVol": {
+"v": 6.35,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 4.44 Mt/day; 2025 average 4.12 Mt/day"
+},
+"portwatchName": "Luzon Strait"
+},
+{
+"id": "bohai",
+"name": "Bohai Strait",
+"kind": "strait",
+"at": [
+120.9,
+38.37
+],
+"portwatch": "chokepoint17",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 155.6,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 182.6/day; 2025 average 170.4/day"
+},
+"trafficVol": {
+"v": 5.91,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 5.84 Mt/day; 2025 average 6.21 Mt/day"
+},
+"portwatchName": "Bohai Strait"
+},
+{
+"id": "yucatan",
+"name": "Yucatan Channel",
+"kind": "channel",
+"at": [
+-85.65,
+21.82
+],
+"portwatch": "chokepoint22",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 50.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 44.8/day; 2025 average 47.9/day"
+},
+"trafficVol": {
+"v": 1.19,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.06 Mt/day; 2025 average 1.17 Mt/day"
+},
+"portwatchName": "Yucatan Channel"
+},
+{
+"id": "kerch",
+"name": "Kerch Strait",
+"kind": "strait",
+"at": [
+36.54,
+45.27
+],
+"portwatch": "chokepoint28",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 0.1,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 8.2/day; 2025 average 13.8/day"
+},
+"trafficVol": {
+"v": 0.0,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.015 Mt/day; 2025 average 0.068 Mt/day"
+},
+"portwatchName": "Kerch Strait"
+},
+{
+"id": "magellan",
+"name": "Magellan Strait",
+"kind": "strait",
+"at": [
+-69.59,
+-52.64
+],
+"portwatch": "chokepoint21",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 4.4,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 4.4/day; 2025 average 4.0/day"
+},
+"trafficVol": {
+"v": 0.163,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.136 Mt/day; 2025 average 0.138 Mt/day"
+},
+"portwatchName": "Magellan Strait"
+},
+{
+"id": "mindoro",
+"name": "Mindoro Strait",
+"kind": "strait",
+"at": [
+120.4,
+12.47
+],
+"portwatch": "chokepoint27",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 50.8,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 50.2/day; 2025 average 33.5/day"
+},
+"trafficVol": {
+"v": 3.21,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.66 Mt/day; 2025 average 1.87 Mt/day"
+},
+"portwatchName": "Mindoro Strait"
+},
+{
+"id": "tsugaru",
+"name": "Tsugaru Strait",
+"kind": "strait",
+"at": [
+140.35,
+41.33
+],
+"portwatch": "chokepoint13",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 38.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 43.5/day; 2025 average 45.7/day"
+},
+"trafficVol": {
+"v": 0.894,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.903 Mt/day; 2025 average 1.014 Mt/day"
+},
+"portwatchName": "Tsugaru Strait"
+},
+{
+"id": "ombai",
+"name": "Ombai Strait",
+"kind": "strait",
+"at": [
+125.09,
+-8.4
+],
+"portwatch": "chokepoint16",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 8.2,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.6/day; 2025 average 10.5/day"
+},
+"trafficVol": {
+"v": 0.641,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.405 Mt/day; 2025 average 0.805 Mt/day"
+},
+"portwatchName": "Ombai Strait"
+},
+{
+"id": "mona",
+"name": "Mona Passage",
+"kind": "passage",
+"at": [
+-67.71,
+18.45
+],
+"portwatch": "chokepoint24",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 11.8,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.4/day; 2025 average 11.0/day"
+},
+"trafficVol": {
+"v": 0.348,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.247 Mt/day; 2025 average 0.287 Mt/day"
+},
+"portwatchName": "Mona Passage"
+},
+{
+"id": "windward",
+"name": "Windward Passage",
+"kind": "passage",
+"at": [
+-73.7,
+19.99
+],
+"portwatch": "chokepoint23",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 15.4,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 15.1/day; 2025 average 15.7/day"
+},
+"trafficVol": {
+"v": 0.279,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.245 Mt/day; 2025 average 0.275 Mt/day"
+},
+"portwatchName": "Windward Passage"
+},
+{
+"id": "balabac",
+"name": "Balabac Strait",
+"kind": "strait",
+"at": [
+117.11,
+7.41
+],
+"portwatch": "chokepoint25",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 11.8,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.9/day; 2025 average 9.3/day"
+},
+"trafficVol": {
+"v": 0.289,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.305 Mt/day; 2025 average 0.220 Mt/day"
+},
+"portwatchName": "Balabac Strait"
+},
+{
+"id": "torres",
+"name": "Torres Strait",
+"kind": "strait",
+"at": [
+142.25,
+-9.86
+],
+"portwatch": "chokepoint18",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 9.0,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 9.5/day; 2025 average 9.5/day"
+},
+"trafficVol": {
+"v": 0.186,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.190 Mt/day; 2025 average 0.201 Mt/day"
+},
+"portwatchName": "Torres Strait"
+},
+{
+"id": "bering",
+"name": "Bering Strait",
+"kind": "strait",
+"at": [
+-165.55,
+65.97
+],
+"portwatch": "chokepoint26",
+"summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+"s": "portwatch",
+"traffic": {
+"v": 1.6,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 0.7/day; 2025 average 1.0/day"
+},
+"trafficVol": {
+"v": 0.025,
+"u": "Mt/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.010 Mt/day; 2025 average 0.019 Mt/day"
+},
+"portwatchName": "Bering Strait"
 }
 ]

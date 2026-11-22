@@ -6,7 +6,7 @@
    "u": "Mt N",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."
   },
   "exports": {
    "v": 56.171,
@@ -22,6 +22,15 @@
    "s": "baci",
    "n": "seaborne subset of BACI flows (urea) under the Atlas lane method (data/freight/lanes/urea.json); both countries need a sea gateway and must not be land neighbours"
   }
+ },
+ "kpis": {
+  "production": "Ammonia production (nitrogen content)",
+  "exports": "World exports (product weight)"
+ },
+ "labels": {
+  "production": "Ammonia producers — nitrogen content",
+  "exports": "Top exporters — urea, product weight",
+  "imports": "Top importers — urea, product weight"
  },
  "production": {
   "y": 2025,
@@ -78,7 +87,9 @@
     "v": 3.0
    }
   ],
-  "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded · Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight.",
+  "basis": "ammonia, nitrogen content",
+  "caveat": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."
  },
  "exports": {
   "y": 2024,
@@ -135,7 +146,8 @@
     "v": 1.201
    }
   ],
-  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "urea, product weight"
  },
  "imports": {
   "y": 2024,
@@ -192,7 +204,8 @@
     "v": 0.9771
    }
   ],
-  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "urea, product weight"
  },
  "flows": [
   {

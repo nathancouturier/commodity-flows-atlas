@@ -1,0 +1,25 @@
+/* Detail panels while the History timeline is on a year: what follows the year and what does not */
+
+.year-note {
+  margin: 0 0 10px;
+  padding: 7px 10px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(62, 230, 255, 0.3);
+  background: var(--accent-soft);
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--ink-1);
+}
+.year-note b {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+/* in a section title: the year the block really shows */
+.year-tag {
+  flex: none;
+  margin-left: 8px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}

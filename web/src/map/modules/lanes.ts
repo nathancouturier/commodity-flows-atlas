@@ -6,7 +6,7 @@
  * - filters: family tab, vessel classes, year; a selected country / chokepoint / lane
  *   keeps its lanes bright and dims the rest
  */
-import { effect } from '@preact/signals';
+import { effect, signal } from '@preact/signals';
 import type { Feature, LineString } from 'geojson';
 import type { Lane, LaneFile } from '../../types';
 import { registerLayerModule } from '../layers';
@@ -17,6 +17,19 @@ import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadL
 import { FAMILY_COLOR, escapeHtml as esc, fmt, pct } from '../../lib/format';
 
 const NEUTRAL = '#8aa0b8';
+
+/**
+ * Width scale of the lanes now drawn: `max` is the volume drawn at full width (null = no lanes drawn).
+ * It is the largest lane of the whole series (every year) of the commodity or family in view, so a lane
+ * keeps the same width for the same volume whatever the year, the vessel filter or the selection.
+ */
+export const laneScale = signal<{ max: number; unit: string } | null>(null);
+
+/** Line width in px for a volume; the two ends are the 'lanes-line' widths in map/controller.ts. */
+export const LANE_PX = { min: 0.8, max: 4.5 };
+export function laneWidthPx(v: number, max: number): number {
+  return LANE_PX.min + (LANE_PX.max - LANE_PX.min) * Math.sqrt(Math.min(1, Math.max(0, v / max)));
+}
 
 /** Annual value of a lane for the chosen year (null when the lane has no data that year). */
 export function laneValue(lane: Lane, file: LaneFile, yr: number | null): number {
@@ -64,6 +77,7 @@ registerLayerModule(() => {
     // with Physical flows off (e.g. on the Freight tab) a selected lane is still drawn
     if (!on && !selLane0) {
       setLineSet('lanes', []);
+      laneScale.value = null;
       laneVia.value = sel?.kind === 'country' ? new Set() : null;
       return;
     }
@@ -116,7 +130,21 @@ registerLayerModule(() => {
       }
 
       if (iso) laneVia.value = new Set(items.flatMap((i) => i.lane.via));
-      const max = Math.max(...items.map((i) => i.v), 1e-9);
+      // one scale for every year: the largest lane, in any year, of the groups in view (of the family
+      // tab on the overview); filters and the selected year do not move it
+      let max = 0;
+      const units = new Set<string>();
+      const scaleFiles = plan.length ? plan.map((p) => byGroup.get(p.group)) : [picked?.file];
+      for (const file of scaleFiles) {
+        if (!file) continue;
+        for (const lane of file.lanes) {
+          if (!k && plan.length && fam !== 'all' && commodityMeta(lane.k)?.family !== fam) continue;
+          units.add(file.unit);
+          max = Math.max(max, lane.flow.v, ...lane.hist.map((h) => h ?? 0));
+        }
+      }
+      if (!(max > 0)) max = Math.max(...items.map((i) => i.v), 1e-9);
+      laneScale.value = items.length ? { max, unit: units.size === 1 ? [...units][0] : '' } : null;
       const isBright = (l: Lane): boolean => {
         if (selLane) return l.id === selLane;
         if (sel?.kind === 'country') return l.o === sel.id || l.d === sel.id;
@@ -135,7 +163,7 @@ registerLayerModule(() => {
             id: lane.id,
             kind: 'lane',
             color: fam2 ? FAMILY_COLOR[fam2] : NEUTRAL,
-            w: Math.sqrt(v / max),
+            w: Math.sqrt(Math.min(1, v / max)),
             dim: !isBright(lane),
             hl: lane.id === selLane,
             label: laneLabel(lane, file, v, yr),

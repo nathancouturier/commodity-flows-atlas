@@ -3,6 +3,7 @@ import '@fontsource-variable/inter-tight';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import './styles/app.css';
+import './styles/about.css';
 import { App } from './App';
 import { loadCatalogue } from './lib/data';
 import { loadFreightCatalogue } from './lib/freight';

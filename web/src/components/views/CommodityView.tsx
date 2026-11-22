@@ -5,52 +5,57 @@ import type { Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../
 import { loadOptional, commodityMeta, countryName, sourceLabel } from '../../lib/data';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt } from '../../lib/format';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
-import { layers, select, toggleLayer } from '../../lib/store';
+import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraCapacity, infraColor, infraMatches, loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META, CompanyRows, AlertBanners } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META, CompanyRows, AlertBanners, shortSource } from '../ui';
 import { useLoaded } from './shared';
-import { openPrices } from '../../lib/prices';
+import '../../styles/history-year.css';
+import { PRICE_COVERAGE_NOTE, loadPriceIndex, lowerName, openPrices, priceIndex, seriesForCommodity } from '../../lib/prices';
 
-/** Opens the bottom price drawer on this commodity's series. */
-function usePriceDrawer(): ((id: string) => void) | null {
-  return (id: string) => openPrices({ commodity: id });
+/**
+ * Opens the bottom price drawer on this commodity's series. `none` is true once the price catalogue is
+ * loaded and holds no series for the commodity: the button then says so instead of opening a chart.
+ */
+function usePriceDrawer(id: string): { open: () => void; none: boolean } {
+  useEffect(() => {
+    loadPriceIndex().catch(() => undefined);
+  }, []);
+  const idx = priceIndex.value;
+  return { open: () => openPrices({ commodity: id }), none: idx.length > 0 && !seriesForCommodity(id, idx).length };
 }
 
-/** What the main trade tables measure when it is not the finished commodity. */
+/** What the main trade tables measure when it is not the finished commodity (used when the data file has no `basis`). */
 const TRADE_BASIS: Record<string, string> = {
   copper: 'ores and concentrates (gross weight)',
   nickel: 'ores (gross weight)',
   zinc: 'ores and concentrates (gross weight)',
   lead: 'ores and concentrates (gross weight)',
   bauxite: 'bauxite ore',
-  'thermal-coal': 'thermal coal (EIA)',
 };
+
+/** Section title: the wording set by the data file, else the default with what the table measures. */
+function sectionTitle(d: CommodityData, key: 'production' | 'reserves' | 'consumption' | 'exports' | 'imports' | 'flows', base: string, fallback?: string): string {
+  const basis = (key === 'flows' ? undefined : d[key]?.basis) ?? fallback;
+  return d.labels?.[key] ?? (basis ? `${base} — ${basis}` : base);
+}
+
+/** Customs codes do not separate thermal from metallurgical coal: the flows of both coal pages are all coal. */
+const isCoal = (id: string) => id === 'thermal-coal' || id === 'met-coal';
 
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
 
 
-/** USDA PSD marketing years (US basis where noted). */
-const MARKETING_YEAR: Record<string, string> = {
-  wheat: 'Jul–Jun',
-  corn: 'Sep–Aug (US basis; local years vary)',
-  soybeans: 'Sep–Aug',
-  soymeal: 'Oct–Sep',
-  soyoil: 'Oct–Sep',
-  rice: 'Aug–Jul',
-  sugar: 'Oct–Sep',
-  coffee: 'Oct–Sep',
-  cotton: 'Aug–Jul',
-  'palm-oil': 'Oct–Sep',
-  rapeseed: 'Jul–Jun',
-};
-
-/** Ranked table with a marketing-year caption under USDA PSD tables. */
-function RankedBlock({ id, data, color }: { id: string; data: Ranked; color?: string }) {
-  const my = data.s === 'usda-psd' ? MARKETING_YEAR[id] : undefined;
+/**
+ * Ranked table with a marketing-year caption under USDA PSD tables. The figures are PSD local marketing
+ * years, which start in a different month in each country: no single month range describes them.
+ */
+function RankedBlock({ data, color }: { id: string; data: Ranked; color?: string }) {
   return (
     <>
       <RankedBars data={data} color={color} />
-      {my && <div class="muted small my-cap">Marketing year: {my} (USDA PSD local marketing years vary by country).</div>}
+      {data.s === 'usda-psd' && (
+        <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
+      )}
     </>
   );
 }
@@ -65,9 +70,10 @@ function exportsLabel(f: Fig, tbl?: Ranked): string {
   return parts.length ? `World exports (${parts.join(', ')})` : 'World exports';
 }
 
-function FlowRows(props: { flows: Flow[] }) {
+function FlowRows(props: { flows: Flow[]; tag?: string }) {
   const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);
-  const first = rows[0];
+  // the footer names the customs source; flows re-based by the atlas say so on their own row
+  const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
   return (
     <>
       {rows.map((f, i) => (
@@ -75,7 +81,13 @@ function FlowRows(props: { flows: Flow[] }) {
           key={`${f.o}-${f.d}-${i}`}
           lead={<span class="bar-rank">{i + 1}</span>}
           title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
-          sub={<ModeBadge mode={f.mode === 'sea' ? 'sea' : f.mode ? 'land' : undefined} />}
+          sub={
+            <>
+              <ModeBadge mode={f.mode === 'sea' ? 'sea' : f.mode ? 'land' : undefined} />
+              {props.tag && <span class="muted-cap"> {props.tag}</span>}
+              {f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
+            </>
+          }
           meta={<>{fmt(f.v)} {f.u}</>}
           tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}`}
           onClick={() => (f.lane ? select({ kind: 'lane', id: f.lane }) : select({ kind: 'country', id: f.o }))}
@@ -84,6 +96,32 @@ function FlowRows(props: { flows: Flow[] }) {
       {first && <SourceLine s={first.s} y={first.y} n="bilateral flows, all transport modes" />}
     </>
   );
+}
+
+/** History timeline on another year: the year a block really shows, next to its title. */
+function YearTag({ y }: { y?: number | string }) {
+  const yr = year.value;
+  if (yr == null || y == null || String(y) === String(yr)) return null;
+  return <span class="year-tag">latest: {y}</span>;
+}
+
+/** KPI label with the figure's own year when the History timeline is on another year. */
+function kpiLabel(label: string, f: Fig): string {
+  const yr = year.value;
+  return yr != null && String(f.y) !== String(yr) ? `${label} · ${f.y}` : label;
+}
+
+/**
+ * Seaborne trade of the History year. The summary figure is the latest value of the yearly series of the
+ * commodity's first lane group; the year replaces it only when that link holds (same source, unit and value).
+ */
+function seaborneAt(f: Fig | undefined, file: LaneFile | null | undefined, yr: number | null): Fig | undefined {
+  if (!f || !file || yr == null || String(f.y) === String(yr)) return f;
+  const i = file.years.indexOf(yr);
+  const latest = file.seaborne[file.years.indexOf(Number(f.y))];
+  if (i < 0 || file.seaborne[i] == null || latest == null) return f;
+  if (file.s !== f.s || file.unit !== f.u || Math.abs(latest - f.v) > 0.005 * Math.abs(f.v)) return f;
+  return { ...f, v: file.seaborne[i], y: yr };
 }
 
 function LaneSummary({ id, color }: { id: string; color?: string }) {
@@ -95,6 +133,8 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
   if (!files || !files.length) return null;
   const on = layers.value.flows;
   const total = files.reduce((n, f) => n + f.lanes.length, 0);
+  const hy = year.value;
+  const shownY = hy != null && files[0].years.includes(hy) ? hy : files[0].y;
   return (
     <Section title="Seaborne lanes">
       <div class="lane-sum">
@@ -103,19 +143,23 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
       </div>
       <div class="ft" style={{ marginTop: '8px' }}>
         {files.map((f) => {
-          const last = f.seaborne[f.seaborne.length - 1];
-          const yr = f.years[f.years.length - 1];
+          // the History year when the series has it, else the latest year
+          const at = hy != null ? f.years.indexOf(hy) : -1;
+          const i = at >= 0 ? at : f.years.length - 1;
+          const last = f.seaborne[i];
+          const yr = f.years[i];
+          const active = at >= 0 ? f.lanes.filter((l) => (l.hist[i] ?? 0) > 0).length : f.lanes.length;
           return (
             <div class="ft-row ft-wide" key={f.group} title={`${sourceLabel(f.s)} · ${yr}`}>
               <span class="ft-k">{f.label ?? f.group}</span>
               <span class="num">
-                {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {f.lanes.length} lanes</span>
+                {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
               </span>
             </div>
           );
         })}
       </div>
-      <SourceLine s={files[0].s} y={files[0].y} n="Atlas lane method, seaborne subset of customs flows" />
+      <SourceLine s={files[0].s} y={shownY} n="Atlas lane method, seaborne subset of customs flows" />
       <button class="act-btn" disabled={on} onClick={() => toggleLayer('flows', true)}>
         {on ? 'Lanes shown on the map' : 'Show lanes on the map'}
       </button>
@@ -168,7 +212,9 @@ export default function CommodityView({ id }: { id: string }) {
   const meta = commodityMeta(id);
   const [d, setD] = useState<CommodityData | null | undefined>(undefined);
   const [co, setCo] = useState<CompanyMap | null>(null);
-  const openPrices = usePriceDrawer();
+  const prices = usePriceDrawer(id);
+  const seaFile = useLoaded<LaneFile>(() => (LANE_GROUPS[id]?.[0] ? loadLaneFile(LANE_GROUPS[id][0]) : Promise.resolve(null)), [id]);
+  const yr = year.value;
   useEffect(() => {
     let live = true;
     setD(undefined);
@@ -183,6 +229,8 @@ export default function CommodityView({ id }: { id: string }) {
   const color = meta ? FAMILY_COLOR[meta.family] : undefined;
   const companies = d?.companies ?? co?.[id];
   const hasCo = !!companies && (companies.producers?.length || companies.processors?.length || companies.traders?.length);
+  const seaborne = seaborneAt(d?.summary.seaborne, seaFile, yr);
+  const seaFollows = !!seaborne && String(seaborne.y) === String(yr);
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
@@ -191,21 +239,37 @@ export default function CommodityView({ id }: { id: string }) {
         {meta?.blurb && <p class="muted" style={{ margin: '4px 0 0', fontSize: '13px' }}>{meta.blurb}</p>}
       </div>
       <div class="panel-scroll">
+        {yr != null && d && (
+          <div class="year-note">
+            History year <b class="num">{yr}</b>:{' '}
+            {seaFollows
+              ? 'the seaborne trade figure and the seaborne lanes follow it. Every other figure and table'
+              : LANE_GROUPS[id]?.length
+                ? 'only the seaborne lanes follow it. Every other figure and table'
+                : 'no yearly series for this commodity. Every figure and table'}{' '}
+            is the latest published and shows its own year.
+          </div>
+        )}
         {d?.summary && (
           <div class="kpis">
-            {d.summary.production && <Kpi label="World production" f={d.summary.production} note={d.summary.production.n} />}
-            {d.summary.exports && <Kpi label={exportsLabel(d.summary.exports, d.exports)} f={d.summary.exports} note={d.summary.exports.n} />}
-            {d.summary.reserves && <Kpi label="World reserves" f={d.summary.reserves} note={d.summary.reserves.n} />}
-            {d.summary.consumption && <Kpi label="World consumption" f={d.summary.consumption} note={d.summary.consumption.n} />}
-            {d.summary.seaborne && <Kpi label="Seaborne trade" f={d.summary.seaborne} note={d.summary.seaborne.n} />}
+            {d.summary.production && <Kpi label={kpiLabel(d.kpis?.production ?? 'World production', d.summary.production)} f={d.summary.production} note={d.summary.production.n} />}
+            {d.summary.exports && <Kpi label={kpiLabel(d.kpis?.exports ?? exportsLabel(d.summary.exports, d.exports), d.summary.exports)} f={d.summary.exports} note={d.summary.exports.n} />}
+            {d.summary.reserves && <Kpi label={kpiLabel(d.kpis?.reserves ?? 'World reserves', d.summary.reserves)} f={d.summary.reserves} note={d.summary.reserves.n} />}
+            {d.summary.consumption && <Kpi label={kpiLabel(d.kpis?.consumption ?? 'World consumption', d.summary.consumption)} f={d.summary.consumption} note={d.summary.consumption.n} />}
+            {seaborne && <Kpi label={`${d.kpis?.seaborne ?? 'Seaborne trade'}${yr != null ? ` · ${seaborne.y}` : ''}`} f={seaborne} note={seaborne.n} />}
           </div>
         )}
         <AlertBanners commodity={id} />
-        {openPrices && (
-          <button class="act-btn act-prices" onClick={() => openPrices(id)}>
+        {prices.none ? (
+          <button class="act-btn act-prices" disabled title="The atlas only charts prices from free sources; none is available for this commodity yet.">
+            No free price series for {lowerName(meta?.name ?? id)} yet
+          </button>
+        ) : (
+          <button class="act-btn act-prices" onClick={prices.open}>
             Price history
           </button>
         )}
+        {!prices.none && PRICE_COVERAGE_NOTE[id] && <div class="muted small my-cap">{PRICE_COVERAGE_NOTE[id]}</div>}
         {d === undefined ? (
           <Skeleton lines={8} />
         ) : d === null ? (
@@ -213,48 +277,53 @@ export default function CommodityView({ id }: { id: string }) {
         ) : (
           <>
             {d.production && (
-              <Section title="Top producers">
+              <Section title={sectionTitle(d, 'production', 'Top producers')} aside={<YearTag y={d.production.y} />}>
                 <RankedBlock id={id} data={d.production} color={color} />
               </Section>
             )}
+            {d.extra?.filter((x) => x.key.endsWith('production')).map((x) => (
+              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
+                <RankedBlock id={id} data={x.table} color={color} />
+              </Section>
+            ))}
             {d.refinery && (
-              <Section title="Refinery / smelter output">
+              <Section title="Refinery / smelter output" aside={<YearTag y={d.refinery.y} />}>
                 <RankedBlock id={id} data={d.refinery} color={color} />
               </Section>
             )}
             {d.exports && (
-              <Section title={`Top exporters${TRADE_BASIS[id] ? ` — ${TRADE_BASIS[id]}` : ''}`}>
+              <Section title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} aside={<YearTag y={d.exports.y} />}>
                 <RankedBlock id={id} data={d.exports} color={color} />
               </Section>
             )}
             {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
-              <Section title={x.title} key={x.key}>
+              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
                 <RankedBlock id={id} data={x.table} color={color} />
               </Section>
             ))}
             {d.imports && (
-              <Section title={`Top importers${TRADE_BASIS[id] ? ` — ${TRADE_BASIS[id]}` : ''}`}>
+              <Section title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} aside={<YearTag y={d.imports.y} />}>
                 <RankedBlock id={id} data={d.imports} color={color} />
               </Section>
             )}
-            {d.extra?.filter((x) => !x.key.endsWith('exports')).map((x) => (
-              <Section title={x.title} key={x.key}>
+            {d.extra?.filter((x) => !x.key.endsWith('exports') && !x.key.endsWith('production')).map((x) => (
+              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
                 <RankedBlock id={id} data={x.table} color={color} />
               </Section>
             ))}
             {d.reserves && (
-              <Section title="Reserves">
+              <Section title={sectionTitle(d, 'reserves', 'Reserves')} aside={<YearTag y={d.reserves.y} />}>
                 <RankedBlock id={id} data={d.reserves} color={color} />
               </Section>
             )}
             {d.consumption && (
-              <Section title="Top consumers">
+              <Section title={sectionTitle(d, 'consumption', 'Top consumers')} aside={<YearTag y={d.consumption.y} />}>
                 <RankedBlock id={id} data={d.consumption} color={color} />
               </Section>
             )}
             {d.flows && d.flows.length > 0 && (
-              <Section title="Main flows">
-                <FlowRows flows={d.flows} />
+              <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
+                <FlowRows flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />

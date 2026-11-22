@@ -10,6 +10,7 @@
   ],
   "has": [
    "production",
+   "consumption",
    "exports",
    "imports",
    "flows"
@@ -92,7 +93,11 @@
   "blurb": "Steam coal burned for power; the largest dry bulk cargo after iron ore.",
   "unit": "Mt",
   "hs": [
-   "270112"
+   "270111",
+   "270112",
+   "270119",
+   "270210",
+   "270220"
   ],
   "has": [
    "production",
@@ -111,6 +116,7 @@
   "blurb": "Mined uranium for nuclear fuel; small tonnages, concentrated supply.",
   "unit": "tU",
   "hs": [
+   "261210",
    "284410"
   ],
   "has": [
@@ -146,7 +152,11 @@
   "blurb": "Coking coal for blast-furnace steelmaking; Australia leads seaborne supply.",
   "unit": "Mt",
   "hs": [
-   "270112"
+   "270111",
+   "270112",
+   "270119",
+   "270210",
+   "270220"
   ],
   "has": [
    "production",
@@ -694,7 +704,7 @@
   "id": "urea",
   "name": "Urea & nitrogen",
   "family": "softs",
-  "blurb": "Nitrogen fertiliser made from natural gas; Russia, Qatar and China export.",
+  "blurb": "Nitrogen fertiliser made from natural gas; Russia and the Gulf producers lead exports.",
   "unit": "Mt",
   "hs": [
    "310210"

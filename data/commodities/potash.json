@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   "n": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content."
   },
   "seaborne": {
    "v": 39.12,
@@ -29,6 +29,17 @@
    "s": "baci",
    "n": "seaborne subset of BACI flows (potash) under the Atlas lane method (data/freight/lanes/potash.json); both countries need a sea gateway and must not be land neighbours"
   }
+ },
+ "kpis": {
+  "production": "World production (K2O content)",
+  "reserves": "World reserves (K2O content)",
+  "exports": "World exports (product weight)"
+ },
+ "labels": {
+  "production": "Top producers — K2O content",
+  "reserves": "Reserves — K2O content",
+  "exports": "Top exporters — potassium chloride, product weight",
+  "imports": "Top importers — potassium chloride, product weight"
  },
  "production": {
   "y": 2025,
@@ -85,7 +96,8 @@
     "v": 0.3
    }
   ],
-  "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "K2O content"
  },
  "reserves": {
   "y": 2025,
@@ -134,7 +146,8 @@
     "v": 2.3
    }
   ],
-  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
+  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)",
+  "basis": "K2O content"
  },
  "exports": {
   "y": 2024,
@@ -191,7 +204,9 @@
     "v": 0.4925
    }
   ],
-  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content.",
+  "basis": "potassium chloride, product weight",
+  "caveat": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content."
  },
  "imports": {
   "y": 2024,
@@ -248,7 +263,9 @@
     "v": 0.5815
    }
   ],
-  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Product weight of potassium chloride, not K2O content.",
+  "basis": "potassium chloride, product weight",
+  "caveat": "Product weight of potassium chloride, not K2O content."
  },
  "flows": [
   {

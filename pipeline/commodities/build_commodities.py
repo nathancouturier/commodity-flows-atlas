@@ -11,6 +11,7 @@ Inputs (raw/ is read-only, untrusted data: it is only ever parsed, never execute
   raw/usda/psd_csv/psd_alldata.csv           USDA PSD                                    (source "usda-psd")
   pipeline/cache/baci_flows.csv.gz           CEPII BACI HS92 bilateral trade             (source "baci")
   pipeline/cache/sea_flows.csv.gz            seaborne subset of BACI (pipeline/freight/build_lanes.py)
+  pipeline/cache/baci_rice_forms.csv         paddy and husked rice per pair (extract_rice_forms.py), to put paddy on a milled basis
   data/freight/lanes/<group>.json            lane ids and seaborne totals
   pipeline/cache/wna_uranium.json            World Nuclear Association (fetch_external.py)   (source "wna")
   pipeline/cache/faostat_cocoa_production.csv  FAOSTAT QCL cocoa beans (fetch_external.py) (source "faostat")
@@ -66,6 +67,7 @@ def _latest_inputs():
 
 BACI_YEAR, USGS_YEAR, USGS_FILE, PSD_MY = _latest_inputs()
 PSD_LABEL = f"{PSD_MY}/{(PSD_MY + 1) % 100:02d}"
+USGS_EDITION = int(USGS_YEAR) + 1
 TOP = 12
 NFLOWS = 20
 
@@ -197,6 +199,70 @@ def total_of(rows):
     return sum(r[1] for r in rows if r[1] is not None and r[1] > 0)
 
 
+def set_basis(t, basis):
+    """Short qualifier of what a table measures ("gross weight", "contained copper"). build_profiles.py
+    copies it onto the country-profile rows, where a tonnage would otherwise read as the finished commodity."""
+    if t is not None and basis:
+        t["basis"] = basis
+    return t
+
+
+def add_caveat(t, text):
+    """A warning that belongs to a whole table: shown with the table note and copied to country-profile rows."""
+    t["n"] = (t.get("n", "") + " · " if t.get("n") else "") + text
+    t["caveat"] = (t["caveat"] + " " if t.get("caveat") else "") + text
+
+
+COUNTRY_NAME = {}
+
+
+def cname(iso):
+    if not COUNTRY_NAME:
+        COUNTRY_NAME.update({c["c"]: c["name"] for c in COUNTRIES})
+    return COUNTRY_NAME.get(iso, iso)
+
+
+def rice_adjust(psd, baci):
+    """Paddy (HS 1006.10) is traded in the husk; the USDA tables of the rice page are milled basis. Each
+    pair's paddy tonnage is converted with the USDA PSD milling rate of the exporter (world average where
+    PSD has none). Husked rice (HS 1006.20) stays at customs weight: PSD gives no factor for it.
+    Returns ({(o, d): (tonnes, note)}, paddy world tonnes, note for the page) or (None, None, note)."""
+    path = os.path.join(CACHE, "baci_rice_forms.csv")
+    if not os.path.exists(path):
+        return None, None, "Customs flows add paddy (HS 1006.10) to milled rice at full weight: the paddy extract (pipeline/cache/baci_rice_forms.csv) is missing."
+    f = pd.read_csv(path, dtype={"hs6": str})
+    f = f[(f["year"] == BACI_YEAR) & (f["hs6"] == "100610")]
+    if f.empty:
+        warn(f"rice: no paddy rows for {BACI_YEAR} in baci_rice_forms.csv (run extract_rice_forms.py); flows left at customs weight")
+        return None, None, f"Customs flows add paddy (HS 1006.10) to milled rice at full weight: no paddy extract for {BACI_YEAR}."
+    rates, world_rate = psd.milling_rates()
+    tot = {(r["o"], r["d"]): r["t"] for _, r in baci.group("rice").iterrows()}
+    out = {}
+    for _, r in f.iterrows():
+        k = (r["o"], r["d"])
+        t = tot.get(k)
+        if not t or r["t"] > t * 1.001:
+            continue
+        iso = BACI_OVERRIDE.get(r["o"], r["o"])
+        rate = rates.get(iso)
+        basis = f"the USDA PSD milling rate of {cname(iso)} ({rate:.2f}, market year {PSD_LABEL})" if rate else None
+        if rate is None:
+            rate = world_rate
+            basis = f"the world average USDA PSD milling rate ({rate:.2f}, market year {PSD_LABEL})" if rate else None
+        if rate is None:
+            continue
+        new = t - r["t"] * (1 - rate)
+        if (t - new) / t < 0.005:  # under half a percent: the customs figure stands
+            continue
+        out[k] = (new, f"Atlas estimate, milled equivalent: CEPII BACI {BACI_YEAR} customs weight is {_fmt(t / 1e6)} Mt, of which {_fmt(r['t'] / 1e6)} Mt "
+                       f"is paddy (HS 1006.10), converted at {basis}")
+    paddy = float(f["t"].sum())
+    note = (f"Customs flows cover HS 1006.10 to 1006.40. Paddy ({_fmt(paddy / 1e6)} Mt in {BACI_YEAR}, CEPII BACI) is converted to milled equivalent with the "
+            f"USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas estimate. "
+            f"Husked rice (HS 1006.20) stays at customs weight. The seaborne total and the map lanes still use customs weight.")
+    return out, paddy, note
+
+
 # ====================================================================== USGS
 class Usgs:
     def __init__(self):
@@ -259,9 +325,9 @@ class Usgs:
     def ranked(self, commodity, detail, u, factor, label, kind="production"):
         t = self.table(commodity, detail, factor=factor)
         world = t["world"]
-        n = [f"USGS MCS 2026, {label}"]
+        n = [f"USGS MCS {USGS_EDITION}, {label}"]
         if kind == "production" and t["estimated"]:
-            n.append("2025 values are USGS estimates")
+            n.append(f"{USGS_YEAR} values are USGS estimates")
         sumrows = total_of(t["rows"]) + t["other"]
         if world is None:
             world = sumrows
@@ -282,8 +348,9 @@ class Usgs:
 # ====================================================================== EIA
 class Eia:
     NEED = {("57-1", "TBPD"), ("26-1", "BCM"), ("26-2", "BCM"), ("7-1", "MT"), ("7-2", "MT"), ("7-3", "MT"), ("7-4", "MT"),
-            ("7-6", "MST"), ("130-1", "MT"), ("130-2", "MT"), ("130-3", "MT"), ("130-4", "MT"), ("54-2", "TBPD"),
-            ("67-2", "MT"), ("62-2", "TBPD"), ("63-2", "TBPD"), ("65-2", "TBPD"), ("66-2", "TBPD")}
+            ("7-6", "MST"), ("130-1", "MT"), ("130-2", "MT"), ("130-3", "MT"), ("130-4", "MT"), ("5-2", "TBPD"),
+            ("67-2", "MT"), ("62-2", "TBPD"), ("63-2", "TBPD"), ("65-2", "TBPD"), ("66-2", "TBPD"),
+            ("14-1", "MT"), ("14-2", "MT"), ("26-4", "BCM")}
 
     def __init__(self):
         self.s = defaultdict(dict)  # (prefix, unit) -> code -> {year: value}
@@ -373,12 +440,46 @@ class Psd:
                         usecols=["Commodity_Description", "Country_Name", "Market_Year", "Calendar_Year", "Month",
                                  "Attribute_Description", "Unit_Description", "Value"])
         d = d[(d["Market_Year"] == PSD_MY) & d["Attribute_Description"].isin(
-            ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks"])]
+            ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks",
+             "TY Exports", "TY Imports", "Milling Rate (.9999)", "Rough Production"])]
         d = d[~d["Unit_Description"].isin(["(PERCENT)"])]
         self.d = d
-        rel = d[["Calendar_Year", "Month"]].drop_duplicates().sort_values(["Calendar_Year", "Month"]).iloc[-1]
-        self.release = f"latest revision {int(rel['Calendar_Year'])}-{int(rel['Month']):02d}"
+        self.release = self.revision(d)  # newest revision of the whole file: build log only
         self.cache = {}
+
+    @staticmethod
+    def revision(rows):
+        rel = rows[["Calendar_Year", "Month"]].drop_duplicates().sort_values(["Calendar_Year", "Month"]).iloc[-1]
+        return f"latest revision {int(rel['Calendar_Year'])}-{int(rel['Month']):02d}"
+
+    def release_of(self, commodity):
+        """PSD revises each commodity on its own calendar (coffee twice a year, grains monthly): the stamp
+        printed with a table is the newest revision month of that commodity's rows for the market year."""
+        return self.revision(self.d[self.d["Commodity_Description"] == commodity])
+
+    def has_eu(self, commodity):
+        """True when PSD carries a 'European Union' row for the commodity (cotton lists the members instead)."""
+        x = self.d[self.d["Commodity_Description"] == commodity]
+        return bool((x["Country_Name"] == "European Union").any())
+
+    def trade_year_world(self, commodity, attr):
+        """World total of the PSD trade-year attribute ('TY Exports' / 'TY Imports'), where PSD has one."""
+        x = self.d[(self.d["Commodity_Description"] == commodity) & (self.d["Attribute_Description"] == "TY " + attr)]
+        v = x["Value"].sum()
+        return float(v) if len(x) and v > 0 else None
+
+    def milling_rates(self):
+        """Rice milling rate (milled / rough) per country, and the world average, from PSD 'Rice, Milled'."""
+        x = self.d[self.d["Commodity_Description"] == "Rice, Milled"]
+        rates = {}
+        for _, r in x[x["Attribute_Description"] == "Milling Rate (.9999)"].iterrows():
+            iso = iso_from_name(r["Country_Name"], "psd")
+            if iso and r["Value"] > 0:
+                rates[iso] = float(r["Value"]) / 10000.0
+        rough = x[x["Attribute_Description"] == "Rough Production"]
+        milled = x[(x["Attribute_Description"] == "Production") & x["Country_Name"].isin(set(rough[rough["Value"] > 0]["Country_Name"]))]
+        world = float(milled["Value"].sum() / rough["Value"].sum()) if rough["Value"].sum() > 0 else None
+        return rates, world
 
     def table(self, commodity, attr, myear=PSD_MY):
         x = self.d if myear == PSD_MY else None
@@ -404,9 +505,20 @@ class Psd:
 
     def ranked(self, commodity, attr, what, extra=None):
         unit, conv, rows, world = self.table(commodity, attr)
-        n = [f"USDA PSD, {commodity}, {what}, market year {PSD_LABEL} ({self.release})",
-             "world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)" if attr in ("Exports", "Imports")
-             else "world = sum of reporting countries"]
+        trade = attr in ("Exports", "Imports")
+        n = [f"USDA PSD, {commodity}, {what}, market year {PSD_LABEL} ({self.release_of(commodity)})"]
+        if trade and self.has_eu(commodity):
+            n.append("world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)")
+        elif trade:
+            n.append("world = sum of reporting countries; PSD lists the EU members one by one for this commodity")
+        else:
+            n.append("world = sum of reporting countries")
+        if trade:
+            n.append("local marketing years, which start in different months by country")
+            ty = self.trade_year_world(commodity, attr)
+            if ty:
+                factor = self.UNITS.get(commodity, ("Mt", 0.001, None))[1]
+                n.append(f"on the trade-year basis (PSD 'TY {attr}') the world total is {_fmt(ty * factor)} {unit}")
         if conv:
             n.append(conv)
         if extra:
@@ -475,12 +587,20 @@ class Baci:
             n.append(extra)
         return ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n)), est_share
 
-    def flows(self, g, u, div, lane_group=None, only_exporters=None, mode_all=None, n_all=None):
+    def flows(self, g, u, div, lane_group=None, only_exporters=None, mode_all=None, n_all=None, adjust=None):
+        """adjust: {(o, d): (tonnes, note)} replaces the customs tonnage of a pair by an Atlas figure
+        (source id "atlas", with the note) before the flows are ranked."""
         self.last_susp = []
         modelled = g in self.sea_groups
         d = self.group(g)
         if only_exporters:
             d = d[d["o"].isin(only_exporters)]
+        d = d.assign(adj=None)
+        if adjust:
+            keys = list(zip(d["o"], d["d"]))
+            ok = [k in adjust and not imp for k, imp in zip(keys, d["imputed"])]  # tonnage already re-estimated from value: left alone
+            d["t"] = [adjust[k][0] if a else t for k, a, t in zip(keys, ok, d["t"])]
+            d["adj"] = [adjust[k][1] if a else None for k, a in zip(keys, ok)]
         d = d.sort_values("t", ascending=False).head(NFLOWS)
         lg = self.lanes.get(lane_group or g)
         out = []
@@ -506,6 +626,9 @@ class Baci:
                 self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
             if n_all:
                 f["n"] = (f["n"] + "; " if "n" in f else "") + n_all
+            if isinstance(r["adj"], str):
+                f["s"] = "atlas"
+                f["n"] = r["adj"] + ("; " + f["n"] if "n" in f else "")
             out.append(f)
         return out
 
@@ -555,9 +678,11 @@ def faostat_cocoa():
     fo_override = {}  # FAO M49 code -> ISO3 where it differs from the BACI numeric code
     rows = []
     world = None
+    with open(os.path.join(CACHE, "faostat_cocoa_production.csv"), encoding="utf-8") as f:  # latest year with a world total
+        year = max(r["year"] for r in csv.DictReader(f) if r["area"] == "World" and r["value_t"].strip())
     with open(os.path.join(CACHE, "faostat_cocoa_production.csv"), encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            if r["year"] != "2024":
+            if r["year"] != year:
                 continue
             if not r["value_t"].strip():
                 continue
@@ -575,9 +700,9 @@ def faostat_cocoa():
                 UNKNOWN["faostat"].add(f"{r['area']} ({r['m49']})")
                 continue
             rows.append((iso, v / 1000, "FAO flag: " + r["flag"] if r["flag"] in ("E", "X", "I") else None))
-    n = ("FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to kt; world total as published by FAO "
+    n = (f"FAOSTAT QCL, cocoa beans (item 661), production, {year}; tonnes converted to kt; world total as published by FAO "
          "(note flags: E estimated, I imputed, X from international organisations; A official)")
-    return ranked(rows, 2024, "faostat", "kt", world=world, n=n)
+    return ranked(rows, int(year), "faostat", "kt", world=world, n=n)
 
 
 FAO_AGG = {"Africa", "Americas", "Asia", "Europe", "Oceania", "Eastern Africa", "Middle Africa", "Western Africa", "Southern Africa",
@@ -599,7 +724,7 @@ TRADE = {
     "lng": ("lng", MT, "LNG (HS 271111)"),
     "natural-gas": ("natural-gas", MT, "natural gas in gaseous state (HS 271121, pipeline)"),
     "lpg": ("lpg", MT, "LPG: propane and butanes (HS 271112, 271113)"),
-    "thermal-coal": ("coal", MT, "coal (HS 270111, 270112, 270119)"),
+    "thermal-coal": ("coal", MT, "coal and lignite, thermal and metallurgical together (HS 270111, 270112, 270119, 270210, 270220)"),
     "uranium": ("uranium", KT, "uranium ores and natural uranium compounds (HS 261210, 284410)"),
     "iron-ore": ("iron-ore", MT, "iron ore (HS 260111, 260112)"),
     "steel": ("steel", MT, "steel products (HS 72 excl. 7201-7205)"),
@@ -652,6 +777,27 @@ PSD_WHAT = {
     "rice": "milled rice", "sugar": "centrifugal sugar (raw value)", "coffee": "green coffee (all forms, green-bean equivalent)",
     "cotton": "cotton", "palm-oil": "palm oil", "rapeseed": "rapeseed",
 }
+
+# What a table measures when its tonnage is not the finished commodity, or when production and trade
+# are on different bases: id -> (production basis, trade basis). Printed in the section titles of the
+# commodity page and carried onto the country-profile rows by build_profiles.py.
+BASIS = {
+    "copper": ("contained copper", "ores and concentrates, gross weight"),
+    "nickel": ("contained nickel", "ores and concentrates, gross weight"),
+    "zinc": ("contained zinc", "ores and concentrates, gross weight"),
+    "lead": ("contained lead", "ores and concentrates, gross weight"),
+    "bauxite": ("dry tonnes", "bauxite, gross weight"),
+    "tin": ("contained tin", "unwrought metal, gross weight"),
+    "lithium": ("contained lithium", "carbonate, oxide and hydroxide, gross weight"),
+    "cobalt": ("contained cobalt", "ores and unwrought metal, gross weight"),
+    "rare-earths": ("REO equivalent", "metals and compounds, gross weight"),
+    "manganese": ("manganese content", "ore, gross weight"),
+    "uranium": ("contained uranium", "ores and compounds, gross weight"),
+    "potash": ("K2O content", "potassium chloride, product weight"),
+    "urea": ("ammonia, nitrogen content", "urea, product weight"),
+}
+# second trade tables (key prefix -> basis); their titles already name the product
+EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight"}
 
 # USGS: id -> dict(section -> (commodity prefix, detail, unit, factor, label))
 USGS = {
@@ -737,8 +883,23 @@ def main():
         if f:
             d["summary"]["seaborne"] = f
 
+    def name_it(d, key, title=None, kpi=None):
+        """Section title / KPI label of the commodity page where the default wording would mislead."""
+        if title:
+            d.setdefault("labels", {})[key] = title
+        if kpi:
+            d.setdefault("kpis", {})[key] = kpi
+
+    def oil_demand(d):
+        t = eia.ranked(("5-2", "TBPD"), "kb/d", 1.0, "petroleum and other liquids consumption: total oil demand, all liquids "
+                       "(the EIA series 'refined petroleum products consumption' carries the same values)")
+        d["consumption"] = set_basis(t, "oil demand, all liquids")
+        summ(d, "consumption", t, "Total oil demand (EIA petroleum and other liquids consumption): all liquids, not crude or refined products alone.")
+        name_it(d, "consumption", "Top consumers — oil demand, all liquids", "Oil demand (all liquids)")
+
     for cid in ids:
         d, notes, disc = start(cid)
+        extra_first = []  # extra tables decided inside the recipe (shown before the generic ones)
 
         # ------------------------------------------------------------ energy
         if cid == "crude-oil":
@@ -746,15 +907,16 @@ def main():
             g = add_baci_trade(d, cid, notes, disc)
             summ(d, "production", d["production"], "EIA crude oil including lease condensate, world")
             summ(d, "exports", d["exports"], "sum of all BACI crude oil flows, tonnes (all modes)")
+            oil_demand(d)
             seaborne(d, g)
             notes += [
                 "Production is in kb/d (EIA); trade tables are in Mt/year (BACI tonnage). Conversion depends on grade, so none is applied.",
-                "No proved-reserves or crude-specific consumption series exists in the EIA bulk file used (INTL.txt); refined-product demand is under 'refined-products'.",
+                "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
+                "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
             ]
         elif cid == "refined-products":
-            d["consumption"] = eia.ranked(("54-2", "TBPD"), "kb/d", 1.0, "refined petroleum products consumption")
+            oil_demand(d)
             g = add_baci_trade(d, cid, notes, disc)
-            summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"], "sum of all BACI refined-product flows (HS 2710), tonnes, all modes")
             seaborne(d, g)
             y = d["consumption"]["y"]
@@ -762,7 +924,7 @@ def main():
             for key, nm in [(("65-2", "TBPD"), "distillate fuel oil"), (("62-2", "TBPD"), "motor gasoline"),
                             (("63-2", "TBPD"), "jet fuel"), (("66-2", "TBPD"), "residual fuel oil")]:
                 parts.append(f"{nm} {eia.s[key]['WORL'][y] / 1000:.1f} mb/d")
-            notes.append(f"World consumption by product, {y} (EIA, eia-intl): " + ", ".join(parts) + ". Products do not add up to the total (other products excluded).")
+            notes.append(f"World consumption by product, {y} (EIA, eia-intl): " + ", ".join(parts) + ". The four products do not add up to total oil demand: the other liquids are not listed.")
             notes.append("EIA refined-product production series end in 2014 and are not used; no production table.")
         elif cid == "lng":
             g = add_baci_trade(d, cid, notes, disc)
@@ -791,26 +953,89 @@ def main():
                                         "all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt")
             d["consumption"] = eia.minus(("7-2", "MT"), ("130-2", "MT"), "Mt", 1e-3, "coal consumption",
                                          "all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt")
+            # Lignite is a rank of non-metallurgical coal in the EIA series, so it sits inside these two tables
+            # (Germany's and most of Turkey's output). It is shown apart: per row, and as its own table.
+            for sec, key, word in (("production", ("14-1", "MT"), "production"), ("consumption", ("14-2", "MT"), "consumption")):
+                t = d[sec]
+                ly = t["y"]
+                lw = eia.s[key]["WORL"].get(ly)
+                for r in t["rows"]:
+                    lv = eia.s[key].get(_iso_to_eia(r["c"]), {}).get(ly, 0.0) * 1e-3
+                    if lv >= 0.01 * r["v"]:
+                        r["n"] = f"of which lignite {_fmt(lv)} Mt ({min(lv / r['v'], 1):.0%})"
+                if lw:
+                    t["n"] += f"; includes lignite: {_fmt(lw * 1e-3)} Mt of the world total ({lw * 1e-3 / t['world']:.0%}, EIA lignite {word})"
+                set_basis(t, "incl. lignite")
+            py = d["production"]["y"]
+            lig = eia.ranked(("14-1", "MT"), "Mt", 1e-3, "lignite production; 1000 metric tons converted to Mt", year=py,
+                             n_extra="these tonnages are included in the thermal coal production table")
+            extra_first.append({"key": "lignite-production", "title": f"Lignite producers, EIA {py} (included above)", "table": lig})
             tr = eia.ranked(("7-6", "MST"), "Mt", 0.90718474, "coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt")
-            # reserves are stable estimates: say how many listed countries are unchanged over 5 years
-            y = tr["y"]
-            same = sum(1 for r in tr["rows"] if all(abs(eia.s[("7-6", "MST")][_iso_to_eia(r["c"])].get(y - k, -1) - eia.s[("7-6", "MST")][_iso_to_eia(r["c"])][y]) < 1e-6 for k in range(1, 6)))
-            tr["n"] += f"; {same} of {len(tr['rows'])} listed countries report an unchanged value over the last 5 years (reserve estimates are not revised annually)"
+            # EIA repeats a reserve estimate every year until it is revised: date the table by its last revision
+            # (the year since which the world total is unchanged) and say so for rows that are older still.
+            ser, y = eia.s[("7-6", "MST")], tr["y"]
+
+            def since(code):
+                v, s0 = ser[code], y
+                while (s0 - 1) in v and abs(v[s0 - 1] - v[y]) < 1e-6:
+                    s0 -= 1
+                return s0
+
+            rev = since("WORL")
+            flags = []
+            for r in tr["rows"]:
+                code = _iso_to_eia(r["c"])
+                s0 = since(code)
+                if s0 < rev:
+                    r["n"] = f"EIA value unchanged since {s0}"
+                prev = ser[code].get(s0 - 1)
+                if prev and ser[code][s0] / prev >= 10:  # one revision multiplied the estimate tenfold or more
+                    flag = (f"{cname(r['c'])}: EIA raised its estimate from {_fmt(prev * 0.90718474)} Mt to {_fmt(ser[code][s0] * 0.90718474)} Mt in {s0}, "
+                            f"a {ser[code][s0] / prev:.0f}-fold step, and has not changed it since; treat this rank with caution")
+                    r["n"] = flag.split(": ", 1)[1]
+                    flags.append(flag)
+            tr["y"] = rev
+            tr["n"] += f"; last revised by EIA in {rev} and repeated unchanged to {y} (reserve estimates are not revised every year)"
+            for flag in flags:
+                add_caveat(tr, flag + ".")
             d["reserves"] = tr
-            g = add_baci_trade(d, cid, notes, disc, extra="HS 2701 does not separate thermal from metallurgical coal: figures cover all coal")
-            summ(d, "production", d["production"])
-            summ(d, "consumption", d["consumption"])
-            summ(d, "reserves", d["reserves"], "EIA coal reserves, all coal (not split thermal/metallurgical)")
+            g = add_baci_trade(d, cid, notes, disc, extra="HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal")
+            allcoal = {"exports": d["exports"], "imports": d["imports"]}  # customs tables, all coal: same basis as flows and lanes
+            for f in d["flows"]:
+                f["n"] = (f["n"] + "; " if "n" in f else "") + "all coal (HS 2701, 2702): thermal and metallurgical not separated"
+            for sec, key in (("production", ("14-1", "MT")), ("consumption", ("14-2", "MT"))):
+                t = d[sec]
+                lw = eia.s[key]["WORL"].get(t["y"])
+                summ(d, sec, t, "All coal minus metallurgical coal (EIA)" + (f", so lignite is included: {_fmt(lw * 1e-3)} Mt, {lw * 1e-3 / t['world']:.0%} of the total." if lw else "."))
+            summ(d, "reserves", d["reserves"], f"All coal, not split thermal/metallurgical. EIA estimates last revised in {rev}.")
             # Thermal-only trade tables from EIA (all coal minus metallurgical coal, per country); BACI
             # customs data cannot split them, so BACI is kept for the bilateral flows only.
             d["exports"] = eia.minus(("7-4", "MT"), ("130-4", "MT"), "Mt", 1e-3, "coal exports",
                                      "all coal exports minus metallurgical coal exports (EIA), per country; 1000 metric tons converted to Mt")
             d["imports"] = eia.minus(("7-3", "MT"), ("130-3", "MT"), "Mt", 1e-3, "coal imports",
                                      "all coal imports minus metallurgical coal imports (EIA), per country; 1000 metric tons converted to Mt")
-            summ(d, "exports", d["exports"], "thermal coal exports (EIA: all coal minus metallurgical coal)")
+            summ(d, "exports", d["exports"], "Thermal coal only (EIA: all coal minus metallurgical coal). Not the basis of the seaborne figure, which is all coal.")
             seaborne(d, g, "all coal (thermal and metallurgical)")
-            notes += ["Export and import rankings are thermal coal only (EIA). Bilateral flows and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
-                      "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."]
+            sb = d["summary"]["seaborne"]
+            cmp_ = f"Customs data give {math.floor(allcoal['exports']['world'] + 0.5):,} Mt of all-coal trade by all modes in {allcoal['exports']['y']}"
+            ew = eia.s[("7-4", "MT")]["WORL"].get(sb["y"]) if isinstance(sb["y"], int) else None
+            if ew:
+                cmp_ += f"; EIA puts world exports of all coal at {_fmt(ew * 1e-3)} Mt in {sb['y']}"
+            sb["n"] = ("All coal, thermal and metallurgical: customs codes do not separate them, so this is not comparable with the thermal-only exports figure. "
+                       + cmp_ + ". " + sb["n"][0].upper() + sb["n"][1:] + ".")
+            ey = d["exports"]["y"]
+            name_it(d, "production", f"Top producers — thermal coal incl. lignite, EIA {py}", "World production (incl. lignite)")
+            name_it(d, "consumption", f"Top consumers — thermal coal incl. lignite, EIA {d['consumption']['y']}", "World consumption (incl. lignite)")
+            name_it(d, "exports", f"Top exporters — thermal coal, EIA {ey}", "World exports (thermal coal)")
+            name_it(d, "imports", f"Top importers — thermal coal, EIA {d['imports']['y']}")
+            name_it(d, "reserves", f"Reserves — all coal, EIA, last revised {rev}", "World reserves (all coal)")
+            name_it(d, "flows", f"Main flows — all coal, customs data {BACI_YEAR}")
+            name_it(d, "seaborne", kpi="Seaborne trade (all coal)")
+            for side in ("exports", "imports"):
+                extra_first.append({"key": f"allcoal-{side}", "title": f"All coal {side[:-1]}ers, customs data {BACI_YEAR}",
+                                    "table": set_basis(allcoal[side], "thermal and metallurgical, customs data")})
+            notes += ["Export and import rankings are thermal coal only (EIA). Bilateral flows, the all-coal tables and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
+                      "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country, and so include lignite; reserves are for all coal."]
             # EIA vs BACI exports
             disc += _compare("exports", eia, ("7-4", "MT"), 1e-3, baci, "coal", 1e6, "Mt", "EIA coal exports", BACI_YEAR)
         elif cid == "met-coal":
@@ -824,6 +1049,9 @@ def main():
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
+            for sec, word in (("production", "Top producers"), ("consumption", "Top consumers"), ("exports", "Top exporters"), ("imports", "Top importers")):
+                name_it(d, sec, f"{word} — metallurgical coal, EIA {d[sec]['y']}")
+            name_it(d, "flows", f"Main flows — all coal, customs data {BACI_YEAR}")
             notes += ["Flows are BACI coal flows (HS 2701) from AUS, USA, CAN, MNG and RUS: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
                       "Seaborne total omitted: the lane file covers all coal and cannot be split.",
                       "Exports/imports tables are EIA metallurgical coal (not BACI)."]
@@ -859,38 +1087,47 @@ def main():
             summ(d, "production", d["production"])
             summ(d, "exports", d["exports"], "cocoa beans (HS 1801), BACI")
             seaborne(d, g)
-            notes += ["Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar 2024); production is FAOSTAT 2024.",
+            notes += [f"Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar {BACI_YEAR}); production is FAOSTAT {d['production']['y']}.",
                       "No consumption table: grindings data are not in the loaded sources."]
         elif cid in PSD:
             com, cons_attr, ex_attr, im_attr = PSD[cid]
             what = PSD_WHAT[cid]
             d["production"], pu = psd.ranked(com, "Production", f"{what} production")
             d["consumption"], _ = psd.ranked(com, cons_attr, f"{what} domestic consumption/use")
-            d["exports"], _ = psd.ranked(com, ex_attr, f"{what} exports (market-year trade)")
-            d["imports"], _ = psd.ranked(com, im_attr, f"{what} imports (market-year trade)")
+            d["exports"], _ = psd.ranked(com, ex_attr, f"{what} exports")
+            d["imports"], _ = psd.ranked(com, im_attr, f"{what} imports")
             g, (bu, bdiv), bwhat = TRADE[cid]
-            d["flows"] = baci.flows(g, bu, bdiv)
+            adjust = rice_note = None
+            if cid == "rice":
+                adjust, _, rice_note = rice_adjust(psd, baci)
+            d["flows"] = baci.flows(g, bu, bdiv, adjust=adjust)
             disc.extend(baci.last_susp)
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
             seaborne(d, g)
+            if cid == "rice" and "seaborne" in d["summary"]:
+                sb = d["summary"]["seaborne"]
+                sb["n"] = "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. " + sb["n"][0].upper() + sb["n"][1:] + "."
             notes.append(f"Flows are BACI calendar-{BACI_YEAR} customs flows; ranked trade tables are USDA PSD market-year {PSD_LABEL} (trader reference). Years differ.")
             if cid == "coffee":
                 notes.append("PSD coffee exports/imports include roasted and soluble coffee in green-bean equivalent; BACI flows are green beans only (HS 0901.11/12).")
             if cid == "rice":
                 notes.append("PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures.")
+                notes.append(rice_note)
+                name_it(d, "flows", "Main flows — milled equivalent" if adjust else "Main flows — customs weight, paddy included")
             if cid == "sugar":
                 notes.append("PSD sugar is centrifugal sugar in raw value (cane and beet); consumption is PSD 'Human Dom. Consumption'.")
             if cid == "soybeans":
-                notes.append("PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in 2025 (Brazil/Argentina harvest early 2026, US harvest autumn 2025).")
+                notes.append(f"PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in {PSD_MY} "
+                             f"(Brazil/Argentina harvest early {PSD_MY + 1}, US harvest autumn {PSD_MY}).")
             disc += _psd_vs_baci(psd, baci, cid, com, ex_attr, g)
         else:
             raise SystemExit(f"no recipe for commodity {cid}")
 
         # second trade tables for metals traded mainly as refined/intermediate products,
         # and ending stocks for the PSD crops (rendered by the commodity page as extra sections)
-        extra = []
+        extra = list(extra_first)
         if cid == "copper":
             for side, title in (("exports", "Refined and blister copper exporters"), ("imports", "Refined and blister copper importers")):
                 t, _ = baci.ranked("copper-refined", side, *MT, "refined and blister copper (HS 7402, 7403), gross weight")
@@ -959,6 +1196,23 @@ def main():
         elif cid == "potash":
             notes.append("USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight.")
 
+        if cid in BASIS:
+            pb, tb = BASIS[cid]
+            for sec in ("production", "reserves"):
+                set_basis(d.get(sec), pb)
+            for sec in ("exports", "imports"):
+                set_basis(d.get(sec), tb)
+            for x in d.get("extra") or []:
+                set_basis(x["table"], EXTRA_BASIS.get(x["key"].split("-")[0]))
+            if cid in ("potash", "urea"):
+                # nutrient tonnes next to product tonnes: say so in every title and KPI of the page
+                what = "Ammonia producers" if cid == "urea" else "Top producers"
+                name_it(d, "production", f"{what} — {pb.split(', ')[-1]}", f"{'Ammonia' if cid == 'urea' else 'World'} production ({pb.split(', ')[-1]})")
+                if "reserves" in d:
+                    name_it(d, "reserves", f"Reserves — {pb}", f"World reserves ({pb})")
+                name_it(d, "exports", f"Top exporters — {tb}", f"World exports ({tb.split(', ')[-1]})")
+                name_it(d, "imports", f"Top importers — {tb}")
+
         notes = [n for n in notes if n]
         if notes:
             d["notes"] = notes
@@ -969,7 +1223,7 @@ def main():
     check_unknown()
 
     # ------------------------------------------------------------ editorial caveats (from the data audit)
-    annotate(docs)
+    annotate(docs, eia)
 
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
@@ -981,7 +1235,7 @@ def main():
         mine = [k for k in HAS if k in d]
         e["has"] = mine + [h for h in e.get("has", []) if h not in HAS]
         # field order
-        order = ["id", "summary", "production", "refinery", "reserves", "consumption", "exports", "imports", "extra", "flows", "notes", "discrepancies"]
+        order = ["id", "summary", "kpis", "labels", "production", "refinery", "reserves", "consumption", "exports", "imports", "extra", "flows", "notes", "discrepancies"]
         dd = {k: d[k] for k in order if k in d}
         with open(os.path.join(OUT, e["id"] + ".json"), "w", encoding="utf-8") as f:
             json.dump(dd, f, indent=1, ensure_ascii=False)
@@ -1028,8 +1282,9 @@ def _psd_vs_baci(psd_obj, baci, cid, com, ex_attr, group):
     div = {"kt": 1e3, "Mt": 1e6}[unit]
     bw = baci.group(group)["t"].sum() / div
     if bw and abs(world / bw - 1) > 0.15:
-        out.append(f"World exports: USDA PSD {PSD_LABEL} {world:.1f} {unit} (sum of reporting countries, EU excl. intra-trade) vs BACI {BACI_YEAR} {bw:.1f} {unit} "
-                   f"({(world / bw - 1) * 100:+.0f}%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table.")
+        eu = psd_obj.has_eu(com)
+        out.append(f"World exports: USDA PSD {PSD_LABEL} {world:.1f} {unit} (sum of reporting countries{', EU excl. intra-trade' if eu else ''}) vs BACI {BACI_YEAR} {bw:.1f} {unit} "
+                   f"({(world / bw - 1) * 100:+.0f}%); different year and basis (marketing year vs calendar year{'; BACI includes intra-EU trade, PSD does not' if eu else ''}); PSD shown in the table.")
     return out
 
 
@@ -1049,13 +1304,13 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
         a, b = ptd.get(c, 0.0), pdd.get(c, 0.0)
         rows.append((c, a + b, f"platinum {rnd(a)} t + palladium {rnd(b)} t"))
     world = pt["world"] + pdl["world"]
-    n = ("USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; "
+    n = (f"USGS MCS {USGS_EDITION}, platinum plus palladium mine production, PGM content (kg converted to t); {USGS_YEAR} values are USGS estimates; "
          "world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium")
     if total_of(rows) + pt["other"] + pdl["other"] > world * 1.05:
         warn("pgm: country sum above world")
     d["production"] = ranked(rows, int(USGS_YEAR), "usgs-mcs", "t", world=world, n=n)
     res = us.table("Platinum-Group Metals", "PGM reserves", factor=1e-3)
-    rn = "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded"
+    rn = f"USGS MCS {USGS_EDITION}, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded"
     if res["wnote"]:
         rn += "; " + res["wnote"]
     d["reserves"] = ranked(res["rows"], int(USGS_YEAR), "usgs-mcs", "t", world=res["world"] if res["world"] else total_of(res["rows"]) + res["other"], n=rn)
@@ -1137,26 +1392,71 @@ def write_qa(index, docs):
         f.write("\n".join(lines) + "\n")
 
 
-# Known source limitations found by the data audit; shown with the tables they affect.
-CAVEATS = {
-    "lpg": {"consumption": "Excludes the United States: the EIA US LPG series ends in 2021 (the US used about 44 Mt in 2019), so the world total is understated.",
-            "notes": ["EIA's 2025 LPG consumption table has no United States value; the world total excludes it."]},
-    "natural-gas": {"exports": "Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold.",
-                    "imports": "See exports note: North American pipeline-gas tonnage is understated in customs data.",
-                    "notes": ["Customs tonnage for pipeline gas is unreliable for North America (value-based estimates at about USD 500/t); use EIA bcm figures for production and consumption."]},
-    "lng": {"exports": "Customs (BACI) tonnage; GIIGNL reports higher 2024 exports for the United States (~88 Mt) and Qatar (~77 Mt), world about 411 Mt.",
-            "discrepancies": ["BACI 2024 LNG exporter tonnage is below GIIGNL's annual report (world about 411 Mt vs 378 Mt in customs data), notably for the US and Qatar."]},
-    "gold": {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
-             "imports": "Includes refining and vaulting hubs; not a measure of final demand."},
-    "silver": {"exports": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."},
-    "thermal-coal": {"seaborne": "Seaborne coal of all types (thermal and metallurgical): customs codes do not separate them."},
-    "uranium": {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
-                "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]},
-}
+# Figures quoted in caveats from publications that are not atlas sources. Each carries its publisher and
+# year and is printed with them; none is used in a table.
+LNG_REFERENCE = [
+    # (publisher, publication, figure, unit, year, what)
+    ("GIIGNL", "Annual Report 2025", 406, "Mt", 2024, "world LNG imports"),
+    ("IGU", "World LNG Report 2025", 411.24, "Mt", 2024, "world LNG trade"),
+]
 
 
-def annotate(docs):
-    for cid, c in CAVEATS.items():
+def caveats(docs, eia):
+    """Known source limitations found by the data audit; shown with the tables they affect.
+
+    Every number in these sentences is read from a table of the atlas or from a source file at build
+    time, or comes from LNG_REFERENCE with its publisher and year. No year is typed in the text.
+    """
+    out = {}
+
+    # LPG: the EIA series for the United States stops early
+    us = eia.s[("67-2", "MT")].get("USA", {})
+    c = docs["lpg"]["consumption"]
+    if c["y"] not in us:
+        last = max(us) if us else None
+        # last value in line with the year before it (the final US point of the EIA file is three times the previous one)
+        ref = next((y for y in sorted(us, reverse=True) if y - 1 in us and 0.5 <= us[y] / us[y - 1] <= 2), None)
+        t = f"Excludes the United States: the EIA series for US LPG consumption ends in {last}"
+        if ref:
+            t += f" (EIA gives {_fmt(us[ref] * 1e-3)} Mt for {ref})"
+        out["lpg"] = {"consumption": t + ", so the world total is understated.",
+                      "notes": [f"EIA's {c['y']} LPG consumption table has no United States value; the world total excludes it."]}
+
+    # pipeline gas: customs tonnage against EIA volumes, same year
+    ng = docs["natural-gas"]["exports"]
+    by = ng["y"]
+    can_b = next((r["v"] for r in ng["rows"] if r["c"] == "CAN"), None)
+    can_e = eia.s[("26-4", "BCM")].get("CAN", {}).get(by)
+    t = "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America"
+    if can_b and can_e:
+        t += f": customs data show {_fmt(can_b)} Mt of Canadian exports in {by}, EIA {_fmt(can_e)} bcm"
+    out["natural-gas"] = {"exports": t + ". Use the EIA production and consumption tables (bcm) for volumes.",
+                          "imports": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America (see the exporters table).",
+                          "notes": ["Customs tonnage for pipeline gas is unreliable for North America, where it is estimated from value; use EIA bcm figures for production and consumption."]}
+
+    # LNG: customs total against the two industry surveys
+    lx = docs["lng"]["exports"]
+    refs = "; ".join(f"{pub} ({doc}): {v:g} {u} of {what} in {y}" for pub, doc, v, u, y, what in LNG_REFERENCE)
+    out["lng"] = {"exports": f"Customs (BACI) tonnage, {_fmt(lx['world'])} Mt in {lx['y']}, is below the industry surveys. {refs}.",
+                  "discrepancies": [f"BACI LNG exporter tonnage ({_fmt(lx['world'])} Mt in {lx['y']}) is below the industry surveys: {refs}."]}
+
+    out["gold"] = {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
+                   "imports": "Includes refining and vaulting hubs; not a measure of final demand."}
+    out["silver"] = {"exports": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."}
+    out["refined-products"] = {"exports": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output.",
+                               "imports": "Includes storage and blending hubs that re-export what they import; not a measure of final demand."}
+    out["uranium"] = {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
+                      "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]}
+    out["cobalt"] = {"exports": "Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt.",
+                     "imports": "Gross weight of ores and unwrought cobalt, not contained cobalt."}
+    out["potash"] = {"exports": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content.",
+                     "imports": "Product weight of potassium chloride, not K2O content."}
+    out["urea"] = {"production": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."}
+    return out
+
+
+def annotate(docs, eia):
+    for cid, c in caveats(docs, eia).items():
         d = docs.get(cid)
         if not d:
             continue
@@ -1165,10 +1465,9 @@ def annotate(docs):
                 d.setdefault(sec, [])
                 d[sec] += [t for t in text if t not in d[sec]]
             elif d.get(sec):
-                d[sec]["n"] = (d[sec].get("n", "") + " · " if d[sec].get("n") else "") + text
+                add_caveat(d[sec], text)
                 if sec in d.get("summary", {}):
                     d["summary"][sec]["n"] = text
-
 
 
 if __name__ == "__main__":

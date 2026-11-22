@@ -1,13 +1,15 @@
 /**
  * History timeline: a year slider (years from the lane files) that drives `year`, which the lanes layer
  * uses to scale flow widths. Play animates one year per 1.2 s; freight events appear as clickable ticks.
+ * The event axis runs to the present: past the last year of flow data it carries events only.
  */
-import { useEffect, useMemo, useState } from 'preact/hooks';
-import { commodity, historyOpen, metric, select, year } from '../lib/store';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
+import { commodity, historyOpen, metric, select, selection, sheetSnap, year, type SheetSnap } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
 import { toggleHistory } from '../lib/prices';
 import { fmt, TOUCH } from '../lib/format';
+import { isSheetLayout } from '../map/controller';
 import { parseDate } from './charts/TimeChart';
 import { CloseIcon } from './ui';
 import type { FreightEvent, LaneFile } from '../types';
@@ -29,6 +31,16 @@ if (year.value != null) historyOpen.value = true;
 
 const pretty = (g: string) => g.replace(/-/g, ' ');
 
+/** Event date as a decimal year (2021.22 for 23 March 2021). */
+function yearFraction(date: string): number {
+  const t = parseDate(date);
+  const y = new Date(t * 1000).getUTCFullYear();
+  return y + (t - Date.UTC(y, 0, 1) / 1000) / (365.25 * 86400);
+}
+
+/** How far from a tick, in px, a tap still opens its event. */
+const TAP_REACH = 24;
+
 export function Timeline() {
   const open = historyOpen.value;
   const y = year.value;
@@ -37,6 +49,11 @@ export function Timeline() {
   const [events, setEvents] = useState<FreightEvent[]>([]);
   const [playing, setPlaying] = useState(false);
   const [files, setFiles] = useState<LaneFile[]>([]);
+  const barRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [trackW, setTrackW] = useState(0);
+  const downX = useRef<number | null>(null);
+  const snapBefore = useRef<SheetSnap | null>(null);
 
   // year range from any lane file
   useEffect(() => {
@@ -60,6 +77,33 @@ export function Timeline() {
       year.value = null;
     }
   }, [open, last]);
+
+  // phones and tablets: the bar takes the bottom edge, so the sheets sit above it (see --tl-h in drawers.css)
+  // and the controls sheet folds to its handle while History is open
+  useEffect(() => {
+    const el = barRef.current;
+    const root = document.documentElement;
+    if (!open || !el) {
+      root.style.setProperty('--tl-h', '0px');
+      return;
+    }
+    const ro = new ResizeObserver(() => {
+      root.style.setProperty('--tl-h', `${Math.ceil(el.getBoundingClientRect().height)}px`);
+      setTrackW(trackRef.current?.clientWidth ?? 0);
+    });
+    ro.observe(el);
+    if (isSheetLayout() && sheetSnap.peek() !== 'peek') {
+      snapBefore.current = sheetSnap.peek();
+      sheetSnap.value = 'peek';
+    }
+    return () => {
+      ro.disconnect();
+      root.style.setProperty('--tl-h', '0px');
+      // back to the height it had, unless the user resized the sheet in the meantime
+      if (snapBefore.current && sheetSnap.peek() === 'peek') sheetSnap.value = snapBefore.current;
+      snapBefore.current = null;
+    };
+  }, [open]);
 
   // play loop
   useEffect(() => {
@@ -91,21 +135,68 @@ export function Timeline() {
     };
   }, [k, open]);
 
+  // The axis ends with the current year (or the latest event), not with the last year of flow data:
+  // the slider stops at `last`, the stretch after it shows events only.
+  const end = useMemo(() => {
+    if (first == null) return null;
+    const lastEvent = Math.max(...events.map((e) => Math.floor(yearFraction(e.date))), last);
+    return Math.max(last, new Date().getUTCFullYear(), lastEvent) + 1;
+  }, [events, first, last]);
+  const span = end != null ? end - first : 1;
+  const dataFrac = end != null ? (last - first) / span : 1;
+
   const ticks = useMemo(() => {
-    if (first == null) return [];
-    const span = last - first;
+    if (first == null || end == null) return [];
     return events
       .map((e) => {
-        const t = parseDate(e.date);
-        const frac = new Date(t * 1000).getUTCFullYear() + (t - Date.UTC(new Date(t * 1000).getUTCFullYear(), 0, 1) / 1000) / (365.25 * 86400);
-        return { e, pos: (frac - first) / span };
+        const frac = yearFraction(e.date);
+        return { e, frac, pos: (frac - first) / (end - first) };
       })
-      .filter((x) => x.pos >= 0 && x.pos <= 1);
-  }, [events, first, last]);
+      .filter((x) => x.pos >= 0 && x.pos <= 1)
+      .sort((a, b) => a.frac - b.frac);
+  }, [events, first, end]);
 
   const cur = y ?? last;
   const pctPos = first == null || last === first ? 0 : ((cur - first) / (last - first)) * 100;
   const labelYears = years.filter((v) => v === first || v === last || v % 5 === 0);
+  // calendar years after the last year of flow data
+  const noData = end != null && end - 1 > last ? (end - 1 === last + 1 ? String(end - 1) : `${last + 1}–${end - 1}`) : null;
+  // the "no flow data yet" label goes under its stretch when it fits there, else in the caption
+  const noDataOnTrack = (trackW - 18) * (1 - dataFrac) >= 120;
+  // the slider thumb is 18 px wide: its centre travels between 9 px from each end of the input
+  const alongTrack = (f: number) => `calc(9px + (100% - 18px) * ${f.toFixed(5)})`;
+
+  const openEvent = (e: FreightEvent) => {
+    // the event opens and the map jumps to its year (clamped to the years with flow data)
+    const ey = Number(e.date.slice(0, 4));
+    if (first != null && last != null && Number.isFinite(ey)) year.value = Math.min(Math.max(ey, first), last);
+    select({ kind: 'event', id: e.id });
+  };
+  // one handler for the whole strip. Mouse and keyboard open the tick they are on; a finger cannot aim at
+  // ticks a few px apart, so a tap anywhere on the strip opens the event nearest to it
+  const onTicksClick = (ev: MouseEvent) => {
+    const btn = (ev.target as HTMLElement).closest<HTMLElement>('.tl-tick');
+    if (ev.detail === 0 || !TOUCH) {
+      const own = ticks.find((t) => t.e.id === btn?.dataset.id);
+      if (own) openEvent(own.e);
+      return;
+    }
+    const r = (ev.currentTarget as HTMLElement).getBoundingClientRect();
+    if (!ticks.length || r.width <= 0) return;
+    // where the finger went down: browsers move the click of a tap onto the topmost overlapping tick
+    const p = ((downX.current ?? ev.clientX) - r.left) / r.width;
+    downX.current = null;
+    const near = ticks.reduce((a, b) => (Math.abs(b.pos - p) < Math.abs(a.pos - p) ? b : a));
+    if (Math.abs(near.pos - p) * r.width <= TAP_REACH) openEvent(near.e);
+  };
+
+  // previous / next event (touch): from the open event, or else from the selected year
+  const sel = selection.value;
+  const selIdx = sel?.kind === 'event' ? ticks.findIndex((t) => t.e.id === sel.id) : -1;
+  const after = ticks.findIndex((t) => t.frac >= cur);
+  const nextIdx = selIdx >= 0 ? selIdx + 1 : after;
+  const prevIdx = selIdx >= 0 ? selIdx - 1 : (after < 0 ? ticks.length : after) - 1;
+  const selTick = selIdx >= 0 ? ticks[selIdx] : null;
 
   const move = (v: number) => {
     year.value = v;
@@ -125,7 +216,7 @@ export function Timeline() {
     .filter(Boolean) as { label: string; v: number; u: string; s: string }[];
 
   return (
-    <section class={`tl glass${open ? ' open' : ''}`} aria-label="History timeline" aria-hidden={!open}>
+    <section ref={barRef} class={`tl glass${open ? ' open' : ''}`} aria-label="History timeline" aria-hidden={!open}>
       <button class="tl-play" onClick={togglePlay} aria-label={playing ? 'Pause animation' : 'Play animation'} title={playing ? 'Pause' : 'Play through the years'}>
         {playing ? (
           <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
@@ -137,24 +228,26 @@ export function Timeline() {
           </svg>
         )}
       </button>
-      <div class="tl-track">
-        <div class="tl-ticks">
+      <div class="tl-track" ref={trackRef}>
+        <div class="tl-ticks" onPointerDown={(e) => (downX.current = e.clientX)} onClick={onTicksClick}>
           {ticks.map(({ e, pos }) => (
             <button
               key={e.id}
-              class="tl-tick"
+              data-id={e.id}
+              class={`tl-tick${selTick?.e.id === e.id ? ' on' : ''}`}
               style={{ left: `${pos * 100}%`, '--tc': KIND_COLOR[e.kind] ?? '#8d9fb3' }}
               title={`${e.date}${e.end ? ' to ' + e.end : ''} · ${e.title}`}
               aria-label={`Event ${e.date}: ${e.title}`}
-              onClick={() => {
-                // the event opens and the map jumps to its year (clamped to the years with flow data)
-                const ey = Number(e.date.slice(0, 4));
-                if (first != null && last != null && Number.isFinite(ey)) year.value = Math.min(Math.max(ey, first), last);
-                select({ kind: 'event', id: e.id });
-              }}
             />
           ))}
         </div>
+        {noData && (
+          <div
+            class="tl-after"
+            style={{ left: alongTrack(dataFrac) }}
+            title={`No flow data yet for ${noData}: this stretch shows events only`}
+          />
+        )}
         {first != null && (
           <input
             class="tl-range"
@@ -163,7 +256,7 @@ export function Timeline() {
             max={last}
             step={1}
             value={cur}
-            style={{ '--p': `${pctPos}%` }}
+            style={{ '--p': `${pctPos}%`, width: `calc(18px + (100% - 18px) * ${dataFrac.toFixed(5)})` }}
             aria-label="Year"
             aria-valuetext={String(cur)}
             onInput={(e) => {
@@ -174,10 +267,11 @@ export function Timeline() {
         )}
         <div class="tl-years" aria-hidden="true">
           {labelYears.map((v) => (
-            <span key={v} class={v === cur ? 'on' : ''} style={{ left: `${((v - first) / (last - first)) * 100}%` }}>
+            <span key={v} class={v === cur ? 'on' : ''} style={{ left: `${((v - first) / span) * 100}%` }}>
               {v}
             </span>
           ))}
+          {noData && noDataOnTrack && <span class="tl-nodata">no flow data yet</span>}
         </div>
       </div>
       <button class="tl-close" onClick={toggleHistory} aria-label="Close history timeline">
@@ -195,8 +289,28 @@ export function Timeline() {
             </b>
           </span>
         ))}
+        {noData && !noDataOnTrack && <span class="tl-note">{noData}: events only, no flow data yet</span>}
         {k && metric.value !== 'none' && <span class="tl-note">Country colours: latest data, not by year</span>}
-        <span class="tl-hint">{TOUCH ? 'Drag the slider to change the year · tap a tick for its event' : 'Arrow keys step the year · ticks mark events'}</span>
+        {!TOUCH && <span class="tl-hint">Arrow keys step the year · ticks mark events</span>}
+        {TOUCH && ticks.length > 0 && (
+          <div class="tl-step">
+            <button class="tl-step-btn" disabled={prevIdx < 0} aria-label="Previous event" onClick={() => openEvent(ticks[prevIdx].e)}>
+              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+            <span class="tl-step-cur">
+              {selTick ? (
+                <>
+                  <span class="num">{selTick.e.date}</span> · {selTick.e.title}
+                </>
+              ) : (
+                `${ticks.length} events: tap a tick or step through them`
+              )}
+            </span>
+            <button class="tl-step-btn" disabled={nextIdx < 0 || nextIdx >= ticks.length} aria-label="Next event" onClick={() => openEvent(ticks[nextIdx].e)}>
+              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6 4.5 9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

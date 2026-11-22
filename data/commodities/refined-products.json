@@ -6,14 +6,14 @@
    "u": "kb/d",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, refined petroleum products consumption; world total as published by EIA (all countries)"
+   "n": "Total oil demand (EIA petroleum and other liquids consumption): all liquids, not crude or refined products alone."
   },
   "exports": {
    "v": 1187.9,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "sum of all BACI refined-product flows (HS 2710), tonnes, all modes"
+   "n": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output."
   },
   "seaborne": {
    "v": 1007.4,
@@ -22,6 +22,12 @@
    "s": "baci",
    "n": "seaborne subset of BACI flows (refined-products) under the Atlas lane method (data/freight/lanes/refined-products.json); both countries need a sea gateway and must not be land neighbours"
   }
+ },
+ "kpis": {
+  "consumption": "Oil demand (all liquids)"
+ },
+ "labels": {
+  "consumption": "Top consumers — oil demand, all liquids"
  },
  "consumption": {
   "y": 2025,
@@ -78,7 +84,8 @@
     "v": 1905.7
    }
   ],
-  "n": "EIA International Energy Data, refined petroleum products consumption; world total as published by EIA (all countries)"
+  "n": "EIA International Energy Data, petroleum and other liquids consumption: total oil demand, all liquids (the EIA series 'refined petroleum products consumption' carries the same values); world total as published by EIA (all countries)",
+  "basis": "oil demand, all liquids"
  },
  "exports": {
   "y": 2024,
@@ -135,7 +142,8 @@
     "v": 34.177
    }
   ],
-  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output.",
+  "caveat": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output."
  },
  "imports": {
   "y": 2024,
@@ -192,7 +200,8 @@
     "v": 30.677
    }
   ],
-  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes storage and blending hubs that re-export what they import; not a measure of final demand.",
+  "caveat": "Includes storage and blending hubs that re-export what they import; not a measure of final demand."
  },
  "flows": [
   {
@@ -390,7 +399,7 @@
   }
  ],
  "notes": [
-  "World consumption by product, 2025 (EIA, eia-intl): distillate fuel oil 29.1 mb/d, motor gasoline 27.9 mb/d, jet fuel 7.3 mb/d, residual fuel oil 6.3 mb/d. Products do not add up to the total (other products excluded).",
+  "World consumption by product, 2025 (EIA, eia-intl): distillate fuel oil 29.1 mb/d, motor gasoline 27.9 mb/d, jet fuel 7.3 mb/d, residual fuel oil 6.3 mb/d. The four products do not add up to total oil demand: the other liquids are not listed.",
   "EIA refined-product production series end in 2014 and are not used; no production table."
  ]
 }

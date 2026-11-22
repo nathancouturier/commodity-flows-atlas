@@ -76,7 +76,8 @@
     "n": "WNA estimate"
    }
   ],
-  "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')"
+  "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')",
+  "basis": "contained uranium"
  },
  "exports": {
   "y": 2024,
@@ -134,7 +135,9 @@
     "n": "18% of tonnage estimated from value"
    }
   ],
-  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative."
+  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
+  "basis": "ores and compounds, gross weight",
+  "caveat": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative."
  },
  "imports": {
   "y": 2024,
@@ -191,7 +194,8 @@
     "v": 0.022
    }
   ],
-  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and compounds, gross weight"
  },
  "flows": [
   {

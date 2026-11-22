@@ -4,9 +4,11 @@ Build the freight layer files served by the site (run after build_lanes.py).
     python pipeline/freight/build_freight.py
 
 Inputs (curated, in pipeline/freight/): routes_def.json, vessel_classes.json, chokepoints.json,
-events.json, sources_*.json; BACI cache; raw/portwatch/*.json (optional, for transit series).
+events.json, sources_*.json; BACI cache; raw/portwatch/*.json (optional, for transit series);
+data/freight/portwatch/*.json (tracked: the chokepoint traffic figures are copied from these files,
+so a rebuild without raw/ keeps them).
 Outputs (data/freight/): routes.json, routes.geo.json, vessel-classes.json, chokepoints.json,
-events.json, portwatch/<chokepoint>.json; merges new sources into data/sources.json.
+events.json, portwatch/<chokepoint>.json, chokepoint-lanes.json; merges new sources into data/sources.json.
 """
 import glob
 import json
@@ -22,6 +24,7 @@ sys.path.insert(0, HERE)
 import ports as P  # noqa: E402
 import build_lanes as BL  # noqa: E402
 import build_portwatch as BW  # noqa: E402
+import build_chokepoint_lanes as BCL  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 import route_countries as RC  # noqa: E402
 
@@ -160,7 +163,7 @@ def main():
             v = per_year.get(latest, 0.0)
             if v > 0 and sea_tot > 0:
                 shares.append({"k": c["k"], "f": {"v": round(100 * v / sea_tot, 1), "u": "%", "y": latest, "s": "atlas",
-                                                  "n": f"Country-pair corridor (all ports and vessel sizes): {v:.1f} Mt of {sea_tot:.0f} Mt seaborne {c['k']} trade, CEPII BACI customs data"}})
+                                                  "n": f"Country-pair corridor (all ports and vessel sizes): {v:.1f} Mt of {sea_tot:.0f} Mt seaborne {'all-coal (thermal and metallurgical)' if groups == ['coal'] else c['k']} trade, CEPII BACI customs data"}})
             for y in years:
                 hist_tot[y] += per_year.get(y, 0.0)
             cor_tm += sum(pair_tm.get((g, o, d), 0.0) for g in groups for o in c["o"] for d in c["d"])
@@ -223,12 +226,15 @@ def main():
                     break
             c["detour"] = {"nm": round(med[1]), "days": round(med[2], 1), "lanes": len(det), "y": latest, "s": "atlas",
                            "n": f"Volume-weighted median over {len(det)} mapped lanes that use this passage, at each lane's typical laden speed"}
-    json.dump(chk, open(os.path.join(OUT, "chokepoints.json"), "w"), indent=0)
 
     # PortWatch weekly transit series per chokepoint (logic shared with build_portwatch.py)
     rows = BW.read_rows(os.path.join(RAW, "portwatch"))
     if rows:
         BW.build(rows, chk, os.path.join(OUT, "portwatch"))
+    BCL.build()  # table of the mapped lanes through each chokepoint, from the lane files written by build_lanes.py
+    # traffic figures always come from the tracked series files, with or without raw/ on this machine
+    BW.apply_headlines(chk, os.path.join(OUT, "portwatch"))
+    json.dump(chk, open(os.path.join(OUT, "chokepoints.json"), "w"), indent=0)
 
     # merge sources
     reg = json.load(open(os.path.join(ROOT, "data", "sources.json")))

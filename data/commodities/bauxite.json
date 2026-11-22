@@ -85,7 +85,8 @@
     "v": 3.8
    }
   ],
-  "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
+  "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)",
+  "basis": "dry tonnes"
  },
  "refinery": {
   "y": 2025,
@@ -199,7 +200,8 @@
     "v": 69.0
    }
   ],
-  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded"
+  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded",
+  "basis": "dry tonnes"
  },
  "exports": {
   "y": 2024,
@@ -256,7 +258,8 @@
     "v": 0.4571
    }
   ],
-  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "bauxite, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -313,7 +316,8 @@
     "v": 0.154
    }
   ],
-  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "bauxite, gross weight"
  },
  "extra": [
   {
@@ -374,7 +378,8 @@
       "v": 0.3328
      }
     ],
-    "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+    "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
    }
   }
  ],

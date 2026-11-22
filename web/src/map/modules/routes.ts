@@ -13,6 +13,12 @@ import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data
 import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
 
+/**
+ * Route line widths, as a fraction of the lane width range: fixed, they do not show a volume
+ * (benchmark routes are drawn thicker than the other routes). The legend draws the same widths.
+ */
+export const ROUTE_W = { selected: 0.85, benchmark: 0.45, other: 0.3 };
+
 function routeLabel(r: Route): string {
   const share = r.shares?.[0];
   const what = share ? (commodityMeta(share.k)?.name ?? share.k).toLowerCase() : '';
@@ -71,7 +77,7 @@ registerLayerModule(() => {
               id: f.properties.id,
               kind: isAlt ? 'alt' : 'route',
               color: SEGMENT_COLOR[segmentOf(r.vclass)],
-              w: isSel ? 0.85 : r.benchmark ? 0.45 : 0.3,
+              w: isSel ? ROUTE_W.selected : r.benchmark ? ROUTE_W.benchmark : ROUTE_W.other,
               dim: !!selId && !isSel,
               hl: isSel && !isAlt,
               dash: isAlt,
