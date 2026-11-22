@@ -27,6 +27,7 @@ interface Projected {
 export class FlowOverlay {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
+  private pathSets = new Map<string, FlowPath[]>();
   private paths: FlowPath[] = [];
   private projected: Projected[] = [];
   private dirty = true;
@@ -55,8 +56,11 @@ export class FlowOverlay {
     this.loop();
   }
 
-  setPaths(paths: FlowPath[]) {
-    this.paths = paths;
+  /** Set the particle paths of one named line set; sets are merged. */
+  setPaths(key: string, paths: FlowPath[]) {
+    if (paths.length) this.pathSets.set(key, paths);
+    else this.pathSets.delete(key);
+    this.paths = [...this.pathSets.values()].flat();
     this.dirty = true;
   }
 

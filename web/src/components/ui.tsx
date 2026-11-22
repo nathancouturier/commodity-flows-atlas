@@ -52,16 +52,17 @@ export function SourceLine(props: { s?: string; y?: number | string; n?: string 
   );
 }
 
-export function Kpi(props: { label: string; f?: Fig; value?: string }) {
+export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: string; note?: string; title?: string; span?: boolean }) {
+  const f = props.f;
+  const title = props.title ?? (f ? `${f.s} · ${f.y}${f.n ? ' · ' + f.n : ''}` : undefined);
   return (
-    <div class="kpi" title={props.f ? `${props.f.s} · ${props.f.y}${props.f.n ? ' · ' + props.f.n : ''}` : undefined}>
+    <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title}>
       <div class="kpi-label">{props.label}</div>
-      <div class="kpi-value">{props.value ?? fmtFig(props.f)}</div>
-      {props.f && (
-        <div class="kpi-src">
-          {sources.value[props.f.s]?.publisher ?? props.f.s} · {props.f.y}
-        </div>
+      <div class="kpi-value">{props.value ?? fmtFig(f)}</div>
+      {(f || props.sub) && (
+        <div class="kpi-src">{props.sub ?? `${sources.value[f!.s]?.publisher ?? f!.s} · ${f!.y}`}</div>
       )}
+      {props.note && <div class="kpi-note">{props.note}</div>}
     </div>
   );
 }

@@ -13,7 +13,7 @@ HS = {
     "lng": ["271111"],
     "natural-gas": ["271121"],  # pipeline gas (gaseous state)
     "lpg": ["271112", "271113"],  # propane, butanes
-    "coal": ["270111", "270112", "270119"],  # anthracite, bituminous, other (sub-bituminous, e.g. most Indonesian coal); HS6 does not separate coking from thermal coal
+    "coal": ["270111", "270112", "270119", "270210", "270220"],  # anthracite, bituminous, other (sub-bituminous), lignite (China declares much Indonesian coal as lignite); HS6 does not separate coking from thermal coal
     "uranium": ["261210", "284410"],
     # ---------------------------------------------------------------- metals & minerals
     "iron-ore": ["260111", "260112"],

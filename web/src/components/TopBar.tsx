@@ -1,4 +1,4 @@
-import { family, select, commodity, type FamilyFilter } from '../lib/store';
+import { family, select, commodity, layers, type FamilyFilter } from '../lib/store';
 import { FAMILY_COLOR } from '../lib/format';
 import { BrandMark } from './ui';
 
@@ -26,6 +26,11 @@ export function TopBar() {
             class="family-tab"
             aria-pressed={family.value === t.id}
             onClick={() => {
+              // the Freight tab brings routes and chokepoints in; other tabs return to flows only
+              const toFreight = t.id === 'freight';
+              if (toFreight !== (family.value === 'freight')) {
+                layers.value = { ...layers.value, routes: toFreight, chokepoints: toFreight };
+              }
               family.value = t.id;
               commodity.value = null;
               select(null);

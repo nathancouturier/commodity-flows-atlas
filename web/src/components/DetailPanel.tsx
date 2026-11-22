@@ -3,11 +3,17 @@
  * Views are lazy so their code only loads when first opened.
  */
 import { lazy, Suspense } from 'preact/compat';
+import '../styles/views.css';
 import { selection, select } from '../lib/store';
 import { CloseIcon, Skeleton } from './ui';
 
 const CountryView = lazy(() => import('./views/CountryView'));
 const CommodityView = lazy(() => import('./views/CommodityView'));
+const RouteView = lazy(() => import('./views/RouteView'));
+const LaneView = lazy(() => import('./views/LaneView'));
+const ChokepointView = lazy(() => import('./views/ChokepointView'));
+const VesselView = lazy(() => import('./views/VesselView'));
+const EventView = lazy(() => import('./views/EventView'));
 const GenericView = lazy(() => import('./views/GenericView'));
 
 export function DetailPanel() {
@@ -24,6 +30,16 @@ export function DetailPanel() {
               <CountryView id={s.id} />
             ) : s.kind === 'commodity' ? (
               <CommodityView id={s.id} />
+            ) : s.kind === 'route' ? (
+              <RouteView id={s.id} />
+            ) : s.kind === 'lane' ? (
+              <LaneView id={s.id} />
+            ) : s.kind === 'chokepoint' ? (
+              <ChokepointView id={s.id} />
+            ) : s.kind === 'vessel' ? (
+              <VesselView id={s.id} />
+            ) : s.kind === 'event' ? (
+              <EventView id={s.id} />
             ) : (
               <GenericView sel={s} />
             )}

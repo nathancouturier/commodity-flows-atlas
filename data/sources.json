@@ -158,5 +158,13 @@
   "url": "https://gmk.center/en/news/the-first-commercial-shipment-of-iron-ore-from-simandou-has-departed-for-china/",
   "licence": "Public web page, facts cited",
   "update": "n/a"
+ },
+ {
+  "id": "eia-spot",
+  "name": "EIA spot prices (petroleum and natural gas)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
+  "licence": "Public domain (US Government)",
+  "update": "weekly (daily data)"
  }
 ]

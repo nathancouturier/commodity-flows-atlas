@@ -5,6 +5,7 @@ import { TopBar } from './components/TopBar';
 import { SidePanel } from './components/SidePanel';
 import { DetailPanel } from './components/DetailPanel';
 import { Tooltip } from './components/Tooltip';
+import { Legend } from './components/Legend';
 import { detailOpen, writeHash, family, commodity, metric, year, selection } from './lib/store';
 
 export function App() {
@@ -23,6 +24,7 @@ export function App() {
       <TopBar />
       <SidePanel />
       <DetailPanel />
+      <Legend />
       <Tooltip />
     </div>
   );

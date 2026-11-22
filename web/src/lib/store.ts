@@ -74,8 +74,17 @@ function readHash() {
   if (y && /^\d{4}$/.test(y)) year.value = Number(y);
   const sel = p.get('sel');
   if (sel) {
-    const [kind, id, layer] = sel.split(':');
-    if (kind && id) selection.value = { kind, id, layer } as Selection;
+    // ids may contain ':' (lane ids are "<group>:<o>-<d>"); only infra selections carry a trailing layer
+    const i = sel.indexOf(':');
+    const kind = sel.slice(0, i);
+    let id = sel.slice(i + 1);
+    let layer: string | undefined;
+    if (kind === 'infra') {
+      const j = id.lastIndexOf(':');
+      layer = id.slice(j + 1);
+      id = id.slice(0, j);
+    }
+    if (i > 0 && id) selection.value = { kind, id, layer } as Selection;
   }
 }
 
@@ -92,3 +101,12 @@ export function writeHash() {
 }
 
 readHash();
+// a shared Freight-tab link opens with its routes and chokepoints visible
+if (family.value === 'freight') layers.value = { ...layers.value, routes: true, chokepoints: true };
+
+// ---------------------------------------------------------------- route finder (side panel)
+// Kept in the store so the choice survives switching tabs.
+export const routeFinderOpen = signal(false);
+export const rfCommodity = signal<string>('thermal-coal');
+export const rfOrigin = signal<string | null>(null);
+export const rfDest = signal<string | null>(null);

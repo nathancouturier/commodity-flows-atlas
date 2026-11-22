@@ -674,3 +674,398 @@ button {
     top: 104px;
   }
 }
+
+/* ================================================================ freight: lanes, routes, chokepoints, route finder, legend */
+
+/* legend extras */
+.legend-width {
+  color: var(--ink-2);
+}
+
+.legend-cp {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--chokepoint);
+  box-sizing: border-box;
+}
+
+/* chokepoint HTML markers */
+.cp {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* MapLibre writes inline opacity on markers, so hide with visibility instead */
+.cp-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cp-ring {
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  border: 2px solid var(--chokepoint);
+  background: rgba(255, 92, 122, 0.12);
+  box-shadow: 0 0 8px rgba(255, 92, 122, 0.55);
+}
+
+.cp-ring::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--chokepoint);
+  opacity: 0;
+  animation: cp-pulse 2.8s var(--ease) infinite;
+}
+
+.cp-sel .cp-ring {
+  background: var(--chokepoint);
+}
+
+.cp-label {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-0);
+  text-shadow: 0 0 4px var(--ocean-0), 0 0 8px var(--ocean-0);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-fast);
+}
+
+.cp-labels .cp:not(.cp-hidden) .cp-label,
+.cp:hover .cp-label,
+.cp:focus-visible .cp-label {
+  opacity: 1;
+}
+
+.cp:hover {
+  z-index: 2;
+}
+
+@keyframes cp-pulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-ring::after {
+    animation: none;
+  }
+}
+
+/* side panel: route finder */
+.rf-top {
+  padding: 10px 0 0;
+}
+
+.rf-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline-strong);
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  color: var(--ink-1);
+  transition: all var(--t-fast);
+}
+
+.rf-toggle:hover,
+.rf-toggle[aria-expanded='true'] {
+  color: var(--ink-0);
+  border-color: rgba(62, 230, 255, 0.4);
+}
+
+.rf-toggle .chev {
+  margin-left: auto;
+  color: var(--ink-2);
+  font-family: var(--font-num);
+}
+
+.rf {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.rf-top .rf {
+  padding-bottom: 6px;
+}
+
+.rf-field {
+  display: grid;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.rf-select {
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--hairline-strong);
+  background: var(--land-1);
+  color: var(--ink-0);
+  font: inherit;
+  font-size: var(--fs-sm);
+  letter-spacing: 0;
+  text-transform: none;
+  color-scheme: dark;
+}
+
+.rf-select:disabled {
+  opacity: 0.45;
+}
+
+.rf-select:focus-visible {
+  outline: 1px solid var(--accent);
+}
+
+.rf-card {
+  margin-top: 4px;
+  padding: 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--hairline-strong);
+  background: rgba(255, 255, 255, 0.03);
+  display: grid;
+  gap: 6px;
+}
+
+.rf-title {
+  font-weight: 650;
+  font-size: var(--fs-md);
+  color: var(--ink-0);
+}
+
+.rf-title small {
+  display: block;
+  font-weight: 450;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.rf-empty {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.rf-stats {
+  margin: 4px 0 0;
+  display: grid;
+  gap: 6px;
+}
+
+.rf-stats > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+  font-size: var(--fs-sm);
+}
+
+.rf-stats dt {
+  color: var(--ink-2);
+}
+
+.rf-stats dd {
+  margin: 0;
+  color: var(--ink-0);
+  text-align: right;
+}
+
+.rf-stats small {
+  color: var(--ink-2);
+}
+
+.rf-sub {
+  margin-top: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.rf-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.rf-tag {
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.rf-tag em {
+  margin-left: 6px;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.rf-link:hover {
+  color: var(--ink-0);
+  border-color: var(--chokepoint);
+}
+
+.rf-alt {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.rf-route {
+  padding: 6px 4px;
+  font-size: var(--fs-sm);
+}
+
+.rf-route-name {
+  min-width: 0;
+}
+
+.rf-map-btn {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border-radius: var(--r-sm);
+  background: var(--accent-soft);
+  border: 1px solid rgba(62, 230, 255, 0.35);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  transition: background var(--t-fast);
+}
+
+.rf-map-top {
+  margin-top: 2px;
+}
+
+.rf-map-btn:hover {
+  background: rgba(62, 230, 255, 0.24);
+}
+
+/* side panel: vessel filter and route list */
+.link-btn {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.vc-group + .vc-group {
+  margin-top: 10px;
+}
+
+.vc-label {
+  margin-bottom: 5px;
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+}
+
+.code {
+  flex: none;
+  min-width: 38px;
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.07);
+  font-family: var(--font-num);
+  font-size: 11px;
+  color: var(--ink-0);
+  text-align: center;
+}
+
+.route-group > summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 4px;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  color: var(--ink-1);
+}
+
+.route-group > summary::-webkit-details-marker {
+  display: none;
+}
+
+.route-group > summary::before {
+  content: '▸';
+  font-size: 9px;
+  color: var(--ink-3);
+  transition: transform var(--t-fast);
+}
+
+.route-group[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.route-group .meta {
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+  font-weight: 400;
+}
+
+.route-row {
+  padding: 5px 6px;
+  font-size: var(--fs-sm);
+}
+
+.route-row .route-name {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.route-row .meta {
+  flex: none;
+}
+
+.route-row.is-off {
+  opacity: 0.45;
+}
+
+.route-row small {
+  color: var(--ink-3);
+}
+
+.route-sub {
+  margin: 12px 0 4px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}

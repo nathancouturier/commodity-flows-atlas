@@ -2,7 +2,7 @@
  * Map controller: owns the MapLibre instance, the base layers, the flow overlay,
  * and generic helpers (camera moves, line/point layers) used by feature modules.
  */
-import maplibregl, { type Map as MLMap, type GeoJSONSource, type LngLatBoundsLike } from 'maplibre-gl';
+import maplibregl, { type Map as MLMap, type GeoJSONSource, type LngLatBoundsLike, type ExpressionSpecification } from 'maplibre-gl';
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
@@ -19,6 +19,10 @@ export interface LineFeatureProps {
   /** what a click selects */
   kind: 'lane' | 'route' | 'pipeline' | 'alt';
   dim?: boolean;
+  /** highlighted (selected) line: full opacity, stronger glow */
+  hl?: boolean;
+  /** drawn dashed (alternative routing); no particles */
+  dash?: boolean;
   label?: string;
 }
 
@@ -40,11 +44,16 @@ export function onMapReady(fn: (m: MLMap) => void) {
 export function initMap(container: HTMLElement) {
   if (map) return map;
   const small = window.innerWidth < 760;
+  // Fit the whole trading world (Americas to Japan) in the area right of the side panel.
+  const visibleW = small ? window.innerWidth : window.innerWidth - 340;
+  const zoom = Math.min(1.9, Math.max(0.6, Math.log2(visibleW / 512)));
+  const worldPx = 512 * 2 ** zoom;
+  const centerLon = small ? 75 : 35 - ((340 / 2) / worldPx) * 360;
   map = new maplibregl.Map({
     container,
     style: baseStyle(),
-    center: [60, 18],
-    zoom: small ? 0.6 : 1.55,
+    center: [centerLon, small ? 15 : 22],
+    zoom,
     minZoom: 0.5,
     maxZoom: 9,
     renderWorldCopies: true,
@@ -65,7 +74,6 @@ export function initMap(container: HTMLElement) {
 
   map.on('load', async () => {
     const m = map!;
-    addFlowLayers(m);
     overlay = new FlowOverlay(m);
     await loadCountries(m);
     wireCountryInteraction(m);
@@ -99,7 +107,7 @@ function wireCountryInteraction(m: MLMap) {
       hoverId = id;
       if (id) m.setFeatureState({ source: 'countries', id }, { hover: true });
     }
-    if (!lineHover && id) {
+    if (!lineHover() && id) {
       const extra = countryTooltipExtra?.(id) ?? '';
       hovered.value = { x: e.point.x, y: e.point.y, html: `<b>${escapeHtml(countryName(id))}</b>${extra}` };
     }
@@ -107,10 +115,11 @@ function wireCountryInteraction(m: MLMap) {
   m.on('mouseleave', 'land', () => {
     if (hoverId) m.setFeatureState({ source: 'countries', id: hoverId }, { hover: false });
     hoverId = null;
-    if (!lineHover) hovered.value = null;
+    if (!lineHover()) hovered.value = null;
   });
   m.on('click', (e) => {
-    // lines and points take priority over countries
+    // HTML markers (chokepoints) and lines take priority over countries
+    if ((e.originalEvent.target as HTMLElement | null)?.closest?.('.cp')) return;
     const hits = m.queryRenderedFeatures(e.point, { layers: interactiveLayers.filter((l) => m.getLayer(l)) });
     if (hits.length) return; // handled by the layer's own click handler
     const land = m.queryRenderedFeatures(e.point, { layers: ['land'] })[0];
@@ -139,68 +148,102 @@ function selectionHighlight(m: MLMap) {
   selection.subscribe(apply);
 }
 
-// ---------------------------------------------------------------- flows (lines)
+// ---------------------------------------------------------------- flows (line sets)
+//
+// Feature modules each own a named "line set" (e.g. 'lanes', 'routes'): a GeoJSON source
+// with glow / line / alt (dashed) / hit layers, plus a key in the particle overlay.
+// Hover, tooltip and click handling is generic and driven by feature properties.
 
-const interactiveLayers: string[] = ['flows-hit'];
-let lineHover = false;
+const interactiveLayers: string[] = [];
+const lineSets = new Set<string>();
+/** Hit layers currently under the pointer (so the country tooltip yields to line tooltips). */
+const hoverLayers = new Set<string>();
+const lineHover = () => hoverLayers.size > 0;
 
 export function registerInteractiveLayer(id: string) {
   if (!interactiveLayers.includes(id)) interactiveLayers.push(id);
 }
 
-function addFlowLayers(m: MLMap) {
-  m.addSource('flows', { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, lineMetrics: true });
+function ensureLineSet(m: MLMap, key: string) {
+  if (lineSets.has(key)) return;
+  lineSets.add(key);
+  const src = `ls-${key}`;
+  const hit = `${src}-hit`;
+  const isDim: ExpressionSpecification = ['boolean', ['get', 'dim'], false];
+  const isHl: ExpressionSpecification = ['boolean', ['get', 'hl'], false];
+  const isHover: ExpressionSpecification = ['boolean', ['feature-state', 'hover'], false];
+  m.addSource(src, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
   m.addLayer({
-    id: 'flows-glow',
+    id: `${src}-glow`,
     type: 'line',
-    source: 'flows',
+    source: src,
+    filter: ['!', ['boolean', ['get', 'dash'], false]],
     layout: { 'line-cap': 'round', 'line-join': 'round' },
     paint: {
       'line-color': ['get', 'color'],
-      'line-opacity': ['case', ['boolean', ['get', 'dim'], false], 0.03, 0.13],
+      'line-opacity': ['case', isDim, 0.03, isHl, 0.3, 0.13],
       'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 4, 1, 16],
       'line-blur': 6,
     },
   });
   m.addLayer({
-    id: 'flows-line',
+    id: `${src}-line`,
     type: 'line',
-    source: 'flows',
+    source: src,
+    filter: ['!', ['boolean', ['get', 'dash'], false]],
     layout: { 'line-cap': 'round', 'line-join': 'round' },
     paint: {
       'line-color': ['get', 'color'],
-      'line-opacity': ['case', ['boolean', ['get', 'dim'], false], 0.12, ['boolean', ['feature-state', 'hover'], false], 1, 0.55],
+      'line-opacity': ['case', isHover, 1, isHl, 1, isDim, 0.12, 0.55],
       'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 0.8, 1, 4.5],
-      'line-dasharray': ['case', ['==', ['get', 'kind'], 'alt'], ['literal', [2, 2]], ['literal', [1, 0]]],
+    },
+  });
+  // alternative routings are always dashed
+  m.addLayer({
+    id: `${src}-alt`,
+    type: 'line',
+    source: src,
+    filter: ['boolean', ['get', 'dash'], false],
+    layout: { 'line-cap': 'butt', 'line-join': 'round' },
+    paint: {
+      'line-color': ['get', 'color'],
+      'line-opacity': ['case', isHover, 1, 0.75],
+      'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 1.2, 1, 3],
+      'line-dasharray': [2, 2],
     },
   });
   m.addLayer({
-    id: 'flows-hit',
+    id: hit,
     type: 'line',
-    source: 'flows',
+    source: src,
     paint: { 'line-color': '#000', 'line-opacity': 0, 'line-width': 14 },
   });
+  registerInteractiveLayer(hit);
 
-  let hoverLine: string | number | undefined;
-  m.on('mousemove', 'flows-hit', (e) => {
+  let hoverFeature: string | number | undefined;
+  const unhover = () => {
+    if (hoverFeature !== undefined) m.setFeatureState({ source: src, id: hoverFeature }, { hover: false });
+    hoverFeature = undefined;
+  };
+  m.on('mousemove', hit, (e) => {
     const f = e.features?.[0];
     if (!f) return;
-    lineHover = true;
+    hoverLayers.add(hit);
     m.getCanvas().style.cursor = 'pointer';
-    if (hoverLine !== undefined) m.setFeatureState({ source: 'flows', id: hoverLine }, { hover: false });
-    hoverLine = f.id;
-    if (f.id !== undefined) m.setFeatureState({ source: 'flows', id: f.id }, { hover: true });
-    const label = (f.properties?.label as string) ?? '';
-    hovered.value = { x: e.point.x, y: e.point.y, html: label };
+    if (f.id !== hoverFeature) {
+      unhover();
+      hoverFeature = f.id;
+      if (f.id !== undefined) m.setFeatureState({ source: src, id: f.id }, { hover: true });
+    }
+    hovered.value = { x: e.point.x, y: e.point.y, html: (f.properties?.label as string) ?? '' };
   });
-  m.on('mouseleave', 'flows-hit', () => {
-    lineHover = false;
+  m.on('mouseleave', hit, () => {
+    hoverLayers.delete(hit);
     m.getCanvas().style.cursor = '';
-    if (hoverLine !== undefined) m.setFeatureState({ source: 'flows', id: hoverLine }, { hover: false });
-    hoverLine = undefined;
-    hovered.value = null;
+    unhover();
+    if (!lineHover()) hovered.value = null;
   });
-  m.on('click', 'flows-hit', (e) => {
+  m.on('click', hit, (e) => {
     const p = e.features?.[0]?.properties as LineFeatureProps | undefined;
     if (!p) return;
     if (p.kind === 'route' || p.kind === 'alt') select({ kind: 'route', id: p.id.replace(/:alt$/, '') });
@@ -209,18 +252,25 @@ function addFlowLayers(m: MLMap) {
 }
 
 /**
- * Replace the flow lines and their animated particles.
+ * Replace the lines (and animated particles) of one named line set.
  * Each feature's `id` must be unique; tooltips come from `label` (HTML, already escaped).
+ * Pass an empty array to hide the set.
  */
-export function setFlows(features: Feature<LineString, LineFeatureProps>[]) {
+export function setLineSet(key: string, features: Feature<LineString, LineFeatureProps>[]) {
   onMapReady((m) => {
+    ensureLineSet(m, key);
     const fc: FeatureCollection<LineString, LineFeatureProps> = {
       type: 'FeatureCollection',
       features: features.map((f, i) => ({ ...f, id: i + 1 })),
     };
-    (m.getSource('flows') as GeoJSONSource).setData(fc);
+    (m.getSource(`ls-${key}`) as GeoJSONSource).setData(fc);
+    // feature ids are re-assigned: drop any stale hover tooltip from the previous data
+    if (lineHover()) {
+      hoverLayers.clear();
+      hovered.value = null;
+    }
     const paths: FlowPath[] = features
-      .filter((f) => f.properties.kind !== 'alt')
+      .filter((f) => !f.properties.dash)
       .map((f) => ({
         id: f.properties.id,
         coords: f.geometry.coordinates as [number, number][],
@@ -228,7 +278,7 @@ export function setFlows(features: Feature<LineString, LineFeatureProps>[]) {
         weight: f.properties.w,
         dim: f.properties.dim,
       }));
-    overlay?.setPaths(paths);
+    overlay?.setPaths(key, paths);
   });
 }
 
