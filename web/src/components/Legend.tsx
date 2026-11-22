@@ -1,5 +1,5 @@
 /** Small map legend: only describes what is currently drawn. */
-import { choroInfo, commodity, family, infraTypes, landFlowsShown, layers, selection } from '../lib/store';
+import { choroInfo, mapNotice, commodity, family, infraTypes, landFlowsShown, layers, selection } from '../lib/store';
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, pct, shareOpacity } from '../lib/format';
@@ -22,7 +22,7 @@ export function Legend() {
   const infraOn = layers.value.infrastructure;
   const land = landFlowsShown.value;
 
-  const flowsOn = layers.value.flows && (!!k || fam !== 'freight');
+  const flowsOn = layers.value.flows && (!!k || fam !== 'freight') && !mapNotice.value;
   const routesOn = layers.value.routes || fam === 'freight';
   const chokeOn =
     layers.value.chokepoints || fam === 'freight' || sel?.kind === 'route' || sel?.kind === 'lane' || sel?.kind === 'chokepoint';

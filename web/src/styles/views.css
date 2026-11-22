@@ -130,7 +130,7 @@
 .tc-plot .u-cursor-x, .tc-plot .u-cursor-y { border-color: rgba(255, 255, 255, 0.25) !important; }
 .tc-foot { font-size: 11px; color: var(--ink-2); margin-top: 2px; }
 
-@media (max-width: 760px) {
+@media (max-width: 1024px) {
   .strip { padding-bottom: 10px; }
   .tc-readout { min-height: 46px; }
 }
@@ -178,6 +178,6 @@
 .ft-wide { grid-template-columns: 100px minmax(0, 1fr); }
 .ft-wide .num { font-size: var(--fs-sm); }
 
-@media (max-width: 760px) {
+@media (max-width: 1024px) {
   .row-btn { padding: 8px 6px; }
 }

@@ -703,7 +703,7 @@ button {
   filter: invert(0.85);
 }
 
-.maplibregl-ctrl-top-right {
+.app .maplibregl-ctrl-top-right {
   top: 62px;
   right: calc(var(--gap) - 10px);
 }
@@ -713,6 +713,11 @@ button {
 }
 
 /* ---------------------------------------------------------------- mobile */
+
+/* ---------------------------------------------------------------- bottom-sheet header */
+.sheet-head {
+  display: none;
+}
 
 @media (max-width: 1024px) {
   :root {
@@ -842,7 +847,7 @@ button {
     overscroll-behavior: contain;
   }
 
-  .maplibregl-ctrl-top-right {
+  .app .maplibregl-ctrl-top-right {
     top: 104px;
   }
 
@@ -1328,9 +1333,4 @@ button {
 
 .rf-status-link:hover {
   color: var(--ink-0);
-}
-
-/* ---------------------------------------------------------------- bottom-sheet header */
-.sheet-head {
-  display: none;
 }
