@@ -86,7 +86,7 @@ def _above_production(o, level, hypothesis):
 def _mex_s19(c):
     yrs = [y for y in range(min(S19_UNSPECIFIED.values()) - 1, c.y + 1)]
     vals = [(y, c.flow("crude-oil", "MEX", "TWN", y)) for y in yrs]
-    if vals[-1][1] < 1:
+    if not vals or vals[-1][1] < 1:  # no year in range when the build year is before the rule's first year
         return None
     series = ", ".join(f"{mt(v)} in {y}" for y, v in vals if v > 0)
     return ("Crude oil from Mexico to \"Other Asia, not elsewhere specified\" (BACI code S19), shown here as Taiwan: "
@@ -202,7 +202,11 @@ def build(df, findings, year, psd="load"):
     """Active entries for the latest year: {id: {kind, text, group, o, d, check}}. df is the frame of clean();
     findings the output of checks.run(); psd the table of checks.psd_table() (loaded when not given; None to skip)."""
     if psd == "load":
-        psd = K.psd_table()
+        try:
+            psd = K.psd_table()
+        except Exception as e:  # a PSD file with another layout: the entries are built without it
+            print(f"caveats: USDA PSD not read ({type(e).__name__}: {e})")
+            psd = None
     c = Ctx(df, findings, year, psd)
     out = {}
     for cid, kind, g, o, d, check, fn in REGISTRY:

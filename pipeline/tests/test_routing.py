@@ -54,6 +54,39 @@ class R02Gates(unittest.TestCase):
         self.assertEqual(RT.nodes_on_gates(M), [])
 
 
+class R02bClosedEdges(unittest.TestCase):
+    """Review GE2.2: the Johor Strait is blocked by the causeway and must not carry a route past the Singapore gate."""
+
+    @staticmethod
+    def through_causeway(coords):
+        return any(103.70 < RT.norm(x) < 103.85 and 1.40 < y < 1.52 for x, y in coords)
+
+    def test_closed_edges_exist_and_no_node_on_them(self):
+        M = RT.graph()
+        closed = [(u, v) for u, nbrs in M.adj.items() for v, d in nbrs.items() if d.get("passage") == "atlas-closed"]
+        self.assertGreaterEqual(len(closed), 2)
+        for u in M.adj:
+            for a, b in RT.CLOSED.values():
+                on = abs(RT._ccw(a, b, (RT.norm(u[0]), u[1]))) < 1e-12 and min(a[1], b[1]) <= u[1] <= max(a[1], b[1])
+                self.assertFalse(on and min(a[0], b[0]) <= RT.norm(u[0]) <= max(a[0], b[0]), u)
+
+    def test_pasir_gudang_crosses_the_singapore_gate(self):
+        for a, b in (("MYPGU", "INMUN"), ("INMUN", "MYPGU"), ("MYPGU", "NLRTM"), ("MYTPP", "CNTAO")):
+            r = RT.route(at(a), at(b), SO)
+            self.assertIn("singapore", r.via, (a, b))
+            self.assertFalse(self.through_causeway(r.coords), (a, b))
+        self.assertIn("singapore", RT.plan(at("MYPGU"), at("INMUN"), ["mr"]).via)
+
+    def test_closure_survives_an_avoid_set(self):
+        RT.route(at("MYPGU"), at("INMUN"), SO + ("singapore", "malacca"))
+        r = RT.route(at("MYPGU"), at("INMUN"), SO)
+        self.assertFalse(self.through_causeway(r.coords))
+
+    def test_restricted_vloc_does_not_use_the_johor_strait(self):
+        p = RT.plan(at("BRTUB"), at("SGSIN"), ["vloc"])
+        self.assertFalse(self.through_causeway(p.main.coords))
+
+
 class R03CapeOfGoodHope(unittest.TestCase):
     def test_santos_fremantle(self):
         r = RT.route(at("BRSSZ"), at("AUFRE"), SO)
@@ -106,6 +139,35 @@ class R05CapeHorn(unittest.TestCase):
         self.assertNotIn("cape-horn", p.main.via)
         self.assertAlmostEqual(p.main.nm, 11822, delta=150)
 
+    def test_south_pacific_may_use_the_horn(self):
+        # review GE2.1: New Zealand, eastern Australia and the Pacific islands are not on the Horn-closed side
+        for a, b in (("NZAKL", "BRSSZ"), ("AUBNE", "ARBUE"), ("AUGLT", "ARUPR"), ("AUMEL", "BRSSZ"),
+                     ("FJSUV", "BRSSZ"), ("WSAPW", "BRSSZ"), ("CLVAP", "ARBUE"), ("CLPUQ", "ARBUE")):
+            self.assertTrue(RT.horn_allowed(at(a), at(b)), (a, b))
+        self.assertTrue(RT.horn_allowed([180.0, -17.0], at("BRSSZ")))
+        self.assertTrue(RT.horn_allowed([-180.0, -17.0], at("BRSSZ")))
+        for a, b in (("JPCHB", "BRSSZ"), ("AUFRE", "BRSSZ"), ("KRPUS", "ARUPR"), ("CNTAO", "BRTUB"),
+                     ("AUDRW", "BRSSZ"), ("SAJED", "BRSSZ")):
+            self.assertFalse(RT.horn_allowed(at(a), at(b)), (a, b))
+
+    def test_south_pacific_to_south_atlantic(self):
+        for a, b, nm in (("AUGLT", "ARUPR", 8096), ("NZAKL", "BRSSZ", 7176), ("CLVAP", "ARBUE", 3030),
+                         ("CLPUQ", "ARBUE", 1601)):
+            p = RT.plan(at(a), at(b), ["supramax"])
+            self.assertIn("cape-horn", p.main.via, (a, b))
+            self.assertNotIn("cape-good-hope", p.main.via, (a, b))
+            self.assertAlmostEqual(p.main.nm, nm, delta=150, msg=(a, b))
+        p = RT.plan(at("FKPSY"), at("ARBUE"), ["supramax"])
+        self.assertNotIn("cape-good-hope", p.main.via)
+        self.assertAlmostEqual(p.main.nm, 1395, delta=100)
+
+    def test_south_atlantic_to_asia_keeps_the_cape(self):
+        for a, b, cl in (("ARUPR", "KRPUS", ["kamsarmax"]), ("ARUPR", "CNTAO", ["kamsarmax"]),
+                         ("BRTUB", "CNTAO", ["vloc", "capesize"])):
+            p = RT.plan(at(a), at(b), cl)
+            self.assertIn("cape-good-hope", p.main.via, (a, b))
+            self.assertNotIn("cape-horn", p.main.via, (a, b))
+
 
 class R06SuezAlternative(unittest.TestCase):
     def test_pivdennyi_qingdao(self):
@@ -142,6 +204,15 @@ class R08Americas(unittest.TestCase):
         self.assertIn("cape-horn", p.alts[0]["via"])
         self.assertAlmostEqual(p.alts[0]["distanceNm"], 9703, delta=150)
         self.assertIsNone(p.alt_note)
+
+    def test_alternative_named_by_its_passage(self):
+        # review GE2.6: the cape-horn gate includes the Strait of Magellan; the label says which one is used
+        p = RT.plan(at("USHOU"), at("CLANF"), ["mr"])
+        self.assertTrue(p.alts[0]["label"].endswith("(via Magellan Strait)"), p.alts[0]["label"])
+        self.assertEqual(RT.horn_passage([[-70.0, -52.4], [-68.0, -52.5]]), "Magellan Strait")
+        self.assertEqual(RT.horn_passage([[-70.0, -56.0], [-68.0, -56.0]]), "Cape Horn")
+        self.assertEqual(RT.horn_passage([[290.0, -56.0], [292.0, -56.0]]), "Cape Horn")
+        self.assertIsNone(RT.horn_passage([[-70.0, -40.0], [-68.0, -40.0]]))
 
     def test_houston_puerto_quetzal(self):
         p = RT.plan(at("USHOU"), at("GTPRQ"), ["mr"])
@@ -188,6 +259,15 @@ class R10Parallel(unittest.TestCase):
         self.assertIn("malacca", p.via)
         self.assertEqual(p.via_alt, [])
 
+    def test_gate_crossed_by_every_option_is_certain(self):
+        # review GE2.5: from inside the Makassar Strait every option leaves through the Makassar gate
+        p = RT.plan(at("IDSRI"), at("INPBD"), ["supramax"])
+        self.assertIn("makassar", p.via)
+        self.assertEqual(len(p.via_alt), 1)
+        self.assertNotIn("makassar", p.via_alt[0])
+        self.assertTrue({"malacca", "singapore", "sunda", "lombok"} <= set(p.via_alt[0]))
+        self.assertIn("makassar", RT.plan(at("IDSRI"), at("INPRT"), ["supramax"]).via)
+
     def test_vloc_main_route_respects_draught(self):
         p = RT.plan(at("BRTUB"), at("CNTAO"), ["vloc", "capesize"])
         self.assertFalse({"sunda", "malacca", "singapore", "torres"} & set(p.main.via))
@@ -211,6 +291,19 @@ class R11Draught(unittest.TestCase):
             self.assertEqual(set(table), set(src))
             for k in table:
                 self.assertTrue(isinstance(src[k], str) and src[k].startswith("https://"), k)
+
+    def test_sources_name_the_quantity(self):
+        # review GE2.3 and GE2.7: a laden draught of the class; a navigable draught limit or a minimum depth
+        for k, s in VR.DRAUGHT_SRC.items():
+            self.assertIn("laden draught", s, k)
+        for k, s in VR.PASSAGE_LIMIT_SRC.items():
+            self.assertTrue("navigable draught limit" in s or "minimum depth" in s, k)
+
+    def test_no_canal_limit_or_largest_ship_as_class_draught(self):
+        # the Panamax page gives only the locks' maximum draft, the Q-Max page the draft of the largest LNG ships
+        for c in ("panamax", "lng", "suezmax"):
+            self.assertNotIn(c, VR.DRAUGHT_M)
+            self.assertEqual(VR.avoids(c), set())
 
     def test_limits_are_gates(self):
         self.assertLessEqual(set(VR.PASSAGE_LIMIT_M), set(RT.GATES))
@@ -253,6 +346,25 @@ class R12CacheVersion(unittest.TestCase):
             self.assertNotEqual(RT.version(), RT.VERSION)
         finally:
             VR.DRAUGHT_M["capesize"] = old
+
+    def test_version_follows_speeds_and_rule_constants(self):
+        # review GE2.4: speeds set extraDays and the Cape preference; the Horn and closure constants set routes
+        for table, key, value in ((VR.SPEED, "capesize", 9.0), (RT.INDO_PACIFIC, "east_of", 25.0),
+                                  (RT.SOUTH_PACIFIC, "east_of", 150.0), (RT.CLOSED, "johor-causeway", []),
+                                  (RT.INDO_PACIFIC["inland_seas"], "west_of", 40.0)):
+            old = table[key]
+            table[key] = value
+            try:
+                self.assertNotEqual(RT.version(), RT.VERSION, key)
+            finally:
+                table[key] = old
+        self.assertEqual(RT.version(), RT.VERSION)
+        saved = RT._code
+        RT._code = lambda: "edited"
+        try:
+            self.assertNotEqual(RT.version(), RT.VERSION)
+        finally:
+            RT._code = saved
 
 
 class R13NoPath(unittest.TestCase):

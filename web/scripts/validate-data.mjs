@@ -4,12 +4,14 @@
  *  - every `s` (source id) referenced anywhere exists in data/sources.json,
  *  - every sourced figure object ({v, s}) also carries a year `y`,
  *  - every chokepoint with a PortWatch counter has a complete weekly series file, and chokepoint-lanes.json only
- *    names chokepoints that exist.
+ *    names chokepoints that exist,
+ *  - the lane and pairs files are consistent with each other and with the chokepoints (scripts/validate-freight.mjs).
  * Exits non-zero on failure so a broken data commit never reaches the live site.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateFreight } from './validate-freight.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
 const sources = new Set(JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8')).map((s) => s.id));
@@ -80,6 +82,7 @@ function checkChokepoints() {
 
 walk(root);
 checkChokepoints();
+validateFreight(root, errors);
 if (errors.length) {
   console.error(errors.slice(0, 50).join('\n'));
   console.error(`\n${errors.length} data error(s) in ${files} files`);

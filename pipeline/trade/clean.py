@@ -7,7 +7,8 @@ Rules
      S19_UNSPECIFIED, whose S19 rows are shown as the pseudo-place XAS ("Asia, not specified").
   2. Missing tonnage with a value: tonnage = value / median unit value of the group and year.
   3. Gross unit errors (unit value < 1/100 or > 100x the group-year median, any size): re-estimated
-     the same way. This catches kg/t slips such as rare earths Turkey -> Benin.
+     the same way. This catches kg/t slips such as rare earths Turkey -> Benin. A row with a tonnage and no
+     declared value (USD 0) is not an error of this kind: its tonnage is kept as reported and flagged "no-value".
   4. Moderate inconsistencies (unit value < 1/3 or > 3x the median, flows > USD 50 million) are
      re-estimated ONLY for homogeneous groups (crude oil, LNG, LPG, grains, oilseeds...). Ore and
      concentrate groups mix grades worth 40 to 2,000 USD/t (e.g. laterite vs sulphide nickel), so
@@ -17,11 +18,14 @@ Rules
      2021 and 2023) are dropped, or flagged "dup-suspect" when LPG_DEDUP is "flag".
   7. Bulk groups (BULK): the reference of rules 2 and 3 is the tonne-weighted median unit value (the
      plain median is set by thousands of small expensive parcels: 152 against 69 USD/t for bauxite in
-     2024). An isolated unit-value anomaly of a pair (value >= USD 50 million, the pair's unit value
-     more than 3x or under 1/3 of both neighbouring years, which agree with each other) is flagged
-     "uv-suspect"; when the reported tonnage is itself the outlier ("uv-suspect-t") and BULK_REPAIR is
-     "estimate", the tonnage is re-estimated from the declared value and the pair's own unit value in
-     the neighbouring years ("uv-repair", an Atlas estimate).
+     2024). That median leaves out the gross errors against the plain median, so that one bad row
+     cannot set it (manganese 2002). An isolated unit-value anomaly of a pair (value >= USD 50 million,
+     the pair's unit value more than 3x or under 1/3 of both neighbouring years, which agree with each
+     other) is flagged "uv-suspect"; when the reported tonnage is itself the outlier, in the direction
+     opposite to the unit value, and the neighbours' unit values lie within 1/5 to 5 times the group
+     reference ("uv-suspect-t"), and BULK_REPAIR is "estimate", the tonnage is re-estimated from the
+     declared value and the pair's own unit value in the neighbouring years ("uv-repair", an Atlas
+     estimate). The estimate then always moves the tonnage towards the neighbouring years.
 
 Every row whose tonnage is estimated (rules 2, 3, 4, 7) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
@@ -42,7 +46,9 @@ S19_UNSPECIFIED = {("crude-oil", "IRN"): 2019}
 # source states it): LNG cargoes recorded a second time under the LPG code. Owner decision O7: drop.
 DROP_NEW_PAIRS = {("lpg", "QAT"): (2021, 2023)}
 LPG_DEDUP = "drop"  # "drop" | "flag"
-LAST_DROPPED = []  # rows removed by DROP_NEW_PAIRS in the last clean() call, for QA.md
+# rows removed by DROP_NEW_PAIRS in the last clean() call only, for QA.md; each frame returned by clean() also
+# carries its own list in df.attrs["dropped"], which a later call on another frame does not erase
+LAST_DROPPED = []
 
 BULK = {"iron-ore", "coal", "bauxite", "manganese", "alumina"}
 # Owner decision O3 (22 November 2026): an isolated anomalous year is re-estimated and published as an
@@ -70,6 +76,13 @@ def _tw_median(rows):
     cum = s.groupby(["group", "year"])["t"].cumsum()
     half = s.groupby(["group", "year"])["t"].transform("sum") / 2
     return s[cum >= half].groupby(["group", "year"])["uvp"].first()
+
+
+def _bulk_ref(rows):
+    """Reference of the BULK groups: the tonne-weighted median of `uvp` without the gross errors against the plain
+    median (rule 3), which can hold most of a group's tonnage (manganese IND-CHE 2002: 23 Mt for USD 0.97 million)."""
+    plain = rows.groupby(["group", "year"])["uvp"].transform("median")
+    return _tw_median(rows[(rows["uvp"] / plain).between(0.01, 100)])
 
 
 def _drop_new_pairs(df, mode):
@@ -110,10 +123,11 @@ def _notes(df, nb):
         ref = f"the {y} {'tonne-weighted median' if g in BULK else 'median'} unit value of {g.replace('-', ' ')}"
         uve = _num(r["uve"], " USD/t")
         if "uv-repair" in codes:
-            ya, ua, yb, ub = nb[i]
+            ya, ua, yb, ub, m = nb[i]
             out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])} ({_num(r['uvp'])} USD/t, against "
-                      f"{_num(ua)} and {_num(ub)} USD/t for this pair in {ya} and {yb}); tonnage = declared value divided by the pair's "
-                      f"unit value in those years relative to {ref}, {uve}")
+                      f"{_num(ua)} and {_num(ub)} USD/t for this pair in {ya} and {yb}); tonnage = declared value divided by {uve}, "
+                      f"{ref} ({_num(m, ' USD/t')}) times the pair's usual ratio to that median ({r['uve'] / m:.3f} on average in "
+                      f"{ya} and {yb})")
         elif "est-missing" in codes:
             out[i] = f"Atlas estimate: tonnage missing in CEPII BACI; declared value {_usd(r['usd'])} divided by {ref}, {uve}"
         elif "est-gross" in codes:
@@ -132,7 +146,7 @@ def _isolated(df, latest):
     """Rule 7 detection: isolated unit-value anomalies of bulk pairs, on reported figures.
     Returns a frame indexed like df with rel, rel and t0 of the two neighbours, their years and the group reference."""
     b = df[df["group"].isin(BULK) & (df["t0"] > 0) & (df["usd"] > 0)][["group", "o", "d", "year", "uvp", "t0", "usd"]].copy()
-    ref = _tw_median(b.assign(t=b["t0"]))
+    ref = _bulk_ref(b.assign(t=b["t0"]))
     b = b.join(ref.rename("ref"), on=["group", "year"])
     b["rel"] = b["uvp"] / b["ref"]
     k = ["group", "o", "d", "year"]
@@ -148,7 +162,14 @@ def _isolated(df, latest):
     odd = ((r1 > 3) & (r2 > 3)) | ((r1 < 1 / 3) & (r2 < 1 / 3))
     b = b[agree & odd & (b["usd"] >= 50_000)]
     lo, hi = b[["t0_a", "t0_b"]].min(axis=1), b[["t0_a", "t0_b"]].max(axis=1)
-    b["t_out"] = (b["t0"] < 0.35 * lo) | (b["t0"] > 2.8 * hi)
+    # The tonnage is the odd figure only when it deviates against the unit value (a low tonnage for a high unit value,
+    # or the reverse): then the estimate moves it towards the neighbouring years. Tonnage and unit value both high
+    # means the value is the odd figure (iron ore VEN-USA 2008). Neighbours far from the group reference (alumina
+    # AUS-OMN 2014, whose neighbours are 30 to 40 times it) give no sound unit value to estimate from. Such rows are
+    # only flagged.
+    up = b["rel"] > b["rel_a"]
+    sound = b["rel_a"].between(0.2, 5) & b["rel_b"].between(0.2, 5)
+    b["t_out"] = (((b["t0"] < 0.35 * lo) & up) | ((b["t0"] > 2.8 * hi) & ~up)) & sound
     return b
 
 
@@ -181,15 +202,15 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     df["uvp"] = (df["usd"] * 1000 / df["t"]).where(pos)
     uv = df[pos].assign(u=lambda x: x["usd"] / x["t"]).groupby(["group", "year"])["u"].median()
     df = df.join(uv.rename("uv"), on=["group", "year"])
-    tw = _tw_median(df[pos & df["group"].isin(BULK)]) / 1000
     bulk = df["group"].isin(BULK)
+    tw = _bulk_ref(df[pos & bulk]) / 1000
     twj = df.loc[bulk].join(tw.rename("tw"), on=["group", "year"])["tw"]
     df.loc[bulk, "uv"] = twj.where(twj.notna(), df.loc[bulk, "uv"])
     ratio = (df["usd"] / df["t"].where(has_t)) / df["uv"]
     plain = (df["usd"] / df["t"].where(has_t)) / df.join(uv.rename("uvm"), on=["group", "year"])["uvm"]
     miss = ~has_t & (df["usd"] > 0) & df["uv"].notna()
     # a bulk row that is a gross error against either reference stays one (coal MOZ-POL 2019: 201 Mt at 0.94 USD/t)
-    gross = has_t & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100) | (bulk & ((plain < 0.01) | (plain > 100))))
+    gross = pos & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100) | (bulk & ((plain < 0.01) | (plain > 100))))
     moderate = has_t & df["group"].isin(HOMOGENEOUS) & (df["usd"] > 50_000) & ((ratio < 1 / 3) | (ratio > 3)) & df["uv"].notna()
     fix = miss | gross | moderate
     df["t0"] = df["t"]
@@ -200,8 +221,9 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     _add_flag(df, miss, "est-missing")
     _add_flag(df, gross & ~miss, "est-gross")
     _add_flag(df, moderate & ~gross & ~miss, "est-uv")
+    _add_flag(df, has_t & ~(df["usd"] > 0), "no-value")
 
-    iso = _isolated(df, int(df["year"].max()))
+    iso = _isolated(df, int(df["year"].max()) if len(df) else 0)
     sus = df.index.isin(iso.index[~iso["t_out"]])
     _add_flag(df, sus, "uv-suspect")
     out = iso[iso["t_out"]]
@@ -212,10 +234,10 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
         df.loc[out.index, "uve"] = uve
         df.loc[out.index, "imputed"] = True
         df.loc[out.index, "flag"] = "uv-repair"
-        nb = {i: (int(r["ya"]), r["uvp_a"], int(r["yb"]), r["uvp_b"]) for i, r in out.iterrows()}
+        nb = {i: (int(r["ya"]), r["uvp_a"], int(r["yb"]), r["uvp_b"], r["ref"]) for i, r in out.iterrows()}
         for i in out.index:  # the earlier year first in the note
-            ya, ua, yb, ub = nb[i]
-            nb[i] = (ya, ua, yb, ub) if ya < yb else (yb, ub, ya, ua)
+            ya, ua, yb, ub, m = nb[i]
+            nb[i] = (ya, ua, yb, ub, m) if ya < yb else (yb, ub, ya, ua, m)
     else:
         _add_flag(df, df.index.isin(out.index), "uv-suspect-t")
     df["enote"] = _notes(df, nb).reindex(df.index)
@@ -228,6 +250,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
             LAST_DROPPED.append({"group": r.group, "o": r.o, "d": r.d, "year": int(r.year), "usd": float(r.usd),
                                  "t": float(r.usd / r.uvm) if est and r.uvm == r.uvm else float(r.t), "est": bool(est),
                                  "reason": "pair with no flow in both neighbouring years (DROP_NEW_PAIRS)"})
+    df.attrs["dropped"] = [dict(r) for r in LAST_DROPPED]
     return df
 
 

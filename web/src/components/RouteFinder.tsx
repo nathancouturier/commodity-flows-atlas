@@ -56,7 +56,8 @@ const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: '
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
 
 export function RouteFinder() {
-  const k = OPTIONS.includes(finderCommodity(rfCommodity.value)) ? finderCommodity(rfCommodity.value) : COAL;
+  const known = OPTIONS.includes(finderCommodity(rfCommodity.value));
+  const k = known ? finderCommodity(rfCommodity.value) : COAL;
   const from = rfFrom.value;
   const origin = rfOrigin.value;
   const dest = rfDest.value;
@@ -84,6 +85,17 @@ export function RouteFinder() {
     loadCaveats().then(setCaveats).catch(() => setCaveats({}));
     loadRoutes().then(setRoutes).catch(() => undefined);
   }, []);
+
+  // a link with a commodity the finder does not know: the question is dropped, the finder starts empty
+  useEffect(() => {
+    if (known) return;
+    batch(() => {
+      rfCommodity.value = COAL;
+      rfOrigin.value = null;
+      rfDest.value = null;
+      rfGroup.value = null;
+    });
+  }, [known]);
 
   const ready = data && data !== 'error' && data.k === k ? data : null;
   const pairs = ready?.pairs ?? [];
@@ -362,11 +374,13 @@ function Answer({
       )}
       <dl class="rf-stats">
         <div>
-          <dt>{kind === 'mixed' ? 'Flow, all modes' : 'Flow'}</dt>
+          <dt>
+            {kind === 'mixed' ? 'Flow, all modes' : 'Flow'}
+            {est && <em class="rf-est">Atlas estimate</em>}
+          </dt>
           <dd class="num">
             {est ? fmt(sig2(mt)) : fmt(mt)} {unit}
             <small> · {vy}</small>
-            {est && <em class="rf-est">Atlas estimate</em>}
           </dd>
         </div>
         {share != null && (
@@ -424,16 +438,16 @@ function Answer({
               <dd>{disNames.length ? disNames.join(', ') : 'n/a'}</dd>
             </div>
           </dl>
-          {shown?.opts && shown.opts.length > 1 && (
+          {shown?.opts && shown.opts.length > 0 && (
             <>
-              <div class="rf-sub">Other coasts</div>
+              <div class="rf-sub">Other port options</div>
               {shown.opts.map((o) => (
                 <p class="rf-line">
                   {portName(o.load)} → {portName(o.discharge)}: <span class="num">{fmt(o.nm)} nm</span>, <span class="num">{fmt(o.days)} days</span>
                   {o.via.length > 0 && <> · via {o.via.map(chokepointName).join(', ')}</>}
                 </p>
               ))}
-              <p class="rf-small">The ports above are the principal gateway of each country; customs data do not say which coast the cargo used.</p>
+              <p class="rf-small">The ports above are each country's principal gateway; customs data do not say which port the cargo used.</p>
             </>
           )}
           {status.map((st) => (
@@ -475,7 +489,7 @@ function Answer({
           </div>
           {alsoVia.map((list) => (
             <div class="rf-tags rf-or">
-              <span>{shown ? 'One of' : 'May also cross'}</span>
+              <span>{shown && list.length > 1 ? 'One of' : 'May also cross'}</span>
               {list.map((c) => (
                 <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
                   {chokepointName(c)}

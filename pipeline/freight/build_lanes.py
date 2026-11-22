@@ -106,6 +106,11 @@ F_EST, F_CAVEAT, F_LANE, F_CHECK = 1, 2, 4, 8
 PAIR_CHECKS = ("K2", "K8")  # checks whose finding on a pair of the latest year sets bit 3
 
 
+def kt(t):
+    """Tonnage of a pairs row in kt: whole kt from 1 Mt, one decimal below (small parcels must not round to zero)."""
+    return round(t / 1e3) if t >= 1e6 else round(t / 1e3, 1)
+
+
 def km(lon1, lat1, lon2, lat2):
     p = math.pi / 180
     x = (lon2 - lon1) * p * math.cos((lat1 + lat2) * p / 2)
@@ -616,7 +621,7 @@ def main():
                              "dropped: pairs with no flow in both neighbouring years, which may be LNG cargoes recorded a second time "
                              "under this code; this is not established")
             if parts:
-                yn[str(y)] = ". ".join(p.rstrip(".") for p in parts)
+                yn[str(y)] = ". ".join(p[0].upper() + p[1:].rstrip(".") for p in parts)
         rep = g[g["flag"].str.contains("uv-repair", na=False) | g["flag"].str.contains("uv-suspect-t", na=False)]
         for y, z in rep.groupby("year"):
             if y < LATEST_MIN_YEAR:
@@ -669,13 +674,13 @@ def main():
                     pcls[cls] = len(pcls)
                 via = sum(bit[x] for x in rec["via"])
                 alt = sum(bit[x] for x in {x for lst in rec["viaAlt"] for x in lst})
-                prow.append([r.o, r.d, round(r.t / 1e3), m, pport[lo], pport[di], rec["nm"], pcls[cls], via, alt, f])
+                prow.append([r.o, r.d, kt(r.t), m, pport[lo], pport[di], rec["nm"], pcls[cls], via, alt, f])
                 if r.mode != "mixed":
                     a, b = rec["at"][lo], rec["at"][di]
                     detour_in.append({"group": group, "o": r.o, "d": r.d, "t": r.t, "nm": rec["nm"], "gc_nm": round(gc_nm(a, b)),
                                       "load": lo, "dis": di})
             else:
-                prow.append([r.o, r.d, round(r.t / 1e3), m, -1, -1, 0, -1, 0, 0, f])
+                prow.append([r.o, r.d, kt(r.t), m, -1, -1, 0, -1, 0, 0, f])
         assert len(gates) <= 31  # JavaScript bit operations are 32-bit
         pdoc = {
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "baci", "unit": "kt",

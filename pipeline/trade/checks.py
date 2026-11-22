@@ -12,7 +12,8 @@ Values are in Mt unless the record says otherwise.
 Rules
   * No check changes a tonnage and no check raises: the scheduled job must never stop on a finding.
   * Checks that read raw/ (K1, K2, K3, K4, K10) skip quietly when their file is absent, as on the
-    runner of the scheduled jobs; merge() then keeps the previous records of those checks.
+    runner of the scheduled jobs, or cannot be read (another layout), or holds none of their series;
+    such a check is not run, and merge() then keeps its previous records.
   * Single writer: build_lanes.py calls run() once and writes pipeline/cache/trade_checks.json;
     build_freight.py adds K9; build_commodities.py only reads the file and renders QA.md.
 
@@ -131,9 +132,10 @@ THE = {"Bahamas", "Comoros", "Falkland Islands", "Maldives", "Netherlands", "Phi
 
 
 # ---------------------------------------------------------------- readers of raw/
-def psd_table(raw=RAW):
-    """{(group, attribute, market year): {iso: kt}} for the PSD commodities of PSD_GROUPS, or None."""
-    path = os.path.join(raw, "usda", "psd_csv", "psd_alldata.csv")
+def psd_table(raw=None):
+    """{(group, attribute, market year): {iso: kt}} for the PSD commodities of PSD_GROUPS, or None.
+    raw: the raw/ folder, read at call time (default: RAW)."""
+    path = os.path.join(raw or RAW, "usda", "psd_csv", "psd_alldata.csv")
     if not os.path.exists(path):
         return None
     p = pd.read_csv(path, encoding="latin-1", usecols=["Commodity_Description", "Country_Name", "Market_Year",
@@ -148,9 +150,9 @@ def psd_table(raw=RAW):
     return out
 
 
-def eia_series(keys, raw=RAW):
+def eia_series(keys, raw=None):
     """{(series, unit): {code: {year: value}}} of annual EIA INTL series, or None without the file."""
-    path = os.path.join(raw, "eia", "INTL.txt")
+    path = os.path.join(raw or RAW, "eia", "INTL.txt")
     if not os.path.exists(path):
         return None
     out = {k: {} for k in keys}
@@ -173,8 +175,9 @@ def _letters(s):
     return re.sub(r"[^A-Z]", "", s.upper())  # the chapter names carry a dash that the file's encoding garbles
 
 
-def usgs_table(raw=RAW):
-    """{(group, year): ({iso: value in thousand tonnes}, set of USGS names not mapped)} for USGS_K10, or None."""
+def usgs_table(raw=None):
+    """({(group, year): {iso: value in thousand tonnes}}, file name) for USGS_K10, or None."""
+    raw = raw or RAW
     files = sorted(f for f in (os.listdir(os.path.join(raw, "usgs")) if os.path.isdir(os.path.join(raw, "usgs")) else [])
                    if re.fullmatch(r"MCS\d{4}_Commodities_Data\.csv", f))
     if not files:
@@ -406,10 +409,15 @@ def detour(pairs, year, min_t=0.5e6, ratio=2.5):
 
 def run(df, year, raw=None, ran=None):
     """All checks on a frame returned by clean(). raw: the raw/ folder (default: the repository's). ran: a set that
-    receives the ids of the checks that ran (the others skipped for want of a file). Never raises on a finding."""
+    receives the ids of the checks that ran (the others skipped for want of a readable file). Never raises."""
     raw = raw or RAW
     ran = set() if ran is None else ran
     out = []
+    try:
+        year = int(year)  # a numpy integer would not serialise in save()
+    except (TypeError, ValueError) as e:
+        print(f"checks: none run (year {year!r}: {e})")
+        return out
 
     def do(cid, fn, *args):
         try:
@@ -418,20 +426,31 @@ def run(df, year, raw=None, ran=None):
         except Exception as e:  # a check must never stop a build
             print(f"checks: {cid} skipped ({type(e).__name__}: {e})")
 
-    psd = psd_table(raw)
+    def read(what, fn, *args):
+        """A reader of raw/ that fails (a file with another layout) leaves its checks not run, as an absent file does."""
+        try:
+            return fn(*args)
+        except Exception as e:
+            print(f"checks: {what} not read ({type(e).__name__}: {e})")
+            return None
+
+    psd = read("USDA PSD", psd_table, raw)
     if psd:
         do("K1", k1, df, year, psd)
         do("K2", k2, df, year, psd)
-    eia = eia_series([("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")], raw)
-    if eia:
+    eia = read("EIA INTL", eia_series, [("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")], raw) or {}
+    # a file that holds none of a check's series has not checked anything: the check is not run
+    if eia.get(("57-1", "MT")) and eia.get(("57-1", "TBPD")):
         do("K3", k3, df, year, eia)
+    if eia.get(("7-4", "MT")) or eia.get(("7-3", "MT")):
         do("K4", k4, df, year, eia)
-    years = sorted(int(y) for y in df["year"].unique() if y >= 2004)
-    do("K6", _continuity, df, "o", "K6", years)
-    do("K7", _continuity, df, "d", "K7", years)
+    years = read("years", lambda: sorted(int(y) for y in df["year"].unique() if y >= 2004))
+    if years is not None:
+        do("K6", _continuity, df, "o", "K6", years)
+        do("K7", _continuity, df, "d", "K7", years)
     do("K8", k8, df, year)
-    usgs = usgs_table(raw)
-    if usgs:
+    usgs = read("USGS MCS", usgs_table, raw)
+    if usgs and usgs[0]:
         do("K10", k10, df, year, usgs)
     do("K11", k11, df, year)
     return out
@@ -453,5 +472,5 @@ def save(records, ran, year, path=TRADE_CHECKS):
     """Writes trade_checks.json, keeping the previous records of the checks that did not run (single writer: build_lanes.py)."""
     recs = merge(load(path), records, ran)
     with open(path, "w", encoding="utf-8") as f:
-        json.dump({"year": year, "findings": recs}, f, ensure_ascii=False, indent=0)
+        json.dump({"year": int(year), "findings": recs}, f, ensure_ascii=False, indent=0)
     return recs

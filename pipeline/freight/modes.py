@@ -1,7 +1,8 @@
 """
 The mode of a trade flow: sea, transit (sea through a foreign port), mixed (sea and overland, split not known) or land.
 
-    modes.mode_of(o, d, group) -> Mode(kind, basis, note)      None when the group has no cargo family (gold, silver, PGM)
+    modes.mode_of(o, d, group, year=None) -> Mode(kind, basis, note, url)   None when the group has no cargo family
+                                                                          (gold, silver, PGM)
 
 The rules apply in this order and the first that matches wins (PLAN.md 2.1):
   1. FLOW_OVERRIDES   single flows, keyed by (group, origin, destination)
@@ -9,12 +10,19 @@ The rules apply in this order and the first that matches wins (PLAN.md 2.1):
   3. LNG              product rule: sea between coastal countries, but pipeline gas declared as LNG stays land
   4. MIXED            ordered country pairs whose cargo family moves both by sea and overland
   5. land neighbours  mainland border: land, unless the pair is in SEA_NEIGHBOURS for the cargo family
-  6. two landlocked   land
-  7. one landlocked   transit (the group is in SEA_OUTLET, or the two countries share no overland bloc), else land
+  6. two landlocked   land, unless the exporter is in SEA_OUTLET for the group and the two share no overland bloc:
+                      transit (Kazakh crude to Austria leaves by the CPC pipeline and sails to Trieste)
+  7. one landlocked   transit when the two countries share no overland bloc, else land
   8. default          sea
+A landlocked exporter in SEA_OUTLET thus ships by sea through a foreign port whatever the destination, unless the two
+countries are neighbours or share an overland bloc.
 
-Every list entry is an Atlas assumption: it carries a reason and, where a page was read, its URL (Wikipedia, read on
-22 November 2026). No entry rests on a figure typed from memory.
+Every list entry (SEA_NEIGHBOURS, LAND_NOTES, MIXED, SEA_OUTLET, BLOCS, FLOW_OVERRIDES) is an Atlas assumption: it
+carries a reason and, where a page was read, its URL (Wikipedia, read on 22 November 2026), returned as Mode.url. An
+entry without a URL is an unsourced Atlas assumption. No entry rests on a figure typed from memory.
+LNG: with `year`, a liquefaction terminal of the layer counts only from its `opened` year (Coral Sul, Mozambique, 2022).
+Without it every terminal of the layer counts, opened or not; the layer is hand-built and may miss real plants (K11
+lists the LNG exporters it lacks, Brunei among them).
 This module reads pipeline/cache/adjacency.json and data/infrastructure/lng.geojson itself. It imports neither
 build_lanes nor ports, so that any builder can use it. It does not return a port: the transit port of a landlocked
 country is gateway data.
@@ -25,7 +33,7 @@ from collections import namedtuple
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-Mode = namedtuple("Mode", "kind basis note", defaults=(None,))
+Mode = namedtuple("Mode", "kind basis note url", defaults=(None, None))
 Entry = namedtuple("Entry", "families reason url", defaults=(None,))
 
 ALL = "*"
@@ -40,11 +48,22 @@ OVERSEAS_BORDERS = {
 }
 
 # countries with a liquefaction terminal in the atlas's own layer (GIIGNL, data/infrastructure/lng.geojson)
-LNG_EXPORTERS = frozenset(
-    f["properties"]["c"]
-    for f in json.load(open(os.path.join(ROOT, "data", "infrastructure", "lng.geojson"), encoding="utf-8"))["features"]
-    if f["properties"]["type"] == "lng-export"
-)
+with open(os.path.join(ROOT, "data", "infrastructure", "lng.geojson"), encoding="utf-8") as _f:
+    _LNG = [f["properties"] for f in json.load(_f)["features"] if f["properties"]["type"] == "lng-export"]
+LNG_EXPORTERS = frozenset(p["c"] for p in _LNG)
+# country -> year of its first liquefaction terminal (None: a terminal of the layer without an opening year)
+LNG_OPENED = {}
+for _p in _LNG:
+    _y = _p.get("opened")
+    _y = int(_y) if isinstance(_y, (int, float)) or (isinstance(_y, str) and _y.isdigit()) else None
+    LNG_OPENED[_p["c"]] = None if _y is None or LNG_OPENED.get(_p["c"], 0) is None else min(_y, LNG_OPENED.get(_p["c"], _y))
+
+
+def lng_exporter(c, year=None):
+    """Whether country c has a liquefaction terminal in the layer (in year, when given)."""
+    if c not in LNG_OPENED:
+        return False
+    return year is None or LNG_OPENED[c] is None or LNG_OPENED[c] <= year
 
 # ------------------------------------------------------------------ cargo families
 FAMILY = {
