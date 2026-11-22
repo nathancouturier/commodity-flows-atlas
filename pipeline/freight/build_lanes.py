@@ -60,7 +60,7 @@ COMMODITY = {
     "dap": "phosphate",
 }
 LABEL = {
-    "coal": "Coal (thermal and metallurgical)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
+    "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
     "nickel-ore": "Nickel ore", "nickel-int": "Nickel matte, intermediates & metal", "zinc-ore": "Zinc concentrate",
     "phosphate-rock": "Phosphate rock", "dap": "DAP", "alumina": "Alumina", "bauxite": "Bauxite",
 }
