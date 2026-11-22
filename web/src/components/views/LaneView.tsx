@@ -50,11 +50,12 @@ export default function LaneView({ id }: { id: string }) {
   const disP = portNames(lane.discharge);
   const matching = (routes ?? []).filter((r) => r.corridor?.some((c) => c.k === lane.k && c.o.includes(lane.o) && c.d.includes(lane.d)));
   const groupName = file.label ?? meta?.name ?? file.group;
-  const n = lane.flow.n;
   // History timeline: the flow and its share of seaborne trade are those of the selected year
   const yr = year.value;
   const yi = yr != null ? file.years.indexOf(yr) : -1;
   const past = yi >= 0 && yr !== lane.flow.y;
+  // the note on the flow describes the latest year, not the one the timeline shows
+  const n = past ? undefined : lane.flow.n;
   const flowV = past ? lane.hist[yi] : lane.flow.v;
   const flowY = past ? yr! : lane.flow.y;
   const seaV = past ? file.seaborne[yi] : null;

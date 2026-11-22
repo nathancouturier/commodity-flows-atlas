@@ -52,6 +52,18 @@ function readTitle(panel: HTMLElement): string | null {
 
 const SNAPS: SheetSnap[] = ['peek', 'half', 'full'];
 
+// A page opened from the keyboard (Enter or Space on a marker, a button or a row) takes the focus to its heading, so
+// that the next Tab reads the page; a click leaves the focus where it is. Enter or Space within the last 1.5 s is what
+// tells the two apart, since a selection can come from anywhere (Back, a pasted link, the timeline).
+let lastActivation = -Infinity;
+addEventListener(
+  'keydown',
+  (e) => {
+    if (e.key === 'Enter' || e.key === ' ') lastActivation = performance.now();
+  },
+  true,
+);
+
 /** Grab handle of the detail sheet (tablet / phone, hidden by CSS elsewhere): same gestures as the controls sheet. */
 function DetailHandle({ snap, setSnap }: { snap: SheetSnap; setSnap: (s: SheetSnap) => void }) {
   const start = useRef<number | null>(null);
@@ -91,11 +103,26 @@ export function DetailPanel() {
   const [snap, setSnap] = useState<SheetSnap>('half');
   const selKey = s ? `${s.kind}:${s.id}` : '';
   useEffect(() => setSnap('half'), [selKey]);
+  // the heading of a page opened from the keyboard, once the view has written it
+  const focusHeading = useRef(false);
+  useEffect(() => {
+    // the previous / next event buttons of the timeline keep the focus: they are stepping through pages
+    const stepping = !!document.activeElement?.closest('.tl-step');
+    focusHeading.current = !!selKey && !stepping && performance.now() - lastActivation < 1500;
+  }, [selKey]);
   // the views load their own data and write their own heading: follow it as it appears
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const read = () => (detailTitle.value = readTitle(el));
+    const read = () => {
+      detailTitle.value = readTitle(el);
+      const h = focusHeading.current && el.querySelector<HTMLElement>('.detail-title');
+      if (h && detailTitle.value) {
+        focusHeading.current = false;
+        h.tabIndex = -1;
+        h.focus({ preventScroll: true });
+      }
+    };
     const mo = new MutationObserver(read);
     mo.observe(el, { childList: true, subtree: true, characterData: true });
     read();

@@ -49,7 +49,9 @@ function laneLabel(lane: Lane, file: LaneFile, v: number, yr: number | null): st
   const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} · ` : '';
   return (
     `<div><b>${esc(countryName(lane.o))} → ${esc(countryName(lane.d))}</b> · ${esc(name)}</div>` +
-    `<div class="num">${fmt(v)} ${esc(lane.flow.u)} · ${pct(share, v > 0)} of seaborne trade</div>` +
+    (v > 0 || i < 0
+      ? `<div class="num">${fmt(v)} ${esc(lane.flow.u)} · ${pct(share, v > 0)} of seaborne trade</div>`
+      : `<div class="num">No figure for ${shown}</div>`) +
     `<div class="muted">${vessel}${fmt(lane.days)} days${via}</div>` +
     `<div class="src-line">${esc(sourceLabel(lane.flow.s))} · ${esc(String(shown))}</div>`
   );
@@ -124,7 +126,8 @@ registerLayerModule(() => {
         const file = byGroup.get(laneGroup(selLane));
         const lane = file?.lanes.find((l) => l.id === selLane);
         if (file && lane) {
-          picked = { lane, file, v: laneValue(lane, file, yr) || lane.flow.v };
+          // no value for the chosen year: it is drawn at the minimum width, not at the width of the latest year
+          picked = { lane, file, v: laneValue(lane, file, yr) };
           items.push(picked);
         }
       }

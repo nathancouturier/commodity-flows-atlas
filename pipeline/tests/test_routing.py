@@ -42,7 +42,7 @@ class R01Crossings(unittest.TestCase):
         # across the antimeridian (179 -> -179) and then through Panama, in either longitude form
         line = [[170.0, 10.0], [-179.0, 10.0], [-80.0, 8.0], [-79.5, 9.5]]
         self.assertEqual(RT.crossings(line), ["panama"])
-        self.assertEqual(RT.crossings([[100.5, 2.0], [100.8, 3.0], [103.0, 1.2], [104.5, 1.1]]), ["malacca", "singapore"])
+        self.assertEqual(RT.crossings([[98.0, 4.5], [101.5, 2.0], [103.0, 1.2], [104.5, 1.1]]), ["malacca", "singapore"])
 
 
 class R02Gates(unittest.TestCase):
@@ -217,7 +217,8 @@ class R11Draught(unittest.TestCase):
 
     def test_malacca_in_step_with_chokepoint_text(self):
         root = os.path.join(HERE, "..", "freight", "chokepoints.json")
-        text = next(c.get("limits", "") for c in json.load(open(root)) if c["id"] == "malacca")
+        with open(root, encoding="utf-8") as f:
+            text = next(c.get("limits", "") for c in json.load(f) if c["id"] == "malacca")
         self.assertIn(f"{VR.PASSAGE_LIMIT_M['malacca']} m", text)
 
 
@@ -225,12 +226,14 @@ class R12CacheVersion(unittest.TestCase):
     def test_stale_cache_is_ignored_and_rewritten(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, "route_cache.json")
-            json.dump({"_v": "old", "a|b": {"nm": 1}}, open(path, "w"))
+            with open(path, "w") as f:
+                json.dump({"_v": "old", "a|b": {"nm": 1}}, f)
             data = RT.load_cache(path)
             self.assertEqual(data, {"_v": RT.VERSION})
             data["c|d"] = {"nm": 2}
             RT.save_cache(path, data)
-            again = json.load(open(path))
+            with open(path) as f:
+                again = json.load(f)
             self.assertEqual(again["_v"], RT.VERSION)
             self.assertEqual(RT.load_cache(path)["c|d"], {"nm": 2})
 
@@ -238,7 +241,8 @@ class R12CacheVersion(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             self.assertEqual(RT.load_cache(os.path.join(tmp, "none.json")), {"_v": RT.VERSION})
             bad = os.path.join(tmp, "bad.json")
-            open(bad, "w").write("{")
+            with open(bad, "w") as f:
+                f.write("{")
             self.assertEqual(RT.load_cache(bad), {"_v": RT.VERSION})
 
     def test_version_follows_the_tables(self):
@@ -268,6 +272,8 @@ class R13NoPath(unittest.TestCase):
         p = RT.plan(at("BRTUB"), at("SGSIN"), ["vloc"])
         self.assertIsNotNone(p)
         self.assertGreater(p.main.nm, 0)
+        # a certain parallel passage only names the gates the route crosses (Lombok, not Makassar, here)
+        self.assertLessEqual(set(p.via), set(p.main.via))
 
 
 if __name__ == "__main__":
