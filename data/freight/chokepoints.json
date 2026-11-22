@@ -147,7 +147,7 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 92.3/day; 2025 average 85.5/day"
 },
 "trafficVol": {
-"v": 0.05,
+"v": 0.053,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
@@ -307,7 +307,7 @@
 "seeAlso": [
 "malacca"
 ],
-"summary": "Eastern end of Malacca and the world's largest bunkering hub; very high local traffic density.",
+"summary": "Eastern end of the Strait of Malacca; very high local traffic density.",
 "s": "portwatch",
 "estimates": [
 {
@@ -822,7 +822,7 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 74.0/day; 2025 average 33.5/day"
 },
 "trafficVol": {
-"v": 0.94,
+"v": 0.936,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
@@ -1070,7 +1070,7 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 96.7/day; 2025 average 92.4/day"
 },
 "trafficVol": {
-"v": 0.56,
+"v": 0.558,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
@@ -1151,11 +1151,11 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 45.3/day; 2025 average 47.1/day"
 },
 "trafficVol": {
-"v": 0.096,
+"v": 0.0961,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.097 Mt/day; 2025 average 0.110 Mt/day"
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.0973 Mt/day; 2025 average 0.110 Mt/day"
 },
 "portwatchName": "Oresund Strait"
 },
@@ -1800,11 +1800,11 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 8.2/day; 2025 average 13.8/day"
 },
 "trafficVol": {
-"v": 0.0,
+"v": 7.39e-05,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.015 Mt/day; 2025 average 0.068 Mt/day"
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.0151 Mt/day; 2025 average 0.0681 Mt/day"
 },
 "portwatchName": "Kerch Strait"
 },
@@ -1885,7 +1885,7 @@
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.903 Mt/day; 2025 average 1.014 Mt/day"
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.903 Mt/day; 2025 average 1.01 Mt/day"
 },
 "portwatchName": "Tsugaru Strait"
 },
@@ -2043,11 +2043,11 @@
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 0.7/day; 2025 average 1.0/day"
 },
 "trafficVol": {
-"v": 0.025,
+"v": 0.0249,
 "u": "Mt/day",
 "y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.010 Mt/day; 2025 average 0.019 Mt/day"
+"n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.00989 Mt/day; 2025 average 0.0192 Mt/day"
 },
 "portwatchName": "Bering Strait"
 }

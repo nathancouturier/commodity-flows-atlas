@@ -1,5 +1,5 @@
 /** Chokepoint: PortWatch traffic chart, published flows, cargo on mapped lanes, events. */
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Chokepoint, ChokepointLanes, Fig, FreightEvent, PortwatchSeries } from '../../types';
 import { commodityMeta, countryName, load } from '../../lib/data';
 import { fig as fmtFig, fmt as fmtNum } from '../../lib/format';
@@ -144,6 +144,12 @@ export default function ChokepointView({ id }: { id: string }) {
   const pw = useLoaded<PortwatchSeries>(() => (seriesId ? loadPortwatch(seriesId) : Promise.resolve(null)), [seriesId]);
   const lanes = useLoaded<ChokepointLanes>(() => loadChokepointLanes(), []);
   const [mode, setMode] = useState<'count' | 'vol'>('count');
+  // the chart's visible window survives the vessels / Mt toggle; a new chokepoint starts from the default again
+  const win = useRef<{ min: number; max: number } | null>(null);
+  useEffect(() => {
+    setMode('count');
+    win.current = null;
+  }, [id]);
 
   useEffect(() => {
     if (!cp) return;
@@ -221,9 +227,12 @@ export default function ChokepointView({ id }: { id: string }) {
       </div>
     </div>
   );
-  /** Earlier published values of the same flow (same key and unit), most recent first. */
-  const earlier = (k: string, f: Fig) =>
-    periods.slice(1).flatMap((p) => p.rows.filter((r) => r.k === k && r.f.u === f.u).map((r) => r.f));
+  /** Earlier published values of the same flow (same key and unit), most recent first. When the latest period
+   * holds several rows of that key (one per sub-passage, the note naming it) the note must match as well. */
+  const earlier = (k: string, f: Fig) => {
+    const twins = (periods[0]?.rows ?? []).filter((r) => r.k === k && r.f.u === f.u).length > 1;
+    return periods.slice(1).flatMap((p) => p.rows.filter((r) => r.k === k && r.f.u === f.u && (!twins || r.f.n === f.n)).map((r) => r.f));
+  };
 
   // PortWatch figures: the chokepoint's own counter, or the counter the page borrows (named, never under this name)
   const traffic = cp.seriesFrom ? pw?.headline : cp.traffic;
@@ -266,13 +275,14 @@ export default function ChokepointView({ id }: { id: string }) {
             {seriesLabel && <div class="small" style={{ marginBottom: '6px', color: 'var(--ink-0)' }}>{seriesLabel}</div>}
             {cp.portwatchNote && <div class="muted small" style={{ marginBottom: '6px' }}>{cp.portwatchNote}</div>}
             <TimeChart
-              key={chart.vol ? 'vol' : 'count'}
               x={chart.x}
               series={chart.series}
               unit={chart.vol ? 'Mt/day' : 'vessels/day'}
               stacked
               ranges={RANGES}
               defaultRange="3Y"
+              view={win.current}
+              onRange={(min, max) => { win.current = { min, max }; }}
               markers={markers}
               height={190}
               ariaLabel={`${seriesLabel ?? cp.name} weekly ${chart.vol ? 'estimated trade volume' : 'vessel transits'}`}
@@ -333,6 +343,7 @@ export default function ChokepointView({ id }: { id: string }) {
           <Section title="Physical limits">
             <p class="prose">{cp.limits}</p>
             <SourceLine s={cp.s} />
+            {cp.limitsS && <SourceLine s={cp.limitsS} />}
           </Section>
         )}
         {((cp.alternatives && cp.alternatives.length > 0) || cp.detour) && (
@@ -370,8 +381,8 @@ export default function ChokepointView({ id }: { id: string }) {
             ))}
           </Section>
         )}
-        {/* PortWatch is cited under its chart; a page without a PortWatch series does not cite it at all */}
-        {cp.s !== 'portwatch' && <SourceLine s={cp.s} />}
+        {/* PortWatch is cited under its chart; the page-level line stays on a page that shows no PortWatch series */}
+        {!(cp.s === 'portwatch' && pw) && <SourceLine s={cp.s} />}
       </div>
     </>
   );

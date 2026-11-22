@@ -20,6 +20,7 @@ sums over the five types (container, dry bulk, general cargo, ro-ro, tanker).
 """
 import glob
 import json
+import math
 import os
 import sys
 
@@ -61,16 +62,25 @@ def mapped(chk):
     return ids
 
 
+def _decimals(v, digits):
+    """Decimals to keep: a fixed number, or (digits=None) three significant figures of the value itself,
+    so a small recent value keeps its precision whatever the history of the series."""
+    if digits is not None:
+        return digits
+    return 3 if v == 0 else max(2, 2 - int(math.floor(math.log10(abs(v)))))
+
+
 def _headline(daily, unit, ref_unit, digits, text):
     """Last 28 days of a daily series, with the 2023 and previous-year averages as references."""
     last = daily.index.max()
-    recent = daily[daily.index > last - pd.Timedelta(days=28)].mean()
+    recent = float(daily[daily.index > last - pd.Timedelta(days=28)].mean())
     refs = []
     for yr in (2023, last.year - 1):
         yv = daily[daily.index.year == yr]
         if len(yv) > 300:
-            refs.append(f"{yr} average {yv.mean():.{digits}f}{ref_unit}")
-    return {"v": round(float(recent), digits), "u": unit, "y": f"28 days to {last.date()}", "s": "portwatch",
+            m = float(yv.mean())
+            refs.append(f"{yr} average {m:.{_decimals(m, digits)}f}{ref_unit}")
+    return {"v": round(recent, _decimals(recent, digits)), "u": unit, "y": f"28 days to {last.date()}", "s": "portwatch",
             "n": "; ".join([text] + refs)}
 
 
@@ -85,6 +95,10 @@ def build(rows, chk, out_dir=OUT):
     pw["capacity_other"] = pw["capacity_general_cargo"] + pw["capacity_roro"]
     os.makedirs(out_dir, exist_ok=True)
     ids = mapped(chk)
+    unmapped = sorted(set(pw["portid"]) - set(ids))
+    if unmapped:
+        # no failure: a counter PortWatch adds is only noted in the log until it gets a record in chokepoints.json
+        print("warning: PortWatch ids without a chokepoint record, not published:", ", ".join(map(str, unmapped)))
     for pid, g in pw.groupby("portid"):
         if pid not in ids:
             continue
@@ -105,7 +119,7 @@ def build(rows, chk, out_dir=OUT):
                          "mt": [round(float(day.loc[day.index.year == y, "capacity"].sum()) / 1e6, 1) for y in years]}
         # headline traffic on the chokepoint card: last 28 days, with yearly references
         doc["headline"] = _headline(day["n_total"], "vessels/day", "/day", 1, VESSELS + " (IMF PortWatch daily transits)")
-        doc["headlineVol"] = _headline(day["capacity"] / 1e6, "Mt/day", " Mt/day", 3 if day["capacity"].mean() < 1e6 else 2,
+        doc["headlineVol"] = _headline(day["capacity"] / 1e6, "Mt/day", " Mt/day", None,
                                        "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic)")
         json.dump(doc, open(os.path.join(out_dir, f"{ids[pid]}.json"), "w"), separators=(",", ":"))
     prune(out_dir, chk)

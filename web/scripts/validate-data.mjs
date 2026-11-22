@@ -2,7 +2,9 @@
  * Validates every JSON file under /data before the site is built:
  *  - each file parses,
  *  - every `s` (source id) referenced anywhere exists in data/sources.json,
- *  - every sourced figure object ({v, s}) also carries a year `y`.
+ *  - every sourced figure object ({v, s}) also carries a year `y`,
+ *  - every chokepoint with a PortWatch counter has a complete weekly series file, and chokepoint-lanes.json only
+ *    names chokepoints that exist.
  * Exits non-zero on failure so a broken data commit never reaches the live site.
  */
 import fs from 'node:fs';
@@ -44,7 +46,40 @@ function check(file) {
   visit(doc, '$');
 }
 
+/** PortWatch series and the lane table of the chokepoint pages: a weekly job that built too few series, or a
+ * build that lost chokepoint-lanes.json, must not pass. */
+function checkChokepoints() {
+  const read = (rel) => {
+    try {
+      return JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+    } catch {
+      errors.push(`${rel}: missing or unreadable`);
+      return null;
+    }
+  };
+  const chk = read('freight/chokepoints.json');
+  if (!Array.isArray(chk)) return;
+  for (const c of chk) {
+    if (!c.portwatch) continue;
+    if (!c.traffic || !String(c.traffic.y).startsWith('28 days')) errors.push(`freight/chokepoints.json: ${c.id} has a PortWatch counter but no "28 days" traffic figure`);
+    const doc = read(`freight/portwatch/${c.id}.json`);
+    if (!doc) continue;
+    const blocks = { 'counts': doc, 'vol': doc.vol };
+    for (const [name, b] of Object.entries(blocks)) {
+      const lens = ['tanker', 'dry', 'container', 'other', 'total'].map((k) => (Array.isArray(b?.[k]) ? b[k].length : -1));
+      if (lens.some((n) => n <= 0 || n !== lens[0])) errors.push(`freight/portwatch/${c.id}.json: ${name} series missing or of unequal length (${lens.join(', ')})`);
+    }
+    if (!doc.annual || !Array.isArray(doc.annual.years)) errors.push(`freight/portwatch/${c.id}.json: no annual block`);
+  }
+  const lanes = read('freight/chokepoint-lanes.json');
+  if (lanes) {
+    const known = new Set(chk.map((c) => c.id));
+    for (const id of Object.keys(lanes.chokepoints ?? {})) if (!known.has(id)) errors.push(`freight/chokepoint-lanes.json: unknown chokepoint "${id}"`);
+  }
+}
+
 walk(root);
+checkChokepoints();
 if (errors.length) {
   console.error(errors.slice(0, 50).join('\n'));
   console.error(`\n${errors.length} data error(s) in ${files} files`);

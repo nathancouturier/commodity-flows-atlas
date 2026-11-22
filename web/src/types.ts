@@ -287,6 +287,8 @@ export interface Chokepoint {
   kind: 'strait' | 'canal' | 'cape' | 'channel' | 'passage';
   at: [number, number];
   limits?: string;
+  /** source id of the depth figures quoted in `limits`, when they do not come from `s` */
+  limitsS?: string;
   traffic?: Fig;
   /** PortWatch's estimated trade volume of the vessels counted, last 28 days (Mt/day) */
   trafficVol?: Fig;
