@@ -114,6 +114,8 @@ def main():
         out = {k: r[k] for k in ("id", "name", "benchmark", "vclass", "cargoes", "notes", "s") if k in r}
         if r.get("discontinued"):
             out["discontinued"] = r["discontinued"]
+        if cor:
+            out["corridor"] = cor
         if r.get("roundVoyage"):
             out["roundVoyage"] = True
         if r.get("parcel"):

@@ -171,29 +171,50 @@ export interface PortRef {
   at: [number, number];
 }
 
+export interface AltRouting {
+  /** e.g. "Avoiding Suez Canal and Bab el-Mandeb (via Cape of Good Hope)" */
+  label: string;
+  avoids?: string[];
+  via: string[];
+  distanceNm: number;
+  /** extra laden days vs the main routing (negative = the alternative is shorter) */
+  extraDays: number;
+  when?: string;
+}
+
 export interface Route {
   id: string;
   name: string;
   /** true for Baltic Exchange benchmark routes */
   benchmark: boolean;
+  discontinued?: string;
+  roundVoyage?: boolean;
+  /** "typical laden leg" when a time-charter trip is drawn as its laden leg */
+  drawnAs?: string;
   vclass: string;
   cargoes: string[];
   from: { region: string; ports: string[] };
   to: { region: string; ports: string[] };
-  /** standard cargo size in tonnes, for benchmark routes */
   parcel?: number;
+  parcelUnit?: 't' | 'cbm';
   distanceNm: number;
   /** laden voyage days at the class's typical laden speed */
   days: number;
   speedKn: number;
+  /** chokepoint ids crossed, in order */
   via: string[];
-  /** share of the commodity's seaborne trade carried on this corridor */
+  /** route end points [lon, lat] */
+  a: [number, number];
+  b: [number, number];
+  /** bilateral flows this route represents: commodity id, origin and destination ISO3 lists */
+  corridor?: { k: string; o: string[]; d: string[] }[];
+  /** share of each cargo's seaborne trade carried on this corridor */
+  shares?: { k: string; f: Fig }[];
   shareCommodity?: Fig;
-  /** share of the vessel class's tonne-mile demand, Atlas estimate */
+  /** share of the vessel size class's tonne-mile demand (Atlas estimate) */
   shareClass?: Fig;
-  /** alternative routing used when a chokepoint is disrupted */
-  alt?: { via: string[]; avoids: string[]; distanceNm: number; extraDays: number; when: string };
-  /** annual corridor volumes for the history view */
+  alt?: AltRouting;
+  /** annual corridor volumes, all cargoes of the corridor */
   history?: { y: number; v: number }[];
   historyUnit?: string;
   historySrc?: string;
@@ -208,12 +229,34 @@ export interface Chokepoint {
   at: [number, number];
   limits?: string;
   traffic?: Fig;
-  byType?: { type: string; f: Fig }[];
+  /** published commodity flows through the chokepoint; k may be a commodity id or "petroleum-liquids" */
   shares?: { k: string; f: Fig }[];
+  /** Atlas estimates: share of seaborne trade on mapped lanes crossing it */
+  estimates?: { k: string; f: Fig }[];
   alternatives?: { label: string; extraNm?: number; extraDays?: number; note?: string }[];
   events?: string[];
   portwatch?: string;
   summary: string;
+  s: string;
+}
+
+/** data/freight/portwatch/<id>.json — weekly averages of daily transits since 2019 */
+export interface PortwatchSeries {
+  id: string;
+  s: string;
+  /** last date in the data */
+  y: string;
+  unit: string;
+  /** first week start, ISO date */
+  start: string;
+  step: 'week';
+  tanker: number[];
+  dry: number[];
+  container: number[];
+  other: number[];
+  total: number[];
+  /** deadweight capacity, million tonnes per day */
+  dwt: number[];
 }
 
 export interface FreightEvent {
@@ -229,24 +272,52 @@ export interface FreightEvent {
   src: string;
 }
 
-/** A seaborne lane: origin-destination country pair for a commodity, with geometry. */
+/** A seaborne lane: origin-destination country pair for one commodity group, with geometry. */
 export interface Lane {
+  /** "<group>:<o>-<d>" */
   id: string;
+  /** atlas commodity id */
   k: string;
+  /** commodity group (customs product group), e.g. "copper-ore" */
+  p: string;
   o: Iso3;
   d: Iso3;
+  /** port ids, see LaneFile.ports */
   load: string[];
   discharge: string[];
+  /** typical vessel classes, primary first (Atlas assumption) */
   vclass: string[];
-  route?: string;
   distanceNm: number;
   days: number;
   via: string[];
+  /** latest-year flow */
   flow: Fig;
-  /** share of the commodity's global seaborne trade, 0..1 */
+  /** share of the group's seaborne trade, 0..1 (latest year) */
   share: number;
-  /** share of the destination country's imports of this commodity, 0..1 */
-  shareDest?: number;
+  /** share of the destination's imports of this group, 0..1 */
+  shareDest?: number | null;
+  /** annual volumes (LaneFile.unit) for LaneFile.years */
+  hist: number[];
+  /** geometry [lon, lat][]; longitudes are unwrapped (may exceed ±180) */
+  g: [number, number][];
+  alt?: AltRouting & { g: [number, number][] };
+}
+
+/** data/freight/lanes/<group>.json */
+export interface LaneFile {
+  group: string;
+  k: string;
+  label?: string | null;
+  unit: string;
+  y: number;
+  s: string;
+  years: number[];
+  /** seaborne total per year (unit) */
+  seaborne: number[];
+  /** all-modes world trade per year (unit) */
+  world: number[];
+  ports: Record<string, PortRef>;
+  lanes: Lane[];
 }
 
 // ---------------------------------------------------------------- infra & prices
