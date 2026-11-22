@@ -112,6 +112,36 @@ export function nearestIndex(s: { x: number[]; v: (number | null)[] }, t: number
   return best;
 }
 
+export interface PeriodStats {
+  n: number;
+  avg: number;
+  min: { v: number; i: number };
+  max: { v: number; i: number };
+}
+
+/** Average, low and high of the observations with t0 <= x <= t1; null when there are none. */
+export function periodStats(s: { x: number[]; v: (number | null)[] }, t0: number, t1: number): PeriodStats | null {
+  let n = 0;
+  let sum = 0;
+  let mn = -1;
+  let mx = -1;
+  for (let i = lowerBound(s.x, t0); i < s.x.length && s.x[i] <= t1; i++) {
+    const v = s.v[i];
+    if (v == null) continue;
+    n++;
+    sum += v;
+    if (mn < 0 || v < s.v[mn]!) mn = i;
+    if (mx < 0 || v > s.v[mx]!) mx = i;
+  }
+  return n ? { n, avg: sum / n, min: { v: s.v[mn]!, i: mn }, max: { v: s.v[mx]!, i: mx } } : null;
+}
+
+/** Index of the first non-null observation with x >= t (-1 when none). */
+export function firstAtOrAfter(s: { x: number[]; v: (number | null)[] }, t: number): number {
+  for (let i = lowerBound(s.x, t); i < s.x.length; i++) if (s.v[i] != null && s.v[i] !== 0) return i;
+  return -1;
+}
+
 /** First index with x >= t. */
 export function lowerBound(x: number[], t: number): number {
   let lo = 0;
@@ -202,12 +232,12 @@ export function fmtPct(p: number): string {
 
 // ---------------------------------------------------------------- defaults & opening
 
-export const DEFAULT_SERIES = 'brent-m';
+export const DEFAULT_SERIES = 'brent-d';
 
-/** Default series ids for a commodity: monthly Pink Sheet series first (longest history). */
+/** Series of a commodity, daily first (the monthly series stays available as an optional second series). */
 export function seriesForCommodity(k: string | null | undefined, idx = priceIndex.value): PriceMeta[] {
   if (!k) return [];
-  return idx.filter((m) => m.k === k).sort((a, b) => (a.freq === b.freq ? 0 : a.freq === 'M' ? -1 : 1));
+  return idx.filter((m) => m.k === k).sort((a, b) => (a.freq === b.freq ? 0 : a.freq === 'D' ? -1 : 1));
 }
 
 export function defaultSeriesIds(k: string | null | undefined): string[] {

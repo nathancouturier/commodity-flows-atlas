@@ -5,6 +5,7 @@
  */
 import type { StyleSpecification } from 'maplibre-gl';
 import type { FeatureCollection, LineString } from 'geojson';
+import { SHARE_STOPS } from '../lib/format';
 
 export const C = {
   ocean: '#05090f',
@@ -70,21 +71,7 @@ export function baseStyle(): StyleSpecification {
         layout: { visibility: 'none' },
         paint: {
           'fill-color': ['coalesce', ['feature-state', 'col'], 'rgba(0,0,0,0)'],
-          'fill-opacity': [
-            'interpolate',
-            ['linear'],
-            ['coalesce', ['feature-state', 'v'], 0],
-            0,
-            0,
-            0.005,
-            0.18,
-            0.05,
-            0.42,
-            0.15,
-            0.68,
-            0.35,
-            0.9,
-          ],
+          'fill-opacity': ['interpolate', ['linear'], ['coalesce', ['feature-state', 'v'], 0], ...SHARE_STOPS.flat()],
         },
       },
       {

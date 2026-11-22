@@ -278,6 +278,266 @@
      64.67
     ]
    }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "alba-bahrain",
+    "name": "Alba (Aluminium Bahrain)",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "BHR",
+    "operator": "Aluminium Bahrain B.S.C.",
+    "capacity": {
+     "v": 1600,
+     "u": "kt Al per year capacity (2026)"
+    },
+    "opened": 1971,
+    "status": "operating",
+    "note": "Controlled shutdown of potlines 1-3 began 15 Mar 2026; 80% of pre-war capacity as of 16 Sep 2026 (page).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Aluminium_Bahrain"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     50.603,
+     26.087
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ega-jebel-ali",
+    "name": "EGA Jebel Ali smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "ARE",
+    "operator": "Emirates Global Aluminium",
+    "capacity": {
+     "v": 1000,
+     "u": "kt Al per year capacity (undated)"
+    },
+    "status": "operating",
+    "note": "Approximate location (Jebel Ali); 2,350 MW captive power.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.03,
+     25.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ega-al-taweelah",
+    "name": "EGA Al Taweelah smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "ARE",
+    "operator": "Emirates Global Aluminium",
+    "capacity": {
+     "v": 1300,
+     "u": "kt Al per year capacity (undated)"
+    },
+    "status": "operating",
+    "note": "Approximate location (Taweelah); page reports significant damage in attacks of 28 Mar 2026.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.74,
+     24.78
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "boyne-smelters",
+    "name": "Boyne Island smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "AUS",
+    "operator": "Boyne Smelters Ltd (Rio Tinto 73.5%)",
+    "capacity": {
+     "v": 545,
+     "u": "kt Al per year capacity (per page, citing 2006 Rio Tinto data book)"
+    },
+    "opened": 1982,
+    "status": "operating",
+    "note": "Gladstone region, Queensland.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Boyne_Smelters"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.34,
+     -23.929
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bratsk-smelter",
+    "name": "Bratsk aluminium smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "RUS",
+    "operator": "Rusal",
+    "capacity": {
+     "v": 939,
+     "u": "kt Al produced (2025)"
+    },
+    "status": "operating",
+    "note": "Output about 1,000-1,009 kt/y in 2013-2023.",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Rusal"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     101.45,
+     56.13
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "krasnoyarsk-smelter",
+    "name": "Krasnoyarsk aluminium smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "RUS",
+    "operator": "Rusal",
+    "capacity": {
+     "v": 959,
+     "u": "kt Al produced (2025)"
+    },
+    "opened": 1964,
+    "status": "operating",
+    "note": "First hot metal 30 Apr 1964; output about 1,015-1,020 kt/y in 2016-2024.",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Rusal"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     93.013,
+     56.095
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hongqiao-binzhou",
+    "name": "China Hongqiao Binzhou complex",
+    "type": "smelter",
+    "k": [
+     "aluminium",
+     "bauxite"
+    ],
+    "c": "CHN",
+    "operator": "China Hongqiao Group",
+    "status": "operating",
+    "note": "Approximate location (Binzhou, Shandong); smelters, alumina refinery and captive coal power on one site; group capacity above 5 Mt/y in 2016 per page, 2 Mt/y relocation to Yunnan from 2020.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.02,
+     37.38
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "imip-morowali",
+    "name": "IMIP Morowali",
+    "type": "smelter",
+    "k": [
+     "nickel",
+     "steel"
+    ],
+    "c": "IDN",
+    "operator": "PT Indonesia Morowali Industrial Park",
+    "opened": 2015,
+    "status": "operating",
+    "note": "Tsingshan-anchored; at least 11 smelters of various metals as of 2025; page gives no park-wide nickel output.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Indonesia_Morowali_Industrial_Park"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     122.16,
+     -2.83
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lynas-kuantan",
+    "name": "Lynas Advanced Materials Plant (Kuantan)",
+    "type": "smelter",
+    "k": [
+     "rare-earths"
+    ],
+    "c": "MYS",
+    "operator": "Lynas Rare Earths",
+    "capacity": {
+     "v": 11,
+     "u": "kt REO per year target (undated)"
+    },
+    "opened": 2012,
+    "status": "operating",
+    "note": "Approximate location (Kuantan, Pahang); refining entered production 2013.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Lynas"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.326,
+     3.808
+    ]
+   }
   }
  ]
 }

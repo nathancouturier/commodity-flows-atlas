@@ -6,7 +6,7 @@ import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
 import { laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder } from '../ui';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 
 interface Loaded { file: LaneFile; lane: Lane }
@@ -59,6 +59,7 @@ export default function LaneView({ id }: { id: string }) {
         <h2 class="detail-title">{countryName(lane.o)} → {countryName(lane.d)}</h2>
       </div>
       <div class="panel-scroll">
+        <AlertBanners chokepoints={lane.via} status={lane.status} />
         <div class="kpis">
           <Kpi label={`Flow · ${lane.flow.y}`} f={lane.flow} note={n} span={!!n} />
           <Kpi label="Share of seaborne trade" value={pct(lane.share)} sub={`${pub} · ${file.y}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${file.y}); Atlas calc`} />

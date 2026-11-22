@@ -43,6 +43,52 @@ export const panelCollapsed = signal(false);
 
 export const detailOpen = computed(() => selection.value !== null);
 
+/** Bottom-sheet snap heights of the side panel (tablet / phone layout). */
+export type SheetSnap = 'peek' | 'half' | 'full';
+export const sheetSnap = signal<SheetSnap>('half');
+
+/** Number of overland / pipeline flow arcs currently drawn (drives the legend). */
+export const landFlowsShown = signal(0);
+/** Small empty-state notice on the map (e.g. commodity without any mapped flows). */
+export const mapNotice = signal<string | null>(null);
+
+/** Active country colouring, for the colour-ramp legend. Shares are 0..1 of the world total. */
+export interface ChoroInfo {
+  metric: string;
+  unit: string;
+  year: number | string;
+  source: string;
+  color: string;
+  min: number;
+  max: number;
+  commodity: string;
+}
+export const choroInfo = signal<ChoroInfo | null>(null);
+
+/** Physical-flows state to restore when leaving the Freight tab. */
+let flowsBeforeFreight: boolean | null = null;
+
+/**
+ * Switch the family tab. The Freight tab brings routes and chokepoints in and turns Physical flows
+ * off (the lanes would bury the routes); leaving it restores the previous state.
+ */
+export function setFamily(next: FamilyFilter) {
+  const was = family.value === 'freight';
+  const to = next === 'freight';
+  if (to !== was) {
+    const l = { ...layers.value, routes: to, chokepoints: to };
+    if (to) {
+      flowsBeforeFreight = l.flows;
+      l.flows = false;
+    } else if (flowsBeforeFreight !== null) {
+      l.flows = flowsBeforeFreight;
+      flowsBeforeFreight = null;
+    }
+    layers.value = l;
+  }
+  family.value = next;
+}
+
 export function toggleLayer(id: LayerId, on?: boolean) {
   const next = { ...layers.value };
   next[id] = on ?? !next[id];
@@ -102,12 +148,15 @@ export function writeHash() {
 
 readHash();
 // a shared Freight-tab link opens with its routes and chokepoints visible
-if (family.value === 'freight') layers.value = { ...layers.value, routes: true, chokepoints: true };
+if (family.value === 'freight') {
+  flowsBeforeFreight = layers.value.flows;
+  layers.value = { ...layers.value, routes: true, chokepoints: true, flows: false };
+}
 
 // ---------------------------------------------------------------- route finder (side panel)
 // Kept in the store so the choice survives switching tabs.
 export const routeFinderOpen = signal(false);
-export const rfCommodity = signal<string>('thermal-coal');
+export const rfCommodity = signal<string>('coal');
 export const rfOrigin = signal<string | null>(null);
 export const rfDest = signal<string | null>(null);
 

@@ -5,7 +5,7 @@ import { commodityMeta } from '../../lib/data';
 import { fmt, fig as fmtFig } from '../../lib/format';
 import { loadRoutes, loadRouteGeo, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder } from '../ui';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 
 export default function RouteView({ id }: { id: string }) {
@@ -54,7 +54,7 @@ function Body({ r }: { r: Route }) {
       const key = `${k}:${f.v}`;
       if (seen.has(key)) return;
       seen.add(key);
-      out.push({ label: `Share of seaborne ${commodityMeta(k)?.name ?? k}`, f });
+      out.push({ label: `Corridor share of seaborne ${(commodityMeta(k)?.name ?? k).toLowerCase()}`, f });
     };
     if (r.shareCommodity) {
       const match = r.shares?.find((s) => s.f.v === r.shareCommodity!.v);
@@ -63,6 +63,7 @@ function Body({ r }: { r: Route }) {
     for (const s of r.shares ?? []) add(s.k, s.f);
     return out;
   }, [r]);
+  const leg = !!(r.roundVoyage || r.drawnAs);
   const parcel = r.parcel != null ? `${fmt(r.parcel)} ${r.parcelUnit ?? 't'}` : null;
   const fromPort = r.from.ports.join(' / ') || r.from.region;
   const toPort = r.to.ports.join(' / ') || r.to.region;
@@ -76,14 +77,16 @@ function Body({ r }: { r: Route }) {
           {r.discontinued && <span class="badge badge-warn">Discontinued {r.discontinued}</span>}
           {r.roundVoyage && <span class="badge" title="Benchmark is quoted for a round voyage">Round voyage</span>}
         </div>
+        {r.roundVoyage && <div class="muted small" style={{ marginTop: '6px' }}>Benchmark is a round voyage (delivery → redelivery); distance shown is the typical laden leg.</div>}
         {r.drawnAs && <div class="muted small" style={{ marginTop: '6px' }}>Drawn as its {r.drawnAs}.</div>}
       </div>
       <div class="panel-scroll">
+        <AlertBanners chokepoints={r.via} status={r.status} />
         <div class="kpis">
-          <Kpi label="Distance" value={`${fmt(r.distanceNm)} nm`} sub="SeaRoute network · Atlas routing" title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
-          <Kpi label="Laden days" value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas calc`} title="Distance divided by the class's typical laden speed" />
+          <Kpi label={leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub="SeaRoute network · Atlas routing" title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
+          <Kpi label={leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas calc`} title="Distance divided by the class's typical laden speed" />
           {shares.map((s) => (
-            <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} />
+            <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
           {r.shareClass && (
             <Kpi label="Share of class tonne-miles" f={r.shareClass} sub={`Atlas estimate · ${r.shareClass.y}`} />

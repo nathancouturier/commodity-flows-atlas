@@ -2,11 +2,11 @@
 import { useEffect, useMemo } from 'preact/hooks';
 import type { Chokepoint, Fig, FreightEvent, PortwatchSeries } from '../../types';
 import { commodityMeta } from '../../lib/data';
-import { fig as fmtFig } from '../../lib/format';
+import { fig as fmtFig, fmt as fmtNum } from '../../lib/format';
 import { loadChokepoints, loadEvents, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
 import { getMap } from '../../map/controller';
 import { select } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder } from '../ui';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { TimeChart, DAY, YEAR, parseDate } from '../charts/TimeChart';
 import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
@@ -97,10 +97,12 @@ export default function ChokepointView({ id }: { id: string }) {
         <h2 class="detail-title">{cp.name}</h2>
       </div>
       <div class="panel-scroll">
+        <AlertBanners chokepoints={[cp.id]} />
         <p class="prose" style={{ margin: '8px 0 0' }}>{cp.summary}</p>
-        {cp.traffic && (
+        {(cp.traffic || cp.trafficRef) && (
           <div class="kpis">
-            <Kpi label="Traffic, latest" f={cp.traffic} note={cp.traffic.n} span />
+            {cp.traffic && <Kpi label="Traffic, last 28 days" f={cp.traffic} note={cp.traffic.n} span />}
+            {cp.trafficRef && <Kpi label="Transits, official statistics" f={cp.trafficRef} note={cp.trafficRef.n} span />}
           </div>
         )}
         {pw === undefined ? (
@@ -139,9 +141,17 @@ export default function ChokepointView({ id }: { id: string }) {
             <SourceLine s={cp.s} />
           </Section>
         )}
-        {cp.alternatives && cp.alternatives.length > 0 && (
+        {((cp.alternatives && cp.alternatives.length > 0) || cp.detour) && (
           <Section title="Alternatives">
-            {cp.alternatives.map((a, i) => (
+            {cp.detour && (
+              <div class="alt-box" style={{ marginBottom: '8px' }} title={`${sources.value[cp.detour.s]?.name ?? cp.detour.s} · ${cp.detour.y}`}>
+                <div class="alt-label">
+                  Typical detour on mapped lanes: <b class="num">+{cp.detour.nm.toLocaleString('en-US')} nm / +{fmtNum(cp.detour.days)} days</b> (Atlas estimate)
+                </div>
+                {cp.detour.n && <div class="muted small" style={{ marginTop: '6px' }}>{cp.detour.n} · {cp.detour.y}</div>}
+              </div>
+            )}
+            {(cp.alternatives ?? []).map((a, i) => (
               <div class="alt-box" key={i} style={{ marginBottom: '8px' }}>
                 <div class="alt-label">{a.label}</div>
                 {(a.extraDays != null || a.extraNm != null) && (

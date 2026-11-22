@@ -5,8 +5,7 @@
  * (double-click resets) and a "jump to date" month input.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import uPlot from 'uplot';
-import 'uplot/dist/uPlot.min.css';
+import type uPlot from 'uplot';
 import { fmt } from '../../lib/format';
 
 export interface TimeSeries {
@@ -71,7 +70,7 @@ export interface TimeChartProps {
 export const DAY = 86400;
 export const YEAR = 365.25 * DAY;
 
-const MONO = '10.5px "IBM Plex Mono", ui-monospace, monospace';
+const MONO = '11px "IBM Plex Mono", ui-monospace, monospace';
 const MUTED = '#7d8a99';
 const GRID = 'rgba(255,255,255,0.06)';
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -146,179 +145,190 @@ export function TimeChart(props: TimeChartProps) {
   useEffect(() => {
     const el = host.current;
     if (!el || !x.length) return;
-    const drawOrder = stacked ? [...series].reverse() : series;
-    const yRange = (mn: number, mx: number): [number, number] => {
-      if (!yZero && !stacked && !bars) {
-        const pad = (mx - mn) * 0.08 || Math.abs(mx) * 0.05 || 1;
-        return [mn - pad, mx + pad];
-      }
-      return [stacked || bars || mn > 0 ? Math.min(0, mn) : mn, mx + (mx - Math.min(0, mn)) * 0.08 || 1];
-    };
-    const stepGuess = x.length > 1 ? (xMax - xMin) / (x.length - 1) : YEAR;
-    const opts: uPlot.Options = {
-      width: Math.max(220, el.clientWidth),
-      height,
-      padding: [8, 6, 0, 0],
-      legend: { show: false },
-      cursor: {
-        drag: { x: zoom, y: false, setScale: zoom },
-        points: { size: 6, width: 1.5, fill: '#0a0f17' },
-        bind: { dblclick: () => null },
-      },
-      select: { show: zoom, left: 0, top: 0, width: 0, height: 0 },
-      scales: {
-        x: {
-          time: true,
-          range: bars ? (_u, mn, mx) => [mn - stepGuess / 2, mx + stepGuess / 2] : undefined,
+    let cancelled = false;
+    let cleanup: (() => void) | null = null;
+    // uPlot is loaded on demand so it stays out of the initial bundle
+    Promise.all([import('uplot'), import('uplot/dist/uPlot.min.css')]).then(([mod]) => {
+      if (cancelled) return;
+      const uPlot = mod.default;
+      const drawOrder = stacked ? [...series].reverse() : series;
+      const yRange = (mn: number, mx: number): [number, number] => {
+        if (!yZero && !stacked && !bars) {
+          const pad = (mx - mn) * 0.08 || Math.abs(mx) * 0.05 || 1;
+          return [mn - pad, mx + pad];
+        }
+        return [stacked || bars || mn > 0 ? Math.min(0, mn) : mn, mx + (mx - Math.min(0, mn)) * 0.08 || 1];
+      };
+      const stepGuess = x.length > 1 ? (xMax - xMin) / (x.length - 1) : YEAR;
+      const opts: uPlot.Options = {
+        width: Math.max(220, el.clientWidth),
+        height,
+        padding: [8, 6, 0, 0],
+        legend: { show: false },
+        cursor: {
+          drag: { x: zoom, y: false, setScale: zoom },
+          points: { size: 6, width: 1.5, fill: '#0a0f17' },
+          bind: { dblclick: () => null },
         },
-        y: { range: (_u, mn, mx) => yRange(mn, mx) },
-        ...(hasY2 ? { y2: { range: (_u: uPlot, mn: number, mx: number) => yRange(mn, mx) } } : {}),
-      },
-      axes: [
-        {
-          stroke: MUTED,
-          font: MONO,
-          grid: { stroke: GRID, width: 1 },
-          ticks: { show: false },
-          size: 34,
-          gap: 2,
-          ...(xf === 'year' ? { values: (_u: uPlot, sp: number[]) => sp.map((v) => String(new Date(v * 1000).getUTCFullYear())) } : {}),
+        select: { show: zoom, left: 0, top: 0, width: 0, height: 0 },
+        scales: {
+          x: {
+            time: true,
+            range: bars ? (_u, mn, mx) => [mn - stepGuess / 2, mx + stepGuess / 2] : undefined,
+          },
+          y: { range: (_u, mn, mx) => yRange(mn, mx) },
+          ...(hasY2 ? { y2: { range: (_u: uPlot, mn: number, mx: number) => yRange(mn, mx) } } : {}),
         },
-        {
-          stroke: MUTED,
-          font: MONO,
-          grid: { stroke: GRID, width: 1 },
-          ticks: { show: false },
-          size: 40,
-          gap: 4,
-          values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
-        },
-        ...(hasY2
-          ? [
-              {
-                scale: 'y2',
-                side: 1,
-                stroke: MUTED,
-                font: MONO,
-                grid: { show: false },
-                ticks: { show: false },
-                size: 44,
-                gap: 4,
-                values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
-              } as uPlot.Axis,
-            ]
-          : []),
-      ],
-      series: [
-        {},
-        ...drawOrder.map((s) => ({
-          label: s.label,
-          scale: s.scale ?? 'y',
-          stroke: s.color,
-          width: bars ? 0 : 1.5,
-          fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
-          points: { show: false },
-          spanGaps: true,
-          paths: bars ? uPlot.paths.bars!({ size: [0.72, 60], radius: 0.15 }) : undefined,
-        })),
-      ],
-      hooks: {
-        setCursor: [
-          (u) => {
-            const i = u.cursor.idx;
-            setIdx(i == null ? null : i);
-            cbRef.current.onCursor?.(i == null ? null : i);
-            const left = u.cursor.left;
-            let hit: TimeMarker | null = null;
-            if (left != null && left >= 0) {
-              for (const m of markersRef.current) {
-                const x1 = u.valToPos(m.t, 'x');
-                const x2 = m.end != null ? u.valToPos(m.end, 'x') : x1;
-                if (left >= Math.min(x1, x2) - 5 && left <= Math.max(x1, x2) + 5) {
-                  hit = m;
-                  break;
+        axes: [
+          {
+            stroke: MUTED,
+            font: MONO,
+            grid: { stroke: GRID, width: 1 },
+            ticks: { show: false },
+            size: 40,
+            gap: 2,
+            ...(xf === 'year' ? { values: (_u: uPlot, sp: number[]) => sp.map((v) => String(new Date(v * 1000).getUTCFullYear())) } : {}),
+          },
+          {
+            stroke: MUTED,
+            font: MONO,
+            grid: { stroke: GRID, width: 1 },
+            ticks: { show: false },
+            size: 40,
+            gap: 4,
+            values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
+          },
+          ...(hasY2
+            ? [
+                {
+                  scale: 'y2',
+                  side: 1,
+                  stroke: MUTED,
+                  font: MONO,
+                  grid: { show: false },
+                  ticks: { show: false },
+                  size: 44,
+                  gap: 4,
+                  values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
+                } as uPlot.Axis,
+              ]
+            : []),
+        ],
+        series: [
+          {},
+          ...drawOrder.map((s) => ({
+            label: s.label,
+            scale: s.scale ?? 'y',
+            stroke: s.color,
+            width: bars ? 0 : 1.5,
+            fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
+            points: { show: false },
+            spanGaps: true,
+            paths: bars ? uPlot.paths.bars!({ size: [0.72, 60], radius: 0.15 }) : undefined,
+          })),
+        ],
+        hooks: {
+          setCursor: [
+            (u) => {
+              const i = u.cursor.idx;
+              setIdx(i == null ? null : i);
+              cbRef.current.onCursor?.(i == null ? null : i);
+              const left = u.cursor.left;
+              let hit: TimeMarker | null = null;
+              if (left != null && left >= 0) {
+                for (const m of markersRef.current) {
+                  const x1 = u.valToPos(m.t, 'x');
+                  const x2 = m.end != null ? u.valToPos(m.end, 'x') : x1;
+                  if (left >= Math.min(x1, x2) - 5 && left <= Math.max(x1, x2) + 5) {
+                    hit = m;
+                    break;
+                  }
                 }
               }
-            }
-            setMk(hit);
-          },
-        ],
-        setScale: [
-          (u, key) => {
-            if (key !== 'x') return;
-            cbRef.current.onRange?.(u.scales.x.min ?? xMin, u.scales.x.max ?? xMax);
-            const e = expected.current;
-            if (e && Math.abs((u.scales.x.min ?? 0) - e[0]) < 1 && Math.abs((u.scales.x.max ?? 0) - e[1]) < 1) return;
-            setActive(null);
-          },
-        ],
-        draw: [
-          (u) => {
-            const ctx = u.ctx;
-            const { left, top, width, height: h } = u.bbox;
-            const dpr = devicePixelRatio || 1;
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(left, top, width, h);
-            ctx.clip();
-            for (const m of markersRef.current) {
-              const c = m.color ?? '#ff5c7a';
-              const x1 = u.valToPos(m.t, 'x', true);
-              if (m.end != null) {
-                const x2 = u.valToPos(m.end, 'x', true);
-                ctx.fillStyle = c + (m.subtle ? '12' : '1f');
-                ctx.fillRect(x1, top, Math.max(1, x2 - x1), h);
-              }
-              ctx.strokeStyle = c + (m.subtle ? '55' : 'cc');
-              ctx.lineWidth = dpr;
-              ctx.setLineDash([3 * dpr, 3 * dpr]);
+              setMk(hit);
+            },
+          ],
+          setScale: [
+            (u, key) => {
+              if (key !== 'x') return;
+              cbRef.current.onRange?.(u.scales.x.min ?? xMin, u.scales.x.max ?? xMax);
+              const e = expected.current;
+              if (e && Math.abs((u.scales.x.min ?? 0) - e[0]) < 1 && Math.abs((u.scales.x.max ?? 0) - e[1]) < 1) return;
+              setActive(null);
+            },
+          ],
+          draw: [
+            (u) => {
+              const ctx = u.ctx;
+              const { left, top, width, height: h } = u.bbox;
+              const dpr = devicePixelRatio || 1;
+              ctx.save();
               ctx.beginPath();
-              ctx.moveTo(x1, top);
-              ctx.lineTo(x1, top + h);
-              ctx.stroke();
-              ctx.setLineDash([]);
-              if (!m.subtle) {
-                ctx.fillStyle = c;
+              ctx.rect(left, top, width, h);
+              ctx.clip();
+              for (const m of markersRef.current) {
+                const c = m.color ?? '#ff5c7a';
+                const x1 = u.valToPos(m.t, 'x', true);
+                if (m.end != null) {
+                  const x2 = u.valToPos(m.end, 'x', true);
+                  ctx.fillStyle = c + (m.subtle ? '12' : '1f');
+                  ctx.fillRect(x1, top, Math.max(1, x2 - x1), h);
+                }
+                ctx.strokeStyle = c + (m.subtle ? '55' : 'cc');
+                ctx.lineWidth = dpr;
+                ctx.setLineDash([3 * dpr, 3 * dpr]);
                 ctx.beginPath();
-                ctx.moveTo(x1 - 4 * dpr, top);
-                ctx.lineTo(x1 + 4 * dpr, top);
-                ctx.lineTo(x1, top + 7 * dpr);
-                ctx.fill();
+                ctx.moveTo(x1, top);
+                ctx.lineTo(x1, top + h);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                if (!m.subtle) {
+                  ctx.fillStyle = c;
+                  ctx.beginPath();
+                  ctx.moveTo(x1 - 4 * dpr, top);
+                  ctx.lineTo(x1 + 4 * dpr, top);
+                  ctx.lineTo(x1, top + 7 * dpr);
+                  ctx.fill();
+                }
               }
-            }
-            ctx.restore();
-          },
-        ],
-      },
-    };
-    const u = new uPlot(opts, data, el);
-    uref.current = u;
-    u.over.addEventListener('dblclick', () => {
-      setActive(initial ?? null);
-      window_(u, ranges?.find((r) => r.label === initial)?.seconds ?? null);
+              ctx.restore();
+            },
+          ],
+        },
+      };
+      const u = new uPlot(opts, data, el);
+      uref.current = u;
+      u.over.addEventListener('dblclick', () => {
+        setActive(initial ?? null);
+        window_(u, ranges?.find((r) => r.label === initial)?.seconds ?? null);
+      });
+      u.over.addEventListener('mouseleave', () => {
+        cbRef.current.onCursor?.(null);
+        setIdx(null);
+        setMk(null);
+      });
+      const v0 = cbRef.current.view;
+      if (v0) {
+        expected.current = [v0.min, v0.max];
+        u.setScale('x', { min: v0.min, max: v0.max });
+      } else if (initial) {
+        const r = ranges?.find((r) => r.label === initial);
+        if (r) window_(u, r.seconds);
+      }
+      const ro = new ResizeObserver(() => {
+        const w = el.clientWidth;
+        if (w > 0 && Math.abs(w - u.width) > 1) u.setSize({ width: w, height });
+      });
+      ro.observe(el);
+      cleanup = () => {
+        ro.disconnect();
+        u.destroy();
+        if (uref.current === u) uref.current = null;
+      };
     });
-    u.over.addEventListener('mouseleave', () => {
-      cbRef.current.onCursor?.(null);
-      setIdx(null);
-      setMk(null);
-    });
-    const v0 = cbRef.current.view;
-    if (v0) {
-      expected.current = [v0.min, v0.max];
-      u.setScale('x', { min: v0.min, max: v0.max });
-    } else if (initial) {
-      const r = ranges?.find((r) => r.label === initial);
-      if (r) window_(u, r.seconds);
-    }
-    const ro = new ResizeObserver(() => {
-      const w = el.clientWidth;
-      if (w > 0 && Math.abs(w - u.width) > 1) u.setSize({ width: w, height });
-    });
-    ro.observe(el);
     return () => {
-      ro.disconnect();
-      u.destroy();
-      uref.current = null;
+      cancelled = true;
+      cleanup?.();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, height, bars, stacked, zoom, xf, yZero, hasY2]);

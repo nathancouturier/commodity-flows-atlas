@@ -17,13 +17,42 @@ export interface LineFeatureProps {
   /** 0..1 relative weight (width) */
   w: number;
   /** what a click selects */
-  kind: 'lane' | 'route' | 'pipeline' | 'alt';
+  kind: 'lane' | 'route' | 'pipeline' | 'alt' | 'land';
+  /** destination country selected by a click on an overland / pipeline arc */
+  to?: string;
+  /** softer dashed line (overland / pipeline arcs) */
+  soft?: boolean;
   dim?: boolean;
   /** highlighted (selected) line: full opacity, stronger glow */
   hl?: boolean;
   /** drawn dashed (alternative routing); no particles */
   dash?: boolean;
   label?: string;
+}
+
+/** Layout switches to bottom sheets at this width; keep in sync with the @media rules in styles/app.css. */
+export const SHEET_BP = 1024;
+/** Height of the side-panel sheet in its "peek" snap, px. */
+export const SHEET_PEEK_PX = 96;
+const sheetQuery = `(max-width: ${SHEET_BP}px)`;
+export const isSheetLayout = () => window.matchMedia(sheetQuery).matches;
+
+/** Bounds of the trading world framed on first load (Americas to Japan). */
+const WORLD_BOUNDS: LngLatBoundsLike = [[-125, -45], [150, 65]];
+
+/** Padding that keeps a fitted area clear of the panels (measured from the real DOM). */
+function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
+  const H = window.innerHeight;
+  if (isSheetLayout()) {
+    const sheet = document.querySelector('.side-panel')?.getBoundingClientRect();
+    const sheetH = sheet ? H - sheet.top : SHEET_PEEK_PX;
+    const bottom = opts.detail ? H * 0.6 + 16 : Math.min(sheetH + 12, H * 0.55);
+    return { top: 110, bottom, left: 16, right: 16 };
+  }
+  const panel = document.querySelector('.side-panel')?.getBoundingClientRect();
+  const left = (panel ? panel.right : 332) + 24;
+  const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
+  return { top: opts.detail ? 90 : 70, bottom: opts.detail ? 60 : 40, left, right: 24 + detailW };
 }
 
 let map: MLMap | null = null;
@@ -43,17 +72,11 @@ export function onMapReady(fn: (m: MLMap) => void) {
 
 export function initMap(container: HTMLElement) {
   if (map) return map;
-  const small = window.innerWidth < 760;
-  // Fit the whole trading world (Americas to Japan) in the area right of the side panel.
-  const visibleW = small ? window.innerWidth : window.innerWidth - 340;
-  const zoom = Math.min(1.9, Math.max(0.6, Math.log2(visibleW / 512)));
-  const worldPx = 512 * 2 ** zoom;
-  const centerLon = small ? 75 : 35 - ((340 / 2) / worldPx) * 360;
   map = new maplibregl.Map({
     container,
     style: baseStyle(),
-    center: [centerLon, small ? 15 : 22],
-    zoom,
+    center: [20, 22],
+    zoom: 1.2,
     minZoom: 0.5,
     maxZoom: 9,
     renderWorldCopies: true,
@@ -62,6 +85,12 @@ export function initMap(container: HTMLElement) {
     pitchWithRotate: false,
     fadeDuration: 0,
   });
+  // first-load framing: fit the trading world into the area the panels leave free
+  try {
+    map.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: false }), maxZoom: 2.4, duration: 0 });
+  } catch (e) {
+    console.error('initial framing failed', e);
+  }
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(
@@ -171,8 +200,11 @@ function ensureLineSet(m: MLMap, key: string) {
   const hit = `${src}-hit`;
   const isDim: ExpressionSpecification = ['boolean', ['get', 'dim'], false];
   const isHl: ExpressionSpecification = ['boolean', ['get', 'hl'], false];
+  const isSoft: ExpressionSpecification = ['boolean', ['get', 'soft'], false];
   const isHover: ExpressionSpecification = ['boolean', ['feature-state', 'hover'], false];
   m.addSource(src, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  // freight routes overlap heavily at world zoom: their glow fades in between zoom 2 and 3
+  const glowOp: ExpressionSpecification = ['case', isDim, 0.03, isHl, 0.3, 0.13];
   m.addLayer({
     id: `${src}-glow`,
     type: 'line',
@@ -181,7 +213,7 @@ function ensureLineSet(m: MLMap, key: string) {
     layout: { 'line-cap': 'round', 'line-join': 'round' },
     paint: {
       'line-color': ['get', 'color'],
-      'line-opacity': ['case', isDim, 0.03, isHl, 0.3, 0.13],
+      'line-opacity': key === 'routes' ? ['interpolate', ['linear'], ['zoom'], 2, ['*', glowOp, 0.2], 3, glowOp] : glowOp,
       'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 4, 1, 16],
       'line-blur': 6,
     },
@@ -207,7 +239,7 @@ function ensureLineSet(m: MLMap, key: string) {
     layout: { 'line-cap': 'butt', 'line-join': 'round' },
     paint: {
       'line-color': ['get', 'color'],
-      'line-opacity': ['case', isHover, 1, 0.75],
+      'line-opacity': ['case', isHover, 1, isDim, 0.12, isSoft, 0.55, 0.75],
       'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 1.2, 1, 3],
       'line-dasharray': [2, 2],
     },
@@ -248,6 +280,7 @@ function ensureLineSet(m: MLMap, key: string) {
     if (!p) return;
     if (p.kind === 'route' || p.kind === 'alt') select({ kind: 'route', id: p.id.replace(/:alt$/, '') });
     else if (p.kind === 'lane') select({ kind: 'lane', id: p.id });
+    else if (p.kind === 'land' && p.to) select({ kind: 'country', id: p.to });
   });
 }
 
@@ -291,11 +324,8 @@ export function setParticlesVisible(v: boolean) {
 export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5) {
   const m = map;
   if (!m) return;
-  const wide = window.innerWidth >= 760;
   m.fitBounds(b, {
-    padding: wide
-      ? { top: 90, bottom: 60, left: 360, right: 440 }
-      : { top: 110, bottom: window.innerHeight * 0.5, left: 20, right: 20 },
+    padding: viewPadding({ detail: true }),
     maxZoom,
     duration: 1600,
     essential: true,

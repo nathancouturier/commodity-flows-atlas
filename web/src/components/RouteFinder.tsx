@@ -7,17 +7,26 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { Lane, LaneFile, Route } from '../types';
 import { commodityMeta, countryName } from '../lib/data';
-import { LANE_GROUPS, chokepointName, loadLaneFile, loadRoutes, vesselName } from '../lib/freight';
+import { LANE_GROUPS, chokepointName, familyLabel, loadLaneFile, loadRoutes, sameVesselFamily, vesselName, type LaneStatus } from '../lib/freight';
 import { fmt, pct } from '../lib/format';
 import { rfCommodity, rfDest, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { SourceLine } from './ui';
 
 type Row = { lane: Lane; file: LaneFile };
 
-const commodityLabel = (k: string) => commodityMeta(k)?.name ?? k;
+/** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
+const COAL = 'coal';
+const commodityLabel = (k: string) => (k === COAL ? 'Coal (thermal + met)' : (commodityMeta(k)?.name ?? k));
+const groupsOf = (k: string) => (k === COAL ? ['coal'] : (LANE_GROUPS[k] ?? []));
+const OPTIONS = [COAL, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'thermal-coal' && id !== 'met-coal')];
+/** Below this volume a lane is not offered as a destination (and never shown as "0.0 Mt"). */
+const MIN_FLOW = 0.05;
+const OTHER = '__other';
 
 export function RouteFinder() {
-  const k = rfCommodity.value;
+  const k0 = rfCommodity.value;
+  const k = k0 === 'thermal-coal' || k0 === 'met-coal' ? COAL : k0;
+  const [otherMode, setOtherMode] = useState(false);
   const origin = rfOrigin.value;
   const dest = rfDest.value;
   const [rows, setRows] = useState<Row[] | null>(null);
@@ -27,7 +36,7 @@ export function RouteFinder() {
   useEffect(() => {
     let live = true;
     setRows(null);
-    Promise.all((LANE_GROUPS[k] ?? []).map((g) => loadLaneFile(g).catch(() => null))).then((files) => {
+    Promise.all(groupsOf(k).map((g) => loadLaneFile(g).catch(() => null))).then((files) => {
       if (live) setRows(files.flatMap((f) => (f ? f.lanes.map((lane) => ({ lane, file: f })) : [])));
     });
     return () => {
@@ -41,16 +50,19 @@ export function RouteFinder() {
   const origins = useMemo(() => {
     const sum = new Map<string, number>();
     for (const { lane } of rows ?? []) sum.set(lane.o, (sum.get(lane.o) ?? 0) + lane.flow.v);
-    return [...sum].sort((a, b) => b[1] - a[1]);
+    return [...sum].filter(([, v]) => v >= MIN_FLOW).sort((a, b) => b[1] - a[1]);
   }, [rows]);
 
   const { dests, others } = useMemo(() => {
     const mine = (rows ?? []).filter((r) => r.lane.o === origin).sort((a, b) => b.lane.flow.v - a.lane.flow.v);
-    const have = new Set(mine.map((r) => r.lane.d));
+    const big = mine.filter((r) => r.lane.flow.v >= MIN_FLOW);
+    const have = new Set(big.map((r) => r.lane.d));
+    // everything else (small or absent flows) sits behind "Other destination…"
     const rest = [...new Set((rows ?? []).map((r) => r.lane.d))].filter((d) => !have.has(d) && d !== origin);
     rest.sort((a, b) => countryName(a).localeCompare(countryName(b)));
-    return { dests: mine, others: rest };
+    return { dests: big, others: rest };
   }, [rows, origin]);
+  const showOther = otherMode || (!!dest && others.includes(dest));
 
   const match = origin && dest ? rows?.find((r) => r.lane.o === origin && r.lane.d === dest) : undefined;
   const complete = !!(origin && dest && rows);
@@ -73,12 +85,14 @@ export function RouteFinder() {
             rfCommodity.value = (e.target as HTMLSelectElement).value;
             rfOrigin.value = null;
             rfDest.value = null;
+            setOtherMode(false);
           }}
         >
-          {Object.keys(LANE_GROUPS).map((id) => (
+          {OPTIONS.map((id) => (
             <option value={id}>{commodityLabel(id)}</option>
           ))}
         </select>
+        {k === COAL && <small class="rf-note">Customs data do not separate thermal and metallurgical coal.</small>}
       </label>
       <label class="rf-field">
         <span>Origin</span>
@@ -89,6 +103,7 @@ export function RouteFinder() {
           onChange={(e) => {
             rfOrigin.value = (e.target as HTMLSelectElement).value || null;
             rfDest.value = null;
+            setOtherMode(false);
           }}
         >
           <option value="">{rows ? 'Select origin…' : 'Loading…'}</option>
@@ -103,9 +118,18 @@ export function RouteFinder() {
         <span>Destination</span>
         <select
           class="rf-select"
-          value={dest ?? ''}
+          value={showOther ? OTHER : (dest ?? '')}
           disabled={!origin}
-          onChange={(e) => (rfDest.value = (e.target as HTMLSelectElement).value || null)}
+          onChange={(e) => {
+            const v = (e.target as HTMLSelectElement).value;
+            if (v === OTHER) {
+              setOtherMode(true);
+              rfDest.value = null;
+            } else {
+              setOtherMode(false);
+              rfDest.value = v || null;
+            }
+          }}
         >
           <option value="">Select destination…</option>
           {dests.map(({ lane }) => (
@@ -113,15 +137,20 @@ export function RouteFinder() {
               {countryName(lane.d)} · {fmt(lane.flow.v)} {unit}
             </option>
           ))}
-          {others.length > 0 && (
-            <optgroup label="Other destinations">
-              {others.map((d) => (
-                <option value={d}>{countryName(d)}</option>
-              ))}
-            </optgroup>
-          )}
+          {others.length > 0 && <option value={OTHER}>Other destination…</option>}
         </select>
       </label>
+      {showOther && (
+        <label class="rf-field">
+          <span>Other destination</span>
+          <select class="rf-select" value={dest ?? ''} onChange={(e) => (rfDest.value = (e.target as HTMLSelectElement).value || null)}>
+            <option value="">Select country…</option>
+            {others.map((d) => (
+              <option value={d}>{countryName(d)}</option>
+            ))}
+          </select>
+        </label>
+      )}
 
       {complete && !match && (
         <div class="rf-card">
@@ -136,6 +165,9 @@ export function RouteFinder() {
 function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
   const { lane, file } = row;
   const name = file.label || commodityLabel(lane.k);
+  const portNames = (ids: string[]) => ids.map((id) => file.ports[id]?.name ?? id).join(', ');
+  const status = (lane as Lane & { status?: LaneStatus[] }).status ?? [];
+  const typical = lane.vclass[0];
   return (
     <div class="rf-card">
       <div class="rf-title">
@@ -171,6 +203,27 @@ function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
         </div>
       </dl>
       <SourceLine s={lane.flow.s} y={lane.flow.y} n="flow and shares" />
+
+      <dl class="rf-stats rf-ports">
+        <div>
+          <dt>Load port{lane.load.length > 1 ? 's' : ''}</dt>
+          <dd>{lane.load.length ? portNames(lane.load) : 'n/a'}</dd>
+        </div>
+        <div>
+          <dt>Discharge port{lane.discharge.length > 1 ? 's' : ''}</dt>
+          <dd>{lane.discharge.length ? portNames(lane.discharge) : 'n/a'}</dd>
+        </div>
+      </dl>
+      {status.map((st) => (
+        <div class="rf-status" role="note">
+          <span>{st.text}</span>
+          {st.event && (
+            <button class="rf-status-link" onClick={() => select({ kind: 'event', id: st.event! })}>
+              View event
+            </button>
+          )}
+        </div>
+      ))}
 
       <div class="rf-sub">Typical vessel class</div>
       <div class="rf-tags">
@@ -217,7 +270,9 @@ function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
             <button class="list-btn rf-route" onClick={() => select({ kind: 'route', id: r.id })}>
               {r.benchmark && <span class="code">{r.id}</span>}
               <span class="rf-route-name">{r.name}</span>
-              <span class="meta">{vesselName(r.vclass)}</span>
+              <span class="meta">
+                {typical && r.vclass !== typical && sameVesselFamily(typical, r.vclass) ? (familyLabel(r.vclass) ?? vesselName(r.vclass)) : vesselName(r.vclass)}
+              </span>
             </button>
           ))}
         </>

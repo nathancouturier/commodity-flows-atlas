@@ -1,4 +1,4 @@
-import { family, select, commodity, layers, type FamilyFilter } from '../lib/store';
+import { family, select, commodity, setFamily, type FamilyFilter } from '../lib/store';
 import { FAMILY_COLOR } from '../lib/format';
 import { BrandMark } from './ui';
 import { priceDrawer, historyOpen } from '../lib/store';
@@ -15,25 +15,25 @@ const TABS: { id: FamilyFilter; label: string }[] = [
 export function TopBar() {
   return (
     <header class="topbar">
-      <a class="brand glass" href="./" aria-label="Commodity Flows Atlas home" style={{ textDecoration: 'none', color: 'inherit' }}>
-        <BrandMark />
-        <span class="brand-name">
-          Commodity Flows Atlas
-          <small>Raw materials · trade · freight</small>
-        </span>
-      </a>
+      <div class="brand glass">
+        <h1 class="brand-h1">
+          <a class="brand-link" href="./">
+            <BrandMark />
+            <span class="brand-name">
+              Commodity Flows Atlas
+              <small aria-hidden="true">Raw materials · trade · freight</small>
+            </span>
+          </a>
+        </h1>
+      </div>
       <nav class="family-tabs glass" aria-label="Commodity family">
         {TABS.map((t) => (
           <button
             class="family-tab"
             aria-pressed={family.value === t.id}
             onClick={() => {
-              // the Freight tab brings routes and chokepoints in; other tabs return to flows only
-              const toFreight = t.id === 'freight';
-              if (toFreight !== (family.value === 'freight')) {
-                layers.value = { ...layers.value, routes: toFreight, chokepoints: toFreight };
-              }
-              family.value = t.id;
+              // the Freight tab brings routes and chokepoints in and switches Physical flows off
+              setFamily(t.id);
               commodity.value = null;
               select(null);
             }}

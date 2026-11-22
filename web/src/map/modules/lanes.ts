@@ -57,14 +57,17 @@ registerLayerModule(() => {
     void [commodities.value, countries.value, vesselClassList.value, chokepointList.value, sources.value];
 
     const my = ++seq;
-    if (!on) {
+    const selLane0 = sel?.kind === 'lane' ? sel.id : null;
+    // with Physical flows off (e.g. on the Freight tab) a selected lane is still drawn
+    if (!on && !selLane0) {
       setLineSet('lanes', []);
       return;
     }
 
     // which groups to load, and how many lanes of each to keep (undefined = all)
     let plan: { group: string; top?: number }[];
-    if (k) plan = (LANE_GROUPS[k] ?? []).map((group) => ({ group }));
+    if (!on) plan = [];
+    else if (k) plan = (LANE_GROUPS[k] ?? []).map((group) => ({ group }));
     else if (fam === 'freight') plan = [];
     else plan = OVERVIEW;
     const selLane = sel?.kind === 'lane' ? sel.id : null;

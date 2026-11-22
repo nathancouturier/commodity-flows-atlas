@@ -1,5 +1,5 @@
 /** Country profile: ranked exports, imports, production shares, infrastructure, companies, lanes. */
-import { useEffect, useMemo } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
 import { loadOptional, countryName, commodityMeta, countries, sourceLabel } from '../../lib/data';
 import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
@@ -7,7 +7,7 @@ import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { infraCapacity, infraColor, infraRef, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourceLine, Kpi, RowBtn, InfraIcon, INFRA_META, CompanyRows } from '../ui';
+import { Section, Placeholder, Skeleton, SourcesLine, Kpi, RowBtn, InfraIcon, INFRA_META, CompanyRows, AlertBanners, StatusBadge, shortSource } from '../ui';
 import { publisher, useLoaded } from './shared';
 
 function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
@@ -30,7 +30,7 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
           >
             <span class="bar-rank">{i + 1}</span>
             <span>
-              <span class="bar-label">{meta?.name ?? e.label ?? e.k}</span>
+              <span class="bar-label">{e.label ?? meta?.name ?? e.k}</span>
               <div class="bar-track">
                 <div class="bar-fill" style={{ width: `${Math.max(2, (e.share ?? 0) * 100)}%`, background: color }} />
               </div>
@@ -43,7 +43,7 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
           </button>
         );
       })}
-      {props.rows[0] && <SourceLine s={props.rows[0].s} y={props.rows[0].y} />}
+      <SourcesLine items={props.rows} />
     </div>
   );
 }
@@ -64,7 +64,8 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
         const out: { lane: Lane; file: LaneFile }[] = [];
         for (const file of files) {
           if (!file) continue;
-          for (const lane of file.lanes) if (lane.o === id || lane.d === id) out.push({ lane, file });
+          // hide lanes that would display as 0.0 Mt
+          for (const lane of file.lanes) if ((lane.o === id || lane.d === id) && lane.flow.v >= (lane.flow.u === 'Mt' ? 0.05 : 1e-9)) out.push({ lane, file });
         }
         return out.sort((a, b) => b.lane.flow.v - a.lane.flow.v).slice(0, 6);
       }),
@@ -78,37 +79,54 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
           key={lane.id}
           title={<>{countryName(lane.o)} <span class="arrow">→</span> {countryName(lane.d)}</>}
           sub={file.label ?? commodityMeta(lane.k)?.name ?? file.group}
-          meta={<>{fmt(lane.flow.v)} {lane.flow.u}<small>{lane.flow.y}</small></>}
+          meta={<>{lane.flow.u === 'Mt' ? lane.flow.v.toFixed(1) : fmt(lane.flow.v)} {lane.flow.u}<small>{lane.flow.y}</small></>}
           tip={`${sourceLabel(lane.flow.s)} · ${lane.flow.y}`}
           onClick={() => select({ kind: 'lane', id: lane.id })}
         />
       ))}
-      <SourceLine s={lanes[0].lane.flow.s} y={lanes[0].lane.flow.y} n="largest lanes of this country's main commodities" />
+      <SourcesLine items={lanes.map((l) => l.lane.flow)} n="largest lanes of this country's main commodities" />
     </Section>
   );
 }
 
 function CountryInfra({ ids }: { ids: string[] }) {
   const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
+  const [showAll, setShowAll] = useState(false);
   const items = useMemo(() => {
     if (!all) return [];
     const map = new Map(all.map((f) => [`${f.p.type}:${f.p.id}`, f]));
     return ids.map((k) => map.get(k)).filter((f): f is InfraFeature => !!f);
   }, [all, ids.join()]);
   if (!items.length) return null;
+  const shown = showAll ? items : items.slice(0, 8);
   return (
-    <Section title="Main infrastructure">
-      {items.slice(0, 8).map((f) => (
+    <Section title="Main infrastructure" aside={<span class="muted num">{items.length}</span>}>
+      {shown.map((f) => (
         <RowBtn
           key={f.p.type + f.p.id}
           lead={<InfraIcon type={f.p.type} color={infraColor(f)} size={22} />}
           title={f.p.name}
-          sub={[INFRA_META[f.p.type].label, f.p.capacity ? infraCapacity(f.p) : null].filter(Boolean).join(' · ')}
+          sub={
+            <>
+              {[INFRA_META[f.p.type].label, f.p.capacity ? infraCapacity(f.p) : null].filter(Boolean).join(' · ')}
+              {f.p.status && (
+                <>
+                  {' '}
+                  <StatusBadge status={f.p.status} />
+                </>
+              )}
+            </>
+          }
           tip={`${sourceLabel(f.p.s)} · ${f.p.y}`}
           onClick={() => select(infraRef(f))}
         />
       ))}
-      <SourceLine s={items[0].p.s} y={items[0].p.y} n="capacity per asset in its own panel" />
+      {items.length > 8 && (
+        <button class="act-btn" onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
+          {showAll ? 'Show fewer' : `Show all ${items.length}`}
+        </button>
+      )}
+      <SourcesLine items={shown.map((f) => f.p)} n="capacity per asset in its own panel" />
     </Section>
   );
 }
@@ -129,8 +147,8 @@ export default function CountryView({ id }: { id: string }) {
     const all = [...p.exports, ...p.imports, ...p.production];
     const top10 = new Set(all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k)).map((e) => e.k));
     const ents = all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k));
-    const pubs = [...new Set(ents.map((e) => publisher(e.s)))];
-    const srcs = pubs[0] + (pubs.length > 1 ? ` +${pubs.length - 1}` : '');
+    const pubs = [...new Set(ents.map((e) => shortSource(e.s)))];
+    const srcs = `${pubs.length > 1 ? 'Sources' : 'Source'}: ${pubs.join(', ')}`;
     const yrs = [...new Set(ents.map((e) => String(e.y)))].sort();
     const yr = yrs.length > 1 ? `${yrs[0]}–${yrs[yrs.length - 1]}` : (yrs[0] ?? '');
     const topExp = [...p.exports].filter((e) => e.usd != null).sort(byUsd)[0];
@@ -148,7 +166,7 @@ export default function CountryView({ id }: { id: string }) {
           <Kpi
             label={`Largest export`}
             value={`${fmt(topExp.usd)} bn USD`}
-            sub={`${commodityMeta(topExp.k)?.name ?? topExp.label ?? topExp.k} · ${publisher(topExp.s)} · ${topExp.y}`}
+            sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · ${shortSource(topExp.s)} · ${topExp.y}`}
             title={`${sourceLabel(topExp.s)} · ${topExp.y}`}
           />
         )}
@@ -166,6 +184,7 @@ export default function CountryView({ id }: { id: string }) {
         {kpis}
       </div>
       <div class="panel-scroll">
+        <AlertBanners country={id} />
         {p === undefined ? (
           <Skeleton lines={6} />
         ) : p === null ? (
@@ -198,6 +217,7 @@ export default function CountryView({ id }: { id: string }) {
                     tip={`${sourceLabel(e.s)} · ${e.y}`}
                   />
                 ))}
+                <SourcesLine items={p.other} />
               </Section>
             )}
             {p.infra && p.infra.length > 0 && <CountryInfra ids={p.infra} />}

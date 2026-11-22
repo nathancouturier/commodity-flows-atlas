@@ -728,6 +728,289 @@
      49.29
     ]
    }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "odesa",
+    "name": "Odesa",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn"
+    ],
+    "c": "UKR",
+    "operator": "Ukrainian Sea Ports Authority",
+    "note": "Grain terminals in the north of the port; stated annual traffic capacity 40 Mt, of which 15 Mt dry bulk (undated).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Odesa"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     30.744,
+     46.504
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chornomorsk",
+    "name": "Chornomorsk",
+    "type": "port",
+    "k": [
+     "corn",
+     "wheat"
+    ],
+    "c": "UKR",
+    "operator": "Ukrainian Sea Ports Authority",
+    "note": "Approximate location (Chornomorsk city); Black Sea grain export corridor port.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Chornomorsk"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     30.657,
+     46.302
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "constanta",
+    "name": "Constanta",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn"
+    ],
+    "c": "ROU",
+    "operator": "Constanta Port Administration",
+    "capacity": {
+     "v": 5,
+     "u": "Mt/y combined traffic capacity of two cereal terminals (undated)"
+    },
+    "status": "operating",
+    "note": "Total port cargo 92.7 Mt in 2023; North terminal 2.5 Mt/y and South terminal 2.5 Mt/y.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     28.638,
+     44.173
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "novorossiysk",
+    "name": "Novorossiysk",
+    "type": "port",
+    "k": [
+     "wheat"
+    ],
+    "c": "RUS",
+    "status": "operating",
+    "note": "Cargo turnover 154.9 Mt in 2018; grain terminals include Novorossiysk Grain Terminal (NZT) and KSK.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     37.783,
+     44.733
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tema",
+    "name": "Tema",
+    "type": "port",
+    "k": [
+     "cocoa"
+    ],
+    "c": "GHA",
+    "operator": "Ghana Ports and Harbours Authority",
+    "status": "operating",
+    "note": "Page says it primarily sends cocoa beans and handles 80% of Ghana's trade (undated).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tema_Harbour"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     0.0,
+     5.633
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-klang",
+    "name": "Port Klang",
+    "type": "port",
+    "k": [
+     "palm-oil"
+    ],
+    "c": "MYS",
+    "operator": "Klang Port Authority",
+    "status": "operating",
+    "note": "Palm oil and latex historically key exports; no volume given on source page.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_Klang"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     101.4,
+     3.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "itaqui",
+    "name": "Itaqui (Sao Luis)",
+    "type": "port",
+    "k": [
+     "soybeans"
+    ],
+    "c": "BRA",
+    "operator": "Maranhao Port Administration",
+    "status": "operating",
+    "note": "Grain silo storage listed at 12 kt vertical plus 8 kt horizontal (page); also aluminium, pig iron and copper cargo.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Itaqui"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -44.364,
+     -2.573
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rosario-up-river",
+    "name": "Rosario (Up-River Parana)",
+    "type": "port",
+    "k": [
+     "soybeans",
+     "soymeal",
+     "corn",
+     "wheat",
+     "soyoil"
+    ],
+    "c": "ARG",
+    "operator": "Rosario Port",
+    "status": "operating",
+    "note": "Argentina's leading grain export hub since 1960; page cites 2.9 Mt traffic in 2003 for the municipal port only, the Up-River complex is far larger.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Rosario"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -60.618,
+     -32.971
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jorf-lasfar",
+    "name": "Jorf Lasfar",
+    "type": "port",
+    "k": [
+     "phosphate"
+    ],
+    "c": "MAR",
+    "operator": "OCP Group",
+    "status": "operating",
+    "note": "OCP phosphate fertiliser processing complex and export port.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Jorf_Lasfar"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -8.62,
+     33.127
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "belawan",
+    "name": "Belawan (Medan)",
+    "type": "port",
+    "k": [
+     "palm-oil"
+    ],
+    "c": "IDN",
+    "operator": "Pelindo",
+    "status": "operating",
+    "note": "North Sumatra port tied to palm oil plantations; container capacity 1.2 million TEU/y (2013).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Belawan"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     98.691,
+     3.783
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "johor-port-pasir-gudang",
+    "name": "Johor Port (Pasir Gudang)",
+    "type": "port",
+    "k": [
+     "palm-oil"
+    ],
+    "c": "MYS",
+    "operator": "Johor Port",
+    "status": "operating",
+    "note": "Oil palm storage and distribution at Johor Port and Tanjung Langsat.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Pasir_Gudang"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.936,
+     1.503
+    ]
+   }
   }
  ]
 }

@@ -6,13 +6,13 @@
  * chokepoint is selected, only the chokepoints it crosses (plus the selected one) are shown,
  * even when the layer itself is on (keeps the map uncluttered).
  */
-import { effect } from '@preact/signals';
+import { effect, signal } from '@preact/signals';
 import maplibregl, { type Map as MLMap } from 'maplibre-gl';
 import type { Chokepoint } from '../../types';
 import { registerLayerModule } from '../layers';
 import { hovered, family, layers, select, selection } from '../../lib/store';
 import { sourceLabel, sources } from '../../lib/data';
-import { chokepointList, laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
+import { MAJOR_CHOKEPOINTS, chokepointList, laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
 
 interface Entry {
@@ -33,7 +33,12 @@ registerLayerModule((m: MLMap) => {
   const container = m.getContainer();
 
   // labels appear from zoom 2 (always on hover)
-  const syncZoom = () => container.classList.toggle('cp-labels', m.getZoom() >= 2);
+  // below zoom 2 only the major chokepoints are shown (the minor ones appear when zooming in)
+  const world = signal(m.getZoom() < 2);
+  const syncZoom = () => {
+    container.classList.toggle('cp-labels', m.getZoom() >= 2);
+    world.value = m.getZoom() < 2;
+  };
   m.on('zoom', syncZoom);
   syncZoom();
 
@@ -71,6 +76,7 @@ registerLayerModule((m: MLMap) => {
   effect(() => {
     const on = layers.value.chokepoints || family.value === 'freight';
     const sel = selection.value;
+    const lowZoom = world.value;
     void chokepointList.value;
     const my = ++seq;
 
@@ -78,7 +84,7 @@ registerLayerModule((m: MLMap) => {
       for (const [id, { el }] of entries) {
         const hit = crossed?.has(id) ?? false;
         // a selection narrows the set to the chokepoints it crosses
-        const visible = crossed ? hit : on;
+        const visible = crossed ? hit : on && (!lowZoom || MAJOR_CHOKEPOINTS.has(id));
         el.classList.toggle('cp-hidden', !visible);
         el.classList.toggle('cp-on', hit);
         el.classList.toggle('cp-sel', id === selectedId);

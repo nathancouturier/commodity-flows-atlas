@@ -50,3 +50,28 @@ export const FAMILY_LABEL: Record<Family, string> = {
 export function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
+
+/**
+ * Choropleth opacity as a function of a country's share of the world total (0..1).
+ * Shared by the map style (paint expression) and the colour-ramp legend.
+ */
+export const SHARE_STOPS: [number, number][] = [
+  [0, 0],
+  [0.005, 0.18],
+  [0.05, 0.42],
+  [0.15, 0.68],
+  [0.35, 0.9],
+];
+
+export function shareOpacity(v: number): number {
+  const s = SHARE_STOPS;
+  if (v <= s[0][0]) return s[0][1];
+  for (let i = 1; i < s.length; i++) {
+    if (v <= s[i][0]) {
+      const [x0, y0] = s[i - 1];
+      const [x1, y1] = s[i];
+      return y0 + ((v - x0) / (x1 - x0)) * (y1 - y0);
+    }
+  }
+  return s[s.length - 1][1];
+}

@@ -2,7 +2,7 @@
  * Left parameters panel: commodity picker, layer toggles, map colouring, filters.
  * Everything beyond the default "flows" layer is one click away here.
  */
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { commodities } from '../lib/data';
 import {
   family,
@@ -16,10 +16,12 @@ import {
   vesselClasses,
   infraTypes,
   toggleInSet,
+  sheetSnap,
   type Metric,
+  type SheetSnap,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselMatches, vesselName } from '../lib/freight';
+import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { Section, Switch, InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
 import type { Family, Route, Segment } from '../types';
@@ -43,7 +45,13 @@ export function SidePanel() {
   const current = commodities.value.find((c) => c.id === commodity.value);
 
   return (
-    <aside class={`side-panel glass ${panelCollapsed.value ? 'collapsed' : ''}`} aria-label="Map parameters">
+    <aside
+      id="controls"
+      tabIndex={-1}
+      class={`side-panel glass snap-${sheetSnap.value} ${panelCollapsed.value ? 'collapsed' : ''}`}
+      aria-label="Map parameters"
+    >
+      <SheetHead summary={current?.name} />
       <div class="panel-scroll">
         <Section title="Map layers">
           <Switch label="Physical flows" checked={layers.value.flows} onChange={(v) => toggleLayer('flows', v)} />
@@ -72,21 +80,29 @@ export function SidePanel() {
             </div>
         <Section title="Colour countries by" aside={current ? <span class="muted">{current.name}</span> : null}>
           <div class="chips" role="radiogroup">
-            {METRICS.map((m) => (
-              <button
-                class="chip"
-                role="radio"
-                aria-checked={metric.value === m.id}
-                aria-pressed={metric.value === m.id}
-                disabled={m.id !== 'none' && !current}
-                style={{ opacity: m.id !== 'none' && !current ? 0.4 : 1 }}
-                onClick={() => (metric.value = m.id)}
-              >
-                {m.label}
-              </button>
-            ))}
+            {METRICS.map((m) => {
+              const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
+              const off = m.id !== 'none' && (!current || noData);
+              return (
+                <button
+                  class="chip"
+                  role="radio"
+                  aria-checked={metric.value === m.id}
+                  aria-pressed={metric.value === m.id}
+                  disabled={off}
+                  title={noData ? 'No free country-level data' : undefined}
+                  style={{ opacity: off ? 0.4 : 1 }}
+                  onClick={() => (metric.value = m.id)}
+                >
+                  {m.label}
+                </button>
+              );
+            })}
           </div>
           {!current && <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Pick a commodity to colour the map.</p>}
+          {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
+            <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Greyed-out options have no free country-level data for {current.name}.</p>
+          )}
         </Section>
 
         {groups.map((g) => {
@@ -174,6 +190,7 @@ function VesselFilter() {
                   class="chip"
                   aria-pressed={sel.has(v.id)}
                   style={{ '--chip-color': SEGMENT_COLOR[seg] }}
+                  title={vesselFamily(v.id).length > 1 ? `Also matches ${vesselFamily(v.id).filter((x) => x !== v.id).map(vesselName).join(', ')}` : undefined}
                   onClick={() => toggleInSet(vesselClasses, v.id)}
                 >
                   {v.name}
@@ -253,5 +270,45 @@ function RouteList() {
       )}
       {!visible.length && <p class="muted" style={{ fontSize: '12px' }}>No routes for the selected vessel classes.</p>}
     </Section>
+  );
+}
+
+// ---------------------------------------------------------------- bottom-sheet header (tablet / phone)
+
+const SNAPS: SheetSnap[] = ['peek', 'half', 'full'];
+
+/** Grab handle of the bottom sheet: tap cycles peek / half / full, a vertical drag steps up or down. */
+function SheetHead({ summary }: { summary?: string }) {
+  const snap = sheetSnap.value;
+  const start = useRef<number | null>(null);
+  const step = (dir: 1 | -1) => {
+    const i = SNAPS.indexOf(sheetSnap.value);
+    sheetSnap.value = SNAPS[Math.max(0, Math.min(SNAPS.length - 1, i + dir))];
+  };
+  return (
+    <div class="sheet-head">
+      <button
+        class="sheet-handle"
+        aria-label={`Resize panel, now ${snap === 'peek' ? 'minimised' : snap === 'half' ? 'half height' : 'full height'}`}
+        onPointerDown={(e) => {
+          start.current = e.clientY;
+          (e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+        }}
+        onPointerUp={(e) => {
+          const dy = start.current == null ? 0 : e.clientY - start.current;
+          start.current = null;
+          if (Math.abs(dy) > 24) step(dy < 0 ? 1 : -1);
+          else sheetSnap.value = SNAPS[(SNAPS.indexOf(sheetSnap.value) + 1) % SNAPS.length];
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowUp') step(1);
+          else if (e.key === 'ArrowDown') step(-1);
+        }}
+        onClick={(e) => e.detail === 0 && (sheetSnap.value = SNAPS[(SNAPS.indexOf(sheetSnap.value) + 1) % SNAPS.length])}
+      >
+        <span class="sheet-grip" aria-hidden="true" />
+      </button>
+      <div class="sheet-summary">{summary ? `${summary} · map controls` : 'Map layers, commodities, route finder'}</div>
+    </div>
   );
 }

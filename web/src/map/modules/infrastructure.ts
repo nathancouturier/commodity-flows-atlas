@@ -28,7 +28,8 @@ export interface InfraFeature {
   pri: 0 | 1;
 }
 
-const FILES = ['mines', 'smelters', 'ports', 'fields', 'refineries', 'lng', 'lng-export', 'lng-import', 'pipelines'];
+// lng.geojson holds both 'lng-export' and 'lng-import' features (told apart by properties.type)
+const FILES = ['mines', 'smelters', 'ports', 'fields', 'refineries', 'lng', 'pipelines'];
 let infraPromise: Promise<InfraFeature[]> | null = null;
 
 function lineCoords(g: Geometry): [number, number][] {
@@ -101,6 +102,22 @@ export function isOperating(status?: string): boolean {
   return !status || /operat|active|producing/i.test(status);
 }
 
+export type StatusClass = 'ok' | 'damaged' | 'idle' | 'planned';
+
+/** Visual class of an asset status: damaged = red, idle / suspended = amber, construction / planned = grey dashed. */
+export function statusClass(status?: string): StatusClass {
+  if (isOperating(status)) return 'ok';
+  if (/damag|destroy|attack|struck|\bhit\b/i.test(status!)) return 'damaged';
+  if (/construct|planned|propos|commission|develop|build/i.test(status!)) return 'planned';
+  return 'idle';
+}
+
+export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
+  damaged: '#ff4d5e',
+  idle: '#ffc233',
+  planned: '#9aa7b5',
+};
+
 export function infraRef(f: InfraFeature) {
   return { kind: 'infra' as const, id: f.p.id, layer: f.p.type };
 }
@@ -140,8 +157,22 @@ export function pipelineColor(k: string[]): string {
 const ICON_PX = 56; // 28 css px at pixelRatio 2
 const iconPending = new Map<string, Promise<void>>();
 
-function ensureIcon(m: MLMap, type: InfraType, color: string): Promise<string> {
-  const name = `infra-${type}-${color.slice(1)}`;
+/** Status decoration drawn over the base 28x28 icon (inserted before the closing </svg>). */
+function statusSvg(st: StatusClass): string {
+  if (st === 'ok') return '';
+  const c = STATUS_COLOR[st];
+  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6" stroke-dasharray="3 2.4"/>`;
+  const ring = `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="${st === 'damaged' ? 2.4 : 1.8}"/>`;
+  const badge =
+    `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
+    (st === 'damaged'
+      ? '<path d="M23 2.6v3M23 7.1v.3" stroke="#05090f" stroke-width="1.5" stroke-linecap="round"/>'
+      : '<path d="M21.7 3.2v3.6M24.3 3.2v3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>');
+  return ring + badge;
+}
+
+function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): Promise<string> {
+  const name = `infra-${type}-${color.slice(1)}-${st}`;
   if (m.hasImage(name)) return Promise.resolve(name);
   let p = iconPending.get(name);
   if (!p) {
@@ -160,7 +191,8 @@ function ensureIcon(m: MLMap, type: InfraType, color: string): Promise<string> {
         resolve();
       };
       img.onerror = () => resolve();
-      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(infraSvg(type, color, ICON_PX));
+      const svg = infraSvg(type, color, ICON_PX).replace('</svg>', `${statusSvg(st)}</svg>`);
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     });
     iconPending.set(name, p);
   }
@@ -308,7 +340,8 @@ registerLayerModule((m) => {
           if (k && !infraMatches(f.p.k, k)) continue;
         }
         const mine = selCountry ? f.p.c === selCountry || (f.p.cs?.includes(selCountry) ?? false) : true;
-        const op = (isOperating(f.p.status) ? 1 : 0.5) * (mine ? 1 : 0.25);
+        const st = statusClass(f.p.status);
+        const op = (st === 'ok' || st === 'damaged' ? 1 : 0.85) * (mine ? 1 : 0.25);
         if (f.p.type === 'pipeline') {
           for (const coords of f.geom.type === 'LineString' ? [f.geom.coordinates] : f.geom.type === 'MultiLineString' ? f.geom.coordinates : []) {
             lines.push({
@@ -318,10 +351,10 @@ registerLayerModule((m) => {
                 key,
                 id: f.p.id,
                 type: f.p.type,
-                color: pipelineColor(f.p.k),
+                color: st === 'damaged' ? STATUS_COLOR.damaged : st === 'idle' ? STATUS_COLOR.idle : pipelineColor(f.p.k),
                 op,
                 sel: isSelected,
-                dash: !isOperating(f.p.status),
+                dash: st !== 'ok',
                 label: f.p.name,
               },
             });
@@ -338,7 +371,7 @@ registerLayerModule((m) => {
               op,
               sel: isSelected,
               // a commodity or country focus is already uncluttered: show everything
-              pri: k || (selCountry && mine) || isSelected ? 0 : f.pri,
+              pri: k || (selCountry && mine) || isSelected || st === 'damaged' ? 0 : f.pri,
             },
           });
         }
@@ -348,7 +381,7 @@ registerLayerModule((m) => {
       await Promise.all(
         pts.map(async (p) => {
           const f = featByKey.get(p.properties.key)!;
-          p.properties.icon = await ensureIcon(m, f.p.type, infraColor(f));
+          p.properties.icon = await ensureIcon(m, f.p.type, infraColor(f), statusClass(f.p.status));
         }),
       );
       if (my !== seq) return;

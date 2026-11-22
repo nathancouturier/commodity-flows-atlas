@@ -14,6 +14,8 @@ import {
   defaultSeriesIds,
   fmtObsDate,
   fmtPct,
+  firstAtOrAfter,
+  periodStats,
   fmtPrice,
   loadPriceIndex,
   loadSeries,
@@ -93,6 +95,7 @@ export function PriceDrawer() {
   const [win, setWin] = useState<Win | null>(null);
   const [events, setEvents] = useState<FreightEvent[]>([]);
   const [showEvents, setShowEvents] = useState(true);
+  const [indexed, setIndexed] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
   const [lookup, setLookup] = useState<Lookup | null>(null);
   const [query, setQuery] = useState('');
@@ -167,17 +170,20 @@ export function PriceDrawer() {
   const ready = data.length > 0;
   const merged = useMemo(() => (ready ? mergeSeries(data) : null), [data, ready]);
   const colors = useMemo(() => pickColors(data.map((d) => d.meta)), [data]);
+  // "Index to 100": each series rebased at the first observation inside the visible range
+  const baseKey = indexed && win ? data.map((d) => firstAtOrAfter(d, win.min)).join() : '';
   const chartSeries: TimeSeries[] = useMemo(() => {
     if (!merged) return [];
     const u0 = data[0].meta.unit;
     const second = data.find((d) => d.meta.unit !== u0)?.meta.unit;
+    const bases = baseKey ? baseKey.split(',').map((k, i) => (Number(k) >= 0 ? data[i].v[Number(k)]! : null)) : null;
     return data.map((d, i) => ({
-      label: d.meta.name,
-      values: merged.cols[i],
+      label: bases ? `${d.meta.name} (index)` : d.meta.name,
+      values: bases ? merged.cols[i].map((v) => (v == null || bases[i] == null ? null : (v / bases[i]!) * 100)) : merged.cols[i],
       color: colors[i],
-      scale: d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
+      scale: bases || d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
     }));
-  }, [merged, data, colors]);
+  }, [merged, data, colors, baseKey]);
   const xMin = merged ? merged.x[0] : 0;
   const xMax = merged ? merged.x[merged.x.length - 1] : 0;
   const hasDaily = data.some((d) => d.meta.freq === 'D');
@@ -237,7 +243,7 @@ export function PriceDrawer() {
 
   const lookupRows = useMemo(() => {
     if (!lookup || !ready) return null;
-    return data.map((d, i) => rowAt(d, colors[i], lookup.parsed.t));
+    return data.map((d, i) => ({ ...rowAt(d, colors[i], lookup.parsed.t), period: periodAt(d, lookup.parsed) }));
   }, [lookup, data, colors, ready]);
 
   const hoverRows = useMemo(() => {
@@ -337,7 +343,7 @@ export function PriceDrawer() {
 
   const meta = priceIndex.value;
   const shown = RANGES.filter((r) => !r.dailyOnly || hasDaily);
-  const lookupBlock = hoverRows ?? lookupRows;
+  const lookupBlock: Row[] | null = hoverRows ?? lookupRows;
 
   return (
     <section
@@ -362,7 +368,7 @@ export function PriceDrawer() {
                       <i />
                       <span class="pd-chip-name">{d.meta.name}</span>
                       <small class="num" title={chartSeries[i]?.scale === 'y2' ? 'Plotted on the right axis' : undefined}>
-                        {d.meta.unit}
+                        {indexed ? 'index' : d.meta.unit}
                         {chartSeries[i]?.scale === 'y2' ? ' · R' : ''}
                       </small>
                     </button>
@@ -422,6 +428,10 @@ export function PriceDrawer() {
                 </button>
                 {queryErr && <em role="alert">Try 1986, 2008-03 or 2008-03-14</em>}
               </form>
+              <button class="pd-toggle" role="switch" aria-checked={indexed} onClick={() => setIndexed(!indexed)} title="Rebase every series to 100 at the start of the visible range, to compare series in different units">
+                <span class="switch" aria-hidden="true" />
+                Index to 100
+              </button>
               <button class="pd-toggle" role="switch" aria-checked={showEvents} onClick={() => setShowEvents(!showEvents)} title="Freight and market events from the Atlas timeline">
                 <span class="switch" aria-hidden="true" />
                 Events
@@ -444,7 +454,11 @@ export function PriceDrawer() {
                   markers={markers}
                   view={view}
                   onCursor={setHover}
-                  onRange={(min, max) => setWin({ min, max })}
+                  onRange={(min, max) => {
+                    setWin((w) => (w && Math.abs(w.min - min) < 1 && Math.abs(w.max - max) < 1 ? w : { min, max }));
+                    // keep the controlled view in step so that rebasing never snaps a drag-zoom back
+                    if (indexed) setView((v) => (v && Math.abs(v.min - min) < 1 && Math.abs(v.max - max) < 1 ? v : { min, max }));
+                  }}
                   ariaLabel={`Price chart: ${data.map((d) => d.meta.name).join(', ')}`}
                 />
               ) : (
@@ -459,10 +473,12 @@ export function PriceDrawer() {
                   <i />
                   <span>
                     {d.meta.name}: {sourceLabel(d.meta.s)}
+                    {d.meta.basis ? ` · ${d.meta.basis}` : ''}
                     {d.meta.note ? ` · ${d.meta.note}` : ''} · {d.meta.unit} · {d.meta.freq === 'D' ? 'daily' : 'monthly'} {d.meta.start.slice(0, 7)} to {d.meta.end.slice(0, 7)}
                   </span>
                 </div>
               ))}
+              {indexed && <div class="pd-hint">Index: each series = 100 at the start of the visible range; readouts and statistics stay in native units.</div>}
               <div class="pd-hint">Drag to zoom · double-click resets · Esc closes</div>
             </div>
           </div>
@@ -517,11 +533,29 @@ export function PriceDrawer() {
                   <div class="pd-row" key={r.name} style={{ '--c': r.color }}>
                     <i />
                     <span>
-                      <b>{r.name}</b> · <span class="num">{r.date}</span> ·{' '}
+                      {r.period && (
+                        <>
+                          <b>{r.name}</b> · {r.period.label} {r.period.kind}{' '}
+                          <b class="num pd-val">
+                            {fmtPrice(r.period.avg)} {r.unit}
+                          </b>{' '}
+                          · low <b class="num">{fmtPrice(r.period.lo.v)}</b> ({r.period.lo.d}) · high <b class="num">{fmtPrice(r.period.hi.v)}</b> ({r.period.hi.d}) · {r.period.n}{' '}
+                          {r.freq === 'M' ? 'monthly values' : 'observations'} · {r.source}
+                          <br />
+                          <span class="pd-near">Nearest single observation: </span>
+                        </>
+                      )}
+                      {!r.period && (
+                        <>
+                          <b>{r.name}</b> ·{' '}
+                        </>
+                      )}
+                      <span class="num">{r.date}</span> ·{' '}
                       <b class="num pd-val">
                         {r.value} {r.unit}
-                      </b>{' '}
-                      · {r.source}
+                      </b>
+                      {r.freq === 'M' && ' (monthly average)'}
+                      {!r.period && <> · {r.source}</>}
                       {r.gap && <em> · nearest observation, {r.gap} from the date asked</em>}
                     </span>
                   </div>
@@ -537,20 +571,40 @@ export function PriceDrawer() {
   );
 }
 
+type Row = ReturnType<typeof rowAt> & { period?: ReturnType<typeof periodAt> };
+
 function rowAt(d: LoadedSeries, color: string, t: number) {
   const i = nearestIndex(d, t);
   const f = d.meta.freq;
-  if (i < 0) return { name: d.meta.name, color, date: '—', value: '—', unit: d.meta.unit, source: sourceLabel(d.meta.s), gap: null as string | null };
+  if (i < 0) return { name: d.meta.name, color, freq: f, date: '—', value: '—', unit: d.meta.unit, source: sourceLabel(d.meta.s), gap: null as string | null };
   const gapDays = Math.abs(d.x[i] - t) / DAY_S;
   const limit = f === 'D' ? 7 : 45;
   return {
     name: d.meta.name,
     color,
+    freq: f,
     date: fmtObsDate(d.x[i], f),
     value: fmtPrice(d.v[i]),
     unit: d.meta.unit,
     source: sourceLabel(d.meta.s),
     gap: gapDays > limit ? (gapDays > 400 ? `${(gapDays / 365.25).toFixed(1)} years` : `${Math.round(gapDays)} days`) : null,
+  };
+}
+
+/** Average, low and high over the named year or month (year and month lookups only). */
+function periodAt(d: LoadedSeries, p: ParsedDate) {
+  if (p.precision === 'day') return null;
+  const end = endOfPeriod(p) + DAY_S - 1;
+  const st = periodStats(d, p.t, end);
+  if (!st) return null;
+  const f = d.meta.freq;
+  return {
+    label: lookupLabel(p),
+    kind: f === 'M' ? 'average of monthly averages' : 'average',
+    avg: st.avg,
+    n: st.n,
+    lo: { v: st.min.v, d: fmtObsDate(d.x[st.min.i], f) },
+    hi: { v: st.max.v, d: fmtObsDate(d.x[st.max.i], f) },
   };
 }
 
@@ -644,7 +698,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
                       role="option"
                       aria-selected={sel}
                       class="pd-opt"
-                      title={full && !sel ? 'Replaces the series selected in the chips above' : undefined}
+                      title={[m.basis, full && !sel ? 'Replaces the series selected in the chips above' : ''].filter(Boolean).join(' · ') || undefined}
                       onClick={() => {
                         if (sel) {
                           if (props.ids.length > 1) props.onRemove(m.id);
@@ -655,6 +709,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
                       <span class="pd-opt-name">
                         {m.name}
                         <small>{commodityMeta(m.k)?.name ?? m.k}</small>
+                        {m.basis && <em class="pd-opt-basis">{m.basis}</em>}
                       </span>
                       <span class="pd-opt-meta num">
                         {m.unit} · {m.freq === 'D' ? 'daily' : 'monthly'} {m.start.slice(0, 4)}
