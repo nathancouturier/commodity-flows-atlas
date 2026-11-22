@@ -70,9 +70,11 @@ USGS_K10 = {
                f"exports converted to K2O with the K2O content of pure potassium chloride ({K2O_IN_KCL:.3f}, from molar masses)"),
     "bauxite": ("BAUXITE AND ALUMINA", "Bauxite, mine production", 1.0, "customs gross weight against USGS dry tonnes"),
     "phosphate-rock": ("PHOSPHATE ROCK", "Mine production", 1.0, "customs gross weight against USGS marketable production"),
-    "urea": ("NITROGEN (FIXED)AMMONIA", "Plant production", N_IN_UREA,
+    "urea": ("NITROGEN (FIXED) AMMONIA", "Plant production", N_IN_UREA,
              f"urea exports converted to nitrogen with the nitrogen content of urea ({N_IN_UREA:.4f}, from molar masses), against ammonia production in nitrogen content"),
 }
+
+USGS_UNIT = {"potash": " K2O", "urea": " of nitrogen"}
 
 LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm-oil": "palm oil", "iron-ore": "iron ore",
          "phosphate-rock": "phosphate rock", "soymeal": "soybean meal", "soyoil": "soybean oil"}
@@ -116,7 +118,11 @@ def _mt(v):
 def _name(code):
     if not _NAMES:
         iso("x")
-    return _DISPLAY.get(code, code)
+    n = _DISPLAY.get(code, code)
+    return "the " + n if n.startswith(("United ", "Central African", "Dominican")) or n in THE else n
+
+
+THE = {"Bahamas", "Comoros", "Falkland Islands", "Maldives", "Netherlands", "Philippines", "Seychelles", "Solomon Islands"}
 
 
 # ---------------------------------------------------------------- readers of raw/
@@ -158,6 +164,10 @@ def eia_series(keys, raw=RAW):
     return out
 
 
+def _letters(s):
+    return re.sub(r"[^A-Z]", "", s.upper())  # the chapter names carry a dash that the file's encoding garbles
+
+
 def usgs_table(raw=RAW):
     """{(group, year): ({iso: value in thousand tonnes}, set of USGS names not mapped)} for USGS_K10, or None."""
     files = sorted(f for f in (os.listdir(os.path.join(raw, "usgs")) if os.path.isdir(os.path.join(raw, "usgs")) else [])
@@ -168,7 +178,7 @@ def usgs_table(raw=RAW):
     u = u[u["Section"].fillna("").str.startswith("World") & (u["Statistics"] == "Production")]
     out = {}
     for g, (chapter, detail, _, _) in USGS_K10.items():
-        x = u[(u["MCS chapter"] == chapter) & (u["Statistics_detail"] == detail)]
+        x = u[(u["MCS chapter"].fillna("").map(_letters) == _letters(chapter)) & (u["Statistics_detail"] == detail)]
         for r in x.itertuples(index=False):
             v = str(r.Value).replace(",", "").strip()
             if not re.fullmatch(r"\d+(\.\d+)?", v) or r.Country in ("World total", "Other countries"):
@@ -336,12 +346,11 @@ def k10(df, year, usgs):
             continue
         prod = table[(g, uy)]
         x = df[(df["group"] == g) & (df["year"] == year)]
-        tot = x["t"].sum()
         for c, t in x.groupby("o")["t"].sum().sort_values(ascending=False).head(15).items():
             v = t * factor / 1e3  # thousand tonnes on the USGS basis
             p = prod.get(c)
             if p is None:
-                if t >= 0.5e6 and t >= 0.02 * tot:
+                if t >= 0.5e6:
                     out.append({"check": "K10", "group": g, "year": year, "country": c, "kind": "unlisted", "value": round(t / 1e6, 3),
                                 "reference": None, "ratio": None, "level": "flag", "usgs": fname,
                                 "text": f"{label(g)} exports of {_name(c)}: {_mt(t / 1e6)} in {year} (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries ({uy})"})
@@ -350,7 +359,7 @@ def k10(df, year, usgs):
                 out.append({"check": "K10", "group": g, "year": year, "country": c, "kind": "above-production", "value": round(t / 1e6, 3),
                             "reference": round(p / 1e3, 3), "ratio": round(v / p, 3), "level": "flag", "usgs": fname,
                             "text": (f"{label(g)} exports of {_name(c)} in customs data ({_mt(t / 1e6)} in {year}, CEPII BACI) are {v / p:.0%} of its "
-                                     f"production in the USGS Mineral Commodity Summaries ({_mt(p / 1e3)} in {uy}); {basis}")})
+                                     f"production in the USGS Mineral Commodity Summaries ({_mt(p / 1e3)}{USGS_UNIT.get(g, '')} in {uy}); {basis}")})
     return out
 
 

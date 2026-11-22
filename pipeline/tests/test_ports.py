@@ -123,6 +123,8 @@ class G11(unittest.TestCase):
                 ok = {r.code for r in rows if group in r.families or seg in r.families}
                 legacy = ports.LEGACY_P.get(iso, {})
                 ok |= {legacy[k] for k in (seg, "ore") if k in legacy and (k == seg or seg in ("bauxite", "alumina", "manganese", "nickel"))}
+                if seg in ports.ENERGY_SEGMENTS and "any" in legacy:
+                    ok.add(legacy["any"])  # the present oil and gas port of the country, kept until a page is read
                 with self.subTest(iso=iso, group=group):
                     self.assertIn(code, ok)
 

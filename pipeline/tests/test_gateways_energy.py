@@ -127,9 +127,10 @@ class G10Rows(unittest.TestCase):
             if r[4] == "wikipedia":
                 self.assertTrue(r[5].startswith("https://en.wikipedia.org/wiki/"), r)
         for code, (name, iso3, lon, lat) in EN.MANUAL_EXTRA.items():
-            src, url = EN.MANUAL_SRC[code]
-            self.assertIn(src, ids, code)
-            self.assertTrue(url.startswith("https://"), code)
+            meta = EN.MANUAL_SRC[code]
+            self.assertIn(meta["s"], ids, code)
+            self.assertTrue(meta["url"].startswith("https://"), code)
+            self.assertIn(meta["zone"], PLAN_ZONES | set(EN.EXTRA_ZONES), code)
 
     def test_no_duplicate_row(self):
         for iso3, lst in EN.G.items():
@@ -178,7 +179,7 @@ class G05UaeCrude(unittest.TestCase):
         self.assertEqual(r[0][1], "gulf-of-oman")
         inside = [x for x in r if x[1] == "meg"]
         self.assertTrue(inside)
-        self.assertIn(inside[0][0], ("AEJED", "AERUW"))
+        self.assertEqual(inside[0][0], "AEDAS")  # Das Island: the page says it exports crude from the Gulf
 
     def test_hormuz_only_on_the_gulf_option(self):
         try:
@@ -258,11 +259,19 @@ class M08Transit(unittest.TestCase):
         self.assertEqual(m["KZCPC"][1], "RUS")
 
     def test_the_cases_of_the_plan(self):
-        # crude KAZ-ITA, copper concentrate SRB-CHN, coffee UGA-ITA, potash UZB-BRA must have a transit port,
-        # or be listed in UNSOURCED with the reason
-        for iso3, fam in (("SRB", "drybulk"), ("UGA", "soft")):
-            self.assertIsNotNone(EN.transit(iso3, fam), (iso3, fam))
-        self.assertTrue(EN.transit("UZB", "fert") is not None or "UZB" in EN.UNSOURCED)
+        # crude KAZ-ITA, coffee UGA-ITA and potash UZB-BRA have a transit port; copper concentrate SRB-CHN has
+        # none (no page read for Serbia's non-crude cargo): it stays listed in UNSOURCED with the reason
+        self.assertIsNotNone(EN.transit("UGA", "soft"))
+        self.assertEqual(EN.transit("UZB", "fert")[0], "GEPTI")
+        self.assertEqual(EN.transit("SRB", "crude")[0], "HROMI")
+        self.assertIsNone(EN.transit("SRB", "drybulk"))
+        self.assertIn("SRB", EN.UNSOURCED)
+
+    def test_unsourced_countries_have_no_transit_row_for_every_family(self):
+        for iso3, why in EN.UNSOURCED.items():
+            self.assertTrue(why)
+            if iso3 not in EN.TRANSIT:
+                self.assertIsNone(EN.transit(iso3, "soft"), iso3)
 
     def test_family_row_wins_over_default(self):
         self.assertEqual(EN.transit("AZE", "crude")[0], "TRCEY")

@@ -198,11 +198,19 @@ def _legacy_strict(iso3, group):
     seg = SEGMENT.get(group, "any")
     table = LEGACY_P.get(iso3) or {}
     keys = [seg] + (["ore"] if seg in ("bauxite", "alumina", "manganese", "nickel") else [])
+    if seg in ENERGY_SEGMENTS:
+        # The "any" entry of the legacy table is the country's oil and gas port (Mongstad for Norway, Ulsan for
+        # Korea). A country whose new rows cover one energy family (LNG terminals from the atlas's layer) keeps its
+        # present port for the others until a page is read for them (plan 2.4: "the country keeps its present port").
+        keys.append("any")
     for key in keys:
         code = table.get(key)
         if code and (code in MANUAL or code in _sr):
             return code
     return None
+
+
+ENERGY_SEGMENTS = ("crude", "products", "lpg", "lng")
 
 
 # ------------------------------------------------------------------ the new tables
@@ -264,6 +272,8 @@ def load_modules(names=MODULES):
                     seen.add((r.code, r.role, r.families))
         for code, v in getattr(mod, "MANUAL_EXTRA", {}).items():
             MANUAL.setdefault(code, tuple(v))
+        for code, v in getattr(mod, "MANUAL_SRC", {}).items():
+            MANUAL_SRC.setdefault(code, dict(v))
         zones.update(getattr(mod, "ZONES", {}))
         zocean.update(getattr(mod, "ZONE_OCEAN", {}))
         rules.extend(getattr(mod, "COAST_RULES", []))
@@ -510,7 +520,7 @@ def assign(o, d, group):
     for role, iso, cands, other, ocands, orole in ends:
         other_port = ocands[0][0] if ocands else None
         for rule in _rules_for(iso, group, role):
-            two = rule["kind"] == "ocean" and any(r["kind"] == "ocean" and r["country"] == other for r in COAST_RULES)
+            two = bool(rule.get("two_ocean")) and any(r.get("two_ocean") and r["country"] == other for r in COAST_RULES)
             pick = _apply_rule(rule, iso, group, role, other, other_port, two)
             if not pick:
                 continue

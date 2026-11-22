@@ -131,9 +131,15 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import clean as clean_baci  # noqa: E402
+from clean import CODE_FIX, XAS, clean as clean_baci  # noqa: E402
 
-BACI_OVERRIDE = {"S19": "TWN"}  # BACI "Other Asia, nes" = Taiwan
+BACI_OVERRIDE = CODE_FIX  # BACI "Other Asia, nes" = Taiwan (one mapping, pipeline/trade/clean.py)
+# codes that are not countries of the index: territories without a polygon and the pseudo-place XAS
+try:
+    EXTRA_CODES = {p["c"] for p in json.load(open(os.path.join(ROOT, "pipeline", "geo", "places_extra.json"), encoding="utf-8"))}
+except (OSError, ValueError, KeyError, TypeError):
+    EXTRA_CODES = set()
+EXTRA_CODES.add(XAS)
 UNKNOWN = defaultdict(set)
 
 
@@ -552,7 +558,7 @@ class Baci:
 
     def iso(self, code):
         code = BACI_OVERRIDE.get(code, code)
-        if code in ISO_SET:
+        if code in ISO_SET or code in EXTRA_CODES:
             return code
         UNKNOWN["baci"].add(code)
         return None
@@ -568,7 +574,7 @@ class Baci:
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
         rows = []
         for code, r in agg.head(TOP + 5).iterrows():
-            iso = self.iso(code)
+            iso = None if code in EXTRA_CODES else self.iso(code)  # ranked tables (and country profiles) list countries of the index only
             es = r["te"] / r["t"] if r["t"] else 0
             note = None
             if code in BACI_OVERRIDE:
