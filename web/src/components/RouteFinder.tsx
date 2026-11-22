@@ -1,85 +1,147 @@
 /**
  * Route finder: "if I buy coal from Indonesia to China, which route and vessel class is
  * typical, and what share of that trade does it represent?"
- * Answers from the seaborne lane files (CEPII BACI customs data + Atlas estimates) and
- * links the matching Baltic / benchmark routes.
+ * Answers for every pair CEPII BACI records for the latest year (the pairs files), whether it is drawn as a
+ * lane, only listed, moves overland, moves by sea and overland, or is not recorded. The question can start
+ * from the origin or from the destination and lives in the address (`rf=`).
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import type { Lane, LaneFile, Route } from '../types';
+import { batch } from '@preact/signals';
+import type { CaveatsFile, Lane, LaneFile, PairsFile, Route } from '../types';
 import { commodityMeta, countryName } from '../lib/data';
-import { LANE_GROUPS, chokepointName, familyLabel, loadLaneFile, loadRoutes, sameVesselFamily, vesselName, type LaneStatus } from '../lib/freight';
+import {
+  GROUP_LABEL,
+  LANE_GROUPS,
+  caveatFor,
+  chokepointName,
+  decodePairs,
+  familyLabel,
+  finderCommodity,
+  loadCaveats,
+  loadLaneFile,
+  loadPairs,
+  loadRoutes,
+  originCaveats,
+  sameVesselFamily,
+  vesselName,
+  type LaneStatus,
+  type Pair,
+} from '../lib/freight';
 import { fmt, pct } from '../lib/format';
-import { rfCommodity, rfDest, rfOrigin, routeFinderOpen, select } from '../lib/store';
+import { rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { isSheetLayout } from '../map/controller';
 import { SourceLine } from './ui';
-
-type Row = { lane: Lane; file: LaneFile };
+import '../styles/finder.css';
 
 /** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
 const COAL = 'coal';
 const commodityLabel = (k: string) => (k === COAL ? 'Coal (thermal + met)' : (commodityMeta(k)?.name ?? k));
 const groupsOf = (k: string) => (k === COAL ? ['coal'] : (LANE_GROUPS[k] ?? []));
 const OPTIONS = [COAL, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'thermal-coal' && id !== 'met-coal')];
-/** Below this volume a lane is not offered as a destination (and never shown as "0.0 Mt"). */
-const MIN_FLOW = 0.05;
-const OTHER = '__other';
+/** Below this tonnage (kt) a country is not offered as the starting point of a question. */
+const MIN_KT = 50;
 /** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */
 let autoOpened: string | null = null;
 
+/** Two significant digits: an estimated figure is not printed with more precision than it has. */
+const sig2 = (v: number) => Number(v.toPrecision(2));
+/** Customs tonnes (kt) as Mt, or as kt when small. */
+function tonnage(kt: number, est = false): string {
+  if (kt < 100) return `${Math.max(1, Math.round(kt))} kt`;
+  const mt = kt / 1000;
+  return `${fmt(est ? sig2(mt) : mt)} Mt`;
+}
+const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
+
+type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
+
 export function RouteFinder() {
-  const k0 = rfCommodity.value;
-  const k = k0 === 'thermal-coal' || k0 === 'met-coal' ? COAL : k0;
-  const [otherMode, setOtherMode] = useState(false);
+  const k = OPTIONS.includes(finderCommodity(rfCommodity.value)) ? finderCommodity(rfCommodity.value) : COAL;
+  const from = rfFrom.value;
   const origin = rfOrigin.value;
   const dest = rfDest.value;
-  const [rows, setRows] = useState<Row[] | null>(null);
+  const group = rfGroup.value;
+  const multi = groupsOf(k).length > 1;
+  const [data, setData] = useState<Loaded | 'error' | null>(null);
+  const [caveats, setCaveats] = useState<CaveatsFile | null>(null);
   const [routes, setRoutes] = useState<Route[]>([]);
+  const [laneFile, setLaneFile] = useState<LaneFile | null>(null);
 
-  // load the lane files of the chosen commodity's groups
+  // the pairs files of the chosen commodity's groups: every recorded pair of the latest year
   useEffect(() => {
     let live = true;
-    setRows(null);
-    Promise.all(groupsOf(k).map((g) => loadLaneFile(g).catch(() => null))).then((files) => {
-      if (live) setRows(files.flatMap((f) => (f ? f.lanes.map((lane) => ({ lane, file: f })) : [])));
-    });
+    setData(null);
+    Promise.all(groupsOf(k).map(loadPairs))
+      .then((files) => {
+        if (live) setData({ k, files, pairs: files.flatMap(decodePairs).sort((a, b) => b.kt - a.kt) });
+      })
+      .catch(() => live && setData('error'));
     return () => {
       live = false;
     };
   }, [k]);
   useEffect(() => {
+    loadCaveats().then(setCaveats).catch(() => setCaveats({}));
     loadRoutes().then(setRoutes).catch(() => undefined);
   }, []);
 
-  const origins = useMemo(() => {
+  const ready = data && data !== 'error' && data.k === k ? data : null;
+  const pairs = ready?.pairs ?? [];
+  const lead = from === 'o' ? origin : dest;
+  const other = from === 'o' ? dest : origin;
+  const leadOf = (p: Pair) => (from === 'o' ? p.o : p.d);
+  const otherOf = (p: Pair) => (from === 'o' ? p.d : p.o);
+
+  // the first field: every country with a recorded flow on that side (an origin that customs data do not record, but that carries a caveat, too)
+  const leads = useMemo(() => {
     const sum = new Map<string, number>();
-    for (const { lane } of rows ?? []) sum.set(lane.o, (sum.get(lane.o) ?? 0) + lane.flow.v);
-    return [...sum].filter(([, v]) => v >= MIN_FLOW).sort((a, b) => b[1] - a[1]);
-  }, [rows]);
+    for (const p of pairs) sum.set(leadOf(p), (sum.get(leadOf(p)) ?? 0) + p.kt);
+    const list = [...sum].filter(([, v]) => v >= MIN_KT).sort((a, b) => b[1] - a[1]);
+    if (from === 'o' && caveats) {
+      const gs = groupsOf(k);
+      const unrecorded = new Set(Object.values(caveats).filter((e) => e.o && e.d == null && e.group && gs.includes(e.group)).map((e) => e.o!));
+      for (const c of unrecorded) if (!sum.has(c)) list.push([c, 0]);
+    }
+    if (lead && !list.some(([c]) => c === lead)) list.push([lead, sum.get(lead) ?? 0]);
+    return list;
+  }, [pairs, from, caveats, lead, k]);
 
-  const { dests, others } = useMemo(() => {
-    const mine = (rows ?? []).filter((r) => r.lane.o === origin).sort((a, b) => b.lane.flow.v - a.lane.flow.v);
-    const big = mine.filter((r) => r.lane.flow.v >= MIN_FLOW);
-    const have = new Set(big.map((r) => r.lane.d));
-    // everything else (small or absent flows) sits behind "Other destination…"
-    const rest = [...new Set((rows ?? []).map((r) => r.lane.d))].filter((d) => !have.has(d) && d !== origin);
-    rest.sort((a, b) => countryName(a).localeCompare(countryName(b)));
-    return { dests: big, others: rest };
-  }, [rows, origin]);
-  const showOther = otherMode || (!!dest && others.includes(dest));
+  // the second field: every country with a flow with the first, largest first, one entry per customs group
+  const counterparts = useMemo(() => (lead ? pairs.filter((p) => leadOf(p) === lead) : []), [pairs, lead, from]);
 
-  const match = origin && dest ? rows?.find((r) => r.lane.o === origin && r.lane.d === dest) : undefined;
-  const complete = !!(origin && dest && rows);
-  const unit = rows?.[0]?.file.unit ?? 'Mt';
+  const sel = useMemo(() => {
+    if (!origin || !dest) return undefined;
+    const both = pairs.filter((p) => p.o === origin && p.d === dest);
+    return both.find((p) => p.group === group) ?? both[0];
+  }, [pairs, origin, dest, group]);
 
+  // the lane file of the answer, when the pair is drawn
+  const selGroup = sel?.lane ? sel.group : null;
+  useEffect(() => {
+    if (!selGroup) {
+      setLaneFile(null);
+      return;
+    }
+    let live = true;
+    loadLaneFile(selGroup)
+      .then((f) => live && setLaneFile(f))
+      .catch(() => live && setLaneFile(null));
+    return () => {
+      live = false;
+    };
+  }, [selGroup]);
+  const lane = sel && laneFile?.group === sel.group ? laneFile.lanes.find((l) => l.o === sel.o && l.d === sel.d) : undefined;
+  const pf = sel ? ready?.files.find((f) => f.group === sel.group) : undefined;
+
+  const complete = !!(origin && dest && ready);
   const benchmarks = useMemo(() => {
-    if (!match) return [];
-    const { lane } = match;
-    return routes.filter((r) => r.corridor?.some((c) => c.k === lane.k && c.o.includes(lane.o) && c.d.includes(lane.d)));
-  }, [match, routes]);
+    if (!sel || !pf || sel.kind === 'land') return [];
+    return routes.filter((r) => r.corridor?.some((c) => c.k === pf.k && c.o.includes(sel.o) && c.d.includes(sel.d)));
+  }, [sel, pf, routes]);
 
   const root = useRef<HTMLDivElement>(null);
-  const matchId = match?.lane.id;
-  // bottom-sheet layouts: the answer sits far below the three lists and the open sheet hides the map, so
+  const matchId = lane?.id;
+  // bottom-sheet layouts: the answer sits far below the lists and the open sheet hides the map, so
   // a found route opens its page (the lane is drawn and framed above the sheet); an answer without a lane is scrolled to
   useEffect(() => {
     if (!complete) {
@@ -91,10 +153,36 @@ export function RouteFinder() {
       if (autoOpened === matchId) return;
       autoOpened = matchId;
       select({ kind: 'lane', id: matchId });
-    } else {
+    } else if (!sel?.lane) {
       root.current?.querySelector('.rf-card')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
     }
   }, [complete, matchId]);
+
+  const setLead = (c: string | null) =>
+    batch(() => {
+      if (from === 'o') {
+        rfOrigin.value = c;
+        rfDest.value = null;
+      } else {
+        rfDest.value = c;
+        rfOrigin.value = null;
+      }
+      rfGroup.value = null;
+    });
+  const setOther = (v: string) =>
+    batch(() => {
+      const i = v.indexOf(':');
+      const c = i < 0 ? null : v.slice(i + 1) || null;
+      if (from === 'o') rfDest.value = c;
+      else rfOrigin.value = c;
+      rfGroup.value = c && multi ? v.slice(0, i) : null;
+    });
+
+  const unit = 'Mt';
+  const otherValue = sel ? `${sel.group}:${other}` : other ? `${groupsOf(k)[0]}:${other}` : '';
+  const leadName = from === 'o' ? 'origin' : 'destination';
+  const otherName = from === 'o' ? 'destination' : 'origin';
+  const originCav = from === 'o' && origin && ready && !counterparts.length && caveats ? originCaveats(caveats, groupsOf(k), origin) : [];
 
   return (
     <div class="rf" ref={root}>
@@ -103,12 +191,14 @@ export function RouteFinder() {
         <select
           class="rf-select"
           value={k}
-          onChange={(e) => {
-            rfCommodity.value = (e.target as HTMLSelectElement).value;
-            rfOrigin.value = null;
-            rfDest.value = null;
-            setOtherMode(false);
-          }}
+          onChange={(e) =>
+            batch(() => {
+              rfCommodity.value = (e.target as HTMLSelectElement).value;
+              rfOrigin.value = null;
+              rfDest.value = null;
+              rfGroup.value = null;
+            })
+          }
         >
           {OPTIONS.map((id) => (
             <option value={id}>{commodityLabel(id)}</option>
@@ -116,192 +206,356 @@ export function RouteFinder() {
         </select>
         {k === COAL && <small class="rf-note">Customs data do not separate thermal and metallurgical coal.</small>}
       </label>
+      <div class="rf-switch" role="group" aria-label="Start from">
+        <span>Start from</span>
+        <span class="rf-switch-seg">
+          <button type="button" aria-pressed={from === 'o'} onClick={() => (rfFrom.value = 'o')}>
+            Origin
+          </button>
+          <button type="button" aria-pressed={from === 'd'} onClick={() => (rfFrom.value = 'd')}>
+            Destination
+          </button>
+        </span>
+      </div>
       <label class="rf-field">
-        <span>Origin</span>
-        <select
-          class="rf-select"
-          value={origin ?? ''}
-          disabled={!rows}
-          onChange={(e) => {
-            rfOrigin.value = (e.target as HTMLSelectElement).value || null;
-            rfDest.value = null;
-            setOtherMode(false);
-          }}
-        >
-          <option value="">{rows ? 'Select origin…' : 'Loading…'}</option>
-          {origins.map(([c, v]) => (
+        <span>{from === 'o' ? 'Origin' : 'Destination'}</span>
+        <select class="rf-select" value={lead ?? ''} disabled={!ready} onChange={(e) => setLead((e.target as HTMLSelectElement).value || null)}>
+          <option value="">{data === 'error' ? 'Not available' : ready ? `Select ${leadName}…` : 'Loading…'}</option>
+          {leads.map(([c, v]) => (
             <option value={c}>
-              {countryName(c)} · {fmt(v)} {unit}
+              {countryName(c)} · {v > 0 ? tonnage(v) : 'no recorded tonnage'}
             </option>
           ))}
         </select>
       </label>
       <label class="rf-field">
-        <span>Destination</span>
-        <select
-          class="rf-select"
-          value={showOther ? OTHER : (dest ?? '')}
-          disabled={!origin}
-          onChange={(e) => {
-            const v = (e.target as HTMLSelectElement).value;
-            if (v === OTHER) {
-              setOtherMode(true);
-              rfDest.value = null;
-            } else {
-              setOtherMode(false);
-              rfDest.value = v || null;
-            }
-          }}
-        >
-          <option value="">Select destination…</option>
-          {dests.map(({ lane }) => (
-            <option value={lane.d}>
-              {countryName(lane.d)} · {fmt(lane.flow.v)} {unit}
+        <span>{from === 'o' ? 'Destination' : 'Origin'}</span>
+        <select class="rf-select" value={otherValue} disabled={!lead} onChange={(e) => setOther((e.target as HTMLSelectElement).value)}>
+          <option value="">Select {otherName}…</option>
+          {counterparts.map((p) => (
+            <option value={`${p.group}:${otherOf(p)}`}>
+              {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est), KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
             </option>
           ))}
-          {others.length > 0 && <option value={OTHER}>Other destination…</option>}
+          {other && !sel && <option value={otherValue}>{countryName(other)} · no record</option>}
         </select>
       </label>
-      {showOther && (
-        <label class="rf-field">
-          <span>Other destination</span>
-          <select class="rf-select" value={dest ?? ''} onChange={(e) => (rfDest.value = (e.target as HTMLSelectElement).value || null)}>
-            <option value="">Select country…</option>
-            {others.map((d) => (
-              <option value={d}>{countryName(d)}</option>
-            ))}
-          </select>
-        </label>
-      )}
 
-      {complete && !match && (
+      {data === 'error' && (
         <div class="rf-card">
-          <p class="rf-empty">No significant seaborne flow recorded (CEPII BACI 2024).</p>
+          <p class="rf-empty">The trade table for this commodity could not be loaded.</p>
         </div>
       )}
-      {match && <Result row={match} benchmarks={benchmarks} />}
+      {originCav.length > 0 && origin && (
+        <div class="rf-card">
+          <div class="rf-title">
+            {countryName(origin)}
+            <small>{commodityLabel(k)}</small>
+          </div>
+          {originCav.map(({ id, entry }) => (
+            <div class="rf-status" role="note" key={id}>
+              <span>{entry.text}</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {complete && !sel && (
+        <div class="rf-card">
+          <p class="rf-empty">
+            No trade recorded between {countryName(origin!)} and {countryName(dest!)} for this commodity (CEPII BACI {ready!.files[0]?.y ?? ''}; flows under 1,000 t
+            and USD 1 million are not kept).
+          </p>
+        </div>
+      )}
+      {sel && pf && (
+        <Answer
+          key={`${sel.group}:${sel.o}-${sel.d}`}
+          pair={sel}
+          pf={pf}
+          lane={lane}
+          laneFile={laneFile?.group === sel.group ? laneFile : null}
+          caveats={caveats}
+          benchmarks={benchmarks}
+          name={multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}
+          importsKt={ready!.pairs.filter((p) => p.group === sel.group && p.d === sel.d).reduce((s, p) => s + p.kt, 0)}
+          unit={unit}
+        />
+      )}
     </div>
   );
 }
 
-function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
-  const { lane, file } = row;
-  const name = file.label || commodityLabel(lane.k);
-  const portNames = (ids: string[]) => ids.map((id) => file.ports[id]?.name ?? id).join(', ');
-  const status = (lane as Lane & { status?: LaneStatus[] }).status ?? [];
-  const typical = lane.vclass[0];
+function Answer({
+  pair,
+  pf,
+  lane,
+  laneFile,
+  caveats,
+  benchmarks,
+  name,
+  importsKt,
+  unit,
+}: {
+  pair: Pair;
+  pf: PairsFile;
+  lane?: Lane;
+  laneFile: LaneFile | null;
+  caveats: CaveatsFile | null;
+  benchmarks: Route[];
+  name: string;
+  importsKt: number;
+  unit: string;
+}) {
+  const { kind } = pair;
+  const title = (
+    <div class="rf-title">
+      {countryName(pair.o)} → {countryName(pair.d)}
+      <small>{name}</small>
+    </div>
+  );
+  const est = lane ? !!lane.flow.est : pair.est;
+  const vy = lane?.flow.y ?? pf.y;
+
+  // overland or pipeline: nothing to route
+  if (kind === 'land') {
+    return (
+      <div class="rf-card">
+        {title}
+        <p class="rf-empty">
+          Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est)}</span> (CEPII BACI {pf.y}).
+        </p>
+        <Notes pair={pair} lane={lane} caveats={caveats} est={est} />
+      </div>
+    );
+  }
+
+  const routed = pair.nm > 0 && !!pair.load && !!pair.dis;
+  const shown = lane ?? undefined;
+  const portName = (id: string) => laneFile?.ports[id]?.name ?? id;
+  const loadNames = shown ? shown.load.map(portName) : pair.load ? [pair.load.name] : [];
+  const disNames = shown ? shown.discharge.map(portName) : pair.dis ? [pair.dis.name] : [];
+  const status = (shown as (Lane & { status?: LaneStatus[] }) | undefined)?.status ?? [];
+  const classes = shown ? shown.vclass : pair.cls ? [pair.cls] : [];
+  const typical = classes[0];
+  const via = shown ? shown.via : pair.via;
+  const alsoVia = shown ? (shown.viaAlt ?? []) : pair.viaAlt.length ? [pair.viaAlt] : [];
+  const alts = shown ? (shown.alts ?? (shown.alt ? [shown.alt] : [])) : [];
+  const nm = shown ? shown.distanceNm : pair.nm;
+  const share = shown ? shown.share : kind === 'mixed' ? null : pair.kt / pf.seaborne;
+  const shareDest = est ? null : shown ? (shown.shareDest ?? null) : importsKt > 0 ? pair.kt / importsKt : null;
+  const mt = shown ? shown.flow.v : pair.kt / 1000;
+  const transit =
+    kind !== 'transit' ? null : shown?.transit ? { name: portName(shown.transit.port), c: shown.transit.c as string | undefined, url: shown.transit.url } : transitPort(pair);
+
   return (
     <div class="rf-card">
-      <div class="rf-title">
-        {countryName(lane.o)} → {countryName(lane.d)}
-        <small>{name}</small>
-      </div>
-      <button class="rf-map-btn rf-map-top" onClick={() => select({ kind: 'lane', id: lane.id })}>
-        Show on map
-      </button>
+      {title}
+      {shown && (
+        <button class="rf-map-btn rf-map-top" onClick={() => select({ kind: 'lane', id: shown.id })}>
+          Show on map
+        </button>
+      )}
+      {kind === 'mixed' && (
+        <div class="rf-status" role="note">
+          <span>Moves by sea and overland; the split is not known. The tonnage is the customs total for all modes, so it is not counted as seaborne.</span>
+        </div>
+      )}
       <dl class="rf-stats">
         <div>
-          <dt>Flow</dt>
+          <dt>{kind === 'mixed' ? 'Flow, all modes' : 'Flow'}</dt>
           <dd class="num">
-            {fmt(lane.flow.v)} {lane.flow.u}
-            <small> · {lane.flow.y}</small>
+            {est ? fmt(sig2(mt)) : fmt(mt)} {unit}
+            <small> · {vy}</small>
+            {est && <em class="rf-est">Atlas estimate</em>}
           </dd>
         </div>
-        <div>
-          <dt>Share of seaborne trade</dt>
-          <dd class="num">{pct(lane.share, lane.flow.v > 0)}</dd>
-        </div>
-        {lane.shareDest != null && (
+        {share != null && (
           <div>
-            <dt>Share of {countryName(lane.d)}'s imports</dt>
-            <dd class="num">{pct(lane.shareDest, lane.flow.v > 0)}</dd>
+            <dt>Share of seaborne trade</dt>
+            <dd class="num">{pct(share, mt > 0)}</dd>
           </div>
         )}
-        <div>
-          <dt>Distance · laden</dt>
-          <dd class="num">
-            {fmt(lane.distanceNm)} nm · {fmt(lane.days)} days
-          </dd>
-        </div>
+        {shareDest != null && (
+          <div>
+            <dt>Share of {countryName(pair.d)}'s imports</dt>
+            <dd class="num">{pct(shareDest, mt > 0)}</dd>
+          </div>
+        )}
+        {routed && (
+          <div>
+            <dt>{shown ? 'Distance · laden' : 'Distance'}</dt>
+            <dd class="num">
+              {fmt(nm)} nm{shown ? ` · ${fmt(shown.days)} days` : ''}
+            </dd>
+          </div>
+        )}
       </dl>
-      <SourceLine s={lane.flow.s} y={lane.flow.y} n="flow and shares" />
+      <SourceLine s={est ? 'atlas' : (shown?.flow.s ?? pf.s)} y={vy} n="flow and shares" />
+      <Notes pair={pair} lane={shown} caveats={caveats} est={est} />
 
-      <dl class="rf-stats rf-ports">
-        <div>
-          <dt>Load port{lane.load.length > 1 ? 's' : ''}</dt>
-          <dd>{lane.load.length ? portNames(lane.load) : 'n/a'}</dd>
-        </div>
-        <div>
-          <dt>Discharge port{lane.discharge.length > 1 ? 's' : ''}</dt>
-          <dd>{lane.discharge.length ? portNames(lane.discharge) : 'n/a'}</dd>
-        </div>
-      </dl>
-      {status.map((st) => (
-        <div class="rf-status" role="note">
-          <span>{st.text}</span>
-          {st.event && (
-            <button class="rf-status-link" onClick={() => select({ kind: 'event', id: st.event! })}>
-              View event
-            </button>
+      {!routed ? (
+        <p class="rf-empty">
+          {kind === 'transit'
+            ? 'Sea through a foreign port (not specified). No route is modelled for it.'
+            : 'Counted as seaborne, but no route is modelled: a port is missing for one end, or both ends use the same port.'}
+        </p>
+      ) : (
+        <>
+          {transit && (
+            <p class="rf-line">
+              Sea via{' '}
+              {transit.url ? (
+                <a href={transit.url} target="_blank" rel="noopener">
+                  {transit.name}
+                </a>
+              ) : (
+                transit.name
+              )}
+              {transit.c ? `, ${countryName(transit.c)}` : ''}: the landlocked end ships through a port of another country.
+            </p>
           )}
-        </div>
-      ))}
-
-      <div class="rf-sub">Typical vessel class</div>
-      <div class="rf-tags">
-        {lane.vclass.length ? (
-          lane.vclass.map((v, i) => (
-            <span class="rf-tag">
-              {vesselName(v)}
-              {i === 0 && <em>typical</em>}
-            </span>
-          ))
-        ) : (
-          <span class="muted">n/a</span>
-        )}
-      </div>
-
-      <div class="rf-sub">Chokepoints crossed</div>
-      <div class="rf-tags">
-        {lane.via.length ? (
-          lane.via.map((c) => (
-            <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
-              {chokepointName(c)}
-            </button>
-          ))
-        ) : (
-          <span class="muted">None (direct passage)</span>
-        )}
-      </div>
-
-      {lane.alt && (
-        <>
-          <div class="rf-sub">Alternative routing</div>
-          <p class="rf-alt">
-            {lane.alt.label}: <span class="num">{fmt(lane.alt.distanceNm)} nm</span>,{' '}
-            <span class="num">{lane.alt.extraDays > 0 ? '+' : ''}{fmt(lane.alt.extraDays)} days</span>
-          </p>
-        </>
-      )}
-      <div class="src-line">Atlas estimate · {file.y} · vessel classes, distances and days</div>
-
-      {benchmarks.length > 0 && (
-        <>
-          <div class="rf-sub">Benchmark routes</div>
-          <div class="muted small">Ports and distance above are this country-to-country lane's own; the routes below have their own ports and distance.</div>
-          {benchmarks.map((r) => (
-            <button class="list-btn rf-route" onClick={() => select({ kind: 'route', id: r.id })}>
-              {r.benchmark && <span class="code">{r.id}</span>}
-              <span class="rf-route-name">{r.name}</span>
-              <span class="meta">
-                {typical && r.vclass !== typical && sameVesselFamily(typical, r.vclass) ? (familyLabel(r.vclass) ?? vesselName(r.vclass)) : vesselName(r.vclass)}
-              </span>
-            </button>
+          <dl class="rf-stats rf-ports">
+            <div>
+              <dt>Load port{loadNames.length > 1 ? 's' : ''}</dt>
+              <dd>{loadNames.length ? loadNames.join(', ') : 'n/a'}</dd>
+            </div>
+            <div>
+              <dt>Discharge port{disNames.length > 1 ? 's' : ''}</dt>
+              <dd>{disNames.length ? disNames.join(', ') : 'n/a'}</dd>
+            </div>
+          </dl>
+          {shown?.opts && shown.opts.length > 1 && (
+            <>
+              <div class="rf-sub">Other coasts</div>
+              {shown.opts.map((o) => (
+                <p class="rf-line">
+                  {portName(o.load)} → {portName(o.discharge)}: <span class="num">{fmt(o.nm)} nm</span>, <span class="num">{fmt(o.days)} days</span>
+                  {o.via.length > 0 && <> · via {o.via.map(chokepointName).join(', ')}</>}
+                </p>
+              ))}
+              <p class="rf-small">The ports above are the principal gateway of each country; customs data do not say which coast the cargo used.</p>
+            </>
+          )}
+          {status.map((st) => (
+            <div class="rf-status" role="note">
+              <span>{st.text}</span>
+              {st.event && (
+                <button class="rf-status-link" onClick={() => select({ kind: 'event', id: st.event! })}>
+                  View event
+                </button>
+              )}
+            </div>
           ))}
+
+          <div class="rf-sub">Typical vessel class</div>
+          <div class="rf-tags">
+            {classes.length ? (
+              classes.map((v, i) => (
+                <span class="rf-tag">
+                  {vesselName(v)}
+                  {i === 0 && <em>typical</em>}
+                </span>
+              ))
+            ) : (
+              <span class="muted">n/a</span>
+            )}
+          </div>
+
+          <div class="rf-sub">Chokepoints crossed</div>
+          <div class="rf-tags">
+            {via.length ? (
+              via.map((c) => (
+                <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
+                  {chokepointName(c)}
+                </button>
+              ))
+            ) : (
+              <span class="muted">{alsoVia.length ? 'None on every option' : 'None (direct passage)'}</span>
+            )}
+          </div>
+          {alsoVia.map((list) => (
+            <div class="rf-tags rf-or">
+              <span>{shown ? 'One of' : 'May also cross'}</span>
+              {list.map((c) => (
+                <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
+                  {chokepointName(c)}
+                </button>
+              ))}
+            </div>
+          ))}
+
+          {alts.length > 0 && (
+            <>
+              <div class="rf-sub">Alternative routing</div>
+              {alts.map((a) => (
+                <p class="rf-alt">
+                  {a.label}: <span class="num">{fmt(a.distanceNm)} nm</span>,{' '}
+                  <span class="num">
+                    {a.extraDays > 0 ? '+' : ''}
+                    {fmt(a.extraDays)} days
+                  </span>
+                </p>
+              ))}
+            </>
+          )}
+          {shown?.altNote && <p class="rf-small">{shown.altNote}</p>}
+          <div class="src-line">Atlas estimate · {pf.y} · vessel classes, distances{shown ? ' and days' : ''}</div>
+          {!shown && !pair.lane && <p class="rf-small">Not drawn on the map (below the lanes shown for this commodity).</p>}
+
+          {benchmarks.length > 0 && (
+            <>
+              <div class="rf-sub">Benchmark routes</div>
+              <div class="muted small">Ports and distance above are this country-to-country pair's own; the routes below have their own ports and distance.</div>
+              {benchmarks.map((r) => (
+                <button class="list-btn rf-route" onClick={() => select({ kind: 'route', id: r.id })}>
+                  {r.benchmark && <span class="code">{r.id}</span>}
+                  <span class="rf-route-name">{r.name}</span>
+                  <span class="meta">
+                    {typical && r.vclass !== typical && sameVesselFamily(typical, r.vclass) ? (familyLabel(r.vclass) ?? vesselName(r.vclass)) : vesselName(r.vclass)}
+                  </span>
+                </button>
+              ))}
+            </>
+          )}
         </>
       )}
-
     </div>
+  );
+}
+
+/** The sea route's transit port, from the pairs table, when the lane does not name it: the port that lies in a third country. */
+function transitPort(pair: Pair): { name: string; c?: string; url?: string } | null {
+  const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? p : null);
+  const p = foreign(pair.load, pair.o) ?? foreign(pair.dis, pair.d);
+  return p ? { name: p.name, c: p.c } : null;
+}
+
+/** Caveat box, estimate note and check note of an answer. */
+function Notes({ pair, lane, caveats, est }: { pair: Pair; lane?: Lane; caveats: CaveatsFile | null; est: boolean }) {
+  const cav = lane?.caveat && caveats?.[lane.caveat] ? caveats[lane.caveat] : pair.caveat ? caveatFor(caveats, pair.group, pair.o, pair.d)?.entry : undefined;
+  const note = lane?.flow.n;
+  return (
+    <>
+      {cav && (
+        <div class="rf-status" role="note">
+          <span>{cav.text}</span>
+        </div>
+      )}
+      {est && (
+        <p class="rf-small">
+          {note?.startsWith('Atlas estimate')
+            ? note
+            : 'Atlas estimate: customs data give no usable tonnage for this pair, so the atlas computes it from the declared value (CEPII BACI) and a reference unit value. The method is in the methodology.'}
+        </p>
+      )}
+      {pair.flagged && (
+        <p class="rf-small">
+          {note && !est
+            ? note
+            : 'An atlas data check flags this figure: it changed sharply against the previous year, or differs from another source. Treat it with care.'}
+        </p>
+      )}
+    </>
   );
 }
 

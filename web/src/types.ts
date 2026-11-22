@@ -77,7 +77,12 @@ export interface Flow {
   u: string;
   y: number | string;
   s: string;
-  mode?: 'sea' | 'pipeline' | 'rail' | 'mixed';
+  /** how the flow moves: `sea` includes cargo that sails through a foreign port (`transit`); `mixed` = by sea and overland, split not known */
+  mode?: 'sea' | 'land' | 'mixed' | 'pipeline';
+  /** sea through a foreign port (landlocked end), mode `sea` only */
+  transit?: LaneTransit;
+  /** the tonnage is an Atlas estimate (computed from the declared value), source id `atlas` */
+  est?: boolean;
   /** lane id in freight/lanes (sea geometry), when available */
   lane?: string;
   n?: string;
@@ -196,6 +201,11 @@ export interface PortRef {
   name: string;
   c: Iso3;
   at: [number, number];
+  /** freight zone id, see data/freight/zones.json */
+  zone?: string;
+  /** source id and page of the gateway row (typical ports are an Atlas assumption) */
+  s?: string;
+  url?: string;
 }
 
 export interface AltRouting {
@@ -298,8 +308,8 @@ export interface Chokepoint {
   detour?: { nm: number; days: number; lanes: number; y: number | string; s: string; n?: string };
   /** published commodity flows through the chokepoint; k may be a commodity id or "petroleum-liquids" */
   shares?: { k: string; f: Fig }[];
-  /** Atlas estimates: share of seaborne trade on mapped lanes crossing it */
-  estimates?: { k: string; f: Fig }[];
+  /** Atlas estimates: share of the seaborne trade of a lane group whose route has to cross it (`f`, "at least") and may cross it (`hi`, "up to"); `mt` = [at least, up to] in Mt */
+  estimates?: { k: string; p?: string; f: Fig; hi?: Fig; mt?: [number, number] }[];
   alternatives?: { label: string; extraNm?: number; extraDays?: number; note?: string }[];
   events?: string[];
   portwatch?: string;
@@ -350,8 +360,8 @@ export interface ChokepointLanes {
   n?: string;
   /** lane group -> commodity id, label, year, customs source and seaborne trade of the group (Mt) */
   groups: Record<string, { k: string; label: string | null; y: number; s: string; seaborne: number }>;
-  /** chokepoint id -> [group, origin ISO3, destination ISO3, Mt], largest first */
-  chokepoints: Record<string, [string, string, string, number][]>;
+  /** chokepoint id -> [group, origin ISO3, destination ISO3, Mt, certain], largest first; certain is 1 when the passage is in the pair's `via`, 0 when it is one of several it may use */
+  chokepoints: Record<string, [string, string, string, number, (0 | 1)?][]>;
 }
 
 export interface FreightEvent {
@@ -367,6 +377,29 @@ export interface FreightEvent {
   src: string;
 }
 
+/** Sea through a foreign port: the landlocked end's cargo sails from (or to) this port. */
+export interface LaneTransit {
+  port: string;
+  /** country of the port */
+  c: Iso3;
+  s: string;
+  url?: string;
+}
+
+/** One load and discharge port pair of a lane whose ports are not decided by a rule (a coast option). */
+export interface LaneOption {
+  load: string;
+  discharge: string;
+  nm: number;
+  days: number;
+  via: string[];
+  /** share of the trade, when a measured split exists */
+  w: number | null;
+}
+
+/** What a history point stands for: estimated from value, kept although it looks odd, no customs record, hidden as suspect, repaired, flagged by a check. */
+export type HistFlag = 'est' | 'kept' | 'nodata' | 'suspect' | 'repaired' | 'check';
+
 /** A seaborne lane: origin-destination country pair for one commodity group, with geometry. */
 export interface Lane {
   /** "<group>:<o>-<d>" */
@@ -377,26 +410,48 @@ export interface Lane {
   p: string;
   o: Iso3;
   d: Iso3;
+  /** "main" (drawn with no year chosen) or "history" (drawn only in a year when it was large); absent in files from before the pairs table */
+  set?: 'main' | 'history';
+  /** `mixed`: the trade moves by sea and overland and the split is not known; absent = sea */
+  mode?: 'mixed';
+  /** sea through a foreign port, for a landlocked end */
+  transit?: LaneTransit;
   /** port ids, see LaneFile.ports */
   load: string[];
   discharge: string[];
+  /** how the ports were chosen: one gateway, a coast rule, a measured split, or several coasts with nothing to decide between them */
+  portBasis?: 'single' | 'rule' | 'measured' | 'open';
+  /** the other coasts, with their distances, when `portBasis` is "open" or "measured" */
+  opts?: LaneOption[];
   /** typical vessel classes, primary first (Atlas assumption) */
   vclass: string[];
   distanceNm: number;
   days: number;
+  /** passages every option of the lane has to cross */
   via: string[];
-  /** latest-year flow */
-  flow: Fig;
-  /** share of the group's seaborne trade, 0..1 (latest year) */
-  share: number;
-  /** share of the destination's imports of this group, 0..1 */
+  /** lists of passages of which one is used (parallel straits, other coasts) */
+  viaAlt?: string[][];
+  /** latest-year flow; `est` = tonnage estimated from the declared value (source id `atlas`) */
+  flow: Fig & { est?: boolean };
+  /** share of the group's seaborne trade, 0..1 (latest year); null for a mixed lane */
+  share: number | null;
+  /** share of the destination's imports of this group, 0..1; absent when the tonnage is estimated */
   shareDest?: number | null;
-  /** annual volumes (LaneFile.unit) for LaneFile.years; null = isolated customs outlier removed */
+  /** annual volumes (LaneFile.unit) for LaneFile.years; null = no figure shown that year (see histFlags) */
   hist: (number | null)[];
   histNote?: string;
+  /** flag and note per year (keys are years) */
+  histFlags?: Record<string, HistFlag>;
+  histNotes?: Record<string, string>;
+  /** id in data/freight/caveats.json */
+  caveat?: string;
   /** geometry [lon, lat][]; longitudes are unwrapped (may exceed ±180) */
   g: [number, number][];
+  /** the first of `alts`, for views that show one */
   alt?: AltRouting & { g: [number, number][] };
+  alts?: (AltRouting & { g: [number, number][] })[];
+  /** why no alternative is shown */
+  altNote?: string;
   status?: StatusNote[];
 }
 
@@ -409,13 +464,58 @@ export interface LaneFile {
   y: number;
   s: string;
   years: number[];
-  /** seaborne total per year (unit) */
+  /** seaborne total per year (unit): sea and transit pairs, after cleaning */
   seaborne: number[];
+  /** tonnage of the mixed (sea and overland) pairs per year */
+  mixed?: number[];
   /** all-modes world trade per year (unit) */
   world: number[];
+  /** group-level warnings per year (keys are years) */
+  yearNotes?: Record<string, string>;
+  /** share of the latest year's seaborne tonnes estimated from value, 0..1 */
+  est?: number;
+  coverage?: { lanes: number; share: number };
+  /** per exporter: seaborne tonnes not on a main lane and the number of pairs */
+  rest?: { o: Iso3; v: number; n: number }[];
   ports: Record<string, PortRef>;
   lanes: Lane[];
 }
+
+/**
+ * data/freight/pairs/<group>.json: every recorded pair of the latest year, one row each, whatever its mode.
+ * `cols` names the columns of `rows`: o, d, kt (customs tonnes, thousands), m (mode: 0 sea, 1 sea via a
+ * transit port, 2 mixed, 3 land), load and dis (index in `ports`, -1 when not routed), nm (distance of the
+ * main route), cls (index in `classes`, -1 none), via and alt (bit masks over `gates`: passages every option
+ * has to cross, and passages only some options cross), f (bit 0 tonnage estimated from value, bit 1 a caveat
+ * applies, bit 2 a main lane exists, bit 3 a check flags the pair).
+ */
+export interface PairsFile {
+  group: string;
+  k: string;
+  y: number;
+  s: string;
+  unit: 'kt';
+  /** sea + transit tonnes (kt): the denominator of the shares */
+  seaborne: number;
+  /** [code, name, country, zone] */
+  ports: [string, string, string, string][];
+  classes: string[];
+  /** chokepoint ids, bit order of the `via` and `alt` masks (at most 31) */
+  gates: string[];
+  cols: string[];
+  rows: (string | number)[][];
+}
+
+/** data/freight/caveats.json: reporting gaps and relabelled origins, by id. `d` null = every destination of the origin. */
+export interface CaveatEntry {
+  kind: string;
+  text: string;
+  group: string | null;
+  o: Iso3 | null;
+  d: Iso3 | null;
+  check?: string;
+}
+export type CaveatsFile = Record<string, CaveatEntry>;
 
 // ---------------------------------------------------------------- infra & prices
 

@@ -1,0 +1,80 @@
+/* route finder: start-from switch, estimate mark, notes (the rest of its look is in app.css) */
+.rf-switch {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.rf-switch-seg {
+  display: inline-flex;
+  margin-left: auto;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+  overflow: hidden;
+}
+
+.rf-switch-seg button {
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ink-1);
+}
+
+.rf-switch-seg button + button {
+  border-left: 1px solid var(--hairline-strong);
+}
+
+.rf-switch-seg button[aria-pressed='true'] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.rf-switch-seg button:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.rf-est {
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(62, 230, 255, 0.4);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.rf-line {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.rf-line .num {
+  color: var(--ink-0);
+}
+
+.rf-small {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.rf-or {
+  margin: 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.rf-or > span {
+  color: var(--ink-2);
+}

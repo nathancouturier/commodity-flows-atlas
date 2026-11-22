@@ -4,7 +4,7 @@
  *
  * Progressive disclosure: only the `flows` layer is on at start.
  */
-import { signal, computed, batch } from '@preact/signals';
+import { signal, computed, batch, effect } from '@preact/signals';
 import type { Family, InfraType } from '../types';
 
 export type FamilyFilter = Family | 'all';
@@ -121,6 +121,16 @@ const HASH_FAMILIES: readonly string[] = ['energy', 'metals', 'softs', 'freight'
 const HASH_METRICS: readonly string[] = ['production', 'reserves', 'consumption', 'exports', 'imports'];
 const HASH_KINDS: readonly string[] = ['country', 'commodity', 'route', 'lane', 'chokepoint', 'infra', 'vessel', 'event'];
 
+/** Route finder state of a link: `rf=<commodity>:<o|d>:<origin>-<destination>[:<group>]`. */
+interface FinderState {
+  commodity: string;
+  from: 'o' | 'd';
+  origin: string | null;
+  dest: string | null;
+  /** customs group, only for a commodity that has two (phosphate: rock or DAP) */
+  group: string | null;
+}
+
 /** The part of the view a link carries. */
 interface HashState {
   family: FamilyFilter;
@@ -129,6 +139,21 @@ interface HashState {
   vessels: string[];
   year: number | null;
   selection: Selection | null;
+  finder: FinderState | null;
+}
+
+/** Route finder part of a link, null when it is absent or unreadable (ids are checked later, against the data). */
+function parseFinder(raw: string | null): FinderState | null {
+  const m = raw?.match(/^([a-z0-9-]+):([od]):([A-Z]{3})?-([A-Z]{3})?(?::([a-z0-9-]+))?$/);
+  if (!m || (!m[3] && !m[4])) return null;
+  return { commodity: m[1], from: m[2] as 'o' | 'd', origin: m[3] ?? null, dest: m[4] ?? null, group: m[5] ?? null };
+}
+
+function finderHash(): string | null {
+  const o = rfOrigin.value;
+  const d = rfDest.value;
+  if (!o && !d) return null;
+  return `${rfCommodity.value}:${rfFrom.value}:${o ?? ''}-${d ?? ''}${rfGroup.value ? ':' + rfGroup.value : ''}`;
 }
 
 /**
@@ -163,6 +188,7 @@ function parseHash(hash: string): HashState {
     vessels: (p.get('v') ?? '').split(',').filter(Boolean),
     year: y && /^\d{4}$/.test(y) ? Number(y) : null,
     selection: sel,
+    finder: parseFinder(p.get('rf')),
   };
 }
 
@@ -188,6 +214,12 @@ function applyHash(st: HashState) {
     // the timeline is what sets a year: a link with #y=2016 opens it, a link without closes it
     historyOpen.value = st.year != null;
     if (selKey(st.selection) !== selKey(selection.peek())) selection.value = st.selection;
+    // a link without a finder question leaves the finder's commodity alone (it follows the panel's) and empties the question
+    if (st.finder) rfCommodity.value = st.finder.commodity;
+    rfFrom.value = st.finder?.from ?? 'o';
+    rfOrigin.value = st.finder?.origin ?? null;
+    rfDest.value = st.finder?.dest ?? null;
+    rfGroup.value = st.finder?.group ?? null;
   });
 }
 
@@ -200,6 +232,8 @@ function currentHash(): string {
   if (year.value) p.set('y', String(year.value));
   const s = selection.value;
   if (s) p.set('sel', selKey(s));
+  const rf = finderHash();
+  if (rf) p.set('rf', rf);
   const h = p.toString();
   return h ? `#${h}` : '';
 }
@@ -249,6 +283,10 @@ export const routeFinderOpen = signal(false);
 export const rfCommodity = signal<string>('coal');
 export const rfOrigin = signal<string | null>(null);
 export const rfDest = signal<string | null>(null);
+/** Which end the finder starts from: the origin (default) or the destination. */
+export const rfFrom = signal<'o' | 'd'>('o');
+/** Customs group of the question, for a commodity with two (null = the larger one). In the address (`rf=`) only. */
+export const rfGroup = signal<string | null>(null);
 
 // ---------------------------------------------------------------- price explorer & history timeline
 /**
@@ -277,4 +315,11 @@ export const historyOpen = signal(false);
   applyHash(st);
   window.addEventListener('popstate', onNavigate);
   window.addEventListener('hashchange', onNavigate);
+  // the finder's question is part of the address; the first run (the link just applied) writes nothing
+  let first = true;
+  effect(() => {
+    void [rfCommodity.value, rfFrom.value, rfOrigin.value, rfDest.value, rfGroup.value];
+    if (first) first = false;
+    else writeHash();
+  });
 }

@@ -19,6 +19,7 @@ import {
   infraAvailable,
   rfOrigin,
   rfDest,
+  rfGroup,
   rfCommodity,
   setFamily,
   type FamilyFilter,
@@ -26,7 +27,7 @@ import {
   type SheetSnap,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, segmentOf, vesselClassList, vesselMatches, vesselName } from '../lib/freight';
+import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, segmentOf, vesselClassList, vesselMatches, vesselName, finderCommodity } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
@@ -66,11 +67,16 @@ function toggleRoute(id: string) {
 }
 
 // the route finder follows the commodity picked in the panel (when it has sea lanes)
+// (a finder question that came with the link is kept, and so is a question about coal when the panel switches between its two kinds)
+let finderStarted = false;
 commodity.subscribe((k) => {
-  if (!k || !(k in LANE_GROUPS) || rfCommodity.peek() === k) return;
+  const linked = !finderStarted && !!(rfOrigin.peek() || rfDest.peek());
+  finderStarted = true;
+  if (linked || !k || !(k in LANE_GROUPS) || finderCommodity(rfCommodity.peek()) === finderCommodity(k)) return;
   rfCommodity.value = k;
   rfOrigin.value = null;
   rfDest.value = null;
+  rfGroup.value = null;
 });
 
 export function SidePanel() {
@@ -107,7 +113,7 @@ export function SidePanel() {
         <CommoditySection current={current} />
         <FreightSection />
         <div class="panel-block">
-          <Dropdown name="Route finder" stack value={<RouteFinderSummary />}>
+          <Dropdown name="Route finder" stack value={<RouteFinderSummary />} defaultOpen={!!(rfOrigin.peek() || rfDest.peek())}>
             <RouteFinderSlot always />
           </Dropdown>
         </div>
