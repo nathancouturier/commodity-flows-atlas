@@ -12,3 +12,10 @@
 {"t":"2026-11-22T12:02:35Z","source":"wb-pink","outcome":"ok","note":"updated","records":802,"data_to":"2026-10","consecutive_failures":0}
 {"t":"2026-11-22T12:02:35Z","source":"eia-spot","outcome":"ok","note":"updated","records":63785,"data_to":"2026-11-17","consecutive_failures":0}
 {"t":"2026-11-22T12:02:35Z","source":"fred","outcome":"fail","note":"PCU483111483111: ReadTimeout (timeout) after 1 attempts (fred.stlouisfed.org) after 4 attempts","records":null,"data_to":null,"consecutive_failures":1}
+{"t":"2026-11-22T12:04:09Z","source":"usda-psd","outcome":"ok","note":"updated","records":2095339,"data_to":"2027","consecutive_failures":0}
+{"t":"2026-11-22T12:04:37Z","source":"usgs-mcs","outcome":"ok","note":"updated","records":8886,"data_to":"2026","consecutive_failures":0}
+{"t":"2026-11-22T12:04:38Z","source":"eia-intl","outcome":"ok","note":"updated","records":105082,"data_to":"2026-11-19","consecutive_failures":0}
+{"t":"2026-11-22T12:04:40Z","source":"baci","outcome":"ok","note":"no newer version","records":null,"data_to":null,"consecutive_failures":0}
+{"t":"2026-11-22T12:04:55Z","source":"faostat-wna","outcome":"ok","note":"unchanged","records":null,"data_to":null,"consecutive_failures":0}
+{"t":"2026-11-22T12:05:03Z","source":"build-commodities","outcome":"fail","note":"exit 1: FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/commodity-flows-atlas/commodity-flows-atlas/raw/baci/country_codes_V202601.csv'","records":null,"data_to":null,"consecutive_failures":1}
+{"t":"2026-11-22T12:05:04Z","source":"build-profiles","outcome":"ok","note":"rebuilt","records":null,"data_to":null,"consecutive_failures":0}
