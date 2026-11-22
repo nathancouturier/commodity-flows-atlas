@@ -3,7 +3,7 @@ import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, select
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, pct, shareOpacity } from '../lib/format';
-import { LayerToggles, InfraTypeChips } from './LayerSwitches';
+import { LayerToggles } from './LayerSwitches';
 import { STATUS_COLOR } from '../map/modules/infrastructure';
 import type { Family, Segment } from '../types';
 
@@ -91,7 +91,6 @@ export function Legend() {
       )}
       {infraOn && (
         <div class="legend-block legend-infra">
-          <InfraTypeChips />
           <div class="legend-infra-status">
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.damaged }} />Damaged</span>
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.idle }} />Idle / suspended</span>

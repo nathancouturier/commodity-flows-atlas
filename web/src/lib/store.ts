@@ -25,11 +25,12 @@ export type Selection =
 
 export const family = signal<FamilyFilter>('all');
 export const commodity = signal<string | null>(null);
+// all layers visible by default (owner's choice); each one is a toggle in the legend
 export const layers = signal<Record<LayerId, boolean>>({
   flows: true,
-  routes: false,
-  chokepoints: false,
-  infrastructure: false,
+  routes: true,
+  chokepoints: true,
+  infrastructure: true,
 });
 export const metric = signal<Metric>('none');
 export const infraTypes = signal<Set<InfraType>>(new Set());
@@ -68,7 +69,7 @@ export interface ChoroInfo {
 export const choroInfo = signal<ChoroInfo | null>(null);
 
 /** Physical-flows state to restore when leaving the Freight tab. */
-let flowsBeforeFreight: boolean | null = null;
+let layersBeforeFreight: Record<LayerId, boolean> | null = null;
 
 /**
  * Switch the family tab. The Freight tab brings routes and chokepoints in and turns Physical flows
@@ -77,16 +78,13 @@ let flowsBeforeFreight: boolean | null = null;
 export function setFamily(next: FamilyFilter) {
   const was = family.value === 'freight';
   const to = next === 'freight';
-  if (to !== was) {
-    const l = { ...layers.value, routes: to, chokepoints: to };
-    if (to) {
-      flowsBeforeFreight = l.flows;
-      l.flows = false;
-    } else if (flowsBeforeFreight !== null) {
-      l.flows = flowsBeforeFreight;
-      flowsBeforeFreight = null;
-    }
-    layers.value = l;
+  if (to && !was) {
+    // the Freight tab is about routes: show them and the chokepoints, hide the flows; remember the rest
+    layersBeforeFreight = { ...layers.value };
+    layers.value = { ...layers.value, routes: true, chokepoints: true, flows: false };
+  } else if (was && !to && layersBeforeFreight) {
+    layers.value = layersBeforeFreight;
+    layersBeforeFreight = null;
   }
   family.value = next;
 }
@@ -157,7 +155,7 @@ window.addEventListener('hashchange', () => {
 });
 // a shared Freight-tab link opens with its routes and chokepoints visible
 if (family.value === 'freight') {
-  flowsBeforeFreight = layers.value.flows;
+  layersBeforeFreight = { ...layers.value };
   layers.value = { ...layers.value, routes: true, chokepoints: true, flows: false };
 }
 

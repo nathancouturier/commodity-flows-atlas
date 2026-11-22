@@ -15,6 +15,8 @@ import {
   vesselClasses,
   toggleInSet,
   sheetSnap,
+  layers,
+  infraTypes,
   rfOrigin,
   rfDest,
   type Metric,
@@ -23,9 +25,9 @@ import {
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
 import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
-import { LayerSwitches } from './LayerSwitches';
+import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
-import { Section } from './ui';
+import { Section, INFRA_META, INFRA_ORDER } from './ui';
 import type { CommodityMeta, Family, Route, Segment } from '../types';
 
 const METRICS: { id: Metric; label: string }[] = [
@@ -54,21 +56,28 @@ export function SidePanel() {
       <SheetHead summary={current?.name} />
       <div class="panel-scroll">
         <CommoditySection current={current} />
-        {freight ? (
-          <Section title="Routes by vessel class">
-            <Dropdown summary={<FreightSummary />} defaultOpen>
+        <div class="panel-block">
+          {freight ? (
+            <Dropdown name="Routes by vessel class" value={<FreightSummary />} defaultOpen onClear={vesselClasses.value.size ? () => (vesselClasses.value = new Set()) : undefined}>
               <VesselFilter />
               <RouteList />
             </Dropdown>
-          </Section>
-        ) : (
-          <VesselQuick />
-        )}
-        <Section title="Route finder">
-          <Dropdown summary={<RouteFinderSummary />}>
+          ) : (
+            <VesselQuick />
+          )}
+        </div>
+        <div class="panel-block">
+          <Dropdown name="Route finder" value={<RouteFinderSummary />}>
             <RouteFinderSlot always />
           </Dropdown>
-        </Section>
+        </div>
+        {layers.value.infrastructure && (
+          <div class="panel-block">
+            <Dropdown name="Infrastructure types" value={<InfraSummary />} onClear={infraTypes.value.size ? () => (infraTypes.value = new Set()) : undefined}>
+              <InfraTypeChips />
+            </Dropdown>
+          </div>
+        )}
         {/* on phones and tablets the legend is hidden, so the layer switches live here */}
         <div class="layers-in-panel">
           <Section title="Map layers">
@@ -84,9 +93,18 @@ export function SidePanel() {
 
 
 /** A collapsible block styled like a dropdown; the summary shows the current choice. */
-function Dropdown(props: { summary: ComponentChildren; defaultOpen?: boolean; open?: boolean; onToggle?: (open: boolean) => void; children: ComponentChildren }) {
+function Dropdown(props: {
+  name: string;
+  value?: ComponentChildren;
+  onClear?: () => void;
+  defaultOpen?: boolean;
+  open?: boolean;
+  onToggle?: (open: boolean) => void;
+  children: ComponentChildren;
+}) {
   const [inner, setInner] = useState(!!props.defaultOpen);
   const open = props.open ?? inner;
+  const hasValue = props.value != null && props.value !== false && props.value !== '';
   return (
     <details
       class="cc-browse dd"
@@ -97,7 +115,24 @@ function Dropdown(props: { summary: ComponentChildren; defaultOpen?: boolean; op
         else setInner(o);
       }}
     >
-      <summary>{props.summary}</summary>
+      <summary>
+        <span class="dd-name">{props.name}</span>
+        {hasValue && <span class="dd-value">{props.value}</span>}
+        {hasValue && props.onClear && (
+          <button
+            class="dd-clear"
+            aria-label={`Clear ${props.name}`}
+            title="Clear"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              props.onClear!();
+            }}
+          >
+            ×
+          </button>
+        )}
+      </summary>
       <div class="dd-body">{props.children}</div>
     </details>
   );
@@ -109,6 +144,7 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
   const fam = family.value;
   const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
   const [browseOpen, setBrowseOpen] = useState(false);
+  const [metricOpen, setMetricOpen] = useState(false);
   const choose = (v: string | null) => {
     setBrowseOpen(false);
     commodity.value = v;
@@ -120,9 +156,14 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
     }
   };
   return (
-    <Section title="Commodity" aside={current ? <button class="link-btn" onClick={() => choose(null)}>Clear</button> : null}>
-      <details class="cc-browse" open={browseOpen} onToggle={(e) => setBrowseOpen((e.currentTarget as HTMLDetailsElement).open)}>
-        <summary>{current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : 'Browse all commodities'}</summary>
+    <div class="panel-block">
+      <Dropdown
+        name="Browse all commodities"
+        value={current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : null}
+        onClear={() => choose(null)}
+        open={browseOpen}
+        onToggle={setBrowseOpen}
+      >
         {fams.map((g) => (
           <div key={g} class="cc-group">
             <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
@@ -135,33 +176,40 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
             ))}
           </div>
         ))}
-      </details>
-      <div class="cc-label">Colour countries by</div>
-      <div class="chips" role="radiogroup" aria-label="Colour countries by">
-        {METRICS.map((m) => {
-          const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
-          const off = m.id !== 'none' && (!current || noData);
-          return (
-            <button
-              class="chip"
-              role="radio"
-              aria-checked={metric.value === m.id}
-              aria-pressed={metric.value === m.id}
-              disabled={off}
-              title={noData ? 'No free country-level data' : undefined}
-              style={{ opacity: off ? 0.4 : 1 }}
-              onClick={() => (metric.value = m.id)}
-            >
-              {m.label}
-            </button>
-          );
-        })}
-      </div>
-      {!current && <p class="muted cc-hint">Its producing countries are coloured, with their share of world output on the map.</p>}
-      {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
-        <p class="muted cc-hint">Greyed-out options have no free country-level data for {current.name}.</p>
-      )}
-    </Section>
+      </Dropdown>
+      <Dropdown
+        name="Colour countries by"
+        value={metric.value !== 'none' ? METRICS.find((m) => m.id === metric.value)?.label : 'Off'}
+        open={metricOpen}
+        onToggle={setMetricOpen}
+      >
+        <div role="radiogroup" aria-label="Colour countries by">
+          {METRICS.map((m) => {
+            const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
+            const off = m.id !== 'none' && (!current || noData);
+            return (
+              <button
+                class="list-btn"
+                role="radio"
+                aria-checked={metric.value === m.id}
+                aria-pressed={metric.value === m.id}
+                disabled={off}
+                title={!current && m.id !== 'none' ? 'Choose a commodity first' : noData ? 'No free country-level data' : undefined}
+                style={{ opacity: off ? 0.4 : 1 }}
+                onClick={() => {
+                  metric.value = m.id;
+                  setMetricOpen(false);
+                }}
+              >
+                {m.label}
+                {noData && <span class="meta">no data</span>}
+              </button>
+            );
+          })}
+        </div>
+      </Dropdown>
+      {!current && <p class="muted cc-hint">Choose a commodity: its producing countries are coloured, with their share of world output on the map.</p>}
+    </div>
   );
 }
 
@@ -234,18 +282,12 @@ function VesselQuick() {
   const current = QUICK.flatMap((g) => g.items.map((it) => ({ ...it, seg: g.seg }))).find((it) => active(it.id));
   const summary = current ? (
     <>
-      <span class="dot" style={{ color: SEGMENT_COLOR[current.seg], width: '6px', height: '6px' }} /> {current.label}
-      <span class="muted">· {matched.length} route{matched.length === 1 ? '' : 's'}</span>
+      <span class="dot" style={{ color: SEGMENT_COLOR[current.seg], width: '6px', height: '6px' }} /> {current.label} ({matched.length})
     </>
-  ) : (
-    'Choose a vessel class'
-  );
+  ) : null;
   return (
-    <Section
-      title="Routes by vessel class"
-      aside={sel.size > 0 ? <button class="link-btn" onClick={() => (vesselClasses.value = new Set())}>Clear</button> : null}
-    >
-      <Dropdown summary={summary} open={open} onToggle={setOpen}>
+    <>
+      <Dropdown name="Routes by vessel class" value={current ? summary : null} onClear={() => (vesselClasses.value = new Set())} open={open} onToggle={setOpen}>
       {QUICK.map((g) => (
         <div class="vc-group" key={g.seg}>
           <div class="vc-label">{SEGMENT_LABEL[g.seg]}</div>
@@ -279,14 +321,21 @@ function VesselQuick() {
         </div>
       )}
       </Dropdown>
-    </Section>
+    </>
   );
 }
 
 /** Summary line of the Freight-tab route dropdown. */
 function FreightSummary() {
   const n = vesselClasses.value.size;
-  return <>{n ? `Filtered: ${[...vesselClasses.value].map(vesselName).join(', ')}` : 'All vessel classes and routes'}</>;
+  return n ? <>{[...vesselClasses.value].map(vesselName).join(', ')}</> : <>All</>;
+}
+
+/** Summary line of the infrastructure dropdown: the asset types shown. */
+function InfraSummary() {
+  const sel = infraTypes.value;
+  if (!sel.size) return <>All</>;
+  return <>{INFRA_ORDER.filter((t) => sel.has(t)).map((t) => INFRA_META[t].plural).join(', ')}</>;
 }
 
 /** Summary line of the route finder dropdown: the current question, if any. */
@@ -294,7 +343,7 @@ function RouteFinderSummary() {
   const o = rfOrigin.value;
   const d = rfDest.value;
   if (o && d) return <>{countryName(o)} → {countryName(d)}</>;
-  return <>Typical route, vessel and share for a trade</>;
+  return null;
 }
 
 /** Baltic benchmarks (by segment) and other heavy-traffic routes; discontinued ones last. */

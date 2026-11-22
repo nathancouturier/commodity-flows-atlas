@@ -22,7 +22,6 @@ export function LayerSwitches() {
       {LAYERS.map((l) => (
         <Switch key={l.id} label={l.label} hint={l.desc} checked={layers.value[l.id]} onChange={(v) => toggleLayer(l.id, v)} />
       ))}
-      {layers.value.infrastructure && <InfraTypeChips />}
     </>
   );
 }

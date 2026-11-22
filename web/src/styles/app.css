@@ -1515,3 +1515,48 @@ html,
   margin-left: 4px;
   font-size: var(--fs-sm);
 }
+
+/* named dropdowns: name on the left, current choice on the right, then the chevron */
+.panel-block {
+  padding: 6px 0;
+}
+.panel-block:first-child {
+  padding-top: 12px;
+}
+.dd > summary .dd-name {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink-0);
+  font-weight: 550;
+}
+.dd > summary .dd-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 55%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--accent);
+  font-size: var(--fs-sm);
+}
+.dd > summary::after {
+  margin-left: 10px;
+}
+.dd-clear {
+  width: 20px;
+  height: 20px;
+  margin-left: 6px;
+  border-radius: 6px;
+  color: var(--ink-2);
+  font-size: 15px;
+  line-height: 1;
+}
+.dd-clear:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink-0);
+}
+
+.dd > summary .dd-name {
+  white-space: nowrap;
+}
