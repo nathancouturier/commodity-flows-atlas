@@ -3,20 +3,38 @@
   "baci": {
    "consecutive_failures": 0,
    "data_to": null,
-   "last_attempt": "2026-11-22T11:06:54Z",
+   "last_attempt": "2026-11-22T12:04:40Z",
    "last_error": null,
-   "last_success": "2026-11-22T11:06:54Z",
+   "last_success": "2026-11-22T12:04:40Z",
    "records": null,
    "state": {
     "version": "V202601"
    }
   },
+  "build-commodities": {
+   "consecutive_failures": 1,
+   "data_to": null,
+   "last_attempt": "2026-11-22T12:05:03Z",
+   "last_error": "exit 1: FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/commodity-flows-atlas/commodity-flows-atlas/raw/baci/country_codes_V202601.csv'",
+   "last_success": null,
+   "records": null,
+   "state": {}
+  },
+  "build-profiles": {
+   "consecutive_failures": 0,
+   "data_to": null,
+   "last_attempt": "2026-11-22T12:05:04Z",
+   "last_error": null,
+   "last_success": "2026-11-22T12:05:04Z",
+   "records": null,
+   "state": {}
+  },
   "eia-intl": {
    "consecutive_failures": 0,
    "data_to": "2026-11-19",
-   "last_attempt": "2026-11-22T11:06:52Z",
+   "last_attempt": "2026-11-22T12:04:38Z",
    "last_error": null,
-   "last_success": "2026-11-22T11:06:52Z",
+   "last_success": "2026-11-22T12:04:38Z",
    "records": 105082,
    "state": {
     "sha256": "2a79be689b8d93787745b129630b1a5a97365ecb4528381d02da490264628857"
@@ -42,21 +60,30 @@
     }
    }
   },
+  "faostat-wna": {
+   "consecutive_failures": 0,
+   "data_to": null,
+   "last_attempt": "2026-11-22T12:04:55Z",
+   "last_error": null,
+   "last_success": "2026-11-22T12:04:55Z",
+   "records": null,
+   "state": {}
+  },
   "portwatch": {
    "consecutive_failures": 0,
    "data_to": "2026-11-15",
-   "last_attempt": "2026-11-22T11:04:32Z",
+   "last_attempt": "2026-11-22T12:05:20Z",
    "last_error": null,
-   "last_success": "2026-11-22T11:04:32Z",
+   "last_success": "2026-11-22T12:05:20Z",
    "records": 80528,
    "state": {}
   },
   "usda-psd": {
    "consecutive_failures": 0,
    "data_to": "2027",
-   "last_attempt": "2026-11-22T11:06:46Z",
+   "last_attempt": "2026-11-22T12:04:09Z",
    "last_error": null,
-   "last_success": "2026-11-22T11:06:46Z",
+   "last_success": "2026-11-22T12:04:09Z",
    "records": 2095339,
    "state": {
     "sha256": "a293f2b05b1b7b185d7fdb7e1a562c43e6a0f190c6bf0e03fbe3df876286bd32"
@@ -65,9 +92,9 @@
   "usgs-mcs": {
    "consecutive_failures": 0,
    "data_to": "2026",
-   "last_attempt": "2026-11-22T11:06:51Z",
+   "last_attempt": "2026-11-22T12:04:37Z",
    "last_error": null,
-   "last_success": "2026-11-22T11:06:51Z",
+   "last_success": "2026-11-22T12:04:37Z",
    "records": 8886,
    "state": {
     "item": "696a75d5d4be0228872d3bf8",
@@ -88,5 +115,5 @@
    }
   }
  },
- "updated": "2026-11-22T12:02:35Z"
+ "updated": "2026-11-22T12:05:20Z"
 }
