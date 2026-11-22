@@ -75,7 +75,7 @@ EIA = {
 
 # FRED monthly series (fetched in GitHub Actions; FRED may be unreachable elsewhere) -> raw/fred/<id>.csv
 FRED = {
-    "PCU483111483111": ("freight-ppi-m", "freight", "US producer price index, deep-sea freight transportation", "index (Dec 1988 = 100)"),
+    "PCU483111483111": ("freight-ppi-m", "freight", "US producer price index, deep-sea freight transportation", "index"),
 }
 
 # Basis notes shown with the series (what the price actually measures)
@@ -178,6 +178,10 @@ def fred(dirpath, metas):
         if not pts:
             continue
         doc = {"id": sid, "freq": "M", "start": pts[0][0], "v": [v for _, v in pts]}
+        if unit == "index":  # name the base period from the data (the month where the index equals 100)
+            base = next((m for m, v in pts if v is not None and abs(v - 100.0) < 1e-9), None)
+            if base:
+                unit = f"index ({date(int(base[:4]), int(base[5:7]), 1):%b %Y} = 100)"
         meta = {"id": sid, "k": k, "name": name, "unit": unit, "freq": "M", "s": "fred", "start": pts[0][0], "end": pts[-1][0],
                 "note": "Proxy for freight costs: Baltic Exchange indices are proprietary"}
         write(doc, meta, metas)

@@ -138,7 +138,7 @@
 "id": "freight-ppi-m",
 "k": "freight",
 "name": "US producer price index, deep-sea freight transportation",
-"unit": "index (Dec 1988 = 100)",
+"unit": "index (Jun 1988 = 100)",
 "freq": "M",
 "s": "fred",
 "start": "1988-06",
