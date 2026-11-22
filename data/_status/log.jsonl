@@ -13,3 +13,9 @@
 {"t":"2026-11-22T12:02:35Z","source":"eia-spot","outcome":"ok","note":"updated","records":63785,"data_to":"2026-11-17","consecutive_failures":0}
 {"t":"2026-11-22T12:02:35Z","source":"fred","outcome":"fail","note":"PCU483111483111: ReadTimeout (timeout) after 1 attempts (fred.stlouisfed.org) after 4 attempts","records":null,"data_to":null,"consecutive_failures":1}
 {"t":"2026-11-22T12:05:20Z","source":"portwatch","outcome":"ok","note":"updated","records":80528,"data_to":"2026-11-15","consecutive_failures":0}
+{"t":"2026-11-22T12:19:30Z","source":"usda-psd","outcome":"ok","note":"updated","records":2095339,"data_to":"2027","consecutive_failures":0}
+{"t":"2026-11-22T12:19:57Z","source":"usgs-mcs","outcome":"ok","note":"updated","records":8886,"data_to":"2026","consecutive_failures":0}
+{"t":"2026-11-22T12:19:58Z","source":"eia-intl","outcome":"ok","note":"updated","records":105082,"data_to":"2026-11-19","consecutive_failures":0}
+{"t":"2026-11-22T12:20:34Z","source":"baci","outcome":"fail","note":"CEPII pages unreachable: HTTP 403 for www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp","records":null,"data_to":null,"consecutive_failures":1}
+{"t":"2026-11-22T12:20:43Z","source":"build-commodities","outcome":"ok","note":"rebuilt","records":null,"data_to":null,"consecutive_failures":0}
+{"t":"2026-11-22T12:20:44Z","source":"build-profiles","outcome":"ok","note":"rebuilt","records":null,"data_to":null,"consecutive_failures":0}
