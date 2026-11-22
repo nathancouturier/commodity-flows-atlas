@@ -13,7 +13,6 @@ import {
   panelCollapsed,
   selection,
   vesselClasses,
-  toggleInSet,
   sheetSnap,
   layers,
   infraHidden,
@@ -59,6 +58,14 @@ function vesselSize(v: VesselClass): string {
   if (s0?.kind === 'vessel' && !vesselClasses.peek().size) vesselClasses.value = new Set(vesselFamily(s0.id));
 }
 
+/** A whole family (Freight, Energy, Metals, Softs or all): no commodity, no vessel-class filter. */
+function pickFamily(f: FamilyFilter) {
+  setFamily(f);
+  commodity.value = null;
+  vesselClasses.value = new Set();
+  select(null);
+}
+
 /** A click on the open route closes it; any other route opens. */
 function toggleRoute(id: string) {
   const s = selection.peek();
@@ -74,10 +81,7 @@ commodity.subscribe((k) => {
 });
 
 export function SidePanel() {
-  const fam = family.value;
-  const freight = fam === 'freight';
   const current = commodities.value.find((c) => c.id === commodity.value);
-
   const hidden = panelCollapsed.value;
   return (
     <aside
@@ -108,16 +112,7 @@ export function SidePanel() {
       </button>
       <div class="panel-scroll" id="controls-body">
         <CommoditySection current={current} />
-        <div class="panel-block">
-          {freight ? (
-            <Dropdown name="Routes by vessel class" value={<FreightSummary />} defaultOpen onClear={vesselClasses.value.size ? () => (vesselClasses.value = new Set()) : undefined}>
-              <VesselFilter />
-              <RouteList />
-            </Dropdown>
-          ) : (
-            <VesselQuick />
-          )}
-        </div>
+        <FreightSection />
         <div class="panel-block">
           <Dropdown name="Route finder" value={<RouteFinderSummary />}>
             <RouteFinderSlot always />
@@ -240,16 +235,9 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
   const { current } = props;
   const fam = family.value;
   const [browseOpen, setBrowseOpen] = useState(false);
-  const vc = vesselClasses.value;
-  const sel = selection.value;
-  const vessels = vesselClassList.value;
-  // a whole family (group header): no commodity, no vessel-class filter
-  const pickFamily = (f: FamilyFilter) => {
+  const pick = (f: FamilyFilter) => {
     setBrowseOpen(false);
-    setFamily(f);
-    commodity.value = null;
-    vesselClasses.value = new Set();
-    select(null);
+    pickFamily(f);
   };
   const choose = (v: string | null) => {
     setBrowseOpen(false);
@@ -262,58 +250,22 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
     select({ kind: 'commodity', id: v });
     flyToWorld(true);
   };
-  // a vessel class under Freight works like a commodity under Energy: its routes on the map, its page open
-  const chooseVessel = (id: string) => {
-    setBrowseOpen(false);
-    if (sel?.kind === 'vessel' && sel.id === id) return pickFamily('freight'); // second click: all freight
-    if (family.peek() !== 'freight') setFamily('freight');
-    commodity.value = null;
-    vesselClasses.value = new Set(vesselFamily(id));
-    if (!layers.peek().routes) toggleLayer('routes', true);
-    select({ kind: 'vessel', id });
-  };
-  const dot = (color: string) => <span class="dot" style={{ color, width: '6px', height: '6px' }} />;
-  // the vessel class shown in the summary: the open one, else the first class of the active filter
-  const vHead = fam === 'freight' && vc.size ? vessels.find((v) => (sel?.kind === 'vessel' ? v.id === sel.id : vc.has(v.id))) ?? vessels.find((v) => vc.has(v.id)) : undefined;
+  // freight has its own dropdown (Routes by vessel class)
+  const commodityFamily = fam !== 'all' && fam !== 'freight';
   const value = current ? (
     <>{dot(FAMILY_COLOR[current.family])} {current.name}</>
-  ) : vHead ? (
-    <>{dot(SEGMENT_COLOR[vHead.segment])} {vHead.name}</>
-  ) : fam !== 'all' ? (
+  ) : commodityFamily ? (
     <>{dot(FAMILY_COLOR[fam])} {FAMILY_LABEL[fam]}</>
   ) : null;
   return (
     <div class="panel-block">
       <Dropdown
-        name="Browse all commodities"
+        name="All commodities"
         value={value}
-        onClear={current || fam !== 'all' || vc.size ? () => pickFamily('all') : undefined}
+        onClear={current || commodityFamily ? () => pick('all') : undefined}
         open={browseOpen}
         onToggle={setBrowseOpen}
       >
-        <button class="list-btn fam-btn" aria-pressed={!current && fam === 'all'} onClick={() => pickFamily('all')}>
-          All commodities
-          <span class="meta">overview</span>
-        </button>
-        <div class="cc-group">
-          <button
-            class="vc-label fam-head"
-            aria-pressed={!current && fam === 'freight' && !vc.size}
-            style={{ color: FAMILY_COLOR.freight }}
-            title="Show all freight routes"
-            onClick={() => pickFamily('freight')}
-          >
-            {FAMILY_LABEL.freight}
-            <span class="fam-all">all</span>
-          </button>
-          {vessels.map((v) => (
-            <button class="list-btn" key={v.id} aria-pressed={vc.has(v.id)} title={`${v.name}: its routes on the map and its page`} onClick={() => chooseVessel(v.id)}>
-              {dot(SEGMENT_COLOR[v.segment])}
-              {v.name.replace(/\s*\(.*\)$/, '')}
-              <span class="meta">{vesselSize(v)}</span>
-            </button>
-          ))}
-        </div>
         {FAMILIES.map((g) => (
           <div key={g} class="cc-group">
             <button
@@ -321,7 +273,7 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
               aria-pressed={!current && fam === g}
               style={{ color: FAMILY_COLOR[g] }}
               title={`Show all of ${FAMILY_LABEL[g]}`}
-              onClick={() => pickFamily(g)}
+              onClick={() => pick(g)}
             >
               {FAMILY_LABEL[g]}
               <span class="fam-all">all</span>
@@ -344,122 +296,82 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
 
 const SEGMENTS: Segment[] = ['dry', 'tanker', 'gas'];
 
-/** Vessel class chips grouped by segment; multi-select drives the lanes and routes layers. */
-function VesselFilter() {
-  const sel = vesselClasses.value;
-  const list = vesselClassList.value;
-  return (
-    <Section
-      title="Vessel class"
-      aside={
-        sel.size > 0 ? (
-          <button class="link-btn" onClick={() => (vesselClasses.value = new Set())}>
-            Clear
-          </button>
-        ) : null
-      }
-    >
-      {SEGMENTS.map((seg) => {
-        const items = list.filter((v) => v.segment === seg);
-        if (!items.length) return null;
-        return (
-          <div class="vc-group" key={seg}>
-            <div class="vc-label">{SEGMENT_LABEL[seg]}</div>
-            <div class="chips">
-              {items.map((v) => (
-                <button
-                  class="chip"
-                  aria-pressed={sel.has(v.id)}
-                  style={{ '--chip-color': SEGMENT_COLOR[seg] }}
-                  title={vesselFamily(v.id).length > 1 ? `Also matches ${vesselFamily(v.id).filter((x) => x !== v.id).map(vesselName).join(', ')}` : undefined}
-                  onClick={() => {
-                    toggleInSet(vesselClasses, v.id);
-                    if (!layers.peek().routes) toggleLayer('routes', true);
-                  }}
-                >
-                  {v.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        );
-      })}
-    </Section>
-  );
-}
+const dot = (color: string) => <span class="dot" style={{ color, width: '6px', height: '6px' }} />;
 
-/** Vessel-class families: one click shows every route of that class on the map (any tab). */
-const QUICK: { seg: Segment; items: { id: string; label: string }[] }[] = [
-  { seg: 'dry', items: [{ id: 'capesize', label: 'Capesize' }, { id: 'panamax', label: 'Panamax' }, { id: 'supramax', label: 'Supramax' }, { id: 'handysize', label: 'Handysize' }] },
-  { seg: 'tanker', items: [{ id: 'vlcc', label: 'VLCC' }, { id: 'suezmax', label: 'Suezmax' }, { id: 'aframax', label: 'Aframax' }, { id: 'lr2', label: 'LR2' }, { id: 'lr1', label: 'LR1' }, { id: 'mr', label: 'MR' }] },
-  { seg: 'gas', items: [{ id: 'lng', label: 'LNG' }, { id: 'vlgc', label: 'VLGC' }] },
-];
-
-function VesselQuick() {
-  const sel = vesselClasses.value;
+/**
+ * Freight, like a commodity family in All commodities: the FREIGHT header shows every route
+ * (Freight view), each vessel class below shows its family's routes and opens its page. On the
+ * Freight view the route list follows.
+ */
+function FreightSection() {
+  const fam = family.value;
+  const freight = fam === 'freight';
+  const vc = vesselClasses.value;
+  const sel = selection.value;
+  const vessels = vesselClassList.value;
+  const [open, setOpen] = useState(false);
   const [routes, setRoutes] = useState<Route[]>([]);
   useEffect(() => {
     loadRoutes().then(setRoutes).catch(() => undefined);
   }, []);
-  const active = (id: string) => vesselFamily(id).some((m) => sel.has(m));
-  const [open, setOpen] = useState(false);
-  const pick = (id: string) => {
-    // single family at a time here: clicking the active one clears it
-    vesselClasses.value = active(id) ? new Set() : new Set(vesselFamily(id));
-    if (vesselClasses.peek().size && !layers.peek().routes) toggleLayer('routes', true);
+  const allFreight = () => {
     setOpen(false);
+    pickFamily('freight');
   };
-  const matched = sel.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, sel)) : [];
-  const current = QUICK.flatMap((g) => g.items.map((it) => ({ ...it, seg: g.seg }))).find((it) => active(it.id));
-  const summary = current ? (
-    <>
-      <span class="dot" style={{ color: SEGMENT_COLOR[current.seg], width: '6px', height: '6px' }} /> {current.label} ({matched.length})
-    </>
+  const chooseVessel = (id: string) => {
+    setOpen(false);
+    if (sel?.kind === 'vessel' && sel.id === id) return pickFamily('freight'); // second click: every route
+    if (family.peek() !== 'freight') setFamily('freight');
+    commodity.value = null;
+    vesselClasses.value = new Set(vesselFamily(id));
+    if (!layers.peek().routes) toggleLayer('routes', true);
+    select({ kind: 'vessel', id });
+  };
+  // the class named in the summary: the open one, else the first class of the active filter
+  const head = vc.size ? (vessels.find((v) => sel?.kind === 'vessel' && v.id === sel.id && vc.has(v.id)) ?? vessels.find((v) => vc.has(v.id))) : undefined;
+  const matched = vc.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, vc)).length : 0;
+  const value = head ? (
+    <>{dot(SEGMENT_COLOR[head.segment])} {shortName(head.name)} ({matched})</>
+  ) : freight ? (
+    <>{dot(FAMILY_COLOR.freight)} All routes</>
   ) : null;
   return (
-    <>
-      <Dropdown name="Routes by vessel class" value={current ? summary : null} onClear={() => (vesselClasses.value = new Set())} open={open} onToggle={setOpen}>
-      {QUICK.map((g) => (
-        <div class="vc-group" key={g.seg}>
-          <div class="vc-label">{SEGMENT_LABEL[g.seg]}</div>
-          <div class="chips">
-            {g.items.map((it) => (
-              <button
-                key={it.id}
-                class="chip"
-                aria-pressed={active(it.id)}
-                style={{ '--chip-color': SEGMENT_COLOR[g.seg] }}
-                title={vesselFamily(it.id).length > 1 ? `Includes ${vesselFamily(it.id).map(vesselName).join(', ')}` : vesselName(it.id)}
-                onClick={() => pick(it.id)}
-              >
-                {it.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      ))}
-      {sel.size > 0 && (
-        <div class="vq-list">
-          <div class="muted" style={{ fontSize: '12px', margin: '6px 0 4px' }}>
-            {matched.length} route{matched.length === 1 ? '' : 's'} on the map
-          </div>
-          {matched.map((r) => (
-            <button class="list-btn route-row" key={r.id} onClick={() => toggleRoute(r.id)}>
-              {r.benchmark ? <span class="code">{r.id}</span> : <span class="dot" style={{ color: SEGMENT_COLOR[segmentOf(r.vclass)], width: '6px', height: '6px' }} />}
-              <span class="route-name">{r.name}</span>
+    <div class="panel-block">
+      <Dropdown
+        name="Routes by vessel class"
+        value={value}
+        onClear={freight || vc.size ? () => { setOpen(false); pickFamily('all'); } : undefined}
+        open={open}
+        onToggle={setOpen}
+      >
+        <div class="cc-group">
+          <button
+            class="vc-label fam-head"
+            aria-pressed={freight && !vc.size}
+            style={{ color: FAMILY_COLOR.freight }}
+            title="Show every freight route"
+            onClick={allFreight}
+          >
+            {FAMILY_LABEL.freight}
+            <span class="fam-all">all routes</span>
+          </button>
+          {vessels.map((v) => (
+            <button class="list-btn" key={v.id} aria-pressed={vc.has(v.id)} title={`${v.name}: its routes on the map and its page`} onClick={() => chooseVessel(v.id)}>
+              {dot(SEGMENT_COLOR[v.segment])}
+              {shortName(v.name)}
+              <span class="meta">{vesselSize(v)}</span>
             </button>
           ))}
         </div>
-      )}
+        {freight && <RouteList />}
       </Dropdown>
-    </>
+    </div>
   );
 }
 
-/** Summary line of the Freight-tab route dropdown. */
-function FreightSummary() {
-  const n = vesselClasses.value.size;
-  return n ? <>{[...vesselClasses.value].map(vesselName).join(', ')}</> : <>All</>;
+/** "VLOC (Valemax/Guaibamax)" -> "VLOC" for the lists; the full name stays in the title. */
+function shortName(name: string): string {
+  return name.replace(/\s*\(.*\)$/, '');
 }
 
 /** Summary line of the map layers dropdown: "All" or the visible layers. */
