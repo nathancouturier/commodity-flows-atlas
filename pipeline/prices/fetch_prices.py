@@ -161,25 +161,37 @@ def fetch_eia(stage):
 
 
 RAW_FRED = os.path.join(ROOT, "raw", "fred")
-FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 
 
 def fetch_fred(stage):
-    """Optional FRED series (freight cost proxy). Returns (info, error, n_updated)."""
+    """Optional FRED series (freight cost proxy) via the official FRED API.
+
+    The anonymous fredgraph.csv endpoint times out from cloud runners, so the API is used, which
+    needs a free key (https://fred.stlouisfed.org/docs/api/api_key.html) stored as the GitHub secret
+    FRED_API_KEY. Without a key this source is skipped silently: no failure, no alert.
+    Returns (info, error, n_updated); info is None when skipped."""
     from build_prices import FRED
 
+    key = os.environ.get("FRED_API_KEY", "").strip()
+    if not key:
+        print("  FRED skipped: no FRED_API_KEY secret configured")
+        return None, None, 0
     updated, errors = 0, []
     for sid in FRED:
-        tmp = os.path.join(stage, sid + ".csv")
         try:
-            fetch.download(FRED_URL + sid, tmp, kind="csv", min_bytes=500)
-            with open(tmp) as f:
-                head = f.readline()
-            if sid not in head:
-                raise ValueError("unexpected CSV header: " + head[:80])
-        except (fetch.FetchError, ValueError, OSError) as e:
-            errors.append(f"{sid}: {e}")
-            print("  FRED", sid, "failed:", e)
+            j = fetch.get_json("https://api.stlouisfed.org/fred/series/observations",
+                               params={"series_id": sid, "api_key": key, "file_type": "json"}, attempts=2)
+            obs = j.get("observations") or []
+            if len(obs) < 24:
+                raise ValueError(f"only {len(obs)} observations")
+            tmp = os.path.join(stage, sid + ".csv")
+            with open(tmp, "w") as f:
+                f.write(f"observation_date,{sid}\n")
+                for o in obs:
+                    f.write(f"{o['date']},{o['value']}\n")
+        except (fetch.FetchError, ValueError, KeyError, OSError) as e:
+            errors.append(f"{sid}: {str(e).replace(key, '***')}")
+            print("  FRED", sid, "failed")
             continue
         install(tmp, os.path.join(RAW_FRED, sid + ".csv"))
         updated += 1
@@ -244,7 +256,9 @@ def main():
         status.record_failure("eia-spot", eia_err)  # partial: some files updated, some failed
     else:
         status.record_failure("eia-spot", build_err or eia_err or "no EIA file updated")
-    if fred_updated and not build_err:
+    if fred_info is None and not fred_err:
+        pass  # skipped: no API key configured (optional source, never alerts)
+    elif fred_updated and not build_err:
         status.record_success("fred", records=fred_updated, note="updated")
     else:
         status.record_failure("fred", build_err or fred_err or "no FRED series updated")

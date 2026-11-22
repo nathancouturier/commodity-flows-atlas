@@ -41,6 +41,8 @@ jobs:
         # a hung source must not hit the job timeout (that would fail the run and e-mail the owner):
         # the step is stopped, recorded as failed, and the job still finishes green
         timeout-minutes: 25
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}  # optional; without it the FRED series is skipped
         run: python pipeline/prices/fetch_prices.py
       - name: Validate, commit, alert
         id: finish
