@@ -1,6 +1,6 @@
 # Commodity Flows Atlas — Progress
 
-_Last updated: 2026-11-22, about 5 h 30 min into the project_
+_Last updated: 2026-11-22, end of the build (about 6 h 30 min of work)_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -8,88 +8,87 @@ Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
 | Phase | Scope | Status | Complete |
 |---|---|---|---|
-| 1 | Foundation: stack, map engine, data model, design system, Pages deploy | done, live | 100% |
-| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards, route finder | done, live, reviewed | 100% |
-| 3 | Key energy and metals with infrastructure and country profiles | done, live, reviewed | 100% |
-| 4 | Remaining commodities: other metals, softs, fertilisers | done, live, reviewed | 95% |
-| 5 | History and prices: price charts with date lookup, route history by year | done, live, reviewed | 95% |
-| 6 | Automation: scheduled robust updates | built; first run on GitHub being checked | 90% |
-| 7 | Polish, mobile, performance, accessibility, fresh-eyes review | review fixes shipped; final fresh-eyes pass next | 75% |
-| **Overall** | | | **~92%** |
+| 1 | Foundation: stack, map engine, data model, design system, Pages deploy | done | 100% |
+| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards, route finder | done, reviewed | 100% |
+| 3 | Key energy and metals with infrastructure and country profiles | done, reviewed | 100% |
+| 4 | Remaining commodities: other metals, softs, fertilisers | done, reviewed | 100% |
+| 5 | History and prices: price charts with date lookup, route history by year | done, reviewed | 100% |
+| 6 | Automation: scheduled robust updates | done; price job proven on GitHub, PortWatch and annual jobs test-run | 95% |
+| 7 | Polish, mobile, performance, accessibility, fresh-eyes review | done | 100% |
+| **Overall** | | | **~99%** |
 
 ## Budget
 
-- Usage so far: roughly 75–85% of the first usage window (estimate; the meter is not visible to me).
-- On track to finish within two resets: **yes**. Remaining work is review, fixes and polish.
+- Finished within the first usage window (estimate: about 90% of it used; the meter is not
+  visible to me). No second reset was needed.
+- Heavy work ran on Sonnet subagents and one Haiku downloader. Architecture, data model,
+  pipelines and final integration stayed in the main session.
 
-## Done since last update (latest first)
+## What the atlas contains
 
-- **Trader and UX review of the live site**: four independent reviewers (freight desk, energy
-  trader, metals and agriculture trader, designer/accessibility). Fixes shipped:
-  - Overland and pipeline flows now drawn: natural gas, and Canada→US crude.
-  - Dated banners for active disruptions (Hormuz closure 2026, Red Sea diversions, Black Sea
-    attacks) on the affected commodity, country, route and lane pages.
-  - Chokepoint traffic now shows the last 28 days, e.g. Hormuz 3.5 vessels/day against 92 in
-    2023, plus the typical detour when a passage is avoided.
-  - Commodity pages:
-    - Refined copper, nickel intermediates, alumina and refined zinc tables.
-    - USDA ending stocks with marketing-year captions.
-    - Corridor shares labelled as country-pair corridors.
-  - Freight:
-    - Vessel-class families in the filters (Panamax/Kamsarmax and others).
-    - A single "Coal (thermal + met)" entry in the route finder.
-    - Indonesian coal now discharges in South China.
-    - Two new Capesize/VLOC routes.
-  - EU27 shown on member states; a colour legend for maps coloured by country; options with no
-    data are greyed out.
-  - Price explorer:
-    - Daily series by default.
-    - Year lookup gives average, low and high with dates.
-    - Index-to-100 comparison.
-    - A basis note on each series (e.g. Brent before the 1980s is a posted-price proxy).
-  - 48 more sourced assets: lithium, cobalt, gold, uranium, potash, rare earths, aluminium
-    smelters, grain/cocoa/palm-oil ports. Company lists enriched to 247 entries.
-  - Mobile and tablet layout below 1024 px, keyboard (Escape), landmarks, contrast; charts load
-    only when needed.
+- **Freight (the core)**:
+  - 17 vessel classes.
+  - 103 routes: 60 Baltic benchmarks and 43 heavy non-benchmark routes. Each has distance, laden
+    days, chokepoints, Cape/Suez/Panama alternatives, corridor share of seaborne trade, estimated
+    share of the class's tonne-miles, and 2005–2024 history.
+  - Seaborne lanes for 32 commodity groups on real sea routes.
+  - A route finder: origin → destination → typical class, share of that trade, ports,
+    chokepoints, disruption notes.
+  - 16 chokepoints with IMF PortWatch transits (last 28 days, weekly chart since 2019), EIA oil
+    flows and typical detours.
+  - 45 disruption events from 2008 to 2026, and live banners for the Hormuz closure, Red Sea
+    diversions and Black Sea attacks.
+- **39 commodities**:
+  - Production and reserves: USGS 2026 for minerals, EIA for energy (thermal and metallurgical
+    coal split).
+  - Agriculture: USDA PSD 2025/26, including ending stocks.
+  - Trade and flows: CEPII BACI 2024, including overland and pipeline flows.
+  - Refined copper and nickel-intermediate tables.
+  - 247 company entries: producers, processors and trading houses.
+- **282 infrastructure assets**, each with a source link and status: fields, refineries, LNG
+  export and import terminals, pipelines, mines, smelters and ports.
+- **146 country profiles**:
+  - Ranked exports and imports by value, production shares, assets, companies and lanes.
+  - A light check for raw materials outside the list, such as Botswana's diamonds.
+- **Prices**:
+  - 36 World Bank monthly series since 1960 and 8 EIA daily series since 1986, with basis notes.
+  - Look up any date or year ("1986", "Mar 2008").
+  - Compare up to three series, with index-to-100.
+- **History**: a 2005–2024 timeline that redraws flows year by year, with events.
 
+## Quality checks done
 
-- **Commodity data for all 39 commodities**:
-  - Production and reserves: USGS 2026 for minerals, EIA for oil, gas and coal.
-  - Agriculture: USDA PSD for 2025/26.
-  - Trade, flows and companies: CEPII BACI 2024.
-  - Cocoa: FAOSTAT. Uranium: WNA.
-  - Thermal coal trade comes from EIA's thermal-only split.
-- **Infrastructure**: 266 sourced assets, each with a source link:
-  - 27 oil and gas fields, 33 refineries, 67 LNG terminals and 29 pipelines.
-  - 43 mines, 10 smelters and 25 ports.
-  - 2026 status updates include Ras Laffan damage, Golden Pass start-up, Arctic LNG 2 sanctions and Cobre Panamá.
-- **Country profiles** for 139 countries:
-  - Ranked exports and imports by value, production shares, assets and companies.
-  - A light "country check" covers raw materials outside the main list, such as Botswana's diamonds.
-- **Interface**:
-  - Infrastructure layer with an icon per asset type, plus commodity and country pages.
-  - Price explorer: 36 World Bank monthly series since 1960 and 8 EIA daily series since 1986. You can look up any date, such as "1986".
-  - History timeline 2005–2024 with play and events.
-- **Automation**:
-  - Weekly price and PortWatch jobs, plus a monthly job for annual statistics that also checks for a new BACI version.
-  - Retries, validation, last-good fallback; an alert issue opens only after 3 consecutive failures of a source.
-- **Independent data audit**: 5 auditors, then a skeptic re-check of each issue; 24 issues confirmed and fixed:
-  - Taiwan was coded "S19" in customs data and its flows were missing.
-  - The tonnage repair rule distorted ore flows.
-  - VLCC and Capesize lanes ran through Panama.
-  - Russian load ports were wrong.
-  - Some facts were stale: Shell sold its Bukom refinery, and Sime Darby Plantation is now SD Guthrie.
+1. Independent data audit: 5 auditors, then a skeptic re-check of each issue; 24 confirmed
+   issues fixed.
+2. Trader review of the live site: freight desk, energy, metals and agriculture, plus a
+   designer/accessibility reviewer. About 45 findings, the important ones fixed.
+3. Final fresh-eyes review: scores 6–8/10 by area; the concrete issues it found were fixed.
 
-## Known data limits (no action needed)
+## Known data limits
 
-- **Freight rates**: Baltic Exchange indices are proprietary and are not shown. As a free proxy, the US producer price index for deep-sea freight (FRED) is fetched by GitHub Actions, since FRED does not respond from the build machine.
-- **Crude and gas reserves**: not in EIA's free bulk file, so these sections are omitted.
-- **Metals consumption by country**: not freely published, so omitted.
-- **Uranium reserves**: omitted.
-- **Customs blind spots**: Iranian crude to China is largely undeclared since 2019, and the affected lanes are flagged. North American pipeline gas tonnage is understated in customs data, with a caveat shown.
-- **Infrastructure gaps**: some assets lack a sourced capacity and are listed without one. Global Energy Monitor's wiki blocks automated reading.
+- **Freight rates**: Baltic Exchange indices are proprietary and are not shown.
+- **Not freely available, so omitted**:
+  - Crude and gas reserves (not in EIA's free bulk file).
+  - Metals consumption by country.
+  - Uranium reserves.
+  - A measured split of each trade by vessel class (classes are shown as "typical").
+- **Customs blind spots** are flagged on the site: undeclared Iranian crude to China, North
+  American pipeline gas tonnage.
 
 ## Questions and actions for you
 
-- None blocking.
-- Optional: the scheduled update jobs push data commits to `main`. If you later add branch protection to `main`, allow GitHub Actions to push, or the updates will be recorded as failures (not emailed).
+1. **Optional, 2 minutes: freight-cost price series.** FRED's free API needs a key. Without it,
+   that one series is skipped with no error and no alert.
+   - Create a free account at https://fredaccount.stlouisfed.org/ and request an API key at
+     https://fredaccount.stlouisfed.org/apikeys
+   - In GitHub, open https://github.com/nathancouturier/commodity-flows-atlas/settings/secrets/actions,
+     choose **New repository secret**, set Name `FRED_API_KEY` and paste the key as the Value.
+   - The next weekly price update (Tuesdays) then adds "US producer price index, deep-sea freight
+     transportation" to the price explorer.
+2. **No other action is needed.** Update jobs run on their own:
+   - Prices: Tuesdays.
+   - PortWatch: Wednesdays.
+   - Annual sources: the 15th of each month.
+   - Alerts: a GitHub issue opens only after a source fails 3 runs in a row.
+3. If you later protect the `main` branch, allow GitHub Actions to push to it. Otherwise the update
+   jobs will record failures, which are not emailed.
