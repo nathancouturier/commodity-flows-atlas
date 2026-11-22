@@ -26,6 +26,18 @@ const UNITS: [string, Dim, number][] = [
   ['MMcf/d', 'gas', 0.000028316846592 * 365],
 ];
 
+const unitOf = (u: string) => UNITS.find(([name]) => u === name || u.startsWith(name + ' ') || u.startsWith(name + '/y'));
+
+/**
+ * "billion lb Cu/y capacity" -> ["billion lb", "Cu/y capacity"]: the unit proper, then what it counts.
+ * An unknown unit splits at its first space.
+ */
+export function splitUnit(u: string): [string, string] {
+  const unit = unitOf(u);
+  const head = unit ? (u.startsWith(unit[0] + '/y') ? unit[0] + '/y' : unit[0]) : u.split(' ')[0];
+  return [head, u.slice(head.length).trim()];
+}
+
 /** What the unit text says the figure counts. 'coal' covers both coal commodities, 'cereal' the grains. */
 const SUBJECTS: [RegExp, string][] = [
   [/\bU3O8\b|uranium/i, 'uranium'],
@@ -97,7 +109,7 @@ export function readCapacity(p: InfraProps, id?: string): CapacityRead {
   const c = p.capacity;
   if (!c || !Number.isFinite(c.v)) return NONE;
   const u = c.u ?? '';
-  const unit = UNITS.find(([name]) => u === name || u.startsWith(name + ' ') || u.startsWith(name + '/y'));
+  const unit = unitOf(u);
   // an unknown unit is only comparable with itself
   const dim = unit ? unit[1] : `u:${u.split(' ')[0]}`;
   const rank = c.v * (unit ? unit[2] : 1);

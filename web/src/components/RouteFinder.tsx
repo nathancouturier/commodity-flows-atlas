@@ -4,12 +4,13 @@
  * Answers from the seaborne lane files (CEPII BACI customs data + Atlas estimates) and
  * links the matching Baltic / benchmark routes.
  */
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Lane, LaneFile, Route } from '../types';
 import { commodityMeta, countryName } from '../lib/data';
 import { LANE_GROUPS, chokepointName, familyLabel, loadLaneFile, loadRoutes, sameVesselFamily, vesselName, type LaneStatus } from '../lib/freight';
 import { fmt, pct } from '../lib/format';
 import { rfCommodity, rfDest, rfOrigin, routeFinderOpen, select } from '../lib/store';
+import { isSheetLayout } from '../map/controller';
 import { SourceLine } from './ui';
 
 type Row = { lane: Lane; file: LaneFile };
@@ -22,6 +23,8 @@ const OPTIONS = [COAL, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'therma
 /** Below this volume a lane is not offered as a destination (and never shown as "0.0 Mt"). */
 const MIN_FLOW = 0.05;
 const OTHER = '__other';
+/** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */
+let autoOpened: string | null = null;
 
 export function RouteFinder() {
   const k0 = rfCommodity.value;
@@ -74,8 +77,27 @@ export function RouteFinder() {
     return routes.filter((r) => r.corridor?.some((c) => c.k === lane.k && c.o.includes(lane.o) && c.d.includes(lane.d)));
   }, [match, routes]);
 
+  const root = useRef<HTMLDivElement>(null);
+  const matchId = match?.lane.id;
+  // bottom-sheet layouts: the answer sits far below the three lists and the open sheet hides the map, so
+  // a found route opens its page (the lane is drawn and framed above the sheet); an answer without a lane is scrolled to
+  useEffect(() => {
+    if (!complete) {
+      autoOpened = null;
+      return;
+    }
+    if (!isSheetLayout()) return;
+    if (matchId) {
+      if (autoOpened === matchId) return;
+      autoOpened = matchId;
+      select({ kind: 'lane', id: matchId });
+    } else {
+      root.current?.querySelector('.rf-card')?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+  }, [complete, matchId]);
+
   return (
-    <div class="rf">
+    <div class="rf" ref={root}>
       <label class="rf-field">
         <span>Commodity</span>
         <select
@@ -187,7 +209,7 @@ function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
         </div>
         <div>
           <dt>Share of seaborne trade</dt>
-          <dd class="num">{pct(lane.share)}</dd>
+          <dd class="num">{pct(lane.share, lane.flow.v > 0)}</dd>
         </div>
         {lane.shareDest != null && (
           <div>

@@ -377,6 +377,12 @@ button {
   color: var(--ink-3);
 }
 
+/* on the lighter hover / selected row --ink-3 falls under 4.5:1 (3.9:1): one step up there only */
+.list-btn:hover .meta,
+.list-btn[aria-pressed='true'] .meta {
+  color: var(--ink-2);
+}
+
 /* ---------------------------------------------------------------- detail panel */
 
 .detail-panel {
@@ -847,7 +853,7 @@ button {
 
   /* the detail sheet snaps like the controls sheet: peek (title and first figures), half, full */
   .detail-panel {
-    transition: transform var(--t-med) var(--ease), opacity var(--t-med), height var(--t-med) var(--ease);
+    transition: transform var(--t-med) var(--ease), opacity var(--t-med), height var(--t-med) var(--ease), max-height var(--t-med) var(--ease);
   }
 
   .detail-panel.snap-peek {
@@ -1285,12 +1291,13 @@ button {
   font-size: var(--fs-sm);
 }
 
+/* a route name is never cut: two routes that start alike ("Skaw-Gibraltar t…") must stay distinct, so it wraps */
 .route-row .route-name {
   min-width: 0;
   flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: left;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .route-row .meta {

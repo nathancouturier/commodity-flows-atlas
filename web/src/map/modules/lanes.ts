@@ -49,7 +49,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number, yr: number | null): st
   const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} · ` : '';
   return (
     `<div><b>${esc(countryName(lane.o))} → ${esc(countryName(lane.d))}</b> · ${esc(name)}</div>` +
-    `<div class="num">${fmt(v)} ${esc(lane.flow.u)} · ${pct(share)} of seaborne trade</div>` +
+    `<div class="num">${fmt(v)} ${esc(lane.flow.u)} · ${pct(share, v > 0)} of seaborne trade</div>` +
     `<div class="muted">${vessel}${fmt(lane.days)} days${via}</div>` +
     `<div class="src-line">${esc(sourceLabel(lane.flow.s))} · ${esc(String(shown))}</div>`
   );

@@ -11,7 +11,8 @@ import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../co
 import { layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
 import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
-import { escapeHtml as esc, fmt } from '../../lib/format';
+import { escapeHtml as esc, fmt, pctText } from '../../lib/format';
+import { lowerName } from '../../lib/prices';
 
 /**
  * Route line widths, as a fraction of the lane width range: fixed, they do not show a volume
@@ -21,11 +22,11 @@ export const ROUTE_W = { selected: 0.85, benchmark: 0.45, other: 0.3 };
 
 function routeLabel(r: Route): string {
   const share = r.shares?.[0];
-  const what = share ? (commodityMeta(share.k)?.name ?? share.k).toLowerCase() : '';
+  const what = share ? lowerName(commodityMeta(share.k)?.name ?? share.k) : '';
   return (
     `<div>${r.benchmark ? `<b>${esc(r.id)}</b> ` : '<b>'}${esc(r.name)}${r.benchmark ? '' : '</b>'}</div>` +
     `<div class="muted">${esc(vesselName(r.vclass))} · ${fmt(r.distanceNm)} nm · ${fmt(r.days)} days</div>` +
-    (share ? `<div class="num">${fmt(share.f.v)}% of seaborne ${esc(what)} (${esc(String(share.f.y))})</div>` : '') +
+    (share ? `<div class="num">${pctText(share.f.v)} of seaborne ${esc(what)} (${esc(String(share.f.y))})</div>` : '') +
     `<div class="src-line">${esc(r.s === 'atlas' ? 'Atlas estimate' : sourceLabel(r.s))}${r.discontinued ? ` · discontinued ${esc(r.discontinued)}` : ''}</div>`
   );
 }

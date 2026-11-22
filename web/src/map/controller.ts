@@ -44,6 +44,11 @@ const WORLD_BOUNDS: LngLatBoundsLike = [[-125, -45], [150, 65]];
 function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
   const H = window.innerHeight;
   if (isSheetLayout()) {
+    // short screens (a phone held sideways): the detail sheet is a column on the right, the map keeps the left
+    if (opts.detail && window.matchMedia('(max-height: 500px)').matches) {
+      const w = document.querySelector('.detail-panel')?.getBoundingClientRect().width || 340;
+      return { top: 64, bottom: 16, left: 16, right: w + 24 };
+    }
     const sheet = document.querySelector('.side-panel')?.getBoundingClientRect();
     const sheetH = sheet ? H - sheet.top : SHEET_PEEK_PX;
     const bottom = opts.detail ? H * 0.6 + 16 : Math.min(sheetH + 12, H * 0.55);

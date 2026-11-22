@@ -4,6 +4,7 @@ import type { Route } from '../../types';
 import { commodityMeta } from '../../lib/data';
 import { fmt, fig as fmtFig } from '../../lib/format';
 import { loadRoutes, loadRouteGeo, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
@@ -55,7 +56,7 @@ function Body({ r }: { r: Route }) {
       if (seen.has(key)) return;
       seen.add(key);
       // customs codes do not separate thermal from metallurgical coal: both shares are computed on all coal
-      const name = k === 'thermal-coal' || k === 'met-coal' ? 'coal (all types)' : (commodityMeta(k)?.name ?? k).toLowerCase();
+      const name = k === 'thermal-coal' || k === 'met-coal' ? 'coal (all types)' : lowerName(commodityMeta(k)?.name ?? k);
       out.push({ label: `Corridor share of seaborne ${name}`, f });
     };
     if (r.shareCommodity) {

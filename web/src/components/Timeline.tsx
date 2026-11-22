@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, historyOpen, metric, select, selection, sheetSnap, year, type SheetSnap } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
-import { toggleHistory } from '../lib/prices';
+import { lowerName, toggleHistory } from '../lib/prices';
 import { fmt, TOUCH } from '../lib/format';
 import { isSheetLayout } from '../map/controller';
 import { parseDate } from './charts/TimeChart';
@@ -210,7 +210,8 @@ export function Timeline() {
     .map((f) => {
       const i = f.years.indexOf(cur);
       if (i < 0 || f.seaborne[i] == null) return null;
-      const label = files.length === 1 && f.group === k ? (commodityMeta(k)?.name ?? pretty(f.group)).toLowerCase() : pretty(f.label ?? f.group).toLowerCase();
+      // acronyms keep their capitals: "LNG", "DAP"
+      const label = lowerName(files.length === 1 && f.group === k ? (commodityMeta(k)?.name ?? pretty(f.group)) : pretty(f.label ?? f.group));
       return { label, v: f.seaborne[i], u: f.unit, s: f.s };
     })
     .filter(Boolean) as { label: string; v: number; u: string; s: string }[];
@@ -283,7 +284,7 @@ export function Timeline() {
         </span>
         {sea.map((s) => (
           <span class="tl-sea" key={s.label} title={sourceLabel(s.s)}>
-            Seaborne {s.label} {cur}:{' '}
+            Seaborne trade, {s.label}, {cur}:{' '}
             <b class="num">
               {fmt(s.v)} {s.u}
             </b>

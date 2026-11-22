@@ -15,16 +15,31 @@ export function fmt(v: number | null | undefined): string {
   return v.toPrecision(2);
 }
 
-export function pct(share: number | null | undefined, digits = 1): string {
-  if (share == null || Number.isNaN(share)) return '—';
-  const p = share * 100;
+/**
+ * The one rounding rule for every share the atlas prints, `p` in percent: one decimal ("7.0%", "10.9%",
+ * "36.2%"), "<0.1%" for a positive share below 0.1%, "0%" for a true zero and "100%" at the top.
+ */
+export function pctText(p: number | null | undefined): string {
+  if (p == null || Number.isNaN(p)) return '—';
+  if (p === 0) return '0%';
   if (p > 0 && p < 0.1) return '<0.1%';
-  return `${p.toFixed(p >= 10 ? 0 : digits)}%`;
+  if (p >= 99.95 && p <= 100) return '100%';
+  return `${p.toFixed(1)}%`;
+}
+
+/**
+ * Share given as a fraction (0..1). `positive` tells that the quantity behind the share is above zero: a
+ * share that the data file rounded down to 0 then prints "<0.1%", not "0%".
+ */
+export function pct(share: number | null | undefined, positive = false): string {
+  if (share == null || Number.isNaN(share)) return '—';
+  if (share === 0 && positive) return '<0.1%';
+  return pctText(share * 100);
 }
 
 export function fig(f: Fig | undefined): string {
   if (!f) return '—';
-  return f.u === '%' ? `${fmt(f.v)}%` : `${fmt(f.v)} ${f.u}`;
+  return f.u === '%' ? pctText(f.v) : `${fmt(f.v)} ${f.u}`;
 }
 
 /** "Source name, 2024" — used under every figure. */

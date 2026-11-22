@@ -3,6 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { InfraType } from '../../types';
 import { countryName, sourceLabel, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
+import { splitUnit } from '../../lib/capacity';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, infraCapacity, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select } from '../../lib/store';
@@ -45,8 +46,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
   const color = infraColor(f);
   const meta = INFRA_META[p.type];
   const cap = infraCapacity(p);
-  const [capU = '', ...capRestParts] = (p.capacity?.u ?? '').split(' ');
-  const capRest = capRestParts.join(' ');
+  // "1 billion lb" and "60.5 million short tons" keep their whole unit in the headline figure
+  const [capU, capRest] = splitUnit(p.capacity?.u ?? '');
   const crossed = (p.cs ?? []).filter((c) => c !== p.c);
   return (
     <>

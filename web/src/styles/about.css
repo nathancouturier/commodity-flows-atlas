@@ -390,4 +390,11 @@
   .about-tab {
     padding: 11px 12px 12px;
   }
+
+  /* footer links and the source names are tap targets: about 34 px high instead of 15 to 18 */
+  .about-foot a,
+  .about-table a {
+    display: inline-block;
+    padding: 8px 0;
+  }
 }

@@ -14,6 +14,7 @@ import { commodity, landFlowsShown, layers, mapNotice, selection, year } from '.
 import { commodities, commodityMeta, countries, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
+import { lowerName } from '../../lib/prices';
 
 const LAND_MODES = new Set(['land', 'pipeline', 'rail', 'mixed']);
 const rad = (d: number) => (d * Math.PI) / 180;
@@ -117,9 +118,15 @@ registerLayerModule(() => {
       landFlowsShown.value = features.length;
       const hasLanes = laneCounts.some((n) => n > 0);
       const cur = selection.peek();
+      // Flows of a commodity outside the lane model (uranium, gold, lithium...) carry no transport mode in the
+      // data file: they are listed on the commodity page but cannot be drawn. The notice says that, not "no flows".
+      const unclassified = (d?.flows ?? []).some((f) => !f.mode && f.v > 0);
+      const name = meta?.name ?? k;
       mapNotice.value =
         !hasLanes && !features.length && !(cur && (cur.kind === 'lane' || cur.kind === 'route'))
-          ? `No mapped seaborne or overland flows for ${meta?.name ?? k} in the open data${yr != null ? ` for ${yr}` : ''}.`
+          ? unclassified
+            ? `${name} flows are not drawn on the map: the atlas has not yet classified them as seaborne or overland. The ${lowerName(name)} page lists the main ones.`
+            : `No mapped seaborne or overland flows for ${name} in the open data${yr != null ? ` for ${yr}` : ''}.`
           : null;
     });
   });

@@ -208,7 +208,8 @@ export default function CountryView({ id }: { id: string }) {
   return (
     <>
       <div class="detail-head">
-        <div class="detail-kicker">Country profile{meta ? ` · ${meta.region}` : ''}</div>
+        {/* the region is named as such: "Australia and New Zealand" above "Australia" read as a wrong title */}
+        <div class="detail-kicker">Country profile{meta ? ` · Region: ${meta.region}` : ''}</div>
         <h2 class="detail-title">{countryName(id)}</h2>
         {kpis}
       </div>

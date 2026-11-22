@@ -75,7 +75,7 @@ export default function LaneView({ id }: { id: string }) {
           ) : (
             <Kpi label={`Flow · ${flowY}`} value="—" sub={`${pub} · ${flowY}`} note={lane.histNote ?? `No figure for ${flowY}`} span />
           )}
-          <Kpi label="Share of seaborne trade" value={pct(share)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
+          <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           {lane.shareDest != null && (
             <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
           )}
