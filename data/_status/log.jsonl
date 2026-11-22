@@ -19,3 +19,6 @@
 {"t":"2026-11-22T12:20:34Z","source":"baci","outcome":"fail","note":"CEPII pages unreachable: HTTP 403 for www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp","records":null,"data_to":null,"consecutive_failures":1}
 {"t":"2026-11-22T12:20:43Z","source":"build-commodities","outcome":"ok","note":"rebuilt","records":null,"data_to":null,"consecutive_failures":0}
 {"t":"2026-11-22T12:20:44Z","source":"build-profiles","outcome":"ok","note":"rebuilt","records":null,"data_to":null,"consecutive_failures":0}
+{"t":"2026-11-22T13:57:11Z","source":"wb-pink","outcome":"ok","note":"updated","records":802,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-22T13:57:11Z","source":"eia-spot","outcome":"ok","note":"updated","records":63785,"data_to":"2026-11-17","consecutive_failures":0}
+{"t":"2026-11-22T13:57:11Z","source":"fred","outcome":"ok","note":"updated","records":1,"data_to":null,"consecutive_failures":0}

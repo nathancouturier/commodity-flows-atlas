@@ -135,6 +135,17 @@
 "basis": "World Bank monthly average of WTI spot."
 },
 {
+"id": "freight-ppi-m",
+"k": "freight",
+"name": "US producer price index, deep-sea freight transportation",
+"unit": "index (Dec 1988 = 100)",
+"freq": "M",
+"s": "fred",
+"start": "1988-06",
+"end": "2026-10",
+"note": "Proxy for freight costs: Baltic Exchange indices are proprietary"
+},
+{
 "id": "gold-m",
 "k": "gold",
 "name": "Gold",
