@@ -1,0 +1,475 @@
+{
+ "id": "met-coal",
+ "summary": {
+  "production": {
+   "v": 1059.5,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, metallurgical coal production; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+  },
+  "consumption": {
+   "v": 1011.4,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, metallurgical coal consumption; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+  },
+  "exports": {
+   "v": 363.38,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, metallurgical coal exports; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 1059.5,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 523.44
+   },
+   {
+    "c": "AUS",
+    "v": 175.44
+   },
+   {
+    "c": "RUS",
+    "v": 101.23
+   },
+   {
+    "c": "MNG",
+    "v": 65.36
+   },
+   {
+    "c": "IND",
+    "v": 59.852
+   },
+   {
+    "c": "USA",
+    "v": 58.509
+   },
+   {
+    "c": "CAN",
+    "v": 29.68
+   },
+   {
+    "c": "POL",
+    "v": 12.225
+   },
+   {
+    "c": "COL",
+    "v": 7.326
+   },
+   {
+    "c": "MOZ",
+    "v": 6.498
+   },
+   {
+    "c": "IDN",
+    "v": 6.197
+   },
+   {
+    "c": "KAZ",
+    "v": 4.415
+   }
+  ],
+  "n": "EIA International Energy Data, metallurgical coal production; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 1011.4,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 640.14
+   },
+   {
+    "c": "IND",
+    "v": 112.71
+   },
+   {
+    "c": "RUS",
+    "v": 69.694
+   },
+   {
+    "c": "JPN",
+    "v": 35.937
+   },
+   {
+    "c": "KOR",
+    "v": 24.318
+   },
+   {
+    "c": "IDN",
+    "v": 16.066
+   },
+   {
+    "c": "USA",
+    "v": 13.57
+   },
+   {
+    "c": "VNM",
+    "v": 11.173
+   },
+   {
+    "c": "POL",
+    "v": 10.421
+   },
+   {
+    "c": "DEU",
+    "v": 10.111
+   },
+   {
+    "c": "BRA",
+    "v": 10.095
+   },
+   {
+    "c": "COL",
+    "v": 5.646
+   }
+  ],
+  "n": "EIA International Energy Data, metallurgical coal consumption; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+ },
+ "exports": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 363.38,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 168.54
+   },
+   {
+    "c": "MNG",
+    "v": 53.468
+   },
+   {
+    "c": "USA",
+    "v": 45.518
+   },
+   {
+    "c": "RUS",
+    "v": 40.482
+   },
+   {
+    "c": "CAN",
+    "v": 30.581
+   },
+   {
+    "c": "NLD",
+    "v": 7.799
+   },
+   {
+    "c": "MOZ",
+    "v": 6.498
+   },
+   {
+    "c": "POL",
+    "v": 2.763
+   },
+   {
+    "c": "IDN",
+    "v": 2.258
+   },
+   {
+    "c": "COL",
+    "v": 1.688
+   },
+   {
+    "c": "NZL",
+    "v": 1.228
+   },
+   {
+    "c": "CHN",
+    "v": 1.175
+   }
+  ],
+  "n": "EIA International Energy Data, metallurgical coal exports; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+ },
+ "imports": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 340.19,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 118.63
+   },
+   {
+    "c": "IND",
+    "v": 66.33
+   },
+   {
+    "c": "JPN",
+    "v": 35.937
+   },
+   {
+    "c": "KOR",
+    "v": 24.104
+   },
+   {
+    "c": "IDN",
+    "v": 17.032
+   },
+   {
+    "c": "VNM",
+    "v": 11.023
+   },
+   {
+    "c": "DEU",
+    "v": 10.111
+   },
+   {
+    "c": "BRA",
+    "v": 10.02
+   },
+   {
+    "c": "NLD",
+    "v": 9.81
+   },
+   {
+    "c": "TUR",
+    "v": 5.431
+   },
+   {
+    "c": "TWN",
+    "v": 5.369
+   },
+   {
+    "c": "FRA",
+    "v": 2.383
+   }
+  ],
+  "n": "EIA International Energy Data, metallurgical coal imports; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
+ },
+ "flows": [
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 108.97,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-JPN",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 88.334,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 83.823,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-CHN",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "MNG",
+   "d": "CHN",
+   "v": 78.774,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "IND",
+   "v": 58.243,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-IND",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 33.719,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-KOR",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 27.265,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 26.941,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-IND",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 24.42,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-TUR",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "USA",
+   "d": "IND",
+   "v": 21.354,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:USA-IND",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "RUS",
+   "d": "KOR",
+   "v": 18.509,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-KOR",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "VNM",
+   "v": 17.752,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-VNM",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "MYS",
+   "v": 12.575,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-MYS",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 12.092,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:USA-CHN",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 12.017,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:USA-JPN",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "USA",
+   "d": "MAR",
+   "v": 11.527,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "CAN",
+   "d": "KOR",
+   "v": 9.899,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:CAN-KOR",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 9.529,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "CAN",
+   "d": "JPN",
+   "v": 9.376,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:CAN-JPN",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  },
+  {
+   "o": "AUS",
+   "d": "DEU",
+   "v": 7.442,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+  }
+ ],
+ "notes": [
+  "Flows are BACI coal flows (HS 2701) from AUS, USA, CAN, MNG and RUS: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
+  "Seaborne total omitted: the lane file covers all coal and cannot be split.",
+  "Exports/imports tables are EIA metallurgical coal (not BACI)."
+ ]
+}

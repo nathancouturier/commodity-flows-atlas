@@ -1,0 +1,462 @@
+{
+ "id": "wheat",
+ "summary": {
+  "production": {
+   "v": 844.03,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Wheat, wheat production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 817.93,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Wheat, wheat domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 226.03,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Wheat, wheat exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 173.7,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (wheat) under the Atlas lane method (data/freight/lanes/wheat.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 844.03,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 145.14
+   },
+   {
+    "c": "CHN",
+    "v": 140.07
+   },
+   {
+    "c": "IND",
+    "v": 117.95
+   },
+   {
+    "c": "RUS",
+    "v": 90.3
+   },
+   {
+    "c": "USA",
+    "v": 54.137
+   },
+   {
+    "c": "CAN",
+    "v": 40.562
+   },
+   {
+    "c": "AUS",
+    "v": 35.985
+   },
+   {
+    "c": "PAK",
+    "v": 28.396
+   },
+   {
+    "c": "ARG",
+    "v": 27.886
+   },
+   {
+    "c": "UKR",
+    "v": 24.1
+   },
+   {
+    "c": "KAZ",
+    "v": 19.326
+   },
+   {
+    "c": "TUR",
+    "v": 16.8
+   }
+  ],
+  "n": "USDA PSD, Wheat, wheat production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 817.93,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 150.0
+   },
+   {
+    "c": "EU27",
+    "v": 113.5
+   },
+   {
+    "c": "IND",
+    "v": 107.84
+   },
+   {
+    "c": "RUS",
+    "v": 41.2
+   },
+   {
+    "c": "USA",
+    "v": 31.05
+   },
+   {
+    "c": "PAK",
+    "v": 30.7
+   },
+   {
+    "c": "EGY",
+    "v": 20.6
+   },
+   {
+    "c": "TUR",
+    "v": 17.95
+   },
+   {
+    "c": "IRN",
+    "v": 16.95
+   },
+   {
+    "c": "GBR",
+    "v": 15.0
+   },
+   {
+    "c": "BRA",
+    "v": 12.41
+   },
+   {
+    "c": "DZA",
+    "v": 12.25
+   }
+  ],
+  "n": "USDA PSD, Wheat, wheat domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 226.03,
+  "rows": [
+   {
+    "c": "RUS",
+    "v": 48.0
+   },
+   {
+    "c": "EU27",
+    "v": 31.715
+   },
+   {
+    "c": "CAN",
+    "v": 29.729
+   },
+   {
+    "c": "USA",
+    "v": 24.706
+   },
+   {
+    "c": "AUS",
+    "v": 22.542
+   },
+   {
+    "c": "ARG",
+    "v": 19.1
+   },
+   {
+    "c": "UKR",
+    "v": 14.104
+   },
+   {
+    "c": "KAZ",
+    "v": 11.6
+   },
+   {
+    "c": "TUR",
+    "v": 6.468
+   },
+   {
+    "c": "UZB",
+    "v": 2.339
+   },
+   {
+    "c": "BRA",
+    "v": 1.84
+   },
+   {
+    "c": "EGY",
+    "v": 1.551
+   }
+  ],
+  "n": "USDA PSD, Wheat, wheat exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 222.37,
+  "rows": [
+   {
+    "c": "EGY",
+    "v": 15.195
+   },
+   {
+    "c": "IDN",
+    "v": 13.023
+   },
+   {
+    "c": "DZA",
+    "v": 8.7
+   },
+   {
+    "c": "PHL",
+    "v": 7.8
+   },
+   {
+    "c": "BGD",
+    "v": 7.35
+   },
+   {
+    "c": "VNM",
+    "v": 7.3
+   },
+   {
+    "c": "EU27",
+    "v": 7.277
+   },
+   {
+    "c": "MAR",
+    "v": 6.969
+   },
+   {
+    "c": "BRA",
+    "v": 6.4
+   },
+   {
+    "c": "TUR",
+    "v": 6.321
+   },
+   {
+    "c": "NGA",
+    "v": 5.934
+   },
+   {
+    "c": "JPN",
+    "v": 5.714
+   }
+  ],
+  "n": "USDA PSD, Wheat, wheat imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "RUS",
+   "d": "EGY",
+   "v": 11.056,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:RUS-EGY",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "UKR",
+   "d": "ESP",
+   "v": 5.582,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:UKR-ESP"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 4.747,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:RUS-TUR"
+  },
+  {
+   "o": "ARG",
+   "d": "BRA",
+   "v": 4.205,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:ARG-BRA"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 3.971,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:USA-MEX"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 3.289,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:AUS-CHN"
+  },
+  {
+   "o": "KAZ",
+   "d": "UZB",
+   "v": 3.251,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "IDN",
+   "v": 3.17,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:AUS-IDN"
+  },
+  {
+   "o": "USA",
+   "d": "PHL",
+   "v": 2.761,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:USA-PHL"
+  },
+  {
+   "o": "CZE",
+   "d": "DEU",
+   "v": 2.542,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "BEL",
+   "v": 2.54,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:FRA-BEL"
+  },
+  {
+   "o": "UKR",
+   "d": "IDN",
+   "v": 2.522,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:UKR-IDN"
+  },
+  {
+   "o": "AUS",
+   "d": "PHL",
+   "v": 2.457,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:AUS-PHL"
+  },
+  {
+   "o": "CAN",
+   "d": "IDN",
+   "v": 2.456,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:CAN-IDN"
+  },
+  {
+   "o": "ROU",
+   "d": "SAU",
+   "v": 2.403,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 2.178,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "MAR",
+   "v": 2.133,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:FRA-MAR"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 2.119,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:USA-JPN"
+  },
+  {
+   "o": "RUS",
+   "d": "SAU",
+   "v": 2.056,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "CAN",
+   "d": "JPN",
+   "v": 2.026,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "wheat:CAN-JPN"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ]
+}

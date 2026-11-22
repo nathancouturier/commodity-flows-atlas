@@ -21,6 +21,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import ports as P  # noqa: E402
 import build_lanes as BL  # noqa: E402
+import build_portwatch as BW  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 
 ROOT = BL.ROOT
@@ -191,30 +192,10 @@ def main():
             c["estimates"] = est
     json.dump(chk, open(os.path.join(OUT, "chokepoints.json"), "w"), indent=0)
 
-    # PortWatch weekly transit series per chokepoint
-    pages = sorted(glob.glob(os.path.join(RAW, "portwatch", "chokepoints_daily_page*.json")))
-    if pages:
-        rows = []
-        for p in pages:
-            rows += [f["attributes"] for f in json.load(open(p))["features"]]
-        pw = pd.DataFrame(rows)
-        pw["date"] = pd.to_datetime(pw["date"])
-        pw["other"] = pw["n_general_cargo"] + pw["n_roro"]
-        os.makedirs(os.path.join(OUT, "portwatch"), exist_ok=True)
-        ids = {c.get("portwatch"): c["id"] for c in chk if c.get("portwatch")}
-        for pid, g in pw.groupby("portid"):
-            if pid not in ids:
-                continue
-            wk = g.set_index("date").sort_index()[["n_tanker", "n_dry_bulk", "n_container", "other", "n_total", "capacity"]].resample("W-MON", label="left", closed="left").mean().dropna()
-            doc = {
-                "id": ids[pid], "portwatch": pid, "s": "portwatch", "y": str(g["date"].max().date()), "unit": "vessels/day (weekly average)",
-                "start": str(wk.index[0].date()), "step": "week",
-                "tanker": [round(x, 1) for x in wk["n_tanker"]], "dry": [round(x, 1) for x in wk["n_dry_bulk"]],
-                "container": [round(x, 1) for x in wk["n_container"]], "other": [round(x, 1) for x in wk["other"]],
-                "total": [round(x, 1) for x in wk["n_total"]], "dwt": [round(x / 1e6, 2) for x in wk["capacity"]],
-            }
-            json.dump(doc, open(os.path.join(OUT, "portwatch", f"{ids[pid]}.json"), "w"), separators=(",", ":"))
-        print("portwatch series", len(ids), "last date", pw["date"].max().date())
+    # PortWatch weekly transit series per chokepoint (logic shared with build_portwatch.py)
+    rows = BW.read_rows(os.path.join(RAW, "portwatch"))
+    if rows:
+        BW.build(rows, chk, os.path.join(OUT, "portwatch"))
 
     # merge sources
     reg = json.load(open(os.path.join(ROOT, "data", "sources.json")))

@@ -1,0 +1,460 @@
+{
+ "id": "rice",
+ "summary": {
+  "production": {
+   "v": 545.65,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Rice, Milled, milled rice production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 530.51,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Rice, Milled, milled rice domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 58.198,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Rice, Milled, milled rice exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 48.95,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (rice) under the Atlas lane method (data/freight/lanes/rice.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 545.65,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 154.02
+   },
+   {
+    "c": "CHN",
+    "v": 146.33
+   },
+   {
+    "c": "BGD",
+    "v": 37.65
+   },
+   {
+    "c": "IDN",
+    "v": 33.8
+   },
+   {
+    "c": "VNM",
+    "v": 26.2
+   },
+   {
+    "c": "THA",
+    "v": 20.7
+   },
+   {
+    "c": "PHL",
+    "v": 12.35
+   },
+   {
+    "c": "MMR",
+    "v": 12.0
+   },
+   {
+    "c": "PAK",
+    "v": 9.998
+   },
+   {
+    "c": "KHM",
+    "v": 8.1
+   },
+   {
+    "c": "BRA",
+    "v": 7.6
+   },
+   {
+    "c": "JPN",
+    "v": 7.293
+   }
+  ],
+  "n": "USDA PSD, Rice, Milled, milled rice production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 530.51,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 147.35
+   },
+   {
+    "c": "IND",
+    "v": 121.1
+   },
+   {
+    "c": "BGD",
+    "v": 38.3
+   },
+   {
+    "c": "IDN",
+    "v": 35.3
+   },
+   {
+    "c": "VNM",
+    "v": 22.25
+   },
+   {
+    "c": "PHL",
+    "v": 17.7
+   },
+   {
+    "c": "THA",
+    "v": 12.8
+   },
+   {
+    "c": "MMR",
+    "v": 9.3
+   },
+   {
+    "c": "NGA",
+    "v": 8.5
+   },
+   {
+    "c": "JPN",
+    "v": 7.461
+   },
+   {
+    "c": "BRA",
+    "v": 7.35
+   },
+   {
+    "c": "USA",
+    "v": 5.217
+   }
+  ],
+  "n": "USDA PSD, Rice, Milled, milled rice domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 58.198,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 21.921
+   },
+   {
+    "c": "VNM",
+    "v": 8.1
+   },
+   {
+    "c": "THA",
+    "v": 6.8
+   },
+   {
+    "c": "PAK",
+    "v": 4.5
+   },
+   {
+    "c": "KHM",
+    "v": 3.2
+   },
+   {
+    "c": "USA",
+    "v": 2.56
+   },
+   {
+    "c": "MMR",
+    "v": 2.3
+   },
+   {
+    "c": "CHN",
+    "v": 2.06
+   },
+   {
+    "c": "BRA",
+    "v": 1.4
+   },
+   {
+    "c": "URY",
+    "v": 1.0
+   },
+   {
+    "c": "PRY",
+    "v": 0.98
+   },
+   {
+    "c": "GUY",
+    "v": 0.442
+   }
+  ],
+  "n": "USDA PSD, Rice, Milled, milled rice exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 56.023,
+  "rows": [
+   {
+    "c": "PHL",
+    "v": 4.35
+   },
+   {
+    "c": "CHN",
+    "v": 4.082
+   },
+   {
+    "c": "VNM",
+    "v": 3.1
+   },
+   {
+    "c": "NGA",
+    "v": 2.85
+   },
+   {
+    "c": "EU27",
+    "v": 2.3
+   },
+   {
+    "c": "CIV",
+    "v": 1.8
+   },
+   {
+    "c": "SAU",
+    "v": 1.7
+   },
+   {
+    "c": "IRQ",
+    "v": 1.6
+   },
+   {
+    "c": "MYS",
+    "v": 1.6
+   },
+   {
+    "c": "BGD",
+    "v": 1.41
+   },
+   {
+    "c": "USA",
+    "v": 1.358
+   },
+   {
+    "c": "ZAF",
+    "v": 1.208
+   }
+  ],
+  "n": "USDA PSD, Rice, Milled, milled rice imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "KHM",
+   "d": "VNM",
+   "v": 5.004,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "VNM",
+   "d": "PHL",
+   "v": 3.55,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:VNM-PHL"
+  },
+  {
+   "o": "IND",
+   "d": "BEN",
+   "v": 1.441,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-BEN"
+  },
+  {
+   "o": "IND",
+   "d": "SAU",
+   "v": 1.4,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-SAU"
+  },
+  {
+   "o": "THA",
+   "d": "IDN",
+   "v": 1.352,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "VNM",
+   "d": "IDN",
+   "v": 1.248,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:VNM-IDN"
+  },
+  {
+   "o": "IND",
+   "d": "GIN",
+   "v": 1.022,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-GIN"
+  },
+  {
+   "o": "THA",
+   "d": "IRQ",
+   "v": 0.9972,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:THA-IRQ"
+  },
+  {
+   "o": "IND",
+   "d": "IRQ",
+   "v": 0.946,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-IRQ"
+  },
+  {
+   "o": "THA",
+   "d": "USA",
+   "v": 0.8665,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:THA-USA"
+  },
+  {
+   "o": "MMR",
+   "d": "IDN",
+   "v": 0.8485,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "THA",
+   "d": "ZAF",
+   "v": 0.8371,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:THA-ZAF"
+  },
+  {
+   "o": "PAK",
+   "d": "IDN",
+   "v": 0.7997,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 0.7981,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:USA-MEX"
+  },
+  {
+   "o": "IND",
+   "d": "IRN",
+   "v": 0.7453,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:IND-IRN"
+  },
+  {
+   "o": "TZA",
+   "d": "UGA",
+   "v": 0.7239,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "VNM",
+   "d": "MYS",
+   "v": 0.6876,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:VNM-MYS"
+  },
+  {
+   "o": "IND",
+   "d": "TGO",
+   "v": 0.6593,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "THA",
+   "d": "PHL",
+   "v": 0.6323,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rice:THA-PHL"
+  },
+  {
+   "o": "IND",
+   "d": "VNM",
+   "v": 0.6128,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures."
+ ]
+}

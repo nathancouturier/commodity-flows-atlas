@@ -1,0 +1,455 @@
+{
+ "id": "nickel",
+ "summary": {
+  "production": {
+   "v": 3900.0,
+   "u": "kt Ni",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, nickel mine production, contained nickel; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 140000.0,
+   "u": "kt Ni",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)"
+  },
+  "exports": {
+   "v": 4.782,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 39% of world tonnage estimated from value where missing or inconsistent"
+  },
+  "seaborne": {
+   "v": 4.16,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (nickel-ore) under the Atlas lane method (data/freight/lanes/nickel-ore.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: nickel-ore"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Ni",
+  "world": 3900.0,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 2600.0
+   },
+   {
+    "c": "PHL",
+    "v": 270.0
+   },
+   {
+    "c": "RUS",
+    "v": 200.0
+   },
+   {
+    "c": "CAN",
+    "v": 140.0
+   },
+   {
+    "c": "NCL",
+    "v": 140.0
+   },
+   {
+    "c": "CHN",
+    "v": 120.0
+   },
+   {
+    "c": "BRA",
+    "v": 70.0
+   },
+   {
+    "c": "AUS",
+    "v": 45.0
+   },
+   {
+    "c": "USA",
+    "v": 10.0
+   }
+  ],
+  "n": "USGS MCS 2026, nickel mine production, contained nickel; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Ni",
+  "world": 140000.0,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 62000.0
+   },
+   {
+    "c": "AUS",
+    "v": 25000.0
+   },
+   {
+    "c": "BRA",
+    "v": 16000.0
+   },
+   {
+    "c": "RUS",
+    "v": 8300.0
+   },
+   {
+    "c": "NCL",
+    "v": 7100.0
+   },
+   {
+    "c": "PHL",
+    "v": 4800.0
+   },
+   {
+    "c": "CHN",
+    "v": 4400.0
+   },
+   {
+    "c": "CAN",
+    "v": 2200.0
+   },
+   {
+    "c": "USA",
+    "v": 340.0
+   }
+  ],
+  "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 4.782,
+  "rows": [
+   {
+    "c": "PHL",
+    "v": 1.537,
+    "n": "80% of tonnage estimated from value"
+   },
+   {
+    "c": "SLB",
+    "v": 0.4976
+   },
+   {
+    "c": "NCL",
+    "v": 0.4842,
+    "n": "42% of tonnage estimated from value"
+   },
+   {
+    "c": "GTM",
+    "v": 0.4829
+   },
+   {
+    "c": "CHN",
+    "v": 0.2713
+   },
+   {
+    "c": "FIN",
+    "v": 0.2563,
+    "n": "98% of tonnage estimated from value"
+   },
+   {
+    "c": "ZMB",
+    "v": 0.2443,
+    "n": "18% of tonnage estimated from value"
+   },
+   {
+    "c": "RUS",
+    "v": 0.2366
+   },
+   {
+    "c": "BRA",
+    "v": 0.1151
+   },
+   {
+    "c": "CAN",
+    "v": 0.1097,
+    "n": "43% of tonnage estimated from value"
+   },
+   {
+    "c": "AUS",
+    "v": 0.1057
+   },
+   {
+    "c": "NAM",
+    "v": 0.0934
+   }
+  ],
+  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 39% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 4.782,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 2.56,
+    "n": "51% of tonnage estimated from value"
+   },
+   {
+    "c": "JPN",
+    "v": 0.589
+   },
+   {
+    "c": "IDN",
+    "v": 0.5671,
+    "n": "49% of tonnage estimated from value"
+   },
+   {
+    "c": "KOR",
+    "v": 0.244,
+    "n": "54% of tonnage estimated from value"
+   },
+   {
+    "c": "CAN",
+    "v": 0.1932,
+    "n": "48% of tonnage estimated from value"
+   },
+   {
+    "c": "FIN",
+    "v": 0.1885
+   },
+   {
+    "c": "NAM",
+    "v": 0.0927
+   },
+   {
+    "c": "PAN",
+    "v": 0.086
+   },
+   {
+    "c": "COL",
+    "v": 0.0596
+   },
+   {
+    "c": "BEL",
+    "v": 0.0469,
+    "n": "100% of tonnage estimated from value"
+   },
+   {
+    "c": "ALB",
+    "v": 0.043
+   },
+   {
+    "c": "TWN",
+    "v": 0.0332,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   }
+  ],
+  "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 39% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "PHL",
+   "d": "CHN",
+   "v": 0.9523,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:PHL-CHN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "SLB",
+   "d": "CHN",
+   "v": 0.4976,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:SLB-CHN"
+  },
+  {
+   "o": "PHL",
+   "d": "JPN",
+   "v": 0.307,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:PHL-JPN"
+  },
+  {
+   "o": "NCL",
+   "d": "JPN",
+   "v": 0.282,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:NCL-JPN"
+  },
+  {
+   "o": "PHL",
+   "d": "IDN",
+   "v": 0.2775,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:PHL-IDN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "CHN",
+   "d": "IDN",
+   "v": 0.2713,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:CHN-IDN"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 0.2366,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "GTM",
+   "d": "CHN",
+   "v": 0.2251,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:GTM-CHN"
+  },
+  {
+   "o": "FIN",
+   "d": "CHN",
+   "v": 0.2035,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:FIN-CHN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "NCL",
+   "d": "KOR",
+   "v": 0.1318,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:NCL-KOR",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "GTM",
+   "d": "KOR",
+   "v": 0.1122,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:GTM-KOR"
+  },
+  {
+   "o": "ZMB",
+   "d": "NAM",
+   "v": 0.0881,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "GTM",
+   "d": "PAN",
+   "v": 0.086,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:GTM-PAN"
+  },
+  {
+   "o": "NCL",
+   "d": "CHN",
+   "v": 0.0703,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:NCL-CHN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "CAN",
+   "d": "FIN",
+   "v": 0.0626,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:CAN-FIN"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 0.0611,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:BRA-CHN"
+  },
+  {
+   "o": "GTM",
+   "d": "COL",
+   "v": 0.0596,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 0.0568,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "nickel-ore:AUS-CHN"
+  },
+  {
+   "o": "VNM",
+   "d": "CHN",
+   "v": 0.0501,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "CIV",
+   "d": "CHN",
+   "v": 0.0487,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "n": "tonnage estimated from value"
+  }
+ ],
+ "notes": [
+  "Nickel intermediates and unwrought nickel (HS 7501, 7502), 2024 (BACI, baci): world 1.93 Mt gross weight; top exporters IDN 0.58 Mt, CAN 0.21 Mt, RUS 0.17 Mt.",
+  "Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni)."
+ ]
+}

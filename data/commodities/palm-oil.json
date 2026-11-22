@@ -1,0 +1,466 @@
+{
+ "id": "palm-oil",
+ "summary": {
+  "production": {
+   "v": 82.1,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Palm, palm oil production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 77.224,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Palm, palm oil domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 46.756,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Palm, palm oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 40.33,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (palm-oil) under the Atlas lane method (data/freight/lanes/palm-oil.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 82.1,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 47.0
+   },
+   {
+    "c": "MYS",
+    "v": 20.558
+   },
+   {
+    "c": "THA",
+    "v": 3.9
+   },
+   {
+    "c": "COL",
+    "v": 2.0
+   },
+   {
+    "c": "NGA",
+    "v": 1.5
+   },
+   {
+    "c": "GTM",
+    "v": 0.995
+   },
+   {
+    "c": "PNG",
+    "v": 0.83
+   },
+   {
+    "c": "BRA",
+    "v": 0.66
+   },
+   {
+    "c": "ECU",
+    "v": 0.64
+   },
+   {
+    "c": "CIV",
+    "v": 0.63
+   },
+   {
+    "c": "HND",
+    "v": 0.62
+   },
+   {
+    "c": "CMR",
+    "v": 0.465
+   }
+  ],
+  "n": "USDA PSD, Oil, Palm, palm oil production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 77.224,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 22.825
+   },
+   {
+    "c": "IND",
+    "v": 8.35
+   },
+   {
+    "c": "MYS",
+    "v": 4.55
+   },
+   {
+    "c": "CHN",
+    "v": 3.775
+   },
+   {
+    "c": "PAK",
+    "v": 3.365
+   },
+   {
+    "c": "EU27",
+    "v": 3.1
+   },
+   {
+    "c": "THA",
+    "v": 2.735
+   },
+   {
+    "c": "NGA",
+    "v": 1.89
+   },
+   {
+    "c": "BGD",
+    "v": 1.675
+   },
+   {
+    "c": "USA",
+    "v": 1.526
+   },
+   {
+    "c": "PHL",
+    "v": 1.44
+   },
+   {
+    "c": "COL",
+    "v": 1.43
+   }
+  ],
+  "n": "USDA PSD, Oil, Palm, palm oil domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 46.756,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 25.031
+   },
+   {
+    "c": "MYS",
+    "v": 15.709
+   },
+   {
+    "c": "THA",
+    "v": 1.0
+   },
+   {
+    "c": "PNG",
+    "v": 0.82
+   },
+   {
+    "c": "COL",
+    "v": 0.775
+   },
+   {
+    "c": "GTM",
+    "v": 0.725
+   },
+   {
+    "c": "HND",
+    "v": 0.4
+   },
+   {
+    "c": "ECU",
+    "v": 0.26
+   },
+   {
+    "c": "CRI",
+    "v": 0.24
+   },
+   {
+    "c": "DJI",
+    "v": 0.225
+   },
+   {
+    "c": "CIV",
+    "v": 0.15
+   },
+   {
+    "c": "PER",
+    "v": 0.15
+   }
+  ],
+  "n": "USDA PSD, Oil, Palm, palm oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 42.144,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 8.1
+   },
+   {
+    "c": "CHN",
+    "v": 3.751
+   },
+   {
+    "c": "PAK",
+    "v": 3.353
+   },
+   {
+    "c": "EU27",
+    "v": 3.2
+   },
+   {
+    "c": "BGD",
+    "v": 1.65
+   },
+   {
+    "c": "EGY",
+    "v": 1.544
+   },
+   {
+    "c": "USA",
+    "v": 1.521
+   },
+   {
+    "c": "PHL",
+    "v": 1.3
+   },
+   {
+    "c": "VNM",
+    "v": 0.98
+   },
+   {
+    "c": "KEN",
+    "v": 0.9
+   },
+   {
+    "c": "SAU",
+    "v": 0.85
+   },
+   {
+    "c": "TUR",
+    "v": 0.775
+   }
+  ],
+  "n": "USDA PSD, Oil, Palm, palm oil imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "IDN",
+   "d": "IND",
+   "v": 4.458,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-IND"
+  },
+  {
+   "o": "MYS",
+   "d": "IND",
+   "v": 2.915,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-IND"
+  },
+  {
+   "o": "IDN",
+   "d": "PAK",
+   "v": 2.863,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-PAK"
+  },
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 2.443,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-CHN"
+  },
+  {
+   "o": "IDN",
+   "d": "USA",
+   "v": 1.485,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-USA"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 1.138,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-CHN"
+  },
+  {
+   "o": "IDN",
+   "d": "BGD",
+   "v": 1.023,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-BGD"
+  },
+  {
+   "o": "MYS",
+   "d": "KEN",
+   "v": 0.8082,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-KEN"
+  },
+  {
+   "o": "THA",
+   "d": "IND",
+   "v": 0.7608,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:THA-IND"
+  },
+  {
+   "o": "IDN",
+   "d": "EGY",
+   "v": 0.7318,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-EGY"
+  },
+  {
+   "o": "IDN",
+   "d": "SAU",
+   "v": 0.7122,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-SAU"
+  },
+  {
+   "o": "MYS",
+   "d": "PHL",
+   "v": 0.6604,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-PHL"
+  },
+  {
+   "o": "MYS",
+   "d": "TUR",
+   "v": 0.6516,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-TUR"
+  },
+  {
+   "o": "IDN",
+   "d": "VNM",
+   "v": 0.645,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-VNM"
+  },
+  {
+   "o": "IDN",
+   "d": "ITA",
+   "v": 0.591,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-ITA"
+  },
+  {
+   "o": "IDN",
+   "d": "RUS",
+   "v": 0.5703,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-RUS"
+  },
+  {
+   "o": "MYS",
+   "d": "JPN",
+   "v": 0.5594,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-JPN"
+  },
+  {
+   "o": "IDN",
+   "d": "MMR",
+   "v": 0.5356,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:IDN-MMR"
+  },
+  {
+   "o": "MYS",
+   "d": "NLD",
+   "v": 0.4837,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-NLD"
+  },
+  {
+   "o": "MYS",
+   "d": "VNM",
+   "v": 0.426,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "palm-oil:MYS-VNM"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ]
+}

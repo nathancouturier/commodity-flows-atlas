@@ -1,0 +1,468 @@
+{
+ "id": "rapeseed",
+ "summary": {
+  "production": {
+   "v": 96.035,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 94.107,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 19.349,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 21.02,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (rapeseed) under the Atlas lane method (data/freight/lanes/rapeseed.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 96.035,
+  "rows": [
+   {
+    "c": "CAN",
+    "v": 22.227
+   },
+   {
+    "c": "EU27",
+    "v": 20.657
+   },
+   {
+    "c": "CHN",
+    "v": 16.0
+   },
+   {
+    "c": "IND",
+    "v": 12.0
+   },
+   {
+    "c": "AUS",
+    "v": 7.68
+   },
+   {
+    "c": "RUS",
+    "v": 5.5
+   },
+   {
+    "c": "UKR",
+    "v": 3.5
+   },
+   {
+    "c": "USA",
+    "v": 2.126
+   },
+   {
+    "c": "BGD",
+    "v": 1.28
+   },
+   {
+    "c": "BLR",
+    "v": 0.95
+   },
+   {
+    "c": "GBR",
+    "v": 0.893
+   },
+   {
+    "c": "KAZ",
+    "v": 0.63
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 94.107,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 26.65
+   },
+   {
+    "c": "CHN",
+    "v": 20.225
+   },
+   {
+    "c": "CAN",
+    "v": 13.085
+   },
+   {
+    "c": "IND",
+    "v": 11.975
+   },
+   {
+    "c": "RUS",
+    "v": 4.525
+   },
+   {
+    "c": "JPN",
+    "v": 2.105
+   },
+   {
+    "c": "USA",
+    "v": 1.992
+   },
+   {
+    "c": "BGD",
+    "v": 1.875
+   },
+   {
+    "c": "GBR",
+    "v": 1.77
+   },
+   {
+    "c": "AUS",
+    "v": 1.575
+   },
+   {
+    "c": "UKR",
+    "v": 1.405
+   },
+   {
+    "c": "BLR",
+    "v": 1.355
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 19.349,
+  "rows": [
+   {
+    "c": "CAN",
+    "v": 8.959
+   },
+   {
+    "c": "AUS",
+    "v": 5.55
+   },
+   {
+    "c": "UKR",
+    "v": 1.903
+   },
+   {
+    "c": "RUS",
+    "v": 0.9
+   },
+   {
+    "c": "EU27",
+    "v": 0.642
+   },
+   {
+    "c": "USA",
+    "v": 0.347
+   },
+   {
+    "c": "URY",
+    "v": 0.31
+   },
+   {
+    "c": "KAZ",
+    "v": 0.268
+   },
+   {
+    "c": "MDA",
+    "v": 0.26
+   },
+   {
+    "c": "ZAF",
+    "v": 0.08
+   },
+   {
+    "c": "GBR",
+    "v": 0.074
+   },
+   {
+    "c": "ARG",
+    "v": 0.05
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 18.442,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 6.955
+   },
+   {
+    "c": "CHN",
+    "v": 3.549
+   },
+   {
+    "c": "JPN",
+    "v": 2.1
+   },
+   {
+    "c": "MEX",
+    "v": 1.35
+   },
+   {
+    "c": "ARE",
+    "v": 1.2
+   },
+   {
+    "c": "GBR",
+    "v": 0.949
+   },
+   {
+    "c": "PAK",
+    "v": 0.8
+   },
+   {
+    "c": "BGD",
+    "v": 0.581
+   },
+   {
+    "c": "BLR",
+    "v": 0.45
+   },
+   {
+    "c": "USA",
+    "v": 0.224
+   },
+   {
+    "c": "CAN",
+    "v": 0.109
+   },
+   {
+    "c": "RUS",
+    "v": 0.075
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 5.938,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:CAN-CHN"
+  },
+  {
+   "o": "UKR",
+   "d": "DEU",
+   "v": 1.387,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:UKR-DEU"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 1.138,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-JPN"
+  },
+  {
+   "o": "UKR",
+   "d": "BEL",
+   "v": 0.9927,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:UKR-BEL"
+  },
+  {
+   "o": "CAN",
+   "d": "JPN",
+   "v": 0.9732,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:CAN-JPN"
+  },
+  {
+   "o": "AUS",
+   "d": "DEU",
+   "v": 0.8118,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-DEU"
+  },
+  {
+   "o": "AUS",
+   "d": "BEL",
+   "v": 0.7492,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-BEL"
+  },
+  {
+   "o": "FRA",
+   "d": "DEU",
+   "v": 0.7321,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "ARE",
+   "v": 0.6724,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-ARE"
+  },
+  {
+   "o": "AUS",
+   "d": "PAK",
+   "v": 0.6285,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-PAK"
+  },
+  {
+   "o": "AUS",
+   "d": "FRA",
+   "v": 0.538,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:AUS-FRA"
+  },
+  {
+   "o": "UKR",
+   "d": "NLD",
+   "v": 0.5106,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:UKR-NLD"
+  },
+  {
+   "o": "ROU",
+   "d": "DEU",
+   "v": 0.4213,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:ROU-DEU"
+  },
+  {
+   "o": "CAN",
+   "d": "MEX",
+   "v": 0.3995,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:CAN-MEX"
+  },
+  {
+   "o": "POL",
+   "d": "DEU",
+   "v": 0.3789,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:POL-DEU"
+  },
+  {
+   "o": "UKR",
+   "d": "GBR",
+   "v": 0.353,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:UKR-GBR"
+  },
+  {
+   "o": "CAN",
+   "d": "ARE",
+   "v": 0.3493,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:CAN-ARE"
+  },
+  {
+   "o": "LTU",
+   "d": "DEU",
+   "v": 0.3251,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:LTU-DEU"
+  },
+  {
+   "o": "UKR",
+   "d": "FRA",
+   "v": 0.3192,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:UKR-FRA"
+  },
+  {
+   "o": "FRA",
+   "d": "BEL",
+   "v": 0.2979,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "rapeseed:FRA-BEL"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 19.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 25.0 Mt (-23%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+ ]
+}

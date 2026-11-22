@@ -1,0 +1,34 @@
+[
+ {
+  "id": "company-reports",
+  "name": "Company annual, quarterly and production reports (via release pages/press syndication)",
+  "publisher": "Rio Tinto, BHP, Vale, Fortescue, Ivanhoe Mines, Peabody, Nornickel",
+  "url": "https://www.riotinto.com/en/news/releases/2026/rio-tinto-releases-fourth-quarter-2025-production-results",
+  "licence": "Public company disclosures; cite with attribution",
+  "update": "quarterly/annual"
+ },
+ {
+  "id": "wikipedia",
+  "name": "Wikipedia mine, port and company articles",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/",
+  "licence": "CC BY-SA 4.0",
+  "update": "continuous; figures often undated"
+ },
+ {
+  "id": "trade-press",
+  "name": "Trade press and market data (Mining.com, Argus, Mining Weekly, Mining Technology/GlobalData, Statista)",
+  "publisher": "various",
+  "url": "https://www.mining.com/",
+  "licence": "Facts only; individual pages cited per feature",
+  "update": "ad hoc"
+ },
+ {
+  "id": "port-authorities",
+  "name": "Port authority and government port statistics (Pilbara Ports, Queensland TMR, MPA Singapore, Port of Rotterdam, PCCA, Santos, Portos do Parana, RBCT via press)",
+  "publisher": "various port authorities",
+  "url": "https://www.pilbaraports.com.au/",
+  "licence": "Public statistics; cite with attribution",
+  "update": "annual"
+ }
+]

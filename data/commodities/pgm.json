@@ -1,0 +1,392 @@
+{
+ "id": "pgm",
+ "summary": {
+  "production": {
+   "v": 360.0,
+   "u": "t",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium"
+  },
+  "reserves": {
+   "v": 76000.0,
+   "u": "t",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a lower bound (>76,000,000)"
+  },
+  "exports": {
+   "v": 1341.6,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 platinum-group metals (HS 7110), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 7% of world tonnage estimated from value where missing or inconsistent"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t",
+  "world": 360.0,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 190.0,
+    "n": "platinum 120.0 t + palladium 70.0 t"
+   },
+   {
+    "c": "RUS",
+    "v": 104.0,
+    "n": "platinum 20.0 t + palladium 84.0 t"
+   },
+   {
+    "c": "ZWE",
+    "v": 33.0,
+    "n": "platinum 18.0 t + palladium 15.0 t"
+   },
+   {
+    "c": "CAN",
+    "v": 21.0,
+    "n": "platinum 5.0 t + palladium 16.0 t"
+   },
+   {
+    "c": "USA",
+    "v": 8.0,
+    "n": "platinum 1.8 t + palladium 6.2 t"
+   }
+  ],
+  "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t",
+  "world": 76000.0,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 63000.0
+   },
+   {
+    "c": "RUS",
+    "v": 11000.0
+   },
+   {
+    "c": "ZWE",
+    "v": 1300.0
+   },
+   {
+    "c": "USA",
+    "v": 590.0
+   },
+   {
+    "c": "CAN",
+    "v": 310.0
+   }
+  ],
+  "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a lower bound (>76,000,000)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "t",
+  "world": 1341.6,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 415.23
+   },
+   {
+    "c": "USA",
+    "v": 123.98
+   },
+   {
+    "c": "RUS",
+    "v": 117.28
+   },
+   {
+    "c": "DEU",
+    "v": 103.19
+   },
+   {
+    "c": "GBR",
+    "v": 98.993
+   },
+   {
+    "c": "ITA",
+    "v": 61.726
+   },
+   {
+    "c": "ARE",
+    "v": 58.073,
+    "n": "100% of tonnage estimated from value"
+   },
+   {
+    "c": "JPN",
+    "v": 55.798
+   },
+   {
+    "c": "BEL",
+    "v": 55.005
+   },
+   {
+    "c": "CHE",
+    "v": 48.479
+   },
+   {
+    "c": "HKG",
+    "v": 42.677
+   },
+   {
+    "c": "CHN",
+    "v": 23.22
+   }
+  ],
+  "n": "CEPII BACI HS92 platinum-group metals (HS 7110), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 7% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "t",
+  "world": 1341.6,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 174.76
+   },
+   {
+    "c": "CHN",
+    "v": 153.37
+   },
+   {
+    "c": "GBR",
+    "v": 134.42
+   },
+   {
+    "c": "JPN",
+    "v": 129.92
+   },
+   {
+    "c": "DEU",
+    "v": 117.98
+   },
+   {
+    "c": "HKG",
+    "v": 116.56
+   },
+   {
+    "c": "CHE",
+    "v": 83.778
+   },
+   {
+    "c": "IND",
+    "v": 74.251,
+    "n": "78% of tonnage estimated from value"
+   },
+   {
+    "c": "ITA",
+    "v": 58.278
+   },
+   {
+    "c": "BEL",
+    "v": 45.618
+   },
+   {
+    "c": "MEX",
+    "v": 34.098
+   },
+   {
+    "c": "MKD",
+    "v": 33.263
+   }
+  ],
+  "n": "CEPII BACI HS92 platinum-group metals (HS 7110), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 7% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "ZAF",
+   "d": "JPN",
+   "v": 91.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "USA",
+   "v": 81.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 67.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "GBR",
+   "v": 59.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARE",
+   "d": "IND",
+   "v": 57.37,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "DEU",
+   "d": "BEL",
+   "v": 38.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "DEU",
+   "v": 34.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 34.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "GBR",
+   "d": "MKD",
+   "v": 33.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "HKG",
+   "v": 33.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "USA",
+   "v": 28.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "CHE",
+   "v": 27.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 24.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BEL",
+   "d": "DEU",
+   "v": 20.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "HKG",
+   "v": 20.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "HKG",
+   "d": "CHN",
+   "v": 19.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "ARM",
+   "v": 16.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARM",
+   "d": "HKG",
+   "v": 15.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "DEU",
+   "d": "USA",
+   "v": 14.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "CHN",
+   "v": 14.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.",
+  "Production is platinum plus palladium only (USGS gives no rhodium/ruthenium/iridium/osmium by country); the index unit (kg) is shown here in t."
+ ]
+}

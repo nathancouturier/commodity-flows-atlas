@@ -1,0 +1,396 @@
+{
+ "id": "refined-products",
+ "summary": {
+  "consumption": {
+   "v": 104800.5,
+   "u": "kb/d",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, refined petroleum products consumption; world total as published by EIA (all countries)"
+  },
+  "exports": {
+   "v": 1189.1,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "sum of all BACI refined-product flows (HS 2710), tonnes, all modes"
+  },
+  "seaborne": {
+   "v": 981.67,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (refined-products) under the Atlas lane method (data/freight/lanes/refined-products.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "kb/d",
+  "world": 104800.5,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 20736.1
+   },
+   {
+    "c": "CHN",
+    "v": 17163.4
+   },
+   {
+    "c": "IND",
+    "v": 5663.5
+   },
+   {
+    "c": "SAU",
+    "v": 3735.9
+   },
+   {
+    "c": "RUS",
+    "v": 3715.8
+   },
+   {
+    "c": "BRA",
+    "v": 3241.2
+   },
+   {
+    "c": "JPN",
+    "v": 3094.1
+   },
+   {
+    "c": "CAN",
+    "v": 2535.8
+   },
+   {
+    "c": "KOR",
+    "v": 2464.3
+   },
+   {
+    "c": "DEU",
+    "v": 2027.7
+   },
+   {
+    "c": "IRN",
+    "v": 1931.9
+   },
+   {
+    "c": "MEX",
+    "v": 1905.7
+   }
+  ],
+  "n": "EIA International Energy Data, refined petroleum products consumption; world total as published by EIA (all countries)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1189.1,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 139.95
+   },
+   {
+    "c": "SGP",
+    "v": 75.233
+   },
+   {
+    "c": "RUS",
+    "v": 71.74
+   },
+   {
+    "c": "IND",
+    "v": 70.187
+   },
+   {
+    "c": "KOR",
+    "v": 69.701
+   },
+   {
+    "c": "NLD",
+    "v": 64.993
+   },
+   {
+    "c": "ARE",
+    "v": 64.971
+   },
+   {
+    "c": "MYS",
+    "v": 53.076
+   },
+   {
+    "c": "CHN",
+    "v": 43.939
+   },
+   {
+    "c": "BEL",
+    "v": 40.466
+   },
+   {
+    "c": "SAU",
+    "v": 38.323
+   },
+   {
+    "c": "KWT",
+    "v": 34.151
+   }
+  ],
+  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1189.1,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 91.117
+   },
+   {
+    "c": "SGP",
+    "v": 86.732
+   },
+   {
+    "c": "AUS",
+    "v": 49.743
+   },
+   {
+    "c": "NLD",
+    "v": 49.595
+   },
+   {
+    "c": "CHN",
+    "v": 45.532
+   },
+   {
+    "c": "FRA",
+    "v": 40.335
+   },
+   {
+    "c": "MYS",
+    "v": 37.5
+   },
+   {
+    "c": "KOR",
+    "v": 36.266
+   },
+   {
+    "c": "GBR",
+    "v": 32.57
+   },
+   {
+    "c": "DEU",
+    "v": 32.418
+   },
+   {
+    "c": "MEX",
+    "v": 30.872
+   },
+   {
+    "c": "TUR",
+    "v": 30.677
+   }
+  ],
+  "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 30.1,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:USA-MEX"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 21.833,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 20.299,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NLD",
+   "d": "DEU",
+   "v": 17.055,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:NLD-DEU"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 16.087,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:RUS-TUR"
+  },
+  {
+   "o": "SGP",
+   "d": "IDN",
+   "v": 15.037,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:SGP-IDN"
+  },
+  {
+   "o": "MYS",
+   "d": "SGP",
+   "v": 14.368,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:MYS-SGP"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 14.341,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KOR",
+   "d": "AUS",
+   "v": 13.787,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:KOR-AUS"
+  },
+  {
+   "o": "SGP",
+   "d": "MYS",
+   "v": 12.395,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:SGP-MYS"
+  },
+  {
+   "o": "MEX",
+   "d": "USA",
+   "v": 10.92,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:MEX-USA"
+  },
+  {
+   "o": "SGP",
+   "d": "AUS",
+   "v": 10.847,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:SGP-AUS"
+  },
+  {
+   "o": "BEL",
+   "d": "NLD",
+   "v": 9.714,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:BEL-NLD"
+  },
+  {
+   "o": "IND",
+   "d": "ARE",
+   "v": 9.623,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:IND-ARE"
+  },
+  {
+   "o": "NLD",
+   "d": "BEL",
+   "v": 9.098,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:NLD-BEL"
+  },
+  {
+   "o": "RUS",
+   "d": "BRA",
+   "v": 9.096,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "CHN",
+   "d": "HKG",
+   "v": 8.353,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IND",
+   "d": "NLD",
+   "v": 8.331,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 8.263,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "KOR",
+   "d": "JPN",
+   "v": 8.192,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "refined-products:KOR-JPN"
+  }
+ ],
+ "notes": [
+  "World consumption by product, 2025 (EIA, eia-intl): distillate fuel oil 29.1 mb/d, motor gasoline 27.9 mb/d, jet fuel 7.3 mb/d, residual fuel oil 6.3 mb/d. Products do not add up to the total (other products excluded).",
+  "EIA refined-product production series end in 2014 and are not used; no production table."
+ ]
+}

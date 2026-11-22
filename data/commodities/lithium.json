@@ -1,0 +1,419 @@
+{
+ "id": "lithium",
+ "summary": {
+  "production": {
+   "v": 290000.0,
+   "u": "t Li",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): United States"
+  },
+  "reserves": {
+   "v": 37000000.0,
+   "u": "t Li",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 504.33,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Li",
+  "world": 290000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 92000.0
+   },
+   {
+    "c": "CHN",
+    "v": 62000.0
+   },
+   {
+    "c": "CHL",
+    "v": 56000.0
+   },
+   {
+    "c": "ZWE",
+    "v": 28000.0
+   },
+   {
+    "c": "ARG",
+    "v": 23000.0
+   },
+   {
+    "c": "BRA",
+    "v": 12000.0
+   },
+   {
+    "c": "MLI",
+    "v": 9400.0
+   },
+   {
+    "c": "CAN",
+    "v": 5600.0
+   },
+   {
+    "c": "PRT",
+    "v": 380.0
+   }
+  ],
+  "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): United States"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Li",
+  "world": 37000000.0,
+  "rows": [
+   {
+    "c": "CHL",
+    "v": 9200000.0
+   },
+   {
+    "c": "AUS",
+    "v": 8400000.0
+   },
+   {
+    "c": "CHN",
+    "v": 4600000.0
+   },
+   {
+    "c": "USA",
+    "v": 4400000.0
+   },
+   {
+    "c": "ARG",
+    "v": 4400000.0
+   },
+   {
+    "c": "CAN",
+    "v": 1600000.0
+   },
+   {
+    "c": "BRA",
+    "v": 540000.0
+   },
+   {
+    "c": "ZWE",
+    "v": 500000.0
+   },
+   {
+    "c": "MLI",
+    "v": 370000.0
+   },
+   {
+    "c": "PRT",
+    "v": 60000.0
+   }
+  ],
+  "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 504.33,
+  "rows": [
+   {
+    "c": "CHL",
+    "v": 263.47
+   },
+   {
+    "c": "CHN",
+    "v": 124.44
+   },
+   {
+    "c": "ARG",
+    "v": 65.779
+   },
+   {
+    "c": "USA",
+    "v": 8.608
+   },
+   {
+    "c": "NGA",
+    "v": 8.604
+   },
+   {
+    "c": "BRA",
+    "v": 6.498
+   },
+   {
+    "c": "KOR",
+    "v": 6.181
+   },
+   {
+    "c": "AUS",
+    "v": 5.124
+   },
+   {
+    "c": "NLD",
+    "v": 3.921
+   },
+   {
+    "c": "DEU",
+    "v": 3.17
+   },
+   {
+    "c": "JPN",
+    "v": 2.597
+   },
+   {
+    "c": "GBR",
+    "v": 1.808
+   }
+  ],
+  "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 504.33,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 261.68
+   },
+   {
+    "c": "KOR",
+    "v": 130.4
+   },
+   {
+    "c": "JPN",
+    "v": 50.458
+   },
+   {
+    "c": "USA",
+    "v": 16.115
+   },
+   {
+    "c": "NLD",
+    "v": 9.202
+   },
+   {
+    "c": "BEL",
+    "v": 8.557
+   },
+   {
+    "c": "DEU",
+    "v": 6.393
+   },
+   {
+    "c": "GBR",
+    "v": 4.005
+   },
+   {
+    "c": "IND",
+    "v": 2.611
+   },
+   {
+    "c": "SWE",
+    "v": 2.468
+   },
+   {
+    "c": "FRA",
+    "v": 2.074
+   },
+   {
+    "c": "POL",
+    "v": 1.695
+   }
+  ],
+  "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "CHL",
+   "d": "CHN",
+   "v": 186.17,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 84.441,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "CHN",
+   "v": 47.559,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "KOR",
+   "v": 35.772,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "JPN",
+   "v": 34.265,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "USA",
+   "v": 9.2,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NGA",
+   "d": "CHN",
+   "v": 8.604,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "BEL",
+   "v": 8.098,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "JPN",
+   "v": 8.068,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "NLD",
+   "v": 7.981,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "USA",
+   "v": 6.779,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 6.482,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "KOR",
+   "v": 5.888,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KOR",
+   "d": "CHN",
+   "v": 4.641,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "JPN",
+   "v": 4.432,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 3.362,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 3.179,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHL",
+   "d": "GBR",
+   "v": 2.85,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "DEU",
+   "v": 2.201,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 2.121,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade is lithium carbonate and hydroxide/oxide in gross weight (kt); spodumene concentrate has no HS6 code. USGS production is contained lithium (t Li), so units differ."
+ ]
+}

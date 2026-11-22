@@ -1,0 +1,529 @@
+{
+ "id": "bauxite",
+ "summary": {
+  "production": {
+   "v": 440.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): Canada, Germany, Ireland, Spain, United Arab Emirates, United States"
+  },
+  "reserves": {
+   "v": 29000.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Germany, Greece, Ireland, Spain, United Arab Emirates"
+  },
+  "exports": {
+   "v": 149.65,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 10% of world tonnage estimated from value where missing or inconsistent"
+  },
+  "seaborne": {
+   "v": 147.25,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (bauxite) under the Atlas lane method (data/freight/lanes/bauxite.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: bauxite"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 440.0,
+  "rows": [
+   {
+    "c": "GIN",
+    "v": 150.0
+   },
+   {
+    "c": "AUS",
+    "v": 97.0
+   },
+   {
+    "c": "CHN",
+    "v": 87.0
+   },
+   {
+    "c": "BRA",
+    "v": 33.0
+   },
+   {
+    "c": "IND",
+    "v": 25.0
+   },
+   {
+    "c": "IDN",
+    "v": 10.0
+   },
+   {
+    "c": "JAM",
+    "v": 6.2
+   },
+   {
+    "c": "RUS",
+    "v": 5.7
+   },
+   {
+    "c": "SAU",
+    "v": 5.7
+   },
+   {
+    "c": "KAZ",
+    "v": 4.8
+   },
+   {
+    "c": "TUR",
+    "v": 3.8
+   },
+   {
+    "c": "VNM",
+    "v": 3.8
+   }
+  ],
+  "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): Canada, Germany, Ireland, Spain, United Arab Emirates, United States"
+ },
+ "refinery": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 150.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 93.0
+   },
+   {
+    "c": "AUS",
+    "v": 17.0
+   },
+   {
+    "c": "BRA",
+    "v": 11.0
+   },
+   {
+    "c": "IND",
+    "v": 8.2
+   },
+   {
+    "c": "RUS",
+    "v": 2.9
+   },
+   {
+    "c": "ARE",
+    "v": 2.3
+   },
+   {
+    "c": "SAU",
+    "v": 1.9
+   },
+   {
+    "c": "IRL",
+    "v": 1.7
+   },
+   {
+    "c": "CAN",
+    "v": 1.5
+   },
+   {
+    "c": "IDN",
+    "v": 1.5
+   },
+   {
+    "c": "JAM",
+    "v": 1.5
+   },
+   {
+    "c": "KAZ",
+    "v": 1.5
+   }
+  ],
+  "n": "USGS MCS 2026, alumina refinery production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Calcined equivalent weights."
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 29000.0,
+  "rows": [
+   {
+    "c": "GIN",
+    "v": 7400.0
+   },
+   {
+    "c": "AUS",
+    "v": 3700.0
+   },
+   {
+    "c": "VNM",
+    "v": 3100.0
+   },
+   {
+    "c": "IDN",
+    "v": 2900.0
+   },
+   {
+    "c": "JAM",
+    "v": 2000.0
+   },
+   {
+    "c": "BRA",
+    "v": 1700.0
+   },
+   {
+    "c": "CHN",
+    "v": 710.0
+   },
+   {
+    "c": "IND",
+    "v": 650.0
+   },
+   {
+    "c": "RUS",
+    "v": 650.0
+   },
+   {
+    "c": "SAU",
+    "v": 180.0
+   },
+   {
+    "c": "KAZ",
+    "v": 160.0
+   },
+   {
+    "c": "TUR",
+    "v": 69.0
+   }
+  ],
+  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Germany, Greece, Ireland, Spain, United Arab Emirates"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 149.65,
+  "rows": [
+   {
+    "c": "GIN",
+    "v": 122.54
+   },
+   {
+    "c": "AUS",
+    "v": 14.418,
+    "n": "93% of tonnage estimated from value"
+   },
+   {
+    "c": "BRA",
+    "v": 2.624,
+    "n": "32% of tonnage estimated from value"
+   },
+   {
+    "c": "TUR",
+    "v": 2.072,
+    "n": "48% of tonnage estimated from value"
+   },
+   {
+    "c": "LAO",
+    "v": 1.544
+   },
+   {
+    "c": "GHA",
+    "v": 1.432
+   },
+   {
+    "c": "MYS",
+    "v": 0.8055
+   },
+   {
+    "c": "MNE",
+    "v": 0.7351
+   },
+   {
+    "c": "CIV",
+    "v": 0.7228
+   },
+   {
+    "c": "GUY",
+    "v": 0.5592
+   },
+   {
+    "c": "CHN",
+    "v": 0.4571
+   },
+   {
+    "c": "SLE",
+    "v": 0.4554
+   }
+  ],
+  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 10% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 149.65,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 130.57,
+    "n": "11% of tonnage estimated from value"
+   },
+   {
+    "c": "IND",
+    "v": 4.104
+   },
+   {
+    "c": "IRL",
+    "v": 3.687,
+    "n": "11% of tonnage estimated from value"
+   },
+   {
+    "c": "DEU",
+    "v": 2.271
+   },
+   {
+    "c": "ESP",
+    "v": 2.135
+   },
+   {
+    "c": "CAN",
+    "v": 1.801,
+    "n": "24% of tonnage estimated from value"
+   },
+   {
+    "c": "USA",
+    "v": 1.236,
+    "n": "27% of tonnage estimated from value"
+   },
+   {
+    "c": "GRC",
+    "v": 1.235
+   },
+   {
+    "c": "ARE",
+    "v": 0.4167
+   },
+   {
+    "c": "KOR",
+    "v": 0.3896
+   },
+   {
+    "c": "FRA",
+    "v": 0.2167
+   },
+   {
+    "c": "KWT",
+    "v": 0.154
+   }
+  ],
+  "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 10% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "GIN",
+   "d": "CHN",
+   "v": 110.09,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 13.397,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:AUS-CHN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "GIN",
+   "d": "IND",
+   "v": 3.764,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-IND"
+  },
+  {
+   "o": "GIN",
+   "d": "IRL",
+   "v": 2.935,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-IRL"
+  },
+  {
+   "o": "GIN",
+   "d": "DEU",
+   "v": 2.184,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-DEU"
+  },
+  {
+   "o": "GIN",
+   "d": "ESP",
+   "v": 2.073,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-ESP"
+  },
+  {
+   "o": "LAO",
+   "d": "CHN",
+   "v": 1.544,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "GHA",
+   "d": "CHN",
+   "v": 1.163,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 1.142,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:BRA-CHN"
+  },
+  {
+   "o": "GIN",
+   "d": "CAN",
+   "v": 1.132,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:GIN-CAN"
+  },
+  {
+   "o": "TUR",
+   "d": "CHN",
+   "v": 0.9921,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:TUR-CHN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 0.8055,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:MYS-CHN"
+  },
+  {
+   "o": "CIV",
+   "d": "CHN",
+   "v": 0.7228,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "BRA",
+   "d": "GRC",
+   "v": 0.5393,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:BRA-GRC"
+  },
+  {
+   "o": "BRA",
+   "d": "CAN",
+   "v": 0.4361,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:BRA-CAN",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "MNE",
+   "d": "CHN",
+   "v": 0.4244,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "BRA",
+   "d": "IRL",
+   "v": 0.4001,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:BRA-IRL",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "GIN",
+   "d": "GRC",
+   "v": 0.3647,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 0.3619,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "bauxite:AUS-KOR"
+  },
+  {
+   "o": "AUS",
+   "d": "ARE",
+   "v": 0.3515,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "Alumina (HS 281820), 2024 (BACI, baci): world 37.33 Mt gross weight; top exporters AUS 14.16 Mt, BRA 7.53 Mt, IDN 4.16 Mt.",
+  "USGS production/reserves are dry tonnes; 'refinery' is an extra field: USGS alumina refinery production (Mt)."
+ ]
+}

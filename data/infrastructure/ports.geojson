@@ -1,0 +1,733 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-hedland",
+    "name": "Port Hedland",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "operator": "Pilbara Ports Authority",
+    "capacity": {
+     "v": 580.4,
+     "u": "Mt throughput (FY2025-26)"
+    },
+    "status": "operating",
+    "note": "World's largest bulk export port, ~98.5% iron ore (FY25: 577.7 Mt); Pilbara Ports total 804.1 Mt in FY26 with iron ore exports 759.4 Mt (via search summary). Town coordinates used. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2026,
+    "url": "https://www.porttechnology.org/news/global-trade/pilbara-ports-surpasses-800-million-tonnes-for-the-first-time/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.58,
+     -20.31
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dampier",
+    "name": "Dampier",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "lng"
+    ],
+    "c": "AUS",
+    "operator": "Pilbara Ports Authority",
+    "capacity": {
+     "v": 140,
+     "u": "Mt/y iron ore loading capacity"
+    },
+    "status": "operating",
+    "note": "Rio Tinto Hamersley ore plus LNG and salt.",
+    "s": "wikipedia",
+    "y": "undated",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Dampier"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.71,
+     -20.66
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tubarao",
+    "name": "Tubarao (Vitoria)",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "BRA",
+    "operator": "Vale",
+    "capacity": {
+     "v": 103.9,
+     "u": "Mt total cargo (2019)"
+    },
+    "status": "operating",
+    "note": "Vale's Southeastern System iron ore and pellet export complex; also steel, soybeans, coal.",
+    "s": "wikipedia",
+    "y": 2019,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Tubar%C3%A3o"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -40.244,
+     -20.286
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sept-iles",
+    "name": "Sept-Iles",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CAN",
+    "operator": "Port of Sept-Iles",
+    "status": "operating",
+    "note": "Exports IOC/ArcelorMittal Labrador Trough concentrate and pellets; second to Vancouver by tonnage in Canada.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Port_of_Sept-%C3%8Eles"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.383,
+     50.217
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "narvik",
+    "name": "Narvik",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "NOR",
+    "operator": "Port of Narvik",
+    "capacity": {
+     "v": 16,
+     "u": "Mt/y cargo shipped (year not given)"
+    },
+    "status": "operating",
+    "note": "LKAB ore from Kiruna/Malmberget railed via Ore Line, ice-free year-round.",
+    "s": "wikipedia",
+    "y": "undated",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Narvik"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.398,
+     68.436
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "newcastle",
+    "name": "Newcastle (NSW)",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "AUS",
+    "operator": "Port of Newcastle",
+    "capacity": {
+     "v": 149,
+     "u": "Mt coal exports (2025; total cargo >160 Mt)"
+    },
+    "status": "operating",
+    "note": "World's largest coal export port; coal exports roughly flat vs 2024 (Port Waratah 96.5 Mt vs 100.8 Mt).",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.drycargomag.com/port-of-newcastle-sets-new-record-for-diversified-trade-volumes-in-2025"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.8,
+     -32.917
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hay-point-dalrymple-bay",
+    "name": "Hay Point / Dalrymple Bay",
+    "type": "port",
+    "k": [
+     "met-coal"
+    ],
+    "c": "AUS",
+    "operator": "North Queensland Bulk Ports / Dalrymple Bay Infrastructure",
+    "capacity": {
+     "v": 97,
+     "u": "Mt coal exported (both terminals, 2021-22)"
+    },
+    "status": "operating",
+    "note": "Main Bowen Basin met coal outlet (HPCT and DBCT); coordinates are the Hay Point locality centre.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/Hay_Point"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     149.264,
+     -21.303
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gladstone",
+    "name": "Gladstone",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "met-coal",
+     "lng"
+    ],
+    "c": "AUS",
+    "operator": "Gladstone Ports Corporation",
+    "capacity": {
+     "v": 117.4,
+     "u": "Mt total throughput (FY2024-25)"
+    },
+    "status": "operating",
+    "note": "Coal, alumina/bauxite and three LNG export plants; coal exports fell in FY25 (Argus). Figure from Queensland TMR table via search summary.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.tmr.qld.gov.au/business-industry/transport-sectors/ports/trade-statistics-for-queensland-ports"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.243,
+     -23.82
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "richards-bay",
+    "name": "Richards Bay Coal Terminal",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "ZAF",
+    "operator": "RBCT",
+    "capacity": {
+     "v": 57.66,
+     "u": "Mt coal exports (2025)"
+    },
+    "status": "operating",
+    "note": "Up ~11% y/y as Transnet rail recovers; 91 Mt/y nameplate; India took 25.75 Mt (45%) of loadings.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.miningmx.com/news/energy/63773-sa-coal-exports-continue-turnaround-rising-10-7-last-year/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.052,
+     -28.818
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vostochny",
+    "name": "Vostochny",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Vostochny Port JSC",
+    "status": "operating",
+    "note": "Russia's main Pacific coal export port (Trans-Siberian); Kozmino oil terminal (ESPO) nearby; page gives no tonnage.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vostochny_Port"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     133.08,
+     42.741
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qingdao",
+    "name": "Qingdao",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "operator": "Qingdao Port Group",
+    "capacity": {
+     "v": 657.5,
+     "u": "Mt total cargo (2022)"
+    },
+    "status": "operating",
+    "note": "Major iron ore and crude import hub; coordinates from Wikipedia Port of Qingdao.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.317,
+     36.083
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rizhao",
+    "name": "Rizhao",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "operator": "Rizhao Port",
+    "capacity": {
+     "v": 570.6,
+     "u": "Mt total cargo (2022)"
+    },
+    "status": "operating",
+    "note": "Large iron ore and coal port in Shandong; coordinates from Wikipedia Port of Rizhao.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.558,
+     35.383
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "caofeidian",
+    "name": "Caofeidian (Tangshan)",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "operator": "Tangshan Port Group",
+    "capacity": {
+     "v": 768.9,
+     "u": "Mt total cargo (Tangshan port, 2022)"
+    },
+    "status": "operating",
+    "note": "Iron ore import and coal handling; figure is for Tangshan port (incl. Jingtang). Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.45,
+     38.95
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ningbo-zhoushan",
+    "name": "Ningbo-Zhoushan",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "operator": "Ningbo Zhoushan Port",
+    "capacity": {
+     "v": 1261.3,
+     "u": "Mt total cargo (2022)"
+    },
+    "status": "operating",
+    "note": "World's busiest port by tonnage; major iron ore and crude import terminal. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.85,
+     29.93
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rotterdam",
+    "name": "Rotterdam",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "lng",
+     "thermal-coal",
+     "iron-ore"
+    ],
+    "c": "NLD",
+    "operator": "Port of Rotterdam Authority",
+    "capacity": {
+     "v": 428.4,
+     "u": "Mt total throughput (2025)"
+    },
+    "status": "operating",
+    "note": "Down 1.7% in 2025; coal 17.3 Mt (-8.7%), LNG 13.0 Mt (+15.1%), dry bulk -6.5%. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://swzmaritime.nl/news/2026/03/02/port-of-rotterdam-throughput-declined-in-2025/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.14,
+     51.95
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ras-tanura",
+    "name": "Ras Tanura",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 6.5,
+     "u": "mb/d commonly cited rating (some sources up to 9)"
+    },
+    "status": "operating",
+    "note": "Loadings halted 2 Mar 2026 amid Gulf/Hormuz disruption; crude liftings resumed in the last week of June 2026. Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2026,
+    "url": "https://thenationalnews.com/business/energy/2026/06/26/saudi-aramco-restarts-oil-loading-at-ras-tanura-terminal-after-four-month-halt"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     50.16,
+     26.64
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "basrah-oil-terminal",
+    "name": "Basrah Oil Terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRQ",
+    "operator": "Basra Oil Company",
+    "capacity": {
+     "v": 3.5,
+     "u": "mb/d southern export system (ABOT 1.25 + offshore moorings 2.25)"
+    },
+    "status": "operating",
+    "note": "Iraq's southern crude export outlet; 2025 actual exports not found. Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2026,
+    "url": "https://marineinsight.com/know-more/10-largest-oil-and-gas-loading-terminals-in-the-middle-east"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.8,
+     29.68
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fujairah",
+    "name": "Fujairah",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "ARE",
+    "operator": "Port of Fujairah / Fujairah Oil Terminal",
+    "status": "operating",
+    "note": "Hormuz-bypass terminal fed by ADCOP pipeline; ADNOC building 42 mb underground storage; no throughput figure sourced. Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2026,
+    "url": "https://english.aawsat.com/home/article/3155741/expecting-oil-trade-boom-fujairah-oil-terminal-invests-vlcc-project"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     56.36,
+     25.12
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "singapore",
+    "name": "Singapore",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "lng"
+    ],
+    "c": "SGP",
+    "operator": "Maritime and Port Authority of Singapore",
+    "capacity": {
+     "v": 614.3,
+     "u": "Mt total cargo (2025)"
+    },
+    "status": "operating",
+    "note": "Cargo -1.4% in 2025 though containers hit a record 44.66m TEU; world's largest bunkering hub. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.mpa.gov.sg/media-centre/details/singapore-posts-record-port-performance-in-2025-and-develops-future-readiness-through-industry-collaborations-for-2026"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.84,
+     1.264
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "corpus-christi",
+    "name": "Corpus Christi",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "lng"
+    ],
+    "c": "USA",
+    "operator": "Port of Corpus Christi Authority",
+    "capacity": {
+     "v": 203.4,
+     "u": "Mt total (2025)"
+    },
+    "status": "operating",
+    "note": "Crude 127.4 Mt (-2.3%), LNG 18.6 Mt (+15.4%); ~60% of US crude exports. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.hellenicshippingnews.com/?p=1120862"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -97.4,
+     27.81
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "houston",
+    "name": "Houston",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Port Houston",
+    "capacity": {
+     "v": 54.5,
+     "u": "Mt tonnage, public terminals only (2025)"
+    },
+    "status": "operating",
+    "note": "Public-terminal figure excludes the large private energy terminals along the Houston Ship Channel. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.freightwaves.com/news/port-houston-hits-container-highs-as-corpus-christi-leans-on-lng-growth"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -95.27,
+     29.73
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "santos",
+    "name": "Santos",
+    "type": "port",
+    "k": [
+     "soybeans",
+     "corn"
+    ],
+    "c": "BRA",
+    "operator": "Santos Port Authority",
+    "capacity": {
+     "v": 186.4,
+     "u": "Mt total cargo (2025, record)"
+    },
+    "status": "operating",
+    "note": "Soybeans 44.9 Mt among leading exports; Brazil's main grain gateway. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.atribuna.com.br/noticias/portomar/en/port-of-santos-sets-historic-record-and-handles-186-4-million-tonnes-in-2025-1.496433"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -46.3,
+     -23.96
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "paranagua",
+    "name": "Paranagua",
+    "type": "port",
+    "k": [
+     "soybeans",
+     "corn"
+    ],
+    "c": "BRA",
+    "operator": "Portos do Parana",
+    "capacity": {
+     "v": 73.5,
+     "u": "Mt total cargo (Parana ports, 2025)"
+    },
+    "status": "operating",
+    "note": "Figure covers Portos do Parana (Paranagua + Antonina), +10.1% y/y. Coordinates: approximate location.",
+    "s": "port-authorities",
+    "y": 2025,
+    "url": "https://www.parana.pr.gov.br/aen/Noticia/Portos-do-Parana-batem-recorde-com-735-milhoes-de-toneladas-e-alcancam-maior"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -48.51,
+     -25.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "south-louisiana",
+    "name": "Port of South Louisiana / New Orleans",
+    "type": "port",
+    "k": [
+     "soybeans",
+     "corn",
+     "wheat"
+    ],
+    "c": "USA",
+    "operator": "Port of South Louisiana",
+    "capacity": {
+     "v": 307.9,
+     "u": "Mt total cargo (2017; latest on page)"
+    },
+    "status": "operating",
+    "note": "Mississippi River grain export complex; stale figure. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2017,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.4,
+     30.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vancouver",
+    "name": "Vancouver",
+    "type": "port",
+    "k": [
+     "wheat",
+     "thermal-coal",
+     "met-coal"
+    ],
+    "c": "CAN",
+    "operator": "Vancouver Fraser Port Authority",
+    "status": "operating",
+    "note": "Canada's largest port by tonnage (Wikipedia list); coal and grain exports; no recent figure sourced. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -123.11,
+     49.29
+    ]
+   }
+  }
+ ]
+}

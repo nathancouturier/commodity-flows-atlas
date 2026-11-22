@@ -1,0 +1,460 @@
+{
+ "id": "soyoil",
+ "summary": {
+  "production": {
+   "v": 73.616,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Soybean, soybean oil production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 72.176,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Soybean, soybean oil domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 15.545,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oil, Soybean, soybean oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 10.91,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (soyoil) under the Atlas lane method (data/freight/lanes/soyoil.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 73.616,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 21.8
+   },
+   {
+    "c": "USA",
+    "v": 13.869
+   },
+   {
+    "c": "BRA",
+    "v": 12.756
+   },
+   {
+    "c": "ARG",
+    "v": 8.565
+   },
+   {
+    "c": "EU27",
+    "v": 2.85
+   },
+   {
+    "c": "IND",
+    "v": 1.819
+   },
+   {
+    "c": "MEX",
+    "v": 1.282
+   },
+   {
+    "c": "RUS",
+    "v": 1.183
+   },
+   {
+    "c": "EGY",
+    "v": 0.905
+   },
+   {
+    "c": "PRY",
+    "v": 0.722
+   },
+   {
+    "c": "PAK",
+    "v": 0.599
+   },
+   {
+    "c": "BOL",
+    "v": 0.584
+   }
+  ],
+  "n": "USDA PSD, Oil, Soybean, soybean oil production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 72.176,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 20.8
+   },
+   {
+    "c": "USA",
+    "v": 13.794
+   },
+   {
+    "c": "BRA",
+    "v": 10.9
+   },
+   {
+    "c": "IND",
+    "v": 7.3
+   },
+   {
+    "c": "EU27",
+    "v": 2.98
+   },
+   {
+    "c": "ARG",
+    "v": 1.98
+   },
+   {
+    "c": "MEX",
+    "v": 1.385
+   },
+   {
+    "c": "BGD",
+    "v": 1.1
+   },
+   {
+    "c": "EGY",
+    "v": 0.885
+   },
+   {
+    "c": "DZA",
+    "v": 0.875
+   },
+   {
+    "c": "CAN",
+    "v": 0.68
+   },
+   {
+    "c": "KOR",
+    "v": 0.665
+   }
+  ],
+  "n": "USDA PSD, Oil, Soybean, soybean oil domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 15.545,
+  "rows": [
+   {
+    "c": "ARG",
+    "v": 6.809
+   },
+   {
+    "c": "BRA",
+    "v": 1.946
+   },
+   {
+    "c": "CHN",
+    "v": 1.08
+   },
+   {
+    "c": "EU27",
+    "v": 0.75
+   },
+   {
+    "c": "RUS",
+    "v": 0.7
+   },
+   {
+    "c": "PRY",
+    "v": 0.65
+   },
+   {
+    "c": "UKR",
+    "v": 0.507
+   },
+   {
+    "c": "BOL",
+    "v": 0.5
+   },
+   {
+    "c": "USA",
+    "v": 0.445
+   },
+   {
+    "c": "TUR",
+    "v": 0.422
+   },
+   {
+    "c": "VNM",
+    "v": 0.28
+   },
+   {
+    "c": "THA",
+    "v": 0.227
+   }
+  ],
+  "n": "USDA PSD, Oil, Soybean, soybean oil exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 13.889,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 5.6
+   },
+   {
+    "c": "EU27",
+    "v": 0.825
+   },
+   {
+    "c": "BGD",
+    "v": 0.612
+   },
+   {
+    "c": "MAR",
+    "v": 0.6
+   },
+   {
+    "c": "PER",
+    "v": 0.59
+   },
+   {
+    "c": "KOR",
+    "v": 0.479
+   },
+   {
+    "c": "CAN",
+    "v": 0.476
+   },
+   {
+    "c": "DZA",
+    "v": 0.45
+   },
+   {
+    "c": "COL",
+    "v": 0.35
+   },
+   {
+    "c": "VEN",
+    "v": 0.34
+   },
+   {
+    "c": "EGY",
+    "v": 0.275
+   },
+   {
+    "c": "USA",
+    "v": 0.239
+   }
+  ],
+  "n": "USDA PSD, Oil, Soybean, soybean oil imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "ARG",
+   "d": "IND",
+   "v": 3.112,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-IND"
+  },
+  {
+   "o": "BRA",
+   "d": "IND",
+   "v": 0.7872,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:BRA-IND"
+  },
+  {
+   "o": "ARG",
+   "d": "CHN",
+   "v": 0.4474,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-CHN"
+  },
+  {
+   "o": "ARG",
+   "d": "BGD",
+   "v": 0.4412,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-BGD"
+  },
+  {
+   "o": "ARG",
+   "d": "CAN",
+   "v": 0.4053,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "ARG",
+   "d": "PER",
+   "v": 0.3091,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-PER"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 0.2828,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "UKR",
+   "d": "POL",
+   "v": 0.2705,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "TUR",
+   "d": "DZA",
+   "v": 0.2327,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "ESP",
+   "d": "MAR",
+   "v": 0.2304,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "BOL",
+   "d": "COL",
+   "v": 0.2115,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "CHL",
+   "v": 0.1551,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "PAK",
+   "v": 0.1446,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "BRA",
+   "d": "BGD",
+   "v": 0.1414,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:BRA-BGD"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 0.1379,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:BRA-CHN"
+  },
+  {
+   "o": "ARG",
+   "d": "ESP",
+   "v": 0.1352,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-ESP"
+  },
+  {
+   "o": "NLD",
+   "d": "GBR",
+   "v": 0.135,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:NLD-GBR"
+  },
+  {
+   "o": "ARG",
+   "d": "DOM",
+   "v": 0.133,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-DOM"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 0.1326,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "KOR",
+   "v": 0.1261,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soyoil:ARG-KOR"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 15.5 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 13.2 Mt (+18%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+ ]
+}

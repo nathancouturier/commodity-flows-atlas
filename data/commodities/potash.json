@@ -1,0 +1,453 @@
+{
+ "id": "potash",
+ "summary": {
+  "production": {
+   "v": 49.0,
+   "u": "Mt K2O",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 5900.0,
+   "u": "Mt K2O",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not published (withheld, range or qualitative): Israel, Jordan"
+  },
+  "exports": {
+   "v": 62.663,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 38.76,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (potash) under the Atlas lane method (data/freight/lanes/potash.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt K2O",
+  "world": 49.0,
+  "rows": [
+   {
+    "c": "CAN",
+    "v": 15.0
+   },
+   {
+    "c": "RUS",
+    "v": 10.0
+   },
+   {
+    "c": "CHN",
+    "v": 6.3
+   },
+   {
+    "c": "BLR",
+    "v": 6.0
+   },
+   {
+    "c": "DEU",
+    "v": 3.0
+   },
+   {
+    "c": "LAO",
+    "v": 2.4
+   },
+   {
+    "c": "ISR",
+    "v": 2.0
+   },
+   {
+    "c": "JOR",
+    "v": 1.8
+   },
+   {
+    "c": "CHL",
+    "v": 0.6
+   },
+   {
+    "c": "USA",
+    "v": 0.5
+   },
+   {
+    "c": "ESP",
+    "v": 0.45
+   },
+   {
+    "c": "BRA",
+    "v": 0.3
+   }
+  ],
+  "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt K2O",
+  "world": 5900.0,
+  "rows": [
+   {
+    "c": "RUS",
+    "v": 2000.0
+   },
+   {
+    "c": "CAN",
+    "v": 1100.0
+   },
+   {
+    "c": "LAO",
+    "v": 1000.0
+   },
+   {
+    "c": "BLR",
+    "v": 750.0
+   },
+   {
+    "c": "USA",
+    "v": 220.0
+   },
+   {
+    "c": "CHN",
+    "v": 200.0
+   },
+   {
+    "c": "DEU",
+    "v": 150.0
+   },
+   {
+    "c": "CHL",
+    "v": 100.0
+   },
+   {
+    "c": "ESP",
+    "v": 100.0
+   },
+   {
+    "c": "BRA",
+    "v": 2.3
+   }
+  ],
+  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not published (withheld, range or qualitative): Israel, Jordan"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 62.663,
+  "rows": [
+   {
+    "c": "CAN",
+    "v": 26.605
+   },
+   {
+    "c": "RUS",
+    "v": 15.492
+   },
+   {
+    "c": "BLR",
+    "v": 3.586
+   },
+   {
+    "c": "DEU",
+    "v": 3.1
+   },
+   {
+    "c": "ISR",
+    "v": 3.086
+   },
+   {
+    "c": "LAO",
+    "v": 2.681
+   },
+   {
+    "c": "JOR",
+    "v": 2.21
+   },
+   {
+    "c": "UZB",
+    "v": 1.764
+   },
+   {
+    "c": "TKM",
+    "v": 0.9198
+   },
+   {
+    "c": "USA",
+    "v": 0.8239
+   },
+   {
+    "c": "ESP",
+    "v": 0.7048
+   },
+   {
+    "c": "CHL",
+    "v": 0.4925
+   }
+  ],
+  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 62.663,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 13.952
+   },
+   {
+    "c": "BRA",
+    "v": 13.868
+   },
+   {
+    "c": "CHN",
+    "v": 12.26
+   },
+   {
+    "c": "IND",
+    "v": 3.711
+   },
+   {
+    "c": "IDN",
+    "v": 3.196
+   },
+   {
+    "c": "MYS",
+    "v": 1.817
+   },
+   {
+    "c": "BEL",
+    "v": 1.133
+   },
+   {
+    "c": "POL",
+    "v": 0.9973
+   },
+   {
+    "c": "THA",
+    "v": 0.8962
+   },
+   {
+    "c": "KOR",
+    "v": 0.6833
+   },
+   {
+    "c": "COL",
+    "v": 0.5915
+   },
+   {
+    "c": "MAR",
+    "v": 0.5815
+   }
+  ],
+  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 12.057,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "BRA",
+   "v": 5.41,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:RUS-BRA"
+  },
+  {
+   "o": "CAN",
+   "d": "BRA",
+   "v": 4.684,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-BRA"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 4.244,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BLR",
+   "d": "CHN",
+   "v": 2.888,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:BLR-CHN"
+  },
+  {
+   "o": "LAO",
+   "d": "CHN",
+   "v": 2.072,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 1.728,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-CHN"
+  },
+  {
+   "o": "RUS",
+   "d": "USA",
+   "v": 1.48,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:RUS-USA"
+  },
+  {
+   "o": "UZB",
+   "d": "BRA",
+   "v": 1.406,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "IDN",
+   "v": 1.255,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-IDN"
+  },
+  {
+   "o": "CAN",
+   "d": "IND",
+   "v": 1.223,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-IND"
+  },
+  {
+   "o": "RUS",
+   "d": "IDN",
+   "v": 1.199,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:RUS-IDN"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 1.095,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:RUS-IND"
+  },
+  {
+   "o": "ISR",
+   "d": "BRA",
+   "v": 1.045,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:ISR-BRA"
+  },
+  {
+   "o": "RUS",
+   "d": "MYS",
+   "v": 0.852,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:RUS-MYS"
+  },
+  {
+   "o": "TKM",
+   "d": "IND",
+   "v": 0.7998,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "BEL",
+   "v": 0.7888,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-BEL"
+  },
+  {
+   "o": "ISR",
+   "d": "CHN",
+   "v": 0.6318,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:ISR-CHN"
+  },
+  {
+   "o": "CAN",
+   "d": "MYS",
+   "v": 0.5768,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:CAN-MYS"
+  },
+  {
+   "o": "DEU",
+   "d": "BRA",
+   "v": 0.5357,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "potash:DEU-BRA"
+  }
+ ],
+ "notes": [
+  "USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight."
+ ]
+}

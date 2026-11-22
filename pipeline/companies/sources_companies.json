@@ -1,0 +1,26 @@
+[
+ {
+  "id": "company-reports",
+  "name": "Company annual and production reports",
+  "publisher": "Individual companies",
+  "url": "https://www.vitol.com/",
+  "licence": "Per company; facts only cited",
+  "update": "annual"
+ },
+ {
+  "id": "trade-press",
+  "name": "Trade press citing company data",
+  "publisher": "Various",
+  "url": "https://www.reuters.com/markets/commodities/",
+  "licence": "Facts only cited",
+  "update": "continuous"
+ },
+ {
+  "id": "wikipedia",
+  "name": "Wikipedia company articles",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/",
+  "licence": "CC BY-SA 4.0",
+  "update": "continuous"
+ }
+]

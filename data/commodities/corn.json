@@ -1,0 +1,467 @@
+{
+ "id": "corn",
+ "summary": {
+  "production": {
+   "v": 1334.7,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Corn, corn production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 1306.3,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Corn, corn domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 215.36,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Corn, corn exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 155.01,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (corn) under the Atlas lane method (data/freight/lanes/corn.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 1334.7,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 430.9
+   },
+   {
+    "c": "CHN",
+    "v": 301.24
+   },
+   {
+    "c": "BRA",
+    "v": 144.5
+   },
+   {
+    "c": "ARG",
+    "v": 64.0
+   },
+   {
+    "c": "EU27",
+    "v": 56.899
+   },
+   {
+    "c": "IND",
+    "v": 55.09
+   },
+   {
+    "c": "UKR",
+    "v": 30.9
+   },
+   {
+    "c": "MEX",
+    "v": 24.9
+   },
+   {
+    "c": "ZAF",
+    "v": 18.4
+   },
+   {
+    "c": "CAN",
+    "v": 14.867
+   },
+   {
+    "c": "RUS",
+    "v": 14.8
+   },
+   {
+    "c": "IDN",
+    "v": 13.1
+   }
+  ],
+  "n": "USDA PSD, Corn, corn production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 1306.3,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 330.77
+   },
+   {
+    "c": "CHN",
+    "v": 320.0
+   },
+   {
+    "c": "BRA",
+    "v": 103.5
+   },
+   {
+    "c": "EU27",
+    "v": 74.6
+   },
+   {
+    "c": "MEX",
+    "v": 51.0
+   },
+   {
+    "c": "IND",
+    "v": 48.2
+   },
+   {
+    "c": "EGY",
+    "v": 18.9
+   },
+   {
+    "c": "ARG",
+    "v": 18.6
+   },
+   {
+    "c": "VNM",
+    "v": 17.2
+   },
+   {
+    "c": "JPN",
+    "v": 15.7
+   },
+   {
+    "c": "CAN",
+    "v": 15.548
+   },
+   {
+    "c": "ZAF",
+    "v": 14.3
+   }
+  ],
+  "n": "USDA PSD, Corn, corn domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 215.36,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 87.106
+   },
+   {
+    "c": "ARG",
+    "v": 45.0
+   },
+   {
+    "c": "BRA",
+    "v": 38.0
+   },
+   {
+    "c": "UKR",
+    "v": 22.237
+   },
+   {
+    "c": "RUS",
+    "v": 4.0
+   },
+   {
+    "c": "PRY",
+    "v": 3.25
+   },
+   {
+    "c": "ZAF",
+    "v": 3.1
+   },
+   {
+    "c": "MMR",
+    "v": 2.3
+   },
+   {
+    "c": "EU27",
+    "v": 2.3
+   },
+   {
+    "c": "IND",
+    "v": 2.0
+   },
+   {
+    "c": "CAN",
+    "v": 1.197
+   },
+   {
+    "c": "TZA",
+    "v": 1.0
+   }
+  ],
+  "n": "USDA PSD, Corn, corn exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 199.61,
+  "rows": [
+   {
+    "c": "MEX",
+    "v": 26.156
+   },
+   {
+    "c": "EU27",
+    "v": 20.0
+   },
+   {
+    "c": "JPN",
+    "v": 15.658
+   },
+   {
+    "c": "VNM",
+    "v": 13.5
+   },
+   {
+    "c": "EGY",
+    "v": 12.5
+   },
+   {
+    "c": "KOR",
+    "v": 11.383
+   },
+   {
+    "c": "IRN",
+    "v": 9.5
+   },
+   {
+    "c": "COL",
+    "v": 8.5
+   },
+   {
+    "c": "TUR",
+    "v": 6.015
+   },
+   {
+    "c": "SAU",
+    "v": 5.8
+   },
+   {
+    "c": "DZA",
+    "v": 5.779
+   },
+   {
+    "c": "PER",
+    "v": 4.915
+   }
+  ],
+  "n": "USDA PSD, Corn, corn imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 11.728,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:USA-JPN"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 7.771,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:USA-MEX"
+  },
+  {
+   "o": "ARG",
+   "d": "VNM",
+   "v": 6.814,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:ARG-VNM"
+  },
+  {
+   "o": "USA",
+   "d": "COL",
+   "v": 6.797,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:USA-COL"
+  },
+  {
+   "o": "BRA",
+   "d": "EGY",
+   "v": 5.411,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:BRA-EGY"
+  },
+  {
+   "o": "UKR",
+   "d": "ESP",
+   "v": 5.232,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:UKR-ESP"
+  },
+  {
+   "o": "BRA",
+   "d": "VNM",
+   "v": 4.644,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:BRA-VNM"
+  },
+  {
+   "o": "BRA",
+   "d": "IRN",
+   "v": 4.337,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:BRA-IRN"
+  },
+  {
+   "o": "ARG",
+   "d": "PER",
+   "v": 4.207,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:ARG-PER"
+  },
+  {
+   "o": "UKR",
+   "d": "CHN",
+   "v": 3.533,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:UKR-CHN"
+  },
+  {
+   "o": "UKR",
+   "d": "TUR",
+   "v": 3.339,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:UKR-TUR"
+  },
+  {
+   "o": "UKR",
+   "d": "EGY",
+   "v": 3.324,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:UKR-EGY"
+  },
+  {
+   "o": "ARG",
+   "d": "MYS",
+   "v": 3.126,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:ARG-MYS"
+  },
+  {
+   "o": "BRA",
+   "d": "KOR",
+   "v": 3.073,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:BRA-KOR"
+  },
+  {
+   "o": "UKR",
+   "d": "NLD",
+   "v": 2.926,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:UKR-NLD"
+  },
+  {
+   "o": "BRA",
+   "d": "JPN",
+   "v": 2.912,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:BRA-JPN"
+  },
+  {
+   "o": "ARG",
+   "d": "KOR",
+   "v": 2.865,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:ARG-KOR"
+  },
+  {
+   "o": "ARG",
+   "d": "DZA",
+   "v": 2.832,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "corn:ARG-DZA"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 2.723,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "UKR",
+   "d": "ITA",
+   "v": 2.702,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 215.4 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 184.7 Mt (+17%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+ ]
+}

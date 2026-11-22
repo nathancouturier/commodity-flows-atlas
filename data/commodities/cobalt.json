@@ -1,0 +1,443 @@
+{
+ "id": "cobalt",
+ "summary": {
+  "production": {
+   "v": 310000.0,
+   "u": "t Co",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 12000000.0,
+   "u": "t Co",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 201.1,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Co",
+  "world": 310000.0,
+  "rows": [
+   {
+    "c": "COD",
+    "v": 230000.0
+   },
+   {
+    "c": "IDN",
+    "v": 44000.0
+   },
+   {
+    "c": "RUS",
+    "v": 7700.0
+   },
+   {
+    "c": "MDG",
+    "v": 3900.0
+   },
+   {
+    "c": "AUS",
+    "v": 3700.0
+   },
+   {
+    "c": "PHL",
+    "v": 3700.0
+   },
+   {
+    "c": "CAN",
+    "v": 3500.0
+   },
+   {
+    "c": "PNG",
+    "v": 2800.0
+   },
+   {
+    "c": "CHN",
+    "v": 2000.0
+   },
+   {
+    "c": "CUB",
+    "v": 2000.0
+   },
+   {
+    "c": "TUR",
+    "v": 1900.0
+   },
+   {
+    "c": "USA",
+    "v": 300.0
+   }
+  ],
+  "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Co",
+  "world": 12000000.0,
+  "rows": [
+   {
+    "c": "COD",
+    "v": 6000000.0
+   },
+   {
+    "c": "AUS",
+    "v": 1700000.0
+   },
+   {
+    "c": "RUS",
+    "v": 800000.0
+   },
+   {
+    "c": "IDN",
+    "v": 760000.0
+   },
+   {
+    "c": "CUB",
+    "v": 500000.0
+   },
+   {
+    "c": "PHL",
+    "v": 260000.0
+   },
+   {
+    "c": "CAN",
+    "v": 220000.0
+   },
+   {
+    "c": "CHN",
+    "v": 160000.0
+   },
+   {
+    "c": "MDG",
+    "v": 100000.0
+   },
+   {
+    "c": "TUR",
+    "v": 91000.0
+   },
+   {
+    "c": "PNG",
+    "v": 84000.0
+   },
+   {
+    "c": "USA",
+    "v": 70000.0
+   }
+  ],
+  "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 201.1,
+  "rows": [
+   {
+    "c": "COD",
+    "v": 114.11,
+    "n": "90% of tonnage estimated from value"
+   },
+   {
+    "c": "CAN",
+    "v": 8.414
+   },
+   {
+    "c": "PHL",
+    "v": 7.314
+   },
+   {
+    "c": "COG",
+    "v": 6.621
+   },
+   {
+    "c": "USA",
+    "v": 6.257
+   },
+   {
+    "c": "RUS",
+    "v": 5.721
+   },
+   {
+    "c": "CHN",
+    "v": 5.159
+   },
+   {
+    "c": "JPN",
+    "v": 4.908
+   },
+   {
+    "c": "AUS",
+    "v": 3.567
+   },
+   {
+    "c": "MOZ",
+    "v": 3.446
+   },
+   {
+    "c": "FIN",
+    "v": 3.16
+   },
+   {
+    "c": "DEU",
+    "v": 3.108
+   }
+  ],
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 201.1,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 119.68,
+    "n": "86% of tonnage estimated from value"
+   },
+   {
+    "c": "MYS",
+    "v": 13.865
+   },
+   {
+    "c": "USA",
+    "v": 10.216
+   },
+   {
+    "c": "KOR",
+    "v": 8.359
+   },
+   {
+    "c": "BEL",
+    "v": 6.431
+   },
+   {
+    "c": "GBR",
+    "v": 4.509
+   },
+   {
+    "c": "TWN",
+    "v": 4.415,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan; 13% of tonnage estimated from value"
+   },
+   {
+    "c": "MAR",
+    "v": 4.241
+   },
+   {
+    "c": "NLD",
+    "v": 4.178
+   },
+   {
+    "c": "JPN",
+    "v": 4.066
+   },
+   {
+    "c": "FRA",
+    "v": 3.534
+   },
+   {
+    "c": "FIN",
+    "v": 2.497
+   }
+  ],
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "COD",
+   "d": "CHN",
+   "v": 102.54,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "PHL",
+   "d": "CHN",
+   "v": 6.916,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "COD",
+   "d": "KOR",
+   "v": 5.861,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "COG",
+   "d": "MYS",
+   "v": 5.741,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 5.589,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "COD",
+   "d": "MAR",
+   "v": 4.241,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MOZ",
+   "d": "MYS",
+   "v": 3.446,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 2.592,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NOR",
+   "d": "USA",
+   "v": 2.487,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "MYS",
+   "v": 2.081,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ITA",
+   "d": "FRA",
+   "v": 1.933,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 1.902,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "NOR",
+   "v": 1.808,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "USA",
+   "v": 1.601,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 1.454,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "NLD",
+   "v": 1.423,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUT",
+   "d": "FIN",
+   "v": 1.371,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 1.331,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "BEL",
+   "v": 1.263,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 1.2,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade covers cobalt ores and unwrought cobalt in gross weight (kt); USGS production is contained cobalt (t Co)."
+ ]
+}

@@ -1,0 +1,439 @@
+{
+ "id": "rare-earths",
+ "summary": {
+  "production": {
+   "v": 390000.0,
+   "u": "t REO",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Greenland, South Africa, Tanzania"
+  },
+  "reserves": {
+   "v": 85000000.0,
+   "u": "t REO",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000); not published (withheld, range or qualitative): Burma, India, Madagascar, Nigeria, Thailand"
+  },
+  "exports": {
+   "v": 211.86,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t REO",
+  "world": 390000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 270000.0
+   },
+   {
+    "c": "USA",
+    "v": 51000.0
+   },
+   {
+    "c": "AUS",
+    "v": 29000.0
+   },
+   {
+    "c": "MMR",
+    "v": 22000.0
+   },
+   {
+    "c": "THA",
+    "v": 4800.0
+   },
+   {
+    "c": "IND",
+    "v": 2900.0
+   },
+   {
+    "c": "MDG",
+    "v": 2700.0
+   },
+   {
+    "c": "RUS",
+    "v": 2600.0
+   },
+   {
+    "c": "BRA",
+    "v": 2000.0
+   },
+   {
+    "c": "NGA",
+    "v": 1500.0
+   },
+   {
+    "c": "VNM",
+    "v": 150.0
+   },
+   {
+    "c": "MYS",
+    "v": 110.0
+   }
+  ],
+  "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Greenland, South Africa, Tanzania"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t REO",
+  "world": 85000000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 44000000.0
+   },
+   {
+    "c": "BRA",
+    "v": 21000000.0
+   },
+   {
+    "c": "AUS",
+    "v": 6300000.0
+   },
+   {
+    "c": "RUS",
+    "v": 3800000.0
+   },
+   {
+    "c": "VNM",
+    "v": 3500000.0
+   },
+   {
+    "c": "USA",
+    "v": 1900000.0
+   },
+   {
+    "c": "GRL",
+    "v": 1500000.0
+   },
+   {
+    "c": "TZA",
+    "v": 890000.0
+   },
+   {
+    "c": "ZAF",
+    "v": 860000.0
+   },
+   {
+    "c": "CAN",
+    "v": 830000.0
+   },
+   {
+    "c": "MYS",
+    "v": 710000.0
+   }
+  ],
+  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000); not published (withheld, range or qualitative): Burma, India, Madagascar, Nigeria, Thailand"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 211.86,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 48.436
+   },
+   {
+    "c": "MMR",
+    "v": 44.366
+   },
+   {
+    "c": "TUR",
+    "v": 40.835
+   },
+   {
+    "c": "MYS",
+    "v": 24.42
+   },
+   {
+    "c": "LAO",
+    "v": 10.748
+   },
+   {
+    "c": "VNM",
+    "v": 6.716
+   },
+   {
+    "c": "JPN",
+    "v": 6.374
+   },
+   {
+    "c": "USA",
+    "v": 5.343
+   },
+   {
+    "c": "RUS",
+    "v": 4.733
+   },
+   {
+    "c": "AUS",
+    "v": 3.917,
+    "n": "100% of tonnage estimated from value"
+   },
+   {
+    "c": "FRA",
+    "v": 2.928
+   },
+   {
+    "c": "EST",
+    "v": 2.081
+   }
+  ],
+  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 211.86,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 77.059
+   },
+   {
+    "c": "BEN",
+    "v": 40.7
+   },
+   {
+    "c": "JPN",
+    "v": 24.107
+   },
+   {
+    "c": "USA",
+    "v": 13.692
+   },
+   {
+    "c": "PHL",
+    "v": 7.572
+   },
+   {
+    "c": "TWN",
+    "v": 7.156,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   },
+   {
+    "c": "DEU",
+    "v": 5.452
+   },
+   {
+    "c": "VNM",
+    "v": 4.745
+   },
+   {
+    "c": "MYS",
+    "v": 4.124,
+    "n": "95% of tonnage estimated from value"
+   },
+   {
+    "c": "FRA",
+    "v": 4.02
+   },
+   {
+    "c": "EST",
+    "v": 3.676
+   },
+   {
+    "c": "KOR",
+    "v": 2.848
+   }
+  ],
+  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "MMR",
+   "d": "CHN",
+   "v": 44.366,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "TUR",
+   "d": "BEN",
+   "v": 40.7,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 15.994,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "JPN",
+   "v": 15.969,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "USA",
+   "v": 10.772,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "LAO",
+   "d": "CHN",
+   "v": 10.748,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "TWN",
+   "v": 6.072,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "MYS",
+   "v": 3.917,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "RUS",
+   "d": "EST",
+   "v": 3.676,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "VNM",
+   "d": "CHN",
+   "v": 3.448,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "FRA",
+   "v": 3.336,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "DEU",
+   "v": 3.188,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "VNM",
+   "d": "JPN",
+   "v": 2.974,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "HKG",
+   "v": 2.693,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "NLD",
+   "v": 1.993,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "PHL",
+   "v": 1.953,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 1.93,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "JPN",
+   "v": 1.846,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KOR",
+   "d": "PHL",
+   "v": 1.551,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "VNM",
+   "v": 1.531,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
+ ]
+}

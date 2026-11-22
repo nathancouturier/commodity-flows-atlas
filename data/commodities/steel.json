@@ -1,0 +1,392 @@
+{
+ "id": "steel",
+ "summary": {
+  "production": {
+   "v": 1900.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 384.1,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 286.54,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (steel) under the Atlas lane method (data/freight/lanes/steel.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 1900.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 980.0
+   },
+   {
+    "c": "IND",
+    "v": 160.0
+   },
+   {
+    "c": "USA",
+    "v": 82.0
+   },
+   {
+    "c": "JPN",
+    "v": 81.0
+   },
+   {
+    "c": "RUS",
+    "v": 65.0
+   },
+   {
+    "c": "KOR",
+    "v": 60.0
+   },
+   {
+    "c": "DEU",
+    "v": 38.0
+   },
+   {
+    "c": "TUR",
+    "v": 37.0
+   },
+   {
+    "c": "BRA",
+    "v": 35.0
+   },
+   {
+    "c": "IRN",
+    "v": 32.0
+   },
+   {
+    "c": "VNM",
+    "v": 23.0
+   }
+  ],
+  "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 384.1,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 95.137
+   },
+   {
+    "c": "JPN",
+    "v": 29.879
+   },
+   {
+    "c": "KOR",
+    "v": 25.031
+   },
+   {
+    "c": "DEU",
+    "v": 21.487
+   },
+   {
+    "c": "RUS",
+    "v": 14.893
+   },
+   {
+    "c": "TUR",
+    "v": 13.025
+   },
+   {
+    "c": "ITA",
+    "v": 11.313
+   },
+   {
+    "c": "BEL",
+    "v": 10.815
+   },
+   {
+    "c": "IDN",
+    "v": 10.731
+   },
+   {
+    "c": "VNM",
+    "v": 9.748
+   },
+   {
+    "c": "FRA",
+    "v": 9.668
+   },
+   {
+    "c": "BRA",
+    "v": 8.816
+   }
+  ],
+  "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 384.1,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 23.917
+   },
+   {
+    "c": "VNM",
+    "v": 17.872
+   },
+   {
+    "c": "TUR",
+    "v": 17.578
+   },
+   {
+    "c": "ITA",
+    "v": 17.36
+   },
+   {
+    "c": "DEU",
+    "v": 16.286
+   },
+   {
+    "c": "KOR",
+    "v": 13.804
+   },
+   {
+    "c": "THA",
+    "v": 12.664
+   },
+   {
+    "c": "MEX",
+    "v": 11.657
+   },
+   {
+    "c": "IDN",
+    "v": 11.632
+   },
+   {
+    "c": "IND",
+    "v": 10.671
+   },
+   {
+    "c": "POL",
+    "v": 10.508
+   },
+   {
+    "c": "FRA",
+    "v": 9.74
+   }
+  ],
+  "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "CHN",
+   "d": "VNM",
+   "v": 12.167,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-VNM"
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 7.732,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-KOR"
+  },
+  {
+   "o": "BRA",
+   "d": "USA",
+   "v": 5.375,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:BRA-USA"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 5.27,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "IDN",
+   "v": 5.102,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-IDN"
+  },
+  {
+   "o": "CHN",
+   "d": "THA",
+   "v": 4.791,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-THA"
+  },
+  {
+   "o": "CHN",
+   "d": "ARE",
+   "v": 4.738,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "JPN",
+   "d": "KOR",
+   "v": 4.637,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:JPN-KOR"
+  },
+  {
+   "o": "JPN",
+   "d": "THA",
+   "v": 4.134,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:JPN-THA"
+  },
+  {
+   "o": "CHN",
+   "d": "SAU",
+   "v": 4.118,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 3.919,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:USA-MEX"
+  },
+  {
+   "o": "CHN",
+   "d": "TUR",
+   "v": 3.914,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-TUR"
+  },
+  {
+   "o": "CHN",
+   "d": "PHL",
+   "v": 3.585,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:CHN-PHL"
+  },
+  {
+   "o": "KOR",
+   "d": "JPN",
+   "v": 3.51,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:KOR-JPN"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 3.272,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:RUS-TUR"
+  },
+  {
+   "o": "CHN",
+   "d": "BRA",
+   "v": 3.108,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "DEU",
+   "d": "POL",
+   "v": 3.03,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:DEU-POL"
+  },
+  {
+   "o": "KOR",
+   "d": "IND",
+   "v": 3.014,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "steel:KOR-IND"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 2.807,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BEL",
+   "d": "DEU",
+   "v": 2.747,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade is steel products (HS 72 excluding pig iron, ferro-alloys and scrap), gross weight; USGS production is raw steel."
+ ]
+}

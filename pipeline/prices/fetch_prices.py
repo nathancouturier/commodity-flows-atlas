@@ -1,0 +1,224 @@
+"""
+Fetch the price sources and rebuild data/prices (run weekly by .github/workflows/update-prices.yml).
+
+    python pipeline/prices/fetch_prices.py
+
+Sources (each recorded separately in data/_status/updates.json)
+  wb-pink   World Bank Pink Sheet, monthly xlsx. The current link is scraped from
+            https://www.worldbank.org/en/research/commodity-markets ("CMO-Historical-Data-Monthly.xlsx");
+            the last known URL in raw/DOWNLOAD_REPORT.md is the fallback.
+  eia-spot  EIA daily spot prices, 8 xls files (the ones build_prices.py reads).
+
+Validation before a downloaded file replaces the previous one in raw/:
+  Pink Sheet: opens, has the "Monthly Prices" sheet and the expected columns, latest month is not
+  older than the previous run's. EIA: opens, has "Data 1", latest day is not older than before.
+Then build_prices.py is run; if it fails data/prices is restored from a backup.
+
+Always exits 0: a failure is recorded in the status file and the previous good files are kept.
+"""
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import traceback
+
+ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.join(ROOT, "pipeline"))
+sys.path.insert(0, os.path.join(ROOT, "pipeline", "prices"))
+
+from common import fetch, status  # noqa: E402
+
+PINK_PAGE = "https://www.worldbank.org/en/research/commodity-markets"
+PINK_NAME = "CMO-Historical-Data-Monthly.xlsx"
+PINK_LAST_KNOWN = ("https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/"
+                   "related/CMO-Historical-Data-Monthly.xlsx")
+EIA_BASE = {"pet": "https://www.eia.gov/dnav/pet/hist_xls/", "ng": "https://www.eia.gov/dnav/ng/hist_xls/"}
+RAW_WB = os.path.join(ROOT, "raw", "worldbank")
+RAW_EIA = os.path.join(ROOT, "raw", "eia-spot")
+DATA_PRICES = os.path.join(ROOT, "data", "prices")
+
+
+def pink_candidates():
+    """Candidate URLs, newest first: scraped from the World Bank page, then from DOWNLOAD_REPORT.md, then a constant."""
+    urls = []
+    try:
+        html = fetch.get_text(PINK_PAGE)
+        for m in re.finditer(r"""(?:href=["']?)([^"'\s>]*%s)""" % re.escape(PINK_NAME), html):
+            u = m.group(1).replace("&amp;", "&")
+            if u.startswith("//"):
+                u = "https:" + u
+            elif u.startswith("/"):
+                u = "https://www.worldbank.org" + u
+            urls.append(u)
+    except fetch.FetchError as e:
+        print("  page scrape failed:", e)
+    try:
+        report = open(os.path.join(ROOT, "raw", "DOWNLOAD_REPORT.md"), encoding="utf-8").read()
+        urls += re.findall(r"https://\S*%s" % re.escape(PINK_NAME), report)
+    except OSError:
+        pass
+    urls.append(PINK_LAST_KNOWN)
+    seen, out = set(), []
+    for u in urls:
+        if u not in seen:
+            seen.add(u)
+            out.append(u)
+    return out
+
+
+def check_pink(path):
+    """Return (latest 'YYYY-MM', month count) or raise ValueError."""
+    import openpyxl
+    from build_prices import PINK
+
+    try:
+        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"workbook does not open ({e.__class__.__name__})")
+    if "Monthly Prices" not in wb.sheetnames:
+        raise ValueError("no 'Monthly Prices' sheet")
+    rows = list(wb["Monthly Prices"].iter_rows(values_only=True))
+    hdr_i = next((i for i, r in enumerate(rows) if r and "Crude oil, Brent" in [str(c) for c in r if c]), None)
+    if hdr_i is None:
+        raise ValueError("header row with 'Crude oil, Brent' not found")
+    hdr = {str(c) for c in rows[hdr_i] if c}
+    missing = [c for c in PINK if c not in hdr]
+    if len(missing) > 4:
+        raise ValueError(f"{len(missing)} expected columns missing (e.g. {missing[0]})")
+    months = [r[0] for r in rows[hdr_i + 1:] if r and isinstance(r[0], str) and re.fullmatch(r"\d{4}M\d{2}", r[0].strip())]
+    if len(months) < 600:
+        raise ValueError(f"only {len(months)} months")
+    return months[-1].strip().replace("M", "-"), len(months)
+
+
+def check_eia(path):
+    """Return (latest 'YYYY-MM-DD', observations) or raise ValueError."""
+    import xlrd
+
+    try:
+        sh = xlrd.open_workbook(path).sheet_by_name("Data 1")
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"xls does not open ({e.__class__.__name__})")
+    days = [xlrd.xldate.xldate_as_datetime(r[0], 0).date() for r in (sh.row_values(i) for i in range(3, sh.nrows))
+            if isinstance(r[0], float) and r[1] not in ("", None)]
+    if len(days) < 1000:
+        raise ValueError(f"only {len(days)} observations")
+    return str(max(days)), len(days)
+
+
+def install(tmp, dest):
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    os.replace(tmp, dest)
+
+
+def fetch_pink(stage):
+    prev = status.get("wb-pink")
+    last_err = "no candidate URL"
+    for url in pink_candidates():
+        tmp = os.path.join(stage, PINK_NAME)
+        try:
+            size = fetch.download(url, tmp, kind="xlsx", min_bytes=100_000)
+            latest, n = check_pink(tmp)
+        except (fetch.FetchError, ValueError) as e:
+            last_err = f"{e}"
+            print("  candidate failed:", url, "->", e)
+            continue
+        if prev.get("data_to") and latest < prev["data_to"]:
+            last_err = f"latest month {latest} is older than previous {prev['data_to']}"
+            print("  rejected:", last_err)
+            continue
+        install(tmp, os.path.join(RAW_WB, PINK_NAME))
+        print(f"  Pink Sheet {latest}, {n} months, {size} bytes from {url}")
+        return {"records": n, "data_to": latest, "state": {"url": url}}, None
+    return None, last_err
+
+
+def fetch_eia(stage):
+    from build_prices import EIA
+
+    prev = status.get("eia-spot").get("state", {}).get("last", {})
+    last, total, errors, updated = dict(prev), 0, [], 0
+    for code in EIA:
+        base = EIA_BASE["ng"] if code.startswith("RNG") else EIA_BASE["pet"]
+        tmp = os.path.join(stage, code + ".xls")
+        try:
+            fetch.download(base + code + ".xls", tmp, kind="xls", min_bytes=20_000)
+            latest, n = check_eia(tmp)
+            if code in prev and latest < prev[code]:
+                raise ValueError(f"latest day {latest} older than previous {prev[code]}")
+        except (fetch.FetchError, ValueError) as e:
+            errors.append(f"{code}: {e}")
+            print("  EIA", code, "failed:", e)
+            continue
+        install(tmp, os.path.join(RAW_EIA, code + ".xls"))
+        last[code], total, updated = latest, total + n, updated + 1
+        print("  EIA", code, latest, n)
+    info = {"records": total or None, "data_to": min(last.values()) if len(last) == len(EIA) else None,
+            "state": {"last": last}}
+    return info, ("; ".join(errors)[:200] if errors else None), updated
+
+
+def rebuild():
+    """Run build_prices.py against raw/; restore data/prices from a backup when it fails."""
+    with tempfile.TemporaryDirectory() as bk:
+        backup = os.path.join(bk, "prices")
+        if os.path.isdir(DATA_PRICES):
+            shutil.copytree(DATA_PRICES, backup)
+        pink = os.path.join(RAW_WB, PINK_NAME)
+        cmd = [sys.executable, os.path.join(ROOT, "pipeline", "prices", "build_prices.py"), pink, RAW_EIA]
+        try:
+            r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=900)
+            print(r.stdout[-1500:])
+            if r.returncode != 0:
+                raise RuntimeError("build_prices failed: " + (r.stderr.strip().splitlines() or ["?"])[-1])
+            if not os.path.exists(os.path.join(DATA_PRICES, "index.json")):
+                raise RuntimeError("build_prices produced no index.json")
+        except Exception:
+            if os.path.isdir(backup):
+                shutil.rmtree(DATA_PRICES, ignore_errors=True)
+                shutil.copytree(backup, DATA_PRICES)
+            raise
+
+
+def main():
+    with tempfile.TemporaryDirectory() as stage:
+        try:
+            pink, pink_err = fetch_pink(stage)
+        except Exception as e:  # noqa: BLE001
+            pink, pink_err = None, f"unexpected {e.__class__.__name__}: {e}"
+            traceback.print_exc()
+        try:
+            eia, eia_err, eia_updated = fetch_eia(stage)
+        except Exception as e:  # noqa: BLE001
+            eia, eia_err, eia_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
+            traceback.print_exc()
+
+    build_err = None
+    if pink or eia_updated:
+        try:
+            rebuild()
+        except Exception as e:  # noqa: BLE001
+            build_err = str(e)
+            print("  rebuild failed:", build_err)
+    # record
+    if pink and not build_err:
+        status.record_success("wb-pink", **pink, note="updated")
+    else:
+        status.record_failure("wb-pink", build_err or pink_err)
+    if eia is not None and eia_updated and not build_err and not eia_err:
+        status.record_success("eia-spot", **eia, note="updated")
+    elif eia is not None and eia_updated and not build_err:
+        status.record_failure("eia-spot", eia_err)  # partial: some files updated, some failed
+    else:
+        status.record_failure("eia-spot", build_err or eia_err or "no EIA file updated")
+    print("done")
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except Exception:  # noqa: BLE001  never fail the workflow
+        traceback.print_exc()
+    sys.exit(0)

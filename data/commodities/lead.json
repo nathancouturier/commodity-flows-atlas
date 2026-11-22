@@ -1,0 +1,448 @@
+{
+ "id": "lead",
+ "summary": {
+  "production": {
+   "v": 4500.0,
+   "u": "kt Pb",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 95000.0,
+   "u": "kt Pb",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; not published (withheld, range or qualitative): Tajikistan"
+  },
+  "exports": {
+   "v": 3.873,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 23% of world tonnage estimated from value where missing or inconsistent"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Pb",
+  "world": 4500.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 1900.0
+   },
+   {
+    "c": "AUS",
+    "v": 480.0
+   },
+   {
+    "c": "PER",
+    "v": 290.0
+   },
+   {
+    "c": "USA",
+    "v": 280.0
+   },
+   {
+    "c": "RUS",
+    "v": 260.0
+   },
+   {
+    "c": "IND",
+    "v": 220.0
+   },
+   {
+    "c": "MEX",
+    "v": 200.0
+   },
+   {
+    "c": "BOL",
+    "v": 100.0
+   },
+   {
+    "c": "IRN",
+    "v": 70.0
+   },
+   {
+    "c": "SWE",
+    "v": 70.0
+   },
+   {
+    "c": "TUR",
+    "v": 70.0
+   },
+   {
+    "c": "TJK",
+    "v": 40.0
+   }
+  ],
+  "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Pb",
+  "world": 95000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 34000.0
+   },
+   {
+    "c": "CHN",
+    "v": 22000.0
+   },
+   {
+    "c": "RUS",
+    "v": 8900.0
+   },
+   {
+    "c": "MEX",
+    "v": 5600.0
+   },
+   {
+    "c": "PER",
+    "v": 5000.0
+   },
+   {
+    "c": "USA",
+    "v": 4600.0
+   },
+   {
+    "c": "IRN",
+    "v": 2000.0
+   },
+   {
+    "c": "IND",
+    "v": 1900.0
+   },
+   {
+    "c": "SWE",
+    "v": 1700.0
+   },
+   {
+    "c": "BOL",
+    "v": 1600.0
+   },
+   {
+    "c": "TUR",
+    "v": 1600.0
+   }
+  ],
+  "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; not published (withheld, range or qualitative): Tajikistan"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 3.873,
+  "rows": [
+   {
+    "c": "MEX",
+    "v": 0.7342,
+    "n": "89% of tonnage estimated from value"
+   },
+   {
+    "c": "USA",
+    "v": 0.5277,
+    "n": "32% of tonnage estimated from value"
+   },
+   {
+    "c": "PER",
+    "v": 0.4504
+   },
+   {
+    "c": "RUS",
+    "v": 0.4012
+   },
+   {
+    "c": "AUS",
+    "v": 0.2916
+   },
+   {
+    "c": "BOL",
+    "v": 0.1421
+   },
+   {
+    "c": "TUR",
+    "v": 0.1188
+   },
+   {
+    "c": "SWE",
+    "v": 0.0902
+   },
+   {
+    "c": "MMR",
+    "v": 0.0799
+   },
+   {
+    "c": "ESP",
+    "v": 0.0758
+   },
+   {
+    "c": "TJK",
+    "v": 0.0743
+   },
+   {
+    "c": "MAR",
+    "v": 0.0706
+   }
+  ],
+  "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 23% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 3.873,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 1.747
+   },
+   {
+    "c": "KOR",
+    "v": 0.8716,
+    "n": "49% of tonnage estimated from value"
+   },
+   {
+    "c": "DEU",
+    "v": 0.2283
+   },
+   {
+    "c": "KAZ",
+    "v": 0.1878,
+    "n": "61% of tonnage estimated from value"
+   },
+   {
+    "c": "CAN",
+    "v": 0.1696,
+    "n": "100% of tonnage estimated from value"
+   },
+   {
+    "c": "JPN",
+    "v": 0.1471,
+    "n": "32% of tonnage estimated from value"
+   },
+   {
+    "c": "AUS",
+    "v": 0.1195,
+    "n": "88% of tonnage estimated from value"
+   },
+   {
+    "c": "BEL",
+    "v": 0.1175,
+    "n": "36% of tonnage estimated from value"
+   },
+   {
+    "c": "BGR",
+    "v": 0.0598
+   },
+   {
+    "c": "IDN",
+    "v": 0.0316
+   },
+   {
+    "c": "USA",
+    "v": 0.0298
+   },
+   {
+    "c": "NLD",
+    "v": 0.0287
+   }
+  ],
+  "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 23% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "MEX",
+   "d": "KOR",
+   "v": 0.4257,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 0.3727,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "CHN",
+   "v": 0.3283,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 0.1696,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 0.1465,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 0.1126,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 0.1114,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MEX",
+   "d": "AUS",
+   "v": 0.1048,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "PER",
+   "d": "KOR",
+   "v": 0.0957,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "TUR",
+   "d": "CHN",
+   "v": 0.0799,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MEX",
+   "d": "CHN",
+   "v": 0.0789,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MEX",
+   "d": "KAZ",
+   "v": 0.075,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "MMR",
+   "d": "CHN",
+   "v": 0.0689,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "SWE",
+   "d": "DEU",
+   "v": 0.0677,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 0.0644,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "TJK",
+   "d": "KAZ",
+   "v": 0.0553,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "DEU",
+   "v": 0.0543,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NGA",
+   "d": "CHN",
+   "v": 0.0539,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MKD",
+   "d": "BGR",
+   "v": 0.0521,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 0.0521,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Unwrought lead (HS 7801), 2024 (BACI, baci): world 3.74 Mt gross weight; top exporters IND 0.40 Mt, KOR 0.33 Mt, AUS 0.28 Mt.",
+  "Trade tables are lead ores and concentrates in gross weight (Mt); production and reserves are contained lead (kt Pb). No lead lanes exist (no seaborne figure)."
+ ]
+}

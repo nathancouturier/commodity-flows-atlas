@@ -1,0 +1,381 @@
+{
+ "id": "uranium",
+ "summary": {
+  "production": {
+   "v": 60213.0,
+   "u": "tU",
+   "y": 2024,
+   "s": "wna",
+   "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')"
+  },
+  "exports": {
+   "v": 89.198,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "uranium ores and natural uranium compounds (HS 261210, 284410), gross weight"
+  }
+ },
+ "production": {
+  "y": 2024,
+  "s": "wna",
+  "u": "tU",
+  "world": 60213.0,
+  "rows": [
+   {
+    "c": "KAZ",
+    "v": 23270.0
+   },
+   {
+    "c": "CAN",
+    "v": 14309.0
+   },
+   {
+    "c": "NAM",
+    "v": 7333.0
+   },
+   {
+    "c": "AUS",
+    "v": 4598.0
+   },
+   {
+    "c": "UZB",
+    "v": 4000.0,
+    "n": "WNA estimate"
+   },
+   {
+    "c": "RUS",
+    "v": 2738.0
+   },
+   {
+    "c": "CHN",
+    "v": 1600.0,
+    "n": "WNA estimate"
+   },
+   {
+    "c": "NER",
+    "v": 962.0
+   },
+   {
+    "c": "IND",
+    "v": 500.0,
+    "n": "WNA estimate"
+   },
+   {
+    "c": "UKR",
+    "v": 288.0,
+    "n": "WNA estimate"
+   },
+   {
+    "c": "USA",
+    "v": 260.0
+   },
+   {
+    "c": "ZAF",
+    "v": 200.0,
+    "n": "WNA estimate"
+   }
+  ],
+  "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 89.198,
+  "rows": [
+   {
+    "c": "KAZ",
+    "v": 29.591
+   },
+   {
+    "c": "CAN",
+    "v": 20.747
+   },
+   {
+    "c": "NAM",
+    "v": 17.285
+   },
+   {
+    "c": "AUS",
+    "v": 5.89
+   },
+   {
+    "c": "USA",
+    "v": 4.74
+   },
+   {
+    "c": "NER",
+    "v": 4.149
+   },
+   {
+    "c": "UZB",
+    "v": 2.435
+   },
+   {
+    "c": "FRA",
+    "v": 2.039
+   },
+   {
+    "c": "DEU",
+    "v": 1.023
+   },
+   {
+    "c": "UKR",
+    "v": 0.697
+   },
+   {
+    "c": "ZAF",
+    "v": 0.37
+   },
+   {
+    "c": "RUS",
+    "v": 0.213
+   }
+  ],
+  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 89.198,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 26.157
+   },
+   {
+    "c": "USA",
+    "v": 16.351
+   },
+   {
+    "c": "FRA",
+    "v": 14.327
+   },
+   {
+    "c": "RUS",
+    "v": 10.444
+   },
+   {
+    "c": "NLD",
+    "v": 7.069
+   },
+   {
+    "c": "CAN",
+    "v": 4.868
+   },
+   {
+    "c": "DEU",
+    "v": 4.601
+   },
+   {
+    "c": "GBR",
+    "v": 4.022
+   },
+   {
+    "c": "ROU",
+    "v": 0.705
+   },
+   {
+    "c": "KOR",
+    "v": 0.362
+   },
+   {
+    "c": "IND",
+    "v": 0.25
+   },
+   {
+    "c": "SWE",
+    "v": 0.022
+   }
+  ],
+  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "NAM",
+   "d": "CHN",
+   "v": 14.918,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 11.239,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KAZ",
+   "d": "RUS",
+   "v": 9.975,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 9.929,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "NLD",
+   "v": 4.321,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NER",
+   "d": "FRA",
+   "v": 4.149,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KAZ",
+   "d": "FRA",
+   "v": 3.798,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "USA",
+   "v": 3.304,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "DEU",
+   "v": 2.713,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KAZ",
+   "d": "USA",
+   "v": 2.458,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "UZB",
+   "d": "FRA",
+   "v": 2.185,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "GBR",
+   "v": 2.149,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "GBR",
+   "v": 1.873,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KAZ",
+   "d": "CAN",
+   "v": 1.648,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "NLD",
+   "v": 1.589,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "CAN",
+   "v": 1.569,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "DEU",
+   "v": 1.26,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "FRA",
+   "v": 1.224,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NAM",
+   "d": "FRA",
+   "v": 1.136,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "DEU",
+   "d": "FRA",
+   "v": 1.001,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade is gross weight of uranium ores and natural uranium compounds in kt, not tonnes of contained uranium; enriched uranium and fuel are not covered.",
+  "No reserves or consumption table: neither is in the loaded sources."
+ ]
+}

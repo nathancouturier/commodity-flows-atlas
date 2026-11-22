@@ -1,0 +1,394 @@
+{
+ "id": "lpg",
+ "summary": {
+  "consumption": {
+   "v": 303.66,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries)"
+  },
+  "exports": {
+   "v": 144.5,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 133.48,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (lpg) under the Atlas lane method (data/freight/lanes/lpg.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 303.66,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 78.642
+   },
+   {
+    "c": "IND",
+    "v": 33.145
+   },
+   {
+    "c": "RUS",
+    "v": 22.734
+   },
+   {
+    "c": "SAU",
+    "v": 13.007
+   },
+   {
+    "c": "JPN",
+    "v": 11.424
+   },
+   {
+    "c": "KOR",
+    "v": 10.576
+   },
+   {
+    "c": "IDN",
+    "v": 9.354
+   },
+   {
+    "c": "MEX",
+    "v": 9.194
+   },
+   {
+    "c": "BRA",
+    "v": 7.539
+   },
+   {
+    "c": "THA",
+    "v": 7.117
+   },
+   {
+    "c": "CAN",
+    "v": 7.014
+   },
+   {
+    "c": "IRQ",
+    "v": 4.395
+   }
+  ],
+  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 144.5,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 68.22
+   },
+   {
+    "c": "ARE",
+    "v": 17.561
+   },
+   {
+    "c": "QAT",
+    "v": 9.946
+   },
+   {
+    "c": "SAU",
+    "v": 6.904
+   },
+   {
+    "c": "CAN",
+    "v": 6.824
+   },
+   {
+    "c": "KWT",
+    "v": 5.731
+   },
+   {
+    "c": "DZA",
+    "v": 4.311
+   },
+   {
+    "c": "NOR",
+    "v": 3.396
+   },
+   {
+    "c": "OMN",
+    "v": 3.188
+   },
+   {
+    "c": "AUS",
+    "v": 2.634
+   },
+   {
+    "c": "GBR",
+    "v": 1.397
+   },
+   {
+    "c": "RUS",
+    "v": 1.144
+   }
+  ],
+  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 144.5,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 35.418
+   },
+   {
+    "c": "IND",
+    "v": 22.684
+   },
+   {
+    "c": "JPN",
+    "v": 9.785
+   },
+   {
+    "c": "MEX",
+    "v": 9.766
+   },
+   {
+    "c": "KOR",
+    "v": 8.595
+   },
+   {
+    "c": "IDN",
+    "v": 6.891
+   },
+   {
+    "c": "NLD",
+    "v": 4.013
+   },
+   {
+    "c": "USA",
+    "v": 3.975
+   },
+   {
+    "c": "MAR",
+    "v": 3.201
+   },
+   {
+    "c": "FRA",
+    "v": 2.696
+   },
+   {
+    "c": "BEL",
+    "v": 2.489
+   },
+   {
+    "c": "ITA",
+    "v": 2.014
+   }
+  ],
+  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 18.008,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 9.334,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-MEX"
+  },
+  {
+   "o": "ARE",
+   "d": "IND",
+   "v": 8.971,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:ARE-IND"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 7.176,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-KOR"
+  },
+  {
+   "o": "ARE",
+   "d": "CHN",
+   "v": 6.976,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:ARE-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 6.165,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-JPN"
+  },
+  {
+   "o": "QAT",
+   "d": "IND",
+   "v": 5.495,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:QAT-IND"
+  },
+  {
+   "o": "USA",
+   "d": "IDN",
+   "v": 3.936,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-IDN"
+  },
+  {
+   "o": "SAU",
+   "d": "IND",
+   "v": 3.696,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:SAU-IND"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 3.635,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "KWT",
+   "d": "IND",
+   "v": 3.595,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:KWT-IND"
+  },
+  {
+   "o": "OMN",
+   "d": "CHN",
+   "v": 2.749,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:OMN-CHN"
+  },
+  {
+   "o": "QAT",
+   "d": "CHN",
+   "v": 2.511,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:QAT-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "MAR",
+   "v": 2.465,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "NLD",
+   "v": 2.426,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:USA-NLD"
+  },
+  {
+   "o": "CAN",
+   "d": "JPN",
+   "v": 2.068,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "EGY",
+   "v": 1.486,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "SAU",
+   "d": "CHN",
+   "v": 1.393,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:SAU-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "ECU",
+   "v": 1.357,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "DZA",
+   "d": "ITA",
+   "v": 1.268,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lpg:DZA-ITA"
+  }
+ ]
+}

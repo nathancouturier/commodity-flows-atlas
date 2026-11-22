@@ -1,0 +1,433 @@
+{
+ "id": "tin",
+ "summary": {
+  "production": {
+   "v": 290000.0,
+   "u": "t Sn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+  },
+  "reserves": {
+   "v": 6000000.0,
+   "u": "t Sn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000); not published (withheld, range or qualitative): Laos, Malaysia, Nigeria, Rwanda, United States"
+  },
+  "exports": {
+   "v": 221.9,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Sn",
+  "world": 290000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 71000.0
+   },
+   {
+    "c": "IDN",
+    "v": 61000.0
+   },
+   {
+    "c": "PER",
+    "v": 33000.0
+   },
+   {
+    "c": "BRA",
+    "v": 28000.0
+   },
+   {
+    "c": "COD",
+    "v": 27000.0
+   },
+   {
+    "c": "BOL",
+    "v": 15000.0
+   },
+   {
+    "c": "AUS",
+    "v": 12000.0
+   },
+   {
+    "c": "MMR",
+    "v": 12000.0
+   },
+   {
+    "c": "VNM",
+    "v": 11000.0
+   },
+   {
+    "c": "MYS",
+    "v": 5000.0
+   },
+   {
+    "c": "RWA",
+    "v": 4600.0
+   },
+   {
+    "c": "RUS",
+    "v": 4500.0
+   }
+  ],
+  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Sn",
+  "world": 6000000.0,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 1400000.0
+   },
+   {
+    "c": "CHN",
+    "v": 1200000.0
+   },
+   {
+    "c": "BRA",
+    "v": 700000.0
+   },
+   {
+    "c": "MMR",
+    "v": 700000.0
+   },
+   {
+    "c": "AUS",
+    "v": 570000.0
+   },
+   {
+    "c": "RUS",
+    "v": 460000.0
+   },
+   {
+    "c": "BOL",
+    "v": 400000.0
+   },
+   {
+    "c": "PER",
+    "v": 150000.0
+   },
+   {
+    "c": "COD",
+    "v": 91000.0
+   },
+   {
+    "c": "VNM",
+    "v": 23000.0
+   }
+  ],
+  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000); not published (withheld, range or qualitative): Laos, Malaysia, Nigeria, Rwanda, United States"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 221.9,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 53.687
+   },
+   {
+    "c": "PER",
+    "v": 31.621
+   },
+   {
+    "c": "BOL",
+    "v": 23.491
+   },
+   {
+    "c": "MYS",
+    "v": 18.631
+   },
+   {
+    "c": "CHN",
+    "v": 15.69
+   },
+   {
+    "c": "BRA",
+    "v": 10.216
+   },
+   {
+    "c": "BEL",
+    "v": 9.377
+   },
+   {
+    "c": "THA",
+    "v": 8.156
+   },
+   {
+    "c": "ESP",
+    "v": 7.389
+   },
+   {
+    "c": "POL",
+    "v": 6.34
+   },
+   {
+    "c": "SGP",
+    "v": 6.192
+   },
+   {
+    "c": "NLD",
+    "v": 5.542
+   }
+  ],
+  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 221.9,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 24.062
+   },
+   {
+    "c": "USA",
+    "v": 23.256
+   },
+   {
+    "c": "JPN",
+    "v": 19.693
+   },
+   {
+    "c": "NLD",
+    "v": 17.203
+   },
+   {
+    "c": "KOR",
+    "v": 14.888
+   },
+   {
+    "c": "DEU",
+    "v": 13.403
+   },
+   {
+    "c": "IND",
+    "v": 12.685
+   },
+   {
+    "c": "BEL",
+    "v": 10.067
+   },
+   {
+    "c": "HUN",
+    "v": 9.196
+   },
+   {
+    "c": "SGP",
+    "v": 7.658
+   },
+   {
+    "c": "MYS",
+    "v": 7.594
+   },
+   {
+    "c": "TWN",
+    "v": 6.831,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   }
+  ],
+  "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 15.303,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "USA",
+   "v": 12.066,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "IND",
+   "v": 9.568,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BOL",
+   "d": "NLD",
+   "v": 7.025,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "SGP",
+   "v": 6.366,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "KOR",
+   "v": 5.716,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ESP",
+   "d": "BEL",
+   "v": 5.296,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BEL",
+   "d": "DEU",
+   "v": 4.034,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BOL",
+   "d": "GBR",
+   "v": 3.975,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "CHN",
+   "v": 3.954,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "JPN",
+   "v": 3.861,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "JPN",
+   "v": 3.767,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "JPN",
+   "v": 3.756,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "LUX",
+   "d": "HUN",
+   "v": 3.191,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 3.141,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "NLD",
+   "d": "HUN",
+   "v": 3.13,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BOL",
+   "d": "USA",
+   "v": 3.058,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "THA",
+   "v": 2.917,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BRA",
+   "d": "NLD",
+   "v": 2.826,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "SGP",
+   "d": "MYS",
+   "v": 2.664,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Tin ores and concentrates (HS 2609), 2024 (BACI, baci): world 0.12 Mt gross weight; top exporters COD 0.03 Mt, AUS 0.02 Mt, NGA 0.02 Mt.",
+  "Trade tables are unwrought tin metal (HS 8001) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure)."
+ ]
+}

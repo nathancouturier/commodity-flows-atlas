@@ -1,0 +1,467 @@
+{
+ "id": "soymeal",
+ "summary": {
+  "production": {
+   "v": 294.06,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 288.63,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 86.616,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Meal, Soybean, soybean meal exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 62.4,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (soymeal) under the Atlas lane method (data/freight/lanes/soymeal.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 294.06,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 85.674
+   },
+   {
+    "c": "USA",
+    "v": 56.797
+   },
+   {
+    "c": "BRA",
+    "v": 47.875
+   },
+   {
+    "c": "ARG",
+    "v": 33.059
+   },
+   {
+    "c": "EU27",
+    "v": 11.85
+   },
+   {
+    "c": "IND",
+    "v": 8.08
+   },
+   {
+    "c": "MEX",
+    "v": 5.49
+   },
+   {
+    "c": "RUS",
+    "v": 5.201
+   },
+   {
+    "c": "EGY",
+    "v": 3.911
+   },
+   {
+    "c": "PRY",
+    "v": 2.877
+   },
+   {
+    "c": "PAK",
+    "v": 2.496
+   },
+   {
+    "c": "THA",
+    "v": 2.419
+   }
+  ],
+  "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 288.63,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 84.55
+   },
+   {
+    "c": "USA",
+    "v": 39.348
+   },
+   {
+    "c": "EU27",
+    "v": 31.542
+   },
+   {
+    "c": "BRA",
+    "v": 21.8
+   },
+   {
+    "c": "MEX",
+    "v": 8.4
+   },
+   {
+    "c": "VNM",
+    "v": 7.545
+   },
+   {
+    "c": "IND",
+    "v": 7.155
+   },
+   {
+    "c": "IDN",
+    "v": 6.85
+   },
+   {
+    "c": "THA",
+    "v": 5.45
+   },
+   {
+    "c": "IRN",
+    "v": 4.7
+   },
+   {
+    "c": "RUS",
+    "v": 4.3
+   },
+   {
+    "c": "EGY",
+    "v": 4.2
+   }
+  ],
+  "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 86.616,
+  "rows": [
+   {
+    "c": "ARG",
+    "v": 29.697
+   },
+   {
+    "c": "BRA",
+    "v": 25.321
+   },
+   {
+    "c": "USA",
+    "v": 18.418
+   },
+   {
+    "c": "PRY",
+    "v": 2.2
+   },
+   {
+    "c": "BOL",
+    "v": 2.0
+   },
+   {
+    "c": "TUR",
+    "v": 1.645
+   },
+   {
+    "c": "UKR",
+    "v": 1.521
+   },
+   {
+    "c": "CHN",
+    "v": 1.024
+   },
+   {
+    "c": "IND",
+    "v": 1.0
+   },
+   {
+    "c": "RUS",
+    "v": 0.9
+   },
+   {
+    "c": "EU27",
+    "v": 0.7
+   },
+   {
+    "c": "CAN",
+    "v": 0.391
+   }
+  ],
+  "n": "USDA PSD, Meal, Soybean, soybean meal exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 82.659,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 20.3
+   },
+   {
+    "c": "IDN",
+    "v": 6.957
+   },
+   {
+    "c": "VNM",
+    "v": 5.6
+   },
+   {
+    "c": "PHL",
+    "v": 3.6
+   },
+   {
+    "c": "THA",
+    "v": 3.286
+   },
+   {
+    "c": "MEX",
+    "v": 2.981
+   },
+   {
+    "c": "IRN",
+    "v": 2.6
+   },
+   {
+    "c": "GBR",
+    "v": 2.5
+   },
+   {
+    "c": "ECU",
+    "v": 2.4
+   },
+   {
+    "c": "COL",
+    "v": 2.35
+   },
+   {
+    "c": "TUR",
+    "v": 2.316
+   },
+   {
+    "c": "PER",
+    "v": 2.0
+   }
+  ],
+  "n": "USDA PSD, Meal, Soybean, soybean meal imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "ARG",
+   "d": "VNM",
+   "v": 4.178,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-VNM"
+  },
+  {
+   "o": "BRA",
+   "d": "IDN",
+   "v": 3.935,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-IDN"
+  },
+  {
+   "o": "BRA",
+   "d": "THA",
+   "v": 2.645,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-THA"
+  },
+  {
+   "o": "USA",
+   "d": "PHL",
+   "v": 2.34,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:USA-PHL"
+  },
+  {
+   "o": "BRA",
+   "d": "IRN",
+   "v": 2.13,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-IRN"
+  },
+  {
+   "o": "BRA",
+   "d": "NLD",
+   "v": 2.116,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-NLD"
+  },
+  {
+   "o": "BRA",
+   "d": "FRA",
+   "v": 1.73,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 1.678,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:USA-MEX"
+  },
+  {
+   "o": "ARG",
+   "d": "SAU",
+   "v": 1.533,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-SAU"
+  },
+  {
+   "o": "USA",
+   "d": "COL",
+   "v": 1.442,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:USA-COL"
+  },
+  {
+   "o": "BRA",
+   "d": "KOR",
+   "v": 1.409,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-KOR"
+  },
+  {
+   "o": "ARG",
+   "d": "POL",
+   "v": 1.394,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-POL"
+  },
+  {
+   "o": "BRA",
+   "d": "DEU",
+   "v": 1.357,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-DEU"
+  },
+  {
+   "o": "BRA",
+   "d": "POL",
+   "v": 1.353,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-POL"
+  },
+  {
+   "o": "BRA",
+   "d": "ESP",
+   "v": 1.306,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:BRA-ESP"
+  },
+  {
+   "o": "ARG",
+   "d": "ITA",
+   "v": 1.225,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-ITA"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 1.2,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARG",
+   "d": "MYS",
+   "v": 1.154,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-MYS"
+  },
+  {
+   "o": "CHN",
+   "d": "JPN",
+   "v": 1.086,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:CHN-JPN"
+  },
+  {
+   "o": "ARG",
+   "d": "TUR",
+   "v": 1.021,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "soymeal:ARG-TUR"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 86.6 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 73.8 Mt (+17%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+ ]
+}

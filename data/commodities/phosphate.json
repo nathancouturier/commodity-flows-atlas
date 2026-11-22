@@ -1,0 +1,458 @@
+{
+ "id": "phosphate",
+ "summary": {
+  "production": {
+   "v": 250.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 73000.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 35.843,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 32.22,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (phosphate-rock) under the Atlas lane method (data/freight/lanes/phosphate-rock.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: phosphate-rock"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 250.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 110.0
+   },
+   {
+    "c": "MAR",
+    "v": 36.0
+   },
+   {
+    "c": "USA",
+    "v": 20.0
+   },
+   {
+    "c": "RUS",
+    "v": 14.0
+   },
+   {
+    "c": "JOR",
+    "v": 12.0
+   },
+   {
+    "c": "SAU",
+    "v": 10.0
+   },
+   {
+    "c": "EGY",
+    "v": 5.5
+   },
+   {
+    "c": "BRA",
+    "v": 5.0
+   },
+   {
+    "c": "PER",
+    "v": 4.8
+   },
+   {
+    "c": "TUN",
+    "v": 3.3
+   },
+   {
+    "c": "VNM",
+    "v": 3.0
+   },
+   {
+    "c": "SEN",
+    "v": 2.8
+   }
+  ],
+  "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 73000.0,
+  "rows": [
+   {
+    "c": "MAR",
+    "v": 50000.0
+   },
+   {
+    "c": "CHN",
+    "v": 3400.0
+   },
+   {
+    "c": "EGY",
+    "v": 2800.0
+   },
+   {
+    "c": "TUN",
+    "v": 2500.0
+   },
+   {
+    "c": "RUS",
+    "v": 2400.0
+   },
+   {
+    "c": "DZA",
+    "v": 2200.0
+   },
+   {
+    "c": "BRA",
+    "v": 1600.0
+   },
+   {
+    "c": "ZAF",
+    "v": 1500.0
+   },
+   {
+    "c": "USA",
+    "v": 1000.0
+   },
+   {
+    "c": "FIN",
+    "v": 1000.0
+   },
+   {
+    "c": "SAU",
+    "v": 1000.0
+   },
+   {
+    "c": "JOR",
+    "v": 820.0
+   }
+  ],
+  "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 35.843,
+  "rows": [
+   {
+    "c": "MAR",
+    "v": 9.809
+   },
+   {
+    "c": "JOR",
+    "v": 7.369
+   },
+   {
+    "c": "PER",
+    "v": 4.872
+   },
+   {
+    "c": "EGY",
+    "v": 3.85
+   },
+   {
+    "c": "TGO",
+    "v": 1.72
+   },
+   {
+    "c": "DZA",
+    "v": 1.469
+   },
+   {
+    "c": "SEN",
+    "v": 1.152
+   },
+   {
+    "c": "ZAF",
+    "v": 1.033
+   },
+   {
+    "c": "SYR",
+    "v": 1.025
+   },
+   {
+    "c": "RUS",
+    "v": 0.7933
+   },
+   {
+    "c": "KAZ",
+    "v": 0.6964
+   },
+   {
+    "c": "LBN",
+    "v": 0.5264
+   }
+  ],
+  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 35.843,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 12.365
+   },
+   {
+    "c": "USA",
+    "v": 3.11
+   },
+   {
+    "c": "CHN",
+    "v": 1.995
+   },
+   {
+    "c": "TUR",
+    "v": 1.667
+   },
+   {
+    "c": "IDN",
+    "v": 1.609
+   },
+   {
+    "c": "BRA",
+    "v": 1.375
+   },
+   {
+    "c": "MEX",
+    "v": 1.343
+   },
+   {
+    "c": "NLD",
+    "v": 0.9698
+   },
+   {
+    "c": "LTU",
+    "v": 0.9349
+   },
+   {
+    "c": "BEL",
+    "v": 0.9028
+   },
+   {
+    "c": "BGR",
+    "v": 0.7516
+   },
+   {
+    "c": "SRB",
+    "v": 0.7253
+   }
+  ],
+  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "JOR",
+   "d": "IND",
+   "v": 5.067,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:JOR-IND"
+  },
+  {
+   "o": "PER",
+   "d": "USA",
+   "v": 3.107,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:PER-USA"
+  },
+  {
+   "o": "MAR",
+   "d": "IND",
+   "v": 2.852,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-IND"
+  },
+  {
+   "o": "EGY",
+   "d": "IND",
+   "v": 1.598,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:EGY-IND"
+  },
+  {
+   "o": "TGO",
+   "d": "IND",
+   "v": 1.338,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:TGO-IND"
+  },
+  {
+   "o": "MAR",
+   "d": "TUR",
+   "v": 1.326,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-TUR"
+  },
+  {
+   "o": "MAR",
+   "d": "MEX",
+   "v": 1.288,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-MEX"
+  },
+  {
+   "o": "PER",
+   "d": "BRA",
+   "v": 1.157,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JOR",
+   "d": "IDN",
+   "v": 1.147,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:JOR-IDN"
+  },
+  {
+   "o": "EGY",
+   "d": "CHN",
+   "v": 0.8489,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "JOR",
+   "d": "CHN",
+   "v": 0.7934,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "SYR",
+   "d": "SRB",
+   "v": 0.6648,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "DZA",
+   "d": "IND",
+   "v": 0.6521,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:DZA-IND"
+  },
+  {
+   "o": "KAZ",
+   "d": "RUS",
+   "v": 0.5893,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MAR",
+   "d": "NOR",
+   "v": 0.5664,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "MAR",
+   "d": "BGR",
+   "v": 0.5026,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-BGR"
+  },
+  {
+   "o": "MAR",
+   "d": "PAK",
+   "v": 0.4762,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-PAK"
+  },
+  {
+   "o": "ZAF",
+   "d": "NLD",
+   "v": 0.4379,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "NLD",
+   "d": "BEL",
+   "v": 0.3848,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "MAR",
+   "d": "PHL",
+   "v": 0.3611,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "DAP (HS 310530), 2024 (BACI, baci): world 18.50 Mt gross weight; top exporters MAR 6.25 Mt, CHN 4.25 Mt, SAU 3.83 Mt.",
+  "Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock."
+ ]
+}

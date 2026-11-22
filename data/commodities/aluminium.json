@@ -1,0 +1,396 @@
+{
+ "id": "aluminium",
+ "summary": {
+  "production": {
+   "v": 74000.0,
+   "u": "kt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 30.303,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 21.56,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (aluminium) under the Atlas lane method (data/freight/lanes/aluminium.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt",
+  "world": 74000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 45000.0
+   },
+   {
+    "c": "IND",
+    "v": 4200.0
+   },
+   {
+    "c": "RUS",
+    "v": 3900.0
+   },
+   {
+    "c": "CAN",
+    "v": 3300.0
+   },
+   {
+    "c": "ARE",
+    "v": 2700.0
+   },
+   {
+    "c": "BHR",
+    "v": 1600.0
+   },
+   {
+    "c": "AUS",
+    "v": 1500.0
+   },
+   {
+    "c": "NOR",
+    "v": 1300.0
+   },
+   {
+    "c": "BRA",
+    "v": 1200.0
+   },
+   {
+    "c": "MYS",
+    "v": 1100.0
+   },
+   {
+    "c": "ISL",
+    "v": 750.0
+   },
+   {
+    "c": "USA",
+    "v": 660.0
+   }
+  ],
+  "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 30.303,
+  "rows": [
+   {
+    "c": "CAN",
+    "v": 3.017
+   },
+   {
+    "c": "RUS",
+    "v": 2.849
+   },
+   {
+    "c": "ARE",
+    "v": 2.781
+   },
+   {
+    "c": "MYS",
+    "v": 1.87
+   },
+   {
+    "c": "IND",
+    "v": 1.833
+   },
+   {
+    "c": "AUS",
+    "v": 1.543
+   },
+   {
+    "c": "NOR",
+    "v": 1.434
+   },
+   {
+    "c": "BHR",
+    "v": 1.35
+   },
+   {
+    "c": "NLD",
+    "v": 1.27
+   },
+   {
+    "c": "ZAF",
+    "v": 0.8806
+   },
+   {
+    "c": "USA",
+    "v": 0.8634
+   },
+   {
+    "c": "ISL",
+    "v": 0.8608
+   }
+  ],
+  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 30.303,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 4.049
+   },
+   {
+    "c": "CHN",
+    "v": 3.267
+   },
+   {
+    "c": "DEU",
+    "v": 2.16
+   },
+   {
+    "c": "JPN",
+    "v": 2.095
+   },
+   {
+    "c": "KOR",
+    "v": 1.571
+   },
+   {
+    "c": "MYS",
+    "v": 1.532
+   },
+   {
+    "c": "TUR",
+    "v": 1.51
+   },
+   {
+    "c": "NLD",
+    "v": 1.387
+   },
+   {
+    "c": "ITA",
+    "v": 1.355
+   },
+   {
+    "c": "MEX",
+    "v": 1.05
+   },
+   {
+    "c": "ESP",
+    "v": 0.7244
+   },
+   {
+    "c": "POL",
+    "v": 0.6902
+   }
+  ],
+  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 2.745,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 1.491,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 0.6396,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:MYS-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "MYS",
+   "v": 0.5355,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "ISL",
+   "d": "NLD",
+   "v": 0.4714,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:ISL-NLD"
+  },
+  {
+   "o": "NLD",
+   "d": "DEU",
+   "v": 0.4465,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:NLD-DEU"
+  },
+  {
+   "o": "ARE",
+   "d": "USA",
+   "v": 0.4352,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:ARE-USA"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 0.3884,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:AUS-KOR"
+  },
+  {
+   "o": "ARE",
+   "d": "JPN",
+   "v": 0.3795,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:ARE-JPN"
+  },
+  {
+   "o": "ARE",
+   "d": "TUR",
+   "v": 0.3541,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 0.3392,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:AUS-JPN"
+  },
+  {
+   "o": "RUS",
+   "d": "KOR",
+   "v": 0.3386,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:RUS-KOR"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 0.319,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:RUS-TUR"
+  },
+  {
+   "o": "NOR",
+   "d": "NLD",
+   "v": 0.2622,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:NOR-NLD"
+  },
+  {
+   "o": "NOR",
+   "d": "DEU",
+   "v": 0.2533,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:NOR-DEU"
+  },
+  {
+   "o": "IND",
+   "d": "KOR",
+   "v": 0.2329,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:IND-KOR"
+  },
+  {
+   "o": "IND",
+   "d": "MYS",
+   "v": 0.2143,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:IND-MYS"
+  },
+  {
+   "o": "ARE",
+   "d": "MEX",
+   "v": 0.2061,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 0.2039,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "aluminium:USA-MEX"
+  },
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 0.1944,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "Trade is unwrought aluminium (HS 7601); USGS production is primary smelter output. Bauxite reserves are under 'bauxite'."
+ ]
+}

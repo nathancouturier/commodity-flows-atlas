@@ -1,0 +1,440 @@
+{
+ "id": "natural-gas",
+ "summary": {
+  "production": {
+   "v": 4269.8,
+   "u": "bcm",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)"
+  },
+  "consumption": {
+   "v": 4272.4,
+   "u": "bcm",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
+  },
+  "exports": {
+   "v": 322.33,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "sum of all BACI gaseous natural gas flows (HS 271121), tonnes; excludes LNG"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "bcm",
+  "world": 4269.8,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 1112.5
+   },
+   {
+    "c": "RUS",
+    "v": 622.14
+   },
+   {
+    "c": "IRN",
+    "v": 277.26
+   },
+   {
+    "c": "CHN",
+    "v": 275.14
+   },
+   {
+    "c": "CAN",
+    "v": 205.63
+   },
+   {
+    "c": "QAT",
+    "v": 173.62
+   },
+   {
+    "c": "AUS",
+    "v": 147.47
+   },
+   {
+    "c": "SAU",
+    "v": 137.88
+   },
+   {
+    "c": "NOR",
+    "v": 126.76
+   },
+   {
+    "c": "DZA",
+    "v": 102.42
+   },
+   {
+    "c": "MYS",
+    "v": 81.897
+   },
+   {
+    "c": "TKM",
+    "v": 76.514
+   }
+  ],
+  "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)"
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "bcm",
+  "world": 4272.4,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 949.06
+   },
+   {
+    "c": "RUS",
+    "v": 479.87
+   },
+   {
+    "c": "CHN",
+    "v": 432.43
+   },
+   {
+    "c": "IRN",
+    "v": 265.51
+   },
+   {
+    "c": "CAN",
+    "v": 141.5
+   },
+   {
+    "c": "SAU",
+    "v": 137.88
+   },
+   {
+    "c": "MEX",
+    "v": 97.09
+   },
+   {
+    "c": "JPN",
+    "v": 88.156
+   },
+   {
+    "c": "DEU",
+    "v": 77.765
+   },
+   {
+    "c": "ARE",
+    "v": 75.165
+   },
+   {
+    "c": "IND",
+    "v": 67.393
+   },
+   {
+    "c": "ITA",
+    "v": 63.795
+   }
+  ],
+  "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 322.33,
+  "rows": [
+   {
+    "c": "NOR",
+    "v": 92.083
+   },
+   {
+    "c": "RUS",
+    "v": 41.147
+   },
+   {
+    "c": "BEL",
+    "v": 39.225
+   },
+   {
+    "c": "TKM",
+    "v": 21.208
+   },
+   {
+    "c": "DZA",
+    "v": 20.27
+   },
+   {
+    "c": "AZE",
+    "v": 17.178
+   },
+   {
+    "c": "FRA",
+    "v": 15.75
+   },
+   {
+    "c": "CAN",
+    "v": 12.236
+   },
+   {
+    "c": "USA",
+    "v": 11.415
+   },
+   {
+    "c": "GBR",
+    "v": 7.858
+   },
+   {
+    "c": "MMR",
+    "v": 7.602
+   },
+   {
+    "c": "BOL",
+    "v": 4.817
+   }
+  ],
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 322.33,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 42.116
+   },
+   {
+    "c": "ITA",
+    "v": 42.115
+   },
+   {
+    "c": "DEU",
+    "v": 39.951
+   },
+   {
+    "c": "FRA",
+    "v": 35.468
+   },
+   {
+    "c": "GBR",
+    "v": 23.916
+   },
+   {
+    "c": "BEL",
+    "v": 19.351
+   },
+   {
+    "c": "NLD",
+    "v": 13.853
+   },
+   {
+    "c": "USA",
+    "v": 12.239
+   },
+   {
+    "c": "MEX",
+    "v": 8.217
+   },
+   {
+    "c": "TUR",
+    "v": 7.163
+   },
+   {
+    "c": "HUN",
+    "v": 7.031
+   },
+   {
+    "c": "ESP",
+    "v": 6.846
+   }
+  ],
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "NOR",
+   "d": "DEU",
+   "v": 28.727,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "NOR",
+   "d": "GBR",
+   "v": 23.82,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "BEL",
+   "d": "FRA",
+   "v": 23.408,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "TKM",
+   "d": "CHN",
+   "v": 18.975,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 15.935,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "DZA",
+   "d": "ITA",
+   "v": 15.169,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 12.236,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "NOR",
+   "d": "FRA",
+   "v": 11.698,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "NOR",
+   "d": "BEL",
+   "v": 11.692,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "BEL",
+   "d": "DEU",
+   "v": 10.707,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "FRA",
+   "d": "ITA",
+   "v": 10.527,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 8.217,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "AZE",
+   "d": "ITA",
+   "v": 7.225,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "AZE",
+   "d": "TUR",
+   "v": 7.163,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "NOR",
+   "d": "NLD",
+   "v": 6.98,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "RUS",
+   "d": "HUN",
+   "v": 5.611,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "DZA",
+   "d": "ESP",
+   "v": 5.081,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "MMR",
+   "d": "THA",
+   "v": 4.824,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "BEL",
+   "d": "NLD",
+   "v": 4.579,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  },
+  {
+   "o": "BOL",
+   "d": "BRA",
+   "v": 3.932,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline"
+  }
+ ],
+ "notes": [
+  "Trade tables cover gas in gaseous state (HS 271121: pipeline) in Mt; LNG is under 'lng'. Flows are shown as pipeline mode.",
+  "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."
+ ]
+}

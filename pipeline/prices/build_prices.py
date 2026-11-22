@@ -146,8 +146,11 @@ def eia(dirpath, metas):
 def main():
     os.makedirs(OUT, exist_ok=True)
     metas = []
-    pink(sys.argv[1], metas)
-    eia(sys.argv[2], metas)
+    # either input may be missing (e.g. a fresh CI checkout where one download failed): keep the old series
+    if os.path.exists(sys.argv[1]):
+        pink(sys.argv[1], metas)
+    if os.path.isdir(sys.argv[2]):
+        eia(sys.argv[2], metas)
     # keep metadata of series that failed this run but have a previous good file
     old_path = os.path.join(OUT, "index.json")
     if os.path.exists(old_path):

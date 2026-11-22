@@ -1,0 +1,427 @@
+{
+ "id": "manganese",
+ "summary": {
+  "production": {
+   "v": 20000.0,
+   "u": "kt Mn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+  },
+  "reserves": {
+   "v": 1700000.0,
+   "u": "kt Mn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; not published (withheld, range or qualitative): Côte dIvoire, United States"
+  },
+  "exports": {
+   "v": 43.337,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 42.06,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (manganese) under the Atlas lane method (data/freight/lanes/manganese.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Mn",
+  "world": 20000.0,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 7600.0
+   },
+   {
+    "c": "GAB",
+    "v": 5000.0
+   },
+   {
+    "c": "GHA",
+    "v": 2000.0
+   },
+   {
+    "c": "AUS",
+    "v": 1600.0
+   },
+   {
+    "c": "BRA",
+    "v": 800.0
+   },
+   {
+    "c": "IND",
+    "v": 790.0
+   },
+   {
+    "c": "CHN",
+    "v": 700.0
+   },
+   {
+    "c": "CIV",
+    "v": 350.0
+   }
+  ],
+  "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Mn",
+  "world": 1700000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 580000.0
+   },
+   {
+    "c": "ZAF",
+    "v": 550000.0
+   },
+   {
+    "c": "BRA",
+    "v": 300000.0
+   },
+   {
+    "c": "CHN",
+    "v": 260000.0
+   },
+   {
+    "c": "GAB",
+    "v": 61000.0
+   },
+   {
+    "c": "IND",
+    "v": 34000.0
+   },
+   {
+    "c": "GHA",
+    "v": 13000.0
+   }
+  ],
+  "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; not published (withheld, range or qualitative): Côte dIvoire, United States"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 43.337,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 24.356
+   },
+   {
+    "c": "GAB",
+    "v": 7.905
+   },
+   {
+    "c": "GHA",
+    "v": 4.77
+   },
+   {
+    "c": "AUS",
+    "v": 2.534
+   },
+   {
+    "c": "CIV",
+    "v": 0.8405
+   },
+   {
+    "c": "BRA",
+    "v": 0.6963
+   },
+   {
+    "c": "MMR",
+    "v": 0.5743
+   },
+   {
+    "c": "MYS",
+    "v": 0.3055
+   },
+   {
+    "c": "KAZ",
+    "v": 0.2132
+   },
+   {
+    "c": "ZMB",
+    "v": 0.1998
+   },
+   {
+    "c": "CHN",
+    "v": 0.17
+   },
+   {
+    "c": "GUY",
+    "v": 0.1299
+   }
+  ],
+  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 43.337,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 29.139
+   },
+   {
+    "c": "IND",
+    "v": 6.308
+   },
+   {
+    "c": "NOR",
+    "v": 1.176
+   },
+   {
+    "c": "JPN",
+    "v": 0.8998
+   },
+   {
+    "c": "SGP",
+    "v": 0.8798
+   },
+   {
+    "c": "MYS",
+    "v": 0.8513
+   },
+   {
+    "c": "IDN",
+    "v": 0.5565
+   },
+   {
+    "c": "LVA",
+    "v": 0.4596
+   },
+   {
+    "c": "KOR",
+    "v": 0.3573
+   },
+   {
+    "c": "USA",
+    "v": 0.3557
+   },
+   {
+    "c": "FRA",
+    "v": 0.3312
+   },
+   {
+    "c": "RUS",
+    "v": 0.2144
+   }
+  ],
+  "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 15.781,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-CHN"
+  },
+  {
+   "o": "GHA",
+   "d": "CHN",
+   "v": 4.645,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:GHA-CHN"
+  },
+  {
+   "o": "GAB",
+   "d": "CHN",
+   "v": 4.162,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:GAB-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "IND",
+   "v": 3.848,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-IND"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 2.145,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:AUS-CHN"
+  },
+  {
+   "o": "GAB",
+   "d": "IND",
+   "v": 2.078,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:GAB-IND"
+  },
+  {
+   "o": "ZAF",
+   "d": "SGP",
+   "v": 0.8367,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-SGP"
+  },
+  {
+   "o": "ZAF",
+   "d": "MYS",
+   "v": 0.6563,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-MYS"
+  },
+  {
+   "o": "ZAF",
+   "d": "NOR",
+   "v": 0.6295,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-NOR"
+  },
+  {
+   "o": "ZAF",
+   "d": "JPN",
+   "v": 0.6014,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-JPN"
+  },
+  {
+   "o": "CIV",
+   "d": "CHN",
+   "v": 0.5708,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:CIV-CHN"
+  },
+  {
+   "o": "MMR",
+   "d": "CHN",
+   "v": 0.5618,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 0.5144,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:BRA-CHN"
+  },
+  {
+   "o": "GAB",
+   "d": "NOR",
+   "v": 0.5117,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:GAB-NOR"
+  },
+  {
+   "o": "ZAF",
+   "d": "LVA",
+   "v": 0.4597,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-LVA"
+  },
+  {
+   "o": "ZAF",
+   "d": "IDN",
+   "v": 0.323,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 0.2545,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:MYS-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "KOR",
+   "v": 0.2318,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:ZAF-KOR"
+  },
+  {
+   "o": "GAB",
+   "d": "JPN",
+   "v": 0.2305,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "GAB",
+   "d": "USA",
+   "v": 0.2011,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "manganese:GAB-USA"
+  }
+ ],
+ "notes": [
+  "Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table."
+ ]
+}

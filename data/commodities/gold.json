@@ -1,0 +1,442 @@
+{
+ "id": "gold",
+ "summary": {
+  "production": {
+   "v": 3300.0,
+   "u": "t Au",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, gold mine production, contained gold; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 66000.0,
+   "u": "t Au",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 8472.4,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 4% of world tonnage estimated from value where missing or inconsistent"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Au",
+  "world": 3300.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 380.0
+   },
+   {
+    "c": "RUS",
+    "v": 310.0
+   },
+   {
+    "c": "AUS",
+    "v": 280.0
+   },
+   {
+    "c": "CAN",
+    "v": 200.0
+   },
+   {
+    "c": "USA",
+    "v": 160.0
+   },
+   {
+    "c": "GHA",
+    "v": 150.0
+   },
+   {
+    "c": "MEX",
+    "v": 140.0
+   },
+   {
+    "c": "KAZ",
+    "v": 130.0
+   },
+   {
+    "c": "UZB",
+    "v": 130.0
+   },
+   {
+    "c": "PER",
+    "v": 110.0
+   },
+   {
+    "c": "IDN",
+    "v": 90.0
+   },
+   {
+    "c": "ZAF",
+    "v": 90.0
+   }
+  ],
+  "n": "USGS MCS 2026, gold mine production, contained gold; 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "t Au",
+  "world": 66000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 13000.0
+   },
+   {
+    "c": "RUS",
+    "v": 12000.0
+   },
+   {
+    "c": "ZAF",
+    "v": 5000.0
+   },
+   {
+    "c": "IDN",
+    "v": 3600.0
+   },
+   {
+    "c": "CAN",
+    "v": 3200.0
+   },
+   {
+    "c": "CHN",
+    "v": 3200.0
+   },
+   {
+    "c": "USA",
+    "v": 3000.0
+   },
+   {
+    "c": "BRA",
+    "v": 2500.0
+   },
+   {
+    "c": "KAZ",
+    "v": 2300.0
+   },
+   {
+    "c": "PER",
+    "v": 2200.0
+   },
+   {
+    "c": "UZB",
+    "v": 2200.0
+   },
+   {
+    "c": "MEX",
+    "v": 1400.0
+   }
+  ],
+  "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "t",
+  "world": 8472.4,
+  "rows": [
+   {
+    "c": "CHE",
+    "v": 1495.2
+   },
+   {
+    "c": "ARE",
+    "v": 764.06
+   },
+   {
+    "c": "AUS",
+    "v": 545.27
+   },
+   {
+    "c": "HKG",
+    "v": 491.59
+   },
+   {
+    "c": "ZAF",
+    "v": 387.16
+   },
+   {
+    "c": "USA",
+    "v": 348.49
+   },
+   {
+    "c": "CAN",
+    "v": 335.11,
+    "n": "13% of tonnage estimated from value"
+   },
+   {
+    "c": "PER",
+    "v": 298.03,
+    "n": "15% of tonnage estimated from value"
+   },
+   {
+    "c": "RUS",
+    "v": 280.1
+   },
+   {
+    "c": "DEU",
+    "v": 263.15
+   },
+   {
+    "c": "JPN",
+    "v": 251.55
+   },
+   {
+    "c": "SGP",
+    "v": 219.78
+   }
+  ],
+  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 4% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "t",
+  "world": 8472.4,
+  "rows": [
+   {
+    "c": "CHE",
+    "v": 1777.9
+   },
+   {
+    "c": "CHN",
+    "v": 937.86
+   },
+   {
+    "c": "HKG",
+    "v": 898.36
+   },
+   {
+    "c": "IND",
+    "v": 808.52
+   },
+   {
+    "c": "GBR",
+    "v": 641.64,
+    "n": "14% of tonnage estimated from value"
+   },
+   {
+    "c": "ARE",
+    "v": 456.44
+   },
+   {
+    "c": "USA",
+    "v": 403.76
+   },
+   {
+    "c": "SGP",
+    "v": 274.3
+   },
+   {
+    "c": "CAN",
+    "v": 233.04
+   },
+   {
+    "c": "THA",
+    "v": 220.92
+   },
+   {
+    "c": "TUR",
+    "v": 218.1
+   },
+   {
+    "c": "ARM",
+    "v": 198.71
+   }
+  ],
+  "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 4% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "CHE",
+   "d": "CHN",
+   "v": 365.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHE",
+   "d": "IND",
+   "v": 262.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARE",
+   "d": "HKG",
+   "v": 209.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARE",
+   "d": "IND",
+   "v": 206.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "ARM",
+   "v": 198.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "CHE",
+   "v": 184.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "HKG",
+   "d": "CHN",
+   "v": 181.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "CHE",
+   "v": 165.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ARE",
+   "d": "CHE",
+   "v": 156.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHN",
+   "d": "HKG",
+   "v": 137.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "CAN",
+   "v": 136.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 124.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHE",
+   "d": "USA",
+   "v": 120.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "HKG",
+   "v": 119.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "CHE",
+   "v": 108.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHE",
+   "d": "TUR",
+   "v": 105.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CIV",
+   "d": "CHE",
+   "v": 100.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "HKG",
+   "d": "THA",
+   "v": 95.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "CHE",
+   "d": "ARE",
+   "v": 93.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BFA",
+   "d": "CHE",
+   "v": 91.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  }
+ ],
+ "notes": [
+  "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative."
+ ]
+}

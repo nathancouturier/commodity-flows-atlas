@@ -1,0 +1,1598 @@
+{
+ "crude-oil": {
+  "producers": [
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "State-controlled; world's largest crude exporter",
+    "fig": {
+     "v": 12.7,
+     "u": "Mboe/d hydrocarbon production",
+     "y": 2024,
+     "s": "wikipedia"
+    },
+    "s": "wikipedia",
+    "y": 2024,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
+   },
+   {
+    "name": "Rosneft",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russia's largest producer; sanctioned by US",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rosneft"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Largest US-listed major; Permian and Guyana",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "State-owned; oil and gas in Qatar",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "ADNOC",
+    "hq": "ARE",
+    "role": "producer",
+    "detail": "Abu Dhabi state oil company",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Abu_Dhabi_National_Oil_Company"
+   },
+   {
+    "name": "NNPC",
+    "hq": "NGA",
+    "role": "producer",
+    "detail": "Nigerian state oil company",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nigerian_National_Petroleum_Company"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "World's largest independent oil trader; Geneva and Rotterdam",
+    "s": "wikipedia",
+    "y": 2021,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Oil and metals trader; Singapore HQ",
+    "s": "wikipedia",
+    "y": 2016,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Marketing arm trades oil alongside coal and metals",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Gunvor",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Major independent crude and products trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gunvor"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Major independent energy and commodities trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   }
+  ]
+ },
+ "refined-products": {
+  "processors": [
+   {
+    "name": "Sinopec",
+    "hq": "CHN",
+    "role": "refiner",
+    "detail": "Asia's largest refiner by throughput",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sinopec"
+   },
+   {
+    "name": "Reliance Industries",
+    "hq": "IND",
+    "role": "refiner",
+    "detail": "Jamnagar export refinery complex",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Reliance_Industries"
+   },
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "refiner",
+    "detail": "Large domestic and overseas refining JV portfolio",
+    "s": "wikipedia",
+    "y": 2015,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "refiner",
+    "detail": "Large integrated refiner (Baytown, Singapore, Antwerp)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "refiner",
+    "detail": "Integrated major; Pernis, Singapore refineries",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Largest independent products trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Large products and gasoil trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Gunvor",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Products and crude trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gunvor"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Products, LPG and crude trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   }
+  ]
+ },
+ "lng": {
+  "producers": [
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "liquefaction operator",
+    "detail": "Largest LNG exporter; Ras Laffan. Wikipedia reports 2026 Iran-war strikes and force majeure",
+    "fig": {
+     "v": 77,
+     "u": "Mtpa LNG capacity, targeted to rise to 110 Mtpa",
+     "y": 2026,
+     "s": "wikipedia",
+     "n": "North Field East expansion"
+    },
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "liquefaction operator",
+    "detail": "Largest portfolio LNG seller; Prelude, Nigeria LNG, QCLNG",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   },
+   {
+    "name": "Cheniere Energy",
+    "hq": "USA",
+    "role": "liquefaction operator",
+    "detail": "Largest US LNG exporter; Sabine Pass, Corpus Christi",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cheniere_Energy"
+   },
+   {
+    "name": "Gazprom",
+    "hq": "RUS",
+    "role": "liquefaction operator",
+    "detail": "Sakhalin-2 stake; sanctions-affected",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gazprom"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "liquefaction operator",
+    "detail": "Large LNG portfolio",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "trader",
+    "detail": "Top LNG portfolio trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "trader",
+    "detail": "Major LNG portfolio trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+   },
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Growing LNG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Growing LNG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "natural-gas": {
+  "producers": [
+   {
+    "name": "Gazprom",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russian state gas monopoly; pipeline exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gazprom"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major US and global gas producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "North Field",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "NIOC",
+    "hq": "IRN",
+    "role": "producer",
+    "detail": "South Pars",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/National_Iranian_Oil_Company"
+   },
+   {
+    "name": "Equinor",
+    "hq": "NOR",
+    "role": "producer",
+    "detail": "Main pipeline gas supplier to Europe",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Equinor"
+   }
+  ]
+ },
+ "thermal-coal": {
+  "producers": [
+   {
+    "name": "Coal India",
+    "hq": "IND",
+    "role": "producer",
+    "detail": "State-owned; ~82% of India's coal output",
+    "s": "wikipedia",
+    "y": 2017,
+    "url": "https://en.wikipedia.org/wiki/Coal_India"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Largest seaborne thermal coal supplier; Australia, Colombia, South Africa",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Peabody Energy",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Largest private-sector coal producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+   },
+   {
+    "name": "Adaro (AlamTri)",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "Major Indonesian exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Adaro_Energy"
+   },
+   {
+    "name": "Bumi Resources",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "Indonesian exporter (KPC)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bumi_Resources"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Largest coal marketer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Coal trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "met-coal": {
+  "producers": [
+   {
+    "name": "BHP Mitsubishi Alliance (BMA)",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Largest seaborne met coal supplier; Queensland",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Major met coal producer incl. Elk Valley (Teck coal acquired)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Peabody Energy",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Australian met coal operations",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+   },
+   {
+    "name": "Anglo American",
+    "hq": "GBR",
+    "role": "producer",
+    "detail": "Queensland met coal (sale process reported; verify)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
+   },
+   {
+    "name": "Coronado Global Resources",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "US and Australian met coal",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Coronado_Global_Resources"
+   }
+  ]
+ },
+ "iron-ore": {
+  "producers": [
+   {
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "producer",
+    "detail": "Largest seaborne supplier along with BHP; Pilbara",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
+   },
+   {
+    "name": "Vale",
+    "hq": "BRA",
+    "role": "producer",
+    "detail": "Largest Brazilian producer; Carajas, pellets",
+    "s": "wikipedia",
+    "y": 2014,
+    "url": "https://en.wikipedia.org/wiki/Vale_(mining_company)"
+   },
+   {
+    "name": "BHP",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Pilbara; major seaborne supplier",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   },
+   {
+    "name": "Fortescue",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Pilbara pure-play",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Fortescue"
+   },
+   {
+    "name": "Anglo American (Kumba)",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "South African supplier",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
+   },
+   {
+    "name": "Hancock Prospecting",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Pilbara (Roy Hill)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Hancock_Prospecting"
+   }
+  ]
+ },
+ "copper": {
+  "producers": [
+   {
+    "name": "Codelco",
+    "hq": "CHL",
+    "role": "producer",
+    "detail": "State-owned; world's second-largest producer",
+    "fig": {
+     "v": 1.332,
+     "u": "Mt copper",
+     "y": 2025,
+     "s": "wikipedia",
+     "n": "Wikipedia notes reports of inflated 2025 numbers"
+    },
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Codelco"
+   },
+   {
+    "name": "Freeport-McMoRan",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Grasberg (Indonesia), Americas",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Freeport-McMoRan"
+   },
+   {
+    "name": "BHP",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Escondida, Chile",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "DRC and Peru",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Southern Copper",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Peru and Mexico",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Southern_Copper_Corporation"
+   },
+   {
+    "name": "Zijin Mining",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Rapidly expanding",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Zijin_Mining"
+   }
+  ],
+  "processors": [
+   {
+    "name": "Jiangxi Copper",
+    "hq": "CHN",
+    "role": "smelter",
+    "detail": "Large Chinese smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Jiangxi_Copper"
+   },
+   {
+    "name": "Tongling Nonferrous",
+    "hq": "CHN",
+    "role": "smelter",
+    "detail": "Large Chinese smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tongling_Nonferrous_Metals_Group"
+   },
+   {
+    "name": "Aurubis",
+    "hq": "DEU",
+    "role": "smelter",
+    "detail": "Largest copper recycler/smelter in Europe",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Aurubis"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Dominant physical copper marketer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Concentrate and refined metal trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Metals trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   }
+  ]
+ },
+ "aluminium": {
+  "producers": [
+   {
+    "name": "China Hongqiao",
+    "hq": "CHN",
+    "role": "smelter",
+    "detail": "World's largest aluminium producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group"
+   },
+   {
+    "name": "Chalco (Aluminum Corp of China)",
+    "hq": "CHN",
+    "role": "smelter",
+    "detail": "State-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Aluminum_Corporation_of_China"
+   },
+   {
+    "name": "Rusal",
+    "hq": "RUS",
+    "role": "smelter",
+    "detail": "Largest ex-China producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rusal"
+   },
+   {
+    "name": "Emirates Global Aluminium",
+    "hq": "ARE",
+    "role": "smelter",
+    "detail": "Large Gulf smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+   },
+   {
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "smelter",
+    "detail": "Canadian smelters",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
+   }
+  ]
+ },
+ "bauxite": {
+  "producers": [
+   {
+    "name": "Guinea Alumina/GAC and CBG",
+    "hq": "GIN",
+    "role": "producer",
+    "detail": "Guinea dominant bauxite exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bauxite"
+   },
+   {
+    "name": "Alcoa",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Australian bauxite",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Alcoa"
+   },
+   {
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "producer",
+    "detail": "Weipa",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
+   },
+   {
+    "name": "South32",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Worsley, Brazil mining",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/South32"
+   }
+  ]
+ },
+ "nickel": {
+  "producers": [
+   {
+    "name": "Tsingshan",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Largest Indonesian NPI/nickel operator",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tsingshan_Holding_Group"
+   },
+   {
+    "name": "Nornickel",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Largest class-1 nickel producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nornickel"
+   },
+   {
+    "name": "Vale",
+    "hq": "BRA",
+    "role": "producer",
+    "detail": "Canada, Indonesia",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vale_(mining_company)"
+   },
+   {
+    "name": "Eramet",
+    "hq": "FRA",
+    "role": "producer",
+    "detail": "Weda Bay, Indonesia",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Eramet"
+   },
+   {
+    "name": "BHP",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Nickel West (suspended)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   }
+  ]
+ },
+ "cobalt": {
+  "producers": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Major DRC cobalt",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "CMOC",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Tenke Fungurume, Kisanfu",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Molybdenum"
+   },
+   {
+    "name": "Eurasian Resources Group",
+    "hq": "LUX",
+    "role": "producer",
+    "detail": "DRC operations",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Eurasian_Resources_Group"
+   }
+  ]
+ },
+ "lithium": {
+  "producers": [
+   {
+    "name": "Albemarle",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Chile, Australia",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Albemarle_Corporation"
+   },
+   {
+    "name": "SQM",
+    "hq": "CHL",
+    "role": "producer",
+    "detail": "Atacama brine",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sociedad_Química_y_Minera"
+   },
+   {
+    "name": "Pilbara Minerals",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Spodumene",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Pilbara_Minerals"
+   },
+   {
+    "name": "Ganfeng Lithium",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Chinese converter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Ganfeng_Lithium"
+   },
+   {
+    "name": "Tianqi Lithium",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Greenbushes stake",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tianqi_Lithium"
+   }
+  ]
+ },
+ "zinc": {
+  "producers": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Major zinc miner and marketer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Teck Resources",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Red Dog mine",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Teck_Resources"
+   },
+   {
+    "name": "Nyrstar",
+    "hq": "BEL",
+    "role": "smelter",
+    "detail": "Major zinc smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nyrstar"
+   },
+   {
+    "name": "Korea Zinc",
+    "hq": "KOR",
+    "role": "smelter",
+    "detail": "Largest zinc smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Korea_Zinc"
+   }
+  ]
+ },
+ "gold": {
+  "producers": [
+   {
+    "name": "Newmont",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Largest gold miner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Newmont"
+   },
+   {
+    "name": "Barrick",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Major gold miner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Barrick_Mining_Corporation"
+   },
+   {
+    "name": "Agnico Eagle",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Major gold miner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Agnico_Eagle_Mines"
+   },
+   {
+    "name": "Zijin Mining",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Major Chinese miner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Zijin_Mining"
+   }
+  ]
+ },
+ "pgm": {
+  "producers": [
+   {
+    "name": "Nornickel",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Largest palladium producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nornickel"
+   },
+   {
+    "name": "Sibanye-Stillwater",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "Major platinum and PGM producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sibanye-Stillwater"
+   },
+   {
+    "name": "Implats",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "Major PGM producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Impala_Platinum"
+   },
+   {
+    "name": "Anglo American Platinum",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "Major PGM producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Valterra_Platinum"
+   }
+  ]
+ },
+ "uranium": {
+  "producers": [
+   {
+    "name": "Kazatomprom",
+    "hq": "KAZ",
+    "role": "producer",
+    "detail": "World's largest uranium producer; state-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kazatomprom"
+   },
+   {
+    "name": "Cameco",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "McArthur River/Cigar Lake",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cameco"
+   },
+   {
+    "name": "Orano",
+    "hq": "FRA",
+    "role": "producer",
+    "detail": "Niger, Kazakhstan, Canada",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Orano"
+   }
+  ]
+ },
+ "rare-earths": {
+  "producers": [
+   {
+    "name": "China Northern Rare Earth",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Dominant Chinese producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Northern_Rare_Earth_Group"
+   },
+   {
+    "name": "China Rare Earth Group",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "State-owned consolidation",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Rare_Earth_Group"
+   },
+   {
+    "name": "MP Materials",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Mountain Pass",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/MP_Materials"
+   },
+   {
+    "name": "Lynas Rare Earths",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Largest ex-China separator",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Lynas"
+   }
+  ]
+ },
+ "steel": {
+  "producers": [
+   {
+    "name": "China Baowu",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "World's largest steelmaker",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/China_Baowu"
+   },
+   {
+    "name": "ArcelorMittal",
+    "hq": "LUX",
+    "role": "producer",
+    "detail": "Largest ex-China steelmaker",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ArcelorMittal"
+   },
+   {
+    "name": "Nippon Steel",
+    "hq": "JPN",
+    "role": "producer",
+    "detail": "Major steelmaker",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nippon_Steel"
+   },
+   {
+    "name": "POSCO",
+    "hq": "KOR",
+    "role": "producer",
+    "detail": "Major steelmaker",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/POSCO_Holdings"
+   }
+  ]
+ },
+ "potash": {
+  "producers": [
+   {
+    "name": "Nutrien",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Largest potash producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nutrien"
+   },
+   {
+    "name": "Belaruskali",
+    "hq": "BLR",
+    "role": "producer",
+    "detail": "Sanctions-affected",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Belaruskali"
+   },
+   {
+    "name": "Uralkali",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Major Russian producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Uralkali"
+   },
+   {
+    "name": "Mosaic",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "US/Canada",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   }
+  ]
+ },
+ "phosphate": {
+  "producers": [
+   {
+    "name": "OCP Group",
+    "hq": "MAR",
+    "role": "producer",
+    "detail": "State-owned; largest phosphate reserves",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/OCP_Group"
+   },
+   {
+    "name": "Mosaic",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major phosphate producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   }
+  ]
+ },
+ "urea": {
+  "producers": [
+   {
+    "name": "QAFCO",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "Large single-site urea complex",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QAFCO"
+   },
+   {
+    "name": "CF Industries",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major nitrogen producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CF_Industries"
+   },
+   {
+    "name": "Yara",
+    "hq": "NOR",
+    "role": "producer",
+    "detail": "Major nitrogen producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Yara_International"
+   }
+  ]
+ },
+ "wheat": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   }
+  ]
+ },
+ "corn": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   }
+  ]
+ },
+ "soybeans": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   }
+  ]
+ },
+ "soymeal": {
+  "processors": [
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   }
+  ]
+ },
+ "soyoil": {
+  "processors": [
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   }
+  ]
+ },
+ "rapeseed": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "ABCD trading house",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   }
+  ]
+ },
+ "rice": {
+  "traders": [
+   {
+    "name": "Olam",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Major rice merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "sugar": {
+  "processors": [
+   {
+    "name": "Raízen",
+    "hq": "BRA",
+    "role": "miller",
+    "detail": "Largest Brazilian sugar/ethanol group",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Raízen"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Sucden",
+    "hq": "FRA",
+    "role": "trader",
+    "detail": "Major sugar trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sucres_et_Denrées"
+   }
+  ]
+ },
+ "coffee": {
+  "traders": [
+   {
+    "name": "Neumann Kaffee Gruppe",
+    "hq": "DEU",
+    "role": "trader",
+    "detail": "Large coffee trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Neumann_Kaffee_Gruppe"
+   },
+   {
+    "name": "ECOM",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Coffee and cocoa merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Olam",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Coffee and cocoa merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "cocoa": {
+  "processors": [
+   {
+    "name": "Barry Callebaut",
+    "hq": "CHE",
+    "role": "grinder",
+    "detail": "Largest cocoa processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Barry_Callebaut"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "grinder",
+    "detail": "Major grinder",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "Olam (ofi)",
+    "hq": "SGP",
+    "role": "grinder",
+    "detail": "Major grinder",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "cotton": {
+  "traders": [
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Major cotton merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Cotton merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   }
+  ]
+ },
+ "palm-oil": {
+  "processors": [
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "refiner",
+    "detail": "Largest palm oil processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "Sime Darby Plantation",
+    "hq": "MYS",
+    "role": "producer",
+    "detail": "Major planter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sime_Darby_Plantation"
+   },
+   {
+    "name": "Golden Agri-Resources",
+    "hq": "SGP",
+    "role": "producer",
+    "detail": "Major planter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Golden_Agri-Resources"
+   }
+  ]
+ },
+ "lpg": {
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "LPG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "LPG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ }
+}

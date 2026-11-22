@@ -1,0 +1,468 @@
+{
+ "id": "cotton",
+ "summary": {
+  "production": {
+   "v": 26568.7,
+   "u": "kt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Cotton, cotton production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+  },
+  "consumption": {
+   "v": 26292.0,
+   "u": "kt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Cotton, cotton domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+  },
+  "exports": {
+   "v": 9993.1,
+   "u": "kt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Cotton, cotton exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+  },
+  "seaborne": {
+   "v": 7.74,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (cotton) under the Atlas lane method (data/freight/lanes/cotton.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "kt",
+  "world": 26568.7,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 7794.5
+   },
+   {
+    "c": "IND",
+    "v": 5181.8
+   },
+   {
+    "c": "BRA",
+    "v": 4082.3
+   },
+   {
+    "c": "USA",
+    "v": 3025.7
+   },
+   {
+    "c": "PAK",
+    "v": 1153.9
+   },
+   {
+    "c": "AUS",
+    "v": 979.76
+   },
+   {
+    "c": "UZB",
+    "v": 750.06
+   },
+   {
+    "c": "TUR",
+    "v": 664.93
+   },
+   {
+    "c": "BEN",
+    "v": 250.38
+   },
+   {
+    "c": "GRC",
+    "v": 244.94
+   },
+   {
+    "c": "ARG",
+    "v": 220.99
+   },
+   {
+    "c": "TKM",
+    "v": 185.07
+   }
+  ],
+  "n": "USDA PSD, Cotton, cotton production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "kt",
+  "world": 26292.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 9057.3
+   },
+   {
+    "c": "IND",
+    "v": 5715.3
+   },
+   {
+    "c": "PAK",
+    "v": 2155.5
+   },
+   {
+    "c": "VNM",
+    "v": 1774.5
+   },
+   {
+    "c": "BGD",
+    "v": 1611.2
+   },
+   {
+    "c": "TUR",
+    "v": 1480.5
+   },
+   {
+    "c": "UZB",
+    "v": 762.04
+   },
+   {
+    "c": "BRA",
+    "v": 729.38
+   },
+   {
+    "c": "IDN",
+    "v": 446.33
+   },
+   {
+    "c": "USA",
+    "v": 326.59
+   },
+   {
+    "c": "MEX",
+    "v": 261.27
+   },
+   {
+    "c": "EGY",
+    "v": 239.5
+   }
+  ],
+  "n": "USDA PSD, Cotton, cotton domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "kt",
+  "world": 9993.1,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 3374.1
+   },
+   {
+    "c": "USA",
+    "v": 2678.0
+   },
+   {
+    "c": "AUS",
+    "v": 1217.5
+   },
+   {
+    "c": "GRC",
+    "v": 260.4
+   },
+   {
+    "c": "BEN",
+    "v": 250.38
+   },
+   {
+    "c": "IND",
+    "v": 240.37
+   },
+   {
+    "c": "TUR",
+    "v": 240.15
+   },
+   {
+    "c": "MLI",
+    "v": 195.95
+   },
+   {
+    "c": "CIV",
+    "v": 135.86
+   },
+   {
+    "c": "AZE",
+    "v": 132.59
+   },
+   {
+    "c": "BFA",
+    "v": 130.63
+   },
+   {
+    "c": "ARG",
+    "v": 117.57
+   }
+  ],
+  "n": "USDA PSD, Cotton, cotton exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "kt",
+  "world": 9798.9,
+  "rows": [
+   {
+    "c": "VNM",
+    "v": 1775.5
+   },
+   {
+    "c": "CHN",
+    "v": 1577.6
+   },
+   {
+    "c": "BGD",
+    "v": 1567.6
+   },
+   {
+    "c": "IND",
+    "v": 1125.9
+   },
+   {
+    "c": "TUR",
+    "v": 1028.7
+   },
+   {
+    "c": "PAK",
+    "v": 957.99
+   },
+   {
+    "c": "IDN",
+    "v": 461.14
+   },
+   {
+    "c": "EGY",
+    "v": 195.95
+   },
+   {
+    "c": "MYS",
+    "v": 179.84
+   },
+   {
+    "c": "MEX",
+    "v": 134.99
+   },
+   {
+    "c": "IRN",
+    "v": 108.86
+   },
+   {
+    "c": "THA",
+    "v": 90.138
+   }
+  ],
+  "n": "USDA PSD, Cotton, cotton imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+ },
+ "flows": [
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 943.32,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 838.91,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:USA-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "VNM",
+   "v": 540.14,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-VNM"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 331.43,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:AUS-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "BGD",
+   "v": 323.88,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-BGD"
+  },
+  {
+   "o": "IND",
+   "d": "BGD",
+   "v": 323.43,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:IND-BGD"
+  },
+  {
+   "o": "AUS",
+   "d": "VNM",
+   "v": 310.93,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:AUS-VNM"
+  },
+  {
+   "o": "USA",
+   "d": "VNM",
+   "v": 291.06,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:USA-VNM"
+  },
+  {
+   "o": "BRA",
+   "d": "PAK",
+   "v": 261.83,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-PAK"
+  },
+  {
+   "o": "BEN",
+   "d": "BGD",
+   "v": 249.04,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BEN-BGD"
+  },
+  {
+   "o": "BRA",
+   "d": "TUR",
+   "v": 240.1,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-TUR"
+  },
+  {
+   "o": "USA",
+   "d": "PAK",
+   "v": 182.81,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:USA-PAK"
+  },
+  {
+   "o": "USA",
+   "d": "TUR",
+   "v": 176.56,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:USA-TUR"
+  },
+  {
+   "o": "BRA",
+   "d": "IDN",
+   "v": 156.41,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:BRA-IDN"
+  },
+  {
+   "o": "AUS",
+   "d": "IND",
+   "v": 134.52,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:AUS-IND"
+  },
+  {
+   "o": "USA",
+   "d": "BGD",
+   "v": 130.07,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:USA-BGD"
+  },
+  {
+   "o": "AUS",
+   "d": "IDN",
+   "v": 115.92,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:AUS-IDN"
+  },
+  {
+   "o": "AUS",
+   "d": "BGD",
+   "v": 114.42,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:AUS-BGD"
+  },
+  {
+   "o": "AFG",
+   "d": "PAK",
+   "v": 110.28,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "GRC",
+   "d": "TUR",
+   "v": 105.02,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cotton:GRC-TUR"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 9993.1 kt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 8632.3 kt (+16%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+ ]
+}

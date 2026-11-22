@@ -1,0 +1,532 @@
+{
+ "id": "thermal-coal",
+ "summary": {
+  "production": {
+   "v": 7731.1,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+  },
+  "consumption": {
+   "v": 7820.2,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+  },
+  "reserves": {
+   "v": 1165892.6,
+   "u": "Mt",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA coal reserves, all coal (not split thermal/metallurgical)"
+  },
+  "exports": {
+   "v": 1405.4,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "all coal (HS 2701) incl. metallurgical coal, BACI"
+  },
+  "seaborne": {
+   "v": 1144.0,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (coal) under the Atlas lane method (data/freight/lanes/coal.json); both countries need a sea gateway and must not be land neighbours; all coal (thermal and metallurgical)"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 7731.1,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 3916.8
+   },
+   {
+    "c": "IND",
+    "v": 946.61
+   },
+   {
+    "c": "IDN",
+    "v": 784.19
+   },
+   {
+    "c": "USA",
+    "v": 420.91
+   },
+   {
+    "c": "RUS",
+    "v": 374.74
+   },
+   {
+    "c": "AUS",
+    "v": 282.64
+   },
+   {
+    "c": "ZAF",
+    "v": 234.74
+   },
+   {
+    "c": "KAZ",
+    "v": 115.72
+   },
+   {
+    "c": "DEU",
+    "v": 84.403
+   },
+   {
+    "c": "TUR",
+    "v": 75.275
+   },
+   {
+    "c": "POL",
+    "v": 68.569
+   },
+   {
+    "c": "VNM",
+    "v": 51.942
+   }
+  ],
+  "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 1165892.6,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 247882.7
+   },
+   {
+    "c": "RUS",
+    "v": 162165.8
+   },
+   {
+    "c": "CHN",
+    "v": 157040.8
+   },
+   {
+    "c": "AUS",
+    "v": 149471.8
+   },
+   {
+    "c": "IND",
+    "v": 127726.8
+   },
+   {
+    "c": "DEU",
+    "v": 35400.0
+   },
+   {
+    "c": "IDN",
+    "v": 35055.0
+   },
+   {
+    "c": "UKR",
+    "v": 34375.0
+   },
+   {
+    "c": "KGZ",
+    "v": 28499.0
+   },
+   {
+    "c": "POL",
+    "v": 27758.0
+   },
+   {
+    "c": "KAZ",
+    "v": 25605.0
+   },
+   {
+    "c": "TUR",
+    "v": 10975.0
+   }
+  ],
+  "n": "EIA International Energy Data, coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt; world total as published by EIA (all countries); 4 of 12 listed countries report an unchanged value over the last 5 years (reserve estimates are not revised annually)"
+ },
+ "consumption": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 7820.2,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 4312.1
+   },
+   {
+    "c": "IND",
+    "v": 1126.0
+   },
+   {
+    "c": "USA",
+    "v": 396.82
+   },
+   {
+    "c": "IDN",
+    "v": 264.37
+   },
+   {
+    "c": "RUS",
+    "v": 193.85
+   },
+   {
+    "c": "ZAF",
+    "v": 164.79
+   },
+   {
+    "c": "JPN",
+    "v": 133.85
+   },
+   {
+    "c": "TUR",
+    "v": 114.44
+   },
+   {
+    "c": "VNM",
+    "v": 105.41
+   },
+   {
+    "c": "DEU",
+    "v": 102.51
+   },
+   {
+    "c": "AUS",
+    "v": 91.256
+   },
+   {
+    "c": "KOR",
+    "v": 87.758
+   }
+  ],
+  "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1405.4,
+  "rows": [
+   {
+    "c": "IDN",
+    "v": 401.35
+   },
+   {
+    "c": "AUS",
+    "v": 388.56
+   },
+   {
+    "c": "RUS",
+    "v": 176.8
+   },
+   {
+    "c": "USA",
+    "v": 108.21
+   },
+   {
+    "c": "MNG",
+    "v": 78.774
+   },
+   {
+    "c": "ZAF",
+    "v": 70.906
+   },
+   {
+    "c": "COL",
+    "v": 65.112
+   },
+   {
+    "c": "CAN",
+    "v": 37.233
+   },
+   {
+    "c": "MOZ",
+    "v": 19.851
+   },
+   {
+    "c": "KAZ",
+    "v": 13.822
+   },
+   {
+    "c": "PHL",
+    "v": 9.786
+   },
+   {
+    "c": "POL",
+    "v": 4.213
+   }
+  ],
+  "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1405.4,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 375.17
+   },
+   {
+    "c": "IND",
+    "v": 263.73
+   },
+   {
+    "c": "JPN",
+    "v": 166.57
+   },
+   {
+    "c": "KOR",
+    "v": 118.24
+   },
+   {
+    "c": "VNM",
+    "v": 53.937
+   },
+   {
+    "c": "TWN",
+    "v": 51.192,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   },
+   {
+    "c": "MYS",
+    "v": 44.447
+   },
+   {
+    "c": "TUR",
+    "v": 39.832
+   },
+   {
+    "c": "PHL",
+    "v": 39.292
+   },
+   {
+    "c": "DEU",
+    "v": 20.087
+   },
+   {
+    "c": "NLD",
+    "v": 19.957
+   },
+   {
+    "c": "THA",
+    "v": 18.4
+   }
+  ],
+  "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
+ },
+ "flows": [
+  {
+   "o": "IDN",
+   "d": "IND",
+   "v": 110.47,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-IND"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 108.97,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-JPN"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 88.334,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 83.823,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-CHN"
+  },
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 82.743,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-CHN"
+  },
+  {
+   "o": "MNG",
+   "d": "CHN",
+   "v": 78.774,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "IND",
+   "v": 58.243,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-IND"
+  },
+  {
+   "o": "IDN",
+   "d": "PHL",
+   "v": 39.029,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-PHL"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 33.719,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-KOR"
+  },
+  {
+   "o": "ZAF",
+   "d": "IND",
+   "v": 32.772,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:ZAF-IND"
+  },
+  {
+   "o": "IDN",
+   "d": "JPN",
+   "v": 28.906,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-JPN"
+  },
+  {
+   "o": "IDN",
+   "d": "KOR",
+   "v": 28.683,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-KOR"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 27.265,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "VNM",
+   "v": 27.189,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-VNM"
+  },
+  {
+   "o": "IDN",
+   "d": "MYS",
+   "v": 27.116,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-MYS"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 26.941,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-IND"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 24.42,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-TUR"
+  },
+  {
+   "o": "USA",
+   "d": "IND",
+   "v": 21.354,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:USA-IND"
+  },
+  {
+   "o": "RUS",
+   "d": "KOR",
+   "v": 18.509,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:RUS-KOR"
+  },
+  {
+   "o": "AUS",
+   "d": "VNM",
+   "v": 17.752,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:AUS-VNM"
+  }
+ ],
+ "notes": [
+  "HS 2701 does not separate thermal from metallurgical coal: trade tables and flows cover all coal.",
+  "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."
+ ],
+ "discrepancies": [
+  "IDN exports 2024: BACI 401.3 Mt vs EIA coal exports 557.8 Mt (+39%); table uses BACI (customs tonnage, all coal incl. coking)."
+ ]
+}

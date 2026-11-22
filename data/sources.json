@@ -166,5 +166,29 @@
   "url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
   "licence": "Public domain (US Government)",
   "update": "weekly (daily data)"
+ },
+ {
+  "id": "eia-intl",
+  "name": "EIA International Energy Data",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/international/data/world",
+  "licence": "Public domain (US Government)",
+  "update": "annual, partial monthly"
+ },
+ {
+  "id": "faostat",
+  "name": "FAOSTAT Crops and livestock products (QCL)",
+  "publisher": "Food and Agriculture Organization of the United Nations",
+  "url": "https://www.fao.org/faostat/en/data/QCL",
+  "licence": "CC BY 4.0",
+  "update": "annual"
+ },
+ {
+  "id": "wna",
+  "name": "World Nuclear Association: World Uranium Mining Production",
+  "publisher": "World Nuclear Association",
+  "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
+  "licence": "Copyright World Nuclear Association; figures cited with attribution (see website terms of use)",
+  "update": "annual"
  }
 ]

@@ -1,0 +1,439 @@
+{
+ "id": "zinc",
+ "summary": {
+  "production": {
+   "v": 13000.0,
+   "u": "kt Zn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores."
+  },
+  "reserves": {
+   "v": 240000.0,
+   "u": "kt Zn",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; not published (withheld, range or qualitative): Bolivia"
+  },
+  "exports": {
+   "v": 11.541,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+  },
+  "seaborne": {
+   "v": 8.37,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (zinc-ore) under the Atlas lane method (data/freight/lanes/zinc-ore.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: zinc-ore"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Zn",
+  "world": 13000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 4100.0
+   },
+   {
+    "c": "PER",
+    "v": 1500.0
+   },
+   {
+    "c": "AUS",
+    "v": 1100.0
+   },
+   {
+    "c": "IND",
+    "v": 870.0
+   },
+   {
+    "c": "MEX",
+    "v": 780.0
+   },
+   {
+    "c": "USA",
+    "v": 670.0
+   },
+   {
+    "c": "BOL",
+    "v": 500.0
+   },
+   {
+    "c": "RUS",
+    "v": 430.0
+   },
+   {
+    "c": "KAZ",
+    "v": 360.0
+   },
+   {
+    "c": "SWE",
+    "v": 230.0
+   }
+  ],
+  "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores."
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Zn",
+  "world": 240000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 64000.0
+   },
+   {
+    "c": "CHN",
+    "v": 60000.0
+   },
+   {
+    "c": "RUS",
+    "v": 29000.0
+   },
+   {
+    "c": "PER",
+    "v": 18000.0
+   },
+   {
+    "c": "MEX",
+    "v": 14000.0
+   },
+   {
+    "c": "IND",
+    "v": 10000.0
+   },
+   {
+    "c": "USA",
+    "v": 9300.0
+   },
+   {
+    "c": "KAZ",
+    "v": 7400.0
+   },
+   {
+    "c": "SWE",
+    "v": 4100.0
+   }
+  ],
+  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; not published (withheld, range or qualitative): Bolivia"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 11.541,
+  "rows": [
+   {
+    "c": "PER",
+    "v": 1.934
+   },
+   {
+    "c": "AUS",
+    "v": 1.643
+   },
+   {
+    "c": "USA",
+    "v": 1.023
+   },
+   {
+    "c": "MEX",
+    "v": 0.8273
+   },
+   {
+    "c": "TUR",
+    "v": 0.7036
+   },
+   {
+    "c": "BOL",
+    "v": 0.6536
+   },
+   {
+    "c": "SWE",
+    "v": 0.4384
+   },
+   {
+    "c": "KAZ",
+    "v": 0.4301
+   },
+   {
+    "c": "RUS",
+    "v": 0.3867
+   },
+   {
+    "c": "ZAF",
+    "v": 0.3123
+   },
+   {
+    "c": "ERI",
+    "v": 0.2535
+   },
+   {
+    "c": "PRT",
+    "v": 0.2518
+   }
+  ],
+  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 11.541,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 4.169
+   },
+   {
+    "c": "KOR",
+    "v": 1.372
+   },
+   {
+    "c": "ESP",
+    "v": 0.8238
+   },
+   {
+    "c": "JPN",
+    "v": 0.6709
+   },
+   {
+    "c": "FIN",
+    "v": 0.5887
+   },
+   {
+    "c": "CAN",
+    "v": 0.5532
+   },
+   {
+    "c": "IRN",
+    "v": 0.4099
+   },
+   {
+    "c": "BEL",
+    "v": 0.3667
+   },
+   {
+    "c": "NOR",
+    "v": 0.2802
+   },
+   {
+    "c": "FRA",
+    "v": 0.2605
+   },
+   {
+    "c": "DEU",
+    "v": 0.2586
+   },
+   {
+    "c": "AUS",
+    "v": 0.2421
+   }
+  ],
+  "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 0.9523,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:AUS-CHN"
+  },
+  {
+   "o": "PER",
+   "d": "CHN",
+   "v": 0.8232,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:PER-CHN"
+  },
+  {
+   "o": "TUR",
+   "d": "IRN",
+   "v": 0.4099,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MEX",
+   "d": "KOR",
+   "v": 0.3496,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:MEX-KOR"
+  },
+  {
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 0.2924,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 0.2894,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:AUS-KOR"
+  },
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 0.2711,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:ZAF-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 0.2437,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 0.2382,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "PER",
+   "d": "ESP",
+   "v": 0.2223,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:PER-ESP"
+  },
+  {
+   "o": "PER",
+   "d": "KOR",
+   "v": 0.2097,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:PER-KOR"
+  },
+  {
+   "o": "SWE",
+   "d": "FIN",
+   "v": 0.2029,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BEL",
+   "d": "NLD",
+   "v": 0.1896,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:BEL-NLD"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 0.1817,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:USA-KOR"
+  },
+  {
+   "o": "BOL",
+   "d": "JPN",
+   "v": 0.1739,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ERI",
+   "d": "CHN",
+   "v": 0.1651,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:ERI-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "SWE",
+   "v": 0.163,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "AUS",
+   "d": "CAN",
+   "v": 0.158,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 0.1511,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "ESP",
+   "v": 0.1478,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "zinc-ore:USA-ESP"
+  }
+ ],
+ "notes": [
+  "Unwrought zinc (HS 7901), 2024 (BACI, baci): world 5.06 Mt gross weight; top exporters ESP 0.51 Mt, KOR 0.48 Mt, AUS 0.42 Mt.",
+  "Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn)."
+ ]
+}

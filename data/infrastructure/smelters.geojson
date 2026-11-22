@@ -1,0 +1,283 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "guixi-smelter",
+    "name": "Guixi smelter (Jiangxi Copper)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "CHN",
+    "operator": "Jiangxi Copper",
+    "capacity": {
+     "v": 1100,
+     "u": "kt/y refined copper (cathode)"
+    },
+    "status": "operating",
+    "note": "World's largest copper refinery by capacity (Statista, Aug 2024). Near Guixi, Jiangxi. Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2024,
+    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.2,
+     28.28
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jinchuan-gansu-refinery",
+    "name": "Jinchuan Group refinery (Jinchang)",
+    "type": "smelter",
+    "k": [
+     "copper",
+     "nickel"
+    ],
+    "c": "CHN",
+    "operator": "Jinchuan Group",
+    "capacity": {
+     "v": 700,
+     "u": "kt/y refined copper (cathode)"
+    },
+    "status": "operating",
+    "note": "Among the three largest refineries (Statista, Aug 2024); Jinchang, Gansu. Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2024,
+    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     102.19,
+     38.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "daye-smelter",
+    "name": "Daye smelter (Daye Nonferrous)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "CHN",
+    "operator": "Daye Nonferrous Metals",
+    "capacity": {
+     "v": 930,
+     "u": "kt/y smelting capacity"
+    },
+    "status": "operating",
+    "note": "Planned to trim smelter output ~20% when margins fell (Bloomberg via Mining.com; article undated). Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": "undated",
+    "url": "https://www.mining.com/web/china-copper-smelters-plan-to-cut-output-after-margins-fall/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.97,
+     30.09
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chuquicamata-smelter",
+    "name": "Chuquicamata smelter and refinery",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "CHL",
+    "operator": "Codelco",
+    "capacity": {
+     "v": 855,
+     "u": "kt/y electrolytic refinery (cathode)"
+    },
+    "opened": 1952,
+    "status": "operating",
+    "note": "Smelting facilities installed 1952; smelter capacity not given on page, refinery figure shown. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": "undated",
+    "url": "https://en.wikipedia.org/wiki/Chuquicamata"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -68.9,
+     -22.3
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kamoa-kakula-smelter",
+    "name": "Kamoa-Kakula smelter",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "COD",
+    "operator": "Ivanhoe Mines",
+    "capacity": {
+     "v": 500,
+     "u": "kt/y rated (source does not say concentrate vs anode)"
+    },
+    "opened": 2025,
+    "status": "operating",
+    "note": "First anode 29 Dec 2025; ramp-up continues through 2026; reduces DRC concentrate exports. Coordinates: approximate location.",
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.kitco.com/news/off-the-wire/2026-01-15/ivanhoe-meets-2025-output-targets-kamoa-kakula-smelter-ramps"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     25.3,
+     -10.78
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "freeport-manyar-smelter",
+    "name": "Freeport Manyar smelter (Gresik)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "IDN",
+    "operator": "PT Freeport Indonesia",
+    "capacity": {
+     "v": 1700,
+     "u": "kt/y concentrate feed capacity (nameplate)"
+    },
+    "opened": 2024,
+    "status": "operating",
+    "note": "Fire at acid plant Oct 2024; restarted mid-2025; hot preservation after Grasberg Sep 2025 landslide; reported resumed Sep 2026, cathode ramping (35 kt by Oct, 57 kt by end-2026 per reports). Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2026,
+    "url": "https://www.miningweekly.com/article/freeport-indonesia-aims-manyar-smelter-restart-next-month-ceo-says-2026-08-07"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.64,
+     -7.1
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pt-smelting-gresik",
+    "name": "PT Smelting (Gresik)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "IDN",
+    "operator": "PT Smelting (Freeport / Mitsubishi Materials)",
+    "status": "suspended",
+    "note": "Operations stopped since 8 Aug 2026 for furnace repairs (Freeport says no impact on Grasberg). Coordinates: approximate location.",
+    "s": "trade-press",
+    "y": 2026,
+    "url": "https://www.engineeringnews.co.za/article/freeport-indonesias-unit-smelting-gresik-halts-operations-for-furnace-repairs-2026-08-12"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     112.65,
+     -7.16
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aurubis-hamburg",
+    "name": "Aurubis Hamburg",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "DEU",
+    "operator": "Aurubis",
+    "status": "operating",
+    "note": "Europe's largest primary copper smelter site (Hamburg-Veddel); serious accident at primary smelter in May 2023. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Aurubis"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     10.03,
+     53.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kghm-glogow",
+    "name": "KGHM Glogow smelter",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "POL",
+    "operator": "KGHM Polska Miedz",
+    "status": "operating",
+    "note": "KGHM owns Glogow, Legnica and Cedynia smelters; group output 656 kt Cu in 2017 (page; outdated). Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2017,
+    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Mied%C5%BA"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     16.08,
+     51.66
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "boliden-ronnskar",
+    "name": "Boliden Ronnskar",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "SWE",
+    "operator": "Boliden",
+    "status": "operating",
+    "note": "Boliden's biggest and oldest smelter (copper, also lead/zinc); flash furnaces added in 2000 expansion. Coordinates: approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Boliden_AB"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     21.28,
+     64.67
+    ]
+   }
+  }
+ ]
+}

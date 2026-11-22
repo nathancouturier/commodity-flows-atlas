@@ -8,7 +8,12 @@
   "hs": [
    "2709"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 0
  },
  {
@@ -20,7 +25,12 @@
   "hs": [
    "2710"
   ],
-  "has": [],
+  "has": [
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 1
  },
  {
@@ -32,7 +42,11 @@
   "hs": [
    "271111"
   ],
-  "has": [],
+  "has": [
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 2
  },
  {
@@ -44,7 +58,13 @@
   "hs": [
    "271121"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 3
  },
  {
@@ -57,7 +77,12 @@
    "271112",
    "271113"
   ],
-  "has": [],
+  "has": [
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 4
  },
  {
@@ -69,7 +94,14 @@
   "hs": [
    "270112"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 5
  },
  {
@@ -81,7 +113,12 @@
   "hs": [
    "284410"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 6
  },
  {
@@ -93,7 +130,13 @@
   "hs": [
    "2601"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 7
  },
  {
@@ -105,7 +148,13 @@
   "hs": [
    "270112"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 8
  },
  {
@@ -117,7 +166,12 @@
   "hs": [
    "72"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 9
  },
  {
@@ -131,7 +185,13 @@
    "7402",
    "7403"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 10
  },
  {
@@ -143,7 +203,12 @@
   "hs": [
    "7601"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 11
  },
  {
@@ -156,7 +221,13 @@
    "2606",
    "281820"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 12
  },
  {
@@ -170,7 +241,13 @@
    "7501",
    "7502"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 13
  },
  {
@@ -183,7 +260,13 @@
    "2608",
    "7901"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 14
  },
  {
@@ -196,7 +279,13 @@
    "2607",
    "7801"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 15
  },
  {
@@ -209,7 +298,13 @@
    "2609",
    "8001"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 16
  },
  {
@@ -223,7 +318,13 @@
    "283691",
    "282520"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 17
  },
  {
@@ -236,7 +337,13 @@
    "2605",
    "810520"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 18
  },
  {
@@ -249,7 +356,13 @@
    "2846",
    "280530"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 19
  },
  {
@@ -261,7 +374,13 @@
   "hs": [
    "2602"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 20
  },
  {
@@ -273,7 +392,13 @@
   "hs": [
    "7108"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 21
  },
  {
@@ -285,7 +410,13 @@
   "hs": [
    "7106"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 22
  },
  {
@@ -297,7 +428,13 @@
   "hs": [
    "7110"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 23
  },
  {
@@ -309,7 +446,13 @@
   "hs": [
    "1001"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 24
  },
  {
@@ -321,7 +464,13 @@
   "hs": [
    "1005"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 25
  },
  {
@@ -333,7 +482,13 @@
   "hs": [
    "1201"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 26
  },
  {
@@ -345,7 +500,13 @@
   "hs": [
    "2304"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 27
  },
  {
@@ -357,7 +518,13 @@
   "hs": [
    "1507"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 28
  },
  {
@@ -369,7 +536,13 @@
   "hs": [
    "1006"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 29
  },
  {
@@ -381,7 +554,13 @@
   "hs": [
    "1701"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 30
  },
  {
@@ -393,7 +572,13 @@
   "hs": [
    "0901"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 31
  },
  {
@@ -405,7 +590,12 @@
   "hs": [
    "1801"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 32
  },
  {
@@ -417,7 +607,13 @@
   "hs": [
    "5201"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 33
  },
  {
@@ -429,7 +625,13 @@
   "hs": [
    "1511"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 34
  },
  {
@@ -442,7 +644,13 @@
    "1205",
    "1514"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 35
  },
  {
@@ -454,7 +662,13 @@
   "hs": [
    "310420"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 36
  },
  {
@@ -467,7 +681,13 @@
    "2510",
    "310530"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 37
  },
  {
@@ -479,7 +699,12 @@
   "hs": [
    "310210"
   ],
-  "has": [],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
   "rank": 38
  }
 ]

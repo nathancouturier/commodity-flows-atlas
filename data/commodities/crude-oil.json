@@ -1,0 +1,405 @@
+{
+ "id": "crude-oil",
+ "summary": {
+  "production": {
+   "v": 84462.6,
+   "u": "kb/d",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA crude oil including lease condensate, world"
+  },
+  "exports": {
+   "v": 2263.4,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "sum of all BACI crude oil flows, tonnes (all modes)"
+  },
+  "seaborne": {
+   "v": 1808.2,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (crude-oil) under the Atlas lane method (data/freight/lanes/crude-oil.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "kb/d",
+  "world": 84462.6,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 13661.9
+   },
+   {
+    "c": "RUS",
+    "v": 9885.1
+   },
+   {
+    "c": "SAU",
+    "v": 9548.8
+   },
+   {
+    "c": "CAN",
+    "v": 4963.9
+   },
+   {
+    "c": "IRQ",
+    "v": 4388.1
+   },
+   {
+    "c": "CHN",
+    "v": 4324.7
+   },
+   {
+    "c": "IRN",
+    "v": 4051.4
+   },
+   {
+    "c": "ARE",
+    "v": 3771.2
+   },
+   {
+    "c": "BRA",
+    "v": 3769.4
+   },
+   {
+    "c": "KWT",
+    "v": 2583.5
+   },
+   {
+    "c": "KAZ",
+    "v": 2046.6
+   },
+   {
+    "c": "NOR",
+    "v": 1858.5
+   }
+  ],
+  "n": "EIA International Energy Data, crude oil including lease condensate production; world total as published by EIA (all countries)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 2263.4,
+  "rows": [
+   {
+    "c": "SAU",
+    "v": 309.16
+   },
+   {
+    "c": "CAN",
+    "v": 217.47
+   },
+   {
+    "c": "RUS",
+    "v": 216.77
+   },
+   {
+    "c": "USA",
+    "v": 202.01
+   },
+   {
+    "c": "ARE",
+    "v": 184.19,
+    "n": "13% of tonnage estimated from value"
+   },
+   {
+    "c": "IRQ",
+    "v": 173.5
+   },
+   {
+    "c": "BRA",
+    "v": 91.371
+   },
+   {
+    "c": "NOR",
+    "v": 84.677
+   },
+   {
+    "c": "NGA",
+    "v": 67.078
+   },
+   {
+    "c": "KAZ",
+    "v": 65.938
+   },
+   {
+    "c": "AGO",
+    "v": 54.984
+   },
+   {
+    "c": "MYS",
+    "v": 54.247
+   }
+  ],
+  "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 2263.4,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 517.66
+   },
+   {
+    "c": "USA",
+    "v": 337.57
+   },
+   {
+    "c": "IND",
+    "v": 242.11
+   },
+   {
+    "c": "KOR",
+    "v": 136.57
+   },
+   {
+    "c": "JPN",
+    "v": 116.88
+   },
+   {
+    "c": "NLD",
+    "v": 90.429
+   },
+   {
+    "c": "DEU",
+    "v": 67.3
+   },
+   {
+    "c": "ESP",
+    "v": 63.891
+   },
+   {
+    "c": "ITA",
+    "v": 63.093
+   },
+   {
+    "c": "TWN",
+    "v": 53.138,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   },
+   {
+    "c": "GBR",
+    "v": 51.648
+   },
+   {
+    "c": "THA",
+    "v": 50.379,
+    "n": "49% of tonnage estimated from value"
+   }
+  ],
+  "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+ },
+ "flows": [
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 205.34,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 108.47,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 92.009,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:RUS-IND"
+  },
+  {
+   "o": "SAU",
+   "d": "CHN",
+   "v": 78.638,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:SAU-CHN"
+  },
+  {
+   "o": "IRQ",
+   "d": "CHN",
+   "v": 63.838,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:IRQ-CHN"
+  },
+  {
+   "o": "IRQ",
+   "d": "IND",
+   "v": 50.091,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:IRQ-IND"
+  },
+  {
+   "o": "ARE",
+   "d": "JPN",
+   "v": 49.479,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:ARE-JPN"
+  },
+  {
+   "o": "SAU",
+   "d": "KOR",
+   "v": 47.807,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:SAU-KOR"
+  },
+  {
+   "o": "SAU",
+   "d": "JPN",
+   "v": 46.434,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:SAU-JPN"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 41.503,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:MYS-CHN"
+  },
+  {
+   "o": "OMN",
+   "d": "CHN",
+   "v": 40.768,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:OMN-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 39.433,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:BRA-CHN"
+  },
+  {
+   "o": "ARE",
+   "d": "CHN",
+   "v": 35.532,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:ARE-CHN"
+  },
+  {
+   "o": "SAU",
+   "d": "IND",
+   "v": 31.723,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:SAU-IND"
+  },
+  {
+   "o": "NLD",
+   "d": "BEL",
+   "v": 29.52,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:NLD-BEL"
+  },
+  {
+   "o": "AGO",
+   "d": "CHN",
+   "v": 28.721,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:AGO-CHN"
+  },
+  {
+   "o": "MEX",
+   "d": "USA",
+   "v": 26.497,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:MEX-USA"
+  },
+  {
+   "o": "USA",
+   "d": "NLD",
+   "v": 25.327,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:USA-NLD"
+  },
+  {
+   "o": "ARE",
+   "d": "THA",
+   "v": 24.503,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:ARE-THA",
+   "n": "tonnage estimated from value"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 21.795,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "crude-oil:USA-KOR"
+  }
+ ],
+ "notes": [
+  "Production is in kb/d (EIA); trade tables are in Mt/year (BACI tonnage). Conversion depends on grade, so none is applied.",
+  "No proved-reserves or crude-specific consumption series exists in the EIA bulk file used (INTL.txt); refined-product demand is under 'refined-products'."
+ ]
+}

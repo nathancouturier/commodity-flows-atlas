@@ -1,0 +1,336 @@
+{
+ "id": "lng",
+ "summary": {
+  "exports": {
+   "v": 378.04,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "sum of all BACI LNG flows (HS 271111), tonnes"
+  },
+  "seaborne": {
+   "v": 341.75,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (lng) under the Atlas lane method (data/freight/lanes/lng.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 378.04,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 78.702
+   },
+   {
+    "c": "USA",
+    "v": 74.662
+   },
+   {
+    "c": "QAT",
+    "v": 65.118
+   },
+   {
+    "c": "RUS",
+    "v": 31.218
+   },
+   {
+    "c": "MYS",
+    "v": 27.19
+   },
+   {
+    "c": "NGA",
+    "v": 12.586
+   },
+   {
+    "c": "IDN",
+    "v": 11.971
+   },
+   {
+    "c": "OMN",
+    "v": 11.465
+   },
+   {
+    "c": "DZA",
+    "v": 9.381
+   },
+   {
+    "c": "PNG",
+    "v": 8.247
+   },
+   {
+    "c": "ARE",
+    "v": 5.942
+   },
+   {
+    "c": "ISR",
+    "v": 5.355
+   }
+  ],
+  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 378.04,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 76.174
+   },
+   {
+    "c": "JPN",
+    "v": 65.932
+   },
+   {
+    "c": "KOR",
+    "v": 46.365
+   },
+   {
+    "c": "IND",
+    "v": 26.874
+   },
+   {
+    "c": "FRA",
+    "v": 20.53
+   },
+   {
+    "c": "TWN",
+    "v": 19.656,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   },
+   {
+    "c": "NLD",
+    "v": 12.468
+   },
+   {
+    "c": "ESP",
+    "v": 12.004
+   },
+   {
+    "c": "THA",
+    "v": 11.314
+   },
+   {
+    "c": "ITA",
+    "v": 10.574
+   },
+   {
+    "c": "EGY",
+    "v": 8.177
+   },
+   {
+    "c": "PAK",
+    "v": 7.545
+   }
+  ],
+  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 26.182,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:AUS-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 25.14,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:AUS-JPN"
+  },
+  {
+   "o": "QAT",
+   "d": "CHN",
+   "v": 18.337,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:QAT-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 11.402,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:AUS-KOR"
+  },
+  {
+   "o": "QAT",
+   "d": "IND",
+   "v": 11.304,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:QAT-IND"
+  },
+  {
+   "o": "MYS",
+   "d": "JPN",
+   "v": 10.291,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:MYS-JPN"
+  },
+  {
+   "o": "QAT",
+   "d": "KOR",
+   "v": 8.881,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:QAT-KOR"
+  },
+  {
+   "o": "USA",
+   "d": "NLD",
+   "v": 8.37,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:USA-NLD"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 8.284,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 7.978,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "MYS",
+   "d": "CHN",
+   "v": 7.756,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:MYS-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "FRA",
+   "v": 6.893,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:USA-FRA"
+  },
+  {
+   "o": "QAT",
+   "d": "PAK",
+   "v": 6.656,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:QAT-PAK"
+  },
+  {
+   "o": "RUS",
+   "d": "FRA",
+   "v": 6.342,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:RUS-FRA"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 6.198,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:USA-JPN"
+  },
+  {
+   "o": "MYS",
+   "d": "KOR",
+   "v": 6.148,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:MYS-KOR"
+  },
+  {
+   "o": "RUS",
+   "d": "JPN",
+   "v": 5.684,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:RUS-JPN"
+  },
+  {
+   "o": "USA",
+   "d": "KOR",
+   "v": 5.503,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:USA-KOR"
+  },
+  {
+   "o": "ISR",
+   "d": "EGY",
+   "v": 5.355,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "DZA",
+   "d": "FRA",
+   "v": 4.958,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:DZA-FRA"
+  }
+ ],
+ "notes": [
+  "LNG volumes are in Mt (1 Mt LNG is about 1.36 bcm of gas); no production table: liquefaction output is not in the loaded sources."
+ ]
+}

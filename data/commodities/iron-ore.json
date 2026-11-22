@@ -1,0 +1,461 @@
+{
+ "id": "iron-ore",
+ "summary": {
+  "production": {
+   "v": 2600.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 200000.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 1707.3,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 1574.3,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (iron-ore) under the Atlas lane method (data/freight/lanes/iron-ore.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 2600.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 980.0
+   },
+   {
+    "c": "BRA",
+    "v": 420.0
+   },
+   {
+    "c": "IND",
+    "v": 310.0
+   },
+   {
+    "c": "CHN",
+    "v": 290.0
+   },
+   {
+    "c": "IRN",
+    "v": 93.0
+   },
+   {
+    "c": "RUS",
+    "v": 86.0
+   },
+   {
+    "c": "CAN",
+    "v": 69.0
+   },
+   {
+    "c": "ZAF",
+    "v": 66.0
+   },
+   {
+    "c": "UKR",
+    "v": 52.0
+   },
+   {
+    "c": "USA",
+    "v": 38.0
+   },
+   {
+    "c": "KAZ",
+    "v": 35.0
+   },
+   {
+    "c": "SWE",
+    "v": 26.0
+   }
+  ],
+  "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 200000.0,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 59000.0
+   },
+   {
+    "c": "RUS",
+    "v": 35000.0
+   },
+   {
+    "c": "BRA",
+    "v": 34000.0
+   },
+   {
+    "c": "CHN",
+    "v": 17000.0
+   },
+   {
+    "c": "MRT",
+    "v": 10000.0
+   },
+   {
+    "c": "UKR",
+    "v": 6500.0
+   },
+   {
+    "c": "CAN",
+    "v": 6000.0
+   },
+   {
+    "c": "IND",
+    "v": 5500.0
+   },
+   {
+    "c": "IRN",
+    "v": 4200.0
+   },
+   {
+    "c": "KAZ",
+    "v": 3800.0
+   },
+   {
+    "c": "USA",
+    "v": 3600.0
+   },
+   {
+    "c": "CHL",
+    "v": 3000.0
+   }
+  ],
+  "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1707.3,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 898.01
+   },
+   {
+    "c": "BRA",
+    "v": 405.82
+   },
+   {
+    "c": "ZAF",
+    "v": 62.684
+   },
+   {
+    "c": "CAN",
+    "v": 61.868
+   },
+   {
+    "c": "IND",
+    "v": 38.278
+   },
+   {
+    "c": "UKR",
+    "v": 34.086
+   },
+   {
+    "c": "PER",
+    "v": 22.723
+   },
+   {
+    "c": "SWE",
+    "v": 19.768
+   },
+   {
+    "c": "CHL",
+    "v": 15.239
+   },
+   {
+    "c": "MRT",
+    "v": 14.504
+   },
+   {
+    "c": "MYS",
+    "v": 14.374
+   },
+   {
+    "c": "OMN",
+    "v": 13.245
+   }
+  ],
+  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 1707.3,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 1251.8
+   },
+   {
+    "c": "JPN",
+    "v": 93.489
+   },
+   {
+    "c": "KOR",
+    "v": 68.484
+   },
+   {
+    "c": "MYS",
+    "v": 25.732
+   },
+   {
+    "c": "NLD",
+    "v": 24.413
+   },
+   {
+    "c": "DEU",
+    "v": 23.868
+   },
+   {
+    "c": "TWN",
+    "v": 20.345,
+    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+   },
+   {
+    "c": "VNM",
+    "v": 17.831
+   },
+   {
+    "c": "IDN",
+    "v": 13.762
+   },
+   {
+    "c": "BHR",
+    "v": 13.01
+   },
+   {
+    "c": "OMN",
+    "v": 12.845
+   },
+   {
+    "c": "EGY",
+    "v": 9.954
+   }
+  ],
+  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 756.14,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:AUS-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 276.4,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:BRA-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 52.744,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:AUS-JPN"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 49.46,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:AUS-KOR"
+  },
+  {
+   "o": "IND",
+   "d": "CHN",
+   "v": 35.243,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 35.0,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:ZAF-CHN"
+  },
+  {
+   "o": "PER",
+   "d": "CHN",
+   "v": 22.279,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:PER-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "JPN",
+   "v": 21.641,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:BRA-JPN"
+  },
+  {
+   "o": "BRA",
+   "d": "MYS",
+   "v": 20.231,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:BRA-MYS"
+  },
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 16.543,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:CAN-CHN"
+  },
+  {
+   "o": "UKR",
+   "d": "CHN",
+   "v": 15.041,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:UKR-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 14.488,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "BRA",
+   "d": "OMN",
+   "v": 12.409,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "CHL",
+   "d": "CHN",
+   "v": 11.642,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:CHL-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "BHR",
+   "v": 9.829,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:BRA-BHR"
+  },
+  {
+   "o": "AUS",
+   "d": "IDN",
+   "v": 9.818,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "MRT",
+   "d": "CHN",
+   "v": 9.377,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:MRT-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "VNM",
+   "v": 9.357,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "IRN",
+   "d": "CHN",
+   "v": 9.301,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "iron-ore:IRN-CHN"
+  },
+  {
+   "o": "SLE",
+   "d": "CHN",
+   "v": 9.281,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown."
+ ]
+}

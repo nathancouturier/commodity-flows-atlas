@@ -1,0 +1,467 @@
+{
+ "id": "sugar",
+ "summary": {
+  "production": {
+   "v": 187.12,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "consumption": {
+   "v": 176.45,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 64.756,
+   "u": "Mt",
+   "y": "2025/26",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+  },
+  "seaborne": {
+   "v": 58.68,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (sugar) under the Atlas lane method (data/freight/lanes/sugar.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 187.12,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 43.295
+   },
+   {
+    "c": "IND",
+    "v": 30.0
+   },
+   {
+    "c": "EU27",
+    "v": 16.258
+   },
+   {
+    "c": "CHN",
+    "v": 12.95
+   },
+   {
+    "c": "THA",
+    "v": 11.528
+   },
+   {
+    "c": "USA",
+    "v": 8.457
+   },
+   {
+    "c": "PAK",
+    "v": 7.06
+   },
+   {
+    "c": "RUS",
+    "v": 6.8
+   },
+   {
+    "c": "MEX",
+    "v": 5.645
+   },
+   {
+    "c": "AUS",
+    "v": 3.83
+   },
+   {
+    "c": "EGY",
+    "v": 3.18
+   },
+   {
+    "c": "TUR",
+    "v": 2.9
+   }
+  ],
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "consumption": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 176.45,
+  "rows": [
+   {
+    "c": "IND",
+    "v": 30.1
+   },
+   {
+    "c": "EU27",
+    "v": 15.7
+   },
+   {
+    "c": "CHN",
+    "v": 15.4
+   },
+   {
+    "c": "USA",
+    "v": 11.155
+   },
+   {
+    "c": "BRA",
+    "v": 9.492
+   },
+   {
+    "c": "IDN",
+    "v": 7.268
+   },
+   {
+    "c": "PAK",
+    "v": 6.6
+   },
+   {
+    "c": "RUS",
+    "v": 6.07
+   },
+   {
+    "c": "MEX",
+    "v": 4.112
+   },
+   {
+    "c": "EGY",
+    "v": 3.85
+   },
+   {
+    "c": "THA",
+    "v": 3.85
+   },
+   {
+    "c": "TUR",
+    "v": 2.815
+   }
+  ],
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+ },
+ "exports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 64.756,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 34.052
+   },
+   {
+    "c": "THA",
+    "v": 6.2
+   },
+   {
+    "c": "IND",
+    "v": 3.55
+   },
+   {
+    "c": "AUS",
+    "v": 2.626
+   },
+   {
+    "c": "EU27",
+    "v": 1.988
+   },
+   {
+    "c": "GTM",
+    "v": 1.84
+   },
+   {
+    "c": "MEX",
+    "v": 1.147
+   },
+   {
+    "c": "SAU",
+    "v": 1.01
+   },
+   {
+    "c": "RUS",
+    "v": 1.0
+   },
+   {
+    "c": "ZAF",
+    "v": 0.91
+   },
+   {
+    "c": "MAR",
+    "v": 0.9
+   },
+   {
+    "c": "ARE",
+    "v": 0.813
+   }
+  ],
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "imports": {
+  "y": "2025/26",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 57.637,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 4.296
+   },
+   {
+    "c": "IDN",
+    "v": 3.991
+   },
+   {
+    "c": "IND",
+    "v": 3.33
+   },
+   {
+    "c": "USA",
+    "v": 2.778
+   },
+   {
+    "c": "DZA",
+    "v": 2.181
+   },
+   {
+    "c": "BGD",
+    "v": 2.163
+   },
+   {
+    "c": "ARE",
+    "v": 2.108
+   },
+   {
+    "c": "SAU",
+    "v": 2.081
+   },
+   {
+    "c": "NGA",
+    "v": 2.03
+   },
+   {
+    "c": "EU27",
+    "v": 1.88
+   },
+   {
+    "c": "MYS",
+    "v": 1.873
+   },
+   {
+    "c": "MAR",
+    "v": 1.803
+   }
+  ],
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
+ },
+ "flows": [
+  {
+   "o": "BRA",
+   "d": "IDN",
+   "v": 3.443,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-IDN"
+  },
+  {
+   "o": "BRA",
+   "d": "IND",
+   "v": 3.333,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-IND"
+  },
+  {
+   "o": "BRA",
+   "d": "CHN",
+   "v": 3.105,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-CHN"
+  },
+  {
+   "o": "BRA",
+   "d": "ARE",
+   "v": 2.512,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-ARE"
+  },
+  {
+   "o": "BRA",
+   "d": "MAR",
+   "v": 2.235,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-MAR"
+  },
+  {
+   "o": "BRA",
+   "d": "DZA",
+   "v": 2.229,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-DZA"
+  },
+  {
+   "o": "BRA",
+   "d": "SAU",
+   "v": 1.907,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-SAU"
+  },
+  {
+   "o": "BRA",
+   "d": "MYS",
+   "v": 1.64,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-MYS"
+  },
+  {
+   "o": "BRA",
+   "d": "BGD",
+   "v": 1.62,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-BGD"
+  },
+  {
+   "o": "BRA",
+   "d": "NGA",
+   "v": 1.505,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-NGA"
+  },
+  {
+   "o": "BRA",
+   "d": "IRQ",
+   "v": 1.44,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-IRQ"
+  },
+  {
+   "o": "BRA",
+   "d": "CAN",
+   "v": 1.387,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-CAN"
+  },
+  {
+   "o": "BRA",
+   "d": "USA",
+   "v": 1.151,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-USA"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 1.087,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:AUS-JPN"
+  },
+  {
+   "o": "THA",
+   "d": "IDN",
+   "v": 0.9763,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:THA-IDN"
+  },
+  {
+   "o": "BRA",
+   "d": "EGY",
+   "v": 0.9552,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-EGY"
+  },
+  {
+   "o": "BRA",
+   "d": "IRN",
+   "v": 0.862,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:BRA-IRN"
+  },
+  {
+   "o": "AUS",
+   "d": "KOR",
+   "v": 0.695,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:AUS-KOR"
+  },
+  {
+   "o": "DEU",
+   "d": "ITA",
+   "v": 0.6298,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:DEU-ITA"
+  },
+  {
+   "o": "AUS",
+   "d": "IDN",
+   "v": 0.6288,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "sugar:AUS-IDN"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "PSD sugar is centrifugal sugar in raw value (cane and beet)."
+ ]
+}

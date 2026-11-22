@@ -1,0 +1,406 @@
+{
+ "id": "cocoa",
+ "summary": {
+  "production": {
+   "v": 5233.2,
+   "u": "kt",
+   "y": 2024,
+   "s": "faostat",
+   "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to kt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official)"
+  },
+  "exports": {
+   "v": 3235.3,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "cocoa beans (HS 1801), BACI"
+  },
+  "seaborne": {
+   "v": 2.99,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (cocoa) under the Atlas lane method (data/freight/lanes/cocoa.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2024,
+  "s": "faostat",
+  "u": "kt",
+  "world": 5233.2,
+  "rows": [
+   {
+    "c": "CIV",
+    "v": 1890.4
+   },
+   {
+    "c": "IDN",
+    "v": 632.7
+   },
+   {
+    "c": "GHA",
+    "v": 530.0,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "ECU",
+    "v": 403.7
+   },
+   {
+    "c": "NGA",
+    "v": 350.0,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "CMR",
+    "v": 320.0,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "BRA",
+    "v": 297.51
+   },
+   {
+    "c": "PER",
+    "v": 157.25
+   },
+   {
+    "c": "SLE",
+    "v": 93.75
+   },
+   {
+    "c": "COL",
+    "v": 67.678
+   },
+   {
+    "c": "DOM",
+    "v": 57.461
+   },
+   {
+    "c": "UGA",
+    "v": 55.0,
+    "n": "FAO flag: X"
+   }
+  ],
+  "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to kt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official)"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 3235.3,
+  "rows": [
+   {
+    "c": "CIV",
+    "v": 1082.1
+   },
+   {
+    "c": "ECU",
+    "v": 400.44
+   },
+   {
+    "c": "NGA",
+    "v": 360.47
+   },
+   {
+    "c": "GHA",
+    "v": 293.78
+   },
+   {
+    "c": "CMR",
+    "v": 235.75
+   },
+   {
+    "c": "PER",
+    "v": 113.35
+   },
+   {
+    "c": "NLD",
+    "v": 91.685
+   },
+   {
+    "c": "GIN",
+    "v": 72.255
+   },
+   {
+    "c": "DOM",
+    "v": 65.11
+   },
+   {
+    "c": "COD",
+    "v": 62.535
+   },
+   {
+    "c": "UGA",
+    "v": 59.247
+   },
+   {
+    "c": "BEL",
+    "v": 50.973
+   }
+  ],
+  "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 3235.3,
+  "rows": [
+   {
+    "c": "NLD",
+    "v": 780.23
+   },
+   {
+    "c": "MYS",
+    "v": 466.7
+   },
+   {
+    "c": "DEU",
+    "v": 273.04
+   },
+   {
+    "c": "BEL",
+    "v": 235.26
+   },
+   {
+    "c": "USA",
+    "v": 201.16
+   },
+   {
+    "c": "IDN",
+    "v": 173.0
+   },
+   {
+    "c": "TUR",
+    "v": 116.3
+   },
+   {
+    "c": "CAN",
+    "v": 114.19
+   },
+   {
+    "c": "SGP",
+    "v": 114.17
+   },
+   {
+    "c": "ESP",
+    "v": 103.74
+   },
+   {
+    "c": "FRA",
+    "v": 103.71
+   },
+   {
+    "c": "ITA",
+    "v": 92.919
+   }
+  ],
+  "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "CIV",
+   "d": "NLD",
+   "v": 260.44,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-NLD"
+  },
+  {
+   "o": "CMR",
+   "d": "NLD",
+   "v": 144.51,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CMR-NLD"
+  },
+  {
+   "o": "NGA",
+   "d": "NLD",
+   "v": 143.87,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:NGA-NLD"
+  },
+  {
+   "o": "CIV",
+   "d": "BEL",
+   "v": 125.04,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-BEL"
+  },
+  {
+   "o": "CIV",
+   "d": "MYS",
+   "v": 96.449,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-MYS"
+  },
+  {
+   "o": "CIV",
+   "d": "DEU",
+   "v": 91.379,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-DEU"
+  },
+  {
+   "o": "NGA",
+   "d": "MYS",
+   "v": 89.331,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:NGA-MYS"
+  },
+  {
+   "o": "CIV",
+   "d": "USA",
+   "v": 79.697,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-USA"
+  },
+  {
+   "o": "ECU",
+   "d": "MYS",
+   "v": 71.565,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:ECU-MYS"
+  },
+  {
+   "o": "NLD",
+   "d": "DEU",
+   "v": 69.599,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:NLD-DEU"
+  },
+  {
+   "o": "CIV",
+   "d": "TUR",
+   "v": 69.09,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-TUR"
+  },
+  {
+   "o": "ECU",
+   "d": "USA",
+   "v": 56.939,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:ECU-USA"
+  },
+  {
+   "o": "ECU",
+   "d": "IDN",
+   "v": 56.041,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:ECU-IDN"
+  },
+  {
+   "o": "CIV",
+   "d": "GBR",
+   "v": 52.315,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-GBR"
+  },
+  {
+   "o": "CIV",
+   "d": "CAN",
+   "v": 51.828,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-CAN"
+  },
+  {
+   "o": "GHA",
+   "d": "NLD",
+   "v": 41.866,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:GHA-NLD"
+  },
+  {
+   "o": "BEL",
+   "d": "DEU",
+   "v": 41.446,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "ECU",
+   "d": "NLD",
+   "v": 39.79,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:ECU-NLD"
+  },
+  {
+   "o": "CIV",
+   "d": "FRA",
+   "v": 39.268,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-FRA"
+  },
+  {
+   "o": "CIV",
+   "d": "ESP",
+   "v": 38.048,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "cocoa:CIV-ESP"
+  }
+ ],
+ "notes": [
+  "Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar 2024); production is FAOSTAT 2024.",
+  "No consumption table: grindings data are not in the loaded sources."
+ ]
+}

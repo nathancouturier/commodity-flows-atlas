@@ -1,0 +1,393 @@
+{
+ "id": "urea",
+ "summary": {
+  "production": {
+   "v": 160.0,
+   "u": "Mt N",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "exports": {
+   "v": 56.171,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 47.23,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (urea) under the Atlas lane method (data/freight/lanes/urea.json); both countries need a sea gateway and must not be land neighbours"
+  }
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt N",
+  "world": 160.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 49.0
+   },
+   {
+    "c": "IND",
+    "v": 15.0
+   },
+   {
+    "c": "RUS",
+    "v": 15.0
+   },
+   {
+    "c": "USA",
+    "v": 14.0
+   },
+   {
+    "c": "IDN",
+    "v": 6.0
+   },
+   {
+    "c": "SAU",
+    "v": 5.2
+   },
+   {
+    "c": "IRN",
+    "v": 4.8
+   },
+   {
+    "c": "EGY",
+    "v": 4.0
+   },
+   {
+    "c": "CAN",
+    "v": 3.8
+   },
+   {
+    "c": "PAK",
+    "v": 3.8
+   },
+   {
+    "c": "TTO",
+    "v": 3.3
+   },
+   {
+    "c": "QAT",
+    "v": 3.0
+   }
+  ],
+  "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 56.171,
+  "rows": [
+   {
+    "c": "RUS",
+    "v": 8.856
+   },
+   {
+    "c": "OMN",
+    "v": 7.634
+   },
+   {
+    "c": "QAT",
+    "v": 5.359
+   },
+   {
+    "c": "SAU",
+    "v": 4.523
+   },
+   {
+    "c": "EGY",
+    "v": 4.035
+   },
+   {
+    "c": "DZA",
+    "v": 2.831
+   },
+   {
+    "c": "NGA",
+    "v": 2.688
+   },
+   {
+    "c": "MYS",
+    "v": 2.08
+   },
+   {
+    "c": "ARE",
+    "v": 1.974
+   },
+   {
+    "c": "IDN",
+    "v": 1.55
+   },
+   {
+    "c": "DEU",
+    "v": 1.548
+   },
+   {
+    "c": "NLD",
+    "v": 1.201
+   }
+  ],
+  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 56.171,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 8.299
+   },
+   {
+    "c": "IND",
+    "v": 6.445
+   },
+   {
+    "c": "USA",
+    "v": 5.14
+   },
+   {
+    "c": "AUS",
+    "v": 3.854
+   },
+   {
+    "c": "THA",
+    "v": 2.634
+   },
+   {
+    "c": "TUR",
+    "v": 2.597
+   },
+   {
+    "c": "FRA",
+    "v": 1.681
+   },
+   {
+    "c": "MEX",
+    "v": 1.535
+   },
+   {
+    "c": "POL",
+    "v": 1.303
+   },
+   {
+    "c": "CAN",
+    "v": 1.302
+   },
+   {
+    "c": "ARG",
+    "v": 1.084
+   },
+   {
+    "c": "ITA",
+    "v": 0.9771
+   }
+  ],
+  "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+ },
+ "flows": [
+  {
+   "o": "OMN",
+   "d": "IND",
+   "v": 2.576,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:OMN-IND"
+  },
+  {
+   "o": "OMN",
+   "d": "BRA",
+   "v": 1.607,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "NGA",
+   "d": "BRA",
+   "v": 1.586,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "RUS",
+   "d": "BRA",
+   "v": 1.506,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:RUS-BRA"
+  },
+  {
+   "o": "OMN",
+   "d": "TUR",
+   "v": 1.491,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "RUS",
+   "d": "USA",
+   "v": 1.286,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:RUS-USA"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 1.232,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "QAT",
+   "d": "BRA",
+   "v": 1.184,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:QAT-BRA"
+  },
+  {
+   "o": "SAU",
+   "d": "THA",
+   "v": 1.15,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:SAU-THA"
+  },
+  {
+   "o": "QAT",
+   "d": "USA",
+   "v": 1.035,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:QAT-USA"
+  },
+  {
+   "o": "QAT",
+   "d": "IND",
+   "v": 0.9557,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:QAT-IND"
+  },
+  {
+   "o": "ARE",
+   "d": "AUS",
+   "v": 0.78,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  },
+  {
+   "o": "EGY",
+   "d": "TUR",
+   "v": 0.7265,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:EGY-TUR"
+  },
+  {
+   "o": "RUS",
+   "d": "MEX",
+   "v": 0.6656,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:RUS-MEX"
+  },
+  {
+   "o": "RUS",
+   "d": "POL",
+   "v": 0.6332,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 0.615,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "SAU",
+   "d": "AUS",
+   "v": 0.5981,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:SAU-AUS"
+  },
+  {
+   "o": "QAT",
+   "d": "AUS",
+   "v": 0.5953,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "urea:QAT-AUS"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 0.585,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "land"
+  },
+  {
+   "o": "IDN",
+   "d": "AUS",
+   "v": 0.5832,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea"
+  }
+ ],
+ "notes": [
+  "Production proxy is ammonia plant output in nitrogen content (USGS); urea output is not in the loaded sources. Trade is urea (HS 310210), product weight."
+ ]
+}
