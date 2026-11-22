@@ -6,7 +6,7 @@ import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/d
 import { fmt, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
 
-export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string }) {
+export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
   return (
     <button
       class="toggle-row"
@@ -15,7 +15,10 @@ export function Switch(props: { label: string; checked: boolean; onChange: (v: b
       onClick={() => props.onChange(!props.checked)}
       title={props.hint}
     >
-      <span>{props.label}</span>
+      <span class="toggle-text">
+        <span>{props.label}</span>
+        {props.desc && <small class="toggle-desc">{props.desc}</small>}
+      </span>
       <span class="switch" aria-hidden="true" />
     </button>
   );

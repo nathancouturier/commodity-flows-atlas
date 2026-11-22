@@ -56,11 +56,27 @@ export function SidePanel() {
       <SheetHead summary={current?.name} />
       <div class="panel-scroll">
         <Section title="Map layers">
-          <Switch label="Physical flows" checked={layers.value.flows} onChange={(v) => toggleLayer('flows', v)} />
-          <Switch label="Freight routes" checked={layers.value.routes} onChange={(v) => toggleLayer('routes', v)} />
-          <Switch label="Chokepoints" checked={layers.value.chokepoints} onChange={(v) => toggleLayer('chokepoints', v)} />
+          <Switch
+            label="Physical flows"
+            desc="What is traded: country-to-country volumes (customs data); width = tonnage"
+            checked={layers.value.flows}
+            onChange={(v) => toggleLayer('flows', v)}
+          />
+          <Switch
+            label="Freight routes"
+            desc="How it ships: Baltic benchmark and main routes, by vessel class"
+            checked={layers.value.routes}
+            onChange={(v) => toggleLayer('routes', v)}
+          />
+          <Switch
+            label="Chokepoints"
+            desc="Straits and canals, with current traffic"
+            checked={layers.value.chokepoints}
+            onChange={(v) => toggleLayer('chokepoints', v)}
+          />
           <Switch
             label="Infrastructure"
+            desc="Mines, fields, refineries, LNG terminals, pipelines, ports"
             checked={layers.value.infrastructure}
             onChange={(v) => toggleLayer('infrastructure', v)}
           />
