@@ -59,6 +59,7 @@ committed by `github-actions[bot]` and pushed to `main` (with retry), and the si
 
 **Status and alerting.** `data/_status/updates.json` records, per source, the last attempt and success,
 consecutive failures, the last error, the record count and the latest date covered (`data_to`);
+yearly sources checked monthly (CEPII BACI, FAOSTAT/WNA) alert after 6 failed runs instead of 3;
 `data/_status/log.jsonl` keeps the last 500 runs. When a source has failed 3 runs in a row, the workflow opens
 (or updates) one issue titled `Data update failing: <source>` with the label `data-update`, and closes it
 when the source succeeds again. Issues must be enabled for the repository.

@@ -28,6 +28,9 @@ UPDATES = os.path.join(DIR, "updates.json")
 LOG = os.path.join(DIR, "log.jsonl")
 LOG_KEEP = 500
 ALERT_AFTER = 3
+# Sources updated once a year but checked every month alert later: a blocked check page for a few
+# months is not a data problem (e.g. the CEPII site sometimes refuses cloud runners).
+ALERT_AFTER_SOURCE = {"baci": 6, "faostat-wna": 6}
 
 
 def _now():
@@ -101,7 +104,7 @@ def record_failure(source, error):
     entry = dict(old)
     entry.update({
         "last_attempt": _now(), "consecutive_failures": int(old.get("consecutive_failures") or 0) + 1,
-        "last_error": msg,
+        "last_error": msg, "alert_after": ALERT_AFTER_SOURCE.get(source, ALERT_AFTER),
     })
     entry.setdefault("last_success", None)
     entry.setdefault("records", None)
@@ -111,8 +114,14 @@ def record_failure(source, error):
     return entry
 
 
-def failing(threshold=ALERT_AFTER):
-    return {k: v for k, v in load()["sources"].items() if int(v.get("consecutive_failures") or 0) >= threshold}
+def failing(threshold=None):
+    """Sources at or above their alert threshold (per-source, default ALERT_AFTER)."""
+    out = {}
+    for k, v in load()["sources"].items():
+        limit = threshold or int(v.get("alert_after") or ALERT_AFTER_SOURCE.get(k, ALERT_AFTER))
+        if int(v.get("consecutive_failures") or 0) >= limit:
+            out[k] = v
+    return out
 
 
 if __name__ == "__main__":

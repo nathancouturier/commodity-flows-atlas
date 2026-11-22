@@ -91,7 +91,8 @@ runs:
               const title = `Data update failing: ${source}`;
               const existing = open.find((i) => i.title === title && !i.pull_request);
               const n = Number(s.consecutive_failures || 0);
-              if (n >= 3) {
+              const limit = Number(s.alert_after || 3); // yearly sources checked monthly alert after 6
+              if (n >= limit) {
                 const body = [
                   `The data source \`${source}\` has failed **${n} runs in a row**. The site keeps serving the last good data.`,
                   '',
