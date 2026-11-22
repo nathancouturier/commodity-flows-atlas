@@ -157,6 +157,82 @@ class CleanTests(unittest.TestCase):
         # defaults of the owner's decisions
         self.assertEqual(C.LPG_DEDUP, "drop")
 
+    # ---- fixes after the review of group GE1 (package FE1)
+    def test_GE1_1_a_repair_never_inflates_a_group(self):
+        for mode in ("flag", "estimate"):
+            df = frame(bulk_repair=mode)
+            rep = df[df.t0 > 0]  # rows with a reported tonnage; a group-year of missing tonnage only has no base
+            g = rep.groupby(["group", "year"]).agg(t=("t", "sum"), t0=("t0", "sum"))
+            bad = g[g.t > 3 * g.t0 + 0.01e6]  # 10 kt of slack: diamonds 2003, 1 kt reported, rule 3 unchanged
+            self.assertTrue(bad.empty, (mode, bad.head().to_dict()))
+        df = frame()
+        m = df[(df.group == "manganese") & (df.year == 2002)]
+        bad = row(df, "manganese", "IND", "CHE", 2002)  # 23 Mt declared for USD 0.97 million
+        self.assertIn("est-gross", bad.flag)
+        others = m[m.index != bad.name]
+        self.assertAlmostEqual(others.t.sum() / 1e6, others.t0.sum() / 1e6, delta=0.05)
+        self.assertTrue(8 <= m.t.sum() / 1e6 <= 10, m.t.sum() / 1e6)
+        self.assertEqual(int(m.imputed.sum()), 1)
+        self.assertGreater(1000 * m.uv.iloc[0], 20)  # USD/t: not set by the bad row (0.04 USD/t)
+
+    def test_GE1_3_repairs_move_towards_the_neighbours(self):
+        df = frame()
+        latest = int(df.year.max())
+        t0 = df.set_index(["group", "o", "d", "year"]).t0
+        rep = df[df.flag == "uv-repair"]
+        self.assertTrue(len(rep) >= 20, len(rep))
+        for r in rep.itertuples():
+            yb = r.year + 1 if r.year < latest else r.year - 2
+            nb = [t0[(r.group, r.o, r.d, y)] for y in (r.year - 1, yb)]
+            lo, hi = min(nb), max(nb)
+            if r.t0 < lo:
+                self.assertTrue(r.t0 < r.t <= 2 * hi, (r.group, r.o, r.d, r.year))
+            else:
+                self.assertTrue(hi < r.t0 and 0.5 * lo <= r.t < r.t0, (r.group, r.o, r.d, r.year))
+        # the value is the odd figure (VEN-USA), or the neighbours are no sound base (AUS-OMN): flagged only
+        for g, o, d, y, v in (("iron-ore", "VEN", "USA", 2008, 0.33), ("alumina", "AUS", "OMN", 2014, 0.09)):
+            r = row(df, g, o, d, y)
+            self.assertEqual(r.flag, "uv-suspect", (g, o, d))
+            self.assertFalse(r.imputed)
+            self.assertAlmostEqual(r.t / 1e6, v, delta=0.01)
+
+    def test_GE1_4_note_states_the_quantities_used(self):
+        import re
+        df = frame()
+        rep = df[df.flag == "uv-repair"]
+        for r in rep.itertuples():
+            nums = [float(x.replace(",", "")) for x in re.findall(r"([\d,.]+) USD/t", r.enote)]
+            uve, median = nums[2], nums[3]  # reported, second neighbour, the unit value used, the group median
+            self.assertAlmostEqual(uve, r.uve, delta=max(0.006 * r.uve, 0.01), msg=r.enote)
+            self.assertAlmostEqual(median, 1000 * r.uv, delta=max(0.006 * 1000 * r.uv, 0.01), msg=r.enote)
+            ratio = float(re.search(r"\(([\d.]+) on average in", r.enote).group(1))
+            self.assertAlmostEqual(ratio * 1000 * r.uv, r.uve, delta=0.002 * r.uve, msg=r.enote)
+        r = row(df, "alumina", "KAZ", "RUS", 2003)
+        self.assertIn("divided by 150 USD/t, the 2003 tonne-weighted median unit value of alumina (188 USD/t)", r.enote)
+
+    def test_GE1_10_empty_frame_and_dropped_rows(self):
+        e = C.clean(raw().head(0))
+        self.assertEqual(len(e), 0)
+        for c in ("t", "t0", "imputed", "flag", "enote"):
+            self.assertIn(c, e.columns)
+        full = C.clean(raw()[raw().group == "lpg"])
+        C.clean(raw()[raw().group == "wheat"])  # a later call on other rows
+        self.assertEqual(len(full.attrs["dropped"]), 31)
+        self.assertEqual(C.LAST_DROPPED, [])
+        early = raw()[raw().year <= 2005]
+        c = C.clean(early)
+        caveats.build(c, checks.run(c, 2005), 2005, psd=None)  # the Mexican entry starts later: no IndexError
+
+    def test_GE1_11_no_value_is_not_estimated_to_zero(self):
+        df = frame()
+        nv = df[df.flag.str.contains("no-value")]
+        self.assertGreaterEqual(len(nv), 3)
+        self.assertFalse(nv.imputed.any())
+        self.assertTrue((nv.t == nv.t0).all() and (nv.t > 0).all())
+        self.assertFalse(((df.t <= 0) & df.imputed & (df.t0 > 0)).any())
+        r = row(df, "corn", "NGA", "CHN", 2012)
+        self.assertEqual((r.t, r.flag), (4296.0, "no-value"))
+
 
 class HistoryTests(unittest.TestCase):
     def test_value_moved_with_tonnage_is_kept(self):
@@ -254,6 +330,38 @@ class CheckTests(unittest.TestCase):
         merged = checks.merge(prev, out, ran)
         self.assertIn({"check": "K1", "text": "old"}, merged)
         self.assertNotIn({"check": "K8", "text": "old"}, merged)
+
+    def test_GE1_5_run_never_raises(self):
+        import json
+        import numpy as np
+        small = frame()[frame().year >= 2020]
+        layouts = {"psd": {"usda/psd_csv/psd_alldata.csv": "a,b\n1,2\n"},
+                   "mcs": {"usgs/MCS2026_Commodities_Data.csv": "x\n"},
+                   "intl": {"eia/INTL.txt": 'hello\n{"series_id": "INTL.1-2-USA-X.A", "data": []}\n'}}
+        for name, files in layouts.items():
+            with tempfile.TemporaryDirectory() as d:
+                for rel, text in files.items():
+                    os.makedirs(os.path.dirname(os.path.join(d, rel)), exist_ok=True)
+                    with open(os.path.join(d, rel), "w") as f:
+                        f.write(text)
+                ran = set()
+                out = checks.run(small, np.int64(2024), raw=d, ran=ran)
+                self.assertFalse(ran & checks.RAW_CHECKS, name)  # a file it could not use: not run
+                self.assertTrue({"K6", "K7", "K8"} <= ran, name)
+                path = os.path.join(d, "trade_checks.json")
+                checks.save(out, ran, np.int64(2024), path=path)
+                with open(path, encoding="utf-8") as f:
+                    self.assertEqual(json.load(f)["year"], 2024)
+        # the readers resolve raw/ when called, so that patching checks.RAW hides it
+        saved = checks.RAW
+        with tempfile.TemporaryDirectory() as d:
+            checks.RAW = d
+            try:
+                self.assertIsNone(checks.psd_table())
+                self.assertIsNone(checks.eia_series([("57-1", "MT")]))
+                self.assertIsNone(checks.usgs_table())
+            finally:
+                checks.RAW = saved
 
     def test_K7_taiwan_after_G1(self):
         self.assertFalse([r for r in self.of("K7") if r["group"] == "crude-oil" and r["country"] == "TWN"])

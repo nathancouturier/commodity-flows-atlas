@@ -5,6 +5,7 @@
 "AIA",
 "ALA",
 "ALB",
+"ANT",
 "ARE",
 "ARG",
 "ASM",
@@ -26,6 +27,7 @@
 "BRB",
 "BRN",
 "CAN",
+"CCK",
 "CHL",
 "CHN",
 "CIV",
@@ -126,6 +128,7 @@
 "MSR",
 "MUS",
 "MYS",
+"MYT",
 "NAM",
 "NCL",
 "NFK",
@@ -154,6 +157,7 @@
 "ROU",
 "RUS",
 "SAU",
+"SCG",
 "SDN",
 "SEN",
 "SGP",
@@ -217,7 +221,8 @@
 "GRC",
 "KOS",
 "MKD",
-"MNE"
+"MNE",
+"SCG"
 ],
 "AND": [
 "ESP",
@@ -290,12 +295,14 @@
 "GRC",
 "MKD",
 "ROU",
+"SCG",
 "SRB",
 "TUR"
 ],
 "BIH": [
 "HRV",
 "MNE",
+"SCG",
 "SRB"
 ],
 "BLR": [
@@ -588,6 +595,7 @@
 "BIH",
 "HUN",
 "MNE",
+"SCG",
 "SRB",
 "SVN"
 ],
@@ -598,6 +606,7 @@
 "AUT",
 "HRV",
 "ROU",
+"SCG",
 "SRB",
 "SVK",
 "SVN",
@@ -696,6 +705,7 @@
 "ALB",
 "MKD",
 "MNE",
+"SCG",
 "SRB"
 ],
 "KWT": [
@@ -777,6 +787,7 @@
 "BGR",
 "GRC",
 "KOS",
+"SCG",
 "SRB"
 ],
 "MLI": [
@@ -928,6 +939,7 @@
 "BGR",
 "HUN",
 "MDA",
+"SCG",
 "SRB",
 "UKR"
 ],
@@ -961,6 +973,16 @@
 "OMN",
 "QAT",
 "YEM"
+],
+"SCG": [
+"ALB",
+"BGR",
+"BIH",
+"HRV",
+"HUN",
+"KOS",
+"MKD",
+"ROU"
 ],
 "SDN": [
 "CAF",
@@ -1228,6 +1250,42 @@
 "coastal": true,
 "port": null,
 "note": "New Zealand territory of three atolls; no polygon in the base map and no port in the searoute list (TKMRW there is Turkmenbashy, not Tokelau)."
+},
+{
+"c": "ANT",
+"a2": "AN",
+"name": "Netherlands Antilles",
+"coastal": true,
+"port": "ANWIL",
+"note": "Former Dutch Caribbean country (Curacao, Bonaire, Sint Maarten, Saba, Sint Eustatius); BACI reports it to 2010. No polygon in the base map. ANWIL (Willemstad, Curacao) is in the searoute list."
+},
+{
+"c": "SCG",
+"a2": "CS",
+"name": "Serbia and Montenegro",
+"coastal": true,
+"port": "CSBAR",
+"parts": [
+"SRB",
+"MNE"
+],
+"note": "Former state of Serbia and Montenegro; BACI reports it to 2005. No polygon of its own: its land borders are those of Serbia and Montenegro, and its coast is Montenegro's. CSBAR (Bar) is in the searoute list."
+},
+{
+"c": "MYT",
+"a2": "YT",
+"name": "Mayotte",
+"coastal": true,
+"port": "YTLON",
+"note": "French island territory in the Indian Ocean; no polygon in the base map. YTLON (Longoni) is in the searoute list."
+},
+{
+"c": "CCK",
+"a2": "CC",
+"name": "Cocos (Keeling) Islands",
+"coastal": true,
+"port": null,
+"note": "Australian island territory; no polygon in the base map and no port in the searoute list."
 },
 {
 "c": "XAS",

@@ -59,6 +59,12 @@ for o in OVERSEAS_BORDERS:
 # BACI codes with no polygon in the base map (and so none in data/countries/index.json)
 extra = json.load(open("pipeline/geo/places_extra.json"))
 coastal |= {p["c"] for p in extra if p["coastal"]}
+# a former state made of countries of the map (Serbia and Montenegro) borders what its parts border
+for p in extra:
+    parts = set(p.get("parts", []))
+    for c in set().union(*(neigh[x] for x in parts)) - parts if parts else ():
+        neigh[p["c"]].add(c)
+        neigh[c].add(p["c"])
 
 index = {c["c"]: c for c in json.load(open("data/countries/index.json"))}
 

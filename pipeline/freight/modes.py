@@ -10,12 +10,12 @@ The rules apply in this order and the first that matches wins (PLAN.md 2.1):
   3. LNG              product rule: sea between coastal countries, but pipeline gas declared as LNG stays land
   4. MIXED            ordered country pairs whose cargo family moves both by sea and overland
   5. land neighbours  mainland border: land, unless the pair is in SEA_NEIGHBOURS for the cargo family
-  6. two landlocked   land, unless the exporter is in SEA_OUTLET for the group and the two share no overland bloc:
-                      transit (Kazakh crude to Austria leaves by the CPC pipeline and sails to Trieste)
-  7. one landlocked   transit when the two countries share no overland bloc, else land
-  8. default          sea
-A landlocked exporter in SEA_OUTLET thus ships by sea through a foreign port whatever the destination, unless the two
-countries are neighbours or share an overland bloc.
+  6. sea outlet       a landlocked exporter in SEA_OUTLET for the group: transit, to a coastal or a landlocked buyer
+                      (Kazakh crude to Austria leaves by the CPC pipeline and sails), unless the buyer is landlocked and
+                      in one of its overland blocs (land)
+  7. two landlocked   land
+  8. one landlocked   transit when the two countries share no overland bloc (BLOCS), else land
+  9. default          sea
 
 Every list entry (SEA_NEIGHBOURS, LAND_NOTES, MIXED, SEA_OUTLET, BLOCS, FLOW_OVERRIDES) is an Atlas assumption: it
 carries a reason and, where a page was read, its URL (Wikipedia, read on 22 November 2026), returned as Mode.url. An
@@ -120,7 +120,6 @@ _SEA_PAIRS = [
     (("ARG", "URY"), ALL, "The border is the River Plate and the Uruguay river; trade runs between river and Atlantic ports"),
     (("BRA", "URY"), ALL, "Bulk trade runs between Atlantic and River Plate ports"),
     (("CHN", "VNM"), ALL, "Mountain and jungle border; the bulk trade sails between south China and Vietnamese ports"),
-    (("IND", "BGD"), ALL, "Bulk trade runs between the ports of the Bay of Bengal"),
     (("SAU", "ARE"), ALL, "Desert border with few crossings; trade sails across the Gulf and from Red Sea ports"),
     (("SAU", "KWT"), ALL, "Gulf ports carry the bulk trade"),
     (("NOR", "SWE"), ALL, "Bulk trade runs between coastal terminals"),
@@ -144,7 +143,7 @@ _SEA_PAIRS = [
     (("BRA", "GUY"), ALL, "Jungle border; Guyanese crude is loaded offshore and sails"),
     (("BRA", "SUR"), ALL, "Jungle border; trade runs between ports"),
     (("MYS", "BRN"), ALL, "Brunei crude and products sail from its coast terminals"),
-    (("ECU", "PER"), ALL, "Ecuadorian crude sails from Esmeraldas to Peruvian Pacific ports"),
+    (("ECU", "PER"), {"crude"}, "Ecuadorian crude sails from Esmeraldas to Peruvian Pacific ports; other cargo is overland"),
     (("GBR", "IRL"), ALL, "The only land border is in Northern Ireland; trade crosses the Irish Sea"),
     (("MRT", "DZA"), ALL, "Desert border; Mauritanian iron ore sails from Nouadhibou"),
     (("CHN", "HKG"), ALL, "Hong Kong is a port; trade with mainland China moves by sea and river"),
@@ -157,12 +156,25 @@ SEA_NEIGHBOURS = {
     _pair(*e[0]): Entry(ALL if e[1] == ALL else frozenset(e[1]), e[2], e[3] if len(e) > 3 else None) for e in _SEA_PAIRS
 }
 
-# Pairs that were "sea" in the previous list and are now land, with the reason (returned as the Mode note).
+# Land neighbours whose overland route has a note (returned as the Mode note): pairs that were "sea" in the previous
+# list (audit entries C-004, SOFT-05, MET-02), and pairs whose trade is partly or newly overland.
 LAND_NOTES = {
-    _pair("NLD", "BEL"): Entry(ALL, "Rotterdam-Antwerp pipeline (RAPL) and Scheldt barges (audit entry C-004; page not read)"),
-    _pair("NLD", "DEU"): Entry(ALL, "Rhine barges and the RRP and RMR pipelines (audit entry C-004; page not read)"),
-    _pair("FRA", "BEL"): Entry(ALL, "Barge, rail and road over about 200 km (audit entry SOFT-05; page not read)"),
-    _pair("DEU", "POL"): Entry(ALL, "Rail, road and Oder barges (audit entry MET-02; page not read)"),
+    _pair("NLD", "BEL"): Entry(ALL, "Rotterdam-Antwerp pipeline (RAPL) and Scheldt barges"),
+    _pair("NLD", "DEU"): Entry(ALL, "Rhine barges and the RRP and RMR pipelines"),
+    _pair("FRA", "BEL"): Entry(ALL, "Barge, rail and road across a short land border"),
+    _pair("DEU", "POL"): Entry(ALL, "Rail, road and Oder barges"),
+    _pair("CAN", "USA"): Entry(
+        frozenset({"crude", "products"}),
+        "Pipelines and rail across the border; the Trans Mountain pipeline also feeds tankers at its Westridge terminal "
+        "(atlas pipeline layer), so part of the trade may sail, in a share not known",
+        "https://en.wikipedia.org/wiki/Trans_Mountain_pipeline",
+    ),
+    _pair("IND", "BGD"): Entry(
+        frozenset({"products"}),
+        "Diesel from the Numaligarh refinery crosses by the India-Bangladesh Friendship Pipeline to the Parbatipur depot "
+        "(inaugurated in March 2023)",
+        "https://en.wikipedia.org/wiki/India%E2%80%93Bangladesh_Friendship_Pipeline",
+    ),
 }
 
 # ------------------------------------------------------------------ 4. mixed pairs
@@ -173,7 +185,7 @@ _MIXED = [
      "https://en.wikipedia.org/wiki/Eastern_Siberia%E2%80%93Pacific_Ocean_oil_pipeline"),
     (("CHN", "RUS"), {"drybulk", "metal"}, "Rail and road across the border, and sea from Chinese ports to Russian Far East ports; the split is not known", None),
     (("USA", "MEX"), {"products", "lpg", "grain", "vegoil", "fert"},
-     "Rail, truck and pipeline across the border, and Gulf ports; the split is not known (the audit cites USDA AMS for grain, not read here)", None),
+     "Rail, truck and pipeline across the border, and Gulf ports; the split is not known", None),
     (("MEX", "USA"), {"products", "lpg"}, "Pipeline, rail and truck across the border, and Gulf and Pacific ports; the split is not known", None),
     (("ESP", "FRA"), {"grain"}, "Road and rail through the Pyrenees, and sea from Spanish to French ports; the split is not known", None),
     (("FRA", "ESP"), {"grain"}, "Road and rail through the Pyrenees, and sea from French to Spanish ports; the split is not known", None),
@@ -181,30 +193,58 @@ _MIXED = [
 MIXED = {e[0]: Entry(frozenset(e[1]), e[2], e[3]) for e in _MIXED}
 
 # ------------------------------------------------------------------ 7. landlocked ends
-# landlocked country -> groups that leave by sea even though the buyer is in the same overland bloc
+# landlocked exporter -> groups that it ships by sea through a foreign port, also to a coastal buyer of its own bloc and to
+# a landlocked buyer outside its blocs; neighbours (rule 5) and landlocked buyers of its blocs stay land (rule 6)
 SEA_OUTLET = {
-    "KAZ": Entry(frozenset({"crude-oil"}), "Kazakh crude leaves through the CPC pipeline to Novorossiysk (not read here)"),
-    "AZE": Entry(frozenset({"crude-oil"}), "Azerbaijani crude leaves through the BTC pipeline to Ceyhan (not read here)"),
-    "ZMB": Entry(frozenset({"copper-ore", "copper-refined"}), "Zambian copper leaves through Dar es Salaam or Durban (not read here)"),
-    "BLR": Entry(frozenset({"potash"}), "Belarusian potash leaves through Baltic ports (not read here)"),
-    "PRY": Entry(frozenset({"soybeans", "soymeal", "soyoil", "corn"}), "Paraguayan grain leaves on the Parana waterway to river ports (not read here)"),
+    "KAZ": Entry(frozenset({"crude-oil"}), "Kazakh crude leaves by the CPC pipeline to the Novorossiysk marine terminal, where tankers load",
+                 "https://en.wikipedia.org/wiki/Caspian_Pipeline_Consortium"),
+    "AZE": Entry(frozenset({"crude-oil"}), "Azerbaijani crude leaves by the BTC pipeline to the Ceyhan marine terminal, where tankers load",
+                 "https://en.wikipedia.org/wiki/Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline"),
+    "ZMB": Entry(frozenset({"copper-ore", "copper-refined"}), "The TAZARA railway carries Zambian copper for export to the port of Dar es Salaam",
+                 "https://en.wikipedia.org/wiki/TAZARA_Railway"),
+    "BLR": Entry(frozenset({"potash"}),
+                 "Belarusian potash for buyers beyond its neighbours is shipped from foreign seaports; which ones has changed "
+                 "with the sanctions on Belaruskali since 2021", "https://en.wikipedia.org/wiki/Belaruskali"),
+    "PRY": Entry(frozenset({"soybeans", "soymeal", "soyoil", "corn"}),
+                 "Soy and its products are the main cargo of the Parana-Paraguay waterway, which ends at Nueva Palmira in "
+                 "Uruguay (corn: assumed to take the same waterway)",
+                 "https://en.wikipedia.org/wiki/Paran%C3%A1%E2%80%93Paraguay_Waterway"),
 }
 
-# overland blocs: two countries in the same bloc trade overland by default (an Atlas assumption: a landlocked country
-# trades with its own region over land, and ships to other regions through a port)
-_BLOCS = {
-    "europe-cis": "AUT CHE CZE SVK HUN LUX SRB MKD MDA BLR AND SMR KAZ UZB TKM KGZ TJK ARM AZE DEU FRA ITA POL NLD BEL ESP PRT GBR IRL DNK SWE NOR FIN EST LVA LTU UKR ROU BGR GRC HRV SVN BIH MNE ALB XKS KOS RUS TUR GEO LIE",
-    "s-africa": "ZMB ZWE BWA MWI SWZ LSO ZAF MOZ NAM AGO COD TZA",
-    "e-africa": "UGA RWA BDI SSD ETH KEN TZA DJI SDN COD ERI SOM",
-    "w-africa": "MLI BFA NER TCD CAF SEN CIV GHA TGO BEN NGA CMR GIN DZA LBY MRT",
-    "s-america": "BOL PRY BRA ARG CHL PER URY",
-    "s-asia": "AFG NPL BTN IND PAK IRN CHN",
-    "se-asia": "LAO THA VNM KHM MMR CHN",
-    "ne-asia": "MNG CHN RUS",
+# Overland blocs: two countries in the same bloc trade overland by default, and a landlocked country ships to the
+# countries outside its blocs through a foreign port. Every bloc is an Atlas assumption about regional land routes.
+Bloc = namedtuple("Bloc", "members reason url", defaults=(None,))
+BLOCS = {
+    "europe": Bloc(
+        "AUT CHE CZE SVK HUN LUX SRB MKD MDA BLR AND SMR DEU FRA ITA POL NLD BEL ESP PRT GBR IRL DNK SWE NOR FIN EST LVA "
+        "LTU UKR ROU BGR GRC HRV SVN BIH MNE ALB XKS KOS RUS TUR LIE SCG",
+        "Europe with Russia, Belarus, Ukraine, Moldova and Turkey: one continuous road, rail, river and pipeline network",
+    ),
+    "1520-gauge": Bloc(
+        "RUS BLR UKR MDA GEO ARM AZE KAZ UZB TKM KGZ TJK EST LVA LTU FIN MNG POL",
+        "The broad-gauge rail network of the former Soviet Union, Finland and Mongolia, and the Polish border crossings "
+        "where it meets the standard gauge (Poland: Atlas assumption); Central Asia reaches the rest of Europe through "
+        "foreign ports",
+        "https://en.wikipedia.org/wiki/Russian_gauge",
+    ),
+    "s-africa": Bloc("ZMB ZWE BWA MWI SWZ LSO ZAF MOZ NAM AGO COD TZA",
+                     "Southern Africa: road and rail corridors from the Copperbelt and Zimbabwe to South African, Mozambican, "
+                     "Namibian, Angolan and Tanzanian ports"),
+    "e-africa": Bloc("UGA RWA BDI SSD ETH KEN TZA DJI SDN COD ERI SOM",
+                     "East Africa: road and rail corridors from the Great Lakes, South Sudan and Ethiopia to Mombasa, Dar es "
+                     "Salaam and Djibouti"),
+    "w-africa": Bloc("MLI BFA NER TCD CAF SEN CIV GHA TGO BEN NGA CMR GIN DZA LBY MRT",
+                     "West Africa and the Sahel: road corridors from the Gulf of Guinea and Senegal to the landlocked Sahel, "
+                     "and trans-Saharan roads from Algeria and Libya"),
+    "s-america": Bloc("BOL PRY BRA ARG CHL PER URY",
+                      "South America: roads, railways and the Parana-Paraguay waterway between Bolivia, Paraguay and their neighbours"),
+    "s-asia": Bloc("AFG NPL BTN IND PAK IRN CHN", "South Asia: roads and railways from Afghanistan, Nepal and Bhutan to their neighbours"),
+    "se-asia": Bloc("LAO THA VNM KHM MMR CHN", "Mainland Southeast Asia: roads and railways from Laos to its neighbours"),
+    "ne-asia": Bloc("MNG CHN RUS", "Mongolia: road and rail links to China and Russia only"),
 }
 BLOC = {}
-for _b, _cs in _BLOCS.items():
-    for _c in _cs.split():
+for _b, _e in BLOCS.items():
+    for _c in _e.members.split():
         BLOC.setdefault(_c, set()).add(_b)
 
 
@@ -216,13 +256,14 @@ def _in(entry, family):
     return entry.families == ALL or family in entry.families
 
 
-def mode_of(o, d, group):
+def mode_of(o, d, group, year=None):
+    """year (optional): LNG terminals of the layer count only from their opening year."""
     fam = FAMILY.get(group)
     if fam is None:
         return None
     ov = FLOW_OVERRIDES.get((group, o, d))
     if ov:
-        return Mode(ov.kind, "flow", ov.reason)
+        return Mode(ov.kind, "flow", ov.reason, ov.url)
     if o in PSEUDO or d in PSEUDO:
         return Mode("sea", "default", "country not specified in customs data: seaborne by assumption, not routed")
     pair = _pair(o, d)
@@ -231,28 +272,32 @@ def mode_of(o, d, group):
     if fam == "lng":
         if lo or ld:
             return Mode("land", "landlocked")
-        if neighbours and o not in LNG_EXPORTERS:
+        if neighbours and not lng_exporter(o, year):
             return Mode("land", "product", "no liquefaction terminal in the atlas layer: probably pipeline gas declared as LNG")
         return Mode("sea", "product")
     m = MIXED.get((o, d))
     if m and fam in m.families:
-        return Mode("mixed", "pair", m.reason)
+        return Mode("mixed", "pair", m.reason, m.url)
     if neighbours:
         if lo or ld:
             return Mode("land", "landlocked")
         sn = SEA_NEIGHBOURS.get(pair)
         if sn and _in(sn, fam):
-            return Mode("sea", "pair", sn.reason)
+            return Mode("sea", "pair", sn.reason, sn.url)
         ln = LAND_NOTES.get(pair)
-        return Mode("land", "default", ln.reason if ln and _in(ln, fam) else "shares a mainland border")
-    if lo and ld:
-        return Mode("land", "landlocked")
+        if ln and _in(ln, fam):
+            return Mode("land", "default", ln.reason, ln.url)
+        return Mode("land", "default", "shares a mainland border")
     if lo or ld:
-        for c, is_land in ((o, lo), (d, ld)):
-            so = SEA_OUTLET.get(c)
-            if is_land and so and group in so.families:
-                return Mode("transit", "pair", so.reason)
-        if BLOC.get(o, set()) & BLOC.get(d, set()):
-            return Mode("land", "bloc")
+        common = sorted(BLOC.get(o, set()) & BLOC.get(d, set()))
+        so = SEA_OUTLET.get(o) if lo else None
+        # a landlocked exporter with a sea outlet ships by sea, except to a landlocked buyer of its own bloc
+        if so and group in so.families and not (ld and common):
+            return Mode("transit", "pair", so.reason, so.url)
+        if common:
+            b = BLOCS[common[0]]
+            return Mode("land", "landlocked" if lo and ld else "bloc", b.reason, b.url)
+        if lo and ld:
+            return Mode("land", "landlocked")
         return Mode("transit", "bloc", "sea through a foreign port: no overland bloc in common")
     return Mode("sea", "default")

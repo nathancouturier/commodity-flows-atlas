@@ -122,7 +122,7 @@ class ModeTests(unittest.TestCase):
         self.assertEqual(kind("ITA", "GIB", "refined-products"), "sea")
         self.assertMt("refined-products", "ITA", "GIB", 3.838, 0.01)
         places = load_json("data", "countries", "places.json")
-        self.assertEqual({p["c"] for p in places}, {"GIB", "BES", "CXR", "TKL", "XAS"})
+        self.assertEqual({p["c"] for p in places}, {"GIB", "BES", "CXR", "TKL", "ANT", "SCG", "MYT", "CCK", "XAS"})
         for p in places:
             self.assertTrue(p["name"])
         index = load_json("data", "countries", "index.json")
@@ -180,12 +180,97 @@ class ModeTests(unittest.TestCase):
             self.assertIsNotNone(modes.family_of(g), g)
 
     def test_M14_every_list_entry_has_a_reason(self):
-        for name in ("SEA_NEIGHBOURS", "MIXED", "FLOW_OVERRIDES", "OVERSEAS_BORDERS"):
+        for name in ("SEA_NEIGHBOURS", "MIXED", "FLOW_OVERRIDES", "OVERSEAS_BORDERS", "LAND_NOTES", "SEA_OUTLET", "BLOCS"):
             table = getattr(modes, name)
             self.assertTrue(table, name)
             items = table.items() if isinstance(table, dict) else [(e[0], e) for e in table]
             for key, entry in items:
                 self.assertTrue(entry.reason and entry.reason.strip(), (name, key))
+
+    # ---- fixes after the review of group GE1 (package FE1)
+    def test_GE1_2_sea_outlet_to_landlocked_buyers(self):
+        # Kazakh and Azeri crude to landlocked Europe leaves by CPC or BTC and sails
+        for o, d in (("KAZ", "AUT"), ("AZE", "CZE"), ("KAZ", "CZE"), ("KAZ", "SRB"), ("AZE", "SVK"), ("KAZ", "CHE")):
+            m = modes.mode_of(o, d, "crude-oil")
+            self.assertEqual((m.kind, m.basis), ("transit", "pair"), (o, d))
+            self.assertTrue(m.url)
+        self.assertAlmostEqual(mt("crude-oil", "KAZ", "AUT"), 4.28, delta=0.01)
+        self.assertEqual(kind("ZMB", "CHE", "copper-refined"), "transit")
+        # neighbours and landlocked buyers of the exporter's own bloc stay land
+        self.assertEqual(kind("KAZ", "CHN", "crude-oil"), "land")
+        self.assertEqual(kind("KAZ", "UZB", "crude-oil"), "land")
+        self.assertEqual(kind("KAZ", "BLR", "crude-oil"), "land")
+        self.assertEqual(kind("KAZ", "AFG", "wheat"), "land")
+        # a coastal buyer of the same bloc still gets the cargo by sea, as before
+        self.assertEqual(kind("KAZ", "ITA", "crude-oil"), "transit")
+        self.assertEqual(kind("KAZ", "POL", "crude-oil"), "transit")
+        # no land pair left whose landlocked exporter has a sea outlet for the group, except neighbours and bloc buyers
+        y = frame()[lambda d: (d.year == 2024) & (d.kind == "land")]
+        for o, d, g in set(zip(y.o, y.d, y.group)):
+            so = modes.SEA_OUTLET.get(o)
+            if so and g in so.families and d not in modes.NEIGHBOURS.get(o, ()):
+                self.assertFalse(modes.coastal(d), (g, o, d))
+                self.assertTrue(modes.BLOC.get(o, set()) & modes.BLOC.get(d, set()), (g, o, d))
+
+    def test_GE1_8_blocs(self):
+        # Central Asia reaches Western Europe through foreign ports, not by a land bloc
+        for g, o, d in (("refined-products", "KAZ", "NLD"), ("coal", "KAZ", "ITA"), ("coal", "KAZ", "DEU"),
+                        ("refined-products", "TKM", "GRC")):
+            self.assertEqual(kind(o, d, g), "transit", (g, o, d))
+        # the broad-gauge rail network stays overland
+        for g, o, d in (("coal", "KAZ", "FIN"), ("coal", "KAZ", "POL"), ("wheat", "KAZ", "UKR")):
+            self.assertEqual(kind(o, d, g), "land", (g, o, d))
+        self.assertNotIn("europe-cis", modes.BLOCS)
+        self.assertFalse({"KAZ", "UZB", "TKM", "KGZ", "TJK", "AZE", "ARM", "GEO"} & set(modes.BLOCS["europe"].members.split()))
+        m = modes.mode_of("KAZ", "FIN", "coal")
+        self.assertEqual(m.basis, "bloc")
+        self.assertTrue(m.note)
+        for name, b in modes.BLOCS.items():
+            for c in b.members.split():
+                self.assertIn(name, modes.BLOC[c])
+
+    def test_GE1_9_sourced_and_removed_entries(self):
+        # an entry whose reason could not be supported was removed: India-Bangladesh is a land border
+        self.assertNotIn(frozenset(("IND", "BGD")), modes.SEA_NEIGHBOURS)
+        m = modes.mode_of("IND", "BGD", "refined-products")
+        self.assertEqual(m.kind, "land")
+        self.assertIn("Friendship Pipeline", m.note)
+        self.assertTrue(m.url)
+        self.assertEqual(kind("ECU", "PER", "crude-oil"), "sea")
+        self.assertEqual(kind("ECU", "PER", "steel"), "land")
+        m = modes.mode_of("CAN", "USA", "crude-oil")
+        self.assertEqual(m.kind, "land")
+        self.assertIn("Westridge", m.note)
+        for name in ("SEA_NEIGHBOURS", "MIXED", "LAND_NOTES", "SEA_OUTLET", "BLOCS", "FLOW_OVERRIDES"):
+            for key, entry in getattr(modes, name).items():
+                self.assertNotIn("not read", entry.reason, (name, key))
+                self.assertTrue(entry.url is None or entry.url.startswith("https://"), (name, key))
+        for e in modes.SEA_OUTLET.values():
+            self.assertTrue(e.url)
+
+    def test_GE1_6_lng_terminal_opening_year(self):
+        self.assertEqual(modes.LNG_OPENED["MOZ"], 2022)
+        self.assertIsNone(modes.LNG_OPENED["QAT"])
+        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng", 2019).kind, "land")
+        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng", 2022).kind, "sea")
+        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng").kind, "sea")  # no year: every terminal of the layer counts
+        self.assertEqual(modes.mode_of("RUS", "CHN", "lng", 2010).kind, "sea")  # terminals without an opening year count
+
+    def test_GE1_7_historical_territories(self):
+        self.assertTrue(modes.coastal("ANT"))
+        self.assertEqual(kind("VEN", "ANT", "crude-oil"), "sea")
+        self.assertEqual(kind("ANT", "USA", "refined-products"), "sea")
+        self.assertIn("SCG", modes.NEIGHBOURS["HUN"])
+        self.assertEqual(kind("SCG", "HUN", "steel"), "land")
+        self.assertEqual(kind("SCG", "AUT", "steel"), "land")
+        self.assertEqual(kind("SCG", "ITA", "steel"), "sea")
+        # every code of the cleaned frame with 1 Mt of flows or more is a country of the index or an extra place
+        known = {c["c"] for c in load_json("data", "countries", "index.json")} | {
+            p["c"] for p in load_json("pipeline", "geo", "places_extra.json")}
+        df = frame()
+        for col in ("o", "d"):
+            t = df[~df[col].isin(known)].groupby(col).t.sum()
+            self.assertFalse(list(t[t >= 1e6].index), col)
 
     # ---- additional checks on the rule itself
     def test_two_landlocked_ends_are_land(self):

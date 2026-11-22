@@ -280,7 +280,8 @@ def south_pacific(pt):
 
 
 def horn_allowed(a, b):
-    """Cape Horn (or Magellan) is a route unless a port is on the Indian Ocean or Asian part of the Indo-Pacific side."""
+    """Cape Horn (or Magellan) is a route unless a port is on the Indian Ocean or Asian part of the Indo-Pacific
+    side."""
     return all(not indo_pacific(p) or south_pacific(p) for p in (a, b))
 
 
