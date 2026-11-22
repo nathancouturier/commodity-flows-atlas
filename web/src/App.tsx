@@ -113,7 +113,7 @@ export function App() {
     [],
   );
   return (
-    <div class={`app ${detailOpen.value ? 'detail-open' : ''}${historyOpen.value ? ' tl-open' : ''}`}>
+    <div class={`app ${detailOpen.value ? 'detail-open' : ''}${historyOpen.value ? ' tl-open' : ''}${priceDrawer.value ? ' pd-open' : ''}`}>
       <a
         class="skip-link"
         href="#controls"

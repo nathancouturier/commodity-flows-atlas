@@ -1,4 +1,5 @@
-/** Small map legend: only describes what is currently drawn. */
+/** Small map legend: only describes what is currently drawn. It can be folded away to free the map. */
+import { useState } from 'preact/hooks';
 import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection } from '../lib/store';
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
@@ -13,7 +14,33 @@ function hexA(hex: string, a: number): string {
   return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${a.toFixed(2)})`;
 }
 
+const FOLD_KEY = 'cfa-legend-folded';
+
+function readFolded(): boolean {
+  try {
+    const v = localStorage.getItem(FOLD_KEY);
+    if (v !== null) return v === '1';
+  } catch {
+    /* storage blocked: fall through to the default */
+  }
+  // phones start with the legend folded into a small "Legend" button
+  return window.matchMedia('(max-width: 760px)').matches;
+}
+
+function saveFolded(v: boolean) {
+  try {
+    localStorage.setItem(FOLD_KEY, v ? '1' : '0');
+  } catch {
+    /* private mode: the choice just isn't remembered */
+  }
+}
+
 export function Legend() {
+  const [folded, setFolded] = useState(readFolded);
+  const fold = (v: boolean) => {
+    setFolded(v);
+    saveFolded(v);
+  };
   const fam = family.value;
   const k = commodity.value;
   const sel = selection.value;
@@ -32,8 +59,18 @@ export function Legend() {
     families = own ? [own] : fam === 'all' || fam === 'freight' ? ['energy', 'metals', 'softs'] : [fam];
   }
   if (!flowsOn && !routesOn && !chokeOn && !infraOn && !choro) return null;
+  if (folded)
+    return (
+      <button class="legend legend-pill glass" aria-expanded="false" title="Show the map legend" onClick={() => fold(false)}>
+        <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 3h8M2 6h8M2 9h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+        Legend
+      </button>
+    );
   return (
     <div class="legend glass" role="group" aria-label="Map legend">
+      <button class="legend-fold" aria-expanded="true" aria-label="Hide the legend" title="Hide the legend" onClick={() => fold(true)}>
+        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </button>
       {families.map((f) => (
         <span class="legend-item">
           <span class="legend-swatch" style={{ background: FAMILY_COLOR[f] }} />
@@ -92,8 +129,8 @@ export function Legend() {
           <div class="legend-infra-status">
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.damaged }} />Damaged</span>
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.idle }} />Idle / suspended</span>
-            <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.planned }} />Under construction / planned</span>
-            <span class="legend-item muted">Pipelines: dashed = not operating</span>
+            <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.planned }} />Planned / under construction</span>
+            <span class="legend-item muted">Dashed pipeline = not operating</span>
           </div>
         </div>
       )}

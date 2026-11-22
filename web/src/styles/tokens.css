@@ -53,9 +53,11 @@
   --r-sm: 8px;
   --r-md: 12px;
   --r-lg: 16px;
-  --gap: 12px;
-  --panel-w: 320px;
-  --detail-w: 400px;
+  --gap: 10px;
+  --panel-w: 276px;
+  --detail-w: 372px;
+  /* height of the top bar row; panels and map controls start below it */
+  --top-h: 40px;
   --shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.35);
   --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
   --t-fast: 140ms;
