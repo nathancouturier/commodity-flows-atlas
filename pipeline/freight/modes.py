@@ -56,7 +56,12 @@ LNG_OPENED = {}
 for _p in _LNG:
     _y = _p.get("opened")
     _y = int(_y) if isinstance(_y, (int, float)) or (isinstance(_y, str) and _y.isdigit()) else None
-    LNG_OPENED[_p["c"]] = None if _y is None or LNG_OPENED.get(_p["c"], 0) is None else min(_y, LNG_OPENED.get(_p["c"], _y))
+    if _p["c"] not in LNG_OPENED:
+        LNG_OPENED[_p["c"]] = _y
+    elif _y is None or LNG_OPENED[_p["c"]] is None:
+        LNG_OPENED[_p["c"]] = None
+    else:
+        LNG_OPENED[_p["c"]] = min(_y, LNG_OPENED[_p["c"]])
 
 
 def lng_exporter(c, year=None):
