@@ -4637,5 +4637,94 @@
   ],
   "notes": "India is the world's second-largest LPG importer.",
   "s": "atlas"
+ },
+ {
+  "id": "pilbara-japan-korea-iron-ore",
+  "name": "Pilbara – Japan/South Korea iron ore",
+  "benchmark": false,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore"
+  ],
+  "from": {
+   "region": "West Australia (Pilbara)",
+   "ports": [
+    {
+     "name": "Port Hedland",
+     "c": "AUS"
+    },
+    {
+     "name": "Dampier",
+     "c": "AUS"
+    }
+   ]
+  },
+  "to": {
+   "region": "Japan and South Korea steel mills",
+   "ports": [
+    {
+     "name": "Kashima",
+     "c": "JPN"
+    },
+    {
+     "name": "Pohang",
+     "c": "KOR"
+    }
+   ]
+  },
+  "corridor": [
+   {
+    "k": "iron-ore",
+    "o": [
+     "AUS"
+    ],
+    "d": [
+     "JPN",
+     "KOR"
+    ]
+   }
+  ],
+  "notes": "Second-largest Pilbara destination group after China; Capesize and Newcastlemax.",
+  "s": "atlas"
+ },
+ {
+  "id": "brazil-china-vloc-iron-ore",
+  "name": "Ponta da Madeira – China (Valemax)",
+  "benchmark": false,
+  "vclass": "vloc",
+  "cargoes": [
+   "iron-ore"
+  ],
+  "from": {
+   "region": "North Brazil (Carajás system)",
+   "ports": [
+    {
+     "name": "Ponta da Madeira",
+     "c": "BRA"
+    }
+   ]
+  },
+  "to": {
+   "region": "China (deep-water ore terminals)",
+   "ports": [
+    {
+     "name": "Ningbo",
+     "c": "CHN"
+    }
+   ]
+  },
+  "corridor": [
+   {
+    "k": "iron-ore",
+    "o": [
+     "BRA"
+    ],
+    "d": [
+     "CHN"
+    ]
+   }
+  ],
+  "notes": "Carajás ore on 400,000 dwt Valemax and Guaibamax VLOCs; same country-pair corridor as C3 (Tubarão), which prices the Capesize market.",
+  "s": "atlas"
  }
 ]

@@ -48,7 +48,7 @@ ROUTE_PORTS = {
     "HS5_38": ("IDBPN", "JPYOK"), "HS6_38": ("CNTSN", "JPCHB"), "HS7_38": ("CNTSN", "SGSIN"), "TC20": ("SAJUB", "NLRTM"),
     "TC21": ("USHOU", "JMKIN"),
     # partial overrides (None = use the port matched from the route definition)
-    "uspnw-asia-grain": ("USKAM", None), "simandou-china-iron-ore": (None, "CNNGB"), "TD34": ("OMMFH", None),
+    "uspnw-asia-grain": ("USKAM", None), "brazil-china-vloc-iron-ore": ("BRPMA", "CNNGB"), "simandou-china-iron-ore": (None, "CNNGB"), "TD34": ("OMMFH", None),
 }
 
 

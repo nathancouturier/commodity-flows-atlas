@@ -33,7 +33,8 @@
    "C14",
    "guinea-china-bauxite",
    "simandou-china-iron-ore",
-   "queensland-india-met-coal"
+   "queensland-india-met-coal",
+   "pilbara-japan-korea-iron-ore"
   ],
   "notes": "Baltic standard vessel moved from 180,000 to 182,000 dwt (C5TC(182), effective 2 Jan 2026).",
   "s": "vessel-size-conventions"
@@ -90,7 +91,9 @@
    "suez": "Cannot transit Suez laden (beam/draft beyond the SCA wetted-area limit)",
    "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
   },
-  "routes": [],
+  "routes": [
+   "brazil-china-vloc-iron-ore"
+  ],
   "notes": "Chinamax/Valemax typically ~ 400,000 dwt; sizes are conventional.",
   "s": "vessel-size-conventions"
  },
