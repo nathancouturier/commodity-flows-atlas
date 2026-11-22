@@ -71,6 +71,11 @@ export function SidePanel() {
             <RouteFinderSlot always />
           </Dropdown>
         </div>
+        <div class="panel-block">
+          <Dropdown name="Map layers" value={<LayersSummary />}>
+            <LayerSwitches />
+          </Dropdown>
+        </div>
         {layers.value.infrastructure && (
           <div class="panel-block">
             <Dropdown name="Infrastructure types" value={<InfraSummary />} onClear={infraTypes.value.size ? () => (infraTypes.value = new Set()) : undefined}>
@@ -79,12 +84,6 @@ export function SidePanel() {
           </div>
         )}
         <ColourBySection current={current} />
-        {/* on phones and tablets the legend is hidden, so the layer switches live here */}
-        <div class="layers-in-panel">
-          <Section title="Map layers">
-            <LayerSwitches />
-          </Section>
-        </div>
       </div>
     </aside>
   );
@@ -340,6 +339,14 @@ function VesselQuick() {
 function FreightSummary() {
   const n = vesselClasses.value.size;
   return n ? <>{[...vesselClasses.value].map(vesselName).join(', ')}</> : <>All</>;
+}
+
+/** Summary line of the map layers dropdown: "All" or the visible layers. */
+function LayersSummary() {
+  const l = layers.value;
+  const names: [keyof typeof l, string][] = [['flows', 'Flows'], ['routes', 'Routes'], ['chokepoints', 'Chokepoints'], ['infrastructure', 'Infrastructure']];
+  const on = names.filter(([k]) => l[k]).map(([, n]) => n);
+  return <>{on.length === names.length ? 'All' : on.length ? on.join(', ') : 'None'}</>;
 }
 
 /** Summary line of the infrastructure dropdown: the asset types shown. */

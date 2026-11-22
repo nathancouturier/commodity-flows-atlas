@@ -1,6 +1,6 @@
 /**
- * Map layer switches. On desktop they sit in the map legend (bottom); on phones and tablets,
- * where the legend is hidden, the side panel shows them instead (see .layers-in-panel / .legend-layers).
+ * Map layer switches (side panel "Map layers" dropdown; explanations as hover tooltips) and the
+ * infrastructure type chips (side panel "Infrastructure types" dropdown).
  */
 import { commodities } from '../lib/data';
 import { commodity, family, infraAvailable, infraTypes, layers, toggleInSet, toggleLayer } from '../lib/store';
@@ -23,27 +23,6 @@ export function LayerSwitches() {
         <Switch key={l.id} label={l.label} hint={l.desc} checked={layers.value[l.id]} onChange={(v) => toggleLayer(l.id, v)} />
       ))}
     </>
-  );
-}
-
-/** Compact toggles for the legend (desktop); the explanation is in the tooltip. */
-export function LayerToggles() {
-  return (
-    <div class="legend-layers" role="group" aria-label="Map layers">
-      {LAYERS.map((l) => (
-        <button
-          key={l.id}
-          class="layer-toggle"
-          role="switch"
-          aria-checked={layers.value[l.id]}
-          title={l.desc}
-          onClick={() => toggleLayer(l.id, !layers.value[l.id])}
-        >
-          <span class="switch" aria-hidden="true" />
-          {l.label}
-        </button>
-      ))}
-    </div>
   );
 }
 

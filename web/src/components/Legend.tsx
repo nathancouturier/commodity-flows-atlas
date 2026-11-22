@@ -3,7 +3,6 @@ import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, select
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, pct, shareOpacity } from '../lib/format';
-import { LayerToggles } from './LayerSwitches';
 import { STATUS_COLOR } from '../map/modules/infrastructure';
 import type { Family, Segment } from '../types';
 
@@ -32,10 +31,9 @@ export function Legend() {
     const own = k ? commodityMeta(k)?.family : undefined;
     families = own ? [own] : fam === 'all' || fam === 'freight' ? ['energy', 'metals', 'softs'] : [fam];
   }
-  // the legend is always shown: it carries the map layer toggles
+  if (!flowsOn && !routesOn && !chokeOn && !infraOn && !choro) return null;
   return (
-    <div class="legend glass" role="group" aria-label="Map layers and legend">
-      <LayerToggles />
+    <div class="legend glass" role="group" aria-label="Map legend">
       {families.map((f) => (
         <span class="legend-item">
           <span class="legend-swatch" style={{ background: FAMILY_COLOR[f] }} />
