@@ -3,8 +3,7 @@
  * and pipelines (lines), from data/infrastructure/*.geojson.
  *
  * - filters: commodity (feature.k), infrastructure types (side panel), selected country
- * - every asset is drawn at every zoom: at the world view, assets closer than FAN_PX fan out in a small
- *   spiral around their spot so none hides another; the fan closes as you zoom in (true positions by FAN_END_Z)
+ * - every asset is drawn at its true position at every zoom; icons at the same place simply overlap
  * - hover tooltip with operator, capacity and source; click selects the asset (InfraView)
  */
 import { effect } from '@preact/signals';
@@ -207,60 +206,12 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
   return p.then(() => name);
 }
 
-type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean; off?: [number, number] };
+type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean };
 type LineProps = { key: string; id: string; type: InfraType; color: string; op: number; sel: boolean; dash: boolean; label: string };
 
 const SRC_PTS = 'infra-pts';
 const SRC_SEL = 'infra-pts-sel'; // the opened asset, drawn on top
 const SRC_LINES = 'infra-lines';
-
-/** Fan-out of dense spots: designed for the default world view, closed (true positions) by FAN_END_Z. */
-const FAN_REF_Z = 1.7;
-const FAN_END_Z = 5;
-/** icons closer than this at the world view (px) fan out */
-const FAN_PX = 17;
-/** spacing of the golden-angle spiral (px) */
-const FAN_STEP = 12;
-
-/**
- * Screen offsets (icon-offset units) that spread each dense group of assets on a small spiral centred on
- * the group, so every asset is visible at the world view. Positions are compared in Web Mercator pixels
- * at FAN_REF_Z; a group grows from a seed but stays within 3 * FAN_PX of it.
- */
-function fanOffsets(pts: Feature<Point, PointProps>[]) {
-  const k = (512 * 2 ** FAN_REF_Z) / 360;
-  const merc = (lat: number) => (180 / Math.PI) * Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
-  const xy = pts.map((p) => [p.geometry.coordinates[0] * k, -merc(p.geometry.coordinates[1]) * k] as const);
-  const group = new Array<number>(pts.length).fill(-1);
-  const iconSize = 0.8; // icon-size near FAN_REF_Z (icon-offset is multiplied by icon-size)
-  for (let i = 0; i < pts.length; i++) {
-    if (group[i] >= 0) continue;
-    const g = [i];
-    group[i] = i;
-    for (let q = 0; q < g.length; q++) {
-      const a = xy[g[q]];
-      for (let j = 0; j < pts.length; j++) {
-        if (group[j] >= 0) continue;
-        const near = Math.hypot(xy[j][0] - a[0], xy[j][1] - a[1]) < FAN_PX;
-        const seedOk = Math.hypot(xy[j][0] - xy[i][0], xy[j][1] - xy[i][1]) < FAN_PX * 3;
-        if (near && seedOk) {
-          group[j] = i;
-          g.push(j);
-        }
-      }
-    }
-    if (g.length < 2) continue;
-    const cx = g.reduce((s0, n) => s0 + xy[n][0], 0) / g.length;
-    const cy = g.reduce((s0, n) => s0 + xy[n][1], 0) / g.length;
-    // a stable order (west to east) so the fan does not reshuffle between renders
-    g.sort((a, b) => xy[a][0] - xy[b][0] || xy[a][1] - xy[b][1]);
-    g.forEach((n, idx) => {
-      const r = FAN_STEP * Math.sqrt(idx + 0.5);
-      const th = idx * 2.39996; // golden angle
-      pts[n].properties.off = [(cx + r * Math.cos(th) - xy[n][0]) / iconSize, (cy + r * Math.sin(th) - xy[n][1]) / iconSize];
-    });
-  }
-}
 
 const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
 const empty = (): FeatureCollection => ({ type: 'FeatureCollection', features: [] });
@@ -319,16 +270,12 @@ registerLayerModule((m) => {
     // dimmed assets first, so highlighted ones are drawn on top
     'symbol-sort-key': ['get', 'op'],
   } as const;
-  // dense spots fan out at the world view and close as you zoom in
-  const fanLayout = {
-    ...iconLayout,
-    'icon-offset': ['interpolate', ['linear'], ['zoom'], 2, ['array', 'number', 2, ['coalesce', ['get', 'off'], ['literal', [0, 0]]]], FAN_END_Z, ['literal', [0, 0]]],
-  };
+
   m.addLayer({
     id: 'infra-pts-all',
     type: 'symbol',
     source: SRC_PTS,
-    layout: fanLayout as never,
+    layout: iconLayout as never,
     paint: { 'icon-opacity': ['get', 'op'] },
   });
   // selection halo and the opened asset (own source, on top)
@@ -463,9 +410,7 @@ registerLayerModule((m) => {
         }),
       );
       if (my !== seq) return;
-      const rest = pts.filter((p) => !p.properties.sel);
-      fanOffsets(rest);
-      (m.getSource(SRC_PTS) as GeoJSONSource).setData({ type: 'FeatureCollection', features: rest });
+      (m.getSource(SRC_PTS) as GeoJSONSource).setData({ type: 'FeatureCollection', features: pts.filter((p) => !p.properties.sel) });
       (m.getSource(SRC_SEL) as GeoJSONSource).setData({ type: 'FeatureCollection', features: pts.filter((p) => p.properties.sel) });
       (m.getSource(SRC_LINES) as GeoJSONSource).setData({ type: 'FeatureCollection', features: lines });
     });
