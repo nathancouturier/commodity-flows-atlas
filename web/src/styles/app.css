@@ -1466,3 +1466,52 @@ html,
     display: block;
   }
 }
+
+/* the commodity list is the selector: styled like a dropdown */
+.cc-browse {
+  margin: 0 0 12px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+  background: var(--panel-raised);
+}
+.cc-browse > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 11px;
+  color: var(--ink-0);
+}
+.cc-browse > summary::-webkit-details-marker {
+  display: none;
+}
+.cc-browse > summary::after {
+  content: '';
+  margin-left: auto;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink-2);
+  border-bottom: 1.5px solid var(--ink-2);
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform var(--t-fast);
+}
+.cc-browse[open] > summary::after {
+  transform: rotate(-135deg) translateY(-1px);
+}
+.cc-browse[open] {
+  padding-bottom: 6px;
+}
+.cc-browse .cc-group {
+  padding: 0 6px;
+}
+
+.dd .dd-body {
+  padding: 4px 10px 6px;
+}
+.dd .dd-body .section {
+  padding: 8px 0;
+}
+.dd > summary .muted {
+  margin-left: 4px;
+  font-size: var(--fs-sm);
+}

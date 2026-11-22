@@ -3,7 +3,8 @@
  * Everything beyond the default "flows" layer is one click away here.
  */
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { commodities } from '../lib/data';
+import type { ComponentChildren } from 'preact';
+import { commodities, countryName } from '../lib/data';
 import {
   family,
   commodity,
@@ -14,6 +15,8 @@ import {
   vesselClasses,
   toggleInSet,
   sheetSnap,
+  rfOrigin,
+  rfDest,
   type Metric,
   type SheetSnap,
 } from '../lib/store';
@@ -52,15 +55,19 @@ export function SidePanel() {
       <div class="panel-scroll">
         <CommoditySection current={current} />
         {freight ? (
-          <>
-            <VesselFilter />
-            <RouteList />
-          </>
+          <Section title="Routes by vessel class">
+            <Dropdown summary={<FreightSummary />} defaultOpen>
+              <VesselFilter />
+              <RouteList />
+            </Dropdown>
+          </Section>
         ) : (
           <VesselQuick />
         )}
         <Section title="Route finder">
-          <RouteFinderSlot always />
+          <Dropdown summary={<RouteFinderSummary />}>
+            <RouteFinderSlot always />
+          </Dropdown>
         </Section>
         {/* on phones and tablets the legend is hidden, so the layer switches live here */}
         <div class="layers-in-panel">
@@ -75,12 +82,35 @@ export function SidePanel() {
 
 /** Infrastructure type filter: empty selection = all types. */
 
+
+/** A collapsible block styled like a dropdown; the summary shows the current choice. */
+function Dropdown(props: { summary: ComponentChildren; defaultOpen?: boolean; open?: boolean; onToggle?: (open: boolean) => void; children: ComponentChildren }) {
+  const [inner, setInner] = useState(!!props.defaultOpen);
+  const open = props.open ?? inner;
+  return (
+    <details
+      class="cc-browse dd"
+      open={open}
+      onToggle={(e) => {
+        const o = (e.currentTarget as HTMLDetailsElement).open;
+        if (props.onToggle) props.onToggle(o);
+        else setInner(o);
+      }}
+    >
+      <summary>{props.summary}</summary>
+      <div class="dd-body">{props.children}</div>
+    </details>
+  );
+}
+
 /** Commodity choice first: picking one colours its producers, draws its flows and opens its page. */
 function CommoditySection(props: { current: CommodityMeta | undefined }) {
   const { current } = props;
   const fam = family.value;
   const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
+  const [browseOpen, setBrowseOpen] = useState(false);
   const choose = (v: string | null) => {
+    setBrowseOpen(false);
     commodity.value = v;
     if (v) {
       select({ kind: 'commodity', id: v });
@@ -91,21 +121,21 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
   };
   return (
     <Section title="Commodity" aside={current ? <button class="link-btn" onClick={() => choose(null)}>Clear</button> : null}>
-      <label class="cc-pick">
-        <span class="sr-only">Commodity</span>
-        <select value={commodity.value ?? ''} onChange={(e) => choose((e.currentTarget as HTMLSelectElement).value || null)}>
-          <option value="">Choose a commodity…</option>
-          {fams.map((f) => (
-            <optgroup key={f} label={FAMILY_LABEL[f]}>
-              {commodities.value.filter((c) => c.family === f).map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.name}
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
-      </label>
+      <details class="cc-browse" open={browseOpen} onToggle={(e) => setBrowseOpen((e.currentTarget as HTMLDetailsElement).open)}>
+        <summary>{current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : 'Browse all commodities'}</summary>
+        {fams.map((g) => (
+          <div key={g} class="cc-group">
+            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
+            {commodities.value.filter((c) => c.family === g).map((c) => (
+              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
+                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
+                {c.name}
+                <span class="meta">{c.unit}</span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </details>
       <div class="cc-label">Colour countries by</div>
       <div class="chips" role="radiogroup" aria-label="Colour countries by">
         {METRICS.map((m) => {
@@ -131,21 +161,6 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
       {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
         <p class="muted cc-hint">Greyed-out options have no free country-level data for {current.name}.</p>
       )}
-      <details class="cc-browse">
-        <summary>Browse all commodities</summary>
-        {fams.map((g) => (
-          <div key={g} class="cc-group">
-            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
-            {commodities.value.filter((c) => c.family === g).map((c) => (
-              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
-                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
-                {c.name}
-                <span class="meta">{c.unit}</span>
-              </button>
-            ))}
-          </div>
-        ))}
-      </details>
     </Section>
   );
 }
@@ -206,19 +221,31 @@ function VesselQuick() {
   const sel = vesselClasses.value;
   const [routes, setRoutes] = useState<Route[]>([]);
   useEffect(() => {
-    if (sel.size && !routes.length) loadRoutes().then(setRoutes).catch(() => undefined);
-  }, [sel.size]);
+    loadRoutes().then(setRoutes).catch(() => undefined);
+  }, []);
   const active = (id: string) => vesselFamily(id).some((m) => sel.has(m));
+  const [open, setOpen] = useState(false);
   const pick = (id: string) => {
     // single family at a time here: clicking the active one clears it
     vesselClasses.value = active(id) ? new Set() : new Set(vesselFamily(id));
+    setOpen(false);
   };
   const matched = sel.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, sel)) : [];
+  const current = QUICK.flatMap((g) => g.items.map((it) => ({ ...it, seg: g.seg }))).find((it) => active(it.id));
+  const summary = current ? (
+    <>
+      <span class="dot" style={{ color: SEGMENT_COLOR[current.seg], width: '6px', height: '6px' }} /> {current.label}
+      <span class="muted">· {matched.length} route{matched.length === 1 ? '' : 's'}</span>
+    </>
+  ) : (
+    'Choose a vessel class'
+  );
   return (
     <Section
       title="Routes by vessel class"
       aside={sel.size > 0 ? <button class="link-btn" onClick={() => (vesselClasses.value = new Set())}>Clear</button> : null}
     >
+      <Dropdown summary={summary} open={open} onToggle={setOpen}>
       {QUICK.map((g) => (
         <div class="vc-group" key={g.seg}>
           <div class="vc-label">{SEGMENT_LABEL[g.seg]}</div>
@@ -251,8 +278,23 @@ function VesselQuick() {
           ))}
         </div>
       )}
+      </Dropdown>
     </Section>
   );
+}
+
+/** Summary line of the Freight-tab route dropdown. */
+function FreightSummary() {
+  const n = vesselClasses.value.size;
+  return <>{n ? `Filtered: ${[...vesselClasses.value].map(vesselName).join(', ')}` : 'All vessel classes and routes'}</>;
+}
+
+/** Summary line of the route finder dropdown: the current question, if any. */
+function RouteFinderSummary() {
+  const o = rfOrigin.value;
+  const d = rfDest.value;
+  if (o && d) return <>{countryName(o)} → {countryName(d)}</>;
+  return <>Typical route, vessel and share for a trade</>;
 }
 
 /** Baltic benchmarks (by segment) and other heavy-traffic routes; discontinued ones last. */
