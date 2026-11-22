@@ -8,7 +8,7 @@ import type { Feature, LineString } from 'geojson';
 import type { Route } from '../../types';
 import { registerLayerModule } from '../layers';
 import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
-import { family, layers, routeVia, selection, vesselClasses } from '../../lib/store';
+import { layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
 import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
@@ -31,8 +31,8 @@ registerLayerModule(() => {
 
   effect(() => {
     const vc = vesselClasses.value;
-    // routes are shown with the layer, on the Freight tab, or whenever a vessel class is selected
-    const on = layers.value.routes || family.value === 'freight' || vc.size > 0;
+    // the Freight routes switch decides (Freight and a vessel-class pick switch it on)
+    const on = layers.value.routes;
     const sel = selection.value;
     const selId = sel?.kind === 'route' ? sel.id : null;
     const iso = sel?.kind === 'country' ? sel.id : null;

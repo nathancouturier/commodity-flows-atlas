@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
+import { FAMILY_COLOR, FAMILY_LABEL, TOUCH } from '../lib/format';
 import { loadEvents } from '../lib/freight';
 import {
   DAY_S,
@@ -479,7 +479,7 @@ export function PriceDrawer() {
                 </div>
               ))}
               {indexed && <div class="pd-hint">Index: each series = 100 at the start of the visible range; readouts and statistics stay in native units.</div>}
-              <div class="pd-hint">Drag to zoom · double-click resets · Esc closes</div>
+              <div class="pd-hint">{TOUCH ? 'Touch the chart to read values · the range buttons zoom' : 'Drag to zoom · double-click resets · Esc closes'}</div>
             </div>
           </div>
 

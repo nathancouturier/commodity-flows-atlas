@@ -14,29 +14,13 @@ function hexA(hex: string, a: number): string {
   return `rgba(${n >> 16}, ${(n >> 8) & 255}, ${n & 255}, ${a.toFixed(2)})`;
 }
 
-const FOLD_KEY = 'cfa-legend-folded';
-
-function readFolded(): boolean {
-  try {
-    const v = localStorage.getItem(FOLD_KEY);
-    if (v !== null) return v === '1';
-  } catch {
-    /* storage blocked: fall through to the default */
-  }
-  // phones start with the legend folded into a small "Legend" button
-  return window.matchMedia('(max-width: 760px)').matches;
-}
-
-function saveFolded(v: boolean) {
-  try {
-    localStorage.setItem(FOLD_KEY, v ? '1' : '0');
-  } catch {
-    /* private mode: the choice just isn't remembered */
-  }
+/** The legend is open on every load; phones start with it folded (it would cover most of the map). */
+function foldedAtStart(): boolean {
+  return typeof matchMedia === 'function' && matchMedia('(max-width: 760px)').matches;
 }
 
 export function Legend() {
-  const [folded, setFolded] = useState(readFolded);
+  const [folded, setFolded] = useState(foldedAtStart);
   const dockRef = useRef<HTMLDivElement>(null);
   // publish the legend's height so the side panel never runs over it (see --legend-h in app.css)
   useEffect(() => {
@@ -53,10 +37,7 @@ export function Legend() {
       root.style.setProperty('--legend-h', '0px');
     };
   });
-  const fold = (v: boolean) => {
-    setFolded(v);
-    saveFolded(v);
-  };
+  const fold = (v: boolean) => setFolded(v);
   const fam = family.value;
   const k = commodity.value;
   const sel = selection.value;
@@ -65,9 +46,9 @@ export function Legend() {
   const land = landFlowsShown.value;
 
   const flowsOn = layers.value.flows && (!!k || fam !== 'freight') && !mapNotice.value;
-  const routesOn = layers.value.routes || fam === 'freight';
+  const routesOn = layers.value.routes;
   const chokeOn =
-    layers.value.chokepoints || fam === 'freight' || sel?.kind === 'route' || sel?.kind === 'lane' || sel?.kind === 'chokepoint';
+    layers.value.chokepoints || sel?.kind === 'route' || sel?.kind === 'lane' || sel?.kind === 'chokepoint';
 
   let families: Family[] = [];
   if (flowsOn) {

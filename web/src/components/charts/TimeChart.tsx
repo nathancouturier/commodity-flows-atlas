@@ -6,7 +6,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type uPlot from 'uplot';
-import { fmt } from '../../lib/format';
+import { fmt, TOUCH } from '../../lib/format';
 
 export interface TimeSeries {
   label: string;
@@ -302,6 +302,15 @@ export function TimeChart(props: TimeChartProps) {
         setActive(initial ?? null);
         window_(u, ranges?.find((r) => r.label === initial)?.seconds ?? null);
       });
+      // touch: a tap or a drag on the chart moves the cursor and shows the readout
+      const touchRead = (ev: TouchEvent) => {
+        const t = ev.touches[0];
+        if (!t) return;
+        const r = u.over.getBoundingClientRect();
+        u.setCursor({ left: Math.max(0, Math.min(r.width, t.clientX - r.left)), top: Math.max(0, Math.min(r.height, t.clientY - r.top)) });
+      };
+      u.over.addEventListener('touchstart', touchRead, { passive: true });
+      u.over.addEventListener('touchmove', touchRead, { passive: true });
       u.over.addEventListener('mouseleave', () => {
         cbRef.current.onCursor?.(null);
         setIdx(null);
@@ -440,7 +449,9 @@ export function TimeChart(props: TimeChartProps) {
         )}
       </div>
       <div ref={host} class="tc-plot" style={{ height: `${height}px` }} />
-      {zoom && props.foot !== false && <div class="tc-foot">Drag to zoom · double-click to reset</div>}
+      {zoom && props.foot !== false && (
+        <div class="tc-foot">{TOUCH ? 'Touch the chart to read values · the range buttons zoom' : 'Drag to zoom · double-click to reset'}</div>
+      )}
     </div>
   );
 }

@@ -3,11 +3,11 @@
  * uses to scale flow widths. Play animates one year per 1.2 s; freight events appear as clickable ticks.
  */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { commodity, historyOpen, select, year } from '../lib/store';
+import { commodity, historyOpen, metric, select, year } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
 import { toggleHistory } from '../lib/prices';
-import { fmt } from '../lib/format';
+import { fmt, TOUCH } from '../lib/format';
 import { parseDate } from './charts/TimeChart';
 import { CloseIcon } from './ui';
 import type { FreightEvent, LaneFile } from '../types';
@@ -146,7 +146,12 @@ export function Timeline() {
               style={{ left: `${pos * 100}%`, '--tc': KIND_COLOR[e.kind] ?? '#8d9fb3' }}
               title={`${e.date}${e.end ? ' to ' + e.end : ''} · ${e.title}`}
               aria-label={`Event ${e.date}: ${e.title}`}
-              onClick={() => select({ kind: 'event', id: e.id })}
+              onClick={() => {
+                // the event opens and the map jumps to its year (clamped to the years with flow data)
+                const ey = Number(e.date.slice(0, 4));
+                if (first != null && last != null && Number.isFinite(ey)) year.value = Math.min(Math.max(ey, first), last);
+                select({ kind: 'event', id: e.id });
+              }}
             />
           ))}
         </div>
@@ -190,7 +195,8 @@ export function Timeline() {
             </b>
           </span>
         ))}
-        <span class="tl-hint">Arrow keys step the year · ticks mark events</span>
+        {k && metric.value !== 'none' && <span class="tl-note">Country colours: latest data, not by year</span>}
+        <span class="tl-hint">{TOUCH ? 'Drag the slider to change the year · tap a tick for its event' : 'Arrow keys step the year · ticks mark events'}</span>
       </div>
     </section>
   );

@@ -47,6 +47,9 @@ export const FAMILY_LABEL: Record<Family, string> = {
   freight: 'Freight',
 };
 
+/** Touch-first device (phones, tablets): hints talk about taps instead of mouse and keys. */
+export const TOUCH = typeof matchMedia === 'function' && matchMedia('(pointer: coarse)').matches;
+
 export function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }

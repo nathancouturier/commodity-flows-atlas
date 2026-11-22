@@ -10,7 +10,7 @@ import { effect, signal } from '@preact/signals';
 import maplibregl, { type Map as MLMap } from 'maplibre-gl';
 import type { Chokepoint } from '../../types';
 import { registerLayerModule } from '../layers';
-import { hovered, family, laneVia, layers, routeVia, select, selection } from '../../lib/store';
+import { hovered, laneVia, layers, routeVia, select, selection } from '../../lib/store';
 import { sourceLabel, sources } from '../../lib/data';
 import { MAJOR_CHOKEPOINTS, chokepointList, laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
@@ -32,8 +32,7 @@ registerLayerModule((m: MLMap) => {
   const entries = new Map<string, Entry>();
   const container = m.getContainer();
 
-  // labels appear from zoom 2 (always on hover)
-  // below zoom 2 only the major chokepoints are shown (the minor ones appear when zooming in)
+  // labels appear from zoom 2 (always on hover); below zoom 2 the minor chokepoints are drawn smaller
   const world = signal(m.getZoom() < 2);
   const syncZoom = () => {
     container.classList.toggle('cp-labels', m.getZoom() >= 2);
@@ -74,7 +73,7 @@ registerLayerModule((m: MLMap) => {
   // which chokepoints are crossed by the current selection
   let seq = 0;
   effect(() => {
-    const on = layers.value.chokepoints || family.value === 'freight';
+    const on = layers.value.chokepoints;
     const sel = selection.value;
     const lowZoom = world.value;
     void chokepointList.value;
@@ -84,8 +83,9 @@ registerLayerModule((m: MLMap) => {
       for (const [id, { el }] of entries) {
         const hit = crossed?.has(id) ?? false;
         // a selection narrows the set to the chokepoints it crosses
-        const visible = crossed ? hit : on && (!lowZoom || MAJOR_CHOKEPOINTS.has(id));
+        const visible = crossed ? hit : on;
         el.classList.toggle('cp-hidden', !visible);
+        el.classList.toggle('cp-minor', lowZoom && !MAJOR_CHOKEPOINTS.has(id));
         el.classList.toggle('cp-on', hit);
         el.classList.toggle('cp-sel', id === selectedId);
       }

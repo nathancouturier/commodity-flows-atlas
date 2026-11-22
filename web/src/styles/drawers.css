@@ -802,3 +802,66 @@
   background: none;
   border-color: var(--hairline-strong);
 }
+
+/* ---------------------------------------------------------------- touch and small screens (QA fixes) */
+
+/* tablets and phones: the series picker opens downward, inside the drawer (upward it was clipped) */
+@media (max-width: 1024px) {
+  .pd-pop {
+    bottom: auto;
+    top: calc(100% + 6px);
+    min-height: 0;
+    max-height: min(46vh, 360px);
+  }
+}
+
+/* event ticks: narrower so neighbours overlap less; a taller invisible hit area than the visible mark */
+.tl-tick {
+  width: 6px;
+  margin-left: -3px;
+}
+.tl-tick::after {
+  left: 2px;
+}
+.tl-tick::before {
+  content: '';
+  position: absolute;
+  inset: -8px 0;
+}
+
+.tl-note {
+  color: var(--ink-3);
+  font-size: 11px;
+}
+
+/* touch devices: targets of at least 34 px, and 16 px form text so iOS does not zoom on focus */
+@media (pointer: coarse) {
+  .tc-btn,
+  .pd-toggle,
+  .pd-close,
+  .tl-close,
+  .close-btn,
+  .tool-btn,
+  .dd-clear,
+  .link-btn {
+    min-height: 34px;
+    min-width: 34px;
+  }
+  .maplibregl-ctrl-group button {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  select,
+  input[type='text'],
+  input[type='search'],
+  input:not([type]),
+  .rf-select {
+    font-size: 16px;
+  }
+  .pd-tile-l,
+  .pd-tile-s,
+  .pd-hint,
+  .pd-fam {
+    font-size: 11px;
+  }
+}

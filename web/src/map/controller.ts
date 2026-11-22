@@ -351,6 +351,9 @@ export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5, detail = true) {
 export function flyToWorld(detail = !!document.querySelector('.detail-panel.open')) {
   const m = map;
   if (!m) return;
+  // a camera that drifted onto a wrapped copy of the world would fly to the Pacific-centred copy
+  const c = m.getCenter();
+  if (c.lng < -180 || c.lng > 180) m.jumpTo({ center: c.wrap() });
   m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration: 1400 });
 }
 

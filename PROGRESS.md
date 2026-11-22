@@ -1,6 +1,6 @@
 # Commodity Flows Atlas — Progress
 
-_Last updated: 2026-11-22, end of the build (about 6 h 30 min of work)_
+_Last updated: 2026-11-22, after the owner's interface review (build about 6 h 30 min, then UI iterations)_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -16,6 +16,28 @@ Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 | 6 | Automation: scheduled robust updates | done; price job proven on GitHub, PortWatch and annual jobs test-run | 95% |
 | 7 | Polish, mobile, performance, accessibility, fresh-eyes review | done | 100% |
 | **Overall** | | | **~99%** |
+
+## Owner review: interface changes (after the build)
+
+Done on the owner's requests, each one deployed:
+
+- Side panel: named dropdowns (Browse all commodities with the families Freight, Energy, Metals and
+  Softs inside it, Routes by vessel class, Route finder, Map layers, Infrastructure types, Colour
+  countries by); the top-bar family tabs are gone. A Controls button folds the panel into itself
+  (top-left) and a Legend button opens/closes the legend (bottom-left); both stay in place, open on load.
+- Compact layout: narrower panels, slimmer top bar, the side panel only as tall as its dropdowns,
+  the legend uses the free width; no attribution box (Natural Earth is in the sources panel).
+- Commodity choice colours its producers in the family colour with % of world on the map; the
+  infrastructure shown follows the family / commodity; all layers and infrastructure types on by default.
+- Infrastructure: every asset drawn at every zoom; dense spots fan out at the world view.
+- Clicking a country isolates it: its lanes, the routes that load or discharge there (route ends
+  from Natural Earth polygons, `pipeline/freight/route_countries.py`), its assets, its chokepoints.
+- Closing a selection or clicking empty sea zooms back out; the close button works.
+- Click-level QA fixes: route switch matches vessel-class picks, chokepoint and icon tooltips win
+  over lines, stale-tab chunk reload, touch readout on charts, mobile series picker, larger touch
+  targets, timeline ticks set the year, route rows toggle, the route finder follows the commodity.
+- Three visual style proposals were sent as images only (nautical light, trading terminal,
+  midnight); the site style is unchanged until the owner picks one.
 
 ## Budget
 

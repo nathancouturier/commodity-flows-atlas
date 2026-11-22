@@ -20,13 +20,15 @@ import {
   infraAvailable,
   rfOrigin,
   rfDest,
+  rfCommodity,
   setFamily,
+  toggleLayer,
   type FamilyFilter,
   type Metric,
   type SheetSnap,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
+import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
@@ -43,6 +45,20 @@ const METRICS: { id: Metric; label: string }[] = [
 ];
 
 const FAMILIES: Family[] = ['energy', 'metals', 'softs'];
+
+/** A click on the open route closes it; any other route opens. */
+function toggleRoute(id: string) {
+  const s = selection.peek();
+  select(s?.kind === 'route' && s.id === id ? null : { kind: 'route', id });
+}
+
+// the route finder follows the commodity picked in the panel (when it has sea lanes)
+commodity.subscribe((k) => {
+  if (!k || !(k in LANE_GROUPS) || rfCommodity.peek() === k) return;
+  rfCommodity.value = k;
+  rfOrigin.value = null;
+  rfDest.value = null;
+});
 
 export function SidePanel() {
   const fam = family.value;
@@ -309,7 +325,10 @@ function VesselFilter() {
                   aria-pressed={sel.has(v.id)}
                   style={{ '--chip-color': SEGMENT_COLOR[seg] }}
                   title={vesselFamily(v.id).length > 1 ? `Also matches ${vesselFamily(v.id).filter((x) => x !== v.id).map(vesselName).join(', ')}` : undefined}
-                  onClick={() => toggleInSet(vesselClasses, v.id)}
+                  onClick={() => {
+                    toggleInSet(vesselClasses, v.id);
+                    if (!layers.peek().routes) toggleLayer('routes', true);
+                  }}
                 >
                   {v.name}
                 </button>
@@ -340,6 +359,7 @@ function VesselQuick() {
   const pick = (id: string) => {
     // single family at a time here: clicking the active one clears it
     vesselClasses.value = active(id) ? new Set() : new Set(vesselFamily(id));
+    if (vesselClasses.peek().size && !layers.peek().routes) toggleLayer('routes', true);
     setOpen(false);
   };
   const matched = sel.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, sel)) : [];
@@ -377,7 +397,7 @@ function VesselQuick() {
             {matched.length} route{matched.length === 1 ? '' : 's'} on the map
           </div>
           {matched.map((r) => (
-            <button class="list-btn route-row" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
+            <button class="list-btn route-row" key={r.id} onClick={() => toggleRoute(r.id)}>
               {r.benchmark ? <span class="code">{r.id}</span> : <span class="dot" style={{ color: SEGMENT_COLOR[segmentOf(r.vclass)], width: '6px', height: '6px' }} />}
               <span class="route-name">{r.name}</span>
             </button>
@@ -424,6 +444,7 @@ function RouteFinderSummary() {
 /** Baltic benchmarks (by segment) and other heavy-traffic routes; discontinued ones last. */
 function RouteList() {
   const [routes, setRoutes] = useState<Route[]>([]);
+  const [opened, setOpened] = useState<Set<string>>(() => new Set(['dry']));
   useEffect(() => {
     loadRoutes().then(setRoutes).catch(() => undefined);
   }, []);
@@ -442,7 +463,7 @@ function RouteList() {
       class={`list-btn route-row ${r.discontinued ? 'is-off' : ''}`}
       key={r.id}
       aria-pressed={selId === r.id}
-      onClick={() => select({ kind: 'route', id: r.id })}
+      onClick={() => toggleRoute(r.id)}
     >
       {r.benchmark ? (
         <span class="code">{r.id}</span>
@@ -458,13 +479,23 @@ function RouteList() {
   );
 
   const others = visible.filter((r) => !r.benchmark);
+  const keep = (key: string) => (e: Event) => {
+    const isOpen = (e.currentTarget as HTMLDetailsElement).open;
+    setOpened((prev) => {
+      if (prev.has(key) === isOpen) return prev;
+      const next = new Set(prev);
+      if (isOpen) next.add(key);
+      else next.delete(key);
+      return next;
+    });
+  };
   return (
     <Section title="Baltic benchmarks">
       {SEGMENTS.map((seg) => {
         const items = visible.filter((r) => r.benchmark && segmentOf(r.vclass) === seg);
         if (!items.length) return null;
         return (
-          <details class="route-group" key={seg} open={vc.size > 0 || seg === 'dry' || seg === selSeg}>
+          <details class="route-group" key={seg} open={opened.has(seg) || vc.size > 0 || seg === selSeg} onToggle={keep(seg)}>
             <summary>
               <span class="dot" style={{ color: SEGMENT_COLOR[seg], width: '6px', height: '6px' }} />
               {SEGMENT_LABEL[seg]}
@@ -477,7 +508,7 @@ function RouteList() {
       {others.length > 0 && (
         <>
           <h4 class="route-sub">Other heavy-traffic routes</h4>
-          <details class="route-group" open={vc.size > 0 || selSeg != null && others.some((r) => r.id === selId)}>
+          <details class="route-group" open={opened.has('others') || vc.size > 0 || (selSeg != null && others.some((r) => r.id === selId))} onToggle={keep('others')}>
             <summary>
               {others.length} routes<span class="meta">non-benchmark</span>
             </summary>
