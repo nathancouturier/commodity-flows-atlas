@@ -103,7 +103,7 @@ button {
   inset: 0;
 }
 
-.map-root {
+.app > .map-main > .map-root {
   position: absolute;
   inset: 0;
   background: radial-gradient(120% 90% at 50% 40%, var(--ocean-1) 0%, var(--ocean-0) 70%);
