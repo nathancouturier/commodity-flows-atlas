@@ -25,7 +25,7 @@ import pandas as pd
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "pipeline", "trade"))
 from hs_map import HS  # noqa: E402
-from clean import CODE_FIX  # noqa: E402  (BACI "S19" = Taiwan: one mapping for all builders)
+from clean import CODE_FIX  # noqa: E402  (BACI code S19 is Taiwan: one mapping for all builders)
 
 TOP_RANK, MIN_SHARE, MIN_WEIGHT = 10, 0.03, 0.10
 

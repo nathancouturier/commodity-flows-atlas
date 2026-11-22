@@ -84,6 +84,11 @@ def label(g):
     return LABEL.get(g, g.replace("-", " "))
 
 
+def _json(path):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
 # ---------------------------------------------------------------- country names
 def _fold(s):
     s = unicodedata.normalize("NFKD", str(s).replace("\x92", "'").replace("’", "'"))
@@ -104,7 +109,7 @@ NAME_OVERRIDE = {
 
 def iso(name):
     if not _NAMES:
-        for c in json.load(open(os.path.join(DATA, "countries", "index.json"), encoding="utf-8")):
+        for c in _json(os.path.join(DATA, "countries", "index.json")):
             _NAMES[_fold(c["name"])] = c["c"]
             _DISPLAY.setdefault(c["c"], c["name"])
     f = _fold(name)
@@ -367,8 +372,8 @@ def k11(df, year):
     """QA only: LNG exporters without an export terminal and crude importers of 1 Mt or more without a refinery in the layers."""
     out = []
     try:
-        lng = json.load(open(os.path.join(DATA, "infrastructure", "lng.geojson"), encoding="utf-8"))["features"]
-        ref = json.load(open(os.path.join(DATA, "infrastructure", "refineries.geojson"), encoding="utf-8"))["features"]
+        lng = _json(os.path.join(DATA, "infrastructure", "lng.geojson"))["features"]
+        ref = _json(os.path.join(DATA, "infrastructure", "refineries.geojson"))["features"]
     except (OSError, ValueError, KeyError):
         return out
     term = {f["properties"].get("c") for f in lng if f["properties"].get("type") == "lng-export"}
@@ -439,7 +444,7 @@ def merge(previous, new, ran):
 
 def load(path=TRADE_CHECKS):
     try:
-        return json.load(open(path, encoding="utf-8")).get("findings", [])
+        return _json(path).get("findings", [])
     except (OSError, ValueError, AttributeError):
         return []
 

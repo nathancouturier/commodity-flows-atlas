@@ -59,6 +59,7 @@ ZONES = {
     "waf": "West Africa",
     "s-africa": "Southern Africa",
     "e-africa": "East Africa",
+    "russia-far-east": "Russian Far East",  # also declared by gateways/energy.py
 }
 
 ZONE_OCEAN = {
@@ -101,6 +102,8 @@ G = {
     "BRA": [
         ("BRTUB", "ecsa", ("iron-ore",), "load", "wikipedia", W + "Port_of_Tubar%C3%A3o",
          "Port of Tubarao: created by Vale 'to export iron ore from the Iron Quadrangle'; the world's largest iron-ore port in 2007"),
+        ("BRPMA", "ecsa", ("iron-ore",), "load", "wikipedia", W + "Ponta_da_Madeira",
+         "Ponta da Madeira, Sao Luis (Maranhao): a private Vale port, 'a large iron ore loading port', one of the few terminals suited to the ultra large Valemax ships. Second iron-ore gateway after Tubarao (the shares are not documented, so the options are open)"),
         ("BRVLC", "ecsa", ("alumina", "bauxite"), "load", "wikipedia", W + "Barcarena,_Par%C3%A1",
          "Barcarena (Para) has a port and an economy based on bauxite; the Alunorte alumina refinery is at Barcarena (Wikipedia, Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together"),
         ("BRITQ", "ecsa", ("alumina", "bauxite"), "load", "wikipedia", W + "Port_of_Itaqui",
@@ -130,7 +133,7 @@ G = {
         ("INPRT", "ec-india", ("coal",), "discharge", "wikipedia", W + "Paradip_Port",
          "Paradip Port: 'mainly transports bulk cargoes and crude oil', dry and break-bulk terminals, handles Capesize; coal is read from 'bulk cargoes'"),
         ("INKRI", "ec-india", ("coal",), "discharge", "wikipedia", W + "Krishnapatnam_Port",
-         "Krishnapatnam Port: a mechanised coal berth in phase 1; a further six coal berths planned"),
+         "Krishnapatnam Port: a mechanised coal berth in phase 1; 'coal is now the primary commodity handled by the port'"),
         ("INMUN", "wc-india", ("coal",), "discharge", "wikipedia", W + "Mundra_Port",
          "Mundra Port: service agreement with Tata Power 'to produce power for handling coal cargo imports'; open storage for coal"),
     ],
@@ -190,7 +193,7 @@ UNSOURCED = {
     "USA": "copper and zinc concentrate (USA-JPN loads at Houston via Panama in the lane files): Red Dog zinc ships from the DeLong Mountain Port on the Chukchi Sea (Wikipedia, Red Dog mine, read) but the page gives no coordinates of the port; no page was read for US copper concentrate",
     "CAN": "potash by port: Canpotex ships the majority through Neptune Terminals, North Vancouver, and since 1997 also through Portland, Oregon (Wikipedia, Canpotex, read); no page names an Atlantic potash terminal except Saint John's Barrack Point Potash Terminal (Wikipedia, Port of Saint John), and it was not added because the Pacific side would then lose its potash row; Canadian grain by port needs the Canadian Grain Commission statistics (follow-up F3); iron ore at Sept-Iles and Port-Cartier: pages not read, the legacy entry stays",
     "MEX": "copper and zinc concentrate at Manzanillo, Guaymas or Lazaro Cardenas (audit MET-20): no page read names a port for these cargoes (Port of Guaymas: 'dry bulk cargoes'; Port of Manzanillo: copper among exports and zinc concentrate among imports, which contradicts rather than supports the audit); the legacy table keeps Coatzacoalcos for ore. Gulf and Pacific rows for grain, fertiliser and general cargo are in food.py (Manzanillo, Veracruz)",
-    "BRA": "Ponta da Madeira (Carajas iron ore, searoute code BRPMA): the page names a large iron-ore loading port at Sao Luis but the zone and the share against Tubarao are not documented; not added as a second iron-ore gateway",
+    "BRA": "Porto Trombetas (MRN bauxite, searoute code BRTMT): no page read names it (Wikipedia, Mineracao Rio do Norte: not found under the titles tried); Brazilian bauxite uses the Barcarena and Itaqui rows above",
     "PER": "San Nicolas (Marcona iron ore) and Callao: no page read names the loading terminals of Peruvian iron ore (Wikipedia, Shougang Hierro Peru and Marcona, not found under the titles tried; Port of Callao: 'containers, bulk and multipurpose'). BIG_ORE is therefore not extended to PER",
     "CHL": "Huasco and Caldera / Punta Totoralillo (CAP iron ore): Wikipedia, Huasco, read but names no iron-ore terminal; BIG_ORE is therefore not extended to CHL",
     "IDN": "Benete (Batu Hijau copper concentrate, Sumbawa): the page names the port, not its coordinates; Morowali stays the legacy ore entry for the other ores",

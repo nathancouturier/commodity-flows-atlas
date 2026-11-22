@@ -87,9 +87,12 @@ class CleanTests(unittest.TestCase):
             self.assertLessEqual(mt(df, "lpg", "QAT", year=y), 11, y)
         self.assertAlmostEqual(mt(df, "lpg", year=2021), 131.2, delta=1)
         self.assertAlmostEqual(mt(df, "lpg", year=2023), 135.8, delta=1)
+        C.clean(raw()[raw().group == "lpg"], lpg_dedup="drop")  # LAST_DROPPED holds the rows of the last call
         dropped = pd.DataFrame(C.LAST_DROPPED)
         self.assertEqual(len(dropped[dropped.year == 2021]), 19)
         self.assertEqual(len(dropped[dropped.year == 2023]), 12)
+        self.assertAlmostEqual(dropped[dropped.year == 2021].t.sum() / 1e6, 29.0, delta=0.5)
+        self.assertAlmostEqual(dropped[dropped.year == 2023].t.sum() / 1e6, 26.8, delta=0.5)
         f = frame("flag")
         self.assertAlmostEqual(mt(f, "lpg", "QAT", year=2021), 39.0, delta=0.1)
         self.assertAlmostEqual(mt(f, "lpg", "QAT", year=2023), 36.9, delta=0.1)
@@ -301,7 +304,7 @@ class CaveatTests(unittest.TestCase):
         import re
         src = open(caveats.__file__, encoding="utf-8").read()
         texts = re.findall(r'"([^"]*)"', src)
-        typed = [t for t in texts if re.search(r"\d+(\.\d+)? ?(Mt|%|kb/d)", t)]
+        typed = [t for t in texts if re.search(r"(?<![\w.:{])\d+(\.\d+)? ?(Mt|%|kb/d)", t)]  # not a format spec such as {x:.0%}
         self.assertEqual(typed, [])
 
 

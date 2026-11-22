@@ -319,13 +319,39 @@ def _rows(iso3, group, role=None):
 def gateway(iso3, group, role=None):
     """Principal port code of a country for a commodity group, or None.
 
-    Same signature as before, plus an optional `role` ("load" or "discharge"). A country that has rows in the new
-    tables never gets a port of another family: no row of the family means its own legacy entry, else None.
-    A country without any new row is answered by the legacy table, as before."""
-    if iso3 in G:
-        rows = _rows(iso3, group, role)
-        if rows:
-            return rows[0].code
+    Same signature as before, plus an optional `role` ("load" or "discharge"). A country that has rows of the
+    family's class (food, dry bulk, energy) in the new tables never gets a port of another family: no row of the
+    family means its own legacy entry, else None. A class without any new row is answered by the legacy table, as
+    before."""
+    rows = _rows(iso3, group, role) if iso3 in G else []
+    if rows:
+        return rows[0].code
+    return _fallback(iso3, group)
+
+
+# Cargo classes: a country whose new rows cover one class (food, dry bulk, energy) is answered strictly for that
+# class (no "any" fall-back), and by the whole legacy table for the classes it has no row in yet.
+_CLASSES = {
+    "food": {"grain", "vegoil", "fert", "box"},
+    "drybulk": {"ore", "coal", "bauxite", "alumina", "manganese", "nickel", "metcoal"},
+    "energy": {"crude", "products", "lpg", "lng"},
+}
+
+
+def _class_of(seg):
+    return next((c for c, members in _CLASSES.items() if seg in members), None)
+
+
+def _has_rows_in_class(iso3, cls):
+    key = ("cls", iso3, cls)
+    if key not in _caches:
+        _caches[key] = any(_class_of(SEGMENT.get(f, f)) == cls for r in G.get(iso3, ()) for f in r.families)
+    return _caches[key]
+
+
+def _fallback(iso3, group):
+    """Legacy answer for a group that has no row of its own."""
+    if _has_rows_in_class(iso3, _class_of(segment(group))):
         return _legacy_strict(iso3, group)
     return _legacy(iso3, group)
 
@@ -373,18 +399,20 @@ def zones():
 _ROOT = os.path.abspath(os.path.join(_HERE, "..", ".."))
 
 
+def _load_json(*parts):
+    with open(os.path.join(_ROOT, *parts), encoding="utf-8") as f:
+        return json.load(f)
+
+
 def _load_countries():
     c = _caches.get("countries")
     if c is None:
-        idx = {x["c"]: x for x in json.load(open(os.path.join(_ROOT, "data", "countries", "index.json"), encoding="utf-8"))}
-        coastal = set()
-        p = os.path.join(_ROOT, "pipeline", "cache", "adjacency.json")
-        if os.path.exists(p):
-            coastal = set(json.load(open(p, encoding="utf-8")).get("coastal", []))
-        extra = {}
-        p = os.path.join(_ROOT, "pipeline", "geo", "places_extra.json")
-        if os.path.exists(p):
-            extra = {x["c"]: x for x in json.load(open(p, encoding="utf-8"))}
+        idx = {x["c"]: x for x in _load_json("data", "countries", "index.json")}
+        coastal, extra = set(), {}
+        if os.path.exists(os.path.join(_ROOT, "pipeline", "cache", "adjacency.json")):
+            coastal = set(_load_json("pipeline", "cache", "adjacency.json").get("coastal", []))
+        if os.path.exists(os.path.join(_ROOT, "pipeline", "geo", "places_extra.json")):
+            extra = {x["c"]: x for x in _load_json("pipeline", "geo", "places_extra.json")}
         c = _caches["countries"] = (idx, coastal, extra)
     return c
 
@@ -446,8 +474,7 @@ def _cands(iso3, group, role):
             seen.add(r.code)
     if out:
         return out
-    code = _legacy_strict(iso3, group) if iso3 in G else _legacy(iso3, group)
-    code = code or nearest_port(iso3)
+    code = _fallback(iso3, group) or nearest_port(iso3)
     return [(code, zone_of(code))] if code else []
 
 

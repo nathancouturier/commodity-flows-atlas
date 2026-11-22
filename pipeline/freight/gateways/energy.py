@@ -42,6 +42,9 @@ MANUAL_EXTRA = {
     "USCVP": ("Cove Point LNG", "USA", -76.408, 38.389),
     "MZCSL": ("Coral Sul FLNG (Rovuma basin)", "MOZ", 41.0, -11.5),
     "CNRDG": ("Rudong LNG terminal", "CHN", 121.2, 32.55),
+    # Bonaire (BES): the searoute list has no port of the Caribbean Netherlands. Coordinates of Kralendijk, "the capital
+    # and the main port of the island" (Wikipedia). Not in a gateway row: the page names no oil terminal.
+    "BQKRA": ("Kralendijk (Bonaire)", "BES", -68.2656, 12.1444),
 }
 ZONES = EXTRA_ZONES
 
@@ -50,6 +53,7 @@ MANUAL_SRC = {
     "USCVP": {"zone": "us-atlantic", "s": "giignl-2026", "url": GIIGNL + "17"},
     "MZCSL": {"zone": "e-africa", "s": "giignl-2026", "url": GIIGNL + "19"},
     "CNRDG": {"zone": "n-china", "s": "giignl-2026", "url": GIIGNL + "29"},
+    "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
 }
 
 G = {
@@ -60,6 +64,10 @@ G = {
         ("AEFJR", "gulf-of-oman", {"products"}, "load", "wikipedia", WP + "Port_of_Fujairah", "Fujairah is a bunkering hub on the Gulf of Oman"),
         ("AERUW", "meg", {"lpg"}, "load", "wikipedia", WP + "Ruwais", "Natural gas liquids fractionation plant at Ruwais"),
         ("AEDAS", "meg", {"lng"}, "load", "giignl-2026", GIIGNL + "18", None),
+    ],
+    "COL": [
+        ("COCOV", "caribbean", {"crude"}, "load", "wikipedia", WP + "Cove%C3%B1as", "Covenas became an oil port in the twentieth century, on the Caribbean coast (the page does not name the pipeline)"),
+        ("COCTG", "caribbean", {"lng"}, "discharge", "wikipedia", LIST, "SPEC terminal, Cartagena"),
     ],
     "OMN": [
         ("OMMFH", "gulf-of-oman", {"crude"}, "load", "wikipedia", WP + "Mina_Al_Fahal", "Crude export terminal near Muscat (single buoy moorings)"),
@@ -209,9 +217,6 @@ G = {
     ],
     "BRA": [
         ("BRPEC", "ecsa", {"lng"}, "discharge", "wikipedia", LIST, "Pecem terminal"),
-    ],
-    "COL": [
-        ("COCTG", "caribbean", {"lng"}, "discharge", "wikipedia", LIST, "SPEC terminal, Cartagena"),
     ],
     "BRN": [
         ("BNLUM", "sea", {"lng"}, "load", "wikipedia", LIST, "Brunei LNG, Lumut"),

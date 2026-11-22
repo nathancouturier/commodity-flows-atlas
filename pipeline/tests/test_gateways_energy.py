@@ -238,6 +238,51 @@ class G09Crude(unittest.TestCase):
             self.assertNotIn("cape-horn", out.via, (o, d))
 
 
+class LoaderIntegration(unittest.TestCase):
+    """The rows as ports.py serves them (the loader merges the data modules)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import ports
+        cls.ports = ports
+        ports.load_modules()
+
+    def test_present_oil_port_is_kept_for_the_families_without_a_row(self):
+        # Norway has an LNG row only: crude, products and LPG keep Mongstad, not the nearest port of the label point
+        for g in ("crude-oil", "refined-products", "lpg"):
+            self.assertEqual(self.ports.gateway("NOR", g, "load"), "NOMON", g)
+        self.assertEqual(self.ports.gateway("KOR", "crude-oil", "discharge"), "KRUSN")
+        self.assertEqual(self.ports.gateway("NLD", "lpg", "discharge"), "NLRTM")
+
+    def test_principal_gateways(self):
+        P = self.ports
+        self.assertEqual(P.gateway("ARE", "crude-oil", "load"), "AEFJR")
+        self.assertEqual(P.gateway("AUS", "refined-products", "discharge"), "AUBTB")
+        self.assertEqual(P.gateway("IDN", "refined-products", "discharge"), "IDTPP")
+        self.assertEqual(P.gateway("GBR", "lng", "discharge"), "GBPEM")
+        self.assertEqual(P.gateway("BEL", "lng", "discharge"), "BEZEE")
+        self.assertEqual(P.gateway("CAN", "crude-oil", "discharge"), "CASJB")
+
+    def test_uae_crude_assignment_has_both_options(self):
+        a = self.ports.assign("ARE", "JPN", "crude-oil")
+        self.assertEqual(a.basis, "open")
+        self.assertEqual({o.load for o in a.options}, {"AEFJR", "AEDAS"})
+        self.assertEqual(a.main.load, "AEFJR")
+
+    def test_atlantic_crude_pairs_stay_off_panama_and_cape_horn(self):
+        try:
+            import routing as RT
+            RT.route
+        except Exception as e:
+            self.skipTest("routing.py not available: %s" % e)
+        for o, d in (("NGA", "CAN"), ("AGO", "CAN"), ("COL", "PAN"), ("GUY", "PAN")):
+            a = self.ports.assign(o, d, "crude-oil")
+            for opt in a.options:
+                out = RT.route(coords(opt.load), coords(opt.discharge), ("southern-ocean",))
+                self.assertNotIn("panama", out.via, (o, d, opt))
+                self.assertNotIn("cape-horn", out.via, (o, d, opt))
+
+
 class M08Transit(unittest.TestCase):
     def test_every_transit_port_resolves(self):
         m = manual_ports()
