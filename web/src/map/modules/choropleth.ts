@@ -9,6 +9,7 @@ import type { CommodityData, Ranked } from '../../types';
 import { registerLayerModule } from '../layers';
 import { setCountryTooltipExtra } from '../controller';
 import { choroInfo, commodity, metric } from '../../lib/store';
+import { commodities } from '../../lib/data';
 import { loadOptional, commodityMeta, sourceLabel } from '../../lib/data';
 import { FAMILY_COLOR, fmt, pct, escapeHtml } from '../../lib/format';
 
@@ -18,6 +19,32 @@ export const EU27 = [
   'AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'IRL',
   'ITA', 'LVA', 'LTU', 'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROU', 'SVK', 'SVN', 'ESP', 'SWE',
 ];
+
+/**
+ * Choosing a commodity colours its producing countries in the family colour (production, or
+ * exports when no production table exists). An explicit choice (including "Off") is kept until
+ * the commodity changes; a shared link with m=... is respected.
+ */
+let lastK: string | null | undefined;
+effect(() => {
+  const k = commodity.value;
+  void commodities.value; // wait for the catalogue
+  const meta = k ? commodityMeta(k) : undefined;
+  if (k && !meta) return;
+  if (k === lastK) return;
+  const first = lastK === undefined;
+  lastK = k;
+  if (!k || !meta) {
+    if (!first) metric.value = 'none';
+    return;
+  }
+  const cur = metric.peek();
+  if (first && cur !== 'none') return; // link carried its own colouring
+  if (cur === 'none' || !meta.has.includes(cur)) {
+    const pick = (['production', 'exports', 'imports'] as const).find((x) => meta.has.includes(x));
+    metric.value = pick ?? 'none';
+  }
+});
 
 registerLayerModule((m: MLMap) => {
   effect(() => {

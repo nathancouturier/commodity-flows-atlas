@@ -332,6 +332,13 @@ export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5) {
   });
 }
 
+/** Back to the whole trading world (used when a commodity is picked, so its producers are visible). */
+export function flyToWorld() {
+  const m = map;
+  if (!m) return;
+  m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: !!document.querySelector('.detail-panel.open') }), maxZoom: 2.4, duration: 1400 });
+}
+
 export function flyToCountry(iso3: string) {
   const c = countries.value[iso3];
   if (!c) return;

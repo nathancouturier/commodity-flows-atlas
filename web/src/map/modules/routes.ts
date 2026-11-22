@@ -7,7 +7,7 @@ import { effect } from '@preact/signals';
 import type { Feature, LineString } from 'geojson';
 import type { Route } from '../../types';
 import { registerLayerModule } from '../layers';
-import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
+import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { family, layers, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
 import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
@@ -27,10 +27,12 @@ function routeLabel(r: Route): string {
 registerLayerModule(() => {
   let seq = 0;
   let flown: string | null = null;
+  let framed = '';
 
   effect(() => {
-    const on = layers.value.routes || family.value === 'freight';
     const vc = vesselClasses.value;
+    // routes are shown with the layer, on the Freight tab, or whenever a vessel class is selected
+    const on = layers.value.routes || family.value === 'freight' || vc.size > 0;
     const sel = selection.value;
     const selId = sel?.kind === 'route' ? sel.id : null;
     void [vesselClassList.value, commodities.value, sources.value];
@@ -73,6 +75,16 @@ registerLayerModule(() => {
           });
         }
         setLineSet('routes', features);
+        // a new vessel-class selection frames all its routes
+        const key = [...vc].sort().join(',');
+        if (key && key !== framed && !selId && features.length) {
+          let w = Infinity, so = Infinity, e = -Infinity, n = -Infinity;
+          for (const f of features) for (const [x, y] of f.geometry.coordinates) {
+            w = Math.min(w, x); e = Math.max(e, x); so = Math.min(so, y); n = Math.max(n, y);
+          }
+          if (e - w < 340) flyToBounds([[w, so], [e, n]], 4);
+        }
+        framed = key;
         const main = features.find((f) => f.properties.hl);
         if (selId && main && flown !== selId) flyToLine(main.geometry.coordinates as [number, number][]);
         flown = selId;

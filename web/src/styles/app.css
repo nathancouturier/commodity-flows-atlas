@@ -400,7 +400,7 @@ button {
 }
 
 .detail-head {
-  padding: 16px 16px 12px;
+  padding: 16px 52px 12px 16px; /* keep text clear of the close button */
   border-bottom: 1px solid var(--hairline);
   position: relative;
 }
@@ -423,6 +423,7 @@ button {
 
 .close-btn {
   position: absolute;
+  z-index: 5; /* above the positioned .detail-head that follows it in the DOM */
   top: 12px;
   right: 12px;
   width: 30px;
@@ -1340,4 +1341,22 @@ button {
 html,
 .app {
   overflow: hidden;
+}
+
+/* ---- colour filter: commodity selector; vessel quick-select route list */
+.cc-pick select {
+  width: 100%;
+  margin: 0 0 9px;
+  padding: 7px 10px;
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--ink-0);
+  background: var(--panel-raised);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+}
+.vq-list {
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }

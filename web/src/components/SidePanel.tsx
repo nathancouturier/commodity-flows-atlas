@@ -23,6 +23,7 @@ import {
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
 import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
+import { flyToWorld } from '../map/controller';
 import { Section, Switch, InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
 import type { Family, Route, Segment } from '../types';
 
@@ -78,7 +79,30 @@ export function SidePanel() {
             <div class="rf-top">
               <RouteFinderSlot />
             </div>
-        <Section title="Colour countries by" aside={current ? <span class="muted">{current.name}</span> : null}>
+        <VesselQuick />
+        <Section title="Colour countries by">
+          <label class="cc-pick">
+            <span class="sr-only">Commodity to colour the map by</span>
+            <select
+              value={commodity.value ?? ''}
+              onChange={(e) => {
+                const v = (e.currentTarget as HTMLSelectElement).value || null;
+                commodity.value = v;
+                if (v) flyToWorld();
+              }}
+            >
+              <option value="">Choose a commodity…</option>
+              {FAMILIES.map((f) => (
+                <optgroup key={f} label={FAMILY_LABEL[f]}>
+                  {commodities.value.filter((c) => c.family === f).map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </label>
           <div class="chips" role="radiogroup">
             {METRICS.map((m) => {
               const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
@@ -99,7 +123,7 @@ export function SidePanel() {
               );
             })}
           </div>
-          {!current && <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Pick a commodity to colour the map.</p>}
+          {!current && <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Choose a commodity: its producing countries are coloured in its family colour.</p>}
           {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
             <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Greyed-out options have no free country-level data for {current.name}.</p>
           )}
@@ -118,6 +142,7 @@ export function SidePanel() {
                     const same = commodity.value === c.id;
                     commodity.value = same ? null : c.id;
                     select(same ? null : { kind: 'commodity', id: c.id });
+                    if (!same) flyToWorld();
                   }}
                 >
                   <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
@@ -200,6 +225,66 @@ function VesselFilter() {
           </div>
         );
       })}
+    </Section>
+  );
+}
+
+/** Vessel-class families: one click shows every route of that class on the map (any tab). */
+const QUICK: { seg: Segment; items: { id: string; label: string }[] }[] = [
+  { seg: 'dry', items: [{ id: 'capesize', label: 'Capesize' }, { id: 'panamax', label: 'Panamax' }, { id: 'supramax', label: 'Supramax' }, { id: 'handysize', label: 'Handysize' }] },
+  { seg: 'tanker', items: [{ id: 'vlcc', label: 'VLCC' }, { id: 'suezmax', label: 'Suezmax' }, { id: 'aframax', label: 'Aframax' }, { id: 'lr2', label: 'LR2' }, { id: 'lr1', label: 'LR1' }, { id: 'mr', label: 'MR' }] },
+  { seg: 'gas', items: [{ id: 'lng', label: 'LNG' }, { id: 'vlgc', label: 'VLGC' }] },
+];
+
+function VesselQuick() {
+  const sel = vesselClasses.value;
+  const [routes, setRoutes] = useState<Route[]>([]);
+  useEffect(() => {
+    if (sel.size && !routes.length) loadRoutes().then(setRoutes).catch(() => undefined);
+  }, [sel.size]);
+  const active = (id: string) => vesselFamily(id).some((m) => sel.has(m));
+  const pick = (id: string) => {
+    // single family at a time here: clicking the active one clears it
+    vesselClasses.value = active(id) ? new Set() : new Set(vesselFamily(id));
+  };
+  const matched = sel.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, sel)) : [];
+  return (
+    <Section
+      title="Routes by vessel class"
+      aside={sel.size > 0 ? <button class="link-btn" onClick={() => (vesselClasses.value = new Set())}>Clear</button> : null}
+    >
+      {QUICK.map((g) => (
+        <div class="vc-group" key={g.seg}>
+          <div class="vc-label">{SEGMENT_LABEL[g.seg]}</div>
+          <div class="chips">
+            {g.items.map((it) => (
+              <button
+                key={it.id}
+                class="chip"
+                aria-pressed={active(it.id)}
+                style={{ '--chip-color': SEGMENT_COLOR[g.seg] }}
+                title={vesselFamily(it.id).length > 1 ? `Includes ${vesselFamily(it.id).map(vesselName).join(', ')}` : vesselName(it.id)}
+                onClick={() => pick(it.id)}
+              >
+                {it.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+      {sel.size > 0 && (
+        <div class="vq-list">
+          <div class="muted" style={{ fontSize: '12px', margin: '6px 0 4px' }}>
+            {matched.length} route{matched.length === 1 ? '' : 's'} on the map
+          </div>
+          {matched.map((r) => (
+            <button class="list-btn route-row" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
+              {r.benchmark ? <span class="code">{r.id}</span> : <span class="dot" style={{ color: SEGMENT_COLOR[segmentOf(r.vclass)], width: '6px', height: '6px' }} />}
+              <span class="route-name">{r.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </Section>
   );
 }
