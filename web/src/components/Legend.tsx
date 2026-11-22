@@ -1,9 +1,9 @@
 /** Small map legend: only describes what is currently drawn. */
-import { choroInfo, mapNotice, commodity, family, infraTypes, landFlowsShown, layers, selection } from '../lib/store';
+import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection } from '../lib/store';
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, pct, shareOpacity } from '../lib/format';
-import { InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
+import { LayerToggles, InfraTypeChips } from './LayerSwitches';
 import { STATUS_COLOR } from '../map/modules/infrastructure';
 import type { Family, Segment } from '../types';
 
@@ -32,12 +32,10 @@ export function Legend() {
     const own = k ? commodityMeta(k)?.family : undefined;
     families = own ? [own] : fam === 'all' || fam === 'freight' ? ['energy', 'metals', 'softs'] : [fam];
   }
-  if (!flowsOn && !routesOn && !chokeOn && !infraOn && !choro) return null;
-
-  const types = infraTypes.value.size ? INFRA_ORDER.filter((t) => infraTypes.value.has(t)) : INFRA_ORDER;
-
+  // the legend is always shown: it carries the map layer toggles
   return (
-    <div class="legend glass" role="group" aria-label="Map legend">
+    <div class="legend glass" role="group" aria-label="Map layers and legend">
+      <LayerToggles />
       {families.map((f) => (
         <span class="legend-item">
           <span class="legend-swatch" style={{ background: FAMILY_COLOR[f] }} />
@@ -93,14 +91,7 @@ export function Legend() {
       )}
       {infraOn && (
         <div class="legend-block legend-infra">
-          <div class="legend-infra-types">
-            {types.map((t) => (
-              <span class="legend-item" key={t}>
-                <InfraIcon type={t} size={16} />
-                {INFRA_META[t].label}
-              </span>
-            ))}
-          </div>
+          <InfraTypeChips />
           <div class="legend-infra-status">
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.damaged }} />Damaged</span>
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.idle }} />Idle / suspended</span>

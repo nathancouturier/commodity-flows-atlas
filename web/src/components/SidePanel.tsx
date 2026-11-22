@@ -7,15 +7,11 @@ import { commodities } from '../lib/data';
 import {
   family,
   commodity,
-  layers,
-  toggleLayer,
   metric,
   select,
   panelCollapsed,
   selection,
   vesselClasses,
-  infraTypes,
-  infraAvailable,
   toggleInSet,
   sheetSnap,
   type Metric,
@@ -24,9 +20,10 @@ import {
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
 import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselFamily, vesselMatches, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
+import { LayerSwitches } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
-import { Section, Switch, InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
-import type { Family, Route, Segment } from '../types';
+import { Section } from './ui';
+import type { CommodityMeta, Family, Route, Segment } from '../types';
 
 const METRICS: { id: Metric; label: string }[] = [
   { id: 'none', label: 'Off' },
@@ -41,8 +38,6 @@ const FAMILIES: Family[] = ['energy', 'metals', 'softs'];
 
 export function SidePanel() {
   const fam = family.value;
-  const list = commodities.value.filter((c) => c.family !== 'freight' && (fam === 'all' || fam === 'freight' || c.family === fam));
-  const groups = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
   const freight = fam === 'freight';
   const current = commodities.value.find((c) => c.id === commodity.value);
 
@@ -55,154 +50,103 @@ export function SidePanel() {
     >
       <SheetHead summary={current?.name} />
       <div class="panel-scroll">
-        <Section title="Map layers">
-          <Switch
-            label="Physical flows"
-            desc="What is traded: country-to-country volumes (customs data); width = tonnage"
-            checked={layers.value.flows}
-            onChange={(v) => toggleLayer('flows', v)}
-          />
-          <Switch
-            label="Freight routes"
-            desc="How it ships: Baltic benchmark and main routes, by vessel class"
-            checked={layers.value.routes}
-            onChange={(v) => toggleLayer('routes', v)}
-          />
-          <Switch
-            label="Chokepoints"
-            desc="Straits and canals, with current traffic"
-            checked={layers.value.chokepoints}
-            onChange={(v) => toggleLayer('chokepoints', v)}
-          />
-          <Switch
-            label="Infrastructure"
-            desc="Mines, fields, refineries, LNG terminals, pipelines, ports"
-            checked={layers.value.infrastructure}
-            onChange={(v) => toggleLayer('infrastructure', v)}
-          />
-          {layers.value.infrastructure && <InfraTypeChips />}
-        </Section>
-
+        <CommoditySection current={current} />
         {freight ? (
           <>
-            <Section title="Route finder">
-              <RouteFinderSlot always />
-            </Section>
             <VesselFilter />
             <RouteList />
           </>
         ) : (
-          <>
-            <div class="rf-top">
-              <RouteFinderSlot />
-            </div>
-        <VesselQuick />
-        <Section title="Colour countries by">
-          <label class="cc-pick">
-            <span class="sr-only">Commodity to colour the map by</span>
-            <select
-              value={commodity.value ?? ''}
-              onChange={(e) => {
-                const v = (e.currentTarget as HTMLSelectElement).value || null;
-                commodity.value = v;
-                if (v) flyToWorld();
-              }}
-            >
-              <option value="">Choose a commodity…</option>
-              {FAMILIES.map((f) => (
-                <optgroup key={f} label={FAMILY_LABEL[f]}>
-                  {commodities.value.filter((c) => c.family === f).map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </label>
-          <div class="chips" role="radiogroup">
-            {METRICS.map((m) => {
-              const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
-              const off = m.id !== 'none' && (!current || noData);
-              return (
-                <button
-                  class="chip"
-                  role="radio"
-                  aria-checked={metric.value === m.id}
-                  aria-pressed={metric.value === m.id}
-                  disabled={off}
-                  title={noData ? 'No free country-level data' : undefined}
-                  style={{ opacity: off ? 0.4 : 1 }}
-                  onClick={() => (metric.value = m.id)}
-                >
-                  {m.label}
-                </button>
-              );
-            })}
-          </div>
-          {!current && <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Choose a commodity: its producing countries are coloured in its family colour.</p>}
-          {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
-            <p class="muted" style={{ fontSize: '12px', margin: '8px 0 0' }}>Greyed-out options have no free country-level data for {current.name}.</p>
-          )}
-        </Section>
-
-        {groups.map((g) => {
-          const items = list.filter((c) => c.family === g);
-          if (!items.length) return null;
-          return (
-            <Section key={g} title={<span style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</span>}>
-              {items.map((c) => (
-                <button
-                  class="list-btn"
-                  aria-pressed={commodity.value === c.id}
-                  onClick={() => {
-                    const same = commodity.value === c.id;
-                    commodity.value = same ? null : c.id;
-                    select(same ? null : { kind: 'commodity', id: c.id });
-                    if (!same) flyToWorld();
-                  }}
-                >
-                  <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
-                  {c.name}
-                  <span class="meta">{c.unit}</span>
-                </button>
-              ))}
-            </Section>
-          );
-        })}
-          </>
+          <VesselQuick />
         )}
+        <Section title="Route finder">
+          <RouteFinderSlot always />
+        </Section>
+        {/* on phones and tablets the legend is hidden, so the layer switches live here */}
+        <div class="layers-in-panel">
+          <Section title="Map layers">
+            <LayerSwitches />
+          </Section>
+        </div>
       </div>
     </aside>
   );
 }
 
 /** Infrastructure type filter: empty selection = all types. */
-function InfraTypeChips() {
-  const sel = infraTypes.value;
-  const avail = infraAvailable.value;
-  const shown = INFRA_ORDER.filter((t) => !avail || avail.has(t));
-  const cur = commodities.value.find((c) => c.id === commodity.value);
-  const scope = cur ? cur.name : family.value !== 'all' ? (family.value === 'freight' ? 'Freight' : FAMILY_LABEL[family.value as Family]) : null;
+
+/** Commodity choice first: picking one colours its producers, draws its flows and opens its page. */
+function CommoditySection(props: { current: CommodityMeta | undefined }) {
+  const { current } = props;
+  const fam = family.value;
+  const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
+  const choose = (v: string | null) => {
+    commodity.value = v;
+    if (v) {
+      select({ kind: 'commodity', id: v });
+      flyToWorld(true);
+    } else if (selection.peek()?.kind === 'commodity') {
+      select(null);
+    }
+  };
   return (
-    <div class="infra-filter">
-      {scope && <div class="infra-scope">Showing assets for {scope}</div>}
-      <div class="chips">
-        {shown.map((t) => (
-          <button class="chip chip-infra" key={t} aria-pressed={sel.has(t)} onClick={() => toggleInSet(infraTypes, t)} title={INFRA_META[t].label}>
-            <InfraIcon type={t} size={18} color={sel.has(t) ? '#3ee6ff' : '#b9c4d0'} />
-            {INFRA_META[t].plural}
-          </button>
+    <Section title="Commodity" aside={current ? <button class="link-btn" onClick={() => choose(null)}>Clear</button> : null}>
+      <label class="cc-pick">
+        <span class="sr-only">Commodity</span>
+        <select value={commodity.value ?? ''} onChange={(e) => choose((e.currentTarget as HTMLSelectElement).value || null)}>
+          <option value="">Choose a commodity…</option>
+          {fams.map((f) => (
+            <optgroup key={f} label={FAMILY_LABEL[f]}>
+              {commodities.value.filter((c) => c.family === f).map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+      </label>
+      <div class="cc-label">Colour countries by</div>
+      <div class="chips" role="radiogroup" aria-label="Colour countries by">
+        {METRICS.map((m) => {
+          const noData = m.id !== 'none' && !!current && !current.has.includes(m.id);
+          const off = m.id !== 'none' && (!current || noData);
+          return (
+            <button
+              class="chip"
+              role="radio"
+              aria-checked={metric.value === m.id}
+              aria-pressed={metric.value === m.id}
+              disabled={off}
+              title={noData ? 'No free country-level data' : undefined}
+              style={{ opacity: off ? 0.4 : 1 }}
+              onClick={() => (metric.value = m.id)}
+            >
+              {m.label}
+            </button>
+          );
+        })}
+      </div>
+      {!current && <p class="muted cc-hint">Its producing countries are coloured, with their share of world output on the map.</p>}
+      {current && METRICS.some((m) => m.id !== 'none' && !current.has.includes(m.id)) && (
+        <p class="muted cc-hint">Greyed-out options have no free country-level data for {current.name}.</p>
+      )}
+      <details class="cc-browse">
+        <summary>Browse all commodities</summary>
+        {fams.map((g) => (
+          <div key={g} class="cc-group">
+            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
+            {commodities.value.filter((c) => c.family === g).map((c) => (
+              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
+                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
+                {c.name}
+                <span class="meta">{c.unit}</span>
+              </button>
+            ))}
+          </div>
         ))}
-      </div>
-      <div class="infra-hint">
-        {sel.size ? (
-          <button class="link-btn" onClick={() => (infraTypes.value = new Set())}>Show all types</button>
-        ) : (
-          <span>All types shown. Pick one or more to filter.</span>
-        )}
-      </div>
-    </div>
+      </details>
+    </Section>
   );
 }
 
