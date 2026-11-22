@@ -424,7 +424,7 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "Major met coal producer incl. Elk Valley (Teck coal acquired)",
+    "detail": "Largest seaborne steelmaking coal portfolio after acquiring 77% of Elk Valley Resources (ex-Teck coal) in 2024; Nippon Steel and POSCO hold the balance",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Glencore"
@@ -442,7 +442,7 @@
     "name": "Anglo American",
     "hq": "GBR",
     "role": "producer",
-    "detail": "Queensland steelmaking coal; sale of the business agreed in 2026",
+    "detail": "Agreed in May 2026 to sell its Australian steelmaking coal mines to Dhilmar (completion expected Q1 2027); Jellinbah stake already sold; arbitration with Peabody over the earlier deal ongoing",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
@@ -556,7 +556,7 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "DRC and Peru",
+    "detail": "DRC (Katanga/Mutanda) and Peru; also copper smelting and marketing",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Glencore"
@@ -636,6 +636,33 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   },
+   {
+    "name": "IXM",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based concentrates trader, owned by CMOC",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/IXM"
+   },
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
+   },
+   {
+    "name": "Transamine",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based non-ferrous and ferroalloys trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Transamine"
    }
   ]
  },
@@ -686,24 +713,89 @@
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
    }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Aluminium and alumina trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Aluminium and metals trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   },
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
+   }
   ]
  },
  "bauxite": {
   "producers": [
    {
-    "name": "Guinea Alumina/GAC and CBG",
+    "name": "CBG (Compagnie des Bauxites de Guinée)",
     "hq": "GIN",
     "role": "producer",
-    "detail": "Guinea dominant bauxite exporter",
+    "detail": "Boké-region exporter owned by Halco (Alcoa/Rio Tinto-linked) and the Guinean state; supplies EGA and others",
     "s": "wikipedia",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Bauxite"
+    "url": "https://en.wikipedia.org/wiki/Compagnie_des_Bauxites_de_Guinée"
+   },
+   {
+    "name": "Guinea Alumina Corporation (GAC, EGA)",
+    "hq": "GIN",
+    "role": "producer",
+    "detail": "EGA subsidiary; Guinea revoked its concession in 2025 and transferred assets to state firm Nimba Mining; compensation settlement agreed May 2026",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+   },
+   {
+    "name": "SMB-Winning consortium",
+    "hq": "GIN",
+    "role": "producer",
+    "detail": "Boké-region operator (Société Minière de Boké, part of the Winning Consortium); a leading Guinean bauxite exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Société_minière_de_Boké"
+   },
+   {
+    "name": "Chalco (Aluminum Corp of China)",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "State-owned; secures bauxite from Guinea and domestic mines for its alumina refineries",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Chalco"
    },
    {
     "name": "Alcoa",
     "hq": "USA",
     "role": "producer",
-    "detail": "Australian bauxite",
+    "detail": "Australian bauxite (Huntly, Willowdale) and Brazil; CBG shareholder via Halco",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Alcoa"
@@ -712,7 +804,7 @@
     "name": "Rio Tinto",
     "hq": "GBR",
     "role": "producer",
-    "detail": "Weipa",
+    "detail": "Weipa (Queensland) and Gove; Guinea interests via Halco/CBG",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
@@ -721,7 +813,7 @@
     "name": "South32",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Worsley, Brazil mining",
+    "detail": "Worsley Alumina (Western Australia) and Mineração Rio do Norte (Brazil) interests",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/South32"
@@ -775,6 +867,35 @@
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/BHP"
    }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Nickel and ferroalloys trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
+   }
   ]
  },
  "cobalt": {
@@ -805,6 +926,35 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Eurasian_Resources_Group"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Cobalt and metals trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
    }
   ]
  },
@@ -872,7 +1022,7 @@
     "name": "Teck Resources",
     "hq": "CAN",
     "role": "producer",
-    "detail": "Red Dog mine",
+    "detail": "Red Dog mine (Alaska) and Trail smelter; coal business sold to Glencore in 2024 (now Elk Valley Resources); merger with Anglo American agreed, pending final approvals",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Teck_Resources"
@@ -894,6 +1044,44 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Korea_Zinc"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Zinc concentrate and metal trading; owner of Nyrstar",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "IXM",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based concentrates trader, owned by CMOC",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/IXM"
+   },
+   {
+    "name": "Transamine",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based non-ferrous and ferroalloys trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Transamine"
    }
   ]
  },
@@ -967,10 +1155,10 @@
     "url": "https://en.wikipedia.org/wiki/Impala_Platinum"
    },
    {
-    "name": "Anglo American Platinum",
+    "name": "Valterra Platinum (formerly Anglo American Platinum)",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Major PGM producer",
+    "detail": "Renamed Valterra Platinum after its 2025 demerger from Anglo American; major PGM producer",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Valterra_Platinum"
@@ -1094,7 +1282,7 @@
     "name": "Nutrien",
     "hq": "CAN",
     "role": "producer",
-    "detail": "Largest potash producer",
+    "detail": "Largest potash producer; Saskatchewan",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Nutrien"
@@ -1103,7 +1291,7 @@
     "name": "Belaruskali",
     "hq": "BLR",
     "role": "producer",
-    "detail": "Sanctions-affected",
+    "detail": "Belarus state producer, marketed via BPC; US eased sanctions from Dec 2025 (further relief Mar 2026); EU sanctions remain",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Belaruskali"
@@ -1125,6 +1313,24 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   },
+   {
+    "name": "K+S",
+    "hq": "DEU",
+    "role": "producer",
+    "detail": "German potash and salt producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/K%2BS"
+   },
+   {
+    "name": "BHP Jansen (under construction)",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Saskatchewan project; Stage 1 first production targeted mid-2027 after cost increase to US$8.4bn",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
    }
   ]
  },
@@ -1147,6 +1353,33 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   },
+   {
+    "name": "Ma'aden",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "Saudi state-linked miner; phosphate and DAP/MAP exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Ma'aden"
+   },
+   {
+    "name": "PhosAgro",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Major Russian phosphate and NPK producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/PhosAgro"
+   },
+   {
+    "name": "Yuntianhua",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Yunnan phosphate rock and fertiliser producer; Chinese state-controlled group",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://news.metal.com/en/newscontent/102556141-Yuntianhua-Boasts-Large-Ore-and-Fertilizer-Production-Capacity-in-Yunnan-Province"
    }
   ]
  },
@@ -1156,7 +1389,7 @@
     "name": "QAFCO",
     "hq": "QAT",
     "role": "producer",
-    "detail": "Large single-site urea complex",
+    "detail": "QatarEnergy subsidiary; large single-site urea complex, Mesaieed",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/QAFCO"
@@ -1178,6 +1411,42 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Yara_International"
+   },
+   {
+    "name": "SABIC Agri-Nutrients",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "Major Gulf urea producer, Jubail",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Arabian_Fertilizer_Company"
+   },
+   {
+    "name": "Acron",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russian nitrogen and NPK producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Acron_Group"
+   },
+   {
+    "name": "EuroChem",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Swiss-domiciled nitrogen, phosphate and potash producer with Russian assets",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/EuroChem"
+   },
+   {
+    "name": "Pupuk Indonesia",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "State fertiliser group; Pupuk Kaltim urea exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Pupuk_Kaltim"
    }
   ]
  },
@@ -1187,7 +1456,7 @@
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
@@ -1196,16 +1465,16 @@
     "name": "ADM",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Major US origination and export grain handler",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
    },
    {
-    "name": "Bunge",
-    "hq": "USA",
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Bunge_Global"
@@ -1214,7 +1483,7 @@
     "name": "Louis Dreyfus Company",
     "hq": "NLD",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
@@ -1223,10 +1492,37 @@
     "name": "COFCO International",
     "hq": "CHN",
     "role": "trader",
-    "detail": "State-owned",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Demetra Holding (Demetra Trading)",
+    "hq": "RUS",
+    "role": "trader",
+    "detail": "Russian grain trader and terminal owner; among the largest Russian wheat exporters",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://dholding.ru/en/about"
+   },
+   {
+    "name": "Kernel",
+    "hq": "LUX",
+    "role": "trader",
+    "detail": "Ukrainian grain and sunflower oil exporter, Luxembourg-registered",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kernel_Holding"
+   },
+   {
+    "name": "Olam Agri",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Grains and feed merchant; majority-owned by Saudi SALIC",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
    }
   ]
  },
@@ -1236,7 +1532,7 @@
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
@@ -1245,16 +1541,16 @@
     "name": "ADM",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Major US origination and export grain handler",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
    },
    {
-    "name": "Bunge",
-    "hq": "USA",
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Bunge_Global"
@@ -1263,7 +1559,7 @@
     "name": "Louis Dreyfus Company",
     "hq": "NLD",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
@@ -1272,10 +1568,46 @@
     "name": "COFCO International",
     "hq": "CHN",
     "role": "trader",
-    "detail": "State-owned",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Amaggi",
+    "hq": "BRA",
+    "role": "trader",
+    "detail": "Brazilian soy and corn producer and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Amaggi_Group"
+   },
+   {
+    "name": "CHS",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "US farmer-owned cooperative; grain and oilseed exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CHS_Inc."
+   },
+   {
+    "name": "Kernel",
+    "hq": "LUX",
+    "role": "trader",
+    "detail": "Ukrainian grain and sunflower oil exporter, Luxembourg-registered",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kernel_Holding"
+   },
+   {
+    "name": "Nibulon",
+    "hq": "UKR",
+    "role": "trader",
+    "detail": "Ukrainian grain producer and river/Black Sea exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nibulon"
    }
   ]
  },
@@ -1285,7 +1617,7 @@
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
@@ -1294,16 +1626,16 @@
     "name": "ADM",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Major US origination and export grain handler",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
    },
    {
-    "name": "Bunge",
-    "hq": "USA",
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Bunge_Global"
@@ -1312,7 +1644,7 @@
     "name": "Louis Dreyfus Company",
     "hq": "NLD",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
@@ -1321,10 +1653,28 @@
     "name": "COFCO International",
     "hq": "CHN",
     "role": "trader",
-    "detail": "State-owned",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Amaggi",
+    "hq": "BRA",
+    "role": "trader",
+    "detail": "Brazilian soy and corn producer and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Amaggi_Group"
+   },
+   {
+    "name": "CHS",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "US farmer-owned cooperative; grain and oilseed exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CHS_Inc."
    }
   ]
  },
@@ -1340,10 +1690,10 @@
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
    },
    {
-    "name": "Bunge",
-    "hq": "USA",
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
     "role": "crusher",
-    "detail": "Major crusher",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Bunge_Global"
@@ -1356,6 +1706,24 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "processor",
+    "detail": "Large Brazilian and Chinese crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "processor",
+    "detail": "Crusher in Brazil, Argentina and Europe",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
    }
   ]
  },
@@ -1371,10 +1739,10 @@
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
    },
    {
-    "name": "Bunge",
-    "hq": "USA",
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
     "role": "crusher",
-    "detail": "Major crusher",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Bunge_Global"
@@ -1387,16 +1755,52 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Large Asian crusher and refiner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "processor",
+    "detail": "Large crusher and refiner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
    }
   ]
  },
  "rapeseed": {
   "traders": [
    {
+    "name": "Richardson International",
+    "hq": "CAN",
+    "role": "trader",
+    "detail": "Canadian grain and oilseed processor/exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Richardson_International"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Viterra (merged July 2025) is a major Canadian canola handler",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Canola crusher and exporter",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
@@ -1405,29 +1809,20 @@
     "name": "ADM",
     "hq": "USA",
     "role": "trader",
-    "detail": "ABCD trading house",
+    "detail": "Canola crusher and exporter",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
-   },
-   {
-    "name": "Bunge",
-    "hq": "USA",
-    "role": "trader",
-    "detail": "ABCD trading house",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
    }
   ]
  },
  "rice": {
   "traders": [
    {
-    "name": "Olam",
+    "name": "Olam Agri",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Major rice merchant",
+    "detail": "Major rice merchant (Olam Agri, majority-owned by Saudi SALIC)",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Olam_Group"
@@ -1440,10 +1835,55 @@
     "name": "Raízen",
     "hq": "BRA",
     "role": "miller",
-    "detail": "Largest Brazilian sugar/ethanol group",
+    "detail": "Brazil's largest sugar/ethanol group; Shell and Cosan JV",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Raízen"
+   },
+   {
+    "name": "Tereos",
+    "hq": "FRA",
+    "role": "processor",
+    "detail": "French cooperative; beet and cane sugar, ethanol",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tereos"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Sugar milling and refining in Asia, Australia and beyond",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "Mitr Phol",
+    "hq": "THA",
+    "role": "processor",
+    "detail": "Thailand's largest sugar producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mitr_Phol"
+   },
+   {
+    "name": "Shree Renuka Sugars",
+    "hq": "IND",
+    "role": "processor",
+    "detail": "Indian sugar and ethanol producer (Wilmar-controlled)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shree_Renuka_Sugars"
+   },
+   {
+    "name": "Bajaj Hindusthan Sugar",
+    "hq": "IND",
+    "role": "processor",
+    "detail": "Large Indian sugar and ethanol producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bajaj_Hindusthan"
    }
   ],
   "traders": [
@@ -1451,10 +1891,37 @@
     "name": "Sucden",
     "hq": "FRA",
     "role": "trader",
-    "detail": "Major sugar trader",
+    "detail": "French sugar merchant",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Sucres_et_Denrées"
+   },
+   {
+    "name": "Czarnikow",
+    "hq": "GBR",
+    "role": "trader",
+    "detail": "London-based sugar merchant and commodity services group",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.czarnikow.com/"
+   },
+   {
+    "name": "Alvean",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based sugar trader; wholly owned by Copersucar since 2021 (Cargill exited)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Alvean"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Sugar merchant alongside milling",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
    }
   ]
  },
@@ -1464,7 +1931,7 @@
     "name": "Neumann Kaffee Gruppe",
     "hq": "DEU",
     "role": "trader",
-    "detail": "Large coffee trader",
+    "detail": "Hamburg-based; one of the largest green coffee merchants",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Neumann_Kaffee_Gruppe"
@@ -1473,19 +1940,46 @@
     "name": "ECOM",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Coffee and cocoa merchant",
+    "detail": "Coffee, cocoa and cotton merchant; Swiss HQ",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
    },
    {
-    "name": "Olam",
+    "name": "Olam Food Ingredients (ofi)",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Coffee and cocoa merchant",
+    "detail": "Coffee merchant; trades through Olam Food Ingredients (ofi)",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   },
+   {
+    "name": "Sucafina",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based coffee merchant",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.sucafina.com/"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Coffee merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "Volcafe (ED&F Man)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Coffee merchant, part of ED&F Man",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.volcafe.com/"
    }
   ]
  },
@@ -1495,7 +1989,7 @@
     "name": "Barry Callebaut",
     "hq": "CHE",
     "role": "grinder",
-    "detail": "Largest cocoa processor",
+    "detail": "Largest cocoa and chocolate processor",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Barry_Callebaut"
@@ -1510,13 +2004,51 @@
     "url": "https://en.wikipedia.org/wiki/Cargill"
    },
    {
-    "name": "Olam (ofi)",
+    "name": "Olam Food Ingredients (ofi)",
     "hq": "SGP",
     "role": "grinder",
-    "detail": "Major grinder",
+    "detail": "Major cocoa grinder (Olam Food Ingredients)",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   },
+   {
+    "name": "ECOM Agroindustrial",
+    "hq": "CHE",
+    "role": "processor",
+    "detail": "Cocoa merchant and processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Touton",
+    "hq": "FRA",
+    "role": "processor",
+    "detail": "French cocoa and coffee merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Touton"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Conseil du Café-Cacao (CCC)",
+    "hq": "CIV",
+    "role": "trader",
+    "detail": "Côte d'Ivoire's regulator and marketer of cocoa; sets farmgate price and forward-sells the crop",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cocoa_production_in_Côte_d'Ivoire"
+   },
+   {
+    "name": "COCOBOD",
+    "hq": "GHA",
+    "role": "trader",
+    "detail": "Ghana's state cocoa regulator and marketer; forward-sells the crop",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Ghana_Cocoa_Board"
    }
   ]
  },
@@ -1539,6 +2071,24 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ECOM Agroindustrial",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Cotton merchant alongside coffee and cocoa",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Olam Agri",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Cotton merchant within its agri portfolio",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
    }
   ]
  },
@@ -1554,10 +2104,30 @@
     "url": "https://en.wikipedia.org/wiki/Wilmar_International"
    },
    {
+    "name": "Musim Mas",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Integrated palm oil planter, refiner and trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Musim_Mas"
+   },
+   {
+    "name": "Apical (RGE)",
+    "hq": "IDN",
+    "role": "processor",
+    "detail": "Indonesian palm oil refiner and exporter, Royal Golden Eagle group",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Apical"
+   }
+  ],
+  "producers": [
+   {
     "name": "SD Guthrie (formerly Sime Darby Plantation)",
     "hq": "MYS",
     "role": "producer",
-    "detail": "Major planter",
+    "detail": "Renamed SD Guthrie in 2022; one of the world's largest oil palm planters",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/SD_Guthrie"
@@ -1566,10 +2136,19 @@
     "name": "Golden Agri-Resources",
     "hq": "SGP",
     "role": "producer",
-    "detail": "Major planter",
+    "detail": "Large planter and refiner; Sinar Mas group",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Golden_Agri-Resources"
+   },
+   {
+    "name": "FGV Holdings",
+    "hq": "MYS",
+    "role": "producer",
+    "detail": "Malaysian state-linked planter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/FGV_Holdings"
    }
   ]
  },
@@ -1592,6 +2171,262 @@
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "tin": {
+  "producers": [
+   {
+    "name": "Yunnan Tin",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Large Chinese tin miner and refiner (Yunnan Tin Group)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Yunnan_Tin"
+   },
+   {
+    "name": "PT Timah",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "State-controlled Indonesian tin miner/refiner, Bangka-Belitung; government holds 65%",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://timah.com/blog/about-us/pt-timah-tbk-overview"
+   },
+   {
+    "name": "Minsur",
+    "hq": "PER",
+    "role": "producer",
+    "detail": "Peru's San Rafael mine; also owns Thaisarco smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Minsur"
+   },
+   {
+    "name": "Malaysia Smelting Corporation",
+    "hq": "MYS",
+    "role": "producer",
+    "detail": "Tin smelter and refiner (Butterworth) with Malaysian and Indonesian mining interests",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Malaysia_Smelting_Corporation"
+   },
+   {
+    "name": "Thaisarco",
+    "hq": "THA",
+    "role": "processor",
+    "detail": "Thailand smelter and refiner of tin, owned by Minsur",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.thaisarco.com/"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Non-ferrous and minor metals trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "lead": {
+  "producers": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Major lead and zinc miner and marketer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Hindustan Zinc",
+    "hq": "IND",
+    "role": "producer",
+    "detail": "Rajasthan zinc-lead-silver miner and smelter, Vedanta group",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc"
+   },
+   {
+    "name": "Teck Resources",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Red Dog (zinc-lead concentrates) and Trail smelter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Teck_Resources"
+   },
+   {
+    "name": "Doe Run Company",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Missouri's Viburnum Trend lead mines and Herculaneum-area operations",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Doe_Run_Company"
+   },
+   {
+    "name": "Korea Zinc",
+    "hq": "KOR",
+    "role": "producer",
+    "detail": "Large zinc and lead smelter (Onsan)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Korea_Zinc"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Lead and zinc concentrates trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Gerald Group",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.gerald.com/"
+   }
+  ]
+ },
+ "silver": {
+  "producers": [
+   {
+    "name": "Fresnillo",
+    "hq": "GBR",
+    "role": "producer",
+    "detail": "London-listed, Mexico-based primary silver and gold miner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Fresnillo_plc"
+   },
+   {
+    "name": "Pan American Silver",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Major primary silver producer across the Americas",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Pan_American_Silver"
+   },
+   {
+    "name": "KGHM Polska Miedź",
+    "hq": "POL",
+    "role": "producer",
+    "detail": "Polish copper miner and a major silver producer as by-product",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź"
+   },
+   {
+    "name": "Solidcore Resources (formerly Polymetal)",
+    "hq": "KAZ",
+    "role": "producer",
+    "detail": "Polymetal's Kazakhstan-based successor after its Russian assets were divested",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Solidcore_Resources"
+   },
+   {
+    "name": "Hindustan Zinc",
+    "hq": "IND",
+    "role": "producer",
+    "detail": "Large silver producer as by-product of Indian zinc-lead mines",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Trades silver-bearing concentrates alongside base metals",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   }
+  ]
+ },
+ "manganese": {
+  "producers": [
+   {
+    "name": "South32",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "GEMCO (Australia) and Hotazel (South Africa) manganese ore and alloys",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/South32"
+   },
+   {
+    "name": "Eramet / Comilog",
+    "hq": "FRA",
+    "role": "producer",
+    "detail": "Comilog mines in Moanda, Gabon; Eramet is the parent",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Comilog"
+   },
+   {
+    "name": "Assmang",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "Assore / African Rainbow Minerals JV; Kalahari manganese and iron ore",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.assore.com/"
+   },
+   {
+    "name": "Tshipi é Ntle",
+    "hq": "ZAF",
+    "role": "producer",
+    "detail": "Kalahari Manganese Field mine, Northern Cape",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.tshipi.co.za/"
+   },
+   {
+    "name": "Consolidated Minerals (Consmin)",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Ghana (Nsuta) manganese ore producer and trader",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.consmin.com/"
    }
   ]
  }
