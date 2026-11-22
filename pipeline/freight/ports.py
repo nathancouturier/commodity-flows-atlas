@@ -47,6 +47,9 @@ MANUAL = {
     "GBSCU": ("Sullom Voe", "GBR", -1.28, 60.45),
     "KZCPC": ("CPC terminal, Novorossiysk", "RUS", 37.73, 44.66),
     "MYPGU": ("Pengerang", "MYS", 104.13, 1.37),
+    "RUPRG": ("Prigorodnoye (Sakhalin-2 LNG)", "RUS", 142.93, 46.62),
+    "RUSAB": ("Sabetta (Yamal LNG)", "RUS", 72.06, 71.27),
+    "OMMFH": ("Mina al Fahal", "OMN", 58.52, 23.63),
 }
 
 # Extra searoute ports whose ISO3 is needed (searoute only stores the country name)

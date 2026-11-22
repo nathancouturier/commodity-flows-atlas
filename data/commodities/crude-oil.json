@@ -9,14 +9,14 @@
    "n": "EIA crude oil including lease condensate, world"
   },
   "exports": {
-   "v": 2263.4,
+   "v": 2263.5,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "sum of all BACI crude oil flows, tonnes (all modes)"
   },
   "seaborne": {
-   "v": 1808.2,
+   "v": 1861.2,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -84,7 +84,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 2263.4,
+  "world": 2263.5,
   "rows": [
    {
     "c": "SAU",
@@ -142,7 +142,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 2263.4,
+  "world": 2263.5,
   "rows": [
    {
     "c": "CHN",
@@ -182,8 +182,7 @@
    },
    {
     "c": "TWN",
-    "v": 53.138,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 53.138
    },
    {
     "c": "GBR",

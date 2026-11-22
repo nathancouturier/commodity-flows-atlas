@@ -23,7 +23,7 @@
    "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 1574.3,
+   "v": 1594.7,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -233,8 +233,7 @@
    },
    {
     "c": "TWN",
-    "v": 20.345,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 20.345
    },
    {
     "c": "VNM",
@@ -376,7 +375,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "iron-ore:AUS-TWN"
   },
   {
    "o": "BRA",

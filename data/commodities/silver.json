@@ -16,11 +16,11 @@
    "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
   },
   "exports": {
-   "v": 44892.1,
+   "v": 51415.7,
    "u": "t",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 3% of world tonnage estimated from value where missing or inconsistent"
+   "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   }
  },
  "production": {
@@ -141,20 +141,31 @@
   "y": 2024,
   "s": "baci",
   "u": "t",
-  "world": 44892.1,
+  "world": 51415.7,
   "rows": [
    {
     "c": "CHN",
-    "v": 7961.0,
-    "n": "23% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 6105.8
+   },
+   {
+    "c": "RUS",
+    "v": 5242.0
    },
    {
     "c": "JPN",
-    "v": 4516.8
+    "v": 4980.0
+   },
+   {
+    "c": "USA",
+    "v": 4361.0
    },
    {
     "c": "MEX",
     "v": 3456.0
+   },
+   {
+    "c": "GBR",
+    "v": 3189.0
    },
    {
     "c": "KOR",
@@ -169,10 +180,6 @@
     "v": 2699.0
    },
    {
-    "c": "USA",
-    "v": 2312.9
-   },
-   {
     "c": "CHE",
     "v": 2068.0
    },
@@ -181,26 +188,17 @@
     "v": 1792.0
    },
    {
-    "c": "GBR",
-    "v": 1582.9,
-    "n": "32% of tonnage estimated from value"
-   },
-   {
     "c": "CAN",
     "v": 1401.0
-   },
-   {
-    "c": "ITA",
-    "v": 1222.0
    }
   ],
-  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 3% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "t",
-  "world": 44892.1,
+  "world": 51415.7,
   "rows": [
    {
     "c": "USA",
@@ -208,8 +206,11 @@
    },
    {
     "c": "IND",
-    "v": 6425.9,
-    "n": "29% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 6176.8
+   },
+   {
+    "c": "ARM",
+    "v": 4990.0
    },
    {
     "c": "GBR",
@@ -222,6 +223,10 @@
    {
     "c": "CHN",
     "v": 3231.0
+   },
+   {
+    "c": "MEX",
+    "v": 2406.0
    },
    {
     "c": "JPN",
@@ -242,20 +247,19 @@
    {
     "c": "CHE",
     "v": 1174.0
-   },
-   {
-    "c": "THA",
-    "v": 1161.0
-   },
-   {
-    "c": "TWN",
-    "v": 1010.0,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
    }
   ],
-  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 3% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "flows": [
+  {
+   "o": "RUS",
+   "d": "ARM",
+   "v": 4990.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci"
+  },
   {
    "o": "CHN",
    "d": "HKG",
@@ -289,13 +293,20 @@
    "s": "baci"
   },
   {
-   "o": "CHN",
-   "d": "IND",
-   "v": 1858.0,
+   "o": "USA",
+   "d": "MEX",
+   "v": 2204.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "n": "reported tonnage implies 1,157 USD/t, i.e. 0.0015x the silver group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "s": "baci"
+  },
+  {
+   "o": "GBR",
+   "d": "IND",
+   "v": 2116.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -339,6 +350,14 @@
   },
   {
    "o": "JPN",
+   "d": "KOR",
+   "v": 550.0,
+   "u": "t",
+   "y": 2024,
+   "s": "baci"
+  },
+  {
+   "o": "JPN",
    "d": "TWN",
    "v": 528.0,
    "u": "t",
@@ -352,24 +371,6 @@
    "u": "t",
    "y": 2024,
    "s": "baci"
-  },
-  {
-   "o": "GBR",
-   "d": "IND",
-   "v": 509.93,
-   "u": "t",
-   "y": 2024,
-   "s": "baci",
-   "n": "tonnage estimated from value"
-  },
-  {
-   "o": "RUS",
-   "d": "ARM",
-   "v": 499.56,
-   "u": "t",
-   "y": 2024,
-   "s": "baci",
-   "n": "tonnage estimated from value"
   },
   {
    "o": "CHE",
@@ -410,21 +411,12 @@
    "u": "t",
    "y": 2024,
    "s": "baci"
-  },
-  {
-   "o": "POL",
-   "d": "USA",
-   "v": 348.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
   }
  ],
  "notes": [
   "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative."
  ],
  "discrepancies": [
-  "CHN->IND: 1858.0 t of silver in 2024 (reported tonnage implies 1,157 USD/t, i.e. 0.0015x the silver group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "BACI world exports 44,892 t (2024) are 1.7x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
+  "BACI world exports 51,416 t (2024) are 2.0x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
  ]
 }

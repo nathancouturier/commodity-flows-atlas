@@ -341,7 +341,7 @@
 ],
 "canals": {
 "suez": "Transits laden at 20.1 m max draft (design size)",
-"panama": "Too wide for Panamax locks; Neopanamax locks since 2020 allow laden Suezmax up to 15.24 m draft (below typical full draft)"
+"panama": "Too wide for Panamax locks; Neopanamax locks since 2016 allow laden Suezmax up to 15.24 m draft (below typical full draft)"
 },
 "routes": [
 "TD6",

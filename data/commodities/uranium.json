@@ -9,11 +9,11 @@
    "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')"
   },
   "exports": {
-   "v": 89.198,
+   "v": 88.202,
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "n": "uranium ores and natural uranium compounds (HS 261210, 284410), gross weight"
+   "n": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative."
   }
  },
  "production": {
@@ -82,7 +82,7 @@
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 89.198,
+  "world": 88.202,
   "rows": [
    {
     "c": "KAZ",
@@ -117,11 +117,6 @@
     "v": 2.039
    },
    {
-    "c": "DEU",
-    "v": 1.023,
-    "n": "98% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
-   },
-   {
     "c": "UKR",
     "v": 0.697
    },
@@ -132,15 +127,20 @@
    {
     "c": "RUS",
     "v": 0.213
+   },
+   {
+    "c": "DEU",
+    "v": 0.0267,
+    "n": "18% of tonnage estimated from value"
    }
   ],
-  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative."
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 89.198,
+  "world": 88.202,
   "rows": [
    {
     "c": "CHN",
@@ -152,7 +152,7 @@
    },
    {
     "c": "FRA",
-    "v": 14.327
+    "v": 13.331
    },
    {
     "c": "RUS",
@@ -347,20 +347,17 @@
    "s": "baci"
   },
   {
-   "o": "DEU",
-   "d": "FRA",
-   "v": 1.001,
+   "o": "FRA",
+   "d": "NLD",
+   "v": 0.961,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "n": "reported tonnage implies 749 USD/t, i.e. 0.0047x the uranium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "s": "baci"
   }
  ],
  "notes": [
   "Trade is gross weight of uranium ores and natural uranium compounds in kt, not tonnes of contained uranium; enriched uranium and fuel are not covered.",
-  "No reserves or consumption table: neither is in the loaded sources."
- ],
- "discrepancies": [
-  "DEU->FRA: 1.001 kt of uranium in 2024 (reported tonnage implies 749 USD/t, i.e. 0.0047x the uranium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
+  "No reserves or consumption table: neither is in the loaded sources.",
+  "Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."
  ]
 }

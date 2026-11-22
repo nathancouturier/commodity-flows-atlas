@@ -27,7 +27,7 @@ PINK = {
     "Crude oil, WTI": ("wti-m", "crude-oil", "WTI crude", "USD/bbl"),
     "Crude oil, Dubai": ("dubai-m", "crude-oil", "Dubai crude", "USD/bbl"),
     "Natural gas, US": ("hh-m", "natural-gas", "Natural gas, US (Henry Hub)", "USD/MMBtu"),
-    "Natural gas, Europe": ("ttf-m", "natural-gas", "Natural gas, Europe (TTF)", "USD/MMBtu"),
+    "Natural gas, Europe": ("ttf-m", "natural-gas", "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years)", "USD/MMBtu"),
     "Liquefied natural gas, Japan": ("lng-japan-m", "lng", "LNG, Japan import price", "USD/MMBtu"),
     "Coal, Australian": ("coal-aus-m", "thermal-coal", "Thermal coal, Australia (Newcastle)", "USD/t"),
     "Coal, South African **": ("coal-zaf-m", "thermal-coal", "Thermal coal, South Africa (Richards Bay)", "USD/t"),

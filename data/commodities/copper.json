@@ -16,14 +16,14 @@
    "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded"
   },
   "exports": {
-   "v": 42.89,
+   "v": 35.223,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 25% of world tonnage estimated from value where missing or inconsistent"
+   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 35.61,
+   "v": 28.75,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -205,16 +205,15 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 42.89,
+  "world": 35.223,
   "rows": [
-   {
-    "c": "CHL",
-    "v": 12.245,
-    "n": "84% of tonnage estimated from value"
-   },
    {
     "c": "PER",
     "v": 9.365
+   },
+   {
+    "c": "CHL",
+    "v": 4.964
    },
    {
     "c": "IDN",
@@ -233,11 +232,6 @@
     "v": 1.549
    },
    {
-    "c": "USA",
-    "v": 1.457,
-    "n": "17% of tonnage estimated from value"
-   },
-   {
     "c": "BRA",
     "v": 1.41
    },
@@ -246,30 +240,33 @@
     "v": 1.304
    },
    {
+    "c": "USA",
+    "v": 1.256
+   },
+   {
     "c": "SRB",
     "v": 0.9898
    },
    {
-    "c": "COD",
-    "v": 0.8308
-   },
-   {
     "c": "CAN",
     "v": 0.8245
+   },
+   {
+    "c": "COD",
+    "v": 0.8037
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 25% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 42.89,
+  "world": 35.223,
   "rows": [
    {
     "c": "CHN",
-    "v": 29.141,
-    "n": "33% of tonnage estimated from value"
+    "v": 22.287
    },
    {
     "c": "JPN",
@@ -280,17 +277,16 @@
     "v": 1.486
    },
    {
-    "c": "IND",
-    "v": 1.382,
-    "n": "53% of tonnage estimated from value"
-   },
-   {
     "c": "ESP",
     "v": 1.025
    },
    {
     "c": "BGR",
     "v": 1.018
+   },
+   {
+    "c": "IND",
+    "v": 0.8789
    },
    {
     "c": "DEU",
@@ -310,28 +306,16 @@
    },
    {
     "c": "TWN",
-    "v": 0.3625,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 0.3625
    },
    {
     "c": "SWE",
     "v": 0.3539
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 25% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "flows": [
-  {
-   "o": "CHL",
-   "d": "CHN",
-   "v": 9.641,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "sea",
-   "lane": "copper-ore:CHL-CHN",
-   "n": "tonnage estimated from value"
-  },
   {
    "o": "PER",
    "d": "CHN",
@@ -341,6 +325,16 @@
    "s": "baci",
    "mode": "sea",
    "lane": "copper-ore:PER-CHN"
+  },
+  {
+   "o": "CHL",
+   "d": "CHN",
+   "v": 2.787,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "copper-ore:CHL-CHN"
   },
   {
    "o": "KAZ",
@@ -429,17 +423,6 @@
    "mode": "sea"
   },
   {
-   "o": "CHL",
-   "d": "IND",
-   "v": 0.624,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "sea",
-   "lane": "copper-ore:CHL-IND",
-   "n": "tonnage estimated from value"
-  },
-  {
    "o": "ESP",
    "d": "CHN",
    "v": 0.5712,
@@ -517,6 +500,16 @@
    "s": "baci",
    "mode": "sea",
    "lane": "copper-ore:CHL-KOR"
+  },
+  {
+   "o": "PER",
+   "d": "ESP",
+   "v": 0.3332,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "copper-ore:PER-ESP"
   }
  ],
  "notes": [

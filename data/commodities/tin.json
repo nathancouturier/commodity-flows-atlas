@@ -181,7 +181,8 @@
    },
    {
     "c": "NLD",
-    "v": 5.542
+    "v": 5.542,
+    "n": "56% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -226,7 +227,8 @@
    },
    {
     "c": "HUN",
-    "v": 9.196
+    "v": 9.196,
+    "n": "34% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "SGP",
@@ -238,8 +240,7 @@
    },
    {
     "c": "TWN",
-    "v": 6.831,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 6.831
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin and tin waste (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -371,7 +372,8 @@
    "v": 3.13,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "n": "reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "BOL",
@@ -409,5 +411,8 @@
  "notes": [
   "Tin ores and concentrates (HS 2609), 2024 (BACI, baci): world 0.12 Mt gross weight; top exporters COD 0.03 Mt, AUS 0.02 Mt, NGA 0.02 Mt.",
   "Trade tables are unwrought tin metal (HS 8001) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure)."
+ ],
+ "discrepancies": [
+  "NLD->HUN: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
  ]
 }

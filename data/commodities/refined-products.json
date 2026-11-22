@@ -9,14 +9,14 @@
    "n": "EIA International Energy Data, refined petroleum products consumption; world total as published by EIA (all countries)"
   },
   "exports": {
-   "v": 1189.1,
+   "v": 1187.9,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "sum of all BACI refined-product flows (HS 2710), tonnes, all modes"
   },
   "seaborne": {
-   "v": 981.67,
+   "v": 1007.4,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -84,7 +84,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1189.1,
+  "world": 1187.9,
   "rows": [
    {
     "c": "USA",
@@ -107,12 +107,12 @@
     "v": 69.701
    },
    {
-    "c": "NLD",
-    "v": 64.993
-   },
-   {
     "c": "ARE",
     "v": 64.971
+   },
+   {
+    "c": "NLD",
+    "v": 63.802
    },
    {
     "c": "MYS",
@@ -132,7 +132,7 @@
    },
    {
     "c": "KWT",
-    "v": 34.151
+    "v": 34.177
    }
   ],
   "n": "CEPII BACI HS92 refined petroleum products (HS 2710), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -141,7 +141,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1189.1,
+  "world": 1187.9,
   "rows": [
    {
     "c": "USA",

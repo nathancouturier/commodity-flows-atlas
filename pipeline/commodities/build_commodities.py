@@ -107,6 +107,9 @@ EIA_SKIP = {
 EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
+from clean import clean as clean_baci  # noqa: E402
+
 BACI_OVERRIDE = {"S19": "TWN"}  # BACI "Other Asia, nes" = Taiwan
 UNKNOWN = defaultdict(set)
 
@@ -394,21 +397,13 @@ class Psd:
 class Baci:
     def __init__(self):
         df = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
-        df = df[df["o"].notna() & df["d"].notna() & (df["o"] != df["d"])].copy()
-        has_t = df["t"] > 0
-        uv = (df[has_t & (df["usd"] > 0)].assign(u=lambda x: x["usd"] / x["t"]).groupby(["group", "year"])["u"].median())
-        df = df.join(uv.rename("uv"), on=["group", "year"])
-        miss = ~has_t & (df["usd"] > 0) & df["uv"].notna()
-        ratio = (df["usd"] / df["t"].where(has_t)) / df["uv"]
-        bad = has_t & (df["usd"] > 50_000) & ((ratio < 1 / 3) | (ratio > 3)) & df["uv"].notna()
-        fix = miss | bad
-        df["t0"] = df["t"]
-        df.loc[fix, "t"] = df.loc[fix, "usd"] / df.loc[fix, "uv"]
-        df["est"] = fix
-        susp = has_t & ~bad & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100))  # absurd unit values only: group unit values are heterogeneous
+        df = clean_baci(df)  # shared rules with build_lanes.py (pipeline/trade/clean.py)
+        df["est"] = df["imputed"]
+        ratio = df["uvr"]
+        susp = (df["t0"] > 0) & ~df["imputed"] & df["uv"].notna() & ((ratio < 0.05) | (ratio > 20))
         df["susp"] = susp
         df["t_susp"] = df["t"].where(susp, 0.0)
-        df["uvr"] = ratio
+        fix = df["imputed"]
         df["t_est"] = df["t"].where(fix, 0.0)
         self.df = df
         sea = pd.read_csv(os.path.join(CACHE, "sea_flows.csv.gz"))
@@ -925,6 +920,9 @@ def main():
 
     check_unknown()
 
+    # ------------------------------------------------------------ editorial caveats (from the data audit)
+    annotate(docs)
+
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
     for e in index:
@@ -1089,6 +1087,36 @@ def write_qa(index, docs):
     lines += ["", "## Build warnings", ""] + ([f"- {w}" for w in QA_WARN] or ["- none"])
     with open(os.path.join(HERE, "QA.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
+
+
+# Known source limitations found by the data audit; shown with the tables they affect.
+CAVEATS = {
+    "lpg": {"consumption": "Excludes the United States: the EIA US LPG series ends in 2021 (the US used about 44 Mt in 2019), so the world total is understated.",
+            "notes": ["EIA's 2025 LPG consumption table has no United States value; the world total excludes it."]},
+    "natural-gas": {"exports": "Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold.",
+                    "imports": "See exports note: North American pipeline-gas tonnage is understated in customs data.",
+                    "notes": ["Customs tonnage for pipeline gas is unreliable for North America (value-based estimates at about USD 500/t); use EIA bcm figures for production and consumption."]},
+    "lng": {"exports": "Customs (BACI) tonnage; GIIGNL reports higher 2024 exports for the United States (~88 Mt) and Qatar (~77 Mt), world about 411 Mt.",
+            "discrepancies": ["BACI 2024 LNG exporter tonnage is below GIIGNL's annual report (world about 411 Mt vs 378 Mt in customs data), notably for the US and Qatar."]},
+    "uranium": {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
+                "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]},
+}
+
+
+def annotate(docs):
+    for cid, c in CAVEATS.items():
+        d = docs.get(cid)
+        if not d:
+            continue
+        for sec, text in c.items():
+            if sec in ("notes", "discrepancies"):
+                d.setdefault(sec, [])
+                d[sec] += [t for t in text if t not in d[sec]]
+            elif d.get(sec):
+                d[sec]["n"] = (d[sec].get("n", "") + " · " if d[sec].get("n") else "") + text
+                if sec in d.get("summary", {}):
+                    d["summary"][sec]["n"] = text
+
 
 
 if __name__ == "__main__":

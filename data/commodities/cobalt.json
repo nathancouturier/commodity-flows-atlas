@@ -16,11 +16,11 @@
    "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded"
   },
   "exports": {
-   "v": 201.1,
+   "v": 727.15,
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+   "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   }
  },
  "production": {
@@ -141,12 +141,11 @@
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 201.1,
+  "world": 727.15,
   "rows": [
    {
     "c": "COD",
-    "v": 114.11,
-    "n": "90% of tonnage estimated from value"
+    "v": 640.15
    },
    {
     "c": "CAN",
@@ -190,21 +189,21 @@
    },
    {
     "c": "DEU",
-    "v": 3.108
+    "v": 3.108,
+    "n": "36% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 201.1,
+  "world": 727.15,
   "rows": [
    {
     "c": "CHN",
-    "v": 119.68,
-    "n": "86% of tonnage estimated from value"
+    "v": 645.72
    },
    {
     "c": "MYS",
@@ -229,7 +228,7 @@
    {
     "c": "TWN",
     "v": 4.415,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan; 13% of tonnage estimated from value"
+    "n": "13% of tonnage estimated from value"
    },
    {
     "c": "MAR",
@@ -249,20 +248,20 @@
    },
    {
     "c": "FIN",
-    "v": 2.497
+    "v": 2.497,
+    "n": "45% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 51% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "flows": [
   {
    "o": "COD",
    "d": "CHN",
-   "v": 102.54,
+   "v": 628.59,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "n": "tonnage estimated from value"
+   "s": "baci"
   },
   {
    "o": "PHL",

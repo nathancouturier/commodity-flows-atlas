@@ -128,7 +128,8 @@
    },
    {
     "c": "COD",
-    "v": 62.535
+    "v": 62.535,
+    "n": "12% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "UGA",

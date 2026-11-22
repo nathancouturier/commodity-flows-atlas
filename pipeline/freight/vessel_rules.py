@@ -13,7 +13,7 @@ BIG_ORE = {"AUS", "BRA", "ZAF", "CAN", "GIN", "SWE", "MRT", "LBR", "SLE"}
 
 # typical laden service speed, knots (eco-speed era)
 SPEED = {
-    "vloc": 12.0, "capesize": 12.0, "newcastlemax": 12.0, "panamax": 12.0, "kamsarmax": 12.0, "supramax": 12.0,
+    "vloc": 11.0, "capesize": 11.0, "newcastlemax": 11.0, "panamax": 12.0, "kamsarmax": 12.0, "supramax": 12.0,
     "ultramax": 12.0, "handysize": 11.5, "vlcc": 12.5, "suezmax": 13.0, "aframax": 13.0, "lr2": 13.0, "lr1": 13.0,
     "mr": 12.5, "handy-tanker": 12.5, "lng": 17.0, "vlgc": 15.5, "container": 17.0,
 }

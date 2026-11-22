@@ -47,6 +47,8 @@ ROUTE_PORTS = {
     "HS1_38": ("NLRTM", "BRSSZ"), "HS2_38": ("NLRTM", "USHOU"), "HS3_38": ("ARUPR", "NLRTM"), "HS4_38": ("USMSY", "NLRTM"),
     "HS5_38": ("IDBPN", "JPYOK"), "HS6_38": ("CNTSN", "JPCHB"), "HS7_38": ("CNTSN", "SGSIN"), "TC20": ("SAJUB", "NLRTM"),
     "TC21": ("USHOU", "JMKIN"),
+    # partial overrides (None = use the port matched from the route definition)
+    "uspnw-asia-grain": ("USKAM", None), "simandou-china-iron-ore": (None, "CNNGB"), "TD34": ("OMMFH", None),
 }
 
 
@@ -105,12 +107,14 @@ def main():
         cor = r.get("corridor") or []
         k0 = (r.get("cargoes") or [None])[0]
         g0 = (GROUPS_OF.get(k0) or [k0])[0] if k0 else "iron-ore"
+        a = b = None
         if r["id"] in ROUTE_PORTS:
             a, b = ROUTE_PORTS[r["id"]]
-            fp = tp = None
-        else:
-            fp, tp = r["from"]["ports"][0], r["to"]["ports"][0]
+        if a is None:
+            fp = r["from"]["ports"][0]
             a = find_port(fp["name"], fp["c"], g0)
+        if b is None:
+            tp = r["to"]["ports"][0]
             b = find_port(tp["name"], tp["c"], g0)
         out = {k: r[k] for k in ("id", "name", "benchmark", "vclass", "cargoes", "notes", "s") if k in r}
         if r.get("discontinued"):
@@ -124,10 +128,10 @@ def main():
             out["parcelUnit"] = r.get("parcelUnit", "t")
         out["from"] = {"region": r["from"]["region"], "ports": [p["name"] for p in r["from"]["ports"]]}
         out["to"] = {"region": r["to"]["region"], "ports": [p["name"] for p in r["to"]["ports"]]}
-        if r["id"] in ROUTE_PORTS:
+        if r["id"] in ROUTE_PORTS and None not in ROUTE_PORTS[r["id"]]:
             out["drawnAs"] = "typical laden leg"
         if not a or not b:
-            print("skip (no port)", r["id"], fp, tp)
+            print("skip (no port)", r["id"])
             continue
         pa, pb = P.port(a), P.port(b)
         spd = VR.speed(r["vclass"])
@@ -163,7 +167,10 @@ def main():
             if class_tm.get(fam) and cor_tm:
                 out["shareClass"] = {"v": round(100 * cor_tm / class_tm[fam], 1), "u": "%", "y": latest, "s": "atlas",
                                      "n": f"Estimated share of {fam}-size tonne-mile demand (all seaborne flows of the atlas commodities); overlapping routes share the same corridor"}
-            out["history"] = [{"y": y, "v": round(hist_tot[y], 2)} for y in years]
+            series, spikes = BL.despike([round(hist_tot[y], 2) for y in years])
+            out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None]
+            if spikes:
+                out["historyNote"] = "Isolated customs outlier removed for " + ", ".join(str(years[i]) for i in spikes)
             out["historyUnit"] = "Mt"
             out["historySrc"] = "baci"
         routes.append(out)

@@ -16,11 +16,11 @@
    "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000)"
   },
   "exports": {
-   "v": 211.86,
+   "v": 198.84,
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   }
  },
  "production": {
@@ -137,7 +137,7 @@
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 211.86,
+  "world": 198.84,
   "rows": [
    {
     "c": "CHN",
@@ -148,13 +148,13 @@
     "v": 44.366
    },
    {
-    "c": "TUR",
-    "v": 40.835,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "c": "AUS",
+    "v": 31.224
    },
    {
     "c": "MYS",
-    "v": 24.42
+    "v": 24.42,
+    "n": "14% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "LAO",
@@ -170,16 +170,12 @@
    },
    {
     "c": "USA",
-    "v": 5.343
+    "v": 5.343,
+    "n": "51% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "RUS",
     "v": 4.733
-   },
-   {
-    "c": "AUS",
-    "v": 3.917,
-    "n": "100% of tonnage estimated from value"
    },
    {
     "c": "FRA",
@@ -188,24 +184,28 @@
    {
     "c": "EST",
     "v": 2.081
+   },
+   {
+    "c": "KOR",
+    "v": 1.779,
+    "n": "88% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "kt",
-  "world": 211.86,
+  "world": 198.84,
   "rows": [
    {
     "c": "CHN",
     "v": 77.059
    },
    {
-    "c": "BEN",
-    "v": 40.7,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "c": "MYS",
+    "v": 31.431
    },
    {
     "c": "JPN",
@@ -217,12 +217,12 @@
    },
    {
     "c": "PHL",
-    "v": 7.572
+    "v": 7.572,
+    "n": "30% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "TWN",
-    "v": 7.156,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 7.156
    },
    {
     "c": "DEU",
@@ -233,13 +233,9 @@
     "v": 4.745
    },
    {
-    "c": "MYS",
-    "v": 4.124,
-    "n": "95% of tonnage estimated from value"
-   },
-   {
     "c": "FRA",
-    "v": 4.02
+    "v": 4.02,
+    "n": "83% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "EST",
@@ -248,9 +244,14 @@
    {
     "c": "KOR",
     "v": 2.848
+   },
+   {
+    "c": "HKG",
+    "v": 2.693,
+    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 2% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
  "flows": [
   {
@@ -262,13 +263,12 @@
    "s": "baci"
   },
   {
-   "o": "TUR",
-   "d": "BEN",
-   "v": 40.7,
+   "o": "AUS",
+   "d": "MYS",
+   "v": 31.224,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "n": "reported tonnage implies 53 USD/t, i.e. 0.0016x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "s": "baci"
   },
   {
    "o": "MYS",
@@ -311,15 +311,6 @@
    "s": "baci"
   },
   {
-   "o": "AUS",
-   "d": "MYS",
-   "v": 3.917,
-   "u": "kt",
-   "y": 2024,
-   "s": "baci",
-   "n": "tonnage estimated from value"
-  },
-  {
    "o": "RUS",
    "d": "EST",
    "v": 3.676,
@@ -341,7 +332,8 @@
    "v": 3.336,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "n": "reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "CHN",
@@ -365,7 +357,8 @@
    "v": 2.693,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "n": "reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "CHN",
@@ -405,12 +398,21 @@
    "v": 1.551,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "n": "reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "MYS",
    "d": "VNM",
    "v": 1.531,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci"
+  },
+  {
+   "o": "CHN",
+   "d": "IND",
+   "v": 1.436,
    "u": "kt",
    "y": 2024,
    "s": "baci"
@@ -420,6 +422,8 @@
   "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
  ],
  "discrepancies": [
-  "TUR->BEN: 40.7 kt of rare-earths in 2024 (reported tonnage implies 53 USD/t, i.e. 0.0016x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
+  "MYS->FRA: 3.336 kt of rare-earths in 2024 (reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
+  "USA->HKG: 2.693 kt of rare-earths in 2024 (reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
+  "KOR->PHL: 1.551 kt of rare-earths in 2024 (reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
  ]
 }

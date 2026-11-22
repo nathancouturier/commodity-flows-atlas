@@ -9,14 +9,14 @@
    "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded"
   },
   "exports": {
-   "v": 30.303,
+   "v": 30.395,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 21.56,
+   "v": 22.35,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -84,7 +84,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 30.303,
+  "world": 30.395,
   "rows": [
    {
     "c": "CAN",
@@ -99,12 +99,12 @@
     "v": 2.781
    },
    {
-    "c": "MYS",
-    "v": 1.87
+    "c": "IND",
+    "v": 1.952
    },
    {
-    "c": "IND",
-    "v": 1.833
+    "c": "MYS",
+    "v": 1.87
    },
    {
     "c": "AUS",
@@ -141,11 +141,11 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 30.303,
+  "world": 30.395,
   "rows": [
    {
     "c": "USA",
-    "v": 4.049
+    "v": 4.021
    },
    {
     "c": "CHN",

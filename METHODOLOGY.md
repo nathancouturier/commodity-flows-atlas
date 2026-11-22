@@ -17,10 +17,28 @@ and carry the source id `atlas`.
   - Copper concentrate tonnage is reported inconsistently (gross weight or copper content).
   - Origins are as declared. For example, sanctioned Iranian or Venezuelan crude often appears
     under a transhipment origin such as Malaysia.
-- **Tonnage repair**: when a flow has a value but no tonnage, or when its unit value is below a
-  third or above three times the median for that commodity and year (flows over USD 50 million
-  only), the tonnage is re-estimated as value ÷ median unit value. Such flows are flagged
-  "tonnage estimated from value".
+- **Cleaning rules** (`pipeline/trade/clean.py`, shared by every builder so lanes, rankings and
+  flows agree):
+  - BACI reports Taiwan as "S19" (Other Asia, n.e.s.); it is mapped to TWN.
+  - Missing tonnage with a value: tonnage = value ÷ median unit value of the group and year.
+  - Gross unit errors (unit value below 1/100 or above 100× the median, any size) are re-estimated
+    the same way. Example: rare earths Turkey → Benin.
+  - Moderate inconsistencies (unit value below 1/3 or above 3× the median, flows over USD 50
+    million) are re-estimated only for homogeneous goods (crude, products, LNG, LPG, grains,
+    oilseeds, softs, fertilisers). Ore and concentrate groups keep the reported tonnage, because
+    their grades range from about USD 40/t (laterite nickel ore) to over USD 2,000/t (sulphide
+    concentrate).
+  - Known misclassifications are dropped. Example: Israeli pipeline gas to Egypt declared as LNG.
+  - Re-estimated flows are flagged "tonnage estimated from value".
+  - In history series, isolated one-year spikes or dips are removed and noted on the chart. A
+    removed point is below 35% or above 2.8× both neighbouring years. Sustained changes are kept:
+    China's 2021–22 ban on Australian coal, for example, spans two years.
+- **Known reporting gaps** are flagged on the affected lanes. Since 2019, Iranian crude to China
+  is mostly declared under other origins or not recorded, and sanctioned Venezuelan crude often
+  is too.
+- **Pipeline gas tonnage** in customs data is often estimated from value. North American flows
+  (Canada → US, US → Mexico) are understated about fivefold, so EIA bcm figures are used for
+  production and consumption.
 
 ## 2. Seaborne or overland
 
@@ -49,6 +67,14 @@ are therefore slightly understated for those pairs.
   `searoute` package, with a few terminals added by hand.
 - **Geometry**: shortest sea path on Eurostat's SeaRoute maritime network, using the `searoute`
   package. The Northwest Passage is excluded.
+- **Canal limits**: classes that cannot transit laden are routed around the canal.
+  - Panama: VLCC, Suezmax, Capesize, Newcastlemax and VLOC. Neopanamax locks allow 51.25 m beam
+    and 15.24 m draft.
+  - Suez: VLCC and VLOC. Draft is limited to 20.1 m.
+- **Multi-coast exporters**: Russian cargoes load where the trade really goes.
+  - Coal: Vostochny for Asia, Taman for the Mediterranean and Turkey, Ust-Luga for Europe.
+  - Crude: Kozmino, Novorossiysk or Primorsk.
+  - LNG: Sakhalin-2 for Asia, Yamal (Sabetta) for Europe.
 - **Carrier practice**: Capesize, VLOC and VLCC voyages use the Cape of Good Hope instead of Suez
   when the Cape costs four extra days or fewer, because of canal tolls and draft limits. Suez is
   then shown as the shorter alternative.
@@ -56,7 +82,8 @@ are therefore slightly understated for those pairs.
   avoiding them is computed, with its extra distance and laden days.
 - **Chokepoints crossed** are detected geometrically: the path passes within a set radius of the
   strait or canal.
-- **Laden days** are distance ÷ typical laden speed for the class: about 12 kn for dry bulk,
+- **Laden days** are distance ÷ typical laden speed for the class: about 11 kn for Capesize,
+  Newcastlemax and VLOC, 12 kn for other dry bulk,
   12.5–13 kn for tankers, 15.5 kn for VLGCs and 17 kn for LNG carriers. These are Atlas assumptions.
 - **Lane selection**: per commodity group, the largest seaborne pairs covering 80% of volume (at
   most 22 pairs) in each of 2005, 2010, 2015, 2019, 2021, 2022, 2023 and 2024. The union of those

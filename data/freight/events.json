@@ -217,8 +217,9 @@
 "bosphorus"
 ],
 "routes": [
-"TD3C",
-"C5"
+"russia-baltic-india-crude",
+"TD17",
+"TC9"
 ],
 "summary": "Russia launched a full-scale invasion of Ukraine; Ukrainian Black Sea ports were closed and the Black Sea became a war zone.",
 "impact": "Black Sea war-risk premiums rose and Ukrainian grain exports initially halted; Europe began replacing Russian coal, crude, products and pipeline gas.",
@@ -285,7 +286,9 @@
 "cape-good-hope"
 ],
 "routes": [
-"TD3C"
+"russia-baltic-india-crude",
+"TD17",
+"TC9"
 ],
 "summary": "The EU ban on seaborne Russian crude and the G7 price cap (USD 60/bbl) took effect on 5 December 2022.",
 "impact": "Russian crude was redirected to India, China and Turkey on longer voyages, lifting tonne-miles; a shadow fleet outside Western insurance grew.",
@@ -302,7 +305,12 @@
 ],
 "summary": "The EU ban on seaborne Russian oil products and G7 product price caps took effect on 5 February 2023.",
 "impact": "Europe replaced Russian diesel with Middle East and Indian supply, lengthening product tanker voyages; Russian products moved to Turkey, North Africa and Brazil.",
-"src": "https://en.wikipedia.org/wiki/Russian_oil_price_cap"
+"src": "https://en.wikipedia.org/wiki/Russian_oil_price_cap",
+"routes": [
+"russia-baltic-india-crude",
+"TD17",
+"TC9"
+]
 },
 {
 "id": "panama-drought-2023",
@@ -344,7 +352,9 @@
 "cape-good-hope"
 ],
 "routes": [
-"TD3C"
+"TD23",
+"TC20",
+"qatar-europe-lng"
 ],
 "summary": "Houthi forces seized the Galaxy Leader on 19 November 2023 and began missile and drone attacks on commercial vessels in the Red Sea and Bab el-Mandeb, with US- and UK-led strikes beginning in January 2024.",
 "impact": "Most container lines and many tankers and LNG carriers diverted via the Cape of Good Hope, adding roughly 10-14 days on Asia-Europe trips, raising tonne-miles and freight rates; Suez revenue fell sharply.",
@@ -404,7 +414,12 @@
 ],
 "summary": "Houthi attacks sank two bulk carriers in the southern Red Sea in July 2025, after a pause in attacks earlier in the year.",
 "impact": "Reinforced owner reluctance to return to the Red Sea for dry bulk and tankers.",
-"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
+"routes": [
+"TD23",
+"TC20",
+"qatar-europe-lng"
+]
 },
 {
 "id": "panama-fy2025-2025",
@@ -447,7 +462,9 @@
 "title": "US sanctions on Rosneft and Lukoil",
 "kind": "policy",
 "routes": [
-"TD3C"
+"russia-baltic-india-crude",
+"TD17",
+"TC9"
 ],
 "summary": "The US Treasury imposed sanctions on Rosneft and Lukoil on 22 October 2025.",
 "impact": "Indian and Chinese refiners adjusted Russian crude purchases, changing tanker trade patterns.",
@@ -462,7 +479,7 @@
 "cape-good-hope"
 ],
 "routes": [
-"C5"
+"simandou-china-iron-ore"
 ],
 "summary": "The Winning Youth, carrying about 200,000 t of Simandou iron ore, departed Guinea on 2 December 2025 (arrived in China 17 January 2026).",
 "impact": "A new Atlantic-basin supplier adds Guinea-China voyages round the Cape, increasing Capesize tonne-miles over time.",
@@ -530,7 +547,12 @@
 ],
 "summary": "The Houthis declared a naval blockade on Saudi Arabia in July 2026 and launched an offensive in September, escalating Red Sea risks to Saudi Red Sea exports via Yanbu.",
 "impact": "Threatens the main Hormuz bypass (East-West pipeline to Yanbu), which had pushed Bab el-Mandeb oil flows to 8.1 mb/d in 2Q26 per EIA.",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war"
+"src": "https://en.wikipedia.org/wiki/2026_Iran_war",
+"routes": [
+"TD23",
+"TC20",
+"qatar-europe-lng"
+]
 },
 {
 "id": "hormuz-collapse-2026",

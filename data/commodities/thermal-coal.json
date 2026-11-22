@@ -30,7 +30,7 @@
    "n": "thermal coal exports (EIA: all coal minus metallurgical coal)"
   },
   "seaborne": {
-   "v": 1313.7,
+   "v": 1364.4,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -448,7 +448,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "coal:AUS-TWN"
   },
   {
    "o": "IDN",

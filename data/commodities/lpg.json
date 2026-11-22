@@ -6,17 +6,17 @@
    "u": "Mt",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries)"
+   "n": "Excludes the United States: the EIA US LPG series ends in 2021 (the US used about 44 Mt in 2019), so the world total is understated."
   },
   "exports": {
-   "v": 144.5,
+   "v": 144.81,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
   },
   "seaborne": {
-   "v": 133.48,
+   "v": 134.96,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -78,17 +78,17 @@
     "v": 4.395
    }
   ],
-  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries)"
+  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries) · Excludes the United States: the EIA US LPG series ends in 2021 (the US used about 44 Mt in 2019), so the world total is understated."
  },
  "exports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 144.5,
+  "world": 144.81,
   "rows": [
    {
     "c": "USA",
-    "v": 68.22
+    "v": 68.222
    },
    {
     "c": "ARE",
@@ -128,20 +128,20 @@
    },
    {
     "c": "GBR",
-    "v": 1.397
+    "v": 1.403
    },
    {
     "c": "RUS",
     "v": 1.144
    }
   ],
-  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 144.5,
+  "world": 144.81,
   "rows": [
    {
     "c": "CHN",
@@ -161,7 +161,7 @@
    },
    {
     "c": "KOR",
-    "v": 8.595
+    "v": 8.641
    },
    {
     "c": "IDN",
@@ -169,7 +169,7 @@
    },
    {
     "c": "NLD",
-    "v": 4.013
+    "v": 4.079
    },
    {
     "c": "USA",
@@ -192,7 +192,7 @@
     "v": 2.014
    }
   ],
-  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
  },
  "flows": [
   {
@@ -301,8 +301,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "lpg:KWT-IND"
+   "mode": "sea"
   },
   {
    "o": "OMN",
@@ -390,5 +389,8 @@
    "mode": "sea",
    "lane": "lpg:DZA-ITA"
   }
+ ],
+ "notes": [
+  "EIA's 2025 LPG consumption table has no United States value; the world total excludes it."
  ]
 }

@@ -323,7 +323,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
+   "mode": "sea",
+   "lane": "coal:AUS-TWN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -389,7 +390,6 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:AUS-MYS",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -400,7 +400,6 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:USA-CHN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -411,7 +410,6 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "coal:USA-JPN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {

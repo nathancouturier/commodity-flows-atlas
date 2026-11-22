@@ -35,6 +35,9 @@ sys.path.insert(0, HERE)
 import ports as P  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 
+sys.path.insert(0, os.path.join(HERE, "..", "trade"))
+from clean import clean as clean_baci, despike  # noqa: E402
+
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 CACHE = os.path.join(ROOT, "pipeline", "cache")
 OUT = os.path.join(ROOT, "data", "freight", "lanes")
@@ -114,6 +117,17 @@ def detect_via(coords):
             if seg_dist_km(x, y, a[0], a[1], b[0], b[1]) <= r:
                 via.append((i, cid))
                 break
+    have = {c for _, c in via}
+    for i in range(len(coords) - 1):
+        (x1, y1), (x2, y2) = coords[i], coords[i + 1]
+        if abs(x1 - x2) > 180:
+            continue
+        if "cape-good-hope" not in have and (x1 - 20) * (x2 - 20) <= 0 and min(y1, y2) < -30:
+            via.append((i, "cape-good-hope"))
+            have.add("cape-good-hope")
+        if "cape-horn" not in have and (x1 + 67) * (x2 + 67) <= 0 and min(y1, y2) < -50:
+            via.append((i, "cape-horn"))
+            have.add("cape-horn")
     return [c for _, c in sorted(via)]
 
 
@@ -157,6 +171,10 @@ def route_geom(a, b, avoid=()):
 
 
 CAPE_PREFERRED = {"vloc", "capesize", "newcastlemax", "vlcc"}
+# Laden transit limits (Panama Canal Authority: Neopanamax 51.25 m beam / 15.24 m draft;
+# Suez Canal Authority: 20.1 m draft). These classes are routed around the canal.
+NO_PANAMA = {"vloc", "capesize", "newcastlemax", "vlcc", "suezmax"}
+NO_SUEZ = {"vloc", "vlcc"}
 
 
 def routing(a, b, primary_class, speed_kn):
@@ -167,13 +185,18 @@ def routing(a, b, primary_class, speed_kn):
     main one, and the alternative avoids Suez/Bab el-Mandeb or Panama when the main route uses them.
     Returns (coords, nm, via, alt|None).
     """
-    coords, nm, via = route_geom(a, b)
+    base = []
+    if primary_class in NO_PANAMA:
+        base.append("panama")
+    if primary_class in NO_SUEZ:
+        base.append("suez")
+    coords, nm, via = route_geom(a, b, base)
     if not coords:
         return None, 0, [], None
     avoid = ["suez", "babalmandab"] if ("suez" in via or "bab-el-mandeb" in via) else (["panama"] if "panama" in via else [])
     if not avoid:
         return coords, nm, via, None
-    ac, anm, avia = route_geom(a, b, avoid)
+    ac, anm, avia = route_geom(a, b, sorted(set(avoid + base)))
     if not ac:
         return coords, nm, via, None
     extra = round((anm - nm) / (speed_kn * 24), 1)
@@ -223,6 +246,34 @@ def gateway(iso3, group):
     return None
 
 
+EAST_ASIA = {"CHN", "JPN", "KOR", "TWN", "PRK", "VNM", "PHL", "THA", "MYS", "IDN", "SGP", "HKG"}
+MED_BLACK = {"TUR", "EGY", "ISR", "MAR", "GRC", "ITA", "ESP", "CYP", "LBN", "TUN", "DZA", "LBY", "BGR", "ROU", "HRV", "SVN", "SYR", "MLT", "GEO"}
+# Russia exports from three coasts; the load port depends on where the cargo goes
+RUS_PORTS = {
+    "coal": {"east": "RUVYP", "south": "RUTAM", "west": "RUULU"},
+    "crude-oil": {"east": "RUKOZ", "south": "RUNVS", "west": "RUPRI"},
+    "refined-products": {"east": "RUNJK", "south": "RUTUA", "west": "RUPRI"},
+    "lng": {"east": "RUPRG", "south": "RUSAB", "west": "RUSAB"},
+    "wheat": {"east": "RUVYP", "south": "RUNVS", "west": "RUNVS"},
+}
+
+
+def gateway_pair(o, d, group):
+    """Load and discharge gateways for a lane (origin-dependent rules for multi-coast exporters)."""
+    go = gateway(o, group)
+    if o == "RUS" and group in RUS_PORTS:
+        side = "east" if d in EAST_ASIA or (group == "coal" and d == "IND") else ("south" if d in MED_BLACK else "west")
+        go = RUS_PORTS[group][side]
+    return go, gateway(d, group)
+
+
+# customs reporting gaps worth flagging on the affected lanes
+KNOWN_GAPS = {
+    ("crude-oil", "IRN"): "Customs data gap: since 2019 most Iranian crude is declared under other origins (e.g. Malaysia) or not recorded, so this lane understates real flows.",
+    ("crude-oil", "VEN"): "Customs data gap: sanctioned Venezuelan crude is often declared under other origins.",
+}
+
+
 def mode_of(o, d, group):
     o_ok = o in COASTAL or group in SEA_OUTLET.get(o, ())
     d_ok = d in COASTAL or group in SEA_OUTLET.get(d, ())
@@ -236,21 +287,9 @@ def mode_of(o, d, group):
 # ------------------------------------------------------------------ main
 def main():
     df = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
-    df = df[df["group"].isin(GROUPS) & df["o"].notna() & df["d"].notna()]
-    df = df[df["o"] != df["d"]]
-
-    # impute missing tonnage from the median unit value (thousand USD per tonne) of the group-year
-    has_t = df["t"] > 0
-    uv = (df[has_t & (df["usd"] > 0)].assign(u=lambda x: x["usd"] / x["t"]).groupby(["group", "year"])["u"].median())
-    df = df.join(uv.rename("uv"), on=["group", "year"])
-    miss = ~has_t & (df["usd"] > 0) & df["uv"].notna()
-    # reported tonnage inconsistent with value (unit value < 1/3 or > 3x the median): re-estimate.
-    # Only for sizeable flows (> 50 million USD) where an error would distort the map.
-    ratio = (df["usd"] / df["t"].where(has_t)) / df["uv"]
-    bad = has_t & (df["usd"] > 50_000) & ((ratio < 1 / 3) | (ratio > 3)) & df["uv"].notna()
-    df.loc[miss | bad, "t"] = df.loc[miss | bad, "usd"] / df.loc[miss | bad, "uv"]
-    df["imputed"] = miss | bad
-    print("tonnage imputed from value:", int(miss.sum()), "missing,", int(bad.sum()), "inconsistent")
+    df = df[df["group"].isin(GROUPS)]
+    df = clean_baci(df)  # shared rules: Taiwan code, tonnage repair, misclassifications (pipeline/trade/clean.py)
+    print("tonnage imputed from value:", int(df["imputed"].sum()), "flows")
 
     df["mode"] = [mode_of(o, d, g) for o, d, g in zip(df["o"], df["d"], df["group"])]
     sea = df[df["mode"] == "sea"]
@@ -290,7 +329,7 @@ def main():
         dest_tot = df[(df["group"] == group) & (df["year"] == latest)].groupby("d")["t"].sum()
         lanes = []
         for (o, d) in sorted(chosen):
-            go, gd = gateway(o, group), gateway(d, group)
+            go, gd = gateway_pair(o, d, group)
             if not go or not gd or go == gd:
                 continue
             po, pd_ = P.port(go), P.port(gd)
@@ -303,6 +342,7 @@ def main():
             if not coords or nm < 50:
                 continue
             hist = [round(float(row.get(y, 0)) / 1e6, 3) if row is not None else 0 for y in years]
+            hist, spikes = despike(hist)
             lane = {
                 "id": f"{group}:{o}-{d}",
                 "k": COMMODITY.get(group, group),
@@ -315,7 +355,8 @@ def main():
                 "distanceNm": nm,
                 "days": round(nm / (speed * 24), 1),
                 "via": via,
-                "flow": {"v": round(vlat / 1e6, 3), "u": "Mt", "y": latest, "s": "baci", **({"n": "tonnage estimated from value"} if imp.get((o, d)) else {})},
+                "flow": {"v": round(vlat / 1e6, 3), "u": "Mt", "y": latest, "s": "baci",
+                         **({"n": KNOWN_GAPS[(group, o)]} if (group, o) in KNOWN_GAPS else ({"n": "tonnage estimated from value"} if imp.get((o, d)) else {}))},
                 "share": round(vlat / tot_latest, 4),
                 "shareDest": round(vlat / float(dest_tot.get(d, 0) or 1), 4) if d in dest_tot else None,
                 "hist": hist,
@@ -323,6 +364,8 @@ def main():
             }
             if alt:
                 lane["alt"] = alt
+            if spikes:
+                lane["histNote"] = "Isolated customs outlier removed for " + ", ".join(str(years[i]) for i in spikes)
             lanes.append(lane)
         lanes.sort(key=lambda x: -x["flow"]["v"])
         ports_used = {}

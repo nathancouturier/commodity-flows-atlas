@@ -9,14 +9,14 @@
    "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded"
   },
   "exports": {
-   "v": 384.1,
+   "v": 382.54,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 286.54,
+   "v": 298.95,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -80,7 +80,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 384.1,
+  "world": 382.54,
   "rows": [
    {
     "c": "CHN",
@@ -96,11 +96,11 @@
    },
    {
     "c": "DEU",
-    "v": 21.487
+    "v": 21.438
    },
    {
     "c": "RUS",
-    "v": 14.893
+    "v": 14.91
    },
    {
     "c": "TUR",
@@ -108,7 +108,7 @@
    },
    {
     "c": "ITA",
-    "v": 11.313
+    "v": 11.259
    },
    {
     "c": "BEL",
@@ -124,7 +124,7 @@
    },
    {
     "c": "FRA",
-    "v": 9.668
+    "v": 9.411
    },
    {
     "c": "BRA",
@@ -137,11 +137,11 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 384.1,
+  "world": 382.54,
   "rows": [
    {
     "c": "USA",
-    "v": 23.917
+    "v": 23.853
    },
    {
     "c": "VNM",
@@ -153,15 +153,15 @@
    },
    {
     "c": "ITA",
-    "v": 17.36
+    "v": 17.222
    },
    {
     "c": "DEU",
-    "v": 16.286
+    "v": 16.224
    },
    {
     "c": "KOR",
-    "v": 13.804
+    "v": 13.479
    },
    {
     "c": "THA",
@@ -169,7 +169,7 @@
    },
    {
     "c": "MEX",
-    "v": 11.657
+    "v": 11.659
    },
    {
     "c": "IDN",
@@ -177,15 +177,15 @@
    },
    {
     "c": "IND",
-    "v": 10.671
+    "v": 10.542
    },
    {
     "c": "POL",
     "v": 10.508
    },
    {
-    "c": "FRA",
-    "v": 9.74
+    "c": "ESP",
+    "v": 9.732
    }
   ],
   "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -305,8 +305,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "steel:CHN-TUR"
+   "mode": "sea"
   },
   {
    "o": "CHN",

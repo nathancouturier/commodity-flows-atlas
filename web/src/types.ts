@@ -226,6 +226,8 @@ export interface Route {
   history?: { y: number; v: number }[];
   historyUnit?: string;
   historySrc?: string;
+  /** e.g. "Isolated customs outlier removed for 2016" */
+  historyNote?: string;
   notes?: string;
   s: string;
 }
@@ -304,8 +306,9 @@ export interface Lane {
   share: number;
   /** share of the destination's imports of this group, 0..1 */
   shareDest?: number | null;
-  /** annual volumes (LaneFile.unit) for LaneFile.years */
-  hist: number[];
+  /** annual volumes (LaneFile.unit) for LaneFile.years; null = isolated customs outlier removed */
+  hist: (number | null)[];
+  histNote?: string;
   /** geometry [lon, lat][]; longitudes are unwrapped (may exceed ±180) */
   g: [number, number][];
   alt?: AltRouting & { g: [number, number][] };

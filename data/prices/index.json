@@ -207,7 +207,7 @@
 {
 "id": "ttf-m",
 "k": "natural-gas",
-"name": "Natural gas, Europe (TTF)",
+"name": "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years)",
 "unit": "USD/MMBtu",
 "freq": "M",
 "s": "wb-pink",

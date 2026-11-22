@@ -141,7 +141,8 @@
    },
    {
     "c": "NGA",
-    "v": 8.604
+    "v": 8.604,
+    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "BRA",
@@ -286,7 +287,8 @@
    "v": 8.604,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "n": "reported tonnage implies 286 USD/t, i.e. 0.0200x the lithium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "CHL",
@@ -395,5 +397,8 @@
  ],
  "notes": [
   "Trade is lithium carbonate and hydroxide/oxide in gross weight (kt); spodumene concentrate has no HS6 code. USGS production is contained lithium (t Li), so units differ."
+ ],
+ "discrepancies": [
+  "NGA->CHN: 8.604 kt of lithium in 2024 (reported tonnage implies 286 USD/t, i.e. 0.0200x the lithium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
  ]
 }

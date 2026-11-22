@@ -16,14 +16,14 @@
    "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total"
   },
   "exports": {
-   "v": 43.337,
+   "v": 43.302,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 42.06,
+   "v": 42.07,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -112,7 +112,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 43.337,
+  "world": 43.302,
   "rows": [
    {
     "c": "ZAF",
@@ -169,7 +169,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 43.337,
+  "world": 43.302,
   "rows": [
    {
     "c": "CHN",

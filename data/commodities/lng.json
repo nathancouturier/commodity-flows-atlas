@@ -2,14 +2,14 @@
  "id": "lng",
  "summary": {
   "exports": {
-   "v": 378.04,
+   "v": 371.32,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "sum of all BACI LNG flows (HS 271111), tonnes"
+   "n": "Customs (BACI) tonnage; GIIGNL reports higher 2024 exports for the United States (~88 Mt) and Qatar (~77 Mt), world about 411 Mt."
   },
   "seaborne": {
-   "v": 341.75,
+   "v": 360.04,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -20,7 +20,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 378.04,
+  "world": 371.32,
   "rows": [
    {
     "c": "AUS",
@@ -28,7 +28,7 @@
    },
    {
     "c": "USA",
-    "v": 74.662
+    "v": 73.297
    },
    {
     "c": "QAT",
@@ -67,17 +67,17 @@
     "v": 5.942
    },
    {
-    "c": "ISR",
-    "v": 5.355
+    "c": "TTO",
+    "v": 4.95
    }
   ],
-  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Customs (BACI) tonnage; GIIGNL reports higher 2024 exports for the United States (~88 Mt) and Qatar (~77 Mt), world about 411 Mt."
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 378.04,
+  "world": 371.32,
   "rows": [
    {
     "c": "CHN",
@@ -101,8 +101,7 @@
    },
    {
     "c": "TWN",
-    "v": 19.656,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
+    "v": 19.656
    },
    {
     "c": "NLD",
@@ -121,12 +120,12 @@
     "v": 10.574
    },
    {
-    "c": "EGY",
-    "v": 8.177
-   },
-   {
     "c": "PAK",
     "v": 7.545
+   },
+   {
+    "c": "SGP",
+    "v": 6.639
    }
   ],
   "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -228,7 +227,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "lng:AUS-TWN"
   },
   {
    "o": "MYS",
@@ -311,15 +311,6 @@
    "lane": "lng:USA-KOR"
   },
   {
-   "o": "ISR",
-   "d": "EGY",
-   "v": 5.355,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "land"
-  },
-  {
    "o": "DZA",
    "d": "FRA",
    "v": 4.958,
@@ -328,9 +319,22 @@
    "s": "baci",
    "mode": "sea",
    "lane": "lng:DZA-FRA"
+  },
+  {
+   "o": "QAT",
+   "d": "ITA",
+   "v": 4.753,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "lng:QAT-ITA"
   }
  ],
  "notes": [
   "LNG volumes are in Mt (1 Mt LNG is about 1.36 bcm of gas); no production table: liquefaction output is not in the loaded sources."
+ ],
+ "discrepancies": [
+  "BACI 2024 LNG exporter tonnage is below GIIGNL's annual report (world about 411 Mt vs 378 Mt in customs data), notably for the US and Qatar."
  ]
 }

@@ -123,7 +123,7 @@ export function AltBox(props: { alt: AltRouting }) {
 }
 
 /** Annual history bars (2005-2024 style). */
-export function HistoryChart(props: { years: number[]; values: number[]; unit: string; color?: string; label?: string }) {
+export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string }) {
   const x = useMemo(() => props.years.map((y) => Date.UTC(y, 0, 1) / 1000), [props.years]);
   const series = useMemo(
     () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? '#3ee6ff' }],

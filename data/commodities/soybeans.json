@@ -23,7 +23,7 @@
    "n": "USDA PSD, Oilseed, Soybean, soybeans exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
   },
   "seaborne": {
-   "v": 157.41,
+   "v": 159.74,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -415,7 +415,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "soybeans:BRA-TWN"
   },
   {
    "o": "BRA",

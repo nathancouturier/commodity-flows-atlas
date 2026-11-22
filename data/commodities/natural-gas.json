@@ -16,11 +16,11 @@
    "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
   },
   "exports": {
-   "v": 322.33,
+   "v": 330.54,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "sum of all BACI gaseous natural gas flows (HS 271121), tonnes; excludes LNG"
+   "n": "Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold."
   }
  },
  "production": {
@@ -141,7 +141,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 322.33,
+  "world": 330.54,
   "rows": [
    {
     "c": "NOR",
@@ -172,12 +172,12 @@
     "v": 15.75
    },
    {
-    "c": "CAN",
-    "v": 12.236
+    "c": "USA",
+    "v": 13.667
    },
    {
-    "c": "USA",
-    "v": 11.415
+    "c": "CAN",
+    "v": 12.236
    },
    {
     "c": "GBR",
@@ -188,17 +188,17 @@
     "v": 7.602
    },
    {
-    "c": "BOL",
-    "v": 4.817
+    "c": "ESP",
+    "v": 5.04
    }
   ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value; North American flows (Canada to US, US to Mexico, each about 50-55 Mt or 70-80 bcm a year) are understated about fivefold."
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 322.33,
+  "world": 330.54,
   "rows": [
    {
     "c": "CHN",
@@ -233,23 +233,23 @@
     "v": 12.239
    },
    {
+    "c": "MAR",
+    "v": 8.787
+   },
+   {
     "c": "MEX",
     "v": 8.217
    },
    {
+    "c": "HUN",
+    "v": 7.342
+   },
+   {
     "c": "TUR",
     "v": 7.163
-   },
-   {
-    "c": "HUN",
-    "v": 7.031
-   },
-   {
-    "c": "ESP",
-    "v": 6.846
    }
   ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · See exports note: North American pipeline-gas tonnage is understated in customs data."
  },
  "flows": [
   {
@@ -424,9 +424,9 @@
    "mode": "pipeline"
   },
   {
-   "o": "BOL",
-   "d": "BRA",
-   "v": 3.932,
+   "o": "ESP",
+   "d": "MAR",
+   "v": 4.431,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -435,6 +435,7 @@
  ],
  "notes": [
   "Trade tables cover gas in gaseous state (HS 271121: pipeline) in Mt; LNG is under 'lng'. Flows are shown as pipeline mode.",
-  "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."
+  "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
+  "Customs tonnage for pipeline gas is unreliable for North America (value-based estimates at about USD 500/t); use EIA bcm figures for production and consumption."
  ]
 }

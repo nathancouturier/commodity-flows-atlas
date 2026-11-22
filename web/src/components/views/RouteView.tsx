@@ -110,7 +110,7 @@ function Body({ r }: { r: Route }) {
           <Section title={`Corridor volume ${r.history[0].y}–${r.history[r.history.length - 1].y}`}>
             <HistoryChart years={r.history.map((h) => h.y)} values={r.history.map((h) => h.v)} unit={r.historyUnit ?? ''} color={color} />
             <div class="muted small">All cargoes of the corridor, {r.historyUnit}.</div>
-            <SourceLine s={r.historySrc} y={`${r.history[0].y}–${r.history[r.history.length - 1].y}`} />
+            <SourceLine s={r.historySrc} y={`${r.history[0].y}–${r.history[r.history.length - 1].y}`} n={r.historyNote} />
           </Section>
         )}
         {r.notes && (

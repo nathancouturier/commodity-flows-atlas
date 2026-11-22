@@ -87,7 +87,7 @@ export default function LaneView({ id }: { id: string }) {
         {lane.hist.length > 1 && (
           <Section title={`Volume ${file.years[0]}–${file.years[file.years.length - 1]}`}>
             <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} />
-            <SourceLine s={file.s} y={`${file.years[0]}–${file.years[file.years.length - 1]}`} n={file.unit} />
+            <SourceLine s={file.s} y={`${file.years[0]}–${file.years[file.years.length - 1]}`} n={lane.histNote ? `${file.unit} · ${lane.histNote}` : file.unit} />
           </Section>
         )}
         {matching.length > 0 && (

@@ -152,7 +152,7 @@
     "name": "Shell",
     "hq": "GBR",
     "role": "refiner",
-    "detail": "Integrated major; Pernis, Singapore refineries",
+    "detail": "Integrated major; Pernis (Netherlands) and other refineries; sold its Singapore Bukom refinery in April 2025",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Shell_plc"
@@ -346,7 +346,7 @@
     "name": "Coal India",
     "hq": "IND",
     "role": "producer",
-    "detail": "State-owned; ~82% of India's coal output",
+    "detail": "State-owned; Majority of India's coal output",
     "s": "wikipedia",
     "y": 2017,
     "url": "https://en.wikipedia.org/wiki/Coal_India"
@@ -442,7 +442,7 @@
     "name": "Anglo American",
     "hq": "GBR",
     "role": "producer",
-    "detail": "Queensland met coal (sale process reported; verify)",
+    "detail": "Queensland steelmaking coal; sale of the business agreed in 2026",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
@@ -1001,7 +1001,7 @@
     "name": "Orano",
     "hq": "FRA",
     "role": "producer",
-    "detail": "Niger, Kazakhstan, Canada",
+    "detail": "Kazakhstan (JV) and Canada; Niger nationalised the Somair mine in 2025",
     "s": "wikipedia",
     "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Orano"
@@ -1554,13 +1554,13 @@
     "url": "https://en.wikipedia.org/wiki/Wilmar_International"
    },
    {
-    "name": "Sime Darby Plantation",
+    "name": "SD Guthrie (formerly Sime Darby Plantation)",
     "hq": "MYS",
     "role": "producer",
     "detail": "Major planter",
     "s": "wikipedia",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Sime_Darby_Plantation"
+    "url": "https://en.wikipedia.org/wiki/SD_Guthrie"
    },
    {
     "name": "Golden Agri-Resources",

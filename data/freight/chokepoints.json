@@ -98,51 +98,51 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 21.8,
+"v": 21.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "395 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "395 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 16.6,
+"v": 17.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "57 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "61 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lpg",
 "f": {
-"v": 27.0,
+"v": 24.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "36 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "33 Mt of 135 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 4.4,
+"v": 4.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "7 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "7 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 2.1,
+"v": 2.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "21 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "24 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -210,71 +210,71 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 25.2,
+"v": 24.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "455 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "457 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 12.8,
+"v": 11.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "44 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "40 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lpg",
 "f": {
-"v": 12.7,
+"v": 12.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "17 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "17 Mt of 135 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "thermal-coal",
 "f": {
-"v": 17.8,
+"v": 15.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "234 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "209 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "iron-ore",
 "f": {
-"v": 2.1,
+"v": 3.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "34 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "50 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 2.3,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 2.9,
+"v": 2.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "28 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "21 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -294,71 +294,71 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 25.2,
+"v": 24.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "455 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "457 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 12.8,
+"v": 11.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "44 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "40 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lpg",
 "f": {
-"v": 12.7,
+"v": 12.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "17 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "17 Mt of 135 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "thermal-coal",
 "f": {
-"v": 17.8,
+"v": 15.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "234 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "209 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "iron-ore",
 "f": {
-"v": 2.1,
+"v": 3.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "34 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "50 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 2.3,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 10.4,
+"v": 10.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "102 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "108 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -385,11 +385,11 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 3.8,
+"v": 4.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "68 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "90 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -399,7 +399,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "365 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "369 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -409,37 +409,37 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "5 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 12.4,
+"v": 13.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "19 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "22 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "soybeans",
 "f": {
-"v": 51.4,
+"v": 51.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "81 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "82 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "bauxite",
 "f": {
-"v": 75.5,
+"v": 60.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "111 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "110 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -467,21 +467,21 @@
 {
 "k": "lng",
 "f": {
-"v": 18.4,
+"v": 19.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "63 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "71 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "iron-ore",
 "f": {
-"v": 51.2,
+"v": 51.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "806 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "820 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -491,17 +491,17 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "9 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "9 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 2.5,
+"v": 2.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "25 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "25 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -587,31 +587,31 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 7.2,
+"v": 5.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "130 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "97 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 6.0,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "20 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "8 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
-"k": "thermal-coal",
+"k": "iron-ore",
 "f": {
-"v": 3.5,
+"v": 2.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "46 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "41 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -621,17 +621,17 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "5 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 2.3,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -713,31 +713,31 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 7.2,
+"v": 5.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "130 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "97 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 6.0,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "20 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "8 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
-"k": "thermal-coal",
+"k": "iron-ore",
 "f": {
-"v": 3.5,
+"v": 2.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "46 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "41 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -747,17 +747,17 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "5 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "5 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 2.3,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -833,21 +833,21 @@
 {
 "k": "lng",
 "f": {
-"v": 4.5,
+"v": 4.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "15 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "15 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lpg",
 "f": {
-"v": 26.4,
+"v": 26.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "35 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "35 Mt of 135 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -857,27 +857,27 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "9 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "9 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 10.4,
+"v": 11.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "16 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "18 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "soybeans",
 "f": {
-"v": 18.6,
+"v": 18.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "29 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "30 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -960,21 +960,21 @@
 {
 "k": "wheat",
 "f": {
-"v": 16.8,
+"v": 16.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "29 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "29 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 11.8,
+"v": 11.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "18 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "18 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1041,31 +1041,11 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 5.2,
+"v": 5.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "93 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
-}
-},
-{
-"k": "lng",
-"f": {
-"v": 5.3,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "18 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
-}
-},
-{
-"k": "refined-products",
-"f": {
-"v": 2.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "23 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "93 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1092,31 +1072,31 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 7.2,
+"v": 5.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "131 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "98 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 11.6,
+"v": 6.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "40 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "23 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "thermal-coal",
 "f": {
-"v": 2.2,
+"v": 2.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "30 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "29 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1126,37 +1106,27 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "13 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "13 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 13.1,
+"v": 12.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "20 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "20 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "soybeans",
 "f": {
-"v": 7.7,
+"v": 8.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "12 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
-}
-},
-{
-"k": "refined-products",
-"f": {
-"v": 2.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "27 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "13 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1184,21 +1154,21 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 6.5,
+"v": 6.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "117 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "117 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 8.3,
+"v": 2.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "28 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "10 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1208,27 +1178,17 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 174 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 175 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 2.4,
+"v": 2.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "4 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
-}
-},
-{
-"k": "refined-products",
-"f": {
-"v": 3.5,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "35 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1302,11 +1262,11 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 4.1,
+"v": 7.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "75 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "131 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1316,37 +1276,37 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "375 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "379 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 9.7,
+"v": 17.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "15 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "28 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "soybeans",
 "f": {
-"v": 49.6,
+"v": 52.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "78 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "83 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "bauxite",
 "f": {
-"v": 78.1,
+"v": 62.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "115 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "114 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1366,7 +1326,19 @@
 }
 ],
 "summary": "Southernmost tip of South America; alternative to the Panama Canal and Magellan Strait for oversized vessels, with harsh weather. No PortWatch coverage.",
-"s": "portwatch"
+"s": "portwatch",
+"estimates": [
+{
+"k": "corn",
+"f": {
+"v": 6.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "10 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+}
+}
+]
 },
 {
 "id": "taiwan-strait",
@@ -1390,91 +1362,91 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 24.1,
+"v": 24.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "436 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "459 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 26.9,
+"v": 25.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "92 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "90 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lpg",
 "f": {
-"v": 11.8,
+"v": 11.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "16 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "16 Mt of 135 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "thermal-coal",
 "f": {
-"v": 25.8,
+"v": 23.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "339 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "315 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "iron-ore",
 "f": {
-"v": 73.6,
+"v": 73.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "1159 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "1175 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "corn",
 "f": {
-"v": 4.3,
+"v": 4.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "7 Mt of 155 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "7 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "soybeans",
 "f": {
-"v": 49.3,
+"v": 48.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "78 Mt of 157 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "77 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 3.2,
+"v": 4.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "31 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "42 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "bauxite",
 "f": {
-"v": 76.8,
+"v": 61.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "113 Mt of 147 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "111 Mt of 181 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]
@@ -1501,31 +1473,31 @@
 {
 "k": "crude-oil",
 "f": {
-"v": 5.1,
+"v": 6.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "92 Mt of 1808 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "114 Mt of 1861 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "lng",
 "f": {
-"v": 10.6,
+"v": 9.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "36 Mt of 342 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "34 Mt of 360 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "thermal-coal",
 "f": {
-"v": 7.9,
+"v": 5.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "104 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "80 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1535,17 +1507,17 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "58 Mt of 1574 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "58 Mt of 1595 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
 "k": "refined-products",
 "f": {
-"v": 3.3,
+"v": 4.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "33 Mt of 982 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "40 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
 ]

@@ -72,6 +72,8 @@ def main():
         if os.path.exists(p):
             tables[c["id"]] = json.load(open(p))
     baci = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+    baci["o"] = baci["o"].replace({"S19": "TWN"})
+    baci["d"] = baci["d"].replace({"S19": "TWN"})
     latest = int(baci["year"].max())
     b = baci[baci["year"] == latest]
     exp_usd = b.groupby(["o", "group"])["usd"].sum()
@@ -115,6 +117,7 @@ def main():
     if os.path.exists(hs4p):
         h = pd.read_csv(hs4p, dtype={"hs4": str})
         h = h[h["o"].notna()]
+        h["o"] = h["o"].replace({"S19": "TWN"})
         desc = pd.read_csv(hs4p.replace(".csv.gz", "_desc.csv"), dtype={"hs4": str}).set_index("hs4")["description"].to_dict()
         world_hs4 = h.groupby("hs4")["usd"].sum()
         rank_hs4 = h.assign(r=h.groupby("hs4")["usd"].rank(ascending=False)).set_index(["o", "hs4"])["r"]

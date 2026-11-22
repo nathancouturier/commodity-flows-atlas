@@ -23,7 +23,7 @@
    "n": "USDA PSD, Cotton, cotton exports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
   },
   "seaborne": {
-   "v": 7.74,
+   "v": 7.76,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
