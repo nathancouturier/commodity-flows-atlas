@@ -33,6 +33,8 @@ export const layers = signal<Record<LayerId, boolean>>({
 });
 export const metric = signal<Metric>('none');
 export const infraTypes = signal<Set<InfraType>>(new Set());
+/** Infrastructure types that exist for the current tab / commodity (set by the infrastructure layer). */
+export const infraAvailable = signal<Set<InfraType> | null>(null);
 export const vesselClasses = signal<Set<string>>(new Set());
 export const companyFilter = signal<string | null>(null);
 export const countryFilter = signal<string | null>(null);

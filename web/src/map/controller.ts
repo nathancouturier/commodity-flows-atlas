@@ -333,11 +333,23 @@ export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5) {
 }
 
 /** Back to the whole trading world (used when a commodity is picked, so its producers are visible). */
-export function flyToWorld() {
+export function flyToWorld(detail = !!document.querySelector('.detail-panel.open')) {
   const m = map;
   if (!m) return;
-  m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: !!document.querySelector('.detail-panel.open') }), maxZoom: 2.4, duration: 1400 });
+  m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration: 1400 });
 }
+
+// Closing a selection (close button, Escape, tab change) zooms back out to the world view.
+let hadSelection = selection.peek() !== null;
+selection.subscribe((s) => {
+  if (hadSelection && s === null) {
+    // the hashchange handler clears and re-applies a selection in one go: only zoom out if it stays closed
+    queueMicrotask(() => {
+      if (selection.peek() === null) flyToWorld(false);
+    });
+  }
+  hadSelection = s !== null;
+});
 
 export function flyToCountry(iso3: string) {
   const c = countries.value[iso3];

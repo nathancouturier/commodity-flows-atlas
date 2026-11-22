@@ -12,7 +12,7 @@ import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'ge
 import type { Family, InfraProps, InfraType } from '../../types';
 import { registerLayerModule } from '../layers';
 import { registerInteractiveLayer } from '../controller';
-import { commodity, hovered, infraTypes, layers, select, selection } from '../../lib/store';
+import { commodity, family, hovered, infraAvailable, infraTypes, layers, select, selection } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
 import { INFRA_META, infraSvg } from '../../components/ui';
@@ -84,6 +84,13 @@ export function infraMatches(k: string[], id: string): boolean {
   if (k.includes(id)) return true;
   if ((id === 'thermal-coal' || id === 'met-coal') && k.includes('coal')) return true;
   return false;
+}
+
+/** Does an asset belong to the active family tab? Freight shows the shipping endpoints (ports, LNG terminals). */
+export function infraInTab(f: InfraFeature, tab: string): boolean {
+  if (tab === 'all') return true;
+  if (tab === 'freight') return f.p.type === 'port' || f.p.type === 'lng-export' || f.p.type === 'lng-import';
+  return f.p.k.some((k) => (k === 'coal' ? 'energy' : commodityMeta(k)?.family) === tab);
 }
 
 export function infraFamily(f: InfraFeature): Family {
@@ -313,6 +320,7 @@ registerLayerModule((m) => {
   effect(() => {
     const on = layers.value.infrastructure;
     const k = commodity.value;
+    const tab = family.value;
     const types = infraTypes.value;
     const sel = selection.value;
     void [commodities.value, sources.value];
@@ -330,14 +338,21 @@ registerLayerModule((m) => {
       if (my !== seq) return;
       const pts: Feature<Point, PointProps>[] = [];
       const lines: Feature<LineString, LineProps>[] = [];
+      // what the user is looking at decides which assets are relevant: the selected commodity,
+      // otherwise the family tab (no gas fields on the Metals tab, no mines on Freight...)
+      const relevant = (f: InfraFeature) => (k ? infraMatches(f.p.k, k) : infraInTab(f, tab));
+      const available = new Set(all.filter(relevant).map((f) => f.p.type));
+      infraAvailable.value = available;
+      // type chips that do not exist for this selection are ignored rather than emptying the map
+      const effTypes = new Set([...types].filter((t) => available.has(t)));
       for (const f of all) {
         const key = `${f.p.type}:${f.p.id}`;
         const isSelected = key === selInfra;
         if (!on) {
           if (!isSelected) continue; // layer off: only the opened asset
-        } else {
-          if (types.size && !types.has(f.p.type)) continue;
-          if (k && !infraMatches(f.p.k, k)) continue;
+        } else if (!isSelected) {
+          if (!relevant(f)) continue;
+          if (effTypes.size && !effTypes.has(f.p.type)) continue;
         }
         const mine = selCountry ? f.p.c === selCountry || (f.p.cs?.includes(selCountry) ?? false) : true;
         const st = statusClass(f.p.status);
@@ -370,8 +385,8 @@ registerLayerModule((m) => {
               icon: '',
               op,
               sel: isSelected,
-              // a commodity or country focus is already uncluttered: show everything
-              pri: k || (selCountry && mine) || isSelected || st === 'damaged' ? 0 : f.pri,
+              // a commodity, family or country focus is already uncluttered: show everything
+              pri: k || tab !== 'all' || (selCountry && mine) || isSelected || st === 'damaged' ? 0 : f.pri,
             },
           });
         }

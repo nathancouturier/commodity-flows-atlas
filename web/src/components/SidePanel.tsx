@@ -15,6 +15,7 @@ import {
   selection,
   vesselClasses,
   infraTypes,
+  infraAvailable,
   toggleInSet,
   sheetSnap,
   type Metric,
@@ -163,10 +164,15 @@ export function SidePanel() {
 /** Infrastructure type filter: empty selection = all types. */
 function InfraTypeChips() {
   const sel = infraTypes.value;
+  const avail = infraAvailable.value;
+  const shown = INFRA_ORDER.filter((t) => !avail || avail.has(t));
+  const cur = commodities.value.find((c) => c.id === commodity.value);
+  const scope = cur ? cur.name : family.value !== 'all' ? (family.value === 'freight' ? 'Freight' : FAMILY_LABEL[family.value as Family]) : null;
   return (
     <div class="infra-filter">
+      {scope && <div class="infra-scope">Showing assets for {scope}</div>}
       <div class="chips">
-        {INFRA_ORDER.map((t) => (
+        {shown.map((t) => (
           <button class="chip chip-infra" key={t} aria-pressed={sel.has(t)} onClick={() => toggleInSet(infraTypes, t)} title={INFRA_META[t].label}>
             <InfraIcon type={t} size={18} color={sel.has(t) ? '#3ee6ff' : '#b9c4d0'} />
             {INFRA_META[t].plural}
