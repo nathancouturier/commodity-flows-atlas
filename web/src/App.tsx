@@ -9,7 +9,7 @@ import { Legend } from './components/Legend';
 import { PriceDrawer } from './components/PriceDrawer';
 import { Timeline } from './components/Timeline';
 import * as prices from './lib/prices';
-import { detailOpen, writeHash, family, commodity, metric, year, selection, select, historyOpen, priceDrawer } from './lib/store';
+import { detailOpen, writeHash, family, commodity, metric, year, selection, select, historyOpen, priceDrawer, panelCollapsed } from './lib/store';
 
 /** Remembers which control opened a panel so Escape can hand focus back to it. */
 function useFocusReturn() {
@@ -113,7 +113,7 @@ export function App() {
     [],
   );
   return (
-    <div class={`app ${detailOpen.value ? 'detail-open' : ''}${historyOpen.value ? ' tl-open' : ''}${priceDrawer.value ? ' pd-open' : ''}`}>
+    <div class={`app ${detailOpen.value ? 'detail-open' : ''}${historyOpen.value ? ' tl-open' : ''}${priceDrawer.value ? ' pd-open' : ''}${panelCollapsed.value ? ' panel-hidden' : ''}`}>
       <a
         class="skip-link"
         href="#controls"

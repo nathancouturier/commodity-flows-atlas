@@ -2,13 +2,13 @@
  * Map controller: owns the MapLibre instance, the base layers, the flow overlay,
  * and generic helpers (camera moves, line/point layers) used by feature modules.
  */
-import maplibregl, { type Map as MLMap, type GeoJSONSource, type LngLatBoundsLike, type ExpressionSpecification } from 'maplibre-gl';
+import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, type LngLatBoundsLike, type ExpressionSpecification } from 'maplibre-gl';
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
-import { hovered, select, selection } from '../lib/store';
+import { hovered, panelCollapsed, select, selection } from '../lib/store';
 import { escapeHtml } from '../lib/format';
 
 export interface LineFeatureProps {
@@ -47,10 +47,10 @@ function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; 
     const sheet = document.querySelector('.side-panel')?.getBoundingClientRect();
     const sheetH = sheet ? H - sheet.top : SHEET_PEEK_PX;
     const bottom = opts.detail ? H * 0.6 + 16 : Math.min(sheetH + 12, H * 0.55);
-    return { top: 110, bottom, left: 16, right: 16 };
+    return { top: 64, bottom, left: 16, right: 16 };
   }
   const panel = document.querySelector('.side-panel')?.getBoundingClientRect();
-  const left = (panel ? panel.right : 332) + 24;
+  const left = panelCollapsed.peek() ? 24 : (panel ? panel.right : 296) + 24;
   const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
   return { top: opts.detail ? 90 : 70, bottom: opts.detail ? 60 : 40, left, right: 24 + detailW };
 }
@@ -93,13 +93,7 @@ export function initMap(container: HTMLElement) {
   }
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-  map.addControl(
-    new maplibregl.AttributionControl({
-      compact: true,
-      customAttribution: 'Borders: Natural Earth · Data: see sources panel',
-    }),
-    'bottom-right',
-  );
+  // no attribution box on the map: Natural Earth and every data source are credited in the sources panel
 
   map.on('load', async () => {
     const m = map!;
@@ -195,6 +189,19 @@ export function registerInteractiveLayer(id: string) {
   if (!interactiveLayers.includes(id)) interactiveLayers.push(id);
 }
 
+/** Icon layers drawn over the lines: under the pointer they keep the tooltip (see the line hover). */
+const pointLayers: string[] = [];
+export function registerPointLayer(id: string) {
+  if (!pointLayers.includes(id)) pointLayers.push(id);
+}
+
+/** True when an HTML marker (chokepoint, share label) or an icon sits under the pointer. */
+function markerOrIconUnder(m: MLMap, e: MapMouseEvent): boolean {
+  if ((e.originalEvent.target as HTMLElement | null)?.closest?.('.cp, .share-label, .maplibregl-marker')) return true;
+  const ids = pointLayers.filter((l) => m.getLayer(l));
+  return ids.length > 0 && m.queryRenderedFeatures(e.point, { layers: ids }).length > 0;
+}
+
 function ensureLineSet(m: MLMap, key: string) {
   if (lineSets.has(key)) return;
   lineSets.add(key);
@@ -262,6 +269,12 @@ function ensureLineSet(m: MLMap, key: string) {
   m.on('mousemove', hit, (e) => {
     const f = e.features?.[0];
     if (!f) return;
+    if (markerOrIconUnder(m, e)) {
+      // the marker or icon on top owns the tooltip
+      unhover();
+      hoverLayers.delete(hit);
+      return;
+    }
     hoverLayers.add(hit);
     m.getCanvas().style.cursor = 'pointer';
     if (f.id !== hoverFeature) {
@@ -323,11 +336,11 @@ export function setParticlesVisible(v: boolean) {
 
 // ---------------------------------------------------------------- camera
 
-export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5) {
+export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5, detail = true) {
   const m = map;
   if (!m) return;
   m.fitBounds(b, {
-    padding: viewPadding({ detail: true }),
+    padding: viewPadding({ detail }),
     maxZoom,
     duration: 1600,
     essential: true,

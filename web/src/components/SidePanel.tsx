@@ -19,6 +19,8 @@ import {
   infraTypes,
   rfOrigin,
   rfDest,
+  setFamily,
+  type FamilyFilter,
   type Metric,
   type SheetSnap,
 } from '../lib/store';
@@ -176,39 +178,70 @@ function ColourBySection(props: { current: CommodityMeta | undefined }) {
           })}
         </div>
       </Dropdown>
-      {!current && <p class="muted cc-hint">Choose a commodity: its producing countries are coloured, with their share of world output on the map.</p>}
     </div>
   );
 }
 
-/** Commodity choice first: picking one colours its producers, draws its flows and opens its page. */
+/**
+ * What the map shows: a whole family (Freight, Energy, Metals, Softs; clicking a group header) or one
+ * commodity (colours its producers, draws its flows and opens its page). The × goes back to everything.
+ */
 function CommoditySection(props: { current: CommodityMeta | undefined }) {
   const { current } = props;
   const fam = family.value;
-  const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
   const [browseOpen, setBrowseOpen] = useState(false);
+  const pickFamily = (f: FamilyFilter) => {
+    setBrowseOpen(false);
+    setFamily(f);
+    commodity.value = null;
+    select(null);
+  };
   const choose = (v: string | null) => {
     setBrowseOpen(false);
+    if (!v) return pickFamily('all');
+    // the commodity's family follows, so the highlighted group, layers and infrastructure agree
+    const meta = commodities.value.find((c) => c.id === v);
+    if (meta && family.peek() !== meta.family) setFamily(meta.family);
     commodity.value = v;
-    if (v) {
-      select({ kind: 'commodity', id: v });
-      flyToWorld(true);
-    } else if (selection.peek()?.kind === 'commodity') {
-      select(null);
-    }
+    select({ kind: 'commodity', id: v });
+    flyToWorld(true);
   };
+  const dot = (color: string) => <span class="dot" style={{ color, width: '6px', height: '6px' }} />;
+  const value = current ? (
+    <>{dot(FAMILY_COLOR[current.family])} {current.name}</>
+  ) : fam !== 'all' ? (
+    <>{dot(FAMILY_COLOR[fam])} {FAMILY_LABEL[fam]}</>
+  ) : null;
   return (
     <div class="panel-block">
       <Dropdown
         name="Browse all commodities"
-        value={current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : null}
-        onClear={() => choose(null)}
+        value={value}
+        onClear={current || fam !== 'all' ? () => pickFamily('all') : undefined}
         open={browseOpen}
         onToggle={setBrowseOpen}
       >
-        {fams.map((g) => (
+        <button class="list-btn fam-btn" aria-pressed={!current && fam === 'all'} onClick={() => pickFamily('all')}>
+          All commodities
+          <span class="meta">overview</span>
+        </button>
+        <button class="list-btn fam-btn" aria-pressed={!current && fam === 'freight'} onClick={() => pickFamily('freight')}>
+          {dot(FAMILY_COLOR.freight)}
+          Freight
+          <span class="meta">routes · vessels</span>
+        </button>
+        {FAMILIES.map((g) => (
           <div key={g} class="cc-group">
-            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
+            <button
+              class="vc-label fam-head"
+              aria-pressed={!current && fam === g}
+              style={{ color: FAMILY_COLOR[g] }}
+              title={`Show all of ${FAMILY_LABEL[g]}`}
+              onClick={() => pickFamily(g)}
+            >
+              {FAMILY_LABEL[g]}
+              <span class="fam-all">all</span>
+            </button>
             {commodities.value.filter((c) => c.family === g).map((c) => (
               <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
                 <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />

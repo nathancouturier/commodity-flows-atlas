@@ -784,8 +784,8 @@ button {
   }
 
   .side-panel.snap-full {
-    height: calc(100vh - 112px);
-    height: calc(100dvh - 112px);
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
   }
 
   .panel-scroll {
@@ -851,7 +851,7 @@ button {
   }
 
   .app .maplibregl-ctrl-top-right {
-    top: 104px;
+    top: 56px;
   }
 
   .app.detail-open .maplibregl-ctrl-top-right {
@@ -861,7 +861,7 @@ button {
   /* legend: top-left under the top bar (the bottom edge belongs to the sheet) */
   .legend {
     bottom: auto;
-    top: 104px;
+    top: 62px;
     left: var(--gap);
     max-width: min(520px, calc(100% - 64px));
   }
@@ -1629,12 +1629,13 @@ html,
   position: absolute;
   top: 3px;
   right: 4px;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 6px;
   display: grid;
   place-items: center;
-  color: var(--ink-2);
+  color: var(--ink-1);
+  background: rgba(255, 255, 255, 0.04);
 }
 .legend-fold:hover {
   background: rgba(255, 255, 255, 0.07);
@@ -1708,9 +1709,100 @@ html,
     display: none;
   }
 
-  /* map attribution: in the free corner under the side panel, clear of the legend */
-  .app .maplibregl-ctrl-bottom-right {
-    right: auto;
+  /* side panel can be folded away from the button in the title bar */
+  .side-panel {
+    transition: transform var(--t-med) var(--ease), opacity var(--t-med), visibility 0s;
+  }
+  .side-panel.collapsed {
+    transform: translateX(calc(-100% - var(--gap) * 2));
+    opacity: 0;
+    visibility: hidden;
+    transition: transform var(--t-med) var(--ease), opacity var(--t-med), visibility 0s linear var(--t-med);
+  }
+  .app.panel-hidden .legend {
+    left: var(--gap);
+    max-width: calc(100% - var(--gap) * 2);
+  }
+  .app.panel-hidden.detail-open .legend {
+    max-width: calc(100% - var(--detail-w) - var(--gap) * 3);
+  }
+  .app.panel-hidden .pd,
+  .app.panel-hidden .tl {
     left: var(--gap);
   }
+  .panel-toggle {
+    display: grid;
+    place-items: center;
+    flex: none;
+    margin-left: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    color: var(--ink-2);
+  }
+  .panel-toggle:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--ink-0);
+  }
+}
+@media (max-width: 1024px) {
+  /* tablets and phones fold the panel with the bottom-sheet handle instead */
+  .panel-toggle {
+    display: none;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* the brand shares its box with the side-panel toggle: keep the name on one line */
+  .brand {
+    padding-right: 6px;
+  }
+  .brand-name {
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+  }
+}
+
+/* family choice inside "Browse all commodities": group headers are buttons */
+.fam-btn {
+  font-weight: 550;
+}
+.vc-label.fam-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+}
+.vc-label.fam-head:hover,
+.vc-label.fam-head[aria-pressed='true'] {
+  background: rgba(255, 255, 255, 0.06);
+}
+.fam-head .fam-all {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+  opacity: 0;
+  transition: opacity var(--t-fast);
+}
+.fam-head:hover .fam-all,
+.fam-head:focus-visible .fam-all,
+.fam-head[aria-pressed='true'] .fam-all {
+  opacity: 1;
+}
+.vc-label.fam-head {
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+.cc-browse .cc-group .list-btn,
+.cc-browse .fam-btn {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }

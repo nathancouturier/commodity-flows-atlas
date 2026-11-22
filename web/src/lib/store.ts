@@ -42,7 +42,25 @@ export const countryFilter = signal<string | null>(null);
 export const year = signal<number | null>(null);
 export const selection = signal<Selection | null>(null);
 export const hovered = signal<{ x: number; y: number; html: string } | null>(null);
-export const panelCollapsed = signal(false);
+/** Side panel folded away (desktop), remembered across visits. */
+export const panelCollapsed = signal(readFlag('cfa-panel-hidden'));
+panelCollapsed.subscribe((v) => writeFlag('cfa-panel-hidden', v));
+
+function readFlag(key: string): boolean {
+  try {
+    return localStorage.getItem(key) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function writeFlag(key: string, v: boolean) {
+  try {
+    localStorage.setItem(key, v ? '1' : '0');
+  } catch {
+    /* storage blocked: not remembered */
+  }
+}
 
 export const detailOpen = computed(() => selection.value !== null);
 

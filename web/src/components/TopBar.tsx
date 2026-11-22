@@ -1,16 +1,7 @@
-import { family, select, commodity, setFamily, type FamilyFilter } from '../lib/store';
-import { FAMILY_COLOR } from '../lib/format';
+import { panelCollapsed } from '../lib/store';
 import { BrandMark } from './ui';
 import { priceDrawer, historyOpen } from '../lib/store';
 import { togglePrices, toggleHistory } from '../lib/prices';
-
-const TABS: { id: FamilyFilter; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'freight', label: 'Freight' },
-  { id: 'energy', label: 'Energy' },
-  { id: 'metals', label: 'Metals' },
-  { id: 'softs', label: 'Softs' },
-];
 
 export function TopBar() {
   return (
@@ -25,24 +16,25 @@ export function TopBar() {
             </span>
           </a>
         </h1>
+        <button
+          class="panel-toggle"
+          aria-controls="controls"
+          aria-expanded={!panelCollapsed.value}
+          title={panelCollapsed.value ? 'Show the side panel' : 'Hide the side panel'}
+          aria-label={panelCollapsed.value ? 'Show the side panel' : 'Hide the side panel'}
+          onClick={() => (panelCollapsed.value = !panelCollapsed.value)}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <rect x="1.75" y="2.75" width="12.5" height="10.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.4" />
+            <path d="M6 3v10" stroke="currentColor" stroke-width="1.4" />
+            {panelCollapsed.value ? (
+              <path d="M9 6.2 10.8 8 9 9.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            ) : (
+              <path d="M10.8 6.2 9 8l1.8 1.8" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            )}
+          </svg>
+        </button>
       </div>
-      <nav class="family-tabs glass" aria-label="Commodity family">
-        {TABS.map((t) => (
-          <button
-            class="family-tab"
-            aria-pressed={family.value === t.id}
-            onClick={() => {
-              // the Freight tab brings routes and chokepoints in and switches Physical flows off
-              setFamily(t.id);
-              commodity.value = null;
-              select(null);
-            }}
-          >
-            {t.id !== 'all' && <span class="dot" style={{ color: FAMILY_COLOR[t.id] }} />}
-            {t.label}
-          </button>
-        ))}
-      </nav>
       <div class="spacer" />
       <div class="tool-btns glass" role="group" aria-label="Tools">
         <button class="tool-btn" aria-pressed={priceDrawer.value !== null} aria-label="Prices" title="Price explorer" onClick={togglePrices}>

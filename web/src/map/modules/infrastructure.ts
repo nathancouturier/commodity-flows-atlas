@@ -3,7 +3,8 @@
  * and pipelines (lines), from data/infrastructure/*.geojson.
  *
  * - filters: commodity (feature.k), infrastructure types (side panel), selected country
- * - world view shows only primary (largest) assets; the rest appears from zoom 2.2
+ * - every asset stays visible at every zoom; only dense spots (CLUSTER_MIN or more assets within
+ *   CLUSTER_PX pixels) fold into a count bubble, which zooms in on click
  * - hover tooltip with operator, capacity and source; click selects the asset (InfraView)
  */
 import { effect } from '@preact/signals';
@@ -11,11 +12,11 @@ import type { Map as MLMap, GeoJSONSource, ExpressionSpecification } from 'mapli
 import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
 import type { Family, InfraProps, InfraType } from '../../types';
 import { registerLayerModule } from '../layers';
-import { registerInteractiveLayer } from '../controller';
+import { flyToBounds, registerInteractiveLayer, registerPointLayer } from '../controller';
 import { commodity, family, hovered, infraAvailable, infraTypes, layers, select, selection } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
-import { INFRA_META, infraSvg } from '../../components/ui';
+import { INFRA_META, INFRA_ORDER, infraSvg } from '../../components/ui';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
 
@@ -206,17 +207,84 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
   return p.then(() => name);
 }
 
-type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean; pri: number };
+type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean };
 type LineProps = { key: string; id: string; type: InfraType; color: string; op: number; sel: boolean; dash: boolean; label: string };
 
-const SRC_PTS = 'infra-pts';
+const SRC_PTS = 'infra-pts'; // clustered
+const SRC_SEL = 'infra-pts-sel'; // the opened asset: never folded into a cluster
 const SRC_LINES = 'infra-lines';
+/** A cluster needs at least CLUSTER_MIN assets within CLUSTER_PX screen pixels: pairs and triples stay as icons. */
+const CLUSTER_PX = 20;
+const CLUSTER_MIN = 4;
+const POINT_TYPES = INFRA_ORDER.filter((t) => t !== 'pipeline');
+
+/** Count bubble for a cluster, drawn on a canvas (the basemap has no glyphs, so no symbol text). */
+function addClusterImage(m: MLMap, name: string) {
+  const n = Number(name.slice('infra-cl-'.length));
+  if (!Number.isFinite(n)) return;
+  const r = n < 10 ? 12 : n < 100 ? 14 : 16; // css px
+  const pr = 2;
+  const size = (r + 4) * 2 * pr;
+  const cv = document.createElement('canvas');
+  cv.width = cv.height = size;
+  const ctx = cv.getContext('2d')!;
+  ctx.scale(pr, pr);
+  const c = r + 4;
+  // a second ring behind suggests a stack of assets
+  ctx.beginPath();
+  ctx.arc(c + 2.5, c - 2.5, r - 1, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(8, 12, 18, 0.9)';
+  ctx.fill();
+  ctx.lineWidth = 1.2;
+  ctx.strokeStyle = 'rgba(185, 196, 208, 0.55)';
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(c, c, r, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(10, 15, 23, 0.96)';
+  ctx.fill();
+  ctx.lineWidth = 1.6;
+  ctx.strokeStyle = '#c9d4df';
+  ctx.stroke();
+  ctx.fillStyle = '#eef3f8';
+  ctx.font = `650 ${n < 100 ? 11.5 : 10.5}px "Inter Tight Variable", "Inter Tight", system-ui, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(String(n), c, c + 0.5);
+  if (!m.hasImage(name)) m.addImage(name, ctx.getImageData(0, 0, size, size), { pixelRatio: pr });
+}
+
+function clusterTooltip(p: Record<string, unknown>): string {
+  const parts = POINT_TYPES.map((t) => [t, Number(p[`n_${t}`] ?? 0)] as const)
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1])
+    // lower-case the first word but keep acronyms ("LNG export terminal")
+    .map(([t, n]) => `${n} ${esc((n > 1 ? INFRA_META[t].plural : INFRA_META[t].label).replace(/^[A-Z](?=[a-z])/, (c) => c.toLowerCase()))}`);
+  return `<div class="tt-title">${Number(p.point_count)} assets close together</div>
+    <div>${parts.join(' · ')}</div>
+    <div class="muted">Click to zoom in</div>`;
+}
 const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
 const empty = (): FeatureCollection => ({ type: 'FeatureCollection', features: [] });
 
 registerLayerModule((m) => {
-  m.addSource(SRC_PTS, { type: 'geojson', data: empty() });
+  m.addSource(SRC_PTS, {
+    type: 'geojson',
+    data: empty(),
+    cluster: true,
+    clusterRadius: CLUSTER_PX,
+    clusterMaxZoom: 7,
+    clusterMinPoints: CLUSTER_MIN,
+    // per-type counts for the tooltip; a cluster is as visible as its most visible member
+    clusterProperties: {
+      op: ['max', ['get', 'op']],
+      ...Object.fromEntries(POINT_TYPES.map((t) => [`n_${t}`, ['+', ['case', ['==', ['get', 'type'], t], 1, 0]]])),
+    },
+  });
+  m.addSource(SRC_SEL, { type: 'geojson', data: empty() });
   m.addSource(SRC_LINES, { type: 'geojson', data: empty() });
+  m.on('styleimagemissing', (e) => {
+    if (e.id.startsWith('infra-cl-')) addClusterImage(m, e.id);
+  });
 
   const isSel: ExpressionSpecification = ['boolean', ['get', 'sel'], false];
   const isDash: ExpressionSpecification = ['boolean', ['get', 'dash'], false];
@@ -259,12 +327,40 @@ registerLayerModule((m) => {
     paint: { 'line-color': '#000', 'line-opacity': 0, 'line-width': 12 },
   });
 
-  // selection halo under the icons
+  // count bubbles for dense spots
+  m.addLayer({
+    id: 'infra-clusters',
+    type: 'symbol',
+    source: SRC_PTS,
+    filter: ['has', 'point_count'],
+    layout: {
+      'icon-image': ['concat', 'infra-cl-', ['to-string', ['get', 'point_count']]],
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
+    },
+    paint: { 'icon-opacity': ['get', 'op'] },
+  });
+  const iconLayout = {
+    'icon-image': ['get', 'icon'],
+    'icon-size': sizeExpr,
+    'icon-allow-overlap': true,
+    'icon-ignore-placement': true,
+    // dimmed assets first, so highlighted ones are drawn on top
+    'symbol-sort-key': ['get', 'op'],
+  } as const;
+  m.addLayer({
+    id: 'infra-pts-all',
+    type: 'symbol',
+    source: SRC_PTS,
+    filter: ['!', ['has', 'point_count']],
+    layout: iconLayout as never,
+    paint: { 'icon-opacity': ['get', 'op'] },
+  });
+  // selection halo and the opened asset (own source, on top)
   m.addLayer({
     id: 'infra-halo',
     type: 'circle',
-    source: SRC_PTS,
-    filter: isSel,
+    source: SRC_SEL,
     paint: {
       'circle-radius': ['interpolate', ['linear'], ['zoom'], 1, 13, 6, 20],
       'circle-color': 'rgba(62,230,255,0.12)',
@@ -272,26 +368,46 @@ registerLayerModule((m) => {
       'circle-stroke-width': 1.5,
     },
   });
-  const symbol = (id: string, pri: number, minzoom: number) =>
-    m.addLayer({
-      id,
-      type: 'symbol',
-      source: SRC_PTS,
-      minzoom,
-      filter: ['==', ['get', 'pri'], pri],
-      layout: {
-        'icon-image': ['get', 'icon'],
-        'icon-size': sizeExpr,
-        'icon-allow-overlap': true,
-        'icon-ignore-placement': true,
-      },
-      paint: { 'icon-opacity': ['get', 'op'] },
-    });
-  symbol('infra-pts-pri', 0, 0);
-  symbol('infra-pts-sec', 1, 2.2);
+  m.addLayer({
+    id: 'infra-pts-sel',
+    type: 'symbol',
+    source: SRC_SEL,
+    layout: iconLayout as never,
+    paint: { 'icon-opacity': ['get', 'op'] },
+  });
 
-  const hitLayers = ['infra-pts-pri', 'infra-pts-sec', 'infra-lines-hit'];
+  const hitLayers = ['infra-pts-all', 'infra-pts-sel', 'infra-lines-hit'];
   hitLayers.forEach(registerInteractiveLayer);
+  registerInteractiveLayer('infra-clusters');
+  // icons win the hover over the routes and flows drawn under them
+  ['infra-pts-all', 'infra-pts-sel', 'infra-clusters'].forEach(registerPointLayer);
+
+  m.on('mousemove', 'infra-clusters', (e) => {
+    const p = e.features?.[0]?.properties;
+    if (!p) return;
+    m.getCanvas().style.cursor = 'pointer';
+    hovered.value = { x: e.point.x, y: e.point.y, html: clusterTooltip(p) };
+  });
+  m.on('mouseleave', 'infra-clusters', () => {
+    m.getCanvas().style.cursor = '';
+    hovered.value = null;
+  });
+  m.on('click', 'infra-clusters', (e) => {
+    const f = e.features?.[0];
+    const id = f?.properties?.cluster_id as number | undefined;
+    if (!f || id === undefined) return;
+    const at = (f.geometry as Point).coordinates as [number, number];
+    // frame all the assets of the cluster at once (stepping one zoom level at a time feels stuck)
+    (m.getSource(SRC_PTS) as GeoJSONSource)
+      .getClusterLeaves(id, 500, 0)
+      .then((leaves) => {
+        const xy = leaves.map((l) => (l.geometry as Point).coordinates as [number, number]);
+        const xs = xy.map((c) => c[0]);
+        const ys = xy.map((c) => c[1]);
+        flyToBounds([[Math.min(...xs), Math.min(...ys)], [Math.max(...xs), Math.max(...ys)]], 7, false);
+      })
+      .catch(() => m.easeTo({ center: at, zoom: m.getZoom() + 2, duration: 900 }));
+  });
 
   // ---- interaction
   let byKey = new Map<string, InfraFeature>();
@@ -330,6 +446,7 @@ registerLayerModule((m) => {
 
     if (!on && !selInfra) {
       (m.getSource(SRC_PTS) as GeoJSONSource).setData(empty());
+      (m.getSource(SRC_SEL) as GeoJSONSource).setData(empty());
       (m.getSource(SRC_LINES) as GeoJSONSource).setData(empty());
       return;
     }
@@ -385,8 +502,6 @@ registerLayerModule((m) => {
               icon: '',
               op,
               sel: isSelected,
-              // a commodity, family or country focus is already uncluttered: show everything
-              pri: k || tab !== 'all' || (selCountry && mine) || isSelected || st === 'damaged' ? 0 : f.pri,
             },
           });
         }
@@ -400,9 +515,8 @@ registerLayerModule((m) => {
         }),
       );
       if (my !== seq) return;
-      // draw dimmed / small ones first so highlighted icons stay on top (symbol sort via source order)
-      pts.sort((a, b) => a.properties.op - b.properties.op);
-      (m.getSource(SRC_PTS) as GeoJSONSource).setData({ type: 'FeatureCollection', features: pts });
+      (m.getSource(SRC_PTS) as GeoJSONSource).setData({ type: 'FeatureCollection', features: pts.filter((p) => !p.properties.sel) });
+      (m.getSource(SRC_SEL) as GeoJSONSource).setData({ type: 'FeatureCollection', features: pts.filter((p) => p.properties.sel) });
       (m.getSource(SRC_LINES) as GeoJSONSource).setData({ type: 'FeatureCollection', features: lines });
     });
   });
