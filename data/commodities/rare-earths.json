@@ -6,14 +6,14 @@
    "u": "t REO",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Greenland, South Africa, Tanzania"
+   "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded"
   },
   "reserves": {
    "v": 85000000.0,
    "u": "t REO",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000); not published (withheld, range or qualitative): Burma, India, Madagascar, Nigeria, Thailand"
+   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000)"
   },
   "exports": {
    "v": 211.86,
@@ -78,7 +78,7 @@
     "v": 110.0
    }
   ],
-  "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Greenland, South Africa, Tanzania"
+  "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded"
  },
  "reserves": {
   "y": 2025,
@@ -131,7 +131,7 @@
     "v": 710000.0
    }
   ],
-  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000); not published (withheld, range or qualitative): Burma, India, Madagascar, Nigeria, Thailand"
+  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000)"
  },
  "exports": {
   "y": 2024,
@@ -149,7 +149,8 @@
    },
    {
     "c": "TUR",
-    "v": 40.835
+    "v": 40.835,
+    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "MYS",
@@ -203,7 +204,8 @@
    },
    {
     "c": "BEN",
-    "v": 40.7
+    "v": 40.7,
+    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "JPN",
@@ -257,8 +259,7 @@
    "v": 44.366,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "TUR",
@@ -267,7 +268,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "n": "reported tonnage implies 53 USD/t, i.e. 0.0016x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "MYS",
@@ -275,8 +276,7 @@
    "v": 15.994,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -284,8 +284,7 @@
    "v": 15.969,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -293,8 +292,7 @@
    "v": 10.772,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "LAO",
@@ -302,8 +300,7 @@
    "v": 10.748,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -311,8 +308,7 @@
    "v": 6.072,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -321,7 +317,6 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -330,8 +325,7 @@
    "v": 3.676,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "VNM",
@@ -339,8 +333,7 @@
    "v": 3.448,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MYS",
@@ -348,8 +341,7 @@
    "v": 3.336,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -357,8 +349,7 @@
    "v": 3.188,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "VNM",
@@ -366,8 +357,7 @@
    "v": 2.974,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -375,8 +365,7 @@
    "v": 2.693,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -384,8 +373,7 @@
    "v": 1.993,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "JPN",
@@ -393,8 +381,7 @@
    "v": 1.953,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -402,8 +389,7 @@
    "v": 1.93,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "FRA",
@@ -411,8 +397,7 @@
    "v": 1.846,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KOR",
@@ -420,8 +405,7 @@
    "v": 1.551,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MYS",
@@ -429,11 +413,13 @@
    "v": 1.531,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [
   "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
+ ],
+ "discrepancies": [
+  "TUR->BEN: 40.7 kt of rare-earths in 2024 (reported tonnage implies 53 USD/t, i.e. 0.0016x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
  ]
 }

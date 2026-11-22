@@ -213,8 +213,8 @@ class Usgs:
             iso = iso_from_name(r["Country"], "usgs")
             if kind == "num":
                 rows.append((iso, v * factor))
-            else:
-                missing.append(r["Country"])
+            elif re.search(r"\w", r["Value"]):  # blank = no figure at all (e.g. refiners that are not miners); W / ranges / words are listed
+                missing.append(f"{r['Country']} ({r['Value']})")
             if isinstance(r["Notes"], str) and "Estimated" in r["Notes"]:
                 estimated = True
         world, wnote = None, None
@@ -244,13 +244,14 @@ class Usgs:
             n.append("world = sum of reporting countries incl. 'Other countries'")
         else:
             n.append("USGS world total is rounded")
-            if sumrows > world * 1.05:
+            if sumrows > world * 1.02:
                 warn(f"{commodity}/{detail}: sum of countries {sumrows:.0f} > world {world:.0f}")
+                n.append("country figures add up to more than the rounded USGS world total")
         if t["wnote"]:
             n.append(t["wnote"])
         if t["missing"]:
             names = sorted(set(t["missing"]))
-            n.append("not published (withheld, range or qualitative): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
+            n.append("not given as a number by USGS (W = withheld): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
         return ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n)), t
 
 
@@ -404,10 +405,15 @@ class Baci:
         df["t0"] = df["t"]
         df.loc[fix, "t"] = df.loc[fix, "usd"] / df.loc[fix, "uv"]
         df["est"] = fix
+        susp = has_t & ~bad & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100))  # absurd unit values only: group unit values are heterogeneous
+        df["susp"] = susp
+        df["t_susp"] = df["t"].where(susp, 0.0)
+        df["uvr"] = ratio
         df["t_est"] = df["t"].where(fix, 0.0)
         self.df = df
         sea = pd.read_csv(os.path.join(CACHE, "sea_flows.csv.gz"))
         self.sea = set(zip(sea["year"], sea["group"], sea["o"], sea["d"]))
+        self.sea_groups = set(sea["group"])
         self.lanes = {}
         ld = os.path.join(DATA, "freight", "lanes")
         for f in os.listdir(ld):
@@ -429,7 +435,7 @@ class Baci:
     def ranked(self, g, side, u, div, what, extra=None):
         d = self.group(g)
         col = "o" if side == "exports" else "d"
-        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
+        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
         rows = []
@@ -441,6 +447,9 @@ class Baci:
                 note = f"BACI code {code} ('Other Asia, nes'), reported as Taiwan"
             if es >= 0.10:
                 note = (note + "; " if note else "") + f"{es * 100:.0f}% of tonnage estimated from value"
+            ss = r["ts"] / r["t"] if r["t"] else 0
+            if ss >= 0.10:
+                note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
             rows.append((iso, r["t"] / div, note))
         n = [f"CEPII BACI HS92 {what}, {BACI_YEAR}, all transport modes, gross weight",
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
@@ -451,6 +460,8 @@ class Baci:
         return ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n)), est_share
 
     def flows(self, g, u, div, lane_group=None, only_exporters=None, mode_all=None, n_all=None):
+        self.last_susp = []
+        modelled = g in self.sea_groups
         d = self.group(g)
         if only_exporters:
             d = d[d["o"].isin(only_exporters)]
@@ -463,12 +474,20 @@ class Baci:
                 raise SystemExit(f"flow with unmapped country {r['o']}-{r['d']} in {g}")
             f = {"o": o, "d": de, "v": rnd(r["t"] / div), "u": u, "y": BACI_YEAR, "s": "baci"}
             sea = (BACI_YEAR, g, r["o"], r["d"]) in self.sea
-            f["mode"] = mode_all or ("sea" if sea else "land")
+            if mode_all:
+                f["mode"] = mode_all
+            elif modelled:  # groups outside the lane model (gold, PGM...) carry no sea/land classification
+                f["mode"] = "sea" if sea else "land"
             lid = f"{lane_group or g}:{r['o']}-{r['d']}"
             if lg and lid in lg["ids"]:
                 f["lane"] = lid
             if r["est"]:
                 f["n"] = "tonnage estimated from value"
+            if r["susp"]:
+                msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year median unit value: "
+                       f"possible misreport, kept because the flow is below the 50 M USD correction rule")
+                f["n"] = (f["n"] + "; " if "n" in f else "") + msg
+                self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
             if n_all:
                 f["n"] = (f["n"] + "; " if "n" in f else "") + n_all
             out.append(f)
@@ -688,6 +707,7 @@ def main():
             d["imports"], _ = baci.ranked(g, "imports", u, div, what, extra)
         if flows:
             d["flows"] = baci.flows(g, u, div)
+            disc.extend(baci.last_susp)
         return g
 
     def summ(d, key, r, label=None):
@@ -778,6 +798,7 @@ def main():
             d["imports"] = eia.ranked(("130-3", "MT"), "Mt", 1e-3, "metallurgical coal imports; 1000 metric tons converted to Mt")
             d["flows"] = baci.flows("coal", "Mt", 1e6, only_exporters=["AUS", "USA", "CAN", "MNG", "RUS"],
                                     n_all="all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated")
+            disc.extend(baci.last_susp)
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
@@ -827,6 +848,7 @@ def main():
             d["imports"], _ = psd.ranked(com, im_attr, f"{what} imports (market-year trade)")
             g, (bu, bdiv), bwhat = TRADE[cid]
             d["flows"] = baci.flows(g, bu, bdiv)
+            disc.extend(baci.last_susp)
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
@@ -837,7 +859,7 @@ def main():
             if cid == "rice":
                 notes.append("PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures.")
             if cid == "sugar":
-                notes.append("PSD sugar is centrifugal sugar in raw value (cane and beet).")
+                notes.append("PSD sugar is centrifugal sugar in raw value (cane and beet); consumption is PSD 'Human Dom. Consumption'.")
             if cid == "soybeans":
                 notes.append("PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in 2025 (Brazil/Argentina harvest early 2026, US harvest autumn 2025).")
             disc += _psd_vs_baci(psd, baci, cid, com, ex_attr, g)
@@ -877,6 +899,7 @@ def main():
         elif cid == "steel":
             notes.append("Trade is steel products (HS 72 excluding pig iron, ferro-alloys and scrap), gross weight; USGS production is raw steel.")
         elif cid in ("gold", "silver"):
+            disc.append(_prec_disc(d, cid))
             notes.append("Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.")
         elif cid == "iron-ore":
             notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown.")
@@ -954,8 +977,15 @@ def _psd_vs_baci(psd_obj, baci, cid, com, ex_attr, group):
     bw = baci.group(group)["t"].sum() / div
     if bw and abs(world / bw - 1) > 0.15:
         out.append(f"World exports: USDA PSD {PSD_LABEL} {world:.1f} {unit} (sum of reporting countries, EU excl. intra-trade) vs BACI {BACI_YEAR} {bw:.1f} {unit} "
-                   f"({(world / bw - 1) * 100:+.0f}%); different year and basis (market year vs calendar year, product scope); PSD shown in the table.")
+                   f"({(world / bw - 1) * 100:+.0f}%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table.")
     return out
+
+
+def _prec_disc(d, cid):
+    ex, pr = d["exports"], d["production"]
+    return (f"BACI world exports {ex['world']:,.0f} {ex['u']} ({BACI_YEAR}) are {ex['world'] / pr['world']:.1f}x USGS world mine production "
+            f"{pr['world']:,.0f} {pr['u']} ({pr['y']}): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; "
+            "USGS used for production, BACI for trade.")
 
 
 def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
@@ -982,6 +1012,7 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
     summ(d, "reserves", d["reserves"])
     summ(d, "exports", d["exports"])
     seaborne(d, g)
+    disc.append(_prec_disc(d, cid))
     notes.append("Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.")
     notes.append("Production is platinum plus palladium only (USGS gives no rhodium/ruthenium/iridium/osmium by country); the index unit (kg) is shown here in t.")
 

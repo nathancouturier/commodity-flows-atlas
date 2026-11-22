@@ -13,7 +13,7 @@
    "u": "kt Pb",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; not published (withheld, range or qualitative): Tajikistan"
+   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded"
   },
   "exports": {
    "v": 3.873,
@@ -131,7 +131,7 @@
     "v": 1600.0
    }
   ],
-  "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; not published (withheld, range or qualitative): Tajikistan"
+  "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded"
  },
  "exports": {
   "y": 2024,
@@ -263,7 +263,6 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -272,8 +271,7 @@
    "v": 0.3727,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "PER",
@@ -281,8 +279,7 @@
    "v": 0.3283,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -291,7 +288,6 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -300,8 +296,7 @@
    "v": 0.1465,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -309,8 +304,7 @@
    "v": 0.1126,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -318,8 +312,7 @@
    "v": 0.1114,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MEX",
@@ -328,7 +321,6 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -337,8 +329,7 @@
    "v": 0.0957,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "TUR",
@@ -346,8 +337,7 @@
    "v": 0.0799,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MEX",
@@ -355,8 +345,7 @@
    "v": 0.0789,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MEX",
@@ -365,7 +354,6 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -374,8 +362,7 @@
    "v": 0.0689,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "SWE",
@@ -383,8 +370,7 @@
    "v": 0.0677,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -392,8 +378,7 @@
    "v": 0.0644,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "TJK",
@@ -401,8 +386,7 @@
    "v": 0.0553,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -410,8 +394,7 @@
    "v": 0.0543,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "NGA",
@@ -419,8 +402,7 @@
    "v": 0.0539,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MKD",
@@ -428,8 +410,7 @@
    "v": 0.0521,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BRA",
@@ -437,8 +418,7 @@
    "v": 0.0521,
    "u": "Mt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [

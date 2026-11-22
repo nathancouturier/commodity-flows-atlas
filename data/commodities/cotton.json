@@ -463,6 +463,6 @@
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
  ],
  "discrepancies": [
-  "World exports: USDA PSD 2025/26 9993.1 kt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 8632.3 kt (+16%); different year and basis (market year vs calendar year, product scope); PSD shown in the table."
+  "World exports: USDA PSD 2025/26 9993.1 kt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 8632.3 kt (+16%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."
  ]
 }

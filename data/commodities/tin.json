@@ -6,14 +6,14 @@
    "u": "t Sn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+   "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded"
   },
   "reserves": {
    "v": 6000000.0,
    "u": "t Sn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000); not published (withheld, range or qualitative): Laos, Malaysia, Nigeria, Rwanda, United States"
+   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)"
   },
   "exports": {
    "v": 221.9,
@@ -78,7 +78,7 @@
     "v": 4500.0
    }
   ],
-  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): United States"
+  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded"
  },
  "reserves": {
   "y": 2025,
@@ -127,7 +127,7 @@
     "v": 23000.0
    }
   ],
-  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000); not published (withheld, range or qualitative): Laos, Malaysia, Nigeria, Rwanda, United States"
+  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)"
  },
  "exports": {
   "y": 2024,
@@ -251,8 +251,7 @@
    "v": 15.303,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "PER",
@@ -260,8 +259,7 @@
    "v": 12.066,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "IDN",
@@ -269,8 +267,7 @@
    "v": 9.568,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BOL",
@@ -278,8 +275,7 @@
    "v": 7.025,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "IDN",
@@ -287,8 +283,7 @@
    "v": 6.366,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "IDN",
@@ -296,8 +291,7 @@
    "v": 5.716,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ESP",
@@ -305,8 +299,7 @@
    "v": 5.296,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BEL",
@@ -314,8 +307,7 @@
    "v": 4.034,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BOL",
@@ -323,8 +315,7 @@
    "v": 3.975,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "PER",
@@ -332,8 +323,7 @@
    "v": 3.954,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MYS",
@@ -341,8 +331,7 @@
    "v": 3.861,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "PER",
@@ -350,8 +339,7 @@
    "v": 3.767,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "IDN",
@@ -359,8 +347,7 @@
    "v": 3.756,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "LUX",
@@ -368,8 +355,7 @@
    "v": 3.191,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -377,8 +363,7 @@
    "v": 3.141,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "NLD",
@@ -386,8 +371,7 @@
    "v": 3.13,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BOL",
@@ -395,8 +379,7 @@
    "v": 3.058,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MYS",
@@ -404,8 +387,7 @@
    "v": 2.917,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BRA",
@@ -413,8 +395,7 @@
    "v": 2.826,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "SGP",
@@ -422,8 +403,7 @@
    "v": 2.664,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [

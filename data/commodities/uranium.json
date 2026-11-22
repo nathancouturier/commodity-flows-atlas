@@ -118,7 +118,8 @@
    },
    {
     "c": "DEU",
-    "v": 1.023
+    "v": 1.023,
+    "n": "98% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "UKR",
@@ -199,8 +200,7 @@
    "v": 14.918,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KAZ",
@@ -208,8 +208,7 @@
    "v": 11.239,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KAZ",
@@ -217,8 +216,7 @@
    "v": 9.975,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -226,8 +224,7 @@
    "v": 9.929,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -235,8 +232,7 @@
    "v": 4.321,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "NER",
@@ -244,8 +240,7 @@
    "v": 4.149,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KAZ",
@@ -253,8 +248,7 @@
    "v": 3.798,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -262,8 +256,7 @@
    "v": 3.304,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -271,8 +264,7 @@
    "v": 2.713,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KAZ",
@@ -280,8 +272,7 @@
    "v": 2.458,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "UZB",
@@ -289,8 +280,7 @@
    "v": 2.185,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -298,8 +288,7 @@
    "v": 2.149,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -307,8 +296,7 @@
    "v": 1.873,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KAZ",
@@ -316,8 +304,7 @@
    "v": 1.648,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -325,8 +312,7 @@
    "v": 1.589,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -334,8 +320,7 @@
    "v": 1.569,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -343,8 +328,7 @@
    "v": 1.26,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -352,8 +336,7 @@
    "v": 1.224,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "NAM",
@@ -361,8 +344,7 @@
    "v": 1.136,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "DEU",
@@ -371,11 +353,14 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "n": "reported tonnage implies 749 USD/t, i.e. 0.0047x the uranium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   }
  ],
  "notes": [
   "Trade is gross weight of uranium ores and natural uranium compounds in kt, not tonnes of contained uranium; enriched uranium and fuel are not covered.",
   "No reserves or consumption table: neither is in the loaded sources."
+ ],
+ "discrepancies": [
+  "DEU->FRA: 1.001 kt of uranium in 2024 (reported tonnage implies 749 USD/t, i.e. 0.0047x the uranium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
  ]
 }

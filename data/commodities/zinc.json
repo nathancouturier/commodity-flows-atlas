@@ -13,7 +13,7 @@
    "u": "kt Zn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; not published (withheld, range or qualitative): Bolivia"
+   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded"
   },
   "exports": {
    "v": 11.541,
@@ -122,7 +122,7 @@
     "v": 4100.0
    }
   ],
-  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; not published (withheld, range or qualitative): Bolivia"
+  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded"
  },
  "exports": {
   "y": 2024,

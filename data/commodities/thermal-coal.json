@@ -23,14 +23,14 @@
    "n": "EIA coal reserves, all coal (not split thermal/metallurgical)"
   },
   "exports": {
-   "v": 1405.4,
+   "v": 1589.8,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "all coal (HS 2701) incl. metallurgical coal, BACI"
   },
   "seaborne": {
-   "v": 1144.0,
+   "v": 1313.7,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -212,11 +212,11 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1405.4,
+  "world": 1589.8,
   "rows": [
    {
     "c": "IDN",
-    "v": 401.35
+    "v": 564.38
    },
    {
     "c": "AUS",
@@ -224,19 +224,19 @@
    },
    {
     "c": "RUS",
-    "v": 176.8
+    "v": 183.54
    },
    {
     "c": "USA",
-    "v": 108.21
+    "v": 108.22
    },
    {
     "c": "MNG",
-    "v": 78.774
+    "v": 82.911
    },
    {
     "c": "ZAF",
-    "v": 70.906
+    "v": 70.907
    },
    {
     "c": "COL",
@@ -244,23 +244,24 @@
    },
    {
     "c": "CAN",
-    "v": 37.233
+    "v": 37.299
    },
    {
     "c": "MOZ",
     "v": 19.851
    },
    {
-    "c": "KAZ",
-    "v": 13.822
+    "c": "PHL",
+    "v": 17.502
    },
    {
-    "c": "PHL",
-    "v": 9.786
+    "c": "KAZ",
+    "v": 13.321,
+    "n": "11% of tonnage estimated from value"
    },
    {
     "c": "POL",
-    "v": 4.213
+    "v": 4.219
    }
   ],
   "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
@@ -269,36 +270,36 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1405.4,
+  "world": 1589.8,
   "rows": [
    {
     "c": "CHN",
-    "v": 375.17
+    "v": 552.71
    },
    {
     "c": "IND",
-    "v": 263.73
+    "v": 264.17
    },
    {
     "c": "JPN",
-    "v": 166.57
+    "v": 166.59
    },
    {
     "c": "KOR",
-    "v": 118.24
+    "v": 119.79
    },
    {
     "c": "VNM",
-    "v": 53.937
+    "v": 53.993
    },
    {
     "c": "TWN",
-    "v": 51.192,
+    "v": 51.469,
     "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
    },
    {
     "c": "MYS",
-    "v": 44.447
+    "v": 44.461
    },
    {
     "c": "TUR",
@@ -310,15 +311,15 @@
    },
    {
     "c": "DEU",
-    "v": 20.087
+    "v": 20.198
    },
    {
     "c": "NLD",
-    "v": 19.957
+    "v": 19.97
    },
    {
     "c": "THA",
-    "v": 18.4
+    "v": 18.478
    }
   ],
   "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
@@ -326,8 +327,18 @@
  "flows": [
   {
    "o": "IDN",
+   "d": "CHN",
+   "v": 241.36,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-CHN"
+  },
+  {
+   "o": "IDN",
    "d": "IND",
-   "v": 110.47,
+   "v": 110.9,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -347,7 +358,7 @@
   {
    "o": "RUS",
    "d": "CHN",
-   "v": 88.334,
+   "v": 95.074,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -364,19 +375,9 @@
    "lane": "coal:AUS-CHN"
   },
   {
-   "o": "IDN",
-   "d": "CHN",
-   "v": 82.743,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "sea",
-   "lane": "coal:IDN-CHN"
-  },
-  {
    "o": "MNG",
    "d": "CHN",
-   "v": 78.774,
+   "v": 82.911,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -424,23 +425,23 @@
   },
   {
    "o": "IDN",
-   "d": "JPN",
-   "v": 28.906,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "sea",
-   "lane": "coal:IDN-JPN"
-  },
-  {
-   "o": "IDN",
    "d": "KOR",
-   "v": 28.683,
+   "v": 30.231,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
    "lane": "coal:IDN-KOR"
+  },
+  {
+   "o": "IDN",
+   "d": "JPN",
+   "v": 28.921,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "sea",
+   "lane": "coal:IDN-JPN"
   },
   {
    "o": "AUS",
@@ -454,7 +455,7 @@
   {
    "o": "IDN",
    "d": "VNM",
-   "v": 27.189,
+   "v": 27.245,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -464,7 +465,7 @@
   {
    "o": "IDN",
    "d": "MYS",
-   "v": 27.116,
+   "v": 27.128,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
@@ -525,8 +526,5 @@
  "notes": [
   "HS 2701 does not separate thermal from metallurgical coal: trade tables and flows cover all coal.",
   "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."
- ],
- "discrepancies": [
-  "IDN exports 2024: BACI 401.3 Mt vs EIA coal exports 557.8 Mt (+39%); table uses BACI (customs tonnage, all coal incl. coking)."
  ]
 }

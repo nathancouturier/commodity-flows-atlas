@@ -6,7 +6,7 @@
    "u": "t Li",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): United States"
+   "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
   },
   "reserves": {
    "v": 37000000.0,
@@ -66,7 +66,7 @@
     "v": 380.0
    }
   ],
-  "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): United States"
+  "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
  },
  "reserves": {
   "y": 2025,
@@ -238,8 +238,7 @@
    "v": 186.17,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -247,8 +246,7 @@
    "v": 84.441,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARG",
@@ -256,8 +254,7 @@
    "v": 47.559,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -265,8 +262,7 @@
    "v": 35.772,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -274,8 +270,7 @@
    "v": 34.265,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -283,8 +278,7 @@
    "v": 9.2,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "NGA",
@@ -292,8 +286,7 @@
    "v": 8.604,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -301,8 +294,7 @@
    "v": 8.098,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -310,8 +302,7 @@
    "v": 8.068,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -319,8 +310,7 @@
    "v": 7.981,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARG",
@@ -328,8 +318,7 @@
    "v": 6.779,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BRA",
@@ -337,8 +326,7 @@
    "v": 6.482,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARG",
@@ -346,8 +334,7 @@
    "v": 5.888,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KOR",
@@ -355,8 +342,7 @@
    "v": 4.641,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARG",
@@ -364,8 +350,7 @@
    "v": 4.432,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -373,8 +358,7 @@
    "v": 3.362,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -382,8 +366,7 @@
    "v": 3.179,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHL",
@@ -391,8 +374,7 @@
    "v": 2.85,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "JPN",
@@ -400,8 +382,7 @@
    "v": 2.201,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -409,8 +390,7 @@
    "v": 2.121,
    "u": "kt",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [

@@ -191,7 +191,8 @@
    },
    {
     "c": "SGP",
-    "v": 219.78
+    "v": 219.78,
+    "n": "30% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
   "n": "CEPII BACI HS92 non-monetary gold (HS 710811-710813), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 4% of world tonnage estimated from value where missing or inconsistent"
@@ -261,8 +262,7 @@
    "v": 365.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHE",
@@ -270,8 +270,7 @@
    "v": 262.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARE",
@@ -279,8 +278,7 @@
    "v": 209.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARE",
@@ -288,8 +286,7 @@
    "v": 206.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "RUS",
@@ -297,8 +294,7 @@
    "v": 198.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "USA",
@@ -306,8 +302,7 @@
    "v": 184.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "HKG",
@@ -315,8 +310,7 @@
    "v": 181.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "AUS",
@@ -324,8 +318,7 @@
    "v": 165.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARE",
@@ -333,8 +326,7 @@
    "v": 156.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -342,8 +334,7 @@
    "v": 137.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "PER",
@@ -351,8 +342,7 @@
    "v": 136.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ZAF",
@@ -360,8 +350,7 @@
    "v": 124.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHE",
@@ -369,8 +358,7 @@
    "v": 120.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "JPN",
@@ -378,8 +366,7 @@
    "v": 119.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -387,8 +374,7 @@
    "v": 108.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHE",
@@ -396,8 +382,7 @@
    "v": 105.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CIV",
@@ -405,8 +390,7 @@
    "v": 100.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "HKG",
@@ -414,8 +398,7 @@
    "v": 95.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHE",
@@ -423,8 +406,7 @@
    "v": 93.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BFA",
@@ -432,11 +414,13 @@
    "v": 91.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [
   "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative."
+ ],
+ "discrepancies": [
+  "BACI world exports 8,472 t (2024) are 2.6x USGS world mine production 3,300 t Au (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
  ]
 }

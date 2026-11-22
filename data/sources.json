@@ -190,5 +190,37 @@
   "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
   "licence": "Copyright World Nuclear Association; figures cited with attribution (see website terms of use)",
   "update": "annual"
+ },
+ {
+  "id": "company-reports",
+  "name": "Company annual and production reports",
+  "publisher": "Individual companies",
+  "url": "https://www.vitol.com/",
+  "licence": "Per company; facts only cited",
+  "update": "annual"
+ },
+ {
+  "id": "trade-press",
+  "name": "Trade press citing company data",
+  "publisher": "Various",
+  "url": "https://www.reuters.com/markets/commodities/",
+  "licence": "Facts only cited",
+  "update": "continuous"
+ },
+ {
+  "id": "wikipedia",
+  "name": "Wikipedia company articles",
+  "publisher": "Wikimedia Foundation",
+  "url": "https://en.wikipedia.org/",
+  "licence": "CC BY-SA 4.0",
+  "update": "continuous"
+ },
+ {
+  "id": "port-authorities",
+  "name": "Port authority and government port statistics (Pilbara Ports, Queensland TMR, MPA Singapore, Port of Rotterdam, PCCA, Santos, Portos do Parana, RBCT via press)",
+  "publisher": "various port authorities",
+  "url": "https://www.pilbaraports.com.au/",
+  "licence": "Public statistics; cite with attribution",
+  "update": "annual"
  }
 ]

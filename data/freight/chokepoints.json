@@ -240,11 +240,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 20.4,
+"v": 17.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "234 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "234 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -324,11 +324,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 20.4,
+"v": 17.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "234 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "234 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -607,11 +607,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 4.0,
+"v": 3.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "46 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "46 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -733,11 +733,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 4.0,
+"v": 3.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "46 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "46 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -848,16 +848,6 @@
 "y": 2024,
 "s": "atlas",
 "n": "35 Mt of 133 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
-}
-},
-{
-"k": "thermal-coal",
-"f": {
-"v": 2.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "24 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1122,11 +1112,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 2.6,
+"v": 2.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "30 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "30 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1430,11 +1420,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 14.3,
+"v": 25.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "163 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "339 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1531,11 +1521,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 9.1,
+"v": 7.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "104 Mt of 1144 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "104 Mt of 1314 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {

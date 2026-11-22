@@ -6,14 +6,14 @@
    "u": "kt Cu",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, copper mine production, contained copper; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Germany, Japan, Korea, Republic of"
+   "n": "USGS MCS 2026, copper mine production, contained copper; 2025 values are USGS estimates; USGS world total is rounded"
   },
   "reserves": {
    "v": 980000.0,
    "u": "kt Cu",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded; not published (withheld, range or qualitative): Germany, Japan, Korea, Republic of"
+   "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded"
   },
   "exports": {
    "v": 42.89,
@@ -85,7 +85,7 @@
     "v": 500.0
    }
   ],
-  "n": "USGS MCS 2026, copper mine production, contained copper; 2025 values are USGS estimates; USGS world total is rounded; not published (withheld, range or qualitative): Germany, Japan, Korea, Republic of"
+  "n": "USGS MCS 2026, copper mine production, contained copper; 2025 values are USGS estimates; USGS world total is rounded"
  },
  "refinery": {
   "y": 2025,
@@ -199,7 +199,7 @@
     "v": 20000.0
    }
   ],
-  "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded; not published (withheld, range or qualitative): Germany, Japan, Korea, Republic of"
+  "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded"
  },
  "exports": {
   "y": 2024,

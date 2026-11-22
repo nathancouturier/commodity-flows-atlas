@@ -13,7 +13,7 @@
    "u": "t Ag",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded; not published (withheld, range or qualitative): Kazakhstan, Sweden"
+   "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
   },
   "exports": {
    "v": 44892.1,
@@ -135,7 +135,7 @@
     "v": 4900.0
    }
   ],
-  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded; not published (withheld, range or qualitative): Kazakhstan, Sweden"
+  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
  },
  "exports": {
   "y": 2024,
@@ -145,7 +145,8 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 7961.0
+    "v": 7961.0,
+    "n": "23% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "JPN",
@@ -207,7 +208,8 @@
    },
    {
     "c": "IND",
-    "v": 6425.9
+    "v": 6425.9,
+    "n": "29% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "GBR",
@@ -260,8 +262,7 @@
    "v": 3513.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MEX",
@@ -269,8 +270,7 @@
    "v": 2876.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "ARE",
@@ -278,8 +278,7 @@
    "v": 2463.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "JPN",
@@ -287,8 +286,7 @@
    "v": 2221.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CHN",
@@ -297,7 +295,7 @@
    "u": "t",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "n": "reported tonnage implies 1,157 USD/t, i.e. 0.0015x the silver group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
    "o": "CHN",
@@ -305,8 +303,7 @@
    "v": 1577.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "CAN",
@@ -314,8 +311,7 @@
    "v": 1289.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KOR",
@@ -323,8 +319,7 @@
    "v": 1106.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "DEU",
@@ -332,8 +327,7 @@
    "v": 1034.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "GBR",
@@ -341,8 +335,7 @@
    "v": 674.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "JPN",
@@ -350,8 +343,7 @@
    "v": 528.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "POL",
@@ -359,8 +351,7 @@
    "v": 523.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "GBR",
@@ -369,7 +360,6 @@
    "u": "t",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -379,7 +369,6 @@
    "u": "t",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
    "n": "tonnage estimated from value"
   },
   {
@@ -388,8 +377,7 @@
    "v": 466.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KOR",
@@ -397,8 +385,7 @@
    "v": 465.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "KOR",
@@ -406,8 +393,7 @@
    "v": 404.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "MEX",
@@ -415,8 +401,7 @@
    "v": 403.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "BEL",
@@ -424,8 +409,7 @@
    "v": 356.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   },
   {
    "o": "POL",
@@ -433,11 +417,14 @@
    "v": 348.0,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "mode": "land"
+   "s": "baci"
   }
  ],
  "notes": [
   "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative."
+ ],
+ "discrepancies": [
+  "CHN->IND: 1858.0 t of silver in 2024 (reported tonnage implies 1,157 USD/t, i.e. 0.0015x the silver group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
+  "BACI world exports 44,892 t (2024) are 1.7x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
  ]
 }

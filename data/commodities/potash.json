@@ -13,7 +13,7 @@
    "u": "Mt K2O",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not published (withheld, range or qualitative): Israel, Jordan"
+   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
   },
   "exports": {
    "v": 62.663,
@@ -134,7 +134,7 @@
     "v": 2.3
    }
   ],
-  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not published (withheld, range or qualitative): Israel, Jordan"
+  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
  },
  "exports": {
   "y": 2024,

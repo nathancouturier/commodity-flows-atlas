@@ -6,14 +6,14 @@
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): Canada, Germany, Ireland, Spain, United Arab Emirates, United States"
+   "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
   },
   "reserves": {
    "v": 29000.0,
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Germany, Greece, Ireland, Spain, United Arab Emirates"
+   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded"
   },
   "exports": {
    "v": 149.65,
@@ -85,7 +85,7 @@
     "v": 3.8
    }
   ],
-  "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not published (withheld, range or qualitative): Canada, Germany, Ireland, Spain, United Arab Emirates, United States"
+  "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
  },
  "refinery": {
   "y": 2025,
@@ -199,7 +199,7 @@
     "v": 69.0
    }
   ],
-  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; not published (withheld, range or qualitative): Canada, Germany, Greece, Ireland, Spain, United Arab Emirates"
+  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded"
  },
  "exports": {
   "y": 2024,

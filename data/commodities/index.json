@@ -424,7 +424,7 @@
   "name": "Platinum group metals",
   "family": "metals",
   "blurb": "Platinum and palladium for autocatalysts; South Africa and Russia dominate.",
-  "unit": "kg",
+  "unit": "t",
   "hs": [
    "7110"
   ],
