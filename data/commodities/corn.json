@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Corn, corn imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 308.31,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 176.97
+     },
+     {
+      "c": "USA",
+      "v": 53.217
+     },
+     {
+      "c": "BRA",
+      "v": 15.304
+     },
+     {
+      "c": "IND",
+      "v": 7.822
+     },
+     {
+      "c": "EU27",
+      "v": 6.149
+     },
+     {
+      "c": "ARG",
+      "v": 5.707
+     },
+     {
+      "c": "MEX",
+      "v": 5.507
+     },
+     {
+      "c": "ZAF",
+      "v": 4.026
+     },
+     {
+      "c": "UKR",
+      "v": 2.916
+     },
+     {
+      "c": "KOR",
+      "v": 2.055
+     },
+     {
+      "c": "EGY",
+      "v": 1.991
+     },
+     {
+      "c": "CAN",
+      "v": 1.735
+     }
+    ],
+    "n": "USDA PSD, Corn, corn ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "USA",

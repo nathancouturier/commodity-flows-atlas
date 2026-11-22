@@ -1,0 +1,35 @@
+[
+ {
+  "id": "hormuz-2026",
+  "title": "Strait of Hormuz largely closed",
+  "since": "2026-03",
+  "severity": "high",
+  "text": "Commercial transits through Hormuz have collapsed since the US-Israeli strikes on Iran (28 February 2026). Gulf crude, LNG, LPG, products and fertiliser exports are disrupted; flows shown for 2024 are a pre-disruption baseline.",
+  "chokepoints": ["hormuz"],
+  "commodities": ["crude-oil", "refined-products", "lng", "lpg", "urea", "aluminium"],
+  "countries": ["SAU", "IRQ", "KWT", "QAT", "ARE", "IRN", "BHR"],
+  "event": "iran-war-hormuz-2026"
+ },
+ {
+  "id": "red-sea-2023",
+  "title": "Red Sea diversions",
+  "since": "2023-12",
+  "severity": "medium",
+  "text": "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023. Suez transits were recovering in late 2026 but remain well below 2023 levels.",
+  "chokepoints": ["bab-el-mandeb", "suez"],
+  "commodities": ["crude-oil", "refined-products", "lng", "wheat", "corn"],
+  "countries": ["EGY", "SAU", "YEM"],
+  "event": "red-sea-houthi-2023"
+ },
+ {
+  "id": "black-sea-2026",
+  "title": "Black Sea shipping under attack",
+  "since": "2026-01",
+  "severity": "medium",
+  "text": "Escalating attacks on ships and ports in the Black Sea affect grain, oilseed and crude (CPC) exports from Ukraine, Russia and Kazakhstan.",
+  "chokepoints": ["bosphorus"],
+  "commodities": ["wheat", "corn", "crude-oil", "rapeseed"],
+  "countries": ["UKR", "RUS", "KAZ"],
+  "event": "black-sea-attacks-2026"
+ }
+]

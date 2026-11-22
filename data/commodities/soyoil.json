@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Oil, Soybean, soybean oil imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 6.235,
+    "rows": [
+     {
+      "c": "IND",
+      "v": 1.665
+     },
+     {
+      "c": "CHN",
+      "v": 0.799
+     },
+     {
+      "c": "USA",
+      "v": 0.661
+     },
+     {
+      "c": "EU27",
+      "v": 0.574
+     },
+     {
+      "c": "ARG",
+      "v": 0.253
+     },
+     {
+      "c": "DZA",
+      "v": 0.23
+     },
+     {
+      "c": "BRA",
+      "v": 0.197
+     },
+     {
+      "c": "MEX",
+      "v": 0.182
+     },
+     {
+      "c": "CAN",
+      "v": 0.145
+     },
+     {
+      "c": "EGY",
+      "v": 0.142
+     },
+     {
+      "c": "KOR",
+      "v": 0.103
+     },
+     {
+      "c": "RUS",
+      "v": 0.094
+     }
+    ],
+    "n": "USDA PSD, Oil, Soybean, soybean oil ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "ARG",

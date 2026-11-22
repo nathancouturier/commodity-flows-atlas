@@ -40,6 +40,7 @@ def build(rows, chk, out_dir=OUT):
     pw["other"] = pw["n_general_cargo"] + pw["n_roro"]
     os.makedirs(out_dir, exist_ok=True)
     ids = {c.get("portwatch"): c["id"] for c in chk if c.get("portwatch")}
+    headline = {}
     for pid, g in pw.groupby("portid"):
         if pid not in ids:
             continue
@@ -52,8 +53,37 @@ def build(rows, chk, out_dir=OUT):
             "total": [round(x, 1) for x in wk["n_total"]], "dwt": [round(x / 1e6, 2) for x in wk["capacity"]],
         }
         json.dump(doc, open(os.path.join(out_dir, f"{ids[pid]}.json"), "w"), separators=(",", ":"))
+        # headline traffic on the chokepoint card: last 28 days, with yearly references
+        daily = g.set_index("date").sort_index()["n_total"]
+        last = daily.index.max()
+        recent = daily[daily.index > last - pd.Timedelta(days=28)].mean()
+        refs = []
+        for yr in (2023, last.year - 1):
+            yv = daily[daily.index.year == yr]
+            if len(yv) > 300:
+                refs.append(f"{yr} average {yv.mean():.1f}/day")
+        headline[ids[pid]] = {"v": round(float(recent), 1), "u": "vessels/day", "y": f"28 days to {last.date()}", "s": "portwatch",
+                              "n": "All cargo vessel types, IMF PortWatch daily transits; " + "; ".join(refs)}
+    update_headlines(headline, os.path.join(out_dir, "..", "chokepoints.json"))
     print("portwatch series", len(ids), "last date", pw["date"].max().date())
     return str(pw["date"].max().date())
+
+
+def update_headlines(headline, path):
+    """Write the latest traffic figure into data/freight/chokepoints.json (kept in sync weekly).
+    A non-PortWatch figure already there (e.g. Panama Canal Authority fiscal-year transits) is kept as `trafficRef`."""
+    if not os.path.exists(path):
+        return
+    chk = json.load(open(path))
+    for c in chk:
+        h = headline.get(c["id"])
+        if not h:
+            continue
+        old = c.get("traffic")
+        if old and old.get("s") != "portwatch":
+            c["trafficRef"] = old
+        c["traffic"] = h
+    json.dump(chk, open(path, "w"), indent=0)
 
 
 def main():

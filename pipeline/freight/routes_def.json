@@ -1,7 +1,7 @@
 [
  {
   "id": "C3",
-  "name": "Tubarao \u2013 Qingdao",
+  "name": "Tubarao – Qingdao",
   "benchmark": true,
   "vclass": "capesize",
   "cargoes": [
@@ -45,7 +45,7 @@
  },
  {
   "id": "C5",
-  "name": "West Australia \u2013 Qingdao",
+  "name": "West Australia – Qingdao",
   "benchmark": true,
   "vclass": "capesize",
   "cargoes": [
@@ -90,7 +90,7 @@
  },
  {
   "id": "C7",
-  "name": "Bolivar \u2013 Rotterdam",
+  "name": "Bolivar – Rotterdam",
   "benchmark": true,
   "vclass": "capesize",
   "cargoes": [
@@ -134,7 +134,7 @@
  },
  {
   "id": "C17",
-  "name": "Saldanha Bay \u2013 Qingdao",
+  "name": "Saldanha Bay – Qingdao",
   "benchmark": true,
   "vclass": "capesize",
   "cargoes": [
@@ -199,7 +199,7 @@
  },
  {
   "id": "C14",
-  "name": "China \u2013 Brazil round voyage",
+  "name": "China – Brazil round voyage",
   "benchmark": true,
   "vclass": "capesize",
   "cargoes": [
@@ -662,7 +662,7 @@
  },
  {
   "id": "TD3C",
-  "name": "Middle East Gulf \u2013 China",
+  "name": "Middle East Gulf – China",
   "benchmark": true,
   "vclass": "vlcc",
   "cargoes": [
@@ -715,7 +715,7 @@
  },
  {
   "id": "TD34",
-  "name": "Gulf of Oman \u2013 China (Mina al-Fahal \u2013 Ningbo)",
+  "name": "Gulf of Oman – China (Mina al-Fahal – Ningbo)",
   "benchmark": true,
   "vclass": "vlcc",
   "cargoes": [
@@ -751,7 +751,7 @@
  },
  {
   "id": "TD15",
-  "name": "West Africa \u2013 China",
+  "name": "West Africa – China",
   "benchmark": true,
   "vclass": "vlcc",
   "cargoes": [
@@ -804,7 +804,7 @@
  },
  {
   "id": "TD22",
-  "name": "US Gulf \u2013 China",
+  "name": "US Gulf – China",
   "benchmark": true,
   "vclass": "vlcc",
   "cargoes": [
@@ -855,7 +855,7 @@
  },
  {
   "id": "TD6",
-  "name": "Black Sea \u2013 Mediterranean",
+  "name": "Black Sea – Mediterranean",
   "benchmark": true,
   "vclass": "suezmax",
   "cargoes": [
@@ -906,7 +906,7 @@
  },
  {
   "id": "TD7",
-  "name": "North Sea \u2013 Continent",
+  "name": "North Sea – Continent",
   "benchmark": true,
   "vclass": "aframax",
   "cargoes": [
@@ -953,7 +953,7 @@
  },
  {
   "id": "TD8",
-  "name": "Kuwait \u2013 Singapore",
+  "name": "Kuwait – Singapore",
   "benchmark": true,
   "vclass": "aframax",
   "cargoes": [
@@ -999,7 +999,7 @@
  },
  {
   "id": "TD9",
-  "name": "Caribbean \u2013 US Gulf",
+  "name": "Caribbean – US Gulf",
   "benchmark": true,
   "vclass": "aframax",
   "cargoes": [
@@ -1043,7 +1043,7 @@
  },
  {
   "id": "TD17",
-  "name": "Baltic \u2013 UK-Continent",
+  "name": "Baltic – UK-Continent",
   "benchmark": true,
   "discontinued": "2025",
   "vclass": "aframax",
@@ -1129,7 +1129,7 @@
  },
  {
   "id": "TD20",
-  "name": "West Africa \u2013 UK-Continent",
+  "name": "West Africa – UK-Continent",
   "benchmark": true,
   "vclass": "suezmax",
   "cargoes": [
@@ -1182,7 +1182,7 @@
  },
  {
   "id": "TD23",
-  "name": "Middle East Gulf \u2013 Mediterranean",
+  "name": "Middle East Gulf – Mediterranean",
   "benchmark": true,
   "vclass": "suezmax",
   "cargoes": [
@@ -1240,7 +1240,7 @@
  },
  {
   "id": "TD25",
-  "name": "US Gulf \u2013 ARA",
+  "name": "US Gulf – ARA",
   "benchmark": true,
   "vclass": "aframax",
   "cargoes": [
@@ -1287,7 +1287,7 @@
  },
  {
   "id": "TD26",
-  "name": "East Coast Mexico \u2013 US Gulf",
+  "name": "East Coast Mexico – US Gulf",
   "benchmark": true,
   "vclass": "aframax",
   "cargoes": [
@@ -1329,7 +1329,7 @@
  },
  {
   "id": "TD27",
-  "name": "Guyana \u2013 ARA",
+  "name": "Guyana – ARA",
   "benchmark": true,
   "vclass": "suezmax",
   "cargoes": [
@@ -1375,7 +1375,7 @@
  },
  {
   "id": "TD2",
-  "name": "Middle East Gulf \u2013 Singapore",
+  "name": "Middle East Gulf – Singapore",
   "benchmark": true,
   "discontinued": "2024",
   "vclass": "vlcc",
@@ -1413,7 +1413,7 @@
  },
  {
   "id": "TC1",
-  "name": "Middle East Gulf \u2013 Japan (LR2)",
+  "name": "Middle East Gulf – Japan (LR2)",
   "benchmark": true,
   "vclass": "lr2",
   "cargoes": [
@@ -1450,7 +1450,7 @@
  },
  {
   "id": "TC5",
-  "name": "Middle East Gulf \u2013 Japan (LR1)",
+  "name": "Middle East Gulf – Japan (LR1)",
   "benchmark": true,
   "vclass": "lr1",
   "cargoes": [
@@ -1503,7 +1503,7 @@
  },
  {
   "id": "TC8",
-  "name": "Middle East Gulf \u2013 UK-Continent (LR1)",
+  "name": "Middle East Gulf – UK-Continent (LR1)",
   "benchmark": true,
   "vclass": "lr1",
   "cargoes": [
@@ -1541,7 +1541,7 @@
  },
  {
   "id": "TC15",
-  "name": "Mediterranean \u2013 Far East (naphtha)",
+  "name": "Mediterranean – Far East (naphtha)",
   "benchmark": true,
   "vclass": "lr2",
   "cargoes": [
@@ -1579,7 +1579,7 @@
  },
  {
   "id": "TC16",
-  "name": "ARA \u2013 offshore Lome",
+  "name": "ARA – offshore Lome",
   "benchmark": true,
   "vclass": "lr1",
   "cargoes": [
@@ -1626,7 +1626,7 @@
  },
  {
   "id": "TC20",
-  "name": "Middle East Gulf \u2013 UK-Continent (LR2)",
+  "name": "Middle East Gulf – UK-Continent (LR2)",
   "benchmark": true,
   "vclass": "lr2",
   "cargoes": [
@@ -1657,7 +1657,7 @@
  },
  {
   "id": "TC2_37",
-  "name": "Continent \u2013 US Atlantic Coast",
+  "name": "Continent – US Atlantic Coast",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -1704,7 +1704,7 @@
  },
  {
   "id": "TC6",
-  "name": "Algeria \u2013 European Mediterranean",
+  "name": "Algeria – European Mediterranean",
   "benchmark": true,
   "vclass": "handy-tanker",
   "cargoes": [
@@ -1748,7 +1748,7 @@
  },
  {
   "id": "TC7",
-  "name": "Singapore \u2013 East Coast Australia",
+  "name": "Singapore – East Coast Australia",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -1793,7 +1793,7 @@
  },
  {
   "id": "TC9",
-  "name": "Baltic \u2013 UK-Continent",
+  "name": "Baltic – UK-Continent",
   "benchmark": true,
   "discontinued": "2025",
   "vclass": "handy-tanker",
@@ -1830,7 +1830,7 @@
  },
  {
   "id": "TC10",
-  "name": "South Korea \u2013 North Pacific West Coast",
+  "name": "South Korea – North Pacific West Coast",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -1873,7 +1873,7 @@
  },
  {
   "id": "TC12",
-  "name": "West Coast India \u2013 Japan (naphtha)",
+  "name": "West Coast India – Japan (naphtha)",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -1919,7 +1919,7 @@
  },
  {
   "id": "TC14",
-  "name": "US Gulf \u2013 Continent",
+  "name": "US Gulf – Continent",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -1966,7 +1966,7 @@
  },
  {
   "id": "TC17",
-  "name": "Middle East Gulf \u2013 East Africa",
+  "name": "Middle East Gulf – East Africa",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -2017,7 +2017,7 @@
  },
  {
   "id": "TC18",
-  "name": "US Gulf \u2013 Brazil",
+  "name": "US Gulf – Brazil",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -2060,7 +2060,7 @@
  },
  {
   "id": "TC19",
-  "name": "ARA \u2013 West Africa",
+  "name": "ARA – West Africa",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -2107,7 +2107,7 @@
  },
  {
   "id": "TC21",
-  "name": "US Gulf \u2013 Caribbean",
+  "name": "US Gulf – Caribbean",
   "benchmark": true,
   "vclass": "mr",
   "cargoes": [
@@ -2133,7 +2133,7 @@
  },
  {
   "id": "BLNG1",
-  "name": "Australia \u2013 Japan LNG (BLNG1-174)",
+  "name": "Australia – Japan LNG (BLNG1-174)",
   "benchmark": true,
   "vclass": "lng",
   "cargoes": [
@@ -2177,7 +2177,7 @@
  },
  {
   "id": "BLNG2",
-  "name": "US Gulf \u2013 Continent LNG (BLNG2-174)",
+  "name": "US Gulf – Continent LNG (BLNG2-174)",
   "benchmark": true,
   "vclass": "lng",
   "cargoes": [
@@ -2228,7 +2228,7 @@
  },
  {
   "id": "BLNG3",
-  "name": "US Gulf \u2013 Japan LNG (BLNG3-174)",
+  "name": "US Gulf – Japan LNG (BLNG3-174)",
   "benchmark": true,
   "vclass": "lng",
   "cargoes": [
@@ -2275,7 +2275,7 @@
  },
  {
   "id": "BLPG1",
-  "name": "Middle East Gulf \u2013 Japan LPG",
+  "name": "Middle East Gulf – Japan LPG",
   "benchmark": true,
   "vclass": "vlgc",
   "cargoes": [
@@ -2312,20 +2312,25 @@
      "SAU",
      "ARE",
      "QAT",
-     "KWT"
+     "KWT",
+     "IRN"
     ],
     "d": [
-     "JPN"
+     "JPN",
+     "KOR",
+     "CHN",
+     "TWN",
+     "IND"
     ]
    }
   ],
-  "notes": "44kt parcel per Veson page; VLGC TCE basis 84kt. Port names not verified.",
+  "notes": "44kt parcel per Veson page; VLGC TCE basis 84kt. Port names not verified. Corridor share covers Middle East Gulf exports to East Asia and India, the trade this benchmark prices; Japan now buys most of its LPG from North America.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
  {
   "id": "BLPG2",
-  "name": "US Gulf \u2013 Continent LPG",
+  "name": "US Gulf – Continent LPG",
   "benchmark": true,
   "vclass": "vlgc",
   "cargoes": [
@@ -2373,7 +2378,7 @@
  },
  {
   "id": "BLPG3",
-  "name": "US Gulf \u2013 Japan LPG",
+  "name": "US Gulf – Japan LPG",
   "benchmark": true,
   "vclass": "vlgc",
   "cargoes": [
@@ -2419,7 +2424,7 @@
  },
  {
   "id": "guinea-china-bauxite",
-  "name": "Guinea \u2013 China bauxite",
+  "name": "Guinea – China bauxite",
   "benchmark": false,
   "vclass": "capesize",
   "cargoes": [
@@ -2470,7 +2475,7 @@
  },
  {
   "id": "simandou-china-iron-ore",
-  "name": "Simandou (Morebaya) \u2013 China iron ore",
+  "name": "Simandou (Morebaya) – China iron ore",
   "benchmark": false,
   "vclass": "capesize",
   "cargoes": [
@@ -2514,7 +2519,7 @@
  },
  {
   "id": "indonesia-china-coal",
-  "name": "Indonesia (Kalimantan) \u2013 China coal",
+  "name": "Indonesia (Kalimantan) – China coal",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -2562,7 +2567,7 @@
  },
  {
   "id": "indonesia-india-coal",
-  "name": "Indonesia \u2013 India coal",
+  "name": "Indonesia – India coal",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -2613,7 +2618,7 @@
  },
  {
   "id": "newcastle-northeast-asia-coal",
-  "name": "Newcastle \u2013 Japan/Korea/Taiwan thermal coal",
+  "name": "Newcastle – Japan/Korea/Taiwan thermal coal",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2663,7 +2668,7 @@
  },
  {
   "id": "queensland-india-met-coal",
-  "name": "Queensland \u2013 India met coal",
+  "name": "Queensland – India met coal",
   "benchmark": false,
   "vclass": "capesize",
   "cargoes": [
@@ -2719,7 +2724,7 @@
  },
  {
   "id": "vostochny-china-korea-coal",
-  "name": "Russia (Vostochny) \u2013 China/Korea coal",
+  "name": "Russia (Vostochny) – China/Korea coal",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2782,7 +2787,7 @@
  },
  {
   "id": "colombia-med-coal",
-  "name": "Colombia \u2013 Turkey/Southern Europe coal",
+  "name": "Colombia – Turkey/Southern Europe coal",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2838,7 +2843,7 @@
  },
  {
   "id": "richards-bay-india-coal",
-  "name": "Richards Bay \u2013 India coal",
+  "name": "Richards Bay – India coal",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2882,7 +2887,7 @@
  },
  {
   "id": "brazil-china-soybeans",
-  "name": "Brazil \u2013 China soybeans",
+  "name": "Brazil – China soybeans",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2933,7 +2938,7 @@
  },
  {
   "id": "usgulf-china-grain",
-  "name": "US Gulf \u2013 China soybeans/grain",
+  "name": "US Gulf – China soybeans/grain",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -2994,7 +2999,7 @@
  },
  {
   "id": "uspnw-asia-grain",
-  "name": "US PNW \u2013 Asia grain",
+  "name": "US PNW – Asia grain",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -3077,7 +3082,7 @@
  },
  {
   "id": "argentina-soymeal-corn",
-  "name": "Argentina (Up-River) \u2013 world soymeal and corn",
+  "name": "Argentina (Up-River) – world soymeal and corn",
   "benchmark": false,
   "vclass": "panamax",
   "cargoes": [
@@ -3157,7 +3162,7 @@
  },
  {
   "id": "blacksea-egypt-wheat",
-  "name": "Black Sea \u2013 Egypt/MENA wheat",
+  "name": "Black Sea – Egypt/MENA wheat",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3214,7 +3219,7 @@
  },
  {
   "id": "australia-seasia-wheat",
-  "name": "Australia \u2013 South East Asia wheat",
+  "name": "Australia – South East Asia wheat",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3266,7 +3271,7 @@
  },
  {
   "id": "chile-china-copper",
-  "name": "Chile \u2013 China copper concentrate",
+  "name": "Chile – China copper concentrate",
   "benchmark": false,
   "vclass": "handysize",
   "cargoes": [
@@ -3314,7 +3319,7 @@
  },
  {
   "id": "peru-china-copper",
-  "name": "Peru \u2013 China copper concentrate",
+  "name": "Peru – China copper concentrate",
   "benchmark": false,
   "vclass": "handysize",
   "cargoes": [
@@ -3362,7 +3367,7 @@
  },
  {
   "id": "philippines-china-nickel-ore",
-  "name": "Philippines \u2013 China nickel ore",
+  "name": "Philippines – China nickel ore",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3410,7 +3415,7 @@
  },
  {
   "id": "australia-china-spodumene",
-  "name": "Western Australia \u2013 China spodumene",
+  "name": "Western Australia – China spodumene",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [],
@@ -3450,7 +3455,7 @@
  },
  {
   "id": "indo-malay-india-palm-oil",
-  "name": "Indonesia/Malaysia \u2013 India palm oil",
+  "name": "Indonesia/Malaysia – India palm oil",
   "benchmark": false,
   "vclass": "handy-tanker",
   "cargoes": [
@@ -3510,7 +3515,7 @@
  },
  {
   "id": "vancouver-asia-potash",
-  "name": "Canada (Vancouver) \u2013 Asia potash",
+  "name": "Canada (Vancouver) – Asia potash",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3568,7 +3573,7 @@
  },
  {
   "id": "baltic-brazil-potash",
-  "name": "Baltic (St Petersburg/Ust-Luga) \u2013 Brazil potash/fertiliser",
+  "name": "Baltic (St Petersburg/Ust-Luga) – Brazil potash/fertiliser",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3620,7 +3625,7 @@
  },
  {
   "id": "morocco-india-phosphate",
-  "name": "Morocco (Jorf Lasfar) \u2013 India phosphate/DAP",
+  "name": "Morocco (Jorf Lasfar) – India phosphate/DAP",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3669,7 +3674,7 @@
  },
  {
   "id": "gulf-india-urea",
-  "name": "Middle East Gulf \u2013 India urea",
+  "name": "Middle East Gulf – India urea",
   "benchmark": false,
   "vclass": "supramax",
   "cargoes": [
@@ -3728,7 +3733,7 @@
  },
  {
   "id": "russia-baltic-india-crude",
-  "name": "Russia Baltic (Primorsk/Ust-Luga) \u2013 India crude",
+  "name": "Russia Baltic (Primorsk/Ust-Luga) – India crude",
   "benchmark": false,
   "vclass": "suezmax",
   "cargoes": [
@@ -3783,7 +3788,7 @@
  },
  {
   "id": "kozmino-china-espo",
-  "name": "Russia (Kozmino) \u2013 China ESPO crude",
+  "name": "Russia (Kozmino) – China ESPO crude",
   "benchmark": false,
   "vclass": "aframax",
   "cargoes": [
@@ -3827,7 +3832,7 @@
  },
  {
   "id": "brazil-china-crude",
-  "name": "Brazil \u2013 China crude",
+  "name": "Brazil – China crude",
   "benchmark": false,
   "vclass": "vlcc",
   "cargoes": [
@@ -3878,7 +3883,7 @@
  },
  {
   "id": "usgulf-med-crude",
-  "name": "US Gulf \u2013 Southern Europe/Mediterranean crude",
+  "name": "US Gulf – Southern Europe/Mediterranean crude",
   "benchmark": false,
   "vclass": "suezmax",
   "cargoes": [
@@ -3934,7 +3939,7 @@
  },
  {
   "id": "middle-east-india-crude",
-  "name": "Middle East Gulf \u2013 India crude",
+  "name": "Middle East Gulf – India crude",
   "benchmark": false,
   "vclass": "vlcc",
   "cargoes": [
@@ -3990,7 +3995,7 @@
  },
  {
   "id": "middle-east-japan-korea-crude",
-  "name": "Middle East Gulf \u2013 Japan/Korea crude",
+  "name": "Middle East Gulf – Japan/Korea crude",
   "benchmark": false,
   "vclass": "vlcc",
   "cargoes": [
@@ -4045,7 +4050,7 @@
  },
  {
   "id": "guyana-europe-crude",
-  "name": "Guyana \u2013 Europe crude (see TD27)",
+  "name": "Guyana – Europe crude (see TD27)",
   "benchmark": false,
   "vclass": "suezmax",
   "cargoes": [
@@ -4075,7 +4080,7 @@
  },
  {
   "id": "india-europe-diesel",
-  "name": "India (Sikka/Jamnagar) \u2013 Europe diesel",
+  "name": "India (Sikka/Jamnagar) – Europe diesel",
   "benchmark": false,
   "vclass": "lr2",
   "cargoes": [
@@ -4134,7 +4139,7 @@
  },
  {
   "id": "middle-east-europe-diesel",
-  "name": "Middle East (Ruwais/Jubail) \u2013 Europe diesel/jet",
+  "name": "Middle East (Ruwais/Jubail) – Europe diesel/jet",
   "benchmark": false,
   "vclass": "lr2",
   "cargoes": [
@@ -4197,7 +4202,7 @@
  },
  {
   "id": "middle-east-japan-products",
-  "name": "Middle East Gulf \u2013 Japan products",
+  "name": "Middle East Gulf – Japan products",
   "benchmark": false,
   "vclass": "lr1",
   "cargoes": [
@@ -4231,7 +4236,7 @@
  },
  {
   "id": "usgulf-latam-products",
-  "name": "US Gulf \u2013 Latin America diesel/gasoline",
+  "name": "US Gulf – Latin America diesel/gasoline",
   "benchmark": false,
   "vclass": "mr",
   "cargoes": [
@@ -4296,7 +4301,7 @@
  },
  {
   "id": "qatar-northeast-asia-lng",
-  "name": "Qatar (Ras Laffan) \u2013 Japan/Korea/China LNG",
+  "name": "Qatar (Ras Laffan) – Japan/Korea/China LNG",
   "benchmark": false,
   "vclass": "lng",
   "cargoes": [
@@ -4350,7 +4355,7 @@
  },
  {
   "id": "qatar-europe-lng",
-  "name": "Qatar \u2013 Europe LNG",
+  "name": "Qatar – Europe LNG",
   "benchmark": false,
   "vclass": "lng",
   "cargoes": [
@@ -4415,7 +4420,7 @@
  },
  {
   "id": "qatar-india-lng",
-  "name": "Qatar \u2013 India LNG",
+  "name": "Qatar – India LNG",
   "benchmark": false,
   "vclass": "lng",
   "cargoes": [
@@ -4462,7 +4467,7 @@
  },
  {
   "id": "australia-china-lng",
-  "name": "Australia \u2013 China LNG",
+  "name": "Australia – China LNG",
   "benchmark": false,
   "vclass": "lng",
   "cargoes": [
@@ -4514,7 +4519,7 @@
  },
  {
   "id": "usgulf-asia-lng",
-  "name": "US Gulf \u2013 Asia LNG",
+  "name": "US Gulf – Asia LNG",
   "benchmark": false,
   "vclass": "lng",
   "cargoes": [
@@ -4576,7 +4581,7 @@
  },
  {
   "id": "middle-east-india-lpg",
-  "name": "Middle East Gulf \u2013 India LPG",
+  "name": "Middle East Gulf – India LPG",
   "benchmark": false,
   "vclass": "vlgc",
   "cargoes": [

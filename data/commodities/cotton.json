@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Cotton, cotton imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "kt",
+    "world": 16468.7,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 7890.8
+     },
+     {
+      "c": "IND",
+      "v": 2423.7
+     },
+     {
+      "c": "USA",
+      "v": 903.56
+     },
+     {
+      "c": "AUS",
+      "v": 841.72
+     },
+     {
+      "c": "BRA",
+      "v": 784.68
+     },
+     {
+      "c": "UZB",
+      "v": 485.53
+     },
+     {
+      "c": "ARG",
+      "v": 469.63
+     },
+     {
+      "c": "PAK",
+      "v": 446.33
+     },
+     {
+      "c": "BGD",
+      "v": 362.95
+     },
+     {
+      "c": "TUR",
+      "v": 251.25
+     },
+     {
+      "c": "VNM",
+      "v": 222.95
+     },
+     {
+      "c": "MYS",
+      "v": 147.83
+     }
+    ],
+    "n": "USDA PSD, Cotton, cotton ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "BRA",

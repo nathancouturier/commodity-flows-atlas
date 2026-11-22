@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 10.958,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 3.583
+     },
+     {
+      "c": "EU27",
+      "v": 2.522
+     },
+     {
+      "c": "CAN",
+      "v": 1.889
+     },
+     {
+      "c": "AUS",
+      "v": 0.677
+     },
+     {
+      "c": "IND",
+      "v": 0.564
+     },
+     {
+      "c": "UKR",
+      "v": 0.253
+     },
+     {
+      "c": "RUS",
+      "v": 0.248
+     },
+     {
+      "c": "USA",
+      "v": 0.236
+     },
+     {
+      "c": "JPN",
+      "v": 0.192
+     },
+     {
+      "c": "BGD",
+      "v": 0.163
+     },
+     {
+      "c": "MEX",
+      "v": 0.16
+     },
+     {
+      "c": "BLR",
+      "v": 0.121
+     }
+    ],
+    "n": "USDA PSD, Oilseed, Rapeseed, rapeseed ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "CAN",

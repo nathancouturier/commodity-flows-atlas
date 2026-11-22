@@ -264,7 +264,20 @@ def gateway_pair(o, d, group):
     if o == "RUS" and group in RUS_PORTS:
         side = "east" if d in EAST_ASIA or (group == "coal" and d == "IND") else ("south" if d in MED_BLACK else "west")
         go = RUS_PORTS[group][side]
-    return go, gateway(d, group)
+    gd = gateway(d, group)
+    # South-east Asian coal discharges in South China (Guangdong/Guangxi), not in the north
+    if d == "CHN" and group == "coal" and o in ("IDN", "PHL", "VNM", "MYS"):
+        gd = "CNZHA"
+    return go, gd
+
+
+# lanes crossing a currently disrupted chokepoint carry a status note (event ids in events.json)
+DISRUPTIONS = [
+    ({"bab-el-mandeb", "suez"}, "red-sea-houthi-2023",
+     "Drawn on the normal routing. Since December 2023 most of this traffic has diverted around the Cape of Good Hope because of attacks in the Red Sea; Suez transits were recovering in late 2026."),
+    ({"hormuz"}, "iran-war-hormuz-2026",
+     "The Strait of Hormuz has been largely closed to commercial traffic since March 2026: volumes shown are the 2024 baseline."),
+]
 
 
 # customs reporting gaps worth flagging on the affected lanes
@@ -364,6 +377,9 @@ def main():
             }
             if alt:
                 lane["alt"] = alt
+            for cps, ev, text in DISRUPTIONS:
+                if cps & set(via):
+                    lane.setdefault("status", []).append({"text": text, "event": ev})
             if spikes:
                 lane["histNote"] = "Isolated customs outlier removed for " + ", ".join(str(years[i]) for i in spikes)
             lanes.append(lane)

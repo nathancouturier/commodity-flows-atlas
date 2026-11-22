@@ -315,6 +315,130 @@
   ],
   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
+ "extra": [
+  {
+   "key": "refined-exports",
+   "title": "Refined and blister copper exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 12.082,
+    "rows": [
+     {
+      "c": "COD",
+      "v": 2.206
+     },
+     {
+      "c": "CHL",
+      "v": 2.162
+     },
+     {
+      "c": "ZMB",
+      "v": 1.078
+     },
+     {
+      "c": "JPN",
+      "v": 0.7657
+     },
+     {
+      "c": "KAZ",
+      "v": 0.4911
+     },
+     {
+      "c": "AUS",
+      "v": 0.3981
+     },
+     {
+      "c": "RUS",
+      "v": 0.3876
+     },
+     {
+      "c": "BGR",
+      "v": 0.3384
+     },
+     {
+      "c": "CHN",
+      "v": 0.3207
+     },
+     {
+      "c": "PER",
+      "v": 0.2952
+     },
+     {
+      "c": "POL",
+      "v": 0.2894
+     },
+     {
+      "c": "SWE",
+      "v": 0.2393
+     }
+    ],
+    "n": "CEPII BACI HS92 refined and blister copper (HS 7402, 7403), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  },
+  {
+   "key": "refined-imports",
+   "title": "Refined and blister copper importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 12.082,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 4.545
+     },
+     {
+      "c": "USA",
+      "v": 0.8951
+     },
+     {
+      "c": "DEU",
+      "v": 0.5776
+     },
+     {
+      "c": "ITA",
+      "v": 0.5555
+     },
+     {
+      "c": "TWN",
+      "v": 0.5382
+     },
+     {
+      "c": "IND",
+      "v": 0.5326
+     },
+     {
+      "c": "CHE",
+      "v": 0.4959
+     },
+     {
+      "c": "TUR",
+      "v": 0.3874
+     },
+     {
+      "c": "THA",
+      "v": 0.375
+     },
+     {
+      "c": "KOR",
+      "v": 0.3099
+     },
+     {
+      "c": "BRA",
+      "v": 0.2811
+     },
+     {
+      "c": "MYS",
+      "v": 0.2784
+     }
+    ],
+    "n": "CEPII BACI HS92 refined and blister copper (HS 7402, 7403), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "PER",

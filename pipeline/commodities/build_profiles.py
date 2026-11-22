@@ -26,9 +26,8 @@ TOP_RANK, MIN_SHARE, MAX_ITEMS = 10, 0.03, 8
 
 # atlas commodity -> BACI groups used to value its trade
 VALUE_GROUPS = {
-    "thermal-coal": ["coal"], "copper": ["copper-ore", "copper-refined"], "bauxite": ["bauxite", "alumina"],
-    "nickel": ["nickel-ore", "nickel-int"], "zinc": ["zinc-ore", "zinc-metal"], "lead": ["lead-ore", "lead-metal"],
-    "tin": ["tin-ore", "tin-metal"], "phosphate": ["phosphate-rock", "dap"], "met-coal": [],
+    "thermal-coal": ["coal"], "copper": ["copper-ore"], "bauxite": ["bauxite"], "nickel": ["nickel-ore"],
+    "zinc": ["zinc-ore"], "lead": ["lead-ore"], "tin": ["tin-metal"], "phosphate": ["phosphate-rock"], "met-coal": [],
 }
 
 HS4_LABEL = {
@@ -89,23 +88,49 @@ def main():
         p = profiles.setdefault(iso, {"c": iso, "exports": [], "imports": [], "production": []})
         p[section].append(entry)
 
+    # extra trade tables (refined copper, nickel intermediates, alumina, zinc metal) count as exports/imports
+    EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined & blister)"),
+                  "refined-imports": ("imports", "copper-refined", "Copper (refined & blister)"),
+                  "int-exports": ("exports", "nickel-int", "Nickel (intermediates & metal)"),
+                  "int-imports": ("imports", "nickel-int", "Nickel (intermediates & metal)"),
+                  "alumina-exports": ("exports", "alumina", "Alumina"),
+                  "metal-exports": ("exports", "zinc-metal", "Zinc (refined)")}
+    candidates = []  # (iso, section, entry)
     for k, d in tables.items():
-        for section in ("exports", "imports", "production"):
-            t = d.get(section)
+        sections = [(sec, d.get(sec), None, None) for sec in ("exports", "imports", "production")]
+        for ex in d.get("extra") or []:
+            if ex["key"] in EXTRA_SIDE:
+                side, grp, label = EXTRA_SIDE[ex["key"]]
+                sections.append((side, ex["table"], grp, label))
+        for section, t, grp, label in sections:
             if not t or not t.get("rows"):
                 continue
             world = t.get("world") or sum(r["v"] for r in t["rows"])
             for i, r in enumerate(t["rows"]):
                 share = r["v"] / world if world else None
-                if (i + 1) <= TOP_RANK or (share or 0) >= MIN_SHARE:
-                    e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
-                    if section in ("exports", "imports"):
-                        val = usd(exp_usd if section == "exports" else imp_usd, r["c"], k)
-                        if val:
-                            e["usd"] = round(val / 1e9, 3)
-                    if r.get("n"):
-                        e["n"] = r["n"]
-                    add(r["c"], section, e)
+                e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
+                if label:
+                    e["label"] = label
+                if section in ("exports", "imports"):
+                    series = exp_usd if section == "exports" else imp_usd
+                    val = float(sum(series.get((r["c"], g), 0.0) for g in [grp])) * 1000 if grp else usd(series, r["c"], k)
+                    if val:
+                        e["usd"] = round(val / 1e9, 3)
+                if r.get("n"):
+                    e["n"] = r["n"]
+                candidates.append((r["c"], section, e))
+
+    # relevance rule (METHODOLOGY.md §6): world top 5, or >= 3% of world, or >= 10% of the
+    # country's own trade value across atlas commodities
+    own = {}
+    for iso, section, e in candidates:
+        if section != "production" and e.get("usd"):
+            own[(iso, section)] = own.get((iso, section), 0.0) + e["usd"]
+    for iso, section, e in candidates:
+        tot = own.get((iso, section)) or 0
+        weight = (e.get("usd") or 0) / tot if tot else 0
+        if e["rank"] <= 5 or (e["share"] or 0) >= MIN_SHARE or weight >= 0.10:
+            add(iso, section, e)
 
     for p in profiles.values():
         p["exports"] = sorted(p["exports"], key=lambda e: -(e.get("usd") or 0) - (e["share"] or 0) * 1e-3)[:MAX_ITEMS]
@@ -135,12 +160,23 @@ def main():
             profiles.setdefault(iso, {"c": iso, "exports": [], "imports": [], "production": []})["other"] = [e]
 
     # ---- infrastructure and companies
+    by_country = {}
     for f in glob.glob(os.path.join(ROOT, "data", "infrastructure", "*.geojson")):
         for ft in json.load(open(f))["features"]:
             pr = ft["properties"]
             for iso in {pr.get("c")} | set(pr.get("cs") or []):
                 if iso in profiles:
-                    profiles[iso].setdefault("infra", []).append(f"{pr['type']}:{pr['id']}")
+                    cap = (pr.get("capacity") or {}).get("v") or 0
+                    by_country.setdefault(iso, {}).setdefault(pr["type"], []).append((cap, f"{pr['type']}:{pr['id']}"))
+    TYPE_ORDER = ["field", "refinery", "lng-export", "mine", "pipeline", "port", "smelter", "lng-import"]
+    for iso, types in by_country.items():
+        queues = [sorted(types[t], key=lambda x: -x[0]) for t in TYPE_ORDER if t in types]
+        ordered = []
+        while any(queues):  # one asset per type in turn, largest first: every type is represented
+            for q in queues:
+                if q:
+                    ordered.append(q.pop(0)[1])
+        profiles[iso]["infra"] = ordered
     cp = os.path.join(ROOT, "data", "commodities", "companies.json")
     if os.path.exists(cp):
         seen = set()

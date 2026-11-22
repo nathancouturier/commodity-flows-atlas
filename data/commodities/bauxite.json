@@ -315,6 +315,69 @@
   ],
   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
+ "extra": [
+  {
+   "key": "alumina-exports",
+   "title": "Alumina exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 37.136,
+    "rows": [
+     {
+      "c": "AUS",
+      "v": 14.158
+     },
+     {
+      "c": "BRA",
+      "v": 7.525
+     },
+     {
+      "c": "IDN",
+      "v": 4.162
+     },
+     {
+      "c": "CHN",
+      "v": 1.899
+     },
+     {
+      "c": "IND",
+      "v": 1.843
+     },
+     {
+      "c": "IRL",
+      "v": 1.699
+     },
+     {
+      "c": "VNM",
+      "v": 1.192
+     },
+     {
+      "c": "KAZ",
+      "v": 0.9974
+     },
+     {
+      "c": "JAM",
+      "v": 0.8832
+     },
+     {
+      "c": "ESP",
+      "v": 0.6068
+     },
+     {
+      "c": "DEU",
+      "v": 0.5479
+     },
+     {
+      "c": "NLD",
+      "v": 0.3328
+     }
+    ],
+    "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "GIN",

@@ -10,11 +10,11 @@
 "portwatch": "chokepoint6",
 "limits": "EIA: deep and wide enough for the largest crude tankers; traffic separation scheme runs through Omani waters.",
 "traffic": {
-"v": 3.8,
+"v": 3.5,
 "u": "vessels/day",
-"y": "2026-10",
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data; compare about 78/day in Feb 2026 and 85.5/day for 2025"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 92.3/day; 2025 average 85.5/day"
 },
 "shares": [
 {
@@ -361,7 +361,14 @@
 "n": "108 Mt of 1007 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"traffic": {
+"v": 224.1,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 220.1/day; 2025 average 234.5/day"
+}
 },
 {
 "id": "sunda",
@@ -373,11 +380,11 @@
 ],
 "portwatch": "chokepoint19",
 "traffic": {
-"v": 31.9,
+"v": 31.0,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 30.4/day; 2025 average 31.9/day"
 },
 "summary": "Indonesian strait between Java and Sumatra, an alternative to Malacca for some Indian Ocean to South China Sea traffic, notably from the Cape; heavy volcanic and shallow hazards limit size.",
 "s": "portwatch",
@@ -454,11 +461,11 @@
 ],
 "portwatch": "chokepoint15",
 "traffic": {
-"v": 35.8,
+"v": 37.8,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 37.5/day; 2025 average 35.8/day"
 },
 "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; exact limits not sourced.",
 "summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
@@ -517,11 +524,11 @@
 "portwatch": "chokepoint1",
 "limits": "Max draft about 20.1 m (66 ft) for Suezmax; larger ballast VLCCs transit, laden VLCCs need partial lightering or the SUMED pipeline. Check Suez Canal Authority for current limits.",
 "traffic": {
-"v": 38.5,
+"v": 43.7,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data; 73.7/day in 2023"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 73.7/day; 2025 average 38.5/day"
 },
 "shares": [
 {
@@ -634,7 +641,15 @@
 "n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"detour": {
+"nm": 4679,
+"days": 15.0,
+"lanes": 41,
+"y": 2024,
+"s": "atlas",
+"n": "Volume-weighted median over 41 mapped lanes that use this passage, at each lane's typical laden speed"
+}
 },
 {
 "id": "bab-el-mandeb",
@@ -647,11 +662,11 @@
 "portwatch": "chokepoint4",
 "limits": "About 18 miles wide at the narrowest point, with the shipping lanes in the Perim channel; no draft limit for oil tankers.",
 "traffic": {
-"v": 33.5,
+"v": 27.0,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data; 74.0/day in 2023"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 74.0/day; 2025 average 33.5/day"
 },
 "shares": [
 {
@@ -760,7 +775,15 @@
 "n": "4 Mt of 159 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"detour": {
+"nm": 4679,
+"days": 15.0,
+"lanes": 41,
+"y": 2024,
+"s": "atlas",
+"n": "Volume-weighted median over 41 mapped lanes that use this passage, at each lane's typical laden speed"
+}
 },
 {
 "id": "panama",
@@ -773,11 +796,11 @@
 "portwatch": "chokepoint2",
 "limits": "Two lock systems: Panamax (about 32.3 m beam) and Neopanamax (since 2016, larger LNG and LPG carriers). Draft and slot limits vary with Gatun Lake levels.",
 "traffic": {
-"v": 13404,
-"u": "transits/year",
-"y": "FY2025",
-"s": "pca-stats",
-"n": "Fiscal year ending 30 Sep 2025; 3,342 Neopanamax, 10,062 Panamax"
+"v": 27.9,
+"u": "vessels/day",
+"y": "28 days to 2026-11-15",
+"s": "portwatch",
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 30.2/day; 2025 average 31.1/day"
 },
 "shares": [
 {
@@ -880,7 +903,22 @@
 "n": "30 Mt of 160 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 }
-]
+],
+"detour": {
+"nm": 4013,
+"days": 13.9,
+"lanes": 29,
+"y": 2024,
+"s": "atlas",
+"n": "Volume-weighted median over 29 mapped lanes that use this passage, at each lane's typical laden speed"
+},
+"trafficRef": {
+"v": 13404,
+"u": "transits/year",
+"y": "FY2025",
+"s": "pca-stats",
+"n": "Fiscal year ending 30 Sep 2025; 3,342 Neopanamax, 10,062 Panamax"
+}
 },
 {
 "id": "bosphorus",
@@ -893,11 +931,11 @@
 "portwatch": "chokepoint3",
 "limits": "Narrowest point under half a nautical mile; Bosphorus about 17 nm, Dardanelles about 37 nm. Daylight-only transit for large tankers (Turkish regulations); draft limit not sourced.",
 "traffic": {
-"v": 92.4,
+"v": 48.0,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 96.7/day; 2025 average 92.4/day"
 },
 "shares": [
 {
@@ -990,11 +1028,11 @@
 "portwatch": "chokepoint10",
 "limits": "Shallow, draft-restricted passages in the Great Belt and Oresund; limits not sourced here.",
 "traffic": {
-"v": 47.1,
+"v": 41.0,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data, Oresund"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 45.3/day; 2025 average 47.1/day"
 },
 "shares": [
 {
@@ -1060,11 +1098,11 @@
 ],
 "portwatch": "chokepoint8",
 "traffic": {
-"v": 135.4,
+"v": 126.9,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 146.4/day; 2025 average 135.4/day"
 },
 "summary": "Gateway between the Atlantic and the Mediterranean, linking Suez-bound and Cape-diverted traffic with Europe.",
 "s": "portwatch",
@@ -1141,11 +1179,11 @@
 ],
 "portwatch": "chokepoint9",
 "traffic": {
-"v": 174.7,
+"v": 162.4,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 174.7/day; 2025 average 174.7/day"
 },
 "limits": "Deep-draft route (the Dover Strait traffic separation scheme); exact draft not sourced.",
 "summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
@@ -1203,11 +1241,11 @@
 ],
 "portwatch": "chokepoint7",
 "traffic": {
-"v": 89.5,
+"v": 83.0,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data; 49.1/day in 2023"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 49.1/day; 2025 average 89.5/day"
 },
 "shares": [
 {
@@ -1350,11 +1388,11 @@
 ],
 "portwatch": "chokepoint11",
 "traffic": {
-"v": 238.8,
+"v": 221.9,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 239.9/day; 2025 average 238.8/day"
 },
 "summary": "Main north-south route for China-Japan-Korea trade, container and crude flows.",
 "s": "portwatch",
@@ -1392,11 +1430,11 @@
 {
 "k": "thermal-coal",
 "f": {
-"v": 23.1,
+"v": 4.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "315 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
+"n": "57 Mt of 1364 Mt seaborne trade on the atlas's mapped lanes (lower bound)"
 }
 },
 {
@@ -1461,11 +1499,11 @@
 ],
 "portwatch": "chokepoint12",
 "traffic": {
-"v": 219.4,
+"v": 203.6,
 "u": "vessels/day",
-"y": 2025,
+"y": "28 days to 2026-11-15",
 "s": "portwatch",
-"n": "All vessel types, daily average from IMF PortWatch daily data"
+"n": "All cargo vessel types, IMF PortWatch daily transits; 2023 average 234.1/day; 2025 average 219.4/day"
 },
 "summary": "Link between the East China Sea and the Sea of Japan between Korea and Japan.",
 "s": "portwatch",

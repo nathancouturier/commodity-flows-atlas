@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Wheat, wheat imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 282.86,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 122.2
+     },
+     {
+      "c": "USA",
+      "v": 25.041
+     },
+     {
+      "c": "IND",
+      "v": 21.8
+     },
+     {
+      "c": "EU27",
+      "v": 18.97
+     },
+     {
+      "c": "RUS",
+      "v": 11.988
+     },
+     {
+      "c": "CAN",
+      "v": 6.649
+     },
+     {
+      "c": "AUS",
+      "v": 6.568
+     },
+     {
+      "c": "DZA",
+      "v": 5.331
+     },
+     {
+      "c": "EGY",
+      "v": 5.155
+     },
+     {
+      "c": "SAU",
+      "v": 4.139
+     },
+     {
+      "c": "ARG",
+      "v": 3.805
+     },
+     {
+      "c": "TUR",
+      "v": 3.023
+     }
+    ],
+    "n": "USDA PSD, Wheat, wheat ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "RUS",

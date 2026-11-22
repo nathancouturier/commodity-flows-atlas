@@ -352,7 +352,7 @@ class Psd:
                         usecols=["Commodity_Description", "Country_Name", "Market_Year", "Calendar_Year", "Month",
                                  "Attribute_Description", "Unit_Description", "Value"])
         d = d[(d["Market_Year"] == PSD_MY) & d["Attribute_Description"].isin(
-            ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption"])]
+            ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks"])]
         d = d[~d["Unit_Description"].isin(["(PERCENT)"])]
         self.d = d
         rel = d[["Calendar_Year", "Month"]].drop_duplicates().sort_values(["Calendar_Year", "Month"]).iloc[-1]
@@ -867,6 +867,33 @@ def main():
         else:
             raise SystemExit(f"no recipe for commodity {cid}")
 
+        # second trade tables for metals traded mainly as refined/intermediate products,
+        # and ending stocks for the PSD crops (rendered by the commodity page as extra sections)
+        extra = []
+        if cid == "copper":
+            for side, title in (("exports", "Refined and blister copper exporters"), ("imports", "Refined and blister copper importers")):
+                t, _ = baci.ranked("copper-refined", side, *MT, "refined and blister copper (HS 7402, 7403), gross weight")
+                extra.append({"key": f"refined-{side}", "title": title, "table": t})
+        elif cid == "nickel":
+            for side, title in (("exports", "Nickel intermediates and metal exporters"), ("imports", "Nickel intermediates and metal importers")):
+                t, _ = baci.ranked("nickel-int", side, *MT, "nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight")
+                extra.append({"key": f"int-{side}", "title": title, "table": t})
+        elif cid == "bauxite":
+            t, _ = baci.ranked("alumina", "exports", *MT, "alumina (HS 281820)")
+            extra.append({"key": "alumina-exports", "title": "Alumina exporters", "table": t})
+        elif cid == "zinc":
+            t, _ = baci.ranked("zinc-metal", "exports", *MT, "unwrought zinc (HS 7901)")
+            extra.append({"key": "metal-exports", "title": "Refined zinc exporters", "table": t})
+        if cid in PSD:
+            com = PSD[cid][0]
+            try:
+                t, _ = psd.ranked(com, "Ending Stocks", f"{PSD_WHAT[cid]} ending stocks")
+                extra.append({"key": "stocks", "title": "Ending stocks", "table": t})
+            except SystemExit:
+                pass
+        if extra:
+            d["extra"] = extra
+
         # lead/tin/refined copper etc: side notes with BACI trade of the second group
         if cid == "copper":
             notes.append(_note_group(baci, "copper-refined", "Refined copper (HS 7403, 7402)"))
@@ -933,7 +960,7 @@ def main():
         mine = [k for k in HAS if k in d]
         e["has"] = mine + [h for h in e.get("has", []) if h not in HAS]
         # field order
-        order = ["id", "summary", "production", "refinery", "reserves", "consumption", "exports", "imports", "flows", "notes", "discrepancies"]
+        order = ["id", "summary", "production", "refinery", "reserves", "consumption", "exports", "imports", "extra", "flows", "notes", "discrepancies"]
         dd = {k: d[k] for k in order if k in d}
         with open(os.path.join(OUT, e["id"] + ".json"), "w", encoding="utf-8") as f:
             json.dump(dd, f, indent=1, ensure_ascii=False)
@@ -1098,6 +1125,10 @@ CAVEATS = {
                     "notes": ["Customs tonnage for pipeline gas is unreliable for North America (value-based estimates at about USD 500/t); use EIA bcm figures for production and consumption."]},
     "lng": {"exports": "Customs (BACI) tonnage; GIIGNL reports higher 2024 exports for the United States (~88 Mt) and Qatar (~77 Mt), world about 411 Mt.",
             "discrepancies": ["BACI 2024 LNG exporter tonnage is below GIIGNL's annual report (world about 411 Mt vs 378 Mt in customs data), notably for the US and Qatar."]},
+    "gold": {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
+             "imports": "Includes refining and vaulting hubs; not a measure of final demand."},
+    "silver": {"exports": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."},
+    "thermal-coal": {"seaborne": "Seaborne coal of all types (thermal and metallurgical): customs codes do not separate them."},
     "uranium": {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
                 "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]},
 }

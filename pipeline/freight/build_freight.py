@@ -140,6 +140,9 @@ def main():
             print("skip (no path)", r["id"])
             continue
         out.update({"distanceNm": nm, "speedKn": spd, "days": round(nm / (spd * 24), 1), "via": via, "a": pa["at"], "b": pb["at"]})
+        for cps, ev, text in BL.DISRUPTIONS:
+            if cps & set(via):
+                out.setdefault("status", []).append({"text": text, "event": ev})
         feats.append({"type": "Feature", "properties": {"id": r["id"], "kind": "route"}, "geometry": {"type": "LineString", "coordinates": coords}})
         if alt:
             ag = alt.pop("g")
@@ -156,7 +159,7 @@ def main():
             v = per_year.get(latest, 0.0)
             if v > 0 and sea_tot > 0:
                 shares.append({"k": c["k"], "f": {"v": round(100 * v / sea_tot, 1), "u": "%", "y": latest, "s": "atlas",
-                                                  "n": f"{v:.1f} Mt of {sea_tot:.0f} Mt seaborne {c['k']} trade (CEPII BACI customs data)"}})
+                                                  "n": f"Country-pair corridor (all ports and vessel sizes): {v:.1f} Mt of {sea_tot:.0f} Mt seaborne {c['k']} trade, CEPII BACI customs data"}})
             for y in years:
                 hist_tot[y] += per_year.get(y, 0.0)
             cor_tm += sum(pair_tm.get((g, o, d), 0.0) for g in groups for o in c["o"] for d in c["d"])
@@ -184,6 +187,13 @@ def main():
     json.dump(load("vessel_classes.json"), open(os.path.join(OUT, "vessel-classes.json"), "w"), indent=0)
     events = sorted(load("events.json"), key=lambda e: e["date"])
     json.dump(events, open(os.path.join(OUT, "events.json"), "w"), indent=0)
+    # active disruptions shown as banners (curated; each links to an event with its source)
+    alerts = load("alerts.json")
+    ev_ids = {e["id"] for e in events}
+    for a in alerts:
+        assert a["event"] in ev_ids, f"alert {a['id']} points to unknown event {a['event']}"
+        a["src"] = next(e["src"] for e in events if e["id"] == a["event"])
+    json.dump(alerts, open(os.path.join(OUT, "alerts.json"), "w"), indent=0)
 
     # chokepoints + Atlas estimate of commodity shares from mapped lanes
     chk = load("chokepoints.json")
@@ -197,6 +207,20 @@ def main():
                                                               "n": f"{through:.0f} Mt of {tot:.0f} Mt seaborne trade on the atlas's mapped lanes (lower bound)"}})
         if est:
             c["estimates"] = est
+        # typical detour when this chokepoint is avoided (mapped lanes with an alternative routing)
+        det = [(ln["flow"]["v"], ln["alt"]["distanceNm"] - ln["distanceNm"], ln["alt"]["extraDays"]) for ln in lanes_all
+               if c["id"] in ln["via"] and ln.get("alt") and c["id"] in (ln["alt"].get("avoids") or []) and ln["flow"]["v"] > 0.5]
+        if len(det) >= 3:
+            det.sort(key=lambda x: x[1])
+            tot = sum(w for w, _, _ in det)
+            acc, med = 0.0, det[0]
+            for x in det:
+                acc += x[0]
+                if acc >= tot / 2:
+                    med = x
+                    break
+            c["detour"] = {"nm": round(med[1]), "days": round(med[2], 1), "lanes": len(det), "y": latest, "s": "atlas",
+                           "n": f"Volume-weighted median over {len(det)} mapped lanes that use this passage, at each lane's typical laden speed"}
     json.dump(chk, open(os.path.join(OUT, "chokepoints.json"), "w"), indent=0)
 
     # PortWatch weekly transit series per chokepoint (logic shared with build_portwatch.py)

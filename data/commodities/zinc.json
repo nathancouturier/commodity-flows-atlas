@@ -238,6 +238,69 @@
   ],
   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
+ "extra": [
+  {
+   "key": "metal-exports",
+   "title": "Refined zinc exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 5.06,
+    "rows": [
+     {
+      "c": "ESP",
+      "v": 0.5104
+     },
+     {
+      "c": "KOR",
+      "v": 0.4768
+     },
+     {
+      "c": "AUS",
+      "v": 0.4213
+     },
+     {
+      "c": "CAN",
+      "v": 0.384
+     },
+     {
+      "c": "BEL",
+      "v": 0.3624
+     },
+     {
+      "c": "PER",
+      "v": 0.3014
+     },
+     {
+      "c": "FIN",
+      "v": 0.2816
+     },
+     {
+      "c": "KAZ",
+      "v": 0.2721
+     },
+     {
+      "c": "NLD",
+      "v": 0.2647
+     },
+     {
+      "c": "IND",
+      "v": 0.2643
+     },
+     {
+      "c": "MEX",
+      "v": 0.1784
+     },
+     {
+      "c": "NOR",
+      "v": 0.1758
+     }
+    ],
+    "n": "CEPII BACI HS92 unwrought zinc (HS 7901), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "AUS",

@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Meal, Soybean, soybean meal imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 19.49,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 4.228
+     },
+     {
+      "c": "ARG",
+      "v": 2.879
+     },
+     {
+      "c": "EU27",
+      "v": 1.625
+     },
+     {
+      "c": "CHN",
+      "v": 1.193
+     },
+     {
+      "c": "TUR",
+      "v": 0.561
+     },
+     {
+      "c": "IDN",
+      "v": 0.492
+     },
+     {
+      "c": "UKR",
+      "v": 0.474
+     },
+     {
+      "c": "BGD",
+      "v": 0.436
+     },
+     {
+      "c": "RUS",
+      "v": 0.43
+     },
+     {
+      "c": "IRN",
+      "v": 0.418
+     },
+     {
+      "c": "MEX",
+      "v": 0.379
+     },
+     {
+      "c": "EGY",
+      "v": 0.364
+     }
+    ],
+    "n": "USDA PSD, Meal, Soybean, soybean meal ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "ARG",

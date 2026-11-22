@@ -247,6 +247,130 @@
   ],
   "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
+ "extra": [
+  {
+   "key": "int-exports",
+   "title": "Nickel intermediates and metal exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 3.426,
+    "rows": [
+     {
+      "c": "IDN",
+      "v": 1.876
+     },
+     {
+      "c": "CAN",
+      "v": 0.2076
+     },
+     {
+      "c": "RUS",
+      "v": 0.1724
+     },
+     {
+      "c": "FIN",
+      "v": 0.1425
+     },
+     {
+      "c": "AUS",
+      "v": 0.1297
+     },
+     {
+      "c": "PNG",
+      "v": 0.1185
+     },
+     {
+      "c": "NOR",
+      "v": 0.1102
+     },
+     {
+      "c": "NCL",
+      "v": 0.0892
+     },
+     {
+      "c": "PHL",
+      "v": 0.0815
+     },
+     {
+      "c": "CHN",
+      "v": 0.0608
+     },
+     {
+      "c": "NLD",
+      "v": 0.0545
+     },
+     {
+      "c": "TUR",
+      "v": 0.0532
+     }
+    ],
+    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  },
+  {
+   "key": "int-imports",
+   "title": "Nickel intermediates and metal importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 3.426,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 2.095
+     },
+     {
+      "c": "JPN",
+      "v": 0.2472
+     },
+     {
+      "c": "NOR",
+      "v": 0.173
+     },
+     {
+      "c": "NLD",
+      "v": 0.1071
+     },
+     {
+      "c": "USA",
+      "v": 0.0871
+     },
+     {
+      "c": "FIN",
+      "v": 0.0854
+     },
+     {
+      "c": "GBR",
+      "v": 0.0594
+     },
+     {
+      "c": "DEU",
+      "v": 0.0567
+     },
+     {
+      "c": "KOR",
+      "v": 0.0565
+     },
+     {
+      "c": "TWN",
+      "v": 0.0516
+     },
+     {
+      "c": "FRA",
+      "v": 0.0496
+     },
+     {
+      "c": "IND",
+      "v": 0.0426
+     }
+    ],
+    "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "PHL",

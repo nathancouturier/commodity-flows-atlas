@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Rice, Milled, milled rice imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 204.84,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 105.5
+     },
+     {
+      "c": "IND",
+      "v": 59.0
+     },
+     {
+      "c": "IDN",
+      "v": 4.475
+     },
+     {
+      "c": "THA",
+      "v": 3.897
+     },
+     {
+      "c": "PHL",
+      "v": 2.698
+     },
+     {
+      "c": "PAK",
+      "v": 2.643
+     },
+     {
+      "c": "BGD",
+      "v": 2.477
+     },
+     {
+      "c": "JPN",
+      "v": 2.436
+     },
+     {
+      "c": "NGA",
+      "v": 2.418
+     },
+     {
+      "c": "VNM",
+      "v": 2.297
+     },
+     {
+      "c": "USA",
+      "v": 1.855
+     },
+     {
+      "c": "MMR",
+      "v": 1.4
+     }
+    ],
+    "n": "USDA PSD, Rice, Milled, milled rice ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "KHM",

@@ -258,6 +258,69 @@
   ],
   "n": "USDA PSD, Oil, Palm, palm oil imports (market-year trade), market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)"
  },
+ "extra": [
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2025/26",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 15.205,
+    "rows": [
+     {
+      "c": "IDN",
+      "v": 3.56
+     },
+     {
+      "c": "MYS",
+      "v": 3.311
+     },
+     {
+      "c": "IND",
+      "v": 1.888
+     },
+     {
+      "c": "COL",
+      "v": 0.587
+     },
+     {
+      "c": "THA",
+      "v": 0.576
+     },
+     {
+      "c": "CHN",
+      "v": 0.407
+     },
+     {
+      "c": "EU27",
+      "v": 0.358
+     },
+     {
+      "c": "PNG",
+      "v": 0.333
+     },
+     {
+      "c": "GTM",
+      "v": 0.309
+     },
+     {
+      "c": "ARE",
+      "v": 0.269
+     },
+     {
+      "c": "EGY",
+      "v": 0.257
+     },
+     {
+      "c": "PAK",
+      "v": 0.219
+     }
+    ],
+    "n": "USDA PSD, Oil, Palm, palm oil ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "IDN",
