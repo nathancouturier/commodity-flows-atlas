@@ -4,16 +4,27 @@
  * The EU27 aggregate row is painted on every member state.
  */
 import { effect } from '@preact/signals';
-import type { Map as MLMap } from 'maplibre-gl';
+import maplibregl, { type Map as MLMap, type Marker } from 'maplibre-gl';
 import type { CommodityData, Ranked } from '../../types';
 import { registerLayerModule } from '../layers';
 import { setCountryTooltipExtra } from '../controller';
-import { choroInfo, commodity, metric } from '../../lib/store';
+import { choroInfo, commodity, metric, select } from '../../lib/store';
 import { commodities } from '../../lib/data';
-import { loadOptional, commodityMeta, sourceLabel } from '../../lib/data';
+import { loadOptional, commodityMeta, countries, countryName, sourceLabel } from '../../lib/data';
 import { FAMILY_COLOR, fmt, pct, escapeHtml } from '../../lib/format';
 
 let painted: string[] = [];
+let labels: Marker[] = [];
+
+/** Countries labelled with their share on the map: >= 1% of the world total, at most 16. */
+const LABEL_MIN_SHARE = 0.01;
+const LABEL_MAX = 16;
+/** Where the EU27 aggregate label sits (central Europe). */
+const EU_LABEL_AT: [number, number] = [11.5, 49.5];
+
+const METRIC_WORD: Record<string, string> = {
+  production: 'production', reserves: 'reserves', consumption: 'consumption', exports: 'exports', imports: 'imports',
+};
 
 export const EU27 = [
   'AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'IRL',
@@ -103,6 +114,27 @@ registerLayerModule((m: MLMap) => {
         max: hi,
         commodity: meta?.name ?? k,
       };
+      // share labels on the map, e.g. "23%" on Brazil for sugar production
+      const ranked = table.rows
+        .map((r) => ({ c: r.c, v: r.v, share: r.v / world }))
+        .filter((r) => r.share >= LABEL_MIN_SHARE)
+        .slice(0, LABEL_MAX);
+      for (const r of ranked) {
+        const at = r.c === 'EU27' ? EU_LABEL_AT : countries.value[r.c]?.at;
+        if (!at) continue;
+        const name = r.c === 'EU27' ? 'European Union' : countryName(r.c);
+        const el = document.createElement('button');
+        el.className = 'share-label';
+        el.style.setProperty('--c', color);
+        el.textContent = pct(r.share);
+        el.title = `${name}: ${fmt(r.v)} ${table.u}, ${pct(r.share)} of world ${METRIC_WORD[met] ?? met} (${sourceLabel(table.s)}, ${table.y})`;
+        el.setAttribute('aria-label', el.title);
+        el.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          if (r.c !== 'EU27') select({ kind: 'country', id: r.c });
+        });
+        labels.push(new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(at).addTo(m));
+      }
       setCountryTooltipExtra((iso) => {
         const r = byC.get(iso);
         if (!r) return '';
@@ -117,4 +149,6 @@ registerLayerModule((m: MLMap) => {
 function clear(m: MLMap) {
   for (const id of painted) m.setFeatureState({ source: 'countries', id }, { v: 0 });
   painted = [];
+  for (const l of labels) l.remove();
+  labels = [];
 }

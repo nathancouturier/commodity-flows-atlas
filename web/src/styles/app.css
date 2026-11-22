@@ -1366,3 +1366,24 @@ html,
   color: var(--ink-2);
   margin: 2px 0 8px;
 }
+
+/* ---- share labels on the map when countries are coloured by a commodity metric */
+.share-label {
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-family: var(--font-num);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--ink-0);
+  background: rgba(5, 9, 15, 0.82);
+  border: 1px solid var(--c, var(--accent));
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform var(--t-fast) var(--ease);
+}
+.share-label:hover,
+.share-label:focus-visible {
+  transform: scale(1.12);
+}
