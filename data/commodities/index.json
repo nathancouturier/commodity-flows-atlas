@@ -1,0 +1,485 @@
+[
+ {
+  "id": "crude-oil",
+  "name": "Crude oil",
+  "family": "energy",
+  "blurb": "The largest physical commodity trade by value and volume; most of it moves by tanker.",
+  "unit": "kb/d",
+  "hs": [
+   "2709"
+  ],
+  "has": [],
+  "rank": 0
+ },
+ {
+  "id": "refined-products",
+  "name": "Refined products",
+  "family": "energy",
+  "blurb": "Diesel/gasoil, gasoline, jet fuel, fuel oil and naphtha shipped from refining hubs to deficit regions.",
+  "unit": "kb/d",
+  "hs": [
+   "2710"
+  ],
+  "has": [],
+  "rank": 1
+ },
+ {
+  "id": "lng",
+  "name": "LNG",
+  "family": "energy",
+  "blurb": "Liquefied natural gas, shipped in cryogenic carriers from liquefaction plants to regasification terminals.",
+  "unit": "Mt",
+  "hs": [
+   "271111"
+  ],
+  "has": [],
+  "rank": 2
+ },
+ {
+  "id": "natural-gas",
+  "name": "Natural gas",
+  "family": "energy",
+  "blurb": "Gas production and pipeline trade; seaborne gas is covered under LNG.",
+  "unit": "bcm",
+  "hs": [
+   "271121"
+  ],
+  "has": [],
+  "rank": 3
+ },
+ {
+  "id": "lpg",
+  "name": "LPG",
+  "family": "energy",
+  "blurb": "Propane and butane, carried mainly by very large gas carriers from the US and Middle East to Asia.",
+  "unit": "Mt",
+  "hs": [
+   "271112",
+   "271113"
+  ],
+  "has": [],
+  "rank": 4
+ },
+ {
+  "id": "thermal-coal",
+  "name": "Thermal coal",
+  "family": "energy",
+  "blurb": "Steam coal burned for power; the largest dry bulk cargo after iron ore.",
+  "unit": "Mt",
+  "hs": [
+   "270112"
+  ],
+  "has": [],
+  "rank": 5
+ },
+ {
+  "id": "uranium",
+  "name": "Uranium",
+  "family": "energy",
+  "blurb": "Mined uranium for nuclear fuel; small tonnages, concentrated supply.",
+  "unit": "tU",
+  "hs": [
+   "284410"
+  ],
+  "has": [],
+  "rank": 6
+ },
+ {
+  "id": "iron-ore",
+  "name": "Iron ore",
+  "family": "metals",
+  "blurb": "The largest dry bulk trade, dominated by Australia and Brazil shipping to China on Capesize vessels.",
+  "unit": "Mt",
+  "hs": [
+   "2601"
+  ],
+  "has": [],
+  "rank": 7
+ },
+ {
+  "id": "met-coal",
+  "name": "Metallurgical coal",
+  "family": "metals",
+  "blurb": "Coking coal for blast-furnace steelmaking; Australia leads seaborne supply.",
+  "unit": "Mt",
+  "hs": [
+   "270112"
+  ],
+  "has": [],
+  "rank": 8
+ },
+ {
+  "id": "steel",
+  "name": "Steel",
+  "family": "metals",
+  "blurb": "Crude steel production and the trade in semi-finished and finished steel.",
+  "unit": "Mt",
+  "hs": [
+   "72"
+  ],
+  "has": [],
+  "rank": 9
+ },
+ {
+  "id": "copper",
+  "name": "Copper",
+  "family": "metals",
+  "blurb": "Copper concentrate, blister and refined cathode; Chile, Peru and DR Congo supply, China smelts.",
+  "unit": "kt Cu",
+  "hs": [
+   "2603",
+   "7402",
+   "7403"
+  ],
+  "has": [],
+  "rank": 10
+ },
+ {
+  "id": "aluminium",
+  "name": "Aluminium",
+  "family": "metals",
+  "blurb": "Primary aluminium smelted from alumina, power-intensive; China makes over half.",
+  "unit": "kt",
+  "hs": [
+   "7601"
+  ],
+  "has": [],
+  "rank": 11
+ },
+ {
+  "id": "bauxite",
+  "name": "Bauxite & alumina",
+  "family": "metals",
+  "blurb": "Aluminium ore and its refined oxide; Guinea and Australia are the main sources.",
+  "unit": "Mt",
+  "hs": [
+   "2606",
+   "281820"
+  ],
+  "has": [],
+  "rank": 12
+ },
+ {
+  "id": "nickel",
+  "name": "Nickel",
+  "family": "metals",
+  "blurb": "Ore, intermediates and refined nickel; Indonesia now dominates mine supply.",
+  "unit": "kt Ni",
+  "hs": [
+   "2604",
+   "7501",
+   "7502"
+  ],
+  "has": [],
+  "rank": 13
+ },
+ {
+  "id": "zinc",
+  "name": "Zinc",
+  "family": "metals",
+  "blurb": "Zinc concentrate and refined metal, used mainly for galvanising steel.",
+  "unit": "kt Zn",
+  "hs": [
+   "2608",
+   "7901"
+  ],
+  "has": [],
+  "rank": 14
+ },
+ {
+  "id": "lead",
+  "name": "Lead",
+  "family": "metals",
+  "blurb": "Mostly used in batteries; much supply comes from recycling.",
+  "unit": "kt Pb",
+  "hs": [
+   "2607",
+   "7801"
+  ],
+  "has": [],
+  "rank": 15
+ },
+ {
+  "id": "tin",
+  "name": "Tin",
+  "family": "metals",
+  "blurb": "Solder metal; supply concentrated in China, Indonesia, Myanmar and Peru.",
+  "unit": "t",
+  "hs": [
+   "2609",
+   "8001"
+  ],
+  "has": [],
+  "rank": 16
+ },
+ {
+  "id": "lithium",
+  "name": "Lithium",
+  "family": "metals",
+  "blurb": "Spodumene concentrate and brine-derived chemicals for batteries.",
+  "unit": "t Li",
+  "hs": [
+   "253090",
+   "283691",
+   "282520"
+  ],
+  "has": [],
+  "rank": 17
+ },
+ {
+  "id": "cobalt",
+  "name": "Cobalt",
+  "family": "metals",
+  "blurb": "Battery and superalloy metal, overwhelmingly mined in DR Congo and refined in China.",
+  "unit": "t Co",
+  "hs": [
+   "2605",
+   "810520"
+  ],
+  "has": [],
+  "rank": 18
+ },
+ {
+  "id": "rare-earths",
+  "name": "Rare earths",
+  "family": "metals",
+  "blurb": "Elements for magnets and catalysts; China dominates mining and separation.",
+  "unit": "t REO",
+  "hs": [
+   "2846",
+   "280530"
+  ],
+  "has": [],
+  "rank": 19
+ },
+ {
+  "id": "manganese",
+  "name": "Manganese",
+  "family": "metals",
+  "blurb": "Ore for steel alloys and batteries; South Africa, Gabon and Australia lead.",
+  "unit": "kt Mn",
+  "hs": [
+   "2602"
+  ],
+  "has": [],
+  "rank": 20
+ },
+ {
+  "id": "gold",
+  "name": "Gold",
+  "family": "metals",
+  "blurb": "Mined gold and the bullion trade through refining and vaulting hubs.",
+  "unit": "t",
+  "hs": [
+   "7108"
+  ],
+  "has": [],
+  "rank": 21
+ },
+ {
+  "id": "silver",
+  "name": "Silver",
+  "family": "metals",
+  "blurb": "Mostly a by-product of lead, zinc and copper mining; Mexico and Peru lead.",
+  "unit": "t",
+  "hs": [
+   "7106"
+  ],
+  "has": [],
+  "rank": 22
+ },
+ {
+  "id": "pgm",
+  "name": "Platinum group metals",
+  "family": "metals",
+  "blurb": "Platinum and palladium for autocatalysts; South Africa and Russia dominate.",
+  "unit": "kg",
+  "hs": [
+   "7110"
+  ],
+  "has": [],
+  "rank": 23
+ },
+ {
+  "id": "wheat",
+  "name": "Wheat",
+  "family": "softs",
+  "blurb": "The most traded grain; Black Sea, EU, North America and Australia export.",
+  "unit": "Mt",
+  "hs": [
+   "1001"
+  ],
+  "has": [],
+  "rank": 24
+ },
+ {
+  "id": "corn",
+  "name": "Corn",
+  "family": "softs",
+  "blurb": "Feed grain; the US, Brazil, Argentina and Ukraine supply most exports.",
+  "unit": "Mt",
+  "hs": [
+   "1005"
+  ],
+  "has": [],
+  "rank": 25
+ },
+ {
+  "id": "soybeans",
+  "name": "Soybeans",
+  "family": "softs",
+  "blurb": "Brazil and the US ship most of the world's soybeans, largely to China.",
+  "unit": "Mt",
+  "hs": [
+   "1201"
+  ],
+  "has": [],
+  "rank": 26
+ },
+ {
+  "id": "soymeal",
+  "name": "Soybean meal",
+  "family": "softs",
+  "blurb": "Protein meal from crushing; Argentina is the largest exporter.",
+  "unit": "Mt",
+  "hs": [
+   "2304"
+  ],
+  "has": [],
+  "rank": 27
+ },
+ {
+  "id": "soyoil",
+  "name": "Soybean oil",
+  "family": "softs",
+  "blurb": "Vegetable oil from crushing, used for food and biofuel.",
+  "unit": "Mt",
+  "hs": [
+   "1507"
+  ],
+  "has": [],
+  "rank": 28
+ },
+ {
+  "id": "rice",
+  "name": "Rice",
+  "family": "softs",
+  "blurb": "Mostly consumed where grown; India, Thailand and Vietnam lead exports.",
+  "unit": "Mt",
+  "hs": [
+   "1006"
+  ],
+  "has": [],
+  "rank": 29
+ },
+ {
+  "id": "sugar",
+  "name": "Sugar",
+  "family": "softs",
+  "blurb": "Raw and white sugar; Brazil dominates exports.",
+  "unit": "Mt",
+  "hs": [
+   "1701"
+  ],
+  "has": [],
+  "rank": 30
+ },
+ {
+  "id": "coffee",
+  "name": "Coffee",
+  "family": "softs",
+  "blurb": "Green coffee beans; Brazil and Vietnam lead supply.",
+  "unit": "kt",
+  "hs": [
+   "0901"
+  ],
+  "has": [],
+  "rank": 31
+ },
+ {
+  "id": "cocoa",
+  "name": "Cocoa",
+  "family": "softs",
+  "blurb": "Cocoa beans, concentrated in Côte d'Ivoire and Ghana.",
+  "unit": "kt",
+  "hs": [
+   "1801"
+  ],
+  "has": [],
+  "rank": 32
+ },
+ {
+  "id": "cotton",
+  "name": "Cotton",
+  "family": "softs",
+  "blurb": "Raw cotton fibre; the US, Brazil and Australia export, Asian mills import.",
+  "unit": "kt",
+  "hs": [
+   "5201"
+  ],
+  "has": [],
+  "rank": 33
+ },
+ {
+  "id": "palm-oil",
+  "name": "Palm oil",
+  "family": "softs",
+  "blurb": "The most produced vegetable oil, almost all from Indonesia and Malaysia.",
+  "unit": "Mt",
+  "hs": [
+   "1511"
+  ],
+  "has": [],
+  "rank": 34
+ },
+ {
+  "id": "rapeseed",
+  "name": "Rapeseed & canola",
+  "family": "softs",
+  "blurb": "Oilseed grown in Canada, the EU and Australia.",
+  "unit": "Mt",
+  "hs": [
+   "1205",
+   "1514"
+  ],
+  "has": [],
+  "rank": 35
+ },
+ {
+  "id": "potash",
+  "name": "Potash",
+  "family": "softs",
+  "blurb": "Potassium fertiliser; Canada, Russia and Belarus dominate.",
+  "unit": "Mt K2O",
+  "hs": [
+   "310420"
+  ],
+  "has": [],
+  "rank": 36
+ },
+ {
+  "id": "phosphate",
+  "name": "Phosphate",
+  "family": "softs",
+  "blurb": "Phosphate rock and processed fertilisers (DAP/MAP); Morocco holds most reserves.",
+  "unit": "Mt",
+  "hs": [
+   "2510",
+   "310530"
+  ],
+  "has": [],
+  "rank": 37
+ },
+ {
+  "id": "urea",
+  "name": "Urea & nitrogen",
+  "family": "softs",
+  "blurb": "Nitrogen fertiliser made from natural gas; Russia, Qatar and China export.",
+  "unit": "Mt",
+  "hs": [
+   "310210"
+  ],
+  "has": [],
+  "rank": 38
+ }
+]

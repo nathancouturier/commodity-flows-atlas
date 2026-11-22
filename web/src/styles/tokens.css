@@ -1,0 +1,70 @@
+/*
+ * Design system — "Abyssal".
+ * A near-black ocean, graphite land, and luminous flow colours per commodity family.
+ * All colours, spacing and type sizes used in the app come from these tokens.
+ */
+:root {
+  /* surfaces */
+  --ocean-0: #04070c;
+  --ocean-1: #070c14;
+  --land-0: #111821;
+  --land-1: #16202b;
+  --land-hover: #1d2a38;
+  --land-selected: #22344a;
+  --border-country: #233041;
+  --coast: #2b3b50;
+
+  --panel: rgba(9, 13, 20, 0.86);
+  --panel-solid: #0a0f17;
+  --panel-raised: rgba(20, 27, 38, 0.92);
+  --hairline: rgba(255, 255, 255, 0.07);
+  --hairline-strong: rgba(255, 255, 255, 0.13);
+
+  /* text */
+  --ink-0: #eef3f8;
+  --ink-1: #b9c4d0;
+  --ink-2: #7d8a99;
+  --ink-3: #56616e;
+
+  /* family colours (flows, chips, accents) */
+  --energy: #ffb547;
+  --metals: #9db7ff;
+  --softs: #7ee0a1;
+  --freight: #3ee6ff;
+  --chokepoint: #ff5c7a;
+  --alert: #ff7a59;
+  --positive: #5be3a6;
+
+  /* brand accent = freight */
+  --accent: var(--freight);
+  --accent-soft: rgba(62, 230, 255, 0.14);
+
+  /* type */
+  --font-ui: 'Inter Tight Variable', 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-num: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --fs-xs: 11px;
+  --fs-sm: 12.5px;
+  --fs-md: 14px;
+  --fs-lg: 17px;
+  --fs-xl: 22px;
+  --fs-xxl: 30px;
+
+  /* layout */
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --gap: 12px;
+  --panel-w: 320px;
+  --detail-w: 400px;
+  --shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.65), 0 2px 8px rgba(0, 0, 0, 0.35);
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --t-fast: 140ms;
+  --t-med: 280ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t-med: 0ms;
+  }
+}

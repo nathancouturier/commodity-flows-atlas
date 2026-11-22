@@ -1,0 +1,90 @@
+[
+ {
+  "id": "naturalearth",
+  "name": "Natural Earth Admin 0 Countries 1:50m",
+  "publisher": "Natural Earth",
+  "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/",
+  "licence": "Public domain",
+  "update": "irregular"
+ },
+ {
+  "id": "usgs-mcs",
+  "name": "USGS Mineral Commodity Summaries",
+  "publisher": "U.S. Geological Survey",
+  "url": "https://pubs.usgs.gov/periodicals/mcs2026/",
+  "licence": "Public domain (US Government)",
+  "update": "annual (late January)"
+ },
+ {
+  "id": "baci",
+  "name": "CEPII BACI bilateral trade database",
+  "publisher": "CEPII",
+  "url": "https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37",
+  "licence": "Etalab Open Licence 2.0",
+  "update": "annual (January)"
+ },
+ {
+  "id": "wb-pink",
+  "name": "World Bank Commodity Price Data (Pink Sheet)",
+  "publisher": "World Bank",
+  "url": "https://www.worldbank.org/en/research/commodity-markets",
+  "licence": "CC BY 4.0",
+  "update": "monthly (2nd business day)"
+ },
+ {
+  "id": "fred",
+  "name": "FRED, Federal Reserve Bank of St. Louis",
+  "publisher": "Federal Reserve Bank of St. Louis",
+  "url": "https://fred.stlouisfed.org/",
+  "licence": "Series-specific; public domain for EIA and IMF series",
+  "update": "daily / monthly"
+ },
+ {
+  "id": "usda-psd",
+  "name": "USDA Production, Supply and Distribution (PSD)",
+  "publisher": "USDA Foreign Agricultural Service",
+  "url": "https://apps.fas.usda.gov/psdonline/",
+  "licence": "Public domain (US Government)",
+  "update": "monthly (WASDE day)"
+ },
+ {
+  "id": "portwatch",
+  "name": "IMF PortWatch chokepoint transits",
+  "publisher": "IMF and University of Oxford",
+  "url": "https://portwatch.imf.org/",
+  "licence": "CC BY 4.0 (attribution: IMF PortWatch)",
+  "update": "weekly"
+ },
+ {
+  "id": "nga-wpi",
+  "name": "World Port Index (Pub. 150)",
+  "publisher": "US National Geospatial-Intelligence Agency",
+  "url": "https://msi.nga.mil/Publications/WPI",
+  "licence": "Public domain (US Government)",
+  "update": "irregular"
+ },
+ {
+  "id": "baltic",
+  "name": "Baltic Exchange route definitions",
+  "publisher": "The Baltic Exchange",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/indices.html",
+  "licence": "Route definitions are public; index values are proprietary and not shown",
+  "update": "n/a"
+ },
+ {
+  "id": "eurostat-searoute",
+  "name": "SeaRoute maritime network (Eurostat), via the searoute Python package",
+  "publisher": "Eurostat / searoute",
+  "url": "https://github.com/genthalili/searoute-py",
+  "licence": "EUPL 1.2 (network) / Apache 2.0 (package)",
+  "update": "n/a"
+ },
+ {
+  "id": "atlas",
+  "name": "Commodity Flows Atlas estimate (derived; see METHODOLOGY.md)",
+  "publisher": "Commodity Flows Atlas",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/METHODOLOGY.md",
+  "licence": "MIT",
+  "update": "rebuilt with each data refresh"
+ }
+]

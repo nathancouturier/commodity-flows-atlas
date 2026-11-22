@@ -1,4 +1,6 @@
 # Builds the web app and deploys it to GitHub Pages on every push to main.
+# If Pages is not enabled yet (Settings > Pages > Source: GitHub Actions), the job
+# finishes green with a notice instead of failing, so no failure e-mail is sent.
 name: Deploy site
 
 on:
@@ -19,6 +21,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    outputs:
+      pages: ${{ steps.pages.outcome }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,16 +33,28 @@ jobs:
       - name: Install
         run: npm ci
         working-directory: web
+      - name: Validate data files
+        run: node web/scripts/validate-data.mjs
       - name: Build
         run: npm run build
         working-directory: web
-      - uses: actions/configure-pages@v5
+      - name: Check Pages is enabled
+        id: pages
+        continue-on-error: true
+        uses: actions/configure-pages@v5
+      - name: Pages not enabled notice
+        if: steps.pages.outcome != 'success'
+        run: |
+          echo "::notice::GitHub Pages is not enabled for this repository. Enable it in Settings > Pages > Source: GitHub Actions, then re-run this workflow."
+          echo "### Site built but not deployed: enable GitHub Pages (Settings > Pages > Source: GitHub Actions)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@v3
+        if: steps.pages.outcome == 'success'
         with:
           path: web/dist
 
   deploy:
     needs: build
+    if: needs.build.outputs.pages == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment:
