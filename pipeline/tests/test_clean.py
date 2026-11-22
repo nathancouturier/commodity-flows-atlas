@@ -302,7 +302,8 @@ class CaveatTests(unittest.TestCase):
 
     def test_no_number_typed_in_the_registry(self):
         import re
-        src = open(caveats.__file__, encoding="utf-8").read()
+        with open(caveats.__file__, encoding="utf-8") as f:
+            src = f.read()
         texts = re.findall(r'"([^"]*)"', src)
         typed = [t for t in texts if re.search(r"(?<![\w.:{])\d+(\.\d+)? ?(Mt|%|kb/d)", t)]  # not a format spec such as {x:.0%}
         self.assertEqual(typed, [])
@@ -317,7 +318,8 @@ class BuilderTests(unittest.TestCase):
             self.assertEqual(baci.iso("GIB"), "GIB")
         self.assertEqual(baci.iso("S19"), "TWN")
         for name in ("build_commodities.py", "build_profiles.py"):
-            src = open(os.path.join(ROOT, "pipeline", "commodities", name), encoding="utf-8").read()
+            with open(os.path.join(ROOT, "pipeline", "commodities", name), encoding="utf-8") as f:
+                src = f.read()
             self.assertNotIn('"S19"', src, name)
         import build_profiles  # noqa: F401
 
