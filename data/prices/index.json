@@ -84,7 +84,8 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1987-05-20",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA daily spot (FOB North Sea)."
 },
 {
 "id": "wti-d",
@@ -94,7 +95,8 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1986-01-02",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA daily spot at Cushing, Oklahoma."
 },
 {
 "id": "brent-m",
@@ -105,7 +107,8 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "World Bank monthly average; before the mid-1980s a posted-price proxy, not a traded Brent benchmark."
 },
 {
 "id": "dubai-m",
@@ -116,7 +119,8 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "World Bank monthly average of Dubai Fateh spot."
 },
 {
 "id": "wti-m",
@@ -127,7 +131,8 @@
 "s": "wb-pink",
 "start": "1982-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "World Bank monthly average of WTI spot."
 },
 {
 "id": "gold-m",
@@ -149,7 +154,8 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "China import, Iron Ore Fines 62% Fe, spot CFR; earlier years are Brazilian contract prices."
 },
 {
 "id": "lead-m",
@@ -171,7 +177,8 @@
 "s": "wb-pink",
 "start": "1977-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Japan average LNG import price (mostly oil-indexed contracts), not a spot price."
 },
 {
 "id": "propane-mb-d",
@@ -191,7 +198,8 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1997-01-07",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA daily spot at Henry Hub, Louisiana."
 },
 {
 "id": "hh-m",
@@ -202,7 +210,8 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "World Bank monthly average of Henry Hub spot."
 },
 {
 "id": "ttf-m",
@@ -213,7 +222,8 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "World Bank series: historically an average import border price; based on the Dutch TTF hub in recent years."
 },
 {
 "id": "nickel-m",
@@ -407,7 +417,8 @@
 "s": "wb-pink",
 "start": "1970-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Newcastle, 6,000 kcal/kg NAR, FOB."
 },
 {
 "id": "coal-zaf-m",

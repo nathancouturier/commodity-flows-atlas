@@ -78,6 +78,21 @@ FRED = {
     "PCU483111483111": ("freight-ppi-m", "freight", "US producer price index, deep-sea freight transportation", "index (Dec 1988 = 100)"),
 }
 
+# Basis notes shown with the series (what the price actually measures)
+BASIS = {
+    "brent-m": "World Bank monthly average; before the mid-1980s a posted-price proxy, not a traded Brent benchmark.",
+    "wti-m": "World Bank monthly average of WTI spot.",
+    "dubai-m": "World Bank monthly average of Dubai Fateh spot.",
+    "ttf-m": "World Bank series: historically an average import border price; based on the Dutch TTF hub in recent years.",
+    "lng-japan-m": "Japan average LNG import price (mostly oil-indexed contracts), not a spot price.",
+    "hh-m": "World Bank monthly average of Henry Hub spot.",
+    "coal-aus-m": "Newcastle, 6,000 kcal/kg NAR, FOB.",
+    "iron-ore-m": "China import, Iron Ore Fines 62% Fe, spot CFR; earlier years are Brazilian contract prices.",
+    "brent-d": "EIA daily spot (FOB North Sea).",
+    "wti-d": "EIA daily spot at Cushing, Oklahoma.",
+    "hh-d": "EIA daily spot at Henry Hub, Louisiana.",
+}
+
 EPOCH = date(1970, 1, 1)
 
 
@@ -94,6 +109,8 @@ def num(x):
 
 
 def write(doc, meta, metas):
+    if meta["id"] in BASIS:
+        meta["basis"] = BASIS[meta["id"]]
     v = [x for x in doc["v"] if x is not None]
     if len(v) < 24 or v[-1] <= 0:
         print("  rejected (validation):", doc["id"])
