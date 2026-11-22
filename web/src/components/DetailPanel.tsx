@@ -38,6 +38,11 @@ function UnknownView({ kind, id }: { kind: string; id: string }) {
 
 /** The page's own heading, for the tab title ("Seaborne lane" and loading marks are not names). */
 function readTitle(panel: HTMLElement): string | null {
+  // a page whose only content is its "not in the catalogue" message: the id of a mistyped link is not a name
+  const sel = selection.peek();
+  if (sel && panel.querySelector('.panel-scroll > .placeholder:only-child')) {
+    return `Unknown ${sel.kind === 'infra' ? 'asset' : sel.kind === 'vessel' ? 'vessel class' : sel.kind}`;
+  }
   const title = panel.querySelector('.detail-title')?.textContent?.trim() ?? '';
   if (!title || /^(Loading)?…$/.test(title)) return null;
   // a lane's heading is its two countries: its kicker says which commodity

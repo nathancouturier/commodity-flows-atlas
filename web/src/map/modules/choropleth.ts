@@ -15,6 +15,8 @@ import { FAMILY_COLOR, fmt, pct, escapeHtml } from '../../lib/format';
 
 let painted: string[] = [];
 let labels: Marker[] = [];
+/** Where each label belongs on the world as drawn once; it is shown on the copy of the world nearest the camera. */
+const labelAt = new Map<Marker, { el: HTMLElement; at: [number, number] }>();
 
 /** Countries labelled with their share on the map: >= 1% of the world total, at most 16. */
 const LABEL_MIN_SHARE = 0.01;
@@ -58,6 +60,9 @@ effect(() => {
 });
 
 registerLayerModule((m: MLMap) => {
+  // a camera that drifted onto a wrapped copy of the world (after a country view) must not leave the labels
+  // on the copy beside it, where the detail panel covers them
+  m.on('moveend', () => snapLabels(m));
   effect(() => {
     const k = commodity.value;
     const met = metric.value;
@@ -133,7 +138,7 @@ registerLayerModule((m: MLMap) => {
           ev.stopPropagation();
           if (r.c !== 'EU27') select({ kind: 'country', id: r.c });
         });
-        labels.push(new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat(at).addTo(m));
+        labels.push(placeLabel(m, el, at as [number, number]));
       }
       setCountryTooltipExtra((iso) => {
         const r = byC.get(iso);
@@ -146,9 +151,32 @@ registerLayerModule((m: MLMap) => {
   });
 });
 
+/** A label on the copy of the world nearest the camera. */
+function placeLabel(m: MLMap, el: HTMLElement, at: [number, number]): Marker {
+  const lng = at[0] + 360 * Math.round((m.getCenter().lng - at[0]) / 360);
+  const marker = new maplibregl.Marker({ element: el, anchor: 'center' }).setLngLat([lng, at[1]]).addTo(m);
+  labelAt.set(marker, { el, at });
+  return marker;
+}
+
+// A marker follows the copy of the world it was on when the camera moved, and keeps that copy for good, so a
+// label that is on another copy than the camera is replaced by a new marker, which starts from the nearest one.
+function snapLabels(m: MLMap) {
+  labels = labels.map((l) => {
+    const p = labelAt.get(l);
+    if (!p) return l;
+    const want = p.at[0] + 360 * Math.round((m.getCenter().lng - p.at[0]) / 360);
+    if (Math.abs(l.getLngLat().lng - want) < 1e-6) return l;
+    l.remove();
+    labelAt.delete(l);
+    return placeLabel(m, p.el, p.at);
+  });
+}
+
 function clear(m: MLMap) {
   for (const id of painted) m.setFeatureState({ source: 'countries', id }, { v: 0 });
   painted = [];
   for (const l of labels) l.remove();
   labels = [];
+  labelAt.clear();
 }

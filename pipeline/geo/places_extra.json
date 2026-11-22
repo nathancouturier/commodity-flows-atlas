@@ -1,0 +1,7 @@
+[
+{"c": "GIB", "a2": "GI", "name": "Gibraltar", "coastal": true, "port": "GIGIB", "note": "British territory; no polygon in the Natural Earth base map. Port code GIGIB is in the searoute list."},
+{"c": "BES", "a2": "BQ", "name": "Bonaire, Sint Eustatius and Saba", "coastal": true, "port": "ANKRA", "note": "Caribbean Netherlands; no polygon in the base map. ANKRA (Kralendijk, Bonaire) is in the searoute list; the plan expected no port."},
+{"c": "CXR", "a2": "CX", "name": "Christmas Island", "coastal": true, "port": "CXXCH", "note": "Australian territory; no polygon in the base map. Port code CXXCH is in the searoute list."},
+{"c": "TKL", "a2": "TK", "name": "Tokelau", "coastal": true, "port": null, "note": "New Zealand territory of three atolls; no polygon in the base map and no port in the searoute list (TKMRW there is Turkmenbashy, not Tokelau)."},
+{"c": "XAS", "a2": null, "name": "Asia, not specified", "coastal": false, "port": null, "pseudo": true, "note": "Not a place: BACI code S19 'Other Asia, n.e.s.' for the exports that the atlas does not read as Taiwan (see pipeline/trade/clean.py). No coast, no port: its flows are seaborne by assumption and not routed."}
+]

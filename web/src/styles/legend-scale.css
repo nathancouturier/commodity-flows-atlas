@@ -1,6 +1,11 @@
-/* Map legend: lanes and freight routes as two labelled groups, each with its own line-width key */
+/* Map legend: lanes and freight routes as two labelled groups, each with its own line-width key. The groups
+   do not take a row of their own: their items flow with the rest and each group opens with an inline label. */
 
-.legend-head {
+.legend .legend-lanes,
+.legend .legend-routes {
+  display: contents;
+}
+.legend-label {
   color: var(--ink-0);
   font-weight: 600;
 }

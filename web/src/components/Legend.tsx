@@ -101,7 +101,7 @@ export function Legend() {
     <div id="map-legend" class="legend legend-box glass" role="group" aria-label="Map legend">
       {flowsOn && (
         <div class="legend-block legend-lanes">
-          <span class="legend-item legend-head">Seaborne lanes</span>
+          <span class="legend-label">Seaborne lanes</span>
           {families.map((f) => (
             <span class="legend-item">
               <span class="legend-swatch" style={{ background: FAMILY_COLOR[f] }} />
@@ -137,7 +137,7 @@ export function Legend() {
       )}
       {routesOn && (
         <div class="legend-block legend-routes">
-          <span class="legend-item legend-head">Freight routes</span>
+          <span class="legend-label">Freight routes</span>
           {SEGMENTS.map((s) => (
             <span class="legend-item">
               <span class="legend-swatch" style={{ background: SEGMENT_COLOR[s] }} />
@@ -151,8 +151,9 @@ export function Legend() {
             </span>
             <span class="legend-ref">
               <WidthSample px={routePx(ROUTE_W.other)} />
-              Other · fixed width, not volume
+              Other
             </span>
+            <span class="muted">(fixed width)</span>
           </span>
         </div>
       )}

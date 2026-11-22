@@ -83,3 +83,40 @@ def classes(group, o, d, tonnes, nm):
             return ["lr2", "lr1", "mr"]
         return ["mr", "lr1"]
     return ["supramax"]
+
+
+# ------------------------------------------------------------------ draught rule for straits
+# A class avoids a passage only when its sourced laden draught exceeds the passage's sourced limit. A class
+# without a sourced draught is not restricted. Figures read on Wikipedia in November 2026 (CC BY-SA 4.0); the
+# Malacca figure is the one quoted in pipeline/freight/chokepoints.json and the two must stay in step.
+PASSAGE_LIMIT_M = {
+    "malacca": 20.5,     # Malaccamax design draught; the limit is set by the Singapore Strait
+    "singapore": 20.5,   # same limit: the shallowest point of the Malacca route is in the Singapore Strait
+    "sunda": 20.0,       # minimum depth in parts of the north-eastern end (a depth, not a draught limit)
+    "torres": 12.2,      # ships of 12.2 m static draught or less are permitted to transit
+}
+PASSAGE_LIMIT_SRC = {
+    "malacca": "https://en.wikipedia.org/wiki/Malaccamax (read 2026)",
+    "singapore": "https://en.wikipedia.org/wiki/Malaccamax (read 2026); https://en.wikipedia.org/wiki/Singapore_Strait (read 2026)",
+    "sunda": "https://en.wikipedia.org/wiki/Sunda_Strait (read 2026)",
+    "torres": "https://en.wikipedia.org/wiki/Torres_Strait (read 2026)",
+}
+DRAUGHT_M = {
+    "vloc": 22.0,        # Valemax: maximum draught of 22 to 23 m loaded (lower figure)
+    "capesize": 18.0,    # typical Capesize: 18 m draught
+    "panamax": 12.04,    # Panamax: maximum allowable draft in the old Panama locks
+    "handysize": 10.0,   # Handysize: summer draft of about 10 m
+    "lng": 12.0,         # Q-Max, the largest LNG carriers: draft of about 12 m (upper bound for the class)
+}
+DRAUGHT_SRC = {
+    "vloc": "https://en.wikipedia.org/wiki/Valemax (read 2026)",
+    "capesize": "https://en.wikipedia.org/wiki/Capesize (read 2026)",
+    "panamax": "https://en.wikipedia.org/wiki/Panamax (read 2026)",
+    "handysize": "https://en.wikipedia.org/wiki/Handysize (read 2026)",
+    "lng": "https://en.wikipedia.org/wiki/Q-Max (read 2026)",
+}
+
+
+def avoids(vclass):
+    """Passages that a laden ship of this class cannot use under the draught rule."""
+    return {p for p, lim in PASSAGE_LIMIT_M.items() if DRAUGHT_M.get(vclass, 0) > lim}

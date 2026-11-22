@@ -1040,14 +1040,18 @@
   .sheet-handle {
     min-height: 34px;
   }
-  /* a chokepoint marker is 16 px wide: a transparent ring around it makes the tap area 32 px. The ring is
-     kept small because markers sit 10 px apart at world zoom (Malacca and Singapore) and infrastructure
-     icons lie close to them: a wider ring would take their taps */
-  .cp::before {
+  /* a chokepoint marker is 16 px wide: its transparent ring is the tap area, up to 32 px. The ring's reach
+     (--cp-tap, set by the chokepoints layer) shrinks where markers lie close together, so that it never
+     takes the tap of a neighbouring marker; the 16 px box itself takes no taps */
+  .app .cp {
+    pointer-events: none;
+  }
+  .app .cp::before {
     content: '';
     position: absolute;
-    inset: -8px;
+    inset: calc(var(--cp-tap, 8px) * -1);
     border-radius: 50%;
+    pointer-events: auto;
   }
   /* the price drawer, the history slider and the banners' links: 34 px targets. Text links and the small
      pills grow their tap area with padding that margins take back, so the layout does not move */
@@ -1062,19 +1066,20 @@
   .app .alert-links a,
   .app .alert-links button,
   .app .kpi-note-btn {
-    padding-block: 9px;
-    margin-block: -9px;
+    padding-block: 10px;
+    margin-block: -10px;
   }
+  .app .pd-clear,
   .app .alert-links a,
   .app .alert-links button {
-    padding-inline: 4px;
-    margin-inline: -4px;
+    padding-inline: 6px;
+    margin-inline: -6px;
   }
   /* the share labels on the map are 22 px high: the same transparent ring as the chokepoints */
   .share-label::before {
     content: '';
     position: absolute;
-    inset: -6px -3px;
+    inset: -5px -2px;
   }
   .maplibregl-ctrl-group button {
     width: 36px !important;

@@ -44,6 +44,23 @@ registerLayerModule((m: MLMap) => {
   m.on('zoom', syncZoom);
   syncZoom();
 
+  // touch: a marker is tapped through its transparent ring (see .cp::before), whose radius stops at half the
+  // distance to the nearest visible neighbour, so that a tap on one marker never lands on the next (Malacca
+  // and Singapore sit 10 px apart at world zoom). --cp-tap is how far the ring reaches past the 8 px radius
+  // of the marker: 8 px at most, and down to -4 px where markers almost touch.
+  const syncTap = () => {
+    const shown = [...entries.values()].filter(({ el }) => !el.classList.contains('cp-hidden'));
+    const pts = shown.map(({ marker }) => m.project(marker.getLngLat()));
+    shown.forEach(({ el }, i) => {
+      let nn = Infinity;
+      pts.forEach((q, j) => {
+        if (j !== i) nn = Math.min(nn, Math.hypot(q.x - pts[i].x, q.y - pts[i].y));
+      });
+      el.style.setProperty('--cp-tap', `${Math.max(-4, Math.min(8, nn / 2 - 8))}px`);
+    });
+  };
+  m.on('moveend', syncTap);
+
   /** (Re)create markers when the chokepoint catalogue arrives. */
   effect(() => {
     void sources.value;
@@ -103,6 +120,7 @@ registerLayerModule((m: MLMap) => {
         el.classList.toggle('cp-on', hit);
         el.classList.toggle('cp-sel', id === selectedId);
       }
+      syncTap();
     };
 
     if (sel?.kind === 'country') {
