@@ -397,4 +397,12 @@
     display: inline-block;
     padding: 8px 0;
   }
+
+  /* the links of the Method list and of the running text: a tap area of about 34 px that margins take back */
+  .about-body a:not(.about-foot a, .about-table a),
+  .about-link {
+    display: inline-block;
+    padding-block: 8px;
+    margin-block: -8px;
+  }
 }

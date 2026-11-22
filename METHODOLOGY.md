@@ -203,4 +203,5 @@ primary source is shown and the difference is noted in the commodity file's `dis
 ## 9. Licences of derived figures
 
 Figures computed by the atlas (source id `atlas`) are released under CC BY 4.0; the third-party
-datasets they are computed from keep their own licences. See `NOTICE.md`.
+datasets they are computed from keep their own licences, and material adapted from Wikipedia is CC BY-SA 4.0.
+See `NOTICE.md`.

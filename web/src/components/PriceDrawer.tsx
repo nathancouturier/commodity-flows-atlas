@@ -366,9 +366,23 @@ export function PriceDrawer() {
     if (!full && !ids.includes(id)) setIds([...ids, id]);
   };
   const readBox = useRef<HTMLDivElement>(null);
-  // a lookup answers in the side column: bring the answer into view when the statistics above push it down
+  // a lookup answers in the side column: bring the answer into view when the statistics above push it down,
+  // but never by more than it takes to leave the chart's top edge in view (stacked on a short screen the
+  // answer sits under the chart, and scrolling all the way to it used to push the chart out of sight)
   useEffect(() => {
-    if (lookup) readBox.current?.scrollIntoView?.({ block: 'nearest' });
+    const box = readBox.current;
+    if (!lookup || !box) return;
+    let sc: HTMLElement | null = box.parentElement;
+    while (sc && !(sc.scrollHeight > sc.clientHeight + 1 && /auto|scroll/.test(getComputedStyle(sc).overflowY))) sc = sc.parentElement;
+    const chart = box.closest('.pd')?.querySelector('.pd-chart');
+    if (!sc || !chart) {
+      box.scrollIntoView?.({ block: 'nearest' });
+      return;
+    }
+    const view = sc.getBoundingClientRect();
+    const b = box.getBoundingClientRect();
+    if (b.top < view.top) sc.scrollTop += b.top - view.top;
+    else if (b.bottom > view.bottom) sc.scrollTop += Math.min(b.bottom - view.bottom, Math.max(0, chart.getBoundingClientRect().top - view.top));
   }, [lookup]);
   const rangeActive = (r: (typeof RANGES)[number]) => {
     if (!win || !merged) return false;
@@ -450,7 +464,7 @@ export function PriceDrawer() {
                     type="text"
                     inputMode="text"
                     value={query}
-                    placeholder="Year, month or day: Mar 2008"
+                    placeholder="e.g. Mar 2008"
                     aria-label="Look up a date: year, quarter, month or day"
                     title="A year (2008), a quarter (Q3 2008), a month (Mar 2008 or 2008-03) or a day (14 Mar 2008, 2008-03-14 or 14/03/2008)"
                     aria-invalid={queryErr}

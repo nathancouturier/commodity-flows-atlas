@@ -40,7 +40,8 @@ function longDate(iso: string): string {
 // ---------------------------------------------------------------- about
 
 function AboutTabView() {
-  const n = Object.keys(sources.value).length;
+  // the registry also lists the atlas's own figures (id `atlas`), which are not a third-party source
+  const n = Object.keys(sources.value).filter((id) => id !== 'atlas').length;
   return (
     <>
       <h3>What the atlas is</h3>
@@ -81,6 +82,10 @@ function AboutTabView() {
         <button class="about-link" onClick={() => (aboutTab.value = 'sources')}>
           Sources
         </button>
+        . The licences of the atlas itself are under{' '}
+        <button class="about-link" onClick={() => (aboutTab.value = 'notices')}>
+          Notices
+        </button>
         .
       </p>
     </>
@@ -89,10 +94,18 @@ function AboutTabView() {
 
 // ---------------------------------------------------------------- sources
 
-// Year FAO last revised the FAOSTAT "Crops and livestock products" dataset: `DateUpdate` of QCL in
-// https://bulks-faostat.fao.org/production/datasets_E.json, read on 22 November 2026. FAO's terms ask
-// for it in the citation; change it when a newer FAOSTAT release is fetched.
-const FAO_LAST_UPDATE = '2025';
+/** A registry licence that points to NOTICE.md: the file name becomes a link. */
+function LicenceText(props: { text: string }) {
+  const i = props.text.indexOf('NOTICE.md');
+  if (i < 0) return <>{props.text}</>;
+  return (
+    <>
+      {props.text.slice(0, i)}
+      <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>
+      {props.text.slice(i + 'NOTICE.md'.length)}
+    </>
+  );
+}
 
 function SourcesTabView(props: { status: StatusView | null; vintages: Record<string, string> }) {
   const list = Object.values(sources.value);
@@ -127,7 +140,9 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
                     <Ext href={s.url}>{s.name}</Ext>
                     <small>{s.publisher}</small>
                   </th>
-                  <td data-label="Licence">{s.licence}</td>
+                  <td data-label="Licence">
+                    <LicenceText text={s.licence} />
+                  </td>
                   <td data-label="Vintage and updates">
                     {v && <span class="about-vintage">Data to <span class="num">{v}</span></span>}
                     <small>{s.update === 'n/a' ? 'No regular update' : `Updates: ${s.update}`}</small>
@@ -152,8 +167,9 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           International Trade Database at the Product-Level. The 1994-2007 Version. CEPII Working Paper, N°2010-23. Licence: Etalab Open Licence 2.0.
         </li>
         <li>
-          <b>Cocoa production.</b> FAO. {FAO_LAST_UPDATE}. FAOSTAT: Crops and livestock products.{st?.faoChecked ? ` Accessed on ${longDate(st.faoChecked)}.` : ''}{' '}
-          <Ext href="https://www.fao.org/faostat/en/#data/QCL">https://www.fao.org/faostat/en/#data/QCL</Ext>. Licence: CC-BY-4.0.
+          <b>Cocoa production.</b> FAO. FAOSTAT: Crops and livestock products.{st?.faoChecked ? ` Last checked on ${longDate(st.faoChecked)}.` : ''}{' '}
+          <Ext href={sources.value.faostat?.url ?? 'https://www.fao.org/faostat/en/data/QCL'}>{sources.value.faostat?.url ?? 'https://www.fao.org/faostat/en/data/QCL'}</Ext>.
+          Licence: CC BY 4.0.
         </li>
         <li>
           <b>Monthly prices.</b> World Bank Commodity Price Data (The Pink Sheet), World Bank{lic('wb-pink') ? `, ${lic('wb-pink')}` : ''}.
@@ -163,8 +179,11 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           {lic('portwatch') ? `. ${lic('portwatch')}` : ''}.
         </li>
         <li>
-          <b>Wikipedia.</b> Figures credited to Wikipedia come from English Wikipedia articles, written by Wikipedia contributors and licensed{' '}
-          <Ext href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</Ext>.
+          <b>Wikipedia.</b> Figures and notes credited to Wikipedia (infrastructure assets, companies, events, vessel classes and chokepoint
+          limits) are adapted from English Wikipedia articles, written by Wikipedia contributors and licensed{' '}
+          <Ext href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</Ext>. Changes were made: passages were shortened and
+          rewritten, figures converted to the atlas's units, and entries combined with other sources. Each entry links its article, and the files
+          that contain this material are shared under the same licence (see <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>).
         </li>
         <li>
           <b>Baltic Exchange.</b> Commodity Flows Atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. Benchmark routes
@@ -186,7 +205,14 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
 
 // ---------------------------------------------------------------- data freshness
 
-const HEALTH_LABEL: Record<Freshness['health'], string> = { ok: 'On time', stale: 'Stale', failing: 'Check failing' };
+const HEALTH_LABEL: Record<Freshness['health'], string> = {
+  ok: 'On time',
+  stale: 'Stale',
+  failing: 'Check failing',
+  manual: 'Checked by hand',
+  unconfigured: 'Not configured',
+};
+const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
 
 function FreshnessTabView(props: { status: StatusView | null; failed: boolean; vintages: Record<string, string> }) {
   const st = props.status;
@@ -194,13 +220,15 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
   return (
     <>
       <p>
-        Scheduled jobs check each source and rebuild the data: prices and chokepoint traffic every week, the annual statistics every month. A
+        Scheduled jobs check each source and rebuild the data: prices and chokepoint traffic every week, the annual statistics every month (FAOSTAT and WNA about every 80 days). A
         source is marked stale when its last check, or its latest data, is later than that rhythm allows.
       </p>
       {props.failed ? (
         <p class="about-empty">The update status could not be loaded. Try again later.</p>
       ) : !st ? (
         <Skeleton lines={5} />
+      ) : st.rows.length === 0 ? (
+        <p class="about-empty">No scheduled job has reported yet.</p>
       ) : (
         <>
           <table class="about-table about-fresh">
@@ -234,7 +262,7 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
                       <span class="num">{r.checked ? fmtDate(r.checked) : 'Never'}</span>
                     </td>
                     <td data-label="Status">
-                      <span class={`badge ${r.health === 'ok' ? 'badge-ok' : 'badge-warn'}`}>{HEALTH_LABEL[r.health]}</span>
+                      <span class={`badge ${HEALTH_BADGE[r.health]}`}>{HEALTH_LABEL[r.health]}</span>
                       {r.why && <small>{r.why}</small>}
                       {r.retrying && <small>The last check did not complete. The site keeps the last good data.</small>}
                     </td>
@@ -334,6 +362,26 @@ const THIRD_PARTY: { name: string; url: string; licence: string; holder: string 
 function NoticesTabView() {
   return (
     <>
+      <h3>Licences of the atlas</h3>
+      <ul class="about-terms">
+        <li>
+          <b>Code:</b> MIT. It covers the source code, not the data files.
+        </li>
+        <li>
+          <b>The atlas's own derived figures</b> (source id <code>atlas</code>, "Atlas estimate"): CC BY 4.0. Credit: "Commodity Flows Atlas".
+        </li>
+        <li>
+          <b>Third-party data:</b> each dataset keeps the licence of its source, listed under Sources.
+        </li>
+        <li>
+          <b>Material adapted from Wikipedia:</b> CC BY-SA 4.0, shared under the same licence.
+        </li>
+      </ul>
+      <p>
+        Full terms, credits and the list of files each licence covers: <Ext href={`${DOC}LICENSE`}>LICENSE</Ext> and{' '}
+        <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext> in the repository.
+      </p>
+      <h3>Libraries and fonts</h3>
       <p>The site is built with these open-source libraries and fonts. The fonts are served from this site through the Fontsource packages.</p>
       <table class="about-table about-third">
         <thead>

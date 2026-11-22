@@ -5,19 +5,29 @@
  */
 import { load, loadOptional } from './data';
 
+// The file is machine-written, but nothing here may break on a value of the wrong type: each field is
+// checked where it is read.
 interface RawEntry {
-  last_success?: string | null;
-  data_to?: string | null;
-  consecutive_failures?: number | null;
-  alert_after?: number | null;
-  state?: Record<string, unknown> | null;
+  last_success?: unknown;
+  data_to?: unknown;
+  consecutive_failures?: unknown;
+  alert_after?: unknown;
+  state?: unknown;
 }
 interface RawStatus {
-  updated?: string;
-  sources?: Record<string, RawEntry>;
+  updated?: unknown;
+  sources?: unknown;
 }
 
-export type Health = 'ok' | 'stale' | 'failing';
+const str = (v: unknown): string | null => (typeof v === 'string' && v ? v : null);
+const count = (v: unknown, d: number): number => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : d);
+const obj = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
+
+/**
+ * ok, stale, failing: from the dates and the failure count. manual: the source is fetched by hand on purpose,
+ * so a failed scheduled check is not a fault. unconfigured: an optional series that needs a key nobody set.
+ */
+export type Health = 'ok' | 'stale' | 'failing' | 'manual' | 'unconfigured';
 
 export interface Freshness {
   /** key in updates.json */
@@ -36,6 +46,7 @@ export interface Freshness {
   /** the last scheduled check did not complete, below the alert threshold */
   retrying: boolean;
 }
+
 
 export interface StatusView {
   /** last write of the status file (ISO) */
@@ -58,6 +69,10 @@ interface Tracked {
   kind: Kind;
   /** days without a successful check before the row is late: two scheduled runs missed, plus a margin */
   maxAge: number;
+  /** fetched by hand: CEPII refuses the cloud runners, so the scheduled check is expected to fail */
+  manual?: boolean;
+  /** only fetched when a key is set: nothing is recorded without one */
+  optional?: boolean;
 }
 
 // The price job runs every Tuesday and the PortWatch job every Wednesday; the annual job runs on the 15th of
@@ -67,9 +82,9 @@ const MONTHLY = 64;
 const TRACKED: Tracked[] = [
   { key: 'eia-spot', sources: ['eia-spot'], kind: 'day', maxAge: WEEKLY },
   { key: 'wb-pink', sources: ['wb-pink'], kind: 'month', maxAge: WEEKLY },
-  { key: 'fred', sources: ['fred'], kind: 'month', maxAge: WEEKLY },
+  { key: 'fred', sources: ['fred'], kind: 'month', maxAge: WEEKLY, optional: true },
   { key: 'portwatch', sources: ['portwatch'], kind: 'day', maxAge: WEEKLY },
-  { key: 'baci', sources: ['baci'], kind: 'year', maxAge: MONTHLY },
+  { key: 'baci', sources: ['baci'], kind: 'year', maxAge: MONTHLY, manual: true },
   { key: 'usgs-mcs', sources: ['usgs-mcs'], kind: 'edition', maxAge: MONTHLY },
   { key: 'usda-psd', sources: ['usda-psd'], kind: 'marketing-year', maxAge: MONTHLY },
   { key: 'eia-intl', sources: ['eia-intl'], kind: 'publisher-update', maxAge: MONTHLY },
@@ -105,14 +120,14 @@ function monthLate(ym: string, now: number): boolean {
 
 /** End of the data, for the series the status file dates itself (daily and monthly series). */
 function dataToText(t: Tracked, e: RawEntry): string | null {
-  const d = e.data_to ?? null;
+  const d = str(e.data_to);
   return d && (t.kind === 'day' || t.kind === 'month') ? fmtDate(d) : null;
 }
 
 /** Which release of an annual source is in use, in plain words. */
 function releaseText(t: Tracked, e: RawEntry): string | null {
-  const d = e.data_to ?? null;
-  const st = e.state ?? {};
+  const d = str(e.data_to);
+  const st = obj(e.state);
   switch (t.kind) {
     case 'edition': {
       if (!d) return null;
@@ -123,7 +138,7 @@ function releaseText(t: Tracked, e: RawEntry): string | null {
       // the bulk file carries the date the publisher last revised a series, not an end of period
       return d ? `Publisher revision of ${fmtDate(d)}` : null;
     case 'marketing-year':
-      return d ? `File runs to marketing year ${d}` : null;
+      return d ? `File includes projections to marketing year ${d}` : null;
     case 'year':
       return typeof st.version === 'string' ? `Version ${st.version.replace(/^V/, '')}` : null;
     default:
@@ -132,26 +147,35 @@ function releaseText(t: Tracked, e: RawEntry): string | null {
 }
 
 function clean(raw: RawStatus, now: number): StatusView {
-  const src = raw.sources ?? {};
+  const src = obj(raw.sources);
   const rows: Freshness[] = [];
   for (const t of TRACKED) {
-    const e = src[t.key];
-    if (!e) continue;
-    const checked = e.last_success ?? null;
-    const fails = Number(e.consecutive_failures ?? 0);
-    const limit = Number(e.alert_after ?? 3);
+    const e = obj(src[t.key]) as RawEntry;
+    if (!src[t.key] || typeof src[t.key] !== 'object') continue;
+    const checked = str(e.last_success);
+    const dataTo = str(e.data_to);
+    const fails = count(e.consecutive_failures, 0);
+    const limit = count(e.alert_after, 3);
     let health: Health = 'ok';
     let why: string | undefined;
-    if (fails >= limit) {
+    if (t.manual) {
+      health = 'manual';
+      why = 'New versions are fetched by hand, because the publisher can refuse automated downloads. The site keeps the last good data.';
+    } else if (fails >= limit) {
       health = 'failing';
       why = `The last ${fails} scheduled checks did not complete. The site keeps the last good data.`;
     } else if (!checked || ageDays(checked, now) > t.maxAge) {
-      health = 'stale';
-      why = checked ? `No successful check for more than ${t.maxAge} days.` : 'No successful check recorded.';
-    } else if (e.data_to && t.kind === 'day' && ageDays(e.data_to, now) > DAY_LAG) {
+      if (t.optional && fails === 0) {
+        health = 'unconfigured';
+        why = 'This optional series is fetched only when a free FRED API key is set. The site keeps the last values fetched.';
+      } else {
+        health = 'stale';
+        why = checked ? `No successful check for more than ${t.maxAge} days.` : 'No successful check recorded.';
+      }
+    } else if (dataTo && t.kind === 'day' && ageDays(dataTo, now) > DAY_LAG) {
       health = 'stale';
       why = `The latest data are more than ${DAY_LAG} days old.`;
-    } else if (e.data_to && t.kind === 'month' && monthLate(e.data_to, now)) {
+    } else if (dataTo && t.kind === 'month' && monthLate(dataTo, now)) {
       health = 'stale';
       why = 'A newer month should have been published by now.';
     }
@@ -163,25 +187,28 @@ function clean(raw: RawStatus, now: number): StatusView {
       checked,
       health,
       why,
-      retrying: fails > 0 && fails < limit,
+      retrying: !t.manual && fails > 0 && fails < limit,
     });
   }
-  const rebuilt = [src['build-commodities']?.last_success, src['build-profiles']?.last_success]
+  const rebuilt = [obj(src['build-commodities']).last_success, obj(src['build-profiles']).last_success]
+    .map(str)
     .filter((x): x is string => !!x)
     .sort()[0];
-  const ver = src.baci?.state?.version;
+  const ver = obj(obj(src.baci).state).version;
   return {
-    updated: raw.updated ?? null,
+    updated: str(raw.updated),
     rows,
     rebuilt: rebuilt ?? null,
     baciVersion: typeof ver === 'string' ? ver.replace(/^V/, '') : null,
-    faoChecked: src['faostat-wna']?.last_success ?? null,
+    faoChecked: str(obj(src['faostat-wna']).last_success),
   };
 }
 
 /** Load the status file and reduce it to what the site shows. Throws when the file cannot be read. */
 export async function loadStatus(now = Date.now()): Promise<StatusView> {
-  return clean(await load<RawStatus>('_status/updates.json'), now);
+  const raw = await load<unknown>('_status/updates.json');
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('status file is not an object');
+  return clean(raw as RawStatus, now);
 }
 
 // ---------------------------------------------------------------- vintages

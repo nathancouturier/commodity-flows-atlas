@@ -1040,12 +1040,41 @@
   .sheet-handle {
     min-height: 34px;
   }
-  /* a chokepoint marker is 16 px wide: a transparent ring around it makes the tap area 40 px */
+  /* a chokepoint marker is 16 px wide: a transparent ring around it makes the tap area 32 px. The ring is
+     kept small because markers sit 10 px apart at world zoom (Malacca and Singapore) and infrastructure
+     icons lie close to them: a wider ring would take their taps */
   .cp::before {
     content: '';
     position: absolute;
-    inset: -12px;
+    inset: -8px;
     border-radius: 50%;
+  }
+  /* the price drawer, the history slider and the banners' links: 34 px targets. Text links and the small
+     pills grow their tap area with padding that margins take back, so the layout does not move */
+  .pd-chip-main,
+  .pd-add,
+  .pd-lookup input,
+  .app .tl-range,
+  .app .dd > summary {
+    min-height: 34px;
+  }
+  .app .pd-clear,
+  .app .alert-links a,
+  .app .alert-links button,
+  .app .kpi-note-btn {
+    padding-block: 9px;
+    margin-block: -9px;
+  }
+  .app .alert-links a,
+  .app .alert-links button {
+    padding-inline: 4px;
+    margin-inline: -4px;
+  }
+  /* the share labels on the map are 22 px high: the same transparent ring as the chokepoints */
+  .share-label::before {
+    content: '';
+    position: absolute;
+    inset: -6px -3px;
   }
   .maplibregl-ctrl-group button {
     width: 36px !important;
@@ -1089,19 +1118,19 @@
   color: var(--ink-3);
 }
 
-/* previous / next event (touch only: the ticks are too close together for a finger) */
+/* previous / next event: the only way to reach an event whose tick lies under another one, and the
+   easy way on a touch screen. On a desktop it shares the caption row. */
 .tl-step {
-  flex: 1 0 100%;
+  flex: 1 1 320px;
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
-  margin-top: 2px;
 }
 .tl-step-btn {
   flex: none;
-  width: 34px;
-  height: 34px;
+  width: 24px;
+  height: 22px;
   display: grid;
   place-items: center;
   border-radius: 8px;
@@ -1125,6 +1154,14 @@
 /* touch: every tick is a 24 x 32 px target and the strip opens the event nearest to the finger;
    the visible mark keeps its size at the foot of the strip */
 @media (pointer: coarse) {
+  .tl-step {
+    flex: 1 0 100%;
+    margin-top: 2px;
+  }
+  .tl-step-btn {
+    width: 34px;
+    height: 34px;
+  }
   .tl-track {
     --tl-ticks-h: 32px;
     padding-top: 32px;

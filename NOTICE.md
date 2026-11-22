@@ -9,12 +9,31 @@ fonts used by the site are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 | What | Terms |
 |---|---|
-| Source code (`web/`, `pipeline/`, `.github/`) | MIT, see [LICENSE](LICENSE) |
+| Source code (`web/src`, `web/scripts`, `pipeline/**/*.py`, `.github/`) | MIT, see [LICENSE](LICENSE) and "Source code" below |
 | Figures computed by the atlas (source id `atlas`) and its lane and route geometry | CC BY 4.0, see below |
-| Infrastructure and company files adapted from Wikipedia | CC BY-SA 4.0, see below |
-| Each third-party dataset | The licence of its own source, see [DATA_SOURCES.md](DATA_SOURCES.md) |
+| Files adapted from Wikipedia (infrastructure, companies, events, vessel classes and others) | CC BY-SA 4.0, see below |
+| Each third-party dataset, and the caches and definition files that hold it | The licence of its own source, see [DATA_SOURCES.md](DATA_SOURCES.md) |
 | Third-party material cited, not redistributed | Not licensed by the atlas, see "Cited, not redistributed" |
 | Software packages and fonts | Their own licences, see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) |
+
+## Source code: MIT
+
+The MIT licence in [LICENSE](LICENSE) covers the source code: the files under `web/src` and `web/scripts` (with the
+build and configuration files of `web/`), the Python scripts `pipeline/**/*.py`, and `.github/` (workflows and actions).
+
+It does not cover data. Data files kept in the repository follow the terms of this notice, wherever they sit:
+
+- `data/` (the published files), as described in the sections below;
+- the curated definition files under `pipeline/`, which carry third-party or Wikipedia-derived content:
+  `pipeline/freight/events.json`, `alerts.json`, `chokepoints.json`, `vessel_classes.json`, `routes_def.json`,
+  `sources_freight.json`, `sources_chokepoints.json`, `pipeline/freight/NOTES_routes.md`,
+  `pipeline/infrastructure/sources_*.json` and `pipeline/companies/sources_companies.json`. The Wikipedia-derived
+  parts of them are CC BY-SA 4.0 (see below);
+- the caches in `pipeline/cache/`: `baci_flows.csv.gz`, `hs4_exports.csv.gz`, `hs4_exports_desc.csv`,
+  `sea_flows.csv.gz`, `seaborne_totals.json`, `baci_rice_forms.csv` and `baci_country_codes.csv` are derived from CEPII
+  BACI (Etalab Open Licence 2.0); `faostat_cocoa_production.csv` is FAOSTAT data (CC BY 4.0); `wna_uranium.json` is World
+  Nuclear Association data (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain);
+  `geom_cache.json` holds computed route geometry (see the next section).
 
 ## The atlas's own figures: CC BY 4.0
 
@@ -45,7 +64,14 @@ articles and their infoboxes):
   and `smelters.geojson`: 176 assets whose source id is `wikipedia`;
 - `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
 - the rows of `data/countries/profiles.json` whose source id is `wikipedia` (they repeat figures of the files above);
-- the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article.
+- the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
+- `data/freight/vessel-classes.json`: the size ranges and notes whose source id is `wikipedia-vessel-classes` or
+  `vessel-size-conventions` (articles Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Bulk carrier);
+- `data/freight/chokepoints.json`: the `limits` texts whose `limitsS` is `wikipedia-vessel-classes` (articles Malaccamax,
+  Sunda Strait, Lombok Strait, Drogden, Strait of Dover);
+- the notes of `data/freight/routes.json` and `data/infrastructure/lng.geojson` that say they take a fact or a
+  coordinate from a Wikipedia article (Handysize; Ras Laffan Industrial City);
+- the matching definition files under `pipeline/freight/` (see "Source code: MIT").
 
 The text was written by Wikipedia contributors and is licensed under the Creative Commons Attribution-ShareAlike 4.0
 International licence (<https://creativecommons.org/licenses/by-sa/4.0/>).
@@ -56,7 +82,8 @@ figures from other sources.
 
 **Credit.** Every Wikipedia-sourced asset and company keeps the `url` of the article it comes from (checked for
 all 176 assets and 231 companies); the infrastructure panel links it as "Open source page". The history tab of each
-article lists its authors. Event entries keep the article link in `src`.
+article lists its authors. Event entries keep the article link in `src`; vessel-class, chokepoint and route notes name
+the article in their text.
 
 **Share-alike.** The files listed above are shared under CC BY-SA 4.0, with the credit above. A figure in them that
 comes from another source keeps its own source id, and that source's terms.
@@ -129,6 +156,12 @@ C3, TD3C, BLNG1) and their definitions are taken from public pages and from the 
 Baltic definitions; the Baltic site refuses automated access, so no definition was read at its source and several
 are marked uncertain in `pipeline/freight/NOTES_routes.md` (TC20, TC21, TD6, TD15, S10 and port names). The Baltic
 indices and rate assessments are proprietary and are not shown.
+
+## Use of the data
+
+Not investment advice. Routes, lanes and distances are schematic and must not be used for navigation. The data are
+provided as is, without warranty of any kind. The full text is in the "Disclaimer" section of
+[README.md](README.md) and in the About window of the site.
 
 ## Questions of terms still open
 

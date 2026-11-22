@@ -50,9 +50,10 @@ To rebuild data, set up Python (3.12 in the workflows, 3.11 or later required):
 The usual order, from the repository root, is:
 
 1. `python pipeline/prices/fetch_prices.py` (prices) and `python pipeline/freight/fetch_portwatch.py` (chokepoint traffic);
-2. `python pipeline/annual/update_annual.py` downloads the yearly sources, then runs, in this order,
-   `pipeline/freight/build_lanes.py`, `pipeline/freight/build_freight.py`,
-   `pipeline/commodities/build_commodities.py` and `pipeline/commodities/build_profiles.py`;
+2. `python pipeline/annual/update_annual.py` downloads the yearly sources, then rebuilds what depends on
+   them: `pipeline/freight/build_lanes.py` and `pipeline/freight/build_freight.py` run when CEPII BACI has a new
+   version (or the previous run left them pending), and `pipeline/commodities/build_commodities.py` and
+   `pipeline/commodities/build_profiles.py` run when any annual source changed;
 3. `node web/scripts/validate-data.mjs` checks the result.
 
 The CEPII BACI trade database is a 2.4 GB download, reduced to `pipeline/cache/baci_flows.csv.gz` by
@@ -73,7 +74,7 @@ Three scheduled GitHub Actions workflows refresh the data. Each can also be star
 |---|---|---|
 | `update-prices.yml` | Tuesdays 17:43 | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
 | `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits |
-| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`build_lanes`, `build_freight`, `build_commodities` and `build_profiles` when present) |
+| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
 
 **Robustness.** Downloads (`pipeline/common/fetch.py`) use retries with exponential backoff and jitter,
 timeouts, a pause between requests to one host, resumable large files, atomic writes, and reject an HTML
@@ -93,13 +94,38 @@ when the source succeeds again. Issues must be enabled for the repository.
 Run a script locally from the repository root, for example `python pipeline/prices/fetch_prices.py`
 (`pip install -r pipeline/requirements.txt`). See `DATA_SOURCES.md` for every source.
 
+After any change to `data/sources.json`, regenerate the table of `DATA_SOURCES.md` with
+`python pipeline/common/sources_table.py` (`--check` exits 1 when the file is out of date). The check is not part of
+the deploy, so a stale table never blocks a release.
+
+**Search engines.** The site is served under a project path (`/commodity-flows-atlas/`), where crawlers do not read a
+`robots.txt`, so none is published (everything may be indexed). `web/public/sitemap.xml` is found only if it is
+submitted in the search engines' webmaster tools (for example Google Search Console). `404.html` finds the site root
+from the address it is served on, so it also works on a custom domain.
+
 ## Licence
 
-- **Code**: MIT, see [`LICENSE`](LICENSE).
+- **Code**: MIT, see [`LICENSE`](LICENSE). It covers the source code (the files under `web/src` and `web/scripts`,
+  `pipeline/**/*.py` and `.github/`); it does not cover data files. Curated data files under `pipeline/` (definition
+  files with third-party or Wikipedia-derived content) and the caches in `pipeline/cache/` follow the data terms of
+  [`NOTICE.md`](NOTICE.md).
 - **The atlas's own derived figures** (source id `atlas`: shares, estimates, computed totals, lane and route
   geometry): CC BY 4.0. Attribution: "Commodity Flows Atlas".
-- **Material adapted from Wikipedia** (the infrastructure files and `data/commodities/companies.json`):
-  CC BY-SA 4.0, shared under the same licence.
+- **Material adapted from Wikipedia** (the infrastructure files, `data/commodities/companies.json`, the
+  Wikipedia-sourced events, vessel-class and chokepoint notes; the list is in [`NOTICE.md`](NOTICE.md)): CC BY-SA 4.0,
+  shared under the same licence.
 - **Each third-party dataset keeps the licence of its source**, listed in `DATA_SOURCES.md`. Details, credits and the
   position on material that is cited rather than redistributed are in [`NOTICE.md`](NOTICE.md); the licences of the
   software packages and fonts are in [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
+
+## Disclaimer
+
+- **Not investment advice.** The atlas is general information. Nothing in it is a recommendation to buy, sell or hold
+  anything, or a basis for a trading decision.
+- **Not for navigation.** Routes, lanes and distances are schematic. They are computed on a simplified sea network and
+  must not be used to plan a voyage.
+- **No warranty.** The data come from third parties and from the atlas's own estimates. They may contain errors or be
+  out of date, and are provided as is, without warranty of any kind.
+
+Boundaries and names on the map come from Natural Earth and do not imply any opinion on the status of a territory.
+The same text is in the About window of the site.

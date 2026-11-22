@@ -1,5 +1,0 @@
-# Commodity Flows Atlas: the whole site is public.
-User-agent: *
-Allow: /
-
-Sitemap: https://nathancouturier.github.io/commodity-flows-atlas/sitemap.xml

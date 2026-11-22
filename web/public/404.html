@@ -6,8 +6,10 @@
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#05080d" />
     <title>Page not found · Commodity Flows Atlas</title>
-    <!-- GitHub Pages serves this file for any unknown address under the site, at any depth: links are absolute -->
-    <link rel="icon" href="/commodity-flows-atlas/favicon.svg" type="image/svg+xml" />
+    <!-- GitHub Pages serves this file for any unknown address under the site, at any depth, so relative links
+         cannot work. The site root is worked out in the script at the end: the first path segment on a
+         <user>.github.io project site, the host root on a custom domain. -->
+    <link id="icon" rel="icon" href="data:," type="image/svg+xml" />
     <style>
       html,
       body {
@@ -63,7 +65,15 @@
       </svg>
       <h1>This page is not on the map</h1>
       <p>The address does not match anything in Commodity Flows Atlas. The atlas is a single page: start from the map and pick a commodity, a country or a route.</p>
-      <a href="/commodity-flows-atlas/">Open the atlas</a>
+      <a id="home" href="/">Open the atlas</a>
     </main>
+    <script>
+      (function () {
+        var seg = location.pathname.split('/')[1];
+        var base = /\.github\.io$/.test(location.hostname) && seg ? '/' + seg + '/' : '/';
+        document.getElementById('home').href = base;
+        document.getElementById('icon').href = base + 'favicon.svg';
+      })();
+    </script>
   </body>
 </html>

@@ -1,6 +1,6 @@
 /** Small shared UI primitives: switches, ranked bars, KPI tiles, source lines. */
 import type { ComponentChildren } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../types';
 import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
 import { fmt, pct, fig as fmtFig } from '../lib/format';
@@ -212,16 +212,54 @@ export function AlertBanners(props: AlertProps) {
   );
 }
 
+/** Smallest size a key figure shrinks to before it is allowed to wrap, px. */
+const KPI_MIN_PX = 12;
+
+/**
+ * A key figure stays on one line: when it is wider than its card it shrinks to fit, and only below
+ * KPI_MIN_PX does it wrap (a figure is never cut). Refits when the card changes width.
+ */
+function useFitOneLine(text: string) {
+  const ref = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let lastW = -1;
+    const fit = () => {
+      lastW = el.clientWidth;
+      el.style.fontSize = '';
+      el.style.whiteSpace = 'nowrap';
+      if (el.scrollWidth <= el.clientWidth) {
+        el.style.whiteSpace = '';
+        return;
+      }
+      const full = parseFloat(getComputedStyle(el).fontSize);
+      const px = Math.floor(((full * el.clientWidth) / el.scrollWidth) * 10) / 10;
+      el.style.fontSize = `${Math.max(px, KPI_MIN_PX)}px`;
+      if (px >= KPI_MIN_PX) el.style.whiteSpace = '';
+      else el.style.whiteSpace = 'normal';
+    };
+    fit();
+    const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(() => el.clientWidth !== lastW && fit()) : null;
+    ro?.observe(el);
+    document.fonts?.ready.then(fit);
+    return () => ro?.disconnect();
+  }, [text]);
+  return ref;
+}
+
 export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: string; note?: string; title?: string; span?: boolean }) {
   const f = props.f;
   const [open, setOpen] = useState(false);
+  const valueText = props.value ?? fmtFig(f);
+  const valueRef = useFitOneLine(valueText);
   const title = props.title ?? (f ? `${f.s} · ${f.y}${f.n ? ' · ' + f.n : ''}` : undefined);
   const note = props.note;
   const long = !!note && note.length > 90;
   return (
     <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title}>
       <div class="kpi-label">{props.label}</div>
-      <div class="kpi-value">{props.value ?? fmtFig(f)}</div>
+      <div class="kpi-value" ref={valueRef}>{valueText}</div>
       {(f || props.sub) && (
         <div class="kpi-src">{props.sub ?? `${sources.value[f!.s]?.publisher ?? f!.s} · ${f!.y}`}</div>
       )}

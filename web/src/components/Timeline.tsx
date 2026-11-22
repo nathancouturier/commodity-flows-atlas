@@ -38,8 +38,9 @@ function yearFraction(date: string): number {
   return y + (t - Date.UTC(y, 0, 1) / 1000) / (365.25 * 86400);
 }
 
-/** How far from a tick, in px, a tap still opens its event. */
+/** How far from a tick, in px, a click or tap still opens its event: a finger is less exact than a mouse. */
 const TAP_REACH = 24;
+const CLICK_REACH = 5;
 
 export function Timeline() {
   const open = historyOpen.value;
@@ -77,6 +78,13 @@ export function Timeline() {
       year.value = null;
     }
   }, [open, last]);
+
+  // a year pasted or edited into the hash while the timeline is open is held to the years that have data
+  useEffect(() => {
+    if (!open || first == null || y == null) return;
+    if (y < first) year.value = first;
+    else if (y > last) year.value = last;
+  }, [open, first, last, y]);
 
   // phones and tablets: the bar takes the bottom edge, so the sheets sit above it (see --tl-h in drawers.css)
   // and the controls sheet folds to its handle while History is open
@@ -172,25 +180,33 @@ export function Timeline() {
     if (first != null && last != null && Number.isFinite(ey)) year.value = Math.min(Math.max(ey, first), last);
     select({ kind: 'event', id: e.id });
   };
-  // one handler for the whole strip. Mouse and keyboard open the tick they are on; a finger cannot aim at
-  // ticks a few px apart, so a tap anywhere on the strip opens the event nearest to it
+  // one handler for the whole strip: a click opens the event nearest to it, and clicking again on a spot where
+  // ticks overlap goes on to the next one. A tap is aimed with a finger, and browsers move its click onto
+  // the topmost overlapping tick, so both use where the pointer went down. Enter and Space open the focused tick.
   const onTicksClick = (ev: MouseEvent) => {
-    const btn = (ev.target as HTMLElement).closest<HTMLElement>('.tl-tick');
-    if (ev.detail === 0 || !TOUCH) {
+    if (ev.detail === 0) {
+      const btn = (ev.target as HTMLElement).closest<HTMLElement>('.tl-tick');
       const own = ticks.find((t) => t.e.id === btn?.dataset.id);
       if (own) openEvent(own.e);
       return;
     }
     const r = (ev.currentTarget as HTMLElement).getBoundingClientRect();
     if (!ticks.length || r.width <= 0) return;
-    // where the finger went down: browsers move the click of a tap onto the topmost overlapping tick
-    const p = ((downX.current ?? ev.clientX) - r.left) / r.width;
+    const x = (downX.current ?? ev.clientX) - r.left;
     downX.current = null;
-    const near = ticks.reduce((a, b) => (Math.abs(b.pos - p) < Math.abs(a.pos - p) ? b : a));
-    if (Math.abs(near.pos - p) * r.width <= TAP_REACH) openEvent(near.e);
+    const reach = TOUCH ? TAP_REACH : CLICK_REACH;
+    const near = ticks.filter((t) => Math.abs(t.pos * r.width - x) <= reach);
+    if (!near.length) return;
+    const cur = selection.peek();
+    const at = cur?.kind === 'event' ? near.findIndex((t) => t.e.id === cur.id) : -1;
+    const pick =
+      at >= 0
+        ? near[(at + 1) % near.length]
+        : near.reduce((a, b) => (Math.abs(b.pos * r.width - x) < Math.abs(a.pos * r.width - x) ? b : a));
+    openEvent(pick.e);
   };
 
-  // previous / next event (touch): from the open event, or else from the selected year
+  // previous / next event: from the open event, or else from the selected year
   const sel = selection.value;
   const selIdx = sel?.kind === 'event' ? ticks.findIndex((t) => t.e.id === sel.id) : -1;
   const after = ticks.findIndex((t) => t.frac >= cur);
@@ -293,7 +309,7 @@ export function Timeline() {
         {noData && !noDataOnTrack && <span class="tl-note">{noData}: events only, no flow data yet</span>}
         {k && metric.value !== 'none' && <span class="tl-note">Country colours: latest data, not by year</span>}
         {!TOUCH && <span class="tl-hint">Arrow keys step the year · ticks mark events</span>}
-        {TOUCH && ticks.length > 0 && (
+        {ticks.length > 0 && (
           <div class="tl-step">
             <button class="tl-step-btn" disabled={prevIdx < 0} aria-label="Previous event" onClick={() => openEvent(ticks[prevIdx].e)}>
               <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
@@ -304,7 +320,7 @@ export function Timeline() {
                   <span class="num">{selTick.e.date}</span> · {selTick.e.title}
                 </>
               ) : (
-                `${ticks.length} events: tap a tick or step through them`
+                `${ticks.length} events: pick a tick or step through them`
               )}
             </span>
             <button class="tl-step-btn" disabled={nextIdx < 0 || nextIdx >= ticks.length} aria-label="Next event" onClick={() => openEvent(ticks[nextIdx].e)}>
