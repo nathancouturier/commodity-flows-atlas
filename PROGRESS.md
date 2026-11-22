@@ -1,6 +1,6 @@
 # Commodity Flows Atlas — Progress
 
-_Last updated: 2026-11-22, about 1 h 30 min into the project_
+_Last updated: 2026-11-22, about 4 hours into the project_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -9,47 +9,58 @@ Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 | Phase | Scope | Status | Complete |
 |---|---|---|---|
 | 1 | Foundation: stack, map engine, data model, design system, Pages deploy | done, live | 100% |
-| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards | data done, interface in progress | 65% |
-| 3 | Key energy and metals: crude, products, LNG, coal, iron ore, copper + infrastructure + country profiles | data sources secured, starting | 10% |
-| 4 | Remaining commodities: other metals, softs, fertilisers | trade lanes already built for all | 10% |
-| 5 | History and prices: price charts with date selection, route history by year | route history data done (2005–2024) | 15% |
-| 6 | Automation: robust scheduled updates | not started | 0% |
-| 7 | Polish and fresh-eyes review | not started | 0% |
-| **Overall** | | | **~30%** |
+| 2 | Freight core: vessel classes, routes, shares, chokepoints, alternatives, freight cards, route finder | done, live | 95% |
+| 3 | Key energy and metals with infrastructure and country profiles | done, live; trader review pending | 85% |
+| 4 | Remaining commodities: other metals, softs, fertilisers | data and pages live for all 39 commodities | 80% |
+| 5 | History and prices: price charts with date lookup, route history by year | done, live | 85% |
+| 6 | Automation: scheduled robust updates | built and tested locally; first scheduled runs pending | 80% |
+| 7 | Polish, mobile, performance, accessibility, fresh-eyes review | starting | 10% |
+| **Overall** | | | **~80%** |
 
 ## Budget
 
-- Usage so far: roughly 15–20% of the first usage window (estimate; I cannot read the exact meter).
-- Heavy work is delegated to Sonnet subagents (coding, research) and Haiku (downloads).
-- On track to finish within two resets: **yes**, if phases 3–4 keep company and infrastructure
-  coverage focused on the assets that move markets.
+- Usage so far: roughly 45–55% of the first usage window (estimate).
+- On track to finish within two resets: **yes**. Remaining work is review, fixes and polish.
 
 ## Done since last update
 
-- **Phase 1 shipped**: Vite + Preact + TypeScript + MapLibre GL app, own Natural Earth base map
-  (no third-party tiles or keys), "Abyssal" dark design system, data model with source + year on
-  every figure, data validator in CI, GitHub Pages deploy (skips cleanly instead of failing).
-- **Freight data (Phase 2)**:
-  - CEPII BACI bilateral trade 2002–2024 extracted for 45 commodity groups (HS codes).
-  - Seaborne lanes for 32 commodity groups on real sea routes (searoute/Eurostat network), with
-    chokepoints crossed, Suez/Panama/Cape alternatives, typical vessel classes, 2005–2024 history.
-  - 101 freight routes: 60 Baltic Exchange benchmarks + 41 heavy non-benchmark routes, with share of
-    seaborne trade, estimated share of the vessel class's tonne-miles, alternative routing.
-  - 17 vessel classes with size, cargoes, draft and canal constraints.
-  - 16 chokepoints with IMF PortWatch weekly transits (2019 → 15 Nov 2026), EIA oil flows,
-    alternatives; 45 disruption events 2008–2026 (incl. the 2026 Hormuz closure and Red Sea).
-- Data quality fixes: Indonesian coal (HS 2701.19) included; tonnage re-estimated from value where
-  customs-reported tonnage is inconsistent (e.g. a 152 Mt UAE→Thailand crude record).
+- **Commodity data for all 39 commodities**:
+  - Production and reserves: USGS 2026 for minerals, EIA for oil, gas and coal.
+  - Agriculture: USDA PSD for 2025/26.
+  - Trade, flows and companies: CEPII BACI 2024.
+  - Cocoa: FAOSTAT. Uranium: WNA.
+  - Thermal coal trade comes from EIA's thermal-only split.
+- **Infrastructure**: 266 sourced assets, each with a source link:
+  - 27 oil and gas fields, 33 refineries, 67 LNG terminals and 29 pipelines.
+  - 43 mines, 10 smelters and 25 ports.
+  - 2026 status updates include Ras Laffan damage, Golden Pass start-up, Arctic LNG 2 sanctions and Cobre Panamá.
+- **Country profiles** for 139 countries:
+  - Ranked exports and imports by value, production shares, assets and companies.
+  - A light "country check" covers raw materials outside the main list, such as Botswana's diamonds.
+- **Interface**:
+  - Infrastructure layer with an icon per asset type, plus commodity and country pages.
+  - Price explorer: 36 World Bank monthly series since 1960 and 8 EIA daily series since 1986. You can look up any date, such as "1986".
+  - History timeline 2005–2024 with play and events.
+- **Automation**:
+  - Weekly price and PortWatch jobs, plus a monthly job for annual statistics that also checks for a new BACI version.
+  - Retries, validation, last-good fallback; an alert issue opens only after 3 consecutive failures of a source.
+- **Independent data audit**: 5 auditors, then a skeptic re-check of each issue; 24 issues confirmed and fixed:
+  - Taiwan was coded "S19" in customs data and its flows were missing.
+  - The tonnage repair rule distorted ore flows.
+  - VLCC and Capesize lanes ran through Panama.
+  - Russian load ports were wrong.
+  - Some facts were stale: Shell sold its Bukom refinery, and Sime Darby Plantation is now SD Guthrie.
 
-## Notes on data limits (no action needed)
+## Known data limits (no action needed)
 
-- Baltic Exchange index **values** (freight rates) are proprietary and are not shown; route
-  definitions are public. Freight rate history will rely on free proxies (see Phase 5).
-- The Baltic Exchange website blocks automated reading, so route definitions were verified from
-  secondary sources (Veson, Baltic circulars quoted in the press, CFTC filings). Marked in the data.
-- FRED and the NGA World Port Index did not respond from this machine today; FRED will be fetched by
-  GitHub Actions instead, and ports use the UN/LOCODE list bundled with the searoute package.
+- **Freight rates**: Baltic Exchange indices are proprietary and are not shown. As a free proxy, the US producer price index for deep-sea freight (FRED) is fetched by GitHub Actions, since FRED does not respond from the build machine.
+- **Crude and gas reserves**: not in EIA's free bulk file, so these sections are omitted.
+- **Metals consumption by country**: not freely published, so omitted.
+- **Uranium reserves**: omitted.
+- **Customs blind spots**: Iranian crude to China is largely undeclared since 2019, and the affected lanes are flagged. North American pipeline gas tonnage is understated in customs data, with a caveat shown.
+- **Infrastructure gaps**: some assets lack a sourced capacity and are listed without one. Global Energy Monitor's wiki blocks automated reading.
 
 ## Questions and actions for you
 
-- None blocking right now. GitHub Pages is enabled and deploying.
+- None blocking.
+- Optional: the scheduled update jobs push data commits to `main`. If you later add branch protection to `main`, allow GitHub Actions to push, or the updates will be recorded as failures (not emailed).
