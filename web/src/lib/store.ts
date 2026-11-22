@@ -147,6 +147,12 @@ export function writeHash() {
 }
 
 readHash();
+// a link pasted into the address bar (or an edited hash) re-applies the view; writeHash uses
+// replaceState, which does not fire hashchange, so there is no loop
+window.addEventListener('hashchange', () => {
+  selection.value = null;
+  readHash();
+});
 // a shared Freight-tab link opens with its routes and chokepoints visible
 if (family.value === 'freight') {
   flowsBeforeFreight = layers.value.flows;

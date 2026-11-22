@@ -16,6 +16,16 @@ function usePriceDrawer(): ((id: string) => void) | null {
   return (id: string) => openPrices({ commodity: id });
 }
 
+/** What the main trade tables measure when it is not the finished commodity. */
+const TRADE_BASIS: Record<string, string> = {
+  copper: 'ores and concentrates (gross weight)',
+  nickel: 'ores (gross weight)',
+  zinc: 'ores and concentrates (gross weight)',
+  lead: 'ores and concentrates (gross weight)',
+  bauxite: 'bauxite ore',
+  'thermal-coal': 'thermal coal (EIA)',
+};
+
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
 
 
@@ -213,16 +223,21 @@ export default function CommodityView({ id }: { id: string }) {
               </Section>
             )}
             {d.exports && (
-              <Section title="Top exporters">
+              <Section title={`Top exporters${TRADE_BASIS[id] ? ` — ${TRADE_BASIS[id]}` : ''}`}>
                 <RankedBlock id={id} data={d.exports} color={color} />
               </Section>
             )}
+            {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
+              <Section title={x.title} key={x.key}>
+                <RankedBlock id={id} data={x.table} color={color} />
+              </Section>
+            ))}
             {d.imports && (
-              <Section title="Top importers">
+              <Section title={`Top importers${TRADE_BASIS[id] ? ` — ${TRADE_BASIS[id]}` : ''}`}>
                 <RankedBlock id={id} data={d.imports} color={color} />
               </Section>
             )}
-            {d.extra?.map((x) => (
+            {d.extra?.filter((x) => !x.key.endsWith('exports')).map((x) => (
               <Section title={x.title} key={x.key}>
                 <RankedBlock id={id} data={x.table} color={color} />
               </Section>

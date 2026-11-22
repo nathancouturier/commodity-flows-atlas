@@ -140,7 +140,21 @@ function sinceLabel(s: string): string {
  * Dated disruption banners. Alerts are matched by commodity, country, or chokepoint ids;
  * `status` are lane/route-specific notes, de-duplicated against the alerts by event id.
  */
-export function AlertBanners(props: { commodity?: string; country?: string; chokepoints?: string[]; status?: StatusNote[] }) {
+type AlertProps = { commodity?: string; country?: string; chokepoints?: string[]; status?: StatusNote[]; expanded?: boolean };
+
+function CollapsedAlerts(props: AlertProps & { count: number; high: boolean; titles: string[] }) {
+  const [open, setOpen] = useState(false);
+  if (open) return <AlertBanners {...props} expanded />;
+  return (
+    <button class={`alert alert-${props.high ? 'high' : 'medium'} alert-collapsed`} onClick={() => setOpen(true)} aria-expanded="false">
+      <b>Active disruptions ({props.count})</b>
+      <span>{props.titles.join(' · ')}</span>
+      <span class="alert-more">Show</span>
+    </button>
+  );
+}
+
+export function AlertBanners(props: AlertProps) {
   const all = useAlerts();
   const cps = props.chokepoints ?? [];
   const hit = all.filter(
@@ -159,6 +173,11 @@ export function AlertBanners(props: { commodity?: string; country?: string; chok
   // high severity first
   hit.sort((a, b) => (a.severity === b.severity ? 0 : a.severity === 'high' ? -1 : 1));
   if (!hit.length && !notes.length) return null;
+  const total = hit.length + notes.length;
+  if (total > 1 && !props.expanded) {
+    // several disruptions: one compact row, expandable, so the tables stay above the fold
+    return <CollapsedAlerts {...props} count={total} high={hit.some((a) => a.severity === 'high')} titles={hit.map((a) => a.title)} />;
+  }
   return (
     <div class="alerts">
       {hit.map((a) => (

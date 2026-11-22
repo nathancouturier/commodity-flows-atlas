@@ -114,8 +114,9 @@ registerLayerModule(() => {
       setLineSet('land', features);
       landFlowsShown.value = features.length;
       const hasLanes = laneCounts.some((n) => n > 0);
+      const cur = selection.peek();
       mapNotice.value =
-        !hasLanes && !features.length
+        !hasLanes && !features.length && !(cur && (cur.kind === 'lane' || cur.kind === 'route'))
           ? `No mapped seaborne or overland flows for ${meta?.name ?? k} in the open data${yr != null ? ` for ${yr}` : ''}.`
           : null;
     });

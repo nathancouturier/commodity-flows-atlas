@@ -18,6 +18,26 @@
   },
   "shares": [
    {
+    "k": "petroleum-liquids",
+    "f": {
+     "v": 4.9,
+     "u": "mb/d",
+     "y": "2Q26",
+     "s": "eia-tie",
+     "n": "EIA estimate via Rigzone, 12 Aug 2026"
+    }
+   },
+   {
+    "k": "petroleum-liquids",
+    "f": {
+     "v": 21.6,
+     "u": "mb/d",
+     "y": "4Q25",
+     "s": "eia-tie",
+     "n": "Pre-war level per EIA STEO, as reported by Rigzone"
+    }
+   },
+   {
     "k": "crude-oil",
     "f": {
      "v": 14.7,
@@ -47,26 +67,6 @@
     }
    },
    {
-    "k": "petroleum-liquids",
-    "f": {
-     "v": 21.6,
-     "u": "mb/d",
-     "y": "4Q25",
-     "s": "eia-tie",
-     "n": "Pre-war level per EIA STEO, as reported by Rigzone"
-    }
-   },
-   {
-    "k": "petroleum-liquids",
-    "f": {
-     "v": 4.9,
-     "u": "mb/d",
-     "y": "2Q26",
-     "s": "eia-tie",
-     "n": "EIA estimate via Rigzone, 12 Aug 2026"
-    }
-   },
-   {
     "k": "lng",
     "f": {
      "v": 20,
@@ -92,7 +92,7 @@
    "hormuz-memorandum-2026",
    "hormuz-collapse-2026"
   ],
-  "summary": "The only sea exit from the Persian Gulf, carrying about a fifth of world oil consumption and roughly a fifth of global LNG trade in 2024. Since the US-Israeli strikes on Iran in February 2026 it has been largely closed to commercial traffic, the largest oil supply disruption on record.",
+  "summary": "The only sea exit from the Persian Gulf, carrying about a fifth of world oil consumption and roughly a fifth of global LNG trade in 2024. Since the US-Israeli strikes on Iran on 28 February 2026 it has been largely closed to commercial traffic, the largest oil supply disruption on record.",
   "s": "eia-chokepoints"
  },
  {
@@ -225,6 +225,16 @@
   },
   "shares": [
    {
+    "k": "petroleum-liquids",
+    "f": {
+     "v": 5.8,
+     "u": "mb/d",
+     "y": "2Q26",
+     "s": "eia-tie",
+     "n": "EIA via Rigzone"
+    }
+   },
+   {
     "k": "crude-oil",
     "f": {
      "v": 2.8,
@@ -250,16 +260,6 @@
      "u": "mb/d",
      "y": 2024,
      "s": "eia-chokepoints"
-    }
-   },
-   {
-    "k": "petroleum-liquids",
-    "f": {
-     "v": 5.8,
-     "u": "mb/d",
-     "y": "2Q26",
-     "s": "eia-tie",
-     "n": "EIA via Rigzone"
     }
    }
   ],
@@ -303,6 +303,16 @@
   },
   "shares": [
    {
+    "k": "petroleum-liquids",
+    "f": {
+     "v": 8.1,
+     "u": "mb/d",
+     "y": "2Q26",
+     "s": "eia-tie",
+     "n": "EIA via Rigzone; higher because Saudi crude rerouted to Yanbu"
+    }
+   },
+   {
     "k": "crude-oil",
     "f": {
      "v": 2.4,
@@ -327,16 +337,6 @@
      "u": "mb/d",
      "y": 2024,
      "s": "eia-chokepoints"
-    }
-   },
-   {
-    "k": "petroleum-liquids",
-    "f": {
-     "v": 8.1,
-     "u": "mb/d",
-     "y": "2Q26",
-     "s": "eia-tie",
-     "n": "EIA via Rigzone; higher because Saudi crude rerouted to Yanbu"
     }
    }
   ],
@@ -617,6 +617,16 @@
   },
   "shares": [
    {
+    "k": "petroleum-liquids",
+    "f": {
+     "v": 9.4,
+     "u": "mb/d",
+     "y": "2Q26",
+     "s": "eia-tie",
+     "n": "EIA via Rigzone"
+    }
+   },
+   {
     "k": "crude-oil",
     "f": {
      "v": 6.1,
@@ -641,16 +651,6 @@
      "u": "mb/d",
      "y": 2024,
      "s": "eia-chokepoints"
-    }
-   },
-   {
-    "k": "petroleum-liquids",
-    "f": {
-     "v": 9.4,
-     "u": "mb/d",
-     "y": "2Q26",
-     "s": "eia-tie",
-     "n": "EIA via Rigzone"
     }
    }
   ],

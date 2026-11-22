@@ -366,7 +366,7 @@ export function PriceDrawer() {
                       onClick={() => setFocus(i)}
                     >
                       <i />
-                      <span class="pd-chip-name">{d.meta.name}</span>
+                      <span class="pd-chip-name" title={d.meta.name}>{d.meta.name}</span>
                       <small class="num" title={chartSeries[i]?.scale === 'y2' ? 'Plotted on the right axis' : undefined}>
                         {indexed ? 'index' : d.meta.unit}
                         {chartSeries[i]?.scale === 'y2' ? ' · R' : ''}

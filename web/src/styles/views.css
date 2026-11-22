@@ -181,3 +181,23 @@
 @media (max-width: 1024px) {
   .row-btn { padding: 8px 6px; }
 }
+
+
+/* ---- review fixes */
+.alert-collapsed {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+.alert-collapsed span {
+  color: var(--ink-1);
+  font-size: var(--fs-sm);
+}
+.alert-collapsed .alert-more {
+  margin-left: auto;
+  text-decoration: underline;
+}

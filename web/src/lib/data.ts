@@ -42,6 +42,9 @@ export async function loadCatalogue() {
   sources.value = Object.fromEntries(src.map((s) => [s.id, s]));
   commodities.value = com.sort((a, b) => a.rank - b.rank);
   countries.value = Object.fromEntries(ctry.map((c) => [c.c, c]));
+  // a link with an unknown commodity id (e.g. "#c=coal") falls back to the overview
+  const { commodity } = await import('./store');
+  if (commodity.value && !com.some((c) => c.id === commodity.value)) commodity.value = null;
 }
 
 export function countryName(iso3: string): string {

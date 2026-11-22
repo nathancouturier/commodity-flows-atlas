@@ -1334,3 +1334,10 @@ button {
 .rf-status-link:hover {
   color: var(--ink-0);
 }
+
+
+/* ---- review fixes: the closed detail panel sits off-screen; never let it widen the page */
+html,
+.app {
+  overflow: hidden;
+}

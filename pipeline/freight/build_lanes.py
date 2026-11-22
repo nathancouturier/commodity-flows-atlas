@@ -276,7 +276,7 @@ DISRUPTIONS = [
     ({"bab-el-mandeb", "suez"}, "red-sea-houthi-2023",
      "Drawn on the normal routing. Since December 2023 most of this traffic has diverted around the Cape of Good Hope because of attacks in the Red Sea; Suez transits were recovering in late 2026."),
     ({"hormuz"}, "iran-war-hormuz-2026",
-     "The Strait of Hormuz has been largely closed to commercial traffic since March 2026: volumes shown are the 2024 baseline."),
+     "The Strait of Hormuz has been largely closed to commercial traffic since the strikes of 28 February 2026: volumes shown are the 2024 pre-disruption baseline."),
 ]
 
 

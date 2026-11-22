@@ -782,3 +782,23 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ---- review fixes: wrap long source lines; the Go button reads as active */
+.pd-src {
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.pd-src > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.pd-go {
+  color: var(--ink-0);
+  background: var(--accent-soft);
+  border-color: rgba(62, 230, 255, 0.35);
+}
+.pd-go:disabled {
+  color: var(--ink-3);
+  background: none;
+  border-color: var(--hairline-strong);
+}
