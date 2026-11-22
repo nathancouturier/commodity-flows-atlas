@@ -152,14 +152,17 @@ def get_json(url, *, params=None, attempts=ATTEMPTS, min_interval=None):
 
 
 def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=False, min_interval=None,
-             chunk=1 << 20, timeout=None):
+             chunk=1 << 20, timeout=None, max_seconds=None):
     """
     Download ``url`` to ``dest`` atomically and return the file size in bytes.
 
     kind        expected type: "xlsx", "xls", "zip", "csv", "json" or None (no type check).
     min_bytes   smaller files are rejected (a stub or error page).
     resume      keep ``dest + '.part'`` between attempts and continue it with a Range request (large files).
+    max_seconds wall-clock limit per attempt (default 600 s; 3 h for resumable large files), so a server
+                that trickles bytes slower than the read timeout cannot stall a scheduled job.
     """
+    max_seconds = max_seconds or (3 * 3600 if resume else 600)
     dest = os.fspath(dest)
     part = dest + ".part"
     os.makedirs(os.path.dirname(os.path.abspath(dest)), exist_ok=True)
@@ -186,8 +189,11 @@ def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=Fal
                     expected = r.headers.get("Content-Length")
                     expected = int(expected) + have if expected and expected.isdigit() else None
                     first = None
+                    started = time.monotonic()
                     with open(part, mode) as fh:
                         for block in r.iter_content(chunk):
+                            if time.monotonic() - started > max_seconds:
+                                raise requests.Timeout(f"download exceeded {max_seconds} s")
                             if not block:
                                 continue
                             if first is None and mode == "wb":

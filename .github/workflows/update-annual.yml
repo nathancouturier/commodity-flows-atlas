@@ -34,9 +34,13 @@ jobs:
           node-version: 22
       - name: Install Python dependencies
         continue-on-error: true
+        timeout-minutes: 10
         run: pip install -r pipeline/requirements.txt || (sleep 30 && pip install -r pipeline/requirements.txt)
       - name: Update annual sources and rebuild dependent data
         continue-on-error: true
+        # a hung source must not hit the job timeout (that would fail the run and e-mail the owner):
+        # the step is stopped, recorded as failed, and the job still finishes green
+        timeout-minutes: 200
         run: python pipeline/annual/update_annual.py
       - name: Validate, commit, alert
         id: finish

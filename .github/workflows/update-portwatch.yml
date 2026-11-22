@@ -19,7 +19,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     outputs:
       deploy: ${{ steps.finish.outputs.deploy }}
     steps:
@@ -34,9 +34,13 @@ jobs:
           node-version: 22
       - name: Install Python dependencies
         continue-on-error: true
+        timeout-minutes: 10
         run: pip install -r pipeline/requirements.txt || (sleep 30 && pip install -r pipeline/requirements.txt)
       - name: Fetch PortWatch and rebuild chokepoint series
         continue-on-error: true
+        # a hung source must not hit the job timeout (that would fail the run and e-mail the owner):
+        # the step is stopped, recorded as failed, and the job still finishes green
+        timeout-minutes: 25
         run: python pipeline/freight/fetch_portwatch.py
       - name: Validate, commit, alert
         id: finish
