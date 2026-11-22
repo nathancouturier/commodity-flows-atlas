@@ -2551,6 +2551,8 @@
    }
   ],
   "notes": "First cargo (Winning Youth, ~200kt) sailed 2 Dec 2025 and arrived Majishan, Zhejiang on 17 Jan 2026; ramping through 2026.",
+  "shareNa": "The first Simandou cargo sailed in December 2025, so no Simandou volume exists in the 2024 customs data; the small Guinea to China iron-ore flow of that year is not Simandou ore",
+  "noHistory": true,
   "s": "simandou-news",
   "url": "https://gmk.center/en/news/the-first-commercial-shipment-of-iron-ore-from-simandou-has-departed-for-china/"
  },

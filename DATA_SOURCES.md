@@ -8,7 +8,7 @@ explained in `NOTICE.md`.
 <!-- sources:start -->
 <!-- Generated from data/sources.json by pipeline/common/sources_table.py. Do not edit by hand. -->
 
-31 sources are registered. Every one is free to read.
+32 sources are registered. Every one is free to read.
 
 Accounts and keys:
 - `fred`: Free FRED API key, created by the project owner and stored as the GitHub secret FRED_API_KEY; without it the series is skipped.
@@ -46,6 +46,7 @@ Accounts and keys:
 | `giignl-2026` | [GIIGNL Annual Report 2026 (2025 data): liquefaction and regasification tables, market and project narrative](https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf), GIIGNL (International Group of LNG Importers) | Public PDF, (c) GIIGNL; a few facts cited with attribution, nothing redistributed (terms to be confirmed) | Annual (2026 edition covers calendar 2025, with some 2026 events) | Public PDF report, read by hand | LNG liquefaction and regasification capacities |
 | `eia-briefs` | [EIA Today in Energy: US LNG export capacity and project status (2026 items)](https://www.eia.gov/todayinenergy/), U.S. Energy Information Administration | US Government public domain | Continuous | Web pages, read by hand | US LNG export capacity and project status |
 | `press-2026` | [2026 Gulf conflict status reporting (Bloomberg list via gCaptain, 11 Apr 2026; Cyprus Mail 12 Oct 2026)](https://gcaptain.com/heres-a-list-of-gulf-energy-infrastructure-damaged-in-iran-war/), Bloomberg / gCaptain / Cyprus Mail | Proprietary press; short facts cited with a link | Point-in-time (Apr and Oct 2026); status needs re-check | Web pages, read by hand | Status of Gulf energy infrastructure in 2026 |
+| `wikipedia-vessel-classes` | [Wikipedia ship-size and strait articles (Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)](https://en.wikipedia.org/wiki/Suezmax), Wikipedia contributors | CC BY-SA 4.0 (Wikipedia) | irregular |  |  |
 <!-- sources:end -->
 
 Sources read by hand (web pages, reports) are cited per figure or per asset with their own link; they

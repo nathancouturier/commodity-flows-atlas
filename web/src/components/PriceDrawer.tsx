@@ -36,7 +36,7 @@ import {
   type ParsedDate,
   type PriceMeta,
 } from '../lib/prices';
-import { TimeChart, parseDate, type TimeMarker, type TimeSeries } from './charts/TimeChart';
+import { TimeChart, parseDate, parseEnd, type TimeMarker, type TimeSeries } from './charts/TimeChart';
 import { CloseIcon } from './ui';
 import type { Family, FreightEvent } from '../types';
 import '../styles/drawers.css';
@@ -150,8 +150,9 @@ export function PriceDrawer() {
       setOpenedFor(k ?? null);
       if (req.series?.length) next = req.series.slice(0, MAX_SERIES);
       else if (k && !seriesForCommodity(k).length) {
-        // no series for this commodity: say so, and never fall back to another commodity's price
+        // no series for this commodity: say so, and never show another commodity's price, even an earlier selection
         setNoSeries(lowerName(commodityMeta(k)?.name ?? k));
+        next = [];
       } else if (!cur.length) next = defaultSeriesIds(k);
       else if (k && !cur.some((id) => priceIndex.value.find((m) => m.id === id)?.k === k)) next = defaultSeriesIds(k);
       if (next.join() !== cur.join()) {
@@ -317,7 +318,7 @@ export function PriceDrawer() {
     if (showEvents && merged) {
       for (const e of events) {
         const t = parseDate(e.date);
-        const end = e.end ? parseDate(e.end) : undefined;
+        const end = e.end ? parseEnd(e.end) : undefined;
         if ((end ?? t) < xMin || t > xMax) continue;
         m.push({ t, end, id: e.id, title: `${eventDate(e.date)}${e.end ? ' to ' + eventDate(e.end) : ''} · ${e.title}`, tag: e.kind, color: EVENT_COLOR[e.kind], subtle: true });
       }
@@ -482,11 +483,6 @@ export function PriceDrawer() {
               </button>
             </div>
 
-            {noSeries && data.length > 0 && (
-              <div class="pd-note" role="status">
-                No free price series for {noSeries} yet. The chart shows your previous selection: {data.map((d) => d.meta.name).join(', ')}.
-              </div>
-            )}
             {!noSeries && openedFor && PRICE_COVERAGE_NOTE[openedFor] && data.some((d) => d.meta.k === openedFor) && (
               <div class="pd-note" role="status">{PRICE_COVERAGE_NOTE[openedFor]}</div>
             )}
@@ -790,6 +786,8 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
   const on = (i: number) => fmtObsDate(d.x[i], f);
   return {
     ...row,
+    // the source publishes the observations, not this average
+    source: `average computed by the atlas from ${row.source}`,
     label: f === 'M' ? `${name} average of ${plural(st.n, d.meta.unit.startsWith('index') ? 'monthly value' : 'monthly average')}` : `${name} average`,
     value: fmtPrice(st.avg),
     detail: `low ${fmtPrice(st.min.v)} (${on(st.min.i)}) · high ${fmtPrice(st.max.v)} (${on(st.max.i)})${f === 'M' ? '' : ` · ${plural(st.n, 'daily price')}`}`,

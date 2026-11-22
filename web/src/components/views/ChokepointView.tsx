@@ -2,12 +2,12 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Chokepoint, ChokepointLanes, Fig, FreightEvent, PortwatchSeries } from '../../types';
 import { commodityMeta, countryName, load } from '../../lib/data';
-import { fig as fmtFig, fmt as fmtNum } from '../../lib/format';
+import { fig as fmtFig, fmt as fmtNum, pctText } from '../../lib/format';
 import { chokepointName, loadChokepoints, loadEvents, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
 import { getMap } from '../../map/controller';
 import { select } from '../../lib/store';
 import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
-import { TimeChart, DAY, YEAR, parseDate } from '../charts/TimeChart';
+import { TimeChart, DAY, YEAR, parseDate, parseEnd } from '../charts/TimeChart';
 import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
@@ -70,7 +70,7 @@ function LaneTable({ doc, id }: { doc: ChokepointLanes; id: string }) {
     const tot = doc.groups[g]?.seaborne;
     if (!tot) return '—';
     const p = (100 * v) / tot;
-    return p < 0.05 ? '<0.1%' : `${p.toFixed(1)}%`;
+    return pctText(p);
   };
   const shown = allGroups ? groups : groups.slice(0, TOP_GROUPS);
   const srcs = [...new Set(groups.map((x) => x.meta?.s).filter(Boolean))] as string[];
@@ -197,7 +197,7 @@ export default function ChokepointView({ id }: { id: string }) {
     () =>
       related.map((e) => ({
         t: parseDate(e.date),
-        end: e.end ? parseDate(e.end) : undefined,
+        end: e.end ? parseEnd(e.end) : undefined,
         title: `${fmtEventDate(e.date)} · ${e.title}`,
         color: EVENT_COLOR[e.kind],
       })),

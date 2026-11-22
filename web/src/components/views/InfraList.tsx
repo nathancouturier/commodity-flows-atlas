@@ -60,7 +60,8 @@ function buildGroups(items: InfraFeature[], commodity?: string): Group[] {
     blocks.set(key, b);
     byType.set(f.p.type, blocks);
   }
-  const kindOrder = (b: Block) => (b.cap.kind === 'own' ? 0 : b.cap.kind === 'cargo' ? 1 : 2);
+  // operating figures first, then planned / expected / licensed ones, then the assets without a figure
+  const kindOrder = (b: Block) => (b.cap.kind === 'none' ? 3 : b.cap.basis === 'planned' ? 2 : b.cap.kind === 'own' ? 0 : 1);
   const groups: Group[] = [];
   for (const type of INFRA_ORDER) {
     const blocks = byType.get(type);
@@ -84,10 +85,17 @@ function preview(groups: Group[], commodity: string | undefined, max: number): S
   const queues = groups.map((g) => {
     if (commodity) return g.blocks.flatMap((b) => b.rows);
     // country page: the leader of each commodity in turn, assets without a figure last
+    const turns = (bs: Block[]) => {
+      const out: Row[] = [];
+      for (let i = 0; bs.some((b) => i < b.rows.length); i++) for (const b of bs) if (b.rows[i]) out.push(b.rows[i]);
+      return out;
+    };
     const fig = g.blocks.filter((b) => b.key !== 'none');
-    const out: Row[] = [];
-    for (let i = 0; fig.some((b) => i < b.rows.length); i++) for (const b of fig) if (b.rows[i]) out.push(b.rows[i]);
-    return [...out, ...g.blocks.filter((b) => b.key === 'none').flatMap((b) => b.rows)];
+    return [
+      ...turns(fig.filter((b) => b.cap.basis !== 'planned')),
+      ...turns(fig.filter((b) => b.cap.basis === 'planned')),
+      ...g.blocks.filter((b) => b.key === 'none').flatMap((b) => b.rows),
+    ];
   });
   const picked = new Set<InfraFeature>();
   for (let i = 0; picked.size < max && queues.some((q) => i < q.length); i++) {
@@ -102,8 +110,12 @@ function blockLabel(b: Block, commodity: string | undefined, first: boolean, alo
     if (alone && !commodity) return null;
     return commodity ? `No ${lowerName(commodityMeta(commodity)?.name ?? commodity)} figure` : 'No capacity figure';
   }
-  if (c.kind === 'cargo') return 'All cargo of the port';
   const form = FORM_LABEL[c.form];
+  if (c.basis === 'planned') {
+    const what = c.kind === 'cargo' ? 'all cargo' : commodity ? '' : subjectName(c.subject ?? '');
+    return `Planned, expected or licensed${what ? `: ${what}` : ''}${form && c.kind !== 'cargo' ? `, ${form}` : ''}`;
+  }
+  if (c.kind === 'cargo') return 'All cargo of the port';
   if (commodity) return form ? cap1(form) : first ? null : 'Other unit';
   if (alone) return null;
   const name = subjectName(c.subject ?? '');

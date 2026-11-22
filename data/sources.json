@@ -312,7 +312,7 @@
  },
  {
   "id": "wikipedia-vessel-classes",
-  "name": "Wikipedia ship-size articles (Suezmax, Malaccamax, Q-Max, Handymax, Oil tanker)",
+  "name": "Wikipedia ship-size and strait articles (Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
   "publisher": "Wikipedia contributors",
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",

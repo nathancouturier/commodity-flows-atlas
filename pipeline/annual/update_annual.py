@@ -280,6 +280,12 @@ def src_baci(opts):
             os.remove(out)
             raise ValueError(f"extract looks wrong: {len(new)} rows to {new['year'].max()} vs {len(old)} to {old['year'].max()}")
     os.replace(out, old_path)
+    # paddy and husked rice, kept apart for the milled-equivalent rice flows; a failure here leaves the old file,
+    # and build_commodities.py then says that the rice flows stay at customs weight
+    try:
+        run([PY, os.path.join(ROOT, "pipeline", "commodities", "extract_rice_forms.py"), zpath], 3600)
+    except RuntimeError as e:
+        print("  rice forms extract failed, rice stays at customs weight:", e)
     return {"changed": True, "records": int(len(new)), "data_to": str(int(new["year"].max())), "state": {"version": latest}}
 
 

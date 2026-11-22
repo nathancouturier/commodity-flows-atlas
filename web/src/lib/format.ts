@@ -39,7 +39,9 @@ export function pct(share: number | null | undefined, positive = false): string 
 
 export function fig(f: Fig | undefined): string {
   if (!f) return '—';
-  return f.u === '%' ? pctText(f.v) : `${fmt(f.v)} ${f.u}`;
+  // a percentage a source publishes keeps its own precision; only the atlas's own shares follow the one-decimal rule
+  if (f.u === '%') return f.s === 'atlas' ? pctText(f.v) : `${fmt(f.v)}%`;
+  return `${fmt(f.v)} ${f.u}`;
 }
 
 /** "Source name, 2024" — used under every figure. */

@@ -545,7 +545,7 @@
 "Terminal draft and berth restrictions at some US/European terminals"
 ],
 "canals": {
-"suez": "Conventional carriers, Q-Flex and Q-Max transit laden (the first Q-Max, Mozah, transited Suez in January 2009: Wikipedia, Q-Max)",
+"suez": "Conventional carriers and Q-Flex transit laden. Q-Max: Wikipedia (Q-Max) says only that the first one, Mozah, transited the canal in January 2009, before its first cargo trip; it does not say whether laden. Check the Suez Canal Authority limits",
 "panama": "Conventional 174k cbm fits Neopanamax locks; Q-Flex fits; Q-Max too wide"
 },
 "routes": [

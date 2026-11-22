@@ -65,6 +65,11 @@ const GASES = ['natural-gas', 'lng'];
 
 /** Total port traffic: says how busy the port is, not how much of one commodity it handles. */
 const ALL_CARGO = /\bcargo\b|\bthroughput\b|\btonnage\b|^total\b/i;
+/** Wording that always means all traffic, whatever commodities the port is tagged with ("throughput" may be one commodity's). */
+const TOTAL_TRAFFIC = /^total\b|\btonnage\b/i;
+
+/** A figure that is not today's output or rated capacity: planned, expected, potential, a target or a licence limit. */
+const PLANNED = /\bplanned\b|\bexpected\b|\bpotential\b|ramp-up|\btarget\b|\bregulated\b|\blimit\b|\blicen[cs]ed\b/i;
 
 export type Form = 'product' | 'concentrate' | 'ore' | 'feed';
 
@@ -82,9 +87,11 @@ export interface CapacityRead {
   /** commodity the figure counts ('coal' and 'cereal' are group names), when known */
   subject?: string;
   form: Form;
+  /** planned: a figure of the planned / expected / potential / licensed kind, kept apart from operating figures */
+  basis: 'operating' | 'planned';
 }
 
-const NONE: CapacityRead = { kind: 'none', key: 'none', rank: 0, form: 'product' };
+const NONE: CapacityRead = { kind: 'none', key: 'none', rank: 0, form: 'product', basis: 'operating' };
 
 function concerns(subject: string, id: string): boolean {
   if (subject === 'coal') return COAL.includes(id);
@@ -115,12 +122,14 @@ export function readCapacity(p: InfraProps, id?: string): CapacityRead {
   const rank = c.v * (unit ? unit[2] : 1);
   const rest = unit ? u.slice(unit[0].length).replace(/^\/y/, '').trim() : u;
   const form = formOf(rest);
+  const basis = PLANNED.test(rest) ? 'planned' : 'operating';
+  const sfx = basis === 'planned' ? '|planned' : '';
   const main = p.k[0];
 
   let subject = SUBJECTS.find(([re]) => re.test(rest))?.[1];
   if (!subject) {
-    if (p.type === 'port' && ALL_CARGO.test(rest) && p.k.length !== 1) {
-      return { kind: 'cargo', key: `cargo|${dim}`, rank, form };
+    if (p.type === 'port' && (TOTAL_TRAFFIC.test(rest) || (ALL_CARGO.test(rest) && p.k.length !== 1))) {
+      return { kind: 'cargo', key: `cargo|${dim}${sfx}`, rank, form, basis };
     }
     const family = dim === 'liquid' ? LIQUIDS : dim === 'gas' || p.type === 'lng-export' || p.type === 'lng-import' ? GASES : null;
     if (family) {
@@ -133,5 +142,5 @@ export function readCapacity(p: InfraProps, id?: string): CapacityRead {
   }
   if (!subject) return NONE;
   if (id && !concerns(subject, id)) return { ...NONE, kind: 'other' };
-  return { kind: 'own', key: `${dim}|${subject}|${form}`, rank, subject, form };
+  return { kind: 'own', key: `${dim}|${subject}|${form}${sfx}`, rank, subject, form, basis };
 }

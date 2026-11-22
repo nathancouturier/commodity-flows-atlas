@@ -172,6 +172,14 @@ export function parseDate(s: string): number {
   return Date.UTC(Number(y), Number(m) - 1, Number(d)) / 1000;
 }
 
+/** End of a period given as "2026", "2026-02" or "2026-02-14": its last day ("2022-11" ends on 30 Nov). */
+export function parseEnd(s: string): number {
+  const [y, m, d] = s.split('-');
+  if (d) return parseDate(s);
+  if (m) return Date.UTC(Number(y), Number(m), 0) / 1000;
+  return Date.UTC(Number(y), 11, 31) / 1000;
+}
+
 function axisNum(v: number): string {
   const a = Math.abs(v);
   if (a >= 1e9) return `${+(v / 1e9).toFixed(1)}B`;

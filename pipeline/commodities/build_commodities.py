@@ -1115,7 +1115,7 @@ def main():
             if cid == "rice":
                 notes.append("PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures.")
                 notes.append(rice_note)
-                name_it(d, "flows", "Main flows — milled equivalent" if adjust else "Main flows — customs weight, paddy included")
+                name_it(d, "flows", "Main flows — paddy converted to milled equivalent" if adjust else "Main flows — customs weight, paddy included")
             if cid == "sugar":
                 notes.append("PSD sugar is centrifugal sugar in raw value (cane and beet); consumption is PSD 'Human Dom. Consumption'.")
             if cid == "soybeans":

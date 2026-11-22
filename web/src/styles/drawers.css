@@ -1246,9 +1246,29 @@
     border-radius: var(--r-lg);
   }
   .app.detail-open .side-panel,
-  .app.pd-open .side-panel {
+  .app.pd-open .side-panel,
+  .app.tl-open .side-panel {
     visibility: hidden;
     pointer-events: none;
+  }
+  /* the legend sits beside its button, and its height stops above the controls sheet (at most half the
+     screen high), so that it is never behind it; a long legend scrolls inside */
+  .app .legend-dock {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .app .legend-dock > .legend {
+    max-height: calc(50dvh - 70px);
+    overflow-y: auto;
+  }
+  /* the controls sheet at full height covers the whole map: the legend steps aside with it */
+  .app:has(.side-panel.snap-full:not(.collapsed)) .legend-dock {
+    visibility: hidden;
+  }
+  /* History: the caption and the event stepper share a row, so that the bar leaves the map its height */
+  .tl-step {
+    flex: 1 1 260px;
+    margin-top: 0;
   }
   /* clear of the zoom buttons, which sit to the left of the column */
   .app.detail-open .legend-dock {

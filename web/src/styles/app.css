@@ -851,6 +851,13 @@ button {
     transform: none;
   }
 
+  /* one sheet at a time: a detail page replaces the controls sheet at every position, so that no second
+     handle shows above it at peek and the map is not left behind a full-height controls sheet */
+  .app.detail-open .side-panel {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   /* the detail sheet snaps like the controls sheet: peek (title and first figures), half, full */
   .detail-panel {
     transition: transform var(--t-med) var(--ease), opacity var(--t-med), height var(--t-med) var(--ease), max-height var(--t-med) var(--ease);

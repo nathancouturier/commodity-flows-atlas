@@ -214,7 +214,7 @@ function Result({ row, benchmarks }: { row: Row; benchmarks: Route[] }) {
         {lane.shareDest != null && (
           <div>
             <dt>Share of {countryName(lane.d)}'s imports</dt>
-            <dd class="num">{pct(lane.shareDest)}</dd>
+            <dd class="num">{pct(lane.shareDest, lane.flow.v > 0)}</dd>
           </div>
         )}
         <div>

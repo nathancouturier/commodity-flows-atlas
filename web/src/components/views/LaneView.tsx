@@ -77,7 +77,7 @@ export default function LaneView({ id }: { id: string }) {
           )}
           <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           {lane.shareDest != null && (
-            <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
+            <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest, (flowV ?? 0) > 0)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
           )}
           <Kpi label="Distance" value={`${fmt(lane.distanceNm)} nm`} sub="Atlas routing" title="Along the mapped sea route" />
           <Kpi label="Laden days" value={`${fmt(lane.days)} d`} sub="Atlas estimate" title="At the typical laden speed of the primary vessel class" />

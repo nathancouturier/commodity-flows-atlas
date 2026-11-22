@@ -211,7 +211,7 @@ def main():
             out["shareNa"] = "Time-charter benchmark: it is priced between a delivery and a redelivery area, not for one country-pair flow"
         else:
             out["shareNa"] = "No country-pair corridor is attached to this route"
-        if any(hist_tot.values()):
+        if any(hist_tot.values()) and not r.get("noHistory"):
             series, spikes = BL.despike([round(hist_tot[y], 2) for y in years])
             out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None]
             if spikes:
