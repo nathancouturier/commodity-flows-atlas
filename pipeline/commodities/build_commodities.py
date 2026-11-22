@@ -41,10 +41,31 @@ CACHE = os.path.join(ROOT, "pipeline", "cache")
 DATA = os.path.join(ROOT, "data")
 OUT = os.path.join(DATA, "commodities")
 
-BACI_YEAR = 2024
-USGS_YEAR = "2025"
-PSD_MY = 2025
-PSD_LABEL = "2025/26"
+def _latest_inputs():
+    """Years and file names derived from the inputs, so the monthly job keeps working when sources roll over.
+
+    - BACI_YEAR: latest year in the BACI cache.
+    - USGS file: the newest MCS<yyyy>_Commodities_Data.csv; its tables report year yyyy-1 (estimates).
+    - PSD_MY: the market year before the newest one most crops have (the newest is an early forecast).
+    """
+    import glob as _g
+    by = int(pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"), usecols=["year"])["year"].max())
+    files = sorted(_g.glob(os.path.join(RAW, "usgs", "MCS*_Commodities_Data.csv")))
+    usgs_file = files[-1] if files else os.path.join(RAW, "usgs", "MCS2026_Commodities_Data.csv")
+    mcs = int(os.path.basename(usgs_file)[3:7])
+    psd_path = os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv")
+    my = 2025
+    if os.path.exists(psd_path):
+        x = pd.read_csv(psd_path, usecols=["Commodity_Description", "Market_Year"], encoding="latin-1")
+        crops = ["Wheat", "Corn", "Oilseed, Soybean", "Rice, Milled", "Cotton", "Sugar, Centrifugal", "Oil, Palm"]
+        newest = x[x["Commodity_Description"].isin(crops)].groupby("Commodity_Description")["Market_Year"].max()
+        if len(newest):
+            my = int(newest.median()) - 1
+    return by, str(mcs - 1), usgs_file, my
+
+
+BACI_YEAR, USGS_YEAR, USGS_FILE, PSD_MY = _latest_inputs()
+PSD_LABEL = f"{PSD_MY}/{(PSD_MY + 1) % 100:02d}"
 TOP = 12
 NFLOWS = 20
 
@@ -179,7 +200,7 @@ def total_of(rows):
 # ====================================================================== USGS
 class Usgs:
     def __init__(self):
-        d = pd.read_csv(os.path.join(RAW, "usgs", "MCS2026_Commodities_Data.csv"), encoding="latin-1", dtype=str)
+        d = pd.read_csv(USGS_FILE, encoding="latin-1", dtype=str)
         d = d[d["Section"].str.startswith("World") & d["Statistics"].isin(["Production", "Reserves"])]
         d["Value"] = d["Value"].fillna("").str.strip()
         d["Country"] = d["Country"].str.strip()
@@ -528,7 +549,7 @@ def wna_uranium():
 
 def faostat_cocoa():
     codes = {}
-    with open(os.path.join(RAW, "baci", "country_codes_V202601.csv"), encoding="utf-8") as f:
+    with open(os.path.join(CACHE, "baci_country_codes.csv"), encoding="utf-8") as f:  # committed copy of the BACI table
         for r in csv.DictReader(f):
             codes[int(r["country_code"])] = r["country_iso3"]
     fo_override = {}  # FAO M49 code -> ISO3 where it differs from the BACI numeric code
@@ -854,7 +875,7 @@ def main():
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
             seaborne(d, g)
-            notes.append("Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.")
+            notes.append(f"Flows are BACI calendar-{BACI_YEAR} customs flows; ranked trade tables are USDA PSD market-year {PSD_LABEL} (trader reference). Years differ.")
             if cid == "coffee":
                 notes.append("PSD coffee exports/imports include roasted and soluble coffee in green-bean equivalent; BACI flows are green beans only (HS 0901.11/12).")
             if cid == "rice":
