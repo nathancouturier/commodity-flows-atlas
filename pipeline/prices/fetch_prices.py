@@ -160,6 +160,32 @@ def fetch_eia(stage):
     return info, ("; ".join(errors)[:200] if errors else None), updated
 
 
+RAW_FRED = os.path.join(ROOT, "raw", "fred")
+FRED_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
+
+
+def fetch_fred(stage):
+    """Optional FRED series (freight cost proxy). Returns (info, error, n_updated)."""
+    from build_prices import FRED
+
+    updated, errors = 0, []
+    for sid in FRED:
+        tmp = os.path.join(stage, sid + ".csv")
+        try:
+            fetch.download(FRED_URL + sid, tmp, kind="csv", min_bytes=500)
+            with open(tmp) as f:
+                head = f.readline()
+            if sid not in head:
+                raise ValueError("unexpected CSV header: " + head[:80])
+        except (fetch.FetchError, ValueError, OSError) as e:
+            errors.append(f"{sid}: {e}")
+            print("  FRED", sid, "failed:", e)
+            continue
+        install(tmp, os.path.join(RAW_FRED, sid + ".csv"))
+        updated += 1
+    return {"records": updated}, ("; ".join(errors)[:200] if errors else None), updated
+
+
 def rebuild():
     """Run build_prices.py against raw/; restore data/prices from a backup when it fails."""
     with tempfile.TemporaryDirectory() as bk:
@@ -195,8 +221,13 @@ def main():
             eia, eia_err, eia_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
             traceback.print_exc()
 
+        try:
+            fred_info, fred_err, fred_updated = fetch_fred(stage)
+        except Exception as e:  # noqa: BLE001
+            fred_info, fred_err, fred_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
+
     build_err = None
-    if pink or eia_updated:
+    if pink or eia_updated or fred_updated:
         try:
             rebuild()
         except Exception as e:  # noqa: BLE001
@@ -213,6 +244,10 @@ def main():
         status.record_failure("eia-spot", eia_err)  # partial: some files updated, some failed
     else:
         status.record_failure("eia-spot", build_err or eia_err or "no EIA file updated")
+    if fred_updated and not build_err:
+        status.record_success("fred", records=fred_updated, note="updated")
+    else:
+        status.record_failure("fred", build_err or fred_err or "no FRED series updated")
     print("done")
 
 

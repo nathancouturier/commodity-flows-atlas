@@ -41,7 +41,9 @@ const RANGES = [
   { label: '20Y', seconds: 20 * 365.25 * DAY_S },
   { label: 'All', seconds: null as number | null },
 ];
-const FAMILY_ORDER: Family[] = ['energy', 'metals', 'softs'];
+const FAMILY_ORDER: Family[] = ['energy', 'metals', 'softs', 'freight'];
+/** Price series keyed 'freight' (freight cost proxies) have no catalogue commodity. */
+const famOf = (k: string): Family | undefined => (k === 'freight' ? 'freight' : commodityMeta(k)?.family);
 
 interface Lookup {
   query: string;
@@ -55,7 +57,7 @@ interface Win {
 function pickColors(list: PriceMeta[]): string[] {
   const used = new Set<string>();
   return list.map((m) => {
-    const fam = commodityMeta(m.k)?.family;
+    const fam = famOf(m.k);
     const pref = fam ? FAMILY_COLOR[fam] : undefined;
     const c = pref && !used.has(pref) && PALETTE.includes(pref) ? pref : PALETTE.find((p) => !used.has(p)) ?? PALETTE[0];
     used.add(c);
@@ -599,7 +601,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
     for (const fam of FAMILY_ORDER) {
       const items = props.meta.filter((m) => {
         const cm = commodityMeta(m.k);
-        if ((cm?.family ?? 'energy') !== fam) return false;
+        if ((famOf(m.k) ?? 'energy') !== fam) return false;
         if (!needle) return true;
         return `${m.name} ${cm?.name ?? ''} ${m.unit} ${m.id}`.toLowerCase().includes(needle);
       });

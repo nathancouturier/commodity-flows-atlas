@@ -82,7 +82,7 @@
     scrollbar-color: #2a3442 transparent;
   }
   .pd-main {
-    min-height: 250px;
+    min-height: 360px;
   }
   .pd-side {
     display: flex;

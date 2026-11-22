@@ -119,7 +119,7 @@ export function Timeline() {
     .map((f) => {
       const i = f.years.indexOf(cur);
       if (i < 0 || f.seaborne[i] == null) return null;
-      const label = files.length === 1 && f.group === k ? (commodityMeta(k)?.name ?? pretty(f.group)).toLowerCase() : pretty(f.label ?? f.group);
+      const label = files.length === 1 && f.group === k ? (commodityMeta(k)?.name ?? pretty(f.group)).toLowerCase() : pretty(f.label ?? f.group).toLowerCase();
       return { label, v: f.seaborne[i], u: f.unit, s: f.s };
     })
     .filter(Boolean) as { label: string; v: number; u: string; s: string }[];

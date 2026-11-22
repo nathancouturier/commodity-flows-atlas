@@ -73,6 +73,11 @@ EIA = {
     "EER_EPLLPA_PF4_Y44MB_DPGd": ("propane-mb-d", "lpg", "Propane, Mont Belvieu, daily spot", "USD/gal"),
 }
 
+# FRED monthly series (fetched in GitHub Actions; FRED may be unreachable elsewhere) -> raw/fred/<id>.csv
+FRED = {
+    "PCU483111483111": ("freight-ppi-m", "freight", "US producer price index, deep-sea freight transportation", "index (Dec 1988 = 100)"),
+}
+
 EPOCH = date(1970, 1, 1)
 
 
@@ -143,6 +148,24 @@ def eia(dirpath, metas):
         write(doc, meta, metas)
 
 
+def fred(dirpath, metas):
+    """Monthly FRED CSVs (observation_date,<ID>); missing values are '.'"""
+    import csv
+
+    for sid_fred, (sid, k, name, unit) in FRED.items():
+        p = os.path.join(dirpath, sid_fred + ".csv")
+        if not os.path.exists(p):
+            continue
+        rows = [r for r in csv.reader(open(p)) if r][1:]
+        pts = [(r[0][:7], num(r[1]) if r[1] != "." else None) for r in rows if len(r) > 1]
+        if not pts:
+            continue
+        doc = {"id": sid, "freq": "M", "start": pts[0][0], "v": [v for _, v in pts]}
+        meta = {"id": sid, "k": k, "name": name, "unit": unit, "freq": "M", "s": "fred", "start": pts[0][0], "end": pts[-1][0],
+                "note": "Proxy for freight costs: Baltic Exchange indices are proprietary"}
+        write(doc, meta, metas)
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     metas = []
@@ -151,6 +174,7 @@ def main():
         pink(sys.argv[1], metas)
     if os.path.isdir(sys.argv[2]):
         eia(sys.argv[2], metas)
+    fred(os.path.join(ROOT, "raw", "fred"), metas)
     # keep metadata of series that failed this run but have a previous good file
     old_path = os.path.join(OUT, "index.json")
     if os.path.exists(old_path):

@@ -368,6 +368,8 @@ export interface PriceSeriesMeta {
   s: string;
   start: string;
   end: string;
+  /** e.g. "Updated on November 03, 2026" */
+  note?: string;
 }
 
 /** Packed price series. Monthly: start "YYYY-MM" + consecutive values. Daily: d = days since 1970-01-01. */

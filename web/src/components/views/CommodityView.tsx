@@ -147,6 +147,8 @@ export default function CommodityView({ id }: { id: string }) {
         <div class="detail-kicker">{meta ? FAMILY_LABEL[meta.family] : 'Commodity'}</div>
         <h2 class="detail-title">{meta?.name ?? id}</h2>
         {meta?.blurb && <p class="muted" style={{ margin: '4px 0 0', fontSize: '13px' }}>{meta.blurb}</p>}
+      </div>
+      <div class="panel-scroll">
         {d?.summary && (
           <div class="kpis">
             {d.summary.production && <Kpi label="World production" f={d.summary.production} />}
@@ -161,8 +163,6 @@ export default function CommodityView({ id }: { id: string }) {
             Price history
           </button>
         )}
-      </div>
-      <div class="panel-scroll">
         {d === undefined ? (
           <Skeleton lines={8} />
         ) : d === null ? (
