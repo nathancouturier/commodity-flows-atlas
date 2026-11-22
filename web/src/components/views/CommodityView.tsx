@@ -1,18 +1,173 @@
-/** Global picture of one commodity: KPIs, ranked producers/exporters/importers, flows, companies. */
-import { useEffect, useState } from 'preact/hooks';
-import type { CommodityData } from '../../types';
-import { loadOptional, commodityMeta } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL } from '../../lib/format';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars } from '../ui';
+/// <reference types="vite/client" />
+/** Global picture of one commodity: KPIs, ranked countries, main flows, lanes, companies, infrastructure. */
+import { useEffect, useMemo, useState } from 'preact/hooks';
+import type { Company, CommodityData, Flow, LaneFile } from '../../types';
+import { loadOptional, commodityMeta, countryName, sourceLabel } from '../../lib/data';
+import { FAMILY_COLOR, FAMILY_LABEL, fmt } from '../../lib/format';
+import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
+import { layers, select, toggleLayer } from '../../lib/store';
+import { infraCapacity, infraColor, infraMatches, loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META } from '../ui';
+import { useLoaded } from './shared';
+
+// Price history button: only offered when lib/prices.ts exists and exports openPriceDrawer.
+const priceModules = import.meta.glob('../../lib/prices.ts') as Record<string, () => Promise<{ openPriceDrawer?: (id: string) => void }>>;
+const loadPriceModule = Object.values(priceModules)[0];
+
+function usePriceDrawer(): ((id: string) => void) | null {
+  const [fn, setFn] = useState<((id: string) => void) | null>(null);
+  useEffect(() => {
+    let live = true;
+    loadPriceModule?.()
+      .then((m) => {
+        const f = m.openPriceDrawer;
+        if (live && typeof f === 'function') setFn(() => f);
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, []);
+  return fn;
+}
+
+type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
+
+function CompanyRows(props: { title: string; list: Company[] }) {
+  const { list } = props;
+  if (!list.length) return null;
+  const yrs = list.map((c) => c.fig?.y ?? c.y).filter((y) => y != null);
+  return (
+    <div class="co-group">
+      <h4 class="route-sub">{props.title}</h4>
+      {list.map((c) => (
+        <RowBtn
+          key={c.name}
+          href={c.url}
+          tip={[c.s ? sourceLabel(c.s) : '', c.fig?.y ?? c.y].filter(Boolean).join(' · ')}
+          title={<>{c.name}{c.url && <span class="ext"> ↗</span>}</>}
+          sub={
+            <>
+              {[c.hq ? countryName(c.hq) : null, c.role].filter(Boolean).join(' · ')}
+              {c.detail && <span class="row-detail">{c.detail}</span>}
+            </>
+          }
+          meta={c.fig ? <>{fmt(c.fig.v)} {c.fig.u}<small>{c.fig.y}</small></> : undefined}
+        />
+      ))}
+      <SourceLine s={list[0].fig?.s ?? list[0].s} y={yrs.length ? [...new Set(yrs)].slice(0, 3).join(', ') : undefined} />
+    </div>
+  );
+}
+
+function FlowRows(props: { flows: Flow[] }) {
+  const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);
+  const first = rows[0];
+  return (
+    <>
+      {rows.map((f, i) => (
+        <RowBtn
+          key={`${f.o}-${f.d}-${i}`}
+          lead={<span class="bar-rank">{i + 1}</span>}
+          title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
+          sub={<ModeBadge mode={f.mode === 'sea' ? 'sea' : f.mode ? 'land' : undefined} />}
+          meta={<>{fmt(f.v)} {f.u}</>}
+          tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}`}
+          onClick={() => (f.lane ? select({ kind: 'lane', id: f.lane }) : select({ kind: 'country', id: f.o }))}
+        />
+      ))}
+      {first && <SourceLine s={first.s} y={first.y} n="bilateral flows, all transport modes" />}
+    </>
+  );
+}
+
+function LaneSummary({ id, color }: { id: string; color?: string }) {
+  const groups = LANE_GROUPS[id];
+  const files = useLoaded<LaneFile[]>(
+    () => (groups?.length ? Promise.all(groups.map((g) => loadLaneFile(g).catch(() => null))).then((r) => r.filter((x): x is LaneFile => !!x)) : Promise.resolve([])),
+    [id],
+  );
+  if (!files || !files.length) return null;
+  const on = layers.value.flows;
+  const total = files.reduce((n, f) => n + f.lanes.length, 0);
+  return (
+    <Section title="Seaborne lanes">
+      <div class="lane-sum">
+        <div class="lane-sum-n num" style={{ color }}>{total}</div>
+        <div class="lane-sum-t">mapped lane{total === 1 ? '' : 's'}</div>
+      </div>
+      <div class="ft" style={{ marginTop: '8px' }}>
+        {files.map((f) => {
+          const last = f.seaborne[f.seaborne.length - 1];
+          const yr = f.years[f.years.length - 1];
+          return (
+            <div class="ft-row ft-wide" key={f.group} title={`${sourceLabel(f.s)} · ${yr}`}>
+              <span class="ft-k">{f.label ?? f.group}</span>
+              <span class="num">
+                {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {f.lanes.length} lanes</span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      <SourceLine s={files[0].s} y={files[0].y} n="Atlas lane method, seaborne subset of customs flows" />
+      <button class="act-btn" disabled={on} onClick={() => toggleLayer('flows', true)}>
+        {on ? 'Lanes shown on the map' : 'Show lanes on the map'}
+      </button>
+    </Section>
+  );
+}
+
+function KeyInfra({ id }: { id: string }) {
+  const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
+  const on = layers.value.infrastructure;
+  const mine = useMemo(
+    () =>
+      (all ?? [])
+        .filter((f) => infraMatches(f.p.k, id))
+        .sort((a, b) => a.pri - b.pri || (b.p.capacity?.v ?? 0) - (a.p.capacity?.v ?? 0)),
+    [all, id],
+  );
+  if (!mine.length) return null;
+  return (
+    <Section title="Key infrastructure" aside={<span class="muted num">{mine.length}</span>}>
+      {mine.slice(0, 8).map((f) => (
+        <RowBtn
+          key={f.p.type + f.p.id}
+          lead={<InfraIcon type={f.p.type} color={infraColor(f)} size={22} />}
+          title={f.p.name}
+          sub={[INFRA_META[f.p.type].label, countryName(f.p.c), f.p.capacity ? infraCapacity(f.p) : null].filter(Boolean).join(' · ')}
+          tip={`${sourceLabel(f.p.s)} · ${f.p.y}`}
+          onClick={() => select(infraRef(f))}
+        />
+      ))}
+      <SourceLine s={mine[0].p.s} y={mine[0].p.y} n="capacity figures per asset in its own panel" />
+      <button class="act-btn" disabled={on} onClick={() => toggleLayer('infrastructure', true)}>
+        {on ? `${mine.length} asset${mine.length === 1 ? '' : 's'} shown on the map` : `Show ${mine.length} asset${mine.length === 1 ? '' : 's'} on the map`}
+      </button>
+    </Section>
+  );
+}
 
 export default function CommodityView({ id }: { id: string }) {
   const meta = commodityMeta(id);
   const [d, setD] = useState<CommodityData | null | undefined>(undefined);
+  const [co, setCo] = useState<CompanyMap | null>(null);
+  const openPrices = usePriceDrawer();
   useEffect(() => {
+    let live = true;
     setD(undefined);
-    loadOptional<CommodityData>(`commodities/${id}.json`).then(setD);
+    loadOptional<CommodityData>(`commodities/${id}.json`).then((x) => live && setD(x));
+    return () => {
+      live = false;
+    };
   }, [id]);
+  useEffect(() => {
+    loadOptional<CompanyMap>('commodities/companies.json').then(setCo);
+  }, []);
   const color = meta ? FAMILY_COLOR[meta.family] : undefined;
+  const companies = d?.companies ?? co?.[id];
+  const hasCo = !!companies && (companies.producers?.length || companies.processors?.length || companies.traders?.length);
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
@@ -28,6 +183,11 @@ export default function CommodityView({ id }: { id: string }) {
             {d.summary.seaborne && <Kpi label="Seaborne trade" f={d.summary.seaborne} />}
           </div>
         )}
+        {openPrices && (
+          <button class="act-btn act-prices" onClick={() => openPrices(id)}>
+            Price history
+          </button>
+        )}
       </div>
       <div class="panel-scroll">
         {d === undefined ? (
@@ -39,6 +199,11 @@ export default function CommodityView({ id }: { id: string }) {
             {d.production && (
               <Section title="Top producers">
                 <RankedBars data={d.production} color={color} />
+              </Section>
+            )}
+            {d.refinery && (
+              <Section title="Refinery / smelter output">
+                <RankedBars data={d.refinery} color={color} />
               </Section>
             )}
             {d.exports && (
@@ -59,6 +224,28 @@ export default function CommodityView({ id }: { id: string }) {
             {d.consumption && (
               <Section title="Top consumers">
                 <RankedBars data={d.consumption} color={color} />
+              </Section>
+            )}
+            {d.flows && d.flows.length > 0 && (
+              <Section title="Main flows">
+                <FlowRows flows={d.flows} />
+              </Section>
+            )}
+            <LaneSummary id={id} color={color} />
+            {hasCo && (
+              <Section title="Main companies">
+                <CompanyRows title="Producers" list={companies!.producers ?? []} />
+                <CompanyRows title="Processors" list={companies!.processors ?? []} />
+                <CompanyRows title="Traders" list={companies!.traders ?? []} />
+              </Section>
+            )}
+            <KeyInfra id={id} />
+            {((d.notes?.length ?? 0) > 0 || (d.discrepancies?.length ?? 0) > 0) && (
+              <Section title="Notes">
+                <ul class="bullets small-print">
+                  {d.notes?.map((n, i) => <li key={'n' + i}>{n}</li>)}
+                  {d.discrepancies?.map((n, i) => <li key={'d' + i} class="disc">Discrepancy: {n}</li>)}
+                </ul>
               </Section>
             )}
           </>

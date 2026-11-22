@@ -110,3 +110,22 @@ export const routeFinderOpen = signal(false);
 export const rfCommodity = signal<string>('thermal-coal');
 export const rfOrigin = signal<string | null>(null);
 export const rfDest = signal<string | null>(null);
+
+// ---------------------------------------------------------------- price explorer & history timeline
+/**
+ * Price drawer. `null` = closed. Set it (or call openPrices() from lib/prices.ts) to open the drawer:
+ * `{ commodity: 'copper' }` loads that commodity's price series, `{ series: ['brent-d'] }` an explicit list,
+ * `date` ("1986", "2008-03", "2008-03-14") also zooms to and reads out that date.
+ */
+export interface PriceDrawerState {
+  commodity?: string | null;
+  series?: string[];
+  date?: string;
+  /** changes on every open request so the drawer re-applies identical requests */
+  nonce?: number;
+}
+export const priceDrawer = signal<PriceDrawerState | null>(null);
+/** Selected price series ids (max 3), in display order. */
+export const priceSeries = signal<string[]>([]);
+/** History timeline open (drives `year` while open). */
+export const historyOpen = signal(false);

@@ -57,6 +57,10 @@ export interface Company {
   fig?: Fig;
   s?: string;
   y?: number | string;
+  /** source page */
+  url?: string;
+  /** commodity id(s) the company is listed for (country profiles) */
+  k?: string | string[];
 }
 
 /** A bilateral physical trade flow. */
@@ -96,6 +100,8 @@ export interface CommodityData {
   id: string;
   summary: Partial<Record<'production' | 'exports' | 'reserves' | 'consumption' | 'seaborne', Fig>>;
   production?: Ranked;
+  /** refinery / smelter output by country */
+  refinery?: Ranked;
   reserves?: Ranked;
   consumption?: Ranked;
   exports?: Ranked;
@@ -142,6 +148,8 @@ export interface ProfileEntry {
   y: number | string;
   s: string;
   n?: string;
+  /** trade value in bn USD, when known */
+  usd?: number;
 }
 
 // ---------------------------------------------------------------- freight
@@ -345,6 +353,10 @@ export interface InfraProps {
   note?: string;
   s: string;
   y: number | string;
+  /** countries crossed (pipelines) */
+  cs?: Iso3[];
+  /** source page */
+  url?: string;
 }
 
 export interface PriceSeriesMeta {

@@ -13,6 +13,7 @@ const RouteView = lazy(() => import('./views/RouteView'));
 const LaneView = lazy(() => import('./views/LaneView'));
 const ChokepointView = lazy(() => import('./views/ChokepointView'));
 const VesselView = lazy(() => import('./views/VesselView'));
+const InfraView = lazy(() => import('./views/InfraView'));
 const EventView = lazy(() => import('./views/EventView'));
 const GenericView = lazy(() => import('./views/GenericView'));
 
@@ -36,6 +37,8 @@ export function DetailPanel() {
               <LaneView id={s.id} />
             ) : s.kind === 'chokepoint' ? (
               <ChokepointView id={s.id} />
+            ) : s.kind === 'infra' ? (
+              <InfraView id={s.id} layer={s.layer} />
             ) : s.kind === 'vessel' ? (
               <VesselView id={s.id} />
             ) : s.kind === 'event' ? (

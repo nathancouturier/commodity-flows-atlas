@@ -13,6 +13,8 @@ export interface TimeSeries {
   label: string;
   values: (number | null)[];
   color: string;
+  /** y scale: 'y2' draws against a second axis on the right (default 'y') */
+  scale?: 'y' | 'y2';
 }
 
 export interface TimeMarker {
@@ -50,6 +52,18 @@ export interface TimeChartProps {
   showTotal?: boolean;
   /** decimals hint for the readout; default smart formatting */
   ariaLabel?: string;
+  /** y axis includes zero for positive data (default true); false fits the visible window (prices) */
+  yZero?: boolean;
+  /** built-in crosshair readout (default true) */
+  readout?: boolean;
+  /** "Drag to zoom" footer hint (default true when zoom is on) */
+  foot?: boolean;
+  /** controlled x window (seconds); applied on mount, on data change and whenever it changes */
+  view?: { min: number; max: number } | null;
+  /** called whenever the visible x window changes (zoom, ranges, view) */
+  onRange?: (min: number, max: number) => void;
+  /** called with the cursor index into `x` (null = cursor left the plot) */
+  onCursor?: (i: number | null) => void;
 }
 
 export const DAY = 86400;
@@ -95,6 +109,10 @@ export function TimeChart(props: TimeChartProps) {
   const [active, setActive] = useState<string | null>(initial ?? null);
   const markersRef = useRef<TimeMarker[]>([]);
   markersRef.current = markers ?? [];
+  const cbRef = useRef({ onRange: props.onRange, onCursor: props.onCursor, view: props.view });
+  cbRef.current = { onRange: props.onRange, onCursor: props.onCursor, view: props.view };
+  const yZero = props.yZero !== false;
+  const hasY2 = series.some((s) => s.scale === 'y2');
 
   const xMin = x[0];
   const xMax = x[x.length - 1];
@@ -127,6 +145,13 @@ export function TimeChart(props: TimeChartProps) {
     const el = host.current;
     if (!el || !x.length) return;
     const drawOrder = stacked ? [...series].reverse() : series;
+    const yRange = (mn: number, mx: number): [number, number] => {
+      if (!yZero && !stacked && !bars) {
+        const pad = (mx - mn) * 0.08 || Math.abs(mx) * 0.05 || 1;
+        return [mn - pad, mx + pad];
+      }
+      return [stacked || bars || mn > 0 ? Math.min(0, mn) : mn, mx + (mx - Math.min(0, mn)) * 0.08 || 1];
+    };
     const stepGuess = x.length > 1 ? (xMax - xMin) / (x.length - 1) : YEAR;
     const opts: uPlot.Options = {
       width: Math.max(220, el.clientWidth),
@@ -144,7 +169,8 @@ export function TimeChart(props: TimeChartProps) {
           time: true,
           range: bars ? (_u, mn, mx) => [mn - stepGuess / 2, mx + stepGuess / 2] : undefined,
         },
-        y: { range: (_u, mn, mx) => [stacked || bars || mn > 0 ? Math.min(0, mn) : mn, mx + (mx - Math.min(0, mn)) * 0.08 || 1] },
+        y: { range: (_u, mn, mx) => yRange(mn, mx) },
+        ...(hasY2 ? { y2: { range: (_u: uPlot, mn: number, mx: number) => yRange(mn, mx) } } : {}),
       },
       axes: [
         {
@@ -165,11 +191,27 @@ export function TimeChart(props: TimeChartProps) {
           gap: 4,
           values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
         },
+        ...(hasY2
+          ? [
+              {
+                scale: 'y2',
+                side: 1,
+                stroke: MUTED,
+                font: MONO,
+                grid: { show: false },
+                ticks: { show: false },
+                size: 44,
+                gap: 4,
+                values: (_u: uPlot, sp: number[]) => sp.map(axisNum),
+              } as uPlot.Axis,
+            ]
+          : []),
       ],
       series: [
         {},
         ...drawOrder.map((s) => ({
           label: s.label,
+          scale: s.scale ?? 'y',
           stroke: s.color,
           width: bars ? 0 : 1.5,
           fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
@@ -183,6 +225,7 @@ export function TimeChart(props: TimeChartProps) {
           (u) => {
             const i = u.cursor.idx;
             setIdx(i == null ? null : i);
+            cbRef.current.onCursor?.(i == null ? null : i);
             const left = u.cursor.left;
             let hit: TimeMarker | null = null;
             if (left != null && left >= 0) {
@@ -201,6 +244,7 @@ export function TimeChart(props: TimeChartProps) {
         setScale: [
           (u, key) => {
             if (key !== 'x') return;
+            cbRef.current.onRange?.(u.scales.x.min ?? xMin, u.scales.x.max ?? xMax);
             const e = expected.current;
             if (e && Math.abs((u.scales.x.min ?? 0) - e[0]) < 1 && Math.abs((u.scales.x.max ?? 0) - e[1]) < 1) return;
             setActive(null);
@@ -250,10 +294,15 @@ export function TimeChart(props: TimeChartProps) {
       window_(u, ranges?.find((r) => r.label === initial)?.seconds ?? null);
     });
     u.over.addEventListener('mouseleave', () => {
+      cbRef.current.onCursor?.(null);
       setIdx(null);
       setMk(null);
     });
-    if (initial) {
+    const v0 = cbRef.current.view;
+    if (v0) {
+      expected.current = [v0.min, v0.max];
+      u.setScale('x', { min: v0.min, max: v0.max });
+    } else if (initial) {
       const r = ranges?.find((r) => r.label === initial);
       if (r) window_(u, r.seconds);
     }
@@ -268,7 +317,19 @@ export function TimeChart(props: TimeChartProps) {
       uref.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, height, bars, stacked, zoom, xf]);
+  }, [data, height, bars, stacked, zoom, xf, yZero, hasY2]);
+
+  // controlled window
+  const vmin = props.view?.min;
+  const vmax = props.view?.max;
+  useEffect(() => {
+    const u = uref.current;
+    if (!u || vmin == null || vmax == null) return;
+    if (Math.abs((u.scales.x.min ?? 0) - vmin) < 1 && Math.abs((u.scales.x.max ?? 0) - vmax) < 1) return;
+    expected.current = [vmin, vmax];
+    u.setScale('x', { min: vmin, max: vmax });
+    setActive(null);
+  }, [vmin, vmax]);
 
   // redraw when markers change (e.g. loaded after the chart)
   useEffect(() => {
@@ -330,6 +391,7 @@ export function TimeChart(props: TimeChartProps) {
           )}
         </div>
       )}
+      {props.readout !== false && (
       <div class="tc-readout" aria-live="off">
         {i != null && x[i] != null ? (
           <>
@@ -352,6 +414,7 @@ export function TimeChart(props: TimeChartProps) {
           </>
         ) : null}
       </div>
+      )}
       <div class="tc-mk" style={{ visibility: mk ? 'visible' : 'hidden' }}>
         {mk ? (
           <>
@@ -363,7 +426,7 @@ export function TimeChart(props: TimeChartProps) {
         )}
       </div>
       <div ref={host} class="tc-plot" style={{ height: `${height}px` }} />
-      {zoom && <div class="tc-foot">Drag to zoom · double-click to reset</div>}
+      {zoom && props.foot !== false && <div class="tc-foot">Drag to zoom · double-click to reset</div>}
     </div>
   );
 }

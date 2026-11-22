@@ -14,13 +14,14 @@ import {
   panelCollapsed,
   selection,
   vesselClasses,
+  infraTypes,
   toggleInSet,
   type Metric,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
 import { SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, segmentOf, vesselClassList, vesselName } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
-import { Section, Switch } from './ui';
+import { Section, Switch, InfraIcon, INFRA_META, INFRA_ORDER } from './ui';
 import type { Family, Route, Segment } from '../types';
 
 const METRICS: { id: Metric; label: string }[] = [
@@ -53,6 +54,7 @@ export function SidePanel() {
             checked={layers.value.infrastructure}
             onChange={(v) => toggleLayer('infrastructure', v)}
           />
+          {layers.value.infrastructure && <InfraTypeChips />}
         </Section>
 
         {freight ? (
@@ -114,6 +116,30 @@ export function SidePanel() {
         )}
       </div>
     </aside>
+  );
+}
+
+/** Infrastructure type filter: empty selection = all types. */
+function InfraTypeChips() {
+  const sel = infraTypes.value;
+  return (
+    <div class="infra-filter">
+      <div class="chips">
+        {INFRA_ORDER.map((t) => (
+          <button class="chip chip-infra" key={t} aria-pressed={sel.has(t)} onClick={() => toggleInSet(infraTypes, t)} title={INFRA_META[t].label}>
+            <InfraIcon type={t} size={18} color={sel.has(t) ? '#3ee6ff' : '#b9c4d0'} />
+            {INFRA_META[t].plural}
+          </button>
+        ))}
+      </div>
+      <div class="infra-hint">
+        {sel.size ? (
+          <button class="link-btn" onClick={() => (infraTypes.value = new Set())}>Show all types</button>
+        ) : (
+          <span>All types shown. Pick one or more to filter.</span>
+        )}
+      </div>
+    </div>
   );
 }
 

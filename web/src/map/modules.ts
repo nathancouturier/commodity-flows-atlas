@@ -3,3 +3,4 @@ import './modules/choropleth';
 import './modules/lanes';
 import './modules/routes';
 import './modules/chokepoints';
+import './modules/infrastructure';
