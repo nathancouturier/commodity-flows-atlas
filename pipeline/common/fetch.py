@@ -106,7 +106,7 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
             r = _sess().request(method, url, params=params, headers=headers, timeout=timeout, stream=stream,
                                 allow_redirects=True)
         except requests.RequestException as e:
-            last = f"{e.__class__.__name__}: {_short(e)}"
+            last = e.__class__.__name__ + (" (timeout)" if isinstance(e, requests.Timeout) else "")
         else:
             if r.status_code in RETRY_STATUS:
                 last = f"HTTP {r.status_code}"
@@ -210,7 +210,7 @@ def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=Fal
                     os.remove(part)
                 raise
             except (requests.RequestException, OSError) as e:
-                last = f"{e.__class__.__name__}: {_short(e)}"
+                last = e.__class__.__name__ + (" (timeout)" if isinstance(e, requests.Timeout) else "")
                 if not resume and os.path.exists(part):
                     os.remove(part)
             finally:

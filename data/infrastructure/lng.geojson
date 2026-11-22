@@ -1,0 +1,2051 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ras-laffan-lng",
+    "name": "Ras Laffan LNG (Qatargas / RasGas)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "QAT",
+    "operator": "QatarEnergy LNG",
+    "capacity": {
+     "v": 77.0,
+     "u": "Mtpa"
+    },
+    "status": "damaged",
+    "note": "Iranian missiles hit Trains 4 and 6 on 18 Mar 2026 (12.8 Mtpa, ~16% of Qatar 2025 exports; repairs 3-5 years); output suspended 2 Mar and force majeure declared; Sept 2026 exports 1.6 Mt, October tracking 0.6 Mt (Kpler via Cyprus Mail, 12 Oct 2026). 77.0 Mtpa is pre-war nameplate; North Field East expansion delayed. Coordinates from Wikipedia (Ras Laffan Industrial City).",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     51.539,
+     25.857
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sabine-pass-lng",
+    "name": "Sabine Pass LNG (Cheniere)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Cheniere",
+    "capacity": {
+     "v": 30.0,
+     "u": "Mtpa"
+    },
+    "opened": 2016,
+    "status": "operating",
+    "note": "6 trains x 5.0 Mtpa nominal (sum of GIIGNL train figures); largest US plant. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.87,
+     29.735
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "corpus-christi-lng",
+    "name": "Corpus Christi LNG (Cheniere)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Cheniere",
+    "capacity": {
+     "v": 15.0,
+     "u": "Mtpa"
+    },
+    "opened": 2018,
+    "status": "operating",
+    "note": "Capacity is Stage 1 (3 x 5.0 Mtpa) only; Stage 3 midscale trains (1.5 Mtpa each, 2025+) are additional and still ramping. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -97.23,
+     27.88
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cameron-lng",
+    "name": "Cameron LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Cameron LNG (Sempra, TotalEnergies, Mitsui, Japan LNG Investment)",
+    "capacity": {
+     "v": 13.5,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "3 x 4.5 Mtpa (sum of GIIGNL train figures). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.35,
+     30.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "freeport-lng",
+    "name": "Freeport LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Freeport LNG",
+    "capacity": {
+     "v": 16.5,
+     "u": "Mtpa"
+    },
+    "opened": 2019,
+    "status": "operating",
+    "note": "3 x 5.5 Mtpa (sum of GIIGNL train figures); outage-prone since 2022. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -95.3,
+     28.94
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "calcasieu-pass-lng",
+    "name": "Calcasieu Pass LNG (Venture Global)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Venture Global",
+    "status": "operating",
+    "note": "Entered commercial operations 15 Apr 2025 after the long commissioning period; capacity not taken from the source table (ambiguous). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.34,
+     29.77
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "plaquemines-lng",
+    "name": "Plaquemines LNG (Venture Global)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Venture Global",
+    "capacity": {
+     "v": 11.3,
+     "u": "Mtpa"
+    },
+    "opened": 2025,
+    "status": "operating",
+    "note": "Phase 1 nominal 11.3 Mtpa per GIIGNL (EIA lists 2.6 Bcf/d nominal; exporting at full capacity per EIA); Phase 2 under construction. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -89.67,
+     29.37
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cove-point-lng",
+    "name": "Cove Point LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "Dominion/Berkshire Hathaway Energy and Brookfield",
+    "capacity": {
+     "v": 5.3,
+     "u": "Mtpa"
+    },
+    "opened": 2018,
+    "status": "operating",
+    "note": "Coordinates from Wikipedia.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -76.408,
+     38.389
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "golden-pass-lng",
+    "name": "Golden Pass LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "operator": "QatarEnergy (70%) and ExxonMobil (30%)",
+    "capacity": {
+     "v": 5.2,
+     "u": "Mtpa"
+    },
+    "opened": 2026,
+    "status": "operating",
+    "note": "Train 1 only (5.2 Mtpa); first LNG Mar 2026 and first exports Apr 2026 per EIA; Train 2 expected late 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.92,
+     29.77
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gorgon-lng",
+    "name": "Gorgon LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Chevron",
+    "capacity": {
+     "v": 15.6,
+     "u": "Mtpa"
+    },
+    "opened": 2016,
+    "status": "operating",
+    "note": "3 x 5.2 Mtpa; Barrow Island. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.45,
+     -20.8
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "wheatstone-lng",
+    "name": "Wheatstone LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Chevron",
+    "capacity": {
+     "v": 9.0,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "2 x 4.5 Mtpa. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.0,
+     -21.6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nws-lng",
+    "name": "North West Shelf LNG (Karratha)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Woodside",
+    "capacity": {
+     "v": 14.3,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "Nameplate cut from 16.9 to 14.3 Mtpa after Train 2 permanently shut in 2025 (declining feedgas). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.77,
+     -20.59
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pluto-lng",
+    "name": "Pluto LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Woodside",
+    "capacity": {
+     "v": 4.9,
+     "u": "Mtpa"
+    },
+    "opened": 2012,
+    "status": "operating",
+    "note": "Train 2 expansion (Scarborough) not included. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.75,
+     -20.61
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ichthys-lng",
+    "name": "Ichthys LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "INPEX",
+    "capacity": {
+     "v": 9.4,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "2 x 4.7 Mtpa; Darwin. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     130.89,
+     -12.49
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "prelude-flng",
+    "name": "Prelude FLNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Shell",
+    "capacity": {
+     "v": 3.6,
+     "u": "Mtpa"
+    },
+    "opened": 2019,
+    "status": "operating",
+    "note": "Floating LNG, Browse Basin. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     123.35,
+     -13.78
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qclng",
+    "name": "QCLNG (Curtis Island)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Shell/CNOOC",
+    "capacity": {
+     "v": 8.6,
+     "u": "Mtpa"
+    },
+    "opened": 2015,
+    "status": "operating",
+    "note": "2 x 4.3 Mtpa; Curtis Island, Gladstone. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.17,
+     -23.805
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "glng",
+    "name": "GLNG (Curtis Island)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Santos",
+    "capacity": {
+     "v": 7.8,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "2 x 3.9 Mtpa; Curtis Island, Gladstone. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.19,
+     -23.775
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aplng",
+    "name": "APLNG (Curtis Island)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AUS",
+    "operator": "Origin Energy (APLNG)",
+    "capacity": {
+     "v": 9.0,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "2 x 4.5 Mtpa; Curtis Island, Gladstone. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.205,
+     -23.758
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "png-lng",
+    "name": "PNG LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "PNG",
+    "operator": "ExxonMobil PNG Ltd",
+    "capacity": {
+     "v": 8.3,
+     "u": "Mtpa"
+    },
+    "opened": 2014,
+    "status": "operating",
+    "note": "Country total in GIIGNL table (2 trains x 4.1 Mtpa). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     146.9,
+     -9.35
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bintulu-mlng",
+    "name": "Malaysia LNG Bintulu (MLNG)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "MYS",
+    "operator": "Petronas",
+    "capacity": {
+     "v": 29.4,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "Sum of nine MLNG train figures in GIIGNL (excludes PFLNG Satu/Dua). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.05,
+     3.28
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bontang-lng",
+    "name": "Bontang LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IDN",
+    "operator": "Pertamina",
+    "status": "operating",
+    "note": "Trains F-H are 2.9 Mtpa each per GIIGNL; plant total not sourced (Train E not captured). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.5,
+     0.14
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tangguh-lng",
+    "name": "Tangguh LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IDN",
+    "operator": "BP (operator), Papua Barat",
+    "capacity": {
+     "v": 11.4,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "3 x 3.8 Mtpa. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     133.11,
+     -2.55
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yamal-lng",
+    "name": "Yamal LNG (Sabetta)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "RUS",
+    "operator": "Novatek",
+    "capacity": {
+     "v": 17.4,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "3 x 5.5 plus 0.9 Mtpa; EU banned Russian LNG transshipment via EU ports from Mar 2025. Coordinates from Wikipedia.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     72.073,
+     71.273
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sakhalin-2-lng",
+    "name": "Sakhalin-2 LNG (Prigorodnoye)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "RUS",
+    "operator": "Sakhalin Energy",
+    "capacity": {
+     "v": 10.8,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "2 x 5.4 Mtpa; Asian buyers, post-2022 ownership changes. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     143.0,
+     46.65
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arctic-lng-2",
+    "name": "Arctic LNG 2 (Gydan)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "RUS",
+    "operator": "Novatek",
+    "capacity": {
+     "v": 6.6,
+     "u": "Mtpa"
+    },
+    "opened": 2023,
+    "status": "operating",
+    "note": "Train 1 nameplate 6.6 Mtpa; Train 2 started May 2025. US-sanctioned; exported 1.3 Mt in 2025, all to China, with limited ice-class shipping. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.95,
+     70.85
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nigeria-lng",
+    "name": "Nigeria LNG (Bonny)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "NGA",
+    "operator": "NNPC Limited / Shell / TotalEnergies / Eni",
+    "capacity": {
+     "v": 22.2,
+     "u": "Mtpa"
+    },
+    "opened": 1999,
+    "status": "operating",
+    "note": "6 trains; Train 7 expansion to 30 Mtpa under way. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.15,
+     4.43
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hammerfest-lng",
+    "name": "Hammerfest LNG (Snohvit)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "NOR",
+    "operator": "Equinor",
+    "capacity": {
+     "v": 4.2,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "Single train; Europe's only Arctic LNG plant. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.595,
+     70.688
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arzew-lng",
+    "name": "Arzew LNG (GL1Z / GL2Z)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "DZA",
+    "operator": "Sonatrach",
+    "capacity": {
+     "v": 16.1,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "GL1Z 7.9 plus GL2Z 8.2 Mtpa (GIIGNL); excludes GL3Z. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.3,
+     35.84
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "idku-lng",
+    "name": "Idku LNG (ELNG)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "EGY",
+    "operator": "Egyptian LNG (Shell, Petronas, EGAS)",
+    "capacity": {
+     "v": 7.2,
+     "u": "Mtpa"
+    },
+    "opened": 2005,
+    "status": "operating",
+    "note": "2 x 3.6 Mtpa; Egypt returned to LNG imports in 2025. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     30.3,
+     31.31
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "oman-lng",
+    "name": "Oman LNG (Qalhat)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "OMN",
+    "operator": "Oman LNG",
+    "capacity": {
+     "v": 11.4,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "Country total in GIIGNL: Oman LNG 2 x 3.9 plus Qalhat LNG train; loads outside Hormuz (Gulf of Oman). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     59.4,
+     22.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "das-island-lng",
+    "name": "Das Island LNG (ADGAS)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ARE",
+    "operator": "ADNOC Gas",
+    "capacity": {
+     "v": 5.8,
+     "u": "Mtpa"
+    },
+    "opened": 1977,
+    "status": "operating",
+    "note": "Operating at low levels in 2026 because tankers cannot exit Hormuz (Bloomberg list, 11 Apr 2026). Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.87,
+     25.15
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "atlantic-lng",
+    "name": "Atlantic LNG (Point Fortin)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "TTO",
+    "operator": "Atlantic LNG",
+    "capacity": {
+     "v": 14.8,
+     "u": "Mtpa"
+    },
+    "status": "operating",
+    "note": "Country total in GIIGNL table. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.67,
+     10.17
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "angola-lng",
+    "name": "Angola LNG (Soyo)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "AGO",
+    "operator": "Angola LNG (Chevron-led)",
+    "capacity": {
+     "v": 5.2,
+     "u": "Mtpa"
+    },
+    "opened": 2013,
+    "status": "operating",
+    "note": "Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.37,
+     -6.13
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "coral-sul-flng",
+    "name": "Coral Sul FLNG (Rovuma Basin)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "MOZ",
+    "operator": "Eni",
+    "capacity": {
+     "v": 3.4,
+     "u": "Mtpa"
+    },
+    "opened": 2022,
+    "status": "operating",
+    "note": "First Mozambique LNG; TotalEnergies Mozambique LNG (12.8 Mtpa) resumed work after a 5-year suspension. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     41.0,
+     -11.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lng-canada",
+    "name": "LNG Canada (Kitimat)",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CAN",
+    "operator": "LNG Canada (Shell 40%)",
+    "capacity": {
+     "v": 14.0,
+     "u": "Mtpa"
+    },
+    "opened": 2025,
+    "status": "operating",
+    "note": "2 x 7.0 Mtpa; first West Coast Canadian LNG, started 2025. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -128.68,
+     54.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "futtsu-lng",
+    "name": "Futtsu LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "JPN",
+    "operator": "JERA",
+    "capacity": {
+     "v": 22.9,
+     "u": "Mtpa regas"
+    },
+    "opened": 1985,
+    "status": "operating",
+    "note": "World's largest single-owner power-sector LNG terminal. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.82,
+     35.31
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sodegaura-lng",
+    "name": "Sodegaura LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "JPN",
+    "operator": "Tokyo Gas / JERA",
+    "capacity": {
+     "v": 29.3,
+     "u": "Mtpa regas"
+    },
+    "opened": 1973,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.99,
+     35.46
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "negishi-lng",
+    "name": "Negishi LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "JPN",
+    "operator": "Tokyo Gas / JERA",
+    "capacity": {
+     "v": 11.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 1969,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.64,
+     35.4
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pyeongtaek-lng",
+    "name": "Pyeong-Taek LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "KOR",
+    "operator": "KOGAS",
+    "capacity": {
+     "v": 41.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 1986,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.85,
+     36.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "incheon-lng",
+    "name": "Incheon LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "KOR",
+    "operator": "KOGAS",
+    "capacity": {
+     "v": 54.9,
+     "u": "Mtpa regas"
+    },
+    "opened": 1996,
+    "status": "operating",
+    "note": "World's largest regasification terminal by capacity per GIIGNL. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.62,
+     37.4
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tongyeong-lng",
+    "name": "Tong-Yeong LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "KOR",
+    "operator": "KOGAS",
+    "capacity": {
+     "v": 26.5,
+     "u": "Mtpa regas"
+    },
+    "opened": 2002,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     128.43,
+     34.87
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dapeng-lng",
+    "name": "Dapeng LNG Terminal (GDLNG)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "Guangdong Dapeng LNG",
+    "capacity": {
+     "v": 6.8,
+     "u": "Mtpa regas"
+    },
+    "opened": 2006,
+    "status": "operating",
+    "note": "China's first LNG import terminal. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.52,
+     22.59
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tianjin-sinopec-lng",
+    "name": "Tianjin LNG (Sinopec, Nangang)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "Sinopec",
+    "capacity": {
+     "v": 10.8,
+     "u": "Mtpa regas"
+    },
+    "opened": 2018,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.65,
+     38.75
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rudong-lng",
+    "name": "Rudong LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "PetroChina",
+    "capacity": {
+     "v": 10.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 2011,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.2,
+     32.55
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qingdao-lng",
+    "name": "Qingdao LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "Sinopec",
+    "capacity": {
+     "v": 11.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 2014,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.9,
+     35.85
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "caofeidian-lng",
+    "name": "Caofeidian (Tangshan) LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "PetroChina",
+    "capacity": {
+     "v": 10.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 2013,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.45,
+     38.95
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yung-an-lng",
+    "name": "Yung-An LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "TWN",
+    "operator": "CPC",
+    "capacity": {
+     "v": 12.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 1990,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.2,
+     22.82
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taichung-lng",
+    "name": "Taichung LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "TWN",
+    "operator": "CPC",
+    "capacity": {
+     "v": 6.1,
+     "u": "Mtpa regas"
+    },
+    "opened": 2009,
+    "status": "operating",
+    "note": "Expansion of 1.9 Mtpa added in 2025 listed separately in source. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.48,
+     24.27
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dahej-lng",
+    "name": "Dahej LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IND",
+    "operator": "Petronet LNG",
+    "capacity": {
+     "v": 17.5,
+     "u": "Mtpa regas"
+    },
+    "opened": 2004,
+    "status": "operating",
+    "note": "India's largest LNG import terminal. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     72.55,
+     21.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hazira-lng",
+    "name": "Hazira LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IND",
+    "operator": "Shell Energy India",
+    "capacity": {
+     "v": 5.2,
+     "u": "Mtpa regas"
+    },
+    "opened": 2005,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     72.65,
+     21.1
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gate-rotterdam-lng",
+    "name": "Gate Terminal (Rotterdam)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "NLD",
+    "operator": "Gasunie / Vopak",
+    "capacity": {
+     "v": 9.9,
+     "u": "Mtpa regas"
+    },
+    "opened": 2011,
+    "status": "operating",
+    "note": "Fourth jetty FID in Q4 2025. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.07,
+     51.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zeebrugge-lng",
+    "name": "Zeebrugge LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "BEL",
+    "operator": "Fluxys LNG",
+    "capacity": {
+     "v": 11.3,
+     "u": "Mtpa regas"
+    },
+    "opened": 1987,
+    "status": "operating",
+    "note": "Key transshipment and reloading hub. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     3.2,
+     51.33
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dunkerque-lng",
+    "name": "Dunkerque LNG",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "FRA",
+    "operator": "Dunkerque LNG (EDF, Fluxys, TotalEnergies)",
+    "capacity": {
+     "v": 9.6,
+     "u": "Mtpa regas"
+    },
+    "opened": 2016,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2,
+     51.02
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "montoir-lng",
+    "name": "Montoir-de-Bretagne LNG",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "FRA",
+    "operator": "Elengy",
+    "capacity": {
+     "v": 8.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 1980,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -2.15,
+     47.3
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fos-cavaou-lng",
+    "name": "Fos Cavaou LNG",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "FRA",
+    "operator": "Elengy (Fosmax LNG)",
+    "capacity": {
+     "v": 8.0,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.87,
+     43.4
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "isle-of-grain-lng",
+    "name": "Isle of Grain (Grain LNG)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "GBR",
+    "operator": "National Grid Grain LNG",
+    "capacity": {
+     "v": 14.3,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "UK's largest LNG import terminal. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     0.72,
+     51.44
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "south-hook-lng",
+    "name": "South Hook LNG (Milford Haven)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "GBR",
+    "operator": "South Hook LNG (QatarEnergy-led)",
+    "capacity": {
+     "v": 15.6,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "Qatar-supplied; exposed to Qatari force majeure. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -5.07,
+     51.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "barcelona-lng",
+    "name": "Barcelona LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ESP",
+    "operator": "Enagas",
+    "capacity": {
+     "v": 12.6,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.16,
+     41.34
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sines-lng",
+    "name": "Sines LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "PRT",
+    "operator": "REN Atlantico",
+    "capacity": {
+     "v": 5.6,
+     "u": "Mtpa regas"
+    },
+    "opened": 2004,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -8.87,
+     37.95
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "swinoujscie-lng",
+    "name": "Swinoujscie LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "POL",
+    "operator": "GAZ-SYSTEM",
+    "capacity": {
+     "v": 6.1,
+     "u": "Mtpa regas"
+    },
+    "opened": 2016,
+    "status": "operating",
+    "note": "Poland's replacement for Russian pipeline gas. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.28,
+     53.9
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "klaipeda-lng",
+    "name": "Klaipeda LNG FSRU",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "LTU",
+    "operator": "KN Energies",
+    "capacity": {
+     "v": 2.9,
+     "u": "Mtpa regas"
+    },
+    "opened": 2014,
+    "status": "operating",
+    "note": "FSRU Independence (170,000 m3). Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     21.1,
+     55.72
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "wilhelmshaven-lng",
+    "name": "Wilhelmshaven FSRU terminals",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "DEU",
+    "operator": "Deutsche Energy Terminal (DET)",
+    "capacity": {
+     "v": 9.8,
+     "u": "Mtpa regas"
+    },
+    "opened": 2023,
+    "status": "operating",
+    "note": "Combined two FSRUs: Hoegh Esperanza 5.3 plus Excelerate Excelsior 4.5 Mtpa (sum of GIIGNL figures). Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.15,
+     53.52
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "brunsbuettel-lng",
+    "name": "Brunsbuettel FSRU (Hoegh Gannet)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "DEU",
+    "operator": "Deutsche Energy Terminal (DET)",
+    "capacity": {
+     "v": 3.8,
+     "u": "Mtpa regas"
+    },
+    "opened": 2023,
+    "status": "operating",
+    "note": "Stade FSRU not listed. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     9.15,
+     53.89
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "marmara-ereglisi-lng",
+    "name": "Marmara Ereglisi LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "TUR",
+    "operator": "BOTAS",
+    "capacity": {
+     "v": 8.8,
+     "u": "Mtpa regas"
+    },
+    "opened": 1994,
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     27.95,
+     40.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aliaga-lng",
+    "name": "Izmir Aliaga LNG Terminal (Egegaz)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "TUR",
+    "operator": "EgeGaz",
+    "capacity": {
+     "v": 10.7,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     26.93,
+     38.8
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ain-sokhna-lng",
+    "name": "Ain Sokhna FSRUs",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "EGY",
+    "operator": "EGAS",
+    "capacity": {
+     "v": 17.1,
+     "u": "Mtpa regas"
+    },
+    "status": "operating",
+    "note": "Three FSRUs x 5.7 Mtpa (Energos Power, Hoegh Galleon, Energos Eskimo); Egypt imports rose 6.7 Mt in 2025. Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.35,
+     29.6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "al-zour-lng",
+    "name": "Al-Zour LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "KWT",
+    "operator": "KIPIC",
+    "capacity": {
+     "v": 24.0,
+     "u": "Mtpa regas"
+    },
+    "opened": 2021,
+    "status": "operating",
+    "note": "Largest regas terminal in the Gulf; supplied by Qatar (about a third of Qatar's Sept 2026 exports went to Kuwait per Kpler). Capacity is regasification capacity (Mtpa) at end-2025 per GIIGNL 2026. Approximate location.",
+    "s": "giignl-2026",
+    "y": 2025,
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.38,
+     28.73
+    ]
+   }
+  }
+ ]
+}

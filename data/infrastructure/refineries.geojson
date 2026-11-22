@@ -1,0 +1,970 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jamnagar",
+    "name": "Jamnagar (Reliance)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "IND",
+    "operator": "Reliance Industries",
+    "capacity": {
+     "v": 1400,
+     "u": "kb/d"
+    },
+    "note": "World's largest refinery complex (Nelson complexity 21.1 per source); major product exporter. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.83,
+     22.35
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "paraguana",
+    "name": "Paraguana Refining Complex (Amuay/Cardon)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "VEN",
+    "operator": "PDVSA",
+    "capacity": {
+     "v": 940,
+     "u": "kb/d"
+    },
+    "opened": 1949,
+    "note": "Complex of Amuay and Cardon refineries; capacity per article, nameplate far above actual runs.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Paraguaná_refinery_complex"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -70.195,
+     11.747
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ulsan-sk",
+    "name": "Ulsan (SK Energy)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KOR",
+    "operator": "SK Energy",
+    "capacity": {
+     "v": 840,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     129.35,
+     35.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yeosu-gs",
+    "name": "Yeosu (GS Caltex)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KOR",
+    "operator": "GS Caltex",
+    "capacity": {
+     "v": 730,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     127.73,
+     34.85
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "onsan-soil",
+    "name": "Onsan (S-Oil)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KOR",
+    "operator": "S-Oil",
+    "capacity": {
+     "v": 669,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     129.33,
+     35.43
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-arthur-motiva",
+    "name": "Port Arthur (Motiva)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Saudi Aramco (Motiva)",
+    "capacity": {
+     "v": 730,
+     "u": "kb/d"
+    },
+    "opened": 1902,
+    "note": "Largest US refinery per Wikipedia list; coordinates from the Port Arthur Refinery article.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.963,
+     29.885
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "baytown-exxon",
+    "name": "Baytown (ExxonMobil)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "ExxonMobil",
+    "capacity": {
+     "v": 588,
+     "u": "kb/d"
+    },
+    "opened": 1919,
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Baytown_Refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -95.011,
+     29.739
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "garyville-mpc",
+    "name": "Garyville (Marathon)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Marathon Petroleum Corporation",
+    "capacity": {
+     "v": 597,
+     "u": "kb/d"
+    },
+    "opened": 1976,
+    "note": "Largest Marathon refinery; Mississippi River corridor.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Garyville_Refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.598,
+     30.06
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "galveston-bay-mpc",
+    "name": "Galveston Bay (Marathon, Texas City)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Marathon Petroleum Corporation",
+    "capacity": {
+     "v": 631,
+     "u": "kb/d"
+    },
+    "opened": 1933,
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Galveston_Bay_Refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.933,
+     29.378
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "beaumont-exxon",
+    "name": "Beaumont (ExxonMobil)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "ExxonMobil",
+    "capacity": {
+     "v": 630,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.07,
+     30.06
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "whiting-bp",
+    "name": "Whiting (BP)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "BP Products North America",
+    "capacity": {
+     "v": 450,
+     "u": "kb/d"
+    },
+    "opened": 1889,
+    "note": "Largest Midwest refinery; Canadian heavy crude outlet.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Whiting_Refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -87.479,
+     41.673
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lake-charles-citgo",
+    "name": "Lake Charles (Citgo)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Citgo",
+    "capacity": {
+     "v": 455,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.28,
+     30.22
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ruwais-adnoc",
+    "name": "Ruwais (ADNOC)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "ARE",
+    "operator": "ADNOC",
+    "capacity": {
+     "v": 817,
+     "u": "kb/d"
+    },
+    "note": "Two refineries; multiple fires from air-defence interception debris reported 5 Apr 2026 (Bloomberg list, 11 Apr 2026); current status not confirmed. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.73,
+     24.11
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zhoushan-zpc",
+    "name": "Zhejiang Petrochemical (ZPC), Zhoushan",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "operator": "Zhejiang Petrochemical",
+    "capacity": {
+     "v": 800,
+     "u": "kb/d"
+    },
+    "note": "Largest Chinese single-site refinery; 2 x 400 kb/d phases, phase 2 fully commissioned Jan 2021. Approximate location.",
+    "s": "trade-press",
+    "y": 2021,
+    "url": "https://ogj.com/general-interest/article/14178783/zpc-progresses-on-phase-2-of-zhoushan-integrated-refining-petchem-complex"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     122.17,
+     30.26
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hengli-dalian",
+    "name": "Hengli Petrochemical (Dalian)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "operator": "Hengli Petrochemical",
+    "capacity": {
+     "v": 400,
+     "u": "kb/d"
+    },
+    "note": "Private mega-refinery on Changxing Island; Platts lists 400 kb/d. Approximate location.",
+    "s": "trade-press",
+    "y": 2021,
+    "url": "https://www.spglobal.com/energy/en/news-research/latest-news/crude-oil/120221-refinery-news-roundup-plants-in-china-raise-runs"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.33,
+     39.6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jurong-exxon",
+    "name": "Jurong Island (ExxonMobil)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SGP",
+    "operator": "ExxonMobil",
+    "capacity": {
+     "v": 605,
+     "u": "kb/d"
+    },
+    "note": "Singapore is Asia's main product-trading hub. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.7,
+     1.27
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bukom-shell",
+    "name": "Pulau Bukom (Shell)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SGP",
+    "operator": "Shell",
+    "capacity": {
+     "v": 500,
+     "u": "kb/d"
+    },
+    "note": "Capacity entry carries a citation-needed flag on the source page. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.766,
+     1.234
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "al-zour-knpc",
+    "name": "Al-Zour (KNPC)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KWT",
+    "operator": "Kuwait National Petroleum Company",
+    "capacity": {
+     "v": 615,
+     "u": "kb/d"
+    },
+    "note": "Kuwait's newest export refinery; Kuwaiti refineries were hit by drones in Mar-Apr 2026 (Mina Al-Ahmadi, Mina Abdullah); Al-Zour not listed as hit. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.4,
+     28.72
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mina-al-ahmadi",
+    "name": "Mina Al-Ahmadi (KNPC)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KWT",
+    "operator": "Kuwait National Petroleum Company",
+    "capacity": {
+     "v": 466,
+     "u": "kb/d"
+    },
+    "note": "Hit by drone attacks on 19 Mar and 3 Apr 2026 with fires and partial unit shutdowns (Bloomberg list, 11 Apr 2026). Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.15,
+     29.06
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mina-abdullah",
+    "name": "Mina Abdullah (KNPC)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KWT",
+    "operator": "Kuwait National Petroleum Company",
+    "capacity": {
+     "v": 354,
+     "u": "kb/d"
+    },
+    "note": "Drone attack and fire on 19 Mar 2026, fire extinguished (Bloomberg list, 11 Apr 2026). Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.15,
+     28.95
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ras-tanura",
+    "name": "Ras Tanura (Saudi Aramco)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 550,
+     "u": "kb/d"
+    },
+    "note": "Halted after a drone attack in early Mar 2026, reported restarted (Bloomberg list, 11 Apr 2026). Coordinates are the town of Ras Tanura.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     50.053,
+     26.706
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jazan-aramco",
+    "name": "Jazan (Saudi Aramco)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 400,
+     "u": "kb/d"
+    },
+    "note": "Red Sea coast, outside Hormuz; capacity entry carries a citation-needed flag. Coordinates are the city of Jizan. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     42.56,
+     16.89
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "samref-yanbu",
+    "name": "Yanbu SAMREF (Aramco/ExxonMobil)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "SAMREF (Saudi Aramco/ExxonMobil)",
+    "capacity": {
+     "v": 400,
+     "u": "kb/d"
+    },
+    "opened": 1984,
+    "note": "Drone fell on the refinery on 19 Mar 2026 (Bloomberg list, 11 Apr 2026). Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     38.27,
+     23.99
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yasref-yanbu",
+    "name": "Yanbu YASREF (Aramco/Sinopec)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "YASREF (Saudi Aramco/Sinopec)",
+    "capacity": {
+     "v": 400,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     38.25,
+     23.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dangote-lekki",
+    "name": "Dangote Refinery (Lekki)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "NGA",
+    "operator": "Dangote Group",
+    "capacity": {
+     "v": 700,
+     "u": "kb/d"
+    },
+    "opened": 2023,
+    "note": "Africa's largest refinery; infobox capacity 700 kb/d (the Wikipedia list shows 650 kb/d and a planned 1.4 Mb/d expansion).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Dangote_refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.001,
+     6.453
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pernis-shell",
+    "name": "Pernis (Shell), Rotterdam",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "NLD",
+    "operator": "Shell",
+    "capacity": {
+     "v": 404,
+     "u": "kb/d"
+    },
+    "note": "Europe's largest refinery; ARA product hub. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.375,
+     51.885
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "antwerp-total",
+    "name": "Antwerp (TotalEnergies)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "BEL",
+    "operator": "TotalEnergies",
+    "capacity": {
+     "v": 360,
+     "u": "kb/d"
+    },
+    "note": "Nelson complexity 8.4 per source. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.33,
+     51.28
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mangalore-mrpl",
+    "name": "Mangalore (MRPL)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "IND",
+    "operator": "Mangalore Refinery and Petrochemicals Ltd",
+    "capacity": {
+     "v": 199,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     74.82,
+     12.9
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nayara-vadinar",
+    "name": "Nayara Vadinar (ex-Essar, Sikka area)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "IND",
+    "operator": "Nayara Energy (Rosneft 49.13%)",
+    "capacity": {
+     "v": 406,
+     "u": "kb/d"
+    },
+    "note": "Rosneft-linked refinery processing Russian crude; Nelson complexity 12.8 per source. Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.72,
+     22.43
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kirishi-kinef",
+    "name": "Kirishi (Kinef, Surgutneftegaz)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Surgutneftegaz",
+    "capacity": {
+     "v": 346,
+     "u": "kb/d"
+    },
+    "opened": 1966,
+    "note": "Baltic product export base (Primorsk/Ust-Luga); capacity entry carries a citation-needed flag.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kinef"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.077,
+     59.489
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "omsk-gpn",
+    "name": "Omsk (Gazprom Neft)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Gazprom Neft",
+    "capacity": {
+     "v": 362,
+     "u": "kb/d"
+    },
+    "opened": 1955,
+    "note": "Large Siberian refinery; capacity per source list (citation-needed flag on page).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Omsk_refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     73.234,
+     55.071
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "duqm-oq8",
+    "name": "Duqm (OQ8)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "OMN",
+    "operator": "OQ8 (OQ and Kuwait Petroleum International)",
+    "capacity": {
+     "v": 230,
+     "u": "kb/d"
+    },
+    "note": "Outside Hormuz on the Arabian Sea.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Duqm_Refinery"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     57.656,
+     19.731
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mailiao-fpcc",
+    "name": "Mailiao (Formosa Petrochemical)",
+    "type": "refinery",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "TWN",
+    "operator": "Formosa Petrochemical",
+    "capacity": {
+     "v": 540,
+     "u": "kb/d"
+    },
+    "note": "Approximate location.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/List_of_oil_refineries"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.19,
+     23.79
+    ]
+   }
+  }
+ ]
+}

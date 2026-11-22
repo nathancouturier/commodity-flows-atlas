@@ -1,0 +1,735 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ghawar",
+    "name": "Ghawar",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 3800,
+     "u": "kb/d"
+    },
+    "opened": 1951,
+    "note": "World's largest conventional oil field; figure is 2019 oil output per Wikipedia infobox.",
+    "s": "wikipedia",
+    "y": 2019,
+    "url": "https://en.wikipedia.org/wiki/Ghawar_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.62,
+     25.43
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "safaniya",
+    "name": "Safaniya",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 1200,
+     "u": "kb/d"
+    },
+    "opened": 1957,
+    "note": "World's largest offshore oil field (Arabian Gulf); heavy Arab grades for Gulf and Asian refiners.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Safaniya_Oil_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.75,
+     28.28
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rumaila",
+    "name": "Rumaila",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRQ",
+    "operator": "Rumaila Operating Organization (owner: Basra Oil Company)",
+    "capacity": {
+     "v": 1421,
+     "u": "kb/d"
+    },
+    "opened": 1954,
+    "note": "Backbone of Basrah crude exports, which depend on Hormuz transit.",
+    "s": "wikipedia",
+    "y": 2022,
+    "url": "https://en.wikipedia.org/wiki/Rumaila_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     47.408,
+     30.156
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "west-qurna",
+    "name": "West Qurna",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRQ",
+    "operator": "Iraq National Oil Company (owner)",
+    "note": "Super-giant in southern Iraq feeding Basrah exports (Hormuz transit). Production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/West_Qurna_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     47.291,
+     30.885
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "burgan",
+    "name": "Burgan",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "KWT",
+    "operator": "Kuwait Oil Company",
+    "capacity": {
+     "v": 1200,
+     "u": "kb/d"
+    },
+    "opened": 1946,
+    "note": "Kuwait's main field; source gives a 2005 peak of 2.41 Mb/d.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Burgan_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     47.967,
+     29.111
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "upper-zakum",
+    "name": "Upper Zakum",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "ARE",
+    "operator": "ADNOC",
+    "capacity": {
+     "v": 500,
+     "u": "kb/d"
+    },
+    "opened": 1977,
+    "note": "Offshore Abu Dhabi giant; figure is the Wikipedia infobox value and may understate current ADNOC output. Approximate location (source has no coordinates).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Upper_Zakum_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.1,
+     24.9
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tengiz",
+    "name": "Tengiz",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "KAZ",
+    "operator": "Tengizchevroil",
+    "capacity": {
+     "v": 932,
+     "u": "kb/d"
+    },
+    "opened": 1993,
+    "note": "Source of CPC Blend; exports via the CPC pipeline to Novorossiysk.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tengiz_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.383,
+     46.153
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kashagan",
+    "name": "Kashagan",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "KAZ",
+    "operator": "North Caspian Operating Company",
+    "capacity": {
+     "v": 400,
+     "u": "kb/d"
+    },
+    "opened": 2013,
+    "note": "Offshore North Caspian; figure is 2019 output.",
+    "s": "wikipedia",
+    "y": 2019,
+    "url": "https://en.wikipedia.org/wiki/Kashagan_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     51.583,
+     46.167
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "johan-sverdrup",
+    "name": "Johan Sverdrup",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "NOR",
+    "operator": "Equinor",
+    "capacity": {
+     "v": 700,
+     "u": "kb/d"
+    },
+    "opened": 2019,
+    "note": "Largest North Sea field; Johan Sverdrup grade is a Dated Brent basket component.",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Johan_Sverdrup_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.49,
+     59.22
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "stabroek",
+    "name": "Stabroek Block (Liza, Payara, Yellowtail)",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "GUY",
+    "operator": "ExxonMobil Guyana (45%), Chevron (30%), CNOOC (25%)",
+    "opened": 2019,
+    "note": "Fastest-growing new supply source; Guyana output about 660 kb/d by 2024 per source (block-level figure not sourced). Approximate location (offshore, ~200 km off the coast).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Petroleum_industry_in_Guyana"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -57.0,
+     8.0
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "buzios",
+    "name": "Buzios",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "BRA",
+    "operator": "Petrobras",
+    "capacity": {
+     "v": 605.6,
+     "u": "kb/d"
+    },
+    "note": "Pre-salt Santos Basin; key driver of Brazilian crude exports.",
+    "s": "wikipedia",
+    "y": 2024,
+    "url": "https://en.wikipedia.org/wiki/Búzios_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -42.319,
+     -24.789
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tupi-lula",
+    "name": "Tupi (Lula)",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "BRA",
+    "operator": "Petrobras",
+    "capacity": {
+     "v": 794,
+     "u": "kb/d"
+    },
+    "note": "Largest Brazilian pre-salt field.",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Tupi_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -43.5,
+     -25.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "samotlor",
+    "name": "Samotlor",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Samotlorneftegaz (Rosneft)",
+    "capacity": {
+     "v": 333,
+     "u": "kb/d"
+    },
+    "opened": 1969,
+    "note": "Legacy West Siberian giant in decline; figure is 2013 output.",
+    "s": "wikipedia",
+    "y": 2013,
+    "url": "https://en.wikipedia.org/wiki/Samotlor_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.75,
+     61.117
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vankor",
+    "name": "Vankor",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Vankorneft (Rosneft)",
+    "opened": 2009,
+    "note": "Feeds Transneft/ESPO system; production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vankor_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     83.461,
+     67.755
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "daqing",
+    "name": "Daqing",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "operator": "PetroChina (Daqing Oilfield Co.)",
+    "capacity": {
+     "v": 600,
+     "u": "kb/d"
+    },
+    "opened": 1960,
+    "note": "China's largest oil field; figure is 2021 output.",
+    "s": "wikipedia",
+    "y": 2021,
+    "url": "https://en.wikipedia.org/wiki/Daqing_Oil_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     124.9,
+     46.6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "north-field-south-pars",
+    "name": "North Field / South Pars",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "QAT",
+    "cs": [
+     "QAT",
+     "IRN"
+    ],
+    "operator": "QatarEnergy (Qatar); NIOC/POGC (Iran)",
+    "opened": 1989,
+    "note": "World's largest gas field, shared Qatar-Iran; feeds Ras Laffan LNG. Some South Pars units were taken out of production on 18 Mar 2026 (Bloomberg list, 11 Apr 2026).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/South_Pars/North_Dome_Gas-Condensate_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.068,
+     26.619
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "urengoy",
+    "name": "Urengoy",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "RUS",
+    "operator": "Gazprom dobycha Urengoy",
+    "capacity": {
+     "v": 25152,
+     "u": "MMcf/d"
+    },
+    "opened": 1978,
+    "note": "Legacy West Siberian giant gas field; infobox production figure, year not stated.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Urengoy_gas_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.9,
+     66.1
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bovanenkovo",
+    "name": "Bovanenkovo",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "RUS",
+    "operator": "Gazprom",
+    "capacity": {
+     "v": 115,
+     "u": "bcm/y"
+    },
+    "opened": 2012,
+    "note": "Yamal Peninsula; supplies Yamal-Europe and domestic grid (Nord Stream route now closed).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bovanenkovo_gas_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     68.4,
+     70.2
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "troll",
+    "name": "Troll",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "NOR",
+    "operator": "Equinor",
+    "opened": 1995,
+    "note": "Anchor of Norwegian gas exports to the EU/UK via Langeled, Europipe and Norpipe; production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Troll_gas_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     3.726,
+     60.646
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zohr",
+    "name": "Zohr",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "EGY",
+    "operator": "Eni",
+    "capacity": {
+     "v": 2.7,
+     "u": "Bcf/d"
+    },
+    "opened": 2017,
+    "note": "Egypt's largest gas field; figure is Aug 2019 output (declined later per source). Approximate location (~190 km north of Port Said per source).",
+    "s": "wikipedia",
+    "y": 2019,
+    "url": "https://en.wikipedia.org/wiki/Energy_in_Egypt"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.3,
+     32.97
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hassi-messaoud",
+    "name": "Hassi Messaoud",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "DZA",
+    "operator": "Sonatrach",
+    "note": "Algeria's largest oil field; production figure not sourced. Location is the town of Hassi Messaoud (approximate).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Hassi_Messaoud"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.067,
+     31.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hassi-rmel",
+    "name": "Hassi R'Mel",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "DZA",
+    "operator": "Sonatrach",
+    "opened": 1961,
+    "note": "Algeria's main gas field and hub for Transmed, Medgaz and GME pipelines to Europe.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Hassi_R'Mel_gas_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     3.171,
+     32.947
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "permian-basin",
+    "name": "Permian Basin",
+    "type": "field",
+    "k": [
+     "crude-oil",
+     "natural-gas"
+    ],
+    "c": "USA",
+    "note": "Largest US tight-oil basin; the driver of US crude and associated-gas growth. Basin centroid (approximate); production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Permian_Basin_(North_America)"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.0,
+     32.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "marcellus",
+    "name": "Marcellus Shale (Appalachian Basin)",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "USA",
+    "note": "Largest US shale-gas play by output. Basin centroid (approximate); production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Marcellus_Formation"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.0,
+     41.5
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "haynesville",
+    "name": "Haynesville Shale",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "USA",
+    "note": "Swing gas play feeding Gulf Coast LNG export plants. Approximate basin centroid; production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Haynesville_Shale"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.8,
+     32.3
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vaca-muerta",
+    "name": "Vaca Muerta",
+    "type": "field",
+    "k": [
+     "crude-oil",
+     "natural-gas"
+    ],
+    "c": "ARG",
+    "operator": "YPF (largest operator)",
+    "opened": 2011,
+    "note": "Argentina's shale play; fastest-growing Latin American supply after pre-salt/Guyana. Production figure not sourced.",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vaca_Muerta"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -69.5,
+     -38.2
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "orinoco-belt",
+    "name": "Orinoco Belt (Faja Petrolifera)",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "VEN",
+    "operator": "PDVSA and partners",
+    "note": "Extra-heavy crude belt; resource estimate only (source: 1.3 trillion bbl in place); production figure not sourced. Approximate location (source has no coordinates).",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Orinoco_Belt"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.0,
+     8.6
+    ]
+   }
+  }
+ ]
+}
