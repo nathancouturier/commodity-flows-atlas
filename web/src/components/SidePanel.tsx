@@ -78,6 +78,7 @@ export function SidePanel() {
             </Dropdown>
           </div>
         )}
+        <ColourBySection current={current} />
         {/* on phones and tablets the legend is hidden, so the layer switches live here */}
         <div class="layers-in-panel">
           <Section title="Map layers">
@@ -138,45 +139,13 @@ function Dropdown(props: {
   );
 }
 
-/** Commodity choice first: picking one colours its producers, draws its flows and opens its page. */
-function CommoditySection(props: { current: CommodityMeta | undefined }) {
+
+/** Map colouring by the selected commodity's country table (last block of the panel). */
+function ColourBySection(props: { current: CommodityMeta | undefined }) {
   const { current } = props;
-  const fam = family.value;
-  const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
-  const [browseOpen, setBrowseOpen] = useState(false);
   const [metricOpen, setMetricOpen] = useState(false);
-  const choose = (v: string | null) => {
-    setBrowseOpen(false);
-    commodity.value = v;
-    if (v) {
-      select({ kind: 'commodity', id: v });
-      flyToWorld(true);
-    } else if (selection.peek()?.kind === 'commodity') {
-      select(null);
-    }
-  };
   return (
     <div class="panel-block">
-      <Dropdown
-        name="Browse all commodities"
-        value={current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : null}
-        onClear={() => choose(null)}
-        open={browseOpen}
-        onToggle={setBrowseOpen}
-      >
-        {fams.map((g) => (
-          <div key={g} class="cc-group">
-            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
-            {commodities.value.filter((c) => c.family === g).map((c) => (
-              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
-                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
-                {c.name}
-                <span class="meta">{c.unit}</span>
-              </button>
-            ))}
-          </div>
-        ))}
-      </Dropdown>
       <Dropdown
         name="Colour countries by"
         value={metric.value !== 'none' ? METRICS.find((m) => m.id === metric.value)?.label : 'Off'}
@@ -209,6 +178,48 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
         </div>
       </Dropdown>
       {!current && <p class="muted cc-hint">Choose a commodity: its producing countries are coloured, with their share of world output on the map.</p>}
+    </div>
+  );
+}
+
+/** Commodity choice first: picking one colours its producers, draws its flows and opens its page. */
+function CommoditySection(props: { current: CommodityMeta | undefined }) {
+  const { current } = props;
+  const fam = family.value;
+  const fams = FAMILIES.filter((f) => fam === 'all' || fam === 'freight' || f === fam);
+  const [browseOpen, setBrowseOpen] = useState(false);
+  const choose = (v: string | null) => {
+    setBrowseOpen(false);
+    commodity.value = v;
+    if (v) {
+      select({ kind: 'commodity', id: v });
+      flyToWorld(true);
+    } else if (selection.peek()?.kind === 'commodity') {
+      select(null);
+    }
+  };
+  return (
+    <div class="panel-block">
+      <Dropdown
+        name="Browse all commodities"
+        value={current ? <><span class="dot" style={{ color: FAMILY_COLOR[current.family], width: '6px', height: '6px' }} /> {current.name}</> : null}
+        onClear={() => choose(null)}
+        open={browseOpen}
+        onToggle={setBrowseOpen}
+      >
+        {fams.map((g) => (
+          <div key={g} class="cc-group">
+            <div class="vc-label" style={{ color: FAMILY_COLOR[g] }}>{FAMILY_LABEL[g]}</div>
+            {commodities.value.filter((c) => c.family === g).map((c) => (
+              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
+                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
+                {c.name}
+                <span class="meta">{c.unit}</span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </Dropdown>
     </div>
   );
 }
