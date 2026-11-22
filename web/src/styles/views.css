@@ -108,3 +108,50 @@
   .strip { padding-bottom: 10px; }
   .tc-readout { min-height: 46px; }
 }
+
+/* ================================================================ infrastructure, commodity & country views */
+.infra-kicker { display: flex; align-items: center; gap: 8px; }
+.badge-ok { color: var(--positive); border-color: rgba(91, 227, 166, 0.45); }
+.badge-mode { font-family: var(--font-num); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 1px 7px; }
+.badge-mode.mode-sea { color: var(--freight); border-color: rgba(62, 230, 255, 0.4); }
+.badge-mode.mode-land { color: var(--ink-1); }
+
+.row-btn {
+  display: flex; align-items: center; gap: 9px; width: 100%; padding: 6px 6px; border-radius: var(--r-sm);
+  text-align: left; color: var(--ink-1); font-size: var(--fs-sm); text-decoration: none;
+}
+.row-btn:not(:disabled):hover { background: rgba(255, 255, 255, 0.05); color: var(--ink-0); }
+.row-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.row-title { color: var(--ink-0); line-height: 1.3; overflow-wrap: anywhere; }
+.row-sub { font-size: 11px; color: var(--ink-2); line-height: 1.35; display: block; }
+.row-sub .badge { display: inline-block; margin-top: 1px; }
+.row-detail { display: block; color: var(--ink-3); }
+.row-meta { flex: none; text-align: right; color: var(--ink-0); font-size: var(--fs-sm); white-space: nowrap; }
+.row-meta small { display: block; color: var(--ink-3); font-size: 10.5px; }
+.row-btn .infra-ic { align-self: flex-start; margin-top: 1px; }
+.row-btn .bar-rank { width: 16px; flex: none; }
+.ext { color: var(--ink-3); font-size: 11px; }
+.arrow { color: var(--ink-3); padding: 0 2px; }
+.bar-sub { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 3px; }
+.co-group + .co-group { margin-top: 10px; }
+.co-group .route-sub { margin: 4px 0 2px 6px; }
+.small-print { font-size: 11px; color: var(--ink-2); }
+.small-print .disc { color: var(--ink-3); }
+
+.act-btn {
+  margin-top: 10px; padding: 6px 12px; border-radius: 999px; font-size: var(--fs-xs); letter-spacing: 0.04em;
+  color: var(--accent); background: var(--accent-soft); border: 1px solid rgba(62, 230, 255, 0.3);
+}
+.act-btn:hover:not(:disabled) { background: rgba(62, 230, 255, 0.24); }
+.act-btn:disabled { color: var(--ink-3); background: transparent; border-color: var(--hairline); cursor: default; }
+.act-prices { margin-top: 12px; }
+
+.lane-sum { display: flex; align-items: baseline; gap: 8px; }
+.lane-sum-n { font-size: var(--fs-xl); font-weight: 500; }
+.lane-sum-t { color: var(--ink-2); font-size: var(--fs-sm); }
+.ft-wide { grid-template-columns: 100px minmax(0, 1fr); }
+.ft-wide .num { font-size: var(--fs-sm); }
+
+@media (max-width: 760px) {
+  .row-btn { padding: 8px 6px; }
+}

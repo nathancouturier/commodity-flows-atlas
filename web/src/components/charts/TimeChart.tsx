@@ -24,6 +24,8 @@ export interface TimeMarker {
   end?: number;
   title: string;
   color?: string;
+  /** thin, faint line without the top flag (dense event sets) */
+  subtle?: boolean;
 }
 
 export interface TimeRange {
@@ -264,10 +266,10 @@ export function TimeChart(props: TimeChartProps) {
               const x1 = u.valToPos(m.t, 'x', true);
               if (m.end != null) {
                 const x2 = u.valToPos(m.end, 'x', true);
-                ctx.fillStyle = c + '1f';
+                ctx.fillStyle = c + (m.subtle ? '12' : '1f');
                 ctx.fillRect(x1, top, Math.max(1, x2 - x1), h);
               }
-              ctx.strokeStyle = c + 'cc';
+              ctx.strokeStyle = c + (m.subtle ? '55' : 'cc');
               ctx.lineWidth = dpr;
               ctx.setLineDash([3 * dpr, 3 * dpr]);
               ctx.beginPath();
@@ -275,12 +277,14 @@ export function TimeChart(props: TimeChartProps) {
               ctx.lineTo(x1, top + h);
               ctx.stroke();
               ctx.setLineDash([]);
-              ctx.fillStyle = c;
-              ctx.beginPath();
-              ctx.moveTo(x1 - 4 * dpr, top);
-              ctx.lineTo(x1 + 4 * dpr, top);
-              ctx.lineTo(x1, top + 7 * dpr);
-              ctx.fill();
+              if (!m.subtle) {
+                ctx.fillStyle = c;
+                ctx.beginPath();
+                ctx.moveTo(x1 - 4 * dpr, top);
+                ctx.lineTo(x1 + 4 * dpr, top);
+                ctx.lineTo(x1, top + 7 * dpr);
+                ctx.fill();
+              }
             }
             ctx.restore();
           },

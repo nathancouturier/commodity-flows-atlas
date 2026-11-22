@@ -162,7 +162,7 @@ export function PriceDrawer() {
   }, [open]);
 
   // ---- derived chart data
-  const ready = data.length > 0 && data.every((d, i) => d.meta.id === ids[i]);
+  const ready = data.length > 0;
   const merged = useMemo(() => (ready ? mergeSeries(data) : null), [data, ready]);
   const colors = useMemo(() => pickColors(data.map((d) => d.meta)), [data]);
   const chartSeries: TimeSeries[] = useMemo(() => {
@@ -264,7 +264,7 @@ export function PriceDrawer() {
       if (mx < 0 || v > fs.v[mx]!) mx = i;
     }
     if (first < 0) return null;
-    const f = fs.freq ?? fs.meta.freq;
+    const f = fs.meta.freq;
     const d = (i: number) => fmtObsDate(fs.x[i], f);
     const change = fs.v[first]! !== 0 ? (fs.v[last]! / fs.v[first]! - 1) * 100 : null;
     return {
@@ -285,7 +285,7 @@ export function PriceDrawer() {
         const t = parseDate(e.date);
         const end = e.end ? parseDate(e.end) : undefined;
         if ((end ?? t) < xMin || t > xMax) continue;
-        m.push({ t, end, title: `${e.date}${e.end ? ' to ' + e.end : ''} · ${e.title}`, color: '#8d9fb3' });
+        m.push({ t, end, title: `${e.date}${e.end ? ' to ' + e.end : ''} · ${e.title}`, color: '#8d9fb3', subtle: true });
       }
     }
     if (lookup) {
@@ -614,7 +614,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
         <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
           <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
         </svg>
-        {full ? 'Change series' : 'Add series'}
+        {full ? 'Series (3 of 3)' : 'Add series'}
       </button>
       {open && (
         <div class="pd-pop" role="dialog" aria-label="Choose price series">

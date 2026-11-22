@@ -1069,3 +1069,15 @@ button {
   text-transform: uppercase;
   color: var(--ink-2);
 }
+
+/* ================================================================ infrastructure filter (side panel) */
+.infra-filter { margin: 6px 0 2px; padding: 10px 0 2px 4px; border-top: 1px dashed var(--hairline); }
+.chip-infra { padding: 3px 10px 3px 4px; font-size: var(--fs-xs); }
+.chip-infra[aria-pressed='true'] {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(62, 230, 255, 0.4);
+  font-weight: 600;
+}
+.infra-ic { display: inline-flex; flex: none; line-height: 0; }
+.infra-hint { margin-top: 8px; font-size: 11px; color: var(--ink-3); }

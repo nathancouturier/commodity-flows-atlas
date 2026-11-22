@@ -1,7 +1,7 @@
 /** Small shared UI primitives: switches, ranked bars, KPI tiles, source lines. */
 import type { ComponentChildren } from 'preact';
-import type { Fig, InfraType, Ranked } from '../types';
-import { countryName, sources } from '../lib/data';
+import type { Company, Fig, InfraType, Ranked } from '../types';
+import { commodityMeta, countryName, sourceLabel, sources } from '../lib/data';
 import { fmt, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
 
@@ -203,8 +203,8 @@ export function infraSvg(type: InfraType, color: string, size = 28): string {
   const scale = type === 'lng-export' || type === 'lng-import' ? 0.56 : 0.6;
   return (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="${size}" height="${size}">` +
-    `<circle cx="14" cy="14" r="10.5" fill="#0a1019" fill-opacity="0.94" stroke="${color}" stroke-width="1.5"/>` +
-    `<g transform="translate(14 14) scale(${scale}) translate(-12 -12)" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${m.glyph}</g>` +
+    `<circle cx="14" cy="14" r="10.5" fill="#0a1019" fill-opacity="0.94" stroke="${color}" stroke-width="1.8"/>` +
+    `<g transform="translate(14 14) scale(${scale}) translate(-12 -12)" fill="none" stroke="${color}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${m.glyph}</g>` +
     (m.extra ? `<g fill="none" stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${m.extra}</g>` : '') +
     `</svg>`
   );
@@ -264,3 +264,31 @@ export function RowBtn(props: {
     </button>
   );
 }
+
+export function CompanyRows(props: { title?: string; list: Company[]; showK?: boolean }) {
+  const { list } = props;
+  if (!list.length) return null;
+  const yrs = list.map((c) => c.fig?.y ?? c.y).filter((y) => y != null);
+  return (
+    <div class="co-group">
+      {props.title && <h4 class="route-sub">{props.title}</h4>}
+      {list.map((c) => (
+        <RowBtn
+          key={c.name}
+          href={c.url}
+          tip={[c.s ? sourceLabel(c.s) : '', c.fig?.y ?? c.y].filter(Boolean).join(' · ')}
+          title={<>{c.name}{c.url && <span class="ext"> ↗</span>}</>}
+          sub={
+            <>
+              {[c.hq ? countryName(c.hq) : null, c.role, props.showK && c.k ? [c.k].flat().map((k) => commodityMeta(k)?.name ?? k).join(', ') : null].filter(Boolean).join(' · ')}
+              {c.detail && <span class="row-detail">{c.detail}</span>}
+            </>
+          }
+          meta={c.fig ? <>{fmt(c.fig.v)} {c.fig.u}<small>{c.fig.y}</small></> : undefined}
+        />
+      ))}
+      <SourceLine s={list[0].fig?.s ?? list[0].s} y={yrs.length ? [...new Set(yrs)].slice(0, 3).join(', ') : undefined} />
+    </div>
+  );
+}
+

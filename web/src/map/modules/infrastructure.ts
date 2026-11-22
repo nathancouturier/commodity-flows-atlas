@@ -172,7 +172,7 @@ type LineProps = { key: string; id: string; type: InfraType; color: string; op: 
 
 const SRC_PTS = 'infra-pts';
 const SRC_LINES = 'infra-lines';
-const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.5, 2.2, 0.62, 4, 0.78, 7, 0.95];
+const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
 const empty = (): FeatureCollection => ({ type: 'FeatureCollection', features: [] });
 
 registerLayerModule((m) => {
@@ -183,6 +183,12 @@ registerLayerModule((m) => {
   const isDash: ExpressionSpecification = ['boolean', ['get', 'dash'], false];
   const lineWidth: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 1, 0.9, 5, 1.8, 8, 2.6];
 
+  const selWidth: ExpressionSpecification = [
+    'interpolate', ['linear'], ['zoom'],
+    1, ['case', isSel, 3, 0.9],
+    5, ['case', isSel, 3.6, 1.8],
+    8, ['case', isSel, 4.2, 2.6],
+  ];
   m.addLayer({
     id: 'infra-lines-glow',
     type: 'line',
@@ -197,7 +203,7 @@ registerLayerModule((m) => {
     source: SRC_LINES,
     filter: ['!', isDash],
     layout: { 'line-cap': 'round', 'line-join': 'round' },
-    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': ['case', isSel, 3.2, lineWidth] },
+    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': selWidth },
   });
   m.addLayer({
     id: 'infra-lines-dash',

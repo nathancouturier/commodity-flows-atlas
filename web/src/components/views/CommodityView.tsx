@@ -7,7 +7,7 @@ import { FAMILY_COLOR, FAMILY_LABEL, fmt } from '../../lib/format';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { layers, select, toggleLayer } from '../../lib/store';
 import { infraCapacity, infraColor, infraMatches, loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, InfraIcon, INFRA_META, CompanyRows } from '../ui';
 import { useLoaded } from './shared';
 
 // Price history button: only offered when lib/prices.ts exists and exports openPriceDrawer.
@@ -32,33 +32,6 @@ function usePriceDrawer(): ((id: string) => void) | null {
 }
 
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
-
-function CompanyRows(props: { title: string; list: Company[] }) {
-  const { list } = props;
-  if (!list.length) return null;
-  const yrs = list.map((c) => c.fig?.y ?? c.y).filter((y) => y != null);
-  return (
-    <div class="co-group">
-      <h4 class="route-sub">{props.title}</h4>
-      {list.map((c) => (
-        <RowBtn
-          key={c.name}
-          href={c.url}
-          tip={[c.s ? sourceLabel(c.s) : '', c.fig?.y ?? c.y].filter(Boolean).join(' · ')}
-          title={<>{c.name}{c.url && <span class="ext"> ↗</span>}</>}
-          sub={
-            <>
-              {[c.hq ? countryName(c.hq) : null, c.role].filter(Boolean).join(' · ')}
-              {c.detail && <span class="row-detail">{c.detail}</span>}
-            </>
-          }
-          meta={c.fig ? <>{fmt(c.fig.v)} {c.fig.u}<small>{c.fig.y}</small></> : undefined}
-        />
-      ))}
-      <SourceLine s={list[0].fig?.s ?? list[0].s} y={yrs.length ? [...new Set(yrs)].slice(0, 3).join(', ') : undefined} />
-    </div>
-  );
-}
 
 function FlowRows(props: { flows: Flow[] }) {
   const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);

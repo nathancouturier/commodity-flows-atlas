@@ -6,7 +6,9 @@ import { SidePanel } from './components/SidePanel';
 import { DetailPanel } from './components/DetailPanel';
 import { Tooltip } from './components/Tooltip';
 import { Legend } from './components/Legend';
-import { detailOpen, writeHash, family, commodity, metric, year, selection } from './lib/store';
+import { PriceDrawer } from './components/PriceDrawer';
+import { Timeline } from './components/Timeline';
+import { detailOpen, writeHash, family, commodity, metric, year, selection, historyOpen, priceDrawer } from './lib/store';
 
 export function App() {
   useEffect(
@@ -18,13 +20,30 @@ export function App() {
       }),
     [],
   );
+  // the price drawer and the timeline share the bottom edge: opening one closes the other
+  useEffect(
+    () =>
+      effect(() => {
+        if (priceDrawer.value) historyOpen.value = false;
+      }),
+    [],
+  );
+  useEffect(
+    () =>
+      effect(() => {
+        if (historyOpen.value) priceDrawer.value = null;
+      }),
+    [],
+  );
   return (
-    <div class={`app ${detailOpen.value ? 'detail-open' : ''}`}>
+    <div class={`app ${detailOpen.value ? 'detail-open' : ''}${historyOpen.value ? ' tl-open' : ''}`}>
       <MapView />
       <TopBar />
       <SidePanel />
       <DetailPanel />
       <Legend />
+      <PriceDrawer />
+      <Timeline />
       <Tooltip />
     </div>
   );
