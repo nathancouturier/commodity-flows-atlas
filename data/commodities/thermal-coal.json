@@ -23,11 +23,11 @@
    "n": "EIA coal reserves, all coal (not split thermal/metallurgical)"
   },
   "exports": {
-   "v": 1589.8,
+   "v": 1119.5,
    "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "n": "all coal (HS 2701) incl. metallurgical coal, BACI"
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "thermal coal exports (EIA: all coal minus metallurgical coal)"
   },
   "seaborne": {
    "v": 1313.7,
@@ -209,120 +209,118 @@
   "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt"
  },
  "exports": {
-  "y": 2024,
-  "s": "baci",
+  "y": 2025,
+  "s": "eia-intl",
   "u": "Mt",
-  "world": 1589.8,
+  "world": 1119.5,
   "rows": [
    {
     "c": "IDN",
-    "v": 564.38
+    "v": 521.67
    },
    {
     "c": "AUS",
-    "v": 388.56
+    "v": 187.46
    },
    {
     "c": "RUS",
-    "v": 183.54
-   },
-   {
-    "c": "USA",
-    "v": 108.22
-   },
-   {
-    "c": "MNG",
-    "v": 82.911
+    "v": 148.81
    },
    {
     "c": "ZAF",
-    "v": 70.907
+    "v": 72.793
    },
    {
     "c": "COL",
-    "v": 65.112
+    "v": 38.767
    },
    {
-    "c": "CAN",
-    "v": 37.299
-   },
-   {
-    "c": "MOZ",
-    "v": 19.851
-   },
-   {
-    "c": "PHL",
-    "v": 17.502
+    "c": "USA",
+    "v": 38.582
    },
    {
     "c": "KAZ",
-    "v": 13.321,
-    "n": "11% of tonnage estimated from value"
+    "v": 31.955
    },
    {
-    "c": "POL",
-    "v": 4.219
-   }
-  ],
-  "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
- },
- "imports": {
-  "y": 2024,
-  "s": "baci",
-  "u": "Mt",
-  "world": 1589.8,
-  "rows": [
-   {
-    "c": "CHN",
-    "v": 552.71
-   },
-   {
-    "c": "IND",
-    "v": 264.17
-   },
-   {
-    "c": "JPN",
-    "v": 166.59
-   },
-   {
-    "c": "KOR",
-    "v": 119.79
-   },
-   {
-    "c": "VNM",
-    "v": 53.993
-   },
-   {
-    "c": "TWN",
-    "v": 51.469,
-    "n": "BACI code S19 ('Other Asia, nes'), reported as Taiwan"
-   },
-   {
-    "c": "MYS",
-    "v": 44.461
-   },
-   {
-    "c": "TUR",
-    "v": 39.832
-   },
-   {
-    "c": "PHL",
-    "v": 39.292
-   },
-   {
-    "c": "DEU",
-    "v": 20.198
+    "c": "MNG",
+    "v": 17.351
    },
    {
     "c": "NLD",
-    "v": 19.97
+    "v": 11.355
+   },
+   {
+    "c": "PHL",
+    "v": 7.691
+   },
+   {
+    "c": "MOZ",
+    "v": 7.31
+   },
+   {
+    "c": "CAN",
+    "v": 6.554
+   }
+  ],
+  "n": "EIA International Energy Data, coal exports; all coal exports minus metallurgical coal exports (EIA), per country; 1000 metric tons converted to Mt"
+ },
+ "imports": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "Mt",
+  "world": 1211.5,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 364.89
+   },
+   {
+    "c": "IND",
+    "v": 182.19
+   },
+   {
+    "c": "JPN",
+    "v": 133.5
+   },
+   {
+    "c": "KOR",
+    "v": 86.395
+   },
+   {
+    "c": "VNM",
+    "v": 47.917
+   },
+   {
+    "c": "TWN",
+    "v": 46.062
+   },
+   {
+    "c": "TUR",
+    "v": 39.798
+   },
+   {
+    "c": "MYS",
+    "v": 38.939
+   },
+   {
+    "c": "PHL",
+    "v": 38.666
    },
    {
     "c": "THA",
-    "v": 18.478
+    "v": 30.291
+   },
+   {
+    "c": "BGD",
+    "v": 21.72
+   },
+   {
+    "c": "RUS",
+    "v": 20.802
    }
   ],
-  "n": "CEPII BACI HS92 coal (HS 270111, 270112, 270119), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 does not separate thermal from metallurgical coal: figures cover all coal"
+  "n": "EIA International Energy Data, coal imports; all coal imports minus metallurgical coal imports (EIA), per country; 1000 metric tons converted to Mt"
  },
  "flows": [
   {
@@ -524,7 +522,7 @@
   }
  ],
  "notes": [
-  "HS 2701 does not separate thermal from metallurgical coal: trade tables and flows cover all coal.",
+  "Export and import rankings are thermal coal only (EIA). Bilateral flows and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
   "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."
  ]
 }

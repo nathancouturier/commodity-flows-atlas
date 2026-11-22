@@ -785,9 +785,15 @@ def main():
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "reserves", d["reserves"], "EIA coal reserves, all coal (not split thermal/metallurgical)")
-            summ(d, "exports", d["exports"], "all coal (HS 2701) incl. metallurgical coal, BACI")
+            # Thermal-only trade tables from EIA (all coal minus metallurgical coal, per country); BACI
+            # customs data cannot split them, so BACI is kept for the bilateral flows only.
+            d["exports"] = eia.minus(("7-4", "MT"), ("130-4", "MT"), "Mt", 1e-3, "coal exports",
+                                     "all coal exports minus metallurgical coal exports (EIA), per country; 1000 metric tons converted to Mt")
+            d["imports"] = eia.minus(("7-3", "MT"), ("130-3", "MT"), "Mt", 1e-3, "coal imports",
+                                     "all coal imports minus metallurgical coal imports (EIA), per country; 1000 metric tons converted to Mt")
+            summ(d, "exports", d["exports"], "thermal coal exports (EIA: all coal minus metallurgical coal)")
             seaborne(d, g, "all coal (thermal and metallurgical)")
-            notes += ["HS 2701 does not separate thermal from metallurgical coal: trade tables and flows cover all coal.",
+            notes += ["Export and import rankings are thermal coal only (EIA). Bilateral flows and seaborne lanes are customs data (HS 2701/2702), which cover all coal including metallurgical coal.",
                       "Production and consumption are all coal minus metallurgical coal (EIA), computed country by country; reserves are for all coal."]
             # EIA vs BACI exports
             disc += _compare("exports", eia, ("7-4", "MT"), 1e-3, baci, "coal", 1e6, "Mt", "EIA coal exports", BACI_YEAR)
