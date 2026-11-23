@@ -2,163 +2,648 @@
  "iron-ore": {
   "producers": [
    {
-    "name": "Rio Tinto",
-    "hq": "GBR",
-    "role": "producer",
-    "detail": "Largest seaborne supplier along with BHP; Pilbara",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
-   },
-   {
     "name": "Vale",
     "hq": "BRA",
     "role": "producer",
-    "detail": "Largest Brazilian producer; Carajas, pellets",
-    "s": "wikipedia",
-    "y": 2014,
-    "url": "https://en.wikipedia.org/wiki/Vale_(mining_company)"
+    "own": "listed",
+    "detail": "Carajás (Northern System), Southeastern and Southern Systems in Brazil; also pellets",
+    "fig": {
+     "v": 336.1,
+     "u": "Mt",
+     "what": "iron ore production, incl. third-party purchases",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
+     "n": "Includes third-party ore purchases, run-of-mine and feed for pelletizing plants. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Pilbara mines and ports (Western Australia)",
+    "fig": {
+     "v": 326.2,
+     "u": "Mt",
+     "what": "Pilbara shipments, 100% basis",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+     "n": "Pilbara production 327.3 Mt (100%). Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+    "read": "2026-11"
    },
    {
     "name": "BHP",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Pilbara; major seaborne supplier",
-    "s": "wikipedia",
+    "own": "listed",
+    "detail": "Western Australia Iron Ore (WAIO, Pilbara)",
+    "fig": {
+     "v": 265,
+     "u": "Mt",
+     "what": "iron ore production, BHP share",
+     "y": 2026,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+     "n": "Financial year to 30 June 2026. Record; WAIO 257 Mt. Form 20-F 2026."
+    },
+    "s": "sec-edgar",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/BHP"
+    "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+    "read": "2026-11"
    },
    {
     "name": "Fortescue",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Pilbara pure-play",
-    "s": "wikipedia",
+    "own": "listed",
+    "detail": "Pilbara hematite and Iron Bridge magnetite concentrate (Western Australia)",
+    "fig": {
+     "v": 201.3,
+     "u": "Mt",
+     "what": "iron ore shipments",
+     "y": 2026,
+     "s": "company-reports",
+     "url": "https://announcements.asx.com.au/asxpdf/20260731/pdf/07282pwdb2jzw4.pdf",
+     "n": "Financial year to 30 June 2026. Record; 192.3 Mt hematite and 9.0 Mt Iron Bridge concentrate. June 2026 quarterly production report."
+    },
+    "s": "company-reports",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Fortescue"
+    "url": "https://announcements.asx.com.au/asxpdf/20260731/pdf/07282pwdb2jzw4.pdf",
+    "read": "2026-11"
    },
    {
-    "name": "Anglo American (Kumba)",
+    "name": "Kumba Iron Ore",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "South African supplier",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
+    "own": "listed",
+    "parent": "Anglo American",
+    "detail": "South African iron ore miner, a subsidiary of Anglo American",
+    "fig": {
+     "v": 36.1,
+     "u": "Mt",
+     "what": "Kumba production, wet basis",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
+     "n": "36,084 kt. Anglo American's premium iron ore (Kumba and Minas-Rio) was 60.8 Mt. Anglo American Q4 2025 production report."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
+    "read": "2026-11"
    },
    {
     "name": "Hancock Prospecting",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Pilbara (Roy Hill)",
+    "own": "private",
+    "detail": "Pilbara (Roy Hill); privately owned, chaired by Gina Rinehart",
     "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Hancock_Prospecting",
+    "read": "2026-11"
+   },
+   {
+    "name": "Mitsui & Co.",
+    "hq": "JPN",
+    "role": "trading house (equity partner)",
+    "own": "listed",
+    "detail": "Japanese trading house: 33% of Rio Tinto's West Angelas and 40% of Rhodes Ridge; partner in BHP's Mt Newman and Yandi joint ventures",
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "ITOCHU",
+    "hq": "JPN",
+    "role": "trading house (equity partner)",
+    "own": "listed",
+    "detail": "Japanese trading house: ITOCHU Minerals and Energy of Australia holds 5% of BHP's Mt Newman joint venture and 8% of Yandi; Mitsui-ITOCHU Iron holds a further 10% of Mt Newman",
+    "s": "sec-edgar",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Hancock_Prospecting"
+    "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "LKAB",
+    "hq": "SWE",
+    "role": "producer",
+    "own": "state",
+    "parent": "Government of Sweden",
+    "detail": "Swedish state-owned iron ore miner: Kiruna and Malmberget (northern Sweden)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/LKAB",
+    "read": "2026-11"
+   },
+   {
+    "name": "NMDC",
+    "hq": "IND",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "Government of India",
+    "detail": "Indian public sector iron ore miner (Hyderabad); Government of India holds 60.79%",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/NMDC_Limited",
+    "read": "2026-11"
+   },
+   {
+    "name": "Cleveland-Cliffs",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US steelmaker that mines, beneficiates and pelletizes its own iron ore",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cleveland-Cliffs",
+    "read": "2026-11"
    }
   ]
  },
  "steel": {
   "producers": [
    {
-    "name": "China Baowu",
-    "hq": "CHN",
-    "role": "producer",
-    "detail": "World's largest steelmaker",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Baowu"
-   },
-   {
     "name": "ArcelorMittal",
     "hq": "LUX",
     "role": "producer",
-    "detail": "Largest ex-China steelmaker",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/ArcelorMittal"
-   },
-   {
-    "name": "Nippon Steel",
-    "hq": "JPN",
-    "role": "producer",
-    "detail": "Major steelmaker",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Nippon_Steel"
+    "own": "listed",
+    "detail": "Steelmaker with plants in Europe, Brazil and North America",
+    "fig": {
+     "v": 55.6,
+     "u": "Mt",
+     "what": "crude steel production, consolidated segments",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1243429/000124342926000020/mt-20251231.htm",
+     "n": "Blast-furnace route 41.2 Mt, electric arc furnaces 14.4 Mt. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1243429/000124342926000020/mt-20251231.htm",
+    "read": "2026-11"
    },
    {
     "name": "POSCO",
     "hq": "KOR",
     "role": "producer",
-    "detail": "Major steelmaker",
+    "own": "listed",
+    "detail": "Pohang and Gwangyang integrated steelworks (South Korea)",
+    "fig": {
+     "v": 34.54,
+     "u": "Mt",
+     "what": "crude steel output, Pohang and Gwangyang",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/889132/000119312526188766/d26797d20f.htm",
+     "n": "POSCO Holdings Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/889132/000119312526188766/d26797d20f.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Nucor",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Electric arc furnace steelmaker (Charlotte, North Carolina)",
+    "fig": {
+     "v": 24.1,
+     "u": "Mt",
+     "what": "steel shipments to outside customers",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/73309/000119312526071575/nue-20251231.htm",
+     "n": "Stated as 26,615,000 short tons; converted at 0.9072 t per short ton. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/73309/000119312526071575/nue-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "China Baowu",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "detail": "State-owned steel group (Shanghai), formed when Baosteel absorbed Wuhan Iron and Steel in 2016",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/POSCO_Holdings"
+    "url": "https://en.wikipedia.org/wiki/Baowu",
+    "read": "2026-11"
+   },
+   {
+    "name": "Nippon Steel",
+    "hq": "JPN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Japanese steelmaker; completed its acquisition of U.S. Steel on 18 June 2025",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Nippon_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "HBIS (Hesteel)",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Government of Hebei Province",
+    "detail": "Hebei provincial state-owned steel group (Shijiazhuang)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Hesteel_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Ansteel",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "SASAC of the State Council",
+    "detail": "Central state-owned steel group (Anshan, Liaoning)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Ansteel_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Shagang",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "private",
+    "detail": "Privately owned steel group (Zhangjiagang, Jiangsu)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Shagang_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Tata Steel",
+    "hq": "IND",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Tata Group",
+    "detail": "Indian steelmaker (Jamshedpur works), Tata Group",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tata_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "JSW Steel",
+    "hq": "IND",
+    "role": "producer",
+    "own": "listed",
+    "parent": "JSW Group",
+    "detail": "Indian steelmaker, flagship of the JSW Group (Mumbai)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/JSW_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "JFE Steel",
+    "hq": "JPN",
+    "role": "producer",
+    "parent": "JFE Holdings",
+    "detail": "Japanese steelmaker formed in 2002 from Kawasaki Steel and NKK; owned by JFE Holdings",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/JFE_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "Hyundai Steel",
+    "hq": "KOR",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Hyundai Motor Group",
+    "detail": "South Korean steelmaker, Hyundai Motor Group",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Hyundai_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "Steel Authority of India (SAIL)",
+    "hq": "IND",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "Government of India",
+    "detail": "Indian state-owned steelmaker (New Delhi)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Steel_Authority_of_India_Limited",
+    "read": "2026-11"
+   },
+   {
+    "name": "U.S. Steel",
+    "hq": "USA",
+    "role": "producer",
+    "own": "private",
+    "parent": "Nippon Steel",
+    "detail": "Pittsburgh steelmaker acquired by Nippon Steel on 18 June 2025; the US government holds a golden share",
+    "s": "wikipedia",
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/U.S._Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "Cleveland-Cliffs",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Integrated US flat-rolled steelmaker (Cleveland, Ohio) with its own iron ore pellets",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cleveland-Cliffs",
+    "read": "2026-11"
+   },
+   {
+    "name": "Severstal",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian steel and mining group (Cherepovets)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Severstal",
+    "read": "2026-11"
+   },
+   {
+    "name": "NLMK",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian steelmaker (Lipetsk); flat, semi-finished and electrical steels",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Novolipetsk_Steel",
+    "read": "2026-11"
+   },
+   {
+    "name": "CSN",
+    "hq": "BRA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Integrated Brazilian steelmaker (Volta Redonda plant)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Companhia_Siderúrgica_Nacional",
+    "read": "2026-11"
    }
   ]
  },
  "copper": {
   "producers": [
    {
-    "name": "Codelco",
-    "hq": "CHL",
+    "name": "BHP",
+    "hq": "AUS",
     "role": "producer",
-    "detail": "State-owned; world's second-largest producer",
+    "own": "listed",
+    "detail": "Escondida, Spence (Chile), Copper South Australia, Antamina share (Peru)",
     "fig": {
-     "v": 1.332,
-     "u": "Mt copper",
-     "y": 2025,
-     "s": "wikipedia",
-     "n": "Wikipedia notes reports of inflated 2025 numbers"
+     "v": 1953,
+     "u": "kt",
+     "what": "copper production, Escondida at 100%",
+     "y": 2026,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+     "n": "Financial year to 30 June 2026. Escondida 1,261 kt. Form 20-F 2026."
     },
-    "s": "wikipedia",
-    "y": 2025,
-    "url": "https://en.wikipedia.org/wiki/Codelco"
+    "s": "sec-edgar",
+    "y": 2026,
+    "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+    "read": "2026-11"
    },
    {
     "name": "Freeport-McMoRan",
     "hq": "USA",
     "role": "producer",
-    "detail": "Grasberg (Indonesia), Americas",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Freeport-McMoRan"
+    "own": "listed",
+    "detail": "Grasberg (Indonesia), Morenci (Arizona), Cerro Verde (Peru); after a mud rush at Grasberg on 8 September 2025 mining there was suspended and PT Freeport Indonesia declared force majeure to some counterparties",
+    "fig": {
+     "v": 1535,
+     "u": "kt",
+     "what": "consolidated copper production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/831259/000083125926000012/fcx-20251231.htm",
+     "n": "Stated as 3,383 million recoverable pounds; converted at 2,204.62 lb per tonne. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/831259/000083125926000012/fcx-20251231.htm",
+    "read": "2026-11"
    },
    {
-    "name": "BHP",
-    "hq": "AUS",
+    "name": "Codelco",
+    "hq": "CHL",
     "role": "producer",
-    "detail": "Escondida, Chile",
+    "own": "state",
+    "detail": "Chilean state-owned copper miner",
+    "fig": {
+     "v": 1332,
+     "u": "kt",
+     "what": "copper production",
+     "y": 2025,
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Codelco",
+     "n": "Wikipedia, citing La Tercera and Kitco. In 2026 Codelco was suspected of having inflated its 2025 production figures (Wikipedia)."
+    },
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/BHP"
-   },
-   {
-    "name": "Glencore",
-    "hq": "CHE",
-    "role": "producer",
-    "detail": "DRC (Katanga/Mutanda) and Peru; also copper smelting and marketing",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
-   },
-   {
-    "name": "Southern Copper",
-    "hq": "USA",
-    "role": "producer",
-    "detail": "Peru and Mexico",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Southern_Copper_Corporation"
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Codelco",
+    "read": "2026-11"
    },
    {
     "name": "Zijin Mining",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Rapidly expanding",
+    "own": "listed",
+    "detail": "Fujian-based miner of copper, gold and zinc with mines in Asia, Africa, Europe and the Americas",
+    "fig": {
+     "v": 1085,
+     "u": "kt",
+     "what": "mine-produced copper",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
+     "n": "1,085,126 t. 2025 annual results announcement (HKEX)."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Southern Copper",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Mines and smelters in Peru and Mexico",
+    "fig": {
+     "v": 956,
+     "u": "kt",
+     "what": "mined copper production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1001838/000110465926021492/scco-20251231x10k.htm",
+     "n": "Stated as 2,108,212 thousand pounds; converted at 2,204.62 lb per tonne. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1001838/000110465926021492/scco-20251231x10k.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "own": "listed",
+    "detail": "KCC (DRC), Antamina and Antapaccay (Peru) and other mines; also smelting and marketing",
+    "fig": {
+     "v": 851.6,
+     "u": "kt",
+     "what": "own sourced copper production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Full year 2025 production report, 29 January 2026."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "read": "2026-11"
+   },
+   {
+    "name": "CMOC",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Tenke Fungurume and Kisanfu (DRC); copper, cobalt, molybdenum, niobium",
+    "fig": {
+     "v": 741.1,
+     "u": "kt",
+     "what": "copper metal production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
+     "n": "741,149 t. HKEX filing, March 2026."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Anglo American",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Los Bronces and Collahuasi share (Chile), Quellaveco (Peru); merger with Teck to form Anglo Teck agreed in September 2025",
+    "fig": {
+     "v": 695.2,
+     "u": "kt",
+     "what": "copper production, contained metal",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
+     "n": "Q4 2025 production report, 5 February 2026."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Antofagasta",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Los Pelambres, Centinela, Antucoya and Zaldívar (Chile); Iris Fontbona and family hold 65%",
+    "fig": {
+     "v": 653.7,
+     "u": "kt",
+     "what": "copper production, group",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.investegate.co.uk/announcement/rns/antofagasta--anto/q4-2025-production-report/9392533",
+     "n": "Zaldívar at its attributable share. Q4 2025 production report, 29 January 2026."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.investegate.co.uk/announcement/rns/antofagasta--anto/q4-2025-production-report/9392533",
+    "read": "2026-11"
+   },
+   {
+    "name": "Teck Resources",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Quebrada Blanca (Chile), Highland Valley (Canada), Antamina share (Peru)",
+    "fig": {
+     "v": 453.5,
+     "u": "kt",
+     "what": "copper production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+     "n": "2025 MD&A filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "First Quantum Minerals",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Canadian copper miner; copper was 82% of revenue in 2025",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Zijin_Mining"
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/First_Quantum_Minerals",
+    "read": "2026-11"
+   },
+   {
+    "name": "KGHM Polska Miedź",
+    "hq": "POL",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Polish copper and silver miner and smelter (Lubin)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź",
+    "read": "2026-11"
+   },
+   {
+    "name": "MMG",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "parent": "China Minmetals",
+    "detail": "Melbourne-based base metals miner; China Minmetals holds 67.49%",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/MMG_Limited",
+    "read": "2026-11"
+   },
+   {
+    "name": "Ivanhoe Mines",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Kamoa-Kakula copper mine (DRC); Platreef PGM project (South Africa)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Ivanhoe_Mines",
+    "read": "2026-11"
+   },
+   {
+    "name": "Lundin Mining",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Candelaria and Caserones copper mines (Chile)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lundin_Mining",
+    "read": "2026-11"
    }
   ],
   "processors": [
@@ -166,133 +651,222 @@
     "name": "Jiangxi Copper",
     "hq": "CHN",
     "role": "smelter",
-    "detail": "Large Chinese smelter",
+    "own": "state",
+    "parent": "Jiangxi Copper Corporation",
+    "detail": "Integrated copper miner, smelter and refiner (Nanchang)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Jiangxi_Copper"
+    "url": "https://en.wikipedia.org/wiki/Jiangxi_Copper",
+    "read": "2026-11"
    },
    {
     "name": "Tongling Nonferrous",
     "hq": "CHN",
     "role": "smelter",
-    "detail": "Large Chinese smelter",
+    "own": "state",
+    "parent": "Tongling Nonferrous Metals Group Holding Company",
+    "detail": "Copper miner and smelter (Tongling, Anhui)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Tongling_Nonferrous_Metals_Group"
+    "url": "https://en.wikipedia.org/wiki/Tongling_Nonferrous_Metals",
+    "read": "2026-11"
    },
    {
     "name": "Aurubis",
     "hq": "DEU",
     "role": "smelter",
-    "detail": "Largest copper recycler/smelter in Europe",
+    "own": "listed",
+    "detail": "Hamburg-based copper smelter and recycler (formerly Norddeutsche Affinerie)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Aurubis"
+    "url": "https://en.wikipedia.org/wiki/Aurubis",
+    "read": "2026-11"
    }
   ],
   "traders": [
    {
-    "name": "Glencore",
-    "hq": "CHE",
-    "role": "trader",
-    "detail": "Dominant physical copper marketer",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
-   },
-   {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Concentrate and refined metal trading",
+    "own": "private",
+    "detail": "Concentrate and refined metal trading; owner of Nyrstar",
+    "fig": {
+     "v": 19.4,
+     "u": "Mt",
+     "what": "non-ferrous concentrates and refined metals traded, all metals",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+     "n": "Financial year to 30 September 2025; bulk minerals a further 84.6 Mt. 2025 annual report."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Mercuria",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Metals trading",
+    "own": "private",
+    "detail": "Geneva-based trader; energy, base metals and agricultural products",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+    "url": "https://en.wikipedia.org/wiki/Mercuria",
+    "read": "2026-11"
    },
    {
     "name": "IXM",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Geneva-based concentrates trader, owned by CMOC",
+    "own": "private",
+    "parent": "CMOC",
+    "detail": "Geneva-based concentrates and refined metals trader (formerly LDC Metals), owned by CMOC",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/IXM"
+    "url": "https://en.wikipedia.org/wiki/IXM",
+    "read": "2026-11"
    },
    {
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
    },
    {
     "name": "Transamine",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Geneva-based non-ferrous and ferroalloys trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Transamine"
+    "detail": "Geneva-based trader of base metal ores and concentrates, tin, cobalt, nickel and precious metals",
+    "s": "company-reports",
+    "url": "https://www.transamine.com/page/31/about-us.html",
+    "read": "2026-11"
    }
   ]
  },
  "aluminium": {
   "producers": [
    {
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "smelter",
+    "own": "listed",
+    "detail": "Smelters in Canada, Australia and New Zealand (Rio Tinto Aluminium)",
+    "fig": {
+     "v": 3380,
+     "u": "kt",
+     "what": "aluminium production, Rio Tinto share",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+     "n": "Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Alcoa",
+    "hq": "USA",
+    "role": "smelter",
+    "own": "listed",
+    "detail": "Vertically integrated: bauxite mining, alumina refining, aluminium smelting and casting",
+    "fig": {
+     "v": 2319,
+     "u": "kt",
+     "what": "aluminium production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526077167/aa-20251231.htm",
+     "n": "Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526077167/aa-20251231.htm",
+    "read": "2026-11"
+   },
+   {
     "name": "China Hongqiao",
     "hq": "CHN",
     "role": "smelter",
-    "detail": "World's largest aluminium producer",
+    "own": "listed",
+    "parent": "Shandong Weiqiao Pioneering Group",
+    "detail": "Shandong (Binzhou) smelters with captive power; part of the capacity is moving to hydropower in Yunnan",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group"
+    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group",
+    "read": "2026-11"
    },
    {
     "name": "Chalco (Aluminum Corp of China)",
     "hq": "CHN",
     "role": "smelter",
-    "detail": "State-owned",
+    "own": "state-listed",
+    "detail": "Listed, state-owned alumina and aluminium producer (Beijing)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Aluminum_Corporation_of_China"
+    "url": "https://en.wikipedia.org/wiki/Aluminum_Corporation_of_China_Limited",
+    "read": "2026-11"
    },
    {
     "name": "Rusal",
     "hq": "RUS",
     "role": "smelter",
-    "detail": "Largest ex-China producer",
+    "own": "listed",
+    "detail": "Russian aluminium and alumina producer founded by Oleg Deripaska",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rusal"
+    "url": "https://en.wikipedia.org/wiki/Rusal",
+    "read": "2026-11"
    },
    {
     "name": "Emirates Global Aluminium",
     "hq": "ARE",
     "role": "smelter",
-    "detail": "Large Gulf smelter",
+    "own": "state",
+    "parent": "Mubadala Investment Company and Investment Corporation of Dubai",
+    "detail": "Smelters in Abu Dhabi and Dubai, alumina refinery in Abu Dhabi",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium",
+    "read": "2026-11"
    },
    {
-    "name": "Rio Tinto",
-    "hq": "GBR",
+    "name": "Norsk Hydro",
+    "hq": "NOR",
     "role": "smelter",
-    "detail": "Canadian smelters",
+    "own": "listed",
+    "detail": "Norwegian aluminium and renewable energy company (Oslo)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
+    "url": "https://en.wikipedia.org/wiki/Norsk_Hydro",
+    "read": "2026-11"
+   },
+   {
+    "name": "Alba (Aluminium Bahrain)",
+    "hq": "BHR",
+    "role": "smelter",
+    "own": "listed",
+    "detail": "Smelter at Askar (Bahrain), operating since 1971",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Aluminium_Bahrain",
+    "read": "2026-11"
+   },
+   {
+    "name": "Hindalco",
+    "hq": "IND",
+    "role": "smelter",
+    "own": "listed",
+    "parent": "Aditya Birla Group",
+    "detail": "Indian aluminium and copper producer, Aditya Birla Group; owns Novelis (rolled products)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Hindalco_Industries",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -300,153 +874,248 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Aluminium and alumina trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    },
    {
     "name": "Mercuria",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Aluminium and metals trading",
+    "own": "private",
+    "detail": "Geneva-based trader; energy, base metals and agricultural products",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+    "url": "https://en.wikipedia.org/wiki/Mercuria",
+    "read": "2026-11"
    },
    {
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
    }
   ]
  },
  "bauxite": {
   "producers": [
    {
-    "name": "CBG (Compagnie des Bauxites de Guinée)",
-    "hq": "GIN",
+    "name": "Rio Tinto",
+    "hq": "GBR",
     "role": "producer",
-    "detail": "Boké-region exporter owned by Halco (Alcoa/Rio Tinto-linked) and the Guinean state; supplies EGA and others",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Compagnie_des_Bauxites_de_Guinée"
-   },
-   {
-    "name": "Guinea Alumina Corporation (GAC, EGA)",
-    "hq": "GIN",
-    "role": "producer",
-    "detail": "EGA subsidiary; Guinea revoked its concession in 2025 and transferred assets to state firm Nimba Mining; compensation settlement agreed May 2026",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+    "own": "listed",
+    "detail": "Weipa (Queensland) and Gove; Guinea interests via Halco/CBG",
+    "fig": {
+     "v": 62.4,
+     "u": "Mt",
+     "what": "bauxite production, Rio Tinto share",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+     "n": "Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+    "read": "2026-11"
    },
    {
     "name": "SMB-Winning consortium",
     "hq": "GIN",
     "role": "producer",
-    "detail": "Boké-region operator (Société Minière de Boké, part of the Winning Consortium); a leading Guinean bauxite exporter",
+    "detail": "Boké-region operator (Société Minière de Boké, part of the Winning Consortium)",
+    "fig": {
+     "v": 48,
+     "u": "Mt",
+     "what": "bauxite production",
+     "y": 2023,
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Société_minière_de_Boké",
+     "n": "Wikipedia; 36 Mt in 2018."
+    },
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Société_minière_de_Boké"
-   },
-   {
-    "name": "Chalco (Aluminum Corp of China)",
-    "hq": "CHN",
-    "role": "producer",
-    "detail": "State-owned; secures bauxite from Guinea and domestic mines for its alumina refineries",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Chalco"
+    "y": 2023,
+    "url": "https://en.wikipedia.org/wiki/Société_minière_de_Boké",
+    "read": "2026-11"
    },
    {
     "name": "Alcoa",
     "hq": "USA",
     "role": "producer",
-    "detail": "Australian bauxite (Huntly, Willowdale) and Brazil; CBG shareholder via Halco",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Alcoa"
+    "own": "listed",
+    "detail": "Bauxite in Western Australia (Huntly, Willowdale) and Brazil; CBG shareholder via Halco",
+    "fig": {
+     "v": 37.5,
+     "u": "Mt",
+     "what": "bauxite production, incl. equity share of partnerships",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526077167/aa-20251231.htm",
+     "n": "Dry metric tonnes: 33.0 Mt from Alcoa-operated mines, 4.5 Mt equity share. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1675149/000119312526077167/aa-20251231.htm",
+    "read": "2026-11"
    },
    {
-    "name": "Rio Tinto",
-    "hq": "GBR",
+    "name": "CBG (Compagnie des Bauxites de Guinée)",
+    "hq": "GIN",
     "role": "producer",
-    "detail": "Weipa (Queensland) and Gove; Guinea interests via Halco/CBG",
+    "detail": "Sangarédi mine, Boké region; 49% Guinean state, 51% Halco Mining",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rio_Tinto_(corporation)"
+    "url": "https://en.wikipedia.org/wiki/Compagnie_des_Bauxites_de_Guinée",
+    "read": "2026-11"
+   },
+   {
+    "name": "Chalco (Aluminum Corp of China)",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "Listed, state-owned alumina and aluminium producer; bauxite from Guinea and domestic mines",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Aluminum_Corporation_of_China_Limited",
+    "read": "2026-11"
    },
    {
     "name": "South32",
     "hq": "AUS",
     "role": "producer",
+    "own": "listed",
     "detail": "Worsley Alumina (Western Australia) and Mineração Rio do Norte (Brazil) interests",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/South32"
+    "url": "https://en.wikipedia.org/wiki/South32",
+    "read": "2026-11"
    }
   ]
  },
  "nickel": {
   "producers": [
    {
+    "name": "Vale",
+    "hq": "BRA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Sudbury, Voisey's Bay, Thompson (Canada), Sorowako (Indonesia), Onça Puma (Brazil)",
+    "fig": {
+     "v": 177.2,
+     "u": "kt",
+     "what": "finished nickel production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
+     "n": "Contained nickel; Sorowako at 100%. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Murrin Murrin (Australia), INO (Canada) and other operations",
+    "fig": {
+     "v": 71.9,
+     "u": "kt",
+     "what": "own sourced nickel production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Full year 2025 production report."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "read": "2026-11"
+   },
+   {
     "name": "Tsingshan",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Largest Indonesian NPI/nickel operator",
+    "own": "private",
+    "detail": "Private stainless steel, nickel and aluminium group (Wenzhou)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Tsingshan_Holding_Group"
+    "url": "https://en.wikipedia.org/wiki/Tsingshan_Holding_Group",
+    "read": "2026-11"
    },
    {
     "name": "Nornickel",
     "hq": "RUS",
     "role": "producer",
-    "detail": "Largest class-1 nickel producer",
+    "own": "listed",
+    "detail": "Norilsk-Talnakh (Siberia) and Kola Peninsula; nickel, palladium, copper",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Nornickel"
-   },
-   {
-    "name": "Vale",
-    "hq": "BRA",
-    "role": "producer",
-    "detail": "Canada, Indonesia",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Vale_(mining_company)"
+    "url": "https://en.wikipedia.org/wiki/Norilsk_Nickel",
+    "read": "2026-11"
    },
    {
     "name": "Eramet",
     "hq": "FRA",
     "role": "producer",
+    "own": "listed",
     "detail": "Weda Bay, Indonesia",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Eramet"
+    "url": "https://en.wikipedia.org/wiki/Eramet",
+    "read": "2026-11"
    },
    {
     "name": "BHP",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Nickel West (suspended)",
+    "own": "listed",
+    "detail": "Nickel West (Western Australia), suspended",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/BHP"
+    "url": "https://en.wikipedia.org/wiki/BHP",
+    "read": "2026-11"
+   },
+   {
+    "name": "Jinchuan Group",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Gansu provincial government",
+    "detail": "Gansu provincial state-owned nickel and cobalt producer (Jinchang); also copper and PGMs",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Jinchuan_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Harita Group",
+    "hq": "IDN",
+    "role": "producer",
+    "own": "private",
+    "detail": "Indonesian conglomerate of the Lim family; nickel mining and ferronickel smelting",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Harita_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Huayou Cobalt",
+    "hq": "CHN",
+    "role": "processor",
+    "own": "listed",
+    "detail": "Zhejiang-based cobalt and nickel chemicals producer",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Zhejiang_Huayou_Cobalt",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -454,59 +1123,106 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Nickel and ferroalloys trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    },
    {
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
    }
   ]
  },
  "cobalt": {
   "producers": [
    {
-    "name": "Glencore",
-    "hq": "CHE",
-    "role": "producer",
-    "detail": "Major DRC cobalt",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
-   },
-   {
     "name": "CMOC",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Tenke Fungurume, Kisanfu",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Molybdenum"
+    "own": "listed",
+    "detail": "Tenke Fungurume and Kisanfu (DRC); copper, cobalt, molybdenum, niobium",
+    "fig": {
+     "v": 117.5,
+     "u": "kt",
+     "what": "cobalt metal production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
+     "n": "117,549 t. HKEX filing, March 2026."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "own": "listed",
+    "detail": "KCC and Mutanda (DRC), Murrin Murrin (Australia)",
+    "fig": {
+     "v": 36.1,
+     "u": "kt",
+     "what": "own sourced cobalt production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Full year 2025 production report."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "read": "2026-11"
    },
    {
     "name": "Eurasian Resources Group",
     "hq": "LUX",
     "role": "producer",
-    "detail": "DRC operations",
+    "own": "private",
+    "detail": "Luxembourg-registered miner with operations in Kazakhstan, Brazil and Central Africa (DRC)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Eurasian_Resources_Group"
+    "url": "https://en.wikipedia.org/wiki/Eurasian_Resources_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "Gécamines",
+    "hq": "COD",
+    "role": "producer",
+    "own": "state",
+    "detail": "Congolese state-controlled mining and commodity trading company (Lubumbashi)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Gécamines",
+    "read": "2026-11"
+   },
+   {
+    "name": "Jinchuan Group",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Gansu provincial government",
+    "detail": "Gansu provincial state-owned nickel and cobalt producer (Jinchang); also copper and PGMs",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Jinchuan_Group",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -514,77 +1230,147 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Cobalt and metals trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    },
    {
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
+   }
+  ],
+  "processors": [
+   {
+    "name": "Huayou Cobalt",
+    "hq": "CHN",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "Zhejiang-based cobalt and nickel chemicals producer (cobalt oxides, sulphate, hydroxide)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Zhejiang_Huayou_Cobalt",
+    "read": "2026-11"
+   },
+   {
+    "name": "Umicore",
+    "hq": "BEL",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "Brussels-based materials technology group (Union Minière before 2001)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Umicore",
+    "read": "2026-11"
    }
   ]
  },
  "lithium": {
   "producers": [
    {
-    "name": "Albemarle",
-    "hq": "USA",
-    "role": "producer",
-    "detail": "Chile, Australia",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Albemarle_Corporation"
-   },
-   {
     "name": "SQM",
     "hq": "CHL",
     "role": "producer",
-    "detail": "Atacama brine",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Sociedad_Química_y_Minera"
+    "own": "listed",
+    "detail": "Salar de Atacama brine (Chile); 50% of Mount Holland (Australia)",
+    "fig": {
+     "v": 258,
+     "u": "kt",
+     "what": "lithium sales volumes, LCE",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/909037/000090903726000023/sqm-20251231.htm",
+     "n": "Nearly 258 thousand tonnes LCE, including the 50% share of Mount Holland. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/909037/000090903726000023/sqm-20251231.htm",
+    "read": "2026-11"
    },
    {
-    "name": "Pilbara Minerals",
+    "name": "Rio Tinto",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Rio Tinto Lithium, formerly Arcadium Lithium, acquired in March 2025",
+    "fig": {
+     "v": 57,
+     "u": "kt",
+     "what": "lithium carbonate equivalent production, Rio Tinto share",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+     "n": "Includes Arcadium's production before the acquisition completed; 46 kt attributable to Rio Tinto. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Albemarle",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Greenbushes and Wodgina (Australia), Salar de Atacama (Chile), Silver Peak (Nevada)",
+    "fig": {
+     "v": 42,
+     "u": "kt",
+     "what": "lithium production, lithium metal basis",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
+     "n": "Attributable: Greenbushes 49%. Albemarle converts 0.1878 t lithium metal to 1 t LCE. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "PLS",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Spodumene",
+    "own": "listed",
+    "detail": "Pilgangoora spodumene and tantalite operation (Pilbara); formerly Pilbara Minerals",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Pilbara_Minerals"
+    "url": "https://en.wikipedia.org/wiki/PLS_(company)",
+    "read": "2026-11"
    },
    {
     "name": "Ganfeng Lithium",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Chinese converter",
+    "own": "listed",
+    "detail": "Lithium chemicals and metal producer (Xinyu, Jiangxi); also batteries",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Ganfeng_Lithium"
+    "url": "https://en.wikipedia.org/wiki/Ganfeng_Lithium",
+    "read": "2026-11"
    },
    {
     "name": "Tianqi Lithium",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Greenbushes stake",
+    "own": "listed",
+    "detail": "Lithium chemicals producer (Sichuan); Kwinana hydroxide plant (Western Australia)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Tianqi_Lithium"
+    "url": "https://en.wikipedia.org/wiki/Tianqi_Lithium",
+    "read": "2026-11"
    }
   ]
  },
@@ -594,37 +1380,95 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "Major zinc miner and marketer",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "own": "listed",
+    "detail": "McArthur River and Mount Isa (Australia), Kazzinc (Kazakhstan), Kidd (Canada), Antamina share (Peru); also marketing",
+    "fig": {
+     "v": 969.4,
+     "u": "kt",
+     "what": "own sourced zinc production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Full year 2025 production report."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "read": "2026-11"
    },
    {
     "name": "Teck Resources",
     "hq": "CAN",
     "role": "producer",
-    "detail": "Red Dog mine (Alaska) and Trail smelter; coal business sold to Glencore in 2024 (now Elk Valley Resources); merger with Anglo American agreed, pending final approvals",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Teck_Resources"
+    "own": "listed",
+    "detail": "Red Dog (Alaska), Antamina share (Peru), Trail refinery (Canada); merger with Anglo American to form Anglo Teck agreed in September 2025",
+    "fig": {
+     "v": 565,
+     "u": "kt",
+     "what": "zinc in concentrate production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+     "n": "Refined zinc at Trail 229.9 kt. 2025 MD&A filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+    "read": "2026-11"
    },
    {
     "name": "Nyrstar",
-    "hq": "BEL",
+    "hq": "NLD",
     "role": "smelter",
-    "detail": "Major zinc smelter",
+    "own": "private",
+    "parent": "Trafigura",
+    "detail": "Smelting and other operations in Europe, Australia and the United States; owned by Trafigura since 2019",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Nyrstar"
+    "url": "https://en.wikipedia.org/wiki/Nyrstar",
+    "read": "2026-11"
    },
    {
     "name": "Korea Zinc",
     "hq": "KOR",
     "role": "smelter",
-    "detail": "Largest zinc smelter",
+    "own": "listed",
+    "parent": "Young Poong Group",
+    "detail": "Seoul-based smelter of zinc, lead and other metals",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Korea_Zinc"
+    "url": "https://en.wikipedia.org/wiki/Korea_Zinc",
+    "read": "2026-11"
+   },
+   {
+    "name": "Hindustan Zinc",
+    "hq": "IND",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Vedanta Limited",
+    "detail": "Rajasthan zinc, lead and silver miner and smelter; Vedanta Limited 64.92%, Government of India 35.08%",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc",
+    "read": "2026-11"
+   },
+   {
+    "name": "Boliden",
+    "hq": "SWE",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Swedish miner and smelter of zinc, copper, lead, nickel; mines in Sweden, Finland, Norway, Portugal and Ireland",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Boliden_AB",
+    "read": "2026-11"
+   },
+   {
+    "name": "Vedanta",
+    "hq": "IND",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Vedanta Resources",
+    "detail": "Indian metals and mining group (Mumbai), parent of Hindustan Zinc",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Vedanta_Limited",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -632,37 +1476,41 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Zinc concentrate and metal trading; owner of Nyrstar",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    },
    {
     "name": "IXM",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Geneva-based concentrates trader, owned by CMOC",
+    "own": "private",
+    "parent": "CMOC",
+    "detail": "Geneva-based concentrates and refined metals trader (formerly LDC Metals), owned by CMOC",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/IXM"
+    "url": "https://en.wikipedia.org/wiki/IXM",
+    "read": "2026-11"
    },
    {
     "name": "Transamine",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Geneva-based non-ferrous and ferroalloys trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Transamine"
+    "detail": "Geneva-based trader of base metal ores and concentrates, tin, cobalt, nickel and precious metals",
+    "s": "company-reports",
+    "url": "https://www.transamine.com/page/31/about-us.html",
+    "read": "2026-11"
    }
   ]
  },
@@ -672,46 +1520,54 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "Major lead and zinc miner and marketer",
+    "own": "listed",
+    "detail": "Lead and zinc miner and marketer",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Hindustan Zinc",
     "hq": "IND",
     "role": "producer",
+    "own": "listed",
+    "parent": "Vedanta Limited",
     "detail": "Rajasthan zinc-lead-silver miner and smelter, Vedanta group",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc"
+    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc",
+    "read": "2026-11"
    },
    {
     "name": "Teck Resources",
     "hq": "CAN",
     "role": "producer",
+    "own": "listed",
     "detail": "Red Dog (zinc-lead concentrates) and Trail smelter",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Teck_Resources"
+    "url": "https://en.wikipedia.org/wiki/Teck_Resources",
+    "read": "2026-11"
    },
    {
     "name": "Doe Run Company",
     "hq": "USA",
     "role": "producer",
-    "detail": "Missouri's Viburnum Trend lead mines and Herculaneum-area operations",
+    "own": "private",
+    "parent": "The Renco Group",
+    "detail": "Six mines and four mills on the Viburnum Trend (Missouri) and a lead battery recycling plant; its Herculaneum smelter closed in December 2013",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Doe_Run_Company"
+    "url": "https://en.wikipedia.org/wiki/Doe_Run_Company",
+    "read": "2026-11"
    },
    {
     "name": "Korea Zinc",
     "hq": "KOR",
     "role": "producer",
-    "detail": "Large zinc and lead smelter (Onsan)",
+    "own": "listed",
+    "parent": "Young Poong Group",
+    "detail": "Zinc and lead smelter (Onsan)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Korea_Zinc"
+    "url": "https://en.wikipedia.org/wiki/Korea_Zinc",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -719,28 +1575,31 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Large metals marketing arm (copper, zinc, lead, nickel, cobalt, aluminium)",
+    "own": "listed",
+    "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Lead and zinc concentrates trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    },
    {
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
    }
   ]
  },
@@ -750,46 +1609,44 @@
     "name": "Yunnan Tin",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Large Chinese tin miner and refiner (Yunnan Tin Group)",
+    "own": "state",
+    "parent": "Yunnan Tin Group (Holding) Company",
+    "detail": "Kunming-based tin miner, smelter and exporter (Yunnan Tin Group)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Yunnan_Tin"
+    "url": "https://en.wikipedia.org/wiki/Yunnan_Tin",
+    "read": "2026-11"
    },
    {
     "name": "PT Timah",
     "hq": "IDN",
     "role": "producer",
-    "detail": "State-controlled Indonesian tin miner/refiner, Bangka-Belitung; government holds 65%",
+    "own": "state-listed",
+    "parent": "MIND ID",
+    "detail": "Tin miner and smelter on Bangka, Belitung and Kundur; member of the state mining holding MIND ID",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://timah.com/blog/about-us/pt-timah-tbk-overview"
+    "url": "https://timah.com/blog/about-us/pt-timah-tbk-overview",
+    "read": "2026-11"
    },
    {
     "name": "Minsur",
     "hq": "PER",
     "role": "producer",
-    "detail": "Peru's San Rafael mine; also owns Thaisarco smelter",
+    "own": "listed",
+    "detail": "San Rafael tin mine and Pisco smelter and refinery (Peru)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Minsur"
+    "url": "https://en.wikipedia.org/wiki/Minsur",
+    "read": "2026-11"
    },
    {
     "name": "Malaysia Smelting Corporation",
     "hq": "MYS",
     "role": "producer",
+    "own": "listed",
+    "parent": "The Straits Trading Company",
     "detail": "Tin smelter and refiner (Butterworth) with Malaysian and Indonesian mining interests",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Malaysia_Smelting_Corporation"
-   },
-   {
-    "name": "Thaisarco",
-    "hq": "THA",
-    "role": "processor",
-    "detail": "Thailand smelter and refiner of tin, owned by Minsur",
-    "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.thaisarco.com/"
+    "url": "https://en.wikipedia.org/wiki/Straits_Trading_Company",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -797,19 +1654,21 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
+    "own": "private",
     "detail": "Metals and ferroalloys merchant (Gerald Metals)",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.gerald.com/"
+    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "Non-ferrous and minor metals trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    }
   ]
  },
@@ -819,46 +1678,50 @@
     "name": "South32",
     "hq": "AUS",
     "role": "producer",
+    "own": "listed",
     "detail": "GEMCO (Australia) and Hotazel (South Africa) manganese ore and alloys",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/South32"
+    "url": "https://en.wikipedia.org/wiki/South32",
+    "read": "2026-11"
    },
    {
     "name": "Eramet / Comilog",
     "hq": "FRA",
     "role": "producer",
-    "detail": "Comilog mines in Moanda, Gabon; Eramet is the parent",
+    "own": "listed",
+    "detail": "Comilog mines at Moanda (Gabon); Eramet is the parent",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Comilog"
+    "url": "https://en.wikipedia.org/wiki/Compagnie_minière_de_l'Ogooué",
+    "read": "2026-11"
    },
    {
     "name": "Assmang",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Assore / African Rainbow Minerals JV; Kalahari manganese and iron ore",
+    "detail": "Assore and African Rainbow Minerals joint venture: Nchwaning and Gloria manganese mines, Beeshoek iron ore, Cato Ridge ferromanganese",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.assore.com/"
+    "url": "https://www.assore.com/who-we-are/our-history/",
+    "read": "2026-11"
    },
    {
     "name": "Tshipi é Ntle",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Kalahari Manganese Field mine, Northern Cape",
+    "parent": "Exxaro Resources",
+    "detail": "Tshipi Borwa mine, Kalahari Manganese Field (Northern Cape); Exxaro acquired 50.1% in 2026 alongside Jupiter Mines",
     "s": "company-reports",
     "y": 2026,
-    "url": "https://www.tshipi.co.za/"
+    "url": "https://www.tshipi.co.za/who-we-are/our-history",
+    "read": "2026-11"
    },
    {
     "name": "Consolidated Minerals (Consmin)",
-    "hq": "AUS",
+    "hq": "JEY",
     "role": "producer",
-    "detail": "Ghana (Nsuta) manganese ore producer and trader",
+    "detail": "Manganese ore supplier with operations in Australia and Ghana; head office in Jersey",
     "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.consmin.com/"
+    "url": "https://www.consmin.com/about/company-profile/",
+    "read": "2026-11"
    }
   ]
  },
@@ -868,86 +1731,320 @@
     "name": "Newmont",
     "hq": "USA",
     "role": "producer",
-    "detail": "Largest gold miner",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Newmont"
-   },
-   {
-    "name": "Barrick",
-    "hq": "CAN",
-    "role": "producer",
-    "detail": "Major gold miner",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Barrick_Mining_Corporation"
+    "own": "listed",
+    "detail": "Nevada Gold Mines (with Barrick), Ahafo (Ghana), Pueblo Viejo share and other mines",
+    "fig": {
+     "v": 183.2,
+     "u": "t",
+     "what": "attributable gold production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000010/nem-20251231.htm",
+     "n": "Stated as 5,889 thousand ounces. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1164727/000116472726000010/nem-20251231.htm",
+    "read": "2026-11"
    },
    {
     "name": "Agnico Eagle",
     "hq": "CAN",
     "role": "producer",
-    "detail": "Major gold miner",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Agnico_Eagle_Mines"
+    "own": "listed",
+    "detail": "Mines in Canada, Australia, Finland and Mexico",
+    "fig": {
+     "v": 107.2,
+     "u": "t",
+     "what": "payable gold production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926032153/aem-20251231xex99d1.htm",
+     "n": "Stated as 3,447,367 ounces. Annual information form filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/2809/000110465926032153/aem-20251231xex99d1.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Barrick Mining",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Gold and copper miner; named Barrick Gold Corporation until 2025",
+    "fig": {
+     "v": 101.4,
+     "u": "t",
+     "what": "gold production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/756894/000119312526079253/d833573dex991.htm",
+     "n": "Stated as 3.26 million ounces. Annual information form filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/756894/000119312526079253/d833573dex991.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "AngloGold Ashanti",
+    "hq": "ZAF",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Gold miner (Johannesburg); mines include Sukari (Egypt) and operations in Ghana",
+    "fig": {
+     "v": 96.1,
+     "u": "t",
+     "what": "attributable gold production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1973832/000197383226000066/au-20251231.htm",
+     "n": "Stated as 3.091 million ounces. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1973832/000197383226000066/au-20251231.htm",
+    "read": "2026-11"
    },
    {
     "name": "Zijin Mining",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Major Chinese miner",
-    "s": "wikipedia",
+    "own": "listed",
+    "detail": "Fujian-based miner of gold, copper and zinc with mines in Asia, Africa, Europe and the Americas",
+    "fig": {
+     "v": 89.5,
+     "u": "t",
+     "what": "mine-produced gold",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
+     "n": "89,544 kg. 2025 annual results announcement (HKEX)."
+    },
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
+    "read": "2026-11"
+   },
+   {
+    "name": "Gold Fields",
+    "hq": "ZAF",
+    "role": "producer",
+    "own": "listed",
+    "detail": "South Deep (South Africa), Tarkwa (Ghana), Cerro Corona (Peru), Salares Norte (Chile) and other mines",
+    "fig": {
+     "v": 75.8,
+     "u": "t",
+     "what": "attributable gold equivalent production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1172724/000162828026021904/gfi-20251231.htm",
+     "n": "Stated as 2,438 thousand ounces. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1172724/000162828026021904/gfi-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Kinross Gold",
+    "hq": "CAN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Paracatu (Brazil), Fort Knox (Alaska) and other mines",
+    "fig": {
+     "v": 62.6,
+     "u": "t",
+     "what": "attributable gold equivalent production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/701818/000110465926035268/kgc-20251231xex99d2.htm",
+     "n": "Stated as 2,012,106 gold equivalent ounces (silver converted at 86.29:1). 2025 MD&A filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/701818/000110465926035268/kgc-20251231xex99d2.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Harmony Gold",
+    "hq": "ZAF",
+    "role": "producer",
+    "own": "listed",
+    "detail": "South African gold miner",
+    "fig": {
+     "v": 44.5,
+     "u": "t",
+     "what": "gold produced",
+     "y": 2026,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1023514/000162828026068459/hmy-20260630.htm",
+     "n": "Financial year to 30 June 2026. 44,464 kg. Form 20-F 2026."
+    },
+    "s": "sec-edgar",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Zijin_Mining"
+    "url": "https://www.sec.gov/Archives/edgar/data/1023514/000162828026068459/hmy-20260630.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Polyus",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Moscow-based gold miner",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Polyus_(company)",
+    "read": "2026-11"
+   },
+   {
+    "name": "Navoi Mining and Metallurgical Company",
+    "hq": "UZB",
+    "role": "producer",
+    "own": "state",
+    "parent": "Ministry of Economy and Finance of Uzbekistan",
+    "detail": "Uzbek state-owned miner; gold deposits in the Kyzylkum Desert",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Navoi_Mining_and_Metallurgical_Company",
+    "read": "2026-11"
+   },
+   {
+    "name": "Northern Star Resources",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Australian gold miner with operations in Western Australia and Alaska",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Northern_Star_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "Shandong Gold",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Shandong provincial government",
+    "detail": "Shandong provincial state-owned gold miner (Jinan)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Shandong_Gold_Group",
+    "read": "2026-11"
+   }
+  ],
+  "processors": [
+   {
+    "name": "Valcambi",
+    "hq": "CHE",
+    "role": "refiner",
+    "parent": "Rajesh Exports",
+    "detail": "Precious metals refinery at Balerna (Switzerland); subsidiary of Rajesh Exports",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Valcambi",
+    "read": "2026-11"
+   },
+   {
+    "name": "Rand Refinery",
+    "hq": "ZAF",
+    "role": "refiner",
+    "detail": "Integrated precious metals refinery and smelter at Germiston (South Africa), established in 1920",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Rand_Refinery",
+    "read": "2026-11"
+   },
+   {
+    "name": "Perth Mint",
+    "hq": "AUS",
+    "role": "refiner",
+    "own": "state",
+    "parent": "Government of Western Australia",
+    "detail": "Refiner and mint owned by the Government of Western Australia",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Perth_Mint",
+    "read": "2026-11"
+   },
+   {
+    "name": "Heraeus",
+    "hq": "DEU",
+    "role": "refiner",
+    "own": "private",
+    "detail": "Family-owned German precious metals and technology group (Hanau)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Heraeus",
+    "read": "2026-11"
+   },
+   {
+    "name": "Emirates Gold",
+    "hq": "ARE",
+    "role": "refiner",
+    "detail": "Dubai precious metals refinery, bullion manufacturer and mint, founded in 1992",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Emirates_Gold",
+    "read": "2026-11"
    }
   ]
  },
  "silver": {
   "producers": [
    {
-    "name": "Fresnillo",
-    "hq": "GBR",
-    "role": "producer",
-    "detail": "London-listed, Mexico-based primary silver and gold miner",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Fresnillo_plc"
-   },
-   {
     "name": "Pan American Silver",
     "hq": "CAN",
     "role": "producer",
-    "detail": "Major primary silver producer across the Americas",
+    "own": "listed",
+    "detail": "Silver and gold mines across the Americas; acquired Juanicipio (MAG Silver) in September 2025",
+    "fig": {
+     "v": 710.4,
+     "u": "t",
+     "what": "attributable silver production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/paas12-31x2025mda.htm",
+     "n": "Stated as 22.84 million ounces. 2025 MD&A filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/771992/000077199226000019/paas12-31x2025mda.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Fresnillo",
+    "hq": "MEX",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Industrias Peñoles",
+    "detail": "Mexico City-based primary silver and gold miner, listed in London",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Pan_American_Silver"
+    "url": "https://en.wikipedia.org/wiki/Fresnillo_plc",
+    "read": "2026-11"
    },
    {
     "name": "KGHM Polska Miedź",
     "hq": "POL",
     "role": "producer",
-    "detail": "Polish copper miner and a major silver producer as by-product",
+    "own": "listed",
+    "detail": "Polish copper miner; silver as a by-product",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź"
+    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź",
+    "read": "2026-11"
    },
    {
     "name": "Solidcore Resources (formerly Polymetal)",
     "hq": "KAZ",
     "role": "producer",
-    "detail": "Polymetal's Kazakhstan-based successor after its Russian assets were divested",
+    "own": "listed",
+    "detail": "Polymetal International until June 2024; two mines in Kazakhstan",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Solidcore_Resources"
+    "url": "https://en.wikipedia.org/wiki/Solidcore_Resources",
+    "read": "2026-11"
    },
    {
     "name": "Hindustan Zinc",
     "hq": "IND",
     "role": "producer",
-    "detail": "Large silver producer as by-product of Indian zinc-lead mines",
+    "own": "listed",
+    "parent": "Vedanta Limited",
+    "detail": "Silver as a by-product of its Rajasthan zinc-lead mines; Vedanta group",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc"
+    "url": "https://en.wikipedia.org/wiki/Hindustan_Zinc",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -955,90 +2052,150 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
+    "own": "listed",
     "detail": "Trades silver-bearing concentrates alongside base metals",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    }
   ]
  },
  "pgm": {
   "producers": [
    {
-    "name": "Nornickel",
-    "hq": "RUS",
-    "role": "producer",
-    "detail": "Largest palladium producer",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Nornickel"
-   },
-   {
     "name": "Sibanye-Stillwater",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Major platinum and PGM producer",
+    "own": "listed",
+    "detail": "Bushveld PGM mines (South Africa) and Stillwater (Montana)",
+    "fig": {
+     "v": 56.0,
+     "u": "t",
+     "what": "attributable PGM production, 4E",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1786909/000162828026026991/sbsw-20251231.htm",
+     "n": "Stated as 1.80 Moz (4E); also 0.28 Moz (2E) from the US operations. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1786909/000162828026026991/sbsw-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "Nornickel",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Palladium, platinum and nickel from Norilsk-Talnakh (Siberia)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Sibanye-Stillwater"
+    "url": "https://en.wikipedia.org/wiki/Norilsk_Nickel",
+    "read": "2026-11"
    },
    {
     "name": "Implats",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Major PGM producer",
+    "own": "listed",
+    "detail": "Impala mine (North West), Two Rivers and Marula (Bushveld)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Impala_Platinum"
+    "url": "https://en.wikipedia.org/wiki/Impala_Platinum",
+    "read": "2026-11"
    },
    {
-    "name": "Valterra Platinum (formerly Anglo American Platinum)",
+    "name": "Valterra Platinum",
     "hq": "ZAF",
     "role": "producer",
-    "detail": "Renamed Valterra Platinum after its 2025 demerger from Anglo American; major PGM producer",
+    "own": "listed",
+    "detail": "Formerly Anglo American Platinum; demerged from Anglo American on 31 May 2025",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Valterra_Platinum"
+    "y": 2025,
+    "url": "https://en.wikipedia.org/wiki/Valterra_Platinum",
+    "read": "2026-11"
+   },
+   {
+    "name": "Northam Platinum",
+    "hq": "ZAF",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Johannesburg-based PGM producer, listed on the JSE",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Northam_Platinum",
+    "read": "2026-11"
    }
   ]
  },
  "rare-earths": {
   "producers": [
    {
-    "name": "China Northern Rare Earth",
-    "hq": "CHN",
-    "role": "producer",
-    "detail": "Dominant Chinese producer",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Northern_Rare_Earth_Group"
-   },
-   {
-    "name": "China Rare Earth Group",
-    "hq": "CHN",
-    "role": "producer",
-    "detail": "State-owned consolidation",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Rare_Earth_Group"
-   },
-   {
     "name": "MP Materials",
     "hq": "USA",
     "role": "producer",
-    "detail": "Mountain Pass",
+    "own": "listed",
+    "detail": "Mountain Pass rare earth mine and processing (California)",
+    "fig": {
+     "v": 50692,
+     "u": "t",
+     "what": "REO production volume",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1801368/000180136826000008/mp-20251231.htm",
+     "n": "Rare earth oxide equivalent in concentrate. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1801368/000180136826000008/mp-20251231.htm",
+    "read": "2026-11"
+   },
+   {
+    "name": "China Northern Rare Earth",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Baotou-based producer of rare earth concentrate and processed rare earth products",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/MP_Materials"
+    "url": "https://en.wikipedia.org/wiki/China_Northern_Rare_Earth",
+    "read": "2026-11"
    },
    {
     "name": "Lynas Rare Earths",
     "hq": "AUS",
     "role": "producer",
-    "detail": "Largest ex-China separator",
+    "own": "listed",
+    "detail": "Mount Weld mine (Western Australia) and Kuantan refinery (Malaysia)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Lynas"
+    "url": "https://en.wikipedia.org/wiki/Lynas",
+    "read": "2026-11"
+   },
+   {
+    "name": "Shenghe Resources",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Chengdu-based rare earth miner and processor; China's Ministry of Natural Resources is its main shareholder",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Shenghe_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "Iluka Resources",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Perth-based mineral sands producer (zircon, rutile); rare earths from its by-products",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Iluka_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "Neo Performance Materials",
+    "hq": "CAN",
+    "role": "processor",
+    "own": "listed",
+    "detail": "Toronto-based rare earths company (formerly Molycorp)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Neo_Performance_Materials",
+    "read": "2026-11"
    }
   ]
  }

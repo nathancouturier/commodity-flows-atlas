@@ -36,7 +36,8 @@ export function PriceFigure({ commodity }: { commodity: string }) {
   const name = annual ? m.name.replace(/,? annual average$/, '') : m.name;
   return (
     <div class="kpis pf">
-      <div class="kpi" title={`${m.name} · ${sourceLabel(m.s)} · ${what}${annual ? '' : ` · ${when}`}${m.basis ? ' · ' + m.basis : ''}`}>
+      {/* data-src: read by "Copy citation" (lib/cite.ts), like a source line */}
+      <div class="kpi" title={`${m.name} · ${sourceLabel(m.s)} · ${what}${annual ? '' : ` · ${when}`}${m.basis ? ' · ' + m.basis : ''}`} data-src={m.s} data-y={st.last.t.slice(0, 4)}>
         <div class="kpi-label">
           {annual ? `Annual average ${when}` : 'Latest price'} · {name}
         </div>

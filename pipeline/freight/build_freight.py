@@ -326,7 +326,13 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 continue
             label = label_of(g)
             tn = mtn if sea >= BL.SMALL_MT else ktn  # a group under 1 Mt is printed in kt, as its lane and commodity pages
-            n = [f"at least {tn(low)} of {tn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
+            # the part that has to cross rounds to nothing at the precision printed (e["mt"] below): said in words, not "at least 0.0"
+            zero = round(low, 3 if tn is mtn else 4) == 0
+            if zero:
+                n = [f"no cargo has to cross it: no recorded seaborne pair of the {tn(sea)} of seaborne {label} has an assumed route that has to "
+                     f"cross this passage (CEPII BACI {latest}, Atlas routing)"]
+            else:
+                n = [f"at least {tn(low)} of {tn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
             unr = sum(r["t"] for r in seaborne_rows if r["load"] == -1)
             if unr >= 0.05:
                 n.append(f"{tn(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
@@ -352,12 +358,12 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 top = [x for x in top if x[1] >= 0.005] or top[:1]
                 adds = ("adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on "
                         "another coast (largest: " + ", ".join(f"{K._name(o)} {tn(v)}" for o, v in top) + ")")
-                hn = f"up to {tn(high)}: {adds}"
+                hn = f"up to {tn(high)}{' may cross it' if zero else ''}: {adds}"
                 if hi_pub < high:
                     others = by_type[typ][0] - low
                     less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mtn(others)})" if others >= 0.05 else
                             f" (the atlas's other {TYPE_NAME[typ]} groups have almost no 'at least' tonnage here)")
-                    hn = (f"up to {tn(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
+                    hn = (f"up to {tn(hi_pub)}{' may cross it' if zero else ''}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
                           f"passage in {latest} ({mtn(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
                           f"cannot exceed; without the cap, {tn(high)}: {adds}")
                 e["hi"] = {"v": round(100 * hi_pub / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": hn}

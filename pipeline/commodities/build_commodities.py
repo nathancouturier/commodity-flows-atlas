@@ -889,7 +889,7 @@ class Psd:
             "s": "usda-psd",
             "years": [{"y": p.label, "yk": p.kind(), "rel": p.report_of(commodity)[0]} for p in ps],
             "rows": rows,
-            "n": (f"USDA PSD, {commodity}: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD "
+            "n": (f"USDA PSD, {commodity}: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD "
                   f"attribute '{use_attr}'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
                   + ("; USDA's own Stocks-to-Use attribute of a cotton country divides by domestic use plus exports" if commodity == "Cotton" else "")
                   + f". {YK_RULE}"),
@@ -1717,7 +1717,7 @@ def main():
             notes += [
                 f"Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: {conv}.",
                 "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
-                "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
+                "The EIA international data the atlas uses have no proved-reserves series.",
             ]
         elif cid == "refined-products":
             oil_demand(d)
@@ -1781,7 +1781,7 @@ def main():
             d["production"] = eia.ranked(("26-1", "BCM"), "bcm", 1.0, "dry natural gas production")
             d["consumption"] = eia.ranked(("26-2", "BCM"), "bcm", 1.0, "dry natural gas consumption")
             # countries are ranked on EIA volumes: customs tonnage of pipeline gas does not reconcile with them (see the notes)
-            via = "re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
+            via = "re-exports included; EIA gives no LNG split by country, so none is subtracted"
             d["exports"] = eia.ranked(("26-4", "BCM"), "bcm", 1.0, "dry natural gas exports", n_extra=via)
             d["imports"] = eia.ranked(("26-3", "BCM"), "bcm", 1.0, "dry natural gas imports", n_extra=via)
             for sec in ("exports", "imports"):
@@ -1803,14 +1803,14 @@ def main():
             ee, ei = dict(eia.country_values(("26-4", "BCM"), BACI_YEAR)), dict(eia.country_values(("26-3", "BCM"), BACI_YEAR))
             notes += [
                 f"Top exporters and importers rank EIA dry natural gas trade in bcm ({d['exports']['y']}): pipeline and LNG together, re-exports included. "
-                "The EIA file has no LNG split by country, so LNG is not subtracted; LNG by pair is under 'lng'.",
+                "EIA gives no LNG split by country, so LNG is not subtracted; LNG by pair is on the LNG page.",
                 f"Customs tonnage of gas in gaseous state (BACI HS 271121, Mt) does not reconcile with EIA volumes and is not used to rank countries. In {BACI_YEAR} "
                 f"customs data show {_fmt(ce['CAN'])} Mt of exports from Canada against {_fmt(ee['CAN'])} bcm in EIA, {_fmt(ce['BEL'])} Mt from Belgium against "
                 f"{_fmt(ee['BEL'])} bcm (counting gas in transit twice, or tonnage estimated from value, are plausible causes; not established here), and "
                 f"{_fmt(ci['MAR'])} Mt of imports by Morocco against {_fmt(ei['MAR'])} bcm.",
                 f"The flow list keeps only the country pairs joined by a gas pipeline of the atlas's own layer ({npipes} pipelines, a selection of major ones, not a "
                 "complete register): a pair appears only if the layer has a pipeline between its countries. Figures are customs tonnes (Mt), not bcm.",
-                "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."]
+                "The EIA international data the atlas uses have no proved-reserves series."]
         elif cid == "lpg":
             d["consumption"] = eia.ranked(("67-2", "MT"), "Mt", 1e-3, "liquefied petroleum gases consumption (1000 metric tons converted to Mt)")
             g = add_baci_trade(d, cid, notes, disc)
@@ -2292,7 +2292,7 @@ def main():
                 notes.append(f"The table lists the {len(pr['rows'])} countries USGS names; its 'Other countries' line ({_nf(pr['other'])} {pr['u'].split()[0]}, "
                              f"{pr['other'] / pr['world']:.0%} of the total) covers every other producer.")
         elif cid == "iron-ore":
-            notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown.")
+            notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS data but not shown.")
         elif cid == "manganese":
             notes.append("Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table.")
         elif cid == "urea":
@@ -2381,6 +2381,16 @@ def main():
     except Exception as e:  # noqa: BLE001
         monthly_error = f"{e.__class__.__name__}: {e}"[:300]
         warn(f"monthly series NOT rebuilt, the files of data/commodities/monthly keep their previous content: {monthly_error}")
+
+    # what the monthly series of an energy page lack is said in the Notes of the page (the monthly file keeps the same list); read from the
+    # files written, so the notes follow the monthly series the page shows even when this run could not rebuild them
+    for cid, d in docs.items():
+        mf = os.path.join(OUT, "monthly", cid + ".json")
+        if os.path.exists(mf):
+            with open(mf, encoding="utf-8") as f:
+                gaps = json.load(f).get("gaps") or []
+            if gaps:
+                d["notes"] = (d.get("notes") or []) + gaps
 
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
@@ -2981,8 +2991,14 @@ def caveats(docs, eia):
     # LNG: the customs tables against the industry's world totals and the order its publisher gives
     lx = docs["lng"]["exports"]
     lw, ly = lx["world"], lx["y"]
-    refs = "; ".join(f"{pub} ({doc}, {LNG_URL[pub]}): {v:g} {u} in {y}" for pub, doc, v, u, y, what in LNG_REFERENCE if what == "world LNG trade")
-    text = (f"The country tables and their order are customs tonnage (CEPII BACI, {lw:.2f} Mt of world trade in {ly}), below the industry totals. {refs}.")
+    # one mention of each publication and its address, with every year it gives
+    pubs = {}
+    for pub, doc, v, u, y, what in LNG_REFERENCE:
+        if what == "world LNG trade":
+            pubs.setdefault((pub, doc), []).append(f"{v:g} {u} in {y}")
+    refs = "; ".join(f"{pub} ({doc}, {LNG_URL[pub]}): {' and '.join(xs)}" for (pub, doc), xs in pubs.items())
+    head = f"The country tables and their order are customs tonnage (CEPII BACI, {lw:.2f} Mt of world trade in {ly}), below the industry totals. {refs}."
+    text = head
     us = next((r for r in LNG_REFERENCE if r[0] == "GIIGNL" and r[5].startswith("exports of the United States")), None)
     rows = lx["rows"]
     pos = next((i + 1 for i, r in enumerate(rows) if r["c"] == "USA"), None)
@@ -2995,7 +3011,8 @@ def caveats(docs, eia):
         text += (f" EIA (U.S. liquefied natural gas exports, series {EIA_US_LNG['series']}, public domain) gives {bcf:,.0f} bcf in {EIA_US_LNG['year']}, "
                  f"about {bcf / BCF_PER_MT_LNG:.1f} Mt (Atlas conversion at {BCF_PER_MT_LNG:.2f} bcf per Mt), against {_fmt(rows[pos - 1]['v'])} Mt in the customs table.")
     text += " Country profiles show no world rank for LNG."
-    out["lng"] = {"exports": text, "discrepancies": [f"BACI LNG trade ({lw:.2f} Mt in {ly}) is below the industry totals: {refs}."],
+    # the discrepancy is the head of the caveat, word for word: the page prints it once, with the key figure (CommodityView seenAbove)
+    out["lng"] = {"exports": text, "discrepancies": [head],
                   # both caveats compare the customs figures of the latest year: a past-year table shows the short caveat (`caveatShort`)
                   "caveatYears": {"exports": [ly], "imports": [ly]}}
 

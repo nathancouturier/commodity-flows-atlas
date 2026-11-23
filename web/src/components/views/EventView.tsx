@@ -90,7 +90,7 @@ export default function EventView({ id }: { id: string }) {
           <p class="prose">{ev.summary}</p>
         </Section>
         {ev.impact && (
-          <Section title="Impact on freight">
+          <Section title="Impact">
             <p class="prose">{ev.impact}</p>
           </Section>
         )}

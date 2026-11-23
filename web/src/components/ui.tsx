@@ -234,7 +234,9 @@ function exposureText(k: string, e: NonNullable<Chokepoint['estimates']>[number]
   const what = /^[A-Z][a-z]/.test(name) ? name[0].toLowerCase() + name.slice(1) : name;
   const lo = fmtEst(e.f.v, true);
   const hi = e.hi && fmtEst(e.hi.v, true) !== lo ? fmtEst(e.hi.v, true) : null;
-  return `At least ${lo}%${hi ? `, up to ${hi}%` : ''} of seaborne ${what}`;
+  // no "at least" in front of a zero: no cargo has to cross, some may
+  if (hi && e.mt?.[0] === 0) return `Up to ${hi}% of seaborne ${what}`;
+  return `At least ${e.f.v === 0 && e.mt?.[0] ? '<0.1' : lo}%${hi ? `, up to ${hi}%` : ''} of seaborne ${what}`;
 }
 
 /** "the Strait of Hormuz", "Bab el-Mandeb": a passage's name inside a sentence (the part in brackets left out). */
@@ -250,8 +252,9 @@ function PassageFigure(props: { m: Alert['measures'][number]; full?: boolean; ch
   const yr = againstYear(m);
   const short = m.name.replace(/ \(.*\)$/, '');
   const mt = m.mt.now != null ? ` · about ${fmt(m.mt.now)} Mt of cargo` : '';
+  // data-src: read by "Copy citation" (lib/cite.ts), like a source line
   return (
-    <div class="alert-pass-fig">
+    <div class="alert-pass-fig" data-src={m.s} data-y={m.to.slice(0, 4)}>
       {chip && (
         <>
           <span class="alert-sev" title={chip.title}>
@@ -286,7 +289,7 @@ function PassageFigure(props: { m: Alert['measures'][number]; full?: boolean; ch
 function ExposureLine(props: { k: string; m: Alert['measures'][number]; e: NonNullable<Chokepoint['estimates']>[number] }) {
   const { k, m, e } = props;
   return (
-    <div class="alert-expo">
+    <div class="alert-expo" data-src={e.f.s} data-y={String(e.f.y)}>
       {exposureText(k, e)} crossed{' '}
       <button class="alert-pass-link" onClick={() => select({ kind: 'chokepoint', id: m.chokepoint })}>
         {inSentence(m.name)}
@@ -524,7 +527,7 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
   const note = props.note;
   const long = !!note && note.length > 90;
   return (
-    <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title}>
+    <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title} data-src={f?.s} data-y={f ? String(f.y) : undefined}>
       <div class="kpi-label">{props.label}</div>
       <div class="kpi-value" ref={valueRef}>{valueText}</div>
       {(f || props.sub) && (

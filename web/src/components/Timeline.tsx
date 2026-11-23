@@ -323,13 +323,14 @@ export function Timeline() {
             <button class="tl-step-btn" disabled={prevIdx < 0} aria-label="Previous event" onClick={() => openEvent(ticks[prevIdx].e)}>
               <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
             </button>
-            <span class="tl-step-cur">
+            <span class="tl-step-cur" title={selTick ? selTick.e.title : k ? `Events for ${lowerName(commodityMeta(k)?.name ?? k)}, with the general shipping and market events` : undefined}>
               {selTick ? (
                 <>
                   <span class="num">{selTick.e.date}</span> · {selTick.e.title}
                 </>
               ) : (
-                `${ticks.length} event${ticks.length > 1 ? 's' : ''}${k ? ` for ${lowerName(commodityMeta(k)?.name ?? k)}, with the general shipping and market events` : ''}: pick a tick or step through them`
+                // short enough for one line beside an open drawer: the commodity is named in the controls, the rest is in the title
+                `${ticks.length} event${ticks.length > 1 ? 's' : ''}: pick a tick or step through them`
               )}
             </span>
             <button class="tl-step-btn" disabled={nextIdx < 0 || nextIdx >= ticks.length} aria-label="Next event" onClick={() => openEvent(ticks[nextIdx].e)}>

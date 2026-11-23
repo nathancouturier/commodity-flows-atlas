@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { TIE_ORDER, distance, groupKinds, norm, prepare, rank, score, tokens } from '../src/lib/searchMatch.ts';
+import { TIE_ORDER, distance, groupKinds, matchKind, norm, prepare, rank, score, tokens } from '../src/lib/searchMatch.ts';
 
 const S = (q, names, codes = [], extra = []) => score(tokens(q), prepare(names, codes, extra));
 
@@ -75,7 +75,8 @@ assert.equal(S('gas', ['Antofagasta']), 0);
 assert.equal(S('usa', ['Husab']), 0);
 // a typo-tolerant match is on the lowest tier: below an exact word of the secondary text
 const tier = (q, names, codes = [], extra = []) => rank(tokens(q), prepare(names, codes, extra)).tier;
-assert.equal(tier('copper', ['Koper']), 1);
+assert.equal(tier('hormoz', ['Strait of Hormuz']), 1);
+assert.equal(tier('copper', ['Koper']), 0, 'a typo keeps the first letter');
 assert.equal(tier('copper', ['Amamapare'], [], ['Copper concentrate']), 2);
 assert.equal(tier('copper', ['Copper']), 4);
 assert.equal(tier('canal', ['Rapeseed & canola']), 1);
@@ -109,7 +110,8 @@ for (const f of fs.readdirSync(path.join(DATA, 'infrastructure')).filter((x) => 
   }
 }
 for (const p of json('freight/ports.json').ports) add('port', p.id, p.name, prepare([p.name], [p.id], [cname(p.c), ...p.g, 'port']));
-for (const e of json('freight/events.json')) add('event', e.id, e.title, prepare([e.title], [e.id], [e.kind, 'event', ...(e.countries ?? []).map(cname)]));
+const kname = (k) => commodities.find((c) => c.id === k)?.name ?? k;
+for (const e of json('freight/events.json')) add('event', e.id, e.title, prepare([e.title], [e.id], [e.id, e.kind, 'event', ...(e.countries ?? []).map(cname), ...(e.commodities ?? []).map(kname)]));
 for (const m of json('prices/index.json')) if (!m.hidden && !m.realOf) add('price', m.id, m.name, prepare([m.name], [m.id], [m.unit, 'price']));
 
 const top = (q, n = 1) => groupKinds(tokens(q), items, 5).slice(0, n).map((g) => `${g.kind}:${g.items[0].label}`);
@@ -124,11 +126,32 @@ for (const q of ['oil', 'gas', 'coal', 'copper', 'iran']) {
   for (const weak of ['infra', 'event', 'price', 'port']) if (g.includes(weak)) assert.ok(g.indexOf(weak) > 0, `"${q}": ${weak} leads`);
 }
 // a typo never outranks an exact match: the exact one comes first inside its group
-assert.equal(groups('copper').find((g) => g.kind === 'port').items[0].label !== 'Koper', true, 'the port Koper is not the best match of "copper"');
+assert.equal(groups('copper').find((g) => g.kind === 'port')?.items[0].label !== 'Koper', true, 'the port Koper is not the best match of "copper"');
 // the groups never mix tiers upside down: a group of a lower tier is not in front of a higher one
 for (const q of ['oil', 'gas', 'us', 'iran', 'coal', 'panama canal', 'suez', 'copper', 'brazil', 'hormz', 'singapor']) {
   const g = groups(q);
   for (let i = 1; i < g.length; i++) assert.ok(g[i - 1].tier >= g[i].tier, `"${q}": tier order`);
 }
+
+// the release review's cases: a word with a digit is matched whole or as the beginning of a word, never with a typo
+const labels = (q, kind) => groups(q).filter((g) => !kind || g.kind === kind).flatMap((g) => g.items.map((x) => x.label));
+const everyLabel = (q, kind) => matchKind(tokens(q), items, kind).map((x) => x.item.label);
+assert.equal(S('2026', ['Cadia Valley'], [], ['as stated in 2023']), 0);
+assert.ok(S('2026', ['Some event'], ['some-event-2026'], ['some-event-2026']) > 0);
+for (const x of items.filter((it) => rank(tokens('2026'), it.d).s > 0)) assert.ok([...x.d.n, ...x.d.c, ...x.d.x].some((t) => / 2026|^2026/.test(t)), `"2026" finds ${x.label}`);
+assert.ok(!labels('2026', 'infra').includes('Cadia Valley'), '"2026" finds Cadia Valley');
+// "cobalt" is not "coast", "houthi" is not "south", "iran" is not "Iraq"
+assert.equal(S('cobalt', ['Hurricane Harvey hits US Gulf Coast']), 0);
+assert.ok(!labels('cobalt').some((l) => /coast/i.test(l)), '"cobalt" finds a coast');
+assert.ok(!labels('houthi', 'country').some((l) => /^South/.test(l)), '"houthi" finds South Africa or South Korea');
+assert.deepEqual(labels('iran', 'country'), ['Iran'], '"iran" finds another country');
+// the typos that still work: the first letter right, fewer edits than a third of the word
+for (const [q, want] of [['coper', 'commodity:Copper'], ['sugr', 'commodity:Sugar'], ['kazakstan', 'country:Kazakhstan'], ['singapor', 'country:Singapore'], ['hormz', 'chokepoint:Strait of Hormuz'], ['braizl', 'country:Brazil']])
+  assert.ok(groups(q).some((g) => `${g.kind}:${g.items[0].label}` === want), `"${q}" does not find ${want}`);
+// several words: each may match the title, a code, the kind, a country or a commodity of the item
+assert.ok(labels('iran war', 'event').length >= 2, '"iran war" finds the wars with Iran');
+assert.ok(labels('iran war', 'event').some((l) => /2026|strikes on Iran/i.test(l)), '"iran war" finds the 2026 war');
+// a short query is not flooded: every event "iran war" finds names Iran and a war
+for (const l of everyLabel('iran war', 'event')) assert.ok(/iran/i.test(l), `"iran war" finds ${l}`);
 
 console.log('search-match: all checks passed');

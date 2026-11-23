@@ -44,7 +44,7 @@ export function DetailActions({ panel }: { panel: { current: HTMLElement | null 
       <button class="da-btn" onClick={() => copy('link')} aria-label="Copy link" title="Copy link: the address of this page">
         {done === 'link' ? <CheckIcon /> : <LinkIcon />}
       </button>
-      <button class="da-btn" onClick={() => copy('citation')} aria-label="Copy citation" title="Copy citation: title, sources and years, address and date of access, in one line">
+      <button class="da-btn" onClick={() => copy('citation')} aria-label="Copy citation" title="Copy citation (the sources of the blocks open on the page)">
         {done === 'citation' ? <CheckIcon /> : <QuoteIcon />}
       </button>
       <span class={`da-tip${done === 'failed' ? ' bad' : ''}`} role="status">

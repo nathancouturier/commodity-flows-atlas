@@ -42,8 +42,11 @@ const srcYear = (s: string, y: number | string) => `${shortSource(s)} ${y}`;
  * on each row, with what the tonnage measures and the warnings of its table: a hover tooltip cannot be
  * read on a touch screen.
  */
-function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: boolean; rp?: boolean }) {
-  const [showAll, setShowAll] = useState(false);
+function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: boolean; rp?: boolean; all?: boolean; setAll?: (v: boolean) => void }) {
+  const [own, setOwn] = useState(false);
+  // the Exports list tells the page which rows it shows: the notes under the list point to a row note above rather than repeat it
+  const showAll = props.all ?? own;
+  const setShowAll = props.setAll ?? setOwn;
   const yr = year.value;
   const shown = showAll ? props.rows : props.rows.slice(0, FIRST_ROWS);
   const at = (e: ProfileEntry) => entryAt(e, props.p, yr);
@@ -70,7 +73,7 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
         ]
           .filter(Boolean)
           .join(' · ');
-        const note = [x.note, e.n, e.warn].filter(Boolean).join('. ');
+        const note = rowNote(x, e);
         const tr = entryTrend(e);
         return (
           <div key={e.k + (e.label ?? '') + i}>
@@ -98,7 +101,7 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
               {trends && (tr ? <TrendLine vals={tr.vals} breaks={tr.breaks} at={x.i} title={entryTrendTitle(e, props.p)} /> : <span class="trend" />)}
               <span class="bar-value">
                 {x.v != null ? <>{fmtEst(x.v, x.est)} {e.u}</> : '—'}
-                {x.share != null && <small>{pct(x.share)} of world</small>}
+                {x.share != null && <small>{pct(x.share, (x.v ?? 0) > 0)} of world</small>}
               </span>
               {/* the line's detail has the width of the row under the name, not the narrow column beside the trend and value */}
               <span class="bar-sub cp-line-sub">
@@ -129,6 +132,9 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
 }
 
 const byUsd = (a: ProfileEntry, b: ProfileEntry) => (b.usd ?? -1) - (a.usd ?? -1);
+
+/** The note under a line: the words of the History year, the line's own note and the warning of its table. */
+const rowNote = (x: { note: string | null }, e: ProfileEntry) => [x.note, e.n, e.warn].filter(Boolean).join('. ');
 
 /** Seaborne lanes touching a country, across the lane files of its profile commodities (or of the selected commodity). */
 function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
@@ -293,7 +299,7 @@ function CompaniesBlock({ list }: { list: Company[] }) {
   const [all, setAll] = useState(false);
   const shown = all ? list : list.slice(0, FIRST_ROWS);
   return (
-    <FoldSection title="Companies headquartered here" aside={<span class="muted num">{list.length}</span>} foldOnPhone>
+    <FoldSection title="Companies headquartered here" aside={<span class="muted num">{list.length}</span>}>
       <CompanyRows list={shown} showK />
       {list.length > FIRST_ROWS && (
         <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
@@ -350,7 +356,7 @@ export default function CountryView({ id }: { id: string }) {
           <Kpi
             label="Largest export, all goods"
             value={`${fmt(allGoods.usd)} bn USD`}
-            sub={`HS ${allGoods.hs4} ${allGoods.label} · ${pct(allGoods.share)} of all exports · ${shortSource(p.basket!.s)} ${p.basket!.y}`}
+            sub={`HS ${allGoods.hs4} ${allGoods.label} · ${pct(allGoods.share, allGoods.usd > 0)} of all exports · ${shortSource(p.basket!.s)} ${p.basket!.y}`}
             title={`The largest four-digit HS heading of the country's merchandise exports, every chapter (${sourceLabel(p.basket!.s)} · ${p.basket!.y})`}
             note={missNote}
             span={top10 > 0 && pubs.length > 0 && !!topExp}
@@ -364,6 +370,10 @@ export default function CountryView({ id }: { id: string }) {
   const exports = p?.exports ?? [];
   const imports = p?.imports ?? [];
   const yr = year.value;
+  const [expAll, setExpAll] = useState(false);
+  useEffect(() => setExpAll(false), [id]);
+  // the notes printed under the export lines shown, with the number of their line
+  const expNotes = p && !p.none ? (expAll ? exports : exports.slice(0, FIRST_ROWS)).map((e, i) => ({ text: rowNote(entryAt(e, p, yr), e), n: i + 1 })) : [];
   return (
     <>
       <div class="detail-head">
@@ -392,8 +402,8 @@ export default function CountryView({ id }: { id: string }) {
             )}
             {(exports.length > 0 || (p.gaps?.length ?? 0) > 0) && (
               <Section title="Exports" aside={<span class="muted num">{exports.length}</span>}>
-                {exports.length > 0 && <EntryList key={id} rows={exports} p={p} showUsd />}
-                <GapNotes p={p} />
+                {exports.length > 0 && <EntryList key={id} rows={exports} p={p} showUsd all={expAll} setAll={setExpAll} />}
+                <GapNotes p={p} above={expNotes} />
               </Section>
             )}
             {imports.length > 0 && (

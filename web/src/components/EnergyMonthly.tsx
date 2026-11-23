@@ -267,19 +267,6 @@ function Stocks({ m }: { m: CommodityMonthly }) {
   );
 }
 
-function Gaps({ m }: { m: CommodityMonthly }) {
-  if (!m.gaps?.length) return null;
-  return (
-    <Section fold title="Monthly data">
-      {m.gaps.map((g) => (
-        <div class="muted small mo-note" key={g}>
-          {g}
-        </div>
-      ))}
-    </Section>
-  );
-}
-
 /** The monthly blocks of one commodity page: nothing for a commodity that has no monthly file. */
 export function EnergyMonthly({ id }: { id: string }) {
   const m = useLoaded<CommodityMonthly>(() => (MONTHLY_PAGES.has(id) ? loadOptional<CommodityMonthly>(`commodities/monthly/${id}.json`) : Promise.resolve(null)), [id]);
@@ -319,7 +306,6 @@ export function EnergyMonthly({ id }: { id: string }) {
         </Section>
       )}
       <Stocks m={m} />
-      <Gaps m={m} />
     </>
   );
 }

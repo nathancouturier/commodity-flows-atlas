@@ -15,12 +15,9 @@ import { useFreightCatalogue, useLoaded } from './shared';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import '../../styles/country.css';
 
-const PHONE = '(max-width: 600px)';
-
-/** A block whose title folds it. On a phone the long blocks start folded; on a wider screen they start open. */
-export function FoldSection(props: { title: string; aside?: ComponentChildren; children: ComponentChildren; foldOnPhone?: boolean }) {
-  const phone = typeof matchMedia === 'function' && matchMedia(PHONE).matches;
-  const [open, setOpen] = useState(!(props.foldOnPhone && phone));
+/** A block whose title folds it. It starts folded at every width: the panel is as narrow on a desktop as on a phone. */
+export function FoldSection(props: { title: string; aside?: ComponentChildren; children: ComponentChildren }) {
+  const [open, setOpen] = useState(false);
   return (
     <Section
       title={
@@ -130,16 +127,22 @@ export function entryTrendTitle(e: ProfileEntry, p: CountryProfile): string {
 
 // ---------------------------------------------------------------- customs gaps, EU, no code
 
-/** What customs data miss or blur for this origin (exports not recorded, recorded above production, hubs): the engine's caveats. */
-export function GapNotes({ p }: { p: CountryProfile }) {
+/**
+ * What customs data miss or blur for this origin (exports not recorded, recorded above production, hubs): the engine's caveats.
+ * A text already printed under an export line above (`above`, with the number of the line) is not printed again: a pointer instead.
+ */
+export function GapNotes({ p, above = [] }: { p: CountryProfile; above?: { text: string; n: number }[] }) {
   if (!p.gaps?.length) return null;
   return (
     <div class="cp-gaps">
-      {p.gaps.map((g) => (
-        <div class="cp-gap" key={g.id}>
-          <b>{groupName(g.g, g.k)}</b>: {g.text}
-        </div>
-      ))}
+      {p.gaps.map((g) => {
+        const row = above.find((r) => r.text.includes(g.text));
+        return (
+          <div class="cp-gap" key={g.id}>
+            <b>{groupName(g.g, g.k)}</b>: {row ? `see the note under line ${row.n} above.` : g.text}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -260,7 +263,7 @@ export function BalanceBlock({ p }: { p: CountryProfile }) {
   const sorted = [...rows].sort((a, b) => (order.get(a.k + (a.label ?? '')) ?? 999) - (order.get(b.k + (b.label ?? '')) ?? 999));
   const srcs: { s: string; y: number | string }[] = rows.flatMap((b) => [b.net, b.customers, b.suppliers, b.dep].flatMap((x) => (x ? [{ s: x.s, y: x.y }] : [])));
   return (
-    <FoldSection title="Trade balance and partners" aside={<span class="muted num">{rows.length}</span>} foldOnPhone>
+    <FoldSection title="Trade balance and partners" aside={<span class="muted num">{rows.length}</span>}>
       <div class="cp-list">
         <ShowAll rows={sorted} first={6} render={(b) => <BalanceRow key={b.k + b.t} b={b} />} />
       </div>
@@ -286,11 +289,16 @@ function modeText(x: { modes: FreightProduct['modes'] }): string {
     .join(', ');
 }
 
-/** "at least 3.9%", "at least 3.9%, up to 12%": "up to" only where it differs once printed; "at least 0%" below 0.1%. */
+/**
+ * "at least 3.9%", "at least 3.9%, up to 12%": "up to" only where it differs once printed. A floor that rounds to nothing is said
+ * in words: "none has to cross, up to 12% may".
+ */
 function passageText(v: Passage): string {
-  const low = v.low >= 0.001 ? pct(v.low) : '0%';
   const high = pct(v.high);
-  return `at least ${low}${!v.capped && high !== low && v.high > v.low ? `, up to ${high}` : ''}${v.capped ? ', no "up to"' : ''}`;
+  const up = !v.capped && v.high > v.low && high !== pct(v.low, v.low > 0);
+  if (v.low < 0.0005) return `none has to cross${up ? `, up to ${high} may` : ''}${v.capped ? ', no "up to"' : ''}`;
+  const low = pct(v.low);
+  return `at least ${low}${up && high !== low ? `, up to ${high}` : ''}${v.capped ? ', no "up to"' : ''}`;
 }
 
 function Passages({ via }: { via: Passage[] }) {
@@ -378,7 +386,7 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
   // a group whose tonnes are wholly the atlas's own estimate is not the customs source's figure: the source line says so
   const own = [...new Set([...fr.exports, ...fr.imports].filter((x) => x.s === 'atlas').map((x) => groupName(x.g, x.k)))];
   return (
-    <FoldSection title="Freight" aside={<span class="muted num">{p.freight.y}</span>} foldOnPhone>
+    <FoldSection title="Freight" aside={<span class="muted num">{fr.exports.length + fr.imports.length} · {fr.y}</span>}>
       <FreightSide p={p} side="exports" />
       <FreightSide p={p} side="imports" />
       <div class="muted small cp-fr-note">
@@ -447,7 +455,7 @@ export function BasketBlock({ p }: { p: CountryProfile }) {
   const b = p.basket;
   if (!b || (!b.exports && !b.imports)) return null;
   return (
-    <FoldSection title="All goods: largest exports and imports" aside={<span class="muted num">{b.y}</span>} foldOnPhone>
+    <FoldSection title="All goods: largest exports and imports" aside={<span class="muted num">{(b.exports?.rows.length ?? 0) + (b.imports?.rows.length ?? 0)} · {b.y}</span>}>
       {b.exports && <BasketList side="Exports" x={b.exports} note={unrecordedNote(p)} />}
       {b.imports && <BasketList side="Imports" x={b.imports} />}
       <SourceLine
@@ -470,9 +478,10 @@ export function OperatorsBlock({ p }: { p: CountryProfile }) {
   const all = useLoaded<InfraFeature[]>(() => (ops.length ? loadInfra() : Promise.resolve([])), [ops.length > 0]);
   if (!ops.length) return null;
   const names = new Map((all ?? []).map((f) => [`${f.p.type}:${f.p.id}`, f.p.name]));
+  const srcs = new Map((all ?? []).map((f) => [`${f.p.type}:${f.p.id}`, f.p.s]));
   const assets = new Set(ops.flatMap((o) => o.assets)).size;
   return (
-    <FoldSection title="Operators of the assets listed" aside={<span class="muted num">{assets} asset{assets === 1 ? '' : 's'}</span>} foldOnPhone>
+    <FoldSection title="Operators of the assets listed" aside={<span class="muted num">{assets} asset{assets === 1 ? '' : 's'}</span>}>
       <div class="cp-list">
         <ShowAll
           rows={ops}
@@ -494,7 +503,10 @@ export function OperatorsBlock({ p }: { p: CountryProfile }) {
           )}
         />
       </div>
-      <div class="muted small">The operator field of each asset as the infrastructure layer gives it, not split into companies; the asset pages give the source.</div>
+      <SourcesLine
+        items={[...new Set(ops.flatMap((o) => o.assets))].flatMap((a) => (srcs.get(a) ? [{ s: srcs.get(a)! }] : []))}
+        n="the operator field of each asset as the infrastructure layer of the atlas gives it, not split into companies; each asset's page gives its source and year"
+      />
     </FoldSection>
   );
 }

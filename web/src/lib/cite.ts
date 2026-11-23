@@ -1,8 +1,9 @@
 /**
  * "Copy link" and "Copy citation" of the detail panel. The citation is one line of plain text: the title of the page,
  * the atlas, the sources of the page with their years, the address and the date of access. The sources are read from
- * the page itself: every source line carries its source ids and years (data-src, data-srcs), so a citation cannot name
- * a source the page does not show.
+ * the page itself: every source line, key figure, price figure and banner figure carries its source ids and years (data-src,
+ * data-srcs), so a citation cannot name a source the page does not show. A folded block is not rendered: its sources are not
+ * cited, since the reader did not see its figures.
  */
 import { sourceLabel } from './data';
 import { selection } from './store';

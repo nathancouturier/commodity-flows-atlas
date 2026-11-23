@@ -225,7 +225,8 @@ class Shares(unittest.TestCase):
                 hi = e.get("hi", e["f"])
                 self.assertLessEqual(e["f"]["v"], hi["v"], (c["id"], e["p"]))
                 self.assertLessEqual(e["mt"][0], e["mt"][1], (c["id"], e["p"]))
-                self.assertTrue(e["f"]["n"].startswith("at least"), (c["id"], e["p"]))
+                # GR4S.7: a floor that rounds to nothing is said in words, not "at least 0"
+                self.assertTrue(e["f"]["n"].startswith("no cargo has to cross it" if e["mt"][0] == 0 else "at least"), (c["id"], e["p"]))
                 if "hi" in e:
                     self.assertTrue(e["hi"]["n"].startswith("up to"), (c["id"], e["p"]))
                 self.assertEqual(e["f"]["s"], "atlas")

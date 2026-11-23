@@ -6,11 +6,11 @@ import type { CaveatsFile, Company, CommodityData, CommodityHistory, Fig, Flow, 
 import { loadOptional, loadHistory, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
 import { SMALL_BASE, largestChanges, rowName, tableAt, yearLabel, type Change } from '../../lib/tableYears';
 import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
-import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
+import { GROUP_LABEL, LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, CompanyRows, AlertBanners, shortSource } from '../ui';
-import LaneTable, { yearNote } from '../LaneTable';
+import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
@@ -62,15 +62,17 @@ type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]
  * Ranked table with a marketing-year caption under USDA PSD tables. The figures are PSD local marketing
  * years, which start in a different month in each country: no single month range describes them.
  */
-function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; color?: string; hist?: HistTable; at?: number | null }) {
+function RankedBlock({ data, color, hist, at, above }: { id: string; data: Ranked; color?: string; hist?: HistTable; at?: number | null; above?: string[] }) {
   // the table's warning is written into its note too: it is shown once, as its own line under the table
   const cv = data.caveat;
+  // a warning the key figure above already prints in full is not printed again (one rule for the page: see seenAbove)
+  const cvText = cv && seenAbove(cv, above) ? 'See the note of the key figure above.' : cv;
   const n = cv && data.n ? data.n.replace(` · ${cv}`, '').replace(cv, '').replace(/ · $/, '') : data.n;
   const shown = useMemo(() => (cv ? { ...data, n: n || undefined } : data), [data, cv, n]);
   return (
     <>
       <RankedBars data={shown} color={color} hist={hist} at={at} />
-      {cv && <FoldNote class="table-caveat" text={cv} />}
+      {cv && <FoldNote class="table-caveat" text={cvText} />}
       {/* notes on the series by year (a first year set by a rule, a change of membership or coverage, a country that split) */}
       {!!hist?.n?.length && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={`Series by year: ${hist.n.join(' ')}`} />}
       {data.s === 'usda-psd' && (
@@ -87,7 +89,7 @@ function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; colo
  * A ranked table that follows the History year when its series by year holds that year (heading, source line, shares on
  * that year's world total); otherwise the latest table, with the words "2025: no series for 2010" next to the heading.
  */
-function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string; loading?: boolean; fold?: boolean }) {
+function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string; loading?: boolean; fold?: boolean; above?: string[] }) {
   const yr = year.value;
   const { table, i, note, past } = useMemo(() => tableAt(props.data, props.hist, yr), [props.data, props.hist, yr]);
   // with a History year, nothing is said of the year until the series by year is loaded: no latest table, no "no series" tag
@@ -105,7 +107,7 @@ function TableSection(props: { id: string; title: string; data: Ranked; hist?: H
   const aside = note ? <span class="year-tag">{note}</span> : table.yk ? <span class="year-tag">{table.y} {table.yk}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
   return (
     <Section title={title} aside={aside} fold={props.fold}>
-      <RankedBlock id={props.id} data={table} color={props.color} hist={props.hist} at={i} />
+      <RankedBlock id={props.id} data={table} color={props.color} hist={props.hist} at={i} above={props.above} />
     </Section>
   );
 }
@@ -229,11 +231,24 @@ function useTransitPorts(id: string, flows: Flow[] | undefined): Record<string, 
   }, [id, need]);
 }
 
-function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
-  const [all, setAll] = useState(false);
-  useEffect(() => setAll(false), [props.id]);
+/** The flows a Main flows block shows: the first ten, or all of them once "Show all" is pressed. */
+const shownFlows = (flows: Flow[], all: boolean) => {
+  const sorted = [...flows].sort((a, b) => b.v - a.v);
+  return all ? sorted : sorted.slice(0, 10);
+};
+
+/**
+ * One rule for the whole page: a text already printed above is not printed again. `above`: the texts printed higher on the
+ * page; a text is seen when one of them holds it whole.
+ */
+function seenAbove(text: string, above: string[] | undefined): boolean {
+  return !!above?.some((t) => t.includes(text));
+}
+
+function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean; setAll: (v: boolean) => void; gaps: string[] }) {
+  const { all, setAll } = props;
   const sorted = [...props.flows].sort((a, b) => b.v - a.v);
-  const rows = all ? sorted : sorted.slice(0, 10);
+  const rows = shownFlows(props.flows, all);
   const ports = useTransitPorts(props.id, sorted);
   // the text of the reporting gaps that apply to the listed flows (freight/caveats.json)
   const needCaveats = rows.some((f) => f.caveat);
@@ -241,6 +256,14 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
   // the footer names the customs source; flows re-based by the atlas say so on their own row
   const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
   const anyEst = rows.some((f) => f.est);
+  // a reporting gap printed in full above (Gap in the customs record) or under an earlier row gets a pointer, not the text again
+  const caveatText = (i: number): string | undefined => {
+    const t = caveats?.[rows[i].caveat!]?.text;
+    if (!t) return t;
+    if (seenAbove(t, props.gaps)) return "See 'Gap in the customs record' above.";
+    const j = rows.findIndex((f) => f.caveat && caveats?.[f.caveat]?.text === t);
+    return j < i ? `See the note under row ${j + 1} above.` : t;
+  };
   return (
     <>
       {rows.map((f, i) => {
@@ -268,7 +291,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
             />
             {/* the method of an Atlas estimate is written out under the row, not only in its tooltip */}
             {f.est && <FoldNote text={f.n} style={{ margin: '0 4px 3px 30px', width: 'auto' }} />}
-            {f.caveat && <FoldNote text={caveats?.[f.caveat]?.text} style={{ margin: '0 4px 3px 30px', width: 'auto' }} />}
+            {f.caveat && <FoldNote text={caveatText(i)} style={{ margin: '0 4px 3px 30px', width: 'auto' }} />}
           </div>
         );
       })}
@@ -328,7 +351,15 @@ function seaborneAt(f: Fig | undefined, file: LaneFile | null | undefined, yr: n
   const latest = file.seaborne[file.years.indexOf(Number(f.y))];
   if (i < 0 || file.seaborne[i] == null || latest == null) return f;
   if (file.s !== f.s || file.unit !== f.u || Math.abs(latest - f.v) > 0.005 * Math.abs(f.v)) return f;
-  return { ...f, v: file.seaborne[i], y: yr };
+  // the clauses of the note that are figures of the latest year (the tonnage that also moves overland, the share estimated from
+  // value) are said again for the year shown, from the same lane file
+  const mixed = file.mixed?.[i] ?? 0;
+  const est = estimatedShare(file, yr);
+  const n = (f.n ?? '')
+    .replace(/; [\d.,]+ \S+ that move both by sea and overland \(split not known\) are not in it/, mixed >= 0.005 ? `; ${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '')
+    .replace(/; [\d.]+% of this tonnage estimated from value/, '');
+  const withEst = est ? n.replace(/(\.?)$/, `; ${pct(est.share)} of this tonnage estimated from value$1`) : n;
+  return { ...f, v: file.seaborne[i], y: yr, n: withEst || undefined };
 }
 
 function LaneSummary({ id, color }: { id: string; color?: string }) {
@@ -373,7 +404,7 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
           return (
             <div key={f.group}>
               <div class="ft-row ft-wide" title={`${sourceLabel(f.s)} · ${yr}`}>
-                <span class="ft-k">{f.label ?? f.group}</span>
+                <span class="ft-k">{f.label ?? GROUP_LABEL[f.group] ?? commodityMeta(f.group)?.name ?? commodityMeta(id)?.name ?? f.group}</span>
                 <span class="num">
                   {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
                 </span>
@@ -528,8 +559,24 @@ export default function CommodityView({ id }: { id: string }) {
     () => (tables ? sharedNotes([...KINDS.flatMap((k) => tables.kinds[k]), ...tables.other, ...tables.stocks, ...tables.eu], hist) : null),
     [tables, hist],
   );
+  // the texts printed above the Notes, in page order: key figures, the open table of each kind, the gap in the customs record,
+  // the rows of Main flows shown; a later place does not print them again (seenAbove)
+  const [flowsAll, setFlowsAll] = useState(false);
+  useEffect(() => setFlowsAll(false), [id]);
+  const kpiNotes = d?.summary ? [d.summary.production, d.summary.exports, d.summary.reserves, d.summary.consumption, seaborne].flatMap((f) => (f ? [altKpi(f).note ?? ''] : [])).filter(Boolean) : [];
+  const gapTexts = d?.gaps?.map((g) => g.text) ?? [];
+  const needCaveats = !!d?.flows?.some((f) => f.caveat);
+  const caveats = useLoaded<CaveatsFile>(() => (needCaveats ? loadCaveats() : Promise.resolve(null)), [id, needCaveats]);
+  const printed = [
+    ...kpiNotes,
+    ...(tables ? KINDS.flatMap((k) => tables.kinds[k].slice(0, 1).map((t) => t.data.caveat ?? '')) : []),
+    ...gapTexts,
+    ...shownFlows(d?.flows ?? [], flowsAll).flatMap((f) => (f.caveat && caveats?.[f.caveat] ? [caveats[f.caveat].text] : [])),
+  ].filter(Boolean);
+  const notes = (d?.notes ?? []).filter((n) => !seenAbove(n, printed));
+  const discrepancies = (d?.discrepancies ?? []).filter((n) => !seenAbove(n, printed));
   const tableEl = (t: Table, fold?: boolean) => (
-    <TableSection id={id} key={t.key} title={t.title} data={shared?.data[t.key] ?? t.data} hist={shared?.hists[t.key] ?? ht(t.key)} loading={hist === undefined} color={color} fold={fold} />
+    <TableSection id={id} key={t.key} title={t.title} data={shared?.data[t.key] ?? t.data} hist={shared?.hists[t.key] ?? ht(t.key)} loading={hist === undefined} color={color} fold={fold} above={kpiNotes} />
   );
   // the first table of a kind is open; the others are folded under one line that names them
   const kindEl = (ts: Table[]) =>
@@ -544,7 +591,7 @@ export default function CommodityView({ id }: { id: string }) {
       </>
     );
   const coCount = (companies?.producers?.length ?? 0) + (companies?.processors?.length ?? 0) + (companies?.traders?.length ?? 0);
-  const noteCount = (d?.notes?.length ?? 0) + (shared?.notes.length ?? 0) + (d?.discrepancies?.length ?? 0);
+  const noteCount = notes.length + (shared?.notes.length ?? 0) + discrepancies.length;
   // what follows the History year on this page
   const following = [
     yr != null && hist && Object.values(hist.t).some((h) => h.years.includes(yr)) ? 'the tables that have a series by year' : null,
@@ -607,7 +654,7 @@ export default function CommodityView({ id }: { id: string }) {
             <AgriBlocks d={d} color={color} part="gaps" />
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
-                <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
+                <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} all={flowsAll} setAll={setFlowsAll} gaps={gapTexts} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />
@@ -634,9 +681,9 @@ export default function CommodityView({ id }: { id: string }) {
             {noteCount > 0 && (
               <Section fold title="Notes" aside={<span class="muted num">{noteCount}</span>}>
                 <ul class="bullets small-print">
-                  {d.notes?.map((n, i) => <li key={'n' + i}>{n}</li>)}
+                  {notes.map((n, i) => <li key={'n' + i}>{n}</li>)}
                   {shared?.notes.map((n, i) => <li key={'s' + i}>{n}</li>)}
-                  {d.discrepancies?.map((n, i) => <li key={'d' + i} class="disc">Discrepancy: {n}</li>)}
+                  {discrepancies.map((n, i) => <li key={'d' + i} class="disc">Discrepancy: {n}</li>)}
                 </ul>
               </Section>
             )}

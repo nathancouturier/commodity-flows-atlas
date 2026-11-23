@@ -1,7 +1,8 @@
 /**
  * Matching of the search field: no dependency, so that scripts/search-match.test.mjs can run it as it is.
  * Case and accents are ignored; a word may be typed in part; an exact code or name comes first; a missing, added,
- * wrong or swapped letter is tolerated (one in a word of 4 or 5 letters, two from 6).
+ * wrong or swapped letter is tolerated (one in a word of 4 to 6 letters, two from 7: fewer than a third of its letters),
+ * when the first letter is right, the word holds no digit, and no item has the word whole or as the beginning of a word.
  */
 
 /** Lower case, no accents, letters and digits only, one space between words: "Côte d'Ivoire" -> "cote d ivoire". */
@@ -73,7 +74,7 @@ interface Hit {
 }
 
 /** How well one typed word matches a list of normalised phrases: a score 0 (not at all) to 100 (the phrase), and its level (see Tier). */
-function wordScore(t: string, phrases: string[], exact: number, prefix: number, inside: number, fuzzy: number, strong: number): Hit {
+function wordScore(t: string, phrases: string[], exact: number, prefix: number, inside: number, fuzzy: number, strong: number, typo: boolean): Hit {
   const best: Hit = { s: 0, lvl: 0 };
   const take = (s: number, lvl: number) => {
     if (s > best.s) best.s = s;
@@ -85,22 +86,26 @@ function wordScore(t: string, phrases: string[], exact: number, prefix: number, 
       if (w === t) take(exact - 20, strong);
       else if (w.startsWith(t)) take(prefix, strong);
       // inside a word: only from four letters ("gas" is not in "Antofagasta")
-      else if (t.length >= 4 && w.includes(t)) take(inside, 1);
-      else if (t.length >= 4 && fuzzy > best.s) {
+      else if (t.length >= 4 && typo && w.includes(t)) take(inside, 1);
+      else if (t.length >= 4 && typo && fuzzy > best.s && t[0] === w[0]) {
         const tol = tolerance(t.length);
         // the whole word, or its beginning when the typed word is shorter ("singapor" for "singapore")
         const head = t.length >= 5 ? distance(t, w.slice(0, t.length), 1) : tol + 1;
         const d = Math.min(distance(t, w, tol), head <= 1 ? head : tol + 1);
-        // the word it is mistaken for is not mostly changed ("cobalt" is not "coal")
-        if (d <= tol && d * 2 < w.length) take(fuzzy - 6 * d, 1);
+        // fewer edits than a third of the typed word, and the word it is mistaken for is not mostly changed ("cobalt" is not "coal" or "coast")
+        if (d <= tol && d * 3 < t.length && d * 2 < w.length) take(fuzzy - 6 * d, 1);
       }
     }
   }
   return best;
 }
 
-/** Score of one typed word against an item: codes, then names, then the secondary text. */
-function tokenScore(t: string, d: Searchable): Hit {
+/**
+ * Score of one typed word against an item: codes, then names, then the secondary text. `typo`: a word found inside another
+ * or with a wrong letter counts; never for a word with a digit ("2026" is not "2023").
+ */
+function tokenScore(t: string, d: Searchable, typo = true): Hit {
+  typo = typo && !/[0-9]/.test(t);
   const best: Hit = { s: 0, lvl: 0 };
   const take = (h: Hit) => {
     if (h.s > best.s) best.s = h.s;
@@ -110,9 +115,19 @@ function tokenScore(t: string, d: Searchable): Hit {
     if (c === t) return { s: 100, lvl: 3 };
     if (t.length >= 2 && c.startsWith(t)) take({ s: 55, lvl: 3 });
   }
-  take(wordScore(t, d.n, 95, 70, 45, 42, 3));
-  if (best.s < 60) take(wordScore(t, d.x, 35, 30, 20, 10, 2));
+  take(wordScore(t, d.n, 95, 70, 45, 42, 3, typo));
+  if (best.s < 60) take(wordScore(t, d.x, 35, 30, 20, 10, 2, typo));
   return best;
+}
+
+/**
+ * The typed words that some item has whole or as the beginning of a word: for them a typo is not looked for ("iran" is
+ * the name of Iran, so it does not also find Iraq).
+ */
+export function exactWords(q: string[], items: { d: Searchable }[]): Set<string> {
+  const out = new Set<string>();
+  for (const t of q) if (items.some((it) => tokenScore(t, it.d, false).lvl >= 2)) out.add(t);
+  return out;
 }
 
 export interface Rank {
@@ -123,14 +138,14 @@ export interface Rank {
 /**
  * Rank of a query (its words, from `tokens`) against an item: score 0 when a word matches nothing, otherwise the mean of
  * the words' scores, plus a bonus for the whole query being the name, or whole words of it, or the beginning of it.
- * Every word has to match.
+ * Every word has to match, in the name, a code or the secondary text. `exact`: the words not to look for with a typo (exactWords).
  */
-export function rank(q: string[], d: Searchable): Rank {
+export function rank(q: string[], d: Searchable, exact?: Set<string>): Rank {
   if (!q.length) return { s: 1, tier: 1 };
   let sum = 0;
   let lvl = 4;
   for (const t of q) {
-    const h = tokenScore(t, d);
+    const h = tokenScore(t, d, !exact?.has(t));
     if (!h.s) return { s: 0, tier: 0 };
     sum += h.s;
     lvl = Math.min(lvl, h.lvl);
@@ -158,11 +173,11 @@ export interface Matchable {
 }
 
 /** The items of one kind that match, best first (tier, then score, then the kind's own order); with no query, the kind's own order. */
-export function matchKind<T extends Matchable>(q: string[], items: T[], kind: string): { item: T; s: number; tier: Tier }[] {
+export function matchKind<T extends Matchable>(q: string[], items: T[], kind: string, exact = exactWords(q, items)): { item: T; s: number; tier: Tier }[] {
   const out: { item: T; s: number; tier: Tier }[] = [];
   for (const it of items) {
     if (it.kind !== kind) continue;
-    const r = rank(q, it.d);
+    const r = rank(q, it.d, exact);
     if (r.s > 0) out.push({ item: it, ...r });
   }
   return out.sort(
@@ -177,8 +192,9 @@ export function matchKind<T extends Matchable>(q: string[], items: T[], kind: st
  */
 export function groupKinds<T extends Matchable>(q: string[], items: T[], per: number): { kind: string; items: T[]; total: number; tier: Tier; s: number }[] {
   const out: { kind: string; items: T[]; total: number; tier: Tier; s: number }[] = [];
+  const exact = exactWords(q, items);
   for (const kind of TIE_ORDER) {
-    const m = matchKind(q, items, kind);
+    const m = matchKind(q, items, kind, exact);
     if (m.length) out.push({ kind, items: m.slice(0, per).map((x) => x.item), total: m.length, tier: m[0].tier, s: m[0].s });
   }
   return out.sort((a, b) => b.tier - a.tier || TIE_ORDER.indexOf(a.kind as (typeof TIE_ORDER)[number]) - TIE_ORDER.indexOf(b.kind as (typeof TIE_ORDER)[number]) || b.s - a.s);

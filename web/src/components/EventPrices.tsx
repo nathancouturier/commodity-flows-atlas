@@ -11,8 +11,16 @@ import { useEffect, useState } from 'preact/hooks';
 import type { FreightEvent } from '../types';
 import { commodityMeta } from '../lib/data';
 import { eventCommodities, useAlertEvents } from '../lib/events';
-import { fmtObsDate, fmtPct, fmtPrice, loadPriceIndex, loadSeries, observationAt, openPrices, seriesForCommodity, type LoadedSeries, type PriceMeta } from '../lib/prices';
+import { fmtObsDate, fmtPct, loadPriceIndex, loadSeries, observationAt, openPrices, seriesForCommodity, type LoadedSeries, type PriceMeta } from '../lib/prices';
 import { Section, SourceLine } from './ui';
+
+/** The prices of one row with the same decimals: those the price format (lib/prices fmtPrice) gives the largest of them ("9,670", "9,984", "10,812"). */
+function rowPrice(vals: number[]): (v: number) => string {
+  const big = Math.max(...vals.map((v) => Math.abs(v)));
+  const dec = big >= 10000 ? 0 : big < 1 ? 3 : 2;
+  const f = new Intl.NumberFormat('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+  return (v) => f.format(v);
+}
 
 /** Commodities shown before "Show all". */
 const FOLDED = 4;
@@ -118,6 +126,7 @@ export function EventPrices({ ev }: { ev: FreightEvent }) {
           const f = r.s.meta.freq;
           const monthly = f === 'M';
           const lastP = r.after[r.after.length - 1].p;
+          const price = rowPrice([r.start.v, ...r.after.map((a) => a.p.v)]);
           return (
             <div class="evp-row" key={r.k}>
               <div class="evp-head">
@@ -125,14 +134,14 @@ export function EventPrices({ ev }: { ev: FreightEvent }) {
                 <span class="muted"> · {r.s.meta.name}, {r.s.meta.unit}{monthly ? ', monthly averages' : ''}</span>
               </div>
               <div class="evp-line num">
-                {monthly ? 'Month of the event' : hasDay ? 'On the event date' : 'At the start of the month'}: <b>{fmtPrice(r.start.v)}</b>{' '}
+                {monthly ? 'Month of the event' : hasDay ? 'On the event date' : 'At the start of the month'}: <b>{price(r.start.v)}</b>{' '}
                 <span class="muted">({fmtObsDate(r.start.t, f)})</span>
               </div>
               {r.after.map((a) => (
                 <div class="evp-line num" key={a.months}>
                   {a.months === 1 ? 'One month later' : 'Three months later'}: <b class={a.pct < 0 ? 'evp-dn' : 'evp-up'}>{fmtPct(a.pct)}</b>{' '}
                   <span class="muted">
-                    ({fmtPrice(a.p.v)}, {fmtObsDate(a.p.t, f)})
+                    ({price(a.p.v)}, {fmtObsDate(a.p.t, f)})
                   </span>
                 </div>
               ))}

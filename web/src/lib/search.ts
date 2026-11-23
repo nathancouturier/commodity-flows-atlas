@@ -216,7 +216,7 @@ async function build(): Promise<Item[]> {
   for (const e of events ?? []) {
     out.push(
       make(
-        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName)]),
+        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.id, e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName), ...(e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)]),
         // newest first
         -Date.parse(e.date.length === 4 ? `${e.date}-01-01` : e.date.length === 7 ? `${e.date}-01` : e.date), () => select({ kind: 'event', id: e.id }),
       ),

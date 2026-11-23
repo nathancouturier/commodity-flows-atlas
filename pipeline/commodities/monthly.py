@@ -285,8 +285,8 @@ def build(path, iso_of):
                 r["name"] = STOCK_LABEL[code]
             crow.append(r)
     crow.sort(key=lambda r: ("name" not in r, -r["b"]))  # the groups first, then the countries, largest first
-    gaps = ["Refined-product production and trade have no monthly series in the EIA file on disk: its production series "
-            + (f"end in {prod_end}" if prod_end else "are annual") + " and its trade series are annual."]
+    gaps = ["The EIA data the atlas uses give refined-product production and trade by year, not by month: EIA's monthly production series "
+            + (f"end in {prod_end}" if prod_end else "are not published") + ", and its trade figures are annual. The atlas does not estimate monthly figures."]
     out["refined-products"] = {"id": "refined-products", "s": SOURCE,
                                "consumption": {"u": "kb/d", "from": axis(cto)[0], "to": cto, "baseYear": int(cto[:4]) - 1, "rows": crow},
                                "stocks": stocks, "gaps": gaps}
@@ -297,14 +297,14 @@ def build(path, iso_of):
     out["lpg"] = {"id": "lpg", "s": SOURCE,
                   "ngl": {"u": "kb/d", "from": axis(nto)[0], "to": nto, "baseYear": int(nto[:4]) - 1, "rows": producers(ngl, ok, nto),
                           "world": stats(ngl["WORL"], nto)},
-                  "gaps": ["LPG consumption and trade have no monthly series in the EIA file on disk: they are annual, and its LPG production series "
-                           + (f"end in {lpg_end}." if lpg_end else "are annual.")]}
+                  "gaps": ["The EIA data the atlas uses give LPG consumption and trade by year, not by month, and EIA's monthly LPG production series "
+                           + (f"end in {lpg_end}." if lpg_end else "are not published.") + " The atlas does not estimate monthly figures."]}
 
     # ---------------------------------------------------------------- LNG: nothing monthly, said only while the file holds no such series
     gas = [n for n in monthly.values() if re.search(r"\bLNG\b|liquefied natural gas|^(dry |gross )?natural gas (production|consumption|imports|exports)", n, re.I)]
     out["lng"] = {"id": "lng", "s": SOURCE,
-                  "gaps": [] if gas else ["No monthly LNG series is on disk: the EIA file holds annual natural gas trade and no monthly gas series, and the customs and industry "
-                                          "sources of the atlas are annual. The atlas does not estimate one."]}
+                  "gaps": [] if gas else ["The EIA data the atlas uses hold no monthly LNG series (they give natural gas trade by year), and the customs and industry "
+                                          "sources of the atlas are annual: there are no monthly LNG figures on this page. The atlas does not estimate them."]}
     return out
 
 

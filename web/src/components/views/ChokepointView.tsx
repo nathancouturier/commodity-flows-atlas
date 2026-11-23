@@ -85,10 +85,16 @@ const TOP_LANES = 10;
 
 type Estimate = NonNullable<Chokepoint['estimates']>[number];
 
-/** "at least 30.2%" when only the lower figure is known, "30.2% to 40.1%" for a range, "30.2%" when both agree. */
-function estimateText(e: Estimate): string {
-  const lo = pctText(e.f.v);
-  if (e.hi && e.hi.v - e.f.v >= 0.05) return `${lo} to ${pctText(e.hi.v)}`;
+/** No cargo has to cross: the "at least" tonnage rounds to nothing at the precision the page prints it (estimateMt). */
+const noneMust = (e: Estimate, small = false) => !!e.mt && (small ? nf1.format(e.mt[0] * 1e3) : mt3(e.mt[0])).replace(/[.,0]/g, '') === '';
+
+/**
+ * "at least 30.2%" when only the lower figure is known, "30.2% to 40.1%" for a range, "30.2%" when both agree; "up to 40.1%"
+ * when no cargo has to cross, and "<0.1%" for a floor above zero that rounds below 0.1%.
+ */
+function estimateText(e: Estimate, small = false): string {
+  const lo = e.f.v === 0 && e.mt && !noneMust(e, small) ? '<0.1%' : pctText(e.f.v);
+  if (e.hi && e.hi.v - e.f.v >= 0.05) return noneMust(e, small) ? `up to ${pctText(e.hi.v)}` : `${lo} to ${pctText(e.hi.v)}`;
   if (!e.hi && /^at least/i.test(e.f.n ?? '')) return `at least ${lo}`;
   return lo;
 }
@@ -103,8 +109,8 @@ const isCapped = (e: Estimate) => !!e.hi && /capped/i.test(e.hi.n ?? '');
 function estimateMt(e: Estimate, small = false): string | null {
   if (!e.mt) return null;
   const [lo, hi] = e.mt;
-  if (small) return hi - lo >= 0.0005 ? `${nf1.format(lo * 1e3)} to ${tonnes(hi, true)}` : tonnes(lo, true);
-  return hi - lo >= 0.5 ? `${mt3(lo)} to ${mt3(hi)} Mt` : `${mt3(lo)} Mt`;
+  if (small) return hi - lo >= 0.0005 ? (noneMust(e, true) ? `none has to cross, up to ${tonnes(hi, true)} may` : `${nf1.format(lo * 1e3)} to ${tonnes(hi, true)}`) : tonnes(lo, true);
+  return hi - lo >= 0.5 ? (noneMust(e) ? `none has to cross, up to ${mt3(hi)} Mt may` : `${mt3(lo)} to ${mt3(hi)} Mt`) : `${mt3(lo)} Mt`;
 }
 
 /** Share of each commodity's seaborne trade that crosses the passage, as the atlas computes it: a floor and, where the route is not certain, a ceiling. */
@@ -127,7 +133,7 @@ function Estimates({ cp, withDefinition, small }: { cp: Chokepoint; withDefiniti
           <div class="est-row" key={`${e.k}-${e.p ?? ''}-${i}`} title={`${sources.value[e.f.s]?.name ?? e.f.s} · ${e.f.y}`}>
             <div class="est-head">
               <span class="est-k">{shareLabel(e.k)}{two(e) ? ` · ${GROUP_LABEL[e.p!]}` : ''}</span>
-              <span class="est-v num">{estimateText(e)}</span>
+              <span class="est-v num">{estimateText(e, !!small?.(e.p))}</span>
             </div>
             {mt && <div class="est-sub num">{mt}{isCapped(e) && <span class="muted"> · capped at PortWatch volume</span>}</div>}
             <FoldNote class="est-sub" style={{ marginTop: '2px' }} text={[e.f.n, range ? e.hi!.n : null].filter(Boolean).join(' · ')} />
