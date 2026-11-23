@@ -509,6 +509,18 @@ button {
   color: var(--ink-2);
 }
 
+.bar-further {
+  cursor: pointer;
+}
+
+/* the countries behind "Further countries named by the source": always readable, wrapped */
+.bar-names {
+  display: block;
+  white-space: normal;
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+}
+
 .bar-rank {
   color: var(--ink-3);
   font-family: var(--font-num);

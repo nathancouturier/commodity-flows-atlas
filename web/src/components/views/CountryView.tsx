@@ -71,7 +71,10 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
             >
               <span class="bar-rank">{i + 1}</span>
               <span>
-                <span class="bar-label">{e.label ?? meta?.name ?? e.k}</span>
+                <span class="bar-label">
+                  {e.label ?? meta?.name ?? e.k}
+                  {e.est && <EstMark />}
+                </span>
                 <div class="bar-track">
                   <div class="bar-fill" style={{ width: `${Math.max(2, (e.share ?? 0) * 100)}%`, background: color }} />
                 </div>
@@ -79,7 +82,7 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
                 {e.basis && <span class="bar-sub">{e.basis}</span>}
               </span>
               <span class="bar-value">
-                {fmt(e.v)} {e.u}
+                {fmtEst(e.v, e.est)} {e.u}
                 {e.share != null && <small>{pct(e.share)} of world</small>}
               </span>
             </button>

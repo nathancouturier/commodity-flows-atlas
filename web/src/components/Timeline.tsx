@@ -135,8 +135,9 @@ export function Timeline() {
       return;
     }
     let alive = true;
-    Promise.all(groups.map(loadLaneFile))
-      .then((f) => alive && setFiles(f))
+    // a group whose lane file is not built yet is left out
+    Promise.all(groups.map((g) => loadLaneFile(g).catch(() => null)))
+      .then((f) => alive && setFiles(f.filter((x): x is LaneFile => !!x)))
       .catch(() => alive && setFiles([]));
     return () => {
       alive = false;

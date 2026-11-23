@@ -23,6 +23,8 @@ export interface Fig {
   s: string;
   /** optional note (method, discrepancy, scope) */
   n?: string;
+  /** the figure is an Atlas estimate (computed by the atlas, not converted): printed with two significant digits */
+  est?: boolean;
   /** the same quantity in a second unit, printed in brackets: an Atlas conversion (`s` is `atlas`), its factor is in `n` */
   alt?: { v: number; u: string; s: string; y: number | string; n: string };
 }
@@ -45,9 +47,15 @@ export interface Ranked {
   u: string;
   /** world total in the same unit, if known (from the same source) */
   world?: number;
-  rows: { c: Iso3; v: number; n?: string }[];
-  /** the source's own "Other countries" line, in the same unit: shown as the last row, with the rows below the visible ones */
+  rows: { c: Iso3; v: number; n?: string; est?: boolean }[];
+  /** the whole table is an Atlas estimate (rows without `est` too); a table of source `atlas` whose note does not start "Atlas estimate" is a conversion */
+  est?: boolean;
+  /** the source's own "Other countries" line, in the same unit: its own row, "Other countries (as published)" */
   other?: number;
+  /** the countries the table names beyond its first `from` rows: `v` is their sum in table units, `n` names them */
+  hidden?: { v: number; k: number; from: number; n: string };
+  /** the world total the source publishes, when `world` (the sum the shares use) differs from it */
+  worldPublished?: number;
   n?: string;
   /** what the tonnage measures when it is not the finished commodity, e.g. "ores and concentrates, gross weight" */
   basis?: string;
@@ -173,6 +181,8 @@ export interface ProfileEntry {
   y: number | string;
   s: string;
   n?: string;
+  /** the tonnage is an Atlas estimate (source `atlas`): printed with two significant digits and marked */
+  est?: boolean;
   /** trade value in bn USD, when known */
   usd?: number;
   /** source id and year of `usd` (the tonnage may come from another source and year) */
@@ -336,6 +346,8 @@ export interface Chokepoint {
   shares?: { k: string; f: Fig }[];
   /** Atlas estimates: share of the seaborne trade of a lane group whose route has to cross it (`f`, "at least") and may cross it (`hi`, "up to"); `mt` = [at least, up to] in Mt */
   estimates?: { k: string; p?: string; f: Fig; hi?: Fig; mt?: [number, number] }[];
+  /** a route of similar length around this passage that the atlas does not count as a choice (or counts as one), one sentence */
+  parallelNote?: string;
   alternatives?: { label: string; extraNm?: number; extraDays?: number; note?: string }[];
   events?: string[];
   portwatch?: string;

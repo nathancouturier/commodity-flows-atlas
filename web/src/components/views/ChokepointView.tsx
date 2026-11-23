@@ -86,6 +86,8 @@ function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boo
   return (
     <Section title="Atlas estimates" aside={<span class="num">{rows[0].f.y}</span>}>
       {withDefinition && <div class="muted small" style={{ marginBottom: '6px' }}>{ESTIMATE_DEFINITION}</div>}
+      {/* a route of similar length that the atlas does not count as a choice (or counts as one) */}
+      {cp.parallelNote && <div class="muted small" style={{ marginBottom: '6px' }}>{cp.parallelNote}</div>}
       {shown.map((e, i) => {
         const mt = estimateMt(e);
         const range = !!e.hi && e.hi.v - e.f.v >= 0.05;

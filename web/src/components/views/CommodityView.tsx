@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
 import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, fig as fmtFig, fmt, fmtEst } from '../../lib/format';
+import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst } from '../../lib/format';
 import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
@@ -146,13 +146,20 @@ function YearTag({ y }: { y?: number | string }) {
   return <span class="year-tag">latest: {y}</span>;
 }
 
-/** Value and note of a KPI: the second unit of an Atlas conversion goes in brackets, its factor after the source's own note. */
-function altKpi(f: Fig): { value?: string; note?: string } {
+/**
+ * Value, source line and note of a KPI. The second unit of an Atlas conversion goes in brackets, its factor after the source's own note.
+ * An estimated figure (`est`) is printed to two significant digits and says "Atlas estimate"; a figure the atlas only converted
+ * (source `atlas`, no `est`) is printed as the file gives it and says "Atlas conversion".
+ */
+function altKpi(f: Fig): { value?: string; sub?: string; note?: string } {
+  const kind = atlasKind(f);
+  const g = kind === 'est' ? { ...f, est: true } : f;
+  const sub = kind ? `${kind === 'est' ? 'Atlas estimate' : 'Atlas conversion'} · ${f.y}` : undefined;
   // the History year can replace the seaborne figure by another year's: the conversion belongs to the latest year only
-  if (!f.alt || String(f.alt.y) !== String(f.y)) return { note: f.n };
+  if (!f.alt || String(f.alt.y) !== String(f.y)) return { value: kind === 'est' ? fmtFig(g) : undefined, sub, note: f.n };
   // no break inside a figure: a narrow card wraps before the bracket, not inside "3,140 Mt LNG"
   const nb = (t: string) => t.replace(/ /g, '\u00a0');
-  return { value: `${nb(fmtFig(f))} (${nb(`${fmt(f.alt.v)} ${f.alt.u}`)})`, note: f.n ? `${f.n} · ${f.alt.n}` : f.alt.n };
+  return { value: `${nb(fmtFig(g))} (${nb(`${fmt(f.alt.v)} ${f.alt.u}`)})`, sub, note: f.n ? `${f.n} · ${f.alt.n}` : f.alt.n };
 }
 
 /** KPI label with the figure's own year when the History timeline is on another year. */

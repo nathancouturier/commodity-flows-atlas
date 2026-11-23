@@ -26,6 +26,18 @@ export function fmtEst(v: number | null | undefined, est = false): string {
 }
 
 /**
+ * What the atlas did to a published figure or table: `est` (it computed the figure: two significant digits, "Atlas estimate")
+ * or `conv` (it only converted a published figure to another unit: printed as the file gives it, three significant digits,
+ * "Atlas conversion"). A table of source `atlas` with no `est` is an estimate when its note says "Atlas estimate".
+ */
+export type AtlasKind = 'est' | 'conv' | null;
+export function atlasKind(x: { s: string; est?: boolean; n?: string }): AtlasKind {
+  if (x.est) return 'est';
+  if (x.s !== 'atlas') return null;
+  return /^Atlas estimate/i.test(x.n ?? '') ? 'est' : 'conv';
+}
+
+/**
  * The one rounding rule for every share the atlas prints, `p` in percent: one decimal ("7.0%", "10.9%",
  * "36.2%"), "<0.1%" for a positive share below 0.1%, "0%" for a true zero and "100%" at the top.
  */
@@ -51,7 +63,7 @@ export function fig(f: Fig | undefined): string {
   if (!f) return '—';
   // a percentage a source publishes keeps its own precision; only the atlas's own shares follow the one-decimal rule
   if (f.u === '%') return f.s === 'atlas' ? pctText(f.v) : `${fmt(f.v)}%`;
-  return `${fmt(f.v)} ${f.u}`;
+  return `${f.est ? fmtEst(f.v, true) : fmt(f.v)} ${f.u}`;
 }
 
 /** "Source name, 2024" — used under every figure. */

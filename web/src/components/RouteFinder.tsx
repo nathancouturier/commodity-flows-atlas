@@ -74,7 +74,7 @@ export function RouteFinder() {
   const dest = rfDest.value;
   const group = rfGroup.value;
   const multi = groupsOf(k).length > 1;
-  const [data, setData] = useState<Loaded | 'error' | null>(null);
+  const [data, setData] = useState<Loaded | 'error' | 'none' | null>(null);
   const [caveats, setCaveats] = useState<CaveatsFile | null>(null);
   const [routes, setRoutes] = useState<Route[]>([]);
   const [laneSlot, setLaneSlot] = useState<{ group: string; file: LaneFile | null } | null>(null);
@@ -83,9 +83,11 @@ export function RouteFinder() {
   useEffect(() => {
     let live = true;
     setData(null);
-    Promise.all(groupsOf(k).map(loadPairs))
-      .then((files) => {
-        if (live) setData({ k, files, pairs: files.flatMap(decodePairs).sort((a, b) => b.kt - a.kt) });
+    // a group whose pairs file the builder has not written yet is left out; with none at all the commodity has no table yet
+    Promise.all(groupsOf(k).map((g) => loadPairs(g).catch(() => null)))
+      .then((all) => {
+        const files = all.filter((f): f is PairsFile => !!f);
+        if (live) setData(files.length ? { k, files, pairs: files.flatMap(decodePairs).sort((a, b) => b.kt - a.kt) } : 'none');
       })
       .catch(() => live && setData('error'));
     return () => {
@@ -113,7 +115,7 @@ export function RouteFinder() {
     if (group && !(multi && groupsOf(k).includes(group))) rfGroup.value = null;
   }, [group, k, multi]);
 
-  const ready = data && data !== 'error' && data.k === k ? data : null;
+  const ready = data && data !== 'error' && data !== 'none' && data.k === k ? data : null;
   const pairs = ready?.pairs ?? [];
   const lead = from === 'o' ? origin : dest;
   const other = from === 'o' ? dest : origin;
@@ -302,7 +304,7 @@ export function RouteFinder() {
       <label class="rf-field">
         <span>{from === 'o' ? 'Origin' : 'Destination'}</span>
         <select class="rf-select" value={lead ?? ''} disabled={!ready} onChange={(e) => setLead((e.target as HTMLSelectElement).value || null)}>
-          <option value="">{data === 'error' ? 'Not available' : ready ? `Select ${leadName}…` : 'Loading…'}</option>
+          <option value="">{data === 'error' || data === 'none' ? 'Not available' : ready ? `Select ${leadName}…` : 'Loading…'}</option>
           {leads.map(([c, v]) => (
             <option value={c}>
               {countryName(c)} · {v > 0 ? tonnage(v) : 'no recorded tonnage'}
@@ -326,9 +328,9 @@ export function RouteFinder() {
         </select>
       </label>
 
-      {data === 'error' && (
+      {(data === 'error' || data === 'none') && (
         <div class="rf-card">
-          <p class="rf-empty">The trade table for this commodity could not be loaded.</p>
+          <p class="rf-empty">{data === 'none' ? 'The atlas has no trade table for this commodity yet.' : 'The trade table for this commodity could not be loaded.'}</p>
         </div>
       )}
       {originCav.length > 0 && origin && (

@@ -3,7 +3,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../types';
 import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
-import { fmt, pct, fig as fmtFig } from '../lib/format';
+import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
 import '../styles/lane-table.css';
@@ -39,7 +39,7 @@ export function Section(props: { title: ComponentChildren; children: ComponentCh
 }
 
 /** "Source: USGS Mineral Commodity Summaries · 2024" with a link to the source page. */
-export function SourceLine(props: { s?: string; y?: number | string; n?: string }) {
+export function SourceLine(props: { s?: string; y?: number | string; n?: string; mark?: ComponentChildren }) {
   if (!props.s) return null;
   const src = sources.value[props.s];
   return (
@@ -54,6 +54,7 @@ export function SourceLine(props: { s?: string; y?: number | string; n?: string 
       )}
       {props.y != null && <> · {props.y}</>}
       {props.n && <> · {props.n}</>}
+      {props.mark}
     </div>
   );
 }
@@ -282,11 +283,25 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
 /** Ranked horizontal bars for a country table. Rows are clickable (open the country). */
 export function RankedBars(props: { data: Ranked; color?: string; limit?: number; unitLabel?: string }) {
   const { data } = props;
-  const rows = data.rows.slice(0, props.limit ?? 10);
+  const limit = props.limit ?? 10;
+  const [all, setAll] = useState(false);
+  // a new table starts folded
+  useEffect(() => setAll(false), [data.rows]);
+  // an Atlas estimate (the whole table, or one row) is printed to two significant digits; an Atlas conversion as the file gives it
+  const kind = atlasKind(data);
+  const val = (v: number, est?: boolean) => fmtEst(v, kind === 'est' || !!est);
+  const rows = all ? data.rows : data.rows.slice(0, limit);
+  const beyond = data.rows.slice(limit);
   const max = Math.max(...rows.map((r) => r.v), 1e-9);
   const world = data.world;
-  const rest = data.other ? data.other + data.rows.slice(rows.length).reduce((a, r) => a + r.v, 0) : 0;
+  // the source's own "Other countries" line, and apart from it the countries the table names beyond the rows shown
+  const other = data.other && data.other > 0 ? data.other : 0;
+  const named = other > 0 || !!data.hidden;
+  const further = !all && named ? beyond : [];
+  const furtherSum = further.reduce((a, r) => a + r.v, 0);
+  const furtherNames = further.map((r) => countryName(r.c)).join(', ');
   const longNote = !!data.n && data.n.length > 130;
+  const published = data.worldPublished != null && data.worldPublished !== world ? data.worldPublished : null;
   return (
     <div>
       <div class="bars" style={{ '--bar-color': props.color }}>
@@ -294,29 +309,55 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           <button class="bar-row" key={r.c} onClick={() => select({ kind: 'country', id: r.c })} title={r.n}>
             <span class="bar-rank">{i + 1}</span>
             <span>
-              <span class="bar-label">{countryName(r.c)}</span>
+              <span class="bar-label">
+                {countryName(r.c)}
+                {r.est && kind !== 'est' && <EstMark />}
+              </span>
               <div class="bar-track">
                 <div class="bar-fill" style={{ width: `${(r.v / max) * 100}%` }} />
               </div>
             </span>
             <span class="bar-value">
-              {fmt(r.v)}
+              {val(r.v, r.est)}
               {world ? <small>{pct(r.v / world)}</small> : null}
             </span>
           </button>
         ))}
-        {rest > 0 && (
+        {further.length > 0 && (
+          <button class="bar-row bar-other bar-further" onClick={() => setAll(true)} title={data.hidden?.n ?? `Named by the source: ${furtherNames}`}>
+            <span class="bar-rank" />
+            <span>
+              <span class="bar-label">Further countries named by the source</span>
+              <span class="bar-names">{furtherNames}</span>
+            </span>
+            <span class="bar-value">
+              {val(furtherSum)}
+              {world ? <small>{pct(furtherSum / world)}</small> : null}
+            </span>
+          </button>
+        )}
+        {other > 0 && (
           <div class="bar-row bar-other">
             <span class="bar-rank" />
-            <span class="bar-label">Other countries</span>
+            <span class="bar-label">Other countries (as published)</span>
             <span class="bar-value">
-              {fmt(rest)}
-              {world ? <small>{pct(rest / world)}</small> : null}
+              {val(other)}
+              {world ? <small>{pct(other / world)}</small> : null}
             </span>
           </div>
         )}
       </div>
-      <SourceLine s={data.s} y={data.y} n={`${props.unitLabel ?? data.u}${world ? ` · world ${fmt(world)} ${data.u}` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`} />
+      {named && beyond.length > 0 && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
+          {all ? 'Show fewer' : `Show all ${data.rows.length}`}
+        </button>
+      )}
+      <SourceLine
+        s={data.s}
+        y={data.y}
+        n={`${props.unitLabel ?? data.u}${world ? ` · world ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
+        mark={kind === 'est' ? <EstMark /> : kind === 'conv' ? <EstMark label="Atlas conversion" title={CONV_TITLE} /> : undefined}
+      />
       {/* a long note folds to three lines and opens on a tap, as the estimate notes do */}
       {longNote && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={data.n} />}
     </div>
@@ -493,10 +534,13 @@ export function FoldNote(props: { text?: string | null; class?: string; style?: 
   );
 }
 
-/** Mark on a figure that the atlas computed itself (a tonnage estimated from the declared value). */
+/** What the "Atlas conversion" mark says: the published figure changed to another unit with a stated factor. */
+export const CONV_TITLE = 'Published figure converted by the atlas to another unit with the factor stated in the note, shown to three significant digits';
+
+/** Mark on a figure that the atlas computed itself (a tonnage estimated from the declared value): shown to two significant digits. */
 export function EstMark(props: { title?: string; label?: string }) {
   return (
-    <span class="est-mark" title={props.title ?? 'Tonnage computed by the atlas from the declared value, shown to two significant digits'}>
+    <span class="est-mark" title={props.title ?? 'Computed by the atlas, not published by a source; the method is in the note. Shown to two significant digits'}>
       {props.label ?? 'Atlas estimate'}
     </span>
   );
