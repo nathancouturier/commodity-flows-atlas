@@ -1,0 +1,878 @@
+{
+ "wheat": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Major US origination and export grain handler",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Demetra Holding (Demetra Trading)",
+    "hq": "RUS",
+    "role": "trader",
+    "detail": "Russian grain trader and terminal owner; among the largest Russian wheat exporters",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://dholding.ru/en/about"
+   },
+   {
+    "name": "Kernel",
+    "hq": "LUX",
+    "role": "trader",
+    "detail": "Ukrainian grain and sunflower oil exporter, Luxembourg-registered",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kernel_Holding"
+   },
+   {
+    "name": "Olam Agri",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Grains and feed merchant; majority-owned by Saudi SALIC",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "corn": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Major US origination and export grain handler",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Amaggi",
+    "hq": "BRA",
+    "role": "trader",
+    "detail": "Brazilian soy and corn producer and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Amaggi_Group"
+   },
+   {
+    "name": "CHS",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "US farmer-owned cooperative; grain and oilseed exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CHS_Inc."
+   },
+   {
+    "name": "Kernel",
+    "hq": "LUX",
+    "role": "trader",
+    "detail": "Ukrainian grain and sunflower oil exporter, Luxembourg-registered",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kernel_Holding"
+   },
+   {
+    "name": "Nibulon",
+    "hq": "UKR",
+    "role": "trader",
+    "detail": "Ukrainian grain producer and river/Black Sea exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nibulon"
+   }
+  ]
+ },
+ "soybeans": {
+  "traders": [
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Largest private grain merchant; wheat, corn and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Major US origination and export grain handler",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025, adding major grain origination",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Rotterdam-based merchant of grains and oilseeds",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "trader",
+    "detail": "State-owned COFCO group's trading arm; Geneva-based",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Amaggi",
+    "hq": "BRA",
+    "role": "trader",
+    "detail": "Brazilian soy and corn producer and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Amaggi_Group"
+   },
+   {
+    "name": "CHS",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "US farmer-owned cooperative; grain and oilseed exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CHS_Inc."
+   }
+  ]
+ },
+ "soymeal": {
+  "processors": [
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "crusher",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "processor",
+    "detail": "Large Brazilian and Chinese crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "processor",
+    "detail": "Crusher in Brazil, Argentina and Europe",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   }
+  ]
+ },
+ "soyoil": {
+  "processors": [
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "crusher",
+    "detail": "Registered in Geneva (Swiss domicile since 2023); merged with Viterra July 2025",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "crusher",
+    "detail": "Major crusher",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Large Asian crusher and refiner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "COFCO International",
+    "hq": "CHN",
+    "role": "processor",
+    "detail": "Large crusher and refiner",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/COFCO"
+   }
+  ]
+ },
+ "rapeseed": {
+  "traders": [
+   {
+    "name": "Richardson International",
+    "hq": "CAN",
+    "role": "trader",
+    "detail": "Canadian grain and oilseed processor/exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Richardson_International"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Viterra (merged July 2025) is a major Canadian canola handler",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bunge_Global"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Canola crusher and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ADM",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Canola crusher and exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland"
+   }
+  ]
+ },
+ "rice": {
+  "traders": [
+   {
+    "name": "Olam Agri",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Major rice merchant (Olam Agri, majority-owned by Saudi SALIC)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "sugar": {
+  "processors": [
+   {
+    "name": "Raízen",
+    "hq": "BRA",
+    "role": "miller",
+    "detail": "Brazil's largest sugar/ethanol group; Shell and Cosan JV",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Raízen"
+   },
+   {
+    "name": "Tereos",
+    "hq": "FRA",
+    "role": "processor",
+    "detail": "French cooperative; beet and cane sugar, ethanol",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Tereos"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Sugar milling and refining in Asia, Australia and beyond",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "Mitr Phol",
+    "hq": "THA",
+    "role": "processor",
+    "detail": "Thailand's largest sugar producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mitr_Phol"
+   },
+   {
+    "name": "Shree Renuka Sugars",
+    "hq": "IND",
+    "role": "processor",
+    "detail": "Indian sugar and ethanol producer (Wilmar-controlled)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shree_Renuka_Sugars"
+   },
+   {
+    "name": "Bajaj Hindusthan Sugar",
+    "hq": "IND",
+    "role": "processor",
+    "detail": "Large Indian sugar and ethanol producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bajaj_Hindusthan"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Sucden",
+    "hq": "FRA",
+    "role": "trader",
+    "detail": "French sugar merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sucres_et_Denrées"
+   },
+   {
+    "name": "Czarnikow",
+    "hq": "GBR",
+    "role": "trader",
+    "detail": "London-based sugar merchant and commodity services group",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.czarnikow.com/"
+   },
+   {
+    "name": "Alvean",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based sugar trader; wholly owned by Copersucar since 2021 (Cargill exited)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Alvean"
+   },
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Sugar merchant alongside milling",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   }
+  ]
+ },
+ "coffee": {
+  "traders": [
+   {
+    "name": "Neumann Kaffee Gruppe",
+    "hq": "DEU",
+    "role": "trader",
+    "detail": "Hamburg-based; one of the largest green coffee merchants",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Neumann_Kaffee_Gruppe"
+   },
+   {
+    "name": "ECOM",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Coffee, cocoa and cotton merchant; Swiss HQ",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Olam Food Ingredients (ofi)",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Coffee merchant; trades through Olam Food Ingredients (ofi)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   },
+   {
+    "name": "Sucafina",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Geneva-based coffee merchant",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.sucafina.com/"
+   },
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Coffee merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "Volcafe (ED&F Man)",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Coffee merchant, part of ED&F Man",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.volcafe.com/"
+   }
+  ]
+ },
+ "cocoa": {
+  "processors": [
+   {
+    "name": "Barry Callebaut",
+    "hq": "CHE",
+    "role": "grinder",
+    "detail": "Largest cocoa and chocolate processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Barry_Callebaut"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "grinder",
+    "detail": "Major grinder",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "Olam Food Ingredients (ofi)",
+    "hq": "SGP",
+    "role": "grinder",
+    "detail": "Major cocoa grinder (Olam Food Ingredients)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   },
+   {
+    "name": "ECOM Agroindustrial",
+    "hq": "CHE",
+    "role": "processor",
+    "detail": "Cocoa merchant and processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Touton",
+    "hq": "FRA",
+    "role": "processor",
+    "detail": "French cocoa and coffee merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Touton"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Conseil du Café-Cacao (CCC)",
+    "hq": "CIV",
+    "role": "trader",
+    "detail": "Côte d'Ivoire's regulator and marketer of cocoa; sets farmgate price and forward-sells the crop",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cocoa_production_in_Côte_d'Ivoire"
+   },
+   {
+    "name": "COCOBOD",
+    "hq": "GHA",
+    "role": "trader",
+    "detail": "Ghana's state cocoa regulator and marketer; forward-sells the crop",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Ghana_Cocoa_Board"
+   }
+  ]
+ },
+ "cotton": {
+  "traders": [
+   {
+    "name": "Louis Dreyfus Company",
+    "hq": "NLD",
+    "role": "trader",
+    "detail": "Major cotton merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Louis_Dreyfus_Company"
+   },
+   {
+    "name": "Cargill",
+    "hq": "USA",
+    "role": "trader",
+    "detail": "Cotton merchant",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cargill"
+   },
+   {
+    "name": "ECOM Agroindustrial",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Cotton merchant alongside coffee and cocoa",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ECOM_Agroindustrial"
+   },
+   {
+    "name": "Olam Agri",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Cotton merchant within its agri portfolio",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Olam_Group"
+   }
+  ]
+ },
+ "palm-oil": {
+  "processors": [
+   {
+    "name": "Wilmar International",
+    "hq": "SGP",
+    "role": "refiner",
+    "detail": "Largest palm oil processor",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Wilmar_International"
+   },
+   {
+    "name": "Musim Mas",
+    "hq": "SGP",
+    "role": "processor",
+    "detail": "Integrated palm oil planter, refiner and trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Musim_Mas"
+   },
+   {
+    "name": "Apical (RGE)",
+    "hq": "IDN",
+    "role": "processor",
+    "detail": "Indonesian palm oil refiner and exporter, Royal Golden Eagle group",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Apical"
+   }
+  ],
+  "producers": [
+   {
+    "name": "SD Guthrie (formerly Sime Darby Plantation)",
+    "hq": "MYS",
+    "role": "producer",
+    "detail": "Renamed SD Guthrie in 2022; one of the world's largest oil palm planters",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/SD_Guthrie"
+   },
+   {
+    "name": "Golden Agri-Resources",
+    "hq": "SGP",
+    "role": "producer",
+    "detail": "Large planter and refiner; Sinar Mas group",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Golden_Agri-Resources"
+   },
+   {
+    "name": "FGV Holdings",
+    "hq": "MYS",
+    "role": "producer",
+    "detail": "Malaysian state-linked planter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/FGV_Holdings"
+   }
+  ]
+ },
+ "potash": {
+  "producers": [
+   {
+    "name": "Nutrien",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Largest potash producer; Saskatchewan",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nutrien"
+   },
+   {
+    "name": "Belaruskali",
+    "hq": "BLR",
+    "role": "producer",
+    "detail": "Belarus state producer, marketed via BPC; US eased sanctions from Dec 2025 (further relief Mar 2026); EU sanctions remain",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Belaruskali"
+   },
+   {
+    "name": "Uralkali",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Major Russian producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Uralkali"
+   },
+   {
+    "name": "Mosaic",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "US/Canada",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   },
+   {
+    "name": "K+S",
+    "hq": "DEU",
+    "role": "producer",
+    "detail": "German potash and salt producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/K%2BS"
+   },
+   {
+    "name": "BHP Jansen (under construction)",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "Saskatchewan project; Stage 1 first production targeted mid-2027 after cost increase to US$8.4bn",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   }
+  ]
+ },
+ "phosphate": {
+  "producers": [
+   {
+    "name": "OCP Group",
+    "hq": "MAR",
+    "role": "producer",
+    "detail": "State-owned; largest phosphate reserves",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/OCP_Group"
+   },
+   {
+    "name": "Mosaic",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major phosphate producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mosaic_Company"
+   },
+   {
+    "name": "Ma'aden",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "Saudi state-linked miner; phosphate and DAP/MAP exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Ma'aden"
+   },
+   {
+    "name": "PhosAgro",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Major Russian phosphate and NPK producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/PhosAgro"
+   },
+   {
+    "name": "Yuntianhua",
+    "hq": "CHN",
+    "role": "producer",
+    "detail": "Yunnan phosphate rock and fertiliser producer; Chinese state-controlled group",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://news.metal.com/en/newscontent/102556141-Yuntianhua-Boasts-Large-Ore-and-Fertilizer-Production-Capacity-in-Yunnan-Province"
+   }
+  ]
+ },
+ "urea": {
+  "producers": [
+   {
+    "name": "QAFCO",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "QatarEnergy subsidiary; large single-site urea complex, Mesaieed",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QAFCO"
+   },
+   {
+    "name": "CF Industries",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major nitrogen producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/CF_Industries"
+   },
+   {
+    "name": "Yara",
+    "hq": "NOR",
+    "role": "producer",
+    "detail": "Major nitrogen producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Yara_International"
+   },
+   {
+    "name": "SABIC Agri-Nutrients",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "Major Gulf urea producer, Jubail",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Arabian_Fertilizer_Company"
+   },
+   {
+    "name": "Acron",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russian nitrogen and NPK producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Acron_Group"
+   },
+   {
+    "name": "EuroChem",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Swiss-domiciled nitrogen, phosphate and potash producer with Russian assets",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/EuroChem"
+   },
+   {
+    "name": "Pupuk Indonesia",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "State fertiliser group; Pupuk Kaltim urea exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Pupuk_Kaltim"
+   }
+  ]
+ }
+}

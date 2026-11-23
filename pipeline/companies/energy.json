@@ -1,0 +1,514 @@
+{
+ "crude-oil": {
+  "producers": [
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "producer",
+    "detail": "State-controlled; world's largest crude exporter",
+    "fig": {
+     "v": 12.7,
+     "u": "Mboe/d hydrocarbon production",
+     "y": 2024,
+     "s": "wikipedia"
+    },
+    "s": "wikipedia",
+    "y": 2024,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
+   },
+   {
+    "name": "Rosneft",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russia's largest producer; sanctioned by US",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Rosneft"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Largest US-listed major; Permian and Guyana",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "State-owned; oil and gas in Qatar",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "ADNOC",
+    "hq": "ARE",
+    "role": "producer",
+    "detail": "Abu Dhabi state oil company",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Abu_Dhabi_National_Oil_Company"
+   },
+   {
+    "name": "NNPC",
+    "hq": "NGA",
+    "role": "producer",
+    "detail": "Nigerian state oil company",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Nigerian_National_Petroleum_Company"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "World's largest independent oil trader; Geneva and Rotterdam",
+    "s": "wikipedia",
+    "y": 2021,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Oil and metals trader; Singapore HQ",
+    "s": "wikipedia",
+    "y": 2016,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Marketing arm trades oil alongside coal and metals",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Gunvor",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Major independent crude and products trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gunvor"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Major independent energy and commodities trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   }
+  ]
+ },
+ "refined-products": {
+  "processors": [
+   {
+    "name": "Sinopec",
+    "hq": "CHN",
+    "role": "refiner",
+    "detail": "Asia's largest refiner by throughput",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Sinopec"
+   },
+   {
+    "name": "Reliance Industries",
+    "hq": "IND",
+    "role": "refiner",
+    "detail": "Jamnagar export refinery complex",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Reliance_Industries"
+   },
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "refiner",
+    "detail": "Large domestic and overseas refining JV portfolio",
+    "s": "wikipedia",
+    "y": 2015,
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "refiner",
+    "detail": "Large integrated refiner (Baytown, Singapore, Antwerp)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "refiner",
+    "detail": "Integrated major; Pernis (Netherlands) and other refineries; sold its Singapore Bukom refinery in April 2025",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Largest independent products trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Large products and gasoil trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   },
+   {
+    "name": "Gunvor",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Products and crude trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gunvor"
+   },
+   {
+    "name": "Mercuria",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Products, LPG and crude trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+   }
+  ]
+ },
+ "lng": {
+  "producers": [
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "liquefaction operator",
+    "detail": "Largest LNG exporter; Ras Laffan. Wikipedia reports 2026 Iran-war strikes and force majeure",
+    "fig": {
+     "v": 77,
+     "u": "Mtpa LNG capacity, targeted to rise to 110 Mtpa",
+     "y": 2026,
+     "s": "wikipedia",
+     "n": "North Field East expansion"
+    },
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "liquefaction operator",
+    "detail": "Largest portfolio LNG seller; Prelude, Nigeria LNG, QCLNG",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   },
+   {
+    "name": "Cheniere Energy",
+    "hq": "USA",
+    "role": "liquefaction operator",
+    "detail": "Largest US LNG exporter; Sabine Pass, Corpus Christi",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cheniere_Energy"
+   },
+   {
+    "name": "Gazprom",
+    "hq": "RUS",
+    "role": "liquefaction operator",
+    "detail": "Sakhalin-2 stake; sanctions-affected",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gazprom"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "liquefaction operator",
+    "detail": "Large LNG portfolio",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "trader",
+    "detail": "Top LNG portfolio trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "trader",
+    "detail": "Major LNG portfolio trader",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+   },
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Growing LNG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Growing LNG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "natural-gas": {
+  "producers": [
+   {
+    "name": "Gazprom",
+    "hq": "RUS",
+    "role": "producer",
+    "detail": "Russian state gas monopoly; pipeline exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Gazprom"
+   },
+   {
+    "name": "ExxonMobil",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Major US and global gas producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "detail": "North Field",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+   },
+   {
+    "name": "NIOC",
+    "hq": "IRN",
+    "role": "producer",
+    "detail": "South Pars",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/National_Iranian_Oil_Company"
+   },
+   {
+    "name": "Equinor",
+    "hq": "NOR",
+    "role": "producer",
+    "detail": "Main pipeline gas supplier to Europe",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Equinor"
+   }
+  ]
+ },
+ "lpg": {
+  "traders": [
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "LPG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Vitol"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "LPG trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "thermal-coal": {
+  "producers": [
+   {
+    "name": "Coal India",
+    "hq": "IND",
+    "role": "producer",
+    "detail": "State-owned; Majority of India's coal output",
+    "s": "wikipedia",
+    "y": 2017,
+    "url": "https://en.wikipedia.org/wiki/Coal_India"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Largest seaborne thermal coal supplier; Australia, Colombia, South Africa",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Peabody Energy",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Largest private-sector coal producer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+   },
+   {
+    "name": "Adaro (AlamTri)",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "Major Indonesian exporter",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Adaro_Energy"
+   },
+   {
+    "name": "Bumi Resources",
+    "hq": "IDN",
+    "role": "producer",
+    "detail": "Indonesian exporter (KPC)",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Bumi_Resources"
+   }
+  ],
+  "traders": [
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "trader",
+    "detail": "Largest coal marketer",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "detail": "Coal trading",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Trafigura"
+   }
+  ]
+ },
+ "met-coal": {
+  "producers": [
+   {
+    "name": "BHP Mitsubishi Alliance (BMA)",
+    "hq": "AUS",
+    "role": "producer",
+    "detail": "Largest seaborne met coal supplier; Queensland",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/BHP"
+   },
+   {
+    "name": "Glencore",
+    "hq": "CHE",
+    "role": "producer",
+    "detail": "Largest seaborne steelmaking coal portfolio after acquiring 77% of Elk Valley Resources (ex-Teck coal) in 2024; Nippon Steel and POSCO hold the balance",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Glencore"
+   },
+   {
+    "name": "Peabody Energy",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "Australian met coal operations",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+   },
+   {
+    "name": "Anglo American",
+    "hq": "GBR",
+    "role": "producer",
+    "detail": "Agreed in May 2026 to sell its Australian steelmaking coal mines to Dhilmar (completion expected Q1 2027); Jellinbah stake already sold; arbitration with Peabody over the earlier deal ongoing",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
+   },
+   {
+    "name": "Coronado Global Resources",
+    "hq": "USA",
+    "role": "producer",
+    "detail": "US and Australian met coal",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Coronado_Global_Resources"
+   }
+  ]
+ },
+ "uranium": {
+  "producers": [
+   {
+    "name": "Kazatomprom",
+    "hq": "KAZ",
+    "role": "producer",
+    "detail": "World's largest uranium producer; state-owned",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Kazatomprom"
+   },
+   {
+    "name": "Cameco",
+    "hq": "CAN",
+    "role": "producer",
+    "detail": "McArthur River/Cigar Lake",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Cameco"
+   },
+   {
+    "name": "Orano",
+    "hq": "FRA",
+    "role": "producer",
+    "detail": "Kazakhstan (JV) and Canada; Niger nationalised the Somair mine in 2025",
+    "s": "wikipedia",
+    "y": 2026,
+    "url": "https://en.wikipedia.org/wiki/Orano"
+   }
+  ]
+ }
+}
