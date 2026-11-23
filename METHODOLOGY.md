@@ -747,9 +747,12 @@ or alumina).
   (series PCU483111483111, U.S. Bureau of Labor Statistics, index June 1988 = 100, not seasonally
   adjusted), monthly, fetched through FRED when the owner's free `FRED_API_KEY` is set.
 - Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics
-  (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina US import unit
-  values, cobalt, palladium, rhodium): one value a year, 2021 to 2025, in the unit and with the basis
-  the file states; the last year is USGS's own estimate and is marked as such. Monthly series for
+  (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina "average unit
+  value of imports, free alongside ship (f.a.s.)", cobalt, palladium, rhodium): one value a year,
+  2021 to 2025, in the unit and with the basis the file states, in its own words; the last year is
+  USGS's own estimate and is marked as such. The commodity page shows such a value as "annual average
+  2025", with the decimals the file gives (9,000, not 9,000.00), and its change on the previous year;
+  it is never presented as a current price. Monthly series for
   these commodities exist in the IMF Primary Commodity Prices (in other forms: lithium metal,
   electrolytic manganese, rare-earth carbonate); they are not used, because the terms of use for
   scripted downloads are not confirmed.
@@ -760,20 +763,34 @@ or alumina).
   daily through their monthly benchmark). No monthly real price is built: that would need a consumer
   price index that is not among the downloaded files.
 - Price indices: the 16 indices of the sheet "Monthly Indices" (World Bank, nominal US dollars,
-  2010 = 100), the natural gas index and the MUV index.
+  2010 = 100), the natural gas index and the MUV index. The header of that sheet is spread over four
+  rows, so a column is found by the text above it, never by its position, and the builder refuses a
+  workbook whose index sheet does not cover the same months as the price sheet or is no longer 2010 = 100.
+  `pipeline/tests/test_prices_raw.py` proves every series of `data/prices/index.json` against its raw
+  file when the workbooks are on disk (column found by its header text, unit, first and last value,
+  number of observations and every value), and the data validator checks that each index averages 100
+  over 2010.
 - **What a price measures.** The basis note and the dates of the basis changes of every Pink Sheet
   series are read by the builder (`pipeline/prices/basis.py`) from the workbook's own "Description"
   sheet: grade, delivery term (FOB, CFR, CIF), place, and each "from <month>", "<month> to <month>",
   "beginning", "prior to" or "<month> backwards" in the text. The drawer draws a thin line at each
   change and lists them, with what they replace, under "What the price measures". The months the
   source itself marks as estimates (the last two months of Japanese LNG, the estimated months of
-  South African coal) are tinted. EIA series carry the description EIA writes in the file. Two
-  remarks are the atlas's own and are labelled as such: Brent before the mid-1980s is a posted-price
-  proxy, and Japanese LNG is mostly oil-indexed contracts, not a spot price.
-- **Annual values in monthly series.** A calendar year whose twelve monthly values are one and the
-  same number is one annual (or contract) price repeated over the months, not twelve observations:
-  the builder lists those years (`annual`), the chart tints them, and the date lookup answers "1975
-  annual value ... monthly data start in 1977" instead of "monthly average". 244 series-years in 22
+  South African coal) are tinted. EIA series carry the description EIA writes in the file. A basis
+  note holds nothing but the source's words: the atlas's earlier remarks on Brent before the
+  mid-1980s and on Japanese LNG indexation were removed because no page of the source supports them.
+  The breaks of a series are in date order and each one replaces what the previous one introduced.
+  Where the dates of the source's own clauses overlap (only the Richards Bay coal row: "from January
+  2015" against "during 2006-February 10, 2017"), the atlas keeps the clauses that do not overlap, quotes
+  the others verbatim in the note and says that the source's dates overlap. The deflator of the real
+  prices is quoted in the same way, typos of the source included ("Pailand").
+- **Years of twelve identical monthly values.** A calendar year whose twelve monthly values are one
+  and the same number is not twelve observations of a moving price: the builder lists those years
+  (`annual`), the chart tints them, and the date lookup says what is observed, "1965 value, unchanged
+  all year", with the year the values start to differ. The source may publish one price a year there
+  or a price that was not moving (gold reads 35.00 USD/oz in every month of 1960 to 1967); the atlas does not say which. Only the
+  iron ore row of the sheet says "annual contract prices", and those years are their own annual series
+  (below), whose values are called "annual contract price". 244 series-years in 22
   series (260 series-years in 19 series before the iron ore split).
 - **Iron ore.** The Pink Sheet column joins the Brazilian annual contract price in US cents per dmtu
   (to 2005; FOB Ponta da Madeira, Itabira mines before 1987) and the spot price in US dollars per dry
@@ -787,6 +804,14 @@ or alumina).
   ("only 2 of about 21 trading days") and offers the monthly average of the same benchmark. Nothing is
   interpolated. The missing days are not recovered: ALFRED vintages need a key and their republication
   terms are not confirmed.
+- **Which series a commodity opens on.** The first series of a commodity in `data/prices/index.json`
+  is the one its page, its price figure and the price drawer open on. A commodity with a daily or a
+  monthly series never opens on an annual one, and `OPENS_ON` in `pipeline/prices/build_prices.py`
+  names the series for every commodity that has more than one (bauxite opens on bauxite and not on
+  alumina, rare earths on NdPr oxide, cobalt on the US spot price of cathode, the row of the USGS
+  file that names its product and its source); a test fails for a commodity with several series and
+  no entry. The commodity pages load `data/prices/figures.json` (one entry per commodity, the first
+  series with its board figures) and not the whole index.
 - **Price board.** For every price series the builder precomputes the last value and its date, the
   change over 1 week (daily series), 1 month, 3 months, since the last observation of the previous
   year and 1 year, and the position of the last value between the lowest and highest of the last 52
@@ -812,7 +837,13 @@ or alumina).
   whose last observation did not advance as fast as its cadence allows: a daily series more than 21
   days old or 120 days behind the newest of its source, a monthly series once the next month is overdue
   or 6 months behind the newest of its source. A late series is also marked "late" in the drawer and on
-  the board. `web/scripts/validate-data.mjs` checks that the series files agree with the index.
+  the board. A series that its publisher stopped (a daily or monthly series that ends more than 6
+  months, or 120 days for a daily one, behind the newest series of its own source) is marked
+  `closed` by the build: it is recorded once in the status of its source (state `closed`, with its last
+  period), listed as closed, hidden from the board and no longer checked; a series that is only late
+  keeps raising its alert. The annual job rebuilds the prices after a new USGS edition. On a price
+  chart an event that names commodities is shown when one of them is charted, and an event that names
+  none is always shown. `web/scripts/validate-data.mjs` checks that the series files agree with the index.
 - Baltic Exchange freight indices are proprietary and are not shown.
 
 ## 8. Discrepancies
@@ -915,6 +946,60 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   production) and the International Cocoa Organization (world cocoa bean production per crop
   year). Each figure carries its publisher, year and link and stands beside the atlas's table; their
   tables are not copied.
+- **Full lists and "Rest of world"**: every table stores every country the source gives a value for
+  (a value that rounds to 0 in the table's unit is left to the world total). The page draws the
+  first ten rows, then "Rest of world": the world total minus the rows drawn and the source's own
+  "Other countries" line, with the number of countries it holds and, when the world total holds
+  amounts the source does not give by country (codes that are not countries of the atlas, regions,
+  rounding), the words "and amounts not given by country". "Show all (N)" opens the full list.
+  Aggregates are never counted as countries; the one aggregate row is USDA PSD's European Union
+  (printed "European Union", plain text, no country page), and no member state is listed beside it.
+- **Series by country and year** (`pipeline/commodities/history.py`, `data/commodities/history/<id>.json`):
+  each year is rebuilt by the same table writer as the latest table (same reader, cleaning rules,
+  world total and estimate marks), so the latest year of a series is the table of the page (the
+  builder, the validator and the tests check it). Years: CEPII BACI 2005 to its latest year, EIA
+  2005 to the year of each table, USDA PSD marketing years 2005/06 to the latest, USGS the two years
+  of the edition, labelled only "as published in USGS MCS 2026" (USGS marks single values
+  "Estimated.", shown as the source's estimates; the file gives no word such as "revised" for a
+  year). With a History year, a table that has the year shows its ranking with the shares on that
+  year's world total; a table without it stays the latest and says "no series for" the year. A
+  past-year table keeps the caveats of its table, except a caveat written for some years only
+  (`caveatYears`: the LNG comparisons with the industry totals and the uranium comparison with mine
+  output are for the latest year, the LPG caveat for the years without a US figure, the coal
+  reserves caveat from 2014), which gives way to its short or general form (`caveatShort`,
+  `caveatPast`) in the other years; an Atlas-estimate table keeps its method note. Rules of the
+  series, each stated in the series note on the page:
+  - a group read from a customs code only from a given year (spodumene, `FIRST_YEAR` of
+    `build_lanes.py`) has its series start that year, with the same sentence as the lanes;
+  - a value far out of line with the years around it is kept in the file with a flag (`out`), not
+    ranked and not drawn: the world total of that year is 1.3 times above or below both neighbouring
+    years, one country is 3 times above or below both its neighbours (or 3 times above its one
+    neighbour where its series starts or stops) and carries half or more of the world's departure,
+    and, where the source gives a declared value (CEPII BACI), that value did not move with the
+    tonnage (a unit value within a factor 2 of the neighbouring years means a real change, kept).
+    In this release it flags EIA's United States LPG consumption of 2021, Namibia's uranium exports
+    and Canada's uranium imports of 2009 and China's cobalt imports of 2016; the past-year table
+    gives the figure, says it is out of line and computes the shares on the world total without it.
+    Falls and rises spread over many countries (2009, 2020, 2022), Libya's crude oil exports of 2020,
+    Russia's wheat exports of 2010 and Malaysia's bauxite exports of 2015 (whose declared value moved
+    with the tonnage) are not flagged;
+  - USDA PSD's European Union row is the source's own entity: it is "EU-25" in sugar 2005/06 and
+    holds the United Kingdom until the file gives the United Kingdom a row of its own (2016/17 for
+    most commodities). The row is named for what it is each year, its trend line breaks where it
+    changes, and no change is computed across the break; the atlas does not add or remove members;
+  - a country that split or changed code inside the period (Sudan and South Sudan, Serbia and
+    Montenegro, the Netherlands Antilles; the last year of each old code is read from the CEPII
+    country list) gets one sentence in the series where the new country's figures start, and no
+    change is computed across that year;
+  - a country that held 5% or more of the world total and has no figure after a given year is named,
+    with its share, because the world totals of the later years leave it out.
+  "Largest changes" lists the five largest increases and decreases from the year before to the year
+  shown (the latest year without a History year; nothing to compare with in the first year of a
+  series). A country with no figure on one side counts as 0 there and shows "none in" that year
+  instead of a percentage; a country under 0.1% of the world total the year before shows no
+  percentage either. The lane table's "Change" column follows the same rules on the lane series: no
+  change against a year without a customs record or with a hidden figure (flags `nodata`,
+  `suspect`), a mark on a change with a flagged year (`est`, `check`).
 
 ## 11. Infrastructure layer
 

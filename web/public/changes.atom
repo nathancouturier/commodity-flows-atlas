@@ -5,13 +5,13 @@
   <link rel="self" type="application/atom+xml" href="https://nathancouturier.github.io/commodity-flows-atlas/changes.atom"/>
   <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
   <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:feed</id>
-  <updated>2026-11-23T04:44:55Z</updated>
+  <updated>2026-11-23T06:24:48Z</updated>
   <author><name>Commodity Flows Atlas</name></author>
   <rights>Figures: see the sources and licences in the About window of the atlas.</rights>
   <entry>
     <title>Price moves, week to 17 Nov 2026</title>
     <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:2026-11-23-prices</id>
-    <updated>2026-11-23T04:44:55Z</updated>
+    <updated>2026-11-23T06:24:48Z</updated>
     <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
     <content type="text">Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; eia-spot)
 Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; eia-spot)
@@ -22,7 +22,7 @@ Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 
   <entry>
     <title>Chokepoint traffic to 15 Nov 2026</title>
     <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:2026-11-23-passages</id>
-    <updated>2026-11-23T04:44:55Z</updated>
+    <updated>2026-11-23T06:24:48Z</updated>
     <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
     <content type="text">Strait of Hormuz: 2.3 vessels a day in the last week, −40% on the 4 weeks before and −90% on the 365 days before (IMF PortWatch, to 15 Nov 2026)
 Ombai Strait: 11.1 vessels a day in the last week, +51% on the 4 weeks before and +18% on the 365 days before (IMF PortWatch, to 15 Nov 2026)
@@ -33,12 +33,12 @@ Luzon Strait: 106.1 vessels a day in the last week, +13% on the 4 weeks before a
   <entry>
     <title>Monthly prices for Oct 2026</title>
     <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:2026-11-23-monthly</id>
-    <updated>2026-11-23T04:44:55Z</updated>
+    <updated>2026-11-23T06:24:48Z</updated>
     <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
-    <content type="text">World Bank grains price index: +12.1% in Oct 2026 (25.42 to 28.50 index (2010 = 100); wb-pink)
-Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; wb-pink)
+    <content type="text">Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; wb-pink)
 Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; wb-pink)
 Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; wb-pink)
-World Bank non-energy price index: +10.1% in Oct 2026 (93.30 to 102.7 index (2010 = 100); wb-pink)</content>
+Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; wb-pink)
+Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); wb-pink)</content>
   </entry>
 </feed>

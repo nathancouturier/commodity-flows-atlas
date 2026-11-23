@@ -407,14 +407,22 @@ export function seriesCovering(k: string, t0: number, t1: number, exclude: strin
   return idx.filter((m) => m.k === k && !m.hidden && !exclude.includes(m.id) && stamp(m.start) < t1 && obsEnd(stamp(m.end), m.freq) > t0);
 }
 
+/**
+ * Does a freight or market event belong on a price chart? An event that names commodities is shown when one of them is
+ * charted; an event that names none (a general shipping or market event) is always shown.
+ */
+export function eventOnChart(e: { commodities?: string[] }, charted: ReadonlySet<string>): boolean {
+  return !e.commodities?.length || e.commodities.some((c) => charted.has(c));
+}
+
 // ---------------------------------------------------------------- annual values, estimates, late series
 
-/** The run of calendar years [first, last] a monthly series gives one price for (twelve identical monthly values), or null. */
+/** The run of calendar years [first, last] of twelve identical monthly values that contains `year`, or null (what is observed: the source may publish one price a year there). */
 export function annualRun(m: PriceSeriesMeta, year: number): [number, number] | null {
   return m.annual?.find((r) => year >= r[0] && year <= r[1]) ?? null;
 }
 
-/** First year with real monthly data when the series opens with annual values (the audit's "monthlyFrom"), else null. */
+/** First year whose monthly values differ from month to month when the series opens with years of twelve identical values, else null. */
 export function monthlyFrom(m: PriceSeriesMeta): number | null {
   const r = m.annual?.[0];
   return r && String(r[0]) === m.start.slice(0, 4) ? r[1] + 1 : null;

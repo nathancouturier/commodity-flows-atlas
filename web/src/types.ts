@@ -776,7 +776,7 @@ export interface PriceSeriesMeta {
   basis?: string;
   /** dates the basis changed (monthly series) */
   breaks?: PriceBreak[];
-  /** runs of calendar years whose twelve monthly values are one and the same number: one price for the year */
+  /** runs of calendar years whose twelve monthly values are one and the same number (what is observed, not what the source says it publishes) */
   annual?: [number, number][];
   /** months the source marks as estimates */
   est?: [string, string][];

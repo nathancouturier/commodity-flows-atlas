@@ -87,8 +87,10 @@ function TableSection(props: { id: string; title: string; data: Ranked; hist?: H
         <Skeleton lines={4} />
       </Section>
     );
-  // a title that names the latest year ("EIA 2024") names the year shown
-  const title = past ? props.title.split(String(props.data.y)).join(String(table.y)) : props.title;
+  // a title that names the latest year ("EIA 2024") names the year shown; a table dated otherwise (reserves "last revised
+  // 2022", whose series runs to 2025) keeps its title, and the year shown goes next to it
+  const dated = !!props.hist && String(props.data.y) === yearLabel(props.hist, props.hist.years.length - 1);
+  const title = past && dated ? props.title.split(String(props.data.y)).join(String(table.y)) : props.title;
   const aside = note ? <span class="year-tag">{note}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
   return (
     <Section title={title} aside={aside}>

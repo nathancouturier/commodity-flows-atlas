@@ -657,9 +657,10 @@ class Psd:
             if (x["Country_Name"] == "EU-25").any():
                 out["_cl"] = {"EU27": "EU-25"}
             elif self.top.has_uk(commodity) and not self.has_uk(commodity):
-                out["_cl"] = {"EU27": "European Union with the United Kingdom"}
+                out["_cl"] = {"EU27": "European Union with the UK"}
             out["_clname"] = {"EU27": "European Union"}
-            out["_clwhy"] = {"European Union with the United Kingdom": "until USDA PSD lists the United Kingdom as a row of its own"}
+            out["_clwhy"] = {"European Union with the UK": "until USDA PSD lists the United Kingdom as a row of its own"}
+            out["_clleave"] = {"European Union with the UK": "GBR"}
         # market years HIST_FROM/.. to the latest one the tables show (PSD_MY, set in _latest_inputs only)
         out["_hist"] = (list(range(HIST_FROM, PSD_MY + 1)), lambda my: self.at(my).ranked(commodity, attr, what, extra)[0])
         return out, unit

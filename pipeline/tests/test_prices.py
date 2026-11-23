@@ -775,7 +775,8 @@ class OpeningSeries(unittest.TestCase):
         self.assertEqual(sorted(P.OPENS_ON), many, "OPENS_ON names exactly the commodities that have more than one series")
         first = self.first()
         for k in many:
-            self.assertEqual(first[k]["id"], P.OPENS_ON[k], k)
+            with self.subTest(k):
+                self.assertEqual(first[k]["id"], P.OPENS_ON[k], k)
         self.assertEqual(P.opening_problems(self.idx), [])
 
     def test_the_choice_never_opens_on_an_annual_series_when_a_faster_one_exists(self):

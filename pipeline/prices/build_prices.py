@@ -15,7 +15,7 @@ What the builder adds to the bare numbers, all of it read from the source files
   basis, breaks   what a Pink Sheet series measures and the dates its basis changed, read from the workbook's
                   "Description" sheet (basis.py); EIA series carry the description EIA writes in the file
   annual          calendar years whose twelve monthly values are identical. That is what is observed: the source may
-                  publish one price a year there, or an administered price (gold at 35 USD/oz to 1967); only the
+                  publish one price a year there, or a price that did not move (gold reads 35.00 in 1960 to 1967); only the
                   iron ore row of the Description sheet says "annual contract prices" and has its own series
   est             months the source itself marks as estimates
   stats           last value and its date, changes over 1 week (daily series), 1 month, 3 months, year to date and

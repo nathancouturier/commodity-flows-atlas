@@ -12,7 +12,10 @@ import type { FreightEvent } from '../types';
 import { commodityMeta } from '../lib/data';
 import { eventCommodities, useAlertEvents } from '../lib/events';
 import { fmtObsDate, fmtPct, fmtPrice, loadPriceIndex, loadSeries, observationAt, openPrices, seriesForCommodity, type LoadedSeries, type PriceMeta } from '../lib/prices';
-import { SourceLine } from './ui';
+import { Section, SourceLine } from './ui';
+
+/** Commodities shown before "Show all". */
+const FOLDED = 4;
 
 interface Point {
   /** price and the date of the observation it comes from */
@@ -84,6 +87,7 @@ export function priceRows(date: string, series: { k: string; s: LoadedSeries }[]
 
 export function EventPrices({ ev }: { ev: FreightEvent }) {
   const [rows, setRows] = useState<Row[] | null>(null);
+  const [all, setAll] = useState(false);
   const byAlert = useAlertEvents();
   const ks = eventCommodities(ev, byAlert);
   const key = ks.join();
@@ -105,41 +109,50 @@ export function EventPrices({ ev }: { ev: FreightEvent }) {
   }, [ev.id, key, sel]);
   if (!rows || !rows.length) return null;
   const hasDay = ev.date.length > 7;
+  // the event's own commodities come first; a long list (an event with an alert) is folded
+  const shown = all ? rows : rows.slice(0, FOLDED);
   return (
-    <div class="evp">
-      {rows.map((r) => {
-        const f = r.s.meta.freq;
-        const monthly = f === 'M';
-        const lastP = r.after[r.after.length - 1].p;
-        return (
-          <div class="evp-row" key={r.k}>
-            <div class="evp-head">
-              <b>{commodityMeta(r.k)?.name ?? r.k}</b>
-              <span class="muted"> · {r.s.meta.name}, {r.s.meta.unit}{monthly ? ', monthly averages' : ''}</span>
-            </div>
-            <div class="evp-line num">
-              {monthly ? 'Month of the event' : hasDay ? 'On the event date' : 'At the start of the month'}: <b>{fmtPrice(r.start.v)}</b>{' '}
-              <span class="muted">({fmtObsDate(r.start.t, f)})</span>
-            </div>
-            {r.after.map((a) => (
-              <div class="evp-line num" key={a.months}>
-                {a.months === 1 ? 'One month later' : 'Three months later'}: <b class={a.pct < 0 ? 'evp-dn' : 'evp-up'}>{fmtPct(a.pct)}</b>{' '}
-                <span class="muted">
-                  ({fmtPrice(a.p.v)}, {fmtObsDate(a.p.t, f)})
-                </span>
+    <Section title="Prices around this date">
+      <div class="evp">
+        {shown.map((r) => {
+          const f = r.s.meta.freq;
+          const monthly = f === 'M';
+          const lastP = r.after[r.after.length - 1].p;
+          return (
+            <div class="evp-row" key={r.k}>
+              <div class="evp-head">
+                <b>{commodityMeta(r.k)?.name ?? r.k}</b>
+                <span class="muted"> · {r.s.meta.name}, {r.s.meta.unit}{monthly ? ', monthly averages' : ''}</span>
               </div>
-            ))}
-            <SourceLine s={r.s.meta.s} y={`${fmtObsDate(r.start.t, f)} to ${fmtObsDate(lastP.t, f)}`} />
-            <button class="evp-open" onClick={() => openPrices({ commodity: r.k, series: [r.s.meta.id], date: ev.date })}>
-              Open the price chart on this date
-            </button>
-          </div>
-        );
-      })}
-      <div class="muted small">
-        Change of the published series between these dates: arithmetic on the prices, not an estimate of the effect of the event.
-        {rows.some((r) => r.s.meta.freq === 'M') && ' A monthly figure is the average of its month, so the month of the event also holds days before the event.'}
+              <div class="evp-line num">
+                {monthly ? 'Month of the event' : hasDay ? 'On the event date' : 'At the start of the month'}: <b>{fmtPrice(r.start.v)}</b>{' '}
+                <span class="muted">({fmtObsDate(r.start.t, f)})</span>
+              </div>
+              {r.after.map((a) => (
+                <div class="evp-line num" key={a.months}>
+                  {a.months === 1 ? 'One month later' : 'Three months later'}: <b class={a.pct < 0 ? 'evp-dn' : 'evp-up'}>{fmtPct(a.pct)}</b>{' '}
+                  <span class="muted">
+                    ({fmtPrice(a.p.v)}, {fmtObsDate(a.p.t, f)})
+                  </span>
+                </div>
+              ))}
+              <SourceLine s={r.s.meta.s} y={`${fmtObsDate(r.start.t, f)} to ${fmtObsDate(lastP.t, f)}`} />
+              <button class="evp-open" onClick={() => openPrices({ commodity: r.k, series: [r.s.meta.id], date: ev.date })}>
+                Open the price chart on this date
+              </button>
+            </div>
+          );
+        })}
+        {rows.length > FOLDED && (
+          <button class="evp-open" onClick={() => setAll(!all)} aria-expanded={all}>
+            {all ? 'Show fewer commodities' : `Show all ${rows.length} commodities`}
+          </button>
+        )}
+        <div class="muted small">
+          Change of the published series between these dates: arithmetic on the prices, not an estimate of the effect of the event.
+          {rows.some((r) => r.s.meta.freq === 'M') && ' A monthly figure is the average of its month, so the month of the event also holds days before the event.'}
+        </div>
       </div>
-    </div>
+    </Section>
   );
 }

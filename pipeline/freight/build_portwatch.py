@@ -3,8 +3,10 @@ Build the weekly chokepoint transit series served by the site from IMF PortWatch
 
     python pipeline/freight/build_portwatch.py [pages_dir] [out_dir]
 
-Input   pipeline/cache/portwatch/daily_<year>.csv.gz (the daily table, one file per year; kept by fetch_portwatch.py,
-                                                     which downloads only the days after the last one stored)
+Input   pipeline/cache/portwatch/daily_<year>.csv.gz (the daily table, one file per year; a working file that is NOT in git:
+                                                     kept by fetch_portwatch.py, which downloads only the days after the
+                                                     last one stored, and restored on GitHub from a workflow artifact by
+                                                     restore_portwatch.py; only the series below are published)
         raw/portwatch/chokepoints_daily_page*.json  (ArcGIS query pages: a local mirror, used when there is no cache)
         data/freight/chokepoints.json                (maps PortWatch ids to atlas chokepoint ids)
 Output  data/freight/portwatch/<chokepoint id>.json  weekly averages of daily vessel counts and of
@@ -74,7 +76,7 @@ def read_cache(cache_dir=CACHE_DIR):
 
 def write_cache(rows, cache_dir=CACHE_DIR):
     """Write the daily table, one file per year, sorted and without a timestamp in the archive, so that a year
-    that did not change gives byte-identical files and no change in git."""
+    that did not change gives byte-identical files."""
     by_year = {}
     for r in rows:
         by_year.setdefault(r["date"][:4], []).append(r)

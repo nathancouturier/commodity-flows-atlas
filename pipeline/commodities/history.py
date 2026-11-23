@@ -191,9 +191,9 @@ def series(t, name=None):
             for a, b in zip(seg, seg[1:]):
                 brk.setdefault(c, []).append(b[1])
                 # the country that leaves the entity starts its own row that year (the United Kingdom in 2016/17): not a new trade
-                for c2, v2 in vals.items():
-                    if c2 != c and a[0] and name(c2) in a[0] and next((i for i, x in enumerate(v2) if x is not None), None) == b[1]:
-                        brk.setdefault(c2, []).append(b[1])
+                c2 = t.get("_clleave", {}).get(a[0])
+                if c2 in vals and next((i for i, x in enumerate(vals[c2]) if x is not None), None) == b[1]:
+                    brk.setdefault(c2, []).append(b[1])
             default = t.get("_clname", {}).get(c, name(c))
             why = t.get("_clwhy", {})
             parts = []
@@ -259,7 +259,7 @@ def write_all(docs, out_dir, name=None):
     """Writes one file per commodity that has a series; removes the files of commodities that no longer have one.
     name: iso -> country name, for the series notes. Returns (summary lines for QA.md, mismatches)."""
     os.makedirs(out_dir, exist_ok=True)
-    total, written, mism = 0, [], []
+    total, written, mism, odd = 0, [], [], []
     for cid in sorted(docs):
         tabs = {}
         for key, t in _tables(docs[cid]):
@@ -282,5 +282,11 @@ def write_all(docs, out_dir, name=None):
             f.write(txt)
         total += len(txt.encode("utf-8"))
         written.append(f"{cid} ({', '.join(f'{k} {h['years'][0]}-{h['years'][-1]}' for k, h in tabs.items())})")
+        for k, h in tabs.items():  # the values out of line with the years around them (out_of_line), for review
+            for c, ix in (h.get("out") or {}).items():
+                v = h["c"][c]
+                near = lambda i: " and ".join("no figure" if v[j] is None else f"{v[j]:g}" for j in (i - 1, i + 1))  # noqa: E731
+                odd.append(f"{cid}/{k}: {c} " + ", ".join(f"{h['years'][i]} ({v[i]:g} {h['u']}, against {near(i)})" for i in ix))
     lines = [f"{len(written)} files, {total / 1e6:.2f} MB in all."] + written
+    lines += [f"Values out of line with the years around them (kept, flagged, not ranked or drawn): {'; '.join(odd) or 'none'}."]
     return lines, mism

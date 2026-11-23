@@ -9,6 +9,9 @@ import { LANE_PX, laneGap, laneScale, laneWidthPx, mixedLanesShown } from '../ma
 import { mixedArcsShown } from '../map/modules/landflows';
 import { ROUTE_W } from '../map/modules/routes';
 import { MIN_TINT_SHARE } from '../map/modules/choropleth';
+
+/** The floor of the country colours as the legend prints it ("0.25%": the one-decimal rule of pct would print 0.3%). */
+const FLOOR_TEXT = `${+(MIN_TINT_SHARE * 100).toPrecision(2)}%`;
 import type { Family, Segment } from '../types';
 import '../styles/legend-scale.css';
 import '../styles/lane-engine.css';
@@ -201,10 +204,10 @@ export function Legend() {
             {choro.min < MIN_TINT_SHARE && choro.max > MIN_TINT_SHARE && (
               <>
                 <span class="ramp-floor" aria-hidden="true" style={{ background: hexA(choro.color, shareOpacity(MIN_TINT_SHARE)) }} />
-                <span class="num">under {pct(MIN_TINT_SHARE)}</span>
+                <span class="num">under {FLOOR_TEXT}</span>
               </>
             )}
-            <span class="num">{pct(Math.max(choro.min, choro.max > MIN_TINT_SHARE ? MIN_TINT_SHARE : choro.min))}</span>
+            <span class="num">{choro.min < MIN_TINT_SHARE && choro.max > MIN_TINT_SHARE ? FLOOR_TEXT : pct(choro.min)}</span>
             <span
               class="ramp"
               aria-hidden="true"

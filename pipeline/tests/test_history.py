@@ -199,7 +199,7 @@ class Series(unittest.TestCase):
         wi = self.hist["wheat"]["t"]["imports"]
         i16 = wi["years"].index(2016)
         cl = wi["cl"]["EU27"]
-        self.assertTrue(all(x == "European Union with the United Kingdom" for x in cl[:i16]))
+        self.assertTrue(all(x == "European Union with the UK" for x in cl[:i16]))
         self.assertTrue(all(x is None for x in cl[i16:]))
         self.assertIsNone(wi["c"]["GBR"][i16 - 1])
         self.assertIsNotNone(wi["c"]["GBR"][i16])
@@ -238,8 +238,8 @@ class Series(unittest.TestCase):
         self.assertEqual(lp["worldOut"], [i21])
         self.assertGreater(lp["c"]["USA"][i21], 3 * lp["c"]["USA"][i21 - 1])  # kept as published, flagged
         self.assertTrue(any(n.startswith("United States has no figure after 2021") for n in lp["n"]))  # the change of coverage
-        # real shocks survive: Libya's blockade of 2020, Russia's export ban of 2010, Malaysia's bauxite boom of 2015 (its
-        # declared value moved with the tonnage), and the crisis year 2009 spread over every potash trader
+        # real shocks survive: Libya's crude oil exports of 2020, Russia's wheat exports of 2010, Malaysia's bauxite exports of
+        # 2015 (its declared value moved with the tonnage), and the fall of 2009 spread over every potash trader
         for cid, k, c, y in (("crude-oil", "exports", "LBY", 2020), ("wheat", "exports", "RUS", 2010), ("bauxite", "exports", "MYS", 2015)):
             s = self.hist[cid]["t"][k]
             self.assertNotIn(s["years"].index(y), (s.get("out") or {}).get(c, []), (cid, k, c, y))

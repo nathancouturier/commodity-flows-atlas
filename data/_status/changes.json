@@ -62,23 +62,12 @@
     "v1": 92.94,
     "pct": 3.1
    }
-  ]
+  ],
+  "refused": []
  },
  "monthly": {
   "to": "2026-10",
   "moves": [
-   {
-    "id": "idx-grains-m",
-    "name": "World Bank grains price index",
-    "k": "index",
-    "unit": "index (2010 = 100)",
-    "s": "wb-pink",
-    "from": "2026-09",
-    "to": "2026-10",
-    "v0": 25.42,
-    "v1": 28.5,
-    "pct": 12.1
-   },
    {
     "id": "ttf-m",
     "name": "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years)",
@@ -116,18 +105,31 @@
     "pct": 10.1
    },
    {
-    "id": "idx-nonenergy-m",
-    "name": "World Bank non-energy price index",
+    "id": "platinum-m",
+    "name": "Platinum",
+    "k": "pgm",
+    "unit": "USD/troy oz",
+    "s": "wb-pink",
+    "from": "2026-09",
+    "to": "2026-10",
+    "v0": 1784.0,
+    "v1": 1621.0,
+    "pct": -9.1
+   },
+   {
+    "id": "ng-index-m",
+    "name": "Natural gas price index (Europe, US, Japan LNG)",
     "k": "index",
     "unit": "index (2010 = 100)",
     "s": "wb-pink",
     "from": "2026-09",
     "to": "2026-10",
-    "v0": 93.3,
-    "v1": 102.7,
-    "pct": 10.1
+    "v0": 167.7,
+    "v1": 182.7,
+    "pct": 8.9
    }
-  ]
+  ],
+  "refused": []
  },
  "passages": {
   "to": "2026-11-15",
@@ -185,6 +187,7 @@
   ]
  },
  "sources": [],
+ "sourcesOn": null,
  "jobs": [
   {
    "id": "update-prices",
@@ -269,7 +272,7 @@
   {
    "id": "2026-11-23-prices",
    "kind": "prices",
-   "t": "2026-11-23T04:44:55Z",
+   "t": "2026-11-23T06:24:48Z",
    "title": "Price moves, week to 17 Nov 2026",
    "lines": [
     "Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; eia-spot)",
@@ -282,7 +285,7 @@
   {
    "id": "2026-11-23-passages",
    "kind": "passages",
-   "t": "2026-11-23T04:44:55Z",
+   "t": "2026-11-23T06:24:48Z",
    "title": "Chokepoint traffic to 15 Nov 2026",
    "lines": [
     "Strait of Hormuz: 2.3 vessels a day in the last week, −40% on the 4 weeks before and −90% on the 365 days before (IMF PortWatch, to 15 Nov 2026)",
@@ -295,16 +298,16 @@
   {
    "id": "2026-11-23-monthly",
    "kind": "monthly",
-   "t": "2026-11-23T04:44:55Z",
+   "t": "2026-11-23T06:24:48Z",
    "title": "Monthly prices for Oct 2026",
    "lines": [
-    "World Bank grains price index: +12.1% in Oct 2026 (25.42 to 28.50 index (2010 = 100); wb-pink)",
     "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; wb-pink)",
     "Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; wb-pink)",
     "Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; wb-pink)",
-    "World Bank non-energy price index: +10.1% in Oct 2026 (93.30 to 102.7 index (2010 = 100); wb-pink)"
+    "Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; wb-pink)",
+    "Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); wb-pink)"
    ]
   }
  ],
- "generated": "2026-11-23T04:44:55Z"
+ "generated": "2026-11-23T06:24:48Z"
 }

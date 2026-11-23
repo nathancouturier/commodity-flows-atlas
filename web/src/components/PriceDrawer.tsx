@@ -19,6 +19,7 @@ import {
   annualWord,
   closePrices,
   defaultSeriesIds,
+  eventOnChart,
   findMeta,
   fmtObsDate,
   fmtPct,
@@ -357,7 +358,7 @@ export function PriceDrawer() {
       // market event) is always shown
       const charted = new Set(data.map((d) => d.meta.k));
       for (const e of events) {
-        if (e.commodities?.length && !e.commodities.some((c) => charted.has(c))) continue;
+        if (!eventOnChart(e, charted)) continue;
         const t = parseDate(e.date);
         const end = e.end ? parseEnd(e.end) : undefined;
         if ((end ?? t) < xMin || t > xMax) continue;
@@ -862,8 +863,8 @@ const obsLabel = (d: LoadedSeries, i: number) => {
 
 /**
  * What a figure of a series with years of twelve identical monthly values is: said next to the value, as what is
- * observed. The source may publish one price a year there, or an administered price (the official price of gold):
- * only the iron ore row of the source says "annual contract prices", and that is its own annual series.
+ * observed. The source may publish one price a year there, or a price that did not move (gold reads 35.00 in 1960 to
+ * 1967): only the iron ore row of the source says "annual contract prices", and that is its own annual series.
  */
 function annualNote(m: PriceMeta, year: number): string | null {
   const run = annualRun(m, year);
@@ -1072,7 +1073,7 @@ function BasisBlock({ data, colors }: { data: LoadedSeries[]; colors: string[] }
             )}
             {mf != null && (
               <p>
-                {m.start.slice(0, 4)} to {mf - 1}: the twelve monthly values of each year are identical (the source may publish one price a year, or an administered price). They differ from month to month from {mf}.
+                {m.start.slice(0, 4)} to {mf - 1}: the twelve monthly values of each year are identical (the source may publish one price a year, or the price did not move). They differ from month to month from {mf}.
               </p>
             )}
             {inner.length > 0 && <p>Twelve identical monthly values in each year of: {runs(inner)}.</p>}

@@ -116,14 +116,14 @@
      "u": "kb/d",
      "y": 2026,
      "what": "production",
-     "n": "West Qurna-2, estimate of 460,000 to 480,000 b/d (midpoint) in The National, 10 February 2026 (https://www.thenationalnews.com/business/energy/2026/02/10/iraq-tightens-control-over-west-qurna-2-oilfield-as-sanctions-force-lukoil-retreat)"
+     "n": "West Qurna-2 only, a share only of the field; estimate of 460,000 to 480,000 b/d (midpoint) in The National, 10 February 2026 (https://www.thenationalnews.com/business/energy/2026/02/10/iraq-tightens-control-over-west-qurna-2-oilfield-as-sanctions-force-lukoil-retreat)"
     },
     "status": "not-stated",
     "coord": "site",
-    "note": "Super-giant in southern Iraq feeding Basrah exports (Hormuz transit). The output figure is for West Qurna-2: Lukoil, the majority stakeholder, has left amid US sanctions and Basrah Oil Company runs the field through interim operators (The National).",
-    "s": "wikipedia",
+    "note": "Super-giant in southern Iraq feeding Basrah exports (Hormuz transit). The output figure is for West Qurna-2: Lukoil, the majority stakeholder, has left amid US sanctions and Basrah Oil Company runs the field through interim operators (The National). Operator, owner and location: Wikipedia, West Qurna field.",
+    "s": "trade-press",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/West_Qurna_field"
+    "url": "https://www.thenationalnews.com/business/energy/2026/02/10/iraq-tightens-control-over-west-qurna-2-oilfield-as-sanctions-force-lukoil-retreat"
    },
    "geometry": {
     "type": "Point",
@@ -317,10 +317,10 @@
     "opened": 2019,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Fastest-growing new supply source. The article gives Guyana's output of about 660 kb/d by 2024 (national figure); the capacity figure is the national installed capacity stated by ExxonMobil.",
-    "s": "wikipedia",
+    "note": "Fastest-growing new supply source. Wikipedia (Petroleum industry in Guyana) gives Guyana's output of about 660 kb/d by 2024 (national figure); the capacity figure is the national installed capacity stated by ExxonMobil. Operator shares, opening year and location: Wikipedia, Petroleum industry in Guyana.",
+    "s": "operator-reports",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Petroleum_industry_in_Guyana"
+    "url": "https://corporate.exxonmobil.com/news/news-releases/2026/1116-exxonmobil-starts-production-at-uaru"
    },
    "geometry": {
     "type": "Point",
@@ -516,11 +516,9 @@
      "orig": "18.5 Bcf/d"
     },
     "opened": 1989,
-    "status": "damaged",
-    "statusAsOf": "2026-03",
-    "statusNote": "Some South Pars units taken out of production after an attack on 18 March 2026 (Tasnim, in the Bloomberg list via gCaptain, 11 April 2026)",
+    "status": "not-stated",
     "coord": "site",
-    "note": "World's largest gas field, shared by Qatar and Iran; feeds Ras Laffan LNG. The figure is the Qatari side. The article gives Iranian output of about 2 Bcf/d in early 2026, before the war (see South Pars, Iranian side).",
+    "note": "World's largest gas field, shared by Qatar and Iran; feeds Ras Laffan LNG. The figure is the Qatari side. The article gives Iranian output of about 2 Bcf/d in early 2026, before the war (see South Pars, Iranian side). For the Qatari side the article says only that 10,000 employees were evacuated and activities shut down during the war, without a date or an end, so no status is given; the strike of 18 March 2026 hit the Iranian side.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/South_Pars/North_Dome_Gas-Condensate_field"
@@ -749,14 +747,14 @@
      "u": "kb/d",
      "y": 2024,
      "what": "production",
-     "n": "oil, June 2024, EIA Drilling Productivity Report, Permian region (https://www.eia.gov/petroleum/drilling/)"
+     "n": "oil, June 2024 (estimate in the report released 13 May 2024), EIA Drilling Productivity Report, Permian region (https://www.eia.gov/petroleum/drilling/)"
     },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Largest US tight-oil basin; the driver of US crude and associated-gas growth. A basin, not a single asset.",
-    "s": "wikipedia",
+    "note": "Largest US tight-oil basin; the driver of US crude and associated-gas growth. A basin, not a single asset. Location: Wikipedia, Permian Basin (North America).",
+    "s": "eia-dpr",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Permian_Basin_(North_America)"
+    "url": "https://www.eia.gov/petroleum/drilling/"
    },
    "geometry": {
     "type": "Point",
@@ -782,15 +780,15 @@
      "u": "bcm/y",
      "y": 2024,
      "what": "production",
-     "n": "gas, June 2024, EIA Drilling Productivity Report, Appalachia region (Marcellus and Utica) (https://www.eia.gov/petroleum/drilling/)",
+     "n": "gas, June 2024 (estimate in the report released 13 May 2024), EIA Drilling Productivity Report, Appalachia region (Marcellus and Utica) (https://www.eia.gov/petroleum/drilling/)",
      "orig": "35,791 MMcf/d"
     },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Largest US shale-gas play by output. The EIA figure covers the whole Appalachia region, which includes the Utica.",
-    "s": "wikipedia",
+    "note": "Largest US shale-gas play by output. The EIA figure covers the whole Appalachia region, which includes the Utica. Location: Wikipedia, Marcellus Formation.",
+    "s": "eia-dpr",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Marcellus_Formation"
+    "url": "https://www.eia.gov/petroleum/drilling/"
    },
    "geometry": {
     "type": "Point",
@@ -816,15 +814,15 @@
      "u": "bcm/y",
      "y": 2024,
      "what": "production",
-     "n": "gas, June 2024, EIA Drilling Productivity Report, Haynesville region (https://www.eia.gov/petroleum/drilling/)",
+     "n": "gas, June 2024 (estimate in the report released 13 May 2024), EIA Drilling Productivity Report, Haynesville region (https://www.eia.gov/petroleum/drilling/)",
      "orig": "15,339 MMcf/d"
     },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Swing gas play feeding Gulf Coast LNG export plants.",
-    "s": "wikipedia",
+    "note": "Swing gas play feeding Gulf Coast LNG export plants. Location: Wikipedia, Haynesville Shale.",
+    "s": "eia-dpr",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Haynesville_Shale"
+    "url": "https://www.eia.gov/petroleum/drilling/"
    },
    "geometry": {
     "type": "Point",
@@ -857,10 +855,10 @@
     "opened": 2011,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Argentina's shale play; fastest-growing Latin American supply after pre-salt and Guyana. The EIA gives Vaca Muerta 58% of the country's oil (738 kb/d in September 2024) without a field figure in barrels.",
-    "s": "wikipedia",
+    "note": "Argentina's shale play; fastest-growing Latin American supply after pre-salt and Guyana. The EIA gives Vaca Muerta 58% of the country's oil (738 kb/d in September 2024) without a field figure in barrels. Operator, opening year and location: Wikipedia, Vaca Muerta.",
+    "s": "eia-todayinenergy",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Vaca_Muerta"
+    "url": "https://www.eia.gov/todayinenergy/detail.php?id=63924"
    },
    "geometry": {
     "type": "Point",
@@ -946,7 +944,7 @@
      "u": "kb/d",
      "y": 2018,
      "what": "production",
-     "n": "crude bitumen, \"3.1 million barrels per day\""
+     "n": "all Canadian oil sands, not the Athabasca deposit alone (basis not stated): the article says oil sands production reached 3.1 million barrels per day in 2018; its infobox gives 2.8 million for the deposit"
     },
     "opened": 1967,
     "status": "not-stated",
@@ -1248,14 +1246,14 @@
      "u": "kb/d",
      "y": 2024,
      "what": "production",
-     "n": "oil, June 2024, EIA Drilling Productivity Report, Bakken region (https://www.eia.gov/petroleum/drilling/)"
+     "n": "oil, June 2024 (estimate in the report released 13 May 2024), EIA Drilling Productivity Report, Bakken region (https://www.eia.gov/petroleum/drilling/)"
     },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Tight-oil play of North Dakota and Montana. Production peaked in mid-2015 at 1.15 mb/d according to the Wikipedia article. Position is the centre point of the formation.",
-    "s": "wikipedia",
+    "note": "Tight-oil play of North Dakota and Montana. Production peaked in mid-2015 at 1.15 mb/d according to the Wikipedia article. Position is the centre point of the formation. Location: Wikipedia, Bakken formation.",
+    "s": "eia-dpr",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Bakken_formation"
+    "url": "https://www.eia.gov/petroleum/drilling/"
    },
    "geometry": {
     "type": "Point",

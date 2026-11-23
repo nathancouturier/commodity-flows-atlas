@@ -1682,7 +1682,7 @@
    "type": "Feature",
    "properties": {
     "id": "enbridge-mainline",
-    "name": "Enbridge Mainline (Edmonton to Chicago, Sarnia and Montreal)",
+    "name": "Enbridge Mainline (Edmonton to Superior, Chicago and Sarnia)",
     "type": "pipeline",
     "k": [
      "crude-oil"
@@ -1701,9 +1701,9 @@
     "opened": 1950,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Largest crude system between Canada and the United States. The article gives an average delivery of about 1.4 mb/d, without a year, and 14 lines. Length is the Canadian Mainline (2,306 km, Edmonton to Montreal via Gretna and Sarnia) plus the US Mainline (3,057 km, Neche to Chicago). Simplified single line through the places the article names: Edmonton, Gretna, Clearbrook, Superior, Griffith (Chicago area), Sarnia and Montreal. Coordinates: OpenStreetMap.",
+    "note": "Largest crude system between Canada and the United States. The article gives an average delivery of about 1.4 mb/d, without a year, and 14 lines. Simplified single line through the places the article names: Edmonton, Gretna, Clearbrook, Superior, Griffith (Chicago area) and Sarnia; it crosses into the United States at Gretna and returns to Canada at Sarnia. The infobox names Montreal as the finish of the Canadian Mainline, but the text puts Line 9 (Montreal to Sarnia) outside the Mainline, so the line stops at Sarnia. Length: the article gives 1,900 miles for the system from central Alberta to southern Ontario; its infobox lengths of 2,306 km (Canadian Mainline) and 3,057 km (US Mainline) overlap between Edmonton and Superior and are not added. Coordinates: OpenStreetMap.",
     "product": "crude oil and dilbit",
-    "length_km": 5363,
+    "length_km": 3060,
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Enbridge_Pipeline_System"
@@ -1734,10 +1734,6 @@
      [
       -82.4035,
       42.9744
-     ],
-     [
-      -73.5698,
-      45.5032
      ]
     ]
    }
@@ -1766,7 +1762,7 @@
     "statusAsOf": "2024-10",
     "statusNote": "Began exporting oil from Jask in October 2024; actual flows are likely much lower than capacity and the loading buoy is rarely used (Wikipedia, Jask)",
     "coord": "approx",
-    "note": "Iran's pipeline bypass of the Strait of Hormuz, carrying crude from Goreh (Bushehr) to Jask on the Gulf of Oman. The article says it cannot replace Kharg Island. Straight sketch between the two places the article names. Coordinates: OpenStreetMap.",
+    "note": "Iran's pipeline bypass of the Strait of Hormuz, carrying crude from Goreh (Bushehr) to Jask on the Gulf of Oman. The article says it cannot replace Kharg Island. Schematic line over Iranian land between Goreh and Jask, the two places the article names: no page read names the places in between, so the bends are the atlas's own and the route is not a survey. Coordinates of the two ends: OpenStreetMap.",
     "product": "crude",
     "s": "wikipedia",
     "read": "2026-11",
@@ -1780,8 +1776,28 @@
       29.8996
      ],
      [
-      57.7817,
-      25.6531
+      52.5,
+      28.6
+     ],
+     [
+      54.5,
+      28.0
+     ],
+     [
+      56.3,
+      27.6
+     ],
+     [
+      57.2,
+      27.4
+     ],
+     [
+      57.6,
+      26.5
+     ],
+     [
+      57.78,
+      25.7
      ]
     ]
    }

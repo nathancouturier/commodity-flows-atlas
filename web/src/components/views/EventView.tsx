@@ -131,11 +131,7 @@ export default function EventView({ id }: { id: string }) {
           </Section>
         )}
         {ev.assets && ev.assets.length > 0 && <EventAssets ids={ev.assets} />}
-        {ks.length > 0 && (
-          <Section title="Prices around this date">
-            <EventPrices ev={ev} />
-          </Section>
-        )}
+        {ks.length > 0 && <EventPrices ev={ev} />}
         <div class="src-line">
           Source:{' '}
           <a href={ev.src} target="_blank" rel="noopener noreferrer">{host(ev.src)} ↗</a>

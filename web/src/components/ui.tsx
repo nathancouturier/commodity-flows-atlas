@@ -227,9 +227,11 @@ function PassageFigure(props: { m: Alert['measures'][number]; full?: boolean; ch
   return (
     <div class="alert-pass-fig">
       {chip && (
-        <span class="alert-sev" title={chip.title}>
-          {chip.text}
-        </span>
+        <>
+          <span class="alert-sev" title={chip.title}>
+            {chip.text}
+          </span>{' '}
+        </>
       )}
       {ref ? (
         <>
@@ -335,10 +337,10 @@ function AlertCard(props: { a: Alert; cps: string[]; commodity?: string; chks: C
       {lead && <ExposureLine k={k!} m={lead.m} e={lead.e} />}
       {open && (
         <div class="alert-det">
-          <p>
-            <b>Since {sinceLabel(a.since)}.</b> {a.text}
+          <p>{a.text}</p>
+          <p class="muted">
+            Since {sinceLabel(a.since)}. {a.severityNote}
           </p>
-          {a.severityNote && <p class="muted">{a.severityNote}</p>}
           {a.measures.map((m) => (
             <PassageFigure key={m.chokepoint} m={m} full />
           ))}
@@ -366,7 +368,7 @@ function AlertCard(props: { a: Alert; cps: string[]; commodity?: string; chks: C
             {added.length > 0 && (
               <>
                 {' '}
-                Added by the atlas: {added.map((c) => countryName(c)).join(', ')}. {a.override?.reason}
+                Named by hand: {added.map((c) => countryName(c)).join(', ')}. {a.override?.reason}
               </>
             )}
           </p>
@@ -606,7 +608,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           // a row that is not a country of the index (USDA's European Union) has no page to open: plain text
           const Row = isCountry(r.c) ? 'button' : 'div';
           return (
-            <Row class={`bar-row${tr}`} key={r.c} onClick={Row === 'button' ? () => select({ kind: 'country', id: r.c }) : undefined} title={r.n}>
+            <Row class={`bar-row${tr}`} key={r.c} onClick={Row === 'button' ? () => select({ kind: 'country', id: r.c }) : undefined} title={r.n ?? r.name}>
               <span class="bar-rank">{i + 1}</span>
               <span>
                 <span class="bar-label">

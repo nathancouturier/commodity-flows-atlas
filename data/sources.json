@@ -375,6 +375,26 @@
   "use": "Refineries of the United States: operable capacity"
  },
  {
+  "id": "eia-dpr",
+  "name": "EIA Drilling Productivity Report",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/petroleum/drilling/",
+  "licence": "Public domain (US Government)",
+  "update": "monthly (the page read carries the report released on 13 May 2024, with figures for June 2024)",
+  "access": "Web page, read by hand",
+  "use": "Oil and gas production of the United States by shale region (Permian, Bakken, Appalachia, Haynesville): basin figures of the infrastructure layer"
+ },
+ {
+  "id": "eia-todayinenergy",
+  "name": "EIA Today in Energy articles (see the page linked on each asset)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/todayinenergy/",
+  "licence": "Public domain (US Government)",
+  "update": "daily articles",
+  "access": "Web pages, read by hand and linked per asset (url)",
+  "use": "Production figures of a shale play (Vaca Muerta, Argentina: natural gas, September 2024)"
+ },
+ {
   "id": "operator-reports",
   "name": "Operator reports (see the page linked on each asset)",
   "publisher": "Asset operators and owners, mostly through their production reports and stock-exchange announcements: BHP, Rio Tinto, Vale, Glencore, Peabody, MP Materials, Teck, Valterra Platinum, Kuwait National Petroleum Company and others",

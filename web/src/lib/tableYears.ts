@@ -69,15 +69,15 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
   // an Atlas-estimate table keeps its method, as written for the latest table
   const estTable = atlasKind(base) === 'est';
   const n = [
-    estTable && base.n ? base.n : null,
-    `ranking of ${label} from the series by year, with the rules of the latest table (${base.y})`,
-    h.yl?.[at] ? `${label} figures ${h.yl[at]}` : null,
-    h.worldEst?.includes(at) ? 'a tenth or more of the world tonnage is an Atlas estimate from the declared value' : null,
     ...odd.map(
       (c) =>
         `the source's figure for ${countryName(c)} in ${label}, ${fmt(h.c[c][at])} ${h.u}, is far out of line with the years around it (${around(h, c, at)}): ` +
         `it is not ranked, and the shares are of the world total without it, ${fmt(world)} ${h.u} (the source's total, ${fmt(h.world[at])} ${h.u}, includes it)`,
     ),
+    `ranking of ${label} from the series by year, with the rules of the latest table (${base.y})`,
+    estTable && base.n ? `the method of the estimate, as written for ${base.y}: ${base.n}` : null,
+    h.yl?.[at] ? `${label} figures ${h.yl[at]}` : null,
+    h.worldEst?.includes(at) ? 'a tenth or more of the world tonnage is an Atlas estimate from the declared value' : null,
   ].filter(Boolean).join('; ');
   const other = h.other?.[at];
   const holds = !base.caveatYears || base.caveatYears.includes(h.years[at]);
@@ -94,7 +94,7 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
     ...(base.basis ? { basis: base.basis } : {}),
     ...(base.norank ? { norank: base.norank } : {}),
     ...(caveat ? { caveat } : {}),
-    ...(estTable && base.est ? { est: base.est } : {}),
+    ...(estTable ? { est: true } : {}),
   };
   return { table, i: at, note: null, past: true };
 }

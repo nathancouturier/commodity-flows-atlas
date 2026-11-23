@@ -345,20 +345,27 @@
     ],
     "c": "SWE",
     "operator": "LKAB (Swedish state)",
+    "capacity": {
+     "v": 50,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "iron ore, estimated annual capacity of the LKAB mines at Kiruna, Leveaniemi and Malmberget together, not split between them; the same figure is given for Kiruna and for Malmberget, basis not stated",
+     "orig": "50,000 thousand metric tons"
+    },
     "output": {
      "v": 26.9,
      "u": "Mt/y",
      "y": 2018,
      "what": "production",
-     "n": "iron ore"
+     "n": "iron ore; Wikipedia, \"Kiruna mine\""
     },
     "opened": 1898,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "World's largest underground iron ore mine; ore exported via Narvik (Norway) and Luleå.",
+    "note": "World's largest underground iron ore mine; ore exported via Narvik (Norway) and Luleå. Operator, opening year, status and this text: Wikipedia, \"Kiruna mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Kiruna_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-sweden.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -380,12 +387,19 @@
     ],
     "c": "SWE",
     "operator": "LKAB (Swedish state)",
+    "capacity": {
+     "v": 50,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "iron ore, estimated annual capacity of the LKAB mines at Kiruna, Leveaniemi and Malmberget together, not split between them; the same figure is given for Kiruna and for Malmberget, basis not stated",
+     "orig": "50,000 thousand metric tons"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "LKAB's second Norrbotten mine; pellets/fines via Luleå.",
+    "note": "LKAB's second Norrbotten mine; pellets/fines via Luleå. Operator, opening year, status and this text: Wikipedia, \"Malmberget mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Malmberget_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-sweden.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -411,7 +425,7 @@
      "v": 38,
      "u": "Mt/y",
      "y": 2022,
-     "n": "iron ore, estimated annual capacity of the Sishen mine (Kumba Iron Ore Ltd.); capacity: USGS Minerals Yearbook 2022, South Africa",
+     "n": "iron ore, estimated annual capacity of the Sishen mine (Kumba Iron Ore Ltd.), basis not stated",
      "orig": "38,000 thousand metric tons"
     },
     "output": {
@@ -419,15 +433,15 @@
      "u": "Mt/y",
      "y": 2019,
      "what": "production",
-     "n": "iron ore, FY2019"
+     "n": "iron ore, FY2019; Wikipedia, \"Sishen mine\""
     },
     "opened": 1947,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Feeds Saldanha Bay via the 861 km Sishen-Saldanha line.",
+    "note": "Feeds Saldanha Bay via the 861 km Sishen-Saldanha line. Operator, opening year, status and this text: Wikipedia, \"Sishen mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Sishen_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-south-africa.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -864,16 +878,16 @@
      "v": 31,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity of the Tavan Tolgoi mine (Erdenes Tavan Tolgoi JSC); capacity: USGS Minerals Yearbook 2023, Mongolia",
+     "n": "metallurgical coal, estimated annual capacity of the Tavan Tolgoi mine (Erdenes Tavan Tolgoi JSC), basis not stated",
      "orig": "31,000 thousand metric tons"
     },
     "opened": 1966,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Mongolian coking coal trucked and railed to China (Gashuunsukhait/Ceke).",
+    "note": "Mongolian coking coal trucked and railed to China (Gashuunsukhait/Ceke). Operator, opening year, status and this text: Wikipedia, \"Tavan Tolgoi mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Tavan_Tolgoi_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-mongolia.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2045,16 +2059,16 @@
      "v": 6.5,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity; capacity: USGS Minerals Yearbook 2022, Canada",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "6,500 thousand metric tons"
     },
     "opened": 1970,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Expanded significantly in 2017; one of Nutrien's six Saskatchewan potash mines.",
+    "note": "Expanded significantly in 2017; one of Nutrien's six Saskatchewan potash mines. Operator, opening year, status and this text: Wikipedia, \"Rocanville mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Rocanville_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2076,12 +2090,19 @@
     ],
     "c": "BLR",
     "operator": "JSC Belaruskali (state-owned)",
+    "capacity": {
+     "v": 7.7,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "potash, K2O equivalent, estimated annual capacity of the mines and plants at the Starobin deposit, basis not stated",
+     "orig": "7,700,000 metric tons"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "About 20% of global potash supply as of 2019, mostly exported to China; under US, EU, UK and Canadian sanctions.",
+    "note": "About 20% of global potash supply as of 2019, mostly exported to China; under US, EU, UK and Canadian sanctions. Operator, status and this text: Wikipedia, \"Belaruskali\" (CC BY-SA 4.0).",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Belaruskali",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-belarus.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2107,7 +2128,7 @@
      "v": 8,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity of the Verkhnekamskoye mines; capacity: USGS Minerals Yearbook 2022, Russia",
+     "n": "potash, K2O equivalent, estimated annual capacity of the Verkhnekamskoye mines, basis not stated",
      "orig": "8,000,000 metric tons"
     },
     "output": {
@@ -2115,14 +2136,14 @@
      "u": "Mt/y",
      "y": 2020,
      "what": "production",
-     "n": "KCl, company-wide"
+     "n": "KCl, company-wide; Wikipedia, \"Uralkali\""
     },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Five mines and seven mills across Berezniki and Solikamsk.",
+    "note": "Five mines and seven mills across Berezniki and Solikamsk. Operator, opening year, status and this text: Wikipedia, \"Uralkali\" (CC BY-SA 4.0).",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Uralkali",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-russia.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2268,15 +2289,15 @@
      "v": 179,
      "u": "kt/y",
      "y": 2023,
-     "n": "rare-earth oxide equivalent, estimated annual capacity of the Bayan Obo mine (China Northern Rare Earth Group); capacity: USGS Minerals Yearbook 2023, China",
+     "n": "rare-earth oxide equivalent, estimated annual capacity of the Bayan Obo mine (China Northern Rare Earth Group), basis not stated",
      "orig": "179,000 metric tons"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "The mines north of the town accounted for 45% of global rare-earth output as of 2005 (Wikipedia).",
+    "note": "The mines north of the town accounted for 45% of global rare-earth output as of 2005 (Wikipedia). Operator, opening year, status and this text: Wikipedia, \"Bayan Obo Mining District\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Bayan_Obo_Mining_District",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2367,15 +2388,15 @@
      "v": 30,
      "u": "kt/y",
      "y": 2019,
-     "n": "tin, estimated annual capacity of the San Rafael mine (Minsur S.A.); capacity: USGS Minerals Yearbook 2019, Peru",
+     "n": "tin, estimated annual capacity of the San Rafael mine (Minsur S.A.), basis not stated",
      "orig": "30,000 metric tons"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "About 12% of world tin in 2014 (Moody's, via Wikipedia); the concentrator was expanding from 2,700 to 2,900 t/day in 2014.",
+    "note": "About 12% of world tin in 2014 (Moody's, via Wikipedia); the concentrator was expanding from 2,700 to 2,900 t/day in 2014. Operator, opening year, status and this text: Wikipedia, \"San Rafael mine\" (CC BY-SA 4.0).",
     "coord": "site",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/San_Rafael_mine",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -2461,11 +2482,11 @@
      "v": 55,
      "u": "Mt/y",
      "y": 2023,
-     "n": "iron ore, estimated annual capacity of the Cloudbreak mine, which the source says includes the Chichester Range, Christmas Creek, Flinders, Mount Lewin, Mount Nicholas and WhiteKnight deposits",
+     "n": "iron ore, estimated annual capacity of the Cloudbreak mine, which the source says includes the Chichester Range, Christmas Creek, Flinders, Mount Lewin, Mount Nicholas and WhiteKnight deposits, basis not stated",
      "orig": "55,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Fortescue Pilbara mine area in the Chichester Ranges, railed to Port Hedland. The point is from the Wikipedia article \"Cloudbreak mine\".",
+    "note": "Fortescue Pilbara mine area in the Chichester Ranges, railed to Port Hedland. Coordinates: Wikipedia, Cloudbreak mine.",
     "coord": "site",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
@@ -2494,7 +2515,7 @@
      "v": 34.6,
      "u": "Mt/y",
      "y": 2023,
-     "n": "iron ore, estimated annual capacity",
+     "n": "iron ore, estimated annual capacity, basis not stated",
      "orig": "34,600 thousand metric tons"
     },
     "status": "not-stated",
@@ -2527,7 +2548,7 @@
      "v": 25.5,
      "u": "Mt/y",
      "y": 2023,
-     "n": "iron ore, estimated annual capacity",
+     "n": "iron ore, estimated annual capacity, basis not stated",
      "orig": "25,500 thousand metric tons"
     },
     "status": "not-stated",
@@ -2595,7 +2616,7 @@
      "v": 35,
      "u": "Mt/y",
      "y": 2023,
-     "n": "iron ore, estimated annual capacity, open-pit mining",
+     "n": "iron ore, estimated annual capacity, open-pit mining, basis not stated",
      "orig": "35,000,000 metric tons"
     },
     "status": "not-stated",
@@ -2628,7 +2649,7 @@
      "v": 30,
      "u": "Mt/y",
      "y": 2023,
-     "n": "iron ore, estimated annual capacity, open-pit mining",
+     "n": "iron ore, estimated annual capacity, open-pit mining, basis not stated",
      "orig": "30,000,000 metric tons"
     },
     "status": "not-stated",
@@ -2661,7 +2682,7 @@
      "v": 24,
      "u": "Mt/y",
      "y": 2022,
-     "n": "iron ore, estimated annual capacity of the two open-pit mines",
+     "n": "iron ore, estimated annual capacity of the two open-pit mines, basis not stated",
      "orig": "24,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -2694,7 +2715,7 @@
      "v": 20,
      "u": "Mt/y",
      "y": 2022,
-     "n": "iron ore, estimated annual capacity",
+     "n": "iron ore, estimated annual capacity, basis not stated",
      "orig": "20,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -2727,7 +2748,7 @@
      "v": 26.5,
      "u": "Mt/y",
      "y": 2019,
-     "n": "iron ore, estimated annual capacity, open-pit mines",
+     "n": "iron ore, estimated annual capacity, open-pit mines, basis not stated",
      "orig": "26,500 thousand metric tons"
     },
     "status": "not-stated",
@@ -2824,11 +2845,11 @@
      "v": 62,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "62,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mines at Sangatta, East Kutai Regency, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is from OpenStreetMap.",
+    "note": "Mines at Sangatta, East Kutai Regency, East Kalimantan. Coal type: high-volatile bituminous steam coal (Mining Technology, https://www.mining-technology.com/projects/kaltim/). The point is from OpenStreetMap.",
     "coord": "site",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -2857,11 +2878,11 @@
      "v": 40,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "40,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mines at Angsana, Tanah Bumbu Regency, South Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mines at Angsana, Tanah Bumbu Regency, South Kalimantan. Coal type: thermal coal, sub-bituminous B reserves (Golden Energy and Resources, Annual Report 2019). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -2890,11 +2911,11 @@
      "v": 40,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "40,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mine in Kutai Kartanegara, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mine in Kutai Kartanegara, East Kalimantan. Coal type: low-ash, low-sulphur sub-bituminous coal (Bayan Resources, https://www.bayan.com.sg/tabang-pakar-mine); listed with thermal coal. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -2923,11 +2944,11 @@
      "v": 35,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "35,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mines in Paser, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mines in Paser, East Kalimantan. Coal type: sub-bituminous coal suited to coal-fired power plants (Petromindo, 28 April 2017, https://www.petromindo.com/news/article/kideco-reports-lower-coal-sales-volume); listed with thermal coal. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -2956,11 +2977,11 @@
      "v": 15,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "15,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Open-pit mine 5 km southwest of Muswellbrook, New South Wales. The source gives no coal type. The point is from the Wikipedia article \"Mount Arthur coal mine\".",
+    "note": "Open-pit mine 5 km southwest of Muswellbrook, New South Wales. Coal type: thermal coal (Wikipedia, \"Mount Arthur coal mine\"; Mining Technology, https://www.mining-technology.com/projects/mt-arthur/). Coordinates: Wikipedia, Mount Arthur coal mine.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
@@ -2981,7 +3002,8 @@
     "name": "Hunter Valley Operations",
     "type": "mine",
     "k": [
-     "thermal-coal"
+     "thermal-coal",
+     "met-coal"
     ],
     "c": "AUS",
     "operator": "Rio Tinto Ltd. (80%) and others (20%)",
@@ -2989,11 +3011,11 @@
      "v": 15,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity of the group of open-pit mines",
+     "n": "coal, estimated annual capacity of the group of open-pit mines, basis not stated",
      "orig": "15,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Group of open-pit mines (Carrington, Chestnut, Howick, Hunter Valley No. 1, Lemington, Riverview) west and north of Singleton, New South Wales. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Group of open-pit mines (Carrington, Chestnut, Howick, Hunter Valley No. 1, Lemington, Riverview) west and north of Singleton, New South Wales. Coal type: thermal coal and semi-soft coking coal (Yancoal, https://www.yancoal.com.au/our-sites/hunter-valley-operations/), so it is listed with both. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
@@ -3022,11 +3044,11 @@
      "v": 18.4,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "18,400 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mine at Ulan, New South Wales. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mine at Ulan, New South Wales. Coal type: thermal (Yancoal, Quarterly Report for the quarter ending 30 June 2026, issued 20 July 2026). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
@@ -3055,11 +3077,11 @@
      "v": 14,
      "u": "Mt/y",
      "y": 2023,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "14,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Open-pit mine including the South Blackwater deposit, 195 km west of Rockhampton, Queensland. The source gives no coal type; the Alliance sells mainly metallurgical coal. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Open-pit mine including the South Blackwater deposit, 195 km west of Rockhampton, Queensland. Coal type: metallurgical coal, hard coking and semi-soft coking (Wikipedia, \"Blackwater coal mine\"). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
@@ -3088,11 +3110,11 @@
      "v": 9,
      "u": "Mt/y",
      "y": 2022,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "9,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Open-pit mine near Elkford, British Columbia, in the Elk Valley. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Open-pit mine near Elkford, British Columbia, in the Elk Valley. Coal type: coking coal (Wikipedia, \"Fording River coal mine\"). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
@@ -3121,11 +3143,11 @@
      "v": 9,
      "u": "Mt/y",
      "y": 2022,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "9,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Open-pit mine near Sparwood, British Columbia, in the Elk Valley. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Open-pit mine near Sparwood, British Columbia, in the Elk Valley. Coal type: coking coal (Wikipedia, \"Elkview coal mine\"). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
@@ -3155,11 +3177,11 @@
      "v": 22,
      "u": "Mt/y",
      "y": 2019,
-     "n": "bituminous and metallurgical coal, estimated annual capacity",
+     "n": "bituminous and metallurgical coal, estimated annual capacity, basis not stated",
      "orig": "22,000,000 metric tons"
     },
     "status": "not-stated",
-    "note": "Mine in Tete Province. The owners are those the 2019 report names. The point is from OpenStreetMap.",
+    "note": "Mine in Tete Province. The owners are those the 2019 report names. The point is from OpenStreetMap. Coal type: the report gives 4.0 Mt of metallurgical-grade and 4.7 Mt of thermal coal produced in 2019, so it is listed with both.",
     "coord": "site",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-mozambique.pdf",
@@ -3188,7 +3210,7 @@
      "v": 203,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper, recoverable content of the ore; the Aktogay concentrator is listed at 213 kt Cu in concentrate",
+     "n": "copper, recoverable content of the ore; the Aktogay concentrator is listed at 213 kt Cu in concentrate, basis not stated",
      "orig": "203,000 metric tons"
     },
     "status": "not-stated",
@@ -3221,7 +3243,7 @@
      "v": 102,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper, recoverable content of the ore",
+     "n": "copper, recoverable content of the ore, basis not stated",
      "orig": "102,000 metric tons"
     },
     "status": "not-stated",
@@ -3254,7 +3276,7 @@
      "v": 340,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper in concentrate; the source also lists 150 kt/y of cathode from the solvent extraction-electrowinning plant"
+     "n": "copper in concentrate; the source also lists 150 kt/y of cathode from the solvent extraction-electrowinning plant, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine and plants at Cananea, Sonora. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -3286,7 +3308,7 @@
      "v": 200,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper in concentrate, estimated annual capacity"
+     "n": "copper in concentrate, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Copper-gold mine at Carajás, Pará State. The point is from OpenStreetMap.",
@@ -3318,7 +3340,7 @@
      "v": 460,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual capacity"
+     "n": "copper, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine in Cotabambas, Apurímac Region; the owners are those the 2019 report names. The point is from OpenStreetMap.",
@@ -3350,7 +3372,7 @@
      "v": 260,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual capacity"
+     "n": "copper, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine in the Tacna Region. The point is from OpenStreetMap.",
@@ -3382,7 +3404,7 @@
      "v": 220,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual capacity"
+     "n": "copper, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine in the Cusco Region. The point is from OpenStreetMap.",
@@ -3414,7 +3436,7 @@
      "v": 150,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper, estimated annual capacity of the mine"
+     "n": "copper, estimated annual capacity of the mine, basis not stated"
     },
     "status": "not-stated",
     "note": "Copper-gold mine on Sumbawa Island, West Nusa Tenggara. The point is from OpenStreetMap.",
@@ -3446,7 +3468,7 @@
      "v": 150,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper, estimated annual capacity of the group of mines",
+     "n": "copper, estimated annual capacity of the group of mines, basis not stated",
      "orig": "150,000 metric tons"
     },
     "status": "not-stated",
@@ -3479,7 +3501,7 @@
      "v": 150,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper in concentrate, estimated annual capacity"
+     "n": "copper in concentrate, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Erdenetiin-Ovoo mine in Orkhon Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -3511,7 +3533,7 @@
      "v": 190,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper, estimated annual capacity of mines at Dexing"
+     "n": "copper, estimated annual capacity of mines at Dexing, basis not stated"
     },
     "status": "not-stated",
     "note": "Copper mines at Dexing, Jiangxi. The point is from OpenStreetMap.",
@@ -3546,7 +3568,7 @@
      "v": 190,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper, estimated annual capacity of the Enterprise, Mount Isa, George Fisher and Lady Loretta mines"
+     "n": "copper, estimated annual capacity of the Enterprise, Mount Isa, George Fisher and Lady Loretta mines, basis not stated"
     },
     "status": "not-stated",
     "note": "Underground copper-lead-zinc-silver mines at Mount Isa, Queensland. The source also lists 175 kt/y of zinc and 150 kt/y of lead in ore. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -3579,11 +3601,11 @@
      "v": 254,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper, estimated annual capacity of the mine",
+     "n": "copper, estimated annual capacity of the mine, basis not stated",
      "orig": "254,000 metric tons"
     },
     "status": "not-stated",
-    "note": "Mashamba West mine, Lualaba Province. The source also lists 5,180 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mashamba West mine, Lualaba Province. The source also lists 5,180 t/y of cobalt. The point is the town of Kolwezi (OpenStreetMap). Roan tailings retreatment is a separate project near the same town, and no page read gives a separate position for either.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-congo-kinshasa.pdf",
@@ -3613,11 +3635,11 @@
      "v": 120,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper, estimated annual capacity of the tailings retreatment project",
+     "n": "copper, estimated annual capacity of the tailings retreatment project, basis not stated",
      "orig": "120,000 metric tons"
     },
     "status": "not-stated",
-    "note": "Tailings retreatment project near Kolwezi. The source also lists 24,000 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Tailings retreatment project near Kolwezi. The source also lists 24,000 t/y of cobalt. The point is the town of Kolwezi (OpenStreetMap). Sicomines is a separate project near the same town, and no page read gives a separate position for either.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-congo-kinshasa.pdf",
@@ -3646,7 +3668,7 @@
      "v": 30,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual mine production capacity"
+     "n": "copper, estimated annual mine production capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine and mill of the Bor copper district; the Jama and Veliki Krivelj mines are listed at 8 and 20 kt/y. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -3674,16 +3696,23 @@
     ],
     "c": "GIN",
     "operator": "Compagnie des Bauxites de Guinée (Government of Guinea 49%, Halco Mining 51%: Rio Tinto 23%, Alcoa 23%, Dadco 5%, as stated in 2019)",
+    "capacity": {
+     "v": 50,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bauxite, estimated annual capacity of the Sangaredi mine as listed in 2019, basis not stated",
+     "orig": "50,000,000 metric tons"
+    },
     "output": {
      "v": 13.7,
      "u": "Mt/y",
      "y": 2019,
      "what": "production",
-     "n": "bauxite"
+     "n": "bauxite, production in 2019 as stated in the text of the report"
     },
     "status": "operating",
     "statusAsOf": "2019",
-    "note": "Guinea's largest bauxite mine, near Kamsar. Guinea is the main source of the bauxite the atlas sees in trade (67% of exports). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Largest bauxite mine in Guinea according to the 2019 report, which lists it as 'Sangaredi Mine, Kamsar'. Guinea is the main source of the bauxite the atlas sees in trade (67% of exports). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-guinea.pdf",
@@ -3712,11 +3741,11 @@
      "v": 10,
      "u": "Mt/y",
      "y": 2019,
-     "n": "bauxite, estimated annual capacity as stated in 2019",
+     "n": "bauxite, estimated annual capacity as stated in 2019, basis not stated",
      "orig": "10,000,000 metric tons"
     },
     "status": "not-stated",
-    "note": "Mine at Boké, 168 km north of Conakry; the owner is the one the 2019 report names. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mine at Boké, 168 km north of Conakry; the owner is the one the 2019 report names. The point is the town of Boké (OpenStreetMap), not the mine itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-guinea.pdf",
@@ -3725,8 +3754,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -13.7796,
-     11.0902
+     -14.2760635,
+     10.952242
     ]
    }
   },
@@ -3745,7 +3774,7 @@
      "v": 10,
      "u": "Mt/y",
      "y": 2019,
-     "n": "bauxite, estimated annual capacity as stated in 2019",
+     "n": "bauxite, estimated annual capacity as stated in 2019, basis not stated",
      "orig": "10,000,000 metric tons"
     },
     "status": "not-stated",
@@ -3778,7 +3807,7 @@
      "v": 18.1,
      "u": "Mt/y",
      "y": 2019,
-     "n": "bauxite, estimated annual capacity",
+     "n": "bauxite, estimated annual capacity, basis not stated",
      "orig": "18,100 thousand metric tons"
     },
     "status": "not-stated",
@@ -3811,7 +3840,7 @@
      "v": 11.4,
      "u": "Mt/y",
      "y": 2019,
-     "n": "bauxite, estimated annual capacity",
+     "n": "bauxite, estimated annual capacity, basis not stated",
      "orig": "11,400 thousand metric tons"
     },
     "status": "not-stated",
@@ -3844,7 +3873,7 @@
      "v": 19,
      "u": "Mt/y",
      "y": 2023,
-     "n": "bauxite, estimated annual capacity",
+     "n": "bauxite, estimated annual capacity, basis not stated",
      "orig": "19,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -3877,7 +3906,7 @@
      "v": 10,
      "u": "Mt/y",
      "y": 2023,
-     "n": "metallurgical-grade bauxite, estimated annual capacity",
+     "n": "metallurgical-grade bauxite, estimated annual capacity, basis not stated",
      "orig": "10,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -3910,7 +3939,7 @@
      "v": 70,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel in ore, estimated annual capacity"
+     "n": "nickel in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Laterite nickel mine on Halmahera, North Maluku. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -3943,10 +3972,10 @@
      "v": 72,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel in ore, estimated annual capacity"
+     "n": "nickel in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
-    "note": "Laterite nickel mine at Sorowako, South Sulawesi; the matte smelter on the same site is listed separately. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Laterite nickel mine at Sorowako, South Sulawesi; the matte smelter of the same company is listed separately, south of the town. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -3975,7 +4004,7 @@
      "v": 74.1,
      "u": "kt/y",
      "y": 2022,
-     "n": "nickel in ore, estimated annual capacity",
+     "n": "nickel in ore, estimated annual capacity, basis not stated",
      "orig": "74,100 metric tons"
     },
     "status": "not-stated",
@@ -4008,7 +4037,7 @@
      "v": 36,
      "u": "kt/y",
      "y": 2022,
-     "n": "nickel in ore, estimated annual capacity",
+     "n": "nickel in ore, estimated annual capacity, basis not stated",
      "orig": "36,000 metric tons"
     },
     "status": "not-stated",
@@ -4043,7 +4072,7 @@
      "v": 80,
      "u": "kt/y",
      "y": 2022,
-     "n": "nickel in ore, estimated annual capacity"
+     "n": "nickel in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mines including the Ovoid, Newfoundland and Labrador; the nickel refinery is at Long Harbour. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4076,7 +4105,7 @@
      "v": 85,
      "u": "kt/y",
      "y": 2022,
-     "n": "nickel in ore, estimated annual capacity of the Ontario operations"
+     "n": "nickel in ore, estimated annual capacity of the Ontario operations, basis not stated"
     },
     "status": "not-stated",
     "note": "Group of mines around Sudbury, Ontario; the point is the city of Sudbury. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4109,7 +4138,7 @@
      "v": 35,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel, estimated annual capacity of the mine and processing plant"
+     "n": "nickel, estimated annual capacity of the mine and processing plant, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine and processing plant at Moa, Holguín Province; the source also lists 4 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4142,7 +4171,7 @@
      "v": 40,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel, estimated annual capacity of the open-pit mine"
+     "n": "nickel, estimated annual capacity of the open-pit mine, basis not stated"
     },
     "status": "not-stated",
     "note": "Open-pit nickel-cobalt mine 60 km east of Leonora, Western Australia; the source also lists a nickel refinery on the site (45 kt/y). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4177,7 +4206,7 @@
      "v": 90,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel in ore, estimated annual capacity of the mine"
+     "n": "nickel in ore, estimated annual capacity of the mine, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine at Jinchuan, Gansu; the group refinery at Jinchang is listed separately with its copper figure. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4210,7 +4239,7 @@
      "v": 640,
      "u": "kt/y",
      "y": 2023,
-     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 166 kt/y"
+     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 166 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine at Bhilwara, Rajasthan. The point is from OpenStreetMap.",
@@ -4243,7 +4272,7 @@
      "v": 280,
      "u": "kt/y",
      "y": 2023,
-     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 170 kt/y"
+     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 170 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Open-pit mine 60 km southwest of Borroloola, Northern Territory. The point is from OpenStreetMap.",
@@ -4275,7 +4304,7 @@
      "v": 180,
      "u": "kt/y",
      "y": 2023,
-     "n": "zinc in ore, estimated annual capacity"
+     "n": "zinc in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine 65 km northwest of Cloncurry, Queensland. The point is from OpenStreetMap.",
@@ -4309,7 +4338,7 @@
      "v": 265,
      "u": "kt/y",
      "y": 2023,
-     "n": "lead in ore, estimated annual capacity"
+     "n": "lead in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Underground silver-lead-zinc mine 85 km southwest of McKinlay, Queensland. The point is from OpenStreetMap.",
@@ -4342,7 +4371,7 @@
      "v": 300,
      "u": "kt/y",
      "y": 2023,
-     "n": "zinc in ore, estimated annual capacity"
+     "n": "zinc in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine at Huize, Yunnan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4377,7 +4406,7 @@
      "v": 1000,
      "u": "t/y",
      "y": 2022,
-     "n": "silver, estimated annual capacity",
+     "n": "silver, estimated annual capacity, basis not stated",
      "orig": "1,000,000 kilograms"
     },
     "status": "not-stated",
@@ -4410,7 +4439,7 @@
      "v": 1100,
      "u": "t/y",
      "y": 2022,
-     "n": "silver, estimated annual capacity",
+     "n": "silver, estimated annual capacity, basis not stated",
      "orig": "1,100,000 kilograms"
     },
     "status": "not-stated",
@@ -4443,7 +4472,7 @@
      "v": 80,
      "u": "kt/y",
      "y": 2023,
-     "n": "tin in ore, estimated annual capacity"
+     "n": "tin in ore, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mines at Gejiu, Yunnan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -4475,10 +4504,10 @@
      "v": 50,
      "u": "kt/y",
      "y": 2023,
-     "n": "tin in ore, estimated annual capacity of the onshore and offshore mines"
+     "n": "tin in ore, estimated annual capacity of the onshore and offshore mines, basis not stated"
     },
     "status": "not-stated",
-    "note": "Onshore and offshore mines in the Bangka Belitung Islands and offshore Kundur, Riau Islands. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Onshore and offshore mines in the Bangka Belitung Islands and offshore Kundur, Riau Islands. The point is the centre of Bangka Island (OpenStreetMap); the mines are spread over the island, its waters and Kundur.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -4487,8 +4516,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     105.16514,
-     -2.06722
+     106.0281521,
+     -2.3081245
     ]
    }
   },
@@ -4507,7 +4536,7 @@
      "v": 4,
      "u": "kt/y",
      "y": 2023,
-     "n": "tin in ore, estimated annual capacity",
+     "n": "tin in ore, estimated annual capacity, basis not stated",
      "orig": "4,000 metric tons"
     },
     "status": "not-stated",
@@ -4540,7 +4569,7 @@
      "v": 6,
      "u": "kt/y",
      "y": 2019,
-     "n": "tin concentrate, estimated annual capacity",
+     "n": "tin concentrate, estimated annual capacity, basis not stated",
      "orig": "6,000 metric tons"
     },
     "status": "not-stated",
@@ -4573,7 +4602,7 @@
      "v": 5.3,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "5,300 thousand metric tons"
     },
     "status": "not-stated",
@@ -4606,7 +4635,7 @@
      "v": 4,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "4,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4639,7 +4668,7 @@
      "v": 3.8,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "3,800 thousand metric tons"
     },
     "status": "not-stated",
@@ -4672,7 +4701,7 @@
      "v": 3,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "3,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4705,7 +4734,7 @@
      "v": 3,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "3,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4738,7 +4767,7 @@
      "v": 2.8,
      "u": "Mt/y",
      "y": 2022,
-     "n": "potash, K2O equivalent, estimated annual capacity",
+     "n": "potash, K2O equivalent, estimated annual capacity, basis not stated",
      "orig": "2,800 thousand metric tons"
     },
     "status": "not-stated",
@@ -4771,7 +4800,7 @@
      "v": 9.1,
      "u": "Mt/y",
      "y": 2023,
-     "n": "potash as listed by the source, estimated annual capacity",
+     "n": "potash, estimated annual capacity of the plant at Qarhan; the report lists \"Potash\" and does not say whether the figure is KCl or K2O, basis not stated",
      "orig": "9,100 thousand metric tons"
     },
     "status": "not-stated",
@@ -4804,7 +4833,7 @@
      "v": 4,
      "u": "Mt/y",
      "y": 2019,
-     "n": "potash, estimated annual capacity",
+     "n": "potash, estimated annual capacity of the plant at Sodom; the report lists \"Potash\" and does not say whether the figure is KCl or K2O, basis not stated",
      "orig": "4,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4837,7 +4866,7 @@
      "v": 6,
      "u": "Mt/y",
      "y": 2019,
-     "n": "potash, K2O content, estimated annual capacity of the seven mines together",
+     "n": "potash, K2O content, estimated annual capacity of the seven mines together, basis not stated",
      "orig": "6,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4870,7 +4899,7 @@
      "v": 12,
      "u": "Mt/y",
      "y": 2023,
-     "n": "phosphate ore, estimated annual capacity",
+     "n": "phosphate ore, estimated annual capacity, basis not stated",
      "orig": "12,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4898,16 +4927,16 @@
      "phosphate"
     ],
     "c": "RUS",
-    "operator": "OAO Apatit (PhosAgro)",
+    "operator": "OAO Apatit",
     "capacity": {
      "v": 15,
      "u": "Mt/y",
      "y": 2022,
-     "n": "apatite concentrate, estimated annual capacity of the Khibiny association",
+     "n": "apatite concentrate, estimated annual capacity of the Khibiny apatite association (OAO Apatit), basis not stated",
      "orig": "15,000,000 metric tons"
     },
     "status": "not-stated",
-    "note": "Mines of the Khibiny massif, Kola Peninsula; the source lists a second Apatit entry of 12 Mt/y for the same area. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mines of the Khibiny massif, Kola Peninsula; the same table lists a second row, OAO Apatit (Phosagro), of 12 Mt/y of phosphate rock on the Kola Peninsula. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-russia.pdf",
@@ -4936,7 +4965,7 @@
      "v": 12,
      "u": "Mt/y",
      "y": 2023,
-     "n": "phosphate rock, estimated annual capacity",
+     "n": "phosphate rock, estimated annual capacity, basis not stated",
      "orig": "12,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -4969,7 +4998,7 @@
      "v": 4,
      "u": "Mt/y",
      "y": 2019,
-     "n": "phosphate rock, estimated annual capacity",
+     "n": "phosphate rock, estimated annual capacity, basis not stated",
      "orig": "4,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -5002,7 +5031,7 @@
      "v": 9.5,
      "u": "Mt/y",
      "y": 2019,
-     "n": "phosphate rock, estimated annual capacity of the four mines together",
+     "n": "phosphate rock, estimated annual capacity of the four mines together, basis not stated",
      "orig": "9,500,000 metric tons"
     },
     "status": "not-stated",
@@ -5040,7 +5069,7 @@
     },
     "status": "operating",
     "statusAsOf": "2025",
-    "note": "ISR mine in Turkistan Region; the source lists the JV at 60% Kazatomprom. Kazakhstan is the first uranium producer in the atlas table. The point is from the Wikipedia article \"Inkai\".",
+    "note": "ISR mine in Turkistan Region; the source lists the JV at 60% Kazatomprom. Kazakhstan is the first uranium producer in the atlas table. Coordinates: Wikipedia, Inkai Uranium Project.",
     "coord": "site",
     "s": "operator-reports",
     "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
@@ -5074,7 +5103,7 @@
     },
     "status": "operating",
     "statusAsOf": "2025",
-    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from OpenStreetMap.",
+    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from OpenStreetMap. It stands about 1 km from Akbastau.",
     "coord": "site",
     "s": "operator-reports",
     "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
@@ -5108,7 +5137,7 @@
     },
     "status": "operating",
     "statusAsOf": "2025",
-    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from the Wikipedia article \"Akbastau mine\".",
+    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. Coordinates: Wikipedia, Akbastau mine. It stands about 1 km from Karatau.",
     "coord": "site",
     "s": "operator-reports",
     "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
@@ -5171,7 +5200,7 @@
      "v": 4070,
      "u": "tU/y",
      "y": 2019,
-     "n": "uranium, estimated annual capacity of 4,800 t U3O8 converted at 0.848",
+     "n": "uranium, estimated annual capacity of 4,800 t U3O8 converted at 0.848, basis not stated",
      "orig": "4,800 t U3O8"
     },
     "status": "not-stated",
@@ -5204,7 +5233,7 @@
      "v": 1270,
      "u": "tU/y",
      "y": 2019,
-     "n": "uranium, estimated annual capacity of 1,500 t U3O8 converted at 0.848",
+     "n": "uranium, estimated annual capacity of 1,500 t U3O8 converted at 0.848, basis not stated",
      "orig": "1,500 t U3O8"
     },
     "status": "not-stated",
@@ -5237,7 +5266,7 @@
      "v": 3000,
      "u": "tU/y",
      "y": 2019,
-     "n": "uranium, estimated annual capacity as listed in 2019 (the source does not say whether the figure is U or U3O8)",
+     "n": "uranium, estimated annual capacity as listed in 2019 (the source does not say whether the figure is U or U3O8), basis not stated",
      "orig": "3,000 metric tons"
     },
     "status": "not-stated",
@@ -5270,7 +5299,7 @@
      "v": 800,
      "u": "tU/y",
      "y": 2023,
-     "n": "uranium content, estimated annual capacity",
+     "n": "uranium content, estimated annual capacity, basis not stated",
      "orig": "800 metric tons"
     },
     "status": "not-stated",
@@ -5303,7 +5332,7 @@
      "v": 600,
      "u": "kt/y",
      "y": 2023,
-     "n": "spodumene concentrate, estimated annual capacity"
+     "n": "spodumene concentrate, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Spodumene mine 40 km southwest of Kalgoorlie, Western Australia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -5335,7 +5364,7 @@
      "v": 3.5,
      "u": "Mt/y",
      "y": 2023,
-     "n": "direct shipping ore, estimated annual capacity",
+     "n": "direct shipping ore, estimated annual capacity, basis not stated",
      "orig": "3,500 thousand metric tons"
     },
     "status": "not-stated",
@@ -5368,7 +5397,7 @@
      "v": 23,
      "u": "kt/y",
      "y": 2019,
-     "n": "lithium carbonate (Li2CO3), estimated annual capacity",
+     "n": "lithium carbonate (Li2CO3), estimated annual capacity, basis not stated",
      "orig": "23,000 metric tons"
     },
     "status": "not-stated",
@@ -5401,7 +5430,7 @@
      "v": 17.5,
      "u": "kt/y",
      "y": 2019,
-     "n": "lithium carbonate (Li2CO3), estimated annual capacity",
+     "n": "lithium carbonate (Li2CO3), estimated annual capacity, basis not stated",
      "orig": "17,500 metric tons"
     },
     "status": "not-stated",
@@ -5434,7 +5463,7 @@
      "v": 30,
      "u": "kt/y",
      "y": 2023,
-     "n": "lithium carbonate equivalent (Li2CO3), estimated annual capacity"
+     "n": "lithium carbonate equivalent (Li2CO3), estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Mine at Yichun, Jiangxi. China is the second lithium producer in the atlas table. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -5466,7 +5495,7 @@
      "v": 5,
      "u": "Mt/y",
      "y": 2022,
-     "n": "manganese ore, estimated annual capacity",
+     "n": "manganese ore, estimated annual capacity, basis not stated",
      "orig": "5,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -5499,7 +5528,7 @@
      "v": 4.68,
      "u": "Mt/y",
      "y": 2019,
-     "n": "manganese ore, gross weight, estimated annual capacity",
+     "n": "manganese ore, gross weight, estimated annual capacity, basis not stated",
      "orig": "4,680,000 metric tons"
     },
     "status": "not-stated",
@@ -5532,7 +5561,7 @@
      "v": 5.5,
      "u": "Mt/y",
      "y": 2019,
-     "n": "manganese ore, estimated annual capacity",
+     "n": "manganese ore, estimated annual capacity, basis not stated",
      "orig": "5,500 thousand metric tons"
     },
     "status": "not-stated",
@@ -5566,7 +5595,7 @@
      "v": 18.6,
      "u": "t/y",
      "y": 2023,
-     "n": "gold, estimated annual capacity",
+     "n": "gold, estimated annual capacity, basis not stated",
      "orig": "18,600 kilograms"
     },
     "status": "not-stated",
@@ -5599,7 +5628,7 @@
      "v": 17,
      "u": "t/y",
      "y": 2022,
-     "n": "gold, estimated annual capacity",
+     "n": "gold, estimated annual capacity, basis not stated",
      "orig": "17,000 kilograms"
     },
     "status": "not-stated",
@@ -5632,7 +5661,7 @@
      "v": 8,
      "u": "t/y",
      "y": 2019,
-     "n": "gold, estimated annual capacity",
+     "n": "gold, estimated annual capacity, basis not stated",
      "orig": "8,000 kilograms"
     },
     "status": "not-stated",
@@ -5665,7 +5694,7 @@
      "v": 20,
      "u": "t/y",
      "y": 2019,
-     "n": "gold, estimated annual capacity",
+     "n": "gold, estimated annual capacity, basis not stated",
      "orig": "20,000 kilograms"
     },
     "status": "not-stated",
@@ -5699,7 +5728,7 @@
      "v": 71,
      "u": "kt/y",
      "y": 2019,
-     "n": "nickel, estimated annual capacity of the mine",
+     "n": "nickel, estimated annual capacity of the mine, basis not stated",
      "orig": "71,000 metric tons"
     },
     "status": "not-stated",
@@ -5733,7 +5762,7 @@
      "v": 35,
      "u": "kt/y",
      "y": 2019,
-     "n": "nickel, estimated annual capacity of the mine"
+     "n": "nickel, estimated annual capacity of the mine, basis not stated"
     },
     "status": "not-stated",
     "note": "Kurumbukari mine in Madang Province, with a beneficiation plant at Basamuk; the source also lists 3,500 t/y of cobalt. The point is from OpenStreetMap.",
@@ -5765,11 +5794,11 @@
      "v": 105,
      "u": "Mt/y",
      "y": 2019,
-     "n": "lignite, estimated annual capacity of the open-pit mines together",
+     "n": "lignite, estimated annual capacity of the open-pit mines together, basis not stated",
      "orig": "105,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Open-pit mines in the Rhenish mining area (Bergheim, Garzweiler, Inden, Hambach), listed as one entry; the point is Garzweiler. Germany ranks ninth in the atlas table of thermal coal production. The point is from the Wikipedia article \"Garzweiler surface mine\".",
+    "note": "Open-pit mines in the Rhenish mining area (Bergheim, Garzweiler, Inden, Hambach), listed as one entry; the point is Garzweiler. Germany ranks ninth in the atlas table of thermal coal production. Coordinates: Wikipedia, Garzweiler surface mine.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-germany.pdf",
@@ -5798,11 +5827,11 @@
      "v": 33,
      "u": "Mt/y",
      "y": 2019,
-     "n": "coal, estimated annual capacity",
+     "n": "coal, estimated annual capacity, basis not stated",
      "orig": "33,000 thousand metric tons"
     },
     "status": "not-stated",
-    "note": "Mine in Cesar Department. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Mine in Cesar Department. Coal type: thermal; Drummond describes itself as \"an organization dedicated to thermal coal mining\" (Drummond Ltd., https://www.drummondltd.com/about-us/). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-colombia.pdf",
@@ -5831,7 +5860,7 @@
      "v": 5,
      "u": "Mt/y",
      "y": 2019,
-     "n": "phosphate rock, estimated annual capacity of the Abu Tartur, New Valley and Red Sea mines as listed",
+     "n": "phosphate rock, estimated annual capacity of the Abu Tartur, New Valley and Red Sea mines as listed, basis not stated",
      "orig": "5,000 thousand metric tons"
     },
     "status": "not-stated",
@@ -5864,7 +5893,7 @@
      "v": 2.7,
      "u": "kt/y",
      "y": 2022,
-     "n": "rare earths as listed by the source, estimated annual capacity",
+     "n": "rare earths as listed by the source, estimated annual capacity, basis not stated",
      "orig": "2,700 metric tons"
     },
     "status": "not-stated",

@@ -211,15 +211,15 @@
      "v": 350,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper metal, estimated annual capacity of the smelter and refinery (PT Smelting Co.); capacity: USGS Minerals Yearbook 2023, Indonesia"
+     "n": "copper metal, estimated annual capacity of the smelter and refinery (PT Smelting Co.), basis not stated"
     },
     "status": "operating",
     "statusAsOf": "2026-10",
     "statusNote": "Halted on 8 August 2026 for furnace repairs; reported operating again on 8 October 2026 (Katadata).",
-    "note": "Gresik smelter and refinery of Freeport and Mitsubishi Materials.",
+    "note": "Gresik smelter and refinery of Freeport and Mitsubishi Materials. Operator and status: Katadata (trade press), https://katadata.co.id/info/6ac74db7bb391/dua-smelter-freeport-kembali-beroperasi-hilirisasi-tembaga-kembali-didorong, read November 2026.",
     "coord": "approx",
-    "s": "trade-press",
-    "url": "https://katadata.co.id/info/6ac74db7bb391/dua-smelter-freeport-kembali-beroperasi-hilirisasi-tembaga-kembali-didorong",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -245,14 +245,14 @@
      "v": 500,
      "u": "kt/y",
      "y": 2019,
-     "n": "refined copper, estimated annual capacity of the primary smelter and refinery at Hamburg; capacity: USGS Minerals Yearbook 2019, Germany"
+     "n": "refined copper, estimated annual capacity of the primary smelter and refinery and secondary plant at Hamburg, basis not stated"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Europe's largest primary copper smelter site (Hamburg-Veddel).",
+    "note": "Europe's largest primary copper smelter site (Hamburg-Veddel). Operator, opening year, status and this text: Wikipedia, \"Aurubis\" (CC BY-SA 4.0).",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Aurubis",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-germany.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -278,14 +278,14 @@
      "v": 540,
      "u": "kt/y",
      "y": 2019,
-     "n": "refined copper, estimated annual capacity of the smelter and refineries at Glogow I, Glogow II and Legnica; capacity: USGS Minerals Yearbook 2019, Poland"
+     "n": "refined copper, estimated annual capacity of the smelter and refineries at Glogow I, Glogow II and Legnica, basis not stated"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "KGHM owns the Głogów, Legnica and Cedynia smelters; the group produced 656 kt of copper in 2017 (Wikipedia).",
+    "note": "KGHM owns the Głogów, Legnica and Cedynia smelters; the group produced 656 kt of copper in 2017 (Wikipedia). Operator, opening year, status and this text: Wikipedia, \"KGHM Polska Miedź\" (CC BY-SA 4.0).",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Mied%C5%BA",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-poland.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -307,12 +307,19 @@
     ],
     "c": "SWE",
     "operator": "Boliden",
+    "capacity": {
+     "v": 240,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper metal, estimated annual capacity of the smelter and refinery at Ronnskar, basis not stated",
+     "orig": "240 thousand metric tons"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Boliden's biggest and oldest smelter (copper, also lead and zinc).",
+    "note": "Boliden's biggest and oldest smelter (copper, also lead and zinc). Operator, status and this text: Wikipedia, \"Boliden AB\" (CC BY-SA 4.0).",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Boliden_AB",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-sweden.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -538,10 +545,9 @@
      "v": 6500,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity of Shandong Weiqiao Aluminum and Power Co. Ltd. (China Hongqiao Group), Zouping, Binzhou"
+     "n": "aluminium, estimated annual capacity of Shandong Weiqiao Aluminum and Power Co. Ltd. (China Hongqiao Group), Zouping, Binzhou, basis not stated"
     },
-    "status": "operating",
-    "statusAsOf": "2026-11",
+    "status": "not-stated",
     "note": "Aluminium smelters of China Hongqiao Group in Binzhou, Shandong; the same source lists an alumina refinery of 15 Mt/y for the company at Zouping. The point is the city of Binzhou, not the site itself.",
     "coord": "approx",
     "s": "usgs-myb",
@@ -634,7 +640,7 @@
      "v": 1600,
      "u": "kt/y",
      "y": 2023,
-     "n": "refined copper, estimated annual capacity"
+     "n": "refined copper, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Refinery at Tongling, Anhui; the same group has a second refinery listed at 200 kt/y. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -666,7 +672,7 @@
      "v": 500,
      "u": "kt/y",
      "y": 2023,
-     "n": "copper metal, estimated annual capacity"
+     "n": "copper metal, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Dahej, Gujarat. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -698,7 +704,7 @@
      "v": 220,
      "u": "kt/y",
      "y": 2022,
-     "n": "copper metal, estimated annual capacity",
+     "n": "copper metal, estimated annual capacity, basis not stated",
      "orig": "220,000 metric tons"
     },
     "status": "not-stated",
@@ -731,7 +737,7 @@
      "v": 400,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual smelter capacity"
+     "n": "copper, estimated annual smelter capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Machalí, O'Higgins Region. The point is from OpenStreetMap.",
@@ -763,7 +769,7 @@
      "v": 360,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper, estimated annual smelter capacity; the Ilo refinery is listed at 280 kt/y"
+     "n": "copper, estimated annual smelter capacity; the Ilo refinery is listed at 280 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter and refinery in the Moquegua Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -795,7 +801,7 @@
      "v": 80,
      "u": "kt/y",
      "y": 2019,
-     "n": "copper metal, estimated annual smelter capacity; the Bor refinery is listed at 120 kt/y"
+     "n": "copper metal, estimated annual smelter capacity; the Bor refinery is listed at 120 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter and refinery at Bor. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -827,7 +833,7 @@
      "v": 1750,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity of Jharsuguda I and II, computed as the sum of the two figures of the page",
+     "n": "aluminium, estimated annual capacity of Jharsuguda I and II, computed as the sum of the two figures of the page, basis not stated",
      "orig": "550 + 1,200 thousand metric tons"
     },
     "status": "not-stated",
@@ -860,7 +866,7 @@
      "v": 720,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Sambalpur, Odisha. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -892,7 +898,7 @@
      "v": 460,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Angul, Odisha. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -924,7 +930,7 @@
      "v": 360,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Kuala Tanjung, North Sumatra. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -956,7 +962,7 @@
      "v": 1010,
      "u": "kt/y",
      "y": 2023,
-     "n": "primary aluminium, estimated annual capacity"
+     "n": "primary aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Ras Al Khair, Jubail Industrial City, Eastern Region, on the Gulf coast. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -988,7 +994,7 @@
      "v": 602,
      "u": "kt/y",
      "y": 2022,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Sept-Îles, Quebec. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1020,7 +1026,7 @@
      "v": 420,
      "u": "kt/y",
      "y": 2022,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Kitimat, British Columbia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1052,7 +1058,7 @@
      "v": 460,
      "u": "kt/y",
      "y": 2019,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Barcarena, Pará State. The point is from OpenStreetMap.",
@@ -1084,7 +1090,7 @@
      "v": 550,
      "u": "kt/y",
      "y": 2022,
-     "n": "primary aluminium, estimated annual capacity",
+     "n": "primary aluminium, estimated annual capacity, basis not stated",
      "orig": "550,000 metric tons"
     },
     "status": "not-stated",
@@ -1117,7 +1123,7 @@
      "v": 590,
      "u": "kt/y",
      "y": 2023,
-     "n": "aluminium, estimated annual capacity"
+     "n": "aluminium, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Tomago, New South Wales. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1149,10 +1155,10 @@
      "v": 80,
      "u": "kt/y",
      "y": 2023,
-     "n": "nickel in matte, estimated annual capacity"
+     "n": "nickel in matte, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
-    "note": "Matte smelter at Sorowako, South Sulawesi. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "note": "Matte smelter at Sorowako, South Sulawesi. The point is the industrial area named PT Vale Indonesia in OpenStreetMap, about 5 km south of Sorowako, not the smelter itself.",
     "coord": "approx",
     "s": "usgs-myb",
     "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
@@ -1161,8 +1167,8 @@
    "geometry": {
     "type": "Point",
     "coordinates": [
-     121.35846,
-     -2.52979
+     121.3788427,
+     -2.5705272
     ]
    }
   },
@@ -1183,7 +1189,7 @@
      "v": 558,
      "u": "kt/y",
      "y": 2023,
-     "n": "zinc metal, estimated annual capacity; the source lists lead metal at 85 kt/y"
+     "n": "zinc metal, estimated annual capacity; the source lists lead metal at 85 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Chittorgarh, Rajasthan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1216,7 +1222,7 @@
      "v": 295,
      "u": "kt/y",
      "y": 2022,
-     "n": "refined zinc, estimated annual capacity; the source lists lead metal at 100 kt/y"
+     "n": "refined zinc, estimated annual capacity; the source lists lead metal at 100 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Zinc and lead operations at Trail, British Columbia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1248,7 +1254,7 @@
      "v": 235,
      "u": "kt/y",
      "y": 2023,
-     "n": "lead metal, estimated annual capacity"
+     "n": "lead metal, estimated annual capacity, basis not stated"
     },
     "status": "not-stated",
     "note": "Lead smelter at Port Pirie, South Australia (the report places it in Tasmania by mistake). The point is from OpenStreetMap.",
@@ -1283,7 +1289,7 @@
      "v": 3350,
      "u": "t/y",
      "y": 2022,
-     "n": "refined silver, estimated annual capacity",
+     "n": "refined silver, estimated annual capacity, basis not stated",
      "orig": "3,350,000 kilograms"
     },
     "status": "not-stated",
@@ -1316,7 +1322,7 @@
      "v": 68,
      "u": "kt/y",
      "y": 2023,
-     "n": "tin metal, estimated annual capacity; the Kundur smelter is listed at 70 kt/y"
+     "n": "tin metal, estimated annual capacity; the Kundur smelter is listed at 70 kt/y, basis not stated"
     },
     "status": "not-stated",
     "note": "Smelter at Mentok, West Bangka. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1348,7 +1354,7 @@
      "v": 1032,
      "u": "kt/y",
      "y": 2019,
-     "n": "aluminium, estimated annual capacity of the five smelters together"
+     "n": "aluminium, estimated annual capacity of the five smelters together, basis not stated"
     },
     "status": "not-stated",
     "note": "Five smelters listed as one entry; the point is Sunndal. Norway ranks eighth in the atlas table of aluminium production. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
@@ -1382,7 +1388,7 @@
      "v": 140,
      "u": "kt/y",
      "y": 2022,
-     "n": "zinc metal, estimated annual capacity; the source also lists a lead plant of 110 kt/y and a copper smelter of 19 kt/y at Oskemen",
+     "n": "zinc metal, estimated annual capacity; the source also lists a lead plant of 110 kt/y and a copper smelter of 19 kt/y at Oskemen, basis not stated",
      "orig": "140,000 metric tons"
     },
     "status": "not-stated",
@@ -1415,7 +1421,7 @@
      "v": 120,
      "u": "kt/y",
      "y": 2022,
-     "n": "zinc metal, estimated annual capacity",
+     "n": "zinc metal, estimated annual capacity, basis not stated",
      "orig": "120,000 metric tons"
     },
     "status": "not-stated",

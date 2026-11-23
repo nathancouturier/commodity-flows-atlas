@@ -112,3 +112,7 @@
   margin-left: -4px;
   margin-right: 4px;
 }
+/* a long row name (a past year's "European Union with the UK") ends in an ellipsis instead of running into the trend line */
+.bar-row .bar-label {
+  display: block;
+}

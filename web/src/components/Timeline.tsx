@@ -329,7 +329,7 @@ export function Timeline() {
                   <span class="num">{selTick.e.date}</span> · {selTick.e.title}
                 </>
               ) : (
-                `${ticks.length} event${ticks.length > 1 ? 's' : ''}${k ? ` linked to ${lowerName(commodityMeta(k)?.name ?? k)}` : ''}: pick a tick or step through them`
+                `${ticks.length} event${ticks.length > 1 ? 's' : ''}${k ? ` for ${lowerName(commodityMeta(k)?.name ?? k)}, with the general shipping and market events` : ''}: pick a tick or step through them`
               )}
             </span>
             <button class="tl-step-btn" disabled={nextIdx < 0 || nextIdx >= ticks.length} aria-label="Next event" onClick={() => openEvent(ticks[nextIdx].e)}>
