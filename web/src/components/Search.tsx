@@ -87,6 +87,14 @@ export function Search() {
   const enterWhenReady = useRef(false);
   /** the key of the option the person moved to; null while the first row is the active one */
   const activeKey = useRef<string | null>(null);
+  const activeAt = useRef(0);
+  const optsNow = useRef<Opt[]>([]);
+  /** Move to the option n: the key is noted at once, so that rows arriving before the next render do not take the place. */
+  const move = (n: number) => {
+    activeAt.current = n;
+    activeKey.current = n > 0 ? (optsNow.current[n]?.key ?? null) : null;
+    setActive(n);
+  };
 
   const start = () => {
     if (items || failed) return;
@@ -100,7 +108,7 @@ export function Search() {
     setOpen(false);
     setQuery('');
     setScope(null);
-    setActive(0);
+    move(0);
     searchOverlay.value = false;
     enterWhenReady.current = false;
     // read before the blur: the field forgets where the focus came from when it loses it
@@ -166,7 +174,7 @@ export function Search() {
       const id = `sr-opt-${n}`;
       opts.push({ id, key, page, run });
       return (
-        <div key={key} id={id} role="option" class={`sr-opt ${cls}`} aria-selected={n === active} data-k={kind} onClick={run} onMouseMove={(e) => (e.movementX || e.movementY) && setActive(n)}>
+        <div key={key} id={id} role="option" class={`sr-opt ${cls}`} aria-selected={n === active} data-k={kind} onClick={run} onMouseMove={(e) => (e.movementX || e.movementY) && move(n)}>
           {body}
         </div>
       );
@@ -191,7 +199,7 @@ export function Search() {
       );
     const enter = (k: Kind) => () => {
       setScope(k);
-      setActive(0);
+      move(0);
       input.current?.focus();
     };
     const rows: preact.ComponentChildren[] = [];
@@ -235,6 +243,8 @@ export function Search() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [groups, kinds, pairs, scope, active]);
 
+  optsNow.current = opts;
+
   useEffect(() => {
     if (!enterWhenReady.current || !items) return;
     enterWhenReady.current = false;
@@ -251,17 +261,16 @@ export function Search() {
   }, [active, opts.length]);
   // a new query or list starts on its first row; rows that arrive later (the pairs file) keep the person on the row they chose
   useEffect(() => {
-    activeKey.current = null;
-    setActive(0);
+    move(0);
   }, [query, scope]);
   useEffect(() => {
     if (activeKey.current == null) return;
     const i = opts.findIndex((o) => o.key === activeKey.current);
-    if (i >= 0 && i !== active) setActive(i);
+    if (i >= 0 && i !== activeAt.current) {
+      activeAt.current = i;
+      setActive(i);
+    }
   }, [opts]);
-  useEffect(() => {
-    activeKey.current = active > 0 ? (opts[active]?.key ?? null) : null;
-  }, [active]);
 
   const typing = query.trim().length > 0;
   const message = !items
@@ -283,10 +292,10 @@ export function Search() {
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       if (!open) setOpen(true);
-      else setActive((a) => Math.min(opts.length - 1, a + 1));
+      else move(Math.min(opts.length - 1, activeAt.current + 1));
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setActive((a) => Math.max(0, a - 1));
+      move(Math.max(0, activeAt.current - 1));
     } else if (e.key === 'Enter') {
       e.preventDefault();
       // the index is still loading: the first result opens as soon as there is one

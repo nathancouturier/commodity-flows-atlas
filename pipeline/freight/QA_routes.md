@@ -3,8 +3,8 @@
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
 - Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.1%. With the generated routes: 66.1%.
-- 11 of 42 groups reach the target; 31 are short of it.
+- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.1%. With the generated routes: 66.0%.
+- 10 of 42 groups reach the target; 32 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
 |---|---:|---:|---:|---:|---|
@@ -13,12 +13,12 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | bauxite | 181.3 | 60.7 | 83.2 | 1 |  |
 | coal | 1,377.3 | 47.2 | 71.4 | 5 |  |
 | cobalt | 0.7 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
-| cocoa | 3.1 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
-| coffee | 7.3 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 4 corridors |
+| cocoa | 3.1 | 0.0 | 34.5 | 1 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| coffee | 7.3 | 0.0 | 13.0 | 1 | the cap of 120 generated routes left out 3 corridors |
 | copper-ore | 37.2 | 40.9 | 51.8 | 1 | the cap of 120 generated routes left out 6 corridors |
 | copper-refined | 10.3 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 5 corridors |
 | corn | 149.4 | 21.3 | 72.3 | 10 |  |
-| cotton | 7.7 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 5 corridors |
+| cotton | 7.7 | 0.0 | 12.4 | 1 | the cap of 120 generated routes left out 4 corridors |
 | crude-oil | 1,874.4 | 54.1 | 70.4 | 7 |  |
 | dap | 17.5 | 11.2 | 24.1 | 1 | the cap of 120 generated routes left out 9 corridors |
 | iron-ore | 1,635.5 | 71.5 | 71.5 | 0 |  |
@@ -27,12 +27,12 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | lithium | 0.5 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lng | 369.2 | 41.5 | 69.9 | 9 | the remaining corridors are each under 7.4 Mt, or mostly named by hand-written routes, or have no routed port |
 | lpg | 125.8 | 37.5 | 71.1 | 6 |  |
-| manganese | 42.3 | 0.0 | 74.3 | 4 |  |
+| manganese | 42.3 | 0.0 | 68.9 | 3 | the cap of 120 generated routes left out 1 corridor |
 | nickel-fe | 10.1 | 0.0 | 88.7 | 1 |  |
 | nickel-int | 3.2 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
 | nickel-ore | 52.5 | 66.0 | 85.3 | 1 |  |
-| palm-oil | 41.0 | 18.0 | 48.2 | 4 | the cap of 120 generated routes left out 6 corridors |
-| phosphate-rock | 34.3 | 8.3 | 47.2 | 4 | the cap of 120 generated routes left out 7 corridors |
+| palm-oil | 41.0 | 18.0 | 42.8 | 3 | the cap of 120 generated routes left out 7 corridors |
+| phosphate-rock | 34.3 | 8.3 | 40.6 | 3 | the cap of 120 generated routes left out 8 corridors |
 | potash | 41.9 | 26.9 | 51.0 | 3 | the cap of 120 generated routes left out 7 corridors |
 | rapeseed | 20.0 | 0.0 | 50.6 | 2 | the cap of 120 generated routes left out 3 corridors |
 | rare-earths | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
@@ -77,8 +77,6 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - aluminium: Aluminium: the Mediterranean to the rest of Europe, 0.8 Mt
 - aluminium: Aluminium: India and Pakistan, west coast to Europe, 0.6 Mt
 - cobalt: Cobalt: East Africa to North China, 0.6 Mt
-- cocoa: Cocoa: West Africa to North-West Europe, 1.1 Mt
-- coffee: Coffee: East coast South America to North-West Europe, 0.9 Mt
 - coffee: Coffee: East coast South America to the Mediterranean, 0.6 Mt
 - coffee: Coffee: South-East Asia to Europe, 0.8 Mt
 - coffee: Coffee: East coast South America to North America, 0.5 Mt
@@ -93,7 +91,6 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - copper-refined: Refined copper: West coast South America to US Gulf, 0.7 Mt
 - copper-refined: Refined copper: East Africa to North-West Europe, 0.6 Mt
 - copper-refined: Refined copper: Japan and Korea to the rest of East Asia, 0.6 Mt
-- cotton: Cotton: East coast South America to North China, 1.0 Mt
 - cotton: Cotton: US Gulf to North China, 0.8 Mt
 - cotton: Cotton: East coast South America to South-East Asia, 0.8 Mt
 - cotton: Cotton: Western Australia to South-East Asia, 0.5 Mt
@@ -107,13 +104,16 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - dap: DAP: West Africa to North-West Europe, 0.6 Mt
 - dap: DAP: West Africa to the rest of Africa, 0.5 Mt
 - dap: DAP: the Baltic to Central America and the Caribbean, 0.5 Mt
+- manganese: Manganese: West Africa to India and Bangladesh, east coast, 2.3 Mt
 - nickel-int: Nickel intermediates: South-East Asia to North China, 1.8 Mt
+- palm-oil: Palm oil: South-East Asia to Middle East Gulf, 2.2 Mt
 - palm-oil: Palm oil: South-East Asia to East Africa, 2.0 Mt
 - palm-oil: Palm oil: South-East Asia to North-West Europe, 1.8 Mt
 - palm-oil: Palm oil: South-East Asia to West Africa, 1.8 Mt
 - palm-oil: Palm oil: South-East Asia to US Gulf, 1.7 Mt
 - palm-oil: Palm oil: South-East Asia to India and Bangladesh, east coast, 1.5 Mt
 - palm-oil: Palm oil: South-East Asia to Japan and Korea, 1.3 Mt
+- phosphate-rock: Phosphate rock: West Africa to the Mediterranean, 2.3 Mt
 - phosphate-rock: Phosphate rock: West coast South America to East coast South America, 1.5 Mt
 - phosphate-rock: Phosphate rock: West Africa to Mexico, Gulf coast, 1.3 Mt
 - phosphate-rock: Phosphate rock: West Africa to North-West Europe, 1.3 Mt

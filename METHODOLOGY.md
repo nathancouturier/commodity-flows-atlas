@@ -1286,6 +1286,11 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     (the last figure is named with its month), and the note under the table counts the months missing. An origin
     is left out only when the months of the year before that have a figure average under 1 kb/d; never for an
     absent month.
+  - *A failure of the monthly step* (EIA renames or drops a series: `monthly.py` refuses a changed series name) does
+    not stop the commodity build: nothing of the monthly files is written, they keep their previous content, the
+    builder says so in its output and in QA.md and ends with exit status 3, which the annual job
+    (`pipeline/annual/update_annual.py`) records as the source `build-monthly` failing (the commodity step itself
+    is recorded as a success), so that the next run tries again and the usual alert after three failures applies.
   - *Stocks*: EIA gives monthly petroleum stocks (crude oil and products together, not split) with a figure for the
     OECD, OECD Europe and eight countries (the United States, Japan, Germany, South Korea, Canada, France, Italy,
     the United Kingdom); it marks the others withheld, and the atlas shows none for them. Days of cover are the

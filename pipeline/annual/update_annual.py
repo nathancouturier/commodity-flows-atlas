@@ -83,19 +83,17 @@ STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "la
             "profiles": 10, "alerts": 5, "prices": 5}
 
 
-def run(cmd, timeout, accept=()):
-    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails, unless its exit status is in
-    `accept`. Returns the completed process."""
+def run(cmd, timeout):
+    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails."""
     print("  $", " ".join(os.path.relpath(c, ROOT) if os.path.isabs(c) and c.startswith(ROOT) else c for c in cmd), flush=True)
     try:
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         raise RuntimeError(f"timed out after {timeout // 60} min")
     print("\n".join(r.stdout.splitlines()[-8:]))
-    if r.returncode != 0 and r.returncode not in accept:
+    if r.returncode != 0:
         tail = (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["?"])[-1]
         raise RuntimeError(f"exit {r.returncode}: {tail}"[:200])
-    return r
 
 
 class Snapshot:
@@ -379,13 +377,18 @@ MONTHLY_FAILED = 3
 
 
 def build_commodities(script):
-    """Run build_commodities.py; the failure of its monthly step is recorded as "build-monthly" and does not fail "build-commodities"."""
-    r = run([PY, script], STEP_MIN["commodities"] * 60, accept=(MONTHLY_FAILED,))
-    if r.returncode == MONTHLY_FAILED:
-        tail = (r.stderr.strip().splitlines() or ["?"])[-1]
+    """Run build_commodities.py; the failure of its monthly step (exit status MONTHLY_FAILED, after every commodity file was written) is
+    recorded as "build-monthly" and does not fail "build-commodities". A success is recorded only to end a series of failures."""
+    try:
+        run([PY, script], STEP_MIN["commodities"] * 60)
+    except RuntimeError as e:
+        if not str(e).startswith(f"exit {MONTHLY_FAILED}:"):
+            raise
+        tail = str(e).split(": ", 1)[1]
         status.record_failure("build-monthly", tail)
         print("[build-monthly] FAILED, the previous monthly files are kept:", tail)
-    else:
+        return
+    if pending("build-monthly"):
         status.record_success("build-monthly", note="rebuilt")
 
 

@@ -553,21 +553,32 @@ class MonthlyStepDoesNotStopTheBuild(unittest.TestCase):
 
     def test_the_annual_job_records_the_monthly_failure_apart_and_keeps_the_commodity_step_successful(self):
         sys.path.insert(0, os.path.join(ROOT, "pipeline", "annual"))
-        import types
         import update_annual as UA
 
-        calls = []
-        saved = (UA.run, UA.status.record_failure, UA.status.record_success)
+        calls, mode = [], {"run": None, "pending": False}
+
+        def run(cmd, timeout):
+            if mode["run"]:
+                raise RuntimeError(mode["run"])
+
+        saved = (UA.run, UA.pending, UA.status.record_failure, UA.status.record_success)
         try:
-            UA.run = lambda cmd, timeout, accept=(): types.SimpleNamespace(returncode=UA.MONTHLY_FAILED, stderr="x\nKeyError: ('57-1', 'TBPD')", stdout="")
+            UA.run = run
+            UA.pending = lambda name: mode["pending"]
             UA.status.record_failure = lambda source, error, previous=None: calls.append(("fail", source, error))
             UA.status.record_success = lambda source, **kw: calls.append(("ok", source))
+            mode["run"] = "exit 3: !! MONTHLY SERIES NOT REBUILT (KeyError: ('57-1', 'TBPD'))"
             UA.build_commodities("build_commodities.py")  # returns: the step "build-commodities" is a success
-            UA.run = lambda cmd, timeout, accept=(): types.SimpleNamespace(returncode=0, stderr="", stdout="")
-            UA.build_commodities("build_commodities.py")
+            mode["run"] = None
+            UA.build_commodities("build_commodities.py")  # a success is not written while nothing failed before (no needless write of the status file)
+            mode["pending"] = True
+            UA.build_commodities("build_commodities.py")  # and it ends a series of failures
+            mode["run"] = "exit 1: Traceback"
+            with self.assertRaises(RuntimeError):  # any other failure is the commodity step's own
+                UA.build_commodities("build_commodities.py")
         finally:
-            UA.run, UA.status.record_failure, UA.status.record_success = saved
-        self.assertEqual(calls, [("fail", "build-monthly", "KeyError: ('57-1', 'TBPD')"), ("ok", "build-monthly")])
+            UA.run, UA.pending, UA.status.record_failure, UA.status.record_success = saved
+        self.assertEqual(calls, [("fail", "build-monthly", "!! MONTHLY SERIES NOT REBUILT (KeyError: ('57-1', 'TBPD'))"), ("ok", "build-monthly")])
 
     def test_main_keeps_writing_the_commodity_files_and_returns_the_status(self):
         """B.main() with a monthly step that raises: every commodity file is still written (to a temporary folder here), the monthly files are not

@@ -103,7 +103,7 @@ const isCapped = (e: Estimate) => !!e.hi && /capped/i.test(e.hi.n ?? '');
 function estimateMt(e: Estimate, small = false): string | null {
   if (!e.mt) return null;
   const [lo, hi] = e.mt;
-  if (small) return tonnes(lo, true);
+  if (small) return hi - lo >= 0.0005 ? `${nf1.format(lo * 1e3)} to ${tonnes(hi, true)}` : tonnes(lo, true);
   return hi - lo >= 0.5 ? `${mt3(lo)} to ${mt3(hi)} Mt` : `${mt3(lo)} Mt`;
 }
 

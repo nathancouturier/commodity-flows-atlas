@@ -346,7 +346,7 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 n.append(type_note[typ])
             e = {"k": BL.COMMODITY.get(g, g), "p": g,
                  "f": {"v": round(100 * low / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": ". ".join(n)},
-                 "mt": [round(low, 1 if low >= 10 else 3), round(hi_pub, 1 if hi_pub >= 10 else 3)]}
+                 "mt": [round(low, 1 if low >= 10 else 3 if tn is mtn else 4), round(hi_pub, 1 if hi_pub >= 10 else 3 if tn is mtn else 4)]}
             if round(100 * hi_pub / sea, 1) > e["f"]["v"]:
                 top = sorted(alt_by.items(), key=lambda x: -x[1])[:3]
                 top = [x for x in top if x[1] >= 0.005] or top[:1]
