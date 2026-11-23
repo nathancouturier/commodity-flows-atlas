@@ -115,3 +115,23 @@
 .bar-row.cp-past-none {
   opacity: 0.6;
 }
+/* a line of a profile section: its detail (rank, value, source and year) runs under the name across the row, and a long name wraps */
+.cp-lines .bar-row .cp-line-sub {
+  grid-column: 2 / -1;
+  margin-top: -4px;
+}
+.cp-lines .bar-row .bar-label,
+.cp-basket .bar-row .cp-wrap {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.cp-basket-gap {
+  margin: 2px 4px 6px;
+}
+.cp-op {
+  flex-wrap: wrap;
+}
+.cp-op-assets {
+  font-size: var(--fs-xs);
+  text-align: right;
+}

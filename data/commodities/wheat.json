@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+   "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 824.74,
@@ -353,7 +353,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -869,7 +869,7 @@
    {
     "c": "RUS",
     "v": 39.0,
-    "n": "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI); USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 38% below the first and 20% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes are the customs records as they are: no tonnage is added to bring them to the USDA figure."
+    "n": "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI), of which 11.6 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Egypt 11.1 Mt, Nigeria 0.55 Mt) and 22.9 Mt is as reported; USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 38% below the first and 20% below the second. On the tonnage as reported alone (22.9 Mt) the gap is 59% below the first and 47% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
    },
    {
     "c": "EU27",
@@ -1840,6 +1840,7 @@
     ],
     "n": "FAOSTAT crop production (QCL), wheat, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 119 Mt (the world total of FAOSTAT is 798 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
     "worldAll": 798.48
    }
@@ -1989,9 +1990,11 @@
       "n": "of which 0.0274 Mt to other member states and 0 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, wheat (HS 1001): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 63.1 Mt, of which 28.7 Mt to other member states and 34.3 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (209 Mt)",
+    "n": "CEPII BACI 2024, wheat (HS 1001): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 63.1 Mt, of which 28.7 Mt to other member states and 34.3 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 209 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 208.53,
     "split": {
      "total": 63.076,
@@ -2145,9 +2148,11 @@
       "n": "of which 0.00617 Mt from other member states and 0 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, wheat (HS 1001): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 41 Mt, of which 28.7 Mt from other member states and 12.3 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (209 Mt)",
+    "n": "CEPII BACI 2024, wheat (HS 1001): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 41 Mt, of which 28.7 Mt from other member states and 12.3 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 209 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 208.53,
     "split": {
      "total": 41.02,
@@ -2759,12 +2764,12 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Wheat: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Wheat: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "gaps": [
   {
    "o": "RUS",
-   "text": "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI); USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 38% below the first and 20% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes are the customs records as they are: no tonnage is added to bring them to the USDA figure.",
+   "text": "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI), of which 11.6 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Egypt 11.1 Mt, Nigeria 0.55 Mt) and 22.9 Mt is as reported; USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 38% below the first and 20% below the second. On the tonnage as reported alone (22.9 Mt) the gap is 59% below the first and 47% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure.",
    "s": "baci",
    "y": 2024
   }
@@ -3046,39 +3051,6 @@
    "k": 123,
    "cov": 1.0
   },
-  "eu-production": {
-   "top1": {
-    "c": "FRA",
-    "p": 0.2228
-   },
-   "top3": 0.48,
-   "hhi": 1073,
-   "eq": 9.3,
-   "k": 26,
-   "cov": 1.0
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "FRA",
-    "p": 0.2548
-   },
-   "top3": 0.4986,
-   "hhi": 1226,
-   "eq": 8.2,
-   "k": 27,
-   "cov": 1.0
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "ITA",
-    "p": 0.2284
-   },
-   "top3": 0.5936,
-   "hhi": 1441,
-   "eq": 6.9,
-   "k": 27,
-   "cov": 1.0
-  },
   "stocks": {
    "top1": {
     "c": "CHN",
@@ -3093,6 +3065,6 @@
  },
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
-  "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI); USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 38% below the first and 20% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes are the customs records as they are: no tonnage is added to bring them to the USDA figure."
+  "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI), of which 11.6 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Egypt 11.1 Mt, Nigeria 0.55 Mt) and 22.9 Mt is as reported; USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 38% below the first and 20% below the second. On the tonnage as reported alone (22.9 Mt) the gap is 59% below the first and 47% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ]
 }

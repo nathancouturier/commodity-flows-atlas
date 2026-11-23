@@ -26,6 +26,7 @@
 .evl-date { color: var(--ink-2); font-size: 11px; }
 .evl-more { margin: 2px 0 0 6px; padding: 0; font-size: 11px; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
 .evl-more:hover { color: var(--ink-0); }
+.evl-general { display: block; margin-top: 8px; color: var(--ink-2); }
 
 /* ---- prices around an event */
 .evp-row { padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }

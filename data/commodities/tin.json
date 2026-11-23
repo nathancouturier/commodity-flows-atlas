@@ -399,25 +399,25 @@
     "c": "DNK",
     "v": 0.099,
     "usd": 3115000,
-    "uv": 31500
+    "uv": 31000
    },
    {
     "c": "UGA",
     "v": 0.065,
     "usd": 2002000,
-    "uv": 30800
+    "uv": 31000
    },
    {
     "c": "LAO",
     "v": 0.059,
     "usd": 1334000,
-    "uv": 22600
+    "uv": 23000
    },
    {
     "c": "TZA",
     "v": 0.053,
     "usd": 1365000,
-    "uv": 25800
+    "uv": 26000
    },
    {
     "c": "PAN",
@@ -429,7 +429,7 @@
     "c": "GBR",
     "v": 0.039,
     "usd": 1045000,
-    "uv": 26800
+    "uv": 27000
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -746,37 +746,37 @@
     "c": "DNK",
     "v": 0.064,
     "usd": 2225000,
-    "uv": 34800
+    "uv": 35000
    },
    {
     "c": "IRL",
     "v": 0.06,
     "usd": 1624000,
-    "uv": 27100
+    "uv": 27000
    },
    {
     "c": "FIN",
     "v": 0.055,
     "usd": 1743000,
-    "uv": 31700
+    "uv": 32000
    },
    {
     "c": "BRA",
     "v": 0.046,
     "usd": 1756000,
-    "uv": 38200
+    "uv": 38000
    },
    {
     "c": "VEN",
     "v": 0.044,
     "usd": 1059000,
-    "uv": 24100
+    "uv": 24000
    },
    {
     "c": "SWE",
     "v": 0.044,
     "usd": 1372000,
-    "uv": 31200
+    "uv": 31000
    },
    {
     "c": "RUS",
@@ -788,7 +788,7 @@
     "c": "GRC",
     "v": 0.04,
     "usd": 1167000,
-    "uv": 29200
+    "uv": 29000
    },
    {
     "c": "TUN",
@@ -800,13 +800,13 @@
     "c": "AGO",
     "v": 0.016,
     "usd": 2213000,
-    "uv": 138000
+    "uv": 140000
    },
    {
     "c": "KGZ",
     "v": 0.005,
     "usd": 1061000,
-    "uv": 212000
+    "uv": 200000
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1081,6 +1081,7 @@
     "pct": "77",
     "y": 2025,
     "src": "Peru, Bolivia, Indonesia, Brazil",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

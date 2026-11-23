@@ -27,9 +27,16 @@ export function loadOptional<T>(path: string): Promise<T | null> {
   return load<T>(path).catch(() => null);
 }
 
-/** A country's profile (data/countries/profiles/<ISO3>.json, one file per country), null when it has none. */
+/**
+ * A country's profile (data/countries/profiles/<ISO3>.json, one file per country), null when it has none. The years and
+ * world totals of the series its lines point to are the same for every country: one file (countries/years.json), loaded
+ * once with the first profile.
+ */
 export function loadProfile(iso3: string): Promise<CountryProfile | null> {
-  return /^[A-Z0-9]{3,5}$/.test(iso3) ? loadOptional<CountryProfile>(`countries/profiles/${iso3}.json`) : Promise.resolve(null);
+  if (!/^[A-Z0-9]{3,5}$/.test(iso3)) return Promise.resolve(null);
+  return Promise.all([loadOptional<CountryProfile>(`countries/profiles/${iso3}.json`), loadOptional<CountryProfile['years']>('countries/years.json')]).then(
+    ([p, years]) => (p && !p.none ? { ...p, years: years ?? {} } : p),
+  );
 }
 
 /** A commodity's tables by country and year (data/commodities/history), null when it has none. */
@@ -54,15 +61,34 @@ export async function loadCatalogue() {
   ]);
   sources.value = Object.fromEntries(src.map((s) => [s.id, s]));
   commodities.value = com.sort((a, b) => a.rank - b.rank);
-  countries.value = Object.fromEntries(ctry.map((c) => [c.c, c]));
+  countries.value = Object.fromEntries([...ctry, ...regionEntries(ctry)].map((c) => [c.c, c]));
   places.value = Object.fromEntries((plc ?? []).map((p) => [p.c, p.name]));
   // a link with an unknown commodity id (e.g. "#c=coal") falls back to the overview
   const { commodity } = await import('./store');
   if (commodity.value && !com.some((c) => c.id === commodity.value)) commodity.value = null;
 }
 
-/** Aggregate rows of the tables that are neither countries nor places (USDA PSD's European Union), with the name the map uses. */
-const REGION_NAME: Record<string, string> = { EU27: 'European Union' };
+/** Aggregate rows of the tables that are neither countries nor places (USDA PSD's European Union), with their name. */
+const REGION_NAME: Record<string, string> = { EU27: 'European Union (27)' };
+
+/** The 27 member states (the same list as pipeline/commodities/build_profiles.py EU27 and map/modules/choropleth.ts EU27). */
+export const EU27_MEMBERS = [
+  'AUT', 'BEL', 'BGR', 'HRV', 'CYP', 'CZE', 'DNK', 'EST', 'FIN', 'FRA', 'DEU', 'GRC', 'HUN', 'IRL',
+  'ITA', 'LVA', 'LTU', 'LUX', 'MLT', 'NLD', 'POL', 'PRT', 'ROU', 'SVK', 'SVN', 'ESP', 'SWE',
+];
+
+/**
+ * The European Union as an entry of the country index: it has a page (its member states link to it), a name, a region and
+ * a search entry, but no polygon of its own. Its box is the union of its member states' boxes.
+ */
+function regionEntries(ctry: CountryMeta[]): CountryMeta[] {
+  const boxes = ctry.filter((c) => EU27_MEMBERS.includes(c.c) && c.bb).map((c) => c.bb!);
+  if (!boxes.length) return [];
+  const bb: [number, number, number, number] = [
+    Math.min(...boxes.map((b) => b[0])), Math.min(...boxes.map((b) => b[1])), Math.max(...boxes.map((b) => b[2])), Math.max(...boxes.map((b) => b[3])),
+  ];
+  return [{ c: 'EU27', name: REGION_NAME.EU27, at: [(bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2], bb, region: 'Europe' }];
+}
 
 export function countryName(iso3: string): string {
   return countries.value[iso3]?.name ?? places.value[iso3] ?? REGION_NAME[iso3] ?? iso3;

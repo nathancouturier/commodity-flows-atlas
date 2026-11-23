@@ -96,7 +96,7 @@
    {
     "c": "CHN",
     "v": 923,
-    "n": "Atlas estimate: production 1,010 Mt (USGS MCS 2026 2024) + imports 8.36 Mt - exports 95.1 Mt (CEPII BACI 2024)",
+    "n": "Atlas estimate: production 1,010 Mt (USGS MCS 2026 2024) + imports 8.35 Mt - exports 95.1 Mt (CEPII BACI 2024)",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -182,7 +182,7 @@
     "y": 2024
    }
   ],
-  "n": "Atlas estimate: apparent consumption of steel in 2024, by country: production plus imports minus exports of the same product and year, in Mt. Production: raw steel production (USGS), USGS MCS 2026 2024 column. Imports and exports: CEPII BACI 2024, steel products, HS 72 without 7201 to 7205, gross weight, with the atlas's cleaning rules. Production is crude steel; trade is steel products in product weight, which the atlas does not convert to crude-steel equivalent (it has no conversion read on a page). Trade between EU member states is counted. Stock changes are not known, so this is apparent consumption, not measured use. Only the countries for which USGS gives production are listed (11); 0 of them are left out because one of the three terms is missing, and 0 because the result is negative. A country that trades the product but has no USGS production figure has no production term and is not in the table. World: the world production of the same product in 2024 as USGS gives it (1,820 Mt, the sum of its countries and its 'Other countries' line): trade nets out in the world, so apparent consumption of the world is its production apart from changes in stocks, which are not known. The shares and 'Rest of world' (the countries not listed, dropped ones included) are computed on it; the order of the rows is not a world ranking.",
+  "n": "Atlas estimate: apparent consumption of steel in 2024, by country: production plus imports minus exports of the same product and year, in Mt. Production: raw steel production (USGS), USGS MCS 2026 2024 column. Imports and exports: CEPII BACI 2024, steel products, HS 72 without 7201 to 7205, gross weight, with the atlas's cleaning rules, summed before any rounding. Production is crude steel; trade is steel products in product weight, which the atlas does not convert to crude-steel equivalent (it has no conversion read on a page). Trade between EU member states is counted. Stock changes are not known, so this is apparent consumption, not measured use. Only the countries for which USGS gives production are listed (11); this is not a ranking of the world's consumers. 0 of them are left out for want of a customs row; 0 are left out because the result is negative. Not listed because USGS names no production for them: the largest of them by customs net imports (imports minus exports) are Thailand 11.1 Mt, Mexico 8.95 Mt, Poland 6.77 Mt, Italy 5.96 Mt, Philippines 5.82 Mt, Saudi Arabia 5.02 Mt. Their apparent consumption is that plus their own production, which USGS does not name (it may sit in its 'Other countries' line): they are absent because the table needs a production figure, not because they consume less than the countries listed. World: the world production of the same product in 2024 as USGS gives it (1,820 Mt, the sum of its countries and its 'Other countries' line): trade nets out in the world, so apparent consumption of the world is its production apart from changes in stocks, which are not known. The shares are computed on it, and 'Countries not listed' is the world total minus the countries listed.",
   "est": true,
   "norank": true,
   "basis": "crude steel and steel products, apparent consumption"
@@ -419,7 +419,7 @@
     "c": "SAU",
     "v": 1.355,
     "usd": 861038000,
-    "uv": 635
+    "uv": 636
    },
    {
     "c": "ROU",
@@ -599,7 +599,7 @@
     "c": "SEN",
     "v": 0.1797,
     "usd": 131632000,
-    "uv": 733
+    "uv": 732
    },
    {
     "c": "DOM",
@@ -611,7 +611,7 @@
     "c": "SLV",
     "v": 0.1535,
     "usd": 148538000,
-    "uv": 968
+    "uv": 967
    },
    {
     "c": "UGA",
@@ -665,7 +665,7 @@
     "c": "HND",
     "v": 0.0993,
     "usd": 91613000,
-    "uv": 923
+    "uv": 922
    },
    {
     "c": "IRL",
@@ -695,7 +695,7 @@
     "c": "JOR",
     "v": 0.0785,
     "usd": 58855000,
-    "uv": 750
+    "uv": 749
    },
    {
     "c": "VEN",
@@ -743,13 +743,13 @@
     "c": "BEN",
     "v": 0.0468,
     "usd": 39084000,
-    "uv": 835
+    "uv": 836
    },
    {
     "c": "BLR",
     "v": 0.0359,
     "usd": 26813000,
-    "uv": 747
+    "uv": 746
    },
    {
     "c": "ZWE",
@@ -761,7 +761,7 @@
     "c": "ECU",
     "v": 0.0266,
     "usd": 22663000,
-    "uv": 852
+    "uv": 854
    },
    {
     "c": "PHL",
@@ -773,7 +773,7 @@
     "c": "BFA",
     "v": 0.0258,
     "usd": 17123000,
-    "uv": 664
+    "uv": 665
    },
    {
     "c": "BTN",
@@ -785,7 +785,7 @@
     "c": "KWT",
     "v": 0.0232,
     "usd": 10621000,
-    "uv": 458
+    "uv": 459
    },
    {
     "c": "TGO",
@@ -797,19 +797,19 @@
     "c": "GEO",
     "v": 0.0183,
     "usd": 11737000,
-    "uv": 641
+    "uv": 640
    },
    {
     "c": "NGA",
     "v": 0.0167,
     "usd": 10586000,
-    "uv": 634
+    "uv": 636
    },
    {
     "c": "MOZ",
     "v": 0.0148,
     "usd": 15162000,
-    "uv": 1020
+    "uv": 1030
    },
    {
     "c": "CIV",
@@ -827,61 +827,61 @@
     "c": "PAN",
     "v": 0.0088,
     "usd": 4455000,
-    "uv": 506
+    "uv": 507
    },
    {
     "c": "NIC",
     "v": 0.0072,
     "usd": 5695000,
-    "uv": 791
+    "uv": 789
    },
    {
     "c": "PRY",
     "v": 0.0061,
     "usd": 4676000,
-    "uv": 767
+    "uv": 771
    },
    {
     "c": "BWA",
     "v": 0.0053,
     "usd": 4460000,
-    "uv": 842
+    "uv": 847
    },
    {
     "c": "LKA",
     "v": 0.005,
     "usd": 4471000,
-    "uv": 894
+    "uv": 901
    },
    {
     "c": "JAM",
     "v": 0.0049,
     "usd": 3371000,
-    "uv": 688
+    "uv": 693
    },
    {
     "c": "NAM",
     "v": 0.0048,
     "usd": 31138000,
-    "uv": 6490
+    "uv": 6470
    },
    {
     "c": "BRN",
     "v": 0.0042,
     "usd": 4523000,
-    "uv": 1080
+    "uv": 1070
    },
    {
     "c": "KHM",
     "v": 0.004,
     "usd": 1719000,
-    "uv": 430
+    "uv": 426
    },
    {
     "c": "ISR",
     "v": 0.0039,
     "usd": 12821000,
-    "uv": 3290
+    "uv": 3270
    },
    {
     "c": "DMA",
@@ -896,7 +896,7 @@
     "c": "MLT",
     "v": 0.0035,
     "usd": 2148000,
-    "uv": 614
+    "uv": 609
    },
    {
     "c": "CUB",
@@ -908,37 +908,37 @@
     "c": "PRK",
     "v": 0.003,
     "usd": 2615000,
-    "uv": 872
+    "uv": 875
    },
    {
     "c": "MHL",
     "v": 0.0025,
     "usd": 1514000,
-    "uv": 606
+    "uv": 612
    },
    {
     "c": "BGD",
     "v": 0.0022,
     "usd": 2191000,
-    "uv": 996
+    "uv": 983
    },
    {
     "c": "CUW",
     "v": 0.0016,
     "usd": 1515000,
-    "uv": 947
+    "uv": 930
    },
    {
     "c": "LBN",
     "v": 0.0012,
     "usd": 1024000,
-    "uv": 853
+    "uv": 844
    },
    {
     "c": "SUR",
     "v": 0.0011,
     "usd": 691000,
-    "uv": 628
+    "uv": 608
    },
    {
     "c": "TCA",
@@ -950,7 +950,7 @@
     "c": "SMR",
     "v": 0.0004,
     "usd": 1163000,
-    "uv": 2910
+    "uv": 2940
    }
   ],
   "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1147,7 +1147,7 @@
     "c": "SGP",
     "v": 3.313,
     "usd": 2662022000,
-    "uv": 804
+    "uv": 803
    },
    {
     "c": "AUT",
@@ -1537,7 +1537,7 @@
     "c": "LVA",
     "v": 0.4607,
     "usd": 435155000,
-    "uv": 945
+    "uv": 944
    },
    {
     "c": "NOR",
@@ -1555,7 +1555,7 @@
     "c": "LUX",
     "v": 0.4052,
     "usd": 373429000,
-    "uv": 922
+    "uv": 921
    },
    {
     "c": "PRY",
@@ -1639,7 +1639,7 @@
     "c": "ZMB",
     "v": 0.2825,
     "usd": 273892000,
-    "uv": 970
+    "uv": 969
    },
    {
     "c": "NZL",
@@ -1742,7 +1742,7 @@
     "c": "TKM",
     "v": 0.1487,
     "usd": 108772000,
-    "uv": 731
+    "uv": 732
    },
    {
     "c": "MRT",
@@ -1760,7 +1760,7 @@
     "c": "MUS",
     "v": 0.1267,
     "usd": 102702000,
-    "uv": 811
+    "uv": 810
    },
    {
     "c": "AFG",
@@ -1784,13 +1784,13 @@
     "c": "MDV",
     "v": 0.1113,
     "usd": 101006000,
-    "uv": 908
+    "uv": 907
    },
    {
     "c": "PNG",
     "v": 0.1067,
     "usd": 90340000,
-    "uv": 847
+    "uv": 846
    },
    {
     "c": "MLI",
@@ -1826,7 +1826,7 @@
     "c": "BWA",
     "v": 0.0854,
     "usd": 79711000,
-    "uv": 933
+    "uv": 934
    },
    {
     "c": "MNE",
@@ -1838,7 +1838,7 @@
     "c": "MWI",
     "v": 0.0834,
     "usd": 81258000,
-    "uv": 974
+    "uv": 975
    },
    {
     "c": "SLE",
@@ -1856,7 +1856,7 @@
     "c": "MLT",
     "v": 0.0679,
     "usd": 51539000,
-    "uv": 759
+    "uv": 760
    },
    {
     "c": "GAB",
@@ -1874,19 +1874,19 @@
     "c": "SSD",
     "v": 0.0568,
     "usd": 52401000,
-    "uv": 923
+    "uv": 922
    },
    {
     "c": "FJI",
     "v": 0.0553,
     "usd": 52283000,
-    "uv": 945
+    "uv": 946
    },
    {
     "c": "RWA",
     "v": 0.051,
     "usd": 39279000,
-    "uv": 770
+    "uv": 769
    },
    {
     "c": "BLR",
@@ -1898,7 +1898,7 @@
     "c": "COG",
     "v": 0.0469,
     "usd": 34934000,
-    "uv": 745
+    "uv": 746
    },
    {
     "c": "LBR",
@@ -1910,13 +1910,13 @@
     "c": "TCD",
     "v": 0.0443,
     "usd": 36621000,
-    "uv": 827
+    "uv": 826
    },
    {
     "c": "GNB",
     "v": 0.0431,
     "usd": 39619000,
-    "uv": 919
+    "uv": 920
    },
    {
     "c": "BRN",
@@ -1928,7 +1928,7 @@
     "c": "CUB",
     "v": 0.0375,
     "usd": 34101000,
-    "uv": 909
+    "uv": 910
    },
    {
     "c": "SUR",
@@ -1946,19 +1946,19 @@
     "c": "BLZ",
     "v": 0.0344,
     "usd": 34236000,
-    "uv": 995
+    "uv": 994
    },
    {
     "c": "NER",
     "v": 0.0308,
     "usd": 20202000,
-    "uv": 656
+    "uv": 655
    },
    {
     "c": "LSO",
     "v": 0.0279,
     "usd": 26420000,
-    "uv": 947
+    "uv": 948
    },
    {
     "c": "CPV",
@@ -1976,19 +1976,19 @@
     "c": "BDI",
     "v": 0.0207,
     "usd": 19073000,
-    "uv": 921
+    "uv": 923
    },
    {
     "c": "BRB",
     "v": 0.0195,
     "usd": 17443000,
-    "uv": 895
+    "uv": 896
    },
    {
     "c": "DMA",
     "v": 0.0186,
     "usd": 12594000,
-    "uv": 677
+    "uv": 676
    },
    {
     "c": "BHS",
@@ -2012,13 +2012,13 @@
     "c": "SLB",
     "v": 0.0154,
     "usd": 10072000,
-    "uv": 654
+    "uv": 652
    },
    {
     "c": "GUM",
     "v": 0.0152,
     "usd": 14110000,
-    "uv": 928
+    "uv": 931
    },
    {
     "c": "GNQ",
@@ -2030,19 +2030,19 @@
     "c": "AND",
     "v": 0.015,
     "usd": 12540000,
-    "uv": 836
+    "uv": 834
    },
    {
     "c": "TCA",
     "v": 0.0137,
     "usd": 10817000,
-    "uv": 790
+    "uv": 787
    },
    {
     "c": "CYM",
     "v": 0.0137,
     "usd": 11372000,
-    "uv": 830
+    "uv": 831
    },
    {
     "c": "SYC",
@@ -2054,25 +2054,25 @@
     "c": "ATG",
     "v": 0.0092,
     "usd": 8402000,
-    "uv": 913
+    "uv": 910
    },
    {
     "c": "LCA",
     "v": 0.0089,
     "usd": 6649000,
-    "uv": 747
+    "uv": 749
    },
    {
     "c": "VUT",
     "v": 0.0089,
     "usd": 7662000,
-    "uv": 861
+    "uv": 864
    },
    {
     "c": "NCL",
     "v": 0.0068,
     "usd": 8152000,
-    "uv": 1200
+    "uv": 1190
    },
    {
     "c": "GRD",
@@ -2084,13 +2084,13 @@
     "c": "ERI",
     "v": 0.0065,
     "usd": 4997000,
-    "uv": 769
+    "uv": 767
    },
    {
     "c": "VCT",
     "v": 0.0061,
     "usd": 5196000,
-    "uv": 852
+    "uv": 848
    },
    {
     "c": "SXM",
@@ -2114,85 +2114,85 @@
     "c": "TON",
     "v": 0.003,
     "usd": 2694000,
-    "uv": 898
+    "uv": 900
    },
    {
     "c": "KNA",
     "v": 0.0028,
     "usd": 2010000,
-    "uv": 718
+    "uv": 713
    },
    {
     "c": "GRL",
     "v": 0.0027,
     "usd": 7928000,
-    "uv": 2940
+    "uv": 2900
    },
    {
     "c": "FSM",
     "v": 0.002,
     "usd": 1733000,
-    "uv": 866
+    "uv": 855
    },
    {
     "c": "AIA",
     "v": 0.002,
     "usd": 1401000,
-    "uv": 700
+    "uv": 709
    },
    {
     "c": "CAF",
     "v": 0.002,
     "usd": 1337000,
-    "uv": 668
+    "uv": 685
    },
    {
     "c": "STP",
     "v": 0.0017,
     "usd": 1134000,
-    "uv": 667
+    "uv": 685
    },
    {
     "c": "MNP",
     "v": 0.0015,
     "usd": 1133000,
-    "uv": 755
+    "uv": 742
    },
    {
     "c": "BMU",
     "v": 0.0014,
     "usd": 1755000,
-    "uv": 1250
+    "uv": 1220
    },
    {
     "c": "PLW",
     "v": 0.0013,
     "usd": 803000,
-    "uv": 618
+    "uv": 607
    },
    {
     "c": "MHL",
     "v": 0.0012,
     "usd": 1280000,
-    "uv": 1070
+    "uv": 1030
    },
    {
     "c": "SMR",
     "v": 0.0009,
     "usd": 1193000,
-    "uv": 1330
+    "uv": 1280
    },
    {
     "c": "ABW",
     "v": 0.0009,
     "usd": 1163000,
-    "uv": 1290
+    "uv": 1350
    },
    {
     "c": "COK",
     "v": 0.0006,
     "usd": 1041000,
-    "uv": 1740
+    "uv": 1770
    }
   ],
   "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

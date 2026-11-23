@@ -50,6 +50,14 @@ HS = {
     "sugar": ["170111", "170112", "170191", "170199"],
     "coffee": ["090111", "090112"],
     "cocoa": ["180100"],
+    # processed cocoa and coffee (codes from the follow-ups of the agriculture package A1): inputs of the trade tables of the
+    # cocoa and coffee pages only; boxed goods that the atlas does not route, so no lanes (pipeline/freight/build_lanes.py GROUPS)
+    "cocoa-paste": ["180310", "180320"],
+    "cocoa-butter": ["180400"],
+    "cocoa-powder": ["180500"],
+    "chocolate": ["180610", "180620", "180631", "180632", "180690"],
+    "coffee-roasted": ["090121", "090122"],
+    "coffee-soluble": ["210110"],  # HS92: extracts, essences and concentrates of coffee and preparations based on them
     "cotton": ["520100"],
     "palm-oil": ["151110", "151190"],
     "rapeseed": ["120500"],

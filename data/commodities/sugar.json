@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 176.44,
@@ -349,7 +349,7 @@
     "v": 0.008
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -1581,6 +1581,7 @@
     ],
     "n": "FAOSTAT crop production (QCL), sugar beet, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 122 Mt (the world total of FAOSTAT is 294 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. This table is sugar beet, crop weight, not sugar, not the basis of the USDA table: on the map the member states carry the USDA value for the European Union",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
     "worldAll": 293.62,
     "noMap": true,
@@ -1717,9 +1718,11 @@
       "n": "of which 0.000376 Mt to other member states and 0 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.2 Mt, of which 5.56 Mt to other member states and 1.64 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (68.9 Mt)",
+    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.2 Mt, of which 5.56 Mt to other member states and 1.64 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 68.9 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 68.895,
     "split": {
      "total": 7.201,
@@ -1873,9 +1876,11 @@
       "n": "of which 0.00393 Mt from other member states and 0 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.16 Mt, of which 5.56 Mt from other member states and 1.59 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (68.9 Mt)",
+    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.16 Mt, of which 5.56 Mt from other member states and 1.59 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 68.9 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 68.895,
     "split": {
      "total": 7.157,
@@ -2467,7 +2472,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Total Disappearance'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Sugar, Centrifugal: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Total Disappearance'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "flows": [
   {
@@ -2743,39 +2748,6 @@
    "hhi": 318,
    "eq": 31.4,
    "k": 89,
-   "cov": 1.0
-  },
-  "eu-production": {
-   "top1": {
-    "c": "DEU",
-    "p": 0.3016
-   },
-   "top3": 0.721,
-   "hhi": 1941,
-   "eq": 5.2,
-   "k": 20,
-   "cov": 1.0
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "FRA",
-    "p": 0.2969
-   },
-   "top3": 0.6227,
-   "hhi": 1647,
-   "eq": 6.1,
-   "k": 24,
-   "cov": 0.9999
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "ITA",
-    "p": 0.2254
-   },
-   "top3": 0.4692,
-   "hhi": 1008,
-   "eq": 9.9,
-   "k": 27,
    "cov": 1.0
   },
   "stocks": {

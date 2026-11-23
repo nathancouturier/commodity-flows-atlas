@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import '../styles/views.css';
 import { selection, select, type SheetSnap } from '../lib/store';
 import { detailTitle, unknownKind } from '../lib/view';
+import { takePageFocus } from '../lib/pageFocus';
 import { CloseIcon, Placeholder, Skeleton } from './ui';
 import { DetailActions } from './DetailActions';
 
@@ -108,10 +109,15 @@ export function DetailPanel() {
   useEffect(() => setSnap('half'), [selKey]);
   // the heading of a page opened from the keyboard, once the view has written it
   const focusHeading = useRef(false);
+  /** the heading given the focus: a view that shows a loading heading first replaces it, and the focus goes with it */
+  const given = useRef<HTMLElement | null>(null);
   useEffect(() => {
     // the previous / next event buttons of the timeline keep the focus: they are stepping through pages
     const stepping = !!document.activeElement?.closest('.tl-step');
-    focusHeading.current = !!selKey && !stepping && performance.now() - lastActivation < 1500;
+    // a result of the search field chosen with Enter says so itself: its page can open well after the key
+    const asked = takePageFocus();
+    focusHeading.current = !!selKey && !stepping && (asked || performance.now() - lastActivation < 1500);
+    given.current = null;
   }, [selKey]);
   // the views load their own data and write their own heading: follow it as it appears
   useEffect(() => {
@@ -124,6 +130,16 @@ export function DetailPanel() {
         focusHeading.current = false;
         h.tabIndex = -1;
         h.focus({ preventScroll: true });
+        given.current = h;
+      } else if (given.current && !given.current.isConnected) {
+        // the loading heading was replaced by the page's own: the focus follows, if nothing else took it
+        given.current = null;
+        const next = el.querySelector<HTMLElement>('.detail-title');
+        if (next && (!document.activeElement || document.activeElement === document.body)) {
+          next.tabIndex = -1;
+          next.focus({ preventScroll: true });
+          given.current = next;
+        }
       }
     };
     const mo = new MutationObserver(read);

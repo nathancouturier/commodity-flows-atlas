@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oilseed, Soybean, soybeans production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+   "n": "USDA PSD, Oilseed, Soybean, soybeans production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 442.8,
@@ -229,7 +229,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Soybean, soybeans production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "n": "USDA PSD, Oilseed, Soybean, soybeans production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -549,7 +549,7 @@
    {
     "c": "RUS",
     "v": 1.5,
-    "n": "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 49% below the first and 30% below the second."
+    "n": "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 49% below the first and 30% below the second. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
    },
    {
     "c": "BOL",
@@ -1010,6 +1010,7 @@
     ],
     "n": "FAOSTAT crop production (QCL), soya beans, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 3.07 Mt (the world total of FAOSTAT is 398 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
     "worldAll": 397.67
    }
@@ -1124,9 +1125,11 @@
       "n": "of which 0.00236 Mt to other member states and 0 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, soybeans (HS 120100): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.71 Mt, of which 1.27 Mt to other member states and 0.439 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (171 Mt)",
+    "n": "CEPII BACI 2024, soybeans (HS 120100): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.71 Mt, of which 1.27 Mt to other member states and 0.439 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 171 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 171.41,
     "split": {
      "total": 1.705,
@@ -1260,9 +1263,11 @@
       "n": "of which 0.00144 Mt from other member states and 0.00368 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, soybeans (HS 120100): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 15.9 Mt, of which 1.27 Mt from other member states and 14.6 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (171 Mt)",
+    "n": "CEPII BACI 2024, soybeans (HS 120100): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 15.9 Mt, of which 1.27 Mt from other member states and 14.6 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 171 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 171.41,
     "split": {
      "total": 15.887,
@@ -1672,12 +1677,12 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Oilseed, Soybean: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Oilseed, Soybean: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "gaps": [
   {
    "o": "RUS",
-   "text": "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 49% below the first and 30% below the second.",
+   "text": "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 49% below the first and 30% below the second. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure.",
    "s": "baci",
    "y": 2024
   }
@@ -1958,39 +1963,6 @@
    "k": 60,
    "cov": 1.0
   },
-  "eu-production": {
-   "top1": {
-    "c": "ITA",
-    "p": 0.3667
-   },
-   "top3": 0.5996,
-   "hhi": 1881,
-   "eq": 5.3,
-   "k": 16,
-   "cov": 1.0001
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "NLD",
-    "p": 0.1325
-   },
-   "top3": 0.3891,
-   "hhi": 897,
-   "eq": 11.2,
-   "k": 20,
-   "cov": 1.0002
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "ESP",
-    "p": 0.3064
-   },
-   "top3": 0.6735,
-   "hhi": 1910,
-   "eq": 5.2,
-   "k": 23,
-   "cov": 1.0001
-  },
   "stocks": {
    "top1": {
     "c": "CHN",
@@ -2006,6 +1978,6 @@
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
   "PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in 2026 (Brazil/Argentina harvest early 2027, US harvest autumn 2026).",
-  "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 49% below the first and 30% below the second."
+  "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 49% below the first and 30% below the second. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ]
 }

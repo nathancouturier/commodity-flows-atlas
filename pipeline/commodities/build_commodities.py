@@ -80,6 +80,8 @@ NFLOWS = 20
 HIST_FROM = 2005  # first year of the series by country (data/commodities/history, history.py)
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+# exit status of the builder when everything was written except the monthly series (update_annual.py records it as "build-monthly" failing)
+MONTHLY_FAILED = 3
 QA_WARN = []
 QUIET = [False]  # True while the past years of the series are built (history.py): the page shows the latest year
 
@@ -149,6 +151,8 @@ from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, PEER_RATIO, XAS, cl
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
 from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
+sys.path.insert(0, os.path.join(HERE, ".."))
+from common import constants as CN  # noqa: E402  (physical and conventional constants, each with the page that gives it)
 sys.path.insert(0, HERE)
 import history as HI  # noqa: E402  (series by country and year, data/commodities/history)
 import metals as MET  # noqa: E402  (metals pages: apparent consumption, concentration, value, six-digit split)
@@ -359,7 +363,7 @@ class Usgs:
                      & (base["Country"] == "World total")]
         if cty.empty:
             raise SystemExit(f"USGS: no rows for {commodity} / {detail} / {year}")
-        rows, missing, other_sum, estimated, est_isos = [], [], 0.0, False, set()
+        rows, missing, other_sum, estimated, est_isos, other_est = [], [], 0.0, False, set(), False
         for _, r in cty.iterrows():
             if r["Country"] in ("World total",):
                 continue
@@ -367,6 +371,7 @@ class Usgs:
             if r["Country"] == "Other countries":
                 if kind == "num":
                     other_sum += v * factor
+                    other_est = other_est or (isinstance(r["Notes"], str) and "Estimated" in r["Notes"])
                 continue
             iso = iso_from_name(r["Country"], "usgs")
             if kind == "num":
@@ -390,7 +395,7 @@ class Usgs:
                 if extra and "See Appendix" not in extra:
                     wnote = (wnote + "; " if wnote else "") + extra
         return {"rows": [r for r in rows if r[0]], "world": world, "wnote": wnote, "missing": missing,
-                "other": other_sum, "estimated": estimated, "est_isos": est_isos}
+                "other": other_sum, "estimated": estimated, "est_isos": est_isos, "other_est": other_est}
 
     def ranked(self, commodity, detail, u, factor, label, kind="production", full=False, year=USGS_YEAR):
         """Every country USGS gives, and USGS's 'Other countries' line as the field `other` (its own row of the table).
@@ -432,6 +437,7 @@ class Usgs:
             if published is not None and world != published:
                 out["worldPublished"] = rnd(published)  # the USGS world total as published; `world` is the sum the shares are computed on
         out["_srcest"] = t["est_isos"]
+        out["_otherest"] = t["other_est"]  # the "Other countries" line is itself marked "Estimated." in the file
 
         def at(y):
             r, _ = self.ranked(commodity, detail, u, factor, label, kind, full, year=str(y))
@@ -484,9 +490,12 @@ class Eia:
         """EIA's LPG consumption in tonnes has no United States value after 2021, and its world total in tonnes leaves the country
         out from 2022 (the sum of the countries equals it), although the same series exist in thousand barrels per day for every year.
         The tonnes of 2021 break from the barrels per day of the same series (3.4 barrels per tonne against 11.6 in every year from
-        1980 to 2019). Those years are the barrels per day figure converted at the ratio of EIA's own US series in both units, and the
-        world total of those years is EIA's with the figure put back or corrected.
-        Returns {'ratio', 'from', 'to' (the run of years with that ratio), 'years': {year: (kb/d, Mt, EIA's own Mt or None)}}."""
+        1980 to 2019). Those years are the barrels per day figure converted at the ratio of EIA's own US series in both units.
+        The world total of such a year is EIA's own world series in barrels per day converted at the same ratio when that agrees within
+        1% with EIA's tonnes plus the United States; otherwise EIA's total with the United States put back, and only while EIA's total
+        leaves it out (it equals the sum of the other countries within 0.5%: a corrected file is not counted twice).
+        Returns {'ratio', 'from', 'to' (the run of years with that ratio), 'years': {year: (kb/d, Mt, EIA's own Mt or None)},
+        'world': {year: {'how': 'bd' | 'added' | 'kept', 'eia': EIA's own world total in Mt, 'bd': its world kb/d or None}}}."""
         mt, bd = self.s[("67-2", "MT")], self.s[("67-2", "TBPD")]
         us_mt, us_bd = mt.get("USA", {}), bd.get("USA", {})
         days = lambda y: 366 if _isleap(y) else 365  # noqa: E731
@@ -503,7 +512,7 @@ class Eia:
             first -= 1
         if last - first < 4:  # a ratio that is not the series' own over a few years: no conversion
             return None
-        years = {}
+        years, worlds = {}, {}
         for y in sorted(us_bd):
             if y <= last or y not in mt.get("WORL", {}):
                 continue
@@ -511,11 +520,21 @@ class Eia:
             if own is not None and abs(us_bd[y] * days(y) / own / ratio - 1) < 0.25:  # a few per cent off (2020): EIA's own figure stands
                 continue
             v = us_bd[y] * days(y) / ratio  # thousand barrels per day x days / barrels per tonne = thousand tonnes
-            mt["WORL"][y] += v - (own or 0.0)  # the world total of a year with a tonnage holds it
+            world = mt["WORL"][y]
+            others = sum(x for iso, x in self.country_values(("67-2", "MT"), y) if iso != "USA")  # the countries, without the United States
+            # EIA's total leaves the country out when it equals the sum of the others, and holds EIA's own figure when it equals that sum plus it
+            holds = abs(others + (own or 0.0) - world) <= 0.005 * world
+            new = world + v - (own or 0.0) if holds else world
+            how = "added" if holds else "kept"
+            w_bd = bd.get("WORL", {}).get(y)
+            if holds and w_bd and abs(w_bd * days(y) / ratio / new - 1) <= 0.01:  # EIA's own world series in barrels per day supports it
+                new, how = w_bd * days(y) / ratio, "bd"
+            worlds[y] = {"how": how, "eia": world * 1e-3, "bd": w_bd, "incl": not holds and abs(others + v - world) <= 0.005 * world}
+            mt["WORL"][y] = new
             us_mt[y] = v
             years[y] = (us_bd[y], v * 1e-3, None if own is None else own * 1e-3)
         mt["USA"] = us_mt
-        return {"ratio": ratio, "from": first, "to": last, "years": years}
+        return {"ratio": ratio, "from": first, "to": last, "years": years, "world": worlds}
 
     def latest_year(self, *keys):
         yrs = None
@@ -563,10 +582,31 @@ class Eia:
             for r in out["rows"]:
                 if r["c"] == "USA":
                     r["n"] = joinn(r.get("n"), conv)
-            out["n"] += ("; United States converted from barrels per day (Atlas conversion), and put into EIA's world total, which leaves "
-                         "it out or holds a figure out of line in this year")
+                    r["conv"] = True  # the row is an Atlas conversion: the page marks it
+            w = self.lpg_us["world"][year]
+            out["n"] = out["n"].replace("world total as published by EIA (all countries)", self.lpg_world_note(year))
+            out["conv"] = "United States and world total" if w["how"] != "kept" else "United States"
+            if w["how"] != "kept":
+                out["convWorld"] = True
         out["_hist"] = (list(range(HIST_FROM, year + 1)), lambda y: self.ranked(key, u, factor, label, year=y, n_extra=n_extra))
         return out
+
+    def lpg_world_note(self, year, lead=True):
+        """How the world total of the LPG consumption table of `year` is made, and what EIA's own total in tonnes is; `lead`: the
+        sentence on the converted United States before it."""
+        w, r_ = self.lpg_us["world"][year], self.lpg_us["ratio"]
+        eia = f"EIA's own total in tonnes is {w['eia']:,.2f} Mt"
+        us = "United States converted from barrels per day (Atlas conversion); " if lead else ""
+        if w["how"] == "bd":
+            return (f"{us}world total: EIA's world series in barrels per day ({w['bd']:,.0f} thousand) converted at {r_:.2f} barrels per tonne "
+                    f"(Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States ({eia}, which leaves the United States out "
+                    "or holds a figure out of line for it)")
+        if w["how"] == "added":
+            return (f"{us}world total: EIA's tonnes ({eia}, which leave the United States out or hold a figure out of line for it) plus the "
+                    "United States (Atlas conversion)")
+        what = ("it already includes the United States (it equals the sum of its other countries plus the converted figure)" if w["incl"] else
+                "it is not the sum of its other countries with or without the United States")
+        return f"{us}world total as published by EIA ({eia}): {what}, so it is not changed"
 
     def minus(self, key_total, key_sub, u, factor, label, n_extra, year=None):
         """total minus subset per country (thermal coal = all coal minus metallurgical coal)."""
@@ -590,10 +630,18 @@ class Eia:
 
 
 # ====================================================================== USDA PSD
+# The rule behind the words "forecast" and "estimate" of a USDA table, said on the page (review GA1.8). The PSD file has no label column; USDA's
+# World Agricultural Production circular (https://apps.fas.usda.gov/psdonline/circulars/production.pdf, read on 23 November 2026, issue WAP 11-26)
+# heads the same two years "Prel." (2025/26) and "Proj." (2026/27) in its tables and writes "forecasts" and "estimates" in its text.
+YK_RULE = ("The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; "
+           "USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years "
+           "'Prel.' and 'Proj.' in its tables)")
+
+
 class Psd:
     UNITS = {  # commodity -> (unit, factor to that unit from PSD unit, conversion note)
-        "Coffee, Green": ("Mt", 0.00006, "PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"),
-        "Cotton": ("Mt", 0.00021772434, "PSD reports 1000 480-lb bales; converted to Mt (1000 bales = 217.72 t)"),
+        "Coffee, Green": ("Mt", CN.MT_PER_1000_COFFEE_BAGS, "PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"),
+        "Cotton": ("Mt", CN.MT_PER_1000_COTTON_BALES, "PSD reports 1000 480-lb bales; converted to Mt (1000 bales = 217.72 t)"),
     }
 
     ATTRS = ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks",
@@ -733,6 +781,8 @@ class Psd:
             n.append(conv)
         if extra:
             n.append(extra)
+        if k and attr == "Production":  # said once on the first table of the page, and again with the balance
+            n.append(YK_RULE)
         out = ranked(rows, self.label, "usda-psd", unit, world=world, n="; ".join(n))
         out["rel"] = rel
         if k:
@@ -841,7 +891,8 @@ class Psd:
             "rows": rows,
             "n": (f"USDA PSD, {commodity}: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD "
                   f"attribute '{use_attr}'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
-                  + ("; USDA's own Stocks-to-Use attribute of a cotton country divides by domestic use plus exports" if commodity == "Cotton" else "")),
+                  + ("; USDA's own Stocks-to-Use attribute of a cotton country divides by domestic use plus exports" if commodity == "Cotton" else "")
+                  + f". {YK_RULE}"),
         }
 
 
@@ -898,6 +949,11 @@ class Baci:
         # the file at its next run, and until then their text goes with the flow
         for cid, e in CV.unit_value_entries(df, BACI_YEAR).items():
             self.caveats.setdefault(cid, e)
+        # entries of the registry that build_lanes.py has not written to the file yet, for the groups with lanes (a new entry waits for its next
+        # run): their text goes with the row and the flows until then. Only the entries that need no check of the lanes' run (no `check`)
+        for cid, e in CV.build(df[df["group"].isin(self.lanes)], [], BACI_YEAR, psd=None).items():
+            if not e.get("check"):
+                self.caveats.setdefault(cid, e)
 
     def mode(self, o, d, g):
         """Mode of a pair under the rule of the lanes (pipeline/freight/modes.py): (kind, transit row or None), or
@@ -908,8 +964,8 @@ class Baci:
             tr = None
             if m and m.kind == "transit":
                 end = o if not MD.coastal(o) else d
-                rows = PT.TRANSIT.get(end) or {}
-                row = rows.get(MD.FAMILY.get(g)) or rows.get("default")
+                # the lanes' lookup (pipeline/freight/ports.py): a row of the group, then of its family, for this partner
+                row = PT.transit_for(end, MD.FAMILY.get(g), g, d if end == o else o)
                 if row:
                     code = row[0]
                     c = PT.MANUAL[code][1] if code in PT.MANUAL else ISO_OF_A2.get(code[:2])
@@ -934,11 +990,12 @@ class Baci:
         agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
-        rows, usd_by, es_by = [], {}, {}
+        rows, usd_by, es_by, t_by = [], {}, {}, {}
         for code, r in agg.iterrows():
             iso = None if code in EXTRA_CODES else self.iso(code)  # ranked tables (and country profiles) list countries of the index only
             if iso:
                 usd_by[iso] = float(r["usd"])
+                t_by[iso] = float(r["t"])
             es = r["te"] / r["t"] if r["t"] else 0
             if iso:
                 es_by[iso] = float(es)
@@ -971,6 +1028,7 @@ class Baci:
         # declared value by country: the series by year keeps a jump of tonnage whose value moved with it (history.out_of_line)
         t["_usd"] = usd_by
         t["_es"], t["_usdw"] = es_by, float(agg["usd"].sum())  # the share of each row's tonnage that is estimated, and the world value (metals.add_values)
+        t["_t"], t["_tw"] = t_by, float(agg["t"].sum())  # the unrounded tonnes, for the unit value (a row of 100 t is 0.0001 Mt in the table)
         if year == BACI_YEAR:
             # a group read from a code only from the year a page supports it (the lanes' FIRST_YEAR): the series starts there too
             first = LANE_FIRST_YEAR.get(g)
@@ -1067,14 +1125,15 @@ class Baci:
         v = lg["seaborne"][-1]
         n = (f"seaborne subset of BACI flows ({g}) under the atlas's mode rule (method in the About window): trade by sea, "
              "or by sea through a foreign port for a landlocked country")
+        u = lg.get("unit") or "Mt"  # a group under 1 Mt a year is published in kt by the lanes builder
         mx = (lg.get("mixed") or [0])[-1]
-        if mx and mx >= 0.05:
-            n += f"; {_fmt(mx)} Mt that move both by sea and overland (split not known) are not in it"
+        if mx and mx >= (50 if u == "kt" else 0.05):
+            n += f"; {_fmt(mx)} {u} that move both by sea and overland (split not known) are not in it"
         if lg.get("est") and lg["est"] >= 0.01:
             n += f"; {lg['est'] * 100:.0f}% of this tonnage estimated from value"
         if label:
             n += "; " + label
-        return fig(v, "Mt", lg["y"], "baci", n)
+        return fig(v, u, lg["y"], "baci", n)
 
     def totals(self, g, side):
         d = self.group(g)
@@ -1149,8 +1208,9 @@ ICCO_COCOA = [
 
 # The ICCO's world grindings of the latest crop year it gives, one headline figure read on the same news pages (the August 2026 issue says:
 # "World Grindings fell by 3.3% year-on-year to 4.649 million tonnes"); the grindings by country are sold by subscription and are not copied.
-# (crop year, thousand tonnes, change on the year before in percent, issue read, page)
-ICCO_GRINDINGS = ("2024/25", 4649, -3.3, "August 2026 issue", "https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/")
+# (crop year, thousand tonnes, change on the year before in percent, issue read, page, how the page calls the figure: that page introduces the
+# 2024/25 data with "data for the 2024/25 season are estimated as:")
+ICCO_GRINDINGS = ("2024/25", 4649, -3.3, "August 2026 issue", "https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/", "estimated")
 
 
 def cocoa_vs_icco(d):
@@ -1374,13 +1434,14 @@ EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gro
 # declared below this unit value is priced like ore or concentrate and is left out of the chemicals tables (listed in a note).
 LITHIUM_MIN_UV = 1500  # USD per tonne
 # Lithium carbonate equivalent: tonnes of Li2CO3 per tonne of lithium, from the abridged standard atomic weights of CIAAW
-# (Li 6.94, C 12.011, O 15.999)
-CIAAW_URL = "https://www.ciaaw.org/abridged-atomic-weights.htm"
-LCE_PER_LI = round((2 * 6.94 + 12.011 + 3 * 15.999) / (2 * 6.94), 3)  # as printed: the converted figure reproduces from it
+# (pipeline/common/constants.py)
+CIAAW_URL = CN.ATOMIC_WEIGHT_PAGE["url"]
+_AW = CN.ATOMIC_WEIGHT
+LCE_PER_LI = round((2 * _AW["Li"] + _AW["C"] + 3 * _AW["O"]) / (2 * _AW["Li"]), 3)  # as printed: the converted figure reproduces from it
 # Uranium oxide equivalent: tonnes of U3O8 per tonne of uranium, from the abridged standard atomic weights of uranium and oxygen (CIAAW),
-# and pounds per tonne from the definition of the pound (0.45359237 kg exactly): the unit of the uranium market is the pound of U3O8
-U3O8_PER_U = round((3 * 238.03 + 8 * 15.999) / (3 * 238.03), 4)
-LB_U3O8_PER_TU = round(U3O8_PER_U * 1000 / 0.45359237)
+# and pounds per tonne from the definition of the pound (CN.KG_PER_LB, exact): the unit of the uranium market is the pound of U3O8
+U3O8_PER_U = round((3 * _AW["U"] + 8 * _AW["O"]) / (3 * _AW["U"]), 4)
+LB_U3O8_PER_TU = round(U3O8_PER_U * 1000 / CN.KG_PER_LB)
 ABS_LITHIUM = ("Australian Bureau of Statistics, Insights into Australian Exports of Lithium, 4 August 2022, CC BY 4.0, "
                "https://www.abs.gov.au/articles/insights-australian-exports-lithium")
 
@@ -1504,6 +1565,7 @@ def faostat_eu_production(cid):
         n += "On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total"
     t = ranked(rows, year, "faostat", "Mt", world=total, n=n)
     t["scope"] = "EU"
+    t["scopeLabel"] = "EU member states"
     t["norank"] = True  # the order is a ranking among the member states, not a world ranking
     t["worldAll"] = rnd(world)
     if basis:
@@ -1543,11 +1605,13 @@ def eu_trade_table(side, tr, what, u):
     n = (f"CEPII BACI {BACI_YEAR}, {what}: customs {word} of the 27 member states, all destinations, trade between members included; {EU_SCOPE_NOTE}: "
          f"{_nf(tot)} {u}, of which {_nf(intra)} {u} {'to' if side == 'exports' else 'from'} other member states and {_nf(extra)} {u} "
          f"{'to' if side == 'exports' else 'from'} countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only "
-         "(and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the "
-         f"customs world total ({_nf(tr['world'][side])} {u})")
+         "(and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: "
+         f"customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is {_nf(tr['world'][side])} {u})")
     t = ranked(rows, BACI_YEAR, "baci", u, world=sum(r[1] for r in rows), n=n)
     t["scope"] = "EU"
+    t["scopeLabel"] = "EU member states"
     t["norank"] = True
+    t["noMap"] = True  # the map keeps USDA's row for the European Union on every member (one source, one year, one definition of trade)
     t["worldAll"] = rnd(tr["world"][side])
     t["split"] = {"total": rnd(tot), "intra": rnd(intra), "extra": rnd(extra)}
     return t
@@ -1752,6 +1816,13 @@ def main():
             d["consumption"] = eia.ranked(("67-2", "MT"), "Mt", 1e-3, "liquefied petroleum gases consumption (1000 metric tons converted to Mt)")
             g = add_baci_trade(d, cid, notes, disc)
             summ(d, "consumption", d["consumption"])
+            if d["consumption"].get("conv") and eia.lpg_us:
+                # the world total holds the converted United States (or is EIA's own series in barrels per day converted): the figure is the atlas's
+                # conversion of an EIA figure, and says so where it is printed
+                cs = d["summary"]["consumption"]
+                cs["s"] = "atlas"
+                cs["n"] = ("Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); "
+                           + eia.lpg_world_note(int(cs["y"]), lead=False))
             summ(d, "exports", d["exports"])
             seaborne(d, g)
             # production: EIA's LPG series end in 2014, so that table is dated; natural gas plant liquids (ethane, propane, butanes and heavier
@@ -1769,8 +1840,8 @@ def main():
                         f"thousand metric tons (the same in every year from {eia.lpg_us['from']} to {eia.lpg_us['to']}); other countries differ slightly")
                 alt_fig(cs, cs["v"] * 1e6 * bpt / (366 if _isleap(cs["y"]) else 365) / 1e3, "kb/d", conv)
                 notes.append(f"LPG production is in kb/d (EIA; {lt['y']} is the last year of its series) and consumption and trade in Mt; the headline consumption carries kb/d in brackets (Atlas conversion: {conv}). "
-                             f"Prices on the atlas are in USD per US gallon: at that ratio and 42 US gallons per barrel (by definition) one tonne of LPG is "
-                             f"{bpt * 42:,.0f} US gallons, so a price per gallon times {bpt * 42:,.0f} is a price per tonne (Atlas conversion).")
+                             f"Prices on the atlas are in USD per US gallon: at that ratio and {CN.US_GALLONS_PER_BARREL} US gallons per barrel (EIA, units and calculators) one tonne of LPG is "
+                             f"{bpt * CN.US_GALLONS_PER_BARREL:,.0f} US gallons, so a price per gallon times {bpt * CN.US_GALLONS_PER_BARREL:,.0f} is a price per tonne (Atlas conversion).")
         elif cid == "thermal-coal":
             d["production"] = eia.minus(("7-1", "MT"), ("130-1", "MT"), "Mt", 1e-3, "coal production",
                                         "all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt")
@@ -1793,7 +1864,7 @@ def main():
             lig = eia.ranked(("14-1", "MT"), "Mt", 1e-3, "lignite production; 1000 metric tons converted to Mt", year=py,
                              n_extra="these tonnages are included in the thermal coal production table")
             extra_first.append({"key": "lignite-production", "title": f"Lignite producers, EIA {py} (included above)", "table": lig})
-            tr = eia.ranked(("7-6", "MST"), "Mt", 0.90718474, "coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt")
+            tr = eia.ranked(("7-6", "MST"), "Mt", CN.TONNES_PER_SHORT_TON, "coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt")
             # EIA repeats a reserve estimate every year until it is revised: date the table by its last revision
             # (the year since which the world total is unchanged) and say so for rows that are older still.
             ser, y = eia.s[("7-6", "MST")], tr["y"]
@@ -1813,7 +1884,7 @@ def main():
                     r["n"] = f"EIA value unchanged since {s0}"
                 prev = ser[code].get(s0 - 1)
                 if prev and ser[code][s0] / prev >= 10:  # one revision multiplied the estimate tenfold or more
-                    flag = (f"{cname(r['c'])}: EIA raised its estimate from {_fmt(prev * 0.90718474)} Mt to {_fmt(ser[code][s0] * 0.90718474)} Mt in {s0}, "
+                    flag = (f"{cname(r['c'])}: EIA raised its estimate from {_fmt(prev * CN.TONNES_PER_SHORT_TON)} Mt to {_fmt(ser[code][s0] * CN.TONNES_PER_SHORT_TON)} Mt in {s0}, "
                             f"a {ser[code][s0] / prev:.0f}-fold step, and has not changed it since; treat this rank with caution")
                     r["n"] = flag.split(": ", 1)[1]
                     if i < SHOWN_ROWS:  # the table's warning names the ranks drawn first; every flagged row keeps its own note
@@ -1939,7 +2010,7 @@ def main():
             notes += [f"Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar {BACI_YEAR}); production is FAOSTAT {d['production']['y']}.",
                       "No consumption or grindings table: the ICCO's grindings by country are sold by subscription and are not copied, and the quarterly "
                       "grindings of the European, North American and Asian cocoa associations are press releases that the atlas has not read. "
-                      f"One headline figure from the ICCO: world grindings of {_nf(ICCO_GRINDINGS[1])} kt in the {ICCO_GRINDINGS[0]} crop year, "
+                      f"One headline figure from the ICCO, which gives it as {ICCO_GRINDINGS[5]}: world grindings of {_nf(ICCO_GRINDINGS[1])} kt in the {ICCO_GRINDINGS[0]} crop year, "
                       f"{abs(ICCO_GRINDINGS[2]):.1f}% {'below' if ICCO_GRINDINGS[2] < 0 else 'above'} the year before ({ICCO_GRINDINGS[3]} of its Quarterly Bulletin of Cocoa Statistics, {ICCO_GRINDINGS[4]}).",
                       "Trade covers cocoa beans only (HS 1801): cocoa paste, butter and powder (HS 1803 to 1805) are not among the customs groups of the atlas, "
                       "so no table of cocoa products is shown yet."]
@@ -2310,8 +2381,15 @@ def main():
     print("history:", hist_qa[0])
 
     # ------------------------------------------------------------ monthly series of the energy pages (loaded on demand by the page)
-    for line in MO.write_all(os.path.join(RAW, "eia", "INTL.txt"), os.path.join(OUT, "monthly"), eia_country):
-        print(line)
+    # a failure here (EIA renamed or dropped a series: monthly.py raises on it by design) must not stop the commodity pages: the monthly files
+    # keep their previous content (write_all writes nothing unless every file was built) and the run ends with MONTHLY_FAILED
+    monthly_error = None
+    try:
+        for line in MO.write_all(os.path.join(RAW, "eia", "INTL.txt"), os.path.join(OUT, "monthly"), eia_country):
+            print(line)
+    except Exception as e:  # noqa: BLE001
+        monthly_error = f"{e.__class__.__name__}: {e}"[:300]
+        warn(f"monthly series NOT rebuilt, the files of data/commodities/monthly keep their previous content: {monthly_error}")
 
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
@@ -2337,6 +2415,9 @@ def main():
     update_sources()
     write_qa(index, docs, baci, hist_qa)
     print("wrote", len(docs), "commodity files")
+    if monthly_error:
+        print(f"!! MONTHLY SERIES NOT REBUILT ({monthly_error}): data/commodities/monthly is the previous build; exit status {MONTHLY_FAILED}", file=sys.stderr)
+        return MONTHLY_FAILED
 
 
 def eia_country(code):
@@ -2442,7 +2523,7 @@ def _fine_metal(d, baci, cid, disc):
     if not price:
         warn(f"{cid}: no {BACI_YEAR} price in data/prices/{series}.json; trade left in customs gross weight")
         return False
-    per_t = price * 1e6 / CV.TROY_OZ_G  # USD per tonne
+    per_t = price * 1e6 / CN.GRAMS_PER_TROY_OZ  # USD per tonne
     x = baci.group(g).copy()
     fine = x["usd"] * 1000 / per_t
     # gross weight as declared; where it is missing or implausible (rule 2 or 3 of clean.py), the atlas's estimate from value
@@ -2450,7 +2531,7 @@ def _fine_metal(d, baci, cid, disc):
     capped = gross.notna() & (fine > gross)
     x["t0"], x["t"] = x["t"], fine.where(~capped, gross)
     how = (f"declared value divided by {price:,.0f} USD per troy ounce, the {BACI_YEAR} average {metal} price (World Bank Pink Sheet), "
-           f"i.e. {per_t / 1e6:.1f} million USD per tonne at {CV.TROY_OZ_G} g per troy ounce")
+           f"i.e. {per_t / 1e6:.1f} million USD per tonne at {CN.GRAMS_PER_TROY_OZ} g per troy ounce")
 
     def usd(k):
         v = k * 1000
@@ -2771,9 +2852,9 @@ LNG_REFERENCE = [
 EIA_US_LNG = {"series": "N9133US2", "year": 2024, "mmcf": 4367170}
 # Natural Resources Canada, "Conversion factors and common units to be used for North American Cooperation on Energy
 # Information" (page dated 2025-01-16): 1 million tonnes of LNG = 48.0279467 billion cubic feet of natural gas.
-BCF_PER_MT_LNG = 48.0279467
-# the cubic foot is 0.3048 ** 3 m3 by definition: 1.36 bcm, the factor as printed (every converted figure reproduces from it)
-BCM_PER_MT_LNG = round(BCF_PER_MT_LNG * 0.3048 ** 3, 2)
+BCF_PER_MT_LNG = CN.BCF_PER_MT_LNG
+# the cubic foot is CN.FOOT_M ** 3 m3 by definition: 1.36 bcm, the factor as printed (every converted figure reproduces from it)
+BCM_PER_MT_LNG = round(BCF_PER_MT_LNG * CN.FOOT_M ** 3, 2)
 UNITS_URL = "https://natural-resources.canada.ca/climate-change/conversion-factors-common-units-used-north-american-cooperation-energy-information"
 GAS_FACTOR = (f"1 Mt of LNG = {BCF_PER_MT_LNG:.2f} bcf = {BCM_PER_MT_LNG:.2f} bcm of gas (Natural Resources Canada, conversion "
               "factors for North American energy information, 2025); it assumes a typical LNG composition")
@@ -2790,6 +2871,17 @@ def _and(names):
 
 def _isleap(y):
     return y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)
+
+
+def _years(ys):
+    """[2021, 2022, 2023, 2025] -> "2021 to 2023 and 2025"."""
+    runs, ys = [], sorted(ys)
+    for y in ys:
+        if runs and y == runs[-1][1] + 1:
+            runs[-1][1] = y
+        else:
+            runs.append([y, y])
+    return _and([str(a) if a == b else f"{a} to {b}" for a, b in runs])
 
 
 def alt_fig(f, v, u, text):
@@ -2851,10 +2943,19 @@ def caveats(docs, eia):
         # States is in the table, converted (Eia.ranked), and the caveat says how
         ly = eia.lpg_us["years"]
         miss, bad = sorted(y for y, v in ly.items() if v[2] is None), sorted(y for y, v in ly.items() if v[2] is not None)
-        what = (f"EIA's tonnes for the country are missing from {min(miss)}" + (f" and out of line with its barrels per day in {_and([str(y) for y in bad])}" if bad else "")
-                + ", and its world total in tonnes leaves the country out; the world total here puts it back")
+        what = (f"EIA's tonnes for the country are missing from {min(miss)}" + (f" and out of line with its barrels per day in {_and([str(y) for y in bad])}" if bad else ""))
+        wl = eia.lpg_us["world"]
+        how = {k: sorted(y for y, w in wl.items() if w["how"] == k) for k in ("bd", "added", "kept")}
+        parts = []
+        if how["bd"]:
+            parts.append(f"EIA's own world series in barrels per day converted at the same ratio ({_years(how['bd'])})")
+        if how["added"]:
+            parts.append(f"EIA's world total in tonnes with the United States added ({_years(how['added'])})")
+        if how["kept"]:
+            parts.append(f"EIA's own world total in tonnes ({_years(how['kept'])})")
         out["lpg"] = {"consumption": (f"The United States is converted from EIA's barrels per day at {eia.lpg_us['ratio']:.2f} barrels per tonne "
-                                      f"(Atlas conversion): {what}."),
+                                      f"(Atlas conversion): {what}. EIA's own world total in tonnes leaves the country out or holds the figure out of line; "
+                                      f"the world total of the table is {_and(parts)}."),
                       "caveatYears": {"consumption": sorted(ly)}}
     elif c["y"] not in us:
         last = max(us) if us else None
@@ -3031,7 +3132,7 @@ def annotate(docs, eia):
                 if sec in d.get("summary", {}):
                     kf = d["summary"][sec]
                     # a key figure that holds an Atlas estimate keeps the note that says so, and the caveat follows it
-                    kf["n"] = joinn(kf.get("n"), text) if kf.get("est") or "Atlas estimate" in kf.get("n", "") else text
+                    kf["n"] = joinn(kf.get("n"), text) if kf.get("est") or "Atlas estimate" in kf.get("n", "") or kf.get("n", "").startswith("Atlas conversion of EIA") else text
         # a caveat that holds in some years only (the others hold for every year of the table's series): a past-year table
         # shows it in those years, and `caveatPast` (else `caveatShort`) in the others (web/src/lib/tableYears.ts)
         for key in ("caveatYears", "caveatPast"):
@@ -3041,4 +3142,4 @@ def annotate(docs, eia):
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

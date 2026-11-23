@@ -13,7 +13,7 @@
 "KEN",
 "SOM"
 ],
-"summary": "Somali piracy escalated during the war in Somalia: in 2008 there were 111 attacks, 42 of them successful hijackings, and pirates later ranged from the Gulf of Aden as far south as the coast of Kenya. The International Maritime Bureau counted 237 attempted hijackings in 2011 and 75 in 2012. By December 2013 only nine vessels had been attacked in the year and none hijacked; Control Risks credited best management practices by owners, armed private security on board, a naval presence and onshore security forces.",
+"summary": "Somali piracy escalated during the war in Somalia: in 2008 there were 111 attacks, 42 of them successful hijackings, and pirates later ranged from the Gulf of Aden as far south as the coast of Kenya. The International Maritime Bureau counted 237 attempted hijackings in 2011 and 75 in 2012. By December 2013, according to the Office of Naval Intelligence, only nine vessels had been attacked in the year and none hijacked; Control Risks credited best management practices by owners, armed private security on board, a naval presence and onshore security forces.",
 "impact": "A 2011 Oceans Beyond Piracy report put the indirect costs of piracy at USD 6.6 to 6.9 billion a year, including insurance, naval support, legal proceedings and the re-routing of slower ships (as summarised by Wikipedia). The Gulf of Aden was designated a high-risk area in 2010; the designation was lifted in 2023.",
 "src": "https://en.wikipedia.org/wiki/Piracy_in_Somalia",
 "checked": "2026-11-23"
@@ -69,7 +69,7 @@
 "id": "libya-civil-war-2011",
 "date": "2011-02-15",
 "end": "2011-10-23",
-"title": "Libyan uprising halts oil exports",
+"title": "Libyan uprising cuts oil and gas output",
 "kind": "conflict",
 "commodities": [
 "crude-oil",
@@ -186,7 +186,13 @@
 "summary": "On 5 November 2015 the Fundao tailings dam at the Germano iron ore mine of the Samarco complex, owned 50/50 by Vale and BHP, failed near Mariana in Minas Gerais, Brazil, killing 19 people.",
 "impact": "The Minas Gerais government suspended Samarco's activities immediately after the disaster; Samarco's product is iron ore pellets.",
 "src": "https://en.wikipedia.org/wiki/Mariana_dam_disaster",
-"checked": "2026-11-23"
+"checked": "2026-11-23",
+"also": [
+{
+"label": "Wikipedia, Samarco",
+"url": "https://en.wikipedia.org/wiki/Samarco"
+}
+]
 },
 {
 "id": "bdi-low-2016",
@@ -260,7 +266,7 @@
 "countries": [
 "TZA"
 ],
-"summary": "In March 2017 Tanzania banned the export of mineral concentrates and ores of metallic minerals such as gold, copper, nickel and silver, to promote value addition in the country under its Mineral Policy of 2009 and Mining Act of 2010.",
+"summary": "In 2017 Tanzania banned the export of mineral concentrates and ores of metallic minerals such as gold, copper, nickel and silver, to promote value addition in the country under its Mineral Policy of 2009 and Mining Act of 2010; the cited page is dated 06-03-2017.",
 "src": "https://africabusinesscommunities.com/news/tanzania-bans-export-of-raw-minerals/",
 "checked": "2026-11-23"
 },
@@ -502,7 +508,7 @@
 {
 "id": "nickel-ore-ban-2020",
 "date": "2020-01-01",
-"title": "Indonesia nickel ore export ban takes effect",
+"title": "Indonesia announces an end to nickel ore exports from 2020",
 "kind": "policy",
 "commodities": [
 "nickel"
@@ -582,7 +588,7 @@
 "AUS",
 "CHN"
 ],
-"summary": "After months of restrictions, China fully blocked coal imports from Australia in December 2020, according to Wikipedia. In January 2023 four state-backed Chinese importers were allowed to buy Australian coal, and in March 2023 Bloomberg reported that all domestic companies were allowed to import it, ending the restrictions imposed from late 2020.",
+"summary": "After months of restrictions, China fully blocked coal imports from Australia in December 2020, according to Wikipedia. In early 2023 four state-backed Chinese importers were reportedly allowed to buy Australian coal, with shipments from January; in March 2023 Bloomberg reported that all domestic companies were allowed to import it, which China Briefing described as not yet officially announced. Wikipedia says that all restrictions were reportedly lifted by 14 March 2023.",
 "impact": "China Briefing, citing Bloomberg, reported that 1.35 million tons of coal had shipped from Australia to China in March 2023 up to the 13th, against 0.82 million tons in February.",
 "src": "https://www.china-briefing.com/news/china-to-lift-restrictions-on-australian-coal-imports/",
 "also": [
@@ -602,7 +608,6 @@
 "natural-gas"
 ],
 "summary": "A winter storm that formed north of the Gulf Coast on 10 February 2021 brought record low temperatures to Texas and left more than 4.5 million homes and businesses without power, some for several days. Wikipedia reports that the failure to winterise traditional power sources, principally natural gas infrastructure, caused the grid failure, with a drop in power production from natural gas more than five times greater than that from wind turbines.",
-"impact": "Natural gas prices spiked to USD 23.86 on 17 February 2021, according to Wikipedia.",
 "src": "https://en.wikipedia.org/wiki/2021_Texas_power_crisis",
 "checked": "2026-11-23"
 },
@@ -745,13 +750,12 @@
 "BGR",
 "DEU",
 "POL",
-"RUS",
-"USA"
+"RUS"
 ],
 "assets": [
 "nord-stream-1"
 ],
-"summary": "On 23 March 2022 Russian President Putin announced that payments for Russian pipeline gas would be switched from US dollars and euros to roubles when the transaction involved a country formally designated unfriendly, which included all EU states. In late April 2022 Gazprom announced that it had completely suspended gas supplies to Poland's PGNiG and Bulgaria's Bulgargaz because of the absence of payments in roubles.",
+"summary": "On 23 March 2022 Russian President Putin announced that payments for Russian pipeline gas would be switched from dollars and euros to roubles when the transaction involved a country formally designated unfriendly, which included all EU states. In late April 2022 Gazprom announced that it had completely suspended gas supplies to Poland's PGNiG and Bulgaria's Bulgargaz because of the absence of payments in roubles.",
 "impact": "Wikipedia reports that the announcement caused natural gas prices to surge, and that on 16 June 2022 European benchmark gas prices rose about 30% after Gazprom cut Nord Stream 1 deliveries to Germany to 40% of the pipeline's capacity.",
 "src": "https://en.wikipedia.org/wiki/2022_Russia%E2%80%93European_Union_gas_dispute",
 "checked": "2026-11-23"
@@ -1218,14 +1222,19 @@
 "steel"
 ],
 "countries": [
+"GBR",
 "USA"
 ],
-"summary": "Proclamations of 10 February 2025 imposed a 25 percent ad valorem tariff on steel and aluminium articles and derivative articles imported from all countries, and ended earlier arrangements with some countries from 12 March 2025. A proclamation raised the rate for steel and aluminium and their derivative articles from 25 to 50 percent ad valorem from 12:01 a.m. eastern daylight time on 4 June 2025.",
+"summary": "Proclamations of 10 February 2025 imposed a 25 percent ad valorem tariff on steel and aluminium articles and derivative articles imported from all countries, and ended earlier arrangements with some countries from 12 March 2025. A proclamation raised the rate for steel and aluminium and their derivative articles from 25 to 50 percent ad valorem from 12:01 a.m. eastern daylight time on 4 June 2025; for articles of the United Kingdom the rate stays at 25 percent.",
 "src": "https://www.whitehouse.gov/presidential-actions/2025/06/adjusting-imports-of-aluminum-and-steel-into-the-united-states/",
 "also": [
 {
 "label": "White House, Adjusting Imports of Steel Into the United States (10 February 2025)",
 "url": "https://www.whitehouse.gov/presidential-actions/2025/02/adjusting-imports-of-steel-into-the-united-states/"
+},
+{
+"label": "White House, Adjusting Imports of Aluminum Into the United States (10 February 2025)",
+"url": "https://www.whitehouse.gov/presidential-actions/2025/02/adjusting-imports-of-aluminum-into-the-united-states/"
 }
 ],
 "checked": "2026-11-23"
@@ -1307,7 +1316,7 @@
 "countries": [
 "PAN"
 ],
-"summary": "The Panama Canal Authority reported 13,404 transits in fiscal year 2025, up 19.3% from 11,240 in the previous year (3,342 Neopanamax and 10,062 Panamax), and 489.1 million CP/SUAB tons, up 15.6%.",
+"summary": "The Panama Canal Authority reported 13,404 transits in fiscal year 2025 (3,342 Neopanamax and 10,062 Panamax), up 19.3% from 11,240 in fiscal year 2024, and 489.1 million CP/SUAB tons, up 15.6% from 423.1 million.",
 "impact": "The Authority named containers and LPG as the main growth drivers, with bulk carriers still recovering and LNG below expectations, mainly because of international freight market costs.",
 "src": "https://pancanal.com/en/panama-canal-maintains-operational-and-financial-strength/",
 "checked": "2026-11-23"
@@ -1381,7 +1390,7 @@
 {
 "id": "drc-cobalt-quotas-2025",
 "date": "2025-10-16",
-"title": "DR Congo replaces its cobalt export suspension with quotas",
+"title": "DR Congo announces cobalt export quotas to replace its export suspension",
 "kind": "policy",
 "commodities": [
 "cobalt"
@@ -1389,7 +1398,7 @@
 "countries": [
 "COD"
 ],
-"summary": "DR Congo's regulator ARECOMS lifted the cobalt export suspension, which had been extended to 15 October 2025, and replaced it from 16 October 2025 with export quotas: 18,125 t for the rest of 2025 and 96,600 t a year for 2026 and 2027, of which 87,000 t are shared among producers pro rata and 9,600 t stay under the regulator's discretion (Benchmark Minerals, 22 September 2025).",
+"summary": "On 22 September 2025 Benchmark Minerals reported that DR Congo's regulator ARECOMS would extend the cobalt export suspension to 15 October 2025 and replace it from 16 October with export quotas: 18,125 t of cobalt for the rest of 2025 and 96,600 t for 2026, of which 87,000 t would be shared among producers pro rata and 9,600 t kept under the regulator's discretion; the framework was to run through 2027, with adjustments possible. The page does not say whether the quotas took effect.",
 "impact": "DR Congo is by far the largest exporter in the atlas's customs data for 2024, which predates the suspension and the quotas.",
 "src": "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027",
 "checked": "2026-11-23"
@@ -1523,7 +1532,7 @@
 "VEN"
 ],
 "summary": "On 10 December 2025 the United States seized the tanker Skipper in the Caribbean Sea off Venezuela; it had left Puerto Jose on 4 December with about 1.8 million barrels of crude oil from PDVSA. A week later the United States announced a blockade of sanctioned oil tankers going in and out of Venezuela, and on 20 December the Coast Guard boarded a second ship, Centuries, carrying 1.8 million barrels of crude oil.",
-"impact": "Wikipedia notes that the Venezuelan economy is heavily reliant on oil exports; Venezuela called the seizure of Skipper an act of international piracy.",
+"impact": "Wikipedia notes that the Venezuelan economy is heavily reliant on oil exports. According to Wikipedia, the US Treasury Department had sanctioned Skipper in 2022 for alleged involvement in an oil trafficking shadow fleet involving the Islamic Revolutionary Guard Corps and Hezbollah; the Venezuelan government called the seizure an act of international piracy.",
 "src": "https://en.wikipedia.org/wiki/United_States_oil_blockade_during_Operation_Southern_Spear",
 "checked": "2026-11-23"
 },
@@ -1552,7 +1561,7 @@
 "USA",
 "VEN"
 ],
-"summary": "On 3 January 2026 US forces bombed infrastructure across northern Venezuela while an apprehension force attacked President Maduro's compound in Caracas; Maduro and Flores were taken to New York and indicted on drug trafficking charges.",
+"summary": "On 3 January 2026 US forces bombed infrastructure across northern Venezuela while an apprehension force attacked President Maduro's compound in Caracas; Maduro and Flores were taken to New York and indicted on drug trafficking charges, to which both pleaded not guilty. According to Wikipedia about 80 people died, and the US administration justified the operation as a law-enforcement action with military support; Venezuela's vice president, Delcy Rodr\u00edguez, denounced Maduro's \"kidnapping\".",
 "impact": "On 9 January 2026 President Trump signed an executive order declaring a national emergency to safeguard Venezuelan oil revenue held in US Treasury accounts from attachment or judicial process.",
 "src": "https://en.wikipedia.org/wiki/2026_United_States_intervention_in_Venezuela",
 "also": [
@@ -1592,6 +1601,10 @@
 {
 "label": "EIA, Global Energy Security Data",
 "url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+},
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
 }
 ],
 "checked": "2026-11-23"
@@ -1610,9 +1623,19 @@
 "USA"
 ],
 "summary": "The United States and Iran agreed a two-week ceasefire on 8 April 2026, mediated by Pakistan. By 9 April ships were again being prevented from moving through the strait. The Islamabad talks failed on 12 April, and the United States declared a naval blockade of ships entering or leaving Iranian ports, which CENTCOM said would not impede transits of the strait to and from non-Iranian ports; on 21 April the United States announced an indefinite ceasefire.",
-"impact": "The Guardian described a 'dual blockade': the US Navy could blockade Iranian ports but could not stop Iran's blockade of the strait. IMF PortWatch (atlas calculation from the weekly series): Hormuz transits averaged about 7 vessels a day in April 2026, against about 77 in February.",
+"impact": "The Guardian described a 'dual blockade': the US Navy could blockade Iranian ports but could not stop Iran's blockade of the strait. IMF PortWatch (atlas calculation from the daily table): Hormuz transits averaged about 7 vessels a day in April 2026, against about 78 in February.",
 "src": "https://en.wikipedia.org/wiki/2026_Iran_war_ceasefire",
-"checked": "2026-11-23"
+"checked": "2026-11-23",
+"also": [
+{
+"label": "Wikipedia, 2026 Iran war",
+"url": "https://en.wikipedia.org/wiki/2026_Iran_war"
+},
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
+}
+]
 },
 {
 "id": "hormuz-memorandum-2026",
@@ -1627,9 +1650,15 @@
 "USA"
 ],
 "summary": "On 14 June 2026 the United States and Iran announced an agreement to end the war and reopen the strait; the Islamabad Memorandum was signed on 17 June, and on 18 June CENTCOM announced that it had removed the naval blockade. Wikipedia reports that on 28 June the two sides agreed to resume the ceasefire.",
-"impact": "IMF PortWatch (atlas calculation from the weekly series): Hormuz transits rose from about 2 vessels a day in the week of 8 June to about 30 in the week of 22 June, against about 77 in February, and were back to about 4 in the week of 20 July.",
+"impact": "IMF PortWatch (atlas calculation from the weekly series; the February figure from the daily table): Hormuz transits rose from about 2 vessels a day in the week of 8 June to about 30 in the week of 22 June, against about 78 in February, and were back to about 4 in the week of 20 July.",
 "src": "https://en.wikipedia.org/wiki/2026_Iran_war",
-"checked": "2026-11-23"
+"checked": "2026-11-23",
+"also": [
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
+}
+]
 },
 {
 "id": "black-sea-attacks-2026",
@@ -1698,6 +1727,10 @@
 {
 "label": "EIA, Global Energy Security Data",
 "url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+},
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
 }
 ],
 "checked": "2026-11-23"

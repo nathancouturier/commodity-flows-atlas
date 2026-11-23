@@ -111,6 +111,11 @@ def mtn(v):
     return f"{v:,.0f} Mt" if v >= 1000 else f"{float(f'{v:.3g}'):,.10g} Mt"
 
 
+def ktn(v):
+    """A tonnage (Mt) of the notes of a group under 1 Mt a year, in kt with one decimal like its lane file."""
+    return f"{v * 1e3:,.1f} kt" if v * 1e3 >= 0.05 else "under 0.1 kt"
+
+
 def mt3(v):
     """mt() with one more figure under 100 Mt, for comparisons of two close tonnages."""
     return f"{v:,.0f} Mt" if v >= 100 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
@@ -320,13 +325,14 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             if not sea or not (hi_pub >= EST_MIN_MT or hi_pub / sea >= EST_MIN_SHARE):
                 continue
             label = label_of(g)
-            n = [f"at least {mtn(low)} of {mtn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
+            tn = mtn if sea >= BL.SMALL_MT else ktn  # a group under 1 Mt is printed in kt, as its lane and commodity pages
+            n = [f"at least {tn(low)} of {tn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
             unr = sum(r["t"] for r in seaborne_rows if r["load"] == -1)
             if unr >= 0.05:
-                n.append(f"{mtn(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
+                n.append(f"{tn(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
             mixed = sum(r["t"] for r in p["rows"] if r["m"] == 2 and cid in r["via"] | r["alt"])
             if mixed >= 0.05:
-                n.append(f"{mtn(mixed)} of {label} that moves both by sea and overland (split not known) would cross it by sea and is not counted")
+                n.append(f"{tn(mixed)} of {label} that moves both by sea and overland (split not known) would cross it by sea and is not counted")
             names = [K._name(o) for o in unrec.get((g, cid), [])]
             if names:
                 n.append(f"Exports that customs data do not record for {latest}, or record only in part, are missing: {', '.join(names)} "
@@ -334,7 +340,7 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             # cap of the upper figure (hi_pub above): PortWatch's volume of the type, less the "at least" tonnage of the
             # other groups of the type, never below this group's own "at least"
             if hi_pub < high and hi_pub == low and high - low >= 0.05:
-                n.append(f"The pairs that may cross it ({mtn(high - low)}) are not added: the 'at least' tonnage of all "
+                n.append(f"The pairs that may cross it ({tn(high - low)}) are not added: the 'at least' tonnage of all "
                          f"{TYPE_NAME[typ]} cargo of the atlas here is already above IMF PortWatch's {latest} estimate")
             if typ in type_note:
                 n.append(type_note[typ])
@@ -345,15 +351,15 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 top = sorted(alt_by.items(), key=lambda x: -x[1])[:3]
                 top = [x for x in top if x[1] >= 0.005] or top[:1]
                 adds = ("adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on "
-                        "another coast (largest: " + ", ".join(f"{K._name(o)} {mtn(v)}" for o, v in top) + ")")
-                hn = f"up to {mtn(high)}: {adds}"
+                        "another coast (largest: " + ", ".join(f"{K._name(o)} {tn(v)}" for o, v in top) + ")")
+                hn = f"up to {tn(high)}: {adds}"
                 if hi_pub < high:
                     others = by_type[typ][0] - low
                     less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mtn(others)})" if others >= 0.05 else
                             f" (the atlas's other {TYPE_NAME[typ]} groups have almost no 'at least' tonnage here)")
-                    hn = (f"up to {mtn(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
+                    hn = (f"up to {tn(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
                           f"passage in {latest} ({mtn(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
-                          f"cannot exceed; without the cap, {mtn(high)}: {adds}")
+                          f"cannot exceed; without the cap, {tn(high)}: {adds}")
                 e["hi"] = {"v": round(100 * hi_pub / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": hn}
             est.append(e)
         est.sort(key=lambda e: -e["f"]["v"])
@@ -825,8 +831,9 @@ def main():
         det = []
         for ln in main_lanes:
             a = next((x for x in ln.get("alts") or [] if c["id"] in (x.get("avoids") or [])), None)
-            if a and c["id"] in ln["via"] and ln["flow"]["v"] > 0.5:
-                det.append((ln["flow"]["v"], a["distanceNm"] - ln["distanceNm"], a["extraDays"]))
+            v = ln["flow"]["v"] / (1e3 if ln["flow"]["u"] == "kt" else 1)  # Mt (a group under 1 Mt is published in kt)
+            if a and c["id"] in ln["via"] and v > 0.5:
+                det.append((v, a["distanceNm"] - ln["distanceNm"], a["extraDays"]))
         if len(det) >= 3:
             det.sort(key=lambda x: x[1])
             tot = sum(w for w, _, _ in det)

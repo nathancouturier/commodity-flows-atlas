@@ -5,10 +5,11 @@ import type { Alert, Chokepoint, Company, Fig, HistTable, InfraType, Ranked, Sta
 import { commodityMeta, countryName, isCountry, load, sourceLabel, sources } from '../lib/data';
 import { trendOf } from '../lib/tableYears';
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
-import { GROUP_LABEL, loadChokepoints } from '../lib/freight';
+import { GROUP_LABEL, loadChokepoints, loadEvents } from '../lib/freight';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
-import { downloadRanked } from '../lib/rankedCsv';
+import { downloadRanked, rankedSources } from '../lib/rankedCsv';
+import { CsvAction } from './CsvAction';
 import { openAbout } from './AboutHost';
 import { checkedLabel } from '../lib/events';
 import '../styles/lane-table.css';
@@ -306,6 +307,29 @@ function CollapsedAlerts(props: AlertProps & { count: number; high: boolean; tit
   );
 }
 
+/** "Open the event" for an alert with one event; "Open the events" with the title of each when it has several (the main one first). */
+function AlertEventLinks({ ids }: { ids: string[] }) {
+  const [titles, setTitles] = useState<Map<string, string>>(new Map());
+  const many = ids.length > 1;
+  useEffect(() => {
+    if (!many) return;
+    let live = true;
+    loadEvents().then((l) => live && setTitles(new Map(l.map((e) => [e.id, e.title]))), () => undefined);
+    return () => {
+      live = false;
+    };
+  }, [many]);
+  if (!many) return <button onClick={() => select({ kind: 'event', id: ids[0] })}>Open the event</button>;
+  return (
+    <div class="alert-evs">
+      <span class="muted">Open the events</span>
+      {ids.map((id) => (
+        <button key={id} onClick={() => select({ kind: 'event', id })}>{titles.get(id) ?? id}</button>
+      ))}
+    </div>
+  );
+}
+
 function AlertCard(props: { a: Alert; cps: string[]; commodity?: string; chks: Chokepoint[] }) {
   const { a, cps, commodity: k, chks } = props;
   const [open, setOpen] = useState(false);
@@ -375,7 +399,7 @@ function AlertCard(props: { a: Alert; cps: string[]; commodity?: string; chks: C
             )}
           </p>
           <div class="alert-links">
-            <button onClick={() => select({ kind: 'event', id: a.event })}>Open the event</button>
+            <AlertEventLinks ids={a.events ?? [a.event]} />
           </div>
         </div>
       )}
@@ -393,7 +417,7 @@ function AlertList(props: AlertProps) {
       cps.some((c) => a.chokepoints.includes(c)),
   );
   const chks = useChokepoints(props.commodity != null && hit.length > 0);
-  const seen = new Set(hit.map((a) => a.event));
+  const seen = new Set(hit.flatMap((a) => a.events ?? [a.event]));
   const notes = (props.status ?? []).filter((n) => {
     const key = n.event ?? n.text;
     if (seen.has(key)) return false;
@@ -611,11 +635,12 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           const Row = isCountry(r.c) ? 'button' : 'div';
           return (
             <Row class={`bar-row${tr}`} key={r.c} onClick={Row === 'button' ? () => select({ kind: 'country', id: r.c }) : undefined} title={r.n ?? r.name}>
-              <span class="bar-rank">{i + 1}</span>
+              <span class="bar-rank">{data.norank ? '' : i + 1}</span>
               <span>
                 <span class="bar-label">
                   {r.name ?? countryName(r.c)}
                   {r.est && kind !== 'est' && <EstMark />}
+                  {r.conv && !r.est && kind !== 'conv' && <EstMark label="Atlas conversion" title={CONV_TITLE} />}
                 </span>
                 <div class="bar-track">
                   <div class="bar-fill" style={{ width: `${(r.v / max) * 100}%` }} />
@@ -634,7 +659,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           <button class={`bar-row bar-other bar-further${tr}`} onClick={() => setAll(true)} title={restTitle}>
             <span class="bar-rank" />
             <span>
-              <span class="bar-label">{data.scope === 'EU' ? 'Rest of the EU' : 'Rest of world'}</span>
+              <span class="bar-label">{data.scope === 'EU' ? 'Rest of the EU' : data.norank ? 'Further and unlisted countries' : 'Rest of world'}</span>
               <span class="bar-names">
                 {further.length} more countr{further.length === 1 ? 'y' : 'ies'}
                 {notBy ? ' and amounts not given by country' : ''}
@@ -651,7 +676,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           notBy > 0 && (
             <div class={`bar-row bar-other${tr}`} title={notByTitle}>
               <span class="bar-rank" />
-              <span class="bar-label">Not given by country</span>
+              <span class="bar-label">{data.norank && data.scope !== 'EU' ? 'Countries not listed' : 'Not given by country'}</span>
               {trendSlot()}
               <span class="bar-value">
                 {val(notBy)}
@@ -680,15 +705,13 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
             {all ? 'Show fewer' : `Show all (${data.rows.length})`}
           </button>
         )}
-        <button class="act-btn" onClick={(e) => downloadRanked(data, e.currentTarget)} title="Every row of this table with its year, source and licence, as a CSV file">
-          CSV
-        </button>
+        <CsvAction sources={rankedSources(data)} onClick={(e) => downloadRanked(data, e.currentTarget)} title="Every row of this table with its year, source and licence, as a CSV file" />
       </div>
       <SourceLine
         s={data.s}
         y={data.y}
         n={`${props.unitLabel ?? data.u}${world ? ` · ${data.scope === 'EU' ? 'EU total' : 'world'} ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
-        mark={kind === 'est' ? <EstMark /> : kind === 'conv' ? <EstMark label="Atlas conversion" title={CONV_TITLE} /> : undefined}
+        mark={kind === 'est' ? <EstMark /> : kind === 'conv' ? <EstMark label="Atlas conversion" title={CONV_TITLE} /> : data.conv ? <EstMark label="Atlas conversion" title={`${data.conv}: ${CONV_TITLE}`} /> : undefined}
       />
       {/* a long note folds to three lines and opens on a tap, as the estimate notes do */}
       {longNote && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={data.n} />}

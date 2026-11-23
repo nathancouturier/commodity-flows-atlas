@@ -2,11 +2,11 @@
  "id": "lpg",
  "summary": {
   "consumption": {
-   "v": 347.96,
+   "v": 347.98,
    "u": "Mt",
    "y": 2025,
-   "s": "eia-intl",
-   "n": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
+   "s": "atlas",
+   "n": "Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total: EIA's world series in barrels per day (11,059 thousand) converted at 11.60 barrels per tonne (Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States (EIA's own total in tonnes is 303.66 Mt, which leaves the United States out or holds a figure out of line for it); The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
    "alt": {
     "v": 11100,
     "u": "kb/d",
@@ -34,7 +34,7 @@
   "y": 2025,
   "s": "eia-intl",
   "u": "Mt",
-  "world": 347.96,
+  "world": 347.98,
   "rows": [
    {
     "c": "CHN",
@@ -43,7 +43,8 @@
    {
     "c": "USA",
     "v": 44.303,
-    "n": "EIA gives no tonnes for 2025: 1,408 thousand barrels per day (EIA, the same series) at 11.60 barrels per tonne, the ratio of its own United States series in both units (Atlas conversion)"
+    "n": "EIA gives no tonnes for 2025: 1,408 thousand barrels per day (EIA, the same series) at 11.60 barrels per tonne, the ratio of its own United States series in both units (Atlas conversion)",
+    "conv": true
    },
    {
     "c": "IND",
@@ -826,8 +827,10 @@
     "v": 0.0001
    }
   ],
-  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries); United States converted from barrels per day (Atlas conversion), and put into EIA's world total, which leaves it out or holds a figure out of line in this year · The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
-  "caveat": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
+  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); United States converted from barrels per day (Atlas conversion); world total: EIA's world series in barrels per day (11,059 thousand) converted at 11.60 barrels per tonne (Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States (EIA's own total in tonnes is 303.66 Mt, which leaves the United States out or holds a figure out of line for it) · The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
+  "conv": "United States and world total",
+  "convWorld": true,
+  "caveat": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
   "caveatYears": [
    2021,
    2022,
@@ -2858,7 +2861,7 @@
   }
  },
  "notes": [
-  "LPG production is in kb/d (EIA; 2014 is the last year of its series) and consumption and trade in Mt; the headline consumption carries kb/d in brackets (Atlas conversion: 11.60 barrels per tonne, the ratio of EIA's series for United States LPG consumption in thousand barrels per day and in thousand metric tons (the same in every year from 1980 to 2019); other countries differ slightly). Prices on the atlas are in USD per US gallon: at that ratio and 42 US gallons per barrel (by definition) one tonne of LPG is 487 US gallons, so a price per gallon times 487 is a price per tonne (Atlas conversion).",
+  "LPG production is in kb/d (EIA; 2014 is the last year of its series) and consumption and trade in Mt; the headline consumption carries kb/d in brackets (Atlas conversion: 11.60 barrels per tonne, the ratio of EIA's series for United States LPG consumption in thousand barrels per day and in thousand metric tons (the same in every year from 1980 to 2019); other countries differ slightly). Prices on the atlas are in USD per US gallon: at that ratio and 42 US gallons per barrel (EIA, units and calculators) one tonne of LPG is 487 US gallons, so a price per gallon times 487 is a price per tonne (Atlas conversion).",
   "Customs data record 0.00769 Mt of LPG exports from Iran in 2024, against 8.44 Mt in 2022 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here. The atlas has no free source that measures this gap, so it is not quantified.",
   "Customs data record 2.75 Mt of LPG from Oman to China in 2024 (86% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under Oman may account for part of this volume; it is not established here, and the atlas has no free source to measure it.",
   "Customs data record 6.98 Mt of LPG from the United Arab Emirates to China in 2024 (40% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under the United Arab Emirates may account for part of this volume; it is not established here, and the atlas has no free source to measure it."

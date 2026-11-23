@@ -8,8 +8,10 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries, priceView, select } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { FAMILY_COLOR, TOUCH } from '../lib/format';
-import { downloadPrices } from '../lib/pricesCsv';
+import { downloadPrices, priceSources } from '../lib/pricesCsv';
+import { CsvAction } from './CsvAction';
 import { loadEvents } from '../lib/freight';
+import { eventShownForAny, useAlertEvents } from '../lib/events';
 import {
   DAY_S,
   FREQ_WORD,
@@ -20,7 +22,6 @@ import {
   annualWord,
   closePrices,
   defaultSeriesIds,
-  eventOnChart,
   findMeta,
   fmtObsDate,
   fmtPct,
@@ -148,6 +149,7 @@ export function PriceDrawer() {
   const [view, setView] = useState<Win | null>(null);
   const [win, setWin] = useState<Win | null>(null);
   const [events, setEvents] = useState<FreightEvent[]>([]);
+  const byAlert = useAlertEvents();
   const [showEvents, setShowEvents] = useState(true);
   const [indexed, setIndexed] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
@@ -411,11 +413,11 @@ export function PriceDrawer() {
   const markers: TimeMarker[] = useMemo(() => {
     const m: TimeMarker[] = [];
     if (showEvents && merged) {
-      // an event that names commodities is shown when one of them is charted; one that names none (a general shipping or
-      // market event) is always shown
+      // the rule of the timeline (lib/events.ts): an event that names a charted commodity, or names none (a general shipping
+      // or market event), or belongs to an alert that covers one
       const charted = new Set(data.map((d) => d.meta.k));
       for (const e of events) {
-        if (!eventOnChart(e, charted)) continue;
+        if (!eventShownForAny(e, charted, byAlert)) continue;
         const t = parseDate(e.date);
         const end = e.end ? parseEnd(e.end) : undefined;
         if ((end ?? t) < xMin || t > xMax) continue;
@@ -452,7 +454,7 @@ export function PriceDrawer() {
       });
     }
     return m;
-  }, [events, showEvents, lookup, merged, xMin, xMax, data, colors]);
+  }, [events, byAlert, showEvents, lookup, merged, xMin, xMax, data, colors]);
 
   // ---- chart height follows its box
   useEffect(() => {
@@ -562,14 +564,13 @@ export function PriceDrawer() {
               <button class="pd-add pd-board-btn" onClick={() => setBoard(true)} title="Every series with its last value and its changes">
                 Price board
               </button>
-              <button
+              <CsvAction
                 class="pd-add pd-board-btn"
+                sources={priceSources(data)}
                 disabled={!merged || !win}
                 onClick={() => merged && win && downloadPrices(data, win.min, win.max)}
                 title="The series shown, over the period shown, with their source and licence, as a CSV file (values as published, not indexed)"
-              >
-                CSV
-              </button>
+              />
               <div class="tc-ranges" role="group" aria-label="Time range">
                 {shown.map((r) => (
                   <button
@@ -623,7 +624,7 @@ export function PriceDrawer() {
                 <span class="switch" aria-hidden="true" />
                 Index to 100
               </button>
-              <button class="pd-toggle" role="switch" aria-checked={showEvents} onClick={() => setShowEvents(!showEvents)} title="Freight and market events from the Atlas timeline. An event that names commodities is shown when one of them is charted; general events always">
+              <button class="pd-toggle" role="switch" aria-checked={showEvents} onClick={() => setShowEvents(!showEvents)} title="Freight and market events from the Atlas timeline. An event that names commodities is shown when one of them is charted, or when an alert that covers one points to it; general events always">
                 <span class="switch" aria-hidden="true" />
                 Events
               </button>

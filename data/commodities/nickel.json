@@ -188,7 +188,7 @@
     "c": "AUS",
     "v": 0.1057,
     "usd": 201299000,
-    "uv": 1900
+    "uv": 1910
    },
    {
     "c": "NAM",
@@ -239,7 +239,7 @@
     "c": "TZA",
     "v": 0.0189,
     "usd": 12167000,
-    "uv": 644
+    "uv": 645
    },
    {
     "c": "BEL",
@@ -263,43 +263,43 @@
     "c": "NOR",
     "v": 0.0057,
     "usd": 1764000,
-    "uv": 309
+    "uv": 312
    },
    {
     "c": "BWA",
     "v": 0.0039,
     "usd": 1162000,
-    "uv": 298
+    "uv": 297
    },
    {
     "c": "NLD",
     "v": 0.0037,
     "usd": 14193000,
-    "uv": 3840
+    "uv": 3830
    },
    {
     "c": "CHE",
     "v": 0.002,
     "usd": 27151000,
-    "uv": 13600
+    "uv": 13300
    },
    {
     "c": "IND",
     "v": 0.0011,
     "usd": 92000,
-    "uv": 83.6
+    "uv": 81
    },
    {
     "c": "COD",
     "v": 0.0007,
     "usd": 2044000,
-    "uv": 2920
+    "uv": 2910
    },
    {
     "c": "FRA",
     "v": 0.0001,
     "usd": 1066000,
-    "uv": 10700
+    "uv": 7150
    }
   ],
   "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -383,7 +383,7 @@
     "c": "CHE",
     "v": 0.0323,
     "usd": 67995000,
-    "uv": 2110
+    "uv": 2100
    },
    {
     "c": "MYS",
@@ -395,7 +395,7 @@
     "c": "ZAF",
     "v": 0.0133,
     "usd": 11150000,
-    "uv": 838
+    "uv": 836
    },
    {
     "c": "BEL",
@@ -407,61 +407,61 @@
     "c": "AUS",
     "v": 0.004,
     "usd": 3328000,
-    "uv": 832
+    "uv": 830
    },
    {
     "c": "DEU",
     "v": 0.0024,
     "usd": 6139000,
-    "uv": 2560
+    "uv": 2540
    },
    {
     "c": "MAR",
     "v": 0.0023,
     "usd": 8870000,
-    "uv": 3860
+    "uv": 3820
    },
    {
     "c": "THA",
     "v": 0.002,
     "usd": 1632000,
-    "uv": 816
+    "uv": 811
    },
    {
     "c": "GBR",
     "v": 0.0014,
     "usd": 327000,
-    "uv": 234
+    "uv": 228
    },
    {
     "c": "SAU",
     "v": 0.0011,
     "usd": 92000,
-    "uv": 83.6
+    "uv": 81
    },
    {
     "c": "NLD",
     "v": 0.001,
     "usd": 1721000,
-    "uv": 1720
+    "uv": 1690
    },
    {
     "c": "SGP",
     "v": 0.0005,
     "usd": 3527000,
-    "uv": 7050
+    "uv": 6470
    },
    {
     "c": "BRA",
     "v": 0.0005,
     "usd": 2247000,
-    "uv": 4490
+    "uv": 4850
    },
    {
     "c": "ESP",
     "v": 0.0003,
     "usd": 4842000,
-    "uv": 16100
+    "uv": 15700
    }
   ],
   "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -531,7 +531,7 @@
       "c": "PHL",
       "v": 0.0815,
       "usd": 590481000,
-      "uv": 7250
+      "uv": 7240
      },
      {
       "c": "CHN",
@@ -555,7 +555,7 @@
       "c": "DEU",
       "v": 0.0439,
       "usd": 391214000,
-      "uv": 8910
+      "uv": 8920
      },
      {
       "c": "ZAF",
@@ -591,7 +591,7 @@
       "c": "USA",
       "v": 0.0215,
       "usd": 368471000,
-      "uv": 17100
+      "uv": 17200
      },
      {
       "c": "FRA",
@@ -603,7 +603,7 @@
       "c": "SGP",
       "v": 0.009,
       "usd": 123650000,
-      "uv": 13700
+      "uv": 13800
      },
      {
       "c": "CUB",
@@ -621,19 +621,19 @@
       "c": "MYS",
       "v": 0.0069,
       "usd": 94036000,
-      "uv": 13600
+      "uv": 13700
      },
      {
       "c": "KOR",
       "v": 0.0064,
       "usd": 63515000,
-      "uv": 9920
+      "uv": 9880
      },
      {
       "c": "SWE",
       "v": 0.0059,
       "usd": 66705000,
-      "uv": 11300
+      "uv": 11200
      },
      {
       "c": "TWN",
@@ -652,44 +652,44 @@
       "v": 0.004,
       "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 1464000,
-      "uv": 366
+      "uv": 365
      },
      {
       "c": "THA",
       "v": 0.0034,
       "usd": 11884000,
-      "uv": 3500
+      "uv": 3440
      },
      {
       "c": "COD",
       "v": 0.0027,
       "usd": 6515000,
-      "uv": 2410
+      "uv": 2380
      },
      {
       "c": "BWA",
       "v": 0.0025,
       "usd": 3702000,
-      "uv": 1480
+      "uv": 1450
      },
      {
       "c": "LUX",
       "v": 0.0025,
       "usd": 41343000,
-      "uv": 16500
+      "uv": 16800
      },
      {
       "c": "KGZ",
       "v": 0.0023,
       "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 720000,
-      "uv": 313
+      "uv": 315
      },
      {
       "c": "BRA",
       "v": 0.0022,
       "usd": 48539000,
-      "uv": 22100
+      "uv": 22000
      },
      {
       "c": "CRI",
@@ -704,13 +704,13 @@
       "c": "SVK",
       "v": 0.0009,
       "usd": 1449000,
-      "uv": 1610
+      "uv": 1540
      },
      {
       "c": "POL",
       "v": 0.0009,
       "usd": 6587000,
-      "uv": 7320
+      "uv": 7210
      },
      {
       "c": "AUT",
@@ -722,31 +722,31 @@
       "c": "CHE",
       "v": 0.0007,
       "usd": 5025000,
-      "uv": 7180
+      "uv": 7190
      },
      {
       "c": "EST",
       "v": 0.0007,
       "usd": 11242000,
-      "uv": 16100
+      "uv": 16500
      },
      {
       "c": "ESP",
       "v": 0.0006,
       "usd": 2267000,
-      "uv": 3780
+      "uv": 3490
      },
      {
       "c": "VNM",
       "v": 0.0006,
       "usd": 2623000,
-      "uv": 4370
+      "uv": 4080
      },
      {
       "c": "IND",
       "v": 0.0006,
       "usd": 39695000,
-      "uv": 66200
+      "uv": 61800
      },
      {
       "c": "MAR",
@@ -758,43 +758,43 @@
       "c": "UZB",
       "v": 0.0004,
       "usd": 25393000,
-      "uv": 63500
+      "uv": 61000
      },
      {
       "c": "SVN",
       "v": 0.0004,
       "usd": 12856000,
-      "uv": 32100
+      "uv": 33100
      },
      {
       "c": "KAZ",
       "v": 0.0004,
       "usd": 4643000,
-      "uv": 11600
+      "uv": 12500
      },
      {
       "c": "BGR",
       "v": 0.0003,
       "usd": 7729000,
-      "uv": 25800
+      "uv": 26600
      },
      {
       "c": "HKG",
       "v": 0.0002,
       "usd": 3622000,
-      "uv": 18100
+      "uv": 19700
      },
      {
       "c": "DNK",
       "v": 0.0001,
       "usd": 6598000,
-      "uv": 66000
+      "uv": 55000
      },
      {
       "c": "ISR",
       "v": 0.0001,
       "usd": 1285000,
-      "uv": 12800
+      "uv": 11500
      },
      {
       "c": "SRB",
@@ -806,19 +806,19 @@
       "c": "DOM",
       "v": 0.0001,
       "usd": 1540000,
-      "uv": 15400
+      "uv": 16000
      },
      {
       "c": "CZE",
       "v": 0.0001,
       "usd": 1431000,
-      "uv": 14300
+      "uv": 20000
      },
      {
       "c": "SAU",
       "v": 0.0001,
       "usd": 1264000,
-      "uv": 12600
+      "uv": 20000
      }
     ],
     "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -888,7 +888,7 @@
       "c": "KOR",
       "v": 0.0565,
       "usd": 618789000,
-      "uv": 11000
+      "uv": 10900
      },
      {
       "c": "TWN",
@@ -900,7 +900,7 @@
       "c": "FRA",
       "v": 0.0496,
       "usd": 860430000,
-      "uv": 17300
+      "uv": 17400
      },
      {
       "c": "IND",
@@ -967,7 +967,7 @@
       "v": 0.0072,
       "n": "56% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 36847000,
-      "uv": 5120
+      "uv": 5100
      },
      {
       "c": "BRA",
@@ -979,7 +979,7 @@
       "c": "TUR",
       "v": 0.0061,
       "usd": 106408000,
-      "uv": 17400
+      "uv": 17500
      },
      {
       "c": "CZE",
@@ -1000,115 +1000,115 @@
       "c": "MEX",
       "v": 0.0033,
       "usd": 55620000,
-      "uv": 16900
+      "uv": 17000
      },
      {
       "c": "AUS",
       "v": 0.0032,
       "usd": 59941000,
-      "uv": 18700
+      "uv": 18800
      },
      {
       "c": "SVN",
       "v": 0.0027,
       "usd": 46881000,
-      "uv": 17400
+      "uv": 17300
      },
      {
       "c": "POL",
       "v": 0.0025,
       "usd": 50169000,
-      "uv": 20100
+      "uv": 19900
      },
      {
       "c": "VNM",
       "v": 0.0017,
       "usd": 30558000,
-      "uv": 18000
+      "uv": 17600
      },
      {
       "c": "IRN",
       "v": 0.001,
       "usd": 18341000,
-      "uv": 18300
+      "uv": 17700
      },
      {
       "c": "CHE",
       "v": 0.001,
       "usd": 28931000,
-      "uv": 28900
+      "uv": 28100
      },
      {
       "c": "IRL",
       "v": 0.0009,
       "usd": 26673000,
-      "uv": 29600
+      "uv": 30300
      },
      {
       "c": "UKR",
       "v": 0.0008,
       "usd": 16014000,
-      "uv": 20000
+      "uv": 19400
      },
      {
       "c": "SRB",
       "v": 0.0007,
       "usd": 15973000,
-      "uv": 22800
+      "uv": 21500
      },
      {
       "c": "ARE",
       "v": 0.0007,
       "usd": 12277000,
-      "uv": 17500
+      "uv": 17400
      },
      {
       "c": "PAK",
       "v": 0.0006,
       "usd": 11705000,
-      "uv": 19500
+      "uv": 18700
      },
      {
       "c": "TUN",
       "v": 0.0005,
       "usd": 13902000,
-      "uv": 27800
+      "uv": 28800
      },
      {
       "c": "LUX",
       "v": 0.0004,
       "usd": 7044000,
-      "uv": 17600
+      "uv": 16000
      },
      {
       "c": "KAZ",
       "v": 0.0003,
       "usd": 7171000,
-      "uv": 23900
+      "uv": 22100
      },
      {
       "c": "CUB",
       "v": 0.0003,
       "usd": 2815000,
-      "uv": 9380
+      "uv": 10700
      },
      {
       "c": "DNK",
       "v": 0.0002,
       "usd": 4575000,
-      "uv": 22900
+      "uv": 19800
      },
      {
       "c": "EGY",
       "v": 0.0002,
       "usd": 2777000,
-      "uv": 13900
+      "uv": 12100
      },
      {
       "c": "PRT",
       "v": 0.0002,
       "usd": 4553000,
-      "uv": 22800
+      "uv": 21700
      },
      {
       "c": "ISR",
@@ -1120,31 +1120,31 @@
       "c": "IDN",
       "v": 0.0002,
       "usd": 3597000,
-      "uv": 18000
+      "uv": 18100
      },
      {
       "c": "HRV",
       "v": 0.0002,
       "usd": 3145000,
-      "uv": 15700
+      "uv": 16400
      },
      {
       "c": "ARG",
       "v": 0.0002,
       "usd": 3586000,
-      "uv": 17900
+      "uv": 19200
      },
      {
       "c": "SAU",
       "v": 0.0002,
       "usd": 3002000,
-      "uv": 15000
+      "uv": 17000
      },
      {
       "c": "TKM",
       "v": 0.0001,
       "usd": 2077000,
-      "uv": 20800
+      "uv": 17600
      },
      {
       "c": "HUN",
@@ -1156,31 +1156,31 @@
       "c": "SVK",
       "v": 0.0001,
       "usd": 2839000,
-      "uv": 28400
+      "uv": 35000
      },
      {
       "c": "BGR",
       "v": 0.0001,
       "usd": 1266000,
-      "uv": 12700
+      "uv": 18000
      },
      {
       "c": "COL",
       "v": 0.0001,
       "usd": 1342000,
-      "uv": 13400
+      "uv": 19000
      },
      {
       "c": "ROU",
       "v": 0.0001,
       "usd": 1085000,
-      "uv": 10800
+      "uv": 18000
      },
      {
       "c": "KWT",
       "v": 0.0001,
       "usd": 1072000,
-      "uv": 10700
+      "uv": 18000
      }
     ],
     "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1239,134 +1239,134 @@
       "c": "MYS",
       "v": 0.0155,
       "usd": 52726000,
-      "uv": 3400
+      "uv": 3410
      },
      {
       "c": "DOM",
       "v": 0.0114,
       "usd": 95548000,
-      "uv": 8380
+      "uv": 8360
      },
      {
       "c": "CHN",
       "v": 0.0086,
       "n": "23% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 18470000,
-      "uv": 2150
+      "uv": 2140
      },
      {
       "c": "JPN",
       "v": 0.006,
       "usd": 13029000,
-      "uv": 2170
+      "uv": 2160
      },
      {
       "c": "CHE",
       "v": 0.0056,
       "usd": 52094000,
-      "uv": 9300
+      "uv": 9260
      },
      {
       "c": "MKD",
       "v": 0.0046,
       "usd": 34801000,
-      "uv": 7570
+      "uv": 7630
      },
      {
       "c": "FRA",
       "v": 0.0044,
       "usd": 16288000,
-      "uv": 3700
+      "uv": 3690
      },
      {
       "c": "IND",
       "v": 0.003,
       "usd": 13615000,
-      "uv": 4540
+      "uv": 4520
      },
      {
       "c": "DEU",
       "v": 0.003,
       "usd": 9988000,
-      "uv": 3330
+      "uv": 3310
      },
      {
       "c": "SRB",
       "v": 0.0025,
       "usd": 10224000,
-      "uv": 4090
+      "uv": 4020
      },
      {
       "c": "KAZ",
       "v": 0.002,
       "usd": 2546000,
-      "uv": 1270
+      "uv": 1290
      },
      {
       "c": "EST",
       "v": 0.0018,
       "usd": 9074000,
-      "uv": 5040
+      "uv": 5010
      },
      {
       "c": "UKR",
       "v": 0.0018,
       "usd": 3317000,
-      "uv": 1840
+      "uv": 1850
      },
      {
       "c": "VEN",
       "v": 0.0012,
       "usd": 2827000,
-      "uv": 2360
+      "uv": 2320
      },
      {
       "c": "LUX",
       "v": 0.0012,
       "usd": 6695000,
-      "uv": 5580
+      "uv": 5660
      },
      {
       "c": "MMR",
       "v": 0.0011,
       "usd": 5606000,
-      "uv": 5100
+      "uv": 4940
      },
      {
       "c": "ZWE",
       "v": 0.001,
       "usd": 938000,
-      "uv": 938
+      "uv": 913
      },
      {
       "c": "CAN",
       "v": 0.0006,
       "usd": 2290000,
-      "uv": 3820
+      "uv": 3890
      },
      {
       "c": "GRC",
       "v": 0.0004,
       "usd": 2096000,
-      "uv": 5240
+      "uv": 5440
      },
      {
       "c": "ROU",
       "v": 0.0002,
       "usd": 1778000,
-      "uv": 8890
+      "uv": 8630
      },
      {
       "c": "VNM",
       "v": 0.0001,
       "usd": 1705000,
-      "uv": 17000
+      "uv": 12300
      },
      {
       "c": "USA",
       "v": 0.0001,
       "usd": 1882000,
-      "uv": 18800
+      "uv": 16500
      }
     ],
     "n": "CEPII BACI HS92 ferro-nickel (HS 720260), which includes nickel pig iron, gross weight, not contained nickel, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1430,38 +1430,38 @@
       "c": "GBR",
       "v": 0.0415,
       "usd": 116707000,
-      "uv": 2810
+      "uv": 2820
      },
      {
       "c": "JPN",
       "v": 0.0393,
       "usd": 138628000,
-      "uv": 3530
+      "uv": 3520
      },
      {
       "c": "ESP",
       "v": 0.0226,
       "usd": 95397000,
-      "uv": 4220
+      "uv": 4210
      },
      {
       "c": "BEL",
       "v": 0.0176,
       "usd": 75819000,
-      "uv": 4310
+      "uv": 4300
      },
      {
       "c": "FRA",
       "v": 0.0156,
       "n": "38% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 60763000,
-      "uv": 3900
+      "uv": 3890
      },
      {
       "c": "FIN",
       "v": 0.0138,
       "usd": 46098000,
-      "uv": 3340
+      "uv": 3350
      },
      {
       "c": "DEU",
@@ -1473,79 +1473,79 @@
       "c": "ZAF",
       "v": 0.0093,
       "usd": 33089000,
-      "uv": 3560
+      "uv": 3570
      },
      {
       "c": "SWE",
       "v": 0.0078,
       "usd": 31710000,
-      "uv": 4070
+      "uv": 4050
      },
      {
       "c": "MYS",
       "v": 0.0061,
       "usd": 55184000,
-      "uv": 9050
+      "uv": 9110
      },
      {
       "c": "SAU",
       "v": 0.006,
       "usd": 5724000,
-      "uv": 954
+      "uv": 948
      },
      {
       "c": "CAN",
       "v": 0.004,
       "usd": 35579000,
-      "uv": 8890
+      "uv": 8840
      },
      {
       "c": "SGP",
       "v": 0.0035,
       "usd": 11293000,
-      "uv": 3230
+      "uv": 3270
      },
      {
       "c": "POL",
       "v": 0.0032,
       "usd": 11501000,
-      "uv": 3590
+      "uv": 3600
      },
      {
       "c": "SVN",
       "v": 0.0027,
       "usd": 10579000,
-      "uv": 3920
+      "uv": 3950
      },
      {
       "c": "LVA",
       "v": 0.0014,
       "usd": 1461000,
-      "uv": 1040
+      "uv": 1080
      },
      {
       "c": "BRA",
       "v": 0.0006,
       "usd": 1037000,
-      "uv": 1730
+      "uv": 1740
      },
      {
       "c": "CZE",
       "v": 0.0005,
       "usd": 1635000,
-      "uv": 3270
+      "uv": 3170
      },
      {
       "c": "HKG",
       "v": 0.0003,
       "usd": 1675000,
-      "uv": 5580
+      "uv": 4810
      },
      {
       "c": "CHE",
       "v": 0.0003,
       "usd": 1145000,
-      "uv": 3820
+      "uv": 3790
      }
     ],
     "n": "CEPII BACI HS92 ferro-nickel (HS 720260), which includes nickel pig iron, gross weight, not contained nickel, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1846,6 +1846,7 @@
     "pct": "41",
     "y": 2025,
     "src": "Canada, Norway, Australia, Brazil",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

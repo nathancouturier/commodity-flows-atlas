@@ -12,11 +12,13 @@ total and estimate marks. Each year is built with it, so the latest year of a se
 
 File (no pretty-printing; values rounded as the tables are):
   {"id", "t": {<table key>: {"u", "s", "years", "labels"?, "world", "worldEst"?, "pub"?, "other"?, "yl"?, "n"?,
-                             "c": {iso: [value or null per year]}, "est"?: {iso: [year index]}, "srcEst"?: {iso: [year index]},
+                             "c": {iso: [value or null per year]}, "est"?: {iso: [year index]}, "srcEst"?: {iso: [year index]}, "conv"?: {iso: [year index]},
                              "out"?: {iso: [year index]}, "worldOut"?: [year index], "cl"?: {iso: [label or null per year]},
                              "brk"?: {iso: [year index]}}}}
   - `est`: the row is mostly an Atlas estimate that year (tonnage computed from the declared value), as `est` of a table row;
-  - `srcEst`: the value is the source's own estimate (USGS "Estimated.");
+  - `srcEst`: the value is the source's own estimate (USGS "Estimated."); `otherEst`: the same for the "Other countries" line;
+  - `conv`: the value is the atlas's conversion of the source's figure that year (a row's `conv`: the United States in the EIA LPG table),
+    `convWorld`: the years whose world total is such a conversion;
   - `worldEst`: years whose world total holds a tenth or more of Atlas estimates;
   - `pub`: the published world total where the shares rest on the sum of the lines (`world`); `other`: USGS "Other countries";
   - `yl`: what each year is, in the words the source supports (USGS MCS; USDA PSD: forecast or estimate, and the month of its report);
@@ -150,12 +152,14 @@ def series(t, name=None):
         out["other"] = [by[y].get("other") for y in ys]
     if t.get("_yl"):
         out["yl"] = [t["_yl"][y] for y in ys]  # what the source says each year is (USGS: the edition's estimates)
-    vals, est, src, usd, lab = {}, {}, {}, {}, {}
+    vals, est, src, usd, lab, conv = {}, {}, {}, {}, {}, {}
     for i, y in enumerate(ys):
         for row in by[y]["rows"]:
             vals.setdefault(row["c"], [None] * len(ys))[i] = row["v"]
             if row.get("est"):
                 est.setdefault(row["c"], []).append(i)
+            if row.get("conv"):
+                conv.setdefault(row["c"], []).append(i)
         for c in sorted(by[y].get("_srcest") or ()):
             if c in vals and vals[c][i] is not None:
                 src.setdefault(c, []).append(i)
@@ -172,6 +176,14 @@ def series(t, name=None):
         out["est"] = est
     if src:
         out["srcEst"] = src
+    if conv:
+        out["conv"] = conv  # the value is the atlas's conversion of the source's figure that year (a row's `conv`)
+    cw = [i for i, y in enumerate(ys) if by[y].get("convWorld")]
+    if cw:
+        out["convWorld"] = cw  # the years whose world total is the atlas's conversion
+    oe = [i for i, y in enumerate(ys) if by[y].get("_otherest")]
+    if oe:
+        out["otherEst"] = oe  # the years in which the source's "Other countries" line is itself marked as an estimate
     label = out.get("labels") or [str(y) for y in ys]
     notes = list(t.get("_hn") or [])
     bad = out_of_line(out["world"], vals, usd)

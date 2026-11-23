@@ -172,6 +172,7 @@
    {
     "c": "AUS",
     "v": 31.224,
+    "n": "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here.",
     "usd": 128066000,
     "uv": 4100
    },
@@ -328,37 +329,37 @@
     "c": "CAN",
     "v": 0.096,
     "usd": 2163000,
-    "uv": 22500
+    "uv": 23000
    },
    {
     "c": "BRA",
     "v": 0.06,
     "usd": 1900000,
-    "uv": 31700
+    "uv": 32000
    },
    {
     "c": "HKG",
     "v": 0.057,
     "usd": 3340000,
-    "uv": 58600
+    "uv": 59000
    },
    {
     "c": "ESP",
     "v": 0.029,
     "usd": 1996000,
-    "uv": 68800
+    "uv": 69000
    },
    {
     "c": "PHL",
     "v": 0.028,
     "usd": 4292000,
-    "uv": 153000
+    "uv": 150000
    },
    {
     "c": "LTU",
     "v": 0.01,
     "usd": 1944000,
-    "uv": 194000
+    "uv": 190000
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -381,6 +382,7 @@
    {
     "c": "MYS",
     "v": 31.431,
+    "n": "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here.",
     "usd": 135799000,
     "uv": 4320
    },
@@ -542,13 +544,13 @@
     "c": "KGZ",
     "v": 0.094,
     "usd": 6969000,
-    "uv": 74100
+    "uv": 74000
    },
    {
     "c": "MEX",
     "v": 0.07,
     "usd": 4741000,
-    "uv": 67700
+    "uv": 68000
    },
    {
     "c": "BEN",
@@ -563,38 +565,38 @@
     "c": "ARE",
     "v": 0.038,
     "usd": 2788000,
-    "uv": 73400
+    "uv": 73000
    },
    {
     "c": "ZAF",
     "v": 0.034,
     "usd": 2002000,
-    "uv": 58900
+    "uv": 59000
    },
    {
     "c": "PAK",
     "v": 0.033,
     "usd": 1271000,
-    "uv": 38500
+    "uv": 39000
    },
    {
     "c": "BEL",
     "v": 0.031,
     "usd": 3290000,
-    "uv": 106000
+    "uv": 110000
    },
    {
     "c": "IRL",
     "v": 0.015,
     "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
     "usd": 18829000,
-    "uv": 1260000
+    "uv": 1300000
    },
    {
     "c": "CHE",
     "v": 0.003,
     "usd": 1622000,
-    "uv": 541000
+    "uv": 500000
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -624,7 +626,8 @@
    "usd": 128066000,
    "uv": 4100,
    "mode": "sea",
-   "lane": "rare-earths:AUS-MYS"
+   "lane": "rare-earths:AUS-MYS",
+   "n": "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here."
   },
   {
    "o": "MYS",
@@ -864,6 +867,7 @@
     "pct": "67",
     "y": 2025,
     "src": "China, Malaysia, Estonia, Japan",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share. Includes lanthanides cerium, dysprosium, erbium, europium, gadolinium, holmium, lanthanum, lutetium, neodymium, praseodymium, samarium, terbium, thulium, and ytterbium. Imports from Hong Kong are included with China."
    }
   ]
@@ -917,7 +921,8 @@
   }
  },
  "notes": [
-  "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
+  "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO).",
+  "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here."
  ],
  "discrepancies": [
   "Malaysia to France: 3.336 kt of rare-earths in 2024 (reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",

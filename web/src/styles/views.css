@@ -48,6 +48,8 @@
 .alert-since { font-size: 11px; color: var(--ink-2); }
 .alert p { margin: 4px 0 0; }
 .alert-links { display: flex; gap: 12px; margin-top: 6px; }
+.alert-evs { display: flex; flex-direction: column; align-items: flex-start; gap: 3px; font-size: 11px; }
+.alert-evs button { text-align: left; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; padding: 0; font-size: 11px; }
 .alert-links a, .alert-links button { font-size: 11px; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; padding: 0; }
 .alert-links a:hover, .alert-links button:hover { color: var(--ink-0); }
 .kpi-label { line-height: 1.25; }

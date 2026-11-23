@@ -39,24 +39,52 @@ class FullLines(unittest.TestCase):
         self.assertGreater(top["usd"], 10)  # bn USD, CEPII BACI 2024 (rice, 0.27 bn, was shown before)
 
     def test_every_table_row_is_a_line(self):
-        """Every row of every main table of every commodity is a line of its country's profile, with its rank."""
-        light = load("countries/profiles.json")
+        """GC1.3: every row of every table of every commodity file (the main tables and every extra table, whatever package
+        added it) is a line of its country's profile, in the section its key names, with its rank."""
+        have = {os.path.basename(f)[:-5] for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json"))}
+        seen = set()
         for f in sorted(glob.glob(os.path.join(DATA, "commodities", "*.json"))):
             cid = os.path.basename(f)[:-5]
-            if cid in ("index", "companies"):
+            if cid in ("index", "companies", "figures"):
                 continue
             d = load(f"commodities/{cid}.json")
-            for sec in ("exports", "imports", "production", "consumption", "reserves"):
-                t = d.get(sec)
-                if not t or not isinstance(t, dict):
+            if not isinstance(d, dict):
+                continue
+            tables = [(sec, d.get(sec)) for sec in ("exports", "imports", "production", "consumption", "reserves", "refinery")]
+            tables += [(P.extra_section(x["key"]), x["table"]) for x in d.get("extra") or []]
+            for sec, t in tables:
+                if not t or not isinstance(t, dict) or not t.get("rows"):
                     continue
+                self.assertIsNotNone(sec, (cid, "an extra table whose key names no section"))
+                sec = "production" if sec == "refinery" else sec
+                seen.add(sec)
                 for i, r in enumerate(t["rows"]):
-                    if r["c"] not in light:
+                    if r["c"] not in have:
                         continue
-                    lines = [e for e in prof(r["c"])[sec] if e["k"] == cid and e["v"] == r["v"]]
+                    lines = [e for e in prof(r["c"]).get(sec, []) if e["k"] == cid and e["v"] == r["v"]]
                     self.assertTrue(lines, (cid, sec, r["c"]))
                     if not t.get("norank"):
                         self.assertIn(i + 1, [e.get("rank") for e in lines], (cid, sec, r["c"]))
+        self.assertTrue({"stocks", "capacity"} <= seen, seen)
+
+    def test_extra_tables_from_their_own_fields(self):
+        self.assertEqual(P.extra_section("refined-products-production"), "production")
+        self.assertEqual(P.extra_section("motor-gasoline-consumption"), "consumption")
+        self.assertEqual(P.extra_section("stocks"), "stocks")
+        self.assertEqual(P.extra_section("nuclear-capacity"), "capacity")
+        self.assertIsNone(P.extra_section("balance"))
+        self.assertEqual(P.extra_label("Top consumers — motor gasoline, EIA 2025", "consumption"), "Motor gasoline")
+        self.assertEqual(P.extra_label("Natural gas plant liquids producers, EIA 2025 (not LPG alone)", "production"), "Natural gas plant liquids")
+        self.assertEqual(P.extra_label("Unwrought aluminium exporters: not alloyed (HS 760110)", "exports"), "Unwrought aluminium: not alloyed (HS 760110)")
+        self.assertIsNone(P.extra_label("Ending stocks", "stocks"))
+        usa = prof("USA")
+        lpg = next(e for e in usa["production"] if e.get("label") == "LPG")
+        self.assertEqual((lpg["y"], lpg["s"]), (2014, "eia-intl"))  # a table dated long ago says its year
+        al = next(e for e in usa["exports"] if e.get("label") == "Unwrought aluminium: not alloyed (HS 760110)")
+        row = next(r for x in load("commodities/aluminium.json")["extra"] if x["key"] == "760110-exports" for r in x["table"]["rows"] if r["c"] == "USA")
+        self.assertAlmostEqual(al["usd"], round(row["usd"] / 1e9, 3))  # the customs table's own value of the row
+        wheat = next(e for e in prof("FRA")["production"] if e["k"] == "wheat" and e.get("scope"))
+        self.assertEqual(wheat["scope"], "EU member states")  # a table of part of the world keeps its scope
 
     def test_iran_shows_the_caveat_and_invents_no_crude(self):
         p = prof("IRN")
@@ -87,11 +115,18 @@ class FullLines(unittest.TestCase):
 
 class EveryCountry(unittest.TestCase):
     def test_every_index_entry_has_a_file(self):
-        light = load("countries/profiles.json")
         index = {c["c"] for c in load("countries/index.json")}
-        self.assertEqual(index - set(light), set())
         for c in index:
             self.assertTrue(os.path.exists(os.path.join(DATA, "countries", "profiles", f"{c}.json")), c)
+        # GC1.9: the light index the site never read is gone
+        self.assertFalse(os.path.exists(os.path.join(DATA, "countries", "profiles.json")))
+
+    def test_aland_in_the_words_of_natural_earth(self):
+        """GC1.15: TYPE 'Country' with another sovereign is not called a dependency."""
+        text = prof("ALA")["none"]
+        self.assertIn("as a country under the sovereignty of Finland", text)
+        self.assertNotIn("dependency", text)
+        self.assertIn("as a dependency of the United Kingdom", P.ne_text("SGS", "South Georgia", True))
 
     def test_libya_has_its_crude_and_its_assets(self):
         p = prof("LBY")
@@ -164,6 +199,17 @@ class Partners(unittest.TestCase):
         self.assertAlmostEqual(b["suppliers"]["rows"][0]["share"], round(mine[0]["kt"] / tot, 4))
         self.assertEqual(b["suppliers"]["hhi"], round(sum((r["kt"] / tot) ** 2 for r in mine) * 10000))
 
+    def test_no_import_dependence_over_an_apparent_consumption(self):
+        """GC1.7: the atlas's apparent consumption (production + imports - exports) holds the imports: no ratio over it."""
+        for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json")):
+            with open(f, encoding="utf-8") as fh:
+                p = json.load(fh)
+            for b in p.get("balance", []):
+                if "dep" in b:
+                    cons = next(e for e in p["consumption"] if e["k"] == b["k"] and e["v"] == b["dep"]["cons"])
+                    self.assertFalse(cons["s"] == "atlas" or cons.get("est"), (p["c"], b["k"]))
+        self.assertFalse([b for b in prof("JPN")["balance"] if b["k"] == "steel" and "dep" in b])
+
     def test_import_dependence_only_with_the_same_unit_and_year(self):
         for iso in ("JPN", "EGY", "IND"):
             for b in prof(iso).get("balance", []):
@@ -192,9 +238,38 @@ class Freight(unittest.TestCase):
         via = {v["id"]: v for v in fr["via"]}
         for g in ("hormuz", "malacca"):
             self.assertAlmostEqual(via[g]["low"], round(low[g] / sea, 4), places=4)
-            self.assertAlmostEqual(via[g]["high"], round(high[g] / sea, 4), places=4)
+        self.assertAlmostEqual(via["malacca"]["high"], round(high["malacca"] / sea, 4), places=4)
         self.assertGreater(via["malacca"]["low"], 0.5)
-        self.assertGreater(via["hormuz"]["high"], via["hormuz"]["low"])
+        # GC1.2: the Hormuz page caps its crude "up to" at IMF PortWatch: Japan's is not printed, "at least" stays
+        self.assertGreater(high["hormuz"], low["hormuz"])
+        self.assertTrue(via["hormuz"].get("capped"))
+        self.assertEqual(via["hormuz"]["high"], via["hormuz"]["low"])
+
+    def test_no_country_up_to_above_the_cap_of_its_passage_page(self):
+        """GC1.2: every country "up to" for a passage and a group is within what the passage page prints for that group."""
+        pages = {(c["id"], e["p"]): e["mt"] for c in load("freight/chokepoints.json") for e in c.get("estimates") or []}
+        n = 0
+        for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json")):
+            with open(f, encoding="utf-8") as fh:
+                p = json.load(fh)
+            for side in ("exports", "imports"):
+                for x in (p.get("freight") or {}).get(side, []):
+                    for v in x.get("via", []):
+                        self.assertFalse(v.get("capped") and v["high"] != v["low"], (p["c"], x["g"], v))
+                        if v["high"] > v["low"]:
+                            n += 1
+                            mt = pages.get((v["id"], x["g"]))
+                            self.assertIsNotNone(mt, (p["c"], x["g"], v["id"], "an up to where the passage page prints none"))
+                            up = v["high"] * x["seaKt"] / 1000
+                            self.assertLessEqual(up, mt[1] + 0.06 + 0.001 * mt[1], (p["c"], side, x["g"], v["id"], up, mt))
+                        # the engine's floor on the printed figure: 2% of the seaborne tonnes or 1 Mt
+                        self.assertTrue(v["high"] >= P.PASSAGE_MIN_SHARE or v["high"] * x["seaKt"] >= P.PASSAGE_MIN_KT * 0.999, (p["c"], x["g"], v))
+        self.assertGreater(n, 1000)
+        # the review's cases: USA crude imports through Panama, Australia's LNG through Makassar
+        for iso, side, g, gate in (("USA", "imports", "crude-oil", "panama"), ("AUS", "exports", "lng", "makassar"), ("CHN", "imports", "crude-oil", "taiwan-strait")):
+            x = next(x for x in prof(iso)["freight"][side] if x["g"] == g)
+            v = next((v for v in x["via"] if v["id"] == gate), None)
+            self.assertTrue(v is None or v["high"] == v["low"], (iso, gate, v))
 
     def test_kazakhstan_crude_leaves_through_a_foreign_port(self):
         fr = next(x for x in prof("KAZ")["freight"]["exports"] if x["g"] == "crude-oil")
@@ -203,6 +278,50 @@ class Freight(unittest.TestCase):
 
 
 class Basket(unittest.TestCase):
+    def test_heading_names_come_from_all_subheadings(self):
+        """GC1.4: no heading is named after its first six-digit description, and no name is typed by hand."""
+        import pandas as pd
+        desc = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "hs4_exports_desc.csv"), dtype=str).groupby("hs4")["description"].apply(list)
+        self.assertFalse(hasattr(P, "HS4_LABEL"))
+        name = lambda h: P.heading_name(desc[h])[0]  # noqa: E731
+        self.assertTrue(name("8802").startswith("Helicopters; aeroplanes and other aircraft"))
+        self.assertEqual(name("8703"), "Vehicles")  # not "specially designed for travelling on snow"
+        self.assertEqual(name("8704"), "Vehicles: transport of goods")
+        self.assertEqual(name("8708"), "Vehicles: parts")
+        self.assertTrue(name("3002").startswith("Blood; vaccines; toxins"))
+        self.assertTrue(name("8473").endswith("(parts and accessories)"))
+        self.assertEqual(name("1001"), "Cereals: wheat")  # "other than durum" is not shared
+        self.assertEqual(name("7102"), "Diamonds")  # "not mounted or set" is negated
+        self.assertTrue(name("2709").startswith("Oils: petroleum oils"))  # one subheading: its own words
+        for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json")):
+            with open(f, encoding="utf-8") as fh:
+                p = json.load(fh)
+            for side in ("exports", "imports"):
+                for r in ((p.get("basket") or {}).get(side) or {}).get("rows", []):
+                    subs = desc[r["hs4"]]
+                    if len(subs) > 1:
+                        self.assertNotIn(r["label"], subs, (p["c"], r["hs4"]))
+                    self.assertNotEqual(r.get("k"), "thermal-coal")  # customs codes do not split the coals
+
+    def test_hs4_extract_of_one_year_only(self):
+        """GC1.14: the three HS4 files must hold one same year, the customs frame's."""
+        import pandas as pd
+        f = lambda y: pd.DataFrame({"t": [y]})  # noqa: E731
+        self.assertEqual(P.hs4_year_of((f(2024), f(2024), f(2024)), 2024), 2024)
+        self.assertIsNone(P.hs4_year_of((f(2024), f(2023), f(2023)), 2024))
+        self.assertIsNone(P.hs4_year_of((f(2023), f(2023), f(2023)), 2024))
+        with open(os.path.join(ROOT, "pipeline", "trade", "extract_hs4.py"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("os.replace", src)
+
+    def test_iran_basket_says_what_it_leaves_out(self):
+        """GC1.5: the all-goods basket and the key figures say that customs data do not record Iran's crude."""
+        self.assertTrue([g for g in prof("IRN")["gaps"] if g["kind"] == "unrecorded" and g["k"] == "crude-oil"])
+        with open(os.path.join(ROOT, "web", "src", "components", "views", "CountryBlocks.tsx"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn("note={unrecordedNote(p)}", src)
+        self.assertIn("the total and the shares leave them out", src)
+
     def test_basket_shares_and_year(self):
         import pandas as pd
         tot = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "hs4_totals.csv"))
@@ -237,13 +356,50 @@ class CompaniesAndHubs(unittest.TestCase):
     def test_hub_is_derived_from_the_atlas_data(self):
         for iso in ("NLD", "SGP", "BEL"):
             p = prof(iso)
-            prod = {e["k"] for e in p["production"]}
+            # the lines of the commodity's main production table (an extra table's line, such as coke, carries a label)
+            prod = {e["k"] for e in p["production"] if not e.get("label") or e["label"] in P.PRODUCTION_LABEL.values()}
             for b in p.get("balance", []):
                 if "hub" in b:
                     self.assertGreaterEqual(min(b["hub"]["exp"], b["hub"]["imp"]), P.HUB_MIN_SHARE)
                     self.assertIn(b["hub"]["prodS"], P.FULL_PRODUCTION_SOURCES)
                     self.assertNotIn(b["k"], prod)
         self.assertFalse([b for b in prof("FRA").get("balance", []) if b["k"] == "steel" and "hub" in b])  # USGS lists main producers only
+
+
+class KeyFigures(unittest.TestCase):
+    def test_top10_counts_the_lines_its_sources_name(self):
+        """GC1.6: "World top-10 in" counts production, exports and imports, the sections whose sources it prints."""
+        for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json")):
+            with open(f, encoding="utf-8") as fh:
+                p = json.load(fh)
+            if "none" in p:
+                continue
+            ks = {e["k"] for s in ("production", "exports", "imports") for e in p[s] if (e.get("rank") or 99) <= 10}
+            self.assertEqual(p.get("top10", 0), len(ks), p["c"])
+        self.assertNotIn("top10", prof("GRL"))  # its only top-10 line is a reserves line
+
+    def test_two_largest_exports_each_say_what_they_are(self):
+        """GC1.1: the largest export of all goods and the largest raw-material export among the atlas's commodities."""
+        with open(os.path.join(ROOT, "web", "src", "components", "views", "CountryView.tsx"), encoding="utf-8") as fh:
+            src = fh.read()
+        self.assertIn('label="Largest export, all goods"', src)
+        self.assertIn('label="Largest raw-material export"', src)
+        self.assertNotIn("label={`Largest export`}", src)
+        with open(os.path.join(ROOT, "METHODOLOGY.md"), encoding="utf-8") as fh:
+            self.assertIn("Largest raw-material export", fh.read())
+        twn = prof("TWN")
+        self.assertEqual(twn["basket"]["exports"]["rows"][0]["hs4"], "8542")
+        self.assertGreater(twn["basket"]["exports"]["rows"][0]["usd"], 200)
+
+    def test_a_caveat_about_one_country_stays_on_its_line(self):
+        """GC1.10: "The United States is converted..." (LPG) and "Kyrgyzstan: EIA raised..." (coal reserves)."""
+        names = {c["c"]: c["name"] for c in load("countries/index.json")}
+        t = {"caveat": "Kyrgyzstan: EIA raised its estimate"}
+        self.assertTrue(P.caveat_concerns(t, "KGZ", names))
+        self.assertFalse(P.caveat_concerns(t, "CHN", names))
+        self.assertTrue(P.caveat_concerns({"caveat": "Gross weight of ores and compounds"}, "CHN", names))
+        warns = [e.get("warn", "") for e in prof("JPN")["consumption"] + prof("GRL")["consumption"]]
+        self.assertFalse([w for w in warns if w.startswith("The United States")])
 
 
 class History(unittest.TestCase):
@@ -260,7 +416,8 @@ class History(unittest.TestCase):
     def test_lines_carry_their_series(self):
         p = prof("CHN")
         e = next(x for x in p["imports"] if x["k"] == "iron-ore")
-        ys = p["years"][e["hk"]]
+        self.assertNotIn("years", p)  # GC1.9: the years of the series are in one file for every country
+        ys = load("countries/years.json")[e["hk"]]
         self.assertEqual(len(e["hv"]), len(ys["y"]))
         self.assertEqual(e["hv"][-1], e["v"])
         self.assertIn(2010, ys["y"])

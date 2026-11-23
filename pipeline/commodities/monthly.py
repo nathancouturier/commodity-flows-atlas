@@ -124,6 +124,50 @@ def stats(vals, to, base_year=None):
     return r
 
 
+def gap_stats(vals, to, base_year=None):
+    """Like stats(), for a series that may lack months (the imports by origin: EIA leaves a month out when it has no figure, and neither
+    its file nor its documentation says that such a month is a month without imports, which it publishes as a 0 elsewhere). Returns
+    (row, bm): bm is the days-weighted average of the months of the baseline year that have a figure (to decide whether the origin is shown,
+    never published) and the row, which is None when the series has no figure in the baseline year and none since.
+      v        the last MONTHS_KEPT months, None where EIA gives no figure
+      b        average of the baseline year, only when the twelve months have a figure; nb = the number of months that have one when fewer
+      la       the figure of the month `to` (None when EIA gives none), last = the latest figure before it (shown with its month)
+      lo       lowest month of the year of `to`, only when none of its months so far lacks a figure; miss = the months of that year without one
+      p        change of la against b."""
+    year = int(to[:4])
+    base_year = base_year or year - 1
+    ax = axis(to)
+    base = [f"{base_year}-{m:02d}" for m in range(1, 13)]
+    got_b = [m for m in base if m in vals]
+    bm = None
+    if got_b:
+        days = [calendar.monthrange(base_year, int(m[5:]))[1] for m in got_b]
+        bm = sum(vals[m] * d for m, d in zip(got_b, days)) / sum(days)
+    this = [f"{year}-{m:02d}" for m in range(1, int(to[5:]) + 1)]
+    got = [m for m in this if m in vals]
+    if not got and not got_b:
+        return None, None
+    b = avg_year(vals, base_year)
+    r = {"v": [None if vals.get(m) is None else round(vals[m], 3) for m in ax], "b": None if b is None else round(b, 4),
+         "lo": None, "la": None}
+    if len(got_b) < 12:
+        r["nb"] = len(got_b)
+    if len(got) < len(this):
+        r["miss"] = len(this) - len(got)
+    else:
+        lo = min((vals[m], m) for m in got)
+        r["lo"] = {"v": round(lo[0], 3), "m": lo[1]}
+    if to in vals:
+        r["la"] = {"v": round(vals[to], 3), "m": to}
+    else:
+        prev = [m for m in sorted(vals) if m < to and m in ax]
+        if prev:
+            r["last"] = {"v": round(vals[prev[-1]], 3), "m": prev[-1]}
+    if b and r["la"]:
+        r["p"] = round((vals[to] / b - 1) * 100, 1)
+    return r, bm
+
+
 def total(series, members):
     """Month-by-month sum of the series of `members`, for the months in which all of them have a figure."""
     months = set.intersection(*(set(series[c]) for c in members if c in series)) if all(c in series for c in members) else set()
@@ -214,11 +258,13 @@ def build(path, iso_of):
         ito = last_month(s)
         orows = []
         for code, vals in s.items():
-            st = stats(vals, ito)
-            # the aggregates of origin (Persian Gulf, OPEC) and the origins with a baseline above 1 kb/d or a recent flow
-            if st and (st.get("b") or 0) > 1 and (code in ORIGIN_LABEL or ok(code)):
-                orows.append({"o": code, **({"name": ORIGIN_LABEL[code]} if code in ORIGIN_LABEL else {"c": ok(code)}), **st})
-        orows.sort(key=lambda r: ("name" not in r, -r["b"]))
+            st, bm = gap_stats(vals, ito)
+            # the aggregates of origin (Persian Gulf, OPEC) and every origin that averages above 1 kb/d in the months of the baseline year
+            # that have a figure: an origin is never dropped for a month without one
+            if st and (bm or 0) > 1 and (code in ORIGIN_LABEL or ok(code)):
+                orows.append((bm, {"o": code, **({"name": ORIGIN_LABEL[code]} if code in ORIGIN_LABEL else {"c": ok(code)}), **st}))
+        orows.sort(key=lambda x: ("name" not in x[1], -x[0]))
+        orows = [r for _, r in orows]
         imports.append({"id": imp, "name": label, "to": ito, "from": axis(ito, 36)[0], "rows": [_trim(r, 36) for r in orows]})
     stocks = stocks_block(series[("5-5", "MBBL")], series[("54-2", "TBPD")], ok)
     out["crude-oil"] = {"id": "crude-oil", "s": SOURCE, "production": prod, "imports": {"u": "kb/d", "importers": imports}, "stocks": stocks}
@@ -270,13 +316,22 @@ def _trim(r, n):
 
 
 def write_all(path, out_dir, iso_of):
-    """Write the files of build() into out_dir; returns the QA lines."""
+    """Write the files of build() into out_dir; returns the QA lines. Nothing is written unless every file was built and every temporary
+    file written: a failure leaves the previous files as they were."""
     os.makedirs(out_dir, exist_ok=True)
     docs = build(path, iso_of)
-    qa = []
-    for cid, d in docs.items():
-        with open(os.path.join(out_dir, cid + ".json"), "w", encoding="utf-8") as f:
-            json.dump(d, f, ensure_ascii=False, separators=(",", ":"))
-        n = os.path.getsize(os.path.join(out_dir, cid + ".json"))
-        qa.append(f"monthly/{cid}.json: {n / 1e3:.0f} KB")
+    qa, tmp = [], []
+    try:
+        for cid, d in docs.items():
+            dst = os.path.join(out_dir, cid + ".json")
+            with open(dst + ".tmp", "w", encoding="utf-8") as f:
+                json.dump(d, f, ensure_ascii=False, separators=(",", ":"))
+            tmp.append(dst)
+            qa.append(f"monthly/{cid}.json: {os.path.getsize(dst + '.tmp') / 1e3:.0f} KB")
+        for dst in tmp:
+            os.replace(dst + ".tmp", dst)
+    finally:
+        for dst in tmp:
+            if os.path.exists(dst + ".tmp"):
+                os.remove(dst + ".tmp")
     return qa

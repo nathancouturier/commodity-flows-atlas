@@ -59,8 +59,9 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
     .map(([c, v]) => {
       const est = !!h.est?.[c]?.includes(at);
       const src = !!h.srcEst?.[c]?.includes(at);
+      const conv = !!h.conv?.[c]?.includes(at);
       const name = h.cl?.[c]?.[at];
-      return { c, v: v[at] as number, ...(est ? { est } : {}), ...(src ? { n: 'estimated by the source' } : {}), ...(name ? { name } : {}) };
+      return { c, v: v[at] as number, ...(est ? { est } : {}), ...(conv ? { conv } : {}), ...(src ? { n: 'estimated by the source' } : {}), ...(name ? { name } : {}) };
     })
     .sort((a, b) => b.v - a.v);
   const label = yearLabel(h, at);
@@ -96,6 +97,8 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
     ...(base.norank ? { norank: base.norank } : {}),
     ...(caveat ? { caveat } : {}),
     ...(estTable ? { est: true } : {}),
+    ...(rows.some((r) => r.conv) && base.conv ? { conv: base.conv } : {}),
+    ...(h.convWorld?.includes(at) ? { convWorld: true } : {}),
   };
   return { table, i: at, note: null, past: true };
 }

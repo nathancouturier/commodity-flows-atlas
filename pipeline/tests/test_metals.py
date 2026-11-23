@@ -59,6 +59,47 @@ class ApparentConsumption(unittest.TestCase):
         self.assertEqual(missing + negative, [])
 
 
+class CustomsTerms(unittest.TestCase):
+    """The imports and exports of the consumption tables are summed unrounded, and what is missing is said as it is (GM1.1, GM1.2)."""
+
+    class B:
+        EXTRA_CODES = {"XAS"}
+        cname = staticmethod(lambda c: {"KAZ": "Kazakhstan", "CHL": "Chile", "JPN": "Japan", "ZMB": "Zambia"}.get(c, c))
+
+    class Baci:
+        def __init__(self, rows):
+            self.df = pd.DataFrame(rows, columns=["group", "year", "o", "d", "t", "t_est"])
+
+        def group(self, g, year=2024):
+            return self.df[(self.df["group"] == g) & (self.df["year"] == year)]
+
+        iso = staticmethod(lambda c: c)
+
+    def test_a_flow_of_22_tonnes_is_not_lost_to_a_rounding(self):
+        # Kazakhstan imports 22 t of refined copper: 0.000022 Mt rounds to 0.0 in a table of Mt, so it was lost; summed in tonnes it stays
+        b = self.Baci([("g", 2024, "CHN", "KAZ", 22.0, 0.0), ("g", 2024, "KAZ", "CHN", 10222.0, 0.0), ("g", 2024, "XAS", "CHN", 5.0, 0.0)])
+        im = M.customs_by_country(self.B, b, "g", "imports")
+        self.assertEqual(im["KAZ"][0], 22.0)
+        self.assertNotIn("XAS", M.customs_by_country(self.B, b, "g", "exports"))
+        ex = {c: v[0] / 1e3 for c, v in M.customs_by_country(self.B, b, "g", "exports").items()}  # kt
+        rows, missing, _ = M.apparent_consumption({"KAZ": 10.3}, {c: v[0] / 1e3 for c, v in im.items()}, ex)
+        self.assertEqual(missing, [])
+        self.assertAlmostEqual(rows[0][1], 10.3 + 0.022 - 10.222)  # listed, with its 22 t of imports
+
+    def test_what_is_missing_is_named_by_side(self):
+        txt = M.no_row_words(["CHL", "ZMB", "KAZ"], {"KAZ": 1.0}, {"JPN": 1.0, "CHL": 1.0}, self.B.cname)
+        self.assertEqual(txt, "no import row: Chile; no export row: Kazakhstan; no import and no export row: Zambia")
+        self.assertEqual(M.no_row_words([], {}, {}, str), "")
+
+    def test_the_largest_countries_without_a_production_line_are_named_by_net_imports(self):
+        out = M.not_listed({"CHN": 1.0}, {"JPN": 9.0, "DEU": 7.0, "CHN": 50.0, "TUR": 1.0, "ITA": 3.0}, {"DEU": 1.0, "TUR": 4.0, "ITA": 0.0}, k=2)
+        self.assertEqual(out, [("JPN", 9.0), ("DEU", 6.0)])  # China has a production line; Turkey is a net exporter here: neither is named
+
+    def test_an_unknown_production_is_not_counted_as_zero(self):
+        rows, missing, negative = M.apparent_consumption({"AAA": 5.0}, {"AAA": 1.0, "JPN": 90.0}, {"AAA": 0.5, "JPN": 0.0})
+        self.assertEqual([c for c, _, _ in rows], ["AAA"])
+
+
 class Concentration(unittest.TestCase):
     def test_herfindahl_on_a_fixed_sample(self):
         # shares 50%, 30%, 20%: 2,500 + 900 + 400 = 3,800; one country: 10,000; four equal countries: 2,500
@@ -93,6 +134,20 @@ class UnitValue(unittest.TestCase):
         self.assertIsNone(M.unit_value(553676, 535511, est_share=0.10))
         self.assertIsNotNone(M.unit_value(553676, 535511, est_share=0.09))
 
+    def test_a_small_row_shows_fewer_digits(self):
+        # customs give whole tonnes and whole thousands of USD: 146 t and 1,269 thousand USD carry three digits (8,692 -> 8,690),
+        # 22 t and 189 thousand USD carry two (8,591 -> 8,600), 5 thousand USD for 100 t one digit (50)
+        self.assertEqual(M.unit_value(1269, 146), 8690)
+        self.assertEqual(M.unit_value(189, 22), 8600)
+        self.assertEqual(M.unit_value(5, 100), 50)
+
+    def test_the_table_unit_value_is_computed_from_the_unrounded_tonnage(self):
+        # the table row says 0.0001 Mt (100 t); the customs frame says 146 t: the unit value is the one of 146 t, as the flows compute it
+        t = {"u": "Mt", "s": "baci", "world": 1.0, "rows": [{"c": "IRQ", "v": 0.0001}], "_usd": {"IRQ": 1269.0}, "_t": {"IRQ": 146.0}, "_es": {}}
+        M.add_values(None, {"copper": {"exports": t}}, [{"id": "copper", "family": "metals"}])
+        self.assertEqual(t["rows"][0]["uv"], 8690)
+        self.assertEqual(t["rows"][0]["usd"], 1269000)
+
     def test_no_value_or_no_tonnage_no_unit_value(self):
         self.assertIsNone(M.unit_value(0, 100))
         self.assertIsNone(M.unit_value(100, 0))
@@ -117,10 +172,47 @@ class HubNotes(unittest.TestCase):
         self.assertEqual(d["tin"]["imports"]["rows"][1]["n"], note)  # both rows carry it
         self.assertNotIn("n", d["tin"]["exports"]["rows"][0])  # China is a listed producer: no note
 
+    def test_the_wording_fits_what_the_table_counts(self):
+        self.assertIn("ore or concentrate bought, blended or shipped on", M.hub_reading("copper", "ores and concentrates, gross weight"))
+        self.assertIn("ore or concentrate", M.hub_reading("iron-ore", None))
+        self.assertIn("ore or concentrate", M.hub_reading("bauxite", "bauxite, gross weight"))
+        self.assertIn("metal bought, stored or shipped on", M.hub_reading("tin", "unwrought metal, gross weight"))
+        self.assertIn("metal bought, stored or shipped on", M.hub_reading("aluminium", None))
+
     def test_no_note_when_the_tonnages_differ(self):
         d = self.docs()
         d["tin"]["imports"]["rows"][1]["v"] = 0.1
         self.assertEqual(M.hub_notes(self.B, d), [])
+
+
+class UsReliance(unittest.TestCase):
+    def test_the_year_and_the_period_come_from_the_columns_of_the_file(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            for pct, src, (y, period) in (("Net_Import_Reliance_pct_2025", "Major_Import_Sources_2021_24", (2025, "2021 to 2024")),
+                                          ("Net_Import_Reliance_pct_2026", "Major_Import_Sources_2022_25", (2026, "2022 to 2025"))):
+                p = os.path.join(tmp, "fig2.csv")
+                with open(p, "w", encoding="utf-8") as f:
+                    f.write(f"Source,Import_Share_Order,Commodity,{pct},{src},Notes\nMCS,1,\"COPPER, refined\",57,\"Chile, Canada\",Note.\n")
+                r = M.us_reliance(p, ["COPPER, refined"])[0]
+                self.assertEqual((r["y"], r["srcYears"], r["pct"]), (y, period, "57"))
+
+    def test_a_file_without_the_year_column_stops_the_build(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "fig2.csv")
+            with open(p, "w", encoding="utf-8") as f:
+                f.write("Source,Commodity,Reliance\nMCS,COPPER,57\n")
+            with self.assertRaises(SystemExit):
+                M.us_reliance(p, ["COPPER"])
+
+
+class ConcentrationScope(unittest.TestCase):
+    def test_a_table_of_the_eu_member_states_has_no_concentration_of_the_world(self):
+        t = lambda **k: {"u": "Mt", "world": 10.0, "rows": [{"c": "FRA", "v": 4.0}, {"c": "DEU", "v": 3.0}], **k}
+        docs = {"wheat": {"production": t(), "extra": [{"key": "eu-production", "table": t(scope="EU")}, {"key": "x", "table": t()}]}}
+        M.add_concentration(docs)
+        self.assertEqual(set(docs["wheat"]["concentration"]), {"production", "x"})
 
 
 class K13(unittest.TestCase):
@@ -179,11 +271,41 @@ class BuiltFiles(unittest.TestCase):
         prod = float(j["n"].split("production ")[1].split(" Mt")[0].replace(",", ""))
         self.assertAlmostEqual(j["v"], prod + imp - exp, delta=0.02 * j["v"])
 
-    def test_the_table_says_how_many_countries_were_dropped(self):
+    def test_the_table_says_what_is_missing_for_each_dropped_country(self):
         n = self.d["copper"]["consumption"]["n"]
-        self.assertIn("left out because one of the three terms is missing", n)
+        self.assertIn("for want of a customs row (no import row: ", n)
+        self.assertIn("not a gap in USGS production", n)
         self.assertIn("because the result is negative", n)
         self.assertIn("refined copper (HS 7403)", n)  # refined metal against refined metal, not HS 7402
+        kaz = next(r for r in self.d["copper"]["consumption"]["rows"] if r["c"] == "KAZ")  # no longer lost to a rounding
+        self.assertAlmostEqual(kaz["v"], 10.2, delta=0.05)
+        self.assertNotIn("Kazakhstan", n.split("for want of a customs row")[1].split("; 0 are left out")[0])
+
+    def test_the_consumption_tables_are_not_a_ranking_and_name_the_largest_countries_without_production(self):
+        for cid, names in (("aluminium", ("Japan", "Germany", "Turkey")), ("copper", ("Italy", "Taiwan", "Turkey")), ("steel", ("Thailand", "Mexico", "Poland"))):
+            t = self.d[cid]["consumption"]
+            self.assertTrue(t["norank"])
+            self.assertIn("this is not a ranking of the world's consumers", t["n"])
+            self.assertIn("Not listed because USGS names no production for them", t["n"])
+            for c in names:
+                self.assertIn(c, t["n"])
+            self.assertIn("'Countries not listed'", t["n"])
+            self.assertNotIn("Rest of world", t["n"])
+
+    def test_the_unit_value_of_a_small_row_is_the_one_of_its_unrounded_tonnage(self):
+        t = next(x["table"] for x in self.d["copper"]["extra"] if x["key"] == "refined-imports")
+        iraq = next(r for r in t["rows"] if r["c"] == "IRQ")
+        self.assertEqual(iraq["uv"], 8690)  # 1,269 thousand USD for 146 t; computed from the rounded 0.0001 Mt it read 12,700
+
+    def test_the_euro_member_tables_are_not_in_the_concentration_block(self):
+        with open(os.path.join(COMMOD, "wheat.json"), encoding="utf-8") as f:
+            w = json.load(f)
+        self.assertFalse([k for k in w.get("concentration", {}) if k.startswith("eu-")])
+
+    def test_the_hub_note_of_an_ore_table_speaks_of_ore(self):
+        n = next(r["n"] for r in self.d["copper"]["exports"]["rows"] if r["c"] == "ESP")
+        self.assertIn("ore or concentrate bought, blended or shipped on", n)
+        self.assertNotIn("metal bought, stored", n)
 
     def test_every_usgs_table_with_an_other_line_has_shares_on_the_sum_of_its_lines(self):
         for cid in ("zinc", "gold", "steel"):
@@ -222,6 +344,10 @@ class BuiltFiles(unittest.TestCase):
         self.assertIn("production", c)
         self.assertIn("refinery", c)
         self.assertEqual(c["refinery"]["top1"]["c"], "CHN")
+
+    def test_united_states_figures_carry_their_year_and_period(self):
+        r = self.d["copper"]["us"]["reliance"][0]
+        self.assertEqual((r["y"], r["srcYears"]), (2025, "2021 to 2024"))
 
     def test_united_states_figures_are_published_ones(self):
         u = self.d["copper"]["us"]

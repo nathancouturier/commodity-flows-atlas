@@ -179,6 +179,15 @@ test('a valid events and alerts layer passes', () => {
   assert.deepEqual(errors, []);
   assert.equal(status, 0);
 });
+test('an alert that points to a list of events passes', () => {
+  const { errors, status } = run((d) => {
+    withAlerts(d);
+    d.events.push({ ...d.events[0], id: 'ev2' });
+    d.alerts[0].events = ['ev1', 'ev2'];
+  });
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
 const bad = (mut) => (d) => {
   withAlerts(d);
   mut(d);
@@ -197,6 +206,9 @@ rejects('an event that reads a price series that does not exist', bad((d) => (d.
 rejects('an event with a check date that is not a date', bad((d) => (d.events[0].checked = 'today')), '"checked"');
 rejects('an event whose other sources are not links', bad((d) => (d.events[0].also = [{ label: 'x', url: 'ftp://x' }])), '"also"');
 rejects('an alert that points to no event', bad((d) => (d.alerts[0].event = 'ev9')), 'event "ev9"');
+rejects('an alert whose list of events names an event that does not exist', bad((d) => (d.alerts[0].events = ['ev1', 'ev9'])), 'events names "ev9"');
+rejects('an alert whose list of events does not start with its main event', bad((d) => (d.alerts[0].events = ['ev9', 'ev1'])), '"event" must be the first');
+rejects('an alert whose list of events names one event twice', bad((d) => (d.alerts[0].events = ['ev1', 'ev1'])), 'lists an event twice');
 rejects('an alert with a severity outside the list', bad((d) => (d.alerts[0].severity = 'critical')), 'severity "critical"');
 rejects('an alert without a PortWatch figure', bad((d) => (d.alerts[0].measures = [])), 'no PortWatch figure');
 rejects('an alert figure without a date', bad((d) => delete d.alerts[0].measures[0].to), 'no date of last observation');

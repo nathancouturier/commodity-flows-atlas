@@ -1,7 +1,7 @@
 /** Blocks of the metals pages that read figures already in the commodity files: two USGS years side by side, customs value and unit value,
  *  concentration of each table, and what the USGS file states for the United States (audit M-017, M-018, A-013, A-014). */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { CommodityData, CommodityHistory, Concentration, HistTable, Ranked } from '../../types';
+import type { CommodityData, CommodityHistory, Concentration, HistTable, Ranked, UsFigures } from '../../types';
 import { commodityMeta, countryName, isCountry } from '../../lib/data';
 import { fmt, fmtEst, pct } from '../../lib/format';
 import { select } from '../../lib/store';
@@ -28,7 +28,9 @@ const shortTitle = (t: string) => {
 function shortKey(d: CommodityData, key: string): string {
   const base: Record<string, string> = { production: 'Production', refinery: 'Refinery output', reserves: 'Reserves', exports: 'Exporters', imports: 'Importers' };
   const x = d.extra?.find((e) => e.key === key);
-  return base[key] ?? (x ? shortTitle(x.title) : key);
+  // the main trade tables say what they count ("Exporters, ores and concentrates"), so that they are not read as the twins of a refined-metal table
+  const basis = (key === 'exports' || key === 'imports' ? d[key]?.basis : undefined)?.replace(/,?\s*gross weight$/i, '').trim();
+  return base[key] ? (basis ? `${base[key]}, ${basis}` : base[key]) : x ? shortTitle(x.title) : key;
 }
 
 const SIDE_WORD: Record<string, string> = { exports: 'Exporters', imports: 'Importers' };
@@ -63,6 +65,10 @@ function YearsTable({ title, h, color }: { title: string; h: HistTable; color?: 
   );
   const shown = all ? rows : rows.slice(0, 10);
   const est = (c: string, i: number) => !!h.srcEst?.[c]?.includes(i);
+  const otherEst = (i: number) => !!h.otherEst?.includes(i);
+  // the sum of the lines holds an estimate when one of its lines is one
+  const worldEst = (i: number) => otherEst(i) || Object.keys(h.c).some((c) => est(c, i));
+  const mark = (on: boolean, title: string) => on && <i class="mf-e" title={title}>e</i>;
   const chg = (a: number | null, b: number | null) => (a && b ? `${b >= a ? '+' : '−'}${pct(Math.abs(b / a - 1))}` : '');
   const val = (v: number | null, c: string, i: number) =>
     v == null ? '—' : (
@@ -93,16 +99,28 @@ function YearsTable({ title, h, color }: { title: string; h: HistTable; color?: 
       })}
       {h.other && (h.other[0] != null || h.other[1] != null) && (
         <div class="mf-row mf-years mf-other">
-          <span class="mf-name">Other countries (as published)</span>
-          <span class="num">{fmt(h.other[0])}</span>
-          <span class="num">{fmt(h.other[1])}</span>
+          <span class="mf-name" title="The line USGS publishes for the producers it does not name">Other countries</span>
+          <span class="num">
+            {fmt(h.other[0])}
+            {mark(otherEst(0), 'USGS marks this value as an estimate')}
+          </span>
+          <span class="num">
+            {fmt(h.other[1])}
+            {mark(otherEst(1), 'USGS marks this value as an estimate')}
+          </span>
           <span class="num mf-chg">{chg(h.other[0], h.other[1])}</span>
         </div>
       )}
       <div class="mf-row mf-years mf-other">
         <span class="mf-name">World (sum of lines)</span>
-        <span class="num">{fmt(h.world[0])}</span>
-        <span class="num">{fmt(h.world[1])}</span>
+        <span class="num">
+          {fmt(h.world[0])}
+          {mark(worldEst(0), 'The sum holds values that USGS marks as estimates')}
+        </span>
+        <span class="num">
+          {fmt(h.world[1])}
+          {mark(worldEst(1), 'The sum holds values that USGS marks as estimates')}
+        </span>
         <span class="num mf-chg">{chg(h.world[0], h.world[1])}</span>
       </div>
       {rows.length > 10 && (
@@ -265,6 +283,12 @@ function ConcentrationBlock({ d }: { d: CommodityData }) {
 }
 
 // ------------------------------------------------------------------ the United States, as USGS states it
+/** "2024 and 2025": the years of the figures of the block, read from the figures. */
+function usYears(u: UsFigures): string {
+  const ys = [...new Set([...(u.consumption ?? []).flatMap((c) => c.vals.map((v) => v.y)), ...(u.reliance ?? []).map((r) => r.y)])].sort();
+  return ys.length > 1 ? `${ys.slice(0, -1).join(', ')} and ${ys[ys.length - 1]}` : String(ys[0] ?? '');
+}
+
 function UnitedStates({ d }: { d: CommodityData }) {
   const u = d.us;
   if (!u || (!u.consumption?.length && !u.reliance?.length)) return null;
@@ -293,10 +317,10 @@ function UnitedStates({ d }: { d: CommodityData }) {
               <i class="mf-e" title="USGS estimate for the year">e</i>
             </span>
           </div>
-          {r.src && <div class="mf-us-n">Main import sources, 2021 to 2024: {r.src}</div>}
+          {r.src && <div class="mf-us-n">Main import sources{r.srcYears ? `, ${r.srcYears}` : ''}: {r.src}</div>}
         </div>
       ))}
-      <SourceLine s={u.s} y="2024 and 2025" n="published figures, as the Mineral Commodity Summaries state them (apparent consumption: its own definition, given under each figure)" />
+      <SourceLine s={u.s} y={usYears(u)} n="published figures, as the Mineral Commodity Summaries state them (apparent consumption: its own definition, given under each figure)" />
     </Section>
   );
 }

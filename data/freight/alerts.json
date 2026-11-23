@@ -6,6 +6,9 @@
 "severity": "high",
 "text": "Commercial transits through Hormuz have collapsed since the US-Israeli air strikes on Iran on 28 February 2026 and Iran's blocking of the strait. Gulf crude, LNG, LPG, petroleum product and fertiliser shipments are disrupted; flows shown for 2024 are a pre-disruption baseline.",
 "event": "iran-war-hormuz-2026",
+"events": [
+"iran-war-hormuz-2026"
+],
 "src": "https://en.wikipedia.org/wiki/2026_Iran_war",
 "chokepoints": [
 "hormuz"
@@ -94,6 +97,10 @@
 {
 "label": "EIA, Global Energy Security Data",
 "url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+},
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
 }
 ],
 "checked": "2026-11-23",
@@ -117,6 +124,10 @@
 "severity": "high",
 "text": "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal. The Houthis halted their attacks when the Gaza peace plan took effect on 10 October 2025; on 20 July 2026 they declared a blockade of Saudi Arabian ports and ships in Bab el-Mandeb.",
 "event": "red-sea-houthi-2023",
+"events": [
+"red-sea-houthi-2023",
+"houthi-saudi-2026"
+],
 "src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
 "chokepoints": [
 "bab-el-mandeb",
@@ -294,6 +305,10 @@
 "severity": "medium",
 "text": "Ukraine and Russia have attacked each other's ports and the ships using them since July 2026, and the Ukrainian deep-water ports of the Odesa area closed on 23 July. A tanker was hit on 17 July as it approached Novorossiysk and the CPC terminal; the CPC pipeline carries most of Kazakhstan's oil exports.",
 "event": "black-sea-attacks-2026",
+"events": [
+"black-sea-attacks-2026",
+"black-sea-tankers-2025"
+],
 "src": "https://en.wikipedia.org/wiki/Black_Sea",
 "chokepoints": [
 "bosphorus"

@@ -5,23 +5,29 @@ Build the country profiles from the full commodity tables, the customs extracts 
 
 Outputs (METHODOLOGY.md §6):
   data/countries/profiles/<ISO3>.json  one file per country of the index (and EU27), loaded when its page opens
-  data/countries/profiles.json         light index: {ISO3: {"n": lines, "top10": N}} or {ISO3: {"none": text}}
+  data/countries/years.json            the years, year labels and world totals of every series the lines point to
+                                       (`hk`), the same for every country: one file, loaded once with the first profile
 
 A profile holds:
   lines     every line the country has in any table of any commodity (production, refinery output, consumption,
-            reserves, exports, imports and their extra tables), with its world rank and share, read from the full
-            tables; exports and imports carry their customs value (CEPII BACI, USD) and are ordered by it, so that
-            "Largest export" is the largest in value. Each line carries the country's series from the history
-            files (value and rank by year), for the History year and the trend line.
+            reserves, ending stocks, capacity, exports, imports: the main tables and every extra table, its section
+            read from the last word of its key), with its world rank and share, read from the full tables; exports
+            and imports carry their customs value (CEPII BACI, USD) and are ordered by it, so that "Largest
+            raw-material export" is the largest in value. Each line carries the country's series from the history
+            files (value and rank by year), for the History year and the trend line. The `balance` block of a crop
+            file is a world balance sheet with no country row: it gives no line.
   basket    the ten largest exports and imports by value at HS4 (every chapter), with their share of the country's
-            total merchandise exports or imports (pipeline/cache/hs4_*, written by pipeline/trade/extract_hs4.py)
-  other     up to five raw-material headings outside the atlas catalogue (diamonds for Botswana, logs for Gabon)
+            total merchandise exports or imports (pipeline/cache/hs4_*, written by pipeline/trade/extract_hs4.py);
+            the first export is the page's "Largest export, all goods"
+  other     up to five headings of the raw-material chapters outside the atlas catalogue (diamonds for Botswana, logs
+            for Gabon); the chapters hold articles too (tyres, screws, jewellery), and the block is named so
   balance   per traded product: net exporter or importer (same table, unit and year on both sides), the first three
             customers and suppliers with their shares and the Herfindahl index of each side (recorded pairs of
             CEPII BACI, latest year: the pairs tables of the engine, or the cleaned customs frame for the groups that
             have no lanes), and imports over consumption where both tables share unit and year
   freight   from the pairs tables of the engine (data/freight/pairs): mode split, typical ports and the share of the
-            seaborne tonnes whose assumed route has to cross ("at least") or may cross ("up to") each passage
+            seaborne tonnes whose assumed route has to cross ("at least") or may cross ("up to") each passage; no
+            "up to" where the chokepoint page of the passage caps its own "up to" for that group at IMF PortWatch
   gaps      the caveats of data/freight/caveats.json for this origin (exports customs data miss, hubs)
   hubs      trading or refining hub, a derived label: exports and imports of the same product both large, and no
             production line for it in the atlas
@@ -31,6 +37,7 @@ A country of the index with none of these gets the exact words of what it is (Na
 import glob
 import json
 import os
+import re
 import sys
 from collections import defaultdict
 
@@ -56,9 +63,11 @@ PARTNERS = 3
 # country missing from it may still produce: no label then)
 HUB_MIN_SHARE = 0.01
 FULL_PRODUCTION_SOURCES = {"eia-intl", "usda-psd", "faostat"}
-# freight: a passage is listed for a country's product when its "up to" share reaches this share of the seaborne tonnes
-# (the floor of the chokepoint estimates, pipeline/freight/build_freight.py EST_MIN_SHARE)
+# freight: a passage is listed for a country's product when the figure printed for it ("up to", or "at least" where no "up
+# to" is printed) reaches this share of the seaborne tonnes or 1 Mt (the floor of the chokepoint estimates,
+# pipeline/freight/build_freight.py EST_MIN_SHARE and EST_MIN_MT)
 PASSAGE_MIN_SHARE = 0.02
+PASSAGE_MIN_KT = 1000  # or 1 Mt (build_freight.py EST_MIN_MT)
 PORTS = 3
 # the EU27 aggregate of USDA PSD and its member states (the same list as web/src/map/modules/choropleth.ts EU27)
 EU27 = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU",
@@ -94,25 +103,101 @@ TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nick
                "bauxite": "Bauxite", "cobalt": "Cobalt intermediates and metal", "tin": "Tin (unwrought)"}
 PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
-HS4_LABEL = {
-    "7102": "Diamonds", "4403": "Logs (roundwood)", "4407": "Sawn timber", "4401": "Wood chips and pellets",
-    "4418": "Builders' joinery (wood)", "0801": "Cashew and coconuts", "0803": "Bananas", "0306": "Crustaceans",
-    "0303": "Frozen fish", "0302": "Fresh fish", "0304": "Fish fillets", "1202": "Groundnuts", "2612": "Uranium ore",
-    "2615": "Niobium, tantalum and zirconium ores", "2610": "Chromium ore", "2614": "Titanium ores",
-    "2617": "Other ores (e.g. antimony)", "2616": "Precious metal ores", "2611": "Tungsten ores", "2613": "Molybdenum ores",
-    "2704": "Coke", "2711": "Petroleum gases", "0805": "Citrus fruit", "0806": "Grapes", "0804": "Dates, figs, avocados, mangoes",
-    "0901": "Coffee", "0902": "Tea", "0904": "Pepper", "0907": "Cloves", "0908": "Nutmeg and cardamom",
-    "1801": "Cocoa beans", "2401": "Unmanufactured tobacco", "5201": "Cotton", "5101": "Wool", "4001": "Natural rubber",
-    "1207": "Oilseeds (sesame and other)", "0713": "Pulses", "1006": "Rice", "0201": "Beef", "0202": "Frozen beef",
-    "0204": "Sheep and goat meat", "0102": "Live cattle", "0104": "Live sheep and goats", "2510": "Phosphate rock",
-    "2508": "Clays", "2515": "Marble", "2516": "Granite", "2523": "Cement", "7110": "Platinum group metals",
-    "7106": "Silver", "7108": "Gold", "7601": "Aluminium", "7202": "Ferro-alloys", "7403": "Refined copper",
-    "8105": "Cobalt", "8001": "Tin", "0709": "Vegetables", "0603": "Cut flowers", "2009": "Fruit juices", "1604": "Prepared fish",
-    "1511": "Palm oil", "1513": "Coconut and palm kernel oil", "0302 ": "Fish", "4703": "Chemical wood pulp",
-    "7201": "Pig iron", "7207": "Semi-finished steel", "2601": "Iron ore", "2603": "Copper ore", "2709": "Crude oil",
-    "2710": "Refined petroleum products", "2716": "Electricity", "2701": "Coal",
-}
+# Names of HS4 headings. The heading texts of the HS are not reused: the free list on disk is UN Comtrade's, whose terms
+# ("Policy on Comtrade Data Use", https://uncomtrade.org/docs/policy-on-comtrade-data-use/, read 23 November 2026) allow
+# internal use only. A heading is named from the six-digit descriptions of CEPII BACI's product list (Etalab 2.0) under
+# it, never from one of them alone (METHODOLOGY.md §6).
+SMALL_WORDS = {"a", "an", "and", "or", "of", "the", "for", "in", "on", "with", "by", "to", "not", "other", "than", "whether",
+               "being", "its", "their", "but", "as", "at", "from", "no", "heading", "item", "nes", "n.e.s", "n.e.c", "excluding",
+               "including", "kind", "used", "thereof"}
+NEGATORS = {"than", "excluding", "not", "except", "non", "nes", "n.e.s", "n.e.c"}
+HEADING_NAME_MAX = 72
+_TOKEN = re.compile(r"[A-Za-z0-9][A-Za-z0-9.'/-]*")
 
+
+def _short(text, n=HEADING_NAME_MAX):
+    text = text.strip(" ,;:")
+    if len(text) <= n:
+        return text
+    return text[:n].rsplit(" ", 1)[0].rstrip(" ,;:(") + "…"
+
+
+def _common_phrase(texts):
+    """The longest run of words that every text has, with a word that is not a small word and no word that a text negates
+    ("other than durum", "not mounted or set"), as the first text writes it."""
+    toks, negated = [], set()
+    for t in texts:
+        ts = [(m.group(0).lower().rstrip("."), m.start(), m.end()) for m in _TOKEN.finditer(t)]
+        toks.append(ts)
+        for a, (w, _, e) in enumerate(ts):
+            if w in NEGATORS:  # the words after it, up to the next punctuation, are negated
+                for w2, s2, e2 in ts[a + 1:]:
+                    if re.search(r"[,;:()]", t[e:s2]):
+                        break
+                    negated.add(w2)
+                    e = e2
+    seqs = [[w for w, _, _ in ts] for ts in toks]
+    best = None
+    for i in range(len(seqs[0])):
+        for j in range(len(seqs[0]), i, -1):
+            if best and j - i <= best[1] - best[0]:
+                break
+            run = seqs[0][i:j]
+            if any(w in negated for w in run) or not any(w not in SMALL_WORDS and len(w) > 2 and not w.isdigit() for w in run):
+                continue
+            if all(any(s[x:x + len(run)] == run for x in range(len(s) - len(run) + 1)) for s in seqs[1:]):
+                best = (i, j)
+                break
+    if not best:
+        return None
+    i, j = best
+    while i < j and seqs[0][i] in SMALL_WORDS:  # a run neither starts nor ends on a small word
+        i += 1
+    while j > i and seqs[0][j - 1] in SMALL_WORDS:
+        j -= 1
+    phrase = texts[0][toks[0][i][1]:toks[0][j - 1][2]].split(":")[-1].strip()
+    return phrase if phrase and phrase.count("(") == phrase.count(")") else None
+
+
+def heading_name(descs):
+    """(name, detail) of an HS4 heading from the six-digit descriptions under it ("Vehicles: parts, gear boxes"). One
+    subheading: its description. One first part before ':' shared by all: that part, with the words every subheading
+    shares after it ("Vehicles: transport of goods"), or the kinds they list in a word or two ("Metals: platinum,
+    palladium..."). Different first parts: all of them ("Helicopters; aeroplanes and other aircraft; spacecraft"), with
+    the words every subheading shares. `detail` lists the first parts when there are several."""
+    descs = [re.sub(r"\s*\*\*[^*]*\*\*\s*", " ", str(d)).strip() for d in descs if str(d).strip()]
+    if not descs:
+        return None, None
+    if len(descs) == 1:
+        return _short(descs[0]), None
+    heads, seen = [], set()
+    for d in descs:
+        h = d.split(":", 1)[0].strip()
+        if h.lower() not in seen:
+            seen.add(h.lower())
+            heads.append(h)
+    if len(heads) == 1:
+        rests = [d.split(":", 1)[1].strip() if ":" in d else "" for d in descs]
+        phrase = _common_phrase(rests) if all(rests) else None
+        if not phrase and all(rests):
+            kinds = []
+            for r in rests:
+                k = r.split(",", 1)[0].strip()
+                if len(k.split()) > 2:
+                    kinds = []
+                    break
+                if k.lower() not in (x.lower() for x in kinds):
+                    kinds.append(k)
+            phrase = ", ".join(kinds[:4]) + (", …" if len(kinds) > 4 else "") if len(kinds) > 1 else None
+        return _short(f"{heads[0]}: {phrase}" if phrase else heads[0]), None
+    # a first part that a later one only lengthens ("Electronic circuits", "... and microassemblies") is dropped
+    heads = [h for a, h in enumerate(heads) if not any(o.lower().startswith(h.lower()) and o != h for o in heads[a + 1:])]
+    listing = "; ".join([heads[0]] + [h if h[:2].isupper() else h[0].lower() + h[1:] for h in heads[1:]])
+    phrase = _common_phrase(descs)
+    if phrase and phrase.lower() not in listing.lower():
+        tail = f" ({phrase})"  # what every subheading shares: "parts and accessories" of 8473
+        return _short(listing, HEADING_NAME_MAX - len(tail)) + tail, "; ".join(heads)
+    return _short(listing), "; ".join(heads)
 
 def catalogue_hs():
     codes = []
@@ -153,7 +238,10 @@ MAIN_GROUP = {"copper": "copper-ore", "nickel": "nickel-ore", "zinc": "zinc-ore"
               "phosphate": "phosphate-rock", "thermal-coal": None, "met-coal": None, "natural-gas": None}
 # precious metals: declared value, not gross weight, is the basis of the partner shares (dore and bullion weigh alike)
 VALUE_SHARE_GROUPS = {"gold", "silver", "pgm"}
-# extra tables of a commodity file: section of the profile, BACI value group ("" = no value), label
+# Extra tables of a commodity file. Every one gives lines: its section is the last word of its key (extra_section), its
+# label comes from its title (extra_label) and a customs table (CEPII BACI) carries the USD value of its own rows. The
+# tables below were there first: the section they name is checked against the key, and they keep their value group of the
+# customs frame ("" = no value; None = the commodity's own groups) and their label.
 EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined & blister)"),
               "refined-imports": ("imports", "copper-refined", "Copper (refined & blister)"),
               "int-exports": ("exports", "nickel-int", "Nickel (intermediates & metal)"),
@@ -175,6 +263,33 @@ EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined 
               "eu-production": ("production", "", None), "eu-exports": ("exports", None, None), "eu-imports": ("imports", None, None)}
 REFINERY_LABEL = {"copper": "Refined copper (refinery output)", "bauxite": "Alumina (refinery output)"}
 SECTIONS = ("production", "refinery", "consumption", "reserves", "exports", "imports")
+# sections of a profile, in the order of the page; ending stocks (USDA PSD) and capacity (EIA nuclear) come from extra tables
+LINE_SECTIONS = ("exports", "imports", "production", "consumption", "reserves", "stocks", "capacity")
+# the sections that "World top-10 in" counts and its sources line names (CountryView.tsx)
+TOP10_SECTIONS = ("production", "exports", "imports")
+
+
+def extra_section(key):
+    """The profile section of an extra table, from the last word of its key: refined-exports, coke-production, stocks,
+    nuclear-capacity. None for a key that names no section (the table is then left out, with a warning)."""
+    last = key.rsplit("-", 1)[-1]
+    return last if last in LINE_SECTIONS else None
+
+
+def extra_label(title, section):
+    """A line's name from its table's title: "Top consumers — motor gasoline, EIA 2025" -> "Motor gasoline", "Unwrought
+    aluminium exporters: not alloyed (HS 760110)" -> "Unwrought aluminium: not alloyed (HS 760110)". None where the title
+    names no product of its own ("Ending stocks"): the line then carries the commodity's name."""
+    t = str(title or "").strip()
+    m = re.match(r"^Top \w+ — (.*)$", t)
+    t = m.group(1) if m else t.split(" — ")[0]
+    t = re.split(r",\s*(?:EIA|customs data|USGS|FAOSTAT|USDA)\b", t)[0]
+    t = re.sub(r"\s+\((?:included above|not LPG alone)[^)]*\)?", "", t)
+    t = re.sub(r"\b(?:producers|exporters|importers|consumers|reserves)\b", "", t)
+    t = re.sub(r"\s+([:,])", r"\1", re.sub(r"\s{2,}", " ", t)).strip(" ,:")
+    if not t or t.lower() in ("ending stocks", "stocks", section):
+        return None
+    return t[0].upper() + t[1:]
 
 
 def series_at(h, iso):
@@ -196,12 +311,30 @@ def series_at(h, iso):
             continue
         ranks.append(1 + sum(1 for c, s in h["c"].items() if c not in odd and s[i] is not None and s[i] > v))
     e = {"hv": vals, "hr": ranks}
-    for key, short in (("est", "hest"), ("out", "hout"), ("brk", "hbrk"), ("srcEst", "hsrc")):
+    for key, short in (("est", "hest"), ("out", "hout"), ("brk", "hbrk"), ("srcEst", "hsrc"), ("conv", "hconv")):
         if (h.get(key) or {}).get(iso):
             e[short] = h[key][iso]
     if (h.get("cl") or {}).get(iso) and any(h["cl"][iso]):
         e["hcl"] = h["cl"][iso]
     return e, worlds
+
+
+def caveat_concerns(t, iso, names):
+    """Whether the warning of a table belongs on the line of `iso`. A warning about one country ("The United States is
+    converted from...", "Kyrgyzstan: EIA raised its estimate...") goes on that country's line only; a table without a short
+    form whose warning opens with a country's name is such a warning. Any other warning is about the whole table."""
+    if t.get("caveatShort"):
+        return True
+    text = re.sub(r"^The ", "", str(t["caveat"]))
+    about = [c for c, n in names.items() if re.match(rf"{re.escape(re.sub(r'^The ', '', n))}\b", text)]
+    return not about or iso in about
+
+
+def hs4_year_of(frames, latest):
+    """The year of the HS4 extract (exports, imports, totals) when all three hold that one year and it is the customs
+    frame's; None otherwise (an interrupted extract, another BACI version): the basket would mix two years."""
+    years = {int(y) for f in frames for y in f["t"].unique()}
+    return latest if years == {latest} else None
 
 
 def hhi(shares):
@@ -253,7 +386,10 @@ def ne_text(iso, name, has_code):
             what = f"{name} is drawn by the base map (Natural Earth) as a disputed area"
         elif "crown dependency" in note:
             what = f"{name} is drawn by the base map (Natural Earth) as a crown dependency of the United Kingdom"
-        elif sov != name and typ in ("Dependency", "Country"):
+        elif sov != name and typ == "Country":
+            # Natural Earth's TYPE "Country" with another sovereign (Åland): its own words, not "dependency"
+            what = f"{name} is listed by the base map (Natural Earth) as a country under the sovereignty of {sov_name}"
+        elif sov != name and typ == "Dependency":
             what = f"{name} is drawn by the base map (Natural Earth) as a dependency of {sov_name}"
         else:
             what = f"{name} is drawn by the base map (Natural Earth) as a sovereign country"
@@ -299,7 +435,7 @@ def main():
     profiles = {}
 
     def prof(iso):
-        return profiles.setdefault(iso, {"c": iso, "exports": [], "imports": [], "production": [], "consumption": [], "reserves": []})
+        return profiles.setdefault(iso, {"c": iso, **{sec: [] for sec in LINE_SECTIONS}})
 
     years_of = {}  # history key -> {"y": years, "l": labels, "w": world per year}
 
@@ -308,9 +444,17 @@ def main():
     for k, d in tables.items():
         sections = [(sec, d.get(sec), None, None, sec) for sec in SECTIONS]
         for ex in d.get("extra") or []:
+            side = extra_section(ex["key"])
+            if side is None:
+                print(f"WARNING: {k} extra table {ex['key']}: its key names no section, left out")
+                continue
             if ex["key"] in EXTRA_SIDE:
-                side, grp, label = EXTRA_SIDE[ex["key"]]
-                sections.append((side, ex["table"], grp, label, ex["key"]))
+                listed, grp, label = EXTRA_SIDE[ex["key"]]
+                assert listed == side, (k, ex["key"])
+            else:
+                # a customs table carries the value of its own rows; another source's table has none
+                grp, label = ("row" if ex["table"].get("s") == "baci" else ""), extra_label(ex.get("title"), side)
+            sections.append((side, ex["table"], grp, label, ex["key"]))
         for section, t, grp, label, tkey in sections:
             if not t or not t.get("rows"):
                 continue
@@ -334,15 +478,23 @@ def main():
                     e["label"] = lab
                 if t.get("basis"):
                     e["basis"] = t["basis"]
-                if section in ("exports", "imports") and grp != "":
+                if t.get("scopeLabel"):
+                    e["scope"] = t["scopeLabel"]  # a table of part of the world (the EU member states): the line says so
+                if section in ("exports", "imports") and grp == "row":
+                    val = float(r.get("usd") or 0)
+                elif section in ("exports", "imports") and grp != "":
                     series = exp_usd if section == "exports" else imp_usd
                     val = float(series.get((r["c"], grp), 0.0)) * 1000 if grp else usd(series, r["c"], k)
-                    if val:
-                        # the value has its own source and year, whatever the tonnage comes from
-                        e["usd"], e["usdS"], e["usdY"] = round(val / 1e9, 3), "baci", latest
+                else:
+                    val = 0
+                if val:
+                    # the value has its own source and year, whatever the tonnage comes from
+                    e["usd"], e["usdS"], e["usdY"] = round(val / 1e9, 3), "baci", int(t["y"]) if grp == "row" else latest
                 if r.get("n"):
                     e["n"] = r["n"]
-                if t.get("caveat"):
+                if r.get("conv"):
+                    e["conv"] = True  # the row is the atlas's conversion of the source's figure (EIA LPG, United States): the line says so
+                if t.get("caveat") and caveat_concerns(t, r["c"], names):
                     e["warn"] = t.get("caveatShort") or t["caveat"]  # warning of the whole table (trade hubs, gross weight...), short form for a profile row
                 if t.get("norank"):
                     e["_norank"] = True  # the order of the table is not a world ranking (LNG customs tonnage): no rank is printed
@@ -359,7 +511,8 @@ def main():
 
     top10 = {}
     for iso, section, e, _ in lines:
-        if e["rank"] <= TOP_RANK and not e.get("_norank"):
+        # the same lines as the KPI's sources line on the page: production (with refinery output), exports and imports
+        if section in TOP10_SECTIONS and e["rank"] <= TOP_RANK and not e.get("_norank"):
             top10.setdefault(iso, set()).add(e["k"])
         if e.get("_norank"):
             e.pop("rank", None)
@@ -381,7 +534,7 @@ def main():
     for iso, p in profiles.items():
         p["exports"] = by_value(p["exports"])
         p["imports"] = by_value(p["imports"])
-        for sec in ("production", "consumption", "reserves"):
+        for sec in ("production", "consumption", "reserves", "stocks", "capacity"):
             p[sec] = sorted(p[sec], key=lambda e: -(e["share"] or 0))
         if top10.get(iso):
             p["top10"] = len(top10[iso])
@@ -402,13 +555,12 @@ def main():
         he = pd.read_csv(hs4p, dtype={"hs4": str})
         hi = pd.read_csv(hs4i, dtype={"hs4": str})
         tot = pd.read_csv(hs4t)
-        hs4_year = int(he["t"].max())
-    if hs4_year is not None and hs4_year != latest:
-        # the HS4 extract and the customs frame come from different BACI versions: the basket would mix two years
-        print(f"WARNING: HS4 extract of {hs4_year} against customs frame of {latest}: basket and other headings left out")
-        hs4_year = None
+        hs4_year = hs4_year_of((he, hi, tot), latest)
+        if hs4_year is None:
+            print(f"WARNING: HS4 extract years {sorted({int(y) for f in (he, hi, tot) for y in f['t'].unique()})} against customs "
+                  f"frame of {latest}: basket and other headings left out")
     if hs4_year is not None:
-        desc = pd.read_csv(os.path.join(CACHE, "hs4_exports_desc.csv"), dtype={"hs4": str}).set_index("hs4")["description"].to_dict()
+        desc = pd.read_csv(os.path.join(CACHE, "hs4_exports_desc.csv"), dtype=str).groupby("hs4")["description"].apply(list).to_dict()
         codes = catalogue_hs()
         head_k = defaultdict(set)  # HS4 heading -> atlas commodities whose codes sit under it
         group_k = dict(GROUP_K)
@@ -424,8 +576,8 @@ def main():
                     head_k[hd].add(k)
 
         def label_of(hs4):
-            text = str(desc.get(hs4, hs4))
-            return HS4_LABEL.get(hs4) or text.split(":")[0].split(";")[0][:60], text
+            name, detail = heading_name(desc.get(hs4, []))
+            return name or f"HS {hs4}", detail
 
         for frame, who, side in ((he, "o", "exports"), (hi, "d", "imports")):
             frame = frame[frame[who].notna()].assign(**{who: frame[who].replace(CODE_FIX)})
@@ -437,13 +589,14 @@ def main():
                 top = g.sort_values("usd", ascending=False).head(BASKET_ROWS)
                 rows = []
                 for r in top.itertuples():
-                    lab, text = label_of(r.hs4)
+                    lab, detail = label_of(r.hs4)
                     ks = head_k.get(r.hs4) or set()
                     row = {"hs4": r.hs4, "label": lab, "usd": round(r.usd / 1e6, 3), "share": round(r.usd / total, 4)}
-                    if len(ks) == 1 and None not in ks:
+                    # one atlas commodity under the heading; not coal, which customs codes do not split into thermal and metallurgical
+                    if len(ks) == 1 and None not in ks and not ks & set(COAL):
                         row["k"] = next(iter(ks))
-                    if text != lab:
-                        row["d"] = text[:160]
+                    if detail:
+                        row["d"] = detail[:200]  # the first parts of its subheadings, when the name lists several
                     rows.append(row)
                 prof(iso).setdefault("basket", {"y": hs4_year, "s": "baci"})[side] = {"total": round(total / 1e6, 3), "rows": rows}
         # raw materials outside the catalogue (the "country check": diamonds for Botswana, logs for Gabon)
@@ -453,7 +606,7 @@ def main():
         rank_hs4 = raw.assign(r=raw.groupby("hs4")["usd"].rank(ascending=False, method="min")).set_index(["o", "hs4"])["r"]
         for iso, g in raw.groupby("o"):
             total = g["usd"].sum()
-            if total < OTHER_MIN_TOTAL:  # < USD 200 million of raw-material exports: skip
+            if total < OTHER_MIN_TOTAL:  # < USD 200 million of exports from these chapters: skip
                 continue
             out = []
             for r in g.sort_values("usd", ascending=False).itertuples():
@@ -464,7 +617,7 @@ def main():
                 lab, _ = label_of(r.hs4)
                 out.append({"k": f"hs{r.hs4}", "label": lab, "v": round(r.usd / 1e6, 2), "u": "bn USD exports",
                             "share": round(r.usd / world_hs4[r.hs4], 4), "rank": int(rank_hs4.get((iso, r.hs4), 0)) or None,
-                            "y": hs4_year, "s": "baci", "n": f"{r.usd / total:.0%} of the country's raw-material exports (HS {r.hs4})"})
+                            "y": hs4_year, "s": "baci", "n": f"{r.usd / total:.0%} of the country's exports from these chapters (HS {r.hs4})"})
             if out:
                 prof(iso)["other"] = out
 
@@ -521,7 +674,11 @@ def main():
                 ev, iv = (el or {}).get("v", 0.0), (il or {}).get("v", 0.0)
                 row["net"] = {"v": round(ev - iv, 4), "exp": ev if el else None, "imp": iv if il else None, "u": etab["u"],
                               "y": etab["y"], "s": (el or il)["s"], **({"est": True} if (el or {}).get("est") or (il or {}).get("est") else {})}
-            cons = next((e for e in p["consumption"] if e["k"] == k), None) if ek == "exports" else None
+            cons = next((e for e in p["consumption"] if e["k"] == k and e["t"] == "consumption"), None) if ek == "exports" else None
+            # only against a consumption figure a source publishes: the atlas's apparent consumption (production + imports -
+            # exports, steel) holds the imports already, and the ratio would measure nothing
+            if cons and (cons["s"] == "atlas" or cons.get("est")):
+                cons = None
             if il and cons and il["u"] == cons["u"] and str(il["y"]) == str(cons["y"]) and cons["v"] and round(il["v"] / cons["v"], 4) > 0:
                 row["dep"] = {"v": round(il["v"] / cons["v"], 4), "y": il["y"], "s": il["s"], "u": il["u"], "imp": il["v"], "cons": cons["v"]}
             if frame is not None:
@@ -538,6 +695,35 @@ def main():
                 p.setdefault("balance", []).append(row)
 
     # ---- freight: mode split, typical ports and passages, from the pairs tables of the engine
+    # The "up to" of a passage and a group, as its chokepoint page prints it (data/freight/chokepoints.json `estimates`,
+    # `mt`): where the engine caps it at IMF PortWatch's count of all ships through the passage (or prints no entry), the
+    # tonnes a country's routes may add are not all there, and its "up to" for that passage and group is not printed.
+    published = {}
+    for c in load_json(os.path.join(data, "freight", "chokepoints.json")):
+        for est in c.get("estimates") or []:
+            published[(c["id"], est["p"])] = est["mt"][1]
+    upto_ok = {}  # (gate, group) -> the country's "up to" may be printed
+    for g, df in pair_frames.items():
+        sea_rows = df[df["m"].isin([0, 1])]
+        vm, am, kt = (sea_rows[c].to_numpy() for c in ("via", "alt", "kt"))
+        for gi, gate in enumerate(pair_meta[g]["gates"]):
+            must = (vm.astype("int64") >> gi) & 1 == 1
+            may = ((am.astype("int64") >> gi) & 1 == 1) & ~must
+            high = float(kt[must].sum() + kt[may].sum()) / 1000  # Mt, uncapped, every origin
+            pub = published.get((gate, g))
+            upto_ok[(gate, g)] = pub is not None and pub >= high - (0.06 + 0.001 * high)
+
+    def passage(gate, low, high, ok, sea):
+        """One passage of a country's seaborne tonnes (kt): "at least" and, where the passage page allows it, "up to";
+        listed under the engine's floor on the printed figure (2% of these tonnes, or 1 Mt)."""
+        shown = high if ok else low
+        if not (shown / sea >= PASSAGE_MIN_SHARE or shown >= PASSAGE_MIN_KT):
+            return None
+        v = {"id": gate, "low": round(low / sea, 4), "high": round(shown / sea, 4)}
+        if not ok and high - low >= 0.5:
+            v["capped"] = True  # no "up to": the passage page caps its own at IMF PortWatch
+        return v
+
     for g, df in pair_frames.items():
         pf = pair_meta[g]
         ports, bases = pf["ports"], pf.get("bases") or []
@@ -574,9 +760,10 @@ def main():
                         may = ((am.astype("int64") >> gi) & 1 == 1) & ~must
                         low, high = float(kt[must].sum()), float(kt[must].sum() + kt[may].sum())
                         if high:
-                            every[gate] = (low, high)
-                        if high / sea >= PASSAGE_MIN_SHARE:
-                            via.append({"id": gate, "low": round(low / sea, 4), "high": round(high / sea, 4)})
+                            every[gate] = (low, high, upto_ok.get((gate, g), False))
+                            v = passage(gate, low, high, every[gate][2], sea)
+                            if v:
+                                via.append(v)
                     x["via"] = sorted(via, key=lambda v: (-v["low"], -v["high"]))
                     x["_every"] = every
                     x["seaKt"] = round(sea, 1)
@@ -596,14 +783,16 @@ def main():
             tot = {"kt": round(allkt, 1), "sea": round(sum(x["kt"] * (x["modes"].get("sea", 0) + x["modes"].get("transit", 0)) for x in rows) / allkt, 4),
                    "mixed": round(sum(x["kt"] * x["modes"].get("mixed", 0) for x in rows) / allkt, 4)}
             if sea:
-                low, high = defaultdict(float), defaultdict(float)
+                low, high, ok = defaultdict(float), defaultdict(float), defaultdict(lambda: True)
                 for x in rows:
-                    for gid, (lo, hi) in x.get("_every", {}).items():
+                    for gid, (lo, hi, up) in x.get("_every", {}).items():
                         low[gid] += lo
                         high[gid] += hi
+                        if hi - lo >= 0.5 and not up:
+                            ok[gid] = False  # one group without its "up to": the sum has none either
                 tot["seaKt"] = round(sea, 1)
-                tot["via"] = sorted(({"id": gid, "low": round(low[gid] / sea, 4), "high": round(high[gid] / sea, 4)} for gid in high
-                                     if high[gid] / sea >= PASSAGE_MIN_SHARE), key=lambda v: (-v["low"], -v["high"]))
+                tot["via"] = sorted(filter(None, (passage(gid, low[gid], high[gid], ok[gid], sea) for gid in high)),
+                                    key=lambda v: (-v["low"], -v["high"]))
             fr[side + "Total"] = tot
         for side in ("exports", "imports"):
             for x in fr[side]:
@@ -670,42 +859,47 @@ def main():
         for iso in EU27:
             prof(iso)["eu"] = "EU27"
 
-    # ---- write: one file per country of the index, and the light index
+    # ---- write: one file per country of the index, and the years of the series (one file for every country)
     has_code = set(pd.read_csv(os.path.join(CACHE, "baci_country_codes.csv"), dtype=str)["country_iso3"].dropna()) | {"TWN"}
     os.makedirs(OUT_DIR, exist_ok=True)
-    index, size = {}, 0
+    written, size, used = set(), 0, set()
     for iso in sorted(set(names) | {c for c in profiles if c == "EU27"}):
         p = profiles.get(iso)
         if p is None:
             p = {"c": iso, "none": ne_text(iso, names.get(iso, iso), iso in has_code)}
-            index[iso] = {"none": p["none"]}
         else:
             note = no_code_note(iso, names.get(iso, iso))
             if note:
                 p["noCode"] = note
-            for sec in ("exports", "imports", "production", "consumption", "reserves"):
+            for sec in LINE_SECTIONS:
                 for e in p[sec]:
                     e.pop("t", None)
-            p["years"] = {hk: years_of[hk] for hk in sorted({e["hk"] for sec in ("exports", "imports", "production", "consumption", "reserves")
-                                                              for e in p[sec] if e.get("hk")})}
-            n = sum(len(p[sec]) for sec in ("exports", "imports", "production", "consumption", "reserves"))
-            index[iso] = {"n": n, **({"top10": p["top10"]} if p.get("top10") else {})}
+                    if e.get("hk"):
+                        used.add(e["hk"])
+                if not p[sec] and sec in ("stocks", "capacity"):
+                    del p[sec]
         path = os.path.join(OUT_DIR, f"{iso}.json")
         with open(path, "w", encoding="utf-8") as fh:
             json.dump(p, fh, separators=(",", ":"), ensure_ascii=False)
+        written.add(iso)
         size += os.path.getsize(path)
     for f in glob.glob(os.path.join(OUT_DIR, "*.json")):  # a code that left the index keeps no file
-        if os.path.basename(f)[:-5] not in index:
+        if os.path.basename(f)[:-5] not in written:
             os.remove(f)
-    stray = sorted(set(profiles) - set(index))
+    stray = sorted(set(profiles) - written)
     if stray:
         print("WARNING: profiles for codes outside the index, not written:", stray)
-    out = os.path.join(data, "countries", "profiles.json")
+    # the years and world totals of a series are the same on every country's page: written once, not in each file
+    out = os.path.join(data, "countries", "years.json")
     with open(out, "w", encoding="utf-8") as fh:
-        json.dump(index, fh, separators=(",", ":"), ensure_ascii=False)
-    with_data = sum(1 for v in index.values() if "n" in v)
-    print(f"profiles {with_data} with data, {len(index) - with_data} without; files {size / 1024:.0f} KB in all, "
-          f"largest {max(os.path.getsize(f) for f in glob.glob(os.path.join(OUT_DIR, '*.json'))) / 1024:.0f} KB; index {os.path.getsize(out) / 1024:.0f} KB")
+        json.dump({hk: years_of[hk] for hk in sorted(used)}, fh, separators=(",", ":"), ensure_ascii=False)
+    old_index = os.path.join(data, "countries", "profiles.json")  # the light index of the first version: the site never read it
+    if os.path.exists(old_index):
+        os.remove(old_index)
+    with_data = sum(1 for iso in written if iso in profiles)
+    print(f"profiles {with_data} with data, {len(written) - with_data} without; files {size / 1024:.0f} KB in all, "
+          f"largest {max(os.path.getsize(f) for f in glob.glob(os.path.join(OUT_DIR, '*.json'))) / 1024:.0f} KB; "
+          f"years {os.path.getsize(out) / 1024:.0f} KB")
 
 if __name__ == "__main__":
     main()

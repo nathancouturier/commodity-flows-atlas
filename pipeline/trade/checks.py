@@ -40,11 +40,14 @@ Checks
 import json
 import os
 import re
+import sys
 import unicodedata
 
 import pandas as pd
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+sys.path.insert(0, os.path.join(ROOT, "pipeline"))
+from common import constants as CN  # noqa: E402  (physical and conventional constants, with the page that gives each)
 RAW = os.path.join(ROOT, "raw")
 DATA = os.path.join(ROOT, "data")
 TRADE_CHECKS = os.path.join(ROOT, "pipeline", "cache", "trade_checks.json")
@@ -58,11 +61,11 @@ PSD_GROUPS = {
     "rice": "Rice, Milled", "palm-oil": "Oil, Palm", "rapeseed": "Oilseed, Rapeseed", "cotton": "Cotton",
     "sugar": "Sugar, Centrifugal", "coffee": "Coffee, Green",
 }
-# kt per PSD unit: 1000 bales of 480 lb (1 lb = 0.45359237 kg by definition), 1000 bags of 60 kg
-PSD_KT = {"(1000 480 lb. Bales)": 480 * 0.45359237 / 1000, "(1000 60 KG BAGS)": 0.06, "(1000 MT)": 1.0}
+# kt per PSD unit: 1000 bales of 480 lb, 1000 bags of 60 kg (pipeline/common/constants.py)
+PSD_KT = {"(1000 480 lb. Bales)": CN.KT_PER_1000_COTTON_BALES, "(1000 60 KG BAGS)": CN.KT_PER_1000_COFFEE_BAGS, "(1000 MT)": 1.0}
 
-# Standard atomic weights (IUPAC): K2O content of pure potassium chloride and nitrogen content of urea
-_K, _CL, _O, _C, _N, _H = 39.0983, 35.453, 15.999, 12.011, 14.007, 1.008
+# Standard atomic weights (CIAAW, pipeline/common/constants.py): K2O content of pure potassium chloride and nitrogen content of urea
+_K, _CL, _O, _C, _N, _H = (CN.ATOMIC_WEIGHT[e] for e in ("K", "Cl", "O", "C", "N", "H"))
 K2O_IN_KCL = (2 * _K + _O) / (2 * (_K + _CL))
 N_IN_UREA = 2 * _N / (_C + _O + 2 * _N + 4 * _H)
 
@@ -127,7 +130,8 @@ def iso(name):
 
 
 def _mt(v):
-    return f"{v:,.0f} Mt" if v >= 100 else f"{v:.3g} Mt"
+    # under 100 t, {:.3g} would print an exponent ("5.9e-05 Mt", review GL1.5): tonnes then
+    return f"{v:,.0f} Mt" if v >= 100 else f"{v:.3g} Mt" if v >= 1e-4 or v <= 0 else f"{v * 1e6:,.0f} t"
 
 
 def _name(code):
@@ -406,7 +410,13 @@ def k11(df, year):
 # (HS 7402, 7403), unwrought aluminium, refined zinc, lead and tin, alumina. Ores and intermediates mix grades and are left out.
 UV_GROUPS = {"aluminium": "unwrought aluminium (HS 7601)", "copper-refined": "refined and blister copper (HS 7402, 7403)",
              "zinc-metal": "unwrought zinc (HS 7901)", "lead-metal": "unwrought lead (HS 7801)", "tin-metal": "unwrought tin (HS 8001)",
-             "alumina": "alumina (HS 281820)"}
+             "alumina": "alumina (HS 281820)",
+             # the other groups with lanes of package L1 (review GL1.10): concentrates and compounds mix grades, so a pair found here
+             # is worded as a hypothesis by its caveat, like the others
+             "lead-ore": "lead ores and concentrates (HS 2607)", "tin-ore": "tin ores and concentrates (HS 2609)",
+             "cobalt": "cobalt ores, intermediates and unwrought cobalt (HS 2605, 810510)",
+             "lithium": "lithium carbonate and lithium oxide and hydroxide (HS 283691, 282520)",
+             "rare-earths": "rare-earth metals and compounds (HS 280530, 284610, 284690)"}
 UV_RATIO = 0.5   # a pair declared below this share of the group's usual unit value
 UV_SHARE = 0.01  # and carrying at least this share of the group's tonnage ...
 UV_MIN_T = 10e3  # ... and at least this many tonnes

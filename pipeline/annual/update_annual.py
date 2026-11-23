@@ -83,17 +83,19 @@ STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "la
             "profiles": 10, "alerts": 5, "prices": 5}
 
 
-def run(cmd, timeout):
-    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails."""
+def run(cmd, timeout, accept=()):
+    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails, unless its exit status is in
+    `accept`. Returns the completed process."""
     print("  $", " ".join(os.path.relpath(c, ROOT) if os.path.isabs(c) and c.startswith(ROOT) else c for c in cmd), flush=True)
     try:
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         raise RuntimeError(f"timed out after {timeout // 60} min")
     print("\n".join(r.stdout.splitlines()[-8:]))
-    if r.returncode != 0:
+    if r.returncode != 0 and r.returncode not in accept:
         tail = (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["?"])[-1]
         raise RuntimeError(f"exit {r.returncode}: {tail}"[:200])
+    return r
 
 
 class Snapshot:
@@ -371,6 +373,22 @@ def pending(name):
     return int(status.get(name).get("consecutive_failures") or 0) > 0
 
 
+# exit status of build_commodities.py when everything was written except the monthly EIA series (build_commodities.MONTHLY_FAILED): the
+# commodity pages are rebuilt, data/commodities/monthly keeps its previous files, and "build-monthly" is recorded as failing
+MONTHLY_FAILED = 3
+
+
+def build_commodities(script):
+    """Run build_commodities.py; the failure of its monthly step is recorded as "build-monthly" and does not fail "build-commodities"."""
+    r = run([PY, script], STEP_MIN["commodities"] * 60, accept=(MONTHLY_FAILED,))
+    if r.returncode == MONTHLY_FAILED:
+        tail = (r.stderr.strip().splitlines() or ["?"])[-1]
+        status.record_failure("build-monthly", tail)
+        print("[build-monthly] FAILED, the previous monthly files are kept:", tail)
+    else:
+        status.record_success("build-monthly", note="rebuilt")
+
+
 def release_baci_backup():
     snap = _baci_backup.pop("snap", None)
     _baci_backup.pop("entry", None)
@@ -419,9 +437,9 @@ def process(changed):
         chain.append(("build-alerts", lambda: run([PY, os.path.join(ROOT, "pipeline", "freight", "build_alerts.py"), "--strict"],
                                                   STEP_MIN["alerts"] * 60), [os.path.join(data, "freight", "alerts.json")]))
     commodities = os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py")
-    if os.path.exists(commodities) and (changed or pending("build-commodities")):
+    if os.path.exists(commodities) and (changed or pending("build-commodities") or pending("build-monthly")):
         # build_commodities.py also rewrites pipeline/commodities/QA.md, which the workflow commits
-        chain.append(("build-commodities", lambda: run([PY, commodities], STEP_MIN["commodities"] * 60),
+        chain.append(("build-commodities", lambda: build_commodities(commodities),
                       [os.path.join(data, "commodities"), sources_json, os.path.join(ROOT, "pipeline", "commodities", "QA.md")]))
     profiles = (glob.glob(os.path.join(ROOT, "pipeline", "**", "build_profiles.py"), recursive=True) or [None])[0]
     if profiles and (changed or pending("build-profiles")):

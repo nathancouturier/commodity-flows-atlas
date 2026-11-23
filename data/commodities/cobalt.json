@@ -397,13 +397,13 @@
     "c": "CHE",
     "v": 0.07,
     "usd": 3155000,
-    "uv": 45100
+    "uv": 45000
    },
    {
     "c": "ZMB",
     "v": 0.036,
     "usd": 1144000,
-    "uv": 31800
+    "uv": 32000
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
@@ -615,19 +615,19 @@
     "c": "VNM",
     "v": 0.071,
     "usd": 2348000,
-    "uv": 33100
+    "uv": 33000
    },
    {
     "c": "ISR",
     "v": 0.036,
     "usd": 1737000,
-    "uv": 48200
+    "uv": 48000
    },
    {
     "c": "ROU",
     "v": 0.012,
     "usd": 1541000,
-    "uv": 128000
+    "uv": 130000
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal, not contained cobalt.",
@@ -896,6 +896,7 @@
     "pct": "79",
     "y": 2025,
     "src": "Norway, Finland, Canada, Japan",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

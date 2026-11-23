@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t); The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 10.784,
@@ -197,7 +197,7 @@
     "v": 0.0009
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)",
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t); The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-07",
   "yk": "forecast"
  },
@@ -1023,9 +1023,11 @@
       "n": "of which 5.9e-05 Mt to other member states and 0 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.44 Mt, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (7.69 Mt)",
+    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.44 Mt, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 7.69 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 7.692,
     "split": {
      "total": 0.4403,
@@ -1174,9 +1176,11 @@
       "n": "of which 0.000154 Mt from other member states and 0.00112 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.44 Mt, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (7.69 Mt)",
+    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.44 Mt, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 7.69 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 7.692,
     "split": {
      "total": 3.437,
@@ -1439,7 +1443,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Coffee, Green: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Coffee, Green: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "flows": [
   {
@@ -1722,28 +1726,6 @@
    "eq": 6.5,
    "k": 54,
    "cov": 1.0
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "DEU",
-    "p": 0.5269
-   },
-   "top3": 0.8203,
-   "hhi": 3377,
-   "eq": 3.0,
-   "k": 20,
-   "cov": 1.0002
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "DEU",
-    "p": 0.3093
-   },
-   "top3": 0.6284,
-   "hhi": 1678,
-   "eq": 6.0,
-   "k": 26,
-   "cov": 0.9999
   },
   "stocks": {
    "top1": {

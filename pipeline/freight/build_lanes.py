@@ -52,6 +52,8 @@ import vessel_rules as VR  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "trade"))
 import caveats as CV  # noqa: E402
 import checks as K  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, ".."))
+from common import constants as CN  # noqa: E402  (the Earth radius and the nautical mile, with the page that gives each)
 from clean import LAST_DROPPED, clean as clean_baci, despike, history_flags  # noqa: E402,F401  (despike: used by build_freight.py)
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
@@ -136,7 +138,7 @@ def hist_years(latest):
 
 
 HIST_YEARS = hist_years(2024)  # the years of the 2024 build; main() uses hist_years(latest)
-SMALL_MT = 1.0  # a group whose latest seaborne total is under this (Mt) is published with four decimals of Mt
+SMALL_MT = 1.0  # a group whose latest seaborne total is under this (Mt) is published in kt, with one decimal
 EST_NOTE_MIN = 0.005  # a year whose seaborne total is at least this share Atlas estimates gets a yearNotes line
 MIN_NM = 50  # a route shorter than this is not drawn (same port area)
 
@@ -155,14 +157,14 @@ def km(lon1, lat1, lon2, lat2):
     p = math.pi / 180
     x = (lon2 - lon1) * p * math.cos((lat1 + lat2) * p / 2)
     y = (lat2 - lat1) * p
-    return 6371 * math.hypot(x, y)
+    return CN.EARTH_RADIUS_KM * math.hypot(x, y)
 
 
 def gc_nm(a, b):
     """Great-circle distance between two [lon, lat] points, nautical miles (check K12)."""
     p = math.pi / 180
     h = math.sin((b[1] - a[1]) * p / 2) ** 2 + math.cos(a[1] * p) * math.cos(b[1] * p) * math.sin((b[0] - a[0]) * p / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(h)) / 1.852
+    return 2 * CN.EARTH_RADIUS_KM * math.asin(math.sqrt(h)) / CN.KM_PER_NAUTICAL_MILE
 
 
 # ------------------------------------------------------------------ routing caches
@@ -272,8 +274,8 @@ def port_use(iso3, group, role, code, transit_rows=()):
     family row is a page that names the cargo, a "default" row a general port of that country's trade), else the
     gateway row behind ports.basis_of()."""
     for t in transit_rows:
-        if t and t["port"] == code and t["end"] == iso3:
-            return (P.BASIS_PAGE if t["family"] else P.BASIS_GENERAL), t["s"], t["url"]
+        if t and code in t.get("ports", [t["port"]]) and t["end"] == iso3:
+            return t.get("basis") or (P.BASIS_PAGE if t["family"] else P.BASIS_GENERAL), t["s"], t["url"]
     basis = P.basis_of(iso3, group, role, code)
     s, url = P.source_of(iso3, group, role, code)
     return basis, s, url
@@ -360,26 +362,32 @@ def _classes_and_plan(group, o, d, t, a, b, geometry=False):
     return c0, s
 
 
-def transit_row(iso3, group):
-    """TRANSIT row of a country for the group's cargo family: {port, c, s, url} plus `end` and `family` (whether the
-    row is the family's own, not the "default" one), or None when no page was read."""
-    rows = P.TRANSIT.get(iso3) or {}
-    fam = MD.FAMILY.get(group)
-    row = rows.get(fam) or rows.get("default")
+def transit_row(iso3, group, other=None):
+    """TRANSIT row of a country for the group's cargo (ports.transit_for: the group's own row, its family's, or the
+    "default" one) and the partner `other`: {port, c, s, url} plus `end`, `ports` (the principal port, then the ports
+    that are an open choice for that partner), `family` (whether the row is a cargo row, not the "default" one) and
+    `basis` (a cargo row that names other groups only is a general port for this one). None when no page was read, or
+    when the row's page names other buyers only."""
+    row = P.transit_for(iso3, MD.FAMILY.get(group), group, other)
     if not row:
         return None
-    code, src, url = row[0], row[1], row[2]
-    return {"port": code, "c": port_iso3(code), "s": src, "url": url, "end": iso3, "family": fam in rows}
+    code, src, url, _, extra, key = row
+    alts = [c for c, to in (extra.get("alt") or {}).items() if to is None or other is None or other in to]
+    cargo = key != "default" and group in extra.get("names", {group})
+    return {"port": code, "c": port_iso3(code), "s": src, "url": url, "end": iso3, "family": key != "default",
+            "ports": [code] + alts, "basis": P.BASIS_PAGE if cargo else P.BASIS_GENERAL}
 
 
 def public_transit(t):
-    return {k: t[k] for k in ("port", "c", "s", "url")} if t else None
+    """The `transit` of a lane: {port, c, s, url, landlocked}. `landlocked` says whether the end has no coast at all (from the
+    adjacency data, modes.coastal), or has one and still ships through this foreign port (DR Congo through Dar es Salaam)."""
+    return {**{k: t[k] for k in ("port", "c", "s", "url")}, "landlocked": not MD.coastal(t["end"])} if t else None
 
 
 def transit_of(o, d, group):
     """Transit row of the landlocked end of a pair: (end, {port, c, s, url}) or (end, None) when no page was read."""
     end = o if not MD.coastal(o) else d
-    return end, public_transit(transit_row(end, group))
+    return end, public_transit(transit_row(end, group, d if end == o else o))
 
 
 def transit_ends(o, d, kind):
@@ -390,6 +398,40 @@ def transit_ends(o, d, kind):
     return out + [e for e in (o, d) if e not in out and MD.coastal(e) and e in P.TRANSIT]
 
 
+# Minor metals (package L1): many of their ports have no page for the cargo, and a lane from the wrong coast of a country
+# draws passages and chokepoint tonnes that the trade does not cross (review GL1.3: Russian lead concentrate for China from
+# Novorossiysk through Suez). A pair whose route is more than DETOUR times the great-circle distance of its two ports is not
+# routed when an end's port has no page that names the cargo and either (1) another port of that country in the atlas's
+# tables reaches the other end in under NEAR_SHARE of the distance, or (2) the port is only the country's nearest seaport.
+COAST_CHECK = P.BOX_GENERAL | {"lead-ore"}
+DETOUR, NEAR_SHARE = 1.8, 0.6
+
+
+def own_ports(iso3):
+    """Ports of a country in the atlas's tables (gateway rows of any cargo, the legacy table), in that country."""
+    codes = [r.code for r in P.G.get(iso3, ())] + list((P.LEGACY_P.get(iso3) or {}).values())
+    return [c for c in dict.fromkeys(codes) if P._known(c) and port_iso3(c) == iso3]
+
+
+def wrong_coast(o, d, group, opt, at, nm, classes, trows):
+    """The reason a pair of a COAST_CHECK group is not routed (see above), or None."""
+    if nm <= DETOUR * gc_nm(at[opt[0]], at[opt[1]]):
+        return None
+    for iso3, role, mine, other in ((o, "load", opt[0], opt[1]), (d, "discharge", opt[1], opt[0])):
+        if iso3 in trows or port_iso3(mine) != iso3:
+            continue
+        basis = P.basis_of(iso3, group, role, mine)
+        if basis == P.BASIS_PAGE:
+            continue
+        if basis == P.BASIS_NEAREST:
+            return "only the nearest seaport, on a long detour"
+        for code in own_ports(iso3):
+            s = plan_summary(P.port(code)["at"], at[other], classes) if code != mine else None
+            if s and s["nm"] < NEAR_SHARE * nm:
+                return "port on the other coast of the country"
+    return None
+
+
 def route_pair(o, d, group, t, kind):
     """Ports and route of a seaborne or mixed pair. Returns a record, or (None, reason) when the pair is not routed.
     A landlocked end uses its TRANSIT port whatever the gateway rows hold; a pair of two landlocked countries is
@@ -398,13 +440,15 @@ def route_pair(o, d, group, t, kind):
     opts = [(x.load, x.discharge) for x in a.options]
     basis, transit, transit2, trows = a.basis, None, None, {}
     for end in transit_ends(o, d, kind):
-        row = transit_row(end, group)
+        row = transit_row(end, group, d if end == o else o)
         if row:
             trows[end] = row
         elif not MD.coastal(end):
             return None, "no sourced transit port"
     if trows:
-        opts = [(trows[o]["port"] if o in trows else oo, trows[d]["port"] if d in trows else dd) for oo, dd in opts]
+        # a transit row with an open choice of ports for this partner gives one option per port (principal first)
+        opts = [(lo, di) for oo, dd in opts for lo in (trows[o]["ports"] if o in trows else [oo])
+                for di in (trows[d]["ports"] if d in trows else [dd])]
         opts = list(dict.fromkeys(opts))
         basis = "single" if len(opts) == 1 else "open"
         transit = public_transit(trows.get(o) or trows.get(d))
@@ -421,6 +465,10 @@ def route_pair(o, d, group, t, kind):
         return None, "no sea route"
     if main["nm"] < MIN_NM:
         return None, "route under 50 nm"
+    if group in COAST_CHECK:
+        why = wrong_coast(o, d, group, opts[0], at, main["nm"], classes, trows)
+        if why:
+            return None, why
     summaries, kept = [main], [opts[0]]
     for x in opts[1:]:
         s = plan_summary(at[x[0]], at[x[1]], classes)
@@ -590,8 +638,11 @@ def main():
         tot_latest = sea_tot[latest] or 1
         dest_tot = gy.groupby("d")["t"].sum()
         floor = FLOOR.get(group, FLOOR_DEFAULT) * 1e6
-        # digits of the Mt figures: a group under SMALL_MT a year (tin, cobalt, lithium, rare earths) keeps 0.1 kt
-        nd, nt = (4, 4) if tot_latest < SMALL_MT * 1e6 else (3, 2)
+        # a group under SMALL_MT a year (tin, cobalt, lithium, rare earths) is published in kt with 0.1 kt, as its commodity
+        # page prints it (review GL1.9: one unit per group on every page that reads the lane file's `unit`)
+        small = tot_latest < SMALL_MT * 1e6
+        unit, div = ("kt", 1e3) if small else (unit, 1e6)
+        nd, nt = (1, 1) if small else (3, 2)
 
         # route every seaborne and mixed pair of the latest year
         routed, why = {}, {}
@@ -680,7 +731,7 @@ def main():
                     if str(y) not in flags or flags[str(y)] == "kept":
                         flags[str(y)] = "check"
                     notes[str(y)] = (notes[str(y)] + ". " if str(y) in notes else "") + f["text"]
-            flow = {"v": round(vlat / 1e6, nd), "u": "Mt", "y": latest, "s": "baci"}
+            flow = {"v": round(vlat / div, nd), "u": unit, "y": latest, "s": "baci"}
             est = bool(r_latest is not None and r_latest.imputed)
             if est:
                 flow["s"], flow["est"] = "atlas", True
@@ -725,7 +776,7 @@ def main():
             })
             if not est:
                 lane["shareDest"] = round(vlat / float(dest_tot[d]), 4) if d in dest_tot and dest_tot[d] > 0 else None
-            lane["hist"] = [None if v is None else round(v, nd) for v in hist]
+            lane["hist"] = [None if v is None else round(v * 1e6 / div, nd) for v in hist]
             if flags:
                 lane["histFlags"] = flags
             if notes:
@@ -814,14 +865,14 @@ def main():
             "s": "atlas" if group in EST_GROUP else "baci",
             **({"n": EST_GROUP[group] + (f". {first[1]}" if first else "")} if group in EST_GROUP else {}),
             "years": years,
-            "seaborne": [None if first and y < first[0] else round(sea_tot[y] / 1e6, nt) for y in years],
-            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / 1e6, nt) for y in years],
-            "world": [None if first and y < first[0] else round(world.get((group, y), 0) / 1e6, nt) for y in years],
+            "seaborne": [None if first and y < first[0] else round(sea_tot[y] / div, nt) for y in years],
+            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / div, nt) for y in years],
+            "world": [None if first and y < first[0] else round(world.get((group, y), 0) / div, nt) for y in years],
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),
             "estY": est_y,
             "coverage": {"lanes": len(main), "share": round(main_t / tot_latest, 4)},
-            "rest": [{"o": o, "v": round(v / 1e6, nd), "n": n, **({"est": float(f"{e / 1e6:.3g}")} if e > 0 else {})}
+            "rest": [{"o": o, "v": round(v / div, nd), "n": n, **({"est": float(f"{e / div:.3g}")} if e > 0 else {})}
                      for o, (v, n, e) in sorted(rest.items(), key=lambda x: -x[1][0])],
             "ports": {c: port_entry(c, ports_used[c]) for c in sorted(ports_used)},
             "lanes": lanes,
@@ -830,6 +881,7 @@ def main():
 
         # pairs table: every recorded pair of the latest year
         pport, pcls, prow, puse, pnotes = {}, {}, [], {"load": defaultdict(set), "discharge": defaultdict(set)}, {}
+        landlocked = set()  # ends of routed rows that reach the sea through a foreign port and have no coast
         lane_pairs = set(main) | set(mixed_l)
         for r in gy.itertuples(index=False):
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
@@ -844,6 +896,7 @@ def main():
             m = M_CODE[r.mode]
             if rec:
                 lo, di = rec["opts"][0]
+                landlocked.update(t["end"] for t in rec["trows"] if not MD.coastal(t["end"]))
                 for code in (lo, di):
                     if code not in pport:
                         pport[code] = len(pport)
@@ -866,7 +919,7 @@ def main():
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "atlas" if group in EST_GROUP else "baci", "unit": "kt",
             **({"n": EST_GROUP[group]} if group in EST_GROUP else {}),
             # a small group's total is that of its published rows (0.1 kt each), so that its shares add up
-            "seaborne": (round(sum(r[2] for r in prow if r[3] in (0, 1)), 1) if nd == 4 else round(sea_tot[latest] / 1e3)),
+            "seaborne": (round(sum(r[2] for r in prow if r[3] in (0, 1)), 1) if small else round(sea_tot[latest] / 1e3)),
             # [code, name, country, zone, basis as a loading port, basis as a discharging port]: each basis indexes `bases`
             # and is null when no pair of the file uses the port in that role. A page can name a cargo at a port in one
             # direction only, so the two differ (the weakest is kept where several countries share the port in one role).
@@ -879,6 +932,8 @@ def main():
             "cols": ["o", "d", "kt", "m", "load", "dis", "nm", "cls", "via", "alt", "f"],
             "rows": prow,
             "notes": pnotes,
+            # the ends above with no coast at all; another end whose port lies in a third country has a coast (DR Congo)
+            "landlocked": sorted(landlocked),
         }
         write_json(os.path.join(PAIRS_OUT, f"{group}.json"), pdoc)
         n_main = len(main)

@@ -1,12 +1,12 @@
 /**
  * Monthly blocks of the energy pages (EIA International, monthly series; data/commodities/monthly/<id>.json, loaded on demand):
- * crude oil production by month with the latest month against the average of the year before, the disruption of the latest year for
+ * crude oil production by month with the latest month against the average of the year before, the latest year so far against it for
  * the Gulf producers and the world, OECD imports by origin and petroleum stocks; the same stocks and the monthly oil demand on the
  * refined products page; natural gas plant liquids on the LPG page. Every figure is a published monthly figure or arithmetic on two of
  * them (the average of a year, a change in per cent, a stock over a demand), and names its month.
  */
 import { useState } from 'preact/hooks';
-import type { CommodityMonthly, MonthlyBlock, MonthlyRow } from '../types';
+import type { CommodityMonthly, ImportRow, MonthlyBlock, MonthlyRow } from '../types';
 import { countryName, isCountry, loadOptional } from '../lib/data';
 import { fmt } from '../lib/format';
 import { select } from '../lib/store';
@@ -20,23 +20,23 @@ export const monthName = (m: string) => `${MONTHS[Number(m.slice(5)) - 1]} ${m.s
 /** "−16.4%" / "+2.1%": a change with its sign. */
 export const signedPct = (p: number | null | undefined) => (p == null ? '—' : `${p > 0 ? '+' : p < 0 ? '−' : ''}${Math.abs(p).toFixed(1)}%`);
 const tone = (p: number | null | undefined) => (p == null || p === 0 ? '' : p < 0 ? ' mo-down' : ' mo-up');
-const rowName = (r: MonthlyRow, names?: Record<string, string>) => r.name ?? names?.[r.o ?? ''] ?? (r.c ? countryName(r.c) : (r.o ?? ''));
+const rowName = (r: MonthlyRow | ImportRow, names?: Record<string, string>) => r.name ?? names?.[r.o ?? ''] ?? (r.c ? countryName(r.c) : (r.o ?? ''));
 
 /** The commodity pages that have a monthly file. */
 const MONTHLY_PAGES = new Set(['crude-oil', 'refined-products', 'lpg', 'lng']);
 const ORIGIN_NAME: Record<string, string> = { PERG: 'Persian Gulf', OPEC: 'OPEC', OPAF: 'OPEC Africa', OPSA: 'OPEC South America' };
 
-/** A figure with its month under it. */
-function Cell(props: { v: number | null | undefined; m?: string; strong?: boolean }) {
+/** A figure with its month (or another short line) under it; `none` is printed instead of a missing figure. */
+function Cell(props: { v: number | null | undefined; m?: string; sub?: string; none?: string; title?: string; strong?: boolean }) {
   return (
-    <span class={`mo-cell${props.strong ? ' mo-strong' : ''}`}>
-      {props.v == null ? '—' : fmt(props.v)}
-      {props.m && <small>{monthName(props.m)}</small>}
+    <span class={`mo-cell${props.strong ? ' mo-strong' : ''}`} title={props.title}>
+      {props.v == null ? <span class={props.none ? 'mo-none' : undefined}>{props.none ?? '—'}</span> : fmt(props.v)}
+      {(props.sub ?? (props.m && monthName(props.m))) && <small>{props.sub ?? monthName(props.m as string)}</small>}
     </span>
   );
 }
 
-function RowName(props: { r: MonthlyRow; names?: Record<string, string> }) {
+function RowName(props: { r: MonthlyRow | ImportRow; names?: Record<string, string> }) {
   const { r } = props;
   const name = rowName(r, props.names);
   return r.c && isCountry(r.c) ? (
@@ -99,25 +99,38 @@ function LatestTable(props: { block: MonthlyBlock; rows: MonthlyRow[]; lead?: Mo
   );
 }
 
-/** Average of the baseline year, lowest month and latest month of the year of the latest month, each with its month. */
-function RangeTable(props: { rows: MonthlyRow[]; from: string; to: string; baseYear: number; u: string; label: string; names?: Record<string, string>; lead?: MonthlyRow[] }) {
+/**
+ * Average of the baseline year, lowest month and latest month of the year of the latest month, each with its month. A month without a
+ * figure (imports by origin) is printed as "no figure", never as a zero, and no lowest month is printed for a year that has such a month.
+ */
+function RangeTable(props: { rows: (MonthlyRow | ImportRow)[]; from: string; to: string; baseYear: number; u: string; label: string; names?: Record<string, string>; lead?: MonthlyRow[]; latest?: string }) {
   const year = props.to.slice(0, 4);
-  const line = (r: MonthlyRow, extra = '') => (
-    <div class={`mo-row mo-range${extra}`} key={`${r.c ?? ''}${r.o ?? ''}${r.name ?? ''}`}>
-      <RowName r={r} names={props.names} />
-      <Cell v={r.b} />
-      <Cell v={r.lo.v} m={r.lo.m} />
-      <Cell v={r.la.v} m={r.la.m} strong />
-      <span class={`mo-pct${tone(r.p)}`}>{signedPct(r.p)}</span>
-    </div>
-  );
+  const line = (r: MonthlyRow | ImportRow, extra = '') => {
+    const imp = r as ImportRow;
+    return (
+      <div class={`mo-row mo-range${extra}`} key={`${r.c ?? ''}${r.o ?? ''}${r.name ?? ''}`}>
+        <RowName r={r} names={props.names} />
+        <Cell v={r.b} sub={r.b == null && imp.nb != null ? `${imp.nb} of 12` : undefined} title={r.b == null && imp.nb != null ? `${props.baseYear}: EIA gives a figure for ${imp.nb} of the 12 months, so no average is shown` : undefined} />
+        <Cell v={r.lo?.v} m={r.lo?.m} sub={r.lo == null && imp.miss ? `${imp.miss} missing` : undefined} title={r.lo == null && imp.miss ? `${year}: EIA gives no figure for ${imp.miss} of the months so far, so no lowest month is shown` : undefined} />
+        <Cell
+          v={r.la?.v}
+          m={r.la?.m}
+          none="no figure"
+          sub={r.la == null && imp.last ? `last ${monthName(imp.last.m)}` : undefined}
+          title={r.la == null && imp.last ? `EIA gives no figure for ${monthName(props.to)}; its latest figure is ${fmt(imp.last.v)} ${props.u} in ${monthName(imp.last.m)}` : undefined}
+          strong
+        />
+        <span class={`mo-pct${tone(r.p)}`}>{signedPct(r.p)}</span>
+      </div>
+    );
+  };
   return (
     <div class="mo-table">
       <div class="mo-row mo-range mo-head" aria-hidden="true">
         <span>{props.label}</span>
         <span>{props.baseYear} avg</span>
         <span>Lowest {year}</span>
-        <span>Latest</span>
+        <span>{props.latest ?? 'Latest'}</span>
         <span>Change</span>
       </div>
       {props.rows.map((r) => line(r))}
@@ -126,9 +139,12 @@ function RangeTable(props: { rows: MonthlyRow[]; from: string; to: string; baseY
   );
 }
 
+/** The block compares a year so far with the year before: it needs three months of that year to say anything. */
+const MIN_MONTHS = 3;
+
 function Disruption({ m }: { m: CommodityMonthly }) {
   const p = m.production;
-  if (!p || !p.gulf) return null;
+  if (!p || !p.gulf || Number(p.to.slice(5)) < MIN_MONTHS) return null;
   const gulf = p.gulf.members.map((c) => p.rows.find((r) => r.c === c)).filter((r): r is MonthlyRow => !!r);
   const total: MonthlyRow = { ...p.gulf, name: 'Gulf total' };
   const world: MonthlyRow | null = p.world ? { ...p.world, name: 'World' } : null;
@@ -136,7 +152,7 @@ function Disruption({ m }: { m: CommodityMonthly }) {
   const base = p.baseYear ?? Number(year) - 1;
   const last36 = (r: MonthlyRow): MonthlyRow => ({ ...r, v: r.v.slice(-36) });
   return (
-    <Section title={`${year} disruption, crude oil production`} aside={<span class="year-tag">{monthName(p.to)}</span>}>
+    <Section title={`Monthly production in ${year} against the ${base} average`} aside={<span class="year-tag">{monthName(p.to)}</span>}>
       <RangeTable
         rows={[...gulf, total].map(last36)}
         lead={world ? [last36(world)] : []}
@@ -147,7 +163,7 @@ function Disruption({ m }: { m: CommodityMonthly }) {
         label="kb/d"
       />
       <div class="muted small mo-note">
-        Average of {base}: the twelve months of {base} weighted by their days, which is EIA's own annual figure. Lowest and latest: the lowest month of {year} so far and the latest month of the file. The Gulf total
+        Crude oil production of the Gulf producers and the world. Average of {base}: the twelve months of {base} weighted by their days, which is EIA's own annual figure. Lowest and latest: the lowest month of {year} so far and the latest month of the file. The Gulf total
         adds the seven producers month by month. Change = latest month against the {base} average. The 24-month line of each producer is in the table above.
       </div>
       <SourceLine s={m.s} y={`monthly, to ${monthName(p.to)}`} n="crude oil including lease condensate" />
@@ -161,8 +177,15 @@ function Imports({ m }: { m: CommodityMonthly }) {
   if (!imp || !imp.importers.length) return null;
   const cur = imp.importers[Math.min(i, imp.importers.length - 1)];
   const year = cur.to.slice(0, 4);
+  const base = Number(year) - 1;
+  // origins with a month that EIA gives no figure for, in the year so far and in the baseline year
+  const lateRows = cur.rows.filter((r) => r.miss);
+  const lateMonths = lateRows.reduce((n, r) => n + (r.miss ?? 0), 0);
+  const baseRows = cur.rows.filter((r) => r.nb != null);
+  const baseMonths = baseRows.reduce((n, r) => n + 12 - (r.nb ?? 12), 0);
+  const some = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
   return (
-    <Section title="OECD imports from OPEC, by origin" aside={<span class="year-tag">{monthName(cur.to)}</span>}>
+    <Section title="OECD imports by origin" aside={<span class="year-tag">{monthName(cur.to)}</span>}>
       <div class="chips mo-chips" role="group" aria-label="Importer">
         {imp.importers.map((x, k) => (
           <button class="chip" key={x.id} aria-pressed={k === i} onClick={() => setI(k)}>
@@ -170,10 +193,18 @@ function Imports({ m }: { m: CommodityMonthly }) {
           </button>
         ))}
       </div>
-      <RangeTable rows={cur.rows} from={cur.from} to={cur.to} baseYear={Number(year) - 1} u={imp.u} label={`${cur.name}, kb/d`} names={ORIGIN_NAME} />
+      <RangeTable rows={cur.rows} from={cur.from} to={cur.to} baseYear={base} u={imp.u} label={`${cur.name}, kb/d`} names={ORIGIN_NAME} latest={monthName(cur.to)} />
       <div class="muted small mo-note">
-        Gross imports of petroleum and other liquids (crude oil and products together, not crude alone) from the OPEC origins that EIA gives month by month: the file has no other origin. "Persian Gulf" and "OPEC" are EIA's own groups. Origins with
-        an average under 1 kb/d in {Number(year) - 1} are left out.
+        Gross imports of petroleum and other liquids (crude oil and products together, not crude alone) from the origins that EIA gives month by month: its OPEC members and two groups, "Persian Gulf" and "OPEC". The Persian Gulf group
+        includes Qatar, which is not in OPEC: the two groups overlap and are not additive. The file has no other origin. Origins that average under 1 kb/d in the months of {base} that have a figure are left out.
+      </div>
+      <div class="muted small mo-note">
+        EIA leaves out a month for which it has no figure; its file and its documentation do not say that such a month had no imports (it publishes zeros elsewhere). The atlas shows "no figure", not a zero, no average for a year
+        that lacks a month and no lowest month for an origin that lacks one.{' '}
+        {lateRows.length
+          ? `In ${year}, ${some(lateRows.length, 'origin lacks', 'origins lack')} at least one month (${some(lateMonths, 'month', 'months')} in all).`
+          : `In ${year}, every origin of this table has a figure for each month.`}{' '}
+        {baseRows.length ? `In ${base}, ${some(baseRows.length, 'origin lacks', 'origins lack')} at least one month (${some(baseMonths, 'month', 'months')} in all).` : `In ${base}, every origin has twelve months.`}
       </div>
       <SourceLine s={m.s} y={`monthly, to ${monthName(cur.to)}`} />
     </Section>

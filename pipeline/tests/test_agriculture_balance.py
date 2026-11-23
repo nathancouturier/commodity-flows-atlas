@@ -185,6 +185,32 @@ class EuMembers(unittest.TestCase):
         t = next(x["table"] for x in load("commodities/wheat.json")["extra"] if x["key"] == "eu-production")
         self.assertNotIn("noMap", t)
 
+    def test_member_trade_does_not_paint_the_map(self):
+        """GA1.3, GA1.9: customs trade of a member includes trade between members, USDA's European Union row does not: the map keeps
+        USDA's row on every member for exports and imports, rice included; production stays coloured where the basis is the same."""
+        for cid in ("wheat", "corn", "soybeans", "rice", "sugar", "rapeseed"):
+            d = load(f"commodities/{cid}.json")
+            for side in ("exports", "imports"):
+                x = [e for e in d["extra"] if e["key"] == f"eu-{side}"]
+                if not x:
+                    continue
+                t = x[0]["table"]
+                self.assertTrue(t["noMap"], f"{cid} {side}")
+                self.assertIn("carries the USDA value for the European Union", t["n"])
+                self.assertEqual(t["scope"], "EU")
+                self.assertEqual(t["scopeLabel"], "EU member states")
+        wheat = load("commodities/wheat.json")
+        self.assertNotIn("noMap", next(x["table"] for x in wheat["extra"] if x["key"] == "eu-production"))
+
+    def test_the_year_rule_is_said_on_the_production_table_and_the_balance(self):
+        """GA1.8: the file has no label; the page says the words are the atlas's and what USDA's own circular heads the years."""
+        for cid in ("wheat", "sugar", "coffee"):
+            d = load(f"commodities/{cid}.json")
+            self.assertIn(B.YK_RULE, d["production"]["n"], cid)
+            self.assertIn(B.YK_RULE, d["balance"]["n"], cid)
+        self.assertIn("atlas's words", B.YK_RULE)
+        self.assertIn("apps.fas.usda.gov/psdonline/circulars/production.pdf", B.YK_RULE)
+
     def test_the_usda_row_is_untouched(self):
         d = load("commodities/wheat.json")
         eu = next(r for r in d["production"]["rows"] if r["c"] == "EU27")
@@ -227,10 +253,28 @@ class RussianGrain(unittest.TestCase):
         text = w["gaps"][0]["text"]
         self.assertIn("CEPII BACI", text)
         self.assertIn("USDA PSD gives", text)
-        self.assertRegex(text, r"The customs figure is \d+% below the first and \d+% below the second")
+        self.assertRegex(text, r"The published customs figure is \d+% below the first and \d+% below the second")
         for name in ("Bangladesh", "Iran"):
             self.assertIn(name, text)
-        self.assertIn("no tonnage is added", text)
+        self.assertIn("no further tonnage is added", text)
+
+    def test_gap_note_separates_the_atlas_estimate_from_the_recorded_tonnage(self):
+        """GA1.4: 34.5 Mt of Russian wheat in the cleaned frame include tonnage the atlas estimated from the declared value."""
+        import caveats
+        import clean
+        if not os.path.exists(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz")):
+            self.skipTest("customs cache not on disk")
+        df = clean.clean(pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz")))
+        x = df[(df["group"] == "wheat") & (df["o"] == "RUS") & (df["year"] == B.BACI_YEAR)]
+        total, est = x["t"].sum() / 1e6, x.loc[x["imputed"].astype(bool), "t"].sum() / 1e6
+        self.assertGreater(est, 1)
+        text = caveats.build(df, [], B.BACI_YEAR)["grain-rus-wheat"]["text"]
+        self.assertIn(f"{caveats.mt(est)} is an Atlas estimate", text)
+        self.assertIn(f"{caveats.mt(total - est)} is as reported", text)
+        self.assertIn("Egypt", text)
+        self.assertRegex(text, r"On the tonnage as reported alone \(.+?\) the gap is \d+% below the first and \d+% below the second")
+        # a group with nothing estimated says nothing of an estimate
+        self.assertNotIn("Atlas estimate (the tonnage", caveats.build(df, [], B.BACI_YEAR)["grain-rus-rapeseed"]["text"])
 
     def test_registry_builds_the_same_text(self):
         import caveats
@@ -239,7 +283,7 @@ class RussianGrain(unittest.TestCase):
             self.skipTest("customs cache not on disk")
         df = clean.clean(pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz")))
         act = caveats.build(df, [], B.BACI_YEAR)
-        self.assertIn("The customs figure is", act["grain-rus-wheat"]["text"])
+        self.assertIn("The published customs figure is", act["grain-rus-wheat"]["text"])
         # the destinations named had flows in the years before and none in the build year
         w = df[(df["group"] == "wheat") & (df["o"] == "RUS")]
         by = (w.groupby(["d", "year"])["t"].sum() / 1e6).unstack(fill_value=0.0)
@@ -251,7 +295,7 @@ class RussianGrain(unittest.TestCase):
 class CocoaAndMisc(unittest.TestCase):
     def test_cocoa_page_states_grindings_headline_and_the_missing_product_tables(self):
         notes = " ".join(load("commodities/cocoa.json")["notes"])
-        self.assertIn("world grindings of 4,649 kt", notes)
+        self.assertIn("which gives it as estimated: world grindings of 4,649 kt", notes)
         self.assertIn("2024/25", notes)
         self.assertIn("HS 1803 to 1805", notes)
         self.assertNotIn("not in the loaded sources", notes)

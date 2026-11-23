@@ -133,6 +133,8 @@ function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: C
   });
   if (!sides.length) return null;
   const { h, at } = sides[0];
+  // a USDA marketing year says what it is: the change from an estimate to a forecast is not a change between two settled years
+  const withKind = (i: number) => `${yearLabel(h, i)}${h.kinds?.[i] ? ` ${h.kinds[i]}` : ''}`;
   const from = yearLabel(h, at - 1);
   const to = yearLabel(h, at);
   const anyEst = sides.some((s) => [...s.ch.up, ...s.ch.down].some((c) => c.est));
@@ -153,7 +155,7 @@ function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: C
         ? `No figure in ${c.why === 'none-before' ? from : to}: the source gives none${h.s === 'baci' ? ', or the flows are under its reporting threshold (1,000 t and 1 million USD)' : ''}, or it rounds to 0; counted as 0`
         : '';
   return (
-    <Section title={`Largest changes, ${from} to ${to}`} aside={note}>
+    <Section title={`Largest changes, ${withKind(at - 1)} to ${withKind(at)}`} aside={note}>
       {sides.map(({ k, h: s, ch }) => (
         <div class="chg-block" key={k} style={{ '--bar-color': color }}>
           <div class="chg-head">{k === 'exports' ? 'Exporters' : 'Importers'}{data[k]?.basis ? ` — ${data[k]!.basis}` : ''}</div>
@@ -448,6 +450,9 @@ export default function CommodityView({ id }: { id: string }) {
               ? `${following.length > 1 ? `${following.slice(0, -1).join(', ')} and ${following[following.length - 1]}` : `only ${following[0]}`} follow it. Every other figure and table`
               : 'no yearly series for this commodity. Every figure and table'}{' '}
             is the latest published and shows its own year.
+            {d.balance && d.balance.years.length >= 2 && (
+              <> The USDA tables follow the History year; the {d.balance.years.map((b) => `${b.y}${b.yk ? ` ${b.yk}` : ''}`).join(' and ')} are shown when History is closed.</>
+            )}
           </div>
         )}
         {d?.summary && (

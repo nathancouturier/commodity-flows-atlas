@@ -211,7 +211,7 @@
    {
     "c": "BEL",
     "v": 0.2091,
-    "n": "Belgium is both an exporter (rank 13, 0.209 Mt) and an importer (rank 8, 0.367 Mt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "n": "Belgium is both an exporter (rank 13, 0.209 Mt) and an importer (rank 8, 0.367 Mt) of this product, in similar tonnages: part of its trade may be ore or concentrate bought, blended or shipped on there rather than mined or used there (a possible reading, not established here)",
     "usd": 307725000,
     "uv": 1470
    },
@@ -303,7 +303,7 @@
     "c": "VNM",
     "v": 0.075,
     "usd": 75399000,
-    "uv": 1010
+    "uv": 1000
    },
    {
     "c": "NAM",
@@ -351,7 +351,7 @@
     "c": "MKD",
     "v": 0.0495,
     "usd": 42005000,
-    "uv": 849
+    "uv": 848
    },
    {
     "c": "GRC",
@@ -381,19 +381,19 @@
     "c": "MNE",
     "v": 0.0245,
     "usd": 28538000,
-    "uv": 1160
+    "uv": 1170
    },
    {
     "c": "BIH",
     "v": 0.0242,
     "usd": 24081000,
-    "uv": 995
+    "uv": 994
    },
    {
     "c": "MMR",
     "v": 0.0223,
     "usd": 15904000,
-    "uv": 713
+    "uv": 714
    },
    {
     "c": "POL",
@@ -405,13 +405,13 @@
     "c": "KOR",
     "v": 0.0195,
     "usd": 21540000,
-    "uv": 1100
+    "uv": 1110
    },
    {
     "c": "HND",
     "v": 0.017,
     "usd": 10966000,
-    "uv": 645
+    "uv": 644
    },
    {
     "c": "NLD",
@@ -429,31 +429,31 @@
     "c": "ARG",
     "v": 0.0104,
     "usd": 11908000,
-    "uv": 1140
+    "uv": 1150
    },
    {
     "c": "ROU",
     "v": 0.0066,
     "usd": 919000,
-    "uv": 139
+    "uv": 138
    },
    {
     "c": "MYS",
     "v": 0.0065,
     "usd": 5933000,
-    "uv": 913
+    "uv": 906
    },
    {
     "c": "CHN",
     "v": 0.0056,
     "usd": 5621000,
-    "uv": 1000
+    "uv": 995
    },
    {
     "c": "IND",
     "v": 0.0055,
     "usd": 1569000,
-    "uv": 285
+    "uv": 286
    },
    {
     "c": "ECU",
@@ -465,79 +465,79 @@
     "c": "COG",
     "v": 0.0037,
     "usd": 1363000,
-    "uv": 368
+    "uv": 366
    },
    {
     "c": "TUN",
     "v": 0.0036,
     "usd": 3961000,
-    "uv": 1100
+    "uv": 1110
    },
    {
     "c": "AFG",
     "v": 0.0033,
     "usd": 1294000,
-    "uv": 392
+    "uv": 397
    },
    {
     "c": "EGY",
     "v": 0.0025,
     "usd": 2267000,
-    "uv": 907
+    "uv": 904
    },
    {
     "c": "LAO",
     "v": 0.0023,
     "usd": 1261000,
-    "uv": 548
+    "uv": 559
    },
    {
     "c": "TWN",
     "v": 0.002,
     "usd": 1844000,
-    "uv": 922
+    "uv": 940
    },
    {
     "c": "KHM",
     "v": 0.002,
     "usd": 565000,
-    "uv": 282
+    "uv": 288
    },
    {
     "c": "LBY",
     "v": 0.0015,
     "usd": 271000,
-    "uv": 181
+    "uv": 184
    },
    {
     "c": "HKG",
     "v": 0.0015,
     "usd": 1048000,
-    "uv": 699
+    "uv": 717
    },
    {
     "c": "JPN",
     "v": 0.0012,
     "usd": 1172000,
-    "uv": 977
+    "uv": 964
    },
    {
     "c": "LKA",
     "v": 0.0011,
     "usd": 319000,
-    "uv": 290
+    "uv": 287
    },
    {
     "c": "ARE",
     "v": 0.001,
     "usd": 1446000,
-    "uv": 1450
+    "uv": 1470
    },
    {
     "c": "BGR",
     "v": 0.0005,
     "usd": 1272000,
-    "uv": 2540
+    "uv": 2810
    }
   ],
   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -596,7 +596,7 @@
    {
     "c": "BEL",
     "v": 0.3667,
-    "n": "Belgium is both an exporter (rank 13, 0.209 Mt) and an importer (rank 8, 0.367 Mt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "n": "Belgium is both an exporter (rank 13, 0.209 Mt) and an importer (rank 8, 0.367 Mt) of this product, in similar tonnages: part of its trade may be ore or concentrate bought, blended or shipped on there rather than mined or used there (a possible reading, not established here)",
     "usd": 321864000,
     "uv": 878
    },
@@ -658,7 +658,7 @@
     "c": "RUS",
     "v": 0.0895,
     "usd": 80141000,
-    "uv": 895
+    "uv": 896
    },
    {
     "c": "BGR",
@@ -670,7 +670,7 @@
     "c": "UZB",
     "v": 0.0825,
     "usd": 72802000,
-    "uv": 882
+    "uv": 883
    },
    {
     "c": "ZMB",
@@ -712,13 +712,13 @@
     "c": "VNM",
     "v": 0.0173,
     "usd": 2344000,
-    "uv": 135
+    "uv": 136
    },
    {
     "c": "IDN",
     "v": 0.0161,
     "usd": 4158000,
-    "uv": 258
+    "uv": 259
    },
    {
     "c": "THA",
@@ -730,13 +730,13 @@
     "c": "MEX",
     "v": 0.0124,
     "usd": 10815000,
-    "uv": 872
+    "uv": 869
    },
    {
     "c": "TUR",
     "v": 0.0112,
     "usd": 7132000,
-    "uv": 637
+    "uv": 636
    },
    {
     "c": "SVK",
@@ -748,19 +748,19 @@
     "c": "PER",
     "v": 0.0101,
     "usd": 30667000,
-    "uv": 3040
+    "uv": 3050
    },
    {
     "c": "HRV",
     "v": 0.0079,
     "usd": 10532000,
-    "uv": 1330
+    "uv": 1340
    },
    {
     "c": "HKG",
     "v": 0.0066,
     "usd": 5382000,
-    "uv": 815
+    "uv": 818
    },
    {
     "c": "ARE",
@@ -772,7 +772,7 @@
     "c": "ITA",
     "v": 0.0011,
     "usd": 176000,
-    "uv": 160
+    "uv": 157
    }
   ],
   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -938,7 +938,7 @@
       "c": "CHN",
       "v": 0.0201,
       "usd": 53946000,
-      "uv": 2680
+      "uv": 2690
      },
      {
       "c": "ITA",
@@ -962,25 +962,25 @@
       "c": "THA",
       "v": 0.012,
       "usd": 34065000,
-      "uv": 2840
+      "uv": 2850
      },
      {
       "c": "TWN",
       "v": 0.0119,
       "usd": 33157000,
-      "uv": 2790
+      "uv": 2780
      },
      {
       "c": "SVK",
       "v": 0.0104,
       "usd": 30912000,
-      "uv": 2970
+      "uv": 2980
      },
      {
       "c": "LUX",
       "v": 0.0101,
       "usd": 29235000,
-      "uv": 2890
+      "uv": 2910
      },
      {
       "c": "ARE",
@@ -992,7 +992,7 @@
       "c": "MMR",
       "v": 0.0059,
       "usd": 16309000,
-      "uv": 2760
+      "uv": 2780
      },
      {
       "c": "SVN",
@@ -1004,91 +1004,91 @@
       "c": "TUR",
       "v": 0.004,
       "usd": 12044000,
-      "uv": 3010
+      "uv": 3050
      },
      {
       "c": "CHE",
       "v": 0.0036,
       "usd": 9836000,
-      "uv": 2730
+      "uv": 2760
      },
      {
       "c": "VNM",
       "v": 0.0031,
       "usd": 7335000,
-      "uv": 2370
+      "uv": 2400
      },
      {
       "c": "COG",
       "v": 0.0028,
       "usd": 7706000,
-      "uv": 2750
+      "uv": 2790
      },
      {
       "c": "IDN",
       "v": 0.0026,
       "usd": 6339000,
-      "uv": 2440
+      "uv": 2400
      },
      {
       "c": "CZE",
       "v": 0.0015,
       "usd": 4647000,
-      "uv": 3100
+      "uv": 3180
      },
      {
       "c": "KEN",
       "v": 0.0014,
       "usd": 2977000,
-      "uv": 2130
+      "uv": 2090
      },
      {
       "c": "PRT",
       "v": 0.0012,
       "usd": 2823000,
-      "uv": 2350
+      "uv": 2280
      },
      {
       "c": "HUN",
       "v": 0.0011,
       "usd": 2519000,
-      "uv": 2290
+      "uv": 2310
      },
      {
       "c": "NGA",
       "v": 0.001,
       "usd": 1622000,
-      "uv": 1620
+      "uv": 1610
      },
      {
       "c": "GBR",
       "v": 0.0008,
       "usd": 2913000,
-      "uv": 3640
+      "uv": 3850
      },
      {
       "c": "PHL",
       "v": 0.0005,
       "usd": 1165000,
-      "uv": 2330
+      "uv": 2210
      },
      {
       "c": "BLZ",
       "v": 0.0005,
       "usd": 1302000,
-      "uv": 2600
+      "uv": 2620
      },
      {
       "c": "KHM",
       "v": 0.0004,
       "usd": 1305000,
-      "uv": 3260
+      "uv": 3590
      },
      {
       "c": "SHN",
       "v": 0.0002,
       "usd": 2259000,
-      "uv": 11300
+      "uv": 11400
      }
     ],
     "n": "CEPII BACI HS92 unwrought zinc (HS 7901), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -1364,6 +1364,7 @@
     "pct": "73",
     "y": 2025,
     "src": "Canada, Mexico, Peru, Republic of Korea",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

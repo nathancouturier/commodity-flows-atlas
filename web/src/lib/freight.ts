@@ -146,6 +146,18 @@ export function laneEst(lane: { flow: { s: string; est?: boolean; n?: string } }
   return atlasKind(lane.flow) === 'est';
 }
 
+/** A lane figure in Mt, whatever the unit of its file: a group under 1 Mt a year is published in kt (build_lanes.py SMALL_MT),
+ * so figures of several files are compared, summed or scaled in Mt. */
+export const laneMt = (v: number, unit: string | undefined): number => (unit === 'kt' ? v / 1e3 : v);
+
+/** Who ships through the foreign port of "Sea via ...": "Zambia is landlocked", or for an end with a coast of its own that the
+ * atlas sends through another country's port, "DR Congo ships through a port of Tanzania" (from the adjacency data the files
+ * carry, not a list). */
+export function transitWho(ends: { end: string; c: string; landlocked?: boolean }[], name: (iso3: string) => string): string {
+  const parts = ends.map((e) => (e.landlocked === false ? `${name(e.end)} ships through a port of ${name(e.c)}` : `${name(e.end)} is landlocked`));
+  return parts.length ? `${parts.join('; ')}.` : '';
+}
+
 export function maskGates(mask: number, gates: string[]): string[] {
   const out: string[] = [];
   for (let i = 0; i < gates.length && i < 31; i++) if ((mask >>> i) & 1) out.push(gates[i]);

@@ -15,7 +15,7 @@
   grid-template-columns: minmax(0, 1fr) 56px 66px 60px;
 }
 .mo-range {
-  grid-template-columns: minmax(0, 1fr) 52px 60px 62px 56px;
+  grid-template-columns: minmax(0, 1fr) 52px 62px 70px 52px;
 }
 .mo-stock {
   grid-template-columns: minmax(0, 1fr) 44px 60px 58px 38px;
@@ -67,6 +67,12 @@ button.mo-name:hover {
 .mo-strong {
   font-weight: 600;
 }
+.mo-none {
+  font-family: var(--font-ui);
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  color: var(--ink-2);
+}
 .mo-pct {
   text-align: right;
   font-family: var(--font-num);
@@ -95,3 +101,4 @@ button.mo-name:hover {
   padding: 3px 9px;
   font-size: var(--fs-xs);
 }
+.mo-strong small { font-weight: 400; }

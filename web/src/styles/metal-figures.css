@@ -40,8 +40,20 @@ button.mf-row:hover {
 .mf-trade {
   grid-template-columns: minmax(0, 1fr) 52px 88px 52px;
 }
+/* the side panel is about 350 px wide at every screen size: the name of a concentration row ("Refined and blister copper exports", with its
+   estimate mark) takes a line of its own and the three figures ("Chile 23.4%") sit under it, so that nothing is cut */
 .mf-conc {
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr) 44px 58px;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.mf-conc .mf-name {
+  grid-column: 1 / -1;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+/* the header row has no name cell: its three labels sit over the three figures */
+.mf-conc.mf-th > span:first-child {
+  display: none;
 }
 .mf-row .num {
   text-align: right;
@@ -125,19 +137,11 @@ button.mf-row:hover {
   .mf-trade .mf-name {
     grid-column: 1 / -1;
   }
-  .mf-conc {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  .mf-conc .mf-name {
-    grid-column: 1 / -1;
-  }
   /* the header row has no name cell on a phone: its three labels sit over the three figures */
-  .mf-trade.mf-th > span:first-child,
-  .mf-conc.mf-th > span:first-child {
+  .mf-trade.mf-th > span:first-child {
     display: none;
   }
-  .mf-trade .mf-name,
-  .mf-conc .mf-name {
+  .mf-trade .mf-name {
     white-space: normal;
   }
 }

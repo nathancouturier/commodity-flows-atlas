@@ -15,7 +15,7 @@ import { loadPriceIndex, openPrices, spreadMetas, FREQ_WORD, type PriceMeta } fr
 import {
   panelCollapsed, rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select, setFamily, family, commodity, vesselClasses, sheetSnap,
 } from './store';
-import { norm, prepare, score, tokens, type Searchable } from './searchMatch';
+import { groupKinds, matchKind, norm, prepare, rank, tokens, type Searchable, type Tier } from './searchMatch';
 import { loadInfra } from '../map/modules/infrastructure';
 import { flyToWorld, isSheetLayout } from '../map/controller';
 import { INFRA_META } from '../components/ui';
@@ -58,6 +58,8 @@ export interface Group {
   items: Item[];
   /** how many items match (more than are shown when the group is cut) */
   total: number;
+  /** how well its best item matches (see Tier): 4 is an exact name or code */
+  tier: Tier;
 }
 
 // ---------------------------------------------------------------- opening what a result names
@@ -119,6 +121,13 @@ const joinSub = (...p: (string | undefined | false)[]) => p.filter(Boolean).join
 
 function make(kind: Kind, id: string, label: string, sub: string, d: Searchable, order: string | number, open: () => void, badge?: string): Item {
   return { key: `${kind}:${id}`, kind, label, sub, badge, d, order, open };
+}
+
+/** "Crude oil, Saudi Arabia to China": what a lane id `<group>:<origin>-<destination>` opens, in the words of the lane page. */
+function laneText(id: string): string {
+  const [g, ends = ''] = id.split(':');
+  const [o, d] = ends.split('-');
+  return `${cap(GROUP_LABEL[g] ?? commodityMeta(g)?.name ?? g)}, ${countryName(o)} to ${countryName(d)}`;
 }
 
 let indexPromise: Promise<Item[]> | null = null;
@@ -189,16 +198,18 @@ async function build(): Promise<Item[]> {
       ),
     );
   }
-  // a port the infrastructure layer has (Port Hedland) is found as that asset; the lanes' ports it lacks (Jurong) are found here
+  // a port the infrastructure layer has (Port Hedland) is found as that asset; the lanes' ports it lacks (Jurong) are found here,
+  // and each says what it opens: the largest lane that uses it, or the page of its country. A port that would open nothing is not listed.
   const portAssets = (infra ?? []).filter((f) => f.p.type === 'port');
   for (const p of ports?.ports ?? []) {
     const n = norm(p.name);
     if (portAssets.some((f) => f.p.c === p.c && (norm(f.p.name) === n || norm(f.p.name).startsWith(`${n} `)))) continue;
+    if (!p.lane && !isCountry(p.c)) continue;
     const cargo = p.g.map((g) => GROUP_LABEL[g] ?? commodityMeta(g)?.name ?? g).join(', ');
     out.push(
       make(
-        'port', p.id, p.name, joinSub('Typical port of the lanes', countryName(p.c), cargo), prepare([p.name], [p.id], [countryName(p.c), cargo, 'port']), p.name,
-        () => (p.lane ? select({ kind: 'lane', id: p.lane }) : isCountry(p.c) ? select({ kind: 'country', id: p.c }) : undefined), p.id,
+        'port', p.id, p.name, joinSub('Port', countryName(p.c), p.lane ? `opens ${laneText(p.lane)}` : `opens the page of ${countryName(p.c)}`), prepare([p.name], [p.id], [countryName(p.c), cargo, 'port']), p.name,
+        () => (p.lane ? select({ kind: 'lane', id: p.lane }) : select({ kind: 'country', id: p.c })), p.id,
       ),
     );
   }
@@ -233,15 +244,16 @@ function best(q: string[], items: Item[], kind: Kind): { item: Item; s: number }
   let top: { item: Item; s: number } | null = null;
   for (const it of items) {
     if (it.kind !== kind) continue;
-    const s = score(q, it.d);
-    if (s > 0 && (!top || s > top.s)) top = { item: it, s };
+    const r = rank(q, it.d);
+    // a name or a code typed whole or in part: no fuzzy half-match, no word found inside another ("canal" is not "canola")
+    if (r.tier >= 3 && (!top || r.s > top.s)) top = { item: it, s: r.s };
   }
   return top;
 }
 
 /**
  * "japan crude", "soy brazil": the words split in two, one half a country and the other a commodity. Returns the two
- * items, the best split. Each half has to match well (a word of the name, in part or whole).
+ * items, the best split. Each half has to name its object, whole or in part (a word of the name or its beginning).
  */
 export function countryAndCommodity(q: string[], items: Item[]): { country: Item; commodity: Item } | null {
   if (q.length < 2) return null;
@@ -250,42 +262,25 @@ export function countryAndCommodity(q: string[], items: Item[]): { country: Item
     for (const [a, b] of [[q.slice(0, i), q.slice(i)], [q.slice(i), q.slice(0, i)]]) {
       const c = best(a, items, 'country');
       const k = best(b, items, 'commodity');
-      if (c && k && c.s >= 30 && k.s >= 30 && (!found || c.s + k.s > found.s)) found = { country: c.item, commodity: k.item, s: c.s + k.s };
+      if (c && k && (!found || c.s + k.s > found.s)) found = { country: c.item, commodity: k.item, s: c.s + k.s };
     }
   }
   return found;
 }
 
-/** Items that match, best first; with no query, the kind's own order. */
-function matches(q: string[], items: Item[], kind: Kind): { item: Item; s: number }[] {
-  const out: { item: Item; s: number }[] = [];
-  for (const it of items) {
-    if (it.kind !== kind) continue;
-    const s = score(q, it.d);
-    if (s > 0) out.push({ item: it, s });
-  }
-  return out.sort((a, b) => (q.length ? b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label));
-}
-
 /**
  * The groups of results for a query. `scope`: one kind, every match of it (the list of a kind). With no query and no
- * scope the result is empty: the field then shows the kinds with their counts (`counts`).
+ * scope the result is empty: the field then shows the kinds with their counts (`counts`). The order of the groups is
+ * `groupKinds`'s (searchMatch.ts).
  */
 export function search(query: string, items: Item[], scope: Kind | null): Group[] {
   const q = tokens(query);
   if (scope) {
-    const all = matches(q, items, scope).map((m) => m.item);
-    return all.length ? [{ kind: scope, label: KINDS[KIND_ORDER[scope]].label, items: all, total: all.length }] : [];
+    const m = matchKind(q, items, scope);
+    return m.length ? [{ kind: scope, label: KINDS[KIND_ORDER[scope]].label, items: m.map((x) => x.item), total: m.length, tier: m[0].tier }] : [];
   }
   if (!q.length) return [];
-  const groups: (Group & { top: number })[] = [];
-  for (const { kind, label } of KINDS) {
-    const m = matches(q, items, kind);
-    if (m.length) groups.push({ kind, label, items: m.slice(0, PER_GROUP).map((x) => x.item), total: m.length, top: m[0].s });
-  }
-  // the group with the best match first; the kinds keep their order between equal scores
-  groups.sort((a, b) => b.top - a.top || KIND_ORDER[a.kind as Kind] - KIND_ORDER[b.kind as Kind]);
-  return groups;
+  return groupKinds(q, items, PER_GROUP).map((g) => ({ kind: g.kind as Kind, label: KINDS[KIND_ORDER[g.kind as Kind]].label, items: g.items, total: g.total, tier: g.tier }));
 }
 
 export function counts(items: Item[]): { kind: Kind; label: string; one: string; n: number }[] {

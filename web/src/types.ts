@@ -52,7 +52,10 @@ export interface Ranked {
   /** world total in the same unit, if known (from the same source) */
   world?: number;
   /** `name`: the source's entity of a past year when it is not the usual one (tableAt: "EU-25") */
-  rows: { c: Iso3; v: number; n?: string; est?: boolean; name?: string; usd?: number; uv?: number }[];
+  rows: { c: Iso3; v: number; n?: string; est?: boolean; conv?: boolean; name?: string; usd?: number; uv?: number }[];
+  /** what the atlas converted in this table (a row with `conv` is an Atlas conversion of the source's figure), and `convWorld`: the world total too */
+  conv?: string;
+  convWorld?: boolean;
   /** the whole table is an Atlas estimate (rows without `est` too); a table of source `atlas` whose note does not start "Atlas estimate" is a conversion */
   est?: boolean;
   /** the source's own "Other countries" line, in the same unit: its own row, "Other countries (as published)" */
@@ -63,9 +66,12 @@ export interface Ranked {
   worldPublished?: number;
   /** `EU`: a table of the European Union's member states, whose `world` is the total of the 27 (shares are of the EU, not of the world) */
   scope?: 'EU';
+  /** a scope table: the name of the scope, for a total row or a column of the table ("EU member states"); `world` is the scope's total */
+  scopeLabel?: string;
   /** a scope table: the world total of the same source and year, the base of the map colours of the member states */
   worldAll?: number;
-  /** a scope table on another basis than the USDA table (paddy against milled rice, beet against sugar): the map keeps the USDA value */
+  /** a scope table that does not paint the map: another basis than the USDA table (paddy against milled rice, beet against sugar), or another
+   * definition (customs trade includes trade between members): the member states keep the value of USDA's row for the European Union */
   noMap?: boolean;
   /** a scope table of customs trade: the total of the 27 member states and the part of it inside the EU and outside it */
   split?: { total: number; intra: number; extra: number };
@@ -183,7 +189,7 @@ export interface CommodityData {
 export interface UsFigures {
   s: string;
   consumption?: { label: string; u: string; vals: { y: number; v: number; est: boolean }[]; n?: string }[];
-  reliance?: { what: string; pct: string; y: number; src?: string; n?: string }[];
+  reliance?: { what: string; pct: string; y: number; src?: string; srcYears?: string; n?: string }[];
 }
 
 /** Share of the first country, of the first three and Herfindahl index (0 to 10,000) of a table, on the table's world total. `cov`: share of the total the countries cover; `eq`: number of equal-sized countries with the same index. */
@@ -251,6 +257,11 @@ export interface HistTable {
   est?: Record<Iso3, number[]>;
   /** years (indexes) in which the value is the source's own estimate */
   srcEst?: Record<Iso3, number[]>;
+  /** years (indexes) in which the value is the atlas's conversion of the source's figure, and the years whose world total is one */
+  conv?: Record<Iso3, number[]>;
+  convWorld?: number[];
+  /** years (indexes) in which the source's "Other countries" line is itself marked as an estimate */
+  otherEst?: number[];
 }
 
 /** data/commodities/history/<id>.json: `t` is keyed by table (production, exports... or the key of an extra table). */
@@ -290,6 +301,20 @@ export interface MonthlyRow {
   o?: string;
 }
 
+/**
+ * One origin of the imports by origin. EIA leaves a month out when it has no figure (and says nowhere that it means no imports), so
+ * `v` holds null there and: `la` is null when the table's month has no figure (`last` is then the latest figure before it); `lo` is null
+ * when a month of the year so far has none (`miss` counts them); `b` is null when a month of the baseline year has none (`nb` counts the
+ * months that have one).
+ */
+export interface ImportRow extends Omit<MonthlyRow, 'lo' | 'la'> {
+  lo: MonthlyPoint | null;
+  la: MonthlyPoint | null;
+  last?: MonthlyPoint;
+  miss?: number;
+  nb?: number;
+}
+
 /** A block of monthly rows: `from` to `to` ("YYYY-MM") are the months of `v`. */
 export interface MonthlyBlock {
   u: string;
@@ -309,7 +334,7 @@ export interface CommodityMonthly {
   production?: MonthlyBlock;
   consumption?: MonthlyBlock;
   ngl?: MonthlyBlock;
-  imports?: { u: string; importers: { id: string; name: string; from: string; to: string; rows: MonthlyRow[] }[] };
+  imports?: { u: string; importers: { id: string; name: string; from: string; to: string; rows: ImportRow[] }[] };
   stocks?: MonthlyBlock & { withheld: string[] };
   /** what the EIA file does not hold month by month, in words for the page */
   gaps?: string[];
@@ -339,7 +364,10 @@ export interface CountryProfile {
   production: ProfileEntry[];
   consumption?: ProfileEntry[];
   reserves?: ProfileEntry[];
-  /** raw-material headings outside the atlas catalogue (HS4, CEPII BACI) */
+  /** ending stocks (USDA PSD) and generating capacity (EIA nuclear), from the extra tables of the commodity files */
+  stocks?: ProfileEntry[];
+  capacity?: ProfileEntry[];
+  /** headings of the raw-material chapters outside the atlas catalogue (HS4, CEPII BACI) */
   other?: ProfileEntry[];
   basket?: ProfileBasket;
   balance?: ProfileBalance[];
@@ -359,7 +387,8 @@ export interface CountryProfile {
   members?: Iso3[];
   /** the customs data have no code of their own for this entry of the index */
   noCode?: string;
-  /** the years of each series the lines point to (`hk`), with the world total of each year */
+  /** the years of each series the lines point to (`hk`), with the world total of each year: data/countries/years.json, one
+   * file for every country, attached by the loader (lib/data.ts loadProfile) */
   years?: Record<string, { y: number[]; l?: string[]; w: (number | null)[] }>;
 }
 
@@ -380,7 +409,7 @@ export interface BasketRow {
   share: number;
   /** atlas commodity of the heading, when it maps to one */
   k?: string;
-  /** the first six-digit description under the heading (the archive gives no four-digit wording) */
+  /** the first parts of its six-digit descriptions, when the name lists several (the archive gives no four-digit wording) */
   d?: string;
 }
 
@@ -414,6 +443,15 @@ export interface ProfileBalance {
   hub?: { exp: number; imp: number; prodS: string; prodY: number | string };
 }
 
+/** A passage of a country's seaborne tonnes: "at least" and "up to" shares; `capped`: no "up to" is printed, because the
+ * passage's page caps its own at IMF PortWatch (`high` is then `low`). */
+export interface Passage {
+  id: string;
+  low: number;
+  high: number;
+  capped?: boolean;
+}
+
 export interface FreightProduct {
   g: string;
   k: string;
@@ -425,7 +463,7 @@ export interface FreightProduct {
   unrouted?: number;
   ports?: { name: string; c: Iso3; share: number; basis?: string }[];
   /** share of the seaborne tonnes whose assumed route has to cross (`low`) or may cross (`high`) each passage */
-  via?: { id: string; low: number; high: number }[];
+  via?: Passage[];
 }
 
 export interface ProfileFreight {
@@ -433,8 +471,8 @@ export interface ProfileFreight {
   s: string;
   exports: FreightProduct[];
   imports: FreightProduct[];
-  exportsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: { id: string; low: number; high: number }[] };
-  importsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: { id: string; low: number; high: number }[] };
+  exportsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: Passage[] };
+  importsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: Passage[] };
 }
 
 export interface ProfileEntry {
@@ -462,6 +500,8 @@ export interface ProfileEntry {
   basis?: string;
   /** warning carried from the commodity table (trade hubs, gross weight against contained metal) */
   warn?: string;
+  /** a table of part of the world (the EU member states): its name */
+  scope?: string;
   /** reserves over production of the same source and unit (years), and the year of that production */
   rp?: number;
   rpY?: number | string;
@@ -474,6 +514,9 @@ export interface ProfileEntry {
   hout?: number[];
   hbrk?: number[];
   hsrc?: number[];
+  /** the line is the atlas's conversion of the source's figure; years (indexes) in which it is */
+  conv?: boolean;
+  hconv?: number[];
   /** the row's name in the years its entity is another one (USDA PSD's European Union) */
   hcl?: (string | null)[];
 }
@@ -650,7 +693,10 @@ export interface Alert {
   derived: string;
   /** countries added (or lists replaced) by hand, with the reason */
   override?: { commodities?: string[]; countries?: Iso3[]; addCountries?: Iso3[]; reason: string };
+  /** the main event of the alert: the source of `src` and `also` */
   event: string;
+  /** all the events of the alert, the main one first */
+  events: string[];
   /** source URL */
   src: string;
   /** other pages that support the text */
@@ -771,6 +817,8 @@ export interface LaneTransit {
   c: Iso3;
   s: string;
   url?: string;
+  /** the end has no coast at all (adjacency data); false: it has one and still ships through this foreign port (DR Congo) */
+  landlocked?: boolean;
 }
 
 /** One load and discharge port pair of a lane whose ports are not decided by a rule (a coast option). */
@@ -899,6 +947,8 @@ export interface PairsFile {
   gates: string[];
   cols: string[];
   rows: (string | number)[][];
+  /** ends of routed rows that ship through a foreign port and have no coast at all (adjacency data) */
+  landlocked?: Iso3[];
 }
 
 /** data/freight/caveats.json: reporting gaps and relabelled origins, by id. `d` null = every destination of the origin. */

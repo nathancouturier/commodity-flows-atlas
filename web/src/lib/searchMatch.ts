@@ -50,21 +50,49 @@ export function distance(a: string, b: string, max = 2): number {
   return Math.min(m[a.length][b.length], max + 1);
 }
 
-/** How well one typed word matches a list of normalised phrases: 0 (not at all) to 100 (the phrase or a word of it, exactly). */
-function wordScore(t: string, phrases: string[], exact: number, prefix: number, inside: number, fuzzy: number): number {
-  let best = 0;
+/**
+ * How well a match is, from the weakest to the best; the group of results and the item inside it are ordered by it first,
+ * then by score. A typo-tolerant or inside-a-word match (1) never outranks an exact or prefix one.
+ *  4  the whole query is a name or a code of the item ("TD3C", "Panama Canal")
+ *  3  every word is a word, or the beginning of a word, of a name or a code
+ *  2  as 3, but a word is found only in the secondary text (operator, country, route ends)
+ *  1  a word is found inside another word, or with a wrong letter
+ */
+export type Tier = 0 | 1 | 2 | 3 | 4;
+
+/**
+ * The order of the kinds of results when two groups match equally well (same tier): the first comes first. The only place
+ * it is written. A commodity, a country, a chokepoint, a vessel class or a route that is named by the query comes before
+ * an asset, a port, an event or a price series that only holds the word.
+ */
+export const TIE_ORDER = ['commodity', 'country', 'chokepoint', 'vessel', 'route', 'infra', 'port', 'event', 'price'] as const;
+
+interface Hit {
+  s: number;
+  lvl: number;
+}
+
+/** How well one typed word matches a list of normalised phrases: a score 0 (not at all) to 100 (the phrase), and its level (see Tier). */
+function wordScore(t: string, phrases: string[], exact: number, prefix: number, inside: number, fuzzy: number, strong: number): Hit {
+  const best: Hit = { s: 0, lvl: 0 };
+  const take = (s: number, lvl: number) => {
+    if (s > best.s) best.s = s;
+    if (lvl > best.lvl) best.lvl = lvl;
+  };
   for (const p of phrases) {
-    if (p === t) return exact;
+    if (p === t) return { s: exact, lvl: strong };
     for (const w of p.split(' ')) {
-      if (w === t) best = Math.max(best, exact - 20);
-      else if (w.startsWith(t)) best = Math.max(best, prefix);
-      else if (t.length >= 3 && w.includes(t)) best = Math.max(best, inside);
-      else if (t.length >= 4 && fuzzy > best) {
+      if (w === t) take(exact - 20, strong);
+      else if (w.startsWith(t)) take(prefix, strong);
+      // inside a word: only from four letters ("gas" is not in "Antofagasta")
+      else if (t.length >= 4 && w.includes(t)) take(inside, 1);
+      else if (t.length >= 4 && fuzzy > best.s) {
         const tol = tolerance(t.length);
         // the whole word, or its beginning when the typed word is shorter ("singapor" for "singapore")
         const head = t.length >= 5 ? distance(t, w.slice(0, t.length), 1) : tol + 1;
         const d = Math.min(distance(t, w, tol), head <= 1 ? head : tol + 1);
-        if (d <= tol) best = Math.max(best, fuzzy - 6 * d);
+        // the word it is mistaken for is not mostly changed ("cobalt" is not "coal")
+        if (d <= tol && d * 2 < w.length) take(fuzzy - 6 * d, 1);
       }
     }
   }
@@ -72,33 +100,86 @@ function wordScore(t: string, phrases: string[], exact: number, prefix: number, 
 }
 
 /** Score of one typed word against an item: codes, then names, then the secondary text. */
-function tokenScore(t: string, d: Searchable): number {
-  let best = 0;
+function tokenScore(t: string, d: Searchable): Hit {
+  const best: Hit = { s: 0, lvl: 0 };
+  const take = (h: Hit) => {
+    if (h.s > best.s) best.s = h.s;
+    if (h.lvl > best.lvl) best.lvl = h.lvl;
+  };
   for (const c of d.c) {
-    if (c === t) return 100;
-    if (t.length >= 2 && c.startsWith(t)) best = Math.max(best, 55);
+    if (c === t) return { s: 100, lvl: 3 };
+    if (t.length >= 2 && c.startsWith(t)) take({ s: 55, lvl: 3 });
   }
-  best = Math.max(best, wordScore(t, d.n, 95, 70, 45, 42));
-  if (best < 60) best = Math.max(best, wordScore(t, d.x, 35, 30, 20, 10));
+  take(wordScore(t, d.n, 95, 70, 45, 42, 3));
+  if (best.s < 60) take(wordScore(t, d.x, 35, 30, 20, 10, 2));
   return best;
 }
 
+export interface Rank {
+  s: number;
+  tier: Tier;
+}
+
 /**
- * Score of a query (its words, from `tokens`) against an item: 0 when a word matches nothing, otherwise the mean of the
- * words' scores, plus a bonus for the whole query being the name, or the beginning of it. Every word has to match.
+ * Rank of a query (its words, from `tokens`) against an item: score 0 when a word matches nothing, otherwise the mean of
+ * the words' scores, plus a bonus for the whole query being the name, or whole words of it, or the beginning of it.
+ * Every word has to match.
  */
-export function score(q: string[], d: Searchable): number {
-  if (!q.length) return 1;
+export function rank(q: string[], d: Searchable): Rank {
+  if (!q.length) return { s: 1, tier: 1 };
   let sum = 0;
+  let lvl = 4;
   for (const t of q) {
-    const s = tokenScore(t, d);
-    if (!s) return 0;
-    sum += s;
+    const h = tokenScore(t, d);
+    if (!h.s) return { s: 0, tier: 0 };
+    sum += h.s;
+    lvl = Math.min(lvl, h.lvl);
   }
   const whole = q.join(' ');
   let bonus = 0;
-  if (d.n.includes(whole) || d.c.includes(whole)) bonus = 60;
-  else if (q.length > 1 && d.n.some((n) => n.startsWith(whole))) bonus = 20;
-  else if (d.n.some((n) => n.startsWith(whole))) bonus = 12;
-  return sum / q.length + bonus;
+  if (d.n.includes(whole) || d.c.includes(whole)) {
+    bonus = 60;
+    lvl = 4;
+  } else if (d.n.some((n) => n.startsWith(`${whole} `))) bonus = q.length > 1 ? 20 : 15;
+  else if (d.n.some((n) => ` ${n} `.includes(` ${whole} `))) bonus = q.length > 1 ? 20 : 12;
+  else if (d.n.some((n) => n.startsWith(whole))) bonus = 6;
+  return { s: sum / q.length + bonus, tier: lvl as Tier };
+}
+
+export const score = (q: string[], d: Searchable): number => rank(q, d).s;
+
+/** What the grouping needs of an item. */
+export interface Matchable {
+  kind: string;
+  label: string;
+  d: Searchable;
+  /** position in the kind's own order (a list with no query) */
+  order: string | number;
+}
+
+/** The items of one kind that match, best first (tier, then score, then the kind's own order); with no query, the kind's own order. */
+export function matchKind<T extends Matchable>(q: string[], items: T[], kind: string): { item: T; s: number; tier: Tier }[] {
+  const out: { item: T; s: number; tier: Tier }[] = [];
+  for (const it of items) {
+    if (it.kind !== kind) continue;
+    const r = rank(q, it.d);
+    if (r.s > 0) out.push({ item: it, ...r });
+  }
+  return out.sort(
+    (a, b) =>
+      (q.length ? b.tier - a.tier || b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
+  );
+}
+
+/**
+ * The kinds that have a match, best group first: by the tier of its best item, then by TIE_ORDER (not by the raw score:
+ * a prefix of a long word at the start of an event's title must not lead the commodity named by the query), then by score.
+ */
+export function groupKinds<T extends Matchable>(q: string[], items: T[], per: number): { kind: string; items: T[]; total: number; tier: Tier; s: number }[] {
+  const out: { kind: string; items: T[]; total: number; tier: Tier; s: number }[] = [];
+  for (const kind of TIE_ORDER) {
+    const m = matchKind(q, items, kind);
+    if (m.length) out.push({ kind, items: m.slice(0, per).map((x) => x.item), total: m.length, tier: m[0].tier, s: m[0].s });
+  }
+  return out.sort((a, b) => b.tier - a.tier || TIE_ORDER.indexOf(a.kind as (typeof TIE_ORDER)[number]) - TIE_ORDER.indexOf(b.kind as (typeof TIE_ORDER)[number]) || b.s - a.s);
 }

@@ -22,12 +22,14 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from common import constants as CN  # noqa: E402
 import checks as K  # noqa: E402
 from clean import S19_UNSPECIFIED, XAS  # noqa: E402
 
 HYPOTHESIS = "is a plausible cause; it is not established here."
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-TROY_OZ_G = 31.1034768  # grams in a troy ounce, exact by definition (international yard and pound agreement of 1959)
+TROY_OZ_G = CN.GRAMS_PER_TROY_OZ  # grams in a troy ounce, exact by definition (pipeline/common/constants.py)
 
 
 def annual_price(series, year, want="USD/troy oz"):
@@ -128,12 +130,60 @@ def _absent(g, o, d):
     return text
 
 
-def _mirror(g, o):
+_EIA_CRUDE = {}
+
+
+def _eia_crude_kbd(o, y):
+    """EIA International Energy Data crude oil production of country `o` in year `y`, thousand barrels per day (None without the file or the figure)."""
+    if "s" not in _EIA_CRUDE:
+        try:
+            _EIA_CRUDE["s"] = (K.eia_series([("57-1", "TBPD")]) or {}).get(("57-1", "TBPD"), {})
+        except (OSError, ValueError):
+            _EIA_CRUDE["s"] = {}
+    return _EIA_CRUDE["s"].get(o, {}).get(y)
+
+
+def _fall(g, o, below=0.6, span=3):
+    """Customs exports of an origin that fall below `below` of their average over the `span` years before (the exports of Kuwait in 2024),
+    with the buyers of the year before that are not recorded this year, and, where the EIA file has the production of the country, its
+    production in both years: a hypothesis about the cause, never a measure of it."""
+    def text(c):
+        v = c.exports(g, o, c.y)
+        ys = list(range(c.y - span, c.y))
+        ref = sum(c.exports(g, o, y) for y in ys) / span
+        if ref < 1 or v >= below * ref:
+            return None
+        x = c.df[(c.df["group"] == g) & (c.df["o"] == o)]
+        a = x[x["year"] == c.y - 1].groupby("d")["t"].sum() / 1e6
+        b = x[x["year"] == c.y].groupby("d")["t"].sum() / 1e6
+        gone = sorted(((float(t), d) for d, t in a.items() if t >= 1 and float(b.get(d, 0.0)) <= 0), reverse=True)
+        s = (f"Customs data record {mt(v)} of {K.label(g)} exports from {name(o)} in {c.y}, against an average of {mt(ref)} a year from {ys[0]} to "
+             f"{ys[-1]} (CEPII BACI).")
+        if gone:
+            s += (f" Of the buyers recorded in {c.y - 1}, {_and_names(gone[:3])} {'is' if len(gone) == 1 else 'are'} not recorded in {c.y}"
+                  + (f" ({len(gone)} buyers, {mt(sum(t for t, _ in gone))} in {c.y - 1})" if len(gone) > 1 else "") + ".")
+        p1, p0 = _eia_crude_kbd(o, c.y), _eia_crude_kbd(o, c.y - 1)
+        if g == "crude-oil" and p1 and p0:
+            s += f" Its crude oil production in the EIA International Energy Data file is {p1:,.0f} thousand barrels a day in {c.y} against {p0:,.0f} in {c.y - 1}."
+        return s + f" A gap in the importers' declarations for {c.y}, or a change in the recorded origin of the cargoes, {HYPOTHESIS}"
+    return text
+
+
+def _and_names(rows):
+    """[(Mt, code), ...] -> "Vietnam (9.01 Mt), the Philippines (2.2 Mt) and Oman (1.5 Mt)"."""
+    parts = [f"{name(d)} ({mt(t)})" for t, d in rows]
+    return ", ".join(parts[:-1]) + (" and " if len(parts) > 1 else "") + parts[-1]
+
+
+def _mirror(g, o, detail=None):
+    """`detail(c, v)`: what to add after the customs figure, before the USDA figures (a split of the figure, for instance)."""
     def text(c):
         v = c.exports(g, o, c.y)
         if v <= 0:
             return None
         s = f"Customs data record {mt(v)} of {K.label(g)} exports from {name(o)} in {c.y} (CEPII BACI)"
+        if detail:
+            s += detail(c, v)
         psd = c.psd or {}
         a, b = psd.get((g, "Exports", c.y - 1), {}).get(o), psd.get((g, "Exports", c.y), {}).get(o)
         if a is not None and b is not None:
@@ -162,18 +212,35 @@ def _grain_gap(g, o, avg_min=0.5, back=5, gone=3):
     """Russian grain (audit C-045): the sentence of _mirror (the customs figure against the two USDA marketing years), the size of the gap, and
     the importers that took the grain in the three years `back` to `gone` years before the build year (on average `avg_min` million tonnes
     a year or more) and have none recorded in the build year, whose lanes therefore show zero. The
-    atlas does not scale the flows or the lanes to the USDA total (whether it should publish such an estimate is the owner's decision)."""
-    inner = _mirror(g, o)
+    atlas does not scale the flows or the lanes to the USDA total (whether it should publish such an estimate is the owner's decision).
+    Part of the customs tonnage may be the atlas's own estimate from the declared value (cleaning rules, METHODOLOGY.md section 1): the note
+    says how much, and gives the gap against USDA on the published total and on the tonnage as reported (review GA1.4)."""
+    def est_of(c):
+        x = c.df[(c.df["group"] == g) & (c.df["o"] == o) & (c.df["year"] == c.y) & c.df["imputed"].astype(bool)]
+        return x, float(x["t"].sum()) / 1e6
+
+    def detail(c, v):
+        x, est = est_of(c)
+        if est <= 0:
+            return ""
+        top = (x.groupby("d")["t"].sum() / 1e6).sort_values(ascending=False)[:3]
+        return (f", of which {mt(est)} is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was "
+                f"implausible: {', '.join(f'{name(d)} {mt(t)}' for d, t in top.items())}) and {mt(v - est)} is as reported")
+
+    inner = _mirror(g, o, detail)
 
     def text(c):
         s = inner(c)
         if not s:
             return None
         v = c.exports(g, o, c.y)
+        est = est_of(c)[1]
         psd = c.psd or {}
         a, b = psd.get((g, "Exports", c.y - 1), {}).get(o), psd.get((g, "Exports", c.y), {}).get(o)
         if a and b:
-            s += f" The customs figure is {_vs(v, a / 1e3)} the first and {_vs(v, b / 1e3)} the second."
+            s += f" The published customs figure is {_vs(v, a / 1e3)} the first and {_vs(v, b / 1e3)} the second."
+            if est > 0:
+                s += f" On the tonnage as reported alone ({mt(v - est)}) the gap is {_vs(v - est, a / 1e3)} the first and {_vs(v - est, b / 1e3)} the second."
         x = c.df[(c.df["group"] == g) & (c.df["o"] == o)]
         by = (x.groupby(["d", "year"])["t"].sum() / 1e6).unstack(fill_value=0.0)
         yrs = [y for y in range(c.y - back, c.y - gone + 1)]
@@ -188,8 +255,8 @@ def _grain_gap(g, o, avg_min=0.5, back=5, gone=3):
             lost.sort(reverse=True)
             s += (f" Importers that took {K.label(g)} from {name(o)} in {yrs[0]} to {yrs[-1]} and have none recorded in {c.y}: "
                   + ", ".join(f"{name(d)} ({mt(t)} a year on average)" for t, d in lost[:5])
-                  + f"; the flows and lanes to them are zero in {c.y}. The flows and lanes are the customs records as they are: no tonnage is added to bring them to the USDA figure.")
-        return s
+                  + f"; the flows and lanes to them are zero in {c.y}.")
+        return s + " The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
     return text
 
 
@@ -210,6 +277,22 @@ def _break(g, o):
         elif k10:
             s += f"; they are {k10['ratio']:.0%} of its production in the USGS Mineral Commodity Summaries"
         return s + f". A change in the recorded origin of shipments {HYPOTHESIS}"
+    return text
+
+
+_BLR_RAIL = ("https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports")
+
+
+def _with_rail(base):
+    """The Belarusian potash entry, with what the pages say of the rail share (review GL1.11): an external figure beside the
+    atlas's own, with its source and year; the atlas counts the pairs as seaborne and subtracts nothing."""
+    def text(c):
+        s = base(c)
+        rail = ("Of the 11.6 Mt of potash that Belarus exported through Russia in 2025, 9% went by rail to China and the CIS countries "
+                "together and the rest through Russian seaports, half of it from Bronka (Kommersant, as reported by Reform.news on 27 March "
+                f"2026, {_BLR_RAIL}). The atlas counts Belarus's recorded potash exports to China as seaborne, through St Petersburg: "
+                "the page gives no rail share for China alone, so nothing is subtracted")
+        return (s + " " if s else "") + rail + "."
     return text
 
 
@@ -323,12 +406,15 @@ REGISTRY = [
     ("crude-mex-s19", "destination", "crude-oil", "MEX", "TWN", None, _mex_s19),
     ("crude-rus-tur", "unrecorded", "crude-oil", "RUS", "TUR", None, _absent("crude-oil", "RUS", "TUR")),
     ("crude-kwt-vnm", "unrecorded", "crude-oil", "KWT", "VNM", None, _absent("crude-oil", "KWT", "VNM")),
+    # a fall of the recorded exports of a producer whose production did not fall (GE1.11): kind "fall" is text only, it does not widen the
+    # estimates of the passages (build_freight.unrecorded_through reads the kinds "unrecorded" and "break")
+    ("crude-kwt", "fall", "crude-oil", "KWT", None, None, _fall("crude-oil", "KWT")),
     *[(f"grain-rus-{g}", "mirror", g, "RUS", None, None, _grain_gap(g, "RUS"))
       for g in ("wheat", "corn", "soybeans", "rapeseed", "soymeal", "soyoil")],
     ("rice-vnm", "mirror", "rice", "VNM", None, "K1", _mirror_k1("rice", "VNM")),
     ("urea-irn", "break", "urea", "IRN", None, None, _break("urea", "IRN")),
     ("urea-omn", "above-production", "urea", "OMN", None, "K10", _k10("urea", "OMN")),
-    ("potash-blr", "break", "potash", "BLR", None, None, _break("potash", "BLR")),
+    ("potash-blr", "break", "potash", "BLR", None, None, _with_rail(_break("potash", "BLR"))),
     ("potash-uzb", "break", "potash", "UZB", None, None, _break("potash", "UZB")),
     ("potash-tkm", "break", "potash", "TKM", None, None, _break("potash", "TKM")),
     ("hub-refined-products-nld", "hub", "refined-products", "NLD", None, None, _hub("refined-products", "NLD")),

@@ -12,7 +12,8 @@ import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { sources } from '../../lib/data';
-import { ATLAS_LICENCE, csvCell, downloadCsv, licenceOf, slug, sourceName, toCsv } from '../../lib/csv';
+import { ATLAS_LICENCE, csvCell, downloadCsv, licenceColumn, licenceTexts, slug, sourceName, toCsv } from '../../lib/csv';
+import { CsvAction } from '../CsvAction';
 import '../../styles/lane-table.css';
 
 const RANGES = [
@@ -33,9 +34,13 @@ const loadChokepointLanes = (id: string) =>
   load<ChokepointLanes>(`freight/chokepoint-lanes/${id}.json`).catch(() => load<ChokepointLanes>('freight/chokepoint-lanes.json'));
 
 /** Every flow of the table, not only the rows on screen: one line per recorded pair whose route crosses (or may cross) the passage. */
+/** The registry sources of the rows of this passage's flows table. */
+const flowSources = (doc: ChokepointLanes, id: string): string[] => [...new Set((doc.chokepoints[id] ?? []).map(([g]) => doc.groups[g]?.s ?? doc.s))];
+
 function flowsCsv(doc: ChokepointLanes, id: string, name: string, fromPairs: boolean): string {
   const head = ['commodity', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume_mt', 'share_of_commodity_seaborne_pct', 'passage', 'crossing', 'source', 'licence'];
   const out = [head.join(',')];
+  const lic = licenceColumn();
   for (const [g, o, d, v, sure] of doc.chokepoints[id] ?? []) {
     const m = doc.groups[g];
     out.push(
@@ -43,7 +48,7 @@ function flowsCsv(doc: ChokepointLanes, id: string, name: string, fromPairs: boo
         m?.label ?? commodityMeta(m?.k ?? g)?.name ?? g, o, countryName(o), d, countryName(d), m?.y ?? doc.y, v,
         m?.seaborne ? ((100 * v) / m.seaborne).toFixed(2) : '', name, fromPairs ? (sure === 0 ? 'may use' : 'has to cross') : 'mapped lane',
         `${sources.value[m?.s ?? doc.s]?.name ?? m?.s ?? doc.s}; Atlas routing`,
-        `${licenceOf(m?.s ?? doc.s)}; Atlas routing: ${ATLAS_LICENCE}`,
+        lic(...licenceTexts([m?.s ?? doc.s], `; Atlas routing: ${ATLAS_LICENCE}`)),
       ].map(csvCell).join(','),
     );
   }
@@ -254,13 +259,13 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
         </button>
       )}
       <div class="lt-foot">
-        <button
-          class="act-btn"
+        <CsvAction
+          sources={[...flowSources(doc, id), 'atlas']}
           onClick={() => downloadCsv(`commodity-flows-atlas-${id}-cargo-${doc.y}.csv`, flowsCsv(doc, id, name, fromPairs))}
           title="Every flow of this table, with its share of the commodity's seaborne trade, as a CSV file"
         >
           Download all {rows.length.toLocaleString('en-US')} flows (CSV)
-        </button>
+        </CsvAction>
       </div>
       <SourcesLine items={[{ s: doc.s, y: doc.y }, ...srcs.map((x) => ({ s: x, y: doc.y }))]} n={`${fromPairs ? 'pair' : 'lane'} tonnages from customs data; shares of each commodity's seaborne trade`} />
     </Section>
@@ -272,14 +277,15 @@ function weeklyCsv(pw: PortwatchSeries, id: string, name: string, counter?: stri
   const TYPES = [['tanker', 'Tanker'], ['dry', 'Dry bulk'], ['container', 'Container'], ['other', 'Other'], ['total', 'Total']] as const;
   const t0 = Date.parse(`${pw.start}T00:00:00Z`);
   const source = sourceName(pw.s);
-  const licence = licenceOf(pw.s);
+  const lic = licenceColumn();
+  const licence = () => lic(...licenceTexts([pw.s]));
   const measures = [{ what: 'vessel transits', unit: pw.unit, src: pw as Pick<PortwatchSeries, 'tanker' | 'dry' | 'container' | 'other' | 'total'> }];
   if (pw.vol) measures.push({ what: 'estimated trade volume', unit: pw.vol.unit, src: pw.vol });
   const rows: (string | number | null)[][] = [];
   for (const m of measures)
     pw.total.forEach((_, i) => {
       const week = new Date(t0 + i * 7 * 86400e3).toISOString().slice(0, 10);
-      for (const [k, label] of TYPES) rows.push([id, counter ?? name, week, label, m.what, m.src[k][i], m.unit, source, licence]);
+      for (const [k, label] of TYPES) rows.push([id, counter ?? name, week, label, m.what, m.src[k][i], m.unit, source, licence()]);
     });
   return toCsv(['passage_id', 'passage', 'week_start', 'ship_type', 'measure', 'value', 'unit', 'source', 'licence'], rows);
 }
@@ -458,13 +464,11 @@ export default function ChokepointView({ id }: { id: string }) {
               n={chart.vol && pw.vol ? `${pw.vol.unit}; PortWatch's estimate of the trade volume carried, not deadweight` : pw.unit}
             />
             <div class="lt-foot">
-              <button
-                class="act-btn"
+              <CsvAction
+                sources={[pw.s]}
                 onClick={() => downloadCsv(`commodity-flows-atlas-${slug(cp.name)}-weekly-traffic-to-${pw.y}.csv`, weeklyCsv(pw, cp.id, cp.name, seriesLabel))}
                 title="The whole weekly series, by ship type, with its source and licence, as a CSV file"
-              >
-                CSV
-              </button>
+              />
             </div>
           </Section>
         ) : cp.portwatchNote ? (

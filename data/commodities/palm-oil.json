@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oil, Palm, palm oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+   "n": "USDA PSD, Oil, Palm, palm oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 78.011,
@@ -149,7 +149,7 @@
     "v": 0.008
    }
   ],
-  "n": "USDA PSD, Oil, Palm, palm oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "n": "USDA PSD, Oil, Palm, palm oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -1081,9 +1081,11 @@
       "n": "of which 0 Mt to other member states and 0.000657 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, palm oil (HS 1511): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.61 Mt, of which 1.26 Mt to other member states and 0.355 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (42.9 Mt)",
+    "n": "CEPII BACI 2024, palm oil (HS 1511): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.61 Mt, of which 1.26 Mt to other member states and 0.355 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 42.9 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 42.945,
     "split": {
      "total": 1.612,
@@ -1217,9 +1219,11 @@
       "n": "of which 0.000629 Mt from other member states and 0 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, palm oil (HS 1511): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 5.52 Mt, of which 1.26 Mt from other member states and 4.27 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (42.9 Mt)",
+    "n": "CEPII BACI 2024, palm oil (HS 1511): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 5.52 Mt, of which 1.26 Mt from other member states and 4.27 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 42.9 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 42.945,
     "split": {
      "total": 5.523,
@@ -1689,7 +1693,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Oil, Palm: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Oil, Palm: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "flows": [
   {
@@ -1966,28 +1970,6 @@
    "eq": 14.0,
    "k": 74,
    "cov": 0.9746
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "NLD",
-    "p": 0.411
-   },
-   "top3": 0.6885,
-   "hhi": 2298,
-   "eq": 4.4,
-   "k": 18,
-   "cov": 1.0001
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "NLD",
-    "p": 0.2814
-   },
-   "top3": 0.6067,
-   "hhi": 1565,
-   "eq": 6.4,
-   "k": 23,
-   "cov": 0.9999
   },
   "stocks": {
    "top1": {

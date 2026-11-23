@@ -76,6 +76,9 @@ MANUAL_EXTRA = {
     # Pengerang, Johor, is in no list of ports; the point is the town's, as given on its Wikipedia page (1.367 N, 104.117 E);
     # private code, the UN/LOCODE was not read
     "MYPEN": ("Pengerang", "MYS", 104.117, 1.367),
+    # Nueva Palmira, Uruguay, at the outlet of the Parana-Paraguay waterway (Paraguayan transit row, review GL1.2): the point
+    # is the city's, from the infobox of its Wikipedia page (33 53 S, 58 25 W); private code, the UN/LOCODE was not read
+    "UYNVP": ("Nueva Palmira", "URY", -58.417, -33.883),
 }
 # Terminals in open water: the test of ports.is_seaport does not apply, a distance of 40 km does.
 OFFSHORE = {"QAHAL"}
@@ -98,7 +101,10 @@ MANUAL_SRC = {
     "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
     "QAHAL": {"zone": "meg", "s": "wikipedia", "url": WP + "Halul_Island"},
     "MYPEN": {"zone": "sea", "s": "wikipedia", "url": WP + "Pengerang"},
+    "UYNVP": {"zone": "ecsa", "s": "wikipedia", "url": WP + "Nueva_Palmira"},
 }
+# display names: searoute writes "Dar Es Salaam"
+RENAME = {"TZDAR": "Dar es Salaam"}
 
 G = {
     "ARE": [
@@ -445,6 +451,11 @@ _ADRIA = WP + "Adria_oil_pipeline"
 
 _OSW_POTASH = "https://www.osw.waw.pl/en/publikacje/osw-commentary/2024-11-20/tough-business-tough-times-belarusian-exports-potash"
 _BCR_HIDROVIA = "https://www.bcr.com.ar/es/print/pdf/node/72068"
+_KPLER_KAZ = "https://www.kpler.com/blog/eus-new-russia-sanctions-could-disrupt-kazakh-coal-exports"
+# the 27 member states of the European Union, as build_commodities.EU_MEMBERS lists them (a test keeps the two equal)
+EU = frozenset("AUT BEL BGR HRV CYP CZE DNK EST FIN FRA DEU GRC HUN IRL ITA LVA LTU LUX MLT NLD POL PRT ROU SVK SVN ESP SWE".split())
+_BCR_2016 = ("Bolsa de Comercio de Rosario, 'Siete millones de tn de granos y subproductos bajan por la hidrovia a los puertos argentinos "
+             "y uruguayos' (7 April 2017), figures of 2016: ")
 
 TRANSIT = {
     "AZE": {"crude": ("TRCEY", "wikipedia", WP + "Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline",
@@ -482,25 +493,41 @@ TRANSIT = {
                      "27 March 2026, citing Kommersant): of the potash Belarus exported through "
                      "Russian ports in 2025, half left from Bronka and 15% from two other St Petersburg terminals, 25% from Ust-Luga. "
                      "The port drawn is St Petersburg (Bronka); one port stands for these terminals, no split by port is applied. "
-                     "The pages name potash; other fertilisers of Belarus are assumed to take the same port")},
+                     "The pages name potash; other fertilisers of Belarus are assumed to take the same port (a general port of the "
+                     "country for them)",
+                     {"names": frozenset({"potash"})})},
+    # The page names coal for two buyers only: Morocco (from Ust-Luga) and the EU (its chart is 'Ust-Luga & Novorossiysk coal
+    # exports to Morocco & EU'). Other buyers of Kazakh coal and the other dry bulk of Kazakhstan have no row (review GL1.1).
     "KAZ": {"crude": ("KZCPC", "wikipedia", WP + "Caspian_Pipeline_Consortium",
                       "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia"),
-            "drybulk": ("RUULU", "trade-press", "https://www.kpler.com/blog/eus-new-russia-sanctions-could-disrupt-kazakh-coal-exports",
-                        "Kpler, 'EU's new Russia sanctions could disrupt Kazakh coal exports' (27 February 2025): 'The EU and Morocco are "
-                        "the primary buyers of Kazakh coal shipped from Russian ports', about 1.8 Mt and 800,000 t in 2024; of the coal "
-                        "shipped from Russian ports to Morocco in 2024 'nearly all of it was Kazakh supply shipped from Ust-Luga'. The page "
-                        "names coal for the EU and Morocco: the other buyers of Kazakh coal and the other dry bulk of Kazakhstan are "
-                        "assumed to take the same port")},
-    "PRY": {"grain": ("ARUPR", "trade-press", _BCR_HIDROVIA,
-                      "Bolsa de Comercio de Rosario, 'Siete millones de tn de granos y subproductos bajan por la hidrovia a los puertos "
-                      "argentinos y uruguayos' (7 April 2017): in 2016 about 3.36 Mt of Paraguayan and Bolivian grain and by-products came "
-                      "down the Parana-Paraguay waterway in transit to the Gran Rosario terminals (first Paraguayan soybean meal, 1.30 Mt, "
-                      "then soybeans, 0.77 Mt, and soybean oil, 0.59 Mt) and about 2.8 Mt to Nueva Palmira in Uruguay, for transhipment to "
-                      "ocean vessels. The port drawn is the Up-River Parana hub of Rosario, the larger of the two; Nueva Palmira is not in "
-                      "the port list of the atlas"),
-            "vegoil": ("ARUPR", "trade-press", _BCR_HIDROVIA,
-                       "Bolsa de Comercio de Rosario (7 April 2017): 590,000 t of Paraguayan soybean oil came down the Parana-Paraguay "
-                       "waterway in transit to the Gran Rosario terminals in 2016, to be shipped abroad")},
+            "coal": ("RUULU", "trade-press", _KPLER_KAZ,
+                     "Kpler, 'EU's new Russia sanctions could disrupt Kazakh coal exports' (27 February 2025): 'The EU and Morocco are "
+                     "the primary buyers of Kazakh coal shipped from Russian ports', about 1.8 Mt and 800,000 t in 2024; of the coal "
+                     "shipped from Russian ports to Morocco in 2024 'nearly all of it was Kazakh supply shipped from Ust-Luga', and the "
+                     "page's chart of the EU trade is 'Ust-Luga & Novorossiysk coal exports to Morocco & EU'. The row holds for these "
+                     "buyers only: Ust-Luga for Morocco, one of Ust-Luga and Novorossiysk for the EU members (no split published). The "
+                     "page names no port for the other buyers of Kazakh coal",
+                     {"to": EU | {"MAR"}, "alt": {"RUNVS": EU}})},
+    # The page counts the Paraguayan cargo at both outlets of the waterway: a row per cargo it names (review GL1.2). Wheat,
+    # rice and sugar are not on the page: no row.
+    "PRY": {"soymeal": ("ARUPR", "trade-press", _BCR_HIDROVIA,
+                        _BCR_2016 + "1.30 Mt of Paraguayan soybean meal came down the Parana-Paraguay waterway in transit to the Gran "
+                        "Rosario terminals, the first cargo there, and nearly 722,000 t of soybean meal of Paraguay and Bolivia to Nueva "
+                        "Palmira in Uruguay, for transhipment to ocean vessels. Rosario (the Up-River Parana hub) is drawn, Nueva Palmira "
+                        "is the other option; no split is applied",
+                        {"alt": {"UYNVP": None}}),
+            "soybeans": ("UYNVP", "trade-press", _BCR_HIDROVIA,
+                         _BCR_2016 + "nearly 1.7 Mt of soybeans of Paraguay and Bolivia came down the Parana-Paraguay waterway to Nueva "
+                         "Palmira in Uruguay, the first cargo there, for transhipment to ocean vessels, and 767,000 t of Paraguayan "
+                         "soybeans to the Gran Rosario terminals in transit. Nueva Palmira is drawn, Rosario (the Up-River Parana hub) is "
+                         "the other option; no split is applied",
+                         {"alt": {"ARUPR": None}}),
+            "corn": ("UYNVP", "trade-press", _BCR_HIDROVIA,
+                     _BCR_2016 + "294,000 t of corn of Paraguay and Bolivia came down the Parana-Paraguay waterway to Nueva Palmira in "
+                     "Uruguay, the third cargo there, for transhipment to ocean vessels; the page names no corn at Rosario"),
+            "soyoil": ("ARUPR", "trade-press", _BCR_HIDROVIA,
+                       _BCR_2016 + "590,000 t of Paraguayan soybean oil came down the Parana-Paraguay waterway in transit to the Gran "
+                       "Rosario terminals, to be shipped abroad; the page names no soybean oil at Nueva Palmira")},
     "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany"),
             "default": ("SIKOP", "wikipedia", WP + "Port_of_Koper",
                         "The page says Austrian clients, 'with 3.5 million tonnes, or a quarter of total throughput', top the transit "
@@ -526,7 +553,7 @@ TRANSIT = {
 UNSOURCED = {
     "BLR": "cargo other than fertilisers: no page read (fertilisers: TRANSIT row, OSW and Reform.news pages)",
     "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica; the Port of Arica page names Arica a common port of Peru and Bolivia in 1836 (history, no cargo today), so soy products have no transit row. The Bolsa de Comercio de Rosario page of the Paraguayan row (7 April 2017) counts Bolivian with Paraguayan grain coming down the waterway, without a Bolivian figure: Bolivian soy for its Andean buyers (Colombia, Ecuador, Peru) is not shown to take that route",
-    "PRY": "cargo other than grain and vegetable oil (refined products, fertiliser and steel imports): no page read that names the port of Paraguay's imports. Nueva Palmira (Uruguay), the other outlet of the waterway on the Rosario page, is not in the searoute list",
+    "PRY": "cargo other than soybeans, soybean meal, soybean oil and corn (wheat, rice and sugar exports; refined products, fertiliser and steel imports): the Rosario page (7 April 2017) names none of them, and no page read names the port of Paraguay's imports",
     "SRB": "crude and default rows: Adria pipeline and Port of Constanta pages; Koper (Port of Koper page) names Serbian imports of the Yugoslav period only",
     "MDA": "no page read",
     "AFG": "Port of Karachi page mentions Afghanistan only as a historical gateway",
@@ -537,7 +564,7 @@ UNSOURCED = {
     "SWZ": "no page read",
     "LSO": "no page read",
     "SSD": "other cargo than crude (fuel imports): no page read",
-    "KAZ": "dry bulk: Ust-Luga row from the Kpler page on Kazakh coal (L1). Refined products, steel, grain, copper and aluminium (crude: CPC): the Kulevi Oil Terminal page names no country of origin of its cargo, and the Jamestown page on Turkmen oil (25 February 2019) names Makhachkala and Baku for crude, not products; Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Port of Lianyungang page calls the port 'a logistics cooperation base with Kazakhstan' and an ocean access point for the SCO states, naming no cargo, so it is no row either; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
+    "KAZ": "coal: Ust-Luga and Novorossiysk row from the Kpler page on Kazakh coal (L1, FL1), for the EU and Morocco only; the page names no port for Kazakh coal to Turkey, Israel, India, Taiwan, Japan or other buyers, nor for other dry bulk of Kazakhstan. Refined products, steel, grain, copper and aluminium (crude: CPC): the Kulevi Oil Terminal page names no country of origin of its cargo, and the Jamestown page on Turkmen oil (25 February 2019) names Makhachkala and Baku for crude, not products; Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Port of Lianyungang page calls the port 'a logistics cooperation base with Kazakhstan' and an ocean access point for the SCO states, naming no cargo, so it is no row either; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
     "AZE": "refined products, urea, sugar, soymeal (crude: BTC): Transport in Azerbaijan page read, it names no port; the Batumi Seaport page names oil going from Baku to Batumi by rail (the history of the port) and a transit role for oil refining, no product, so Batumi is no row",
     "AUT": "default row (coal, steel and the rest): the Port of Koper page names Austrian clients as the first of the transit freight list (L1); it gives no Austrian cargo by product",
     "HUN": "default row: the Port of Koper page names trade with Hungary above a million tonnes in 2006 (L1), no cargo by product",

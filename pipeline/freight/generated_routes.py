@@ -28,9 +28,14 @@ FLOOR_MT, FLOOR_SHARE = 0.5, 0.02
 MIN_NEW_SHARE = 0.5
 GROUP_CAP = 12
 # Cap on the generated routes of the whole atlas: the map draws every route, so the count has to stay readable. When the
-# per-group lists exceed it, the lower-ranked corridors of the groups with the most routes are left out first (the
-# first corridor of every group, then the second of every group, and so on).
+# per-group lists exceed it, the first corridor of each group of AUDIT_GROUPS is kept first, then the corridors are taken
+# by their tonnes across groups (each group's in its own order), so that no corridor is left out for a smaller one of
+# another group (review GL1.8: three corridors of 1.1 to 1.5 Mt had given way to corridors of 0.5 Mt of small groups).
 TOTAL_CAP = 120
+# The groups that the audit's entries on named routes ask routes for (M-030: coal, refined products, LNG, steel, manganese,
+# alumina; M-031: sugar, rice, rapeseed, corn, soybean meal, wheat, palm oil, urea, DAP, potash).
+AUDIT_GROUPS = frozenset({"coal", "refined-products", "lng", "steel", "manganese", "alumina", "sugar", "rice", "rapeseed", "corn",
+                          "soymeal", "wheat", "palm-oil", "urea", "dap", "potash"})
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).
@@ -51,7 +56,7 @@ REGION_OF = {z: r for r, (_, zs) in REGIONS.items() for z in zs}
 ZONE_NAME = {"gulf-of-oman": "Gulf of Oman", "us-pnw": "US Pacific Northwest"}
 # zones and regions a route name puts "the" before ("Corn: Black Sea to the Mediterranean")
 THE = {"med", "baltic", "black-sea", "red-sea", "gulf-of-oman", "us-pnw", "caribbean", "r:middle-east"}
-# When one country holds at least this share of the tonnes of an end of a corridor (counted at the typical ports of its
+# When one country holds at least this share of the tonnes of an end of a corridor (counted by the customs country of its
 # pairs), the route name says that country instead of the zone: "West Africa" would send a reader to Nigeria or Ghana for
 # cargo that loads in Morocco. A zone whose own name already says the country (ZONE_SAYS) keeps its name, which also
 # says the coast ("Eastern Australia", "US Gulf").
@@ -147,11 +152,12 @@ def select_group(group, p, ports, covered, zone, target=TARGET):
 
 
 def _end(rows, side, ports):
-    """(country, share) of the country that holds the most tonnes at one end ("load" or "dis") of a corridor: the country of
-    the typical port of each pair."""
+    """(country, share) of the country that holds the most tonnes at one end ("load" or "dis") of a corridor: the customs
+    country of each pair (exporter or importer), not the country of its typical port, which is another country for a
+    landlocked end (DR Congo's cobalt loads at Dar es Salaam, review GL1.8)."""
     t = defaultdict(float)
     for r in rows:
-        t[ports[r[side]][2]] += r["t"]
+        t[r["o"] if side == "load" else r["d"]] += r["t"]
     iso = max(sorted(t), key=lambda c: t[c])
     return iso, t[iso] / sum(t.values())
 
@@ -249,6 +255,22 @@ def _describe(g, p, c, ports, names, zone, country, cargo_label):
             "what": what, "cargo": cargo}
 
 
+def cap_order(per_group, total_cap=TOTAL_CAP):
+    """[(rank, group)] of the corridors kept under the cap of the whole atlas, in the order they are taken: the first
+    corridor of each group of AUDIT_GROUPS, then the largest corridor (Mt that no hand-written route names) among the next
+    corridor of every group, and so on."""
+    order = [(0, g) for g in sorted(per_group) if g in AUDIT_GROUPS and per_group[g]]
+    nxt = {g: (1 if g in AUDIT_GROUPS else 0) for g in per_group}
+    while len(order) < total_cap:
+        heads = [(per_group[g][i]["new"], g) for g, i in nxt.items() if i < len(per_group[g])]
+        if not heads:
+            break
+        _, g = min(heads, key=lambda x: (-x[0], x[1]))
+        order.append((nxt[g], g))
+        nxt[g] += 1
+    return order[:total_cap]
+
+
 def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, country, target=TARGET, total_cap=TOTAL_CAP):
     """Route definitions of the generated corridors, and a report.
 
@@ -265,9 +287,7 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
     per_group = {}
     for g in sorted(pairs):
         per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target)
-    # the cap on the whole atlas: the corridors ranked first within their group are kept first
-    order = sorted(((i, g) for g, cs in per_group.items() for i in range(len(cs))), key=lambda x: (x[0], -per_group[x[1]][x[0]]["new"] / pairs[x[1]]["seaborne"], x[1]))
-    kept = {(g, i) for i, g in order[:total_cap]}
+    kept = {(g, i) for i, g in cap_order(per_group, total_cap)}
     desc = {(g, i): _describe(g, pairs[g], c, ports_by_group[g], names, zone, country, cargo_label)
             for g, cs in per_group.items() for i, c in enumerate(cs)}
     # two routes of a group never share a name: the zone names tell them apart

@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Rice, Milled, milled rice production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+   "n": "USDA PSD, Rice, Milled, milled rice production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 535.9,
@@ -368,7 +368,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Rice, Milled, milled rice production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "n": "USDA PSD, Rice, Milled, milled rice production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -1460,6 +1460,7 @@
     ],
     "n": "FAOSTAT crop production (QCL), rice (paddy), calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 2.64 Mt (the world total of FAOSTAT is 820 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. This table is paddy rice, not milled, not the basis of the USDA table: on the map the member states carry the USDA value for the European Union",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
     "worldAll": 820.22,
     "noMap": true,
@@ -1581,9 +1582,11 @@
       "n": "of which 0.000942 Mt to other member states and 0 Mt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, rice (HS 1006): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.8 Mt, of which 1.48 Mt to other member states and 0.322 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (61.3 Mt)",
+    "n": "CEPII BACI 2024, rice (HS 1006): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.8 Mt, of which 1.48 Mt to other member states and 0.322 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 61.3 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 61.259,
     "split": {
      "total": 1.802,
@@ -1737,9 +1740,11 @@
       "n": "of which 0.000942 Mt from other member states and 0 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, rice (HS 1006): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.87 Mt, of which 1.48 Mt from other member states and 2.39 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (61.3 Mt)",
+    "n": "CEPII BACI 2024, rice (HS 1006): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.87 Mt, of which 1.48 Mt from other member states and 2.39 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 61.3 Mt)",
     "scope": "EU",
+    "scopeLabel": "EU member states",
     "norank": true,
+    "noMap": true,
     "worldAll": 61.259,
     "split": {
      "total": 3.87,
@@ -2171,7 +2176,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Rice, Milled: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+  "n": "USDA PSD, Rice, Milled: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "flows": [
   {
@@ -2446,39 +2451,6 @@
    "eq": 31.8,
    "k": 98,
    "cov": 1.0
-  },
-  "eu-production": {
-   "top1": {
-    "c": "ITA",
-    "p": 0.5493
-   },
-   "top3": 0.8737,
-   "hhi": 3691,
-   "eq": 2.7,
-   "k": 8,
-   "cov": 0.9999
-  },
-  "eu-exports": {
-   "top1": {
-    "c": "ITA",
-    "p": 0.3744
-   },
-   "top3": 0.666,
-   "hhi": 2009,
-   "eq": 5.0,
-   "k": 21,
-   "cov": 0.9998
-  },
-  "eu-imports": {
-   "top1": {
-    "c": "FRA",
-    "p": 0.1566
-   },
-   "top3": 0.4407,
-   "hhi": 1015,
-   "eq": 9.9,
-   "k": 27,
-   "cov": 0.9999
   },
   "stocks": {
    "top1": {

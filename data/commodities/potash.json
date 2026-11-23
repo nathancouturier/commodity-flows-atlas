@@ -999,9 +999,14 @@
    "s": "baci",
    "usd": 842938000,
    "uv": 292,
-   "mode": "mixed",
+   "mode": "sea",
+   "transit": {
+    "port": "RULED",
+    "c": "RUS",
+    "s": "trade-press",
+    "url": "https://www.osw.waw.pl/en/publikacje/osw-commentary/2024-11-20/tough-business-tough-times-belarusian-exports-potash"
+   },
    "lane": "potash:BLR-CHN",
-   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known",
    "caveat": "potash-blr"
   },
   {

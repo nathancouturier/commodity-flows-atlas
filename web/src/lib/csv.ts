@@ -4,12 +4,16 @@
  * licence in the columns of each row (the registry data/sources.json gives both).
  */
 import { sourceLabel, sources } from './data';
+import { licenceAllows, licenceShort } from './licence';
 
 /** The Atlas's own figures are published under this licence (the registry's `atlas` entry says the same). */
 export const ATLAS_LICENCE = 'CC BY 4.0 (attribution: Commodity Flows Atlas)';
 
+/** A number as a data file holds it: no floating-point noise ("153.81379999997444" is 153.8138), twelve significant digits at most. */
+export const numberText = (x: number): string => (Number.isFinite(x) && !Number.isInteger(x) ? String(Number(x.toPrecision(12))) : String(x));
+
 export const csvCell = (x: string | number | boolean | null | undefined): string => {
-  const t = x == null ? '' : String(x);
+  const t = x == null ? '' : typeof x === 'number' ? numberText(x) : String(x);
   return /[",\r\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
 };
 
@@ -26,6 +30,45 @@ export function sourceName(id: string, extra?: string): string {
 /** The licence of a source, as data/sources.json states it ("" for a source the registry lacks). */
 export function licenceOf(id: string): string {
   return id === 'atlas' ? ATLAS_LICENCE : (sources.value[id]?.licence ?? '');
+}
+
+/**
+ * The licence cell of each row of one file (make one per file). A licence text of up to 100 characters is written on every
+ * row; a longer one (the IMF's) is written in full on the first row that uses it, and on the others by its short name
+ * with a pointer to that row, so that a weekly series of four thousand rows does not carry it four thousand times.
+ * Called with `licenceTexts(ids, suffix)`: the full text and the short one of the sources a row rests on, and what the
+ * atlas adds ("; the estimate: CC BY 4.0").
+ */
+export const LONG_LICENCE = 100;
+export function licenceColumn(): (full: string, short?: string) => string {
+  const seen = new Set<string>();
+  return (full, short = full) => {
+    if (full.length <= LONG_LICENCE) return full;
+    if (!seen.has(full)) {
+      seen.add(full);
+      return full;
+    }
+    return `${short} (full text on the first row of this source)`;
+  };
+}
+/** The registry's licence texts of sources, joined, and their short names, joined: the two arguments of `licenceColumn()`'s function. */
+export const licenceTexts = (ids: string[], suffix = ''): [string, string] => [
+  ids.map(licenceOf).join('; ') + suffix,
+  ids.map((i) => licenceShort(licenceOf(i))).join('; ') + suffix,
+];
+
+/** Who publishes a source, as the registry says it, up to its first colon or bracket ("U.S. Geological Survey"). */
+export const publisherOf = (id: string): string => (id === 'atlas' ? 'Commodity Flows Atlas' : (sources.value[id]?.publisher ?? id)).split(/[:(]/)[0].trim();
+
+/** Publishers whose licence text states no permission to reuse their data: with any of them among `ids`, no CSV is offered. */
+export function termsNotConfirmed(ids: string[]): string[] {
+  const out: string[] = [];
+  for (const id of new Set(ids)) {
+    if (licenceAllows(licenceOf(id))) continue;
+    const who = publisherOf(id);
+    if (!out.includes(who)) out.push(who);
+  }
+  return out;
 }
 
 /** Save text as a file (UTF-8 with a byte-order mark). */

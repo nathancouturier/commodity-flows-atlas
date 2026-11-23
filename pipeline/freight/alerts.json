@@ -26,6 +26,10 @@
    "suez"
   ],
   "event": "red-sea-houthi-2023",
+  "events": [
+   "red-sea-houthi-2023",
+   "houthi-saudi-2026"
+  ],
   "checked": "2026-11-23",
   "override": {
    "addCountries": [
@@ -43,6 +47,10 @@
    "bosphorus"
   ],
   "event": "black-sea-attacks-2026",
+  "events": [
+   "black-sea-attacks-2026",
+   "black-sea-tankers-2025"
+  ],
   "checked": "2026-11-23"
  }
 ]

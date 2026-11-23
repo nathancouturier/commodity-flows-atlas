@@ -5,13 +5,14 @@
  */
 import { useEffect, useState } from 'preact/hooks';
 import type { ComponentChildren } from 'preact';
-import type { BasketRow, CountryProfile, FreightProduct, ProfileBalance, ProfileEntry, ProfilePartners } from '../../types';
+import type { BasketRow, CountryProfile, FreightProduct, InfraType, Passage, ProfileBalance, ProfileEntry, ProfilePartners } from '../../types';
 import { commodityMeta, countryName, isCountry } from '../../lib/data';
 import { fmt, fmtEst, pct } from '../../lib/format';
 import { GROUP_LABEL, SOURCED_BASES, chokepointName } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { EstMark, Section, SourceLine, SourcesLine, shortSource } from '../ui';
-import { useFreightCatalogue } from './shared';
+import { useFreightCatalogue, useLoaded } from './shared';
+import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import '../../styles/country.css';
 
 const PHONE = '(max-width: 600px)';
@@ -69,6 +70,8 @@ export interface EntryShown {
   rank: number | null;
   y: number | string;
   est: boolean;
+  /** the figure is the atlas's conversion of the source's figure */
+  conv?: boolean;
   /** the figure is of a past year (no USD value then: the customs value is of the latest year) */
   past: boolean;
   /** words next to the line: no series for that year, or no figure that year */
@@ -81,7 +84,7 @@ export interface EntryShown {
 export function entryAt(e: ProfileEntry, p: CountryProfile, yr: number | null): EntryShown {
   const ys = e.hk ? p.years?.[e.hk] : undefined;
   const last = ys ? ys.y.length - 1 : null;
-  const latest: EntryShown = { v: e.v, share: e.share ?? null, rank: e.rank ?? null, y: e.y, est: !!e.est, past: false, note: null, i: last, name: null };
+  const latest: EntryShown = { v: e.v, share: e.share ?? null, rank: e.rank ?? null, y: e.y, est: !!e.est, conv: !!e.conv, past: false, note: null, i: last, name: null };
   if (yr == null) return latest;
   const i = ys ? ys.y.indexOf(yr) : -1;
   if (!ys || i < 0) {
@@ -103,6 +106,7 @@ export function entryAt(e: ProfileEntry, p: CountryProfile, yr: number | null): 
     rank: e.rank != null ? (e.hr?.[i] ?? null) : null,
     y: label,
     est: !!e.hest?.includes(i) || (e.s === 'atlas' && !!e.est),
+    conv: !!e.hconv?.includes(i),
     past: true,
     note: e.hsrc?.includes(i) ? 'estimated by the source' : null,
     i,
@@ -176,7 +180,9 @@ export function EuLink({ p }: { p: CountryProfile }) {
 /** "3,849 of 10,000, like 2.6 equal suppliers": the Herfindahl index in plain words. */
 function hhiText(x: ProfilePartners, who: string): string {
   const eq = x.hhi > 0 ? 10000 / x.hhi : 0;
-  return `concentration ${fmt(x.hhi)} on a scale of 0 to 10,000 (Herfindahl index; 10,000 = one ${who.replace(/s$/, '')}), as if ${fmt(eq)} ${who} had equal shares`;
+  const one = who.replace(/s$/, '');
+  const like = fmt(eq) === '1' ? `all from one ${one}` : `as if ${fmt(eq)} ${who} had equal shares`;
+  return `concentration ${fmt(x.hhi)} on a scale of 0 to 10,000 (Herfindahl index; 10,000 = one ${one}), ${like}`;
 }
 
 function PartnerLine({ x, title, who }: { x: ProfilePartners; title: string; who: string }) {
@@ -221,7 +227,7 @@ function BalanceRow({ b }: { b: ProfileBalance }) {
       </div>
       {net && (
         <div class="cp-sub muted">
-          exports {net.exp != null ? `${fmtEst(net.exp, net.est)} ${net.u}` : 'none recorded'}, imports {net.imp != null ? `${fmtEst(net.imp, net.est)} ${net.u}` : 'none recorded'} · {net.y}
+          exports {net.exp != null ? `${fmtEst(net.exp, net.est)} ${net.u}` : 'none in the table'}, imports {net.imp != null ? `${fmtEst(net.imp, net.est)} ${net.u}` : 'none in the table'} · {net.y}
         </div>
       )}
       {b.dep && (
@@ -280,15 +286,22 @@ function modeText(x: { modes: FreightProduct['modes'] }): string {
     .join(', ');
 }
 
-function Passages({ via }: { via: { id: string; low: number; high: number }[] }) {
-  if (!via.length) return <span class="muted">no tracked passage reaches 2% of the seaborne tonnes</span>;
+/** "at least 3.9%", "at least 3.9%, up to 12%": "up to" only where it differs once printed, "0%" below 0.05%. */
+function passageText(v: Passage): string {
+  const low = v.low >= 0.0005 ? pct(v.low) : '0%';
+  const high = pct(v.high);
+  return `at least ${low}${!v.capped && high !== low && v.high > v.low ? `, up to ${high}` : ''}${v.capped ? ', no "up to"' : ''}`;
+}
+
+function Passages({ via }: { via: Passage[] }) {
+  if (!via.length) return <span class="muted">no tracked passage reaches 2% of the seaborne tonnes or 1 Mt</span>;
   return (
     <>
       {via.map((v, i) => (
         <span key={v.id} class="cp-pass">
           {i > 0 && ' · '}
           <button class="link-btn" onClick={() => select({ kind: 'chokepoint', id: v.id })}>{chokepointName(v.id)}</button>{' '}
-          <span class="num">{v.low > 0 ? `at least ${pct(v.low, true)}` : 'at least 0%'}{v.high > v.low ? `, up to ${pct(v.high, true)}` : ''}</span>
+          <span class="num">{passageText(v)}</span>
         </span>
       ))}
       <EstMark />
@@ -360,13 +373,18 @@ function FreightSide({ p, side }: { p: CountryProfile; side: 'exports' | 'import
 export function FreightBlock({ p }: { p: CountryProfile }) {
   useFreightCatalogue();
   if (!p.freight || (!p.freight.exports.length && !p.freight.imports.length)) return null;
+  const fr = p.freight;
+  const capped = [...fr.exports, ...fr.imports, fr.exportsTotal, fr.importsTotal].some((x) => x?.via?.some((v) => v.capped));
   return (
     <FoldSection title="Freight" aside={<span class="muted num">{p.freight.y}</span>} foldOnPhone>
       <FreightSide p={p} side="exports" />
       <FreightSide p={p} side="imports" />
       <div class="muted small cp-fr-note">
         Typical ports (Atlas assumption): the port of each recorded pair, with the basis of the port. Passages: the share of the seaborne tonnes whose assumed route has
-        to cross the passage ("at least") or may cross it ("up to"), from the routes of the trade-flow engine. Mode by cargo family (Atlas rule).
+        to cross the passage ("at least") or may cross it ("up to"), from the routes of the trade-flow engine; a passage is listed from 2% of these tonnes or
+        1 Mt. Mode by cargo family (Atlas rule).
+        {capped &&
+          ' "No up to": the page of the passage caps its own "up to" for this cargo at IMF PortWatch\'s count of all ships through it, below what the routes that may cross it add up to, so no country\'s share of it is given.'}
       </div>
       <SourceLine s={p.freight.s} y={p.freight.y} n="recorded pairs, all transport modes; ports, modes and routes: Atlas assumptions" />
     </FoldSection>
@@ -375,17 +393,36 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
 
 // ---------------------------------------------------------------- basket
 
-function BasketList({ side, x }: { side: string; x: { total: number; rows: BasketRow[] } }) {
+/** The trades of this origin that customs data are known not to record (the engine's caveats of kind "unrecorded"). */
+export function unrecorded(p: CountryProfile): string[] {
+  // "crude oil", "LPG": a name inside a sentence
+  const lower = (n: string) => (/^[A-Z]{2}/.test(n) ? n : n.charAt(0).toLowerCase() + n.slice(1));
+  return [...new Set((p.gaps ?? []).filter((g) => g.kind === 'unrecorded').map((g) => lower(groupName(g.g, g.k))))];
+}
+
+/** "crude oil and LPG" */
+const andList = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : (xs[0] ?? ''));
+
+/** One line under the exports of all goods, or on a key figure, where customs data miss a trade of the country. */
+export function unrecordedNote(p: CountryProfile): string | null {
+  const miss = unrecorded(p);
+  return miss.length
+    ? `Customs data do not record all of ${countryName(p.c)}'s exports of ${andList(miss)} (see the notes under Exports): the total and the shares leave them out.`
+    : null;
+}
+
+function BasketList({ side, x, note }: { side: string; x: { total: number; rows: BasketRow[] }; note?: string | null }) {
   return (
     <div class="cp-basket">
       <h4 class="route-sub">
         {side} <span class="muted num">· {fmt(x.total)} bn USD in all</span>
       </h4>
+      {note && <div class="cp-gap cp-basket-gap">{note}</div>}
       {x.rows.map((r, i) => (
-        <button key={r.hs4} class="bar-row" style={{ width: '100%' }} title={r.d ? `HS ${r.hs4}: ${r.d}` : `HS ${r.hs4}`} onClick={r.k ? () => openCommodity(r.k!) : undefined} disabled={!r.k}>
+        <button key={r.hs4} class="bar-row" style={{ width: '100%' }} title={r.d ? `HS ${r.hs4}, subheadings: ${r.d}` : `HS ${r.hs4}`} onClick={r.k ? () => openCommodity(r.k!) : undefined} disabled={!r.k}>
           <span class="bar-rank">{i + 1}</span>
           <span>
-            <span class="bar-label">{r.label}</span>
+            <span class="bar-label cp-wrap">{r.label}</span>
             <div class="bar-track">
               <div class="bar-fill" style={{ width: `${Math.max(2, r.share * 100)}%` }} />
             </div>
@@ -405,20 +442,31 @@ export function BasketBlock({ p }: { p: CountryProfile }) {
   if (!b || (!b.exports && !b.imports)) return null;
   return (
     <FoldSection title="All goods: largest exports and imports" aside={<span class="muted num">{b.y}</span>} foldOnPhone>
-      {b.exports && <BasketList side="Exports" x={b.exports} />}
+      {b.exports && <BasketList side="Exports" x={b.exports} note={unrecordedNote(p)} />}
       {b.imports && <BasketList side="Imports" x={b.imports} />}
-      <SourceLine s={b.s} y={b.y} n="HS headings of four digits, every chapter; shares are of the country's total merchandise exports or imports in the same file" />
+      <SourceLine
+        s={b.s}
+        y={b.y}
+        n="HS headings of four digits, every chapter, named from the descriptions of their six-digit subheadings in the archive's product list; shares are of the country's total merchandise exports or imports in the same file"
+      />
     </FoldSection>
   );
 }
 
 // ---------------------------------------------------------------- operators
 
+/**
+ * The operator field of each asset, as the infrastructure layer gives it, with the assets that carry it. The field is not
+ * split or counted as companies: it can name several owners with their shares ("ExxonMobil Guyana (45%), Chevron (30%)").
+ */
 export function OperatorsBlock({ p }: { p: CountryProfile }) {
   const ops = p.operators ?? [];
+  const all = useLoaded<InfraFeature[]>(() => (ops.length ? loadInfra() : Promise.resolve([])), [ops.length > 0]);
   if (!ops.length) return null;
+  const names = new Map((all ?? []).map((f) => [`${f.p.type}:${f.p.id}`, f.p.name]));
+  const assets = new Set(ops.flatMap((o) => o.assets)).size;
   return (
-    <FoldSection title="Operators of the assets listed" aside={<span class="muted num">{ops.length}</span>} foldOnPhone>
+    <FoldSection title="Operators of the assets listed" aside={<span class="muted num">{assets} asset{assets === 1 ? '' : 's'}</span>} foldOnPhone>
       <div class="cp-list">
         <ShowAll
           rows={ops}
@@ -426,12 +474,21 @@ export function OperatorsBlock({ p }: { p: CountryProfile }) {
           render={(o) => (
             <div class="cp-op" key={o.name}>
               <span>{o.name}</span>
-              <span class="muted num">{o.assets.length} asset{o.assets.length === 1 ? '' : 's'}</span>
+              <span class="muted cp-op-assets">
+                {o.assets.map((a, i) => (
+                  <span key={a}>
+                    {i > 0 && ', '}
+                    <button class="link-btn" onClick={() => select({ kind: 'infra', id: a.slice(a.indexOf(':') + 1), layer: a.split(':')[0] as InfraType })}>
+                      {names.get(a) ?? a.slice(a.indexOf(':') + 1)}
+                    </button>
+                  </span>
+                ))}
+              </span>
             </div>
           )}
         />
       </div>
-      <div class="muted small">As the infrastructure layer names the operator of each asset; the asset pages give the source.</div>
+      <div class="muted small">The operator field of each asset as the infrastructure layer gives it, not split into companies; the asset pages give the source.</div>
     </FoldSection>
   );
 }

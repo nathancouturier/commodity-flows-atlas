@@ -67,13 +67,19 @@ def concentration(table):
     return out
 
 
+def _digits(x):
+    """Digits of a whole figure: 22 -> 2, 535,511 -> 6 (a figure under 1 counts for one)."""
+    return len(str(int(round(x)))) if x >= 1 else 1
+
+
 def unit_value(usd_thousand, tonnes, est_share=0.0):
-    """USD per tonne of a customs value in thousand USD and a tonnage, to three significant digits. None where 10% or more of the
-    tonnage is an Atlas estimate: the declared value was used to compute it, so the quotient would only return the reference
-    unit value of the estimate."""
+    """USD per tonne of a customs value in thousand USD and a tonnage (both unrounded), to three significant digits at most: customs
+    give whole tonnes and whole thousands of USD, so a row of 22 t or of 5 thousand USD carries fewer digits than that and shows
+    fewer. None where 10% or more of the tonnage is an Atlas estimate: the declared value was used to compute it, so the quotient
+    would only return the reference unit value of the estimate."""
     if est_share >= UNIT_VALUE_MAX_EST or not tonnes or tonnes <= 0 or not usd_thousand or usd_thousand <= 0:
         return None
-    return sig(float(usd_thousand) * 1000 / float(tonnes), 3)
+    return sig(float(usd_thousand) * 1000 / float(tonnes), min(3, _digits(tonnes), _digits(usd_thousand)))
 
 
 def apparent_consumption(production, imports, exports):
@@ -141,18 +147,30 @@ def us_consumption(path, names, years):
 
 def us_reliance(fig2_path, names):
     """Net import reliance of the United States as USGS publishes it (Fig2 of the Mineral Commodity Summaries), with its main
-    import sources of 2021 to 2024. The percentage is kept as published (">75", "57")."""
+    import sources. The percentage is kept as published (">75", "57"). The year of the percentage and the period of the sources are
+    read from the names of the file's columns (Net_Import_Reliance_pct_2025, Major_Import_Sources_2021_24)."""
     import csv
     out = []
     with open(fig2_path, encoding="utf-8-sig", newline="") as f:
-        by = {r["Commodity"].strip(): r for r in csv.DictReader(f)}
+        rd = csv.DictReader(f)
+        pct_col = next((c for c in rd.fieldnames if re.fullmatch(r"Net_Import_Reliance_pct_\d{4}", c)), None)
+        src_col = next((c for c in rd.fieldnames if re.fullmatch(r"Major_Import_Sources_\d{4}_\d{2}", c)), None)
+        if not pct_col:
+            raise SystemExit(f"{fig2_path}: no column Net_Import_Reliance_pct_<year>: the file's layout changed")
+        by = {r["Commodity"].strip(): r for r in rd}
+    year = int(pct_col[-4:])
+    period = None
+    if src_col:
+        a, b = src_col.split("_")[-2:]
+        period = f"{a} to {a[:2]}{b}"
     for n in names:
         r = by.get(n)
         if not r:
             continue
-        pct = r["Net_Import_Reliance_pct_2025"].strip()
-        out.append({"what": n[:1] + n[1:].lower() if n.isupper() or n.split(",")[0].isupper() else n, "pct": pct, "y": 2025,
-                    **({"src": r["Major_Import_Sources_2021_24"].strip()} if r["Major_Import_Sources_2021_24"].strip() not in ("", "NA") else {}),
+        pct = r[pct_col].strip()
+        srcs = r[src_col].strip() if src_col else ""
+        out.append({"what": n[:1] + n[1:].lower() if n.isupper() or n.split(",")[0].isupper() else n, "pct": pct, "y": year,
+                    **({"src": srcs, "srcYears": period} if srcs not in ("", "NA") else {}),
                     **({"n": r["Notes"].strip()} if r.get("Notes") else {})})
     return out
 
@@ -207,17 +225,17 @@ def derive_groups(baci, B, path=HS6_DETAIL):
 # ---------------------------------------------------------------- the pages
 CONSUMPTION = {  # id -> (USGS production table, trade source, words)
     "copper": dict(prod=("Copper", "Refinery production", 1.0, "kt Cu"), prod_label="refined copper production, primary and secondary (USGS)",
-                   trade=("copper-7403", "refined copper (HS 7403)"), unit="kt", div=1e3, basis="refined copper, apparent consumption",
+                   trade=("copper-7403", "refined copper (HS 7403)"), unit="kt", basis="refined copper, apparent consumption",
                    title="Apparent consumption — refined copper, {y} (Atlas estimate)", what="refined copper",
                    caveat="Trade is refined copper only (HS 7403, cathodes and refined forms); HS 7402, unrefined copper and anodes that refineries import, is left out. "
                           "Refinery output counts primary and secondary refined copper, trade in scrap is not known."),
     "aluminium": dict(prod=("Aluminum", "Smelter production", 1.0, "kt"), prod_label="primary aluminium smelter production (USGS)",
-                      trade=("aluminium", "unwrought aluminium (HS 7601)"), unit="kt", div=1e3, basis="primary aluminium and unwrought trade, apparent consumption",
+                      trade=("aluminium", "unwrought aluminium (HS 7601)"), unit="kt", basis="primary aluminium and unwrought trade, apparent consumption",
                       title="Apparent consumption — primary aluminium and unwrought trade, {y} (Atlas estimate)", what="primary aluminium",
                       caveat="Trade is unwrought aluminium, alloyed or not (HS 7601), which includes alloys made from scrap; production is primary smelter output only. "
                              "The result is smelter output plus net trade in unwrought metal, not the use of primary metal alone."),
     "steel": dict(prod=("Iron And Steel", "Raw steel", 1.0, "Mt"), prod_label="raw steel production (USGS)",
-                  trade=("steel", "steel products, HS 72 without 7201 to 7205"), unit="Mt", div=1.0, basis="crude steel and steel products, apparent consumption",
+                  trade=("steel", "steel products, HS 72 without 7201 to 7205"), unit="Mt", basis="crude steel and steel products, apparent consumption",
                   title="Apparent consumption — crude steel and steel products, {y} (Atlas estimate)", what="steel",
                   caveat="Production is crude steel; trade is steel products in product weight, which the atlas does not convert to crude-steel equivalent "
                          "(it has no conversion read on a page). Trade between EU member states is counted."),
@@ -229,8 +247,43 @@ def _tab(d, key):
     return t if isinstance(t, dict) else next((x["table"] for x in d.get("extra") or [] if x["key"] == key), None)
 
 
+def customs_by_country(B, baci, g, side):
+    """{iso: (tonnes, tonnes that are an Atlas estimate)} of one side of a group, unrounded, for the countries of the atlas, as the
+    ranked tables count them. A country with no flow in the extract (flows below 1,000 t and 1 million USD are not in it) has no entry."""
+    d = baci.group(g)
+    col = "o" if side == "exports" else "d"
+    out = {}
+    for code, r in d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum")).iterrows():
+        iso = None if code in B.EXTRA_CODES else baci.iso(code)
+        if iso and r["t"] > 0:
+            t0, e0 = out.get(iso, (0.0, 0.0))
+            out[iso] = (t0 + float(r["t"]), e0 + float(r["te"]))
+    return out
+
+
+def no_row_words(missing, imports, exports, name):
+    """What is missing for the countries USGS names that have no consumption row for want of a customs row: -> text or ''."""
+    no_i = [c for c in missing if c not in imports and c in exports]
+    no_e = [c for c in missing if c in imports and c not in exports]
+    both = [c for c in missing if c not in imports and c not in exports]
+    names = lambda l: ", ".join(name(c) for c in sorted(l, key=name))
+    parts = ([f"no import row: {names(no_i)}"] if no_i else []) + ([f"no export row: {names(no_e)}"] if no_e else []) + \
+            ([f"no import and no export row: {names(both)}"] if both else [])
+    return "; ".join(parts)
+
+
+def not_listed(production, imports, exports, k=6):
+    """The largest countries that have customs rows and no USGS production line, by net imports (imports minus exports, tonnes of the
+    same product and year): [(iso, net)] largest first, net positive only. Their production is not known, and is not counted as zero
+    in any table: this is the customs part of their apparent consumption, which is at least this much."""
+    out = [(c, imports.get(c, 0.0) - exports.get(c, 0.0)) for c in set(imports) | set(exports) if c not in production]
+    return sorted((x for x in out if x[1] > 0), key=lambda x: -x[1])[:k]
+
+
 def consumption_tables(B, docs, us, baci):
-    """Apparent consumption of the three products. Returns a report {id: (n listed, n missing, n negative)}."""
+    """Apparent consumption of the three products. Returns a report {id: (n listed, n missing, n negative)}.
+    Imports and exports are summed from the cleaned customs frame in full precision (not from the rounded tables), so that no country
+    is lost to a rounding and the figures reproduce by hand."""
     report = {}
     USGS = f"USGS MCS {B.USGS_EDITION}"
     y = str(B.BACI_YEAR)
@@ -244,38 +297,41 @@ def consumption_tables(B, docs, us, baci):
         t = us.table(com, det, year=y, factor=fac)
         prod = dict(t["rows"])
         g, trade_label = spec["trade"]
-        if g == "copper-7403":
-            if baci.group(g).empty:  # the six-digit extract is absent: refined copper cannot be told from HS 7402
-                continue
-            ex = baci.ranked(g, "exports", "Mt", 1e6, trade_label)[0]
-            im = baci.ranked(g, "imports", "Mt", 1e6, trade_label)[0]
-        else:
-            ex, im = d["exports"], d["imports"]
-        if not ex["rows"] or not im["rows"]:
+        if g == "copper-7403" and baci.group(g).empty:  # the six-digit extract is absent: refined copper cannot be told from HS 7402
             continue
-        div = spec["div"]
-        world = us.ranked(com, det, pu, fac, spec["prod_label"], year=y)[0]["world"]
-        e = {r["c"]: r["v"] * div for r in ex["rows"]}
-        i = {r["c"]: r["v"] * div for r in im["rows"]}
-        rows, missing, negative = apparent_consumption(prod, i, e)
+        ex_t, im_t = customs_by_country(B, baci, g, "exports"), customs_by_country(B, baci, g, "imports")
+        if not ex_t or not im_t:
+            continue
         u = spec["unit"]
+        per = {"kt": 1e3, "Mt": 1e6}[u]  # tonnes in one unit of the table
+        world = us.ranked(com, det, pu, fac, spec["prod_label"], year=y)[0]["world"]
+        e = {c: v[0] / per for c, v in ex_t.items()}
+        i = {c: v[0] / per for c, v in im_t.items()}
+        rows, missing, negative = apparent_consumption(prod, i, e)
+        est = lambda m, c: m[c][1] >= 0.5 * m[c][0]  # as the ranked tables mark a row that is mostly an Atlas estimate
         out_rows = []
         for c, v, (p, imp, exp) in rows:
-            ex_est = next((r.get("est") for r in ex["rows"] if r["c"] == c), False)
-            im_est = next((r.get("est") for r in im["rows"] if r["c"] == c), False)
             note = (f"production {_n(p)} {u} ({USGS} {y}) + imports {_n(imp)} {u} - exports {_n(exp)} {u} (CEPII BACI {y})"
-                    + ("; the tonnage of its exports or imports is itself an Atlas estimate from the declared value" if ex_est or im_est else ""))
+                    + ("; the tonnage of its exports or imports is itself an Atlas estimate from the declared value" if est(ex_t, c) or est(im_t, c) else ""))
             out_rows.append((c, v, "Atlas estimate: " + note, True))
         names = lambda l: ", ".join(B.cname(c) for c in sorted(l, key=B.cname))
         n = [f"Atlas estimate: apparent consumption of {spec['what']} in {y}, by country: production plus imports minus exports of the same product and year, in {u}. "
              f"Production: {spec['prod_label']}, {USGS} {y} column. Imports and exports: CEPII BACI {y}, {trade_label}, gross weight, "
-             f"with the atlas's cleaning rules. {spec['caveat']} Stock changes are not known, so this is apparent consumption, not measured use."]
-        n.append(f"Only the countries for which USGS gives production are listed ({len(prod)}); {len(missing)} of them are left out because one of the three terms is missing"
-                 + (f" ({names(missing)})" if missing else "") + f", and {len(negative)} because the result is negative" + (f" ({names(negative)})" if negative else "")
-                 + ". A country that trades the product but has no USGS production figure has no production term and is not in the table. "
-                 f"World: the world production of the same product in {y} as USGS gives it ({_n(world)} {u}, the sum of its countries and its 'Other countries' line): "
+             f"with the atlas's cleaning rules, summed before any rounding. {spec['caveat']} Stock changes are not known, so this is apparent consumption, not measured use."]
+        gap = no_row_words(missing, i, e, B.cname)
+        n.append(f"Only the countries for which USGS gives production are listed ({len(prod)}); this is not a ranking of the world's consumers. "
+                 f"{len(missing)} of them are left out for want of a customs row" + (f" ({gap}): the extract omits flows below 1,000 t and 1 million USD, "
+                 "so this is a small flow or none, not a gap in USGS production, and it is not counted as zero" if missing else "")
+                 + f"; {len(negative)} are left out because the result is negative" + (f" ({names(negative)})" if negative else "") + ".")
+        nl = not_listed(prod, i, e)
+        if nl:
+            n.append("Not listed because USGS names no production for them: the largest of them by customs net imports (imports minus exports) are "
+                     + ", ".join(f"{B.cname(c)} {_n(v)} {u}" for c, v in nl)
+                     + f". Their apparent consumption is that plus their own production, which USGS does not name (it may sit in its 'Other countries' line): "
+                       "they are absent because the table needs a production figure, not because they consume less than the countries listed.")
+        n.append(f"World: the world production of the same product in {y} as USGS gives it ({_n(world)} {u}, the sum of its countries and its 'Other countries' line): "
                  "trade nets out in the world, so apparent consumption of the world is its production apart from changes in stocks, which are not known. "
-                 "The shares and 'Rest of world' (the countries not listed, dropped ones included) are computed on it; the order of the rows is not a world ranking.")
+                 "The shares are computed on it, and 'Countries not listed' is the world total minus the countries listed.")
         tab = B.ranked(out_rows, int(y), "atlas", u, world=world, n=" ".join(n), digits=3)
         tab["est"] = True
         tab["norank"] = True
@@ -364,17 +420,20 @@ def add_values(B, docs, index):
                 continue
             customs = t["s"] == "baci"  # a table of the atlas's own estimate (fine metal) shows the declared value and no unit value
             es = t.get("_es", {})
+            # the unit value is the quotient of the unrounded value and tonnage (the table's tonnage is rounded to 4 decimals of its unit:
+            # a row of 100 t is 0.0001 Mt), as the flows compute it
+            tons = t.get("_t", {})
             for r in t["rows"]:
                 usd = t["_usd"].get(r["c"])
                 if usd is None:
                     continue
                 r["usd"] = round(usd * 1000)
-                uv = unit_value(usd, r["v"] * div, 1.0 if r.get("est") else es.get(r["c"], 0.0)) if customs else None
+                uv = unit_value(usd, tons.get(r["c"], r["v"] * div), 1.0 if r.get("est") else es.get(r["c"], 0.0)) if customs else None
                 if uv:
                     r["uv"] = uv
             if t.get("_usdw"):
                 t["usd"] = round(t["_usdw"] * 1000)
-                uv = None if t.get("_west") or not customs else unit_value(t["_usdw"], t["world"] * div)
+                uv = None if t.get("_west") or not customs else unit_value(t["_usdw"], t.get("_tw", t["world"] * div))
                 if uv:
                     t["uv"] = uv
 
@@ -386,12 +445,22 @@ HUB_PAIRS = {"iron-ore": ("exports", "imports"), "copper": ("exports", "imports"
              "cobalt": ("exports", "imports"), "aluminium": ("exports", "imports")}
 HUB_MIN_SHARE = 0.015  # of the table, on both sides
 HUB_MIN_RATIO = 0.5    # the smaller of the two tonnages over the larger
+ORE_WORDS = re.compile(r"\bores?\b|concentrates?|bauxite")
+
+
+def hub_reading(cid, basis):
+    """The possible reading of a trade that is as large in imports as in exports, in the words of what the table counts: ore or
+    concentrate is bought, blended or shipped on; metal is bought, stored or shipped on."""
+    if cid in ("iron-ore", "bauxite") or ORE_WORDS.search(basis or ""):
+        return "ore or concentrate bought, blended or shipped on there rather than mined or used there"
+    return "metal bought, stored or shipped on there rather than made or used there"
 
 
 def hub_notes(B, docs):
     """A note on the rows of countries that both import and export the same product in similar tonnages (audit C-043: Switzerland, the
-    Netherlands, Singapore, Malaysia): what the atlas's own tables show; a country named as a producer by USGS is left out.
-    The cause (metal bought, stored, blended or transhipped there) is a hypothesis. Rows that already carry such a note are left alone."""
+    Netherlands, Singapore, Malaysia): what the atlas's own tables show; a country named as a producer by the page's USGS tables is
+    left out (a producer USGS does not name, such as Thailand for tin, is not: it carries the note). The cause (metal or ore bought,
+    stored, blended or transhipped there) is a hypothesis. Rows that already carry such a note are left alone."""
     hint = "a possible reading, not established here"
     done = []
     for cid, (ek, ik, *more) in ((c, (k[0], k[1], *([k[2], k[3]] if len(k) > 2 else []))) for c, k in HUB_PAIRS.items()):
@@ -415,7 +484,7 @@ def hub_notes(B, docs):
                 if "possible reading" in (r.get("n") or "") or "possible reading" in (ir.get("n") or ""):
                     continue
                 txt = (f"{B.cname(r['c'])} is both an exporter (rank {rank}, {_n(r['v'])} {e['u']}) and an importer (rank {irank}, {_n(ir['v'])} {i['u']}) of this product, "
-                       f"in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there ({hint})")
+                       f"in similar tonnages: part of its trade may be {hub_reading(cid, e.get('basis'))} ({hint})")
                 r["n"] = B.joinn(r.get("n"), txt)
                 ir["n"] = B.joinn(ir.get("n"), txt)
                 done.append(f"{cid}/{e_key}/{r['c']}")
@@ -426,10 +495,12 @@ def add_concentration(docs):
     for d in docs.values():
         out = {}
         for k in ("production", "refinery", "reserves", "exports", "imports"):
-            c = concentration(d[k]) if isinstance(d.get(k), dict) else None
+            c = concentration(d[k]) if isinstance(d.get(k), dict) and d[k].get("scope") in (None, "world") else None
             if c:
                 out[k] = c
         for x in d.get("extra") or []:
+            if x["table"].get("scope") not in (None, "world"):  # a table of the member states of the EU: its shares are of the EU total, not of the world
+                continue
             c = concentration(x["table"])
             if c:
                 out[x["key"]] = c

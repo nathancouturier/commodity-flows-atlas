@@ -7,6 +7,10 @@ except entries marked "manual", which are well-known terminals missing from that
 """
 import json
 import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from common import constants as CN  # noqa: E402  (the Earth radius, with the page that gives it)
 
 _SR = os.path.join(os.path.dirname(__import__("searoute").__file__), "data", "ports.geojson")
 _sr = {f["properties"]["port"]: (f["properties"]["name"].strip(), f["geometry"]["coordinates"]) for f in json.load(open(_SR, encoding="utf-8-sig"))["features"]}
@@ -286,6 +290,23 @@ def _known(code):
     return code in MANUAL or code in _sr
 
 
+def transit_for(iso3, family, group=None, other=None):
+    """The TRANSIT row of a country for a cargo, or None: the row of the group itself first ("soymeal"), then of its
+    family ("fert"), then the "default" row. A row (code, source id, url, note[, extra]) may carry in `extra` the
+    partners it holds for ("to": the page names those buyers only; another partner gets no row) and other ports that
+    are an open choice for some partners ("alt": {code: partners}). The key the row was found under is added at the end
+    of the returned tuple: (code, source id, url, note, extra, key)."""
+    rows = TRANSIT.get(iso3) or {}
+    key = group if group in rows else family if family in rows else "default" if "default" in rows else None
+    if key is None:
+        return None
+    row = rows[key]
+    extra = row[4] if len(row) > 4 else {}
+    if other is not None and extra.get("to") is not None and other not in extra["to"]:
+        return None
+    return tuple(row[:4]) + (extra, key)
+
+
 def segment(group):
     return SEGMENT.get(group, "any")
 
@@ -304,6 +325,10 @@ BASES = (BASIS_PAGE, BASIS_OTHER, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)  #
 
 # Segments that may fall back on the country's general-cargo ("box") row: food, fertiliser, metals, general cargo.
 GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
+# Groups of the "box" segment (minor metals and chemicals, package L1) whose box rows name containers or general cargo, not
+# the product: such a row is a general port of the country for them, not a page that names the cargo (review GL1.6). A
+# row that names the group itself keeps "page names the cargo".
+BOX_GENERAL = frozenset({"lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths"})
 
 # Oil, gas and ore terminals that the audit found carrying other cargo (plan 2.4, test G01; C-020 for Tubarao and
 # Saldanha Bay): the legacy table and the nearest-port search may give them only for the cargo they serve.
@@ -363,6 +388,10 @@ def candidates(iso3, group, role=None):
         # Not for oil and gas: an import terminal (a refinery's crude jetty, an LNG regasification plant) is no
         # export terminal, and the reverse.
         add(_rows(iso3, group), BASIS_OTHER)
+    if group in BOX_GENERAL:
+        # same ports, in the same order; only the basis of the rows that do not name the group itself changes
+        out = [(c, z, b if any(r.code == c and group in r.families for r in _rows(iso3, group)) else BASIS_GENERAL)
+               for c, z, b in out]
     if not out and group not in OWN_FAMILY:
         # The legacy entry of the family itself (Dumai for Indonesian palm oil, Jubail for Saudi fertiliser,
         # Rosario for Argentine soy oil) is the port used before for that cargo: it comes before a general port.
@@ -389,6 +418,8 @@ def basis_of(iso3, group, role, code):
     for c, _, basis in candidates(iso3, group, role):
         if c == code:
             return basis
+    if group in BOX_GENERAL and not any(r.code == code and group in r.families for r in _rows(iso3, group)):
+        return BASIS_GENERAL if any(r.code == code for r in _rows(iso3, group) + _box_rows(iso3)) else BASIS_LEGACY
     if any(r.code == code for r in _rows(iso3, group, role)):
         return BASIS_PAGE
     if any(r.code == code for r in _rows(iso3, group)):
@@ -510,7 +541,7 @@ def _load_countries():
 def _km(lon1, lat1, lon2, lat2):
     import math
     p = math.pi / 180
-    return 6371 * math.hypot((lon2 - lon1) * p * math.cos((lat1 + lat2) * p / 2), (lat2 - lat1) * p)
+    return CN.EARTH_RADIUS_KM * math.hypot((lon2 - lon1) * p * math.cos((lat1 + lat2) * p / 2), (lat2 - lat1) * p)
 
 
 # A searoute "port" is a real seaport when it lies within this distance of the base map's coastline or of the sea

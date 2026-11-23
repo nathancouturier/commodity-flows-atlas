@@ -8,6 +8,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { signal } from '@preact/signals';
 import { TOUCH } from '../lib/format';
+import { wantPageFocus } from '../lib/pageFocus';
 import { tokens } from '../lib/searchMatch';
 import '../styles/search.css';
 
@@ -57,6 +58,10 @@ export function SearchButton() {
 /** One option of the list, in the order the keyboard walks them. */
 interface Opt {
   id: string;
+  /** the item's key: what keeps the active option on the same row when the list grows */
+  key: string;
+  /** opening it opens a page of the atlas (not a list of kinds, not the Route finder) */
+  page: boolean;
   run: () => void;
 }
 
@@ -80,6 +85,8 @@ export function Search() {
   const [active, setActive] = useState(0);
   const [pairs, setPairs] = useState<{ title: string; items: Item[] } | null>(null);
   const enterWhenReady = useRef(false);
+  /** the key of the option the person moved to; null while the first row is the active one */
+  const activeKey = useRef<string | null>(null);
 
   const start = () => {
     if (items || failed) return;
@@ -154,10 +161,10 @@ export function Search() {
   const { opts, view } = useMemo(() => {
     const opts: Opt[] = [];
     /** One option: its place in the walk is its place in the list, which is what the id and the active index share. */
-    const option = (run: () => void, cls: string, body: preact.ComponentChildren, key: string, kind?: string) => {
+    const option = (run: () => void, cls: string, body: preact.ComponentChildren, key: string, kind?: string, page = false) => {
       const n = opts.length;
       const id = `sr-opt-${n}`;
-      opts.push({ id, run });
+      opts.push({ id, key, page, run });
       return (
         <div key={key} id={id} role="option" class={`sr-opt ${cls}`} aria-selected={n === active} data-k={kind} onClick={run} onMouseMove={(e) => (e.movementX || e.movementY) && setActive(n)}>
           {body}
@@ -180,6 +187,7 @@ export function Search() {
         </>,
         it.key,
         it.kind,
+        !it.key.startsWith('route:finder-'),
       );
     const enter = (k: Kind) => () => {
       setScope(k);
@@ -197,15 +205,19 @@ export function Search() {
         </div>,
       );
     }
-    if (pairs) {
-      rows.push(
-        <div key="pair" role="group" aria-label={pairs.title}>
-          <div class="sr-head">{pairs.title}</div>
-          {pairs.items.map(row)}
-        </div>,
-      );
-    }
+    const pairRows = pairs && (
+      <div key="pair" role="group" aria-label={pairs.title}>
+        <div class="sr-head">{pairs.title}</div>
+        {pairs.items.map(row)}
+      </div>
+    );
+    // the country-and-commodity group leads, except after a group whose item is named by the whole query ("Panama Canal")
+    let pairDone = !pairRows;
     for (const g of groups) {
+      if (!pairDone && g.tier < 4) {
+        rows.push(pairRows);
+        pairDone = true;
+      }
       rows.push(
         <div key={g.kind} role="group" aria-label={g.label}>
           <div class="sr-head">
@@ -213,10 +225,11 @@ export function Search() {
             <span class="num">{g.total}</span>
           </div>
           {g.items.map(row)}
-          {!scope && g.total > g.items.length && option(enter(g.kind as Kind), 'sr-more', <span class="sr-main"><span class="sr-label">Show all {g.total} in {g.label.toLowerCase()}</span></span>, 'more')}
+          {!scope && g.total > g.items.length && option(enter(g.kind as Kind), 'sr-more', <span class="sr-main"><span class="sr-label">Show all {g.total} in {g.label.toLowerCase()}</span></span>, `more-${g.kind}`)}
         </div>,
       );
     }
+    if (!pairDone) rows.push(pairRows);
     return { opts, view: rows };
     // `close` only touches state setters and refs
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -225,7 +238,10 @@ export function Search() {
   useEffect(() => {
     if (!enterWhenReady.current || !items) return;
     enterWhenReady.current = false;
-    if (opts.length) opts[0].run();
+    if (opts.length) {
+      if (opts[0].page) wantPageFocus();
+      opts[0].run();
+    }
   }, [opts, items]);
 
   // the active option stays inside the scrolled list
@@ -233,7 +249,19 @@ export function Search() {
     const o = opts[active];
     if (o) document.getElementById(o.id)?.scrollIntoView({ block: 'nearest' });
   }, [active, opts.length]);
-  useEffect(() => setActive(0), [query, scope, pairs?.items.length]);
+  // a new query or list starts on its first row; rows that arrive later (the pairs file) keep the person on the row they chose
+  useEffect(() => {
+    activeKey.current = null;
+    setActive(0);
+  }, [query, scope]);
+  useEffect(() => {
+    if (activeKey.current == null) return;
+    const i = opts.findIndex((o) => o.key === activeKey.current);
+    if (i >= 0 && i !== active) setActive(i);
+  }, [opts]);
+  useEffect(() => {
+    activeKey.current = active > 0 ? (opts[active]?.key ?? null) : null;
+  }, [active]);
 
   const typing = query.trim().length > 0;
   const message = !items
@@ -262,17 +290,36 @@ export function Search() {
     } else if (e.key === 'Enter') {
       e.preventDefault();
       // the index is still loading: the first result opens as soon as there is one
-      if (opts[active]) opts[active].run();
-      else if (!items && !failed) enterWhenReady.current = true;
+      if (opts[active]) {
+        // the page it opens takes the focus to its heading
+        if (opts[active].page) wantPageFocus();
+        opts[active].run();
+      } else if (!items && !failed) enterWhenReady.current = true;
     } else if (e.key === 'Backspace' && !query && scope) {
       e.preventDefault();
       setScope(null);
     }
   };
 
+  // the phone's overlay is a dialog: Tab stays in it (the page behind is out of reach), and nothing stays in the bar while it is closed
+  const trap = (e: KeyboardEvent) => {
+    if (!over || e.key !== 'Tab' || !root.current) return;
+    const f = [...root.current.querySelectorAll<HTMLElement>('input, button')].filter((x) => !x.hasAttribute('disabled'));
+    if (!f.length) return;
+    const at = f.indexOf(document.activeElement as HTMLElement);
+    if (e.shiftKey && at <= 0) {
+      e.preventDefault();
+      f[f.length - 1].focus();
+    } else if (!e.shiftKey && at === f.length - 1) {
+      e.preventDefault();
+      f[0].focus();
+    }
+  };
+
   const listId = 'sr-list';
+  if (!shown) return null;
   return (
-    <div class={`search${over ? ' over' : ''}`} ref={root} role="search" onFocusOut={(e) => !root.current?.contains(e.relatedTarget as Node | null) && !over && setOpen(false)}>
+    <div class={`search${over ? ' over' : ''}`} ref={root} role={over ? 'dialog' : 'search'} aria-modal={over ? 'true' : undefined} aria-label={over ? 'Search' : undefined} onKeyDown={trap} onFocusOut={(e) => !root.current?.contains(e.relatedTarget as Node | null) && !over && setOpen(false)}>
       {shown && (
         <>
           {over && <div class="search-backdrop" onClick={() => close(true)} />}

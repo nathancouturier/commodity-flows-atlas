@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { corridorHas, lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
+import { corridorHas, lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
@@ -103,7 +103,7 @@ export default function LaneView({ id }: { id: string }) {
   const transits: { t: LaneTransit; end: string | null }[] = [];
   if (lane.transit) transits.push({ t: lane.transit, end: lane.transit2 ? lane.o : lane.load.includes(lane.transit.port) ? lane.o : lane.discharge.includes(lane.transit.port) ? lane.d : null });
   if (lane.transit2) transits.push({ t: lane.transit2, end: lane.d });
-  const landlocked = transits.map((x) => x.end).filter((e): e is string => !!e);
+  const who = transitWho(transits.filter((x) => !!x.end).map((x) => ({ end: x.end!, c: x.t.c, landlocked: x.t.landlocked })), countryName);
   const classSpeed = lane.vclass[0] ? vesselById.value[lane.vclass[0]]?.speed : undefined;
   const noSpeed = !classSpeed && lacksSpeed(lane.vclass[0]);
   // coast options: "9,251 nm from New Orleans, or 4,352 nm from Kalama"
@@ -193,7 +193,7 @@ export default function LaneView({ id }: { id: string }) {
                     </span>
                   );
                 })}
-                .{landlocked.length > 0 && <> {landlocked.map(countryName).join(' and ')} {landlocked.length > 1 ? 'are' : 'is'} landlocked.</>}
+                .{who && <> {who}</>}
               </div>
             )}
             <div class="ft">

@@ -276,7 +276,7 @@
     "c": "VNM",
     "v": 0.0386,
     "usd": 54657000,
-    "uv": 1420
+    "uv": 1410
    },
    {
     "c": "SRB",
@@ -288,7 +288,7 @@
     "c": "CAN",
     "v": 0.0307,
     "usd": 91265000,
-    "uv": 2970
+    "uv": 2980
    },
    {
     "c": "BGR",
@@ -300,13 +300,13 @@
     "c": "BIH",
     "v": 0.0235,
     "usd": 51196000,
-    "uv": 2180
+    "uv": 2170
    },
    {
     "c": "ARG",
     "v": 0.0235,
     "usd": 103336000,
-    "uv": 4400
+    "uv": 4390
    },
    {
     "c": "PRT",
@@ -318,7 +318,7 @@
     "c": "GRC",
     "v": 0.0216,
     "usd": 57306000,
-    "uv": 2650
+    "uv": 2660
    },
    {
     "c": "NAM",
@@ -337,19 +337,19 @@
     "c": "ITA",
     "v": 0.018,
     "usd": 82490000,
-    "uv": 4580
+    "uv": 4570
    },
    {
     "c": "UZB",
     "v": 0.018,
     "usd": 10144000,
-    "uv": 564
+    "uv": 563
    },
    {
     "c": "HND",
     "v": 0.015,
     "usd": 24256000,
-    "uv": 1620
+    "uv": 1610
    },
    {
     "c": "PAK",
@@ -391,19 +391,19 @@
     "c": "SAU",
     "v": 0.0088,
     "usd": 16279000,
-    "uv": 1850
+    "uv": 1840
    },
    {
     "c": "MNE",
     "v": 0.0082,
     "usd": 7566000,
-    "uv": 923
+    "uv": 928
    },
    {
     "c": "MYS",
     "v": 0.0078,
     "usd": 7744000,
-    "uv": 993
+    "uv": 996
    },
    {
     "c": "TUN",
@@ -421,61 +421,61 @@
     "c": "TWN",
     "v": 0.0024,
     "usd": 823000,
-    "uv": 343
+    "uv": 347
    },
    {
     "c": "ARE",
     "v": 0.0022,
     "usd": 1370000,
-    "uv": 623
+    "uv": 618
    },
    {
     "c": "FRA",
     "v": 0.0018,
     "usd": 6109000,
-    "uv": 3390
+    "uv": 3340
    },
    {
     "c": "POL",
     "v": 0.0013,
     "usd": 2425000,
-    "uv": 1870
+    "uv": 1840
    },
    {
     "c": "LAO",
     "v": 0.0011,
     "usd": 1053000,
-    "uv": 957
+    "uv": 923
    },
    {
     "c": "CHN",
     "v": 0.001,
     "usd": 2465000,
-    "uv": 2460
+    "uv": 2400
    },
    {
     "c": "COL",
     "v": 0.001,
     "usd": 1371000,
-    "uv": 1370
+    "uv": 1360
    },
    {
     "c": "ECU",
     "v": 0.0007,
     "usd": 1301000,
-    "uv": 1860
+    "uv": 1880
    },
    {
     "c": "DEU",
     "v": 0.0006,
     "usd": 1207000,
-    "uv": 2010
+    "uv": 2190
    },
    {
     "c": "JPN",
     "v": 0.0005,
     "usd": 3573000,
-    "uv": 7150
+    "uv": 7060
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -595,56 +595,56 @@
     "c": "KHM",
     "v": 0.0088,
     "usd": 5203000,
-    "uv": 591
+    "uv": 592
    },
    {
     "c": "LAO",
     "v": 0.008,
     "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
     "usd": 331000,
-    "uv": 41.4
+    "uv": 41.6
    },
    {
     "c": "HRV",
     "v": 0.0057,
     "usd": 17765000,
-    "uv": 3120
+    "uv": 3110
    },
    {
     "c": "GBR",
     "v": 0.0048,
     "usd": 36071000,
-    "uv": 7510
+    "uv": 7450
    },
    {
     "c": "LUX",
     "v": 0.0043,
     "usd": 3510000,
-    "uv": 816
+    "uv": 813
    },
    {
     "c": "PER",
     "v": 0.0038,
     "usd": 19034000,
-    "uv": 5010
+    "uv": 4950
    },
    {
     "c": "VNM",
     "v": 0.0036,
     "usd": 2054000,
-    "uv": 571
+    "uv": 578
    },
    {
     "c": "HKG",
     "v": 0.0028,
     "usd": 5677000,
-    "uv": 2030
+    "uv": 1990
    },
    {
     "c": "ESP",
     "v": 0.0028,
     "usd": 6025000,
-    "uv": 2150
+    "uv": 2160
    },
    {
     "c": "SWE",
@@ -656,7 +656,7 @@
     "c": "IND",
     "v": 0.0022,
     "usd": 1370000,
-    "uv": 623
+    "uv": 618
    },
    {
     "c": "IRN",
@@ -668,44 +668,44 @@
     "c": "SRB",
     "v": 0.0015,
     "usd": 1740000,
-    "uv": 1160
+    "uv": 1140
    },
    {
     "c": "ZAF",
     "v": 0.0013,
     "usd": 633000,
-    "uv": 487
+    "uv": 506
    },
    {
     "c": "EST",
     "v": 0.0012,
     "usd": 3533000,
-    "uv": 2940
+    "uv": 2950
    },
    {
     "c": "TUR",
     "v": 0.0011,
     "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
     "usd": 53000,
-    "uv": 48.2
+    "uv": 47
    },
    {
     "c": "MYS",
     "v": 0.001,
     "usd": 2465000,
-    "uv": 2460
+    "uv": 2400
    },
    {
     "c": "SGP",
     "v": 0.0007,
     "usd": 2292000,
-    "uv": 3270
+    "uv": 3480
    },
    {
     "c": "POL",
     "v": 0.0006,
     "usd": 1207000,
-    "uv": 2010
+    "uv": 2190
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -979,6 +979,7 @@
     "pct": "33",
     "y": 2025,
     "src": "Canada, Republic of Korea, Ireland",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

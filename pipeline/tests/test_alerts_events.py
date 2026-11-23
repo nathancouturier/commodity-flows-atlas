@@ -153,6 +153,27 @@ class Severity(unittest.TestCase):
             self.assertEqual(out["commodities"], ["lng"])
             self.assertEqual(out["override"]["reason"], "because")
 
+    def test_an_alert_may_point_to_several_events_the_first_is_the_main_one(self):
+        chk = {"a": {"id": "a", "name": "A"}}
+        lanes = {"groups": {}, "chokepoints": {}, "y": 2024}
+        events = {"e": {"src": "https://main.example", "also": [{"label": "L", "url": "https://example.org"}]}, "f": {"src": "https://other.example"}}
+        with tempfile.TemporaryDirectory() as tmp:
+            json.dump({"compare": {"to": "2026-11-15", "days": 28, "yearAgoTo": "x", "refYear": 2023, "transits": {"now": 1, "yearAgo": 1, "avg2023": 1},
+                                   "mt": {"now": 1, "yearAgo": 1, "avg2023": 1}}}, open(os.path.join(tmp, "a.json"), "w"))
+            hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "events": ["e", "f"], "chokepoints": ["a"]}
+            out = BA.build_alert(hand, events, chk, lanes, tmp)
+            self.assertEqual((out["event"], out["events"]), ("e", ["e", "f"]))
+            self.assertEqual((out["src"], out["also"]), ("https://main.example", events["e"]["also"]))  # the banner follows the main event
+            # an alert with one event lists it too
+            one = BA.build_alert({k: v for k, v in hand.items() if k != "events"}, events, chk, lanes, tmp)
+            self.assertEqual(one["events"], ["e"])
+            for bad in ({"events": ["f", "e"]},          # the main event is not first
+                        {"events": ["e", "e"]},          # twice
+                        {"events": ["e", "nowhere"]},    # unknown event
+                        {"events": []}, {"events": "e"}):
+                with self.assertRaises(ValueError, msg=str(bad)):
+                    BA.build_alert({**hand, **bad}, events, chk, lanes, tmp)
+
 
 @unittest.skipUnless(HAVE_DATA, "the freight files are not built")
 class Derived(unittest.TestCase):
@@ -403,6 +424,16 @@ class EventLinkRule(unittest.TestCase):
         self.assertEqual(EL.named_commodities("tariffs on steel, aluminum and copper"), ["aluminium", "copper", "steel"])
         self.assertEqual(EL.named_commodities("rare earths, rice and potash"), ["potash", "rare-earths", "rice"])
 
+    def test_a_currency_does_not_name_a_country(self):
+        countries = [{"c": "USA", "name": "United States"}, {"c": "CHN", "name": "China"}, {"c": "RUS", "name": "Russia"}, {"c": "AUS", "name": "Australia"}]
+        # "US dollars" named the United States (the Russian rouble gas event of 2022 was listed on the US page)
+        self.assertEqual(EL.named_countries("payments switched from US dollars and euros to roubles", countries), [])
+        self.assertEqual(EL.named_countries("a price of US$ 5 or 5 U.S. dollars", countries), [])
+        self.assertEqual(EL.named_countries("Australian dollars, Chinese yuan and Russian roubles", countries), [])
+        # the country itself is still named
+        self.assertEqual(EL.named_countries("US forces seized a tanker; payments in US dollars", countries), ["USA"])
+        self.assertEqual(EL.named_countries("Chinese buyers paid in Chinese yuan", countries), ["CHN"])
+
     def test_countries_by_name_and_demonym_but_not_a_sea(self):
         countries = [{"c": "OMN", "name": "Oman"}, {"c": "IND", "name": "India"}, {"c": "BRA", "name": "Brazil"}, {"c": "CHN", "name": "China"}]
         self.assertEqual(EL.named_countries("Tankers in the Gulf of Oman and the Indian Ocean", countries), [])
@@ -490,6 +521,38 @@ class EventLinks(unittest.TestCase):
         self.assertTrue({"india-europe-diesel", "middle-east-europe-diesel"} <= set(ev["eu-products-embargo-2023"]["routes"]))
         self.assertTrue(ev["black-sea-tankers-2025"]["date"].startswith("2025-11"))  # the first attacks on tankers, late November 2025
 
+    def test_the_review_of_the_events_gev2(self):
+        """GEV2: a party's account is attributed, a plan is worded as a plan, a figure has its unit, a sentence rests on a page the event
+        cites, no country comes from a currency, and the PortWatch figures link their source."""
+        ev = self.by_id
+        v = ev["venezuela-intervention-2026"]["summary"]
+        self.assertIn("pleaded not guilty", v)
+        self.assertIn("According to Wikipedia about 80 people died", v)
+        self.assertIn("law-enforcement action", v)
+        self.assertIn("Skipper", ev["venezuela-oil-blockade-2025"]["impact"])
+        self.assertIn("Hezbollah", ev["venezuela-oil-blockade-2025"]["impact"])
+        d = ev["drc-cobalt-quotas-2025"]
+        self.assertNotIn("lifted", d["summary"])
+        self.assertIn("would", d["summary"])
+        self.assertNotIn("2027", d["summary"].split("96,600 t")[1].split(",")[0])   # the 2027 quota is not on the page
+        self.assertNotIn("USA", ev["russia-rouble-gas-2022"]["countries"])
+        self.assertNotIn("US dollars", ev["russia-rouble-gas-2022"]["summary"])
+        self.assertIn("(3,342 Neopanamax and 10,062 Panamax), up 19.3%", ev["panama-fy2025-2025"]["summary"])
+        self.assertNotIn("23.86", json.dumps(ev["texas-freeze-2021"]))              # the page gives no unit
+        c = ev["china-australia-coal-2020"]["summary"]
+        self.assertNotIn("In January 2023", c)
+        self.assertIn("reportedly", c)
+        self.assertIn("not yet officially announced", c)
+        for k, page in (("samarco-dam-2015", "wiki/Samarco"), ("hormuz-ceasefire-2026", "wiki/2026_Iran_war"),
+                        ("us-232-50pct-2025", "adjusting-imports-of-aluminum-into-the-united-states")):
+            self.assertTrue(any(page in x["url"] for x in ev[k].get("also", [])), k)
+        self.assertIn("United Kingdom", ev["us-232-50pct-2025"]["summary"])
+        for k in ("iran-war-hormuz-2026", "hormuz-ceasefire-2026", "hormuz-memorandum-2026", "hormuz-collapse-2026"):
+            self.assertIn("https://portwatch.imf.org/", [x["url"] for x in ev[k].get("also", [])], k)
+            text = ev[k]["summary"] + ev[k].get("impact", "")
+            self.assertNotIn("about 77", text, k)                                   # one February baseline: 78 (the daily table)
+            self.assertIn("about 78 in February", text, k)
+
     def test_the_episodes_of_the_four_gaps(self):
         """M-068 to M-071: the agricultural restrictions, the energy episodes, the metals measures and the freight milestones are on the
         timeline, each with the commodity or the countries it names."""
@@ -515,6 +578,19 @@ class EventLinks(unittest.TestCase):
         hormuz = next(a for a in alerts if a["event"] == "iran-war-hormuz-2026")
         self.assertIn("lng", hormuz["commodities"])
         self.assertIn("lng", self.by_id["iran-war-hormuz-2026"]["commodities"])
+
+    def test_an_alert_with_several_events_points_to_events_of_the_file(self):
+        """The Red Sea alert also points to the Houthi blockade of July 2026 and the Black Sea alert to the tanker attacks of November
+        2025; the main event and the checked texts are the same as before."""
+        alerts = {a["id"]: a for a in load(FREIGHT, "alerts.json")}
+        self.assertEqual(alerts["red-sea-2023"]["events"], ["red-sea-houthi-2023", "houthi-saudi-2026"])
+        self.assertEqual(alerts["black-sea-2026"]["events"], ["black-sea-attacks-2026", "black-sea-tankers-2025"])
+        self.assertEqual(alerts["hormuz-2026"]["events"], ["iran-war-hormuz-2026"])
+        for a in alerts.values():
+            self.assertEqual(a["events"][0], a["event"])
+            for i in a["events"]:
+                self.assertIn(i, self.by_id)
+            self.assertEqual(a["checked"], "2026-11-23")
 
     def test_price_series_of_an_event_are_series_of_its_commodity(self):
         for e in self.events:

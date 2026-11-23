@@ -67,6 +67,8 @@ COUNTRY_ALIASES = {
 }
 # water bodies and the like that carry a country's name
 NOT_A_COUNTRY = [r"Gulf of Oman", r"Indian Ocean", r"Gulf of Aden", r"Korea Strait"]
+# a currency named after a country ("US dollars", "Chinese yuan") does not name the country
+CURRENCY_NAME = re.compile(r"\bUS\$|\b(?:US|U\.S\.|Australian|Canadian|Hong Kong|Singapore|New Zealand)\s+dollars?\b|\b(?:Chinese\s+yuan|Indian\s+rupees?|Russian\s+roubles?|Russian\s+rubles?|Japanese\s+yen)\b", re.I)
 
 # the name of an asset in a text (the ids are those of data/infrastructure/*.geojson)
 ASSET_WORDS = {
@@ -96,6 +98,7 @@ def named_countries(text, countries):
     A country in a hyphenated pair ("Brazil-China") counts."""
     for w in NOT_A_COUNTRY:
         text = text.replace(w, " ")
+    text = CURRENCY_NAME.sub(" ", text)
     found = set()
     for c in countries:
         words = [re.escape(c["name"])] + COUNTRY_ALIASES.get(c["c"], [])

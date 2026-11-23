@@ -29,6 +29,7 @@ import {
   loadRoutes,
   originCaveats,
   sameVesselFamily,
+  transitWho,
   vesselName,
   NO_SPEED,
   type LaneStatus,
@@ -55,15 +56,18 @@ let autoOpened: string | null = null;
  * Customs tonnes (kt) as printed everywhere in the finder (lists, Flow, overland sentence): Mt from 100 kt, kt below,
  * "under 1 kt" under 1 kt (the files keep 0.1 kt, so nothing finer is known). An estimate keeps two significant digits.
  */
-function tonnage(kt: number, est = false): string {
+function tonnage(kt: number, est = false, group?: string): string {
   if (kt < 1) return 'under 1 kt';
-  if (kt < 100) {
+  // a group under 1 Mt a year is printed in kt throughout, as its lane file and commodity page print it
+  if (kt < 100 || (group && SMALL_GROUPS.has(group))) {
     const v = est ? sig2(kt) : kt;
     return `${kt < 10 ? fmt(v) : Math.round(v)} kt`;
   }
   const mt = kt / 1000;
   return `${fmt(est ? sig2(mt) : mt)} Mt`;
 }
+/** Groups whose pairs file holds under 1 Mt of seaborne trade (filled as the files load). */
+const SMALL_GROUPS = new Set<string>();
 const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
@@ -89,6 +93,7 @@ export function RouteFinder() {
     Promise.all(groupsOf(k).map((g) => loadPairs(g).catch(() => null)))
       .then((all) => {
         const files = all.filter((f): f is PairsFile => !!f);
+        for (const f of files) if (f.seaborne < 1000) SMALL_GROUPS.add(f.group);
         if (live) setData(files.length ? { k, files, pairs: files.flatMap(decodePairs).sort((a, b) => b.kt - a.kt) } : 'none');
       })
       .catch(() => live && setData('error'));
@@ -264,7 +269,7 @@ export function RouteFinder() {
       : waiting
         ? 'Loading the route…'
         : [
-            `${countryName(sel.o)} to ${countryName(sel.d)}, ${multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}: ${tonnage(sel.kt, sel.est)}`,
+            `${countryName(sel.o)} to ${countryName(sel.d)}, ${multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}: ${tonnage(sel.kt, sel.est, sel.group)}`,
             sel.kind === 'land' ? 'overland' : sel.kind === 'mixed' ? 'sea and overland' : sel.nm > 0 && sel.cls ? `${vesselName(sel.cls)}, ${fmt(sel.nm)} nautical miles` : 'sea, no route modelled',
           ].join(', ') + '.';
 
@@ -307,7 +312,7 @@ export function RouteFinder() {
           <option value="">{data === 'error' || data === 'none' ? 'Not available' : ready ? `Select ${leadName}…` : 'Loading…'}</option>
           {leads.map(([c, v]) => (
             <option value={c}>
-              {countryName(c)} · {v > 0 ? tonnage(v) : 'no recorded tonnage'}
+              {countryName(c)} · {v > 0 ? tonnage(v, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined) : 'no recorded tonnage'}
             </option>
           ))}
         </select>
@@ -318,7 +323,7 @@ export function RouteFinder() {
           <option value="">Select {otherName}…</option>
           {counterparts.map((p) => (
             <option value={`${p.group}:${otherOf(p)}`}>
-              {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est), KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
+              {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est, p.group), KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
             </option>
           ))}
           {absent.map((a) => (
@@ -430,7 +435,7 @@ function Answer({
       <div class="rf-card">
         {title}
         <p class="rf-empty">
-          Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est)}</span> (CEPII BACI {pf.y}).
+          Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est, pair.group)}</span> (CEPII BACI {pf.y}).
         </p>
         <Notes pair={pair} pf={pf} lane={lane} caveats={caveats} est={est} />
       </div>
@@ -463,12 +468,13 @@ function Answer({
   const shareDest = est ? null : shown ? (shown.shareDest ?? null) : importsKt > 0 ? pair.kt / importsKt : null;
   // the flow figure is the pairs row's, so the list, the card and the overland sentence print the same number
   const kt = pair.kt;
+  // a landlocked end, or an end with a coast that ships through another country's port (DR Congo through Dar es Salaam)
   const transits =
-    kind !== 'transit'
+    kind !== 'transit' && kind !== 'sea'
       ? []
       : shown?.transit
-        ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, p: { s: t.s, url: t.url, basis: t.url && laneFile?.ports[t.port]?.url === t.url ? laneFile.ports[t.port].basis : undefined } as Partial<PortRef> }))
-        : transitPorts(pair).map((t) => ({ ...t, p: laneFile?.ports[t.id] }));
+        ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, end: t === shown.transit2 || (!shown.transit2 && !shown.load.includes(t.port)) ? pair.d : pair.o, landlocked: t.landlocked, p: { s: t.s, url: t.url, basis: t.url && laneFile?.ports[t.port]?.url === t.url ? laneFile.ports[t.port].basis : undefined } as Partial<PortRef> }))
+        : transitPorts(pair).map((t) => ({ ...t, landlocked: pf.landlocked ? pf.landlocked.includes(t.end) : undefined, p: laneFile?.ports[t.id] }));
   // a class with no speed in the catalogue: the days cannot be checked against a speed, so none is printed and the card says so
   const noSpeed = !!typical && lacksSpeed(typical);
   const days = noSpeed ? undefined : shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
@@ -494,7 +500,7 @@ function Answer({
             {est && <em class="rf-est">Atlas estimate</em>}
           </dt>
           <dd class="num">
-            {tonnage(kt, est)}
+            {tonnage(kt, est, pair.group)}
             <small> · {vy}</small>
           </dd>
         </div>
@@ -542,7 +548,7 @@ function Answer({
                   <PortSource p={t.p} basis={pairBasis(t.id)} settled={laneSettled} cls="rf-src" />
                 </span>
               ))}
-              : {transits.length > 1 ? 'both ends are landlocked and ship through ports of other countries.' : 'the landlocked end ships through a port of another country.'}
+              : {transitWho(transits.map((t) => ({ end: t.end, c: t.c ?? '', landlocked: t.landlocked })), countryName)}
             </p>
           )}
           <dl class="rf-stats rf-ports">
@@ -668,8 +674,8 @@ function Answer({
 }
 
 /** The sea route's transit ports, from the pairs table, when the lane does not name them: the ports that lie in a third country (one per landlocked end). */
-function transitPorts(pair: Pair): { id: string; name: string; c?: string }[] {
-  const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? { id: p.id, name: p.name, c: p.c } : null);
+function transitPorts(pair: Pair): { id: string; name: string; c?: string; end: string }[] {
+  const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? { id: p.id, name: p.name, c: p.c, end } : null);
   return [foreign(pair.load, pair.o), foreign(pair.dis, pair.d)].filter((t): t is NonNullable<typeof t> => !!t);
 }
 

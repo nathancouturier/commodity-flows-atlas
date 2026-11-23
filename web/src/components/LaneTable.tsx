@@ -6,9 +6,10 @@ import { useMemo, useState } from 'preact/hooks';
 import type { Lane, LaneFile } from '../types';
 import { countryName, sourceLabel } from '../lib/data';
 import { fmt, fmtEst, pct, sig2 } from '../lib/format';
-import { GROUP_LABEL, altText, chokepointName, laneEst, laneShare, vesselName } from '../lib/freight';
+import { GROUP_LABEL, altText, chokepointName, laneEst, laneMt, laneShare, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
-import { ATLAS_LICENCE, licenceOf } from '../lib/csv';
+import { ATLAS_LICENCE, csvCell, licenceOf } from '../lib/csv';
+import { CsvAction } from './CsvAction';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
 import '../styles/lane-table.css';
@@ -152,7 +153,7 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
     }
     if (at < 0) for (const r of f.rest ?? []) rest.push({ group: f.group, product, o: r.o, v: r.v, u: f.unit, n: r.n, est: r.est ?? 0 });
   }
-  rest.sort((a, b) => b.v - a.v);
+  rest.sort((a, b) => laneMt(b.v, b.u) - laneMt(a.v, a.u));
   return { rows, rest, past };
 }
 
@@ -207,7 +208,7 @@ function sortRows(rows: LaneRow[], key: SortKey, dir: 1 | -1): LaneRow[] {
   const by = [...rows];
   by.sort((a, b) => {
     let c = 0;
-    if (key === 'mt') c = cmpNum(a.v, b.v, dir);
+    if (key === 'mt') c = cmpNum(a.v == null ? null : laneMt(a.v, a.u), b.v == null ? null : laneMt(b.v, b.u), dir);
     else if (key === 'share') c = cmpNum(a.share, b.share, dir);
     else if (key === 'chg') c = cmpNum(a.chg, b.chg, dir);
     else if (key === 'nm') c = cmpNum(a.nm, b.nm, dir);
@@ -216,18 +217,13 @@ function sortRows(rows: LaneRow[], key: SortKey, dir: 1 | -1): LaneRow[] {
       c = (a.via.length - b.via.length) * dir || txt(a).localeCompare(txt(b)) * dir;
     } else c = txt(a).localeCompare(txt(b)) * dir;
     // ties: the larger lane first, so that the order is stable and readable
-    return c || (b.v ?? 0) - (a.v ?? 0);
+    return c || laneMt(b.v ?? 0, b.u) - laneMt(a.v ?? 0, a.u);
   });
   return by;
 }
 
 /** A rest row whose tonnage the file rounds to 0 Mt still has a recorded flow: it is under 1 kt (the finder's wording). */
 const restTiny = (r: RestRow) => r.u === 'Mt' && r.v < 0.001;
-
-const csvCell = (x: string | number | null | undefined): string => {
-  const s = x == null ? '' : String(x);
-  return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-};
 
 /** What the source column says of a tonnage the atlas computed from the declared value. */
 const EST_SOURCE = 'Atlas estimate (CEPII BACI declared value)';
@@ -335,7 +331,9 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
   const shown = open ? sorted : sorted.slice(0, FIRST_ROWS);
   const first = props.files[0];
   const year = rows[0].y;
-  const restV = rest.reduce((n, r) => n + r.v, 0);
+  // a group under 1 Mt a year is in kt: the files of one commodity can differ (lithium), the sum is then in Mt
+  const restU = props.files.every((f) => f.unit === first.unit) ? first.unit : 'Mt';
+  const restV = rest.reduce((n, r) => n + (restU === r.u ? r.v : laneMt(r.v, r.u)), 0);
   const restN = rest.reduce((n, r) => n + r.n, 0);
   const cover = props.files.length === 1 ? first.coverage : undefined;
   // how much of each group's seaborne total of the year shown is an Atlas estimate
@@ -401,9 +399,9 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
             {all ? 'Show fewer' : `Show all ${sorted.length} lanes`}
           </button>
         )}
-        <button class="act-btn" onClick={() => download(`commodity-flows-atlas-${props.name}-lanes-${year}.csv`, lanesCsv(sorted, rest))} title="Download these lanes as a CSV file">
+        <CsvAction sources={['atlas', ...sorted.map((r) => r.s), ...(rest.length ? [sorted[0]?.s ?? 'baci'] : [])]} onClick={() => download(`commodity-flows-atlas-${props.name}-lanes-${year}.csv`, lanesCsv(sorted, rest))} title="Download these lanes as a CSV file">
           Download CSV
-        </button>
+        </CsvAction>
       </div>
       <div class="lt-note">
         {[
@@ -411,7 +409,7 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
             ? `Lanes with a flow in ${year}; the tonnage that is not on a lane is listed for the latest year only.`
             : [
                 cover ? `The lanes carry ${pct(cover.share)} of the ${fmt(first.seaborne[first.seaborne.length - 1])} ${first.unit} seaborne in ${year}.` : null,
-                rest.length && !open ? `Not on a lane: ${fmt(restV)} ${first.unit} in ${restN.toLocaleString('en-US')} pairs, listed by exporter under "Show all".` : null,
+                rest.length && !open ? `Not on a lane: ${fmt(restV)} ${restU} in ${restN.toLocaleString('en-US')} pairs, listed by exporter under "Show all".` : null,
               ]
                 .filter(Boolean)
                 .join(' '),

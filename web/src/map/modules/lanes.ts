@@ -17,7 +17,7 @@ import { registerLayerModule } from '../layers';
 import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { commodity, family, laneVia, layers, selection, vesselClasses, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
-import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneEst, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
+import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneEst, laneGroup, laneMt, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt, fmtEst, pct } from '../../lib/format';
 import '../../styles/lane-engine.css';
 
@@ -179,11 +179,13 @@ registerLayerModule(() => {
         for (const lane of file.lanes) {
           if (!k && plan.length && fam !== 'all' && commodityMeta(lane.k)?.family !== fam) continue;
           units.add(file.unit);
-          max = Math.max(max, lane.flow.v, ...lane.hist.map((h) => h ?? 0));
+          // in Mt: a group under 1 Mt a year is published in kt, and one scale serves every group in view
+          max = Math.max(max, laneMt(lane.flow.v, file.unit), ...lane.hist.map((h) => laneMt(h ?? 0, file.unit)));
         }
       }
-      if (!(max > 0)) max = Math.max(...items.map((i) => i.v), 1e-9);
-      laneScale.value = items.length ? { max, unit: units.size === 1 ? [...units][0] : '' } : null;
+      if (!(max > 0)) max = Math.max(...items.map((i) => laneMt(i.v, i.file.unit)), 1e-9);
+      const onlyKt = units.size === 1 && units.has('kt');
+      laneScale.value = items.length ? { max: onlyKt ? max * 1e3 : max, unit: onlyKt ? 'kt' : 'Mt' } : null;
       const isBright = (l: Lane): boolean => {
         if (selLane) return l.id === selLane;
         if (sel?.kind === 'country') return l.o === sel.id || l.d === sel.id;
@@ -194,7 +196,7 @@ registerLayerModule(() => {
       const features: Feature<LineString, LineFeatureProps>[] = [];
       let mixed = 0;
       // biggest first so thin lanes are drawn on top
-      for (const { lane, file, v } of items.sort((a, b) => b.v - a.v)) {
+      for (const { lane, file, v } of items.sort((a, b) => laneMt(b.v, b.file.unit) - laneMt(a.v, a.file.unit))) {
         const fam2 = commodityMeta(lane.k)?.family;
         const isMixed = lane.mode === 'mixed';
         if (isMixed) mixed++;
@@ -205,7 +207,7 @@ registerLayerModule(() => {
             id: lane.id,
             kind: 'lane',
             color: fam2 ? FAMILY_COLOR[fam2] : NEUTRAL,
-            w: Math.sqrt(Math.min(1, v / max)),
+            w: Math.sqrt(Math.min(1, laneMt(v, file.unit) / max)),
             dim: !isBright(lane),
             hl: lane.id === selLane,
             // a mixed lane (sea and overland, split not known) is dashed, and softer unless selected

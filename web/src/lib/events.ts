@@ -3,7 +3,7 @@
  * markers of the price chart all use `eventShownFor`.
  *
  * An event is linked to the commodities its own text names (data/freight/events.json, rule in pipeline/freight/event_links.py).
- * The event that an alert points to also takes the alert's commodities (the ones derived from the chokepoint estimates). With a
+ * The events that an alert points to (one or several) also take the alert's commodities (the ones derived from the chokepoint estimates). With a
  * commodity chosen an event is shown when it names the commodity, or names no commodity at all (a shipping or market event of
  * no particular cargo), or is the event of an alert whose commodities include it.
  */
@@ -20,7 +20,7 @@ export function loadAlertEvents(): Promise<AlertEvents> {
   promise ??= load<Alert[]>('freight/alerts.json')
     .then((list) => {
       const m: AlertEvents = new Map();
-      for (const a of list) m.set(a.event, [...new Set([...(m.get(a.event) ?? []), ...a.commodities])]);
+      for (const a of list) for (const id of a.events ?? [a.event]) m.set(id, [...new Set([...(m.get(id) ?? []), ...a.commodities])]);
       return m;
     })
     .catch(() => new Map<string, string[]>());
@@ -49,6 +49,14 @@ export function eventCommodities(e: FreightEvent, byEvent?: AlertEvents): string
 export function eventShownFor(e: FreightEvent, k: string, byEvent?: AlertEvents): boolean {
   const own = eventCommodities(e, byEvent);
   return own.length === 0 || own.includes(k);
+}
+
+/** Whether an event is shown on a chart of the commodities `charted`: it is shown with one of them (eventShownFor). */
+export function eventShownForAny(e: FreightEvent, charted: Iterable<string>, byEvent?: AlertEvents): boolean {
+  const own = eventCommodities(e, byEvent);
+  if (own.length === 0) return true;
+  for (const k of charted) if (own.includes(k)) return true;
+  return false;
 }
 
 /** A text is "old" when its check is older than this many days. */

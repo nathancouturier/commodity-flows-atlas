@@ -241,19 +241,19 @@
     "c": "IND",
     "v": 0.071,
     "usd": 1238000,
-    "uv": 17400
+    "uv": 17000
    },
    {
     "c": "CHE",
     "v": 0.053,
     "usd": 1099000,
-    "uv": 20700
+    "uv": 21000
    },
    {
     "c": "BRA",
     "v": 0.016,
     "usd": 1215000,
-    "uv": 75900
+    "uv": 76000
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -457,7 +457,7 @@
     "c": "ZAF",
     "v": 0.092,
     "usd": 2601000,
-    "uv": 28300
+    "uv": 28000
    },
    {
     "c": "EGY",
@@ -469,7 +469,7 @@
     "c": "MYS",
     "v": 0.046,
     "usd": 1800000,
-    "uv": 39100
+    "uv": 39000
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -750,6 +750,7 @@
     "pct": ">50",
     "y": 2025,
     "src": "Chile, Argentina",
+    "srcYears": "2021 to 2024",
     "n": "Descending order of import share."
    }
   ]

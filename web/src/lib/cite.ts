@@ -5,18 +5,46 @@
  * a source the page does not show.
  */
 import { sourceLabel } from './data';
+import { selection } from './store';
+import { yearsOf } from './years';
 import { detailTitle } from './view';
 
 const ACCESS = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/** A source the page names only as a pointer to its own links ("see the page linked on each asset") says nothing as a citation. */
+const POINTER = /see the page linked/i;
+
+/**
+ * The source lines written by hand (an event, an asset): "Source: eia.gov ↗ · Wikipedia, Russian invasion of Ukraine ↗". Each
+ * link is kept with its address, so that the article the page rests on is named, without the lead word or the arrow glyph.
+ */
+function handWrittenSources(panel: Element): string[] {
+  const out: string[] = [];
+  for (const line of panel.querySelectorAll('.src-line:not([data-src]):not([data-srcs])')) {
+    const clean = (t: string | null) => (t ?? '').replace(/↗/g, '').replace(/\s+/g, ' ').trim();
+    const text = clean(line.textContent);
+    // other lines of this class are notes, not sources
+    if (!/^Sources?:/i.test(text)) continue;
+    const links = [...line.querySelectorAll('a')].map((a) => ({ text: clean(a.textContent), href: a.href }));
+    for (const seg of text.replace(/^Sources?:\s*/i, '').split(' · ')) {
+      const t = seg.trim();
+      if (!t) continue;
+      const l = links.find((x) => x.text === t);
+      // "read November 2026" belongs to the source before it
+      if (/^read /i.test(t) && out.length) out[out.length - 1] += `, ${t}`;
+      else out.push(l?.href ? `${t} (${l.href})` : t);
+    }
+  }
+  return out;
+}
 
 /** Source ids of the page with their years, in the order the page shows them. */
 function pageSources(panel: Element): { label: string; years: string[] }[] {
   const by = new Map<string, Set<string>>();
   const add = (label: string, y?: string | number | null) => {
+    if (POINTER.test(label)) return;
     const set = by.get(label) ?? new Set<string>();
-    // a year, a season ("2024/25") or a quarter ("2Q26"): a line that gives "2023 and 2024" names two years
-    const text = y == null ? '' : String(y);
-    for (const t of text.match(/\d{4}(?:[/-]\d{2,4})?|\d[QH]\d{2}/g) ?? (text.trim() ? [text.trim()] : [])) set.add(t);
+    for (const t of y == null ? [] : yearsOf(String(y))) set.add(t);
     by.set(label, set);
   };
   for (const el of panel.querySelectorAll<HTMLElement>('[data-src], [data-srcs]')) {
@@ -31,16 +59,20 @@ function pageSources(panel: Element): { label: string; years: string[] }[] {
       }
     } else if (el.dataset.src) add(sourceLabel(el.dataset.src), el.dataset.y);
   }
-  if (by.size) return [...by].map(([label, ys]) => ({ label, years: [...ys].sort() }));
-  // a page whose source lines are written by hand (an asset, an event): the text of the line, without its lead word
-  const lines = [...panel.querySelectorAll('.src-line')].map((e) => (e.textContent ?? '').replace(/^\s*Sources?:\s*/i, '').replace(/\s+/g, ' ').trim());
-  return [...new Set(lines.filter(Boolean))].map((label) => ({ label: label.length > 160 ? label.slice(0, 157) + '…' : label, years: [] }));
+  // what the page's own text cites comes first (an event's articles: the fact being cited), then the data behind its charts and tables
+  const own = [...new Set(handWrittenSources(panel))].map((label) => ({ label, years: [] as string[] }));
+  return [...own, ...[...by].map(([label, ys]) => ({ label, years: [...ys].sort() }))];
 }
+
+/** The atlas's own work a page of this kind rests on, which no source line of the page names. */
+const OWN_WORK: Record<string, string> = { lane: 'Commodity Flows Atlas routing of the pair (sea route computed by the Atlas)' };
 
 /** The citation of the page open in `panel` (the detail panel), at address `url`. */
 export function citationOf(panel: Element, url = location.href, now = new Date()): string {
   const title = (detailTitle.peek() ?? document.title.replace(/ · [^·]*$/, '')).replace(/\s+/g, ' ').trim();
-  const sources = pageSources(panel).map((s) => (s.years.length ? `${s.label} ${s.years.join(', ')}` : s.label));
+  const kind = selection.peek()?.kind;
+  const own = kind && OWN_WORK[kind] ? [{ label: OWN_WORK[kind], years: [] as string[] }] : [];
+  const sources = [...pageSources(panel), ...own].map((s) => (s.years.length ? `${s.label} ${s.years.join(', ')}` : s.label));
   return [`${title}. Commodity Flows Atlas.`, sources.length ? `Sources: ${sources.join('; ')}.` : '', `${url}`, `Accessed ${ACCESS.format(now)}.`].filter(Boolean).join(' ');
 }
 

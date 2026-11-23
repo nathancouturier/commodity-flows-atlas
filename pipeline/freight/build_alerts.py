@@ -3,8 +3,9 @@ Build data/freight/alerts.json: the disruption banners of the site, with figures
 
     python pipeline/freight/build_alerts.py
 
-Written by hand, in pipeline/freight/alerts.json: the title, the text, the start, the event it links to, the passages it
-is about and, when it was done, the date the text was checked against its source (``checked``: only a text that was read
+Written by hand, in pipeline/freight/alerts.json: the title, the text, the start, the event it links to (``event``: the
+main one, the source of the banner and its "also" links; ``events``, optional: the list of all the events it links to, the
+main one first), the passages it is about and, when it was done, the date the text was checked against its source (``checked``: only a text that was read
 against the page it cites carries a date). Everything else is computed here (METHODOLOGY.md, section 5):
 
   * transits and estimated tonnes of each passage over the last 28 days, over the same days a year earlier, and the 2023
@@ -159,14 +160,28 @@ def heavy_countries(lanes, cids):
     return sorted(((c, round(mt, 1)) for c, mt in tot.items() if mt >= COUNTRY_MT_MIN), key=lambda x: (-x[1], x[0]))
 
 
+def event_ids(hand):
+    """The events an alert points to, the main one first: ``events`` (a list, whose first id is ``event``) or ``event`` alone."""
+    ids = hand.get("events", [hand.get("event")])
+    if not isinstance(ids, list) or any(not isinstance(i, str) or not i for i in ids) or not ids:
+        raise ValueError(f"alert {hand['id']}: 'events' must be a list of event ids, 'event' an event id")
+    if hand.get("event") != ids[0]:
+        raise ValueError(f"alert {hand['id']}: 'event' (the main event) must be the first of 'events'")
+    if len(set(ids)) != len(ids):
+        raise ValueError(f"alert {hand['id']}: an event is listed twice")
+    return ids
+
+
 def build_alert(hand, events, chk_by_id, lanes, series_dir):
     cids = hand["chokepoints"]
     for cid in cids:
         if cid not in chk_by_id:
             raise ValueError(f"alert {hand['id']}: unknown chokepoint {cid}")
-    ev = events.get(hand["event"])
-    if ev is None:
-        raise ValueError(f"alert {hand['id']} points to unknown event {hand['event']}")
+    ids = event_ids(hand)
+    for i in ids:
+        if i not in events:
+            raise ValueError(f"alert {hand['id']} points to unknown event {i}")
+    ev = events[ids[0]]
     measures = []
     for cid in cids:
         path = os.path.join(series_dir, cid + ".json")
@@ -185,7 +200,7 @@ def build_alert(hand, events, chk_by_id, lanes, series_dir):
     countries = list(dict.fromkeys(exporters + importers + heavy))
     out = {
         "id": hand["id"], "title": hand["title"], "since": hand["since"], "severity": sev,
-        "text": hand["text"], "event": hand["event"], "src": ev["src"],
+        "text": hand["text"], "event": ids[0], "events": ids, "src": ev["src"],
         "chokepoints": cids, "measures": measures,
         "severityNote": severity_note(worst if worst and worst["gap2023"] is not None else None),
         "commodities": commodities, "countries": countries, "exporters": exporters, "importers": importers,

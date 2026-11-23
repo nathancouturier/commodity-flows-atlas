@@ -19,7 +19,7 @@
  *    check, other source pages (`also`) and price series (`series`: a commodity of the atlas and a series of prices/index.json
  *    that is of that commodity);
  *  - alerts (freight/alerts.json): unique ids, an optional date of check (`checked`: only a text that was read against its
- *    source carries one), an event that exists, passages that exist, a severity from the list, a PortWatch figure per
+ *    source carries one), an event that exists (and, when it lists several in `events`, events that exist, the main one first), passages that exist, a severity from the list, a PortWatch figure per
  *    passage with its date, derived commodities and countries that exist, and a reason on every override.
  * Called by validate-data.mjs; `node validate-freight.mjs [data folder]` runs it alone.
  * A tree from before the pairs table (no data/freight/pairs folder) is checked by the rules that its lane files
@@ -178,7 +178,10 @@ export function validateFreight(root, errors) {
       if (lane.set !== undefined && !SETS.includes(lane.set)) bad(file, `${at}: set "${lane.set}" is not one of ${SETS.join(', ')}`);
       if (lane.mode !== undefined && !MODES.includes(lane.mode)) bad(file, `${at}: mode "${lane.mode}" is not one of ${MODES.join(', ')}`);
       if (lane.portBasis !== undefined && !BASES.includes(lane.portBasis)) bad(file, `${at}: portBasis "${lane.portBasis}" is not one of ${BASES.join(', ')}`);
-      if (lane.set === 'main' && !(lane.flow?.v >= floorOf(lane.p) - 1e-9)) bad(file, `${at}: a main lane of ${lane.flow?.v} Mt is under the ${floorOf(lane.p)} Mt floor of its group`);
+      // a group under 1 Mt a year is published in kt (the file's `unit`); the floor is in Mt
+      const mt = (lane.flow?.v ?? NaN) / (lane.flow?.u === 'kt' ? 1e3 : 1);
+      if (lane.set === 'main' && !(mt >= floorOf(lane.p) - 1e-9)) bad(file, `${at}: a main lane of ${lane.flow?.v} ${lane.flow?.u} is under the ${floorOf(lane.p)} Mt floor of its group`);
+      if (lane.flow?.u !== undefined && lane.flow.u !== doc.unit) bad(file, `${at}: the flow is in ${lane.flow.u}, the file in ${doc.unit}`);
       passages(file, `${at}: via`, lane.via ?? []);
       for (const l of lane.viaAlt ?? []) passages(file, `${at}: viaAlt`, l);
       for (const a of lane.alts ?? []) passages(file, `${at}: alts[].via`, a.via ?? []);
@@ -334,6 +337,14 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
       if (a.checked !== undefined && !ISO_DATE.test(a.checked)) bad('alerts.json', `${at}: "checked" must be the date the text was checked against its source (YYYY-MM-DD)`);
       if (a.reviewed !== undefined) bad('alerts.json', `${at}: "reviewed" is replaced by "checked", which only a text read against its source carries`);
       if (events !== null && !eventIds.has(a.event)) bad('alerts.json', `${at}: event "${a.event}" is not in events.json`);
+      if (a.events !== undefined) {
+        if (!Array.isArray(a.events) || a.events.length === 0 || a.events.some((x) => typeof x !== 'string')) bad('alerts.json', `${at}: "events" must be a list of event ids`);
+        else {
+          if (a.events[0] !== a.event) bad('alerts.json', `${at}: "event" must be the first of "events"`);
+          if (new Set(a.events).size !== a.events.length) bad('alerts.json', `${at}: "events" lists an event twice`);
+          if (events !== null) for (const x of a.events) if (!eventIds.has(x)) bad('alerts.json', `${at}: events names "${x}", which is not in events.json`);
+        }
+      }
       if (a.severity !== null && !SEVERITIES.includes(a.severity)) bad('alerts.json', `${at}: severity "${a.severity}" is not one of ${SEVERITIES.join(', ')}`);
       ids('alerts.json', at, a.chokepoints, chokepoints, 'chokepoints');
       ids('alerts.json', at, a.commodities, commodityIds, 'commodities');

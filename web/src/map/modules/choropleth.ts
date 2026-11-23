@@ -1,7 +1,7 @@
 /**
  * Country colouring by a commodity metric (production, reserves, consumption,
  * exports, imports). Opacity encodes the country's share of the world total.
- * The EU27 aggregate row is painted on every member state.
+ * The EU27 aggregate row is painted on every member state; only a member production table (FAOSTAT) gives them a figure of their own.
  */
 import { effect } from '@preact/signals';
 import maplibregl, { type Map as MLMap, type Marker } from 'maplibre-gl';
@@ -20,6 +20,8 @@ let labels: Marker[] = [];
 const labelAt = new Map<Marker, { el: HTMLElement; at: [number, number] }>();
 
 /** Countries labelled with their share on the map: >= 1% of the world total, at most 16. */
+/** The source of a table as the legend and the labels print it: a table that holds an Atlas conversion (the United States in EIA's LPG table) says so. */
+const srcOf = (t: Ranked) => (t.conv ? `${sourceLabel(t.s)} (${t.conv}: Atlas conversion)` : sourceLabel(t.s));
 const LABEL_MIN_SHARE = 0.01;
 const LABEL_MAX = 16;
 /**
@@ -101,9 +103,11 @@ registerLayerModule((m: MLMap) => {
         byC.set(r.c, { v: r.v, eu: false });
       }
       const eu = table.rows.find((r) => r.c === 'EU27');
-      // a member state shows its own figure when the commodity has a table of the member states for this measure (FAOSTAT production,
-      // customs trade: only for the latest table, they have no series by year); otherwise the aggregate's, on each member with no row of its own
-      const own = table === latest ? d?.extra?.find((x) => x.key === `eu-${met}`)?.table : undefined;
+      // a member state shows its own figure when the commodity has a table of the member states for this measure that is on the basis of the
+      // USDA table (FAOSTAT production; only for the latest table, it has no series by year); otherwise the aggregate's, on each member with no
+      // row of its own. The customs trade tables of the members are `noMap`: they include trade between members, USDA's row does not
+      const ownEntry = table === latest ? d?.extra?.find((x) => x.key === `eu-${met}`) : undefined;
+      const own = ownEntry?.table;
       const members = own && !own.noMap ? own : undefined;
       const memberBase = members ? (members.worldAll ?? members.world) : undefined;
       if (eu && members && memberBase) {
@@ -131,7 +135,7 @@ registerLayerModule((m: MLMap) => {
         metric: met,
         unit: table.u,
         year: table.y,
-        source: members && memberBase ? `${sourceLabel(members.s)}, ${members.y} for the EU member states; ${sourceLabel(table.s)}` : sourceLabel(table.s),
+        source: members && memberBase ? `${sourceLabel(members.s)}, ${members.y} for the EU member states; ${sourceLabel(table.s)}` : srcOf(table),
         color,
         min: Number.isFinite(lo) ? lo : 0,
         max: hi,
@@ -150,7 +154,7 @@ registerLayerModule((m: MLMap) => {
         el.className = 'share-label';
         el.style.setProperty('--c', color);
         el.textContent = pct(r.share);
-        el.title = `${name}: ${fmt(r.v)} ${table.u}, ${pct(r.share)} of world ${METRIC_WORD[met] ?? met} (${sourceLabel(table.s)}, ${table.y})`;
+        el.title = `${name}: ${fmt(r.v)} ${table.u}, ${pct(r.share)} of world ${METRIC_WORD[met] ?? met} (${srcOf(table)}, ${table.y})`;
         el.setAttribute('aria-label', el.title);
         el.addEventListener('click', (ev) => {
           ev.stopPropagation();
@@ -163,9 +167,9 @@ registerLayerModule((m: MLMap) => {
         if (!r) return '';
         const t = r.own && members ? members : table;
         return `<div>${escapeHtml(met)}: <span class="num">${fmt(r.v)} ${escapeHtml(t.u)}</span> · ${pct(r.v / (r.own && memberBase ? memberBase : world))} of world</div>
-          ${r.eu ? '<div class="muted">European Union, one figure for all its members (shown on each member state)</div>' : ''}
+          ${r.eu ? `<div class="muted">European Union, one figure for all its members (shown on each member state)${ownEntry ? `. USDA gives the European Union as one entity: the member's own figures are in the table "${escapeHtml(ownEntry.title)}" of the commodity page` : ''}</div>` : ''}
           ${r.own ? '<div class="muted">EU member state: its own figure (the USDA row for the European Union is a single figure for all 27)</div>' : ''}
-          <div class="src-line">${escapeHtml(sourceLabel(t.s))} · ${escapeHtml(String(t.y))}</div>`;
+          <div class="src-line">${escapeHtml(srcOf(t))} · ${escapeHtml(String(t.y))}</div>`;
       });
     });
   });

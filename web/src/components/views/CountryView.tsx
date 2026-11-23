@@ -6,16 +6,16 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
 import { loadProfile, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
+import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, laneMt, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select, year } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource, CONV_TITLE } from '../ui';
 import { passagesText } from '../LaneTable';
 import { EventList } from '../EventList';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { InfraList } from './InfraList';
-import { BalanceBlock, BasketBlock, EuLink, FoldSection, FreightBlock, GapNotes, OperatorsBlock, entryAt, entryTrend, entryTrendTitle } from './CountryBlocks';
+import { BalanceBlock, BasketBlock, EuLink, FoldSection, FreightBlock, GapNotes, OperatorsBlock, entryAt, entryTrend, entryTrendTitle, unrecorded } from './CountryBlocks';
 import '../../styles/lane-table.css';
 import '../../styles/tables-by-year.css';
 
@@ -51,7 +51,7 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
   const usdOf = (e: ProfileEntry) => (props.showUsd && e.usd != null && !at(e).past ? { s: e.usdS ?? e.s, y: e.usdY ?? e.y } : null);
   const trends = props.rows.some((e) => entryTrend(e));
   return (
-    <div class="bars">
+    <div class="bars cp-lines">
       {shown.map((e, i) => {
         const meta = commodityMeta(e.k);
         const color = meta ? FAMILY_COLOR[meta.family] : '#8892a0';
@@ -62,6 +62,7 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
         const val = usd ? srcYear(usd.s, usd.y) : null;
         // one mention when tonnage and value share a source and year, else each figure names its own
         const sub = [
+          e.scope ? `${e.scope} table` : null,
           x.rank ? `world #${x.rank}` : null,
           usd ? (val === vol ? `${fmt(e.usd)} bn USD` : `${fmt(e.usd)} bn USD (${val})`) : null,
           val && val !== vol ? `volume ${vol}` : vol,
@@ -88,17 +89,21 @@ function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: b
                 <span class="bar-label">
                   {x.name ?? e.label ?? meta?.name ?? e.k}
                   {x.est && <EstMark />}
+                  {x.conv && !x.est && <EstMark label="Atlas conversion" title={CONV_TITLE} />}
                 </span>
                 <div class="bar-track">
                   <div class="bar-fill" style={{ width: `${Math.max(2, (x.share ?? 0) * 100)}%`, background: color }} />
                 </div>
-                <span class="bar-sub">{sub}</span>
-                {e.basis && <span class="bar-sub">{e.basis}</span>}
               </span>
               {trends && (tr ? <TrendLine vals={tr.vals} breaks={tr.breaks} at={x.i} title={entryTrendTitle(e, props.p)} /> : <span class="trend" />)}
               <span class="bar-value">
                 {x.v != null ? <>{fmtEst(x.v, x.est)} {e.u}</> : '—'}
                 {x.share != null && <small>{pct(x.share)} of world</small>}
+              </span>
+              {/* the line's detail has the width of the row under the name, not the narrow column beside the trend and value */}
+              <span class="bar-sub cp-line-sub">
+                {sub}
+                {e.basis ? ` · ${e.basis}` : ''}
               </span>
             </button>
             {note && <RowNote text={note} />}
@@ -145,7 +150,7 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
           // the main set only (a history lane is drawn only in a year when it was large); hide lanes that would display as 0.0 Mt
           for (const lane of file.lanes) if (lane.set !== 'history' && (lane.o === id || lane.d === id) && lane.flow.v >= (lane.flow.u === 'Mt' ? 0.05 : 1e-9)) out.push({ lane, file });
         }
-        return out.sort((a, b) => b.lane.flow.v - a.lane.flow.v).slice(0, 6);
+        return out.sort((a, b) => laneMt(b.lane.flow.v, b.lane.flow.u) - laneMt(a.lane.flow.v, a.lane.flow.u)).slice(0, 6);
       }),
     [id, groups.join()],
   );
@@ -311,17 +316,20 @@ export default function CountryView({ id }: { id: string }) {
   let kpis: preact.ComponentChildren = null;
   if (p && !p.none) {
     const all = [...p.exports, ...p.imports, ...p.production];
+    // the count and the sources and years under it describe the same lines (the pipeline counts the same three sections)
     const ents = all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k));
-    // counted by the pipeline on every table row; the rows themselves are listed below
-    const top10 = p.top10 ?? new Set(ents.map((e) => e.k)).size;
+    const top10 = new Set(ents.map((e) => e.k)).size;
     const pubs = [...new Set(ents.map((e) => shortSource(e.s)))];
     const srcs = `${pubs.length > 1 ? 'Sources' : 'Source'}: ${pubs.join(', ')}`;
     const yrs = [...new Set(ents.map((e) => String(e.y)))].sort();
     const yr = yrs.length > 1 ? `${yrs[0]}–${yrs[yrs.length - 1]}` : (yrs[0] ?? '');
     const topExp = [...p.exports].filter((e) => e.usd != null).sort(byUsd)[0];
+    const allGoods = p.basket?.exports?.rows[0];
+    const missing = unrecorded(p);
+    const missNote = missing.length ? `Leaves out the exports of ${missing.join(' and ')} that customs data do not record (see Exports)` : undefined;
     kpis = (
       <div class="kpis">
-        {top10 > 0 && (
+        {top10 > 0 && pubs.length > 0 && (
           <Kpi
             label="World top-10 in"
             value={`${top10} commodit${top10 === 1 ? 'y' : 'ies'}`}
@@ -329,13 +337,23 @@ export default function CountryView({ id }: { id: string }) {
             title="Atlas catalogue commodities where this country ranks in the top 10 of production, exports or imports"
           />
         )}
+        {allGoods && (
+          <Kpi
+            label="Largest export, all goods"
+            value={`${fmt(allGoods.usd)} bn USD`}
+            sub={`HS ${allGoods.hs4} ${allGoods.label} · ${pct(allGoods.share)} of all exports · ${shortSource(p.basket!.s)} ${p.basket!.y}`}
+            title={`The largest four-digit HS heading of the country's merchandise exports, every chapter (${sourceLabel(p.basket!.s)} · ${p.basket!.y})`}
+            note={missNote}
+          />
+        )}
         {topExp && (
           <Kpi
-            label={`Largest export`}
+            label="Largest raw-material export"
             value={`${fmt(topExp.usd)} bn USD`}
-            sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · ${shortSource(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}`}
-            title={`The largest export among the atlas's commodities, by customs value (${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}); all goods are listed further down`}
-            note={topExp.warn}
+            sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · of the atlas's commodities · ${shortSource(topExp.usdS ?? topExp.s)} ${topExp.usdY ?? topExp.y}`}
+            title={`The largest export among the atlas's commodities, by customs value (${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y})`}
+            note={missNote ?? topExp.warn}
+            span={top10 > 0 && pubs.length > 0 && !!allGoods}
           />
         )}
       </div>
@@ -398,11 +416,21 @@ export default function CountryView({ id }: { id: string }) {
                 <EntryList key={id} rows={p.reserves!} p={p} rp />
               </Section>
             )}
+            {(p.stocks?.length ?? 0) > 0 && (
+              <Section title="Ending stocks, share of world" aside={<span class="muted num">{p.stocks!.length}</span>}>
+                <EntryList key={id} rows={p.stocks!} p={p} />
+              </Section>
+            )}
+            {(p.capacity?.length ?? 0) > 0 && (
+              <Section title="Capacity, share of world" aside={<span class="muted num">{p.capacity!.length}</span>}>
+                <EntryList key={id} rows={p.capacity!} p={p} />
+              </Section>
+            )}
             <BalanceBlock p={p} />
             <FreightBlock p={p} />
             <BasketBlock p={p} />
             {p.other && p.other.length > 0 && (
-              <Section title="Other raw materials, outside the atlas catalogue">
+              <Section title="Other goods of the raw-material chapters, outside the atlas catalogue">
                 {p.other.map((e, i) => (
                   <RowBtn
                     key={e.k + i}
@@ -412,7 +440,7 @@ export default function CountryView({ id }: { id: string }) {
                     tip={`${sourceLabel(e.s)} · ${e.y}`}
                   />
                 ))}
-                <SourcesLine items={p.other} />
+                <SourcesLine items={p.other} n="HS chapters 1 to 27, 40, 41, 44, 47, 51 to 53 and 71 to 81: they hold articles too (tyres, screws, jewellery)" />
               </Section>
             )}
             {p.infra && p.infra.length > 0 && <CountryInfra ids={p.infra} />}

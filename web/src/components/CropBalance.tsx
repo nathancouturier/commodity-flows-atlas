@@ -5,6 +5,7 @@
  */
 import type { CropBalance, CropBalanceRow } from '../types';
 import { fmt } from '../lib/format';
+import { year } from '../lib/store';
 import { Section, SourceLine } from './ui';
 import '../styles/crop-balance.css';
 
@@ -44,7 +45,7 @@ export default function CropBalanceSection({ bal, color }: { bal: CropBalance; c
   // the unit of the production line is the unit of the table: only the lines in another unit say theirs
   const main = bal.rows.find((r) => r.k === 'production')?.u;
   return (
-    <Section title="Balance" aside={<span class="year-tag">{a.y} {a.yk} and {b.y} {b.yk}</span>}>
+    <Section title="Balance" aside={<span class="year-tag">{year.value != null ? 'latest: ' : ''}{a.y} {a.yk} and {b.y} {b.yk}</span>}>
       <div class="cb" style={{ '--bar-color': color }}>
         <div class="cb-row cb-head">
           <span />
