@@ -19,6 +19,15 @@ SPEED = {
 }
 
 
+# LPG carriers. A lane shorter than LPG_SHORT_HAUL_NM is a regional trade (Atlas assumption, as the other distance
+# thresholds of classes()). A VLGC parcel is 44 kt (Baltic BLPG reference, 84,000 cbm vessel, see
+# vessel_classes.json); a lane that loads fewer than one such parcel a week (44 kt x 52) does not keep a VLGC
+# busy and is served by mid-size carriers (25,000 to 50,000 cbm, class "mgc").
+LPG_SHORT_HAUL_NM = 1500
+VLGC_PARCEL_KT = 44
+VLGC_WEEKLY_MT = VLGC_PARCEL_KT * 52 / 1000
+
+
 def speed(vclass):
     return SPEED.get(vclass, 12.0)
 
@@ -65,6 +74,10 @@ def classes(group, o, d, tonnes, nm):
     if group == "lng":
         return ["lng"]
     if group == "lpg":
+        # Short hauls and lanes too small to load a VLGC parcel every week are served by mid-size gas carriers; the
+        # long-haul trades keep the VLGC. Both thresholds are Atlas assumptions (see LPG_SHORT_HAUL_NM).
+        if 0 < nm < LPG_SHORT_HAUL_NM:
+            return ["mgc", "vlgc"] if mt >= VLGC_WEEKLY_MT else ["mgc"]
         return ["vlgc"]
     if group == "crude-oil":
         if o in MEG and (d in ASIA_FAR or nm > 6000):

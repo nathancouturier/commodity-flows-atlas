@@ -171,7 +171,8 @@ export function RouteFinder() {
   const laneFile = selGroup && laneSlot?.group === selGroup ? laneSlot.file : null;
   // a drawn pair waits for its lane file (a card without the lane's own figures would change under the reader's eyes)
   const waiting = !!sel?.lane && laneSlot?.group !== sel.group;
-  const lane = sel && laneFile?.group === sel.group ? laneFile.lanes.find((l) => l.o === sel.o && l.d === sel.d) : undefined;
+  // only a main lane is drawn (a pair that was large in some earlier year has a history lane the file also holds)
+  const lane = sel?.lane && laneFile?.group === sel.group ? laneFile.lanes.find((l) => l.o === sel.o && l.d === sel.d) : undefined;
   const pf = sel ? ready?.files.find((f) => f.group === sel.group) : undefined;
 
   const complete = !!(origin && dest && ready);

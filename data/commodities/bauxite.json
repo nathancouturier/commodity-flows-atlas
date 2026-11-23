@@ -676,10 +676,11 @@
   }
  ],
  "notes": [
-  "Alumina (HS 281820), 2024 (BACI, baci): world 37.14 Mt gross weight; top exporters AUS 14.16 Mt, BRA 7.53 Mt, IDN 4.16 Mt.",
+  "Alumina (HS 281820), 2024 (CEPII BACI): world 37.14 Mt gross weight; top exporters AUS 14.16 Mt, BRA 7.53 Mt, IDN 4.16 Mt.",
   "USGS production and reserves are dry tonnes; the refinery table is USGS alumina refinery production in calcined-equivalent weight (Mt), listed for every country USGS names."
  ],
  "discrepancies": [
-  "Guinea 2025: the USGS estimate of bauxite mined is 150 Mt, 34% of the world total, but Guinea's exports alone were reported at 182.8 Mt for 2025 (Reuters, from official Guinean data (Hellenic Shipping News, 26 January 2026), https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/), which is more than USGS estimates it mined. The USGS production figure and Guinea's share of the world total are therefore probably understated."
+  "Guinea 2025: the USGS estimate of bauxite mined is 150 Mt, 34% of the world total, but Guinea's exports alone were reported at 182.8 Mt for 2025 (official data seen by Reuters, in Hellenic Shipping News, January 2026: https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/), more than USGS estimates Guinea mined; the same article gives 74% of the shipments to China (Chinese customs data). The USGS production figure and Guinea's share of the world total are therefore probably understated.",
+  "Indonesia, alumina 2024: customs data (BACI, HS 281820, gross weight) record 4.16 Mt of exports (rank 3 among exporters), against a USGS alumina refinery output of 1.20 Mt (calcined-equivalent weight) for 2024. The two may be on different bases; the cause is not established here; the exporters table follows customs data."
  ]
 }

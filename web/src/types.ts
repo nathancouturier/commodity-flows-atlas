@@ -23,6 +23,8 @@ export interface Fig {
   s: string;
   /** optional note (method, discrepancy, scope) */
   n?: string;
+  /** the same quantity in a second unit, printed in brackets: an Atlas conversion (`s` is `atlas`), its factor is in `n` */
+  alt?: { v: number; u: string; s: string; y: number | string; n: string };
 }
 
 /** Entry of data/sources.json */
@@ -51,6 +53,8 @@ export interface Ranked {
   basis?: string;
   /** warning that applies to the whole table (trade hubs, unit mismatch); also part of `n` */
   caveat?: string;
+  /** the order of the rows is not a world ranking (a source that understates some countries): country profiles print no rank */
+  norank?: boolean;
 }
 
 export interface Company {

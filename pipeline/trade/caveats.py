@@ -231,6 +231,7 @@ REGISTRY = [
     ("hub-refined-products-bel", "hub", "refined-products", "BEL", None, None, _hub("refined-products", "BEL")),
     ("hub-refined-products-sgp", "hub", "refined-products", "SGP", None, None, _hub("refined-products", "SGP")),
     ("hub-crude-oil-nld", "hub", "crude-oil", "NLD", None, "K3", _hub("crude-oil", "NLD", "K3")),
+    ("refined-products-rus", "mirror", "refined-products", "RUS", None, None, _mirror("refined-products", "RUS")),
     ("lpg-irn", "unrecorded", "lpg", "IRN", None, None, _unrecorded_peak("lpg", "IRN")),
     ("lpg-omn-chn", "origin-unchecked", "lpg", "OMN", "CHN", None, _unchecked_pair("lpg", "OMN", "CHN", "IRN")),
     ("lpg-are-chn", "origin-unchecked", "lpg", "ARE", "CHN", None, _unchecked_pair("lpg", "ARE", "CHN", "IRN")),

@@ -13,8 +13,7 @@
    "iron-ore",
    "thermal-coal",
    "met-coal",
-   "bauxite",
-   "manganese"
+   "bauxite"
   ],
   "constraints": [
    "Loads only at deep-water terminals",
@@ -116,7 +115,8 @@
    "corn",
    "soybeans",
    "wheat",
-   "soymeal"
+   "soymeal",
+   "manganese"
   ],
   "constraints": [
    "Draft limits at US Gulf river terminals, Up-River Parana and Columbia River restrict cargo size (cargo then topped off elsewhere)"
@@ -197,7 +197,11 @@
    "phosphate",
    "urea",
    "steel",
-   "nickel"
+   "nickel",
+   "manganese",
+   "copper",
+   "zinc",
+   "lead"
   ],
   "constraints": [
    "Geared; used at ports lacking shore cranes"
@@ -276,7 +280,11 @@
    "potash",
    "phosphate",
    "corn",
-   "wheat"
+   "wheat",
+   "copper",
+   "zinc",
+   "lead",
+   "aluminium"
   ],
   "constraints": [
    "Can call at shallow ports and use own cranes"
@@ -589,5 +597,29 @@
   ],
   "notes": "Baltic VLGC TCE references an 84,000 cbm vessel (Veson page: 84kt); BLPG parcel 44kt.",
   "s": "vessel-size-conventions"
+ },
+ {
+  "id": "mgc",
+  "name": "Mid-size gas carrier",
+  "segment": "gas",
+  "size": {
+   "min": 25000,
+   "max": 50000,
+   "typical": 37500,
+   "u": "cbm"
+  },
+  "cargoes": [
+   "lpg"
+  ],
+  "constraints": [
+   "Fully refrigerated LPG carrier, smaller than a VLGC; serves regional LPG trades and short hauls"
+  ],
+  "canals": {
+   "suez": "No restriction applied by the Atlas rules (no sourced limit read)",
+   "panama": "No restriction applied by the Atlas rules (no sourced limit read)"
+  },
+  "routes": [],
+  "notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas assigns the class to LPG lanes shorter than 1,500 nm, and to those below one VLGC parcel a week (44 kt x 52): both are Atlas assumptions, in pipeline/freight/vessel_rules.py. Speed: the default of vessel_rules.speed().",
+  "s": "wilhelmsen-lpg-sizes"
  }
 ]

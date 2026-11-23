@@ -141,6 +141,8 @@ def main():
                     e["n"] = r["n"]
                 if t.get("caveat"):
                     e["warn"] = t["caveat"]  # warning of the whole table (trade hubs, gross weight...)
+                if t.get("norank"):
+                    e["_norank"] = True  # the order of the table is not a world ranking (LNG customs tonnage): no rank is printed
                 candidates.append((r["c"], section, e))
 
     # relevance rule (METHODOLOGY.md §6): world top 10, or >= 3% of world, or >= 10% of the
@@ -153,12 +155,12 @@ def main():
         tot = own.get((iso, section)) or 0
         weight = (e.get("usd") or 0) / tot if tot else 0
         if e["rank"] <= TOP_RANK or (e["share"] or 0) >= MIN_SHARE or weight >= MIN_WEIGHT:
-            add(iso, section, e)
+            add(iso, section, {k: v for k, v in e.items() if k != "_norank" and not (k == "rank" and e.get("_norank"))})
 
     # KPI "World top-10 in N commodities": counted on every table row, before any selection
     top10 = {}
     for iso, section, e in candidates:
-        if e["rank"] <= TOP_RANK:
+        if e["rank"] <= TOP_RANK and not e.get("_norank"):
             top10.setdefault(iso, set()).add(e["k"])
 
     def by_value(rows):

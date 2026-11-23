@@ -302,7 +302,7 @@
   "id": "tin",
   "name": "Tin",
   "family": "metals",
-  "blurb": "Solder metal; supply concentrated in China, Indonesia, Myanmar and Peru.",
+  "blurb": "Solder metal; China and Indonesia mine the most, with Peru, Brazil and DR Congo next.",
   "unit": "t",
   "hs": [
    "2609",
@@ -324,7 +324,6 @@
   "blurb": "Spodumene concentrate and brine-derived chemicals for batteries.",
   "unit": "t Li",
   "hs": [
-   "253090",
    "283691",
    "282520"
   ],
@@ -345,7 +344,7 @@
   "unit": "t Co",
   "hs": [
    "2605",
-   "810520"
+   "810510"
   ],
   "has": [
    "production",

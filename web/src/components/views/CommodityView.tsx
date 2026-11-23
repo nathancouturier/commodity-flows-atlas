@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
 import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, fmt, fmtEst, pct } from '../../lib/format';
+import { FAMILY_COLOR, FAMILY_LABEL, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
 import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
@@ -144,6 +144,13 @@ function YearTag({ y }: { y?: number | string }) {
   const yr = year.value;
   if (yr == null || y == null || String(y) === String(yr)) return null;
   return <span class="year-tag">latest: {y}</span>;
+}
+
+/** Value and note of a KPI: the second unit of an Atlas conversion goes in brackets, its factor after the source's own note. */
+function altKpi(f: Fig): { value?: string; note?: string } {
+  // the History year can replace the seaborne figure by another year's: the conversion belongs to the latest year only
+  if (!f.alt || String(f.alt.y) !== String(f.y)) return { note: f.n };
+  return { value: `${fmtFig(f)} (${fmt(f.alt.v)} ${f.alt.u})`, note: f.n ? `${f.n} · ${f.alt.n}` : f.alt.n };
 }
 
 /** KPI label with the figure's own year when the History timeline is on another year. */
@@ -293,11 +300,11 @@ export default function CommodityView({ id }: { id: string }) {
         )}
         {d?.summary && (
           <div class="kpis">
-            {d.summary.production && <Kpi label={kpiLabel(d.kpis?.production ?? 'World production', d.summary.production)} f={d.summary.production} note={d.summary.production.n} />}
-            {d.summary.exports && <Kpi label={kpiLabel(d.kpis?.exports ?? exportsLabel(d.summary.exports, d.exports), d.summary.exports)} f={d.summary.exports} note={d.summary.exports.n} />}
-            {d.summary.reserves && <Kpi label={kpiLabel(d.kpis?.reserves ?? 'World reserves', d.summary.reserves)} f={d.summary.reserves} note={d.summary.reserves.n} />}
-            {d.summary.consumption && <Kpi label={kpiLabel(d.kpis?.consumption ?? 'World consumption', d.summary.consumption)} f={d.summary.consumption} note={d.summary.consumption.n} />}
-            {seaborne && <Kpi label={`${d.kpis?.seaborne ?? 'Seaborne trade'}${yr != null ? ` · ${seaborne.y}` : ''}`} f={seaborne} note={seaborne.n} />}
+            {d.summary.production && <Kpi label={kpiLabel(d.kpis?.production ?? 'World production', d.summary.production)} f={d.summary.production} {...altKpi(d.summary.production)} />}
+            {d.summary.exports && <Kpi label={kpiLabel(d.kpis?.exports ?? exportsLabel(d.summary.exports, d.exports), d.summary.exports)} f={d.summary.exports} {...altKpi(d.summary.exports)} />}
+            {d.summary.reserves && <Kpi label={kpiLabel(d.kpis?.reserves ?? 'World reserves', d.summary.reserves)} f={d.summary.reserves} {...altKpi(d.summary.reserves)} />}
+            {d.summary.consumption && <Kpi label={kpiLabel(d.kpis?.consumption ?? 'World consumption', d.summary.consumption)} f={d.summary.consumption} {...altKpi(d.summary.consumption)} />}
+            {seaborne && <Kpi label={`${d.kpis?.seaborne ?? 'Seaborne trade'}${yr != null ? ` · ${seaborne.y}` : ''}`} f={seaborne} {...altKpi(seaborne)} />}
           </div>
         )}
         <AlertBanners commodity={id} />

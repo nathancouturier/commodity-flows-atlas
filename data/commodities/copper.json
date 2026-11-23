@@ -417,7 +417,8 @@
      },
      {
       "c": "CHE",
-      "v": 0.4959
+      "v": 0.4959,
+      "n": "rank 7: 0.49 Mt of it comes from Zambia. Switzerland is a commodity-trading centre, so this may be metal bought by traders based there rather than metal used there (a possible reading, not established here)"
      },
      {
       "c": "TUR",
@@ -646,7 +647,7 @@
   }
  ],
  "notes": [
-  "Refined copper (HS 7403, 7402), 2024 (BACI, baci): world 12.08 Mt gross weight; top exporters COD 2.21 Mt, CHL 2.16 Mt, ZMB 1.08 Mt.",
-  "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). 'refinery' is an extra field: USGS refined copper production."
+  "Refined copper (HS 7403, 7402), 2024 (CEPII BACI): world 12.08 Mt gross weight; top exporters COD 2.21 Mt, CHL 2.16 Mt, ZMB 1.08 Mt.",
+  "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary)."
  ]
 }

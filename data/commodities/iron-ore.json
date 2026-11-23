@@ -192,11 +192,13 @@
    },
    {
     "c": "MYS",
-    "v": 14.374
+    "v": 14.374,
+    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
    },
    {
     "c": "OMN",
-    "v": 13.245
+    "v": 13.245,
+    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
    }
   ],
   "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -221,7 +223,8 @@
    },
    {
     "c": "MYS",
-    "v": 25.747
+    "v": 25.747,
+    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
    },
    {
     "c": "NLD",
@@ -249,7 +252,8 @@
    },
    {
     "c": "OMN",
-    "v": 12.845
+    "v": 12.845,
+    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
    },
    {
     "c": "EGY",

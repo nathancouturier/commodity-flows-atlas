@@ -6,22 +6,46 @@
    "u": "bcm",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)"
+   "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)",
+   "alt": {
+    "v": 3139.6,
+    "u": "Mt as LNG",
+    "s": "atlas",
+    "y": 2025,
+    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
+   }
   },
   "consumption": {
    "v": 4272.4,
    "u": "bcm",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
+   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)",
+   "alt": {
+    "v": 3141.5,
+    "u": "Mt as LNG",
+    "s": "atlas",
+    "y": 2025,
+    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
+   }
   },
   "exports": {
-   "v": 330.54,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "n": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes."
+   "v": 1289.2,
+   "u": "bcm",
+   "y": 2025,
+   "s": "eia-intl",
+   "n": "EIA dry natural gas exports, world total: pipeline and LNG together",
+   "alt": {
+    "v": 947.94,
+    "u": "Mt as LNG",
+    "s": "atlas",
+    "y": 2025,
+    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
+   }
   }
+ },
+ "labels": {
+  "flows": "Pipeline pairs — customs tonnes, 2024"
  },
  "production": {
   "y": 2025,
@@ -138,120 +162,118 @@
   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
  },
  "exports": {
-  "y": 2024,
-  "s": "baci",
-  "u": "Mt",
-  "world": 330.54,
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "bcm",
+  "world": 1289.2,
   "rows": [
    {
-    "c": "NOR",
-    "v": 92.083
+    "c": "USA",
+    "v": 253.87
    },
    {
     "c": "RUS",
-    "v": 41.147
+    "v": 146.69
    },
    {
-    "c": "BEL",
-    "v": 39.225
+    "c": "QAT",
+    "v": 130.35
    },
    {
-    "c": "TKM",
-    "v": 21.208
+    "c": "NOR",
+    "v": 121.7
    },
    {
-    "c": "DZA",
-    "v": 20.27
-   },
-   {
-    "c": "AZE",
-    "v": 17.178
-   },
-   {
-    "c": "FRA",
-    "v": 15.75
-   },
-   {
-    "c": "USA",
-    "v": 13.667
+    "c": "AUS",
+    "v": 101.67
    },
    {
     "c": "CAN",
-    "v": 12.236
+    "v": 91.912
    },
    {
-    "c": "GBR",
-    "v": 7.858
-   },
-   {
-    "c": "MMR",
-    "v": 7.602
-   },
-   {
-    "c": "ESP",
-    "v": 5.04
-   }
-  ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes.",
-  "caveat": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America: customs data show 12.2 Mt of Canadian exports in 2024, EIA 88.6 bcm. Use the EIA production and consumption tables (bcm) for volumes."
- },
- "imports": {
-  "y": 2024,
-  "s": "baci",
-  "u": "Mt",
-  "world": 330.54,
-  "rows": [
-   {
-    "c": "CHN",
-    "v": 42.116
-   },
-   {
-    "c": "ITA",
-    "v": 42.115
-   },
-   {
-    "c": "DEU",
-    "v": 39.951
-   },
-   {
-    "c": "FRA",
-    "v": 35.468
-   },
-   {
-    "c": "GBR",
-    "v": 23.916
-   },
-   {
-    "c": "BEL",
-    "v": 19.351
+    "c": "DZA",
+    "v": 45.564
    },
    {
     "c": "NLD",
-    "v": 13.853
+    "v": 44.021
+   },
+   {
+    "c": "MYS",
+    "v": 38.943
+   },
+   {
+    "c": "TKM",
+    "v": 36.999
+   },
+   {
+    "c": "AZE",
+    "v": 24.755
+   },
+   {
+    "c": "NGA",
+    "v": 20.56
+   }
+  ],
+  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
+ },
+ "imports": {
+  "y": 2025,
+  "s": "eia-intl",
+  "u": "bcm",
+  "world": 1289.2,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 166.87
    },
    {
     "c": "USA",
-    "v": 12.239
+    "v": 89.584
    },
    {
-    "c": "MAR",
-    "v": 8.787
+    "c": "JPN",
+    "v": 88.553
+   },
+   {
+    "c": "DEU",
+    "v": 74.385
    },
    {
     "c": "MEX",
-    "v": 8.217
+    "v": 69.02
    },
    {
-    "c": "HUN",
-    "v": 7.342
+    "c": "NLD",
+    "v": 67.271
+   },
+   {
+    "c": "KOR",
+    "v": 63.555
+   },
+   {
+    "c": "ITA",
+    "v": 61.916
    },
    {
     "c": "TUR",
-    "v": 7.163
+    "v": 58.337
+   },
+   {
+    "c": "FRA",
+    "v": 45.381
+   },
+   {
+    "c": "GBR",
+    "v": 42.482
+   },
+   {
+    "c": "IND",
+    "v": 35.005
    }
   ],
-  "n": "CEPII BACI HS92 natural gas in gaseous state (HS 271121, pipeline), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America (see the exporters table).",
-  "caveat": "Pipeline-gas tonnage in customs data is often estimated from value and is far too low for North America (see the exporters table)."
+  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
  },
  "flows": [
   {
@@ -261,7 +283,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Europipe II"
   },
   {
    "o": "NOR",
@@ -270,16 +293,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "BEL",
-   "d": "FRA",
-   "v": 23.408,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Langeled"
   },
   {
    "o": "TKM",
@@ -288,7 +303,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
   {
    "o": "RUS",
@@ -297,7 +313,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Power of Siberia 1"
   },
   {
    "o": "DZA",
@@ -306,70 +323,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "CAN",
-   "d": "USA",
-   "v": 12.236,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "NOR",
-   "d": "FRA",
-   "v": 11.698,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "NOR",
-   "d": "BEL",
-   "v": 11.692,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "BEL",
-   "d": "DEU",
-   "v": 10.707,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "FRA",
-   "d": "ITA",
-   "v": 10.527,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "USA",
-   "d": "MEX",
-   "v": 8.217,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "AZE",
-   "d": "ITA",
-   "v": 7.225,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Transmed (Enrico Mattei)"
   },
   {
    "o": "AZE",
@@ -378,25 +333,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "NOR",
-   "d": "NLD",
-   "v": 6.98,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
-  },
-  {
-   "o": "RUS",
-   "d": "HUN",
-   "v": 5.611,
-   "u": "Mt",
-   "y": 2024,
-   "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: TANAP"
   },
   {
    "o": "DZA",
@@ -405,39 +343,104 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Medgaz"
   },
   {
    "o": "MMR",
-   "d": "THA",
-   "v": 4.824,
+   "d": "CHN",
+   "v": 2.778,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Myanmar-China gas pipeline"
   },
   {
-   "o": "BEL",
-   "d": "NLD",
-   "v": 4.579,
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 2.512,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
   {
-   "o": "ESP",
-   "d": "MAR",
-   "v": 4.431,
+   "o": "NOR",
+   "d": "DNK",
+   "v": 2.408,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "pipeline"
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Baltic Pipe"
+  },
+  {
+   "o": "UZB",
+   "d": "CHN",
+   "v": 1.439,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
+  },
+  {
+   "o": "TKM",
+   "d": "UZB",
+   "v": 1.301,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
+  },
+  {
+   "o": "LBY",
+   "d": "ITA",
+   "v": 1.015,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Greenstream"
+  },
+  {
+   "o": "AZE",
+   "d": "GEO",
+   "v": 0.7944,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: TANAP"
+  },
+  {
+   "o": "TKM",
+   "d": "KAZ",
+   "v": 0.2672,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
+  },
+  {
+   "o": "GRC",
+   "d": "ITA",
+   "v": 0.0086,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "mode": "pipeline",
+   "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Trans Adriatic Pipeline (TAP)"
   }
  ],
  "notes": [
-  "Trade tables cover gas in gaseous state (HS 271121: pipeline) in Mt; LNG is under 'lng'. Flows are shown as pipeline mode.",
-  "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
-  "Customs tonnage for pipeline gas is unreliable for North America, where it is estimated from value; use EIA bcm figures for production and consumption."
+  "Top exporters and importers rank EIA dry natural gas trade in bcm (2025): pipeline and LNG together, re-exports included. The EIA file has no LNG split by country, so LNG is not subtracted; LNG by pair is under 'lng'.",
+  "Customs tonnage of gas in gaseous state (BACI HS 271121, Mt) does not reconcile with EIA volumes and is not used to rank countries. In 2024 customs data show 12.2 Mt of exports from Canada against 88.6 bcm in EIA, 39.2 Mt from Belgium against 5.31 bcm (counting gas in transit twice, or tonnage estimated from value, are plausible causes; not established here), and 8.79 Mt of imports by Morocco against 0.89 bcm.",
+  "The flow list keeps only the country pairs joined by a gas pipeline of the atlas's own layer (16 pipelines, a selection of major ones, not a complete register): a pair appears only if the layer has a pipeline between its countries. Figures are customs tonnes (Mt), not bcm.",
+  "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."
  ]
 }

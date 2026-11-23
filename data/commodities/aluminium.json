@@ -104,7 +104,8 @@
    },
    {
     "c": "MYS",
-    "v": 1.87
+    "v": 1.87,
+    "n": "rank 5: exports (1.87 Mt) are above its smelter output in the USGS table (1.10 Mt). HS 7601 includes alloy ingot, which can be made from scrap, and Malaysia receives 0.54 Mt from the United States (a possible reading, not established here)"
    },
    {
     "c": "AUS",
@@ -120,7 +121,8 @@
    },
    {
     "c": "NLD",
-    "v": 1.27
+    "v": 1.27,
+    "n": "rank 9, and it is also rank 8 among importers (1.39 Mt), with 0.45 Mt sent on to Germany: part of its exports may be re-exported metal that passed through Dutch ports and warehouses (a possible reading, not established here)"
    },
    {
     "c": "ZAF",
@@ -233,7 +235,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "aluminium:USA-MYS"
+   "lane": "aluminium:USA-MYS",
+   "n": "declared at 1,034 USD/t, 43% of the 2024 average aluminium price (2,419 USD/t, World Bank Pink Sheet): material priced like scrap or alloy declared as unwrought metal is a possible reading, not established here"
   },
   {
    "o": "ISL",

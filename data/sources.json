@@ -317,5 +317,61 @@
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",
   "update": "irregular"
+ },
+ {
+  "id": "worldsteel",
+  "name": "worldsteel: monthly crude steel production press releases",
+  "publisher": "World Steel Association",
+  "url": "https://worldsteel.org/media/press-releases/",
+  "licence": "Copyright World Steel Association; only the world total is cited, with attribution, and none of its tables is copied",
+  "update": "monthly"
+ },
+ {
+  "id": "wgc",
+  "name": "World Gold Council: Gold Demand Trends",
+  "publisher": "World Gold Council",
+  "url": "https://www.gold.org/goldhub/research/gold-demand-trends",
+  "licence": "Copyright World Gold Council; only the world total of mine production is cited, with attribution, and none of its tables is copied",
+  "update": "quarterly"
+ },
+ {
+  "id": "eia-ng",
+  "name": "EIA Natural Gas data: liquefied U.S. natural gas exports",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/opendata/bulk/NG.zip",
+  "licence": "Public domain (US Government)",
+  "update": "monthly, annual series",
+  "access": "Bulk file NG.zip, series NG.N9133US2.A read by hand",
+  "use": "United States LNG exports, as a check on the LNG tables"
+ },
+ {
+  "id": "eia-cab-russia",
+  "name": "EIA Country Analysis Brief: Russia",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/international/analysis/country/RUS",
+  "licence": "Public domain (US Government)",
+  "update": "irregular (last updated 24 July 2025)",
+  "access": "Web page, read by hand",
+  "use": "Russia's petroleum product exports and their destinations, beside the customs figures"
+ },
+ {
+  "id": "nrcan-units",
+  "name": "Conversion factors and common units to be used for North American Cooperation on Energy Information",
+  "publisher": "Natural Resources Canada",
+  "url": "https://natural-resources.canada.ca/climate-change/conversion-factors-common-units-used-north-american-cooperation-energy-information",
+  "licence": "Government of Canada web content; a conversion factor is cited with attribution (reuse terms to be confirmed)",
+  "update": "irregular (page dated 16 January 2025)",
+  "access": "Web page, read by hand",
+  "use": "Atlas conversion of LNG tonnes to cubic metres of gas"
+ },
+ {
+  "id": "wilhelmsen-lpg-sizes",
+  "name": "Wilhelmsen: LPG vessel management (size categories of LPG carriers)",
+  "publisher": "Wilh. Wilhelmsen",
+  "url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management",
+  "licence": "Public web page; a size band is cited with attribution (terms to be confirmed)",
+  "update": "irregular",
+  "access": "Web page, read by hand",
+  "use": "Size band of the mid-size gas carrier class"
  }
 ]
