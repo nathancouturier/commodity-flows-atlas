@@ -65,5 +65,7 @@ export function commodityMeta(id: string): CommodityMeta | undefined {
 }
 
 export function sourceLabel(id: string): string {
+  // the atlas's own figures: the method is in the About window (the registry's name points to a file of the repository)
+  if (id === 'atlas') return 'Commodity Flows Atlas estimate (derived; method in About)';
   return sources.value[id]?.name ?? id;
 }

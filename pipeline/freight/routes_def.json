@@ -39,7 +39,7 @@
     ]
    }
   ],
-  "notes": "Benchmark Brazil-China ore laden voyage; Baltic revised C2/C3/C7/C14 descriptions in 2024-25 (cargo size not re-verified).",
+  "notes": "Benchmark Brazil-China ore laden voyage: 160,000 or 170,000 t of iron ore, Tubarao to Qingdao (the Veson page of Baltic definitions, read on 23 November 2026).",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -193,7 +193,7 @@
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Time-charter round voyage: delivery China-Japan, Pacific (Australia/transpacific) cargo, redelivery China-Japan. Veson lists it as 'transpacific'. Weighted 0.25 in the C5TC. The definition is to be checked against the current Baltic route list (its status is not confirmed here).",
+  "notes": "Time-charter round voyage: delivery Qingdao, redelivery China-Japan range, 35-45 days; listed as 'China-Japan transpacific round voyage' and weighted 0.25 in the C5TC on the Veson page of Baltic definitions, read on 23 November 2026.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
   "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C5 (West Australia – Qingdao), not of this round voyage."
@@ -224,7 +224,7 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter round voyage via Brazil, redelivery China-Japan; approx 80-90 days; weighted 0.25 in the C5TC. The definition is to be checked against the current Baltic route list (its status is not confirmed here).",
+  "notes": "Time-charter round voyage: delivery Qingdao, round voyage via Brazil, redelivery China-Japan range, 80-90 days; weighted 0.25 in the C5TC on the Veson page of Baltic definitions, read on 23 November 2026.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
   "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage."
@@ -743,7 +743,7 @@
     ]
    }
   ],
-  "notes": "Core VLCC benchmark. Baltic launched TD34 (Gulf of Oman load) as an alternative during 2026 Hormuz disruption; TD3C status after the April 2026 methodology consultation not verified. Port names are market convention.",
+  "notes": "Core VLCC benchmark: 270,000 t, Ras Tanura to Ningbo (the Veson page of Baltic definitions, read on 23 November 2026). In the week ending 6 April 2026 the Baltic Exchange introduced an emergency route, TD34, 270,000 t from Mina al Fahal (Gulf of Oman) to China, and TD3C remained in publication (AXS Marine, VLCC freight market commentary, https://public.axsmarine.com/blog/vlcc-freight-market-commentary-week-ending-6-april).",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -832,7 +832,7 @@
     ]
    }
   ],
-  "notes": "VLCC fronthaul to China. Current status not independently confirmed in 2026.",
+  "notes": "VLCC fronthaul to China: 260,000 t, Serpentina FPSO and Bonny Offshore Terminal to Ningbo (the Veson page of Baltic definitions, read on 23 November 2026).",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -1210,7 +1210,7 @@
     ]
    }
   ],
-  "notes": "Bonny-Rotterdam, 130kt confirmed by CFTC filing.",
+  "notes": "130,000 t, offshore terminal Bonny to Rotterdam, in the CFTC filing of 23 March 2018 and on the Veson page of Baltic definitions, read on 23 November 2026.",
   "s": "baltic",
   "url": "https://cftc.gov/filings/ptc/ptc032318nymexdcm001.pdf"
  },
@@ -1570,7 +1570,7 @@
    "suez"
   ],
   "corridor": [],
-  "notes": "Corridor assigned to middle-east-europe-diesel. Current status not verified.",
+  "notes": "65,000 t of clean products (middle distillate), Jubail to Rotterdam (the Veson page of Baltic definitions, read on 23 November 2026). Its corridor is counted on the Middle East – Europe diesel/jet route.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
   "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
@@ -1609,7 +1609,7 @@
    "malacca"
   ],
   "corridor": [],
-  "notes": "Naphtha, US$ lumpsum. Ports not verified.",
+  "notes": "80,000 t of naphtha, Skikda to Chiba, assessed as a US$ lumpsum (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn from Sidi Kerir to Yokohama, ports of the same seas.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -1687,7 +1687,7 @@
    "suez"
   ],
   "corridor": [],
-  "notes": "Cargo size and ports not verified in this research.",
+  "notes": "TC20 is not on the Veson page of Baltic definitions, read on 23 November 2026; no page read by the atlas gives its cargo size and ports.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
   "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
@@ -1904,7 +1904,7 @@
     ]
    }
   ],
-  "notes": "Veson lists as 'South Korea to North Pacific West Coast'; discharge port not verified. Status not confirmed.",
+  "notes": "40,000 t of clean products, Yeosu to Los Angeles (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn from Ulsan, another South Korean refinery port.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -2164,7 +2164,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Per secondary source (CFTC filings); cargo size and ports not verified.",
+  "notes": "TC21 is not on the Veson page of Baltic definitions, read on 23 November 2026; no page read by the atlas gives its cargo size and ports.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -2306,7 +2306,7 @@
     ]
    }
   ],
-  "notes": "Original definition routed via Panama; current routing choice (Panama vs Cape) not re-verified.",
+  "notes": "Round voyage from Sabine via Tokyo, 53 days, routing via the Panama Canal, redelivery Sabine (the Veson page of Baltic definitions, read on 23 November 2026).",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html"
  },
@@ -2361,7 +2361,7 @@
     ]
    }
   ],
-  "notes": "44kt parcel per Veson page; VLGC TCE basis 84kt. Port names not verified. Corridor share covers Middle East Gulf exports to East Asia and India, the trade this benchmark prices; Japan now buys most of its LPG from North America.",
+  "notes": "44,000 t, Ras Tanura to Chiba; the time-charter equivalent is on the basis of a VLGC84 (the Veson page of Baltic definitions, read on 23 November 2026). Corridor share covers Middle East Gulf exports to East Asia and India, the trade this benchmark prices; Japan now buys most of its LPG from North America.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -2409,7 +2409,7 @@
     ]
    }
   ],
-  "notes": "Port names not verified.",
+  "notes": "44,000 t, Houston to Flushing (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn to Rotterdam, on the same coast.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -2455,7 +2455,7 @@
     ]
    }
   ],
-  "notes": "Neopanamax-capable VLGCs; Cape routing when Panama restricted. Port names not verified.",
+  "notes": "44,000 t, Houston to Chiba, routing via the Panama Canal with 2 days of waiting included (the Veson page of Baltic definitions, read on 23 November 2026). Neopanamax-capable VLGCs; Cape routing when Panama restricted.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -3469,10 +3469,6 @@
     },
     {
      "name": "Bunbury",
-     "c": "AUS"
-    },
-    {
-     "name": "Geraldton",
      "c": "AUS"
     },
     {

@@ -21,6 +21,10 @@ const RANGES = [
 ];
 const PW_COLORS = { tanker: '#ffb547', dry: '#9db7ff', container: '#c7a3ff', other: '#7d8a99' };
 
+/** The one rule for the atlas's own tonnages on this page (estimates and cargo rows): three significant digits. */
+const nf3 = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 });
+const mt3 = (v: number) => nf3.format(v);
+
 const shareLabel = (k: string) => SHARE_LABEL[k] ?? commodityMeta(k)?.name ?? k;
 
 /** The rows of one passage: its own file, or the file of every passage when the split file is missing. */
@@ -72,7 +76,7 @@ const isCapped = (e: Estimate) => !!e.hi && /capped/i.test(e.hi.n ?? '');
 function estimateMt(e: Estimate): string | null {
   if (!e.mt) return null;
   const [lo, hi] = e.mt;
-  return hi - lo >= 0.5 ? `${fmtNum(lo)} to ${fmtNum(hi)} Mt` : `${fmtNum(lo)} Mt`;
+  return hi - lo >= 0.5 ? `${mt3(lo)} to ${mt3(hi)} Mt` : `${mt3(lo)} Mt`;
 }
 
 /** Share of each commodity's seaborne trade that crosses the passage, as the atlas computes it: a floor and, where the route is not certain, a ceiling. */
@@ -178,14 +182,14 @@ function LaneTable({ doc, id, definitionHere, estimates }: { doc: ChokepointLane
                 setOpen(open === g ? null : g);
                 setAllLanes(false);
               }}
-              title={`${label(g)}: ${fmtNum(v)} Mt of ${fmtNum(doc.groups[g]?.seaborne)} Mt seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${fmtNum(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
+              title={`${label(g)}: ${mt3(v)} Mt of ${fmtNum(doc.groups[g]?.seaborne)} Mt seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${mt3(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
             >
               <span style={GRID}>
                 <span>
                   {label(g)}
-                  {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {fmtNum(upTo(g)!)} Mt with the pairs that may cross it</span>}
+                  {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {mt3(upTo(g)!)} Mt with the pairs that may cross it</span>}
                 </span>
-                <span class="num" style={RIGHT}>{v > 0 ? fmtNum(v) : '—'}</span>
+                <span class="num" style={RIGHT}>{v > 0 ? mt3(v) : '—'}</span>
                 <span class="num" style={RIGHT}>{v > 0 ? share(v, g) : '—'}</span>
               </span>
             </button>
@@ -201,7 +205,7 @@ function LaneTable({ doc, id, definitionHere, estimates }: { doc: ChokepointLane
                         {countryName(o)} → {countryName(d)}
                         {!sure(r) && <span class="may-use"> · may use</span>}
                       </span>
-                      <span class="num" style={RIGHT}>{fmtNum(lv)}</span>
+                      <span class="num" style={RIGHT}>{mt3(lv)}</span>
                       <span class="num" style={RIGHT}>{share(lv, g)}</span>
                     </span>
                   );

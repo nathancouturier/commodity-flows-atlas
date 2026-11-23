@@ -460,7 +460,8 @@ function Answer({
   const alsoVia = shown ? (shown.viaAlt ?? []) : pair.viaAltLists;
   const alts = shown ? (shown.alts ?? (shown.alt ? [shown.alt] : [])) : [];
   const nm = shown ? shown.distanceNm : pair.nm;
-  const share = shown ? shown.share : kind === 'mixed' ? null : pair.kt / pf.seaborne;
+  // from the pairs row, as the chokepoint list does (a lane's stored share is rounded to four decimals)
+  const share = kind === 'mixed' ? null : pair.kt / pf.seaborne;
   const shareDest = est ? null : shown ? (shown.shareDest ?? null) : importsKt > 0 ? pair.kt / importsKt : null;
   // the flow figure is the pairs row's, so the list, the card and the overland sentence print the same number
   const kt = pair.kt;
@@ -470,10 +471,10 @@ function Answer({
       : shown?.transit
         ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, p: { s: t.s, url: t.url, basis: t.url && laneFile?.ports[t.port]?.url === t.url ? laneFile.ports[t.port].basis : undefined } as Partial<PortRef> }))
         : transitPorts(pair).map((t) => ({ ...t, p: laneFile?.ports[t.id] }));
-  const days = shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
-  const speed = !shown ? ladenDays(nm, typical ?? null) : null;
-  // a class with no speed in the catalogue (container ships): the days cannot be computed, and the card says so
+  // a class with no speed in the catalogue: the days cannot be checked against a speed, so none is printed and the card says so
   const noSpeed = !!typical && lacksSpeed(typical);
+  const days = noSpeed ? undefined : shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
+  const speed = !shown ? ladenDays(nm, typical ?? null) : null;
 
   return (
     <div class="rf-card">

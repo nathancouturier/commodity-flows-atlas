@@ -783,5 +783,42 @@
 "s": "atlas",
 "n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
 }
+},
+{
+"id": "container",
+"name": "Container ship",
+"segment": "container",
+"size": {
+"min": 0,
+"max": 24000,
+"typical": 12000,
+"u": "teu"
+},
+"cargoes": [
+"copper",
+"aluminium",
+"coffee",
+"cocoa",
+"cotton"
+],
+"constraints": [
+"Carries cargo in standard containers, not in bulk; ships under 3,000 TEU are called feeders and mostly serve smaller container ports"
+],
+"canals": {
+"suez": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)",
+"panama": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)"
+},
+"routes": [],
+"notes": "Size band from the Wikipedia article Container ship (read in November 2026; CC BY-SA 4.0): its size categories run from small feeders of up to 1,000 TEU to ultra-large ships of 14,501 TEU and more, and its infobox gives a capacity of up to 24,000 TEU, so the range starts at 0 and ends at 24,000. The page gives no typical size: the typical size is the middle of the band, an Atlas convention that describes no single lane. The Atlas uses the class first for general cargo that moves in boxes (refined copper, aluminium, coffee, cocoa, cotton), with the Handysize second; it is a stand-in for the whole container fleet, not a measured share. The page's canal figures (Panama locks, Suez) belong to particular size categories, so no restriction is applied to the class as a whole. Speed: see the assumed laden service speed.",
+"s": "wikipedia",
+"speedKn": 17.0,
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 17.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 }
 ]

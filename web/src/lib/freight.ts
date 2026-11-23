@@ -3,7 +3,7 @@
  * All loaders are cached by lib/data.ts.
  */
 import { computed, signal } from '@preact/signals';
-import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, LaneFile, PairsFile, PortwatchSeries, Route, Segment, VesselClass } from '../types';
+import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortwatchSeries, Route, Segment, VesselClass } from '../types';
 import { load } from './data';
 import { commodity, family, layers, select, selection, setFamily, toggleLayer, vesselClasses } from './store';
 
@@ -306,6 +306,17 @@ export async function loadFreightCatalogue() {
   chokepointList.value = c;
 }
 
+/**
+ * A lane's share of its group's seaborne trade in the file's latest year, computed from the flow and the total as the
+ * chokepoint list does: the `share` the file stores is rounded to four decimals, which a second rounding turns into a
+ * different figure for the same pair.
+ */
+export function laneShare(l: Lane, f: LaneFile): number | null {
+  if (l.mode === 'mixed') return null;
+  const tot = f.seaborne[f.years.indexOf(f.y)];
+  return tot > 0 && l.flow.v >= 0 ? l.flow.v / tot : l.share;
+}
+
 export function vesselName(id: string): string {
   return vesselById.value[id]?.name ?? (id === 'container' ? 'Container ship' : id);
 }
@@ -380,6 +391,8 @@ export interface LaneStatus { text: string; event?: string }
  * filtered to the class's family, the routes layer on and (unless `page` is false) the class page.
  */
 export function openVesselClass(id: string, page = true) {
+  // once the catalogue is known, an id that it lacks has no page and no routes: leave the view as it is
+  if (vesselClassList.peek().length && !vesselById.peek()[id]) return;
   if (family.peek() !== 'freight') setFamily('freight');
   commodity.value = null;
   vesselClasses.value = new Set(vesselFamily(id));

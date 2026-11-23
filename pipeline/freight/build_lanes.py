@@ -84,6 +84,21 @@ LABEL = {
     "phosphate-rock": "Phosphate rock", "dap": "DAP", "alumina": "Alumina", "bauxite": "Bauxite",
     "nickel-fe": "Ferro-nickel and nickel pig iron", "spodumene": "Spodumene concentrate (Atlas estimate)",
 }
+# Groups that are an Atlas estimate by construction (a read of a customs code that mixes products, hs_map.SPLIT): their
+# flows, lane file and pairs file carry the source id "atlas" and this note of the method.
+EST_GROUP = {
+    "spodumene": ("Atlas estimate: spodumene concentrate has no customs code of its own; the atlas reads it from HS 253090 "
+                  "('mineral substances not elsewhere specified', CEPII BACI customs data, gross weight), keeping only the rows from "
+                  "Australia, Zimbabwe and Brazil to China, the exporters for which a page read by the atlas says that they ship "
+                  "lithium concentrate to China (the pages are listed on the lithium page). These rows may still hold other minerals"),
+}
+# First year from which a page supports the reading of such a group; the earlier years are published as null points
+# (flag "nodata") with the note.
+FIRST_YEAR = {
+    "spodumene": (2021, "Not read as spodumene before 2021: Australia's statistics office created the national subheading 25309011 "
+                        "'Lithium concentrates' in January 2021 (Australian Bureau of Statistics, Insights into Australian Exports of "
+                        "Lithium, 4 August 2022); no page read says what HS 253090 from these exporters held before"),
+}
 
 # Selection of the lanes (trade-engine plan 2.2). Caps bound the main set of each group; the floor is the smallest
 # latest-year tonnage of a main lane (Mt).
@@ -573,7 +588,10 @@ def main():
         mainset = set(main) | set(mixed_l)
         history, hist_t, hist_y = [], {}, {}
         gs = g[g["mode"].isin(["sea", "transit"])]
+        first = FIRST_YEAR.get(group)
         for y in hist_years(latest):
+            if first and y < first[0]:
+                continue
             z = gs[gs["year"] == y].sort_values("t", ascending=False)
             zt = z["t"].sum()
             for r in z.head(HIST_TOP).itertuples(index=False):
@@ -609,13 +627,19 @@ def main():
             tonnes = [float(x.t) / 1e6 if x is not None else 0.0 for x in series]
             values = [float(x.usd) if x is not None else 0.0 for x in series]
             hflags = [x.flag if x is not None else "" for x in series]
+            if first:
+                tonnes = [None if y < first[0] else t for y, t in zip(years, tonnes)]
             hist, marks = history_flags(tonnes, values, hflags)
+            if first:
+                marks.update({i: "nodata" for i, y in enumerate(years) if y < first[0]})
             flags, notes = {}, {}
             for i, code in marks.items():
                 flags[str(years[i])] = code
                 x = series[i]
                 if code == "est" and ("uv-repair" in (x.flag or "") or "est-peer" in (x.flag or "")):
                     notes[str(years[i])] = x.enote
+                elif code == "nodata" and first and years[i] < first[0]:
+                    notes[str(years[i])] = f"{years[i]}: no figure, the reading of the customs code starts in {first[0]} (see the lane note)"
                 elif code == "nodata":
                     notes[str(years[i])] = f"No customs record for {years[i]}"
                 elif code == "suspect" and x is not None:
@@ -633,6 +657,9 @@ def main():
                 flow["s"], flow["est"] = "atlas", True
             fn = flow_notes(r_latest, kind, pair_check.get((group, o, d)), k2.get((group, o, d, latest)),
                             pipelines_on(o, d, group) if kind == "mixed" else ())
+            if group in EST_GROUP:
+                flow["s"] = "atlas"
+                fn = EST_GROUP[group] + (". " + fn if fn else "")
             if fn:
                 flow["n"] = fn
             alt_gates = {x for lst in rec["viaAlt"] for x in lst}
@@ -674,7 +701,9 @@ def main():
                 lane["histFlags"] = flags
             if notes:
                 lane["histNotes"] = notes
-            hn = hist_note({k: v for k, v in flags.items() if v != "kept"}, years)
+            hn = hist_note({k: v for k, v in flags.items() if v != "kept" and not (first and int(k) < first[0])}, years)
+            if first:
+                hn = first[1] + (". " + hn if hn else "")
             if hn:
                 lane["histNote"] = hn
             cid = CV.lookup(active, group, o, d)
@@ -723,7 +752,11 @@ def main():
                 yn[str(y)] = ". ".join(p[0].upper() + p[1:].rstrip(".") for p in parts)
         # share of each year's seaborne tonnes that is an Atlas estimate, and a line for the years where it shows
         est_y = [round(est_tot.get((group, y), 0) / sea_tot[y], 3) if sea_tot[y] else 0 for y in years]
+        if first:
+            est_y = [None if y < first[0] else v for y, v in zip(years, est_y)]
         for y, share in zip(years, est_y):
+            if share is None:
+                continue
             e = est_tot.get((group, y), 0)
             if share >= EST_NOTE_MIN:  # on the published share, so that every year it marks has its line
                 txt = (f"Includes {_mt(e / 1e6)} of Atlas estimates ({e / sea_tot[y]:.1%} of the year's seaborne tonnes): "
@@ -749,11 +782,12 @@ def main():
             "label": LABEL.get(group),
             "unit": unit,
             "y": latest,
-            "s": "baci",
+            "s": "atlas" if group in EST_GROUP else "baci",
+            **({"n": EST_GROUP[group] + (f". {first[1]}" if first else "")} if group in EST_GROUP else {}),
             "years": years,
-            "seaborne": [round(sea_tot[y] / 1e6, 2) for y in years],
-            "mixed": [round(mtot.get((group, y), 0) / 1e6, 2) for y in years],
-            "world": [round(world.get((group, y), 0) / 1e6, 2) for y in years],
+            "seaborne": [None if first and y < first[0] else round(sea_tot[y] / 1e6, 2) for y in years],
+            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / 1e6, 2) for y in years],
+            "world": [None if first and y < first[0] else round(world.get((group, y), 0) / 1e6, 2) for y in years],
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),
             "estY": est_y,
@@ -800,7 +834,8 @@ def main():
                 prow.append([r.o, r.d, kt(r.t), m, -1, -1, 0, -1, 0, 0, f])
         assert len(gates) <= 31  # JavaScript bit operations are 32-bit
         pdoc = {
-            "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "baci", "unit": "kt",
+            "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "atlas" if group in EST_GROUP else "baci", "unit": "kt",
+            **({"n": EST_GROUP[group]} if group in EST_GROUP else {}),
             "seaborne": round(sea_tot[latest] / 1e3),
             # [code, name, country, zone, basis as a loading port, basis as a discharging port]: each basis indexes `bases`
             # and is null when no pair of the file uses the port in that role. A page can name a cargo at a port in one

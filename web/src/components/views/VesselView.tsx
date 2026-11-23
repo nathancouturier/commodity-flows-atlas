@@ -14,7 +14,7 @@ export default function VesselView({ id }: { id: string }) {
     return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Skeleton lines={6} /></div></>);
   if (v === null)
     return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This vessel class is not in the atlas catalogue.</Placeholder></div></>);
-  const u = v.size.u;
+  const u = v.size.u === 'teu' ? 'TEU' : v.size.u;
   const pub = publisher(v.s);
   const byId = new Map((routes ?? []).map((r) => [r.id, r]));
   const served = v.routes.map((rid) => byId.get(rid)).filter((r): r is Route => !!r);
@@ -28,7 +28,7 @@ export default function VesselView({ id }: { id: string }) {
       <div class="panel-scroll">
         <div class="kpis">
           <Kpi label="Typical size" value={`${fmt(v.size.typical)} ${u}`} sub={pub} title={`Typical size (${v.s})`} />
-          <Kpi label="Size range" value={`${fmt(v.size.min)}–${fmt(v.size.max)}`} sub={`${u} · ${pub}`} title={`Size range (${v.s})`} />
+          <Kpi label="Size range" value={v.size.min > 0 ? `${fmt(v.size.min)}–${fmt(v.size.max)}` : `up to ${fmt(v.size.max)}`} sub={`${u} · ${pub}`} title={`Size range (${v.s})`} />
           {v.speed ? (
             <Kpi label="Assumed laden service speed" value={`${fmt(v.speed.v)} ${v.speed.u}`} sub={`Atlas assumption · ${v.speed.y}`} title={`${v.speed.s} · ${v.speed.y}`} note={v.speed.n} span />
           ) : v.speedKn ? (

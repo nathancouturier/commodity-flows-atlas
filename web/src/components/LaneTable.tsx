@@ -6,7 +6,7 @@ import { useMemo, useState } from 'preact/hooks';
 import type { Lane, LaneFile } from '../types';
 import { countryName, sourceLabel } from '../lib/data';
 import { fmt, fmtEst, pct, sig2 } from '../lib/format';
-import { GROUP_LABEL, altText, chokepointName, vesselName } from '../lib/freight';
+import { GROUP_LABEL, altText, chokepointName, laneShare, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
@@ -95,7 +95,7 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
       } else {
         if (l.set === 'history') continue;
         v = l.flow.v;
-        share = mixed ? null : l.share;
+        share = laneShare(l, f);
         est = !!l.flow.est;
       }
       rows.push({
@@ -188,6 +188,9 @@ function sortRows(rows: LaneRow[], key: SortKey, dir: 1 | -1): LaneRow[] {
   return by;
 }
 
+/** A rest row whose tonnage the file rounds to 0 Mt still has a recorded flow: it is under 1 kt (the finder's wording). */
+const restTiny = (r: RestRow) => r.u === 'Mt' && r.v < 0.001;
+
 const csvCell = (x: string | number | null | undefined): string => {
   const s = x == null ? '' : String(x);
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
@@ -220,7 +223,7 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
     const y = rows[0]?.y ?? '';
     out.push(
       [
-        r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countr${r.n === 1 ? 'y' : 'ies'})`, y, r.v, r.u,
+        r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countr${r.n === 1 ? 'y' : 'ies'})`, y, restTiny(r) ? '<0.001' : r.v, r.u,
         '', 'sea', '', '', '', '', '', r.est > 0 ? (r.est >= r.v ? 'yes' : 'partly') : '', r.est > 0 ? `${sourceLabel(rows[0]?.s ?? 'baci')}; ${fmt(sig2(r.est))} ${r.u} of it is an Atlas estimate (declared value)` : sourceLabel(rows[0]?.s ?? 'baci'),
       ].map(csvCell).join(','),
     );
@@ -334,7 +337,7 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
                       {r.est > 0 && <EstMark label={r.est >= r.v ? 'Atlas estimate' : 'includes Atlas estimate'} title={`${fmt(sig2(r.est))} ${r.u} of this tonnage is computed by the atlas from the declared value`} />}
                     </span>
                   </span>
-                  <span class="lt-fig num">{fmt(r.v)} {r.u}</span>
+                  <span class="lt-fig num">{restTiny(r) ? 'under 1 kt' : `${fmt(r.v)} ${r.u}`}</span>
                 </div>
               </div>
             ))}

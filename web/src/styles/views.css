@@ -28,8 +28,10 @@
 /* a figure is never cut: a long value wraps (at a space or a dash first) instead of ending in an ellipsis */
 .kpi-value { overflow-wrap: anywhere; line-height: 1.25; }
 .kpi-note { font-size: 11px; color: var(--ink-2); margin-top: 3px; line-height: 1.35; overflow-wrap: anywhere; }
-.kpi-note-btn { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; text-align: left; padding: 0; cursor: pointer; width: 100%; }
-.kpi-note-btn.open { -webkit-line-clamp: unset; display: block; }
+/* the three-line clamp is on the text inside the button, not on the button: on a phone the button gets padding for its tap area, and a clamped box with padding shows a cut fourth line in it */
+.kpi-note-btn { display: block; text-align: left; padding: 0; cursor: pointer; width: 100%; }
+.kpi-note-btn > span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.kpi-note-btn.open > span { -webkit-line-clamp: unset; display: block; }
 .kpi-note-btn:hover { color: var(--ink-1); }
 .muted-cap { color: var(--ink-3); }
 .my-cap { margin-top: 4px; }

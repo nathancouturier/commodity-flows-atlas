@@ -294,6 +294,12 @@ button {
   color: var(--ink-0);
 }
 
+.chip-static,
+.chip-static:hover {
+  border-color: var(--hairline-strong);
+  color: var(--ink-1);
+}
+
 .chip[aria-pressed='true'] {
   color: var(--ocean-0);
   background: var(--chip-color, var(--accent));
@@ -577,6 +583,15 @@ button {
 
 .src-line a {
   color: var(--ink-2);
+}
+
+.src-line .src-method {
+  color: var(--ink-2);
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
 }
 
 /* ---------------------------------------------------------------- tooltip & legend */

@@ -4753,14 +4753,14 @@
 "year": 2024,
 "chokepoint": "panama",
 "type": "dry",
-"value": 43.3,
+"value": 43.2,
 "high": 131.1,
 "reference": 60.1,
 "best": 119.5,
 "bestYear": 2021,
 "ratio": 0.36,
 "level": "qa",
-"text": "Panama Canal, dry bulk: at least 43.3 Mt and up to 131 Mt of the atlas's seaborne groups in 2024, against 60.1 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 120 Mt in 2021)"
+"text": "Panama Canal, dry bulk: at least 43.2 Mt and up to 131 Mt of the atlas's seaborne groups in 2024, against 60.1 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 120 Mt in 2021)"
 },
 {
 "check": "K9",
@@ -4897,7 +4897,7 @@
 "year": 2024,
 "chokepoint": "gibraltar",
 "type": "dry",
-"value": 321.9,
+"value": 321.8,
 "high": 352.3,
 "reference": 383.9,
 "best": 514.0,
@@ -4952,7 +4952,7 @@
 "bestYear": 2022,
 "ratio": 0.41,
 "level": "qa",
-"text": "Dover Strait, dry bulk: at least 151 Mt and up to 166 Mt of the atlas's seaborne groups in 2024, against 337 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 367 Mt in 2022)"
+"text": "Dover Strait, dry bulk: at least 151 Mt and up to 165 Mt of the atlas's seaborne groups in 2024, against 337 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 367 Mt in 2022)"
 },
 {
 "check": "K9",
@@ -5090,13 +5090,13 @@
 "chokepoint": "korea-strait",
 "type": "dry",
 "value": 156.6,
-"high": 269.6,
+"high": 268.6,
 "reference": 428.0,
 "best": 433.6,
 "bestYear": 2025,
 "ratio": 0.36,
 "level": "qa",
-"text": "Korea Strait, dry bulk: at least 157 Mt and up to 270 Mt of the atlas's seaborne groups in 2024, against 428 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 434 Mt in 2025)"
+"text": "Korea Strait, dry bulk: at least 157 Mt and up to 269 Mt of the atlas's seaborne groups in 2024, against 428 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 434 Mt in 2025)"
 },
 {
 "check": "K9",
@@ -5346,7 +5346,7 @@
 "pct": 0.03,
 "nm": 150,
 "value": 23.2,
-"high": 1159.7,
+"high": 1159.6,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
@@ -5391,7 +5391,7 @@
 "pct": 0.03,
 "nm": 150,
 "value": 34.4,
-"high": 2505.1,
+"high": 2505.0,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",

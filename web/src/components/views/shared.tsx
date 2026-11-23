@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { AltRouting, HistFlag, PortRef } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
-import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openVesselClass, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openVesselClass, vesselById, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { Section, shortSource } from '../ui';
 import { TimeChart, type TimeMarker } from '../charts/TimeChart';
@@ -57,6 +57,14 @@ export function CommodityChips(props: { ids: string[] }) {
 
 export function VesselChip(props: { id: string }) {
   const color = SEGMENT_COLOR[segmentOf(props.id)];
+  // a class that the catalogue lacks has no page and no routes to filter: plain text, not a button
+  if (vesselClassList.value.length && !vesselById.value[props.id])
+    return (
+      <span class="chip chip-static">
+        <i class="dot" style={{ background: color }} />
+        {vesselName(props.id)}
+      </span>
+    );
   return (
     <button class="chip" onClick={() => openVesselClass(props.id)}>
       <i class="dot" style={{ background: color }} />

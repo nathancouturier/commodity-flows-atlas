@@ -23,7 +23,7 @@ function RowNote({ text }: { text: string }) {
   if (text.length <= 110) return <div class="kpi-note" style={style}>{text}</div>;
   return (
     <button class={`kpi-note kpi-note-btn${open ? ' open' : ''}`} style={style} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
-      {text}
+      <span>{text}</span>
     </button>
   );
 }
@@ -146,7 +146,7 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
               {lane.flow.est && <EstMark />}
             </>
           }
-          meta={<>{lane.flow.est ? fmtEst(lane.flow.v, true) : lane.flow.u === 'Mt' ? lane.flow.v.toFixed(1) : fmt(lane.flow.v)} {lane.flow.u}<small>{lane.flow.y}</small></>}
+          meta={<>{fmtEst(lane.flow.v, !!lane.flow.est)} {lane.flow.u}<small>{lane.flow.y}</small></>}
           tip={`${sourceLabel(lane.flow.s)} · ${lane.flow.y}${lane.mode === 'mixed' ? ' · by sea and overland, split not known' : ''}`}
           onClick={() => select({ kind: 'lane', id: lane.id })}
         />

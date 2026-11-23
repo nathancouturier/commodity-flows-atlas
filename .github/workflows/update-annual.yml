@@ -47,7 +47,7 @@ jobs:
         uses: ./.github/actions/finish-data-update
         with:
           sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-commodities build-profiles"
-          paths: "data pipeline/cache"
+          paths: "data pipeline/cache pipeline/commodities/QA.md"
           message: "data: monthly update of annual sources"
 
   deploy:

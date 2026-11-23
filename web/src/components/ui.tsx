@@ -6,6 +6,7 @@ import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/d
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
+import { openAbout } from './AboutHost';
 import '../styles/lane-table.css';
 
 export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
@@ -38,6 +39,15 @@ export function Section(props: { title: ComponentChildren; children: ComponentCh
   );
 }
 
+/** The atlas's own figures (source id `atlas`) are explained in the Method tab of the About window, not on an outside page. */
+function MethodLink(props: { label: string }) {
+  return (
+    <button class="src-method" title="How the atlas computes its own figures: the Method tab of About" onClick={(e) => openAbout('method', e.currentTarget)}>
+      {props.label}
+    </button>
+  );
+}
+
 /** "Source: USGS Mineral Commodity Summaries · 2024" with a link to the source page. */
 export function SourceLine(props: { s?: string; y?: number | string; n?: string; mark?: ComponentChildren }) {
   if (!props.s) return null;
@@ -45,7 +55,9 @@ export function SourceLine(props: { s?: string; y?: number | string; n?: string;
   return (
     <div class="src-line">
       Source:{' '}
-      {src ? (
+      {props.s === 'atlas' ? (
+        <MethodLink label={sourceLabel('atlas')} />
+      ) : src ? (
         <a href={src.url} target="_blank" rel="noopener">
           {src.name}
         </a>
@@ -106,7 +118,9 @@ export function SourcesLine(props: { items: { s: string; y?: number | string }[]
         return (
           <>
             {i > 0 && ' · '}
-            {src ? (
+            {e.s === 'atlas' ? (
+              <MethodLink label={label} />
+            ) : src ? (
               <a href={src.url} target="_blank" rel="noopener" title={src.name}>
                 {label}
               </a>
@@ -271,7 +285,7 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
       {note &&
         (long ? (
           <button class={`kpi-note kpi-note-btn${open ? ' open' : ''}`} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
-            {note}
+            <span>{note}</span>
           </button>
         ) : (
           <div class="kpi-note">{note}</div>
@@ -302,6 +316,14 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const furtherNames = further.map((r) => countryName(r.c)).join(', ');
   const longNote = !!data.n && data.n.length > 130;
   const published = data.worldPublished != null && data.worldPublished !== world ? data.worldPublished : null;
+  // the accessible name of a row reads "China 980 Mt, 53.8% of world", not "China 98053.8%": the unit and the separator are for screen readers
+  const value = <span class="sr-only"> {data.u},</span>;
+  const share = (p: string) => (
+    <>
+      <small>{p}</small>
+      <span class="sr-only"> of world</span>
+    </>
+  );
   return (
     <div>
       <div class="bars" style={{ '--bar-color': props.color }}>
@@ -319,7 +341,8 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
             </span>
             <span class="bar-value">
               {val(r.v, r.est)}
-              {world ? <small>{pct(r.v / world)}</small> : null}
+              {value}
+              {world ? share(pct(r.v / world)) : null}
             </span>
           </button>
         ))}
@@ -332,7 +355,8 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
             </span>
             <span class="bar-value">
               {val(furtherSum)}
-              {world ? <small>{pct(furtherSum / world)}</small> : null}
+              {value}
+              {world ? share(pct(furtherSum / world)) : null}
             </span>
           </button>
         )}
@@ -342,7 +366,8 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
             <span class="bar-label">Other countries (as published)</span>
             <span class="bar-value">
               {val(other)}
-              {world ? <small>{pct(other / world)}</small> : null}
+              {value}
+              {world ? share(pct(other / world)) : null}
             </span>
           </div>
         )}
@@ -529,7 +554,7 @@ export function FoldNote(props: { text?: string | null; class?: string; style?: 
   if (text.length <= 130) return <div class={cls} style={props.style}>{text}</div>;
   return (
     <button class={`${cls} kpi-note-btn${open ? ' open' : ''}`} style={props.style} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
-      {text}
+      <span>{text}</span>
     </button>
   );
 }

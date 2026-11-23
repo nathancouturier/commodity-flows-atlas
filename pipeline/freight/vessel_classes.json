@@ -621,5 +621,33 @@
   "routes": [],
   "notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions, in pipeline/freight/vessel_rules.py. Speed: the default of vessel_rules.speed().",
   "s": "wilhelmsen-lpg-sizes"
+ },
+ {
+  "id": "container",
+  "name": "Container ship",
+  "segment": "container",
+  "size": {
+   "min": 0,
+   "max": 24000,
+   "typical": 12000,
+   "u": "teu"
+  },
+  "cargoes": [
+   "copper",
+   "aluminium",
+   "coffee",
+   "cocoa",
+   "cotton"
+  ],
+  "constraints": [
+   "Carries cargo in standard containers, not in bulk; ships under 3,000 TEU are called feeders and mostly serve smaller container ports"
+  ],
+  "canals": {
+   "suez": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)",
+   "panama": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)"
+  },
+  "routes": [],
+  "notes": "Size band from the Wikipedia article Container ship (read in November 2026; CC BY-SA 4.0): its size categories run from small feeders of up to 1,000 TEU to ultra-large ships of 14,501 TEU and more, and its infobox gives a capacity of up to 24,000 TEU, so the range starts at 0 and ends at 24,000. The page gives no typical size: the typical size is the middle of the band, an Atlas convention that describes no single lane. The Atlas uses the class first for general cargo that moves in boxes (refined copper, aluminium, coffee, cocoa, cotton), with the Handysize second; it is a stand-in for the whole container fleet, not a measured share. The page's canal figures (Panama locks, Suez) belong to particular size categories, so no restriction is applied to the class as a whole. Speed: see the assumed laden service speed.",
+  "s": "wikipedia"
  }
 ]

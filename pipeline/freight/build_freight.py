@@ -89,6 +89,9 @@ DEFINITION = ("every recorded seaborne pair whose assumed route has to cross thi
 # failure. The Danish Straits counter is the Oresund only, so no comparison is valid there.
 PW_FIRST_YEAR, K9_MAX = 2019, 1.10
 K9_NO_COMPARISON = {"danish-straits"}
+# the shares of a vessel type get a note from this share of PortWatch's volume of the same type and year: the atlas's
+# groups are not all the cargo of these ships, so an "at least" tonnage close to that volume leaves little room
+PW_NEAR = 0.85
 # QA.md: "at least" and "up to" of the parallel passages under other thresholds of the parallel rule (plan 2.5)
 SENSITIVITY = ((0.03, 150), (0.05, 300), (0.10, 500))
 SENSITIVITY_GATES = ("malacca", "sunda", "lombok", "taiwan-strait", "luzon")
@@ -289,6 +292,11 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                              + (f". {reason}" if reason else ""))
                     type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
                                       f"route, not the {latest} traffic" + (f". {reason}" if reason else ""))
+                elif ref and low > PW_NEAR * ref:
+                    type_note[typ] = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mt3(low)}) is "
+                                      f"{low / ref:.0%} of IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in {latest} ({mt3(ref)}), "
+                                      f"although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas "
+                                      "assumes may overstate it")
                 k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
                            "value": round(low, 1), "high": round(high, 1), "reference": None if ref is None else round(ref, 1),
                            "best": round(best, 1), "bestYear": by, "ratio": round(low / best, 2), "level": level, "text": text})
@@ -581,7 +589,7 @@ def main():
         # seaborne flow, as a customs total for all modes). A customs group is counted once per country pair and
         # route: thermal and metallurgical coal are the same group "coal".
         shares, hist_t, hist_v, cor_tm, tiny, mixed_na = [], defaultdict(float), defaultdict(float), 0.0, [], []
-        counted = set()
+        counted, late = set(), []  # late: (first year, note) of a group whose reading starts after LATEST_MIN_YEAR
         for c in cor:
             groups = GROUPS_OF.get(c["k"], [c["k"]])
             fresh = {(g, o, d) for g in groups for o in c["o"] for d in c["d"]} - counted
@@ -619,8 +627,10 @@ def main():
             elif v > 0 and tot > 0:
                 tiny.append((c["k"], v, tot, groups))
             per_year = sub.groupby("year").agg(t=("t", "sum"), usd=("usd", "sum"))
+            late += [BL.FIRST_YEAR[g] for g in groups if g in BL.FIRST_YEAR]
+            y0 = max((f[0] for f in late), default=None)
             for y in years:
-                if y in per_year.index:
+                if y in per_year.index and not (y0 and y < y0):
                     hist_t[y] += per_year.at[y, "t"] / 1e6
                     hist_v[y] += per_year.at[y, "usd"]
             cor_tm += sum(pair_tm.get(p, 0.0) for p in fresh)
@@ -653,14 +663,17 @@ def main():
         if any(hist_t.values()) and not r.get("noHistory"):
             # the history rule of the lanes: a year is blanked only on evidence in the unit value
             series, marks = history_flags([round(hist_t[y], 2) for y in years], [hist_v[y] for y in years])
-            out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None]
+            y0 = max((f[0] for f in late), default=0)
+            out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None and y >= y0]
             hn = BL.hist_note({str(years[i]): m for i, m in marks.items() if m != "kept"}, years)
             if mixed_na:
                 hn = "All modes: the volume includes trade that moves both by sea and overland (split not known)" + (f". {hn}" if hn else "")
+            if late:
+                hn = max(late)[1] + (f". {hn}" if hn else "")
             if hn:
                 out["historyNote"] = hn
             out["historyUnit"] = "Mt"
-            out["historySrc"] = "baci"
+            out["historySrc"] = "atlas" if any(g in BL.EST_GROUP for c in cor for g in GROUPS_OF.get(c["k"], [c["k"]])) else "baci"
         routes.append(out)
 
     os.makedirs(OUT, exist_ok=True)

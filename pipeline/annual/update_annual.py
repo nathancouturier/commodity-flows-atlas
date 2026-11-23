@@ -71,6 +71,14 @@ def install(src, dest):
     shutil.move(src, dest)
 
 
+# Time limit of each command, in minutes. Their sum (170) stays under the workflow step's 200 minutes, so that the
+# downloads keep about 30 minutes and a command that runs long is stopped here, its outputs restored by its Snapshot,
+# before the workflow stops the whole step mid-write. Measured on the 2026 rebuild: build_lanes.py 943 s from cold
+# caches, build_freight.py 18 s, build_commodities.py 7 s, build_profiles.py 1 s.
+STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "lanes": 70, "freight": 20, "commodities": 15,
+            "profiles": 10}
+
+
 def run(cmd, timeout):
     """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails."""
     print("  $", " ".join(os.path.relpath(c, ROOT) if os.path.isabs(c) and c.startswith(ROOT) else c for c in cmd), flush=True)
@@ -273,7 +281,7 @@ def src_baci(opts):
     if len(years) < 25 or not any(n.startswith("country_codes") for n in names):
         raise ValueError(f"unexpected BACI archive layout ({len(years)} yearly files)")
     out = os.path.join(CACHE, "baci_flows.csv.gz.tmp")
-    run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_baci.py"), zpath, out, "2000"], 3 * 3600)
+    run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_baci.py"), zpath, out, "2000"], STEP_MIN["extract"] * 60)
     new = pd.read_csv(out, usecols=["year", "t"])
     old_path = os.path.join(CACHE, "baci_flows.csv.gz")
     if os.path.exists(old_path):
@@ -285,7 +293,7 @@ def src_baci(opts):
     # paddy and husked rice, kept apart for the milled-equivalent rice flows; a failure here leaves the old file,
     # and build_commodities.py then says that the rice flows stay at customs weight
     try:
-        run([PY, os.path.join(ROOT, "pipeline", "commodities", "extract_rice_forms.py"), zpath], 3600)
+        run([PY, os.path.join(ROOT, "pipeline", "commodities", "extract_rice_forms.py"), zpath], STEP_MIN["rice-forms"] * 60)
     except RuntimeError as e:
         print("  rice forms extract failed, rice stays at customs weight:", e)
     return {"changed": True, "records": int(len(new)), "data_to": str(int(new["year"].max())), "state": {"version": latest}}
@@ -304,7 +312,7 @@ def src_external(opts):
     before = [sha256(f) if os.path.exists(f) else None for f in files]
     snap = Snapshot(files)
     try:
-        run([PY, script], 1800)
+        run([PY, script], STEP_MIN["external"] * 60)
         for f in files:
             if not os.path.exists(f) or os.path.getsize(f) < 200:
                 raise ValueError(f"{os.path.basename(f)} missing or empty")
@@ -349,9 +357,9 @@ def process(changed):
     if "baci" in changed or pending("build-freight"):
         def freight():
             # borders and coasts first: modes.py reads adjacency.json when build_lanes.py imports it
-            run([PY, os.path.join(ROOT, "pipeline", "geo", "adjacency.py")], 600)
-            run([PY, os.path.join(ROOT, "pipeline", "freight", "build_lanes.py")], 3 * 3600)
-            run([PY, os.path.join(ROOT, "pipeline", "freight", "build_freight.py")], 3600)
+            run([PY, os.path.join(ROOT, "pipeline", "geo", "adjacency.py")], STEP_MIN["adjacency"] * 60)
+            run([PY, os.path.join(ROOT, "pipeline", "freight", "build_lanes.py")], STEP_MIN["lanes"] * 60)
+            run([PY, os.path.join(ROOT, "pipeline", "freight", "build_freight.py")], STEP_MIN["freight"] * 60)
         # data/freight holds the lanes, pairs, caveats and zones files; the caches are those the two builders write
         chain.append(("build-freight", freight, [os.path.join(data, "freight"), sources_json,
                                                 os.path.join(data, "countries", "places.json"),
@@ -361,11 +369,12 @@ def process(changed):
                                                 os.path.join(CACHE, "sea_flows.csv.gz"), os.path.join(CACHE, "mixed_flows.csv.gz")]))
     commodities = os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py")
     if os.path.exists(commodities) and (changed or pending("build-commodities")):
-        chain.append(("build-commodities", lambda: run([PY, commodities], 3600),
-                      [os.path.join(data, "commodities"), sources_json]))
+        # build_commodities.py also rewrites pipeline/commodities/QA.md, which the workflow commits
+        chain.append(("build-commodities", lambda: run([PY, commodities], STEP_MIN["commodities"] * 60),
+                      [os.path.join(data, "commodities"), sources_json, os.path.join(ROOT, "pipeline", "commodities", "QA.md")]))
     profiles = (glob.glob(os.path.join(ROOT, "pipeline", "**", "build_profiles.py"), recursive=True) or [None])[0]
     if profiles and (changed or pending("build-profiles")):
-        chain.append(("build-profiles", lambda: run([PY, profiles], 3600),
+        chain.append(("build-profiles", lambda: run([PY, profiles], STEP_MIN["profiles"] * 60),
                       [os.path.join(data, "countries"), sources_json]))
     for name, fn, paths in chain:
         step(name, fn, paths)

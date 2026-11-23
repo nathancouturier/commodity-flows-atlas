@@ -4,10 +4,10 @@ import type { InfraType } from '../../types';
 import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { figuresOf } from '../../lib/capacity';
-import { OUTPUT_LABEL, figureText, monthYear, sourceText, yearText, type Figure } from '../../lib/infra';
+import { OUTPUT_LABEL, STATUS_LABEL, figureText, monthYear, sourceText, stateAt, yearText, type Figure } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { select } from '../../lib/store';
+import { select, year } from '../../lib/store';
 import { Section, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge, shortSource } from '../ui';
 import { CommodityChips, useLoaded } from './shared';
 import '../../styles/infra.css';
@@ -65,6 +65,12 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
   const figs = figuresOf(p);
   const srcUrl = p.url ?? sources.value[p.s]?.url;
   const crossed = (p.cs ?? []).filter((c) => c !== p.c);
+  // History: the page follows the year of the timeline, as the map does. The status of the file is the present one: it is the
+  // state of a past year only if it is not dated after it, and an asset that opens later is not open yet
+  const yr = year.value;
+  const at = stateAt(p, yr);
+  const notApplied = at.notOpen || at.statusLater;
+  const statusLabel = STATUS_LABEL[p.status ?? ''] ?? p.status ?? '';
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
@@ -74,10 +80,16 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
         </div>
         <h2 class="detail-title">{p.name}</h2>
         <div class="badges">
-          <StatusBadge status={p.status} asOf={p.statusAsOf} />
+          {at.notOpen ? (
+            <span class="badge badge-plain">{at.opensIn != null ? `Not open yet in ${yr} (opens in ${at.opensIn})` : `Not open yet in ${yr}`}</span>
+          ) : at.statusLater && p.statusAsOf ? (
+            <span class="badge badge-plain">{`Status of ${monthYear(p.statusAsOf)}, after ${yr}: ${statusLabel.toLowerCase()}`}</span>
+          ) : (
+            <StatusBadge status={p.status} asOf={p.statusAsOf} />
+          )}
           {p.type === 'pipeline' && crossed.length > 0 && <span class="badge">Crosses {crossed.map(countryName).join(' · ')}</span>}
         </div>
-        {p.statusNote && <p class="infra-status-note">{p.statusNote}</p>}
+        {p.statusNote && !notApplied && <p class="infra-status-note">{p.statusNote}</p>}
       </div>
       <div class="panel-scroll">
         <div class="kpis">
