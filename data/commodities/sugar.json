@@ -2,25 +2,25 @@
  "id": "sugar",
  "summary": {
   "production": {
-   "v": 187.12,
+   "v": 178.08,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "consumption": {
-   "v": 176.45,
+   "v": 176.44,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "exports": {
-   "v": 64.756,
+   "v": 61.489,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+   "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
    "v": 58.92,
@@ -31,189 +31,185 @@
   }
  },
  "production": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 187.12,
+  "world": 178.08,
   "rows": [
    {
     "c": "BRA",
-    "v": 43.295
+    "v": 40.5
    },
    {
     "c": "IND",
-    "v": 30.0
-   },
-   {
-    "c": "EU27",
-    "v": 16.258
+    "v": 29.5
    },
    {
     "c": "CHN",
-    "v": 12.95
+    "v": 13.37
+   },
+   {
+    "c": "EU27",
+    "v": 13.154
    },
    {
     "c": "THA",
-    "v": 11.528
+    "v": 9.5
    },
    {
     "c": "USA",
-    "v": 8.457
+    "v": 7.729
    },
    {
     "c": "PAK",
-    "v": 7.06
+    "v": 6.91
    },
    {
     "c": "RUS",
-    "v": 6.8
+    "v": 6.6
    },
    {
     "c": "MEX",
-    "v": 5.645
+    "v": 5.61
    },
    {
     "c": "AUS",
-    "v": 3.83
-   },
-   {
-    "c": "EGY",
-    "v": 3.18
+    "v": 4.0
    },
    {
     "c": "TUR",
-    "v": 2.9
+    "v": 3.05
+   },
+   {
+    "c": "EGY",
+    "v": 3.0
    },
    {
     "c": "GTM",
-    "v": 2.898
+    "v": 2.81
    },
    {
     "c": "IDN",
-    "v": 2.7
+    "v": 2.5
    },
    {
     "c": "COL",
-    "v": 2.3
+    "v": 2.4
    },
    {
     "c": "ZAF",
-    "v": 2.016
-   },
-   {
-    "c": "PHL",
-    "v": 1.851
+    "v": 2.06
    },
    {
     "c": "ARG",
-    "v": 1.835
+    "v": 2.0
    },
    {
     "c": "IRN",
     "v": 1.8
    },
    {
+    "c": "PHL",
+    "v": 1.7
+   },
+   {
     "c": "UKR",
     "v": 1.49
+   },
+   {
+    "c": "PER",
+    "v": 1.35
    },
    {
     "c": "VNM",
     "v": 1.35
    },
    {
-    "c": "PER",
-    "v": 1.3
-   },
-   {
     "c": "GBR",
-    "v": 1.175
-   },
-   {
-    "c": "BLR",
-    "v": 0.785
-   },
-   {
-    "c": "SLV",
-    "v": 0.705
-   },
-   {
-    "c": "JPN",
-    "v": 0.7
-   },
-   {
-    "c": "UGA",
-    "v": 0.7
-   },
-   {
-    "c": "NIC",
-    "v": 0.682
-   },
-   {
-    "c": "SWZ",
-    "v": 0.66
-   },
-   {
-    "c": "BOL",
-    "v": 0.65
+    "v": 1.025
    },
    {
     "c": "KEN",
-    "v": 0.605
+    "v": 0.85
+   },
+   {
+    "c": "BLR",
+    "v": 0.758
+   },
+   {
+    "c": "JPN",
+    "v": 0.74
+   },
+   {
+    "c": "SLV",
+    "v": 0.719
+   },
+   {
+    "c": "NIC",
+    "v": 0.68
+   },
+   {
+    "c": "UGA",
+    "v": 0.675
+   },
+   {
+    "c": "SWZ",
+    "v": 0.672
+   },
+   {
+    "c": "BOL",
+    "v": 0.575
    },
    {
     "c": "HND",
-    "v": 0.56
+    "v": 0.57
    },
    {
     "c": "ECU",
-    "v": 0.513
+    "v": 0.506
    },
    {
     "c": "DOM",
-    "v": 0.505
+    "v": 0.5
    },
    {
     "c": "TZA",
     "v": 0.5
    },
    {
+    "c": "ZWE",
+    "v": 0.457
+   },
+   {
     "c": "ZMB",
     "v": 0.45
    },
    {
-    "c": "ZWE",
-    "v": 0.445
+    "c": "ETH",
+    "v": 0.425
    },
    {
-    "c": "ETH",
-    "v": 0.43
+    "c": "VEN",
+    "v": 0.406
    },
    {
     "c": "MMR",
     "v": 0.4
    },
    {
-    "c": "VEN",
-    "v": 0.39
-   },
-   {
     "c": "CRI",
-    "v": 0.375
+    "v": 0.385
    },
    {
     "c": "MAR",
     "v": 0.35
    },
    {
-    "c": "CHE",
-    "v": 0.3
+    "c": "SRB",
+    "v": 0.325
    },
    {
     "c": "MOZ",
-    "v": 0.275
-   },
-   {
-    "c": "SRB",
     "v": 0.275
    },
    {
@@ -222,6 +218,10 @@
    },
    {
     "c": "MWI",
+    "v": 0.26
+   },
+   {
+    "c": "CHE",
     "v": 0.25
    },
    {
@@ -290,14 +290,10 @@
    },
    {
     "c": "KAZ",
-    "v": 0.07
+    "v": 0.06
    },
    {
     "c": "MDA",
-    "v": 0.07
-   },
-   {
-    "c": "GUY",
     "v": 0.06
    },
    {
@@ -309,7 +305,7 @@
     "v": 0.055
    },
    {
-    "c": "AZE",
+    "c": "GUY",
     "v": 0.05
    },
    {
@@ -317,12 +313,16 @@
     "v": 0.04
    },
    {
-    "c": "JAM",
-    "v": 0.032
+    "c": "AZE",
+    "v": 0.035
    },
    {
     "c": "GAB",
     "v": 0.03
+   },
+   {
+    "c": "JAM",
+    "v": 0.029
    },
    {
     "c": "URY",
@@ -349,25 +349,27 @@
     "v": 0.008
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "consumption": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 176.45,
+  "world": 176.44,
   "rows": [
    {
     "c": "IND",
-    "v": 30.1
+    "v": 30.83
    },
    {
     "c": "EU27",
-    "v": 15.7
+    "v": 15.6
    },
    {
     "c": "CHN",
-    "v": 15.4
+    "v": 15.5
    },
    {
     "c": "USA",
@@ -375,27 +377,27 @@
    },
    {
     "c": "BRA",
-    "v": 9.492
+    "v": 8.8
    },
    {
     "c": "IDN",
-    "v": 7.268
+    "v": 7.0
    },
    {
     "c": "PAK",
-    "v": 6.6
+    "v": 6.8
    },
    {
     "c": "RUS",
-    "v": 6.07
+    "v": 5.962
    },
    {
     "c": "MEX",
-    "v": 4.112
+    "v": 4.15
    },
    {
     "c": "EGY",
-    "v": 3.85
+    "v": 3.9
    },
    {
     "c": "THA",
@@ -403,191 +405,191 @@
    },
    {
     "c": "TUR",
-    "v": 2.815
-   },
-   {
-    "c": "PHL",
-    "v": 2.433
-   },
-   {
-    "c": "BGD",
-    "v": 2.203
+    "v": 3.07
    },
    {
     "c": "IRN",
-    "v": 2.196
+    "v": 2.316
+   },
+   {
+    "c": "PHL",
+    "v": 2.3
+   },
+   {
+    "c": "BGD",
+    "v": 2.147
    },
    {
     "c": "VNM",
-    "v": 2.101
-   },
-   {
-    "c": "DZA",
-    "v": 2.027
-   },
-   {
-    "c": "GBR",
-    "v": 1.898
+    "v": 2.116
    },
    {
     "c": "JPN",
-    "v": 1.889
+    "v": 1.884
    },
    {
     "c": "COL",
-    "v": 1.795
+    "v": 1.82
+   },
+   {
+    "c": "CAN",
+    "v": 1.8
+   },
+   {
+    "c": "NGA",
+    "v": 1.8
+   },
+   {
+    "c": "GBR",
+    "v": 1.753
+   },
+   {
+    "c": "DZA",
+    "v": 1.745
    },
    {
     "c": "MYS",
     "v": 1.705
    },
    {
-    "c": "NGA",
-    "v": 1.7
-   },
-   {
-    "c": "CAN",
-    "v": 1.685
+    "c": "ZAF",
+    "v": 1.705
    },
    {
     "c": "SDN",
-    "v": 1.661
-   },
-   {
-    "c": "ZAF",
-    "v": 1.645
-   },
-   {
-    "c": "PER",
-    "v": 1.424
+    "v": 1.66
    },
    {
     "c": "ARG",
-    "v": 1.38
+    "v": 1.48
+   },
+   {
+    "c": "PER",
+    "v": 1.46
    },
    {
     "c": "KOR",
-    "v": 1.33
+    "v": 1.3
    },
    {
     "c": "MAR",
-    "v": 1.231
-   },
-   {
-    "c": "IRQ",
-    "v": 1.202
+    "v": 1.25
    },
    {
     "c": "KEN",
-    "v": 1.16
-   },
-   {
-    "c": "ARE",
-    "v": 1.117
-   },
-   {
-    "c": "GTM",
-    "v": 1.099
-   },
-   {
-    "c": "ETH",
-    "v": 1.078
+    "v": 1.165
    },
    {
     "c": "SAU",
-    "v": 1.076
+    "v": 1.154
    },
    {
-    "c": "SOM",
-    "v": 0.97
+    "c": "GTM",
+    "v": 1.128
    },
    {
-    "c": "AUS",
-    "v": 0.93
+    "c": "ARE",
+    "v": 1.11
+   },
+   {
+    "c": "IRQ",
+    "v": 1.0
    },
    {
     "c": "TZA",
-    "v": 0.928
+    "v": 0.995
+   },
+   {
+    "c": "AUS",
+    "v": 0.94
+   },
+   {
+    "c": "SOM",
+    "v": 0.92
+   },
+   {
+    "c": "ETH",
+    "v": 0.915
    },
    {
     "c": "YEM",
-    "v": 0.885
+    "v": 0.873
    },
    {
     "c": "UKR",
-    "v": 0.86
+    "v": 0.862
    },
    {
     "c": "VEN",
-    "v": 0.811
-   },
-   {
-    "c": "LBY",
-    "v": 0.737
-   },
-   {
-    "c": "LBN",
-    "v": 0.712
+    "v": 0.796
    },
    {
     "c": "CHL",
-    "v": 0.705
+    "v": 0.758
    },
    {
     "c": "LKA",
-    "v": 0.674
+    "v": 0.756
    },
    {
-    "c": "DJI",
-    "v": 0.655
+    "c": "LBY",
+    "v": 0.728
+   },
+   {
+    "c": "LBN",
+    "v": 0.677
    },
    {
     "c": "TWN",
-    "v": 0.649
+    "v": 0.66
    },
    {
     "c": "MRT",
-    "v": 0.614
+    "v": 0.652
    },
    {
     "c": "UGA",
-    "v": 0.6
-   },
-   {
-    "c": "LAO",
-    "v": 0.59
+    "v": 0.635
    },
    {
     "c": "ECU",
-    "v": 0.567
+    "v": 0.578
+   },
+   {
+    "c": "LAO",
+    "v": 0.565
    },
    {
     "c": "KAZ",
-    "v": 0.563
+    "v": 0.55
    },
    {
     "c": "ISR",
-    "v": 0.486
+    "v": 0.502
+   },
+   {
+    "c": "DJI",
+    "v": 0.5
    },
    {
     "c": "AGO",
-    "v": 0.48
+    "v": 0.466
    },
    {
     "c": "BOL",
-    "v": 0.452
+    "v": 0.455
    },
    {
     "c": "DOM",
-    "v": 0.431
-   },
-   {
-    "c": "GHA",
-    "v": 0.423
+    "v": 0.404
    },
    {
     "c": "MMR",
     "v": 0.4
+   },
+   {
+    "c": "AZE",
+    "v": 0.394
    },
    {
     "c": "BLR",
@@ -595,167 +597,167 @@
    },
    {
     "c": "ZWE",
-    "v": 0.372
-   },
-   {
-    "c": "CIV",
-    "v": 0.368
-   },
-   {
-    "c": "CHE",
-    "v": 0.365
-   },
-   {
-    "c": "ZMB",
-    "v": 0.358
+    "v": 0.37
    },
    {
     "c": "HND",
-    "v": 0.345
+    "v": 0.358
+   },
+   {
+    "c": "ZMB",
+    "v": 0.354
+   },
+   {
+    "c": "GHA",
+    "v": 0.344
+   },
+   {
+    "c": "CIV",
+    "v": 0.342
+   },
+   {
+    "c": "CHE",
+    "v": 0.321
    },
    {
     "c": "JOR",
-    "v": 0.319
+    "v": 0.315
    },
    {
-    "c": "AZE",
-    "v": 0.3
+    "c": "SYR",
+    "v": 0.285
+   },
+   {
+    "c": "SLV",
+    "v": 0.282
    },
    {
     "c": "NIC",
     "v": 0.28
    },
    {
-    "c": "SYR",
-    "v": 0.268
-   },
-   {
-    "c": "SLV",
-    "v": 0.267
-   },
-   {
     "c": "MOZ",
-    "v": 0.246
-   },
-   {
-    "c": "MWI",
-    "v": 0.236
-   },
-   {
-    "c": "CRI",
-    "v": 0.22
-   },
-   {
-    "c": "GMB",
-    "v": 0.218
+    "v": 0.263
    },
    {
     "c": "SRB",
-    "v": 0.214
+    "v": 0.255
    },
    {
-    "c": "MDG",
-    "v": 0.192
+    "c": "MWI",
+    "v": 0.245
+   },
+   {
+    "c": "CRI",
+    "v": 0.238
    },
    {
     "c": "KHM",
-    "v": 0.19
+    "v": 0.22
    },
    {
     "c": "NZL",
-    "v": 0.189
+    "v": 0.205
+   },
+   {
+    "c": "MDG",
+    "v": 0.203
+   },
+   {
+    "c": "GMB",
+    "v": 0.2
    },
    {
     "c": "TGO",
-    "v": 0.18
-   },
-   {
-    "c": "CUB",
-    "v": 0.174
+    "v": 0.19
    },
    {
     "c": "SGP",
-    "v": 0.155
-   },
-   {
-    "c": "HTI",
-    "v": 0.152
+    "v": 0.182
    },
    {
     "c": "GEO",
-    "v": 0.149
+    "v": 0.164
    },
    {
-    "c": "COG",
-    "v": 0.136
-   },
-   {
-    "c": "PAN",
-    "v": 0.135
+    "c": "CUB",
+    "v": 0.163
    },
    {
     "c": "TUN",
-    "v": 0.131
+    "v": 0.145
+   },
+   {
+    "c": "HTI",
+    "v": 0.142
    },
    {
     "c": "HKG",
-    "v": 0.126
+    "v": 0.14
+   },
+   {
+    "c": "COG",
+    "v": 0.135
+   },
+   {
+    "c": "PAN",
+    "v": 0.132
    },
    {
     "c": "URY",
-    "v": 0.118
-   },
-   {
-    "c": "JAM",
-    "v": 0.116
+    "v": 0.123
    },
    {
     "c": "NOR",
-    "v": 0.106
+    "v": 0.11
    },
    {
     "c": "MDA",
-    "v": 0.1
+    "v": 0.109
    },
    {
     "c": "BEN",
-    "v": 0.099
-   },
-   {
-    "c": "PNG",
-    "v": 0.097
+    "v": 0.1
    },
    {
     "c": "PRY",
-    "v": 0.092
+    "v": 0.095
    },
    {
-    "c": "MUS",
-    "v": 0.085
+    "c": "JAM",
+    "v": 0.093
    },
    {
-    "c": "FJI",
-    "v": 0.084
+    "c": "PNG",
+    "v": 0.087
    },
    {
     "c": "TTO",
-    "v": 0.081
+    "v": 0.085
    },
    {
     "c": "SWZ",
-    "v": 0.074
+    "v": 0.073
    },
    {
-    "c": "BLZ",
-    "v": 0.059
+    "c": "MUS",
+    "v": 0.07
+   },
+   {
+    "c": "FJI",
+    "v": 0.067
    },
    {
     "c": "BHR",
-    "v": 0.051
+    "v": 0.055
    },
    {
     "c": "GAB",
-    "v": 0.03
+    "v": 0.049
+   },
+   {
+    "c": "BLZ",
+    "v": 0.044
    },
    {
     "c": "BRB",
@@ -763,52 +765,50 @@
    },
    {
     "c": "GUY",
-    "v": 0.005
+    "v": 0.012
    },
    {
     "c": "KNA",
     "v": 0.002
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "exports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 64.756,
+  "world": 61.489,
   "rows": [
    {
     "c": "BRA",
-    "v": 34.052
+    "v": 31.721
    },
    {
     "c": "THA",
-    "v": 6.2
-   },
-   {
-    "c": "IND",
-    "v": 3.55
+    "v": 7.0
    },
    {
     "c": "AUS",
-    "v": 2.626
+    "v": 3.506
    },
    {
-    "c": "EU27",
-    "v": 1.988
+    "c": "IND",
+    "v": 3.1
    },
    {
     "c": "GTM",
-    "v": 1.84
+    "v": 1.685
    },
    {
     "c": "MEX",
-    "v": 1.147
+    "v": 1.16
    },
    {
     "c": "SAU",
-    "v": 1.01
+    "v": 1.11
    },
    {
     "c": "RUS",
@@ -816,47 +816,52 @@
    },
    {
     "c": "ZAF",
-    "v": 0.91
-   },
-   {
-    "c": "MAR",
     "v": 0.9
    },
    {
-    "c": "ARE",
-    "v": 0.813
+    "c": "MAR",
+    "v": 0.8
    },
    {
     "c": "COL",
-    "v": 0.71
+    "v": 0.77
    },
    {
     "c": "UKR",
-    "v": 0.703
+    "v": 0.701
+   },
+   {
+    "c": "EU27",
+    "v": 0.608,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 7.2 Mt of exports, of which 5.56 Mt to other member states and 1.64 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "SWZ",
-    "v": 0.522
+    "v": 0.547
    },
    {
     "c": "ARG",
-    "v": 0.51
+    "v": 0.5
+   },
+   {
+    "c": "PAK",
+    "v": 0.5
    },
    {
     "c": "SLV",
-    "v": 0.446
-   },
-   {
-    "c": "NIC",
-    "v": 0.402
+    "v": 0.439
    },
    {
     "c": "BLR",
     "v": 0.4
    },
    {
+    "c": "NIC",
+    "v": 0.4
+   },
+   {
     "c": "NGA",
-    "v": 0.375
+    "v": 0.35
    },
    {
     "c": "EGY",
@@ -864,39 +869,35 @@
    },
    {
     "c": "MUS",
-    "v": 0.289
+    "v": 0.3
    },
    {
     "c": "KOR",
-    "v": 0.227
+    "v": 0.225
    },
    {
     "c": "HND",
-    "v": 0.215
-   },
-   {
-    "c": "BOL",
-    "v": 0.211
+    "v": 0.212
    },
    {
     "c": "KHM",
     "v": 0.205
    },
    {
-    "c": "PAK",
+    "c": "DOM",
     "v": 0.2
    },
    {
-    "c": "DOM",
-    "v": 0.182
+    "c": "PER",
+    "v": 0.18
    },
    {
     "c": "DZA",
-    "v": 0.174
+    "v": 0.175
    },
    {
-    "c": "MYS",
-    "v": 0.162
+    "c": "CHN",
+    "v": 0.168
    },
    {
     "c": "CRI",
@@ -904,55 +905,39 @@
    },
    {
     "c": "KAZ",
-    "v": 0.143
+    "v": 0.16
    },
    {
-    "c": "UGA",
-    "v": 0.141
-   },
-   {
-    "c": "AZE",
-    "v": 0.129
+    "c": "MYS",
+    "v": 0.15
    },
    {
     "c": "TUR",
-    "v": 0.128
+    "v": 0.13
    },
    {
-    "c": "CHN",
-    "v": 0.121
-   },
-   {
-    "c": "PER",
-    "v": 0.114
+    "c": "GBR",
+    "v": 0.127
    },
    {
     "c": "BLZ",
-    "v": 0.11
+    "v": 0.125
    },
    {
-    "c": "VNM",
-    "v": 0.106
+    "c": "BOL",
+    "v": 0.115
    },
    {
     "c": "ZMB",
-    "v": 0.103
-   },
-   {
-    "c": "PHL",
-    "v": 0.102
+    "v": 0.107
    },
    {
     "c": "IDN",
     "v": 0.1
    },
    {
-    "c": "GBR",
-    "v": 0.092
-   },
-   {
-    "c": "ZWE",
-    "v": 0.086
+    "c": "ARE",
+    "v": 0.1
    },
    {
     "c": "MMR",
@@ -963,31 +948,47 @@
     "v": 0.08
    },
    {
-    "c": "GUY",
-    "v": 0.07
+    "c": "CAN",
+    "v": 0.075
    },
    {
-    "c": "TZA",
-    "v": 0.065
+    "c": "ZWE",
+    "v": 0.07
    },
    {
     "c": "TGO",
     "v": 0.06
    },
    {
-    "c": "CAN",
-    "v": 0.059
+    "c": "VNM",
+    "v": 0.06
    },
    {
     "c": "PRY",
-    "v": 0.058
-   },
-   {
-    "c": "SGP",
     "v": 0.055
    },
    {
-    "c": "BHR",
+    "c": "SGP",
+    "v": 0.053
+   },
+   {
+    "c": "FJI",
+    "v": 0.05
+   },
+   {
+    "c": "GEO",
+    "v": 0.05
+   },
+   {
+    "c": "GUY",
+    "v": 0.05
+   },
+   {
+    "c": "UGA",
+    "v": 0.048
+   },
+   {
+    "c": "PAN",
     "v": 0.042
    },
    {
@@ -995,64 +996,60 @@
     "v": 0.04
    },
    {
-    "c": "PAN",
-    "v": 0.039
+    "c": "BHR",
+    "v": 0.035
    },
    {
-    "c": "MOZ",
-    "v": 0.029
+    "c": "ECU",
+    "v": 0.032
    },
    {
-    "c": "FJI",
+    "c": "AZE",
+    "v": 0.025
+   },
+   {
+    "c": "NZL",
     "v": 0.025
    },
    {
     "c": "USA",
-    "v": 0.024
-   },
-   {
-    "c": "NZL",
-    "v": 0.021
+    "v": 0.023
    },
    {
     "c": "CHE",
-    "v": 0.017
-   },
-   {
-    "c": "ECU",
     "v": 0.016
    },
    {
     "c": "MWI",
-    "v": 0.014
+    "v": 0.015
+   },
+   {
+    "c": "MOZ",
+    "v": 0.012
    },
    {
     "c": "HKG",
-    "v": 0.011
+    "v": 0.01
+   },
+   {
+    "c": "LAO",
+    "v": 0.01
    },
    {
     "c": "GHA",
     "v": 0.008
    },
    {
-    "c": "LAO",
-    "v": 0.008
-   },
-   {
-    "c": "TWN",
+    "c": "JAM",
     "v": 0.006
    },
    {
-    "c": "GEO",
-    "v": 0.004
-   },
-   {
     "c": "JOR",
-    "v": 0.004
+    "v": 0.005
    },
    {
-    "c": "DJI",
-    "v": 0.003
+    "c": "TWN",
+    "v": 0.005
    },
    {
     "c": "LBN",
@@ -1067,7 +1064,7 @@
     "v": 0.002
    },
    {
-    "c": "JAM",
+    "c": "DJI",
     "v": 0.001
    },
    {
@@ -1076,10 +1073,6 @@
    },
    {
     "c": "MDA",
-    "v": 0.001
-   },
-   {
-    "c": "SOM",
     "v": 0.001
    },
    {
@@ -1087,172 +1080,167 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 7.2 Mt of exports, of which 5.56 Mt to other member states and 1.64 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 7.201,
+   "intra": 5.565,
+   "extra": 1.636
+  }
  },
  "imports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 57.637,
+  "world": 55.219,
   "rows": [
    {
-    "c": "CHN",
-    "v": 4.296
-   },
-   {
     "c": "IDN",
-    "v": 3.991
+    "v": 3.9
    },
    {
-    "c": "IND",
-    "v": 3.33
+    "c": "CHN",
+    "v": 3.6
    },
    {
     "c": "USA",
-    "v": 2.778
+    "v": 3.112
    },
    {
-    "c": "DZA",
-    "v": 2.181
-   },
-   {
-    "c": "BGD",
-    "v": 2.163
-   },
-   {
-    "c": "ARE",
-    "v": 2.108
+    "c": "IND",
+    "v": 3.03
    },
    {
     "c": "SAU",
-    "v": 2.081
-   },
-   {
-    "c": "NGA",
-    "v": 2.03
+    "v": 2.275
    },
    {
     "c": "EU27",
-    "v": 1.88
+    "v": 2.25,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 7.16 Mt of imports, of which 5.56 Mt from other member states and 1.59 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "NGA",
+    "v": 2.13
+   },
+   {
+    "c": "BGD",
+    "v": 2.105
+   },
+   {
+    "c": "DZA",
+    "v": 1.9
    },
    {
     "c": "MYS",
-    "v": 1.873
-   },
-   {
-    "c": "MAR",
-    "v": 1.803
+    "v": 1.85
    },
    {
     "c": "CAN",
-    "v": 1.625
+    "v": 1.725
+   },
+   {
+    "c": "MAR",
+    "v": 1.703
    },
    {
     "c": "KOR",
-    "v": 1.554
+    "v": 1.51
    },
    {
     "c": "SDN",
-    "v": 1.366
-   },
-   {
-    "c": "IRQ",
-    "v": 1.202
+    "v": 1.36
    },
    {
     "c": "JPN",
-    "v": 1.152
+    "v": 1.146
    },
    {
     "c": "EGY",
     "v": 1.06
    },
    {
-    "c": "SOM",
-    "v": 0.951
+    "c": "IRQ",
+    "v": 1.0
    },
    {
-    "c": "YEM",
-    "v": 0.885
+    "c": "SOM",
+    "v": 0.9
    },
    {
     "c": "VNM",
-    "v": 0.816
+    "v": 0.875
+   },
+   {
+    "c": "YEM",
+    "v": 0.875
+   },
+   {
+    "c": "ARE",
+    "v": 0.85
    },
    {
     "c": "GBR",
-    "v": 0.8
+    "v": 0.85
    },
    {
     "c": "LBY",
     "v": 0.725
    },
    {
-    "c": "LBN",
-    "v": 0.715
-   },
-   {
-    "c": "DJI",
-    "v": 0.656
-   },
-   {
-    "c": "KAZ",
-    "v": 0.626
-   },
-   {
     "c": "LKA",
-    "v": 0.623
+    "v": 0.7
    },
    {
-    "c": "ZAF",
-    "v": 0.621
+    "c": "LBN",
+    "v": 0.68
    },
    {
     "c": "MRT",
-    "v": 0.616
-   },
-   {
-    "c": "ETH",
-    "v": 0.608
+    "v": 0.653
    },
    {
     "c": "CHL",
-    "v": 0.582
+    "v": 0.65
+   },
+   {
+    "c": "KAZ",
+    "v": 0.65
    },
    {
     "c": "TWN",
-    "v": 0.58
+    "v": 0.59
    },
    {
-    "c": "KEN",
-    "v": 0.52
-   },
-   {
-    "c": "TZA",
-    "v": 0.496
+    "c": "ZAF",
+    "v": 0.575
    },
    {
     "c": "ISR",
-    "v": 0.486
+    "v": 0.503
+   },
+   {
+    "c": "DJI",
+    "v": 0.5
+   },
+   {
+    "c": "ETH",
+    "v": 0.49
+   },
+   {
+    "c": "TZA",
+    "v": 0.49
    },
    {
     "c": "LAO",
-    "v": 0.448
-   },
-   {
-    "c": "GHA",
-    "v": 0.436
-   },
-   {
-    "c": "VEN",
-    "v": 0.421
+    "v": 0.425
    },
    {
     "c": "IRN",
-    "v": 0.4
-   },
-   {
-    "c": "PHL",
     "v": 0.4
    },
    {
@@ -1260,84 +1248,104 @@
     "v": 0.4
    },
    {
-    "c": "AZE",
-    "v": 0.377
+    "c": "VEN",
+    "v": 0.39
    },
    {
-    "c": "AGO",
-    "v": 0.331
+    "c": "AZE",
+    "v": 0.36
+   },
+   {
+    "c": "GHA",
+    "v": 0.351
+   },
+   {
+    "c": "KEN",
+    "v": 0.335
+   },
+   {
+    "c": "PHL",
+    "v": 0.321
    },
    {
     "c": "JOR",
-    "v": 0.322
+    "v": 0.32
+   },
+   {
+    "c": "AGO",
+    "v": 0.31
    },
    {
     "c": "KHM",
-    "v": 0.275
-   },
-   {
-    "c": "PAK",
-    "v": 0.25
-   },
-   {
-    "c": "TGO",
-    "v": 0.241
+    "v": 0.305
    },
    {
     "c": "PER",
-    "v": 0.238
+    "v": 0.29
    },
    {
-    "c": "COL",
-    "v": 0.217
-   },
-   {
-    "c": "GMB",
-    "v": 0.217
+    "c": "TGO",
+    "v": 0.251
    },
    {
     "c": "NZL",
-    "v": 0.21
+    "v": 0.23
    },
    {
     "c": "SGP",
-    "v": 0.21
+    "v": 0.23
    },
    {
     "c": "SYR",
-    "v": 0.207
-   },
-   {
-    "c": "CIV",
-    "v": 0.16
+    "v": 0.223
    },
    {
     "c": "GEO",
-    "v": 0.154
+    "v": 0.21
    },
    {
-    "c": "HTI",
-    "v": 0.152
+    "c": "COL",
+    "v": 0.203
+   },
+   {
+    "c": "GMB",
+    "v": 0.2
+   },
+   {
+    "c": "TUR",
+    "v": 0.15
    },
    {
     "c": "HKG",
-    "v": 0.137
+    "v": 0.148
    },
    {
-    "c": "MUS",
-    "v": 0.128
+    "c": "HTI",
+    "v": 0.14
+   },
+   {
+    "c": "CIV",
+    "v": 0.135
    },
    {
     "c": "TUN",
-    "v": 0.116
+    "v": 0.13
    },
    {
     "c": "MDG",
-    "v": 0.114
+    "v": 0.125
+   },
+   {
+    "c": "MUS",
+    "v": 0.125
    },
    {
     "c": "NOR",
-    "v": 0.106
+    "v": 0.111
+   },
+   {
+    "c": "URY",
+    "v": 0.1
    },
    {
     "c": "BEN",
@@ -1345,26 +1353,18 @@
    },
    {
     "c": "BHR",
-    "v": 0.093
+    "v": 0.09
    },
    {
-    "c": "URY",
-    "v": 0.093
+    "c": "DOM",
+    "v": 0.09
    },
    {
-    "c": "JAM",
+    "c": "TTO",
     "v": 0.085
    },
    {
     "c": "CHE",
-    "v": 0.083
-   },
-   {
-    "c": "PNG",
-    "v": 0.082
-   },
-   {
-    "c": "TTO",
     "v": 0.082
    },
    {
@@ -1372,72 +1372,76 @@
     "v": 0.08
    },
    {
-    "c": "DOM",
-    "v": 0.08
+    "c": "ECU",
+    "v": 0.077
+   },
+   {
+    "c": "JAM",
+    "v": 0.07
+   },
+   {
+    "c": "PNG",
+    "v": 0.07
    },
    {
     "c": "COG",
-    "v": 0.067
-   },
-   {
-    "c": "ECU",
-    "v": 0.066
+    "v": 0.065
    },
    {
     "c": "CUB",
-    "v": 0.06
-   },
-   {
-    "c": "MEX",
-    "v": 0.043
-   },
-   {
-    "c": "TUR",
-    "v": 0.043
+    "v": 0.063
    },
    {
     "c": "MDA",
-    "v": 0.032
+    "v": 0.05
    },
    {
-    "c": "GUY",
-    "v": 0.015
-   },
-   {
-    "c": "SRB",
-    "v": 0.015
-   },
-   {
-    "c": "ZWE",
-    "v": 0.015
-   },
-   {
-    "c": "AUS",
-    "v": 0.011
+    "c": "MEX",
+    "v": 0.03
    },
    {
     "c": "UGA",
-    "v": 0.011
+    "v": 0.025
+   },
+   {
+    "c": "GAB",
+    "v": 0.02
+   },
+   {
+    "c": "ZWE",
+    "v": 0.019
+   },
+   {
+    "c": "FJI",
+    "v": 0.016
+   },
+   {
+    "c": "AUS",
+    "v": 0.012
+   },
+   {
+    "c": "GUY",
+    "v": 0.012
+   },
+   {
+    "c": "SRB",
+    "v": 0.01
    },
    {
     "c": "ZMB",
-    "v": 0.011
+    "v": 0.01
    },
    {
     "c": "BRB",
     "v": 0.009
    },
    {
-    "c": "FJI",
-    "v": 0.008
+    "c": "BLR",
+    "v": 0.003
    },
    {
     "c": "CRI",
-    "v": 0.005
-   },
-   {
-    "c": "BLR",
-    "v": 0.003
+    "v": 0.002
    },
    {
     "c": "KNA",
@@ -1452,113 +1456,527 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 7.16 Mt of imports, of which 5.56 Mt from other member states and 1.59 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 7.157,
+   "intra": 5.565,
+   "extra": 1.592
+  }
  },
  "extra": [
+  {
+   "key": "eu-production",
+   "title": "EU member states, production, sugar beet, crop weight, not sugar (FAOSTAT)",
+   "table": {
+    "y": 2024,
+    "s": "faostat",
+    "u": "Mt",
+    "world": 121.64,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 36.682,
+      "n": "12.5% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "FRA",
+      "v": 32.594,
+      "n": "11.1% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "POL",
+      "v": 18.43,
+      "n": "6.3% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "NLD",
+      "v": 6.354,
+      "n": "2.2% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "CZE",
+      "v": 4.585,
+      "n": "1.6% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "BEL",
+      "v": 4.412,
+      "n": "1.5% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "ESP",
+      "v": 3.522,
+      "n": "1.2% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "AUT",
+      "v": 3.435,
+      "n": "1.2% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "DNK",
+      "v": 2.587,
+      "n": "0.9% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "SWE",
+      "v": 2.119,
+      "n": "0.7% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "ITA",
+      "v": 1.534,
+      "n": "0.5% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "SVK",
+      "v": 1.389,
+      "n": "0.5% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "LTU",
+      "v": 1.12,
+      "n": "0.4% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "ROU",
+      "v": 0.8751,
+      "n": "0.3% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "HUN",
+      "v": 0.8563,
+      "n": "0.3% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "FIN",
+      "v": 0.6666,
+      "n": "0.2% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "HRV",
+      "v": 0.4714,
+      "n": "0.2% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0089,
+      "n": "0.0% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0017,
+      "n": "0.0% of the FAOSTAT world total (294 Mt)"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0015,
+      "n": "0.0% of the FAOSTAT world total (294 Mt)"
+     }
+    ],
+    "n": "FAOSTAT crop production (QCL), sugar beet, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 122 Mt (the world total of FAOSTAT is 294 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. This table is sugar beet, crop weight, not sugar, not the basis of the USDA table: on the map the member states carry the USDA value for the European Union",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 293.62,
+    "noMap": true,
+    "basis": "sugar beet, crop weight, not sugar"
+   }
+  },
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.201,
+    "rows": [
+     {
+      "c": "FRA",
+      "v": 2.138,
+      "n": "of which 1.64 Mt to other member states and 0.499 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 1.573,
+      "n": "of which 1.39 Mt to other member states and 0.188 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.7731,
+      "n": "of which 0.363 Mt to other member states and 0.41 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.6096,
+      "n": "of which 0.45 Mt to other member states and 0.159 Mt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.4304,
+      "n": "of which 0.264 Mt to other member states and 0.166 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.3851,
+      "n": "of which 0.37 Mt to other member states and 0.0148 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.2505,
+      "n": "of which 0.201 Mt to other member states and 0.0497 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.2423,
+      "n": "of which 0.242 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.1746,
+      "n": "of which 0.0685 Mt to other member states and 0.106 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0993,
+      "n": "of which 0.0957 Mt to other member states and 0.00357 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0921,
+      "n": "of which 0.0898 Mt to other member states and 0.00232 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0794,
+      "n": "of which 0.0794 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.074,
+      "n": "of which 0.074 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0591,
+      "n": "of which 0.0513 Mt to other member states and 0.0078 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0479,
+      "n": "of which 0.0479 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0439,
+      "n": "of which 0.0388 Mt to other member states and 0.0051 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.042,
+      "n": "of which 0.042 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.0214,
+      "n": "of which 0.0152 Mt to other member states and 0.00615 Mt to countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0211,
+      "n": "of which 0.0211 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0185,
+      "n": "of which 0 Mt to other member states and 0.0185 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0155,
+      "n": "of which 0.0155 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0079,
+      "n": "of which 0.00792 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0011,
+      "n": "of which 0.00114 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0004,
+      "n": "of which 0.000376 Mt to other member states and 0 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.2 Mt, of which 5.56 Mt to other member states and 1.64 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (68.9 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 68.895,
+    "split": {
+     "total": 7.201,
+     "intra": 5.565,
+     "extra": 1.636
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.157,
+    "rows": [
+     {
+      "c": "ITA",
+      "v": 1.613,
+      "n": "of which 1.39 Mt from other member states and 0.223 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 1.058,
+      "n": "of which 0.639 Mt from other member states and 0.419 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.6871,
+      "n": "of which 0.652 Mt from other member states and 0.0348 Mt from countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.4926,
+      "n": "of which 0.434 Mt from other member states and 0.0586 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.341,
+      "n": "of which 0.279 Mt from other member states and 0.0624 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.3003,
+      "n": "of which 0.27 Mt from other member states and 0.0305 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.2883,
+      "n": "of which 0.0736 Mt from other member states and 0.215 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.2873,
+      "n": "of which 0.271 Mt from other member states and 0.0159 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.2782,
+      "n": "of which 0.214 Mt from other member states and 0.064 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.242,
+      "n": "of which 0.183 Mt from other member states and 0.0592 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.2367,
+      "n": "of which 0.217 Mt from other member states and 0.0196 Mt from countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.2171,
+      "n": "of which 0.0595 Mt from other member states and 0.158 Mt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.1642,
+      "n": "of which 0.144 Mt from other member states and 0.0203 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.1272,
+      "n": "of which 0.114 Mt from other member states and 0.0128 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.125,
+      "n": "of which 0.0997 Mt from other member states and 0.0253 Mt from countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.1207,
+      "n": "of which 0.0961 Mt from other member states and 0.0246 Mt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.1177,
+      "n": "of which 0.0472 Mt from other member states and 0.0705 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0946,
+      "n": "of which 0.0933 Mt from other member states and 0.00128 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0848,
+      "n": "of which 0.0772 Mt from other member states and 0.00761 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.076,
+      "n": "of which 0.0422 Mt from other member states and 0.0338 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0642,
+      "n": "of which 0.0642 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.043,
+      "n": "of which 0.043 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0287,
+      "n": "of which 0.0287 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.0259,
+      "n": "of which 0.0164 Mt from other member states and 0.00956 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.021,
+      "n": "of which 0.0105 Mt from other member states and 0.0105 Mt from countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0184,
+      "n": "of which 0.0021 Mt from other member states and 0.0163 Mt from countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0039,
+      "n": "of which 0.00393 Mt from other member states and 0 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, cane and beet sugar (HS 1701): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 7.16 Mt, of which 5.56 Mt from other member states and 1.59 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (68.9 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 68.895,
+    "split": {
+     "total": 7.157,
+     "intra": 5.565,
+     "extra": 1.592
+    }
+   }
+  },
   {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
-    "y": "2025/26",
+    "y": "2026/27",
     "s": "usda-psd",
     "u": "Mt",
-    "world": 45.042,
+    "world": 39.789,
     "rows": [
      {
       "c": "THA",
-      "v": 12.766
-     },
-     {
-      "c": "IND",
-      "v": 5.726
+      "v": 11.416,
+      "n": "Thailand, as USDA PSD gives it (2026/27: ending stocks 11.4 Mt, production 9.5 Mt; 2025/26: ending stocks 12.8 Mt, production 11.5 Mt)"
      },
      {
       "c": "CHN",
-      "v": 3.202
+      "v": 4.504
+     },
+     {
+      "c": "IND",
+      "v": 4.326
      },
      {
       "c": "PAK",
-      "v": 2.462
+      "v": 2.072
      },
      {
       "c": "USA",
-      "v": 1.995
-     },
-     {
-      "c": "AUS",
-      "v": 1.347
+      "v": 1.563
      },
      {
       "c": "MEX",
-      "v": 1.273
+      "v": 1.223
      },
      {
       "c": "EGY",
-      "v": 1.245
+      "v": 1.105
      },
      {
-      "c": "EU27",
-      "v": 1.085
-     },
-     {
-      "c": "IDN",
-      "v": 1.073
+      "c": "AUS",
+      "v": 0.913
      },
      {
       "c": "RUS",
-      "v": 0.707
+      "v": 0.725
      },
      {
       "c": "UKR",
-      "v": 0.68
+      "v": 0.558
      },
      {
       "c": "IRN",
-      "v": 0.656
-     },
-     {
-      "c": "PHL",
-      "v": 0.655
+      "v": 0.5
      },
      {
       "c": "JPN",
       "v": 0.45
      },
      {
-      "c": "ARE",
-      "v": 0.438
+      "c": "VNM",
+      "v": 0.425
      },
      {
       "c": "MYS",
-      "v": 0.382
-     },
-     {
-      "c": "BGD",
       "v": 0.377
      },
      {
-      "c": "VNM",
+      "c": "PHL",
       "v": 0.376
      },
      {
+      "c": "BGD",
+      "v": 0.375
+     },
+     {
+      "c": "IDN",
+      "v": 0.373
+     },
+     {
       "c": "ECU",
-      "v": 0.368
+      "v": 0.341
      },
      {
       "c": "CRI",
-      "v": 0.35
+      "v": 0.339
      },
      {
       "c": "KOR",
-      "v": 0.342
+      "v": 0.327
      },
      {
       "c": "CAN",
-      "v": 0.335
-     },
-     {
-      "c": "BRA",
-      "v": 0.321
+      "v": 0.31
      },
      {
       "c": "DZA",
@@ -1566,7 +1984,15 @@
      },
      {
       "c": "ZAF",
-      "v": 0.29
+      "v": 0.302
+     },
+     {
+      "c": "BRA",
+      "v": 0.3
+     },
+     {
+      "c": "EU27",
+      "v": 0.281
      },
      {
       "c": "IRQ",
@@ -1574,18 +2000,30 @@
      },
      {
       "c": "MAR",
-      "v": 0.252
-     },
-     {
-      "c": "SDN",
-      "v": 0.25
+      "v": 0.255
      },
      {
       "c": "SAU",
-      "v": 0.214
+      "v": 0.225
+     },
+     {
+      "c": "SDN",
+      "v": 0.225
+     },
+     {
+      "c": "ZWE",
+      "v": 0.216
+     },
+     {
+      "c": "SWZ",
+      "v": 0.206
      },
      {
       "c": "ETH",
+      "v": 0.2
+     },
+     {
+      "c": "KEN",
       "v": 0.2
      },
      {
@@ -1593,44 +2031,40 @@
       "v": 0.198
      },
      {
-      "c": "KEN",
-      "v": 0.18
+      "c": "CHL",
+      "v": 0.175
      },
      {
       "c": "GBR",
-      "v": 0.18
-     },
-     {
-      "c": "ZWE",
-      "v": 0.18
+      "v": 0.175
      },
      {
       "c": "YEM",
-      "v": 0.173
+      "v": 0.175
      },
      {
       "c": "SOM",
       "v": 0.16
      },
      {
-      "c": "CHL",
-      "v": 0.158
-     },
-     {
-      "c": "SWZ",
-      "v": 0.155
-     },
-     {
-      "c": "LKA",
+      "c": "COL",
       "v": 0.151
      },
      {
-      "c": "COL",
-      "v": 0.143
+      "c": "LKA",
+      "v": 0.15
+     },
+     {
+      "c": "ARG",
+      "v": 0.13
      },
      {
       "c": "BLR",
-      "v": 0.14
+      "v": 0.125
+     },
+     {
+      "c": "NGA",
+      "v": 0.125
      },
      {
       "c": "TWN",
@@ -1638,23 +2072,15 @@
      },
      {
       "c": "TZA",
-      "v": 0.125
-     },
-     {
-      "c": "ARG",
       "v": 0.12
      },
      {
       "c": "GTM",
-      "v": 0.111
+      "v": 0.108
      },
      {
       "c": "DJI",
-      "v": 0.095
-     },
-     {
-      "c": "NGA",
-      "v": 0.09
+      "v": 0.094
      },
      {
       "c": "MRT",
@@ -1665,15 +2091,31 @@
       "v": 0.079
      },
      {
-      "c": "MMR",
+      "c": "ARE",
+      "v": 0.078
+     },
+     {
+      "c": "BOL",
       "v": 0.077
      },
      {
+      "c": "MMR",
+      "v": 0.075
+     },
+     {
+      "c": "CIV",
+      "v": 0.075
+     },
+     {
       "c": "GHA",
-      "v": 0.076
+      "v": 0.075
      },
      {
       "c": "LAO",
+      "v": 0.075
+     },
+     {
+      "c": "UGA",
       "v": 0.075
      },
      {
@@ -1681,12 +2123,8 @@
       "v": 0.074
      },
      {
-      "c": "BOL",
-      "v": 0.072
-     },
-     {
-      "c": "CIV",
-      "v": 0.072
+      "c": "ISR",
+      "v": 0.07
      },
      {
       "c": "KAZ",
@@ -1697,36 +2135,24 @@
       "v": 0.07
      },
      {
-      "c": "ISR",
-      "v": 0.069
-     },
-     {
       "c": "AGO",
-      "v": 0.066
-     },
-     {
-      "c": "CHE",
-      "v": 0.065
-     },
-     {
-      "c": "DOM",
-      "v": 0.061
-     },
-     {
-      "c": "ZMB",
-      "v": 0.061
+      "v": 0.06
      },
      {
       "c": "SRB",
       "v": 0.06
      },
      {
-      "c": "SLV",
-      "v": 0.059
+      "c": "CHE",
+      "v": 0.06
      },
      {
-      "c": "UGA",
-      "v": 0.058
+      "c": "ZMB",
+      "v": 0.06
+     },
+     {
+      "c": "SLV",
+      "v": 0.057
      },
      {
       "c": "CUB",
@@ -1737,16 +2163,16 @@
       "v": 0.053
      },
      {
-      "c": "SYR",
-      "v": 0.052
-     },
-     {
       "c": "MWI",
       "v": 0.05
      },
      {
-      "c": "AZE",
-      "v": 0.049
+      "c": "SYR",
+      "v": 0.05
+     },
+     {
+      "c": "DOM",
+      "v": 0.047
      },
      {
       "c": "NZL",
@@ -1757,19 +2183,15 @@
       "v": 0.04
      },
      {
-      "c": "LBY",
-      "v": 0.038
-     },
-     {
       "c": "TGO",
-      "v": 0.038
+      "v": 0.039
      },
      {
-      "c": "MDG",
+      "c": "LBY",
       "v": 0.035
      },
      {
-      "c": "SGP",
+      "c": "MDG",
       "v": 0.035
      },
      {
@@ -1777,44 +2199,48 @@
       "v": 0.035
      },
      {
-      "c": "HTI",
-      "v": 0.032
-     },
-     {
       "c": "GMB",
       "v": 0.03
      },
      {
-      "c": "GEO",
-      "v": 0.029
+      "c": "HTI",
+      "v": 0.03
+     },
+     {
+      "c": "SGP",
+      "v": 0.03
      },
      {
       "c": "NOR",
-      "v": 0.028
+      "v": 0.029
      },
      {
-      "c": "HKG",
-      "v": 0.027
+      "c": "AZE",
+      "v": 0.025
+     },
+     {
+      "c": "BLZ",
+      "v": 0.025
      },
      {
       "c": "KHM",
       "v": 0.025
      },
      {
-      "c": "BLZ",
-      "v": 0.024
+      "c": "GEO",
+      "v": 0.025
+     },
+     {
+      "c": "HKG",
+      "v": 0.025
      },
      {
       "c": "PAN",
-      "v": 0.024
+      "v": 0.025
      },
      {
       "c": "URY",
-      "v": 0.023
-     },
-     {
-      "c": "BEN",
-      "v": 0.02
+      "v": 0.025
      },
      {
       "c": "COG",
@@ -1825,11 +2251,15 @@
       "v": 0.017
      },
      {
-      "c": "TTO",
-      "v": 0.016
+      "c": "BEN",
+      "v": 0.015
      },
      {
       "c": "MDA",
+      "v": 0.015
+     },
+     {
+      "c": "TTO",
       "v": 0.015
      },
      {
@@ -1837,24 +2267,24 @@
       "v": 0.013
      },
      {
+      "c": "GAB",
+      "v": 0.01
+     },
+     {
       "c": "PNG",
-      "v": 0.012
+      "v": 0.01
      },
      {
       "c": "TUR",
       "v": 0.01
      },
      {
-      "c": "GAB",
-      "v": 0.009
+      "c": "MUS",
+      "v": 0.006
      },
      {
       "c": "FJI",
-      "v": 0.006
-     },
-     {
-      "c": "MUS",
-      "v": 0.006
+      "v": 0.005
      },
      {
       "c": "GUY",
@@ -1869,10 +2299,176 @@
       "v": 0.003
      }
     ],
-    "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+    "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; Thailand, as USDA PSD gives it (2026/27: ending stocks 11.4 Mt, production 9.5 Mt; 2025/26: ending stocks 12.8 Mt, production 11.5 Mt)",
+    "rel": "2026-11",
+    "yk": "forecast"
    }
   }
  ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     187.12,
+     178.08
+    ]
+   },
+   {
+    "k": "part-Cane Sugar Production",
+    "label": "Cane sugar",
+    "u": "Mt",
+    "v": [
+     146.16,
+     141.32
+    ],
+    "sub": true
+   },
+   {
+    "k": "part-Beet Sugar Production",
+    "label": "Beet sugar",
+    "u": "Mt",
+    "v": [
+     40.963,
+     36.765
+    ],
+    "sub": true
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     42.208,
+     45.042
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     177.16,
+     177.07
+    ]
+   },
+   {
+    "k": "use-Human Dom. Consumption",
+    "label": "Human consumption",
+    "u": "Mt",
+    "v": [
+     176.45,
+     176.44
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Other Disappearance",
+    "label": "Other disappearance",
+    "u": "Mt",
+    "v": [
+     0.719,
+     0.63
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     64.756,
+     61.489
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     45.042,
+     39.789
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     25.4,
+     22.5
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     3.202,
+     4.504
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     41.84,
+     35.285
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     20.8,
+     29.1
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     25.9,
+     21.8
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Sugar, Centrifugal: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Total Disappearance'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+ },
  "flows": [
   {
    "o": "BRA",
@@ -1881,6 +2477,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1764998000,
+   "uv": 513,
    "mode": "sea",
    "lane": "sugar:BRA-IDN"
   },
@@ -1891,6 +2489,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1668419000,
+   "uv": 501,
    "mode": "sea",
    "lane": "sugar:BRA-IND"
   },
@@ -1901,6 +2501,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1494809000,
+   "uv": 481,
    "mode": "sea",
    "lane": "sugar:BRA-CHN"
   },
@@ -1911,6 +2513,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1156919000,
+   "uv": 461,
    "mode": "sea",
    "lane": "sugar:BRA-ARE"
   },
@@ -1921,6 +2525,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1177778000,
+   "uv": 527,
    "mode": "sea",
    "lane": "sugar:BRA-MAR"
   },
@@ -1931,6 +2537,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1055585000,
+   "uv": 474,
    "mode": "sea",
    "lane": "sugar:BRA-DZA"
   },
@@ -1941,6 +2549,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 924222000,
+   "uv": 485,
    "mode": "sea",
    "lane": "sugar:BRA-SAU"
   },
@@ -1951,6 +2561,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 849453000,
+   "uv": 518,
    "mode": "sea",
    "lane": "sugar:BRA-MYS"
   },
@@ -1961,6 +2573,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 757746000,
+   "uv": 468,
    "mode": "sea",
    "lane": "sugar:BRA-BGD"
   },
@@ -1971,6 +2585,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 704066000,
+   "uv": 468,
    "mode": "sea",
    "lane": "sugar:BRA-NGA"
   },
@@ -1981,6 +2597,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 676196000,
+   "uv": 470,
    "mode": "sea",
    "lane": "sugar:BRA-IRQ"
   },
@@ -1991,6 +2609,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 713054000,
+   "uv": 514,
    "mode": "sea",
    "lane": "sugar:BRA-CAN"
   },
@@ -2001,6 +2621,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 694776000,
+   "uv": 603,
    "mode": "sea",
    "lane": "sugar:BRA-USA"
   },
@@ -2011,6 +2633,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 642972000,
+   "uv": 592,
    "mode": "sea",
    "lane": "sugar:AUS-JPN"
   },
@@ -2021,6 +2645,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 576620000,
+   "uv": 591,
    "mode": "sea",
    "lane": "sugar:THA-IDN"
   },
@@ -2031,6 +2657,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 919909000,
+   "uv": 963,
    "mode": "sea",
    "lane": "sugar:BRA-EGY"
   },
@@ -2041,6 +2669,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 418992000,
+   "uv": 486,
    "mode": "sea",
    "lane": "sugar:BRA-IRN"
   },
@@ -2051,6 +2681,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 394774000,
+   "uv": 568,
    "mode": "sea",
    "lane": "sugar:AUS-KOR"
   },
@@ -2061,6 +2693,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 476033000,
+   "uv": 756,
    "mode": "sea",
    "lane": "sugar:DEU-ITA"
   },
@@ -2071,12 +2705,93 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 442513000,
+   "uv": 704,
    "mode": "sea",
    "lane": "sugar:AUS-IDN"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.2274
+   },
+   "top3": 0.4682,
+   "hhi": 1015,
+   "eq": 9.9,
+   "k": 78,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.5159
+   },
+   "top3": 0.6867,
+   "hhi": 2879,
+   "eq": 3.5,
+   "k": 74,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "IDN",
+    "p": 0.0706
+   },
+   "top3": 0.1922,
+   "hhi": 318,
+   "eq": 31.4,
+   "k": 89,
+   "cov": 1.0
+  },
+  "eu-production": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.3016
+   },
+   "top3": 0.721,
+   "hhi": 1941,
+   "eq": 5.2,
+   "k": 20,
+   "cov": 1.0
+  },
+  "eu-exports": {
+   "top1": {
+    "c": "FRA",
+    "p": 0.2969
+   },
+   "top3": 0.6227,
+   "hhi": 1647,
+   "eq": 6.1,
+   "k": 24,
+   "cov": 0.9999
+  },
+  "eu-imports": {
+   "top1": {
+    "c": "ITA",
+    "p": 0.2254
+   },
+   "top3": 0.4692,
+   "hhi": 1008,
+   "eq": 9.9,
+   "k": 27,
+   "cov": 1.0
+  },
+  "stocks": {
+   "top1": {
+    "c": "THA",
+    "p": 0.2869
+   },
+   "top3": 0.5088,
+   "hhi": 1158,
+   "eq": 8.6,
+   "k": 101,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
   "PSD sugar is centrifugal sugar in raw value (cane and beet); consumption is PSD 'Human Dom. Consumption'."
  ]
 }

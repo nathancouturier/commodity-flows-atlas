@@ -6,7 +6,14 @@
    "u": "tU",
    "y": 2024,
    "s": "wna",
-   "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')"
+   "n": "World Nuclear Association, 'World Uranium Mining Production' (page updated 23 October 2026); mine production, tonnes U; figures are liable to change; world total as published (includes 'Others')",
+   "alt": {
+    "v": 157,
+    "u": "Mlb U3O8",
+    "s": "atlas",
+    "y": 2024,
+    "n": "Atlas conversion: 1 t of uranium = 1.1792 t of U3O8 = 2,600 lb of U3O8, from the standard atomic weights of uranium and oxygen (CIAAW, https://www.ciaaw.org/abridged-atomic-weights.htm) and the definition of the pound; the pound of U3O8 is the unit of the uranium market"
+   }
   },
   "exports": {
    "v": 88.202,
@@ -213,6 +220,145 @@
   "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
   "basis": "ores and compounds, gross weight"
  },
+ "extra": [
+  {
+   "key": "nuclear-capacity",
+   "title": "Nuclear generating capacity — GW, EIA 2025",
+   "table": {
+    "y": 2025,
+    "s": "eia-intl",
+    "u": "GW",
+    "world": 379.83,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 96.88
+     },
+     {
+      "c": "FRA",
+      "v": 63.0
+     },
+     {
+      "c": "CHN",
+      "v": 57.426
+     },
+     {
+      "c": "RUS",
+      "v": 28.002
+     },
+     {
+      "c": "KOR",
+      "v": 25.609
+     },
+     {
+      "c": "UKR",
+      "v": 13.107
+     },
+     {
+      "c": "CAN",
+      "v": 12.714
+     },
+     {
+      "c": "JPN",
+      "v": 12.631
+     },
+     {
+      "c": "IND",
+      "v": 7.43
+     },
+     {
+      "c": "ESP",
+      "v": 7.123
+     },
+     {
+      "c": "SWE",
+      "v": 7.012
+     },
+     {
+      "c": "GBR",
+      "v": 5.883
+     },
+     {
+      "c": "ARE",
+      "v": 5.348
+     },
+     {
+      "c": "FIN",
+      "v": 4.369
+     },
+     {
+      "c": "CZE",
+      "v": 3.972
+     },
+     {
+      "c": "BEL",
+      "v": 3.908
+     },
+     {
+      "c": "PAK",
+      "v": 3.262
+     },
+     {
+      "c": "CHE",
+      "v": 2.973
+     },
+     {
+      "c": "SVK",
+      "v": 2.306
+     },
+     {
+      "c": "BLR",
+      "v": 2.22
+     },
+     {
+      "c": "BGR",
+      "v": 2.006
+     },
+     {
+      "c": "HUN",
+      "v": 1.916
+     },
+     {
+      "c": "BRA",
+      "v": 1.884
+     },
+     {
+      "c": "ZAF",
+      "v": 1.854
+     },
+     {
+      "c": "ARG",
+      "v": 1.631
+     },
+     {
+      "c": "MEX",
+      "v": 1.552
+     },
+     {
+      "c": "ROU",
+      "v": 1.3
+     },
+     {
+      "c": "IRN",
+      "v": 0.915
+     },
+     {
+      "c": "SVN",
+      "v": 0.696
+     },
+     {
+      "c": "NLD",
+      "v": 0.482
+     },
+     {
+      "c": "ARM",
+      "v": 0.416
+     }
+    ],
+    "n": "EIA International Energy Data, nuclear electricity installed capacity (million kilowatts, that is gigawatts); world total as published by EIA (all countries)"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "NAM",
@@ -221,6 +367,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 1505641000,
+   "uv": 101000,
    "mode": "sea"
   },
   {
@@ -230,6 +378,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 1741478000,
+   "uv": 155000,
    "mode": "land"
   },
   {
@@ -239,6 +389,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 1812649000,
+   "uv": 182000,
    "mode": "land"
   },
   {
@@ -248,6 +400,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 1246077000,
+   "uv": 125000,
    "mode": "land"
   },
   {
@@ -257,6 +411,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 811888000,
+   "uv": 188000,
    "mode": "sea"
   },
   {
@@ -266,6 +422,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 239582000,
+   "uv": 57700,
    "mode": "sea",
    "transit": {
     "port": "BJCOO",
@@ -281,6 +439,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 284006000,
+   "uv": 74800,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -291,6 +451,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 431864000,
+   "uv": 131000,
    "mode": "sea"
   },
   {
@@ -300,6 +462,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 485470000,
+   "uv": 179000,
    "mode": "sea"
   },
   {
@@ -309,6 +473,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 303901000,
+   "uv": 124000,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -319,6 +485,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 122440000,
+   "uv": 56000,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -329,6 +497,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 459699000,
+   "uv": 214000,
    "mode": "sea"
   },
   {
@@ -338,6 +508,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 453751000,
+   "uv": 242000,
    "mode": "sea"
   },
   {
@@ -347,6 +519,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 228949000,
+   "uv": 139000,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -357,6 +531,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 279333000,
+   "uv": 176000,
    "mode": "sea"
   },
   {
@@ -366,6 +542,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 280561000,
+   "uv": 179000,
    "mode": "sea"
   },
   {
@@ -375,6 +553,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 219290000,
+   "uv": 174000,
    "mode": "sea"
   },
   {
@@ -384,6 +564,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 188864000,
+   "uv": 154000,
    "mode": "sea"
   },
   {
@@ -393,6 +575,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 138414000,
+   "uv": 122000,
    "mode": "sea"
   },
   {
@@ -402,12 +586,60 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 187343000,
+   "uv": 195000,
    "mode": "sea"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "KAZ",
+    "p": 0.3865
+   },
+   "top3": 0.7459,
+   "hhi": 2341,
+   "eq": 4.3,
+   "k": 12,
+   "cov": 0.9974
+  },
+  "exports": {
+   "top1": {
+    "c": "KAZ",
+    "p": 0.3355
+   },
+   "top3": 0.7667,
+   "hhi": 2172,
+   "eq": 4.6,
+   "k": 13,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2966
+   },
+   "top3": 0.6331,
+   "hhi": 1735,
+   "eq": 5.8,
+   "k": 14,
+   "cov": 1.0
+  },
+  "nuclear-capacity": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2551
+   },
+   "top3": 0.5721,
+   "hhi": 1311,
+   "eq": 7.6,
+   "k": 31,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Trade is gross weight of uranium ores and natural uranium compounds in kt, not tonnes of contained uranium; enriched uranium and fuel are not covered.",
-  "No reserves or consumption table: neither is in the loaded sources.",
+  "Trade is gross weight of uranium ores and natural uranium compounds in kt, not tonnes of contained uranium; enriched uranium and fuel are not covered. The two cannot be converted into each other: the headline production carries pounds of U3O8 in brackets (Atlas conversion), the trade tables do not.",
+  "Nuclear generating capacity by country (EIA, 2025) is the demand side shown here: reactor uranium requirements and reserves are not in the loaded sources.",
   "Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."
  ]
 }

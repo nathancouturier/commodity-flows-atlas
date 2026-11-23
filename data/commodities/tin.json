@@ -21,6 +21,13 @@
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 0.1943,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (tin-metal) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
@@ -157,184 +164,278 @@
   "rows": [
    {
     "c": "IDN",
-    "v": 53.687
+    "v": 53.687,
+    "usd": 1657311000,
+    "uv": 30900
    },
    {
     "c": "PER",
-    "v": 31.621
+    "v": 31.621,
+    "usd": 926138000,
+    "uv": 29300
    },
    {
     "c": "BOL",
-    "v": 23.491
+    "v": 23.491,
+    "usd": 636611000,
+    "uv": 27100
    },
    {
     "c": "MYS",
-    "v": 18.631
+    "v": 18.631,
+    "usd": 528807000,
+    "uv": 28400
    },
    {
     "c": "CHN",
-    "v": 15.69
+    "v": 15.69,
+    "usd": 468918000,
+    "uv": 29900
    },
    {
     "c": "BRA",
-    "v": 10.216
+    "v": 10.216,
+    "usd": 305566000,
+    "uv": 29900
    },
    {
     "c": "BEL",
-    "v": 9.377
+    "v": 9.377,
+    "n": "Belgium is both an exporter (rank 7, 9.38 kt) and an importer (rank 8, 10.1 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 272761000,
+    "uv": 29100
    },
    {
     "c": "THA",
-    "v": 8.156
+    "v": 8.156,
+    "n": "Thailand is both an exporter (rank 8, 8.16 kt) and an importer (rank 16, 4.49 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 236545000,
+    "uv": 29000
    },
    {
     "c": "ESP",
-    "v": 7.389
+    "v": 7.389,
+    "n": "Spain is both an exporter (rank 9, 7.39 kt) and an importer (rank 14, 5.8 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 133140000,
+    "uv": 18000
    },
    {
     "c": "POL",
-    "v": 6.34
+    "v": 6.34,
+    "usd": 154302000,
+    "uv": 24300
    },
    {
     "c": "SGP",
-    "v": 6.192
+    "v": 6.192,
+    "n": "Singapore is both an exporter (rank 11, 6.19 kt) and an importer (rank 10, 7.66 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 106525000,
+    "uv": 17200
    },
    {
     "c": "NLD",
     "v": 5.542,
-    "n": "56% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "56% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 62130000,
+    "uv": 11200
    },
    {
     "c": "LUX",
-    "v": 3.428
+    "v": 3.428,
+    "usd": 15213000,
+    "uv": 4440
    },
    {
     "c": "DEU",
-    "v": 2.516
+    "v": 2.516,
+    "usd": 79557000,
+    "uv": 31600
    },
    {
     "c": "USA",
-    "v": 2.431
+    "v": 2.431,
+    "usd": 59160000,
+    "uv": 24300
    },
    {
     "c": "TWN",
-    "v": 2.17
+    "v": 2.17,
+    "usd": 57744000,
+    "uv": 26600
    },
    {
     "c": "ITA",
-    "v": 1.842
+    "v": 1.842,
+    "usd": 29059000,
+    "uv": 15800
    },
    {
     "c": "JPN",
-    "v": 1.74
+    "v": 1.74,
+    "usd": 32695000,
+    "uv": 18800
    },
    {
     "c": "CHL",
-    "v": 1.699
+    "v": 1.699,
+    "usd": 40272000,
+    "uv": 23700
    },
    {
     "c": "PRT",
-    "v": 0.957
+    "v": 0.957,
+    "usd": 28195000,
+    "uv": 29500
    },
    {
     "c": "ARE",
-    "v": 0.933
+    "v": 0.933,
+    "usd": 16017000,
+    "uv": 17200
    },
    {
     "c": "AUT",
-    "v": 0.921
+    "v": 0.921,
+    "usd": 28557000,
+    "uv": 31000
    },
    {
     "c": "IND",
-    "v": 0.869
+    "v": 0.869,
+    "usd": 17073000,
+    "uv": 19600
    },
    {
     "c": "PHL",
-    "v": 0.862
+    "v": 0.862,
+    "usd": 30191000,
+    "uv": 35000
    },
    {
     "c": "RWA",
-    "v": 0.845
+    "v": 0.845,
+    "usd": 24057000,
+    "uv": 28500
    },
    {
     "c": "HUN",
-    "v": 0.56
+    "v": 0.56,
+    "usd": 17025000,
+    "uv": 30400
    },
    {
     "c": "KOR",
-    "v": 0.556
+    "v": 0.556,
+    "usd": 11918000,
+    "uv": 21400
    },
    {
     "c": "HKG",
-    "v": 0.482
+    "v": 0.482,
+    "usd": 7421000,
+    "uv": 15400
    },
    {
     "c": "MEX",
-    "v": 0.429
+    "v": 0.429,
+    "usd": 12465000,
+    "uv": 29100
    },
    {
     "c": "CAN",
-    "v": 0.309
+    "v": 0.309,
+    "usd": 8966000,
+    "uv": 29000
    },
    {
     "c": "TUR",
-    "v": 0.271
+    "v": 0.271,
+    "usd": 7995000,
+    "uv": 29500
    },
    {
     "c": "MMR",
-    "v": 0.258
+    "v": 0.258,
+    "usd": 7491000,
+    "uv": 29000
    },
    {
     "c": "FRA",
-    "v": 0.252
+    "v": 0.252,
+    "usd": 8652000,
+    "uv": 34300
    },
    {
     "c": "RUS",
-    "v": 0.226
+    "v": 0.226,
+    "usd": 8134000,
+    "uv": 36000
    },
    {
     "c": "VNM",
-    "v": 0.211
+    "v": 0.211,
+    "usd": 5404000,
+    "uv": 25600
    },
    {
     "c": "COD",
-    "v": 0.2
+    "v": 0.2,
+    "usd": 3860000,
+    "uv": 19300
    },
    {
     "c": "KEN",
-    "v": 0.135
+    "v": 0.135,
+    "usd": 4247000,
+    "uv": 31500
    },
    {
     "c": "COG",
-    "v": 0.104
+    "v": 0.104,
+    "usd": 3099000,
+    "uv": 29800
    },
    {
     "c": "DNK",
-    "v": 0.099
+    "v": 0.099,
+    "usd": 3115000,
+    "uv": 31500
    },
    {
     "c": "UGA",
-    "v": 0.065
+    "v": 0.065,
+    "usd": 2002000,
+    "uv": 30800
    },
    {
     "c": "LAO",
-    "v": 0.059
+    "v": 0.059,
+    "usd": 1334000,
+    "uv": 22600
    },
    {
     "c": "TZA",
-    "v": 0.053
+    "v": 0.053,
+    "usd": 1365000,
+    "uv": 25800
    },
    {
     "c": "PAN",
-    "v": 0.05
+    "v": 0.05,
+    "usd": 1402000,
+    "uv": 28000
    },
    {
     "c": "GBR",
-    "v": 0.039
+    "v": 0.039,
+    "usd": 1045000,
+    "uv": 26800
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "unwrought metal, gross weight"
+  "basis": "unwrought metal, gross weight",
+  "usd": 6063484000,
+  "uv": 27300
  },
  "imports": {
   "y": 2024,
@@ -344,248 +445,374 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 24.062
+    "v": 24.062,
+    "usd": 697741000,
+    "uv": 29000
    },
    {
     "c": "USA",
-    "v": 23.256
+    "v": 23.256,
+    "usd": 673597000,
+    "uv": 29000
    },
    {
     "c": "JPN",
-    "v": 19.693
+    "v": 19.693,
+    "usd": 602922000,
+    "uv": 30600
    },
    {
     "c": "NLD",
-    "v": 17.203
+    "v": 17.203,
+    "usd": 463141000,
+    "uv": 26900
    },
    {
     "c": "KOR",
-    "v": 14.888
+    "v": 14.888,
+    "usd": 427203000,
+    "uv": 28700
    },
    {
     "c": "DEU",
-    "v": 13.403
+    "v": 13.403,
+    "usd": 400152000,
+    "uv": 29900
    },
    {
     "c": "IND",
-    "v": 12.685
+    "v": 12.685,
+    "usd": 406604000,
+    "uv": 32100
    },
    {
     "c": "BEL",
-    "v": 10.067
+    "v": 10.067,
+    "n": "Belgium is both an exporter (rank 7, 9.38 kt) and an importer (rank 8, 10.1 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 192104000,
+    "uv": 19100
    },
    {
     "c": "HUN",
     "v": 9.196,
-    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 60225000,
+    "uv": 6550
    },
    {
     "c": "SGP",
-    "v": 7.658
+    "v": 7.658,
+    "n": "Singapore is both an exporter (rank 11, 6.19 kt) and an importer (rank 10, 7.66 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 236629000,
+    "uv": 30900
    },
    {
     "c": "MYS",
-    "v": 7.594
+    "v": 7.594,
+    "usd": 124098000,
+    "uv": 16300
    },
    {
     "c": "TWN",
-    "v": 6.831
+    "v": 6.831,
+    "usd": 213919000,
+    "uv": 31300
    },
    {
     "c": "GBR",
-    "v": 6.27
+    "v": 6.27,
+    "usd": 174120000,
+    "uv": 27800
    },
    {
     "c": "ESP",
-    "v": 5.8
+    "v": 5.8,
+    "n": "Spain is both an exporter (rank 9, 7.39 kt) and an importer (rank 14, 5.8 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 170961000,
+    "uv": 29500
    },
    {
     "c": "ITA",
-    "v": 5.295
+    "v": 5.295,
+    "usd": 155335000,
+    "uv": 29300
    },
    {
     "c": "THA",
-    "v": 4.488
+    "v": 4.488,
+    "n": "Thailand is both an exporter (rank 8, 8.16 kt) and an importer (rank 16, 4.49 kt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 130156000,
+    "uv": 29000
    },
    {
     "c": "AUT",
-    "v": 4.109
+    "v": 4.109,
+    "usd": 100880000,
+    "uv": 24600
    },
    {
     "c": "FRA",
-    "v": 3.217
+    "v": 3.217,
+    "usd": 100152000,
+    "uv": 31100
    },
    {
     "c": "TUR",
-    "v": 3.201
+    "v": 3.201,
+    "usd": 99002000,
+    "uv": 30900
    },
    {
     "c": "CAN",
-    "v": 2.64
+    "v": 2.64,
+    "usd": 66833000,
+    "uv": 25300
    },
    {
     "c": "POL",
-    "v": 2.308
+    "v": 2.308,
+    "usd": 53828000,
+    "uv": 23300
    },
    {
     "c": "VNM",
-    "v": 2.301
+    "v": 2.301,
+    "usd": 65141000,
+    "uv": 28300
    },
    {
     "c": "MEX",
-    "v": 2.234
+    "v": 2.234,
+    "usd": 60585000,
+    "uv": 27100
    },
    {
     "c": "BIH",
-    "v": 1.817
+    "v": 1.817,
+    "usd": 56684000,
+    "uv": 31200
    },
    {
     "c": "PRT",
-    "v": 1.399
+    "v": 1.399,
+    "usd": 39908000,
+    "uv": 28500
    },
    {
     "c": "PHL",
-    "v": 1.309
+    "v": 1.309,
+    "usd": 35888000,
+    "uv": 27400
    },
    {
     "c": "ARE",
-    "v": 1.231
+    "v": 1.231,
+    "usd": 31781000,
+    "uv": 25800
    },
    {
     "c": "IDN",
-    "v": 1.004
+    "v": 1.004,
+    "usd": 27118000,
+    "uv": 27000
    },
    {
     "c": "CZE",
-    "v": 0.878
+    "v": 0.878,
+    "usd": 22775000,
+    "uv": 25900
    },
    {
     "c": "HKG",
-    "v": 0.712
+    "v": 0.712,
+    "usd": 15466000,
+    "uv": 21700
    },
    {
     "c": "ARG",
-    "v": 0.635
+    "v": 0.635,
+    "usd": 19764000,
+    "uv": 31100
    },
    {
     "c": "ROU",
-    "v": 0.426
+    "v": 0.426,
+    "usd": 13563000,
+    "uv": 31800
    },
    {
     "c": "ZAF",
-    "v": 0.345
+    "v": 0.345,
+    "usd": 10689000,
+    "uv": 31000
    },
    {
     "c": "SRB",
-    "v": 0.333
+    "v": 0.333,
+    "usd": 10512000,
+    "uv": 31600
    },
    {
     "c": "KAZ",
-    "v": 0.271
+    "v": 0.271,
+    "usd": 8647000,
+    "uv": 31900
    },
    {
     "c": "IRN",
-    "v": 0.271
+    "v": 0.271,
+    "usd": 7995000,
+    "uv": 29500
    },
    {
     "c": "BGR",
-    "v": 0.256
+    "v": 0.256,
+    "usd": 7866000,
+    "uv": 30700
    },
    {
     "c": "SVK",
-    "v": 0.255
+    "v": 0.255,
+    "usd": 7062000,
+    "uv": 27700
    },
    {
     "c": "SAU",
-    "v": 0.239
+    "v": 0.239,
+    "usd": 5285000,
+    "uv": 22100
    },
    {
     "c": "TZA",
-    "v": 0.226
+    "v": 0.226,
+    "usd": 11383000,
+    "uv": 50400
    },
    {
     "c": "BGD",
-    "v": 0.223
+    "v": 0.223,
+    "usd": 6060000,
+    "uv": 27200
    },
    {
     "c": "PAK",
-    "v": 0.207
+    "v": 0.207,
+    "usd": 5996000,
+    "uv": 29000
    },
    {
     "c": "AUS",
-    "v": 0.188
+    "v": 0.188,
+    "usd": 5589000,
+    "uv": 29700
    },
    {
     "c": "COL",
-    "v": 0.176
+    "v": 0.176,
+    "usd": 5291000,
+    "uv": 30100
    },
    {
     "c": "CHL",
-    "v": 0.151
+    "v": 0.151,
+    "usd": 3379000,
+    "uv": 22400
    },
    {
     "c": "NAM",
-    "v": 0.15
+    "v": 0.15,
+    "usd": 2274000,
+    "uv": 15200
    },
    {
     "c": "EGY",
-    "v": 0.135
+    "v": 0.135,
+    "usd": 3833000,
+    "uv": 28400
    },
    {
     "c": "SVN",
-    "v": 0.114
+    "v": 0.114,
+    "usd": 3401000,
+    "uv": 29800
    },
    {
     "c": "LUX",
-    "v": 0.098
+    "v": 0.098,
+    "usd": 3133000,
+    "uv": 32000
    },
    {
     "c": "DNK",
-    "v": 0.064
+    "v": 0.064,
+    "usd": 2225000,
+    "uv": 34800
    },
    {
     "c": "IRL",
-    "v": 0.06
+    "v": 0.06,
+    "usd": 1624000,
+    "uv": 27100
    },
    {
     "c": "FIN",
-    "v": 0.055
+    "v": 0.055,
+    "usd": 1743000,
+    "uv": 31700
    },
    {
     "c": "BRA",
-    "v": 0.046
+    "v": 0.046,
+    "usd": 1756000,
+    "uv": 38200
    },
    {
     "c": "VEN",
-    "v": 0.044
+    "v": 0.044,
+    "usd": 1059000,
+    "uv": 24100
    },
    {
     "c": "SWE",
-    "v": 0.044
+    "v": 0.044,
+    "usd": 1372000,
+    "uv": 31200
    },
    {
     "c": "RUS",
-    "v": 0.042
+    "v": 0.042,
+    "usd": 1384000,
+    "uv": 33000
    },
    {
     "c": "GRC",
-    "v": 0.04
+    "v": 0.04,
+    "usd": 1167000,
+    "uv": 29200
    },
    {
     "c": "TUN",
-    "v": 0.039
+    "v": 0.039,
+    "usd": 1210000,
+    "uv": 31000
    },
    {
     "c": "AGO",
-    "v": 0.016
+    "v": 0.016,
+    "usd": 2213000,
+    "uv": 138000
    },
    {
     "c": "KGZ",
-    "v": 0.005
+    "v": 0.005,
+    "usd": 1061000,
+    "uv": 212000
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "unwrought metal, gross weight"
+  "basis": "unwrought metal, gross weight",
+  "usd": 6063484000,
+  "uv": 27300
  },
  "flows": [
   {
@@ -595,7 +822,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 458134000,
+   "uv": 29900,
+   "mode": "sea",
+   "lane": "tin-metal:IDN-CHN"
   },
   {
    "o": "PER",
@@ -604,7 +834,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 345706000,
+   "uv": 28700,
+   "mode": "sea",
+   "lane": "tin-metal:PER-USA"
   },
   {
    "o": "IDN",
@@ -613,7 +846,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 318141000,
+   "uv": 33300,
+   "mode": "sea",
+   "lane": "tin-metal:IDN-IND"
   },
   {
    "o": "BOL",
@@ -622,6 +858,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 188529000,
+   "uv": 26800,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -632,7 +870,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 198703000,
+   "uv": 31200,
+   "mode": "sea",
+   "lane": "tin-metal:IDN-SGP"
   },
   {
    "o": "IDN",
@@ -641,7 +882,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 177977000,
+   "uv": 31100,
+   "mode": "sea",
+   "lane": "tin-metal:IDN-KOR"
   },
   {
    "o": "ESP",
@@ -650,7 +894,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 70499000,
+   "uv": 13300,
+   "mode": "sea",
+   "lane": "tin-metal:ESP-BEL"
   },
   {
    "o": "BEL",
@@ -659,6 +906,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 115947000,
+   "uv": 28700,
    "mode": "land"
   },
   {
@@ -668,6 +917,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 103374000,
+   "uv": 26000,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -678,7 +929,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 108445000,
+   "uv": 27400,
+   "mode": "sea",
+   "lane": "tin-metal:PER-CHN"
   },
   {
    "o": "MYS",
@@ -687,7 +941,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 114600000,
+   "uv": 29700,
+   "mode": "sea",
+   "lane": "tin-metal:MYS-JPN"
   },
   {
    "o": "PER",
@@ -696,7 +953,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 114698000,
+   "uv": 30400,
+   "mode": "sea",
+   "lane": "tin-metal:PER-JPN"
   },
   {
    "o": "IDN",
@@ -705,7 +965,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 117599000,
+   "uv": 31300,
+   "mode": "sea",
+   "lane": "tin-metal:IDN-JPN"
   },
   {
    "o": "LUX",
@@ -714,6 +977,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 7519000,
+   "uv": 2360,
    "mode": "land"
   },
   {
@@ -723,7 +988,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 97089000,
+   "uv": 30900,
+   "mode": "sea",
+   "lane": "tin-metal:CHN-KOR"
   },
   {
    "o": "NLD",
@@ -732,6 +1000,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 1303000,
+   "uv": 416,
    "mode": "land",
    "n": "reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
   },
@@ -742,6 +1012,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 76308000,
+   "uv": 25000,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -752,7 +1024,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 81585000,
+   "uv": 28000,
+   "mode": "sea",
+   "lane": "tin-metal:MYS-THA"
   },
   {
    "o": "BRA",
@@ -761,7 +1036,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 75180000,
+   "uv": 26600,
+   "mode": "sea",
+   "lane": "tin-metal:BRA-NLD"
   },
   {
    "o": "SGP",
@@ -770,9 +1048,89 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 6142000,
+   "uv": 2310,
+   "mode": "sea",
+   "lane": "tin-metal:SGP-MYS"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent, refined",
+    "u": "t",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 34600.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 43000.0,
+      "est": true
+     }
+    ],
+    "n": "Defined for 2021-22 as production from old scrap + refined tin imports - refined tin exports ±adjustments for Government and industry stock changes. Beginning in 2023, Government stock changes no longer included."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Tin, refined",
+    "pct": "77",
+    "y": 2025,
+    "src": "Peru, Bolivia, Indonesia, Brazil",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2439
+   },
+   "top3": 0.5668,
+   "hhi": 1426,
+   "eq": 7.0,
+   "k": 14,
+   "cov": 0.9942
+  },
+  "reserves": {
+   "top1": {
+    "c": "IDN",
+    "p": 0.2332
+   },
+   "top3": 0.5496,
+   "hhi": 1417,
+   "eq": 7.1,
+   "k": 10,
+   "cov": 0.9484
+  },
+  "exports": {
+   "top1": {
+    "c": "IDN",
+    "p": 0.2419
+   },
+   "top3": 0.4903,
+   "hhi": 1116,
+   "eq": 9.0,
+   "k": 44,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.1084
+   },
+   "top3": 0.302,
+   "hhi": 591,
+   "eq": 16.9,
+   "k": 60,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.12 Mt gross weight; top exporters DR Congo 0.03 Mt, Australia 0.02 Mt, Nigeria 0.02 Mt.",
   "Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure).",

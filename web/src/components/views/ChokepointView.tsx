@@ -12,6 +12,7 @@ import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { sources } from '../../lib/data';
+import { ATLAS_LICENCE, csvCell, downloadCsv, licenceOf, slug, sourceName, toCsv } from '../../lib/csv';
 import '../../styles/lane-table.css';
 
 const RANGES = [
@@ -31,14 +32,9 @@ const shareLabel = (k: string) => SHARE_LABEL[k] ?? commodityMeta(k)?.name ?? k;
 const loadChokepointLanes = (id: string) =>
   load<ChokepointLanes>(`freight/chokepoint-lanes/${id}.json`).catch(() => load<ChokepointLanes>('freight/chokepoint-lanes.json'));
 
-const csvCell = (x: string | number | null | undefined): string => {
-  const t = x == null ? '' : String(x);
-  return /[",\r\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
-};
-
 /** Every flow of the table, not only the rows on screen: one line per recorded pair whose route crosses (or may cross) the passage. */
 function flowsCsv(doc: ChokepointLanes, id: string, name: string, fromPairs: boolean): string {
-  const head = ['commodity', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume_mt', 'share_of_commodity_seaborne_pct', 'passage', 'crossing', 'source'];
+  const head = ['commodity', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume_mt', 'share_of_commodity_seaborne_pct', 'passage', 'crossing', 'source', 'licence'];
   const out = [head.join(',')];
   for (const [g, o, d, v, sure] of doc.chokepoints[id] ?? []) {
     const m = doc.groups[g];
@@ -47,22 +43,11 @@ function flowsCsv(doc: ChokepointLanes, id: string, name: string, fromPairs: boo
         m?.label ?? commodityMeta(m?.k ?? g)?.name ?? g, o, countryName(o), d, countryName(d), m?.y ?? doc.y, v,
         m?.seaborne ? ((100 * v) / m.seaborne).toFixed(2) : '', name, fromPairs ? (sure === 0 ? 'may use' : 'has to cross') : 'mapped lane',
         `${sources.value[m?.s ?? doc.s]?.name ?? m?.s ?? doc.s}; Atlas routing`,
+        `${licenceOf(m?.s ?? doc.s)}; Atlas routing: ${ATLAS_LICENCE}`,
       ].map(csvCell).join(','),
     );
   }
   return out.join('\r\n') + '\r\n';
-}
-
-function downloadCsv(file: string, text: string) {
-  // a byte-order mark so that spreadsheet programs read the country names as UTF-8
-  const url = URL.createObjectURL(new Blob(['\ufeff', text], { type: 'text/csv;charset=utf-8' }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = file;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 /** End of a published period as a decimal year, to order "2Q26", "1H25", "FY2025" and plain years. */
@@ -282,6 +267,23 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
   );
 }
 
+/** The whole weekly series of the passage: one row per week, ship type and measure (vessels per day, and PortWatch's estimated trade volume where the series has it). */
+function weeklyCsv(pw: PortwatchSeries, id: string, name: string, counter?: string): string {
+  const TYPES = [['tanker', 'Tanker'], ['dry', 'Dry bulk'], ['container', 'Container'], ['other', 'Other'], ['total', 'Total']] as const;
+  const t0 = Date.parse(`${pw.start}T00:00:00Z`);
+  const source = sourceName(pw.s);
+  const licence = licenceOf(pw.s);
+  const measures = [{ what: 'vessel transits', unit: pw.unit, src: pw as Pick<PortwatchSeries, 'tanker' | 'dry' | 'container' | 'other' | 'total'> }];
+  if (pw.vol) measures.push({ what: 'estimated trade volume', unit: pw.vol.unit, src: pw.vol });
+  const rows: (string | number | null)[][] = [];
+  for (const m of measures)
+    pw.total.forEach((_, i) => {
+      const week = new Date(t0 + i * 7 * 86400e3).toISOString().slice(0, 10);
+      for (const [k, label] of TYPES) rows.push([id, counter ?? name, week, label, m.what, m.src[k][i], m.unit, source, licence]);
+    });
+  return toCsv(['passage_id', 'passage', 'week_start', 'ship_type', 'measure', 'value', 'unit', 'source', 'licence'], rows);
+}
+
 export default function ChokepointView({ id }: { id: string }) {
   useFreightCatalogue();
   const cp = useLoaded<Chokepoint>(() => loadChokepoints().then((l) => l.find((c) => c.id === id) ?? null), [id]);
@@ -455,6 +457,15 @@ export default function ChokepointView({ id }: { id: string }) {
               y={`data to ${pw.y}`}
               n={chart.vol && pw.vol ? `${pw.vol.unit}; PortWatch's estimate of the trade volume carried, not deadweight` : pw.unit}
             />
+            <div class="lt-foot">
+              <button
+                class="act-btn"
+                onClick={() => downloadCsv(`commodity-flows-atlas-${slug(cp.name)}-weekly-traffic-to-${pw.y}.csv`, weeklyCsv(pw, cp.id, cp.name, seriesLabel))}
+                title="The whole weekly series, by ship type, with its source and licence, as a CSV file"
+              >
+                CSV
+              </button>
+            </div>
           </Section>
         ) : cp.portwatchNote ? (
           <Section title="Weekly traffic">
@@ -525,7 +536,7 @@ export default function ChokepointView({ id }: { id: string }) {
               <button class="list-btn event-row" key={e.id} onClick={() => select({ kind: 'event', id: e.id })}>
                 <i class="dot" style={{ background: EVENT_COLOR[e.kind] }} title={EVENT_KIND_LABEL[e.kind]} />
                 <span class="grow">{e.title}</span>
-                <span class="meta num">{fmtEventDate(e.date)}</span>
+                <span class="meta num">{fmtEventDate(e.date)}{e.end ? ` – ${fmtEventDate(e.end)}` : ''}</span>
               </button>
             ))}
           </Section>

@@ -1,0 +1,74 @@
+/* balance of a USDA crop: estimate year and forecast year side by side */
+.cb {
+  display: grid;
+  gap: 1px;
+  font-size: var(--fs-sm);
+}
+.cb-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 52px 52px 56px;
+  align-items: baseline;
+  column-gap: 8px;
+  padding: 3px 4px;
+  border-radius: var(--r-sm, 4px);
+}
+.cb-row:nth-child(odd):not(.cb-head) {
+  background: rgba(255, 255, 255, 0.025);
+}
+.cb-head {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  align-items: end;
+}
+.cb-col {
+  display: grid;
+  justify-items: end;
+  line-height: 1.2;
+  text-align: right;
+}
+.cb-col b {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.cb-label {
+  color: var(--ink-1);
+  min-width: 0;
+}
+.cb-row .num {
+  text-align: right;
+  color: var(--ink-0);
+}
+.cb-sub .cb-label {
+  padding-left: 12px;
+  color: var(--ink-2);
+}
+.cb-calc .cb-label {
+  font-style: italic;
+}
+.cb-tag {
+  margin-left: 6px;
+  font-size: var(--fs-xs);
+  font-style: normal;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+}
+.cb-chg {
+  color: var(--ink-2) !important;
+  font-size: var(--fs-xs);
+}
+@media (max-width: 420px) {
+  .cb-row {
+    grid-template-columns: minmax(0, 1fr) 50px 50px 52px;
+    column-gap: 6px;
+  }
+}
+
+/* sub-heading inside a family of the commodity list ("Fertilisers" under Softs & agriculture) */
+.cc-sub {
+  margin: 8px 0 2px;
+  padding: 0 4px;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}

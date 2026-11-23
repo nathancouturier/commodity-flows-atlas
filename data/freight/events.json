@@ -3,18 +3,52 @@
 "id": "somali-piracy-2008-2011",
 "date": "2008-01",
 "end": "2012-12",
-"title": "Somali piracy peak and Gulf of Aden transits",
+"title": "Somali piracy off the Gulf of Aden and the Indian Ocean, 2008-2012",
 "kind": "conflict",
 "chokepoints": [
 "bab-el-mandeb",
 "cape-good-hope"
 ],
 "countries": [
+"KEN",
 "SOM"
 ],
-"summary": "Somali piracy surged from 2008 and peaked around 2010-2011, with attacks across the Gulf of Aden, Arabian Sea and western Indian Ocean; international naval patrols (EUNAVFOR Atalanta, CMF) and onboard armed guards later cut attacks sharply.",
-"impact": "Many owners rerouted via the Cape of Good Hope, added war-risk premiums, security costs and speed increases; Gulf of Aden transits became a risk-priced route for tankers and bulkers.",
-"src": "https://en.wikipedia.org/wiki/Piracy_in_Somalia"
+"summary": "Somali piracy escalated during the war in Somalia: in 2008 there were 111 attacks, 42 of them successful hijackings, and pirates later ranged from the Gulf of Aden as far south as the coast of Kenya. The International Maritime Bureau counted 237 attempted hijackings in 2011 and 75 in 2012. By December 2013 only nine vessels had been attacked in the year and none hijacked; Control Risks credited best management practices by owners, armed private security on board, a naval presence and onshore security forces.",
+"impact": "A 2011 Oceans Beyond Piracy report put the indirect costs of piracy at USD 6.6 to 6.9 billion a year, including insurance, naval support, legal proceedings and the re-routing of slower ships (as summarised by Wikipedia). The Gulf of Aden was designated a high-risk area in 2010; the designation was lifted in 2023.",
+"src": "https://en.wikipedia.org/wiki/Piracy_in_Somalia",
+"checked": "2026-11-23"
+},
+{
+"id": "rice-export-bans-2008",
+"date": "2008-03",
+"end": "2011-09",
+"title": "Rice export bans during the 2007-2008 food price crisis",
+"kind": "policy",
+"commodities": [
+"rice",
+"wheat"
+],
+"countries": [
+"ARG",
+"BGD",
+"BRA",
+"BTN",
+"CHN",
+"EGY",
+"IDN",
+"IND",
+"JPN",
+"KHM",
+"PHL",
+"RUS",
+"SRB",
+"UKR",
+"VNM"
+],
+"summary": "India imposed a minimum export price on common rice in October 2007, raised it in December 2007 and, as exports had not declined, banned the export of common rice in March 2008, with exceptions for neighbours such as Bangladesh and Bhutan and some low-income African countries; Wikipedia says the export ban was lifted in September 2011. It adds that major rice exporters, including China, Brazil, India, Indonesia, Vietnam, Cambodia and Egypt, imposed strict export bans on rice to keep food available at home.",
+"impact": "According to Wikipedia, Argentina, Ukraine, Russia and Serbia imposed high tariffs or blocked exports of wheat and other foodstuffs, which pushed prices up further for food-importing countries. On 15 April 2008 the Philippines, the world's largest rice importer, urged China, Japan and other Asian nations to convene an emergency meeting on the rice export bans.",
+"src": "https://en.wikipedia.org/wiki/2007%E2%80%932008_world_food_price_crisis",
+"checked": "2026-11-23"
 },
 {
 "id": "bdi-record-2008",
@@ -26,12 +60,10 @@
 "C5",
 "C3"
 ],
-"countries": [
-"CHN"
-],
-"summary": "The Baltic Dry Index peaked at an all-time high of 11,793 on 20 May 2008 on Chinese raw-material demand and a tight fleet, then fell to about 663 by early December 2008 after the financial crisis and a collapse in letters of credit.",
-"impact": "Capesize earnings swung from record highs to near zero within months; ordering booked at the peak fed years of fleet oversupply.",
-"src": "https://en.wikipedia.org/wiki/Baltic_Dry_Index"
+"summary": "The Baltic Dry Index, a composite of the Capesize, Panamax and Supramax time-charter averages, reached its record high of 11,793 points on 20 May 2008. On 5 December 2008 it had fallen 94% to 663 points, the lowest since 1986.",
+"impact": "According to Wikipedia, the low rates moved close to the combined operating costs of vessels, fuel and crews, and a shortage of credit reduced the letters of credit needed to load cargoes; several major bankruptcies followed.",
+"src": "https://en.wikipedia.org/wiki/Baltic_Dry_Index",
+"checked": "2026-11-23"
 },
 {
 "id": "libya-civil-war-2011",
@@ -40,51 +72,89 @@
 "title": "Libyan uprising halts oil exports",
 "kind": "conflict",
 "commodities": [
-"crude-oil"
+"crude-oil",
+"natural-gas"
 ],
 "countries": [
+"ITA",
 "LBY"
 ],
-"summary": "The uprising against Gaddafi and ensuing civil war shut most of Libya's oil production and export terminals through much of 2011.",
-"impact": "Light sweet Mediterranean crude disappeared from the market, tightening Brent and lifting Mediterranean tanker demand for replacement barrels.",
-"src": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War"
+"summary": "Unrest in Libya from mid-February 2011 became a civil war, which Wikipedia dates from 15 February to 23 October 2011. By early March 2011 the EIA estimated that oil and gas production in Libya had fallen by 60 to 90 percent.",
+"impact": "The EIA noted that Libya supplied about 2 percent of global supply, but that its light, sweet crude is easy for simple refineries to run; most of its oil output went to Europe, Italy was the largest buyer (about a quarter of Italy's crude imports) and Italian product exports could fall if refiners cut runs.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=390",
+"also": [
+{
+"label": "Wikipedia, First Libyan Civil War",
+"url": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "fukushima-2011",
 "date": "2011-03-11",
 "title": "Fukushima accident and Japan LNG demand surge",
 "kind": "accident",
-"routes": [
-"BLNG3"
-],
 "commodities": [
+"crude-oil",
 "lng",
+"refined-products",
 "thermal-coal"
 ],
 "countries": [
 "JPN"
 ],
-"summary": "The Tohoku earthquake and tsunami triggered the Fukushima Daiichi accident, and Japan progressively idled its nuclear fleet.",
-"impact": "Japan sharply increased LNG, coal and oil-fired generation imports, tightening LNG shipping and lifting spot LNG prices in Asia.",
-"src": "https://en.wikipedia.org/wiki/Fukushima_nuclear_accident"
+"summary": "The Tohoku earthquake and tsunami of March 2011 destroyed TEPCO's Fukushima Daiichi nuclear plant and led to outages at other plants. On 5 May 2012 the last of Japan's 54 reactors was shut down for maintenance and stress tests.",
+"impact": "According to the EIA, Japan's fossil-fuelled generation rose 21% in 2012 from 2011 to 90% of the country's output. Utilities began importing more LNG soon after the accident, and Japan's LNG use set a record near 9 billion cubic feet a day in January 2012, about 2 billion more than in early 2011. Crude oil and heavy fuel oil burnt for power rose by more than 105,000 barrels a day in 2012, with a smaller increase in coal.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=10391",
+"also": [
+{
+"label": "Wikipedia, Fukushima nuclear accident",
+"url": "https://en.wikipedia.org/wiki/Fukushima_nuclear_accident"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "indonesia-ore-ban-2014",
-"date": "2014-01-12",
+"date": "2014-01",
 "title": "Indonesia bans raw mineral ore exports",
 "kind": "policy",
 "commodities": [
-"bauxite",
 "nickel"
 ],
 "countries": [
-"IDN",
-"CHN",
-"PHL"
+"IDN"
 ],
-"summary": "Indonesia's mining law took effect, banning exports of unprocessed mineral ores including nickel ore and bauxite, with limited relaxations later.",
-"impact": "Chinese nickel-pig-iron producers lost Indonesian ore and turned to Philippine ore; bauxite flows to China also fell until the policy was eased.",
-"src": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia"
+"summary": "In January 2014 the Indonesian government announced a ban on the export of a range of mineral ores, including nickel, to develop local smelter industries.",
+"impact": "According to Wikipedia, the announcement lifted the world nickel price by 8.8% to its highest in five years. The ban was rolled back in 2017, when ore exports were allowed until 2022; in 2019 that deadline was moved to January 2020.",
+"src": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia",
+"checked": "2026-11-23"
+},
+{
+"id": "oil-collapse-2014-2016",
+"date": "2014-09",
+"end": "2016-01",
+"title": "Oil price collapse of 2014-2016",
+"kind": "market",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"CHN",
+"IRN",
+"USA"
+],
+"summary": "After remaining above USD 100 a barrel until September 2014, the world price of oil entered a sharp downward spiral and fell below USD 30 by January 2016. By 20 January 2016 the OPEC Reference Basket was at USD 22.48 a barrel, less than a quarter of its June 2014 high of USD 110.48.",
+"impact": "Wikipedia attributes the surplus of crude oil to oversupply as US and Canadian tight oil production reached critical volumes, rivalries among producers, slower demand growth with the deceleration of the Chinese economy, and the prospect of more OPEC output with the lifting of sanctions on Iran.",
+"src": "https://en.wikipedia.org/wiki/2014%E2%80%932016_oil_glut",
+"also": [
+{
+"label": "Wikipedia, OPEC+",
+"url": "https://en.wikipedia.org/wiki/OPEC%2B"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "suez-new-canal-2015",
@@ -97,9 +167,10 @@
 "countries": [
 "EGY"
 ],
-"summary": "Egypt inaugurated a new parallel channel and deepened sections of the Suez Canal, allowing two-way transit over a longer stretch.",
-"impact": "Reduced waiting times for convoys and raised the canal's throughput capacity.",
-"src": "https://en.wikipedia.org/wiki/Suez_Canal"
+"summary": "Egypt's president opened the New Suez Canal on 6 August 2015: a new parallel channel of more than 35 km in the middle part of the canal, built in about a year and costing more than LE 59.4 billion (about USD 9 billion), with other sections widened and deepened.",
+"impact": "Before August 2015 the canal was too narrow for free two-way traffic, so ships passed in convoys and used bypasses. The extension allows navigation in both directions at once over the 72 km central section.",
+"src": "https://en.wikipedia.org/wiki/Suez_Canal",
+"checked": "2026-11-23"
 },
 {
 "id": "samarco-dam-2015",
@@ -110,12 +181,26 @@
 "iron-ore"
 ],
 "countries": [
-"BRA",
-"CHN"
+"BRA"
 ],
-"summary": "The Fundao tailings dam at the Samarco iron ore operation (Vale/BHP) failed, halting Samarco's pellet and fines output.",
-"impact": "Removed a Brazilian supplier of iron ore pellets for several years, shifting pellet trade and Brazil-China ore flows.",
-"src": "https://en.wikipedia.org/wiki/Mariana_dam_disaster"
+"summary": "On 5 November 2015 the Fundao tailings dam at the Germano iron ore mine of the Samarco complex, owned 50/50 by Vale and BHP, failed near Mariana in Minas Gerais, Brazil, killing 19 people.",
+"impact": "The Minas Gerais government suspended Samarco's activities immediately after the disaster; Samarco's product is iron ore pellets.",
+"src": "https://en.wikipedia.org/wiki/Mariana_dam_disaster",
+"checked": "2026-11-23"
+},
+{
+"id": "bdi-low-2016",
+"date": "2016-02-10",
+"title": "Baltic Dry Index falls to its historic low of 290",
+"kind": "market",
+"routes": [
+"C5",
+"C3"
+],
+"summary": "On 10 February 2016 the Baltic Dry Index reached its historic low of 290 points. By 15 November 2016 it had rebounded to over 1,000.",
+"impact": "The index is a composite of the Capesize, Panamax and Supramax time-charter averages; its record high was 11,793 points on 20 May 2008.",
+"src": "https://en.wikipedia.org/wiki/Baltic_Dry_Index",
+"checked": "2026-11-23"
 },
 {
 "id": "panama-expansion-2016",
@@ -129,61 +214,61 @@
 "BLNG3"
 ],
 "commodities": [
-"lng",
-"lpg"
+"lng"
 ],
 "countries": [
+"JPN",
 "PAN",
+"QAT",
 "USA"
 ],
-"summary": "The third set of locks opened, allowing Neopanamax vessels with much greater beam, draft and cargo capacity to transit.",
-"impact": "Opened the canal to US Gulf LNG and LPG carriers and larger boxships, reshaping US-Asia energy and container routings.",
-"src": "https://en.wikipedia.org/wiki/Panama_Canal_expansion_project"
+"summary": "The third set of locks of the Panama Canal began commercial operation on 26 June 2016, letting New Panamax ships, about one and a half times larger than the previous Panamax size, transit. The EIA wrote that the canal could now take 90% of the world's LNG tankers, against 30 of the smallest (6% of the fleet) before.",
+"impact": "According to the EIA, a voyage from the US Gulf Coast to Japan through Panama would take 20 days, against 34 days round southern Africa or 31 days through Suez; the 45 largest LNG tankers (Qatar's Q-Flex and Q-Max) cannot use the expanded canal.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=26892",
+"also": [
+{
+"label": "Wikipedia, Panama Canal expansion project",
+"url": "https://en.wikipedia.org/wiki/Panama_Canal_expansion_project"
+}
+],
+"checked": "2026-11-23"
 },
 {
-"id": "hurricane-harvey-2017",
-"date": "2017-08-25",
-"end": "2017-09-05",
-"title": "Hurricane Harvey hits US Gulf Coast",
-"kind": "weather",
-"commodities": [
-"refined-products"
-],
+"id": "hanjin-2016",
+"date": "2016-08-31",
+"title": "Hanjin Shipping files for receivership",
+"kind": "market",
 "countries": [
-"USA"
+"KOR"
 ],
-"summary": "Hurricane Harvey made landfall in Texas and flooded Houston-area refineries and shut Gulf ports and terminals for days.",
-"impact": "US product exports and Gulf port operations were disrupted, tightening Atlantic gasoline and diesel balances.",
-"src": "https://en.wikipedia.org/wiki/Hurricane_Harvey"
+"summary": "Hanjin Shipping, South Korea's largest container line and one of the world's top ten container carriers by capacity, filed for receivership at the Seoul Central District Court on 31 August 2016 and asked the court to freeze its assets, after losing the support of its banks the previous day.",
+"impact": "A South Korean court declared the company bankrupt on 17 February 2017.",
+"src": "https://en.wikipedia.org/wiki/Hanjin_Shipping",
+"checked": "2026-11-23"
 },
 {
-"id": "us-china-tariffs-2018",
-"date": "2018-07-06",
-"title": "US-China trade war tariffs begin",
+"id": "tanzania-ore-ban-2017",
+"date": "2017-03",
+"title": "Tanzania bans exports of mineral concentrates and ores",
 "kind": "policy",
 "commodities": [
-"crude-oil",
-"lng",
-"soybeans"
+"copper",
+"gold",
+"nickel",
+"silver"
 ],
 "countries": [
-"USA",
-"CHN",
-"BRA"
+"TZA"
 ],
-"summary": "The US imposed its first Section 301 tariffs on Chinese goods; China retaliated including on US soybeans, crude and LNG.",
-"impact": "Chinese buyers shifted soybean purchases from the US Gulf and PNW to Brazil and cut US crude and LNG imports, lengthening average soybean voyages.",
-"src": "https://en.wikipedia.org/wiki/China%E2%80%93United_States_trade_war"
+"summary": "In March 2017 Tanzania banned the export of mineral concentrates and ores of metallic minerals such as gold, copper, nickel and silver, to promote value addition in the country under its Mineral Policy of 2009 and Mining Act of 2010.",
+"src": "https://africabusinesscommunities.com/news/tanzania-bans-export-of-raw-minerals/",
+"checked": "2026-11-23"
 },
 {
-"id": "brumadinho-2019",
-"date": "2019-01-25",
-"title": "Vale Brumadinho dam collapse",
+"id": "stellar-daisy-2017",
+"date": "2017-03-31",
+"title": "Ore carrier Stellar Daisy sinks in the South Atlantic",
 "kind": "accident",
-"routes": [
-"C3",
-"C5"
-],
 "commodities": [
 "iron-ore"
 ],
@@ -191,15 +276,140 @@
 "BRA",
 "CHN"
 ],
-"summary": "The B1 tailings dam at Vale's Corrego do Feijao mine collapsed, killing about 270 people and prompting Vale to halt several Brazilian iron ore operations and decommission upstream dams.",
-"impact": "Removed a notable volume of Brazilian iron ore from the seaborne market, lifted iron ore prices and cut Brazil-China Capesize demand (C3).",
-"src": "https://en.wikipedia.org/wiki/Brumadinho_dam_disaster"
+"summary": "On 31 March 2017 the very large ore carrier Stellar Daisy, carrying sinter fines (iron ore) from the Vale Ilha Guaiba terminal near Rio de Janeiro in Brazil to China, reported a loud bang and sank very soon afterwards; 24 crew were on board.",
+"impact": "Wikipedia describes the ship, a single-deck Capesize very large ore carrier, as the largest ship lost at sea, by nearly a factor of 2 in gross tonnage.",
+"src": "https://en.wikipedia.org/wiki/Stellar_Daisy",
+"checked": "2026-11-23"
+},
+{
+"id": "hurricane-harvey-2017",
+"date": "2017-08-25",
+"title": "Hurricane Harvey hits US Gulf Coast",
+"kind": "weather",
+"commodities": [
+"crude-oil",
+"refined-products"
+],
+"countries": [
+"USA"
+],
+"summary": "Hurricane Harvey made landfall on the Texas coast late on 25 August 2017 and stalled inland, causing catastrophic flooding. For the week ending 1 September 2017, gross inputs to US Gulf Coast refineries fell by 3.2 million barrels a day, or 34%, the largest drop since Hurricanes Gustav and Ike in 2008, and the region's refinery utilisation fell from 96% to 63%.",
+"impact": "The EIA noted that just over half of US refinery capacity is on the Gulf Coast, which supplies petroleum products to domestic and international markets. Crude oil exports reached a monthly record of more than 1.7 million barrels a day in October 2017, when export facilities had reopened before many refineries returned to pre-storm utilisation; exports to Asia and Europe rose most.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=32852",
+"also": [
+{
+"label": "EIA, US crude oil exports increased following hurricane-related refinery disruptions",
+"url": "https://www.eia.gov/todayinenergy/detail.php?id=34712"
+},
+{
+"label": "Wikipedia, Hurricane Harvey",
+"url": "https://en.wikipedia.org/wiki/Hurricane_Harvey"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "us-232-steel-2018",
+"date": "2018-03-08",
+"title": "US Section 232 tariff on steel",
+"kind": "policy",
+"commodities": [
+"steel"
+],
+"countries": [
+"CAN",
+"MEX",
+"USA"
+],
+"summary": "By Proclamation 9705 of 8 March 2018 the United States imposed a 25 percent ad valorem tariff on steel articles imported from all countries except Canada and Mexico, on national security grounds.",
+"src": "https://trumpwhitehouse.archives.gov/presidential-actions/presidential-proclamation-adjusting-imports-steel-united-states/",
+"checked": "2026-11-23"
+},
+{
+"id": "rusal-sanctions-2018",
+"date": "2018-04-06",
+"title": "US sanctions on Rusal",
+"kind": "policy",
+"commodities": [
+"aluminium"
+],
+"countries": [
+"USA"
+],
+"summary": "On 6 April 2018 the US Treasury designated Oleg Deripaska and the companies he owned or controlled, including EN+ Group and United Company RUSAL PLC, which it described as responsible for seven percent of global aluminum production.",
+"impact": "According to Wikipedia, on 23 April 2018 the US government gave customers of Rusal America Corporation more time to comply and said it would consider lifting the sanctions if Deripaska ceded control of the company.",
+"src": "https://home.treasury.gov/news/press-releases/sm0338",
+"also": [
+{
+"label": "Wikipedia, Rusal",
+"url": "https://en.wikipedia.org/wiki/Rusal"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "us-china-tariffs-2018",
+"date": "2018-07-06",
+"title": "US-China trade war tariffs begin",
+"kind": "policy",
+"routes": [
+"usgulf-china-grain"
+],
+"commodities": [
+"soybeans"
+],
+"countries": [
+"CHN",
+"USA"
+],
+"summary": "On 6 July 2018 US tariffs on USD 34 billion of Chinese goods came into effect and China imposed retaliatory tariffs on US goods of a similar value. China's Ministry of Commerce had announced on 2 April 2018 a 25% tariff on US soybeans among other products, and Wikipedia reports that China cancelled soybean orders from the United States on 9 May 2018.",
+"impact": "According to Wikipedia, soybeans are the top US agricultural export to China, and in the six months after 11 December 2018 US soybean exports to China were about one quarter of their 2017 level. China removed its 2018 tariff increase on soybeans on 13 September 2019.",
+"src": "https://en.wikipedia.org/wiki/China%E2%80%93United_States_trade_war",
+"checked": "2026-11-23"
+},
+{
+"id": "brumadinho-2019",
+"date": "2019-01-25",
+"title": "Vale Brumadinho dam collapse",
+"kind": "accident",
+"commodities": [
+"iron-ore"
+],
+"countries": [
+"BRA"
+],
+"summary": "On 25 January 2019 a tailings dam at Vale's Corrego do Feijao iron ore mine near Brumadinho, Minas Gerais, Brazil, failed; 270 people died, of whom 259 were officially confirmed dead in January 2019 and 11 reported missing.",
+"impact": "On 29 January 2019 Vale presented a plan to decommission all ten of its upstream-method dams and said it would temporarily halt production at the units where they stand. It put the impact of the stoppage at about 40 million tons of iron ore a year, including the pellet feed for 11 million tons of pellets, and said other systems would offset it.",
+"src": "https://www.sec.gov/Archives/edgar/data/917851/000110465919004157/a19-3620_56k.htm",
+"also": [
+{
+"label": "Wikipedia, Brumadinho dam disaster",
+"url": "https://en.wikipedia.org/wiki/Brumadinho_dam_disaster"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "cyclone-veronica-2019",
+"date": "2019-03",
+"title": "Cyclone Veronica stalls off the Pilbara coast",
+"kind": "weather",
+"commodities": [
+"iron-ore"
+],
+"countries": [
+"AUS"
+],
+"summary": "In March 2019 Cyclone Veronica weakened to Category 3 just off the Pilbara coast of Western Australia, where it became almost stationary for 24 hours.",
+"impact": "Wikipedia reports about USD 1.7 billion of economic losses, primarily from disruptions to iron ore exports, and no fatalities.",
+"src": "https://en.wikipedia.org/wiki/Cyclone_Veronica",
+"checked": "2026-11-23"
 },
 {
 "id": "hormuz-tanker-attacks-2019",
 "date": "2019-05-12",
-"end": "2019-07-19",
-"title": "Tanker attacks and seizures near Hormuz and Gulf of Oman",
+"end": "2019-06-13",
+"title": "Tanker attacks in the Gulf of Oman, May and June 2019",
 "kind": "conflict",
 "chokepoints": [
 "hormuz"
@@ -207,30 +417,68 @@
 "routes": [
 "TD3C"
 ],
+"commodities": [
+"crude-oil",
+"refined-products"
+],
+"countries": [
+"ARE",
+"SAU"
+],
 "assets": [
 "fujairah"
 ],
-"summary": "Sabotage of tankers off Fujairah (May 2019), attacks on tankers in the Gulf of Oman (13 June 2019) and later vessel seizures raised security risk in the Strait of Hormuz.",
-"impact": "Gulf war-risk premiums rose and VLCC rates responded; the episode prompted naval escort initiatives in the Gulf.",
-"src": "https://en.wikipedia.org/wiki/Gulf_of_Oman_incident"
+"summary": "On 12 May 2019 four commercial ships (two Saudi-registered oil tankers, a Norwegian-registered tanker and an Emirati bunkering ship) were damaged off Fujairah in the Gulf of Oman; the United Arab Emirates called it sabotage and accused no one. On 13 June 2019 the tankers Front Altair and Kokuka Courageous, carrying petroleum products, were attacked in the Gulf of Oman.",
+"impact": "Bloomberg reported, as summarised by Wikipedia, that the war-risk insurance premium for the Persian Gulf for supertankers jumped from USD 50,000 to USD 185,000 after the June attack, having already risen after the May incidents.",
+"src": "https://en.wikipedia.org/wiki/June_2019_Gulf_of_Oman_incident",
+"also": [
+{
+"label": "Wikipedia, May 2019 Gulf of Oman incident",
+"url": "https://en.wikipedia.org/wiki/May_2019_Gulf_of_Oman_incident"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "abqaiq-2019",
 "date": "2019-09-14",
 "title": "Drone and missile attack on Abqaiq and Khurais",
 "kind": "conflict",
-"chokepoints": [
-"hormuz"
-],
 "commodities": [
 "crude-oil"
 ],
 "countries": [
 "SAU"
 ],
-"summary": "Attacks on Saudi Aramco facilities temporarily removed a large share of Saudi crude output.",
-"impact": "Brent spiked on the day of reopening; Saudi crude exports to Asia recovered within weeks.",
-"src": "https://en.wikipedia.org/wiki/Abqaiq%E2%80%93Khurais_attack"
+"summary": "On 14 September 2019 drones attacked Saudi Aramco's oil processing facilities at Abqaiq and Khurais in eastern Saudi Arabia; the Houthi movement claimed responsibility, while a UN report of December 2019 could not confirm Saudi claims about the weapons' origin. Saudi officials said the shutdown cut the country's output from 9.8 to about 4.1 million barrels a day, about 5% of global production.",
+"impact": "Brent futures surged almost 20% on 16 September 2019, the largest rise in the price since 1990. Abqaiq was running at 2 million barrels a day within 48 hours, and the Saudi energy ministry said full production could be restored within two to three weeks, by the end of September.",
+"src": "https://en.wikipedia.org/wiki/Abqaiq%E2%80%93Khurais_attack",
+"checked": "2026-11-23"
+},
+{
+"id": "cosco-dalian-2019",
+"date": "2019-09-25",
+"end": "2020-01-31",
+"title": "US sanctions on COSCO Shipping Tanker (Dalian)",
+"kind": "policy",
+"countries": [
+"IRN",
+"USA"
+],
+"summary": "On 25 September 2019 the US Secretary of State determined that COSCO Shipping Tanker (Dalian) Co. and COSCO Shipping Tanker (Dalian) Seaman & Ship Management Co. met the criteria for sanctions under Executive Order 13846, on Iran, and OFAC added them to its sanctions list.",
+"impact": "OFAC stated that the blocking sanctions applied only to the listed entity and to entities it owns 50 percent or more, not to its parent COSCO Shipping Corporation. The entries were deleted from the list on 31 January 2020.",
+"src": "https://home.treasury.gov/policy-issues/financial-sanctions/recent-actions/20190925",
+"also": [
+{
+"label": "OFAC, FAQ 804",
+"url": "https://home.treasury.gov/policy-issues/financial-sanctions/faqs/804"
+},
+{
+"label": "OFAC, recent actions of 31 January 2020",
+"url": "https://home.treasury.gov/policy-issues/financial-sanctions/recent-actions/20200131"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "imo-2020-2020",
@@ -240,9 +488,16 @@
 "commodities": [
 "refined-products"
 ],
-"summary": "The IMO 0.50% global sulphur limit on marine fuel took effect, moving the fleet to low-sulphur fuel or scrubbers.",
-"impact": "Shifted demand between high- and low-sulphur fuel oil and changed bunker costs underlying all freight rates.",
-"src": "https://en.wikipedia.org/wiki/IMO_2020"
+"summary": "On 1 January 2020 the IMO limit on the sulphur content of fuel oil used on ships outside emission control areas fell from 3.50% to 0.50% m/m (inside the control areas it was already 0.10%). Ships must use fuel low enough in sulphur or an exhaust gas cleaning system (scrubber), which lets a ship keep burning heavy fuel oil.",
+"impact": "A MARPOL amendment that took effect in March 2020 prohibits the carriage of non-compliant fuel oil for use on board unless the ship has a scrubber.",
+"src": "https://www.imo.org/en/MediaCentre/HotTopics/Pages/Sulphur-2020.aspx",
+"also": [
+{
+"label": "Wikipedia, IMO 2020",
+"url": "https://en.wikipedia.org/wiki/IMO_2020"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "nickel-ore-ban-2020",
@@ -253,54 +508,103 @@
 "nickel"
 ],
 "countries": [
-"IDN",
-"CHN",
-"PHL"
+"IDN"
 ],
-"summary": "Indonesia halted nickel ore exports (brought forward from 2022) to force domestic smelting.",
-"impact": "Ended Indonesia-China nickel ore shipments and spurred smelter build-out; ore supply for Chinese NPI producers shifted to the Philippines.",
-"src": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia"
+"summary": "Indonesia's energy and mineral resources ministry announced on 2 September 2019 that from 1 January 2020 nickel ore with a grade below 1.7% could no longer be exported, with a four-month transition. It gave as reasons the limited reserves (proven reserves of 698 million tonnes, enough for 7.3 years of smelter supply) and the faster development of smelters; it counted 11 nickel smelters built and 25 under construction.",
+"impact": "The ministry said the policy was meant to raise the added value of nickel processed in Indonesia, including low-grade ore (limonite) as feedstock for battery materials.",
+"src": "https://www.esdm.go.id/id/media-center/arsip-berita/bijih-nikel-tidak-boleh-diekspor-lagi-per-januari-2020",
+"also": [
+{
+"label": "Wikipedia, Nickel mining in Indonesia",
+"url": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "oil-price-war-2020",
+"date": "2020-03-08",
+"title": "Saudi Arabia starts an oil price war with Russia",
+"kind": "market",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"RUS",
+"SAU"
+],
+"summary": "On 8 March 2020 Saudi Arabia initiated a price war on oil with Russia, after a break-up in dialogue between OPEC and Russia over proposed production cuts in the midst of the COVID-19 pandemic; Wikipedia reports a 65% quarterly fall in the price of oil. Prices had already fallen 30% since the start of 2020 because of a drop in demand.",
+"impact": "Saudi Arabia and Russia agreed to production cuts in early April and again in June 2020. OPEC and its allies agreed to cut production in May and June 2020 by 9.7 million barrels a day, around 10% of global output.",
+"src": "https://en.wikipedia.org/wiki/2020_Russia%E2%80%93Saudi_Arabia_oil_price_war",
+"also": [
+{
+"label": "Wikipedia, OPEC+",
+"url": "https://en.wikipedia.org/wiki/OPEC%2B"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "covid-2020",
-"date": "2020-03-11",
-"end": "2020-12",
-"title": "COVID-19 pandemic and the 2020 oil price collapse",
+"date": "2020-04-20",
+"title": "COVID-19 demand shock and negative WTI futures price",
 "kind": "market",
-"routes": [
-"TD3C"
-],
 "commodities": [
 "crude-oil",
 "refined-products"
 ],
-"summary": "WHO declared a pandemic on 11 March 2020; demand destruction and the OPEC+ price war pushed WTI futures negative on 20 April 2020.",
-"impact": "Floating storage boom for crude and products (tanker rates spiked in spring 2020), then a demand rebound; port congestion and boxship dislocations followed.",
-"src": "https://en.wikipedia.org/wiki/Economic_impact_of_the_COVID-19_pandemic"
+"countries": [
+"RUS",
+"SAU",
+"USA"
+],
+"summary": "On 20 April 2020 WTI front-month futures on NYMEX traded in negative dollars per barrel for the first time since trading began in 1983, as low as minus USD 40.32. The EIA said scarce and costly crude storage gave contract holders an incentive to close positions before physical delivery at Cushing, Oklahoma, and some paid a counterparty to take their contracts.",
+"impact": "The EIA linked this to a sharp decline in consumption of crude oil and petroleum products after travel restrictions and the economic slowdown in response to COVID-19: in the week ending 17 April 2020 US refinery runs fell to 12.8 million barrels a day, 4.1 million (24%) less than a year earlier. Wikipedia also cites a Russia-Saudi Arabia oil price war behind a collapse in crude prices in March 2020.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=43495",
+"also": [
+{
+"label": "Wikipedia, Economic impact of the COVID-19 pandemic",
+"url": "https://en.wikipedia.org/wiki/Economic_impact_of_the_COVID-19_pandemic"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "china-australia-coal-2020",
-"date": "2020-10",
-"end": "2023-01",
+"date": "2020-12",
+"end": "2023-03",
 "title": "China informally restricts Australian coal imports",
 "kind": "policy",
 "commodities": [
-"met-coal",
 "thermal-coal"
 ],
 "countries": [
 "AUS",
-"CHN",
-"IND",
-"JPN",
-"KOR",
-"RUS",
-"IDN",
-"MNG"
+"CHN"
 ],
-"summary": "From about October 2020 Chinese customs and buyers curbed imports of Australian thermal and coking coal, while restrictions were lifted progressively from early 2023.",
-"impact": "Australian coal redirected to India, Japan, Korea and others while China bought more Russian, Indonesian and Mongolian coal; Pacific coal tonne-miles shifted.",
-"src": "https://en.wikipedia.org/wiki/Australia%E2%80%93China_relations"
+"summary": "After months of restrictions, China fully blocked coal imports from Australia in December 2020, according to Wikipedia. In January 2023 four state-backed Chinese importers were allowed to buy Australian coal, and in March 2023 Bloomberg reported that all domestic companies were allowed to import it, ending the restrictions imposed from late 2020.",
+"impact": "China Briefing, citing Bloomberg, reported that 1.35 million tons of coal had shipped from Australia to China in March 2023 up to the 13th, against 0.82 million tons in February.",
+"src": "https://www.china-briefing.com/news/china-to-lift-restrictions-on-australian-coal-imports/",
+"also": [
+{
+"label": "Wikipedia, Australia-China relations",
+"url": "https://en.wikipedia.org/wiki/Australia%E2%80%93China_relations"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "texas-freeze-2021",
+"date": "2021-02",
+"title": "Winter storm and power crisis in Texas",
+"kind": "weather",
+"commodities": [
+"natural-gas"
+],
+"summary": "A winter storm that formed north of the Gulf Coast on 10 February 2021 brought record low temperatures to Texas and left more than 4.5 million homes and businesses without power, some for several days. Wikipedia reports that the failure to winterise traditional power sources, principally natural gas infrastructure, caused the grid failure, with a drop in power production from natural gas more than five times greater than that from wind turbines.",
+"impact": "Natural gas prices spiked to USD 23.86 on 17 February 2021, according to Wikipedia.",
+"src": "https://en.wikipedia.org/wiki/2021_Texas_power_crisis",
+"checked": "2026-11-23"
 },
 {
 "id": "ever-given-2021",
@@ -311,53 +615,204 @@
 "chokepoints": [
 "suez"
 ],
-"summary": "The container ship Ever Given grounded in the canal, blocking traffic until refloated on 29 March 2021.",
-"impact": "Hundreds of ships queued or diverted via the Cape; the week-long closure showed single-point-of-failure risk for tanker, LNG and dry bulk flows.",
+"summary": "The 400-metre container ship Ever Given ran aground in the Suez Canal on 23 March 2021 and blocked all traffic until it was pulled free at 15:05 local time on 29 March; the canal reopened to shipping from 19:00 that day.",
+"impact": "By then more than 400 ships were waiting: about 200 in the Red Sea, under 200 in the Mediterranean and around 50 in the Bitter Lakes; during the blockage some had diverted to alternative routes. Before the incident about fifty ships a day used the canal, about 12 percent of global trade, according to Wikipedia.",
 "src": "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction",
+"checked": "2026-11-23"
+},
+{
+"id": "colonial-pipeline-2021",
+"date": "2021-05",
+"title": "Colonial Pipeline shut by a ransomware attack",
+"kind": "infrastructure",
 "commodities": [
-"lng"
-]
+"refined-products"
+],
+"countries": [
+"USA"
+],
+"assets": [
+"colonial"
+],
+"summary": "The Colonial Pipeline Company halted all pipeline operations to contain a ransomware attack in May 2021. The Colonial Pipeline network carries gasoline, diesel and jet fuel from Texas to New York.",
+"impact": "Overseen by the FBI, the company paid the 75 bitcoin (USD 4.4 million) that the hackers asked for within hours. The Energy Secretary cautioned on 12 May against gasoline hoarding, saying that the United States was undergoing a supply crunch rather than a shortage.",
+"src": "https://en.wikipedia.org/wiki/Colonial_Pipeline_ransomware_attack",
+"checked": "2026-11-23"
+},
+{
+"id": "belarus-potash-2021",
+"date": "2021-06-24",
+"title": "EU and US sanctions on Belarusian potash",
+"kind": "policy",
+"commodities": [
+"potash"
+],
+"countries": [
+"BLR",
+"CAN",
+"CHE",
+"GBR",
+"USA"
+],
+"assets": [
+"belaruskali-soligorsk"
+],
+"summary": "On 24 June 2021 the European Union introduced restrictions on potash trade with Belarus in reaction to human rights violations and the forced landing of a Ryanair flight in Minsk. On 2 December 2021 Belaruskali was added to the United Kingdom's sanctions list and the Belarusian Potash Company to the US Treasury's SDN list; in 2022 Canada, the EU and Switzerland imposed sanctions on Belaruskali, its chief executive and the Belarusian Potash Company.",
+"src": "https://en.wikipedia.org/wiki/Belaruskali",
+"checked": "2026-11-23"
+},
+{
+"id": "russia-wheat-quota-2022",
+"date": "2021-12-17",
+"end": "2022-06-30",
+"title": "Russia sets a wheat and cereals export quota",
+"kind": "policy",
+"commodities": [
+"corn",
+"wheat"
+],
+"countries": [
+"RUS"
+],
+"summary": "On 17 December 2021 the Commission for Customs and Tariffs of Russia approved an 11 million tonne quota on cereal exports to countries outside the Eurasian Economic Union between 15 February and 30 June 2022: 8 million tonnes of wheat and meslin and 3 million tonnes of barley, maize and rye.",
+"impact": "According to FAO, the quota for the same period of 2021 was 17.5 million tonnes of cereals without a specific limit for wheat. From the start of the marketing year in July 2021 to 16 December Russia exported 18.1 million tonnes of wheat, 22 percent less than a year earlier.",
+"src": "https://www.fao.org/giews/food-prices/food-policies/detail/en/c/1467626/",
+"checked": "2026-11-23"
 },
 {
 "id": "russia-invasion-2022",
 "date": "2022-02-24",
 "title": "Russia invades Ukraine",
 "kind": "conflict",
-"chokepoints": [
-"bosphorus"
-],
-"routes": [
-"russia-baltic-india-crude",
-"TD17",
-"TC9"
-],
 "commodities": [
 "crude-oil",
 "natural-gas",
+"thermal-coal"
+],
+"countries": [
+"RUS",
+"SAU",
+"UKR"
+],
+"summary": "Russia invaded Ukraine on 24 February 2022. In 2021 Russia had been the world's largest natural gas exporter, the second-largest exporter of crude oil and condensates after Saudi Arabia and the third-largest coal exporter; OECD Europe received most of its crude oil and natural gas, and Asia and Oceania most of its coal, according to the EIA (14 March 2022).",
+"impact": "The EIA reported in September 2025 that since the invasion Russian natural gas and coal exports have declined from their 2021 level, most to Europe, and that Russia partly offset this by exporting more to Asia. EU imports of Russian natural gas fell by more than two-thirds, from 14.7 billion cubic feet a day in 2020 to 4.4 in 2024, although the EU never directly sanctioned them.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=51618",
+"also": [
+{
+"label": "EIA, Russia's natural gas and coal exports have been decreasing and shifting toward Asia",
+"url": "https://www.eia.gov/todayinenergy/detail.php?id=66044"
+},
+{
+"label": "Wikipedia, Russian invasion of Ukraine",
+"url": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+}
+],
+"series": {
+"natural-gas": "ttf-m",
+"thermal-coal": "coal-zaf-m"
+},
+"checked": "2026-11-23"
+},
+{
+"id": "us-russian-energy-ban-2022",
+"date": "2022-03-08",
+"title": "US bans imports of Russian oil, LNG and coal",
+"kind": "policy",
+"commodities": [
+"crude-oil",
+"lng",
 "refined-products",
 "thermal-coal"
 ],
 "countries": [
 "RUS",
-"UKR"
+"USA"
 ],
-"summary": "Russia launched a full-scale invasion of Ukraine; Ukrainian Black Sea ports were closed and the Black Sea became a war zone.",
-"impact": "Black Sea war-risk premiums rose and Ukrainian grain exports initially halted; Europe began replacing Russian coal, crude, products and pipeline gas.",
-"src": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine",
-"series": {
-"natural-gas": "ttf-m",
-"thermal-coal": "coal-zaf-m"
-}
+"summary": "On 8 March 2022 President Biden signed an executive order banning the import into the United States of Russian crude oil and certain petroleum products, liquefied natural gas and coal.",
+"impact": "The White House said that the United States had imported nearly 700,000 barrels a day of crude oil and refined petroleum products from Russia the year before.",
+"src": "https://bidenwhitehouse.archives.gov/briefing-room/statements-releases/2022/03/08/fact-sheet-united-states-bans-imports-of-russian-oil-liquefied-natural-gas-and-coal/",
+"checked": "2026-11-23"
+},
+{
+"id": "russia-rouble-gas-2022",
+"date": "2022-04",
+"title": "Russia demands roubles for gas and suspends supplies to Poland and Bulgaria",
+"kind": "policy",
+"commodities": [
+"natural-gas"
+],
+"countries": [
+"BGR",
+"DEU",
+"POL",
+"RUS",
+"USA"
+],
+"assets": [
+"nord-stream-1"
+],
+"summary": "On 23 March 2022 Russian President Putin announced that payments for Russian pipeline gas would be switched from US dollars and euros to roubles when the transaction involved a country formally designated unfriendly, which included all EU states. In late April 2022 Gazprom announced that it had completely suspended gas supplies to Poland's PGNiG and Bulgaria's Bulgargaz because of the absence of payments in roubles.",
+"impact": "Wikipedia reports that the announcement caused natural gas prices to surge, and that on 16 June 2022 European benchmark gas prices rose about 30% after Gazprom cut Nord Stream 1 deliveries to Germany to 40% of the pipeline's capacity.",
+"src": "https://en.wikipedia.org/wiki/2022_Russia%E2%80%93European_Union_gas_dispute",
+"checked": "2026-11-23"
+},
+{
+"id": "eu-russian-coal-ban-2022",
+"date": "2022-04",
+"end": "2022-08",
+"title": "EU sanctions on Russian coal take full effect",
+"kind": "policy",
+"commodities": [
+"thermal-coal"
+],
+"countries": [
+"RUS",
+"UKR",
+"USA"
+],
+"summary": "After Russia's full-scale invasion of Ukraine the EU imposed sanctions on coal from Russia in April 2022, with a grace period for existing contracts that lasted until August 2022. In 2021 Europe had received 84.6 million short tons of coal from Russia, about one third of Russia's total exports.",
+"impact": "The EIA reported that US coal exports increased by 5.7 million short tons in the 12 months after the sanctions went into full effect in August 2022, driven by a 22% jump in exports to Europe, to 33.1 million short tons from 27.1 million in the same period a year earlier.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=60882",
+"checked": "2026-11-23"
+},
+{
+"id": "indonesia-palm-oil-ban-2022",
+"date": "2022-04-28",
+"end": "2022-05-23",
+"title": "Indonesia bans palm oil exports for three weeks",
+"kind": "policy",
+"commodities": [
+"palm-oil"
+],
+"countries": [
+"IDN"
+],
+"summary": "Indonesia banned exports of palm oil, refined palm oil and used cooking oil from 28 April 2022. On 23 May 2022 Regulation No. 30/2022 reinstated the possibility to export them, after a three-week ban, because domestic supply was deemed sufficient and domestic prices had declined.",
+"impact": "After the ban was withdrawn the government reinstated the Domestic Market Obligation and Domestic Price Obligation, which reserve palm oil for domestic cooking oil supplies, according to FAO.",
+"src": "https://www.fao.org/giews/food-prices/food-policies/detail/en/c/1529567/",
+"checked": "2026-11-23"
+},
+{
+"id": "india-wheat-ban-2022",
+"date": "2022-05-13",
+"title": "India prohibits wheat exports",
+"kind": "policy",
+"commodities": [
+"wheat"
+],
+"countries": [
+"IND"
+],
+"summary": "As of 13 May 2022 the Government of India prohibited exports of wheat to ensure adequate domestic supply, including the quantities needed for welfare schemes, amid rising global wheat prices and a lower than expected 2022 wheat production after a heatwave in March. Some exports were allowed to honour contracts under irrevocable letters of credit already issued, or by special permission of the government.",
+"src": "https://www.fao.org/giews/food-prices/food-policies/detail/de/c/1513589/",
+"checked": "2026-11-23"
 },
 {
 "id": "us-lng-freeport-2022",
-"date": "2022-06-08",
-"end": "2022-11",
+"date": "2022-06",
+"end": "2023-02",
 "title": "Freeport LNG explosion",
 "kind": "accident",
-"routes": [
-"BLNG3"
-],
 "commodities": [
 "lng"
 ],
@@ -367,9 +822,16 @@
 "assets": [
 "freeport-lng"
 ],
-"summary": "An explosion at the Freeport LNG terminal in Texas shut a major US export plant for months.",
-"impact": "Cut US LNG exports to Europe during the energy crisis and reduced Atlantic LNG ship demand.",
-"src": "https://en.wikipedia.org/wiki/Freeport_LNG"
+"summary": "In June 2022 a pipeline rupture leaking methane caused a fire and an explosion at the Freeport LNG terminal in Texas and forced it offline; it restarted commercial production eight months later, in February 2023, according to Wikipedia. Before the full shutdown the terminal's exports averaged 1.9 billion cubic feet a day from January 2021 to May 2022, and it can produce 2.14 on a peak day (EIA).",
+"impact": "The EIA reported that because of the shutdown US LNG exports averaged 10.0 billion cubic feet a day from June to December 2022, after peaking at 11.7 in March, and that the new Calcasieu Pass terminal, commissioned in the same period, partly offset the decline with 1.2 a day.",
+"src": "https://www.eia.gov/naturalgas/weekly/archivenew_ngwu/2023/03_09/",
+"also": [
+{
+"label": "Wikipedia, Freeport LNG",
+"url": "https://en.wikipedia.org/wiki/Freeport_LNG"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "black-sea-grain-initiative-2022",
@@ -381,24 +843,25 @@
 "bosphorus"
 ],
 "commodities": [
-"corn",
 "wheat"
 ],
 "countries": [
-"UKR",
 "RUS",
-"TUR"
+"TUR",
+"UKR"
 ],
 "assets": [
 "odesa"
 ],
-"summary": "UN- and Turkey-brokered deal let Ukrainian grain move from Odesa-area ports via a Bosphorus inspection regime until Russia withdrew on 17 July 2023.",
-"impact": "Ukrainian wheat, corn and sunflower exports resumed on Handysize and Supramax vessels, easing food prices; it ended with renewed Russian strikes on Odesa ports.",
-"src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative"
+"summary": "The Black Sea Grain Initiative was signed in Istanbul on 22 July 2022 by Ukraine, Russia, Turkey and the United Nations. Ships crossed demined corridors from Ukrainian ports such as Odesa, with Turkey inspecting merchant vessels, and a UN Joint Coordination Centre in Istanbul registered and monitored departures from 27 July 2022. The initiative expired on 17 July 2023.",
+"impact": "According to Wikipedia, the February 2022 invasion had halted maritime grain shipments from Ukraine, and wheat prices fell to pre-war levels after the signing. By mid-July 2023 more than 1,100 voyages had left Ukrainian ports carrying nearly 33 million tonnes of grain and other food products to more than 40 countries.",
+"src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative",
+"checked": "2026-11-23"
 },
 {
 "id": "mississippi-low-2022",
-"date": "2022-09",
+"date": "2022-08",
+"end": "2022-12",
 "title": "Mississippi and Rhine low-water restrictions",
 "kind": "weather",
 "commodities": [
@@ -406,99 +869,86 @@
 "thermal-coal"
 ],
 "countries": [
+"DEU",
 "USA"
 ],
-"summary": "Drought lowered the Mississippi River and the Rhine in 2022, limiting barge loadings and draft for grain, coal and oil products.",
-"impact": "Grain and coal barge freight spiked; Rhine low water raised inland costs for coal and oil product deliveries to Europe.",
-"src": "https://en.wikipedia.org/wiki/Rhine"
+"summary": "At Memphis the Mississippi gauge fell from +10 feet in August 2022 to below -7 feet in September and reached an all-time low of -10.81 feet on 19 October; tow size was cut by 17 to 28 percent, per-barge tonnage by 24 to 30 percent and draft to 9 feet, and the restrictions were lifted in December 2022 (USDA Agricultural Marketing Service). In August 2022 Destatis reported that low water on the Rhine and many other rivers was affecting freight on German inland waterways, where coal and mineral oil products were the most important product groups.",
+"impact": "USDA reported that the St. Louis spot barge rate hit an all-time high of USD 105.85 a ton in the week of 11 October 2022, and that barged grain volumes in the third quarter were 6.9 million tons, down 32 percent from the previous quarter. Destatis counted 82.4 million tonnes carried on German inland waterways from January to May 2022, 86.3 percent of it on the Rhine; the gauge at Kaub is regarded as an indicator of the navigable depth.",
+"src": "https://www.ams.usda.gov/sites/default/files/media/GTR03162023.pdf",
+"also": [
+{
+"label": "Destatis, press release N053 of 26 August 2022",
+"url": "https://destatis.de/EN/Press/2022/08/PE22_N053_463.html"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "nord-stream-2022",
 "date": "2022-09-26",
 "title": "Nord Stream pipelines sabotaged",
 "kind": "infrastructure",
-"chokepoints": [
-"danish-straits"
-],
-"routes": [
-"BLNG3"
-],
 "commodities": [
-"lng",
 "natural-gas"
 ],
 "countries": [
+"DNK",
 "RUS",
-"DEU"
+"SWE",
+"UKR"
 ],
 "assets": [
 "nord-stream-1"
 ],
-"summary": "Explosions damaged the Nord Stream 1 and 2 gas pipelines in the Baltic Sea.",
-"impact": "Removed the largest Russia-Germany gas pipeline route, deepening reliance on LNG and raising demand for LNG shipping.",
+"summary": "On 26 September 2022 a series of underwater explosions and gas leaks hit three of the four Nord Stream pipes, rendering them inoperable; the leaks were in international waters within the economic zones of Denmark and Sweden, and the Swedish and Danish investigations were closed in February 2024 without identifying those responsible.",
+"impact": "Before the leaks the pipelines were filled with natural gas but not transporting it, as a consequence of the Russian invasion of Ukraine. In 2021 Russia had supplied roughly 45% of the natural gas imported by European Union states (Wikipedia).",
 "src": "https://en.wikipedia.org/wiki/Nord_Stream_pipelines_sabotage",
 "series": {
 "natural-gas": "ttf-m"
-}
+},
+"checked": "2026-11-23"
 },
 {
 "id": "eu-crude-embargo-2022",
 "date": "2022-12-05",
 "title": "EU embargo on seaborne Russian crude and G7 price cap",
 "kind": "policy",
-"chokepoints": [
-"danish-straits",
-"bosphorus",
-"cape-good-hope"
-],
 "routes": [
 "russia-baltic-india-crude",
 "TD17",
 "TC9"
 ],
 "commodities": [
-"crude-oil"
-],
-"countries": [
-"RUS",
-"IND",
-"CHN",
-"TUR"
-],
-"summary": "The EU ban on seaborne Russian crude and the G7 price cap (USD 60/bbl) took effect on 5 December 2022.",
-"impact": "Russian crude was redirected to India, China and Turkey on longer voyages, lifting tonne-miles; a shadow fleet outside Western insurance grew.",
-"src": "https://en.wikipedia.org/wiki/Russian_oil_price_cap"
-},
-{
-"id": "eu-products-embargo-2023",
-"date": "2023-02-05",
-"title": "EU embargo and price caps on Russian refined products",
-"kind": "policy",
-"chokepoints": [
-"suez",
-"cape-good-hope"
-],
-"commodities": [
+"crude-oil",
 "refined-products"
 ],
 "countries": [
-"RUS",
 "IND",
-"TUR",
-"BRA"
+"RUS",
+"USA"
 ],
-"summary": "The EU ban on seaborne Russian oil products and G7 product price caps took effect on 5 February 2023.",
-"impact": "Europe replaced Russian diesel with Middle East and Indian supply, lengthening product tanker voyages; Russian products moved to Turkey, North Africa and Brazil.",
-"src": "https://en.wikipedia.org/wiki/Russian_oil_price_cap",
-"routes": [
-"russia-baltic-india-crude",
-"TD17",
-"TC9"
-]
+"summary": "The EU's sixth sanctions package, adopted on 3 June 2022, banned seaborne imports of crude oil from Russia into the EU from 5 December 2022 (EIA). On 3 December 2022 the Price Cap Coalition set a cap of USD 60 a barrel on Russian seaborne crude, taking effect after 5 December; European operators may carry Russian oil to third countries if its price is below the cap (European Commission).",
+"impact": "According to the US Treasury (18 May 2023), since the cap Russia has exported crude and refined products at pre-war volumes, while Russian government oil revenues from January to March 2023 were over 40 percent lower than a year earlier, per the Russian finance ministry. Wikipedia reports that India rejected the cap and that Russia is believed to have bought about 100 old tankers for a shadow fleet.",
+"src": "https://ec.europa.eu/commission/presscorner/api/files/document/print/hu/ip_22_7468/IP_22_7468_EN.pdf",
+"also": [
+{
+"label": "EIA, EU's ban on diesel fuel from Russia shifts trade patterns",
+"url": "https://www.eia.gov/todayinenergy/detail.php?id=55739"
+},
+{
+"label": "US Treasury, The Price Cap on Russian Oil: A Progress Report",
+"url": "https://home.treasury.gov/news/featured-stories/the-price-cap-on-russian-oil-a-progress-report"
+},
+{
+"label": "Wikipedia, Russian oil price cap",
+"url": "https://en.wikipedia.org/wiki/Russian_oil_price_cap"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "panama-drought-2023",
-"date": "2023-06",
+"date": "2023-01",
 "end": "2024-08",
 "title": "Panama Canal drought restrictions",
 "kind": "weather",
@@ -509,15 +959,63 @@
 "BLNG3"
 ],
 "commodities": [
-"lng",
 "lpg"
 ],
 "countries": [
 "PAN"
 ],
-"summary": "Low Gatun Lake levels from the 2023 El Nino drought forced draft limits and cut daily transit slots, with reductions deepening into early 2024.",
-"impact": "Neopanamax LNG, LPG and bulk vessels were delayed or diverted via the Cape of Good Hope or Suez; slot auctions reached large premiums.",
-"src": "https://en.wikipedia.org/wiki/Panama_Canal"
+"summary": "Gatun Lake fell to its lowest level since at least 1995 and the Panama Canal Authority restricted transits from January 2023: to 32 vessels a day on 30 July and 24 from 7 November 2023, down from a typical 36. On 15 August 2024 the Authority raised the maximum Neopanamax draft back to 50 feet and announced 36 daily booking slots from 1 September 2024.",
+"impact": "The EIA reported that in August 2023 more than 160 vessels waited to transit and Neopanamax ships waited at least 17 days; rates for very large gas carriers, which ship LPG, on the Houston-Chiba route reached USD 250 a ton in the week to 29 September 2023, the highest since publication began in 2016, and some of those ships returned via Suez or the Cape of Good Hope.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=60842",
+"also": [
+{
+"label": "Panama Canal Authority, Advisory to Shipping A-28-2024",
+"url": "https://pancanal.com/wp-content/uploads/2024/08/ADV28-2024-Increase-in-the-Maximum-Allowable-Draft-in-the-Neopanamax-Locks-and-Modifications-to-the-Transit-Reservation-Booking-System.pdf"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "imo-eexi-cii-2023",
+"date": "2023-01-01",
+"title": "IMO energy efficiency rules EEXI and CII apply",
+"kind": "policy",
+"summary": "From 1 January 2023 it became mandatory for all ships to calculate their attained Energy Efficiency Existing Ship Index (EEXI) and to start collecting data for the reporting of their annual operational carbon intensity indicator (CII) and CII rating.",
+"src": "https://www.imo.org/en/MediaCentre/HotTopics/Pages/EEXI-CII-FAQ.aspx",
+"checked": "2026-11-23"
+},
+{
+"id": "eu-products-embargo-2023",
+"date": "2023-02-05",
+"title": "EU embargo and price caps on Russian refined products",
+"kind": "policy",
+"routes": [
+"TC9",
+"TC20",
+"india-europe-diesel",
+"middle-east-europe-diesel"
+],
+"commodities": [
+"refined-products"
+],
+"countries": [
+"CHN",
+"IND",
+"KOR",
+"RUS",
+"SAU",
+"USA"
+],
+"summary": "The EU's sixth sanctions package banned seaborne imports of petroleum products from Russia, including diesel, from 5 February 2023 (EIA). The Price Cap Coalition then set a cap of USD 100 a barrel on Russian petroleum products such as diesel in February 2023 (US Treasury).",
+"impact": "The EIA reported that diesel from Russia was 53% of Northwest Europe's seaborne diesel imports between October 2021 and September 2022 and 2% in February 2023, while diesel imports from Saudi Arabia rose to 202,000 barrels a day from an average of 68,000, and those from India by 110,000 to 161,000 barrels a day; China sent 119,000 and South Korea 45,000 in February.",
+"src": "https://www.eia.gov/todayinenergy/detail.php?id=55739",
+"also": [
+{
+"label": "US Treasury, The Price Cap on Russian Oil: A Progress Report",
+"url": "https://home.treasury.gov/news/featured-stories/the-price-cap-on-russian-oil-a-progress-report"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "ukraine-corridor-2023",
@@ -528,14 +1026,18 @@
 "bosphorus"
 ],
 "countries": [
+"BGR",
+"ROU",
+"RUS",
 "UKR"
 ],
 "assets": [
 "odesa"
 ],
-"summary": "After the grain deal collapsed, Ukraine opened its own Black Sea corridor hugging the western coast, with vessels calling at Odesa-region ports.",
-"impact": "Ukrainian exports resumed at somewhat lower volumes with higher insurance cost; Danube and EU land routes also expanded.",
-"src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative"
+"summary": "After the grain deal expired, Ukraine established its own temporary commercial shipping lane in the Black Sea. On 19 September 2023 the bulk carrier Resilient Africa was the first inbound vessel to call at and leave the port of Chornomorsk through it, and by 15 November 115 ships had passed out through the corridor since August.",
+"impact": "On 8 November 2023 a Russian missile hit the ship Kmax Ruler as it entered the port of Pivdennyi, in Odesa, killing the port pilot; on 16 October Bulgaria and Romania began mine-clearing patrols along the lane. According to Wikipedia, Russia had destroyed 300,000 tons of grain in Black Sea and Danube ports since July 2023, as of 13 October.",
+"src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative",
+"checked": "2026-11-23"
 },
 {
 "id": "wa-state-tin-2023",
@@ -546,12 +1048,19 @@
 "tin"
 ],
 "countries": [
-"MMR",
-"CHN"
+"CHN",
+"MMR"
 ],
-"summary": "Wa State authorities in Myanmar halted all mining, refining, transport and export in the state from 1 August 2023 for an indefinite period, citing protection of the environment, preservation of tin reserves and the formalisation of mining. The state accounts for about 95% of Myanmar's tin production and up to a tenth of the world's tin, according to Mining Technology.",
-"impact": "Myanmar had supplied 77% of China's tin ore imports in 2022 (Chinese customs data, via Kitco). China's imports of tin ores and concentrates were about 150,800 t in January to November 2024, down 35% on a year earlier, with the Myanmar part down 55% (SMM, 23 December 2024).",
-"src": "https://www.mining-technology.com/news/wa-state-closes-tin-mines/"
+"summary": "Wa State authorities in Myanmar suspended all mining from 1 August 2023 for an indefinite period, announced in May, citing protection of the environment, preservation of tin reserves and the formalisation of mining; all mines and processing plants closed, workers were dismissed and ore transport vehicles halted. The state accounts for as much as 10% of the world's tin and 95% of Myanmar's production, according to Mining Technology.",
+"impact": "The International Tin Association said Wa State held about two million tonnes of raw ore stocks containing 5,000 to 6,000 t of tin concentrate that could no longer be sold, and Mining Technology wrote that China draws most of its 40,000 t a year of tin imports from Wa State. China's imports of tin ores and concentrates were about 150,800 t in January to November 2024, down 35% on a year earlier, with imports from Myanmar, about 75,300 t, down 55% (SMM, 23 December 2024).",
+"src": "https://www.mining-technology.com/news/wa-state-closes-tin-mines/",
+"also": [
+{
+"label": "SMM, China's tin ore imports in November 2024",
+"url": "https://www.metal.com/en/newscontent/103438801"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "red-sea-houthi-2023",
@@ -569,29 +1078,36 @@
 "TC20",
 "qatar-europe-lng"
 ],
+"commodities": [
+"lng"
+],
 "countries": [
-"YEM",
-"ISR",
-"USA",
 "GBR",
-"QAT"
+"ISR",
+"QAT",
+"USA",
+"YEM"
 ],
 "summary": "Houthi forces in Yemen began attacking commercial ships linked to Israel in the Red Sea on 19 November 2023 and hijacked the Galaxy Leader that month; they later attacked ships with no Israeli link, particularly near Bab el-Mandeb. US- and UK-led air and missile strikes on the Houthis began on 12 January 2024.",
 "impact": "Global shipping companies moved their vessels around the Cape of Good Hope: by March 2024 over 2,000 ships had left the Red Sea route, container ships first, while many bulk carriers and tankers kept transiting at first. The Cape route adds about ten days. Qatar halted LNG tankers through Bab el-Mandeb after the US-led strikes on Houthi targets. Suez Canal transits fell from 2,068 in November 2023 to about 877 in October 2024.",
 "src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
-"checked": "2026-11-23",
-"commodities": [
-"lng"
-]
+"checked": "2026-11-23"
 },
 {
 "id": "eu-ets-shipping-2024",
 "date": "2024-01-01",
 "title": "EU ETS extends to shipping",
 "kind": "policy",
-"summary": "The EU Emissions Trading System began covering CO2 from large ships calling at EU ports, phased in from 2024.",
-"impact": "Added carbon cost to voyages to and from the EU, favouring certain routes and bunkering patterns.",
-"src": "https://en.wikipedia.org/wiki/European_Union_Emissions_Trading_System"
+"summary": "Since January 2024 the EU Emissions Trading System has covered CO2 emissions from large ships of 5,000 gross tonnage and above entering EU ports, whatever their flag: 100% of emissions between two EU ports and within EU ports, and 50% of emissions of voyages starting or ending outside the EU.",
+"impact": "Shipping companies surrender allowances for a share of their emissions during a phase-in: 40% of the emissions reported for 2024, 70% of those for 2025 and 100% from 2026 reports onward. Methane and nitrous oxide are covered from 2026.",
+"src": "https://climate.ec.europa.eu/eu-action/transport-decarbonisation/reducing-emissions-shipping-sector_en",
+"also": [
+{
+"label": "Wikipedia, European Union Emissions Trading System",
+"url": "https://en.wikipedia.org/wiki/European_Union_Emissions_Trading_System"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "us-lng-pause-2024",
@@ -604,9 +1120,29 @@
 "countries": [
 "USA"
 ],
-"summary": "The US administration paused pending approvals for non-FTA LNG export projects, a pause later lifted under the next administration in early 2025.",
-"impact": "Created uncertainty for new US LNG capacity supplying Atlantic and Pacific shipping demand.",
-"src": "https://en.wikipedia.org/wiki/Liquefied_natural_gas"
+"summary": "On 26 January 2024 the White House announced a temporary pause on pending decisions on exports of LNG to countries without a free trade agreement, until the Department of Energy could update the analyses behind its authorisations, which it described as roughly five years old. On 20 January 2025 the Department of Energy ended the pause and returned to regular order.",
+"impact": "The White House noted that the United States was already the number one LNG exporter and that roughly half of its LNG exports went to Europe in 2023; it said the pause would not affect supplies to allies in the near term. The Department of Energy extended the comment period on its LNG export study to 20 March 2025.",
+"src": "https://bidenwhitehouse.archives.gov/briefing-room/statements-releases/2024/01/26/fact-sheet-biden-harris-administration-announces-temporary-pause-on-pending-approvals-of-liquefied-natural-gas-exports",
+"also": [
+{
+"label": "US Department of Energy, ending the LNG pause (20 January 2025)",
+"url": "https://www.energy.gov/articles/us-department-energy-reverses-biden-lng-pause-restores-trump-energy-dominance-agenda"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "laos-mineral-processing-2024",
+"date": "2024-03",
+"title": "Laos orders raw minerals to be processed before export",
+"kind": "policy",
+"countries": [
+"CHN",
+"LAO"
+],
+"summary": "Laos Prime Minister Sonexay Siphandone directed the Ministry of Energy and Mines, on a visit on 1 March 2024, to require mining companies to process raw minerals in Laos before export, a demand aimed at the country's many Chinese-funded mining projects, according to Radio Free Asia.",
+"src": "https://www.rfa.org/english/news/laos/mining-processing-export-03072024165301.html",
+"checked": "2026-11-23"
 },
 {
 "id": "key-bridge-2024",
@@ -620,58 +1156,146 @@
 "countries": [
 "USA"
 ],
-"summary": "The container ship Dali struck the bridge, closing the Port of Baltimore main channel until it fully reopened in June 2024.",
-"impact": "Baltimore handled coal exports and roro; thermal coal cargoes rerouted to Norfolk and other East Coast ports, with temporary disruption to US coal shipments.",
+"summary": "The container ship Dali lost power and struck the Francis Scott Key Bridge in Baltimore at 01:28 on 26 March 2024; the collapse blocked access to all of the Port of Baltimore's marine terminals except Sparrows Point. The channel reopened on 10 June 2024, 11 weeks later, to its original 700 ft by 50 ft clearance.",
+"impact": "The port had handled 52.3 million tons of foreign cargo in 2023 and was the second-largest US port for coal and the leading one for automobiles. The collapse isolated the terminals of Mercedes-Benz, CSX at Curtis Bay and Consol Energy; Dun & Bradstreet estimated the weekly cost of the supply chain disruption at USD 1.7 billion.",
 "src": "https://en.wikipedia.org/wiki/Francis_Scott_Key_Bridge_collapse",
 "series": {
 "thermal-coal": "coal-zaf-m"
+},
+"checked": "2026-11-23"
+},
+{
+"id": "trans-mountain-2024",
+"date": "2024-05-01",
+"title": "Trans Mountain expansion starts operating",
+"kind": "infrastructure",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"CAN"
+],
+"assets": [
+"trans-mountain"
+],
+"summary": "The expanded Trans Mountain oil pipeline, which runs from Alberta to British Columbia in Canada, began operations on 1 May 2024, increasing capacity from 300,000 to 890,000 barrels a day, according to Wikipedia.",
+"src": "https://en.wikipedia.org/wiki/Trans_Mountain_pipeline",
+"checked": "2026-11-23"
+},
+{
+"id": "fueleu-maritime-2025",
+"date": "2025-01-01",
+"title": "FuelEU Maritime regulation applies",
+"kind": "policy",
+"summary": "The FuelEU Maritime regulation (Regulation (EU) 2023/1805), which promotes the use of renewable, low-carbon fuels and clean energy technologies for ships, is fully applied from 1 January 2025, except for the articles on monitoring plans, which apply from August 2024.",
+"src": "https://transport.ec.europa.eu/transport-modes/maritime/decarbonising-maritime-transport-fueleu-maritime_en",
+"checked": "2026-11-23"
+},
+{
+"id": "us-shadow-fleet-2025",
+"date": "2025-01-10",
+"title": "US sanctions 183 vessels and two Russian oil producers",
+"kind": "policy",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"RUS",
+"USA"
+],
+"summary": "On 10 January 2025 the US Treasury sanctioned Gazprom Neft and Surgutneftegas, 183 vessels, largely oil tankers that are part of the shadow fleet, and dozens of oil traders, oilfield service providers and insurance companies, under a new energy sector determination under Executive Order 14024.",
+"impact": "Treasury said the action substantially increased the sanctions risks associated with the Russian oil trade, including shipping and financial facilitation.",
+"src": "https://home.treasury.gov/news/press-releases/jy2777",
+"checked": "2026-11-23"
+},
+{
+"id": "us-232-50pct-2025",
+"date": "2025-06-04",
+"title": "US raises steel and aluminium tariffs to 50 percent",
+"kind": "policy",
+"commodities": [
+"aluminium",
+"steel"
+],
+"countries": [
+"USA"
+],
+"summary": "Proclamations of 10 February 2025 imposed a 25 percent ad valorem tariff on steel and aluminium articles and derivative articles imported from all countries, and ended earlier arrangements with some countries from 12 March 2025. A proclamation raised the rate for steel and aluminium and their derivative articles from 25 to 50 percent ad valorem from 12:01 a.m. eastern daylight time on 4 June 2025.",
+"src": "https://www.whitehouse.gov/presidential-actions/2025/06/adjusting-imports-of-aluminum-and-steel-into-the-united-states/",
+"also": [
+{
+"label": "White House, Adjusting Imports of Steel Into the United States (10 February 2025)",
+"url": "https://www.whitehouse.gov/presidential-actions/2025/02/adjusting-imports-of-steel-into-the-united-states/"
 }
+],
+"checked": "2026-11-23"
 },
 {
 "id": "hormuz-israel-iran-2025",
 "date": "2025-06-13",
 "end": "2025-06-24",
-"title": "Israel-Iran war and Hormuz risk",
+"title": "Twelve-Day War between Israel and Iran",
 "kind": "conflict",
 "chokepoints": [
 "hormuz"
-],
-"routes": [
-"TD3C"
 ],
 "commodities": [
 "crude-oil"
 ],
 "countries": [
-"ISR",
 "IRN",
+"ISR",
 "USA"
 ],
-"summary": "Israel struck Iran on 13 June 2025 and Iran retaliated; the US struck Iranian nuclear sites on 22 June and a ceasefire took effect on 24 June 2025.",
-"impact": "Oil prices and Gulf war-risk premiums spiked; Hormuz flows held, with tanker traffic largely continuing.",
-"src": "https://en.wikipedia.org/wiki/Iran%E2%80%93Israel_war"
+"summary": "Israel struck Iran on 13 June 2025, beginning a conflict that Wikipedia dates from 13 to 24 June 2025. The United States struck the Fordow, Natanz and Isfahan nuclear sites on 22 June; the Iranian parliament voted to close the Strait of Hormuz shortly afterwards, although the Supreme National Security Council decides. A ceasefire was announced on 23 June and took effect on 24 June.",
+"impact": "According to Wikipedia, crude oil prices rose by 10% over the 12 days.",
+"src": "https://en.wikipedia.org/wiki/Twelve-Day_War",
+"checked": "2026-11-23"
 },
 {
 "id": "red-sea-sinkings-2025",
 "date": "2025-07-06",
-"title": "Houthis sink Magic Seas and Eternity C",
+"title": "Houthi attacks sink Magic Seas and Eternity C",
 "kind": "conflict",
 "chokepoints": [
 "bab-el-mandeb"
 ],
-"summary": "Houthi attacks sank two bulk carriers in the southern Red Sea in July 2025, after a pause in attacks earlier in the year.",
-"impact": "Reinforced owner reluctance to return to the Red Sea for dry bulk and tankers.",
-"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
-"routes": [
-"TD23",
-"TC20",
-"qatar-europe-lng"
-]
+"countries": [
+"CHN",
+"ISR",
+"TUR"
+],
+"summary": "On 6 July 2025 the Houthis attacked the bulk carrier Magic Seas, carrying iron and fertiliser from China to Turkey, in the Red Sea southwest of Hodeidah; it sank. They attacked the Liberian-flagged bulk carrier Eternity C on 7 and 8 July; it was abandoned and sank, and Operation Aspides presumed the deaths of at least four of the people aboard. Wikipedia describes it as the Houthis' first known attack in the area in a few months.",
+"impact": "The Houthis said they attacked Eternity C because its operator continued to call at Israeli ports. Both ships had docked in Israel in the past, according to Wikipedia.",
+"src": "https://en.wikipedia.org/wiki/MV_Eternity_C",
+"also": [
+{
+"label": "Wikipedia, Red Sea crisis",
+"url": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "us-copper-tariff-2025",
+"date": "2025-08-01",
+"title": "US 50 percent tariff on semi-finished copper",
+"kind": "policy",
+"commodities": [
+"copper"
+],
+"countries": [
+"USA"
+],
+"summary": "All imports of semi-finished copper products and intensive copper derivative products became subject to a 50 percent tariff from 12:01 a.m. eastern daylight time on 1 August 2025, under a Section 232 proclamation.",
+"impact": "The proclamation noted that a single foreign country controls over 50 percent of global copper smelting capacity and holds four of the top five largest refining facilities, and that the Secretary recommended a domestic sales requirement for copper input materials starting at 25 percent in 2027.",
+"src": "https://www.whitehouse.gov/presidential-actions/2025/07/adjusting-imports-of-copper-into-the-united-states/",
+"checked": "2026-11-23"
 },
 {
 "id": "panama-fy2025-2025",
 "date": "2025-10-01",
-"title": "Panama Canal FY2025 record transits led by LPG",
+"title": "Panama Canal fiscal year 2025: transits up 19.3%",
 "kind": "market",
 "chokepoints": [
 "panama"
@@ -681,25 +1305,53 @@
 "lpg"
 ],
 "countries": [
-"PAN",
+"PAN"
+],
+"summary": "The Panama Canal Authority reported 13,404 transits in fiscal year 2025, up 19.3% from 11,240 in the previous year (3,342 Neopanamax and 10,062 Panamax), and 489.1 million CP/SUAB tons, up 15.6%.",
+"impact": "The Authority named containers and LPG as the main growth drivers, with bulk carriers still recovering and LNG below expectations, mainly because of international freight market costs.",
+"src": "https://pancanal.com/en/panama-canal-maintains-operational-and-financial-strength/",
+"checked": "2026-11-23"
+},
+{
+"id": "china-export-controls-2025",
+"date": "2025-10-09",
+"title": "China announces expansive controls on rare earth exports; suspended in November",
+"kind": "policy",
+"commodities": [
+"rare-earths"
+],
+"countries": [
+"CHN",
 "USA"
 ],
-"summary": "Fiscal year 2025 (to 30 September 2025) transits rose 19.3% to 13,404 with LPG a key growth driver while LNG underperformed.",
-"impact": "Panama remains an alternative for US Gulf LPG to Asia.",
-"src": "https://en.wikipedia.org/wiki/Panama_Canal"
+"summary": "China announced new export controls on rare earths and related measures on 9 October 2025. Under the US-China deal of 1 November 2025, China will suspend the global implementation of these controls and will issue general licences for exports of rare earths, gallium, germanium, antimony and graphite for the benefit of US end users.",
+"impact": "The White House described the general licence as the de facto removal of controls that China imposed since 2023.",
+"src": "https://www.whitehouse.gov/fact-sheets/2025/11/fact-sheet-president-donald-j-trump-strikes-deal-on-economic-and-trade-relations-with-china/",
+"checked": "2026-11-23"
 },
 {
 "id": "gaza-ceasefire-2025",
 "date": "2025-10-10",
-"title": "Gaza ceasefire and Houthi pause",
+"title": "Gaza ceasefire and Houthi pause on attacks on shipping",
 "kind": "conflict",
 "chokepoints": [
 "bab-el-mandeb",
 "suez"
 ],
-"summary": "A Gaza ceasefire took effect on 10 October 2025 and the Houthis signalled a conditional halt to attacks on shipping in November 2025.",
-"impact": "Began a gradual, tentative return of ships to the Red Sea and Suez, which carriers phased in over 2026.",
-"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+"countries": [
+"ISR",
+"SAU"
+],
+"summary": "The Houthis paused their attacks on Israel and international shipping after the Gaza ceasefire of 10 October 2025. They signalled in an undated letter published in November 2025 that they had halted the attacks, while threatening to resume them if Israel broke the ceasefire; on 3 December 2025 they released 11 crew of the Eternity C. Wikipedia reports that the Houthis resumed attacks on Israel on 28 March 2026 and on Saudi Arabia on 13 July 2026.",
+"impact": "IMF PortWatch (atlas calculation from the weekly series): Bab el-Mandeb transits averaged about 36 vessels a day in October 2025, against about 79 in October 2023, and Suez about 41 against 76; Wikipedia gives daily traffic through the strait as about 75 ships until November 2023 and about 31 a day since January 2024.",
+"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
+"also": [
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "us-port-fees-2025",
@@ -708,12 +1360,23 @@
 "title": "USTR port fees on Chinese-built and operated ships take effect",
 "kind": "policy",
 "countries": [
-"USA",
-"CHN"
+"CHN",
+"USA"
 ],
-"summary": "USTR Section 301 port fees on Chinese-owned or operated and Chinese-built vessels took effect on 14 October 2025; China imposed reciprocal special port fees on US-linked ships.",
-"impact": "Owners reshuffled vessel deployment; both sets of fees were suspended for one year from 10 November 2025 (to 9 November 2026) after the US-China trade deal. Status after that date was not verified.",
-"src": "https://www.federalregister.gov/documents/2025/11/13/2025-19873/notice-of-modification-of-section-301-action-chinas-targeting-of-the-maritime-logistics-and"
+"summary": "USTR's Section 301 port fees on Chinese-built vessels and vessels with Chinese owners or operators, and on foreign-built vehicle carriers, went into effect on 14 October 2025. After the trade deal announced on 1 November 2025, USTR suspended its actions for one year from 10 November 2025, and China's Ministry of Transport declared that China would suspend its retaliatory port fee measures against the US for one year.",
+"impact": "On 9 November 2026 USTR further suspended the Section 301 actions, which include the port fees, until 10 January 2027 (Holland & Knight, 9 November 2026; Federal Register notice of 10 November 2026), after proposing the two-month extension on 23 October 2026.",
+"src": "https://www.hklaw.com/en/insights/publications/2026/11/ustr-extends-section-301-maritime-fee",
+"also": [
+{
+"label": "Federal Register, notice of 13 November 2025",
+"url": "https://www.federalregister.gov/documents/2025/11/13/2025-19873/notice-of-modification-of-section-301-action-chinas-targeting-of-the-maritime-logistics-and"
+},
+{
+"label": "Holland & Knight, USTR Port Fee Suspension (November 2025)",
+"url": "https://www.hklaw.com/en/insights/publications/2025/11/ustr-port-fee-suspension-what-you-need-to-know"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "drc-cobalt-quotas-2025",
@@ -728,39 +1391,97 @@
 ],
 "summary": "DR Congo's regulator ARECOMS lifted the cobalt export suspension, which had been extended to 15 October 2025, and replaced it from 16 October 2025 with export quotas: 18,125 t for the rest of 2025 and 96,600 t a year for 2026 and 2027, of which 87,000 t are shared among producers pro rata and 9,600 t stay under the regulator's discretion (Benchmark Minerals, 22 September 2025).",
 "impact": "DR Congo is by far the largest exporter in the atlas's customs data for 2024, which predates the suspension and the quotas.",
-"src": "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027"
+"src": "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027",
+"checked": "2026-11-23"
 },
 {
 "id": "us-sanctions-rosneft-2025",
 "date": "2025-10-22",
 "title": "US sanctions on Rosneft and Lukoil",
 "kind": "policy",
-"routes": [
-"russia-baltic-india-crude",
-"TD17",
-"TC9"
-],
 "commodities": [
 "crude-oil"
 ],
 "countries": [
-"USA",
-"RUS",
+"CHN",
 "IND",
-"CHN"
+"RUS",
+"TUR",
+"USA"
 ],
-"summary": "The US Treasury imposed sanctions on Rosneft and Lukoil on 22 October 2025.",
-"impact": "Indian and Chinese refiners adjusted Russian crude purchases, changing tanker trade patterns.",
-"src": "https://en.wikipedia.org/wiki/Rosneft"
+"summary": "On 22 October 2025 the US Treasury's Office of Foreign Assets Control designated Russia's two largest oil companies, Rosneft and Lukoil, and a number of their Russia-based subsidiaries under Executive Order 14024; entities owned 50 percent or more by them are blocked.",
+"impact": "Treasury added that foreign financial institutions that conduct or facilitate significant transactions involving the designated persons risk secondary sanctions. Wikipedia states that the US threatened secondary sanctions on those that keep doing business with Rosneft, which would affect its customers in Turkey, China and India.",
+"src": "https://home.treasury.gov/news/press-releases/sb0290",
+"also": [
+{
+"label": "Wikipedia, Rosneft",
+"url": "https://en.wikipedia.org/wiki/Rosneft"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "us-china-deal-2025",
+"date": "2025-11-01",
+"title": "US-China deal suspends tariffs and Chinese export controls",
+"kind": "policy",
+"routes": [
+"usgulf-china-grain"
+],
+"commodities": [
+"corn",
+"cotton",
+"soybeans",
+"wheat"
+],
+"countries": [
+"CHN",
+"USA"
+],
+"summary": "The White House announced on 1 November 2025 a trade and economic deal between President Trump and President Xi. China committed to suspend all the retaliatory tariffs announced since 4 March 2025, including those on chicken, wheat, corn, cotton, sorghum, soybeans, pork, beef, aquatic products, fruits, vegetables and dairy products, and to resume purchases of US sorghum and logs.",
+"impact": "The United States committed to remove 10 percentage points of the tariffs imposed to curb fentanyl flows from 10 November 2025 and to maintain its suspension of heightened reciprocal tariffs on Chinese imports until 10 November 2026.",
+"src": "https://www.whitehouse.gov/fact-sheets/2025/11/fact-sheet-president-donald-j-trump-strikes-deal-on-economic-and-trade-relations-with-china/",
+"checked": "2026-11-23"
+},
+{
+"id": "black-sea-tankers-2025",
+"date": "2025-11-28",
+"title": "Explosions on two sanctioned tankers in the Black Sea; CPC terminal mooring damaged",
+"kind": "conflict",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"EGY",
+"KAZ",
+"RUS",
+"TUR",
+"UKR"
+],
+"assets": [
+"cpc",
+"novorossiysk"
+],
+"summary": "On 28 November 2025 explosions and fires hit the sanctioned tankers Kairos (149,989 dwt, on a voyage from Egypt to Novorossiysk, 25 personnel evacuated by Turkish units) and Virat (115,643 dwt) in the Black Sea off Turkey; gCaptain reported suspected Ukrainian naval drone strikes, and a Security Service of Ukraine official told Reuters that the two tankers were empty and sailing to Novorossiysk. On 29 November the Caspian Pipeline Consortium said it had halted operations after a mooring at its Russian Black Sea terminal was significantly damaged by a Ukrainian naval drone attack.",
+"impact": "Baird Maritime wrote that the CPC handles more than one per cent of global oil and exports mainly from Kazakhstan via Russia and the Black Sea terminal.",
+"src": "https://gcaptain.com/ukrainian-drone-strikes-set-two-russian-shadow-fleet-tankers-ablaze-off-turkey/",
+"also": [
+{
+"label": "Maritime Executive, Turkey investigates fires on two sanctioned tankers",
+"url": "https://maritime-executive.com/article/turkey-s-maritime-director-reports-explosions-on-two-sanctioned-tankers"
+},
+{
+"label": "Baird Maritime, Ukraine hits two Russian shadow fleet tankers with drones",
+"url": "https://www.bairdmaritime.com/amp/story/security/incidents/acts-of-war/ukraine-hits-two-russian-shadow-fleet-tankers-with-drones-in-black-sea"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "simandou-first-2025",
-"date": "2025-12-02",
+"date": "2025-12-03",
 "title": "Simandou first iron ore shipment sails from Guinea",
 "kind": "market",
-"chokepoints": [
-"cape-good-hope"
-],
 "routes": [
 "simandou-china-iron-ore"
 ],
@@ -768,15 +1489,79 @@
 "iron-ore"
 ],
 "countries": [
-"GIN",
-"CHN"
+"CHN",
+"GIN"
 ],
 "assets": [
 "simandou"
 ],
-"summary": "The Winning Youth, carrying about 200,000 t of Simandou iron ore, departed Guinea on 2 December 2025 (arrived in China 17 January 2026).",
-"impact": "A new Atlantic-basin supplier adds Guinea-China voyages round the Cape, increasing Capesize tonne-miles over time.",
-"src": "https://en.wikipedia.org/wiki/Simandou_mine"
+"summary": "On 3 December 2025 SimFer, the joint venture of the Government of Guinea, Rio Tinto and the Chinalco-led Chalco Iron Ore Holdings consortium, announced the departure of its first shipment of high-grade iron ore from the Moribaya port in Forecariah; the ore was taken offshore and loaded onto a deep-sea vessel. SimFer expects production to ramp up over about 30 months to 60 million tonnes a year.",
+"impact": "The first cargoes reached China in January 2026, at Zhoushan and Rizhao, according to the Maritime Executive of 21 January 2026, which expects Simandou to add long-haul demand from West Africa to China.",
+"src": "https://riotintoguinee.com/en/media/press-release/simandous-first-iron-ore-ship-sails-from-guinea/",
+"also": [
+{
+"label": "Maritime Executive, first cargo arrives in China",
+"url": "https://maritime-executive.com/article/first-cargo-of-iron-ore-from-giant-simandou-mine-arrives-in-china"
+},
+{
+"label": "Wikipedia, Simandou mine",
+"url": "https://en.wikipedia.org/wiki/Simandou_mine"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "venezuela-oil-blockade-2025",
+"date": "2025-12-10",
+"title": "US seizes a Venezuelan crude tanker and announces a blockade of sanctioned tankers",
+"kind": "conflict",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"USA",
+"VEN"
+],
+"summary": "On 10 December 2025 the United States seized the tanker Skipper in the Caribbean Sea off Venezuela; it had left Puerto Jose on 4 December with about 1.8 million barrels of crude oil from PDVSA. A week later the United States announced a blockade of sanctioned oil tankers going in and out of Venezuela, and on 20 December the Coast Guard boarded a second ship, Centuries, carrying 1.8 million barrels of crude oil.",
+"impact": "Wikipedia notes that the Venezuelan economy is heavily reliant on oil exports; Venezuela called the seizure of Skipper an act of international piracy.",
+"src": "https://en.wikipedia.org/wiki/United_States_oil_blockade_during_Operation_Southern_Spear",
+"checked": "2026-11-23"
+},
+{
+"id": "eu-cbam-2026",
+"date": "2026-01-01",
+"title": "EU carbon border adjustment mechanism enters its definitive regime",
+"kind": "policy",
+"commodities": [
+"aluminium",
+"steel"
+],
+"summary": "From 1 January 2026 the EU carbon border adjustment mechanism (CBAM) applies in its definitive regime. It covers imports of selected goods in the carbon-intensive sectors of cement, iron and steel, aluminium, fertilisers, electricity and hydrogen.",
+"src": "https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism_en",
+"checked": "2026-11-23"
+},
+{
+"id": "venezuela-intervention-2026",
+"date": "2026-01-03",
+"title": "US strikes in Venezuela and capture of Maduro",
+"kind": "conflict",
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"USA",
+"VEN"
+],
+"summary": "On 3 January 2026 US forces bombed infrastructure across northern Venezuela while an apprehension force attacked President Maduro's compound in Caracas; Maduro and Flores were taken to New York and indicted on drug trafficking charges.",
+"impact": "On 9 January 2026 President Trump signed an executive order declaring a national emergency to safeguard Venezuelan oil revenue held in US Treasury accounts from attachment or judicial process.",
+"src": "https://en.wikipedia.org/wiki/2026_United_States_intervention_in_Venezuela",
+"also": [
+{
+"label": "White House, fact sheet of 9 January 2026",
+"url": "https://www.whitehouse.gov/fact-sheets/2026/01/fact-sheet-president-donald-j-trump-safeguards-venezuelan-oil-revenue-for-the-good-of-the-american-and-venezuelan-people/"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "iran-war-hormuz-2026",
@@ -790,10 +1575,15 @@
 "routes": [
 "TD3C"
 ],
+"commodities": [
+"crude-oil",
+"lng",
+"refined-products"
+],
 "countries": [
-"USA",
+"IRN",
 "ISR",
-"IRN"
+"USA"
 ],
 "summary": "The United States and Israel began air strikes on Iran on 28 February 2026, and Iran responded by blocking trade through the Strait of Hormuz, which led to what Wikipedia calls the largest ever supply disruption to the global oil market.",
 "impact": "Per IMF PortWatch, daily transits of the strait fell from about 78 in February 2026 to about 3 in March (atlas calculation from the daily table). The EIA's Global Energy Security Data (16 November 2026) put oil flows through Hormuz, crude oil and petroleum products together, at 21.6 million barrels a day in the fourth quarter of 2025, 5.1 in the second quarter of 2026 and 9.1 in the third, and LNG flows at 10.5, 0.8 and 1.4 billion cubic feet a day.",
@@ -804,44 +1594,42 @@
 "url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
 }
 ],
-"checked": "2026-11-23",
-"commodities": [
-"crude-oil",
-"lng",
-"refined-products"
-]
+"checked": "2026-11-23"
 },
 {
 "id": "hormuz-ceasefire-2026",
 "date": "2026-04-08",
-"title": "Ceasefire, failed talks and US naval blockade of Iran",
+"title": "Two-week ceasefire, failed Islamabad talks and US naval blockade of Iran",
 "kind": "conflict",
 "chokepoints": [
 "hormuz"
 ],
 "countries": [
-"USA",
-"IRN"
+"IRN",
+"PAK",
+"USA"
 ],
-"summary": "A two-week ceasefire began on 8 April 2026, the Islamabad talks failed on 12-13 April, and the US imposed a naval blockade on Iran, with an indefinite ceasefire announced on 21 April.",
-"impact": "Hormuz traffic stayed far below pre-war levels. Exact blockade start date differs by source.",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war_ceasefire"
+"summary": "The United States and Iran agreed a two-week ceasefire on 8 April 2026, mediated by Pakistan. By 9 April ships were again being prevented from moving through the strait. The Islamabad talks failed on 12 April, and the United States declared a naval blockade of ships entering or leaving Iranian ports, which CENTCOM said would not impede transits of the strait to and from non-Iranian ports; on 21 April the United States announced an indefinite ceasefire.",
+"impact": "The Guardian described a 'dual blockade': the US Navy could blockade Iranian ports but could not stop Iran's blockade of the strait. IMF PortWatch (atlas calculation from the weekly series): Hormuz transits averaged about 7 vessels a day in April 2026, against about 77 in February.",
+"src": "https://en.wikipedia.org/wiki/2026_Iran_war_ceasefire",
+"checked": "2026-11-23"
 },
 {
 "id": "hormuz-memorandum-2026",
 "date": "2026-06-17",
-"title": "US-Iran memorandum lifts dual blockade",
+"title": "Islamabad Memorandum between the US and Iran",
 "kind": "conflict",
 "chokepoints": [
 "hormuz"
 ],
 "countries": [
-"USA",
-"IRN"
+"IRN",
+"USA"
 ],
-"summary": "The US and Iran signed a memorandum to end the war on 17 June 2026 lifting the dual blockade; the ceasefire was renewed on 28 June.",
-"impact": "Hormuz transits partially recovered in late June but remained a fraction of pre-war levels.",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war"
+"summary": "On 14 June 2026 the United States and Iran announced an agreement to end the war and reopen the strait; the Islamabad Memorandum was signed on 17 June, and on 18 June CENTCOM announced that it had removed the naval blockade. Wikipedia reports that on 28 June the two sides agreed to resume the ceasefire.",
+"impact": "IMF PortWatch (atlas calculation from the weekly series): Hormuz transits rose from about 2 vessels a day in the week of 8 June to about 30 in the week of 22 June, against about 77 in February, and were back to about 4 in the week of 20 July.",
+"src": "https://en.wikipedia.org/wiki/2026_Iran_war",
+"checked": "2026-11-23"
 },
 {
 "id": "black-sea-attacks-2026",
@@ -851,16 +1639,19 @@
 "chokepoints": [
 "bosphorus"
 ],
+"commodities": [
+"crude-oil"
+],
 "countries": [
-"UKR",
-"RUS",
-"ROU",
 "BGR",
-"KAZ"
+"KAZ",
+"ROU",
+"RUS",
+"UKR"
 ],
 "assets": [
-"novorossiysk",
 "cpc",
+"novorossiysk",
 "odesa"
 ],
 "summary": "In July 2026 Ukraine and Russia began attacking each other's ports and the ships using them in the Black Sea and the Sea of Azov, and the Ukrainian deep-water ports of the Odesa area (Chornomorsk, Odesa, Pivdennyi) closed on 23 July. On 17 July 2026 drones struck the tanker Nordic Zenith as it approached the Port of Novorossiysk and the CPC terminal.",
@@ -876,36 +1667,7 @@
 "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
 }
 ],
-"checked": "2026-11-23",
-"commodities": [
-"crude-oil"
-]
-},
-{
-"id": "houthi-saudi-2026",
-"date": "2026-07",
-"title": "Houthis declare blockade on Saudi Arabia; attacks on Saudi targets",
-"kind": "conflict",
-"chokepoints": [
-"bab-el-mandeb"
-],
-"commodities": [
-"crude-oil"
-],
-"countries": [
-"SAU"
-],
-"assets": [
-"east-west-petroline"
-],
-"summary": "The Houthis declared a naval blockade on Saudi Arabia in July 2026 and launched an offensive in September, escalating Red Sea risks to Saudi Red Sea exports via Yanbu.",
-"impact": "Threatens the main Hormuz bypass (East-West pipeline to Yanbu), which had pushed Bab el-Mandeb oil flows to 8.1 mb/d in 2Q26 per EIA.",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war",
-"routes": [
-"TD23",
-"TC20",
-"qatar-europe-lng"
-]
+"checked": "2026-11-23"
 },
 {
 "id": "hormuz-collapse-2026",
@@ -922,24 +1684,87 @@
 "crude-oil"
 ],
 "countries": [
-"IRN"
+"IRN",
+"USA"
 ],
-"summary": "The ceasefire collapsed on 8 July 2026 after Iran initiated attacks on commercial vessels in the Strait of Hormuz.",
-"impact": "Per PortWatch, Hormuz transits averaged about 3.8 per day in October 2026 versus 78 in February; EIA reports oil flows through Middle East chokepoints rose 19% in 3Q26 versus 2Q26, and Brent averaged USD 124/bbl in October 2026.",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war"
+"summary": "The ceasefire collapsed on 8 July 2026, after Iran attacked three commercial vessels passing through the Strait of Hormuz; President Trump declared the agreement over. US Central Command struck 80 targets in Iran and reinstated the naval blockade of Iranian ports.",
+"impact": "IMF PortWatch (atlas calculation from the daily table): Hormuz transits averaged about 3.8 a day in October 2026 against about 78 in February. The EIA reported that Brent averaged USD 124 a barrel in October 2026, the highest since July 2022 in inflation-adjusted terms, and estimated oil flows through the strait at 9.1 million barrels a day in the third quarter of 2026 against 21.6 in the fourth quarter of 2025.",
+"src": "https://en.wikipedia.org/wiki/2026_Iran_war",
+"also": [
+{
+"label": "EIA, Short-Term Energy Outlook, global oil markets",
+"url": "https://www.eia.gov/outlooks/steo/report/global_oil.php"
+},
+{
+"label": "EIA, Global Energy Security Data",
+"url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+}
+],
+"checked": "2026-11-23"
+},
+{
+"id": "houthi-saudi-2026",
+"date": "2026-07-20",
+"title": "Houthis declare a blockade of Saudi ports and ships in the Bab el-Mandeb",
+"kind": "conflict",
+"chokepoints": [
+"bab-el-mandeb"
+],
+"commodities": [
+"crude-oil"
+],
+"countries": [
+"SAU",
+"YEM"
+],
+"assets": [
+"east-west-petroline"
+],
+"summary": "On 13 July 2026 Saudi Arabia and Yemen's Presidential Leadership Council attacked Sanaa airport and the Houthis launched a missile attack on Saudi Arabia in response; on 20 July they declared a blockade of Saudi ports and ships in the Bab el-Mandeb. Two tankers carrying Saudi oil through the strait and a third on its way to Yanbu diverted course, seven by 22 July. In September the Houthis launched an offensive in Yemen, and in October a wave of drone and missile attacks on Saudi Arabia.",
+"impact": "The EIA estimated oil flows through the Bab el-Mandeb at 8.1 million barrels a day in the second quarter of 2026, up from 5.6 in the first, and 6.3 in the third quarter. The EIA also wrote that Middle East oil exports increased slightly in October 2026 after the restart of the Saudi East-West pipeline.",
+"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
+"also": [
+{
+"label": "EIA, Global Energy Security Data (Short-Term Energy Outlook, 10 November 2026)",
+"url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+},
+{
+"label": "EIA, Short-Term Energy Outlook, global oil markets",
+"url": "https://www.eia.gov/outlooks/steo/report/global_oil.php"
+},
+{
+"label": "Wikipedia, 2026 Iran war",
+"url": "https://en.wikipedia.org/wiki/2026_Iran_war"
+}
+],
+"checked": "2026-11-23"
 },
 {
 "id": "suez-return-2026",
-"date": "2026-09",
-"title": "Gemini routes restored via Suez; transits recovering",
+"date": "2026-08",
+"title": "Gemini services return to the Suez route; transits still far below 2023",
 "kind": "market",
 "chokepoints": [
 "suez",
 "bab-el-mandeb",
 "cape-good-hope"
 ],
-"summary": "Maersk and Hapag-Lloyd restored further Gemini routes through Suez in September 2026; Suez transits in October 2026 were reported by Lloyd's List Intelligence as up 63% year on year but 34% below pre-crisis levels.",
-"impact": "Carriers expect a full return by Q1 2027, though renewed Houthi attacks keep the risk high.",
-"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+"countries": [
+"SAU"
+],
+"summary": "On 10 August 2026 Maersk and Hapag-Lloyd restored another Gemini service, AE19, to the trans-Suez route, the first since the Houthis announced their blockade of Saudi vessels and resumed attacks in July; Maersk said it had no timetable for further returns. On 17 November 2026 the carriers announced that AE1, AE2 and AE3 would return to Suez in a phased transition from December 2026 into January 2027, which Linerlytica said would make them the first alliance to restore Suez routing on all its Asia-Europe services.",
+"impact": "IMF PortWatch (atlas calculation from the weekly series): Suez transits averaged about 43 vessels a day in October 2026, against about 41 in October 2025 (+4%) and about 76 in October 2023 (-44%).",
+"src": "https://maritime-executive.com/article/maersk-and-hapag-lloyd-restore-another-gemini-route-to-suez",
+"also": [
+{
+"label": "FreightWaves, Maersk and Hapag-Lloyd restore Asia-Europe Suez routes",
+"url": "https://www.freightwaves.com/?p=586379"
+},
+{
+"label": "IMF PortWatch",
+"url": "https://portwatch.imf.org/"
+}
+],
+"checked": "2026-11-23"
 }
 ]

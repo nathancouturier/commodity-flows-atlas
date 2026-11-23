@@ -8,6 +8,7 @@ import '../styles/views.css';
 import { selection, select, type SheetSnap } from '../lib/store';
 import { detailTitle, unknownKind } from '../lib/view';
 import { CloseIcon, Placeholder, Skeleton } from './ui';
+import { DetailActions } from './DetailActions';
 
 const CountryView = lazy(() => import('./views/CountryView'));
 const CommodityView = lazy(() => import('./views/CommodityView'));
@@ -139,6 +140,7 @@ export function DetailPanel() {
           <button class="close-btn" onClick={() => select(null)} aria-label="Close details">
             <CloseIcon />
           </button>
+          <DetailActions panel={ref} />
           <Suspense fallback={<div style={{ padding: '18px' }}><Skeleton lines={6} /></div>}>
             {unknown ? (
               <UnknownView kind={unknown} id={s.id} />

@@ -6,14 +6,14 @@
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 246 Mt, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 73000.0,
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded"
+   "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded; the countries and USGS 'Other countries' add up to 72,942 Mt, while the rounded world total of 73,000 Mt is 0.1% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 35.843,
@@ -34,7 +34,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 250.0,
+  "world": 245.65,
   "rows": [
    {
     "c": "CHN",
@@ -133,20 +133,21 @@
     "v": 0.45
    }
   ],
-  "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 246 Mt, while the rounded world total of 250 Mt is 1.8% above that sum: shares are computed on the sum",
   "other": 0.77,
   "hidden": {
    "v": 24.28,
    "k": 14,
    "from": 10,
    "n": "14 further countries named by USGS (Vietnam, Senegal, Australia, Israel, South Africa, Algeria, Kazakhstan, Togo, India, Turkey, Finland, Uzbekistan, Syria and Mexico), listed after the first rows; not part of USGS's 'Other countries' line"
-  }
+  },
+  "worldPublished": 250.0
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 73000.0,
+  "world": 72942.0,
   "rows": [
    {
     "c": "MAR",
@@ -245,14 +246,15 @@
     "v": 30.0
    }
   ],
-  "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded",
+  "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded; the countries and USGS 'Other countries' add up to 72,942 Mt, while the rounded world total of 73,000 Mt is 0.1% above that sum: shares are computed on the sum",
   "other": 800.0,
   "hidden": {
    "v": 3742.0,
    "k": 14,
    "from": 10,
    "n": "14 further countries named by USGS (Saudi Arabia, Jordan, Australia, Kazakhstan, Syria, Peru, Uzbekistan, Turkey, Israel, Senegal, India, Mexico, Togo and Vietnam), listed after the first rows; not part of USGS's 'Other countries' line"
-  }
+  },
+  "worldPublished": 73000.0
  },
  "exports": {
   "y": 2024,
@@ -672,6 +674,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 745303000,
+   "uv": 147,
    "mode": "sea",
    "lane": "phosphate-rock:JOR-IND"
   },
@@ -682,6 +686,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 367518000,
+   "uv": 118,
    "mode": "sea",
    "lane": "phosphate-rock:PER-USA"
   },
@@ -692,6 +698,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 344489000,
+   "uv": 121,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-IND"
   },
@@ -702,6 +710,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 215255000,
+   "uv": 135,
    "mode": "sea",
    "lane": "phosphate-rock:EGY-IND"
   },
@@ -712,6 +722,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 284381000,
+   "uv": 213,
    "mode": "sea",
    "lane": "phosphate-rock:TGO-IND"
   },
@@ -722,6 +734,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 175483000,
+   "uv": 132,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-TUR"
   },
@@ -732,6 +746,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 173921000,
+   "uv": 135,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-MEX"
   },
@@ -742,6 +758,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 139898000,
+   "uv": 121,
    "mode": "sea",
    "lane": "phosphate-rock:PER-BRA"
   },
@@ -752,6 +770,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 143782000,
+   "uv": 125,
    "mode": "sea",
    "lane": "phosphate-rock:JOR-IDN"
   },
@@ -762,6 +782,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 97625000,
+   "uv": 115,
    "mode": "sea",
    "lane": "phosphate-rock:EGY-CHN"
   },
@@ -772,6 +794,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 77014000,
+   "uv": 97.1,
    "mode": "sea",
    "lane": "phosphate-rock:JOR-CHN"
   },
@@ -782,8 +806,16 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 39260000,
+   "uv": 59.1,
    "mode": "sea",
-   "n": "sea through a foreign port (not specified)"
+   "transit": {
+    "port": "ROCND",
+    "c": "ROU",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba"
+   },
+   "lane": "phosphate-rock:SYR-SRB"
   },
   {
    "o": "DZA",
@@ -792,6 +824,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 100062000,
+   "uv": 153,
    "mode": "sea",
    "lane": "phosphate-rock:DZA-IND"
   },
@@ -802,6 +836,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 72664000,
+   "uv": 123,
    "mode": "land"
   },
   {
@@ -811,6 +847,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 71242000,
+   "uv": 126,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-NOR"
   },
@@ -821,6 +859,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 65790000,
+   "uv": 131,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-BGR"
   },
@@ -831,6 +871,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 58525000,
+   "uv": 123,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-PAK"
   },
@@ -841,6 +883,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 60155000,
+   "uv": 137,
    "mode": "sea",
    "lane": "phosphate-rock:ZAF-NLD"
   },
@@ -851,6 +895,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 117036000,
+   "uv": 304,
    "mode": "land"
   },
   {
@@ -860,10 +906,58 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 51851000,
+   "uv": 144,
    "mode": "sea",
    "lane": "phosphate-rock:MAR-PHL"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.4478
+   },
+   "top3": 0.6758,
+   "hhi": 2382,
+   "eq": 4.2,
+   "k": 24,
+   "cov": 0.9969
+  },
+  "reserves": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.6855
+   },
+   "top3": 0.7705,
+   "hhi": 4784,
+   "eq": 2.1,
+   "k": 24,
+   "cov": 0.989
+  },
+  "exports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.2737
+   },
+   "top3": 0.6152,
+   "hhi": 1552,
+   "eq": 6.4,
+   "k": 38,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "IND",
+    "p": 0.345
+   },
+   "top3": 0.4874,
+   "hhi": 1420,
+   "eq": 7.0,
+   "k": 60,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "DAP (HS 310530), 2024 (CEPII BACI): world 18.50 Mt gross weight; top exporters Morocco 6.25 Mt, China 4.25 Mt, Saudi Arabia 3.83 Mt.",
   "Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock."

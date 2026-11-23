@@ -121,107 +121,159 @@
   "rows": [
    {
     "c": "ZAF",
-    "v": 24.356
+    "v": 24.356,
+    "usd": 3319885000,
+    "uv": 136
    },
    {
     "c": "GAB",
-    "v": 7.905
+    "v": 7.905,
+    "usd": 1698748000,
+    "uv": 215
    },
    {
     "c": "GHA",
-    "v": 4.77
+    "v": 4.77,
+    "usd": 556143000,
+    "uv": 117
    },
    {
     "c": "AUS",
-    "v": 2.534
+    "v": 2.534,
+    "usd": 505795000,
+    "uv": 200
    },
    {
     "c": "CIV",
-    "v": 0.8405
+    "v": 0.8405,
+    "usd": 84337000,
+    "uv": 100
    },
    {
     "c": "BRA",
-    "v": 0.6963
+    "v": 0.6963,
+    "usd": 92446000,
+    "uv": 133
    },
    {
     "c": "MMR",
-    "v": 0.5743
+    "v": 0.5743,
+    "usd": 59230000,
+    "uv": 103
    },
    {
     "c": "MYS",
-    "v": 0.3055
+    "v": 0.3055,
+    "usd": 19408000,
+    "uv": 63.5
    },
    {
     "c": "KAZ",
-    "v": 0.2132
+    "v": 0.2132,
+    "usd": 11150000,
+    "uv": 52.3
    },
    {
     "c": "ZMB",
-    "v": 0.1998
+    "v": 0.1998,
+    "usd": 27504000,
+    "uv": 138
    },
    {
     "c": "CHN",
-    "v": 0.17
+    "v": 0.17,
+    "usd": 42240000,
+    "uv": 248
    },
    {
     "c": "GUY",
-    "v": 0.1299
+    "v": 0.1299,
+    "usd": 17279000,
+    "uv": 133
    },
    {
     "c": "MEX",
-    "v": 0.1077
+    "v": 0.1077,
+    "usd": 23602000,
+    "uv": 219
    },
    {
     "c": "NAM",
-    "v": 0.1035
+    "v": 0.1035,
+    "usd": 12105000,
+    "uv": 117
    },
    {
     "c": "MAR",
-    "v": 0.0986
+    "v": 0.0986,
+    "usd": 21467000,
+    "uv": 218
    },
    {
     "c": "UKR",
-    "v": 0.043
+    "v": 0.043,
+    "usd": 5205000,
+    "uv": 121
    },
    {
     "c": "KHM",
-    "v": 0.0402
+    "v": 0.0402,
+    "usd": 9944000,
+    "uv": 247
    },
    {
     "c": "FRA",
-    "v": 0.0388
+    "v": 0.0388,
+    "usd": 11421000,
+    "uv": 294
    },
    {
     "c": "TUR",
-    "v": 0.0311
+    "v": 0.0311,
+    "usd": 4502000,
+    "uv": 145
    },
    {
     "c": "KEN",
-    "v": 0.0302
+    "v": 0.0302,
+    "usd": 8537000,
+    "uv": 283
    },
    {
     "c": "NGA",
-    "v": 0.013
+    "v": 0.013,
+    "usd": 943000,
+    "uv": 72.5
    },
    {
     "c": "GEO",
-    "v": 0.0127
+    "v": 0.0127,
+    "usd": 3252000,
+    "uv": 256
    },
    {
     "c": "NLD",
-    "v": 0.0114
+    "v": 0.0114,
+    "usd": 4903000,
+    "uv": 430
    },
    {
     "c": "THA",
-    "v": 0.0112
+    "v": 0.0112,
+    "usd": 907000,
+    "uv": 81.0
    },
    {
     "c": "MLI",
-    "v": 0.0099
+    "v": 0.0099,
+    "usd": 1755000,
+    "uv": 177
    },
    {
     "c": "BFA",
-    "v": 0.0083
+    "v": 0.0083,
+    "usd": 103000,
+    "uv": 12.4
    },
    {
     "c": "EGY",
@@ -229,71 +281,104 @@
     "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 1001000
    },
    {
     "c": "SEN",
-    "v": 0.008
+    "v": 0.008,
+    "usd": 1005000,
+    "uv": 126
    },
    {
     "c": "IND",
-    "v": 0.0052
+    "v": 0.0052,
+    "usd": 1068000,
+    "uv": 205
    },
    {
     "c": "ROU",
-    "v": 0.0047
+    "v": 0.0047,
+    "usd": 557000,
+    "uv": 119
    },
    {
     "c": "PAK",
-    "v": 0.0044
+    "v": 0.0044,
+    "usd": 293000,
+    "uv": 66.6
    },
    {
     "c": "BEL",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 983000,
+    "uv": 328
    },
    {
     "c": "SVK",
-    "v": 0.0025
+    "v": 0.0025,
+    "usd": 590000,
+    "uv": 236
    },
    {
     "c": "NOR",
-    "v": 0.0022
+    "v": 0.0022,
+    "usd": 331000,
+    "uv": 150
    },
    {
     "c": "PER",
-    "v": 0.0021
+    "v": 0.0021,
+    "usd": 336000,
+    "uv": 160
    },
    {
     "c": "CAN",
-    "v": 0.002
+    "v": 0.002,
+    "usd": 389000,
+    "uv": 194
    },
    {
     "c": "COD",
-    "v": 0.0018
+    "v": 0.0018,
+    "usd": 171000,
+    "uv": 95.0
    },
    {
     "c": "TZA",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 573000,
+    "uv": 382
    },
    {
     "c": "GBR",
-    "v": 0.0014
+    "v": 0.0014,
+    "usd": 595000,
+    "uv": 425
    },
    {
     "c": "MNG",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 85000,
+    "uv": 65.4
    },
    {
     "c": "TWN",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 422000,
+    "uv": 352
    },
    {
     "c": "USA",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 474000,
+    "uv": 395
    }
   ],
   "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "ore, gross weight"
+  "basis": "ore, gross weight",
+  "usd": 6551684000,
+  "uv": 151
  },
  "imports": {
   "y": 2024,
@@ -303,180 +388,268 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 29.142
+    "v": 29.142,
+    "usd": 3995051000,
+    "uv": 137
    },
    {
     "c": "IND",
-    "v": 6.308
+    "v": 6.308,
+    "usd": 1077840000,
+    "uv": 171
    },
    {
     "c": "NOR",
-    "v": 1.176
+    "v": 1.176,
+    "usd": 272350000,
+    "uv": 232
    },
    {
     "c": "JPN",
-    "v": 0.8998
+    "v": 0.8998,
+    "usd": 212459000,
+    "uv": 236
    },
    {
     "c": "SGP",
     "v": 0.8798,
-    "n": "rank 5: Singapore is not a manganese producer; it is a trading and transshipment centre, so part of these imports may be ore bought or stored there and sold on (a possible reading, not established here)"
+    "n": "rank 5: Singapore is not a manganese producer; it is a trading and transshipment centre, so part of these imports may be ore bought or stored there and sold on (a possible reading, not established here)",
+    "usd": 105673000,
+    "uv": 120
    },
    {
     "c": "MYS",
-    "v": 0.8513
+    "v": 0.8513,
+    "usd": 147736000,
+    "uv": 174
    },
    {
     "c": "IDN",
-    "v": 0.5565
+    "v": 0.5565,
+    "usd": 80448000,
+    "uv": 145
    },
    {
     "c": "LVA",
-    "v": 0.4596
+    "v": 0.4596,
+    "usd": 59217000,
+    "uv": 129
    },
    {
     "c": "KOR",
-    "v": 0.3573
+    "v": 0.3573,
+    "usd": 89517000,
+    "uv": 251
    },
    {
     "c": "USA",
-    "v": 0.3557
+    "v": 0.3557,
+    "usd": 98929000,
+    "uv": 278
    },
    {
     "c": "FRA",
-    "v": 0.3312
+    "v": 0.3312,
+    "usd": 70831000,
+    "uv": 214
    },
    {
     "c": "RUS",
-    "v": 0.2144
+    "v": 0.2144,
+    "usd": 16981000,
+    "uv": 79.2
    },
    {
     "c": "ARE",
-    "v": 0.1904
+    "v": 0.1904,
+    "usd": 21515000,
+    "uv": 113
    },
    {
     "c": "ESP",
-    "v": 0.1718
+    "v": 0.1718,
+    "usd": 39311000,
+    "uv": 229
    },
    {
     "c": "SAU",
-    "v": 0.1682
+    "v": 0.1682,
+    "usd": 22939000,
+    "uv": 136
    },
    {
     "c": "AUS",
-    "v": 0.1374
+    "v": 0.1374,
+    "usd": 32585000,
+    "uv": 237
    },
    {
     "c": "GEO",
-    "v": 0.1271
+    "v": 0.1271,
+    "usd": 31215000,
+    "uv": 246
    },
    {
     "c": "HKG",
-    "v": 0.0927
+    "v": 0.0927,
+    "usd": 9909000,
+    "uv": 107
    },
    {
     "c": "TUR",
-    "v": 0.0905
+    "v": 0.0905,
+    "usd": 11250000,
+    "uv": 124
    },
    {
     "c": "VNM",
-    "v": 0.0899
+    "v": 0.0899,
+    "usd": 23885000,
+    "uv": 266
    },
    {
     "c": "UKR",
-    "v": 0.0842
+    "v": 0.0842,
+    "usd": 18097000,
+    "uv": 215
    },
    {
     "c": "URY",
-    "v": 0.0759
+    "v": 0.0759,
+    "usd": 10020000,
+    "uv": 132
    },
    {
     "c": "SVK",
-    "v": 0.0755
+    "v": 0.0755,
+    "usd": 18407000,
+    "uv": 244
    },
    {
     "c": "MUS",
-    "v": 0.0639
+    "v": 0.0639,
+    "usd": 3255000,
+    "uv": 50.9
    },
    {
     "c": "ZAF",
-    "v": 0.0534
+    "v": 0.0534,
+    "usd": 5316000,
+    "uv": 99.6
    },
    {
     "c": "NAM",
-    "v": 0.0472
+    "v": 0.0472,
+    "usd": 12570000,
+    "uv": 266
    },
    {
     "c": "AGO",
-    "v": 0.0435
+    "v": 0.0435,
+    "usd": 4203000,
+    "uv": 96.6
    },
    {
     "c": "NLD",
-    "v": 0.0408
+    "v": 0.0408,
+    "usd": 12527000,
+    "uv": 307
    },
    {
     "c": "KAZ",
-    "v": 0.0281
+    "v": 0.0281,
+    "usd": 7023000,
+    "uv": 250
    },
    {
     "c": "CHE",
-    "v": 0.0264
+    "v": 0.0264,
+    "usd": 3270000,
+    "uv": 124
    },
    {
     "c": "ARG",
-    "v": 0.023
+    "v": 0.023,
+    "usd": 4119000,
+    "uv": 179
    },
    {
     "c": "OMN",
-    "v": 0.0212
+    "v": 0.0212,
+    "usd": 3877000,
+    "uv": 183
    },
    {
     "c": "GRC",
-    "v": 0.021
+    "v": 0.021,
+    "usd": 5859000,
+    "uv": 279
    },
    {
     "c": "COL",
-    "v": 0.0188
+    "v": 0.0188,
+    "usd": 4783000,
+    "uv": 254
    },
    {
     "c": "DEU",
-    "v": 0.0169
+    "v": 0.0169,
+    "usd": 8106000,
+    "uv": 480
    },
    {
     "c": "BEL",
-    "v": 0.0136
+    "v": 0.0136,
+    "usd": 2799000,
+    "uv": 206
    },
    {
     "c": "POL",
-    "v": 0.0127
+    "v": 0.0127,
+    "usd": 812000,
+    "uv": 63.9
    },
    {
     "c": "THA",
-    "v": 0.0125
+    "v": 0.0125,
+    "usd": 804000,
+    "uv": 64.3
    },
    {
     "c": "IRN",
-    "v": 0.0117
+    "v": 0.0117,
+    "usd": 1667000,
+    "uv": 142
    },
    {
     "c": "GBR",
-    "v": 0.0067
+    "v": 0.0067,
+    "usd": 2483000,
+    "uv": 371
    },
    {
     "c": "CZE",
-    "v": 0.004
+    "v": 0.004,
+    "usd": 1120000,
+    "uv": 280
    },
    {
     "c": "COD",
-    "v": 0.0021
+    "v": 0.0021,
+    "usd": 261000,
+    "uv": 124
    },
    {
     "c": "LKA",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 154000,
+    "uv": 128
    },
    {
     "c": "CAN",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 474000,
+    "uv": 395
    },
    {
     "c": "TGO",
@@ -484,11 +657,14 @@
     "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.04 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 37000
    }
   ],
   "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "ore, gross weight"
+  "basis": "ore, gross weight",
+  "usd": 6551684000,
+  "uv": 151
  },
  "flows": [
   {
@@ -498,6 +674,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1938353000,
+   "uv": 123,
    "mode": "sea",
    "lane": "manganese:ZAF-CHN"
   },
@@ -508,6 +686,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 534140000,
+   "uv": 115,
    "mode": "sea",
    "lane": "manganese:GHA-CHN"
   },
@@ -518,6 +698,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 837432000,
+   "uv": 201,
    "mode": "sea",
    "lane": "manganese:GAB-CHN"
   },
@@ -528,6 +710,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 597014000,
+   "uv": 155,
    "mode": "sea",
    "lane": "manganese:ZAF-IND"
   },
@@ -538,6 +722,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 411455000,
+   "uv": 192,
    "mode": "sea",
    "lane": "manganese:AUS-CHN"
   },
@@ -548,6 +734,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 412142000,
+   "uv": 198,
    "mode": "sea",
    "lane": "manganese:GAB-IND"
   },
@@ -558,6 +746,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 101201000,
+   "uv": 121,
    "mode": "sea",
    "lane": "manganese:ZAF-SGP"
   },
@@ -568,6 +758,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 99049000,
+   "uv": 151,
    "mode": "sea",
    "lane": "manganese:ZAF-MYS"
   },
@@ -578,6 +770,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 119462000,
+   "uv": 190,
    "mode": "sea",
    "lane": "manganese:ZAF-NOR"
   },
@@ -588,6 +782,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 133722000,
+   "uv": 222,
    "mode": "sea",
    "lane": "manganese:ZAF-JPN"
   },
@@ -598,6 +794,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 53723000,
+   "uv": 94.1,
    "mode": "sea",
    "lane": "manganese:CIV-CHN"
   },
@@ -608,6 +806,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 58426000,
+   "uv": 104,
    "mode": "land"
   },
   {
@@ -617,6 +817,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 59290000,
+   "uv": 115,
    "mode": "sea",
    "lane": "manganese:BRA-CHN"
   },
@@ -627,6 +829,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 148777000,
+   "uv": 291,
    "mode": "sea",
    "lane": "manganese:GAB-NOR"
   },
@@ -637,6 +841,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 59217000,
+   "uv": 129,
    "mode": "sea",
    "lane": "manganese:ZAF-LVA"
   },
@@ -647,6 +853,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 44705000,
+   "uv": 138,
    "mode": "sea",
    "lane": "manganese:ZAF-IDN"
   },
@@ -657,6 +865,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 16432000,
+   "uv": 64.6,
    "mode": "sea",
    "lane": "manganese:MYS-CHN"
   },
@@ -667,6 +877,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 50011000,
+   "uv": 216,
    "mode": "sea",
    "lane": "manganese:ZAF-KOR"
   },
@@ -677,6 +889,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 67072000,
+   "uv": 291,
    "mode": "sea",
    "lane": "manganese:GAB-JPN"
   },
@@ -687,10 +901,91 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 64890000,
+   "uv": 323,
    "mode": "sea",
    "lane": "manganese:GAB-USA"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent, manganese content",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 670.0,
+      "est": true
+     },
+     {
+      "y": 2025,
+      "v": 640.0,
+      "est": true
+     }
+    ],
+    "n": "Manganese content typically ranges from 35% to 54% for manganese ore and from 74% to 95% for ferromanganese. -- Defined for 2021-22 as imports - exports ±adjustments for Government and industry stock changes. Beginning in 2023, Government stock changes no longer included. Manganese content based on estimates of average content for all significant componentsincluding ferromanganese, manganese dioxide, manganese ore, manganese waste and scrap, silicomanganese, unwrought manganese metal, and wrought manganese metal."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Manganese",
+    "pct": "100",
+    "y": 2025,
+    "src": "Gabon, South Africa, Malaysia, Australia",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.3774
+   },
+   "top3": 0.7249,
+   "hhi": 2248,
+   "eq": 4.4,
+   "k": 8,
+   "cov": 0.9355
+  },
+  "reserves": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3226
+   },
+   "top3": 0.7953,
+   "hhi": 2479,
+   "eq": 4.0,
+   "k": 7,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.5624
+   },
+   "top3": 0.8551,
+   "hhi": 3662,
+   "eq": 2.7,
+   "k": 42,
+   "cov": 1.0,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6729
+   },
+   "top3": 0.8458,
+   "hhi": 4766,
+   "eq": 2.1,
+   "k": 45,
+   "cov": 1.0,
+   "est": true
+  }
+ },
  "notes": [
   "Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table."
  ]

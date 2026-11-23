@@ -36,7 +36,11 @@ const BASES = ['single', 'rule', 'measured', 'open'];
 const PORT_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'general port of the country', 'port used before, no page read', 'nearest seaport'];
 const COLS = ['o', 'd', 'kt', 'm', 'load', 'dis', 'nm', 'cls', 'via', 'alt', 'f'];
 /** Smallest tonnage (Mt) of a main lane: 0.05 unless the group is listed (PLAN 2.2). */
-const FLOOR = { coffee: 0.02, cocoa: 0.02, cotton: 0.02, 'nickel-int': 0.02, 'copper-refined': 0.02, 'zinc-ore': 0.02, aluminium: 0.03, soyoil: 0.03 };
+const FLOOR = {
+  coffee: 0.02, cocoa: 0.02, cotton: 0.02, 'nickel-int': 0.02, 'copper-refined': 0.02, 'zinc-ore': 0.02, aluminium: 0.03, soyoil: 0.03,
+  // the minor metals (build_lanes.py FLOOR)
+  'lead-ore': 0.02, 'lead-metal': 0.01, 'zinc-metal': 0.015, 'tin-metal': 0.001, 'tin-ore': 0.002, cobalt: 0.002, lithium: 0.005, 'rare-earths': 0.002,
+};
 const floorOf = (g) => FLOOR[g] ?? 0.05;
 
 export function validateFreight(root, errors) {

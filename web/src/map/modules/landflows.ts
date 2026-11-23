@@ -144,7 +144,7 @@ registerLayerModule(() => {
       mixedArcsShown.value = mixedArcs;
       const hasLanes = laneInfo.some((i) => i.n > 0);
       const cur = selection.peek();
-      // A commodity outside the lane model (uranium, gold, lithium...) has no sea routes: its sea flows are listed on
+      // A commodity outside the lane model (uranium, gold...) has no sea routes: its sea flows are listed on
       // the commodity page, not drawn, and so are flows whose transport mode the atlas does not model (precious
       // metals). The notice says that, not "no flows"; overland flows are still drawn as arcs.
       const listed = d?.flows ?? [];
@@ -158,7 +158,7 @@ registerLayerModule(() => {
           : seaListed
             ? `${name} flows are listed in the panel; sea routes are not drawn for this commodity.`
             : unmodelled
-              ? `${name} flows are listed in the panel and not drawn: the atlas does not model their transport mode.`
+              ? `${name} customs flows are listed in the panel's tables, not drawn: the atlas draws sea and overland lanes only.`
               : features.length
                 ? null
                 : `No mapped seaborne or overland flows for ${name} in the open data${yr != null ? ` for ${yr}` : ''}.`;

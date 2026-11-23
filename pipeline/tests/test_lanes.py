@@ -25,7 +25,8 @@ YEAR = 2024
 FOOD = ("wheat", "corn", "soybeans", "soymeal", "rice", "sugar", "rapeseed", "palm-oil", "soyoil", "potash", "urea",
         "dap", "phosphate-rock")
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
-         "aluminium": 0.03, "soyoil": 0.03}
+         "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
+         "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002}  # L1: minor metals
 BUILT = os.path.isdir(PAIRS) and os.path.exists(os.path.join(ROOT, "data", "freight", "caveats.json"))
 need_build = unittest.skipUnless(BUILT, "build_lanes.py has not written the pairs files yet")
 
@@ -96,7 +97,9 @@ def gc_km(a, b):
 class Selection(unittest.TestCase):
     def test_S01_coverage_per_group(self):
         want = {"crude-oil": 0.78, "refined-products": 0.58, "steel": 0.65, "wheat": 0.78, "lng": 0.88, "lpg": 0.87,
-                "coal": 0.93, "iron-ore": 0.93, "urea": 0.79, "rice": 0.73, "corn": 0.89, "soybeans": 0.93, "dap": 0.83}
+                "coal": 0.93, "iron-ore": 0.93, "urea": 0.79, "rice": 0.73, "corn": 0.89, "soybeans": 0.93, "dap": 0.83,
+                # package L1: unwrought tin is spread over hundreds of parcels; its main set reaches its cap of 40 lanes
+                "tin-metal": 0.60}
         low = {}
         for g in groups():
             f = lane_file(g)
@@ -167,9 +170,11 @@ class Selection(unittest.TestCase):
         hist_ = sum(1 for g in groups() for ln in lane_file(g)["lanes"] if ln["set"] == "history")
         mixed = sum(1 for g in groups() for ln in main_lanes(g) if ln.get("mode") == "mixed")
         print(f"\nS08: main seaborne lanes {main}, history-only {hist_}, mixed {mixed}")
-        self.assertTrue(2300 <= main <= 2450, main)
-        self.assertTrue(150 <= hist_ <= 220, hist_)
-        self.assertTrue(30 <= mixed <= 40, mixed)
+        # package L1 added eight groups of minor metals (167 main, 104 history-only and 2 mixed lanes in its build) and
+        # made Belarusian potash to China a mixed pair: 2,400 / 182 / 35 before
+        self.assertTrue(2450 <= main <= 2650, main)
+        self.assertTrue(240 <= hist_ <= 320, hist_)
+        self.assertTrue(33 <= mixed <= 45, mixed)
 
 
 @need_build
@@ -187,8 +192,9 @@ class Pairs(unittest.TestCase):
             self.assertEqual(set(keys), set(zip(y[y.group == g].o, y[y.group == g].d)), g)
             n += len(keys)
         print(f"\nP01: {n} rows")
-        # 34 groups since the ferro-nickel and spodumene groups were added (23,739 rows with the first 32)
-        self.assertTrue(23700 <= n <= 24100, n)
+        # 34 groups since the ferro-nickel and spodumene groups were added (23,739 rows with the first 32); 42 groups
+        # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42)
+        self.assertTrue(25700 <= n <= 26100, n)
 
     def test_P02_seaborne_rows_routed(self):
         for g, o, d, kt, m in (("coal", "USA", "CHN", 12092, None), ("coal", "CAN", "CHN", 9529, None),
@@ -230,7 +236,7 @@ class Pairs(unittest.TestCase):
         print(f"\nP05: pairs folder {raw / 1024:.0f} KB raw, {gz / 1024:.0f} KB gzip, largest file {big / 1024:.0f} KB")
         self.assertLessEqual(raw, 1.5 * 1024 * 1024)
         self.assertLessEqual(big, 230 * 1024)
-        self.assertLessEqual(gz, 380 * 1024)
+        self.assertLessEqual(gz, 430 * 1024)  # 380 KB before package L1 added eight groups (406 KB with them)
 
     def test_P06_indexes_and_masks(self):
         cps = {c["id"] for c in load_json(os.path.join(ROOT, "data", "freight", "chokepoints.json"))}

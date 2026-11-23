@@ -36,7 +36,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt N",
-  "world": 160.0,
+  "world": 156.3,
   "rows": [
    {
     "c": "CHN",
@@ -127,7 +127,7 @@
     "v": 1.3
    }
   ],
-  "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded · Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight.",
+  "n": "USGS MCS 2026, ammonia plant production, nitrogen content (urea feedstock; not urea output); 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 156 Mt N, while the rounded world total of 160 Mt N is 2.4% above that sum: shares are computed on the sum · Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight.",
   "other": 12.0,
   "hidden": {
    "v": 23.7,
@@ -135,6 +135,7 @@
    "from": 10,
    "n": "12 further countries named by USGS (Trinidad and Tobago, Qatar, Algeria, Germany, Netherlands, Nigeria, Oman, Poland, Australia, Malaysia, Vietnam and Uzbekistan), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 160.0,
   "basis": "ammonia, nitrogen content",
   "caveat": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."
  },
@@ -1156,6 +1157,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 897792000,
+   "uv": 348,
    "mode": "sea",
    "lane": "urea:OMN-IND",
    "caveat": "urea-omn"
@@ -1167,6 +1170,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 540374000,
+   "uv": 336,
    "mode": "sea",
    "lane": "urea:OMN-BRA",
    "caveat": "urea-omn"
@@ -1178,6 +1183,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 571588000,
+   "uv": 360,
    "mode": "sea",
    "lane": "urea:NGA-BRA"
   },
@@ -1188,6 +1195,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 550060000,
+   "uv": 365,
    "mode": "sea",
    "lane": "urea:RUS-BRA"
   },
@@ -1198,6 +1207,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 496815000,
+   "uv": 333,
    "mode": "sea",
    "lane": "urea:OMN-TUR",
    "caveat": "urea-omn"
@@ -1209,6 +1220,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 457550000,
+   "uv": 356,
    "mode": "sea",
    "lane": "urea:RUS-USA"
   },
@@ -1219,6 +1232,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 432930000,
+   "uv": 352,
    "mode": "sea",
    "lane": "urea:RUS-IND"
   },
@@ -1229,6 +1244,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 426395000,
+   "uv": 360,
    "mode": "sea",
    "lane": "urea:QAT-BRA"
   },
@@ -1239,6 +1256,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 366213000,
+   "uv": 318,
    "mode": "sea",
    "lane": "urea:SAU-THA"
   },
@@ -1249,6 +1268,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 362102000,
+   "uv": 350,
    "mode": "sea",
    "lane": "urea:QAT-USA"
   },
@@ -1259,6 +1280,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 193007000,
+   "uv": 202,
    "mode": "sea",
    "lane": "urea:QAT-IND"
   },
@@ -1269,6 +1292,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 286197000,
+   "uv": 367,
    "mode": "sea",
    "lane": "urea:ARE-AUS"
   },
@@ -1279,6 +1304,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 231773000,
+   "uv": 319,
    "mode": "sea",
    "lane": "urea:EGY-TUR"
   },
@@ -1289,6 +1316,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 240841000,
+   "uv": 362,
    "mode": "sea",
    "lane": "urea:RUS-MEX"
   },
@@ -1299,6 +1328,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 209215000,
+   "uv": 330,
    "mode": "land"
   },
   {
@@ -1308,6 +1339,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 283895000,
+   "uv": 462,
    "mode": "land"
   },
   {
@@ -1317,6 +1350,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 220818000,
+   "uv": 369,
    "mode": "sea",
    "lane": "urea:SAU-AUS"
   },
@@ -1327,6 +1362,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 221669000,
+   "uv": 372,
    "mode": "sea",
    "lane": "urea:QAT-AUS"
   },
@@ -1337,6 +1374,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 254041000,
+   "uv": 434,
    "mode": "land"
   },
   {
@@ -1346,10 +1385,47 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 219535000,
+   "uv": 376,
    "mode": "sea",
    "lane": "urea:IDN-AUS"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3135
+   },
+   "top3": 0.5054,
+   "hhi": 1322,
+   "eq": 7.6,
+   "k": 22,
+   "cov": 0.9232
+  },
+  "exports": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.1577
+   },
+   "top3": 0.389,
+   "hhi": 757,
+   "eq": 13.2,
+   "k": 90,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.1477
+   },
+   "top3": 0.354,
+   "hhi": 586,
+   "eq": 17.1,
+   "k": 129,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea, and urea production in tonnes of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds 46.6% nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.",
   "FAOSTAT has no 2023 urea production figure for Oman, Qatar, Egypt, Algeria, Nigeria, Malaysia and 6 other countries, which each exported more than 1 Mt of urea in the customs data for 2024 (the largest exporters first): the urea producers table lists reporting countries only and gives no world total. For 2022 it gives Oman 2.04 Mt, Malaysia 7.58 Mt, Indonesia 7.47 Mt and United States 5.93 Mt.",

@@ -2,6 +2,7 @@ import { BrandMark } from './ui';
 import { priceDrawer, historyOpen } from '../lib/store';
 import { togglePrices, toggleHistory } from '../lib/prices';
 import { openAbout } from './AboutHost';
+import { Search, SearchButton } from './Search';
 
 export function TopBar() {
   return (
@@ -18,7 +19,9 @@ export function TopBar() {
         </h1>
       </div>
       <div class="spacer" />
+      <Search />
       <div class="tool-btns glass" role="group" aria-label="Tools">
+        <SearchButton />
         <button class="tool-btn" aria-pressed={priceDrawer.value !== null} aria-label="Prices" title="Price explorer" onClick={togglePrices}>
           <svg viewBox="0 0 14 14" aria-hidden="true">
             <path d="M1.5 11.5l3.2-4.2 2.6 2.2 5.2-6.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />

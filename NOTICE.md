@@ -33,9 +33,11 @@ It does not cover data. Data files kept in the repository follow the terms of th
   tables of `pipeline/freight/vessel_rules.py` and the list entries of `pipeline/freight/modes.py`. The code of these
   files is MIT; the rows that cite a Wikipedia article (their `url` or source string) are adapted from it and are
   CC BY-SA 4.0 (the list of articles is below), and the rows that cite another publisher keep that publisher's terms;
-- the caches in `pipeline/cache/`: `baci_flows.csv.gz`, `hs4_exports.csv.gz`, `hs4_exports_desc.csv`,
+- the caches in `pipeline/cache/`: `baci_flows.csv.gz`, `hs4_exports.csv.gz`, `hs4_imports.csv.gz`, `hs4_totals.csv`,
+  `hs4_exports_desc.csv`,
   `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `baci_rice_forms.csv` and `baci_country_codes.csv` are
-  derived from CEPII BACI (Etalab Open Licence 2.0); `faostat_cocoa_production.csv` and
+  derived from CEPII BACI (Etalab Open Licence 2.0); `faostat_cocoa_production.csv`, `faostat_eu_crops.csv` (crop production
+  of the 27 member states of the European Union and the world, FAOSTAT QCL) and
   `faostat_fertilizer_production.csv` are FAOSTAT data (CC BY 4.0); `wna_uranium.json` is World Nuclear Association data
   (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
   `route_cache.json` hold computed routes (see the next section); `trade_checks.json` holds the findings of the atlas's
@@ -125,7 +127,7 @@ replaced by one from another source, it leaves this notice.
 The articles below are cited by rows of the trade engine's tables (English Wikipedia unless stated). The list is
   generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the source strings of the
   draught tables, the URL of every mode-list entry) by `pipeline/common/notice_lists.py`, not typed, and
-  `pipeline/tests/test_engine.py` checks that it is complete. 189 distinct articles:
+  `pipeline/tests/test_engine.py` checks that it is complete. 191 distinct articles:
 
 - Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 67):
   [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
@@ -232,7 +234,7 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   Port](https://en.wikipedia.org/wiki/Vostochny_Port); [Weipa](https://en.wikipedia.org/wiki/Weipa);
   [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven).
 - Gateway ports for crude oil, refined products, LPG and LNG, and the transit ports of landlocked countries
-  (`pipeline/freight/gateways/energy.py`, 61): [Adria oil pipeline](https://en.wikipedia.org/wiki/Adria_oil_pipeline);
+  (`pipeline/freight/gateways/energy.py`, 64): [Adria oil pipeline](https://en.wikipedia.org/wiki/Adria_oil_pipeline);
   [Al Başrah Oil Terminal](https://en.wikipedia.org/wiki/Al_Ba%C5%9Frah_Oil_Terminal); [Angra dos
   Reis](https://en.wikipedia.org/wiki/Angra_dos_Reis); [Apapa](https://en.wikipedia.org/wiki/Apapa);
   [Baku–Tbilisi–Ceyhan pipeline](https://en.wikipedia.org/wiki/Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline); [Cabinda
@@ -258,13 +260,14 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   [Pengerang](https://en.wikipedia.org/wiki/Pengerang); [Petroleum industry in
   Nigeria](https://en.wikipedia.org/wiki/Petroleum_industry_in_Nigeria); [Port of
   Beira](https://en.wikipedia.org/wiki/Port_of_Beira); [Port of Chiba](https://en.wikipedia.org/wiki/Port_of_Chiba);
-  [Port of Corpus Christi](https://en.wikipedia.org/wiki/Port_of_Corpus_Christi); [Port of Dar es
+  [Port of Constanța](https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba); [Port of Corpus
+  Christi](https://en.wikipedia.org/wiki/Port_of_Corpus_Christi); [Port of Dar es
   Salaam](https://en.wikipedia.org/wiki/Port_of_Dar_es_Salaam); [Port of
   Djibouti](https://en.wikipedia.org/wiki/Port_of_Djibouti); [Port of
   Fujairah](https://en.wikipedia.org/wiki/Port_of_Fujairah); [Port of
   Hamburg](https://en.wikipedia.org/wiki/Port_of_Hamburg); [Port of
-  Kolkata](https://en.wikipedia.org/wiki/Port_of_Kolkata); [Port of Le
-  Havre](https://en.wikipedia.org/wiki/Port_of_Le_Havre); [Port of
+  Kolkata](https://en.wikipedia.org/wiki/Port_of_Kolkata); [Port of Koper](https://en.wikipedia.org/wiki/Port_of_Koper);
+  [Port of Le Havre](https://en.wikipedia.org/wiki/Port_of_Le_Havre); [Port of
   Melbourne](https://en.wikipedia.org/wiki/Port_of_Melbourne); [Port of
   Mersin](https://en.wikipedia.org/wiki/Port_of_Mersin); [Port of
   Nakhodka](https://en.wikipedia.org/wiki/Port_of_Nakhodka); [Port of
@@ -281,8 +284,9 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   Pipeline](https://en.wikipedia.org/wiki/Transalpine_Pipeline); [Transport in Burkina
   Faso](https://en.wikipedia.org/wiki/Transport_in_Burkina_Faso); [Transport in
   Mali](https://en.wikipedia.org/wiki/Transport_in_Mali); [Transport in
-  Niger](https://en.wikipedia.org/wiki/Transport_in_Niger); [Vadinar](https://en.wikipedia.org/wiki/Vadinar);
-  [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven); [Yanbu](https://en.wikipedia.org/wiki/Yanbu).
+  Niger](https://en.wikipedia.org/wiki/Transport_in_Niger); [Vadinar](https://en.wikipedia.org/wiki/Vadinar); [Walvis
+  Bay](https://en.wikipedia.org/wiki/Walvis_Bay); [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven);
+  [Yanbu](https://en.wikipedia.org/wiki/Yanbu).
 - Draught limits of straits and laden draughts of vessel classes (the draught rule) (`pipeline/freight/vessel_rules.py`,
   7): [Capesize](https://en.wikipedia.org/wiki/Capesize); [Handysize](https://en.wikipedia.org/wiki/Handysize);
   [Malaccamax](https://en.wikipedia.org/wiki/Malaccamax); [Singapore

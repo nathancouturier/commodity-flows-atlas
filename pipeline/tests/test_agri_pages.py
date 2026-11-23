@@ -124,7 +124,8 @@ class UnitTests(unittest.TestCase):
             self.assertEqual(d["flows"][0]["u"], "Mt", cid)
         idx = {e["id"]: e for e in load("commodities/index.json")}
         self.assertEqual([idx[c]["unit"] for c in ("coffee", "cocoa", "cotton")], ["Mt"] * 3)
-        self.assertEqual(round(load("commodities/coffee.json")["summary"]["production"]["v"], 1), 10.7)  # was 10,730 kt
+        # was 10,730 kt (2025/26, USDA's estimate); the page now shows 2026/27, USDA's forecast of 11,380 kt (A1)
+        self.assertEqual(round(load("commodities/coffee.json")["summary"]["production"]["v"], 1), 11.4)
 
 
 class MyanmarGatewayTests(unittest.TestCase):

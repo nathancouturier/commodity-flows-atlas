@@ -60,7 +60,7 @@ export function EventList(props: { commodity?: string; country?: string; route?:
           <li key={e.id}>
             <button class="evl-row" onClick={() => select({ kind: 'event', id: e.id })}>
               <span class="evl-dot" style={{ background: EVENT_COLOR[e.kind] }} title={EVENT_KIND_LABEL[e.kind]} />
-              <span class="evl-date num">{fmtEventDate(e.date)}</span>
+              <span class="evl-date num">{fmtEventDate(e.date)}{e.end ? ` – ${fmtEventDate(e.end)}` : ''}</span>
               <span class="evl-title">{e.title}</span>
             </button>
           </li>

@@ -1,0 +1,54 @@
+/** "Copy link" and "Copy citation", in the header of the detail panel. */
+import { useEffect, useRef, useState } from 'preact/hooks';
+import { citationOf, copyText } from '../lib/cite';
+import { selection } from '../lib/store';
+import '../styles/share.css';
+
+type Done = 'link' | 'citation' | 'failed' | null;
+
+const LinkIcon = () => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M6 8a2.4 2.4 0 0 0 3.4 0l2-2A2.4 2.4 0 0 0 8 2.6l-.7.7M8 6a2.4 2.4 0 0 0-3.4 0l-2 2A2.4 2.4 0 0 0 6 11.4l.7-.7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+  </svg>
+);
+const QuoteIcon = () => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M2.5 11V7.2C2.5 5 3.6 3.7 5.4 3.3M8 11V7.2C8 5 9.1 3.7 10.9 3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M2.8 7.4l2.7 2.7 5.7-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+  </svg>
+);
+
+export function DetailActions({ panel }: { panel: { current: HTMLElement | null } }) {
+  const [done, setDone] = useState<Done>(null);
+  const timer = useRef(0);
+  const sel = selection.value;
+  const key = sel ? `${sel.kind}:${sel.id}` : '';
+  // a new page starts without a "Copied" left from the last one
+  useEffect(() => setDone(null), [key]);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const copy = async (what: 'link' | 'citation') => {
+    const text = what === 'link' ? location.href : panel.current ? citationOf(panel.current) : location.href;
+    const ok = await copyText(text);
+    setDone(ok ? what : 'failed');
+    clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setDone(null), 2200);
+  };
+  return (
+    <div class="detail-actions" role="group" aria-label="Share this page">
+      <button class="da-btn" onClick={() => copy('link')} aria-label="Copy link" title="Copy link: the address of this page">
+        {done === 'link' ? <CheckIcon /> : <LinkIcon />}
+      </button>
+      <button class="da-btn" onClick={() => copy('citation')} aria-label="Copy citation" title="Copy citation: title, sources and years, address and date of access, in one line">
+        {done === 'citation' ? <CheckIcon /> : <QuoteIcon />}
+      </button>
+      <span class={`da-tip${done === 'failed' ? ' bad' : ''}`} role="status">
+        {done === 'failed' ? 'Could not copy' : done === 'link' ? 'Link copied' : done === 'citation' ? 'Citation copied' : ''}
+      </span>
+    </div>
+  );
+}

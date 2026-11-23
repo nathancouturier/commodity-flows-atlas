@@ -2,11 +2,18 @@
  "id": "lpg",
  "summary": {
   "consumption": {
-   "v": 303.66,
+   "v": 347.96,
    "u": "Mt",
    "y": 2025,
    "s": "eia-intl",
-   "n": "Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated."
+   "n": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
+   "alt": {
+    "v": 11100,
+    "u": "kb/d",
+    "s": "atlas",
+    "y": 2025,
+    "n": "Atlas conversion: 11.60 barrels per tonne, the ratio of EIA's series for United States LPG consumption in thousand barrels per day and in thousand metric tons (the same in every year from 1980 to 2019); other countries differ slightly"
+   }
   },
   "exports": {
    "v": 144.81,
@@ -27,11 +34,16 @@
   "y": 2025,
   "s": "eia-intl",
   "u": "Mt",
-  "world": 303.66,
+  "world": 347.96,
   "rows": [
    {
     "c": "CHN",
     "v": 78.642
+   },
+   {
+    "c": "USA",
+    "v": 44.303,
+    "n": "EIA gives no tonnes for 2025: 1,408 thousand barrels per day (EIA, the same series) at 11.60 barrels per tonne, the ratio of its own United States series in both units (Atlas conversion)"
    },
    {
     "c": "IND",
@@ -814,9 +826,10 @@
     "v": 0.0001
    }
   ],
-  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries) · Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated.",
-  "caveat": "Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated.",
+  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries); United States converted from barrels per day (Atlas conversion), and put into EIA's world total, which leaves it out or holds a figure out of line in this year · The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
+  "caveat": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021, and its world total in tonnes leaves the country out; the world total here puts it back.",
   "caveatYears": [
+   2021,
    2022,
    2023,
    2024,
@@ -1860,6 +1873,698 @@
   ],
   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
  },
+ "extra": [
+  {
+   "key": "lpg-production",
+   "title": "Top producers — LPG, EIA 2014",
+   "table": {
+    "y": 2014,
+    "s": "eia-intl",
+    "u": "kb/d",
+    "world": 3968.0,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 776.52
+     },
+     {
+      "c": "USA",
+      "v": 648.0
+     },
+     {
+      "c": "RUS",
+      "v": 587.58
+     },
+     {
+      "c": "IND",
+      "v": 312.72
+     },
+     {
+      "c": "BRA",
+      "v": 173.77
+     },
+     {
+      "c": "JPN",
+      "v": 138.88
+     },
+     {
+      "c": "DEU",
+      "v": 80.019
+     },
+     {
+      "c": "GBR",
+      "v": 75.51
+     },
+     {
+      "c": "KOR",
+      "v": 66.674
+     },
+     {
+      "c": "IRN",
+      "v": 65.055
+     },
+     {
+      "c": "THA",
+      "v": 60.597
+     },
+     {
+      "c": "NLD",
+      "v": 51.833
+     },
+     {
+      "c": "ITA",
+      "v": 51.74
+     },
+     {
+      "c": "ESP",
+      "v": 50.819
+     },
+     {
+      "c": "FRA",
+      "v": 46.907
+     },
+     {
+      "c": "SAU",
+      "v": 44.302
+     },
+     {
+      "c": "CAN",
+      "v": 41.156
+     },
+     {
+      "c": "ARG",
+      "v": 39.344
+     },
+     {
+      "c": "MYS",
+      "v": 32.898
+     },
+     {
+      "c": "KAZ",
+      "v": 30.778
+     },
+     {
+      "c": "TWN",
+      "v": 29.857
+     },
+     {
+      "c": "ARE",
+      "v": 29.605
+     },
+     {
+      "c": "MEX",
+      "v": 26.258
+     },
+     {
+      "c": "DZA",
+      "v": 25.552
+     },
+     {
+      "c": "GRC",
+      "v": 23.392
+     },
+     {
+      "c": "BEL",
+      "v": 22.436
+     },
+     {
+      "c": "TUR",
+      "v": 22.214
+     },
+     {
+      "c": "BLR",
+      "v": 18.826
+     },
+     {
+      "c": "EGY",
+      "v": 18.428
+     },
+     {
+      "c": "ROU",
+      "v": 17.797
+     },
+     {
+      "c": "POL",
+      "v": 17.767
+     },
+     {
+      "c": "IDN",
+      "v": 17.384
+     },
+     {
+      "c": "COL",
+      "v": 17.109
+     },
+     {
+      "c": "AUS",
+      "v": 16.4
+     },
+     {
+      "c": "UKR",
+      "v": 14.089
+     },
+     {
+      "c": "SWE",
+      "v": 13.414
+     },
+     {
+      "c": "ISR",
+      "v": 13.052
+     },
+     {
+      "c": "QAT",
+      "v": 11.888
+     },
+     {
+      "c": "NOR",
+      "v": 11.795
+     },
+     {
+      "c": "TKM",
+      "v": 11.698
+     },
+     {
+      "c": "VNM",
+      "v": 11.523
+     },
+     {
+      "c": "SGP",
+      "v": 11.412
+     },
+     {
+      "c": "OMN",
+      "v": 10.392
+     },
+     {
+      "c": "SDN",
+      "v": 9.974
+     },
+     {
+      "c": "PHL",
+      "v": 9.571
+     },
+     {
+      "c": "FIN",
+      "v": 9.153
+     },
+     {
+      "c": "LTU",
+      "v": 8.975
+     },
+     {
+      "c": "ZAF",
+      "v": 8.927
+     },
+     {
+      "c": "CHL",
+      "v": 8.271
+     },
+     {
+      "c": "VEN",
+      "v": 6.787
+     },
+     {
+      "c": "CZE",
+      "v": 6.605
+     },
+     {
+      "c": "PAK",
+      "v": 6.444
+     },
+     {
+      "c": "HRV",
+      "v": 6.095
+     },
+     {
+      "c": "AZE",
+      "v": 6.039
+     },
+     {
+      "c": "PRT",
+      "v": 5.814
+     },
+     {
+      "c": "PER",
+      "v": 5.752
+     },
+     {
+      "c": "KWT",
+      "v": 5.688
+     },
+     {
+      "c": "CHE",
+      "v": 5.532
+     },
+     {
+      "c": "IRQ",
+      "v": 5.263
+     },
+     {
+      "c": "SRB",
+      "v": 5.114
+     },
+     {
+      "c": "SVK",
+      "v": 4.797
+     },
+     {
+      "c": "DNK",
+      "v": 4.162
+     },
+     {
+      "c": "HUN",
+      "v": 3.562
+     },
+     {
+      "c": "MAR",
+      "v": 3.334
+     },
+     {
+      "c": "ECU",
+      "v": 3.312
+     },
+     {
+      "c": "BGR",
+      "v": 3.292
+     },
+     {
+      "c": "JOR",
+      "v": 2.969
+     },
+     {
+      "c": "BOL",
+      "v": 2.749
+     },
+     {
+      "c": "URY",
+      "v": 2.6
+     },
+     {
+      "c": "NGA",
+      "v": 2.39
+     },
+     {
+      "c": "AUT",
+      "v": 2.162
+     },
+     {
+      "c": "YEM",
+      "v": 2.047
+     },
+     {
+      "c": "SYR",
+      "v": 1.93
+     },
+     {
+      "c": "IRL",
+      "v": 1.91
+     },
+     {
+      "c": "BHR",
+      "v": 1.875
+     },
+     {
+      "c": "NER",
+      "v": 1.834
+     },
+     {
+      "c": "LBY",
+      "v": 1.758
+     },
+     {
+      "c": "CUB",
+      "v": 1.28
+     },
+     {
+      "c": "AGO",
+      "v": 1.048
+     },
+     {
+      "c": "LKA",
+      "v": 0.9379
+     },
+     {
+      "c": "TUN",
+      "v": 0.9049
+     },
+     {
+      "c": "BIH",
+      "v": 0.7906
+     },
+     {
+      "c": "UZB",
+      "v": 0.626
+     },
+     {
+      "c": "CIV",
+      "v": 0.5673
+     },
+     {
+      "c": "CMR",
+      "v": 0.558
+     },
+     {
+      "c": "DOM",
+      "v": 0.545
+     },
+     {
+      "c": "TTO",
+      "v": 0.5285
+     },
+     {
+      "c": "GAB",
+      "v": 0.4358
+     },
+     {
+      "c": "KEN",
+      "v": 0.4324
+     },
+     {
+      "c": "PNG",
+      "v": 0.4222
+     },
+     {
+      "c": "BGD",
+      "v": 0.3842
+     },
+     {
+      "c": "ZMB",
+      "v": 0.3688
+     },
+     {
+      "c": "MMR",
+      "v": 0.3074
+     },
+     {
+      "c": "NIC",
+      "v": 0.3054
+     },
+     {
+      "c": "COG",
+      "v": 0.2765
+     },
+     {
+      "c": "JAM",
+      "v": 0.2173
+     },
+     {
+      "c": "GHA",
+      "v": 0.0991
+     },
+     {
+      "c": "SEN",
+      "v": 0.0541
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0357
+     },
+     {
+      "c": "PRK",
+      "v": 0.0152
+     },
+     {
+      "c": "BRN",
+      "v": 0.0112
+     },
+     {
+      "c": "ALB",
+      "v": 0.0089
+     },
+     {
+      "c": "SUR",
+      "v": 0.0052
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0042
+     },
+     {
+      "c": "GTM",
+      "v": 0.0018
+     },
+     {
+      "c": "TJK",
+      "v": 0.0004
+     },
+     {
+      "c": "MDA",
+      "v": 0.0001
+     }
+    ],
+    "n": "EIA International Energy Data, liquefied petroleum gases production; world total as published by EIA (all countries); EIA's LPG production series end in 2014"
+   }
+  },
+  {
+   "key": "ngl-production",
+   "title": "Natural gas plant liquids producers, EIA 2025 (not LPG alone)",
+   "table": {
+    "y": 2025,
+    "s": "eia-intl",
+    "u": "kb/d",
+    "world": 14867.1,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 7515.6
+     },
+     {
+      "c": "SAU",
+      "v": 1565.5
+     },
+     {
+      "c": "CAN",
+      "v": 1181.4
+     },
+     {
+      "c": "IRN",
+      "v": 710.0
+     },
+     {
+      "c": "RUS",
+      "v": 621.68
+     },
+     {
+      "c": "ARE",
+      "v": 551.0
+     },
+     {
+      "c": "QAT",
+      "v": 418.53
+     },
+     {
+      "c": "DZA",
+      "v": 260.0
+     },
+     {
+      "c": "KWT",
+      "v": 225.0
+     },
+     {
+      "c": "NOR",
+      "v": 187.03
+     },
+     {
+      "c": "THA",
+      "v": 152.74
+     },
+     {
+      "c": "ARG",
+      "v": 130.0
+     },
+     {
+      "c": "IRQ",
+      "v": 125.0
+     },
+     {
+      "c": "MEX",
+      "v": 123.92
+     },
+     {
+      "c": "IND",
+      "v": 108.83
+     },
+     {
+      "c": "EGY",
+      "v": 103.94
+     },
+     {
+      "c": "KAZ",
+      "v": 100.4
+     },
+     {
+      "c": "AUS",
+      "v": 94.06
+     },
+     {
+      "c": "BRA",
+      "v": 82.809
+     },
+     {
+      "c": "PER",
+      "v": 73.326
+     },
+     {
+      "c": "GBR",
+      "v": 58.969
+     },
+     {
+      "c": "NGA",
+      "v": 56.178
+     },
+     {
+      "c": "TKM",
+      "v": 44.322
+     },
+     {
+      "c": "MYS",
+      "v": 39.579
+     },
+     {
+      "c": "BOL",
+      "v": 32.0
+     },
+     {
+      "c": "VEN",
+      "v": 30.0
+     },
+     {
+      "c": "AGO",
+      "v": 29.511
+     },
+     {
+      "c": "VNM",
+      "v": 24.0
+     },
+     {
+      "c": "PAK",
+      "v": 22.854
+     },
+     {
+      "c": "LBY",
+      "v": 20.0
+     },
+     {
+      "c": "IDN",
+      "v": 20.0
+     },
+     {
+      "c": "UKR",
+      "v": 19.485
+     },
+     {
+      "c": "TTO",
+      "v": 15.36
+     },
+     {
+      "c": "CHL",
+      "v": 11.828
+     },
+     {
+      "c": "CHN",
+      "v": 10.0
+     },
+     {
+      "c": "BHR",
+      "v": 9.629
+     },
+     {
+      "c": "BRN",
+      "v": 8.748
+     },
+     {
+      "c": "GNQ",
+      "v": 8.004
+     },
+     {
+      "c": "OMN",
+      "v": 8.0
+     },
+     {
+      "c": "COG",
+      "v": 8.0
+     },
+     {
+      "c": "SYR",
+      "v": 7.691
+     },
+     {
+      "c": "COL",
+      "v": 7.0
+     },
+     {
+      "c": "BGD",
+      "v": 6.49
+     },
+     {
+      "c": "HUN",
+      "v": 5.983
+     },
+     {
+      "c": "ECU",
+      "v": 5.0
+     },
+     {
+      "c": "JPN",
+      "v": 4.259
+     },
+     {
+      "c": "NZL",
+      "v": 4.039
+     },
+     {
+      "c": "CUB",
+      "v": 3.232
+     },
+     {
+      "c": "TUN",
+      "v": 3.023
+     },
+     {
+      "c": "GHA",
+      "v": 2.533
+     },
+     {
+      "c": "ROU",
+      "v": 2.026
+     },
+     {
+      "c": "ESP",
+      "v": 2.0
+     },
+     {
+      "c": "ZAF",
+      "v": 1.625
+     },
+     {
+      "c": "NLD",
+      "v": 1.568
+     },
+     {
+      "c": "POL",
+      "v": 1.0
+     },
+     {
+      "c": "AZE",
+      "v": 0.984
+     },
+     {
+      "c": "HRV",
+      "v": 0.6752
+     },
+     {
+      "c": "TWN",
+      "v": 0.63
+     },
+     {
+      "c": "MMR",
+      "v": 0.2
+     }
+    ],
+    "n": "EIA International Energy Data, natural gas plant liquids production; world total as published by EIA (all countries); ethane, propane, butanes and heavier liquids recovered from natural gas: LPG's supply, not LPG alone"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "USA",
@@ -1868,6 +2573,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 11601391000,
+   "uv": 644,
    "mode": "sea",
    "lane": "lpg:USA-CHN"
   },
@@ -1878,6 +2585,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2354499000,
+   "uv": 252,
    "mode": "mixed",
    "lane": "lpg:USA-MEX",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -1889,6 +2598,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 5792727000,
+   "uv": 646,
    "mode": "sea",
    "lane": "lpg:ARE-IND"
   },
@@ -1899,6 +2610,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 4391630000,
+   "uv": 612,
    "mode": "sea",
    "lane": "lpg:USA-KOR"
   },
@@ -1909,6 +2622,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 4400565000,
+   "uv": 631,
    "mode": "sea",
    "lane": "lpg:ARE-CHN",
    "caveat": "lpg-are-chn"
@@ -1920,6 +2635,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3931728000,
+   "uv": 638,
    "mode": "sea",
    "lane": "lpg:USA-JPN"
   },
@@ -1930,6 +2647,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3550831000,
+   "uv": 646,
    "mode": "sea",
    "lane": "lpg:QAT-IND"
   },
@@ -1940,6 +2659,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1954852000,
+   "uv": 497,
    "mode": "sea",
    "lane": "lpg:USA-IDN"
   },
@@ -1950,6 +2671,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2395444000,
+   "uv": 648,
    "mode": "sea",
    "lane": "lpg:SAU-IND"
   },
@@ -1960,6 +2683,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2369376000,
+   "uv": 652,
    "mode": "land"
   },
   {
@@ -1969,6 +2694,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2331867000,
+   "uv": 649,
    "mode": "sea",
    "lane": "lpg:KWT-IND"
   },
@@ -1979,6 +2706,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1721546000,
+   "uv": 626,
    "mode": "sea",
    "lane": "lpg:OMN-CHN",
    "caveat": "lpg-omn-chn"
@@ -1990,6 +2719,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1645649000,
+   "uv": 655,
    "mode": "sea",
    "lane": "lpg:QAT-CHN"
   },
@@ -2000,6 +2731,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1386721000,
+   "uv": 563,
    "mode": "sea",
    "lane": "lpg:USA-MAR"
   },
@@ -2010,6 +2743,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1377489000,
+   "uv": 568,
    "mode": "sea",
    "lane": "lpg:USA-NLD"
   },
@@ -2020,6 +2755,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1243928000,
+   "uv": 602,
    "mode": "sea",
    "lane": "lpg:CAN-JPN"
   },
@@ -2030,6 +2767,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1400664000,
+   "uv": 942,
    "mode": "sea",
    "lane": "lpg:USA-EGY"
   },
@@ -2040,6 +2779,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 912994000,
+   "uv": 655,
    "mode": "sea",
    "lane": "lpg:SAU-CHN"
   },
@@ -2050,6 +2791,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 776618000,
+   "uv": 572,
    "mode": "sea",
    "lane": "lpg:USA-ECU"
   },
@@ -2060,12 +2803,62 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 736685000,
+   "uv": 581,
    "mode": "sea",
    "lane": "lpg:DZA-ITA"
   }
  ],
+ "concentration": {
+  "exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.4711
+   },
+   "top3": 0.6611,
+   "hhi": 2502,
+   "eq": 4.0,
+   "k": 87,
+   "cov": 1.0,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2446
+   },
+   "top3": 0.4688,
+   "hhi": 1036,
+   "eq": 9.7,
+   "k": 153,
+   "cov": 0.9996,
+   "est": true
+  },
+  "lpg-production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.1957
+   },
+   "top3": 0.5071,
+   "hhi": 995,
+   "eq": 10.1,
+   "k": 107,
+   "cov": 0.9993
+  },
+  "ngl-production": {
+   "top1": {
+    "c": "USA",
+    "p": 0.5055
+   },
+   "top3": 0.6903,
+   "hhi": 2805,
+   "eq": 3.6,
+   "k": 59,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "EIA's 2025 LPG consumption table has no United States value; the world total excludes it.",
+  "LPG production is in kb/d (EIA; 2014 is the last year of its series) and consumption and trade in Mt; the headline consumption carries kb/d in brackets (Atlas conversion: 11.60 barrels per tonne, the ratio of EIA's series for United States LPG consumption in thousand barrels per day and in thousand metric tons (the same in every year from 1980 to 2019); other countries differ slightly). Prices on the atlas are in USD per US gallon: at that ratio and 42 US gallons per barrel (by definition) one tonne of LPG is 487 US gallons, so a price per gallon times 487 is a price per tonne (Atlas conversion).",
   "Customs data record 0.00769 Mt of LPG exports from Iran in 2024, against 8.44 Mt in 2022 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here. The atlas has no free source that measures this gap, so it is not quantified.",
   "Customs data record 2.75 Mt of LPG from Oman to China in 2024 (86% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under Oman may account for part of this volume; it is not established here, and the atlas has no free source to measure it.",
   "Customs data record 6.98 Mt of LPG from the United Arab Emirates to China in 2024 (40% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under the United Arab Emirates may account for part of this volume; it is not established here, and the atlas has no free source to measure it."

@@ -23,6 +23,9 @@
    "n": "seaborne subset of BACI flows (aluminium) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 1.49 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
+ "labels": {
+  "consumption": "Apparent consumption — primary aluminium and unwrought trade, 2024 (Atlas estimate)"
+ },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
@@ -88,6 +91,98 @@
    "n": "2 further countries named by USGS (Iceland and United States), listed after the first rows; not part of USGS's 'Other countries' line"
   }
  },
+ "consumption": {
+  "y": 2024,
+  "s": "atlas",
+  "u": "kt",
+  "world": 72800,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 47000,
+    "n": "Atlas estimate: production 44,000 kt (USGS MCS 2026 2024) + imports 3,270 kt - exports 271 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "USA",
+    "v": 3830,
+    "n": "Atlas estimate: production 676 kt (USGS MCS 2026 2024) + imports 4,020 kt - exports 863 kt (CEPII BACI 2024); USGS states the apparent consumption of the United States for 2024 as 5,830 kt (Consumption, apparent; a different definition: see the United States block)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "IND",
+    "v": 2640,
+    "n": "Atlas estimate: production 4,200 kt (USGS MCS 2026 2024) + imports 394 kt - exports 1,950 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "RUS",
+    "v": 1180,
+    "n": "Atlas estimate: production 3,880 kt (USGS MCS 2026 2024) + imports 148 kt - exports 2,850 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "BRA",
+    "v": 919,
+    "n": "Atlas estimate: production 1,100 kt (USGS MCS 2026 2024) + imports 224 kt - exports 405 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "MYS",
+    "v": 712,
+    "n": "Atlas estimate: production 1,050 kt (USGS MCS 2026 2024) + imports 1,530 kt - exports 1,870 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "CAN",
+    "v": 445,
+    "n": "Atlas estimate: production 3,320 kt (USGS MCS 2026 2024) + imports 142 kt - exports 3,020 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "BHR",
+    "v": 291,
+    "n": "Atlas estimate: production 1,620 kt (USGS MCS 2026 2024) + imports 21.4 kt - exports 1,350 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "NOR",
+    "v": 105,
+    "n": "Atlas estimate: production 1,300 kt (USGS MCS 2026 2024) + imports 239 kt - exports 1,430 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "AUS",
+    "v": 84.3,
+    "n": "Atlas estimate: production 1,570 kt (USGS MCS 2026 2024) + imports 57.3 kt - exports 1,540 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   }
+  ],
+  "n": "Atlas estimate: apparent consumption of primary aluminium in 2024, by country: production plus imports minus exports of the same product and year, in kt. Production: primary aluminium smelter production (USGS), USGS MCS 2026 2024 column. Imports and exports: CEPII BACI 2024, unwrought aluminium (HS 7601), gross weight, with the atlas's cleaning rules. Trade is unwrought aluminium, alloyed or not (HS 7601), which includes alloys made from scrap; production is primary smelter output only. The result is smelter output plus net trade in unwrought metal, not the use of primary metal alone. Stock changes are not known, so this is apparent consumption, not measured use. Only the countries for which USGS gives production are listed (12); 0 of them are left out because one of the three terms is missing, and 2 because the result is negative (Iceland, United Arab Emirates). A country that trades the product but has no USGS production figure has no production term and is not in the table. World: the world production of the same product in 2024 as USGS gives it (72,800 kt, the sum of its countries and its 'Other countries' line): trade nets out in the world, so apparent consumption of the world is its production apart from changes in stocks, which are not known. The shares and 'Rest of world' (the countries not listed, dropped ones included) are computed on it; the order of the rows is not a world ranking.",
+  "est": true,
+  "norank": true,
+  "basis": "primary aluminium and unwrought trade, apparent consumption"
+ },
  "exports": {
   "y": 2024,
   "s": "baci",
@@ -96,452 +191,677 @@
   "rows": [
    {
     "c": "CAN",
-    "v": 3.017
+    "v": 3.017,
+    "usd": 8403207000,
+    "uv": 2790
    },
    {
     "c": "RUS",
-    "v": 2.849
+    "v": 2.849,
+    "usd": 7254114000,
+    "uv": 2550
    },
    {
     "c": "ARE",
-    "v": 2.781
+    "v": 2.781,
+    "usd": 7360241000,
+    "uv": 2650
    },
    {
     "c": "IND",
-    "v": 1.952
+    "v": 1.952,
+    "usd": 4654685000,
+    "uv": 2380
    },
    {
     "c": "MYS",
     "v": 1.87,
-    "n": "rank 5: exports (1.87 Mt) are above its smelter output in the USGS table (1.10 Mt). HS 7601 includes alloy ingot, which can be made from scrap, and Malaysia receives 0.54 Mt from the United States (a possible reading, not established here)"
+    "n": "rank 5: exports (1.87 Mt) are above its smelter output in the USGS table (1.10 Mt). HS 7601 includes alloy ingot, which can be made from scrap, and Malaysia receives 0.54 Mt from the United States (a possible reading, not established here)",
+    "usd": 4376433000,
+    "uv": 2340
    },
    {
     "c": "AUS",
-    "v": 1.543
+    "v": 1.543,
+    "usd": 3820203000,
+    "uv": 2480
    },
    {
     "c": "NOR",
-    "v": 1.434
+    "v": 1.434,
+    "usd": 4090480000,
+    "uv": 2850
    },
    {
     "c": "BHR",
-    "v": 1.35
+    "v": 1.35,
+    "usd": 3486133000,
+    "uv": 2580
    },
    {
     "c": "NLD",
     "v": 1.27,
-    "n": "rank 9, and it is also rank 8 among importers (1.39 Mt), with 0.45 Mt sent on to Germany: part of its exports may be re-exported metal that passed through Dutch ports and warehouses (a possible reading, not established here)"
+    "n": "rank 9, and it is also rank 8 among importers (1.39 Mt), with 0.45 Mt sent on to Germany: part of its exports may be re-exported metal that passed through Dutch ports and warehouses (a possible reading, not established here)",
+    "usd": 3529376000,
+    "uv": 2780
    },
    {
     "c": "ZAF",
-    "v": 0.8806
+    "v": 0.8806,
+    "usd": 2146960000,
+    "uv": 2440
    },
    {
     "c": "USA",
-    "v": 0.8634
+    "v": 0.8634,
+    "n": "Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565); the 2024 average aluminium price is 2,419 USD per tonne (World Bank Pink Sheet), and the pair is declared at 43% of it. Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here.",
+    "usd": 1503515000,
+    "uv": 1740
    },
    {
     "c": "ISL",
-    "v": 0.8608
+    "v": 0.8608,
+    "usd": 2009183000,
+    "uv": 2330
    },
    {
     "c": "MOZ",
-    "v": 0.7165
+    "v": 0.7165,
+    "usd": 1851203000,
+    "uv": 2580
    },
    {
     "c": "QAT",
-    "v": 0.608
+    "v": 0.608,
+    "usd": 1616261000,
+    "uv": 2660
    },
    {
     "c": "ITA",
-    "v": 0.5057
+    "v": 0.5057,
+    "usd": 1242137000,
+    "uv": 2460
    },
    {
     "c": "DEU",
-    "v": 0.4688
+    "v": 0.4688,
+    "usd": 1228260000,
+    "uv": 2620
    },
    {
     "c": "BRA",
-    "v": 0.4049
+    "v": 0.4049,
+    "usd": 1020947000,
+    "uv": 2520
    },
    {
     "c": "KAZ",
-    "v": 0.3858
+    "v": 0.3858,
+    "usd": 890461000,
+    "uv": 2310
    },
    {
     "c": "IDN",
-    "v": 0.385
+    "v": 0.385,
+    "usd": 964779000,
+    "uv": 2510
    },
    {
     "c": "ARG",
-    "v": 0.3467
+    "v": 0.3467,
+    "usd": 934639000,
+    "uv": 2700
    },
    {
     "c": "SAU",
-    "v": 0.3374
+    "v": 0.3374,
+    "usd": 816093000,
+    "uv": 2420
    },
    {
     "c": "FRA",
-    "v": 0.3032
+    "v": 0.3032,
+    "usd": 926802000,
+    "uv": 3060
    },
    {
     "c": "KOR",
-    "v": 0.2972
+    "v": 0.2972,
+    "usd": 766394000,
+    "uv": 2580
    },
    {
     "c": "NZL",
-    "v": 0.2868
+    "v": 0.2868,
+    "usd": 712424000,
+    "uv": 2480
    },
    {
     "c": "OMN",
-    "v": 0.2769
+    "v": 0.2769,
+    "usd": 719914000,
+    "uv": 2600
    },
    {
     "c": "CHN",
-    "v": 0.271
+    "v": 0.271,
+    "usd": 655107000,
+    "uv": 2420
    },
    {
     "c": "ESP",
-    "v": 0.2676
+    "v": 0.2676,
+    "usd": 734221000,
+    "uv": 2740
    },
    {
     "c": "GBR",
-    "v": 0.2532
+    "v": 0.2532,
+    "usd": 683885000,
+    "uv": 2700
    },
    {
     "c": "IRN",
-    "v": 0.248
+    "v": 0.248,
+    "usd": 615354000,
+    "uv": 2480
    },
    {
     "c": "AUT",
-    "v": 0.2131
+    "v": 0.2131,
+    "usd": 580258000,
+    "uv": 2720
    },
    {
     "c": "THA",
-    "v": 0.2098
+    "v": 0.2098,
+    "usd": 467212000,
+    "uv": 2230
    },
    {
     "c": "VNM",
-    "v": 0.1792
+    "v": 0.1792,
+    "usd": 422309000,
+    "uv": 2360
    },
    {
     "c": "POL",
-    "v": 0.1788
+    "v": 0.1788,
+    "usd": 437966000,
+    "uv": 2450
    },
    {
     "c": "EGY",
-    "v": 0.1693
+    "v": 0.1693,
+    "usd": 417529000,
+    "uv": 2470
    },
    {
     "c": "SWE",
-    "v": 0.1577
+    "v": 0.1577,
+    "usd": 385180000,
+    "uv": 2440
    },
    {
     "c": "NGA",
-    "v": 0.1398
+    "v": 0.1398,
+    "usd": 308592000,
+    "uv": 2210
    },
    {
     "c": "TWN",
-    "v": 0.1353
+    "v": 0.1353,
+    "usd": 299395000,
+    "uv": 2210
    },
    {
     "c": "GRC",
-    "v": 0.1352
+    "v": 0.1352,
+    "usd": 361611000,
+    "uv": 2670
    },
    {
     "c": "TUR",
-    "v": 0.1345
+    "v": 0.1345,
+    "usd": 345233000,
+    "uv": 2570
    },
    {
     "c": "JPN",
-    "v": 0.1318
+    "v": 0.1318,
+    "usd": 253848000,
+    "uv": 1930
    },
    {
     "c": "ROU",
-    "v": 0.1155
+    "v": 0.1155,
+    "usd": 262563000,
+    "uv": 2270
    },
    {
     "c": "SVN",
-    "v": 0.1103
+    "v": 0.1103,
+    "usd": 297251000,
+    "uv": 2690
    },
    {
     "c": "VEN",
-    "v": 0.1079
+    "v": 0.1079,
+    "usd": 256193000,
+    "uv": 2370
    },
    {
     "c": "LUX",
-    "v": 0.1049
+    "v": 0.1049,
+    "usd": 258199000,
+    "uv": 2460
    },
    {
     "c": "CZE",
-    "v": 0.092
+    "v": 0.092,
+    "usd": 214014000,
+    "uv": 2330
    },
    {
     "c": "TJK",
-    "v": 0.0915
+    "v": 0.0915,
+    "usd": 227225000,
+    "uv": 2480
    },
    {
     "c": "CHE",
-    "v": 0.0885
+    "v": 0.0885,
+    "usd": 262163000,
+    "uv": 2960
    },
    {
     "c": "HUN",
-    "v": 0.0654
+    "v": 0.0654,
+    "usd": 166456000,
+    "uv": 2550
    },
    {
     "c": "DNK",
-    "v": 0.0628
+    "v": 0.0628,
+    "usd": 132839000,
+    "uv": 2120
    },
    {
     "c": "SGP",
-    "v": 0.0601
+    "v": 0.0601,
+    "usd": 121168000,
+    "uv": 2020
    },
    {
     "c": "BEL",
-    "v": 0.0534
+    "v": 0.0534,
+    "usd": 161472000,
+    "uv": 3020
    },
    {
     "c": "GHA",
-    "v": 0.0509
+    "v": 0.0509,
+    "usd": 127070000,
+    "uv": 2500
    },
    {
     "c": "SVK",
-    "v": 0.0474
+    "v": 0.0474,
+    "usd": 129429000,
+    "uv": 2730
    },
    {
     "c": "BIH",
-    "v": 0.0399
+    "v": 0.0399,
+    "usd": 97124000,
+    "uv": 2430
    },
    {
     "c": "UKR",
-    "v": 0.0379
+    "v": 0.0379,
+    "usd": 84275000,
+    "uv": 2220
    },
    {
     "c": "CMR",
-    "v": 0.034
+    "v": 0.034,
+    "usd": 79869000,
+    "uv": 2350
    },
    {
     "c": "MNE",
-    "v": 0.0328
+    "v": 0.0328,
+    "usd": 95356000,
+    "uv": 2910
    },
    {
     "c": "AZE",
-    "v": 0.0318
+    "v": 0.0318,
+    "usd": 79523000,
+    "uv": 2500
    },
    {
     "c": "MEX",
-    "v": 0.0316
+    "v": 0.0316,
+    "usd": 74936000,
+    "uv": 2370
    },
    {
     "c": "PAK",
-    "v": 0.0262
+    "v": 0.0262,
+    "usd": 58054000,
+    "uv": 2220
    },
    {
     "c": "HKG",
-    "v": 0.0254
+    "v": 0.0254,
+    "usd": 24961000,
+    "uv": 983
    },
    {
     "c": "MAR",
-    "v": 0.0248
+    "v": 0.0248,
+    "usd": 61027000,
+    "uv": 2460
    },
    {
     "c": "KHM",
-    "v": 0.0207
+    "v": 0.0207,
+    "usd": 45011000,
+    "uv": 2170
    },
    {
     "c": "ALB",
-    "v": 0.0186
+    "v": 0.0186,
+    "usd": 50099000,
+    "uv": 2690
    },
    {
     "c": "MMR",
-    "v": 0.0185
+    "v": 0.0185,
+    "usd": 40776000,
+    "uv": 2200
    },
    {
     "c": "PHL",
-    "v": 0.0168
+    "v": 0.0168,
+    "usd": 37133000,
+    "uv": 2210
    },
    {
     "c": "AGO",
-    "v": 0.0155
+    "v": 0.0155,
+    "usd": 35989000,
+    "uv": 2320
    },
    {
     "c": "PRT",
-    "v": 0.0094
+    "v": 0.0094,
+    "usd": 25492000,
+    "uv": 2710
    },
    {
     "c": "BGR",
-    "v": 0.0085
+    "v": 0.0085,
+    "usd": 22144000,
+    "uv": 2610
    },
    {
     "c": "UZB",
-    "v": 0.0082
+    "v": 0.0082,
+    "usd": 17450000,
+    "uv": 2130
    },
    {
     "c": "FIN",
-    "v": 0.008
+    "v": 0.008,
+    "usd": 17218000,
+    "uv": 2150
    },
    {
     "c": "MNG",
-    "v": 0.0074
+    "v": 0.0074,
+    "usd": 14211000,
+    "uv": 1920
    },
    {
     "c": "LVA",
-    "v": 0.0069
+    "v": 0.0069,
+    "usd": 12041000,
+    "uv": 1750
    },
    {
     "c": "TZA",
-    "v": 0.0062
+    "v": 0.0062,
+    "usd": 12860000,
+    "uv": 2070
    },
    {
     "c": "SRB",
-    "v": 0.006
+    "v": 0.006,
+    "usd": 14634000,
+    "uv": 2440
    },
    {
     "c": "TGO",
-    "v": 0.0057
+    "v": 0.0057,
+    "usd": 13457000,
+    "uv": 2360
    },
    {
     "c": "SEN",
-    "v": 0.0054
+    "v": 0.0054,
+    "usd": 12646000,
+    "uv": 2340
    },
    {
     "c": "BGD",
-    "v": 0.0054
+    "v": 0.0054,
+    "usd": 10062000,
+    "uv": 1860
    },
    {
     "c": "ARM",
-    "v": 0.0053
+    "v": 0.0053,
+    "usd": 11074000,
+    "uv": 2090
    },
    {
     "c": "GIN",
-    "v": 0.0049
+    "v": 0.0049,
+    "usd": 10768000,
+    "uv": 2200
    },
    {
     "c": "ZMB",
-    "v": 0.0049
+    "v": 0.0049,
+    "usd": 9818000,
+    "uv": 2000
    },
    {
     "c": "IRL",
-    "v": 0.0048
+    "v": 0.0048,
+    "usd": 12039000,
+    "uv": 2510
    },
    {
     "c": "JOR",
-    "v": 0.0045
+    "v": 0.0045,
+    "usd": 10281000,
+    "uv": 2280
    },
    {
     "c": "GEO",
-    "v": 0.0041
+    "v": 0.0041,
+    "usd": 9288000,
+    "uv": 2270
    },
    {
     "c": "LTU",
-    "v": 0.0039
+    "v": 0.0039,
+    "usd": 13793000,
+    "uv": 3540
    },
    {
     "c": "HRV",
-    "v": 0.0038
+    "v": 0.0038,
+    "usd": 8932000,
+    "uv": 2350
    },
    {
     "c": "TUN",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 7058000,
+    "uv": 2350
    },
    {
     "c": "ECU",
-    "v": 0.0026
+    "v": 0.0026,
+    "usd": 7755000,
+    "uv": 2980
    },
    {
     "c": "KGZ",
-    "v": 0.0025
+    "v": 0.0025,
+    "usd": 4396000,
+    "uv": 1760
    },
    {
     "c": "PNG",
-    "v": 0.0024
+    "v": 0.0024,
+    "usd": 2741000,
+    "uv": 1140
    },
    {
     "c": "EST",
-    "v": 0.0021
+    "v": 0.0021,
+    "usd": 7070000,
+    "uv": 3370
    },
    {
     "c": "GAB",
-    "v": 0.002
+    "v": 0.002,
+    "usd": 3940000,
+    "uv": 1970
    },
    {
     "c": "COL",
-    "v": 0.002
+    "v": 0.002,
+    "usd": 3697000,
+    "uv": 1850
    },
    {
     "c": "LKA",
-    "v": 0.002
+    "v": 0.002,
+    "usd": 1752000,
+    "uv": 876
    },
    {
     "c": "SYR",
-    "v": 0.0019
+    "v": 0.0019,
+    "usd": 3848000,
+    "uv": 2030
    },
    {
     "c": "CHL",
-    "v": 0.0019
+    "v": 0.0019,
+    "usd": 4646000,
+    "uv": 2450
    },
    {
     "c": "PAN",
-    "v": 0.0019
+    "v": 0.0019,
+    "usd": 1415000,
+    "uv": 745
    },
    {
     "c": "BHS",
-    "v": 0.0019
+    "v": 0.0019,
+    "usd": 1497000,
+    "uv": 788
    },
    {
     "c": "LAO",
-    "v": 0.0016
+    "v": 0.0016,
+    "usd": 3339000,
+    "uv": 2090
    },
    {
     "c": "ZWE",
-    "v": 0.0016
+    "v": 0.0016,
+    "usd": 2656000,
+    "uv": 1660
    },
    {
     "c": "BRB",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 1405000,
+    "uv": 937
    },
    {
     "c": "CIV",
-    "v": 0.0014
+    "v": 0.0014,
+    "usd": 3778000,
+    "uv": 2700
    },
    {
     "c": "LBN",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 3835000,
+    "uv": 3200
    },
    {
     "c": "ISR",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 3269000,
+    "uv": 2720
    },
    {
     "c": "LBY",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 1438000,
+    "uv": 1800
    },
    {
     "c": "MWI",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 2147000,
+    "uv": 2680
    },
    {
     "c": "DZA",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 1114000,
+    "uv": 1390
    },
    {
     "c": "IRQ",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 1401000,
+    "uv": 1750
    },
    {
     "c": "ATG",
-    "v": 0.0005
+    "v": 0.0005,
+    "usd": 1396000,
+    "uv": 2790
    },
    {
     "c": "COD",
-    "v": 0.0005
+    "v": 0.0005,
+    "usd": 1007000,
+    "uv": 2010
    },
    {
     "c": "AFG",
-    "v": 0.0004
+    "v": 0.0004,
+    "usd": 1052000,
+    "uv": 2630
    }
   ],
-  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "usd": 77108579000,
+  "uv": 2540
  },
  "imports": {
   "y": 2024,
@@ -551,419 +871,2968 @@
   "rows": [
    {
     "c": "USA",
-    "v": 4.021
+    "v": 4.021,
+    "usd": 11270314000,
+    "uv": 2800
    },
    {
     "c": "CHN",
-    "v": 3.267
+    "v": 3.267,
+    "usd": 7802984000,
+    "uv": 2390
    },
    {
     "c": "DEU",
-    "v": 2.16
+    "v": 2.16,
+    "usd": 5808256000,
+    "uv": 2690
    },
    {
     "c": "JPN",
-    "v": 2.095
+    "v": 2.095,
+    "usd": 5051407000,
+    "uv": 2410
    },
    {
     "c": "KOR",
-    "v": 1.571
+    "v": 1.571,
+    "usd": 3995547000,
+    "uv": 2540
    },
    {
     "c": "MYS",
-    "v": 1.532
+    "v": 1.532,
+    "n": "Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565); the 2024 average aluminium price is 2,419 USD per tonne (World Bank Pink Sheet), and the pair is declared at 43% of it. Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here.",
+    "usd": 2549405000,
+    "uv": 1660
    },
    {
     "c": "TUR",
-    "v": 1.51
+    "v": 1.51,
+    "usd": 3767372000,
+    "uv": 2490
    },
    {
     "c": "NLD",
-    "v": 1.387
+    "v": 1.387,
+    "usd": 2910868000,
+    "uv": 2100
    },
    {
     "c": "ITA",
-    "v": 1.355
+    "v": 1.355,
+    "usd": 3366534000,
+    "uv": 2480
    },
    {
     "c": "MEX",
-    "v": 1.05
+    "v": 1.05,
+    "usd": 2983572000,
+    "uv": 2840
    },
    {
     "c": "ESP",
-    "v": 0.7244
+    "v": 0.7244,
+    "usd": 1856941000,
+    "uv": 2560
    },
    {
     "c": "POL",
-    "v": 0.6902
+    "v": 0.6902,
+    "usd": 1815202000,
+    "uv": 2630
    },
    {
     "c": "THA",
-    "v": 0.6294
+    "v": 0.6294,
+    "usd": 1593325000,
+    "uv": 2530
    },
    {
     "c": "VNM",
-    "v": 0.6141
+    "v": 0.6141,
+    "usd": 1569428000,
+    "uv": 2560
    },
    {
     "c": "TWN",
-    "v": 0.571
+    "v": 0.571,
+    "usd": 1479349000,
+    "uv": 2590
    },
    {
     "c": "AUT",
-    "v": 0.4789
+    "v": 0.4789,
+    "usd": 1298383000,
+    "uv": 2710
    },
    {
     "c": "FRA",
-    "v": 0.4788
+    "v": 0.4788,
+    "usd": 1410416000,
+    "uv": 2950
    },
    {
     "c": "GRC",
-    "v": 0.4636
+    "v": 0.4636,
+    "usd": 1244819000,
+    "uv": 2690
    },
    {
     "c": "IND",
-    "v": 0.3939
+    "v": 0.3939,
+    "usd": 1018030000,
+    "uv": 2580
    },
    {
     "c": "GBR",
-    "v": 0.3126
+    "v": 0.3126,
+    "usd": 837486000,
+    "uv": 2680
    },
    {
     "c": "HUN",
-    "v": 0.2902
+    "v": 0.2902,
+    "usd": 782838000,
+    "uv": 2700
    },
    {
     "c": "BEL",
-    "v": 0.2895
+    "v": 0.2895,
+    "usd": 775778000,
+    "uv": 2680
    },
    {
     "c": "MAR",
-    "v": 0.2812
+    "v": 0.2812,
+    "usd": 760819000,
+    "uv": 2710
    },
    {
     "c": "CZE",
-    "v": 0.2755
+    "v": 0.2755,
+    "usd": 756369000,
+    "uv": 2750
    },
    {
     "c": "IDN",
-    "v": 0.2414
+    "v": 0.2414,
+    "usd": 599819000,
+    "uv": 2480
    },
    {
     "c": "NOR",
-    "v": 0.2394
+    "v": 0.2394,
+    "usd": 639449000,
+    "uv": 2670
    },
    {
     "c": "BRA",
-    "v": 0.2243
+    "v": 0.2243,
+    "usd": 582441000,
+    "uv": 2600
    },
    {
     "c": "CHE",
-    "v": 0.2119
+    "v": 0.2119,
+    "usd": 614887000,
+    "uv": 2900
    },
    {
     "c": "ROU",
-    "v": 0.1942
+    "v": 0.1942,
+    "usd": 554637000,
+    "uv": 2860
    },
    {
     "c": "SVN",
-    "v": 0.1915
+    "v": 0.1915,
+    "usd": 494057000,
+    "uv": 2580
    },
    {
     "c": "SWE",
-    "v": 0.18
+    "v": 0.18,
+    "usd": 525182000,
+    "uv": 2920
    },
    {
     "c": "PRT",
-    "v": 0.1751
+    "v": 0.1751,
+    "usd": 538063000,
+    "uv": 3070
    },
    {
     "c": "DNK",
-    "v": 0.1739
+    "v": 0.1739,
+    "usd": 616266000,
+    "uv": 3540
    },
    {
     "c": "SAU",
-    "v": 0.1631
+    "v": 0.1631,
+    "usd": 450017000,
+    "uv": 2760
    },
    {
     "c": "HRV",
-    "v": 0.1602
+    "v": 0.1602,
+    "usd": 434770000,
+    "uv": 2710
    },
    {
     "c": "SGP",
-    "v": 0.1579
+    "v": 0.1579,
+    "usd": 436395000,
+    "uv": 2760
    },
    {
     "c": "RUS",
-    "v": 0.1476
+    "v": 0.1476,
+    "usd": 73679000,
+    "uv": 499
    },
    {
     "c": "SVK",
-    "v": 0.146
+    "v": 0.146,
+    "usd": 372677000,
+    "uv": 2550
    },
    {
     "c": "CAN",
-    "v": 0.1422
+    "v": 0.1422,
+    "usd": 388883000,
+    "uv": 2730
    },
    {
     "c": "BGR",
-    "v": 0.1351
+    "v": 0.1351,
+    "usd": 363743000,
+    "uv": 2690
    },
    {
     "c": "SRB",
-    "v": 0.0978
+    "v": 0.0978,
+    "usd": 270623000,
+    "uv": 2770
    },
    {
     "c": "AZE",
-    "v": 0.0781
+    "v": 0.0781,
+    "usd": 168094000,
+    "uv": 2150
    },
    {
     "c": "BIH",
-    "v": 0.0679
+    "v": 0.0679,
+    "usd": 181804000,
+    "uv": 2680
    },
    {
     "c": "BGD",
-    "v": 0.0639
+    "v": 0.0639,
+    "usd": 156203000,
+    "uv": 2440
    },
    {
     "c": "UZB",
-    "v": 0.0623
+    "v": 0.0623,
+    "usd": 162418000,
+    "uv": 2610
    },
    {
     "c": "AUS",
-    "v": 0.0573
+    "v": 0.0573,
+    "usd": 145441000,
+    "uv": 2540
    },
    {
     "c": "LUX",
-    "v": 0.0451
+    "v": 0.0451,
+    "usd": 98290000,
+    "uv": 2180
    },
    {
     "c": "MNE",
-    "v": 0.0378
+    "v": 0.0378,
+    "usd": 94428000,
+    "uv": 2500
    },
    {
     "c": "FIN",
-    "v": 0.035
+    "v": 0.035,
+    "usd": 89292000,
+    "uv": 2550
    },
    {
     "c": "EGY",
-    "v": 0.0336
+    "v": 0.0336,
+    "usd": 83697000,
+    "uv": 2490
    },
    {
     "c": "ISR",
-    "v": 0.0305
+    "v": 0.0305,
+    "usd": 74550000,
+    "uv": 2440
    },
    {
     "c": "HKG",
-    "v": 0.028
+    "v": 0.028,
+    "usd": 58571000,
+    "uv": 2090
    },
    {
     "c": "ZAF",
-    "v": 0.0237
+    "v": 0.0237,
+    "usd": 60427000,
+    "uv": 2550
    },
    {
     "c": "BHR",
-    "v": 0.0214
+    "v": 0.0214,
+    "usd": 55393000,
+    "uv": 2590
    },
    {
     "c": "COL",
-    "v": 0.0211
+    "v": 0.0211,
+    "usd": 61385000,
+    "uv": 2910
    },
    {
     "c": "ARM",
-    "v": 0.0206
+    "v": 0.0206,
+    "usd": 47751000,
+    "uv": 2320
    },
    {
     "c": "PHL",
-    "v": 0.0188
+    "v": 0.0188,
+    "usd": 48701000,
+    "uv": 2590
    },
    {
     "c": "DOM",
-    "v": 0.0178
+    "v": 0.0178,
+    "usd": 49204000,
+    "uv": 2760
    },
    {
     "c": "TUN",
-    "v": 0.0175
+    "v": 0.0175,
+    "usd": 43636000,
+    "uv": 2490
    },
    {
     "c": "PAK",
-    "v": 0.017
+    "v": 0.017,
+    "usd": 39626000,
+    "uv": 2330
    },
    {
     "c": "LKA",
-    "v": 0.0149
+    "v": 0.0149,
+    "usd": 40068000,
+    "uv": 2690
    },
    {
     "c": "CYP",
-    "v": 0.0147
+    "v": 0.0147,
+    "usd": 36980000,
+    "uv": 2520
    },
    {
     "c": "KHM",
-    "v": 0.0147
+    "v": 0.0147,
+    "usd": 40699000,
+    "uv": 2770
    },
    {
     "c": "DZA",
-    "v": 0.0141
+    "v": 0.0141,
+    "usd": 37653000,
+    "uv": 2670
    },
    {
     "c": "NGA",
-    "v": 0.0138
+    "v": 0.0138,
+    "usd": 34645000,
+    "uv": 2510
    },
    {
     "c": "ARE",
-    "v": 0.0135
+    "v": 0.0135,
+    "usd": 35887000,
+    "uv": 2660
    },
    {
     "c": "ALB",
-    "v": 0.0133
+    "v": 0.0133,
+    "usd": 35767000,
+    "uv": 2690
    },
    {
     "c": "JOR",
-    "v": 0.0122
+    "v": 0.0122,
+    "usd": 33377000,
+    "uv": 2740
    },
    {
     "c": "IRL",
-    "v": 0.0113
+    "v": 0.0113,
+    "usd": 32195000,
+    "uv": 2850
    },
    {
     "c": "KEN",
-    "v": 0.0111
+    "v": 0.0111,
+    "usd": 31225000,
+    "uv": 2810
    },
    {
     "c": "NZL",
-    "v": 0.0105
+    "v": 0.0105,
+    "usd": 27117000,
+    "uv": 2580
    },
    {
     "c": "TZA",
-    "v": 0.0104
+    "v": 0.0104,
+    "usd": 30907000,
+    "uv": 2970
    },
    {
     "c": "ECU",
-    "v": 0.0103
+    "v": 0.0103,
+    "usd": 27605000,
+    "uv": 2680
    },
    {
     "c": "CRI",
-    "v": 0.0096
+    "v": 0.0096,
+    "usd": 25983000,
+    "uv": 2710
    },
    {
     "c": "KWT",
-    "v": 0.0093
+    "v": 0.0093,
+    "usd": 24811000,
+    "uv": 2670
    },
    {
     "c": "HND",
-    "v": 0.0075
+    "v": 0.0075,
+    "usd": 20863000,
+    "uv": 2780
    },
    {
     "c": "SMR",
-    "v": 0.0072
+    "v": 0.0072,
+    "usd": 20059000,
+    "uv": 2790
    },
    {
     "c": "UKR",
-    "v": 0.007
+    "v": 0.007,
+    "usd": 20134000,
+    "uv": 2880
    },
    {
     "c": "NPL",
-    "v": 0.0066
+    "v": 0.0066,
+    "usd": 16586000,
+    "uv": 2510
    },
    {
     "c": "OMN",
-    "v": 0.0062
+    "v": 0.0062,
+    "usd": 9343000,
+    "uv": 1510
    },
    {
     "c": "MKD",
-    "v": 0.0056
+    "v": 0.0056,
+    "usd": 14445000,
+    "uv": 2580
    },
    {
     "c": "ISL",
-    "v": 0.0051
+    "v": 0.0051,
+    "usd": 13902000,
+    "uv": 2730
    },
    {
     "c": "SLV",
-    "v": 0.0049
+    "v": 0.0049,
+    "usd": 14350000,
+    "uv": 2930
    },
    {
     "c": "QAT",
-    "v": 0.0047
+    "v": 0.0047,
+    "usd": 7675000,
+    "uv": 1630
    },
    {
     "c": "LTU",
-    "v": 0.0045
+    "v": 0.0045,
+    "usd": 7683000,
+    "uv": 1710
    },
    {
     "c": "BLR",
-    "v": 0.0044
+    "v": 0.0044,
+    "usd": 10333000,
+    "uv": 2350
    },
    {
     "c": "URY",
-    "v": 0.0042
+    "v": 0.0042,
+    "usd": 12367000,
+    "uv": 2940
    },
    {
     "c": "ARG",
-    "v": 0.004
+    "v": 0.004,
+    "usd": 11835000,
+    "uv": 2960
    },
    {
     "c": "PRY",
-    "v": 0.0037
+    "v": 0.0037,
+    "usd": 9779000,
+    "uv": 2640
    },
    {
     "c": "UGA",
-    "v": 0.0033
+    "v": 0.0033,
+    "usd": 10512000,
+    "uv": 3190
    },
    {
     "c": "MOZ",
-    "v": 0.0029
+    "v": 0.0029,
+    "usd": 9897000,
+    "uv": 3410
    },
    {
     "c": "IRN",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 3107000,
+    "uv": 2590
    },
    {
     "c": "SYR",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 2859000,
+    "uv": 2600
    },
    {
     "c": "GEO",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 2297000,
+    "uv": 2090
    },
    {
     "c": "LVA",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 3130000,
+    "uv": 3910
    },
    {
     "c": "DJI",
-    "v": 0.0007
+    "v": 0.0007,
+    "usd": 2032000,
+    "uv": 2900
    },
    {
     "c": "LBN",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1735000,
+    "uv": 2890
    },
    {
     "c": "TTO",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 2002000,
+    "uv": 3340
    },
    {
     "c": "AGO",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1495000,
+    "uv": 2490
    },
    {
     "c": "KAZ",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1462000,
+    "uv": 2440
    },
    {
     "c": "KIR",
-    "v": 0.0005
+    "v": 0.0005,
+    "usd": 1339000,
+    "uv": 2680
    },
    {
     "c": "EST",
-    "v": 0.0005
+    "v": 0.0005,
+    "usd": 1395000,
+    "uv": 2790
    },
    {
     "c": "ETH",
-    "v": 0.0004
+    "v": 0.0004,
+    "usd": 1103000,
+    "uv": 2760
    }
   ],
-  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 unwrought aluminium (HS 7601), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "usd": 77108579000,
+  "uv": 2540
  },
+ "extra": [
+  {
+   "key": "760110-exports",
+   "title": "Unwrought aluminium exporters: not alloyed (HS 760110)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.028,
+    "rows": [
+     {
+      "c": "RUS",
+      "v": 2.114,
+      "usd": 5339971069,
+      "uv": 2530
+     },
+     {
+      "c": "CAN",
+      "v": 1.895,
+      "usd": 5035069138,
+      "uv": 2660
+     },
+     {
+      "c": "IND",
+      "v": 1.411,
+      "usd": 3561416308,
+      "uv": 2520
+     },
+     {
+      "c": "AUS",
+      "v": 1.373,
+      "usd": 3391042732,
+      "uv": 2470
+     },
+     {
+      "c": "ARE",
+      "v": 0.916,
+      "usd": 2313355758,
+      "uv": 2530
+     },
+     {
+      "c": "ZAF",
+      "v": 0.8088,
+      "usd": 1992112799,
+      "uv": 2460
+     },
+     {
+      "c": "MYS",
+      "v": 0.7505,
+      "usd": 1795020445,
+      "uv": 2390
+     },
+     {
+      "c": "MOZ",
+      "v": 0.7005,
+      "usd": 1808160925,
+      "uv": 2580
+     },
+     {
+      "c": "NLD",
+      "v": 0.6868,
+      "usd": 1813432020,
+      "uv": 2640
+     },
+     {
+      "c": "ISL",
+      "v": 0.5785,
+      "usd": 1160536881,
+      "uv": 2010
+     },
+     {
+      "c": "BRA",
+      "v": 0.386,
+      "usd": 966305035,
+      "uv": 2500
+     },
+     {
+      "c": "KAZ",
+      "v": 0.3339,
+      "usd": 777986279,
+      "uv": 2330
+     },
+     {
+      "c": "IDN",
+      "v": 0.3197,
+      "usd": 809250990,
+      "uv": 2530
+     },
+     {
+      "c": "SAU",
+      "v": 0.2874,
+      "usd": 692153854,
+      "uv": 2410
+     },
+     {
+      "c": "BHR",
+      "v": 0.2697,
+      "usd": 657143082,
+      "uv": 2440
+     },
+     {
+      "c": "OMN",
+      "v": 0.2674,
+      "usd": 699263003,
+      "uv": 2620
+     },
+     {
+      "c": "IRN",
+      "v": 0.2466,
+      "usd": 612183000,
+      "uv": 2480
+     },
+     {
+      "c": "ARG",
+      "v": 0.2386,
+      "usd": 629239000,
+      "uv": 2640
+     },
+     {
+      "c": "NZL",
+      "v": 0.2207,
+      "usd": 545935403,
+      "uv": 2470
+     },
+     {
+      "c": "USA",
+      "v": 0.1765,
+      "usd": 169429575,
+      "uv": 960
+     },
+     {
+      "c": "ITA",
+      "v": 0.1335,
+      "usd": 343339864,
+      "uv": 2570
+     },
+     {
+      "c": "EGY",
+      "v": 0.0915,
+      "usd": 229502846,
+      "uv": 2510
+     },
+     {
+      "c": "TJK",
+      "v": 0.0829,
+      "usd": 208483130,
+      "uv": 2510
+     },
+     {
+      "c": "VEN",
+      "v": 0.07,
+      "usd": 167214041,
+      "uv": 2390
+     },
+     {
+      "c": "FRA",
+      "v": 0.0669,
+      "usd": 191688881,
+      "uv": 2870
+     },
+     {
+      "c": "NOR",
+      "v": 0.0643,
+      "usd": 182165799,
+      "uv": 2830
+     },
+     {
+      "c": "DEU",
+      "v": 0.0505,
+      "usd": 157016750,
+      "uv": 3110
+     },
+     {
+      "c": "GHA",
+      "v": 0.0477,
+      "usd": 119887000,
+      "uv": 2510
+     },
+     {
+      "c": "JPN",
+      "v": 0.0459,
+      "usd": 51286170,
+      "uv": 1120
+     },
+     {
+      "c": "CHN",
+      "v": 0.0434,
+      "usd": 96166029,
+      "uv": 2220
+     },
+     {
+      "c": "QAT",
+      "v": 0.0348,
+      "usd": 89780098,
+      "uv": 2580
+     },
+     {
+      "c": "ESP",
+      "v": 0.0335,
+      "usd": 60722999,
+      "uv": 1810
+     },
+     {
+      "c": "TWN",
+      "v": 0.0321,
+      "usd": 45661111,
+      "uv": 1420
+     },
+     {
+      "c": "SGP",
+      "v": 0.0293,
+      "usd": 85509985,
+      "uv": 2920
+     },
+     {
+      "c": "TUR",
+      "v": 0.0292,
+      "usd": 71225107,
+      "uv": 2440
+     },
+     {
+      "c": "CMR",
+      "v": 0.0233,
+      "usd": 55358253,
+      "uv": 2380
+     },
+     {
+      "c": "CHE",
+      "v": 0.019,
+      "usd": 52447985,
+      "uv": 2760
+     },
+     {
+      "c": "MAR",
+      "v": 0.0189,
+      "usd": 38878621,
+      "uv": 2060
+     },
+     {
+      "c": "SWE",
+      "v": 0.0152,
+      "usd": 44856899,
+      "uv": 2950
+     },
+     {
+      "c": "POL",
+      "v": 0.0126,
+      "usd": 28218412,
+      "uv": 2240
+     },
+     {
+      "c": "AZE",
+      "v": 0.011,
+      "usd": 27699000,
+      "uv": 2520
+     },
+     {
+      "c": "BEL",
+      "v": 0.0081,
+      "usd": 18485796,
+      "uv": 2280
+     },
+     {
+      "c": "BIH",
+      "v": 0.0075,
+      "usd": 22081000,
+      "uv": 2940
+     },
+     {
+      "c": "NGA",
+      "v": 0.0068,
+      "usd": 14364006,
+      "uv": 2110
+     },
+     {
+      "c": "KOR",
+      "v": 0.0068,
+      "usd": 10986993,
+      "uv": 1620
+     },
+     {
+      "c": "GBR",
+      "v": 0.0067,
+      "usd": 9802774,
+      "uv": 1460
+     },
+     {
+      "c": "HKG",
+      "v": 0.0056,
+      "usd": 7450000,
+      "uv": 1330
+     },
+     {
+      "c": "AUT",
+      "v": 0.0054,
+      "usd": 20516006,
+      "uv": 3800
+     },
+     {
+      "c": "GRC",
+      "v": 0.0047,
+      "usd": 13155000,
+      "uv": 2800
+     },
+     {
+      "c": "THA",
+      "v": 0.0042,
+      "usd": 8495853,
+      "uv": 2020
+     },
+     {
+      "c": "CZE",
+      "v": 0.004,
+      "usd": 11568103,
+      "uv": 2890
+     },
+     {
+      "c": "SVN",
+      "v": 0.0035,
+      "usd": 13123066,
+      "uv": 3750
+     },
+     {
+      "c": "DNK",
+      "v": 0.0034,
+      "usd": 8319000,
+      "uv": 2450
+     },
+     {
+      "c": "UZB",
+      "v": 0.0027,
+      "usd": 6912968,
+      "uv": 2560
+     },
+     {
+      "c": "HUN",
+      "v": 0.002,
+      "usd": 6540941,
+      "uv": 3270
+     },
+     {
+      "c": "LUX",
+      "v": 0.0019,
+      "usd": 4799000,
+      "uv": 2530
+     },
+     {
+      "c": "VNM",
+      "v": 0.0018,
+      "usd": 4336998,
+      "uv": 2410
+     },
+     {
+      "c": "TZA",
+      "v": 0.0012,
+      "usd": 1995167,
+      "uv": 1660
+     },
+     {
+      "c": "CHL",
+      "v": 0.0012,
+      "usd": 2717059,
+      "uv": 2260
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0012,
+      "usd": 2085000,
+      "uv": 1740
+     },
+     {
+      "c": "HRV",
+      "v": 0.0011,
+      "usd": 3272957,
+      "uv": 2980
+     },
+     {
+      "c": "SRB",
+      "v": 0.001,
+      "usd": 2140000,
+      "uv": 2140
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0009,
+      "usd": 1415000,
+      "uv": 1570
+     },
+     {
+      "c": "COL",
+      "v": 0.0007,
+      "usd": 1159000,
+      "uv": 1660
+     },
+     {
+      "c": "PHL",
+      "v": 0.0007,
+      "usd": 728000,
+      "uv": 1040
+     },
+     {
+      "c": "BHS",
+      "v": 0.0007,
+      "usd": 290000,
+      "uv": 414
+     },
+     {
+      "c": "FIN",
+      "v": 0.0007,
+      "usd": 1534153,
+      "uv": 2190
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0007,
+      "usd": 1321302,
+      "uv": 1890
+     },
+     {
+      "c": "LTU",
+      "v": 0.0006,
+      "usd": 1302000,
+      "uv": 2170
+     },
+     {
+      "c": "ATG",
+      "v": 0.0005,
+      "usd": 1396000,
+      "uv": 2790
+     },
+     {
+      "c": "ISR",
+      "v": 0.0005,
+      "usd": 1500000,
+      "uv": 3000
+     },
+     {
+      "c": "BGR",
+      "v": 0.0005,
+      "usd": 1263000,
+      "uv": 2530
+     },
+     {
+      "c": "MEX",
+      "v": 0.0005,
+      "usd": 401000,
+      "uv": 802
+     },
+     {
+      "c": "PAK",
+      "v": 0.0005,
+      "usd": 807000,
+      "uv": 1610
+     },
+     {
+      "c": "SVK",
+      "v": 0.0004,
+      "usd": 1344006,
+      "uv": 3360
+     },
+     {
+      "c": "LVA",
+      "v": 0.0004,
+      "usd": 667360,
+      "uv": 1670
+     },
+     {
+      "c": "BRB",
+      "v": 0.0004,
+      "usd": 160000,
+      "uv": 400
+     },
+     {
+      "c": "AFG",
+      "v": 0.0004,
+      "usd": 1052000,
+      "uv": 2630
+     },
+     {
+      "c": "ROU",
+      "v": 0.0003,
+      "usd": 847019,
+      "uv": 2820
+     },
+     {
+      "c": "PRT",
+      "v": 0.0003,
+      "usd": 609000,
+      "uv": 2030
+     },
+     {
+      "c": "EST",
+      "v": 0.0002,
+      "usd": 91937,
+      "uv": 460
+     },
+     {
+      "c": "AGO",
+      "v": 0.0002,
+      "usd": 57002,
+      "uv": 285
+     },
+     {
+      "c": "MNE",
+      "v": 0.0001,
+      "usd": 345000,
+      "uv": 3450
+     },
+     {
+      "c": "TGO",
+      "v": 0.0001,
+      "usd": 205000,
+      "uv": 2050
+     },
+     {
+      "c": "GEO",
+      "v": 0.0001,
+      "usd": 254000,
+      "uv": 2540
+     },
+     {
+      "c": "DZA",
+      "v": 0.0001,
+      "usd": 34000,
+      "uv": 340
+     },
+     {
+      "c": "SEN",
+      "v": 0.0001,
+      "usd": 183916,
+      "uv": 1840
+     },
+     {
+      "c": "GAB",
+      "v": 0.0001,
+      "usd": 37000,
+      "uv": 370
+     },
+     {
+      "c": "ARM",
+      "v": 0.0001,
+      "usd": 156000,
+      "uv": 1560
+     }
+    ],
+    "n": "CEPII BACI HS92 unwrought aluminium, not alloyed (HS 760110), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 37328548658,
+    "uv": 2480
+   }
+  },
+  {
+   "key": "760110-imports",
+   "title": "Unwrought aluminium importers: not alloyed (HS 760110)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.028,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 2.305,
+      "usd": 6185760411,
+      "uv": 2680
+     },
+     {
+      "c": "CHN",
+      "v": 2.054,
+      "usd": 5110291646,
+      "uv": 2490
+     },
+     {
+      "c": "KOR",
+      "v": 1.121,
+      "usd": 2829122760,
+      "uv": 2520
+     },
+     {
+      "c": "JPN",
+      "v": 1.055,
+      "usd": 2549724721,
+      "uv": 2420
+     },
+     {
+      "c": "TUR",
+      "v": 1.05,
+      "usd": 2597945212,
+      "uv": 2470
+     },
+     {
+      "c": "NLD",
+      "v": 0.8832,
+      "usd": 1632803049,
+      "uv": 1850
+     },
+     {
+      "c": "MYS",
+      "v": 0.7165,
+      "usd": 1266707687,
+      "uv": 1770
+     },
+     {
+      "c": "DEU",
+      "v": 0.7138,
+      "usd": 1905647618,
+      "uv": 2670
+     },
+     {
+      "c": "ITA",
+      "v": 0.7087,
+      "usd": 1691095555,
+      "uv": 2390
+     },
+     {
+      "c": "VNM",
+      "v": 0.3922,
+      "usd": 975190972,
+      "uv": 2490
+     },
+     {
+      "c": "THA",
+      "v": 0.3553,
+      "usd": 879163021,
+      "uv": 2470
+     },
+     {
+      "c": "MEX",
+      "v": 0.3315,
+      "usd": 910908572,
+      "uv": 2750
+     },
+     {
+      "c": "TWN",
+      "v": 0.3162,
+      "usd": 803836075,
+      "uv": 2540
+     },
+     {
+      "c": "GRC",
+      "v": 0.2934,
+      "usd": 782857887,
+      "uv": 2670
+     },
+     {
+      "c": "GBR",
+      "v": 0.2255,
+      "usd": 563433345,
+      "uv": 2500
+     },
+     {
+      "c": "ESP",
+      "v": 0.194,
+      "usd": 484702689,
+      "uv": 2500
+     },
+     {
+      "c": "AUT",
+      "v": 0.1888,
+      "usd": 544056979,
+      "uv": 2880
+     },
+     {
+      "c": "NOR",
+      "v": 0.181,
+      "usd": 488532455,
+      "uv": 2700
+     },
+     {
+      "c": "POL",
+      "v": 0.1767,
+      "usd": 446982302,
+      "uv": 2530
+     },
+     {
+      "c": "SGP",
+      "v": 0.144,
+      "usd": 399314715,
+      "uv": 2770
+     },
+     {
+      "c": "FRA",
+      "v": 0.1336,
+      "usd": 360133833,
+      "uv": 2700
+     },
+     {
+      "c": "HUN",
+      "v": 0.1232,
+      "usd": 339595495,
+      "uv": 2760
+     },
+     {
+      "c": "SVN",
+      "v": 0.1207,
+      "usd": 323337000,
+      "uv": 2680
+     },
+     {
+      "c": "ROU",
+      "v": 0.1174,
+      "usd": 340681103,
+      "uv": 2900
+     },
+     {
+      "c": "BRA",
+      "v": 0.1007,
+      "usd": 253450785,
+      "uv": 2520
+     },
+     {
+      "c": "BEL",
+      "v": 0.0909,
+      "usd": 259199371,
+      "uv": 2850
+     },
+     {
+      "c": "IDN",
+      "v": 0.0829,
+      "usd": 200545226,
+      "uv": 2420
+     },
+     {
+      "c": "CHE",
+      "v": 0.0828,
+      "usd": 244193079,
+      "uv": 2950
+     },
+     {
+      "c": "IND",
+      "v": 0.0808,
+      "usd": 212261586,
+      "uv": 2630
+     },
+     {
+      "c": "AZE",
+      "v": 0.0751,
+      "usd": 159956000,
+      "uv": 2130
+     },
+     {
+      "c": "BGR",
+      "v": 0.0503,
+      "usd": 130382009,
+      "uv": 2590
+     },
+     {
+      "c": "BGD",
+      "v": 0.0477,
+      "usd": 115315006,
+      "uv": 2420
+     },
+     {
+      "c": "UZB",
+      "v": 0.0457,
+      "usd": 119183000,
+      "uv": 2610
+     },
+     {
+      "c": "CZE",
+      "v": 0.0413,
+      "usd": 108810583,
+      "uv": 2630
+     },
+     {
+      "c": "SRB",
+      "v": 0.0376,
+      "usd": 104479948,
+      "uv": 2780
+     },
+     {
+      "c": "LUX",
+      "v": 0.0349,
+      "usd": 75772034,
+      "uv": 2170
+     },
+     {
+      "c": "PRT",
+      "v": 0.0317,
+      "usd": 81531951,
+      "uv": 2570
+     },
+     {
+      "c": "HRV",
+      "v": 0.0301,
+      "usd": 85676148,
+      "uv": 2850
+     },
+     {
+      "c": "MNE",
+      "v": 0.0262,
+      "usd": 60213810,
+      "uv": 2300
+     },
+     {
+      "c": "BIH",
+      "v": 0.0258,
+      "usd": 67493378,
+      "uv": 2620
+     },
+     {
+      "c": "SWE",
+      "v": 0.0231,
+      "usd": 64593162,
+      "uv": 2800
+     },
+     {
+      "c": "COL",
+      "v": 0.0186,
+      "usd": 54202000,
+      "uv": 2910
+     },
+     {
+      "c": "ARM",
+      "v": 0.0172,
+      "usd": 39951837,
+      "uv": 2320
+     },
+     {
+      "c": "SVK",
+      "v": 0.017,
+      "usd": 42579717,
+      "uv": 2500
+     },
+     {
+      "c": "SAU",
+      "v": 0.0166,
+      "usd": 54496917,
+      "uv": 3280
+     },
+     {
+      "c": "DOM",
+      "v": 0.0161,
+      "usd": 44237000,
+      "uv": 2750
+     },
+     {
+      "c": "BHR",
+      "v": 0.0139,
+      "usd": 36578297,
+      "uv": 2630
+     },
+     {
+      "c": "PAK",
+      "v": 0.0129,
+      "usd": 27977000,
+      "uv": 2170
+     },
+     {
+      "c": "EGY",
+      "v": 0.0122,
+      "usd": 32812477,
+      "uv": 2690
+     },
+     {
+      "c": "CAN",
+      "v": 0.011,
+      "usd": 29106457,
+      "uv": 2650
+     },
+     {
+      "c": "HKG",
+      "v": 0.0105,
+      "usd": 24544938,
+      "uv": 2340
+     },
+     {
+      "c": "AUS",
+      "v": 0.0072,
+      "usd": 20414998,
+      "uv": 2840
+     },
+     {
+      "c": "NGA",
+      "v": 0.007,
+      "usd": 16095000,
+      "uv": 2300
+     },
+     {
+      "c": "TZA",
+      "v": 0.0063,
+      "usd": 19060309,
+      "uv": 3030
+     },
+     {
+      "c": "RUS",
+      "v": 0.0052,
+      "usd": 13234282,
+      "uv": 2550
+     },
+     {
+      "c": "NPL",
+      "v": 0.0047,
+      "usd": 11454000,
+      "uv": 2440
+     },
+     {
+      "c": "BLR",
+      "v": 0.0044,
+      "usd": 10333000,
+      "uv": 2350
+     },
+     {
+      "c": "KEN",
+      "v": 0.0042,
+      "usd": 11321088,
+      "uv": 2700
+     },
+     {
+      "c": "LKA",
+      "v": 0.0039,
+      "usd": 10109741,
+      "uv": 2590
+     },
+     {
+      "c": "KHM",
+      "v": 0.0037,
+      "usd": 9809004,
+      "uv": 2650
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0029,
+      "usd": 6665000,
+      "uv": 2300
+     },
+     {
+      "c": "OMN",
+      "v": 0.0025,
+      "usd": 1189031,
+      "uv": 476
+     },
+     {
+      "c": "ALB",
+      "v": 0.0023,
+      "usd": 6087000,
+      "uv": 2650
+     },
+     {
+      "c": "KWT",
+      "v": 0.0023,
+      "usd": 5477000,
+      "uv": 2380
+     },
+     {
+      "c": "DNK",
+      "v": 0.002,
+      "usd": 5443944,
+      "uv": 2720
+     },
+     {
+      "c": "TUN",
+      "v": 0.0019,
+      "usd": 4830043,
+      "uv": 2540
+     },
+     {
+      "c": "IRL",
+      "v": 0.0017,
+      "usd": 3583000,
+      "uv": 2110
+     },
+     {
+      "c": "ARE",
+      "v": 0.0016,
+      "usd": 4308009,
+      "uv": 2690
+     },
+     {
+      "c": "DZA",
+      "v": 0.0016,
+      "usd": 4141000,
+      "uv": 2590
+     },
+     {
+      "c": "FIN",
+      "v": 0.0016,
+      "usd": 4413653,
+      "uv": 2760
+     },
+     {
+      "c": "GEO",
+      "v": 0.0011,
+      "usd": 2297000,
+      "uv": 2090
+     },
+     {
+      "c": "PHL",
+      "v": 0.001,
+      "usd": 3593997,
+      "uv": 3590
+     },
+     {
+      "c": "UKR",
+      "v": 0.0009,
+      "usd": 2123000,
+      "uv": 2360
+     },
+     {
+      "c": "ECU",
+      "v": 0.0006,
+      "usd": 1506000,
+      "uv": 2510
+     },
+     {
+      "c": "MAR",
+      "v": 0.0006,
+      "usd": 1706000,
+      "uv": 2840
+     },
+     {
+      "c": "ISR",
+      "v": 0.0006,
+      "usd": 1618470,
+      "uv": 2700
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0005,
+      "usd": 1361000,
+      "uv": 2720
+     },
+     {
+      "c": "ISL",
+      "v": 0.0005,
+      "usd": 1021000,
+      "uv": 2040
+     },
+     {
+      "c": "KIR",
+      "v": 0.0005,
+      "usd": 1339000,
+      "uv": 2680
+     },
+     {
+      "c": "AGO",
+      "v": 0.0005,
+      "usd": 1231176,
+      "uv": 2460
+     },
+     {
+      "c": "MKD",
+      "v": 0.0002,
+      "usd": 580000,
+      "uv": 2900
+     },
+     {
+      "c": "QAT",
+      "v": 0.0001,
+      "usd": 326136,
+      "uv": 3260
+     },
+     {
+      "c": "ARG",
+      "v": 0.0001,
+      "usd": 231000,
+      "uv": 2310
+     }
+    ],
+    "n": "CEPII BACI HS92 unwrought aluminium, not alloyed (HS 760110), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 37328548658,
+    "uv": 2480
+   }
+  },
+  {
+   "key": "760120-exports",
+   "title": "Unwrought aluminium exporters: alloys (HS 760120)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.367,
+    "rows": [
+     {
+      "c": "ARE",
+      "v": 1.865,
+      "usd": 5046885242,
+      "uv": 2710
+     },
+     {
+      "c": "NOR",
+      "v": 1.37,
+      "usd": 3908314201,
+      "uv": 2850
+     },
+     {
+      "c": "CAN",
+      "v": 1.122,
+      "usd": 3368137862,
+      "uv": 3000
+     },
+     {
+      "c": "MYS",
+      "v": 1.12,
+      "usd": 2581412555,
+      "uv": 2300
+     },
+     {
+      "c": "BHR",
+      "v": 1.08,
+      "usd": 2828989918,
+      "uv": 2620
+     },
+     {
+      "c": "RUS",
+      "v": 0.7349,
+      "usd": 1914142931,
+      "uv": 2600
+     },
+     {
+      "c": "USA",
+      "v": 0.6868,
+      "usd": 1334085425,
+      "uv": 1940
+     },
+     {
+      "c": "NLD",
+      "v": 0.5828,
+      "usd": 1715943980,
+      "uv": 2940
+     },
+     {
+      "c": "QAT",
+      "v": 0.5732,
+      "usd": 1526480902,
+      "uv": 2660
+     },
+     {
+      "c": "IND",
+      "v": 0.5407,
+      "usd": 1093268692,
+      "uv": 2020
+     },
+     {
+      "c": "DEU",
+      "v": 0.4182,
+      "usd": 1071243250,
+      "uv": 2560
+     },
+     {
+      "c": "ITA",
+      "v": 0.3722,
+      "usd": 898797136,
+      "uv": 2410
+     },
+     {
+      "c": "KOR",
+      "v": 0.2905,
+      "usd": 755407007,
+      "uv": 2600
+     },
+     {
+      "c": "ISL",
+      "v": 0.2823,
+      "usd": 848646119,
+      "uv": 3010
+     },
+     {
+      "c": "GBR",
+      "v": 0.2464,
+      "usd": 674082226,
+      "uv": 2740
+     },
+     {
+      "c": "FRA",
+      "v": 0.2363,
+      "usd": 735113119,
+      "uv": 3110
+     },
+     {
+      "c": "ESP",
+      "v": 0.2341,
+      "usd": 673498001,
+      "uv": 2880
+     },
+     {
+      "c": "CHN",
+      "v": 0.2275,
+      "usd": 558940971,
+      "uv": 2460
+     },
+     {
+      "c": "AUT",
+      "v": 0.2076,
+      "usd": 559741994,
+      "uv": 2700
+     },
+     {
+      "c": "THA",
+      "v": 0.2055,
+      "usd": 458716147,
+      "uv": 2230
+     },
+     {
+      "c": "VNM",
+      "v": 0.1774,
+      "usd": 417972002,
+      "uv": 2360
+     },
+     {
+      "c": "AUS",
+      "v": 0.1694,
+      "usd": 429160268,
+      "uv": 2530
+     },
+     {
+      "c": "POL",
+      "v": 0.1662,
+      "usd": 409747588,
+      "uv": 2470
+     },
+     {
+      "c": "SWE",
+      "v": 0.1424,
+      "usd": 340323101,
+      "uv": 2390
+     },
+     {
+      "c": "NGA",
+      "v": 0.133,
+      "usd": 294227994,
+      "uv": 2210
+     },
+     {
+      "c": "GRC",
+      "v": 0.1305,
+      "usd": 348456000,
+      "uv": 2670
+     },
+     {
+      "c": "ROU",
+      "v": 0.1151,
+      "usd": 261715981,
+      "uv": 2270
+     },
+     {
+      "c": "ARG",
+      "v": 0.1081,
+      "usd": 305400000,
+      "uv": 2830
+     },
+     {
+      "c": "SVN",
+      "v": 0.1068,
+      "usd": 284127934,
+      "uv": 2660
+     },
+     {
+      "c": "TUR",
+      "v": 0.1053,
+      "usd": 274007893,
+      "uv": 2600
+     },
+     {
+      "c": "TWN",
+      "v": 0.1032,
+      "usd": 253733889,
+      "uv": 2460
+     },
+     {
+      "c": "LUX",
+      "v": 0.103,
+      "usd": 253400000,
+      "uv": 2460
+     },
+     {
+      "c": "CZE",
+      "v": 0.088,
+      "usd": 202445897,
+      "uv": 2300
+     },
+     {
+      "c": "JPN",
+      "v": 0.0859,
+      "usd": 202561830,
+      "uv": 2360
+     },
+     {
+      "c": "EGY",
+      "v": 0.0779,
+      "usd": 188026154,
+      "uv": 2410
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0718,
+      "usd": 154847201,
+      "uv": 2160
+     },
+     {
+      "c": "CHE",
+      "v": 0.0695,
+      "usd": 209715015,
+      "uv": 3020
+     },
+     {
+      "c": "NZL",
+      "v": 0.066,
+      "usd": 166488597,
+      "uv": 2520
+     },
+     {
+      "c": "IDN",
+      "v": 0.0653,
+      "usd": 155528010,
+      "uv": 2380
+     },
+     {
+      "c": "HUN",
+      "v": 0.0634,
+      "usd": 159915059,
+      "uv": 2520
+     },
+     {
+      "c": "DNK",
+      "v": 0.0594,
+      "usd": 124520000,
+      "uv": 2100
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0518,
+      "usd": 112474721,
+      "uv": 2170
+     },
+     {
+      "c": "SAU",
+      "v": 0.05,
+      "usd": 123939146,
+      "uv": 2480
+     },
+     {
+      "c": "SVK",
+      "v": 0.0469,
+      "usd": 128084994,
+      "uv": 2730
+     },
+     {
+      "c": "BEL",
+      "v": 0.0452,
+      "usd": 142986204,
+      "uv": 3160
+     },
+     {
+      "c": "VEN",
+      "v": 0.0379,
+      "usd": 88978959,
+      "uv": 2350
+     },
+     {
+      "c": "UKR",
+      "v": 0.0379,
+      "usd": 84275000,
+      "uv": 2220
+     },
+     {
+      "c": "MNE",
+      "v": 0.0327,
+      "usd": 95011000,
+      "uv": 2910
+     },
+     {
+      "c": "BIH",
+      "v": 0.0324,
+      "usd": 75043000,
+      "uv": 2320
+     },
+     {
+      "c": "MEX",
+      "v": 0.0311,
+      "usd": 74535000,
+      "uv": 2400
+     },
+     {
+      "c": "SGP",
+      "v": 0.0308,
+      "usd": 35658015,
+      "uv": 1160
+     },
+     {
+      "c": "PAK",
+      "v": 0.0257,
+      "usd": 57247000,
+      "uv": 2230
+     },
+     {
+      "c": "AZE",
+      "v": 0.0208,
+      "usd": 51824000,
+      "uv": 2490
+     },
+     {
+      "c": "KHM",
+      "v": 0.0207,
+      "usd": 45011000,
+      "uv": 2170
+     },
+     {
+      "c": "HKG",
+      "v": 0.0198,
+      "usd": 17511000,
+      "uv": 884
+     },
+     {
+      "c": "BRA",
+      "v": 0.0189,
+      "usd": 54641965,
+      "uv": 2890
+     },
+     {
+      "c": "ALB",
+      "v": 0.0186,
+      "usd": 50099000,
+      "uv": 2690
+     },
+     {
+      "c": "MMR",
+      "v": 0.0185,
+      "usd": 40776000,
+      "uv": 2200
+     },
+     {
+      "c": "PHL",
+      "v": 0.0161,
+      "usd": 36405000,
+      "uv": 2260
+     },
+     {
+      "c": "MOZ",
+      "v": 0.016,
+      "usd": 43042075,
+      "uv": 2690
+     },
+     {
+      "c": "AGO",
+      "v": 0.0153,
+      "usd": 35931998,
+      "uv": 2350
+     },
+     {
+      "c": "CMR",
+      "v": 0.0107,
+      "usd": 24510747,
+      "uv": 2290
+     },
+     {
+      "c": "OMN",
+      "v": 0.0095,
+      "usd": 20650997,
+      "uv": 2170
+     },
+     {
+      "c": "PRT",
+      "v": 0.0091,
+      "usd": 24883000,
+      "uv": 2730
+     },
+     {
+      "c": "TJK",
+      "v": 0.0087,
+      "usd": 18741870,
+      "uv": 2150
+     },
+     {
+      "c": "BGR",
+      "v": 0.008,
+      "usd": 20881000,
+      "uv": 2610
+     },
+     {
+      "c": "MNG",
+      "v": 0.0074,
+      "usd": 14211000,
+      "uv": 1920
+     },
+     {
+      "c": "FIN",
+      "v": 0.0074,
+      "usd": 15683847,
+      "uv": 2120
+     },
+     {
+      "c": "LVA",
+      "v": 0.0065,
+      "usd": 11373640,
+      "uv": 1750
+     },
+     {
+      "c": "MAR",
+      "v": 0.0059,
+      "usd": 22148379,
+      "uv": 3750
+     },
+     {
+      "c": "TGO",
+      "v": 0.0056,
+      "usd": 13252000,
+      "uv": 2370
+     },
+     {
+      "c": "UZB",
+      "v": 0.0056,
+      "usd": 10537032,
+      "uv": 1880
+     },
+     {
+      "c": "BGD",
+      "v": 0.0054,
+      "usd": 10062000,
+      "uv": 1860
+     },
+     {
+      "c": "SEN",
+      "v": 0.0053,
+      "usd": 12462084,
+      "uv": 2350
+     },
+     {
+      "c": "ARM",
+      "v": 0.0052,
+      "usd": 10918000,
+      "uv": 2100
+     },
+     {
+      "c": "SRB",
+      "v": 0.005,
+      "usd": 12494000,
+      "uv": 2500
+     },
+     {
+      "c": "TZA",
+      "v": 0.0049,
+      "usd": 10864833,
+      "uv": 2220
+     },
+     {
+      "c": "GIN",
+      "v": 0.0049,
+      "usd": 10768000,
+      "uv": 2200
+     },
+     {
+      "c": "IRL",
+      "v": 0.0048,
+      "usd": 11981000,
+      "uv": 2500
+     },
+     {
+      "c": "JOR",
+      "v": 0.0045,
+      "usd": 10281000,
+      "uv": 2280
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0042,
+      "usd": 8496698,
+      "uv": 2020
+     },
+     {
+      "c": "GEO",
+      "v": 0.004,
+      "usd": 9034000,
+      "uv": 2260
+     },
+     {
+      "c": "LTU",
+      "v": 0.0033,
+      "usd": 12491000,
+      "uv": 3790
+     },
+     {
+      "c": "GHA",
+      "v": 0.0032,
+      "usd": 7183000,
+      "uv": 2240
+     },
+     {
+      "c": "TUN",
+      "v": 0.003,
+      "usd": 7054000,
+      "uv": 2350
+     },
+     {
+      "c": "HRV",
+      "v": 0.0027,
+      "usd": 5659043,
+      "uv": 2100
+     },
+     {
+      "c": "ECU",
+      "v": 0.0026,
+      "usd": 7755000,
+      "uv": 2980
+     },
+     {
+      "c": "PNG",
+      "v": 0.0024,
+      "usd": 2741000,
+      "uv": 1140
+     },
+     {
+      "c": "GAB",
+      "v": 0.002,
+      "usd": 3903000,
+      "uv": 1950
+     },
+     {
+      "c": "LKA",
+      "v": 0.002,
+      "usd": 1745000,
+      "uv": 872
+     },
+     {
+      "c": "SYR",
+      "v": 0.0019,
+      "usd": 3848000,
+      "uv": 2030
+     },
+     {
+      "c": "PAN",
+      "v": 0.0019,
+      "usd": 1402000,
+      "uv": 738
+     },
+     {
+      "c": "EST",
+      "v": 0.0018,
+      "usd": 6978063,
+      "uv": 3880
+     },
+     {
+      "c": "LAO",
+      "v": 0.0016,
+      "usd": 3339000,
+      "uv": 2090
+     },
+     {
+      "c": "CIV",
+      "v": 0.0014,
+      "usd": 3778000,
+      "uv": 2700
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0014,
+      "usd": 2311000,
+      "uv": 1650
+     },
+     {
+      "c": "IRN",
+      "v": 0.0014,
+      "usd": 3171000,
+      "uv": 2260
+     },
+     {
+      "c": "COL",
+      "v": 0.0013,
+      "usd": 2538000,
+      "uv": 1950
+     },
+     {
+      "c": "LBN",
+      "v": 0.0012,
+      "usd": 3835000,
+      "uv": 3200
+     },
+     {
+      "c": "BHS",
+      "v": 0.0012,
+      "usd": 1207000,
+      "uv": 1010
+     },
+     {
+      "c": "BRB",
+      "v": 0.0011,
+      "usd": 1245000,
+      "uv": 1130
+     },
+     {
+      "c": "MWI",
+      "v": 0.0008,
+      "usd": 2147000,
+      "uv": 2680
+     },
+     {
+      "c": "IRQ",
+      "v": 0.0008,
+      "usd": 1401000,
+      "uv": 1750
+     },
+     {
+      "c": "LBY",
+      "v": 0.0008,
+      "usd": 1395000,
+      "uv": 1740
+     },
+     {
+      "c": "CHL",
+      "v": 0.0008,
+      "usd": 1928941,
+      "uv": 2410
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0007,
+      "usd": 1241000,
+      "uv": 1770
+     },
+     {
+      "c": "DZA",
+      "v": 0.0007,
+      "usd": 1080000,
+      "uv": 1540
+     },
+     {
+      "c": "ISR",
+      "v": 0.0007,
+      "usd": 1769000,
+      "uv": 2530
+     },
+     {
+      "c": "COD",
+      "v": 0.0005,
+      "usd": 1007000,
+      "uv": 2010
+     }
+    ],
+    "n": "CEPII BACI HS92 unwrought aluminium alloys (HS 760120), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 39780030342,
+    "uv": 2590
+   }
+  },
+  {
+   "key": "760120-imports",
+   "title": "Unwrought aluminium importers: alloys (HS 760120)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.367,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 1.716,
+      "usd": 5084553589,
+      "uv": 2960
+     },
+     {
+      "c": "DEU",
+      "v": 1.446,
+      "usd": 3902608382,
+      "uv": 2700
+     },
+     {
+      "c": "CHN",
+      "v": 1.213,
+      "usd": 2692692354,
+      "uv": 2220
+     },
+     {
+      "c": "JPN",
+      "v": 1.04,
+      "usd": 2501682279,
+      "uv": 2410
+     },
+     {
+      "c": "MYS",
+      "v": 0.8157,
+      "usd": 1282697313,
+      "uv": 1570
+     },
+     {
+      "c": "MEX",
+      "v": 0.7185,
+      "usd": 2072663428,
+      "uv": 2880
+     },
+     {
+      "c": "ITA",
+      "v": 0.6463,
+      "usd": 1675438445,
+      "uv": 2590
+     },
+     {
+      "c": "ESP",
+      "v": 0.5304,
+      "usd": 1372238311,
+      "uv": 2590
+     },
+     {
+      "c": "POL",
+      "v": 0.5136,
+      "usd": 1368219698,
+      "uv": 2660
+     },
+     {
+      "c": "NLD",
+      "v": 0.504,
+      "usd": 1278064951,
+      "uv": 2540
+     },
+     {
+      "c": "TUR",
+      "v": 0.4601,
+      "usd": 1169426788,
+      "uv": 2540
+     },
+     {
+      "c": "KOR",
+      "v": 0.4501,
+      "usd": 1166424240,
+      "uv": 2590
+     },
+     {
+      "c": "FRA",
+      "v": 0.3451,
+      "usd": 1050282167,
+      "uv": 3040
+     },
+     {
+      "c": "IND",
+      "v": 0.3131,
+      "usd": 805768414,
+      "uv": 2570
+     },
+     {
+      "c": "AUT",
+      "v": 0.2901,
+      "usd": 754326021,
+      "uv": 2600
+     },
+     {
+      "c": "MAR",
+      "v": 0.2806,
+      "usd": 759113000,
+      "uv": 2710
+     },
+     {
+      "c": "THA",
+      "v": 0.274,
+      "usd": 714161979,
+      "uv": 2610
+     },
+     {
+      "c": "TWN",
+      "v": 0.2548,
+      "usd": 675512925,
+      "uv": 2650
+     },
+     {
+      "c": "CZE",
+      "v": 0.2342,
+      "usd": 647558417,
+      "uv": 2760
+     },
+     {
+      "c": "VNM",
+      "v": 0.2219,
+      "usd": 594237028,
+      "uv": 2680
+     },
+     {
+      "c": "BEL",
+      "v": 0.1986,
+      "usd": 516578629,
+      "uv": 2600
+     },
+     {
+      "c": "DNK",
+      "v": 0.1719,
+      "usd": 610822056,
+      "uv": 3550
+     },
+     {
+      "c": "GRC",
+      "v": 0.1702,
+      "usd": 461961113,
+      "uv": 2710
+     },
+     {
+      "c": "HUN",
+      "v": 0.167,
+      "usd": 443242505,
+      "uv": 2650
+     },
+     {
+      "c": "IDN",
+      "v": 0.1586,
+      "usd": 399273774,
+      "uv": 2520
+     },
+     {
+      "c": "SWE",
+      "v": 0.1569,
+      "usd": 460588838,
+      "uv": 2940
+     },
+     {
+      "c": "SAU",
+      "v": 0.1465,
+      "usd": 395520083,
+      "uv": 2700
+     },
+     {
+      "c": "PRT",
+      "v": 0.1435,
+      "usd": 456531049,
+      "uv": 3180
+     },
+     {
+      "c": "RUS",
+      "v": 0.1424,
+      "usd": 60444718,
+      "uv": 424
+     },
+     {
+      "c": "CAN",
+      "v": 0.1312,
+      "usd": 359776543,
+      "uv": 2740
+     },
+     {
+      "c": "HRV",
+      "v": 0.1301,
+      "usd": 349093852,
+      "uv": 2680
+     },
+     {
+      "c": "CHE",
+      "v": 0.1291,
+      "usd": 370693921,
+      "uv": 2870
+     },
+     {
+      "c": "SVK",
+      "v": 0.1289,
+      "usd": 330097283,
+      "uv": 2560
+     },
+     {
+      "c": "BRA",
+      "v": 0.1236,
+      "usd": 328990215,
+      "uv": 2660
+     },
+     {
+      "c": "GBR",
+      "v": 0.0872,
+      "usd": 274052655,
+      "uv": 3140
+     },
+     {
+      "c": "BGR",
+      "v": 0.0848,
+      "usd": 233360991,
+      "uv": 2750
+     },
+     {
+      "c": "ROU",
+      "v": 0.0768,
+      "usd": 213955897,
+      "uv": 2790
+     },
+     {
+      "c": "SVN",
+      "v": 0.0709,
+      "usd": 170720000,
+      "uv": 2410
+     },
+     {
+      "c": "SRB",
+      "v": 0.0602,
+      "usd": 166143052,
+      "uv": 2760
+     },
+     {
+      "c": "NOR",
+      "v": 0.0584,
+      "usd": 150916545,
+      "uv": 2580
+     },
+     {
+      "c": "AUS",
+      "v": 0.05,
+      "usd": 125026002,
+      "uv": 2500
+     },
+     {
+      "c": "BIH",
+      "v": 0.0421,
+      "usd": 114310622,
+      "uv": 2720
+     },
+     {
+      "c": "FIN",
+      "v": 0.0334,
+      "usd": 84878347,
+      "uv": 2540
+     },
+     {
+      "c": "ISR",
+      "v": 0.0299,
+      "usd": 72931530,
+      "uv": 2440
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0237,
+      "usd": 60392000,
+      "uv": 2550
+     },
+     {
+      "c": "EGY",
+      "v": 0.0215,
+      "usd": 50884523,
+      "uv": 2370
+     },
+     {
+      "c": "PHL",
+      "v": 0.0178,
+      "usd": 45107003,
+      "uv": 2530
+     },
+     {
+      "c": "HKG",
+      "v": 0.0175,
+      "usd": 34026062,
+      "uv": 1940
+     },
+     {
+      "c": "UZB",
+      "v": 0.0165,
+      "usd": 43235000,
+      "uv": 2620
+     },
+     {
+      "c": "BGD",
+      "v": 0.0161,
+      "usd": 40887994,
+      "uv": 2540
+     },
+     {
+      "c": "TUN",
+      "v": 0.0156,
+      "usd": 38805957,
+      "uv": 2490
+     },
+     {
+      "c": "CYP",
+      "v": 0.0147,
+      "usd": 36980000,
+      "uv": 2520
+     },
+     {
+      "c": "SGP",
+      "v": 0.0138,
+      "usd": 37080285,
+      "uv": 2690
+     },
+     {
+      "c": "DZA",
+      "v": 0.0126,
+      "usd": 33512000,
+      "uv": 2660
+     },
+     {
+      "c": "JOR",
+      "v": 0.0122,
+      "usd": 33351000,
+      "uv": 2730
+     },
+     {
+      "c": "ARE",
+      "v": 0.0118,
+      "usd": 31578991,
+      "uv": 2680
+     },
+     {
+      "c": "MNE",
+      "v": 0.0116,
+      "usd": 34214190,
+      "uv": 2950
+     },
+     {
+      "c": "LKA",
+      "v": 0.0111,
+      "usd": 29958259,
+      "uv": 2700
+     },
+     {
+      "c": "ALB",
+      "v": 0.011,
+      "usd": 29680000,
+      "uv": 2700
+     },
+     {
+      "c": "KHM",
+      "v": 0.011,
+      "usd": 30889996,
+      "uv": 2810
+     },
+     {
+      "c": "NZL",
+      "v": 0.0105,
+      "usd": 27107000,
+      "uv": 2580
+     },
+     {
+      "c": "LUX",
+      "v": 0.0102,
+      "usd": 22517966,
+      "uv": 2210
+     },
+     {
+      "c": "ECU",
+      "v": 0.0097,
+      "usd": 26099000,
+      "uv": 2690
+     },
+     {
+      "c": "IRL",
+      "v": 0.0096,
+      "usd": 28612000,
+      "uv": 2980
+     },
+     {
+      "c": "CRI",
+      "v": 0.0096,
+      "usd": 25983000,
+      "uv": 2710
+     },
+     {
+      "c": "BHR",
+      "v": 0.0075,
+      "usd": 18814703,
+      "uv": 2510
+     },
+     {
+      "c": "HND",
+      "v": 0.0075,
+      "usd": 20863000,
+      "uv": 2780
+     },
+     {
+      "c": "SMR",
+      "v": 0.0072,
+      "usd": 20059000,
+      "uv": 2790
+     },
+     {
+      "c": "KWT",
+      "v": 0.0071,
+      "usd": 19334000,
+      "uv": 2720
+     },
+     {
+      "c": "KEN",
+      "v": 0.0069,
+      "usd": 19903912,
+      "uv": 2880
+     },
+     {
+      "c": "NGA",
+      "v": 0.0068,
+      "usd": 18550000,
+      "uv": 2730
+     },
+     {
+      "c": "UKR",
+      "v": 0.0061,
+      "usd": 18011000,
+      "uv": 2950
+     },
+     {
+      "c": "MKD",
+      "v": 0.0054,
+      "usd": 13865000,
+      "uv": 2570
+     },
+     {
+      "c": "SLV",
+      "v": 0.0049,
+      "usd": 14350000,
+      "uv": 2930
+     },
+     {
+      "c": "QAT",
+      "v": 0.0046,
+      "usd": 7348864,
+      "uv": 1600
+     },
+     {
+      "c": "ISL",
+      "v": 0.0046,
+      "usd": 12881000,
+      "uv": 2800
+     },
+     {
+      "c": "LTU",
+      "v": 0.0045,
+      "usd": 7662000,
+      "uv": 1700
+     },
+     {
+      "c": "URY",
+      "v": 0.0042,
+      "usd": 12367000,
+      "uv": 2940
+     },
+     {
+      "c": "TZA",
+      "v": 0.0041,
+      "usd": 11846691,
+      "uv": 2890
+     },
+     {
+      "c": "PAK",
+      "v": 0.0041,
+      "usd": 11649000,
+      "uv": 2840
+     },
+     {
+      "c": "ARG",
+      "v": 0.0039,
+      "usd": 11604000,
+      "uv": 2980
+     },
+     {
+      "c": "PRY",
+      "v": 0.0037,
+      "usd": 9690062,
+      "uv": 2620
+     },
+     {
+      "c": "OMN",
+      "v": 0.0037,
+      "usd": 8153969,
+      "uv": 2200
+     },
+     {
+      "c": "ARM",
+      "v": 0.0034,
+      "usd": 7799163,
+      "uv": 2290
+     },
+     {
+      "c": "UGA",
+      "v": 0.0033,
+      "usd": 10491000,
+      "uv": 3180
+     },
+     {
+      "c": "AZE",
+      "v": 0.003,
+      "usd": 8138000,
+      "uv": 2710
+     },
+     {
+      "c": "COL",
+      "v": 0.0025,
+      "usd": 7183000,
+      "uv": 2870
+     },
+     {
+      "c": "NPL",
+      "v": 0.0019,
+      "usd": 5132000,
+      "uv": 2700
+     },
+     {
+      "c": "DOM",
+      "v": 0.0017,
+      "usd": 4967000,
+      "uv": 2920
+     },
+     {
+      "c": "IRN",
+      "v": 0.0012,
+      "usd": 3107000,
+      "uv": 2590
+     },
+     {
+      "c": "SYR",
+      "v": 0.0011,
+      "usd": 2859000,
+      "uv": 2600
+     },
+     {
+      "c": "LVA",
+      "v": 0.0008,
+      "usd": 3054976,
+      "uv": 3820
+     },
+     {
+      "c": "DJI",
+      "v": 0.0007,
+      "usd": 2032000,
+      "uv": 2900
+     },
+     {
+      "c": "LBN",
+      "v": 0.0006,
+      "usd": 1735000,
+      "uv": 2890
+     },
+     {
+      "c": "TTO",
+      "v": 0.0006,
+      "usd": 2002000,
+      "uv": 3340
+     },
+     {
+      "c": "EST",
+      "v": 0.0005,
+      "usd": 1395000,
+      "uv": 2790
+     },
+     {
+      "c": "ETH",
+      "v": 0.0004,
+      "usd": 1103000,
+      "uv": 2760
+     },
+     {
+      "c": "AGO",
+      "v": 0.0001,
+      "usd": 263824,
+      "uv": 2640
+     }
+    ],
+    "n": "CEPII BACI HS92 unwrought aluminium alloys (HS 760120), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 39780030342,
+    "uv": 2590
+   }
+  }
+ ],
  "flows": [
   {
    "o": "CAN",
@@ -972,6 +3841,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 7747186000,
+   "uv": 2820,
    "mode": "land"
   },
   {
@@ -981,6 +3852,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3776075000,
+   "uv": 2530,
    "mode": "mixed",
    "lane": "aluminium:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -992,6 +3865,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1391502000,
+   "uv": 2180,
    "mode": "sea",
    "lane": "aluminium:MYS-CHN"
   },
@@ -1002,9 +3877,11 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 553676000,
+   "uv": 1030,
    "mode": "sea",
    "lane": "aluminium:USA-MYS",
-   "n": "declared at 1,034 USD/t, 43% of the 2024 average aluminium price (2,419 USD/t, World Bank Pink Sheet): material priced like scrap or alloy declared as unwrought metal is a possible reading, not established here"
+   "caveat": "uv-aluminium-USA-MYS"
   },
   {
    "o": "ISL",
@@ -1013,6 +3890,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 852655000,
+   "uv": 1810,
    "mode": "sea",
    "lane": "aluminium:ISL-NLD"
   },
@@ -1023,6 +3902,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1174570000,
+   "uv": 2630,
    "mode": "land"
   },
   {
@@ -1032,6 +3913,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1216089000,
+   "uv": 2790,
    "mode": "sea",
    "lane": "aluminium:ARE-USA"
   },
@@ -1042,6 +3925,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 991726000,
+   "uv": 2550,
    "mode": "sea",
    "lane": "aluminium:AUS-KOR"
   },
@@ -1052,6 +3937,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 975043000,
+   "uv": 2570,
    "mode": "sea",
    "lane": "aluminium:ARE-JPN"
   },
@@ -1062,6 +3949,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 874562000,
+   "uv": 2470,
    "mode": "sea",
    "lane": "aluminium:ARE-TUR"
   },
@@ -1072,6 +3961,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 802916000,
+   "uv": 2370,
    "mode": "sea",
    "lane": "aluminium:AUS-JPN"
   },
@@ -1082,6 +3973,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 862734000,
+   "uv": 2550,
    "mode": "sea",
    "lane": "aluminium:RUS-KOR"
   },
@@ -1092,6 +3985,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 817883000,
+   "uv": 2560,
    "mode": "sea",
    "lane": "aluminium:RUS-TUR"
   },
@@ -1102,6 +3997,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 697389000,
+   "uv": 2660,
    "mode": "sea",
    "lane": "aluminium:NOR-NLD"
   },
@@ -1112,6 +4009,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 690486000,
+   "uv": 2730,
    "mode": "sea",
    "lane": "aluminium:NOR-DEU"
   },
@@ -1122,6 +4021,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 605378000,
+   "uv": 2600,
    "mode": "sea",
    "lane": "aluminium:IND-KOR"
   },
@@ -1132,6 +4033,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 504668000,
+   "uv": 2350,
    "mode": "sea",
    "lane": "aluminium:IND-MYS"
   },
@@ -1142,6 +4045,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 569624000,
+   "uv": 2760,
    "mode": "sea",
    "lane": "aluminium:ARE-MEX"
   },
@@ -1152,6 +4057,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 591079000,
+   "uv": 2900,
    "mode": "land"
   },
   {
@@ -1161,11 +4068,125 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 478330000,
+   "uv": 2460,
    "mode": "sea",
    "lane": "aluminium:IDN-CHN"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 5830.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 5700.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as primary production + secondary production from old scrap + imports - exports ± adjustments for stock changes; excludes traded scrap. -- These calculations no longer include exported scrap, because its return to the domestic supply cannot be reliably determined."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Aluminum",
+    "pct": "60",
+    "y": 2025,
+    "src": "Canada, United Arab Emirates, Bahrain, China",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6064
+   },
+   "top3": 0.7155,
+   "hhi": 3788,
+   "eq": 2.6,
+   "k": 12,
+   "cov": 0.9057
+  },
+  "exports": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.0993
+   },
+   "top3": 0.2845,
+   "hhi": 492,
+   "eq": 20.3,
+   "k": 111,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1323
+   },
+   "top3": 0.3108,
+   "hhi": 561,
+   "eq": 17.8,
+   "k": 103,
+   "cov": 1.0
+  },
+  "760110-exports": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.1407
+   },
+   "top3": 0.3607,
+   "hhi": 715,
+   "eq": 14.0,
+   "k": 89,
+   "cov": 1.0
+  },
+  "760110-imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1534
+   },
+   "top3": 0.3647,
+   "hhi": 718,
+   "eq": 13.9,
+   "k": 83,
+   "cov": 1.0
+  },
+  "760120-exports": {
+   "top1": {
+    "c": "ARE",
+    "p": 0.1214
+   },
+   "top3": 0.2835,
+   "hhi": 511,
+   "eq": 19.6,
+   "k": 109,
+   "cov": 1.0
+  },
+  "760120-imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1117
+   },
+   "top3": 0.2847,
+   "hhi": 482,
+   "eq": 20.7,
+   "k": 98,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Trade is unwrought aluminium (HS 7601); USGS production is primary smelter output. Bauxite reserves are under 'bauxite'."
+  "Trade is unwrought aluminium (HS 7601); USGS production is primary smelter output. Bauxite reserves are under 'bauxite'.",
+  "Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565); the 2024 average aluminium price is 2,419 USD per tonne (World Bank Pink Sheet), and the pair is declared at 43% of it. Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here.",
+  "Unwrought aluminium is two customs codes of nearly equal weight in 2024: HS 760110, not alloyed, 15.0 Mt, and HS 760120, alloys, 15.4 Mt. Each pair of the main tables is split between them in proportion to the six-digit rows of the same pair (CEPII BACI); alloys include ingot made from scrap, so the second code is where recycled metal is traded."
  ]
 }

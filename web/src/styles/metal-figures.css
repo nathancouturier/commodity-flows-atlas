@@ -1,0 +1,143 @@
+/* metals pages: two USGS years, value and unit value, concentration, United States (MetalFigures.tsx) */
+.mf-block + .mf-block {
+  margin-top: 10px;
+}
+.mf-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin: 4px 4px 2px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.mf-sort {
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+  text-transform: none;
+  letter-spacing: 0;
+  text-decoration: underline dotted;
+}
+.mf-row {
+  display: grid;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 3px 4px;
+  border-radius: 6px;
+  text-align: left;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+button.mf-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.mf-years {
+  grid-template-columns: minmax(0, 1fr) 64px 64px 52px;
+}
+.mf-trade {
+  grid-template-columns: minmax(0, 1fr) 52px 88px 52px;
+}
+.mf-conc {
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr) 44px 58px;
+}
+.mf-row .num {
+  text-align: right;
+  font-family: var(--font-num);
+  color: var(--ink-0);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mf-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.mf-th {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  padding-bottom: 0;
+}
+.mf-th .num {
+  color: var(--ink-2);
+}
+.mf-other {
+  color: var(--ink-2);
+  border-top: 1px solid var(--hairline);
+}
+.mf-chg {
+  font-size: var(--fs-xs);
+  color: var(--ink-2) !important;
+}
+.mf-e {
+  margin-left: 2px;
+  font-size: 9px;
+  font-style: italic;
+  color: var(--ink-2);
+}
+.mf-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+.mf-tab {
+  padding: 2px 8px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+}
+.mf-tab.on {
+  color: var(--ink-0);
+  border-color: var(--bar-color, var(--ink-1));
+  background: rgba(255, 255, 255, 0.06);
+}
+.mf-us {
+  margin: 4px 4px 6px;
+}
+.mf-us-k {
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+.mf-us-v {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-family: var(--font-num);
+  color: var(--ink-0);
+}
+.mf-us-n {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+/* a phone: the figures wrap under the name instead of squeezing it */
+@media (max-width: 480px) {
+  .mf-years {
+    grid-template-columns: minmax(0, 1fr) 56px 56px 46px;
+  }
+  .mf-trade {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .mf-trade .mf-name {
+    grid-column: 1 / -1;
+  }
+  .mf-conc {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .mf-conc .mf-name {
+    grid-column: 1 / -1;
+  }
+  /* the header row has no name cell on a phone: its three labels sit over the three figures */
+  .mf-trade.mf-th > span:first-child,
+  .mf-conc.mf-th > span:first-child {
+    display: none;
+  }
+  .mf-trade .mf-name,
+  .mf-conc .mf-name {
+    white-space: normal;
+  }
+}

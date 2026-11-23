@@ -6,14 +6,14 @@
    "u": "t Au",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, gold mine production, contained gold; 2025 values are USGS estimates; USGS world total is rounded; 'Other countries' is the USGS line for the producers it does not list (1,000 t Au)"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 3,250 t Au, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 66000.0,
    "u": "t Au",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded"
+   "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded; the countries and USGS 'Other countries' add up to 65,600 t Au, while the rounded world total of 66,000 t Au is 0.6% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 7080,
@@ -43,7 +43,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Au",
-  "world": 3300.0,
+  "world": 3250.0,
   "rows": [
    {
     "c": "CHN",
@@ -98,7 +98,7 @@
     "v": 80.0
    }
   ],
-  "n": "USGS MCS 2026, gold mine production, contained gold; 2025 values are USGS estimates; USGS world total is rounded; 'Other countries' is the USGS line for the producers it does not list (1,000 t Au)",
+  "n": "USGS MCS 2026, gold mine production, contained gold; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 3,250 t Au, while the rounded world total of 3,300 t Au is 1.5% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (1,000 t Au)",
   "other": 1000.0,
   "hidden": {
    "v": 260.0,
@@ -106,13 +106,14 @@
    "from": 10,
    "n": "3 further countries named by USGS (Indonesia, South Africa and Brazil), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 3300.0,
   "basis": "contained gold"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Au",
-  "world": 66000.0,
+  "world": 65600.0,
   "rows": [
    {
     "c": "AUS",
@@ -167,7 +168,7 @@
     "v": 1000.0
    }
   ],
-  "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded",
+  "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded; the countries and USGS 'Other countries' add up to 65,600 t Au, while the rounded world total of 66,000 t Au is 0.6% above that sum: shares are computed on the sum",
   "other": 11000.0,
   "hidden": {
    "v": 4600.0,
@@ -175,6 +176,7 @@
    "from": 10,
    "n": "3 further countries named by USGS (Uzbekistan, Mexico and Ghana), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 66000.0,
   "basis": "contained gold"
  },
  "exports": {
@@ -186,642 +188,770 @@
    {
     "c": "CHE",
     "v": 1360,
-    "n": "customs gross weight 1,600 t"
+    "n": "customs gross weight 1,600 t",
+    "usd": 106211740000
    },
    {
     "c": "ARE",
     "v": 754,
-    "n": "customs gross weight 764.1 t"
+    "n": "customs gross weight 764.1 t",
+    "usd": 58674283000
    },
    {
     "c": "HKG",
     "v": 458,
-    "n": "customs gross weight 491.6 t"
+    "n": "customs gross weight 491.6 t",
+    "usd": 35660223000
    },
    {
     "c": "AUS",
     "v": 427,
-    "n": "customs gross weight 545.3 t"
+    "n": "customs gross weight 545.3 t",
+    "usd": 34043142000
    },
    {
     "c": "ZAF",
     "v": 376,
-    "n": "customs gross weight 387.2 t"
+    "n": "customs gross weight 387.2 t",
+    "usd": 29029643000
    },
    {
     "c": "USA",
     "v": 289,
-    "n": "customs gross weight 542.9 t"
+    "n": "customs gross weight 542.9 t",
+    "usd": 22300858000
    },
    {
     "c": "CAN",
     "v": 259,
-    "n": "customs gross weight 496.7 t"
+    "n": "customs gross weight 496.7 t",
+    "usd": 20991633000
    },
    {
     "c": "JPN",
     "v": 221,
-    "n": "customs gross weight 251.5 t"
+    "n": "customs gross weight 251.5 t",
+    "usd": 18173991000
    },
    {
     "c": "DEU",
     "v": 205,
-    "n": "customs gross weight 263.1 t"
+    "n": "customs gross weight 263.1 t",
+    "usd": 15765859000
    },
    {
     "c": "PER",
     "v": 171,
-    "n": "customs gross weight 433.2 t"
+    "n": "customs gross weight 433.2 t",
+    "usd": 13141414000
    },
    {
     "c": "CHN",
     "v": 168,
-    "n": "customs gross weight 178.0 t"
+    "n": "customs gross weight 178.0 t",
+    "usd": 13302019000
    },
    {
     "c": "RUS",
     "v": 158,
-    "n": "customs gross weight 280.1 t"
+    "n": "customs gross weight 280.1 t",
+    "usd": 12311472000
    },
    {
     "c": "GBR",
     "v": 153,
-    "n": "customs gross weight 211.2 t"
+    "n": "customs gross weight 211.2 t",
+    "usd": 11718720000
    },
    {
     "c": "SGP",
     "v": 135,
-    "n": "customs gross weight 158.2 t"
+    "n": "customs gross weight 158.2 t",
+    "usd": 10466671000
    },
    {
     "c": "UZB",
     "v": 124,
-    "n": "customs gross weight 131.9 t"
+    "n": "customs gross weight 131.9 t",
+    "usd": 9655250000
    },
    {
     "c": "KAZ",
     "v": 108,
-    "n": "customs gross weight 110.1 t"
+    "n": "customs gross weight 110.1 t",
+    "usd": 8772819000
    },
    {
     "c": "BFA",
     "v": 108,
-    "n": "customs gross weight 121.1 t"
+    "n": "customs gross weight 121.1 t",
+    "usd": 8259082000
    },
    {
     "c": "THA",
     "v": 105,
-    "n": "customs gross weight 109.8 t"
+    "n": "customs gross weight 109.8 t",
+    "usd": 8308754000
    },
    {
     "c": "MEX",
     "v": 95.7,
-    "n": "customs gross weight 164.6 t"
+    "n": "customs gross weight 164.6 t",
+    "usd": 7364793000
    },
    {
     "c": "KGZ",
     "v": 84.8,
-    "n": "customs gross weight 85.7 t"
+    "n": "customs gross weight 85.7 t",
+    "usd": 6976070000
    },
    {
     "c": "GHA",
     "v": 76.8,
-    "n": "customs gross weight 90.1 t"
+    "n": "customs gross weight 90.1 t",
+    "usd": 5893591000
    },
    {
     "c": "CIV",
     "v": 76.3,
-    "n": "customs gross weight 107.1 t"
+    "n": "customs gross weight 107.1 t",
+    "usd": 5853567000
    },
    {
     "c": "ARM",
     "v": 73.2,
-    "n": "customs gross weight 78.1 t"
+    "n": "customs gross weight 78.1 t",
+    "usd": 5618161000
    },
    {
     "c": "TUR",
     "v": 60.5,
-    "n": "customs gross weight 63.7 t"
+    "n": "customs gross weight 63.7 t",
+    "usd": 5159054000
    },
    {
     "c": "TZA",
     "v": 57.8,
-    "n": "customs gross weight 112.0 t"
+    "n": "customs gross weight 112.0 t",
+    "usd": 4438227000
    },
    {
     "c": "BRA",
     "v": 55.1,
-    "n": "customs gross weight 63.8 t"
+    "n": "customs gross weight 63.8 t",
+    "usd": 4300896000
    },
    {
     "c": "ITA",
     "v": 54.2,
-    "n": "customs gross weight 76.3 t"
+    "n": "customs gross weight 76.3 t",
+    "usd": 4174036000
    },
    {
     "c": "UGA",
     "v": 54.1,
-    "n": "customs gross weight 57.1 t"
+    "n": "customs gross weight 57.1 t",
+    "usd": 4208677000
    },
    {
     "c": "ESP",
     "v": 53.8,
-    "n": "customs gross weight 63.2 t"
+    "n": "customs gross weight 63.2 t",
+    "usd": 4127064000
    },
    {
     "c": "COL",
     "v": 50.2,
-    "n": "customs gross weight 64.1 t"
+    "n": "customs gross weight 64.1 t",
+    "usd": 3850226000
    },
    {
     "c": "ARG",
     "v": 43.6,
-    "n": "customs gross weight 193.0 t"
+    "n": "customs gross weight 193.0 t",
+    "usd": 3356880000
    },
    {
     "c": "EGY",
     "v": 43.4,
-    "n": "customs gross weight 50.4 t"
+    "n": "customs gross weight 50.4 t",
+    "usd": 3356145000
    },
    {
     "c": "PHL",
     "v": 41.2,
-    "n": "customs gross weight 88.4 t"
+    "n": "customs gross weight 88.4 t",
+    "usd": 3182418000
    },
    {
     "c": "FRA",
     "v": 40.4,
-    "n": "customs gross weight 59.9 t"
+    "n": "customs gross weight 59.9 t",
+    "usd": 3102900000
    },
    {
     "c": "PNG",
     "v": 33.0,
-    "n": "customs gross weight 39.0 t"
+    "n": "customs gross weight 39.0 t",
+    "usd": 2532807000
    },
    {
     "c": "ZWE",
     "v": 32.7,
-    "n": "customs gross weight 34.4 t"
+    "n": "customs gross weight 34.4 t",
+    "usd": 2506957000
    },
    {
     "c": "SAU",
     "v": 25.0,
-    "n": "customs gross weight 30.4 t"
+    "n": "customs gross weight 30.4 t",
+    "usd": 1927379000
    },
    {
     "c": "AUT",
     "v": 23.6,
-    "n": "customs gross weight 26.1 t"
+    "n": "customs gross weight 26.1 t",
+    "usd": 1810201000
    },
    {
     "c": "DOM",
     "v": 20.4,
-    "n": "customs gross weight 69.2 t"
+    "n": "customs gross weight 69.2 t",
+    "usd": 1568869000
    },
    {
     "c": "KOR",
     "v": 19.7,
-    "n": "customs gross weight 29.5 t"
+    "n": "customs gross weight 29.5 t",
+    "usd": 1640681000
    },
    {
     "c": "NIC",
     "v": 19.4,
-    "n": "customs gross weight 45.1 t"
+    "n": "customs gross weight 45.1 t",
+    "usd": 1490428000
    },
    {
     "c": "BEL",
     "v": 18.9,
-    "n": "customs gross weight 35.0 t"
+    "n": "customs gross weight 35.0 t",
+    "usd": 1464171000
    },
    {
     "c": "CHL",
     "v": 18.4,
-    "n": "customs gross weight 187.2 t"
+    "n": "customs gross weight 187.2 t",
+    "usd": 1409822000
    },
    {
     "c": "SWE",
     "v": 17.7,
-    "n": "customs gross weight 19.7 t"
+    "n": "customs gross weight 19.7 t",
+    "usd": 1360961000
    },
    {
     "c": "SUR",
     "v": 17.3,
-    "n": "customs gross weight 19.2 t"
+    "n": "customs gross weight 19.2 t",
+    "usd": 1330051000
    },
    {
     "c": "MRT",
     "v": 15.9,
-    "n": "customs gross weight 23.0 t"
+    "n": "customs gross weight 23.0 t",
+    "usd": 1222111000
    },
    {
     "c": "FIN",
     "v": 15.7,
-    "n": "customs gross weight 16.2 t"
+    "n": "customs gross weight 16.2 t",
+    "usd": 1202301000
    },
    {
     "c": "ECU",
     "v": 15.1,
-    "n": "customs gross weight 19.6 t"
+    "n": "customs gross weight 19.6 t",
+    "usd": 1168175000
    },
    {
     "c": "BOL",
     "v": 15.0,
-    "n": "customs gross weight 16.3 t"
+    "n": "customs gross weight 16.3 t",
+    "usd": 1150818000
    },
    {
     "c": "IDN",
     "v": 14.9,
-    "n": "customs gross weight 15.1 t"
+    "n": "customs gross weight 15.1 t",
+    "usd": 1172221000
    },
    {
     "c": "MYS",
     "v": 14.3,
-    "n": "customs gross weight 16.9 t"
+    "n": "customs gross weight 16.9 t",
+    "usd": 1113928000
    },
    {
     "c": "GUY",
     "v": 14.2,
-    "n": "customs gross weight 16.2 t"
+    "n": "customs gross weight 16.2 t",
+    "usd": 1088034000
    },
    {
     "c": "LBR",
     "v": 13.4,
-    "n": "customs gross weight 14.0 t"
+    "n": "customs gross weight 14.0 t",
+    "usd": 1030515000
    },
    {
     "c": "TWN",
     "v": 12.1,
-    "n": "customs gross weight 14.8 t"
+    "n": "customs gross weight 14.8 t",
+    "usd": 935275000
    },
    {
     "c": "MNG",
     "v": 11.1,
-    "n": "customs gross weight 13.0 t"
+    "n": "customs gross weight 13.0 t",
+    "usd": 849172000
    },
    {
     "c": "SEN",
     "v": 10.7,
-    "n": "customs gross weight 14.0 t"
+    "n": "customs gross weight 14.0 t",
+    "usd": 820809000
    },
    {
     "c": "KHM",
     "v": 10.6,
-    "n": "customs gross weight 11.0 t"
+    "n": "customs gross weight 11.0 t",
+    "usd": 814290000
    },
    {
     "c": "NAM",
     "v": 10.4,
-    "n": "customs gross weight 11.0 t"
+    "n": "customs gross weight 11.0 t",
+    "usd": 797270000
    },
    {
     "c": "NLD",
     "v": 10.1,
-    "n": "customs gross weight 12.8 t"
+    "n": "customs gross weight 12.8 t",
+    "usd": 772940000
    },
    {
     "c": "LAO",
     "v": 9.45,
-    "n": "customs gross weight 31.1 t"
+    "n": "customs gross weight 31.1 t",
+    "usd": 725116000
    },
    {
     "c": "MLI",
     "v": 9.16,
-    "n": "customs gross weight 10.1 t"
+    "n": "customs gross weight 10.1 t",
+    "usd": 703031000
    },
    {
     "c": "NZL",
     "v": 7.85,
-    "n": "customs gross weight 11.6 t"
+    "n": "customs gross weight 11.6 t",
+    "usd": 602940000
    },
    {
     "c": "IND",
     "v": 6.37,
-    "n": "customs gross weight 6.71 t"
+    "n": "customs gross weight 6.71 t",
+    "usd": 489330000
    },
    {
     "c": "GIN",
     "v": 5.3,
-    "n": "customs gross weight 5.35 t"
+    "n": "customs gross weight 5.35 t",
+    "usd": 445333000
    },
    {
     "c": "MOZ",
     "v": 5.16,
-    "n": "customs gross weight 6.61 t"
+    "n": "customs gross weight 6.61 t",
+    "usd": 396424000
    },
    {
     "c": "TJK",
     "v": 4.44,
-    "n": "customs gross weight 5.00 t"
+    "n": "customs gross weight 5.00 t",
+    "usd": 340804000
    },
    {
     "c": "VEN",
     "v": 4.02,
-    "n": "customs gross weight 4.02 t"
+    "n": "customs gross weight 4.02 t",
+    "usd": 318781000
    },
    {
     "c": "ROU",
     "v": 3.76,
-    "n": "customs gross weight 6.28 t"
+    "n": "customs gross weight 6.28 t",
+    "usd": 288307000
    },
    {
     "c": "LBN",
     "v": 3.38,
-    "n": "customs gross weight 4.08 t"
+    "n": "customs gross weight 4.08 t",
+    "usd": 278528000
    },
    {
     "c": "PRT",
     "v": 3.13,
-    "n": "customs gross weight 12.3 t"
+    "n": "customs gross weight 12.3 t",
+    "usd": 240422000
    },
    {
     "c": "NGA",
     "v": 3.11,
-    "n": "customs gross weight 3.13 t"
+    "n": "customs gross weight 3.13 t",
+    "usd": 346529000
    },
    {
     "c": "LUX",
     "v": 3.07,
-    "n": "customs gross weight 3.89 t"
+    "n": "customs gross weight 3.89 t",
+    "usd": 235644000
    },
    {
     "c": "CMR",
     "v": 3.0,
-    "n": "customs gross weight 3.00 t"
+    "n": "customs gross weight 3.00 t",
+    "usd": 248181000
    },
    {
     "c": "EST",
     "v": 2.98,
-    "n": "customs gross weight 3.55 t"
+    "n": "customs gross weight 3.55 t",
+    "usd": 228915000
    },
    {
     "c": "AZE",
     "v": 2.86,
-    "n": "customs gross weight 6.00 t"
+    "n": "customs gross weight 6.00 t",
+    "usd": 219639000
    },
    {
     "c": "KWT",
     "v": 2.76,
-    "n": "customs gross weight 3.06 t"
+    "n": "customs gross weight 3.06 t",
+    "usd": 212075000
    },
    {
     "c": "GEO",
     "v": 2.73,
-    "n": "customs gross weight 5.22 t"
+    "n": "customs gross weight 5.22 t",
+    "usd": 209216000
    },
    {
     "c": "NOR",
     "v": 2.47,
-    "n": "customs gross weight 3.21 t"
+    "n": "customs gross weight 3.21 t",
+    "usd": 219894000
    },
    {
     "c": "HND",
     "v": 2.46,
-    "n": "customs gross weight 3.00 t"
+    "n": "customs gross weight 3.00 t",
+    "usd": 188705000
    },
    {
     "c": "POL",
     "v": 2.28,
-    "n": "customs gross weight 2.95 t"
+    "n": "customs gross weight 2.95 t",
+    "usd": 196948000
    },
    {
     "c": "BHR",
     "v": 2.02,
-    "n": "customs gross weight 2.02 t"
+    "n": "customs gross weight 2.02 t",
+    "usd": 160265000
    },
    {
     "c": "JOR",
     "v": 1.82,
-    "n": "customs gross weight 3.51 t"
+    "n": "customs gross weight 3.51 t",
+    "usd": 151594000
    },
    {
     "c": "PRY",
     "v": 1.73,
-    "n": "customs gross weight 2.19 t"
+    "n": "customs gross weight 2.19 t",
+    "usd": 132748000
    },
    {
     "c": "PAN",
     "v": 1.59,
-    "n": "customs gross weight 3.10 t"
+    "n": "customs gross weight 3.10 t",
+    "usd": 122010000
    },
    {
     "c": "BGR",
     "v": 1.22,
-    "n": "customs gross weight 2.71 t"
+    "n": "customs gross weight 2.71 t",
+    "usd": 93672000
    },
    {
     "c": "CZE",
     "v": 1.13,
-    "n": "customs gross weight 2.63 t"
+    "n": "customs gross weight 2.63 t",
+    "usd": 86955000
    },
    {
     "c": "HUN",
     "v": 1.09,
-    "n": "customs gross weight 1.57 t"
+    "n": "customs gross weight 1.57 t",
+    "usd": 83457000
    },
    {
     "c": "ZMB",
     "v": 1.09,
-    "n": "customs gross weight 1.10 t"
+    "n": "customs gross weight 1.10 t",
+    "usd": 111598000
    },
    {
     "c": "SLB",
     "v": 1.02,
-    "n": "customs gross weight 1.02 t"
+    "n": "customs gross weight 1.02 t",
+    "usd": 86401000
    },
    {
     "c": "FJI",
     "v": 0.997,
-    "n": "customs gross weight 1.02 t"
+    "n": "customs gross weight 1.02 t",
+    "usd": 76542000
    },
    {
     "c": "HRV",
     "v": 0.981,
-    "n": "customs gross weight 1.13 t"
+    "n": "customs gross weight 1.13 t",
+    "usd": 75323000
    },
    {
     "c": "OMN",
     "v": 0.827,
-    "n": "customs gross weight 1.02 t"
+    "n": "customs gross weight 1.02 t",
+    "usd": 63504000
    },
    {
     "c": "MLT",
     "v": 0.806,
-    "n": "customs gross weight 1.07 t"
+    "n": "customs gross weight 1.07 t",
+    "usd": 61871000
    },
    {
     "c": "DNK",
     "v": 0.654,
-    "n": "customs gross weight 0.75 t"
+    "n": "customs gross weight 0.75 t",
+    "usd": 50176000
    },
    {
     "c": "CRI",
     "v": 0.576,
-    "n": "customs gross weight 15.0 t"
+    "n": "customs gross weight 15.0 t",
+    "usd": 44226000
    },
    {
     "c": "SVN",
     "v": 0.53,
-    "n": "customs gross weight 0.61 t"
+    "n": "customs gross weight 0.61 t",
+    "usd": 40662000
    },
    {
     "c": "MAR",
     "v": 0.508,
-    "n": "customs gross weight 0.58 t"
+    "n": "customs gross weight 0.58 t",
+    "usd": 39026000
    },
    {
     "c": "SVK",
     "v": 0.454,
-    "n": "customs gross weight 1.46 t"
+    "n": "customs gross weight 1.46 t",
+    "usd": 34849000
    },
    {
     "c": "SRB",
     "v": 0.39,
-    "n": "customs gross weight 1.10 t"
+    "n": "customs gross weight 1.10 t",
+    "usd": 29971000
    },
    {
     "c": "VNM",
     "v": 0.343,
-    "n": "customs gross weight 0.39 t"
+    "n": "customs gross weight 0.39 t",
+    "usd": 26312000
    },
    {
     "c": "KEN",
     "v": 0.293,
-    "n": "customs gross weight 29.0 t"
+    "n": "customs gross weight 29.0 t",
+    "usd": 22495000
    },
    {
     "c": "SDN",
     "v": 0.281,
-    "n": "customs gross weight 0.32 t"
+    "n": "customs gross weight 0.32 t",
+    "usd": 21586000
    },
    {
     "c": "UKR",
     "v": 0.267,
-    "n": "customs gross weight 0.31 t"
+    "n": "customs gross weight 0.31 t",
+    "usd": 20515000
    },
    {
     "c": "CYP",
     "v": 0.203,
-    "n": "customs gross weight 0.23 t"
+    "n": "customs gross weight 0.23 t",
+    "usd": 15577000
    },
    {
     "c": "MAC",
     "v": 0.198,
-    "n": "customs gross weight 0.23 t"
+    "n": "customs gross weight 0.23 t",
+    "usd": 15227000
    },
    {
     "c": "LVA",
     "v": 0.193,
-    "n": "customs gross weight 0.22 t"
+    "n": "customs gross weight 0.22 t",
+    "usd": 14780000
    },
    {
     "c": "CUW",
     "v": 0.184,
-    "n": "customs gross weight 0.21 t"
+    "n": "customs gross weight 0.21 t",
+    "usd": 14158000
    },
    {
     "c": "ISR",
     "v": 0.183,
-    "n": "customs gross weight 0.21 t"
+    "n": "customs gross weight 0.21 t",
+    "usd": 14031000
    },
    {
     "c": "GRC",
     "v": 0.169,
-    "n": "customs gross weight 0.19 t"
+    "n": "customs gross weight 0.19 t",
+    "usd": 13009000
    },
    {
     "c": "IRL",
     "v": 0.158,
-    "n": "customs gross weight 0.18 t"
+    "n": "customs gross weight 0.18 t",
+    "usd": 12114000
    },
    {
     "c": "BEN",
     "v": 0.144,
-    "n": "customs gross weight 7.00 t"
+    "n": "customs gross weight 7.00 t",
+    "usd": 11080000
    },
    {
     "c": "NER",
     "v": 0.127,
-    "n": "customs gross weight 3.06 t"
+    "n": "customs gross weight 3.06 t",
+    "usd": 9742000
    },
    {
     "c": "AFG",
     "v": 0.111,
-    "n": "customs gross weight 0.13 t"
+    "n": "customs gross weight 0.13 t",
+    "usd": 8536000
    },
    {
     "c": "URY",
     "v": 0.0969,
-    "n": "customs gross weight 0.11 t"
+    "n": "customs gross weight 0.11 t",
+    "usd": 7435000
    },
    {
     "c": "IRQ",
     "v": 0.084,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 6451000
    },
    {
     "c": "CAF",
     "v": 0.0732,
-    "n": "customs gross weight 0.08 t"
+    "n": "customs gross weight 0.08 t",
+    "usd": 5619000
    },
    {
     "c": "LTU",
     "v": 0.0653,
-    "n": "customs gross weight 0.08 t"
+    "n": "customs gross weight 0.08 t",
+    "usd": 5015000
    },
    {
     "c": "LBY",
     "v": 0.061,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 4686000
    },
    {
     "c": "AGO",
     "v": 0.0447,
-    "n": "customs gross weight 0.05 t"
+    "n": "customs gross weight 0.05 t",
+    "usd": 3433000
    },
    {
     "c": "CUB",
     "v": 0.0274,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2106000
    },
    {
     "c": "SWZ",
     "v": 0.0264,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2030000
    },
    {
     "c": "BRN",
     "v": 0.0257,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 1972000
    },
    {
     "c": "BWA",
     "v": 0.0249,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 1909000
    },
    {
     "c": "MUS",
     "v": 0.0235,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 1802000
    },
    {
     "c": "ALB",
     "v": 0.0223,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 1709000
    },
    {
     "c": "QAT",
     "v": 0.0209,
-    "n": "customs gross weight 0.02 t"
+    "n": "customs gross weight 0.02 t",
+    "usd": 1604000
    },
    {
     "c": "MDA",
     "v": 0.0163,
-    "n": "customs gross weight 0.02 t"
+    "n": "customs gross weight 0.02 t",
+    "usd": 1248000
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent (Atlas estimate)",
-  "caveat": "This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure."
+  "caveat": "This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
+  "usd": 553876257000
  },
  "imports": {
   "y": 2024,
@@ -832,572 +962,686 @@
    {
     "c": "CHE",
     "v": 1410,
-    "n": "customs gross weight 2,262 t"
+    "n": "customs gross weight 2,262 t",
+    "usd": 108711750000
    },
    {
     "c": "CHN",
     "v": 918,
-    "n": "customs gross weight 937.9 t"
+    "n": "customs gross weight 937.9 t",
+    "usd": 73663119000
    },
    {
     "c": "HKG",
     "v": 833,
-    "n": "customs gross weight 898.4 t"
+    "n": "customs gross weight 898.4 t",
+    "usd": 65455038000
    },
    {
     "c": "IND",
     "v": 751,
-    "n": "customs gross weight 828.3 t"
+    "n": "customs gross weight 828.3 t",
+    "usd": 58147842000
    },
    {
     "c": "GBR",
     "v": 616,
-    "n": "customs gross weight 1,042 t"
+    "n": "customs gross weight 1,042 t",
+    "usd": 49058969000
    },
    {
     "c": "ARE",
     "v": 424,
-    "n": "customs gross weight 458.5 t"
+    "n": "customs gross weight 458.5 t",
+    "usd": 32640873000
    },
    {
     "c": "USA",
     "v": 257,
-    "n": "customs gross weight 403.8 t"
+    "n": "customs gross weight 403.8 t",
+    "usd": 19836890000
    },
    {
     "c": "SGP",
     "v": 222,
-    "n": "customs gross weight 274.3 t"
+    "n": "customs gross weight 274.3 t",
+    "usd": 17456982000
    },
    {
     "c": "TUR",
     "v": 211,
-    "n": "customs gross weight 226.0 t"
+    "n": "customs gross weight 226.0 t",
+    "usd": 16666192000
    },
    {
     "c": "THA",
     "v": 185,
-    "n": "customs gross weight 220.9 t"
+    "n": "customs gross weight 220.9 t",
+    "usd": 14434840000
    },
    {
     "c": "ITA",
     "v": 130,
-    "n": "customs gross weight 208.0 t"
+    "n": "customs gross weight 208.0 t",
+    "usd": 10074175000
    },
    {
     "c": "CAN",
     "v": 121,
-    "n": "customs gross weight 233.0 t"
+    "n": "customs gross weight 233.0 t",
+    "usd": 9341434000
    },
    {
     "c": "SAU",
     "v": 106,
-    "n": "customs gross weight 108.7 t"
+    "n": "customs gross weight 108.7 t",
+    "usd": 8099203000
    },
    {
     "c": "AUS",
     "v": 84.7,
-    "n": "customs gross weight 101.2 t"
+    "n": "customs gross weight 101.2 t",
+    "usd": 6512759000
    },
    {
     "c": "DEU",
     "v": 80.6,
-    "n": "customs gross weight 102.8 t"
+    "n": "customs gross weight 102.8 t",
+    "usd": 6196545000
    },
    {
     "c": "ARM",
     "v": 77.4,
-    "n": "customs gross weight 198.7 t"
+    "n": "customs gross weight 198.7 t",
+    "usd": 5943481000
    },
    {
     "c": "KHM",
     "v": 70.1,
-    "n": "customs gross weight 72.3 t"
+    "n": "customs gross weight 72.3 t",
+    "usd": 5380631000
    },
    {
     "c": "IDN",
     "v": 54.7,
-    "n": "customs gross weight 56.3 t"
+    "n": "customs gross weight 56.3 t",
+    "usd": 4436581000
    },
    {
     "c": "ZAF",
     "v": 52.0,
-    "n": "customs gross weight 91.6 t"
+    "n": "customs gross weight 91.6 t",
+    "usd": 4038063000
    },
    {
     "c": "MYS",
     "v": 51.1,
-    "n": "customs gross weight 87.5 t"
+    "n": "customs gross weight 87.5 t",
+    "usd": 3972878000
    },
    {
     "c": "FRA",
     "v": 50.9,
-    "n": "customs gross weight 84.2 t"
+    "n": "customs gross weight 84.2 t",
+    "usd": 3906715000
    },
    {
     "c": "AZE",
     "v": 48.0,
-    "n": "customs gross weight 82.1 t"
+    "n": "customs gross weight 82.1 t",
+    "usd": 3852288000
    },
    {
     "c": "UGA",
     "v": 42.2,
-    "n": "customs gross weight 85.0 t"
+    "n": "customs gross weight 85.0 t",
+    "usd": 3272753000
    },
    {
     "c": "LBN",
     "v": 33.7,
-    "n": "customs gross weight 35.2 t"
+    "n": "customs gross weight 35.2 t",
+    "usd": 2709526000
    },
    {
     "c": "TWN",
     "v": 32.9,
-    "n": "customs gross weight 33.6 t"
+    "n": "customs gross weight 33.6 t",
+    "usd": 2651815000
    },
    {
     "c": "KOR",
     "v": 29.6,
-    "n": "customs gross weight 33.2 t"
+    "n": "customs gross weight 33.2 t",
+    "usd": 2318572000
    },
    {
     "c": "AUT",
     "v": 20.9,
-    "n": "customs gross weight 21.7 t"
+    "n": "customs gross weight 21.7 t",
+    "usd": 1657515000
    },
    {
     "c": "VNM",
     "v": 17.5,
-    "n": "customs gross weight 23.1 t"
+    "n": "customs gross weight 23.1 t",
+    "usd": 1340385000
    },
    {
     "c": "KWT",
     "v": 13.8,
-    "n": "customs gross weight 14.1 t"
+    "n": "customs gross weight 14.1 t",
+    "usd": 1065745000
    },
    {
     "c": "BEL",
     "v": 12.4,
-    "n": "customs gross weight 23.8 t"
+    "n": "customs gross weight 23.8 t",
+    "usd": 950889000
    },
    {
     "c": "GEO",
     "v": 9.16,
-    "n": "customs gross weight 10.0 t"
+    "n": "customs gross weight 10.0 t",
+    "usd": 702867000
    },
    {
     "c": "ESP",
     "v": 7.9,
-    "n": "customs gross weight 25.7 t"
+    "n": "customs gross weight 25.7 t",
+    "usd": 606697000
    },
    {
     "c": "KAZ",
     "v": 7.0,
-    "n": "customs gross weight 7.00 t"
+    "n": "customs gross weight 7.00 t",
+    "usd": 541182000
    },
    {
     "c": "JPN",
     "v": 6.67,
-    "n": "customs gross weight 9.04 t"
+    "n": "customs gross weight 9.04 t",
+    "usd": 530574000
    },
    {
     "c": "QAT",
     "v": 6.21,
-    "n": "customs gross weight 6.84 t"
+    "n": "customs gross weight 6.84 t",
+    "usd": 573056000
    },
    {
     "c": "IRN",
     "v": 6.14,
-    "n": "customs gross weight 6.17 t"
+    "n": "customs gross weight 6.17 t",
+    "usd": 496710000
    },
    {
     "c": "NLD",
     "v": 5.33,
-    "n": "customs gross weight 5.73 t"
+    "n": "customs gross weight 5.73 t",
+    "usd": 411136000
    },
    {
     "c": "OMN",
     "v": 5.0,
-    "n": "customs gross weight 5.00 t"
+    "n": "customs gross weight 5.00 t",
+    "usd": 433206000
    },
    {
     "c": "JOR",
     "v": 4.78,
-    "n": "customs gross weight 5.00 t"
+    "n": "customs gross weight 5.00 t",
+    "usd": 406306000
    },
    {
     "c": "TJK",
     "v": 4.59,
-    "n": "customs gross weight 5.00 t"
+    "n": "customs gross weight 5.00 t",
+    "usd": 352502000
    },
    {
     "c": "BHR",
     "v": 3.5,
-    "n": "customs gross weight 4.05 t"
+    "n": "customs gross weight 4.05 t",
+    "usd": 275700000
    },
    {
     "c": "DOM",
     "v": 3.4,
-    "n": "customs gross weight 3.82 t"
+    "n": "customs gross weight 3.82 t",
+    "usd": 261289000
    },
    {
     "c": "POL",
     "v": 3.06,
-    "n": "customs gross weight 4.70 t"
+    "n": "customs gross weight 4.70 t",
+    "usd": 275969000
    },
    {
     "c": "BGR",
     "v": 2.8,
-    "n": "customs gross weight 3.34 t"
+    "n": "customs gross weight 3.34 t",
+    "usd": 214677000
    },
    {
     "c": "BGD",
     "v": 2.72,
-    "n": "customs gross weight 3.00 t"
+    "n": "customs gross weight 3.00 t",
+    "usd": 225731000
    },
    {
     "c": "CZE",
     "v": 2.5,
-    "n": "customs gross weight 2.61 t"
+    "n": "customs gross weight 2.61 t",
+    "usd": 192545000
    },
    {
     "c": "EST",
     "v": 2.47,
-    "n": "customs gross weight 2.53 t"
+    "n": "customs gross weight 2.53 t",
+    "usd": 202892000
    },
    {
     "c": "EGY",
     "v": 2.21,
-    "n": "customs gross weight 3.34 t"
+    "n": "customs gross weight 3.34 t",
+    "usd": 169763000
    },
    {
     "c": "HRV",
     "v": 2.09,
-    "n": "customs gross weight 2.54 t"
+    "n": "customs gross weight 2.54 t",
+    "usd": 184350000
    },
    {
     "c": "LAO",
     "v": 2.02,
-    "n": "customs gross weight 2.03 t"
+    "n": "customs gross weight 2.03 t",
+    "usd": 173497000
    },
    {
     "c": "RUS",
     "v": 2.02,
-    "n": "customs gross weight 2.02 t"
+    "n": "customs gross weight 2.02 t",
+    "usd": 179988000
    },
    {
     "c": "KGZ",
     "v": 2.0,
-    "n": "customs gross weight 2.00 t"
+    "n": "customs gross weight 2.00 t",
+    "usd": 161226000
    },
    {
     "c": "PHL",
     "v": 1.99,
-    "n": "customs gross weight 9.09 t"
+    "n": "customs gross weight 9.09 t",
+    "usd": 152717000
    },
    {
     "c": "BOL",
     "v": 1.86,
-    "n": "customs gross weight 2.00 t"
+    "n": "customs gross weight 2.00 t",
+    "usd": 143013000
    },
    {
     "c": "SVN",
     "v": 1.71,
-    "n": "customs gross weight 1.82 t"
+    "n": "customs gross weight 1.82 t",
+    "usd": 169489000
    },
    {
     "c": "SRB",
     "v": 1.68,
-    "n": "customs gross weight 2.37 t"
+    "n": "customs gross weight 2.37 t",
+    "usd": 128581000
    },
    {
     "c": "SVK",
     "v": 1.58,
-    "n": "customs gross weight 1.83 t"
+    "n": "customs gross weight 1.83 t",
+    "usd": 121166000
    },
    {
     "c": "ISR",
     "v": 1.54,
-    "n": "customs gross weight 1.62 t"
+    "n": "customs gross weight 1.62 t",
+    "usd": 129355000
    },
    {
     "c": "MEX",
     "v": 1.46,
-    "n": "customs gross weight 33.5 t"
+    "n": "customs gross weight 33.5 t",
+    "usd": 111875000
    },
    {
     "c": "HUN",
     "v": 1.3,
-    "n": "customs gross weight 2.42 t"
+    "n": "customs gross weight 2.42 t",
+    "usd": 99910000
    },
    {
     "c": "MAR",
     "v": 1.22,
-    "n": "customs gross weight 1.50 t"
+    "n": "customs gross weight 1.50 t",
+    "usd": 93793000
    },
    {
     "c": "IRQ",
     "v": 1.11,
-    "n": "customs gross weight 1.12 t"
+    "n": "customs gross weight 1.12 t",
+    "usd": 92394000
    },
    {
     "c": "BTN",
     "v": 1.0,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 83830000
    },
    {
     "c": "MNG",
     "v": 1.0,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 81950000
    },
    {
     "c": "PRT",
     "v": 0.932,
-    "n": "customs gross weight 1.38 t"
+    "n": "customs gross weight 1.38 t",
+    "usd": 71515000
    },
    {
     "c": "UZB",
     "v": 0.879,
-    "n": "customs gross weight 1.01 t"
+    "n": "customs gross weight 1.01 t",
+    "usd": 67489000
    },
    {
     "c": "ROU",
     "v": 0.854,
-    "n": "customs gross weight 1.46 t"
+    "n": "customs gross weight 1.46 t",
+    "usd": 65581000
    },
    {
     "c": "TUN",
     "v": 0.802,
-    "n": "customs gross weight 1.04 t"
+    "n": "customs gross weight 1.04 t",
+    "usd": 61537000
    },
    {
     "c": "MLT",
     "v": 0.785,
-    "n": "customs gross weight 1.03 t"
+    "n": "customs gross weight 1.03 t",
+    "usd": 60256000
    },
    {
     "c": "SWE",
     "v": 0.708,
-    "n": "customs gross weight 1.48 t"
+    "n": "customs gross weight 1.48 t",
+    "usd": 54323000
    },
    {
     "c": "PER",
     "v": 0.672,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 51598000
    },
    {
     "c": "MAC",
     "v": 0.644,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 49408000
    },
    {
     "c": "LUX",
     "v": 0.61,
-    "n": "customs gross weight 0.70 t"
+    "n": "customs gross weight 0.70 t",
+    "usd": 46834000
    },
    {
     "c": "GHA",
     "v": 0.499,
-    "n": "customs gross weight 0.57 t"
+    "n": "customs gross weight 0.57 t",
+    "usd": 38311000
    },
    {
     "c": "DNK",
     "v": 0.493,
-    "n": "customs gross weight 1.42 t"
+    "n": "customs gross weight 1.42 t",
+    "usd": 37830000
    },
    {
     "c": "MUS",
     "v": 0.481,
-    "n": "customs gross weight 0.55 t"
+    "n": "customs gross weight 0.55 t",
+    "usd": 36900000
    },
    {
     "c": "LVA",
     "v": 0.436,
-    "n": "customs gross weight 0.50 t"
+    "n": "customs gross weight 0.50 t",
+    "usd": 33447000
    },
    {
     "c": "IRL",
     "v": 0.379,
-    "n": "customs gross weight 8.16 t"
+    "n": "customs gross weight 8.16 t",
+    "usd": 29077000
    },
    {
     "c": "NZL",
     "v": 0.362,
-    "n": "customs gross weight 0.42 t"
+    "n": "customs gross weight 0.42 t",
+    "usd": 27770000
    },
    {
     "c": "GRC",
     "v": 0.359,
-    "n": "customs gross weight 0.41 t"
+    "n": "customs gross weight 0.41 t",
+    "usd": 27548000
    },
    {
     "c": "CYM",
     "v": 0.356,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 27338000
    },
    {
     "c": "PAK",
     "v": 0.338,
-    "n": "customs gross weight 0.39 t"
+    "n": "customs gross weight 0.39 t",
+    "usd": 25924000
    },
    {
     "c": "FIN",
     "v": 0.317,
-    "n": "customs gross weight 1.30 t"
+    "n": "customs gross weight 1.30 t",
+    "usd": 24347000
    },
    {
     "c": "LTU",
     "v": 0.224,
-    "n": "customs gross weight 0.26 t"
+    "n": "customs gross weight 0.26 t",
+    "usd": 17177000
    },
    {
     "c": "MOZ",
     "v": 0.199,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 15288000
    },
    {
     "c": "ALB",
     "v": 0.197,
-    "n": "customs gross weight 0.23 t"
+    "n": "customs gross weight 0.23 t",
+    "usd": 15108000
    },
    {
     "c": "CYP",
     "v": 0.176,
-    "n": "customs gross weight 0.20 t"
+    "n": "customs gross weight 0.20 t",
+    "usd": 13515000
    },
    {
     "c": "NPL",
     "v": 0.15,
-    "n": "customs gross weight 0.17 t"
+    "n": "customs gross weight 0.17 t",
+    "usd": 11550000
    },
    {
     "c": "BEN",
     "v": 0.145,
-    "n": "customs gross weight 6.00 t"
+    "n": "customs gross weight 6.00 t",
+    "usd": 11111000
    },
    {
     "c": "BRN",
     "v": 0.144,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 11076000
    },
    {
     "c": "AND",
     "v": 0.137,
-    "n": "customs gross weight 0.16 t"
+    "n": "customs gross weight 0.16 t",
+    "usd": 10547000
    },
    {
     "c": "MNE",
     "v": 0.136,
-    "n": "customs gross weight 0.16 t"
+    "n": "customs gross weight 0.16 t",
+    "usd": 10468000
    },
    {
     "c": "RWA",
     "v": 0.123,
-    "n": "customs gross weight 0.14 t"
+    "n": "customs gross weight 0.14 t",
+    "usd": 9479000
    },
    {
     "c": "SWZ",
     "v": 0.113,
-    "n": "customs gross weight 0.13 t"
+    "n": "customs gross weight 0.13 t",
+    "usd": 8669000
    },
    {
     "c": "TCA",
     "v": 0.107,
-    "n": "customs gross weight 0.12 t"
+    "n": "customs gross weight 0.12 t",
+    "usd": 8185000
    },
    {
     "c": "LKA",
     "v": 0.0897,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 6887000
    },
    {
     "c": "MKD",
     "v": 0.0873,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 6701000
    },
    {
     "c": "UKR",
     "v": 0.0859,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 6593000
    },
    {
     "c": "BRA",
     "v": 0.0814,
-    "n": "customs gross weight 0.09 t"
+    "n": "customs gross weight 0.09 t",
+    "usd": 6246000
    },
    {
     "c": "NGA",
     "v": 0.0739,
-    "n": "customs gross weight 0.08 t"
+    "n": "customs gross weight 0.08 t",
+    "usd": 5675000
    },
    {
     "c": "BRB",
     "v": 0.0668,
-    "n": "customs gross weight 0.08 t"
+    "n": "customs gross weight 0.08 t",
+    "usd": 5130000
    },
    {
     "c": "NER",
     "v": 0.0643,
-    "n": "customs gross weight 3.00 t"
+    "n": "customs gross weight 3.00 t",
+    "usd": 4939000
    },
    {
     "c": "NOR",
     "v": 0.0617,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 4735000
    },
    {
     "c": "TZA",
     "v": 0.0603,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 4630000
    },
    {
     "c": "CRI",
     "v": 0.0585,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 4491000
    },
    {
     "c": "DZA",
     "v": 0.0304,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2336000
    },
    {
     "c": "PAN",
     "v": 0.0286,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2194000
    },
    {
     "c": "TUV",
     "v": 0.0278,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2133000
    },
    {
     "c": "ZMB",
     "v": 0.0269,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 2068000
    },
    {
     "c": "GTM",
     "v": 0.0245,
-    "n": "customs gross weight 0.03 t"
+    "n": "customs gross weight 0.03 t",
+    "usd": 1878000
    },
    {
     "c": "ABW",
     "v": 0.0156,
-    "n": "customs gross weight 0.02 t"
+    "n": "customs gross weight 0.02 t",
+    "usd": 1195000
    },
    {
     "c": "SMR",
     "v": 0.0134,
-    "n": "customs gross weight 0.02 t"
+    "n": "customs gross weight 0.02 t",
+    "usd": 1030000
    },
    {
     "c": "SEN",
     "v": 0.0131,
-    "n": "customs gross weight 0.01 t"
+    "n": "customs gross weight 0.01 t",
+    "usd": 1002000
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent (Atlas estimate)",
-  "caveat": "Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure."
+  "caveat": "Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure.",
+  "usd": 553876257000
  },
  "flows": [
   {
@@ -1407,6 +1651,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 28993998000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 28.99 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 365.0 t; capped at the customs gross weight"
   },
@@ -1417,6 +1662,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 19350127000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 19.35 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 262.0 t"
   },
@@ -1427,6 +1673,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 15837750000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 15.84 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 209.0 t"
   },
@@ -1437,6 +1684,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 16107249000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 16.11 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 206.0 t; capped at the customs gross weight"
   },
@@ -1447,6 +1695,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 13978514000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 13.98 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 181.0 t; capped at the customs gross weight"
   },
@@ -1457,6 +1706,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 12429424000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 12.43 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 184.0 t"
   },
@@ -1467,6 +1717,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 12383206000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 12.38 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 156.0 t; capped at the customs gross weight"
   },
@@ -1477,6 +1728,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 10823455000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 10.82 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 137.0 t; capped at the customs gross weight"
   },
@@ -1487,6 +1739,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 9952979000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 9.95 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 119.0 t; capped at the customs gross weight"
   },
@@ -1497,6 +1750,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 9030211000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 9.03 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 124.0 t"
   },
@@ -1507,6 +1761,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 8482750000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 8.48 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 105.0 t; capped at the customs gross weight"
   },
@@ -1517,6 +1772,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 7048746000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 7.05 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 93.0 t"
   },
@@ -1527,6 +1783,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 6412297000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.41 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 83.0 t; capped at the customs gross weight"
   },
@@ -1537,6 +1794,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 6347093000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.35 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 83.0 t"
   },
@@ -1547,6 +1805,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 6272636000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.27 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 91.0 t"
   },
@@ -1557,6 +1816,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 6181710000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.18 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 90.0 t"
   },
@@ -1567,6 +1827,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 6135393000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.14 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 87.0 t"
   },
@@ -1577,6 +1838,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 5895894000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 5.90 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 198.0 t"
   },
@@ -1587,6 +1849,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 5559545000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 5.56 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 88.0 t"
   },
@@ -1597,16 +1860,65 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 5537510000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 5.54 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 78.0 t"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.1169
+   },
+   "top3": 0.2985,
+   "hhi": 469,
+   "eq": 21.3,
+   "k": 13,
+   "cov": 0.6923
+  },
+  "reserves": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.1982
+   },
+   "top3": 0.4573,
+   "hhi": 940,
+   "eq": 10.6,
+   "k": 13,
+   "cov": 0.8323
+  },
+  "exports": {
+   "top1": {
+    "c": "CHE",
+    "p": 0.1921
+   },
+   "top3": 0.3633,
+   "hhi": 686,
+   "eq": 14.6,
+   "k": 127,
+   "cov": 1.0003,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHE",
+    "p": 0.1992
+   },
+   "top3": 0.4465,
+   "hhi": 983,
+   "eq": 10.2,
+   "k": 113,
+   "cov": 1.0002,
+   "est": true
+  }
+ },
  "notes": [
   "Trade tables and flows are in fine-metal equivalent, an Atlas estimate: the declared value of each flow (CEPII BACI) divided by the year's average price of the metal (World Bank Pink Sheet), never above the customs gross weight. Customs gross weight counts dore, alloys and the base metal they contain, and some declared quantities are wrong; it is given in the note of each row and in brackets after the world exports figure.",
-  "The table lists the 13 countries USGS names; its 'Other countries' line (1,000 t, 30% of the total) covers every other producer."
+  "The table lists the 13 countries USGS names; its 'Other countries' line (1,000 t, 31% of the total) covers every other producer."
  ],
  "discrepancies": [
-  "World exports in fine-metal equivalent (Atlas estimate from customs values) 7,080 t (2024) are 2.1x USGS world mine production 3,300 t Au (2025): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade.",
-  "World mine production 2025: the USGS estimate is 3,300 t (rounded); the World Gold Council reports 3,671.6 t (Gold Demand Trends, full year 2025 (supply), https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply), so the USGS total is 10% lower. The World Gold Council describes its 2025 figure as subject to revision; its own tables are not copied."
+  "World exports in fine-metal equivalent (Atlas estimate from customs values) 7,080 t (2024) are 2.2x USGS world mine production 3,250 t Au (2025): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade.",
+  "World mine production 2025: the USGS estimate is 3,250 t (rounded); the World Gold Council reports 3,671.6 t (Gold Demand Trends, full year 2025 (supply), https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply), so the USGS total is 11% lower. The World Gold Council describes its 2025 figure as subject to revision; its own tables are not copied."
  ]
 }

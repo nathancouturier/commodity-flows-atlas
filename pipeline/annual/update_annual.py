@@ -12,8 +12,9 @@ Sources (each independent; one failure never stops the others; all recorded in d
   eia-intl   EIA bulk INTL.zip                              -> raw/eia/
   baci       CEPII BACI HS92. The newest BACI_HS92_V<yyyymm>.zip is looked up on the CEPII item/listing page
              and downloaded (2.4 GB, resumable) ONLY when newer than the version recorded in the status file;
-             it is then reduced with trade/extract_baci.py into pipeline/cache/baci_flows.csv.gz.
-  faostat-wna  pipeline/commodities/fetch_external.py (FAOSTAT cocoa, WNA uranium), at most every 80 days.
+             it is then reduced with trade/extract_baci.py into pipeline/cache/baci_flows.csv.gz, and with
+             trade/extract_hs4.py into the HS4 tables of the country profiles (pipeline/cache/hs4_*).
+  faostat-wna  pipeline/commodities/fetch_external.py (FAOSTAT cocoa and EU member-state crops, WNA uranium), at most every 80 days.
 Each download is validated (type, size, format, row count not collapsing) before it replaces the previous
 file; otherwise the previous good file is kept and the failure is recorded.
 
@@ -128,7 +129,8 @@ def ver_tuple(v):
 
 # the customs caches that a new BACI version replaces, and what src_baci keeps of the old ones until the freight step
 # has rebuilt the lanes from the new ones: {"snap": Snapshot of the caches, "entry": the stored status of "baci"}
-BACI_CACHES = [os.path.join(CACHE, "baci_flows.csv.gz"), os.path.join(CACHE, "baci_rice_forms.csv")]
+BACI_CACHES = [os.path.join(CACHE, "baci_flows.csv.gz"), os.path.join(CACHE, "baci_rice_forms.csv")] + [
+    os.path.join(CACHE, f) for f in ("hs4_exports.csv.gz", "hs4_imports.csv.gz", "hs4_totals.csv", "hs4_exports_desc.csv")]
 BACI_FIRST_YEAR = "2002"   # first year of the committed cache (METHODOLOGY.md, section 1)
 _baci_backup = {}
 
@@ -308,6 +310,12 @@ def src_baci(opts):
         run([PY, os.path.join(ROOT, "pipeline", "commodities", "extract_rice_forms.py"), zpath], STEP_MIN["rice-forms"] * 60)
     except RuntimeError as e:
         print("  rice forms extract failed, rice stays at customs weight:", e)
+    # exports, imports and totals by HS4 of the latest year (country profiles); a failure leaves the old tables, and
+    # build_profiles.py then leaves out the basket rather than mix two years
+    try:
+        run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_hs4.py"), zpath, CACHE], STEP_MIN["extract"] * 60)
+    except RuntimeError as e:
+        print("  HS4 extract failed, the country profiles keep the previous HS4 tables:", e)
     return {"changed": True, "records": int(len(new)), "data_to": str(int(new["year"].max())), "state": {"version": latest}}
 
 
@@ -320,7 +328,8 @@ def src_external(opts):
     last = prev.get("last_success")
     if last and (datetime.now(timezone.utc) - datetime.strptime(last, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).days < 80:
         return {"changed": False, "note": "checked recently", "skip": True}
-    files = [os.path.join(CACHE, "wna_uranium.json"), os.path.join(CACHE, "faostat_cocoa_production.csv"), os.path.join(CACHE, "faostat_fertilizer_production.csv")]
+    files = [os.path.join(CACHE, "wna_uranium.json"), os.path.join(CACHE, "faostat_cocoa_production.csv"), os.path.join(CACHE, "faostat_eu_crops.csv"),
+             os.path.join(CACHE, "faostat_fertilizer_production.csv")]
     before = [sha256(f) if os.path.exists(f) else None for f in files]
     snap = Snapshot(files)
     try:

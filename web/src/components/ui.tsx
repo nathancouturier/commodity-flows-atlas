@@ -8,6 +8,7 @@ import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
 import { GROUP_LABEL, loadChokepoints } from '../lib/freight';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
+import { downloadRanked } from '../lib/rankedCsv';
 import { openAbout } from './AboutHost';
 import { checkedLabel } from '../lib/events';
 import '../styles/lane-table.css';
@@ -57,7 +58,7 @@ export function SourceLine(props: { s?: string; y?: number | string; n?: string;
   if (!props.s) return null;
   const src = sources.value[props.s];
   return (
-    <div class="src-line">
+    <div class="src-line" data-src={props.s} data-y={props.y != null ? String(props.y) : undefined}>
       Source:{' '}
       {props.s === 'atlas' ? (
         <MethodLink label={sourceLabel('atlas')} />
@@ -113,8 +114,9 @@ export function SourcesLine(props: { items: { s: string; y?: number | string }[]
   }
   if (!by.size) return null;
   const list = [...by.entries()];
+  // data-srcs: the sources and years of the line, read by "Copy citation" (lib/cite.ts)
   return (
-    <div class="src-line">
+    <div class="src-line" data-srcs={JSON.stringify(list.map(([, e]) => [e.s, [...e.ys].sort()]))}>
       {list.length > 1 ? 'Sources: ' : 'Source: '}
       {list.map(([label, e], i) => {
         const src = sources.value[e.s];
@@ -579,7 +581,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const share = (p: string) => (
     <>
       <small>{p}</small>
-      <span class="sr-only"> of world</span>
+      <span class="sr-only"> of {data.scope === 'EU' ? 'the EU total' : 'world'}</span>
     </>
   );
   const tr = hist ? ' has-trend' : '';
@@ -632,7 +634,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           <button class={`bar-row bar-other bar-further${tr}`} onClick={() => setAll(true)} title={restTitle}>
             <span class="bar-rank" />
             <span>
-              <span class="bar-label">Rest of world</span>
+              <span class="bar-label">{data.scope === 'EU' ? 'Rest of the EU' : 'Rest of world'}</span>
               <span class="bar-names">
                 {further.length} more countr{further.length === 1 ? 'y' : 'ies'}
                 {notBy ? ' and amounts not given by country' : ''}
@@ -672,15 +674,20 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           </div>
         )}
       </div>
-      {beyond.length > 0 && (
-        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
-          {all ? 'Show fewer' : `Show all (${data.rows.length})`}
+      <div class="lt-foot" style={{ marginTop: '10px' }}>
+        {beyond.length > 0 && (
+          <button class="act-btn" onClick={() => setAll(!all)} aria-expanded={all}>
+            {all ? 'Show fewer' : `Show all (${data.rows.length})`}
+          </button>
+        )}
+        <button class="act-btn" onClick={(e) => downloadRanked(data, e.currentTarget)} title="Every row of this table with its year, source and licence, as a CSV file">
+          CSV
         </button>
-      )}
+      </div>
       <SourceLine
         s={data.s}
         y={data.y}
-        n={`${props.unitLabel ?? data.u}${world ? ` · world ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
+        n={`${props.unitLabel ?? data.u}${world ? ` · ${data.scope === 'EU' ? 'EU total' : 'world'} ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
         mark={kind === 'est' ? <EstMark /> : kind === 'conv' ? <EstMark label="Atlas conversion" title={CONV_TITLE} /> : undefined}
       />
       {/* a long note folds to three lines and opens on a tap, as the estimate notes do */}

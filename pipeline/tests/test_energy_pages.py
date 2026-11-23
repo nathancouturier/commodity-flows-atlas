@@ -193,8 +193,7 @@ class LngPageTests(unittest.TestCase):
         self.assertIn("plausible cause", c)
 
     def test_country_profiles_print_no_lng_rank(self):
-        profiles = load("countries/profiles.json")
-        rows = profiles if isinstance(profiles, list) else list(profiles.values())
+        rows = [load(f"countries/profiles/{c}.json") for c, v in load("countries/profiles.json").items() if "n" in v]
         seen = 0
         for p in rows:
             for sec in ("exports", "imports"):

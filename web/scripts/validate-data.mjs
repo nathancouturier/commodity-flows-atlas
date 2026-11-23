@@ -9,7 +9,11 @@
  *    ranges inside the series, real-price pairs, board statistics equal to the last observation, no orphan file,
  *  - the commodity tables list every country once, largest first, within the world total, and the series by year of
  *    data/commodities/history have one entry per year and end on the table of the page (3 MB budget for them all),
+ *  - every country of the index has a profile file (data/countries/profiles/<ISO3>.json), listed in the light index
+ *    profiles.json, with data or with the words for a territory that has none; shares, ranks, series by year, partners,
+ *    passages and the basket are within their bounds; a country file stays under 400 kB,
  *  - the lane and pairs files are consistent with each other and with the chokepoints (scripts/validate-freight.mjs),
+ *  - the port index of the search field is consistent with the pairs and lane files (scripts/validate-ports.mjs),
  *  - the infrastructure files follow their schema (scripts/validate-infra.mjs; every finding is an error, a file in the
  *    old shape gives warnings only with INFRA_OLD_SHAPE=1).
  * Exits non-zero on failure so a broken data commit never reaches the live site.
@@ -18,6 +22,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateFreight } from './validate-freight.mjs';
+import { validatePorts } from './validate-ports.mjs';
 import { validateInfra, summariseWarnings } from './validate-infra.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
@@ -326,11 +331,161 @@ function checkCommodityTables() {
   if (bytes > 3e6) errors.push(`commodities/history: ${(bytes / 1e6).toFixed(2)} MB, above the 3 MB budget`);
 }
 
+/** The monthly files of the energy pages (data/commodities/monthly, pipeline/commodities/monthly.py): each series has one value per month of its
+ * block, its latest month is the last figure, its lowest month is not above it, the change is the arithmetic of the two published figures, and
+ * the average of the baseline year equals the annual figure of the page's own table where there is one. */
+function checkCommodityMonthly() {
+  const dir = path.join(root, 'commodities', 'monthly');
+  if (!fs.existsSync(dir)) return;
+  const months = (a, b) => (Number(b.slice(0, 4)) - Number(a.slice(0, 4))) * 12 + Number(b.slice(5)) - Number(a.slice(5)) + 1;
+  const near = (a, b, tol) => Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-9);
+  for (const f of fs.readdirSync(dir)) {
+    if (!f.endsWith('.json')) continue;
+    let d;
+    try {
+      d = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'));
+    } catch {
+      continue; // reported by walk()
+    }
+    const id = f.slice(0, -5);
+    if (d.id !== id) errors.push(`commodities/monthly/${f}: id ${d.id}`);
+    let table = {};
+    try {
+      table = JSON.parse(fs.readFileSync(path.join(root, 'commodities', `${id}.json`), 'utf8'));
+    } catch {
+      errors.push(`commodities/monthly/${f}: no commodity file ${id}.json`);
+    }
+    const series = (where, block, r, from, to, sorted) => {
+      const w = `commodities/monthly/${f} ${where} ${r.c ?? r.o ?? r.name}`;
+      const n = months(from, to);
+      if (!Array.isArray(r.v) || r.v.length > n || r.v.length < 1) return errors.push(`${w}: ${r.v?.length} values for ${n} months`);
+      if (r.v.some((x) => x !== null && typeof x !== 'number')) errors.push(`${w}: a value that is not a number`);
+      const at = (m) => r.v.length - months(m, to); // index of month m in the last r.v.length months ending at `to`
+      for (const k of ['lo', 'la']) {
+        if (!r[k] || typeof r[k].v !== 'number' || !/^\d{4}-\d{2}$/.test(r[k].m)) {
+          errors.push(`${w}: ${k} is not a figure with its month`);
+          return;
+        }
+        const i = at(r[k].m);
+        if (i < 0 || i >= r.v.length || r.v[i] !== r[k].v) errors.push(`${w}: ${k} (${r[k].m}) is not the value of that month in the series`);
+      }
+      if (r.lo.v > r.la.v) errors.push(`${w}: the lowest month is above the latest`);
+      if (r.lo.m.slice(0, 4) !== r.la.m.slice(0, 4)) errors.push(`${w}: the lowest month is not of the year of the latest`);
+      const cur = r.v.filter((x, i) => x !== null && String(shiftYear(to, r.v.length, i)) === r.la.m.slice(0, 4));
+      if (cur.length && Math.min(...cur) !== r.lo.v) errors.push(`${w}: the lowest month is not the lowest of the year`);
+      if (r.b != null && r.p != null && Math.abs(r.p - (r.la.v / r.b - 1) * 100) > 0.06) errors.push(`${w}: the change is not latest over average`);
+      if (r.b != null && r.p == null && r.b !== 0) errors.push(`${w}: an average without its change`);
+    };
+    // year of the i-th value of a series of `len` values ending at month `to`
+    const shiftYear = (to, len, i) => {
+      const t = Number(to.slice(0, 4)) * 12 + Number(to.slice(5)) - 1 - (len - 1 - i);
+      return Math.floor(t / 12);
+    };
+    for (const k of ['production', 'consumption', 'ngl']) {
+      const b = d[k];
+      if (!b) continue;
+      let prev = Infinity;
+      for (const r of b.rows) {
+        series(k, b, r, b.from, b.to);
+        if (k !== 'consumption' && r.b > prev) errors.push(`commodities/monthly/${f} ${k}: rows not sorted by the baseline average`);
+        prev = r.b;
+      }
+      if (b.world) series(k, b, { ...b.world, name: 'world' }, b.from, b.to);
+      if (b.gulf) {
+        series(k, b, { ...b.gulf, name: 'gulf' }, b.from, b.to);
+        for (const c of b.gulf.members) if (!b.rows.some((r) => r.c === c)) errors.push(`commodities/monthly/${f} ${k}: Gulf member ${c} has no row`);
+      }
+      // the baseline average is EIA's own annual figure of the table of the page, to its rounding
+      const t = table[k];
+      if (t && t.y === b.baseYear && t.s === d.s && t.u === b.u)
+        for (const r of b.rows) {
+          const row = t.rows.find((x) => x.c === r.c);
+          if (row && !near(row.v, r.b, 2e-3)) errors.push(`commodities/monthly/${f} ${k} ${r.c}: the ${b.baseYear} average ${r.b} is not the annual figure ${row.v} of the table`);
+        }
+      if (t && t.y === b.baseYear && b.world && t.world && !near(t.world, b.world.b, 2e-3)) errors.push(`commodities/monthly/${f} ${k}: the ${b.baseYear} world average ${b.world.b} is not the annual world figure ${t.world}`);
+    }
+    for (const imp of d.imports?.importers ?? []) for (const r of imp.rows) series(`imports ${imp.id}`, imp, r, imp.from, imp.to);
+    if (d.stocks) {
+      for (const r of d.stocks.rows) {
+        series('stocks', d.stocks, r, d.stocks.from, d.stocks.to);
+        if (r.cover != null && (r.cons == null || !near(r.cover, (r.la.v * 1000) / r.cons, 2e-3))) errors.push(`commodities/monthly/${f} stocks ${r.c}: the days of cover are not stock over demand`);
+      }
+    }
+    if (!sources.has(d.s)) errors.push(`commodities/monthly/${f}: unknown source "${d.s}"`);
+    if (d.gaps !== undefined && (!Array.isArray(d.gaps) || d.gaps.some((x) => typeof x !== 'string' || !x))) errors.push(`commodities/monthly/${f}: gaps must be a list of sentences`);
+  }
+}
+
+/** The country profiles: one file per entry of the index (and the EU27 aggregate), and the light index that lists them. */
+function checkCountryProfiles() {
+  const dir = path.join(root, 'countries', 'profiles');
+  const index = JSON.parse(fs.readFileSync(path.join(root, 'countries', 'index.json'), 'utf8')).map((c) => c.c);
+  const light = JSON.parse(fs.readFileSync(path.join(root, 'countries', 'profiles.json'), 'utf8'));
+  if (Array.isArray(light) || 'exports' in (Object.values(light)[0] ?? {})) errors.push('countries/profiles.json: must be the light index {ISO3: {n, top10} | {none}}');
+  for (const c of index) if (!light[c]) errors.push(`countries/profiles.json: no entry for ${c}`);
+  const inUnit = (x) => typeof x === 'number' && x >= 0 && x <= 1.0001;
+  for (const [c, entry] of Object.entries(light)) {
+    const f = path.join(dir, `${c}.json`);
+    if (!fs.existsSync(f)) {
+      errors.push(`countries/profiles/${c}.json: missing`);
+      continue;
+    }
+    if (fs.statSync(f).size > 400_000) errors.push(`countries/profiles/${c}.json: ${fs.statSync(f).size} bytes, over 400 kB`);
+    const p = JSON.parse(fs.readFileSync(f, 'utf8'));
+    const where = `countries/profiles/${c}.json`;
+    if (p.c !== c) errors.push(`${where}: c is ${p.c}`);
+    if (entry.none) {
+      if (!p.none || p.none !== entry.none || Object.keys(p).length !== 2) errors.push(`${where}: a territory without data holds c and none only`);
+      continue;
+    }
+    const secs = ['exports', 'imports', 'production', 'consumption', 'reserves'];
+    let n = 0;
+    for (const sec of secs) {
+      for (const e of p[sec] ?? []) {
+        n++;
+        if (!(e.v > 0)) errors.push(`${where} ${sec} ${e.k}: value ${e.v}`);
+        if (e.share != null && !inUnit(e.share)) errors.push(`${where} ${sec} ${e.k}: share ${e.share}`);
+        if (e.rank != null && !(Number.isInteger(e.rank) && e.rank >= 1)) errors.push(`${where} ${sec} ${e.k}: rank ${e.rank}`);
+        if (e.hk) {
+          const ys = p.years?.[e.hk];
+          if (!ys) errors.push(`${where} ${sec} ${e.k}: series ${e.hk} has no years`);
+          else if (e.hv.length !== ys.y.length || (e.hr && e.hr.length !== ys.y.length) || ys.w.length !== ys.y.length) errors.push(`${where} ${sec} ${e.k}: series ${e.hk} is not one value per year`);
+          else if (e.hv[e.hv.length - 1] != null && Math.abs(e.hv[e.hv.length - 1] - e.v) > 1e-6 * Math.max(1, e.v) && String(ys.l?.[ys.y.length - 1] ?? ys.y[ys.y.length - 1]) === String(e.y))
+            errors.push(`${where} ${sec} ${e.k}: the last year of the series (${e.hv[e.hv.length - 1]}) is not the line (${e.v})`);
+        }
+      }
+    }
+    if (n !== entry.n) errors.push(`countries/profiles.json: ${c} lists ${entry.n} lines, the file ${n}`);
+    for (const b of p.balance ?? []) {
+      for (const side of ['customers', 'suppliers']) {
+        const x = b[side];
+        if (!x) continue;
+        const sum = x.rows.reduce((a, r) => a + r.share, 0);
+        if (sum > 1.0005 || x.rows.some((r) => !inUnit(r.share))) errors.push(`${where} ${b.k} ${side}: shares add up to ${sum}`);
+        if (!(x.hhi >= 0 && x.hhi <= 10000)) errors.push(`${where} ${b.k} ${side}: Herfindahl index ${x.hhi}`);
+      }
+      if (b.dep && !(b.dep.v > 0)) errors.push(`${where} ${b.k}: import dependence ${b.dep.v}`);
+    }
+    for (const side of ['exports', 'imports']) {
+      for (const x of [...(p.freight?.[side] ?? []), p.freight?.[`${side}Total`]].filter(Boolean)) {
+        for (const v of x.via ?? []) if (!(inUnit(v.low) && inUnit(v.high) && v.low <= v.high + 1e-9)) errors.push(`${where} freight ${side} ${x.g ?? 'total'} ${v.id}: at least ${v.low}, up to ${v.high}`);
+        for (const pt of x.ports ?? []) if (!inUnit(pt.share)) errors.push(`${where} freight ${side} ${x.g}: port ${pt.name} share ${pt.share}`);
+      }
+      const bk = p.basket?.[side];
+      if (bk && (bk.rows.length > 10 || bk.rows.some((r) => !inUnit(r.share)) || bk.rows.reduce((a, r) => a + r.share, 0) > 1.001)) errors.push(`${where} basket ${side}: shares out of bounds`);
+    }
+  }
+  for (const f of fs.readdirSync(dir)) if (!light[f.replace(/\.json$/, '')]) errors.push(`countries/profiles/${f}: not in profiles.json`);
+}
+
 walk(root);
+checkCountryProfiles();
 checkChokepoints();
 checkCommodityTables();
+checkCommodityMonthly();
 checkPrices();
 validateFreight(root, errors);
+validatePorts(root, errors);
 const infraWarnings = [];
 await validateInfra(root, errors, infraWarnings);
 if (infraWarnings.length) console.warn(summariseWarnings(infraWarnings));

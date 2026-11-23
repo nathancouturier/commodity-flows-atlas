@@ -237,8 +237,8 @@
   "url": "https://www.fao.org/faostat/en/data/QCL",
   "licence": "CC BY 4.0 (FAO statistical database terms of use also apply)",
   "update": "annual",
-  "access": "Bulk zip Production_Crops_Livestock_E_All_Data_(Normalized).zip, at most every 80 days (the API was unreachable)",
-  "use": "Cocoa production"
+  "access": "Bulk zip Production_Crops_Livestock_E_All_Data_(Normalized).zip, one download at most every 80 days; the cocoa rows and the EU member-state crop rows are kept in pipeline/cache (pipeline/commodities/fetch_external.py --only crops)",
+  "use": "Cocoa production; production of wheat, maize, rice, soya beans, rape or colza seed and sugar beet of the 27 member states of the European Union"
  },
  {
   "id": "wna",
@@ -449,10 +449,10 @@
   "name": "ICCO Quarterly Bulletin of Cocoa Statistics (news pages)",
   "publisher": "International Cocoa Organization",
   "url": "https://www.icco.org/statistics/",
-  "licence": "Copyright ICCO; only the world total of production is cited, with attribution, and none of its tables is copied (its country tables are sold by subscription)",
+  "licence": "Copyright ICCO; only the world totals of production and of grindings are cited, with attribution, and none of its tables is copied (its country tables are sold by subscription)",
   "update": "quarterly",
   "access": "Web pages, read by hand",
-  "use": "World cocoa production per crop year, beside the FAOSTAT table"
+  "use": "World cocoa production per crop year, beside the FAOSTAT table, and the world grindings of the latest crop year"
  },
  {
   "id": "igu-lng-report-2025",

@@ -29,7 +29,9 @@ RAW_PW = os.path.join(ROOT, "raw", "portwatch")
 YEAR = 2024
 TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
 # general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
-CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton"}
+CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton",
+         # package L1: the minor metals that sail as general cargo
+         "lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths"}
 
 
 def vtype(g):

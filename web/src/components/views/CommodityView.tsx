@@ -13,9 +13,13 @@ import LaneTable, { yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
+import { MetalFigures } from './MetalFigures';
 import '../../styles/history-year.css';
 import { PRICE_COVERAGE_NOTE, loadPriceFigures, lowerName, openPrices, priceFigures } from '../../lib/prices';
 import { PriceFigure } from '../PriceFigure';
+import { EnergyMonthly } from '../EnergyMonthly';
+import AgriBlocks from '../AgriBlocks';
+import { reportMonth } from '../CropBalance';
 
 /**
  * Opens the bottom price drawer on this commodity's series. `none` is true once the price catalogue is
@@ -67,7 +71,10 @@ function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; colo
       {/* notes on the series by year (a first year set by a rule, a change of membership or coverage, a country that split) */}
       {!!hist?.n?.length && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={`Series by year: ${hist.n.join(' ')}`} />}
       {data.s === 'usda-psd' && (
-        <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
+        <div class="muted small my-cap">
+          Marketing year {data.y}
+          {data.yk ? `, USDA's ${data.yk}${data.rel ? ` (report of ${reportMonth(data.rel)})` : ''}` : ''}: USDA PSD local marketing years, which start in different months by country.
+        </div>
       )}
     </>
   );
@@ -91,7 +98,8 @@ function TableSection(props: { id: string; title: string; data: Ranked; hist?: H
   // 2022", whose series runs to 2025) keeps its title, and the year shown goes next to it
   const dated = !!props.hist && String(props.data.y) === yearLabel(props.hist, props.hist.years.length - 1);
   const title = past && dated ? props.title.split(String(props.data.y)).join(String(table.y)) : props.title;
-  const aside = note ? <span class="year-tag">{note}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
+  // a USDA table says what its marketing year is in USDA's words: the forecast of the year in progress, or the estimate of the one before
+  const aside = note ? <span class="year-tag">{note}</span> : table.yk ? <span class="year-tag">{table.y} {table.yk}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
   return (
     <Section title={title} aside={aside}>
       <RankedBlock id={props.id} data={table} color={props.color} hist={props.hist} at={i} />
@@ -474,17 +482,20 @@ export default function CommodityView({ id }: { id: string }) {
               <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
             {d.refinery && <TableSection id={id} title="Refinery / smelter output" data={d.refinery} hist={ht('refinery')} loading={hist === undefined} color={color} />}
+            <EnergyMonthly id={id} />
             {d.exports && <TableSection id={id} title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} data={d.exports} hist={ht('exports')} loading={hist === undefined} color={color} />}
             {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
               <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
             {d.imports && <TableSection id={id} title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} data={d.imports} hist={ht('imports')} loading={hist === undefined} color={color} />}
             {hist && <LargestChanges hist={hist} data={d} color={color} />}
+            <MetalFigures id={id} d={d} hist={hist} color={color} />
             {d.extra?.filter((x) => !x.key.endsWith('exports') && !x.key.endsWith('production')).map((x) => (
               <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
             {d.reserves && <TableSection id={id} title={sectionTitle(d, 'reserves', 'Reserves')} data={d.reserves} hist={ht('reserves')} loading={hist === undefined} color={color} />}
             {d.consumption && <TableSection id={id} title={sectionTitle(d, 'consumption', 'Top consumers')} data={d.consumption} hist={ht('consumption')} loading={hist === undefined} color={color} />}
+            <AgriBlocks d={d} color={color} />
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
                 <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />

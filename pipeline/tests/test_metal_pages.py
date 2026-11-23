@@ -37,16 +37,21 @@ class FullTables(unittest.TestCase):
         self.assertIn("1,900", r["n"])
         self.assertIn("4.2%", r["n"])
 
-    def test_steel_without_full_keeps_the_usgs_total(self):
+    def test_steel_without_full_has_its_shares_on_the_sum_too(self):
+        # audit M-018: every USGS table with an "Other countries" line has its shares on the sum of its lines (full or not)
         r, _ = self.us.ranked("Iron And Steel", "Raw steel", "Mt", 1.0, "raw steel production")
-        self.assertEqual(r["world"], 1900)
+        self.assertEqual((r["world"], r["worldPublished"]), (1823, 1900))
         self.assertEqual(r["other"], 230)  # the USGS line is kept on every table (its own row on the page)
+
+    def test_zinc_shares_are_on_the_sum_of_the_lines(self):
+        r, _ = self.us.ranked("Zinc", "Mine production", "kt Zn", 1.0, "zinc mine production")
+        self.assertEqual((r["world"], r["worldPublished"]), (12540, 13000))  # +3.7% on the published total (audit M-018)
 
     def test_gold_lists_all_13_countries_and_other(self):
         r, _ = self.us.ranked("Gold", "Mine production", "t Au", 1.0, "gold mine production", full=True)
         self.assertEqual(len(r["rows"]), 13)
         self.assertEqual(r["other"], 1000)
-        self.assertEqual(r["world"], 3300)  # within 2% of the sum of the components: the USGS total stays
+        self.assertEqual((r["world"], r["worldPublished"]), (3250, 3300))  # the sum of the components; the USGS total is kept beside it
         self.assertIn("BRA", [x["c"] for x in r["rows"]])
 
     def test_alumina_refinery_lists_all_19_countries(self):
@@ -127,14 +132,20 @@ class HubNotes(unittest.TestCase):
         self.assertEqual([r.get("n") for r in docs["pgm"]["exports"]["rows"] if r["c"] == "ARE"], [None])
         self.assertEqual([r.get("n") for r in docs["manganese"]["imports"]["rows"] if r["c"] == "SGP"], [None])
 
-    def test_aluminium_flow_priced_under_half_the_metal_is_flagged(self):
+    def test_aluminium_flow_priced_far_below_the_others_is_flagged_by_check_k13(self):
+        # the flag moved from metal_row_notes to the checks and caveats registry (pipeline/trade/checks.py k13, caveats.py)
+        import clean as C
+        import caveats as V
+        df = pd.DataFrame([("aluminium", B.BACI_YEAR, "USA", "MYS", 535511, 553676), ("aluminium", B.BACI_YEAR, "CAN", "USA", 2744771, 7.75e6),
+                           ("aluminium", B.BACI_YEAR, "NLD", "DEU", 446506, 1.17e6)], columns=["group", "year", "o", "d", "t", "usd"])
+        df["imputed"] = False
+        e = V.unit_value_entries(df, B.BACI_YEAR)
+        self.assertEqual(list(e), ["uv-aluminium-USA-MYS"])
+        self.assertIn("1,034 USD per tonne", e["uv-aluminium-USA-MYS"]["text"])
+        self.assertIn("not established here", e["uv-aluminium-USA-MYS"]["text"])
         docs = self.docs()
         B.metal_row_notes(docs, self.baci())
-        usa_mys, can_usa = docs["aluminium"]["flows"]
-        self.assertIn("1,034 USD/t", usa_mys["n"])
-        self.assertIn("scrap", usa_mys["n"])
-        self.assertIn("not established here", usa_mys["n"])
-        self.assertNotIn("n", can_usa)
+        self.assertNotIn("n", docs["aluminium"]["flows"][0])  # no second, price-based note on the flow
 
 
 class BuiltFiles(unittest.TestCase):

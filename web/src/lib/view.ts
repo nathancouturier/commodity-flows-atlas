@@ -31,7 +31,8 @@ effect(() => {
  */
 export function unknownKind(s: Selection): string | null {
   if (s.kind === 'commodity' && commodities.value.length && !commodityMeta(s.id)) return 'commodity';
-  if (s.kind === 'country' && Object.keys(countries.value).length && !countries.value[s.id]) return 'country';
+  // EU27: the European Union aggregate of USDA PSD has a page (its member states link to it), not a map polygon
+  if (s.kind === 'country' && Object.keys(countries.value).length && !countries.value[s.id] && s.id !== 'EU27') return 'country';
   return null;
 }
 

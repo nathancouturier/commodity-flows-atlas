@@ -142,6 +142,8 @@ interface HashState {
   year: number | null;
   selection: Selection | null;
   finder: FinderState | null;
+  /** the price explorer, open as the link describes it; null = closed */
+  prices: PriceDrawerState | null;
 }
 
 /** Route finder part of a link, null when it is absent or unreadable (ids are checked later, against the data). */
@@ -149,6 +151,36 @@ function parseFinder(raw: string | null): FinderState | null {
   const m = raw?.match(/^([a-z0-9-]+):([od]):([A-Z]{3})?-([A-Z]{3})?(?::([a-z0-9-]+))?$/);
   if (!m || (!m[3] && !m[4])) return null;
   return { commodity: m[1], from: m[2] as 'o' | 'd', origin: m[3] ?? null, dest: m[4] ?? null, group: m[5] ?? null };
+}
+
+const SERIES_ID = /^[a-z0-9][a-z0-9:_-]*$/i;
+const ISO_DAY = /^(\d{4})-(\d{2})-(\d{2})$/;
+const toSec = (d: string): number => {
+  const m = ISO_DAY.exec(d);
+  return m ? Date.UTC(+m[1], +m[2] - 1, +m[3]) / 1000 : NaN;
+};
+const isoDay = (t: number): string => new Date(t * 1000).toISOString().slice(0, 10);
+
+/**
+ * Price explorer part of a link: `p=<series>[,<series>...]` (empty = the commodity's own series) opens it, with `pr=<from>_<to>`
+ * (the period shown, two dates), `pd=<date>` (the date looked up: 2008, 2008-Q3, 2008-03, 2008-03-14) and `pf=` (`i` index to 100,
+ * `r` real prices). Null when the link has no `p`. Series ids are checked against the price index by the drawer.
+ */
+function parsePrices(p: URLSearchParams): PriceDrawerState | null {
+  const raw = p.get('p');
+  if (raw === null) return null;
+  const series = raw.split(',').filter((id) => SERIES_ID.test(id)).slice(0, 3);
+  const r = /^(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})$/.exec(p.get('pr') ?? '');
+  const range: [number, number] | undefined = r && toSec(r[1]) < toSec(r[2]) ? [toSec(r[1]), toSec(r[2])] : undefined;
+  const date = p.get('pd');
+  const flags = p.get('pf') ?? '';
+  return {
+    series: series.length ? series : undefined,
+    date: date && /^\d{4}(-(Q[1-4]|\d{2}(-\d{2})?))?$/.test(date) ? date : undefined,
+    range,
+    index: flags.includes('i'),
+    real: flags.includes('r'),
+  };
 }
 
 function finderHash(): string | null {
@@ -191,6 +223,7 @@ function parseHash(hash: string): HashState {
     year: y && /^\d{4}$/.test(y) ? Number(y) : null,
     selection: sel,
     finder: parseFinder(p.get('rf')),
+    prices: parsePrices(p),
   };
 }
 
@@ -226,8 +259,13 @@ function applyHash(st: HashState) {
     rfOrigin.value = st.finder?.origin ?? null;
     rfDest.value = st.finder?.dest ?? null;
     rfGroup.value = st.finder?.group ?? null;
+    // the price explorer: a link with `p` opens it as described, one without closes it (as for the timeline)
+    if (st.prices) priceDrawer.value = { ...st.prices, nonce: --linkNonce };
+    else if (priceDrawer.peek()) priceDrawer.value = null;
   });
 }
+/** Nonces of the requests that come from an address count down, those of openPrices() count up: they never collide. */
+let linkNonce = 0;
 
 function currentHash(): string {
   const p = new URLSearchParams();
@@ -240,8 +278,17 @@ function currentHash(): string {
   if (s) p.set('sel', selKey(s));
   const rf = finderHash();
   if (rf) p.set('rf', rf);
-  // the question reads as written (`rf=coal:o:AUS-CHN`): its ids hold only letters, digits and hyphens
-  const h = p.toString().replace(/(^|&)rf=[^&]*/, (m) => m.replace(/%3A/gi, ':'));
+  if (priceDrawer.value) {
+    p.set('p', priceSeries.value.join(','));
+    const v = priceView.value;
+    if (v?.range) p.set('pr', `${isoDay(v.range[0])}_${isoDay(v.range[1])}`);
+    if (v?.date) p.set('pd', v.date);
+    const flags = (v?.index ? 'i' : '') + (v?.real ? 'r' : '');
+    if (flags) p.set('pf', flags);
+  }
+  // the question reads as written (`rf=coal:o:AUS-CHN`): its ids hold only letters, digits and hyphens; so do the series of `p`,
+  // apart from the colon of a spread (`spread:brent-wti-d`)
+  const h = p.toString().replace(/(^|&)(rf|p)=[^&]*/g, (m) => m.replace(/%3A/gi, ':').replace(/%2C/gi, ','));
   return h ? `#${h}` : '';
 }
 
@@ -305,10 +352,17 @@ export interface PriceDrawerState {
   commodity?: string | null;
   series?: string[];
   date?: string;
+  /** the period to show, seconds [from, to] (an address carries it) */
+  range?: [number, number];
+  /** index to 100 / real prices on or off (an address carries them; an open request that leaves them out keeps the drawer's own) */
+  index?: boolean;
+  real?: boolean;
   /** changes on every open request so the drawer re-applies identical requests */
   nonce?: number;
 }
 export const priceDrawer = signal<PriceDrawerState | null>(null);
+/** What the open drawer shows beyond its series (the drawer writes it, the address carries it): period, date looked up, flags. */
+export const priceView = signal<{ range: [number, number] | null; date: string | null; index: boolean; real: boolean } | null>(null);
 /** Selected price series ids (max 3), in display order. */
 export const priceSeries = signal<string[]>([]);
 /** History timeline open (drives `year` while open). */
@@ -327,6 +381,13 @@ export const historyOpen = signal(false);
   effect(() => {
     void [rfCommodity.value, rfFrom.value, rfOrigin.value, rfDest.value, rfGroup.value];
     if (first) first = false;
+    else writeHash();
+  });
+  // the price explorer is part of the address too: open or closed, its series, period, date and flags
+  let firstPrices = true;
+  effect(() => {
+    void [priceDrawer.value !== null, priceSeries.value, priceView.value];
+    if (firstPrices) firstPrices = false;
     else writeHash();
   });
 }

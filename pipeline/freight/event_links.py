@@ -26,13 +26,14 @@ EVENTS = os.path.join(HERE, "events.json")
 # word patterns of the commodities events can name; a pattern is matched case-insensitively unless it is an acronym
 _I, _C = re.I, 0
 COMMODITY_WORDS = {
-    "crude-oil": [(r"\bcrude\b", _I), (r"\bbrent\b", _I), (r"\bWTI\b", _C), (r"(?<!fuel )\boil\b(?!-fired|\s+products?\b)", _I)],
+    "crude-oil": [(r"\bcrude\b(?!\s+palm)", _I), (r"\bbrent\b", _I), (r"\bWTI\b", _C),
+                  (r"(?<!fuel )(?<!palm )(?<!cooking )(?<!sunflower )(?<!vegetable )\boil\b(?!-fired|\s+products?\b)", _I)],
     "refined-products": [(r"\b(?:oil|refined|petroleum)\s+products?\b", _I), (r"\bgasoline\b", _I), (r"\bdiesel\b", _I),
                          (r"\bfuel\s+oil\b", _I), (r"\bjet\s+fuel\b", _I), (r"\bmarine\s+fuel\b", _I), (r"\bbunker\s+fuel\b", _I),
                          (r"\bcrude(?:,|\s+and)\s+products\b", _I)],
     "lng": [(r"\bLNG\b", _C), (r"\bliquefied\s+natural\s+gas\b", _I)],
     "natural-gas": [(r"(?<!liquefied )\bnatural\s+gas\b", _I), (r"\bpipeline\s+gas\b", _I), (r"\bgas\s+pipelines?\b", _I),
-                    (r"\bgas\b(?!\s+turbine)", _I)],
+                    (r"(?<!liquefied natural )(?<!liquefied petroleum )(?<!exhaust )\bgas\b(?!\s+(?:turbine|cleaning|carriers?))", _I)],
     "lpg": [(r"\bLPG\b", _C)],
     "thermal-coal": [(r"(?<!coking )(?<!metallurgical )\bcoal\b", _I), (r"\b(?:thermal|steam)\s+and\s+\w+\s+coal\b", _I)],
     "met-coal": [(r"\bcoking\s+coal\b", _I), (r"\bmetallurgical\s+coal\b", _I)],
@@ -44,6 +45,16 @@ COMMODITY_WORDS = {
     "wheat": [(r"\bwheat\b", _I)],
     "corn": [(r"\bcorn\b", _I), (r"\bmaize\b", _I)],
     "soybeans": [(r"\bsoybeans?\b", _I)],
+    "cotton": [(r"\bcotton\b", _I)],
+    "rice": [(r"\brice\b", _I)],
+    "copper": [(r"\bcopper\b", _I)],
+    "aluminium": [(r"\balumin(?:i)?um\b", _I)],
+    "steel": [(r"\bsteel\b(?!\s+(?:producers?|mills?|makers?|industry))", _I)],
+    "gold": [(r"\bgold\b", _I)],
+    "silver": [(r"\bsilver\b", _I)],
+    "rare-earths": [(r"\brare\s+earths?\b", _I)],
+    "palm-oil": [(r"\bpalm\s+oil\b", _I)],
+    "potash": [(r"\bpotash\b", _I)],
 }
 
 # countries are named by the name of the atlas's country index or by one of these (a demonym, an abbreviation)
@@ -52,7 +63,7 @@ COUNTRY_ALIASES = {
     "IRN": ["Iranian"], "ISR": ["Israeli"], "SAU": ["Saudi"], "LBY": ["Libyan"], "IDN": ["Indonesian"], "PHL": ["Philippine"],
     "BRA": ["Brazilian"], "IND": ["Indian(?! Ocean)"], "TUR": ["Turkish"], "KAZ": ["Kazakh"], "EGY": ["Egyptian"], "YEM": ["Yemeni"],
     "DEU": ["German"], "AUS": ["Australian"], "SOM": ["Somali"], "KOR": ["Korean", "(?<!North )Korea"], "ROU": ["Romanian"], "BGR": ["Bulgarian"],
-    "QAT": ["Qatari"], "GBR": ["UK"], "ARE": ["UAE", "Emirati"], "MNG": ["Mongolian"],
+    "QAT": ["Qatari"], "GBR": ["UK"], "ARE": ["UAE", "Emirati"], "MNG": ["Mongolian"], "BLR": ["Belarusian"], "VEN": ["Venezuelan"],
 }
 # water bodies and the like that carry a country's name
 NOT_A_COUNTRY = [r"Gulf of Oman", r"Indian Ocean", r"Gulf of Aden", r"Korea Strait"]
@@ -61,6 +72,7 @@ NOT_A_COUNTRY = [r"Gulf of Oman", r"Indian Ocean", r"Gulf of Aden", r"Korea Stra
 ASSET_WORDS = {
     "fujairah": ["Fujairah"], "freeport-lng": ["Freeport LNG"], "odesa": ["Odesa"], "nord-stream-1": ["Nord Stream"],
     "east-west-petroline": ["East-West pipeline"], "simandou": ["Simandou"], "novorossiysk": ["Novorossiysk"], "cpc": ["CPC"],
+    "colonial": ["Colonial Pipeline"], "trans-mountain": ["Trans Mountain"], "belaruskali-soligorsk": ["Belaruskali"],
 }
 
 

@@ -2,25 +2,25 @@
  "id": "coffee",
  "summary": {
   "production": {
-   "v": 10.73,
+   "v": 11.38,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "consumption": {
-   "v": 10.408,
+   "v": 10.784,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "exports": {
-   "v": 8.757,
+   "v": 9.532,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "seaborne": {
    "v": 7.29,
@@ -31,70 +31,70 @@
   }
  },
  "production": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 10.73,
+  "world": 11.38,
   "rows": [
    {
     "c": "BRA",
-    "v": 3.78
+    "v": 4.314
    },
    {
     "c": "VNM",
-    "v": 1.902
+    "v": 1.95
    },
    {
     "c": "COL",
-    "v": 0.75
-   },
-   {
-    "c": "IDN",
-    "v": 0.7422
+    "v": 0.804
    },
    {
     "c": "ETH",
-    "v": 0.6936
+    "v": 0.726
+   },
+   {
+    "c": "IDN",
+    "v": 0.6828
    },
    {
     "c": "UGA",
-    "v": 0.4257
+    "v": 0.4296
    },
    {
     "c": "IND",
-    "v": 0.3858
+    "v": 0.3684
    },
    {
     "c": "HND",
-    "v": 0.3318
+    "v": 0.3618
    },
    {
     "c": "PER",
-    "v": 0.2858
+    "v": 0.2868
    },
    {
     "c": "MEX",
-    "v": 0.2448
+    "v": 0.2481
    },
    {
     "c": "GTM",
-    "v": 0.1893
+    "v": 0.1956
    },
    {
     "c": "NIC",
-    "v": 0.1536
+    "v": 0.1464
    },
    {
     "c": "CHN",
     "v": 0.114
    },
    {
-    "c": "MYS",
-    "v": 0.09
+    "c": "TZA",
+    "v": 0.096
    },
    {
-    "c": "TZA",
-    "v": 0.087
+    "c": "MYS",
+    "v": 0.09
    },
    {
     "c": "CIV",
@@ -102,15 +102,15 @@
    },
    {
     "c": "CRI",
-    "v": 0.0696
+    "v": 0.072
+   },
+   {
+    "c": "KEN",
+    "v": 0.057
    },
    {
     "c": "THA",
     "v": 0.054
-   },
-   {
-    "c": "KEN",
-    "v": 0.051
    },
    {
     "c": "PNG",
@@ -118,19 +118,19 @@
    },
    {
     "c": "SLV",
-    "v": 0.0352
+    "v": 0.0325
+   },
+   {
+    "c": "LAO",
+    "v": 0.03
    },
    {
     "c": "VEN",
     "v": 0.03
    },
    {
-    "c": "LAO",
-    "v": 0.0285
-   },
-   {
     "c": "PHL",
-    "v": 0.027
+    "v": 0.0285
    },
    {
     "c": "ECU",
@@ -146,7 +146,7 @@
    },
    {
     "c": "CMR",
-    "v": 0.0135
+    "v": 0.0129
    },
    {
     "c": "COD",
@@ -161,7 +161,15 @@
     "v": 0.0075
    },
    {
+    "c": "GIN",
+    "v": 0.0075
+   },
+   {
     "c": "CUB",
+    "v": 0.006
+   },
+   {
+    "c": "PAN",
     "v": 0.006
    },
    {
@@ -171,14 +179,6 @@
    {
     "c": "BOL",
     "v": 0.0048
-   },
-   {
-    "c": "PAN",
-    "v": 0.0048
-   },
-   {
-    "c": "GIN",
-    "v": 0.0045
    },
    {
     "c": "USA",
@@ -197,73 +197,75 @@
     "v": 0.0009
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)",
+  "rel": "2026-07",
+  "yk": "forecast"
  },
  "consumption": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 10.408,
+  "world": 10.784,
   "rows": [
    {
     "c": "EU27",
-    "v": 2.494
+    "v": 2.55
    },
    {
     "c": "USA",
-    "v": 1.533
+    "v": 1.617
    },
    {
     "c": "BRA",
-    "v": 1.337
+    "v": 1.343
    },
    {
     "c": "JPN",
-    "v": 0.3992
-   },
-   {
-    "c": "PHL",
-    "v": 0.3915
+    "v": 0.414
    },
    {
     "c": "CHN",
-    "v": 0.3852
+    "v": 0.405
+   },
+   {
+    "c": "PHL",
+    "v": 0.4035
    },
    {
     "c": "CAN",
-    "v": 0.303
-   },
-   {
-    "c": "VNM",
-    "v": 0.294
-   },
-   {
-    "c": "IDN",
-    "v": 0.2886
-   },
-   {
-    "c": "RUS",
-    "v": 0.2745
-   },
-   {
-    "c": "GBR",
-    "v": 0.2742
+    "v": 0.306
    },
    {
     "c": "ETH",
-    "v": 0.27
+    "v": 0.3
+   },
+   {
+    "c": "VNM",
+    "v": 0.3
+   },
+   {
+    "c": "GBR",
+    "v": 0.291
+   },
+   {
+    "c": "IDN",
+    "v": 0.2898
+   },
+   {
+    "c": "RUS",
+    "v": 0.288
    },
    {
     "c": "KOR",
-    "v": 0.192
+    "v": 0.204
    },
    {
     "c": "MEX",
-    "v": 0.1896
+    "v": 0.1944
    },
    {
     "c": "AUS",
-    "v": 0.1521
+    "v": 0.159
    },
    {
     "c": "COL",
@@ -275,79 +277,79 @@
    },
    {
     "c": "TUR",
-    "v": 0.105
+    "v": 0.1155
    },
    {
     "c": "IND",
-    "v": 0.0945
+    "v": 0.0948
    },
    {
     "c": "SAU",
-    "v": 0.081
+    "v": 0.087
    },
    {
     "c": "CHE",
-    "v": 0.072
+    "v": 0.078
    },
    {
     "c": "EGY",
-    "v": 0.0705
+    "v": 0.0765
    },
    {
     "c": "UKR",
-    "v": 0.0666
+    "v": 0.069
    },
    {
     "c": "THA",
-    "v": 0.0555
+    "v": 0.0675
    },
    {
     "c": "MAR",
-    "v": 0.0546
+    "v": 0.057
    },
    {
     "c": "GTM",
-    "v": 0.0525
+    "v": 0.054
    },
    {
     "c": "ARG",
-    "v": 0.0489
+    "v": 0.0519
    },
    {
     "c": "TWN",
-    "v": 0.0486
-   },
-   {
-    "c": "NOR",
-    "v": 0.0477
+    "v": 0.0516
    },
    {
     "c": "JOR",
-    "v": 0.0462
+    "v": 0.0495
+   },
+   {
+    "c": "NOR",
+    "v": 0.0492
    },
    {
     "c": "IRN",
-    "v": 0.042
-   },
-   {
-    "c": "ZAF",
-    "v": 0.0411
+    "v": 0.0465
    },
    {
     "c": "SRB",
-    "v": 0.0408
+    "v": 0.0435
    },
    {
-    "c": "KAZ",
-    "v": 0.0336
-   },
-   {
-    "c": "NZL",
-    "v": 0.0309
+    "c": "ZAF",
+    "v": 0.0435
    },
    {
     "c": "MYS",
-    "v": 0.03
+    "v": 0.036
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0345
+   },
+   {
+    "c": "NZL",
+    "v": 0.0324
    },
    {
     "c": "VEN",
@@ -355,47 +357,47 @@
    },
    {
     "c": "HND",
-    "v": 0.0228
+    "v": 0.0249
    },
    {
     "c": "ECU",
-    "v": 0.0218
+    "v": 0.0225
    },
    {
     "c": "SLV",
-    "v": 0.0199
+    "v": 0.0203
    },
    {
     "c": "UGA",
-    "v": 0.0198
+    "v": 0.0201
    },
    {
     "c": "CRI",
     "v": 0.0192
    },
    {
+    "c": "PER",
+    "v": 0.0183
+   },
+   {
     "c": "BIH",
     "v": 0.018
    },
    {
-    "c": "PER",
-    "v": 0.018
-   },
-   {
     "c": "CHL",
-    "v": 0.0138
+    "v": 0.015
    },
    {
     "c": "ARM",
-    "v": 0.0132
+    "v": 0.0138
    },
    {
     "c": "MDG",
-    "v": 0.0126
+    "v": 0.012
    },
    {
     "c": "PAN",
-    "v": 0.0102
+    "v": 0.012
    },
    {
     "c": "NIC",
@@ -403,10 +405,14 @@
    },
    {
     "c": "ALB",
-    "v": 0.0066
+    "v": 0.0075
    },
    {
     "c": "DOM",
+    "v": 0.0069
+   },
+   {
+    "c": "SGP",
     "v": 0.0066
    },
    {
@@ -414,7 +420,11 @@
     "v": 0.006
    },
    {
-    "c": "SGP",
+    "c": "LAO",
+    "v": 0.006
+   },
+   {
+    "c": "SEN",
     "v": 0.006
    },
    {
@@ -422,28 +432,20 @@
     "v": 0.0054
    },
    {
-    "c": "LAO",
-    "v": 0.0053
+    "c": "GEO",
+    "v": 0.0054
    },
    {
     "c": "TZA",
-    "v": 0.0051
-   },
-   {
-    "c": "GEO",
-    "v": 0.0048
+    "v": 0.0054
    },
    {
     "c": "MKD",
-    "v": 0.0045
-   },
-   {
-    "c": "SEN",
-    "v": 0.0045
+    "v": 0.0048
    },
    {
     "c": "KOS",
-    "v": 0.0042
+    "v": 0.0045
    },
    {
     "c": "CMR",
@@ -462,16 +464,16 @@
     "v": 0.003
    },
    {
+    "c": "URY",
+    "v": 0.003
+   },
+   {
     "c": "BOL",
     "v": 0.0027
    },
    {
     "c": "MNE",
-    "v": 0.0024
-   },
-   {
-    "c": "URY",
-    "v": 0.0021
+    "v": 0.0027
    },
    {
     "c": "GIN",
@@ -483,7 +485,7 @@
    },
    {
     "c": "AGO",
-    "v": 0.0007
+    "v": 0.0006
    },
    {
     "c": "SLE",
@@ -491,80 +493,83 @@
    },
    {
     "c": "JAM",
-    "v": 0.0002
+    "v": 0.0003
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)",
+  "rel": "2026-07",
+  "yk": "forecast"
  },
  "exports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 8.757,
+  "world": 9.532,
   "rows": [
    {
     "c": "BRA",
-    "v": 2.272
+    "v": 2.944
    },
    {
     "c": "VNM",
-    "v": 1.71
+    "v": 1.737
    },
    {
     "c": "COL",
-    "v": 0.7686
+    "v": 0.804
    },
    {
     "c": "IDN",
-    "v": 0.5305
+    "v": 0.483
    },
    {
     "c": "ETH",
-    "v": 0.4179
+    "v": 0.4278
    },
    {
     "c": "UGA",
-    "v": 0.402
+    "v": 0.4098
    },
    {
     "c": "IND",
-    "v": 0.3616
+    "v": 0.3731
    },
    {
     "c": "EU27",
-    "v": 0.336
+    "v": 0.342,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 0.44 Mt of exports, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "HND",
-    "v": 0.3018
+    "v": 0.3302
    },
    {
     "c": "PER",
-    "v": 0.2728
+    "v": 0.2732
    },
    {
     "c": "MEX",
-    "v": 0.207
+    "v": 0.2046
    },
    {
     "c": "GTM",
-    "v": 0.1788
+    "v": 0.192
    },
    {
     "c": "MYS",
     "v": 0.15
    },
    {
-    "c": "NIC",
-    "v": 0.1452
+    "c": "CHE",
+    "v": 0.144
    },
    {
-    "c": "CHE",
-    "v": 0.138
+    "c": "NIC",
+    "v": 0.135
    },
    {
     "c": "TZA",
-    "v": 0.0822
+    "v": 0.0846
    },
    {
     "c": "CIV",
@@ -572,35 +577,35 @@
    },
    {
     "c": "CHN",
-    "v": 0.0738
+    "v": 0.072
    },
    {
     "c": "CRI",
-    "v": 0.0612
+    "v": 0.0636
    },
    {
     "c": "KEN",
-    "v": 0.0504
+    "v": 0.0564
    },
    {
     "c": "PNG",
     "v": 0.045
    },
    {
-    "c": "SLV",
-    "v": 0.0321
+    "c": "THA",
+    "v": 0.036
    },
    {
-    "c": "THA",
-    "v": 0.03
+    "c": "SLV",
+    "v": 0.0326
    },
    {
     "c": "ECU",
-    "v": 0.0265
+    "v": 0.0258
    },
    {
     "c": "LAO",
-    "v": 0.0232
+    "v": 0.024
    },
    {
     "c": "RWA",
@@ -608,15 +613,19 @@
    },
    {
     "c": "CMR",
-    "v": 0.0096
+    "v": 0.009
    },
    {
     "c": "BDI",
     "v": 0.0075
    },
    {
+    "c": "GIN",
+    "v": 0.006
+   },
+   {
     "c": "MDG",
-    "v": 0.0054
+    "v": 0.006
    },
    {
     "c": "TGO",
@@ -627,16 +636,12 @@
     "v": 0.0036
    },
    {
-    "c": "GIN",
-    "v": 0.003
+    "c": "AGO",
+    "v": 0.0021
    },
    {
     "c": "BOL",
     "v": 0.0021
-   },
-   {
-    "c": "AGO",
-    "v": 0.002
    },
    {
     "c": "PAN",
@@ -647,161 +652,172 @@
     "v": 0.0012
    },
    {
+    "c": "CUB",
+    "v": 0.0006
+   },
+   {
     "c": "DOM",
-    "v": 0.0009
+    "v": 0.0006
    },
    {
     "c": "JAM",
-    "v": 0.0007
-   },
-   {
-    "c": "CUB",
     "v": 0.0006
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t); Customs data (CEPII BACI 2024), the 27 member states together: 0.44 Mt of exports, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-07",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 0.4403,
+   "intra": 0.3474,
+   "extra": 0.0929
+  }
  },
  "imports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 8.576,
+  "world": 9.051,
   "rows": [
    {
     "c": "EU27",
-    "v": 2.79
+    "v": 3.0,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.44 Mt of imports, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "USA",
-    "v": 1.53
+    "v": 1.614
    },
    {
     "c": "JPN",
-    "v": 0.3951
+    "v": 0.42
    },
    {
     "c": "PHL",
-    "v": 0.3645
+    "v": 0.375
    },
    {
     "c": "CHN",
-    "v": 0.345
+    "v": 0.363
    },
    {
     "c": "CAN",
-    "v": 0.303
-   },
-   {
-    "c": "RUS",
-    "v": 0.2745
+    "v": 0.306
    },
    {
     "c": "GBR",
-    "v": 0.2742
+    "v": 0.291
+   },
+   {
+    "c": "RUS",
+    "v": 0.288
    },
    {
     "c": "CHE",
-    "v": 0.21
+    "v": 0.222
    },
    {
     "c": "KOR",
-    "v": 0.192
+    "v": 0.204
    },
    {
     "c": "AUS",
-    "v": 0.1521
+    "v": 0.159
    },
    {
     "c": "MEX",
-    "v": 0.1518
-   },
-   {
-    "c": "COL",
-    "v": 0.1472
+    "v": 0.15
    },
    {
     "c": "DZA",
     "v": 0.123
    },
    {
+    "c": "COL",
+    "v": 0.1202
+   },
+   {
     "c": "TUR",
-    "v": 0.105
+    "v": 0.1155
    },
    {
     "c": "MYS",
-    "v": 0.09
-   },
-   {
-    "c": "IDN",
-    "v": 0.0847
+    "v": 0.096
    },
    {
     "c": "SAU",
-    "v": 0.081
+    "v": 0.087
+   },
+   {
+    "c": "IDN",
+    "v": 0.0852
    },
    {
     "c": "IND",
-    "v": 0.08
-   },
-   {
-    "c": "VNM",
-    "v": 0.078
+    "v": 0.0834
    },
    {
     "c": "EGY",
-    "v": 0.0705
+    "v": 0.0765
+   },
+   {
+    "c": "VNM",
+    "v": 0.075
    },
    {
     "c": "UKR",
-    "v": 0.0666
+    "v": 0.069
    },
    {
     "c": "MAR",
-    "v": 0.0546
+    "v": 0.057
    },
    {
     "c": "ARG",
-    "v": 0.0489
+    "v": 0.0519
    },
    {
     "c": "TWN",
-    "v": 0.0486
-   },
-   {
-    "c": "NOR",
-    "v": 0.0477
-   },
-   {
-    "c": "JOR",
-    "v": 0.0462
+    "v": 0.0516
    },
    {
     "c": "GTM",
-    "v": 0.0423
+    "v": 0.0507
    },
    {
-    "c": "IRN",
-    "v": 0.042
-   },
-   {
-    "c": "ZAF",
-    "v": 0.0411
-   },
-   {
-    "c": "SRB",
-    "v": 0.0408
-   },
-   {
-    "c": "KAZ",
-    "v": 0.0336
+    "c": "JOR",
+    "v": 0.0495
    },
    {
     "c": "THA",
-    "v": 0.0315
+    "v": 0.0495
+   },
+   {
+    "c": "NOR",
+    "v": 0.0492
+   },
+   {
+    "c": "IRN",
+    "v": 0.0465
+   },
+   {
+    "c": "SRB",
+    "v": 0.0435
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0435
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0345
    },
    {
     "c": "NZL",
-    "v": 0.0309
+    "v": 0.0324
    },
    {
     "c": "ECU",
@@ -813,34 +829,38 @@
    },
    {
     "c": "SLV",
-    "v": 0.0162
+    "v": 0.0163
    },
    {
     "c": "CHL",
-    "v": 0.0138
+    "v": 0.015
    },
    {
     "c": "ARM",
-    "v": 0.0132
+    "v": 0.0138
    },
    {
     "c": "HND",
-    "v": 0.0082
-   },
-   {
-    "c": "CRI",
-    "v": 0.0072
+    "v": 0.0096
    },
    {
     "c": "PAN",
-    "v": 0.0072
+    "v": 0.0078
    },
    {
     "c": "ALB",
-    "v": 0.0066
+    "v": 0.0075
+   },
+   {
+    "c": "CRI",
+    "v": 0.0069
    },
    {
     "c": "SGP",
+    "v": 0.0066
+   },
+   {
+    "c": "SEN",
     "v": 0.006
    },
    {
@@ -849,10 +869,14 @@
    },
    {
     "c": "GEO",
-    "v": 0.0048
+    "v": 0.0054
    },
    {
     "c": "PER",
+    "v": 0.005
+   },
+   {
+    "c": "MKD",
     "v": 0.0048
    },
    {
@@ -860,45 +884,319 @@
     "v": 0.0045
    },
    {
-    "c": "MKD",
-    "v": 0.0045
-   },
-   {
-    "c": "SEN",
-    "v": 0.0045
-   },
-   {
     "c": "KOS",
-    "v": 0.0042
-   },
-   {
-    "c": "MNE",
-    "v": 0.0024
+    "v": 0.0045
    },
    {
     "c": "URY",
-    "v": 0.0021
+    "v": 0.003
+   },
+   {
+    "c": "MNE",
+    "v": 0.0027
    },
    {
     "c": "TZA",
     "v": 0.0004
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t); Customs data (CEPII BACI 2024), the 27 member states together: 3.44 Mt of imports, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-07",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 3.437,
+   "intra": 0.3474,
+   "extra": 3.089
+  }
  },
  "extra": [
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 0.4403,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 0.232,
+      "n": "of which 0.164 Mt to other member states and 0.0676 Mt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.0987,
+      "n": "of which 0.0965 Mt to other member states and 0.00219 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.0305,
+      "n": "of which 0.019 Mt to other member states and 0.0115 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0219,
+      "n": "of which 0.0187 Mt to other member states and 0.00326 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.0127,
+      "n": "of which 0.0127 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0114,
+      "n": "of which 0.0105 Mt to other member states and 0.000885 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0102,
+      "n": "of which 0.00888 Mt to other member states and 0.00128 Mt to countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.0061,
+      "n": "of which 0.00611 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0058,
+      "n": "of which 0.000159 Mt to other member states and 0.00562 Mt to countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0033,
+      "n": "of which 0.0033 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.0024,
+      "n": "of which 0.00173 Mt to other member states and 0.000629 Mt to countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0017,
+      "n": "of which 0.00171 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0011,
+      "n": "of which 0.00113 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.001,
+      "n": "of which 0.00105 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0007,
+      "n": "of which 0.000741 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0004,
+      "n": "of which 0.000447 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0002,
+      "n": "of which 0.000154 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0001,
+      "n": "of which 7.3e-05 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0001,
+      "n": "of which 6.8e-05 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0001,
+      "n": "of which 5.9e-05 Mt to other member states and 0 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.44 Mt, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (7.69 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 7.692,
+    "split": {
+     "total": 0.4403,
+     "intra": 0.3474,
+     "extra": 0.0929
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 3.437,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 1.063,
+      "n": "of which 0.0314 Mt from other member states and 1.03 Mt from countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.6515,
+      "n": "of which 0.0215 Mt from other member states and 0.63 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.4453,
+      "n": "of which 0.0148 Mt from other member states and 0.43 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.3356,
+      "n": "of which 0.058 Mt from other member states and 0.278 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.2073,
+      "n": "of which 0.0376 Mt from other member states and 0.17 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.1946,
+      "n": "of which 0.0529 Mt from other member states and 0.142 Mt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.127,
+      "n": "of which 0.0571 Mt from other member states and 0.0699 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0941,
+      "n": "of which 0.0105 Mt from other member states and 0.0836 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.056,
+      "n": "of which 0.00383 Mt from other member states and 0.0521 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0494,
+      "n": "of which 0.0003 Mt from other member states and 0.0491 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0481,
+      "n": "of which 0.00416 Mt from other member states and 0.044 Mt from countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.027,
+      "n": "of which 0.00147 Mt from other member states and 0.0256 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0226,
+      "n": "of which 0.00088 Mt from other member states and 0.0217 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.0167,
+      "n": "of which 0.0057 Mt from other member states and 0.011 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0162,
+      "n": "of which 0.00239 Mt from other member states and 0.0138 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0146,
+      "n": "of which 0.0102 Mt from other member states and 0.00444 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0141,
+      "n": "of which 0.00415 Mt from other member states and 0.00999 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0133,
+      "n": "of which 0.0114 Mt from other member states and 0.00195 Mt from countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0093,
+      "n": "of which 0.00932 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.009,
+      "n": "of which 0 Mt from other member states and 0.00898 Mt from countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0063,
+      "n": "of which 0.000506 Mt from other member states and 0.00577 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.0049,
+      "n": "of which 0.00488 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0032,
+      "n": "of which 0.00178 Mt from other member states and 0.00142 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0032,
+      "n": "of which 0.0018 Mt from other member states and 0.00139 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0032,
+      "n": "of which 0.000667 Mt from other member states and 0.00251 Mt from countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.0013,
+      "n": "of which 0.000154 Mt from other member states and 0.00112 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.44 Mt, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (7.69 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 7.692,
+    "split": {
+     "total": 3.437,
+     "intra": 0.3474,
+     "extra": 3.089
+    }
+   }
+  },
   {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
-    "y": "2025/26",
+    "y": "2026/27",
     "s": "usda-psd",
     "u": "Mt",
-    "world": 1.462,
+    "world": 1.577,
     "rows": [
      {
       "c": "EU27",
-      "v": 0.45
+      "v": 0.558
      },
      {
       "c": "USA",
@@ -906,31 +1204,27 @@
      },
      {
       "c": "BRA",
-      "v": 0.2337
+      "v": 0.2655
      },
      {
       "c": "JPN",
-      "v": 0.132
-     },
-     {
-      "c": "COL",
-      "v": 0.052
-     },
-     {
-      "c": "IDN",
-      "v": 0.0451
-     },
-     {
-      "c": "VNM",
-      "v": 0.0413
-     },
-     {
-      "c": "IND",
-      "v": 0.0291
+      "v": 0.138
      },
      {
       "c": "HND",
-      "v": 0.0261
+      "v": 0.0424
+     },
+     {
+      "c": "IDN",
+      "v": 0.0403
+     },
+     {
+      "c": "COL",
+      "v": 0.0402
+     },
+     {
+      "c": "VNM",
+      "v": 0.0293
      },
      {
       "c": "CHN",
@@ -938,65 +1232,215 @@
      },
      {
       "c": "UGA",
-      "v": 0.02
+      "v": 0.0197
      },
      {
       "c": "PHL",
       "v": 0.018
      },
      {
-      "c": "ETH",
-      "v": 0.0105
-     },
-     {
-      "c": "SLV",
-      "v": 0.0088
-     },
-     {
-      "c": "CRI",
-      "v": 0.008
-     },
-     {
-      "c": "KEN",
-      "v": 0.0058
-     },
-     {
-      "c": "ECU",
-      "v": 0.0036
-     },
-     {
-      "c": "NIC",
-      "v": 0.0033
+      "c": "IND",
+      "v": 0.013
      },
      {
       "c": "TZA",
-      "v": 0.0031
+      "v": 0.0094
+     },
+     {
+      "c": "ETH",
+      "v": 0.0087
+     },
+     {
+      "c": "KEN",
+      "v": 0.0072
+     },
+     {
+      "c": "NIC",
+      "v": 0.0051
+     },
+     {
+      "c": "SLV",
+      "v": 0.0047
+     },
+     {
+      "c": "CRI",
+      "v": 0.0041
      },
      {
       "c": "PNG",
       "v": 0.0021
      },
      {
-      "c": "PER",
-      "v": 0.0013
+      "c": "ECU",
+      "v": 0.0018
      },
      {
-      "c": "MEX",
-      "v": 0.0012
+      "c": "PER",
+      "v": 0.0016
      },
      {
       "c": "GTM",
-      "v": 0.0007
+      "v": 0.001
      },
      {
       "c": "CMR",
       "v": 0.0006
+     },
+     {
+      "c": "MEX",
+      "v": 0.0003
      }
     ],
-    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
+    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2026/27, forecast (USDA report of July 2026); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)",
+    "rel": "2026-07",
+    "yk": "forecast"
    }
   }
  ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-07"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-07"
+   }
+  ],
+  "rows": [
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     10.73,
+     11.38
+    ]
+   },
+   {
+    "k": "part-Arabica Production",
+    "label": "Arabica",
+    "u": "Mt",
+    "v": [
+     5.666,
+     6.352
+    ],
+    "sub": true
+   },
+   {
+    "k": "part-Robusta Production",
+    "label": "Robusta",
+    "u": "Mt",
+    "v": [
+     5.063,
+     5.028
+    ],
+    "sub": true
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     1.321,
+     1.462
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     10.408,
+     10.784
+    ]
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     8.757,
+     9.532
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     1.462,
+     1.577
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     14.0,
+     14.6
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     0.024,
+     0.024
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     1.438,
+     1.553
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     6.2,
+     5.9
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     14.3,
+     15.0
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Coffee, Green: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+ },
  "flows": [
   {
    "o": "BRA",
@@ -1005,6 +1449,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1901417000,
+   "uv": 4160,
    "mode": "sea",
    "lane": "coffee:BRA-DEU"
   },
@@ -1015,6 +1461,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1949719000,
+   "uv": 4300,
    "mode": "sea",
    "lane": "coffee:BRA-USA"
   },
@@ -1025,6 +1473,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1352423000,
+   "uv": 5240,
    "mode": "sea",
    "lane": "coffee:COL-USA"
   },
@@ -1035,6 +1485,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 913631000,
+   "uv": 3870,
    "mode": "sea",
    "lane": "coffee:BRA-ITA"
   },
@@ -1045,6 +1497,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 627909000,
+   "uv": 2930,
    "mode": "sea",
    "lane": "coffee:BRA-BEL"
   },
@@ -1055,6 +1509,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 638644000,
+   "uv": 3450,
    "mode": "sea",
    "lane": "coffee:VNM-DEU"
   },
@@ -1065,6 +1521,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 527103000,
+   "uv": 3940,
    "mode": "sea",
    "lane": "coffee:BRA-JPN"
   },
@@ -1075,6 +1533,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 475954000,
+   "uv": 3580,
    "mode": "sea",
    "lane": "coffee:VNM-ITA"
   },
@@ -1085,6 +1545,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 439552000,
+   "uv": 3970,
    "mode": "sea",
    "lane": "coffee:VNM-ESP"
   },
@@ -1095,6 +1557,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 354998000,
+   "uv": 3650,
    "mode": "sea",
    "lane": "coffee:VNM-JPN"
   },
@@ -1105,6 +1569,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 355861000,
+   "uv": 3710,
    "mode": "sea",
    "lane": "coffee:VNM-USA"
   },
@@ -1115,6 +1581,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 386334000,
+   "uv": 4030,
    "mode": "sea",
    "lane": "coffee:BRA-ESP"
   },
@@ -1125,6 +1593,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 429498000,
+   "uv": 4650,
    "mode": "sea",
    "lane": "coffee:HND-USA"
   },
@@ -1135,6 +1605,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 344273000,
+   "uv": 3750,
    "mode": "sea",
    "transit": {
     "port": "KEMBA",
@@ -1151,6 +1623,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 414092000,
+   "uv": 5230,
    "mode": "sea",
    "lane": "coffee:GTM-USA"
   },
@@ -1161,6 +1635,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 311410000,
+   "uv": 3980,
    "mode": "sea",
    "lane": "coffee:BRA-TUR"
   },
@@ -1171,6 +1647,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 280219000,
+   "uv": 3770,
    "mode": "sea",
    "lane": "coffee:BRA-NLD"
   },
@@ -1181,6 +1659,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 262361000,
+   "uv": 3810,
    "mode": "sea",
    "lane": "coffee:BRA-MEX"
   },
@@ -1191,6 +1671,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 336138000,
+   "uv": 5100,
    "mode": "sea",
    "lane": "coffee:PER-USA"
   },
@@ -1201,12 +1683,83 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 260478000,
+   "uv": 4170,
    "mode": "sea",
    "lane": "coffee:IND-ITA"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.3791
+   },
+   "top3": 0.6211,
+   "hhi": 1912,
+   "eq": 5.2,
+   "k": 40,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.3089
+   },
+   "top3": 0.5754,
+   "hhi": 1489,
+   "eq": 6.7,
+   "k": 39,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.3315
+   },
+   "top3": 0.5562,
+   "hhi": 1535,
+   "eq": 6.5,
+   "k": 54,
+   "cov": 1.0
+  },
+  "eu-exports": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.5269
+   },
+   "top3": 0.8203,
+   "hhi": 3377,
+   "eq": 3.0,
+   "k": 20,
+   "cov": 1.0002
+  },
+  "eu-imports": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.3093
+   },
+   "top3": 0.6284,
+   "hhi": 1678,
+   "eq": 6.0,
+   "k": 26,
+   "cov": 0.9999
+  },
+  "stocks": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.3538
+   },
+   "top3": 0.7391,
+   "hhi": 2113,
+   "eq": 4.7,
+   "k": 24,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
-  "PSD coffee exports/imports include roasted and soluble coffee in green-bean equivalent; BACI flows are green beans only (HS 0901.11/12)."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "PSD coffee exports/imports include roasted and soluble coffee in green-bean equivalent; BACI flows are green beans only (HS 0901.11/12).",
+  "Trade of roasted coffee (HS 090121, 090122) and of coffee extracts and soluble coffee (HS 210110) is not among the customs groups of the atlas, so no table of processed coffee is shown yet."
  ]
 }

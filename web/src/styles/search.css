@@ -1,0 +1,263 @@
+/* The search field of the top bar (Search.tsx): a field left of the tool buttons, a button in them on a phone. */
+
+.search {
+  order: 1;
+  position: relative;
+  flex: none;
+}
+/* the field stands left of the tool buttons at every width */
+.topbar .tool-btns {
+  order: 2;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 244px;
+  height: 38px;
+  padding: 0 10px;
+  color: var(--ink-2);
+  transition: width var(--t-med) var(--ease), border-color var(--t-fast);
+}
+.search-box:focus-within {
+  border-color: rgba(62, 230, 255, 0.45);
+  color: var(--ink-1);
+}
+.search-box > svg {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.search-box input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ink-0);
+  font: inherit;
+  font-size: var(--fs-sm);
+  outline: none;
+}
+.search-box input::placeholder {
+  color: var(--ink-2);
+}
+/* the box carries the focus ring: the field inside it shows no second one */
+.search-box:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.sr-key {
+  flex: none;
+  min-width: 18px;
+  padding: 1px 5px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: 5px;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--ink-2);
+}
+.sr-chip {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 45%;
+  padding: 2px 6px 2px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sr-cancel {
+  flex: none;
+  padding: 6px 4px 6px 8px;
+  color: var(--accent);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* ---- results */
+
+.sr-pop {
+  display: none;
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  right: 0;
+  width: min(430px, calc(100vw - 16px));
+  max-height: min(72vh, 580px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 4px 0 6px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-md);
+  background: var(--panel-solid);
+  box-shadow: var(--shadow);
+}
+.sr-pop.on {
+  display: block;
+}
+.sr-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 9px 14px 3px;
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.sr-opt {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  padding: 5px 14px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+}
+.sr-opt[aria-selected='true'] {
+  background: rgba(62, 230, 255, 0.1);
+  border-left-color: var(--accent);
+}
+.sr-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+}
+.sr-label {
+  color: var(--ink-0);
+  font-size: var(--fs-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sr-sub {
+  color: var(--ink-2);
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sr-badge {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink-1);
+  font-size: 11px;
+}
+.sr-kind .sr-label {
+  font-size: var(--fs-md);
+}
+.sr-more .sr-label {
+  color: var(--accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+.sr-msg,
+.sr-note {
+  padding: 8px 14px;
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--ink-2);
+}
+.sr-note {
+  border-top: 1px solid var(--hairline);
+  margin-top: 4px;
+}
+
+/* ---- the tool-group button of a phone: hidden where the field is */
+.tool-btn.search-tool {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .search-box {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .search-box {
+    height: var(--top-h);
+  }
+  .search-box:focus-within {
+    width: 330px;
+  }
+}
+
+/* ---- a phone: a button in the tool group, the field over the top of the screen */
+@media (max-width: 640px) {
+  .tool-btn.search-tool {
+    display: flex;
+  }
+  /* the fourth button takes room from the brand, which gives up its natural width so that the bar stays on one row;
+     the name is a little tighter and may take two lines on the narrowest phones */
+  .topbar .brand {
+    flex: 1 1 0;
+  }
+  .topbar .brand-name {
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+  }
+  .search {
+    display: none;
+  }
+  .search.over {
+    display: block;
+    position: fixed;
+    z-index: 60;
+    inset: 0;
+  }
+  .search-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 4, 8, 0.6);
+  }
+  .search.over .search-box {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    height: 46px;
+    background: var(--panel-solid);
+    border-color: rgba(62, 230, 255, 0.45);
+  }
+  .search.over .search-box input {
+    font-size: 16px; /* a larger field is not zoomed by the phone's browser */
+  }
+  .search.over .sr-pop {
+    position: absolute;
+    top: 60px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    max-height: calc(100dvh - 72px);
+  }
+  .sr-opt {
+    min-height: 48px;
+  }
+  .sr-label {
+    font-size: var(--fs-md);
+  }
+}
+
+@media (pointer: coarse) {
+  .sr-opt {
+    min-height: 48px;
+  }
+}

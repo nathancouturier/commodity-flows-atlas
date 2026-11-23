@@ -215,13 +215,20 @@ seaborne totals, the lane shares and the chokepoint shares.
    products and LPG, and grain between Spain and France both ways. 309.8 Mt in 2024 on 52 pairs:
    Russia → China 236.2 Mt, the United States → Mexico 57.1 Mt, Mexico → the United States 10.9 Mt,
    France → Spain 2.7 Mt, China → Russia 2.6 Mt, Spain → France 0.2 Mt; by group, crude oil 108.5 Mt,
-   coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt.
+   coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt. Package L1 added
+   Belarus → China for fertilisers: Belarusian potash for China leaves both through Russian seaports
+   and by rail (OSW, November 2024: Belaruskali redirected its shipments to Russian ports and
+   negotiated deliveries to China by land; Kommersant, reported by Reform.news in March 2026: 9% of
+   the potash Belarus exported through Russia in 2025 went by rail to China and the CIS countries). No
+   page gives the split of the trade with China, so the 2.9 Mt of 2024 are a mixed pair, drawn dashed
+   from St Petersburg, the transit port of the Belarusian row. With the minor metals, the mixed pairs
+   hold 313.1 Mt on 64 pairs in 2024.
 5. **Land neighbours** (a mainland border, see below): land, unless the pair is in `SEA_NEIGHBOURS`
    for the cargo family. A landlocked end with a land border is land.
 6. **Sea outlets** (`SEA_OUTLET`): a landlocked exporter whose group is listed leaves by sea through
    a foreign port, to a coastal buyer or to a landlocked one outside its overland blocs: Kazakh crude
    (CPC pipeline to Novorossiysk; 63.0 Mt in 2024), Azerbaijani crude (BTC pipeline to Ceyhan;
-   23.3 Mt), Belarusian potash (3.6 Mt), Paraguayan soy and corn (Paraná–Paraguay waterway; 2.6 Mt)
+   23.3 Mt), Belarusian potash (0.7 Mt; the 2.9 Mt for China are mixed, rule 4), Paraguayan soy and corn (Paraná–Paraguay waterway; 2.6 Mt)
    and Zambian copper (TAZARA railway to Dar es Salaam; 1.1 Mt).
 7. **Two landlocked ends**: land.
 8. **One landlocked end**: sea via a transit port when the two countries share no overland bloc
@@ -232,10 +239,12 @@ seaborne totals, the lane shares and the chokepoint shares.
 alumina, manganese, copper, nickel and zinc ores, spodumene concentrate); grain (wheat, corn,
 soybeans, soybean meal, rice, sugar, rapeseed); vegetable oils (soybean and palm oil); fertilisers
 (potash, phosphate rock, DAP, urea); metals (steel, refined copper, aluminium, nickel intermediates,
-ferro-nickel, and the groups that have no lanes: uranium, lithium chemicals, cobalt, rare earths,
-tin, lead and zinc metal); softs (coffee, cocoa, cotton). Gold, silver and platinum-group metals
-get no mode ("mode not modelled"): much of it may fly, but no source was read, so no mode is
-claimed. Flows of the groups without lanes are listed with their mode, not drawn as sea routes.
+ferro-nickel, lead concentrate, unwrought lead, zinc and tin, tin concentrate, cobalt, lithium
+carbonate and hydroxide, rare earths, and uranium, which has no lanes); softs (coffee, cocoa,
+cotton). Gold, silver and platinum-group metals get no mode ("mode not modelled"): much of it may
+fly, but no source was read, so no mode is claimed. Their flows are listed in the tables, and the
+map says that the atlas draws sea and overland lanes only. Uranium flows are listed with their
+mode, not drawn as sea routes.
 
 **The lists** are Atlas assumptions. Each entry carries its reason and, where a page was read, its
 URL, returned with the mode; an entry without a URL is an unsourced assumption. 2024 tonnage:
@@ -268,9 +277,10 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (34 lane groups, 23,853 pairs, 9,140.4 Mt): sea 7,742.7 Mt (17,489 pairs), sea via a
-transit port 170.3 Mt (2,061 pairs), sea and overland 309.8 Mt (52 pairs), land 917.6 Mt (4,251
-pairs). Seaborne: 7,913.0 Mt.
+**2024 by mode** (42 lane groups, 25,849 pairs, 9,154.1 Mt): sea 7,752.5 Mt (18,994 pairs), sea via a
+transit port 167.9 Mt (2,181 pairs), sea and overland 313.1 Mt (64 pairs), land 920.6 Mt (4,610
+pairs). Seaborne: 7,920.4 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
+minor metals were added; Belarusian potash to China, 2.9 Mt, moved from transit to sea and overland.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
 (`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo family
@@ -280,11 +290,22 @@ Novorossiysk, a port in Russia), Azerbaijan (crude: Ceyhan, BTC pipeline), Chad 
 South Sudan (crude: Port Sudan), Czechia (other cargo: Hamburg), Switzerland (Rotterdam), Uganda and
 Rwanda (Mombasa), Zambia, Malawi, Burundi and DR Congo (Dar es Salaam), Zimbabwe (Beira), Ethiopia
 (Djibouti), Burkina Faso and Mali (Abidjan), Niger (Cotonou), Nepal and Bhutan (Kolkata), and
-Bosnia and Herzegovina, whose short coast has no port of its own (Ploče). Each row cites a
-Wikipedia article. A transit pair is routed from or to that port and the site writes "sea via"
-the port. A seaborne pair whose landlocked end has no sourced row (Belarusian potash, Paraguayan
-grain, Central Asian dry bulk among them: 47.7 Mt in 2024) stays in the seaborne totals but is not
-routed and has no lane.
+Bosnia and Herzegovina, whose short coast has no port of its own (Ploče). Each of these rows cites a
+Wikipedia article. Seven more countries have rows since package L1 (pages read on 23 November
+2026): Belarus (fertilisers: St Petersburg, for the Bronka and St Petersburg terminals, from an OSW
+commentary of November 2024 and a Reform.news report of Kommersant's 2025 figures), Kazakhstan (dry
+bulk: Ust-Luga, from a Kpler note of February 2025 on Kazakh coal for the EU and Morocco), Paraguay
+(grain and vegetable oil: the Up-River Paraná hub of Rosario, from a Bolsa de Comercio de Rosario
+note of April 2017 on the grain coming down the waterway in transit in 2016), Austria and Hungary
+(other cargo: Koper, Port of Koper article), Serbia (other cargo: Constanța, Port of Constanța
+article, Danube traffic) and Botswana (Walvis Bay, Walvis Bay article). A family row rests on a page
+that names one cargo of the family (coal, potash, soy): the other cargoes of the family take the
+same port, which the note says. Slovakia has no row although the Constanța article names it: a
+default row would also send its crude imports there. A transit pair is routed from or to that port
+and the site writes "sea via" the port. A seaborne pair whose landlocked end has no sourced row
+(Central Asian products, potash and urea of Uzbekistan and Turkmenistan, Kazakh products, Slovak
+and Bolivian trade among them: 27.4 Mt in 2024, 47.7 Mt before package L1) stays in the seaborne
+totals but is not routed and has no lane.
 
 **Sea and overland.** A mixed pair's tonnage is the customs total for all modes. It is kept out of
 the seaborne totals and the chokepoint shares; the lane files publish it per year in `mixed`, and a
@@ -312,8 +333,16 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
 - **Lane selection** (latest year first). For each commodity group and the latest year:
   - the **main set**: every seaborne pair at or above the group's floor, largest first, up to the
     group's cap. The floor is 0.05 Mt (0.02 Mt for coffee, cocoa, cotton, nickel intermediates,
-    refined copper and zinc concentrate; 0.03 Mt for aluminium and soybean oil). The caps run from 20
-    lanes (nickel ore, spodumene concentrate) to 150 (refined products, steel); they are in `CAP`.
+    refined copper, zinc and lead concentrate; 0.03 Mt for aluminium and soybean oil; 0.015 Mt for
+    unwrought zinc and 0.01 Mt for unwrought lead, spread over hundreds of small pairs; 0.005 Mt for
+    lithium carbonate and hydroxide, 0.002 Mt for tin concentrate, cobalt and rare earths and 0.001 Mt
+    for unwrought tin, which trade in parcels of a few thousand tonnes). The caps run from 20
+    lanes (nickel ore, spodumene concentrate, tin concentrate, cobalt) to 150 (refined products,
+    steel); they are in `CAP`. A group under 1 Mt of seaborne trade a year keeps four decimals of Mt
+    (0.1 kt) in its lane file, and its pairs file's seaborne total is the sum of its published rows.
+    The minor metals (lead, zinc and tin metal, tin concentrate, cobalt, lithium chemicals, rare
+    earths) sail as general cargo: container first, Handysize second, like refined copper; lead
+    concentrate takes the classes of zinc concentrate (Supramax, Handysize).
     The mixed pairs at or above the floor are added outside the cap, drawn dashed;
   - the **history set**: for 2005, 2010, 2015, 2019 and the three years before the latest, the 10
     largest seaborne pairs of that year that are not in the main set and hold at least 1% of the
@@ -326,21 +355,23 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 2,400 main seaborne lanes, 35 mixed lanes and 182 history lanes over 34 groups; the main
-    lanes carry 85.4% of 2024 seaborne tonnes. The share per group is the `coverage` of each lane
-    file: 90% or more for iron ore, coal, bauxite, LNG, soybeans, manganese, LPG and corn, among
-    others; lowest for refined products (60.1%), aluminium (66.1%), cocoa (66.5%), steel (68.2%),
-    coffee (69.9%) and potash (73.7%: Belarusian potash has no sourced transit port). Where trade is
-    spread over thousands of pairs, the pairs table answers.
+  - 2024: 2,571 main seaborne lanes, 38 mixed lanes and 286 history lanes over 42 groups (2,400, 35
+    and 182 over 34 groups before the minor metals); the main lanes carry 85.5% of 2024 seaborne
+    tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
+    bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought lead
+    (49.5%), unwrought tin (50.2%), refined products (60.1%), unwrought zinc (61.8%), aluminium
+    (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 80.0% (73.7% before the
+    Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 23,853 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,849 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,153.7 Mt in 2024); a pair "not routed" has no route at all (64.2 Mt in 2024: 47.7 Mt because a
+  (1,150.2 Mt in 2024); a pair "not routed" has no route at all (43.9 Mt in 2024: 27.4 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
-  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway).
+  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway; 64.2
+  Mt, 47.7 Mt of it for want of a transit port, before package L1).
 - **The Route finder** reads the pairs files of the commodity's groups, so it never says "no flow" for
   a pair that customs data record. It can start from the origin or from the destination, and
   answers in one of six ways: a drawn lane (with its ports, passages, alternatives and caveat); a
@@ -365,9 +396,10 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
-  two ends, 15,826 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
-  transit port is one more port): page names the cargo 69.7%, port used before 22.4%, general port
-  3.8%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.8%. Most rows cite a Wikipedia article. The United States crude and
+  two ends, 15,841 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  transit port is one more port): page names the cargo 69.8%, port used before 22.4%, general port
+  4.0%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.6% (after package L1; 0.8%
+  had no port before it). Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
   Malaysia, India and Thailand are the refinery towns of the EIA country briefs (a refinery is the
@@ -700,6 +732,19 @@ These are labelled "typical" in the interface. They are not measured shares of e
   figure is the average of the month of the event) and a figure that is the same observation as the
   first is left out; an annual series gives none. It is arithmetic on the published prices, not an
   estimate of the effect.
+  Every event is written by hand from pages that were read: `src` is the page the sentences come
+  from (the regulator, ministry, port or canal authority, EIA, FAO or the company where a free page
+  exists, otherwise the Wikipedia article about the event), `also` lists the other pages that support
+  the text, and `checked` is the day the text was read against them (all events carry it; the site
+  shows it on the event page). A sentence that no page read supports is not written: an event is cut
+  down to what the pages say, and a date is the one a page gives (a month where the page gives only a
+  month). A traffic figure computed from the atlas's own IMF PortWatch series is marked as an atlas
+  calculation. A paid service is not cited, not even at second hand. The timeline carries the energy
+  episodes (price collapses, producer decisions, sanctions, embargoes and pipeline cuts), the export
+  restrictions and trade measures on food, fertiliser and metals, the milestones of the freight market
+  (rate indices, bankruptcies, sanctions on tanker owners, the rules of the IMO and the EU), and the
+  accidents and weather that stopped a route or a mine. The links follow the rule above: the tests read
+  the commodity, country and asset ids of every event back from its text.
 - **What changed**: after each update `pipeline/common/changes.py` writes `data/_status/changes.json`
   (the five largest weekly moves of the daily price series, the five largest monthly moves, the five
   passages furthest from their 4-week and 365-day averages with at least 3 vessels a day, the sources
@@ -711,31 +756,67 @@ These are labelled "typical" in the interface. They are not measured shares of e
 
 ## 6. Country profiles
 
-Profiles are built by `pipeline/commodities/build_profiles.py` from the ranked tables of the
-commodity pages (production, exports, imports, and the second trade tables such as refined copper
-or alumina).
+Profiles are built by `pipeline/commodities/build_profiles.py`, one file per country of the index
+(`data/countries/profiles/<ISO3>.json`, loaded when its page opens) and a light index
+(`data/countries/profiles.json`).
 
-- **Which rows appear.** A row enters a country's profile when one of these holds:
-  - the country ranks in the world top 10 of the table;
-  - it holds at least 3% of the table's world total;
-  - the row is worth at least 10% of the country's own export (or import) value across the atlas
-    commodities.
-- **Limit.** Each commodity table keeps its 12 largest countries, so a country below rank 12 has
-  no row for that commodity, whatever its share of its own trade.
-- **Nothing is cut.** Every row that passes is published. The page shows the first eight rows of
+- **Every line.** A country has a line for every row it has in any table of any commodity: production
+  (with refinery output and the extra production tables), consumption, reserves, exports and imports
+  (with the second trade tables such as refined copper or alumina). Its rank and share are those of
+  the full table, of the same source and year. Nothing is cut: the page shows the first eight lines of
   each section and the rest behind "Show all".
-- **Order.** Exports and imports are ordered by trade value, production by share of the world
-  total.
-- **Shares** are against the world total of the same table, so of the same source and year.
-- **Trade value** (bn USD) always comes from CEPII BACI for its latest year, whatever the source
-  and year of the tonnage on the same row; the row names both.
-- **Coal.** Customs codes do not separate thermal from metallurgical coal, so the value of coal
-  is shown on one row, "Coal (all types)", with the customs tonnage of all coal. The thermal and
-  metallurgical rows below it carry EIA tonnage and no value.
-- **"World top-10 in N commodities"** counts the catalogue commodities for which the country is in
-  the top 10 of at least one table. It is counted on the full tables.
-- **Warnings** of a commodity table (trade hubs that re-export, gross weight against contained
-  metal) are repeated on the country rows built from it.
+- **Order and "Largest export".** Exports and imports are ordered by customs value (CEPII BACI, latest
+  year, whatever the source and year of the tonnage on the same line; the line names both); "Largest
+  export" is the largest of them in value. Production, consumption and reserves are ordered by share of
+  the world total. Exports that customs data do not record are not estimated: the caveat the engine
+  writes for that origin is shown under the exports (Iranian crude oil, for example).
+- **Coal.** Customs codes do not separate thermal from metallurgical coal, so the value of coal is shown
+  on one line, "Coal (all types)", with the customs tonnage of all coal; the thermal and metallurgical
+  lines carry EIA tonnage and no value.
+- **Reserves** carry the number of years of production they equal, where reserves and production are
+  lines of the same source and unit (USGS).
+- **History year and trend.** Each line carries the country's series from the history files
+  (`data/commodities/history`), with its rank in each year under the rules of the past-year table of the
+  commodity page: a figure far out of line with the years around it is not ranked, and that year's
+  world total leaves it out. With a History year, a line shows that year where its series has it and
+  says so where it has none; the customs values, partners, freight and basket stay of the latest year.
+- **Trade balance and partners** (arithmetic on published figures, credited to their sources). Net
+  exporter or importer: exports minus imports of the same product, only where both tables share unit
+  and year ("none recorded" where the country has no line on one side). Customers and suppliers: the
+  first three partners of the latest customs year with their shares (tonnes; declared value for gold,
+  silver and platinum-group metals), from the pairs tables of the trade-flow engine, or from the
+  cleaned customs frame for the groups that have no lanes; an Atlas estimate among them keeps its mark.
+  Concentration is the Herfindahl index of all partner shares, from 0 to 10,000 (10,000: one partner),
+  also given as the number of equal partners it corresponds to (10,000 divided by the index). Imports
+  over consumption is printed only where both are lines of the same unit and year; it is not the share
+  of consumption that is imported (imports can be re-exported or stocked).
+- **Trading or refining hub** is a derived label: exports and imports of the same product each at least
+  1% of the world total, and no line for the country in a production table that lists every producing
+  country (EIA, USDA PSD, FAOSTAT). USGS tables list the main producers only: no label is derived from
+  them.
+- **Freight** is read from the pairs tables of the engine (section 5) for the latest customs year: the
+  share of the country's tonnes by mode (sea, sea through a port of another country, sea and overland
+  with the split not known, overland), the typical ports of its seaborne pairs with their basis (an
+  Atlas assumption), and for each passage the share of its seaborne tonnes whose assumed route has to
+  cross it ("at least") or may cross it ("up to"), with the routing rules of the chokepoint estimates.
+  A passage is listed from 2% of the seaborne tonnes. These shares are Atlas estimates.
+- **All goods.** The ten largest exports and imports by value at HS4, every chapter, with their share
+  of the country's total merchandise exports or imports, from `pipeline/cache/hs4_*`, written by
+  `pipeline/trade/extract_hs4.py` in one pass over the latest year of the CEPII BACI archive (also run
+  by the annual job after a new BACI version). A heading is named with the first six-digit description
+  under it in the archive's product list. If that table and the customs frame are not of the same year,
+  the basket is left out. Up to five raw-material headings outside the catalogue are listed apart, each
+  at least 5% of the country's raw-material exports (countries with USD 200 million of them or more).
+- **Companies** are listed under the country of their headquarters, with every commodity they are
+  listed for; the operators of the infrastructure assets in the country are listed apart.
+- **EU.** USDA PSD gives one row for the European Union: its page lists the member states, and each
+  member's page links to it.
+- **No data.** A country of the index with no line, trade, lane or asset says what it is, in the words
+  of the base map (Natural Earth), and that the customs data have no code of their own for it.
+- **"World top-10 in N commodities"** counts the catalogue commodities for which the country is in the
+  top 10 of at least one table.
+- **Warnings** of a commodity table (trade hubs that re-export, gross weight against contained metal)
+  are repeated on the lines built from it.
 
 ## 7. Prices
 
@@ -883,7 +964,15 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     reads beside trade, which is potassium chloride (HS 310420), and the K2O figures as published
     follow it; real products hold less K2O, so their weight is somewhat higher;
   - lithium, **5.323 t of lithium carbonate equivalent per tonne of lithium** (from the abridged
-    standard atomic weights of CIAAW).
+    standard atomic weights of CIAAW);
+  - uranium, **1 t of uranium = 1.1792 t of U3O8 = 2,600 lb of U3O8** (from the abridged standard atomic
+    weights of uranium and oxygen, CIAAW, and the definition of the pound): the headline mine production
+    carries million pounds of U3O8, the unit of the uranium market. Trade is gross weight of ores and
+    compounds, which cannot be converted to contained uranium, so the trade tables carry no second unit;
+  - LPG, **11.60 barrels per tonne**: the ratio of EIA's own series for United States LPG consumption in
+    thousand barrels a day and in thousand metric tons, the same in every year from 1980 to 2019; the
+    headline consumption carries kb/d in brackets. Prices are in USD per US gallon: at 42 US gallons per
+    barrel (by definition) one tonne is 487 gallons, which the page note gives.
 - **Rounding**: the data keep full precision; a figure the atlas estimated or converted is
   published with three significant digits, and an estimated figure is shown with two at display
   (section 1).
@@ -941,9 +1030,92 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   rate of the exporter (the world average where PSD has none), the factor and its market year being
   written in each row's note. Such a row is an Atlas conversion, not an estimate: its note starts
   "Atlas conversion", it carries no estimate mark, and its tonnage keeps three significant digits.
+- **Metals pages** (`pipeline/commodities/metals.py`; tests in `pipeline/tests/test_metals.py`):
+  - **Shares on the sum of the lines.** Every USGS table that has an "Other countries" line has its
+    shares computed on the sum of its countries and that line, whatever the gap to the rounded
+    published total (zinc: 12,540 kt against a published 13,000; gold production: 3,250 against
+    3,300 t). The published total stays as `worldPublished`. A table without that line (nickel
+    reserves, lithium production) keeps the published total, and its "Rest of world" is what the
+    source does not list.
+  - **Two USGS years.** The USGS file holds two columns, 2024 and 2025. Both are shown side by side
+    on the page, from the series by year, in the words the file supports: values it marks
+    "Estimated." are USGS's own estimates, shown with an "e". The file does not call either year
+    "revised".
+  - **Apparent consumption** of refined copper, primary aluminium and crude steel is an Atlas
+    estimate: production plus imports minus exports, by country, for 2024, the year of both the
+    USGS column and the customs data. Production is USGS refinery output (copper), smelter output
+    (aluminium) or raw steel; trade is refined copper HS 7403 only (HS 7402, unrefined copper and
+    anodes, is left out: the six-digit split comes from `pipeline/cache/baci_hs6_detail.csv.gz`,
+    written by `pipeline/trade/extract_hs6_detail.py`), unwrought aluminium HS 7601, and steel
+    products HS 72 without 7201 to 7205 in product weight, not converted to crude-steel equivalent
+    (no conversion is read on a page). A country is listed when USGS gives its production and the
+    customs tables have its imports and exports; a country with one of the three terms missing, or a
+    negative result, is left out and the note counts and names them. A country that trades but has
+    no USGS production figure is not in the table. Stock changes are not known. The world total is
+    the USGS world production of the same year (trade nets out in the world), on which the shares
+    and "Rest of world" are computed; the order is not a world ranking (`norank`). Rows carry the
+    source id `atlas`, three significant digits in the file and two on the page, and their three
+    inputs in the note. The United States apparent consumption that USGS states (a different
+    definition for each product, given beside it) and its net import reliance (Fig2 of the Mineral
+    Commodity Summaries, with the main sources of 2021 to 2024) are shown as published figures, apart
+    from the estimate. worldsteel's tables are not copied.
+  - **Value and unit value.** Rows of the customs tables and the flows of the metals pages carry the
+    declared value (`usd`, USD) and the unit value (`uv`, USD per tonne, three significant digits).
+    A row with 10% or more of its tonnage estimated from the declared value, and every flow whose
+    tonnage is an Atlas estimate, has no unit value: the value was used to estimate the tonnage.
+    The fine-metal tables of gold, silver and platinum-group metals show the value only.
+  - **Concentration.** For every table with a world total: the share of the first country, of the
+    first three, and the Herfindahl index (the sum of the squares of the countries' shares in
+    percent, from near 0 to 10,000), computed on the countries the table lists. Where USGS's "Other
+    countries" line is large the countries cover less than the whole and the index is a lower bound.
+    It is arithmetic on published figures and carries the estimate mark only where a row is an
+    estimate.
+  - **Notes on trading places.** A country that both imports and exports the same product in
+    similar tonnages (each at least 1.5% of its table, the smaller at least half of the larger) and
+    that USGS does not name as a producer gets a note on both rows, worded as a possible reading.
+    A flow declared at under half of the tonne-weighted median unit value of its product (unwrought
+    aluminium, refined copper, zinc, lead, tin, alumina) is flagged by check K13
+    (`pipeline/trade/checks.py`) and worded as a hypothesis through the caveat registry
+    (`caveats.py`), with the metal's Pink Sheet price beside it where the repository has one.
+    Unwrought aluminium is shown by code, HS 760110 (not alloyed) and HS 760120 (alloys).
+  - **Iron content** of iron ore (production and reserves) is the USGS table as published.
+- **USDA crops: forecast, estimate, balances, EU member states, Russian grain** (audit M-076, M-025, M-024, C-104, C-045).
+  - *Year rule*, in `_latest_inputs()` of `build_commodities.py` and nowhere else: the page shows the newest marketing year the PSD
+    file holds (`PSD_MY`, 2026/27 in the November 2026 file), which USDA publishes as its forecast of the year in progress, and
+    beside it the year before (2025/26), USDA's estimate. The file has no column for either word: they are given by position
+    (the newest year, the one before it), and the table, the key figure, the history file and the map colours all follow the
+    same year. The month of the report is the file's own `Calendar_Year` and `Month` of the newest revision of the commodity's rows
+    for that year (coffee is revised twice a year, the grains monthly); it is printed on each table ("USDA report of November 2026").
+    PSD adds the next year in May, and the rule moves on with it. Comparisons with customs data (the checks K1 and K2, the
+    discrepancy lines, the rice milling rates) keep the marketing years of the customs year (`PSD_EST`, the estimate year).
+  - *Balance of a crop* (`Psd.balance`, `data/commodities/<id>.json` key `balance`, page block "Balance"): harvested area, yield, production,
+    beginning stocks, domestic use with its parts the file gives (crush, feed, food, industrial; for sugar, human consumption and other
+    disappearance), exports and ending stocks for the estimate year and the forecast year side by side, and the same stocks for China
+    and for the world without China. The world is the sum of the countries the file lists (it has no world row). Stocks-to-use is
+    ending stocks divided by domestic use of the same market year (total disappearance for sugar), exports not counted; USDA's own
+    `Stocks-to-Use` attribute of a cotton country divides by domestic use plus exports, so the two differ a little. Yield (production
+    over harvested area), the world without China and the ratios are arithmetic on two USDA figures of the same year: source `atlas`, a
+    note that says how, no "Atlas estimate" mark, printed in italics. The Thai sugar stock, which the file puts above the year's
+    production, carries a note with the two figures of each year, not an explanation.
+  - *EU member states*: USDA PSD counts the European Union as one entity, trade between members left out, and its row stays
+    as it is. The member states have their own tables beside it, each with its own source and year, which are not added to the USDA row
+    and need not agree with it: production from FAOSTAT crop production (`pipeline/cache/faostat_eu_crops.csv`, calendar year, wheat, maize,
+    rice as paddy, soya beans, rapeseed, sugar beet as crop weight; shares are of the EU total, the FAOSTAT world total is kept as `worldAll`), and
+    customs exports and imports from the cleaned CEPII BACI frame, trade between members included, each member's total split into the part
+    with other members and the part with countries outside the EU. For the European Union as a whole, the same split is written on the
+    USDA row (`eu` of the exports and imports tables): intra and extra add up to the members' total, and the extra part is the figure
+    comparable with USDA's. The map colours a member state with its own figure when the crop has a table of the member states for the
+    measure being shown (production, exports, imports; the latest year only, these tables have no series by year), as its share of
+    the world total of that source and year, and with the USDA European Union value otherwise; the legend and the tooltip say which.
+  - *Russian grain*: Russia has not published its customs data since 2022, so its flows rest on what importers declare. The caveat
+    registry (`pipeline/trade/caveats.py`, `_grain_gap`) states, for wheat, maize, soya beans, rapeseed, soybean meal and oil, the
+    customs figure against the two USDA marketing years that overlap the customs year, the percentage by which it is below
+    them, and the importers that took the grain in the three years 2019 to 2021 (0.5 Mt a year or more) and have none recorded in the
+    build year, whose flows and lanes therefore show 0. The page shows it once, above the flows (`gaps` of the commodity file). The
+    atlas does not scale the flows or lanes to the USDA total.
 - **Publishers cited for a headline figure only**: GIIGNL and IGU (world LNG trade), the World Steel
   Association (world crude steel production, 1,849.4 Mt in 2025), the World Gold Council (world mine
-  production) and the International Cocoa Organization (world cocoa bean production per crop
+  production) and the International Cocoa Organization (world cocoa bean production and world grindings per crop
   year). Each figure carries its publisher, year and link and stands beside the atlas's table; their
   tables are not copied.
 - **Full lists and "Rest of world"**: every table stores every country the source gives a value for
@@ -953,7 +1125,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   amounts the source does not give by country (codes that are not countries of the atlas, regions,
   rounding), the words "and amounts not given by country". "Show all (N)" opens the full list.
   Aggregates are never counted as countries; the one aggregate row is USDA PSD's European Union
-  (printed "European Union", plain text, no country page), and no member state is listed beside it.
+  (printed "European Union", plain text, no country page), and no member state is listed in the same table: the crop pages
+  have tables of the member states from other sources (see "USDA crops").
 - **Series by country and year** (`pipeline/commodities/history.py`, `data/commodities/history/<id>.json`):
   each year is rebuilt by the same table writer as the latest table (same reader, cleaning rules,
   world total and estimate marks), so the latest year of a series is the table of the page (the
@@ -965,8 +1138,9 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   year's world total; a table without it stays the latest and says "no series for" the year. A
   past-year table keeps the caveats of its table, except a caveat written for some years only
   (`caveatYears`: the LNG comparisons with the industry totals and the uranium comparison with mine
-  output are for the latest year, the LPG caveat for the years without a US figure, the coal
-  reserves caveat from 2014), which gives way to its short or general form (`caveatShort`,
+  output are for the latest year, the LPG caveat for the years in which the United States is
+  converted from barrels per day, the coal reserves caveat from 2014, and the crude oil caveat on
+  Iran, which has no row, for the latest year), which gives way to its short or general form (`caveatShort`,
   `caveatPast`) in the other years; an Atlas-estimate table keeps its method note. Rules of the
   series, each stated in the series note on the page:
   - a group read from a customs code only from a given year (spodumene, `FIRST_YEAR` of
@@ -977,8 +1151,9 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     neighbour where its series starts or stops) and carries half or more of the world's departure,
     and, where the source gives a declared value (CEPII BACI), that value did not move with the
     tonnage (a unit value within a factor 2 of the neighbouring years means a real change, kept).
-    In this release it flags EIA's United States LPG consumption of 2021, Namibia's uranium exports
-    and Canada's uranium imports of 2009 and China's cobalt imports of 2016; the past-year table
+    In this release it flags Namibia's uranium exports and Canada's uranium imports of 2009 and
+    China's cobalt imports of 2016 (EIA's United States LPG consumption of 2021 is no longer
+    flagged: it is replaced, see "Energy pages from the EIA file" below); the past-year table
     gives the figure, says it is out of line and computes the shares on the world total without it.
     Falls and rises spread over many countries (2009, 2020, 2022), Libya's crude oil exports of 2020,
     Russia's wheat exports of 2010 and Malaysia's bauxite exports of 2015 (whose declared value moved
@@ -1000,6 +1175,45 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   percentage either. The lane table's "Change" column follows the same rules on the lane series: no
   change against a year without a customs record or with a hidden figure (flags `nodata`,
   `suspect`), a mark on a change with a flagged year (`est`, `check`).
+- **Energy pages from the EIA file** (`raw/eia/INTL.txt`, EIA International Energy Data, public domain; the
+  families of series it holds are listed by `pipeline/commodities/monthly.py`'s `scan`).
+  - *Monthly blocks* (`pipeline/commodities/monthly.py`, `data/commodities/monthly/<id>.json`, loaded on demand
+    by `EnergyMonthly.tsx`): the last 60 months of EIA's monthly series. Crude oil production by producer (every
+    producer with 0.1 kb/d or more in the baseline year), OECD imports by origin (petroleum and other liquids,
+    not crude alone; the Persian Gulf and OPEC are EIA's own groups), petroleum stocks and, for the refined
+    products page, oil demand, and for the LPG page natural gas plant liquids. Every series carries three
+    figures, each with its month, and a change: the average of the year before the latest month (the twelve
+    months weighted by their days, which equals EIA's own annual figure: the validator and the tests check it),
+    the lowest month of the latest year, the latest month, and the latest month against the average in per cent.
+    These are arithmetic on published figures, not estimates. A month that EIA gives as withheld ("w"), not
+    available or absent stays empty and nothing is filled in; a series whose last month is more than a year old has
+    stopped and is left out. The Gulf total adds Saudi Arabia, Iraq, Kuwait, Qatar, the United Arab Emirates, Iran
+    and Bahrain month by month, only for months in which all seven have a figure.
+  - *Stocks*: EIA gives monthly petroleum stocks (crude oil and products together, not split) with a figure for the
+    OECD, OECD Europe and eight countries (the United States, Japan, Germany, South Korea, Canada, France, Italy,
+    the United Kingdom); it marks the others withheld, and the atlas shows none for them. Days of cover are the
+    stock of a month over the oil demand of the same month, both from the same file: arithmetic on two published
+    figures, labelled as such.
+  - *No monthly series*: the file has none for LNG, none for refined-product or LPG production and trade
+    (the production series end in 2014); the pages say so and the atlas estimates none.
+  - *Reserves and refining*: the only reserves series of the file is coal; it has no proved reserves of crude oil
+    or natural gas, and no refinery capacity, throughput or runs (the series with "refinery" in the name are a
+    processing gain and LPG and ethane production). The search is repeated by a test, which fails the day the
+    file holds them. The "Reserves" colouring therefore stays off for those two commodities.
+  - *Production by country that EIA stopped publishing* is shown with its year and says that the series end:
+    refined petroleum products and LPG production, 2014. Natural gas plant liquids (ethane, propane, butanes and
+    heavier liquids recovered from gas) run to the latest year and are shown as their own table, "not LPG alone".
+  - *United States LPG consumption*: EIA's tonnes have no United States value after 2021, and its world total in
+    tonnes leaves the country out from 2022 (the sum of the countries equals it); the same series exist in thousand
+    barrels per day for every year. The missing years are that figure converted at 11.60 barrels per tonne, the
+    ratio of EIA's own United States series in both units (the same in every year from 1980 to 2019), and
+    EIA's world total gets the figure added. The tonnes of 2021 (148 Mt against 43 Mt the year before, 3.4 barrels
+    per tonne against 11.6) are replaced the same way, and the world total of 2021 is corrected by the difference.
+    Each such row says so ("Atlas conversion"); 2020, 5% off the ratio, stands as published.
+  - *Other tables from the file*: consumption of motor gasoline, distillate fuel oil, jet fuel and residual fuel
+    oil by country (refined products), nuclear generating capacity (uranium), metallurgical coke production and
+    trade (metallurgical coal), and in a note the world coal production by rank (the four ranks and metallurgical
+    coal add up to EIA's world total).
 
 ## 11. Infrastructure layer
 

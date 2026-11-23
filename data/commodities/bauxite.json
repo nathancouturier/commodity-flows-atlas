@@ -13,7 +13,7 @@
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded"
+   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; the countries and USGS 'Other countries' add up to 28,539 Mt, while the rounded world total of 29,000 Mt is 1.6% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 183.46,
@@ -197,7 +197,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 29000.0,
+  "world": 28539.0,
   "rows": [
    {
     "c": "GIN",
@@ -252,7 +252,7 @@
     "v": 20.0
    }
   ],
-  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded",
+  "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded; the countries and USGS 'Other countries' add up to 28,539 Mt, while the rounded world total of 29,000 Mt is 1.6% above that sum: shares are computed on the sum",
   "other": 5300.0,
   "hidden": {
    "v": 249.0,
@@ -260,6 +260,7 @@
    "from": 10,
    "n": "3 further countries named by USGS (Kazakhstan, Turkey and United States), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 29000.0,
   "basis": "dry tonnes"
  },
  "exports": {
@@ -270,160 +271,238 @@
   "rows": [
    {
     "c": "GIN",
-    "v": 122.54
+    "v": 122.54,
+    "usd": 8310994000,
+    "uv": 67.8
    },
    {
     "c": "AUS",
-    "v": 41.788
+    "v": 41.788,
+    "usd": 2096549000,
+    "uv": 50.2
    },
    {
     "c": "BRA",
-    "v": 5.336
+    "v": 5.336,
+    "usd": 255847000,
+    "uv": 47.9
    },
    {
     "c": "TUR",
-    "v": 4.079
+    "v": 4.079,
+    "usd": 211369000,
+    "uv": 51.8
    },
    {
     "c": "JAM",
-    "v": 2.093
+    "v": 2.093,
+    "usd": 53718000,
+    "uv": 25.7
    },
    {
     "c": "LAO",
-    "v": 1.544
+    "v": 1.544,
+    "usd": 106950000,
+    "uv": 69.3
    },
    {
     "c": "GHA",
-    "v": 1.432
+    "v": 1.432,
+    "usd": 120622000,
+    "uv": 84.2
    },
    {
     "c": "MYS",
-    "v": 0.8055
+    "v": 0.8055,
+    "usd": 50985000,
+    "uv": 63.3
    },
    {
     "c": "MNE",
-    "v": 0.7351
+    "v": 0.7351,
+    "usd": 39661000,
+    "uv": 54.0
    },
    {
     "c": "CIV",
-    "v": 0.7228
+    "v": 0.7228,
+    "usd": 33424000,
+    "uv": 46.2
    },
    {
     "c": "GUY",
-    "v": 0.5592
+    "v": 0.5592,
+    "usd": 118166000,
+    "uv": 211
    },
    {
     "c": "CHN",
-    "v": 0.4571
+    "v": 0.4571,
+    "usd": 215356000,
+    "uv": 471
    },
    {
     "c": "SLE",
-    "v": 0.4554
+    "v": 0.4554,
+    "usd": 24468000,
+    "uv": 53.7
    },
    {
     "c": "IND",
-    "v": 0.3617
+    "v": 0.3617,
+    "usd": 16511000,
+    "uv": 45.6
    },
    {
     "c": "CAN",
-    "v": 0.1272
+    "v": 0.1272,
+    "usd": 3382000,
+    "uv": 26.6
    },
    {
     "c": "GRC",
-    "v": 0.1079
+    "v": 0.1079,
+    "usd": 7659000,
+    "uv": 71.0
    },
    {
     "c": "BIH",
-    "v": 0.0682
+    "v": 0.0682,
+    "usd": 6444000,
+    "uv": 94.5
    },
    {
     "c": "DEU",
-    "v": 0.0475
+    "v": 0.0475,
+    "usd": 20240000,
+    "uv": 426
    },
    {
     "c": "HRV",
-    "v": 0.0267
+    "v": 0.0267,
+    "usd": 3989000,
+    "uv": 149
    },
    {
     "c": "NLD",
-    "v": 0.0263
+    "v": 0.0263,
+    "usd": 10208000,
+    "uv": 388
    },
    {
     "c": "GBR",
-    "v": 0.0213
+    "v": 0.0213,
+    "usd": 11490000,
+    "uv": 539
    },
    {
     "c": "USA",
-    "v": 0.0183
+    "v": 0.0183,
+    "usd": 3259000,
+    "uv": 178
    },
    {
     "c": "ESP",
-    "v": 0.0177
+    "v": 0.0177,
+    "usd": 10344000,
+    "uv": 584
    },
    {
     "c": "HUN",
-    "v": 0.0156
+    "v": 0.0156,
+    "usd": 877000,
+    "uv": 56.2
    },
    {
     "c": "PAK",
-    "v": 0.0144
+    "v": 0.0144,
+    "usd": 698000,
+    "uv": 48.5
    },
    {
     "c": "LUX",
     "v": 0.0101,
-    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 8562000,
+    "uv": 848
    },
    {
     "c": "KEN",
-    "v": 0.01
+    "v": 0.01,
+    "usd": 185000,
+    "uv": 18.5
    },
    {
     "c": "ARE",
-    "v": 0.0069
+    "v": 0.0069,
+    "usd": 2990000,
+    "uv": 433
    },
    {
     "c": "TZA",
-    "v": 0.0065
+    "v": 0.0065,
+    "usd": 341000,
+    "uv": 52.5
    },
    {
     "c": "SVN",
-    "v": 0.005
+    "v": 0.005,
+    "usd": 1384000,
+    "uv": 277
    },
    {
     "c": "MOZ",
-    "v": 0.005
+    "v": 0.005,
+    "usd": 641000,
+    "uv": 128
    },
    {
     "c": "BEL",
-    "v": 0.0033
+    "v": 0.0033,
+    "usd": 1974000,
+    "uv": 598
    },
    {
     "c": "ZAF",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 1591000,
+    "uv": 530
    },
    {
     "c": "LVA",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 255000,
+    "uv": 170
    },
    {
     "c": "TWN",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 421000,
+    "uv": 324
    },
    {
     "c": "ITA",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 412000,
+    "uv": 317
    },
    {
     "c": "FRA",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 471000,
+    "uv": 428
    },
    {
     "c": "ROU",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 120000,
+    "uv": 120
    }
   ],
   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "bauxite, gross weight"
+  "basis": "bauxite, gross weight",
+  "usd": 11752557000,
+  "uv": 64.1
  },
  "imports": {
   "y": 2024,
@@ -433,280 +512,418 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 159.95
+    "v": 159.95,
+    "usd": 10139452000,
+    "uv": 63.4
    },
    {
     "c": "IRL",
-    "v": 4.589
+    "v": 4.589,
+    "usd": 242479000,
+    "uv": 52.8
    },
    {
     "c": "IND",
-    "v": 4.104
+    "v": 4.104,
+    "usd": 345787000,
+    "uv": 84.3
    },
    {
     "c": "CAN",
-    "v": 3.611
+    "v": 3.611,
+    "usd": 123351000,
+    "uv": 34.2
    },
    {
     "c": "USA",
-    "v": 2.958
+    "v": 2.958,
+    "usd": 170470000,
+    "uv": 57.6
    },
    {
     "c": "DEU",
-    "v": 2.271
+    "v": 2.271,
+    "usd": 140920000,
+    "uv": 62.1
    },
    {
     "c": "ESP",
-    "v": 2.135
+    "v": 2.135,
+    "usd": 116330000,
+    "uv": 54.5
    },
    {
     "c": "GRC",
-    "v": 1.235
+    "v": 1.235,
+    "usd": 68655000,
+    "uv": 55.6
    },
    {
     "c": "ARE",
-    "v": 0.4167
+    "v": 0.4167,
+    "usd": 20849000,
+    "uv": 50.0
    },
    {
     "c": "KOR",
-    "v": 0.3896
+    "v": 0.3896,
+    "usd": 36323000,
+    "uv": 93.2
    },
    {
     "c": "FRA",
-    "v": 0.2167
+    "v": 0.2167,
+    "usd": 36376000,
+    "uv": 168
    },
    {
     "c": "KWT",
-    "v": 0.154
+    "v": 0.154,
+    "usd": 6554000,
+    "uv": 42.6
    },
    {
     "c": "SRB",
-    "v": 0.1182
+    "v": 0.1182,
+    "usd": 4803000,
+    "uv": 40.6
    },
    {
     "c": "NLD",
-    "v": 0.1108
+    "v": 0.1108,
+    "usd": 33439000,
+    "uv": 302
    },
    {
     "c": "BIH",
-    "v": 0.0954
+    "v": 0.0954,
+    "usd": 7623000,
+    "uv": 79.9
    },
    {
     "c": "MEX",
-    "v": 0.0844
+    "v": 0.0844,
+    "usd": 12960000,
+    "uv": 154
    },
    {
     "c": "HRV",
-    "v": 0.0841
+    "v": 0.0841,
+    "usd": 10449000,
+    "uv": 124
    },
    {
     "c": "NPL",
-    "v": 0.0733
+    "v": 0.0733,
+    "usd": 478000,
+    "uv": 6.52
    },
    {
     "c": "POL",
-    "v": 0.071
+    "v": 0.071,
+    "usd": 19818000,
+    "uv": 279
    },
    {
     "c": "TUR",
-    "v": 0.0575
+    "v": 0.0575,
+    "usd": 23055000,
+    "uv": 401
    },
    {
     "c": "SGP",
-    "v": 0.0557
+    "v": 0.0557,
+    "usd": 2075000,
+    "uv": 37.3
    },
    {
     "c": "ITA",
-    "v": 0.0428
+    "v": 0.0428,
+    "usd": 12073000,
+    "uv": 282
    },
    {
     "c": "SEN",
-    "v": 0.0416
+    "v": 0.0416,
+    "usd": 1883000,
+    "uv": 45.3
    },
    {
     "c": "BEN",
-    "v": 0.0407
+    "v": 0.0407,
+    "usd": 1079000,
+    "uv": 26.5
    },
    {
     "c": "SAU",
-    "v": 0.0383
+    "v": 0.0383,
+    "usd": 32626000,
+    "uv": 852
    },
    {
     "c": "UKR",
-    "v": 0.0349
+    "v": 0.0349,
+    "usd": 3072000,
+    "uv": 88.0
    },
    {
     "c": "JPN",
-    "v": 0.0343
+    "v": 0.0343,
+    "usd": 15372000,
+    "uv": 448
    },
    {
     "c": "ARG",
-    "v": 0.0329
+    "v": 0.0329,
+    "usd": 12354000,
+    "uv": 376
    },
    {
     "c": "OMN",
-    "v": 0.0243
+    "v": 0.0243,
+    "usd": 4929000,
+    "uv": 203
    },
    {
     "c": "ISR",
-    "v": 0.0241
+    "v": 0.0241,
+    "usd": 4154000,
+    "uv": 172
    },
    {
     "c": "GBR",
-    "v": 0.024
+    "v": 0.024,
+    "usd": 7784000,
+    "uv": 324
    },
    {
     "c": "SVN",
-    "v": 0.0235
+    "v": 0.0235,
+    "usd": 7733000,
+    "uv": 329
    },
    {
     "c": "THA",
-    "v": 0.023
+    "v": 0.023,
+    "usd": 9321000,
+    "uv": 405
    },
    {
     "c": "TWN",
-    "v": 0.0222
+    "v": 0.0222,
+    "usd": 9623000,
+    "uv": 433
    },
    {
     "c": "CZE",
-    "v": 0.0209
+    "v": 0.0209,
+    "usd": 3738000,
+    "uv": 179
    },
    {
     "c": "ROU",
-    "v": 0.0208
+    "v": 0.0208,
+    "usd": 1798000,
+    "uv": 86.4
    },
    {
     "c": "CHE",
-    "v": 0.0197
+    "v": 0.0197,
+    "usd": 2464000,
+    "uv": 125
    },
    {
     "c": "SVK",
-    "v": 0.0192
+    "v": 0.0192,
+    "usd": 2223000,
+    "uv": 116
    },
    {
     "c": "DNK",
-    "v": 0.0142
+    "v": 0.0142,
+    "usd": 13534000,
+    "uv": 953
    },
    {
     "c": "MAR",
-    "v": 0.0132
+    "v": 0.0132,
+    "usd": 888000,
+    "uv": 67.3
    },
    {
     "c": "PRY",
-    "v": 0.0128
+    "v": 0.0128,
+    "usd": 882000,
+    "uv": 68.9
    },
    {
     "c": "DZA",
-    "v": 0.0126
+    "v": 0.0126,
+    "usd": 1263000,
+    "uv": 100
    },
    {
     "c": "LVA",
-    "v": 0.0113
+    "v": 0.0113,
+    "usd": 2352000,
+    "uv": 208
    },
    {
     "c": "MYS",
-    "v": 0.0107
+    "v": 0.0107,
+    "usd": 5273000,
+    "uv": 493
    },
    {
     "c": "UGA",
-    "v": 0.01
+    "v": 0.01,
+    "usd": 185000,
+    "uv": 18.5
    },
    {
     "c": "EGY",
-    "v": 0.0095
+    "v": 0.0095,
+    "usd": 3537000,
+    "uv": 372
    },
    {
     "c": "URY",
-    "v": 0.0092
+    "v": 0.0092,
+    "usd": 902000,
+    "uv": 98.0
    },
    {
     "c": "SWE",
-    "v": 0.0084
+    "v": 0.0084,
+    "usd": 2391000,
+    "uv": 285
    },
    {
     "c": "ZAF",
-    "v": 0.0083
+    "v": 0.0083,
+    "usd": 3839000,
+    "uv": 463
    },
    {
     "c": "AUT",
     "v": 0.007,
-    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 8024000,
+    "uv": 1150
    },
    {
     "c": "KEN",
-    "v": 0.0065
+    "v": 0.0065,
+    "usd": 341000,
+    "uv": 52.5
    },
    {
     "c": "COL",
-    "v": 0.0058
+    "v": 0.0058,
+    "usd": 1468000,
+    "uv": 253
    },
    {
     "c": "ECU",
-    "v": 0.0057
+    "v": 0.0057,
+    "usd": 1355000,
+    "uv": 238
    },
    {
     "c": "BRA",
-    "v": 0.0057
+    "v": 0.0057,
+    "usd": 3198000,
+    "uv": 561
    },
    {
     "c": "CYP",
-    "v": 0.0056
+    "v": 0.0056,
+    "usd": 655000,
+    "uv": 117
    },
    {
     "c": "DOM",
-    "v": 0.0054
+    "v": 0.0054,
+    "usd": 348000,
+    "uv": 64.4
    },
    {
     "c": "BGR",
-    "v": 0.0053
+    "v": 0.0053,
+    "usd": 171000,
+    "uv": 32.3
    },
    {
     "c": "ZWE",
-    "v": 0.005
+    "v": 0.005,
+    "usd": 641000,
+    "uv": 128
    },
    {
     "c": "MDA",
-    "v": 0.0044
+    "v": 0.0044,
+    "usd": 305000,
+    "uv": 69.3
    },
    {
     "c": "AGO",
-    "v": 0.0035
+    "v": 0.0035,
+    "usd": 219000,
+    "uv": 62.6
    },
    {
     "c": "BEL",
-    "v": 0.0026
+    "v": 0.0026,
+    "usd": 1214000,
+    "uv": 467
    },
    {
     "c": "KAZ",
-    "v": 0.0024
+    "v": 0.0024,
+    "usd": 1268000,
+    "uv": 528
    },
    {
     "c": "PRT",
-    "v": 0.0021
+    "v": 0.0021,
+    "usd": 1121000,
+    "uv": 534
    },
    {
     "c": "AUS",
-    "v": 0.0021
+    "v": 0.0021,
+    "usd": 1090000,
+    "uv": 519
    },
    {
     "c": "LTU",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 255000,
+    "uv": 170
    },
    {
     "c": "VNM",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 421000,
+    "uv": 324
    },
    {
     "c": "IDN",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 450000,
+    "uv": 409
    },
    {
     "c": "FIN",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 495000,
+    "uv": 495
    }
   ],
   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "bauxite, gross weight"
+  "basis": "bauxite, gross weight",
+  "usd": 11752557000,
+  "uv": 64.1
  },
  "extra": [
   {
@@ -720,161 +937,238 @@
     "rows": [
      {
       "c": "AUS",
-      "v": 14.158
+      "v": 14.158,
+      "usd": 6284470000,
+      "uv": 444
      },
      {
       "c": "BRA",
-      "v": 7.525
+      "v": 7.525,
+      "usd": 3244623000,
+      "uv": 431
      },
      {
       "c": "IDN",
-      "v": 4.162
+      "v": 4.162,
+      "usd": 1907972000,
+      "uv": 458
      },
      {
       "c": "CHN",
-      "v": 1.899
+      "v": 1.899,
+      "usd": 1192994000,
+      "uv": 628
      },
      {
       "c": "IND",
-      "v": 1.843
+      "v": 1.843,
+      "usd": 838126000,
+      "uv": 455
      },
      {
       "c": "IRL",
-      "v": 1.699
+      "v": 1.699,
+      "usd": 774603000,
+      "uv": 456
      },
      {
       "c": "VNM",
-      "v": 1.192
+      "v": 1.192,
+      "usd": 527063000,
+      "uv": 442
      },
      {
       "c": "KAZ",
-      "v": 0.9974
+      "v": 0.9974,
+      "usd": 449248000,
+      "uv": 450
      },
      {
       "c": "JAM",
-      "v": 0.8832
+      "v": 0.8832,
+      "usd": 381452000,
+      "uv": 432
      },
      {
       "c": "ESP",
-      "v": 0.6068
+      "v": 0.6068,
+      "usd": 278678000,
+      "uv": 459
      },
      {
       "c": "DEU",
-      "v": 0.5479
+      "v": 0.5479,
+      "usd": 472217000,
+      "uv": 862
      },
      {
       "c": "NLD",
-      "v": 0.3328
+      "v": 0.3328,
+      "usd": 173875000,
+      "uv": 522
      },
      {
       "c": "GRC",
-      "v": 0.3247
+      "v": 0.3247,
+      "usd": 145264000,
+      "uv": 447
      },
      {
       "c": "SAU",
-      "v": 0.2204
+      "v": 0.2204,
+      "usd": 128220000,
+      "uv": 582
      },
      {
       "c": "FRA",
-      "v": 0.1862
+      "v": 0.1862,
+      "usd": 192362000,
+      "uv": 1030
      },
      {
       "c": "BIH",
-      "v": 0.1516
+      "v": 0.1516,
+      "usd": 72066000,
+      "uv": 475
      },
      {
       "c": "USA",
-      "v": 0.0727
+      "v": 0.0727,
+      "usd": 300880000,
+      "uv": 4140
      },
      {
       "c": "JPN",
-      "v": 0.0515
+      "v": 0.0515,
+      "usd": 173722000,
+      "uv": 3370
      },
      {
       "c": "SVN",
-      "v": 0.0482
+      "v": 0.0482,
+      "usd": 43469000,
+      "uv": 902
      },
      {
       "c": "CAN",
-      "v": 0.0405
+      "v": 0.0405,
+      "usd": 36491000,
+      "uv": 901
      },
      {
       "c": "NOR",
       "v": 0.0395,
-      "n": "46% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "46% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 1012000,
+      "uv": 25.6
      },
      {
       "c": "KOR",
-      "v": 0.0345
+      "v": 0.0345,
+      "usd": 44939000,
+      "uv": 1300
      },
      {
       "c": "HUN",
-      "v": 0.023
+      "v": 0.023,
+      "usd": 19776000,
+      "uv": 860
      },
      {
       "c": "ITA",
-      "v": 0.0226
+      "v": 0.0226,
+      "usd": 12084000,
+      "uv": 535
      },
      {
       "c": "AUT",
-      "v": 0.0191
+      "v": 0.0191,
+      "usd": 8712000,
+      "uv": 456
      },
      {
       "c": "GBR",
-      "v": 0.0143
+      "v": 0.0143,
+      "usd": 7389000,
+      "uv": 517
      },
      {
       "c": "BHR",
       "v": 0.0071,
-      "n": "40% of tonnage estimated from value"
+      "n": "40% of tonnage estimated from value",
+      "usd": 4024000
      },
      {
       "c": "CZE",
-      "v": 0.0067
+      "v": 0.0067,
+      "usd": 5254000,
+      "uv": 784
      },
      {
       "c": "TUR",
-      "v": 0.0058
+      "v": 0.0058,
+      "usd": 3405000,
+      "uv": 587
      },
      {
       "c": "TWN",
-      "v": 0.0052
+      "v": 0.0052,
+      "usd": 3116000,
+      "uv": 599
      },
      {
       "c": "LUX",
-      "v": 0.003
+      "v": 0.003,
+      "usd": 2710000,
+      "uv": 903
      },
      {
       "c": "BEL",
-      "v": 0.0029
+      "v": 0.0029,
+      "usd": 6386000,
+      "uv": 2200
      },
      {
       "c": "GIN",
-      "v": 0.0028
+      "v": 0.0028,
+      "usd": 1945000,
+      "uv": 695
      },
      {
       "c": "SGP",
-      "v": 0.0025
+      "v": 0.0025,
+      "usd": 12035000,
+      "uv": 4810
      },
      {
       "c": "LVA",
-      "v": 0.0016
+      "v": 0.0016,
+      "usd": 540000,
+      "uv": 338
      },
      {
       "c": "SVK",
-      "v": 0.0013
+      "v": 0.0013,
+      "usd": 1184000,
+      "uv": 911
      },
      {
       "c": "ROU",
-      "v": 0.0011
+      "v": 0.0011,
+      "usd": 677000,
+      "uv": 615
      },
      {
       "c": "GUY",
-      "v": 0.001
+      "v": 0.001,
+      "usd": 724000,
+      "uv": 724
      }
     ],
     "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-    "basis": "gross weight"
+    "basis": "gross weight",
+    "usd": 17753707000,
+    "uv": 478
    }
   },
   {
@@ -888,290 +1182,432 @@
     "rows": [
      {
       "c": "CAN",
-      "v": 5.074
+      "v": 5.074,
+      "usd": 2028928000,
+      "uv": 400
      },
      {
       "c": "RUS",
-      "v": 4.526
+      "v": 4.526,
+      "usd": 2231263000,
+      "uv": 493
      },
      {
       "c": "BHR",
-      "v": 3.006
+      "v": 3.006,
+      "usd": 1273464000,
+      "uv": 424
      },
      {
       "c": "ARE",
-      "v": 2.868
+      "v": 2.868,
+      "usd": 1328508000,
+      "uv": 463
      },
      {
       "c": "NOR",
-      "v": 2.53
+      "v": 2.53,
+      "usd": 1178765000,
+      "uv": 466
      },
      {
       "c": "IND",
-      "v": 1.905
+      "v": 1.905,
+      "usd": 931559000,
+      "uv": 489
      },
      {
       "c": "MYS",
-      "v": 1.888
+      "v": 1.888,
+      "usd": 813212000,
+      "uv": 431
      },
      {
       "c": "ISL",
-      "v": 1.623
+      "v": 1.623,
+      "usd": 697575000,
+      "uv": 430
      },
      {
       "c": "ZAF",
-      "v": 1.446
+      "v": 1.446,
+      "usd": 662264000,
+      "uv": 458
      },
      {
       "c": "OMN",
-      "v": 1.392
+      "v": 1.392,
+      "usd": 670890000,
+      "uv": 482
      },
      {
       "c": "CHN",
-      "v": 1.283
+      "v": 1.283,
+      "usd": 727393000,
+      "uv": 567
      },
      {
       "c": "QAT",
-      "v": 1.097
+      "v": 1.097,
+      "usd": 440277000,
+      "uv": 401
      },
      {
       "c": "USA",
-      "v": 1.095
+      "v": 1.095,
+      "usd": 637705000,
+      "uv": 582
      },
      {
       "c": "IDN",
-      "v": 1.086
+      "v": 1.086,
+      "usd": 484930000,
+      "uv": 447
      },
      {
       "c": "ARG",
-      "v": 0.8706
+      "v": 0.8706,
+      "usd": 365334000,
+      "uv": 420
      },
      {
       "c": "FRA",
-      "v": 0.7643
+      "v": 0.7643,
+      "usd": 364101000,
+      "uv": 476
      },
      {
       "c": "MOZ",
-      "v": 0.6756
+      "v": 0.6756,
+      "usd": 477445000,
+      "uv": 707
      },
      {
       "c": "NLD",
-      "v": 0.6409
+      "v": 0.6409,
+      "usd": 274179000,
+      "uv": 428
      },
      {
       "c": "NZL",
-      "v": 0.5607
+      "v": 0.5607,
+      "usd": 230074000,
+      "uv": 410
      },
      {
       "c": "DEU",
-      "v": 0.4065
+      "v": 0.4065,
+      "usd": 270099000,
+      "uv": 664
      },
      {
       "c": "EGY",
-      "v": 0.3742
+      "v": 0.3742,
+      "usd": 229761000,
+      "uv": 614
      },
      {
       "c": "SWE",
-      "v": 0.1923
+      "v": 0.1923,
+      "usd": 83884000,
+      "uv": 436
      },
      {
       "c": "AUS",
-      "v": 0.19
+      "v": 0.19,
+      "usd": 79974000,
+      "uv": 421
      },
      {
       "c": "TJK",
-      "v": 0.1595
+      "v": 0.1595,
+      "usd": 68223000,
+      "uv": 428
      },
      {
       "c": "GBR",
-      "v": 0.1393
+      "v": 0.1393,
+      "usd": 65962000,
+      "uv": 474
      },
      {
       "c": "ITA",
       "v": 0.1322,
-      "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 92219000,
+      "uv": 698
      },
      {
       "c": "ROU",
-      "v": 0.1306
+      "v": 0.1306,
+      "usd": 58049000,
+      "uv": 444
      },
      {
       "c": "JPN",
-      "v": 0.0968
+      "v": 0.0968,
+      "usd": 101691000,
+      "uv": 1050
      },
      {
       "c": "AZE",
-      "v": 0.096
+      "v": 0.096,
+      "usd": 47714000,
+      "uv": 497
      },
      {
       "c": "KOR",
-      "v": 0.0901
+      "v": 0.0901,
+      "usd": 100431000,
+      "uv": 1110
      },
      {
       "c": "THA",
-      "v": 0.0706
+      "v": 0.0706,
+      "usd": 61945000,
+      "uv": 877
      },
      {
       "c": "POL",
-      "v": 0.064
+      "v": 0.064,
+      "usd": 49788000,
+      "uv": 778
      },
      {
       "c": "SVN",
-      "v": 0.0628
+      "v": 0.0628,
+      "usd": 30191000,
+      "uv": 481
      },
      {
       "c": "TWN",
-      "v": 0.0573
+      "v": 0.0573,
+      "usd": 71838000,
+      "uv": 1250
      },
      {
       "c": "HUN",
-      "v": 0.0559
+      "v": 0.0559,
+      "usd": 39572000,
+      "uv": 708
      },
      {
       "c": "BEL",
-      "v": 0.0492
+      "v": 0.0492,
+      "usd": 76510000,
+      "uv": 1560
      },
      {
       "c": "GEO",
-      "v": 0.0427
+      "v": 0.0427,
+      "usd": 27564000,
+      "uv": 646
      },
      {
       "c": "AUT",
-      "v": 0.0416
+      "v": 0.0416,
+      "usd": 24020000,
+      "uv": 577
      },
      {
       "c": "ESP",
-      "v": 0.0404
+      "v": 0.0404,
+      "usd": 31987000,
+      "uv": 792
      },
      {
       "c": "GHA",
-      "v": 0.034
+      "v": 0.034,
+      "usd": 20444000,
+      "uv": 601
      },
      {
       "c": "MEX",
-      "v": 0.0316
+      "v": 0.0316,
+      "usd": 44233000,
+      "uv": 1400
      },
      {
       "c": "LVA",
-      "v": 0.0315
+      "v": 0.0315,
+      "usd": 10325000,
+      "uv": 328
      },
      {
       "c": "CMR",
-      "v": 0.0284
+      "v": 0.0284,
+      "usd": 14491000,
+      "uv": 510
      },
      {
       "c": "TUR",
-      "v": 0.0261
+      "v": 0.0261,
+      "usd": 31882000,
+      "uv": 1220
      },
      {
       "c": "SAU",
-      "v": 0.0205
+      "v": 0.0205,
+      "usd": 56647000,
+      "uv": 2760
      },
      {
       "c": "CZE",
-      "v": 0.0159
+      "v": 0.0159,
+      "usd": 13857000,
+      "uv": 872
      },
      {
       "c": "DNK",
-      "v": 0.0134
+      "v": 0.0134,
+      "usd": 3116000,
+      "uv": 233
      },
      {
       "c": "VNM",
-      "v": 0.0128
+      "v": 0.0128,
+      "usd": 13782000,
+      "uv": 1080
      },
      {
       "c": "BRA",
-      "v": 0.0121
+      "v": 0.0121,
+      "usd": 16995000,
+      "uv": 1400
      },
      {
       "c": "FIN",
-      "v": 0.0105
+      "v": 0.0105,
+      "usd": 4659000,
+      "uv": 444
      },
      {
       "c": "JOR",
-      "v": 0.0099
+      "v": 0.0099,
+      "usd": 3807000,
+      "uv": 385
      },
      {
       "c": "CHE",
-      "v": 0.0097
+      "v": 0.0097,
+      "usd": 6715000,
+      "uv": 692
      },
      {
       "c": "KAZ",
-      "v": 0.0075
+      "v": 0.0075,
+      "usd": 9686000,
+      "uv": 1290
      },
      {
       "c": "PRT",
-      "v": 0.0066
+      "v": 0.0066,
+      "usd": 4548000,
+      "uv": 689
      },
      {
       "c": "KWT",
-      "v": 0.006
+      "v": 0.006,
+      "usd": 18204000,
+      "uv": 3030
      },
      {
       "c": "SVK",
-      "v": 0.0046
+      "v": 0.0046,
+      "usd": 4870000,
+      "uv": 1060
      },
      {
       "c": "BGD",
-      "v": 0.0046
+      "v": 0.0046,
+      "usd": 5492000,
+      "uv": 1190
      },
      {
       "c": "LUX",
-      "v": 0.0045
+      "v": 0.0045,
+      "usd": 3537000,
+      "uv": 786
      },
      {
       "c": "TUN",
-      "v": 0.0037
+      "v": 0.0037,
+      "usd": 697000,
+      "uv": 188
      },
      {
       "c": "UZB",
-      "v": 0.0036
+      "v": 0.0036,
+      "usd": 3693000,
+      "uv": 1030
      },
      {
       "c": "SGP",
       "v": 0.0027,
-      "n": "26% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "26% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 12018000,
+      "uv": 4450
      },
      {
       "c": "COL",
-      "v": 0.0024
+      "v": 0.0024,
+      "usd": 3841000,
+      "uv": 1600
      },
      {
       "c": "MDA",
-      "v": 0.0024
+      "v": 0.0024,
+      "usd": 1426000,
+      "uv": 594
      },
      {
       "c": "BGR",
-      "v": 0.002
+      "v": 0.002,
+      "usd": 799000,
+      "uv": 400
      },
      {
       "c": "IRN",
       "v": 0.0018,
-      "n": "11% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "11% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 6039000,
+      "uv": 3360
      },
      {
       "c": "TZA",
-      "v": 0.0017
+      "v": 0.0017,
+      "usd": 1020000,
+      "uv": 600
      },
      {
       "c": "BLR",
-      "v": 0.0011
+      "v": 0.0011,
+      "usd": 564000,
+      "uv": 513
      },
      {
       "c": "NGA",
-      "v": 0.001
+      "v": 0.001,
+      "usd": 1567000,
+      "uv": 1570
      },
      {
       "c": "MKD",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 3915000,
+      "uv": 7830
      },
      {
       "c": "ZMB",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 1550000,
+      "uv": 3100
      }
     ],
     "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-    "basis": "gross weight"
+    "basis": "gross weight",
+    "usd": 17753707000,
+    "uv": 478
    }
   }
  ],
@@ -1183,6 +1619,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 7589400000,
+   "uv": 68.9,
    "mode": "sea",
    "lane": "bauxite:GIN-CHN"
   },
@@ -1193,6 +1631,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2032946000,
+   "uv": 49.9,
    "mode": "sea",
    "lane": "bauxite:AUS-CHN"
   },
@@ -1203,6 +1643,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 277178000,
+   "uv": 73.6,
    "mode": "sea",
    "lane": "bauxite:GIN-IND"
   },
@@ -1213,6 +1655,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 150544000,
+   "uv": 50.2,
    "mode": "sea",
    "lane": "bauxite:TUR-CHN"
   },
@@ -1223,6 +1667,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 157344000,
+   "uv": 53.6,
    "mode": "sea",
    "lane": "bauxite:GIN-IRL"
   },
@@ -1233,6 +1679,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 66181000,
+   "uv": 29.5,
    "mode": "sea",
    "lane": "bauxite:BRA-CAN"
   },
@@ -1243,6 +1691,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 115603000,
+   "uv": 52.9,
    "mode": "sea",
    "lane": "bauxite:GIN-DEU"
   },
@@ -1253,6 +1703,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 109498000,
+   "uv": 52.8,
    "mode": "sea",
    "lane": "bauxite:GIN-ESP"
   },
@@ -1263,6 +1715,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 51556000,
+   "uv": 25.0,
    "mode": "sea",
    "lane": "bauxite:JAM-USA"
   },
@@ -1273,6 +1727,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 106950000,
+   "uv": 69.3,
    "mode": "land"
   },
   {
@@ -1282,6 +1738,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 60716000,
+   "uv": 46.6,
    "mode": "sea",
    "lane": "bauxite:BRA-IRL"
   },
@@ -1292,6 +1750,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 98156000,
+   "uv": 84.4,
    "mode": "sea",
    "lane": "bauxite:GHA-CHN"
   },
@@ -1302,6 +1762,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 37223000,
+   "uv": 32.6,
    "mode": "sea",
    "lane": "bauxite:BRA-CHN"
   },
@@ -1312,6 +1774,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 44198000,
+   "uv": 39.0,
    "mode": "sea",
    "lane": "bauxite:GIN-CAN"
   },
@@ -1322,6 +1786,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 50985000,
+   "uv": 63.3,
    "mode": "sea",
    "lane": "bauxite:MYS-CHN"
   },
@@ -1332,6 +1798,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 33424000,
+   "uv": 46.2,
    "mode": "sea",
    "lane": "bauxite:CIV-CHN"
   },
@@ -1342,6 +1810,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 32689000,
+   "uv": 60.6,
    "mode": "sea",
    "lane": "bauxite:BRA-GRC"
   },
@@ -1352,6 +1822,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 21472000,
+   "uv": 50.6,
    "mode": "sea",
    "lane": "bauxite:MNE-CHN"
   },
@@ -1362,6 +1834,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 17773000,
+   "uv": 48.7,
    "mode": "sea",
    "lane": "bauxite:GIN-GRC"
   },
@@ -1372,10 +1846,129 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 25466000,
+   "uv": 70.4,
    "mode": "sea",
    "lane": "bauxite:AUS-KOR"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Alumina: Consumption, apparent",
+    "u": "thousand metric dry tons",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 1900.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 2500.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as production + imports - exports ± adjustments for industry stock changes."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Bauxite",
+    "pct": ">75",
+    "y": 2025,
+    "src": "Jamaica, Turkey, Guyana, Australia",
+    "n": "Descending order of import share."
+   },
+   {
+    "what": "Alumina",
+    "pct": "71",
+    "y": 2025,
+    "src": "Brazil, Jamaica, Australia, Canada",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "GIN",
+    "p": 0.3402
+   },
+   "top3": 0.7574,
+   "hhi": 2132,
+   "eq": 4.7,
+   "k": 13,
+   "cov": 0.9819
+  },
+  "refinery": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6188
+   },
+   "top3": 0.8051,
+   "hhi": 4055,
+   "eq": 2.5,
+   "k": 19,
+   "cov": 0.9914
+  },
+  "reserves": {
+   "top1": {
+    "c": "GIN",
+    "p": 0.2593
+   },
+   "top3": 0.4976,
+   "hhi": 1164,
+   "eq": 8.6,
+   "k": 13,
+   "cov": 0.8143
+  },
+  "exports": {
+   "top1": {
+    "c": "GIN",
+    "p": 0.6679
+   },
+   "top3": 0.9248,
+   "hhi": 4997,
+   "eq": 2.0,
+   "k": 38,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.8719
+   },
+   "top3": 0.9192,
+   "hhi": 7622,
+   "eq": 1.3,
+   "k": 68,
+   "cov": 1.0
+  },
+  "alumina-exports": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3812
+   },
+   "top3": 0.6959,
+   "hhi": 2092,
+   "eq": 4.8,
+   "k": 38,
+   "cov": 1.0
+  },
+  "alumina-imports": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.1366
+   },
+   "top3": 0.3394,
+   "hhi": 667,
+   "eq": 15.0,
+   "k": 70,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "Alumina (HS 281820), 2024 (CEPII BACI): world 37.14 Mt gross weight; top exporters Australia 14.16 Mt, Brazil 7.53 Mt, Indonesia 4.16 Mt.",
   "USGS production and reserves are dry tonnes; the refinery table is USGS alumina refinery production in calcined-equivalent weight (Mt), listed for every country USGS names."

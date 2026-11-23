@@ -13,7 +13,7 @@
    "u": "t Co",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded"
+   "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded; the countries and USGS 'Other countries' add up to 11,525,000 t Co, while the rounded world total of 12,000,000 t Co is 4.1% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 727.15,
@@ -21,6 +21,13 @@
    "y": 2024,
    "s": "baci",
    "n": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt."
+  },
+  "seaborne": {
+   "v": 0.7126,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (cobalt) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "kpis": {
@@ -96,7 +103,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Co",
-  "world": 12000000.0,
+  "world": 11525000.0,
   "rows": [
    {
     "c": "COD",
@@ -147,7 +154,7 @@
     "v": 70000.0
    }
   ],
-  "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded",
+  "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded; the countries and USGS 'Other countries' add up to 11,525,000 t Co, while the rounded world total of 12,000,000 t Co is 4.1% above that sum: shares are computed on the sum",
   "other": 780000.0,
   "hidden": {
    "v": 154000.0,
@@ -155,6 +162,7 @@
    "from": 10,
    "n": "2 further countries named by USGS (Papua New Guinea and United States), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 12000000.0,
   "basis": "contained cobalt"
  },
  "exports": {
@@ -166,142 +174,209 @@
    {
     "c": "COD",
     "v": 640.15,
-    "n": "2024 figure: DR Congo suspended exports until 15 October 2025 and has capped them by quota since 16 October 2025 (see the notes)"
+    "n": "2024 figure: DR Congo suspended exports until 15 October 2025 and has capped them by quota since 16 October 2025 (see the notes)",
+    "usd": 3083813000,
+    "uv": 4820
    },
    {
     "c": "CAN",
-    "v": 8.414
+    "v": 8.414,
+    "usd": 275186000,
+    "uv": 32700
    },
    {
     "c": "PHL",
-    "v": 7.314
+    "v": 7.314,
+    "usd": 43884000,
+    "uv": 6000
    },
    {
     "c": "COG",
     "v": 6.621,
-    "n": "6.6 kt at 4,355 USD/t, close to DR Congo's 4,817 USD/t; the Republic of the Congo is not a cobalt producer in the USGS table, so some of it may be DR Congo material recorded under the wrong Congo (a possible reading, not established here)"
+    "n": "6.6 kt at 4,355 USD/t, close to DR Congo's 4,817 USD/t; the Republic of the Congo is not a cobalt producer in the USGS table, so some of it may be DR Congo material recorded under the wrong Congo (a possible reading, not established here)",
+    "usd": 28835000,
+    "uv": 4360
    },
    {
     "c": "USA",
-    "v": 6.257
+    "v": 6.257,
+    "usd": 145490000,
+    "uv": 23300
    },
    {
     "c": "RUS",
-    "v": 5.721
+    "v": 5.721,
+    "usd": 29230000,
+    "uv": 5110
    },
    {
     "c": "CHN",
-    "v": 5.159
+    "v": 5.159,
+    "usd": 148630000,
+    "uv": 28800
    },
    {
     "c": "JPN",
-    "v": 4.908
+    "v": 4.908,
+    "usd": 118248000,
+    "uv": 24100
    },
    {
     "c": "AUS",
-    "v": 3.567
+    "v": 3.567,
+    "usd": 108495000,
+    "uv": 30400
    },
    {
     "c": "MOZ",
-    "v": 3.446
+    "v": 3.446,
+    "usd": 27704000,
+    "uv": 8040
    },
    {
     "c": "FIN",
-    "v": 3.16
+    "v": 3.16,
+    "usd": 114843000,
+    "uv": 36300
    },
    {
     "c": "DEU",
     "v": 3.108,
-    "n": "36% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "36% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 38178000,
+    "uv": 12300
    },
    {
     "c": "NOR",
-    "v": 2.993
+    "v": 2.993,
+    "usd": 101238000,
+    "uv": 33800
    },
    {
     "c": "ZAF",
-    "v": 2.738
+    "v": 2.738,
+    "usd": 30920000,
+    "uv": 11300
    },
    {
     "c": "MDG",
-    "v": 2.718
+    "v": 2.718,
+    "usd": 82765000,
+    "uv": 30500
    },
    {
     "c": "TUR",
-    "v": 2.486
+    "v": 2.486,
+    "usd": 21197000,
+    "uv": 8530
    },
    {
     "c": "GBR",
-    "v": 2.11
+    "v": 2.11,
+    "usd": 75899000,
+    "uv": 36000
    },
    {
     "c": "IDN",
-    "v": 2.071
+    "v": 2.071,
+    "usd": 28013000,
+    "uv": 13500
    },
    {
     "c": "ITA",
-    "v": 1.933
+    "v": 1.933,
+    "usd": 5732000,
+    "uv": 2970
    },
    {
     "c": "MAR",
-    "v": 1.896
+    "v": 1.896,
+    "usd": 60144000,
+    "uv": 31700
    },
    {
     "c": "NLD",
-    "v": 1.789
+    "v": 1.789,
+    "usd": 46053000,
+    "uv": 25700
    },
    {
     "c": "BEL",
-    "v": 1.562
+    "v": 1.562,
+    "usd": 62914000,
+    "uv": 40300
    },
    {
     "c": "AUT",
-    "v": 1.397
+    "v": 1.397,
+    "usd": 6683000,
+    "uv": 4780
    },
    {
     "c": "FRA",
-    "v": 0.952
+    "v": 0.952,
+    "usd": 30292000,
+    "uv": 31800
    },
    {
     "c": "TZA",
-    "v": 0.915
+    "v": 0.915,
+    "usd": 5689000,
+    "uv": 6220
    },
    {
     "c": "NAM",
-    "v": 0.628
+    "v": 0.628,
+    "usd": 2955000,
+    "uv": 4710
    },
    {
     "c": "IRL",
-    "v": 0.485
+    "v": 0.485,
+    "usd": 1451000,
+    "uv": 2990
    },
    {
     "c": "IND",
-    "v": 0.462
+    "v": 0.462,
+    "usd": 2906000,
+    "uv": 6290
    },
    {
     "c": "MYS",
-    "v": 0.42
+    "v": 0.42,
+    "usd": 22840000,
+    "uv": 54400
    },
    {
     "c": "LUX",
-    "v": 0.404
+    "v": 0.404,
+    "usd": 10229000,
+    "uv": 25300
    },
    {
     "c": "COL",
-    "v": 0.401
+    "v": 0.401,
+    "usd": 1430000,
+    "uv": 3570
    },
    {
     "c": "SGP",
-    "v": 0.293
+    "v": 0.293,
+    "usd": 10784000,
+    "uv": 36800
    },
    {
     "c": "TWN",
     "v": 0.1819,
-    "n": "41% of tonnage estimated from value"
+    "n": "41% of tonnage estimated from value",
+    "usd": 6922000
    },
    {
     "c": "TUN",
-    "v": 0.165
+    "v": 0.165,
+    "usd": 1361000,
+    "uv": 8250
    },
    {
     "c": "LAO",
@@ -309,24 +384,33 @@
     "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 3181000
    },
    {
     "c": "ROU",
-    "v": 0.107
+    "v": 0.107,
+    "usd": 1552000,
+    "uv": 14500
    },
    {
     "c": "CHE",
-    "v": 0.07
+    "v": 0.07,
+    "usd": 3155000,
+    "uv": 45100
    },
    {
     "c": "ZMB",
-    "v": 0.036
+    "v": 0.036,
+    "usd": 1144000,
+    "uv": 31800
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
   "basis": "intermediates and metal, gross weight",
-  "caveat": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt."
+  "caveat": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
+  "usd": 4789985000,
+  "uv": 6590
  },
  "imports": {
   "y": 2024,
@@ -336,150 +420,221 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 645.72
+    "v": 645.72,
+    "usd": 3209501000,
+    "uv": 4970
    },
    {
     "c": "MYS",
-    "v": 13.865
+    "v": 13.865,
+    "usd": 85907000,
+    "uv": 6200
    },
    {
     "c": "USA",
-    "v": 10.216
+    "v": 10.216,
+    "usd": 330535000,
+    "uv": 32400
    },
    {
     "c": "KOR",
-    "v": 8.359
+    "v": 8.359,
+    "usd": 66773000,
+    "uv": 7990
    },
    {
     "c": "BEL",
-    "v": 6.431
+    "v": 6.431,
+    "usd": 106274000,
+    "uv": 16500
    },
    {
     "c": "GBR",
-    "v": 4.509
+    "v": 4.509,
+    "usd": 105111000,
+    "uv": 23300
    },
    {
     "c": "TWN",
     "v": 4.415,
-    "n": "13% of tonnage estimated from value"
+    "n": "13% of tonnage estimated from value",
+    "usd": 125011000
    },
    {
     "c": "MAR",
-    "v": 4.241
+    "v": 4.241,
+    "usd": 18672000,
+    "uv": 4400
    },
    {
     "c": "NLD",
-    "v": 4.178
+    "v": 4.178,
+    "usd": 137128000,
+    "uv": 32800
    },
    {
     "c": "JPN",
-    "v": 4.066
+    "v": 4.066,
+    "usd": 157386000,
+    "uv": 38700
    },
    {
     "c": "FRA",
-    "v": 3.534
+    "v": 3.534,
+    "usd": 56592000,
+    "uv": 16000
    },
    {
     "c": "FIN",
     "v": 2.497,
-    "n": "45% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "45% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 7196000,
+    "uv": 2880
    },
    {
     "c": "DEU",
-    "v": 2.19
+    "v": 2.19,
+    "usd": 89688000,
+    "uv": 41000
    },
    {
     "c": "NOR",
-    "v": 1.808
+    "v": 1.808,
+    "usd": 40181000,
+    "uv": 22200
    },
    {
     "c": "BRA",
-    "v": 1.62
+    "v": 1.62,
+    "usd": 19067000,
+    "uv": 11800
    },
    {
     "c": "CAN",
-    "v": 1.48
+    "v": 1.48,
+    "usd": 13508000,
+    "uv": 9130
    },
    {
     "c": "IND",
-    "v": 1.254
+    "v": 1.254,
+    "usd": 39913000,
+    "uv": 31800
    },
    {
     "c": "SGP",
-    "v": 1.237
+    "v": 1.237,
+    "usd": 25011000,
+    "uv": 20200
    },
    {
     "c": "ESP",
-    "v": 1.016
+    "v": 1.016,
+    "usd": 10222000,
+    "uv": 10100
    },
    {
     "c": "AUT",
-    "v": 0.918
+    "v": 0.918,
+    "usd": 26749000,
+    "uv": 29100
    },
    {
     "c": "IRL",
-    "v": 0.687
+    "v": 0.687,
+    "usd": 42335000,
+    "uv": 61600
    },
    {
     "c": "TUR",
-    "v": 0.606
+    "v": 0.606,
+    "usd": 13061000,
+    "uv": 21600
    },
    {
     "c": "ITA",
-    "v": 0.438
+    "v": 0.438,
+    "usd": 16763000,
+    "uv": 38300
    },
    {
     "c": "KHM",
-    "v": 0.398
+    "v": 0.398,
+    "usd": 2385000,
+    "uv": 5990
    },
    {
     "c": "PHL",
-    "v": 0.373
+    "v": 0.373,
+    "usd": 1023000,
+    "uv": 2740
    },
    {
     "c": "AUS",
-    "v": 0.188
+    "v": 0.188,
+    "usd": 5949000,
+    "uv": 31600
    },
    {
     "c": "THA",
-    "v": 0.161
+    "v": 0.161,
+    "usd": 7638000,
+    "uv": 47400
    },
    {
     "c": "LUX",
-    "v": 0.142
+    "v": 0.142,
+    "usd": 3821000,
+    "uv": 26900
    },
    {
     "c": "SWE",
-    "v": 0.138
+    "v": 0.138,
+    "usd": 6040000,
+    "uv": 43800
    },
    {
     "c": "RUS",
-    "v": 0.122
+    "v": 0.122,
+    "usd": 3762000,
+    "uv": 30800
    },
    {
     "c": "CHE",
-    "v": 0.114
+    "v": 0.114,
+    "usd": 5853000,
+    "uv": 51300
    },
    {
     "c": "TUN",
-    "v": 0.104
+    "v": 0.104,
+    "usd": 5304000,
+    "uv": 51000
    },
    {
     "c": "VNM",
-    "v": 0.071
+    "v": 0.071,
+    "usd": 2348000,
+    "uv": 33100
    },
    {
     "c": "ISR",
-    "v": 0.036
+    "v": 0.036,
+    "usd": 1737000,
+    "uv": 48200
    },
    {
     "c": "ROU",
-    "v": 0.012
+    "v": 0.012,
+    "usd": 1541000,
+    "uv": 128000
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal, not contained cobalt.",
   "basis": "intermediates and metal, gross weight",
-  "caveat": "Gross weight of cobalt intermediate products and metal, not contained cobalt."
+  "caveat": "Gross weight of cobalt intermediate products and metal, not contained cobalt.",
+  "usd": 4789985000,
+  "uv": 6590
  },
  "flows": [
   {
@@ -489,7 +644,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 3020221000,
+   "uv": 4800,
+   "mode": "sea",
+   "lane": "cobalt:COD-CHN"
   },
   {
    "o": "PHL",
@@ -498,7 +656,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 41499000,
+   "uv": 6000,
+   "mode": "sea",
+   "lane": "cobalt:PHL-CHN"
   },
   {
    "o": "COD",
@@ -507,7 +668,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 26973000,
+   "uv": 4600,
+   "mode": "sea",
+   "lane": "cobalt:COD-KOR"
   },
   {
    "o": "COG",
@@ -516,7 +680,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 25972000,
+   "uv": 4520,
+   "mode": "sea",
+   "lane": "cobalt:COG-MYS"
   },
   {
    "o": "RUS",
@@ -525,7 +692,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 25544000,
+   "uv": 4570,
    "mode": "mixed",
+   "lane": "cobalt:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
@@ -535,7 +705,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 18672000,
+   "uv": 4400,
+   "mode": "sea",
+   "lane": "cobalt:COD-MAR"
   },
   {
    "o": "MOZ",
@@ -544,7 +717,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 27704000,
+   "uv": 8040,
+   "mode": "sea",
+   "lane": "cobalt:MOZ-MYS"
   },
   {
    "o": "AUS",
@@ -553,7 +729,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 75900000,
+   "uv": 29300,
+   "mode": "sea",
+   "lane": "cobalt:AUS-TWN"
   },
   {
    "o": "NOR",
@@ -562,7 +741,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 85404000,
+   "uv": 34300,
+   "mode": "sea",
+   "lane": "cobalt:NOR-USA"
   },
   {
    "o": "ZAF",
@@ -571,7 +753,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 14037000,
+   "uv": 6750,
+   "mode": "sea",
+   "lane": "cobalt:ZAF-MYS"
   },
   {
    "o": "ITA",
@@ -580,6 +765,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 5732000,
+   "uv": 2970,
    "mode": "land"
   },
   {
@@ -589,6 +776,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 24388000,
+   "uv": 12800,
    "mode": "sea"
   },
   {
@@ -598,6 +787,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 40181000,
+   "uv": 22200,
    "mode": "sea"
   },
   {
@@ -607,6 +798,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 50255000,
+   "uv": 31400,
    "mode": "sea"
   },
   {
@@ -616,6 +809,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 54386000,
+   "uv": 37400,
    "mode": "land"
   },
   {
@@ -625,6 +820,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 44364000,
+   "uv": 31200,
    "mode": "sea"
   },
   {
@@ -634,6 +831,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 5586000,
+   "uv": 4070,
    "mode": "land"
   },
   {
@@ -643,6 +842,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 10146000,
+   "uv": 7620,
    "mode": "land"
   },
   {
@@ -652,6 +853,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 8999000,
+   "uv": 7130,
    "mode": "sea"
   },
   {
@@ -661,9 +864,89 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 36793000,
+   "uv": 30700,
    "mode": "sea"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption (includes secondary): Apparent",
+    "u": "t",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 7960.0,
+      "est": true
+     },
+     {
+      "y": 2025,
+      "v": 9600.0,
+      "est": true
+     }
+    ],
+    "n": "Defined for 2021-22 as secondary production + imports - exports ± adjustments for Government and industry stock changes for refined cobalt. Beginning in 2023, Government stock changes no longer included."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Cobalt",
+    "pct": "79",
+    "y": 2025,
+    "src": "Norway, Finland, Canada, Japan",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "COD",
+    "p": 0.7311
+   },
+   "top3": 0.8954,
+   "hhi": 5554,
+   "eq": 1.8,
+   "k": 12,
+   "cov": 0.9711
+  },
+  "reserves": {
+   "top1": {
+    "c": "COD",
+    "p": 0.5206
+   },
+   "top3": 0.7375,
+   "hhi": 3051,
+   "eq": 3.3,
+   "k": 12,
+   "cov": 0.9323
+  },
+  "exports": {
+   "top1": {
+    "c": "COD",
+    "p": 0.8804
+   },
+   "top3": 0.902,
+   "hhi": 7758,
+   "eq": 1.3,
+   "k": 38,
+   "cov": 1.0,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.888
+   },
+   "top3": 0.9211,
+   "hhi": 7896,
+   "eq": 1.3,
+   "k": 35,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "Trade is in gross weight (kt), mostly HS 8105 (mattes, intermediate products such as crude hydroxide, unwrought cobalt, scrap and powders): ores and concentrates (HS 2605) are only 8 kt of the 743 kt (1%) that the HS4 extract gives for both headings in 2024, before the cleaning rules. USGS production is contained cobalt (t Co), so the two are not comparable.",
   "DR Congo to China is the main flow (629 kt, declared at 4,805 USD per tonne, against 17,957 USD per tonne for all other flows): by its unit value it is mostly intermediate products rather than metal; customs data do not say so.",

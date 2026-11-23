@@ -208,312 +208,466 @@
   "rows": [
    {
     "c": "AUS",
-    "v": 898.01
+    "v": 898.01,
+    "usd": 90748697000,
+    "uv": 101
    },
    {
     "c": "BRA",
-    "v": 405.82
+    "v": 405.82,
+    "usd": 34855363000,
+    "uv": 85.9
    },
    {
     "c": "ZAF",
-    "v": 62.684
+    "v": 62.684,
+    "usd": 6808451000,
+    "uv": 109
    },
    {
     "c": "CAN",
-    "v": 61.868
+    "v": 61.868,
+    "usd": 7295578000,
+    "uv": 118
    },
    {
     "c": "IND",
-    "v": 38.278
+    "v": 38.278,
+    "usd": 3405949000,
+    "uv": 89.0
    },
    {
     "c": "UKR",
-    "v": 34.086
+    "v": 34.086,
+    "usd": 2983672000,
+    "uv": 87.5
    },
    {
     "c": "PER",
-    "v": 22.723
+    "v": 22.723,
+    "usd": 1872499000,
+    "uv": 82.4
    },
    {
     "c": "SWE",
-    "v": 19.783
+    "v": 19.783,
+    "usd": 2483074000,
+    "uv": 126
    },
    {
     "c": "CHL",
-    "v": 15.239
+    "v": 15.239,
+    "usd": 1647529000,
+    "uv": 108
    },
    {
     "c": "MRT",
-    "v": 14.504
+    "v": 14.504,
+    "usd": 1536285000,
+    "uv": 106
    },
    {
     "c": "MYS",
     "v": 14.374,
-    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
+    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "usd": 1182472000,
+    "uv": 82.3
    },
    {
     "c": "OMN",
     "v": 13.245,
-    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
+    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "usd": 1778241000,
+    "uv": 134
    },
    {
     "c": "USA",
-    "v": 12.63
+    "v": 12.63,
+    "usd": 1388387000,
+    "uv": 110
    },
    {
     "c": "KAZ",
-    "v": 10.478
+    "v": 10.478,
+    "usd": 794365000,
+    "uv": 75.8
    },
    {
     "c": "RUS",
-    "v": 9.653
+    "v": 9.653,
+    "usd": 999913000,
+    "uv": 104
    },
    {
     "c": "IRN",
-    "v": 9.301
+    "v": 9.301,
+    "usd": 1132263000,
+    "uv": 122
    },
    {
     "c": "SLE",
-    "v": 9.281
+    "v": 9.281,
+    "usd": 829026000,
+    "uv": 89.3
    },
    {
     "c": "BHR",
-    "v": 9.02
+    "v": 9.02,
+    "usd": 1485234000,
+    "uv": 165
    },
    {
     "c": "MNG",
-    "v": 7.422
+    "v": 7.422,
+    "usd": 508481000,
+    "uv": 68.5
    },
    {
     "c": "PHL",
-    "v": 6.448
+    "v": 6.448,
+    "usd": 384905000,
+    "uv": 59.7
    },
    {
     "c": "LAO",
-    "v": 4.097
+    "v": 4.097,
+    "usd": 479994000,
+    "uv": 117
    },
    {
     "c": "LBR",
-    "v": 3.404
+    "v": 3.404,
+    "usd": 270270000,
+    "uv": 79.4
    },
    {
     "c": "CHN",
-    "v": 3.158
+    "v": 3.158,
+    "usd": 376102000,
+    "uv": 119
    },
    {
     "c": "NZL",
-    "v": 3.137
+    "v": 3.137,
+    "usd": 187562000,
+    "uv": 59.8
    },
    {
     "c": "TUR",
-    "v": 2.266
+    "v": 2.266,
+    "usd": 218576000,
+    "uv": 96.5
    },
    {
     "c": "VEN",
-    "v": 2.247
+    "v": 2.247,
+    "usd": 281347000,
+    "uv": 125
    },
    {
     "c": "NOR",
-    "v": 1.948
+    "v": 1.948,
+    "usd": 181650000,
+    "uv": 93.2
    },
    {
     "c": "MMR",
-    "v": 1.741
+    "v": 1.741,
+    "usd": 83156000,
+    "uv": 47.8
    },
    {
     "c": "DEU",
-    "v": 1.229
+    "v": 1.229,
+    "usd": 173477000,
+    "uv": 141
    },
    {
     "c": "UZB",
-    "v": 1.001
+    "v": 1.001,
+    "usd": 135552000,
+    "uv": 135
    },
    {
     "c": "ARE",
-    "v": 0.9573
+    "v": 0.9573,
+    "usd": 97497000,
+    "uv": 102
    },
    {
     "c": "MEX",
-    "v": 0.9232
+    "v": 0.9232,
+    "usd": 80837000,
+    "uv": 87.6
    },
    {
     "c": "KHM",
-    "v": 0.8621
+    "v": 0.8621,
+    "usd": 31001000,
+    "uv": 36.0
    },
    {
     "c": "PAK",
-    "v": 0.7677
+    "v": 0.7677,
+    "usd": 60934000,
+    "uv": 79.4
    },
    {
     "c": "NLD",
-    "v": 0.4539
+    "v": 0.4539,
+    "usd": 55367000,
+    "uv": 122
    },
    {
     "c": "KOR",
-    "v": 0.4252
+    "v": 0.4252,
+    "usd": 29742000,
+    "uv": 69.9
    },
    {
     "c": "MLI",
-    "v": 0.4218
+    "v": 0.4218,
+    "usd": 42711000,
+    "uv": 101
    },
    {
     "c": "CHE",
-    "v": 0.4183
+    "v": 0.4183,
+    "usd": 22063000,
+    "uv": 52.7
    },
    {
     "c": "HND",
-    "v": 0.3815
+    "v": 0.3815,
+    "usd": 40043000,
+    "uv": 105
    },
    {
     "c": "UGA",
-    "v": 0.3427
+    "v": 0.3427,
+    "usd": 35841000,
+    "uv": 105
    },
    {
     "c": "THA",
-    "v": 0.2631
+    "v": 0.2631,
+    "usd": 24059000,
+    "uv": 91.4
    },
    {
     "c": "SAU",
-    "v": 0.2056
+    "v": 0.2056,
+    "usd": 20018000,
+    "uv": 97.4
    },
    {
     "c": "TTO",
-    "v": 0.1849
+    "v": 0.1849,
+    "usd": 23972000,
+    "uv": 130
    },
    {
     "c": "ROU",
-    "v": 0.1777
+    "v": 0.1777,
+    "usd": 24323000,
+    "uv": 137
    },
    {
     "c": "GIN",
-    "v": 0.158
+    "v": 0.158,
+    "usd": 20775000,
+    "uv": 131
    },
    {
     "c": "URY",
-    "v": 0.1437
+    "v": 0.1437,
+    "usd": 15314000,
+    "uv": 107
    },
    {
     "c": "FJI",
-    "v": 0.1319
+    "v": 0.1319,
+    "usd": 10855000,
+    "uv": 82.3
    },
    {
     "c": "EGY",
-    "v": 0.1215
+    "v": 0.1215,
+    "usd": 14213000,
+    "uv": 117
    },
    {
     "c": "BOL",
-    "v": 0.1143
+    "v": 0.1143,
+    "usd": 13319000,
+    "uv": 117
    },
    {
     "c": "HKG",
-    "v": 0.0734
+    "v": 0.0734,
+    "usd": 7706000,
+    "uv": 105
    },
    {
     "c": "HUN",
-    "v": 0.0696
+    "v": 0.0696,
+    "usd": 12194000,
+    "uv": 175
    },
    {
     "c": "FIN",
-    "v": 0.0684
+    "v": 0.0684,
+    "usd": 4408000,
+    "uv": 64.4
    },
    {
     "c": "MAR",
-    "v": 0.0629
+    "v": 0.0629,
+    "usd": 2235000,
+    "uv": 35.5
    },
    {
     "c": "QAT",
-    "v": 0.0511
+    "v": 0.0511,
+    "usd": 5750000,
+    "uv": 113
    },
    {
     "c": "DZA",
-    "v": 0.0505
+    "v": 0.0505,
+    "usd": 5100000,
+    "uv": 101
    },
    {
     "c": "FRA",
-    "v": 0.0497
+    "v": 0.0497,
+    "usd": 5967000,
+    "uv": 120
    },
    {
     "c": "ESP",
-    "v": 0.049
+    "v": 0.049,
+    "usd": 6634000,
+    "uv": 135
    },
    {
     "c": "SEN",
-    "v": 0.0471
+    "v": 0.0471,
+    "usd": 2846000,
+    "uv": 60.4
    },
    {
     "c": "ARG",
-    "v": 0.0446
+    "v": 0.0446,
+    "usd": 4841000,
+    "uv": 109
    },
    {
     "c": "NGA",
-    "v": 0.0356
+    "v": 0.0356,
+    "usd": 3360000,
+    "uv": 94.4
    },
    {
     "c": "BGR",
-    "v": 0.0314
+    "v": 0.0314,
+    "usd": 856000,
+    "uv": 27.3
    },
    {
     "c": "MUS",
-    "v": 0.0256
+    "v": 0.0256,
+    "usd": 5802000,
+    "uv": 227
    },
    {
     "c": "BEL",
-    "v": 0.0253
+    "v": 0.0253,
+    "usd": 5073000,
+    "uv": 201
    },
    {
     "c": "SVK",
-    "v": 0.0223
+    "v": 0.0223,
+    "usd": 2114000,
+    "uv": 94.8
    },
    {
     "c": "MOZ",
-    "v": 0.0212
+    "v": 0.0212,
+    "usd": 2515000,
+    "uv": 119
    },
    {
     "c": "LBY",
-    "v": 0.0171
+    "v": 0.0171,
+    "usd": 2115000,
+    "uv": 124
    },
    {
     "c": "GBR",
-    "v": 0.0163
+    "v": 0.0163,
+    "usd": 1368000,
+    "uv": 83.9
    },
    {
     "c": "BIH",
-    "v": 0.0126
+    "v": 0.0126,
+    "usd": 814000,
+    "uv": 64.6
    },
    {
     "c": "GAB",
-    "v": 0.0101
+    "v": 0.0101,
+    "usd": 1311000,
+    "uv": 130
    },
    {
     "c": "POL",
-    "v": 0.0084
+    "v": 0.0084,
+    "usd": 1635000,
+    "uv": 195
    },
    {
     "c": "RWA",
-    "v": 0.0082
+    "v": 0.0082,
+    "usd": 180000,
+    "uv": 22.0
    },
    {
     "c": "LUX",
-    "v": 0.0049
+    "v": 0.0049,
+    "usd": 763000,
+    "uv": 156
    },
    {
     "c": "BWA",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 360000,
+    "uv": 120
    },
    {
     "c": "NAM",
-    "v": 0.0028
+    "v": 0.0028,
+    "usd": 110000,
+    "uv": 39.3
    },
    {
     "c": "MKD",
-    "v": 0.0026
+    "v": 0.0026,
+    "usd": 242000,
+    "uv": 93.1
    },
    {
     "c": "ITA",
-    "v": 0.0018
+    "v": 0.0018,
+    "usd": 104000,
+    "uv": 57.8
    }
   ],
-  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "usd": 167257357000,
+  "uv": 98.0
  },
  "imports": {
   "y": 2024,
@@ -523,310 +677,644 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 1251.8
+    "v": 1251.8,
+    "usd": 117768659000,
+    "uv": 94.1
    },
    {
     "c": "JPN",
-    "v": 93.489
+    "v": 93.489,
+    "usd": 10035922000,
+    "uv": 107
    },
    {
     "c": "KOR",
-    "v": 68.484
+    "v": 68.484,
+    "usd": 7742819000,
+    "uv": 113
    },
    {
     "c": "MYS",
     "v": 25.747,
-    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
+    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "usd": 2200319000,
+    "uv": 85.5
    },
    {
     "c": "NLD",
-    "v": 24.413
+    "v": 24.413,
+    "usd": 2294967000,
+    "uv": 94.0
    },
    {
     "c": "DEU",
-    "v": 23.868
+    "v": 23.868,
+    "usd": 3071923000,
+    "uv": 129
    },
    {
     "c": "TWN",
-    "v": 20.345
+    "v": 20.345,
+    "usd": 2249497000,
+    "uv": 111
    },
    {
     "c": "VNM",
-    "v": 17.831
+    "v": 17.831,
+    "usd": 1475678000,
+    "uv": 82.8
    },
    {
     "c": "IDN",
-    "v": 13.762
+    "v": 13.762,
+    "usd": 1486140000,
+    "uv": 108
    },
    {
     "c": "BHR",
-    "v": 13.01
+    "v": 13.01,
+    "usd": 1548462000,
+    "uv": 119
    },
    {
     "c": "OMN",
     "v": 12.845,
-    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
+    "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "usd": 1032124000,
+    "uv": 80.4
    },
    {
     "c": "EGY",
-    "v": 9.954
+    "v": 9.954,
+    "usd": 1430896000,
+    "uv": 144
    },
    {
     "c": "TUR",
-    "v": 9.794
+    "v": 9.794,
+    "usd": 1077885000,
+    "uv": 110
    },
    {
     "c": "FRA",
-    "v": 9.312
+    "v": 9.312,
+    "usd": 993293000,
+    "uv": 107
    },
    {
     "c": "CAN",
-    "v": 8.011
+    "v": 8.011,
+    "usd": 755045000,
+    "uv": 94.3
    },
    {
     "c": "DZA",
-    "v": 6.517
+    "v": 6.517,
+    "usd": 857507000,
+    "uv": 132
    },
    {
     "c": "BEL",
-    "v": 5.853
+    "v": 5.853,
+    "usd": 644377000,
+    "uv": 110
    },
    {
     "c": "PHL",
-    "v": 5.747
+    "v": 5.747,
+    "usd": 602886000,
+    "uv": 105
    },
    {
     "c": "POL",
-    "v": 5.438
+    "v": 5.438,
+    "usd": 508973000,
+    "uv": 93.6
    },
    {
     "c": "SAU",
-    "v": 5.43
+    "v": 5.43,
+    "usd": 808194000,
+    "uv": 149
    },
    {
     "c": "USA",
-    "v": 5.112
+    "v": 5.112,
+    "usd": 787766000,
+    "uv": 154
    },
    {
     "c": "ESP",
-    "v": 5.006
+    "v": 5.006,
+    "usd": 453861000,
+    "uv": 90.7
    },
    {
     "c": "SVK",
-    "v": 4.995
+    "v": 4.995,
+    "usd": 471451000,
+    "uv": 94.4
    },
    {
     "c": "IND",
-    "v": 4.936
+    "v": 4.936,
+    "usd": 472488000,
+    "uv": 95.7
    },
    {
     "c": "MOZ",
-    "v": 4.935
+    "v": 4.935,
+    "usd": 670479000,
+    "uv": 136
    },
    {
     "c": "RUS",
-    "v": 4.612
+    "v": 4.612,
+    "usd": 379601000,
+    "uv": 82.3
    },
    {
     "c": "ARG",
-    "v": 4.39
+    "v": 4.39,
+    "usd": 636981000,
+    "uv": 145
    },
    {
     "c": "AUT",
-    "v": 3.688
+    "v": 3.688,
+    "usd": 465128000,
+    "uv": 126
    },
    {
     "c": "ARE",
-    "v": 3.326
+    "v": 3.326,
+    "usd": 565467000,
+    "uv": 170
    },
    {
     "c": "ITA",
-    "v": 3.209
+    "v": 3.209,
+    "usd": 384738000,
+    "uv": 120
    },
    {
     "c": "QAT",
-    "v": 3.005
+    "v": 3.005,
+    "usd": 452712000,
+    "uv": 151
    },
    {
     "c": "FIN",
-    "v": 2.954
+    "v": 2.954,
+    "usd": 373621000,
+    "uv": 126
    },
    {
     "c": "CZE",
-    "v": 2.927
+    "v": 2.927,
+    "usd": 281104000,
+    "uv": 96.0
    },
    {
     "c": "GBR",
-    "v": 2.742
+    "v": 2.742,
+    "usd": 279801000,
+    "uv": 102
    },
    {
     "c": "LBY",
-    "v": 2.479
+    "v": 2.479,
+    "usd": 330250000,
+    "uv": 133
    },
    {
     "c": "SGP",
-    "v": 2.441
+    "v": 2.441,
+    "usd": 172221000,
+    "uv": 70.6
    },
    {
     "c": "MEX",
-    "v": 2.415
+    "v": 2.415,
+    "usd": 229444000,
+    "uv": 95.0
    },
    {
     "c": "TTO",
-    "v": 2.068
+    "v": 2.068,
+    "usd": 356042000,
+    "uv": 172
    },
    {
     "c": "ROU",
-    "v": 1.681
+    "v": 1.681,
+    "usd": 165180000,
+    "uv": 98.3
    },
    {
     "c": "HKG",
-    "v": 1.433
+    "v": 1.433,
+    "usd": 79289000,
+    "uv": 55.3
    },
    {
     "c": "URY",
-    "v": 1.378
+    "v": 1.378,
+    "usd": 91110000,
+    "uv": 66.1
    },
    {
     "c": "SRB",
-    "v": 1.374
+    "v": 1.374,
+    "usd": 163211000,
+    "uv": 119
    },
    {
     "c": "CHE",
-    "v": 1.161
+    "v": 1.161,
+    "usd": 69846000,
+    "uv": 60.2
    },
    {
     "c": "AUS",
-    "v": 1.047
+    "v": 1.047,
+    "usd": 117409000,
+    "uv": 112
    },
    {
     "c": "KEN",
-    "v": 0.8594
+    "v": 0.8594,
+    "usd": 88671000,
+    "uv": 103
    },
    {
     "c": "CHL",
-    "v": 0.2632
+    "v": 0.2632,
+    "usd": 28188000,
+    "uv": 107
    },
    {
     "c": "SVN",
-    "v": 0.2517
+    "v": 0.2517,
+    "usd": 22275000,
+    "uv": 88.5
    },
    {
     "c": "NPL",
-    "v": 0.228
+    "v": 0.228,
+    "usd": 2910000,
+    "uv": 12.8
    },
    {
     "c": "CPV",
-    "v": 0.1913
+    "v": 0.1913,
+    "usd": 13767000,
+    "uv": 72.0
    },
    {
     "c": "KGZ",
-    "v": 0.1242
+    "v": 0.1242,
+    "usd": 4442000,
+    "uv": 35.8
    },
    {
     "c": "DNK",
     "v": 0.0807,
-    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 4768000,
+    "uv": 59.1
    },
    {
     "c": "HRV",
-    "v": 0.0802
+    "v": 0.0802,
+    "usd": 14750000,
+    "uv": 184
    },
    {
     "c": "SWE",
-    "v": 0.0788
+    "v": 0.0788,
+    "usd": 12915000,
+    "uv": 164
    },
    {
     "c": "NOR",
-    "v": 0.0543
+    "v": 0.0543,
+    "usd": 8576000,
+    "uv": 158
    },
    {
     "c": "BRA",
-    "v": 0.0295
+    "v": 0.0295,
+    "usd": 6139000,
+    "uv": 208
    },
    {
     "c": "IRQ",
-    "v": 0.0283
+    "v": 0.0283,
+    "usd": 789000,
+    "uv": 27.9
    },
    {
     "c": "JOR",
-    "v": 0.025
+    "v": 0.025,
+    "usd": 947000,
+    "uv": 37.9
    },
    {
     "c": "PRY",
-    "v": 0.0206
+    "v": 0.0206,
+    "usd": 1962000,
+    "uv": 95.2
    },
    {
     "c": "MDA",
-    "v": 0.0183
+    "v": 0.0183,
+    "usd": 323000,
+    "uv": 17.7
    },
    {
     "c": "LUX",
-    "v": 0.015
+    "v": 0.015,
+    "usd": 1643000,
+    "uv": 110
    },
    {
     "c": "GRC",
-    "v": 0.0143
+    "v": 0.0143,
+    "usd": 1935000,
+    "uv": 135
    },
    {
     "c": "ISL",
-    "v": 0.0119
+    "v": 0.0119,
+    "usd": 2123000,
+    "uv": 178
    },
    {
     "c": "GEO",
-    "v": 0.0109
+    "v": 0.0109,
+    "usd": 284000,
+    "uv": 26.1
    },
    {
     "c": "THA",
-    "v": 0.0066
+    "v": 0.0066,
+    "usd": 1399000,
+    "uv": 212
    },
    {
     "c": "HUN",
-    "v": 0.0065
+    "v": 0.0065,
+    "usd": 898000,
+    "uv": 138
    },
    {
     "c": "BGR",
-    "v": 0.0048
+    "v": 0.0048,
+    "usd": 776000,
+    "uv": 162
    },
    {
     "c": "IRN",
-    "v": 0.0029
+    "v": 0.0029,
+    "usd": 102000,
+    "uv": 35.2
    },
    {
     "c": "ISR",
-    "v": 0.0028
+    "v": 0.0028,
+    "usd": 373000,
+    "uv": 133
    },
    {
     "c": "ZAF",
-    "v": 0.0028
+    "v": 0.0028,
+    "usd": 110000,
+    "uv": 39.3
    },
    {
     "c": "UKR",
-    "v": 0.0017
+    "v": 0.0017,
+    "usd": 191000,
+    "uv": 112
    },
    {
     "c": "NZL",
-    "v": 0.0017
+    "v": 0.0017,
+    "usd": 187000,
+    "uv": 110
    },
    {
     "c": "COG",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 473000,
+    "uv": 315
    },
    {
     "c": "PRT",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 365000,
+    "uv": 332
    },
    {
     "c": "MNG",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 123000,
+    "uv": 123
    },
    {
     "c": "BWA",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 187000,
+    "uv": 187
    }
   ],
-  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "usd": 167257357000,
+  "uv": 98.0
  },
+ "extra": [
+  {
+   "key": "fe-production",
+   "title": "Iron ore producers — Mt of iron content, as published by USGS",
+   "table": {
+    "y": 2025,
+    "s": "usgs-mcs",
+    "u": "Mt Fe",
+    "world": 1596.1,
+    "rows": [
+     {
+      "c": "AUS",
+      "v": 600.0
+     },
+     {
+      "c": "BRA",
+      "v": 260.0
+     },
+     {
+      "c": "IND",
+      "v": 190.0
+     },
+     {
+      "c": "CHN",
+      "v": 180.0
+     },
+     {
+      "c": "IRN",
+      "v": 61.0
+     },
+     {
+      "c": "RUS",
+      "v": 50.0
+     },
+     {
+      "c": "ZAF",
+      "v": 42.0
+     },
+     {
+      "c": "CAN",
+      "v": 41.0
+     },
+     {
+      "c": "UKR",
+      "v": 32.0
+     },
+     {
+      "c": "USA",
+      "v": 24.0
+     },
+     {
+      "c": "SWE",
+      "v": 18.0
+     },
+     {
+      "c": "PER",
+      "v": 14.0
+     },
+     {
+      "c": "CHL",
+      "v": 12.0
+     },
+     {
+      "c": "KAZ",
+      "v": 11.0
+     },
+     {
+      "c": "TUR",
+      "v": 11.0
+     },
+     {
+      "c": "MRT",
+      "v": 9.3
+     },
+     {
+      "c": "MEX",
+      "v": 4.8
+     }
+    ],
+    "n": "USGS MCS 2026, iron content of the mine production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,596 Mt Fe, while the rounded world total of 1,600 Mt Fe is 0.2% above that sum: shares are computed on the sum",
+    "other": 36.0,
+    "hidden": {
+     "v": 80.1,
+     "k": 7,
+     "from": 10,
+     "n": "7 further countries named by USGS (Sweden, Peru, Chile, Kazakhstan, Turkey, Mauritania and Mexico), listed after the first rows; not part of USGS's 'Other countries' line"
+    },
+    "worldPublished": 1600.0,
+    "basis": "iron content"
+   }
+  },
+  {
+   "key": "fe-reserves",
+   "title": "Iron ore reserves — Mt of iron content, as published by USGS",
+   "table": {
+    "y": 2025,
+    "s": "usgs-mcs",
+    "u": "Mt Fe",
+    "world": 86739.0,
+    "rows": [
+     {
+      "c": "AUS",
+      "v": 27000.0
+     },
+     {
+      "c": "BRA",
+      "v": 15000.0
+     },
+     {
+      "c": "RUS",
+      "v": 14000.0
+     },
+     {
+      "c": "MRT",
+      "v": 4400.0
+     },
+     {
+      "c": "IND",
+      "v": 3400.0
+     },
+     {
+      "c": "CHN",
+      "v": 3000.0
+     },
+     {
+      "c": "USA",
+      "v": 2700.0
+     },
+     {
+      "c": "CAN",
+      "v": 2300.0
+     },
+     {
+      "c": "UKR",
+      "v": 2300.0
+     },
+     {
+      "c": "IRN",
+      "v": 1500.0
+     },
+     {
+      "c": "KAZ",
+      "v": 1500.0
+     },
+     {
+      "c": "PER",
+      "v": 1000.0
+     },
+     {
+      "c": "CHL",
+      "v": 740.0
+     },
+     {
+      "c": "ZAF",
+      "v": 680.0
+     },
+     {
+      "c": "SWE",
+      "v": 600.0
+     },
+     {
+      "c": "MEX",
+      "v": 520.0
+     },
+     {
+      "c": "TUR",
+      "v": 99.0
+     }
+    ],
+    "n": "USGS MCS 2026, iron ore reserves, iron content; USGS world total is rounded; the countries and USGS 'Other countries' add up to 86,739 Mt Fe, while the rounded world total of 87,000 Mt Fe is 0.3% above that sum: shares are computed on the sum",
+    "other": 6000.0,
+    "hidden": {
+     "v": 5139.0,
+     "k": 7,
+     "from": 10,
+     "n": "7 further countries named by USGS (Kazakhstan, Peru, Chile, South Africa, Sweden, Mexico and Turkey), listed after the first rows; not part of USGS's 'Other countries' line"
+    },
+    "worldPublished": 87000.0,
+    "basis": "iron content"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "AUS",
@@ -835,6 +1323,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 75716235000,
+   "uv": 100,
    "mode": "sea",
    "lane": "iron-ore:AUS-CHN"
   },
@@ -845,6 +1335,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 21062034000,
+   "uv": 76.2,
    "mode": "sea",
    "lane": "iron-ore:BRA-CHN"
   },
@@ -855,6 +1347,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 5518093000,
+   "uv": 105,
    "mode": "sea",
    "lane": "iron-ore:AUS-JPN"
   },
@@ -865,6 +1359,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 5418941000,
+   "uv": 110,
    "mode": "sea",
    "lane": "iron-ore:AUS-KOR"
   },
@@ -875,6 +1371,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3074268000,
+   "uv": 87.2,
    "mode": "sea",
    "lane": "iron-ore:IND-CHN"
   },
@@ -885,6 +1383,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3611833000,
+   "uv": 103,
    "mode": "sea",
    "lane": "iron-ore:ZAF-CHN"
   },
@@ -895,6 +1395,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1818215000,
+   "uv": 81.6,
    "mode": "sea",
    "lane": "iron-ore:PER-CHN"
   },
@@ -905,6 +1407,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2541745000,
+   "uv": 117,
    "mode": "sea",
    "lane": "iron-ore:BRA-JPN"
   },
@@ -915,6 +1419,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1601009000,
+   "uv": 79.1,
    "mode": "sea",
    "lane": "iron-ore:BRA-MYS"
   },
@@ -925,6 +1431,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1812550000,
+   "uv": 110,
    "mode": "sea",
    "lane": "iron-ore:CAN-CHN"
   },
@@ -935,6 +1443,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1052859000,
+   "uv": 70.0,
    "mode": "sea",
    "lane": "iron-ore:UKR-CHN"
   },
@@ -945,6 +1455,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1585937000,
+   "uv": 109,
    "mode": "sea",
    "lane": "iron-ore:AUS-TWN"
   },
@@ -955,6 +1467,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 954081000,
+   "uv": 76.9,
    "mode": "sea",
    "lane": "iron-ore:BRA-OMN"
   },
@@ -965,6 +1479,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1192430000,
+   "uv": 102,
    "mode": "sea",
    "lane": "iron-ore:CHL-CHN"
   },
@@ -975,6 +1491,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1147709000,
+   "uv": 117,
    "mode": "sea",
    "lane": "iron-ore:BRA-BHR"
   },
@@ -985,6 +1503,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1052946000,
+   "uv": 107,
    "mode": "sea",
    "lane": "iron-ore:AUS-IDN"
   },
@@ -995,6 +1515,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 987768000,
+   "uv": 105,
    "mode": "sea",
    "lane": "iron-ore:MRT-CHN"
   },
@@ -1005,6 +1527,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 860827000,
+   "uv": 92.0,
    "mode": "sea",
    "lane": "iron-ore:AUS-VNM"
   },
@@ -1015,6 +1539,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1132263000,
+   "uv": 122,
    "mode": "sea",
    "lane": "iron-ore:IRN-CHN"
   },
@@ -1025,10 +1551,102 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 829026000,
+   "uv": 89.3,
    "mode": "sea",
    "lane": "iron-ore:SLE-CHN"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 36800.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 37000.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as production + imports - exports ± adjustments for industry stock changes."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3755
+   },
+   "top3": 0.6552,
+   "hhi": 1982,
+   "eq": 5.0,
+   "k": 17,
+   "cov": 0.9755
+  },
+  "reserves": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.2892
+   },
+   "top3": 0.6275,
+   "hhi": 1543,
+   "eq": 6.5,
+   "k": 17,
+   "cov": 0.9461
+  },
+  "exports": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.526
+   },
+   "top3": 0.8003,
+   "hhi": 3375,
+   "eq": 3.0,
+   "k": 76,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.7332
+   },
+   "top3": 0.828,
+   "hhi": 5435,
+   "eq": 1.8,
+   "k": 75,
+   "cov": 1.0
+  },
+  "fe-production": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3759
+   },
+   "top3": 0.6579,
+   "hhi": 1996,
+   "eq": 5.0,
+   "k": 17,
+   "cov": 0.9774
+  },
+  "fe-reserves": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3113
+   },
+   "top3": 0.6456,
+   "hhi": 1615,
+   "eq": 6.2,
+   "k": 17,
+   "cov": 0.9308
+  }
+ },
  "notes": [
   "USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown."
  ]

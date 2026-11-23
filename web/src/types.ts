@@ -43,12 +43,16 @@ export interface Source {
 /** A ranked country table (production, reserves, exports...). Shares are computed against `world`. */
 export interface Ranked {
   y: number | string;
+  /** USDA PSD: what the market year is in USDA's words (the newest one is its forecast, the one before its estimate) */
+  yk?: 'forecast' | 'estimate';
+  /** USDA PSD: the month of the report that last revised the year, "2026-11" */
+  rel?: string;
   s: string;
   u: string;
   /** world total in the same unit, if known (from the same source) */
   world?: number;
   /** `name`: the source's entity of a past year when it is not the usual one (tableAt: "EU-25") */
-  rows: { c: Iso3; v: number; n?: string; est?: boolean; name?: string }[];
+  rows: { c: Iso3; v: number; n?: string; est?: boolean; name?: string; usd?: number; uv?: number }[];
   /** the whole table is an Atlas estimate (rows without `est` too); a table of source `atlas` whose note does not start "Atlas estimate" is a conversion */
   est?: boolean;
   /** the source's own "Other countries" line, in the same unit: its own row, "Other countries (as published)" */
@@ -57,6 +61,16 @@ export interface Ranked {
   hidden?: { v: number; k: number; from: number; n: string };
   /** the world total the source publishes, when `world` (the sum the shares use) differs from it */
   worldPublished?: number;
+  /** `EU`: a table of the European Union's member states, whose `world` is the total of the 27 (shares are of the EU, not of the world) */
+  scope?: 'EU';
+  /** a scope table: the world total of the same source and year, the base of the map colours of the member states */
+  worldAll?: number;
+  /** a scope table on another basis than the USDA table (paddy against milled rice, beet against sugar): the map keeps the USDA value */
+  noMap?: boolean;
+  /** a scope table of customs trade: the total of the 27 member states and the part of it inside the EU and outside it */
+  split?: { total: number; intra: number; extra: number };
+  /** the USDA trade table of a crop: what the customs data say of the 27 members together, inside the EU and outside it */
+  eu?: { y: number; s: string; u: string; total: number; intra: number; extra: number };
   n?: string;
   /** what the tonnage measures when it is not the finished commodity, e.g. "ores and concentrates, gross weight" */
   basis?: string;
@@ -70,6 +84,9 @@ export interface Ranked {
   caveatPast?: string;
   /** the order of the rows is not a world ranking (a source that understates some countries): country profiles print no rank */
   norank?: boolean;
+  /** customs tables of the metals pages: the value of the whole table (USD) and its unit value (USD per tonne); a row has its own `usd` and `uv`, none where its tonnage is mostly estimated */
+  usd?: number;
+  uv?: number;
 }
 
 export interface Company {
@@ -104,6 +121,9 @@ export interface Flow {
   transit?: LaneTransit;
   /** the tonnage is an Atlas estimate (computed from the declared value), source id `atlas` */
   est?: boolean;
+  /** declared customs value of the flow (USD) and its unit value (USD per tonne; none where the tonnage is an Atlas estimate from the value) */
+  usd?: number;
+  uv?: number;
   /** lane id in freight/lanes (sea geometry), when available */
   lane?: string;
   /** id in data/freight/caveats.json: a reporting gap or relabelled origin that applies to this flow */
@@ -126,6 +146,8 @@ export interface CommodityMeta {
   has: Array<'production' | 'reserves' | 'consumption' | 'exports' | 'imports' | 'flows' | 'infrastructure' | 'prices' | 'companies'>;
   /** display order inside its family */
   rank: number;
+  /** sub-heading in the commodity list ("Fertilisers"), shown before the first commodity that has it */
+  sub?: string;
 }
 
 export interface CommodityData {
@@ -138,6 +160,10 @@ export interface CommodityData {
   production?: Ranked;
   /** additional ranked tables (refined copper, alumina, USDA ending stocks...) */
   extra?: { key: string; title: string; table: Ranked }[];
+  /** USDA PSD crops: the balance of the estimate year and the forecast year side by side (CropBalance.tsx) */
+  balance?: CropBalance;
+  /** an exporter whose customs record is below USDA's figure (Russian grain): a visible note beside the flows (AgriBlocks.tsx) */
+  gaps?: { o: Iso3; text: string; s: string; y: number }[];
   /** refinery / smelter output by country */
   refinery?: Ranked;
   reserves?: Ranked;
@@ -146,8 +172,48 @@ export interface CommodityData {
   imports?: Ranked;
   flows?: Flow[];
   companies?: { producers?: Company[]; processors?: Company[]; traders?: Company[] };
+  /** the United States as the USGS file states it: apparent consumption and net import reliance (published figures) */
+  us?: UsFigures;
+  /** concentration of each table that has a world total, by table key (production, exports, an extra table's key...) */
+  concentration?: Record<string, Concentration>;
   notes?: string[];
   discrepancies?: string[];
+}
+
+export interface UsFigures {
+  s: string;
+  consumption?: { label: string; u: string; vals: { y: number; v: number; est: boolean }[]; n?: string }[];
+  reliance?: { what: string; pct: string; y: number; src?: string; n?: string }[];
+}
+
+/** Share of the first country, of the first three and Herfindahl index (0 to 10,000) of a table, on the table's world total. `cov`: share of the total the countries cover; `eq`: number of equal-sized countries with the same index. */
+export interface Concentration {
+  top1: { c: Iso3; p: number };
+  top3: number;
+  hhi: number;
+  eq: number | null;
+  k: number;
+  cov: number;
+  est?: boolean;
+}
+
+/** One line of a crop balance: `v` is the value of each year of `years`; a line with source `atlas` is arithmetic on two USDA figures of the same year (`n` says which) */
+export interface CropBalanceRow {
+  k: string;
+  label: string;
+  u: string;
+  v: number[];
+  sub?: boolean;
+  s?: string;
+  n?: string;
+}
+
+/** The balance of a USDA PSD crop for the estimate year and the forecast year (pipeline/commodities/build_commodities.py, Psd.balance). */
+export interface CropBalance {
+  s: string;
+  years: { y: string; yk: 'forecast' | 'estimate' | null; rel: string }[];
+  rows: CropBalanceRow[];
+  n: string;
 }
 
 /** One table of a commodity by country and year (pipeline/commodities/history.py); the last year is the table of the page. */
@@ -167,6 +233,8 @@ export interface HistTable {
   other?: (number | null)[];
   /** what each year is, in the words the source supports (USGS MCS: "as published in USGS MCS 2026") */
   yl?: string[];
+  /** USDA PSD: "forecast" for the newest market year, "estimate" for the one before, null for the others */
+  kinds?: ('forecast' | 'estimate' | null)[];
   /** one value per year; null = no figure that year */
   c: Record<Iso3, (number | null)[]>;
   /** years (indexes) in which the source's value is far out of line with the years around it: kept, not ranked or drawn */
@@ -191,6 +259,62 @@ export interface CommodityHistory {
   t: Record<string, HistTable>;
 }
 
+/** A month of a monthly series ("YYYY-MM") with its figure. */
+export interface MonthlyPoint {
+  v: number;
+  m: string;
+}
+
+/**
+ * One monthly series of data/commodities/monthly/<id>.json (EIA International, pipeline/commodities/monthly.py): the last months
+ * (`v`, oldest first, null where the source gives none), the average of the baseline year (`b`), the lowest month and the latest month of
+ * the year of the latest month (`lo`, `la`) and the change of the latest month against `b`, in per cent (`p`). All are arithmetic on
+ * published monthly figures.
+ */
+export interface MonthlyRow {
+  /** ISO3 of a country, or the code of a group the source publishes (OECD, OEEU) */
+  c?: Iso3 | string;
+  /** name of a group; a country is named by `c` */
+  name?: string;
+  v: (number | null)[];
+  b: number | null;
+  lo: MonthlyPoint;
+  la: MonthlyPoint;
+  p?: number;
+  /** stocks: the end of the year before the latest month, the same month a year before, and the days of cover */
+  end?: MonthlyPoint;
+  ya?: MonthlyPoint;
+  cover?: number;
+  cons?: number;
+  /** imports by origin: the EIA code of the origin (PERG = the Persian Gulf) */
+  o?: string;
+}
+
+/** A block of monthly rows: `from` to `to` ("YYYY-MM") are the months of `v`. */
+export interface MonthlyBlock {
+  u: string;
+  from: string;
+  to: string;
+  baseYear?: number;
+  rows: MonthlyRow[];
+  world?: MonthlyRow | null;
+  /** the Gulf producers added up, month by month (only the months in which all of them have a figure) */
+  gulf?: (MonthlyRow & { members: string[] }) | null;
+}
+
+/** data/commodities/monthly/<id>.json, loaded by the commodity page on demand. */
+export interface CommodityMonthly {
+  id: string;
+  s: string;
+  production?: MonthlyBlock;
+  consumption?: MonthlyBlock;
+  ngl?: MonthlyBlock;
+  imports?: { u: string; importers: { id: string; name: string; from: string; to: string; rows: MonthlyRow[] }[] };
+  stocks?: MonthlyBlock & { withheld: string[] };
+  /** what the EIA file does not hold month by month, in words for the page */
+  gaps?: string[];
+}
+
 export interface CountryMeta {
   c: Iso3;
   name: string;
@@ -201,18 +325,116 @@ export interface CountryMeta {
   region: string;
 }
 
-/** A country's ranked commodity profile, generated by pipeline/build_profiles.py */
+/**
+ * A country's profile, data/countries/profiles/<ISO3>.json, generated by pipeline/commodities/build_profiles.py. A country
+ * of the index without data has only `c` and `none` (what it is, and why it has no data).
+ */
 export interface CountryProfile {
   c: Iso3;
+  /** the exact words for a territory that has no data */
+  none?: string;
   exports: ProfileEntry[];
   imports: ProfileEntry[];
+  /** production lines, refinery output and the extra production tables */
   production: ProfileEntry[];
-  /** commodities outside the main list (e.g. diamonds), minimal entries */
+  consumption?: ProfileEntry[];
+  reserves?: ProfileEntry[];
+  /** raw-material headings outside the atlas catalogue (HS4, CEPII BACI) */
   other?: ProfileEntry[];
+  basket?: ProfileBasket;
+  balance?: ProfileBalance[];
+  freight?: ProfileFreight;
+  /** caveats of the trade-flow engine for this origin: exports that customs data miss, trade hubs */
+  gaps?: { id: string; k: string; g: string; kind: string; text: string }[];
   infra?: string[];
+  /** headquarters in the country */
   companies?: Company[];
+  /** operators of the assets of the infrastructure layer in the country, with the assets */
+  operators?: { name: string; assets: string[] }[];
   /** catalogue commodities in which the country ranks in the world top 10 of production, exports or imports */
   top10?: number;
+  /** EU member state: the code of the EU aggregate (USDA PSD gives one row for the Union) */
+  eu?: string;
+  /** the EU aggregate: its member states */
+  members?: Iso3[];
+  /** the customs data have no code of their own for this entry of the index */
+  noCode?: string;
+  /** the years of each series the lines point to (`hk`), with the world total of each year */
+  years?: Record<string, { y: number[]; l?: string[]; w: (number | null)[] }>;
+}
+
+/** Largest exports and imports at HS4, every chapter, latest BACI year. */
+export interface ProfileBasket {
+  y: number;
+  s: string;
+  exports?: { total: number; rows: BasketRow[] };
+  imports?: { total: number; rows: BasketRow[] };
+}
+
+export interface BasketRow {
+  hs4: string;
+  label: string;
+  /** bn USD */
+  usd: number;
+  /** of the country's total merchandise exports (or imports) */
+  share: number;
+  /** atlas commodity of the heading, when it maps to one */
+  k?: string;
+  /** the first six-digit description under the heading (the archive gives no four-digit wording) */
+  d?: string;
+}
+
+export interface ProfilePartners {
+  rows: { c: Iso3; share: number; est?: boolean }[];
+  /** number of partners */
+  n: number;
+  /** Herfindahl index of the partner shares, 0 to 10,000 */
+  hhi: number;
+  g: string;
+  y: number;
+  s: string;
+  est?: boolean;
+  estShare?: number;
+  /** "declared value" when the shares are of value, not tonnes (precious metals) */
+  basis?: string;
+}
+
+/** One traded product of a commodity in a country: net position, partners, import dependence, hub label. */
+export interface ProfileBalance {
+  k: string;
+  /** table key of the exports side (exports, refined-exports...) */
+  t: string;
+  label?: string;
+  net?: { v: number; exp: number | null; imp: number | null; u: string; y: number | string; s: string; est?: boolean };
+  customers?: ProfilePartners;
+  suppliers?: ProfilePartners;
+  /** imports over consumption, same unit and year */
+  dep?: { v: number; y: number | string; s: string; u: string; imp: number; cons: number };
+  /** derived label: exports and imports both large, and no line in a production table that lists every producing country */
+  hub?: { exp: number; imp: number; prodS: string; prodY: number | string };
+}
+
+export interface FreightProduct {
+  g: string;
+  k: string;
+  kt: number;
+  /** shares of the tonnes by mode */
+  modes: Partial<Record<'sea' | 'transit' | 'mixed' | 'land', number>>;
+  est?: boolean;
+  seaKt?: number;
+  unrouted?: number;
+  ports?: { name: string; c: Iso3; share: number; basis?: string }[];
+  /** share of the seaborne tonnes whose assumed route has to cross (`low`) or may cross (`high`) each passage */
+  via?: { id: string; low: number; high: number }[];
+}
+
+export interface ProfileFreight {
+  y: number;
+  s: string;
+  exports: FreightProduct[];
+  imports: FreightProduct[];
+  exportsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: { id: string; low: number; high: number }[] };
+  importsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: { id: string; low: number; high: number }[] };
 }
 
 export interface ProfileEntry {
@@ -240,6 +462,20 @@ export interface ProfileEntry {
   basis?: string;
   /** warning carried from the commodity table (trade hubs, gross weight against contained metal) */
   warn?: string;
+  /** reserves over production of the same source and unit (years), and the year of that production */
+  rp?: number;
+  rpY?: number | string;
+  /** key of the series in `CountryProfile.years`; the country's value and world rank by year */
+  hk?: string;
+  hv?: (number | null)[];
+  hr?: (number | null)[];
+  /** years (indexes) mostly an Atlas estimate, out of line (not ranked), at which the series breaks, the source's own estimate */
+  hest?: number[];
+  hout?: number[];
+  hbrk?: number[];
+  hsrc?: number[];
+  /** the row's name in the years its entity is another one (USDA PSD's European Union) */
+  hcl?: (string | null)[];
 }
 
 // ---------------------------------------------------------------- freight

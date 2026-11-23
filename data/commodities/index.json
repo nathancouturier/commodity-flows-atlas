@@ -178,6 +178,7 @@
   ],
   "has": [
    "production",
+   "consumption",
    "exports",
    "imports",
    "flows"
@@ -198,6 +199,7 @@
   "has": [
    "production",
    "reserves",
+   "consumption",
    "exports",
    "imports",
    "flows"
@@ -215,6 +217,7 @@
   ],
   "has": [
    "production",
+   "consumption",
    "exports",
    "imports",
    "flows"
@@ -679,7 +682,8 @@
    "imports",
    "flows"
   ],
-  "rank": 36
+  "rank": 36,
+  "sub": "Fertilisers"
  },
  {
   "id": "phosphate",
@@ -698,7 +702,8 @@
    "imports",
    "flows"
   ],
-  "rank": 37
+  "rank": 37,
+  "sub": "Fertilisers"
  },
  {
   "id": "urea",
@@ -715,6 +720,7 @@
    "imports",
    "flows"
   ],
-  "rank": 38
+  "rank": 38,
+  "sub": "Fertilisers"
  }
 ]

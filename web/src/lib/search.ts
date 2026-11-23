@@ -1,0 +1,322 @@
+/**
+ * The search field's index and what a result does. The index is built in the browser, the first time the field gets the
+ * focus, from the catalogues the site loads anyway (commodities, countries, routes, chokepoints, vessel classes,
+ * infrastructure) and four small ones: the events, the price series, the ports of the lanes and, when a country and a
+ * commodity are typed together, the pairs file of that commodity.
+ *
+ * A result does what the click on the map or on a list of the site does: the same selection, so the same link.
+ */
+import { batch } from '@preact/signals';
+import type { Chokepoint, FreightEvent, Route, VesselClass } from '../types';
+import { commodities, commodityMeta, countries, countryName, isCountry, load, loadCatalogue } from './data';
+import { FAMILY_LABEL } from './format';
+import { GROUP_LABEL, LANE_GROUPS, SEGMENT_LABEL, finderCommodity, loadEvents, loadPairs, loadRoutes, loadChokepoints, loadVesselClasses, decodePairs, openVesselClass } from './freight';
+import { loadPriceIndex, openPrices, spreadMetas, FREQ_WORD, type PriceMeta } from './prices';
+import {
+  panelCollapsed, rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select, setFamily, family, commodity, vesselClasses, sheetSnap,
+} from './store';
+import { norm, prepare, score, tokens, type Searchable } from './searchMatch';
+import { loadInfra } from '../map/modules/infrastructure';
+import { flyToWorld, isSheetLayout } from '../map/controller';
+import { INFRA_META } from '../components/ui';
+
+export type Kind = 'commodity' | 'country' | 'route' | 'chokepoint' | 'vessel' | 'infra' | 'port' | 'event' | 'price';
+
+/** Kinds in the order the lists show them, with the words the site uses for them. */
+export const KINDS: { kind: Kind; label: string; one: string }[] = [
+  { kind: 'commodity', label: 'Commodities', one: 'commodity' },
+  { kind: 'country', label: 'Countries', one: 'country' },
+  { kind: 'route', label: 'Freight routes', one: 'freight route' },
+  { kind: 'chokepoint', label: 'Chokepoints', one: 'chokepoint' },
+  { kind: 'vessel', label: 'Vessel classes', one: 'vessel class' },
+  { kind: 'infra', label: 'Infrastructure', one: 'infrastructure asset' },
+  { kind: 'port', label: 'Ports of the lanes', one: 'port of the lanes' },
+  { kind: 'event', label: 'Events', one: 'event' },
+  { kind: 'price', label: 'Price series', one: 'price series' },
+];
+const KIND_ORDER = Object.fromEntries(KINDS.map((k, i) => [k.kind, i])) as Record<Kind, number>;
+
+export interface Item {
+  /** `kind:id`, unique */
+  key: string;
+  kind: Kind;
+  label: string;
+  /** one line under the label: what it is, where, who runs it */
+  sub: string;
+  /** a code shown on the right (a route code, an ISO code) */
+  badge?: string;
+  d: Searchable;
+  /** position in the kind's own order (a list with no query) */
+  order: string | number;
+  open: () => void;
+}
+
+export interface Group {
+  kind: Kind | 'pair';
+  label: string;
+  /** the items shown */
+  items: Item[];
+  /** how many items match (more than are shown when the group is cut) */
+  total: number;
+}
+
+// ---------------------------------------------------------------- opening what a result names
+
+/** The commodity picked from the panel's list: its family follows, the filters of other tabs are dropped, the map frames the world. */
+function openCommodity(id: string) {
+  const meta = commodityMeta(id);
+  if (!meta) return;
+  batch(() => {
+    if (family.peek() !== meta.family) setFamily(meta.family);
+    vesselClasses.value = new Set();
+    commodity.value = id;
+    select({ kind: 'commodity', id });
+  });
+  flyToWorld(true);
+}
+
+/** The Route finder with one end of a question filled in: the link form `rf=<commodity>:<o|d>:<origin>-<destination>`. */
+function openFinder(k: string, from: 'o' | 'd', iso: string) {
+  batch(() => {
+    rfCommodity.value = finderCommodity(k);
+    rfFrom.value = from;
+    rfOrigin.value = from === 'o' ? iso : null;
+    rfDest.value = from === 'd' ? iso : null;
+    rfGroup.value = null;
+    routeFinderOpen.value = true;
+    panelCollapsed.value = false;
+    // tablet and phone: the controls are a sheet under the page, so the page gives way to it
+    if (isSheetLayout()) {
+      select(null);
+      sheetSnap.value = 'half';
+    }
+  });
+}
+
+// ---------------------------------------------------------------- the index
+
+const COUNTRY_ALIASES: Record<string, string[]> = {
+  USA: ['us', 'usa', 'america', 'united states of america'],
+  GBR: ['uk', 'britain', 'great britain', 'england'],
+  ARE: ['uae', 'emirates'],
+  RUS: ['russian federation'],
+  KOR: ['korea', 'republic of korea'],
+  PRK: ['dprk'],
+  CZE: ['czech republic'],
+  TUR: ['turkiye'],
+  MMR: ['burma'],
+  CIV: ['ivory coast'],
+  COD: ['drc', 'congo kinshasa', 'democratic republic of the congo'],
+  COG: ['congo brazzaville', 'republic of the congo'],
+  NLD: ['holland', 'the netherlands'],
+  IRN: ['persia'],
+  SWZ: ['swaziland'],
+  MKD: ['macedonia'],
+};
+
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+const joinSub = (...p: (string | undefined | false)[]) => p.filter(Boolean).join(' · ');
+
+function make(kind: Kind, id: string, label: string, sub: string, d: Searchable, order: string | number, open: () => void, badge?: string): Item {
+  return { key: `${kind}:${id}`, kind, label, sub, badge, d, order, open };
+}
+
+let indexPromise: Promise<Item[]> | null = null;
+/** Every item. Built once; a file that cannot be loaded leaves its kind out, the others still work. */
+export function loadIndex(): Promise<Item[]> {
+  if (!indexPromise) {
+    indexPromise = build().catch((e) => {
+      indexPromise = null;
+      throw e;
+    });
+  }
+  return indexPromise;
+}
+
+interface PortIndex {
+  ports: { id: string; name: string; c: string; n: number; g: string[]; lane: string | null }[];
+}
+
+async function build(): Promise<Item[]> {
+  if (!commodities.value.length) await loadCatalogue();
+  const opt = <T,>(p: Promise<T>): Promise<T | null> => p.catch(() => null);
+  const [routes, cps, vessels, events, prices, infra, ports] = await Promise.all([
+    opt<Route[]>(loadRoutes()),
+    opt<Chokepoint[]>(loadChokepoints()),
+    opt<VesselClass[]>(loadVesselClasses()),
+    opt<FreightEvent[]>(loadEvents()),
+    opt<PriceMeta[]>(loadPriceIndex()),
+    opt(loadInfra()),
+    opt(load<PortIndex>('freight/ports.json')),
+  ]);
+  const out: Item[] = [];
+  const vesselName = (id: string) => vessels?.find((v) => v.id === id)?.name ?? id;
+  const cpName = (id: string) => cps?.find((c) => c.id === id)?.name ?? id;
+
+  for (const c of commodities.value) {
+    out.push(make('commodity', c.id, c.name, FAMILY_LABEL[c.family], prepare([c.name], [c.id], [FAMILY_LABEL[c.family], 'commodity']), c.rank, () => openCommodity(c.id)));
+  }
+  for (const c of Object.values(countries.value)) {
+    out.push(
+      make('country', c.c, c.name, c.region ?? 'Country', prepare([c.name, ...(COUNTRY_ALIASES[c.c] ?? [])], [c.c, (c as { a2?: string }).a2 ?? ''], [c.region ?? '', 'country']), c.name, () => select({ kind: 'country', id: c.c }), c.c),
+    );
+  }
+  for (const r of routes ?? []) {
+    const code = r.benchmark ? r.id.split('_')[0] : '';
+    const kindText = r.benchmark ? 'Benchmark route' : 'Atlas corridor';
+    out.push(
+      make(
+        'route', r.id, r.name, joinSub(kindText, vesselName(r.vclass)),
+        prepare([r.name], code ? [r.id, code] : [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, vesselName(r.vclass), 'freight route', ...r.cargoes.map((k) => commodityMeta(k)?.name ?? k)]),
+        `${r.benchmark ? 0 : 1}${r.name}`, () => select({ kind: 'route', id: r.id }), code || undefined,
+      ),
+    );
+  }
+  for (const c of cps ?? []) {
+    out.push(make('chokepoint', c.id, c.name, cap(c.kind), prepare([c.name], [c.id], [c.kind, 'chokepoint']), c.name, () => select({ kind: 'chokepoint', id: c.id })));
+  }
+  for (const v of vessels ?? []) {
+    out.push(make('vessel', v.id, v.name, SEGMENT_LABEL[v.segment] ?? cap(v.segment), prepare([v.name], [v.id], [SEGMENT_LABEL[v.segment] ?? v.segment, 'vessel class', 'ship']), v.name, () => openVesselClass(v.id)));
+  }
+  for (const f of infra ?? []) {
+    const p = f.p;
+    const type = INFRA_META[p.type]?.label ?? p.type;
+    out.push(
+      make(
+        'infra', `${p.id}:${p.type}`, p.name, joinSub(type, countryName(p.c), p.operator),
+        prepare([p.name], [p.id], [p.operator ?? '', countryName(p.c), type, ...(p.cs ?? []).map(countryName), ...p.k.map((k) => commodityMeta(k)?.name ?? k)]),
+        p.name, () => select({ kind: 'infra', id: p.id, layer: p.type }),
+      ),
+    );
+  }
+  // a port the infrastructure layer has (Port Hedland) is found as that asset; the lanes' ports it lacks (Jurong) are found here
+  const portAssets = (infra ?? []).filter((f) => f.p.type === 'port');
+  for (const p of ports?.ports ?? []) {
+    const n = norm(p.name);
+    if (portAssets.some((f) => f.p.c === p.c && (norm(f.p.name) === n || norm(f.p.name).startsWith(`${n} `)))) continue;
+    const cargo = p.g.map((g) => GROUP_LABEL[g] ?? commodityMeta(g)?.name ?? g).join(', ');
+    out.push(
+      make(
+        'port', p.id, p.name, joinSub('Typical port of the lanes', countryName(p.c), cargo), prepare([p.name], [p.id], [countryName(p.c), cargo, 'port']), p.name,
+        () => (p.lane ? select({ kind: 'lane', id: p.lane }) : isCountry(p.c) ? select({ kind: 'country', id: p.c }) : undefined), p.id,
+      ),
+    );
+  }
+  for (const e of events ?? []) {
+    out.push(
+      make(
+        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName)]),
+        // newest first
+        -Date.parse(e.date.length === 4 ? `${e.date}-01-01` : e.date.length === 7 ? `${e.date}-01` : e.date), () => select({ kind: 'event', id: e.id }),
+      ),
+    );
+  }
+  if (prices) {
+    for (const m of [...prices.filter((x) => !x.hidden && !x.realOf), ...spreadMetas(prices)]) {
+      const k = commodityMeta(m.k)?.name;
+      out.push(
+        make(
+          'price', m.id, m.name, joinSub(k, m.unit, FREQ_WORD[m.freq], `${m.start.slice(0, 4)} to ${m.end.slice(0, 4)}`),
+          prepare([m.name], [m.id], [k ?? '', m.unit, FREQ_WORD[m.freq], 'price']), m.name, () => openPrices({ commodity: m.k === 'index' || m.k === 'freight' ? null : m.k, series: [m.id] }),
+        ),
+      );
+    }
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------- searching
+
+const PER_GROUP = 5;
+
+function best(q: string[], items: Item[], kind: Kind): { item: Item; s: number } | null {
+  let top: { item: Item; s: number } | null = null;
+  for (const it of items) {
+    if (it.kind !== kind) continue;
+    const s = score(q, it.d);
+    if (s > 0 && (!top || s > top.s)) top = { item: it, s };
+  }
+  return top;
+}
+
+/**
+ * "japan crude", "soy brazil": the words split in two, one half a country and the other a commodity. Returns the two
+ * items, the best split. Each half has to match well (a word of the name, in part or whole).
+ */
+export function countryAndCommodity(q: string[], items: Item[]): { country: Item; commodity: Item } | null {
+  if (q.length < 2) return null;
+  let found: { country: Item; commodity: Item; s: number } | null = null;
+  for (let i = 1; i < q.length; i++) {
+    for (const [a, b] of [[q.slice(0, i), q.slice(i)], [q.slice(i), q.slice(0, i)]]) {
+      const c = best(a, items, 'country');
+      const k = best(b, items, 'commodity');
+      if (c && k && c.s >= 30 && k.s >= 30 && (!found || c.s + k.s > found.s)) found = { country: c.item, commodity: k.item, s: c.s + k.s };
+    }
+  }
+  return found;
+}
+
+/** Items that match, best first; with no query, the kind's own order. */
+function matches(q: string[], items: Item[], kind: Kind): { item: Item; s: number }[] {
+  const out: { item: Item; s: number }[] = [];
+  for (const it of items) {
+    if (it.kind !== kind) continue;
+    const s = score(q, it.d);
+    if (s > 0) out.push({ item: it, s });
+  }
+  return out.sort((a, b) => (q.length ? b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label));
+}
+
+/**
+ * The groups of results for a query. `scope`: one kind, every match of it (the list of a kind). With no query and no
+ * scope the result is empty: the field then shows the kinds with their counts (`counts`).
+ */
+export function search(query: string, items: Item[], scope: Kind | null): Group[] {
+  const q = tokens(query);
+  if (scope) {
+    const all = matches(q, items, scope).map((m) => m.item);
+    return all.length ? [{ kind: scope, label: KINDS[KIND_ORDER[scope]].label, items: all, total: all.length }] : [];
+  }
+  if (!q.length) return [];
+  const groups: (Group & { top: number })[] = [];
+  for (const { kind, label } of KINDS) {
+    const m = matches(q, items, kind);
+    if (m.length) groups.push({ kind, label, items: m.slice(0, PER_GROUP).map((x) => x.item), total: m.length, top: m[0].s });
+  }
+  // the group with the best match first; the kinds keep their order between equal scores
+  groups.sort((a, b) => b.top - a.top || KIND_ORDER[a.kind as Kind] - KIND_ORDER[b.kind as Kind]);
+  return groups;
+}
+
+export function counts(items: Item[]): { kind: Kind; label: string; one: string; n: number }[] {
+  const n = new Map<Kind, number>();
+  for (const it of items) n.set(it.kind, (n.get(it.kind) ?? 0) + 1);
+  return KINDS.map((k) => ({ ...k, n: n.get(k.kind) ?? 0 })).filter((k) => k.n > 0);
+}
+
+/**
+ * The lanes between a country and a commodity: the Route finder questions the pairs table allows, "into" the country
+ * (it is the destination of a recorded pair) and "out of" it (the origin). Empty when the commodity has no lanes.
+ */
+export async function finderQuestions(country: Item, k: Item): Promise<Item[]> {
+  const kid = k.key.slice(k.kind.length + 1);
+  const iso = country.key.slice(country.kind.length + 1);
+  const groups = LANE_GROUPS[kid] ?? [];
+  const files = (await Promise.all(groups.map((g) => loadPairs(g).catch(() => null)))).filter((f) => !!f);
+  const pairs = files.flatMap((f) => decodePairs(f!));
+  const out: { kt: number; item: Item }[] = [];
+  for (const [from, side] of [['d', 'into'], ['o', 'out of']] as const) {
+    const mine = pairs.filter((p) => (from === 'd' ? p.d : p.o) === iso && p.kt > 0);
+    if (!mine.length) continue;
+    const n = mine.length;
+    out.push({
+      kt: mine.reduce((a, p) => a + p.kt, 0),
+      item: make(
+        'route', `finder-${kid}-${from}-${iso}`, `${k.label} ${side} ${country.label}`, `Route finder · ${n} recorded ${n === 1 ? 'pair' : 'pairs'} of the latest year`,
+        prepare([`${k.label} ${side} ${country.label}`]), 0, () => openFinder(kid, from, iso),
+      ),
+    });
+  }
+  // the direction that carries more tonnes first
+  return out.sort((a, b) => b.kt - a.kt).map((x) => x.item);
+}

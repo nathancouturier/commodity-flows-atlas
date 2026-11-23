@@ -22,8 +22,12 @@ export const LANE_GROUPS: Record<string, string[]> = {
   aluminium: ['aluminium'],
   bauxite: ['bauxite', 'alumina'],
   nickel: ['nickel-ore', 'nickel-int', 'nickel-fe'],
-  lithium: ['spodumene'],
-  zinc: ['zinc-ore'],
+  lithium: ['spodumene', 'lithium'],
+  zinc: ['zinc-ore', 'zinc-metal'],
+  lead: ['lead-ore', 'lead-metal'],
+  tin: ['tin-metal', 'tin-ore'],
+  cobalt: ['cobalt'],
+  'rare-earths': ['rare-earths'],
   manganese: ['manganese'],
   wheat: ['wheat'],
   corn: ['corn'],
@@ -296,6 +300,13 @@ export const GROUP_LABEL: Record<string, string> = {
   'nickel-int': 'Nickel intermediates',
   'nickel-fe': 'Ferro-nickel & NPI',
   spodumene: 'Spodumene concentrate (Atlas estimate)',
+  lithium: 'Lithium carbonate & hydroxide',
+  'zinc-ore': 'Zinc concentrate',
+  'zinc-metal': 'Unwrought zinc',
+  'lead-ore': 'Lead concentrate',
+  'lead-metal': 'Unwrought lead',
+  'tin-metal': 'Unwrought tin',
+  'tin-ore': 'Tin concentrate',
 };
 
 /** The Route finder offers one "Coal" for thermal and metallurgical coal: customs data do not separate them. */

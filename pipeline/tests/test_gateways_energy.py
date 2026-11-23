@@ -329,7 +329,9 @@ class M08Transit(unittest.TestCase):
             self.assertIsNone(EN.transit(iso3, "fert"), iso3)
             self.assertIn(iso3, EN.UNSOURCED)
         self.assertEqual(EN.transit("SRB", "crude")[0], "HROMI")
-        self.assertIsNone(EN.transit("SRB", "drybulk"))
+        # package L1: the Port of Constanta page names Serbia among the countries whose cargo moves on the Danube to
+        # and from Constanta, a default row; the crude row still wins
+        self.assertEqual(EN.transit("SRB", "drybulk")[0], "ROCND")
         self.assertIn("SRB", EN.UNSOURCED)
 
     def test_unsourced_countries_have_no_transit_row_for_every_family(self):
@@ -453,7 +455,8 @@ class FE4aSourcedGateways(unittest.TestCase):
         self.assertIsNone(EN.transit("KAZ", "products"))
         self.assertIsNone(EN.transit("AZE", "products"))
         self.assertEqual(EN.transit("KAZ", "crude")[0], "KZCPC")        # a family row still wins over nothing else
-        self.assertIsNone(EN.transit("KAZ", "drybulk"))                  # no page names a sea outlet for Kazakh coal
+        # package L1 read a page (Kpler, February 2025) that names Ust-Luga for Kazakh coal
+        self.assertEqual(EN.transit("KAZ", "drybulk")[0], "RUULU")
         self.assertEqual(EN.transit("CZE", "drybulk")[0], "DEHAM")
         self.assertEqual(EN.transit("CZE", "crude")[0], "ITTRS")         # the family row wins over the default
         self.assertEqual(EN.transit("SSD", "crude")[0], "SDPZU")

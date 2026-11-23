@@ -20,7 +20,7 @@
    "u": "t Li",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded"
+   "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded; the countries and USGS 'Other countries' add up to 36,470,000 t Li, while the rounded world total of 37,000,000 t Li is 1.5% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 489.24,
@@ -28,6 +28,13 @@
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 0.5,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (lithium) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
@@ -80,7 +87,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Li",
-  "world": 37000000.0,
+  "world": 36470000.0,
   "rows": [
    {
     "c": "CHL",
@@ -123,8 +130,9 @@
     "v": 60000.0
    }
   ],
-  "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded",
+  "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded; the countries and USGS 'Other countries' add up to 36,470,000 t Li, while the rounded world total of 37,000,000 t Li is 1.5% above that sum: shares are computed on the sum",
   "other": 2400000.0,
+  "worldPublished": 37000000.0,
   "basis": "contained lithium"
  },
  "exports": {
@@ -135,83 +143,123 @@
   "rows": [
    {
     "c": "CHL",
-    "v": 263.47
+    "v": 263.47,
+    "usd": 3092493000,
+    "uv": 11700
    },
    {
     "c": "CHN",
-    "v": 124.44
+    "v": 124.44,
+    "usd": 2023305000,
+    "uv": 16300
    },
    {
     "c": "ARG",
-    "v": 65.779
+    "v": 65.779,
+    "usd": 672356000,
+    "uv": 10200
    },
    {
     "c": "USA",
-    "v": 8.608
+    "v": 8.608,
+    "usd": 184609000,
+    "uv": 21400
    },
    {
     "c": "KOR",
-    "v": 6.181
+    "v": 6.181,
+    "usd": 57075000,
+    "uv": 9230
    },
    {
     "c": "AUS",
-    "v": 5.124
+    "v": 5.124,
+    "usd": 46844000,
+    "uv": 9140
    },
    {
     "c": "NLD",
-    "v": 3.921
+    "v": 3.921,
+    "usd": 40880000,
+    "uv": 10400
    },
    {
     "c": "DEU",
-    "v": 3.17
+    "v": 3.17,
+    "usd": 47072000,
+    "uv": 14800
    },
    {
     "c": "JPN",
-    "v": 2.597
+    "v": 2.597,
+    "usd": 34856000,
+    "uv": 13400
    },
    {
     "c": "GBR",
-    "v": 1.808
+    "v": 1.808,
+    "usd": 23947000,
+    "uv": 13200
    },
    {
     "c": "BOL",
-    "v": 1.7
+    "v": 1.7,
+    "usd": 14869000,
+    "uv": 8750
    },
    {
     "c": "RUS",
-    "v": 0.873
+    "v": 0.873,
+    "usd": 15385000,
+    "uv": 17600
    },
    {
     "c": "FRA",
-    "v": 0.509
+    "v": 0.509,
+    "usd": 8411000,
+    "uv": 16500
    },
    {
     "c": "BEL",
-    "v": 0.469
+    "v": 0.469,
+    "usd": 6789000,
+    "uv": 14500
    },
    {
     "c": "SWE",
-    "v": 0.305
+    "v": 0.305,
+    "usd": 3124000,
+    "uv": 10200
    },
    {
     "c": "LAO",
-    "v": 0.14
+    "v": 0.14,
+    "usd": 1254000,
+    "uv": 8960
    },
    {
     "c": "IND",
-    "v": 0.071
+    "v": 0.071,
+    "usd": 1238000,
+    "uv": 17400
    },
    {
     "c": "CHE",
-    "v": 0.053
+    "v": 0.053,
+    "usd": 1099000,
+    "uv": 20700
    },
    {
     "c": "BRA",
-    "v": 0.016
+    "v": 0.016,
+    "usd": 1215000,
+    "uv": 75900
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "carbonate, oxide and hydroxide, gross weight"
+  "basis": "carbonate, oxide and hydroxide, gross weight",
+  "usd": 6276821000,
+  "uv": 12800
  },
  "imports": {
   "y": 2024,
@@ -221,143 +269,213 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 246.59
+    "v": 246.59,
+    "usd": 2583306000,
+    "uv": 10500
    },
    {
     "c": "KOR",
-    "v": 130.4
+    "v": 130.4,
+    "usd": 2049523000,
+    "uv": 15700
    },
    {
     "c": "JPN",
-    "v": 50.458
+    "v": 50.458,
+    "usd": 852057000,
+    "uv": 16900
    },
    {
     "c": "USA",
-    "v": 16.115
+    "v": 16.115,
+    "usd": 206221000,
+    "uv": 12800
    },
    {
     "c": "NLD",
-    "v": 9.202
+    "v": 9.202,
+    "usd": 119680000,
+    "uv": 13000
    },
    {
     "c": "BEL",
-    "v": 8.557
+    "v": 8.557,
+    "usd": 62201000,
+    "uv": 7270
    },
    {
     "c": "DEU",
-    "v": 6.393
+    "v": 6.393,
+    "usd": 91825000,
+    "uv": 14400
    },
    {
     "c": "GBR",
-    "v": 4.005
+    "v": 4.005,
+    "usd": 48263000,
+    "uv": 12100
    },
    {
     "c": "IND",
-    "v": 2.611
+    "v": 2.611,
+    "usd": 37962000,
+    "uv": 14500
    },
    {
     "c": "SWE",
-    "v": 2.468
+    "v": 2.468,
+    "usd": 54228000,
+    "uv": 22000
    },
    {
     "c": "FRA",
-    "v": 2.074
+    "v": 2.074,
+    "usd": 29240000,
+    "uv": 14100
    },
    {
     "c": "POL",
-    "v": 1.695
+    "v": 1.695,
+    "usd": 26498000,
+    "uv": 15600
    },
    {
     "c": "TUR",
-    "v": 1.243
+    "v": 1.243,
+    "usd": 12815000,
+    "uv": 10300
    },
    {
     "c": "TWN",
-    "v": 0.92
+    "v": 0.92,
+    "usd": 13460000,
+    "uv": 14600
    },
    {
     "c": "ITA",
-    "v": 0.67
+    "v": 0.67,
+    "usd": 11009000,
+    "uv": 16400
    },
    {
     "c": "HUN",
-    "v": 0.621
+    "v": 0.621,
+    "usd": 6990000,
+    "uv": 11300
    },
    {
     "c": "ESP",
-    "v": 0.586
+    "v": 0.586,
+    "usd": 7946000,
+    "uv": 13600
    },
    {
     "c": "CAN",
-    "v": 0.573
+    "v": 0.573,
+    "usd": 6988000,
+    "uv": 12200
    },
    {
     "c": "SGP",
-    "v": 0.471
+    "v": 0.471,
+    "usd": 6620000,
+    "uv": 14100
    },
    {
     "c": "LVA",
-    "v": 0.46
+    "v": 0.46,
+    "usd": 5104000,
+    "uv": 11100
    },
    {
     "c": "ARE",
-    "v": 0.407
+    "v": 0.407,
+    "usd": 5618000,
+    "uv": 13800
    },
    {
     "c": "IDN",
-    "v": 0.371
+    "v": 0.371,
+    "usd": 5362000,
+    "uv": 14500
    },
    {
     "c": "HKG",
-    "v": 0.335
+    "v": 0.335,
+    "usd": 2685000,
+    "uv": 8010
    },
    {
     "c": "RUS",
-    "v": 0.299
+    "v": 0.299,
+    "usd": 4281000,
+    "uv": 14300
    },
    {
     "c": "THA",
-    "v": 0.296
+    "v": 0.296,
+    "usd": 4156000,
+    "uv": 14000
    },
    {
     "c": "AUS",
-    "v": 0.259
+    "v": 0.259,
+    "usd": 4160000,
+    "uv": 16100
    },
    {
     "c": "ARG",
-    "v": 0.256
+    "v": 0.256,
+    "usd": 4359000,
+    "uv": 17000
    },
    {
     "c": "CHE",
-    "v": 0.25
+    "v": 0.25,
+    "usd": 2153000,
+    "uv": 8610
    },
    {
     "c": "BRA",
-    "v": 0.208
+    "v": 0.208,
+    "usd": 3166000,
+    "uv": 15200
    },
    {
     "c": "MEX",
-    "v": 0.14
+    "v": 0.14,
+    "usd": 2072000,
+    "uv": 14800
    },
    {
     "c": "VNM",
-    "v": 0.1
+    "v": 0.1,
+    "usd": 1268000,
+    "uv": 12700
    },
    {
     "c": "ZAF",
-    "v": 0.092
+    "v": 0.092,
+    "usd": 2601000,
+    "uv": 28300
    },
    {
     "c": "EGY",
-    "v": 0.071
+    "v": 0.071,
+    "usd": 1204000,
+    "uv": 17000
    },
    {
     "c": "MYS",
-    "v": 0.046
+    "v": 0.046,
+    "usd": 1800000,
+    "uv": 39100
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "carbonate, oxide and hydroxide, gross weight"
+  "basis": "carbonate, oxide and hydroxide, gross weight",
+  "usd": 6276821000,
+  "uv": 12800
  },
  "extra": [
   {
@@ -371,19 +489,23 @@
     "rows": [
      {
       "c": "AUS",
-      "v": 3.72
+      "v": 3.72,
+      "usd": 2892573000
      },
      {
       "c": "ZWE",
-      "v": 0.976
+      "v": 0.976,
+      "usd": 549858000
      },
      {
       "c": "BRA",
-      "v": 0.343
+      "v": 0.343,
+      "usd": 279071000
      }
     ],
     "n": "Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS 253090 ('mineral substances not elsewhere specified'), keeping only the rows from Australia, Zimbabwe and Brazil to China, the exporters for which a page read by the atlas says they ship lithium concentrate to China (the pages are in the notes of the page): 30% of the tonnage and 67% of the value of the code in 2024. These rows may still hold other minerals. Customs gross weight of concentrate, not lithium content. CEPII BACI HS92 HS 253090 rows to China only, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-    "basis": "concentrate, gross weight"
+    "basis": "concentrate, gross weight",
+    "usd": 3721502000
    }
   }
  ],
@@ -395,7 +517,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 2034638000,
+   "uv": 10900,
+   "mode": "sea",
+   "lane": "lithium:CHL-CHN"
   },
   {
    "o": "CHN",
@@ -404,7 +529,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 1356328000,
+   "uv": 16100,
+   "mode": "sea",
+   "lane": "lithium:CHN-KOR"
   },
   {
    "o": "ARG",
@@ -413,7 +541,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 417491000,
+   "uv": 8780,
+   "mode": "sea",
+   "lane": "lithium:ARG-CHN"
   },
   {
    "o": "CHL",
@@ -422,7 +553,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 525046000,
+   "uv": 14700,
+   "mode": "sea",
+   "lane": "lithium:CHL-KOR"
   },
   {
    "o": "CHN",
@@ -431,7 +565,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 562637000,
+   "uv": 16400,
+   "mode": "sea",
+   "lane": "lithium:CHN-JPN"
   },
   {
    "o": "CHL",
@@ -440,7 +577,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 123832000,
+   "uv": 13500,
+   "mode": "sea",
+   "lane": "lithium:CHL-USA"
   },
   {
    "o": "CHL",
@@ -449,7 +589,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 55554000,
+   "uv": 6860,
+   "mode": "sea",
+   "lane": "lithium:CHL-BEL"
   },
   {
    "o": "CHL",
@@ -458,7 +601,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 140639000,
+   "uv": 17400,
+   "mode": "sea",
+   "lane": "lithium:CHL-JPN"
   },
   {
    "o": "CHL",
@@ -467,7 +613,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 103516000,
+   "uv": 13000,
+   "mode": "sea",
+   "lane": "lithium:CHL-NLD"
   },
   {
    "o": "ARG",
@@ -476,7 +625,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 78542000,
+   "uv": 11600,
+   "mode": "sea",
+   "lane": "lithium:ARG-USA"
   },
   {
    "o": "ARG",
@@ -485,7 +637,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 95819000,
+   "uv": 16300,
+   "mode": "sea",
+   "lane": "lithium:ARG-KOR"
   },
   {
    "o": "KOR",
@@ -494,6 +649,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 38662000,
+   "uv": 8330,
    "mode": "sea"
   },
   {
@@ -503,6 +660,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 65819000,
+   "uv": 14900,
    "mode": "sea"
   },
   {
@@ -512,6 +671,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 76035000,
+   "uv": 22600,
    "mode": "sea"
   },
   {
@@ -521,6 +682,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 23684000,
+   "uv": 7450,
    "mode": "sea"
   },
   {
@@ -530,6 +693,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 34209000,
+   "uv": 12000,
    "mode": "sea"
   },
   {
@@ -539,6 +704,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 29070000,
+   "uv": 13200,
    "mode": "sea"
   },
   {
@@ -548,6 +715,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 46422000,
+   "uv": 21900,
    "mode": "sea"
   },
   {
@@ -557,6 +726,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 49136000,
+   "uv": 23200,
    "mode": "sea"
   },
   {
@@ -566,9 +737,81 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 23160000,
+   "uv": 11900,
    "mode": "sea"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "reliance": [
+   {
+    "what": "Lithium",
+    "pct": ">50",
+    "y": 2025,
+    "src": "Chile, Argentina",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3172
+   },
+   "top3": 0.7241,
+   "hhi": 2024,
+   "eq": 4.9,
+   "k": 9,
+   "cov": 0.9944
+  },
+  "reserves": {
+   "top1": {
+    "c": "CHL",
+    "p": 0.2523
+   },
+   "top3": 0.6087,
+   "hhi": 1641,
+   "eq": 6.1,
+   "k": 10,
+   "cov": 0.9342
+  },
+  "exports": {
+   "top1": {
+    "c": "CHL",
+    "p": 0.5385
+   },
+   "top3": 0.9273,
+   "hhi": 3735,
+   "eq": 2.7,
+   "k": 19,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.504
+   },
+   "top3": 0.8737,
+   "hhi": 3378,
+   "eq": 3.0,
+   "k": 34,
+   "cov": 1.0
+  },
+  "spodumene-exports": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.7381
+   },
+   "top3": 0.9998,
+   "hhi": 5869,
+   "eq": 1.7,
+   "k": 3,
+   "cov": 0.9998,
+   "est": true
+  }
+ },
  "notes": [
   "2 flows of the lithium chemicals codes (15.1 kt in 2024) are declared under 1,500 USD per tonne, the price of ore or concentrate rather than of a lithium chemical, and are left out of the trade tables: Nigeria to China 8.60 kt at 286 USD/t; Brazil to China 6.48 kt at 1,110 USD/t.",
   "Trade tables and flows are lithium carbonate and hydroxide/oxide (HS 283691, 282520) in gross weight (kt), not lithium content. USGS production is contained lithium (t Li), so units differ.",

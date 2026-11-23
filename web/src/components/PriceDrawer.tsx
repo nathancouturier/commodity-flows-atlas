@@ -5,9 +5,10 @@
  * Every number carries its date and source.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { commodity, priceDrawer, priceSeries, select } from '../lib/store';
+import { commodity, priceDrawer, priceSeries, priceView, select } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { FAMILY_COLOR, TOUCH } from '../lib/format';
+import { downloadPrices } from '../lib/pricesCsv';
 import { loadEvents } from '../lib/freight';
 import {
   DAY_S,
@@ -115,6 +116,17 @@ function endOfPeriod(p: ParsedDate): number {
   return lookupEnd(p) - DAY_S;
 }
 
+/** The lookup as an address writes it: 2008, 2008-Q3, 2008-03, 2008-03-14 (parseLookup reads all four). */
+function lookupKey(p: ParsedDate): string {
+  const d = new Date(p.t * 1000);
+  const y = d.getUTCFullYear();
+  const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+  if (p.precision === 'year') return String(y);
+  if (p.precision === 'quarter') return `${y}-Q${d.getUTCMonth() / 3 + 1}`;
+  if (p.precision === 'month') return `${y}-${m}`;
+  return `${y}-${m}-${String(d.getUTCDate()).padStart(2, '0')}`;
+}
+
 function lookupLabel(p: ParsedDate): string {
   const d = new Date(p.t * 1000);
   const M = MON[d.getUTCMonth()];
@@ -152,6 +164,8 @@ export function PriceDrawer() {
   const chartBox = useRef<HTMLDivElement>(null);
   const resetView = useRef(true);
   const pendingDate = useRef<string | null>(null);
+  const pendingRange = useRef<[number, number] | null>(null);
+  const [rangeTick, setRangeTick] = useState(0);
   const rootRef = useRef<HTMLElement>(null);
   const reqKey = req?.nonce ?? 0;
 
@@ -168,13 +182,17 @@ export function PriceDrawer() {
       let next = cur;
       setNoSeries(null);
       setOpenedFor(k ?? null);
-      if (req.series?.length) next = req.series.slice(0, MAX_SERIES);
+      // the ids of an address are checked against the index: a series that does not exist is left out
+      const wanted = req.series?.filter((id) => findMeta(id));
+      if (wanted?.length) next = wanted.slice(0, MAX_SERIES);
       else if (k && !seriesForCommodity(k).length) {
         // no series for this commodity: say so, and never show another commodity's price, even an earlier selection
         setNoSeries(lowerName(commodityMeta(k)?.name ?? k));
         next = [];
       } else if (!cur.length) next = defaultSeriesIds(k);
       else if (k && !cur.some((id) => findMeta(id)?.k === k)) next = defaultSeriesIds(k);
+      // the period and date of the page before are not those of this request: the address stops carrying them until it settles
+      if (req.range || req.date) priceView.value = null;
       if (next.join() !== cur.join()) {
         priceSeries.value = next;
         resetView.current = true;
@@ -183,6 +201,11 @@ export function PriceDrawer() {
         setQuery('');
       }
       if (req.date) pendingDate.current = req.date;
+      // what an address carries beyond the series: the period, index to 100, real prices
+      pendingRange.current = req.range ?? null;
+      setRangeTick((t) => t + 1);
+      if (req.index != null) setIndexed(req.index);
+      if (req.real != null) setReal(req.real);
     });
     return () => {
       alive = false;
@@ -313,6 +336,40 @@ export function PriceDrawer() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [merged, reqKey]);
+
+  // the period of an address, after the date lookup (which zooms around its date) so that the period wins
+  useEffect(() => {
+    const r = pendingRange.current;
+    // only once the chart holds the series the request names (the series of the page before it may still be there)
+    if (!merged || !r || data.map((d) => d.meta.id).join() !== loadIds.join()) return;
+    pendingRange.current = null;
+    const w = { min: Math.max(xMin, Math.min(r[0], xMax)), max: Math.min(xMax, Math.max(r[1], xMin)) };
+    if (w.max > w.min) {
+      setView(w);
+      setWin(w);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [merged, reqKey, rangeTick]);
+
+  // what the drawer shows beyond its series goes to the address, once it has settled (a drag-zoom fires many times)
+  useEffect(() => {
+    if (!open) {
+      priceView.value = null;
+      return;
+    }
+    // not while a requested period is still to be applied, nor while the chart holds the series of the page before
+    if (pendingRange.current || data.map((d) => d.meta.id).join() !== loadIds.join()) return;
+    const id = setTimeout(() => {
+      priceView.value = {
+        range: win && merged ? [Math.floor(win.min), Math.floor(win.max)] : null,
+        date: lookup ? lookupKey(lookup.parsed) : null,
+        index: indexed,
+        real: realOn,
+      };
+    }, 350);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, win, merged, lookup, indexed, realOn, data, rangeTick]);
 
   const lookupRows = useMemo(() => {
     if (!lookup || !ready) return null;
@@ -504,6 +561,14 @@ export function PriceDrawer() {
               <Picker meta={meta} ids={ids} onPick={addSeries} onRemove={(id) => setIds(ids.filter((x) => x !== id))} />
               <button class="pd-add pd-board-btn" onClick={() => setBoard(true)} title="Every series with its last value and its changes">
                 Price board
+              </button>
+              <button
+                class="pd-add pd-board-btn"
+                disabled={!merged || !win}
+                onClick={() => merged && win && downloadPrices(data, win.min, win.max)}
+                title="The series shown, over the period shown, with their source and licence, as a CSV file (values as published, not indexed)"
+              >
+                CSV
               </button>
               <div class="tc-ranges" role="group" aria-label="Time range">
                 {shown.map((r) => (

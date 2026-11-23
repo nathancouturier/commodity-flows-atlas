@@ -152,7 +152,9 @@ class ModeTests(unittest.TestCase):
         # 9,117.8 Mt before package W3M1, which adds 9.0 Mt of Chilean copper concentrate (clean.py rule 8) and the
         # groups nickel-fe (10.1 Mt) and spodumene (5.6 Mt); review GR1.1 takes 1.5 Mt of the Chilean estimate back
         # (Peru's unit value times Chile's usual ratio to it)
-        self.assertAlmostEqual(tot.sum(), 9140.4, delta=1)
+        # package L1 adds the eight groups of minor metals, 13.7 Mt after clean() (9.8 sea, 0.5 transit, 0.4 mixed,
+        # 3.0 land), and reads Belarusian potash to China (2.9 Mt) as mixed instead of transit
+        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

@@ -3,7 +3,7 @@
  * (per commodity, per layer) so the first paint only needs the catalogue.
  */
 import { signal } from '@preact/signals';
-import type { CommodityHistory, CommodityMeta, CountryMeta, Source } from '../types';
+import type { CommodityHistory, CommodityMeta, CountryMeta, CountryProfile, Source } from '../types';
 
 const BASE = './data/';
 const cache = new Map<string, Promise<unknown>>();
@@ -25,6 +25,11 @@ export function load<T>(path: string): Promise<T> {
 /** Load a file, resolving to null instead of throwing (for optional layers). */
 export function loadOptional<T>(path: string): Promise<T | null> {
   return load<T>(path).catch(() => null);
+}
+
+/** A country's profile (data/countries/profiles/<ISO3>.json, one file per country), null when it has none. */
+export function loadProfile(iso3: string): Promise<CountryProfile | null> {
+  return /^[A-Z0-9]{3,5}$/.test(iso3) ? loadOptional<CountryProfile>(`countries/profiles/${iso3}.json`) : Promise.resolve(null);
 }
 
 /** A commodity's tables by country and year (data/commodities/history), null when it has none. */

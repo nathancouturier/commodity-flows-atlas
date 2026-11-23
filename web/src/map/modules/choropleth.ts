@@ -54,11 +54,12 @@ effect(() => {
   const first = lastK === undefined;
   lastK = k;
   if (!k || !meta) {
-    if (!first) metric.value = 'none';
+    metric.value = 'none'; // a colouring needs a commodity: a link with a measure and no commodity colours nothing
     return;
   }
   const cur = metric.peek();
-  if (first && cur !== 'none') return; // link carried its own colouring
+  // a link's own colouring is kept when the commodity has data for it; otherwise the usual choice below replaces it (no empty map)
+  if (first && cur !== 'none' && meta.has.includes(cur)) return;
   if (cur === 'none' || !meta.has.includes(cur)) {
     const pick = (['production', 'exports', 'imports'] as const).find((x) => meta.has.includes(x));
     metric.value = pick ?? 'none';
@@ -94,18 +95,25 @@ registerLayerModule((m: MLMap) => {
         return;
       }
       const world = table.world ?? table.rows.reduce((a, r) => a + r.v, 0);
-      const byC = new Map<string, { v: number; eu: boolean }>();
+      const byC = new Map<string, { v: number; eu: boolean; own?: boolean }>();
       for (const r of table.rows) {
         if (r.c === 'EU27') continue;
         byC.set(r.c, { v: r.v, eu: false });
       }
       const eu = table.rows.find((r) => r.c === 'EU27');
-      // the aggregate is shown on each member state that has no row of its own
-      if (eu) for (const c of EU27) if (!byC.has(c)) byC.set(c, { v: eu.v, eu: true });
+      // a member state shows its own figure when the commodity has a table of the member states for this measure (FAOSTAT production,
+      // customs trade: only for the latest table, they have no series by year); otherwise the aggregate's, on each member with no row of its own
+      const own = table === latest ? d?.extra?.find((x) => x.key === `eu-${met}`)?.table : undefined;
+      const members = own && !own.noMap ? own : undefined;
+      const memberBase = members ? (members.worldAll ?? members.world) : undefined;
+      if (eu && members && memberBase) {
+        for (const r of members.rows) if (EU27.includes(r.c) && !byC.has(r.c)) byC.set(r.c, { v: r.v, eu: false, own: true });
+      } else if (eu) for (const c of EU27) if (!byC.has(c)) byC.set(c, { v: eu.v, eu: true });
       let lo = Infinity;
       let hi = 0;
       for (const [c, r] of byC) {
-        const share = r.v / world;
+        // a member state's own figure is a share of the world total of its own source and year
+        const share = r.v / (r.own && memberBase ? memberBase : world);
         // every country with a value is coloured: a very small share still gets the faintest visible tint
         m.setFeatureState({ source: 'countries', id: c }, { v: Math.max(share, MIN_TINT_SHARE), col: color });
         painted.push(c);
@@ -123,7 +131,7 @@ registerLayerModule((m: MLMap) => {
         metric: met,
         unit: table.u,
         year: table.y,
-        source: sourceLabel(table.s),
+        source: members && memberBase ? `${sourceLabel(members.s)}, ${members.y} for the EU member states; ${sourceLabel(table.s)}` : sourceLabel(table.s),
         color,
         min: Number.isFinite(lo) ? lo : 0,
         max: hi,
@@ -153,9 +161,11 @@ registerLayerModule((m: MLMap) => {
       setCountryTooltipExtra((iso) => {
         const r = byC.get(iso);
         if (!r) return '';
-        return `<div>${escapeHtml(met)}: <span class="num">${fmt(r.v)} ${escapeHtml(table.u)}</span> · ${pct(r.v / world)} of world</div>
+        const t = r.own && members ? members : table;
+        return `<div>${escapeHtml(met)}: <span class="num">${fmt(r.v)} ${escapeHtml(t.u)}</span> · ${pct(r.v / (r.own && memberBase ? memberBase : world))} of world</div>
           ${r.eu ? '<div class="muted">European Union, one figure for all its members (shown on each member state)</div>' : ''}
-          <div class="src-line">${escapeHtml(sourceLabel(table.s))} · ${escapeHtml(String(table.y))}</div>`;
+          ${r.own ? '<div class="muted">EU member state: its own figure (the USDA row for the European Union is a single figure for all 27)</div>' : ''}
+          <div class="src-line">${escapeHtml(sourceLabel(t.s))} · ${escapeHtml(String(t.y))}</div>`;
       });
     });
   });

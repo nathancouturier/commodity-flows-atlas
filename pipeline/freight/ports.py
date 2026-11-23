@@ -170,6 +170,9 @@ SEGMENT = {
     "soyoil": "vegoil", "palm-oil": "vegoil", "potash": "fert", "phosphate-rock": "fert", "dap": "fert",
     "urea": "fert", "steel": "box", "copper-refined": "box", "aluminium": "box", "coffee": "box",
     "cocoa": "box", "cotton": "box", "nickel-int": "nickel", "nickel-fe": "nickel", "spodumene": "ore",
+    # minor metals and chemicals that sail in bags, drums or containers (M-015): general cargo, as refined copper
+    "lead-metal": "box", "zinc-metal": "box", "tin-metal": "box", "tin-ore": "box", "cobalt": "box", "lithium": "box",
+    "rare-earths": "box",
 }
 
 _FALLBACK = {"ore": ["ore", "any"], "coal": ["coal", "any"], "metcoal": ["metcoal", "coal", "any"]}

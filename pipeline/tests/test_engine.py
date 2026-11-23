@@ -118,7 +118,8 @@ class FlowTables(unittest.TestCase):
                 checked += 1
                 self.assertEqual(f.get("mode"), M_NAME[r[ci["m"]]], key)
                 kt = r[ci["kt"]]
-                self.assertAlmostEqual(f["v"], kt / 1e3, delta=max(0.006 * f["v"], 0.002), msg=key)
+                v = f["v"] / 1e3 if f.get("u") == "kt" else f["v"]  # tin, cobalt, lithium and rare earths are in kt
+                self.assertAlmostEqual(v, kt / 1e3, delta=max(0.006 * v, 0.002), msg=key)
                 self.assertEqual(bool(f.get("est")), bool(r[ci["f"]] & 1), key)
                 self.assertEqual(bool(f.get("lane")), bool(r[ci["f"]] & 4), key)
                 if f.get("lane"):

@@ -1,0 +1,117 @@
+/* country page: balance and partners, freight, basket of all goods, customs notes, EU link */
+.fold-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font: inherit;
+  color: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  padding: 0;
+  text-align: left;
+}
+.fold-caret {
+  font-size: 10px;
+  color: var(--ink-2);
+  width: 10px;
+}
+.cp-list {
+  display: grid;
+  gap: 2px;
+}
+.cp-bal,
+.cp-fr {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--hairline);
+  min-width: 0;
+}
+.cp-bal:last-of-type,
+.cp-fr:last-of-type {
+  border-bottom: 0;
+}
+.cp-bal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cp-bal-name {
+  font-size: var(--fs-sm);
+  color: var(--ink-0);
+  text-align: left;
+}
+.cp-net {
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+.cp-sub,
+.cp-partners,
+.cp-hub {
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+  line-height: 1.4;
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+.cp-partners {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 6px;
+}
+.cp-k {
+  font-size: 10px;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.cp-hub {
+  color: var(--ink-0);
+}
+.cp-fr-side + .cp-fr-side {
+  margin-top: 10px;
+}
+.cp-fr-note {
+  margin: 8px 4px 0;
+  line-height: 1.4;
+}
+.cp-basket + .cp-basket {
+  margin-top: 8px;
+}
+.cp-basket .bar-fill {
+  background: var(--ink-2);
+}
+.cp-gaps {
+  display: grid;
+  gap: 4px;
+  margin: 6px 4px 2px;
+}
+.cp-gap {
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+  line-height: 1.4;
+  border-left: 2px solid var(--hairline);
+  padding-left: 8px;
+}
+.cp-eu,
+.cp-nocode {
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+  line-height: 1.4;
+  margin: 4px 0 8px;
+}
+.cp-op {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: var(--fs-sm);
+  padding: 3px 4px;
+}
+.cp-tag {
+  font-size: 10px;
+  color: var(--ink-2);
+  margin-left: 6px;
+}
+.bar-row.cp-past-none {
+  opacity: 0.6;
+}

@@ -34,6 +34,11 @@ def load(rel):
         return json.load(f)
 
 
+def profiles():
+    """The country profiles with data, one file per country (data/countries/profiles/<ISO3>.json)."""
+    return {c: load(f"countries/profiles/{c}.json") for c, v in load("countries/profiles.json").items() if "n" in v}
+
+
 def sig_digits(v):
     """Number of significant digits a printed figure can have: 14.0 -> 3, 1360 -> at most 3 (trailing zeros are not counted)."""
     s = f"{abs(v):.10g}".replace(".", "").lstrip("0").rstrip("0")
@@ -160,12 +165,12 @@ class EstimatedRows(unittest.TestCase):
                         self.assertLess(int(m.group(1)), 50, (f, r["c"]))  # a mostly estimated row has the other wording and est
 
     def test_profile_row_follows(self):
-        p = load("countries/profiles.json")["CHL"]
+        p = load("countries/profiles/CHL.json")
         e = next(x for x in p["exports"] if x["k"] == "copper" and x.get("label") == "Copper concentrate")
         self.assertEqual((e["s"], e["est"]), ("atlas", True))
         self.assertTrue(e["n"].startswith("Atlas estimate:"))
         # an ordinary customs row is not marked
-        swiss = load("countries/profiles.json")["CHE"]
+        swiss = load("countries/profiles/CHE.json")
         self.assertTrue(all(not x.get("est") for x in swiss["exports"] if x["k"] == "wheat"))
 
 
@@ -189,7 +194,7 @@ class OtherCountries(unittest.TestCase):
         g = load("commodities/gold.json")["production"]
         self.assertEqual(g["other"], 1000)
         self.assertEqual(g["hidden"]["k"], 3)
-        self.assertNotIn("worldPublished", g)
+        self.assertEqual((g["world"], g["worldPublished"]), (3250, 3300))  # audit M-018: shares on the sum of the lines
         bx = load("commodities/bauxite.json")["production"]  # not a full table: the USGS total stays, its "Other countries" line is its own row
         self.assertEqual((bx["other"], bx["hidden"]["k"]), (8.0, len(bx["rows"]) - B.SHOWN_ROWS))
 
@@ -208,9 +213,10 @@ class Notes(unittest.TestCase):
             with open(os.path.join(DATA, "commodities", f), encoding="utf-8") as fh:
                 if re.search(r"\.; ", fh.read()):
                     bad.append(f)
-        with open(os.path.join(DATA, "countries", "profiles.json"), encoding="utf-8") as fh:
-            if re.search(r"\.; ", fh.read()):
-                bad.append("profiles.json")
+        for f in os.listdir(os.path.join(DATA, "countries", "profiles")):
+            with open(os.path.join(DATA, "countries", "profiles", f), encoding="utf-8") as fh:
+                if re.search(r"\.; ", fh.read()):
+                    bad.append(f)
         self.assertEqual(bad, [])
 
     def test_lng_profile_rows_carry_the_short_caveat(self):
@@ -218,7 +224,7 @@ class Notes(unittest.TestCase):
         self.assertGreater(len(lng["exports"]["caveat"]), 300)  # the page keeps the long one
         short = lng["exports"]["caveatShort"]
         self.assertLess(len(short), 100)
-        rows = [e for p in load("countries/profiles.json").values() for sec in ("exports", "imports") for e in p[sec] if e["k"] == "lng"]
+        rows = [e for p in profiles().values() for sec in ("exports", "imports") for e in p[sec] if e["k"] == "lng"]
         self.assertTrue(rows)
         for e in rows:
             self.assertLess(len(e.get("warn", "")), 100)
@@ -309,7 +315,7 @@ class Labels(unittest.TestCase):
         import build_profiles as P
         self.assertEqual(P.TRADE_LABEL["cobalt"], "Cobalt intermediates and metal")
         self.assertEqual(P.TRADE_LABEL["tin"], "Tin (unwrought)")
-        p = load("countries/profiles.json")
+        p = profiles()
         seen = [e for pr in p.values() for sec in ("exports", "imports") for e in pr[sec] if e["k"] in ("cobalt", "tin")]
         self.assertTrue(seen)
         self.assertTrue(all(e.get("label") for e in seen))
@@ -317,17 +323,16 @@ class Labels(unittest.TestCase):
 
 class Armenia(unittest.TestCase):
     def test_a_country_without_a_profile_is_handled_by_the_page(self):
-        """GW3.14: a country whose last row went keeps no entry; the country view shows its placeholder (CountryView.tsx reads
-        `all?.[id] ?? null`, and null renders "No commodity in the atlas catalogue is significant for this country yet")."""
-        profiles = load("countries/profiles.json")
+        """GW3.14, superseded by C-098: every country of the index has a profile file; one with no data at all says what it
+        is (CountryView.tsx renders `p.none`), and Armenia, which has trade, has its lines."""
+        light = load("countries/profiles.json")
         index = {c["c"] for c in load("countries/index.json")}
-        self.assertIn("ARM", index)
-        self.assertNotIn("ARM", profiles)
-        self.assertGreater(len(index - set(profiles)), 50)  # most small countries have none: the page already copes
+        self.assertEqual(index - set(light), set())
+        self.assertIn("n", light["ARM"])
+        self.assertLess(sum(1 for v in light.values() if "none" in v), 20)
         src = open(os.path.join(ROOT, "web", "src", "components", "views", "CountryView.tsx"), encoding="utf-8").read()
-        self.assertIn("all?.[id] ?? null", src)
-        self.assertIn("No commodity in the atlas catalogue is significant for this country yet", src)
-
+        self.assertIn("<Placeholder>{p.none}</Placeholder>", src)
+        self.assertNotIn("No commodity in the atlas catalogue is significant for this country yet", src)
 
 if __name__ == "__main__":
     unittest.main()

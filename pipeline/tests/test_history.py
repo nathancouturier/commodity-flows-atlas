@@ -101,8 +101,13 @@ class FullLists(unittest.TestCase):
     def test_the_quoted_tables(self):
         d = dict(docs())
         w = d["wheat"]["imports"]
-        self.assertAlmostEqual(sum(r["v"] for r in w["rows"][:10]) / w["world"], 0.388, places=3)  # 38.8% (audit SOFT-26, PV-07)
-        self.assertAlmostEqual(rest_of_world(w) / w["world"], 0.612, places=3)
+        # the table is USDA's 2026/27 forecast since package A1: 38.3% (the audit's 38.8% was the 2025/26 table, below)
+        self.assertAlmostEqual(sum(r["v"] for r in w["rows"][:10]) / w["world"], 0.383, places=3)
+        self.assertAlmostEqual(rest_of_world(w) / w["world"], 0.617, places=3)
+        h = load("commodities/history/wheat.json")["t"]["imports"]
+        i = h["years"].index(2025)  # 2025/26, the estimate: 38.8% (audit SOFT-26, PV-07)
+        top = sorted((v[i] for v in h["c"].values() if v[i]), reverse=True)[:10]
+        self.assertAlmostEqual(sum(top) / h["world"][i], 0.388, places=3)
 
     def test_usgs_other_countries_stays_its_own_line(self):
         d = dict(docs())
@@ -234,10 +239,12 @@ class Series(unittest.TestCase):
     def test_out_of_line_on_the_real_series(self):
         lp = self.hist["lpg"]["t"]["consumption"]
         i21 = lp["years"].index(2021)
-        self.assertEqual(lp["out"], {"USA": [i21]})
-        self.assertEqual(lp["worldOut"], [i21])
-        self.assertGreater(lp["c"]["USA"][i21], 3 * lp["c"]["USA"][i21 - 1])  # kept as published, flagged
-        self.assertTrue(any(n.startswith("United States has no figure after 2021") for n in lp["n"]))  # the change of coverage
+        # the US LPG tonnes of 2021 (148 Mt against 43 Mt) are replaced by EIA's barrels per day converted, and the years after 2021 are
+        # converted too (E1b): nothing is left to flag, and no coverage break either
+        self.assertNotIn("out", lp)
+        self.assertLess(lp["c"]["USA"][i21], 1.5 * lp["c"]["USA"][i21 - 1])
+        self.assertTrue(all(v is not None for v in lp["c"]["USA"][i21:]))
+        self.assertFalse(any(n.startswith("United States has no figure after") for n in lp["n"]))
         # real shocks survive: Libya's crude oil exports of 2020, Russia's wheat exports of 2010, Malaysia's bauxite exports of
         # 2015 (its declared value moved with the tonnage), and the fall of 2009 spread over every potash trader
         for cid, k, c, y in (("crude-oil", "exports", "LBY", 2020), ("wheat", "exports", "RUS", 2010), ("bauxite", "exports", "MYS", 2015)):
@@ -261,7 +268,8 @@ class Series(unittest.TestCase):
         d = self.docs
         lp = d["lpg"]["consumption"]
         s = self.hist["lpg"]["t"]["consumption"]
-        self.assertEqual(lp["caveatYears"], [y for i, y in enumerate(s["years"]) if s["c"]["USA"][i] is None])
+        # the United States is converted from barrels per day in the years EIA's tonnes are missing or broken (E1b)
+        self.assertEqual(lp["caveatYears"], [y for y in s["years"] if y >= 2021])
         self.assertEqual(d["lng"]["exports"]["caveatYears"], [B.BACI_YEAR])
         self.assertTrue(d["lng"]["exports"]["caveatShort"])  # shown in the other years
         self.assertTrue(d["uranium"]["exports"]["caveat"].startswith(d["uranium"]["exports"]["caveatPast"][:-1]))

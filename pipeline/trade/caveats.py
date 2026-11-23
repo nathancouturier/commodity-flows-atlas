@@ -30,9 +30,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), 
 TROY_OZ_G = 31.1034768  # grams in a troy ounce, exact by definition (international yard and pound agreement of 1959)
 
 
-def annual_price(series, year):
+def annual_price(series, year, want="USD/troy oz"):
     """Average of the twelve monthly prices of `year` in data/prices/<series>.json (World Bank Pink Sheet, USD per troy
-    ounce for the precious metals), or None when the file, the unit or a month is missing."""
+    ounce for the precious metals, `want` for another unit), or None when the file, the unit or a month is missing."""
     try:
         with open(os.path.join(ROOT, "data", "prices", series + ".json"), encoding="utf-8") as f:
             pr = json.load(f)
@@ -43,7 +43,7 @@ def annual_price(series, year):
     y0, m0 = int(pr["start"][:4]), int(pr["start"][5:7])
     i = (year - y0) * 12 - (m0 - 1)
     vals = pr["v"][i:i + 12] if i >= 0 else []
-    if unit != "USD/troy oz" or len(vals) != 12 or any(v is None for v in vals):
+    if unit != want or len(vals) != 12 or any(v is None for v in vals):
         return None
     return sum(vals) / 12
 
@@ -121,7 +121,8 @@ def _absent(g, o, d):
         last = max((y for y in range(2002, c.y) if c.flow(g, o, d, y) > 0), default=None)
         if last is None or c.flow(g, o, d, last) < 1:
             return None
-        return (f"No {K.label(g)} from {name(o)} to {name(d)} is recorded in customs data for {last + 1} to {c.y} "
+        span = f"{last + 1} to {c.y}" if last + 1 < c.y else str(c.y)
+        return (f"No {K.label(g)} from {name(o)} to {name(d)} is recorded in customs data for {span} "
                 f"({mt(c.flow(g, o, d, last))} in {last}, CEPII BACI). Incomplete declarations by both sides may be the cause; "
                 "it is not established here.")
     return text
@@ -148,6 +149,47 @@ def _mirror_k1(g, o):
 
     def text(c):
         return inner(c) if c.finding("K1", group=g, side="exports", country=o) else None
+    return text
+
+
+def _vs(v, ref):
+    """How far `v` is from `ref`: "20% below", "3% above"."""
+    d = v / ref - 1
+    return f"{abs(d):.0%} {'below' if d < 0 else 'above'}"
+
+
+def _grain_gap(g, o, avg_min=0.5, back=5, gone=3):
+    """Russian grain (audit C-045): the sentence of _mirror (the customs figure against the two USDA marketing years), the size of the gap, and
+    the importers that took the grain in the three years `back` to `gone` years before the build year (on average `avg_min` million tonnes
+    a year or more) and have none recorded in the build year, whose lanes therefore show zero. The
+    atlas does not scale the flows or the lanes to the USDA total (whether it should publish such an estimate is the owner's decision)."""
+    inner = _mirror(g, o)
+
+    def text(c):
+        s = inner(c)
+        if not s:
+            return None
+        v = c.exports(g, o, c.y)
+        psd = c.psd or {}
+        a, b = psd.get((g, "Exports", c.y - 1), {}).get(o), psd.get((g, "Exports", c.y), {}).get(o)
+        if a and b:
+            s += f" The customs figure is {_vs(v, a / 1e3)} the first and {_vs(v, b / 1e3)} the second."
+        x = c.df[(c.df["group"] == g) & (c.df["o"] == o)]
+        by = (x.groupby(["d", "year"])["t"].sum() / 1e6).unstack(fill_value=0.0)
+        yrs = [y for y in range(c.y - back, c.y - gone + 1)]
+        lost = []
+        for d in by.index:
+            if by.loc[d].get(c.y, 0.0) >= 0.05:
+                continue
+            avg = sum(by.loc[d].get(y, 0.0) for y in yrs) / len(yrs)
+            if avg >= avg_min:
+                lost.append((avg, d))
+        if lost:
+            lost.sort(reverse=True)
+            s += (f" Importers that took {K.label(g)} from {name(o)} in {yrs[0]} to {yrs[-1]} and have none recorded in {c.y}: "
+                  + ", ".join(f"{name(d)} ({mt(t)} a year on average)" for t, d in lost[:5])
+                  + f"; the flows and lanes to them are zero in {c.y}. The flows and lanes are the customs records as they are: no tonnage is added to bring them to the USDA figure.")
+        return s
     return text
 
 
@@ -252,6 +294,22 @@ def _price_gap(g, what, o, d, series, metal, max_ratio=0.5, min_t=10):
     return text
 
 
+# the monthly price series (World Bank Pink Sheet, USD per tonne) of the metals of K13's groups, quoted beside the pair's unit value
+METAL_PRICE = {"aluminium": ("aluminium-m", "aluminium"), "copper-refined": ("copper-m", "copper"), "zinc-metal": ("zinc-m", "zinc"),
+               "lead-metal": ("lead-m", "lead"), "tin-metal": ("tin-m", "tin")}
+
+
+def _low_unit_value(r):
+    """A pair of one metal product declared far below the usual unit value of that product (check K13): scrap, alloy or another
+    cheaper product declared under the code is the hypothesis; the metal's price is quoted where the repository holds it."""
+    s = r["text"]
+    series, metal = METAL_PRICE.get(r["group"], (None, None))
+    price = annual_price(series, r["year"], "USD/t") if series else None
+    if price:
+        s += f"; the {r['year']} average {metal} price is {price:,.0f} USD per tonne (World Bank Pink Sheet), and the pair is declared at {r['unitValue'] / price:.0%} of it"
+    return (f"{s}. Material priced like scrap or alloy, or another cheaper product, declared under this code {HYPOTHESIS}")
+
+
 REF_YEAR = min(S19_UNSPECIFIED.values()) - 1  # the last year before Iran's crude was recorded under "Other Asia"
 
 # id, kind, group, origin, destination (None = any), check it depends on, text
@@ -264,7 +322,8 @@ REGISTRY = [
         "ARE", "watch", "Crude of other origins loaded or blended in the country and declared as Emirati")),
     ("crude-mex-s19", "destination", "crude-oil", "MEX", "TWN", None, _mex_s19),
     ("crude-rus-tur", "unrecorded", "crude-oil", "RUS", "TUR", None, _absent("crude-oil", "RUS", "TUR")),
-    *[(f"grain-rus-{g}", "mirror", g, "RUS", None, None, _mirror(g, "RUS"))
+    ("crude-kwt-vnm", "unrecorded", "crude-oil", "KWT", "VNM", None, _absent("crude-oil", "KWT", "VNM")),
+    *[(f"grain-rus-{g}", "mirror", g, "RUS", None, None, _grain_gap(g, "RUS"))
       for g in ("wheat", "corn", "soybeans", "rapeseed", "soymeal", "soyoil")],
     ("rice-vnm", "mirror", "rice", "VNM", None, "K1", _mirror_k1("rice", "VNM")),
     ("urea-irn", "break", "urea", "IRN", None, None, _break("urea", "IRN")),
@@ -300,7 +359,14 @@ def build(df, findings, year, psd="load"):
         text = fn(c)
         if text:
             out[cid] = {"kind": kind, "text": text, "group": g, "o": o, "d": d, **({"check": check} if check else {})}
+    out.update(unit_value_entries(c.df, year))
     return out
+
+
+def unit_value_entries(df, year):
+    """Entries for the pairs K13 finds: one per pair, active only while the pair is that far below the others."""
+    return {f"uv-{r['group']}-{r['o']}-{r['d']}": {"kind": "declaration", "text": _low_unit_value(r), "group": r["group"], "o": r["o"], "d": r["d"],
+                                                  "check": "K13"} for r in K.k13(df, year)}
 
 
 def lookup(active, group, o, d):

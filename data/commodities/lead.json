@@ -6,14 +6,14 @@
    "u": "kt Pb",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 4,480 kt Pb, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 95000.0,
    "u": "kt Pb",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded"
+   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; the countries and USGS 'Other countries' add up to 94,800 kt Pb, while the rounded world total of 95,000 kt Pb is 0.2% above that sum: shares are computed on the sum"
   },
   "exports": {
    "v": 3.173,
@@ -21,13 +21,20 @@
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 2.35,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (lead-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.37 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Pb",
-  "world": 4500.0,
+  "world": 4480.0,
   "rows": [
    {
     "c": "CHN",
@@ -78,7 +85,7 @@
     "v": 40.0
    }
   ],
-  "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 4,480 kt Pb, while the rounded world total of 4,500 kt Pb is 0.4% above that sum: shares are computed on the sum",
   "other": 500.0,
   "hidden": {
    "v": 110.0,
@@ -86,13 +93,14 @@
    "from": 10,
    "n": "2 further countries named by USGS (Turkey and Tajikistan), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 4500.0,
   "basis": "contained lead"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Pb",
-  "world": 95000.0,
+  "world": 94800.0,
   "rows": [
    {
     "c": "AUS",
@@ -139,7 +147,7 @@
     "v": 1600.0
    }
   ],
-  "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded",
+  "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded; the countries and USGS 'Other countries' add up to 94,800 kt Pb, while the rounded world total of 95,000 kt Pb is 0.2% above that sum: shares are computed on the sum",
   "other": 5900.0,
   "hidden": {
    "v": 1600.0,
@@ -147,6 +155,7 @@
    "from": 10,
    "n": "1 further country named by USGS (Turkey), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 95000.0,
   "basis": "contained lead"
  },
  "exports": {
@@ -157,217 +166,322 @@
   "rows": [
    {
     "c": "PER",
-    "v": 0.4504
+    "v": 0.4504,
+    "usd": 1094787000,
+    "uv": 2430
    },
    {
     "c": "USA",
-    "v": 0.4064
+    "v": 0.4064,
+    "usd": 884850000,
+    "uv": 2180
    },
    {
     "c": "RUS",
-    "v": 0.4012
+    "v": 0.4012,
+    "usd": 673181000,
+    "uv": 1680
    },
    {
     "c": "AUS",
-    "v": 0.2916
+    "v": 0.2916,
+    "usd": 488697000,
+    "uv": 1680
    },
    {
     "c": "MEX",
-    "v": 0.2218
+    "v": 0.2218,
+    "usd": 1396952000,
+    "uv": 6300
    },
    {
     "c": "BOL",
-    "v": 0.1421
+    "v": 0.1421,
+    "usd": 341156000,
+    "uv": 2400
    },
    {
     "c": "TUR",
-    "v": 0.1188
+    "v": 0.1188,
+    "usd": 202823000,
+    "uv": 1710
    },
    {
     "c": "SWE",
-    "v": 0.0902
+    "v": 0.0902,
+    "usd": 102835000,
+    "uv": 1140
    },
    {
     "c": "MMR",
-    "v": 0.0799
+    "v": 0.0799,
+    "usd": 91056000,
+    "uv": 1140
    },
    {
     "c": "ESP",
-    "v": 0.0758
+    "v": 0.0758,
+    "usd": 131740000,
+    "uv": 1740
    },
    {
     "c": "TJK",
-    "v": 0.0743
+    "v": 0.0743,
+    "usd": 118124000,
+    "uv": 1590
    },
    {
     "c": "MAR",
-    "v": 0.0706
+    "v": 0.0706,
+    "usd": 104311000,
+    "uv": 1480
    },
    {
     "c": "ZAF",
-    "v": 0.0642
+    "v": 0.0642,
+    "usd": 108606000,
+    "uv": 1690
    },
    {
     "c": "MKD",
-    "v": 0.0585
+    "v": 0.0585,
+    "usd": 78420000,
+    "uv": 1340
    },
    {
     "c": "NGA",
-    "v": 0.057
+    "v": 0.057,
+    "usd": 80347000,
+    "uv": 1410
    },
    {
     "c": "BRA",
-    "v": 0.0521
+    "v": 0.0521,
+    "usd": 64122000,
+    "uv": 1230
    },
    {
     "c": "KAZ",
-    "v": 0.0456
+    "v": 0.0456,
+    "usd": 50450000,
+    "uv": 1110
    },
    {
     "c": "OMN",
-    "v": 0.0406
+    "v": 0.0406,
+    "usd": 45438000,
+    "uv": 1120
    },
    {
     "c": "VNM",
-    "v": 0.0386
+    "v": 0.0386,
+    "usd": 54657000,
+    "uv": 1420
    },
    {
     "c": "SRB",
-    "v": 0.0339
+    "v": 0.0339,
+    "usd": 98566000,
+    "uv": 2910
    },
    {
     "c": "CAN",
-    "v": 0.0307
+    "v": 0.0307,
+    "usd": 91265000,
+    "uv": 2970
    },
    {
     "c": "BGR",
-    "v": 0.0272
+    "v": 0.0272,
+    "usd": 42771000,
+    "uv": 1570
    },
    {
     "c": "BIH",
-    "v": 0.0235
+    "v": 0.0235,
+    "usd": 51196000,
+    "uv": 2180
    },
    {
     "c": "ARG",
-    "v": 0.0235
+    "v": 0.0235,
+    "usd": 103336000,
+    "uv": 4400
    },
    {
     "c": "PRT",
-    "v": 0.0233
+    "v": 0.0233,
+    "usd": 12011000,
+    "uv": 515
    },
    {
     "c": "GRC",
-    "v": 0.0216
+    "v": 0.0216,
+    "usd": 57306000,
+    "uv": 2650
    },
    {
     "c": "NAM",
-    "v": 0.0207
+    "v": 0.0207,
+    "usd": 26512000,
+    "uv": 1280
    },
    {
     "c": "THA",
     "v": 0.0186,
-    "n": "43% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "43% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 2191000,
+    "uv": 118
    },
    {
     "c": "ITA",
-    "v": 0.018
+    "v": 0.018,
+    "usd": 82490000,
+    "uv": 4580
    },
    {
     "c": "UZB",
-    "v": 0.018
+    "v": 0.018,
+    "usd": 10144000,
+    "uv": 564
    },
    {
     "c": "HND",
-    "v": 0.015
+    "v": 0.015,
+    "usd": 24256000,
+    "uv": 1620
    },
    {
     "c": "PAK",
-    "v": 0.0139
+    "v": 0.0139,
+    "usd": 18955000,
+    "uv": 1360
    },
    {
     "c": "MNG",
-    "v": 0.0137
+    "v": 0.0137,
+    "usd": 38752000,
+    "uv": 2830
    },
    {
     "c": "BEL",
-    "v": 0.0128
+    "v": 0.0128,
+    "usd": 19585000,
+    "uv": 1530
    },
    {
     "c": "NLD",
-    "v": 0.0123
+    "v": 0.0123,
+    "usd": 19196000,
+    "uv": 1560
    },
    {
     "c": "IDN",
-    "v": 0.0117
+    "v": 0.0117,
+    "usd": 18004000,
+    "uv": 1540
    },
    {
     "c": "IRN",
-    "v": 0.0113
+    "v": 0.0113,
+    "usd": 15978000,
+    "uv": 1410
    },
    {
     "c": "SAU",
-    "v": 0.0088
+    "v": 0.0088,
+    "usd": 16279000,
+    "uv": 1850
    },
    {
     "c": "MNE",
-    "v": 0.0082
+    "v": 0.0082,
+    "usd": 7566000,
+    "uv": 923
    },
    {
     "c": "MYS",
-    "v": 0.0078
+    "v": 0.0078,
+    "usd": 7744000,
+    "uv": 993
    },
    {
     "c": "TUN",
     "v": 0.0029,
-    "n": "39% of tonnage estimated from value"
+    "n": "39% of tonnage estimated from value",
+    "usd": 3676000
    },
    {
     "c": "FIN",
-    "v": 0.0026
+    "v": 0.0026,
+    "usd": 31825000,
+    "uv": 12200
    },
    {
     "c": "TWN",
-    "v": 0.0024
+    "v": 0.0024,
+    "usd": 823000,
+    "uv": 343
    },
    {
     "c": "ARE",
-    "v": 0.0022
+    "v": 0.0022,
+    "usd": 1370000,
+    "uv": 623
    },
    {
     "c": "FRA",
-    "v": 0.0018
+    "v": 0.0018,
+    "usd": 6109000,
+    "uv": 3390
    },
    {
     "c": "POL",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 2425000,
+    "uv": 1870
    },
    {
     "c": "LAO",
-    "v": 0.0011
+    "v": 0.0011,
+    "usd": 1053000,
+    "uv": 957
    },
    {
     "c": "CHN",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 2465000,
+    "uv": 2460
    },
    {
     "c": "COL",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 1371000,
+    "uv": 1370
    },
    {
     "c": "ECU",
-    "v": 0.0007
+    "v": 0.0007,
+    "usd": 1301000,
+    "uv": 1860
    },
    {
     "c": "DEU",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1207000,
+    "uv": 2010
    },
    {
     "c": "JPN",
-    "v": 0.0005
+    "v": 0.0005,
+    "usd": 3573000,
+    "uv": 7150
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "ores and concentrates, gross weight"
+  "basis": "ores and concentrates, gross weight",
+  "usd": 6933853000,
+  "uv": 2190
  },
  "imports": {
   "y": 2024,
@@ -377,153 +491,227 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 1.747
+    "v": 1.747,
+    "usd": 3151671000,
+    "uv": 1800
    },
    {
     "c": "KOR",
-    "v": 0.5332
+    "v": 0.5332,
+    "usd": 1671209000,
+    "uv": 3130
    },
    {
     "c": "DEU",
-    "v": 0.2283
+    "v": 0.2283,
+    "usd": 422819000,
+    "uv": 1850
    },
    {
     "c": "JPN",
-    "v": 0.1104
+    "v": 0.1104,
+    "usd": 245437000,
+    "uv": 2220
    },
    {
     "c": "KAZ",
-    "v": 0.098
+    "v": 0.098,
+    "usd": 282111000,
+    "uv": 2880
    },
    {
     "c": "BEL",
-    "v": 0.0843
+    "v": 0.0843,
+    "usd": 185949000,
+    "uv": 2210
    },
    {
     "c": "BGR",
-    "v": 0.0598
+    "v": 0.0598,
+    "usd": 79773000,
+    "uv": 1330
    },
    {
     "c": "CAN",
-    "v": 0.0483
+    "v": 0.0483,
+    "usd": 279894000,
+    "uv": 5790
    },
    {
     "c": "AUS",
-    "v": 0.0384
+    "v": 0.0384,
+    "usd": 197675000,
+    "uv": 5150
    },
    {
     "c": "IDN",
-    "v": 0.0316
+    "v": 0.0316,
+    "usd": 32454000,
+    "uv": 1030
    },
    {
     "c": "USA",
-    "v": 0.0298
+    "v": 0.0298,
+    "usd": 90857000,
+    "uv": 3050
    },
    {
     "c": "NLD",
-    "v": 0.0287
+    "v": 0.0287,
+    "usd": 36933000,
+    "uv": 1290
    },
    {
     "c": "MEX",
-    "v": 0.0212
+    "v": 0.0212,
+    "usd": 36877000,
+    "uv": 1740
    },
    {
     "c": "MNE",
-    "v": 0.0201
+    "v": 0.0201,
+    "usd": 37445000,
+    "uv": 1860
    },
    {
     "c": "CHE",
-    "v": 0.0129
+    "v": 0.0129,
+    "usd": 22188000,
+    "uv": 1720
    },
    {
     "c": "THA",
-    "v": 0.0111
+    "v": 0.0111,
+    "usd": 1384000,
+    "uv": 125
    },
    {
     "c": "SVK",
-    "v": 0.0105
+    "v": 0.0105,
+    "usd": 18063000,
+    "uv": 1720
    },
    {
     "c": "KHM",
-    "v": 0.0088
+    "v": 0.0088,
+    "usd": 5203000,
+    "uv": 591
    },
    {
     "c": "LAO",
     "v": 0.008,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 331000,
+    "uv": 41.4
    },
    {
     "c": "HRV",
-    "v": 0.0057
+    "v": 0.0057,
+    "usd": 17765000,
+    "uv": 3120
    },
    {
     "c": "GBR",
-    "v": 0.0048
+    "v": 0.0048,
+    "usd": 36071000,
+    "uv": 7510
    },
    {
     "c": "LUX",
-    "v": 0.0043
+    "v": 0.0043,
+    "usd": 3510000,
+    "uv": 816
    },
    {
     "c": "PER",
-    "v": 0.0038
+    "v": 0.0038,
+    "usd": 19034000,
+    "uv": 5010
    },
    {
     "c": "VNM",
-    "v": 0.0036
+    "v": 0.0036,
+    "usd": 2054000,
+    "uv": 571
    },
    {
     "c": "HKG",
-    "v": 0.0028
+    "v": 0.0028,
+    "usd": 5677000,
+    "uv": 2030
    },
    {
     "c": "ESP",
-    "v": 0.0028
+    "v": 0.0028,
+    "usd": 6025000,
+    "uv": 2150
    },
    {
     "c": "SWE",
-    "v": 0.0026
+    "v": 0.0026,
+    "usd": 31825000,
+    "uv": 12200
    },
    {
     "c": "IND",
-    "v": 0.0022
+    "v": 0.0022,
+    "usd": 1370000,
+    "uv": 623
    },
    {
     "c": "IRN",
-    "v": 0.0018
+    "v": 0.0018,
+    "usd": 326000,
+    "uv": 181
    },
    {
     "c": "SRB",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 1740000,
+    "uv": 1160
    },
    {
     "c": "ZAF",
-    "v": 0.0013
+    "v": 0.0013,
+    "usd": 633000,
+    "uv": 487
    },
    {
     "c": "EST",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 3533000,
+    "uv": 2940
    },
    {
     "c": "TUR",
     "v": 0.0011,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 53000,
+    "uv": 48.2
    },
    {
     "c": "MYS",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 2465000,
+    "uv": 2460
    },
    {
     "c": "SGP",
-    "v": 0.0007
+    "v": 0.0007,
+    "usd": 2292000,
+    "uv": 3270
    },
    {
     "c": "POL",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1207000,
+    "uv": 2010
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "ores and concentrates, gross weight"
+  "basis": "ores and concentrates, gross weight",
+  "usd": 6933853000,
+  "uv": 2190
  },
  "flows": [
   {
@@ -533,7 +721,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 622203000,
+   "uv": 1670,
    "mode": "mixed",
+   "lane": "lead-ore:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
@@ -543,7 +734,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 829626000,
+   "uv": 2530,
+   "mode": "sea",
+   "lane": "lead-ore:PER-CHN"
   },
   {
    "o": "USA",
@@ -552,7 +746,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 234284000,
+   "uv": 1600,
+   "mode": "sea",
+   "lane": "lead-ore:USA-CHN"
   },
   {
    "o": "AUS",
@@ -561,7 +758,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 147868000,
+   "uv": 1310,
+   "mode": "sea",
+   "lane": "lead-ore:AUS-CHN"
   },
   {
    "o": "AUS",
@@ -570,7 +770,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 221766000,
+   "uv": 1990,
+   "mode": "sea",
+   "lane": "lead-ore:AUS-KOR"
   },
   {
    "o": "PER",
@@ -579,7 +782,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 214265000,
+   "uv": 2240,
+   "mode": "sea",
+   "lane": "lead-ore:PER-KOR"
   },
   {
    "o": "MEX",
@@ -588,7 +794,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 702429000,
+   "uv": 8040,
+   "mode": "sea",
+   "lane": "lead-ore:MEX-KOR"
   },
   {
    "o": "TUR",
@@ -597,7 +806,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 127972000,
+   "uv": 1600,
+   "mode": "sea",
+   "lane": "lead-ore:TUR-CHN"
   },
   {
    "o": "MEX",
@@ -606,7 +818,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 300359000,
+   "uv": 3810,
+   "mode": "sea",
+   "lane": "lead-ore:MEX-CHN"
   },
   {
    "o": "MMR",
@@ -615,6 +830,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 89672000,
+   "uv": 1300,
    "mode": "land"
   },
   {
@@ -624,7 +841,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 84029000,
+   "uv": 1240,
+   "mode": "sea",
+   "lane": "lead-ore:SWE-DEU"
   },
   {
    "o": "USA",
@@ -633,7 +853,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 154132000,
+   "uv": 2390,
+   "mode": "sea",
+   "lane": "lead-ore:USA-KOR"
   },
   {
    "o": "TJK",
@@ -642,6 +865,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 83149000,
+   "uv": 1500,
    "mode": "land"
   },
   {
@@ -651,7 +876,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 84017000,
+   "uv": 1550,
+   "mode": "sea",
+   "lane": "lead-ore:USA-DEU"
   },
   {
    "o": "NGA",
@@ -660,7 +888,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 77069000,
+   "uv": 1430,
+   "mode": "sea",
+   "lane": "lead-ore:NGA-CHN"
   },
   {
    "o": "MKD",
@@ -669,6 +900,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 69499000,
+   "uv": 1330,
    "mode": "land"
   },
   {
@@ -678,7 +911,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 64122000,
+   "uv": 1230,
+   "mode": "sea",
+   "lane": "lead-ore:BRA-CHN"
   },
   {
    "o": "MAR",
@@ -687,7 +923,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 64062000,
+   "uv": 1260,
+   "mode": "sea",
+   "lane": "lead-ore:MAR-CHN"
   },
   {
    "o": "BOL",
@@ -696,6 +935,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 134777000,
+   "uv": 2660,
    "mode": "sea",
    "n": "sea through a foreign port (not specified)"
   },
@@ -706,9 +947,88 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 279894000,
+   "uv": 5790,
    "mode": "land"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 1410.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 1500.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as secondary refined production from old scrap + refined imports - refined exports."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Lead, refined",
+    "pct": "33",
+    "y": 2025,
+    "src": "Canada, Republic of Korea, Ireland",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.4241
+   },
+   "top3": 0.596,
+   "hhi": 2085,
+   "eq": 4.8,
+   "k": 12,
+   "cov": 0.8884
+  },
+  "reserves": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.3586
+   },
+   "top3": 0.6846,
+   "hhi": 2017,
+   "eq": 5.0,
+   "k": 11,
+   "cov": 0.9378
+  },
+  "exports": {
+   "top1": {
+    "c": "PER",
+    "p": 0.1419
+   },
+   "top3": 0.3965,
+   "hhi": 750,
+   "eq": 13.3,
+   "k": 52,
+   "cov": 0.9998
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.5506
+   },
+   "top3": 0.7906,
+   "hhi": 3406,
+   "eq": 2.9,
+   "k": 36,
+   "cov": 0.9997
+  }
+ },
  "notes": [
   "Unwrought lead (HS 7801), 2024 (CEPII BACI): world 3.71 Mt gross weight; top exporters India 0.40 Mt, South Korea 0.33 Mt, Australia 0.28 Mt.",
   "Trade tables are lead ores and concentrates in gross weight (Mt); production and reserves are contained lead (kt Pb). No lead lanes exist (no seaborne figure)."

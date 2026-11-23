@@ -1,0 +1,97 @@
+/* monthly blocks of the energy pages (EnergyMonthly.tsx): latest month against a baseline year, disruption, imports by origin, stocks */
+.mo-table {
+  margin: 0 -2px;
+}
+.mo-row {
+  display: grid;
+  align-items: center;
+  gap: 4px 6px;
+  padding: 4px 2px;
+  border-top: 1px solid var(--hairline);
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+.mo-latest {
+  grid-template-columns: minmax(0, 1fr) 56px 66px 60px;
+}
+.mo-range {
+  grid-template-columns: minmax(0, 1fr) 52px 60px 62px 56px;
+}
+.mo-stock {
+  grid-template-columns: minmax(0, 1fr) 44px 60px 58px 38px;
+}
+.mo-head {
+  border-top: 0;
+  padding-top: 0;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+.mo-head > span:not(:first-child) {
+  text-align: right;
+}
+.mo-lead {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.mo-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+button.mo-name:hover {
+  color: var(--ink-0);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.mo-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: var(--font-num);
+  color: var(--ink-0);
+  line-height: 1.15;
+}
+.mo-cell small {
+  font-family: var(--font-ui);
+  font-size: 10px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.mo-strong {
+  font-weight: 600;
+}
+.mo-pct {
+  text-align: right;
+  font-family: var(--font-num);
+  color: var(--ink-1);
+}
+.mo-pct.mo-down {
+  color: var(--alert);
+}
+.mo-pct.mo-up {
+  color: var(--positive);
+}
+.mo-row .trend {
+  width: auto;
+  justify-self: end;
+}
+.mo-row .trend path {
+  stroke: var(--energy);
+}
+.mo-note {
+  margin-top: 6px;
+}
+.mo-chips {
+  margin-bottom: 8px;
+}
+.mo-chips .chip {
+  padding: 3px 9px;
+  font-size: var(--fs-xs);
+}

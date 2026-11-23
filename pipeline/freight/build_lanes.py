@@ -71,18 +71,25 @@ GROUPS = {
     "sugar": "Mt", "palm-oil": "Mt", "rapeseed": "Mt", "potash": "Mt", "phosphate-rock": "Mt",
     "dap": "Mt", "urea": "Mt", "steel": "Mt", "copper-refined": "Mt", "aluminium": "Mt",
     "coffee": "Mt", "cocoa": "Mt", "cotton": "Mt", "nickel-fe": "Mt", "spodumene": "Mt",
+    # minor metals (M-015): concentrate in bulk like zinc concentrate, the others as general cargo like refined copper
+    "lead-ore": "Mt", "lead-metal": "Mt", "zinc-metal": "Mt", "tin-metal": "Mt", "tin-ore": "Mt", "cobalt": "Mt",
+    "lithium": "Mt", "rare-earths": "Mt",
 }
 # atlas commodity id for each group (the site loads lanes by commodity)
 COMMODITY = {
     "coal": "thermal-coal", "alumina": "bauxite", "copper-ore": "copper", "copper-refined": "copper",
     "nickel-ore": "nickel", "nickel-int": "nickel", "zinc-ore": "zinc", "phosphate-rock": "phosphate",
     "dap": "phosphate", "nickel-fe": "nickel", "spodumene": "lithium",
+    "lead-ore": "lead", "lead-metal": "lead", "zinc-metal": "zinc", "tin-metal": "tin", "tin-ore": "tin",
 }
 LABEL = {
     "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
     "nickel-ore": "Nickel ore", "nickel-int": "Nickel matte, intermediates & metal", "zinc-ore": "Zinc concentrate",
     "phosphate-rock": "Phosphate rock", "dap": "DAP", "alumina": "Alumina", "bauxite": "Bauxite",
     "nickel-fe": "Ferro-nickel and nickel pig iron", "spodumene": "Spodumene concentrate (Atlas estimate)",
+    "lead-ore": "Lead concentrate", "lead-metal": "Unwrought lead", "zinc-metal": "Unwrought zinc",
+    "tin-metal": "Unwrought tin", "tin-ore": "Tin concentrate", "cobalt": "Cobalt intermediates, metal and ores",
+    "lithium": "Lithium carbonate and hydroxide", "rare-earths": "Rare-earth metals and compounds",
 }
 # Groups that are an Atlas estimate by construction (a read of a customs code that mixes products, hs_map.SPLIT): their
 # flows, lane file and pairs file carry the source id "atlas" and this note of the method.
@@ -108,9 +115,15 @@ CAP = {
     "potash": 60, "phosphate-rock": 60, "palm-oil": 80, "soyoil": 60, "rapeseed": 50, "bauxite": 40, "alumina": 60,
     "manganese": 40, "copper-ore": 60, "copper-refined": 80, "aluminium": 100, "nickel-ore": 20, "nickel-int": 40,
     "zinc-ore": 60, "coffee": 100, "cocoa": 60, "cotton": 60, "nickel-fe": 40, "spodumene": 20,
+    "lead-ore": 60, "lead-metal": 60, "zinc-metal": 60, "tin-metal": 40, "tin-ore": 20, "cobalt": 20, "lithium": 30,
+    "rare-earths": 30,
 }
+# The minor metals trade in parcels of a few thousand tonnes (tin, cobalt, lithium and rare-earth groups hold 0.1 to
+# 0.7 Mt a year in all) and unwrought lead and zinc over hundreds of small pairs: their floor is lower, so that the main
+# set carries about two thirds of their seaborne tonnes or more (tin metal: 61%, at its cap).
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
-         "aluminium": 0.03, "soyoil": 0.03}
+         "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
+         "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002}
 FLOOR_DEFAULT = 0.05
 # history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
 # three years before the latest, so that a new BACI year moves the window)
@@ -123,6 +136,7 @@ def hist_years(latest):
 
 
 HIST_YEARS = hist_years(2024)  # the years of the 2024 build; main() uses hist_years(latest)
+SMALL_MT = 1.0  # a group whose latest seaborne total is under this (Mt) is published with four decimals of Mt
 EST_NOTE_MIN = 0.005  # a year whose seaborne total is at least this share Atlas estimates gets a yearNotes line
 MIN_NM = 50  # a route shorter than this is not drawn (same port area)
 
@@ -369,9 +383,10 @@ def transit_of(o, d, group):
 
 
 def transit_ends(o, d, kind):
-    """Ends of a pair that reach the sea through a foreign port: the landlocked ends of a transit pair, and a coast
-    with no port of its own that has a TRANSIT row (Bosnia and Herzegovina, through Ploce)."""
-    out = [e for e in (o, d) if kind == "transit" and not MD.coastal(e)]
+    """Ends of a pair that reach the sea through a foreign port: the landlocked ends of a transit or mixed pair
+    (Belarusian potash to China), and a coast with no port of its own that has a TRANSIT row (Bosnia and Herzegovina,
+    through Ploce)."""
+    out = [e for e in (o, d) if kind in ("transit", "mixed") and not MD.coastal(e)]
     return out + [e for e in (o, d) if e not in out and MD.coastal(e) and e in P.TRANSIT]
 
 
@@ -575,6 +590,8 @@ def main():
         tot_latest = sea_tot[latest] or 1
         dest_tot = gy.groupby("d")["t"].sum()
         floor = FLOOR.get(group, FLOOR_DEFAULT) * 1e6
+        # digits of the Mt figures: a group under SMALL_MT a year (tin, cobalt, lithium, rare earths) keeps 0.1 kt
+        nd, nt = (4, 4) if tot_latest < SMALL_MT * 1e6 else (3, 2)
 
         # route every seaborne and mixed pair of the latest year
         routed, why = {}, {}
@@ -663,7 +680,7 @@ def main():
                     if str(y) not in flags or flags[str(y)] == "kept":
                         flags[str(y)] = "check"
                     notes[str(y)] = (notes[str(y)] + ". " if str(y) in notes else "") + f["text"]
-            flow = {"v": round(vlat / 1e6, 3), "u": "Mt", "y": latest, "s": "baci"}
+            flow = {"v": round(vlat / 1e6, nd), "u": "Mt", "y": latest, "s": "baci"}
             est = bool(r_latest is not None and r_latest.imputed)
             if est:
                 flow["s"], flow["est"] = "atlas", True
@@ -708,7 +725,7 @@ def main():
             })
             if not est:
                 lane["shareDest"] = round(vlat / float(dest_tot[d]), 4) if d in dest_tot and dest_tot[d] > 0 else None
-            lane["hist"] = [None if v is None else round(v, 3) for v in hist]
+            lane["hist"] = [None if v is None else round(v, nd) for v in hist]
             if flags:
                 lane["histFlags"] = flags
             if notes:
@@ -797,14 +814,14 @@ def main():
             "s": "atlas" if group in EST_GROUP else "baci",
             **({"n": EST_GROUP[group] + (f". {first[1]}" if first else "")} if group in EST_GROUP else {}),
             "years": years,
-            "seaborne": [None if first and y < first[0] else round(sea_tot[y] / 1e6, 2) for y in years],
-            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / 1e6, 2) for y in years],
-            "world": [None if first and y < first[0] else round(world.get((group, y), 0) / 1e6, 2) for y in years],
+            "seaborne": [None if first and y < first[0] else round(sea_tot[y] / 1e6, nt) for y in years],
+            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / 1e6, nt) for y in years],
+            "world": [None if first and y < first[0] else round(world.get((group, y), 0) / 1e6, nt) for y in years],
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),
             "estY": est_y,
             "coverage": {"lanes": len(main), "share": round(main_t / tot_latest, 4)},
-            "rest": [{"o": o, "v": round(v / 1e6, 3), "n": n, **({"est": float(f"{e / 1e6:.3g}")} if e > 0 else {})}
+            "rest": [{"o": o, "v": round(v / 1e6, nd), "n": n, **({"est": float(f"{e / 1e6:.3g}")} if e > 0 else {})}
                      for o, (v, n, e) in sorted(rest.items(), key=lambda x: -x[1][0])],
             "ports": {c: port_entry(c, ports_used[c]) for c in sorted(ports_used)},
             "lanes": lanes,
@@ -848,7 +865,8 @@ def main():
         pdoc = {
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "atlas" if group in EST_GROUP else "baci", "unit": "kt",
             **({"n": EST_GROUP[group]} if group in EST_GROUP else {}),
-            "seaborne": round(sea_tot[latest] / 1e3),
+            # a small group's total is that of its published rows (0.1 kt each), so that its shares add up
+            "seaborne": (round(sum(r[2] for r in prow if r[3] in (0, 1)), 1) if nd == 4 else round(sea_tot[latest] / 1e3)),
             # [code, name, country, zone, basis as a loading port, basis as a discharging port]: each basis indexes `bases`
             # and is null when no pair of the file uses the port in that role. A page can name a cargo at a port in one
             # direction only, so the two differ (the weakest is kept where several countries share the port in one role).

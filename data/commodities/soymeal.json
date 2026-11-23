@@ -2,25 +2,25 @@
  "id": "soymeal",
  "summary": {
   "production": {
-   "v": 294.06,
+   "v": 302.61,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "consumption": {
-   "v": 288.63,
+   "v": 298.16,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "exports": {
-   "v": 86.616,
+   "v": 90.108,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Meal, Soybean, soybean meal exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+   "n": "USDA PSD, Meal, Soybean, soybean meal exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
    "v": 61.44,
@@ -31,30 +31,30 @@
   }
  },
  "production": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 294.06,
+  "world": 302.61,
   "rows": [
    {
     "c": "CHN",
-    "v": 85.674
+    "v": 87.912
    },
    {
     "c": "USA",
-    "v": 56.797
+    "v": 59.693
    },
    {
     "c": "BRA",
-    "v": 47.875
+    "v": 50.011
    },
    {
     "c": "ARG",
-    "v": 33.059
+    "v": 33.495
    },
    {
     "c": "EU27",
-    "v": 11.85
+    "v": 11.73
    },
    {
     "c": "IND",
@@ -66,59 +66,59 @@
    },
    {
     "c": "RUS",
-    "v": 5.201
+    "v": 5.004
    },
    {
     "c": "EGY",
-    "v": 3.911
+    "v": 3.95
    },
    {
     "c": "PRY",
-    "v": 2.877
+    "v": 2.727
    },
    {
     "c": "PAK",
-    "v": 2.496
-   },
-   {
-    "c": "THA",
-    "v": 2.419
+    "v": 2.574
    },
    {
     "c": "BOL",
-    "v": 2.418
+    "v": 2.535
    },
    {
-    "c": "UKR",
-    "v": 2.291
+    "c": "THA",
+    "v": 2.458
    },
    {
     "c": "TUR",
-    "v": 2.018
-   },
-   {
-    "c": "IRN",
-    "v": 1.975
+    "v": 2.406
    },
    {
     "c": "DZA",
-    "v": 1.951
-   },
-   {
-    "c": "JPN",
-    "v": 1.95
-   },
-   {
-    "c": "BGD",
-    "v": 1.814
+    "v": 2.223
    },
    {
     "c": "VNM",
-    "v": 1.794
+    "v": 2.067
+   },
+   {
+    "c": "BGD",
+    "v": 1.916
+   },
+   {
+    "c": "UKR",
+    "v": 1.896
+   },
+   {
+    "c": "JPN",
+    "v": 1.875
+   },
+   {
+    "c": "IRN",
+    "v": 1.738
    },
    {
     "c": "TWN",
-    "v": 1.685
+    "v": 1.729
    },
    {
     "c": "ZAF",
@@ -134,63 +134,67 @@
    },
    {
     "c": "GBR",
-    "v": 0.681
-   },
-   {
-    "c": "KOR",
-    "v": 0.62
-   },
-   {
-    "c": "COL",
-    "v": 0.551
-   },
-   {
-    "c": "SRB",
-    "v": 0.493
-   },
-   {
-    "c": "BLR",
-    "v": 0.474
+    "v": 0.739
    },
    {
     "c": "IRQ",
-    "v": 0.468
+    "v": 0.702
+   },
+   {
+    "c": "COL",
+    "v": 0.599
+   },
+   {
+    "c": "KOR",
+    "v": 0.58
+   },
+   {
+    "c": "BLR",
+    "v": 0.514
+   },
+   {
+    "c": "SRB",
+    "v": 0.512
    },
    {
     "c": "MYS",
-    "v": 0.405
+    "v": 0.408
    },
    {
     "c": "TUN",
-    "v": 0.35
+    "v": 0.398
    },
    {
     "c": "NOR",
     "v": 0.334
    },
    {
+    "c": "SAU",
+    "v": 0.247
+   },
+   {
     "c": "BEN",
     "v": 0.234
    },
    {
+    "c": "ZMB",
+    "v": 0.219
+   },
+   {
     "c": "ISR",
-    "v": 0.225
+    "v": 0.214
    },
    {
     "c": "CRI",
     "v": 0.213
    },
    {
-    "c": "ZMB",
+    "c": "ZWE",
     "v": 0.188
    },
    {
-    "c": "ZWE",
-    "v": 0.18
-   },
-   {
     "c": "LBN",
-    "v": 0.173
+    "v": 0.181
    },
    {
     "c": "GHA",
@@ -198,39 +202,39 @@
    },
    {
     "c": "KAZ",
-    "v": 0.124
+    "v": 0.14
    },
    {
-    "c": "SAU",
-    "v": 0.11
+    "c": "URY",
+    "v": 0.12
+   },
+   {
+    "c": "VEN",
+    "v": 0.105
    },
    {
     "c": "ETH",
     "v": 0.104
    },
    {
-    "c": "VEN",
-    "v": 0.102
+    "c": "CHL",
+    "v": 0.09
    },
    {
     "c": "PRK",
     "v": 0.086
    },
    {
-    "c": "URY",
-    "v": 0.08
-   },
-   {
-    "c": "CHL",
-    "v": 0.075
-   },
-   {
     "c": "PHL",
-    "v": 0.062
+    "v": 0.058
    },
    {
     "c": "ARE",
-    "v": 0.056
+    "v": 0.057
+   },
+   {
+    "c": "MAR",
+    "v": 0.044
    },
    {
     "c": "UZB",
@@ -245,20 +249,20 @@
     "v": 0.032
    },
    {
-    "c": "GTM",
-    "v": 0.027
-   },
-   {
-    "c": "MAR",
-    "v": 0.027
-   },
-   {
     "c": "ECU",
-    "v": 0.015
+    "v": 0.02
+   },
+   {
+    "c": "GTM",
+    "v": 0.019
    },
    {
     "c": "SGP",
     "v": 0.013
+   },
+   {
+    "c": "BRB",
+    "v": 0.012
    },
    {
     "c": "CUB",
@@ -267,311 +271,305 @@
    {
     "c": "CHE",
     "v": 0.012
-   },
-   {
-    "c": "BRB",
-    "v": 0.008
-   },
-   {
-    "c": "PER",
-    "v": 0.002
    }
   ],
-  "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Meal, Soybean, soybean meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "consumption": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 288.63,
+  "world": 298.16,
   "rows": [
    {
     "c": "CHN",
-    "v": 84.55
+    "v": 86.85
    },
    {
     "c": "USA",
-    "v": 39.348
+    "v": 39.946
    },
    {
     "c": "EU27",
-    "v": 31.542
+    "v": 31.567
    },
    {
     "c": "BRA",
-    "v": 21.8
+    "v": 23.0
    },
    {
     "c": "MEX",
-    "v": 8.4
+    "v": 8.745
    },
    {
     "c": "VNM",
-    "v": 7.545
+    "v": 8.25
    },
    {
     "c": "IND",
-    "v": 7.155
+    "v": 7.175
    },
    {
     "c": "IDN",
-    "v": 6.85
+    "v": 6.98
    },
    {
     "c": "THA",
-    "v": 5.45
-   },
-   {
-    "c": "IRN",
-    "v": 4.7
-   },
-   {
-    "c": "RUS",
-    "v": 4.3
+    "v": 5.71
    },
    {
     "c": "EGY",
-    "v": 4.2
+    "v": 4.55
    },
    {
-    "c": "ARG",
-    "v": 3.6
+    "c": "IRN",
+    "v": 4.45
+   },
+   {
+    "c": "RUS",
+    "v": 4.35
    },
    {
     "c": "PHL",
-    "v": 3.6
+    "v": 3.91
+   },
+   {
+    "c": "ARG",
+    "v": 3.65
    },
    {
     "c": "JPN",
-    "v": 3.49
-   },
-   {
-    "c": "GBR",
-    "v": 3.065
+    "v": 3.495
    },
    {
     "c": "BGD",
-    "v": 2.979
+    "v": 3.382
+   },
+   {
+    "c": "GBR",
+    "v": 3.2
    },
    {
     "c": "COL",
-    "v": 2.845
+    "v": 3.135
    },
    {
     "c": "TUR",
-    "v": 2.7
-   },
-   {
-    "c": "CAN",
-    "v": 2.4
+    "v": 3.1
    },
    {
     "c": "PAK",
-    "v": 2.4
+    "v": 2.625
    },
    {
     "c": "ECU",
-    "v": 2.38
-   },
-   {
-    "c": "KOR",
-    "v": 2.325
+    "v": 2.57
    },
    {
     "c": "DZA",
-    "v": 2.05
+    "v": 2.3
+   },
+   {
+    "c": "CAN",
+    "v": 2.295
+   },
+   {
+    "c": "KOR",
+    "v": 2.255
    },
    {
     "c": "PER",
-    "v": 2.015
+    "v": 2.125
    },
    {
     "c": "SAU",
-    "v": 1.8
+    "v": 1.85
    },
    {
     "c": "MYS",
-    "v": 1.725
+    "v": 1.8
    },
    {
     "c": "TWN",
-    "v": 1.714
+    "v": 1.735
    },
    {
     "c": "ZAF",
-    "v": 1.37
+    "v": 1.405
    },
    {
     "c": "CHL",
-    "v": 1.3
+    "v": 1.385
    },
    {
     "c": "IRQ",
-    "v": 1.2
-   },
-   {
-    "c": "VEN",
-    "v": 1.0
-   },
-   {
-    "c": "AUS",
-    "v": 0.995
+    "v": 1.225
    },
    {
     "c": "MAR",
-    "v": 0.93
+    "v": 1.1
    },
    {
-    "c": "UKR",
-    "v": 0.81
+    "c": "VEN",
+    "v": 1.1
+   },
+   {
+    "c": "AUS",
+    "v": 1.015
    },
    {
     "c": "DOM",
-    "v": 0.8
+    "v": 0.895
    },
    {
     "c": "GTM",
-    "v": 0.77
+    "v": 0.82
+   },
+   {
+    "c": "UKR",
+    "v": 0.8
    },
    {
     "c": "PRY",
-    "v": 0.67
-   },
-   {
-    "c": "NGA",
-    "v": 0.6
+    "v": 0.7
    },
    {
     "c": "BLR",
-    "v": 0.58
+    "v": 0.61
+   },
+   {
+    "c": "NGA",
+    "v": 0.61
    },
    {
     "c": "TUN",
-    "v": 0.555
+    "v": 0.59
    },
    {
     "c": "NZL",
-    "v": 0.55
+    "v": 0.58
    },
    {
     "c": "ISR",
-    "v": 0.53
+    "v": 0.55
    },
    {
     "c": "SRB",
-    "v": 0.515
-   },
-   {
-    "c": "BOL",
-    "v": 0.45
-   },
-   {
-    "c": "JOR",
-    "v": 0.45
+    "v": 0.535
    },
    {
     "c": "HND",
-    "v": 0.425
+    "v": 0.5
+   },
+   {
+    "c": "JOR",
+    "v": 0.49
+   },
+   {
+    "c": "BOL",
+    "v": 0.475
    },
    {
     "c": "LBN",
-    "v": 0.39
+    "v": 0.43
    },
    {
     "c": "CRI",
-    "v": 0.385
+    "v": 0.425
    },
    {
     "c": "ARE",
-    "v": 0.375
+    "v": 0.425
    },
    {
     "c": "URY",
-    "v": 0.37
-   },
-   {
-    "c": "KHM",
-    "v": 0.36
-   },
-   {
-    "c": "NOR",
-    "v": 0.35
+    "v": 0.425
    },
    {
     "c": "LKA",
-    "v": 0.35
+    "v": 0.38
+   },
+   {
+    "c": "NOR",
+    "v": 0.375
+   },
+   {
+    "c": "YEM",
+    "v": 0.365
+   },
+   {
+    "c": "GHA",
+    "v": 0.34
    },
    {
     "c": "LBY",
     "v": 0.34
    },
    {
-    "c": "YEM",
-    "v": 0.34
-   },
-   {
     "c": "PAN",
-    "v": 0.32
-   },
-   {
-    "c": "GHA",
-    "v": 0.315
+    "v": 0.33
    },
    {
     "c": "NIC",
-    "v": 0.294
+    "v": 0.324
+   },
+   {
+    "c": "KHM",
+    "v": 0.32
    },
    {
     "c": "SLV",
-    "v": 0.275
+    "v": 0.295
+   },
+   {
+    "c": "MMR",
+    "v": 0.285
+   },
+   {
+    "c": "ZWE",
+    "v": 0.27
    },
    {
     "c": "CHE",
     "v": 0.26
    },
    {
-    "c": "ZWE",
+    "c": "CIV",
     "v": 0.255
    },
    {
-    "c": "CIV",
-    "v": 0.24
-   },
-   {
-    "c": "MMR",
-    "v": 0.2
-   },
-   {
     "c": "JAM",
-    "v": 0.2
+    "v": 0.215
+   },
+   {
+    "c": "KAZ",
+    "v": 0.21
    },
    {
     "c": "SYR",
     "v": 0.2
    },
    {
-    "c": "KAZ",
+    "c": "AZE",
     "v": 0.19
    },
    {
-    "c": "AZE",
-    "v": 0.18
+    "c": "KEN",
+    "v": 0.175
    },
    {
-    "c": "KEN",
-    "v": 0.15
+    "c": "ZMB",
+    "v": 0.169
    },
    {
     "c": "BEN",
     "v": 0.146
    },
    {
-    "c": "ZMB",
-    "v": 0.138
-   },
-   {
     "c": "UZB",
-    "v": 0.105
+    "v": 0.13
    },
    {
     "c": "PRK",
@@ -582,12 +580,12 @@
     "v": 0.085
    },
    {
-    "c": "TTO",
-    "v": 0.06
+    "c": "GUY",
+    "v": 0.065
    },
    {
-    "c": "GUY",
-    "v": 0.055
+    "c": "TTO",
+    "v": 0.065
    },
    {
     "c": "SGP",
@@ -603,56 +601,58 @@
    },
    {
     "c": "ETH",
-    "v": 0.029
+    "v": 0.034
+   },
+   {
+    "c": "BRB",
+    "v": 0.025
    },
    {
     "c": "GEO",
     "v": 0.025
-   },
-   {
-    "c": "BRB",
-    "v": 0.021
    }
   ],
-  "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Meal, Soybean, soybean meal domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "exports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 86.616,
+  "world": 90.108,
   "rows": [
    {
     "c": "ARG",
-    "v": 29.697
+    "v": 30.0
    },
    {
     "c": "BRA",
-    "v": 25.321
+    "v": 27.3
    },
    {
     "c": "USA",
-    "v": 18.418
-   },
-   {
-    "c": "PRY",
-    "v": 2.2
+    "v": 20.593
    },
    {
     "c": "BOL",
+    "v": 2.025
+   },
+   {
+    "c": "PRY",
     "v": 2.0
    },
    {
     "c": "TUR",
-    "v": 1.645
-   },
-   {
-    "c": "UKR",
-    "v": 1.521
+    "v": 1.35
    },
    {
     "c": "CHN",
-    "v": 1.024
+    "v": 1.1
+   },
+   {
+    "c": "UKR",
+    "v": 1.1
    },
    {
     "c": "IND",
@@ -660,16 +660,17 @@
    },
    {
     "c": "RUS",
-    "v": 0.9,
-    "n": "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
+    "v": 0.75,
+    "n": "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 33% below the first and 33% below the second."
    },
    {
     "c": "EU27",
-    "v": 0.7
+    "v": 0.6,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 6.3 Mt of exports, of which 5.69 Mt to other member states and 0.612 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "CAN",
-    "v": 0.391
+    "v": 0.43
    },
    {
     "c": "BLR",
@@ -677,7 +678,7 @@
    },
    {
     "c": "ZAF",
-    "v": 0.2
+    "v": 0.225
    },
    {
     "c": "NOR",
@@ -685,11 +686,11 @@
    },
    {
     "c": "NGA",
-    "v": 0.15
+    "v": 0.17
    },
    {
     "c": "THA",
-    "v": 0.145
+    "v": 0.15
    },
    {
     "c": "GBR",
@@ -705,14 +706,22 @@
    },
    {
     "c": "ETH",
-    "v": 0.075
+    "v": 0.07
    },
    {
-    "c": "VNM",
-    "v": 0.06
+    "c": "BGD",
+    "v": 0.05
    },
    {
     "c": "HND",
+    "v": 0.05
+   },
+   {
+    "c": "TWN",
+    "v": 0.05
+   },
+   {
+    "c": "VNM",
     "v": 0.05
    },
    {
@@ -720,16 +729,8 @@
     "v": 0.05
    },
    {
-    "c": "TWN",
-    "v": 0.041
-   },
-   {
     "c": "GEO",
     "v": 0.04
-   },
-   {
-    "c": "BGD",
-    "v": 0.039
    },
    {
     "c": "CIV",
@@ -737,14 +738,14 @@
    },
    {
     "c": "KOR",
-    "v": 0.029
-   },
-   {
-    "c": "KAZ",
-    "v": 0.02
+    "v": 0.03
    },
    {
     "c": "SRB",
+    "v": 0.025
+   },
+   {
+    "c": "KAZ",
     "v": 0.02
    },
    {
@@ -764,6 +765,10 @@
     "v": 0.01
    },
    {
+    "c": "PAK",
+    "v": 0.01
+   },
+   {
     "c": "TUN",
     "v": 0.01
    },
@@ -776,14 +781,6 @@
     "v": 0.006
    },
    {
-    "c": "URY",
-    "v": 0.005
-   },
-   {
-    "c": "PAK",
-    "v": 0.003
-   },
-   {
     "c": "COL",
     "v": 0.002
    },
@@ -797,14 +794,6 @@
    },
    {
     "c": "AUS",
-    "v": 0.001
-   },
-   {
-    "c": "CHL",
-    "v": 0.001
-   },
-   {
-    "c": "SLV",
     "v": 0.001
    },
    {
@@ -816,37 +805,48 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Meal, Soybean, soybean meal exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Meal, Soybean, soybean meal exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 6.3 Mt of exports, of which 5.69 Mt to other member states and 0.612 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 6.304,
+   "intra": 5.692,
+   "extra": 0.6123
+  }
  },
  "imports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 82.659,
+  "world": 86.176,
   "rows": [
    {
     "c": "EU27",
-    "v": 20.3
+    "v": 20.4,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 24.2 Mt of imports, of which 5.69 Mt from other member states and 18.5 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "IDN",
-    "v": 6.957
+    "v": 6.98
    },
    {
     "c": "VNM",
-    "v": 5.6
+    "v": 6.5
    },
    {
     "c": "PHL",
-    "v": 3.6
+    "v": 3.85
    },
    {
     "c": "THA",
-    "v": 3.286
+    "v": 3.4
    },
    {
     "c": "MEX",
-    "v": 2.981
+    "v": 3.25
    },
    {
     "c": "IRN",
@@ -854,110 +854,118 @@
    },
    {
     "c": "GBR",
-    "v": 2.5
-   },
-   {
-    "c": "ECU",
-    "v": 2.4
+    "v": 2.6
    },
    {
     "c": "COL",
-    "v": 2.35
+    "v": 2.55
+   },
+   {
+    "c": "ECU",
+    "v": 2.55
    },
    {
     "c": "TUR",
-    "v": 2.316
+    "v": 2.2
    },
    {
     "c": "PER",
-    "v": 2.0
+    "v": 2.125
    },
    {
     "c": "KOR",
-    "v": 1.718
+    "v": 1.72
    },
    {
     "c": "SAU",
-    "v": 1.6
+    "v": 1.625
    },
    {
     "c": "JPN",
-    "v": 1.539
-   },
-   {
-    "c": "CAN",
-    "v": 1.462
+    "v": 1.596
    },
    {
     "c": "BGD",
-    "v": 1.416
+    "v": 1.5
    },
    {
     "c": "MYS",
-    "v": 1.4
+    "v": 1.5
+   },
+   {
+    "c": "CAN",
+    "v": 1.35
    },
    {
     "c": "CHL",
-    "v": 1.25
-   },
-   {
-    "c": "AUS",
-    "v": 0.96
+    "v": 1.3
    },
    {
     "c": "MAR",
-    "v": 0.95
-   },
-   {
-    "c": "USA",
-    "v": 0.91
+    "v": 1.05
    },
    {
     "c": "VEN",
-    "v": 0.9
+    "v": 1.0
+   },
+   {
+    "c": "AUS",
+    "v": 0.98
+   },
+   {
+    "c": "USA",
+    "v": 0.907
    },
    {
     "c": "DOM",
-    "v": 0.8
+    "v": 0.9
    },
    {
     "c": "GTM",
-    "v": 0.75
+    "v": 0.8
    },
    {
-    "c": "IRQ",
-    "v": 0.7
+    "c": "EGY",
+    "v": 0.65
    },
    {
     "c": "NZL",
-    "v": 0.55
+    "v": 0.58
    },
    {
     "c": "HND",
-    "v": 0.475
+    "v": 0.57
+   },
+   {
+    "c": "IRQ",
+    "v": 0.5
    },
    {
     "c": "JOR",
-    "v": 0.45
+    "v": 0.5
    },
    {
     "c": "BLR",
     "v": 0.4
    },
    {
-    "c": "ARG",
-    "v": 0.376
-   },
-   {
-    "c": "KHM",
-    "v": 0.36
-   },
-   {
     "c": "LKA",
-    "v": 0.35
+    "v": 0.38
+   },
+   {
+    "c": "ARE",
+    "v": 0.375
    },
    {
     "c": "YEM",
+    "v": 0.37
+   },
+   {
+    "c": "ARG",
+    "v": 0.35
+   },
+   {
+    "c": "ISR",
     "v": 0.35
    },
    {
@@ -965,15 +973,19 @@
     "v": 0.34
    },
    {
-    "c": "EGY",
-    "v": 0.333
-   },
-   {
-    "c": "ISR",
-    "v": 0.32
-   },
-   {
     "c": "NIC",
+    "v": 0.33
+   },
+   {
+    "c": "KHM",
+    "v": 0.325
+   },
+   {
+    "c": "MMR",
+    "v": 0.3
+   },
+   {
+    "c": "SLV",
     "v": 0.3
    },
    {
@@ -982,19 +994,11 @@
    },
    {
     "c": "PAN",
-    "v": 0.285
-   },
-   {
-    "c": "ARE",
-    "v": 0.275
-   },
-   {
-    "c": "SLV",
-    "v": 0.272
+    "v": 0.295
    },
    {
     "c": "CIV",
-    "v": 0.27
+    "v": 0.29
    },
    {
     "c": "LBN",
@@ -1005,19 +1009,19 @@
     "v": 0.25
    },
    {
-    "c": "TUN",
-    "v": 0.23
-   },
-   {
-    "c": "MMR",
+    "c": "NOR",
     "v": 0.225
    },
    {
-    "c": "JAM",
-    "v": 0.2
+    "c": "CRI",
+    "v": 0.215
    },
    {
-    "c": "NOR",
+    "c": "JAM",
+    "v": 0.215
+   },
+   {
+    "c": "GHA",
     "v": 0.2
    },
    {
@@ -1025,72 +1029,72 @@
     "v": 0.2
    },
    {
+    "c": "TUN",
+    "v": 0.2
+   },
+   {
     "c": "AZE",
-    "v": 0.18
-   },
-   {
-    "c": "CRI",
-    "v": 0.18
-   },
-   {
-    "c": "GHA",
-    "v": 0.17
-   },
-   {
-    "c": "CHN",
-    "v": 0.15
+    "v": 0.19
    },
    {
     "c": "KEN",
-    "v": 0.15
+    "v": 0.175
+   },
+   {
+    "c": "ZAF",
+    "v": 0.11
+   },
+   {
+    "c": "DZA",
+    "v": 0.1
    },
    {
     "c": "BIH",
     "v": 0.1
    },
    {
-    "c": "ZAF",
+    "c": "CHN",
+    "v": 0.1
+   },
+   {
+    "c": "IND",
     "v": 0.1
    },
    {
     "c": "KAZ",
+    "v": 0.1
+   },
+   {
+    "c": "UZB",
     "v": 0.09
    },
    {
-    "c": "TWN",
-    "v": 0.082
-   },
-   {
     "c": "ZWE",
-    "v": 0.08
+    "v": 0.085
    },
    {
     "c": "RUS",
     "v": 0.075
    },
    {
-    "c": "UZB",
-    "v": 0.07
-   },
-   {
     "c": "GEO",
     "v": 0.065
    },
    {
+    "c": "GUY",
+    "v": 0.065
+   },
+   {
     "c": "TTO",
+    "v": 0.065
+   },
+   {
+    "c": "TWN",
     "v": 0.06
    },
    {
-    "c": "GUY",
-    "v": 0.055
-   },
-   {
-    "c": "IND",
+    "c": "PAK",
     "v": 0.05
-   },
-   {
-    "c": "DZA",
-    "v": 0.04
    },
    {
     "c": "SRB",
@@ -1113,19 +1117,15 @@
     "v": 0.013
    },
    {
-    "c": "PAK",
-    "v": 0.008
-   },
-   {
     "c": "BRA",
-    "v": 0.004
-   },
-   {
-    "c": "UKR",
-    "v": 0.003
+    "v": 0.01
    },
    {
     "c": "BEN",
+    "v": 0.002
+   },
+   {
+    "c": "UKR",
     "v": 0.002
    },
    {
@@ -1133,37 +1133,358 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Meal, Soybean, soybean meal imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Meal, Soybean, soybean meal imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 24.2 Mt of imports, of which 5.69 Mt from other member states and 18.5 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 24.192,
+   "intra": 5.692,
+   "extra": 18.5
+  }
  },
  "extra": [
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 6.304,
+    "rows": [
+     {
+      "c": "NLD",
+      "v": 2.309,
+      "n": "of which 2.24 Mt to other member states and 0.0724 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 1.59,
+      "n": "of which 1.42 Mt to other member states and 0.17 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.421,
+      "n": "of which 0.421 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.3661,
+      "n": "of which 0.361 Mt to other member states and 0.00464 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.321,
+      "n": "of which 0.184 Mt to other member states and 0.137 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.1734,
+      "n": "of which 0.168 Mt to other member states and 0.00523 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.1527,
+      "n": "of which 0.153 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.149,
+      "n": "of which 0.144 Mt to other member states and 0.00488 Mt to countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.1125,
+      "n": "of which 0.0918 Mt to other member states and 0.0207 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.1085,
+      "n": "of which 0.0967 Mt to other member states and 0.0118 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.1,
+      "n": "of which 0.0898 Mt to other member states and 0.0102 Mt to countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0988,
+      "n": "of which 0.0473 Mt to other member states and 0.0516 Mt to countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0888,
+      "n": "of which 0.0211 Mt to other member states and 0.0677 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0707,
+      "n": "of which 0.0525 Mt to other member states and 0.0182 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0644,
+      "n": "of which 0.0644 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0464,
+      "n": "of which 0.0179 Mt to other member states and 0.0285 Mt to countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0378,
+      "n": "of which 0.0378 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.0269,
+      "n": "of which 0.0185 Mt to other member states and 0.00838 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0165,
+      "n": "of which 0.0165 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0162,
+      "n": "of which 0.0162 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.0161,
+      "n": "of which 0.0151 Mt to other member states and 0.001 Mt to countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0072,
+      "n": "of which 0.00715 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0058,
+      "n": "of which 0.00578 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0026,
+      "n": "of which 0.00256 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.0023,
+      "n": "of which 0.00227 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0009,
+      "n": "of which 0.000864 Mt to other member states and 0 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, soybean meal (HS 230400): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 6.3 Mt, of which 5.69 Mt to other member states and 0.612 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (73.8 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 73.819,
+    "split": {
+     "total": 6.304,
+     "intra": 5.692,
+     "extra": 0.6123
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 24.192,
+    "rows": [
+     {
+      "c": "POL",
+      "v": 3.334,
+      "n": "of which 0.0789 Mt from other member states and 3.25 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 2.939,
+      "n": "of which 0.252 Mt from other member states and 2.69 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 2.936,
+      "n": "of which 0.678 Mt from other member states and 2.26 Mt from countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 2.65,
+      "n": "of which 0.84 Mt from other member states and 1.81 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 2.565,
+      "n": "of which 0.152 Mt from other member states and 2.41 Mt from countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 1.844,
+      "n": "of which 0.16 Mt from other member states and 1.68 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 1.306,
+      "n": "of which 0.394 Mt from other member states and 0.912 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 1.247,
+      "n": "of which 1.01 Mt from other member states and 0.233 Mt from countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.9907,
+      "n": "of which 0.069 Mt from other member states and 0.922 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.6111,
+      "n": "of which 0.0623 Mt from other member states and 0.549 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.5214,
+      "n": "of which 0.345 Mt from other member states and 0.177 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.4891,
+      "n": "of which 0.00568 Mt from other member states and 0.483 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.4139,
+      "n": "of which 0.0138 Mt from other member states and 0.4 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.3908,
+      "n": "of which 0.338 Mt from other member states and 0.0524 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.3636,
+      "n": "of which 0.348 Mt from other member states and 0.0161 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.2246,
+      "n": "of which 0.0657 Mt from other member states and 0.159 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.2127,
+      "n": "of which 0.0626 Mt from other member states and 0.15 Mt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.1981,
+      "n": "of which 0.121 Mt from other member states and 0.0769 Mt from countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.1865,
+      "n": "of which 0.00267 Mt from other member states and 0.184 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.1749,
+      "n": "of which 0.159 Mt from other member states and 0.016 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.1617,
+      "n": "of which 0.155 Mt from other member states and 0.0066 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.128,
+      "n": "of which 0.118 Mt from other member states and 0.0103 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.1269,
+      "n": "of which 0.112 Mt from other member states and 0.015 Mt from countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.0998,
+      "n": "of which 0.0752 Mt from other member states and 0.0246 Mt from countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.056,
+      "n": "of which 0.0511 Mt from other member states and 0.00481 Mt from countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0127,
+      "n": "of which 0.0127 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0083,
+      "n": "of which 0.00617 Mt from other member states and 0.00215 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, soybean meal (HS 230400): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 24.2 Mt, of which 5.69 Mt from other member states and 18.5 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (73.8 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 73.819,
+    "split": {
+     "total": 24.192,
+     "intra": 5.692,
+     "extra": 18.5
+    }
+   }
+  },
   {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
-    "y": "2025/26",
+    "y": "2026/27",
     "s": "usda-psd",
     "u": "Mt",
-    "world": 19.49,
+    "world": 20.008,
     "rows": [
      {
       "c": "BRA",
-      "v": 4.228
+      "v": 3.949
      },
      {
       "c": "ARG",
-      "v": 2.879
+      "v": 3.074
      },
      {
       "c": "EU27",
-      "v": 1.625
+      "v": 1.588
      },
      {
       "c": "CHN",
-      "v": 1.193
+      "v": 1.255
      },
      {
       "c": "TUR",
-      "v": 0.561
+      "v": 0.717
+     },
+     {
+      "c": "VNM",
+      "v": 0.615
      },
      {
       "c": "IDN",
@@ -1171,86 +1492,82 @@
      },
      {
       "c": "UKR",
-      "v": 0.474
+      "v": 0.472
      },
      {
       "c": "BGD",
-      "v": 0.436
+      "v": 0.42
      },
      {
       "c": "RUS",
-      "v": 0.43
-     },
-     {
-      "c": "IRN",
-      "v": 0.418
-     },
-     {
-      "c": "MEX",
-      "v": 0.379
+      "v": 0.409
      },
      {
       "c": "EGY",
-      "v": 0.364
+      "v": 0.404
      },
      {
-      "c": "VNM",
-      "v": 0.348
-     },
-     {
-      "c": "THA",
-      "v": 0.316
+      "c": "MEX",
+      "v": 0.373
      },
      {
       "c": "USA",
-      "v": 0.302
-     },
-     {
-      "c": "PHL",
-      "v": 0.294
+      "v": 0.363
      },
      {
       "c": "BOL",
-      "v": 0.293
+      "v": 0.328
+     },
+     {
+      "c": "THA",
+      "v": 0.314
+     },
+     {
+      "c": "IRN",
+      "v": 0.306
+     },
+     {
+      "c": "PHL",
+      "v": 0.292
      },
      {
       "c": "IND",
-      "v": 0.275
+      "v": 0.28
      },
      {
       "c": "SAU",
-      "v": 0.24
+      "v": 0.26
+     },
+     {
+      "c": "GBR",
+      "v": 0.258
      },
      {
       "c": "PER",
       "v": 0.236
      },
      {
-      "c": "GBR",
-      "v": 0.219
+      "c": "PRY",
+      "v": 0.228
+     },
+     {
+      "c": "COL",
+      "v": 0.206
      },
      {
       "c": "ECU",
       "v": 0.206
      },
      {
-      "c": "PRY",
+      "c": "CAN",
       "v": 0.201
      },
      {
-      "c": "CAN",
-      "v": 0.2
+      "c": "KOR",
+      "v": 0.201
      },
      {
       "c": "PAK",
-      "v": 0.197
-     },
-     {
-      "c": "COL",
-      "v": 0.194
-     },
-     {
-      "c": "KOR",
       "v": 0.186
      },
      {
@@ -1259,143 +1576,143 @@
      },
      {
       "c": "MYS",
-      "v": 0.125
-     },
-     {
-      "c": "CHL",
-      "v": 0.12
-     },
-     {
-      "c": "JPN",
-      "v": 0.117
-     },
-     {
-      "c": "IRQ",
-      "v": 0.115
-     },
-     {
-      "c": "NGA",
-      "v": 0.107
-     },
-     {
-      "c": "MAR",
-      "v": 0.106
+      "v": 0.148
      },
      {
       "c": "DZA",
-      "v": 0.104
+      "v": 0.127
+     },
+     {
+      "c": "CHL",
+      "v": 0.125
+     },
+     {
+      "c": "MAR",
+      "v": 0.1
      },
      {
       "c": "YEM",
-      "v": 0.095
+      "v": 0.1
+     },
+     {
+      "c": "IRQ",
+      "v": 0.092
+     },
+     {
+      "c": "JPN",
+      "v": 0.092
+     },
+     {
+      "c": "NGA",
+      "v": 0.086
      },
      {
       "c": "URY",
-      "v": 0.091
-     },
-     {
-      "c": "LBN",
-      "v": 0.089
+      "v": 0.086
      },
      {
       "c": "VEN",
-      "v": 0.077
+      "v": 0.082
      },
      {
-      "c": "KAZ",
-      "v": 0.064
+      "c": "LBN",
+      "v": 0.08
      },
      {
       "c": "MMR",
-      "v": 0.061
+      "v": 0.076
+     },
+     {
+      "c": "KAZ",
+      "v": 0.074
+     },
+     {
+      "c": "ISR",
+      "v": 0.059
      },
      {
       "c": "NOR",
-      "v": 0.06
-     },
-     {
-      "c": "GTM",
-      "v": 0.055
-     },
-     {
-      "c": "SRB",
-      "v": 0.054
+      "v": 0.059
      },
      {
       "c": "BLR",
-      "v": 0.052
+      "v": 0.056
+     },
+     {
+      "c": "GTM",
+      "v": 0.054
+     },
+     {
+      "c": "HND",
+      "v": 0.051
      },
      {
       "c": "NZL",
       "v": 0.051
      },
      {
+      "c": "JOR",
+      "v": 0.05
+     },
+     {
       "c": "CRI",
-      "v": 0.046
+      "v": 0.049
      },
      {
       "c": "ZWE",
+      "v": 0.049
+     },
+     {
+      "c": "SRB",
       "v": 0.046
-     },
-     {
-      "c": "ISR",
-      "v": 0.045
-     },
-     {
-      "c": "ARE",
-      "v": 0.045
      },
      {
       "c": "LBY",
       "v": 0.044
      },
      {
-      "c": "JOR",
-      "v": 0.04
-     },
-     {
-      "c": "AUS",
-      "v": 0.038
-     },
-     {
       "c": "TWN",
+      "v": 0.042
+     },
+     {
+      "c": "ARE",
+      "v": 0.042
+     },
+     {
+      "c": "CIV",
       "v": 0.038
      },
      {
       "c": "PAN",
+      "v": 0.038
+     },
+     {
+      "c": "AUS",
       "v": 0.034
      },
      {
       "c": "TUN",
-      "v": 0.034
-     },
-     {
-      "c": "CIV",
-      "v": 0.033
-     },
-     {
-      "c": "HND",
-      "v": 0.031
-     },
-     {
-      "c": "UZB",
-      "v": 0.026
+      "v": 0.032
      },
      {
       "c": "DOM",
-      "v": 0.025
+      "v": 0.03
+     },
+     {
+      "c": "UZB",
+      "v": 0.03
      },
      {
       "c": "SLV",
-      "v": 0.018
+      "v": 0.023
      },
      {
       "c": "KHM",
-      "v": 0.017
+      "v": 0.022
      },
      {
       "c": "GHA",
-      "v": 0.013
+      "v": 0.02
      },
      {
       "c": "JAM",
@@ -1406,8 +1723,182 @@
       "v": 0.002
      }
     ],
-    "n": "USDA PSD, Meal, Soybean, soybean meal ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+    "n": "USDA PSD, Meal, Soybean, soybean meal ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
    }
+  }
+ ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     294.06,
+     302.61
+    ]
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     18.019,
+     19.49
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     288.63,
+     298.16
+    ]
+   },
+   {
+    "k": "use-Crush",
+    "label": "Crush",
+    "u": "Mt",
+    "v": [
+     376.33,
+     386.24
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Feed Waste Dom. Cons.",
+    "label": "Feed and waste use",
+    "u": "Mt",
+    "v": [
+     286.44,
+     295.98
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Food Use Dom. Cons.",
+    "label": "Food use",
+    "u": "Mt",
+    "v": [
+     0.836,
+     0.811
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Industrial Dom. Cons.",
+    "label": "Industrial use",
+    "u": "Mt",
+    "v": [
+     1.35,
+     1.37
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     86.616,
+     90.108
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     19.49,
+     20.008
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     6.8,
+     6.7
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     1.193,
+     1.255
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     18.297,
+     18.753
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     1.4,
+     1.4
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     9.0,
+     8.9
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Meal, Soybean: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+ },
+ "gaps": [
+  {
+   "o": "RUS",
+   "text": "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 33% below the first and 33% below the second.",
+   "s": "baci",
+   "y": 2024
   }
  ],
  "flows": [
@@ -1418,6 +1909,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1598144000,
+   "uv": 383,
    "mode": "sea",
    "lane": "soymeal:ARG-VNM"
   },
@@ -1428,6 +1921,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1753078000,
+   "uv": 446,
    "mode": "sea",
    "lane": "soymeal:BRA-IDN"
   },
@@ -1438,6 +1933,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1191154000,
+   "uv": 450,
    "mode": "sea",
    "lane": "soymeal:BRA-THA"
   },
@@ -1448,6 +1945,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1328729000,
+   "uv": 568,
    "mode": "sea",
    "lane": "soymeal:USA-PHL"
   },
@@ -1458,6 +1957,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 829647000,
+   "uv": 390,
    "mode": "sea",
    "lane": "soymeal:BRA-IRN"
   },
@@ -1468,6 +1969,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 803978000,
+   "uv": 380,
    "mode": "sea",
    "lane": "soymeal:BRA-NLD"
   },
@@ -1478,6 +1981,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 772571000,
+   "uv": 446,
    "mode": "sea",
    "lane": "soymeal:BRA-FRA"
   },
@@ -1488,6 +1993,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 667883000,
+   "uv": 398,
    "mode": "mixed",
    "lane": "soymeal:USA-MEX",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -1499,6 +2006,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 592185000,
+   "uv": 386,
    "mode": "sea",
    "lane": "soymeal:ARG-SAU"
   },
@@ -1509,6 +2018,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 634031000,
+   "uv": 440,
    "mode": "sea",
    "lane": "soymeal:USA-COL"
   },
@@ -1519,6 +2030,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 636405000,
+   "uv": 452,
    "mode": "sea",
    "lane": "soymeal:BRA-KOR"
   },
@@ -1529,6 +2042,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 562923000,
+   "uv": 404,
    "mode": "sea",
    "lane": "soymeal:ARG-POL"
   },
@@ -1539,6 +2054,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 588412000,
+   "uv": 434,
    "mode": "sea",
    "lane": "soymeal:BRA-DEU"
   },
@@ -1549,6 +2066,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 532848000,
+   "uv": 394,
    "mode": "sea",
    "lane": "soymeal:BRA-POL"
   },
@@ -1559,6 +2078,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 544717000,
+   "uv": 417,
    "mode": "sea",
    "lane": "soymeal:BRA-ESP"
   },
@@ -1569,6 +2090,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 508117000,
+   "uv": 415,
    "mode": "sea",
    "lane": "soymeal:ARG-ITA"
   },
@@ -1579,6 +2102,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 540112000,
+   "uv": 450,
    "mode": "land"
   },
   {
@@ -1588,6 +2113,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 480533000,
+   "uv": 416,
    "mode": "sea",
    "lane": "soymeal:ARG-MYS"
   },
@@ -1598,6 +2125,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 468130000,
+   "uv": 431,
    "mode": "sea",
    "lane": "soymeal:CHN-JPN"
   },
@@ -1608,15 +2137,85 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 437795000,
+   "uv": 429,
    "mode": "sea",
    "lane": "soymeal:ARG-TUR"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2905
+   },
+   "top3": 0.653,
+   "hhi": 1666,
+   "eq": 6.0,
+   "k": 59,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "ARG",
+    "p": 0.3329
+   },
+   "top3": 0.8644,
+   "hhi": 2567,
+   "eq": 3.9,
+   "k": 45,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2367
+   },
+   "top3": 0.3931,
+   "hhi": 815,
+   "eq": 12.3,
+   "k": 77,
+   "cov": 1.0
+  },
+  "eu-exports": {
+   "top1": {
+    "c": "NLD",
+    "p": 0.3663
+   },
+   "top3": 0.6853,
+   "hhi": 2118,
+   "eq": 4.7,
+   "k": 26,
+   "cov": 1.0001
+  },
+  "eu-imports": {
+   "top1": {
+    "c": "POL",
+    "p": 0.1378
+   },
+   "top3": 0.3807,
+   "hhi": 875,
+   "eq": 11.4,
+   "k": 27,
+   "cov": 1.0
+  },
+  "stocks": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.1974
+   },
+   "top3": 0.4304,
+   "hhi": 809,
+   "eq": 12.4,
+   "k": 65,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
-  "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 33% below the first and 33% below the second."
  ],
  "discrepancies": [
-  "World exports: USDA PSD 2025/26 86.6 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 73.8 Mt (+17%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."
+  "World exports: USDA PSD 2025/26 86.6 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 73.8 Mt (+17%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); the tables show USDA PSD."
  ]
 }

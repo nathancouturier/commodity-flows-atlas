@@ -393,6 +393,16 @@ class EventLinkRule(unittest.TestCase):
     def test_a_linked_route_or_passage_does_not_name_a_commodity(self):
         self.assertEqual(EL.derive(ev(summary="Traffic fell", routes=["russia-baltic-india-crude"], chokepoints=["hormuz"])), [])
 
+    def test_the_words_of_the_metals_and_softs(self):
+        self.assertEqual(EL.named_commodities("Export of palm oil, refined palm oil and used cooking oil"), ["palm-oil"])
+        self.assertEqual(EL.named_commodities("crude palm oil"), ["palm-oil"])  # crude palm oil is not crude oil
+        self.assertEqual(EL.named_commodities("an exhaust gas cleaning system and very large gas carriers"), [])
+        self.assertEqual(EL.named_commodities("liquefied natural gas"), ["lng"])
+        self.assertEqual(EL.named_commodities("liquefied petroleum gas (LPG)"), ["lpg"])
+        self.assertEqual(EL.named_commodities("Chinese steel mills and steel producers"), [])
+        self.assertEqual(EL.named_commodities("tariffs on steel, aluminum and copper"), ["aluminium", "copper", "steel"])
+        self.assertEqual(EL.named_commodities("rare earths, rice and potash"), ["potash", "rare-earths", "rice"])
+
     def test_countries_by_name_and_demonym_but_not_a_sea(self):
         countries = [{"c": "OMN", "name": "Oman"}, {"c": "IND", "name": "India"}, {"c": "BRA", "name": "Brazil"}, {"c": "CHN", "name": "China"}]
         self.assertEqual(EL.named_countries("Tankers in the Gulf of Oman and the Indian Ocean", countries), [])
@@ -442,6 +452,60 @@ class EventLinks(unittest.TestCase):
         # a text that names no commodity at all gets none (and the site shows it with every commodity)
         for k in ("gaza-ceasefire-2025", "suez-return-2026", "somali-piracy-2008-2011"):
             self.assertNotIn("commodities", self.by_id[k])
+
+    def test_every_text_was_read_against_a_page_and_says_when(self):
+        """Every event carries the day its text was read against the page it cites (`src`, and `also` for the others), a link, and an
+        end that is not before its start."""
+        today = datetime.now(timezone.utc).date().isoformat()
+        for e in self.events:
+            self.assertRegex(e.get("checked", ""), r"^\d{4}-\d{2}-\d{2}$", e["id"])
+            self.assertLessEqual(e["checked"], today, e["id"])
+            self.assertTrue(e["src"].startswith("https://"), e["id"])
+            for x in e.get("also", []):
+                self.assertTrue(x["label"] and x["url"].startswith("https://"), e["id"])
+            if "end" in e:
+                self.assertGreaterEqual(e["end"], e["date"][:len(e["end"])], e["id"])
+        self.assertEqual(len({e["id"] for e in self.events}), len(self.events))
+
+    def test_no_event_cites_a_disambiguation_page_or_a_paid_service(self):
+        for e in self.events:
+            urls = [e["src"]] + [x["url"] for x in e.get("also", [])]
+            for u in urls:
+                self.assertFalse(u.endswith("/wiki/Gulf_of_Oman_incident"), e["id"])
+                self.assertNotIn("Iran%E2%80%93Israel_war", u, e["id"])
+                self.assertNotIn("lloydslist.com", u, e["id"])
+            self.assertNotIn("Lloyd's List", e["summary"] + e.get("impact", ""), e["id"])
+
+    def test_the_corrections_of_the_audit(self):
+        """C-087: the points of the list, as they stand in the file."""
+        ev = self.by_id
+        self.assertGreaterEqual(ev["us-lng-freeport-2022"]["end"], "2023-02")      # the plant restarted in February 2023
+        self.assertNotIn("BLNG3", ev["us-lng-freeport-2022"].get("routes", []))
+        self.assertNotIn("BLNG3", ev["nord-stream-2022"].get("routes", []))
+        self.assertNotIn("BLNG3", ev["fukushima-2011"].get("routes", []))
+        self.assertIn("2027", ev["us-port-fees-2025"]["impact"])                   # the extension of 9 November 2026
+        self.assertNotIn("not verified", ev["us-port-fees-2025"]["impact"])
+        self.assertNotIn("record", ev["panama-fy2025-2025"]["title"].lower())      # 13,404 is a 19.3% rebound, not a record
+        self.assertNotIn("63%", ev["suez-return-2026"]["summary"] + ev["suez-return-2026"]["impact"])
+        self.assertTrue({"india-europe-diesel", "middle-east-europe-diesel"} <= set(ev["eu-products-embargo-2023"]["routes"]))
+        self.assertTrue(ev["black-sea-tankers-2025"]["date"].startswith("2025-11"))  # the first attacks on tankers, late November 2025
+
+    def test_the_episodes_of_the_four_gaps(self):
+        """M-068 to M-071: the agricultural restrictions, the energy episodes, the metals measures and the freight milestones are on the
+        timeline, each with the commodity or the countries it names."""
+        ev = self.by_id
+        for k in ("india-wheat-ban-2022", "indonesia-palm-oil-ban-2022", "russia-wheat-quota-2022", "rice-export-bans-2008", "belarus-potash-2021", "us-china-deal-2025",
+                  "oil-collapse-2014-2016", "oil-price-war-2020", "us-russian-energy-ban-2022", "eu-russian-coal-ban-2022", "venezuela-oil-blockade-2025",
+                  "us-232-steel-2018", "rusal-sanctions-2018", "us-232-50pct-2025", "us-copper-tariff-2025", "china-export-controls-2025", "eu-cbam-2026",
+                  "bdi-low-2016", "hanjin-2016", "cosco-dalian-2019", "imo-eexi-cii-2023", "fueleu-maritime-2025", "us-shadow-fleet-2025"):
+            self.assertIn(k, ev)
+        self.assertIn("rice", ev["rice-export-bans-2008"]["commodities"])
+        self.assertIn("palm-oil", ev["indonesia-palm-oil-ban-2022"]["commodities"])
+        self.assertNotIn("crude-oil", ev["indonesia-palm-oil-ban-2022"]["commodities"])
+        self.assertIn("copper", ev["us-copper-tariff-2025"]["commodities"])
+        self.assertIn("rare-earths", ev["china-export-controls-2025"]["commodities"])
+        self.assertIn("belaruskali-soligorsk", ev["belarus-potash-2021"]["assets"])
+        self.assertGreaterEqual(len(self.events), 80)
 
     def test_an_event_alert_pair_takes_the_commodities_of_the_alert(self):
         """What the site does (web/src/lib/events.ts): the event of an alert is shown with the alert's commodities."""

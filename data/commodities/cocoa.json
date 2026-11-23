@@ -714,6 +714,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1345092000,
+   "uv": 5160,
    "mode": "sea",
    "lane": "cocoa:CIV-NLD"
   },
@@ -724,6 +726,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 743376000,
+   "uv": 5140,
    "mode": "sea",
    "lane": "cocoa:CMR-NLD"
   },
@@ -734,6 +738,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 780253000,
+   "uv": 5420,
    "mode": "sea",
    "lane": "cocoa:NGA-NLD"
   },
@@ -744,6 +750,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 327286000,
+   "uv": 2620,
    "mode": "sea",
    "lane": "cocoa:CIV-BEL"
   },
@@ -754,6 +762,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 514694000,
+   "uv": 5340,
    "mode": "sea",
    "lane": "cocoa:CIV-MYS"
   },
@@ -764,6 +774,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 461569000,
+   "uv": 5050,
    "mode": "sea",
    "lane": "cocoa:CIV-DEU"
   },
@@ -774,6 +786,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 653600000,
+   "uv": 7320,
    "mode": "sea",
    "lane": "cocoa:NGA-MYS"
   },
@@ -784,6 +798,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 329199000,
+   "uv": 4130,
    "mode": "sea",
    "lane": "cocoa:CIV-USA"
   },
@@ -794,6 +810,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 504433000,
+   "uv": 7050,
    "mode": "sea",
    "lane": "cocoa:ECU-MYS"
   },
@@ -804,6 +822,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 462347000,
+   "uv": 6640,
    "mode": "land"
   },
   {
@@ -813,6 +833,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 279251000,
+   "uv": 4040,
    "mode": "sea",
    "lane": "cocoa:CIV-TUR"
   },
@@ -823,6 +845,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 441871000,
+   "uv": 7760,
    "mode": "sea",
    "lane": "cocoa:ECU-USA"
   },
@@ -833,6 +857,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 352837000,
+   "uv": 6300,
    "mode": "sea",
    "lane": "cocoa:ECU-IDN"
   },
@@ -843,6 +869,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 186463000,
+   "uv": 3560,
    "mode": "sea",
    "lane": "cocoa:CIV-GBR"
   },
@@ -853,6 +881,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 121453000,
+   "uv": 2340,
    "mode": "sea",
    "lane": "cocoa:CIV-CAN"
   },
@@ -863,6 +893,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 194761000,
+   "uv": 4650,
    "mode": "sea",
    "lane": "cocoa:GHA-NLD"
   },
@@ -873,6 +905,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 206516000,
+   "uv": 4980,
    "mode": "land"
   },
   {
@@ -882,6 +916,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 285120000,
+   "uv": 7170,
    "mode": "sea",
    "lane": "cocoa:ECU-NLD"
   },
@@ -892,6 +928,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 111256000,
+   "uv": 2830,
    "mode": "sea",
    "lane": "cocoa:CIV-FRA"
   },
@@ -902,13 +940,51 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 151746000,
+   "uv": 3990,
    "mode": "sea",
    "lane": "cocoa:CIV-ESP"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CIV",
+    "p": 0.3612
+   },
+   "top3": 0.5834,
+   "hhi": 1747,
+   "eq": 5.7,
+   "k": 53,
+   "cov": 0.998
+  },
+  "exports": {
+   "top1": {
+    "c": "CIV",
+    "p": 0.3345
+   },
+   "top3": 0.5697,
+   "hhi": 1578,
+   "eq": 6.3,
+   "k": 52,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "NLD",
+    "p": 0.2412
+   },
+   "top3": 0.4698,
+   "hhi": 1062,
+   "eq": 9.4,
+   "k": 49,
+   "cov": 1.0001
+  }
+ },
  "notes": [
   "Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar 2024); production is FAOSTAT 2024.",
-  "No consumption table: grindings data are not in the loaded sources."
+  "No consumption or grindings table: the ICCO's grindings by country are sold by subscription and are not copied, and the quarterly grindings of the European, North American and Asian cocoa associations are press releases that the atlas has not read. One headline figure from the ICCO: world grindings of 4,649 kt in the 2024/25 crop year, 3.3% below the year before (August 2026 issue of its Quarterly Bulletin of Cocoa Statistics, https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/).",
+  "Trade covers cocoa beans only (HS 1801): cocoa paste, butter and powder (HS 1803 to 1805) are not among the customs groups of the atlas, so no table of cocoa products is shown yet."
  ],
  "discrepancies": [
   "World cocoa bean production: FAOSTAT gives 5,233 kt for calendar year 2024 (the table above). The International Cocoa Organization (ICCO) estimates 4,362 kt for the 2023/24 crop year, October to September (May 2026 issue of its Quarterly Bulletin of Cocoa Statistics, https://www.icco.org/may-2026-quarterly-bulletin-of-cocoa-statistics/) and 4,733 kt for 2024/25 (August 2026 issue, https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/); the FAOSTAT total is 20% above the first and 11% above the second. The two series differ in period (calendar year against crop year); the cause of the gap is not established here. The ICCO's country tables are sold by subscription: they are not copied or compared here."

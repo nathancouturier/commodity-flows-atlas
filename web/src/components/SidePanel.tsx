@@ -292,12 +292,15 @@ function CommoditySection(props: { current: CommodityMeta | undefined }) {
               {FAMILY_LABEL[g]}
               <span class="fam-all">all</span>
             </button>
-            {commodities.value.filter((c) => c.family === g).map((c) => (
-              <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
-                <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
-                {c.name}
-                <span class="meta">{c.unit}</span>
-              </button>
+            {commodities.value.filter((c) => c.family === g).map((c, i, list) => (
+              <>
+                {c.sub && c.sub !== list[i - 1]?.sub && <div class="cc-sub">{c.sub}</div>}
+                <button class="list-btn" aria-pressed={commodity.value === c.id} onClick={() => choose(commodity.value === c.id ? null : c.id)}>
+                  <span class="dot" style={{ color: FAMILY_COLOR[c.family], width: '6px', height: '6px' }} />
+                  {c.name}
+                  <span class="meta">{c.unit}</span>
+                </button>
+              </>
             ))}
           </div>
         ))}

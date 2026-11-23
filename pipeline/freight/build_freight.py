@@ -34,6 +34,7 @@ import ports as P  # noqa: E402
 import build_lanes as BL  # noqa: E402
 import build_portwatch as BW  # noqa: E402
 import build_chokepoint_lanes as BCL  # noqa: E402
+import build_port_index as BPI  # noqa: E402
 import routing as RT  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 import route_countries as RC  # noqa: E402
@@ -842,6 +843,7 @@ def main():
     if rows:
         BW.build(rows, chk, os.path.join(OUT, "portwatch"))
     BCL.build()  # recorded seaborne pairs through each chokepoint, from the pairs files written by build_lanes.py
+    BPI.build()  # typical ports of the lanes, for the site's search field (same pairs files)
     # traffic figures always come from the tracked series files, with or without raw/ on this machine
     BW.apply_headlines(chk, os.path.join(OUT, "portwatch"))
     json.dump(chk, open(os.path.join(OUT, "chokepoints.json"), "w"), indent=0)

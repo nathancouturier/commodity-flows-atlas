@@ -19,7 +19,8 @@ File (no pretty-printing; values rounded as the tables are):
   - `srcEst`: the value is the source's own estimate (USGS "Estimated.");
   - `worldEst`: years whose world total holds a tenth or more of Atlas estimates;
   - `pub`: the published world total where the shares rest on the sum of the lines (`world`); `other`: USGS "Other countries";
-  - `yl`: what each year is, in the words the source supports (USGS MCS);
+  - `yl`: what each year is, in the words the source supports (USGS MCS; USDA PSD: forecast or estimate, and the month of its report);
+  - `kinds`: USDA PSD only, per year "forecast" (the newest market year), "estimate" (the one before) or null;
   - `out`: the source's value is far out of line with the years around it (out_of_line): kept as published, not ranked or
     drawn that year; `worldOut`: the years whose world total holds such a value;
   - `cl`: the name of a row in the years where the source's entity is not the one of the latest year (USDA PSD's European
@@ -136,6 +137,9 @@ def series(t, name=None):
     labels = [str(by[y]["y"]) for y in ys]
     if labels != [str(y) for y in ys]:
         out["labels"] = labels  # PSD market years: "2010/11"
+    kinds = [by[y].get("yk") for y in ys]
+    if any(kinds):
+        out["kinds"] = kinds  # USDA PSD: "forecast" for the newest market year, "estimate" for the one before
     out["world"] = [by[y]["world"] for y in ys]
     west = [i for i, y in enumerate(ys) if by[y].get("_west")]
     if west:

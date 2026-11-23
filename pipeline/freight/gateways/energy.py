@@ -443,21 +443,19 @@ _DAR = WP + "Port_of_Dar_es_Salaam"
 _TAL = WP + "Transalpine_Pipeline"
 _ADRIA = WP + "Adria_oil_pipeline"
 
+_OSW_POTASH = "https://www.osw.waw.pl/en/publikacje/osw-commentary/2024-11-20/tough-business-tough-times-belarusian-exports-potash"
+_BCR_HIDROVIA = "https://www.bcr.com.ar/es/print/pdf/node/72068"
+
 TRANSIT = {
-    "KAZ": {"crude": ("KZCPC", "wikipedia", WP + "Caspian_Pipeline_Consortium",
-                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia")},
     "AZE": {"crude": ("TRCEY", "wikipedia", WP + "Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline",
                       "The BTC pipeline runs from the Caspian to Ceyhan on the Mediterranean")},
     "TCD": {"crude": ("CMKBI", "wikipedia", WP + "Chad%E2%80%93Cameroon_Petroleum_Development_and_Pipeline_Project",
                       "The pipeline carries Chadian crude to the offshore export terminal near Kribi")},
-    "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany")},
     "CZE": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline connects Trieste with the Czech Republic"),
             "default": ("DEHAM", "wikipedia", WP + "Port_of_Hamburg",
                         "Assumption: the page says the Moldauhafen, a harbour area of the Port of Hamburg, is reserved for the Czech Republic exclusively; it does not say how much Czech trade uses Hamburg")},
     "SSD": {"crude": ("SDPZU", "wikipedia", WP + "Greater_Nile_Oil_Pipeline",
                       "The Greater Nile Oil Pipeline begins in the Unity oil field and ends at the Port Sudan refinery on the Red Sea (the page does not name South Sudan or a loading terminal)")},
-    "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal, over the Croatian-Hungarian border at Gola, to the Duna refinery in Hungary")},
-    "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal to Sisak, then its eastern branch crosses into Serbia at Sotin and runs to Novi Sad and Pancevo")},
     "UGA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Mombasa's hinterland extends to Uganda; transit cargo for landlocked neighbours")},
     "RWA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Rail links planned from Mombasa to Uganda and Rwanda")},
     "ZMB": {"default": ("TZDAR", "wikipedia", _DAR, "Gateway for Zambian copper exports and fuel imports")},
@@ -472,6 +470,53 @@ TRANSIT = {
     "NER": {"default": ("BJCOO", "wikipedia", WP + "Transport_in_Niger", "Niger relies on the port of Cotonou, and less on Lome")},
     "NPL": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
     "BTN": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
+    # Package L1 (pages read on 23 November 2026): the landlocked ends that carried most of the seaborne tonnage "not
+    # routed". A family row rests on a page that names that cargo of that country at the port (the other cargoes of
+    # the family take the same port, an assumption the note states); a "default" row on a page that names the
+    # country's trade at the port.
+    "BLR": {"fert": ("RULED", "trade-press", _OSW_POTASH,
+                     "OSW (Centre for Eastern Studies), 'Tough business in tough times: Belarusian exports of potash fertilisers', 20 "
+                     "November 2024: after Klaipeda closed, 'Belaruskali gradually redirected its shipments to terminals in the "
+                     "Leningrad region', 'including the ports of Ust-Luga and Bronka, as well as to Novorossiysk, Astrakhan, Murmansk, "
+                     "and even Vladivostok'. Reform.news (https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports, "
+                     "27 March 2026, citing Kommersant): of the potash Belarus exported through "
+                     "Russian ports in 2025, half left from Bronka and 15% from two other St Petersburg terminals, 25% from Ust-Luga. "
+                     "The port drawn is St Petersburg (Bronka); one port stands for these terminals, no split by port is applied. "
+                     "The pages name potash; other fertilisers of Belarus are assumed to take the same port")},
+    "KAZ": {"crude": ("KZCPC", "wikipedia", WP + "Caspian_Pipeline_Consortium",
+                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia"),
+            "drybulk": ("RUULU", "trade-press", "https://www.kpler.com/blog/eus-new-russia-sanctions-could-disrupt-kazakh-coal-exports",
+                        "Kpler, 'EU's new Russia sanctions could disrupt Kazakh coal exports' (27 February 2025): 'The EU and Morocco are "
+                        "the primary buyers of Kazakh coal shipped from Russian ports', about 1.8 Mt and 800,000 t in 2024; of the coal "
+                        "shipped from Russian ports to Morocco in 2024 'nearly all of it was Kazakh supply shipped from Ust-Luga'. The page "
+                        "names coal for the EU and Morocco: the other buyers of Kazakh coal and the other dry bulk of Kazakhstan are "
+                        "assumed to take the same port")},
+    "PRY": {"grain": ("ARUPR", "trade-press", _BCR_HIDROVIA,
+                      "Bolsa de Comercio de Rosario, 'Siete millones de tn de granos y subproductos bajan por la hidrovia a los puertos "
+                      "argentinos y uruguayos' (7 April 2017): in 2016 about 3.36 Mt of Paraguayan and Bolivian grain and by-products came "
+                      "down the Parana-Paraguay waterway in transit to the Gran Rosario terminals (first Paraguayan soybean meal, 1.30 Mt, "
+                      "then soybeans, 0.77 Mt, and soybean oil, 0.59 Mt) and about 2.8 Mt to Nueva Palmira in Uruguay, for transhipment to "
+                      "ocean vessels. The port drawn is the Up-River Parana hub of Rosario, the larger of the two; Nueva Palmira is not in "
+                      "the port list of the atlas"),
+            "vegoil": ("ARUPR", "trade-press", _BCR_HIDROVIA,
+                       "Bolsa de Comercio de Rosario (7 April 2017): 590,000 t of Paraguayan soybean oil came down the Parana-Paraguay "
+                       "waterway in transit to the Gran Rosario terminals in 2016, to be shipped abroad")},
+    "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany"),
+            "default": ("SIKOP", "wikipedia", WP + "Port_of_Koper",
+                        "The page says Austrian clients, 'with 3.5 million tonnes, or a quarter of total throughput', top the transit "
+                        "freight list of Koper, and that bulk cargoes for Austria grew in the 1980s; it does not say how much of Austria's "
+                        "trade uses Koper")},
+    "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal, over the Croatian-Hungarian border at Gola, to the Duna refinery in Hungary"),
+            "default": ("SIKOP", "wikipedia", WP + "Port_of_Koper",
+                        "The page says trade with Hungary 'surpassed a million tonnes in 2006' at Koper; it does not say how much of "
+                        "Hungary's trade uses Koper")},
+    "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal to Sisak, then its eastern branch crosses into Serbia at Sotin and runs to Novi Sad and Pancevo"),
+            "default": ("ROCND", "wikipedia", WP + "Port_of_Constan%C8%9Ba",
+                        "The page says 'important cargo quantities are carried by river' (the Danube) between Constanta and Bulgaria, "
+                        "Serbia, Hungary, Austria, Slovakia and Germany; it does not say how much of Serbia's trade uses Constanta")},
+    "BWA": {"default": ("NAWVB", "wikipedia", WP + "Walvis_Bay",
+                        "The page calls Walvis Bay 'an important logistical port for the southern African region', with facilities 'for "
+                        "the import and export of cargo for the rest of Namibia, Zambia, Democratic Republic of Congo, and Botswana'")},
     # a coast with no port of its own: build_lanes.py treats it like a landlocked end
     "BIH": {"default": ("HRPLE", "wikipedia", WP + "Port_of_Plo%C4%8De",
                         "The page calls the site 'the natural outlet for the economy of Bosnia and Herzegovina', says the port is 'mostly serving Bosnia and Herzegovina' and names the Ploce Agreement on the passage of goods; it names coal, cereals, bauxite, timber and fuel terminals")},
@@ -479,27 +524,27 @@ TRANSIT = {
 
 # Landlocked countries of the plan's candidate table for which no page stating the port was read.
 UNSOURCED = {
-    "BLR": "potash by rail to Baltic ports: Belaruskali page read, 'most of its production is exported to China', no port or route named; the Klaipeda page names no Belarusian cargo (ports.py keeps its present Ust-Luga row)",
-    "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica; the Port of Arica page names Arica a common port of Peru and Bolivia in 1836 (history, no cargo today), so soy products have no transit row",
-    "PRY": "Parana-Paraguay Waterway page read: it runs to Nueva Palmira (Uruguay), carrying soy first, then iron and fuels, but Nueva Palmira is not in the searoute list and its page (Nueva Palmira: 'the second most important commercial port in Uruguay') names no cargo and gives no Paraguayan trade; ports.py keeps Up-River Parana",
-    "SRB": "other cargo than crude: the Danube is documented, a seaport is not (Constanta not confirmed)",
+    "BLR": "cargo other than fertilisers: no page read (fertilisers: TRANSIT row, OSW and Reform.news pages)",
+    "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica; the Port of Arica page names Arica a common port of Peru and Bolivia in 1836 (history, no cargo today), so soy products have no transit row. The Bolsa de Comercio de Rosario page of the Paraguayan row (7 April 2017) counts Bolivian with Paraguayan grain coming down the waterway, without a Bolivian figure: Bolivian soy for its Andean buyers (Colombia, Ecuador, Peru) is not shown to take that route",
+    "PRY": "cargo other than grain and vegetable oil (refined products, fertiliser and steel imports): no page read that names the port of Paraguay's imports. Nueva Palmira (Uruguay), the other outlet of the waterway on the Rosario page, is not in the searoute list",
+    "SRB": "crude and default rows: Adria pipeline and Port of Constanta pages; Koper (Port of Koper page) names Serbian imports of the Yugoslav period only",
     "MDA": "no page read",
     "AFG": "Port of Karachi page mentions Afghanistan only as a historical gateway",
     "ARM": "Poti page does not mention Armenia",
     "LAO": "Transport in Laos names no seaport",
     "MNG": "Transport in Mongolia names no seaport",
-    "BWA": "no page read",
+    "BWA": "default row from the Walvis Bay page (L1); Durban (Port of Durban page) names no cargo of Botswana",
     "SWZ": "no page read",
     "LSO": "no page read",
     "SSD": "other cargo than crude (fuel imports): no page read",
-    "KAZ": "refined products, coal, steel, grain, copper and aluminium (crude: CPC): Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Port of Lianyungang page calls the port 'a logistics cooperation base with Kazakhstan' and an ocean access point for the SCO states, naming no cargo, so it is no row either; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
+    "KAZ": "dry bulk: Ust-Luga row from the Kpler page on Kazakh coal (L1). Refined products, steel, grain, copper and aluminium (crude: CPC): the Kulevi Oil Terminal page names no country of origin of its cargo, and the Jamestown page on Turkmen oil (25 February 2019) names Makhachkala and Baku for crude, not products; Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Port of Lianyungang page calls the port 'a logistics cooperation base with Kazakhstan' and an ocean access point for the SCO states, naming no cargo, so it is no row either; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
     "AZE": "refined products, urea, sugar, soymeal (crude: BTC): Transport in Azerbaijan page read, it names no port; the Batumi Seaport page names oil going from Baku to Batumi by rail (the history of the port) and a transit role for oil refining, no product, so Batumi is no row",
-    "AUT": "other cargo than crude (coal, steel): Transport in Austria and Port of Koper pages read, neither names Austrian cargo",
-    "HUN": "other cargo than crude: no page read",
+    "AUT": "default row (coal, steel and the rest): the Port of Koper page names Austrian clients as the first of the transit freight list (L1); it gives no Austrian cargo by product",
+    "HUN": "default row: the Port of Koper page names trade with Hungary above a million tonnes in 2006 (L1), no cargo by product",
     "KGZ": "no page read",
     "UZB": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Uzbekistan nor Poti as its outlet",
     "TKM": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Turkmenistan nor Poti as its outlet",
-    "SVK": "Adria oil pipeline page read: the 1968 route to Bratislava was decided, but the page does not say that Slovak crude now comes through Omisalj",
+    "SVK": "crude: Adria oil pipeline page read, the 1968 route to Bratislava was decided, but the page does not say that Slovak crude now comes through Omisalj. Other cargo: the Port of Constanta page names Slovakia among the countries whose cargo moves on the Danube to and from Constanta (read in L1), but a default row would also give Constanta to the Slovak crude imports, which no page sends there, so there is no row",
     "TJK": "no page read",
 }
 

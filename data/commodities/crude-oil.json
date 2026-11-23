@@ -1369,7 +1369,8 @@
    },
    {
     "c": "KWT",
-    "v": 49.423
+    "v": 49.423,
+    "n": "No crude oil from Kuwait to Vietnam is recorded in customs data for 2024 (9.01 Mt in 2023, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here."
    },
    {
     "c": "OMN",
@@ -1716,7 +1717,12 @@
     "v": 0.0016
    }
   ],
-  "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
+  "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent · Iran has no row. Customs data record no crude oil exports from Iran in 2024, against 88.9 Mt in 2018 (CEPII BACI). From 2019 to 2022, 75.4 Mt of them were recorded under \"Other Asia, not elsewhere specified\" and are shown as \"Asia, not specified\". Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here.",
+  "caveat": "Iran has no row. Customs data record no crude oil exports from Iran in 2024, against 88.9 Mt in 2018 (CEPII BACI). From 2019 to 2022, 75.4 Mt of them were recorded under \"Other Asia, not elsewhere specified\" and are shown as \"Asia, not specified\". Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here.",
+  "caveatYears": [
+   2024
+  ],
+  "caveatShort": "Customs tonnage: some origins are recorded badly (see the notes on the commodity page)."
  },
  "imports": {
   "y": 2024,
@@ -1960,7 +1966,7 @@
    {
     "c": "VNM",
     "v": 1.07,
-    "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page); No crude oil from Kuwait to Vietnam is recorded in customs data for 2024 (9.01 Mt in 2023, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -2093,6 +2099,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 102279802000,
+   "uv": 498,
    "mode": "land"
   },
   {
@@ -2102,6 +2110,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 62589755000,
+   "uv": 577,
    "mode": "mixed",
    "lane": "crude-oil:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -2113,6 +2123,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 52727894000,
+   "uv": 573,
    "mode": "sea",
    "lane": "crude-oil:RUS-IND"
   },
@@ -2123,6 +2135,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 47910308000,
+   "uv": 609,
    "mode": "sea",
    "lane": "crude-oil:SAU-CHN"
   },
@@ -2133,6 +2147,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 37030183000,
+   "uv": 580,
    "mode": "sea",
    "lane": "crude-oil:IRQ-CHN"
   },
@@ -2143,6 +2159,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 28105034000,
+   "uv": 561,
    "mode": "sea",
    "lane": "crude-oil:IRQ-IND"
   },
@@ -2153,6 +2171,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 31447434000,
+   "uv": 636,
    "mode": "sea",
    "lane": "crude-oil:ARE-JPN",
    "caveat": "crude-are"
@@ -2164,6 +2184,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 29479657000,
+   "uv": 617,
    "mode": "sea",
    "lane": "crude-oil:SAU-KOR"
   },
@@ -2174,6 +2196,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 28747349000,
+   "uv": 619,
    "mode": "sea",
    "lane": "crude-oil:SAU-JPN"
   },
@@ -2184,6 +2208,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 25573734000,
+   "uv": 616,
    "mode": "sea",
    "lane": "crude-oil:MYS-CHN",
    "caveat": "crude-mys"
@@ -2195,6 +2221,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 25045149000,
+   "uv": 614,
    "mode": "sea",
    "lane": "crude-oil:OMN-CHN"
   },
@@ -2205,6 +2233,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 20258439000,
+   "uv": 514,
    "mode": "sea",
    "lane": "crude-oil:BRA-CHN"
   },
@@ -2215,6 +2245,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 22068409000,
+   "uv": 621,
    "mode": "sea",
    "lane": "crude-oil:ARE-CHN",
    "caveat": "crude-are"
@@ -2226,6 +2258,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 19606882000,
+   "uv": 618,
    "mode": "sea",
    "lane": "crude-oil:SAU-IND"
   },
@@ -2236,6 +2270,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 21637389000,
+   "uv": 733,
    "mode": "land",
    "caveat": "hub-crude-oil-nld"
   },
@@ -2246,6 +2282,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 15334735000,
+   "uv": 534,
    "mode": "sea",
    "lane": "crude-oil:AGO-CHN"
   },
@@ -2256,6 +2294,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 12476631000,
+   "uv": 471,
    "mode": "sea",
    "lane": "crude-oil:MEX-USA"
   },
@@ -2266,6 +2306,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 13036164000,
+   "uv": 515,
    "mode": "sea",
    "lane": "crude-oil:USA-NLD"
   },
@@ -2276,6 +2318,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
+   "usd": 14749293000,
    "mode": "sea",
    "lane": "crude-oil:ARE-THA",
    "est": true,
@@ -2289,10 +2332,49 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 14224637000,
+   "uv": 653,
    "mode": "sea",
    "lane": "crude-oil:USA-KOR"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1618
+   },
+   "top3": 0.3918,
+   "hhi": 722,
+   "eq": 13.9,
+   "k": 99,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "SAU",
+    "p": 0.1366
+   },
+   "top3": 0.3284,
+   "hhi": 668,
+   "eq": 15.0,
+   "k": 98,
+   "cov": 1.0,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2287
+   },
+   "top3": 0.4848,
+   "hhi": 999,
+   "eq": 10.0,
+   "k": 83,
+   "cov": 0.9997,
+   "est": true
+  }
+ },
  "notes": [
   "Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ.",
   "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
@@ -2303,6 +2385,7 @@
   "Crude oil exports of the United Arab Emirates in customs data (184 Mt in 2024, CEPII BACI) are 100% of its production (183 Mt, EIA International Energy Data). 24.5 Mt of these exports are Atlas estimates from declared value. Crude of other origins loaded or blended in the country and declared as Emirati is a plausible cause; it is not established here.",
   "Crude oil from Mexico to \"Other Asia, not elsewhere specified\" (BACI code S19), shown here as Taiwan: 2.78 Mt in 2018, 13.1 Mt in 2019, 12.7 Mt in 2020, 15.2 Mt in 2021, 9.99 Mt in 2022, 8.43 Mt in 2023, 7.88 Mt in 2024 (CEPII BACI). No source read for the atlas confirms the destination.",
   "No crude oil from Russia to Turkey is recorded in customs data for 2022 to 2024 (4.2 Mt in 2021, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
+  "No crude oil from Kuwait to Vietnam is recorded in customs data for 2024 (9.01 Mt in 2023, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
   "Customs data record 32.2 Mt of crude oil exports from the Netherlands in 2024 (CEPII BACI), 2705% of its production (EIA International Energy Data). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share."
  ]
 }

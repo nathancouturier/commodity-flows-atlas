@@ -2,25 +2,25 @@
  "id": "rapeseed",
  "summary": {
   "production": {
-   "v": 96.035,
+   "v": 100.25,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "consumption": {
-   "v": 94.107,
+   "v": 98.995,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
   },
   "exports": {
-   "v": 19.349,
+   "v": 20.563,
    "u": "Mt",
-   "y": "2025/26",
+   "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
    "v": 20.05,
@@ -31,98 +31,98 @@
   }
  },
  "production": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 96.035,
+  "world": 100.25,
   "rows": [
    {
     "c": "CAN",
-    "v": 22.227
+    "v": 22.5
    },
    {
     "c": "EU27",
-    "v": 20.657
+    "v": 19.75
    },
    {
     "c": "CHN",
-    "v": 16.0
+    "v": 16.2
    },
    {
     "c": "IND",
-    "v": 12.0
+    "v": 12.4
    },
    {
     "c": "AUS",
-    "v": 7.68
+    "v": 8.4
    },
    {
     "c": "RUS",
-    "v": 5.5
+    "v": 7.0
    },
    {
     "c": "UKR",
-    "v": 3.5
+    "v": 4.35
    },
    {
     "c": "USA",
-    "v": 2.126
+    "v": 2.451
    },
    {
     "c": "BGD",
-    "v": 1.28
+    "v": 1.36
    },
    {
     "c": "BLR",
-    "v": 0.95
+    "v": 1.1
    },
    {
     "c": "GBR",
-    "v": 0.893
+    "v": 1.1
    },
    {
     "c": "KAZ",
-    "v": 0.63
-   },
-   {
-    "c": "PAK",
-    "v": 0.578
+    "v": 0.84
    },
    {
     "c": "URY",
-    "v": 0.37
+    "v": 0.65
+   },
+   {
+    "c": "PAK",
+    "v": 0.552
+   },
+   {
+    "c": "ZAF",
+    "v": 0.38
    },
    {
     "c": "IRN",
     "v": 0.325
    },
    {
-    "c": "ZAF",
-    "v": 0.306
-   },
-   {
     "c": "MDA",
-    "v": 0.296
+    "v": 0.27
    },
    {
     "c": "TUR",
     "v": 0.15
    },
    {
-    "c": "ARG",
-    "v": 0.149
+    "c": "PRY",
+    "v": 0.135
    },
    {
     "c": "CHL",
-    "v": 0.14
-   },
-   {
-    "c": "PRY",
-    "v": 0.125
+    "v": 0.13
    },
    {
     "c": "CHE",
     "v": 0.088
+   },
+   {
+    "c": "ARG",
+    "v": 0.05
    },
    {
     "c": "ETH",
@@ -153,69 +153,71 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "consumption": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 94.107,
+  "world": 98.995,
   "rows": [
    {
     "c": "EU27",
-    "v": 26.65
+    "v": 26.6
    },
    {
     "c": "CHN",
-    "v": 20.225
+    "v": 20.825
    },
    {
     "c": "CAN",
-    "v": 13.085
+    "v": 14.5
    },
    {
     "c": "IND",
-    "v": 11.975
+    "v": 12.425
    },
    {
     "c": "RUS",
-    "v": 4.525
-   },
-   {
-    "c": "JPN",
-    "v": 2.105
+    "v": 5.35
    },
    {
     "c": "USA",
-    "v": 1.992
+    "v": 2.293
+   },
+   {
+    "c": "JPN",
+    "v": 2.16
    },
    {
     "c": "BGD",
-    "v": 1.875
+    "v": 1.926
    },
    {
     "c": "GBR",
-    "v": 1.77
+    "v": 1.89
    },
    {
     "c": "AUS",
-    "v": 1.575
+    "v": 1.8
    },
    {
     "c": "UKR",
-    "v": 1.405
+    "v": 1.705
    },
    {
     "c": "BLR",
-    "v": 1.355
+    "v": 1.515
    },
    {
     "c": "PAK",
-    "v": 1.335
+    "v": 1.51
    },
    {
     "c": "MEX",
-    "v": 1.3
+    "v": 1.35
    },
    {
     "c": "ARE",
@@ -223,7 +225,7 @@
    },
    {
     "c": "KAZ",
-    "v": 0.36
+    "v": 0.53
    },
    {
     "c": "IRN",
@@ -231,7 +233,7 @@
    },
    {
     "c": "ZAF",
-    "v": 0.228
+    "v": 0.265
    },
    {
     "c": "CHL",
@@ -239,7 +241,11 @@
    },
    {
     "c": "TUR",
-    "v": 0.15
+    "v": 0.165
+   },
+   {
+    "c": "URY",
+    "v": 0.145
    },
    {
     "c": "PRY",
@@ -251,23 +257,23 @@
    },
    {
     "c": "ARG",
-    "v": 0.091
-   },
-   {
-    "c": "URY",
-    "v": 0.075
+    "v": 0.046
    },
    {
     "c": "ETH",
     "v": 0.045
    },
    {
-    "c": "MDA",
-    "v": 0.045
-   },
-   {
     "c": "NOR",
     "v": 0.015
+   },
+   {
+    "c": "KOR",
+    "v": 0.005
+   },
+   {
+    "c": "MDA",
+    "v": 0.005
    },
    {
     "c": "MAR",
@@ -276,97 +282,107 @@
    {
     "c": "VNM",
     "v": 0.002
-   },
-   {
-    "c": "KOR",
-    "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
  },
  "exports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 19.349,
+  "world": 20.563,
   "rows": [
    {
     "c": "CAN",
-    "v": 8.959
+    "v": 7.85
    },
    {
     "c": "AUS",
-    "v": 5.55
+    "v": 6.5
    },
    {
     "c": "UKR",
-    "v": 1.903
+    "v": 2.6
    },
    {
     "c": "RUS",
-    "v": 0.9,
-    "n": "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
+    "v": 1.45,
+    "n": "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 72% below the first and 74% below the second."
    },
    {
     "c": "EU27",
-    "v": 0.642
-   },
-   {
-    "c": "USA",
-    "v": 0.347
+    "v": 0.5,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 6.03 Mt of exports, of which 5.61 Mt to other member states and 0.423 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "URY",
-    "v": 0.31
+    "v": 0.47
+   },
+   {
+    "c": "USA",
+    "v": 0.445
    },
    {
     "c": "KAZ",
-    "v": 0.268
+    "v": 0.3
    },
    {
     "c": "MDA",
-    "v": 0.26
+    "v": 0.27
    },
    {
     "c": "ZAF",
-    "v": 0.08
+    "v": 0.105
    },
    {
     "c": "GBR",
-    "v": 0.074
+    "v": 0.04
    },
    {
     "c": "ARG",
-    "v": 0.05
+    "v": 0.015
+   },
+   {
+    "c": "PRY",
+    "v": 0.013
    },
    {
     "c": "CHL",
     "v": 0.005
-   },
-   {
-    "c": "PRY",
-    "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 6.03 Mt of exports, of which 5.61 Mt to other member states and 0.423 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 6.032,
+   "intra": 5.609,
+   "extra": 0.423
+  }
  },
  "imports": {
-  "y": "2025/26",
+  "y": "2026/27",
   "s": "usda-psd",
   "u": "Mt",
-  "world": 18.442,
+  "world": 20.196,
   "rows": [
    {
     "c": "EU27",
-    "v": 6.955
+    "v": 7.05,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 12.4 Mt of imports, of which 5.61 Mt from other member states and 6.75 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "CHN",
-    "v": 3.549
+    "v": 5.0
    },
    {
     "c": "JPN",
-    "v": 2.1
+    "v": 2.15
    },
    {
     "c": "MEX",
@@ -377,16 +393,16 @@
     "v": 1.2
    },
    {
-    "c": "GBR",
-    "v": 0.949
+    "c": "PAK",
+    "v": 1.0
    },
    {
-    "c": "PAK",
-    "v": 0.8
+    "c": "GBR",
+    "v": 0.85
    },
    {
     "c": "BGD",
-    "v": 0.581
+    "v": 0.55
    },
    {
     "c": "BLR",
@@ -394,23 +410,27 @@
    },
    {
     "c": "USA",
-    "v": 0.224
+    "v": 0.295
    },
    {
     "c": "CAN",
-    "v": 0.109
-   },
-   {
-    "c": "RUS",
-    "v": 0.075
+    "v": 0.15
    },
    {
     "c": "CHL",
     "v": 0.04
    },
    {
+    "c": "RUS",
+    "v": 0.04
+   },
+   {
     "c": "KAZ",
-    "v": 0.028
+    "v": 0.02
+   },
+   {
+    "c": "TUR",
+    "v": 0.015
    },
    {
     "c": "IRN",
@@ -430,120 +450,728 @@
    },
    {
     "c": "UKR",
+    "v": 0.005
+   },
+   {
+    "c": "KOR",
     "v": 0.004
    },
    {
     "c": "AUS",
     "v": 0.002
-   },
-   {
-    "c": "URY",
-    "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  "n": "USDA PSD, Oilseed, Rapeseed, rapeseed imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 12.4 Mt of imports, of which 5.61 Mt from other member states and 6.75 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 12.361,
+   "intra": 5.609,
+   "extra": 6.752
+  }
  },
  "extra": [
+  {
+   "key": "eu-production",
+   "title": "EU member states, production (FAOSTAT)",
+   "table": {
+    "y": 2024,
+    "s": "faostat",
+    "u": "Mt",
+    "world": 16.632,
+    "rows": [
+     {
+      "c": "FRA",
+      "v": 3.941,
+      "n": "4.5% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "DEU",
+      "v": 3.632,
+      "n": "4.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "POL",
+      "v": 3.124,
+      "n": "3.6% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "ROU",
+      "v": 1.181,
+      "n": "1.3% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "CZE",
+      "v": 0.9469,
+      "n": "1.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "LTU",
+      "v": 0.868,
+      "n": "1.0% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "DNK",
+      "v": 0.6969,
+      "n": "0.8% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "HUN",
+      "v": 0.4504,
+      "n": "0.5% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "SVK",
+      "v": 0.3935,
+      "n": "0.4% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "SWE",
+      "v": 0.2836,
+      "n": "0.3% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "LVA",
+      "v": 0.25,
+      "n": "0.3% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "ESP",
+      "v": 0.2248,
+      "n": "0.3% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "BGR",
+      "v": 0.1599,
+      "n": "0.2% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "EST",
+      "v": 0.0961,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0808,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0715,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0656,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0531,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0491,
+      "n": "0.1% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "BEL",
+      "v": 0.0357,
+      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0091,
+      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0083,
+      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0066,
+      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+     },
+     {
+      "c": "NLD",
+      "v": 0.0044,
+      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+     }
+    ],
+    "n": "FAOSTAT crop production (QCL), rape or colza seed, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 16.6 Mt (the world total of FAOSTAT is 87.9 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 87.851
+   }
+  },
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 6.032,
+    "rows": [
+     {
+      "c": "ROU",
+      "v": 1.245,
+      "n": "of which 1.14 Mt to other member states and 0.105 Mt to countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 1.187,
+      "n": "of which 1.11 Mt to other member states and 0.081 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.6946,
+      "n": "of which 0.638 Mt to other member states and 0.0568 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.5254,
+      "n": "of which 0.524 Mt to other member states and 0.0016 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.4244,
+      "n": "of which 0.422 Mt to other member states and 0.00244 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.3931,
+      "n": "of which 0.393 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.2918,
+      "n": "of which 0.292 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.2891,
+      "n": "of which 0.21 Mt to other member states and 0.0795 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.2534,
+      "n": "of which 0.253 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.1919,
+      "n": "of which 0.152 Mt to other member states and 0.0396 Mt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.1526,
+      "n": "of which 0.153 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.0649,
+      "n": "of which 0.0649 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0621,
+      "n": "of which 0.0621 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0595,
+      "n": "of which 0.0578 Mt to other member states and 0.00172 Mt to countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0488,
+      "n": "of which 0.000512 Mt to other member states and 0.0483 Mt to countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0366,
+      "n": "of which 0.0355 Mt to other member states and 0.00111 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0357,
+      "n": "of which 0.0357 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0226,
+      "n": "of which 0.0226 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0222,
+      "n": "of which 0.02 Mt to other member states and 0.00222 Mt to countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0204,
+      "n": "of which 0.0174 Mt to other member states and 0.00293 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0061,
+      "n": "of which 0.0061 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0039,
+      "n": "of which 0.00268 Mt to other member states and 0.00126 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0006,
+      "n": "of which 0.000642 Mt to other member states and 0 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, rapeseed (HS 1205): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 6.03 Mt, of which 5.61 Mt to other member states and 0.423 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (25 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 25.004,
+    "split": {
+     "total": 6.032,
+     "intra": 5.609,
+     "extra": 0.423
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 12.361,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 5.109,
+      "n": "of which 2.79 Mt from other member states and 2.32 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 2.637,
+      "n": "of which 0.67 Mt from other member states and 1.97 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 1.142,
+      "n": "of which 0.348 Mt from other member states and 0.794 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 1.104,
+      "n": "of which 0.117 Mt from other member states and 0.987 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.3785,
+      "n": "of which 0.304 Mt from other member states and 0.0741 Mt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.3439,
+      "n": "of which 0.335 Mt from other member states and 0.00856 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.2723,
+      "n": "of which 0.27 Mt from other member states and 0.00223 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.2201,
+      "n": "of which 0.00197 Mt from other member states and 0.218 Mt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.1484,
+      "n": "of which 0.112 Mt from other member states and 0.0361 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.1382,
+      "n": "of which 0.132 Mt from other member states and 0.00571 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.1253,
+      "n": "of which 0.113 Mt from other member states and 0.012 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.1244,
+      "n": "of which 0.0382 Mt from other member states and 0.0861 Mt from countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.1092,
+      "n": "of which 0.0239 Mt from other member states and 0.0854 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.099,
+      "n": "of which 0.0617 Mt from other member states and 0.0373 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.0772,
+      "n": "of which 0.0124 Mt from other member states and 0.0648 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0721,
+      "n": "of which 0.068 Mt from other member states and 0.00407 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0671,
+      "n": "of which 0.0599 Mt from other member states and 0.00721 Mt from countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0581,
+      "n": "of which 0.0581 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0494,
+      "n": "of which 0.0494 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0256,
+      "n": "of which 0 Mt from other member states and 0.0256 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0238,
+      "n": "of which 0.0156 Mt from other member states and 0.00826 Mt from countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0196,
+      "n": "of which 0.016 Mt from other member states and 0.00352 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0172,
+      "n": "of which 0.0119 Mt from other member states and 0.00527 Mt from countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0004,
+      "n": "of which 0.000352 Mt from other member states and 0 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, rapeseed (HS 1205): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 12.4 Mt, of which 5.61 Mt from other member states and 6.75 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state is coloured with its own figure from this table, as its share of the customs world total (25 Mt)",
+    "scope": "EU",
+    "norank": true,
+    "worldAll": 25.004,
+    "split": {
+     "total": 12.361,
+     "intra": 5.609,
+     "extra": 6.752
+    }
+   }
+  },
   {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
-    "y": "2025/26",
+    "y": "2026/27",
     "s": "usda-psd",
     "u": "Mt",
-    "world": 10.958,
+    "world": 11.842,
     "rows": [
      {
       "c": "CHN",
-      "v": 3.583
+      "v": 3.958
      },
      {
       "c": "EU27",
-      "v": 2.522
+      "v": 2.222
      },
      {
       "c": "CAN",
-      "v": 1.889
+      "v": 2.189
      },
      {
       "c": "AUS",
-      "v": 0.677
+      "v": 0.779
      },
      {
       "c": "IND",
-      "v": 0.564
-     },
-     {
-      "c": "UKR",
-      "v": 0.253
+      "v": 0.539
      },
      {
       "c": "RUS",
-      "v": 0.248
+      "v": 0.488
+     },
+     {
+      "c": "UKR",
+      "v": 0.303
      },
      {
       "c": "USA",
-      "v": 0.236
+      "v": 0.244
      },
      {
       "c": "JPN",
-      "v": 0.192
-     },
-     {
-      "c": "BGD",
-      "v": 0.163
+      "v": 0.185
      },
      {
       "c": "MEX",
-      "v": 0.16
-     },
-     {
-      "c": "BLR",
-      "v": 0.121
+      "v": 0.161
      },
      {
       "c": "PAK",
-      "v": 0.116
+      "v": 0.158
+     },
+     {
+      "c": "BLR",
+      "v": 0.156
+     },
+     {
+      "c": "BGD",
+      "v": 0.147
      },
      {
       "c": "GBR",
-      "v": 0.075
+      "v": 0.095
+     },
+     {
+      "c": "KAZ",
+      "v": 0.065
      },
      {
       "c": "MDA",
       "v": 0.045
      },
      {
-      "c": "KAZ",
-      "v": 0.035
+      "c": "URY",
+      "v": 0.042
      },
      {
-      "c": "ARG",
-      "v": 0.021
+      "c": "ZAF",
+      "v": 0.026
      },
      {
       "c": "TUR",
       "v": 0.021
      },
      {
-      "c": "ZAF",
-      "v": 0.016
+      "c": "ARG",
+      "v": 0.01
      },
      {
       "c": "CHL",
-      "v": 0.011
-     },
-     {
-      "c": "URY",
-      "v": 0.007
+      "v": 0.006
      },
      {
       "c": "PRY",
       "v": 0.003
      }
     ],
-    "n": "USDA PSD, Oilseed, Rapeseed, rapeseed ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
+    "n": "USDA PSD, Oilseed, Rapeseed, rapeseed ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
    }
+  }
+ ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "area",
+    "label": "Harvested area",
+    "u": "Mha",
+    "v": [
+     44.07,
+     46.817
+    ]
+   },
+   {
+    "k": "yield",
+    "label": "Yield",
+    "u": "t/ha",
+    "v": [
+     2.18,
+     2.14
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: world production divided by world harvested area, both as USDA PSD publishes them"
+   },
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     96.035,
+     100.25
+    ]
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     9.937,
+     10.958
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     94.107,
+     98.995
+    ]
+   },
+   {
+    "k": "use-Crush",
+    "label": "Crush",
+    "u": "Mt",
+    "v": [
+     90.134,
+     94.24
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Feed Waste Dom. Cons.",
+    "label": "Feed and waste use",
+    "u": "Mt",
+    "v": [
+     3.298,
+     4.08
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Food Use Dom. Cons.",
+    "label": "Food use",
+    "u": "Mt",
+    "v": [
+     0.675,
+     0.675
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     19.349,
+     20.563
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     10.958,
+     11.842
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     11.6,
+     12.0
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     3.583,
+     3.958
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     7.375,
+     7.884
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     17.7,
+     19.0
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     10.0,
+     10.1
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Rapeseed: the world is the sum of the countries the file lists (it has no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted"
+ },
+ "gaps": [
+  {
+   "o": "RUS",
+   "text": "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 72% below the first and 74% below the second.",
+   "s": "baci",
+   "y": 2024
   }
  ],
  "flows": [
@@ -554,6 +1182,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2971085000,
+   "uv": 500,
    "mode": "sea",
    "lane": "rapeseed:CAN-CHN"
   },
@@ -564,6 +1194,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 726282000,
+   "uv": 524,
    "mode": "sea",
    "lane": "rapeseed:UKR-DEU"
   },
@@ -574,6 +1206,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 586634000,
+   "uv": 516,
    "mode": "sea",
    "lane": "rapeseed:AUS-JPN"
   },
@@ -584,6 +1218,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 429181000,
+   "uv": 432,
    "mode": "sea",
    "lane": "rapeseed:UKR-BEL"
   },
@@ -594,6 +1230,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 467820000,
+   "uv": 481,
    "mode": "sea",
    "lane": "rapeseed:CAN-JPN"
   },
@@ -604,6 +1242,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 324866000,
+   "uv": 400,
    "mode": "sea",
    "lane": "rapeseed:AUS-DEU"
   },
@@ -614,6 +1254,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 528600000,
+   "uv": 706,
    "mode": "sea",
    "lane": "rapeseed:AUS-BEL"
   },
@@ -624,6 +1266,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 400136000,
+   "uv": 547,
    "mode": "land"
   },
   {
@@ -633,6 +1277,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 328297000,
+   "uv": 488,
    "mode": "sea",
    "lane": "rapeseed:AUS-ARE"
   },
@@ -643,6 +1289,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 371227000,
+   "uv": 591,
    "mode": "sea",
    "lane": "rapeseed:AUS-PAK"
   },
@@ -653,6 +1301,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 255756000,
+   "uv": 475,
    "mode": "sea",
    "lane": "rapeseed:AUS-FRA"
   },
@@ -663,6 +1313,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 242039000,
+   "uv": 474,
    "mode": "sea",
    "lane": "rapeseed:UKR-NLD"
   },
@@ -673,6 +1325,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 238273000,
+   "uv": 566,
    "mode": "sea",
    "lane": "rapeseed:ROU-DEU"
   },
@@ -683,6 +1337,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 278396000,
+   "uv": 697,
    "mode": "sea",
    "lane": "rapeseed:CAN-MEX"
   },
@@ -693,6 +1349,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 205689000,
+   "uv": 543,
    "mode": "land"
   },
   {
@@ -702,6 +1360,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 176967000,
+   "uv": 501,
    "mode": "sea",
    "lane": "rapeseed:UKR-GBR"
   },
@@ -712,6 +1372,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 161777000,
+   "uv": 463,
    "mode": "sea",
    "lane": "rapeseed:CAN-ARE"
   },
@@ -722,6 +1384,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 173759000,
+   "uv": 535,
    "mode": "sea",
    "lane": "rapeseed:LTU-DEU"
   },
@@ -732,6 +1396,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 164805000,
+   "uv": 516,
    "mode": "sea",
    "lane": "rapeseed:UKR-FRA"
   },
@@ -742,14 +1408,95 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 162437000,
+   "uv": 545,
    "mode": "land"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.2244
+   },
+   "top3": 0.583,
+   "hhi": 1456,
+   "eq": 6.9,
+   "k": 29,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.3818
+   },
+   "top3": 0.8243,
+   "hhi": 2686,
+   "eq": 3.7,
+   "k": 14,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.3491
+   },
+   "top3": 0.7031,
+   "hhi": 2082,
+   "eq": 4.8,
+   "k": 22,
+   "cov": 1.0
+  },
+  "eu-production": {
+   "top1": {
+    "c": "FRA",
+    "p": 0.237
+   },
+   "top3": 0.6432,
+   "hhi": 1541,
+   "eq": 6.5,
+   "k": 24,
+   "cov": 1.0
+  },
+  "eu-exports": {
+   "top1": {
+    "c": "ROU",
+    "p": 0.2064
+   },
+   "top3": 0.5183,
+   "hhi": 1199,
+   "eq": 8.3,
+   "k": 23,
+   "cov": 1.0
+  },
+  "eu-imports": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.4133
+   },
+   "top3": 0.719,
+   "hhi": 2361,
+   "eq": 4.2,
+   "k": 24,
+   "cov": 1.0001
+  },
+  "stocks": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3342
+   },
+   "top3": 0.7067,
+   "hhi": 1913,
+   "eq": 5.2,
+   "k": 22,
+   "cov": 1.0
+  }
+ },
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
-  "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The customs figure is 72% below the first and 74% below the second."
  ],
  "discrepancies": [
-  "World exports: USDA PSD 2025/26 19.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 25.0 Mt (-23%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."
+  "World exports: USDA PSD 2025/26 19.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 25.0 Mt (-23%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); the tables show USDA PSD."
  ]
 }

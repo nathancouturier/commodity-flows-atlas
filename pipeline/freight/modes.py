@@ -240,6 +240,12 @@ _MIXED = [
     (("USA", "MEX"), {"products", "lpg", "grain", "vegoil", "fert"},
      "Rail, truck and pipeline across the border, and Gulf ports; the split is not known", None),
     (("MEX", "USA"), {"products", "lpg"}, "Pipeline, rail and truck across the border, and Gulf and Pacific ports; the split is not known", None),
+    (("BLR", "CHN"), {"fert"},
+     "Belarusian potash for China leaves both through Russian seaports and by rail: Belaruskali redirected its shipments to "
+     "Russian ports after 2021 and negotiated deliveries to China by land with Russian Railways (OSW, 20 November 2024); in 2025, "
+     "9% of the potash Belarus exported through Russia went by rail to China and the CIS countries (Kommersant, as reported by "
+     "Reform.news on 27 March 2026). No page gives the split of the trade with China",
+     "https://www.osw.waw.pl/en/publikacje/osw-commentary/2024-11-20/tough-business-tough-times-belarusian-exports-potash"),
     (("ESP", "FRA"), {"grain"}, "Road and rail through the Pyrenees, and sea from Spanish to French ports; the split is not known", None),
     (("FRA", "ESP"), {"grain"}, "Road and rail through the Pyrenees, and sea from French to Spanish ports; the split is not known", None),
 ]

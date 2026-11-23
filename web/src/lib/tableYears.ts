@@ -84,6 +84,7 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
   const caveat = base.caveat ? (holds ? base.caveat : (base.caveatPast ?? base.caveatShort)) : undefined;
   const table: Ranked = {
     y: label,
+    ...(h.kinds?.[at] ? { yk: h.kinds[at] as 'forecast' | 'estimate' } : {}),
     s: h.s,
     u: h.u,
     world,

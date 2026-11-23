@@ -1551,6 +1551,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 16430260000,
+   "uv": 572,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Europipe II"
   },
@@ -1561,6 +1563,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 12398608000,
+   "uv": 521,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Langeled"
   },
@@ -1571,6 +1575,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 9573419000,
+   "uv": 505,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
@@ -1581,6 +1587,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 8039941000,
+   "uv": 505,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Power of Siberia 1"
   },
@@ -1591,6 +1599,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 9135611000,
+   "uv": 602,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Transmed (Enrico Mattei)"
   },
@@ -1601,6 +1611,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2985917000,
+   "uv": 417,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: TANAP"
   },
@@ -1611,6 +1623,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2660055000,
+   "uv": 523,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Medgaz"
   },
@@ -1621,6 +1635,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1253750000,
+   "uv": 451,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Myanmar-China gas pipeline"
   },
@@ -1631,6 +1647,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1333013000,
+   "uv": 531,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
@@ -1641,6 +1659,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 650202000,
+   "uv": 270,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Baltic Pipe"
   },
@@ -1651,6 +1671,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 726258000,
+   "uv": 505,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
@@ -1661,6 +1683,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 723933000,
+   "uv": 557,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
@@ -1671,6 +1695,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 508360000,
+   "uv": 501,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Greenstream"
   },
@@ -1681,6 +1707,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 255437000,
+   "uv": 322,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: TANAP"
   },
@@ -1691,6 +1719,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 148735000,
+   "uv": 557,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Central Asia-China gas pipeline (Lines A/B/C)"
   },
@@ -1701,10 +1731,47 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 4588000,
+   "uv": 532,
    "mode": "pipeline",
    "n": "customs tonnage of gas in gaseous state; pipeline of the atlas layer: Trans Adriatic Pipeline (TAP)"
   }
  ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2606
+   },
+   "top3": 0.4712,
+   "hhi": 1075,
+   "eq": 9.3,
+   "k": 97,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1969
+   },
+   "top3": 0.4118,
+   "hhi": 884,
+   "eq": 11.3,
+   "k": 56,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.1294
+   },
+   "top3": 0.2676,
+   "hhi": 491,
+   "eq": 20.4,
+   "k": 91,
+   "cov": 0.9999
+  }
+ },
  "notes": [
   "Top exporters and importers rank EIA dry natural gas trade in bcm (2025): pipeline and LNG together, re-exports included. The EIA file has no LNG split by country, so LNG is not subtracted; LNG by pair is under 'lng'.",
   "Customs tonnage of gas in gaseous state (BACI HS 271121, Mt) does not reconcile with EIA volumes and is not used to rank countries. In 2024 customs data show 12.2 Mt of exports from Canada against 88.6 bcm in EIA, 39.2 Mt from Belgium against 5.31 bcm (counting gas in transit twice, or tonnage estimated from value, are plausible causes; not established here), and 8.79 Mt of imports by Morocco against 0.89 bcm.",

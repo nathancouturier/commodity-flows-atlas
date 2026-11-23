@@ -270,7 +270,8 @@ G = {
     "RUS": [
         ("RUVYP", "russia-far-east", ("coal",), "load", "wikipedia", W + "Vostochny_Port",
          "Vostochny Port: the largest stevedoring firm 'specializes in coal handling with conveyor equipment'"),
-        ("RUTAM", "black-sea", ("coal",), "load", "wikipedia", W + "Port_of_Taman",
+        # fert: the same page names fertilisers (and ammonia) among the terminals; a third Russian fertiliser option (L1, M-026)
+        ("RUTAM", "black-sea", ("coal", "fert"), "load", "wikipedia", W + "Port_of_Taman",
          "Port of Taman: terminals for oil products, LPG, ammonia, grain, coal, fertilisers, iron ore and containers"),
         ("RUULU", "baltic", ("coal",), "load", "wikipedia", W + "Ust-Luga",
          "Ust-Luga: 'the site of an important coal and fertiliser terminal'"),

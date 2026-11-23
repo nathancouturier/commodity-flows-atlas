@@ -70,7 +70,8 @@ def classes(group, o, d, tonnes, nm):
         return ["mr", "handy-tanker"]
     if group in ("steel",):
         return ["supramax", "handysize"]
-    if group in ("copper-refined", "aluminium", "coffee", "cocoa", "cotton"):
+    if group in ("copper-refined", "aluminium", "coffee", "cocoa", "cotton", "lead-metal", "zinc-metal", "tin-metal",
+                 "tin-ore", "cobalt", "lithium", "rare-earths"):
         return ["container", "handysize"]
     if group == "lng":
         return ["lng"]

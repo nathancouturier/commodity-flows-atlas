@@ -35,6 +35,7 @@ Checks
       hand-built and incomplete)
   K12 detour of a pair's main route against the great-circle distance: detour(), called by the
       lane builder once the pairs are routed
+  K13 a pair of one metal product declared at under half the usual unit value of that product
 """
 import json
 import os
@@ -401,6 +402,43 @@ def k11(df, year):
     return out
 
 
+# groups of one product, whose pairs should be priced alike (a grade difference is small beside a factor 2): refined copper
+# (HS 7402, 7403), unwrought aluminium, refined zinc, lead and tin, alumina. Ores and intermediates mix grades and are left out.
+UV_GROUPS = {"aluminium": "unwrought aluminium (HS 7601)", "copper-refined": "refined and blister copper (HS 7402, 7403)",
+             "zinc-metal": "unwrought zinc (HS 7901)", "lead-metal": "unwrought lead (HS 7801)", "tin-metal": "unwrought tin (HS 8001)",
+             "alumina": "alumina (HS 281820)"}
+UV_RATIO = 0.5   # a pair declared below this share of the group's usual unit value
+UV_SHARE = 0.01  # and carrying at least this share of the group's tonnage ...
+UV_MIN_T = 10e3  # ... and at least this many tonnes
+
+
+def k13(df, year):
+    """K13. Pairs of one product declared far below the other flows of that product (audit C-043: 0.54 Mt of 'aluminium' from the
+    United States to Malaysia at 1,034 USD per tonne, when the other flows average about 2,500). The reference is the
+    tonne-weighted median unit value of the group-year, without the pairs whose tonnage the atlas re-estimated from their value.
+    Nothing is changed: the pair is reported, and the caveat registry words it as a hypothesis."""
+    out = []
+    for g in UV_GROUPS:
+        x = df[(df["group"] == g) & (df["year"] == year) & (df["t"] > 0) & (df["usd"] > 0)]
+        if "imputed" in x:
+            x = x[~x["imputed"]]
+        if x.empty:
+            continue
+        uv = x["usd"] * 1000 / x["t"]
+        order = uv.argsort().to_numpy()
+        cum = x["t"].to_numpy()[order].cumsum()
+        ref = float(uv.to_numpy()[order][int(cum.searchsorted(cum[-1] / 2))])
+        total = float(x["t"].sum())
+        low = x[(uv < UV_RATIO * ref) & (x["t"] >= max(UV_MIN_T, UV_SHARE * total))]
+        for r in low.sort_values("t", ascending=False).itertuples():
+            v = r.usd * 1000 / r.t
+            out.append({"check": "K13", "group": g, "year": year, "o": r.o, "d": r.d, "value": round(r.t / 1e6, 3), "reference": round(ref),
+                        "unitValue": round(v), "ratio": round(v / ref, 3), "level": "flag",
+                        "text": (f"{UV_GROUPS[g][:1].upper()}{UV_GROUPS[g][1:]} from {_name(r.o)} to {_name(r.d)}: {_mt(r.t / 1e6)} in {year} (CEPII BACI), declared at {v:,.0f} USD per tonne, "
+                                 f"{v / ref:.0%} of the tonne-weighted median of the group ({ref:,.0f})")})
+    return out
+
+
 def detour(pairs, year, min_t=0.5e6, ratio=2.5):
     """K12. pairs: iterable of dicts with group, o, d, t (tonnes), nm (main route) and gc_nm (great-circle distance of the
     two ports), and optionally load and dis. Called by the lane builder after routing."""
@@ -461,6 +499,7 @@ def run(df, year, raw=None, ran=None):
     if usgs and usgs[0]:
         do("K10", k10, df, year, usgs)
     do("K11", k11, df, year)
+    do("K13", k13, df, year)
     return out
 
 

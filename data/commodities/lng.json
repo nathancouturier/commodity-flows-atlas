@@ -615,6 +615,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 14970646000,
+   "uv": 572,
    "mode": "sea",
    "lane": "lng:AUS-CHN"
   },
@@ -625,6 +627,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 15965166000,
+   "uv": 635,
    "mode": "sea",
    "lane": "lng:AUS-JPN"
   },
@@ -635,6 +639,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 10595100000,
+   "uv": 578,
    "mode": "sea",
    "lane": "lng:QAT-CHN"
   },
@@ -645,6 +651,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 7158335000,
+   "uv": 628,
    "mode": "sea",
    "lane": "lng:AUS-KOR"
   },
@@ -655,6 +663,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 6404937000,
+   "uv": 567,
    "mode": "sea",
    "lane": "lng:QAT-IND"
   },
@@ -665,6 +675,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 6178566000,
+   "uv": 600,
    "mode": "sea",
    "lane": "lng:MYS-JPN"
   },
@@ -675,6 +687,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 6619808000,
+   "uv": 745,
    "mode": "sea",
    "lane": "lng:QAT-KOR"
   },
@@ -685,6 +699,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 5529388000,
+   "uv": 661,
    "mode": "sea",
    "lane": "lng:USA-NLD"
   },
@@ -695,6 +711,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 4988927000,
+   "uv": 602,
    "mode": "sea",
    "lane": "lng:RUS-CHN"
   },
@@ -705,6 +723,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 4702041000,
+   "uv": 589,
    "mode": "sea",
    "lane": "lng:AUS-TWN"
   },
@@ -715,6 +735,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3676153000,
+   "uv": 474,
    "mode": "sea",
    "lane": "lng:MYS-CHN"
   },
@@ -725,6 +747,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3738305000,
+   "uv": 542,
    "mode": "sea",
    "lane": "lng:USA-FRA"
   },
@@ -735,6 +759,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3512594000,
+   "uv": 528,
    "mode": "sea",
    "lane": "lng:QAT-PAK"
   },
@@ -745,6 +771,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3346622000,
+   "uv": 528,
    "mode": "sea",
    "lane": "lng:RUS-FRA"
   },
@@ -755,6 +783,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3492264000,
+   "uv": 563,
    "mode": "sea",
    "lane": "lng:USA-JPN"
   },
@@ -765,6 +795,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3365649000,
+   "uv": 547,
    "mode": "sea",
    "lane": "lng:MYS-KOR"
   },
@@ -775,6 +807,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3620435000,
+   "uv": 637,
    "mode": "sea",
    "lane": "lng:RUS-JPN"
   },
@@ -785,6 +819,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3023224000,
+   "uv": 549,
    "mode": "sea",
    "lane": "lng:USA-KOR"
   },
@@ -795,6 +831,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2616413000,
+   "uv": 528,
    "mode": "sea",
    "lane": "lng:DZA-FRA"
   },
@@ -805,10 +843,37 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2273888000,
+   "uv": 478,
    "mode": "sea",
    "lane": "lng:QAT-ITA"
   }
  ],
+ "concentration": {
+  "exports": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.212
+   },
+   "top3": 0.5847,
+   "hhi": 1325,
+   "eq": 7.5,
+   "k": 53,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2051
+   },
+   "top3": 0.5076,
+   "hhi": 1061,
+   "eq": 9.4,
+   "k": 78,
+   "cov": 0.9999,
+   "est": true
+  }
+ },
  "notes": [
   "LNG volumes are in Mt, with bcm in brackets on the headline figures. Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition. No production table: liquefaction output is not in the loaded sources."
  ],

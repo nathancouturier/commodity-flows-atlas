@@ -1,20 +1,25 @@
-/** Country profile: ranked exports, imports, production shares, infrastructure, companies, lanes. */
+/**
+ * Country profile: every line of the commodity tables (exports, imports, production, consumption, reserves) with its trend
+ * and the History year, trade balance and partners, freight, the basket of all goods, infrastructure, companies, lanes.
+ */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { CaveatsFile, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
-import { loadOptional, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
+import type { CaveatsFile, Company, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
+import { loadProfile, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
 import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { commodity, select } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, shortSource } from '../ui';
+import { commodity, select, year } from '../../lib/store';
+import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource } from '../ui';
 import { passagesText } from '../LaneTable';
 import { EventList } from '../EventList';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { InfraList } from './InfraList';
+import { BalanceBlock, BasketBlock, EuLink, FoldSection, FreightBlock, GapNotes, OperatorsBlock, entryAt, entryTrend, entryTrendTitle } from './CountryBlocks';
 import '../../styles/lane-table.css';
+import '../../styles/tables-by-year.css';
 
-/** Rows shown before "Show all N": the profile file holds every row that passes the relevance rule. */
+/** Rows shown before "Show all (N)": the profile file holds every line the country has in the tables. */
 const FIRST_ROWS = 8;
 
 /** Row note and table warning (trade hubs, gross weight). Long text folds to three lines and opens on a tap. */
@@ -37,33 +42,41 @@ const srcYear = (s: string, y: number | string) => `${shortSource(s)} ${y}`;
  * on each row, with what the tonnage measures and the warnings of its table: a hover tooltip cannot be
  * read on a touch screen.
  */
-function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
+function EntryList(props: { rows: ProfileEntry[]; p: CountryProfile; showUsd?: boolean; rp?: boolean }) {
   const [showAll, setShowAll] = useState(false);
+  const yr = year.value;
   const shown = showAll ? props.rows : props.rows.slice(0, FIRST_ROWS);
-  const usdOf = (e: ProfileEntry) => (props.showUsd && e.usd != null ? { s: e.usdS ?? e.s, y: e.usdY ?? e.y } : null);
+  const at = (e: ProfileEntry) => entryAt(e, props.p, yr);
+  // the customs value is of the latest year: a line shown in a past year prints none
+  const usdOf = (e: ProfileEntry) => (props.showUsd && e.usd != null && !at(e).past ? { s: e.usdS ?? e.s, y: e.usdY ?? e.y } : null);
+  const trends = props.rows.some((e) => entryTrend(e));
   return (
     <div class="bars">
       {shown.map((e, i) => {
         const meta = commodityMeta(e.k);
         const color = meta ? FAMILY_COLOR[meta.family] : '#8892a0';
+        const x = at(e);
         const usd = usdOf(e);
-        const vol = srcYear(e.s, e.y);
+        const src = x.est && x.past ? 'atlas' : e.s;
+        const vol = srcYear(src, x.y);
         const val = usd ? srcYear(usd.s, usd.y) : null;
         // one mention when tonnage and value share a source and year, else each figure names its own
         const sub = [
-          e.rank ? `world #${e.rank}` : null,
+          x.rank ? `world #${x.rank}` : null,
           usd ? (val === vol ? `${fmt(e.usd)} bn USD` : `${fmt(e.usd)} bn USD (${val})`) : null,
           val && val !== vol ? `volume ${vol}` : vol,
+          props.rp && e.rp != null ? `${fmt(e.rp)} years of ${e.rpY} production` : null,
         ]
           .filter(Boolean)
           .join(' · ');
-        const note = [e.n, e.warn].filter(Boolean).join('. ');
+        const note = [x.note, e.n, e.warn].filter(Boolean).join('. ');
+        const tr = entryTrend(e);
         return (
           <div key={e.k + (e.label ?? '') + i}>
             <button
-              class="bar-row"
-              style={{ width: '100%' }}
-              title={`${sourceLabel(e.s)} · ${e.y}${usd && val !== vol ? ` · value: ${sourceLabel(usd.s)} · ${usd.y}` : ''}${e.n ? ' · ' + e.n : ''}`}
+              class={`bar-row${trends ? ' has-trend' : ''}${x.v == null ? ' cp-past-none' : ''}`}
+              style={{ width: '100%', '--bar-color': color }}
+              title={`${sourceLabel(src)} · ${x.y}${usd && val !== vol ? ` · value: ${sourceLabel(usd.s)} · ${usd.y}` : ''}${e.n ? ' · ' + e.n : ''}`}
               onClick={() => {
                 if (!meta) return;
                 commodity.value = e.k;
@@ -73,18 +86,19 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
               <span class="bar-rank">{i + 1}</span>
               <span>
                 <span class="bar-label">
-                  {e.label ?? meta?.name ?? e.k}
-                  {e.est && <EstMark />}
+                  {x.name ?? e.label ?? meta?.name ?? e.k}
+                  {x.est && <EstMark />}
                 </span>
                 <div class="bar-track">
-                  <div class="bar-fill" style={{ width: `${Math.max(2, (e.share ?? 0) * 100)}%`, background: color }} />
+                  <div class="bar-fill" style={{ width: `${Math.max(2, (x.share ?? 0) * 100)}%`, background: color }} />
                 </div>
                 <span class="bar-sub">{sub}</span>
                 {e.basis && <span class="bar-sub">{e.basis}</span>}
               </span>
+              {trends && (tr ? <TrendLine vals={tr.vals} breaks={tr.breaks} at={x.i} title={entryTrendTitle(e, props.p)} /> : <span class="trend" />)}
               <span class="bar-value">
-                {fmtEst(e.v, e.est)} {e.u}
-                {e.share != null && <small>{pct(e.share)} of world</small>}
+                {x.v != null ? <>{fmtEst(x.v, x.est)} {e.u}</> : '—'}
+                {x.share != null && <small>{pct(x.share)} of world</small>}
               </span>
             </button>
             {note && <RowNote text={note} />}
@@ -93,15 +107,17 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
       })}
       {props.rows.length > FIRST_ROWS && (
         <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setShowAll(!showAll)} aria-expanded={showAll}>
-          {showAll ? 'Show fewer' : `Show all ${props.rows.length}`}
+          {showAll ? 'Show fewer' : `Show all (${props.rows.length})`}
         </button>
       )}
       <SourcesLine
         items={shown.flatMap((e) => {
+          const x = at(e);
           const usd = usdOf(e);
-          return usd ? [e, usd] : [e];
+          const f = { s: x.est && x.past ? 'atlas' : e.s, y: x.y };
+          return usd ? [f, usd] : [f];
         })}
-        n="shares are of the world total of the same source and year"
+        n={`shares are of the world total of the same source and year${yr != null ? '; a line with a series by year shows ' + yr : ''}`}
       />
     </div>
   );
@@ -267,11 +283,25 @@ function CountryInfra({ ids }: { ids: string[] }) {
   );
 }
 
-export default function CountryView({ id }: { id: string }) {
-  const p = useLoaded<CountryProfile>(
-    () => loadOptional<Record<string, CountryProfile>>('countries/profiles.json').then((all) => all?.[id] ?? null),
-    [id],
+/** Companies headquartered in the country, each with every commodity it is listed for. */
+function CompaniesBlock({ list }: { list: Company[] }) {
+  const [all, setAll] = useState(false);
+  const shown = all ? list : list.slice(0, FIRST_ROWS);
+  return (
+    <FoldSection title="Companies headquartered here" aside={<span class="muted num">{list.length}</span>} foldOnPhone>
+      <CompanyRows list={shown} showK />
+      {list.length > FIRST_ROWS && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
+          {all ? 'Show fewer' : `Show all (${list.length})`}
+        </button>
+      )}
+      <div class="muted small">The atlas's company lists name each company's headquarters, not where it operates: the assets above give the operators.</div>
+    </FoldSection>
   );
+}
+
+export default function CountryView({ id }: { id: string }) {
+  const p = useLoaded<CountryProfile>(() => loadProfile(id), [id]);
   useEffect(() => {
     flyToCountry(id);
   }, [id]);
@@ -279,7 +309,7 @@ export default function CountryView({ id }: { id: string }) {
 
   // KPIs
   let kpis: preact.ComponentChildren = null;
-  if (p) {
+  if (p && !p.none) {
     const all = [...p.exports, ...p.imports, ...p.production];
     const ents = all.filter((e) => (e.rank ?? 99) <= 10 && commodityMeta(e.k));
     // counted by the pipeline on every table row; the rows themselves are listed below
@@ -304,7 +334,7 @@ export default function CountryView({ id }: { id: string }) {
             label={`Largest export`}
             value={`${fmt(topExp.usd)} bn USD`}
             sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · ${shortSource(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}`}
-            title={`${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}`}
+            title={`The largest export among the atlas's commodities, by customs value (${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y}); all goods are listed further down`}
             note={topExp.warn}
           />
         )}
@@ -315,6 +345,7 @@ export default function CountryView({ id }: { id: string }) {
   // order set by the pipeline: by trade value, thermal and metallurgical coal under the all-coal row that carries their value
   const exports = p?.exports ?? [];
   const imports = p?.imports ?? [];
+  const yr = year.value;
   return (
     <>
       <div class="detail-head">
@@ -329,26 +360,49 @@ export default function CountryView({ id }: { id: string }) {
         {p === undefined ? (
           <Skeleton lines={6} />
         ) : p === null ? (
-          <Placeholder>No commodity in the atlas catalogue is significant for this country yet.</Placeholder>
+          <Placeholder>The atlas has no data for this code.</Placeholder>
+        ) : p.none ? (
+          <Placeholder>{p.none}</Placeholder>
         ) : (
           <>
-            {exports.length > 0 && (
-              <Section title="Key exports" aside={<span class="muted num">{exports.length}</span>}>
-                <EntryList key={id} rows={exports} showUsd />
+            <EuLink p={p} />
+            {p.noCode && <div class="cp-nocode">{p.noCode}</div>}
+            {yr != null && (
+              <div class="cp-nocode">
+                {yr}: each line with a series by year shows {yr}; the customs values in USD, the partners, the freight block and the list of all goods are of the latest year.
+              </div>
+            )}
+            {(exports.length > 0 || (p.gaps?.length ?? 0) > 0) && (
+              <Section title="Exports" aside={<span class="muted num">{exports.length}</span>}>
+                {exports.length > 0 && <EntryList key={id} rows={exports} p={p} showUsd />}
+                <GapNotes p={p} />
               </Section>
             )}
             {imports.length > 0 && (
-              <Section title="Key imports" aside={<span class="muted num">{imports.length}</span>}>
-                <EntryList key={id} rows={imports} showUsd />
+              <Section title="Imports" aside={<span class="muted num">{imports.length}</span>}>
+                <EntryList key={id} rows={imports} p={p} showUsd />
               </Section>
             )}
             {p.production.length > 0 && (
               <Section title="Production, share of world" aside={<span class="muted num">{p.production.length}</span>}>
-                <EntryList key={id} rows={p.production} />
+                <EntryList key={id} rows={p.production} p={p} />
               </Section>
             )}
+            {(p.consumption?.length ?? 0) > 0 && (
+              <Section title="Consumption, share of world" aside={<span class="muted num">{p.consumption!.length}</span>}>
+                <EntryList key={id} rows={p.consumption!} p={p} />
+              </Section>
+            )}
+            {(p.reserves?.length ?? 0) > 0 && (
+              <Section title="Reserves, share of world" aside={<span class="muted num">{p.reserves!.length}</span>}>
+                <EntryList key={id} rows={p.reserves!} p={p} rp />
+              </Section>
+            )}
+            <BalanceBlock p={p} />
+            <FreightBlock p={p} />
+            <BasketBlock p={p} />
             {p.other && p.other.length > 0 && (
-              <Section title="Other notable raw materials">
+              <Section title="Other raw materials, outside the atlas catalogue">
                 {p.other.map((e, i) => (
                   <RowBtn
                     key={e.k + i}
@@ -362,11 +416,8 @@ export default function CountryView({ id }: { id: string }) {
               </Section>
             )}
             {p.infra && p.infra.length > 0 && <CountryInfra ids={p.infra} />}
-            {p.companies && p.companies.length > 0 && (
-              <Section title="Main companies">
-                <CompanyRows list={p.companies} showK />
-              </Section>
-            )}
+            <OperatorsBlock p={p} />
+            {p.companies && p.companies.length > 0 && <CompaniesBlock list={p.companies} />}
             <CountryLanes id={id} p={p} />
           </>
         )}

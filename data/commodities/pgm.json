@@ -115,282 +115,338 @@
    {
     "c": "ZAF",
     "v": 413,
-    "n": "customs gross weight 415.2 t"
+    "n": "customs gross weight 415.2 t",
+    "usd": 17009004000
    },
    {
     "c": "RUS",
     "v": 115,
-    "n": "customs gross weight 117.3 t"
+    "n": "customs gross weight 117.3 t",
+    "usd": 3975568000
    },
    {
     "c": "GBR",
     "v": 92.9,
-    "n": "customs gross weight 99.0 t"
+    "n": "customs gross weight 99.0 t",
+    "usd": 3036078000
    },
    {
     "c": "DEU",
     "v": 75.2,
-    "n": "customs gross weight 121.5 t"
+    "n": "customs gross weight 121.5 t",
+    "usd": 3116656000
    },
    {
     "c": "USA",
     "v": 71.0,
-    "n": "customs gross weight 124.0 t"
+    "n": "customs gross weight 124.0 t",
+    "usd": 2541504000
    },
    {
     "c": "ITA",
     "v": 58.0,
-    "n": "customs gross weight 61.7 t"
+    "n": "customs gross weight 61.7 t",
+    "usd": 2110880000
    },
    {
     "c": "ARE",
     "v": 57.2,
-    "n": "customs gross weight 186.7 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here; rank 7: the United Arab Emirates is not in the USGS list of platinum-group producers; its exports may be re-exports of metal traded and refined there (a possible reading, not established here)"
+    "n": "customs gross weight 186.7 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here; rank 7: the United Arab Emirates is not in the USGS list of platinum-group producers; its exports may be re-exports of metal traded and refined there (a possible reading, not established here)",
+    "usd": 1758189000
    },
    {
     "c": "BEL",
     "v": 52.4,
-    "n": "customs gross weight 55.0 t"
+    "n": "customs gross weight 55.0 t",
+    "usd": 2297263000
    },
    {
     "c": "CHE",
     "v": 46.6,
-    "n": "customs gross weight 48.5 t"
+    "n": "customs gross weight 48.5 t",
+    "usd": 1848874000
    },
    {
     "c": "JPN",
     "v": 44.9,
-    "n": "customs gross weight 55.8 t"
+    "n": "customs gross weight 55.8 t",
+    "usd": 1537053000
    },
    {
     "c": "HKG",
     "v": 41.5,
-    "n": "customs gross weight 42.7 t"
+    "n": "customs gross weight 42.7 t",
+    "usd": 1518153000
    },
    {
     "c": "CHN",
     "v": 19.4,
-    "n": "customs gross weight 23.2 t"
+    "n": "customs gross weight 23.2 t",
+    "usd": 595439000
    },
    {
     "c": "FRA",
     "v": 14.7,
-    "n": "customs gross weight 16.3 t"
+    "n": "customs gross weight 16.3 t",
+    "usd": 719930000
    },
    {
     "c": "ARM",
     "v": 14.6,
-    "n": "customs gross weight 15.3 t"
+    "n": "customs gross weight 15.3 t",
+    "usd": 448880000
    },
    {
     "c": "KOR",
     "v": 14.4,
-    "n": "customs gross weight 14.6 t"
+    "n": "customs gross weight 14.6 t",
+    "usd": 519628000
    },
    {
     "c": "NOR",
     "v": 9.69,
-    "n": "customs gross weight 10.4 t"
+    "n": "customs gross weight 10.4 t",
+    "usd": 297662000
    },
    {
     "c": "TWN",
     "v": 8.98,
-    "n": "customs gross weight 17.7 t"
+    "n": "customs gross weight 17.7 t",
+    "usd": 275781000
    },
    {
     "c": "THA",
     "v": 7.41,
-    "n": "customs gross weight 7.41 t"
+    "n": "customs gross weight 7.41 t",
+    "usd": 532933000
    },
    {
     "c": "SGP",
     "v": 6.79,
-    "n": "customs gross weight 8.68 t"
+    "n": "customs gross weight 8.68 t",
+    "usd": 303655000
    },
    {
     "c": "CAN",
     "v": 5.88,
-    "n": "customs gross weight 8.00 t"
+    "n": "customs gross weight 8.00 t",
+    "usd": 219075000
    },
    {
     "c": "ESP",
     "v": 3.41,
-    "n": "customs gross weight 4.00 t"
+    "n": "customs gross weight 4.00 t",
+    "usd": 129382000
    },
    {
     "c": "IND",
     "v": 3.23,
-    "n": "customs gross weight 3.26 t"
+    "n": "customs gross weight 3.26 t",
+    "usd": 126854000
    },
    {
     "c": "AUT",
     "v": 3.21,
-    "n": "customs gross weight 4.10 t"
+    "n": "customs gross weight 4.10 t",
+    "usd": 98528000
    },
    {
     "c": "CRI",
     "v": 2.18,
-    "n": "customs gross weight 4.00 t"
+    "n": "customs gross weight 4.00 t",
+    "usd": 67034000
    },
    {
     "c": "TZA",
     "v": 2.0,
-    "n": "customs gross weight 2.00 t"
+    "n": "customs gross weight 2.00 t",
+    "usd": 169432000
    },
    {
     "c": "AUS",
     "v": 1.93,
-    "n": "customs gross weight 1.94 t"
+    "n": "customs gross weight 1.94 t",
+    "usd": 72236000
    },
    {
     "c": "NLD",
     "v": 1.48,
-    "n": "customs gross weight 3.06 t"
+    "n": "customs gross weight 3.06 t",
+    "usd": 45500000
    },
    {
     "c": "POL",
     "v": 1.47,
-    "n": "customs gross weight 1.88 t"
+    "n": "customs gross weight 1.88 t",
+    "usd": 45264000
    },
    {
     "c": "IRL",
     "v": 1.22,
-    "n": "customs gross weight 2.88 t"
+    "n": "customs gross weight 2.88 t",
+    "usd": 37607000
    },
    {
     "c": "MEX",
     "v": 1.08,
-    "n": "customs gross weight 1.08 t"
+    "n": "customs gross weight 1.08 t",
+    "usd": 34978000
    },
    {
     "c": "COL",
     "v": 0.884,
-    "n": "customs gross weight 0.90 t"
+    "n": "customs gross weight 0.90 t",
+    "usd": 27143000
    },
    {
     "c": "CZE",
     "v": 0.557,
-    "n": "customs gross weight 1.29 t"
+    "n": "customs gross weight 1.29 t",
+    "usd": 17094000
    },
    {
     "c": "MMR",
     "v": 0.527,
-    "n": "customs gross weight 0.53 t"
+    "n": "customs gross weight 0.53 t",
+    "usd": 16197000
    },
    {
     "c": "SAU",
     "v": 0.499,
-    "n": "customs gross weight 0.51 t"
+    "n": "customs gross weight 0.51 t",
+    "usd": 15334000
    },
    {
     "c": "FIN",
     "v": 0.495,
-    "n": "customs gross weight 1.45 t"
+    "n": "customs gross weight 1.45 t",
+    "usd": 15201000
    },
    {
     "c": "MYS",
     "v": 0.45,
-    "n": "customs gross weight 0.46 t"
+    "n": "customs gross weight 0.46 t",
+    "usd": 13817000
    },
    {
     "c": "TUR",
     "v": 0.328,
-    "n": "customs gross weight 2.26 t"
+    "n": "customs gross weight 2.26 t",
+    "usd": 10087000
    },
    {
     "c": "LTU",
     "v": 0.328,
-    "n": "customs gross weight 0.33 t"
+    "n": "customs gross weight 0.33 t",
+    "usd": 10078000
    },
    {
     "c": "SVK",
     "v": 0.313,
-    "n": "customs gross weight 0.32 t"
+    "n": "customs gross weight 0.32 t",
+    "usd": 9615000
    },
    {
     "c": "SWE",
     "v": 0.304,
-    "n": "customs gross weight 0.31 t"
+    "n": "customs gross weight 0.31 t",
+    "usd": 9347000
    },
    {
     "c": "CHL",
     "v": 0.194,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 5946000
    },
    {
     "c": "TTO",
     "v": 0.177,
-    "n": "customs gross weight 1.00 t"
+    "n": "customs gross weight 1.00 t",
+    "usd": 5436000
    },
    {
     "c": "BGR",
     "v": 0.125,
-    "n": "customs gross weight 0.13 t"
+    "n": "customs gross weight 0.13 t",
+    "usd": 3824000
    },
    {
     "c": "IDN",
     "v": 0.121,
-    "n": "customs gross weight 0.12 t"
+    "n": "customs gross weight 0.12 t",
+    "usd": 3719000
    },
    {
     "c": "BIH",
     "v": 0.111,
-    "n": "customs gross weight 0.11 t"
+    "n": "customs gross weight 0.11 t",
+    "usd": 3398000
    },
    {
     "c": "SRB",
     "v": 0.103,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 3151000
    },
    {
     "c": "HUN",
     "v": 0.0998,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 3066000
    },
    {
     "c": "LUX",
     "v": 0.0974,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 2991000
    },
    {
     "c": "NZL",
     "v": 0.0894,
-    "n": "customs gross weight 0.09 t"
+    "n": "customs gross weight 0.09 t",
+    "usd": 2745000
    },
    {
     "c": "LBN",
     "v": 0.0679,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 2086000
    },
    {
     "c": "UKR",
     "v": 0.0648,
-    "n": "customs gross weight 0.07 t"
+    "n": "customs gross weight 0.07 t",
+    "usd": 1990000
    },
    {
     "c": "UZB",
     "v": 0.0566,
-    "n": "customs gross weight 0.06 t"
+    "n": "customs gross weight 0.06 t",
+    "usd": 1738000
    },
    {
     "c": "ROU",
     "v": 0.0566,
-    "n": "customs gross weight 0.06 t"
+    "n": "customs gross weight 0.06 t",
+    "usd": 1737000
    },
    {
     "c": "ZWE",
     "v": 0.0455,
-    "n": "customs gross weight 0.05 t"
+    "n": "customs gross weight 0.05 t",
+    "usd": 1397000
    },
    {
     "c": "EGY",
     "v": 0.0444,
-    "n": "customs gross weight 0.05 t"
+    "n": "customs gross weight 0.05 t",
+    "usd": 1364000
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,489 t gross weight); values rounded; valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · This ranks customs trade, not mine supply: countries that refine or trade platinum-group metals may rank high through re-exports, and some metal may be declared under another code; the atlas does not measure either.",
   "basis": "fine-metal equivalent at the platinum price (Atlas estimate)",
-  "caveat": "This ranks customs trade, not mine supply: countries that refine or trade platinum-group metals may rank high through re-exports, and some metal may be declared under another code; the atlas does not measure either."
+  "caveat": "This ranks customs trade, not mine supply: countries that refine or trade platinum-group metals may rank high through re-exports, and some metal may be declared under another code; the atlas does not measure either.",
+  "usd": 45677521000
  },
  "imports": {
   "y": 2024,
@@ -401,267 +457,320 @@
    {
     "c": "USA",
     "v": 167,
-    "n": "customs gross weight 174.8 t"
+    "n": "customs gross weight 174.8 t",
+    "usd": 7354505000
    },
    {
     "c": "CHN",
     "v": 146,
-    "n": "customs gross weight 153.4 t"
+    "n": "customs gross weight 153.4 t",
+    "usd": 5490764000
    },
    {
     "c": "GBR",
     "v": 132,
-    "n": "customs gross weight 134.4 t"
+    "n": "customs gross weight 134.4 t",
+    "usd": 4922312000
    },
    {
     "c": "JPN",
     "v": 127,
-    "n": "customs gross weight 129.9 t"
+    "n": "customs gross weight 129.9 t",
+    "usd": 5248428000
    },
    {
     "c": "DEU",
     "v": 111,
-    "n": "customs gross weight 118.0 t"
+    "n": "customs gross weight 118.0 t",
+    "usd": 3982053000
    },
    {
     "c": "HKG",
     "v": 111,
-    "n": "customs gross weight 116.6 t"
+    "n": "customs gross weight 116.6 t",
+    "usd": 4428975000
    },
    {
     "c": "CHE",
     "v": 72.1,
-    "n": "customs gross weight 83.8 t"
+    "n": "customs gross weight 83.8 t",
+    "usd": 2614006000
    },
    {
     "c": "IND",
     "v": 71.6,
-    "n": "customs gross weight 202.9 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here."
+    "n": "customs gross weight 202.9 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here.",
+    "usd": 2629199000
    },
    {
     "c": "ITA",
     "v": 55.0,
-    "n": "customs gross weight 58.3 t"
+    "n": "customs gross weight 58.3 t",
+    "usd": 2049378000
    },
    {
     "c": "MKD",
     "v": 33.3,
-    "n": "customs gross weight 33.3 t"
+    "n": "customs gross weight 33.3 t",
+    "usd": 1044616000
    },
    {
     "c": "KOR",
     "v": 29.9,
-    "n": "customs gross weight 30.5 t"
+    "n": "customs gross weight 30.5 t",
+    "usd": 1165609000
    },
    {
     "c": "CAN",
     "v": 20.8,
-    "n": "customs gross weight 22.8 t"
+    "n": "customs gross weight 22.8 t",
+    "usd": 762626000
    },
    {
     "c": "BEL",
     "v": 20.2,
-    "n": "customs gross weight 45.6 t"
+    "n": "customs gross weight 45.6 t",
+    "usd": 635988000
    },
    {
     "c": "ARM",
     "v": 13.9,
-    "n": "customs gross weight 16.0 t"
+    "n": "customs gross weight 16.0 t",
+    "usd": 426234000
    },
    {
     "c": "BRA",
     "v": 13.3,
-    "n": "customs gross weight 13.3 t"
+    "n": "customs gross weight 13.3 t",
+    "usd": 582198000
    },
    {
     "c": "POL",
     "v": 11.3,
-    "n": "customs gross weight 11.3 t"
+    "n": "customs gross weight 11.3 t",
+    "usd": 421481000
    },
    {
     "c": "SGP",
     "v": 9.37,
-    "n": "customs gross weight 19.0 t"
+    "n": "customs gross weight 19.0 t",
+    "usd": 287750000
    },
    {
     "c": "FRA",
     "v": 8.91,
-    "n": "customs gross weight 30.5 t"
+    "n": "customs gross weight 30.5 t",
+    "usd": 273592000
    },
    {
     "c": "TWN",
     "v": 7.8,
-    "n": "customs gross weight 10.1 t"
+    "n": "customs gross weight 10.1 t",
+    "usd": 253577000
    },
    {
     "c": "IRL",
     "v": 5.08,
-    "n": "customs gross weight 6.54 t"
+    "n": "customs gross weight 6.54 t",
+    "usd": 160928000
    },
    {
     "c": "AUT",
     "v": 3.98,
-    "n": "customs gross weight 4.45 t"
+    "n": "customs gross weight 4.45 t",
+    "usd": 153022000
    },
    {
     "c": "ESP",
     "v": 2.98,
-    "n": "customs gross weight 5.07 t"
+    "n": "customs gross weight 5.07 t",
+    "usd": 92670000
    },
    {
     "c": "THA",
     "v": 2.93,
-    "n": "customs gross weight 4.58 t"
+    "n": "customs gross weight 4.58 t",
+    "usd": 89940000
    },
    {
     "c": "ARE",
     "v": 2.69,
-    "n": "customs gross weight 3.14 t"
+    "n": "customs gross weight 3.14 t",
+    "usd": 84677000
    },
    {
     "c": "AUS",
     "v": 2.64,
-    "n": "customs gross weight 3.48 t"
+    "n": "customs gross weight 3.48 t",
+    "usd": 81195000
    },
    {
     "c": "MYS",
     "v": 1.99,
-    "n": "customs gross weight 5.38 t"
+    "n": "customs gross weight 5.38 t",
+    "usd": 61218000
    },
    {
     "c": "ARG",
     "v": 1.84,
-    "n": "customs gross weight 2.48 t"
+    "n": "customs gross weight 2.48 t",
+    "usd": 64960000
    },
    {
     "c": "MEX",
     "v": 1.49,
-    "n": "customs gross weight 34.1 t"
+    "n": "customs gross weight 34.1 t",
+    "usd": 45874000
    },
    {
     "c": "NLD",
     "v": 1.4,
-    "n": "customs gross weight 2.18 t"
+    "n": "customs gross weight 2.18 t",
+    "usd": 42893000
    },
    {
     "c": "NOR",
     "v": 1.32,
-    "n": "customs gross weight 1.76 t"
+    "n": "customs gross weight 1.76 t",
+    "usd": 40682000
    },
    {
     "c": "CZE",
     "v": 0.878,
-    "n": "customs gross weight 1.22 t"
+    "n": "customs gross weight 1.22 t",
+    "usd": 26977000
    },
    {
     "c": "CRI",
     "v": 0.799,
-    "n": "customs gross weight 4.55 t"
+    "n": "customs gross weight 4.55 t",
+    "usd": 24525000
    },
    {
     "c": "SVK",
     "v": 0.602,
-    "n": "customs gross weight 0.61 t"
+    "n": "customs gross weight 0.61 t",
+    "usd": 18498000
    },
    {
     "c": "SWE",
     "v": 0.512,
-    "n": "customs gross weight 0.52 t"
+    "n": "customs gross weight 0.52 t",
+    "usd": 15732000
    },
    {
     "c": "PRT",
     "v": 0.49,
-    "n": "customs gross weight 0.50 t"
+    "n": "customs gross weight 0.50 t",
+    "usd": 15063000
    },
    {
     "c": "ZAF",
     "v": 0.38,
-    "n": "customs gross weight 0.39 t"
+    "n": "customs gross weight 0.39 t",
+    "usd": 11661000
    },
    {
     "c": "BGR",
     "v": 0.327,
-    "n": "customs gross weight 0.33 t"
+    "n": "customs gross weight 0.33 t",
+    "usd": 10035000
    },
    {
     "c": "VNM",
     "v": 0.323,
-    "n": "customs gross weight 0.33 t"
+    "n": "customs gross weight 0.33 t",
+    "usd": 9932000
    },
    {
     "c": "FIN",
     "v": 0.305,
-    "n": "customs gross weight 0.31 t"
+    "n": "customs gross weight 0.31 t",
+    "usd": 9355000
    },
    {
     "c": "PHL",
     "v": 0.279,
-    "n": "customs gross weight 0.28 t"
+    "n": "customs gross weight 0.28 t",
+    "usd": 8584000
    },
    {
     "c": "TUR",
     "v": 0.276,
-    "n": "customs gross weight 0.28 t"
+    "n": "customs gross weight 0.28 t",
+    "usd": 8467000
    },
    {
     "c": "ISR",
     "v": 0.269,
-    "n": "customs gross weight 0.27 t"
+    "n": "customs gross weight 0.27 t",
+    "usd": 8256000
    },
    {
     "c": "LBN",
     "v": 0.11,
-    "n": "customs gross weight 0.11 t"
+    "n": "customs gross weight 0.11 t",
+    "usd": 3367000
    },
    {
     "c": "EGY",
     "v": 0.0971,
-    "n": "customs gross weight 0.10 t"
+    "n": "customs gross weight 0.10 t",
+    "usd": 2981000
    },
    {
     "c": "ROU",
     "v": 0.0868,
-    "n": "customs gross weight 0.09 t"
+    "n": "customs gross weight 0.09 t",
+    "usd": 2666000
    },
    {
     "c": "HUN",
     "v": 0.0764,
-    "n": "customs gross weight 1.03 t"
+    "n": "customs gross weight 1.03 t",
+    "usd": 2347000
    },
    {
     "c": "NZL",
     "v": 0.0498,
-    "n": "customs gross weight 0.05 t"
+    "n": "customs gross weight 0.05 t",
+    "usd": 1528000
    },
    {
     "c": "GRC",
     "v": 0.047,
-    "n": "customs gross weight 0.05 t"
+    "n": "customs gross weight 0.05 t",
+    "usd": 1443000
    },
    {
     "c": "RUS",
     "v": 0.0415,
-    "n": "customs gross weight 0.04 t"
+    "n": "customs gross weight 0.04 t",
+    "usd": 1275000
    },
    {
     "c": "HRV",
     "v": 0.0405,
-    "n": "customs gross weight 0.04 t"
+    "n": "customs gross weight 0.04 t",
+    "usd": 1245000
    },
    {
     "c": "IDN",
     "v": 0.0378,
-    "n": "customs gross weight 0.04 t"
+    "n": "customs gross weight 0.04 t",
+    "usd": 1160000
    },
    {
     "c": "DOM",
     "v": 0.035,
-    "n": "customs gross weight 0.04 t"
+    "n": "customs gross weight 0.04 t",
+    "usd": 1074000
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,489 t gross weight); values rounded; valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · Customs trade, not final demand: countries that refine or trade these metals may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent at the platinum price (Atlas estimate)",
-  "caveat": "Customs trade, not final demand: countries that refine or trade these metals may rank high through re-exports, which the atlas does not measure."
+  "caveat": "Customs trade, not final demand: countries that refine or trade these metals may rank high through re-exports, which the atlas does not measure.",
+  "usd": 45677521000
  },
  "flows": [
   {
@@ -671,6 +780,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 3773521000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 3.77 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 91.0 t; capped at the customs gross weight"
   },
@@ -681,6 +791,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 3971293000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 3.97 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 81.0 t; capped at the customs gross weight"
   },
@@ -691,6 +802,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 2715148000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 2.72 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 67.0 t; capped at the customs gross weight"
   },
@@ -701,6 +813,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 2207873000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 2.21 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 59.0 t; capped at the customs gross weight"
   },
@@ -711,6 +824,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 1736921000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.74 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 186.0 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here."
   },
@@ -721,6 +835,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 1146630000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.15 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 34.0 t; capped at the customs gross weight"
   },
@@ -731,6 +846,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 1036639000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.04 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 33.0 t; capped at the customs gross weight"
   },
@@ -741,6 +857,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 1223897000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.22 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 33.0 t; capped at the customs gross weight"
   },
@@ -751,6 +868,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 877763000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 877.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 28.0 t; capped at the customs gross weight"
   },
@@ -761,6 +879,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 900159000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 900.2 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 24.0 t; capped at the customs gross weight"
   },
@@ -771,6 +890,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 815829000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 815.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 20.0 t; capped at the customs gross weight"
   },
@@ -781,6 +901,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 837990000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 838.0 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 20.0 t; capped at the customs gross weight"
   },
@@ -791,6 +912,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 757824000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 757.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 19.0 t; capped at the customs gross weight"
   },
@@ -801,6 +923,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 560093000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 560.1 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 27.0 t"
   },
@@ -811,6 +934,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 443957000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 444.0 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 38.0 t"
   },
@@ -821,6 +945,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 440992000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 441.0 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 15.0 t"
   },
@@ -831,6 +956,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 780635000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 780.6 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 14.0 t; capped at the customs gross weight"
   },
@@ -841,6 +967,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 426234000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 426.2 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 16.0 t"
   },
@@ -851,6 +978,7 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 507588000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 507.6 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 13.0 t; capped at the customs gross weight"
   },
@@ -861,10 +989,114 @@
    "u": "t",
    "y": 2024,
    "s": "atlas",
+   "usd": 415792000,
    "est": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 415.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 13.0 t; capped at the customs gross weight"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Palladium: Consumption, apparent: Palladium",
+    "u": "kg",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 83600.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 130000.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as primary production + secondary production + imports - exports. -- Excludes imports and (or) exports of waste and scrap."
+   },
+   {
+    "label": "Platinum: Consumption, apparent: Platinum",
+    "u": "kg",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 68900.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 92000.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as primary production + secondary production + imports - exports. -- Excludes imports and (or) exports of waste and scrap."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Platinum",
+    "pct": "89",
+    "y": 2025,
+    "src": "South Africa, Belgium, Germany, Italy",
+    "n": "Descending order of import share."
+   },
+   {
+    "what": "Palladium",
+    "pct": "57",
+    "y": 2025,
+    "src": "South Africa, Russia, Belgium, Canada",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.5237
+   },
+   "top3": 0.9013,
+   "hhi": 3686,
+   "eq": 2.7,
+   "k": 5,
+   "cov": 0.9813
+  },
+  "reserves": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.8268
+   },
+   "top3": 0.9882,
+   "hhi": 7048,
+   "eq": 1.4,
+   "k": 5,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.3442
+   },
+   "top3": 0.5174,
+   "hhi": 1526,
+   "eq": 6.6,
+   "k": 55,
+   "cov": 0.9974,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1392
+   },
+   "top3": 0.3708,
+   "hhi": 864,
+   "eq": 11.6,
+   "k": 52,
+   "cov": 0.9966,
+   "est": true
+  }
+ },
  "notes": [
   "Trade tables and flows are in fine-metal equivalent, an Atlas estimate: the declared value of each flow (CEPII BACI) divided by the year's average price of the metal (World Bank Pink Sheet), never above the customs gross weight. Customs gross weight counts dore, alloys and the base metal they contain, and some declared quantities are wrong; it is given in the note of each row and in brackets after the world exports figure. Platinum-group metals are valued at the platinum price, the only one of them in the loaded sources.",
   "Production is platinum plus palladium only (USGS gives no rhodium/ruthenium/iridium/osmium by country); the index unit (kg) is shown here in t.",

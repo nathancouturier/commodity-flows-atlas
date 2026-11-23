@@ -8,6 +8,7 @@ import { countryName, sourceLabel } from '../lib/data';
 import { fmt, fmtEst, pct, sig2 } from '../lib/format';
 import { GROUP_LABEL, altText, chokepointName, laneEst, laneShare, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
+import { ATLAS_LICENCE, licenceOf } from '../lib/csv';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
 import '../styles/lane-table.css';
@@ -237,7 +238,7 @@ const MODE_TEXT = { sea: 'sea', transit: 'sea via a foreign port', mixed: 'sea a
 export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
   const head = [
     'product', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume', 'unit', 'share_of_seaborne_pct',
-    'mode', 'transit_port', 'vessel_class', 'distance_nm', 'passages', 'may_use_passages', 'atlas_estimate', 'source',
+    'mode', 'transit_port', 'vessel_class', 'distance_nm', 'passages', 'may_use_passages', 'atlas_estimate', 'source', 'licence',
   ];
   const out = [head.join(',')];
   for (const r of rows) {
@@ -248,6 +249,7 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
         r.share == null ? '' : (r.share * 100).toFixed(2),
         MODE_TEXT[r.kind], r.transit.join(' and '), r.cls ? vesselName(r.cls) : '', r.nm || '',
         names(r.via).join('; '), r.viaAlt.map(altText).join('; '), r.est ? 'yes' : '', r.est ? EST_SOURCE : sourceLabel(r.s),
+        r.est ? `${ATLAS_LICENCE}; computed from CEPII BACI data (${licenceOf('baci')})` : licenceOf(r.s),
       ].map(csvCell).join(','),
     );
   }
@@ -257,6 +259,7 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
       [
         r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countr${r.n === 1 ? 'y' : 'ies'})`, y, restTiny(r) ? '<0.001' : r.v, r.u,
         '', 'sea', '', '', '', '', '', r.est > 0 ? (r.est >= r.v ? 'yes' : 'partly') : '', r.est > 0 ? `${sourceLabel(rows[0]?.s ?? 'baci')}; ${fmt(sig2(r.est))} ${r.u} of it is an Atlas estimate (declared value)` : sourceLabel(rows[0]?.s ?? 'baci'),
+        r.est > 0 ? `${licenceOf(rows[0]?.s ?? 'baci')}; the estimate: ${ATLAS_LICENCE}` : licenceOf(rows[0]?.s ?? 'baci'),
       ].map(csvCell).join(','),
     );
   }

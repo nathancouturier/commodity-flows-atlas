@@ -6,7 +6,7 @@
    "u": "t REO",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 389,310 t REO, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 85000000.0,
@@ -21,13 +21,20 @@
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 0.1349,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (rare-earths) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t REO",
-  "world": 390000.0,
+  "world": 389310.0,
   "rows": [
    {
     "c": "CHN",
@@ -78,7 +85,7 @@
     "v": 110.0
    }
   ],
-  "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 389,310 t REO, while the rounded world total of 390,000 t REO is 0.2% above that sum: shares are computed on the sum",
   "other": 550.0,
   "hidden": {
    "v": 260.0,
@@ -86,6 +93,7 @@
    "from": 10,
    "n": "2 further countries named by USGS (Vietnam and Malaysia), listed after the first rows; not part of USGS's 'Other countries' line"
   },
+  "worldPublished": 390000.0,
   "basis": "REO equivalent"
  },
  "reserves": {
@@ -151,83 +159,121 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 48.436
+    "v": 48.436,
+    "usd": 511531000,
+    "uv": 10600
    },
    {
     "c": "MMR",
-    "v": 44.366
+    "v": 44.366,
+    "usd": 817835000,
+    "uv": 18400
    },
    {
     "c": "AUS",
-    "v": 31.224
+    "v": 31.224,
+    "usd": 128066000,
+    "uv": 4100
    },
    {
     "c": "MYS",
     "v": 24.42,
-    "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 408951000,
+    "uv": 16700
    },
    {
     "c": "LAO",
-    "v": 10.748
+    "v": 10.748,
+    "usd": 259557000,
+    "uv": 24100
    },
    {
     "c": "VNM",
-    "v": 6.716
+    "v": 6.716,
+    "usd": 226609000,
+    "uv": 33700
    },
    {
     "c": "JPN",
-    "v": 6.374
+    "v": 6.374,
+    "usd": 226828000,
+    "uv": 35600
    },
    {
     "c": "USA",
     "v": 5.343,
-    "n": "51% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "51% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 91013000,
+    "uv": 17000
    },
    {
     "c": "RUS",
-    "v": 4.733
+    "v": 4.733,
+    "usd": 17765000,
+    "uv": 3750
    },
    {
     "c": "FRA",
-    "v": 2.928
+    "v": 2.928,
+    "usd": 76751000,
+    "uv": 26200
    },
    {
     "c": "EST",
-    "v": 2.081
+    "v": 2.081,
+    "usd": 19252000,
+    "uv": 9250
    },
    {
     "c": "KOR",
     "v": 1.779,
-    "n": "88% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "88% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 25448000,
+    "uv": 14300
    },
    {
     "c": "NLD",
-    "v": 1.424
+    "v": 1.424,
+    "usd": 9602000,
+    "uv": 6740
    },
    {
     "c": "AUT",
-    "v": 1.334
+    "v": 1.334,
+    "usd": 18881000,
+    "uv": 14200
    },
    {
     "c": "POL",
-    "v": 1.18
+    "v": 1.18,
+    "usd": 4347000,
+    "uv": 3680
    },
    {
     "c": "IND",
-    "v": 1.163
+    "v": 1.163,
+    "usd": 32102000,
+    "uv": 27600
    },
    {
     "c": "ITA",
-    "v": 0.966
+    "v": 0.966,
+    "usd": 12855000,
+    "uv": 13300
    },
    {
     "c": "THA",
-    "v": 0.84
+    "v": 0.84,
+    "usd": 43435000,
+    "uv": 51700
    },
    {
     "c": "SVN",
     "v": 0.713,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 1015000,
+    "uv": 1420
    },
    {
     "c": "DEU",
@@ -235,19 +281,26 @@
     "n": "Atlas estimate: 65% of this tonnage is estimated from the declared value (customs declared 0.00 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 19123000
    },
    {
     "c": "TWN",
-    "v": 0.35
+    "v": 0.35,
+    "usd": 13554000,
+    "uv": 38700
    },
    {
     "c": "GBR",
-    "v": 0.325
+    "v": 0.325,
+    "usd": 5878000,
+    "uv": 18100
    },
    {
     "c": "ZAF",
-    "v": 0.224
+    "v": 0.224,
+    "usd": 4408000,
+    "uv": 19700
    },
    {
     "c": "TUR",
@@ -255,44 +308,63 @@
     "n": "Atlas estimate: 53% of this tonnage is estimated from the declared value (customs declared 40.7 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 10446000
    },
    {
     "c": "NOR",
     "v": 0.119,
-    "n": "15% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "15% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 23088000,
+    "uv": 194000
    },
    {
     "c": "SGP",
-    "v": 0.1
+    "v": 0.1,
+    "usd": 6304000,
+    "uv": 63000
    },
    {
     "c": "CAN",
-    "v": 0.096
+    "v": 0.096,
+    "usd": 2163000,
+    "uv": 22500
    },
    {
     "c": "BRA",
-    "v": 0.06
+    "v": 0.06,
+    "usd": 1900000,
+    "uv": 31700
    },
    {
     "c": "HKG",
-    "v": 0.057
+    "v": 0.057,
+    "usd": 3340000,
+    "uv": 58600
    },
    {
     "c": "ESP",
-    "v": 0.029
+    "v": 0.029,
+    "usd": 1996000,
+    "uv": 68800
    },
    {
     "c": "PHL",
-    "v": 0.028
+    "v": 0.028,
+    "usd": 4292000,
+    "uv": 153000
    },
    {
     "c": "LTU",
-    "v": 0.01
+    "v": 0.01,
+    "usd": 1944000,
+    "uv": 194000
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "metals and compounds, gross weight"
+  "basis": "metals and compounds, gross weight",
+  "usd": 3030279000,
+  "uv": 15200
  },
  "imports": {
   "y": 2024,
@@ -302,125 +374,181 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 77.059
+    "v": 77.059,
+    "usd": 1397693000,
+    "uv": 18100
    },
    {
     "c": "MYS",
-    "v": 31.431
+    "v": 31.431,
+    "usd": 135799000,
+    "uv": 4320
    },
    {
     "c": "JPN",
-    "v": 24.107
+    "v": 24.107,
+    "usd": 513571000,
+    "uv": 21300
    },
    {
     "c": "USA",
-    "v": 13.692
+    "v": 13.692,
+    "usd": 172969000,
+    "uv": 12600
    },
    {
     "c": "PHL",
     "v": 7.572,
-    "n": "30% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "30% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 59739000,
+    "uv": 7890
    },
    {
     "c": "TWN",
-    "v": 7.156
+    "v": 7.156,
+    "usd": 50197000,
+    "uv": 7010
    },
    {
     "c": "DEU",
-    "v": 5.452
+    "v": 5.452,
+    "usd": 52867000,
+    "uv": 9700
    },
    {
     "c": "VNM",
-    "v": 4.745
+    "v": 4.745,
+    "usd": 229397000,
+    "uv": 48300
    },
    {
     "c": "FRA",
     "v": 4.02,
-    "n": "83% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "83% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 19533000,
+    "uv": 4860
    },
    {
     "c": "EST",
-    "v": 3.676
+    "v": 3.676,
+    "usd": 9356000,
+    "uv": 2550
    },
    {
     "c": "KOR",
-    "v": 2.848
+    "v": 2.848,
+    "usd": 96127000,
+    "uv": 33800
    },
    {
     "c": "HKG",
     "v": 2.693,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 2300000,
+    "uv": 854
    },
    {
     "c": "NLD",
-    "v": 2.174
+    "v": 2.174,
+    "usd": 14347000,
+    "uv": 6600
    },
    {
     "c": "IND",
-    "v": 1.805
+    "v": 1.805,
+    "usd": 16794000,
+    "uv": 9300
    },
    {
     "c": "THA",
-    "v": 1.54
+    "v": 1.54,
+    "usd": 78624000,
+    "uv": 51100
    },
    {
     "c": "BRA",
     "v": 1.391,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 3156000,
+    "uv": 2270
    },
    {
     "c": "RUS",
     "v": 1.279,
-    "n": "24% of tonnage estimated from value"
+    "n": "24% of tonnage estimated from value",
+    "usd": 19625000
    },
    {
     "c": "MKD",
-    "v": 0.925
+    "v": 0.925,
+    "usd": 21097000,
+    "uv": 22800
    },
    {
     "c": "NOR",
-    "v": 0.854
+    "v": 0.854,
+    "usd": 13612000,
+    "uv": 15900
    },
    {
     "c": "CAN",
-    "v": 0.782
+    "v": 0.782,
+    "usd": 3402000,
+    "uv": 4350
    },
    {
     "c": "SGP",
-    "v": 0.76
+    "v": 0.76,
+    "usd": 28884000,
+    "uv": 38000
    },
    {
     "c": "TUR",
     "v": 0.7238,
-    "n": "22% of tonnage estimated from value"
+    "n": "22% of tonnage estimated from value",
+    "usd": 20706000
    },
    {
     "c": "GBR",
-    "v": 0.449
+    "v": 0.449,
+    "usd": 5347000,
+    "uv": 11900
    },
    {
     "c": "ESP",
-    "v": 0.42
+    "v": 0.42,
+    "usd": 8726000,
+    "uv": 20800
    },
    {
     "c": "ITA",
-    "v": 0.349
+    "v": 0.349,
+    "usd": 7113000,
+    "uv": 20400
    },
    {
     "c": "POL",
-    "v": 0.343
+    "v": 0.343,
+    "usd": 3315000,
+    "uv": 9660
    },
    {
     "c": "SWE",
-    "v": 0.209
+    "v": 0.209,
+    "usd": 2320000,
+    "uv": 11100
    },
    {
     "c": "KGZ",
-    "v": 0.094
+    "v": 0.094,
+    "usd": 6969000,
+    "uv": 74100
    },
    {
     "c": "MEX",
-    "v": 0.07
+    "v": 0.07,
+    "usd": 4741000,
+    "uv": 67700
    },
    {
     "c": "BEN",
@@ -428,36 +556,51 @@
     "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 40.7 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 2151000
    },
    {
     "c": "ARE",
-    "v": 0.038
+    "v": 0.038,
+    "usd": 2788000,
+    "uv": 73400
    },
    {
     "c": "ZAF",
-    "v": 0.034
+    "v": 0.034,
+    "usd": 2002000,
+    "uv": 58900
    },
    {
     "c": "PAK",
-    "v": 0.033
+    "v": 0.033,
+    "usd": 1271000,
+    "uv": 38500
    },
    {
     "c": "BEL",
-    "v": 0.031
+    "v": 0.031,
+    "usd": 3290000,
+    "uv": 106000
    },
    {
     "c": "IRL",
     "v": 0.015,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 18829000,
+    "uv": 1260000
    },
    {
     "c": "CHE",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 1622000,
+    "uv": 541000
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-  "basis": "metals and compounds, gross weight"
+  "basis": "metals and compounds, gross weight",
+  "usd": 3030279000,
+  "uv": 15200
  },
  "flows": [
   {
@@ -467,6 +610,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 817835000,
+   "uv": 18400,
    "mode": "land"
   },
   {
@@ -476,7 +621,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 128066000,
+   "uv": 4100,
+   "mode": "sea",
+   "lane": "rare-earths:AUS-MYS"
   },
   {
    "o": "MYS",
@@ -485,7 +633,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 200383000,
+   "uv": 12500,
+   "mode": "sea",
+   "lane": "rare-earths:MYS-CHN"
   },
   {
    "o": "CHN",
@@ -494,7 +645,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 194727000,
+   "uv": 12200,
+   "mode": "sea",
+   "lane": "rare-earths:CHN-JPN"
   },
   {
    "o": "CHN",
@@ -503,7 +657,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 119256000,
+   "uv": 11100,
+   "mode": "sea",
+   "lane": "rare-earths:CHN-USA"
   },
   {
    "o": "LAO",
@@ -512,6 +669,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 259557000,
+   "uv": 24100,
    "mode": "land"
   },
   {
@@ -521,7 +680,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 11897000,
+   "uv": 1960,
+   "mode": "sea",
+   "lane": "rare-earths:CHN-TWN"
   },
   {
    "o": "RUS",
@@ -530,6 +692,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 9356000,
+   "uv": 2550,
    "mode": "land"
   },
   {
@@ -539,7 +703,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 45750000,
+   "uv": 13300,
+   "mode": "sea",
+   "lane": "rare-earths:VNM-CHN"
   },
   {
    "o": "MYS",
@@ -548,7 +715,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 4229000,
+   "uv": 1270,
    "mode": "sea",
+   "lane": "rare-earths:MYS-FRA",
    "n": "reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
   },
   {
@@ -558,7 +728,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 21075000,
+   "uv": 6610,
+   "mode": "sea",
+   "lane": "rare-earths:CHN-DEU"
   },
   {
    "o": "VNM",
@@ -567,7 +740,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "usd": 163815000,
+   "uv": 55100,
+   "mode": "sea",
+   "lane": "rare-earths:VNM-JPN"
   },
   {
    "o": "USA",
@@ -576,7 +752,10 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 2300000,
+   "uv": 854,
    "mode": "sea",
+   "lane": "rare-earths:USA-HKG",
    "n": "reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
   },
   {
@@ -586,6 +765,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 7282000,
+   "uv": 3650,
    "mode": "sea"
   },
   {
@@ -595,6 +776,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 35612000,
+   "uv": 18200,
    "mode": "sea"
   },
   {
@@ -604,6 +787,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 49232000,
+   "uv": 25500,
    "mode": "sea"
   },
   {
@@ -613,6 +798,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 32761000,
+   "uv": 17700,
    "mode": "sea"
   },
   {
@@ -622,6 +809,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 2394000,
+   "uv": 1540,
    "mode": "sea",
    "n": "reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
   },
@@ -632,6 +821,8 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 72919000,
+   "uv": 47600,
    "mode": "sea"
   },
   {
@@ -641,9 +832,90 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "usd": 7865000,
+   "uv": 5480,
    "mode": "sea"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption, apparent, compounds and metals",
+    "u": "t",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 9010.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 27000.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as production + imports - exports."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Rare earths, compounds and metals",
+    "pct": "67",
+    "y": 2025,
+    "src": "China, Malaysia, Estonia, Japan",
+    "n": "Descending order of import share. Includes lanthanides cerium, dysprosium, erbium, europium, gadolinium, holmium, lanthanum, lutetium, neodymium, praseodymium, samarium, terbium, thulium, and ytterbium. Imports from Hong Kong are included with China."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6935
+   },
+   "top3": 0.899,
+   "hhi": 5072,
+   "eq": 2.0,
+   "k": 12,
+   "cov": 0.9986
+  },
+  "reserves": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.5159
+   },
+   "top3": 0.836,
+   "hhi": 3371,
+   "eq": 3.0,
+   "k": 11,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2436
+   },
+   "top3": 0.6237,
+   "hhi": 1559,
+   "eq": 6.4,
+   "k": 32,
+   "cov": 1.0,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3875
+   },
+   "top3": 0.6669,
+   "hhi": 2003,
+   "eq": 5.0,
+   "k": 36,
+   "cov": 1.0,
+   "est": true
+  }
+ },
  "notes": [
   "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
  ],

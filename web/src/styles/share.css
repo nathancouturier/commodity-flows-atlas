@@ -1,0 +1,65 @@
+/* "Copy link" and "Copy citation" in the header of the detail panel (DetailActions.tsx) */
+.detail-actions {
+  position: absolute;
+  z-index: 5; /* above the positioned .detail-head, like the close button */
+  top: 12px;
+  right: 46px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.da-btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  color: var(--ink-2);
+}
+.da-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--ink-0);
+}
+.da-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.da-tip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 2px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--panel-raised);
+  border: 1px solid var(--hairline-strong);
+  font-size: var(--fs-xs);
+  color: var(--ink-0);
+  white-space: nowrap;
+  pointer-events: none;
+}
+.da-tip:empty {
+  display: none;
+}
+.da-tip.bad {
+  color: var(--alert);
+}
+/* the kicker line of a page is the one the buttons stand on: it wraps before it reaches them */
+.detail-head .detail-kicker {
+  padding-right: 56px;
+}
+@media (max-width: 1024px) {
+  .detail-actions {
+    right: 43px;
+    top: 8px;
+  }
+}
+@media (pointer: coarse) {
+  .da-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .detail-head .detail-kicker {
+    padding-right: 68px;
+  }
+}

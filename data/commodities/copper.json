@@ -30,6 +30,9 @@
    "n": "seaborne subset of BACI flows (copper-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.41 Mt that move both by sea and overland (split not known) are not in it; 33% of this tonnage estimated from value; main bulk group used: copper-ore"
   }
  },
+ "labels": {
+  "consumption": "Apparent consumption — refined copper, 2024 (Atlas estimate)"
+ },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
@@ -108,7 +111,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Cu",
-  "world": 29000.0,
+  "world": 28970.0,
   "rows": [
    {
     "c": "CHN",
@@ -179,14 +182,15 @@
     "v": 270.0
    }
   ],
-  "n": "USGS MCS 2026, refined copper production (primary and secondary); 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, refined copper production (primary and secondary); 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 28,970 kt Cu, while the rounded world total of 29,000 kt Cu is 0.1% above that sum: shares are computed on the sum",
   "other": 2100.0,
   "hidden": {
    "v": 2770.0,
    "k": 7,
    "from": 10,
    "n": "7 further countries named by USGS (Kazakhstan, Mexico, Australia, Indonesia, Peru, Canada and Zambia), listed after the first rows; not part of USGS's 'Other countries' line"
-  }
+  },
+  "worldPublished": 29000.0
  },
  "reserves": {
   "y": 2025,
@@ -261,6 +265,114 @@
   },
   "basis": "contained copper"
  },
+ "consumption": {
+  "y": 2024,
+  "s": "atlas",
+  "u": "kt",
+  "world": 27600,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 16000,
+    "n": "Atlas estimate: production 12,400 kt (USGS MCS 2026 2024) + imports 3,900 kt - exports 319 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "USA",
+    "v": 1650,
+    "n": "Atlas estimate: production 921 kt (USGS MCS 2026 2024) + imports 894 kt - exports 160 kt (CEPII BACI 2024); USGS states the apparent consumption of the United States for 2024 as 1,860 kt (Consumption: Apparent, primary refined copper and copper from old scrap; a different definition: see the United States block)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "DEU",
+    "v": 912,
+    "n": "Atlas estimate: production 597 kt (USGS MCS 2026 2024) + imports 441 kt - exports 126 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "JPN",
+    "v": 814,
+    "n": "Atlas estimate: production 1,570 kt (USGS MCS 2026 2024) + imports 8.2 kt - exports 765 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "IND",
+    "v": 796,
+    "n": "Atlas estimate: production 545 kt (USGS MCS 2026 2024) + imports 294 kt - exports 43 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "KOR",
+    "v": 706,
+    "n": "Atlas estimate: production 604 kt (USGS MCS 2026 2024) + imports 272 kt - exports 170 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "MEX",
+    "v": 593,
+    "n": "Atlas estimate: production 489 kt (USGS MCS 2026 2024) + imports 133 kt - exports 29.1 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "RUS",
+    "v": 549,
+    "n": "Atlas estimate: production 896 kt (USGS MCS 2026 2024) + imports 0.1 kt - exports 347 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "POL",
+    "v": 313,
+    "n": "Atlas estimate: production 589 kt (USGS MCS 2026 2024) + imports 10.7 kt - exports 287 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "CAN",
+    "v": 218,
+    "n": "Atlas estimate: production 324 kt (USGS MCS 2026 2024) + imports 35.4 kt - exports 141 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "IDN",
+    "v": 211,
+    "n": "Atlas estimate: production 349 kt (USGS MCS 2026 2024) + imports 88.9 kt - exports 227 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "PER",
+    "v": 105,
+    "n": "Atlas estimate: production 385 kt (USGS MCS 2026 2024) + imports 1.2 kt - exports 281 kt (CEPII BACI 2024)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   }
+  ],
+  "n": "Atlas estimate: apparent consumption of refined copper in 2024, by country: production plus imports minus exports of the same product and year, in kt. Production: refined copper production, primary and secondary (USGS), USGS MCS 2026 2024 column. Imports and exports: CEPII BACI 2024, refined copper (HS 7403), gross weight, with the atlas's cleaning rules. Trade is refined copper only (HS 7403, cathodes and refined forms); HS 7402, unrefined copper and anodes that refineries import, is left out. Refinery output counts primary and secondary refined copper, trade in scrap is not known. Stock changes are not known, so this is apparent consumption, not measured use. Only the countries for which USGS gives production are listed (17); 5 of them are left out because one of the three terms is missing (Australia, Chile, DR Congo, Kazakhstan, Zambia), and 0 because the result is negative. A country that trades the product but has no USGS production figure has no production term and is not in the table. World: the world production of the same product in 2024 as USGS gives it (27,600 kt, the sum of its countries and its 'Other countries' line): trade nets out in the world, so apparent consumption of the world is its production apart from changes in stocks, which are not known. The shares and 'Rest of world' (the countries not listed, dropped ones included) are computed on it; the order of the rows is not a world ranking.",
+  "est": true,
+  "norank": true,
+  "basis": "refined copper, apparent consumption"
+ },
  "exports": {
   "y": 2024,
   "s": "baci",
@@ -273,301 +385,448 @@
     "n": "Atlas estimate: 99% of this tonnage is estimated from the declared value (customs declared 4.81 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
-    "y": 2024
+    "y": 2024,
+    "usd": 30322195000
    },
    {
     "c": "PER",
-    "v": 9.365
+    "v": 9.365,
+    "usd": 20553585000,
+    "uv": 2190
    },
    {
     "c": "IDN",
-    "v": 2.457
+    "v": 2.457,
+    "usd": 8203653000,
+    "uv": 3340
    },
    {
     "c": "KAZ",
-    "v": 1.844
+    "v": 1.844,
+    "usd": 3195634000,
+    "uv": 1730
    },
    {
     "c": "MEX",
-    "v": 1.804
+    "v": 1.804,
+    "usd": 3797858000,
+    "uv": 2110
    },
    {
     "c": "MNG",
-    "v": 1.549
+    "v": 1.549,
+    "usd": 3325508000,
+    "uv": 2150
    },
    {
     "c": "BRA",
-    "v": 1.41
+    "v": 1.41,
+    "usd": 4062803000,
+    "uv": 2880
    },
    {
     "c": "AUS",
-    "v": 1.304
+    "v": 1.304,
+    "usd": 5280724000,
+    "uv": 4050
    },
    {
     "c": "USA",
-    "v": 1.256
+    "v": 1.256,
+    "usd": 3021915000,
+    "uv": 2410
    },
    {
     "c": "SRB",
-    "v": 0.9898
+    "v": 0.9898,
+    "usd": 1645817000,
+    "uv": 1660
    },
    {
     "c": "CAN",
-    "v": 0.8245
+    "v": 0.8245,
+    "usd": 3347705000,
+    "uv": 4060
    },
    {
     "c": "COD",
-    "v": 0.8037
+    "v": 0.8037,
+    "usd": 3028681000,
+    "uv": 3770
    },
    {
     "c": "ESP",
-    "v": 0.657
+    "v": 0.657,
+    "n": "Spain is both an exporter (rank 13, 0.657 Mt) and an importer (rank 5, 1.16 Mt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 1189825000,
+    "uv": 1810
    },
    {
     "c": "TUR",
     "v": 0.5178,
-    "n": "11% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "11% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 657877000,
+    "uv": 1270
    },
    {
     "c": "ECU",
-    "v": 0.4963
+    "v": 0.4963,
+    "usd": 1122402000,
+    "uv": 2260
    },
    {
     "c": "RUS",
-    "v": 0.4884
+    "v": 0.4884,
+    "usd": 1524431000,
+    "uv": 3120
    },
    {
     "c": "BGR",
-    "v": 0.4178
+    "v": 0.4178,
+    "usd": 628950000,
+    "uv": 1510
    },
    {
     "c": "PHL",
-    "v": 0.387
+    "v": 0.387,
+    "usd": 955376000,
+    "uv": 2470
    },
    {
     "c": "PNG",
-    "v": 0.3739
+    "v": 0.3739,
+    "usd": 1263069000,
+    "uv": 3380
    },
    {
     "c": "ARM",
-    "v": 0.3715
+    "v": 0.3715,
+    "usd": 611605000,
+    "uv": 1650
    },
    {
     "c": "BWA",
-    "v": 0.2966
+    "v": 0.2966,
+    "usd": 820273000,
+    "uv": 2770
    },
    {
     "c": "SAU",
-    "v": 0.2859
+    "v": 0.2859,
+    "usd": 600803000,
+    "uv": 2100
    },
    {
     "c": "PRT",
-    "v": 0.2357
+    "v": 0.2357,
+    "usd": 368424000,
+    "uv": 1560
    },
    {
     "c": "TWN",
-    "v": 0.2251
+    "v": 0.2251,
+    "usd": 353777000,
+    "uv": 1570
    },
    {
     "c": "KOR",
-    "v": 0.2015
+    "v": 0.2015,
+    "usd": 334516000,
+    "uv": 1660
    },
    {
     "c": "LAO",
-    "v": 0.1818
+    "v": 0.1818,
+    "usd": 476310000,
+    "uv": 2620
    },
    {
     "c": "ZAF",
-    "v": 0.1625
+    "v": 0.1625,
+    "usd": 318791000,
+    "uv": 1960
    },
    {
     "c": "MAR",
-    "v": 0.154
+    "v": 0.154,
+    "usd": 160909000,
+    "uv": 1040
    },
    {
     "c": "ERI",
-    "v": 0.1075
+    "v": 0.1075,
+    "usd": 257990000,
+    "uv": 2400
    },
    {
     "c": "ARE",
-    "v": 0.0921
+    "v": 0.0921,
+    "usd": 180677000,
+    "uv": 1960
    },
    {
     "c": "ROU",
-    "v": 0.0839
+    "v": 0.0839,
+    "usd": 147779000,
+    "uv": 1760
    },
    {
     "c": "MRT",
-    "v": 0.0826
+    "v": 0.0826,
+    "usd": 221159000,
+    "uv": 2680
    },
    {
     "c": "NAM",
-    "v": 0.0761
+    "v": 0.0761,
+    "usd": 206286000,
+    "uv": 2710
    },
    {
     "c": "MNE",
-    "v": 0.0745
+    "v": 0.0745,
+    "usd": 110973000,
+    "uv": 1490
    },
    {
     "c": "DOM",
-    "v": 0.0674
+    "v": 0.0674,
+    "usd": 108086000,
+    "uv": 1600
    },
    {
     "c": "ZMB",
-    "v": 0.0549
+    "v": 0.0549,
+    "usd": 70198000,
+    "uv": 1280
    },
    {
     "c": "GEO",
-    "v": 0.0501
+    "v": 0.0501,
+    "usd": 105362000,
+    "uv": 2100
    },
    {
     "c": "COL",
-    "v": 0.0455
+    "v": 0.0455,
+    "usd": 85571000,
+    "uv": 1880
    },
    {
     "c": "MYS",
-    "v": 0.0439
+    "v": 0.0439,
+    "usd": 60518000,
+    "uv": 1380
    },
    {
     "c": "ALB",
-    "v": 0.0436
+    "v": 0.0436,
+    "usd": 67363000,
+    "uv": 1550
    },
    {
     "c": "DEU",
-    "v": 0.0396
+    "v": 0.0396,
+    "usd": 104156000,
+    "uv": 2630
    },
    {
     "c": "MKD",
-    "v": 0.0353
+    "v": 0.0353,
+    "usd": 69426000,
+    "uv": 1970
    },
    {
     "c": "SWE",
-    "v": 0.0329
+    "v": 0.0329,
+    "usd": 210644000,
+    "uv": 6400
    },
    {
     "c": "TZA",
-    "v": 0.03
+    "v": 0.03,
+    "usd": 182407000,
+    "uv": 6080
    },
    {
     "c": "IND",
-    "v": 0.023
+    "v": 0.023,
+    "usd": 38551000,
+    "uv": 1680
    },
    {
     "c": "FIN",
-    "v": 0.0225
+    "v": 0.0225,
+    "usd": 47685000,
+    "uv": 2120
    },
    {
     "c": "KGZ",
-    "v": 0.0196
+    "v": 0.0196,
+    "usd": 35996000,
+    "uv": 1840
    },
    {
     "c": "CHN",
-    "v": 0.017
+    "v": 0.017,
+    "usd": 26850000,
+    "uv": 1580
    },
    {
     "c": "SGP",
-    "v": 0.0161
+    "v": 0.0161,
+    "usd": 122991000,
+    "uv": 7640
    },
    {
     "c": "CYP",
-    "v": 0.0153
+    "v": 0.0153,
+    "usd": 21547000,
+    "uv": 1410
    },
    {
     "c": "BOL",
-    "v": 0.0127
+    "v": 0.0127,
+    "usd": 29492000,
+    "uv": 2320
    },
    {
     "c": "PAN",
-    "v": 0.0111
+    "v": 0.0111,
+    "usd": 23466000,
+    "uv": 2110
    },
    {
     "c": "KEN",
-    "v": 0.0104
+    "v": 0.0104,
+    "usd": 3807000,
+    "uv": 366
    },
    {
     "c": "DNK",
-    "v": 0.0102
+    "v": 0.0102,
+    "usd": 17768000,
+    "uv": 1740
    },
    {
     "c": "MMR",
-    "v": 0.0089
+    "v": 0.0089,
+    "usd": 16890000,
+    "uv": 1900
    },
    {
     "c": "PAK",
-    "v": 0.0086
+    "v": 0.0086,
+    "usd": 10389000,
+    "uv": 1210
    },
    {
     "c": "OMN",
-    "v": 0.0082
+    "v": 0.0082,
+    "usd": 14384000,
+    "uv": 1750
    },
    {
     "c": "JPN",
     "v": 0.008,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 537000,
+    "uv": 67.1
    },
    {
     "c": "VNM",
-    "v": 0.0068
+    "v": 0.0068,
+    "usd": 10060000,
+    "uv": 1480
    },
    {
     "c": "HRV",
-    "v": 0.0067
+    "v": 0.0067,
+    "usd": 10719000,
+    "uv": 1600
    },
    {
     "c": "SVN",
-    "v": 0.0052
+    "v": 0.0052,
+    "usd": 7856000,
+    "uv": 1510
    },
    {
     "c": "COG",
-    "v": 0.005
+    "v": 0.005,
+    "usd": 10498000,
+    "uv": 2100
    },
    {
     "c": "TJK",
-    "v": 0.0049
+    "v": 0.0049,
+    "usd": 17389000,
+    "uv": 3550
    },
    {
     "c": "IRN",
-    "v": 0.0038
+    "v": 0.0038,
+    "usd": 4908000,
+    "uv": 1290
    },
    {
     "c": "SUR",
-    "v": 0.003
+    "v": 0.003,
+    "usd": 4398000,
+    "uv": 1470
    },
    {
     "c": "ARG",
-    "v": 0.0022
+    "v": 0.0022,
+    "usd": 441000,
+    "uv": 200
    },
    {
     "c": "AZE",
-    "v": 0.0016
+    "v": 0.0016,
+    "usd": 3791000,
+    "uv": 2370
    },
    {
     "c": "ZWE",
-    "v": 0.0016
+    "v": 0.0016,
+    "usd": 3548000,
+    "uv": 2220
    },
    {
     "c": "HKG",
-    "v": 0.0015
+    "v": 0.0015,
+    "usd": 1919000,
+    "uv": 1280
    },
    {
     "c": "FRA",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 3452000,
+    "uv": 2880
    },
    {
     "c": "NIC",
-    "v": 0.0012
+    "v": 0.0012,
+    "usd": 1816000,
+    "uv": 1510
    },
    {
     "c": "MDG",
-    "v": 0.001
+    "v": 0.001,
+    "usd": 327000,
+    "uv": 327
    },
    {
     "c": "BEL",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 2880000,
+    "uv": 3600
    }
   ],
   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 29% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
-  "basis": "ores and concentrates, gross weight"
+  "basis": "ores and concentrates, gross weight",
+  "usd": 103856366000
  },
  "imports": {
   "y": 2024,
@@ -578,186 +837,263 @@
    {
     "c": "CHN",
     "v": 27.739,
-    "n": "30% of tonnage estimated from value"
+    "n": "30% of tonnage estimated from value",
+    "usd": 64716156000
    },
    {
     "c": "JPN",
     "v": 5.268,
-    "n": "44% of tonnage estimated from value"
+    "n": "44% of tonnage estimated from value",
+    "usd": 13183861000
    },
    {
     "c": "KOR",
     "v": 1.704,
-    "n": "33% of tonnage estimated from value"
+    "n": "33% of tonnage estimated from value",
+    "usd": 4940208000
    },
    {
     "c": "IND",
     "v": 1.23,
-    "n": "45% of tonnage estimated from value"
+    "n": "45% of tonnage estimated from value",
+    "usd": 3937420000
    },
    {
     "c": "ESP",
     "v": 1.162,
-    "n": "21% of tonnage estimated from value"
+    "n": "21% of tonnage estimated from value; Spain is both an exporter (rank 13, 0.657 Mt) and an importer (rank 5, 1.16 Mt) of this product, in similar tonnages: part of its trade may be metal bought, stored or shipped on there rather than made or used there (a possible reading, not established here)",
+    "usd": 2450985000
    },
    {
     "c": "BGR",
-    "v": 1.018
+    "v": 1.018,
+    "usd": 2549596000,
+    "uv": 2500
    },
    {
     "c": "DEU",
     "v": 0.8566,
-    "n": "25% of tonnage estimated from value"
+    "n": "25% of tonnage estimated from value",
+    "usd": 2382661000
    },
    {
     "c": "PHL",
     "v": 0.5515,
-    "n": "13% of tonnage estimated from value"
+    "n": "13% of tonnage estimated from value",
+    "usd": 2048310000
    },
    {
     "c": "MEX",
-    "v": 0.4924
+    "v": 0.4924,
+    "usd": 1195941000,
+    "uv": 2430
    },
    {
     "c": "FIN",
-    "v": 0.435
+    "v": 0.435,
+    "usd": 1023538000,
+    "uv": 2350
    },
    {
     "c": "TWN",
-    "v": 0.3739
+    "v": 0.3739,
+    "usd": 862144000,
+    "uv": 2310
    },
    {
     "c": "SWE",
-    "v": 0.3539
+    "v": 0.3539,
+    "usd": 768499000,
+    "uv": 2170
    },
    {
     "c": "RUS",
-    "v": 0.1895
+    "v": 0.1895,
+    "usd": 228134000,
+    "uv": 1200
    },
    {
     "c": "NAM",
-    "v": 0.1539
+    "v": 0.1539,
+    "usd": 427287000,
+    "uv": 2780
    },
    {
     "c": "POL",
-    "v": 0.1442
+    "v": 0.1442,
+    "usd": 560185000,
+    "uv": 3880
    },
    {
     "c": "CAN",
     "v": 0.1427,
-    "n": "13% of tonnage estimated from value"
+    "n": "13% of tonnage estimated from value",
+    "usd": 725364000
    },
    {
     "c": "MYS",
-    "v": 0.1316
+    "v": 0.1316,
+    "usd": 286797000,
+    "uv": 2180
    },
    {
     "c": "ZMB",
-    "v": 0.1039
+    "v": 0.1039,
+    "usd": 147826000,
+    "uv": 1420
    },
    {
     "c": "SRB",
-    "v": 0.1013
+    "v": 0.1013,
+    "usd": 322403000,
+    "uv": 3180
    },
    {
     "c": "KAZ",
-    "v": 0.0787
+    "v": 0.0787,
+    "usd": 66446000,
+    "uv": 844
    },
    {
     "c": "UZB",
-    "v": 0.0659
+    "v": 0.0659,
+    "usd": 213234000,
+    "uv": 3240
    },
    {
     "c": "SGP",
-    "v": 0.0578
+    "v": 0.0578,
+    "usd": 142799000,
+    "uv": 2470
    },
    {
     "c": "SEN",
     "v": 0.0554,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 2395000,
+    "uv": 43.2
    },
    {
     "c": "MOZ",
-    "v": 0.0551
+    "v": 0.0551,
+    "usd": 117692000,
+    "uv": 2140
    },
    {
     "c": "GEO",
-    "v": 0.0452
+    "v": 0.0452,
+    "usd": 76157000,
+    "uv": 1680
    },
    {
     "c": "CHE",
-    "v": 0.038
+    "v": 0.038,
+    "usd": 49345000,
+    "uv": 1300
    },
    {
     "c": "CHL",
-    "v": 0.0378
+    "v": 0.0378,
+    "usd": 86958000,
+    "uv": 2300
    },
    {
     "c": "CYP",
-    "v": 0.0318
+    "v": 0.0318,
+    "usd": 32723000,
+    "uv": 1030
    },
    {
     "c": "PER",
-    "v": 0.0256
+    "v": 0.0256,
+    "usd": 93197000,
+    "uv": 3640
    },
    {
     "c": "MUS",
-    "v": 0.0082
+    "v": 0.0082,
+    "usd": 9085000,
+    "uv": 1110
    },
    {
     "c": "KHM",
-    "v": 0.0078
+    "v": 0.0078,
+    "usd": 10416000,
+    "uv": 1340
    },
    {
     "c": "IRN",
-    "v": 0.0076
+    "v": 0.0076,
+    "usd": 10831000,
+    "uv": 1430
    },
    {
     "c": "BEL",
-    "v": 0.0076
+    "v": 0.0076,
+    "usd": 161651000,
+    "uv": 21300
    },
    {
     "c": "IDN",
-    "v": 0.0054
+    "v": 0.0054,
+    "usd": 717000,
+    "uv": 133
    },
    {
     "c": "SAU",
     "v": 0.0045,
-    "n": "96% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "96% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 1585000,
+    "uv": 352
    },
    {
     "c": "QAT",
     "v": 0.0037,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 269000,
+    "uv": 72.7
    },
    {
     "c": "ARE",
-    "v": 0.0023
+    "v": 0.0023,
+    "usd": 748000,
+    "uv": 325
    },
    {
     "c": "ITA",
-    "v": 0.0023
+    "v": 0.0023,
+    "usd": 4029000,
+    "uv": 1750
    },
    {
     "c": "THA",
     "v": 0.002,
-    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 110000,
+    "uv": 55.0
    },
    {
     "c": "PRT",
-    "v": 0.0014
+    "v": 0.0014,
+    "usd": 12729000,
+    "uv": 9090
    },
    {
     "c": "GBR",
-    "v": 0.0008
+    "v": 0.0008,
+    "usd": 4209000,
+    "uv": 5260
    },
    {
     "c": "HKG",
-    "v": 0.0006
+    "v": 0.0006,
+    "usd": 1726000,
+    "uv": 2880
    }
   ],
   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 29% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
-  "basis": "ores and concentrates, gross weight"
+  "basis": "ores and concentrates, gross weight",
+  "usd": 103856366000
  },
  "extra": [
   {
@@ -771,358 +1107,534 @@
     "rows": [
      {
       "c": "COD",
-      "v": 2.206
+      "v": 2.206,
+      "usd": 20625052000,
+      "uv": 9350
      },
      {
       "c": "CHL",
-      "v": 2.162
+      "v": 2.162,
+      "usd": 19582427000,
+      "uv": 9060
      },
      {
       "c": "ZMB",
-      "v": 1.078
+      "v": 1.078,
+      "usd": 9928168000,
+      "uv": 9210
      },
      {
       "c": "JPN",
-      "v": 0.7657
+      "v": 0.7657,
+      "usd": 7112658000,
+      "uv": 9290
      },
      {
       "c": "KAZ",
-      "v": 0.4911
+      "v": 0.4911,
+      "usd": 4302756000,
+      "uv": 8760
      },
      {
       "c": "AUS",
-      "v": 0.3981
+      "v": 0.3981,
+      "usd": 3685479000,
+      "uv": 9260
      },
      {
       "c": "RUS",
-      "v": 0.3876
+      "v": 0.3876,
+      "usd": 3574928000,
+      "uv": 9220
      },
      {
       "c": "BGR",
-      "v": 0.3384
+      "v": 0.3384,
+      "usd": 3515858000,
+      "uv": 10400
      },
      {
       "c": "CHN",
-      "v": 0.3207
+      "v": 0.3207,
+      "usd": 3018183000,
+      "uv": 9410
      },
      {
       "c": "PER",
-      "v": 0.2952
+      "v": 0.2952,
+      "usd": 2666488000,
+      "uv": 9030
      },
      {
       "c": "POL",
-      "v": 0.2894
+      "v": 0.2894,
+      "usd": 2587550000,
+      "uv": 8940
      },
      {
       "c": "SWE",
-      "v": 0.2393
+      "v": 0.2393,
+      "usd": 2434515000,
+      "uv": 10200
      },
      {
       "c": "IDN",
-      "v": 0.2282
+      "v": 0.2282,
+      "usd": 2127699000,
+      "uv": 9320
      },
      {
       "c": "USA",
-      "v": 0.2107
+      "v": 0.2107,
+      "usd": 1611202000,
+      "uv": 7650
      },
      {
       "c": "COG",
-      "v": 0.1994
+      "v": 0.1994,
+      "usd": 1859362000,
+      "uv": 9320
      },
      {
       "c": "KOR",
-      "v": 0.1973
+      "v": 0.1973,
+      "usd": 1825164000,
+      "uv": 9250
      },
      {
       "c": "ESP",
-      "v": 0.1701
+      "v": 0.1701,
+      "usd": 1419574000,
+      "uv": 8350
      },
      {
       "c": "BEL",
-      "v": 0.169
+      "v": 0.169,
+      "usd": 1506912000,
+      "uv": 8920
      },
      {
       "c": "PHL",
-      "v": 0.1534
+      "v": 0.1534,
+      "usd": 1405142000,
+      "uv": 9160
      },
      {
       "c": "CAN",
-      "v": 0.1528
+      "v": 0.1528,
+      "usd": 1302664000,
+      "uv": 8530
      },
      {
       "c": "SRB",
-      "v": 0.1452
+      "v": 0.1452,
+      "usd": 1304770000,
+      "uv": 8990
      },
      {
       "c": "DEU",
-      "v": 0.1438
+      "v": 0.1438,
+      "usd": 1286880000,
+      "uv": 8950
      },
      {
       "c": "AUT",
-      "v": 0.1357
+      "v": 0.1357,
+      "usd": 1249386000,
+      "uv": 9210
      },
      {
       "c": "ZAF",
-      "v": 0.1157
+      "v": 0.1157,
+      "usd": 1055763000,
+      "uv": 9130
      },
      {
       "c": "FIN",
-      "v": 0.1077
+      "v": 0.1077,
+      "usd": 1000721000,
+      "uv": 9290
      },
      {
       "c": "PAK",
-      "v": 0.0906
+      "v": 0.0906,
+      "usd": 868732000,
+      "uv": 9590
      },
      {
       "c": "NLD",
-      "v": 0.0674
+      "v": 0.0674,
+      "usd": 558957000,
+      "uv": 8290
      },
      {
       "c": "NAM",
-      "v": 0.064
+      "v": 0.064,
+      "usd": 699568000,
+      "uv": 10900
      },
      {
       "c": "ARE",
-      "v": 0.0626
+      "v": 0.0626,
+      "usd": 559052000,
+      "uv": 8930
      },
      {
       "c": "SVK",
-      "v": 0.0625
+      "v": 0.0625,
+      "usd": 570976000,
+      "uv": 9140
      },
      {
       "c": "UZB",
-      "v": 0.0606
+      "v": 0.0606,
+      "usd": 557673000,
+      "uv": 9200
      },
      {
       "c": "IND",
-      "v": 0.0462
+      "v": 0.0462,
+      "usd": 406573000,
+      "uv": 8800
      },
      {
       "c": "FRA",
-      "v": 0.0373
+      "v": 0.0373,
+      "usd": 317268000,
+      "uv": 8510
      },
      {
       "c": "MEX",
-      "v": 0.0363
+      "v": 0.0363,
+      "usd": 343343000,
+      "uv": 9460
      },
      {
       "c": "MAR",
-      "v": 0.0353
+      "v": 0.0353,
+      "usd": 333043000,
+      "uv": 9430
      },
      {
       "c": "THA",
-      "v": 0.0338
+      "v": 0.0338,
+      "usd": 270582000,
+      "uv": 8010
      },
      {
       "c": "TWN",
-      "v": 0.0323
+      "v": 0.0323,
+      "usd": 209936000,
+      "uv": 6500
      },
      {
       "c": "ITA",
-      "v": 0.0319
+      "v": 0.0319,
+      "usd": 272179000,
+      "uv": 8530
      },
      {
       "c": "IRN",
-      "v": 0.0301
+      "v": 0.0301,
+      "usd": 270657000,
+      "uv": 8990
      },
      {
       "c": "MYS",
       "v": 0.028,
-      "n": "13% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "13% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 213423000,
+      "uv": 7620
      },
      {
       "c": "TZA",
-      "v": 0.0265
+      "v": 0.0265,
+      "usd": 274873000,
+      "uv": 10400
      },
      {
       "c": "SGP",
-      "v": 0.0265
+      "v": 0.0265,
+      "usd": 198211000,
+      "uv": 7480
      },
      {
       "c": "MMR",
-      "v": 0.0249
+      "v": 0.0249,
+      "usd": 234946000,
+      "uv": 9440
      },
      {
       "c": "TUR",
-      "v": 0.0212
+      "v": 0.0212,
+      "usd": 196990000,
+      "uv": 9290
      },
      {
       "c": "NOR",
-      "v": 0.0177
+      "v": 0.0177,
+      "usd": 163023000,
+      "uv": 9210
      },
      {
       "c": "NGA",
-      "v": 0.0168
+      "v": 0.0168,
+      "usd": 142415000,
+      "uv": 8480
      },
      {
       "c": "QAT",
-      "v": 0.016
+      "v": 0.016,
+      "usd": 145155000,
+      "uv": 9070
      },
      {
       "c": "MNG",
-      "v": 0.0136
+      "v": 0.0136,
+      "usd": 126659000,
+      "uv": 9310
      },
      {
       "c": "LAO",
-      "v": 0.0116
+      "v": 0.0116,
+      "usd": 109388000,
+      "uv": 9430
      },
      {
       "c": "CHE",
-      "v": 0.0106
+      "v": 0.0106,
+      "usd": 109001000,
+      "uv": 10300
      },
      {
       "c": "KHM",
-      "v": 0.0092
+      "v": 0.0092,
+      "usd": 88730000,
+      "uv": 9640
      },
      {
       "c": "HRV",
-      "v": 0.0077
+      "v": 0.0077,
+      "usd": 41648000,
+      "uv": 5410
      },
      {
       "c": "VNM",
-      "v": 0.0067
+      "v": 0.0067,
+      "usd": 58825000,
+      "uv": 8780
      },
      {
       "c": "LUX",
-      "v": 0.0052
+      "v": 0.0052,
+      "usd": 46527000,
+      "uv": 8950
      },
      {
       "c": "MOZ",
-      "v": 0.005
+      "v": 0.005,
+      "usd": 44954000,
+      "uv": 8990
      },
      {
       "c": "TJK",
-      "v": 0.0049
+      "v": 0.0049,
+      "usd": 46131000,
+      "uv": 9410
      },
      {
       "c": "TGO",
       "v": 0.0042,
-      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 1882000,
+      "uv": 448
      },
      {
       "c": "HKG",
-      "v": 0.004
+      "v": 0.004,
+      "usd": 6547000,
+      "uv": 1640
      },
      {
       "c": "SVN",
-      "v": 0.0032
+      "v": 0.0032,
+      "usd": 27956000,
+      "uv": 8740
      },
      {
       "c": "AGO",
-      "v": 0.0024
+      "v": 0.0024,
+      "usd": 21843000,
+      "uv": 9100
      },
      {
       "c": "SAU",
-      "v": 0.0024
+      "v": 0.0024,
+      "usd": 17401000,
+      "uv": 7250
      },
      {
       "c": "LVA",
-      "v": 0.002
+      "v": 0.002,
+      "usd": 16904000,
+      "uv": 8450
      },
      {
       "c": "AZE",
-      "v": 0.0019
+      "v": 0.0019,
+      "usd": 17150000,
+      "uv": 9030
      },
      {
       "c": "BOL",
-      "v": 0.0019
+      "v": 0.0019,
+      "usd": 17063000,
+      "uv": 8980
      },
      {
       "c": "ISR",
-      "v": 0.0018
+      "v": 0.0018,
+      "usd": 1022000,
+      "uv": 568
      },
      {
       "c": "GIN",
-      "v": 0.0017
+      "v": 0.0017,
+      "usd": 15458000,
+      "uv": 9090
      },
      {
       "c": "GAB",
-      "v": 0.0016
+      "v": 0.0016,
+      "usd": 14759000,
+      "uv": 9220
      },
      {
       "c": "ROU",
-      "v": 0.0015
+      "v": 0.0015,
+      "usd": 1292000,
+      "uv": 861
      },
      {
       "c": "CMR",
-      "v": 0.0014
+      "v": 0.0014,
+      "usd": 12316000,
+      "uv": 8800
      },
      {
       "c": "BRA",
       "v": 0.0012,
-      "n": "84% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+      "n": "84% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 2277000,
+      "uv": 1900
      },
      {
       "c": "IRQ",
-      "v": 0.0012
+      "v": 0.0012,
+      "usd": 10987000,
+      "uv": 9160
      },
      {
       "c": "ARM",
-      "v": 0.0012
+      "v": 0.0012,
+      "usd": 10340000,
+      "uv": 8620
      },
      {
       "c": "DZA",
-      "v": 0.0008
+      "v": 0.0008,
+      "usd": 7597000,
+      "uv": 9500
      },
      {
       "c": "MUS",
-      "v": 0.0007
+      "v": 0.0007,
+      "usd": 5162000,
+      "uv": 7370
      },
      {
       "c": "EGY",
-      "v": 0.0007
+      "v": 0.0007,
+      "usd": 5750000,
+      "uv": 8210
      },
      {
       "c": "MKD",
-      "v": 0.0006
+      "v": 0.0006,
+      "usd": 5805000,
+      "uv": 9680
      },
      {
       "c": "CZE",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 5508000,
+      "uv": 11000
      },
      {
       "c": "KEN",
-      "v": 0.0004
+      "v": 0.0004,
+      "usd": 4442000,
+      "uv": 11100
      },
      {
       "c": "PRT",
-      "v": 0.0004
+      "v": 0.0004,
+      "usd": 2123000,
+      "uv": 5310
      },
      {
       "c": "GRC",
-      "v": 0.0003
+      "v": 0.0003,
+      "usd": 3467000,
+      "uv": 11600
      },
      {
       "c": "BGD",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1658000,
+      "uv": 8290
      },
      {
       "c": "GBR",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1826000,
+      "uv": 9130
      },
      {
       "c": "DJI",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1404000,
+      "uv": 7020
      },
      {
       "c": "DNK",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1342000,
+      "uv": 6710
      },
      {
       "c": "TKM",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1242000,
+      "uv": 6210
      },
      {
       "c": "LBN",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1281000,
+      "uv": 6400
      },
      {
       "c": "HUN",
-      "v": 0.0001
+      "v": 0.0001,
+      "usd": 6629000,
+      "uv": 66300
      }
     ],
     "n": "CEPII BACI HS92 refined and blister copper (HS 7402, 7403), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-    "basis": "gross weight"
+    "basis": "gross weight",
+    "usd": 110720255000,
+    "uv": 9160
    }
   },
   {
@@ -1136,284 +1648,424 @@
     "rows": [
      {
       "c": "CHN",
-      "v": 4.545
+      "v": 4.545,
+      "usd": 41807897000,
+      "uv": 9200
      },
      {
       "c": "USA",
-      "v": 0.8951
+      "v": 0.8951,
+      "usd": 8391835000,
+      "uv": 9380
      },
      {
       "c": "DEU",
-      "v": 0.5776
+      "v": 0.5776,
+      "usd": 5224192000,
+      "uv": 9040
      },
      {
       "c": "ITA",
-      "v": 0.5555
+      "v": 0.5555,
+      "usd": 4977190000,
+      "uv": 8960
      },
      {
       "c": "TWN",
-      "v": 0.5382
+      "v": 0.5382,
+      "usd": 5054441000,
+      "uv": 9390
      },
      {
       "c": "IND",
-      "v": 0.5326
+      "v": 0.5326,
+      "usd": 4871238000,
+      "uv": 9150
      },
      {
       "c": "CHE",
       "v": 0.4959,
-      "n": "rank 7: 0.49 Mt of it comes from Zambia. Switzerland is a commodity-trading centre, so this may be metal bought by traders based there rather than metal used there (a possible reading, not established here)"
+      "n": "rank 7: 0.49 Mt of it comes from Zambia. Switzerland is a commodity-trading centre, so this may be metal bought by traders based there rather than metal used there (a possible reading, not established here)",
+      "usd": 4686447000,
+      "uv": 9450
      },
      {
       "c": "TUR",
-      "v": 0.3874
+      "v": 0.3874,
+      "usd": 3530970000,
+      "uv": 9110
      },
      {
       "c": "THA",
-      "v": 0.375
+      "v": 0.375,
+      "usd": 3226253000,
+      "uv": 8600
      },
      {
       "c": "KOR",
-      "v": 0.3099
+      "v": 0.3099,
+      "usd": 2807740000,
+      "uv": 9060
      },
      {
       "c": "BRA",
-      "v": 0.2811
+      "v": 0.2811,
+      "usd": 2546745000,
+      "uv": 9060
      },
      {
       "c": "MYS",
-      "v": 0.2784
+      "v": 0.2784,
+      "usd": 2226848000,
+      "uv": 8000
      },
      {
       "c": "BEL",
-      "v": 0.2109
+      "v": 0.2109,
+      "usd": 2309561000,
+      "uv": 11000
      },
      {
       "c": "VNM",
-      "v": 0.2077
+      "v": 0.2077,
+      "usd": 1887245000,
+      "uv": 9090
      },
      {
       "c": "FRA",
-      "v": 0.1911
+      "v": 0.1911,
+      "usd": 1791188000,
+      "uv": 9370
      },
      {
       "c": "CAN",
-      "v": 0.1854
+      "v": 0.1854,
+      "usd": 1608642000,
+      "uv": 8680
      },
      {
       "c": "SAU",
-      "v": 0.1605
+      "v": 0.1605,
+      "usd": 1490245000,
+      "uv": 9290
      },
      {
       "c": "ESP",
-      "v": 0.1591
+      "v": 0.1591,
+      "usd": 1406759000,
+      "uv": 8840
      },
      {
       "c": "EGY",
-      "v": 0.1439
+      "v": 0.1439,
+      "usd": 1270171000,
+      "uv": 8830
      },
      {
       "c": "MEX",
-      "v": 0.1327
+      "v": 0.1327,
+      "usd": 1193107000,
+      "uv": 8990
      },
      {
       "c": "SWE",
-      "v": 0.1224
+      "v": 0.1224,
+      "usd": 1214316000,
+      "uv": 9920
      },
      {
       "c": "NLD",
-      "v": 0.1003
+      "v": 0.1003,
+      "usd": 909579000,
+      "uv": 9070
      },
      {
       "c": "IDN",
-      "v": 0.0889
+      "v": 0.0889,
+      "usd": 809577000,
+      "uv": 9110
      },
      {
       "c": "AUT",
-      "v": 0.087
+      "v": 0.087,
+      "usd": 765533000,
+      "uv": 8800
      },
      {
       "c": "GRC",
-      "v": 0.0848
+      "v": 0.0848,
+      "usd": 720851000,
+      "uv": 8500
      },
      {
       "c": "FIN",
-      "v": 0.0619
+      "v": 0.0619,
+      "usd": 797240000,
+      "uv": 12900
      },
      {
       "c": "KAZ",
-      "v": 0.0405
+      "v": 0.0405,
+      "usd": 384831000,
+      "uv": 9500
      },
      {
       "c": "SGP",
-      "v": 0.0364
+      "v": 0.0364,
+      "usd": 332443000,
+      "uv": 9130
      },
      {
       "c": "BGR",
-      "v": 0.0288
+      "v": 0.0288,
+      "usd": 271001000,
+      "uv": 9410
      },
      {
       "c": "KHM",
-      "v": 0.0288
+      "v": 0.0288,
+      "usd": 106270000,
+      "uv": 3690
      },
      {
       "c": "ARE",
-      "v": 0.0261
+      "v": 0.0261,
+      "usd": 250612000,
+      "uv": 9600
      },
      {
       "c": "ZAF",
-      "v": 0.0216
+      "v": 0.0216,
+      "usd": 204276000,
+      "uv": 9460
      },
      {
       "c": "HKG",
-      "v": 0.0184
+      "v": 0.0184,
+      "usd": 154688000,
+      "uv": 8410
      },
      {
       "c": "BGD",
-      "v": 0.0179
+      "v": 0.0179,
+      "usd": 156800000,
+      "uv": 8760
      },
      {
       "c": "AUS",
-      "v": 0.0165
+      "v": 0.0165,
+      "usd": 103963000,
+      "uv": 6300
      },
      {
       "c": "SRB",
-      "v": 0.0155
+      "v": 0.0155,
+      "usd": 146840000,
+      "uv": 9470
      },
      {
       "c": "PAK",
-      "v": 0.014
+      "v": 0.014,
+      "usd": 128548000,
+      "uv": 9180
      },
      {
       "c": "HRV",
-      "v": 0.013
+      "v": 0.013,
+      "usd": 122635000,
+      "uv": 9430
      },
      {
       "c": "JPN",
-      "v": 0.0112
+      "v": 0.0112,
+      "usd": 93507000,
+      "uv": 8350
      },
      {
       "c": "POL",
-      "v": 0.0108
+      "v": 0.0108,
+      "usd": 81753000,
+      "uv": 7570
      },
      {
       "c": "GBR",
-      "v": 0.0101
+      "v": 0.0101,
+      "usd": 93571000,
+      "uv": 9260
      },
      {
       "c": "BHR",
-      "v": 0.0094
+      "v": 0.0094,
+      "usd": 89628000,
+      "uv": 9530
      },
      {
       "c": "KWT",
-      "v": 0.0085
+      "v": 0.0085,
+      "usd": 80119000,
+      "uv": 9430
      },
      {
       "c": "CZE",
-      "v": 0.0064
+      "v": 0.0064,
+      "usd": 48279000,
+      "uv": 7540
      },
      {
       "c": "LVA",
-      "v": 0.0059
+      "v": 0.0059,
+      "usd": 47229000,
+      "uv": 8000
      },
      {
       "c": "HUN",
-      "v": 0.0057
+      "v": 0.0057,
+      "usd": 40453000,
+      "uv": 7100
      },
      {
       "c": "SVK",
-      "v": 0.0044
+      "v": 0.0044,
+      "usd": 40923000,
+      "uv": 9300
      },
      {
       "c": "RUS",
-      "v": 0.0033
+      "v": 0.0033,
+      "usd": 33214000,
+      "uv": 10100
      },
      {
       "c": "PHL",
-      "v": 0.0025
+      "v": 0.0025,
+      "usd": 22175000,
+      "uv": 8870
      },
      {
       "c": "ECU",
-      "v": 0.002
+      "v": 0.002,
+      "usd": 12248000,
+      "uv": 6120
      },
      {
       "c": "PRT",
-      "v": 0.0019
+      "v": 0.0019,
+      "usd": 17325000,
+      "uv": 9120
      },
      {
       "c": "DZA",
-      "v": 0.0019
+      "v": 0.0019,
+      "usd": 17451000,
+      "uv": 9180
      },
      {
       "c": "PAN",
-      "v": 0.0018
+      "v": 0.0018,
+      "usd": 15971000,
+      "uv": 8870
      },
      {
       "c": "PER",
-      "v": 0.0012
+      "v": 0.0012,
+      "usd": 9630000,
+      "uv": 8020
      },
      {
       "c": "LTU",
-      "v": 0.0012
+      "v": 0.0012,
+      "usd": 10340000,
+      "uv": 8620
      },
      {
       "c": "COL",
-      "v": 0.001
+      "v": 0.001,
+      "usd": 9752000,
+      "uv": 9750
      },
      {
       "c": "COG",
-      "v": 0.001
+      "v": 0.001,
+      "usd": 8370000,
+      "uv": 8370
      },
      {
       "c": "ROU",
-      "v": 0.001
+      "v": 0.001,
+      "usd": 9628000,
+      "uv": 9630
      },
      {
       "c": "TZA",
-      "v": 0.0009
+      "v": 0.0009,
+      "usd": 8128000,
+      "uv": 9030
      },
      {
       "c": "LUX",
-      "v": 0.0008
+      "v": 0.0008,
+      "usd": 6449000,
+      "uv": 8060
      },
      {
       "c": "MUS",
-      "v": 0.0007
+      "v": 0.0007,
+      "usd": 6647000,
+      "uv": 9500
      },
      {
       "c": "UGA",
-      "v": 0.0006
+      "v": 0.0006,
+      "usd": 5074000,
+      "uv": 8460
      },
      {
       "c": "NOR",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 4902000,
+      "uv": 9800
      },
      {
       "c": "ZWE",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 5077000,
+      "uv": 10200
      },
      {
       "c": "MKD",
-      "v": 0.0005
+      "v": 0.0005,
+      "usd": 3415000,
+      "uv": 6830
      },
      {
       "c": "ARG",
-      "v": 0.0004
+      "v": 0.0004,
+      "usd": 3550000,
+      "uv": 8880
      },
      {
       "c": "JOR",
-      "v": 0.0003
+      "v": 0.0003,
+      "usd": 3730000,
+      "uv": 12400
      },
      {
       "c": "TUN",
-      "v": 0.0002
+      "v": 0.0002,
+      "usd": 1731000,
+      "uv": 8660
      },
      {
       "c": "IRQ",
-      "v": 0.0001
+      "v": 0.0001,
+      "usd": 1269000,
+      "uv": 12700
      }
     ],
     "n": "CEPII BACI HS92 refined and blister copper (HS 7402, 7403), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
-    "basis": "gross weight"
+    "basis": "gross weight",
+    "usd": 110720255000,
+    "uv": 9160
    }
   }
  ],
@@ -1425,6 +2077,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
+   "usd": 20701475000,
    "mode": "sea",
    "lane": "copper-ore:CHL-CHN",
    "est": true,
@@ -1437,6 +2090,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 15599725000,
+   "uv": 2230,
    "mode": "sea",
    "lane": "copper-ore:PER-CHN"
   },
@@ -1447,6 +2102,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
+   "usd": 5017619000,
    "mode": "sea",
    "lane": "copper-ore:CHL-JPN",
    "est": true,
@@ -1459,6 +2115,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2903030000,
+   "uv": 1790,
    "mode": "land"
   },
   {
@@ -1468,6 +2126,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3351828000,
+   "uv": 2090,
    "mode": "sea",
    "lane": "copper-ore:MEX-CHN"
   },
@@ -1478,6 +2138,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 3325508000,
+   "uv": 2150,
    "mode": "land"
   },
   {
@@ -1487,6 +2149,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1707284000,
+   "uv": 1900,
    "mode": "sea",
    "lane": "copper-ore:PER-JPN"
   },
@@ -1497,8 +2161,16 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1349593000,
+   "uv": 1690,
    "mode": "sea",
-   "n": "sea through a foreign port (not specified)"
+   "transit": {
+    "port": "ROCND",
+    "c": "ROU",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba"
+   },
+   "lane": "copper-ore:SRB-CHN"
   },
   {
    "o": "IDN",
@@ -1507,6 +2179,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2087539000,
+   "uv": 3010,
    "mode": "sea",
    "lane": "copper-ore:IDN-CHN"
   },
@@ -1517,6 +2191,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2295895000,
+   "uv": 3420,
    "mode": "sea",
    "lane": "copper-ore:IDN-JPN"
   },
@@ -1527,6 +2203,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 2522513000,
+   "uv": 4040,
    "mode": "sea",
    "lane": "copper-ore:COD-CHN"
   },
@@ -1537,6 +2215,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1037289000,
+   "uv": 1820,
    "mode": "sea",
    "lane": "copper-ore:ESP-CHN"
   },
@@ -1547,6 +2227,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
+   "usd": 1352974000,
    "mode": "sea",
    "lane": "copper-ore:CHL-KOR",
    "est": true,
@@ -1559,6 +2240,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
+   "usd": 1339717000,
    "mode": "sea",
    "lane": "copper-ore:CHL-IND",
    "est": true,
@@ -1571,6 +2253,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1059922000,
+   "uv": 2230,
    "mode": "sea",
    "lane": "copper-ore:ECU-CHN"
   },
@@ -1581,6 +2265,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1134346000,
+   "uv": 2430,
    "mode": "land"
   },
   {
@@ -1590,6 +2276,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1854693000,
+   "uv": 4000,
    "mode": "sea",
    "lane": "copper-ore:AUS-JPN"
   },
@@ -1600,6 +2288,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 1469267000,
+   "uv": 3560,
    "mode": "mixed",
    "lane": "copper-ore:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -1611,6 +2301,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 868340000,
+   "uv": 2350,
    "mode": "sea",
    "lane": "copper-ore:BRA-CHN"
   },
@@ -1621,13 +2313,127 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
+   "usd": 720835000,
+   "uv": 2040,
    "mode": "sea",
    "lane": "copper-ore:USA-JPN"
   }
  ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption: Apparent, primary refined copper and copper from old scrap",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 1860.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 2200.0,
+      "est": true
+     }
+    ],
+    "n": "Primary refined production + copper recovered from old scrap + refined imports - refined exports ± adjustments for refined copper stock changes."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Copper, refined",
+    "pct": "57",
+    "y": 2025,
+    "src": "Chile, Canada, Peru, Mexico",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHL",
+    "p": 0.2303
+   },
+   "top3": 0.4867,
+   "hhi": 1036,
+   "eq": 9.7,
+   "k": 14,
+   "cov": 0.8696
+  },
+  "refinery": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.4833
+   },
+   "top3": 0.6386,
+   "hhi": 2537,
+   "eq": 3.9,
+   "k": 17,
+   "cov": 0.9275
+  },
+  "reserves": {
+   "top1": {
+    "c": "CHL",
+    "p": 0.1837
+   },
+   "top3": 0.3724,
+   "hhi": 745,
+   "eq": 13.4,
+   "k": 14,
+   "cov": 0.7859
+  },
+  "exports": {
+   "top1": {
+    "c": "CHL",
+    "p": 0.2904
+   },
+   "top3": 0.5673,
+   "hhi": 1461,
+   "eq": 6.8,
+   "k": 73,
+   "cov": 0.999,
+   "est": true
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6496
+   },
+   "top3": 0.8129,
+   "hhi": 4420,
+   "eq": 2.3,
+   "k": 42,
+   "cov": 0.9999
+  },
+  "refined-exports": {
+   "top1": {
+    "c": "COD",
+    "p": 0.1826
+   },
+   "top3": 0.4508,
+   "hhi": 870,
+   "eq": 11.5,
+   "k": 87,
+   "cov": 1.0001
+  },
+  "refined-imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3762
+   },
+   "top3": 0.4981,
+   "hhi": 1628,
+   "eq": 6.1,
+   "k": 69,
+   "cov": 1.0
+  }
+ },
  "notes": [
   "Refined copper (HS 7403, 7402), 2024 (CEPII BACI): world 12.08 Mt gross weight; top exporters DR Congo 2.21 Mt, Chile 2.16 Mt, Zambia 1.08 Mt.",
   "Chile's copper concentrate: customs data declare some of it at 3,988 to 10,220 USD per tonne in 2024, against about 2,195 for Peru's concentrate to the same destinations; a tonnage declared in contained copper rather than gross weight is a plausible cause, not established here. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships 50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's unit value times 1.125, the median ratio of Chile's unit value to Peru's in the 10 years in which Chile's declarations are in line (2002, 2009, 2014 to 2020 and 2023). Chile then exports 12.44 Mt instead of the 4.95 Mt declared, and Chile to China 8.24 Mt instead of 2.79 Mt. Importers' own declarations (UN Comtrade) would measure it; the atlas has no access key for them.",
-  "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary)."
+  "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary).",
+  "The 'refined and blister copper' tables add HS 7403 (refined copper, 10.0 Mt in 2024) and HS 7402 (unrefined copper and anodes, 2.0 Mt, the feed of refineries). The apparent consumption table uses HS 7403 only."
  ]
 }
