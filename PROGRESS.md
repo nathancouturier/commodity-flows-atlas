@@ -20,7 +20,7 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused (history by country, full lists, monthly crude, prices, stocks) | pending |
 | 5 | Hand-curated layers | infrastructure done and released on 23 November; companies, events, alerts, Baltic routes and vessel classes pending |
 | 6 | Additions (freight rates, port data, search, forecasts, new commodities) | pending |
-| all | Pipeline alerts, validator, tests in CI, documentation | in progress: 441 unit tests, three data validators, methodology rewritten for the engine |
+| all | Pipeline alerts, validator, tests in CI, documentation | in progress: 485 unit tests, three data validators, methodology rewritten for the engine |
 
 ## Second release (23 November 2026): what changed
 
@@ -46,11 +46,14 @@ released. This file is updated at each release.
 - **Routing.** Passages after the antimeridian are detected; draught limits apply by class; no
   routing along 50 S; Cape Horn only for the South Pacific; the Johor and Kanmon straits are closed
   to through routing. Parallel passages (Sunda, Malacca with Singapore, Lombok with Makassar;
-  Taiwan Strait, Luzon) are shown as "One of".
-- **Chokepoint shares as "at least" and "up to"**, over every recorded pair and every group (494
-  estimates on 30 pages, 77 before), capped by IMF PortWatch volume where it applies, with a note
-  where the atlas figure exceeds the traffic PortWatch counted that year. Hormuz crude reads at
-  least 27.2%, up to 32.1% (21.2% before); refined products 20.7% (2.4% before).
+  Taiwan Strait, Luzon) are shown as "One of"; 29 lanes whose main port option avoids such a group
+  print "May also cross" for the option that does not.
+- **Chokepoint shares as "at least" and "up to"**, over every recorded pair and every group (490
+  estimates on 20 of the 30 chokepoint pages, 77 before), capped by IMF PortWatch volume where it
+  applies, with a note where the atlas figure exceeds the traffic PortWatch counted that year. An
+  estimate is kept when the figure the page prints reaches 2% of the seaborne trade or 1 Mt.
+  Hormuz crude reads at least 27.2%, up to 32.1% (21.2% before); refined products 20.7% (2.4%
+  before).
 - **Customs data.** Iranian crude moved out of "Other Asia"; duplicated Qatari LPG rows dropped;
   isolated unit-value anomalies of bulk cargoes re-estimated from the declared value and labelled
   "Atlas estimate" (bauxite from Guinea to China in 2023, for example); twelve checks against EIA,
@@ -67,7 +70,9 @@ released. This file is updated at each release.
 - Crude oil, gas and LNG key figures carry a second unit, labelled "Atlas conversion" with its
   factor.
 - Chilean copper concentrate, declared in contained copper in some years, is re-estimated at
-  Peru's unit value: Chile is the first exporter (14 Mt, Atlas estimate) instead of the second.
+  Peru's unit value times the median ratio of Chile's own unit value to Peru's in its regular
+  years: Chile is the first exporter (12.4 Mt in the file, printed "12 Mt, Atlas estimate")
+  instead of the second.
 - Gold, silver and PGM are shown in fine-metal equivalent (declared value over the annual average
   price), with the customs gross weight beside it.
 - Lithium has a spodumene table (Australia, Zimbabwe, Brazil to China, Atlas estimate) and lanes;
@@ -76,6 +81,9 @@ released. This file is updated at each release.
   bauxite and tin state their known gaps; urea production is in product tonnes (FAOSTAT) and
   potash production is converted to the unit of its trade; cocoa cites the ICCO total beside
   FAOSTAT; coffee, cocoa and cotton are in Mt everywhere.
+- 17 USGS tables whose country lines sum above the published world total (rounding, or a total
+  the publisher rounds down) compute their shares on the sum of the lines; the published total
+  stays printed.
 
 ### Infrastructure layer (first part of wave 5)
 
@@ -101,7 +109,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 ## What the atlas contains today
 
 - **Freight (the core)**
-  - 18 vessel classes.
+  - 19 vessel classes (dry bulk, tankers, gas carriers, and one container class for the bagged and
+    boxed cargoes: cotton, coffee, cocoa, refined metals).
   - 103 routes: 60 Baltic benchmarks and 43 heavy non-benchmark routes. 74 have a corridor share
     of seaborne trade and 77 a 2005 to 2024 volume history; 29 say why they have none; 26 carry a
     share of their class's tonne-miles.
@@ -109,8 +118,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     182 history-only lanes; a table of 23,853 recorded pairs.
   - A route finder for every recorded pair.
   - 30 chokepoint pages: the 28 passages counted by IMF PortWatch (weekly series since 2019,
-    vessels and estimated cargo tonnes), plus the Singapore Strait and Cape Horn, with 494 Atlas
-    estimates of the cargo that has to cross or may cross.
+    vessels and estimated cargo tonnes), plus the Singapore Strait and Cape Horn; 20 of them carry
+    Atlas estimates of the cargo that has to cross or may cross (490 estimates).
   - 47 disruption events from 2008 to 2026 and three banners written by hand.
 - **39 commodities**: production and reserves (USGS, EIA), agriculture (USDA PSD, FAOSTAT), trade
   and flows (CEPII BACI 2024), 247 company entries.
@@ -120,7 +129,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 - **Prices**: 45 series (World Bank monthly since 1960, EIA daily, one freight cost index), with
   lookup by date.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
-- **46 registered sources**, every one free to read.
+- **45 registered third-party sources**, every one free to read, plus the atlas's own entry for its
+  estimates and conversions.
 
 ## Decisions of the owner
 
@@ -155,6 +165,18 @@ These were needed to finish the work; each is reversible.
    status is "not stated". In History mode an asset not yet open is dimmed, not hidden.
 6. A few coordinates come from OpenStreetMap (attribution in the notices); the terms of the
    Norwegian Offshore Directorate could not be read and are recorded as "terms not read".
+7. Smaller rules set during the last review, each one line to change:
+   - a USGS table computes its shares on the sum of its lines only when that sum exceeds the
+     published world total by more than 0.05%;
+   - the floor of a chokepoint estimate (2% or 1 Mt) is tested on the figure printed after the
+     PortWatch cap, which drops four small entries (soybeans at Suez and Bab el-Mandeb, soybean
+     meal at Bab el-Mandeb, palm oil at Torres);
+   - the container class is given a band of 0 to 24,000 TEU and a typical ship of 12,000 TEU, an
+     Atlas convention (no free source gives a typical size per cargo);
+   - the spodumene load ports cite a company filing (Bunbury) and trade-press pages (Esperance,
+     Port Hedland, Vitoria); Beira, for Zimbabwe, is the general port of the country;
+   - when the freight step of the annual job fails after a new CEPII BACI file was installed, the
+     old cache is restored and the next monthly run downloads the file again (2.4 GB).
 
 ## Known limits
 

@@ -203,7 +203,8 @@ export interface VesselClass {
   name: string;
   segment: Segment;
   /** deadweight range in tonnes (or cbm for gas carriers, see unit) */
-  size: { min: number; max: number; typical: number; u: 'dwt' | 'cbm' | 'teu' };
+  /** typicalS: source id of the typical size when it is not the class's own source (the atlas, for a convention) */
+  size: { min: number; max: number; typical: number; typicalS?: string; u: 'dwt' | 'cbm' | 'teu' };
   dims?: { loa?: number; beam?: number; draft?: number; s?: string };
   cargoes: string[];
   constraints: string[];

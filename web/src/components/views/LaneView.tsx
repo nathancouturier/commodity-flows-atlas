@@ -221,7 +221,7 @@ export default function LaneView({ id }: { id: string }) {
         <AltBox alts={lane.alts} alt={lane.alt} note={lane.altNote} />
         {lane.hist.length > 1 && (
           <Section title={`Volume ${file.years[0]}–${file.years[file.years.length - 1]}`}>
-            <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} flags={lane.histFlags} />
+            <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} flags={lane.histFlags} allEst={file.s === 'atlas'} />
             <HistFlagNotes lane={lane} />
             <SourceLine s={file.s} y={`${file.years[0]}–${file.years[file.years.length - 1]}`} n={lane.histNote && !lane.histFlags ? `${file.unit} · ${lane.histNote}` : file.unit} />
           </Section>

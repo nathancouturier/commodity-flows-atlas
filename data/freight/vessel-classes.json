@@ -759,6 +759,7 @@
 "min": 25000,
 "max": 50000,
 "typical": 37500,
+"typicalS": "atlas",
 "u": "cbm"
 },
 "cargoes": [
@@ -792,6 +793,7 @@
 "min": 0,
 "max": 24000,
 "typical": 12000,
+"typicalS": "atlas",
 "u": "teu"
 },
 "cargoes": [

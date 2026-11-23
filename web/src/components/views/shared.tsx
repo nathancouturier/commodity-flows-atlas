@@ -214,7 +214,7 @@ const FLAG_TITLE: Partial<Record<HistFlag, string>> = {
 const DAY = 86400;
 
 /** Annual history bars (2005-2024 style). `flags` marks the years that are estimated, checked or have no figure. */
-export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag> }) {
+export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag>; allEst?: boolean }) {
   const x = useMemo(() => props.years.map((y) => Date.UTC(y, 0, 1) / 1000), [props.years]);
   const series = useMemo(
     () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? '#3ee6ff' }],
@@ -231,7 +231,8 @@ export function HistoryChart(props: { years: number[]; values: (number | null)[]
     }
     return out.length ? out : undefined;
   }, [props.flags]);
-  // the readout prints an estimated year with the two significant digits the lane figure has
-  const estimated = useMemo(() => props.years.map((y) => props.flags?.[String(y)] === 'est'), [props.years, props.flags]);
+  // the readout prints an estimated year with the two significant digits the lane figure has; in a group that is an
+  // Atlas estimate as a whole (allEst) every year is one
+  const estimated = useMemo(() => props.years.map((y) => !!props.allEst || props.flags?.[String(y)] === 'est'), [props.years, props.flags, props.allEst]);
   return <TimeChart x={x} series={series} unit={props.unit} bars xFormat="year" height={130} zoom={false} markers={markers} estimated={estimated} ariaLabel={`Annual volume, ${props.unit}`} />;
 }
