@@ -197,7 +197,7 @@
    {
     "c": "DEU",
     "v": 3.108,
-    "n": "36% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "n": "36% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
@@ -258,7 +258,7 @@
    {
     "c": "FIN",
     "v": 2.497,
-    "n": "45% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "n": "45% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal, not contained cobalt.",

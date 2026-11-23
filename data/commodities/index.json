@@ -244,12 +244,13 @@
   "id": "nickel",
   "name": "Nickel",
   "family": "metals",
-  "blurb": "Ore, intermediates and refined nickel; Indonesia now dominates mine supply.",
+  "blurb": "Ore, ferro-nickel and nickel pig iron, intermediates and refined nickel; Indonesia now dominates mine supply.",
   "unit": "kt Ni",
   "hs": [
    "2604",
    "7501",
-   "7502"
+   "7502",
+   "720260"
   ],
   "has": [
    "production",
@@ -321,11 +322,12 @@
   "id": "lithium",
   "name": "Lithium",
   "family": "metals",
-  "blurb": "Spodumene concentrate and brine-derived chemicals for batteries.",
+  "blurb": "Lithium carbonate and hydroxide for batteries, and the spodumene concentrate that hard-rock mines ship to China.",
   "unit": "t Li",
   "hs": [
    "283691",
-   "282520"
+   "282520",
+   "253090"
   ],
   "has": [
    "production",

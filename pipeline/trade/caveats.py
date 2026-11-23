@@ -17,6 +17,7 @@ Rules of writing (binding for every entry):
 build_lanes.py writes the active entries to data/freight/caveats.json and tags lanes and pairs;
 build_commodities.py feeds them to its caveats() / annotate() mechanism.
 """
+import json
 import os
 import sys
 
@@ -25,6 +26,26 @@ import checks as K  # noqa: E402
 from clean import S19_UNSPECIFIED, XAS  # noqa: E402
 
 HYPOTHESIS = "is a plausible cause; it is not established here."
+ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
+TROY_OZ_G = 31.1034768  # grams in a troy ounce, exact by definition (international yard and pound agreement of 1959)
+
+
+def annual_price(series, year):
+    """Average of the twelve monthly prices of `year` in data/prices/<series>.json (World Bank Pink Sheet, USD per troy
+    ounce for the precious metals), or None when the file, the unit or a month is missing."""
+    try:
+        with open(os.path.join(ROOT, "data", "prices", series + ".json"), encoding="utf-8") as f:
+            pr = json.load(f)
+        with open(os.path.join(ROOT, "data", "prices", "index.json"), encoding="utf-8") as f:
+            unit = next(e["unit"] for e in json.load(f) if e["id"] == series)
+    except (OSError, ValueError, KeyError, StopIteration):
+        return None
+    y0, m0 = int(pr["start"][:4]), int(pr["start"][5:7])
+    i = (year - y0) * 12 - (m0 - 1)
+    vals = pr["v"][i:i + 12] if i >= 0 else []
+    if unit != "USD/troy oz" or len(vals) != 12 or any(v is None for v in vals):
+        return None
+    return sum(vals) / 12
 
 
 class Ctx:
@@ -207,6 +228,28 @@ def _hub(g, o, check=None):
     return text
 
 
+def _price_gap(g, what, o, d, series, metal, max_ratio=0.5, min_t=10):
+    """A precious-metal pair declared far below the price of the metal its code names (tonnes, not Mt): a cargo of
+    another, cheaper metal declared under the code is the hypothesis."""
+    def text(c):
+        x = c.df[(c.df["group"] == g) & (c.df["o"] == o) & (c.df["d"] == d)]
+        now = x[x["year"] == c.y]
+        t, usd = float(now["t"].sum()), float(now["usd"].sum()) * 1000
+        price = annual_price(series, c.y)
+        if t < min_t or not usd or not price:
+            return None
+        per_kg, ref = usd / t / 1000, price * 1000 / TROY_OZ_G
+        if per_kg > max_ratio * ref:
+            return None
+        before = x[x["year"] == c.y - 1]["t"].sum()
+        return (f"Customs data record {t:,.0f} t of {what} from {name(o)} to {name(d)} in {c.y} (CEPII BACI), "
+                f"{t / max(c.df[(c.df['group'] == g) & (c.df['d'] == d) & (c.df['year'] == c.y)]['t'].sum(), 1):.0%} of {name(d)}'s "
+                f"recorded imports, against {before:,.1f} t in {c.y - 1}. They are declared at {per_kg:,.0f} USD per kg, "
+                f"{per_kg / ref:.0%} of the {c.y} average {metal} price ({ref:,.0f} USD per kg, World Bank Pink Sheet). Gold or "
+                f"another cheaper metal declared as a {metal} alloy {HYPOTHESIS}")
+    return text
+
+
 REF_YEAR = min(S19_UNSPECIFIED.values()) - 1  # the last year before Iran's crude was recorded under "Other Asia"
 
 # id, kind, group, origin, destination (None = any), check it depends on, text
@@ -235,6 +278,8 @@ REGISTRY = [
     ("lpg-irn", "unrecorded", "lpg", "IRN", None, None, _unrecorded_peak("lpg", "IRN")),
     ("lpg-omn-chn", "origin-unchecked", "lpg", "OMN", "CHN", None, _unchecked_pair("lpg", "OMN", "CHN", "IRN")),
     ("lpg-are-chn", "origin-unchecked", "lpg", "ARE", "CHN", None, _unchecked_pair("lpg", "ARE", "CHN", "IRN")),
+    # metals (audit C-035): groups without lanes, built by build_commodities.py from the same registry
+    ("pgm-are-ind", "declaration", "pgm", "ARE", "IND", None, _price_gap("pgm", "platinum-group metals", "ARE", "IND", "platinum-m", "platinum")),
 ]
 
 

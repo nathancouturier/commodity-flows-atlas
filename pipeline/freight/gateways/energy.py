@@ -36,6 +36,8 @@ EXTRA_ZONES / ZONES: freight zones used here that the plan's list of zones does 
 WP = "https://en.wikipedia.org/wiki/"
 GIIGNL = "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page="
 LIST = WP + "List_of_LNG_terminals"
+EIAI = "https://www.eia.gov/petroleum/imports/companylevel/"
+EIACAB = "https://www.eia.gov/international/analysis/country/"
 
 EXTRA_ZONES = {
     "n-australia": "Northern Australia (Darwin)",
@@ -53,13 +55,12 @@ MANUAL_EXTRA = {
     # Bonaire (BES): the searoute list has no port of the Caribbean Netherlands. Coordinates of Kralendijk, "the capital
     # and the main port of the island" (Wikipedia). Not in a gateway row: the page names no oil terminal.
     "BQKRA": ("Kralendijk (Bonaire)", "BES", -68.2656, 12.1444),
-    # Offshore terminals (LOOP lies 29 km off the Louisiana coast, Halul Island 90 km northeast of Doha): coordinates
-    # of the page's infobox. They are further than ports.SEAPORT_KM from the generalised coastline by nature (OFFSHORE).
-    "USLOP": ("Louisiana Offshore Oil Port (LOOP)", "USA", -90.025, 28.885),
+    # Offshore terminal (Halul Island lies 90 km northeast of Doha): coordinates of the page's infobox. It is further than
+    # ports.SEAPORT_KM from the generalised coastline by nature (OFFSHORE).
     "QAHAL": ("Halul Island oil terminal", "QAT", 52.411, 25.675),
 }
 # Terminals in open water: the test of ports.is_seaport does not apply, a distance of 40 km does.
-OFFSHORE = {"USLOP", "QAHAL"}
+OFFSHORE = {"QAHAL"}
 ZONES = EXTRA_ZONES
 
 # {code: {zone, s, url}}, the layout of ports.MANUAL_SRC
@@ -68,7 +69,6 @@ MANUAL_SRC = {
     "MZCSL": {"zone": "e-africa", "s": "giignl-2026", "url": GIIGNL + "19"},
     "CNRDG": {"zone": "n-china", "s": "giignl-2026", "url": GIIGNL + "29"},
     "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
-    "USLOP": {"zone": "us-gulf", "s": "wikipedia", "url": WP + "Louisiana_Offshore_Oil_Port"},
     "QAHAL": {"zone": "meg", "s": "wikipedia", "url": WP + "Halul_Island"},
 }
 
@@ -135,7 +135,17 @@ G = {
         ("USSAB", "us-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "18", "Gulf Coast liquefaction (Sabine Pass is the largest in the layer)"),
         ("USCVP", "us-atlantic", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Atlantic coast liquefaction, Maryland"),
         ("USCRP", "us-gulf", {"crude"}, "load", "wikipedia", WP + "Port_of_Corpus_Christi", "The page calls the port the United States' largest gateway for crude oil exports"),
-        ("USLOP", "us-gulf", {"crude"}, "discharge", "wikipedia", WP + "Louisiana_Offshore_Oil_Port", "Deepwater port that offloads tankers of crude oil: 'handles 13 percent of the nation's foreign oil'; the page does not name the other import ports"),
+        # Ports of entry of the EIA file of company-level imports (Form EIA-814), 2024, thousand barrels of crude oil and of
+        # every other petroleum product, read from impa24d.xlsx. Pipeline and rail crossings (Chicago, Peoria, Port Huron...)
+        # are not seaports and are left out. Houston is the largest seaport of entry and the Gulf the largest coast (about
+        # 490 million barrels of the 1,150 entered at seaports); the Pacific coast comes second and the Atlantic third, so
+        # each is an option of the pairs on its own ocean.
+        ("USHOU", "us-gulf", {"crude"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Houston, TX entered 105.5 million barrels of crude oil, the largest seaport of entry (Port Arthur 97.4, Beaumont 58.4, Corpus Christi 53.2); the offshore terminal LOOP is not a port of entry of the file"),
+        ("USLGB", "us-west", {"crude"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Pacific coast, Richmond 70.2, Long Beach 69.6, Los Angeles 69.2 and El Segundo 62.8 million barrels of crude oil (Long Beach and Los Angeles are one port complex)"),
+        ("USEWR", "us-atlantic", {"crude"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Atlantic coast, Newark, NJ entered 85.2 million barrels of crude oil (Philadelphia 44.5, Wilmington, DE 50.3)"),
+        ("USEWR", "us-atlantic", {"products"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Newark, NJ entered 95.9 and Perth Amboy, NJ 33.7 million barrels of petroleum products other than crude oil (New York Harbor), the largest of the seaports of entry; the Atlantic coast is the largest coast of product imports"),
+        ("USHOU", "us-gulf", {"products"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Houston, TX entered 77.6 million barrels of petroleum products other than crude oil, the second seaport of entry (Gramercy, LA 25.6)"),
+        ("USLAX", "us-west", {"products"}, "discharge", "eia-company-imports", EIAI, "EIA company-level imports 2024: Los Angeles, CA entered 23.6 million barrels of petroleum products other than crude oil, the largest Pacific seaport of entry (San Francisco 11.8, Richmond 10.5)"),
         ("USHOU", "us-gulf", {"lpg"}, "load", "wikipedia", WP + "Enterprise_Products", "Enterprise Products' marine terminals on the Houston Ship Channel load natural gas liquids for export (the page says NGL, not LPG alone)"),
     ],
     "PNG": [
@@ -147,8 +157,8 @@ G = {
     "RUS": [
         ("RUSAB", "arctic-russia", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Yamal LNG, Sabetta"),
         ("RUPRG", "russia-far-east", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Sakhalin-2, Prigorodnoye"),
-        ("RUPRI", "baltic", {"products"}, "load", "wikipedia", WP + "Port_of_Primorsk", "Primorsk opened a terminal for transferring light petroleum products"),
-        ("RUNJK", "russia-far-east", {"products"}, "load", "wikipedia", WP + "Port_of_Nakhodka", "Nakhodka's key commodities include petroleum products; the oil loading port opened in 1973"),
+        ("RUPRI", "baltic", {"products"}, "load", "wikipedia", WP + "Port_of_Primorsk", "Primorsk: the page opened 'a terminal for transferring light petroleum products' and gives the port's throughput of petroleum products, 1.56 million tonnes in 2008 and 13.5 in 2019 (an oil-loading port)"),
+        ("RUNJK", "russia-far-east", {"products"}, "load", "wikipedia", WP + "Port_of_Nakhodka", "The Nakhodka port complex includes maritime and oil terminals and its 'key commodities handled include coal, petroleum products, containers' (the page gives no tonnage; the oil loading port was commissioned in 1973)"),
     ],
     "NOR": [
         ("NOHFT", "nw-europe", {"lng"}, "load", "giignl-2026", GIIGNL + "17", None),
@@ -229,7 +239,6 @@ G = {
     ],
     "KWT": [
         ("KWKWM", "meg", {"lng"}, "discharge", "giignl-2026", GIIGNL + "32", "Al-Zour (nearest port: Khor al Muffatta)"),
-        ("KWMEA", "meg", {"crude"}, "load", "wikipedia", WP + "Ahmadi_Governorate", "'The first oil export from Kuwait was facilitated from Mina Al-Ahmadi in 1946' (the page gives no recent volume)"),
     ],
     "THA": [
         ("THMTP", "sea", {"lng"}, "discharge", "wikipedia", LIST, "Map Ta Phut LNG terminal (phase 1, 2011)"),
@@ -238,7 +247,7 @@ G = {
         ("ITCHI", "med", {"lng"}, "discharge", "wikipedia", LIST, "Adriatic LNG, offshore Porto Levante near Rovigo (nearest port: Chioggia)"),
         ("ITLIV", "med", {"lng"}, "discharge", "wikipedia", LIST, "OLT Toscana terminal, offshore Livorno"),
         ("ITSPE", "med", {"lng"}, "discharge", "wikipedia", LIST, "Panigaglia terminal, La Spezia"),
-        ("ITTRS", "med", {"crude"}, "discharge", "wikipedia", WP + "Transalpine_Pipeline", "The Transalpine crude oil pipeline starts at the marine terminal in Trieste (the page does not give Italy's own share)"),
+        # No crude row: Trieste's crude is the Transalpine pipeline's (Austria, Germany, Czechia), see UNSOURCED_PORTS.
     ],
     "PAK": [
         ("PKBQM", "wc-india", {"lng"}, "discharge", "wikipedia", LIST, "Engro Elengy terminal and GasPort, Port Qasim, Karachi"),
@@ -274,17 +283,14 @@ G = {
         ("MXDBT", "mexico-gulf", {"crude"}, "load", "wikipedia", WP + "Dos_Bocas,_Tabasco", "Dos Bocas has a major single buoy mooring crude oil export facility and is one of Mexico's main crude oil ports"),
     ],
     "LBY": [
-        ("LYRLA", "med", {"crude"}, "load", "wikipedia", WP + "Ras_Lanuf", "Ras Lanuf is 'a major oil terminal' at the end of the Amal, Messla and Defa oil pipelines (the page does not say crude)"),
+        ("LYRLA", "med", {"crude", "products"}, "load", "wikipedia", WP + "Ras_Lanuf", "'The Port of Ra's Lanuf consists of a small harbor ... Its primary activities include loading crude oil and oil products'; the town is the terminus of two oil pipelines from the fields (the page does not cover Es Sider or the other Libyan terminals)"),
     ],
     "VEN": [
         ("VEPJO", "caribbean", {"crude", "products"}, "load", "wikipedia", WP + "Puerto_Jos%C3%A9", "Oil tanker loading complex: the port exports refined petroleum products, crude oil and containers"),
     ],
-    "ECU": [
-        ("ECESM", "wcsa", {"crude"}, "load", "wikipedia", WP + "Esmeraldas,_Ecuador", "Esmeraldas is the terminus of the 504 km Trans-Ecuadorian Pipeline from the oil fields (the page does not name tanker loading)"),
-    ],
     "SGP": [
         ("SGSIN", "sea", {"crude"}, "discharge", "wikipedia", WP + "Port_of_Singapore", "The port tranships half of the world's annual crude oil supplies and imports raw materials for refining; Singapore has no crude oil of its own (Jurong Island page)"),
-        ("SGSIN", "sea", {"products"}, "load", "wikipedia", WP + "Jurong_Island", "Jurong Island makes petroleum products, and Singapore's refining capacity 'significantly exceeds domestic consumption'; the page names no tonnage"),
+        ("SGSIN", "sea", {"products"}, "load", "eia-cab", "https://www.eia.gov/international/analysis/country/SGP", "EIA country brief: Singapore is 'the fifth-largest refinery and export hub in the world' and 'most of Singapore's refined petroleum product and petrochemical exports are destined for neighboring Asian countries' (a city-state with one port system: the page names the exports of the country, not a berth; no tonnage by port)"),
     ],
     "KAZ": [
         ("KZCPC", "black-sea", {"crude"}, "load", "wikipedia", WP + "Caspian_Pipeline_Consortium", "The CPC pipeline handles almost all of Kazakhstan's oil exports, to the Novorossiysk-2 marine terminal in Russia (pipeline terminal, not a Kazakh port)"),
@@ -301,10 +307,10 @@ G = {
         ("ITTRS", "med", {"crude"}, "discharge", "wikipedia", WP + "Transalpine_Pipeline", "The Transalpine crude oil pipeline starts at the marine terminal in Trieste and connects Italy, Austria, Germany and the Czech Republic"),
     ],
     "HUN": [
-        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline runs from Omisalj through Croatia and Serbia to Hungary"),
+        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline starts at the Omisalj oil terminal; its northern branch crosses the Croatian-Hungarian border at Gola and runs to the Duna refinery in Szazhalombatta"),
     ],
     "SRB": [
-        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline runs from Omisalj through Croatia and Serbia to Hungary"),
+        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline starts at the Omisalj oil terminal; its eastern branch runs from Sisak to Sotin on the Croatian-Serbian border, then to Novi Sad and Pancevo"),
     ],
     "BIH": [
         ("HRPLE", "med", {"products"}, "discharge", "wikipedia", WP + "Port_of_Plo%C4%8De", "Ploce is the natural outlet of Bosnia and Herzegovina (Ploce Agreement of 1996); its liquid cargo terminal handles fuel"),
@@ -315,17 +321,12 @@ _KILINDINI = WP + "Kilindini_Harbour"
 _DAR = WP + "Port_of_Dar_es_Salaam"
 _TAL = WP + "Transalpine_Pipeline"
 _ADRIA = WP + "Adria_oil_pipeline"
-_BATUMI = WP + "Batumi_Seaport"
 
 TRANSIT = {
     "KAZ": {"crude": ("KZCPC", "wikipedia", WP + "Caspian_Pipeline_Consortium",
-                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia"),
-            "products": ("GEBUS", "wikipedia", _BATUMI,
-                         "The page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' and says it has an oil terminal; it does not name refined products or the route")},
+                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia")},
     "AZE": {"crude": ("TRCEY", "wikipedia", WP + "Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline",
-                      "The BTC pipeline runs from the Caspian to Ceyhan on the Mediterranean"),
-            "products": ("GEBUS", "wikipedia", _BATUMI,
-                         "The page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' and says oil went by rail from Baku to Batumi; it does not name refined products")},
+                      "The BTC pipeline runs from the Caspian to Ceyhan on the Mediterranean")},
     "TCD": {"crude": ("CMKBI", "wikipedia", WP + "Chad%E2%80%93Cameroon_Petroleum_Development_and_Pipeline_Project",
                       "The pipeline carries Chadian crude to the offshore export terminal near Kribi")},
     "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany")},
@@ -334,8 +335,8 @@ TRANSIT = {
                         "Assumption: the page says the Moldauhafen, a harbour area of the Port of Hamburg, is reserved for the Czech Republic exclusively; it does not say how much Czech trade uses Hamburg")},
     "SSD": {"crude": ("SDPZU", "wikipedia", WP + "Greater_Nile_Oil_Pipeline",
                       "The Greater Nile Oil Pipeline begins in the Unity oil field and ends at the Port Sudan refinery on the Red Sea (the page does not name South Sudan or a loading terminal)")},
-    "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
-    "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
+    "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal, over the Croatian-Hungarian border at Gola, to the Duna refinery in Hungary")},
+    "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from the Omisalj terminal to Sisak, then its eastern branch crosses into Serbia at Sotin and runs to Novi Sad and Pancevo")},
     "UGA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Mombasa's hinterland extends to Uganda; transit cargo for landlocked neighbours")},
     "RWA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Rail links planned from Mombasa to Uganda and Rwanda")},
     "ZMB": {"default": ("TZDAR", "wikipedia", _DAR, "Gateway for Zambian copper exports and fuel imports")},
@@ -370,8 +371,8 @@ UNSOURCED = {
     "SWZ": "no page read",
     "LSO": "no page read",
     "SSD": "other cargo than crude (fuel imports): no page read",
-    "KAZ": "coal, steel, grain, copper and aluminium: Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes (crude: CPC; products: Batumi)",
-    "AZE": "other cargo than crude and products (urea, sugar, soymeal): Transport in Azerbaijan page read, it names no port",
+    "KAZ": "refined products, coal, steel, grain, copper and aluminium (crude: CPC): Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
+    "AZE": "refined products, urea, sugar, soymeal (crude: BTC): Transport in Azerbaijan page read, it names no port; the Batumi Seaport page names oil going from Baku to Batumi by rail (the history of the port) and a transit role for oil refining, no product, so Batumi is no row",
     "AUT": "other cargo than crude (coal, steel): Transport in Austria and Port of Koper pages read, neither names Austrian cargo",
     "HUN": "other cargo than crude: no page read",
     "KGZ": "no page read",

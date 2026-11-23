@@ -36,7 +36,7 @@ GATES = {
     "malacca": [(99.9, 2.0), (101.7, 3.3)],
     "singapore": [(103.85, 0.9), (103.85, 1.33)],
     "sunda": [(105.3, -5.95), (106.2, -5.95)],
-    "lombok": [(115.5, -8.7), (116.15, -8.7)],
+    "lombok": [(115.2, -8.7), (116.15, -8.7)],          # Bali to Lombok, across the Badung Strait too
     "makassar": [(116.3, -2.0), (119.5, -2.0)],
     "panama": [(-80.2, 9.1), (-79.3, 9.1)],
     "gibraltar": [(-5.6, 35.7), (-5.6, 36.2)],
@@ -311,20 +311,34 @@ def _options(a, b, avoid, group):
     return out
 
 
+def _kept(opts, classes, pct, nmx):
+    """Options kept for any of the classes: those the class may use under the draught rule (all of them when it
+    may use none) whose distance is within `pct` or `nmx` nm of the best one of the class."""
+    keep = set()
+    for c in classes:
+        av = VR.avoids(c)
+        ok = [(tuple(m), nm) for m, nm in opts if not set(m) & av] or [(tuple(m), nm) for m, nm in opts]
+        best = min(nm for _, nm in ok)
+        keep |= {m for m, nm in ok if nm <= best * (1 + pct) or nm <= best + nmx}
+    return keep
+
+
 def classify(main_via, parallel, classes, pct=PARALLEL_PCT, nmx=PARALLEL_NM):
     """Split the passages of a route into `via` (crossed whatever the parallel choice) and `viaAlt` (lists of
     passages of which one is used). For each class, the members it may use under the draught rule and whose
-    distance is within `pct` or `nmx` nm of its best one are kept; a gate crossed by every option kept is certain."""
-    drop, certain, via_alt = set(), [], []
+    distance is within `pct` or `nmx` nm of its best one are kept; a gate crossed by every option kept is certain.
+
+    An entry of `parallel` keyed by a gate id instead of a group index holds the main route and the best route
+    avoiding that gate (plan()): a gate still certain after the groups moves to `viaAlt` as a one-member list when
+    that route is kept for a class under the same rule, since the route then need not cross it."""
+    drop, certain, via_alt, detours = set(), [], [], {}
     for gi, opts in parallel:
         if not opts:
             continue
-        keep = set()
-        for c in classes:
-            av = VR.avoids(c)
-            ok = [(tuple(m), nm) for m, nm in opts if not set(m) & av] or [(tuple(m), nm) for m, nm in opts]
-            best = min(nm for _, nm in ok)
-            keep |= {m for m, nm in ok if nm <= best * (1 + pct) or nm <= best + nmx}
+        if isinstance(gi, str):
+            detours[gi] = opts
+            continue
+        keep = _kept(opts, classes, pct, nmx)
         drop |= set().union(*PARALLEL[gi])
         common = set.intersection(*(set(m) for m in keep))
         certain += sorted(common)
@@ -336,6 +350,10 @@ def classify(main_via, parallel, classes, pct=PARALLEL_PCT, nmx=PARALLEL_NM):
             via_alt.append(lst)
     via = [g for g in main_via if g not in drop or g in certain]
     via += [g for g in certain if g not in via]
+    for g in [g for g in via if g in detours]:
+        if any(g not in m for m in _kept(detours[g], classes, pct, nmx)):
+            via.remove(g)
+            via_alt.append([g])
     return via, via_alt
 
 
@@ -365,7 +383,9 @@ def plan(a, b, classes, speed_kn=None):
 
     main      Route of the primary class (raw line, nm, every gate crossed)
     via       passages every option has to cross; via_alt: lists of passages of which one is used
-    parallel  [(index in PARALLEL, [(member gates, nm), ...]), ...]: the option distances, for classify()
+    parallel  [(index in PARALLEL, [(member gates, nm), ...]), ...]: the option distances, for classify(), then
+              [(gate of the main route, [(main gates, nm), (gates of the best route avoiding it, nm)]), ...]
+              (the second option missing when no route avoids the gate)
     alts      alternatives shown to the reader, first one the former `alt`; alt_note: why none is shown
     """
     classes = list(classes) or ["supramax"]
@@ -416,6 +436,11 @@ def plan(a, b, classes, speed_kn=None):
         if members & set(main.via):
             # in-group draught limits are left to classify(), per class
             parallel.append((gi, _options(a, b, avoid - members, group)))
+    # every gate of the main route against the best route around it under the same limits (classify() decides
+    # with its thresholds whether that route is of similar length)
+    for g in main.via:
+        r = route(a, b, avoid | {g})
+        parallel.append((g, [(sorted(main.via), main.nm)] + ([(sorted(r.via), r.nm)] if r else [])))
     via, via_alt = classify(main.via, parallel, classes)
     return Plan(main, via, via_alt, parallel, alts, alt_note, classes, tuple(sorted(avoid)))
 

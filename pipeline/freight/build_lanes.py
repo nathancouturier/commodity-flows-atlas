@@ -70,18 +70,19 @@ GROUPS = {
     "wheat": "Mt", "corn": "Mt", "soybeans": "Mt", "soymeal": "Mt", "soyoil": "Mt", "rice": "Mt",
     "sugar": "Mt", "palm-oil": "Mt", "rapeseed": "Mt", "potash": "Mt", "phosphate-rock": "Mt",
     "dap": "Mt", "urea": "Mt", "steel": "Mt", "copper-refined": "Mt", "aluminium": "Mt",
-    "coffee": "Mt", "cocoa": "Mt", "cotton": "Mt",
+    "coffee": "Mt", "cocoa": "Mt", "cotton": "Mt", "nickel-fe": "Mt", "spodumene": "Mt",
 }
 # atlas commodity id for each group (the site loads lanes by commodity)
 COMMODITY = {
     "coal": "thermal-coal", "alumina": "bauxite", "copper-ore": "copper", "copper-refined": "copper",
     "nickel-ore": "nickel", "nickel-int": "nickel", "zinc-ore": "zinc", "phosphate-rock": "phosphate",
-    "dap": "phosphate",
+    "dap": "phosphate", "nickel-fe": "nickel", "spodumene": "lithium",
 }
 LABEL = {
     "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
     "nickel-ore": "Nickel ore", "nickel-int": "Nickel matte, intermediates & metal", "zinc-ore": "Zinc concentrate",
     "phosphate-rock": "Phosphate rock", "dap": "DAP", "alumina": "Alumina", "bauxite": "Bauxite",
+    "nickel-fe": "Ferro-nickel and nickel pig iron", "spodumene": "Spodumene concentrate (Atlas estimate)",
 }
 
 # Selection of the lanes (trade-engine plan 2.2). Caps bound the main set of each group; the floor is the smallest
@@ -91,7 +92,7 @@ CAP = {
     "wheat": 120, "corn": 100, "soybeans": 60, "soymeal": 80, "rice": 100, "sugar": 100, "urea": 100, "dap": 60,
     "potash": 60, "phosphate-rock": 60, "palm-oil": 80, "soyoil": 60, "rapeseed": 50, "bauxite": 40, "alumina": 60,
     "manganese": 40, "copper-ore": 60, "copper-refined": 80, "aluminium": 100, "nickel-ore": 20, "nickel-int": 40,
-    "zinc-ore": 60, "coffee": 100, "cocoa": 60, "cotton": 60,
+    "zinc-ore": 60, "coffee": 100, "cocoa": 60, "cotton": 60, "nickel-fe": 40, "spodumene": 20,
 }
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
          "aluminium": 0.03, "soyoil": 0.03}

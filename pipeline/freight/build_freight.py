@@ -50,7 +50,7 @@ RAW = os.path.join(ROOT, "raw")
 # commodity id -> BACI groups used for corridor volumes
 GROUPS_OF = {
     "thermal-coal": ["coal"], "met-coal": ["coal"], "copper": ["copper-ore"], "nickel": ["nickel-ore"],
-    "phosphate": ["phosphate-rock", "dap"], "bauxite": ["bauxite"],
+    "phosphate": ["phosphate-rock", "dap"], "bauxite": ["bauxite"], "lithium": ["spodumene"],
 }
 # vessel size families used for the "share of class activity" estimate
 FAMILY = {"vloc": "capesize", "newcastlemax": "capesize", "capesize": "capesize", "kamsarmax": "panamax", "panamax": "panamax",

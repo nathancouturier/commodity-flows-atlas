@@ -45,7 +45,7 @@ export interface CapacityRead {
    * Both are kept apart from operating figures.
    */
   basis: 'operating' | 'planned' | 'closed';
-  /** the figure the asset is ranked and printed by: its capacity, else its output */
+  /** the figure the asset is ranked and printed by (see mainFigure) */
   fig: Figure | null;
 }
 
@@ -74,10 +74,14 @@ export function figuresOf(p: InfraProps): { capacity?: Figure; output?: Figure }
   return out;
 }
 
-/** The figure a row prints and ranks by: the capacity when there is one, else the output. */
+/**
+ * The figure a row prints and ranks by: the dated production when the asset has one (a mine's output of the year
+ * compares with the other mines' output; its nameplate may be of ore, or of a year long past), else the capacity,
+ * else the other kinds of output (exports, throughput). The asset's own page shows both figures.
+ */
 export function mainFigure(p: InfraProps): Figure | null {
   const f = figuresOf(p);
-  return f.capacity ?? f.output ?? null;
+  return (f.output?.kind === 'production' ? f.output : f.capacity ?? f.output) ?? null;
 }
 
 /**

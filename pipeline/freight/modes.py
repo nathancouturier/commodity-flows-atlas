@@ -131,12 +131,12 @@ def lng_importer(c, year=None):
 FAMILY = {
     "crude-oil": "crude", "refined-products": "products", "lpg": "lpg", "lng": "lng",
     "iron-ore": "drybulk", "coal": "drybulk", "bauxite": "drybulk", "alumina": "drybulk", "manganese": "drybulk",
-    "copper-ore": "drybulk", "nickel-ore": "drybulk", "zinc-ore": "drybulk",
+    "copper-ore": "drybulk", "nickel-ore": "drybulk", "zinc-ore": "drybulk", "spodumene": "drybulk",
     "wheat": "grain", "corn": "grain", "soybeans": "grain", "soymeal": "grain", "rice": "grain", "sugar": "grain",
     "rapeseed": "grain",
     "soyoil": "vegoil", "palm-oil": "vegoil",
     "potash": "fert", "phosphate-rock": "fert", "dap": "fert", "urea": "fert",
-    "steel": "metal", "copper-refined": "metal", "aluminium": "metal", "nickel-int": "metal",
+    "steel": "metal", "copper-refined": "metal", "aluminium": "metal", "nickel-int": "metal", "nickel-fe": "metal",
     "coffee": "soft", "cocoa": "soft", "cotton": "soft",
     # groups outside the lane model (M-100): the same geographic rule as the metals
     "uranium": "metal", "lithium": "metal", "cobalt": "metal", "rare-earths": "metal",

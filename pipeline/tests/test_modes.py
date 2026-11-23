@@ -149,7 +149,9 @@ class ModeTests(unittest.TestCase):
         self.assertAlmostEqual(tot.get("sea", 0) + tot.get("transit", 0), 7873, delta=40)
         self.assertAlmostEqual(tot.get("mixed", 0), 309.8, delta=5)
         self.assertAlmostEqual(tot.get("land", 0), 935, delta=40)
-        self.assertAlmostEqual(tot.sum(), 9117.8, delta=1)
+        # 9,117.8 Mt before package W3M1, which adds 9.0 Mt of Chilean copper concentrate (clean.py rule 8) and the
+        # groups nickel-fe (10.1 Mt) and spodumene (5.6 Mt)
+        self.assertAlmostEqual(tot.sum(), 9142.5, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

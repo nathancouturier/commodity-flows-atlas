@@ -3457,12 +3457,18 @@
   "name": "Western Australia – China spodumene",
   "benchmark": false,
   "vclass": "supramax",
-  "cargoes": [],
+  "cargoes": [
+   "lithium"
+  ],
   "from": {
    "region": "Western Australia",
    "ports": [
     {
      "name": "Port Hedland",
+     "c": "AUS"
+    },
+    {
+     "name": "Bunbury",
      "c": "AUS"
     },
     {
@@ -3488,10 +3494,19 @@
     }
    ]
   },
-  "corridor": [],
-  "notes": "Lithium is not in the atlas commodity list, so no cargo/corridor is attached.",
-  "s": "atlas",
-  "shareNa": "Lithium (spodumene) is not in the atlas commodity list"
+  "corridor": [
+   {
+    "k": "lithium",
+    "o": [
+     "AUS"
+    ],
+    "d": [
+     "CHN"
+    ]
+   }
+  ],
+  "notes": "Spodumene concentrate from the Pilbara mines (Port Hedland) and from Greenbushes (Bunbury). The corridor volume is an Atlas estimate: spodumene has no customs code of its own and is read from HS 253090 (mineral substances not elsewhere specified), Australia to China (see the lithium page).",
+  "s": "atlas"
  },
  {
   "id": "indo-malay-india-palm-oil",

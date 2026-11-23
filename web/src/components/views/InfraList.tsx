@@ -108,7 +108,7 @@ function preview(groups: Group[], commodity: string | undefined, max: number): S
   return picked;
 }
 
-function blockLabel(b: Block, commodity: string | undefined, first: boolean, alone: boolean): string | null {
+function blockLabel(b: Block, commodity: string | undefined, alone: boolean): string | null {
   const c = b.cap;
   if (b.key === 'none') {
     if (alone && !commodity) return null;
@@ -123,7 +123,11 @@ function blockLabel(b: Block, commodity: string | undefined, first: boolean, alo
     return `${head}${what ? `: ${what}` : ''}${form && c.kind !== 'cargo' ? `, ${form}` : ''}`;
   }
   if (c.kind === 'cargo') return out ? `${out}: all cargo of the port` : 'All cargo of the port';
-  if (commodity) return out ? (form ? `${out}, ${form}` : out) : form ? cap1(form) : first ? null : 'Other unit';
+  // a capacity block beside a production block is named: it is no "other unit"
+  if (commodity) {
+    const what = out || (alone ? '' : 'Capacity');
+    return what ? (form ? `${what}, ${form}` : what) : form ? cap1(form) : null;
+  }
   if (alone && !out) return null;
   const name = subjectName(c.subject ?? '');
   const sub = form ? `${name}, ${form}` : name;
@@ -141,15 +145,15 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
   return (
     <>
       {groups.map((g) => {
-        const blocks = g.blocks.map((b, i) => ({ b, i, rows: b.rows.filter(visible) })).filter((x) => x.rows.length);
+        const blocks = g.blocks.map((b) => ({ b, rows: b.rows.filter(visible) })).filter((x) => x.rows.length);
         if (!blocks.length) return null;
         return (
           <div class="co-group" key={g.type}>
             <h4 class="route-sub infra-group">
               {GROUP_LABEL[g.type]} <span class="muted num">{g.n}</span>
             </h4>
-            {blocks.map(({ b, i, rows }) => {
-              const label = blockLabel(b, commodity, i === 0, g.blocks.length === 1);
+            {blocks.map(({ b, rows }) => {
+              const label = blockLabel(b, commodity, g.blocks.length === 1);
               return [
                 label && <div class="infra-block" key={b.key}>{label}</div>,
                 ...rows.map(({ f, cap }) => {

@@ -112,7 +112,7 @@ G = {
         ("CAVAN", "canada-west", ("coal",), "load", "wikipedia", W + "Roberts_Bank_Superport",
          "Roberts Bank (Westshore Terminals), part of the Port of Vancouver: 'the busiest single coal export terminal in North America'; the searoute point Vancouver stands for the port"),
         ("CASEI", "canada-east", ("iron-ore",), "load", "wikipedia", W + "Sept-%C3%8Eles,_Quebec",
-         "Sept-Iles: iron ore from Schefferville and Labrador (Iron Ore Company of Canada) 'was transported on this railway and shipped from the Port of Sept-Iles'; 'with the iron ore business, the Sept-Iles deep-water seaport was second in Canada only to Vancouver in terms of yearly tonnage'. Port-Cartier (CAPCA), also an iron-ore port on its page, is not a row: the page gives no share"),
+         "Sept-Iles: iron ore from Schefferville and Labrador (Iron Ore Company of Canada) 'was transported on this railway and shipped from the Port of Sept-Iles'; in the history of the town (1950s to 1981) the iron ore business made the Sept-Iles seaport second in Canada only to Vancouver by yearly tonnage; today 'iron ore concentrate from IOC activities in Labrador City ... are shipped to many markets around the world from Sept-Iles port facilities'. Port-Cartier (CAPCA), also an iron-ore port on its page, is not a row: the page gives no share"),
     ],
     # ------------------------------------------------------------------ South America
     "BRA": [
@@ -181,10 +181,14 @@ G = {
          "Rizhao: 'the seaport serves as a site for loading and unloading iron ore and coal'; 'other products passing through the harbor include cement, nickel, bauxite'. Coal is on the page but not a row here: the Caofeidian row and the South China rule stand for Chinese coal. The page gives no share between Qingdao and Rizhao: options"),
         ("CNHUA", "s-china", ("coal",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
          "Port of Guangzhou (searoute point Huangpu, the page's coordinates): 'many agricultural, industrial and manufactured products are shipped through the port which include oil, coal, grain, chemical fertilizer, steel, ore and automobiles' (the page does not say in which direction; Chinese coal at sea is an import). Replaces Zhanjiang, whose page names iron ore only, as the South China coal port"),
-        ("CNHUA", "s-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
-         "Port of Guangzhou: grain is among the products shipped through the port (direction not given; grain at sea is an import of China). The Tianjin page names no grain"),
+        # No page and no free statistic ranks the ports for grain. The northern coast is first, as before the sourcing pass
+        # (the Tianjin row of the legacy table was on it): moving all of China's grain (about 120 Mt) to the south coast
+        # on the order of two rows would have changed the route of the US, Canadian and Australian grain, and a ranking needs
+        # a page. Guangzhou is the option on the south coast.
         ("CNLYG", "n-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Lianyungang",
-         "Lianyungang: 'special terminals: crude oil, bulk grain, containers, liquid chemicals' (direction not given). No page ranks it against Guangzhou: options"),
+         "Lianyungang: 'special terminals: crude oil, bulk grain, containers, liquid chemicals' (direction not given; grain at sea is an import of China). First because it is on the northern coast, where the grain went before; no page ranks it against Guangzhou: options"),
+        ("CNHUA", "s-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
+         "Port of Guangzhou: grain is among the products shipped through the port (direction not given; grain at sea is an import of China). The Tianjin page names no grain. The option on the south coast"),
     ],
     "IDN": [
         ("IDTBA", "sea", ("coal",), "load", "wikipedia", W + "Tanjung_Bara",
@@ -214,8 +218,13 @@ G = {
          "Nouadhibou: the harbour facilities lie at Port Mineralier; 'near the harbor is the terminus of Mauritania's only railway line, which mainly brings iron ore from the mining areas near Fderik and Zouerat'. The page does not say in so many words that the ore is loaded there"),
     ],
     "MOZ": [
-        ("MZMAP", "s-africa", ("coal",), "load", "wikipedia", W + "Matola",
-         "Matola (part of Maputo bay's port area): 'Coal is exported from here'; the Maputo page: 'coal will also be exported from the Matola side' and lists the Matola Bulk Terminals. The searoute point Maputo stands for the port, 10 km from Matola"),
+        # The pages name Beira and Nacala for the coal of the Moatize basin (Mozambique's coal mines); Maputo and Matola are
+        # not rows: the Matola page says coal is exported from there without saying whose coal, and the Maputo page puts
+        # it in the future tense. The order is not a ranking: no page gives shares, so Beira, the older line, is first.
+        ("MZBEW", "e-africa", ("coal",), "load", "wikipedia", W + "Moatize",
+         "Moatize: Vale's concession of 2006 was to 'export coal via rail to Beira, a Mozambican port'; the Sena railway links Moatize to the port city of Beira (the page does not give tonnages)"),
+        ("MZMNC", "e-africa", ("coal",), "load", "wikipedia", W + "Moatize",
+         "Moatize: 'the Nacala railway, connecting the Moatize basin with a new coal harbour at Nacala-a-Velha started operating in 2015'; the Nacala page: 'a coal terminal, operated by the Port of Nacala, is located in the town of Nacala-a-Velha' on the other side of the bay. The searoute point Nacala stands for the bay's port"),
     ],
     "SWE": [
         ("SELLA", "baltic", ("ore",), "load", "wikipedia", W + "Lule%C3%A5",

@@ -130,33 +130,27 @@
   "rows": [
    {
     "c": "PHL",
-    "v": 45.056,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 45.056
    },
    {
     "c": "NCL",
-    "v": 4.263,
-    "n": "63% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 4.263
    },
    {
     "c": "CIV",
-    "v": 1.178,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 1.178
    },
    {
     "c": "SLB",
-    "v": 0.4976,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.4976
    },
    {
     "c": "GTM",
-    "v": 0.4829,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.4829
    },
    {
     "c": "CHN",
-    "v": 0.2713,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.2713
    },
    {
     "c": "RUS",
@@ -194,23 +188,19 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 38.405,
-    "n": "95% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 38.405
    },
    {
     "c": "IDN",
-    "v": 10.383,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 10.383
    },
    {
     "c": "KOR",
-    "v": 2.805,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 2.805
    },
    {
     "c": "JPN",
-    "v": 0.589,
-    "n": "52% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.589
    },
    {
     "c": "FIN",
@@ -226,18 +216,15 @@
    },
    {
     "c": "PAN",
-    "v": 0.086,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.086
    },
    {
     "c": "COL",
-    "v": 0.0596,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.0596
    },
    {
     "c": "ALB",
-    "v": 0.043,
-    "n": "100% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "v": 0.043
    },
    {
     "c": "TWN",
@@ -375,6 +362,134 @@
     "n": "CEPII BACI HS92 nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
     "basis": "gross weight"
    }
+  },
+  {
+   "key": "ferro-exports",
+   "title": "Ferro-nickel and nickel pig iron exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 10.089,
+    "rows": [
+     {
+      "c": "IDN",
+      "v": 9.386
+     },
+     {
+      "c": "NCL",
+      "v": 0.1846
+     },
+     {
+      "c": "BRA",
+      "v": 0.1735
+     },
+     {
+      "c": "COL",
+      "v": 0.1542
+     },
+     {
+      "c": "KOR",
+      "v": 0.0682
+     },
+     {
+      "c": "NLD",
+      "v": 0.0462,
+      "n": "13% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "MYS",
+      "v": 0.0155
+     },
+     {
+      "c": "DOM",
+      "v": 0.0114
+     },
+     {
+      "c": "CHN",
+      "v": 0.0086,
+      "n": "23% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "JPN",
+      "v": 0.006
+     },
+     {
+      "c": "CHE",
+      "v": 0.0056
+     },
+     {
+      "c": "MKD",
+      "v": 0.0046
+     }
+    ],
+    "n": "CEPII BACI HS92 ferro-nickel (HS 720260), which includes nickel pig iron, gross weight, not contained nickel, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ferro-imports",
+   "title": "Ferro-nickel and nickel pig iron importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 10.089,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 9.223
+     },
+     {
+      "c": "IND",
+      "v": 0.1896
+     },
+     {
+      "c": "KOR",
+      "v": 0.1663
+     },
+     {
+      "c": "NLD",
+      "v": 0.1308
+     },
+     {
+      "c": "TWN",
+      "v": 0.0749,
+      "n": "23% of tonnage estimated from value"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0484
+     },
+     {
+      "c": "USA",
+      "v": 0.0465
+     },
+     {
+      "c": "GBR",
+      "v": 0.0415
+     },
+     {
+      "c": "JPN",
+      "v": 0.0393
+     },
+     {
+      "c": "ESP",
+      "v": 0.0226
+     },
+     {
+      "c": "BEL",
+      "v": 0.0176
+     },
+     {
+      "c": "FRA",
+      "v": 0.0156,
+      "n": "38% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     }
+    ],
+    "n": "CEPII BACI HS92 ferro-nickel (HS 720260), which includes nickel pig iron, gross weight, not contained nickel, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
   }
  ],
  "flows": [
@@ -386,8 +501,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:PHL-CHN",
-   "n": "reported tonnage implies 44 USD/t, i.e. 0.0275x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:PHL-CHN"
   },
   {
    "o": "PHL",
@@ -397,8 +511,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:PHL-IDN",
-   "n": "reported tonnage implies 44 USD/t, i.e. 0.0275x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:PHL-IDN"
   },
   {
    "o": "NCL",
@@ -408,8 +521,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:NCL-KOR",
-   "n": "reported tonnage implies 78 USD/t, i.e. 0.0490x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:NCL-KOR"
   },
   {
    "o": "NCL",
@@ -429,8 +541,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:CIV-CHN",
-   "n": "reported tonnage implies 68 USD/t, i.e. 0.0430x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:CIV-CHN"
   },
   {
    "o": "SLB",
@@ -440,8 +551,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:SLB-CHN",
-   "n": "reported tonnage implies 78 USD/t, i.e. 0.0494x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:SLB-CHN"
   },
   {
    "o": "PHL",
@@ -451,8 +561,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:PHL-JPN",
-   "n": "reported tonnage implies 51 USD/t, i.e. 0.0324x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:PHL-JPN"
   },
   {
    "o": "NCL",
@@ -472,8 +581,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:CHN-IDN",
-   "n": "reported tonnage implies 40 USD/t, i.e. 0.0253x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:CHN-IDN"
   },
   {
    "o": "RUS",
@@ -494,8 +602,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:GTM-CHN",
-   "n": "reported tonnage implies 45 USD/t, i.e. 0.0285x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:GTM-CHN"
   },
   {
    "o": "GTM",
@@ -505,8 +612,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:GTM-KOR",
-   "n": "reported tonnage implies 28 USD/t, i.e. 0.0175x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:GTM-KOR"
   },
   {
    "o": "ZMB",
@@ -525,8 +631,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:GTM-PAN",
-   "n": "reported tonnage implies 31 USD/t, i.e. 0.0193x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:GTM-PAN"
   },
   {
    "o": "CAN",
@@ -556,8 +661,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "nickel-ore:GTM-COL",
-   "n": "reported tonnage implies 49 USD/t, i.e. 0.0312x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "lane": "nickel-ore:GTM-COL"
   },
   {
    "o": "AUS",
@@ -597,19 +701,8 @@
  ],
  "notes": [
   "Nickel intermediates and unwrought nickel (HS 7501, 7502), 2024 (CEPII BACI): world 3.43 Mt gross weight; top exporters IDN 1.88 Mt, CAN 0.21 Mt, RUS 0.17 Mt.",
-  "Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni)."
- ],
- "discrepancies": [
-  "PHL->CHN: 34.655 Mt of nickel-ore in 2024 (reported tonnage implies 44 USD/t, i.e. 0.0275x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "PHL->IDN: 10.094 Mt of nickel-ore in 2024 (reported tonnage implies 44 USD/t, i.e. 0.0275x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "NCL->KOR: 2.693 Mt of nickel-ore in 2024 (reported tonnage implies 78 USD/t, i.e. 0.0490x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "CIV->CHN: 1.135 Mt of nickel-ore in 2024 (reported tonnage implies 68 USD/t, i.e. 0.0430x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "SLB->CHN: 0.4976 Mt of nickel-ore in 2024 (reported tonnage implies 78 USD/t, i.e. 0.0494x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "PHL->JPN: 0.307 Mt of nickel-ore in 2024 (reported tonnage implies 51 USD/t, i.e. 0.0324x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "CHN->IDN: 0.2713 Mt of nickel-ore in 2024 (reported tonnage implies 40 USD/t, i.e. 0.0253x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "GTM->CHN: 0.2251 Mt of nickel-ore in 2024 (reported tonnage implies 45 USD/t, i.e. 0.0285x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "GTM->KOR: 0.1122 Mt of nickel-ore in 2024 (reported tonnage implies 28 USD/t, i.e. 0.0175x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "GTM->PAN: 0.086 Mt of nickel-ore in 2024 (reported tonnage implies 31 USD/t, i.e. 0.0193x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
-  "GTM->COL: 0.0596 Mt of nickel-ore in 2024 (reported tonnage implies 49 USD/t, i.e. 0.0312x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule)."
+  "Ferro-nickel, including nickel pig iron declared as ferro-nickel (HS 720260), 2024 (CEPII BACI): world 10.09 Mt gross weight; top exporters IDN 9.39 Mt, NCL 0.18 Mt, BRA 0.17 Mt.",
+  "Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni).",
+  "The ore tables mix two products: laterite ore, 51.8 Mt in 2024 at 48 USD per tonne on average (by unit value, flows under 300 USD per tonne), and sulphide concentrate, 1.08 Mt at 2,257 USD per tonne. A low unit value is normal for laterite ore, so no ore flow is flagged for it."
  ]
 }

@@ -16,12 +16,27 @@
    "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
   },
   "exports": {
-   "v": 51415.7,
+   "v": 32652.5,
    "u": "t",
    "y": 2024,
-   "s": "baci",
-   "n": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
+   "s": "atlas",
+   "n": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+   "alt": {
+    "v": 53264.0,
+    "u": "t gross weight",
+    "s": "baci",
+    "y": 2024,
+    "n": "customs gross weight (CEPII BACI), the sum of the declared tonnages"
+   }
   }
+ },
+ "kpis": {
+  "exports": "World exports (fine-metal equivalent)"
+ },
+ "labels": {
+  "exports": "Top exporters — fine-metal equivalent (Atlas estimate)",
+  "imports": "Top importers — fine-metal equivalent (Atlas estimate)",
+  "flows": "Main flows — fine-metal equivalent (Atlas estimate), 2024"
  },
  "production": {
   "y": 2025,
@@ -78,7 +93,8 @@
     "v": 630.0
    }
   ],
-  "n": "USGS MCS 2026, silver mine production, contained silver; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, silver mine production, contained silver; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "contained silver"
  },
  "reserves": {
   "y": 2025,
@@ -135,179 +151,180 @@
     "v": 4900.0
    }
   ],
-  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
+  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded",
+  "basis": "contained silver"
  },
  "exports": {
   "y": 2024,
-  "s": "baci",
+  "s": "atlas",
   "u": "t",
-  "world": 51415.7,
+  "world": 32652.5,
   "rows": [
    {
     "c": "CHN",
-    "v": 6105.8
-   },
-   {
-    "c": "RUS",
-    "v": 5242.0
-   },
-   {
-    "c": "JPN",
-    "v": 4980.0
-   },
-   {
-    "c": "USA",
-    "v": 4361.0
+    "v": 5534.5,
+    "n": "customs gross weight 7,961 t"
    },
    {
     "c": "MEX",
-    "v": 3456.0
-   },
-   {
-    "c": "GBR",
-    "v": 3189.0
+    "v": 3383.4,
+    "n": "customs gross weight 3,456 t"
    },
    {
     "c": "KOR",
-    "v": 3058.0
-   },
-   {
-    "c": "DEU",
-    "v": 2859.0
+    "v": 2426.9,
+    "n": "customs gross weight 3,058 t"
    },
    {
     "c": "ARE",
-    "v": 2699.0
+    "v": 2316.2,
+    "n": "customs gross weight 2,699 t"
+   },
+   {
+    "c": "DEU",
+    "v": 2181.7,
+    "n": "customs gross weight 2,859 t"
    },
    {
     "c": "CHE",
-    "v": 2068.0
+    "v": 1874.2,
+    "n": "customs gross weight 2,068 t"
+   },
+   {
+    "c": "JPN",
+    "v": 1646.2,
+    "n": "customs gross weight 4,980 t"
+   },
+   {
+    "c": "USA",
+    "v": 1413.8,
+    "n": "customs gross weight 4,361 t"
    },
    {
     "c": "POL",
-    "v": 1792.0
+    "v": 1354.7,
+    "n": "customs gross weight 1,792 t"
+   },
+   {
+    "c": "GBR",
+    "v": 1205.2,
+    "n": "customs gross weight 3,189 t"
    },
    {
     "c": "CAN",
-    "v": 1401.0
+    "v": 1175.5,
+    "n": "customs gross weight 1,401 t"
+   },
+   {
+    "c": "HKG",
+    "v": 818.94,
+    "n": "customs gross weight 892.0 t"
    }
   ],
-  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 53,264 t gross weight) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+  "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
  },
  "imports": {
   "y": 2024,
-  "s": "baci",
+  "s": "atlas",
   "u": "t",
-  "world": 51415.7,
+  "world": 32652.5,
   "rows": [
    {
     "c": "USA",
-    "v": 6498.0
-   },
-   {
-    "c": "IND",
-    "v": 6176.8
-   },
-   {
-    "c": "ARM",
-    "v": 4990.0
+    "v": 5811.0,
+    "n": "customs gross weight 6,498 t"
    },
    {
     "c": "GBR",
-    "v": 4835.0
+    "v": 4485.1,
+    "n": "customs gross weight 4,835 t"
    },
    {
     "c": "HKG",
-    "v": 4711.0
+    "v": 4396.9,
+    "n": "customs gross weight 4,711 t"
    },
    {
-    "c": "CHN",
-    "v": 3231.0
-   },
-   {
-    "c": "MEX",
-    "v": 2406.0
+    "c": "IND",
+    "v": 3936.6,
+    "n": "customs gross weight 8,032 t"
    },
    {
     "c": "JPN",
-    "v": 2211.0
+    "v": 1591.2,
+    "n": "customs gross weight 2,211 t"
    },
    {
-    "c": "DEU",
-    "v": 1583.0
+    "c": "CHN",
+    "v": 1482.7,
+    "n": "customs gross weight 3,231 t"
    },
    {
     "c": "CAN",
-    "v": 1497.0
+    "v": 1410.0,
+    "n": "customs gross weight 1,497 t"
    },
    {
     "c": "ARE",
-    "v": 1450.4
+    "v": 1243.2,
+    "n": "customs gross weight 1,445 t"
+   },
+   {
+    "c": "DEU",
+    "v": 1129.0,
+    "n": "customs gross weight 1,583 t"
    },
    {
     "c": "CHE",
-    "v": 1174.0
+    "v": 1062.3,
+    "n": "customs gross weight 1,174 t"
+   },
+   {
+    "c": "ITA",
+    "v": 786.59,
+    "n": "customs gross weight 920.0 t"
+   },
+   {
+    "c": "THA",
+    "v": 726.93,
+    "n": "customs gross weight 1,161 t"
    }
   ],
-  "n": "CEPII BACI HS92 silver (HS 710610, 710691, 710692), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 53,264 t gross weight)",
+  "basis": "fine-metal equivalent (Atlas estimate)"
  },
  "flows": [
   {
-   "o": "RUS",
-   "d": "ARM",
-   "v": 4990.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
-  },
-  {
    "o": "CHN",
    "d": "HKG",
-   "v": 3513.0,
+   "v": 3405.5,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 3.10 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 3,513 t"
   },
   {
    "o": "MEX",
    "d": "USA",
-   "v": 2876.0,
+   "v": 2849.7,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 2.59 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 2,876 t"
   },
   {
    "o": "ARE",
    "d": "IND",
-   "v": 2463.0,
+   "v": 2169.2,
    "u": "t",
    "y": 2024,
-   "s": "baci"
-  },
-  {
-   "o": "JPN",
-   "d": "CHN",
-   "v": 2221.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
-  },
-  {
-   "o": "USA",
-   "d": "MEX",
-   "v": 2204.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
-  },
-  {
-   "o": "GBR",
-   "d": "IND",
-   "v": 2116.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 1.97 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 2,463 t"
   },
   {
    "o": "CHN",
@@ -315,63 +332,69 @@
    "v": 1577.0,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 1.48 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 1,577 t; capped at the customs gross weight"
   },
   {
    "o": "CAN",
    "d": "USA",
-   "v": 1289.0,
+   "v": 1115.4,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 1.01 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 1,289 t"
   },
   {
    "o": "KOR",
    "d": "JPN",
-   "v": 1106.0,
+   "v": 1039.5,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 945.0 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 1,106 t"
+  },
+  {
+   "o": "JPN",
+   "d": "CHN",
+   "v": 1032.6,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 938.7 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 2,221 t"
   },
   {
    "o": "DEU",
    "d": "GBR",
-   "v": 1034.0,
+   "v": 926.69,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 842.4 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 1,034 t"
   },
   {
    "o": "GBR",
    "d": "ARE",
-   "v": 674.0,
+   "v": 541.76,
    "u": "t",
    "y": 2024,
-   "s": "baci"
-  },
-  {
-   "o": "JPN",
-   "d": "KOR",
-   "v": 550.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
-  },
-  {
-   "o": "JPN",
-   "d": "TWN",
-   "v": 528.0,
-   "u": "t",
-   "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 492.5 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 674.0 t"
   },
   {
    "o": "POL",
    "d": "GBR",
-   "v": 523.0,
+   "v": 520.72,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 473.4 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 523.0 t"
   },
   {
    "o": "CHE",
@@ -379,15 +402,39 @@
    "v": 466.0,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 426.1 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 466.0 t; capped at the customs gross weight"
+  },
+  {
+   "o": "GBR",
+   "d": "IND",
+   "v": 437.53,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 397.7 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 2,116 t"
   },
   {
    "o": "KOR",
    "d": "HKG",
-   "v": 465.0,
+   "v": 434.55,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 395.0 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 465.0 t"
+  },
+  {
+   "o": "RUS",
+   "d": "ARM",
+   "v": 428.64,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 389.7 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 4,990 t"
   },
   {
    "o": "KOR",
@@ -395,29 +442,65 @@
    "v": 404.0,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 386.9 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 404.0 t; capped at the customs gross weight"
   },
   {
    "o": "MEX",
    "d": "JPN",
-   "v": 403.0,
+   "v": 380.93,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 346.3 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 403.0 t"
   },
   {
    "o": "BEL",
    "d": "DEU",
-   "v": 356.0,
+   "v": 352.13,
    "u": "t",
    "y": 2024,
-   "s": "baci"
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 320.1 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 356.0 t"
+  },
+  {
+   "o": "USA",
+   "d": "CAN",
+   "v": 336.53,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 305.9 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 338.0 t"
+  },
+  {
+   "o": "KAZ",
+   "d": "GBR",
+   "v": 283.0,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 267.0 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 283.0 t; capped at the customs gross weight"
+  },
+  {
+   "o": "CHL",
+   "d": "USA",
+   "v": 273.56,
+   "u": "t",
+   "y": 2024,
+   "s": "atlas",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent, USD 248.7 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 283.0 t"
   }
  ],
  "notes": [
-  "Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative."
+  "Trade tables and flows are in fine-metal equivalent, an Atlas estimate: the declared value of each flow (CEPII BACI) divided by the year's average price of the metal (World Bank Pink Sheet), never above the customs gross weight. Customs gross weight counts dore, alloys and the base metal they contain, and some declared quantities are wrong; it is given in the note of each row and in brackets after the world exports figure."
  ],
  "discrepancies": [
-  "BACI world exports 51,416 t (2024) are 2.0x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
+  "World exports in fine-metal equivalent (Atlas estimate from customs values) 32,652 t (2024) are 1.3x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
  ]
 }

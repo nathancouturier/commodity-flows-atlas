@@ -184,7 +184,7 @@
    {
     "c": "NLD",
     "v": 5.542,
-    "n": "56% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "n": "56% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -231,7 +231,7 @@
    {
     "c": "HUN",
     "v": 9.196,
-    "n": "34% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
    },
    {
     "c": "SGP",
@@ -395,7 +395,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "land",
-   "n": "reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
+   "n": "reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
   },
   {
    "o": "BOL",
@@ -442,7 +442,7 @@
   "Republic of the Congo is recorded as an exporter of tin concentrate (7.7 kt in 2024, 18,887 USD/t) but is not a tin producer in the USGS table, while DR Congo is (17,732 USD/t). Relabelling of DR Congo material is a possible cause; it is not established here."
  ],
  "discrepancies": [
-  "NLD->HUN: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule).",
+  "NLD->HUN: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
   "Tin concentrate from Myanmar to China, 2024: customs data (BACI, HS 2609) record 0.0 kt from Myanmar and 92.1 kt for China's imports from all origins. Chinese customs figures reported by SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs, give about 150.8 kt of tin ores and concentrates imported in January to November 2024, 75.3 kt of it from Myanmar (https://news.metal.com/en/newscontent/103438801). The Myanmar flow is missing from the BACI extract and the world figure for tin concentrate is probably too low; the cause is not established here. Comparing with China's own import declarations (UN Comtrade) needs an API key that the atlas does not have."
  ]
 }

@@ -134,7 +134,9 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import BULK, CODE_FIX, LAST_DROPPED, XAS, clean as clean_baci  # noqa: E402
+from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, XAS, clean as clean_baci  # noqa: E402
+import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
+from hs_map import SPLIT as HS_SPLIT  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "freight"))
 import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
@@ -553,6 +555,18 @@ class Psd:
 
 
 # ====================================================================== BACI
+# Groups whose grades differ by more than the factor 20 of the unit-value flag, so that a low unit value is not a sign of a
+# misreport: nickel ore is laterite at tens of USD per tonne and sulphide concentrate at over a thousand (audit C-037)
+MIXED_GRADES = {"nickel-ore"}
+
+
+def _kept_why(g):
+    """Why a flow with an implausible unit value is left as reported (pipeline/trade/clean.py, rule 4)."""
+    if g in HOMOGENEOUS:
+        return "kept because the flow is below the USD 50 million correction rule"
+    return "kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups"
+
+
 class Baci:
     def __init__(self):
         df = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
@@ -560,6 +574,7 @@ class Baci:
         df["est"] = df["imputed"]
         ratio = df["uvr"]
         susp = (df["t0"] > 0) & ~df["imputed"] & df["uv"].notna() & ((ratio < 0.05) | (ratio > 20))
+        susp &= ~df["group"].isin(MIXED_GRADES)
         df["susp"] = susp
         df["t_susp"] = df["t"].where(susp, 0.0)
         fix = df["imputed"]
@@ -579,6 +594,11 @@ class Baci:
             self.caveats = json.load(open(os.path.join(DATA, "freight", "caveats.json"), encoding="utf-8"))
         except (OSError, ValueError):
             self.caveats = {}
+        self.file_caveats = set(self.caveats)
+        # build_lanes.py writes the caveats of the lane groups only: those of the other groups come from the registry here
+        for cid, e in CV.build(df[~df["group"].isin(self.lanes)], [], BACI_YEAR, psd=None).items():
+            if e["group"] not in self.lanes:
+                self.caveats.setdefault(cid, e)
 
     def mode(self, o, d, g):
         """Mode of a pair under the rule of the lanes (pipeline/freight/modes.py): (kind, transit row or None), or
@@ -625,7 +645,7 @@ class Baci:
                 note = (note + "; " if note else "") + f"{es * 100:.0f}% of tonnage estimated from value"
             ss = r["ts"] / r["t"] if r["t"] else 0
             if ss >= 0.10:
-                note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
+                note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values ({_kept_why(g)})"
             rows.append((iso, r["t"] / div, note))
         n = [f"CEPII BACI HS92 {what}, {BACI_YEAR}, all transport modes, gross weight",
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
@@ -680,12 +700,14 @@ class Baci:
             if notes:
                 f["n"] = "; ".join(notes)
             cv = self.caveat_of(g, r["o"], r["d"])
-            if cv:
+            if cv in self.file_caveats:
                 f["caveat"] = cv
+            elif cv:  # a caveat of a group without lanes is not in data/freight/caveats.json: its text goes with the flow
+                f["n"] = (f["n"] + "; " if "n" in f else "") + self.caveats[cv]["text"]
             if r["susp"]:
                 ref = "tonne-weighted median" if g in BULK else "median"
                 msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year {ref} unit value: "
-                       f"possible misreport, kept because the flow is below the 50 M USD correction rule")
+                       f"possible misreport, {_kept_why(g)}")
                 f["n"] = (f["n"] + "; " if "n" in f else "") + msg
                 self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
             if n_all:
@@ -995,6 +1017,9 @@ BASIS = {
     "bauxite": ("dry tonnes", "bauxite, gross weight"),
     "tin": ("contained tin", "unwrought metal, gross weight"),
     "lithium": ("contained lithium", "carbonate, oxide and hydroxide, gross weight"),
+    "gold": ("contained gold", "fine-metal equivalent (Atlas estimate)"),
+    "silver": ("contained silver", "fine-metal equivalent (Atlas estimate)"),
+    "pgm": ("platinum and palladium content", "fine-metal equivalent at the platinum price (Atlas estimate)"),
     "cobalt": ("contained cobalt", "intermediates and metal, gross weight"),
     "rare-earths": ("REO equivalent", "metals and compounds, gross weight"),
     "manganese": ("manganese content", "ore, gross weight"),
@@ -1003,7 +1028,15 @@ BASIS = {
     "urea": ("ammonia, nitrogen content", "urea, product weight"),
 }
 # second trade tables (key prefix -> basis); their titles already name the product
-EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight"}
+EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight", "ferro": "gross weight"}
+
+# Lithium (audit C-036). Lithium carbonate and hydroxide trade at thousands of USD per tonne: a flow of the chemicals group
+# declared below this unit value is priced like ore or concentrate and is left out of the chemicals tables (listed in a note).
+LITHIUM_MIN_UV = 1500  # USD per tonne
+# Lithium carbonate equivalent: tonnes of Li2CO3 per tonne of lithium, from the abridged standard atomic weights of CIAAW
+# (Li 6.94, C 12.011, O 15.999)
+CIAAW_URL = "https://www.ciaaw.org/abridged-atomic-weights.htm"
+LCE_PER_LI = (2 * 6.94 + 12.011 + 3 * 15.999) / (2 * 6.94)
 
 # USGS: id -> dict(section -> (commodity prefix, detail, unit, factor, label))
 USGS = {
@@ -1439,6 +1472,10 @@ def main():
             for side, title in (("exports", "Nickel intermediates and metal exporters"), ("imports", "Nickel intermediates and metal importers")):
                 t, _ = baci.ranked("nickel-int", side, *MT, "nickel mattes, intermediates and unwrought nickel (HS 7501, 7502), gross weight")
                 extra.append({"key": f"int-{side}", "title": title, "table": t})
+            if len(baci.group("nickel-fe")):
+                for side, title in (("exports", "Ferro-nickel and nickel pig iron exporters"), ("imports", "Ferro-nickel and nickel pig iron importers")):
+                    t, _ = baci.ranked("nickel-fe", side, *MT, "ferro-nickel (HS 720260), which includes nickel pig iron, gross weight, not contained nickel")
+                    extra.append({"key": f"ferro-{side}", "title": title, "table": t})
         elif cid == "bauxite":
             t, _ = baci.ranked("alumina", "exports", *MT, "alumina (HS 281820)")
             extra.append({"key": "alumina-exports", "title": "Alumina exporters", "table": t})
@@ -1467,6 +1504,18 @@ def main():
         # lead/tin/refined copper etc: side notes with BACI trade of the second group
         if cid == "copper":
             notes.append(_note_group(baci, "copper-refined", "Refined copper (HS 7403, 7402)"))
+            cu = baci.group("copper-ore")
+            chl = cu[cu["o"] == "CHL"]
+            pe = chl[chl["flag"].str.contains("est-peer", na=False)]
+            if len(pe):
+                cn = chl[chl["d"] == "CHN"]
+                notes.append(f"Chile's copper concentrate: customs data declare some of it at {pe['uvp'].min():,.0f} to {pe['uvp'].max():,.0f} USD per tonne in "
+                             f"{BACI_YEAR}, against about {pe['uve'].median():,.0f} for Peru's concentrate to the same destinations, as if the tonnage were contained "
+                             "copper rather than gross weight. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships "
+                             "50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's "
+                             f"unit value. Chile then exports {chl['t'].sum() / 1e6:.2f} Mt instead of the {chl['t0'].sum() / 1e6:.2f} Mt declared, and Chile to "
+                             f"China {cn['t'].sum() / 1e6:.2f} Mt instead of {cn['t0'].sum() / 1e6:.2f} Mt. Importers' own declarations (UN Comtrade) would "
+                             "measure it; the atlas has no access key for them.")
             notes.append("Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary).")
         elif cid == "bauxite":
             notes.append(_note_group(baci, "alumina", "Alumina (HS 281820)"))
@@ -1487,7 +1536,17 @@ def main():
                             "the exporters table follows customs data.")
         elif cid == "nickel":
             notes.append(_note_group(baci, "nickel-int", "Nickel intermediates and unwrought nickel (HS 7501, 7502)"))
+            if len(baci.group("nickel-fe")):
+                notes.append(_note_group(baci, "nickel-fe", "Ferro-nickel, including nickel pig iron declared as ferro-nickel (HS 720260)"))
             notes.append("Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni).")
+            ore = baci.group("nickel-ore")
+            ore = ore[ore["t0"] > 0]
+            lat, sul = ore[ore["uvp"] < 300], ore[ore["uvp"] >= 300]
+            if len(lat) and len(sul):
+                uv = lambda x: x["usd"].sum() * 1e3 / x["t"].sum()
+                notes.append(f"The ore tables mix two products: laterite ore, {lat['t'].sum() / 1e6:.1f} Mt in {BACI_YEAR} at {uv(lat):,.0f} USD per tonne on average "
+                             f"(by unit value, flows under 300 USD per tonne), and sulphide concentrate, {sul['t'].sum() / 1e6:.2f} Mt at {uv(sul):,.0f} USD per tonne. "
+                             "A low unit value is normal for laterite ore, so no ore flow is flagged for it.")
         elif cid == "zinc":
             notes.append(_note_group(baci, "zinc-metal", "Unwrought zinc (HS 7901)"))
             notes.append("Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn).")
@@ -1523,7 +1582,44 @@ def main():
             notes.append(_note_group(baci, "dap", "DAP (HS 310530)"))
             notes.append("Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock.")
         elif cid == "lithium":
-            notes.append("Trade is lithium carbonate and hydroxide/oxide in gross weight (kt); spodumene concentrate has no HS6 code. USGS production is contained lithium (t Li), so units differ.")
+            df_ = baci.df
+            low = (df_["group"] == "lithium") & (df_["year"] == BACI_YEAR) & (df_["uvp"] < LITHIUM_MIN_UV) & ~df_["imputed"]
+            if low.any():
+                lows = df_[low].sort_values("t", ascending=False)
+                df_.loc[low, "group"] = "lithium-low"  # out of the chemicals tables, listed below
+                for m in baci.last_susp:
+                    if m in disc:
+                        disc.remove(m)
+                add_baci_trade(d, cid, notes, disc)
+                summ(d, "exports", d["exports"])
+                notes.append(f"{len(lows)} flows of the lithium chemicals codes ({_fmt(lows['t'].sum() / 1e3)} kt in {BACI_YEAR}) are declared under "
+                             f"{LITHIUM_MIN_UV:,} USD per tonne, the price of ore or concentrate rather than of a lithium chemical, and are left out of the "
+                             "trade tables: " + "; ".join(f"{cname(r.o)} to {cname(r.d)} {_fmt(r.t / 1e3)} kt at {r.uvp:,.0f} USD/t" for r in lows.head(6).itertuples())
+                             + (f"; and {len(lows) - 6} smaller" if len(lows) > 6 else "") + ".")
+            notes.append("Trade tables and flows are lithium carbonate and hydroxide/oxide (HS 283691, 282520) in gross weight (kt), not lithium content. "
+                         "USGS production is contained lithium (t Li), so units differ.")
+            sp = baci.group("spodumene")
+            if len(sp):
+                code, (_, exporters, importers, rest) = next(iter(HS_SPLIT.items()))
+                allc = baci.df[(baci.df["group"].isin(["spodumene", rest])) & (baci.df["year"] == BACI_YEAR)]
+                st, sv = sp["t"].sum() / allc["t"].sum(), sp["usd"].sum() / allc["usd"].sum()
+                t, _ = baci.ranked("spodumene", "exports", *MT, f"HS {code} rows to China only")
+                t["s"] = "atlas"
+                t["n"] = (f"Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS {code} ('mineral substances not elsewhere "
+                          f"specified'), keeping only the rows from {_and([cname(c) for c in exporters])} to {_and([cname(c) for c in importers])}, the countries "
+                          f"that ship spodumene there: {st:.0%} of the tonnage and {sv:.0%} of the value of the code in {BACI_YEAR}. These rows may still hold "
+                          f"other minerals. Customs gross weight of concentrate, not lithium content. " + t["n"])
+                extra = d.setdefault("extra", [])
+                extra.append({"key": "spodumene-exports", "title": f"Spodumene concentrate to China, {BACI_YEAR} (Atlas estimate)",
+                              "table": set_basis(t, "concentrate, gross weight")})
+                uv = sp["usd"].sum() * 1e3 / sp["t"].sum()
+                notes.append(f"Spodumene concentrate, the main form in which Australia, Zimbabwe, Brazil and Nigeria ship lithium, is shown in its own table "
+                             f"(Atlas estimate from HS {code}, {_fmt(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {uv:,.0f} USD per tonne on average); "
+                             "it is not added to the chemicals tables, whose tonnes are of another product.")
+            pr = d["summary"].get("production")
+            if pr and pr["u"] == "t Li":
+                alt_fig(pr, pr["v"] * LCE_PER_LI, "t LCE", f"{LCE_PER_LI:.3f} t of lithium carbonate (Li2CO3) per t of lithium, from the standard "
+                        f"atomic weights of lithium, carbon and oxygen (CIAAW, {CIAAW_URL}); lithium carbonate equivalent is a unit, not a product traded")
         elif cid == "cobalt":
             ore, mat = hs4_exports(["2605"]), hs4_exports(["8105"])
             if ore and mat:
@@ -1559,8 +1655,11 @@ def main():
                         f"production for {wy} ({wdoc}, {wurl}). The table shows the USGS figures, which come by country; the {wp}'s own tables are not copied.")
             d["summary"]["production"]["n"] += f"; {wp}: {wv:,} {wu} in {wy} (see the discrepancies)"
         elif cid in ("gold", "silver"):
+            if _fine_metal(d, baci, cid, disc):
+                notes.append(FINE_NOTE)
+            else:
+                notes.append("Trade tonnage is customs gross weight (CEPII BACI): dore and alloys count with the base metal they contain; treat flows as indicative.")
             disc.append(_prec_disc(d, cid))
-            notes.append("Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.")
             if cid == "gold":
                 pr = d["production"]
                 wp, wdoc, wv, wu, wy, wurl, _ = WGC_MINE
@@ -1693,9 +1792,88 @@ def _psd_vs_baci(psd_obj, baci, cid, com, ex_attr, group):
 
 def _prec_disc(d, cid):
     ex, pr = d["exports"], d["production"]
-    return (f"BACI world exports {ex['world']:,.0f} {ex['u']} ({BACI_YEAR}) are {ex['world'] / pr['world']:.1f}x USGS world mine production "
+    what = "World exports in fine-metal equivalent (Atlas estimate from customs values)" if ex["s"] == "atlas" else "BACI world exports"
+    return (f"{what} {ex['world']:,.0f} {ex['u']} ({BACI_YEAR}) are {ex['world'] / pr['world']:.1f}x USGS world mine production "
             f"{pr['world']:,.0f} {pr['u']} ({pr['y']}): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; "
             "USGS used for production, BACI for trade.")
+
+
+# Precious metals (audit C-035): customs tonnage is the gross weight of dore, alloys and the base metal in them, so the trade
+# tables are in fine-metal equivalent, the declared value divided by the year's average price of the metal. id -> (price
+# series of data/prices, metal named in the notes)
+FINE_PRICE = {"gold": ("gold-m", "gold"), "silver": ("silver-m", "silver"), "pgm": ("platinum-m", "platinum")}
+
+
+def _name_it(d, key, title=None, kpi=None):
+    """Section title / KPI label of a commodity page (the same as name_it() of main())."""
+    if title:
+        d.setdefault("labels", {})[key] = title
+    if kpi:
+        d.setdefault("kpis", {})[key] = kpi
+
+
+def _fine_metal(d, baci, cid, disc):
+    """Replace the trade tables, the flows and the exports figure of a precious metal by fine-metal equivalents (an Atlas
+    estimate, never above the customs gross weight, which stays in the notes). False when the price is missing."""
+    g, (u, div), what = TRADE[cid]
+    series, metal = FINE_PRICE[cid]
+    price = CV.annual_price(series, BACI_YEAR)
+    if not price:
+        warn(f"{cid}: no {BACI_YEAR} price in data/prices/{series}.json; trade left in customs gross weight")
+        return False
+    per_t = price * 1e6 / CV.TROY_OZ_G  # USD per tonne
+    x = baci.group(g).copy()
+    fine = x["usd"] * 1000 / per_t
+    # gross weight as declared; where it is missing or implausible (rule 2 or 3 of clean.py), the atlas's estimate from value
+    gross = x["t"].where(~x["imputed"])
+    capped = gross.notna() & (fine > gross)
+    x["t0"], x["t"] = x["t"], fine.where(~capped, gross)
+    how = (f"declared value divided by {price:,.0f} USD per troy ounce, the {BACI_YEAR} average {metal} price (World Bank Pink Sheet), "
+           f"i.e. {per_t / 1e6:.1f} million USD per tonne at {CV.TROY_OZ_G} g per troy ounce")
+
+    def usd(k):
+        v = k * 1000
+        return f"USD {v / 1e9:.2f} bn" if v >= 1e9 else f"USD {v / 1e6:,.1f} million"
+
+    x["enote"] = [f"Atlas estimate: fine-metal equivalent, {usd(v)} of {how}; "
+                  + (f"customs gross weight {_fmt(t0 / div)} {u}" if not im else "gross weight missing or implausible in customs data")
+                  + ("; capped at the customs gross weight" if cp else "") for v, t0, im, cp in zip(x["usd"], x["t0"], x["imputed"], capped)]
+    fg = g + "-fine"
+    x["group"], x["imputed"], x["est"], x["susp"], x["t_susp"], x["flag"] = fg, True, True, False, 0.0, "est-fine"
+    x["t_est"] = x["t"]
+    baci.df = pd.concat([baci.df[baci.df["group"] != fg], x], ignore_index=True)
+    world_gross = x["t0"].sum() / div
+    n = (f"Atlas estimate: fine-metal equivalent of every flow of {what} in CEPII BACI HS92, {BACI_YEAR}, all transport modes: {how}; "
+         f"never above the customs gross weight, which each row's note gives (world: {_fmt(world_gross)} {u} gross weight)")
+    if cid == "pgm":
+        n += ("; valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that "
+              "are not in the loaded sources: a flow rich in them is overstated or understated")
+    for side, col in (("exports", "o"), ("imports", "d")):
+        agg = x.groupby(col).agg(t=("t", "sum"), t0=("t0", "sum")).sort_values("t", ascending=False)
+        rows = [(None if c in EXTRA_CODES else baci.iso(c), r["t"] / div, f"customs gross weight {_fmt(r['t0'] / div)} {u}")
+                for c, r in agg.head(TOP + 5).iterrows()]
+        d[side] = ranked(rows, BACI_YEAR, "atlas", u, world=x["t"].sum() / div, n=n)
+        _name_it(d, side, f"Top {side[:-1]}ers — fine-metal equivalent (Atlas estimate)")
+    for m in baci.last_susp:  # the discrepancies of the gross-weight flows replaced below
+        if m in disc:
+            disc.remove(m)
+    d["flows"] = baci.flows(fg, u, div)
+    for f in d["flows"]:
+        cv = baci.caveat_of(g, f["o"], f["d"])
+        if cv and baci.caveats[cv]["text"] not in f.get("n", ""):
+            f["n"] = (f["n"] + "; " if f.get("n") else "") + baci.caveats[cv]["text"]
+    _name_it(d, "flows", f"Main flows — fine-metal equivalent (Atlas estimate), {BACI_YEAR}")
+    d["summary"]["exports"] = fig(x["t"].sum() / div, u, BACI_YEAR, "atlas", n)
+    d["summary"]["exports"]["alt"] = {"v": rnd(world_gross), "u": f"{u} gross weight", "s": "baci", "y": BACI_YEAR,
+                                      "n": "customs gross weight (CEPII BACI), estimated from value where it is missing or implausible"}
+    _name_it(d, "exports", kpi="World exports (fine-metal equivalent)")
+    return True
+
+
+FINE_NOTE = ("Trade tables and flows are in fine-metal equivalent, an Atlas estimate: the declared value of each flow (CEPII BACI) divided by the "
+             "year's average price of the metal (World Bank Pink Sheet), never above the customs gross weight. Customs gross weight counts dore, "
+             "alloys and the base metal they contain, and some declared quantities are wrong; it is given in the note of each row and in brackets "
+             "after the world exports figure.")
 
 
 def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
@@ -1722,8 +1900,11 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
     summ(d, "reserves", d["reserves"])
     summ(d, "exports", d["exports"])
     seaborne(d, g)
+    if _fine_metal(d, baci, cid, disc):
+        notes.append(FINE_NOTE + " Platinum-group metals are valued at the platinum price, the only one of them in the loaded sources.")
+    else:
+        notes.append("Trade tonnage is customs gross weight (CEPII BACI): dore and alloys count with the base metal they contain; treat flows as indicative.")
     disc.append(_prec_disc(d, cid))
-    notes.append("Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.")
     notes.append("Production is platinum plus palladium only (USGS gives no rhodium/ruthenium/iridium/osmium by country); the index unit (kg) is shown here in t.")
 
 
@@ -2047,6 +2228,9 @@ def caveats(docs, eia):
     out["gold"] = {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
                    "imports": "Includes refining and vaulting hubs; not a measure of final demand."}
     out["silver"] = {"exports": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."}
+    out["pgm"] = {"exports": "May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the "
+                             "wrong code: this ranks trade, not mine supply.",
+                  "imports": "May include refining and trading hubs that re-export what they import; not a measure of final demand."}
     out["refined-products"] = {"exports": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output.",
                                "imports": "Includes storage and blending hubs that re-export what they import; not a measure of final demand."}
     out["uranium"] = {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",

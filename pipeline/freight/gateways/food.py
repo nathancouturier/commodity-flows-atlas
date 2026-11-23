@@ -282,8 +282,8 @@ G = {
          "Sohar: a concession 'for all dry bulk, break-bulk, roll-on/roll-off and container stuffing and stripping related operations'"),
     ],
     "JOR": [
-        ("JOAQB", "red-sea", ("phosphate-rock",), "load", "wikipedia", W + "Port_of_Aqaba",
-         "Aqaba, Jordan's only port: 12 terminals, among their operators a 'phosphate Company' (phosphate rock only: the page names no DAP and no potash; direction not given)"),
+        ("JOAQB", "red-sea", ("phosphate-rock",), "load", "wikipedia", W + "Aqaba",
+         "Aqaba page: 'the Aqaba railway which transported phosphate to the old port ceased operations in 2018' and a successor line 'to transport phosphate from Al Shidiya and Ghor es-Safi to the new terminal in Port of Aqaba is planned'; the Port of Aqaba is 'the only port in Jordan' (phosphate rock only: no DAP and no potash named; the page gives no tonnage and the railway is history)"),
     ],
     "NLD": [
         ("NLRTM", "nw-europe", ("box",), "both", "wikipedia", W + "Port_of_Rotterdam",

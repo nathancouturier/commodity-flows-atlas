@@ -169,7 +169,7 @@ SEGMENT = {
     "soybeans": "grain", "soymeal": "grain", "rice": "grain", "sugar": "grain", "rapeseed": "grain",
     "soyoil": "vegoil", "palm-oil": "vegoil", "potash": "fert", "phosphate-rock": "fert", "dap": "fert",
     "urea": "fert", "steel": "box", "copper-refined": "box", "aluminium": "box", "coffee": "box",
-    "cocoa": "box", "cotton": "box", "nickel-int": "nickel",
+    "cocoa": "box", "cotton": "box", "nickel-int": "nickel", "nickel-fe": "nickel", "spodumene": "ore",
 }
 
 _FALLBACK = {"ore": ["ore", "any"], "coal": ["coal", "any"], "metcoal": ["metcoal", "coal", "any"]}
