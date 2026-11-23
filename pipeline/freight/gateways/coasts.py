@@ -177,7 +177,7 @@ G = {
          "Port of Guangzhou (searoute point Huangpu, the page's coordinates): 'products shipped through the port include oil, coal, grain, chemical fertilizer, steel, ore and automobiles' (the page does not say in which direction; Chinese coal at sea is an import). Replaces Zhanjiang, whose page names iron ore only, as the South China coal port"),
         ("CNHUA", "s-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
          "Port of Guangzhou: grain is among the products shipped through the port (direction not given; grain at sea is an import of China). The Tianjin page names no grain"),
-        ("CNLYG", "e-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Lianyungang",
+        ("CNLYG", "n-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Lianyungang",
          "Lianyungang: 'special terminals: crude oil, bulk grain, containers, liquid chemicals' (direction not given). No page ranks it against Guangzhou: options"),
     ],
     "IDN": [
@@ -222,6 +222,10 @@ G = {
     "NLD": [
         ("NLRTM", "nw-europe", ("iron-ore", "coal"), "discharge", "wikipedia", W + "Europoort",
          "Europoort, the outer area of the Port of Rotterdam: 'bulk iron ore and coal handling'; the Port of Rotterdam page: the EECV quay took the iron-ore carrier Berge Stahl (direction not given; the Netherlands has no iron ore of its own)"),
+    ],
+    "EGY": [
+        ("EGALY", "med", ("coal",), "discharge", "wikipedia", W + "Port_of_Alexandria",
+         "Alexandria, Zone 4: 'used for handling containers, cement, coal, barge discharge, fertilizers, and general cargo' (the fertiliser and container families are on the row of food.py)"),
     ],
     "PAK": [
         ("PKBQM", "wc-india", ("coal", "iron-ore"), "discharge", "wikipedia", W + "Port_Qasim",

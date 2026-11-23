@@ -10,7 +10,7 @@ zone      freight zone (list of section 2.4 of the plan; the table itself lives 
 families  subset of grain (wheat, corn, soybeans, soymeal, rice, rapeseed), sugar (its own family: a grain row is
           no sugar gateway), vegoil (palm oil, soyoil), fert (potash, phosphate rock, DAP, urea) and box (steel,
           refined copper, aluminium, coffee, cocoa, cotton: general cargo and containers, the "box" segment of
-          ports.SEGMENT), or a group id ("urea", "potash") when the page names that cargo only
+          ports.SEGMENT), or a group id ("urea", "potash", "phosphate-rock") when the page names that cargo only
 role      load (exports), discharge (imports) or both
 src, url  source id of data/sources.json and the page read. Rows adapted from Wikipedia are CC BY-SA 4.0
 note      what the page says, in a few words
@@ -127,8 +127,8 @@ G = {
     "EGY": [
         ("EGALY", "med", ("grain",), "discharge", "wikipedia", W + "Port_of_Alexandria",
          "Zone 5 handles grains and flour"),
-        ("EGALY", "med", ("fert", "box", "coal"), "both", "wikipedia", W + "Port_of_Alexandria",
-         "Zone 4: 'handling containers, cement, coal, barge discharge, fertilizers, and general cargo'; Zone 1: general cargo (coal added in package FE4b: the same page, read again on 23 November 2026)"),
+        ("EGALY", "med", ("fert", "box"), "both", "wikipedia", W + "Port_of_Alexandria",
+         "Zone 4: containers, cement, coal, fertilizers and general cargo; Zone 1: general cargo"),
     ],
     "MAR": [
         ("MAJFL", "waf", ("fert",), "load", "wikipedia", W + "Jorf_Lasfar",

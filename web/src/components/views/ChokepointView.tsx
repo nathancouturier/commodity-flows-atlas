@@ -153,6 +153,8 @@ function LaneTable({ doc, id, definitionHere }: { doc: ChokepointLanes; id: stri
           : 'Lanes mapped in the atlas whose route crosses this passage, by commodity: an Atlas estimate, not a published statistic. Select a commodity to list its lanes.'}
         {fromPairs && definitionHere && <> {ESTIMATE_DEFINITION}</>}
       </div>
+      {/* how the rows were chosen, as the builder writes it */}
+      {fromPairs && <FoldNote class="muted small" style={{ marginBottom: '6px' }} text={doc.n} />}
       <div class="muted small" style={{ ...GRID, padding: '0 8px' }}>
         <span>Commodity</span>
         <span style={RIGHT} title={hasMay ? 'Pairs whose route has to cross the passage; the pairs that may cross it are not in this figure' : undefined}>{hasMay ? 'At least, Mt' : 'Mt'}</span>

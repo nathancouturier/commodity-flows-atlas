@@ -26,9 +26,10 @@ ZONES = {
     "cam-caribbean", "cam-pacific", "caribbean", "ecsa", "wcsa", "nw-europe", "baltic", "med", "black-sea", "meg",
     "red-sea", "wc-india", "ec-india", "sea", "s-china", "n-china", "japan-korea", "w-australia", "e-australia",
     "waf", "s-africa", "e-africa",
+    "taiwan", "gulf-of-oman",  # declared by gateways/energy.py, used by the general-cargo rows of FE4b
 }
 FAMILIES = {"grain", "sugar", "vegoil", "fert", "box"}
-GROUP_FAMILIES = {"urea", "potash"}  # a row may name one group of a family when its page names that cargo only
+GROUP_FAMILIES = {"urea", "potash", "phosphate-rock"}  # a row may name one group of a family when its page names that cargo only
 ROLES = {"load", "discharge", "both"}
 
 # G01: the terminals that today receive food and fertiliser lanes although they are oil, gas or ore terminals.
@@ -238,6 +239,23 @@ class FoodGateways(unittest.TestCase):
         self.assertNotEqual(ports.gateway("SAU", "wheat"), "SARTA")
         self.assertEqual(ports.gateway("SAU", "wheat"), "SAJED")
         self.assertEqual(ports.basis_of("SAU", "wheat", "discharge", "SAJED"), ports.BASIS_GENERAL)
+
+    # ------------------------------------------------------------------ sourcing pass FE4b
+    def test_fe4b_rows(self):
+        """The general-cargo rows and the grain, fertiliser and phosphate rows added on 23 November 2026."""
+        pins = [("JPN", "box", "JPYOK"), ("TWN", "box", "TWKHH"), ("VNM", "box", "VNCMT"), ("THA", "box", "THLCH"),
+                ("PHL", "box", "PHMNL"), ("PHL", "grain", "PHSFS"), ("PHL", "fert", "PHSFS"), ("SGP", "box", "SGSIN"),
+                ("HKG", "box", "HKHKG"), ("ARE", "box", "AEJEA"), ("OMN", "grain", "OMSOH"), ("OMN", "box", "OMSOH"),
+                ("JOR", "phosphate-rock", "JOAQB"), ("NLD", "box", "NLRTM"), ("SWE", "box", "SEGOT"), ("FRA", "box", "FRFOS")]
+        for iso, fam, code in pins:
+            self.assertEqual(principal(self.food, iso, fam, {"discharge", "both", "load"}), code, f"{iso} {fam}")
+        # a family that no page names stays off the rows
+        for iso, fam in (("PHL", "vegoil"), ("OMN", "fert"), ("JOR", "fert"), ("JOR", "potash"), ("NLD", "grain")):
+            self.assertIsNone(principal(self.food, iso, fam, {"discharge", "both", "load"}), f"{iso} {fam}")
+        # Jordan: phosphate rock is on the row, DAP and potash keep the legacy port and say so
+        self.assertEqual(ports.basis_of("JOR", "phosphate-rock", "load", "JOAQB"), ports.BASIS_PAGE)
+        self.assertEqual(ports.basis_of("JOR", "potash", "load", "JOAQB"), ports.BASIS_LEGACY)
+        self.assertEqual(ports.basis_of("JOR", "dap", "load", "JOAQB"), ports.BASIS_LEGACY)
 
 
 if __name__ == "__main__":

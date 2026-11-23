@@ -365,8 +365,8 @@ class CoastRules(unittest.TestCase):
 
     def test_south_east_asian_coal_into_south_china(self):
         for o in ("IDN", "PHL", "VNM", "MYS"):
-            self.assertEqual(ports.assign(o, "CHN", "coal").main.discharge, "CNZHA", o)
-        self.assertNotEqual(ports.assign("AUS", "CHN", "coal").main.discharge, "CNZHA")
+            self.assertEqual(ports.assign(o, "CHN", "coal").main.discharge, "CNHUA", o)  # Guangzhou since FE4b (was Zhanjiang)
+        self.assertNotEqual(ports.assign("AUS", "CHN", "coal").main.discharge, "CNHUA")
 
     def test_saudi_dry_cargo(self):
         self.assertEqual(ports.zone_of(ports.assign("EGY", "SAU", "wheat").main.discharge), "red-sea")
@@ -416,8 +416,10 @@ class ReviewGE3(unittest.TestCase):
 
     def test_3_chinese_soybeans_are_not_on_a_bulk_reading(self):
         self.assertFalse([r for r in ports.G["CHN"] if r.code == "CNTSN" and r.families & {"grain", "fert", "vegoil"}])
+        # FE4b: the Guangzhou and Lianyungang pages name grain, so soybeans no longer rest on the Tianjin general row
         code = ports.gateway("CHN", "soybeans", "discharge")
-        self.assertNotEqual(ports.basis_of("CHN", "soybeans", "discharge", code), ports.BASIS_PAGE)
+        self.assertEqual(code, "CNHUA")
+        self.assertEqual(ports.basis_of("CHN", "soybeans", "discharge", code), ports.BASIS_PAGE)
         self.assertEqual(ports.basis_of("CHN", "potash", "discharge", "CNTSN"), ports.BASIS_GENERAL)
 
     def test_4_no_family_rests_on_bulk_alone(self):
@@ -486,6 +488,82 @@ class ReviewGE3(unittest.TestCase):
                 for role in ("load", "discharge"):
                     for code, _, basis in ports.candidates(iso, g, role):
                         self.assertIn(basis, ports.BASES)
+
+
+class FE4b(unittest.TestCase):
+    """Sourcing pass FE4b (23 November 2026): ports that a page names for the cargo, in dry bulk, metals, food and
+    general cargo. Each line is (country, group, role, principal port): the principal gateway is the port of the
+    row, its basis is "page names the cargo", and the port is a real seaport."""
+
+    SOURCED = [
+        ("CHN", "iron-ore", "discharge", "CNTAO"), ("CHN", "bauxite", "discharge", "CNRZH"),
+        ("CHN", "coal", "discharge", "CNCFD"), ("CHN", "soybeans", "discharge", "CNHUA"),
+        ("IDN", "coal", "load", "IDTBA"), ("GIN", "bauxite", "load", "GNKMS"), ("CAN", "iron-ore", "load", "CASEI"),
+        ("ZAF", "iron-ore", "load", "ZASDB"), ("ZAF", "manganese", "load", "ZAZBA"), ("IND", "iron-ore", "load", "INDHA"),
+        ("IND", "manganese", "discharge", "INVTZ"), ("PER", "iron-ore", "load", "PESNX"), ("SWE", "iron-ore", "load", "SELLA"),
+        ("NLD", "iron-ore", "discharge", "NLRTM"), ("NLD", "coal", "discharge", "NLRTM"), ("DEU", "coal", "discharge", "DEWVN"),
+        ("MOZ", "coal", "load", "MZMAP"), ("PAK", "coal", "discharge", "PKBQM"), ("SLE", "iron-ore", "load", "SLPEP"),
+        ("MRT", "iron-ore", "load", "MRNDB"), ("EGY", "coal", "discharge", "EGALY"),
+        ("JPN", "steel", "load", "JPYOK"), ("TWN", "steel", "load", "TWKHH"), ("VNM", "steel", "discharge", "VNCMT"),
+        ("THA", "steel", "discharge", "THLCH"), ("PHL", "wheat", "discharge", "PHSFS"), ("PHL", "steel", "discharge", "PHMNL"),
+        ("ARE", "steel", "discharge", "AEJEA"), ("OMN", "wheat", "discharge", "OMSOH"), ("JOR", "phosphate-rock", "load", "JOAQB"),
+        ("SWE", "steel", "load", "SEGOT"), ("FRA", "steel", "load", "FRFOS"), ("SGP", "steel", "discharge", "SGSIN"),
+        ("HKG", "steel", "discharge", "HKHKG"), ("NLD", "steel", "discharge", "NLRTM"),
+    ]
+
+    def test_principal_gateway_is_the_sourced_port(self):
+        for iso, group, role, code in self.SOURCED:
+            with self.subTest(iso=iso, group=group, role=role):
+                self.assertEqual(ports.gateway(iso, group, role), code)
+                self.assertEqual(ports.basis_of(iso, group, role, code), ports.BASIS_PAGE)
+                self.assertTrue(ports.is_seaport(code), code)
+                self.assertTrue(ports.port(code)["name"])
+                rows = [r for r in ports.G[iso] if r.code == code and r.families & set(ports._fams(group))]
+                self.assertTrue(rows)
+                self.assertTrue(rows[0].url.startswith("https://en.wikipedia.org/wiki/"))
+                self.assertTrue(rows[0].note)
+
+    def test_new_ports_sit_at_the_coordinates_of_their_page(self):
+        # code -> (lon, lat) printed on the page of the row
+        page = {"IDTBA": (117.7037, 0.5860), "INDHA": (86.9628, 20.8233), "CNHUA": (113.434, 23.094)}
+        for code, (lon, lat) in page.items():
+            x, y = ports.port(code)["at"]
+            with self.subTest(code=code):
+                self.assertLess(abs(x - lon) + abs(y - lat), 0.02)
+        mod = importlib.import_module("gateways.coasts")
+        for code in mod.MANUAL_EXTRA:
+            with self.subTest(extra=code):
+                self.assertTrue(ports.is_seaport(code))
+                self.assertLess(ports.sea_km(code), 10)
+
+    def test_replaced_ports(self):
+        # Samarinda, Zhanjiang, Paradip, Port Elizabeth and Callao stay in the legacy table but no longer answer
+        # for the cargo that a page now places elsewhere
+        self.assertNotEqual(ports.gateway("IDN", "coal", "load"), "IDSRI")
+        self.assertNotEqual(ports.assign("IDN", "CHN", "coal").main.discharge, "CNZHA")
+        self.assertNotEqual(ports.gateway("IND", "iron-ore", "load"), "INPRT")
+        self.assertNotEqual(ports.gateway("ZAF", "manganese", "load"), "ZAPLZ")
+        self.assertNotEqual(ports.gateway("PER", "iron-ore", "load"), "PECLL")
+        # a cargo that no page places keeps the legacy port, and says so
+        self.assertEqual(ports.gateway("PER", "copper-ore", "load"), "PECLL")
+        self.assertEqual(ports.basis_of("PER", "copper-ore", "load", "PECLL"), ports.BASIS_LEGACY)
+        self.assertEqual(ports.basis_of("CHN", "nickel-ore", "discharge", "CNTAO"), ports.BASIS_LEGACY)
+        self.assertEqual(ports.basis_of("JPN", "coal", "discharge", "JPKSM"), ports.BASIS_LEGACY)
+
+    def test_indian_iron_ore_has_three_gateways_and_no_ranking(self):
+        a = ports.assign("IND", "CHN", "iron-ore")
+        self.assertEqual(a.basis, "open")
+        self.assertEqual({o.load for o in a.options} - {"INDHA", "INVTZ", "INMRM"}, set())
+        self.assertGreaterEqual(len({o.load for o in a.options}), 2)
+
+    def test_chinese_grain_and_coal_options(self):
+        a = ports.assign("BRA", "CHN", "soybeans")
+        self.assertEqual({o.discharge for o in a.options}, {"CNHUA", "CNLYG"})
+        for o in ("AUS", "RUS"):
+            self.assertEqual(ports.assign(o, "CHN", "coal").main.discharge, "CNCFD")
+
+    def test_ngqura_is_named_after_its_page(self):
+        self.assertIn("Ngqura", ports.port("ZAZBA")["name"])
 
 
 def _via(a, b):
