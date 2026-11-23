@@ -2711,10 +2711,10 @@
     "c": "ITA",
     "operator": "Adriatic LNG (VTTI 70%, SNAM 30%)",
     "capacity": {
-     "v": 7.0,
+     "v": 7.7,
      "u": "Mtpa",
      "y": 2025,
-     "n": "nominal send-out; the report says maintenance in 2025 raised it to 7.7 Mtpa from the first quarter of 2026"
+     "n": "nominal capacity after the maintenance and plant modifications of August and September 2025 (the report text, page 26); the table lists 7.0 Mtpa plus an expansion of 0.7 Mtpa, and the report says the additional capacity is available from the first quarter of 2026"
     },
     "opened": 2009,
     "status": "operating",
@@ -2788,7 +2788,7 @@
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
-    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap.",
+    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap. No page or OpenStreetMap entry read gives a position for either of the two floating terminals at Port Qasim: both points are approximate, and they are drawn about 1 km apart so that each can be selected.",
     "s": "giignl-2026",
     "read": "2026-11",
     "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
@@ -2822,7 +2822,7 @@
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
-    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap.",
+    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap. No page or OpenStreetMap entry read gives a position for either of the two floating terminals at Port Qasim: both points are approximate, and they are drawn about 1 km apart so that each can be selected.",
     "s": "giignl-2026",
     "read": "2026-11",
     "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
@@ -2831,7 +2831,7 @@
     "type": "Point",
     "coordinates": [
      67.3851,
-     24.8301
+     24.82
     ]
    }
   },
@@ -3086,10 +3086,10 @@
     "c": "HRV",
     "operator": "LNG Hrvatska (HEP 85%, Plinacro 15%); FSRU: Golar LNG",
     "capacity": {
-     "v": 2.8,
+     "v": 4.5,
      "u": "Mtpa",
      "y": 2025,
-     "n": "the table lists 2.8 Mtpa and an expansion of 1.6 Mtpa in 2025; the text says a new module raised the maximum from 2.9 to 4.5 Mtpa in November 2025"
+     "n": "maximum capacity after the new regasification module commissioned on 7 November 2025, from 2.9 Mtpa (the report text, page 26); the table lists 2.8 Mtpa plus an expansion of 1.6 Mtpa"
     },
     "opened": 2021,
     "status": "operating",
@@ -3513,6 +3513,170 @@
     "coordinates": [
      122.5605,
      -1.2793
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "panigaglia-lng",
+    "name": "Panigaglia LNG Terminal (La Spezia)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ITA",
+    "operator": "SET (owner and operator in the table)",
+    "capacity": {
+     "v": 2.6,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 1971,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "site",
+    "note": "Italy's oldest LNG import terminal in the table, onshore at Panigaglia, La Spezia. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     9.831457,
+     44.074253
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "olt-toscana-lng",
+    "name": "OLT Toscana (Toscana FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ITA",
+    "operator": "OLT Offshore LNG Toscana (First State Investments 48.24%, SNAM 49.07%, Golar 2.69%)",
+    "capacity": {
+     "v": 3.7,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2013,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal offshore Livorno. Position is the city of Livorno. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     10.3091256,
+     43.5507317
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "revithoussa-lng",
+    "name": "Revithoussa LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "GRC",
+    "operator": "DESFA S.A. (Snam, Enagas, Fluxys, Hellenic government)",
+    "capacity": {
+     "v": 5.1,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2000,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "site",
+    "note": "Greece's first LNG import terminal in the table, onshore on the islet of Revithoussa in the Saronic Gulf. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     23.4013325,
+     37.9609414
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pecem-lng",
+    "name": "Pecem LNG Terminal (Hoegh Giant FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "BRA",
+    "operator": "Petrobras (terminal and owner)",
+    "capacity": {
+     "v": 1.9,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2009,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal at the port of Pecem, Ceara. Position is the port. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -38.8111028,
+     -3.5495666
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bahia-blanca-lng",
+    "name": "Bahia Blanca GasPort (Excelerate FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ARG",
+    "operator": "Customer: YPF; FSRU and operator training: Excelerate Energy",
+    "opened": 2008,
+    "status": "not-stated",
+    "coord": "approx",
+    "note": "Argentina's first LNG receiving facility according to the operator's page, a floating unit at the port of Bahia Blanca, started in 2008. The page does not say whether it still runs and the GIIGNL table lists only Escobar for Argentina. Position is Puerto Ingeniero White, the port of Bahia Blanca. Coordinates: OpenStreetMap.",
+    "s": "operator-reports",
+    "read": "2026-11",
+    "url": "https://excelerateenergy.com/projects/bahia-blanca-gasport/"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.2709834,
+     -38.7894434
     ]
    }
   }

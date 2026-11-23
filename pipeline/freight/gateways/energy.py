@@ -126,6 +126,7 @@ G = {
     "CAN": [
         ("CASJB", "canada-east", {"crude"}, "discharge", "wikipedia", WP + "Irving_Oil_Refinery", "Irving Oil refinery, the largest in Canada, receives crude by supertanker at the Canaport terminal"),
         ("CAKTM", "canada-west", {"lng"}, "load", "giignl-2026", GIIGNL + "19", None),
+        ("CASJB", "canada-east", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Canaport LNG, Saint John, New Brunswick (the only Canadian terminal in the report's table)"),
     ],
     "PAN": [
         ("PACHG", "cam-caribbean", {"crude"}, "discharge", "wikipedia", WP + "Trans-Panama_Pipeline", "Caribbean end of the Trans-Panama pipeline, which since 2008-2009 carries crude from the Atlantic side towards the Pacific"),
@@ -157,6 +158,7 @@ G = {
         ("IDCXP", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Cilacap, Central Java (the table spells it 'Cilicap'), 348 thousand barrels a day; the brief says an expansion to 370 thousand is delayed to 2027. The searoute point Tanjung Intan stands for Cilacap: it lies 2 km from the coordinates of the Cilacap page (7 44 S, 109 0 E). The brief names the refinery, not the berth"),
         ("IDDUM", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Dumai, Sumatra, 170 thousand barrels a day. The brief names the refinery, not the berth"),
         ("IDBAL", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Balongan, West Java, 150 thousand barrels a day; the brief says a 90,000 b/d expansion is delayed to 2027. The brief names the refinery, not the berth"),
+        ("IDTPP", "sea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Nusantara Regas Satu FSRU, Jakarta Bay (nearest port: Tanjung Priok)"),
     ],
     "TUR": [
         ("TRMER", "med", {"products"}, "discharge", "wikipedia", WP + "Port_of_Mersin", "Mersin has a petroleum quay (ATAS refinery) and oil terminals"),
@@ -391,6 +393,8 @@ G = {
     "MEX": [
         ("MXDBT", "mexico-gulf", {"crude"}, "load", "wikipedia", WP + "Dos_Bocas,_Tabasco", "Dos Bocas has a major single buoy mooring crude oil export facility and is one of Mexico's main crude oil ports"),
         ("MXATM", "mexico-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Altamira Fast LNG in the report's table, at the Altamira terminal"),
+        ("MXESE", "mexico-pacific", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Energia Costa Azul, Baja California, the largest of the two Mexican terminals of the layer (7.6 Mtpa; nearest port: Ensenada)"),
+        ("MXATM", "mexico-gulf", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Altamira LNG terminal, Tamaulipas (5.7 Mtpa)"),
     ],
     "LBY": [
         ("LYRLA", "med", {"crude", "products"}, "load", "wikipedia", WP + "Ras_Lanuf", "'The Port of Ra's Lanuf consists of a small harbor ... Its primary activities include loading crude oil and oil products'; the town is the terminus of two oil pipelines from the fields (the page does not cover Es Sider or the other Libyan terminals)"),
@@ -400,7 +404,14 @@ G = {
     ],
     "SGP": [
         ("SGSIN", "sea", {"crude"}, "discharge", "wikipedia", WP + "Port_of_Singapore", "The port tranships half of the world's annual crude oil supplies and imports raw materials for refining; Singapore has no crude oil of its own (Jurong Island page)"),
+        ("SGJUR", "sea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Jurong Island LNG terminal (SLNG), Jurong"),
         ("SGSIN", "sea", {"products"}, "load", "eia-cab", EIACAB + "SGP", "EIA country brief: Singapore is 'the fifth-largest refinery and export hub in the world' and 'most of Singapore's refined petroleum product and petrochemical exports are destined for neighboring Asian countries' (a city-state with one port system: the page names the exports of the country, not a berth; no tonnage by port)"),
+    ],
+    "PHL": [
+        ("PHBTG", "sea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "FGEN Batangas LNG terminal (BW Batangas FSRU), Batangas Bay"),
+    ],
+    "ARG": [
+        ("ARCMP", "ecsa", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Escobar terminal (Excelerate Expedient FSRU) on the Parana river; Campana is the nearest port of the searoute list, 26 km up the river"),
     ],
     "KAZ": [
         ("KZCPC", "black-sea", {"crude"}, "load", "wikipedia", WP + "Caspian_Pipeline_Consortium", "The CPC pipeline handles almost all of Kazakhstan's oil exports, to the Novorossiysk-2 marine terminal in Russia (pipeline terminal, not a Kazakh port)"),
@@ -524,7 +535,6 @@ UNSOURCED_PORTS = {
     "IND/lpg/discharge": "Mundra Port page names liquid cargo and a liquid terminal, not LPG",
     "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port; the EIA file of company-level imports covers imports only, and no free statistic of exports by port was found (EIA publishes exports by PADD, not by port)",
     "SGP/products/discharge": "Port of Singapore and Jurong Island pages read: bunkering and refining, no products import named",
-    "SGP/lng/discharge": "no page read; the layer of the atlas has no Singapore terminal",
     "BRA/crude/discharge": "Port of Santos page names liquid bulk only; no page names a crude oil import port",
     "BRA/products/load": "no page read",
     "BRA/products/discharge": "Port of Santos page names liquid bulk only",

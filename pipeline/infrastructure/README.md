@@ -21,7 +21,7 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `smelters.geojson` | `smelter` (smelters and metal refineries) |
 | `ports.geojson` | `port` |
 
-The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `operator-reports`, `port-authorities`,
+The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `eia-dpr`, `eia-todayinenergy`, `operator-reports`, `port-authorities`,
 `trade-press`, `usgs-myb`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
 `DATA_SOURCES.md` is generated from it. There is no other source list in this folder. Three more ids register the
 sources of a few coordinates and statuses that a note names: `openstreetmap` (ODbL; points looked up through Nominatim),

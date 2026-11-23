@@ -66,17 +66,25 @@ What this release does not do:
 The following files contain material adapted from English Wikipedia (text of the notes and facts taken from the
 articles and their infoboxes):
 
-- `data/infrastructure/fields.geojson`, `mines.geojson`, `pipelines.geojson`, `ports.geojson`, `refineries.geojson`
-  and `smelters.geojson`: 145 assets whose source id is `wikipedia`;
+<!-- wikipedia-infra:start -->
+- `data/infrastructure/`, files `fields.geojson`, `mines.geojson`, `pipelines.geojson`, `ports.geojson`,
+  `refineries.geojson` and `smelters.geojson`: 169 assets whose source id is `wikipedia`, each with the `url` of its
+  article;
 - the other infrastructure features whose text names Wikipedia as the origin of a fact (a coordinate, a capacity, an
-  opening year, a length), although their source id is another one: 32 features, covered here by their `id` and not
-  edited in the files: `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
-  `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `cerrejon`, `elga`,
-  `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`, `mcarthur-river`, `olympic-dam`, `mountain-pass`,
-  `red-dog`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `gladstone`, `houston`, `santos`, `paranagua`;
-  `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`,
-  `mina-al-ahmadi`, `mina-abdullah`. Their `url` is the page of their own source; the text of the feature names
-  Wikipedia where a fact comes from it (for five refineries, the article too);
+  opening year, a length, an operator), although their source id is another one: 62 features, covered here by their `id`
+  and not edited in the files: `fields.geojson`: `west-qurna`, `stabroek`, `permian-basin`, `marcellus`, `haynesville`,
+  `vaca-muerta`, `bakken`; `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
+  `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `kiruna`, `malmberget`,
+  `sishen`, `cerrejon`, `elga`, `tavan-tolgoi`, `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`,
+  `mcarthur-river`, `olympic-dam`, `rocanville`, `belaruskali-soligorsk`, `uralkali-berezniki`, `mountain-pass`,
+  `bayan-obo`, `red-dog`, `san-rafael-tin`, `cloudbreak-christmas-creek`, `mount-arthur`, `blackwater-coal`,
+  `fording-river`, `elkview`, `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`;
+  `ports.geojson`: `gladstone`, `houston`, `santos`, `paranagua`; `refineries.geojson`: `port-arthur-motiva`,
+  `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`, `mina-al-ahmadi`, `mina-abdullah`,
+  `rabigh-aramco`, `replan-petrobras`, `salina-cruz-pemex`; `smelters.geojson`: `aurubis-hamburg`, `kghm-glogow`,
+  `boliden-ronnskar`. Their `url` is the page of their own source; the text of the feature names Wikipedia where a fact
+  comes from it;
+<!-- wikipedia-infra:end -->
 - `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
 - the rows of `data/countries/profiles.json` whose source id is `wikipedia` (they repeat figures of the files above);
 - the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
@@ -98,11 +106,11 @@ International licence (<https://creativecommons.org/licenses/by-sa/4.0/>).
 and converted to the atlas's units, coordinates were located or approximated, and the entries were combined with
 figures from other sources.
 
-**Credit.** Every Wikipedia-sourced asset and company keeps the `url` of the article it comes from (checked for
-all 145 assets and 231 companies); the infrastructure panel links it from the source line of the asset. Every Wikipedia-sourced
+**Credit.** Every Wikipedia-sourced asset and company keeps the `url` of the article it comes from (the data
+validators check it); the infrastructure panel links it from the source line of the asset. Every Wikipedia-sourced
 port of a lane file keeps the `url` of its article, which the lane page links beside the port. The history tab of each
 article lists its authors. Event entries keep the article link in `src`; vessel-class, chokepoint and route notes name
-the article in their text. The 32 other infrastructure features keep the `url` of their own source: for them the credit
+the article in their text. The other infrastructure features listed above keep the `url` of their own source: for them the credit
 is this list, the mention of Wikipedia in the feature and the article of the asset (named in the text for five
 refineries, otherwise the article under the asset's name), whose history tab lists its authors.
 
@@ -114,10 +122,11 @@ replaced by one from another source, it leaves this notice.
 
 ### Articles cited by the gateway, transit-port, draught and mode tables
 
-The articles below are cited by rows of the trade engine's tables, read in November 2026 (English Wikipedia unless
-stated). The list is generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the
-source strings of the draught tables, the URL of every mode-list entry), not typed, and
-`pipeline/tests/test_engine.py` checks that it is complete. 189 distinct articles:
+<!-- wikipedia-articles:start -->
+The articles below are cited by rows of the trade engine's tables (English Wikipedia unless stated). The list is
+  generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the source strings of the
+  draught tables, the URL of every mode-list entry) by `pipeline/common/notice_lists.py`, not typed, and
+  `pipeline/tests/test_engine.py` checks that it is complete. 189 distinct articles:
 
 - Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 67):
   [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
@@ -295,13 +304,44 @@ source strings of the draught tables, the URL of every mode-list entry), not typ
   pipeline](https://en.wikipedia.org/wiki/Trans_Mountain_pipeline).
 - Passages closed to the routing (Kanmon Strait) (`pipeline/freight/routing.py`, 1):
   [関門海峡](https://ja.wikipedia.org/wiki/%E9%96%A2%E9%96%80%E6%B5%B7%E5%B3%A1) (Japanese Wikipedia).
+<!-- wikipedia-articles:end -->
 
 ## Points taken from OpenStreetMap: ODbL 1.0
 
-The coordinates of seven assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim
-search) and the note of each feature says so: in `data/infrastructure/lng.geojson`, Qingdao LNG Terminal (the port of
-Dongjiakou), Damietta LNG, Portovaya LNG and Altamira FLNG; in `mines.geojson`, Husab and Mogalakwena; in
-`ports.geojson`, Caofeidian. Only a single point per asset is taken; no other OpenStreetMap data is used.
+<!-- osm-points:start -->
+The coordinates of 186 assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim search)
+  and the note of each feature says so: in `data/infrastructure/`, in `fields.geojson`, Ku-Maloob-Zaap and South Pars;
+  in `lng.geojson`, Alexandroupolis FSRU, Altamira FLNG, Altamira LNG Terminal, Bahia Blanca GasPort, Canaport LNG,
+  Cartagena LNG Terminal, Chita LNG Terminal, Damietta LNG, Donggi-Senoro LNG, Energia Costa Azul LNG,
+  Engro Port Qasim terminal, Escobar LNG, FGEN Batangas LNG, GNL Quintero, Guanabara Bay LNG,
+  Higashi-Ohgishima LNG Terminal, Jurong Island LNG Terminal, Kochi LNG Terminal, Krk LNG Terminal,
+  Map Ta Phut LNG Terminal 1, Mundra LNG Terminal, Ningbo LNG Terminal, Nusantara Regas Satu FSRU, OLT Toscana,
+  Panigaglia LNG Terminal, Pecem LNG Terminal, Portovaya LNG, Port Qasim GasPort, Qingdao LNG Terminal,
+  Revithoussa LNG Terminal, Rovigo LNG Terminal, Sergipe LNG and Zhuhai LNG Terminal; in `mines.geojson`, Abu Tartur,
+  Ahafo, Aktogay, Allan, Almalyk mines, Al Jalamid, Ambatovy, Anning phosphate mines, Antapaccay, Batu Hijau, Bayóvar,
+  Belle Plaine, Blackwater, Bloom Lake, Boddington-Worsley bauxite mine, Boké bauxite mine, Borneo Indobara, Bozshakol,
+  Buenavista del Cobre, Cadia Valley, Canadian Malartic, Cannington, Cory, Dead Sea Works, Dexing, Dugald River, Débélé,
+  Elkview, Erdenet, Esterhazy, Fording River, Fresnillo mine, Gejiu, Gol Gohar mines, Huize, Hunter Valley Operations,
+  Husab, Inhulets mine, Jinchuan nickel-copper mine, Jordan Phosphate Mines, K+S potash mines, KATCO, Kaltim Prima Coal,
+  Karatau, Ketapang bauxite mines, Khibiny apatite mines, Kideco, Langer Heinrich, Lanigan, Las Bambas, La Loma,
+  Lebedinsky, Lovozero rare-earth mines, Majdanpek, McArthur River, Minas-Rio, Moanda, Moatize, Moa Nickel, Mogalakwena,
+  Mont-Wright and Fire Lake, Moolarben, Mount Isa mines, Mount Marion, Mount Tom Price, Murrin Murrin, Nsuta-Wassaw,
+  PT Timah mines, Pannawonica, Paragominas, Peñasquito, Pitinga, Poltava GOK, Porto Trombetas, Qarhan salt lake,
+  Rampura Agucha, Ramu NiCo, Renison Bell, Rio Tuba, Roan Tailings Retreatment, Rössing, SOMAIR,
+  Salar del Hombre Muerto, Salar de Olaroz, Salobo, Sangaredi, Sicomines, Sorowako mine, Tabang mine, Taganito mine,
+  Tianshan Uranium, Toquepala, Tshipi Borwa, Vale Ontario operations, Vanscoy, Voisey's Bay, Weda Bay, West Angelas,
+  Wodgina, Yanacocha and Yichun lithium mines; in `pipelines.geojson`, Enbridge Mainline and
+  Goreh-Jask crude oil pipeline; in `ports.geojson`, Caofeidian; in `refineries.geojson`, Balikpapan, Baton Rouge,
+  Chiba, Daesan, Deer Park, Fawley, Isfahan, Mizushima, Negishi, Yokohama, Olmeca, Pascagoula, Pengerang,
+  Persian Gulf Star, Priolo, Rotterdam, SATORP, Jubail, STAR, Salina Cruz, Schwedt, Sitra, Szazhalombatta and Zhenhai;
+  in `smelters.geojson`, Albras smelter, Alouette smelter, Balkhash copper smelter and refinery, Birla Copper smelter,
+  Bor smelter and refinery, Caletones smelter, Chanderiya smelter, Hindalco Aditya smelter, Hydro aluminium smelters,
+  Ilo smelter and refinery, Inalum Kuala Tanjung smelter, Kazzinc Ust-Kamenogorsk metallurgical complex,
+  Kitimat smelter, Ma'aden Aluminium smelter, Mentok smelter, Met-Mex Peñoles refinery, NALCO Angul smelter,
+  Port Pirie smelter, Ridder zinc refinery, Sayanogorsk aluminium smelter, Sorowako smelter, Tomago smelter,
+  Tongling smelter and refinery, Trail smelter and refinery and Vedanta Jharsuguda smelter. Only a single point per
+  asset is taken; no other OpenStreetMap data is used.
+<!-- osm-points:end -->
 
 Credit: **© OpenStreetMap contributors**. The data is available under the Open Database License 1.0
 (<https://www.openstreetmap.org/copyright>). Source id `openstreetmap` in `data/sources.json`.

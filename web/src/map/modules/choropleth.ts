@@ -154,7 +154,7 @@ registerLayerModule((m: MLMap) => {
         const r = byC.get(iso);
         if (!r) return '';
         return `<div>${escapeHtml(met)}: <span class="num">${fmt(r.v)} ${escapeHtml(table.u)}</span> · ${pct(r.v / world)} of world</div>
-          ${r.eu ? '<div class="muted">EU27 aggregate (shown on each member state)</div>' : ''}
+          ${r.eu ? '<div class="muted">European Union, one figure for all its members (shown on each member state)</div>' : ''}
           <div class="src-line">${escapeHtml(sourceLabel(table.s))} · ${escapeHtml(String(table.y))}</div>`;
       });
     });

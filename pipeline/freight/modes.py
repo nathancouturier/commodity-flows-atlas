@@ -97,13 +97,10 @@ with open(os.path.join(ROOT, "data", "infrastructure", "lng.geojson"), encoding=
 # dates (None: the page gives no year). The layer wins when it has the country.
 LNG_LIST_URL = "https://en.wikipedia.org/wiki/List_of_LNG_terminals"
 LNG_IMPORT_LISTED = {
-    "THA": (2011, "Map Ta Phut LNG Terminal, commercial operation from 2011"),
     "FIN": (2016, "Pori, Tornio, Hamina and Inkoo terminals; the page dates Inkoo (2023) and cites the opening of Pori's "
                   "first terminal in 2016"),
-    "MEX": (2006, "Altamira LNG (2006), Costa Azul (2008) and Manzanillo (2011)"),
     "NOR": (2010, "Mosjoen, Ora (Fredrikstad) and Alesund terminals; the page dates Alesund (2010) only"),
     "SWE": (2011, "Nynashamn (2011) and Lysekil (2014)"),
-    "CAN": (None, "Saint John LNG, no year given"),
     "ARE": (None, "Jebel Ali LNG import terminal, no year given"),
     "ISR": (2013, "a floating import terminal that received a shipment in January 2013"),
 }
