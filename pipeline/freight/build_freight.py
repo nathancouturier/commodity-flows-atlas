@@ -24,6 +24,7 @@ import sys
 import time
 from collections import defaultdict
 from datetime import date, timedelta
+from urllib.parse import unquote
 
 import pandas as pd
 
@@ -63,10 +64,23 @@ CLASS_SHARE_BASIS = {
 }
 CLASS_SHARE_NAME = {"capesize": "Capesize, Newcastlemax and VLOC", "vlcc": "VLCC", "lng": "LNG carrier", "vlgc": "VLGC"}
 
-# Chokepoint shares (plan 2.6). PortWatch counts by vessel type: these groups sail in tankers, the others in dry
-# cargo ships. An entry is written when the "up to" tonnage is at least 2% of the group or 1 Mt.
+# Chokepoint shares (plan 2.6). PortWatch counts by vessel type: these groups sail in tankers; the groups whose
+# gateway segment is general cargo ("box" in ports.py: steel, refined copper, aluminium, coffee, cocoa, cotton; metal
+# and soft families of modes.py) are compared with PortWatch's container, general-cargo and ro-ro ships; the others
+# with its dry-bulk ships. An entry is written when the "up to" tonnage is at least 2% of the group or 1 Mt.
 TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
-TYPE_NAME = {"dry": "dry bulk", "tanker": "tanker"}
+CARGO_GROUPS = {g for g, s in P.SEGMENT.items() if s == "box"}
+TYPES = ("dry", "tanker", "cargo")
+TYPE_NAME = {"dry": "dry bulk", "tanker": "tanker", "cargo": "container, general cargo and ro-ro"}
+
+
+def vessel_type(g):
+    return "tanker" if g in TANKER_GROUPS else "cargo" if g in CARGO_GROUPS else "dry"
+
+
+# Origins whose exports customs data miss (caveats): the passages of the routes to every buyer with at least this
+# share of the origin's exports in the reference year are named in the notes.
+UNRECORDED_BUYER_SHARE = 0.10
 EST_MIN_SHARE, EST_MIN_MT = 0.02, 1.0
 DEFINITION = ("every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel "
               "passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs "
@@ -78,10 +92,17 @@ K9_NO_COMPARISON = {"danish-straits"}
 # QA.md: "at least" and "up to" of the parallel passages under other thresholds of the parallel rule (plan 2.5)
 SENSITIVITY = ((0.03, 150), (0.05, 300), (0.10, 500))
 SENSITIVITY_GATES = ("malacca", "sunda", "lombok", "taiwan-strait", "luzon")
+# year the typical laden speeds of vessel_rules.SPEED were set (an Atlas assumption, published with s "atlas")
+SPEED_YEAR = 2026
 
 
 def mt(v):
     return f"{v:,.0f} Mt" if v >= 10 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
+
+
+def mt3(v):
+    """mt() with one more figure under 100 Mt, for comparisons of two close tonnages."""
+    return f"{v:,.0f} Mt" if v >= 100 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
 
 
 ACRONYM = {"lng": "LNG", "lpg": "LPG", "dap": "DAP", "nickel-int": "nickel intermediates", "copper-ore": "copper concentrate",
@@ -124,19 +145,20 @@ def frame():
 
 
 def pw_volumes(chk, rows):
-    """IMF PortWatch estimated trade volume, Mt per full calendar year: {chokepoint: {year: {dry, tanker, all}}}. From
-    the daily raw rows when present, otherwise from the weekly series of data/freight/portwatch (Mt/day x the days
-    of each week inside the year)."""
+    """IMF PortWatch estimated trade volume, Mt per full calendar year: {chokepoint: {year: {dry, tanker, cargo, all}}}
+    (cargo: container, general-cargo and ro-ro ships). From the daily raw rows when present, otherwise from the weekly
+    series of data/freight/portwatch (Mt/day x the days of each week inside the year)."""
     out = defaultdict(dict)
     if rows:
         pw = pd.DataFrame(rows)
         ids = BW.mapped(chk)
         pw["y"] = pd.to_datetime(pw["date"]).dt.year
+        pw["cargo"] = pw["capacity_container"].fillna(0) + pw["capacity_general_cargo"].fillna(0) + pw["capacity_roro"].fillna(0)
         agg = pw.groupby(["portid", "y"]).agg(n=("date", "size"), dry=("capacity_dry_bulk", "sum"),
-                                               tanker=("capacity_tanker", "sum"), all=("capacity", "sum"))
+                                               tanker=("capacity_tanker", "sum"), cargo=("cargo", "sum"), all=("capacity", "sum"))
         for (pid, y), r in agg.iterrows():
             if pid in ids and r["n"] >= 365:
-                out[ids[pid]][int(y)] = {k: float(r[k]) / 1e6 for k in ("dry", "tanker", "all")}
+                out[ids[pid]][int(y)] = {k: float(r[k]) / 1e6 for k in ("dry", "tanker", "cargo", "all")}
         return out
     for c in chk:
         path = os.path.join(OUT, "portwatch", c["id"] + ".json")
@@ -148,7 +170,7 @@ def pw_volumes(chk, rows):
         for i in range(len(s["vol"]["total"])):
             for k in range(7):
                 day = start + timedelta(days=7 * i + k)
-                for t, key in (("dry", "dry"), ("tanker", "tanker"), ("all", "total")):
+                for t, key in (("dry", "dry"), ("tanker", "tanker"), ("cargo", "container"), ("cargo", "other"), ("all", "total")):
                     acc[day.year][t] += s["vol"][key][i]
         for y, v in acc.items():
             if date(y, 1, 1) >= start and date(y, 12, 31) <= last:
@@ -162,24 +184,53 @@ def best_year(vols, typ):
 
 
 def unrecorded_through(df, active, latest):
-    """Origins whose exports customs data do not record ("unrecorded" caveats): {(group, chokepoint): [origin]} for the
-    passages crossed by the route to the origin's largest buyer in the caveat's reference year."""
+    """Origins whose exports customs data do not record, or record only in part: {(group, chokepoint): [origin]} for
+    the passages that the routes to the origin's buyers in a reference year cross or may cross (via and viaAlt of every
+    seaborne buyer with at least UNRECORDED_BUYER_SHARE of the origin's exports that year). "unrecorded" caveats use
+    the caveat's reference year; "break" caveats whose exports fell use the best of the five years before `latest`
+    (the rule of caveats._break), and a break that is a rise is not read."""
     out = defaultdict(list)
     sea = df[df["mode"].isin(["sea", "transit"])]
     for e in active.values():
-        if e["kind"] != "unrecorded" or e.get("d"):
+        if e["kind"] not in ("unrecorded", "break") or e.get("d"):
             continue
-        z = sea[(sea["group"] == e["group"]) & (sea["o"] == e["o"]) & (sea["year"] == CV.REF_YEAR)].sort_values("t", ascending=False)
-        if z.empty:
-            continue
-        r = z.iloc[0]
-        rec, _ = BL.route_pair(r["o"], r["d"], r["group"], r["t"], r["mode"])
-        for c in (rec or {}).get("via", []):
+        ex = df[(df["group"] == e["group"]) & (df["o"] == e["o"])].groupby("year")["t"].sum()
+        if e["kind"] == "unrecorded":
+            ref = CV.REF_YEAR
+        else:
+            past = ex[(ex.index >= latest - 5) & (ex.index < latest)]
+            if past.empty or ex.get(latest, 0.0) >= past.max():
+                continue
+            ref = int(past.idxmax())
+        tot = ex.get(ref, 0.0)
+        z = sea[(sea["group"] == e["group"]) & (sea["o"] == e["o"]) & (sea["year"] == ref)]
+        gates = set()
+        for r in z[z["t"] >= UNRECORDED_BUYER_SHARE * tot].itertuples(index=False):
+            rec, _ = BL.route_pair(r.o, r.d, r.group, r.t, r.mode)
+            if rec:
+                gates |= set(rec["via"]) | {x for lst in rec["viaAlt"] for x in lst}
+        for c in sorted(gates):
             out[(e["group"], c)].append(e["o"])
     return out
 
 
-def chokepoint_shares(chk, pairs, pw, active, unrec, latest):
+def _wiki_name(url):
+    if url and "wikipedia.org/wiki/" in url:
+        return "Wikipedia, " + unquote(url.rsplit("/", 1)[-1]).replace("_", " ")
+    return url
+
+
+def alert_reason(alerts, cid, latest):
+    """The first sentence of a curated alert on the passage that was active in `latest`, quoted with its source; None
+    when there is none (the atlas then states no cause)."""
+    for a in alerts or []:
+        if cid in a.get("chokepoints", []) and str(a.get("since", "9999"))[:4] <= str(latest):
+            first = a["text"].split(". ")[0].rstrip(".")
+            return f"The atlas's alert \"{a['title']}\" says: \"{first}\" ({_wiki_name(a.get('src'))})"
+    return None
+
+
+def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
     """`estimates` of every chokepoint and the K9 records of the passages with a PortWatch counter."""
     k9 = []
     for c in chk:
@@ -189,9 +240,11 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest):
         own = c.get("portwatch") and not c.get("portwatchLabel")  # a counter of this passage, not of a part of it
         vols = pw.get(cid, {})
         pw_y = vols.get(latest, {})
-        by_type = {t: [0.0, 0.0, defaultdict(float)] for t in ("dry", "tanker")}
+        # first pass: low and high of every group, and their sums by vessel type (the cap and K9 need the sums)
+        by_type = {t: [0.0, 0.0, defaultdict(float)] for t in TYPES}
+        per_group = {}
         for g, p in pairs.items():
-            typ = "tanker" if g in TANKER_GROUPS else "dry"
+            typ = vessel_type(g)
             seaborne_rows = [r for r in p["rows"] if r["m"] in (0, 1)]
             low = sum(r["t"] for r in seaborne_rows if cid in r["via"])
             alt_by = defaultdict(float)
@@ -204,6 +257,44 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest):
             for r in seaborne_rows:
                 if cid in r["via"]:
                     by_type[typ][2][(g, r["o"], r["d"])] += r["t"]
+            per_group[g] = (typ, seaborne_rows, low, high, alt_by)
+        # the passage against PortWatch, by vessel type: a note on the shares of a type whose "at least" tonnage is
+        # above PortWatch's volume of the same year, and the K9 records
+        type_note = {}
+        if c.get("portwatch") and vols:
+            for typ, (low, high, pairs_t) in by_type.items():
+                ref = pw_y.get(typ)
+                best, by = best_year(vols, typ)
+                if not best:
+                    continue
+                top = sorted(pairs_t.items(), key=lambda x: -x[1])[:3]
+                text = (f"{c['name']}, {TYPE_NAME[typ]}: at least {mt3(low)} and up to {mt3(high)} of the atlas's seaborne groups in {latest}, "
+                        f"against {mt3(ref) if ref is not None else 'no figure'} for all {TYPE_NAME[typ]} ships in IMF PortWatch {latest} "
+                        f"(best full year since {PW_FIRST_YEAR}: {mt3(best)} in {by})")
+                level = "qa"
+                above = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mt3(low)}) is above "
+                         f"IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships" + (f" in {latest} ({mt3(ref)}; " if ref is not None else " (")
+                         + f"{mt3(best)} in {by}, its best full year since {PW_FIRST_YEAR})")
+                if cid in K9_NO_COMPARISON:
+                    text += f"; the PortWatch counter is the {c.get('portwatchLabel') or 'part of the passage'}: no comparison is valid"
+                elif low > K9_MAX * best:
+                    level = "flag"
+                    text += (f"; above {K9_MAX:.0%} of the best year: the ports or routes the atlas assumes probably overstate it. "
+                             "Largest pairs: " + ", ".join(f"{label_of(g)} {K._name(o)} to {K._name(d)} {mt(v)}" for (g, o, d), v in top))
+                    type_note[typ] = f"{above}: the assumed ports or routes probably overstate it"
+                elif ref is not None and low > ref:
+                    level = "flag"
+                    reason = alert_reason(alerts, cid, latest)
+                    text += (f"; above PortWatch's {latest} volume: the atlas routes cargo on the normal itinerary"
+                             + (f". {reason}" if reason else ""))
+                    type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
+                                      f"route, not the {latest} traffic" + (f". {reason}" if reason else ""))
+                k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
+                           "value": round(low, 1), "high": round(high, 1), "reference": None if ref is None else round(ref, 1),
+                           "best": round(best, 1), "bestYear": by, "ratio": round(low / best, 2), "level": level, "text": text})
+        # second pass: the entries
+        for g, (typ, seaborne_rows, low, high, alt_by) in per_group.items():
+            p = pairs[g]
             sea = p["seaborne"]
             if not sea or not (high >= EST_MIN_MT or high / sea >= EST_MIN_SHARE):
                 continue
@@ -217,51 +308,40 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest):
                 n.append(f"{mt(mixed)} of {label} that moves both by sea and overland (split not known) would cross it by sea and is not counted")
             names = [K._name(o) for o in unrec.get((g, cid), [])]
             if names:
-                n.append(f"Exports that customs data do not record for {latest} are missing: {', '.join(names)} (see the caveat of each origin)")
-            hi_pub, capped = high, None
-            if own and pw_y.get(typ) is not None and low <= pw_y[typ] < high:
-                hi_pub, capped = pw_y[typ], pw_y[typ]
+                n.append(f"Exports that customs data do not record for {latest}, or record only in part, are missing: {', '.join(names)} "
+                         "(see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)")
+            # cap of the upper figure: PortWatch's volume of the type, less the "at least" tonnage of the other groups of
+            # the type, never below this group's own "at least"
+            hi_pub, room = high, None
+            pw_t = pw_y.get(typ) if own else None
+            if pw_t is not None:
+                others = by_type[typ][0] - low
+                room = max(low, pw_t - others)
+                if high > room:
+                    hi_pub = room
+                    if room == low and high - low >= 0.05:
+                        n.append(f"The pairs that may cross it ({mt(high - low)}) are not added: the 'at least' tonnage of all "
+                                 f"{TYPE_NAME[typ]} cargo of the atlas here is already above IMF PortWatch's {latest} estimate")
+            if typ in type_note:
+                n.append(type_note[typ])
             e = {"k": BL.COMMODITY.get(g, g), "p": g,
                  "f": {"v": round(100 * low / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": ". ".join(n)},
                  "mt": [round(low, 1 if low >= 10 else 3), round(hi_pub, 1 if hi_pub >= 10 else 3)]}
             if round(100 * hi_pub / sea, 1) > e["f"]["v"]:
                 top = sorted(alt_by.items(), key=lambda x: -x[1])[:3]
+                top = [x for x in top if x[1] >= 0.005] or top[:1]
                 adds = ("adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on "
                         "another coast (largest: " + ", ".join(f"{K._name(o)} {mt(v)}" for o, v in top) + ")")
                 hn = f"up to {mt(high)}: {adds}"
-                if capped is not None:
-                    hn = (f"up to {mt(capped)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
-                          f"passage in {latest} (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, "
-                          f"{mt(high)}: {adds}")
+                if hi_pub < high:
+                    others = by_type[typ][0] - low
+                    less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mt(others)})" if others >= 0.05 else
+                            f" (the atlas's other {TYPE_NAME[typ]} groups have almost no 'at least' tonnage here)")
+                    hn = (f"up to {mt(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
+                          f"passage in {latest} ({mt(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
+                          f"cannot exceed; without the cap, {mt(high)}: {adds}")
                 e["hi"] = {"v": round(100 * hi_pub / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": hn}
             est.append(e)
-        # K9: the passage against PortWatch, by vessel type
-        if c.get("portwatch") and vols:
-            for typ, (low, high, pairs_t) in by_type.items():
-                ref = pw_y.get(typ)
-                best, by = best_year(vols, typ)
-                if not best:
-                    continue
-                top = sorted(pairs_t.items(), key=lambda x: -x[1])[:3]
-                text = (f"{c['name']}, {TYPE_NAME[typ]}: at least {mt(low)} and up to {mt(high)} of the atlas's seaborne groups in {latest}, "
-                        f"against {mt(ref) if ref is not None else 'no figure'} for all {TYPE_NAME[typ]} ships in IMF PortWatch {latest} "
-                        f"(best full year since {PW_FIRST_YEAR}: {mt(best)} in {by})")
-                level = "qa"
-                if cid in K9_NO_COMPARISON:
-                    text += f"; the PortWatch counter is the {c.get('portwatchLabel') or 'part of the passage'}: no comparison is valid"
-                elif low > K9_MAX * best:
-                    level = "flag"
-                    text += (f"; above {K9_MAX:.0%} of the best year: the ports or routes the atlas assumes probably overstate it. "
-                             "Largest pairs: " + ", ".join(f"{label_of(g)} {K._name(o)} to {K._name(d)} {mt(v)}" for (g, o, d), v in top))
-                k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
-                           "value": round(low, 1), "high": round(high, 1), "reference": None if ref is None else round(ref, 1),
-                           "best": round(best, 1), "bestYear": by, "ratio": round(low / best, 2), "level": level, "text": text})
-                if level == "flag":
-                    for e in est:
-                        if ("tanker" if e["p"] in TANKER_GROUPS else "dry") == typ:
-                            e["f"]["n"] += (f". The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage "
-                                            f"({mt(low)}) is above IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in its best "
-                                            f"year since {PW_FIRST_YEAR} ({mt(best)}, {by}): the assumed ports or routes probably overstate it")
         est.sort(key=lambda e: -e["f"]["v"])
         if est:
             c["estimates"] = est
@@ -317,11 +397,15 @@ def sensitivity(df, pairs, latest):
     finally:
         RT.plan = real
     out = []
+    # incomplete when pairs were skipped: every figure is then short by up to the skipped tonnage, and the 5% or 300 nm
+    # column does not reproduce the published figures
+    complete = round(skipped, 1) == 0
     for (pct, nm), by in acc.items():
         for c, (low, high) in by.items():
             out.append({"check": "K9", "kind": "parallel", "group": None, "year": latest, "chokepoint": c, "pct": pct, "nm": nm,
-                        "value": round(low, 1), "high": round(high, 1), "skipped": round(skipped, 1), "level": "qa",
-                        "text": f"{c}: at least {mt(low)}, up to {mt(high)} with parallel passages within {pct:.0%} or {nm} nm"})
+                        "value": round(low, 1), "high": round(high, 1), "skipped": round(skipped, 1), "complete": complete, "level": "qa",
+                        "text": f"{c}: at least {mt(low)}, up to {mt(high)} with parallel passages within {pct:.0%} or {nm} nm"
+                                + ("" if complete else f" (incomplete: {mt(skipped)} of pairs not recomputed)")})
     return out
 
 
@@ -368,7 +452,9 @@ def bypass_notes(chk, reg):
                     cap = p["capacity"]
                     parts.append(f"{p['name']} {cap['v']:,} {cap['u']}")
             if parts:
-                src = sorted({f"{names.get(layer[i]['s'], layer[i]['s'])}, {layer[i]['y']}" for i in ids if i in layer})
+                # the layer's year of reading: `y`, or `read` (year-month) in the newer infrastructure shape
+                src = sorted({f"{names.get(layer[i]['s'], layer[i]['s'])}, {layer[i].get('y') or str(layer[i].get('read', ''))[:4]}"
+                              for i in ids if i in layer})
                 lead = "Stated capacities in the atlas's pipeline layer: " + "; ".join(parts) + f" ({'; '.join(src)})"
                 a["note"] = lead + (". " + a["note"] if a.get("note") else "")
 
@@ -494,7 +580,7 @@ def main():
         # corridor volumes from customs data (cleaned seaborne pairs; a mixed pair only where the corridor has no
         # seaborne flow, as a customs total for all modes). A customs group is counted once per country pair and
         # route: thermal and metallurgical coal are the same group "coal".
-        shares, hist_t, hist_v, cor_tm, tiny = [], defaultdict(float), defaultdict(float), 0.0, []
+        shares, hist_t, hist_v, cor_tm, tiny, mixed_na = [], defaultdict(float), defaultdict(float), 0.0, [], []
         counted = set()
         for c in cor:
             groups = GROUPS_OF.get(c["k"], [c["k"]])
@@ -513,9 +599,15 @@ def main():
             word = "all-coal (thermal and metallurgical)" if groups == ["coal"] else c["k"].replace("-", " ")
             lead = "Country-pair corridor (all ports and vessel sizes, not this route's ports alone)"
             if v <= 0 and vm > 0:
-                sub, v = subm, vm
-                n = (f"{lead}, all modes: {v:.1f} Mt move both by sea and overland and the split is not known (CEPII BACI customs data), "
-                     f"against {tot:.0f} Mt of seaborne {word} trade, so the seaborne part and its share may be lower")
+                # no known seaborne tonnage: no share (its numerator would be all modes over a seaborne total); the
+                # all-modes volume is given in shareNa and its history is labelled all modes
+                sub = subm
+                ends = lambda cs: " and ".join(K._name(x) for x in cs) if len(cs) <= 2 else "these countries"  # noqa: E731
+                n = (f"{ends(c['o'])} and {ends(c['d'])} trade {word} both by sea and overland and the split is not known: "
+                     f"{vm:.1f} Mt in {latest} for all modes (CEPII BACI customs data)")
+                if tot > 0:
+                    n += f", which would be {100 * vm / tot:.1f}% of the {tot:,.0f} Mt of seaborne {word} trade only if all of it went by sea"
+                mixed_na.append(n)
             else:
                 n = f"{lead}: {v:.1f} Mt of {tot:.0f} Mt seaborne {word} trade, CEPII BACI customs data"
                 if vm >= 0.05:
@@ -543,6 +635,8 @@ def main():
             # no share to show: say why instead of printing 0.0 %
             if r.get("shareNa"):
                 out["shareNa"] = r["shareNa"]
+            elif mixed_na:
+                out["shareNa"] = ". ".join(mixed_na)
             elif tiny:
                 k, v, tot, groups = tiny[0]
                 out["shareNa"] = f"Corridor volume in {latest} is {v:.2f} Mt, under 0.05% of the {tot:.0f} Mt of seaborne {'coal' if groups == ['coal'] else k.replace('-', ' ')} trade: too small for a meaningful share"
@@ -561,6 +655,8 @@ def main():
             series, marks = history_flags([round(hist_t[y], 2) for y in years], [hist_v[y] for y in years])
             out["history"] = [{"y": y, "v": v} for y, v in zip(years, series) if v is not None]
             hn = BL.hist_note({str(years[i]): m for i, m in marks.items() if m != "kept"}, years)
+            if mixed_na:
+                hn = "All modes: the volume includes trade that moves both by sea and overland (split not known)" + (f". {hn}" if hn else "")
             if hn:
                 out["historyNote"] = hn
             out["historyUnit"] = "Mt"
@@ -577,7 +673,11 @@ def main():
     vcs = load("vessel_classes.json")
     for vc in vcs:
         vc["speedKn"] = VR.speed(vc["id"])
-        vc["speedNote"] = "Typical laden speed of the class (Atlas assumption), used for laden days"
+        vc["speedNote"] = ("Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not "
+                           "from a published source. It is used for laden days (distance divided by speed) on routes and in the "
+                           "Route finder")
+        # the same figure in the atlas's figure shape (source and year); speedKn and speedNote stay for the site
+        vc["speed"] = {"v": vc["speedKn"], "u": "kn", "y": SPEED_YEAR, "s": "atlas", "n": vc["speedNote"]}
     json.dump(vcs, open(os.path.join(OUT, "vessel-classes.json"), "w"), indent=0)
     events = sorted(load("events.json"), key=lambda e: e["date"])
     json.dump(events, open(os.path.join(OUT, "events.json"), "w"), indent=0)
@@ -595,7 +695,7 @@ def main():
     bypass_notes(chk, reg)
     rows = BW.read_rows(os.path.join(RAW, "portwatch"))
     pw = pw_volumes(chk, rows)
-    k9 = chokepoint_shares(chk, pairs, pw, active, unrecorded_through(df, active, latest), latest)
+    k9 = chokepoint_shares(chk, pairs, pw, active, unrecorded_through(df, active, latest), latest, alerts)
     for c in chk:
         # typical detour when this chokepoint is avoided (main seaborne lanes with an alternative that avoids it)
         det = []
@@ -628,7 +728,8 @@ def main():
     k9 += sensitivity(df, pairs, latest) + eia_ratio(chk, latest)
     K.save(k9, {"K9"}, latest)
     flagged = [r["text"] for r in k9 if r["level"] == "flag"]
-    print(f"K9: {len(k9)} records, {len(flagged)} above PortWatch's best year" + "".join("\n  " + t for t in flagged))
+    print(f"K9: {len(k9)} records, {len(flagged)} flagged (above PortWatch's volume of the year or of its best year)"
+          + "".join("\n  " + t for t in flagged))
 
     # merge sources
     have = {s["id"] for s in reg}

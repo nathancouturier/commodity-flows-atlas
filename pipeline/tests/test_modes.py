@@ -251,10 +251,33 @@ class ModeTests(unittest.TestCase):
     def test_GE1_6_lng_terminal_opening_year(self):
         self.assertEqual(modes.LNG_OPENED["MOZ"], 2022)
         self.assertIsNone(modes.LNG_OPENED["QAT"])
-        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng", 2019).kind, "land")
-        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng", 2022).kind, "sea")
-        self.assertEqual(modes.mode_of("MOZ", "ZAF", "lng").kind, "sea")  # no year: every terminal of the layer counts
+        self.assertFalse(modes.lng_exporter("MOZ", 2019))
+        self.assertTrue(modes.lng_exporter("MOZ", 2022))
+        self.assertTrue(modes.lng_exporter("MOZ"))  # no year: every terminal of the layer counts
         self.assertEqual(modes.mode_of("RUS", "CHN", "lng", 2010).kind, "sea")  # terminals without an opening year count
+        # the importer's regasification terminal counts from its opening year too (Klaipeda, Lithuania, 2014)
+        self.assertEqual(modes.mode_of("RUS", "LTU", "lng", 2013).kind, "land")
+        self.assertEqual(modes.mode_of("RUS", "LTU", "lng", 2014).kind, "sea")
+
+    def test_GE5_4_lng_between_neighbours_needs_both_terminals(self):
+        # Mozambique to South Africa: pipeline gas declared as LNG, in every year (South Africa has no import terminal)
+        for year in (2019, 2022, 2024, None):
+            m = modes.mode_of("MOZ", "ZAF", "lng", year)
+            self.assertEqual((m.kind, m.basis), ("land", "product"), year)
+            self.assertIn("piped from Mozambique", m.note)
+            self.assertEqual(m.url, "https://en.wikipedia.org/wiki/Sasol")
+        self.assertFalse(modes.lng_importer("ZAF"))
+        # the importers the layer lacks come from the list read (Map Ta Phut 2011, Finnish terminals 2016)
+        self.assertEqual(modes.mode_of("MYS", "THA", "lng", 2010).kind, "land")
+        self.assertEqual(modes.mode_of("MYS", "THA", "lng", 2024).kind, "sea")
+        self.assertEqual(modes.mode_of("NOR", "FIN", "lng", 2024).kind, "sea")
+        m = modes.mode_of("IDN", "MYS", "lng", 2024)  # no Malaysian import terminal in the layer or on the list read
+        self.assertEqual(m.kind, "land")
+        self.assertEqual(m.url, modes.LNG_LIST_URL)
+        # the layer wins over the list for a country it has
+        self.assertFalse(set(modes.LNG_IMPORT_LISTED) & set(modes.LNG_IMPORT_OPENED))
+        # not neighbours: sea whatever the terminals
+        self.assertEqual(modes.mode_of("QAT", "ZAF", "lng", 2024).kind, "sea")
 
     def test_GE1_7_historical_territories(self):
         self.assertTrue(modes.coastal("ANT"))

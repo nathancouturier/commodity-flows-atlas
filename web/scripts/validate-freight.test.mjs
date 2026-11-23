@@ -17,6 +17,8 @@ const script = path.join(path.dirname(fileURLToPath(import.meta.url)), 'validate
 
 const base = () => ({
   chokepoints: [{ id: 'suez' }, { id: 'panama' }, { id: 'malacca' }],
+  countries: [{ c: 'AUS' }, { c: 'CHN' }, { c: 'MNG' }],
+  places: [{ c: 'GIB' }],
   caveats: { 'crude-irn': { kind: 'unrecorded', text: 'x', group: 'crude-oil', o: 'IRN', d: null } },
   lane: {
     group: 'coal',
@@ -56,6 +58,8 @@ function write(root, d) {
   };
   put('freight/chokepoints.json', d.chokepoints);
   put('freight/caveats.json', d.caveats);
+  put('countries/index.json', d.countries);
+  put('countries/places.json', d.places);
   put('freight/lanes/coal.json', d.lane);
   put(`freight/pairs/${d.pairsFile ?? 'coal'}.json`, d.pairs);
 }
@@ -122,6 +126,27 @@ rejects('a lane without a set once the pairs table exists', (d) => delete d.lane
 rejects('a main lane under the floor of its group', (d) => (d.lane.lanes[0].flow.v = 0.01), 'floor');
 rejects('a portBasis outside its list', (d) => (d.lane.lanes[0].portBasis = 'guess'), 'portBasis "guess"');
 rejects('a duplicate lane id', (d) => d.lane.lanes.push({ ...d.lane.lanes[0] }), 'appears twice');
+rejects('a row with a country code the atlas does not know', (d) => (d.pairs.rows[1][0] = 'ZZZ'), 'country code "ZZZ"');
+rejects('a port in a country the atlas does not know', (d) => (d.pairs.ports[0][2] = 'ZZZ'), 'country "ZZZ"');
+test('a place that has no country page is a known code', () => {
+  const { errors } = run((d) => (d.pairs.rows[1][0] = 'GIB'));
+  assert.deepEqual(errors, []);
+});
+rejects('bit 2 set for a pair that has no main lane', (d) => (d.pairs.rows[1][10] = 4), 'bit 2 of f disagrees');
+rejects('bit 2 unset for a pair that has a main lane', (d) => (d.pairs.rows[0][10] = 0), 'bit 2 of f disagrees');
+rejects('a history lane does not count as a main lane', (d) => (d.lane.lanes[0].set = 'history'), 'bit 2 of f disagrees');
+rejects('seaborne that is not the sum of the sea rows', (d) => (d.pairs.seaborne = 1300), 'add up to 1200 kt');
+test('seaborne within 0.1% of the sum passes', () => {
+  const { errors } = run((d) => (d.pairs.seaborne = 1201));
+  assert.deepEqual(errors, []);
+});
+rejects('a note for a pair that has no row', (d) => (d.pairs.notes = { 'AUS-JPN': 'x' }), 'note "AUS-JPN"');
+rejects('a port basis index out of range', (d) => ((d.pairs.bases = ['page names the cargo']), (d.pairs.ports[0][4] = 3)), 'basis index 3');
+test('notes and a port basis that are well formed pass', () => {
+  const { errors } = run((d) => ((d.pairs.bases = ['nearest seaport']), (d.pairs.ports[0][4] = 0), (d.pairs.notes = { 'AUS-CHN': 'Atlas estimate: x' })));
+  assert.deepEqual(errors, []);
+});
+rejects('a second transit port without a source', (d) => ((d.lane.lanes[0].transit = { port: 'AAAAA', c: 'AUS', s: 'wikipedia' }), (d.lane.lanes[0].transit2 = { port: 'BBBBB', c: 'CHN' })), 'second transit port has no source');
 rejects('a lane file without its pairs file', (d) => (d.pairsFile = 'other'), 'no pairs file');
 
 if (failed) {

@@ -111,18 +111,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 567 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024 are missing: Iran (see the caveat of each origin)"
+"n": "at least 567 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 566.5,
-750.7
+662.2
 ],
 "hi": {
-"v": 40.1,
+"v": 35.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 751 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United Arab Emirates 184 Mt)"
+"n": "up to 662 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (915 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (253 Mt), which this cargo cannot exceed; without the cap, 751 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United Arab Emirates 184 Mt)"
 }
 },
 {
@@ -133,7 +133,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 13 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 13 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 12.7,
@@ -248,7 +248,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 6.1 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.11 Mt, Saudi Arabia 0.00 Mt)"
+"n": "up to 6.1 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.11 Mt)"
 }
 },
 {
@@ -410,7 +410,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 3.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.13 Mt, Canada 0.00 Mt)"
+"n": "up to 3.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.13 Mt)"
 }
 },
 {
@@ -559,7 +559,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 581 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 581 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran, Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 581.0,
@@ -1266,7 +1266,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 558 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 558 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran, Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 558.2,
@@ -2272,18 +2272,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.00 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.00 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0,
-104.5
+104.4
 ],
 "hi": {
 "v": 5.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 104 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 213 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 67 Mt, Brazil 48 Mt, Angola 34 Mt)"
+"n": "up to 104 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (104 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (0.13 Mt), which this cargo cannot exceed; without the cap, 213 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 67 Mt, Brazil 48 Mt, Angola 34 Mt)"
 }
 },
 {
@@ -2298,14 +2298,14 @@
 },
 "mt": [
 0.227,
-300.9
+299.5
 ],
 "hi": {
-"v": 18.4,
+"v": 18.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 301 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 422 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 337 Mt, South Africa 45 Mt, Canada 28 Mt)"
+"n": "up to 300 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (301 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (1.4 Mt), which this cargo cannot exceed; without the cap, 422 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 337 Mt, South Africa 45 Mt, Canada 28 Mt)"
 }
 },
 {
@@ -2681,14 +2681,14 @@
 },
 "mt": [
 834.9,
-950.3
+938.2
 ],
 "hi": {
-"v": 58.1,
+"v": 57.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 950 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 1,185 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 337 Mt, Sierra Leone 9.3 Mt, South Africa 3.6 Mt)"
+"n": "up to 938 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (950 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (12 Mt), which this cargo cannot exceed; without the cap, 1,185 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 337 Mt, Sierra Leone 9.3 Mt, South Africa 3.6 Mt)"
 }
 },
 {
@@ -2776,7 +2776,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.12 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.07 Mt, Australia 0.01 Mt, Singapore 0.00 Mt)"
+"n": "up to 0.12 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.07 Mt, Australia 0.01 Mt)"
 }
 },
 {
@@ -2813,14 +2813,14 @@
 },
 "mt": [
 4.408,
-48.4
+48.0
 ],
 "hi": {
 "v": 2.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 48 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 78 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 49 Mt, Australia 5.6 Mt, Nigeria 4.8 Mt)"
+"n": "up to 48 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (48 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (0.45 Mt), which this cargo cannot exceed; without the cap, 78 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 49 Mt, Australia 5.6 Mt, Nigeria 4.8 Mt)"
 }
 },
 {
@@ -2886,7 +2886,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 1.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.5 Mt, China 0.00 Mt)"
+"n": "up to 1.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.5 Mt)"
 }
 },
 {
@@ -2923,14 +2923,14 @@
 },
 "mt": [
 0,
-111.3
+103.3
 ],
 "hi": {
-"v": 61.4,
+"v": 57.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 111 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Guinea 110 Mt, Brazil 1.1 Mt, Sierra Leone 0.05 Mt)"
+"n": "up to 103 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (950 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (847 Mt), which this cargo cannot exceed; without the cap, 111 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Guinea 110 Mt, Brazil 1.1 Mt, Sierra Leone 0.05 Mt)"
 }
 },
 {
@@ -2945,14 +2945,14 @@
 },
 "mt": [
 0,
-146.0
+103.3
 ],
 "hi": {
-"v": 10.6,
+"v": 7.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 146 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 114 Mt, Colombia 17 Mt, Australia 13 Mt)"
+"n": "up to 103 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (950 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (847 Mt), which this cargo cannot exceed; without the cap, 146 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 114 Mt, Colombia 17 Mt, Australia 13 Mt)"
 }
 },
 {
@@ -3018,7 +3018,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.39 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 0.38 Mt, Indonesia 0.00 Mt, Chile 0.00 Mt)"
+"n": "up to 0.39 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 0.38 Mt)"
 }
 },
 {
@@ -3055,14 +3055,14 @@
 },
 "mt": [
 0.007,
-48.4
+43.6
 ],
 "hi": {
-"v": 13.1,
+"v": 11.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 48 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 80 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 79 Mt, Nigeria 0.85 Mt, Equatorial Guinea 0.52 Mt)"
+"n": "up to 44 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (48 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (4.9 Mt), which this cargo cannot exceed; without the cap, 80 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 79 Mt, Nigeria 0.85 Mt, Equatorial Guinea 0.52 Mt)"
 }
 },
 {
@@ -3150,7 +3150,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 6.9 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 5.7 Mt, Argentina 1.2 Mt, Malaysia 0.00 Mt)"
+"n": "up to 6.9 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 5.7 Mt, Argentina 1.2 Mt)"
 }
 },
 {
@@ -3187,14 +3187,14 @@
 },
 "mt": [
 0,
-6.354
+2.816
 ],
 "hi": {
-"v": 2.2,
+"v": 1.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 6.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 4.1 Mt, Indonesia 0.76 Mt, South Korea 0.52 Mt)"
+"n": "up to 2.8 Mt: capped at IMF PortWatch's estimate of the cargo of all container, general cargo and ro-ro ships through the passage in 2024 (2.8 Mt, IMF PortWatch, data adapted) (the atlas's other container, general cargo and ro-ro groups have almost no 'at least' tonnage here), which this cargo cannot exceed; without the cap, 6.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 4.1 Mt, Indonesia 0.76 Mt, South Korea 0.52 Mt)"
 }
 },
 {
@@ -3216,7 +3216,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 6.8 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 6.8 Mt, Indonesia 0.00 Mt)"
+"n": "up to 6.8 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 6.8 Mt)"
 }
 }
 ],
@@ -3315,7 +3315,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 5.0 Mt of 18 Mt of seaborne DAP: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 5.0 Mt of 18 Mt of seaborne DAP: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 4.983,
@@ -3352,7 +3352,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 9.0 Mt of 34 Mt of seaborne phosphate rock: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.91 Mt of seaborne phosphate rock could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 9.0 Mt of 34 Mt of seaborne phosphate rock: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.91 Mt of seaborne phosphate rock could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 9.039,
@@ -3389,11 +3389,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 8.4 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 8.4 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 8.443,
-8.451
+8.443
 ]
 },
 {
@@ -3404,19 +3404,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 28 Mt of 167 Mt of seaborne wheat: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne wheat could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.35 Mt of wheat that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 28 Mt of 167 Mt of seaborne wheat: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne wheat could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.35 Mt of wheat that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (1.1 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 28.1,
-29.2
-],
-"hi": {
-"v": 17.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 29 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 1.1 Mt)"
-}
+28.1
+]
 },
 {
 "k": "steel",
@@ -3437,7 +3430,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.59 Mt, the United States 0.00 Mt)"
+"n": "up to 45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.59 Mt)"
 }
 },
 {
@@ -3448,7 +3441,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 143 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 143 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 143.4,
@@ -3463,19 +3456,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 7.2 Mt of 50 Mt of seaborne rice: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne rice could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 7.2 Mt of 50 Mt of seaborne rice: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne rice could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.47 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 7.229,
-7.694
-],
-"hi": {
-"v": 15.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 7.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: India 0.31 Mt, the United States 0.12 Mt, Pakistan 0.03 Mt)"
-}
+7.229
+]
 },
 {
 "k": "potash",
@@ -3485,19 +3471,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 5.8 Mt of 42 Mt of seaborne potash: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 6.9 Mt of seaborne potash could not be routed (no gateway, no sourced transit port, or one port at both ends). 4.2 Mt of potash that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 5.8 Mt of 42 Mt of seaborne potash: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 6.9 Mt of seaborne potash could not be routed (no gateway, no sourced transit port, or one port at both ends). 4.2 Mt of potash that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.19 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 5.791,
-5.979
-],
-"hi": {
-"v": 14.3,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 6.0 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 0.19 Mt)"
-}
+5.791
+]
 },
 {
 "k": "rapeseed",
@@ -3507,7 +3486,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.6 Mt of 20 Mt of seaborne rapeseed: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.19 Mt of rapeseed that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.6 Mt of 20 Mt of seaborne rapeseed: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.19 Mt of rapeseed that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.629,
@@ -3522,19 +3501,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.0 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 6.0 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.11 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 5.998,
-6.112
-],
-"hi": {
-"v": 12.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 6.1 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 0.10 Mt, Indonesia 0.02 Mt)"
-}
+5.998
+]
 },
 {
 "k": "cotton",
@@ -3566,7 +3538,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 179 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 179 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it). The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 178.5,
@@ -3581,7 +3553,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.27 Mt of 3.2 Mt of seaborne nickel intermediates: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of nickel intermediates that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.27 Mt of 3.2 Mt of seaborne nickel intermediates: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of nickel intermediates that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.271,
@@ -3596,19 +3568,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 12 Mt of 149 Mt of seaborne corn: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne corn could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.16 Mt of corn that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 12 Mt of 149 Mt of seaborne corn: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne corn could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.16 Mt of corn that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.93 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 11.9,
-12.8
-],
-"hi": {
-"v": 8.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 13 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.93 Mt)"
-}
+11.9
+]
 },
 {
 "k": "copper",
@@ -3618,7 +3583,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.2 Mt of 30 Mt of seaborne copper concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.5 Mt of seaborne copper concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.41 Mt of copper concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.2 Mt of 30 Mt of seaborne copper concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.5 Mt of seaborne copper concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.41 Mt of copper concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.175,
@@ -3648,19 +3613,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 81 Mt of 1,377 Mt of seaborne coal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne coal could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 81 Mt of 1,377 Mt of seaborne coal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne coal could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (2.9 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 81.2,
-84.1
-],
-"hi": {
-"v": 6.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 84 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 2.9 Mt)"
-}
+81.2
+]
 },
 {
 "k": "bauxite",
@@ -3670,7 +3628,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.9 Mt of 34 Mt of seaborne alumina: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.21 Mt of seaborne alumina could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.6 Mt of alumina that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 1.9 Mt of 34 Mt of seaborne alumina: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.21 Mt of seaborne alumina could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.6 Mt of alumina that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 1.947,
@@ -3685,11 +3643,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.4 Mt of 59 Mt of seaborne sugar: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.0 Mt of seaborne sugar could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 3.4 Mt of 59 Mt of seaborne sugar: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.0 Mt of seaborne sugar could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 3.366,
-3.368
+3.366
 ]
 },
 {
@@ -3700,19 +3658,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 20 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 20 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The pairs that may cross it (2.3 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 19.5,
-21.9
-],
-"hi": {
-"v": 5.9,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 22 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 2.3 Mt)"
-}
+19.5
+]
 },
 {
 "k": "soymeal",
@@ -3722,19 +3673,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.9 Mt of 61 Mt of seaborne soybean meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 2.6 Mt of seaborne soybean meal could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 2.9 Mt of 61 Mt of seaborne soybean meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 2.6 Mt of seaborne soybean meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.58 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.918,
-3.497
-],
-"hi": {
-"v": 5.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 3.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.57 Mt, India 0.01 Mt)"
-}
+2.918
+]
 },
 {
 "k": "iron-ore",
@@ -3744,19 +3688,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 74 Mt of 1,636 Mt of seaborne iron ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.7 Mt of seaborne iron ore could not be routed (no gateway, no sourced transit port, or one port at both ends). 9.1 Mt of iron ore that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 74 Mt of 1,636 Mt of seaborne iron ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.7 Mt of seaborne iron ore could not be routed (no gateway, no sourced transit port, or one port at both ends). 9.1 Mt of iron ore that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.73 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 74.2,
-74.9
-],
-"hi": {
-"v": 4.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 75 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 0.73 Mt)"
-}
+74.2
+]
 },
 {
 "k": "zinc",
@@ -3766,7 +3703,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.41 Mt of 9.2 Mt of seaborne zinc concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.70 Mt of seaborne zinc concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of zinc concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.41 Mt of 9.2 Mt of seaborne zinc concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.70 Mt of seaborne zinc concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of zinc concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.41,
@@ -3781,11 +3718,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.48 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.13 Mt of soybean oil that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.48 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.13 Mt of soybean oil that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.476,
-0.479
+0.476
 ]
 },
 {
@@ -3818,7 +3755,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.7 Mt of 181 Mt of seaborne bauxite: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 3.7 Mt of 181 Mt of seaborne bauxite: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 3.688,
@@ -3833,7 +3770,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.4 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.42 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.4 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.42 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all tanker cargo of the atlas through this passage (353 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (226 Mt; 452 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.37,
@@ -3848,19 +3785,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.91 Mt of 157 Mt of seaborne soybeans: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.34 Mt of seaborne soybeans could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.61 Mt of soybeans that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.91 Mt of 157 Mt of seaborne soybeans: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.34 Mt of seaborne soybeans could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.61 Mt of soybeans that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (3.7 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (247 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.906,
-4.573
-],
-"hi": {
-"v": 2.9,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 4.6 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 3.7 Mt, Canada 0.00 Mt)"
-}
+0.906
+]
 }
 ],
 "detour": {
@@ -3962,7 +3892,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 16 Mt of 34 Mt of seaborne phosphate rock: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.91 Mt of seaborne phosphate rock could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 16 Mt of 34 Mt of seaborne phosphate rock: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.91 Mt of seaborne phosphate rock could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 16.1,
@@ -3977,19 +3907,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.1 Mt of 22 Mt of seaborne aluminium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.63 Mt of seaborne aluminium could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.5 Mt of aluminium that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 6.1 Mt of 22 Mt of seaborne aluminium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.63 Mt of seaborne aluminium could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.5 Mt of aluminium that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.34 Mt) are not added: the 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 6.116,
-6.458
-],
-"hi": {
-"v": 29.2,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 6.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 0.32 Mt, Indonesia 0.02 Mt, Iceland 0.01 Mt)"
-}
+6.116
+]
 },
 {
 "k": "phosphate",
@@ -3999,7 +3922,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.8 Mt of 18 Mt of seaborne DAP: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.8 Mt of 18 Mt of seaborne DAP: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 4.832,
@@ -4014,19 +3937,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.6 Mt of 7.3 Mt of seaborne coffee: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of seaborne coffee could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.6 Mt of 7.3 Mt of seaborne coffee: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of seaborne coffee could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 1.633,
-1.674
-],
-"hi": {
-"v": 23.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 1.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.04 Mt, Saudi Arabia 0.00 Mt)"
-}
+1.633
+]
 },
 {
 "k": "palm-oil",
@@ -4036,19 +3952,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 8.5 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 8.5 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 8.479,
-8.528
-],
-"hi": {
-"v": 20.8,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 8.5 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 0.04 Mt, Malaysia 0.01 Mt)"
-}
+8.479
+]
 },
 {
 "k": "steel",
@@ -4058,19 +3967,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 44 Mt of 287 Mt of seaborne steel: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 4.4 Mt of seaborne steel could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.4 Mt of steel that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 44 Mt of 287 Mt of seaborne steel: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 4.4 Mt of seaborne steel could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.4 Mt of steel that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (1.7 Mt) are not added: the 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 43.7,
-45.4
-],
-"hi": {
-"v": 15.8,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 1.1 Mt, Indonesia 0.59 Mt, the United States 0.00 Mt)"
-}
+43.7
+]
 },
 {
 "k": "refined-products",
@@ -4080,7 +3982,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 144 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 144 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 143.6,
@@ -4095,19 +3997,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 7.3 Mt of 50 Mt of seaborne rice: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne rice could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 7.3 Mt of 50 Mt of seaborne rice: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne rice could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.36 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 7.328,
-7.684
-],
-"hi": {
-"v": 15.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 7.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: India 0.31 Mt, Pakistan 0.03 Mt, the United States 0.01 Mt)"
-}
+7.328
+]
 },
 {
 "k": "potash",
@@ -4117,19 +4012,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.0 Mt of 42 Mt of seaborne potash: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 6.9 Mt of seaborne potash could not be routed (no gateway, no sourced transit port, or one port at both ends). 4.2 Mt of potash that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 6.0 Mt of 42 Mt of seaborne potash: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 6.9 Mt of seaborne potash could not be routed (no gateway, no sourced transit port, or one port at both ends). 4.2 Mt of potash that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.19 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 6.005,
-6.193
-],
-"hi": {
-"v": 14.8,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 6.2 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 0.19 Mt)"
-}
+6.005
+]
 },
 {
 "k": "wheat",
@@ -4139,19 +4027,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 23 Mt of 167 Mt of seaborne wheat: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne wheat could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.35 Mt of wheat that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 23 Mt of 167 Mt of seaborne wheat: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne wheat could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.35 Mt of wheat that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (1.1 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 22.9,
-24.0
-],
-"hi": {
-"v": 14.3,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 24 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 1.1 Mt)"
-}
+22.9
+]
 },
 {
 "k": "rapeseed",
@@ -4161,7 +4042,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.6 Mt of 20 Mt of seaborne rapeseed: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.19 Mt of rapeseed that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.6 Mt of 20 Mt of seaborne rapeseed: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.19 Mt of rapeseed that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.629,
@@ -4176,19 +4057,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.0 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 6.0 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.11 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 5.996,
-6.11
-],
-"hi": {
-"v": 12.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 6.1 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 0.10 Mt, Indonesia 0.02 Mt)"
-}
+5.996
+]
 },
 {
 "k": "cotton",
@@ -4198,19 +4072,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.78 Mt of 7.7 Mt of seaborne cotton: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.12 Mt of seaborne cotton could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.78 Mt of 7.7 Mt of seaborne cotton: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.12 Mt of seaborne cotton could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.07 Mt) are not added: the 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.781,
-0.851
-],
-"hi": {
-"v": 11.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 0.85 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.07 Mt)"
-}
+0.781
+]
 },
 {
 "k": "crude-oil",
@@ -4220,7 +4087,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 179 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 179 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it). The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 178.7,
@@ -4235,7 +4102,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.6 Mt of 30 Mt of seaborne copper concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.5 Mt of seaborne copper concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.41 Mt of copper concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.6 Mt of 30 Mt of seaborne copper concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.5 Mt of seaborne copper concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.41 Mt of copper concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.569,
@@ -4250,7 +4117,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.27 Mt of 3.2 Mt of seaborne nickel intermediates: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of nickel intermediates that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.27 Mt of 3.2 Mt of seaborne nickel intermediates: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.07 Mt of nickel intermediates that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.271,
@@ -4265,7 +4132,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.70 Mt of 9.2 Mt of seaborne zinc concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.70 Mt of seaborne zinc concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of zinc concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.70 Mt of 9.2 Mt of seaborne zinc concentrate: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.70 Mt of seaborne zinc concentrate could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of zinc concentrate that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.698,
@@ -4280,7 +4147,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.0 Mt of 34 Mt of seaborne alumina: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.21 Mt of seaborne alumina could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.6 Mt of alumina that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.0 Mt of 34 Mt of seaborne alumina: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.21 Mt of seaborne alumina could not be routed (no gateway, no sourced transit port, or one port at both ends). 1.6 Mt of alumina that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.041,
@@ -4295,19 +4162,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 81 Mt of 1,377 Mt of seaborne coal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne coal could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 81 Mt of 1,377 Mt of seaborne coal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne coal could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (2.9 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 81.2,
-84.1
-],
-"hi": {
-"v": 6.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 84 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 2.9 Mt)"
-}
+81.2
+]
 },
 {
 "k": "copper",
@@ -4317,11 +4177,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.61 Mt of 10 Mt of seaborne refined copper: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.78 Mt of seaborne refined copper could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of refined copper that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.61 Mt of 10 Mt of seaborne refined copper: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.78 Mt of seaborne refined copper could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.24 Mt of refined copper that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.612,
-0.614
+0.612
 ]
 },
 {
@@ -4332,11 +4192,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.9 Mt of 149 Mt of seaborne corn: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne corn could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.16 Mt of corn that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 6.9 Mt of 149 Mt of seaborne corn: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne corn could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.16 Mt of corn that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 6.9,
-6.92
+6.9
 ]
 },
 {
@@ -4347,11 +4207,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 75 Mt of 1,636 Mt of seaborne iron ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.7 Mt of seaborne iron ore could not be routed (no gateway, no sourced transit port, or one port at both ends). 9.1 Mt of iron ore that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 75 Mt of 1,636 Mt of seaborne iron ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.7 Mt of seaborne iron ore could not be routed (no gateway, no sourced transit port, or one port at both ends). 9.1 Mt of iron ore that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (0.73 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 75.2,
-75.9
+75.2
 ]
 },
 {
@@ -4362,19 +4222,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 16 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 16 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The pairs that may cross it (2.3 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 16.1,
-18.4
-],
-"hi": {
-"v": 5.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 18 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 2.3 Mt)"
-}
+16.1
+]
 },
 {
 "k": "soyoil",
@@ -4384,11 +4237,11 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.43 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.13 Mt of soybean oil that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.43 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.13 Mt of soybean oil that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.431,
-0.435
+0.431
 ]
 },
 {
@@ -4399,19 +4252,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.8 Mt of 59 Mt of seaborne sugar: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.0 Mt of seaborne sugar could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.8 Mt of 59 Mt of seaborne sugar: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.0 Mt of seaborne sugar could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.56 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 1.811,
-2.371
-],
-"hi": {
-"v": 4.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 2.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 0.56 Mt, Indonesia 0.00 Mt)"
-}
+1.811
+]
 },
 {
 "k": "cocoa",
@@ -4421,19 +4267,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.09 Mt of 3.1 Mt of seaborne cocoa: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 0.09 Mt of 3.1 Mt of seaborne cocoa: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (52.9 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.09,
-0.093
-],
-"hi": {
-"v": 3.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 0.09 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the Dominican Rep. 0.00 Mt)"
-}
+0.09
+]
 },
 {
 "k": "bauxite",
@@ -4443,7 +4282,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.6 Mt of 181 Mt of seaborne bauxite: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 3.6 Mt of 181 Mt of seaborne bauxite: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 3.649,
@@ -4458,7 +4297,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.4 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.42 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.4 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.42 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. The 'at least' tonnage of all tanker cargo of the atlas through this passage (350 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (212 Mt; 473 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 2.367,
@@ -4473,19 +4312,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.88 Mt of 61 Mt of seaborne soybean meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 2.6 Mt of seaborne soybean meal could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.88 Mt of 61 Mt of seaborne soybean meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 2.6 Mt of seaborne soybean meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.54 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.882,
-1.418
-],
-"hi": {
-"v": 2.3,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 1.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 0.53 Mt, India 0.01 Mt)"
-}
+0.882
+]
 },
 {
 "k": "soybeans",
@@ -4495,19 +4327,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.65 Mt of 157 Mt of seaborne soybeans: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.34 Mt of seaborne soybeans could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.61 Mt of soybeans that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 0.65 Mt of 157 Mt of seaborne soybeans: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.34 Mt of seaborne soybeans could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.61 Mt of soybeans that moves both by sea and overland (split not known) would cross it by sea and is not counted. The pairs that may cross it (3.5 Mt) are not added: the 'at least' tonnage of all dry bulk cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (242 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.648,
-4.187
-],
-"hi": {
-"v": 2.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 4.2 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 3.5 Mt)"
-}
+0.648
+]
 }
 ],
 "detour": {
@@ -4610,7 +4435,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 42 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 42 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (117 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (107 Mt; 122 Mt in 2022, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 41.6,
@@ -4766,19 +4591,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 21 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 21 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The pairs that may cross it (2.3 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (117 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (107 Mt; 122 Mt in 2022, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 21.2,
-23.6
-],
-"hi": {
-"v": 6.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 24 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 2.3 Mt)"
-}
+21.2
+]
 },
 {
 "k": "refined-products",
@@ -4788,7 +4606,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 46 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 46 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (117 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (107 Mt; 122 Mt in 2022, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 46.4,
@@ -4917,14 +4735,14 @@
 },
 "mt": [
 0.822,
-28.1
+18.2
 ],
 "hi": {
-"v": 18.8,
+"v": 12.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 28 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 27 Mt, Peru 0.00 Mt)"
+"n": "up to 18 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (60 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (42 Mt), which this cargo cannot exceed; without the cap, 28 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 27 Mt)"
 }
 },
 {
@@ -4957,7 +4775,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 7.3 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 7.3 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (117 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (107 Mt; 122 Mt in 2022, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 7.305,
@@ -5005,7 +4823,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.40 Mt, the United States 0.01 Mt, Chile 0.00 Mt)"
+"n": "up to 0.45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.40 Mt, the United States 0.01 Mt)"
 }
 },
 {
@@ -5020,14 +4838,14 @@
 },
 "mt": [
 0.098,
-32.0
+17.5
 ],
 "hi": {
-"v": 20.4,
+"v": 11.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 32 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 32 Mt, Chile 0.00 Mt, China 0.00 Mt)"
+"n": "up to 17 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (60 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (43 Mt), which this cargo cannot exceed; without the cap, 32 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 32 Mt)"
 }
 },
 {
@@ -5344,14 +5162,14 @@
 },
 "mt": [
 57.6,
-149.6
+141.7
 ],
 "hi": {
-"v": 8.0,
+"v": 7.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 150 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 92 Mt)"
+"n": "up to 142 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (173 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (32 Mt), which this cargo cannot exceed; without the cap, 150 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 92 Mt)"
 }
 },
 {
@@ -6186,7 +6004,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 41 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.59 Mt, the United States 0.00 Mt)"
+"n": "up to 41 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.59 Mt)"
 }
 },
 {
@@ -6341,7 +6159,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 22 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 3.7 Mt, Canada 0.00 Mt)"
+"n": "up to 22 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 3.7 Mt)"
 }
 },
 {
@@ -6367,7 +6185,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 184 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 184 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 183.6,
@@ -7331,7 +7149,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.8 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 3.8 Mt of 49 Mt of seaborne urea: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 1.3 Mt of seaborne urea could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 3.755,
@@ -7691,7 +7509,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 1,061 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 1,264 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 756 Mt, Brazil 285 Mt, South Africa 44 Mt)"
+"n": "up to 1,061 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (1,061 Mt, IMF PortWatch, data adapted) (the atlas's other dry bulk groups have almost no 'at least' tonnage here), which this cargo cannot exceed; without the cap, 1,264 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 756 Mt, Brazil 285 Mt, South Africa 44 Mt)"
 }
 },
 {
@@ -7922,18 +7740,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.26 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.26 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran, Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0.264,
-294.6
+285.9
 ],
 "hi": {
-"v": 15.7,
+"v": 15.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 295 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 647 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 173 Mt, the United Arab Emirates 104 Mt, Iraq 78 Mt)"
+"n": "up to 286 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (295 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other tanker groups (8.7 Mt), which this cargo cannot exceed; without the cap, 647 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Saudi Arabia 173 Mt, the United Arab Emirates 104 Mt, Iraq 78 Mt)"
 }
 },
 {
@@ -8131,7 +7949,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.42 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.42 Mt, Australia 0.00 Mt, Italy 0.00 Mt)"
+"n": "up to 0.42 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.42 Mt)"
 }
 },
 {
@@ -8769,14 +8587,14 @@
 },
 "mt": [
 820.2,
-1084.7
+897.2
 ],
 "hi": {
-"v": 66.3,
+"v": 54.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 1,085 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 1,149 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 316 Mt, Sierra Leone 9.3 Mt, South Africa 3.6 Mt)"
+"n": "up to 897 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (1,085 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (188 Mt), which this cargo cannot exceed; without the cap, 1,149 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 316 Mt, Sierra Leone 9.3 Mt, South Africa 3.6 Mt)"
 }
 },
 {
@@ -8857,7 +8675,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 12 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 2.5 Mt, Brazil 0.95 Mt, Australia 0.00 Mt)"
+"n": "up to 12 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 2.5 Mt, Brazil 0.95 Mt)"
 }
 },
 {
@@ -8868,19 +8686,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.3 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (32 Mt) is above IMF PortWatch's estimate for all tanker ships in its best year since 2019 (27 Mt, 2022): the assumed ports or routes probably overstate it"
+"n": "at least 3.3 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.26 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.72 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (31.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (21.2 Mt; 27.5 Mt in 2022, its best full year since 2019): the assumed ports or routes probably overstate it"
 },
 "mt": [
 3.26,
-3.981
-],
-"hi": {
-"v": 3.2,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 4.0 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 0.71 Mt, China 0.01 Mt, South Korea 0.00 Mt)"
-}
+3.26
+]
 },
 {
 "k": "crude-oil",
@@ -8890,19 +8701,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 22 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (32 Mt) is above IMF PortWatch's estimate for all tanker ships in its best year since 2019 (27 Mt, 2022): the assumed ports or routes probably overstate it"
+"n": "at least 22 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (54 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (31.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (21.2 Mt; 27.5 Mt in 2022, its best full year since 2019): the assumed ports or routes probably overstate it"
 },
 "mt": [
 22.4,
-76.5
-],
-"hi": {
-"v": 4.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 76 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: the United States 48 Mt, Brazil 2.8 Mt, Australia 1.4 Mt)"
-}
+22.4
+]
 },
 {
 "k": "phosphate",
@@ -8934,19 +8738,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 5.9 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (32 Mt) is above IMF PortWatch's estimate for all tanker ships in its best year since 2019 (27 Mt, 2022): the assumed ports or routes probably overstate it"
+"n": "at least 5.9 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (3.1 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (31.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (21.2 Mt; 27.5 Mt in 2022, its best full year since 2019): the assumed ports or routes probably overstate it"
 },
 "mt": [
 5.935,
-9.024
-],
-"hi": {
-"v": 0.9,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 9.0 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brunei 2.5 Mt, Greece 0.25 Mt, Turkey 0.10 Mt)"
-}
+5.935
+]
 },
 {
 "k": "corn",
@@ -9004,14 +8801,14 @@
 },
 "mt": [
 0,
-111.3
+77.0
 ],
 "hi": {
-"v": 61.4,
+"v": 42.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 111 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Guinea 110 Mt, Brazil 1.1 Mt, Sierra Leone 0.05 Mt)"
+"n": "up to 77 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (1,085 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (1,008 Mt), which this cargo cannot exceed; without the cap, 111 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Guinea 110 Mt, Brazil 1.1 Mt, Sierra Leone 0.05 Mt)"
 }
 },
 {
@@ -9033,7 +8830,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.31 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 0.26 Mt, Indonesia 0.04 Mt, China 0.00 Mt)"
+"n": "up to 0.31 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 0.26 Mt, Indonesia 0.04 Mt)"
 }
 },
 {
@@ -9088,19 +8885,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.00 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all tanker cargo of the atlas through this passage (32 Mt) is above IMF PortWatch's estimate for all tanker ships in its best year since 2019 (27 Mt, 2022): the assumed ports or routes probably overstate it"
+"n": "at least 0.00 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The pairs that may cross it (74 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (31.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (21.2 Mt; 27.5 Mt in 2022, its best full year since 2019): the assumed ports or routes probably overstate it"
 },
 "mt": [
 0,
-21.2
-],
-"hi": {
-"v": 5.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 21 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 74 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 71 Mt, Indonesia 0.88 Mt, Nigeria 0.85 Mt)"
-}
+0
+]
 },
 {
 "k": "potash",
@@ -9136,14 +8926,14 @@
 },
 "mt": [
 0.007,
-80.4
+77.0
 ],
 "hi": {
-"v": 51.1,
+"v": 49.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 80 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 75 Mt, Argentina 3.9 Mt, Uruguay 0.82 Mt)"
+"n": "up to 77 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (1,085 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (1,008 Mt), which this cargo cannot exceed; without the cap, 80 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 75 Mt, Argentina 3.9 Mt, Uruguay 0.82 Mt)"
 }
 },
 {
@@ -9176,19 +8966,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.00 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (32 Mt) is above IMF PortWatch's estimate for all tanker ships in its best year since 2019 (27 Mt, 2022): the assumed ports or routes probably overstate it"
+"n": "at least 0.00 Mt of 11 Mt of seaborne soybean oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.68 Mt of seaborne soybean oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.71 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (31.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (21.2 Mt; 27.5 Mt in 2022, its best full year since 2019): the assumed ports or routes probably overstate it"
 },
 "mt": [
 0,
-0.713
-],
-"hi": {
-"v": 6.5,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 0.71 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 0.57 Mt, Brazil 0.14 Mt)"
-}
+0
+]
 },
 {
 "k": "steel",
@@ -9202,14 +8985,14 @@
 },
 "mt": [
 0.003,
-17.7
+9.541
 ],
 "hi": {
-"v": 6.2,
+"v": 3.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 18 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 9.2 Mt, Indonesia 4.3 Mt, Japan 2.4 Mt)"
+"n": "up to 9.5 Mt: capped at IMF PortWatch's estimate of the cargo of all container, general cargo and ro-ro ships through the passage in 2024 (9.5 Mt, IMF PortWatch, data adapted) (the atlas's other container, general cargo and ro-ro groups have almost no 'at least' tonnage here), which this cargo cannot exceed; without the cap, 18 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 9.2 Mt, Indonesia 4.3 Mt, Japan 2.4 Mt)"
 }
 },
 {
@@ -9231,7 +9014,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 3.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 3.3 Mt, Indonesia 0.05 Mt, South Korea 0.00 Mt)"
+"n": "up to 3.4 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Brazil 3.3 Mt, Indonesia 0.05 Mt)"
 }
 }
 ],
@@ -9491,7 +9274,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.19 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.19 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran, Venezuela (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0.19,
@@ -9539,14 +9322,14 @@
 },
 "mt": [
 0,
-1169.2
+1141.9
 ],
 "hi": {
-"v": 71.5,
+"v": 69.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 1,169 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 1,215 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 756 Mt, Brazil 285 Mt, South Africa 44 Mt)"
+"n": "up to 1,142 Mt: capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024 (1,169 Mt, IMF PortWatch, data adapted) less the 'at least' tonnage of the atlas's other dry bulk groups (27 Mt), which this cargo cannot exceed; without the cap, 1,215 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 756 Mt, Brazil 285 Mt, South Africa 44 Mt)"
 }
 },
 {
@@ -9722,7 +9505,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 0.42 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.42 Mt, Australia 0.00 Mt, Italy 0.00 Mt)"
+"n": "up to 0.42 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Canada 0.42 Mt)"
 }
 },
 {
@@ -9825,14 +9608,14 @@
 },
 "mt": [
 0.039,
-115.5
+81.3
 ],
 "hi": {
-"v": 40.3,
+"v": 28.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 116 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 73 Mt, Japan 18 Mt, South Korea 15 Mt)"
+"n": "up to 81 Mt: capped at IMF PortWatch's estimate of the cargo of all container, general cargo and ro-ro ships through the passage in 2024 (81 Mt, IMF PortWatch, data adapted) (the atlas's other container, general cargo and ro-ro groups have almost no 'at least' tonnage here), which this cargo cannot exceed; without the cap, 116 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 73 Mt, Japan 18 Mt, South Korea 15 Mt)"
 }
 },
 {
@@ -10396,19 +10179,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.78 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.78 Mt of 41 Mt of seaborne palm oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.51 Mt of seaborne palm oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (0.07 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (13.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (13.5 Mt; 14.4 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 0.78,
-0.854
-],
-"hi": {
-"v": 2.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 0.85 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Malaysia 0.07 Mt, Singapore 0.00 Mt)"
-}
+0.78
+]
 },
 {
 "k": "lng",
@@ -10418,19 +10194,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.6 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.6 Mt of 370 Mt of seaborne LNG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The pairs that may cross it (16 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (13.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (13.5 Mt; 14.4 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 4.585,
-13.5
-],
-"hi": {
-"v": 3.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 14 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 21 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Australia 16 Mt)"
-}
+4.585
+]
 },
 {
 "k": "refined-products",
@@ -10440,19 +10209,12 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.7 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 6.7 Mt of 961 Mt of seaborne refined products: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 13 Mt of seaborne refined products could not be routed (no gateway, no sourced transit port, or one port at both ends). The pairs that may cross it (21 Mt) are not added: the 'at least' tonnage of all tanker cargo of the atlas here is already above IMF PortWatch's 2024 estimate. The 'at least' tonnage of all tanker cargo of the atlas through this passage (13.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (13.5 Mt; 14.4 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 6.673,
-13.5
-],
-"hi": {
-"v": 1.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 14 Mt: capped at IMF PortWatch's estimate of the cargo of all tanker ships through the passage in 2024 (IMF PortWatch, data adapted), which one cargo cannot exceed; without the cap, 27 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Singapore 11 Mt, Malaysia 7.1 Mt, Brunei 2.5 Mt)"
-}
+6.673
+]
 },
 {
 "k": "thermal-coal",
@@ -10521,7 +10283,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.6 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.6 Mt of 1,874 Mt of seaborne crude oil: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 10 Mt of seaborne crude oil could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all tanker cargo of the atlas through this passage (13.6 Mt) is above IMF PortWatch's estimate for all tanker ships in 2024 (13.5 Mt; 14.4 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic"
 },
 "mt": [
 1.552,

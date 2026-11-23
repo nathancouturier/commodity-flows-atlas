@@ -350,6 +350,9 @@ TRANSIT = {
     "NER": {"default": ("BJCOO", "wikipedia", WP + "Transport_in_Niger", "Niger relies on the port of Cotonou, and less on Lome")},
     "NPL": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
     "BTN": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
+    # a coast with no port of its own: build_lanes.py treats it like a landlocked end
+    "BIH": {"default": ("HRPLE", "wikipedia", WP + "Port_of_Plo%C4%8De",
+                        "The page calls the site 'the natural outlet for the economy of Bosnia and Herzegovina', says the port is 'mostly serving Bosnia and Herzegovina' and names the Ploce Agreement on the passage of goods; it names coal, cereals, bauxite, timber and fuel terminals")},
 }
 
 # Landlocked countries of the plan's candidate table for which no page stating the port was read.

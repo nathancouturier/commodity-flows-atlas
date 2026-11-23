@@ -328,7 +328,7 @@ class Usgs:
                 world = v * factor
             elif kind == "lb":
                 world = v * factor
-                wnote = f"USGS reports the world total as a lower bound (>{r['Value'].lstrip('>').strip()})"
+                wnote = f"USGS reports the world total as a minimum (>{r['Value'].lstrip('>').strip()})"
             if isinstance(r["Notes"], str):
                 extra = r["Notes"].replace("Estimated.", "").replace("--", "").strip()
                 if extra and "See Appendix" not in extra:
@@ -1025,7 +1025,7 @@ def main():
             conv = (f"{bpt:.2f} barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand "
                     "barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ")
             p, x = d["summary"]["production"], d["summary"]["exports"]
-            alt_fig(p, p["v"] * 1e3 * (366 if _isleap(p["y"]) else 365) / bpt / 1e6, "Mt/year", conv)
+            alt_fig(p, p["v"] * 1e3 * (366 if _isleap(p["y"]) else 365) / bpt / 1e6, "Mt/yr", conv)
             alt_fig(x, x["v"] * 1e6 * bpt / (366 if _isleap(x["y"]) else 365) / 1e3, "kb/d", conv)
             notes += [
                 f"Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: {conv}.",
@@ -1098,7 +1098,7 @@ def main():
             name_it(d, "flows", f"Pipeline pairs — customs tonnes, {BACI_YEAR}")
             for key in ("production", "consumption", "exports"):
                 summ(d, key, d[key], "EIA dry natural gas exports, world total: pipeline and LNG together" if key == "exports" else None)
-                alt_fig(d["summary"][key], d["summary"][key]["v"] / BCM_PER_MT_LNG, "Mt as LNG", GAS_FACTOR)
+                alt_fig(d["summary"][key], d["summary"][key]["v"] / BCM_PER_MT_LNG, "Mt LNG", GAS_FACTOR)
             ce, ci = baci.totals(g, "exports"), baci.totals(g, "imports")
             ee, ei = dict(eia.country_values(("26-4", "BCM"), BACI_YEAR)), dict(eia.country_values(("26-3", "BCM"), BACI_YEAR))
             notes += [
@@ -1660,9 +1660,10 @@ def qa_checks():
     k9 = by.get("K9", [])
     out += ["## Passages against IMF PortWatch (K9)", "",
             "'At least' and 'up to' tonnage of every lane group's recorded seaborne pairs (chokepoint shares of the atlas) by vessel "
-            "type, against IMF PortWatch's estimated volume of all ships of that type (IMF PortWatch, data adapted). A passage is "
-            "flagged when 'at least' is above 110% of PortWatch's best full year since 2019; the Danish Straits counter is the "
-            "Oresund only. Written by `build_freight.py`; never a failure of the build.", "",
+            "type (dry bulk; tanker; container, general cargo and ro-ro), against IMF PortWatch's estimated volume of all ships of that "
+            "type (IMF PortWatch, data adapted). A passage is flagged when 'at least' is above 110% of PortWatch's best full year "
+            "since 2019, or above PortWatch's volume of the same year (the atlas routes cargo on the normal itinerary); the Danish "
+            "Straits counter is the Oresund only. Written by `build_freight.py`; never a failure of the build.", "",
             "| passage | type | at least (Mt) | up to (Mt) | PortWatch, latest year (Mt) | best year (Mt) | at least / best | level |",
             "|---|---|---|---|---|---|---|---|"]
     for r in sorted((r for r in k9 if r.get("kind") == "passage"), key=lambda r: (r["chokepoint"], r["type"])):
@@ -1672,9 +1673,15 @@ def qa_checks():
     out += [""] + [f"- {r['text']}" for r in k9 if r.get("kind") == "passage" and r["level"] == "flag"]
     passage_names = {r["chokepoint"]: r["text"].split(",")[0] for r in k9 if r.get("kind") == "passage"}
     par =[r for r in k9 if r.get("kind") == "parallel"]
+    skipped = max((r.get("skipped") or 0 for r in par), default=0)
+    if skipped:
+        intro = (f"Incomplete: {_fmt(skipped)} Mt of pairs were not recomputed (their plan was not cached), so every figure of the "
+                 f"table may be short by up to {_fmt(skipped)} Mt and the 5% or 300 nm column does not reproduce the published figures.")
+    else:
+        intro = "The published figures use 5% or 300 nm."
     out += ["", "### Parallel passages under other thresholds of the parallel rule (K9)", "",
-            "Recomputed with `routing.classify()` from the option distances cached by `build_lanes.py` (no routing). The published "
-            "figures use 5% or 300 nm.", "", "| passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |", "|---|---|---|---|"]
+            "Recomputed with `routing.classify()` from the option distances cached by `build_lanes.py` (no routing). " + intro,
+            "", "| passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |", "|---|---|---|---|"]
     for c in dict.fromkeys(r["chokepoint"] for r in par):
         cells = [f"{_fmt(r['value'])} to {_fmt(r['high'])}" for r in sorted((r for r in par if r["chokepoint"] == c), key=lambda r: r["pct"])]
         out.append(f"| {passage_names.get(c, c)} | " + " | ".join(cells) + " |")

@@ -19,11 +19,12 @@ SPEED = {
 }
 
 
-# LPG carriers. A lane shorter than LPG_SHORT_HAUL_NM is a regional trade (Atlas assumption, as the other distance
-# thresholds of classes()). A VLGC parcel is 44 kt (Baltic BLPG reference, 84,000 cbm vessel, see
-# vessel_classes.json); a lane that loads fewer than one such parcel a week (44 kt x 52) does not keep a VLGC
-# busy and is served by mid-size carriers (25,000 to 50,000 cbm, class "mgc").
-LPG_SHORT_HAUL_NM = 1500
+# LPG carriers. Thresholds of the LPG rule of classes(); LPG_SHORT_HAUL_NM and LPG_MID_HAUL_NM are Atlas assumptions,
+# as the other distance thresholds of classes(). A VLGC parcel is 44 kt (Baltic BLPG reference, 84,000 cbm vessel, see
+# vessel_classes.json); a lane that loads fewer than one such parcel a week (44 kt x 52) does not keep a VLGC busy
+# and is served by mid-size carriers (25,000 to 50,000 cbm, class "mgc").
+LPG_SHORT_HAUL_NM = 1000
+LPG_MID_HAUL_NM = 3000
 VLGC_PARCEL_KT = 44
 VLGC_WEEKLY_MT = VLGC_PARCEL_KT * 52 / 1000
 
@@ -74,10 +75,14 @@ def classes(group, o, d, tonnes, nm):
     if group == "lng":
         return ["lng"]
     if group == "lpg":
-        # Short hauls and lanes too small to load a VLGC parcel every week are served by mid-size gas carriers; the
-        # long-haul trades keep the VLGC. Both thresholds are Atlas assumptions (see LPG_SHORT_HAUL_NM).
+        # Regional trades (short haul) and small lanes (under a VLGC parcel a week) on a medium haul are served by
+        # mid-size gas carriers, with the VLGC second where the volume or the haul allows it; long hauls and large
+        # lanes keep the VLGC (the Gulf to India trade, 1,000 to 1,300 nm, is a VLGC benchmark route).
+        big = mt >= VLGC_WEEKLY_MT
         if 0 < nm < LPG_SHORT_HAUL_NM:
-            return ["mgc", "vlgc"] if mt >= VLGC_WEEKLY_MT else ["mgc"]
+            return ["mgc", "vlgc"] if big else ["mgc"]
+        if 0 < nm < LPG_MID_HAUL_NM and not big:
+            return ["mgc", "vlgc"]
         return ["vlgc"]
     if group == "crude-oil":
         if o in MEG and (d in ASIA_FAR or nm > 6000):

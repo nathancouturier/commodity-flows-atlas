@@ -1,34 +1,42 @@
 [
  {
-  "id": "company-reports",
-  "name": "Company annual, quarterly and production reports (via release pages/press syndication)",
-  "publisher": "Rio Tinto, BHP, Vale, Fortescue, Ivanhoe Mines, Peabody, Nornickel",
-  "url": "https://www.riotinto.com/en/news/releases/2026/rio-tinto-releases-fourth-quarter-2025-production-results",
-  "licence": "Public company disclosures; cite with attribution",
-  "update": "quarterly/annual"
- },
- {
   "id": "wikipedia",
-  "name": "Wikipedia mine, port and company articles",
-  "publisher": "Wikimedia Foundation",
+  "name": "Wikipedia articles (infrastructure, companies, events)",
+  "publisher": "Wikimedia Foundation (text by Wikipedia contributors)",
   "url": "https://en.wikipedia.org/",
-  "licence": "CC BY-SA 4.0",
-  "update": "continuous; figures often undated"
+  "licence": "CC BY-SA 4.0 (adapted; each asset links its article; see NOTICE.md)",
+  "update": "continuous",
+  "access": "Articles read by hand, cited per asset (url)",
+  "use": "Mines, smelters and ports: location, opening year, owners and figures stated in the article"
  },
  {
-  "id": "trade-press",
-  "name": "Trade press and market data (Mining.com, Argus, Mining Weekly, Mining Technology/GlobalData, Statista)",
-  "publisher": "various",
-  "url": "https://www.mining.com/",
-  "licence": "Facts only; individual pages cited per feature",
-  "update": "ad hoc"
+  "id": "operator-reports",
+  "name": "Operator reports (see the page linked on each asset)",
+  "publisher": "Mining and port operators: BHP, Rio Tinto, Glencore, Vale, Fortescue, IGO, PLS, MP Materials, Teck, CMOC, Peabody",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
+  "licence": "Per company; facts cited with a link (terms to be confirmed)",
+  "update": "quarterly or annual",
+  "access": "Production reports, results releases and filings, linked per asset (url)",
+  "use": "Mines and smelters: dated production figures, ownership and operating status"
  },
  {
   "id": "port-authorities",
-  "name": "Port authority and government port statistics (Pilbara Ports, Queensland TMR, MPA Singapore, Port of Rotterdam, PCCA, Santos, Portos do Parana, RBCT via press)",
-  "publisher": "various port authorities",
-  "url": "https://www.pilbaraports.com.au/",
-  "licence": "Public statistics; cite with attribution",
-  "update": "annual"
+  "name": "Port authority statistics (see the page linked on each asset)",
+  "publisher": "Port authorities: Vancouver Fraser Port Authority, Maritime and Port Authority of Singapore, Pilbara Ports, Portos do Paraná",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
+  "licence": "Public statistics; cited with a link (terms to be confirmed)",
+  "update": "annual",
+  "access": "Statistics releases, linked per asset (url)",
+  "use": "Ports: cargo throughput and exports by year"
+ },
+ {
+  "id": "trade-press",
+  "name": "Trade press and news agencies (see the page linked on each asset)",
+  "publisher": "Various: Mining.com, Kitco (Reuters), Mining Technology, Statista, Interfax, World Nuclear News, Katadata and others",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
+  "licence": "Copyright of each publisher; only facts are reported, each page is linked on the asset (terms to be confirmed)",
+  "update": "ad hoc",
+  "access": "Articles read by hand, cited per asset (url)",
+  "use": "Dated production, throughput and event reports where no operator page was reachable"
  }
 ]

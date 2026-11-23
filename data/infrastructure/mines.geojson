@@ -14,14 +14,17 @@
     "operator": "BHP (85%), Mitsui Iron 10%, Itochu 5%",
     "capacity": {
      "v": 75,
-     "u": "Mt/y nominal ore capacity"
+     "u": "Mt/y",
+     "n": "nominal ore capacity, as stated by Wikipedia"
     },
     "opened": 1968,
     "status": "operating",
-    "note": "Feeds Newman Hub to Port Hedland; BHP WAIO FY25 output 290 Mt on 100% basis (company operational review, via search summary).",
+    "statusAsOf": "2026-11",
+    "note": "Feeds Newman Hub to Port Hedland. BHP's Western Australia Iron Ore produced 291.2 Mt in FY2025-26 on a 100% basis (BHP operational review, 16 July 2026).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Mount_Whaleback_mine"
+    "url": "https://en.wikipedia.org/wiki/Mount_Whaleback_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -42,11 +45,20 @@
     ],
     "c": "AUS",
     "operator": "BHP",
+    "output": {
+     "v": 62.6,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "saleable iron ore, FY2025-26, 100% basis (BHP holds 85%)"
+    },
     "status": "operating",
-    "note": "BHP Pilbara mine east of Newman railed to Port Hedland; page figures conflict so none given.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Jimblebar_mine"
+    "statusAsOf": "2026-11",
+    "note": "BHP Pilbara mine east of Newman, railed to Port Hedland. The figure is on a 100% basis; BHP holds 85% of Western Australia Iron Ore.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -67,16 +79,21 @@
     ],
     "c": "AUS",
     "operator": "BHP",
-    "capacity": {
-     "v": 119,
-     "u": "Mt iron ore (Area C JV incl. South Flank, FY25, 100% basis)"
+    "output": {
+     "v": 129.0,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "saleable iron ore, Area C joint venture incl. South Flank, FY2025-26, BHP 85% share"
     },
     "opened": 2021,
     "status": "operating",
-    "note": "South Flank (80 Mt/y nameplate per Argus/Wikipedia) is BHP's largest Pilbara mine; coordinates from Wikipedia South Flank page.",
-    "s": "trade-press",
-    "y": 2025,
-    "url": "https://www.argusmedia.com/metals-platform/newsandanalysis/article/2711539-BHP-beats-global-iron-ore-production-guidance-in-FY25"
+    "statusAsOf": "2026-11",
+    "note": "South Flank is BHP's largest Pilbara mine; Argus Media gives it an 80 Mt/y nameplate, and BHP reports it exceeded nameplate in FY2025-26.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -99,14 +116,17 @@
     "operator": "Rio Tinto",
     "capacity": {
      "v": 52,
-     "u": "Mt/y annual production capacity"
+     "u": "Mt/y",
+     "n": "annual production capacity, as stated by Wikipedia"
     },
     "opened": 1998,
     "status": "operating",
-    "note": "Rio Tinto Pilbara shipments were 326.2 Mt in 2025 (100% basis), -1% y/y (Rio Tinto Q4 2025 release).",
+    "statusAsOf": "2026-11",
+    "note": "Rio Tinto Pilbara mine. Rio Tinto's Pilbara iron ore production was 245.7 Mt in the first nine months of 2026 (100% basis, Rio Tinto, 14 October 2026).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Yandicoogina_mine"
+    "url": "https://en.wikipedia.org/wiki/Yandicoogina_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -128,10 +148,12 @@
     "c": "AUS",
     "operator": "Rio Tinto",
     "status": "operating",
-    "note": "Rio Tinto Pilbara hub (Channar, Eastern Range, Paraburdoo, Western Range opened 2024); point is the town, mine site is nearby.",
+    "statusAsOf": "2026-11",
+    "note": "Rio Tinto Pilbara hub (Channar, Eastern Range, Paraburdoo and Western Range, opened 2024). The point is the town; the mine site is nearby.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Paraburdoo"
+    "url": "https://en.wikipedia.org/wiki/Paraburdoo",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -151,16 +173,21 @@
      "iron-ore"
     ],
     "c": "AUS",
-    "operator": "Fortescue / Formosa Steel",
-    "capacity": {
-     "v": 7.1,
-     "u": "Mt magnetite concentrate shipped (FY25)"
+    "operator": "Fortescue (69%) / Formosa Steel",
+    "output": {
+     "v": 9.0,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "magnetite concentrate shipped, FY2025-26, 100% basis"
     },
     "status": "operating",
-    "note": "22 Mtpa nameplate expected by FY28; Fortescue total FY25 shipments 198.4 Mt (record). Located ~145 km south of Port Hedland (Wikipedia), so coordinates derived from that distance: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://kalkine.com.au/news/mining/fortescue-reports-record-fy25-shipments-of-1984mt-maintains-focus-on-costs-and-growth"
+    "statusAsOf": "2026-11",
+    "note": "Magnetite project about 145 km south of Port Hedland. Fortescue holds 69%; FY2026-27 guidance is 11-14 Mt on a 100% basis (Fortescue, 31 July 2026).",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260731/pdf/07282pwdb2jzw4.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -183,14 +210,17 @@
     "operator": "Hancock Prospecting 70%, Marubeni 15%, POSCO 12.5%, China Steel 2.5%",
     "capacity": {
      "v": 60,
-     "u": "Mt/y nameplate (Wikipedia infobox; article text says 55)"
+     "u": "Mt/y",
+     "n": "nameplate per the Wikipedia infobox; the article text says 55 Mt/y"
     },
     "opened": 2015,
     "status": "operating",
-    "note": "Independent Pilbara producer with own rail and Port Hedland berths.",
+    "statusAsOf": "2026-11",
+    "note": "Independent Pilbara producer with its own rail and Port Hedland berths.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Roy_Hill_mine"
+    "url": "https://en.wikipedia.org/wiki/Roy_Hill_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -211,16 +241,20 @@
     ],
     "c": "BRA",
     "operator": "Vale",
-    "capacity": {
+    "output": {
      "v": 84.1,
-     "u": "Mt iron ore (Serra Norte + Serra Leste, 2025)"
+     "u": "Mt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "iron ore, Serra Norte and Serra Leste"
     },
     "opened": 1969,
-    "status": "operating",
-    "note": "Vale Northern System total 170.2 Mt in 2025 (-3.1%); ships via EFC railway to Ponta da Madeira. Vale group 2025 iron ore 336.1 Mt.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.marketscreener.com/news/vale-s-a-reports-production-results-for-the-fourth-quarter-and-full-year-2025-ce7e5bd9da8aff27"
+    "status": "not-stated",
+    "note": "Ships via the EFC railway to Ponta da Madeira. Vale group iron ore production was 336 Mt in 2025 (Vale, 4Q25 results).",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.marketscreener.com/news/vale-s-a-reports-production-results-for-the-fourth-quarter-and-full-year-2025-ce7e5bd9da8aff27",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -241,15 +275,20 @@
     ],
     "c": "BRA",
     "operator": "Vale",
-    "capacity": {
+    "output": {
      "v": 86.0,
-     "u": "Mt iron ore (2025, record)"
+     "u": "Mt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "iron ore, record year"
     },
     "status": "operating",
-    "note": "Record 86.0 Mt in 2025 (+3.6%); truckless high-grade operation. Coordinates: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.marketscreener.com/news/vale-s-a-reports-production-results-for-the-fourth-quarter-and-full-year-2025-ce7e5bd9da8aff27"
+    "statusAsOf": "2026-11",
+    "note": "Vale reports a record 86.0 Mt in 2025 (4Q25 results).",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://www.vale.com/check-out-the-production-and-sales-results-for-4q25",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -272,14 +311,19 @@
     "operator": "Rio Tinto / Winning Consortium (SMB-Winning) / Baowu / Guinea state",
     "capacity": {
      "v": 120,
-     "u": "Mt/y planned combined capacity at full ramp-up (~2030, S&P Global)"
+     "u": "Mt/y",
+     "y": 2025,
+     "n": "combined SimFer and WCS exports after commissioning and ramp-up (planned)"
     },
     "opened": 2025,
     "status": "operating",
-    "note": "First commercial production Nov 2025; first cargo (~200 kt) sailed from Morebaya port 2 Dec 2025 and arrived in China Jan 2026; ramping toward 120 Mt/y. Point is the range centroid from Wikipedia.",
-    "s": "trade-press",
-    "y": 2025,
-    "url": "https://www.spglobal.com/market-intelligence/en/news-insights/research/2025/09/simandou-iron-ore-project-a-game-changer-for-global-supply"
+    "statusAsOf": "2026-10",
+    "statusNote": "Operations started 11 November 2025; ramp-up continues, with an annualised run-rate of about 10 Mtpa in Q3 2026 (Rio Tinto, 14 October 2026).",
+    "note": "Rio Tinto and its partners marked the start of operations on 11 November 2025, with commissioning under way. Rio Tinto targets a 60 Mtpa run-rate for SimFer in H2 2028. The point is the centre of the range.",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://www.riotinto.com/en/news/releases/2025/simandou-partners-celebrate-start-of-operations",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -300,16 +344,21 @@
     ],
     "c": "SWE",
     "operator": "LKAB (Swedish state)",
-    "capacity": {
+    "output": {
      "v": 26.9,
-     "u": "Mt iron ore (2018; latest on page)"
+     "u": "Mt/y",
+     "y": 2018,
+     "what": "production",
+     "n": "iron ore"
     },
     "opened": 1898,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "World's largest underground iron ore mine; ore exported via Narvik (Norway) and Luleå.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2018,
-    "url": "https://en.wikipedia.org/wiki/Kiruna_mine"
+    "url": "https://en.wikipedia.org/wiki/Kiruna_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -331,10 +380,12 @@
     "c": "SWE",
     "operator": "LKAB (Swedish state)",
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "LKAB's second Norrbotten mine; pellets/fines via Luleå.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Malmberget_mine"
+    "url": "https://en.wikipedia.org/wiki/Malmberget_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -355,15 +406,20 @@
     ],
     "c": "ZAF",
     "operator": "Kumba Iron Ore (Anglo American)",
-    "capacity": {
+    "output": {
      "v": 29.2,
-     "u": "Mt iron ore (FY2019)"
+     "u": "Mt/y",
+     "y": 2019,
+     "what": "production",
+     "n": "iron ore, FY2019"
     },
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Feeds Saldanha Bay via the 861 km Sishen-Saldanha line.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2019,
-    "url": "https://en.wikipedia.org/wiki/Sishen_mine"
+    "url": "https://en.wikipedia.org/wiki/Sishen_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -386,13 +442,17 @@
     "operator": "Iron Ore Company of Canada (Rio Tinto 58.7%, Mitsubishi 26.2%, LIORC 15.1%)",
     "capacity": {
      "v": 55,
-     "u": "Mt/y nominal mining capacity (2023)"
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "nominal mining capacity (ore mined; saleable output is lower)"
     },
     "status": "operating",
-    "note": "Concentrate and pellets shipped via Sept-Iles. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Concentrate and pellets shipped via Sept-Iles.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2023,
-    "url": "https://en.wikipedia.org/wiki/Iron_Ore_Company_of_Canada"
+    "url": "https://en.wikipedia.org/wiki/Iron_Ore_Company_of_Canada",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -413,15 +473,21 @@
     ],
     "c": "USA",
     "operator": "Peabody",
-    "capacity": {
-     "v": 60,
-     "u": "Mt coal (2024)"
+    "output": {
+     "v": 65,
+     "u": "Mt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "coal; Peabody's 'tons' are probably US short tons (not converted)",
+     "orig": "65 million tons"
     },
     "status": "operating",
-    "note": "Largest US coal mine; Powder River Basin (Wyoming) low-sulphur thermal coal. Coordinates: approximate location (south Campbell County, WY).",
-    "s": "company-reports",
-    "y": 2024,
-    "url": "https://www.peabodyenergy.com/Operations/U-S-Mining/Powder-River-Basin-Mining/North-Antelope-Rochelle-Mine"
+    "statusAsOf": "2026-11",
+    "note": "Largest US coal mine; Powder River Basin (Wyoming), low-sulphur thermal coal.",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://www.peabodyenergy.com/Operations/U-S-Mining/Powder-River-Basin-Mining/North-Antelope-Rochelle-Mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -442,15 +508,21 @@
     ],
     "c": "USA",
     "operator": "Core Natural Resources (Arch)",
-    "capacity": {
+    "output": {
      "v": 60.5,
-     "u": "million short tons coal (2023)"
+     "u": "Mt/y",
+     "y": 2023,
+     "what": "production",
+     "n": "coal; the source's 'tons' are probably US short tons (not converted)",
+     "orig": "60.5 million tons"
     },
     "status": "operating",
-    "note": "Powder River Basin output fell below 200 Mt in 2024 (185.15 Mt). Coordinates: approximate location (Wright, WY area).",
+    "statusAsOf": "2026-11",
+    "note": "Powder River Basin output fell below 200 Mt in 2024 (185.15 Mt for Wyoming, Cowboy State Daily).",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2023,
-    "url": "https://cowboystatedaily.com/2024/11/17/barring-a-miracle-wyoming-coal-will-miss-200m-tons-for-first-time-since-1992"
+    "url": "https://cowboystatedaily.com/2024/11/17/barring-a-miracle-wyoming-coal-will-miss-200m-tons-for-first-time-since-1992",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -471,15 +543,20 @@
     ],
     "c": "CHN",
     "operator": "China Shenhua Energy",
-    "capacity": {
+    "output": {
      "v": 29.7,
-     "u": "Mt coal (2020, GlobalData estimate)"
+     "u": "Mt/y",
+     "y": 2020,
+     "what": "production",
+     "n": "coal, GlobalData estimate"
     },
     "status": "operating",
-    "note": "Underground longwall mine in Ordos, Inner Mongolia; coordinates from GEM wiki (as returned by search); output is an estimate.",
+    "statusAsOf": "2026-11",
+    "note": "Underground longwall mine in Ordos, Inner Mongolia. Output is a GlobalData estimate.",
+    "coord": "site",
     "s": "trade-press",
-    "y": 2020,
-    "url": "https://www.mining-technology.com/marketdata/five-largest-coal-mines-china-2020/"
+    "url": "https://www.mining-technology.com/marketdata/five-largest-coal-mines-china-2020/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -500,15 +577,20 @@
     ],
     "c": "CHN",
     "operator": "China Shenhua Energy",
-    "capacity": {
+    "output": {
      "v": 24.8,
-     "u": "Mt coal (2020, GlobalData estimate)"
+     "u": "Mt/y",
+     "y": 2020,
+     "what": "production",
+     "n": "coal, GlobalData estimate"
     },
     "status": "operating",
-    "note": "Large open-pit mine in Ordos, Inner Mongolia; GlobalData estimate. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Large open-pit mine in Ordos, Inner Mongolia. Output is a GlobalData estimate.",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2020,
-    "url": "https://www.mining-technology.com/marketdata/five-largest-coal-mines-china-2020/"
+    "url": "https://www.mining-technology.com/marketdata/five-largest-coal-mines-china-2020/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -528,16 +610,19 @@
      "thermal-coal"
     ],
     "c": "IDN",
-    "operator": "Adaro Indonesia (AlamTri/Adaro Energy)",
+    "operator": "Adaro Indonesia (AlamTri Resources, formerly Adaro Energy)",
     "capacity": {
      "v": 40,
-     "u": "Mt/y (largest single-site coal mine in the southern hemisphere; roughly 110 kt/day)"
+     "u": "Mt/y",
+     "n": "coal, roughly 110 kt a day; as stated by Wikipedia"
     },
     "status": "operating",
-    "note": "South Kalimantan (Tabalong), shipped by river barge to Taboneo transhipment. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "South Kalimantan (Tabalong), shipped by river barge to the Taboneo transhipment point.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Adaro_Energy"
+    "url": "https://en.wikipedia.org/wiki/Adaro_Energy",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -557,16 +642,23 @@
      "thermal-coal"
     ],
     "c": "COL",
-    "operator": "Glencore (per infobox)",
-    "capacity": {
-     "v": 32.7,
-     "u": "Mt coal (FY2016; latest on page)"
+    "operator": "Glencore",
+    "output": {
+     "v": 16.8,
+     "u": "Mt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "thermal coal, 12% below 2024"
     },
     "opened": 1985,
-    "note": "Colombia's largest coal mine, railed to Puerto Bolivar; 2025/26 production not on page.",
-    "s": "wikipedia",
-    "y": 2016,
-    "url": "https://en.wikipedia.org/wiki/Cerrej%C3%B3n_mine"
+    "status": "operating",
+    "statusAsOf": "2026-01",
+    "statusNote": "Output cut to 16.8 Mt in 2025 after production cuts announced in March 2025 (Glencore).",
+    "note": "Colombia's largest coal mine, railed to Puerto Bolívar. Wikipedia gives 32.7 Mt for 2016.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.glencore.com/.rest/api/v1/documents/static/a8114247-02e8-4bd8-bc04-81f411ba631c/GLEN_2025-FY-Production-Report.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -587,11 +679,20 @@
     ],
     "c": "AUS",
     "operator": "BHP Mitsubishi Alliance (BMA)",
+    "output": {
+     "v": 6.25,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "Goonyella saleable coal, FY2025-26, BHP 50% share"
+    },
     "status": "operating",
-    "note": "BMA mine in Bowen Basin; BHP steelmaking coal 18 Mt (BHP share) / 36 Mt on 100% basis in FY25. Shipped via Hay Point / Dalrymple Bay. Coordinates: approximate location.",
-    "s": "trade-press",
-    "y": 2025,
-    "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2852891-australia-s-bhp-raises-coking-coal-output-in-fy2025-26"
+    "statusAsOf": "2026-11",
+    "note": "BMA mine in the Bowen Basin, shipped via Hay Point and Dalrymple Bay. BMA produced 18.6 Mt in FY2025-26 on a BHP-share basis (37.3 Mt at 100%).",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -612,11 +713,20 @@
     ],
     "c": "AUS",
     "operator": "BHP Mitsubishi Alliance (BMA)",
+    "output": {
+     "v": 4.84,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "saleable coal, FY2025-26, BHP 50% share"
+    },
     "status": "operating",
-    "note": "BMA open-cut met coal mine, Bowen Basin. Coordinates: approximate location.",
-    "s": "trade-press",
-    "y": 2025,
-    "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2852891-australia-s-bhp-raises-coking-coal-output-in-fy2025-26"
+    "statusAsOf": "2026-11",
+    "note": "BMA open-cut metallurgical coal mine, Bowen Basin.",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -639,13 +749,23 @@
     "operator": "BHP Mitsubishi Alliance (BMA)",
     "capacity": {
      "v": 10,
-     "u": "Mt/y saleable coal (capability can exceed this, BHP compliance report)"
+     "u": "Mt/y",
+     "n": "saleable coal; the source says capability can exceed this (BHP compliance report)"
+    },
+    "output": {
+     "v": 3.95,
+     "u": "Mt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "saleable coal, FY2025-26, BHP 50% share"
     },
     "status": "operating",
-    "note": "Saraji output fell 3% to 3.95 Mt in 2025-26 (Argus; BHP share). Coordinates: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2852891-australia-s-bhp-raises-coking-coal-output-in-fy2025-26"
+    "statusAsOf": "2026-11",
+    "note": "BMA mine in the Bowen Basin. Output fell 3% in FY2025-26.",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -665,12 +785,14 @@
      "met-coal"
     ],
     "c": "RUS",
-    "operator": "Elga Coal (Mechel)",
+    "operator": "Elgaugol (A-Property, which bought Mechel's 51% stake in April 2020)",
     "status": "operating",
-    "note": "Eastern Siberia (Yakutia) coking coal; Ulak-Elga railway capacity 30 Mt by 2023 per Wikipedia; Wikipedia's mine capacity figure is unreliable so omitted.",
-    "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Elga_coal_mine"
+    "statusAsOf": "2026-11",
+    "note": "Eastern Siberia (Yakutia) coking coal. Mechel closed the sale of the Elga coal complex to A-Property on 22 April 2020 (Interfax). Wikipedia gives the Ulak-Elga railway 30 Mt/y by 2023 and a mine capacity of 9 Mt/y, which is not shown because it is hard to reconcile with the railway.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://interfax.com/newsroom/top-stories/68504/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -694,14 +816,17 @@
     "operator": "Exxaro",
     "capacity": {
      "v": 18.8,
-     "u": "Mt/y final coal products"
+     "u": "Mt/y",
+     "n": "final coal products, as stated by Wikipedia"
     },
     "opened": 1980,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Supplies Eskom's Matimba/Medupi plus export via Richards Bay.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Grootegeluk_Coal_Mine"
+    "url": "https://en.wikipedia.org/wiki/Grootegeluk_Coal_Mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -725,10 +850,12 @@
     "operator": "Erdenes Mongol / Mongolian Mining Corp (Ukhaa Khudag)",
     "opened": 1966,
     "status": "operating",
-    "note": "Mongolian coking coal trucked/railed to China (Gashuunsukhait/Ceke); Wikipedia output figures are outdated (2012) so omitted.",
+    "statusAsOf": "2026-11",
+    "note": "Mongolian coking coal trucked and railed to China (Gashuunsukhait/Ceke).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Tavan_Tolgoi_mine"
+    "url": "https://en.wikipedia.org/wiki/Tavan_Tolgoi_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -749,16 +876,21 @@
     ],
     "c": "CHL",
     "operator": "BHP 57.5% / Rio Tinto 30% / JECO",
-    "capacity": {
-     "v": 1.28,
-     "u": "Mt Cu (2024)"
+    "output": {
+     "v": 1261,
+     "u": "kt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "payable copper, FY2025-26, 100% basis (BHP holds 57.5%)"
     },
     "opened": 1991,
     "status": "operating",
-    "note": "World's largest copper mine; Mining.com 2025 ranking cites a higher 2025 figure (~1.3 Mt).",
-    "s": "wikipedia",
-    "y": 2024,
-    "url": "https://en.wikipedia.org/wiki/Escondida_mine"
+    "statusAsOf": "2026-11",
+    "note": "World's largest copper mine. Mining.com's 2025 ranking gives 1,347.6 kt of copper for calendar 2025.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -775,16 +907,24 @@
     "name": "Collahuasi",
     "type": "mine",
     "k": [
-     "copper",
-     "molybdenum"
+     "copper"
     ],
     "c": "CHL",
     "operator": "Anglo American 44% / Glencore 44% / Mitsui 12%",
+    "output": {
+     "v": 404.1,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper, 100% basis; Glencore reports 177.7 kt for its 44% share"
+    },
     "status": "operating",
-    "note": "Wikipedia output (560 kt, 2018) is outdated so omitted; a 2024 figure of ~559 kt appears in secondary reports (unverified).",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Collahuasi_mine"
+    "statusAsOf": "2026-11",
+    "note": "Chile, Tarapacá region. Glencore reports 177.7 kt of copper in concentrate for its 44% share in 2025.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -806,16 +946,22 @@
     ],
     "c": "IDN",
     "operator": "PT Freeport Indonesia (MIND ID 51.23% / Freeport-McMoRan 48.77%)",
-    "capacity": {
-     "v": 0.46,
-     "u": "Mt Cu (2025)"
+    "output": {
+     "v": 460.4,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "opened": 1972,
-    "status": "operating",
-    "note": "Block Cave landslide on 8 Sep 2025 curtailed output; ministry cleared restart Nov 2025 and concentrate supply is still recovering in 2026. 2023 output was 680 kt (Wikipedia).",
+    "status": "damaged",
+    "statusAsOf": "2025",
+    "statusNote": "Landslide at the Block Cave underground mine in 2025; output fell to about 30% of normal at one point, and full capacity is expected by early 2028 (Mining.com; Katadata, September 2026).",
+    "note": "Concentrate supply to the new Freeport smelter in Gresik resumed in August 2026 (Kontan, 18 September 2026).",
+    "coord": "site",
     "s": "trade-press",
-    "y": 2025,
-    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/"
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -836,15 +982,21 @@
     ],
     "c": "COD",
     "operator": "Ivanhoe Mines / Zijin",
-    "capacity": {
-     "v": 0.389,
-     "u": "Mt Cu in concentrate (2025)"
+    "output": {
+     "v": 388.8,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper in concentrate",
+     "orig": "388,838 t"
     },
     "status": "operating",
-    "note": "2025 output 388.8 kt within guidance after a flooding stoppage; on-site smelter produced first anode 29 Dec 2025. Coordinates: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.kitco.com/news/off-the-wire/2026-01-15/ivanhoe-meets-2025-output-targets-kamoa-kakula-smelter-ramps"
+    "statusAsOf": "2026-01",
+    "note": "2025 output was within guidance after a flooding stoppage (Ivanhoe, reported by Reuters, 15 January 2026). The on-site smelter started up at the end of 2025.",
+    "coord": "approx",
+    "s": "trade-press",
+    "url": "https://www.kitco.com/news/off-the-wire/2026-01-15/ivanhoe-meets-2025-output-targets-kamoa-kakula-smelter-ramps",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -861,20 +1013,31 @@
     "name": "Cerro Verde",
     "type": "mine",
     "k": [
-     "copper",
-     "molybdenum"
+     "copper"
     ],
     "c": "PER",
-    "operator": "Freeport-McMoRan 53.5% / Sumitomo Metal Mining 21% / Buenaventura (2015 ownership)",
+    "operator": "Freeport-McMoRan 53.5% / Sumitomo Metal Mining 21% / Buenaventura (as stated for 2015)",
     "capacity": {
-     "v": 1.0,
-     "u": "billion lb Cu/y capacity after 2015 expansion"
+     "v": 450,
+     "u": "kt/y",
+     "y": 2015,
+     "n": "copper, capacity after the 2015 expansion",
+     "orig": "1.0 billion lb Cu/y"
+    },
+    "output": {
+     "v": 391.5,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "status": "operating",
-    "note": "About 32 km SW of Arequipa per Wikipedia; ownership as of 2015. Coordinates: approximate location.",
-    "s": "wikipedia",
-    "y": 2015,
-    "url": "https://en.wikipedia.org/wiki/Cerro_Verde_mine"
+    "statusAsOf": "2026-11",
+    "note": "About 20 miles southwest of Arequipa. Wikipedia gives a designed output of about 1.0 billion lb of copper and 23 million lb of molybdenum a year after the 2015 expansion.",
+    "coord": "approx",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -896,16 +1059,21 @@
     ],
     "c": "PER",
     "operator": "BHP 33.75% / Glencore 33.75% / Teck 22.5% / Mitsubishi 10%",
-    "capacity": {
-     "v": 410,
-     "u": "kt copper concentrate (2024)"
+    "output": {
+     "v": 368,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper, 100% basis; Glencore reports 130.1 kt for its 33.75% share"
     },
     "opened": 2001,
     "status": "operating",
-    "note": "About 15% of Peruvian copper output; slurry pipeline to Huarmey port.",
-    "s": "wikipedia",
-    "y": 2024,
-    "url": "https://en.wikipedia.org/wiki/Antamina_mine"
+    "statusAsOf": "2026-11",
+    "note": "About 15% of Peruvian copper output; slurry pipeline to Huarmey port. Zinc is the main by-product.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -927,10 +1095,12 @@
     "c": "CHL",
     "operator": "Codelco",
     "status": "operating",
-    "note": "World's largest underground copper mine; Wikipedia output (2006) is outdated so omitted.",
+    "statusAsOf": "2026-11",
+    "note": "World's largest underground copper mine.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/El_Teniente"
+    "url": "https://en.wikipedia.org/wiki/El_Teniente",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -951,16 +1121,21 @@
     ],
     "c": "CHL",
     "operator": "Codelco",
-    "capacity": {
-     "v": 0.289,
-     "u": "Mt Cu (2024, Cochilco)"
+    "output": {
+     "v": 289,
+     "u": "kt/y",
+     "y": 2024,
+     "what": "production",
+     "n": "copper, Cochilco"
     },
     "opened": 1915,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Now underground; includes Codelco's Chuquicamata smelter and refinery.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2024,
-    "url": "https://en.wikipedia.org/wiki/Chuquicamata"
+    "url": "https://en.wikipedia.org/wiki/Chuquicamata",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -977,21 +1152,25 @@
     "name": "Los Pelambres",
     "type": "mine",
     "k": [
-     "copper",
-     "molybdenum"
+     "copper"
     ],
     "c": "CHL",
     "operator": "Antofagasta Minerals",
-    "capacity": {
-     "v": 0.32,
-     "u": "Mt Cu (2024)"
+    "output": {
+     "v": 295.4,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "opened": 1990,
     "status": "operating",
-    "note": "Also 46.6 koz gold in 2024; concentrate pipeline to Los Vilos.",
-    "s": "wikipedia",
-    "y": 2024,
-    "url": "https://en.wikipedia.org/wiki/Los_Pelambres_mine"
+    "statusAsOf": "2026-11",
+    "note": "Also 46,600 oz of gold in 2024 (Wikipedia); concentrate pipeline to Los Vilos.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1013,15 +1192,26 @@
     "c": "PER",
     "operator": "Anglo American (majority; Mitsubishi minority)",
     "capacity": {
-     "v": 0.3,
-     "u": "Mt Cu/y nameplate (2023)"
+     "v": 300,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper, nameplate"
+    },
+    "output": {
+     "v": 309.9,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "opened": 2022,
     "status": "operating",
-    "note": "2025 output guided 310-340 kt (Wikipedia).",
-    "s": "wikipedia",
-    "y": 2023,
-    "url": "https://en.wikipedia.org/wiki/Quellaveco_mine"
+    "statusAsOf": "2026-11",
+    "note": "Anglo American majority, Mitsubishi minority.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1044,15 +1234,26 @@
     "c": "COD",
     "operator": "CMOC 80% / Gecamines 20%",
     "capacity": {
-     "v": 0.209,
-     "u": "Mt Cu (2021; latest on page)"
+     "v": 450,
+     "u": "kt/y",
+     "y": 2025,
+     "n": "copper cathode; CMOC says capacity exceeds 450 kt/y with five production lines (CMOC 2025 ESG report)"
+    },
+    "output": {
+     "v": 519,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper, about 519 kt per Mining.com ranking"
     },
     "opened": 2009,
     "status": "operating",
-    "note": "Also 18.5 kt cobalt in 2021; DRC export of cobalt hydroxide drives cobalt price.",
-    "s": "wikipedia",
-    "y": 2021,
-    "url": "https://en.wikipedia.org/wiki/Tenke_Fungurume_Mine"
+    "statusAsOf": "2026-11",
+    "note": "Produces copper cathode and cobalt hydroxide; DRC cobalt exports drive the cobalt price. CMOC holds 80% (CMOC 2025 ESG report).",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1075,13 +1276,17 @@
     "operator": "First Quantum Minerals 80% / ZCCM-IH 20%",
     "capacity": {
      "v": 53,
-     "u": "Mt/y ore processing capacity after S3 expansion"
+     "u": "Mt/y",
+     "y": 2025,
+     "n": "ore processing capacity after the S3 expansion"
     },
     "status": "operating",
-    "note": "S3 expansion reached commercial production 1 Dec 2025.",
+    "statusAsOf": "2026-11",
+    "note": "The S3 expansion reached commercial production on 1 December 2025 (Wikipedia).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2025,
-    "url": "https://en.wikipedia.org/wiki/Kansanshi_mine"
+    "url": "https://en.wikipedia.org/wiki/Kansanshi_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1104,15 +1309,25 @@
     "c": "MNG",
     "operator": "Oyu Tolgoi LLC (Rio Tinto 66%, Erdenes Oyu Tolgoi 34%)",
     "capacity": {
-     "v": 0.45,
-     "u": "Mt Cu/y expected at full production (Wikipedia; also quoted 430 kt)"
+     "v": 450,
+     "u": "kt/y",
+     "n": "copper expected at full production; the source also quotes 430 kt"
+    },
+    "output": {
+     "v": 345.1,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "opened": 2013,
     "status": "operating",
-    "note": "All concentrate trucked to China (Gashuunsukhait/Ganqimaodu).",
-    "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Oyu_Tolgoi"
+    "statusAsOf": "2026-10",
+    "note": "All concentrate is trucked to China (Gashuunsukhait/Ganqimaodu). Rio Tinto reports the mine running at an annualised rate of about 450 kt of copper in Q3 2026 (14 October 2026).",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1134,10 +1349,13 @@
     "c": "PAN",
     "operator": "First Quantum Minerals",
     "status": "suspended",
-    "note": "Suspended since Nov 2023. Stockpile processing began Q2 2026 (30-40 kt Cu expected in 2026, to mid-2027); on 30 Sep 2026 a government commission was reported to recommend a restart via a state tie-up, with President Mulino to decide; no final decision found as of late Nov 2026. Coordinates: approximate location.",
+    "statusAsOf": "2023",
+    "statusNote": "Ordered shut in late 2023; stockpile processing has been running since May 2026 while talks with the government continue (Mining.com, 29 July 2026).",
+    "note": "First Quantum commissioned the first of three milling circuits in May 2026 and produced its first copper concentrate from stockpiled ore in Q2 2026 (Mining.com, 29 July 2026).",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2026,
-    "url": "https://www.miningweekly.com/article/panama-government-to-recommend-copper-mine-restart-through-state-tie-up-sources-say-2026-09-30"
+    "url": "https://www.mining.com/first-quantum-adds-1000-jobs-as-cobre-panama-restart-nears/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1158,16 +1376,21 @@
     ],
     "c": "USA",
     "operator": "Freeport-McMoRan 72% / Sumitomo 28%",
-    "capacity": {
-     "v": 0.334,
-     "u": "Mt Cu (2017; latest on page)"
+    "output": {
+     "v": 313.1,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "copper"
     },
     "opened": 1871,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "North America's largest copper mine.",
-    "s": "wikipedia",
-    "y": 2017,
-    "url": "https://en.wikipedia.org/wiki/Morenci_mine"
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.mining.com/ranked-the-worlds-top-10-biggest-copper-mines/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1191,10 +1414,12 @@
     "operator": "Rio Tinto (Kennecott)",
     "opened": 1906,
     "status": "operating",
-    "note": "Utah open pit with on-site smelter and refinery.",
+    "statusAsOf": "2026-11",
+    "note": "Utah open pit with an on-site smelter and refinery. Kennecott finished rebuilding its flash converting furnace at the end of August 2026 (Rio Tinto, 14 October 2026).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Bingham_Canyon_Mine"
+    "url": "https://en.wikipedia.org/wiki/Bingham_Canyon_Mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1217,15 +1442,20 @@
     ],
     "c": "RUS",
     "operator": "Nornickel",
-    "capacity": {
-     "v": 0.425,
-     "u": "Mt Cu (group, 2025)"
+    "output": {
+     "v": 199,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "nickel, Nornickel group (not Norilsk mines only); copper 425 kt"
     },
     "status": "operating",
-    "note": "2025: nickel ~198.5 kt (-3%), palladium 2.725 Moz, platinum 667 koz; 2026 guidance Ni 193-203 kt. Group figures, not mine-only. Coordinates: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.akm.ru/eng/news/norilsk-nickel-reduced-nickel-production-by-3-in-2025/"
+    "statusAsOf": "2026-11",
+    "note": "Nornickel group figures, not mine-only: copper 425 kt in 2025 (Nornickel, 28 January 2026).",
+    "coord": "approx",
+    "s": "trade-press",
+    "url": "https://www.akm.ru/eng/news/norilsk-nickel-reduced-nickel-production-by-3-in-2025/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1245,17 +1475,27 @@
      "lithium"
     ],
     "c": "AUS",
-    "operator": "Talison Lithium (Tianqi 51% / Albemarle 49% via Windfield, as of 2014)",
+    "operator": "Talison Lithium (Tianqi Lithium Energy Australia 51%, a venture of Tianqi 51% and IGO 49%; Albemarle 49%)",
     "capacity": {
      "v": 1950,
-     "u": "kt spodumene concentrate (FY2020)"
+     "u": "kt/y",
+     "n": "spodumene concentrate, as stated by Wikipedia (undated)"
+    },
+    "output": {
+     "v": 1410,
+     "u": "kt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "spodumene concentrate, FY2025-26, 100% basis"
     },
     "opened": 1983,
     "status": "operating",
-    "note": "Hard-rock spodumene; page says it can supply about a third of global spodumene concentrate demand; output scaled down in Jan 2024 on weak EV demand.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Greenbushes_mine"
+    "statusAsOf": "2026-11",
+    "note": "Hard-rock spodumene; IGO holds a 24.99% indirect interest and guides 1.55-1.75 Mt for FY2026-27 on a 100% basis (IGO, 27 August 2026). Production was scaled back in January 2024 on weak EV demand (Wikipedia).",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260827/pdf/0738wn6jzgy3zt.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1276,16 +1516,21 @@
     ],
     "c": "AUS",
     "operator": "Pilbara Minerals (PLS)",
-    "capacity": {
-     "v": 580,
-     "u": "kt spodumene concentrate, upper end of 540-580 kt/y range (2023)"
+    "output": {
+     "v": 879.5,
+     "u": "kt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "spodumene concentrate, FY2025-26"
     },
     "opened": 2018,
     "status": "operating",
-    "note": "Approximate location (about 120 km south of Port Hedland per source). P680 and P1000 expansions to 680 kt/y and 1 Mt/y spodumene concentrate planned as of Sep 2023.",
-    "s": "trade-press",
-    "y": 2023,
-    "url": "https://www.mining-technology.com/projects/pilgangoora-lithium-tantalum-project-pilbara/"
+    "statusAsOf": "2026-11",
+    "note": "PLS restarted the Ngungaju plant on 1 July 2026 and is studying a P2000 expansion to about 2.0 Mtpa (PLS, 30 July 2026). Expansions to 680 kt/y and 1 Mt/y were planned in 2023 (Mining Technology).",
+    "coord": "approx",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260730/pdf/07267r8njvdr70.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1307,10 +1552,12 @@
     "c": "CHL",
     "operator": "SQM and Albemarle (SQM's operations folded into Codelco-SQM Nova Andino Litio JV, Dec 2025)",
     "status": "operating",
-    "note": "Supplied about 36% of world lithium carbonate in 2017 per page.",
+    "statusAsOf": "2026-11",
+    "note": "Brine extraction by SQM and Albemarle.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Salar_de_Atacama"
+    "url": "https://en.wikipedia.org/wiki/Salar_de_Atacama",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1332,14 +1579,21 @@
     ],
     "c": "COD",
     "operator": "Glencore (100%)",
-    "capacity": {
+    "output": {
      "v": 27.3,
-     "u": "kt Co (2018)"
+     "u": "kt/y",
+     "y": 2018,
+     "what": "production",
+     "n": "cobalt, before the 2019 closure (Wikipedia)"
     },
-    "note": "Closed Nov 2019; Wikipedia could not confirm restart status after 2022 plans to resume.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mutanda_mine"
+    "status": "operating",
+    "statusAsOf": "2026-01",
+    "statusNote": "Closed in November 2019; Glencore reports the restart of mining operations in 2025.",
+    "note": "Glencore reports 247.8 kt of copper and 33.5 kt of cobalt for KCC and Mutanda together in 2025 (Glencore, 29 January 2026).",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.glencore.com/.rest/api/v1/documents/static/a8114247-02e8-4bd8-bc04-81f411ba631c/GLEN_2025-FY-Production-Report.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1360,17 +1614,22 @@
      "copper"
     ],
     "c": "COD",
-    "operator": "Kamoto Copper Company (Glencore/Katanga Mining 75%, Gecamines 25% per page)",
-    "capacity": {
+    "operator": "Kamoto Copper Company (Glencore/Katanga Mining 75%, Gécamines 25%)",
+    "output": {
      "v": 23.9,
-     "u": "kt Co (2020)"
+     "u": "kt/y",
+     "y": 2020,
+     "what": "production",
+     "n": "cobalt"
     },
     "opened": 1969,
     "status": "operating",
-    "note": "Described as the largest active cobalt mine in the world (2022); also 270 kt Cu in 2020.",
+    "statusAsOf": "2026-11",
+    "note": "Described as the largest active cobalt mine in the world (2022); also 270 kt of copper in 2020 (Wikipedia). Glencore reports KCC and Mutanda together at 247.8 kt of copper and 33.5 kt of cobalt in 2025.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Kamoto_mine"
+    "url": "https://en.wikipedia.org/wiki/Kamoto_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1391,16 +1650,21 @@
     ],
     "c": "AUS",
     "operator": "Rio Tinto",
-    "capacity": {
+    "output": {
      "v": 34.5,
-     "u": "Mt bauxite (2022)"
+     "u": "Mt/y",
+     "y": 2022,
+     "what": "production",
+     "n": "bauxite"
     },
     "opened": 1963,
     "status": "operating",
-    "note": "Approximate location (Weipa town). Most ore feeds Gladstone refineries (QAL, Yarwun); Amrun first shipment Dec 2018.",
+    "statusAsOf": "2026-11",
+    "note": "Most ore feeds the Gladstone refineries (QAL, Yarwun); the Amrun first shipment was in December 2018.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Weipa_bauxite_mine"
+    "url": "https://en.wikipedia.org/wiki/Weipa_bauxite_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1421,15 +1685,21 @@
     ],
     "c": "UZB",
     "operator": "Navoi Mining and Metallurgical Company",
-    "capacity": {
+    "output": {
      "v": 61,
-     "u": "t Au (2014)"
+     "u": "t/y",
+     "y": 2014,
+     "what": "production",
+     "n": "gold"
     },
     "opened": 1969,
-    "note": "Giant open pit in the Kyzylkum; page gives no output after 2014.",
+    "status": "operating",
+    "statusAsOf": "2026-11",
+    "note": "Giant open pit in the Kyzylkum; the source gives no output after 2014.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Muruntau_mine"
+    "url": "https://en.wikipedia.org/wiki/Muruntau_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1451,14 +1721,25 @@
     "c": "COD",
     "operator": "Barrick (45%), AngloGold Ashanti (45%), SOKIMO (10%) as of 2020",
     "capacity": {
-     "v": 814,
-     "u": "koz Au (2019)"
+     "v": 7.2,
+     "u": "Mt/y",
+     "n": "ore the plant can process, as stated by Wikipedia"
+    },
+    "output": {
+     "v": 25.3,
+     "u": "t/y",
+     "y": 2019,
+     "what": "production",
+     "n": "gold",
+     "orig": "814 koz Au"
     },
     "opened": 2013,
-    "note": "Plant processes up to 7.2 Mt/y of ore.",
+    "status": "operating",
+    "statusAsOf": "2026-11",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Kibali_mine"
+    "url": "https://en.wikipedia.org/wiki/Kibali_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1479,16 +1760,22 @@
     ],
     "c": "DOM",
     "operator": "Pueblo Viejo Dominicana (Barrick 60%, Newmont 40%)",
-    "capacity": {
-     "v": 581,
-     "u": "koz Au (2018, Barrick reported)"
+    "output": {
+     "v": 18.1,
+     "u": "t/y",
+     "y": 2018,
+     "what": "production",
+     "n": "gold, as reported by Barrick; the source does not say whether this is the 60% share",
+     "orig": "581 koz Au"
     },
     "opened": 2012,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Expansion requiring new tailings dam proposed 2019.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Pueblo_Viejo_mine"
+    "url": "https://en.wikipedia.org/wiki/Pueblo_Viejo_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1510,16 +1797,22 @@
     ],
     "c": "AUS",
     "operator": "Newmont (100%)",
-    "capacity": {
-     "v": 745,
-     "u": "koz Au (2023)"
+    "output": {
+     "v": 23.2,
+     "u": "t/y",
+     "y": 2023,
+     "what": "production",
+     "n": "gold",
+     "orig": "745 koz Au"
     },
     "opened": 2009,
     "status": "operating",
-    "note": "Australia's biggest producing gold mine by 2022 per page; 98 Mlb Cu in 2023.",
+    "statusAsOf": "2026-11",
+    "note": "Australia's biggest producing gold mine in 2022 (Wikipedia); 98 Mlb of copper in 2023.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Boddington_Gold_Mine"
+    "url": "https://en.wikipedia.org/wiki/Boddington_Gold_Mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1540,15 +1833,21 @@
     ],
     "c": "USA",
     "operator": "Barrick (61.5%) and Newmont (38.5%) JV",
-    "capacity": {
-     "v": 963,
-     "u": "koz Au (2019)"
+    "output": {
+     "v": 29.9,
+     "u": "t/y",
+     "y": 2019,
+     "what": "production",
+     "n": "gold",
+     "orig": "963 koz Au"
     },
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Pipeline and Cortez Hills deposits; about 100 km southwest of Elko, Nevada.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Cortez_mine"
+    "url": "https://en.wikipedia.org/wiki/Cortez_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1569,16 +1868,22 @@
     ],
     "c": "CAN",
     "operator": "Cameco (57.4%), Orano Canada (42.6%)",
-    "capacity": {
-     "v": 19.1,
-     "u": "Mlb U3O8 (financial year 2025)"
+    "output": {
+     "v": 7350,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium, 100% basis",
+     "orig": "19.1 Mlb U3O8"
     },
     "opened": 2014,
     "status": "operating",
-    "note": "Highest-grade uranium mine; suspended during COVID in 2020.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Cigar_Lake_Mine"
+    "statusAsOf": "2026-02",
+    "note": "Highest-grade uranium mine. Cameco reports 19.1 Mlb (100% basis) in 2025, 1.1 Mlb above plan (World Nuclear News, 17 February 2026).",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.world-nuclear-news.org/articles/cameco-kazatomprom-release-2025-figures",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1600,14 +1905,28 @@
     "c": "CAN",
     "operator": "Cameco (70%), Orano Canada (30%)",
     "capacity": {
-     "v": 18.7,
-     "u": "Mlb U3O8 regulated annual limit (per Wikipedia, undated)"
+     "v": 7190,
+     "u": "tU/y",
+     "n": "regulated annual limit, as stated by Wikipedia (undated)",
+     "orig": "18.7 Mlb U3O8"
+    },
+    "output": {
+     "v": 5810,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium, McArthur River/Key Lake, 100% basis",
+     "orig": "15.1 Mlb U3O8"
     },
     "opened": 1999,
-    "note": "Placed on care and maintenance July 2018; Cameco announced Feb 2022 it would reopen; restart not confirmed on the source page. Milled at Key Lake.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/McArthur_River_uranium_mine"
+    "status": "operating",
+    "statusAsOf": "2026-02",
+    "statusNote": "Care and maintenance from July 2018; Cameco announced in February 2022 it would reopen the mine; 15.1 Mlb produced in 2025.",
+    "note": "McArthur River/Key Lake produced 15.1 Mlb (100% basis) in 2025, meeting revised guidance (Cameco, via World Nuclear News, 17 February 2026). Milled at Key Lake.",
+    "coord": "site",
+    "s": "trade-press",
+    "url": "https://www.world-nuclear-news.org/articles/cameco-kazatomprom-release-2025-figures",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1629,21 +1948,25 @@
     "c": "NAM",
     "operator": "Swakop Uranium (CGN / China-Africa Development Fund ~90%, Epangelo 10%)",
     "capacity": {
-     "v": 15,
-     "u": "Mlb U3O8 potential annual output (undated)"
+     "v": 5800,
+     "u": "tU/y",
+     "n": "potential annual output, as stated by Wikipedia (undated)",
+     "orig": "15 Mlb U3O8"
     },
     "opened": 2016,
     "status": "operating",
-    "note": "Open pit near Swakopmund; production began late 2016.",
+    "statusAsOf": "2026-11",
+    "note": "Open pit near Swakopmund, south of the Rössing mine; production began in late 2016. The point is from OpenStreetMap; the previous point was about 55 km west of the mine.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Husab_mine"
+    "url": "https://en.wikipedia.org/wiki/Husab_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
-     14.517,
-     -22.767
+     15.025,
+     -22.588
     ]
    }
   },
@@ -1654,23 +1977,28 @@
     "name": "Olympic Dam",
     "type": "mine",
     "k": [
-     "uranium",
      "copper",
+     "uranium",
      "gold",
      "silver"
     ],
     "c": "AUS",
     "operator": "BHP",
-    "capacity": {
-     "v": 3661,
-     "u": "t U3O8 (FY2016-17)"
+    "output": {
+     "v": 221.3,
+     "u": "kt/y",
+     "y": 2026,
+     "what": "production",
+     "n": "copper cathode, FY2025-26"
     },
     "opened": 1988,
     "status": "operating",
-    "note": "Polymetallic: also about 235 kt/y Cu after 2002 optimisation; expansion postponed 2012.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Olympic_Dam_mine"
+    "statusAsOf": "2026-07",
+    "note": "Polymetallic mine. BHP reports for FY2025-26: 221.3 kt of copper cathode, 231,025 oz of refined gold, 1,100 koz of refined silver and 3,647 t of payable uranium. Wikipedia puts roughly 70% of revenue in copper, 25% in uranium and 5% in silver and gold.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://announcements.asx.com.au/asxpdf/20260716/pdf/071rnjvs39bf7r.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1693,10 +2021,12 @@
     "operator": "Nutrien",
     "opened": 1970,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Expanded significantly in 2017; one of Nutrien's six Saskatchewan potash mines.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rocanville_mine"
+    "url": "https://en.wikipedia.org/wiki/Rocanville_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1718,10 +2048,12 @@
     "c": "BLR",
     "operator": "JSC Belaruskali (state-owned)",
     "status": "operating",
-    "note": "Approximate location (Salihorsk). About 20% of global potash supply as of 2019, mostly exported to China; under US/EU/UK/Canada sanctions.",
+    "statusAsOf": "2026-11",
+    "note": "About 20% of global potash supply as of 2019, mostly exported to China; under US, EU, UK and Canadian sanctions.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Belaruskali"
+    "url": "https://en.wikipedia.org/wiki/Belaruskali",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1742,15 +2074,20 @@
     ],
     "c": "RUS",
     "operator": "PJSC Uralkali (Uralchem 81.47%)",
-    "capacity": {
+    "output": {
      "v": 11.3,
-     "u": "Mt KCl company-wide (2020)"
+     "u": "Mt/y",
+     "y": 2020,
+     "what": "production",
+     "n": "KCl, company-wide"
     },
     "status": "operating",
-    "note": "Approximate location (Berezniki); five mines and seven mills across Berezniki and Solikamsk.",
+    "statusAsOf": "2026-11",
+    "note": "Five mines and seven mills across Berezniki and Solikamsk.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Uralkali"
+    "url": "https://en.wikipedia.org/wiki/Uralkali",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1771,11 +2108,12 @@
     ],
     "c": "MAR",
     "operator": "OCP Group",
-    "status": "operating",
-    "note": "Approximate location (Khouribga city); phosphate rock is shipped via Jorf Lasfar.",
+    "status": "not-stated",
+    "note": "Phosphate rock is shipped via Jorf Lasfar. The point is the city.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Khouribga"
+    "url": "https://en.wikipedia.org/wiki/Khouribga",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1795,10 +2133,13 @@
      "manganese"
     ],
     "c": "ZAF",
-    "note": "Kalahari manganese field, Northern Cape; page cites reserves of 433 Mt at 40% Mn (1981 source).",
+    "status": "operating",
+    "statusAsOf": "2026-11",
+    "note": "Kalahari manganese field, Northern Cape; Wikipedia cites reserves of 433 Mt at 40% Mn.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mamatwan_mine"
+    "url": "https://en.wikipedia.org/wiki/Mamatwan_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1821,13 +2162,16 @@
     "operator": "Groote Eylandt Mining Company (majority South32)",
     "capacity": {
      "v": 5,
-     "u": "Mt Mn ore per year (MineralPrices.com, retrieved 2025)"
+     "u": "Mt/y",
+     "n": "manganese ore, as stated by Wikipedia citing MineralPrices.com (retrieved 2025)"
     },
     "status": "operating",
-    "note": "Approximate location on Groote Eylandt.",
+    "statusAsOf": "2026-11",
+    "note": "Groote Eylandt, Northern Territory.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Groote_Eylandt_Mining_Company"
+    "url": "https://en.wikipedia.org/wiki/Groote_Eylandt_Mining_Company",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1848,16 +2192,22 @@
     ],
     "c": "USA",
     "operator": "MP Materials",
-    "capacity": {
-     "v": 38,
-     "u": "kt REO in concentrate (2020)"
+    "output": {
+     "v": 50.7,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "rare-earth oxide in concentrate",
+     "orig": "50,692 t REO"
     },
     "opened": 1952,
     "status": "operating",
-    "note": "Shenghe Resources holds 8%; processing of light rare earths restarted 2022.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mountain_Pass_mine"
+    "statusAsOf": "2026-11",
+    "note": "Shenghe Resources holds 8% of MP Materials (Wikipedia). Processing of light rare earths restarted in 2022. MP reports 45,455 t of REO in concentrate in 2024.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://s25.q4cdn.com/570172628/files/doc_financials/2025/q4/Release-Q4-2025-FINAL.pdf",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1879,10 +2229,12 @@
     ],
     "c": "CHN",
     "status": "operating",
-    "note": "Mines north of the town accounted for 45% of global rare-earth output as of 2005 (page).",
+    "statusAsOf": "2026-11",
+    "note": "The mines north of the town accounted for 45% of global rare-earth output as of 2005 (Wikipedia).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Bayan_Obo_Mining_District"
+    "url": "https://en.wikipedia.org/wiki/Bayan_Obo_Mining_District",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1905,10 +2257,12 @@
     "operator": "Lynas Rare Earths",
     "opened": 2011,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Feeds Lynas Kuantan separation plant.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mount_Weld_mine"
+    "url": "https://en.wikipedia.org/wiki/Mount_Weld_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1931,16 +2285,21 @@
     ],
     "c": "USA",
     "operator": "Teck Resources (with NANA)",
-    "capacity": {
-     "v": 515.2,
-     "u": "kt Zn (2008)"
+    "output": {
+     "v": 463,
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "zinc in concentrate; lead in concentrate 107 kt"
     },
     "opened": 1989,
     "status": "operating",
-    "note": "2008: 122.6 kt Pb and 283 t Ag.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Red_Dog_mine"
+    "statusAsOf": "2026-11",
+    "note": "Zinc and lead mine in Alaska, operated by Teck on land owned by NANA. Wikipedia gives 515,200 t of zinc, 122,600 t of lead and 283 t of silver for 2008.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1962,10 +2321,12 @@
     "c": "PER",
     "operator": "Minsur",
     "status": "operating",
-    "note": "About 12% of world tin (2014, Moody's via page); concentrator expanding from 2,700 to 2,900 t/day in 2014.",
+    "statusAsOf": "2026-11",
+    "note": "About 12% of world tin in 2014 (Moody's, via Wikipedia); the concentrator was expanding from 2,700 to 2,900 t/day in 2014.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/San_Rafael_mine"
+    "url": "https://en.wikipedia.org/wiki/San_Rafael_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -1988,14 +2349,17 @@
     "operator": "Rio Tinto (50%) and Hancock Prospecting (50%)",
     "capacity": {
      "v": 30,
-     "u": "Mt iron ore per year stated capacity (undated)"
+     "u": "Mt/y",
+     "n": "iron ore, stated capacity, as stated by Wikipedia (undated)"
     },
     "opened": 2007,
     "status": "operating",
+    "statusAsOf": "2026-11",
     "note": "Five open pits including Hope Downs 4 (2013) and Baby Hope (2018).",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Hope_Downs_mine"
+    "url": "https://en.wikipedia.org/wiki/Hope_Downs_mine",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -2015,18 +2379,20 @@
      "pgm"
     ],
     "c": "ZAF",
-    "operator": "Anglo American Platinum",
+    "operator": "Valterra Platinum (formerly Anglo American Platinum)",
     "status": "operating",
-    "note": "Approximate location (near Mokopane). Largest open-pit PGM mine; no dated output on source page.",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mogalakwena_mine"
+    "statusAsOf": "2026-11",
+    "note": "Largest open-pit PGM mine. The point is from OpenStreetMap; the previous point was the town of Mokopane.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.investegate.co.uk/announcement/rns/valterra-platinum-limited--valt/fourth-quarter-production-report-31-december-2025/9410244",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
-     29.01,
-     -24.19
+     28.905,
+     -23.993
     ]
    }
   }

@@ -341,6 +341,15 @@
 "src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative"
 },
 {
+"id": "wa-state-tin-2023",
+"date": "2023-08-01",
+"title": "Wa State suspends mining, including Myanmar's main tin supply",
+"kind": "policy",
+"summary": "Wa State authorities in Myanmar halted all mining, refining, transport and export in the state from 1 August 2023 for an indefinite period, citing protection of the environment, preservation of tin reserves and the formalisation of mining. The state accounts for about 95% of Myanmar's tin production and up to a tenth of the world's tin, according to Mining Technology.",
+"impact": "Myanmar had supplied 77% of China's tin ore imports in 2022 (Chinese customs data, via Kitco). China's imports of tin ores and concentrates were about 150,800 t in January to November 2024, down 35% on a year earlier, with the Myanmar part down 55% (SMM, 23 December 2024).",
+"src": "https://www.mining-technology.com/news/wa-state-closes-tin-mines/"
+},
+{
 "id": "red-sea-houthi-2023",
 "date": "2023-11-19",
 "end": "2025-10",
@@ -455,6 +464,15 @@
 "summary": "USTR Section 301 port fees on Chinese-owned or operated and Chinese-built vessels took effect on 14 October 2025; China imposed reciprocal special port fees on US-linked ships.",
 "impact": "Owners reshuffled vessel deployment; both sets of fees were suspended for one year from 10 November 2025 (to 9 November 2026) after the US-China trade deal. Status after that date was not verified.",
 "src": "https://www.federalregister.gov/documents/2025/11/13/2025-19873/notice-of-modification-of-section-301-action-chinas-targeting-of-the-maritime-logistics-and"
+},
+{
+"id": "drc-cobalt-quotas-2025",
+"date": "2025-10-16",
+"title": "DR Congo replaces its cobalt export suspension with quotas",
+"kind": "policy",
+"summary": "DR Congo's regulator ARECOMS lifted the cobalt export suspension, which had been extended to 15 October 2025, and replaced it from 16 October 2025 with export quotas: 18,125 t for the rest of 2025 and 96,600 t a year for 2026 and 2027, of which 87,000 t are shared among producers pro rata and 9,600 t stay under the regulator's discretion (Benchmark Minerals, 22 September 2025).",
+"impact": "DR Congo is by far the largest exporter in the atlas's customs data for 2024, which predates the suspension and the quotas.",
+"src": "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027"
 },
 {
 "id": "us-sanctions-rosneft-2025",

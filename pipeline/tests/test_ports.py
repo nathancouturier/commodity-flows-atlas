@@ -150,7 +150,11 @@ class G11(unittest.TestCase):
                         self.assertEqual(ports.basis_of(iso, group, role, code), basis)
                         fams = ports._fams(group)
                         if basis == ports.BASIS_PAGE:
+                            self.assertIn(code, {r.code for r in rows if r.families & set(fams)
+                                                 and (role is None or r.role in (role, "both"))})
+                        elif basis == ports.BASIS_OTHER:
                             self.assertIn(code, {r.code for r in rows if r.families & set(fams)})
+                            self.assertNotIn(seg, ports.ENERGY_SEGMENTS)
                         elif basis == ports.BASIS_GENERAL:
                             self.assertIn(seg, ports.GENERAL_SEGMENTS)
                             self.assertIn(code, {r.code for r in rows if "box" in r.families})
@@ -595,6 +599,39 @@ class Builders(unittest.TestCase):
         for code, v in ports.MANUAL.items():
             self.assertEqual(len(v), 4, code)  # (name, iso3, lon, lat): build_freight unpacks four
         self.assertTrue(ports._sr)
+
+
+class FE5Basis(unittest.TestCase):
+    """Package FE5: the fallback to a row of the other role has its own basis (F10), and the source of a gateway is
+    the row that makes it a candidate for that cargo and role (F9)."""
+
+    def test_other_direction_has_its_own_basis(self):
+        # Rosario's page names Argentine grain exports; an Argentine grain import there rests on the export row
+        self.assertEqual(ports.basis_of("ARG", "wheat", "load", "ARUPR"), ports.BASIS_PAGE)
+        self.assertEqual(ports.candidates("ARG", "wheat", "discharge")[0], ("ARUPR", "ecsa", ports.BASIS_OTHER))
+        self.assertEqual(ports.basis_of("ARG", "wheat", "discharge", "ARUPR"), ports.BASIS_OTHER)
+        self.assertEqual(ports.BASES.index(ports.BASIS_OTHER), 1)
+        # never for oil and gas terminals
+        for iso, rows in ports.G.items():
+            for g in ("crude-oil", "refined-products", "lpg", "lng"):
+                for role in ("load", "discharge"):
+                    self.assertNotIn(ports.BASIS_OTHER, {b for _, _, b in ports.candidates(iso, g, role)}, (iso, g, role))
+
+    def test_source_of_is_the_row_of_that_cargo(self):
+        self.assertEqual(ports.source_of("CHN", "soybeans", "discharge", "CNHUA"),
+                         ("wikipedia", "https://en.wikipedia.org/wiki/Port_of_Guangzhou"))
+        self.assertEqual(ports.source_of("ARG", "wheat", "discharge", "ARUPR"),
+                         ("wikipedia", "https://en.wikipedia.org/wiki/Port_of_Rosario"))
+        self.assertEqual(ports.source_of("CHN", "potash", "discharge", "CNTSN")[0], "wikipedia")
+        # no page read for the cargo: no source, whatever row of another cargo names the port
+        code = ports.gateway("USA", "iron-ore", "load")
+        self.assertEqual(ports.basis_of("USA", "iron-ore", "load", code), ports.BASIS_LEGACY)
+        self.assertEqual(ports.source_of("USA", "iron-ore", "load", code), (None, None))
+        for iso in ("JPN", "CHN"):
+            for g in ("wheat", "iron-ore"):
+                code = ports.gateway(iso, g, "discharge")
+                s, url = ports.source_of(iso, g, "discharge", code)
+                self.assertFalse(url and "giignl" in url, (iso, g, code, url))
 
 
 if __name__ == "__main__":

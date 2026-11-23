@@ -7,7 +7,9 @@ The mode of a trade flow: sea, transit (sea through a foreign port), mixed (sea 
 The rules apply in this order and the first that matches wins (PLAN.md 2.1):
   1. FLOW_OVERRIDES   single flows, keyed by (group, origin, destination)
   2. pseudo-places    an end such as "Asia, not specified" is seaborne by assumption and is never routed
-  3. LNG              product rule: sea between coastal countries, but pipeline gas declared as LNG stays land
+  3. LNG              product rule: sea between coastal countries; between land neighbours only when the exporter has
+                      a liquefaction terminal and the importer a regasification terminal, else pipeline gas declared
+                      as LNG (land)
   4. MIXED            ordered country pairs whose cargo family moves both by sea and overland
   5. land neighbours  mainland border: land, unless the pair is in SEA_NEIGHBOURS for the cargo family
   6. sea outlet       a landlocked exporter in SEA_OUTLET for the group: transit, to a coastal or a landlocked buyer
@@ -20,7 +22,8 @@ The rules apply in this order and the first that matches wins (PLAN.md 2.1):
 Every list entry (SEA_NEIGHBOURS, LAND_NOTES, MIXED, SEA_OUTLET, BLOCS, FLOW_OVERRIDES) is an Atlas assumption: it
 carries a reason and, where a page was read, its URL (Wikipedia, read on 22 November 2026), returned as Mode.url. An
 entry without a URL is an unsourced Atlas assumption. No entry rests on a figure typed from memory.
-LNG: with `year`, a liquefaction terminal of the layer counts only from its `opened` year (Coral Sul, Mozambique, 2022).
+LNG: with `year`, a terminal of the layer counts only from its `opened` year (Coral Sul, Mozambique, 2022); the
+layer's regasification terminals are completed by LNG_IMPORT_LISTED for the importers it lacks.
 Without it every terminal of the layer counts, opened or not; the layer is hand-built and may miss real plants (K11
 lists the LNG exporters it lacks, Brunei among them).
 This module reads pipeline/cache/adjacency.json and data/infrastructure/lng.geojson itself. It imports neither
@@ -70,6 +73,60 @@ def lng_exporter(c, year=None):
         return False
     return year is None or LNG_OPENED[c] is None or LNG_OPENED[c] <= year
 
+
+def _opened(props):
+    """country -> year of its first terminal among props (None: a terminal without an opening year)."""
+    out = {}
+    for p in props:
+        y = p.get("opened")
+        y = int(y) if isinstance(y, (int, float)) or (isinstance(y, str) and y.isdigit()) else None
+        if p["c"] not in out:
+            out[p["c"]] = y
+        elif y is None or out[p["c"]] is None:
+            out[p["c"]] = None
+        else:
+            out[p["c"]] = min(y, out[p["c"]])
+    return out
+
+
+# countries with a regasification terminal in the layer, year of the first one
+with open(os.path.join(ROOT, "data", "infrastructure", "lng.geojson"), encoding="utf-8") as _f:
+    LNG_IMPORT_OPENED = _opened(f["properties"] for f in json.load(_f)["features"] if f["properties"]["type"] == "lng-import")
+# Import terminals that the layer does not have yet, for the countries that buy LNG from a land neighbour: the
+# terminals named on the List of LNG terminals (Wikipedia, read on 23 November 2026), year of the first one the page
+# dates (None: the page gives no year). The layer wins when it has the country.
+LNG_LIST_URL = "https://en.wikipedia.org/wiki/List_of_LNG_terminals"
+LNG_IMPORT_LISTED = {
+    "THA": (2011, "Map Ta Phut LNG Terminal, commercial operation from 2011"),
+    "FIN": (2016, "Pori, Tornio, Hamina and Inkoo terminals; the page dates Inkoo (2023) and cites the opening of Pori's "
+                  "first terminal in 2016"),
+    "MEX": (2006, "Altamira LNG (2006), Costa Azul (2008) and Manzanillo (2011)"),
+    "NOR": (2010, "Mosjoen, Ora (Fredrikstad) and Alesund terminals; the page dates Alesund (2010) only"),
+    "SWE": (2011, "Nynashamn (2011) and Lysekil (2014)"),
+    "CAN": (None, "Saint John LNG, no year given"),
+    "ARE": (None, "Jebel Ali LNG import terminal, no year given"),
+    "ISR": (2013, "a floating import terminal that received a shipment in January 2013"),
+}
+# A pair of neighbours whose LNG-coded trade is pipeline gas, with the page read (returned as the Mode note and url)
+LNG_PIPELINE = {
+    ("MOZ", "ZAF"): ("Natural gas from Mozambique reaches South Africa by pipeline: Sasol's Sasolburg plant is fed "
+                     "natural gas piped from Mozambique, a gas project in operation since 2004, and South Africa has no "
+                     "LNG import terminal in the atlas layer; the trade is read as pipeline gas declared as LNG",
+                     "https://en.wikipedia.org/wiki/Sasol"),
+}
+
+
+def lng_importer(c, year=None):
+    """Whether country c has a regasification terminal in the layer, or on the list read for LNG_IMPORT_LISTED (in
+    year, when given)."""
+    if c in LNG_IMPORT_OPENED:
+        y = LNG_IMPORT_OPENED[c]
+    elif c in LNG_IMPORT_LISTED:
+        y = LNG_IMPORT_LISTED[c][0]
+    else:
+        return False
+    return year is None or y is None or y <= year
+
 # ------------------------------------------------------------------ cargo families
 FAMILY = {
     "crude-oil": "crude", "refined-products": "products", "lpg": "lpg", "lng": "lng",
@@ -106,8 +163,7 @@ FLOW_OVERRIDES = {
         "Corumba ore goes down the Paraguay-Parana waterway on barges to Argentina; the atlas draws no ocean lane for it",
         "https://en.wikipedia.org/wiki/Paran%C3%A1%E2%80%93Paraguay_Waterway",
     ),
-    # LNG Mozambique to South Africa (0.70 Mt in 2024, tonnage estimated from value) is probably the Pande-Temane gas
-    # pipeline. Left out: no page was read that confirms it (PLAN.md 2.1).
+    # LNG Mozambique to South Africa: the LNG rule (LNG_PIPELINE) reads it as pipeline gas.
 }
 
 # ------------------------------------------------------------------ 5. neighbours whose trade sails
@@ -272,8 +328,15 @@ def mode_of(o, d, group, year=None):
     if fam == "lng":
         if lo or ld:
             return Mode("land", "landlocked")
+        # between land neighbours, a ship needs a liquefaction terminal at one end and a regasification terminal at the other
+        pl = LNG_PIPELINE.get((o, d))
+        if neighbours and pl and not (lng_exporter(o, year) and lng_importer(d, year)):
+            return Mode("land", "product", pl[0], pl[1])
         if neighbours and not lng_exporter(o, year):
             return Mode("land", "product", "no liquefaction terminal in the atlas layer: probably pipeline gas declared as LNG")
+        if neighbours and not lng_importer(d, year):
+            return Mode("land", "product", "no LNG import terminal in the atlas layer or on the list of LNG terminals: "
+                        "probably pipeline gas declared as LNG", LNG_LIST_URL)
         return Mode("sea", "product")
     m = MIXED.get((o, d))
     if m and fam in m.families:

@@ -9,7 +9,7 @@
    "n": "EIA crude oil including lease condensate, world",
    "alt": {
     "v": 4204.2,
-    "u": "Mt/year",
+    "u": "Mt/yr",
     "s": "atlas",
     "y": 2025,
     "n": "Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ"

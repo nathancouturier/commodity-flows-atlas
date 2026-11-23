@@ -14,13 +14,17 @@
     "operator": "Jiangxi Copper",
     "capacity": {
      "v": 1100,
-     "u": "kt/y refined copper (cathode)"
+     "u": "kt/y",
+     "y": 2024,
+     "n": "refined copper (cathode)"
     },
     "status": "operating",
-    "note": "World's largest copper refinery by capacity (Statista, Aug 2024). Near Guixi, Jiangxi. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "World's largest copper refinery by capacity (Statista, August 2024). Near Guixi, Jiangxi.",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2024,
-    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity"
+    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -44,13 +48,17 @@
     "operator": "Jinchuan Group",
     "capacity": {
      "v": 700,
-     "u": "kt/y refined copper (cathode)"
+     "u": "kt/y",
+     "y": 2024,
+     "n": "refined copper (cathode); the source gives no nickel figure"
     },
     "status": "operating",
-    "note": "Among the three largest refineries (Statista, Aug 2024); Jinchang, Gansu. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Among the three largest refineries (Statista, August 2024); Jinchang, Gansu. The refinery handles copper and nickel.",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2024,
-    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity"
+    "url": "https://statista.com/statistics/1180215/global-leading-copper-refineries-by-capacity",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -73,13 +81,16 @@
     "operator": "Daye Nonferrous Metals",
     "capacity": {
      "v": 930,
-     "u": "kt/y smelting capacity"
+     "u": "kt/y",
+     "n": "copper smelting capacity, as stated by the source (undated)"
     },
     "status": "operating",
-    "note": "Planned to trim smelter output ~20% when margins fell (Bloomberg via Mining.com; article undated). Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Planned to trim smelter output ~20% when margins fell (Bloomberg via Mining.com; article undated).",
+    "coord": "approx",
     "s": "trade-press",
-    "y": "undated",
-    "url": "https://www.mining.com/web/china-copper-smelters-plan-to-cut-output-after-margins-fall/"
+    "url": "https://www.mining.com/web/china-copper-smelters-plan-to-cut-output-after-margins-fall/",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -102,14 +113,17 @@
     "operator": "Codelco",
     "capacity": {
      "v": 855,
-     "u": "kt/y electrolytic refinery (cathode)"
+     "u": "kt/y",
+     "n": "electrolytic refinery (cathode), as stated by Wikipedia; the smelter capacity is not given"
     },
     "opened": 1952,
     "status": "operating",
-    "note": "Smelting facilities installed 1952; smelter capacity not given on page, refinery figure shown. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Smelting facilities installed 1952; smelter capacity not given on page, refinery figure shown.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": "undated",
-    "url": "https://en.wikipedia.org/wiki/Chuquicamata"
+    "url": "https://en.wikipedia.org/wiki/Chuquicamata",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -130,16 +144,14 @@
     ],
     "c": "COD",
     "operator": "Ivanhoe Mines",
-    "capacity": {
-     "v": 500,
-     "u": "kt/y rated (source does not say concentrate vs anode)"
-    },
     "opened": 2025,
     "status": "operating",
-    "note": "First anode 29 Dec 2025; ramp-up continues through 2026; reduces DRC concentrate exports. Coordinates: approximate location.",
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.kitco.com/news/off-the-wire/2026-01-15/ivanhoe-meets-2025-output-targets-kamoa-kakula-smelter-ramps"
+    "statusAsOf": "2026-01",
+    "note": "First anode on 29 December 2025. In January 2026 the smelter was averaging 500 t a day of 99.7% copper anodes, with first exports expected (Ivanhoe, reported by Reuters, 15 January 2026).",
+    "coord": "approx",
+    "s": "trade-press",
+    "url": "https://www.kitco.com/news/off-the-wire/2026-01-15/ivanhoe-meets-2025-output-targets-kamoa-kakula-smelter-ramps",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -162,14 +174,19 @@
     "operator": "PT Freeport Indonesia",
     "capacity": {
      "v": 1700,
-     "u": "kt/y concentrate feed capacity (nameplate)"
+     "u": "kt/y",
+     "y": 2026,
+     "n": "copper concentrate feed, installed capacity (Katadata, September 2026)"
     },
     "opened": 2024,
     "status": "operating",
-    "note": "Fire at acid plant Oct 2024; restarted mid-2025; hot preservation after Grasberg Sep 2025 landslide; reported resumed Sep 2026, cathode ramping (35 kt by Oct, 57 kt by end-2026 per reports). Coordinates: approximate location.",
+    "statusAsOf": "2026-09",
+    "statusNote": "Resumed in May 2025, stopped after the Grasberg landslide cut concentrate supply, and resumed again in September 2026; ramping up (Kontan, 18 September 2026).",
+    "note": "Freeport reports installed capacity of 1.7 Mt of copper concentrate and 6,000 t of anode slime a year (Katadata, 15 September 2026).",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2026,
-    "url": "https://www.miningweekly.com/article/freeport-indonesia-aims-manyar-smelter-restart-next-month-ceo-says-2026-08-07"
+    "url": "https://katadata.co.id/berita/energi/6aa9133500524/smelter-manyar-freeport-mulai-beroperasi-kembali-usai-longsor-di-grasberg",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -190,11 +207,14 @@
     ],
     "c": "IDN",
     "operator": "PT Smelting (Freeport / Mitsubishi Materials)",
-    "status": "suspended",
-    "note": "Operations stopped since 8 Aug 2026 for furnace repairs (Freeport says no impact on Grasberg). Coordinates: approximate location.",
+    "status": "operating",
+    "statusAsOf": "2026-10",
+    "statusNote": "Halted on 8 August 2026 for furnace repairs; reported operating again on 8 October 2026 (Katadata).",
+    "note": "Gresik smelter and refinery of Freeport and Mitsubishi Materials.",
+    "coord": "approx",
     "s": "trade-press",
-    "y": 2026,
-    "url": "https://www.engineeringnews.co.za/article/freeport-indonesias-unit-smelting-gresik-halts-operations-for-furnace-repairs-2026-08-12"
+    "url": "https://katadata.co.id/info/6ac74db7bb391/dua-smelter-freeport-kembali-beroperasi-hilirisasi-tembaga-kembali-didorong",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -216,10 +236,12 @@
     "c": "DEU",
     "operator": "Aurubis",
     "status": "operating",
-    "note": "Europe's largest primary copper smelter site (Hamburg-Veddel); serious accident at primary smelter in May 2023. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Europe's largest primary copper smelter site (Hamburg-Veddel).",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Aurubis"
+    "url": "https://en.wikipedia.org/wiki/Aurubis",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -241,10 +263,12 @@
     "c": "POL",
     "operator": "KGHM Polska Miedz",
     "status": "operating",
-    "note": "KGHM owns Glogow, Legnica and Cedynia smelters; group output 656 kt Cu in 2017 (page; outdated). Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "KGHM owns the Głogów, Legnica and Cedynia smelters; the group produced 656 kt of copper in 2017 (Wikipedia).",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2017,
-    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Mied%C5%BA"
+    "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Mied%C5%BA",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -266,10 +290,12 @@
     "c": "SWE",
     "operator": "Boliden",
     "status": "operating",
-    "note": "Boliden's biggest and oldest smelter (copper, also lead/zinc); flash furnaces added in 2000 expansion. Coordinates: approximate location.",
+    "statusAsOf": "2026-11",
+    "note": "Boliden's biggest and oldest smelter (copper, also lead and zinc).",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Boliden_AB"
+    "url": "https://en.wikipedia.org/wiki/Boliden_AB",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -292,14 +318,19 @@
     "operator": "Aluminium Bahrain B.S.C.",
     "capacity": {
      "v": 1600,
-     "u": "kt Al per year capacity (2026)"
+     "u": "kt/y",
+     "y": 2026,
+     "n": "aluminium"
     },
     "opened": 1971,
-    "status": "operating",
-    "note": "Controlled shutdown of potlines 1-3 began 15 Mar 2026; 80% of pre-war capacity as of 16 Sep 2026 (page).",
+    "status": "damaged",
+    "statusAsOf": "2026-03",
+    "statusNote": "Hit in an attack in March 2026 (minor damage); potlines 1-3 shut on 15 March 2026; operating at 80% on 16 September 2026.",
+    "note": "Wikipedia reports alumina now arrives by truck and exports are routed through Jeddah and Sohar.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Aluminium_Bahrain"
+    "url": "https://en.wikipedia.org/wiki/Aluminium_Bahrain",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -322,13 +353,16 @@
     "operator": "Emirates Global Aluminium",
     "capacity": {
      "v": 1000,
-     "u": "kt Al per year capacity (undated)"
+     "u": "kt/y",
+     "n": "aluminium, as stated by Wikipedia (undated)"
     },
     "status": "operating",
-    "note": "Approximate location (Jebel Ali); 2,350 MW captive power.",
+    "statusAsOf": "2026-11",
+    "note": "Captive power of 2,350 MW.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -351,13 +385,16 @@
     "operator": "Emirates Global Aluminium",
     "capacity": {
      "v": 1300,
-     "u": "kt Al per year capacity (undated)"
+     "u": "kt/y",
+     "n": "aluminium, as stated by Wikipedia (undated)"
     },
-    "status": "operating",
-    "note": "Approximate location (Taweelah); page reports significant damage in attacks of 28 Mar 2026.",
+    "status": "damaged",
+    "statusAsOf": "2026-03",
+    "statusNote": "Sustained \"significant damage\" in Iranian missile and drone attacks on 28 March 2026.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium"
+    "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -380,14 +417,17 @@
     "operator": "Boyne Smelters Ltd (Rio Tinto 73.5%)",
     "capacity": {
      "v": 545,
-     "u": "kt Al per year capacity (per page, citing 2006 Rio Tinto data book)"
+     "u": "kt/y",
+     "n": "aluminium, as stated by Wikipedia (undated)"
     },
     "opened": 1982,
     "status": "operating",
-    "note": "Gladstone region, Queensland.",
+    "statusAsOf": "2026-11",
+    "note": "Gladstone region, Queensland, about 12 km south of the port of Gladstone. Rio Tinto holds 73.5% of the operating company.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Boyne_Smelters"
+    "url": "https://en.wikipedia.org/wiki/Boyne_Smelters",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -408,15 +448,20 @@
     ],
     "c": "RUS",
     "operator": "Rusal",
-    "capacity": {
+    "output": {
      "v": 939,
-     "u": "kt Al produced (2025)"
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "aluminium"
     },
     "status": "operating",
-    "note": "Output about 1,000-1,009 kt/y in 2013-2023.",
+    "statusAsOf": "2026-11",
+    "note": "Output was about 1,000-1,009 kt/y in 2013-2023.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2025,
-    "url": "https://en.wikipedia.org/wiki/Rusal"
+    "url": "https://en.wikipedia.org/wiki/Rusal",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -437,16 +482,21 @@
     ],
     "c": "RUS",
     "operator": "Rusal",
-    "capacity": {
+    "output": {
      "v": 959,
-     "u": "kt Al produced (2025)"
+     "u": "kt/y",
+     "y": 2025,
+     "what": "production",
+     "n": "aluminium"
     },
     "opened": 1964,
     "status": "operating",
-    "note": "First hot metal 30 Apr 1964; output about 1,015-1,020 kt/y in 2016-2024.",
+    "statusAsOf": "2026-11",
+    "note": "First hot metal on 30 April 1964; output was about 1,015-1,020 kt/y in 2016-2024.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2025,
-    "url": "https://en.wikipedia.org/wiki/Rusal"
+    "url": "https://en.wikipedia.org/wiki/Rusal",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -469,10 +519,12 @@
     "c": "CHN",
     "operator": "China Hongqiao Group",
     "status": "operating",
-    "note": "Approximate location (Binzhou, Shandong); smelters, alumina refinery and captive coal power on one site; group capacity above 5 Mt/y in 2016 per page, 2 Mt/y relocation to Yunnan from 2020.",
+    "statusAsOf": "2026-11",
+    "note": "Smelters, alumina refinery and captive coal power on one site; Wikipedia gives group capacity above 5 Mt/y in 2016 and a 2 Mt/y relocation to Yunnan from 2020. The point is Binzhou, Shandong.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group"
+    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -496,10 +548,12 @@
     "operator": "PT Indonesia Morowali Industrial Park",
     "opened": 2015,
     "status": "operating",
-    "note": "Tsingshan-anchored; at least 11 smelters of various metals as of 2025; page gives no park-wide nickel output.",
+    "statusAsOf": "2026-11",
+    "note": "Anchored by Tsingshan; at least 11 smelters of various metals as of 2025. The source gives no park-wide nickel output.",
+    "coord": "site",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Indonesia_Morowali_Industrial_Park"
+    "url": "https://en.wikipedia.org/wiki/Indonesia_Morowali_Industrial_Park",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",
@@ -522,14 +576,17 @@
     "operator": "Lynas Rare Earths",
     "capacity": {
      "v": 11,
-     "u": "kt REO per year target (undated)"
+     "u": "kt/y",
+     "n": "rare-earth oxide, target as stated by the source (undated)"
     },
     "opened": 2012,
     "status": "operating",
-    "note": "Approximate location (Kuantan, Pahang); refining entered production 2013.",
+    "statusAsOf": "2026-11",
+    "note": "Kuantan, Pahang; refining entered production in 2013.",
+    "coord": "approx",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Lynas"
+    "url": "https://en.wikipedia.org/wiki/Lynas",
+    "read": "2026-11"
    },
    "geometry": {
     "type": "Point",

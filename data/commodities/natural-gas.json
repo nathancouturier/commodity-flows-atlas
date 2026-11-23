@@ -9,7 +9,7 @@
    "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)",
    "alt": {
     "v": 3139.6,
-    "u": "Mt as LNG",
+    "u": "Mt LNG",
     "s": "atlas",
     "y": 2025,
     "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
@@ -23,7 +23,7 @@
    "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)",
    "alt": {
     "v": 3141.5,
-    "u": "Mt as LNG",
+    "u": "Mt LNG",
     "s": "atlas",
     "y": 2025,
     "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
@@ -37,7 +37,7 @@
    "n": "EIA dry natural gas exports, world total: pipeline and LNG together",
    "alt": {
     "v": 947.94,
-    "u": "Mt as LNG",
+    "u": "Mt LNG",
     "s": "atlas",
     "y": 2025,
     "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"

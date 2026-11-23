@@ -78,11 +78,19 @@ USGS_K10 = {
 USGS_UNIT = {"potash": " K2O", "urea": " of nitrogen"}
 
 LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm-oil": "palm oil", "iron-ore": "iron ore",
-         "phosphate-rock": "phosphate rock", "soymeal": "soybean meal", "soyoil": "soybean oil"}
+         "phosphate-rock": "phosphate rock", "soymeal": "soybean meal", "soyoil": "soybean oil", "lng": "LNG", "lpg": "LPG",
+         "dap": "DAP", "nickel-int": "nickel intermediates"}
 
 
 def label(g):
+    """Display name of a group inside a sentence ("crude oil", "LNG")."""
     return LABEL.get(g, g.replace("-", " "))
+
+
+def cap_label(g):
+    """Display name of a group at the start of a sentence: only its first letter is raised ("Crude oil", "LNG")."""
+    s = label(g)
+    return s[:1].upper() + s[1:]
 
 
 def _json(path):
@@ -324,7 +332,7 @@ def _continuity(df, col, check, years):
             yrs = f"{years[i - 1]}" + (f" and {years[i + 1]}" if b is not None else "")
             out.append({"check": check, "group": g, "year": int(y), "side": side, "country": c, "kind": kind, "value": round(v, 3),
                         "reference": ref, "level": "flag",
-                        "text": f"{label(g)} {side} of {_name(c)}: {_mt(v)} in {y} against {around} in {yrs} (CEPII BACI)"})
+                        "text": f"{cap_label(g)} {side} of {_name(c)}: {_mt(v)} in {y} against {around} in {yrs} (CEPII BACI)"})
     return out
 
 
@@ -341,7 +349,7 @@ def k8(df, year):
             continue
         out.append({"check": "K8", "group": g, "year": year, "o": o, "d": d, "kind": kind, "value": round(y, 3), "reference": round(x, 3),
                     "ratio": round(y / x, 3) if x else None, "level": "flag",
-                    "text": f"{label(g)} from {_name(o)} to {_name(d)}: {_mt(y)} in {year}, {text} ({_mt(x)}; CEPII BACI)"})
+                    "text": f"{cap_label(g)} from {_name(o)} to {_name(d)}: {_mt(y)} in {year}, {text} ({_mt(x)}; CEPII BACI)"})
     return out
 
 
@@ -361,12 +369,12 @@ def k10(df, year, usgs):
                 if t >= 0.5e6:
                     out.append({"check": "K10", "group": g, "year": year, "country": c, "kind": "unlisted", "value": round(t / 1e6, 3),
                                 "reference": None, "ratio": None, "level": "flag", "usgs": fname,
-                                "text": f"{label(g)} exports of {_name(c)}: {_mt(t / 1e6)} in {year} (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries ({uy})"})
+                                "text": f"{cap_label(g)} exports of {_name(c)}: {_mt(t / 1e6)} in {year} (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries ({uy})"})
                 continue
             if p > 0 and v > 1.05 * p:
                 out.append({"check": "K10", "group": g, "year": year, "country": c, "kind": "above-production", "value": round(t / 1e6, 3),
                             "reference": round(p / 1e3, 3), "ratio": round(v / p, 3), "level": "flag", "usgs": fname,
-                            "text": (f"{label(g)} exports of {_name(c)} in customs data ({_mt(t / 1e6)} in {year}, CEPII BACI) are {v / p:.0%} of its "
+                            "text": (f"{cap_label(g)} exports of {_name(c)} in customs data ({_mt(t / 1e6)} in {year}, CEPII BACI) are {v / p:.0%} of its "
                                      f"production in the USGS Mineral Commodity Summaries ({_mt(p / 1e3)}{USGS_UNIT.get(g, '')} in {uy}); {basis}")})
     return out
 
@@ -402,7 +410,7 @@ def detour(pairs, year, min_t=0.5e6, ratio=2.5):
             ports = f" ({p['load']} to {p['dis']})" if p.get("load") else ""
             out.append({"check": "K12", "group": p["group"], "year": year, "o": p["o"], "d": p["d"], "value": round(p["t"] / 1e6, 3),
                         "reference": p["gc_nm"], "ratio": round(p["nm"] / p["gc_nm"], 2), "level": "qa",
-                        "text": (f"{label(p['group'])} from {_name(p['o'])} to {_name(p['d'])}{ports}: main route {p['nm']:,} nm, "
+                        "text": (f"{cap_label(p['group'])} from {_name(p['o'])} to {_name(p['d'])}{ports}: main route {p['nm']:,} nm, "
                                  f"{p['nm'] / p['gc_nm']:.1f} times the great-circle distance; check the gateways")})
     return out
 

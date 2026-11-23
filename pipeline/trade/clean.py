@@ -34,6 +34,8 @@ import math
 
 import pandas as pd
 
+from checks import label  # display names of the groups ("LNG", "crude oil"), one table for every note
+
 CODE_FIX = {"S19": "TWN"}
 XAS = "XAS"  # pseudo-place "Asia, not specified" (pipeline/geo/places_extra.json)
 # (group, exporter) -> first year from which its S19 rows are not read as Taiwan. Iran's crude to S19
@@ -120,7 +122,7 @@ def _notes(df, nb):
     out = {}
     for i, r in df[df["imputed"]].iterrows():
         g, y, codes = r["group"], int(r["year"]), r["flag"].split("+")
-        ref = f"the {y} {'tonne-weighted median' if g in BULK else 'median'} unit value of {g.replace('-', ' ')}"
+        ref = f"the {y} {'tonne-weighted median' if g in BULK else 'median'} unit value of {label(g)}"
         uve = _num(r["uve"], " USD/t")
         if "uv-repair" in codes:
             ya, ua, yb, ub, m = nb[i]
@@ -133,7 +135,7 @@ def _notes(df, nb):
         elif "est-gross" in codes:
             how = "more than 100 times" if r["uvr"] > 1 else "under a hundredth of"
             # a bulk row caught against the plain median only (rule 3) says so
-            against = ref if not (0.01 <= r["uvr"] <= 100) else f"the {y} median unit value of {g.replace('-', ' ')}"
+            against = ref if not (0.01 <= r["uvr"] <= 100) else f"the {y} median unit value of {label(g)}"
             out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])}, a unit value {how} {against}; "
                       f"tonnage = declared value divided by {ref}, {uve}")
         else:

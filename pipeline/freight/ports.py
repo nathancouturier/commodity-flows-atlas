@@ -293,10 +293,11 @@ OWN_FAMILY = {"sugar"}
 
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
 BASIS_PAGE = "page names the cargo"
+BASIS_OTHER = "page names the cargo in the other direction"
 BASIS_GENERAL = "general port of the country"
 BASIS_LEGACY = "port used before, no page read"
 BASIS_NEAREST = "nearest seaport"
-BASES = (BASIS_PAGE, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)
+BASES = (BASIS_PAGE, BASIS_OTHER, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)  # strongest first
 
 # Segments that may fall back on the country's general-cargo ("box") row: food, fertiliser, metals, general cargo.
 GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
@@ -338,7 +339,7 @@ def candidates(iso3, group, role=None):
 
     A cargo family is on a row only when the cited page names the cargo, and when no row matches the loader never
     invents a port. In order: (1) the rows of the family in the role, then in the other role (a page that names
-    the cargo names a port for it, whatever the direction; not for oil and gas terminals); (2) the legacy table's
+    the cargo names a port for it, whatever the direction, with its own basis; not for oil and gas terminals); (2) the legacy table's
     own entry for the family, then for food, fertiliser, metals and general cargo the country's general-cargo row;
     (3) the rest of the legacy chain (its "any" entry); (4) the nearest real seaport of the country. The legacy
     table never answers with an oil, gas or ore terminal of another cargo (TERMINALS). Each candidate carries its
@@ -358,7 +359,7 @@ def candidates(iso3, group, role=None):
     if not out and role and segment(group) not in ENERGY_SEGMENTS:
         # Not for oil and gas: an import terminal (a refinery's crude jetty, an LNG regasification plant) is no
         # export terminal, and the reverse.
-        add(_rows(iso3, group), BASIS_PAGE)
+        add(_rows(iso3, group), BASIS_OTHER)
     if not out and group not in OWN_FAMILY:
         # The legacy entry of the family itself (Dumai for Indonesian palm oil, Jubail for Saudi fertiliser,
         # Rosario for Argentine soy oil) is the port used before for that cargo: it comes before a general port.
@@ -385,11 +386,31 @@ def basis_of(iso3, group, role, code):
     for c, _, basis in candidates(iso3, group, role):
         if c == code:
             return basis
-    if any(r.code == code for r in _rows(iso3, group)):
+    if any(r.code == code for r in _rows(iso3, group, role)):
         return BASIS_PAGE
+    if any(r.code == code for r in _rows(iso3, group)):
+        return BASIS_OTHER
     if any(r.code == code for r in _box_rows(iso3)):
         return BASIS_GENERAL
     return BASIS_LEGACY
+
+
+def source_of(iso3, group, role, code):
+    """(source id, url) of the gateway row behind basis_of() for this end, or (None, None) when the basis is the
+    port used before or the nearest seaport (no page read for that cargo)."""
+    basis = basis_of(iso3, group, role, code)
+    if basis == BASIS_PAGE:
+        rows = _rows(iso3, group, role)
+    elif basis == BASIS_OTHER:
+        rows = _rows(iso3, group)
+    elif basis == BASIS_GENERAL:
+        rows = _box_rows(iso3, role) + _box_rows(iso3)
+    else:
+        return None, None
+    for r in rows:
+        if r.code == code:
+            return r.src, r.url
+    return None, None
 
 
 def gateway(iso3, group, role=None):

@@ -13,8 +13,7 @@
 "iron-ore",
 "thermal-coal",
 "met-coal",
-"bauxite",
-"manganese"
+"bauxite"
 ],
 "constraints": [
 "Loads only at deep-water terminals",
@@ -39,7 +38,14 @@
 "notes": "Baltic standard vessel moved from 180,000 to 182,000 dwt (C5TC(182), effective 2 Jan 2026).",
 "s": "vessel-size-conventions",
 "speedKn": 11.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 11.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "newcastlemax",
@@ -75,7 +81,14 @@
 "notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules (vessel_rules.py) give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
 "s": "vessel-size-conventions",
 "speedKn": 11.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 11.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "vloc",
@@ -104,7 +117,14 @@
 "notes": "Chinamax/Valemax typically ~ 400,000 dwt; sizes are conventional.",
 "s": "vessel-size-conventions",
 "speedKn": 11.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 11.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "panamax",
@@ -122,7 +142,8 @@
 "corn",
 "soybeans",
 "wheat",
-"soymeal"
+"soymeal",
+"manganese"
 ],
 "constraints": [
 "Draft limits at US Gulf river terminals, Up-River Parana and Columbia River restrict cargo size (cargo then topped off elsewhere)"
@@ -148,7 +169,14 @@
 "notes": "Baltic 'Panamax' benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) use an 82,000 dwt ship, which the atlas files under Kamsarmax by size; they are listed here too.",
 "s": "vessel-size-conventions",
 "speedKn": 12.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "kamsarmax",
@@ -186,7 +214,14 @@
 "notes": "Baltic P1A_82, P2A_82, P3A_82, P6_82 use an 82,000 dwt vessel.",
 "s": "vessel-size-conventions",
 "speedKn": 12.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "supramax",
@@ -207,7 +242,11 @@
 "phosphate",
 "urea",
 "steel",
-"nickel"
+"nickel",
+"manganese",
+"copper",
+"zinc",
+"lead"
 ],
 "constraints": [
 "Geared; used at ports lacking shore cranes"
@@ -235,7 +274,14 @@
 "notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes. The range starts at 40,000 dwt so that no size is left uncovered above Handysize: it includes the Handymax ships of 40,000-50,000 dwt (Wikipedia, Handymax).",
 "s": "vessel-size-conventions",
 "speedKn": 12.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "ultramax",
@@ -273,7 +319,14 @@
 "notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23). The Baltic calls this 63,500 dwt ship its Standard Supramax, so its S*_63 routes are listed under Supramax too.",
 "s": "vessel-size-conventions",
 "speedKn": 12.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "handysize",
@@ -290,7 +343,11 @@
 "potash",
 "phosphate",
 "corn",
-"wheat"
+"wheat",
+"copper",
+"zinc",
+"lead",
+"aluminium"
 ],
 "constraints": [
 "Can call at shallow ports and use own cranes"
@@ -313,7 +370,14 @@
 "notes": "Baltic Handysize reference 38,000 dwt.",
 "s": "vessel-size-conventions",
 "speedKn": 11.5,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 11.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "vlcc",
@@ -349,7 +413,14 @@
 "notes": "Baltic TD3C/TD22 VLCC cargo 270kt.",
 "s": "vessel-size-conventions",
 "speedKn": 12.5,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "suezmax",
@@ -387,7 +458,14 @@
 "notes": "Typical beam from Wikipedia (Suezmax): about 48 m for a 160,000 dwt ship. The canal limits (20.1 m draft up to 50 m beam) are not dimensions of a typical ship and are given under Canals. Baltic TD20/TD27 cargo 130kt.",
 "s": "vessel-size-conventions",
 "speedKn": 13.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 13.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "aframax",
@@ -423,7 +501,14 @@
 "notes": "Baltic TD7 reference 105kdwt (Veson FFA table).",
 "s": "vessel-size-conventions",
 "speedKn": 13.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 13.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "lr2",
@@ -456,7 +541,14 @@
 "notes": "Dwt range conventional; TC1 cargo 75kt, TC15 80kt.",
 "s": "vessel-size-conventions",
 "speedKn": 13.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 13.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "lr1",
@@ -487,7 +579,14 @@
 "notes": "Veson page: TC5 55kt cargo, LR1 75kdwt reference.",
 "s": "vessel-size-conventions",
 "speedKn": 13.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 13.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "mr",
@@ -524,7 +623,14 @@
 "notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt. The range starts at 40,000 dwt, where Handy tanker ends, so the two bands do not overlap (an Atlas convention; other published scales cut the classes differently).",
 "s": "vessel-size-conventions",
 "speedKn": 12.5,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "handy-tanker",
@@ -555,7 +661,14 @@
 "notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt. Up to 40,000 dwt; MR starts there.",
 "s": "vessel-size-conventions",
 "speedKn": 12.5,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "lng",
@@ -591,7 +704,14 @@
 "notes": "Ranges conventional: Q-Flex/Q-Max sizes from industry sources not independently verified here.",
 "s": "vessel-size-conventions",
 "speedKn": 17.0,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 17.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 },
 {
 "id": "vlgc",
@@ -622,6 +742,46 @@
 "notes": "Baltic VLGC TCE references an 84,000 cbm vessel (Veson page: 84kt); BLPG parcel 44kt.",
 "s": "vessel-size-conventions",
 "speedKn": 15.5,
-"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 15.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
+},
+{
+"id": "mgc",
+"name": "Mid-size gas carrier",
+"segment": "gas",
+"size": {
+"min": 25000,
+"max": 50000,
+"typical": 37500,
+"u": "cbm"
+},
+"cargoes": [
+"lpg"
+],
+"constraints": [
+"Fully refrigerated LPG carrier, smaller than a VLGC; serves regional LPG trades and short hauls"
+],
+"canals": {
+"suez": "No restriction applied by the Atlas rules (no sourced limit read)",
+"panama": "No restriction applied by the Atlas rules (no sourced limit read)"
+},
+"routes": [],
+"notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions, in pipeline/freight/vessel_rules.py. Speed: the default of vessel_rules.speed().",
+"s": "wilhelmsen-lpg-sizes",
+"speedKn": 12.0,
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
 }
 ]

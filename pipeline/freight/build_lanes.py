@@ -24,8 +24,9 @@ Method (METHODOLOGY.md, sections 1 to 3; trade-engine plan, sections 2.1 to 2.8)
   * clean() repairs the customs table (pipeline/trade/clean.py); a tonnage estimated from value is an
     Atlas estimate (source id "atlas") wherever it is shown on its own.
   * modes.mode_of() classes every pair: sea, transit (sea through a foreign port), mixed or land.
-  * ports.assign() gives the gateways of a pair per cargo family and coast; a landlocked end uses its
-    sourced transit port (gateways/energy.py TRANSIT), or the pair is "sea, not routed".
+  * ports.assign() gives the gateways of a pair per cargo family and coast; a landlocked end (or a coast with no
+    port of its own) uses its sourced transit port (gateways/energy.py TRANSIT), at either end or both, or the pair
+    is "sea, not routed". Each port is published with its basis (ports.basis_of) and the source of that cargo's row.
   * routing.plan() routes every option: passages certain for every option and parallel passage go to
     `via`, the others to `viaAlt`; alternatives avoid Suez, Bab el-Mandeb or Panama.
   * Lanes of the latest year first: every seaborne pair at or above the group's floor, up to its cap
@@ -95,9 +96,18 @@ CAP = {
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
          "aluminium": 0.03, "soyoil": 0.03}
 FLOOR_DEFAULT = 0.05
-# history set: the largest seaborne pairs of these years that are not in the main set
-HIST_YEARS = (2005, 2010, 2015, 2019, 2021, 2022, 2023)
+# history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
+# three years before the latest, so that a new BACI year moves the window)
+HIST_EARLY = (2005, 2010, 2015, 2019)
 HIST_TOP, HIST_MIN_SHARE = 10, 0.01
+
+
+def hist_years(latest):
+    return tuple(sorted(set(HIST_EARLY) | {latest - 3, latest - 2, latest - 1}))
+
+
+HIST_YEARS = hist_years(2024)  # the years of the 2024 build; main() uses hist_years(latest)
+EST_NOTE_MIN = 0.005  # a year whose seaborne total is at least this share Atlas estimates gets a yearNotes line
 MIN_NM = 50  # a route shorter than this is not drawn (same port area)
 
 # pairs table: m codes and f bits (plan 2.3)
@@ -209,20 +219,34 @@ def port_iso3(code):
 _meta = {}
 
 
-def port_entry(code, transit=None):
-    """A port of the lane file's `ports` table: id, name, country, coordinates, freight zone and the source of the
-    gateway row (null for a port of the atlas's earlier table, which has none yet)."""
+def port_entry(code, use):
+    """A port of the lane file's `ports` table: id, name, country, coordinates, freight zone, and the basis and source
+    for that file's cargo. use: (basis, source id, url) of the roles that use the port in the file, from port_use(); the
+    weakest basis wins, with its source (null when no page was read for the cargo)."""
     if code not in _meta:
         _meta[code] = P.port_meta(code)
     m = _meta[code]
     p = P.port(code)
-    out = {"id": code, "name": p["name"], "c": port_iso3(code), "at": p["at"], "zone": m.get("zone"), "s": m.get("s")}
-    if not out["s"] and transit and transit["port"] == code:
-        out["s"] = transit["s"]
-        out["url"] = transit["url"]
-    elif m.get("url"):
-        out["url"] = m["url"]
+    basis, src, url = max(use, key=lambda u: BASIS_RANK[u[0]])
+    out = {"id": code, "name": p["name"], "c": port_iso3(code), "at": p["at"], "zone": m.get("zone"), "basis": basis, "s": src}
+    if url:
+        out["url"] = url
     return out
+
+
+BASIS_RANK = {b: i for i, b in enumerate(P.BASES)}  # strongest first
+
+
+def port_use(iso3, group, role, code, transit_rows=()):
+    """(basis, source id, url) of a port at one end of a pair: its TRANSIT row when it is the end's transit port (a
+    family row is a page that names the cargo, a "default" row a general port of that country's trade), else the
+    gateway row behind ports.basis_of()."""
+    for t in transit_rows:
+        if t and t["port"] == code and t["end"] == iso3:
+            return (P.BASIS_PAGE if t["family"] else P.BASIS_GENERAL), t["s"], t["url"]
+    basis = P.basis_of(iso3, group, role, code)
+    s, url = P.source_of(iso3, group, role, code)
+    return basis, s, url
 
 
 def mode_of(o, d, group):
@@ -278,8 +302,9 @@ def combine(summaries):
     lists = _merge_lists([lst for s in summaries for lst in s["viaAlt"]])
     listed = {g for lst in lists for g in lst}
     some = [g for s in summaries for g in s["via"] if g not in via and g not in listed]
-    if some:
-        lists.append(list(dict.fromkeys(some)))
+    # each such passage is its own list ("on some options"): passages that one option crosses together are no
+    # alternatives to each other
+    lists.extend([g] for g in dict.fromkeys(some))
     return via, lists
 
 
@@ -295,29 +320,55 @@ def _classes_and_plan(group, o, d, t, a, b, geometry=False):
     return c0, s
 
 
+def transit_row(iso3, group):
+    """TRANSIT row of a country for the group's cargo family: {port, c, s, url} plus `end` and `family` (whether the
+    row is the family's own, not the "default" one), or None when no page was read."""
+    rows = P.TRANSIT.get(iso3) or {}
+    fam = MD.FAMILY.get(group)
+    row = rows.get(fam) or rows.get("default")
+    if not row:
+        return None
+    code, src, url = row[0], row[1], row[2]
+    return {"port": code, "c": port_iso3(code), "s": src, "url": url, "end": iso3, "family": fam in rows}
+
+
+def public_transit(t):
+    return {k: t[k] for k in ("port", "c", "s", "url")} if t else None
+
+
 def transit_of(o, d, group):
     """Transit row of the landlocked end of a pair: (end, {port, c, s, url}) or (end, None) when no page was read."""
     end = o if not MD.coastal(o) else d
-    rows = P.TRANSIT.get(end) or {}
-    row = rows.get(MD.FAMILY.get(group)) or rows.get("default")
-    if not row:
-        return end, None
-    code, src, url = row[0], row[1], row[2]
-    return end, {"port": code, "c": port_iso3(code), "s": src, "url": url}
+    return end, public_transit(transit_row(end, group))
+
+
+def transit_ends(o, d, kind):
+    """Ends of a pair that reach the sea through a foreign port: the landlocked ends of a transit pair, and a coast
+    with no port of its own that has a TRANSIT row (Bosnia and Herzegovina, through Ploce)."""
+    out = [e for e in (o, d) if kind == "transit" and not MD.coastal(e)]
+    return out + [e for e in (o, d) if e not in out and MD.coastal(e) and e in P.TRANSIT]
 
 
 def route_pair(o, d, group, t, kind):
-    """Ports and route of a seaborne or mixed pair. Returns a record, or (None, reason) when the pair is not routed."""
+    """Ports and route of a seaborne or mixed pair. Returns a record, or (None, reason) when the pair is not routed.
+    A landlocked end uses its TRANSIT port whatever the gateway rows hold; a pair of two landlocked countries is
+    routed between their two transit ports (`transit` for the loading end, `transit2` for the discharging end)."""
     a = P.assign(o, d, group)
     opts = [(x.load, x.discharge) for x in a.options]
-    basis, transit = a.basis, None
-    if kind == "transit":
-        end, transit = transit_of(o, d, group)
-        if not transit:
+    basis, transit, transit2, trows = a.basis, None, None, {}
+    for end in transit_ends(o, d, kind):
+        row = transit_row(end, group)
+        if row:
+            trows[end] = row
+        elif not MD.coastal(end):
             return None, "no sourced transit port"
-        opts = [(transit["port"], dd) if end == o else (oo, transit["port"]) for oo, dd in opts]
+    if trows:
+        opts = [(trows[o]["port"] if o in trows else oo, trows[d]["port"] if d in trows else dd) for oo, dd in opts]
         opts = list(dict.fromkeys(opts))
         basis = "single" if len(opts) == 1 else "open"
+        transit = public_transit(trows.get(o) or trows.get(d))
+        if o in trows and d in trows:
+            transit2 = public_transit(trows[d])
     if basis == "unrouted" or not all(c and P._known(c) for c in opts[0]):
         return None, "no gateway"
     if opts[0][0] == opts[0][1]:
@@ -339,7 +390,7 @@ def route_pair(o, d, group, t, kind):
         basis = "single"
     via, via_alt = combine(summaries)
     return {"opts": kept, "plans": summaries, "classes": classes, "nm": main["nm"], "via": via, "viaAlt": via_alt,
-            "basis": basis, "transit": transit, "at": at}, None
+            "basis": basis, "transit": transit, "transit2": transit2, "trows": list(trows.values()), "at": at}, None
 
 
 # ------------------------------------------------------------------ notes
@@ -389,6 +440,44 @@ def write_json(path, doc):
         json.dump(doc, f, separators=(",", ":"), ensure_ascii=False)
 
 
+def previous_caveats(path):
+    """The caveats.json of the previous build, or {} when it is missing or unreadable."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+        return doc if isinstance(doc, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def keep_caveats(active, previous, ran):
+    """Active caveats, plus the previous entries whose check reads raw/ and did not run this time (a download that
+    failed must not remove a warning); the entry must still be in the registry. Registry order."""
+    order = [e[0] for e in CV.REGISTRY]
+    out = dict(active)
+    for cid, e in previous.items():
+        if (cid not in out and cid in order and isinstance(e, dict) and e.get("check") in K.RAW_CHECKS
+                and e.get("check") not in ran):
+            out[cid] = e
+    return {cid: out[cid] for cid in sorted(out, key=lambda c: order.index(c) if c in order else len(order))}
+
+
+def flow_notes(r, kind, pc, f2, pipelines=()):
+    """Notes of the latest-year flow of a pair (lane `flow.n`, and the pairs file's `notes` for a pair without a lane):
+    the Atlas estimate, the all-modes note of a mixed pair, the K8 and K2 findings. r: the cleaned row or None."""
+    out = []
+    if r is not None and r.imputed:
+        out.append(r.enote)
+    if kind == "mixed":
+        out.append("Customs total for all modes: this trade moves both by sea and overland and the split is not known"
+                   + (". Pipelines on this border in the atlas: " + "; ".join(pipelines) if pipelines else ""))
+    if pc and pc["check"] == "K8":
+        out.append(pc["text"])
+    if f2:
+        out.append(f2["text"])
+    return ". ".join(n[:1].upper() + n[1:].rstrip(".") for n in out) if out else None
+
+
 def main():
     t_start = time.time()
     df = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
@@ -397,11 +486,17 @@ def main():
     print("tonnage estimated from value:", int(df["imputed"].sum()), "flows")
     df = df.reset_index(drop=True)
 
+    # mode of every pair in every year (an LNG terminal counts from its opening year)
     mcache = {}
-    for k in set(zip(df["o"], df["d"], df["group"])):
-        m = MD.mode_of(*k)
-        mcache[k] = m.kind if m else "land"
-    df["mode"] = [mcache[k] for k in zip(df["o"], df["d"], df["group"])]
+
+    def kind_of(o, d, group, year):
+        k = (o, d, group, int(year))
+        if k not in mcache:
+            m = MD.mode_of(o, d, group, int(year))
+            mcache[k] = m.kind if m else "land"
+        return mcache[k]
+
+    df["mode"] = [kind_of(*k) for k in zip(df["o"], df["d"], df["group"], df["year"])]
     latest = int(df["year"].max())
     years = list(range(LATEST_MIN_YEAR, latest + 1))
     sea = df[df["mode"].isin(["sea", "transit"])]
@@ -410,6 +505,7 @@ def main():
     sea[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "sea_flows.csv.gz"), index=False, compression="gzip")
     mixed[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "mixed_flows.csv.gz"), index=False, compression="gzip")
     totals = sea.groupby(["group", "year"])["t"].sum()
+    est_tot = sea[sea["imputed"].astype(bool)].groupby(["group", "year"])["t"].sum()  # Atlas estimates in the seaborne totals
     mtot = mixed.groupby(["group", "year"])["t"].sum()
     world = df.groupby(["group", "year"])["t"].sum()
     write_json(os.path.join(CACHE, "seaborne_totals.json"),
@@ -419,7 +515,7 @@ def main():
     # checks (single writer of trade_checks.json) and caveats
     ran = set()
     findings = K.run(df, latest, ran=ran)
-    active = CV.build(df, findings, latest)
+    active = keep_caveats(CV.build(df, findings, latest), previous_caveats(CAVEATS_OUT), ran)
     write_json(CAVEATS_OUT, active)
     write_json(ZONES_OUT, P.zones())
     k2 = {(r["group"], r["o"], r["d"], r["year"]): r for r in findings if r["check"] == "K2"}
@@ -474,19 +570,26 @@ def main():
             elif len(main) < CAP[group]:
                 main.append((r.o, r.d))
         mainset = set(main) | set(mixed_l)
-        history, hist_t = [], {}
+        history, hist_t, hist_y = [], {}, {}
         gs = g[g["mode"].isin(["sea", "transit"])]
-        for y in HIST_YEARS:
+        for y in hist_years(latest):
             z = gs[gs["year"] == y].sort_values("t", ascending=False)
             zt = z["t"].sum()
             for r in z.head(HIST_TOP).itertuples(index=False):
                 if (r.o, r.d) in mainset or zt <= 0 or r.t / zt < HIST_MIN_SHARE:
                     continue
-                hist_t[(r.o, r.d)] = max(hist_t.get((r.o, r.d), 0), r.t)
+                if r.t > hist_t.get((r.o, r.d), 0):
+                    hist_t[(r.o, r.d)], hist_y[(r.o, r.d)] = r.t, y
+
+        def lane_kind(o, d):
+            """Mode of a lane: that of the latest year, or of its history year when the pair has no seaborne row then."""
+            k = kind_of(o, d, group, latest)
+            return k if k != "land" or (o, d) not in hist_y else kind_of(o, d, group, hist_y[(o, d)])
+
         for (o, d), t in sorted(hist_t.items(), key=lambda x: -x[1]):
             rec = routed.get((o, d))
             if rec is None:
-                rec, _ = route_pair(o, d, group, t, mcache[(o, d, group)])
+                rec, _ = route_pair(o, d, group, t, lane_kind(o, d))
             if rec:
                 routed.setdefault((o, d), rec)
                 history.append((o, d))
@@ -495,7 +598,7 @@ def main():
         lanes, ports_used = [], {}
         for (o, d), lset in [(k, "main") for k in main + mixed_l] + [(k, "history") for k in history]:
             rec = routed[(o, d)]
-            kind = mcache[(o, d, group)]
+            kind = lane_kind(o, d)
             r_latest = rows.get((o, d, latest))
             vlat = float(r_latest.t) if r_latest is not None else 0.0
             a, b = rec["at"][rec["opts"][0][0]], rec["at"][rec["opts"][0][1]]
@@ -524,23 +627,13 @@ def main():
                         flags[str(y)] = "check"
                     notes[str(y)] = (notes[str(y)] + ". " if str(y) in notes else "") + f["text"]
             flow = {"v": round(vlat / 1e6, 3), "u": "Mt", "y": latest, "s": "baci"}
-            fnotes = []
             est = bool(r_latest is not None and r_latest.imputed)
             if est:
                 flow["s"], flow["est"] = "atlas", True
-                fnotes.append(r_latest.enote)
-            if kind == "mixed":
-                pl = pipelines_on(o, d, group)
-                fnotes.append("Customs total for all modes: this trade moves both by sea and overland and the split is not known"
-                              + (". Pipelines on this border in the atlas: " + "; ".join(pl) if pl else ""))
-            pc = pair_check.get((group, o, d))
-            if pc and pc["check"] == "K8":
-                fnotes.append(pc["text"])
-            f2 = k2.get((group, o, d, latest))
-            if f2:
-                fnotes.append(f2["text"])
-            if fnotes:
-                flow["n"] = ". ".join(n.rstrip(".") for n in fnotes)
+            fn = flow_notes(r_latest, kind, pair_check.get((group, o, d)), k2.get((group, o, d, latest)),
+                            pipelines_on(o, d, group) if kind == "mixed" else ())
+            if fn:
+                flow["n"] = fn
             alt_gates = {x for lst in rec["viaAlt"] for x in lst}
             lane = {
                 "id": f"{group}:{o}-{d}",
@@ -554,6 +647,8 @@ def main():
                 lane["mode"] = "mixed"
             if rec["transit"]:
                 lane["transit"] = rec["transit"]
+            if rec.get("transit2"):
+                lane["transit2"] = rec["transit2"]
             lane.update({
                 "load": [rec["opts"][0][0]],
                 "discharge": [rec["opts"][0][1]],
@@ -592,7 +687,6 @@ def main():
                     x["status"] = [{"text": DISRUPTIONS[0][2], "event": DISRUPTIONS[0][1]}]
                 alts.append(x)
             if alts:
-                lane["alt"] = alts[0]
                 lane["alts"] = alts
             if s.get("altNote"):
                 lane["altNote"] = s["altNote"]
@@ -600,16 +694,20 @@ def main():
             if st:
                 lane["status"] = st
             lanes.append(lane)
-            for code in lane["load"] + lane["discharge"] + [x for o_ in lane.get("opts", []) for x in (o_["load"], o_["discharge"])]:
-                ports_used.setdefault(code, port_entry(code, rec["transit"]))
+            for code in lane["load"] + [o_["load"] for o_ in lane.get("opts", [])]:
+                ports_used.setdefault(code, set()).add(port_use(o, group, "load", code, rec["trows"]))
+            for code in lane["discharge"] + [o_["discharge"] for o_ in lane.get("opts", [])]:
+                ports_used.setdefault(code, set()).add(port_use(d, group, "discharge", code, rec["trows"]))
 
         lanes.sort(key=lambda x: (x["set"] != "main", -x["flow"]["v"], -max(v or 0 for v in x["hist"])))
         main_t = sum(rows[(o, d, latest)].t for o, d in main)
-        rest, on_main = defaultdict(lambda: [0.0, 0]), set(main)
+        rest, on_main = defaultdict(lambda: [0.0, 0, 0.0]), set(main)
         for r in gy.itertuples(index=False):
             if r.mode in ("sea", "transit") and (r.o, r.d) not in on_main:
                 rest[r.o][0] += r.t
                 rest[r.o][1] += 1
+                if r.imputed:
+                    rest[r.o][2] += r.t
         est_t = gy[gy["mode"].isin(["sea", "transit"]) & gy["imputed"]]["t"].sum()
         yn = {}
         for y, texts in sorted(year_notes[group].items()):
@@ -622,6 +720,14 @@ def main():
                              "under this code; this is not established")
             if parts:
                 yn[str(y)] = ". ".join(p[0].upper() + p[1:].rstrip(".") for p in parts)
+        # share of each year's seaborne tonnes that is an Atlas estimate, and a line for the years where it shows
+        est_y = [round(est_tot.get((group, y), 0) / sea_tot[y], 3) if sea_tot[y] else 0 for y in years]
+        for y in years:
+            e = est_tot.get((group, y), 0)
+            if sea_tot[y] and e / sea_tot[y] >= EST_NOTE_MIN:
+                txt = (f"Includes {_mt(e / 1e6)} of Atlas estimates ({e / sea_tot[y]:.1%} of the year's seaborne tonnes): "
+                       "tonnage estimated from declared value")
+                yn[str(y)] = (yn[str(y)] + ". " if str(y) in yn else "") + txt
         rep = g[g["flag"].str.contains("uv-repair", na=False) | g["flag"].str.contains("uv-suspect-t", na=False)]
         for y, z in rep.groupby("year"):
             if y < LATEST_MIN_YEAR:
@@ -649,26 +755,36 @@ def main():
             "world": [round(world.get((group, y), 0) / 1e6, 2) for y in years],
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),
+            "estY": est_y,
             "coverage": {"lanes": len(main), "share": round(main_t / tot_latest, 4)},
-            "rest": [{"o": o, "v": round(v / 1e6, 3), "n": n} for o, (v, n) in sorted(rest.items(), key=lambda x: -x[1][0])],
-            "ports": dict(sorted(ports_used.items())),
+            "rest": [{"o": o, "v": round(v / 1e6, 3), "n": n, **({"est": float(f"{e / 1e6:.3g}")} if e > 0 else {})}
+                     for o, (v, n, e) in sorted(rest.items(), key=lambda x: -x[1][0])],
+            "ports": {c: port_entry(c, ports_used[c]) for c in sorted(ports_used)},
             "lanes": lanes,
         }
         write_json(os.path.join(OUT, f"{group}.json"), doc)
 
         # pairs table: every recorded pair of the latest year
-        pport, pcls, prow = {}, {}, []
+        pport, pcls, prow, puse, pnotes = {}, {}, [], defaultdict(set), {}
         lane_pairs = set(main) | set(mixed_l)
         for r in gy.itertuples(index=False):
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
             f = (F_EST if r.imputed else 0) | (F_CAVEAT if CV.lookup(active, group, r.o, r.d) else 0)
             f |= (F_LANE if (r.o, r.d) in lane_pairs else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
+            if f & (F_EST | F_CHECK) and not f & F_LANE:
+                # the note the lane would carry, for the pairs that have none (Route finder)
+                fn = flow_notes(r, r.mode, pair_check.get((group, r.o, r.d)), k2.get((group, r.o, r.d, latest)),
+                                pipelines_on(r.o, r.d, group) if r.mode == "mixed" else ())
+                if fn:
+                    pnotes[f"{r.o}-{r.d}"] = fn
             m = M_CODE[r.mode]
             if rec:
                 lo, di = rec["opts"][0]
                 for code in (lo, di):
                     if code not in pport:
                         pport[code] = len(pport)
+                puse[lo].add(port_use(r.o, group, "load", lo, rec["trows"])[0])
+                puse[di].add(port_use(r.d, group, "discharge", di, rec["trows"])[0])
                 cls = rec["classes"][0]
                 if cls not in pcls:
                     pcls[cls] = len(pcls)
@@ -685,16 +801,20 @@ def main():
         pdoc = {
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "baci", "unit": "kt",
             "seaborne": round(sea_tot[latest] / 1e3),
-            "ports": [[c, P.port(c)["name"], port_iso3(c), (_meta.get(c) or P.port_meta(c)).get("zone")] for c in pport],
+            # [code, name, country, zone, basis]: basis indexes `bases`, the weakest of the roles the port has in this file
+            "ports": [[c, P.port(c)["name"], port_iso3(c), (_meta.get(c) or P.port_meta(c)).get("zone"),
+                       max(BASIS_RANK[b] for b in puse[c])] for c in pport],
+            "bases": list(P.BASES),
             "classes": list(pcls),
             "gates": gates,
             "cols": ["o", "d", "kt", "m", "load", "dis", "nm", "cls", "via", "alt", "f"],
             "rows": prow,
+            "notes": pnotes,
         }
         write_json(os.path.join(PAIRS_OUT, f"{group}.json"), pdoc)
         n_main = len(main)
         print(f"{group:18s} main={n_main:3d} mixed={len(mixed_l):2d} history={len(history):2d} seaborne {latest}={sea_tot[latest] / 1e6:8.1f} Mt  "
-              f"covered={main_t / tot_latest:.1%}  pairs={len(prow)}  not routed={sum(1 for k in why if mcache[(k[0], k[1], group)] != 'mixed')}  "
+              f"covered={main_t / tot_latest:.1%}  pairs={len(prow)}  not routed={sum(1 for k in why if kind_of(k[0], k[1], group, latest) != 'mixed')}  "
               f"{time.time() - t_group:.0f}s", flush=True)
         save_geom_cache()
         RT._routes.clear()  # in-process memo of raw routes: the plans are in the caches
