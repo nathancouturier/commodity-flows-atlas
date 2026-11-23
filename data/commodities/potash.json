@@ -2,11 +2,11 @@
  "id": "potash",
  "summary": {
   "production": {
-   "v": 77.562,
+   "v": 77.6,
    "u": "Mt KCl",
    "y": 2025,
    "s": "atlas",
-   "n": "Atlas conversion of the USGS world total of potash mine production, 49 Mt K2O, at 0.632 K2O per tonne of potassium chloride"
+   "n": "Atlas conversion of the USGS world total of potash mine production, 49 Mt K2O, at 0.6318 t of K2O per tonne of potassium chloride, to three significant digits"
   },
   "reserves": {
    "v": 5900.0,
@@ -45,58 +45,58 @@
   "y": 2025,
   "s": "atlas",
   "u": "Mt KCl",
-  "world": 77.562,
+  "world": 77.6,
   "rows": [
    {
     "c": "CAN",
-    "v": 23.744
+    "v": 23.7
    },
    {
     "c": "RUS",
-    "v": 15.829
+    "v": 15.8
    },
    {
     "c": "CHN",
-    "v": 9.972
+    "v": 9.97
    },
    {
     "c": "BLR",
-    "v": 9.497
+    "v": 9.5
    },
    {
     "c": "DEU",
-    "v": 4.749
+    "v": 4.75
    },
    {
     "c": "LAO",
-    "v": 3.799
+    "v": 3.8
    },
    {
     "c": "ISR",
-    "v": 3.166
+    "v": 3.17
    },
    {
     "c": "JOR",
-    "v": 2.849
+    "v": 2.85
    },
    {
     "c": "CHL",
-    "v": 0.9497
+    "v": 0.95
    },
    {
     "c": "USA",
-    "v": 0.7915
+    "v": 0.791
    },
    {
     "c": "ESP",
-    "v": 0.7123
+    "v": 0.712
    },
    {
     "c": "BRA",
-    "v": 0.4749
+    "v": 0.475
    }
   ],
-  "n": "Atlas conversion: USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded, divided by 0.632, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium chloride comparable with the trade tables; real products hold less K2O than pure potassium chloride, so their weight is somewhat higher. The K2O figures as published are in the table below",
+  "n": "Atlas conversion: USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded, divided by 0.6318, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium chloride comparable with the trade tables, shown to three significant digits; real products hold less K2O than pure potassium chloride, so their weight is somewhat higher. The K2O figures as published are in the table below",
   "basis": "potassium chloride equivalent"
  },
  "reserves": {
@@ -539,7 +539,7 @@
   }
  ],
  "notes": [
-  "Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium chloride at 0.632 (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.",
+  "Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium chloride at 0.6318 (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.",
   "FAOSTAT (Fertilizers by Product, RFB) gives 2024 production of potassium chloride in tonnes of product: Canada 24.8 Mt (customs exports in 2024: 26.6 Mt) and Russia 16.9 Mt (customs exports in 2024: 15.5 Mt). It lists 14 countries, with no figure for China, Belarus and Germany, so it is not used for the table.",
   "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here.",

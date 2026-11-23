@@ -42,7 +42,7 @@ ALL_COAL = "Coal (all types)"
 # What the main trade table of a commodity really is, where the commodity name alone would mislead
 # (names as in pipeline/freight/build_lanes.py).
 TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nickel": "Nickel ore", "lead": "Lead concentrate",
-               "bauxite": "Bauxite"}
+               "bauxite": "Bauxite", "cobalt": "Cobalt intermediates and metal", "tin": "Tin (unwrought)"}
 PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
 HS4_LABEL = {
@@ -129,6 +129,9 @@ def main():
             for i, r in enumerate(t["rows"]):
                 share = r["v"] / world if world else None
                 e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
+                if r.get("est") or t["s"] == "atlas":
+                    # most of the row's tonnage is an Atlas estimate (or the table is a conversion): the row is credited to the atlas
+                    e["s"], e["est"] = "atlas", True
                 label = label or (PRODUCTION_LABEL.get(k) if section == "production" else TRADE_LABEL.get(k))
                 if label:
                     e["label"] = label
@@ -143,7 +146,7 @@ def main():
                 if r.get("n"):
                     e["n"] = r["n"]
                 if t.get("caveat"):
-                    e["warn"] = t["caveat"]  # warning of the whole table (trade hubs, gross weight...)
+                    e["warn"] = t.get("caveatShort") or t["caveat"]  # warning of the whole table (trade hubs, gross weight...), short form for a profile row
                 if t.get("norank"):
                     e["_norank"] = True  # the order of the table is not a world ranking (LNG customs tonnage): no rank is printed
                 candidates.append((r["c"], section, e))

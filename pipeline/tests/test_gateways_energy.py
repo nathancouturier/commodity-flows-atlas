@@ -483,10 +483,11 @@ class FE4cGateways(unittest.TestCase):
     def test_italian_crude_is_not_drawn_into_trieste(self):
         # GE4.1: Trieste's crude is the Transalpine pipeline's (Austria, Germany, Czechia); Italy's refineries are elsewhere
         self.assertFalse([r for r in EN.G["ITA"] if r[0] == "ITTRS"])
+        # FE4d: the refineries of the Wikipedia list of oil refineries are rows (Priolo, Taranto, Augusta), not the pipeline's port
         c = self.ports.candidates("ITA", "crude-oil", "discharge")
-        self.assertEqual([(x[0], x[2]) for x in c], [("ITAUG", self.ports.BASIS_LEGACY)])
-        self.assertIn("ITA/crude/discharge", EN.UNSOURCED_PORTS)
-        self.assertIn("Eurostat", EN.UNSOURCED_PORTS["ITA/crude/discharge"])
+        self.assertEqual([x[0] for x in c], ["ITPRI", "ITTAR", "ITAUG"])
+        self.assertEqual({x[2] for x in c}, {self.ports.BASIS_PAGE})
+        self.assertNotIn("ITA/crude/discharge", EN.UNSOURCED_PORTS)
         # the landlocked buyers of the pipeline keep the port their page documents
         for iso3 in ("AUT", "CZE"):
             self.assertEqual(self.ports.candidates(iso3, "crude-oil", "discharge")[0][0], "ITTRS", iso3)
@@ -561,11 +562,12 @@ class FE4cGateways(unittest.TestCase):
         self.assertIn("55%", rows[0][6])
         self.assertNotIn("TWN/crude/discharge", EN.UNSOURCED_PORTS)
 
-    def test_indonesian_java_ports_are_unsourced(self):
-        # GE6.3: no page read names crude, products or LPG at Cilacap or Balongan
-        for key in ("IDN/crude/discharge", "IDN/products/load", "IDN/lpg/discharge"):
+    def test_indonesian_refineries_are_the_crude_rows_and_products_stay_unsourced(self):
+        # GE6.3, answered in FE4d: a refinery is evidence (the EIA brief lists the refineries by place and capacity); the brief
+        # says nothing of exports of products or of LPG at a port
+        self.assertNotIn("IDN/crude/discharge", EN.UNSOURCED_PORTS)
+        for key in ("IDN/products/load", "IDN/lpg/discharge"):
             self.assertIn(key, EN.UNSOURCED_PORTS)
-        self.assertIn("Cilacap", EN.UNSOURCED_PORTS["IDN/crude/discharge"])
 
     def test_fujairah_products_row_is_gone(self):
         # GE6.6: the Fujairah page names a bunkering hub and crude storage, not UAE refined products loaded for export
@@ -602,6 +604,102 @@ class FE4cGateways(unittest.TestCase):
 
     def test_the_mexican_gulf_row_does_not_displace_dos_bocas(self):
         self.assertEqual(self.ports.candidates("MEX", "crude-oil", "load")[0][0], "MXDBT")
+
+
+class FE4dRefineries(unittest.TestCase):
+    """Package FE4d: a refinery at a coastal place, with its capacity, on an EIA country brief (source id eia-cab) or on the
+    Wikipedia list of oil refineries supports a crude discharge row at that place's port, and a products load row when the
+    page says that the country exports products. The principal port is the place of the largest refinery of the page's own
+    table (capacities in thousand barrels a day, as the pages give them)."""
+
+    @classmethod
+    def setUpClass(cls):
+        import ports
+        cls.ports = ports
+        ports.load_modules()
+
+    # (country, family, role) -> the ports in the order of the page's table, and the capacity of each place
+    TABLES = {
+        ("IDN", "crude", "discharge"): (["IDBPN", "IDCXP", "IDDUM", "IDBAL"], [360, 348, 170, 150]),      # EIA Indonesia, 2025
+        ("KOR", "crude", "discharge"): (["KRUSN", "KRTSN", "KRYOS", "KRINC"], [1383, 809, 744, 349]),     # EIA South Korea, 2023
+        ("NLD", "crude", "discharge"): (["NLRTM", "NLVLI"], [994, 190]),                                    # Wikipedia list
+        ("ESP", "crude", "discharge"): (["ESBIO", "ESCAR", "ESTAR"], [240, 220, 206]),                      # Wikipedia list
+        ("ITA", "crude", "discharge"): (["ITPRI", "ITTAR", "ITAUG"], [220, 120, 100]),                      # Wikipedia list
+        ("MYS", "crude", "discharge"): (["MYPEN", "MYPDI"], [300, 241]),                                    # EIA Malaysia, 2024
+        ("MYS", "products", "load"): (["MYPEN", "MYPDI"], [300, 241]),
+        ("THA", "crude", "discharge"): (["THSRI"], [177]),                                                  # Wikipedia list
+        ("THA", "products", "load"): (["THSRI"], [177]),
+        ("IND", "products", "load"): (["INSIK", "INBOM", "INVAD"], [1437, 431, 404]),                       # EIA India, 2025
+    }
+
+    def test_each_country_lists_its_places_in_the_order_of_the_table(self):
+        for (iso3, fam, role), (codes, caps) in self.TABLES.items():
+            self.assertEqual(caps, sorted(caps, reverse=True), (iso3, fam))
+            rows = [r for r in EN.G[iso3] if fam in r[2] and r[3] == role and r[4] in ("eia-cab", "wikipedia")
+                    and r[0] in codes and r[5].startswith(("https://www.eia.gov/", "https://en.wikipedia.org/wiki/"))]
+            self.assertEqual([r[0] for r in rows], codes, (iso3, fam, role))
+            c = self.ports.candidates(iso3, "crude-oil" if fam == "crude" else "refined-products", role)
+            self.assertEqual([x[0] for x in c][:len(codes)], codes, (iso3, fam, role))
+            self.assertEqual({x[2] for x in c}, {self.ports.BASIS_PAGE}, (iso3, fam, role))
+
+    def test_the_largest_place_is_the_principal_port(self):
+        self.assertEqual(principal("IDN", "crude", "discharge")[0], "IDBPN")   # Balikpapan 360 against Cilacap 348
+        self.assertEqual(principal("KOR", "crude", "discharge")[0], "KRUSN")
+        self.assertEqual(principal("IND", "products", "load")[0], "INSIK")
+        self.assertEqual(principal("MYS", "crude", "discharge")[0], "MYPEN")
+        self.assertEqual(principal("NLD", "crude", "discharge")[0], "NLRTM")
+
+    def test_every_row_says_that_the_page_names_the_refinery_not_the_berth(self):
+        for iso3 in ("IDN", "KOR", "NLD", "ESP", "ITA", "MYS", "THA", "IND", "JPN"):
+            for r in EN.G[iso3]:
+                if r[4] in ("eia-cab", "wikipedia") and ("refiner" in r[6] or "Refiner" in r[6]) and r[0] not in ("JPCHB", "INPRT", "INVAD"):
+                    self.assertTrue("not the berth" in r[6] or "neither page names the berth" in r[6] or "names the berth" in r[6], (iso3, r[0]))
+        # the capacities in the notes are the pages' own, with their unit
+        self.assertIn("360 thousand barrels a day", EN.G["IDN"][3][6])
+        self.assertIn("348 thousand barrels a day", EN.G["IDN"][4][6])
+
+    def test_products_rows_exist_only_where_the_page_says_the_country_exports_products(self):
+        for iso3 in ("KOR", "NLD", "IDN", "ITA", "ESP", "JPN"):
+            rows = [r for r in EN.G[iso3] if "products" in r[2] and r[3] == "load" and r[4] in ("eia-cab", "wikipedia")]
+            self.assertFalse(rows, iso3)
+        for iso3, text in (("MYS", "exported 1.3 million b/d of petroleum products"), ("THA", "net exporter of petroleum products"),
+                           ("IND", "exports petroleum products")):
+            rows = [r for r in EN.G[iso3] if "products" in r[2] and r[3] == "load"]
+            self.assertTrue(rows, iso3)
+            self.assertTrue(any(text in r[6] for r in rows), iso3)
+
+    def test_pengerang_is_a_manual_port_at_the_coordinates_of_its_page(self):
+        code = "MYPEN"
+        name, iso3, lon, lat = EN.MANUAL_EXTRA[code]
+        self.assertEqual((iso3, lon, lat), ("MYS", 104.117, 1.367))   # Pengerang: 1 22 N 104 07 E
+        self.assertEqual(EN.MANUAL_SRC[code]["url"], "https://en.wikipedia.org/wiki/Pengerang")
+        self.assertTrue(self.ports.is_seaport(code))
+
+    def test_cilacap_is_the_searoute_point_tanjung_intan(self):
+        # the Cilacap page gives 7 44 S, 109 0 E; the searoute point is under 3 km from it
+        lon, lat = coords("IDCXP")
+        self.assertLess(km((lon, lat), (109.0, -(7 + 44 / 60))), 3)
+        self.assertIn("Tanjung Intan", [r for r in EN.G["IDN"] if r[0] == "IDCXP"][0][6])
+        self.assertTrue(self.ports.is_seaport("IDCXP"))
+
+    def test_indonesian_crude_no_longer_crosses_the_makassar_strait_on_every_option(self):
+        import routing
+        a = self.ports.assign("NGA", "IDN", "crude-oil")
+        self.assertEqual(a.main.discharge, "IDBPN")
+        self.assertIn("IDCXP", {o.discharge for o in a.options})
+        # Cilacap is reached from the Cape without the strait; Balikpapan is not
+        via = {o.discharge: set(routing.route(coords(o.load), coords(o.discharge), ()).via) for o in a.options}
+        self.assertIn("makassar", via["IDBPN"])
+        self.assertNotIn("makassar", via["IDCXP"])
+
+    def test_the_uae_rows_name_why_both_load_ports_stay_options(self):
+        rows = {r[0]: r for r in EN.G["ARE"] if "crude" in r[2]}
+        self.assertIn("1.8 million b/d", rows["AEFJR"][6])
+        self.assertIn("no share loaded at Fujairah", rows["AEFJR"][6])
+        self.assertIn("so both ports stay options", rows["AEDAS"][6])
+        # the text that the "up to" note of Hormuz can quote
+        self.assertIn("not the share loaded at each port", EN.OPEN_REASONS[("ARE", "crude")])
+        self.assertIn("18%", EN.OPEN_REASONS[("SAU", "crude")])
 
 
 if __name__ == "__main__":

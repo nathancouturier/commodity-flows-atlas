@@ -71,6 +71,7 @@ BACI_YEAR, USGS_YEAR, USGS_FILE, PSD_MY = _latest_inputs()
 PSD_LABEL = f"{PSD_MY}/{(PSD_MY + 1) % 100:02d}"
 USGS_EDITION = int(USGS_YEAR) + 1
 TOP = 12
+SHOWN_ROWS = 10  # rows the commodity page draws before the "Other countries" row (RankedBars, web/src/components/ui.tsx)
 NFLOWS = 20
 
 QA_WARN = []
@@ -136,7 +137,7 @@ EIA_OVERRIDE = {"XKS": "KOS"}
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
 from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, XAS, clean as clean_baci  # noqa: E402
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
-from hs_map import SPLIT as HS_SPLIT  # noqa: E402  (HS 253090, read as spodumene for some pairs)
+from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "freight"))
 import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
@@ -367,6 +368,7 @@ class Usgs:
         if kind == "production" and t["estimated"]:
             n.append(f"{USGS_YEAR} values are USGS estimates")
         sumrows = total_of(t["rows"]) + t["other"]
+        published = world
         if world is None:
             world = sumrows
             n.append("world = sum of reporting countries incl. 'Other countries'")
@@ -388,7 +390,14 @@ class Usgs:
             n.append("not given as a number by USGS (W = withheld): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
         out = ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n), top=max(TOP, len(t["rows"])) if full else TOP)
         if full and t["other"]:
-            out["other"] = rnd(t["other"])
+            out["other"] = rnd(t["other"])  # USGS's own "Other countries" line, as published
+            hid = out["rows"][SHOWN_ROWS:]
+            if hid:  # countries USGS names in the table that the page does not draw as a row of their own (GW3.5)
+                out["hidden"] = {"v": rnd(sum(r["v"] for r in hid)), "k": len(hid), "from": SHOWN_ROWS,
+                                 "n": f"{len(hid)} further countr{'y' if len(hid) == 1 else 'ies'} named by USGS ({_and([cname(r['c']) for r in hid])}), "
+                                      "listed after the first rows; not part of USGS's 'Other countries' line"}
+            if published is not None and world != published:
+                out["worldPublished"] = rnd(published)  # the USGS world total as published; `world` is the sum the shares are computed on
         return out, t
 
 
@@ -590,6 +599,8 @@ class Baci:
     def __init__(self):
         df = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
         df = clean_baci(df)  # shared rules with build_lanes.py (pipeline/trade/clean.py)
+        for _, (sg, sx, _, rest) in HS_SPLIT.items():  # a cache extracted under a wider exporter list is split again here (GW3.11)
+            df.loc[(df["group"] == sg) & ~df["o"].isin(sx), "group"] = rest
         df["est"] = df["imputed"]
         ratio = df["uvr"]
         susp = (df["t0"] > 0) & ~df["imputed"] & df["uv"].notna() & ((ratio < 0.05) | (ratio > 20))
@@ -648,7 +659,7 @@ class Baci:
     def group(self, g, year=BACI_YEAR):
         return self.df[(self.df["group"] == g) & (self.df["year"] == year)]
 
-    def ranked(self, g, side, u, div, what, extra=None):
+    def ranked(self, g, side, u, div, what, extra=None, digits=None):
         d = self.group(g)
         col = "o" if side == "exports" else "d"
         agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
@@ -680,7 +691,7 @@ class Baci:
             n.append(f"{est_share * 100:.0f}% of world tonnage estimated from value where missing or inconsistent")
         if extra:
             n.append(extra)
-        t = ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n))
+        t = ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n), digits=digits)
         if est_share >= 0.10:
             t["world"] = sig(world)
         return t, est_share
@@ -1066,7 +1077,7 @@ LITHIUM_MIN_UV = 1500  # USD per tonne
 # Lithium carbonate equivalent: tonnes of Li2CO3 per tonne of lithium, from the abridged standard atomic weights of CIAAW
 # (Li 6.94, C 12.011, O 15.999)
 CIAAW_URL = "https://www.ciaaw.org/abridged-atomic-weights.htm"
-LCE_PER_LI = (2 * 6.94 + 12.011 + 3 * 15.999) / (2 * 6.94)
+LCE_PER_LI = round((2 * 6.94 + 12.011 + 3 * 15.999) / (2 * 6.94), 3)  # as printed: the converted figure reproduces from it
 ABS_LITHIUM = ("Australian Bureau of Statistics, Insights into Australian Exports of Lithium, 4 August 2022, CC BY 4.0, "
                "https://www.abs.gov.au/articles/insights-australian-exports-lithium")
 
@@ -1125,6 +1136,15 @@ GUINEA_EXPORTS = ("official data seen by Reuters, in Hellenic Shipping News, Jan
                   "https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/")
 CHINA_TIN_ORE = ("SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs", 150.8, 75.3,
                  "https://news.metal.com/en/newscontent/103438801")
+# Pages read for the exporters whose HS 253090 rows are read as spodumene concentrate shipped to China (GW3.11): exporter -> (what
+# the page says, publisher and date, link). The ABS page is ABS_LITHIUM.
+SPODUMENE_PAGES = {
+    "ZWE": ("\"Most of the concentrate is exported to China for further processing\"", "Reuters, 3 February 2026, republished by Kitco",
+            "https://www.kitco.com/news/off-the-wire/2026-02-03/zimbabwe-spodumene-exports-11-2025-revenue-flat-soft-prices"),
+    "BRA": ("Sigma Lithium's lithium concentrate shipped to the port of Vitoria, Espirito Santo, bound for China (the page calls it green lithium concentrate) "
+            "and a cargo of lithium concentrate scheduled for Zhangjiagang, China", "Diario do Comercio, 6 February 2024, and SMM (Shanghai Metals Market), 18 July 2024",
+            "https://diariodocomercio.com.br/economia/sigma-exporta-maior-carregamento-litio-minas/ and https://news.metal.com/en/newscontent/102856969"),
+}
 BENCHMARK_COBALT = "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027"
 
 _HS4 = {}
@@ -1213,9 +1233,9 @@ def main():
             summ(d, "exports", d["exports"], "sum of all BACI crude oil flows, tonnes (all modes)")
             oil_demand(d)
             seaborne(d, g)
-            bpt = K.barrels_per_tonne(eia.s)
-            conv = (f"{bpt:.2f} barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand "
-                    "barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ")
+            bpt = round(K.barrels_per_tonne(eia.s), 2)  # the factor as printed: every converted figure reproduces from it
+            conv = (f"{bpt:.2f} barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand "
+                    "barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ")
             p, x = d["summary"]["production"], d["summary"]["exports"]
             alt_fig(p, p["v"] * 1e3 * (366 if _isleap(p["y"]) else 365) / bpt / 1e6, "Mt/yr", conv)
             alt_fig(x, x["v"] * 1e6 * bpt / (366 if _isleap(x["y"]) else 365) / 1e3, "kb/d", conv)
@@ -1242,12 +1262,12 @@ def main():
             sh = EIA_RUSSIA["shares"]
             notes.append(
                 f"Russia: the exports above rest on what importers declare (see the note on Russia). The U.S. Energy Information Administration "
-                f"(Country Analysis Brief: Russia, last updated 24 July 2025, public domain) puts Russia as the world's {EIA_RUSSIA['rank']} petroleum "
+                f"(Country Analysis Brief: Russia, last updated 24 July 2025, public domain, {EIA_RUSSIA_URL}) puts Russia as the world's {EIA_RUSSIA['rank']} petroleum "
                 f"product exporter in {EIA_RUSSIA['total_year']}, with {EIA_RUSSIA['total_mbd']} million b/d, and says that in {EIA_RUSSIA['share_year']} "
                 f"{sh[0][0]} received {sh[0][1]}% of Russia's product exports, {sh[1][0]} {sh[1][1]}%, and "
                 + ", ".join(n for n, _ in sh[2:-1]) + f" and {sh[-1][0]} {sh[-1][1]}% each. The units differ, so no ratio is computed."
-                + (f" Customs data record no flow from Russia to the United Arab Emirates in {BACI_YEAR}"
-                   f" ({_fmt(gone[-1][1])} Mt in {gone[-1][0]})." if gone else ""))
+                + (f" The Atlas customs extract holds no flow of 1,000 t or more (and 1 million USD or more) from Russia to the United Arab Emirates in {BACI_YEAR}"
+                   f" ({_fmt(gone[-1][1])} Mt in {gone[-1][0]}); smaller flows are not in the extract." if gone else ""))
         elif cid == "lng":
             g = add_baci_trade(d, cid, notes, disc)
             for sec in ("exports", "imports"):
@@ -1258,7 +1278,8 @@ def main():
             name_it(d, "exports", kpi=f"World LNG trade ({gw[0]})")
             seaborne(d, g)
             alt_fig(d["summary"]["exports"], gw[2] * BCM_PER_MT_LNG, "bcm", GAS_FACTOR)
-            alt_fig(d["summary"]["seaborne"], d["summary"]["seaborne"]["v"] * BCM_PER_MT_LNG, "bcm", GAS_FACTOR)
+            if "seaborne" in d["summary"]:
+                alt_fig(d["summary"]["seaborne"], d["summary"]["seaborne"]["v"] * BCM_PER_MT_LNG, "bcm", GAS_FACTOR)
             chk = lng_importer_check(baci, eia, BACI_YEAR)
             low = [r for r in chk if r[3] < 0.5]
             same = [r for r in chk if 0.9 <= r[3] <= 1.1]
@@ -1275,11 +1296,11 @@ def main():
             d["production"] = eia.ranked(("26-1", "BCM"), "bcm", 1.0, "dry natural gas production")
             d["consumption"] = eia.ranked(("26-2", "BCM"), "bcm", 1.0, "dry natural gas consumption")
             # countries are ranked on EIA volumes: customs tonnage of pipeline gas does not reconcile with them (see the notes)
-            via = "pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
+            via = "re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
             d["exports"] = eia.ranked(("26-4", "BCM"), "bcm", 1.0, "dry natural gas exports", n_extra=via)
             d["imports"] = eia.ranked(("26-3", "BCM"), "bcm", 1.0, "dry natural gas imports", n_extra=via)
             for sec in ("exports", "imports"):
-                add_caveat(d[sec], "Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page.")
+                add_caveat(d[sec], "Pipeline gas and LNG together: LNG is also listed on the LNG page.")
             g, (u, div), _ = TRADE[cid]
             pairs, npipes = gas_pipeline_pairs()
             d["flows"] = baci.flows(g, u, div, only_pairs=set(pairs))
@@ -1290,7 +1311,9 @@ def main():
             name_it(d, "flows", f"Pipeline pairs — customs tonnes, {BACI_YEAR}")
             for key in ("production", "consumption", "exports"):
                 summ(d, key, d[key], "EIA dry natural gas exports, world total: pipeline and LNG together" if key == "exports" else None)
-                alt_fig(d["summary"][key], d["summary"][key]["v"] / BCM_PER_MT_LNG, "Mt LNG", GAS_FACTOR)
+            # only the trade figure carries a second unit: a producer's gas expressed in LNG tonnes would read as LNG output
+            alt_fig(d["summary"]["exports"], d["summary"]["exports"]["v"] / BCM_PER_MT_LNG, "Mt LNG equivalent",
+                    GAS_FACTOR + "; gas volume expressed in tonnes of LNG, pipeline gas included, not LNG trade")
             ce, ci = baci.totals(g, "exports"), baci.totals(g, "imports")
             ee, ei = dict(eia.country_values(("26-4", "BCM"), BACI_YEAR)), dict(eia.country_values(("26-3", "BCM"), BACI_YEAR))
             notes += [
@@ -1436,6 +1459,12 @@ def main():
                     d[sec] = tabs[sec]
             g = add_baci_trade(d, cid, notes, disc)
             summ(d, "production", d["production"])
+            wp_ = d["production"].get("worldPublished")
+            if wp_:  # the key figure is the world total USGS publishes; the table's shares rest on the sum of its lines (said in the note)
+                kp = d["summary"]["production"]
+                kp["v"] = wp_
+                kp["n"] = (f"USGS MCS {USGS_EDITION}, world total as published (rounded); the countries it names and its 'Other countries' line add up to "
+                           f"{_nf(d['production']['world'])} {d['production']['u']}, on which the shares of the table are computed")
             if "reserves" in d:
                 summ(d, "reserves", d["reserves"])
             summ(d, "exports", d["exports"])
@@ -1635,23 +1664,31 @@ def main():
                 code, (_, exporters, importers, rest) = next(iter(HS_SPLIT.items()))
                 allc = baci.df[(baci.df["group"].isin(["spodumene", rest])) & (baci.df["year"] == BACI_YEAR)]
                 st, sv = sp["t"].sum() / allc["t"].sum(), sp["usd"].sum() / allc["usd"].sum()
-                t, _ = baci.ranked("spodumene", "exports", *MT, f"HS {code} rows to China only")
+                t, _ = baci.ranked("spodumene", "exports", *MT, f"HS {code} rows to China only", digits=3)
                 t["s"] = "atlas"
+                pages = [f"{cname(c)}: {ABS_LITHIUM}" if c == "AUS" else f"{cname(c)}: {SPODUMENE_PAGES[c][0]} ({SPODUMENE_PAGES[c][1]}, {SPODUMENE_PAGES[c][2]})"
+                         for c in exporters]
                 t["n"] = (f"Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS {code} ('mineral substances not elsewhere "
-                          f"specified'), keeping only the rows from {_and([cname(c) for c in exporters])} to {_and([cname(c) for c in importers])}, the countries "
-                          f"that ship spodumene there: {st:.0%} of the tonnage and {sv:.0%} of the value of the code in {BACI_YEAR}. These rows may still hold "
-                          f"other minerals. Customs gross weight of concentrate, not lithium content. " + t["n"])
+                          f"specified'), keeping only the rows from {_and([cname(c) for c in exporters])} to {_and([cname(c) for c in importers])}, the exporters for "
+                          f"which a page read by the atlas says they ship lithium concentrate to China (the pages are in the notes of the page): {st:.0%} of the tonnage and {sv:.0%} of the "
+                          f"value of the code in {BACI_YEAR}. These rows may still hold other minerals. Values shown to three significant digits. "
+                          "Customs gross weight of concentrate, not lithium content. " + t["n"])
                 extra = d.setdefault("extra", [])
                 extra.append({"key": "spodumene-exports", "title": f"Spodumene concentrate to China, {BACI_YEAR} (Atlas estimate)",
                               "table": set_basis(t, "concentrate, gross weight")})
                 uv = sp["usd"].sum() * 1e3 / sp["t"].sum()
                 notes.append(f"Spodumene concentrate, the ore concentrate of hard-rock lithium mines, is shown in its own table (Atlas estimate from HS {code}, "
-                             f"{_fmt(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {uv:,.0f} USD per tonne on average); it is not added to the chemicals "
+                             f"{sig(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {sig(uv)} USD per tonne on average); it is not added to the chemicals "
                              "tables, whose tonnes are of another product. Australia declares its spodumene concentrate under this code: its statistics office "
                              f"created the national subheading 25309011 'Lithium concentrates' for it in January 2021 ({ABS_LITHIUM}).")
+                notes.append("Pages read for the exporters of the spodumene table: " + "; ".join(pages) + ".")
+                skipped = allc[(allc["group"] == rest) & allc["o"].isin(HS_NOT_READ[code]) & allc["d"].isin(importers)].groupby("o")["t"].sum()
+                names = [f"{cname(c)} {skipped.get(c, 0) / 1e6:.2f} Mt" if skipped.get(c, 0) else f"{cname(c)} (no {BACI_YEAR} row)" for c in HS_NOT_READ[code]]
+                notes.append(f"Not read as spodumene: HS {code} rows to {_and([cname(c) for c in importers])} from {_and(names)} in {BACI_YEAR}. They may hold lithium "
+                             "concentrate, but the atlas found no page that says so for these exporters, so they stay out of the spodumene table.")
             pr = d["summary"].get("production")
             if pr and pr["u"] == "t Li":
-                alt_fig(pr, pr["v"] * LCE_PER_LI, "t LCE", f"{LCE_PER_LI:.3f} t of lithium carbonate (Li2CO3) per t of lithium, from the standard "
+                alt_fig(pr, pr["v"] * LCE_PER_LI / 1e6, "Mt LCE", f"{LCE_PER_LI:.3f} t of lithium carbonate (Li2CO3) per t of lithium, from the standard "
                         f"atomic weights of lithium, carbon and oxygen (CIAAW, {CIAAW_URL}); lithium carbonate equivalent is a unit, not a product traded")
         elif cid == "cobalt":
             ore, mat = hs4_exports(["2605"]), hs4_exports(["8105"])
@@ -1681,7 +1718,8 @@ def main():
             notes.append("Trade is steel products, gross weight: HS 72 (iron and steel) without pig iron, ferro-alloys and scrap (HS 7201 to 7205)." + tube
                          + " The world total adds up the exports of every country, so it includes trade between EU member states. USGS production is raw steel.")
             pr = d["production"]
-            notes.append(f"USGS lists {len(pr['rows'])} producing countries; Italy, Taiwan, Mexico, Indonesia, Canada, France and Spain, among others, are in its 'Other countries' line.")
+            notes.append(f"USGS names {len(pr['rows'])} producing countries; every other producer is in its 'Other countries' line ({_nf(pr['other'])} {pr['u']}), "
+                         "which the page shows apart from the countries it names but does not draw as rows.")
             wp, wdoc, wv, wu, wy, wurl, _ = WORLDSTEEL
             disc.append(f"Crude steel production {wy}: the USGS estimate is {_nf(pr['world'])} {pr['u']} for the listed countries and 'Other countries' "
                         f"(USGS rounds its world total to {_nf(us.table('Iron And Steel', 'Raw steel')['world'])} {pr['u']}); the {wp} reports {wv:,} {wu} of world crude steel "
@@ -1699,7 +1737,7 @@ def main():
                 disc.append(f"World mine production {wy}: the USGS estimate is {_nf(pr['world'])} {wu} (rounded); the {wp} reports {wv:,} {wu} ({wdoc}, {wurl}), "
                             f"so the USGS total is {1 - pr['world'] / wv:.0%} lower. The {wp} describes its {wy} figure as subject to revision; its own tables are not copied.")
                 notes.append(f"The table lists the {len(pr['rows'])} countries USGS names; its 'Other countries' line ({_nf(pr['other'])} {pr['u'].split()[0]}, "
-                             f"{pr['other'] / pr['world']:.0%} of the total) covers the rest, for instance Mali, Burkina Faso, Tanzania, Colombia and Papua New Guinea.")
+                             f"{pr['other'] / pr['world']:.0%} of the total) covers every other producer.")
         elif cid == "iron-ore":
             notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown.")
         elif cid == "manganese":
@@ -1711,17 +1749,17 @@ def main():
                          f"of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds {K.N_IN_UREA:.1%} nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.")
             notes += unotes
         elif cid == "potash":
-            k2o, f = d["production"], K.K2O_IN_KCL
-            kcl = {"y": k2o["y"], "s": "atlas", "u": "Mt KCl", "world": rnd(k2o["world"] / f), "rows": [{**r, "v": rnd(r["v"] / f)} for r in k2o["rows"]],
-                   "n": (f"Atlas conversion: {k2o['n']}, divided by {f:.3f}, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium "
-                         "chloride comparable with the trade tables; real products hold less K2O than pure potassium chloride, so their weight is somewhat higher. "
-                         "The K2O figures as published are in the table below")}
+            k2o, f = d["production"], round(K.K2O_IN_KCL, 4)  # the factor as printed: each converted figure reproduces from it, to 3 digits
+            kcl = {"y": k2o["y"], "s": "atlas", "u": "Mt KCl", "world": sig(k2o["world"] / f), "rows": [{**r, "v": sig(r["v"] / f)} for r in k2o["rows"]],
+                   "n": (f"Atlas conversion: {k2o['n']}, divided by {f:.4f}, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium "
+                         "chloride comparable with the trade tables, shown to three significant digits; real products hold less K2O than pure potassium chloride, "
+                         "so their weight is somewhat higher. The K2O figures as published are in the table below")}
             d["production"] = kcl
             d["extra"] = d.get("extra", []) + [{"key": "k2o-production", "title": "Top producers — Mt of K2O content, as published by USGS", "table": set_basis(k2o, "K2O content")}]
-            d["summary"]["production"] = fig(kcl["world"], kcl["u"], kcl["y"], "atlas",
-                                             f"Atlas conversion of the USGS world total of potash mine production, {_nf(k2o['world'])} Mt K2O, at {f:.3f} K2O per tonne of potassium chloride")
+            d["summary"]["production"] = {"v": kcl["world"], "u": kcl["u"], "y": kcl["y"], "s": "atlas",
+                                          "n": f"Atlas conversion of the USGS world total of potash mine production, {_nf(k2o['world'])} Mt K2O, at {f:.4f} t of K2O per tonne of potassium chloride, to three significant digits"}
             notes.append("Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium "
-                         f"chloride at {f:.3f} (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.")
+                         f"chloride at {f:.4f} (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.")
             fn = faostat_potash_note(baci, k2o)
             if fn:
                 notes.append(fn)
@@ -1759,6 +1797,11 @@ def main():
     annotate(docs, eia)
     registry_caveats(docs, baci)
     metal_row_notes(docs, baci)
+    # a country profile row carries the short caveat (`caveatShort`), the commodity page the long one (`caveat`) (GW3.7)
+    for sec, short in (("exports", "Customs tonnage: the order is not a world ranking (see the LNG page)."),
+                       ("imports", "Customs tonnage, which can miss LNG that an importer receives (see the LNG page).")):
+        if docs["lng"].get(sec, {}).get("caveat"):
+            docs["lng"][sec]["caveatShort"] = short
 
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
@@ -1827,8 +1870,8 @@ def _prec_disc(d, cid):
     ex, pr = d["exports"], d["production"]
     what = "World exports in fine-metal equivalent (Atlas estimate from customs values)" if ex["s"] == "atlas" else "BACI world exports"
     return (f"{what} {ex['world']:,.0f} {ex['u']} ({BACI_YEAR}) are {ex['world'] / pr['world']:.1f}x USGS world mine production "
-            f"{pr['world']:,.0f} {pr['u']} ({pr['y']}): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; "
-            "USGS used for production, BACI for trade.")
+            f"{pr['world']:,.0f} {pr['u']} ({pr['y']}): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not "
+            "comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade.")
 
 
 # Precious metals (audit C-035): customs tonnage is the gross weight of dore, alloys and the base metal in them, so the trade
@@ -1877,7 +1920,8 @@ def _fine_metal(d, baci, cid, disc):
     baci.df = pd.concat([baci.df[baci.df["group"] != fg], x], ignore_index=True)
     world_gross = x["t0"].sum() / div
     n = (f"Atlas estimate: fine-metal equivalent of every flow of {what} in CEPII BACI HS92, {BACI_YEAR}, all transport modes: {how}; "
-         f"never above the customs gross weight, which each row's note gives (world: {_fmt(world_gross)} {u} gross weight)")
+         f"never above the customs gross weight, which each row's note gives (world: {_fmt(world_gross)} {u} gross weight); "
+         "values shown to three significant digits")
     if cid == "pgm":
         n += ("; valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that "
               "are not in the loaded sources: a flow rich in them is overstated or understated")
@@ -1885,7 +1929,7 @@ def _fine_metal(d, baci, cid, disc):
         agg = x.groupby(col).agg(t=("t", "sum"), t0=("t0", "sum")).sort_values("t", ascending=False)
         rows = [(None if c in EXTRA_CODES else baci.iso(c), r["t"] / div, f"customs gross weight {_fmt(r['t0'] / div)} {u}")
                 for c, r in agg.head(TOP + 5).iterrows()]
-        d[side] = ranked(rows, BACI_YEAR, "atlas", u, world=x["t"].sum() / div, n=n)
+        d[side] = ranked(rows, BACI_YEAR, "atlas", u, world=x["t"].sum() / div, n=n, digits=3)  # an estimate: three significant digits
         _name_it(d, side, f"Top {side[:-1]}ers — fine-metal equivalent (Atlas estimate)")
     for m in baci.last_susp:  # the discrepancies of the gross-weight flows replaced below
         if m in disc:
@@ -1896,7 +1940,7 @@ def _fine_metal(d, baci, cid, disc):
         if cv and baci.caveats[cv]["text"] not in f.get("n", ""):
             f["n"] = joinn(f.get("n"), baci.caveats[cv]["text"])
     _name_it(d, "flows", f"Main flows — fine-metal equivalent (Atlas estimate), {BACI_YEAR}")
-    d["summary"]["exports"] = fig(x["t"].sum() / div, u, BACI_YEAR, "atlas", n)
+    d["summary"]["exports"] = {"v": sig(x["t"].sum() / div), "u": u, "y": BACI_YEAR, "s": "atlas", "est": True, "n": n}
     d["summary"]["exports"]["alt"] = {"v": rnd(world_gross), "u": f"{u} gross weight", "s": "baci", "y": BACI_YEAR,
                                       "n": "customs gross weight (CEPII BACI), estimated from value where it is missing or implausible"}
     _name_it(d, "exports", kpi="World exports (fine-metal equivalent)")
@@ -1979,12 +2023,24 @@ def update_sources():
         {"id": "wilhelmsen-lpg-sizes", "name": "Wilhelmsen: LPG vessel management (size categories of LPG carriers)", "publisher": "Wilh. Wilhelmsen",
          "url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management", "licence": "Public web page; a size band is cited with attribution (terms to be confirmed)",
          "update": "irregular", "access": "Web page, read by hand", "use": "Size band of the mid-size gas carrier class"},
+        {"id": "igu-lng-report-2025", "name": "IGU World LNG Report 2025 (2024 data)", "publisher": "International Gas Union",
+         "url": "https://igu.org/igu-reports/2025-world-lng-report",
+         "licence": "Copyright International Gas Union; the page states no reuse terms (its Terms & Conditions were not read), so only one world total is cited, with attribution (terms to be confirmed)",
+         "update": "annual (posted 22 May 2025)", "access": "Web page, read by hand",
+         "use": "World LNG trade in 2024 (411.24 Mt), beside the customs total of the LNG page"},
     ]
+    # fields of an existing entry that the builder corrects (the registry is otherwise only added to)
+    fixes = {"giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities"}}
     changed = False
     for s in new:
         if s["id"] not in have:
             src.append(s)
             changed = True
+    for s in src:
+        for k, v in fixes.get(s["id"], {}).items():
+            if s.get(k) != v:
+                s[k] = v
+                changed = True
     if changed:
         with open(p, "w", encoding="utf-8") as f:
             json.dump(src, f, indent=1, ensure_ascii=False)
@@ -2144,7 +2200,9 @@ def write_qa(index, docs, baci=None):
 # Figures quoted from publications. Each carries its publisher and year and is printed with them; the world
 # totals stand beside the customs total of the LNG page, none is used in a table of countries. GIIGNL: read in the
 # 2026 edition of its annual report (source id "giignl-2026"), which gives 2025 and, as the year before, 2024.
-# IGU: https://igu.org/igu-reports/2025-world-lng-report
+# IGU: https://igu.org/igu-reports/2025-world-lng-report (source id "igu-lng-report-2025")
+LNG_URL = {"GIIGNL": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf",
+           "IGU": "https://igu.org/igu-reports/2025-world-lng-report"}
 LNG_REFERENCE = [
     # (publisher, publication, figure, unit, year, what)
     ("GIIGNL", "Annual Report 2026 edition", 428, "Mt", 2025, "world LNG trade"),
@@ -2158,12 +2216,14 @@ EIA_US_LNG = {"series": "N9133US2", "year": 2024, "mmcf": 4367170}
 # Natural Resources Canada, "Conversion factors and common units to be used for North American Cooperation on Energy
 # Information" (page dated 2025-01-16): 1 million tonnes of LNG = 48.0279467 billion cubic feet of natural gas.
 BCF_PER_MT_LNG = 48.0279467
-BCM_PER_MT_LNG = BCF_PER_MT_LNG * 0.3048 ** 3  # the cubic foot is 0.3048 ** 3 m3 by definition: 1.36 bcm
+# the cubic foot is 0.3048 ** 3 m3 by definition: 1.36 bcm, the factor as printed (every converted figure reproduces from it)
+BCM_PER_MT_LNG = round(BCF_PER_MT_LNG * 0.3048 ** 3, 2)
 UNITS_URL = "https://natural-resources.canada.ca/climate-change/conversion-factors-common-units-used-north-american-cooperation-energy-information"
 GAS_FACTOR = (f"1 Mt of LNG = {BCF_PER_MT_LNG:.2f} bcf = {BCM_PER_MT_LNG:.2f} bcm of gas (Natural Resources Canada, conversion "
               "factors for North American energy information, 2025); it assumes a typical LNG composition")
 # U.S. Energy Information Administration, Country Analysis Brief: Russia (last updated 24 July 2025,
 # https://www.eia.gov/international/analysis/country/RUS), public domain, read in November 2026.
+EIA_RUSSIA_URL = "https://www.eia.gov/international/analysis/country/RUS"
 EIA_RUSSIA = {"rank": "fourth-largest", "total_year": 2023, "total_mbd": 1.9, "share_year": 2024,
               "shares": [("Türkiye", 17), ("China", 11), ("Singapore", 8), ("the United Arab Emirates", 8), ("India", 8), ("Brazil", 8)]}
 
@@ -2177,8 +2237,9 @@ def _isleap(y):
 
 
 def alt_fig(f, v, u, text):
-    """Second unit of a headline figure, printed in brackets by the site: an Atlas conversion with its factor."""
-    f["alt"] = {"v": rnd(v), "u": u, "s": "atlas", "y": f["y"], "n": "Atlas conversion: " + text}
+    """Second unit of a headline figure, printed in brackets by the site: an Atlas conversion with its factor, kept to three
+    significant digits (the stated factor reproduces the printed figure)."""
+    f["alt"] = {"v": sig(v), "u": u, "s": "atlas", "y": f["y"], "n": "Atlas conversion: " + text}
 
 
 def gas_pipeline_pairs():
@@ -2242,7 +2303,7 @@ def caveats(docs, eia):
     # LNG: the customs tables against the industry's world totals and the order its publisher gives
     lx = docs["lng"]["exports"]
     lw, ly = lx["world"], lx["y"]
-    refs = "; ".join(f"{pub} ({doc}): {v:g} {u} in {y}" for pub, doc, v, u, y, what in LNG_REFERENCE if what == "world LNG trade")
+    refs = "; ".join(f"{pub} ({doc}, {LNG_URL[pub]}): {v:g} {u} in {y}" for pub, doc, v, u, y, what in LNG_REFERENCE if what == "world LNG trade")
     text = (f"The country tables and their order are customs tonnage (CEPII BACI, {lw:.2f} Mt of world trade in {ly}), below the industry totals. {refs}.")
     us = next((r for r in LNG_REFERENCE if r[0] == "GIIGNL" and r[5].startswith("exports of the United States")), None)
     rows = lx["rows"]
@@ -2258,14 +2319,14 @@ def caveats(docs, eia):
     text += " Country profiles show no world rank for LNG."
     out["lng"] = {"exports": text, "discrepancies": [f"BACI LNG trade ({lw:.2f} Mt in {ly}) is below the industry totals: {refs}."]}
 
-    out["gold"] = {"exports": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
-                   "imports": "Includes refining and vaulting hubs; not a measure of final demand."}
-    out["silver"] = {"exports": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."}
-    out["pgm"] = {"exports": "May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the "
-                             "wrong code: this ranks trade, not mine supply.",
-                  "imports": "May include refining and trading hubs that re-export what they import; not a measure of final demand."}
-    out["refined-products"] = {"exports": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output.",
-                               "imports": "Includes storage and blending hubs that re-export what they import; not a measure of final demand."}
+    out["gold"] = {"exports": "This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
+                   "imports": "Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure."}
+    out["silver"] = {"exports": "This ranks customs trade, not mine supply: countries that refine or trade silver may rank high through re-exports, which the atlas does not measure."}
+    out["pgm"] = {"exports": "This ranks customs trade, not mine supply: countries that refine or trade platinum-group metals may rank high through re-exports, and some "
+                             "metal may be declared under another code; the atlas does not measure either.",
+                  "imports": "Customs trade, not final demand: countries that refine or trade these metals may rank high through re-exports, which the atlas does not measure."}
+    out["refined-products"] = {"exports": "This ranks customs trade, not refinery output: countries that store, blend and re-export products may rank high, which the atlas does not measure.",
+                               "imports": "Customs trade, not final demand: countries that store, blend and re-export products may rank high, which the atlas does not measure."}
     out["uranium"] = {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
                       "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]}
     out["cobalt"] = {"exports": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
@@ -2404,7 +2465,9 @@ def annotate(docs, eia):
             elif d.get(sec):
                 add_caveat(d[sec], text)
                 if sec in d.get("summary", {}):
-                    d["summary"][sec]["n"] = text
+                    kf = d["summary"][sec]
+                    # a key figure that holds an Atlas estimate keeps the note that says so, and the caveat follows it
+                    kf["n"] = joinn(kf.get("n"), text) if kf.get("est") or "Atlas estimate" in kf.get("n", "") else text
 
 
 if __name__ == "__main__":

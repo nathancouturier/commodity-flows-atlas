@@ -77,7 +77,7 @@ class PotashPageTests(unittest.TestCase):
         self.assertTrue(p["n"].startswith("Atlas conversion:"))
         can_k2o = next(r["v"] for r in k2o["rows"] if r["c"] == "CAN")
         can_kcl = next(r["v"] for r in p["rows"] if r["c"] == "CAN")
-        self.assertAlmostEqual(can_kcl, can_k2o / K.K2O_IN_KCL, places=2)
+        self.assertAlmostEqual(can_kcl, can_k2o / K.K2O_IN_KCL, delta=0.006 * can_kcl)  # three significant digits
         self.assertEqual(k2o["u"], "Mt K2O")
 
     def test_every_title_and_kpi_carries_its_unit(self):

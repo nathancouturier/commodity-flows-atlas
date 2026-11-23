@@ -16,11 +16,12 @@
    "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
   },
   "exports": {
-   "v": 32652.5,
+   "v": 32700,
    "u": "t",
    "y": 2024,
    "s": "atlas",
-   "n": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+   "est": true,
+   "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight); values shown to three significant digits; This ranks customs trade, not mine supply: countries that refine or trade silver may rank high through re-exports, which the atlas does not measure.",
    "alt": {
     "v": 51415.7,
     "u": "t gross weight",
@@ -158,148 +159,148 @@
   "y": 2024,
   "s": "atlas",
   "u": "t",
-  "world": 32652.5,
+  "world": 32700,
   "rows": [
    {
     "c": "CHN",
-    "v": 5534.5,
+    "v": 5530,
     "n": "customs gross weight 6,106 t"
    },
    {
     "c": "MEX",
-    "v": 3383.4,
+    "v": 3380,
     "n": "customs gross weight 3,456 t"
    },
    {
     "c": "KOR",
-    "v": 2426.9,
+    "v": 2430,
     "n": "customs gross weight 3,058 t"
    },
    {
     "c": "ARE",
-    "v": 2316.2,
+    "v": 2320,
     "n": "customs gross weight 2,699 t"
    },
    {
     "c": "DEU",
-    "v": 2181.7,
+    "v": 2180,
     "n": "customs gross weight 2,859 t"
    },
    {
     "c": "CHE",
-    "v": 1874.2,
+    "v": 1870,
     "n": "customs gross weight 2,068 t"
    },
    {
     "c": "JPN",
-    "v": 1646.2,
+    "v": 1650,
     "n": "customs gross weight 4,980 t"
    },
    {
     "c": "USA",
-    "v": 1413.8,
+    "v": 1410,
     "n": "customs gross weight 4,361 t"
    },
    {
     "c": "POL",
-    "v": 1354.7,
+    "v": 1350,
     "n": "customs gross weight 1,792 t"
    },
    {
     "c": "GBR",
-    "v": 1205.2,
+    "v": 1210,
     "n": "customs gross weight 3,189 t"
    },
    {
     "c": "CAN",
-    "v": 1175.5,
+    "v": 1180,
     "n": "customs gross weight 1,401 t"
    },
    {
     "c": "HKG",
-    "v": 818.94,
+    "v": 819,
     "n": "customs gross weight 892.0 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight); values shown to three significant digits · This ranks customs trade, not mine supply: countries that refine or trade silver may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent (Atlas estimate)",
-  "caveat": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
+  "caveat": "This ranks customs trade, not mine supply: countries that refine or trade silver may rank high through re-exports, which the atlas does not measure."
  },
  "imports": {
   "y": 2024,
   "s": "atlas",
   "u": "t",
-  "world": 32652.5,
+  "world": 32700,
   "rows": [
    {
     "c": "USA",
-    "v": 5811.0,
+    "v": 5810,
     "n": "customs gross weight 6,498 t"
    },
    {
     "c": "GBR",
-    "v": 4485.1,
+    "v": 4490,
     "n": "customs gross weight 4,835 t"
    },
    {
     "c": "HKG",
-    "v": 4396.9,
+    "v": 4400,
     "n": "customs gross weight 4,711 t"
    },
    {
     "c": "IND",
-    "v": 3936.6,
+    "v": 3940,
     "n": "customs gross weight 6,177 t"
    },
    {
     "c": "JPN",
-    "v": 1591.2,
+    "v": 1590,
     "n": "customs gross weight 2,211 t"
    },
    {
     "c": "CHN",
-    "v": 1482.7,
+    "v": 1480,
     "n": "customs gross weight 3,231 t"
    },
    {
     "c": "CAN",
-    "v": 1410.0,
+    "v": 1410,
     "n": "customs gross weight 1,497 t"
    },
    {
     "c": "ARE",
-    "v": 1243.2,
+    "v": 1240,
     "n": "customs gross weight 1,450 t"
    },
    {
     "c": "DEU",
-    "v": 1129.0,
+    "v": 1130,
     "n": "customs gross weight 1,583 t"
    },
    {
     "c": "CHE",
-    "v": 1062.3,
+    "v": 1060,
     "n": "customs gross weight 1,174 t"
    },
    {
     "c": "ITA",
-    "v": 786.59,
+    "v": 787,
     "n": "customs gross weight 921.6 t"
    },
    {
     "c": "THA",
-    "v": 726.93,
+    "v": 727,
     "n": "customs gross weight 1,161 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight)",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight); values shown to three significant digits",
   "basis": "fine-metal equivalent (Atlas estimate)"
  },
  "flows": [
   {
    "o": "CHN",
    "d": "HKG",
-   "v": 3405.5,
+   "v": 3410,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -309,7 +310,7 @@
   {
    "o": "MEX",
    "d": "USA",
-   "v": 2849.7,
+   "v": 2850,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -319,7 +320,7 @@
   {
    "o": "ARE",
    "d": "IND",
-   "v": 2169.2,
+   "v": 2170,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -329,7 +330,7 @@
   {
    "o": "CHN",
    "d": "GBR",
-   "v": 1577.0,
+   "v": 1580,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -339,7 +340,7 @@
   {
    "o": "CAN",
    "d": "USA",
-   "v": 1115.4,
+   "v": 1120,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -349,7 +350,7 @@
   {
    "o": "KOR",
    "d": "JPN",
-   "v": 1039.5,
+   "v": 1040,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -359,7 +360,7 @@
   {
    "o": "JPN",
    "d": "CHN",
-   "v": 1032.6,
+   "v": 1030,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -369,7 +370,7 @@
   {
    "o": "DEU",
    "d": "GBR",
-   "v": 926.69,
+   "v": 927,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -379,7 +380,7 @@
   {
    "o": "GBR",
    "d": "ARE",
-   "v": 541.76,
+   "v": 542,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -389,7 +390,7 @@
   {
    "o": "POL",
    "d": "GBR",
-   "v": 520.72,
+   "v": 521,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -399,7 +400,7 @@
   {
    "o": "CHE",
    "d": "GBR",
-   "v": 466.0,
+   "v": 466,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -409,7 +410,7 @@
   {
    "o": "GBR",
    "d": "IND",
-   "v": 437.53,
+   "v": 438,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -419,7 +420,7 @@
   {
    "o": "KOR",
    "d": "HKG",
-   "v": 434.55,
+   "v": 435,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -429,7 +430,7 @@
   {
    "o": "RUS",
    "d": "ARM",
-   "v": 428.64,
+   "v": 429,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -439,7 +440,7 @@
   {
    "o": "KOR",
    "d": "USA",
-   "v": 404.0,
+   "v": 404,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -449,7 +450,7 @@
   {
    "o": "MEX",
    "d": "JPN",
-   "v": 380.93,
+   "v": 381,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -459,7 +460,7 @@
   {
    "o": "BEL",
    "d": "DEU",
-   "v": 352.13,
+   "v": 352,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -469,7 +470,7 @@
   {
    "o": "USA",
    "d": "CAN",
-   "v": 336.53,
+   "v": 337,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -479,7 +480,7 @@
   {
    "o": "KAZ",
    "d": "GBR",
-   "v": 283.0,
+   "v": 283,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -489,7 +490,7 @@
   {
    "o": "CHL",
    "d": "USA",
-   "v": 273.56,
+   "v": 274,
    "u": "t",
    "y": 2024,
    "s": "atlas",
@@ -501,6 +502,6 @@
   "Trade tables and flows are in fine-metal equivalent, an Atlas estimate: the declared value of each flow (CEPII BACI) divided by the year's average price of the metal (World Bank Pink Sheet), never above the customs gross weight. Customs gross weight counts dore, alloys and the base metal they contain, and some declared quantities are wrong; it is given in the note of each row and in brackets after the world exports figure."
  ],
  "discrepancies": [
-  "World exports in fine-metal equivalent (Atlas estimate from customs values) 32,652 t (2024) are 1.3x USGS world mine production 26,000 t Ag (2025): trade counts refined/recycled metal and re-exports between hubs several times and is not comparable with mine output; USGS used for production, BACI for trade."
+  "World exports in fine-metal equivalent (Atlas estimate from customs values) 32,700 t (2024) are 1.3x USGS world mine production 26,000 t Ag (2025): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade."
  ]
 }

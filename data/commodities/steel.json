@@ -2,11 +2,11 @@
  "id": "steel",
  "summary": {
   "production": {
-   "v": 1823.0,
+   "v": 1900.0,
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,823 Mt, while the rounded world total of 1,900 Mt is 4.2% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (230 Mt); World Steel Association: 1,849.4 Mt in 2025 (see the discrepancies)"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 1,823 Mt, on which the shares of the table are computed; World Steel Association: 1,849.4 Mt in 2025 (see the discrepancies)"
   },
   "exports": {
    "v": 382.54,
@@ -75,7 +75,14 @@
    }
   ],
   "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,823 Mt, while the rounded world total of 1,900 Mt is 4.2% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (230 Mt)",
-  "other": 230.0
+  "other": 230.0,
+  "hidden": {
+   "v": 23.0,
+   "k": 1,
+   "from": 10,
+   "n": "1 further country named by USGS (Vietnam), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
+  "worldPublished": 1900.0
  },
  "exports": {
   "y": 2024,
@@ -454,7 +461,7 @@
  ],
  "notes": [
   "Trade is steel products, gross weight: HS 72 (iron and steel) without pig iron, ferro-alloys and scrap (HS 7201 to 7205). Tubes, pipes and hollow profiles (HS 7304 to 7306, chapter 73) are not included: all countries exported 35.8 Mt of them in 2024, 10.1 Mt by China (see the table of tube exporters). The world total adds up the exports of every country, so it includes trade between EU member states. USGS production is raw steel.",
-  "USGS lists 11 producing countries; Italy, Taiwan, Mexico, Indonesia, Canada, France and Spain, among others, are in its 'Other countries' line."
+  "USGS names 11 producing countries; every other producer is in its 'Other countries' line (230 Mt), which the page shows apart from the countries it names but does not draw as rows."
  ],
  "discrepancies": [
   "Crude steel production 2025: the USGS estimate is 1,823 Mt for the listed countries and 'Other countries' (USGS rounds its world total to 1,900 Mt); the World Steel Association reports 1,849.4 Mt of world crude steel production for 2025 (press release of 23 January 2026, https://worldsteel.org/media/press-releases/2026/december-2025-crude-steel-production-2025-global-crude-steel-production/). The table shows the USGS figures, which come by country; the World Steel Association's own tables are not copied."

@@ -157,9 +157,9 @@ def _break(g, o):
         past = [(y, c.exports(g, o, y)) for y in range(c.y - 5, c.y)]
         top_y, top = max(past, key=lambda p: p[1])
         if v2 > 0 and v > 2.5 * v2 and v - v2 >= 0.5:
-            s = f"{K.label(g).capitalize()} exports of {name(o)} in customs data rose from {mt(v2)} in {c.y - 2} to {mt(v)} in {c.y} (CEPII BACI)"
+            s = f"{K.cap_label(g)} exports of {name(o)} in customs data rose from {mt(v2)} in {c.y - 2} to {mt(v)} in {c.y} (CEPII BACI)"
         elif top >= 1 and v < 0.4 * top:
-            s = f"{K.label(g).capitalize()} exports of {name(o)} in customs data fell from {mt(top)} in {top_y} to {mt(v)} in {c.y} (CEPII BACI)"
+            s = f"{K.cap_label(g)} exports of {name(o)} in customs data fell from {mt(top)} in {top_y} to {mt(v)} in {c.y} (CEPII BACI)"
         else:
             return None
         k10 = c.finding("K10", group=g, country=o)
@@ -223,8 +223,8 @@ def _hub(g, o, check=None):
         if check:
             r = c.finding(check, country=o)
             s += f", {r['ratio']:.0%} of its production (EIA International Energy Data)"
-        return (s + ". As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped "
-                "from, not where it was produced.")
+        return (s + ". Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo "
+                "was last shipped from, not where it was produced; the atlas does not measure that share.")
     return text
 
 

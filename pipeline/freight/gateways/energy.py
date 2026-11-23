@@ -48,6 +48,8 @@ GIIGNL = "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-repor
 LIST = WP + "List_of_LNG_terminals"
 EIAI = "https://www.eia.gov/petroleum/imports/companylevel/"
 EIACAB = "https://www.eia.gov/international/analysis/country/"
+EIAL = "https://www.eia.gov/international/content/analysis/countries_long/"   # the long country briefs
+REFLIST = WP + "List_of_oil_refineries"
 
 EXTRA_ZONES = {
     "n-australia": "Northern Australia (Darwin)",
@@ -71,9 +73,19 @@ MANUAL_EXTRA = {
     # Offshore terminal (Halul Island lies 90 km northeast of Doha): coordinates of the page's infobox. It is further than
     # ports.SEAPORT_KM from the generalised coastline by nature (OFFSHORE).
     "QAHAL": ("Halul Island oil terminal", "QAT", 52.411, 25.675),
+    # Pengerang, Johor, is in no list of ports; the point is the town's, as given on its Wikipedia page (1.367 N, 104.117 E);
+    # private code, the UN/LOCODE was not read
+    "MYPEN": ("Pengerang", "MYS", 104.117, 1.367),
 }
 # Terminals in open water: the test of ports.is_seaport does not apply, a distance of 40 km does.
 OFFSHORE = {"QAHAL"}
+
+# Why an exporter's cargo "may" cross a passage: its load ports are options and no source gives the split. build_freight.py
+# can quote the text in the "up to" note of the passage (package FE4d). {(exporter, family): text}
+OPEN_REASONS = {
+    ("ARE", "crude"): "Emirati crude loads at Fujairah, outside the Strait of Hormuz, or at Das Island, inside it; the EIA country brief gives the capacity of the pipeline to Fujairah (1.8 million b/d) and the crude exports (about 3.1 million b/d, 2022-2025), not the share loaded at each port",
+    ("SAU", "crude"): "Saudi crude for Europe, the Mediterranean, North Africa and the Atlantic side of the Americas loads at Ras Tanura, inside the Strait of Hormuz, or at Yanbu on the Red Sea; the EIA country brief gives a record 18% of Saudi seaborne crude exports loaded at Yanbu in the second quarter of 2024, not a split by buyer",
+}
 ZONES = EXTRA_ZONES
 
 # {code: {zone, s, url}}, the layout of ports.MANUAL_SRC
@@ -85,6 +97,7 @@ MANUAL_SRC = {
     "YEBAL": {"zone": "red-sea", "s": "giignl-2026", "url": GIIGNL + "18"},
     "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
     "QAHAL": {"zone": "meg", "s": "wikipedia", "url": WP + "Halul_Island"},
+    "MYPEN": {"zone": "sea", "s": "wikipedia", "url": WP + "Pengerang"},
 }
 
 G = {
@@ -137,6 +150,13 @@ G = {
         ("IDTPP", "sea", {"products"}, "discharge", "wikipedia", WP + "Port_of_Tanjung_Priok", "The port has an oil terminal and a liquid bulk terminal"),
         ("IDBXT", "sea", {"lng"}, "load", "giignl-2026", GIIGNL + "19", None),
         ("IDNTI", "sea", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Tangguh, Bintuni Bay (the layer gives its capacity; Bontang's is not given, so Bontang stays first)"),
+        # Refinery rows of FE4d: a refinery at a coastal place, with its capacity, on the EIA country brief of Indonesia (August
+        # 2025, public domain). The order is the table's: the largest first. No page gives the share of Indonesia's crude imports
+        # (354,000 b/d in 2024, mostly from Nigeria and Gabon) that each refinery receives, so the refineries are options.
+        ("IDBPN", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "EIA country brief (August 2025), table of operating refineries: Balikpapan, East Kalimantan, 360 thousand barrels a day, the largest of the eight (Cilacap 348, Dumai 170, Balongan 150); the brief says Indonesia imported 354,000 b/d of crude oil and condensate in 2024. The brief names the refinery, not the berth, and gives no share of the imports by refinery"),
+        ("IDCXP", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Cilacap, Central Java (the table spells it 'Cilicap'), 348 thousand barrels a day; the brief says an expansion to 370 thousand is delayed to 2027. The searoute point Tanjung Intan stands for Cilacap: it lies 2 km from the coordinates of the Cilacap page (7 44 S, 109 0 E). The brief names the refinery, not the berth"),
+        ("IDDUM", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Dumai, Sumatra, 170 thousand barrels a day. The brief names the refinery, not the berth"),
+        ("IDBAL", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Indonesia/", "Same table: Balongan, West Java, 150 thousand barrels a day; the brief says a 90,000 b/d expansion is delayed to 2027. The brief names the refinery, not the berth"),
     ],
     "TUR": [
         ("TRMER", "med", {"products"}, "discharge", "wikipedia", WP + "Port_of_Mersin", "Mersin has a petroleum quay (ATAS refinery) and oil terminals"),
@@ -174,6 +194,15 @@ G = {
     ],
     "MYS": [
         ("MYBTU", "sea", {"lng"}, "load", "giignl-2026", GIIGNL + "19", None),
+        # FE4d: the EIA country brief of Malaysia (November 2024), table of operating refineries, 2023: Pengerang 300, Melaka
+        # (PSR-1 100 and PSR-2 170) 270, Port Dickson (Hengyuan 156, Petron 85) 241, Kerteh 121, Kemaman 30 thousand barrels a
+        # day. Melaka has no port in the searoute list and no coordinates were read for it, and the Kerteh point of the list is
+        # inland (not a seaport), so they are no rows; the brief also says Malaysia exported 1.3 million b/d of petroleum
+        # products in 2023 (79% to Asia Pacific), without naming a port.
+        ("MYPEN", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Malaysia/", "EIA country brief (November 2024), table of operating refineries, 2023: Pengerang (Petronas) 300 thousand barrels a day, the largest place; the point is the town of the Pengerang page. The brief names the refinery, not the berth"),
+        ("MYPDI", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Malaysia/", "Same table: Port Dickson, Hengyuan Refining 156 and Petron 85 thousand barrels a day (241 together). The brief names the refineries, not the berth"),
+        ("MYPEN", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Pengerang 300 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refinery, not the berth, and does not say which refinery exports"),
+        ("MYPDI", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Port Dickson 241 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refineries, not the berth, and does not say which refinery exports"),
     ],
     "RUS": [
         ("RUSAB", "arctic-russia", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Yamal LNG, Sabetta"),
@@ -205,10 +234,22 @@ G = {
     "JPN": [
         ("JPCHB", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Tokyo Bay (Sodegaura, Futtsu and Negishi terminals)"),
         ("JPCHB", "japan-korea", {"crude", "products"}, "discharge", "wikipedia", WP + "Port_of_Chiba", "The port 'imports crude petroleum, Liquefied Natural Gas, and other oil products'"),
+        # FE4d: the EIA country brief of Japan (July 2023), table of operating refineries: Chiba (Cosmo 179, ENEOS 129,
+        # Idemitsu 190) 498, Mizushima (ENEOS A 150 and B 200) 350, Yokkaichi (Cosmo 83, Idemitsu 255) 338 thousand barrels a
+        # day. The brief says Japan depends heavily on imports of crude oil; it names the refineries, not the berth.
+        ("JPMIZ", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "Japan/", "EIA country brief (July 2023), table of operating refineries: Mizushima, ENEOS units A 150 and B 200 thousand barrels a day (350 together), the second place after Chiba; the brief says Japan depends heavily on crude oil imports. It names the refineries, not the berth"),
+        ("JPYKK", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "Japan/", "Same table: Yokkaichi, Cosmo Oil 83 and Idemitsu 255 thousand barrels a day (338 together). The brief names the refineries, not the berth"),
     ],
     "KOR": [
         ("KRINC", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Incheon; Pyeong-Taek is 70 km south on the same coast"),
         ("KROKP", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Tong-Yeong, south coast (nearest port: Okpo)"),
+        # FE4d: the EIA country brief of South Korea (April 2023), table of operating refineries (FACTS Global Energy, fall 2022):
+        # the order is the table's, by place. The brief says South Korea 'relies on tanker shipments of liquefied natural gas (LNG)
+        # and crude oil'. It names the refineries by town, not the berth, and says nothing of exports of refined products.
+        ("KRUSN", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "South_Korea/", "EIA country brief (April 2023), table of operating refineries: Ulsan has SK Energy 781 and S-Oil 83 and 519 thousand barrels a day (1,383 together), the largest place; the brief says South Korea 'relies on tanker shipments of liquefied natural gas (LNG) and crude oil'. It names the refineries by town, not the berth"),
+        ("KRTSN", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "South_Korea/", "Same table: Daesan has Hanwha Total 167, Hyundai Oilbank 484 and Hyundai Lotte 158 thousand barrels a day (809 together). The brief names the refineries by town, not the berth"),
+        ("KRYOS", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "South_Korea/", "Same table: Yeosu, GS Caltex, 744 thousand barrels a day. The brief names the refinery by town, not the berth"),
+        ("KRINC", "japan-korea", {"crude"}, "discharge", "eia-cab", EIAL + "South_Korea/", "Same table: Incheon (spelled 'Inchean'), SK Energy 93 and 256 thousand barrels a day (349 together). The brief names the refineries by town, not the berth"),
     ],
     "CHN": [
         ("CNDJK", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Qingdao terminal (the largest of the layer), at Dongjiakou: the layer's point, 68 km from the searoute point Qingdao"),
@@ -228,9 +269,21 @@ G = {
         ("INHZA", "wc-india", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", None),
         ("INVAD", "wc-india", {"crude"}, "discharge", "wikipedia", WP + "Vadinar", "Vadinar has the offshore oil terminal of Deendayal Port (single-buoy moorings of Indian Oil, one of the Essar refinery) and a crude oil terminal of Indian Oil; the Reliance refinery is close by (the page does not say imports)"),
         ("INPRT", "ec-india", {"crude"}, "discharge", "wikipedia", WP + "Paradip_Port", "East coast: the port 'mainly transports bulk cargoes and crude oil' and has single point mooring terminals handling captive crude oil for Indian Oil"),
+        # FE4d, products load: the EIA country brief of India (February 2025) lists the refineries by town and says India
+        # exports petroleum products ('Transportation fuels accounted for most (84%) of India's petroleum product exports', 2023); it
+        # names no port. Order: the table's, by coastal place (Jamnagar 771 and 666, Mumbai 241 and 190, Vadinar 404); the other
+        # coastal places (Kochi 312, Mangalore 303, Visakhapatnam 300, Paradip 300) come after, and the engine takes three.
+        ("INSIK", "wc-india", {"products"}, "load", "wikipedia", WP + "Jamnagar_Refinery", "The Jamnagar refinery (Reliance), 'currently the largest oil refinery in the world' (1,240,000 barrels a day on the page; the EIA brief gives 771 and 666 thousand b/d at Jamnagar), is a complex with 'port facilities', and the page says it exports oil products. The Sikka page says Reliance operates one of the largest grass-root refineries there, in a coastal town with a port: Sikka stands for the refinery's port, and neither page names the berth"),
+        ("INBOM", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "EIA country brief (February 2025), table of refineries: Mumbai, Bharat Petroleum 241 and Hindustan Petroleum 190 thousand barrels a day (431 together); the brief says India exports petroleum products, 84% of them transportation fuels in 2023. It names the refineries by town, not the berth, and does not say which refinery exports"),
+        ("INVAD", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "Same table: Vadinar, Nayara Energy, 404 thousand barrels a day; the brief says India exports petroleum products. It names the refinery by town, not the berth, and does not say which refinery exports"),
     ],
     "NLD": [
         ("NLEUR", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Gate terminal, Maasvlakte (nearest port: Europoort)"),
+        # FE4d: the Wikipedia list of oil refineries (capacities as the list gives them); the EIA country brief of the Netherlands
+        # (August 2016) names no refinery by place but says the country imported crude oil primarily from Russia, Norway, Nigeria,
+        # the United Kingdom and Kuwait in 2015. No page says that the refineries export products, so no products row.
+        ("NLRTM", "nw-europe", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names three refineries at Rotterdam with their capacity: Pernis (Shell) 404,000 barrels a day, Rotterdam (BP) 400,000 and Botlek (Esso, ExxonMobil) 190,000 (994,000 together), the largest place; the EIA country brief (2016) says the Netherlands imported crude oil primarily from Russia, Norway, Nigeria, the United Kingdom and Kuwait in 2015. The list names the refineries, not the berth"),
+        ("NLVLI", "nw-europe", {"crude"}, "discharge", "wikipedia", REFLIST, "The list gives the Zeeland refinery (TotalEnergies 55%, Lukoil 45%) at 'Industrial East Flushing' (Vlissingen), 190,000 barrels a day. The list names the refinery, not the berth"),
     ],
     "BEL": [
         ("BEZEE", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", None),
@@ -243,6 +296,13 @@ G = {
     ],
     "ESP": [
         ("ESBCN", "med", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
+        # FE4d: the Wikipedia list of oil refineries; the EIA country brief of Spain (September 2017) says Spain 'imports virtually
+        # all of the oil needed to meet its demand' and names no refinery by place. The list places a refinery at Gibraltar-San
+        # Roque (240,000 b/d) and at La Rabida, Huelva (190,000), whose ports are not tied to a searoute point by any page read:
+        # no rows. Puertollano (170,000) is inland.
+        ("ESBIO", "nw-europe", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Bilbao Muskiz refinery (Petronor, Repsol), 240,000 barrels a day; the Port of Bilbao page names petroleum at Petronor among its liquid cargo. The list names the refinery, not the berth"),
+        ("ESCAR", "med", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Cartagena refinery (Repsol), Murcia, 220,000 barrels a day. The list names the refinery, not the berth"),
+        ("ESTAR", "med", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Tarragona refinery (Repsol), 186,000 barrels a day, and an asphalt refinery (ASESA), 20,000. The list names the refineries, not the berth"),
     ],
     "PRT": [
         ("PTSIE", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Atlantic coast"),
@@ -265,12 +325,27 @@ G = {
     ],
     "THA": [
         ("THMTP", "sea", {"lng"}, "discharge", "wikipedia", LIST, "Map Ta Phut LNG terminal (phase 1, 2011)"),
+        # FE4d: the list of oil refineries names Si Racha for one refinery (Bangchak, 177,000 b/d) and gives no place for the larger
+        # ones (Thai Oil 275,000, PTT Global Chemical 280,000, IRPC 215,000); the Si Racha page names a jetty owned by Thai Oil
+        # where a tanker was being filled (2023 spill). The EIA country brief (February 2017) says Thailand is a net importer of
+        # crude oil (866,000 b/d in 2016, 'according to tanker data') and a net exporter of products, 'primarily diesel, fuel oil, and
+        # jet fuel'. The Laem Chabang page names three refineries without capacity, so Laem Chabang is no row.
+        ("THSRI", "sea", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Bangchak Si Racha refinery, 177,000 barrels a day, and Thai Oil's refinery, 275,000 (no place given); the Si Racha page names a jetty owned by Thai Oil at which an oil tanker was being filled; the EIA country brief (2017) says Thailand is a net importer of crude oil, 866,000 b/d in 2016 according to tanker data. The pages name the refinery, not the berth"),
+        ("THSRI", "sea", {"products"}, "load", "eia-cab", EIACAB + "THA", "EIA country brief (February 2017): Thailand is 'a net exporter of petroleum products', 'primarily diesel, fuel oil, and jet fuel', exported to regional markets; Si Racha has the Bangchak refinery (177,000 b/d, Wikipedia list of oil refineries) and a jetty of Thai Oil where a tanker was being filled (Si Racha page). No page names the berth or says which refinery exports"),
     ],
     "ITA": [
         ("ITCHI", "med", {"lng"}, "discharge", "wikipedia", LIST, "Adriatic LNG, offshore Porto Levante near Rovigo (nearest port: Chioggia)"),
         ("ITLIV", "med", {"lng"}, "discharge", "wikipedia", LIST, "OLT Toscana terminal, offshore Livorno"),
         ("ITSPE", "med", {"lng"}, "discharge", "wikipedia", LIST, "Panigaglia terminal, La Spezia"),
-        # No crude row: Trieste's crude is the Transalpine pipeline's (Austria, Germany, Czechia), see UNSOURCED_PORTS.
+        # No Trieste crude row: its crude is the Transalpine pipeline's (Austria, Germany, Czechia), see UNSOURCED_PORTS.
+        # FE4d: the Wikipedia list of oil refineries names the refineries at coastal places with their capacity, in this order:
+        # Priolo (ISAB) 220, Milazzo (RAM) 200, Sarroch 135, Taranto 120, Augusta (RASIOM) 100, Falconara Marittima 85 thousand
+        # barrels a day. Milazzo has no searoute port and Sarroch no page that ties it to the port of Cagliari: no rows. The EIA
+        # country brief of Italy (August 2017) says Italy's net imports of petroleum and other liquids were above 1.2 million b/d
+        # in 2016 and that it exports about 0.6 million b/d of refined products (no products row: it names no refinery or port).
+        ("ITPRI", "med", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Impianti Sud (ISAB, Lukoil) refinery at Priolo, Sicily, 220,000 barrels a day, the largest of the coastal places it names for Italy. The list names the refinery, not the berth"),
+        ("ITTAR", "med", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Taranto refinery (Eni), 120,000 barrels a day, 6.5 million tonnes of crude oil a year. The list names the refinery, not the berth"),
+        ("ITAUG", "med", {"crude"}, "discharge", "wikipedia", REFLIST, "The list names the Augusta refinery (RASIOM), Sicily, 100,000 barrels a day; Priolo and Augusta are on the same bay. The list names the refinery, not the berth"),
     ],
     "PAK": [
         ("PKBQM", "wc-india", {"lng"}, "discharge", "wikipedia", LIST, "Engro Elengy terminal and GasPort, Port Qasim, Karachi"),
@@ -420,15 +495,31 @@ UNSOURCED = {
 
 # Gateways of the engine's worklist (country/family/role) for which no page read names the cargo at a port: the
 # loader's fallback applies (the port used before, "no source page yet" on the site). What is missing is stated.
+#
+# Package FE4d gave rows to the crude discharge of Indonesia, South Korea, the Netherlands, Spain, Italy, Malaysia,
+# Thailand and Japan, and to the products load of India, Malaysia and Thailand, from the refineries that the EIA country
+# briefs and the Wikipedia list of oil refineries name at coastal places (orchestrator's decision: a refinery is evidence).
+# What those pages left out, by country:
+#   Malaysia   Melaka (PSR-1 100 and PSR-2 170 thousand b/d, the second place of the EIA table) has no port in the searoute list
+#              and no coordinates were read for it; the Kerteh point of the list (121) is inland. Pengerang and Port Dickson are rows.
+#   Spain      the list places refineries at Gibraltar-San Roque (240,000 b/d), La Rabida in Huelva (190,000), La Coruna (120,000),
+#              Castellon (100,000) and Tenerife (90,000): no page ties San Roque or La Rabida to a port of the searoute list, which
+#              has no Huelva and no La Coruna. Bilbao, Cartagena and Tarragona are rows.
+#   Korea      Incheon (349 thousand b/d) is a row that no pair reaches: the engine takes three gateways per end (ports.MAX_OPTIONS).
+#   India      Kochi (312), Mangalore (303), Visakhapatnam (300), Paradip (300), Manali (212) and Haldia (162) are coastal places of the
+#              EIA table with a port in the searoute list; the three larger places (Jamnagar at Sikka, Mumbai, Vadinar) fill the
+#              three gateways of the engine, so they are no rows.
+#   Italy      Eurostat mar_go_am_it, liquid bulk goods (crude, products and chemicals together), 2024, thousand tonnes inwards by
+#              port: Trieste 40,783, Augusta 13,354, Porto Foxi (Sarroch) 12,739, Genoa 11,129, Siracusa 6,822, Venice 6,527,
+#              Milazzo 3,926 (package FE4c). No crude split, so it ranks no crude port; Trieste's crude is the Transalpine pipeline's
+#              (34.9 Mt in 2012 on its page, no Italian share). Milazzo (RAM, 200 thousand b/d) has no searoute port and Sarroch (135)
+#              no page that ties it to Cagliari: no rows.
 UNSOURCED_PORTS = {
-    "NLD/crude/discharge": "Port of Rotterdam, Europoort, Botlek, Pernis and Maasvlakte pages read: refineries and tank storage, no crude oil named at a port (the EIA country brief of the Netherlands, read, gives storage in Rotterdam, 'more than 170 million barrels' at the beginning of 2014, and calls Amsterdam a gasoline hub: no tonnage by port; the Port of Rotterdam Authority's throughput statistics by cargo, a free page whose address was not found, would settle it)",
-    "NLD/products/load": "same pages: no products named at a port",
-    "NLD/products/discharge": "same pages: no products named at a port",
-    "KOR/crude/discharge": "Ulsan, Port of Ulsan, Yeosu, SK Innovation, GS Caltex and HD Hyundai Oilbank pages read: refineries and crude imports by company, no port or terminal named (the EIA country brief of South Korea, read, lists the refineries by town: Ulsan 1,383, Daesan 809, Yeosu 744 and Incheon 349 thousand barrels a day in its 2022 table, no port; the national port statistics of the Ministry of Oceans and Fisheries by port and cargo would settle it)",
-    "KOR/products/load": "same pages: no port named for exports",
-    "KOR/products/discharge": "same pages: no port named",
-    "KOR/lpg/discharge": "same pages: no port named",
-    "IND/products/load": "Jamnagar refinery and Sikka pages read: oil products exported by the refinery whose complex has port facilities, Sikka port not named (the EIA country brief of India, read, lists the refineries by town: Jamnagar, Vadinar, Kochi, Mangalore, Visakhapatnam, Paradip, Mumbai, Manali and Haldia among others, no port)",
+    "NLD/products/load": "FE4d: the list of oil refineries and the EIA country brief of the Netherlands (2016) name refineries, storage in Rotterdam (more than 170 million barrels at the beginning of 2014) and Amsterdam as a gasoline hub, and say nothing of exports of products at a port; the Port of Rotterdam, Europoort, Botlek, Pernis and Maasvlakte pages name no products at a port",
+    "NLD/products/discharge": "same pages as NLD/products/load: no products named at a port",
+    "KOR/products/load": "FE4d: the EIA country brief of South Korea (2023) says nothing of exports of refined products (it names petrochemicals among the exports) and no page read names a port for them; the Ulsan, Yeosu, SK Innovation, GS Caltex and HD Hyundai Oilbank pages name no port or terminal",
+    "KOR/products/discharge": "same pages as KOR/products/load: no port named",
+    "KOR/lpg/discharge": "same pages as KOR/products/load: no port named (the brief says new petrochemical facilities need more LPG and naphtha)",
     "IND/products/discharge": "no page read names products imports at a port",
     "IND/lpg/discharge": "Mundra Port page names liquid cargo and a liquid terminal, not LPG",
     "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port; the EIA file of company-level imports covers imports only, and no free statistic of exports by port was found (EIA publishes exports by PADD, not by port)",
@@ -438,22 +529,16 @@ UNSOURCED_PORTS = {
     "BRA/products/load": "no page read",
     "BRA/products/discharge": "Port of Santos page names liquid bulk only",
     "FRA/crude/discharge": "Fos-sur-Mer and Port of Marseille pages read: oil industry, no crude oil named at a port",
-    "ESP/crude/discharge": "Port of Algeciras, Huelva, Bilbao and Tarragona pages read: no crude oil named at a port (the EIA country brief of Spain, read, names LNG terminals only; Eurostat's mar_go_am_es, built like the Italian table (liquid bulk by port, no crude split), would rank the ports but name no crude)",
     "ESP/products/load": "same pages",
     "ESP/products/discharge": "same pages",
-    "ITA/crude/discharge": "Trieste is no row: its crude is mostly the Transalpine pipeline's, in transit to Austria, Germany and Czechia (the Transalpine page gives 34.9 Mt in 2012, no Italian share), while Italy's own refineries stand at Augusta/Priolo, Sarroch, Milazzo and on the Tyrrhenian and Adriatic coasts. No page names crude at those ports: Augusta, Port of Augusta, Priolo Gargallo, Sarroch, Saras, Milazzo, Port of Cagliari, Livorno, Genoa and Taranto pages read (refineries, 'hydrocarbons' at Milazzo, 'oil' berths at Cagliari). Eurostat mar_go_am_it, liquid bulk goods (crude, products and chemicals together, no split by cargo), 2024, thousand tonnes inwards by port: Trieste 40,783, Augusta 13,354, Porto Foxi (Sarroch) 12,739, Genoa 11,129, Siracusa 6,822, Venice 6,527, Milazzo 3,926; this ranks the refinery ports (Augusta first) but names no crude. The port used before (Augusta) answers",
     "KWT/crude/load": "Ahmadi Governorate page: the first Kuwaiti oil export left Mina Al-Ahmadi in 1946 (history, no recent volume); Kuwait National Petroleum Company page: refineries, no port. No page names crude loading at a port today. The port used before (Mina al-Ahmadi) answers",
     "ECU/crude/load": "Esmeraldas page: terminus of the Trans-Ecuadorian pipeline and a refinery, the port exports wood and bananas, 'the port of Balao is an important oil processing facility'; no page names tankers loading crude. The port used before (Esmeraldas) answers",
-    "IDN/crude/discharge": "Cilacap (Java, south coast), Balikpapan, Dumai and the Pertamina refinery table (Wikipedia Pertamina; EIA country brief, 2025: Cilacap 348 thousand barrels a day, the largest) read: they place refineries in provinces and towns and name no crude or product at a port. The Cilacap page calls the town a sea port that 'is a hub for national or international trade' and the site of Pertamina's largest processing unit, which is not a cargo at the port; the Balongan page does not exist on Wikipedia and the Pertamina pages are scripts that show no text. Balikpapan, on the Makassar Strait, stays the port used before (28 Mt of tanker cargo of the pairs cross the Makassar Strait because of it, test C06); a Java port needs a page that names crude, products or LPG at Cilacap or Balongan (Pertamina, the port authority Pelindo or the Ministry of Transport)",
-    "IDN/products/load": "same pages",
-    "IDN/lpg/discharge": "same pages",
-    "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named",
-    "ITA/products/discharge": "same pages",
-    "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude (the EIA country brief of Thailand, read, names the Map Ta Phut LNG terminal only)",
+    "IDN/products/load": "FE4d: the EIA country brief of Indonesia (2025) says nothing of exports of refined products (Indonesia imported 791,000 b/d of them in 2024, 38% from Singapore) and names no port; the products load of Indonesia stays on the port used before",
+    "IDN/lpg/discharge": "FE4d: the EIA country brief of Indonesia (2025) gives LPG as 2.2% of production and names no port; no page read names LPG at a port",
+    "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named; the EIA country brief of Italy (2017) says Italy exported about 0.6 million b/d of refined products in 2016 and names no refinery or port",
+    "ITA/products/discharge": "same pages as ITA/products/load",
     "MYS/crude/load": "Kerteh page names the Terengganu Crude Oil Terminal but gives the town's coordinates (inland), and no searoute port lies within a few km; Labuan page says crude oil is exported, the searoute point for Labuan is inland (the EIA country brief of Malaysia, read, lists the refineries by town: Melaka, Pengerang, Port Dickson, Kerteh and Kemaman, no port)",
-    "MYS/products/load": "Kuantan and Port Dickson pages read: no products named at a port",
-    "MYS/products/discharge": "same pages",
-    "MYS/crude/discharge": "same pages",
+    "MYS/products/discharge": "FE4d: Kuantan and Port Dickson pages read: no products named at a port; the EIA country brief of Malaysia (2024) names refineries and exports, not imports at a port",
     "GUY/crude/load": "no page read (the Wikipedia article on the Stabroek block was not found)",
     "SAU/products/load": "Jubail and Yanbu pages read: refineries and 'petroleum' shipping, no refined products named at a port",
     "SAU/lpg/load": "Ras Tanura page names oil and gas exports, not LPG",

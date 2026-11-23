@@ -288,7 +288,7 @@
   "licence": "Public PDF, (c) GIIGNL; a few facts cited with attribution, nothing redistributed (terms to be confirmed)",
   "update": "Annual (2026 edition covers calendar 2025, with some 2026 events)",
   "access": "Public PDF report, read by hand",
-  "use": "LNG liquefaction and regasification capacities"
+  "use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities"
  },
  {
   "id": "wikipedia-vessel-classes",
@@ -423,5 +423,15 @@
   "update": "quarterly",
   "access": "Web pages, read by hand",
   "use": "World cocoa production per crop year, beside the FAOSTAT table"
+ },
+ {
+  "id": "igu-lng-report-2025",
+  "name": "IGU World LNG Report 2025 (2024 data)",
+  "publisher": "International Gas Union",
+  "url": "https://igu.org/igu-reports/2025-world-lng-report",
+  "licence": "Copyright International Gas Union; the page states no reuse terms (its Terms & Conditions were not read), so only one world total is cited, with attribution (terms to be confirmed)",
+  "update": "annual (posted 22 May 2025)",
+  "access": "Web page, read by hand",
+  "use": "World LNG trade in 2024 (411.24 Mt), beside the customs total of the LNG page"
  }
 ]

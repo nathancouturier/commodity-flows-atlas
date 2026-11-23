@@ -6,28 +6,14 @@
    "u": "bcm",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)",
-   "alt": {
-    "v": 3139.6,
-    "u": "Mt LNG",
-    "s": "atlas",
-    "y": 2025,
-    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
-   }
+   "n": "EIA International Energy Data, dry natural gas production; world total as published by EIA (all countries)"
   },
   "consumption": {
    "v": 4272.4,
    "u": "bcm",
    "y": 2025,
    "s": "eia-intl",
-   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)",
-   "alt": {
-    "v": 3141.5,
-    "u": "Mt LNG",
-    "s": "atlas",
-    "y": 2025,
-    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
-   }
+   "n": "EIA International Energy Data, dry natural gas consumption; world total as published by EIA (all countries)"
   },
   "exports": {
    "v": 1289.2,
@@ -36,11 +22,11 @@
    "s": "eia-intl",
    "n": "EIA dry natural gas exports, world total: pipeline and LNG together",
    "alt": {
-    "v": 947.94,
-    "u": "Mt LNG",
+    "v": 948,
+    "u": "Mt LNG equivalent",
     "s": "atlas",
     "y": 2025,
-    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition"
+    "n": "Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition; gas volume expressed in tonnes of LNG, pipeline gas included, not LNG trade"
    }
   }
  },
@@ -216,8 +202,8 @@
     "v": 20.56
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page.",
-  "caveat": "Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page."
+  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
+  "caveat": "Pipeline gas and LNG together: LNG is also listed on the LNG page."
  },
  "imports": {
   "y": 2025,
@@ -274,8 +260,8 @@
     "v": 35.005
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page.",
-  "caveat": "Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page."
+  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
+  "caveat": "Pipeline gas and LNG together: LNG is also listed on the LNG page."
  },
  "flows": [
   {

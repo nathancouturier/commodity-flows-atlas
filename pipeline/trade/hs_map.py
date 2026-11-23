@@ -66,9 +66,13 @@ STEEL_EXCLUDE = ("7201", "7202", "7203", "7204", "7205")
 
 # A code that mixes products, split by trading partners: hs6 -> (group of the listed pairs, exporters, importers,
 # group of the other rows). HS 253090 ("mineral substances n.e.s.") holds spodumene concentrate with other minerals;
-# its rows from the countries that ship spodumene to China are read as spodumene (an Atlas estimate, said so on the
-# lithium page); the rest of the code is kept as "minerals-nes" only to measure the share the subset is of it.
-SPLIT = {"253090": ("spodumene", ("AUS", "ZWE", "BRA", "NGA", "MLI", "CAN"), ("CHN",), "minerals-nes")}
+# its rows from the exporters for which a page read by the atlas says they ship lithium concentrate to China are read
+# as spodumene (an Atlas estimate, said so on the lithium page, with the pages): Australia (ABS national subheading
+# 25309011), Zimbabwe (Reuters) and Brazil (Diario do Comercio, SMM). The rest of the code is kept as "minerals-nes"
+# only to measure the share the subset is of it. SPLIT_NOT_READ: exporters read as spodumene in an earlier version of
+# this list, for which no page was found; the lithium page names their tonnage in a note.
+SPLIT = {"253090": ("spodumene", ("AUS", "ZWE", "BRA"), ("CHN",), "minerals-nes")}
+SPLIT_NOT_READ = {"253090": ("NGA", "MLI", "CAN")}
 
 
 def build_lookup():

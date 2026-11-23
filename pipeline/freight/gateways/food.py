@@ -56,8 +56,8 @@ G = {
     ],
     "MMR": [
         ("MMRGN", "sea", ("box",), "both", "wikipedia", W + "Port_of_Yangon",
-         "Yangon: the country's largest port, Thilawa, and the other Yangon ports; the page says 90% of trade was handled in the Yangon ports in 2019 "
-         "and names a container service; no grain, fertiliser or edible oil (the page does not name the cargo of Sittwe)"),
+         "Yangon: the country's largest port; the page says 90% of trade was handled in the Yangon ports, "
+         "not including Thilawa, as of 2019, and names a container service; no grain, fertiliser or edible oil (the page does not name the cargo of Sittwe)"),
     ],
     "CHN": [
         ("CNTSN", "n-china", ("box",), "discharge", "wikipedia", W + "Port_of_Tianjin",

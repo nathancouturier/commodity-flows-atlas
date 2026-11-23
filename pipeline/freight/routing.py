@@ -59,15 +59,35 @@ PARALLEL = [
 ]
 PARALLEL_PCT, PARALLEL_NM = 0.05, 300
 
+# Passages outside PARALLEL that a route may avoid when a route of similar length (PARALLEL_PCT or PARALLEL_NM)
+# goes round them, published as "may cross". Only where the way round is open sea in common use; elsewhere the
+# shortest route under the class limits is the atlas's route and its passages are certain (classify() also tests a
+# passage that a class of the lane may not use under the draught rule, Torres for a Capesize). plan() still measures
+# the route around every gate, so classify(..., around=GATES) gives the stricter reading for the QA file.
+# - korea-strait: the network runs Pacific routes to the Yellow Sea through the Tsugaru Strait and the Sea of
+#   Japan; south of Japan by the Osumi Strait is 1 to 4.5% longer (Callao to Qingdao 9,342 / 9,587 nm), about
+#   120 Mt of American cargo to northern China (review GE6.11, measured by package FE2b).
+# Left out, measured the same way (2024 pairs, "at least" with every gate tested): Lombok 849 to 0 Mt (the Alas
+# Strait, +53 nm from Port Hedland to Qingdao), Makassar 1,036 to 31 Mt (Ombai, the Banda and Molucca Seas,
+# +112 nm), Dover 481 to 268 Mt (north of Scotland, Corpus Christi to Rotterdam +157 nm), Singapore 1,053 to
+# 922 Mt (the Durian Strait through the Riau islands), Ombai 73 to 0 Mt (south of Timor, +56 nm), Luzon 34 to
+# 0 Mt (through the Philippine archipelago), against IMF PortWatch's 950 and 1,085 Mt of dry cargo at Lombok
+# and Makassar in 2024: the network's passages there are not how these ships sail.
+ROUTE_AROUND = frozenset({"korea-strait"})
+
 # The network has a lane along 50 S that no cargo ship uses between South America and Asia: every edge with
 # a point south of 42 S between 55 W and 140 E is always forbidden.
 SOUTHERN_OCEAN = {"lat": -42.0, "lon": (-55.0, 140.0)}
 ALWAYS_AVOID = ("southern-ocean",)
 
-# Network edges that no ocean-going ship can sail, closed in every route (not gates: never in `via`). The
+# Network edges that the ships the atlas routes cannot sail, closed in every route (not gates: never in `via`). The
 # network runs through the Johor Strait, which the Johor-Singapore Causeway (about 103.77 E) blocks; through it
-# a route would leave Singapore without crossing the Singapore gate.
-CLOSED = {"johor-causeway": [(103.77, 1.40), (103.77, 1.52)]}
+# a route would leave Singapore without crossing the Singapore gate. The Kanmon Strait, between Honshu and
+# Kyushu, is closed between Kokura and Hikoshima: "2016年時点の航路の水深は12mで、... 2034年完了予定の水深14m化事業"
+# (fairway 12 m deep in 2016, 14 m planned by 2034; Japanese Wikipedia, 関門海峡, read 23 November 2026). Smaller
+# coasters use it, but it is too shallow for the bulk carriers and tankers the atlas routes, and through it the
+# network let a VLCC from the Gulf reach the Sea of Japan by the Seto Inland Sea and so go round the Korea Strait.
+CLOSED = {"johor-causeway": [(103.77, 1.40), (103.77, 1.52)], "kanmon": [(130.88, 33.89), (130.88, 33.95)]}
 
 # Cape Horn rule. The Indo-Pacific side is east of 20 E, outside the Mediterranean, the Black Sea and the Baltic
 # (north of 30 N and west of 45 E). From its Indian Ocean and Asian part a ship bound for the Atlantic goes round
@@ -323,14 +343,16 @@ def _kept(opts, classes, pct, nmx):
     return keep
 
 
-def classify(main_via, parallel, classes, pct=PARALLEL_PCT, nmx=PARALLEL_NM):
+def classify(main_via, parallel, classes, pct=PARALLEL_PCT, nmx=PARALLEL_NM, around=ROUTE_AROUND):
     """Split the passages of a route into `via` (crossed whatever the parallel choice) and `viaAlt` (lists of
     passages of which one is used). For each class, the members it may use under the draught rule and whose
     distance is within `pct` or `nmx` nm of its best one are kept; a gate crossed by every option kept is certain.
 
     An entry of `parallel` keyed by a gate id instead of a group index holds the main route and the best route
-    avoiding that gate (plan()): a gate still certain after the groups moves to `viaAlt` as a one-member list when
-    that route is kept for a class under the same rule, since the route then need not cross it."""
+    avoiding that gate (plan()). A gate still certain after the groups moves to `viaAlt` as a one-member list when
+    that route is kept for a class under the same rule, since the route then need not cross it. This test applies
+    to the gates in `around` (the published rule: ROUTE_AROUND; GATES for every gate) and to a gate that a class of
+    the lane may not use under the draught rule (that class's route does not cross it)."""
     drop, certain, via_alt, detours = set(), [], [], {}
     for gi, opts in parallel:
         if not opts:
@@ -350,7 +372,8 @@ def classify(main_via, parallel, classes, pct=PARALLEL_PCT, nmx=PARALLEL_NM):
             via_alt.append(lst)
     via = [g for g in main_via if g not in drop or g in certain]
     via += [g for g in certain if g not in via]
-    for g in [g for g in via if g in detours]:
+    barred = set().union(*(VR.avoids(c) for c in classes))
+    for g in [g for g in via if g in detours and (g in around or g in barred)]:
         if any(g not in m for m in _kept(detours[g], classes, pct, nmx)):
             via.remove(g)
             via_alt.append([g])
@@ -437,7 +460,7 @@ def plan(a, b, classes, speed_kn=None):
             # in-group draught limits are left to classify(), per class
             parallel.append((gi, _options(a, b, avoid - members, group)))
     # every gate of the main route against the best route around it under the same limits (classify() decides
-    # with its thresholds whether that route is of similar length)
+    # with its thresholds whether that route is of similar length; the published rule tests ROUTE_AROUND only)
     for g in main.via:
         r = route(a, b, avoid | {g})
         parallel.append((g, [(sorted(main.via), main.nm)] + ([(sorted(r.via), r.nm)] if r else [])))
@@ -470,7 +493,7 @@ def version():
     code of the rules (any edit of this module discards the caches)."""
     key = {
         "gates": GATES, "parallel": [[sorted(m) for m in g] for g in PARALLEL], "pct": PARALLEL_PCT,
-        "nm": PARALLEL_NM, "so": SOUTHERN_OCEAN, "always": ALWAYS_AVOID, "closed": CLOSED,
+        "nm": PARALLEL_NM, "around": sorted(ROUTE_AROUND), "so": SOUTHERN_OCEAN, "always": ALWAYS_AVOID, "closed": CLOSED,
         "indo": INDO_PACIFIC, "south_pacific": SOUTH_PACIFIC, "magellan": MAGELLAN_SOUTH_OF,
         "no_panama": sorted(NO_PANAMA), "no_suez": sorted(NO_SUEZ), "cape": sorted(CAPE_PREFERRED),
         "cape_days": CAPE_MAX_EXTRA_DAYS, "ratio": ALT_MAX_RATIO, "draught": VR.DRAUGHT_M,

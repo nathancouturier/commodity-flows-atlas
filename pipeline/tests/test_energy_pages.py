@@ -152,11 +152,14 @@ class GasPageTests(unittest.TestCase):
         self.assertIn("customs tonnes", self.d["labels"]["flows"])
 
     def test_second_unit_and_factor(self):
-        for k in ("production", "consumption", "exports"):
-            f = self.d["summary"][k]
-            self.assertEqual(f["alt"]["u"], "Mt LNG")
-            self.assertAlmostEqual(f["alt"]["v"], f["v"] / 1.36, delta=0.01 * f["v"])
-            self.assertTrue(f["alt"]["n"].startswith("Atlas conversion:"))
+        # only the trade figure carries one (GW3.10): a producer's gas in LNG tonnes would read as LNG output
+        for k in ("production", "consumption"):
+            self.assertNotIn("alt", self.d["summary"][k])
+        f = self.d["summary"]["exports"]
+        self.assertEqual(f["alt"]["u"], "Mt LNG equivalent")
+        self.assertAlmostEqual(f["alt"]["v"], f["v"] / 1.36, delta=0.005 * f["v"])
+        self.assertTrue(f["alt"]["n"].startswith("Atlas conversion:"))
+        self.assertIn("not LNG trade", f["alt"]["n"])
 
 
 class LngPageTests(unittest.TestCase):

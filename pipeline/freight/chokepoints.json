@@ -156,6 +156,7 @@
    "malacca"
   ],
   "summary": "Eastern end of the Strait of Malacca; very high local traffic density.",
+  "parallelNote": "Ships can also pass south of Singapore through the Riau islands and the Durian Strait, about 130 nm longer from Samarinda to Paradip; the atlas counts them at Singapore.",
   "s": "portwatch"
  },
  {
@@ -184,6 +185,7 @@
   "limits": "Deep water suitable for fully laden Capesize and VLCC vessels; Wikipedia (Lombok Strait, 2026) gives a depth of about 250 m.",
   "limitsS": "wikipedia-vessel-classes",
   "summary": "Deep-water route between Bali and Lombok used by Capesizes and VLCCs too deep for Malacca, and an alternative if Malacca is restricted. Preferred for Australian iron ore and coal to north Asia.",
+  "parallelNote": "Ships can also take the Alas Strait, between Lombok and Sumbawa, about 50 nm longer on the Port Hedland to Qingdao run; the atlas counts them at Lombok.",
   "s": "portwatch"
  },
  {
@@ -539,6 +541,7 @@
   "limits": "Deep-draft route (the Dover Strait traffic separation scheme); the strait is about 20 m deep over its highest banks and 68 m in its deepest part (Wikipedia, Strait of Dover, 2026).",
   "limitsS": "wikipedia-vessel-classes",
   "summary": "Busiest strait in the world by transits, linking the North Sea to the English Channel for ARA and Baltic traffic.",
+  "parallelNote": "Ships can also reach the North Sea north of Scotland, about 160 nm longer from Corpus Christi to Rotterdam; the atlas counts them at Dover.",
   "s": "portwatch"
  },
  {
@@ -641,6 +644,7 @@
   ],
   "portwatch": "chokepoint12",
   "summary": "Link between the East China Sea and the Sea of Japan between Korea and Japan.",
+  "parallelNote": "Ships from the Pacific to northern China can also pass south of Japan, 1 to 4.5% longer (about 245 nm from Callao to Qingdao); the atlas counts their cargo in the up-to figure only.",
   "s": "portwatch"
  },
  {
@@ -653,6 +657,7 @@
   ],
   "portwatch": "chokepoint20",
   "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "parallelNote": "Ships can also go by the Ombai Strait and the Banda and Molucca Seas, about 110 nm longer on the Port Hedland to Qingdao run; the atlas counts them at Makassar.",
   "s": "portwatch"
  },
  {
@@ -665,6 +670,7 @@
   ],
   "portwatch": "chokepoint14",
   "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "parallelNote": "Ships can also cross the Philippine archipelago, about 270 nm longer for a Capesize from Newcastle to Kaohsiung; the atlas counts them at the Luzon Strait.",
   "s": "portwatch"
  },
  {
@@ -749,6 +755,7 @@
   ],
   "portwatch": "chokepoint16",
   "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
+  "parallelNote": "Ships can also pass south and east of Timor, about 55 nm longer from Port Hedland to Kashima; the atlas counts them at Ombai.",
   "s": "portwatch"
  },
  {

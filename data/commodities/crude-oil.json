@@ -8,11 +8,11 @@
    "s": "eia-intl",
    "n": "EIA crude oil including lease condensate, world",
    "alt": {
-    "v": 4204.2,
+    "v": 4210,
     "u": "Mt/yr",
     "s": "atlas",
     "y": 2025,
-    "n": "Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ"
+    "n": "Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ"
    }
   },
   "exports": {
@@ -22,11 +22,11 @@
    "s": "baci",
    "n": "sum of all BACI crude oil flows, tonnes (all modes)",
    "alt": {
-    "v": 45349.8,
+    "v": 45300,
     "u": "kb/d",
     "s": "atlas",
     "y": 2024,
-    "n": "Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ"
+    "n": "Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ"
    }
   },
   "consumption": {
@@ -471,7 +471,7 @@
   {
    "o": "ARE",
    "d": "THA",
-   "v": 24.503,
+   "v": 24.5,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
@@ -493,7 +493,7 @@
   }
  ],
  "notes": [
-  "Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's own series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999), a world average: a grade or a country can differ.",
+  "Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ.",
   "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
   "No proved-reserves series exists in the EIA bulk file used (INTL.txt).",
   "Customs data record no crude oil exports from Iran in 2024, against 88.9 Mt in 2018 (CEPII BACI). From 2019 to 2022, 75.4 Mt of them were recorded under \"Other Asia, not elsewhere specified\" and are shown as \"Asia, not specified\". Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here.",

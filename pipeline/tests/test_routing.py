@@ -82,6 +82,23 @@ class R02bClosedEdges(unittest.TestCase):
         r = RT.route(at("MYPGU"), at("INMUN"), SO)
         self.assertFalse(self.through_causeway(r.coords))
 
+    def test_kanmon_strait_is_closed(self):
+        # the network's edge between Kokura and Hikoshima; no route reaches the Sea of Japan by the Seto Inland Sea
+        M = RT.graph()
+        a, b = RT.CLOSED["kanmon"]
+        closed = [(u, v) for u, nbrs in M.adj.items() for v, d in nbrs.items()
+                  if d.get("passage") == "atlas-closed" and RT.gates_crossed(u, v, {"k": (a, b)})]
+        self.assertEqual(len(closed), 2)
+        r = RT.route(at("SARTA"), at("KRUSN"), SO + ("korea-strait",))
+        self.assertFalse(any(130.8 < RT.norm(x) < 131.3 and 33.8 < y < 34.0 for x, y in r.coords))
+
+    def test_seto_inland_sea_reached_from_the_pacific(self):
+        for b in ("JPMIZ", "JPUKB", "JPHIJ", "JPUBJ", "JPKND"):
+            for a in ("AUPHE", "SARTA", "USLAX"):
+                r = RT.route(at(a), at(b), SO)
+                self.assertIsNotNone(r, (a, b))
+                self.assertNotIn("korea-strait", r.via, (a, b))
+
     def test_restricted_vloc_does_not_use_the_johor_strait(self):
         p = RT.plan(at("BRTUB"), at("SGSIN"), ["vloc"])
         self.assertFalse(self.through_causeway(p.main.coords))
@@ -251,20 +268,24 @@ class R10Parallel(unittest.TestCase):
 
     def test_port_hedland_qingdao(self):
         p = RT.plan(at("AUPHE"), at("CNTAO"), ["capesize"])
-        # certain against the other members of the group (Sunda and Malacca are no option here) ...
+        # certain against the other members of the group (Sunda and Malacca are no option here)
+        self.assertTrue({"lombok", "makassar"} <= set(p.via))
+        self.assertEqual([set(x) for x in p.via_alt], [{"taiwan-strait", "luzon"}])
         self.assertTrue({"lombok", "makassar"} <= set(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0)[0]))
-        # ... but the network goes round each within 5%: the Alas Strait (+53 nm) and Ombai with the Molucca Sea
-        # (+112 nm), review GE6.11
-        self.assertEqual(p.via, [])
-        self.assertIn(["lombok"], p.via_alt)
-        self.assertIn(["makassar"], p.via_alt)
+        # the network goes round each within 5%, by the Alas Strait (+53 nm) and Ombai with the Molucca Sea
+        # (+112 nm), but that is not how the ore ships sail: only the stricter reading moves them
+        via, via_alt = RT.classify(p.main.via, p.parallel, p.classes, around=RT.GATES)
+        self.assertNotIn("lombok", via)
+        self.assertIn(["lombok"], via_alt)
+        self.assertIn(["makassar"], via_alt)
 
     def test_samarinda_paradip(self):
         p = RT.plan(at("IDSRI"), at("INPRT"), ["supramax"])
         self.assertIn("malacca", p.via)
+        self.assertIn("singapore", p.via)
+        self.assertEqual(p.via_alt, [])
         # the network's passage south of the Singapore gate (Durian Strait, +134 nm) is within 5%
-        self.assertEqual(p.via_alt, [["singapore"]])
-        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0)[1], [])
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, around=RT.GATES)[1], [["singapore"]])
 
     def test_gate_crossed_by_every_option_is_certain(self):
         # review GE2.5: from inside the Makassar Strait every option leaves through the Makassar gate
@@ -287,7 +308,13 @@ class R10Parallel(unittest.TestCase):
 
 
 class R10bRouteAround(unittest.TestCase):
-    """Review GE6.11: a passage is certain ("at least") only when no route of similar length avoids it."""
+    """Review GE6.11: a passage of ROUTE_AROUND (the Korea Strait), or one that a class of the lane may not use, is
+    certain ("at least") only when no route of similar length avoids it; any other passage of the shortest route
+    under the class limits is certain. classify(..., around=GATES) tests every passage (QA sensitivity)."""
+
+    def test_route_around_is_opt_in(self):
+        self.assertEqual(RT.ROUTE_AROUND, {"korea-strait"})
+        self.assertLessEqual(RT.ROUTE_AROUND, set(RT.GATES))
 
     def test_korea_strait_may_be_avoided_from_the_pacific(self):
         # the network runs Pacific routes to the Yellow Sea through the Tsugaru Strait and the Sea of Japan; south of
@@ -306,6 +333,28 @@ class R10bRouteAround(unittest.TestCase):
             p = RT.plan(at(a), at(b), ["supramax"])
             self.assertEqual(p.via, ["korea-strait"], (a, b))
             self.assertEqual(p.via_alt, [], (a, b))
+
+    def test_korea_strait_certain_for_a_vlcc_to_ulsan(self):
+        # with the Kanmon Strait closed the route round the Korea Strait is east of Taiwan and Japan, +1,464 nm
+        p = RT.plan(at("SARTA"), at("KRUSN"), ["vlcc"])
+        self.assertIn("korea-strait", p.via)
+        self.assertEqual([set(x) for x in p.via_alt], [{"taiwan-strait", "luzon"}])
+        self.assertIn("korea-strait", RT.classify(p.main.via, p.parallel, p.classes, around=RT.GATES)[0])
+        around = dict(p.parallel)["korea-strait"][1]
+        self.assertGreater(around[1], p.main.nm * (1 + RT.PARALLEL_PCT) + RT.PARALLEL_NM)
+
+    def test_other_passages_certain_under_the_published_rule(self):
+        # Dover: the network's route north of Scotland is 3.1% longer from Corpus Christi; certain as published,
+        # "may cross" only in the stricter reading
+        p = RT.plan(at("USCRP"), at("NLRTM"), ["aframax"])
+        self.assertIn("dover", p.via)
+        self.assertNotIn(["dover"], p.via_alt)
+        self.assertIn(["dover"], RT.classify(p.main.via, p.parallel, p.classes, around=RT.GATES)[1])
+        # Lombok and Makassar for the Pilbara ore to Qingdao, Capesize and Newcastlemax as in the lane
+        p = RT.plan(at("AUPHE"), at("CNTAO"), ["capesize", "newcastlemax"])
+        self.assertTrue({"lombok", "makassar"} <= set(p.via))
+        via = RT.classify(p.main.via, p.parallel, p.classes, around=RT.GATES)[0]
+        self.assertFalse({"lombok", "makassar"} & set(via))
 
     def test_passages_with_no_route_of_similar_length_stay_certain(self):
         p = RT.plan(at("SARTA"), at("JPCHB"), ["vlcc"])
@@ -329,8 +378,11 @@ class R10bRouteAround(unittest.TestCase):
         p = RT.plan(at("PECLL"), at("CNTAO"), ["supramax", "handysize"])
         self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0), (["korea-strait"], []))
         self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes), ([], [["korea-strait"]]))
+        # from Vostochny the way round is by the Tsugaru Strait (1,815 against 1,008 nm) since the Kanmon Strait is
+        # closed: certain at 10%/500 nm, "may cross" only at a threshold of 100%
         p = RT.plan(at("RUVYP"), at("CNSHA"), ["supramax"])
-        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.10, 500), ([], [["korea-strait"]]))
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.10, 500), (["korea-strait"], []))
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 1.0, 0), ([], [["korea-strait"]]))
 
     def test_classify_from_a_cached_summary(self):
         # build_freight.py reclassifies from routing.summary() as stored in route_cache.json

@@ -16,11 +16,11 @@
    "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded"
   },
   "exports": {
-   "v": 44.231,
+   "v": 44.2,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 31% of world tonnage estimated from value where missing or inconsistent"
+   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total shown to three significant digits)"
   },
   "seaborne": {
    "v": 38.78,
@@ -207,12 +207,13 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 44.231,
+  "world": 44.2,
   "rows": [
    {
     "c": "CHL",
-    "v": 13.972,
-    "n": "99% of tonnage estimated from value"
+    "v": 14.0,
+    "n": "Atlas estimate: 99% of this tonnage is estimated from the declared value (customs declared 4.81 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true
    },
    {
     "c": "PER",
@@ -259,14 +260,14 @@
     "v": 0.8037
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 31% of world tonnage estimated from value where missing or inconsistent",
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total shown to three significant digits)",
   "basis": "ores and concentrates, gross weight"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 44.231,
+  "world": 44.2,
   "rows": [
    {
     "c": "CHN",
@@ -324,7 +325,7 @@
     "v": 0.3539
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 31% of world tonnage estimated from value where missing or inconsistent",
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total shown to three significant digits)",
   "basis": "ores and concentrates, gross weight"
  },
  "extra": [
@@ -458,7 +459,7 @@
   {
    "o": "CHL",
    "d": "CHN",
-   "v": 9.269,
+   "v": 9.27,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
@@ -480,7 +481,7 @@
   {
    "o": "CHL",
    "d": "JPN",
-   "v": 2.634,
+   "v": 2.63,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
@@ -560,7 +561,7 @@
   {
    "o": "CHL",
    "d": "KOR",
-   "v": 0.6269,
+   "v": 0.627,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
@@ -582,7 +583,7 @@
   {
    "o": "CHL",
    "d": "IND",
-   "v": 0.6175,
+   "v": 0.618,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
