@@ -216,7 +216,8 @@
     "v": 20.56
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
+  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page.",
+  "caveat": "Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page."
  },
  "imports": {
   "y": 2025,
@@ -273,7 +274,8 @@
     "v": 35.005
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted"
+  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); pipeline and LNG together, re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page.",
+  "caveat": "Pipeline gas and LNG together, as EIA does not split them by country: LNG is also listed on the LNG page."
  },
  "flows": [
   {
