@@ -129,6 +129,8 @@ export interface Company {
   own?: CompanyOwn;
   /** the controlling shareholder or parent as the page states it */
   parent?: string;
+  /** the page that states the parent's share, when it is not the entry's Wikipedia article */
+  parentUrl?: string;
   detail?: string;
   fig?: CompanyFig;
   sanction?: CompanySanction | CompanySanction[];
@@ -143,6 +145,8 @@ export interface Company {
   k?: string | string[];
   /** shipping companies: the vessel classes it operates */
   classes?: string[];
+  /** country pages: the shipping segments a shipping company is listed under */
+  seg?: string[];
 }
 
 /** data/freight/shipping-companies.json: shipping companies by segment. */
@@ -698,6 +702,8 @@ export interface Route {
   shareCommodity?: Fig;
   /** why the route has no corridor share (shown as "n/a") */
   shareNa?: string;
+  /** the generated corridor that counts this route's flow, when shareNa says so (linked from the page) */
+  shareOn?: string;
   /** share of the vessel size class's tonne-mile demand (Atlas estimate); only for classes whose cargo base the atlas covers */
   shareClass?: Fig;
   alt?: AltRouting;
@@ -745,6 +751,8 @@ export interface BenchmarkDefinition {
   doc: string;
   url: string;
   read: string;
+  /** the year of that document, shown with the figures taken from it */
+  y?: number;
 }
 
 /** An index or average this benchmark belongs to, with its weight. */
@@ -1160,7 +1168,7 @@ export interface InfraProps {
   limits?: PortLimits;
   /** ports: the largest vessel class of the atlas each segment can take by the published limits (derived by the atlas) */
   maxClass?: { dry?: string; tanker?: string; gas?: string; n: string };
-  /** ids of the price series delivered at this place (data/prices/index.json) */
+  /** ids of the price series quoted at this place (data/prices/index.json) */
   prices?: string[];
 }
 
@@ -1170,6 +1178,14 @@ export interface PortLimits {
   loa?: number;
   beam?: number;
   dwt?: number;
+  /** true: `draught` is a water depth (of a berth or channel), not a ship's draught */
+  depth?: true;
+  /** the segment of the berths the limits are stated for */
+  seg?: 'dry' | 'tanker' | 'gas';
+  /** the vessel class the page itself names for these berths */
+  cls?: string;
+  /** the berth or terminal the limits are stated for, when not the whole port ("Jurong Port bulk berths") */
+  at?: string;
   /** which berth or channel, and at which tide when stated */
   n: string;
   s: string;

@@ -63,10 +63,10 @@ export type Tier = 0 | 1 | 2 | 3 | 4;
 
 /**
  * The order of the kinds of results when two groups match equally well (same tier): the first comes first. The only place
- * it is written. A commodity, a country, a chokepoint, a vessel class or a route that is named by the query comes before
- * an asset, a port, an event or a price series that only holds the word.
+ * it is written. A commodity, a country, a chokepoint, a vessel class, a route or a company that is named by the query
+ * comes before an asset, a port, an event or a price series that only holds the word.
  */
-export const TIE_ORDER = ['commodity', 'country', 'chokepoint', 'vessel', 'route', 'infra', 'port', 'event', 'price'] as const;
+export const TIE_ORDER = ['commodity', 'country', 'chokepoint', 'vessel', 'route', 'company', 'infra', 'port', 'event', 'price'] as const;
 
 interface Hit {
   s: number;
@@ -122,11 +122,12 @@ function tokenScore(t: string, d: Searchable, typo = true): Hit {
 
 /**
  * The typed words that some item has whole or as the beginning of a word: for them a typo is not looked for ("iran" is
- * the name of Iran, so it does not also find Iraq).
+ * the name of Iran, so it does not also find Iraq). A company's name does not count: there are hundreds, and "coper" (the
+ * beginning of Copersucar) must still find Copper.
  */
-export function exactWords(q: string[], items: { d: Searchable }[]): Set<string> {
+export function exactWords(q: string[], items: { d: Searchable; kind?: string }[]): Set<string> {
   const out = new Set<string>();
-  for (const t of q) if (items.some((it) => tokenScore(t, it.d, false).lvl >= 2)) out.add(t);
+  for (const t of q) if (items.some((it) => it.kind !== 'company' && tokenScore(t, it.d, false).lvl >= 2)) out.add(t);
   return out;
 }
 
@@ -142,6 +143,8 @@ export interface Rank {
  */
 export function rank(q: string[], d: Searchable, exact?: Set<string>): Rank {
   if (!q.length) return { s: 1, tier: 1 };
+  // a code typed whole with its suffix ("S15_63", "P1A_82"): its words are not each a word of the item
+  if (q.length > 1 && d.c.includes(q.join(' '))) return { s: 160, tier: 4 };
   let sum = 0;
   let lvl = 4;
   for (const t of q) {

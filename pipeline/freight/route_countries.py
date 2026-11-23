@@ -86,8 +86,10 @@ def country_at(lon, lat):
 def add_end_countries(routes):
     for r in routes:
         a, b = r.get("a"), r.get("b")
+        # `_ends`: the country build_freight.py knows for a terminal (Basrah Oil Terminal is in Iraq, although its point is nearer Iran)
+        known = r.pop("_ends", None) or [None, None]
         if a and b:
-            r["ends"] = [country_at(*a), country_at(*b)]
+            r["ends"] = [known[0] or country_at(*a), known[1] or country_at(*b)]
     return routes
 
 

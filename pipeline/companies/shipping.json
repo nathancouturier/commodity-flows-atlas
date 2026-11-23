@@ -90,17 +90,6 @@
    ]
   },
   {
-   "name": "Golden Ocean Group",
-   "hq": "BMU",
-   "role": "shipowner",
-   "own": "listed",
-   "parent": "John Fredriksen (39.6%)",
-   "detail": "Bermuda-registered, Norway-based dry bulk company; created in 2004 from Frontline",
-   "s": "wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Golden_Ocean_Group",
-   "read": "2026-11"
-  },
-  {
    "name": "CMB.TECH",
    "hq": "BEL",
    "role": "shipowner",
@@ -137,7 +126,7 @@
    "hq": "CYP",
    "role": "shipowner",
    "own": "listed",
-   "parent": "John Fredriksen (40.2%)",
+   "parent": "Hemen Holding Limited (largest shareholder)",
    "detail": "Crude and product tanker owner, Limassol; at 31 December 2025: 41 VLCCs, 21 Suezmax and 18 LR2/Aframax tankers",
    "fig": {
     "v": 80,
@@ -215,20 +204,28 @@
    "hq": "USA",
    "role": "shipowner",
    "own": "listed",
-   "detail": "Crude and product tankers, New York City",
+   "detail": "Crude and product tankers, New York City; at 31 December 2025: 12 VLCCs, 13 Suezmaxes, 4 Aframaxes, 1 LR2, 7 LR1s and 33 MRs in operation, and 4 LR1s on order",
    "fig": {
-    "v": 70,
+    "v": 74,
     "u": "ships",
-    "what": "fleet owned and operated, including 4 on order",
-    "y": 2026,
+    "what": "fleet, owned and chartered-in, including 4 on order",
+    "y": 2025,
     "s": "company-reports",
     "url": "https://s203.q4cdn.com/968379449/files/doc_news/International-Seaways-Reports-Fourth-Quarter-and-Full-Year-2025-Results-2026.pdf",
-    "n": "Approximately 70 vessels across the principal tanker asset classes, including four on order (release of 26 February 2026)."
+    "n": "74 vessels at 31 December 2025: 66 owned (4 of them LR1 newbuildings) and 8 chartered-in (fleet table of the release of 26 February 2026)."
    },
    "s": "company-reports",
    "url": "https://s203.q4cdn.com/968379449/files/doc_news/International-Seaways-Reports-Fourth-Quarter-and-Full-Year-2025-Results-2026.pdf",
-   "y": 2026,
-   "read": "2026-11"
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "vlcc",
+    "suezmax",
+    "aframax",
+    "lr2",
+    "lr1",
+    "mr"
+   ]
   },
   {
    "name": "CMB.TECH",
@@ -306,26 +303,21 @@
    "role": "shipowner",
    "own": "state-listed",
    "parent": "Government of Russia (82.8%)",
-   "detail": "Russian state shipping company, Saint Petersburg; in May 2022: 50 crude oil tankers, 34 product tankers, 14 shuttle tankers and 10 gas carriers",
-   "fig": {
-    "v": 122,
-    "u": "ships",
-    "what": "fleet owned",
-    "y": 2022,
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Sovcomflot",
-    "n": "122 vessels owned as of May 2022, plus 10 icebreakers."
-   },
+   "detail": "Russian state shipping company, Saint Petersburg; in May 2022: 122 vessels owned (50 crude oil tankers, 34 product tankers, 14 shuttle tankers, 10 gas carriers) and 10 icebreakers",
    "sanction": [
     {
      "by": "OFAC",
      "since": "2024-02",
      "url": "https://home.treasury.gov/news/press-releases/jy2121"
+    },
+    {
+     "by": "UK",
+     "since": "2022-03",
+     "url": "https://www.gov.uk/government/publications/the-uk-sanctions-list"
     }
    ],
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Sovcomflot",
-   "y": 2022,
    "read": "2026-11"
   },
   {
@@ -371,16 +363,7 @@
    "role": "shipowner",
    "own": "state-listed",
    "parent": "Government of India (63.75%)",
-   "detail": "Indian public sector shipping company, Mumbai",
-   "fig": {
-    "v": 55,
-    "u": "ships",
-    "what": "fleet",
-    "y": 2025,
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Shipping_Corporation_of_India",
-    "n": "A fleet of 55 vessels as of August 2025."
-   },
+   "detail": "Indian public sector shipping company, Mumbai; a fleet of 55 vessels in August 2025, not only tankers",
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Shipping_Corporation_of_India",
    "y": 2025,
@@ -448,8 +431,8 @@
    "name": "Höegh LNG",
    "hq": "NOR",
    "role": "shipowner",
-   "parent": "Leif Höegh & Co",
-   "detail": "LNG shipping and FSRUs; part of Leif Höegh & Co since 2006",
+   "parent": "Leif Höegh & Co (44.6% in January 2015)",
+   "detail": "LNG shipping and FSRUs; one of the two companies of the Leif Höegh & Co holding since 2006",
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Leif_Höegh_&_Co",
    "read": "2026-11"

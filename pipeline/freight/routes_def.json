@@ -46,7 +46,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "C3",
-   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "cargo": "170,000 t iron ore, within 10% either way at the owner's choice",
    "load": "Tubarao",
    "discharge": "Qingdao",
    "state": "active",
@@ -101,7 +101,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "C2",
-   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "cargo": "170,000 t iron ore, within 10% either way at the owner's choice",
    "load": "Tubarao",
    "discharge": "Rotterdam",
    "state": "active",
@@ -161,7 +161,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "C5",
-   "cargo": "160,000 or 170,000 t iron ore, 10% more or less in owner's option",
+   "cargo": "160,000 or 170,000 t iron ore, within 10% either way at the owner's choice",
    "load": "West Australia",
    "discharge": "Qingdao",
    "state": "active",
@@ -219,7 +219,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "C7",
-   "cargo": "160,000 t coal, 10% more or less in owner's option",
+   "cargo": "160,000 t coal, within 10% either way at the owner's choice",
    "load": "Bolivar",
    "discharge": "Rotterdam",
    "state": "active",
@@ -274,7 +274,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "C17",
-   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "cargo": "170,000 t iron ore, within 10% either way at the owner's choice",
    "load": "Saldanha Bay",
    "discharge": "Qingdao",
    "state": "active",
@@ -351,7 +351,7 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "The 180,000 dwt version of the China-Brazil round voyage: its reporting ceased on 24 December 2025 and C14_182 replaced it. The guide's last version widened it to a round voyage via Brazil or West Africa. Kept in the atlas because links point to it.",
+  "notes": "The 180,000 dwt version of the China-Brazil round voyage: its reporting ceased on 24 December 2025 and C14_182 replaced it. The guide's last version widened it to a round trip to Brazil or West Africa. Kept in the atlas because links point to it.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage.",
@@ -359,7 +359,7 @@
   "definition": {
    "code": "C14",
    "vessel": "Baltic standard Capesize (BCI180): 180,000 dwt",
-   "load": "Qingdao (15-25 days after sailing Qingdao), round voyage via Brazil or West Africa",
+   "load": "Qingdao (delivery 15 to 25 days after leaving Qingdao); round trip to Brazil or West Africa",
    "discharge": "China-Japan range",
    "duration": "80-90 days",
    "tc": true,
@@ -524,7 +524,7 @@
   "definition": {
    "code": "C14_182",
    "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
-   "load": "Qingdao (15-25 days after sailing Qingdao), round voyage via Brazil or West Africa",
+   "load": "Qingdao (delivery 15 to 25 days after leaving Qingdao); round trip to Brazil or West Africa",
    "discharge": "China-Japan range",
    "duration": "80-90 days",
    "tc": true,
@@ -751,7 +751,7 @@
   "definition": {
    "code": "P5_82",
    "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
-   "load": "South China (Fuzhou-Hong Kong range) or passing Taipei southbound, trip via Indonesia",
+   "load": "South China, Fuzhou to Hong Kong, or southbound past Taipei; trip by way of Indonesia",
    "discharge": "South China (Fuzhou-Hong Kong range)",
    "duration": "20-25 days",
    "tc": true,
@@ -874,7 +874,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "P7",
-   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), 10% more or less in owner's option",
+   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), within 10% either way at the owner's choice",
    "load": "Mississippi river",
    "discharge": "Qingdao",
    "state": "active",
@@ -930,7 +930,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "P8",
-   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), 10% more or less in owner's option",
+   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), within 10% either way at the owner's choice",
    "load": "Santos",
    "discharge": "Qingdao",
    "state": "active",
@@ -1176,7 +1176,7 @@
    "code": "S10_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
    "cargo": "Coal (cargo basis of the definition)",
-   "load": "South China (Fuzhou-Fangcheng range including Taiwan), trip via Indonesia",
+   "load": "South China, Fuzhou to Fangcheng, Taiwan included; trip by way of Indonesia",
    "discharge": "South China (Fangcheng-Fuzhou range)",
    "duration": "20-25 days",
    "tc": true,
@@ -1315,13 +1315,13 @@
    "ports": []
   },
   "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
-  "notes": "Time-charter trip from West Africa via east coast South America to North China; it weighs 5% in the S11TC. The line is drawn as the laden leg from Santos to Qingdao, an atlas choice.",
+  "notes": "Time-charter trip from West Africa by way of the east coast of South America to North China; it weighs 5% in the S11TC. The line is drawn as the laden leg from Santos to Qingdao, an atlas choice.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "S5_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
-   "load": "West Africa (Dakar-Douala range), trip via east coast South America",
+   "load": "West Africa, Dakar to Douala; trip by way of the east coast of South America",
    "discharge": "North China (Shanghai-Dalian range)",
    "duration": "60-65 days",
    "tc": true,
@@ -1367,7 +1367,7 @@
    "code": "S8_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
    "cargo": "Coal (cargo basis of the definition)",
-   "load": "South China (Fuzhou-Fangcheng range including Taiwan), trip via Indonesia",
+   "load": "South China, Fuzhou to Fangcheng, Taiwan included; trip by way of Indonesia",
    "discharge": "East coast India (Chennai-Paradip range)",
    "duration": "20-25 days",
    "tc": true,
@@ -1397,13 +1397,13 @@
    "ports": []
   },
   "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
-  "notes": "Time-charter trip from West Africa via east coast South America to Europe; it weighs 7.5% in the S11TC. The line is drawn as the laden leg from Santos to Rotterdam, an atlas choice.",
+  "notes": "Time-charter trip from West Africa by way of the east coast of South America to Europe; it weighs 7.5% in the S11TC. The line is drawn as the laden leg from Santos to Rotterdam, an atlas choice.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "S9_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
-   "load": "West Africa (Dakar-Douala range), trip via east coast South America",
+   "load": "West Africa, Dakar to Douala; trip by way of the east coast of South America",
    "discharge": "Skaw-Passero range",
    "duration": "45-50 days",
    "tc": true,
@@ -1599,7 +1599,7 @@
   "definition": {
    "code": "HS4_38",
    "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
-   "load": "Brownsville-Key West, trip via the US Gulf or north coast South America",
+   "load": "Brownsville to Key West; trip by way of the US Gulf or the north coast of South America",
    "discharge": "Skaw-Passero range",
    "duration": "35-45 days",
    "tc": true,
@@ -1783,9 +1783,10 @@
   "notes": "The core VLCC route from the Gulf to China. In the week ending 6 April 2026 the Baltic Exchange introduced an emergency route, TD34, from Mina al Fahal (Gulf of Oman) to China, and TD3C remained in publication (AXS Marine, VLCC freight market commentary, https://public.axsmarine.com/blog/vlcc-freight-market-commentary-week-ending-6-april).",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD3C",
-   "cargo": "270,000 t crude oil",
+   "cargo": "270,000 t (cargo not named in the definition)",
    "load": "Ras Tanura",
    "discharge": "Ningbo",
    "state": "active",
@@ -1828,13 +1829,15 @@
    "malacca"
   ],
   "corridor": [],
-  "notes": "Created in 2026 while Hormuz transits were disrupted: it loads in the Gulf of Oman, outside the strait. Public trial from 26 March 2026, live from 5 May 2026 (Baltic Exchange Circular 30/26). Its corridor, Oman to China, is counted on the Atlas corridor of Gulf of Oman crude to China, not twice.",
+  "notes": "Created in 2026 while Hormuz transits were disrupted: it loads in the Gulf of Oman, outside the strait. Live from 5 May 2026 after a period of trial reporting (Baltic Exchange Circular 30/26). Its corridor, Oman to China, is counted on the Atlas corridor of Gulf of Oman crude to China, not twice.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
   "shareNa": "Its flow, Oman to China, is counted on the Atlas corridor of Gulf of Oman crude to China, not twice",
+  "shareOn": "gen-crude-oil-gulf-of-oman-e-china",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD34",
-   "cargo": "270,000 t crude oil",
+   "cargo": "270,000 t (cargo not named in the definition)",
    "load": "Mina Al Fahal",
    "discharge": "Ningbo",
    "state": "active",
@@ -1843,6 +1846,236 @@
    "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
    "doc": "Baltic Exchange, Circular 30/26",
    "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TC25",
+  "name": "ARA – UK (Rotterdam – Thames)",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "ARA (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "to": {
+   "region": "UK (Thames)",
+   "ports": [
+    {
+     "name": "Thames",
+     "c": "GBR"
+    }
+   ]
+  },
+  "parcel": 15000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "NLD"
+    ],
+    "d": [
+     "GBR"
+    ]
+   }
+  ],
+  "notes": "Clean products from Rotterdam to the Thames, assessed in US$ per tonne. The circular names the Thames, not a terminal: the line is drawn to Tilbury, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+  "definition": {
+   "code": "TC25",
+   "vessel": "Intermediate tanker (size not given)",
+   "cargo": "15,000 t clean products, middle distillate",
+   "load": "Rotterdam (ARA range)",
+   "discharge": "Thames (UK)",
+   "state": "active",
+   "stateDate": "2026-01-14",
+   "stateNote": "Live from 14 January 2026 (Baltic Exchange Circular 03/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "doc": "Baltic Exchange, Circular 03/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TC26",
+  "name": "Kaarsto – ARA (Kaarsto – Rotterdam)",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "Norway (Kaarsto)",
+   "ports": [
+    {
+     "name": "Kaarsto",
+     "c": "NOR"
+    }
+   ]
+  },
+  "to": {
+   "region": "ARA (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 12500,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "NOR"
+    ],
+    "d": [
+     "NLD"
+    ]
+   }
+  ],
+  "notes": "Clean products from Kaarsto in Norway to Rotterdam, assessed in US$ per tonne. Kaarsto is not in the atlas's port table: the line is drawn from Stavanger, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 12,500 t parcel.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+  "definition": {
+   "code": "TC26",
+   "vessel": "Intermediate tanker (size not given)",
+   "cargo": "12,500 t clean products, middle distillate (the circular's short title says naphtha)",
+   "load": "Kaarsto",
+   "discharge": "Rotterdam (ARA range)",
+   "state": "active",
+   "stateDate": "2026-01-14",
+   "stateNote": "Live from 14 January 2026 (Baltic Exchange Circular 03/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "doc": "Baltic Exchange, Circular 03/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD30",
+  "name": "UK – ARA (Immingham – Rotterdam)",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "cargoNote": "Dirty petroleum products (fuel oil and other residues) are counted in the atlas's refined products group, as for TD21",
+  "from": {
+   "region": "UK (Immingham)",
+   "ports": [
+    {
+     "name": "Immingham",
+     "c": "GBR"
+    }
+   ]
+  },
+  "to": {
+   "region": "ARA (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 15000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "GBR"
+    ],
+    "d": [
+     "NLD"
+    ]
+   }
+  ],
+  "notes": "Dirty products from Immingham to Rotterdam, assessed in US$ per tonne. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+  "definition": {
+   "code": "TD30",
+   "vessel": "Intermediate tanker (size not given)",
+   "cargo": "15,000 t dirty petroleum products",
+   "load": "Immingham",
+   "discharge": "Rotterdam (ARA range)",
+   "state": "active",
+   "stateDate": "2026-01-14",
+   "stateNote": "Live from 14 January 2026 (Baltic Exchange Circular 03/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "doc": "Baltic Exchange, Circular 03/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD31",
+  "name": "Port Jerome – ARA (Port Jerome – Rotterdam)",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "cargoNote": "Dirty petroleum products (fuel oil and other residues) are counted in the atlas's refined products group, as for TD21",
+  "from": {
+   "region": "France (Port Jerome)",
+   "ports": [
+    {
+     "name": "Port Jerome",
+     "c": "FRA"
+    }
+   ]
+  },
+  "to": {
+   "region": "ARA (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 15000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "FRA"
+    ],
+    "d": [
+     "NLD"
+    ]
+   }
+  ],
+  "notes": "Dirty products from Port Jerome on the Seine to Rotterdam, assessed in US$ per tonne. Port Jerome is not in the atlas's port table: the line is drawn from Le Havre, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+  "definition": {
+   "code": "TD31",
+   "vessel": "Intermediate tanker (size not given)",
+   "cargo": "15,000 t dirty petroleum products",
+   "load": "Port Jerome",
+   "discharge": "Rotterdam (ARA range)",
+   "state": "active",
+   "stateDate": "2026-01-14",
+   "stateNote": "Live from 14 January 2026 (Baltic Exchange Circular 03/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
+   "doc": "Baltic Exchange, Circular 03/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
    "read": "November 2026"
   }
  },
@@ -1898,9 +2131,10 @@
   "notes": "VLCC fronthaul from West Africa to China, round the Cape of Good Hope. The definition loads at the Serpentina FPSO and the Bonny Offshore Terminal: the line starts at Bonny.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD15",
-   "cargo": "260,000 t crude oil",
+   "cargo": "260,000 t (cargo not named in the definition)",
    "load": "Serpentina FPSO and Bonny Offshore Terminal",
    "discharge": "Ningbo",
    "state": "active",
@@ -1957,9 +2191,10 @@
   "notes": "US crude to China on a VLCC, assessed as a US$ lumpsum; the laden voyage often goes round the Cape of Good Hope. The definition loads in the Galveston offshore lightering area: the line starts at Galveston.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD22",
-   "cargo": "270,000 t crude oil",
+   "cargo": "270,000 t (cargo not named in the definition)",
    "load": "Galveston offshore lightering area",
    "discharge": "Ningbo",
    "state": "active",
@@ -2020,9 +2255,10 @@
   "notes": "From the CPC terminal, which the atlas's port table places at Novorossiysk, to Augusta through the Turkish Straits. It is one of the two routes of the Suezmax time-charter equivalent.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD6",
-   "cargo": "135,000 t crude oil",
+   "cargo": "135,000 t (cargo not named in the definition)",
    "load": "CPC terminal",
    "discharge": "Augusta",
    "state": "active",
@@ -2076,12 +2312,13 @@
     ]
    }
   ],
-  "notes": "Cross North Sea Aframax: Forth crude from Hound Point to Wilhelmshaven.",
+  "notes": "Cross North Sea Aframax route from the Hound Point terminal, Firth of Forth, to Wilhelmshaven.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD7",
-   "cargo": "80,000 t crude oil",
+   "cargo": "80,000 t (cargo not named in the definition)",
    "load": "Hound Point",
    "discharge": "Wilhelmshaven",
    "state": "active",
@@ -2194,9 +2431,10 @@
   "notes": "Caribbean crude to US Gulf refiners, assessed with the Oil Pollution Act premium paid. The corridor keeps Venezuela beside Colombia: both ship crude across the Caribbean to the US Gulf, and volumes are sensitive to US sanctions policy.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD9",
-   "cargo": "70,000 t crude oil",
+   "cargo": "70,000 t (cargo not named in the definition)",
    "load": "Covenas",
    "discharge": "Corpus Christi",
    "state": "active",
@@ -2249,9 +2487,10 @@
   "notes": "Aframax crude from Brunei to Brisbane; one of the six routes of the Aframax time-charter equivalent and of the Baltic Dirty Tanker Index.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD14",
-   "cargo": "80,000 t crude oil",
+   "cargo": "80,000 t (cargo not named in the definition)",
    "load": "Seria",
    "discharge": "Brisbane",
    "state": "active",
@@ -2298,9 +2537,10 @@
   "notes": "Russian Baltic crude to the Continent through the Great Belt. Suspended on 21 October 2022 and ceased from 24 December 2025 (Baltic Exchange Circular 35/25).",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD17",
-   "cargo": "100,000 t crude oil",
+   "cargo": "100,000 t (cargo not named in the definition)",
    "load": "Primorsk",
    "discharge": "Wilhelmshaven",
    "state": "ended",
@@ -2415,9 +2655,10 @@
   "notes": "Cross-Mediterranean Aframax from Ceyhan to Lavera. The corridor's origin countries are approximate: Ceyhan loads Azeri and Iraqi crude.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD19",
-   "cargo": "80,000 t crude oil",
+   "cargo": "80,000 t (cargo not named in the definition)",
    "load": "Ceyhan",
    "discharge": "Lavera",
    "state": "active",
@@ -2480,9 +2721,10 @@
   "notes": "West African crude to the Continent; also in the CFTC filing of 23 March 2018. One of the two routes of the Suezmax time-charter equivalent.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD20",
-   "cargo": "130,000 t crude oil",
+   "cargo": "130,000 t (cargo not named in the definition)",
    "load": "Offshore terminal Bonny",
    "discharge": "Rotterdam",
    "state": "active",
@@ -2605,9 +2847,10 @@
   "notes": "Gulf crude to the Mediterranean through the Suez Canal or the SUMED pipeline; round the Cape when the Red Sea is disrupted.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD23",
-   "cargo": "140,000 t crude oil",
+   "cargo": "140,000 t (cargo not named in the definition)",
    "load": "Basrah",
    "discharge": "Lavera",
    "state": "active",
@@ -2664,9 +2907,10 @@
   "notes": "Transatlantic US crude to Europe on an Aframax; larger cargoes move on Suezmaxes (TD33) and VLCCs.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD25",
-   "cargo": "70,000 t crude oil",
+   "cargo": "70,000 t (cargo not named in the definition)",
    "load": "Houston",
    "discharge": "Rotterdam",
    "state": "active",
@@ -2719,9 +2963,10 @@
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "notes": "Mexican crude to US Gulf refiners, assessed with the Oil Pollution Act premium paid.",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD26",
-   "cargo": "70,000 t crude oil",
+   "cargo": "70,000 t (cargo not named in the definition)",
    "load": "Dos Bocas or Cayo Arcas",
    "discharge": "Houston",
    "state": "active",
@@ -2774,12 +3019,13 @@
     ]
    }
   ],
-  "notes": "Guyanese crude from the Stabroek offshore field to Rotterdam; launched in October 2024.",
+  "notes": "A dirty-tanker route from Guyana, drawn from the Stabroek offshore field, to Rotterdam; the Baltic Exchange added it in the November 2024 review of its guide (Guide to Market Benchmarks, version history).",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD27",
-   "cargo": "130,000 t crude oil",
+   "cargo": "130,000 t (cargo not named in the definition)",
    "load": "Guyana",
    "discharge": "Rotterdam",
    "state": "active",
@@ -2829,12 +3075,13 @@
     ]
    }
   ],
-  "notes": "Canadian crude shipped from Vancouver since the Trans Mountain pipeline expansion entered service; assessed as a US$ lumpsum, live since 4 August 2025 (Baltic Exchange Circular 22/25).",
+  "notes": "From Vancouver to Ningbo, assessed as a lump sum in US dollars; live since 4 August 2025 (Baltic Exchange Circular 22/25).",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD28",
-   "cargo": "80,000 t crude oil",
+   "cargo": "80,000 t (cargo not named in the definition)",
    "load": "Vancouver",
    "discharge": "Ningbo",
    "state": "active",
@@ -2888,9 +3135,10 @@
   "notes": "Canadian crude from Vancouver to the Pacific Area Lightering zone off California (Riviera Maritime Media, 2025), live since 4 August 2025 (Baltic Exchange Circular 22/25). The zone is offshore, not a port: the line is drawn to Long Beach, on the same coast.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD29",
-   "cargo": "80,000 t crude oil",
+   "cargo": "80,000 t (cargo not named in the definition)",
    "load": "Vancouver",
    "discharge": "Pacific Area Lightering",
    "state": "active",
@@ -2947,9 +3195,10 @@
   "notes": "Suezmax US crude to Europe: public trial from 12 January 2026, live from 10 February 2026 (Baltic Exchange Circular 08/26). It shares its corridor with TD25, the Aframax route on the same trade.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-08-26--new-index---td33-go-live-.html",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD33",
-   "cargo": "145,000 t crude oil",
+   "cargo": "145,000 t (cargo not named in the definition)",
    "load": "Corpus Christi",
    "discharge": "Rotterdam",
    "state": "active",
@@ -2998,9 +3247,10 @@
   "notes": "Ceased: its last day of publication was 1 August 2024 (Baltic Exchange Circular 15/24). The Baltic guide and the tanker services page still list it in the Baltic Dirty Tanker Index formula. Kept in the atlas because links point to it.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition gives a tonnage and does not name the cargo: crude oil is the atlas's reading of a dirty-tanker route",
   "definition": {
    "code": "TD2",
-   "cargo": "270,000 t crude oil",
+   "cargo": "270,000 t (cargo not named in the definition)",
    "load": "Ras Tanura",
    "discharge": "Singapore",
    "state": "ended",
@@ -3655,6 +3905,7 @@
   "parcel": 40000,
   "parcelUnit": "t",
   "shareNa": "Its flow, South Korea to Singapore, is counted on the Atlas corridor of refined products from Japan and Korea to South-East Asia, not twice",
+  "shareOn": "gen-refined-products-japan-korea-sea",
   "notes": "MR clean products from Korean refineries to Singapore, assessed in US$ per tonne; with TC12 it makes the MR Pacific basket.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
@@ -4051,6 +4302,7 @@
   "parcel": 35000,
   "parcelUnit": "t",
   "shareNa": "Its flow, South Korea to Australia, is counted on the Atlas corridor of refined products from Japan and Korea to Eastern Australia, not twice",
+  "shareOn": "gen-refined-products-japan-korea-e-australia",
   "notes": "MR clean products from Korean refineries to Sydney's Botany Bay.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
@@ -4365,7 +4617,7 @@
   "definition": {
    "code": "BLPG1",
    "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
-   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "cargo": "44,000 t fully refrigerated LPG, within 5% either way at the owner's choice",
    "load": "Ras Tanura",
    "discharge": "Chiba",
    "state": "active",
@@ -4426,7 +4678,7 @@
   "definition": {
    "code": "BLPG2",
    "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
-   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "cargo": "44,000 t fully refrigerated LPG, within 5% either way at the owner's choice",
    "load": "Houston",
    "discharge": "Flushing",
    "state": "active",
@@ -4485,7 +4737,7 @@
   "definition": {
    "code": "BLPG3",
    "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
-   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "cargo": "44,000 t fully refrigerated LPG, within 5% either way at the owner's choice",
    "load": "Houston",
    "discharge": "Chiba (via the Panama Canal, 2 days of waiting included)",
    "state": "active",
@@ -5545,7 +5797,7 @@
   "id": "indo-malay-india-palm-oil",
   "name": "Indonesia/Malaysia – India palm oil",
   "benchmark": false,
-  "vclass": "handy-tanker",
+  "vclass": "mr",
   "cargoes": [
    "palm-oil"
   ],
@@ -5598,7 +5850,7 @@
     ]
    }
   ],
-  "notes": "Handy/chemical tankers; India is the largest buyer.",
+  "notes": "MR and chemical tankers; India is the largest buyer.",
   "s": "atlas"
  },
  {

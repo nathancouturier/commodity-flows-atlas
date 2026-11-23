@@ -25,7 +25,7 @@ class Definitions(unittest.TestCase):
         cls.bench = {k: r for k, r in cls.defs.items() if r.get("benchmark")}
 
     def test_every_benchmark_has_a_definition_and_a_status(self):
-        self.assertEqual(len(self.bench), 86)
+        self.assertEqual(len(self.bench), 90)
         for k, r in self.bench.items():
             d = r["definition"]
             self.assertIn(d["state"], ("active", "suspended", "ended"), k)
@@ -68,6 +68,40 @@ class Definitions(unittest.TestCase):
                 "BLNG1": "22 days", "BLNG3": "53 days", "C14_182": "80-90 days", "C9_182": "about 65 days"}
         for k, v in want.items():
             self.assertEqual(self.bench[k]["definition"]["duration"], v, k)
+
+    def test_intermediate_tanker_routes_of_circular_03_26(self):
+        want = {"TC25": ("Rotterdam", "Thames", 15000), "TC26": ("Kaarsto", "Rotterdam", 12500),
+                "TD30": ("Immingham", "Rotterdam", 15000), "TD31": ("Port Jerome", "Rotterdam", 15000)}
+        for k, (a, b, q) in want.items():
+            r = self.bench[k]
+            self.assertEqual((r["from"]["ports"][0]["name"], r["to"]["ports"][0]["name"], r["parcel"]), (a, b, q), k)
+            d = r["definition"]
+            self.assertEqual((d["state"], d["stateDate"], d["doc"]), ("active", "2026-01-14", "Baltic Exchange, Circular 03/26"), k)
+            self.assertIn("much larger than this", r["notes"], k)
+
+    def test_dirty_tanker_cargo_is_what_the_definition_says(self):
+        """GBR1.2: the definition gives a tonnage and no cargo name; crude oil is the atlas's reading, in cargoNote."""
+        ids = ("TD2", "TD3C", "TD6", "TD7", "TD9", "TD14", "TD15", "TD17", "TD19", "TD20", "TD22", "TD23", "TD25", "TD26",
+               "TD27", "TD28", "TD29", "TD33", "TD34")
+        for k in ids:
+            r = self.bench[k]
+            self.assertRegex(r["definition"]["cargo"], r"^[0-9,]+ t \(cargo not named in the definition\)$", k)
+            self.assertIn("crude-oil", r["cargoes"], k)
+            self.assertIn("atlas's reading", r["cargoNote"], k)
+        self.assertIn("dirty petroleum products", self.bench["TD8"]["definition"]["cargo"])
+        named = [k for k, r in self.bench.items() if "crude" in (r["definition"].get("cargo") or "") and k != "TD8"]
+        self.assertEqual(named, [])
+
+    def test_no_statement_without_a_page(self):
+        """GBR1.3 and GBR1.4: the trial date of TD34, the Trans Mountain clause, the Forth crude and an October 2024 launch."""
+        text = json.dumps(self.defs, ensure_ascii=False)
+        for w in ("26 March", "Trans Mountain", "Forth crude", "launched in October 2024"):
+            self.assertNotIn(w, text, w)
+
+    def test_no_phrase_of_the_guide(self):
+        text = json.dumps(self.defs, ensure_ascii=False)
+        for w in ("more or less in owner's option", "days after sailing Qingdao"):
+            self.assertNotIn(w, text, w)
 
     def test_no_note_left_unsettled(self):
         for k, r in self.bench.items():
@@ -124,6 +158,23 @@ class Published(unittest.TestCase):
         for k in ("P7", "P8", "TD14", "TD28", "TD33", "C2", "S8_63"):
             self.assertTrue(self.routes[k].get("shares"), k)
             self.assertTrue(self.routes[k].get("history"), k)
+
+    def test_a_route_counted_on_a_generated_corridor_links_to_it(self):
+        for k in ("TC11", "TC22", "TD34"):
+            r = self.routes[k]
+            self.assertTrue(self.routes[r["shareOn"]].get("generated"), k)
+            self.assertNotIn("shares", r, k)
+
+    def test_definitions_carry_the_year_of_their_document(self):
+        self.assertEqual(self.routes["TD3C"]["definition"]["y"], 2025)
+        self.assertEqual(self.routes["TC25"]["definition"]["y"], 2026)
+        self.assertEqual(self.routes["TD28"]["definition"]["y"], 2025)
+
+    def test_palm_oil_route_in_the_first_class_of_the_vessel_rules(self):
+        self.assertEqual(self.routes["indo-malay-india-palm-oil"]["vclass"], "mr")
+
+    def test_end_country_of_an_offshore_terminal(self):
+        self.assertEqual(self.routes["TD23"]["ends"], ["IRQ", "FRA"])
 
     def test_drawn_ports_of_the_new_capesize_routes(self):
         self.assertIn("C5 (West Australia – Qingdao)", self.routes["C10_182"]["standIn"])

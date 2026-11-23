@@ -1,23 +1,18 @@
 /** One infrastructure asset: mine, smelter, port, storage hub, field, refinery, LNG terminal or pipeline. */
 import { useEffect } from 'preact/hooks';
 import type { InfraType, PortLimits, Route } from '../../types';
-import { countryName, sourceLabel, sources, commodityMeta, loadOptional } from '../../lib/data';
+import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { GROUP_LABEL, loadRoutes } from '../../lib/freight';
 import { loadPriceIndex, openPrices, type PriceMeta } from '../../lib/prices';
 import { figuresOf } from '../../lib/capacity';
-import { OUTPUT_LABEL, STATUS_LABEL, figureText, monthYear, sourceText, stateAt, yearText, type Figure } from '../../lib/infra';
+import { OUTPUT_LABEL, STATUS_LABEL, figureText, loadPortIndex, monthYear, sourceText, stateAt, yearText, type Figure, type PortIndexRow } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select, year } from '../../lib/store';
 import { Section, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge, shortSource } from '../ui';
 import { CommodityChips, VesselChip, useLoaded } from './shared';
 import '../../styles/infra.css';
-
-/** The port index of the lanes (pipeline/freight/build_port_index.py): the lanes of each port, by its trade-engine code. */
-interface PortIndexRow { id: string; name: string; c: string; g: string[]; lane: string | null; lanes?: string[]; asset?: string }
-let portIndex: Promise<PortIndexRow[]> | null = null;
-const loadPortIndex = () => (portIndex ??= loadOptional<{ ports: PortIndexRow[] }>('freight/ports.json').then((d) => d?.ports ?? []));
 
 /** "Crude oil, Saudi Arabia to China": a lane id `<group>:<origin>-<destination>` in the words of the lane page. */
 function laneName(id: string): string {
@@ -41,7 +36,13 @@ function PortLimitsSection({ lim, maxClass }: { lim: PortLimits; maxClass?: { dr
     <Section title="Limits">
       <div class="kpis">
         {LIMIT_LABEL.filter(([k]) => typeof lim[k] === 'number').map(([k, label, u]) => (
-          <Kpi key={k} label={label} value={`${fmt(lim[k] as number)} ${u}`} sub={`${lim.y ?? 'year not stated'} · ${shortSource(lim.s)}`} />
+          <Kpi
+            key={k}
+            label={k === 'draught' && lim.depth ? 'Depth' : label}
+            value={`${k === 'dwt' ? fmt(lim[k] as number) : (lim[k] as number).toLocaleString('en-US', { maximumFractionDigits: 3 })} ${u}`}
+            sub={`${lim.y ?? 'year not stated'} · ${shortSource(lim.s)}`}
+            note={lim.at}
+          />
         ))}
       </div>
       <p class="infra-limits-note">{lim.n}</p>
@@ -73,7 +74,7 @@ interface Uses {
   prices: PriceMeta[];
 }
 
-/** The routes that name this asset, the lanes of its trade-engine code, and the price series delivered there. */
+/** The routes that name this asset, the lanes of its trade-engine code, and the price series quoted there. */
 function useUses(key: string, locode: string | undefined, priceIds: string[] | undefined): Uses | null | undefined {
   return useLoaded<Uses>(
     () =>
@@ -118,7 +119,7 @@ function UsesSections({ uses }: { uses: Uses }) {
         </Section>
       )}
       {uses.prices.length > 0 && (
-        <Section title="Prices delivered here">
+        <Section title="Price series quoted at this place">
           {uses.prices.map((m) => (
             <button class="list-btn" key={m.id} onClick={() => openPrices({ series: [m.id] })}>
               <span class="grow">{m.name}</span>

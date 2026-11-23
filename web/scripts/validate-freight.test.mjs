@@ -251,6 +251,22 @@ rejects("a generated route whose alternatives are not its pair's", withRoutes((d
 rejects('a pair in two generated corridors', withRoutes((d) => d.routes.push(route({ id: 'gen-coal-y-y' }))), 'is in the corridor of');
 rejects('two routes with one id', withRoutes((d) => d.routes.push(route())), 'appears twice');
 rejects('a route that names a passage that does not exist', withRoutes((d) => (d.routes[0].via = ['atlantis'])), '"atlantis"');
+rejects('a route whose shareOn is not a generated route', withRoutes((d) => d.routes.push({ id: 'hand', benchmark: false, via: [], shareNa: 'x', shareOn: 'hand' })), 'shareOn "hand"');
+test('a route whose shareOn is a generated route passes', () => {
+  const { errors } = run(withRoutes((d) => d.routes.push({ id: 'hand', benchmark: false, via: [], shareNa: 'x', shareOn: 'gen-coal-z-z' })));
+  assert.deepEqual(errors, []);
+});
+// ---- a benchmark's definition
+const bench = (dx = {}, extra = {}) => ({
+  id: 'TD1X', benchmark: true, via: [], ...extra,
+  definition: { code: 'TD1X', cargo: '70,000 t (cargo not named in the definition)', state: 'active', stateNote: 'listed', stateUrl: 'https://x.org/a', doc: 'Guide (December 2025)', url: 'https://x.org/b', read: 'November 2026', y: 2025, ...dx },
+});
+test('a benchmark whose unnamed cargo is read in cargoNote passes', () => {
+  const { errors } = run(withRoutes((d) => d.routes.push(bench({}, { cargoNote: "crude oil is the atlas's reading" }))));
+  assert.deepEqual(errors, []);
+});
+rejects('a benchmark whose unnamed cargo has no reading in cargoNote', withRoutes((d) => d.routes.push(bench())), 'cargoNote does not give');
+rejects('a definition without the year of its document', withRoutes((d) => d.routes.push(bench({ y: undefined }, { cargoNote: "atlas's reading" }))), 'no year of its document');
 
 if (failed) {
   console.error(`\n${failed} test(s) failed`);

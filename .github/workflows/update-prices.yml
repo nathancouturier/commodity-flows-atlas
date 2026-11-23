@@ -1,5 +1,6 @@
 # Weekly price update (Wednesday evening, with a second try on Thursday morning): World Bank Pink Sheet + EIA
-# daily spot prices -> data/prices.
+# daily spot prices + the three freight indicators (BLS deep-sea freight PPI, Dallas Fed IGREA, New York Fed GSCPI;
+# pipeline/prices/freight_indicators.py) -> data/prices.
 # Why Wednesday: EIA publishes its spot-price files once a week, on Wednesday, with data to the Tuesday before.
 # Pages read on 23 Nov 2026: https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=PET&s=RBRTE&f=D and
 # https://www.eia.gov/dnav/ng/hist/rngwhhdD.htm ("Release Date: 11/18/2026, Next Release Date: 11/25/2026", both
@@ -20,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       accept-large-moves:
-        description: "Accept prices that the before-and-after guard refused (a last value that moved by more than half), after checking them by hand"
+        description: "Accept prices that the before-and-after guard refused (a move larger than the series has ever made in one step, a revision by more than half), after checking them by hand"
         type: boolean
         default: false
 
@@ -92,7 +93,8 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      issues: write   # the issue "Site not republished: a check failed" (deploy.yml, job report)
     uses: ./.github/workflows/deploy.yml
     with:
       ref: ${{ github.event.repository.default_branch }}
-      soft: true   # a failed check skips the publication without failing this run (no e-mail)
+      soft: true   # a failed check, build or deployment skips the publication without failing this run: one issue says so

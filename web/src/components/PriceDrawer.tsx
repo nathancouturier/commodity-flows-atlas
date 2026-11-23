@@ -71,6 +71,8 @@ const RANGES = [
 const SPREAD_GROUP = 'Spreads and ratios';
 /** A series listed in the picker: a few words of its basis, the rest is in the side column. */
 const shortBasis = (b: string): string => (b.length > 110 ? b.slice(0, 107).replace(/[\s,;(]+\S*$/, '') + '…' : b);
+/** A deviation from a trend or an average (two freight indicators) crosses zero: it has no base to index on. */
+const isDeviation = (m: PriceMeta): boolean => /deviation/i.test(m.unit);
 
 interface Lookup {
   query: string;
@@ -260,24 +262,30 @@ export function PriceDrawer() {
   // two axes carry two units; with a third, the series are indexed rather than sharing an axis with an unrelated unit
   const unitCount = new Set(data.map((d) => d.meta.unit)).size;
   const forcedIndex = unitCount > 2;
-  const idxOn = indexed || forcedIndex;
+  const allDeviation = data.length > 0 && data.every((d) => isDeviation(d.meta));
+  if (allDeviation && indexed) setIndexed(false);
+  const idxOn = (indexed || forcedIndex) && !allDeviation;
+  // in an indexed chart a deviation keeps its own unit on the right axis; a second deviation unit has no axis left and is not drawn
+  const devUnit = idxOn ? data.find((d) => isDeviation(d.meta))?.meta.unit : undefined;
+  const roles = data.map((d) => (!idxOn ? 'own' : !isDeviation(d.meta) ? 'index' : d.meta.unit === devUnit ? 'own' : 'off'));
+  const roleKey = roles.join();
   // "Index to 100": each series rebased at the first observation inside the visible range
   const baseKey = idxOn && win ? data.map((d) => firstAtOrAfter(d, win.min)).join() : '';
   const chartSeries: TimeSeries[] = useMemo(() => {
     if (!merged) return [];
     const u0 = data[0].meta.unit;
     const second = data.find((d) => d.meta.unit !== u0)?.meta.unit;
-    // a deviation from a trend or an average (two freight indicators) crosses zero: it has no base to index on and is not drawn indexed
-    const bases = baseKey ? baseKey.split(',').map((k, i) => (Number(k) >= 0 && !/deviation/i.test(data[i].meta.unit) ? data[i].v[Number(k)]! : null)) : null;
+    const bases = baseKey ? baseKey.split(',').map((k, i) => (Number(k) >= 0 && roles[i] === 'index' ? data[i].v[Number(k)]! : null)) : null;
     return data.map((d, i) => ({
-      label: bases ? `${d.meta.name} (${bases[i] == null && /deviation/i.test(d.meta.unit) ? 'not indexed: a deviation has no base' : 'index'})` : d.meta.name,
-      values: bases ? merged.cols[i].map((v) => (v == null || bases[i] == null ? null : (v / bases[i]!) * 100)) : merged.cols[i],
+      label: bases && roles[i] === 'index' ? `${d.meta.name} (index)` : d.meta.name,
+      values: !bases || roles[i] === 'own' ? merged.cols[i] : merged.cols[i].map((v) => (v == null || bases[i] == null ? null : (v / bases[i]!) * 100)),
       color: colors[i],
-      scale: bases || d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
+      scale: bases ? (roles[i] === 'own' ? 'y2' : 'y') : d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
       gaps: d.gaps,
       step: isAnnualSeries(d.meta),
     }));
-  }, [merged, data, colors, baseKey]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [merged, data, colors, baseKey, roleKey]);
   const xMin = merged ? merged.x[0] : 0;
   const xMax = merged ? merged.x[merged.x.length - 1] : 0;
   const hasDaily = data.some((d) => d.meta.freq === 'D');
@@ -542,9 +550,18 @@ export function PriceDrawer() {
                     >
                       <i />
                       <span class="pd-chip-name" title={d.meta.name}>{d.meta.name}</span>
-                      <small class="num" title={chartSeries[i]?.scale === 'y2' ? 'Plotted on the right axis' : undefined}>
-                        {idxOn ? 'index' : d.meta.unit}
-                        {chartSeries[i]?.scale === 'y2' ? ' · R' : ''}
+                      <small
+                        class="num"
+                        title={
+                          roles[i] === 'off'
+                            ? `Not drawn: in ${d.meta.unit}, it crosses zero and cannot be indexed, and the right axis holds another unit`
+                            : roles[i] === 'index'
+                              ? `Indexed to 100; published in ${d.meta.unit}`
+                              : `${d.meta.unit}${chartSeries[i]?.scale === 'y2' ? ', plotted on the right axis' : ''}`
+                        }
+                      >
+                        <span class="pd-chip-unit">{roles[i] === 'index' ? 'index' : roles[i] === 'off' ? 'not drawn' : d.meta.unit}</span>
+                        {roles[i] !== 'off' && chartSeries[i]?.scale === 'y2' ? ' · R' : ''}
                       </small>
                     </button>
                     {data.length > 1 && (
@@ -618,9 +635,15 @@ export function PriceDrawer() {
                 class="pd-toggle"
                 role="switch"
                 aria-checked={idxOn}
-                disabled={forcedIndex}
+                disabled={forcedIndex || allDeviation}
                 onClick={() => setIndexed(!indexed)}
-                title={forcedIndex ? `${unitCount} different units cannot share two axes: the series are shown as an index` : 'Rebase every series to 100 at the start of the visible range, to compare series in different units'}
+                title={
+                  allDeviation
+                    ? `${data.length > 1 ? 'These series are deviations' : 'This series is a deviation'} from a trend or an average: ${data.length > 1 ? 'they cross' : 'it crosses'} zero and cannot be indexed to 100`
+                    : forcedIndex
+                      ? `${unitCount} different units cannot share two axes: the series are shown as an index`
+                      : 'Rebase every series to 100 at the start of the visible range, to compare series in different units'
+                }
               >
                 <span class="switch" aria-hidden="true" />
                 Index to 100
@@ -692,6 +715,14 @@ export function PriceDrawer() {
             </div>
 
             <div class="pd-sources">
+              {/* first, so that it stays in view when the source lines scroll */}
+              {idxOn && (
+                <div class={forcedIndex || roles.includes('off') ? 'pd-hint pd-warn' : 'pd-hint'}>
+                  {forcedIndex ? `${unitCount} different units cannot share two axes, so the chart is indexed: ` : 'Index: '}
+                  each series = 100 at the start of the visible range; readouts and statistics stay in native units.
+                  {devHint(data.find((_, i) => roles[i] === 'own')?.meta, data.find((_, i) => roles[i] === 'off')?.meta)}
+                </div>
+              )}
               {data.map((d, i) => (
                 <div key={d.meta.id} class="pd-src" style={{ '--c': colors[i] }}>
                   <i />
@@ -708,12 +739,6 @@ export function PriceDrawer() {
               {realOn && (
                 <div class="pd-hint">
                   Real prices: annual averages in constant 2010 US dollars, deflated by the World Bank MUV index (workbook CMO-Historical-Data-Annual, sheet "Annual Prices (Real)").
-                </div>
-              )}
-              {idxOn && (
-                <div class={forcedIndex ? 'pd-hint pd-warn' : 'pd-hint'}>
-                  {forcedIndex ? `${unitCount} different units cannot share two axes, so the chart is indexed: ` : 'Index: '}
-                  each series = 100 at the start of the visible range; readouts and statistics stay in native units.
                 </div>
               )}
               {showEvents && merged && events.length > 0 && (
@@ -925,8 +950,20 @@ const obsLabel = (d: LoadedSeries, i: number) => {
   const f = d.meta.freq;
   const year = new Date(d.x[i] * 1000).getUTCFullYear();
   if (f === 'A') return `${year} ${annualWord(d.meta)}`;
-  return fmtObsDate(d.x[i], f) + (f !== 'M' ? '' : d.meta.unit.startsWith('index') ? ' monthly value' : ' monthly average');
+  return fmtObsDate(d.x[i], f) + (f !== 'M' ? '' : ` ${monthlyWord(d.meta)}`);
 };
+/** An index or a deviation is a value of the month, not an average of daily prices. */
+const monthlyWord = (m: PriceMeta) => (m.unit.startsWith('index') || isDeviation(m) ? 'monthly value' : 'monthly average');
+
+/**
+ * What an indexed chart does with the deviation series (two exist, in two units): the first keeps its unit on the right
+ * axis, the other has no axis left and is not drawn.
+ */
+function devHint(own?: PriceMeta, off?: PriceMeta): string {
+  let s = own ? ` ${own.name}: not indexed (it crosses zero), right axis in ${own.unit}.` : '';
+  if (off) s += ` ${off.name}: not drawn (it crosses zero too, and no axis is left for its unit).`;
+  return s;
+}
 
 /**
  * What a figure of a series with years of twelve identical monthly values is: said next to the value, as what is
@@ -1042,7 +1079,7 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
     label: allAnnual
       ? `${name} value, unchanged all year`
       : f === 'M'
-        ? `${name} average of ${plural(st.n, d.meta.unit.startsWith('index') ? 'monthly value' : 'monthly average')}`
+        ? `${name} average of ${plural(st.n, monthlyWord(d.meta))}`
         : `${name} average`,
     value: fmtPrice(st.avg),
     num: st.avg,

@@ -5,6 +5,8 @@
 .small { font-size: var(--fs-xs); line-height: 1.4; }
 .grow { flex: 1; min-width: 0; }
 .prose { font-size: var(--fs-sm); line-height: 1.5; color: var(--ink-1); margin: 0; }
+/* the paragraphs of a route's freight rate block, spaced so that they do not read as one */
+.rr-p + .rr-p { margin-top: 6px; }
 .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; display: inline-block; }
 
@@ -171,6 +173,8 @@
 .bar-sub { display: block; font-size: 10.5px; color: var(--ink-3); margin-top: 3px; }
 .co-group + .co-group { margin-top: 10px; }
 .co-group .route-sub { margin: 4px 0 2px 6px; }
+/* the company a search result or a link opened the page for */
+.co-row.co-hit { background: var(--accent-soft); box-shadow: inset 2px 0 0 var(--accent); }
 /* infrastructure lists: a type heading with its count, then blocks of comparable figures */
 .co-group .infra-group { display: flex; justify-content: space-between; align-items: baseline; margin-right: 6px; }
 .infra-group .num { font-weight: 400; letter-spacing: 0; }

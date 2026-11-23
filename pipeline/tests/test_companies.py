@@ -77,6 +77,25 @@ class SourcesFollowTheSchema(unittest.TestCase):
         self.assertGreaterEqual(len(vlcc), 3)
         self.assertGreaterEqual(sum(len(v) for v in sh.values()), 30)
 
+    def test_review_corrections(self):
+        """GCO1: entries the review of the fifth wave found stale or wider than their pages."""
+        co, sh = B.merged(), B.load("shipping")
+        every = [e for _, e, _ in B.entries(co, sh)]
+        byname = lambda n: [e for e in every if e["name"] == n]
+        self.assertEqual(byname("Golden Ocean Group"), [])  # taken over by CMB.TECH and delisted in August 2025
+        self.assertTrue(all(e["parent"] == "China National Petroleum Corporation (82.36%)" for e in byname("PetroChina")))
+        self.assertTrue(all("%" not in e["parent"] for e in byname("Kazatomprom") + byname("China Shenhua Energy") + byname("Frontline")))
+        insw = byname("International Seaways")[0]
+        self.assertEqual((insw["fig"]["v"], insw["fig"]["y"], insw["y"]), (74, 2025, 2025))
+        self.assertIn("mr", insw["classes"])
+        sovco = byname("Sovcomflot")[0]
+        self.assertNotIn("fig", sovco)
+        self.assertEqual({(s["by"], s["since"]) for s in sovco["sanction"]}, {("OFAC", "2024-02"), ("UK", "2022-03")})
+        self.assertTrue(all("own" not in e and "1966" not in e.get("detail", "") for e in byname("Vitol")))
+        cil = byname("Coal India")[0]
+        self.assertIsNone(B.url_problem(cil["fig"]["url"], dated=True))
+        self.assertNotIn("about", cil["url"])
+
 
 class BuilderRefusesBrokenEntries(unittest.TestCase):
     def broken(self, change):
@@ -143,6 +162,67 @@ class BuilderRefusesBrokenEntries(unittest.TestCase):
         errs = self.broken(change)
         self.assertTrue(any("fleet" in e for e in errs), errs)
         self.assertTrue(any("classes must be ids" in e for e in errs), errs)
+
+    def test_share_in_parent_needs_the_page_that_states_it(self):
+        def change(co, sh):
+            e = next(e for e in co["crude-oil"]["producers"] if e["name"] == "PetroChina")
+            e.pop("parentUrl")
+        errs = self.broken(change)
+        self.assertTrue(any("share in parent" in e for e in errs), errs)
+        # a share from the entry's Wikipedia article passes; the same share on a company report needs parentUrl
+        errs = self.broken(lambda co, sh: next(e for e in co["thermal-coal"]["producers"] if e["name"] == "China Shenhua Energy")
+                           .update(parent="China Energy Investment Corporation (69.52%)"))
+        self.assertTrue(any("share in parent" in e for e in errs), errs)
+        errs = self.broken(lambda co, sh: next(e for e in sh["tankers"] if e["name"] == "Bahri").update(parent="Public Investment Fund (22.55%)"))
+        self.assertFalse(any("share in parent" in e for e in errs), errs)
+
+    def test_every_share_in_parent_has_its_page(self):
+        import re
+        for place, e, _ in B.entries(B.merged(), B.load("shipping")):
+            if re.search(r"\d\s*%", e.get("parent", "")):
+                self.assertTrue(e["s"] == "wikipedia" or e.get("parentUrl"), f"{place} {e['name']}: {e['parent']}")
+
+    def test_superlative_in_role_or_parent(self):
+        errs = self.broken(lambda co, sh: self.first(co).update(role="largest producer"))
+        self.assertTrue(any("no superlative in role" in e for e in errs), errs)
+        errs = self.broken(lambda co, sh: self.first(co).update(parent="the leading state holding"))
+        self.assertTrue(any("no superlative in parent" in e for e in errs), errs)
+        # "largest shareholder" names the parent, it does not rank the company
+        errs = self.broken(lambda co, sh: self.first(co).update(parent="Government of X, largest shareholder"))
+        self.assertFalse(any("superlative" in e for e in errs), errs)
+
+    def test_sanctioned_outside_the_sanction_field(self):
+        errs = self.broken(lambda co, sh: self.first(co).update(detail="Sanctioned by the US"))
+        self.assertTrue(any("sanction field only" in e for e in errs), errs)
+        errs = self.broken(lambda co, sh: sh["tankers"][0].update(role="sanctioned shipowner"))
+        self.assertTrue(any("sanction field only" in e for e in errs), errs)
+
+    def test_wikipedia_url_is_an_article(self):
+        for url in ("https://en.wikipedia.org/wiki/Mercury_(disambiguation)", "https://en.wikipedia.org/wiki/Special:Search"):
+            errs = self.broken(lambda co, sh: next(e for e in co["crude-oil"]["producers"] if e["s"] == "wikipedia").update(url=url))
+            self.assertTrue(any("not a special, talk or disambiguation page" in e for e in errs), errs)
+
+    def test_read_month_in_the_future(self):
+        errs = self.broken(lambda co, sh: self.first(co).update(read="2030-01"))
+        self.assertTrue(any("later than the current month" in e for e in errs), errs)
+        co, sh = copy.deepcopy(B.merged()), copy.deepcopy(B.load("shipping"))
+        self.first(co)["read"] = "2026-12"
+        self.assertTrue(any("later than" in e for e in B.problems(co, sh, *CTX, month="2026-11")))
+        self.assertFalse(any("later than" in e for e in B.problems(co, sh, *CTX, month="2026-12")))
+
+    def test_figure_of_two_commodities(self):
+        for what in ("oil and gas production", "crude and products traded", "hydrocarbon production"):
+            errs = self.broken(lambda co, sh: self.first(co)["fig"].update(what=what))
+            self.assertTrue(any("more than one commodity" in e for e in errs), (what, errs))
+        errs = self.broken(lambda co, sh: self.first(co)["fig"].update(what="liquids production (crude oil, condensate, NGL)"))
+        self.assertFalse(any("more than one commodity" in e for e in errs), errs)
+
+    def test_figure_on_a_generic_page(self):
+        for url in ("https://www.coalindia.in/about-us/", "https://www.vitol.com/about-us/", "https://www.shell.com/investors.html"):
+            errs = self.broken(lambda co, sh: self.first(co)["fig"].update(url=url))
+            self.assertTrue(any("generic page" in e for e in errs), (url, errs))
+        # an entry without a figure may still cite its company's "about" page for who it is
+        self.assertIsNone(B.url_problem("https://www.czarnikow.com/about-cz/"))
 
     def test_check_mode_passes_on_the_published_files(self):
         import subprocess

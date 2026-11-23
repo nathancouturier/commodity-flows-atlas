@@ -81,8 +81,9 @@ or a built file that is absent is skipped. The data tests read the built files, 
 site's checks are `node web/scripts/validate-data.mjs`, its own tests `node web/scripts/validate-freight.test.mjs` and
 `node web/scripts/validate-infra.test.mjs` (all of them: `cd web && npm test`), and `cd web && npx tsc --noEmit`. The
 workflow `ci.yml` runs all of them, a production build and its size budget (`web/scripts/check-size.mjs`) on every pull
-request and branch, and the deploy runs them before it publishes. The scheduled data jobs rely on `validate-data.mjs`
-and the before-and-after guard `guard-data.mjs`, which discard an invalid update.
+request, by hand, and before each publication (the deploy calls it); a push to a working branch runs nothing. The
+scheduled data jobs rely on `validate-data.mjs` and the before-and-after guard `guard-data.mjs`, which discard an
+invalid update.
 
 The CEPII BACI trade database is a 2.4 GB download, reduced to `pipeline/cache/baci_flows.csv.gz` by
 `pipeline/trade/extract_baci.py` (years from 2002). The cache is tracked, so rebuilding the lanes and
@@ -113,17 +114,20 @@ Every source is checked before it replaces the previous file (it opens, has the 
 and series, the record count has not collapsed, the latest date has not moved backwards), and has its own time limit.
 On any failure the previous good files stay in place and the run still finishes green. After the scripts,
 `web/scripts/validate-data.mjs` (shapes, references between files, ranges) and `web/scripts/guard-data.mjs` (against
-the last commit: a table that lost more than a tenth of its rows, a file that shrank by half, a price that moved by
-more than half) run; if either fails the whole update is discarded. Valid changes to the paths the job owns are
-committed by `github-actions[bot]` and pushed to `main`; the three jobs share one concurrency group and never overwrite
-each other's status entries. The deploy then runs the checks and republishes the site.
+the last commit: a table that lost more than a tenth of its rows, a file that shrank by half, a price series whose
+shape broke or that moved in one step further than its own history allows) run; if either fails the whole update is
+discarded. Valid changes to the paths the job owns are committed by `github-actions[bot]` and pushed to `main`; the
+three jobs share one concurrency group and never overwrite each other's status entries (an update that cannot be
+pushed is dropped and recorded as a failure). The deploy then runs the checks and republishes the site; when it
+cannot, the data stays on `main` and one issue "Site not republished: a check failed" says so.
 
 **Status and alerting.** `data/_status/updates.json` records, per source, the last attempt and success,
 consecutive failures, the last error, the record count and the latest date covered (`data_to`);
 `data/_status/log.jsonl` keeps the last 500 runs. A step that timed out or crashed is recorded as failed too. When a
 weekly source has failed 3 runs in a row, a monthly one 2, or a build step once, the workflow opens (or updates) one
 issue titled `Data update failing: <source>` with the label `data-update`, and closes it when the source succeeds
-again. Issues must be enabled for the repository. What each failure does, what GitHub e-mails (nothing for a data job
+again. A discarded update, an update that could not be pushed, a site not republished and a watcher that cannot run
+each open one issue of their own. Issues must be enabled for the repository. What each failure does, what GitHub e-mails (nothing for a data job
 in the normal course), how the schedules stay enabled and the steps done by hand are in
 [`docs/UPDATING.md`](docs/UPDATING.md).
 

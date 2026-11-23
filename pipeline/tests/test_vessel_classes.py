@@ -100,6 +100,48 @@ class StandardVessel(unittest.TestCase):
             if "bench" in c:
                 self.assertIn(c["bench"]["id"], CLASSES)
 
+    def test_baltic_notes_are_the_atlas_own_words(self):
+        """The Baltic Exchange's site terms restrict copying (registry entry `baltic`): a standard vessel taken from its
+        page keeps the figures and one sentence of the atlas's own, never the page's description."""
+        for cid, c in CLASSES.items():
+            s = c.get("std")
+            if not s or s["s"] != "baltic":
+                continue
+            for phrase in ("non-scrubber", "salt-water", "maximum age", "bale", "cranes", "the page also gives"):
+                self.assertNotIn(phrase, s["n"], cid)
+            self.assertLessEqual(len(s["n"]), 220, cid)
+        for sid in ("baltic", "baltic-circulars", "veson-baltic-defs"):
+            self.assertIn("verdict pending", SOURCES[sid]["licence"], sid)
+        for sid in ("baltic", "baltic-circulars"):
+            self.assertIn("without the prior written consent of the Baltic", SOURCES[sid]["licence"], sid)
+
+
+class TypicalSize(unittest.TestCase):
+    def test_a_typical_size_from_a_page_links_the_page(self):
+        """The ports read the typical deadweight of a class without a standard vessel: a page's figure has its page."""
+        for cid, c in CLASSES.items():
+            z = c["size"]
+            if z["typicalS"] != "atlas":
+                self.assertTrue(z.get("typicalUrl", "").startswith("https://"), cid)
+
+    def test_port_and_benchmark_sizes(self):
+        nc, pmx = CLASSES["newcastlemax"]["size"], CLASSES["panamax"]["size"]
+        # Wikipedia (Bulk carrier): the largest vessel able to enter Newcastle, about 185,000 dwt
+        self.assertEqual((nc["typical"], nc["typicalS"]), (185000, "wikipedia"))
+        # the Panamax 74 of the Baltic's P4TC, as the Veson page of Baltic definitions lists it
+        self.assertEqual((pmx["typical"], pmx["typicalS"]), (74000, "veson-baltic-defs"))
+
+
+class RoutesOfAClass(unittest.TestCase):
+    def test_a_route_the_class_also_serves_exists_and_the_vegetable_oil_route_is_not_handy(self):
+        built = {r["id"]: r for r in load("data", "freight", "routes.json")}
+        for cid, c in CLASSES.items():
+            for rid in c["routes"]:
+                self.assertIn(rid, built, (cid, rid))
+        self.assertIn("indo-malay-india-palm-oil", CLASSES["chemical-tanker"]["routes"])
+        self.assertNotIn("indo-malay-india-palm-oil", CLASSES["handy-tanker"]["routes"])
+        self.assertNotEqual(built["indo-malay-india-palm-oil"]["vclass"], "handy-tanker")
+
 
 class Rules(unittest.TestCase):
     GROUPS = ["iron-ore", "bauxite", "coal", "manganese", "copper-ore", "wheat", "rice", "potash", "palm-oil", "soyoil",

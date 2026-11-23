@@ -34,7 +34,7 @@ The tests are in `pipeline/tests/test_companies.py`.
   "hq": "CYP",
   "role": "shipowner",
   "own": "listed",
-  "parent": "John Fredriksen (40.2%)",
+  "parent": "Hemen Holding Limited (largest shareholder)",
   "detail": "Crude and product tanker owner, Limassol",
   "fig": {"v": 80, "u": "ships", "what": "fleet owned", "y": 2025, "s": "company-reports",
           "url": "https://…", "n": "As of December 31, 2025 the company owned 80 vessels (fourth quarter 2025 report)."},
@@ -51,19 +51,20 @@ The tests are in `pipeline/tests/test_companies.py`.
 |---|---|
 | `name` | The name the company uses today. A former name goes in `detail` ("formerly …") while readers still use it. |
 | `hq` | ISO3 code of the head office as the page states it (a code of `data/countries/index.json`). |
-| `role` | Free text: producer, refiner, trader, shipowner, operator, charterer, shipbroker, terminal operator, state buyer… |
+| `role` | Free text: producer, refiner, trader, shipowner, operator, charterer, shipbroker, terminal operator, state buyer… No superlative. |
 | `own` | One of `state`, `state-listed` (state-controlled and listed), `listed`, `private`, `cooperative`. Leave it out when no page read says. A state that is the largest shareholder without control does not make a company `state-listed`: the shareholder goes in `parent` with its share. |
-| `parent` | The controlling shareholder or parent, as the page states it. Optional. |
+| `parent` | The controlling shareholder or parent, as the page states it. Optional. A share ("(82.36%)") is the share the page states, with its date when the page dates it ("44.6% in January 2015"); otherwise no percentage. No superlative, apart from "largest shareholder". |
+| `parentUrl` | The page that states the share in `parent`. Required for a percentage unless the entry's `s` is `wikipedia` (the article is then the page); it may be the entry's own `url`. The site links it when it is another page. |
 | `detail` | One line. No superlative ("largest", "leading", "top"…) unless the same entry carries the dated figure that supports it and the page makes the claim for that year. Dated facts carry their date ("in November 2025"). |
-| `fig` | One comparable figure for the commodity (or, for a shipping company, its fleet): `v` a number; `u` a unit only, one of `Mt`, `kt`, `t`, `kb/d`, `Mboe/d`, `bcm`, `Mtpa`, `Mt/y`, `ships`, `Mdwt`, `Mcbm`, `TEU`; `what` says what is counted and on which basis ("liquids production (crude oil, condensate, NGL)", "LNG sold", "fleet, owned and chartered-in"); `y` the year the figure refers to (a fiscal year takes the calendar year in which it ends, and `n` says so); `s` and `url` the page that states it; `n` optional, the stated number and the factor of any conversion. Never a figure from memory and never a figure the page does not state. A figure that covers several commodities is not a `fig`: write it in `detail` with its date and what it covers. |
-| `sanction` | Only from the authority's own notice or list, read in the session that adds it: `by` (`OFAC`, `EU`, `UK`), `since` (`YYYY` or `YYYY-MM`), `url`. A list of such objects when several authorities designate the company. A sanction that was lifted is removed. "Sanctioned" is never written in `detail`. |
-| `s`, `url` | `s` is an id of `data/sources.json`; `url` is the dated document or page that supports the entry (an annual report, a results release, a filing, the Wikipedia article). A home page is refused. |
+| `fig` | One comparable figure for the commodity (or, for a shipping company, its fleet): `v` a number; `u` a unit only, one of `Mt`, `kt`, `t`, `kb/d`, `Mboe/d`, `bcm`, `Mtpa`, `Mt/y`, `ships`, `Mdwt`, `Mcbm`, `TEU`; `what` says what is counted and on which basis ("liquids production (crude oil, condensate, NGL)", "LNG sold", "fleet, owned and chartered-in"); `y` the year the figure refers to (a fiscal year takes the calendar year in which it ends, and `n` says so); `s` and `url` the page that states it; `n` optional, the stated number and the factor of any conversion. Never a figure from memory and never a figure the page does not state. A figure that covers several commodities ("oil and gas production", "crude and products traded") is not a `fig`: write it in `detail` with its date and what it covers. The page of a figure is a dated document: a generic page ("about us", "investors") is refused, as its text changes every year. |
+| `sanction` | Only from the authority's own notice or list, read in the session that adds it: `by` (`OFAC`, `EU`, `UK`), `since` (`YYYY` or `YYYY-MM`), `url`. A list of such objects when several authorities designate the company. `since` is the date of the designation in the notice or list read, which may not be the first one: the site writes "OFAC designation of October 2020". A sanction that was lifted is removed. "Sanctioned" is never written outside this field. |
+| `s`, `url` | `s` is an id of `data/sources.json`; `url` is the dated document or page that supports the entry (an annual report, a results release, a filing, the Wikipedia article). A home page is refused, and so is a Wikipedia special, talk or disambiguation page. |
 | `y` | The year the entry's facts refer to, equal to `fig.y` when there is a figure. Never the year of reading. Left out when the page gives no date. |
-| `read` | `YYYY-MM`, the month the page was read. Required. |
+| `read` | `YYYY-MM`, the month the page was read, not later than the current month. Required. |
 | `classes` | Shipping companies only: ids of `pipeline/freight/vessel_classes.json` that the page read names for the company's fleet. Left out when the page names none (the class page then lists the company among the others of its segment, "classes not stated"). |
 
 One company, one identity: where a company stands under several commodities or segments, its `name`, `hq`, `own`,
-`parent` and `sanction` must be the same everywhere. The `fig` belongs to the commodity it stands under.
+`parent`, `parentUrl` and `sanction` must be the same everywhere. The `fig` belongs to the commodity it stands under.
 
 ## Sources
 
@@ -75,8 +76,8 @@ One company, one identity: where a company stands under several commodities or s
 - Wikipedia (CC BY-SA 4.0): `wikipedia`, with the article address. Accepted for now; a company's own report is
   preferred whenever it gives the fact.
 - Sanctions: `ofac` (US Treasury press releases on designations), `uk-sanctions` (GOV.UK announcements and the UK
-  sanctions list); `eu-sanctions` is the id for the EU's Official Journal if an EU designation is added (register it
-  first).
+  sanctions list, whose entry gives the date designated); `eu-sanctions` is the id for the EU's Official Journal if an
+  EU designation is added (register it first, from the Official Journal text read).
 - Single figures of a public body: `cochilco` (Codelco's production).
 - Not used: Equasis, Clarksons Research, Kpler, S&P and other paid or restricted data; association ranking tables
   (worldsteel, GIIGNL, World Nuclear Association, ICCO) are not copied: the company's own report gives its figure.
@@ -87,8 +88,14 @@ A commodity page lists the companies by group. Rows whose figures count the same
 ordered by value; other figures form their own blocks, and rows without a figure follow in the order of the file.
 Each row shows the figure with its year and a link to its page, the conversion note, the ownership, a sanction mark
 with the authority and the month, and the assets of the infrastructure layer whose operator field names the company
-(as operator or as an owner with a share; a former owner, "ex-" or "formerly", does not count). A country page lists
-the companies headquartered there. A vessel-class page lists the shipping companies whose `classes` name it. The
+(as operator or as an owner with a share). A former owner does not count: a name preceded, in the same clause of the
+operator field (up to a semicolon, a comma or a bracket), by "sold by", "ex-", "formerly", "previously" or "bought
+(from)"; nor does a name that begins another company of the lists ("Gazprom" in "Gazprom Neft"). A country page lists
+the companies headquartered there, the shipping companies with their segment. A vessel-class page lists the shipping
+companies whose `classes` name it, and those of its segment whose page names no class; a class whose segment has no
+company (container ships) has no list. Fleets counted on different bases (owned, chartered-in, leased, managed, with
+ships on order) are separate blocks. The search finds a company by its name and opens the page that lists it, its row
+shown (`co=<name>` in the link). The
 source line under each list says when the pages were read; the year of each fact is on its row.
 
 ## Adding or changing an entry

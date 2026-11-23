@@ -10,7 +10,7 @@ import { GROUP_LABEL, LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, AlertBanners, shortSource } from '../ui';
-import { CompanyRows } from '../Companies';
+import { CompanyRows, linkedCompany } from '../Companies';
 import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { useLoaded } from './shared';
@@ -678,7 +678,8 @@ export default function CommodityView({ id }: { id: string }) {
             {hist && <LargestChanges hist={hist} data={d} color={color} />}
             <KeyInfra id={id} />
             {hasCo && (
-              <Section fold latest title="Main companies" aside={<span class="muted num">{coCount}</span>}>
+              <Section key={linkedCompany(companies!.producers, companies!.processors, companies!.traders) ?? ''} fold latest
+                open={!!linkedCompany(companies!.producers, companies!.processors, companies!.traders)} title="Main companies" aside={<span class="muted num">{coCount}</span>}>
                 <CompanyRows title="Producers" list={companies!.producers ?? []} />
                 <CompanyRows title="Processors" list={companies!.processors ?? []} />
                 <CompanyRows title="Traders" list={companies!.traders ?? []} />

@@ -54,9 +54,9 @@
   "name": "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111)",
   "publisher": "U.S. Bureau of Labor Statistics",
   "url": "https://www.bls.gov/ppi/",
-  "licence": "Public domain, citation requested: FRED's page of this series (https://fred.stlouisfed.org/series/PCU483111483111) tags it \"Public Domain: Citation Requested\" with \"Source: U.S. Bureau of Labor Statistics\". The BLS's own copyright page (https://www.bls.gov/opub/copyright-information.htm) refused automated access, so its wording is not quoted here",
+  "licence": "Public domain, citation requested: \"Public Domain: Citation Requested\" and \"Source: U.S. Bureau of Labor Statistics\" on FRED's page of this series (https://fred.stlouisfed.org/series/PCU483111483111); the BLS's own page could not be read",
   "update": "monthly (mid-month, for the month before last)",
-  "access": "BLS public API version 1 (api.bls.gov/publicAPI/v1), no key and no registration: ten years per request and a small daily quota per address. The history is kept in pipeline/cache/bls; the weekly job asks for the last three years. Years not yet fetched from the BLS are the values the atlas took earlier through FRED, the St. Louis Fed's copy of the same series, and the series note says which",
+  "access": "BLS public API version 1 (api.bls.gov/publicAPI/v1), no key and no registration: ten years per request and a small daily quota per address. The history is kept in pipeline/cache/bls; the weekly job asks for the last three years. Until the BLS API has returned every year, the older years are the values the atlas took earlier through FRED, the St. Louis Fed's copy of the same series, and the series note says which. The BLS's copyright page (https://www.bls.gov/opub/copyright-information.htm) refused automated access (HTTP 403), so the licence quotes FRED's page of the series",
   "use": "The Freight family of the prices: US producer price index for deep-sea freight services (not a freight rate)"
  },
  {
@@ -134,10 +134,10 @@
   "name": "Baltic Exchange route definitions",
   "publisher": "The Baltic Exchange",
   "url": "https://www.balticexchange.com/en/data-services/market-information0/indices.html",
-  "licence": "Route names and definitions are public facts; index values are proprietary and not shown; not affiliated with the Baltic Exchange",
+  "licence": "Site terms restrict reuse (owner's verdict pending). Clause 5.1 of the Baltic Exchange Terms and Conditions: no part of the website or its content \"may be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic\". The atlas states route definitions and standard-vessel figures as facts, in its own words, with a link; it shows no index value (index values are proprietary); it is not affiliated with the Baltic Exchange",
   "update": "n/a",
   "access": "Web pages, read by hand",
-  "use": "Names and definitions of the benchmark routes; no index value"
+  "use": "Names and definitions of the benchmark routes and the standard vessels of the dry time-charter routes; no index value"
  },
  {
   "id": "eurostat-searoute",
@@ -194,17 +194,17 @@
   "name": "Baltic Exchange time-series/route definitions (Veson VesselsValue help)",
   "publisher": "Veson Nautical (summarising Baltic Exchange)",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "licence": "Public web page; facts cited (terms to be confirmed)",
+  "licence": "Site terms restrict reuse (owner's verdict pending). Veson End User Terms of Use (last modified 23 June 2026): a user \"must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material comprising the Veson Offerings, except as expressly authorized by Veson\", and may not link to a Veson website without Veson's prior written consent; the Baltic Exchange information on Veson's pages is owned by Baltic Exchange Information Services Limited, whose notice there prohibits copying without its licence. The atlas states a few sizes and cargo figures as facts, in its own words, with a link; it shows no index value (index values are proprietary)",
   "update": "irregular",
   "access": "Web page, read by hand",
-  "use": "Benchmark route definitions"
+  "use": "Benchmark route definitions; typical sizes of some vessel classes"
  },
  {
   "id": "baltic-circulars",
   "name": "Baltic Exchange circulars and service pages (TD27, TD2/TD17/TC9 cessation, BLNG-174, BSI 63.5, C5TC 182)",
   "publisher": "The Baltic Exchange",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/",
-  "licence": "Route names and definitions are public facts; index values are proprietary and not shown; not affiliated with the Baltic Exchange",
+  "licence": "Site terms restrict reuse (owner's verdict pending). Clause 5.1 of the Baltic Exchange Terms and Conditions: no part of the website or its content \"may be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic\". The atlas states route changes, cessations and standard-vessel sizes as facts, in its own words, with a link; it shows no index value (index values are proprietary); it is not affiliated with the Baltic Exchange",
   "update": "as published",
   "access": "Web pages, read by hand",
   "use": "Benchmark route changes and cessations"
@@ -371,11 +371,13 @@
  },
  {
   "id": "wikipedia-vessel-classes",
-  "name": "Wikipedia ship-size and strait articles (Bulk carrier, Capesize, Valemax, Chinamax, Panamax, Handymax, Handysize, Oil tanker, Suezmax, Aframax, Chemical tanker, LNG carrier, Q-Max, Q-Flex, Malaccamax, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
+  "name": "Wikipedia ship-size and strait articles",
   "publisher": "Wikipedia contributors",
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",
-  "update": "irregular"
+  "update": "irregular",
+  "access": "Web pages, read by hand",
+  "use": "Vessel class constraints and strait limits. Articles read: Bulk carrier, Capesize, Valemax, Chinamax, Panamax, Handymax, Handysize, Oil tanker, Suezmax, Aframax, Chemical tanker, LNG carrier, Q-Max, Q-Flex, Malaccamax, Sunda Strait, Lombok Strait, Strait of Dover, Drogden"
  },
  {
   "id": "worldsteel",

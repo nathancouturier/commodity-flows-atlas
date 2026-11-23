@@ -197,13 +197,14 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>).
         </li>
         <li>
-          <b>Baltic Exchange.</b> Commodity Flows Atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. Benchmark routes
-          are described from public route definitions. No Baltic Exchange index value or rate assessment is shown.
+          <b>Baltic Exchange.</b> Commodity Flows Atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. The benchmark
+          route definitions and the standard vessels are the Baltic Exchange's: the atlas states them as facts, in its own words, with a link to
+          the Baltic Exchange page. Index values and rate assessments are proprietary and are never shown.
         </li>
         <li>
-          <b>Freight indicators.</b> The deep-sea freight producer price index is a U.S. Bureau of Labor Statistics series; the years the BLS
-          API has not yet returned are the copy taken earlier through the FRED® API, which the Federal Reserve Bank of St. Louis does not endorse
-          or certify. The index of global real economic activity is published by the Federal Reserve Bank of Dallas (Kilian 2009, 2019).
+          <b>Freight indicators.</b> The deep-sea freight producer price index is a U.S. Bureau of Labor Statistics series. Until the BLS API has
+          returned every year, the older years are the copy taken earlier through the FRED® API, which the Federal Reserve Bank of St. Louis does
+          not endorse or certify; the note of the series names those years. The index of global real economic activity is published by the Federal Reserve Bank of Dallas (Kilian 2009, 2019).
           Federal Reserve Bank of New York, Global Supply Chain Pressure Index, https://www.newyorkfed.org/research/policy/gscpi: the GSCPI is not
           an official estimate of the New York Fed or the Federal Reserve System.
         </li>

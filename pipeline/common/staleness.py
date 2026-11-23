@@ -8,7 +8,8 @@ reach with the cadence the atlas expects. It uses the same rules as the "Data fr
   last successful check   older than 16 days for a weekly source, 64 days for a monthly one (two runs missed plus a
                           margin), 80 + 64 days for FAOSTAT/WNA (checked every 80 days)
   daily data (EIA spot, PortWatch)   the last day is more than 21 days old
-  monthly data (Pink Sheet)          month M is late once month M+1 should have been published: the 15th of M+2
+  monthly data (Pink Sheet, and the BLS, Dallas Fed and New York Fed freight indicators)
+                                     month M is late once month M+1 should have been published: the 15th of M+2
   USGS MCS edition Y                 late after 31 March of Y+1 (the edition comes out at the end of January)
   CEPII BACI version VYYYYMM         late after 31 March of YYYY+1 with no newer version installed (one version a year,
                                      in January; the refresh is done by hand: docs/UPDATING.md)

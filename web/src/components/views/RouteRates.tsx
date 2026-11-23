@@ -43,24 +43,24 @@ export function RouteRates({ r }: { r: Route }) {
   const dry = seg === 'dry';
   return (
     <Section title="Freight rate">
-      <p class="prose">
+      <p class="prose rr-p">
         {r.benchmark ? 'The Baltic Exchange assessment of this route is proprietary: the atlas does not show it.' : 'Baltic Exchange rate assessments are proprietary: the atlas shows none.'}{' '}
         <a class="port-link" href={BALTIC_URL} target="_blank" rel="noopener">Baltic Exchange indices</a>
       </p>
       {usda && (
-        <p class="prose">
+        <p class="prose rr-p">
           {usda.text} The atlas links to the table and does not copy it.{' '}
           <a class="port-link" href={usda.href} target="_blank" rel="noopener">{usda.label}</a>
         </p>
       )}
       {dry && (
-        <p class="prose">
-          A free long-run indicator of dry bulk rates, deflated and detrended, is in Prices:{' '}
+        <p class="prose rr-p">
+          A free long-run indicator built on dry bulk shipping rates (a deflated, detrended index of global real economic activity) is in Prices:{' '}
           <button class="port-link" onClick={() => openPrices({ series: ['igrea-m'] })}>Dallas Fed index of global real economic activity</button>.
         </p>
       )}
       {(dry || seg === 'tanker') && (
-        <p class="prose">
+        <p class="prose rr-p">
           The Bank of Japan publishes a monthly services producer price index for {dry ? 'ocean freight transportation except tankers' : 'ocean tankers'} (2020 = 100); the atlas links to it.{' '}
           <a class="port-link" href={BOJ_URL} target="_blank" rel="noopener">Bank of Japan SPPI</a>
         </p>

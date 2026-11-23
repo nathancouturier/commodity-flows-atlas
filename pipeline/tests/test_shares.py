@@ -423,8 +423,8 @@ class Routes(unittest.TestCase):
 
     def test_routes_use_plan(self):
         rs = self.routes()
-        # the 129 hand-written routes of routes_def.json, then the generated corridors (generated_routes.py, test_generated_routes.py)
-        self.assertEqual(sum(1 for r in rs.values() if not r.get("generated")), 129)
+        # the 133 hand-written routes of routes_def.json, then the generated corridors (generated_routes.py, test_generated_routes.py)
+        self.assertEqual(sum(1 for r in rs.values() if not r.get("generated")), 133)
         c3 = rs["C3"]
         self.assertIn("cape-good-hope", c3["via"])
         self.assertNotIn("sunda", c3["via"])

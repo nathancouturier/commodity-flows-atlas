@@ -28,7 +28,7 @@ import {
   type SheetSnap,
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
-import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, segmentOf, vesselClassList, vesselMatches, vesselName, finderCommodity } from '../lib/freight';
+import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, routeMatches, segmentOf, vesselClassList, vesselName, finderCommodity } from '../lib/freight';
 import { RouteFinderSlot } from './RouteFinder';
 import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
@@ -342,7 +342,7 @@ function FreightSection() {
   };
   // the class named in the summary: the open one, else the first class of the active filter
   const head = vc.size ? (vessels.find((v) => sel?.kind === 'vessel' && v.id === sel.id && vc.has(v.id)) ?? vessels.find((v) => vc.has(v.id))) : undefined;
-  const matched = vc.size ? routes.filter((r) => !r.discontinued && vesselMatches(r.vclass, vc)).length : 0;
+  const matched = vc.size ? routes.filter((r) => !r.discontinued && routeMatches(r, vc)).length : 0;
   const value = head ? (
     <>{dot(SEGMENT_COLOR[head.segment])} {shortName(head.name)} ({matched})</>
   ) : freight ? (
@@ -427,7 +427,7 @@ function RouteList() {
   void vesselClassList.value; // segmentOf() depends on the class list
 
   const visible = routes
-    .filter((r) => vesselMatches(r.vclass, vc))
+    .filter((r) => routeMatches(r, vc))
     .sort((a, b) => Number(!!a.discontinued) - Number(!!b.discontinued)); // stable: discontinued last
   const selSeg = selId ? segmentOf(routes.find((r) => r.id === selId)?.vclass ?? '') : null;
 
@@ -484,7 +484,7 @@ function RouteList() {
           <h4 class="route-sub">Other heavy-traffic routes</h4>
           <details class="route-group" open={opened.has('others') || vc.size > 0 || (selSeg != null && others.some((r) => r.id === selId))} onToggle={keep('others')}>
             <summary>
-              {others.length} routes<span class="meta">non-benchmark</span>
+              {others.length} {others.length === 1 ? 'route' : 'routes'}<span class="meta">non-benchmark · typical class</span>
             </summary>
             {others.map(row)}
           </details>
@@ -492,7 +492,7 @@ function RouteList() {
       )}
       {atlas.length > 0 && (
         <>
-          <h4 class="route-sub">Atlas corridors</h4>
+          <h4 class="route-sub">Atlas corridors, by typical class</h4>
           {vesselClassList.value.map((v) => {
             const items = atlas.filter((r) => r.vclass === v.id);
             if (!items.length) return null;

@@ -71,6 +71,24 @@ def save_bls_cache(doc, series=BLS_SERIES, cache_dir=None):
     os.replace(tmp, path)
 
 
+def _content(doc):
+    """What the cache holds, without the time of the last fetch: the file is rewritten only when this changes."""
+    return json.dumps([dict(sorted(doc["obs"].items())), sorted(set(doc.get("prelim") or [])),
+                       sorted(set(doc.get("bls_years") or [])), doc.get("seed")])
+
+
+def year_runs(years):
+    """[1988, 1989, 1990, 2005] -> "1988 to 1990 and 2005": the years as the runs they are."""
+    runs = []
+    for y in sorted(set(years)):
+        if runs and y == runs[-1][1] + 1:
+            runs[-1][1] = y
+        else:
+            runs.append([y, y])
+    parts = [f"{a} to {b}" if b > a else str(a) for a, b in runs]
+    return " and ".join(parts) if len(parts) < 3 else ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
 def parse_bls(doc, series=BLS_SERIES):
     """The monthly observations of one series in an answer of the BLS API: ({"YYYY-MM": value}, [preliminary months]).
     Raises ValueError when the BLS did not process the request (its message is kept: a reached quota says so)."""
@@ -120,10 +138,12 @@ def fetch_bls(series=BLS_SERIES, cache_dir=None, today=None, request=bls_request
     """Update the cache of a BLS series. Returns (info, error, changed): info {"records", "data_to", "note"} once the
     cache holds the series; error a short message when the current window was refused (that is the failure of the run:
     a refused older window is only named in the note, and asked for again next week); changed True when the cache was
-    rewritten. The current window comes first: when it is refused, no older window is asked for in that run."""
+    rewritten, which happens only when a value, a preliminary flag or the years fetched changed (no weekly commit for
+    an identical answer). The current window comes first: when it is refused, no older window is asked for in that run."""
     today = today or date.today()
     doc = load_bls_cache(series, cache_dir)
-    errors, older, changed = [], [], False
+    before = _content(doc)
+    errors, older = [], []
     cur_from = today.year - BLS_CURRENT_YEARS + 1
     plan = [(cur_from, today.year)]
     have = set(doc.get("bls_years") or [])
@@ -150,14 +170,14 @@ def fetch_bls(series=BLS_SERIES, cache_dir=None, today=None, request=bls_request
         doc["prelim"] = sorted((old_prelim - span) | set(prelim))
         have |= set(range(a, b + 1))  # every year of an answered window, the empty ones before 1988 included
         doc["bls_years"] = sorted(have)
-        changed = True
+    if doc.get("seed") and doc["obs"] and all(int(m[:4]) in have for m in doc["obs"]):
+        doc["seed"] = None  # every year now comes from the BLS
+    changed = _content(doc) != before
     if changed:
         doc["fetched"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        if doc.get("seed") and all(int(m[:4]) in have for m in doc["obs"]):
-            doc["seed"] = None  # every year now comes from the BLS
         save_bls_cache(doc, series, cache_dir)
     left = history_windows(have, BLS_FIRST_YEAR, cur_from - 1)
-    note = (f"; older years still to fetch: {left[0][0]}-{left[-1][1]}" if left else "") + ("; refused: " + "; ".join(older) if older else "")
+    note = ("; older years still to fetch: " + ", ".join(f"{a}-{b}" for a, b in left) if left else "") + ("; refused: " + "; ".join(older) if older else "")
     info = {"records": len(doc["obs"]), "data_to": max(doc["obs"]), "note": note[:200]} if doc["obs"] else None
     return info, ("; ".join(errors)[:200] if errors else None), changed
 
@@ -181,9 +201,9 @@ def seed_bls_cache(release_path, note, series=BLS_SERIES, cache_dir=None):
 BLS_NAME = "US deep-sea freight services, producer price index (BLS)"
 BLS_BASIS = ("US Bureau of Labor Statistics, producer price index by industry, deep sea freight transportation (NAICS "
              "483111), series PCU483111483111, not seasonally adjusted, June 1988 = 100. It measures the change in the "
-             "prices US-based deep-sea carriers receive for their freight services. It is not a spot freight rate: it "
-             "does not follow the Baltic indices, and it barely moved in the 2008 collapse of dry bulk rates (256.5 in "
-             "May 2008, 258.2 in December 2008).")
+             "prices US-based deep-sea carriers receive for their freight services. It is not a spot freight rate and "
+             "moves far less than the Baltic indices: +0.7% from May to December 2008 (256.5 to 258.2) while dry bulk "
+             "rates collapsed, then a fall of 27% from September 2008 (284.4) to May 2009 (208.8).")
 
 
 def bls_series(cache_dir=None, series=BLS_SERIES, sid="freight-ppi-m", meta_of=None):
@@ -208,10 +228,12 @@ def bls_series(cache_dir=None, series=BLS_SERIES, sid="freight-ppi-m", meta_of=N
     if prelim:
         note += f"; the BLS marks {prelim[0]} to {prelim[-1]} as preliminary" if len(prelim) > 1 else f"; the BLS marks {prelim[0]} as preliminary"
     if doc.get("seed"):
-        from_bls = sorted(int(x) for x in doc.get("bls_years") or [])
-        seeded = sorted({int(mo[:4]) for mo in months} - set(from_bls))
+        seeded = {int(mo[:4]) for mo in months} - {int(x) for x in doc.get("bls_years") or []}
         if seeded:
-            note += (f". {seeded[0]} to {seeded[-1]}: {doc['seed']}" if len(seeded) > 1 else f". {seeded[0]}: {doc['seed']}")
+            note += f". {year_runs(seeded)}: {doc['seed']}"
+            # the copy carries no preliminary flag, which the BLS gives its last months
+            if int(months[-1][:4]) in seeded:
+                note += "; the latest months may be preliminary"
     packed = {"id": sid, "freq": "M", "start": months[0], "v": vals}
     meta = meta_of(sid, "freight", BLS_NAME, unit, "M", "bls", months[0], months[-1], note=note, basis=BLS_BASIS)
     return [(packed, meta)]

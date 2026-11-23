@@ -20,7 +20,8 @@
  *    a unit fits the type (a refinery in kb/d, an LNG terminal in Mtpa, ...); a status "not-stated" has no `statusAsOf`;
  *    `capacity.planned`, when present, is `true` and belongs to a capacity;
  *  - ports: `locode` is a five-character code and `portwatch` a PortWatch port id; `limits` (a port only) give at least
- *    one of draught, loa, beam (metres) and dwt, with `n`, `s`, `url` and an optional year; `maxClass` needs `limits`,
+ *    one of draught, loa, beam (metres) and dwt, with `n`, `s`, `url` and an optional year, `seg` (a segment), `cls` (a
+ *    class of that segment), `depth` (true: the draught is a water depth) and `at` (the berth); `maxClass` needs `limits`,
  *    names vessel classes of freight/vessel-classes.json by segment and says its method in `n`; `prices` are ids of
  *    prices/index.json.
  *
@@ -160,7 +161,8 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
   const commodities = new Set((readJson('commodities/index.json') ?? []).map((c) => c.id));
   const sources = new Set((readJson('sources.json') ?? []).map((s) => s.id));
   const countries = new Set((readJson('countries/index.json') ?? []).map((c) => c.c));
-  const classes = new Set((readJson('freight/vessel-classes.json') ?? []).map((v) => v.id));
+  const classSegment = new Map((readJson('freight/vessel-classes.json') ?? []).map((v) => [v.id, v.segment]));
+  const classes = new Set(classSegment.keys());
   const prices = new Set((readJson('prices/index.json') ?? []).map((m) => m.id));
   const polys = await countryRings(root, warnings);
   const maxYear = new Date().getFullYear() + 1;
@@ -270,7 +272,14 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
           if (typeof l.s !== 'string' || (sources.size && !sources.has(l.s))) shape(`${at}: limits.s "${l.s ?? ''}" is not a source of sources.json`);
           if (typeof l.url !== 'string' || !/^https?:\/\//.test(l.url)) shape(`${at}: limits.url (the page that states the limits) is missing`);
           if (l.y !== undefined && !isYear(l.y, maxYear)) shape(`${at}: limits.y must be a year between ${MIN_YEAR} and ${maxYear}`);
-          for (const k of Object.keys(l)) if (![...LIMIT_KEYS, 'n', 's', 'url', 'y'].includes(k)) shape(`${at}: limits.${k} is not a field of limits`);
+          if (l.seg !== undefined && !SEGMENTS.includes(l.seg)) shape(`${at}: limits.seg "${l.seg}" is not a segment (${SEGMENTS.join(', ')})`);
+          if (l.cls !== undefined) {
+            if (classes.size && !classes.has(l.cls)) shape(`${at}: limits.cls "${l.cls}" is not a vessel class`);
+            else if (l.seg !== undefined && classSegment.size && classSegment.get(l.cls) !== l.seg) shape(`${at}: limits.cls "${l.cls}" is not a class of the segment "${l.seg}"`);
+          }
+          if (l.depth !== undefined && !(l.depth === true && isNum(l.draught))) shape(`${at}: limits.depth must be true, and only with a draught (a water depth entered as draught)`);
+          if (l.at !== undefined && !(typeof l.at === 'string' && l.at)) shape(`${at}: limits.at must name the berth or terminal`);
+          for (const k of Object.keys(l)) if (![...LIMIT_KEYS, 'seg', 'cls', 'depth', 'at', 'n', 's', 'url', 'y'].includes(k)) shape(`${at}: limits.${k} is not a field of limits`);
         }
       }
       if (p.maxClass !== undefined) {

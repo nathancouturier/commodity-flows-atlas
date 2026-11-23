@@ -61,7 +61,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
   const share = mixed ? null : past ? (v && file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
   const name = file.label || commodityMeta(lane.k)?.name || lane.k;
   const via = lane.via.length ? ` · via ${lane.via.map((c) => esc(chokepointName(c))).join(', ')}` : '';
-  const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} · ` : '';
+  const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} (typical) · ` : '';
   // sea through a foreign port: both ports when both ends are landlocked
   const transitPorts = [lane.transit, lane.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => esc(file.ports[t.port]?.name ?? t.port));
   const transit = transitPorts.length ? `<div class="muted">Sea via ${transitPorts.join(' and ')}</div>` : '';

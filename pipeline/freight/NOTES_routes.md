@@ -1,7 +1,7 @@
 # Freight reference data: verification notes
 
 ## Benchmark definitions (read on 23 November 2026)
-Pages read in full, one request at a time, for the 86 benchmarks of `routes_def.json` (`definition` of each route):
+Pages read in full, one request at a time, for the 90 benchmarks of `routes_def.json` (`definition` of each route):
 - Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2 (index specifications):
   https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf
   The main source of codes, cargoes, quantities, ports, ranges and durations. The site's robots.txt allows these pages
@@ -10,9 +10,11 @@ Pages read in full, one request at a time, for the 86 benchmarks of `routes_def.
   `tankers-services.html`, `gas-services.html`): the routes listed now (status "active"), the Capesize, Panamax, Supramax
   and Handysize averages and the tanker indices and baskets with their weights.
 - Baltic Exchange circulars: 19/25 (180,000 dwt Capesize routes ceased on 24 December 2025; 182,000 dwt standard from
-  2 January 2026), 32/24 (BCI182 routes on public trial from 21 October 2024), 40/25 and 41/25 (C5TC(182) weights and BDI),
+  2 January 2026; the derived 180,000 dwt average ends its public publication on 24 December 2026), 32/24 (BCI182 routes on public trial from 21 October 2024), 40/25 and 41/25 (C5TC(182) weights and BDI),
   15/24 (TD2 ceased 1 August 2024), 35/25 (TD17, TD24, TC9 ceased from 24 December 2025), 22/25 (TD28, TD29 live
-  4 August 2025), 02/26 and 08/26 (TD33 trial 12 January, live 10 February 2026), 30/26 (TD34 live 5 May 2026).
+  4 August 2025), 02/26 and 08/26 (TD33 trial 12 January, live 10 February 2026), 30/26 (TD34 live 5 May 2026),
+  03/26 (TC25, TC26, TD30 and TD31, the Baltic Intermediate Tanker routes, live 14 January 2026; read in the copy the
+  review of 23 November 2026 saved).
 - Veson VesselsValue summary of Baltic definitions (https://help.veson.com/vesselsvalue/baltic-timeseries-definitions):
   read in full; it is older than the guide (Supramax routes as _58, the 180,000 dwt Capesize average, C2 in long tons,
   C3 at 160,000 or 170,000 t, C7 at 150,000 or 160,000 t). Where the two differ the guide is followed.
@@ -28,8 +30,11 @@ repository with the saved pages. Index values are proprietary: none is stored or
 - Status: C10_14 and C14 ended on 24 December 2025 and point to C10_182 and C14_182; TD2, TD17 and TC9 are ended with
   their dates. TD1 (ceased 22 December 2023, Circular 29/23), TD12 (ceased in 2022, Circular 08/22) and TD24 (ceased from 24 December 2025)
   were not added: they are no longer published. C8_14, C9_14 and C16 were not added for the same reason.
-- Routes added (26): C2, C8_182, C9_182, C10_182, C14_182, C16_182, P4_82, P5_82, P7, P8, S1B_63, S3_63, S4B_63, S5_63,
-  S8_63, S9_63, S15_63, TD14, TD18, TD21, TD28, TD29, TD33, TC11, TC22, TC23.
+- Routes added (30): C2, C8_182, C9_182, C10_182, C14_182, C16_182, P4_82, P5_82, P7, P8, S1B_63, S3_63, S4B_63, S5_63,
+  S8_63, S9_63, S15_63, TD14, TD18, TD21, TD28, TD29, TD33, TC11, TC22, TC23, and from Circular 03/26 TC25, TC26, TD30,
+  TD31 (12,500 to 15,000 t parcels; the circular gives no ship size: drawn in the Handy tanker class, whose typical ship
+  is much larger, as their notes say; TC26's circular names middle distillate in its description and naphtha in its
+  short title, and both are written).
 - Index membership and weights: `baltic_indices.json` (C5TC 182 and 180, P5TC, S11TC, BES Asia, HS7TC, BDTI, BCTI,
   VLCC, Suezmax and Aframax time-charter equivalents, MR Atlantic and Pacific baskets, BLPG, BLNG; BDI of indices).
 
@@ -45,10 +50,22 @@ repository with the saved pages. Index values are proprietary: none is stored or
 - TD21 is assessed on the Baltic standard Panamax tanker (75,000 dwt); the atlas has no Panamax tanker class and draws
   it in the LR1 class, the same size.
 - The guide and the tanker page still list TD2 in the BDTI formula although Circular 15/24 ended it.
-- Not added, to check later: TD32 (cross north-west Europe, live 2026 per circular 21/26 title), the Baltic
-  Intermediate Tanker routes (TC25, TC26, TD30, TD31, live January 2026 per circular 03/26 title) and TC24.
+- Dirty-tanker definitions (TD2, TD3C, TD6, TD7, TD9, TD14, TD15, TD17, TD19, TD20, TD22, TD23, TD25 to TD29, TD33,
+  TD34) give a tonnage and no cargo name: the definition table says so, and the cargo tag "crude oil" is the atlas's
+  reading, said in each route's cargoNote. TD8 names crude and/or dirty products; TD30 and TD31 name dirty products.
+- Open questions for the owner:
+  - TD32 (cross north-west Europe): its circular (21/26) was not read. The circulars list of the Baltic site is built by
+    a script and gives no link to it; the atlas did not guess the address. Not added.
+  - TC24: its guide entry was read (38,000 t, US Gulf to west coast South America, no port named); the tanker services
+    page lists it. Not added: both ends would be the atlas's choice. Should it be drawn between two chosen ports, as the
+    time-charter laden legs are?
+  - The Baltic Exchange's website terms (clause 5.1) restrict copying its content. Until the owner decides, the atlas
+    states each definition as facts in its own words, with a link to the document, and shows no index value; every
+    benchmark page says that the definition is the Baltic Exchange's and that the atlas is not affiliated with it.
 - Corridors kept off to leave the 120 generated corridors unchanged: TC11 (South Korea to Singapore) and TC22 (South
-  Korea to Australia) are counted on generated corridors, TD34 (Oman to China) too, and P8 counts soybeans only.
+  Korea to Australia) are counted on generated corridors, TD34 (Oman to China) too, and P8 counts soybeans only. Each of
+  the three names its generated corridor in `shareOn`, and the route page links to it. The corridors of TC25, TC26,
+  TD30 and TD31 left the 120 generated ids unchanged.
 - Other choices: TD25 and TD33 share a corridor; TC5 holds the Gulf-Japan products corridor (TC1 none);
   middle-east-europe-diesel holds TC8 and TC20; guyana-europe-crude has none (TD27 holds it).
 - Lithium (spodumene) is not in the atlas commodity list: that route has empty cargoes/corridor.

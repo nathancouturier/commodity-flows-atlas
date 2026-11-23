@@ -29,13 +29,14 @@
     "limits": {
      "draught": 19.8,
      "dwt": 320000,
+     "depth": true,
      "n": "Draft depth 19.8 m (infobox, citing Findaport); 15 berths load ships of 25,000 to 320,000 dwt (Port Hedland Port Authority handbook, cited by the article)",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Port_Hedland"
     },
     "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+     "dry": "newcastlemax",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Newcastlemax, compared by its typical deadweight (185,000 dwt) with the deadweight limit (320,000 dwt)."
     }
    },
    "geometry": {
@@ -67,7 +68,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Rio Tinto Hamersley iron ore plus LNG and salt (Wikipedia).",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Dampier",
     "read": "2026-11"
@@ -102,7 +103,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Vale's Southeastern System iron ore and pellet export complex; also steel, soybeans and coal.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Tubar%C3%A3o",
     "read": "2026-11"
@@ -130,7 +131,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Exports IOC/ArcelorMittal Labrador Trough concentrate and pellets; second to Vancouver by tonnage in Canada.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Sept-%C3%8Eles",
     "read": "2026-11"
@@ -163,7 +164,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "LKAB ore from Kiruna/Malmberget railed via Ore Line, ice-free year-round.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Narvik",
     "read": "2026-11"
@@ -198,19 +199,16 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "World's largest coal export port. Coal exports were roughly flat on 2024 (Port Waratah 96.5 Mt against 100.8 Mt).",
-    "coord": "site",
+    "coord": "approx",
     "s": "trade-press",
     "url": "https://www.drycargomag.com/port-of-newcastle-sets-new-record-for-diversified-trade-volumes-in-2025",
     "read": "2026-11",
     "limits": {
      "draught": 16.2,
+     "depth": true,
      "n": "Draft depth 16.2 m (infobox, citing Findaport)",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Newcastle"
-    },
-    "maxClass": {
-     "dry": "kamsarmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     },
     "prices": [
      "coal-aus-m"
@@ -284,19 +282,16 @@
     },
     "status": "not-stated",
     "note": "Queensland's largest multi-commodity port: coal, alumina and aluminium exports, bauxite and petroleum imports, and LNG export plants on Curtis Island (Wikipedia).",
-    "coord": "site",
+    "coord": "approx",
     "s": "port-authorities",
     "url": "https://www.tmr.qld.gov.au/business-industry/transport-sectors/ports/trade-statistics-for-queensland-ports",
     "read": "2026-11",
     "limits": {
      "draught": 18.8,
+     "depth": true,
      "n": "Draft depth 18.8 m (infobox, citing Findaport)",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Gladstone"
-    },
-    "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -361,7 +356,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Russia's main Pacific coal export port (Trans-Siberian); the Kozmino oil terminal (ESPO) is nearby.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Vostochny_Port",
     "read": "2026-11"
@@ -396,7 +391,7 @@
     },
     "status": "not-stated",
     "note": "Major iron ore and crude import hub.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage",
     "read": "2026-11"
@@ -431,7 +426,7 @@
     },
     "status": "not-stated",
     "note": "Large iron ore and coal port in Shandong.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/List_of_busiest_ports_by_cargo_tonnage",
     "read": "2026-11"
@@ -546,13 +541,11 @@
     "read": "2026-11",
     "limits": {
      "draught": 24,
+     "seg": "dry",
+     "at": "EECV ore quay",
      "n": "EECV ore quay (Maasvlakte): draft of 24 m",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Rotterdam"
-    },
-    "maxClass": {
-     "dry": "vloc",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     },
     "prices": [
      "rapeseed-oil-m",
@@ -658,6 +651,7 @@
     "read": "2026-11",
     "limits": {
      "draught": 16.5,
+     "depth": true,
      "n": "Draft depth 16.5 m (infobox, citing Findaport); the southern breakwater berth has a draft of 15 m",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Fujairah"
@@ -702,6 +696,8 @@
     "limits": {
      "draught": 15.7,
      "dwt": 150000,
+     "seg": "dry",
+     "at": "Jurong Port bulk berths",
      "n": "Jurong Port (bulk and general cargo): maximum vessel draft 15.7 m and maximum vessel size 150,000 dwt; PSA container berths: maximum draft 16 m",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Singapore"
@@ -933,13 +929,10 @@
     "read": "2026-11",
     "limits": {
      "draught": 18.4,
+     "depth": true,
      "n": "Draft depth 18.4 m (infobox, citing Findaport); on the Fraser River ships of up to 294 m, 38 m beam and 11.5 m draft with tidal assistance",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Vancouver"
-    },
-    "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -965,7 +958,7 @@
     "operator": "Ukrainian Sea Ports Authority",
     "status": "not-stated",
     "note": "Grain terminals in the north of the port; stated annual traffic capacity of 40 Mt, of which 15 Mt dry bulk (undated).",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Odesa",
     "read": "2026-11"
@@ -1027,7 +1020,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Total port cargo was 92.7 Mt in 2023.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba",
     "read": "2026-11"
@@ -1058,21 +1051,22 @@
     "statusAsOf": "2025-11",
     "statusNote": "A Ukrainian drone and missile attack in November 2025 set fire to oil export infrastructure and halted oil exports; the later situation is not stated.",
     "note": "Russia's main Black Sea oil port; Wikipedia says it mainly handles grain, coal, fertilisers, oil and oil products. Cargo turnover was 154.9 Mt in 2018.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk",
     "read": "2026-11",
     "limits": {
      "draught": 19,
      "dwt": 250000,
+     "seg": "tanker",
+     "at": "Sheskharis oil terminal, berth 1",
      "n": "Sheskharis oil terminal, berth 1: ships of up to 250,000 dwt and 19 m draft; the bay allows deep-draft vessels up to 19 m",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk"
     },
     "maxClass": {
-     "dry": "capesize",
      "tanker": "suezmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, newcastlemax, panamax, supramax, vlcc)."
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: Suezmax, compared by its standard vessel (160,000 dwt). The limits are those of the tanker berths: no class for the other cargoes."
     }
    },
    "geometry": {
@@ -1098,7 +1092,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Primarily ships cocoa beans and handles 80% of Ghana's trade (Wikipedia).",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Tema_Harbour",
     "read": "2026-11"
@@ -1126,7 +1120,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Palm oil and latex have historically been key exports.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_Klang",
     "read": "2026-11"
@@ -1153,20 +1147,17 @@
     "operator": "Maranhao Port Administration",
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Grain silo storage of 12 kt vertical plus 8 kt horizontal; also handles aluminium, pig iron and copper cargo.",
-    "coord": "site",
+    "note": "Grain silo storage of 12 kt vertical plus 8 kt horizontal; also handles aluminium, pig iron and copper cargo. Vale's Ponta da Madeira terminal sits next to it (Wikipedia, Ponta da Madeira).",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Itaqui",
     "read": "2026-11",
     "limits": {
      "draught": 19,
+     "depth": true,
      "n": "Water depth at the deepest of six berths (9.5 to 19 m); the access channel is at least 23 m deep",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Porto_do_Itaqui"
-    },
-    "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -1196,7 +1187,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Argentina's leading grain export hub since 1960. Wikipedia cites 2.9 Mt of traffic in 2003 for the municipal port only; the Up-River complex is far larger.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Rosario",
     "read": "2026-11"
@@ -1224,7 +1215,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "OCP phosphate fertiliser processing complex and export port.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Jorf_Lasfar",
     "read": "2026-11"
@@ -1252,7 +1243,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "North Sumatra port tied to palm oil plantations; container capacity of 1.2 million TEU/y in 2013.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Belawan",
     "read": "2026-11"
@@ -1280,7 +1271,7 @@
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Oil palm storage and distribution at Johor Port and Tanjung Langsat.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Pasir_Gudang",
     "read": "2026-11"
@@ -1334,7 +1325,7 @@
     "portwatch": "port1133",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/1151e80d08d94028a61d1589a4497db3",
     "read": "2026-11"
@@ -1363,7 +1354,7 @@
     "portwatch": "port1188",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/bde0534e45f346e9b136bc5b185f9789",
     "read": "2026-11"
@@ -1418,7 +1409,7 @@
     "portwatch": "port155",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/c26eb09353114dc18bd1ae95a960e94d",
     "read": "2026-11"
@@ -1445,7 +1436,7 @@
     "portwatch": "port373",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/667d3dc6a1c34f159b363de045bb27cd",
     "read": "2026-11"
@@ -1476,7 +1467,7 @@
     "portwatch": "port80",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/3d061630ff744e50b9e71e03475fb26f",
     "read": "2026-11"
@@ -1514,8 +1505,8 @@
      "url": "https://en.wikipedia.org/wiki/Hound_Point"
     },
     "maxClass": {
-     "tanker": "suezmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, vlcc)."
+     "tanker": "vlcc",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its typical deadweight (300,000 dwt) with the deadweight limit (350,000 dwt)."
     }
    },
    "geometry": {
@@ -1544,7 +1535,7 @@
     "portwatch": "port1396",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/d23c05b8c470403fa70372fcf1e511f2",
     "read": "2026-11"
@@ -1575,7 +1566,7 @@
     "portwatch": "port743",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a019490627984d30b93e97fa158d2d0a",
     "read": "2026-11"
@@ -1659,7 +1650,7 @@
     "portwatch": "port174",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/5b230483f9304bb688639c21f070e3cd",
     "read": "2026-11"
@@ -1699,6 +1690,10 @@
      "n": "Tankers of up to 150,000 dwt, 307 m long, 55 m wide and 15.5 m draft",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Port_of_Primorsk"
+    },
+    "maxClass": {
+     "tanker": "lr2",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: LR2, compared by its typical deadweight (110,000 dwt) with the deadweight limit (150,000 dwt)."
     }
    },
    "geometry": {
@@ -1723,7 +1718,7 @@
     "portwatch": "port1258",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/cc9b5344fa5d4c399effe5c932e10886",
     "read": "2026-11"
@@ -1750,7 +1745,7 @@
     "portwatch": "port45",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/148e0d053aec4eb0a27d53cc6a7ae520",
     "read": "2026-11"
@@ -1777,8 +1772,8 @@
     "locode": "TRCEY",
     "portwatch": "port162",
     "status": "not-stated",
-    "note": "The PortWatch database lists the Ceyhan oil terminal under the name of its operator, BOTAS. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "The PortWatch database lists the Ceyhan oil terminal under the name of its operator, BOTAS. Position from the IMF PortWatch ports database, which codes the port TRBOT; the code here is the trade engine's (TRCEY).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/51d4929cbbcc46cb92837344c82833cd",
     "read": "2026-11"
@@ -1886,7 +1881,7 @@
     "portwatch": "port664",
     "status": "not-stated",
     "note": "The PortWatch database counts the neighbouring ports of Los Angeles and Long Beach as one port. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/d817810889a241f98e33720b2e77ec2c",
     "read": "2026-11"
@@ -1917,7 +1912,7 @@
     "portwatch": "port1417",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/c1cce71c68f84ff8a3421eb918220ed8",
     "read": "2026-11"
@@ -1946,7 +1941,7 @@
     "portwatch": "port24",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2e70626f9f8d40ee83f3195c99c59dd3",
     "read": "2026-11"
@@ -2002,7 +1997,7 @@
     "portwatch": "port239",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a432aba86637409ca14f22f7eeec3101",
     "read": "2026-11"
@@ -2029,7 +2024,7 @@
     "portwatch": "port657",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/61e1a69ce7e44a1cbbbea3c0a87fc986",
     "read": "2026-11"
@@ -2056,7 +2051,7 @@
     "portwatch": "port815",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/573a99f0db4e483f98aeec3f23e2274d",
     "read": "2026-11",
@@ -2088,7 +2083,7 @@
     "portwatch": "port1243",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7bcdab3579fd46a2be8c097e0d829aeb",
     "read": "2026-11"
@@ -2115,7 +2110,7 @@
     "portwatch": "port985",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2e5b9a6357de439b8f6994b32fa33624",
     "read": "2026-11"
@@ -2143,7 +2138,7 @@
     "portwatch": "port2033",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7808bcddaabc4567a940ce9bea08b1b6",
     "read": "2026-11"
@@ -2171,7 +2166,7 @@
     "portwatch": "port1199",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/6eff445f193b4f288087638d2d419a40",
     "read": "2026-11"
@@ -2202,7 +2197,7 @@
     "portwatch": "port278",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/99521395f84a4938bccd1b960c12e113",
     "read": "2026-11"
@@ -2229,7 +2224,7 @@
     "portwatch": "port626",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/f649bb4b1dc14451bc0748f2d5a4d2dd",
     "read": "2026-11"
@@ -2281,8 +2276,8 @@
     "locode": "AUBTB",
     "portwatch": "port161",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port AUPBT; the code here is the trade engine's (AUBTB).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/76e70f1bbaa6425a87c17a98184b7736",
     "read": "2026-11"
@@ -2309,7 +2304,7 @@
     "portwatch": "port1305",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/27118c1e4b3d424f9046df0fc1e0fb5f",
     "read": "2026-11"
@@ -2337,7 +2332,7 @@
     "portwatch": "port1370",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/513b2abbf5104d79959e265aa561d06f",
     "read": "2026-11"
@@ -2363,8 +2358,8 @@
     "locode": "GNKMS",
     "portwatch": "port536",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port GNKMC; the code here is the trade engine's (GNKMS).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/e505d0b3ba6e491ba93a27207e463ea5",
     "read": "2026-11"
@@ -2390,8 +2385,8 @@
     "locode": "CNYNT",
     "portwatch": "port1410",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port CNYAT; the code here is the trade engine's (CNYNT).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/c08000945dd14ba8b967deb53eda2025",
     "read": "2026-11"
@@ -2418,7 +2413,7 @@
     "portwatch": "port2453",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/478b178f0a3b4895b192709d1f2e0eaa",
     "read": "2026-11"
@@ -2473,7 +2468,7 @@
     "portwatch": "port102",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/b7a873dac9604debaf14a397f782afcf",
     "read": "2026-11"
@@ -2500,7 +2495,7 @@
     "portwatch": "port1137",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/628a3605b91a4f9cacb801132f80aa91",
     "read": "2026-11"
@@ -2528,8 +2523,8 @@
     "locode": "CNCAN",
     "portwatch": "port425",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port CNGGZ; the code here is the trade engine's (CNCAN).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/b2aed870c935402cadd00d7a257246f0",
     "read": "2026-11"
@@ -2556,7 +2551,7 @@
     "portwatch": "port339",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/266042b244cf452a89f4a2de14f3da2f",
     "read": "2026-11"
@@ -2586,27 +2581,26 @@
     "locode": "INMUN",
     "portwatch": "port777",
     "output": {
-     "v": 155,
+     "v": 144.4,
      "u": "Mt/y",
-     "y": 2023,
+     "y": 2021,
      "what": "throughput",
-     "n": "total cargo, FY2022-23 (infobox, citing Adani Ports)"
+     "n": "total cargo, FY2020-21 (article body, citing The Economic Times)",
+     "orig": "14.44 crore (144.4 million) MT"
     },
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Mundra_Port",
     "read": "2026-11",
     "limits": {
      "draught": 19,
+     "seg": "dry",
+     "at": "Mechanised import cargo berths",
      "n": "Mechanised import cargo berths: maximum draft 19 m; other berths 17 m; the single point moorings for crude oil imports offer a draft of 32 m",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Mundra_Port"
-    },
-    "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -2631,7 +2625,7 @@
     "portwatch": "port599",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2ec26864b5934a00b4b2cdf0528ba600",
     "read": "2026-11"
@@ -2662,7 +2656,7 @@
     "portwatch": "port1065",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/36944e57fca54f3a881eab5e7796caf6",
     "read": "2026-11"
@@ -2693,7 +2687,7 @@
     "portwatch": "port541",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/f48362e3f2ab4741bcfd1c586d3dd5eb",
     "read": "2026-11"
@@ -2721,7 +2715,7 @@
     "portwatch": "port442",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/37ecc25d36c640349906f484a377ca82",
     "read": "2026-11"
@@ -2759,7 +2753,7 @@
     },
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Paradip_Port",
     "read": "2026-11",
@@ -2768,13 +2762,16 @@
      "loa": 300,
      "beam": 48,
      "dwt": 118000,
+     "seg": "dry",
+     "cls": "capesize",
+     "at": "Cargo berths",
      "n": "Capesize ships of up to 300 m, 48 m beam and 118,000 dwt at a maximum draft of 14.5 m; maximum draft depth of the port 16 m; single point moorings about 20 km offshore",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Paradip_Port"
     },
     "maxClass": {
-     "dry": "kamsarmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+     "dry": "capesize",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Capesize, the class the page itself names for these berths. The limits are those of the dry bulk berths: no class for the other cargoes."
     }
    },
    "geometry": {
@@ -2801,7 +2798,7 @@
     "portwatch": "port1367",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/906332162ba54b8b9b13cb846d4ba905",
     "read": "2026-11"
@@ -2829,7 +2826,7 @@
     "portwatch": "port187",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2938439d92104975b6387c28135e7e4a",
     "read": "2026-11"
@@ -2860,7 +2857,7 @@
     "portwatch": "port915",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/5c75432a1dd04163ad7952794f3a186d",
     "read": "2026-11"
@@ -2887,7 +2884,7 @@
     "portwatch": "port1154",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/23d423436c764339856b5d700fbf9cc0",
     "read": "2026-11"
@@ -2914,7 +2911,7 @@
     "portwatch": "port503",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/5812ed3cd023404bbb9bfc4a7832e00b",
     "read": "2026-11"
@@ -2942,7 +2939,7 @@
     "portwatch": "port1277",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/ed10670aa88c4d1d89711c6a32dcc26a",
     "read": "2026-11"
@@ -2979,20 +2976,23 @@
      "n": "total cargo, FY2023-24 (infobox)"
     },
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port INIXY; the code here is the trade engine's (INKDL).",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Kandla_Port",
     "read": "2026-11",
     "limits": {
-     "draught": 13,
-     "n": "Draft depth 13 m: the minimum depth of the tidal access channel",
+     "draught": 14.5,
+     "loa": 255,
+     "seg": "dry",
+     "at": "Cargo berths",
+     "n": "Cargo berths (bulk and containers): maximum draft 14.5 m, vessels up to 255 m long; the tidal access channel is at least 13 m deep",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Kandla_Port"
     },
     "maxClass": {
-     "dry": "handysize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+     "dry": "kamsarmax",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Kamsarmax, compared by its standard vessel (229 m long, 14.43 m draught). The limits are those of the dry bulk berths: no class for the other cargoes. Not compared, for want of a standard vessel or of a deadweight limit: Panamax, Supramax."
     }
    },
    "geometry": {
@@ -3016,8 +3016,8 @@
     "locode": "CNDLC",
     "portwatch": "port273",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port CNDAG; the code here is the trade engine's (CNDLC).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/98118a8be82148729df888822d3b27b3",
     "read": "2026-11"
@@ -3046,7 +3046,7 @@
     "portwatch": "port993",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/ff27216426bc41baaabbf674adefd1ea",
     "read": "2026-11"
@@ -3077,7 +3077,7 @@
     "portwatch": "port2253",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/f6e736159f60489f849891a9a3e23714",
     "read": "2026-11"
@@ -3106,7 +3106,7 @@
     "portwatch": "port1248",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/aacc835c79294b21bdeb10caa650f946",
     "read": "2026-11"
@@ -3163,7 +3163,7 @@
     "portwatch": "port1048",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/d0f92b7a022f452d922665eafb044dff",
     "read": "2026-11"
@@ -3194,7 +3194,7 @@
     "portwatch": "port23",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a068e6e45ebc45ecb3aeda0a5ea19a38",
     "read": "2026-11"
@@ -3221,7 +3221,7 @@
     "portwatch": "port274",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/1b9285ff906f45c0aa30f0a6f15199d4",
     "read": "2026-11"
@@ -3252,7 +3252,7 @@
     "portwatch": "port361",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/b9035bf109c74e5a9fc3379f5473da21",
     "read": "2026-11"
@@ -3279,7 +3279,7 @@
     "portwatch": "port959",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/9f7ab17ef5054a4997bc8291f76e2e9f",
     "read": "2026-11"
@@ -3306,7 +3306,7 @@
     "portwatch": "port514",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/8f01b804b0024036b38c1160b6a0a443",
     "read": "2026-11"
@@ -3337,7 +3337,7 @@
     "portwatch": "port694",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/94979fcd181345e9ab7341e1f6c9a9ba",
     "read": "2026-11"
@@ -3368,7 +3368,7 @@
     "portwatch": "port56",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/65ae11bf72d64659b493a54a40372333",
     "read": "2026-11"
@@ -3395,7 +3395,7 @@
     "portwatch": "port728",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/ae534d0fc0d64aa895f67d053d16ef50",
     "read": "2026-11"
@@ -3426,7 +3426,7 @@
     "portwatch": "port1045",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/bad6d139b7c6461a88213b0aea345ca2",
     "read": "2026-11"
@@ -3453,7 +3453,7 @@
     "portwatch": "port88",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/35bbca61689447eab014e6839e517d8a",
     "read": "2026-11"
@@ -3482,7 +3482,7 @@
     "portwatch": "port1238",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/6f917529467e4176b18ec1f3129a5c1f",
     "read": "2026-11"
@@ -3545,7 +3545,7 @@
     },
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Lianyungang",
     "read": "2026-11"
@@ -3572,7 +3572,7 @@
     "portwatch": "port190",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/88e3a2ba7ad040f5ad89b3c03cfcf19c",
     "read": "2026-11"
@@ -3599,7 +3599,7 @@
     "portwatch": "port331",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/e52f525f966b4f4ba703f945bdb1af5a",
     "read": "2026-11"
@@ -3626,7 +3626,7 @@
     "portwatch": "port1425",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/aeb012c6e5a64054b63ab05cb14af181",
     "read": "2026-11"
@@ -3654,7 +3654,7 @@
     "portwatch": "port309",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7d5b72e3984a4d18a204ec2664594d84",
     "read": "2026-11"
@@ -3682,7 +3682,7 @@
     "portwatch": "port776",
     "status": "not-stated",
     "note": "The PortWatch database counts Mumbai and Jawaharlal Nehru (Nhava Sheva) as one port. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/926f6c0832684f1cab0ee7441ccc4e35",
     "read": "2026-11"
@@ -3709,7 +3709,7 @@
     "portwatch": "port925",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/59ca14831a0f461e878605397891efc3",
     "read": "2026-11"
@@ -3740,7 +3740,7 @@
     "portwatch": "port1095",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/ea2bf713619b47d38d9d226138065f62",
     "read": "2026-11"
@@ -3767,7 +3767,7 @@
     "portwatch": "port1150",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/719cb2b2bcef4567a6a16768e3227c60",
     "read": "2026-11"
@@ -3795,8 +3795,8 @@
     "locode": "AERUW",
     "portwatch": "port512",
     "status": "not-stated",
-    "note": "The PortWatch database lists the port as Jabal Az Zannah-Ruways. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "The PortWatch database lists the port as Jabal Az Zannah-Ruways. Position from the IMF PortWatch ports database, which codes the port AEJED; the code here is the trade engine's (AERUW).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/3cf7e4a4ae10499bb41728f5b59ebe39",
     "read": "2026-11"
@@ -3824,7 +3824,7 @@
     "portwatch": "port1342",
     "status": "not-stated",
     "note": "The PortWatch database lists the port as Doha-Umm Said (Umm Said is Mesaieed). Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/f691ec2fd9174aeb95a1ae4cee5a8544",
     "read": "2026-11"
@@ -3928,7 +3928,7 @@
     "portwatch": "port166",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/34ffd09ec6814cdc8e06dea0e3f9fa25",
     "read": "2026-11"
@@ -3955,7 +3955,7 @@
     "portwatch": "port1162",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/95794fbc5292446798c51cf8ae207753",
     "read": "2026-11"
@@ -3982,7 +3982,7 @@
     "portwatch": "port483",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/3911ea1465624dffa8e4929839a451ff",
     "read": "2026-11"
@@ -4011,7 +4011,7 @@
     "portwatch": "port1338",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/5a2512e38bb441b29ea24011a5a996b6",
     "read": "2026-11"
@@ -4049,7 +4049,7 @@
     },
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Antwerp",
     "read": "2026-11"
@@ -4080,7 +4080,7 @@
     "portwatch": "port1358",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/0a961c3659af4a228c0f38cd3b2456ce",
     "read": "2026-11"
@@ -4111,7 +4111,7 @@
     "portwatch": "port699",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/debb756cfb934827a80b5bb21d13c88c",
     "read": "2026-11"
@@ -4142,7 +4142,7 @@
     "portwatch": "port548",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/46e987e39dcb4deca196d1d97fbab567",
     "read": "2026-11"
@@ -4166,16 +4166,8 @@
     ],
     "c": "BRA",
     "locode": "BRPMA",
-    "output": {
-     "v": 190.1,
-     "u": "Mt/y",
-     "y": 2020,
-     "what": "throughput",
-     "n": "total cargo (infobox, citing ANTAQ)",
-     "orig": "190,1 million tonnes"
-    },
     "status": "not-stated",
-    "note": "Position from Wikipedia.",
+    "note": "Position from Wikipedia. The terminal sits next to the public port of Itaqui (Wikipedia, Ponta da Madeira).",
     "coord": "site",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Ponta_da_Madeira",
@@ -4202,7 +4194,7 @@
     "locode": "IRKHK",
     "portwatch": "port2164",
     "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, Kharg Island (an oil terminal that exports up to 90% of Iran's oil).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/5bad935f978740d98e26c56059c5293d",
@@ -4231,7 +4223,7 @@
     "portwatch": "port570",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/79d393e8b28b454db88cc8f1e2bdbfad",
     "read": "2026-11"
@@ -4256,7 +4248,7 @@
     "c": "SAU",
     "portwatch": "port526",
     "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, Ras Tanura (the Ju'aymah crude terminal).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a6b8b4e7d826469dacc3219f7b6c84af",
@@ -4284,8 +4276,8 @@
     "locode": "CNZHA",
     "portwatch": "port1426",
     "status": "not-stated",
-    "note": "Wikipedia (Port of Zhanjiang) names a crude oil terminal and a 250,000-ton iron ore terminal. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Wikipedia (Port of Zhanjiang) names a crude oil terminal and a 250,000-ton iron ore terminal. Position from the IMF PortWatch ports database, which codes the port CHZHA; the code here is the trade engine's (CNZHA).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/cd4fbc54823e4b5fb831ac55f843a5dd",
     "read": "2026-11"
@@ -4315,7 +4307,7 @@
     "portwatch": "port978",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/c64ea8f91e55401f8507a04df0bee300",
     "read": "2026-11",
@@ -4330,8 +4322,8 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Taman"
     },
     "maxClass": {
-     "dry": "ultramax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+     "dry": "panamax",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Panamax, compared by its typical deadweight (74,000 dwt) with the deadweight limit (220,000 dwt)."
     }
    },
    "geometry": {
@@ -4355,7 +4347,7 @@
     "locode": "VEPJO",
     "portwatch": "port524",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database, which codes the port VEJOT; the code here is the trade engine's (VEPJO).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7050cdf1a2f84ad79d9e7c19bd33e9ab",
@@ -4386,8 +4378,8 @@
     "locode": "MZMAP",
     "portwatch": "port702",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port MZMPM; the code here is the trade engine's (MZMAP).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2e8974691bc042ea89dd42662e246114",
     "read": "2026-11"
@@ -4415,8 +4407,8 @@
     "locode": "UAPIV",
     "portwatch": "port1419",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port UAYUZ; the code here is the trade engine's (UAPIV).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/007a49ba90c14de5ab525d82f091d549",
     "read": "2026-11"
@@ -4470,7 +4462,7 @@
     "locode": "GBSCU",
     "portwatch": "port2069",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database, which codes the port GBSUL; the code here is the trade engine's (GBSCU).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/98b9af5730ec4564ac43c122feb4ae08",
@@ -4524,8 +4516,8 @@
     "locode": "MYPEN",
     "portwatch": "port2189",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port MYPGG; the code here is the trade engine's (MYPEN).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/afb653f60faf45ee886ec94ddd5469d7",
     "read": "2026-11"
@@ -4556,7 +4548,7 @@
     "portwatch": "port275",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/2691703b702a4cd19e86b482ae00238c",
     "read": "2026-11"
@@ -4587,7 +4579,7 @@
     "portwatch": "port108",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/f83962026fcb42db9616b303c45d8025",
     "read": "2026-11"
@@ -4647,13 +4639,18 @@
     "read": "2026-11",
     "limits": {
      "draught": 17.25,
-     "n": "Four wharves with a depth alongside of 17.25 m at lowest astronomical tide, for Capesize ships",
+     "loa": 310,
+     "beam": 50,
+     "depth": true,
+     "seg": "dry",
+     "cls": "capesize",
+     "n": "Four wharves with a depth alongside of 17.25 m at lowest astronomical tide, for Capesize ships; bulk carriers of up to 310 m long and 50 m wide",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Tanjung_Bara"
     },
     "maxClass": {
-     "dry": "kamsarmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+     "dry": "capesize",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Capesize, the class the page itself names for these berths."
     }
    },
    "geometry": {
@@ -4677,8 +4674,8 @@
     "locode": "INDHA",
     "portwatch": "port290",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database, which codes the port INDMQ; the code here is the trade engine's (INDHA).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/30897f7645a942fd96753b627a00d606",
     "read": "2026-11"
@@ -4732,7 +4729,7 @@
     "portwatch": "port2258",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/95cf5bd4705749cea0fb856f90f0ce35",
     "read": "2026-11"
@@ -4761,7 +4758,7 @@
      "n": "crude oil storage of the Clovelly Dome terminal: eight salt caverns"
     },
     "status": "not-stated",
-    "note": "Position from Wikipedia.",
+    "note": "Position from Wikipedia. Commodity: the article cited (crude oil offloading).",
     "coord": "site",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Louisiana_Offshore_Oil_Port",
@@ -4773,8 +4770,8 @@
      "url": "https://en.wikipedia.org/wiki/Louisiana_Offshore_Oil_Port"
     },
     "maxClass": {
-     "tanker": "suezmax",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, vlcc)."
+     "tanker": "vlcc",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its typical deadweight (300,000 dwt) with the deadweight limit (635,000 dwt)."
     }
    },
    "geometry": {
@@ -4796,7 +4793,7 @@
     ],
     "c": "USA",
     "status": "not-stated",
-    "note": "Position from OpenStreetMap.",
+    "note": "Position from OpenStreetMap. Commodity: Wikipedia, Trans-Alaska Pipeline System (the crude-oil pipeline ends at the Valdez Marine Terminal).",
     "coord": "site",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/way/523115525",
@@ -4821,7 +4818,7 @@
     ],
     "c": "CAN",
     "status": "not-stated",
-    "note": "Position from OpenStreetMap.",
+    "note": "Position from OpenStreetMap. Commodity: Wikipedia, Trans Mountain pipeline (it carries crude and refined products from Edmonton; oil tankers load at the Westridge Marine Terminal).",
     "coord": "site",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/way/42245601",
@@ -4847,7 +4844,7 @@
     "c": "EGY",
     "portwatch": "port2129",
     "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, SUMED pipeline (the oil pipeline from Ain Sokhna ends at Sidi Kerir).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/51c5c38a058d4dfcaee0a5cb4b2f7e61",
@@ -4875,7 +4872,7 @@
     "portwatch": "port828",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/8fb233a8b10b4452ae3d4694fe7fdbf4",
     "read": "2026-11"
@@ -4899,7 +4896,7 @@
     ],
     "c": "LBY",
     "status": "not-stated",
-    "note": "Position from OpenStreetMap.",
+    "note": "Position from OpenStreetMap. Commodity: Wikipedia, Sidra, Libya (Libya's largest oil depot, shipping about 447,000 barrels a day).",
     "coord": "site",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/way/233652374",
@@ -4925,8 +4922,8 @@
     "c": "LBY",
     "portwatch": "port21",
     "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, Ras Lanuf (a major oil terminal, fed by oil pipelines).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/563e936281e04c7f9e18901e1341f004",
     "read": "2026-11"
@@ -4950,7 +4947,7 @@
     ],
     "c": "NGA",
     "status": "not-stated",
-    "note": "Position: the helipad of the terminal (OpenStreetMap).",
+    "note": "Position: the helipad of the terminal (OpenStreetMap). Commodity: Wikipedia, Petroleum industry in Nigeria (Shell's Forcados Terminal stores crude oil; Forcados crude is named after its export terminal).",
     "coord": "approx",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/way/321535161",
@@ -4975,7 +4972,7 @@
     ],
     "c": "NGA",
     "status": "not-stated",
-    "note": "Position from OpenStreetMap.",
+    "note": "Position from OpenStreetMap. Commodity: Wikipedia, Petroleum industry in Nigeria (Qua Iboe crude is named after its export terminal, operated by Mobil).",
     "coord": "site",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/relation/15408639",
@@ -5004,7 +5001,7 @@
     "portwatch": "port70",
     "status": "not-stated",
     "note": "Wikipedia (Arzew) describes a refinery and the export of LNG. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a99340ed62c249828bdcff63dabb4df7",
     "read": "2026-11"
@@ -5014,33 +5011,6 @@
     "coordinates": [
      -0.2676,
      35.8192
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "jebel-dhanna",
-    "name": "Jebel Dhanna",
-    "type": "port",
-    "k": [
-     "crude-oil"
-    ],
-    "c": "ARE",
-    "locode": "AEJED",
-    "portwatch": "port2236",
-    "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/6d5cb6925ffc409faa4c5e08ea09e234",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     52.591,
-     24.1745
     ]
    }
   },
@@ -5057,7 +5027,7 @@
     "locode": "AEZUR",
     "portwatch": "port2235",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Zirku Island (a petroleum terminal on the island).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/bf353bac76bc4734a65bc68499a6ef5f",
@@ -5084,8 +5054,8 @@
     "locode": "IRJAK",
     "portwatch": "port2486",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Jask (an oil pipeline from Goreh to Jask, to export oil).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/703085362c1448acbade9987d4bc7b28",
     "read": "2026-11"
@@ -5105,15 +5075,14 @@
     "name": "Murmansk",
     "type": "port",
     "k": [
-     "crude-oil",
      "thermal-coal"
     ],
     "c": "RUS",
     "locode": "RUMMK",
     "portwatch": "port779",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Port of Murmansk (coal exports; the page does not say which kind of coal).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/fa8b666a78cc492eaa40464355d04379",
     "read": "2026-11"
@@ -5139,8 +5108,8 @@
     "locode": "USBPT",
     "portwatch": "port134",
     "status": "not-stated",
-    "note": "The PortWatch database counts mostly tankers at this port. Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "The PortWatch database counts mostly tankers at this port. Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Nederland, Texas (the Sun Oil terminal and the nearby oil terminals).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/bad0bd9e6b1c42bc855ef3d93910316a",
     "read": "2026-11"
@@ -5160,15 +5129,14 @@
     "name": "Port Arthur",
     "type": "port",
     "k": [
-     "crude-oil",
-     "refined-products"
+     "crude-oil"
     ],
     "c": "USA",
     "locode": "USPOA",
     "portwatch": "port933",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Port Arthur, Texas (oil pipelines were run to Port Arthur as a shipping point; the Motiva refinery).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/364cdadd07584173b901c879366bc9e7",
     "read": "2026-11"
@@ -5188,15 +5156,14 @@
     "name": "Texas City",
     "type": "port",
     "k": [
-     "crude-oil",
      "refined-products"
     ],
     "c": "USA",
     "locode": "USTXT",
     "portwatch": "port1285",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Texas City, Texas (a major port for deepwater shipping of Texas petroleum products).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/1fb47693f2a6475cbac037526fa92e72",
     "read": "2026-11"
@@ -5223,8 +5190,8 @@
     "locode": "USLCH",
     "portwatch": "port629",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Port of Lake Charles (crude oil is the major commodity on the river; also gasoline, diesel and jet fuel).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/03e65125aa234c9db1274957fbfb0786",
     "read": "2026-11"
@@ -5251,7 +5218,7 @@
     "portwatch": "port270",
     "status": "not-stated",
     "note": "Refineries of Hanwha Total, Hyundai Oilbank and Hyundai Lotte (EIA country brief on South Korea, as the trade engine cites it). Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/119c530a0d6e409f8a3f2d8d86c785da",
     "read": "2026-11"
@@ -5261,31 +5228,6 @@
     "coordinates": [
      126.4037,
      37.0132
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "st-james",
-    "name": "St James",
-    "type": "port",
-    "k": [
-     "crude-oil"
-    ],
-    "c": "USA",
-    "status": "not-stated",
-    "note": "Position: the hamlet of Saint James (OpenStreetMap).",
-    "coord": "approx",
-    "s": "openstreetmap",
-    "url": "https://www.openstreetmap.org/node/151401484",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -90.832,
-     29.982
     ]
    }
   },
@@ -5302,20 +5244,17 @@
     "locode": "AUPWL",
     "portwatch": "port981",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Cape Lambert (Rio Tinto's iron ore loading facility).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/bf6bb9c5e6c340ad88bff78c8b160716",
     "read": "2026-11",
     "limits": {
      "draught": 22.0,
+     "depth": true,
      "n": "Draft depth 22.0 m (infobox, citing Findaport); 8 berths",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Cape_Lambert"
-    },
-    "maxClass": {
-     "dry": "vloc",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -5338,7 +5277,7 @@
     "c": "BRA",
     "portwatch": "port422",
     "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
+    "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, Itaguaí (some of the largest ore exporting ports of Brazil; the page cites Vale's port information book for Ilha Guaíba).",
     "coord": "site",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/9dad64ce7fc340b5b8c79b8d6f76f94e",
@@ -5365,8 +5304,8 @@
     "locode": "CAPCA",
     "portwatch": "port938",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Port-Cartier (a sea port built to ship iron ore).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7019c94ba0f843949db931e49749ae90",
     "read": "2026-11"
@@ -5393,7 +5332,7 @@
     "portwatch": "port830",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/c8c53b6ae3ef43f390658adb31c2388f",
     "read": "2026-11"
@@ -5420,7 +5359,7 @@
     "portwatch": "port670",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a59c0dda5d324651b06ff3aef74e85a5",
     "read": "2026-11"
@@ -5430,59 +5369,6 @@
     "coordinates": [
      22.2501,
      65.5556
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "jingtang",
-    "name": "Tangshan (Jingtang)",
-    "type": "port",
-    "k": [
-     "iron-ore",
-     "thermal-coal"
-    ],
-    "c": "CHN",
-    "portwatch": "port1266",
-    "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/8ff219c3f1af499a8af8fc0668b395cc",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     119.0212,
-     39.2353
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "dongjiakou",
-    "name": "Dongjiakou",
-    "type": "port",
-    "k": [
-     "iron-ore"
-    ],
-    "c": "CHN",
-    "portwatch": "port1070",
-    "status": "not-stated",
-    "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/c5e6bf92ae064185b0723656aa59b07c",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     119.7633,
-     35.6093
     ]
    }
   },
@@ -5501,7 +5387,7 @@
     "portwatch": "port432",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/259443bc082c4126ad2ef415bc6a7fca",
     "read": "2026-11"
@@ -5511,88 +5397,6 @@
     "coordinates": [
      127.7165,
      34.8767
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "kimitsu",
-    "name": "Kimitsu",
-    "type": "port",
-    "k": [
-     "iron-ore",
-     "met-coal"
-    ],
-    "c": "JPN",
-    "status": "not-stated",
-    "note": "Position: the city of Kimitsu (OpenStreetMap).",
-    "coord": "approx",
-    "s": "openstreetmap",
-    "url": "https://www.openstreetmap.org/relation/2679906",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     139.903,
-     35.33
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "oita",
-    "name": "Oita",
-    "type": "port",
-    "k": [
-     "iron-ore",
-     "met-coal"
-    ],
-    "c": "JPN",
-    "locode": "JPOIT",
-    "portwatch": "port846",
-    "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/4820117337e64e2cb61bed01609e48ab",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     131.6858,
-     33.2592
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "fukuyama",
-    "name": "Fukuyama",
-    "type": "port",
-    "k": [
-     "iron-ore",
-     "met-coal"
-    ],
-    "c": "JPN",
-    "locode": "JPFKY",
-    "portwatch": "port364",
-    "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/b8ed6cc1034a4a25a9983c50309fb01b",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     133.4385,
-     34.4629
     ]
    }
   },
@@ -5610,8 +5414,8 @@
     "locode": "NLIJM",
     "portwatch": "port487",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Tata Steel Netherlands (IJmuiden was chosen for the steelworks as a site for the import of coal and iron ore by sea).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/a8839568a34a4b85bab05488436c90ca",
     "read": "2026-11"
@@ -5639,7 +5443,7 @@
     "portwatch": "port310",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/3fa76a6b81eb4c52a12d109677c6b656",
     "read": "2026-11"
@@ -5667,7 +5471,7 @@
     "portwatch": "port1275",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/0fef0f729d8f452d8d1e96eb013e58fb",
     "read": "2026-11"
@@ -5693,8 +5497,8 @@
     "locode": "CNSHP",
     "portwatch": "port1072",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Port of Qinhuangdao (a major port for coal transportation; the page does not say which kind of coal).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/ecba22e319b9411a82c2ce1319e58cf6",
     "read": "2026-11"
@@ -5727,8 +5531,8 @@
      "n": "coal shipped (more than 170 million tonnes)"
     },
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: the article cited (its throughput grew largely through coal transportation; it does not say which kind of coal).",
+    "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Huanghua",
     "read": "2026-11"
@@ -5763,20 +5567,17 @@
      "orig": "15,063,943 t"
     },
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: the article cited (a coal port fed from the Bowen Basin coalfields; it does not say which kind of coal).",
     "coord": "site",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Abbot_Point",
     "read": "2026-11",
     "limits": {
      "draught": 19.1,
+     "depth": true,
      "n": "Draft depth 19.1 m (infobox, citing Findaport)",
      "s": "wikipedia",
      "url": "https://en.wikipedia.org/wiki/Abbot_Point"
-    },
-    "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
     }
    },
    "geometry": {
@@ -5799,7 +5600,7 @@
     ],
     "c": "CAN",
     "status": "not-stated",
-    "note": "Position from OpenStreetMap.",
+    "note": "Position from OpenStreetMap. Commodity: Wikipedia, Roberts Bank Superport (Westshore, the busiest coal export terminal of North America; some of this coal is metallurgical).",
     "coord": "site",
     "s": "openstreetmap",
     "url": "https://www.openstreetmap.org/way/170286454",
@@ -5810,34 +5611,6 @@
     "coordinates": [
      -123.166,
      49.018
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "prince-rupert",
-    "name": "Prince Rupert",
-    "type": "port",
-    "k": [
-     "met-coal",
-     "thermal-coal"
-    ],
-    "c": "CAN",
-    "locode": "CAPRR",
-    "portwatch": "port1021",
-    "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
-    "s": "portwatch-ports",
-    "url": "https://portwatch.imf.org/pages/327290ae1f034420bef5b38939d919be",
-    "read": "2026-11"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -130.3378,
-     54.2667
     ]
    }
   },
@@ -5855,8 +5628,8 @@
     "locode": "USORF",
     "portwatch": "port826",
     "status": "not-stated",
-    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database. Commodity: Wikipedia, Hampton Roads (coal piers and loading facilities; the page does not say which kind of coal).",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/7bdfaa29d14f4f5a9dc1a1a12022d3fe",
     "read": "2026-11"
@@ -5884,7 +5657,7 @@
     "portwatch": "port103",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/3ee548cdbcfb4663bd14cda1b5d7f92d",
     "read": "2026-11"
@@ -5911,7 +5684,7 @@
     "portwatch": "port754",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/fd5da1f2077b46159ff008515a6a34ea",
     "read": "2026-11"
@@ -5938,7 +5711,7 @@
     "portwatch": "port784",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/24958416c2c4413385f9c127275cca34",
     "read": "2026-11"
@@ -5966,7 +5739,7 @@
     "portwatch": "port1252",
     "status": "not-stated",
     "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
-    "coord": "site",
+    "coord": "approx",
     "s": "portwatch-ports",
     "url": "https://portwatch.imf.org/pages/6c0d7409aa7c47658de1d866176cc9c0",
     "read": "2026-11"

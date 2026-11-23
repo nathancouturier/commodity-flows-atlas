@@ -5,12 +5,13 @@
  * operator field names it.
  */
 import { Fragment } from 'preact';
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Company, CompanyFig, CompanySanction, InfraType, ShippingCompanies, VesselClass } from '../types';
 import { commodityMeta, countryName, loadOptional, sourceLabel } from '../lib/data';
 import { fmt } from '../lib/format';
+import { operatorMatcher } from '../lib/companyAssets';
 import { monthYear } from '../lib/infra';
-import { select } from '../lib/store';
+import { companyFilter, select } from '../lib/store';
 import { loadInfra, type InfraFeature } from '../map/modules/infrastructure';
 import { Section, SourcesLine, shortSource } from './ui';
 import { useLoaded } from './views/shared';
@@ -25,9 +26,26 @@ const OWN_LABEL: Record<string, string> = {
 
 export const sanctionsOf = (c: Company): CompanySanction[] => (c.sanction ? [c.sanction].flat() : []);
 
-/** Figures are ordered together only when they count the same thing in the same unit ("LNG sold" is not "LNG produced"). */
+/** The bases a fleet is counted on: a fleet owned is not a fleet owned and chartered-in, nor one with ships on order. */
+const FLEET_BASIS: [RegExp, string][] = [
+  [/\bowned\b/i, 'owned'],
+  [/\bleased\b/i, 'leased'],
+  [/\bchartered\b/i, 'chartered-in'],
+  [/\bmanaged\b/i, 'managed'],
+  [/\b(on order|due for delivery|under construction|newbuild)/i, 'with ships on order'],
+];
+
+/**
+ * Figures are ordered together only when they count the same thing in the same unit ("LNG sold" is not "LNG produced");
+ * a fleet, also on the same basis.
+ */
 function measure(f: CompanyFig): string {
   const head = f.what.replace(/\([^)]*\)/g, ' ').split(',')[0].replace(/\b(consolidated|attributable|equity|own|total|group|gross|net)\b/gi, ' ');
+  if (/^\s*fleet\b/i.test(head)) {
+    const basis = FLEET_BASIS.filter(([re]) => re.test(f.what)).map(([, w]) => w);
+    const onOrder = basis.at(-1) === 'with ships on order' ? basis.pop() : null;
+    return [`fleet, ${basis.length ? basis.join(' and ') : 'basis not stated'}`, onOrder].filter(Boolean).join(', ');
+  }
   return head.replace(/\s+/g, ' ').trim();
 }
 const cohort = (f: CompanyFig) => `${f.u}|${measure(f).toLowerCase()}`;
@@ -55,35 +73,34 @@ const FIG_SOURCE: Record<string, string> = { 'sec-edgar': 'SEC filing', cochilco
 
 // ---------------------------------------------------------------- company -> assets
 
-const CORP = /\s+(energy|corporation|corp\.?|group|plc|ltd\.?|limited|inc\.?|holdings|resources|mining|company|co\.|s\.?a\.?|ag|asa|nv|se|international)$/i;
-const GENERIC = new Set(['china', 'saudi', 'national', 'united', 'royal', 'golden', 'star', 'pacific', 'general', 'global', 'coal', 'oil', 'gas', 'petroleum', 'the']);
-
-/** The forms of a company's name an operator field may use: the name, the names in brackets, the name without "Energy", "Group"... */
-export function nameForms(name: string): string[] {
-  const out = new Set<string>();
-  const add = (s: string, min: number) => {
-    const t = s.trim().replace(/^(formerly|incl\.|ex-)\s*/i, '');
-    if (t.length >= min && !t.endsWith('&') && !GENERIC.has(t.toLowerCase())) out.add(t);
-  };
-  const base = name.replace(/\s*\([^)]*\)\s*/g, ' ').trim();
-  add(base, 2);
-  for (const m of name.matchAll(/\(([^)]+)\)/g)) m[1].split(/[,;]/).forEach((p) => add(p, 3));
-  let s = base;
-  while (CORP.test(s)) {
-    s = s.replace(CORP, '');
-    add(s, 4);
-  }
-  return [...out];
+/**
+ * Assets whose operator field names the company (as operator or as an owner with a share; a former owner does not count).
+ * `others`: every company of the lists, so that "Gazprom Neft" is not counted for Gazprom.
+ */
+export function assetsOf(name: string, infra: InfraFeature[], others: string[] = []): InfraFeature[] {
+  const names = operatorMatcher(name, others);
+  return infra.filter((f) => f.p.operator && names(f.p.operator));
 }
 
-const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+export type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
 
-/** Assets whose operator field names the company (as operator or as an owner with a share). */
-export function assetsOf(name: string, infra: InfraFeature[]): InfraFeature[] {
-  // a former owner ("Aster, ex-Shell"; "formerly Adaro Energy"; "which bought Mechel's stake") does not count
-  const res = nameForms(name).map((n) => new RegExp(`(^|[^\\p{L}\\p{N}])(?<!ex-)(?<!formerly )(?<!bought )${escRe(n)}($|[^\\p{L}\\p{N}])`, 'iu'));
-  return infra.filter((f) => f.p.operator && res.some((r) => r.test(f.p.operator!)));
+let allPromise: Promise<{ map: CompanyMap | null; shipping: ShippingCompanies | null; names: string[] }> | null = null;
+/** Both company lists (the commodities' and the shipping companies'), and every name in them. */
+export function loadAllCompanies() {
+  allPromise ??= Promise.all([loadOptional<CompanyMap>('commodities/companies.json'), loadOptional<ShippingCompanies>('freight/shipping-companies.json')]).then(
+    ([map, shipping]) => {
+      const names = new Set<string>();
+      for (const groups of Object.values(map ?? {})) for (const list of Object.values(groups)) for (const c of list ?? []) names.add(c.name);
+      for (const list of Object.values(shipping ?? {})) for (const c of list ?? []) names.add(c.name);
+      return { map, shipping, names: [...names] };
+    },
+  );
+  return allPromise;
 }
+
+/** The id of a company in a link (`co=`): its name in lower case, letters and digits joined by hyphens. */
+export const companySlug = (name: string) =>
+  name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 function Assets({ list }: { list: InfraFeature[] }) {
   const [open, setOpen] = useState(false);
@@ -121,7 +138,9 @@ function SanctionMark({ c }: { c: Company }) {
       {list.map((s, i) => (
         <span key={s.by}>
           {i > 0 && ' · '}
-          <a href={s.url} target="_blank" rel="noopener" style={LINK}>{s.by}, {monthYear(s.since)}</a>
+          <a href={s.url} target="_blank" rel="noopener" style={LINK} title="The date of the designation in the notice or list linked, the one the atlas read: an earlier designation may exist">
+            {s.by} designation of {monthYear(s.since)}
+          </a>
         </span>
       ))}
     </span>
@@ -141,11 +160,29 @@ function FigLine({ f, url }: { f: CompanyFig; url?: string }) {
   );
 }
 
-function CompanyRow({ c, showK, infra }: { c: Company; showK?: boolean; infra: InfraFeature[] | null | undefined }) {
-  const assets = useMemo(() => (infra ? assetsOf(c.name, infra) : []), [c.name, infra]);
-  const own = c.own ? OWN_LABEL[c.own] : null;
+/** The parent, with a link to the page that states its share when that is not the row's own page. */
+function Parent({ c }: { c: Company }) {
+  if (!c.parentUrl || c.parentUrl === c.url) return <>parent: {c.parent}</>;
   return (
-    <div class="row-btn co-row" style={{ alignItems: 'flex-start' }}>
+    <>
+      parent:{' '}
+      <a href={c.parentUrl} target="_blank" rel="noopener" style={LINK}>
+        {c.parent} ↗
+      </a>
+    </>
+  );
+}
+
+function CompanyRow({ c, showK, infra, names }: { c: Company; showK?: boolean; infra: InfraFeature[] | null | undefined; names: string[] }) {
+  const assets = useMemo(() => (infra ? assetsOf(c.name, infra, names) : []), [c.name, infra, names]);
+  const own = c.own ? OWN_LABEL[c.own] : null;
+  const sub = [c.hq ? countryName(c.hq) : null, c.role, own].filter(Boolean).join(' · ');
+  const after = [
+    c.seg?.length ? `Shipping: ${c.seg.join(', ')}` : null,
+    showK && c.k ? [c.k].flat().map((k) => commodityMeta(k)?.name ?? k).join(', ') : null,
+  ].filter(Boolean).join(' · ');
+  return (
+    <div class={`row-btn co-row${companyFilter.value === companySlug(c.name) ? ' co-hit' : ''}`} data-co={companySlug(c.name)} style={{ alignItems: 'flex-start' }}>
       <span class="row-main">
         <span class="row-title">
           {c.url ? (
@@ -156,8 +193,9 @@ function CompanyRow({ c, showK, infra }: { c: Company; showK?: boolean; infra: I
           ) : c.name}
         </span>
         <span class="row-sub">
-          {[c.hq ? countryName(c.hq) : null, c.role, own, c.parent ? `parent: ${c.parent}` : null,
-            showK && c.k ? [c.k].flat().map((k) => commodityMeta(k)?.name ?? k).join(', ') : null].filter(Boolean).join(' · ')}
+          {sub}
+          {c.parent && <>{sub && ' · '}<Parent c={c} /></>}
+          {after && <>{(sub || c.parent) && ' · '}{after}</>}
           <SanctionMark c={c} />
           {c.fig && <FigLine f={c.fig} url={c.url} />}
           {c.detail && <span class="row-detail">{c.detail}</span>}
@@ -175,25 +213,54 @@ function CompanyRow({ c, showK, infra }: { c: Company; showK?: boolean; infra: I
 }
 
 /** "read in November 2026": the months the pages of the list were read (the year of a fact is on its row, never here). */
+const NO_NAMES: string[] = [];
+
 function readMonths(list: Company[]): string | undefined {
   const ms = [...new Set(list.map((c) => c.read).filter((m): m is string => !!m))].sort();
   return ms.length ? `read in ${ms.map(monthYear).join(', ')}` : undefined;
 }
 
+/** The company a link names (`co=`) when one of the lists holds it: its block opens on that row. */
+export function linkedCompany(...lists: (Company[] | undefined)[]): string | null {
+  const slug = companyFilter.value;
+  return slug && lists.some((l) => l?.some((c) => companySlug(c.name) === slug)) ? slug : null;
+}
+
+/** The row of the company a link names (`co=`), shown once its rows are drawn (the first one when it is listed twice). */
+function useShowCompany(ref: { current: HTMLDivElement | null }, list: Company[]) {
+  const slug = companyFilter.value;
+  useEffect(() => {
+    if (!slug || !list.some((c) => companySlug(c.name) === slug)) return;
+    const id = requestAnimationFrame(() => {
+      const row = ref.current?.closest('section')?.querySelector<HTMLElement>(`[data-co="${slug}"]`);
+      row?.scrollIntoView({ block: 'center' });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [slug, list]);
+}
+
 export function CompanyRows(props: { title?: string; list: Company[]; showK?: boolean; keepOrder?: boolean }) {
   const { list } = props;
   const infra = useLoaded<InfraFeature[]>(() => loadInfra(), []);
+  const all = useLoaded(() => loadAllCompanies(), []);
+  const names = all?.names ?? NO_NAMES;
   const blocks = useMemo(() => (props.keepOrder ? [{ rows: list }] : companyBlocks(list)), [list, props.keepOrder]);
+  const ref = useRef<HTMLDivElement>(null);
+  useShowCompany(ref, list);
   if (!list.length) return null;
-  const items = list.flatMap((c) => [...(c.s ? [{ s: c.s }] : []), ...(c.fig ? [{ s: c.fig.s }] : [])]);
+  const items = list.flatMap((c) => [
+    ...(c.s ? [{ s: c.s }] : []),
+    ...(c.fig ? [{ s: c.fig.s }] : []),
+    ...(c.parentUrl?.includes('wikipedia.org') ? [{ s: 'wikipedia' }] : []),
+  ]);
   return (
-    <div class="co-group">
+    <div class="co-group" ref={ref}>
       {props.title && <h4 class="route-sub">{props.title}</h4>}
       {blocks.map((b, i) => (
         <Fragment key={b.label ?? i}>
           {b.label && <div class="infra-block">{b.label}</div>}
           {b.rows.map((c) => (
-            <CompanyRow key={c.name} c={c} showK={props.showK} infra={infra} />
+            <CompanyRow key={c.name} c={c} showK={props.showK} infra={infra} names={names} />
           ))}
         </Fragment>
       ))}
@@ -204,14 +271,23 @@ export function CompanyRows(props: { title?: string; list: Company[]; showK?: bo
 
 // ---------------------------------------------------------------- companies of a country
 
-export type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
+/** The shipping segments in the words of a country page. */
+const SEGMENT_WORD: Record<string, string> = {
+  'dry-bulk': 'dry bulk',
+  tankers: 'tankers',
+  gas: 'gas carriers',
+  charterers: 'charterer',
+  brokers: 'shipbroking',
+  terminals: 'liquid bulk terminals',
+};
 
 /**
  * Companies headquartered in a country, each once with every commodity it is listed for: the most commodities first, then
- * producers, processors, traders. Read from the companies file itself, so the page follows it without a profile rebuild;
- * the commodity-specific figure is left out.
+ * producers, processors, traders, then the shipping companies with their segments ("Shipping: tankers"). Read from the
+ * companies files themselves, so the page follows them without a profile rebuild; the commodity-specific figure and the
+ * fleet are left out.
  */
-export function companiesOf(map: CompanyMap, iso: string): Company[] {
+export function companiesOf(map: CompanyMap, iso: string, shipping?: ShippingCompanies | null): Company[] {
   const found = new Map<string, { c: Company; rank: number; order: number }>();
   let order = 0;
   Object.entries(map).forEach(([k, groups]) =>
@@ -228,6 +304,19 @@ export function companiesOf(map: CompanyMap, iso: string): Company[] {
         if (!ks.includes(k)) ks.push(k);
       }),
     ),
+  );
+  Object.entries(shipping ?? {}).forEach(([seg, list]) =>
+    (list ?? []).forEach((co) => {
+      if (co.hq !== iso) return;
+      let e = found.get(co.name);
+      if (!e) {
+        const { fig: _fig, y: _y, classes: _classes, ...rest } = co;
+        e = { c: { ...rest, k: [] }, rank: 3, order: order++ };
+        found.set(co.name, e);
+      }
+      const word = SEGMENT_WORD[seg] ?? seg;
+      e.c.seg = [...(e.c.seg ?? []), ...(e.c.seg?.includes(word) ? [] : [word])];
+    }),
   );
   return [...found.values()]
     .sort((a, b) => (b.c.k as string[]).length - (a.c.k as string[]).length || a.rank - b.rank || a.order - b.order)
@@ -257,17 +346,20 @@ export function ShippingCompaniesBlock({ v }: { v: VesselClass }) {
   const brokers = all.brokers ?? [];
   const terminals = v.segment === 'tanker' || v.segment === 'gas' ? all.terminals ?? [] : [];
   const n = groups.reduce((a, g) => a + g.list.length, 0);
-  if (!n && !unnamed.length && !brokers.length && !terminals.length) return null;
+  // a class that no owner, operator or charterer of the list names, and whose segment has none (container ships): no block,
+  // the brokers of every segment alone would suggest the atlas knows its companies
+  if (!n && !unnamed.length) return null;
+  const linked = linkedCompany(...groups.map((g) => g.list), unnamed, brokers, terminals);
   return (
-    <Section fold title="Shipping companies" aside={<span class="muted num">{n}</span>}>
+    <Section key={linked ?? ''} fold open={!!linked} title="Shipping companies" aside={<span class="muted num">{n}</span>}>
       {groups.map((g) => <CompanyRows key={g.title} title={g.title} list={g.list} />)}
       {!n && <p class="prose small">No shipping company of the atlas's list names this class in its fleet.</p>}
       {unnamed.length > 0 && <CompanyRows title={`Other ${SEGMENT_TITLE[seg!].toLowerCase()} (classes not stated)`} list={unnamed} />}
       {brokers.length > 0 && <CompanyRows title="Shipbrokers (all segments)" list={brokers} keepOrder />}
       {terminals.length > 0 && <CompanyRows title="Liquid bulk terminal operators" list={terminals} />}
       <p class="muted small">
-        Fleets as each company's last annual report or filing states them, with its year; the classes are those the
-        company names in its fleet list.
+        Fleets as each row's page states them, with their year; fleets counted on different bases (owned, chartered-in, on
+        order) are in separate blocks. The classes are those the page names for the company's fleet.
       </p>
     </Section>
   );

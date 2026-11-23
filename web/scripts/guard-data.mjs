@@ -5,12 +5,20 @@
  *    lines of a country table, the features of a GeoJSON file, the entries of an index),
  *  - a file shrank to less than half its size (files of 1 kB or more),
  *  - a folder lost more than a tenth of its files (folders of 10 or more files),
- *  - a price series (data/prices/<id>.json) whose value at its previous last date was revised by more than half, or,
- *    for a daily or monthly series, whose last value moved by more than half since the last commit (a change of
- *    unit, a wrong column). Annual series are left out of the second test: a yearly price can halve (lithium).
+ *  - a price series (data/prices/<id>.json) whose shape broke: its frequency changed, its days are not one per value
+ *    in increasing order, or a value of the last commit is gone (a hole, or a series that ends earlier),
+ *  - a price series in a price or index unit whose value at its previous last date was revised by more than half, or,
+ *    for a daily or monthly series, whose new values move in one step by more than the series itself has ever moved
+ *    in one step (a change of unit, a wrong column). The range is ×0.5 to ×1.5 for a quiet series, widened to the
+ *    largest one-period move of the series' history raised to the power SCALE_POWER, and never wider than ×1/5 to ×5,
+ *    so a value ten times too large or too small is always refused. Only steps between strictly positive values are
+ *    tested. A series whose unit is a deviation (data/prices/index.json: it crosses zero, and its past months can be
+ *    revised) is checked on its shape only. Annual series are left out of the step test: a yearly price can halve
+ *    (lithium). The replay of the published history is in docs/UPDATING.md.
  * The status files (data/_status) are not compared: they are rewritten on every run.
  *
  *    node web/scripts/guard-data.mjs            compare the working tree with HEAD (run by the update jobs)
+ *    node web/scripts/guard-data.mjs <path>...  the same, for the files under these paths only (the paths a job owns)
  *
  * A real move that the guard refuses is accepted by running the workflow by hand with "accept large moves"
  * (DATA_GUARD=off in the environment): docs/UPDATING.md. Without git, or without a HEAD, the guard says so and passes.
@@ -25,6 +33,8 @@ export const MIN_ROWS = 10;
 export const SHRINK = 0.5;
 export const MIN_BYTES = 1024;
 export const PRICE_MOVE = 0.5;
+export const SCALE_POWER = 3;
+export const MAX_RATIO = 5;
 
 /** {place in the file: number of entries} of every list of the document (indices left out of the place). */
 export function rowCounts(doc) {
@@ -65,27 +75,78 @@ function periodOf(series, i) {
   return String(y0 + i);
 }
 
+/** Period of index i as written in a message (a day as YYYY-MM-DD). */
+const labelOf = (series, i) => (series.freq === 'D' ? new Date(series.d[i] * 864e5).toISOString().slice(0, 10) : periodOf(series, i));
+
 const moved = (a, b) => Math.abs(b - a) > PRICE_MOVE * Math.abs(a);
 
-/** Problems of a price series file between two versions (packed {freq, start|d, v}). */
-export function comparePrice(rel, before, after) {
-  const out = [];
-  if (!Array.isArray(before?.v) || !Array.isArray(after?.v) || before.freq !== after.freq) return out;
+/** A unit measured from zero (a deviation from trend or from average): its moves are not proportional to its level. */
+export const isDeviation = (unit) => /deviation/i.test(unit ?? '');
+
+/** Largest |log ratio| between consecutive strictly positive values of a packed series: its own scale of moves. */
+export function largestStep(v) {
+  let prev = null;
+  let m = 0;
+  for (const x of v) {
+    if (typeof x !== 'number') continue;
+    if (prev > 0 && x > 0) m = Math.max(m, Math.abs(Math.log(x / prev)));
+    prev = x;
+  }
+  return m;
+}
+
+/** Range [lo, hi] of the ratio a value may move by in one step, after a history whose largest step is `scale`. */
+export function stepRange(scale) {
+  const hi = Math.min(MAX_RATIO, Math.max(1 + PRICE_MOVE, Math.exp(SCALE_POWER * scale)));
+  const lo = Math.max(1 / MAX_RATIO, Math.min(1 - PRICE_MOVE, Math.exp(-SCALE_POWER * scale)));
+  return [lo, hi];
+}
+
+/** Shape problems of a price series between two versions: frequency, days, values of the last commit that are gone. */
+function compareShape(rel, before, after) {
+  if (before.freq !== after.freq) return [`${rel}: the frequency changed from ${before.freq} to ${after.freq}`];
+  if (before.freq === 'D' && (!Array.isArray(after.d) || after.d.length !== after.v.length || after.d.some((d, i) => i > 0 && !(d > after.d[i - 1]))))
+    return [`${rel}: the days are no longer one per value in increasing order`];
+  const have = new Set();
+  after.v.forEach((x, i) => typeof x === 'number' && have.add(periodOf(after, i)));
+  const lost = [];
+  before.v.forEach((x, i) => typeof x === 'number' && !have.has(periodOf(before, i)) && lost.push(labelOf(before, i)));
+  return lost.length ? [`${rel}: ${lost.length} value(s) of the last commit are missing (from ${lost[0]} to ${lost.at(-1)})`] : [];
+}
+
+/** Problems of a price series file between two versions (packed {freq, start|d, v}); `unit` from data/prices/index.json. */
+export function comparePrice(rel, before, after, unit) {
+  if (!Array.isArray(before?.v) || !Array.isArray(after?.v)) return [];
+  const out = compareShape(rel, before, after);
+  if (out.length || isDeviation(unit)) return out;
   const i0 = lastIndex(before.v);
   const i1 = lastIndex(after.v);
   if (i0 < 0 || i1 < 0) return out;
   const at = periodOf(before, i0);
   const j = indexOf(after, at);
   const old = before.v[i0];
-  if (j >= 0 && j < after.v.length && typeof after.v[j] === 'number' && moved(old, after.v[j]))
-    out.push(`${rel}: the value of ${at} was revised from ${old} to ${after.v[j]}, by more than half (a change of unit or column?)`);
-  if (after.freq !== 'A' && moved(old, after.v[i1]))
-    out.push(`${rel}: the last value moved from ${old} to ${after.v[i1]}, by more than half since the last commit`);
+  if (j < 0 || j >= after.v.length) return out;
+  if (typeof after.v[j] === 'number' && old > 0 && after.v[j] > 0 && moved(old, after.v[j]))
+    out.push(`${rel}: the value of ${labelOf(before, i0)} was revised from ${old} to ${after.v[j]}, by more than half (a change of unit or column?)`);
+  if (after.freq === 'A') return out;
+  const [lo, hi] = stepRange(largestStep(before.v));
+  let prev = old;
+  let from = labelOf(before, i0);
+  for (let i = j + 1; i <= i1; i++) {
+    const x = after.v[i];
+    if (typeof x !== 'number') continue;
+    if (prev > 0 && x > 0 && (x / prev > hi || x / prev < lo)) {
+      out.push(`${rel}: the value moved from ${prev} (${from}) to ${x} (${labelOf(after, i)}), outside ×${lo.toFixed(2)} to ×${hi.toFixed(2)}, the range of one step of this series`);
+      break;
+    }
+    prev = x;
+    from = labelOf(after, i);
+  }
   return out;
 }
 
-/** Problems between two versions of one data file (texts); `rel` is its path under data/. */
-export function compareFile(rel, beforeText, afterText) {
+/** Problems between two versions of one data file (texts); `rel` is its path under data/, `units` {series id: unit}. */
+export function compareFile(rel, beforeText, afterText, units = new Map()) {
   const out = [];
   const b = Buffer.byteLength(beforeText);
   const a = Buffer.byteLength(afterText);
@@ -104,7 +165,8 @@ export function compareFile(rel, beforeText, afterText) {
     const m = ra.get(place) ?? 0;
     if (n >= MIN_ROWS && m < (1 - ROW_LOSS) * n) out.push(`${rel}: ${place} lost ${n - m} of its ${n} rows, more than a tenth`);
   }
-  if (/^prices\/[^/]+\.json$/.test(rel) && !/\/(index|figures)\.json$/.test(rel)) out.push(...comparePrice(rel, before, after));
+  if (/^prices\/[^/]+\.json$/.test(rel) && !/\/(index|figures)\.json$/.test(rel))
+    out.push(...comparePrice(rel, before, after, units.get(path.posix.basename(rel, '.json'))));
   return out;
 }
 
@@ -120,15 +182,33 @@ function git(args, cwd) {
   return execFileSync('git', args, { cwd, encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'ignore'] });
 }
 
-/** Compare the data/ folder of the working tree at `repo` with HEAD; returns the list of problems. */
-export function guardRepo(repo) {
+/** {series id: unit} of data/prices/index.json, from the working tree or else from HEAD (empty when neither reads). */
+function priceUnits(repo) {
+  const rel = 'data/prices/index.json';
+  for (const read of [() => fs.readFileSync(path.join(repo, rel), 'utf8'), () => git(['show', `HEAD:${rel}`], repo)]) {
+    try {
+      const doc = JSON.parse(read());
+      const list = Array.isArray(doc) ? doc : (doc.series ?? []);
+      return new Map(list.map((s) => [s.id, s.unit]));
+    } catch {
+      // try the next version
+    }
+  }
+  return new Map();
+}
+
+/** Compare the data/ folder of the working tree at `repo` (or the part of it under `paths`) with HEAD; returns the list of problems. */
+export function guardRepo(repo, paths = []) {
   try {
     git(['rev-parse', '--verify', 'HEAD'], repo);
   } catch {
     console.log('data guard: no git history here, nothing to compare');
     return [];
   }
-  const changed = git(['diff', '--name-only', '--no-renames', 'HEAD', '--', 'data'], repo).split('\n').filter(Boolean);
+  const changed = git(['diff', '--name-only', '--no-renames', 'HEAD', '--', ...(paths.length ? paths : ['data'])], repo)
+    .split('\n')
+    .filter((f) => f.startsWith('data/'));
+  const units = priceUnits(repo);
   const problems = [];
   const folders = {};
   for (const f of changed) {
@@ -149,14 +229,14 @@ export function guardRepo(repo) {
     } catch {
       continue; // a new file: nothing to compare with
     }
-    problems.push(...compareFile(rel, before, fs.readFileSync(path.join(repo, f), 'utf8')));
+    problems.push(...compareFile(rel, before, fs.readFileSync(path.join(repo, f), 'utf8'), units));
   }
   return [...problems, ...compareFolders(folders)];
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-  const problems = guardRepo(repo);
+  const problems = guardRepo(repo, process.argv.slice(2));
   if (problems.length && (process.env.DATA_GUARD ?? '').toLowerCase() === 'off') {
     console.warn(`data guard: ${problems.length} large change(s) accepted by hand (DATA_GUARD=off):\n${problems.slice(0, 30).join('\n')}`);
   } else if (problems.length) {

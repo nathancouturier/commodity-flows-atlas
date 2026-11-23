@@ -50,7 +50,7 @@ function folder(mutate, place = true) {
   fs.writeFileSync(path.join(dir, 'countries/index.json'), JSON.stringify([{ c: 'PER' }, { c: 'CHL' }, { c: 'AUS' }, { c: 'IDN' }]));
   fs.writeFileSync(path.join(dir, 'sources.json'), JSON.stringify([{ id: 'wikipedia' }]));
   fs.mkdirSync(path.join(dir, 'freight'));
-  fs.writeFileSync(path.join(dir, 'freight/vessel-classes.json'), JSON.stringify([{ id: 'capesize' }, { id: 'suezmax' }]));
+  fs.writeFileSync(path.join(dir, 'freight/vessel-classes.json'), JSON.stringify([{ id: 'capesize', segment: 'dry' }, { id: 'suezmax', segment: 'tanker' }]));
   fs.mkdirSync(path.join(dir, 'prices'));
   fs.writeFileSync(path.join(dir, 'prices/index.json'), JSON.stringify([{ id: 'wti-d' }]));
   fs.mkdirSync(path.join(dir, 'geo'));
@@ -257,7 +257,7 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     p.k = ['copper'];
     return p;
   };
-  const lim = { draught: 18.2, dwt: 200000, n: 'Berth 1 at high tide', s: 'wikipedia', url: 'https://en.wikipedia.org/wiki/Port', y: 2025 };
+  const lim = { draught: 18.2, dwt: 200000, depth: true, seg: 'dry', cls: 'capesize', at: 'Berth 1', n: 'Berth 1 at high tide', s: 'wikipedia', url: 'https://en.wikipedia.org/wiki/Port', y: 2025 };
   const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: 'capesize', n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
   assert.deepEqual(ok.errors, [], ok.all);
   const cases = {
@@ -269,6 +269,10 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     'limits of an unknown source': [{ limits: { ...lim, s: 'nobody' } }, /limits\.s "nobody"/],
     'limits without a page': [{ limits: { ...lim, url: undefined } }, /limits\.url/],
     'limits with a stray field': [{ limits: { ...lim, tide: 'high' } }, /limits\.tide is not a field/],
+    'limits of no segment': [{ limits: { ...lim, seg: 'bulk' } }, /limits\.seg "bulk" is not a segment/],
+    'named class of another segment': [{ limits: { ...lim, seg: 'tanker', cls: 'capesize' } }, /not a class of the segment "tanker"/],
+    'named class unknown': [{ limits: { ...lim, cls: 'megamax' } }, /limits\.cls "megamax"/],
+    'depth without a draught': [{ limits: { dwt: 1e5, depth: true, n: 'x', s: 'wikipedia', url: lim.url } }, /limits\.depth must be true/],
     'class without limits': [{ maxClass: { dry: 'capesize', n: 'x' } }, /derived from "limits"/],
     'class of no segment': [{ limits: lim, maxClass: { bulk: 'capesize', n: 'x' } }, /maxClass\.bulk is not a segment/],
     'unknown class': [{ limits: lim, maxClass: { dry: 'megamax', n: 'x' } }, /"megamax" is not a vessel class/],

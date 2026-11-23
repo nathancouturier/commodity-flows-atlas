@@ -1,8 +1,10 @@
 # Builds the web app and deploys it to GitHub Pages on every push to main (and when called by the update workflows).
 # The checks of ci.yml (type check, unit suites, data validators, build and size budget) run first; nothing is
-# published unless they all pass. On a push, a failed check fails the run and GitHub e-mails the person who pushed
-# (its default for a failed workflow). Called by a data update (soft: true), a failed check does not fail the run: the
-# site is simply not republished, a notice says why, and no e-mail is sent.
+# published unless they all pass. On a push, a failed check, build or deployment fails the run and GitHub e-mails the
+# person who pushed (its default for a failed workflow). Called by a data update (soft: true), none of them fails the
+# run: the new data is on main but the site is not republished, and the job "report" opens (or updates) one issue
+# "Site not republished: a check failed" with the names of the failed steps and the run's address. Any later run that
+# publishes closes it.
 # If Pages is not enabled yet (Settings > Pages > Source: GitHub Actions), the job
 # finishes green with a notice instead of failing, so no failure e-mail is sent.
 name: Deploy site
@@ -40,17 +42,6 @@ jobs:
       ref: ${{ inputs.ref }}
       soft: ${{ inputs.soft == true }}
 
-  not-published:
-    needs: checks
-    if: needs.checks.outputs.ok != 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checks failed notice
-        run: |
-          echo "::notice::A check failed: the site was not republished. See the Checks job of this run."
-          echo "### Site not republished: a check failed (see the checks job)" >> "$GITHUB_STEP_SUMMARY"
-
   build:
     needs: checks
     if: needs.checks.outputs.ok == 'true'
@@ -58,6 +49,8 @@ jobs:
     timeout-minutes: 15
     outputs:
       pages: ${{ steps.pages.outcome }}
+      ok: ${{ steps.verdict.outputs.ok }}
+      failed: ${{ steps.verdict.outputs.failed }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -67,12 +60,19 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: web/package-lock.json
+      # soft (a data update): a failure does not fail the run; the job "report" opens the issue instead
       - name: Install
+        id: install
+        continue-on-error: ${{ inputs.soft == true }}
         run: npm ci
         working-directory: web
       - name: Validate data files
+        id: validate
+        continue-on-error: ${{ inputs.soft == true }}
         run: node web/scripts/validate-data.mjs
       - name: Build
+        id: build
+        continue-on-error: ${{ inputs.soft == true }}
         run: npm run build
         working-directory: web
       - name: Check Pages is enabled
@@ -85,18 +85,111 @@ jobs:
           echo "::notice::GitHub Pages is not enabled for this repository. Enable it in Settings > Pages > Source: GitHub Actions, then re-run this workflow."
           echo "### Site built but not deployed: enable GitHub Pages (Settings > Pages > Source: GitHub Actions)" >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
-        if: steps.pages.outcome == 'success'
+        id: upload
+        if: steps.pages.outcome == 'success' && steps.install.outcome == 'success' && steps.validate.outcome == 'success' && steps.build.outcome == 'success'
+        continue-on-error: ${{ inputs.soft == true }}
         with:
           path: web/dist
+      - name: Verdict
+        id: verdict
+        if: always()
+        env:
+          OUTCOMES: |
+            ${{ steps.install.outcome }} Install (build job)
+            ${{ steps.validate.outcome }} Validate data files (build job)
+            ${{ steps.build.outcome }} Build (build job)
+            ${{ steps.upload.outcome }} Upload of the site (build job)
+        run: |
+          ok=true
+          failed=""
+          while read -r o name; do
+            [ -n "$o" ] || continue
+            # the upload is skipped when Pages is not enabled: not a failure
+            if [ "$o" != success ] && { [ "$o" != skipped ] || [ "${name#Upload}" = "$name" ]; }; then
+              ok=false; failed="${failed:+$failed, }$name ($o)"
+            fi
+          done <<< "$OUTCOMES"
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
 
   deploy:
     needs: build
-    if: needs.build.outputs.pages == 'success'
+    if: needs.build.outputs.pages == 'success' && needs.build.outputs.ok == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      published: ${{ steps.deployment.outcome == 'success' }}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
+        continue-on-error: ${{ inputs.soft == true }}
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5
+
+  # Opens or updates one issue when a data update could not republish the site (a check, the build or the Pages
+  # deployment failed), and closes it when a run publishes. Not run when the run is cancelled (a newer run replaced it).
+  report:
+    needs: [checks, build, deploy]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+    steps:
+      - name: Open or close the "Site not republished" issue
+        continue-on-error: true
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        env:
+          SOFT: ${{ inputs.soft == true }}
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          CHECKS_OK: ${{ needs.checks.outputs.ok }}
+          CHECKS_FAILED: ${{ needs.checks.outputs.failed }}
+          BUILD_RESULT: ${{ needs.build.result }}
+          BUILD_OK: ${{ needs.build.outputs.ok }}
+          BUILD_FAILED: ${{ needs.build.outputs.failed }}
+          PAGES: ${{ needs.build.outputs.pages }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          PUBLISHED: ${{ needs.deploy.outputs.published }}
+        with:
+          script: |
+            const e = process.env;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const title = 'Site not republished: a check failed';
+            const failed = [];
+            if (e.CHECKS_OK !== 'true') failed.push(e.CHECKS_FAILED || `the checks job (${e.CHECKS_RESULT || 'did not run'})`);
+            else if (e.BUILD_RESULT !== 'success' || e.BUILD_OK !== 'true') failed.push(e.BUILD_FAILED || `the build job (${e.BUILD_RESULT || 'did not run'})`);
+            else if (e.PAGES === 'success' && e.PUBLISHED !== 'true') failed.push(`Pages deployment (deploy job${e.DEPLOY_RESULT === 'success' ? '' : `: ${e.DEPLOY_RESULT || 'did not run'}`})`);
+            const published = e.PUBLISHED === 'true';
+            if (failed.length) {
+              core.notice(`The site was not republished: ${failed.join(', ')}`);
+              await core.summary.addHeading('Site not republished', 3).addRaw(`Failed: ${failed.join(', ')}`).write();
+            }
+            const label = 'data-update';
+            const findOpen = async () => {
+              const open = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', labels: label, per_page: 100 });
+              return open.find((i) => i.title === title && !i.pull_request);
+            };
+            if (published) {
+              const existing = await findOpen();
+              if (existing) {
+                await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body: `The site was published again: ${runUrl}. Closing.` });
+                await github.rest.issues.update({ ...context.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed' });
+              }
+            } else if (failed.length && e.SOFT === 'true') {
+              // a push to main is red and e-mailed already; a data update is green, so this issue is its only signal
+              try {
+                await github.rest.issues.createLabel({ ...context.repo, name: label, color: 'd93f0b', description: 'Automatic data update problems' });
+              } catch (err) { /* exists already, or labels not allowed */ }
+              const body = [
+                'A data update pushed new data to the default branch, but the site was **not republished**: the public site still shows the previous data.',
+                '',
+                `- Failed: ${failed.join(', ')}`,
+                `- Run: ${runUrl}`,
+                '',
+                'Open the run, read the log of the failed step, fix the cause (or re-run the failed jobs if it was a passing hiccup of npm, pip or Pages). Every data update tries to publish again, and this issue closes automatically when a run publishes. See docs/UPDATING.md.',
+              ].join('\n');
+              const existing = await findOpen();
+              if (!existing) await github.rest.issues.create({ ...context.repo, title, body, labels: [label] });
+              else if (existing.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: existing.number, body });
+            }

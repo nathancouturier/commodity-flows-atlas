@@ -234,7 +234,7 @@ const MODE_TEXT = { sea: 'sea', transit: 'sea via a foreign port', mixed: 'sea a
 export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
   const head = [
     'product', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume', 'unit', 'share_of_seaborne_pct',
-    'mode', 'transit_port', 'vessel_class', 'distance_nm', 'passages', 'may_use_passages', 'atlas_estimate', 'source', 'licence',
+    'mode', 'transit_port', 'typical_vessel_class', 'distance_nm', 'passages', 'may_use_passages', 'atlas_estimate', 'source', 'licence',
   ];
   const out = [head.join(',')];
   for (const r of rows) {

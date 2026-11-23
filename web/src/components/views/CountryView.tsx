@@ -4,14 +4,14 @@
  */
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
-import { loadProfile, loadOptional, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
+import { loadProfile, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
 import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
 import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, laneMt, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select, year } from '../../lib/store';
 import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource, CONV_TITLE } from '../ui';
-import { CompanyRows, companiesOf, type CompanyMap } from '../Companies';
+import { CompanyRows, companiesOf, loadAllCompanies } from '../Companies';
 import { passagesText } from '../LaneTable';
 import { EventList } from '../EventList';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
@@ -295,11 +295,14 @@ function CountryInfra({ ids }: { ids: string[] }) {
   );
 }
 
-/** Companies headquartered in the country, each with every commodity it is listed for (from the companies file; the profile's copy while it loads). */
+/**
+ * Companies headquartered in the country, each with every commodity it is listed for, then the shipping companies with
+ * their segments (from the companies files; the profile's copy while they load).
+ */
 function CompaniesBlock({ iso, profile }: { iso: string; profile: Company[] }) {
-  const map = useLoaded<CompanyMap>(() => loadOptional<CompanyMap>('commodities/companies.json'), []);
+  const files = useLoaded(() => loadAllCompanies(), []);
   const [all, setAll] = useState(false);
-  const list = map ? companiesOf(map, iso) : profile;
+  const list = files?.map ? companiesOf(files.map, iso, files.shipping) : profile;
   const shown = all ? list : list.slice(0, FIRST_ROWS);
   if (!list.length) return null;
   return (

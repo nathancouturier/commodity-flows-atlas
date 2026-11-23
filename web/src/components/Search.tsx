@@ -1,7 +1,7 @@
 /**
  * The search field of the top bar (a button that opens it over the top of the screen on a phone). One list for the whole
- * atlas: commodities, countries, freight routes (by name and Baltic code), chokepoints, vessel classes, infrastructure
- * assets, the typical ports of the lanes, events and price series, grouped by kind. With nothing typed it lists the kinds
+ * atlas: commodities, countries, freight routes (by name and Baltic code), chokepoints, vessel classes, companies,
+ * infrastructure assets, the typical ports of the lanes, events and price series, grouped by kind. With nothing typed it lists the kinds
  * with their counts, and a kind opens its whole list: that is the way to every object of the map from the keyboard.
  * The matching and the index are in lib/search.ts, loaded the first time the field gets the focus.
  */
@@ -278,7 +278,7 @@ export function Search() {
       ? 'Search could not load its index. Reload the page to try again.'
       : 'Loading the search index…'
     : typing && !groups.length && !pairs
-      ? `Nothing matches “${query.trim()}”. Try a country, a port, a route code such as TD3C or a commodity.`
+      ? `Nothing matches “${query.trim()}”. Try a country, a port, a company, a route code such as TD3C or a commodity.`
       : scope && !groups.length
         ? 'Nothing in this list matches.'
         : '';

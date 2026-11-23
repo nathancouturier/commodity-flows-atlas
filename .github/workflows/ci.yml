@@ -6,7 +6,9 @@
 #
 # E-mail: a failed check on a pull request is reported by GitHub to the person who pushed, as for any failed
 # workflow. Called by a data update (input soft), every check is allowed to fail: the run stays green, the
-# output "ok" is false, and the deploy workflow does not publish (no e-mail; the data job's own issue says why).
+# output "ok" is false, the output "failed" names the failed steps, and the deploy workflow does not publish: it
+# opens (or updates) one issue "Site not republished: a check failed" with these names, closed when a later run
+# publishes (no e-mail beyond GitHub's notice of a new issue).
 name: Checks
 
 on:
@@ -26,6 +28,9 @@ on:
       ok:
         description: "'true' when every check passed"
         value: ${{ jobs.checks.outputs.ok }}
+      failed:
+        description: "The names of the steps that did not succeed, comma-separated (empty when ok)"
+        value: ${{ jobs.checks.outputs.failed }}
 
 permissions:
   contents: read
@@ -36,6 +41,7 @@ jobs:
     timeout-minutes: 25
     outputs:
       ok: ${{ steps.verdict.outputs.ok }}
+      failed: ${{ steps.verdict.outputs.failed }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
@@ -87,12 +93,21 @@ jobs:
         id: verdict
         if: always()
         env:
-          OUTCOMES: >-
-            ${{ steps.install.outcome }} ${{ steps.typecheck.outcome }} ${{ steps.node.outcome }}
-            ${{ steps.validate.outcome }} ${{ steps.python.outcome }} ${{ steps.build.outcome }}
+          OUTCOMES: |
+            ${{ steps.install.outcome }} Install
+            ${{ steps.typecheck.outcome }} Type check
+            ${{ steps.node.outcome }} Node tests
+            ${{ steps.validate.outcome }} Data validators
+            ${{ steps.python.outcome }} Python unit suite
+            ${{ steps.build.outcome }} Production build and size budget
         run: |
           ok=true
-          for o in $OUTCOMES; do [ "$o" = success ] || ok=false; done
+          failed=""
+          while read -r o name; do
+            [ -n "$o" ] || continue
+            if [ "$o" != success ]; then ok=false; failed="${failed:+$failed, }$name ($o)"; fi
+          done <<< "$OUTCOMES"
           echo "ok=$ok" >> "$GITHUB_OUTPUT"
-          echo "Checks: $OUTCOMES"
-          if [ "$ok" != true ]; then echo "::warning::A check failed: $OUTCOMES"; fi
+          echo "failed=$failed" >> "$GITHUB_OUTPUT"
+          echo "Checks: ${failed:-all passed}"
+          if [ "$ok" != true ]; then echo "::warning::A check failed: $failed"; fi

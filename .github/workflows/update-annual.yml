@@ -4,6 +4,10 @@
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded, a step that did not
 # finish is recorded as failed, and the owner is alerted by one GitHub issue per source (after 2 failed monthly runs,
 # at the first failure of a build step). docs/UPDATING.md says what GitHub e-mails and when.
+# The downloads (raw/usda, raw/eia, raw/usgs: not in git) are kept between runs as the workflow artifact "raw-annual"
+# (kept 90 days, uploaded at the end of every run, restored at the start of the next): an unchanged file is then
+# recognised as unchanged, and a source that fails leaves the builders its previous file. With no artifact (first run,
+# or none uploaded for 90 days) every source is downloaded in full.
 name: Update annual sources
 
 on:
@@ -12,13 +16,14 @@ on:
   workflow_dispatch:
     inputs:
       accept-large-moves:
-        description: "Accept a rebuild that the before-and-after guard refused (a table that lost rows, a price that moved by more than half), after checking it by hand"
+        description: "Accept a rebuild that the before-and-after guard refused (a table that lost rows, a price that moved or was revised too far), after checking it by hand"
         type: boolean
         default: false
 
 permissions:
   contents: write
   issues: write
+  actions: read   # list and download the artifact "raw-annual" of the previous run
 
 # One concurrency group for the three update workflows: one writer at a time on main (a run waits for the one in
 # progress; GitHub keeps one waiting run per group, a newer one replaces it and the replaced run shows as cancelled).
@@ -51,17 +56,14 @@ jobs:
         # the exact versions of requirements-lock.txt (pipeline/requirements.txt names the direct dependencies)
         run: pip install -r pipeline/requirements-lock.txt || (sleep 30 && pip install -r pipeline/requirements-lock.txt)
       - name: Restore the downloads of the last run
-        # raw/ is not in git: without it every source counts as changed and is downloaded again each month, and a
-        # source that fails leaves its builder without input. The key changes every run, so the cache is saved each time.
+        # raw/ is not in git: without it every source counts as changed and is downloaded again, and a source that
+        # fails leaves its builder without input. An artifact, not the Actions cache: a cache entry not read for seven
+        # days is evicted, and this job runs once a month.
         continue-on-error: true
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
-        with:
-          path: |
-            raw/usda
-            raw/eia
-            raw/usgs
-          key: raw-annual-${{ github.run_id }}
-          restore-keys: raw-annual-
+        timeout-minutes: 10
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python pipeline/annual/restore_raw.py
       - name: Update annual sources and rebuild dependent data
         id: update
         continue-on-error: true
@@ -88,6 +90,20 @@ jobs:
             ${{ steps.update.outcome }} usda-psd usgs-mcs eia-intl baci ?faostat-wna ?build-prices ?build-freight ?build-alerts ?build-commodities ?build-monthly ?build-profiles
             ${{ steps.changes.outcome }} build-changes
           since: ${{ steps.start.outputs.t }}
+      - name: Keep the downloads for the next run
+        # every run, so that the artifact never expires while the job runs: a source that failed this month keeps the
+        # file restored above
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: raw-annual
+          path: |
+            raw/usda
+            raw/eia
+            raw/usgs
+          retention-days: 90
+          if-no-files-found: ignore
 
   deploy:
     needs: update
@@ -96,7 +112,8 @@ jobs:
       contents: read
       pages: write
       id-token: write
+      issues: write   # the issue "Site not republished: a check failed" (deploy.yml, job report)
     uses: ./.github/workflows/deploy.yml
     with:
       ref: ${{ github.event.repository.default_branch }}
-      soft: true   # a failed check skips the publication without failing this run (no e-mail)
+      soft: true   # a failed check, build or deployment skips the publication without failing this run: one issue says so

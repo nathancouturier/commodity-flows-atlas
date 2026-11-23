@@ -396,5 +396,137 @@ class Downloader(unittest.TestCase):
                         self.assertNotIn(bad, text, f"{f} downloads without common/fetch.py")
 
 
+class RawArtifact(unittest.TestCase):
+    """The downloads of the annual job kept between runs as a workflow artifact (restore_raw.py, update-annual.yml)."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp()
+
+    def tearDown(self):
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def zip(self, members):
+        import zipfile
+        p = os.path.join(self.tmp, "a.zip")
+        with zipfile.ZipFile(p, "w") as z:
+            for name, text in members.items():
+                z.writestr(name, text)
+        return p
+
+    def test_the_three_folders_are_restored_and_nothing_else(self):
+        import restore_raw as RR
+        raw = os.path.join(self.tmp, "raw")
+        os.makedirs(os.path.join(raw, "usgs"))
+        open(os.path.join(raw, "usgs", "kept.csv"), "w").write("on disk")
+        p = self.zip({"usda/psd_csv/psd_alldata.csv": "a", "usda/psd_alldata_csv.zip": "z", "raw/eia/INTL.txt": "b",
+                      "usgs/other.csv": "c", "../evil.txt": "x", "worldbank/x.xlsx": "y", "usda/../../evil2.txt": "x"})
+        work = os.path.join(self.tmp, "work")
+        os.makedirs(work)
+        moved = RR.install(p, raw, work)
+        self.assertEqual(moved, {"usda": 2, "eia": 1})
+        self.assertEqual(open(os.path.join(raw, "usda", "psd_csv", "psd_alldata.csv")).read(), "a")
+        self.assertEqual(open(os.path.join(raw, "eia", "INTL.txt")).read(), "b")
+        self.assertEqual(os.listdir(os.path.join(raw, "usgs")), ["kept.csv"])  # a folder already on disk is not replaced
+        self.assertEqual(sorted(os.listdir(raw)), ["eia", "usda", "usgs"])
+        self.assertFalse(os.path.exists(os.path.join(self.tmp, "evil.txt")) or os.path.exists(os.path.join(self.tmp, "evil2.txt")))
+
+    def test_an_empty_or_corrupt_artifact_changes_nothing(self):
+        import zipfile
+        import restore_raw as RR
+        raw = os.path.join(self.tmp, "raw")
+        with self.assertRaises(ValueError):
+            RR.install(self.zip({"other/x": "y"}), raw, os.path.join(self.tmp, "w1"))
+        bad = os.path.join(self.tmp, "bad.zip")
+        open(bad, "wb").write(b"PK\x03\x04 not a zip")
+        with self.assertRaises(zipfile.BadZipFile):
+            RR.install(bad, raw, os.path.join(self.tmp, "w2"))
+        self.assertFalse(os.path.exists(raw))
+
+    def test_the_newest_unexpired_artifact_of_its_name_is_chosen(self):
+        import restore_raw as RR
+        now = datetime(2026, 12, 15, 22, 30, tzinfo=timezone.utc)
+        art = lambda i, made, name="raw-annual", expired=False: {"id": i, "name": name, "expired": expired, "created_at": made}  # noqa: E731
+        listing = {"artifacts": [art(1, "2026-10-15T23:00:00Z"), art(2, "2026-11-15T23:00:00Z"), art(3, "2026-12-01T00:00:00Z", "portwatch-daily"),
+                                 art(4, "2026-12-10T00:00:00Z", expired=True)]}
+        pick = RR.RP.newest_usable(listing, now, max_age_days=RR.MAX_AGE_DAYS, name=RR.NAME)
+        self.assertEqual(pick["id"], 2)  # two months old is still usable: the job is monthly
+        self.assertEqual(RR.RP.newest_usable(listing, now)["id"] if RR.RP.newest_usable(listing, now) else None, 3)
+
+    def test_off_github_the_script_does_nothing(self):
+        r = subprocess.run([sys.executable, "-I", os.path.join(ROOT, "pipeline", "annual", "restore_raw.py")], capture_output=True,
+                           text=True, env={k: v for k, v in os.environ.items() if k != "GITHUB_REPOSITORY"}, timeout=60)
+        self.assertEqual(r.returncode, 0)
+        self.assertIn("nothing to restore", r.stdout)
+
+    def test_a_source_is_unchanged_only_when_the_file_on_disk_is_the_one_downloaded(self):
+        import update_annual as UA
+        raw = os.path.join(self.tmp, "raw")
+        os.makedirs(os.path.join(raw, "usda", "psd_csv"))
+        open(os.path.join(raw, "usda", "psd_csv", "psd_alldata.csv"), "w").write("older")
+        new_zip = b"PK new release"
+
+        def download(url, path, **k):
+            open(path, "wb").write(new_zip)
+
+        import hashlib
+        digest = hashlib.sha256(new_zip).hexdigest()
+        with mock.patch.object(UA, "RAW", raw), mock.patch.object(UA.fetch, "download", download), \
+                mock.patch.object(UA.status, "get", lambda s: {"state": {"sha256": digest}}):
+            # the status file records the new release, but raw/ holds an older one (an artifact of an earlier run)
+            open(os.path.join(raw, "usda", "psd_alldata_csv.zip"), "wb").write(b"PK older release")
+            with self.assertRaises(Exception):  # not "unchanged": the new zip is opened (and is no zip here)
+                UA.src_usda(None)
+            open(os.path.join(raw, "usda", "psd_alldata_csv.zip"), "wb").write(new_zip)
+            self.assertEqual(UA.src_usda(None), {"changed": False, "note": "unchanged"})
+
+    def test_the_workflow_keeps_raw_as_an_artifact_of_90_days(self):
+        wf = open(os.path.join(ROOT, ".github", "workflows", "update-annual.yml")).read()
+        self.assertNotIn("actions/cache@", wf)
+        self.assertIn("run: python pipeline/annual/restore_raw.py", wf)
+        self.assertIn("actions: read", wf)
+        self.assertIn("name: raw-annual", wf)
+        self.assertIn("retention-days: 90", wf)
+        for p in ("raw/usda", "raw/eia", "raw/usgs"):
+            self.assertIn(p, wf)
+
+
+class WorkflowSignals(unittest.TestCase):
+    """What the workflows say when something goes wrong: the shape of the YAML, read as text and as data."""
+
+    def read(self, *p):
+        with open(os.path.join(ROOT, ".github", *p), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_the_watchers_set_up_python_with_the_pinned_action_and_report_their_own_failure(self):
+        pinned = "actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0"
+        self.assertIn(pinned, self.read("workflows", "update-prices.yml"))
+        for name in ("watch-releases.yml", "check-staleness.yml"):
+            wf = self.read("workflows", name)
+            self.assertIn(pinned, wf, name)
+            self.assertLess(wf.index(pinned), wf.index("run: python pipeline/common/"), name)
+            self.assertNotIn("python3 pipeline", wf, name)
+            self.assertIn("Watcher failing: ${context.workflow}", wf, name)
+            self.assertIn("shell: bash\n", wf, name)  # pipefail through tee
+
+    def test_the_deploy_reports_an_unpublished_site_and_data_jobs_grant_it(self):
+        wf = self.read("workflows", "deploy.yml")
+        self.assertIn("'Site not republished: a check failed'", wf)
+        self.assertIn("needs: [checks, build, deploy]", wf)
+        self.assertEqual(wf.count("continue-on-error: ${{ inputs.soft == true }}"), 5)  # install, validate, build, upload, deploy-pages
+        self.assertIn("failed: ${{ steps.verdict.outputs.failed }}", self.read("workflows", "ci.yml"))
+        for name in ("update-prices", "update-portwatch", "update-annual"):
+            self.assertIn("issues: write   # the issue \"Site not republished", self.read("workflows", name + ".yml"), name)
+
+    def test_the_discard_reverts_path_by_path_and_a_push_that_failed_is_recorded(self):
+        action = self.read("actions", "finish-data-update", "action.yml")
+        self.assertIn('for p in $PATHS; do\n          git checkout -- "$p" 2> /dev/null || true', action)
+        self.assertIn("if: steps.validate.outcome != 'failure' || steps.discard.outputs.clean == 'true'", action)
+        self.assertIn("const pTitle = 'Data update not pushed';", action)
+        push = self.read("actions", "finish-data-update", "push.sh")
+        self.assertIn('status.py fail "$s" "update not pushed: $reason"', push)
+        self.assertNotIn("push -f", push)
+        self.assertNotIn("--force", push)
+
+
 if __name__ == "__main__":
     unittest.main()

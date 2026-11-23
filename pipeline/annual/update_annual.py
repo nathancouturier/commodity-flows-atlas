@@ -77,6 +77,13 @@ def sha256(path):
     return h.hexdigest()
 
 
+def on_disk(path, digest):
+    """True when ``path`` exists with this sha256. A source counts as unchanged only when the file the builders read is
+    the one just downloaded, not merely when the status file says so: raw/ comes back from the artifact of an earlier
+    run (restore_raw.py), which may be older than the last recorded download when an upload failed."""
+    return os.path.exists(path) and sha256(path) == digest
+
+
 def install(src, dest):
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     shutil.move(src, dest)
@@ -181,7 +188,8 @@ def src_usda(opts):
         z = os.path.join(tmp, "psd_alldata_csv.zip")
         fetch.download(PSD_URL, z, kind="zip", min_bytes=1_000_000)
         digest = sha256(z)
-        if digest == prev.get("state", {}).get("sha256") and os.path.exists(os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv")):
+        if digest == prev.get("state", {}).get("sha256") and on_disk(os.path.join(RAW, "usda", "psd_alldata_csv.zip"), digest) \
+                and os.path.exists(os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv")):
             return {"changed": False, "note": "unchanged"}
         with zipfile.ZipFile(z) as zf:
             if "psd_alldata.csv" not in zf.namelist():
@@ -232,7 +240,7 @@ def src_usgs(opts):
         same_release = prev.get("state", {}).get("item") == item_id
         if n < 2000 or (same_release and prev.get("records") and n < 0.9 * prev["records"]):
             raise ValueError(f"only {n} rows (previous {prev.get('records')})")
-        if same_release and digest == prev.get("state", {}).get("sha256") and os.path.exists(os.path.join(RAW, "usgs", main["name"])):
+        if same_release and digest == prev.get("state", {}).get("sha256") and on_disk(os.path.join(RAW, "usgs", main["name"]), digest):
             return {"changed": False, "note": "unchanged"}
         to = str(int(pd.to_numeric(df["Year"], errors="coerce").max()))
         install(p, os.path.join(RAW, "usgs", main["name"]))
@@ -254,7 +262,8 @@ def src_eia(opts):
         z = os.path.join(tmp, "INTL.zip")
         fetch.download(INTL_URL, z, kind="zip", min_bytes=1_000_000)
         digest = sha256(z)
-        if digest == prev.get("state", {}).get("sha256") and os.path.exists(os.path.join(RAW, "eia", "INTL.txt")):
+        if digest == prev.get("state", {}).get("sha256") and on_disk(os.path.join(RAW, "eia", "INTL.zip"), digest) \
+                and os.path.exists(os.path.join(RAW, "eia", "INTL.txt")):
             return {"changed": False, "note": "unchanged"}
         with zipfile.ZipFile(z) as zf:
             if "INTL.txt" not in zf.namelist():

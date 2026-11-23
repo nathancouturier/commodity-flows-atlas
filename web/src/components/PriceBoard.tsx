@@ -23,6 +23,16 @@ const COLUMNS: { key: Key; label: string; title: string; cls: string }[] = [
   { key: 'pos', label: '52 weeks', title: 'Where the last value stands between the lowest and the highest of the last 52 weeks (12 months for a monthly series)', cls: 'pb-c-rng' },
 ];
 
+/** The publisher, and what its published values are, of the sources on the board (which shows no source per row). */
+const SOURCE_WORDS: Record<string, { by: string; values: string }> = {
+  'wb-pink': { by: 'World Bank', values: 'World Bank monthly averages' },
+  'eia-spot': { by: 'EIA', values: 'EIA daily spot prices' },
+  bls: { by: 'BLS', values: 'BLS monthly producer price index' },
+  dallasfed: { by: 'Dallas Fed', values: 'Dallas Fed monthly index' },
+  nyfed: { by: 'New York Fed', values: 'New York Fed monthly index' },
+};
+const andList = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+
 function value(m: PriceMeta, key: Key): number | string | null {
   if (key === 'name') return m.name;
   const st = m.stats;
@@ -89,6 +99,10 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
   }, [listed, group, sort]);
 
   const present = GROUP_ORDER.filter((g) => listed.some((m) => groupOf(m) === g));
+  const shown = sections.flatMap((x) => x.rows);
+  const shownSources = [...new Set(shown.map((m) => m.s))];
+  // the freight indicators are not World Bank or EIA prices: on their tab the footer names their own publishers and month
+  const freightTo = group === 'freight' ? shown.map((m) => m.stats!.last.t).sort().pop() : undefined;
   const toggle = (key: Key) => setSort((s) => (s.key === key ? { key, dir: s.dir === 1 ? -1 : 1 } : { key, dir: key === 'name' ? 1 : -1 }));
   const aria = (key: Key) => (sort.key === key ? (sort.dir === 1 ? 'ascending' : 'descending') : 'none');
   const mark = (key: Key) => (sort.key === key ? (sort.dir === 1 ? ' ↑' : ' ↓') : '');
@@ -211,8 +225,15 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
         )}
       </div>
       <div class="pb-foot">
-        <PriceStatusLine /> · Changes are arithmetic on the published values (World Bank monthly averages, EIA daily spot prices), each against the last
-        observation on or before the same date; no reference, no figure. The 52-week bar is the last 12 months for monthly series.
+        {freightTo ? (
+          <span class="pb-status">
+            Freight indicators to {fmtDate(freightTo)} ({andList(shownSources.map((x) => SOURCE_WORDS[x]?.by ?? sourceLabel(x)))}, monthly)
+          </span>
+        ) : (
+          <PriceStatusLine />
+        )}{' '}
+        · Changes are arithmetic on the published values ({andList(shownSources.map((x) => SOURCE_WORDS[x]?.values ?? sourceLabel(x)))}), each against the last
+        observation on or before the same date; no reference, no figure{shown.some((m) => /deviation/i.test(m.unit)) ? ', and none for a deviation from a trend or an average, which crosses zero' : ''}. The 52-week bar is the last 12 months for monthly series.
       </div>
     </div>
   );

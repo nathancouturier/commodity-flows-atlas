@@ -3,6 +3,21 @@
  * (capacity and output, each with its own year), its status, and what the History year changes.
  */
 import type { InfraFigure, InfraOutput, InfraProps } from '../types';
+import { loadOptional } from './data';
+
+/**
+ * A row of the port index of the lanes (pipeline/freight/build_port_index.py): a port of the trade engine by its code,
+ * the largest lanes that use it, the asset that is this place, and the names the routes and the engine give it.
+ */
+export interface PortIndexRow { id: string; name: string; c: string; g: string[]; lane: string | null; lanes?: string[]; asset?: string; aka?: string[] }
+let portIndex: Promise<PortIndexRow[]> | null = null;
+export const loadPortIndex = () => (portIndex ??= loadOptional<{ ports: PortIndexRow[] }>('freight/ports.json').then((d) => d?.ports ?? []));
+
+/** The row of the port index that a route's port is: same name, in the country of that end of the route when two share it. */
+export function portRowOf(rows: PortIndexRow[], name: string, c?: string | null): PortIndexRow | undefined {
+  const same = rows.filter((p) => p.name === name);
+  return same.find((p) => p.c === c) ?? (same.length === 1 ? same[0] : undefined);
+}
 
 export const STATUS_LABEL: Record<string, string> = {
   operating: 'Operating',

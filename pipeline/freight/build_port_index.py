@@ -11,6 +11,9 @@ Input   data/freight/pairs/<group>.json    every recorded pair with the typical 
                                            the pairs (GR4D.10)
         data/infrastructure/ports.geojson  the port assets: a port whose trade-engine code is the ``locode`` of an asset
                                            gets that asset (``asset``, "port:<id>"), so the search finds it as the asset
+        pipeline/freight/routes_def.json   the names the routes give the ports (pipeline/infrastructure/route_assets.py):
+                                           a row that is an asset lists, in ``aka``, the names of the asset that the
+                                           engine and the routes use and the asset's own name is not ("Pusan" for Busan)
 Output  data/freight/ports.json
 
 Nothing is recomputed: the file only lists, for each port of the pairs tables and of the lane pages, the customs groups
@@ -20,12 +23,14 @@ otherwise have to download the 42 pairs files (more than 1 MB) to know the ports
 import glob
 import json
 import os
+import sys
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PAIRS = os.path.join(ROOT, "data", "freight", "pairs")
 LANES = os.path.join(ROOT, "data", "freight", "lanes")
 INFRA_PORTS = os.path.join(ROOT, "data", "infrastructure", "ports.geojson")
+ROUTES_DEF = os.path.join(ROOT, "pipeline", "freight", "routes_def.json")
 OUT = os.path.join(ROOT, "data", "freight", "ports.json")
 LANE_FLAG = 4  # bit of a pairs row's ``f``: a main lane exists, id ``<group>:<o>-<d>``
 GROUPS_PER_PORT = 3
@@ -43,6 +48,33 @@ def port_assets(path=INFRA_PORTS):
         p = f["properties"]
         if p.get("locode"):
             out.setdefault(p["locode"], f"port:{p['id']}")
+    return out
+
+
+def asset_names(path=INFRA_PORTS):
+    """{"port:<id>": name} of the port assets."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        return {f"port:{f['properties']['id']}": f["properties"]["name"] for f in json.load(fh)["features"]}
+
+
+def route_names(defs_path=ROUTES_DEF, infra_dir=None):
+    """{"type:id": {names}}: the names the hand-written routes give each asset (the generated routes use the engine's
+    names, which are the rows' own)."""
+    if not defs_path or not os.path.exists(defs_path):
+        return {}
+    sys.path.insert(0, os.path.join(ROOT, "pipeline", "infrastructure"))
+    import route_assets as RA  # noqa: E402
+    with open(defs_path, encoding="utf-8") as fh:
+        defs = json.load(fh)
+    out = defaultdict(set)
+    for r in defs:
+        for side in ("from", "to"):
+            assets = RA.route_port_assets(r[side], r.get("cargoes"), *([infra_dir] if infra_dir else []))
+            for p, a in zip(r[side].get("ports") or [], assets):
+                if a:
+                    out[a].add(p["name"])
     return out
 
 
@@ -75,7 +107,7 @@ def lane_ports(lanes_dir):
     return ports, tonnes, best, n, per_lane
 
 
-def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS):
+def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS, routes_def=ROUTES_DEF):
     ports, years = {}, set()
     tonnes = defaultdict(lambda: defaultdict(float))  # port -> group -> kt
     n_pairs = defaultdict(int)
@@ -114,6 +146,8 @@ def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS):
         n_pairs[pid] = ln_[pid]
         best_lane[pid] = lbest[pid]
     assets = port_assets(infra_ports)
+    names = asset_names(infra_ports)
+    by_route = route_names(routes_def, os.path.dirname(infra_ports)) if assets else {}
     rows = []
     for pid in sorted(ports, key=lambda k: (-sum(tonnes[k].values()), k)):
         top = sorted(tonnes[pid], key=lambda g: (-tonnes[pid][g], g))[:GROUPS_PER_PORT]
@@ -122,6 +156,12 @@ def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS):
             row["lanes"] = sorted(lanes_of[pid], key=lambda k: (-lanes_of[pid][k], k))[:LANES_PER_PORT]
         if pid in assets:
             row["asset"] = assets[pid]
+            own = names.get(assets[pid], "").casefold()
+            aka = sorted({ports[pid]["name"], *by_route.get(assets[pid], ())} - {names.get(assets[pid])},
+                         key=str.casefold)
+            aka = [a for a in aka if a.casefold() != own]
+            if aka:
+                row["aka"] = aka
         rows.append(row)
     doc = {
         "s": "atlas",
@@ -130,14 +170,16 @@ def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS):
              "and the ports the lane pages name. `n` = pairs that use the port (for a port only the lane pages name: the lane pages "
              "that name it), `g` = customs groups it serves (largest first), `lane` = the largest pair that has a lane page "
              "(for a port only the lane pages name: the largest lane that names it), `lanes` = the largest lane pages that use it, "
-             "`asset` = the port asset of the infrastructure layer that is this place (its `locode`): the search opens the asset. "
+             "`asset` = the port asset of the infrastructure layer that is this place (its `locode`): the search opens the asset; "
+             "`aka` = the other names of that asset that the trade engine and the routes use (\"Pusan\" for Busan). "
              "Only the names and the links are used by the site; no figure is published here.",
         "ports": rows,
     }
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, separators=(",", ":"), ensure_ascii=False)
     print(f"port index: {len(rows)} ports, {sum(1 for r in rows if r['lane'])} with a lane page, "
-          f"{sum(1 for r in rows if r.get('asset'))} are assets, {os.path.getsize(out)} bytes")
+          f"{sum(1 for r in rows if r.get('asset'))} are assets ({sum(1 for r in rows if r.get('aka'))} with other names), "
+          f"{os.path.getsize(out)} bytes")
     return doc
 
 

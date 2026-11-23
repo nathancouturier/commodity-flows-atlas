@@ -230,6 +230,9 @@ function checkDefinition(at, r, routes, bad) {
   if (d.state !== 'ended' && r.discontinued) bad('routes.json', `${at}: a discontinued route has a definition that is not ended`);
   if (d.replacedBy && !has(d.replacedBy)) bad('routes.json', `${at}: replacedBy "${d.replacedBy}" is not a route`);
   if (!d.doc || !/^https?:\/\//.test(d.url ?? '') || !d.read) bad('routes.json', `${at}: the definition has no page or no month of reading`);
+  if (!Number.isInteger(d.y) || d.y < 1985 || d.y > 2100) bad('routes.json', `${at}: the definition has no year of its document (y)`);
+  // a cargo the definition does not name is said so, and the atlas's reading of it is given in cargoNote, never in the definition
+  if (/cargo not named/.test(d.cargo ?? '') && !/atlas's reading/.test(r.cargoNote ?? '')) bad('routes.json', `${at}: the definition names no cargo, but cargoNote does not give the atlas's reading`);
   for (const x of d.index ?? []) {
     const rs = x.members.map((m) => m.r);
     if (new Set(rs).size !== rs.length) bad('routes.json', `${at}: index ${x.id} lists a member twice`);
@@ -261,6 +264,7 @@ function validateRoutes(routes, pairDocs, chokepoints, bad) {
     for (const c of r.corridor ?? []) if (!c.g && !(Array.isArray(c.gs) && c.gs.length)) bad('routes.json', `${at}: a corridor entry has neither a customs group (g) nor a list of them (gs)`);
     if (r.definition) checkDefinition(at, r, routes, bad);
     else if (r.benchmark) bad('routes.json', `${at}: a benchmark has no definition`);
+    if (r.shareOn !== undefined && (!r.shareNa || !routes.some((x) => x.id === r.shareOn && x.generated))) bad('routes.json', `${at}: shareOn "${r.shareOn}" is not a generated route, or the route has no shareNa that says why`);
     if (!r.generated) {
       if (String(at).startsWith('gen-')) bad('routes.json', `${at}: an id that starts with "gen-" is for a generated route`);
       continue;

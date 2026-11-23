@@ -7,6 +7,7 @@ Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_*.py"
 import contextlib
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -128,6 +129,36 @@ class BlsCache(unittest.TestCase):
         self.assertEqual(doc["bls_years"], [2024, 2025, 2026])
         self.assertIn("were not taken into account", info["note"])
 
+    def test_an_identical_answer_leaves_the_cache_file_alone(self):
+        self.run_fetch(lambda a, b: answer(range(max(a, 1988), b + 1)))
+        path = FI.bls_cache_path(cache_dir=self.dir)
+        with open(path, "rb") as f:
+            first = f.read()
+        self.calls = []
+        # the same answer for the current window, and a refusal for the last older one: nothing to write
+        info, err, changed = self.run_fetch(lambda a, b: answer(range(a, b + 1)) if a == 2024 else REFUSED)
+        self.assertEqual(self.calls, [(2024, 2026), (2018, 2023)])
+        self.assertIsNone(err)
+        self.assertFalse(changed)
+        with open(path, "rb") as f:
+            self.assertEqual(f.read(), first)
+        # a revised value is written
+        info, err, changed = self.run_fetch(lambda a, b: answer(range(a, b + 1), base=101.0) if a == 2024 else REFUSED)
+        self.assertTrue(changed)
+        self.assertEqual(FI.load_bls_cache(cache_dir=self.dir)["obs"]["2026-10"], 101.0 + 2026 + 0.10)
+
+    def test_seeded_years_are_named_as_the_runs_they_are(self):
+        # 1998-2007 refused, the windows before and after answered: the note must not claim 1998 to 2023 in one run
+        self.run_fetch(lambda a, b: REFUSED if a == 1998 else answer(range(max(a, 1988), b + 1)))
+        (doc, meta), = FI.bls_series(self.dir, meta_of=P.meta_of)
+        self.assertIn(". 1998 to 2007 and 2018 to 2023: values of the previous release", meta["note"])
+        self.assertNotIn("latest months may be preliminary", meta["note"])  # the current years came from the BLS
+        self.assertEqual(FI.year_runs([1988, 1989, 2001, 2005, 2006]), "1988 to 1989, 2001 and 2005 to 2006")
+
+    def test_while_the_seed_holds_the_latest_months_they_may_be_preliminary(self):
+        (doc, meta), = FI.bls_series(self.dir, meta_of=P.meta_of)
+        self.assertTrue(meta["note"].endswith(". 1988 to 2026: values of the previous release; the latest months may be preliminary"))
+
     def test_preliminary_months_are_named_in_the_note(self):
         self.run_fetch(lambda a, b: answer(range(max(a, 1988), b + 1), prelim={"2026-07", "2026-08", "2026-09", "2026-10"}))
         (doc, meta), = FI.bls_series(self.dir, meta_of=P.meta_of)
@@ -167,10 +198,34 @@ class PublishedSeries(unittest.TestCase):
         m = self.idx["freight-ppi-m"]
         self.assertEqual(m["name"], "US deep-sea freight services, producer price index (BLS)")
         self.assertEqual(m["unit"], "index (Jun 1988 = 100)")
-        # the 2008 collapse of dry bulk rates barely shows in it
+        # the figures of the basis on 2008 are the series' own
         v = dict(zip(range(len(doc["v"])), doc["v"]))
         i = lambda ym: (int(ym[:4]) - 1988) * 12 + int(ym[5:]) - 6  # noqa: E731
         self.assertEqual((v[i("2008-05")], v[i("2008-12")]), (256.5, 258.2))
+        self.assertEqual((v[i("2008-09")], v[i("2009-05")]), (284.4, 208.8))
+        self.assertEqual(max(v[k] for k in range(i("2008-01"), i("2009-12") + 1)), 284.4)
+        self.assertEqual(round((258.2 / 256.5 - 1) * 100, 1), 0.7)
+        self.assertEqual(round((208.8 / 284.4 - 1) * 100), -27)
+        self.assertIn("+0.7% from May to December 2008 (256.5 to 258.2)", m["basis"])
+        self.assertIn("a fall of 27% from September 2008 (284.4) to May 2009 (208.8)", m["basis"])
+        self.assertNotIn("barely", m["basis"])
+
+    def test_no_text_claims_a_copy_through_fred_once_the_seed_is_gone(self):
+        """The years not yet returned by the BLS are the copy taken through FRED, which the About window, the registry,
+        NOTICE.md, METHODOLOGY.md and DATA_SOURCES.md say (conditionally). Once the cache holds no seed, every year
+        comes from the BLS: this test fails until those sentences are removed."""
+        texts = {}
+        for name in ("NOTICE.md", "METHODOLOGY.md", "DATA_SOURCES.md", os.path.join("web", "src", "components", "AboutDialog.tsx")):
+            with open(os.path.join(ROOT, name), encoding="utf-8") as f:
+                texts[name] = f.read()
+        bls = next(s for s in jload(os.path.join(ROOT, "data", "sources.json")) if s["id"] == "bls")
+        texts["data/sources.json (bls)"] = json.dumps(bls)
+        texts["data/prices/index.json (note)"] = self.idx["freight-ppi-m"]["note"]
+        claims = sorted(n for n, t in texts.items() if re.search(r"through (the )?FRED", t))
+        if FI.load_bls_cache().get("seed"):
+            self.assertEqual(claims, sorted(texts), "while the seed is in use, every text says where the older years come from")
+        else:
+            self.assertEqual(claims, [], "the BLS has returned every year: remove the sentence on the copy taken through FRED")
 
     def test_deviation_series_have_no_percent_change_on_the_board(self):
         for i in ("igrea-m", "gscpi-m"):

@@ -1,26 +1,29 @@
 /**
  * The search field's index and what a result does. The index is built in the browser, the first time the field gets the
  * focus, from the catalogues the site loads anyway (commodities, countries, routes, chokepoints, vessel classes,
- * infrastructure) and four small ones: the events, the price series, the ports of the lanes and, when a country and a
- * commodity are typed together, the pairs file of that commodity.
+ * infrastructure) and small ones: the events, the price series, the ports of the lanes, the two company lists and, when a
+ * country and a commodity are typed together, the pairs file of that commodity.
  *
  * A result does what the click on the map or on a list of the site does: the same selection, so the same link.
  */
 import { batch } from '@preact/signals';
-import type { Chokepoint, FreightEvent, Route, VesselClass } from '../types';
+import type { Chokepoint, Company, FreightEvent, Route, ShippingCompanies, VesselClass } from '../types';
 import { commodities, commodityMeta, countries, countryName, isCountry, load, loadCatalogue } from './data';
 import { FAMILY_LABEL } from './format';
 import { GROUP_LABEL, LANE_GROUPS, SEGMENT_LABEL, finderCommodity, loadEvents, loadPairs, loadRoutes, loadChokepoints, loadVesselClasses, decodePairs, openVesselClass } from './freight';
 import { loadPriceIndex, openPrices, spreadMetas, FREQ_WORD, type PriceMeta } from './prices';
 import {
   panelCollapsed, rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select, setFamily, family, commodity, vesselClasses, sheetSnap,
+  companyFilter,
 } from './store';
 import { groupKinds, matchKind, norm, prepare, rank, tokens, type Searchable, type Tier } from './searchMatch';
 import { loadInfra } from '../map/modules/infrastructure';
 import { flyToWorld, isSheetLayout } from '../map/controller';
 import { INFRA_META } from '../components/ui';
+import { companySlug, loadAllCompanies, type CompanyMap } from '../components/Companies';
+import { nameForms } from './companyAssets';
 
-export type Kind = 'commodity' | 'country' | 'route' | 'chokepoint' | 'vessel' | 'infra' | 'port' | 'event' | 'price';
+export type Kind = 'commodity' | 'country' | 'route' | 'chokepoint' | 'vessel' | 'company' | 'infra' | 'port' | 'event' | 'price';
 
 /** Every year an event spans, as text: "2024" finds an event that began in 2023 and ended in 2025. */
 function eventYears(date: string, end?: string | null): string[] {
@@ -38,6 +41,7 @@ export const KINDS: { kind: Kind; label: string; one: string }[] = [
   { kind: 'route', label: 'Freight routes', one: 'freight route' },
   { kind: 'chokepoint', label: 'Chokepoints', one: 'chokepoint' },
   { kind: 'vessel', label: 'Vessel classes', one: 'vessel class' },
+  { kind: 'company', label: 'Companies', one: 'company' },
   { kind: 'infra', label: 'Infrastructure', one: 'infrastructure asset' },
   { kind: 'port', label: 'Ports of the lanes', one: 'port of the lanes' },
   { kind: 'event', label: 'Events', one: 'event' },
@@ -152,13 +156,71 @@ export function loadIndex(): Promise<Item[]> {
 }
 
 interface PortIndex {
-  ports: { id: string; name: string; c: string; n: number; g: string[]; lane: string | null; asset?: string }[];
+  /** `asset`: the port asset of the infrastructure layer the row is (`port:busan`); `aka`: the names of that asset the routes and the trade engine use */
+  ports: { id: string; name: string; c: string; n: number; g: string[]; lane: string | null; asset?: string; aka?: string[] }[];
+}
+
+/** A shipping segment in the words of the site, and the kind of vessel class page that lists its companies. */
+const SHIP_SEGMENT: Record<string, { word: string; classSegment: string }> = {
+  'dry-bulk': { word: 'dry bulk', classSegment: 'dry' },
+  tankers: { word: 'tankers', classSegment: 'tanker' },
+  gas: { word: 'gas carriers', classSegment: 'gas' },
+  charterers: { word: 'charterer', classSegment: 'dry' },
+  brokers: { word: 'shipbroking', classSegment: 'tanker' },
+  terminals: { word: 'liquid bulk terminals', classSegment: 'tanker' },
+};
+
+/**
+ * One item per company of the two lists, with the commodities (or shipping segments) it stands under. It opens the page
+ * that lists it: the commodity page of its first commodity, or the vessel class page of its first class (of its segment's
+ * first class when the page read names none), with the companies unfolded on its row (`co=` in the link).
+ */
+function companyItems(map: CompanyMap | null, shipping: ShippingCompanies | null, vessels: VesselClass[] | null): Item[] {
+  const found = new Map<string, { c: Company; k: string[]; seg: string[]; classes: string[] }>();
+  const entry = (c: Company) => {
+    let e = found.get(c.name);
+    if (!e) found.set(c.name, (e = { c, k: [], seg: [], classes: [] }));
+    return e;
+  };
+  for (const [k, groups] of Object.entries(map ?? {}))
+    for (const list of [groups.producers, groups.processors, groups.traders]) for (const c of list ?? []) if (!entry(c).k.includes(k)) entry(c).k.push(k);
+  for (const [seg, list] of Object.entries(shipping ?? {}))
+    for (const c of list ?? []) {
+      const e = entry(c);
+      if (!e.seg.includes(seg)) e.seg.push(seg);
+      for (const v of c.classes ?? []) if (!e.classes.includes(v)) e.classes.push(v);
+    }
+  const out: Item[] = [];
+  for (const { c, k, seg, classes } of found.values()) {
+    const kNames = k.map((x) => commodityMeta(x)?.name ?? x);
+    const segWords = seg.map((s) => SHIP_SEGMENT[s]?.word ?? s);
+    const what = [kNames.length > 3 ? `${kNames.slice(0, 3).join(', ')} and ${kNames.length - 3} more` : kNames.join(', '), segWords.length ? `shipping: ${segWords.join(', ')}` : '']
+      .filter(Boolean)
+      .join('; ');
+    const vclass = classes[0] ?? vessels?.find((v) => v.segment === SHIP_SEGMENT[seg[0]]?.classSegment)?.id;
+    const slug = companySlug(c.name);
+    const open = () =>
+      batch(() => {
+        if (k.length) openCommodity(k[0]);
+        else if (vclass) openVesselClass(vclass);
+        else return;
+        companyFilter.value = slug;
+      });
+    out.push(
+      make(
+        'company', slug, c.name, joinSub('Company', c.hq ? countryName(c.hq) : '', what),
+        prepare([c.name, ...nameForms(c.name)], [], [c.hq ? countryName(c.hq) : '', c.role, ...kNames, ...segWords, ...(seg.length ? ['shipping'] : []), 'company']),
+        c.name, open,
+      ),
+    );
+  }
+  return out;
 }
 
 async function build(): Promise<Item[]> {
   if (!commodities.value.length) await loadCatalogue();
   const opt = <T,>(p: Promise<T>): Promise<T | null> => p.catch(() => null);
-  const [routes, cps, vessels, events, prices, infra, ports] = await Promise.all([
+  const [routes, cps, vessels, events, prices, infra, ports, cos] = await Promise.all([
     opt<Route[]>(loadRoutes()),
     opt<Chokepoint[]>(loadChokepoints()),
     opt<VesselClass[]>(loadVesselClasses()),
@@ -166,6 +228,7 @@ async function build(): Promise<Item[]> {
     opt<PriceMeta[]>(loadPriceIndex()),
     opt(loadInfra()),
     opt(load<PortIndex>('freight/ports.json')),
+    opt(loadAllCompanies()),
   ]);
   const out: Item[] = [];
   const vesselName = (id: string) => vessels?.find((v) => v.id === id)?.name ?? id;
@@ -184,7 +247,8 @@ async function build(): Promise<Item[]> {
     const kindText = r.benchmark ? 'Benchmark route' : 'Atlas corridor';
     out.push(
       make(
-        'route', r.id, r.name, joinSub(kindText, vesselName(r.vclass)),
+        // an ended route says so: "C10" finds the ended C10_14 and the C10_182 that replaced it, with the same badge
+        'route', r.id, r.name, joinSub(kindText, vesselName(r.vclass), r.discontinued ? 'ended' : ''),
         prepare([r.name], code ? [r.id, code] : [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, vesselName(r.vclass), 'freight route', ...r.cargoes.map((k) => commodityMeta(k)?.name ?? k)]),
         `${r.benchmark ? 0 : 1}${r.name}`, () => select({ kind: 'route', id: r.id }), code || undefined,
       ),
@@ -196,13 +260,17 @@ async function build(): Promise<Item[]> {
   for (const v of vessels ?? []) {
     out.push(make('vessel', v.id, v.name, SEGMENT_LABEL[v.segment] ?? cap(v.segment), prepare([v.name], [v.id], [SEGMENT_LABEL[v.segment] ?? v.segment, 'vessel class', 'ship']), v.name, () => openVesselClass(v.id)));
   }
+  for (const v of companyItems(cos?.map ?? null, cos?.shipping ?? null, vessels)) out.push(v);
+  // the names the routes and the trade engine use for a port asset ("Pusan" for Busan, "Odessa" for Odesa)
+  const akaOf = new Map<string, string[]>();
+  for (const p of ports?.ports ?? []) if (p.asset) akaOf.set(p.asset, [...(akaOf.get(p.asset) ?? []), ...(p.aka ?? [p.name])]);
   for (const f of infra ?? []) {
     const p = f.p;
     const type = INFRA_META[p.type]?.label ?? p.type;
     out.push(
       make(
         'infra', `${p.id}:${p.type}`, p.name, joinSub(type, countryName(p.c), p.operator),
-        prepare([p.name], [p.id], [p.operator ?? '', countryName(p.c), type, ...(p.cs ?? []).map(countryName), ...p.k.map((k) => commodityMeta(k)?.name ?? k)]),
+        prepare([p.name, ...(akaOf.get(`${p.type}:${p.id}`) ?? [])], [p.id], [p.operator ?? '', countryName(p.c), type, ...(p.cs ?? []).map(countryName), ...p.k.map((k) => commodityMeta(k)?.name ?? k)]),
         p.name, () => select({ kind: 'infra', id: p.id, layer: p.type }),
       ),
     );

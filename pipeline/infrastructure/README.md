@@ -55,9 +55,9 @@ figures; what another page supplies (operator, status, a production figure) is n
 | `product`, `length_km` | text, number | Pipelines: what they carry and their length. The site shows both. |
 | `locode` | text | Ports: the code of the place in the trade engine (`pipeline/freight/ports.py`, the key of its table): the UN/LOCODE without its space ("RUPRI"), or the engine's own code for a terminal that has none. A route port, a lane port and the asset are then one place: the route page links the port to the asset, the asset page lists the lanes of its code, and the search finds the place as the asset. Where the engine does not know the place, the UN/LOCODE of the PortWatch database. |
 | `portwatch` | text | Ports: the IMF PortWatch port id ("port1020"), for a later join with PortWatch's port traffic. |
-| `limits` | `{draught?, loa?, beam?, dwt?, n, s, url, y?}` | Ports: what a page states as the largest ship or the deepest berth, in metres (draught, length overall, beam) and deadweight tonnes. `n` says which berth or channel and at which tide when stated, `s` and `url` the page, `y` the year of the statement when the page gives one. At least one of the four figures. A water depth is entered as `draught` with `n` saying "depth". |
-| `maxClass` | `{dry?, tanker?, gas?, n}` | Ports: the largest vessel class of the atlas that each segment of the port can take by its `limits`, written by `pipeline/infrastructure/port_limits.py` (never by hand). An Atlas estimate, shown as "largest class by the published limits; derived by the atlas"; `n` gives the method. |
-| `prices` | list of ids | The price series of `data/prices/index.json` delivered at this place (Cushing: WTI). |
+| `limits` | `{draught?, loa?, beam?, dwt?, depth?, seg?, cls?, at?, n, s, url, y?}` | Ports: what a page states as the largest ship or the deepest berth, in metres (draught, length overall, beam) and deadweight tonnes. `n` says which berth or channel and at which tide when stated, `s` and `url` the page, `y` the year of the statement when the page gives one. At least one of the four figures. A water depth is entered as `draught` with `depth: true` and `n` saying "depth" (the page then labels it "Depth"). Only the page's maximum is entered: a stated minimum (the least depth of a channel) is never a limit. `seg` (`dry`, `tanker` or `gas`) when the page states the limits for one kind of berth (an oil berth of a port that also loads grain); `cls`, a class id of `data/freight/vessel-classes.json`, when the page itself names the class the berths take ("for Capesize ships"); `at`, a short name of the berth or terminal when the limits are not the whole port's ("Jurong Port bulk berths"), shown on each tile. |
+| `maxClass` | `{dry?, tanker?, gas?, n}` | Ports: the largest vessel class of the atlas that each segment of the port can take by its `limits`, written by `pipeline/infrastructure/port_limits.py` (never by hand). An Atlas estimate, shown as "largest class by the published limits; derived by the atlas"; `n` gives the method and, for each class shown, the basis of the comparison. The rules: no class from a depth or a draught alone (the page must give a size of ship: deadweight, length or beam); `seg` restricts the comparison to that segment; a class with a standard vessel (`std`) fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight (`size.typical`, in dwt) with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit; a class measured in cubic metres is compared only through a standard vessel; `cls` is the class where the page names it. |
+| `prices` | list of ids | The price series of `data/prices/index.json` quoted at this place (Cushing: WTI), whatever their basis (FOB, CIF or spot at a hub): the page lists them under "Price series quoted at this place". |
 
 `n` says in a few words what a figure counts ("iron ore", "copper in concentrate", "refined copper (cathode)",
 "total cargo", "100% basis", "phase 1 of 2"). When a figure was converted, `orig` keeps the source's own figure and
@@ -123,7 +123,11 @@ the atlas does not guess a year.
 
 `coord` is `site` when the point is the asset itself, and `approx` when it is a town, a centroid or a schematic
 position. The
-site prints "Approximate location" on those assets. A point is checked against the country `c`: it must lie inside the
+site prints "Approximate location" on those assets. A port is `site` only when it is one terminal (one loading or
+discharging installation of one operator: an oil or bulk terminal, an island terminal, a mooring) and the point stands
+on it. A port of several terminals, berths of several operators or port areas shown as one point is `approx`, whatever
+the source of the point: a database point (the port's point in the IMF PortWatch ports database, or a town in
+OpenStreetMap) stands for the whole port, not for a berth. A point is checked against the country `c`: it must lie inside the
 country's polygon or within 60 km of it. A field, an LNG terminal or a port may stand at sea (an offshore field, a
 floating plant such as Prelude, an island terminal such as Das Island or Halul Island, an offshore port such as LOOP):
 it may lie up to 370 km (200 nautical miles) from `c`, provided no other country is nearer to the point, so a point in
@@ -157,16 +161,27 @@ the wrong country is still caught.
    into warnings, for a migration that goes one file at a time.
 6. `data/sources.json` feeds `DATA_SOURCES.md`; regenerate that table with `pipeline/common/sources_table.py` after
    changing the registry.
-7. After changing a port's `limits`, or after a change of the standard vessels (`std`) of
-   `pipeline/freight/vessel_classes.json`, run `python pipeline/infrastructure/port_limits.py`: it rewrites `maxClass`.
+7. After changing a port's `limits`, or after a change of the standard vessels (`std`) or typical sizes
+   (`size.typical`) of `pipeline/freight/vessel_classes.json`, run `python pipeline/infrastructure/port_limits.py`: it
+   rewrites `maxClass`.
+8. A port's commodities `k` rest on a page: the page of its `url`, or an article named in `note` ("Commodity:
+   Wikipedia, Ras Tanura (the Ju'aymah crude terminal)"), or a route or a lane of the atlas that uses the port for that
+   cargo (said in `note`). A database that gives a position (PortWatch, OpenStreetMap) states no cargo. A port whose
+   cargo no page read states is not added.
 
 ## Ports and the freight routes
 
-Every port that a route of `pipeline/freight/routes_def.json` names is an asset, except Boke (Guinea), which names the
-river terminals of the Boke region rather than one port. `pipeline/infrastructure/route_assets.py` finds the asset of
-each route port (same country, same name, or a name of its `ALIAS` table); `build_freight.py` publishes it on each route
-(`from.assets`, `to.assets`, "type:id" or null) and the route page links the port to its page. Run
-`python pipeline/infrastructure/route_assets.py` to list the route ports that are not assets.
+Most ports that the routes of `pipeline/freight/routes_def.json` name are assets; `route_assets.py` lists those that are
+not (Boke, Guinea, names the river terminals of the Boke region rather than one port). `pipeline/infrastructure/route_assets.py` finds the asset of
+each route port (same country, same name, or a name of its `ALIAS` table, which also holds the trade engine's spellings
+that the generated routes use: "Pusan" is Busan); `build_freight.py` publishes it on each route (`from.assets`,
+`to.assets`, "type:id" or null) and the route page links the port to its page. A port of a generated route that is not
+an asset is a port of the lane index (`data/freight/ports.json`): the route page links it, as the search does, to the
+largest lane through it ("Opens the largest lane through this port"), or to the asset its index row names; a port in
+neither stays plain text. No asset is added for a route port alone. Run `python pipeline/infrastructure/route_assets.py`
+to list the route ports, of the hand-written and of the generated routes (the published `data/freight/routes.json`),
+that are not assets. The index row of a port that is an asset lists in `aka` the other names the engine and the routes
+give it, for the search.
 
 Positions and UN/LOCODEs come from the IMF PortWatch ports database (`pipeline/cache/portwatch_ports.csv`, downloaded
 once by `pipeline/infrastructure/fetch_portwatch_ports.py`; IMF terms, credited in NOTICE.md); a port that PortWatch

@@ -3,7 +3,7 @@
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
 - Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.4%. With the generated routes: 66.2%.
+- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.5%. With the generated routes: 66.2%.
 - 10 of 42 groups reach the target; 32 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
@@ -36,7 +36,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | potash | 41.9 | 26.9 | 51.0 | 3 | the cap of 120 generated routes left out 7 corridors |
 | rapeseed | 20.0 | 0.0 | 50.6 | 2 | the cap of 120 generated routes left out 3 corridors |
 | rare-earths | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
-| refined-products | 960.6 | 17.7 | 53.1 | 12 | the cap of 12 routes per group was reached |
+| refined-products | 960.6 | 18.3 | 53.1 | 12 | the cap of 12 routes per group was reached |
 | rice | 49.9 | 0.0 | 54.2 | 5 | the cap of 120 generated routes left out 6 corridors |
 | soybeans | 157.2 | 66.4 | 72.3 | 1 |  |
 | soymeal | 61.4 | 12.1 | 66.3 | 7 | the cap of 120 generated routes left out 2 corridors |

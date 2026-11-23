@@ -374,8 +374,8 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
 - **U.S. Bureau of Labor Statistics**: the deep-sea freight producer price index (series PCU483111483111), public domain
   with citation requested ("Public Domain: Citation Requested" on FRED's page of the series). It is fetched from the BLS
-  API; the years the BLS has not yet returned are the copy the atlas took earlier through the FRED API, which is not
-  endorsed or certified by the Federal Reserve Bank of St. Louis.
+  API. Until the BLS has returned every year, the older years are the copy the atlas took earlier through the FRED API
+  (the note of the series names them), which is not endorsed or certified by the Federal Reserve Bank of St. Louis.
 - **Federal Reserve Bank of Dallas**: Index of global real economic activity (Kilian 2009, 2019), reproduced under the
   Bank's terms of use ("may be made without limitation as to quantity, provided it is not distributed for the purpose
   of private gain and is appropriately credited to the Bank").

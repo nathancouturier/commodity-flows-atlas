@@ -413,6 +413,11 @@ export function vesselMatches(have: string | string[], selected: { has(id: strin
   return list.some((c) => vesselFamily(c).some((m) => selected.has(m)));
 }
 
+/** Does a route belong to the selected classes: its own class (by family), or a class page that lists it as a route it also serves? */
+export function routeMatches(r: { id: string; vclass: string }, selected: ReadonlySet<string>): boolean {
+  return vesselMatches(r.vclass, selected) || [...selected].some((id) => vesselById.value[id]?.routes.includes(r.id));
+}
+
 /** Chokepoints shown at world zoom on the Freight tab. */
 export const MAJOR_CHOKEPOINTS = new Set([
   'hormuz', 'malacca', 'suez', 'bab-el-mandeb', 'panama', 'cape-good-hope', 'bosphorus', 'gibraltar', 'taiwan-strait', 'danish-straits',

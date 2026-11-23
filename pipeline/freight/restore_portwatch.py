@@ -26,12 +26,12 @@ NAME = "portwatch-daily"
 MAX_AGE_DAYS = 28  # fetch_portwatch.FULL_EVERY_DAYS: an older table is replaced by a full download anyway
 
 
-def newest_usable(listing, now, max_age_days=MAX_AGE_DAYS):
-    """The newest artifact of a listing (``gh api`` output of the artifacts endpoint) that has not expired and is not older
-    than ``max_age_days``; None when there is none."""
+def newest_usable(listing, now, max_age_days=MAX_AGE_DAYS, name=NAME):
+    """The newest artifact named ``name`` of a listing (``gh api`` output of the artifacts endpoint) that has not expired and
+    is not older than ``max_age_days``; None when there is none. Also used by pipeline/annual/restore_raw.py."""
     best = None
     for a in (listing or {}).get("artifacts", []):
-        if a.get("expired") or a.get("name") != NAME:
+        if a.get("expired") or a.get("name") != name:
             continue
         try:
             made = datetime.fromisoformat(a["created_at"].replace("Z", "+00:00"))

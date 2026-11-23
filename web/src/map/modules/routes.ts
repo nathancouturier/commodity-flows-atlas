@@ -10,7 +10,7 @@ import { registerLayerModule } from '../layers';
 import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
-import { GROUP_LABEL, SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
+import { GROUP_LABEL, SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeMatches, routeTouches, segmentOf, vesselClassList, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt, pctText } from '../../lib/format';
 import { lowerName } from '../../lib/prices';
 
@@ -26,7 +26,7 @@ function routeLabel(r: Route): string {
   const what = share ? lowerName((share.g && GROUP_LABEL[share.g]) || (commodityMeta(share.k)?.name ?? share.k)) : '';
   return (
     `<div>${r.benchmark ? `<b>${esc(r.id)}</b> ` : '<b>'}${esc(r.name)}${r.benchmark ? '' : '</b>'}</div>` +
-    `<div class="muted">${esc(vesselName(r.vclass))}${r.standIn ? ' · stand-in trace, no distance of its own' : ` · ${fmt(r.distanceNm)} nm · ${fmt(r.days)} days`}</div>` +
+    `<div class="muted">${esc(vesselName(r.vclass))}${r.benchmark ? '' : ' (typical)'}${r.standIn ? ' · stand-in trace, no distance of its own' : ` · ${fmt(r.distanceNm)} nm · ${fmt(r.days)} days`}</div>` +
     (share ? `<div class="num">${pctText(share.f.v)} of seaborne ${esc(what)} (${esc(String(share.f.y))})</div>` : '') +
     `<div class="src-line">${esc(r.generated ? 'Atlas corridor, generated from customs pairs' : r.s === 'atlas' ? 'Atlas estimate' : sourceLabel(r.s))}${r.discontinued ? ` · discontinued ${esc(r.discontinued)}` : ''}</div>`
   );
@@ -68,7 +68,7 @@ registerLayerModule(() => {
           if (isAlt && !isSel) continue;
           if (!isSel) {
             if (!on || r.discontinued) continue;
-            if (!vesselMatches(r.vclass, vc)) continue;
+            if (!routeMatches(r, vc)) continue;
             // a selected country is isolated: only routes that load or discharge there
             if (iso && !routeTouches(r, iso)) continue;
           }

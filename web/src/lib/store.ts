@@ -40,6 +40,7 @@ export const infraHidden = signal<Set<InfraType>>(new Set());
 /** Infrastructure types that exist for the current tab / commodity (set by the infrastructure layer). */
 export const infraAvailable = signal<Set<InfraType> | null>(null);
 export const vesselClasses = signal<Set<string>>(new Set());
+/** The company a page was opened for (`co=<slug>`, from the search): the page unfolds its companies and shows that row. */
 export const companyFilter = signal<string | null>(null);
 export const countryFilter = signal<string | null>(null);
 export const year = signal<number | null>(null);
@@ -114,6 +115,7 @@ export function toggleInSet<T>(sig: { value: Set<T> }, item: T) {
 
 export function select(s: Selection | null) {
   selection.value = s;
+  companyFilter.value = null;
 }
 
 // ---------------------------------------------------------------- URL hash sync
@@ -144,6 +146,8 @@ interface HashState {
   finder: FinderState | null;
   /** the price explorer, open as the link describes it; null = closed */
   prices: PriceDrawerState | null;
+  /** the company a commodity or vessel-class page shows (`co=`) */
+  company: string | null;
 }
 
 /** Route finder part of a link, null when it is absent or unreadable (ids are checked later, against the data). */
@@ -224,6 +228,7 @@ function parseHash(hash: string): HashState {
     selection: sel,
     finder: parseFinder(p.get('rf')),
     prices: parsePrices(p),
+    company: sel && (sel.kind === 'commodity' || sel.kind === 'vessel') ? p.get('co') || null : null,
   };
 }
 
@@ -249,6 +254,7 @@ function applyHash(st: HashState) {
     // the timeline is what sets a year: a link with #y=2016 opens it, a link without closes it
     historyOpen.value = st.year != null;
     if (selKey(st.selection) !== selKey(selection.peek())) selection.value = st.selection;
+    companyFilter.value = st.company;
     // a link without a finder question leaves the finder's commodity alone (it follows the panel's) and empties the question
     if (st.finder) {
       rfCommodity.value = st.finder.commodity;
@@ -276,6 +282,7 @@ function currentHash(): string {
   if (year.value) p.set('y', String(year.value));
   const s = selection.value;
   if (s) p.set('sel', selKey(s));
+  if (s && companyFilter.value) p.set('co', companyFilter.value);
   const rf = finderHash();
   if (rf) p.set('rf', rf);
   if (priceDrawer.value) {

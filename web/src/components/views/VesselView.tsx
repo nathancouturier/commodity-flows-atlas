@@ -31,7 +31,7 @@ function PageLine(props: { s?: string; url?: string; y?: number }) {
 
 const num = (v: number) => v.toLocaleString('en-US', { maximumFractionDigits: 3 });
 
-function StdBlock({ std, u }: { std: VesselStd; u: string }) {
+function StdBlock({ std, u, assumed }: { std: VesselStd; u: string; assumed?: number }) {
   const pair = (p: { laden?: number; ballast?: number } | undefined, unit: string) =>
     p && (p.laden != null || p.ballast != null)
       ? p.laden === p.ballast
@@ -52,7 +52,10 @@ function StdBlock({ std, u }: { std: VesselStd; u: string }) {
       <div class="dims">
         {cells.filter(([, v]) => v).map(([k, v]) => <div key={k}><span class="num">{v}</span><small>{k}</small></div>)}
       </div>
-      <p class="prose small">{std.n}</p>
+      <p class="prose small">
+        {std.n}
+        {assumed != null && std.speed && ` Laden days in the atlas use the assumed laden service speed of ${fmt(assumed)} kn above, not this speed.`}
+      </p>
       <PageLine s={std.s} url={std.url} y={std.y} />
     </>
   );
@@ -99,6 +102,26 @@ export default function VesselView({ id }: { id: string }) {
   const u = v.size.u === 'teu' ? 'TEU' : v.size.u;
   const byId = new Map((routes ?? []).map((r) => [r.id, r]));
   const served = v.routes.map((rid) => byId.get(rid)).filter((r): r is Route => !!r);
+  // ended benchmarks after the active ones (as in the side panel); a listed route whose own class is another one apart
+  const activeFirst = (l: Route[]) => [...l].sort((a, b) => Number(!!a.discontinued) - Number(!!b.discontinued));
+  const own = activeFirst(served.filter((r) => r.vclass === v.id));
+  const also = activeFirst(served.filter((r) => r.vclass !== v.id));
+  const routeRow = (r: Route, other: boolean) => (
+    <button class="list-btn" key={r.id} style={r.discontinued ? { opacity: 0.45 } : undefined} onClick={() => select({ kind: 'route', id: r.id })}>
+      {r.benchmark && <span class="code-badge sm">{r.id}</span>}
+      <span class="grow">
+        {r.name}
+        {r.discontinued && <small> (discontinued)</small>}
+      </span>
+      {other ? (
+        <span class="meta" title={`A route of the ${vesselName(r.vclass)} class`}>{vesselName(r.vclass)}</span>
+      ) : r.standIn ? (
+        <span class="meta" title={r.standIn}>stand-in trace</span>
+      ) : (
+        <span class="meta num">{fmt(r.distanceNm)} nm</span>
+      )}
+    </button>
+  );
   const z = v.size;
 
   const short = (s: string) => (s === 'wikipedia' ? 'Wikipedia' : publisher(s));
@@ -134,7 +157,7 @@ export default function VesselView({ id }: { id: string }) {
         )}
         {v.std && (
           <Section title={v.std.s === 'baltic' ? 'Standard vessel (Baltic Exchange)' : 'Typical ship'}>
-            <StdBlock std={v.std} u={v.size.u} />
+            <StdBlock std={v.std} u={v.size.u} assumed={v.speed?.v ?? v.speedKn} />
           </Section>
         )}
         {v.bench && (
@@ -170,13 +193,13 @@ export default function VesselView({ id }: { id: string }) {
         </Section>
         {served.length > 0 && (
           <Section title={`Routes served (${served.length})`}>
-            {served.map((r) => (
-              <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
-                {r.benchmark && <span class="code-badge sm">{r.id}</span>}
-                <span class="grow">{r.name}</span>
-                {r.standIn ? <span class="meta" title={r.standIn}>stand-in trace</span> : <span class="meta num">{fmt(r.distanceNm)} nm</span>}
-              </button>
-            ))}
+            {own.map((r) => routeRow(r, false))}
+            {also.length > 0 && (
+              <>
+                <h4 class="route-sub">Also served by {v.name}</h4>
+                {also.map((r) => routeRow(r, true))}
+              </>
+            )}
           </Section>
         )}
         {v.notes && (

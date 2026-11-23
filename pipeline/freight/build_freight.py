@@ -499,12 +499,125 @@ ROUTE_PORTS = {
     "S3_63": ("CNTSN", "NGLOS"), "S4B_63": ("NLRTM", "USHOU"), "S5_63": ("BRSSZ", "CNTAO"), "S8_63": ("IDSRI", "INPRT"),
     "S9_63": ("BRSSZ", "NLRTM"), "S15_63": ("ZARCB", "CNTAO"),
     # partial overrides (None = use the port matched from the route definition)
-    "uspnw-asia-grain": ("USKAM", None), "brazil-china-vloc-iron-ore": ("BRPMA", "CNNGB"), "simandou-china-iron-ore": (None, "CNNGB"), "TD34": ("OMMFH", None),
+    "uspnw-asia-grain": ("USKAM", None), "brazil-china-vloc-iron-ore": ("BRPMA", "CNNGB"), "TD34": ("OMMFH", None),
+    # TD6 loads at the CPC terminal, not at the port of Novorossiysk; Kaarsto, Port Jerome and "the Thames" (TC26, TD31,
+    # TC25) are not in the port table: the notes name the port drawn instead
+    "TD6": ("KZCPC", None), "TC26": ("NOSVG", None), "TD31": ("FRLEH", None), "TC25": (None, "GBTIL"),
 }
+
+# Route port names the name match resolves to another place (Portland, Oregon is not Portland, Maine; Huelva is not
+# the Spanish gateway): an explicit engine code, or "port:<id>", a port asset of data/infrastructure whose sourced
+# position is used, for a port the engine table lacks or places far from the port (Dos Bocas, Kashima)
+PORT_CODE = {
+    ("Portland", "USA"): "port:portland-oregon", ("Huelva", "ESP"): "port:huelva", ("Acu", "BRA"): "port:acu",
+    ("Dongying", "CHN"): "port:dongying", ("Majishan", "CHN"): "port:majishan", ("Dalrymple Bay", "AUS"): "AUHPT",
+    ("Busan", "KOR"): "KRPUS", ("St Petersburg", "RUS"): "RULED", ("Novorossiysk", "RUS"): "RUNVS",
+    ("Port Klang", "MYS"): "MYPKG", ("Dos Bocas", "MEX"): "port:dos-bocas", ("Kashima", "JPN"): "port:kashima",
+}
+# A drawn line starts and ends at a node of the sea network. When that node is more than REACH_KM from a hand-written
+# route's port, the line is joined to the port by a straight segment that crosses no land (sea_start, reach_ports).
+REACH_KM = 100
+# Waypoints of a hand-written route whose shortest network path a ship of its class cannot sail: TD6 rounds the
+# Peloponnese (the network's path through the Gulf of Corinth crosses the isthmus)
+WAYPOINTS = {"TD6": [(22.866, 35.805)]}
+_ASSETS = None
+
+
+def route_port(code):
+    """P.port() for an engine code; for "port:<id>", the port asset's name, country and sourced position."""
+    global _ASSETS
+    if not code.startswith("port:"):
+        return P.port(code)
+    if _ASSETS is None:
+        with open(os.path.join(ROOT, "data", "infrastructure", "ports.geojson"), encoding="utf-8") as f:
+            _ASSETS = {x["properties"]["id"]: x for x in json.load(f)["features"]}
+    x = _ASSETS[code[5:]]
+    return {"id": code, "name": x["properties"]["name"], "c": x["properties"]["c"], "at": [round(v, 3) for v in x["geometry"]["coordinates"]]}
+
+
+def _km(a, b):
+    return P._km(a[0], a[1], b[0], b[1])
+
+
+def _land():
+    """Land polygons of the base map (route_countries), as one geometry."""
+    from shapely.ops import unary_union
+    shapes, _ = RC._country_shapes()
+    return unary_union(shapes)
+
+
+_LAND = None
+# land within this distance of a port does not count against a segment to it: ports sit on the coast line, often inside
+# the generalised 1:50m polygons
+COAST_KM = 15
+
+
+def sea_start(at, rid=None):
+    """(point to plan from, port to join the line to, or None) for a route port at [lon, lat]. The plan starts at the
+    port, whose nearest network node is where its line begins; when that node is more than REACH_KM away, the plan
+    starts at the nearest node (within 3 x REACH_KM) from which a straight segment reaches the port without crossing land,
+    and the segment is added to the line."""
+    global _LAND
+    from shapely.geometry import LineString, Point
+    nodes = sorted((_km(u, at), u) for u in RT.graph().adj)
+    if nodes[0][0] <= REACH_KM:
+        return at, None
+    if _LAND is None:
+        _LAND = _land()
+    near = Point(at).buffer(COAST_KM / 111.0)
+    for d, u in nodes:
+        if d > 3 * REACH_KM:
+            break
+        wet = LineString([u, at]).intersection(_LAND).difference(near)
+        if wet.length * 111.0 < 0.5:
+            return [u[0], u[1]], at
+    print("line end left at its network node (no segment to the port without land):", rid, round(nodes[0][0]), "km")
+    return at, None
+
+
+def reach_ports(s, a, b):
+    """The plan summary `s` (a cached dict: a copy is returned) with the segments to the ports `a` and `b` added to its line
+    and their length to its distance (`a` or `b` is None for an end that needs no segment)."""
+    if not a and not b:
+        return s
+    g, nm = [list(p) for p in s["g"]], s["nm"]
+    for at, i in ((a, 0), (b, -1)):
+        if not at:
+            continue
+        end = g[i]
+        q = [round(at[0] + 360 * round((end[0] - at[0]) / 360), 2), round(at[1], 2)]  # the line's longitudes are continuous
+        nm += round(_km(end, q) / BL.CN.KM_PER_NAUTICAL_MILE)
+        g = [q] + g if i == 0 else g + [q]
+    return {**s, "g": g, "nm": nm}
+
+
+def plan_via(a, b, ws, classes):
+    """BL.plan_summary() through waypoints: the legs joined (line, distance, passages); no alternative is offered."""
+    pts = [a] + [list(w) for w in ws] + [b]
+    legs = [BL.plan_summary(pts[i], pts[i + 1], classes, geometry=True) for i in range(len(pts) - 1)]
+    if not all(legs):
+        return None
+    out = {"g": [], "nm": 0, "via": [], "viaAlt": [], "route": [], "alts": [], "altNote": None}
+    for x in legs:
+        out["g"] += x["g"] if not out["g"] else x["g"][1:]
+        out["nm"] += x["nm"]
+        out["via"] += [v for v in x["via"] if v not in out["via"]]
+        out["route"] += [v for v in x["route"] if v not in out["route"]]
+        out["viaAlt"] += [lst for lst in x["viaAlt"] if lst not in out["viaAlt"]]
+    return out
 
 
 def load(name):
     return json.load(open(os.path.join(HERE, name)))
+
+
+def doc_year(doc):
+    """Year of a definition's document: "... (December 2025) ..." or "Circular 03/26"."""
+    import re
+    m = re.search(r"\((?:\w+ )?((?:19|20)\d\d)\)", doc) or re.search(r"Circular \d+/(\d\d)\b", doc)
+    if not m:
+        raise ValueError(f"no year in the document name {doc!r}")
+    return int(m.group(1)) if len(m.group(1)) == 4 else 2000 + int(m.group(1))
 
 
 def index_membership(defs):
@@ -560,6 +673,8 @@ def cargo_names(g):
 
 def find_port(name, iso3, group):
     """Match a port name from the route definitions to the port table; fall back to the country gateway."""
+    if (name, iso3) in PORT_CODE:
+        return PORT_CODE[(name, iso3)]
     a2 = BL.A2.get(iso3)
     n = name.lower().replace("ã", "a").replace("é", "e")
     for code, (pn, c, x, y) in P.MANUAL.items():
@@ -660,6 +775,7 @@ def main():
         if r.get("definition"):
             # the benchmark's published definition, with the indices it belongs to
             out["definition"] = {**r["definition"], **({"index": in_index[r["id"]]} if in_index.get(r["id"]) else {})}
+            out["definition"]["y"] = doc_year(r["definition"]["doc"])  # the year of the document, shown with its figures
         out["from"] = {"region": r["from"]["region"], "ports": [p["name"] for p in r["from"]["ports"]]}
         out["to"] = {"region": r["to"]["region"], "ports": [p["name"] for p in r["to"]["ports"]]}
         # the infrastructure asset each port is ("port:primorsk", or None), for the links of the route page
@@ -670,7 +786,7 @@ def main():
         if not a or not b:
             print("skip (no port)", r["id"])
             continue
-        pa, pb = P.port(a), P.port(b)
+        pa, pb = (P.port(a), P.port(b)) if r.get("_pair") else (route_port(a), route_port(b))
         spd = VR.speed(r["vclass"])
         if r.get("_pair"):
             # a generated route is planned as its largest pair is (classes of vessel_rules, same ports): the Route finder and the
@@ -689,13 +805,22 @@ def main():
                     row = pair_row[(g, o, d)]
                     s = {**s, **dict(zip(("via", "viaAlt"), GR.pair_passages(s["via"], row["via"], row["alt"])))}
         else:
-            s = BL.plan_summary(pa["at"], pb["at"], [r["vclass"]], geometry=True)  # routing.plan(), as the lanes
+            (sa, ja), (sb, jb) = sea_start(pa["at"], r["id"]), sea_start(pb["at"], r["id"])
+            if r["id"] in WAYPOINTS:
+                s = plan_via(sa, sb, WAYPOINTS[r["id"]], [r["vclass"]])
+            else:
+                s = BL.plan_summary(sa, sb, [r["vclass"]], geometry=True)  # routing.plan(), as the lanes
+            if s:
+                s = reach_ports(s, ja, jb)
         if not s:
             print("skip (no path)", r["id"])
             continue
         nm, via = s["nm"], s["via"]
         out.update({"distanceNm": nm, "speedKn": spd, "days": round(nm / (spd * 24), 1), "via": via, "viaAlt": s["viaAlt"],
                     "a": pa["at"], "b": pb["at"]})
+        if not r.get("_pair"):
+            # the country of a terminal the table or an asset records (an offshore terminal is often nearer another country's coast)
+            out["_ends"] = [p["c"] if len(p["c"]) == 3 else None for p in (pa, pb)]
         ref = None if r.get("_pair") else finder_pair(cor, pairs, a, b)
         if ref:
             out["finder"] = ref
@@ -802,6 +927,8 @@ def main():
             out["shareNa"] = "Time-charter benchmark: it is priced between a delivery and a redelivery area, not for one country-pair flow"
         else:
             out["shareNa"] = "No country-pair corridor is attached to this route"
+        if r.get("shareOn"):
+            out["shareOn"] = r["shareOn"]  # the generated corridor that counts this route's flow (shareNa says so)
         if any(hist_t.values()) and not r.get("noHistory"):
             # the history rule of the lanes: a year is blanked only on evidence in the unit value
             series, marks = history_flags([round(hist_t[y], 2) for y in years], [hist_v[y] for y in years])

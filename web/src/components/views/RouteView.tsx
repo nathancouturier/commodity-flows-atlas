@@ -118,7 +118,7 @@ function Body({ r }: { r: Route }) {
         <div class="kpis">
           <Kpi label={r.standIn ? 'Distance · stand-in trace' : leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub={r.standIn ? 'Not a distance of this benchmark' : 'SeaRoute network · Atlas routing'} title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
           <Kpi label={r.standIn ? 'Laden days · stand-in trace' : leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · no port, canal or ballast time`} title={`Distance divided by the assumed laden service speed of the class, ${fmt(r.speedKn)} kn (Atlas assumption): no port time, no canal wait, no ballast leg`} />
-          {dfn?.duration && <Kpi label="Duration as defined" value={dfn.duration} sub="Whole trip · Baltic definition" title="Duration of the whole time-charter trip or round voyage, as the Baltic definition gives it" />}
+          {dfn?.duration && <Kpi label="Duration as defined" value={dfn.duration} sub={`Whole trip · Baltic definition${dfn.y ? `, ${dfn.y}` : ''}`} title={`Duration of the whole time-charter trip or round voyage, as the Baltic definition gives it (${dfn.doc})`} />}
           {shares.map((s) => (
             <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
@@ -126,12 +126,24 @@ function Body({ r }: { r: Route }) {
           {r.shareClass && (
             <Kpi label="Share of class tonne-miles" f={r.shareClass} sub={`Atlas estimate · ${r.shareClass.y}`} note={r.shareClass.n} span />
           )}
-          {parcel && <Kpi label="Standard parcel" value={parcel} sub={pub} title={`Parcel size per route definition (${r.s})`} />}
+          {/* an LNG benchmark gives the size of its standard carrier, not a cargo */}
+          {parcel && (r.vclass === 'lng' ? (
+            <Kpi label="Vessel size" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title="Capacity of the standard carrier of the definition, not a cargo size" />
+          ) : (
+            <Kpi label="Standard parcel" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title={`Parcel size per route definition (${dfn?.doc ?? r.s})`} />
+          ))}
         </div>
+        {!r.shareCommodity && r.shareOn && (
+          <div class="muted small">
+            <button class="port-link" onClick={() => select({ kind: 'route', id: r.shareOn! })}>
+              Open the Atlas corridor that counts this flow
+            </button>
+          </div>
+        )}
         <Section title="From → To">
           <div class="ft">
-            <div class="ft-row"><span class="ft-k">From</span><span><b>{r.from.region}</b>{r.from.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.from.ports} assets={r.from.assets} /></span>}</span></div>
-            <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.to.ports} assets={r.to.assets} /></span>}</span></div>
+            <div class="ft-row"><span class="ft-k">From</span><span><b>{r.from.region}</b>{r.from.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.from.ports} assets={r.from.assets} c={r.ends?.[0]} /></span>}</span></div>
+            <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.to.ports} assets={r.to.assets} c={r.ends?.[1]} /></span>}</span></div>
           </div>
         </Section>
         {r.finder && (
@@ -215,7 +227,7 @@ function DefinitionBlock({ d }: { d: BenchmarkDefinition }) {
               ? d.index.map((x) => (
                   <div key={x.id}>
                     <b>{x.id}</b> {x.name}
-                    {x.tce && ' (on its time-charter equivalent)'}: {x.w == null ? 'no weight given' : x.equal ? `equal weights, 1 of ${x.members.length}` : `weight ${fmt(x.w)}%`}
+                    {x.tce && !/time-charter equivalent/i.test(x.name) && ' (on its time-charter equivalent)'}: {x.w == null ? 'no weight given' : x.equal ? `equal weights, 1 of ${x.members.length}` : `weight ${fmt(x.w)}%`}
                     <div class="muted small">
                       {x.members.map((m, i) => (
                         <span key={m.r}>
@@ -246,7 +258,7 @@ function DefinitionBlock({ d }: { d: BenchmarkDefinition }) {
       </div>
       <div class="src-line">
         Source:{' '}
-        <a href={d.url} target="_blank" rel="noopener">{d.doc}</a> · read {d.read}. Definitions are public; index values belong to the Baltic Exchange and are not shown.
+        <a href={d.url} target="_blank" rel="noopener">{d.doc}</a> · read {d.read}. The definition is the Baltic Exchange's, summarised here in the atlas's words; the atlas is not affiliated with the Baltic Exchange. Index values are proprietary and are not shown.
       </div>
     </Section>
   );

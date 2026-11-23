@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { TIE_ORDER, distance, groupKinds, matchKind, norm, prepare, rank, score, tokens } from '../src/lib/searchMatch.ts';
+import { nameForms } from '../src/lib/companyAssets.ts';
 
 const S = (q, names, codes = [], extra = []) => score(tokens(q), prepare(names, codes, extra));
 
@@ -103,12 +104,21 @@ for (const r of json('freight/routes.json')) {
 }
 for (const c of json('freight/chokepoints.json')) add('chokepoint', c.id, c.name, prepare([c.name], [c.id], [c.kind, 'chokepoint']));
 for (const v of json('freight/vessel-classes.json')) add('vessel', v.id, v.name, prepare([v.name], [v.id], [v.segment, 'vessel class', 'ship']));
+// the names the routes and the trade engine use for a port asset (`aka` of the ports index), as search.ts reads them
+const akaOf = new Map();
+for (const p of json('freight/ports.json').ports) if (p.asset) akaOf.set(p.asset, [...(akaOf.get(p.asset) ?? []), ...(p.aka ?? [p.name])]);
 for (const f of fs.readdirSync(path.join(DATA, 'infrastructure')).filter((x) => x.endsWith('.geojson'))) {
   for (const ft of json(`infrastructure/${f}`).features) {
     const p = ft.properties;
-    if (p?.name) add('infra', `${p.id}:${p.type}`, p.name, prepare([p.name], [p.id], [p.operator ?? '', cname(p.c), p.type ?? '', ...(p.cs ?? []).map(cname)]));
+    if (p?.name) add('infra', `${p.id}:${p.type}`, p.name, prepare([p.name, ...(akaOf.get(`${p.type}:${p.id}`) ?? [])], [p.id], [p.operator ?? '', cname(p.c), p.type ?? '', ...(p.cs ?? []).map(cname)]));
   }
 }
+// one item per company of the two lists, with its commodities or shipping segments
+const cos = new Map();
+for (const [k, groups] of Object.entries(json('commodities/companies.json'))) for (const list of Object.values(groups)) for (const c of list) cos.set(c.name, [...(cos.get(c.name) ?? []), kname0(k)]);
+for (const [seg, list] of Object.entries(json('freight/shipping-companies.json'))) for (const c of list) cos.set(c.name, [...(cos.get(c.name) ?? []), seg, 'shipping']);
+function kname0(k) { return commodities.find((c) => c.id === k)?.name ?? k; }
+for (const [name, extra] of cos) add('company', name, name, prepare([name, ...nameForms(name)], [], [...extra, 'company']));
 for (const p of json('freight/ports.json').ports) add('port', p.id, p.name, prepare([p.name], [p.id], [cname(p.c), ...p.g, 'port']));
 const kname = (k) => commodities.find((c) => c.id === k)?.name ?? k;
 for (const e of json('freight/events.json')) add('event', e.id, e.title, prepare([e.title], [e.id], [e.id, e.kind, 'event', ...(e.countries ?? []).map(cname), ...(e.commodities ?? []).map(kname)]));
@@ -153,5 +163,31 @@ assert.ok(labels('iran war', 'event').length >= 2, '"iran war" finds the wars wi
 assert.ok(labels('iran war', 'event').some((l) => /2026|strikes on Iran/i.test(l)), '"iran war" finds the 2026 war');
 // a short query is not flooded: every event "iran war" finds names Iran and a war
 for (const l of everyLabel('iran war', 'event')) assert.ok(/iran/i.test(l), `"iran war" finds ${l}`);
+
+// ---- the fifth wave's review (GCO1.12, GBR1.7, GPT1.13)
+// a company is found by its name, first
+for (const q of ['Vitol', 'Frontline', 'Sovcomflot', 'Pacific Basin', 'Glencore', 'Saudi Aramco', 'Kazatomprom'])
+  assert.equal(top(q)[0], `company:${q}`, `"${q}" leads with ${top(q)[0]}`);
+assert.equal(top('vitol')[0], 'company:Vitol', 'case is ignored');
+assert.ok(!labels('Vitol', 'port').length || groups('Vitol')[0].kind === 'company', '"Vitol" does not lead with a port of Vitoria');
+// the earlier first results stay: a company never leads a commodity, country or chokepoint named by the query
+for (const [q, want] of Object.entries(first)) assert.equal(top(q)[0], want, `"${q}" leads with ${top(q)[0]}, not ${want}`);
+// a benchmark code typed whole with its suffix finds that route first
+for (const code of ['S15_63', 'P1A_82', 'C10_14', 'S10_63']) {
+  if (!items.some((it) => it.key === `route:${code}`)) continue;
+  const g = groups(code);
+  assert.equal(`${g[0].kind}:${g[0].items[0].key}`, `route:route:${code}`, `"${code}" leads with ${g[0].items[0].key}`);
+  assert.equal(g[0].tier, 4);
+}
+assert.ok(items.some((it) => it.key === 'route:S15_63') && items.some((it) => it.key === 'route:C10_14'), 'the suffixed routes exist');
+// the code without its suffix still finds every route of that code
+assert.ok(everyLabel('C10', 'route').length >= 2);
+// a suffix alone is not a code: "63" is no route
+assert.equal(labels('63', 'route').length, 0);
+// a port asset is found by the spellings of the routes and the trade engine
+for (const [q, want] of [['Pusan', 'busan'], ['Odessa', 'odesa'], ['Busan', 'busan']]) {
+  const it = groups(q).find((g) => g.kind === 'infra')?.items[0];
+  assert.ok(it && it.key.startsWith(`infra:${want}:`), `"${q}" finds ${it?.key}, not the port ${want}`);
+}
 
 console.log('search-match: all checks passed');

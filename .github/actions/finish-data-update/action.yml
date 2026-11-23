@@ -1,9 +1,11 @@
 name: Finish data update
 description: >
   Records a failure for the sources of an update step that did not finish, validates the data and compares it with
-  the previous commit, discards it when invalid, commits and pushes the paths the job owns to the default branch
-  (rebasing on a newer commit without overwriting it), and opens/updates/closes "Data update failing: <source>" and
-  "New release available: <source>" issues. Never fails the job.
+  the previous commit, discards it when invalid (and commits nothing when the checks still fail after the discard),
+  commits and pushes the paths the job owns to the default branch (rebasing on a newer commit without overwriting it;
+  when that is impossible, records a failure of the job's sources and pushes that alone), and opens/updates/closes the
+  issues "Data update failing: <source>", "Data update discarded by the data checks", "Data update not pushed" and
+  "New release available: <source>". Never fails the job.
 inputs:
   sources:
     description: Space-separated status source ids this workflow updates (a failure is recorded for them when validation fails).
@@ -27,6 +29,9 @@ outputs:
   deploy:
     description: "'true' when site data (not just the status files) changed and was pushed."
     value: ${{ steps.commit.outputs.deploy }}
+  result:
+    description: "push.sh: pushed, nothing (nothing changed), recorded (not pushed, the failure record was), failed (nothing pushed); empty when no commit was tried."
+    value: ${{ steps.commit.outputs.result }}
 runs:
   using: composite
   steps:
@@ -57,41 +62,67 @@ runs:
         [ $v -eq 0 ] && [ $g -eq 0 ]
 
     - name: Discard invalid data
+      id: discard
       if: steps.validate.outcome == 'failure'
       continue-on-error: true
       shell: bash
+      env:
+        PATHS: ${{ inputs.paths }}
+        SOURCES: ${{ inputs.sources }}
       run: |
         echo "::warning::Data validation failed: discarding this update and keeping the previous data."
-        first=$(grep -m1 -iE 'error|missing|invalid|unknown|lost|moved|shrank|revised|removed' "$RUNNER_TEMP/data-validation.log" | cut -c1-140)
-        git checkout -- ${{ inputs.paths }}
-        git clean -fdq ${{ inputs.paths }}
-        for s in ${{ inputs.sources }}; do
+        first=$(grep -m1 -iE 'error|missing|invalid|unknown|lost|moved|shrank|revised|removed|frequency|outside' "$RUNNER_TEMP/data-validation.log" | cut -c1-140)
+        # path by path: one path with no tracked file (removed, or new and never committed) must not stop the others
+        for p in $PATHS; do
+          git checkout -- "$p" 2> /dev/null || true
+          git clean -fdq -- "$p"
+        done
+        for s in $SOURCES; do
           python pipeline/common/status.py fail "$s" "update discarded: data validation failed: ${first:-see the run log}"
         done
+        # what is left to commit must be the last commit plus the status files: otherwise nothing is committed
+        left=$(git status --porcelain --untracked-files=all -- $PATHS | grep -v ' data/_status/' || true)
+        if [ -z "$left" ] && node web/scripts/guard-data.mjs $PATHS > "$RUNNER_TEMP/data-guard-after-discard.log" 2>&1; then
+          echo "clean=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "clean=false" >> "$GITHUB_OUTPUT"
+          echo "::warning::The data checks still fail after the discard: nothing is committed, not even the failure record."
+          printf '%s\n' "$left" | head -20
+          cat "$RUNNER_TEMP/data-guard-after-discard.log" 2> /dev/null || true
+        fi
 
     - name: Commit and push
       id: commit
+      # valid data, or a discard that finished and left only the status files (a discard stopped half-way commits nothing)
+      if: steps.validate.outcome != 'failure' || steps.discard.outputs.clean == 'true'
       continue-on-error: true
       shell: bash
       env:
         MESSAGE: ${{ inputs.message }}
         DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        PATHS: ${{ inputs.paths }}
+        SOURCES: ${{ inputs.sources }}
       run: |
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        bash "$GITHUB_ACTION_PATH/push.sh" "$MESSAGE" "$DEFAULT_BRANCH" ${{ inputs.paths }}
+        bash "$GITHUB_ACTION_PATH/push.sh" "$MESSAGE" "$DEFAULT_BRANCH" $PATHS
 
     - name: Alert on repeated failures
       if: always()
       continue-on-error: true
       uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+      env:
+        NOT_COMMITTED: ${{ steps.validate.outcome == 'failure' && steps.discard.outputs.clean != 'true' }}
+        PUSH_RESULT: ${{ steps.commit.outputs.result }}
       with:
         script: |
           // One issue per source that failed as many runs in a row as its threshold (alert_after: 1 for a build step,
           // 2 for a source checked monthly, 3 for a weekly one); closed again when the source recovers. One issue per
           // source whose publisher lists a newer release than the one in use (state.available, e.g. BACI). An update
           // that the data checks discarded counts as a failure of every source of the job (so that its builds run
-          // again), but opens a single issue, with the output of the checks.
+          // again), but opens a single issue, with the output of the checks. The same for an update that could not be
+          // pushed (a conflict with a newer commit). When not even the failure record could be committed or pushed,
+          // that issue opens at once, whatever the thresholds.
           const fs = require('fs');
           try {
             const doc = JSON.parse(fs.readFileSync('data/_status/updates.json', 'utf8'));
@@ -107,13 +138,20 @@ runs:
             const open = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', labels: label, per_page: 100 });
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
             const discardedSources = [];
+            const notPushedSources = [];
+            const notCommitted = process.env.NOT_COMMITTED === 'true';
+            const pushFailed = process.env.PUSH_RESULT === 'failed';
             for (const [source, s] of Object.entries(doc.sources || {})) {
               const title = `Data update failing: ${source}`;
               const existing = open.find((i) => i.title === title && !i.pull_request);
               const n = Number(s.consecutive_failures || 0);
               const limit = Number(s.alert_after || 3);
-              if (n >= limit && String(s.last_error || '').startsWith('update discarded')) {
-                discardedSources.push(`- \`${source}\`: ${s.last_error} (${n} run${n > 1 ? 's' : ''} in a row, last success ${s.last_success || 'never'})`);
+              const err = String(s.last_error || '');
+              const line = `- \`${source}\`: ${s.last_error} (${n} run${n > 1 ? 's' : ''} in a row, last success ${s.last_success || 'never'})`;
+              if (n > 0 && err.startsWith('update discarded') && (n >= limit || notCommitted)) {
+                discardedSources.push(line);
+              } else if (n > 0 && err.startsWith('update not pushed') && (n >= limit || pushFailed)) {
+                notPushedSources.push(line);
               } else if (n >= limit) {
                 const body = [
                   `The data source \`${source}\` has failed **${n} run${n > 1 ? 's' : ''} in a row**. The site keeps serving the last good data.`,
@@ -164,19 +202,39 @@ runs:
             if (discardedSources.length) {
               const body = [
                 'The data checks (web/scripts/validate-data.mjs and guard-data.mjs) refused an update: the previous data is kept and the site is unchanged.',
+                ...(notCommitted ? ['', '**The checks still failed after the discard, so nothing was committed, not even this failure record** (the status file on the default branch does not show it). Read the run log.'] : []),
                 '',
                 ...discardedSources,
                 '',
                 `- Latest run: ${runUrl}`,
                 ...(validation ? ['', 'Output of the data checks in this run:', '', '```', validation, '```'] : []),
                 '',
-                'If the change is real (a price that did move by more than half, a table that did lose rows), run the workflow by hand with "accept large moves" (docs/UPDATING.md). This issue closes automatically when the sources update again.',
+                'If the change is real (a price that did move further than its history allows, a table that did lose rows), run the workflow by hand with "accept large moves" (docs/UPDATING.md). This issue closes automatically when the sources update again.',
               ].join('\n');
               if (!dIssue) await github.rest.issues.create({ ...context.repo, title: dTitle, body, labels: [label] });
               else if (validation && dIssue.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: dIssue.number, body });
             } else if (dIssue) {
               await github.rest.issues.createComment({ ...context.repo, issue_number: dIssue.number, body: 'The sources updated again. Closing.' });
               await github.rest.issues.update({ ...context.repo, issue_number: dIssue.number, state: 'closed', state_reason: 'completed' });
+            }
+            const pTitle = 'Data update not pushed';
+            const pIssue = open.find((i) => i.title === pTitle && !i.pull_request);
+            if (notPushedSources.length) {
+              const body = [
+                'An update could not be pushed to the default branch (a conflict with a newer commit, usually a hand edit of a file the job rebuilds, or a refused push). Nothing was forced: the newer commit is kept, the update is dropped, and the next scheduled run does it again.',
+                ...(pushFailed ? ['', '**Not even the failure record could be pushed** (the status file on the default branch does not show it). Read the run log.'] : []),
+                '',
+                ...notPushedSources,
+                '',
+                `- Latest run: ${runUrl}`,
+                '',
+                'Nothing to do if the conflict came from a one-off hand edit; this issue closes automatically when the sources update again. See docs/UPDATING.md.',
+              ].join('\n');
+              if (!pIssue) await github.rest.issues.create({ ...context.repo, title: pTitle, body, labels: [label] });
+              else if (pIssue.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: pIssue.number, body });
+            } else if (pIssue) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: pIssue.number, body: 'The sources were pushed again. Closing.' });
+              await github.rest.issues.update({ ...context.repo, issue_number: pIssue.number, state: 'closed', state_reason: 'completed' });
             }
           } catch (e) {
             core.warning(`Alert step skipped: ${e.message}`);

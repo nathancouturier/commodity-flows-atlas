@@ -46,7 +46,8 @@
     "hq": "CHN",
     "role": "producer",
     "own": "state-listed",
-    "parent": "China National Petroleum Corporation (82.62%)",
+    "parent": "China National Petroleum Corporation (82.36%)",
+    "parentUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
     "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC), Beijing",
     "fig": {
      "v": 2597,
@@ -360,8 +361,7 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "own": "private",
-    "detail": "Independent energy trader founded in Rotterdam in 1966, Geneva; delivered 8 million barrels per day of crude oil and products in 2025",
+    "detail": "Energy trader; delivered 8 million barrels per day of crude oil and products in 2025",
     "fig": {
      "v": 190,
      "u": "Mt",
@@ -486,7 +486,8 @@
     "hq": "CHN",
     "role": "refiner",
     "own": "state-listed",
-    "parent": "China National Petroleum Corporation (82.62%)",
+    "parent": "China National Petroleum Corporation (82.36%)",
+    "parentUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
     "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC)",
     "fig": {
      "v": 3770,
@@ -659,7 +660,6 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "own": "private",
     "detail": "Delivered about 60 Mt of gasoil, 55 Mt of gasoline, 30 Mt of fuel oil, 20 Mt of naphtha and 15 Mt of jet fuel in 2025 (ESG report)",
     "s": "company-reports",
     "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
@@ -760,7 +760,7 @@
     "hq": "RUS",
     "role": "liquefaction operator",
     "own": "listed",
-    "detail": "Russian gas producer; Yamal LNG (51% since 2009) and Arctic LNG 2",
+    "detail": "Russian gas producer; bought a 51% stake in Yamal LNG in May 2009; Arctic LNG 2 (investment decision in March 2019)",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Novatek",
     "read": "2026-11"
@@ -863,7 +863,6 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "own": "private",
     "detail": "LNG trading alongside pipeline gas",
     "fig": {
      "v": 23,
@@ -919,7 +918,8 @@
     "hq": "CHN",
     "role": "producer",
     "own": "state-listed",
-    "parent": "China National Petroleum Corporation (82.62%)",
+    "parent": "China National Petroleum Corporation (82.36%)",
+    "parentUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
     "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC)",
     "fig": {
      "v": 151.9,
@@ -1194,19 +1194,18 @@
     "name": "Coal India",
     "hq": "IND",
     "role": "producer",
-    "own": "state-listed",
-    "detail": "Indian state-owned coal miner, Kolkata, under the Ministry of Coal",
+    "detail": "Coal miner, registered office in Kolkata, listed in Mumbai; its production is that of its subsidiaries (ECL, BCCL, CCL, NCL, WCL, SECL, MCL, NEC)",
     "fig": {
-     "v": 768.19,
+     "v": 768.1,
      "u": "Mt",
      "what": "coal production, all grades",
      "y": 2026,
      "s": "company-reports",
-     "url": "https://www.coalindia.in/about-us/",
-     "n": "Financial year April 2025 to March 2026: 768.19 million tonnes; off-take 744.8 million tonnes."
+     "url": "https://d3u7ubx0okog7j.cloudfront.net/documents/PRODUCTION.pdf",
+     "n": "Provisional: 768.1 million tonnes in the financial year April 2025 to March 2026; off-take 744.8 million tonnes (statement to the stock exchanges of 1 April 2026)."
     },
     "s": "company-reports",
-    "url": "https://www.coalindia.in/about-us/",
+    "url": "https://d3u7ubx0okog7j.cloudfront.net/documents/PRODUCTION.pdf",
     "y": 2026,
     "read": "2026-11"
    },
@@ -1215,8 +1214,8 @@
     "hq": "CHN",
     "role": "producer",
     "own": "state-listed",
-    "parent": "Shenhua Group (73.06%)",
-    "detail": "State-owned coal miner, subsidiary of Shenhua Group",
+    "parent": "China Energy Investment Corporation (CHN Energy)",
+    "detail": "State-owned coal miner; its controlling shareholder is China Energy Investment Corporation",
     "fig": {
      "v": 332.1,
      "u": "Mt",
@@ -1359,7 +1358,6 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "own": "private",
     "detail": "Delivered 25 Mt of coal in 2025 (ESG report)",
     "s": "company-reports",
     "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
@@ -3087,7 +3085,7 @@
     "hq": "KAZ",
     "role": "producer",
     "own": "state-listed",
-    "parent": "Samruk-Kazyna (75%)",
+    "parent": "Samruk-Kazyna (majority shareholder)",
     "detail": "Kazakhstan's national uranium company, listed in 2018; 25,839 tU on a 100% basis in 2025",
     "fig": {
      "v": 13519,
@@ -4952,7 +4950,6 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "own": "private",
     "detail": "LPG trading and distribution",
     "fig": {
      "v": 10,
