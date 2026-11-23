@@ -241,7 +241,6 @@ TRANSIT = {
     "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany")},
     "CZE": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline connects Trieste with the Czech Republic")},
     "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
-    "SVK": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline lists Slovakia among its countries")},
     "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
     "UGA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Mombasa's hinterland extends to Uganda; transit cargo for landlocked neighbours")},
     "RWA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Rail links planned from Mombasa to Uganda and Rwanda")},
@@ -251,18 +250,12 @@ TRANSIT = {
     "MWI": {"default": ("TZDAR", "wikipedia", _DAR, "Gateway for Malawian tobacco exports and fuel imports")},
     "ETH": {"default": ("DJJIB", "wikipedia", WP + "Port_of_Djibouti", "Principal maritime outlet for Ethiopia's trade")},
     "ZWE": {"default": ("MZBEW", "wikipedia", WP + "Port_of_Beira", "The port's railways carry products from Malawi and Zimbabwe")},
-    "CHE": {"default": ("NLRTM", "wikipedia", WP + "Rotterdam", "The Rhine gives access from Rotterdam up to Basel, Switzerland")},
+    "CHE": {"default": ("NLRTM", "wikipedia", WP + "Rotterdam", "Assumption: the page says the Maas and the Rhine give Rotterdam access to the hinterland, reaching to Basel, Switzerland; it does not say how much Swiss trade uses it")},
     "BFA": {"default": ("CIABJ", "wikipedia", WP + "Transport_in_Burkina_Faso", "The Ouagadougou-Abidjan railway is the freight corridor (rerouted to Togo, Benin and Ghana in the 2003 crisis)")},
     "MLI": {"default": ("CIABJ", "wikipedia", WP + "Transport_in_Mali", "Abidjan has been Mali's main seaport; Dakar is the other")},
     "NER": {"default": ("BJCOO", "wikipedia", WP + "Transport_in_Niger", "Niger relies on the port of Cotonou, and less on Lome")},
     "NPL": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
     "BTN": {"default": ("INCCU", "wikipedia", WP + "Port_of_Kolkata", "Kolkata serves the landlocked neighbours Nepal and Bhutan")},
-    "UZB": {"default": ("GEPTI", "wikipedia", WP + "Poti_Sea_Port",
-                        "Assumption: the Trans-Caucasian (TRACECA) corridor, which the page says links Central Asia to Black Sea ports; "
-                        "the page does not say how much of this trade uses it")},
-    "TKM": {"default": ("GEPTI", "wikipedia", WP + "Poti_Sea_Port",
-                        "Assumption: the Trans-Caucasian (TRACECA) corridor, which the page says links Central Asia to Black Sea ports; "
-                        "the page does not say how much of this trade uses it")},
 }
 
 # Landlocked countries of the plan's candidate table for which no page stating the port was read.
@@ -281,6 +274,9 @@ UNSOURCED = {
     "LSO": "no page read",
     "SSD": "no page read",
     "KGZ": "no page read",
+    "UZB": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Uzbekistan nor Poti as its outlet",
+    "TKM": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Turkmenistan nor Poti as its outlet",
+    "SVK": "Adria oil pipeline page read: the 1968 route to Bratislava was decided, but the page does not say that Slovak crude now comes through Omisalj",
     "TJK": "no page read",
 }
 

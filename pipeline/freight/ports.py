@@ -192,24 +192,6 @@ def _legacy(iso3, group):
     return None
 
 
-def _legacy_strict(iso3, group):
-    """For a country that has rows in the new tables: only the legacy entry of the family itself, never "any"
-    (that fall-back put wheat on the crude jetty of Ras Tanura and Canadian potash on a container terminal)."""
-    seg = SEGMENT.get(group, "any")
-    table = LEGACY_P.get(iso3) or {}
-    keys = [seg] + (["ore"] if seg in ("bauxite", "alumina", "manganese", "nickel") else [])
-    if seg in ENERGY_SEGMENTS:
-        # The "any" entry of the legacy table is the country's oil and gas port (Mongstad for Norway, Ulsan for
-        # Korea). A country whose new rows cover one energy family (LNG terminals from the atlas's layer) keeps its
-        # present port for the others until a page is read for them (plan 2.4: "the country keeps its present port").
-        keys.append("any")
-    for key in keys:
-        code = table.get(key)
-        if code and (code in MANUAL or code in _sr):
-            return code
-    return None
-
-
 ENERGY_SEGMENTS = ("crude", "products", "lpg", "lng")
 
 
@@ -305,55 +287,138 @@ def segment(group):
     return SEGMENT.get(group, "any")
 
 
-def _rows(iso3, group, role=None):
-    """Rows of the country for the group, in the order of the tables. A row that names the group itself
-    ("copper-ore") beats a row that only names its segment ("ore")."""
-    rows = [r for r in G.get(iso3, ()) if _known(r.code) and (role is None or r.role in (role, "both"))]
-    for fam in (group, segment(group)):
-        hit = [r for r in rows if fam in r.families]
-        if hit:
-            return hit
-    return []
+# Groups that a row of their segment does not cover: raw sugar is not shipped from a wheat terminal, so a "grain"
+# row (a page that names grain) is no sugar gateway; only a row that names "sugar" is.
+OWN_FAMILY = {"sugar"}
 
+# Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
+BASIS_PAGE = "page names the cargo"
+BASIS_GENERAL = "general port of the country"
+BASIS_LEGACY = "port used before, no page read"
+BASIS_NEAREST = "nearest seaport"
+BASES = (BASIS_PAGE, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)
 
-def gateway(iso3, group, role=None):
-    """Principal port code of a country for a commodity group, or None.
+# Segments that may fall back on the country's general-cargo ("box") row: food, fertiliser, metals, general cargo.
+GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
 
-    Same signature as before, plus an optional `role` ("load" or "discharge"). A country that has rows of the
-    family's class (food, dry bulk, energy) in the new tables never gets a port of another family: no row of the
-    family means its own legacy entry, else None. A class without any new row is answered by the legacy table, as
-    before."""
-    rows = _rows(iso3, group, role) if iso3 in G else []
-    if rows:
-        return rows[0].code
-    return _fallback(iso3, group)
-
-
-# Cargo classes: a country whose new rows cover one class (food, dry bulk, energy) is answered strictly for that
-# class (no "any" fall-back), and by the whole legacy table for the classes it has no row in yet.
-_CLASSES = {
-    "food": {"grain", "vegoil", "fert", "box"},
-    "drybulk": {"ore", "coal", "bauxite", "alumina", "manganese", "nickel", "metcoal"},
-    "energy": {"crude", "products", "lpg", "lng"},
+# Oil, gas and ore terminals that the audit found carrying other cargo (plan 2.4, test G01; C-020 for Tubarao and
+# Saldanha Bay): the legacy table and the nearest-port search may give them only for the cargo they serve.
+_OIL_GAS = {"crude", "products", "lpg", "lng"}
+TERMINALS = {
+    "SARTA": _OIL_GAS, "IQBOT": _OIL_GAS, "NGBON": _OIL_GAS, "DZAZW": _OIL_GAS, "TRCEY": _OIL_GAS,
+    "IDBPN": _OIL_GAS, "USCRP": _OIL_GAS, "AUPHE": {"iron-ore"}, "BRTUB": {"iron-ore"}, "ZASDB": {"iron-ore"},
 }
 
 
-def _class_of(seg):
-    return next((c for c, members in _CLASSES.items() if seg in members), None)
+def _serves(code, group):
+    allowed = TERMINALS.get(code)
+    return allowed is None or group in allowed or segment(group) in allowed
 
 
-def _has_rows_in_class(iso3, cls):
-    key = ("cls", iso3, cls)
-    if key not in _caches:
-        _caches[key] = any(_class_of(SEGMENT.get(f, f)) == cls for r in G.get(iso3, ()) for f in r.families)
-    return _caches[key]
+def _fams(group):
+    return (group,) if group in OWN_FAMILY else (group, segment(group))
 
 
-def _fallback(iso3, group):
-    """Legacy answer for a group that has no row of its own."""
-    if _has_rows_in_class(iso3, _class_of(segment(group))):
-        return _legacy_strict(iso3, group)
-    return _legacy(iso3, group)
+def _rows(iso3, group, role=None):
+    """Rows of the country for the group, in the order of the tables. A row that names the group itself
+    ("copper-ore") comes before a row that only names its segment ("ore"), so it is the principal one."""
+    rows = [r for r in G.get(iso3, ()) if _known(r.code) and (role is None or r.role in (role, "both"))]
+    out = []
+    for fam in _fams(group):
+        out += [r for r in rows if fam in r.families and r not in out]
+    return out
+
+
+def _box_rows(iso3, role=None):
+    return [r for r in G.get(iso3, ()) if _known(r.code) and "box" in r.families and (role is None or r.role in (role, "both"))]
+
+
+def candidates(iso3, group, role=None):
+    """Candidate gateways of one end, principal first, as [(code, zone, basis)].
+
+    A cargo family is on a row only when the cited page names the cargo, and when no row matches the loader never
+    invents a port. In order: (1) the rows of the family in the role, then in the other role (a page that names
+    the cargo names a port for it, whatever the direction; not for oil and gas terminals); (2) the legacy table's
+    own entry for the family, then for food, fertiliser, metals and general cargo the country's general-cargo row;
+    (3) the rest of the legacy chain (its "any" entry); (4) the nearest real seaport of the country. The legacy
+    table never answers with an oil, gas or ore terminal of another cargo (TERMINALS). Each candidate carries its
+    basis (BASES)."""
+    key = ("cand", iso3, group, role)
+    if key in _caches:
+        return _caches[key]
+    out, seen = [], set()
+
+    def add(rows, basis):
+        for r in rows:
+            if r.code not in seen:
+                out.append((r.code, r.zone, basis))
+                seen.add(r.code)
+
+    add(_rows(iso3, group, role), BASIS_PAGE)
+    if not out and role and segment(group) not in ENERGY_SEGMENTS:
+        # Not for oil and gas: an import terminal (a refinery's crude jetty, an LNG regasification plant) is no
+        # export terminal, and the reverse.
+        add(_rows(iso3, group), BASIS_PAGE)
+    if not out and group not in OWN_FAMILY:
+        # The legacy entry of the family itself (Dumai for Indonesian palm oil, Jubail for Saudi fertiliser,
+        # Rosario for Argentine soy oil) is the port used before for that cargo: it comes before a general port.
+        code = (LEGACY_P.get(iso3) or {}).get(segment(group))
+        if code and _known(code) and _serves(code, group):
+            out.append((code, zone_of(code), BASIS_LEGACY))
+    if not out and segment(group) in GENERAL_SEGMENTS:
+        add(_box_rows(iso3, role) or _box_rows(iso3), BASIS_GENERAL)
+    if not out:
+        code = _legacy_port(iso3, group)
+        if code:
+            out.append((code, zone_of(code), BASIS_LEGACY))
+    if not out:
+        code = nearest_port(iso3)
+        if code:
+            out.append((code, zone_of(code), BASIS_NEAREST))
+    _caches[key] = out
+    return out
+
+
+def basis_of(iso3, group, role, code):
+    """Basis of a gateway code at one end of a pair (one of BASES), for the lane builder to publish next to the port.
+    A port chosen by a coast rule that is not among the candidates is a legacy choice of the rule (RUS_PORTS)."""
+    for c, _, basis in candidates(iso3, group, role):
+        if c == code:
+            return basis
+    if any(r.code == code for r in _rows(iso3, group)):
+        return BASIS_PAGE
+    if any(r.code == code for r in _box_rows(iso3)):
+        return BASIS_GENERAL
+    return BASIS_LEGACY
+
+
+def gateway(iso3, group, role=None):
+    """Principal port code of a country for a commodity group, or None (landlocked, or no seaport).
+
+    Same signature as before, plus an optional `role` ("load" or "discharge"). The order of candidates() applies:
+    a sourced row of the family, the legacy entry of the family or the general-cargo row, the rest of the legacy
+    table (never an oil, gas or ore terminal of another cargo), the nearest seaport. basis_of() says which."""
+    cands = candidates(iso3, group, role)
+    return cands[0][0] if cands else None
+
+
+def _legacy_port(iso3, group):
+    """The legacy chain of _legacy() (segment, fall-backs, "any"), skipping the terminals of another cargo."""
+    seg = SEGMENT.get(group, "any")
+    table = LEGACY_P.get(iso3)
+    if not table:
+        return None
+    for key in [seg] + _FALLBACK.get(seg, []) + ["ore" if seg in ("bauxite", "alumina", "manganese", "nickel") else "any", "any"]:
+        code = table.get(key)
+        if code and _known(code) and _serves(code, group):
+            return code
+    return None
+
+
+def _fallback(iso3, group, role=None):
+    """The principal gateway of candidates() when it is not the nearest seaport (step 4), else None."""
+    cands = [c for c in candidates(iso3, group, role) if c[2] != BASIS_NEAREST]
+    return cands[0][0] if cands else None
 
 
 def zone_of(code):
@@ -383,7 +448,7 @@ MANUAL_SRC = {}  # code -> {zone, s, url} of a manual port that is in no gateway
 
 
 def zones():
-    """[{id, name, ports}] for data/freight/zones.json."""
+    """[{id, name, ports}] for data/freight/zones.json. A zone with no gateway row is left out."""
     out = []
     for zid, name in ZONES.items():
         codes = []
@@ -391,7 +456,8 @@ def zones():
             for r in rows:
                 if r.zone == zid and r.code not in codes:
                     codes.append(r.code)
-        out.append({"id": zid, "name": name, "ports": codes})
+        if codes:
+            out.append({"id": zid, "name": name, "ports": codes})
     return out
 
 
@@ -423,22 +489,75 @@ def _km(lon1, lat1, lon2, lat2):
     return 6371 * math.hypot((lon2 - lon1) * p * math.cos((lat1 + lat2) * p / 2), (lat2 - lat1) * p)
 
 
+# A searoute "port" is a real seaport when it lies within this distance of the base map's coastline or of the sea
+# network (estuary ports such as Hamburg or Kalama are far from the generalised coastline but on the network).
+# The searoute list also holds inland towns (Shelton, Nebraska; Bhusawal; Kiev; Giessen; Riyadh), 300 to 1,200 km
+# from both, and a few river ports (Sapele, Modena) about 60 to 100 km away.
+SEAPORT_KM = 20
+
+
+def _sea_points():
+    pts = _caches.get("seapts")
+    if pts is None:
+        import numpy as np
+        topo = _load_json("data", "geo", "countries.topo.json")
+        tr = topo["transform"]
+        users = {}
+        for g in topo["objects"]["countries"]["geometries"]:
+            a = g.get("arcs", [])
+            flat = [x for ring in a for x in ring] if g["type"] == "Polygon" else [x for poly in a for ring in poly for x in ring]
+            for x in flat:
+                users.setdefault(x if x >= 0 else ~x, set()).add(g["properties"]["c"])
+        xy = []
+        for i, arc in enumerate(topo["arcs"]):
+            if len(users.get(i, ())) != 1:  # an arc shared by two countries is a land border, not a coast
+                continue
+            x = y = 0
+            line = []
+            for dx, dy in arc:
+                x, y = x + dx, y + dy
+                line.append((x * tr["scale"][0] + tr["translate"][0], y * tr["scale"][1] + tr["translate"][1]))
+            for (x1, y1), (x2, y2) in zip(line, line[1:]):
+                n = max(1, int(max(abs(x2 - x1), abs(y2 - y1)) / 0.05))
+                xy += [(x1 + (x2 - x1) * k / n, y1 + (y2 - y1) * k / n) for k in range(n)]
+        with open(os.path.join(os.path.dirname(_SR), "marnet_searoute.geojson"), encoding="utf-8") as f:
+            for feat in json.load(f)["features"]:
+                g = feat["geometry"]
+                for line in (g["coordinates"] if g["type"] == "MultiLineString" else [g["coordinates"]]):
+                    xy += [tuple(p[:2]) for p in line]
+        pts = _caches["seapts"] = np.array(xy)
+    return pts
+
+
+def sea_km(code):
+    """Distance in km from a port to the nearest point of the coastline or of the sea network."""
+    import math
+    pts = _sea_points()
+    x, y = port(code)["at"]
+    dx = (pts[:, 0] - x) * math.cos(math.radians(y)) * 111.2
+    dy = (pts[:, 1] - y) * 111.2
+    return float((dx * dx + dy * dy).min() ** 0.5)
+
+
+def is_seaport(code):
+    key = ("sea", code)
+    if key not in _caches:
+        _caches[key] = _known(code) and sea_km(code) <= SEAPORT_KM
+    return _caches[key]
+
+
 def nearest_port(iso3):
-    """Fallback gateway: the searoute port of the country closest to its label point (None for a landlocked one)."""
+    """Last-resort gateway: the real seaport of the country closest to its label point, never an inland place of
+    the searoute list nor an oil, gas or ore terminal of TERMINALS (None for a landlocked country)."""
     idx, coastal, extra = _load_countries()
     if iso3 in extra and extra[iso3].get("port") and _known(extra[iso3]["port"]):
         return extra[iso3]["port"]
     meta = idx.get(iso3)
     if not meta or iso3 not in coastal or not meta.get("a2"):
         return None
-    best, bd = None, 1e9
-    for code, (_, (x, y)) in _sr.items():
-        if code[:2] != meta["a2"]:
-            continue
-        d = _km(meta["at"][0], meta["at"][1], x, y)
-        if d < bd:
-            best, bd = code, d
-    return best
+    near = sorted((_km(meta["at"][0], meta["at"][1], x, y), code) for code, (_, (x, y)) in _sr.items()
+                  if code[:2] == meta["a2"] and code not in TERMINALS)
+    return next((code for _, code in near if is_seaport(code)), None)
 
 
 # countries whose own coast decides nothing: a2 prefixes of the Pacific coast of the Americas
@@ -464,18 +583,29 @@ def ocean_of(code):
 
 
 def _cands(iso3, group, role):
-    """Candidate gateways of one end, principal first, as [(code, zone)]. Falls back to the legacy table and then
-    to the nearest port of the country."""
-    rows = _rows(iso3, group, role) if iso3 in G else []
-    out, seen = [], set()
-    for r in rows:
-        if r.code not in seen:
-            out.append((r.code, r.zone))
-            seen.add(r.code)
-    if out:
-        return out
-    code = _fallback(iso3, group) or nearest_port(iso3)
-    return [(code, zone_of(code))] if code else []
+    """Candidate gateways of one end, principal first, as [(code, zone)]: candidates() without the basis."""
+    return [(c, z) for c, z, _ in candidates(iso3, group, role)]
+
+
+def _zone_fallback(iso3, group, role, zones):
+    """A port in the zones a coast rule asks for when no candidate of the family is there: the country's
+    general-cargo row in those zones (food, fertiliser, metals, general cargo), else its legacy port when that port
+    lies on the same ocean. None when there is neither."""
+    if segment(group) in GENERAL_SEGMENTS:
+        for r in _box_rows(iso3, role) + _box_rows(iso3):
+            if r.zone in zones:
+                return (r.code, r.zone)
+    code = _legacy_port(iso3, group)
+    if code and (zone_of(code) in zones or (zone_of(code) is None and ocean_of(code) in {ZONE_OCEAN.get(z) for z in zones})):
+        return (code, zone_of(code))
+    return None
+
+
+def _in_zone(iso3, group, role, cands, zones):
+    hit = [c for c in cands if c[1] in zones]
+    if hit:
+        return hit[0]
+    return _zone_fallback(iso3, group, role, zones)
 
 
 def _side_sets(rule, other):
@@ -541,40 +671,90 @@ def assign(o, d, group):
       basis "unrouted" an end has no gateway at all (landlocked, or no port in searoute): main has a None end
     Options vary one end at a time around the main option (at most MAX_OPTIONS gateways per end); `w` is None
     until a measured split (pipeline/freight/splits/) gives a weight."""
-    cl, cd = _cands(o, group, "load"), _cands(d, group, "discharge")
-    chosen, used = {}, None
-    ends = (("load", o, cl, d, cd, "discharge"), ("discharge", d, cd, o, cl, "load"))
-    for role, iso, cands, other, ocands, orole in ends:
-        other_port = ocands[0][0] if ocands else None
-        for rule in _rules_for(iso, group, role):
-            two = bool(rule.get("two_ocean")) and any(r.get("two_ocean") and r["country"] == other for r in COAST_RULES)
-            pick = _apply_rule(rule, iso, group, role, other, other_port, two)
-            if not pick:
+    cands = {"load": _cands(o, group, "load"), "discharge": _cands(d, group, "discharge")}
+    iso = {"load": o, "discharge": d}
+    chosen, used, paired = {}, None, None
+    # Rules that read the other end's country run first; rules that read the ocean of the other end's port run
+    # second, on the port the first pass chose for it.
+    for ocean_pass in (False, True):
+        for role, orole in (("load", "discharge"), ("discharge", "load")):
+            if role in chosen or paired:
                 continue
-            if pick[0] == "port":
-                chosen[role] = [(pick[1], zone_of(pick[1]))]
-            elif pick[0] == "ports":
-                chosen[role] = [(c, zone_of(c)) for c in pick[1]]
-            else:
-                inzone = [c for c in cands if c[1] in pick[1]]
-                if not inzone:
+            ocands = chosen.get(orole, cands[orole])
+            for rule in _rules_for(iso[role], group, role):
+                if (rule["kind"] == "ocean") != ocean_pass:
                     continue
-                chosen[role] = inzone[:1]
-            used = rule.get("id")
-            break
-    cl = chosen.get("load", cl)
-    cd = chosen.get("discharge", cd)
+                two = bool(rule.get("two_ocean")) and any(r.get("two_ocean") and r["country"] == iso[orole] for r in COAST_RULES)
+                sides = {ocean_of(c[0]) for c in ocands[:MAX_OPTIONS]} - {None}
+                if ocean_pass and not two and orole not in chosen and len(sides) > 1:
+                    # The other end is open on two oceans: each of its options gets this end's gateway on its ocean,
+                    # so that no option pairs a Pacific port with a gateway chosen for the Atlantic.
+                    pairs = []
+                    for oc in ocands[:MAX_OPTIONS]:
+                        side = ocean_of(oc[0])
+                        mine = _in_zone(iso[role], group, role, cands[role], rule["zones"][side]) if side in rule["zones"] else None
+                        mine = mine or (cands[role][0] if cands[role] else None)
+                        if mine:
+                            pairs.append((mine, oc) if role == "load" else (oc, mine))
+                    if pairs:
+                        paired, used = pairs, rule.get("id")
+                        break
+                    continue
+                pick = _apply_rule(rule, iso[role], group, role, iso[orole], ocands[0][0] if ocands else None, two)
+                if not pick:
+                    continue
+                if pick[0] == "port":
+                    chosen[role] = [(pick[1], zone_of(pick[1]))]
+                elif pick[0] == "ports":
+                    chosen[role] = [(c, zone_of(c)) for c in pick[1]]
+                else:
+                    hit = _in_zone(iso[role], group, role, cands[role], pick[1])
+                    if not hit:
+                        continue
+                    chosen[role] = [hit]
+                used = rule.get("id")
+                break
+    if paired:
+        opts = []
+        for ld, dd in paired:
+            op = Option(ld[0], dd[0], None)
+            if op not in opts:
+                opts.append(op)
+        return Assignment(opts[0], opts, "open" if len(opts) > 1 else "rule", used)
+    cl = chosen.get("load", cands["load"])
+    cd = chosen.get("discharge", cands["discharge"])
     if not cl or not cd:
         main = Option(cl[0][0] if cl else None, cd[0][0] if cd else None, None)
         return Assignment(main, [main], "unrouted", used)
     main = Option(cl[0][0], cd[0][0], None)
     opts = [main]
     for c in cl[1:MAX_OPTIONS]:
-        opts.append(Option(c[0], cd[0][0], None))
+        if _same_side(c[0], main.load, main.discharge):
+            opts.append(Option(c[0], cd[0][0], None))
     for c in cd[1:MAX_OPTIONS]:
-        opts.append(Option(cl[0][0], c[0], None))
+        if _same_side(c[0], main.discharge, main.load):
+            opts.append(Option(cl[0][0], c[0], None))
     basis = "rule" if used and len(opts) == 1 else ("open" if len(opts) > 1 else "single")
     return Assignment(main, opts, basis, used)
 
+
+def _same_side(alt, own, other):
+    """An option of one end on the other ocean than its main gateway is listed only when the other end of the pair
+    lies on that ocean too (Kalama for Japan, not for Germany or Brazil)."""
+    side = ocean_of(alt)
+    if side is None or side == ocean_of(own):
+        return True
+    if _west_indian(other):
+        # East and Southern Africa, the Red Sea and the Gulf are nearer the Atlantic side through Suez or round
+        # the Cape (US Gulf to Durban 8,100 nm, Kalama to Durban 11,300 nm)
+        return False
+    return side == ocean_of(other)
+
+
+def _west_indian(code):
+    if not _known(code):
+        return False
+    lon, lat = port(code)["at"]
+    return 20 < lon < 60 and -40 < lat < 31
 
 load_modules()

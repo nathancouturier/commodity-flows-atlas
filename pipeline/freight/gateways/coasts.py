@@ -19,10 +19,9 @@ COAST_RULES the geographic rules that choose a gateway from the other end of the
             an Atlas assumption: it carries its reason and, where a page was read, the page.
 
 How a row was admitted. Each page was read on 22 November 2026 (English Wikipedia). A family is on a row only when
-the page names that cargo, with these readings, each marked "read as" in the note: "bulk cargoes" or "dry bulk" is
-read as coal and ore for a port that the page ties to coal or ore, and a "container terminal" as general cargo
-(`box`). A row whose page does not say what the port ships is not committed: the candidates are in UNSOURCED, with
-the reason. Nothing here comes from memory.
+the page names that cargo or a cargo of that family ("bulk cargoes" or "dry bulk" alone names none; a "container
+terminal" or "container port" is general cargo, `box`). A row whose page does not say what the port ships is not
+committed: the candidates are in UNSOURCED, with the reason. Nothing here comes from memory.
 """
 
 W = "https://en.wikipedia.org/wiki/"
@@ -75,7 +74,11 @@ ZONE_OCEAN = {
     "russia-far-east": "pacific",
 }
 
-# Ports that the searoute list lacks are added by the other modules (MANUAL_EXTRA); this module needs none.
+# Ports that the searoute list lacks or misplaces: code -> (name, iso3, lon, lat), same shape as ports.MANUAL.
+MANUAL_EXTRA = {
+    # searoute puts PAMIT at -79.602, 9.612, 41 km from the terminal; these are the coordinates of the page of the row
+    "PAMIT": ("Manzanillo International Terminal (Colon)", "PAN", -79.882, 9.362),
+}
 
 # Display names: the searoute list names this point after one terminal.
 RENAME = {
@@ -104,14 +107,23 @@ G = {
          "Port of Tubarao: created by Vale 'to export iron ore from the Iron Quadrangle'; the world's largest iron-ore port in 2007"),
         ("BRPMA", "ecsa", ("iron-ore",), "load", "wikipedia", W + "Ponta_da_Madeira",
          "Ponta da Madeira, Sao Luis (Maranhao): a private Vale port, 'a large iron ore loading port', one of the few terminals suited to the ultra large Valemax ships. Second iron-ore gateway after Tubarao (the shares are not documented, so the options are open)"),
-        ("BRVLC", "ecsa", ("alumina", "bauxite"), "load", "wikipedia", W + "Barcarena,_Par%C3%A1",
-         "Barcarena (Para) has a port and an economy based on bauxite; the Alunorte alumina refinery is at Barcarena (Wikipedia, Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together"),
-        ("BRITQ", "ecsa", ("alumina", "bauxite"), "load", "wikipedia", W + "Port_of_Itaqui",
-         "Port of Itaqui, Sao Luis (Maranhao): main cargoes include aluminium ingots and bars; the Alumar alumina refinery is at Sao Luis (Wikipedia, List of alumina refineries). The page does not name alumina: read as the port of that refinery"),
+        ("BRVLC", "ecsa", ("alumina",), "load", "wikipedia", W + "Barcarena,_Par%C3%A1",
+         "Barcarena (Para) has a port, and the page shows Norsk Hydro's Alunorte facility (the alumina refinery, Wikipedia: Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together"),
+    ],
+    "CHL": [
+        # The page does not rank the two ports, so both are options of Chilean iron ore.
+        ("CLGYC", "wcsa", ("iron-ore",), "load", "wikipedia", W + "Compa%C3%B1%C3%ADa_Minera_del_Pac%C3%ADfico",
+         "CMP, 99% of Chilean iron exports in 2022: its El Romeral mine 'uses the port of Guayacan in Coquimbo'"),
+        ("CLHSO", "wcsa", ("iron-ore",), "load", "wikipedia", W + "Compa%C3%B1%C3%ADa_Minera_del_Pac%C3%ADfico",
+         "CMP, 99% of Chilean iron exports in 2022: 'at the port of Huasco it operates the Planta de Pellets', supplied from the Los Colorados mine"),
     ],
     "COL": [
         ("COPBO", "caribbean", ("coal",), "load", "wikipedia", W + "Cerrej%C3%B3n",
          "Puerto Bolivar, the Cerrejon coal port: 'the largest coal-export port in Latin America'"),
+    ],
+    "MEX": [
+        ("MXZLO", "mexico-pacific", ("copper-ore",), "load", "wikipedia", W + "Port_of_Manzanillo",
+         "Port of Manzanillo: 'the principal exports are beer, cars, cement, sugar, copper, steel tubes' (the page does not say in what form the copper leaves)"),
     ],
     # ------------------------------------------------------------------ Oceania
     "AUS": [
@@ -130,8 +142,6 @@ G = {
     ],
     # ------------------------------------------------------------------ Asia
     "IND": [
-        ("INPRT", "ec-india", ("coal",), "discharge", "wikipedia", W + "Paradip_Port",
-         "Paradip Port: 'mainly transports bulk cargoes and crude oil', dry and break-bulk terminals, handles Capesize; coal is read from 'bulk cargoes'"),
         ("INKRI", "ec-india", ("coal",), "discharge", "wikipedia", W + "Krishnapatnam_Port",
          "Krishnapatnam Port: a mechanised coal berth in phase 1; 'coal is now the primary commodity handled by the port'"),
         ("INMUN", "wc-india", ("coal",), "discharge", "wikipedia", W + "Mundra_Port",
@@ -149,8 +159,6 @@ G = {
     "ZAF": [
         ("ZARCB", "s-africa", ("coal",), "load", "wikipedia", W + "Port_of_Richards_Bay",
          "Port of Richards Bay: the Richards Bay Coal Terminal, the largest coal export facility in Africa"),
-        ("ZARCB", "s-africa", ("alumina",), "discharge", "wikipedia", W + "Richards_Bay",
-         "Richards Bay: two aluminium smelters (Hillside, Bayside) operated by South32 stand at the port. The page does not name alumina imports: read as the port of those smelters"),
     ],
     # ------------------------------------------------------------------ Russia (moved from build_lanes.RUS_PORTS)
     "RUS": [
@@ -167,8 +175,8 @@ G = {
     ],
     # ------------------------------------------------------------------ two-ocean countries of Central America
     "GTM": [
-        ("GTSTC", "cam-caribbean", ("box",), "both", "wikipedia", W + "Puerto_Barrios",
-         "Santo Tomas de Castilla: 'most modern cargo traffic moved to its twin port in Santo Tomas de Castilla' after the 1976 earthquake; its page shows a container port"),
+        ("GTSTC", "cam-caribbean", ("box",), "both", "wikipedia", W + "Santo_Tom%C3%A1s_de_Castilla",
+         "Santo Tomas de Castilla: the page's picture is captioned 'View of the city's container port'; the Puerto Barrios page says most modern cargo traffic moved there after the 1976 earthquake"),
         ("GTPRQ", "cam-pacific", ("box",), "both", "wikipedia", W + "Puerto_Quetzal",
          "Puerto Quetzal: 'Guatemala's largest Pacific Ocean port', important for cargo traffic"),
     ],
@@ -177,8 +185,8 @@ G = {
          "Puerto Cortes: 805,000 TEU in 2025 (container port on the Caribbean coast)"),
     ],
     "NIC": [
-        ("NICIO", "cam-pacific", ("grain", "fert", "box"), "both", "wikipedia", W + "Corinto,_Nicaragua",
-         "Corinto: Nicaragua's largest and only Pacific port; 'a container terminal and able to manage liquid, bulk, containers, cars'; grain and fertiliser are read from 'bulk'"),
+        ("NICIO", "cam-pacific", ("box",), "both", "wikipedia", W + "Corinto,_Nicaragua",
+         "Corinto: Nicaragua's largest and only Pacific port; 'a container terminal and able to manage liquid, bulk, containers, cars' (no grain or fertiliser named)"),
     ],
     "PAN": [
         ("PAMIT", "cam-caribbean", ("box",), "both", "wikipedia", W + "Manzanillo_International_Terminal",
@@ -192,12 +200,13 @@ G = {
 UNSOURCED = {
     "USA": "copper and zinc concentrate (USA-JPN loads at Houston via Panama in the lane files): Red Dog zinc ships from the DeLong Mountain Port on the Chukchi Sea (Wikipedia, Red Dog mine, read) but the page gives no coordinates of the port; no page was read for US copper concentrate",
     "CAN": "potash by port: Canpotex ships the majority through Neptune Terminals, North Vancouver, and since 1997 also through Portland, Oregon (Wikipedia, Canpotex, read); no page names an Atlantic potash terminal except Saint John's Barrack Point Potash Terminal (Wikipedia, Port of Saint John), and it was not added because the Pacific side would then lose its potash row; Canadian grain by port needs the Canadian Grain Commission statistics (follow-up F3); iron ore at Sept-Iles and Port-Cartier: pages not read, the legacy entry stays",
-    "MEX": "copper and zinc concentrate at Manzanillo, Guaymas or Lazaro Cardenas (audit MET-20): no page read names a port for these cargoes (Port of Guaymas: 'dry bulk cargoes'; Port of Manzanillo: copper among exports and zinc concentrate among imports, which contradicts rather than supports the audit); the legacy table keeps Coatzacoalcos for ore. Gulf and Pacific rows for grain, fertiliser and general cargo are in food.py (Manzanillo, Veracruz)",
-    "BRA": "Porto Trombetas (MRN bauxite, searoute code BRTMT): no page read names it (Wikipedia, Mineracao Rio do Norte: not found under the titles tried); Brazilian bauxite uses the Barcarena and Itaqui rows above",
+    "MEX": "zinc and lead concentrate exports (audit MET-20): no page read names a port (Port of Guaymas: 'dry bulk cargoes'; Port of Manzanillo: zinc concentrate among imports); the Manzanillo row covers copper only, because the page names copper among the principal exports. The legacy table keeps Coatzacoalcos for the other ores. Gulf and Pacific rows for general cargo are in food.py (Manzanillo, Veracruz)",
+    "BRA": "bauxite: Porto Trombetas (MRN, searoute code BRTMT) and Juruti: no page read names them (Wikipedia: Mineracao Rio do Norte, Porto Trombetas not found; Oriximina read: an airport only); the Barcarena page names bauxite only as the town's economy and the Itaqui page names aluminium ingots, so neither is a bauxite row. Alumina at Itaqui (Alumar): the page does not name alumina",
     "PER": "San Nicolas (Marcona iron ore) and Callao: no page read names the loading terminals of Peruvian iron ore (Wikipedia, Shougang Hierro Peru and Marcona, not found under the titles tried; Port of Callao: 'containers, bulk and multipurpose'). BIG_ORE is therefore not extended to PER",
-    "CHL": "Huasco and Caldera / Punta Totoralillo (CAP iron ore): Wikipedia, Huasco, read but names no iron-ore terminal; BIG_ORE is therefore not extended to CHL",
+    "CHL": "Caldera / Punta Totoralillo (CAP iron ore): no page read. Guayacan and Huasco are rows (Compania Minera del Pacifico page), but no page read gives the ship size at those terminals, so BIG_ORE is not extended to CHL",
     "IDN": "Benete (Batu Hijau copper concentrate, Sumbawa): the page names the port, not its coordinates; Morowali stays the legacy ore entry for the other ores",
-    "ZAF": "Saldanha Bay (Sishen-Saldanha iron ore): page not found under the titles tried; the legacy 'ore' entry (ZASDB) stays",
+    "ZAF": "Saldanha Bay (Sishen-Saldanha iron ore): page not found under the titles tried; the legacy 'ore' entry (ZASDB) stays for iron ore only. Alumina imports at Richards Bay: the page names the two aluminium smelters, not alumina",
+    "IND": "coal imports at Paradip: the Paradip Port page names bulk cargoes and crude oil, not coal (the legacy entry is not used: Krishnapatnam and Mundra have coal rows)",
     "FRA": "Rouen, La Pallice, Fos for wheat: pages not found under the titles tried (the same gap is in UNSOURCED of food.py)",
     "CRI": "Limon-Moin (Caribbean) and Caldera (Pacific): the Port of Limon and Port of Moin pages name a seaport and a container terminal operated by APM Terminals, no cargo; Caldera: page not found",
     "COL": "Cartagena, Barranquilla, Santa Marta, Buenaventura: pages not found under the titles tried (also in food.py); the Pacific gateway of Colombia is therefore missing and the rule by ocean falls back on the principal gateway",
@@ -216,13 +225,14 @@ EAST_ASIA = {"CHN", "JPN", "KOR", "TWN", "PRK", "VNM", "PHL", "THA", "MYS", "IDN
 MED_BLACK = {"TUR", "EGY", "ISR", "MAR", "GRC", "ITA", "ESP", "CYP", "LBN", "TUN", "DZA", "LBY", "BGR", "ROU", "HRV", "SVN", "SYR", "MLT", "GEO"}
 
 # Russia exports from three coasts; the load port depends on where the cargo goes (rule moved from
-# build_lanes.RUS_PORTS / gateway_pair). Ports of groups with no row of their own above are the legacy choices.
+# build_lanes.RUS_PORTS / gateway_pair). RUKOZ (Kozmino), RUNJK (Nakhodka) and RUTUA (Tuapse) have no row and no
+# page: they are legacy choices of the rule, published as such (ports.basis_of). Wheat has no Far East port: the
+# Vostochny page names coal only, so wheat follows the Novorossiysk grain row for every destination.
 RUS_PORTS = {
     "coal": {"east": "RUVYP", "south": "RUTAM", "west": "RUULU"},
     "crude-oil": {"east": "RUKOZ", "south": "RUNVS", "west": "RUPRI"},
     "refined-products": {"east": "RUNJK", "south": "RUTUA", "west": "RUPRI"},
     "lng": {"east": "RUPRG", "south": "RUSAB", "west": "RUSAB"},
-    "wheat": {"east": "RUVYP", "south": "RUNVS", "west": "RUNVS"},
 }
 
 # Basins of the other end, for the Canadian rule
@@ -243,7 +253,7 @@ ATLANTIC_SIDE = {
 COAST_RULES = [
     {
         "id": "rus-by-destination", "kind": "sides", "country": "RUS", "role": "load",
-        "groups": {"coal", "crude-oil", "refined-products", "lng", "wheat"},
+        "groups": {"coal", "crude-oil", "refined-products", "lng"},
         "sides": {"east": EAST_ASIA, "south": MED_BLACK}, "default_side": "west",
         "special": {("coal", "IND"): "east"},
         "open": {("crude-oil", "IND"): ["west", "south"]},
@@ -265,10 +275,10 @@ COAST_RULES = [
         "src": "atlas", "url": None, "two_ocean": True,
     },
     {
-        "id": "sau-dry-cargo", "kind": "ocean", "country": "SAU", "role": "both",
+        "id": "sau-dry-cargo", "kind": "ocean", "country": "SAU", "role": "discharge",
         "segments": {"grain", "fert", "vegoil", "box"},
         "zones": {"atlantic": ["red-sea"], "pacific": ["meg"]},
-        "reason": "Saudi Arabia has a Red Sea and a Gulf seaboard. Dry cargo from west of Suez (Europe, the Mediterranean, the Americas) uses the Red Sea gateway, the rest the Gulf gateway",
+        "reason": "Saudi Arabia has a Red Sea and a Gulf seaboard. Dry cargo from west of Suez (Europe, the Mediterranean, the Americas) uses the Red Sea gateway, the rest the Gulf gateway. Imports only: the rows are import gateways, and the rule would otherwise move fertiliser exports from the Gulf to the Red Sea general-cargo port",
         "src": "atlas", "url": None,
     },
     {

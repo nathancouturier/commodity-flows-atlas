@@ -27,7 +27,8 @@ ZONES = {
     "red-sea", "wc-india", "ec-india", "sea", "s-china", "n-china", "japan-korea", "w-australia", "e-australia",
     "waf", "s-africa", "e-africa",
 }
-FAMILIES = {"grain", "vegoil", "fert", "box"}
+FAMILIES = {"grain", "sugar", "vegoil", "fert", "box"}
+GROUP_FAMILIES = {"urea", "potash"}  # a row may name one group of a family when its page names that cargo only
 ROLES = {"load", "discharge", "both"}
 
 # G01: the terminals that today receive food and fertiliser lanes although they are oil, gas or ore terminals.
@@ -78,7 +79,7 @@ class FoodGateways(unittest.TestCase):
             code, zone, fam, role, src, url, note = r
             self.assertIn(iso, self.a2, where)
             self.assertIn(zone, ZONES, where)
-            self.assertTrue(fam and set(fam) <= FAMILIES, where)
+            self.assertTrue(fam and set(fam) <= FAMILIES | GROUP_FAMILIES, where)
             self.assertIn(role, ROLES, where)
             self.assertTrue(note and note.strip(), f"{where}: a row carries a note with what the page says")
 
@@ -137,23 +138,31 @@ class FoodGateways(unittest.TestCase):
                 self.assertIn(iso, self.food.UNSOURCED, f"{iso} has neither rows nor an entry in UNSOURCED")
 
     def test_g01_saudi_food_goes_to_the_red_sea_first(self):
-        # The corn "through Hormuz" estimate of the audit came from Saudi grain sent to Ras Tanura.
-        for fam in ("grain", "vegoil", "fert", "box"):
-            self.assertEqual(principal(self.food, "SAU", fam, {"discharge", "both"}), "SAJED", fam)
+        # The corn "through Hormuz" estimate of the audit came from Saudi grain sent to Ras Tanura. The Jeddah page
+        # names containers only (review GE3, finding 4), so Saudi food has no row of its own and takes the general
+        # cargo row, Red Sea first.
+        self.assertEqual(principal(self.food, "SAU", "box", {"discharge", "both"}), "SAJED")
+        for fam in ("grain", "vegoil", "fert"):
+            self.assertIsNone(principal(self.food, "SAU", fam, {"discharge", "both"}), fam)
+            self.assertIn("SAU", self.food.UNSOURCED)
 
     def test_g01_pinned_principals(self):
         pins = [
-            ("IDN", "grain", "IDTPP"), ("ESP", "grain", "ESTAR"), ("TUR", "grain", "TRMER"), ("MYS", "grain", "MYPKG"),
-            ("DEU", "grain", "DEHAM"), ("NGA", "grain", "NGAPP"), ("ITA", "grain", "ITRAN"), ("AUS", "fert", "AUKWI"),
-            ("EGY", "grain", "EGALY"), ("PER", "grain", "PECLL"), ("MEX", "fert", "MXZLO"),
+            ("TUR", "grain", "TRMER"), ("DEU", "grain", "DEHAM"), ("AUS", "fert", "AUKWI"), ("EGY", "grain", "EGALY"),
+            ("PER", "grain", "PECLL"), ("ESP", "fert", "ESSAG"), ("IDN", "box", "IDTPP"), ("MYS", "box", "MYPKG"),
+            ("NGA", "box", "NGAPP"), ("MEX", "box", "MXZLO"),
         ]
         for iso, fam, code in pins:
             self.assertEqual(principal(self.food, iso, fam, {"discharge", "both"}), code, f"{iso} {fam}")
-        self.assertEqual(principal(self.food, "USA", "fert", {"discharge", "both"}), "USMSY")
-        # A lookup without a role takes the first row: it must be the dominant direction (imports for US fertiliser,
-        # exports for Canadian potash).
-        self.assertEqual(principal(self.food, "USA", "fert", {"load", "discharge", "both"}), "USMSY")
-        self.assertEqual(principal(self.food, "CAN", "fert", {"load", "discharge", "both"}), "CAVAN")
+        # Review GE3: rows whose page names no cargo of the family are gone (bulk alone names no grain)
+        for iso, fam in (("IDN", "grain"), ("MYS", "grain"), ("NGA", "grain"), ("ITA", "grain"), ("ESP", "grain"),
+                         ("CHN", "grain"), ("MEX", "grain"), ("MEX", "fert")):
+            self.assertIsNone(principal(self.food, iso, fam, {"discharge", "both"}), f"{iso} {fam}")
+        # The Agrium report names urea only; Canpotex names Vancouver for potash
+        self.assertEqual(principal(self.food, "USA", "urea", {"discharge", "both"}), "USMSY")
+        self.assertIsNone(principal(self.food, "USA", "fert", {"discharge", "both"}))
+        self.assertEqual(principal(self.food, "CAN", "potash", {"load", "both"}), "CAVAN")
+        self.assertEqual(principal(self.food, "AUS", "sugar", {"load", "both"}), "AUTSV")
         # Loading side: Brazil no longer has a single port, and Argentina loads at the up-river hub.
         self.assertEqual(principal(self.food, "USA", "grain", {"load", "both"}), "USMSY")
         self.assertEqual(principal(self.food, "ARG", "grain", {"load", "both"}), "ARUPR")
@@ -182,40 +191,53 @@ class FoodGateways(unittest.TestCase):
         self.assertEqual(len(top), 40)
         missing = [c for c in top if c not in self.food.G and c not in self.food.UNSOURCED]
         self.assertEqual(missing, [], "countries with neither rows nor an UNSOURCED entry")
-        for iso, why in self.food.UNSOURCED.items():
+        for iso, why in self.food.UNSOURCED.items():  # a country with rows is listed for the families it still lacks
             self.assertIn(iso, self.a2, iso)
             self.assertTrue(why and why.strip(), iso)
-            self.assertNotIn(iso, self.food.G, f"{iso} is in both G and UNSOURCED")
         self.assertGreaterEqual(len(self.food.G), 30, "number of countries with sourced rows")
 
     # ------------------------------------------------------------------ G11 and G01 against the loader of package E4b
     @unittest.skipUnless(hasattr(ports, "assign"), "the loader of package E4b (ports.assign) has not landed")
     def test_g11_gateway_never_returns_an_energy_terminal_for_food(self):
-        """For every country that has rows, gateway() answers with a port of the family (or its own legacy entry)."""
+        """For every country that has rows, gateway() answers with a port of the family, else the country's
+        general-cargo port, else its legacy port (never an energy terminal), else the nearest seaport."""
         groups = FOOD_GROUPS + ["steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton"]
         for iso in self.food.G:
             for g in groups:
-                code = ports.gateway(iso, g)
-                self.assertNotIn(code, ENERGY_TERMINALS, f"{iso} {g}")
-                if code is None:
-                    continue
-                seg = ports.segment(g)
-                allowed = {r.code for r in ports.G.get(iso, ()) if g in r.families or seg in r.families}
-                allowed.add(ports._legacy_strict(iso, g))
-                self.assertIn(code, allowed, f"{iso} {g}: {code} is not a port of the family")
+                for role in ("load", "discharge", None):
+                    code = ports.gateway(iso, g, role)
+                    self.assertNotIn(code, ENERGY_TERMINALS, f"{iso} {g}")
+                    if code is None:
+                        continue
+                    fams = set(ports._fams(g))
+                    family = {r.code for r in ports.G.get(iso, ()) if r.families & fams}
+                    box = {r.code for r in ports.G.get(iso, ()) if "box" in r.families}
+                    own = ports.LEGACY_P.get(iso, {}).get(ports.segment(g)) if g not in ports.OWN_FAMILY else None
+                    if family:
+                        self.assertIn(code, family, f"{iso} {g}: {code} is not a port of the family")
+                    elif box:
+                        self.assertIn(code, box | {own}, f"{iso} {g}: {code} is not the general-cargo port")
 
     @unittest.skipUnless(hasattr(ports, "assign"), "the loader of package E4b (ports.assign) has not landed")
     def test_g11_countries_without_rows_keep_the_legacy_port(self):
-        """Not committed is not hidden: the countries of UNSOURCED still answer from the legacy table."""
+        """Not committed is not hidden: the countries of UNSOURCED still answer from the legacy table, except where
+        it gives an oil, gas or ore terminal (Arzew, Basrah Oil Terminal): then the nearest seaport answers."""
         for iso in self.food.UNSOURCED:
             if iso in ports.G:
                 continue
-            self.assertEqual(ports.gateway(iso, "wheat"), ports._legacy(iso, "wheat"), iso)
+            legacy = ports._legacy(iso, "wheat")
+            code = ports.gateway(iso, "wheat")
+            if legacy in ports.TERMINALS:
+                self.assertNotEqual(code, legacy, iso)
+                self.assertEqual(ports.basis_of(iso, "wheat", None, code), ports.BASIS_NEAREST, iso)
+            else:
+                self.assertEqual(code, legacy, iso)
 
     @unittest.skipUnless(hasattr(ports, "assign"), "the loader of package E4b (ports.assign) has not landed")
     def test_g11_saudi_wheat_is_not_at_ras_tanura(self):
         self.assertNotEqual(ports.gateway("SAU", "wheat"), "SARTA")
         self.assertEqual(ports.gateway("SAU", "wheat"), "SAJED")
+        self.assertEqual(ports.basis_of("SAU", "wheat", "discharge", "SAJED"), ports.BASIS_GENERAL)
 
 
 if __name__ == "__main__":

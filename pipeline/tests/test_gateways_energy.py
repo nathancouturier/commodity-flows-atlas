@@ -304,10 +304,13 @@ class M08Transit(unittest.TestCase):
         self.assertEqual(m["KZCPC"][1], "RUS")
 
     def test_the_cases_of_the_plan(self):
-        # crude KAZ-ITA, coffee UGA-ITA and potash UZB-BRA have a transit port; copper concentrate SRB-CHN has
-        # none (no page read for Serbia's non-crude cargo): it stays listed in UNSOURCED with the reason
+        # crude KAZ-ITA and coffee UGA-ITA have a transit port; potash UZB-BRA and copper concentrate SRB-CHN have
+        # none (the Poti page names neither Uzbekistan nor Poti as its outlet, review GE3 finding 12; no page read for
+        # Serbia's non-crude cargo): they stay listed in UNSOURCED with the reason
         self.assertIsNotNone(EN.transit("UGA", "soft"))
-        self.assertEqual(EN.transit("UZB", "fert")[0], "GEPTI")
+        for iso3 in ("UZB", "TKM", "SVK"):
+            self.assertIsNone(EN.transit(iso3, "fert"), iso3)
+            self.assertIn(iso3, EN.UNSOURCED)
         self.assertEqual(EN.transit("SRB", "crude")[0], "HROMI")
         self.assertIsNone(EN.transit("SRB", "drybulk"))
         self.assertIn("SRB", EN.UNSOURCED)

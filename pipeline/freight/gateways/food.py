@@ -7,22 +7,25 @@ Data only, no import. `ports.py` merges it with the other two gateway modules (c
 
 code      UN/LOCODE of a port of the searoute list, of `ports.MANUAL`, or of `MANUAL_EXTRA` below
 zone      freight zone (list of section 2.4 of the plan; the table itself lives in gateways/coasts.py)
-families  subset of grain (wheat, corn, soybeans, soymeal, rice, sugar, rapeseed), vegoil (palm oil, soyoil),
-          fert (potash, phosphate rock, DAP, urea) and box (steel, refined copper, aluminium, coffee, cocoa, cotton:
-          general cargo and containers, the "box" segment of ports.SEGMENT)
+families  subset of grain (wheat, corn, soybeans, soymeal, rice, rapeseed), sugar (its own family: a grain row is
+          no sugar gateway), vegoil (palm oil, soyoil), fert (potash, phosphate rock, DAP, urea) and box (steel,
+          refined copper, aluminium, coffee, cocoa, cotton: general cargo and containers, the "box" segment of
+          ports.SEGMENT), or a group id ("urea", "potash") when the page names that cargo only
 role      load (exports), discharge (imports) or both
 src, url  source id of data/sources.json and the page read. Rows adapted from Wikipedia are CC BY-SA 4.0
 note      what the page says, in a few words
 
 The first row of a country that carries a family in a role is its principal gateway for that family and role.
-Where a country has no row for a family, the loader keeps the present table (`LEGACY_P`) for it.
+Where a country has no row for a family and role, the loader (ports.candidates) tries a row of the family in the
+other role, then the country's general-cargo row, then the legacy table (never an oil, gas or ore terminal), then
+the nearest seaport, and publishes which one it used.
 
 How a row was admitted. Each page was read on 22 November 2026 (Wikipedia, English). A family is on a row only
-when the page names that cargo (grain or cereals or agricultural products; fertiliser or phosphate; edible or palm
-oil; general cargo, containers, break-bulk). When the page only says "bulk" or "dry bulk" without naming the cargo,
-the row lists grain and fertiliser (and vegoil only for "liquid bulk") and its note says so: that is a reading of
-the page, not a statement of it. A port whose page says nothing about its cargo is not committed: the country is
-listed in UNSOURCED with the ports that a source should be found for. Nothing here comes from memory.
+when the page names that cargo or a cargo of that family (grain, cereals, wheat, soybean; sugar; fertiliser,
+phosphate, urea, potash; edible or palm oil; general cargo, containers, break-bulk). "Bulk", "dry bulk",
+"agricultural products" or "foodstuffs" alone name no cargo of these families. A port whose page says nothing
+about its cargo is not committed: the country or the family is listed in UNSOURCED with the ports that a source
+should be found for. Nothing here comes from memory.
 """
 
 W = "https://en.wikipedia.org/wiki/"
@@ -38,8 +41,6 @@ MANUAL_EXTRA = {
 G = {
     # ------------------------------------------------------------------ Asia
     "IDN": [
-        ("IDTPP", "sea", ("grain", "fert", "vegoil"), "discharge", "wikipedia", W + "Port_of_Tanjung_Priok",
-         "20 terminals for general cargo, liquid bulk, dry bulk and containers; cargo not named (dry bulk read as grain and fertiliser, liquid bulk as oil)"),
         ("IDTPP", "sea", ("box",), "both", "wikipedia", W + "Port_of_Tanjung_Priok",
          "general cargo and containers; 20 terminals"),
         ("IDSUB", "sea", ("box",), "both", "wikipedia", W + "Port_of_Tanjung_Perak",
@@ -50,28 +51,26 @@ G = {
          "oil palm storage and distribution at Johor Port (Pasir Gudang) and Tanjung Langsat; searoute code MYPGU is Pasir Gudang"),
         ("MYPKG", "sea", ("vegoil",), "load", "wikipedia", W + "Port_Klang",
          "permanent installations for palm oil and latex, two increasingly important exports"),
-        ("MYPKG", "sea", ("grain", "fert"), "discharge", "wikipedia", W + "Port_Klang",
-         "berths for bulk cargo and wharves for conventional cargo; cargo not named (bulk read as grain and fertiliser)"),
         ("MYPKG", "sea", ("box",), "both", "wikipedia", W + "Port_Klang",
          "wharves for containers and for conventional cargo"),
     ],
     "CHN": [
-        ("CNTSN", "n-china", ("grain", "fert", "vegoil", "box"), "discharge", "wikipedia", W + "Port_of_Tianjin",
-         "dry and liquid bulk, general cargo and containers; bulk logistics centre; cargo not named (bulk read as grain and fertiliser, liquid bulk as oil)"),
+        ("CNTSN", "n-china", ("box",), "discharge", "wikipedia", W + "Port_of_Tianjin",
+         "general cargo and containers, 13 million TEU in 2013 (the page names no grain, fertiliser or edible oil)"),
     ],
     "IND": [
-        ("INMUN", "wc-india", ("grain", "vegoil", "fert", "box"), "discharge", "wikipedia", W + "Mundra_Port",
-         "wheat among agri commodities; edible oil among liquid cargo; Fertilizer Cargo Complex; containers, dry bulk, break bulk"),
-        ("INKDL", "wc-india", ("vegoil", "grain", "fert", "box"), "discharge", "wikipedia", W + "Deendayal_Port",
-         "oil jetty 7 mainly handles edible oil; cargo berths mainly handle bulk cargoes and containers (bulk read as grain and fertiliser)"),
+        ("INMUN", "wc-india", ("grain", "sugar", "vegoil", "fert", "box"), "discharge", "wikipedia", W + "Mundra_Port",
+         "warehouses to store wheat, sugar, rice and fertilizer; edible oil among liquid cargo; Fertilizer Cargo Complex; containers, dry bulk, break bulk"),
+        ("INKDL", "wc-india", ("vegoil", "box"), "discharge", "wikipedia", W + "Deendayal_Port",
+         "oil jetty 7 mainly handles edible oil; cargo berths mainly handle bulk cargoes and containers (no grain or fertiliser named)"),
     ],
     "BGD": [
         ("BDCGP", "ec-india", ("grain", "fert", "vegoil", "box"), "discharge", "wikipedia", W + "Port_of_Chittagong",
          "grain silo jetty, urea fertiliser jetty, edible oil in bulk at river mooring, general cargo and container berths"),
     ],
     "PAK": [
-        ("PKKHI", "wc-india", ("grain", "fert", "box"), "discharge", "wikipedia", W + "Port_of_Karachi",
-         "bulk and general cargo terminal at East Wharf berths 11 to 17; container terminal; cargo not named (bulk read as grain and fertiliser)"),
+        ("PKKHI", "wc-india", ("box",), "discharge", "wikipedia", W + "Port_of_Karachi",
+         "bulk and general cargo terminal at East Wharf berths 11 to 17; container terminals (the page names wheat only as an export of 1899)"),
     ],
     "KOR": [
         ("KRPUS", "japan-korea", ("box",), "both", "wikipedia", W + "Port_of_Busan",
@@ -87,10 +86,10 @@ G = {
     ],
     # ------------------------------------------------------------------ Middle East
     "SAU": [
-        ("SAJED", "red-sea", ("grain", "vegoil", "fert", "box"), "discharge", "wikipedia", W + "Port_of_Jeddah",
-         "handles 65% of the country's sea imports; container and general cargo port; cargo types not named (Red Sea side, outside Hormuz)"),
-        ("SADMM", "meg", ("grain", "box"), "discharge", "wikipedia", W + "King_Abdulaziz_Port",
-         "Dammam: main imports food and foodstuffs, construction materials, consumer goods; general cargo berths and two container terminals"),
+        ("SAJED", "red-sea", ("box",), "discharge", "wikipedia", W + "Port_of_Jeddah",
+         "handles 65% of the country's sea imports; container port for the largest ships (Red Sea side, outside Hormuz; no bulk cargo named)"),
+        ("SADMM", "meg", ("box",), "discharge", "wikipedia", W + "King_Abdulaziz_Port",
+         "Dammam: main imports food and foodstuffs, construction materials, consumer goods; two container terminals (no grain named)"),
     ],
     "ISR": [
         ("ILHFA", "med", ("grain", "box"), "discharge", "wikipedia", W + "Port_of_Haifa",
@@ -98,10 +97,8 @@ G = {
     ],
     # ------------------------------------------------------------------ Mediterranean, Black Sea, Europe
     "ESP": [
-        ("ESTAR", "med", ("grain",), "discharge", "wikipedia", W + "Port_of_Tarragona",
-         "ranked as the most relevant port in Spain in terms of agricultural products"),
-        ("ESVLC", "med", ("fert",), "discharge", "wikipedia", W + "Port_of_Valencia",
-         "Port of Sagunt, run by the Valencia port authority: iron and steel, the rest fertilizers, construction materials, timber"),
+        ("ESSAG", "med", ("fert",), "discharge", "wikipedia", W + "Port_of_Valencia",
+         "Port of Sagunt, run by the Valencia port authority: around 70% iron and steel products, the rest fertilizers, construction materials, timber"),
         ("ESVLC", "med", ("box",), "both", "wikipedia", W + "Port_of_Valencia",
          "traffic split into solid bulk, conventional general cargo and containerised general cargo; 4.8 million TEU in 2023"),
     ],
@@ -112,8 +109,6 @@ G = {
          "container port; 9 million tonnes of cargo in 2018"),
     ],
     "ITA": [
-        ("ITRAN", "med", ("grain", "fert"), "discharge", "wikipedia", W + "Port_of_Ravenna",
-         "multipurpose and bulk cargo terminals and a container terminal; cargo not named (bulk read as grain and fertiliser)"),
         ("ITGOA", "med", ("box",), "both", "wikipedia", W + "Port_of_Genoa",
          "handles containers, dry and liquid bulk"),
     ],
@@ -165,11 +160,13 @@ G = {
     ],
     # ------------------------------------------------------------------ Africa
     "NGA": [
-        ("NGAPP", "waf", ("grain", "fert", "box"), "discharge", "wikipedia", W + "Apapa",
-         "ports and terminals for containers and bulk cargo; cargo not named (bulk read as grain and fertiliser)"),
+        ("NGAPP", "waf", ("box",), "discharge", "wikipedia", W + "Apapa",
+         "ports and terminals for containers and bulk cargo; a major container terminal (no grain or fertiliser named)"),
     ],
     # ------------------------------------------------------------------ Oceania
     "AUS": [
+        ("AUTSV", "e-australia", ("sugar",), "load", "wikipedia", W + "Port_of_Townsville",
+         "'the number one port in Australia for exports in copper, zinc, lead and sugar'; bulk sugar terminal since 1959"),
         ("AUKWI", "w-australia", ("fert", "grain"), "both", "wikipedia", W + "Fremantle_Harbour",
          "Outer Harbour bulk facilities (Kwinana) handle grain, fertilisers, sulphur, alumina and other bulk commodities"),
         ("AUFRE", "w-australia", ("box",), "both", "wikipedia", W + "Fremantle_Harbour",
@@ -181,8 +178,8 @@ G = {
     "USA": [
         ("USMSY", "us-gulf", ("grain",), "load", "wikipedia", W + "Port_of_South_Louisiana",
          "Mississippi River grain ports handle some 60% of raw grain exports; the page is the Port of South Louisiana, the code is New Orleans"),
-        # Imports come first: US fertiliser imports are many times its exports, and a lookup without a role takes the first row.
-        ("USMSY", "us-gulf", ("fert",), "discharge", "company-reports",
+        # The report names urea only: potash, phosphate rock and DAP imports are not on this row.
+        ("USMSY", "us-gulf", ("urea",), "discharge", "company-reports",
          "https://www.sec.gov/Archives/edgar/data/0000943003/000113031905000211/o16065exv1.htm",
          "Agrium Inc. annual report 2004: the U.S. Gulf port at New Orleans is the primary port of entry for urea imported into North America (urea only; a 2004 statement)"),
         ("USTPA", "us-gulf", ("fert",), "load", "wikipedia", W + "Port_of_Tampa",
@@ -193,26 +190,32 @@ G = {
          "general cargo terminals (Turning Basin, Jacintoport, Woodhouse, Care) and two container terminals"),
     ],
     "CAN": [
-        ("CAVAN", "canada-west", ("grain", "fert", "box"), "load", "wikipedia", W + "Port_of_Vancouver",
-         "bulk terminals include Alliance Grain Terminal and Fraser Grain Terminal; break-bulk, bulk and container sectors; fertiliser not named (bulk read as fertiliser); the code is the Vancouver port"),
-        ("CAMTR", "canada-east", ("grain", "fert", "box"), "both", "wikipedia", W + "Port_of_Montreal",
+        ("CAVAN", "canada-west", ("potash",), "load", "wikipedia", W + "Canpotex",
+         "Canpotex: the majority of its potash is shipped overseas to Asian, Latin American and Oceanic markets through Neptune Terminals, North Vancouver; the code is the Vancouver port"),
+        ("CAVAN", "canada-west", ("grain", "box"), "load", "wikipedia", W + "Port_of_Vancouver",
+         "bulk terminals include Alliance Grain Terminal and Fraser Grain Terminal; break-bulk, bulk and container sectors (no fertiliser named); the code is the Vancouver port"),
+        ("CAMTR", "canada-east", ("grain", "sugar", "fert", "box"), "both", "wikipedia", W + "Port_of_Montreal",
          "grain terminal leased to Viterra; fertilizers and raw sugar among the major dry bulk commodities; five container terminals"),
     ],
     "MEX": [
-        ("MXZLO", "mexico-pacific", ("grain", "fert", "box"), "discharge", "wikipedia", W + "Port_of_Manzanillo",
-         "agricultural products include wheat, sorghum, oat and fertilizer; container gateway; Manzanillo, Colima (searoute code MXZLO)"),
+        ("MXZLO", "mexico-pacific", ("box",), "both", "wikipedia", W + "Port_of_Manzanillo",
+         "main entrance of container shipping on the west coast; imports of consumer goods and steel products; Manzanillo, Colima (searoute code MXZLO)"),
+        ("MXZLO", "mexico-pacific", ("sugar",), "load", "wikipedia", W + "Port_of_Manzanillo",
+         "the principal exports are beer, cars, cement, sugar, copper, steel tubes"),
         ("MXVER", "mexico-gulf", ("box",), "both", "wikipedia", W + "Port_of_Veracruz",
          "handles all kinds of cargo; container terminal; vehicles"),
     ],
     "BRA": [
         # The pages do not rank the three ports for exports: the order keeps Santos, the port with sugar, soy, coffee
         # and general cargo on its page, as principal. Paranagua and Rio Grande are the other load options.
-        ("BRSSZ", "ecsa", ("grain",), "load", "wikipedia", W + "Port_of_Santos",
+        ("BRSSZ", "ecsa", ("grain", "sugar"), "load", "wikipedia", W + "Port_of_Santos",
          "main exports include coffee, sugar and soy; solid and liquid bulk, containers and general cargo"),
-        ("BRPNG", "ecsa", ("grain",), "load", "wikipedia", W + "Port_of_Paranagu%C3%A1",
-         "main port for the export of soybeans and soybean meal, also corn and sugar; largest bulk port in Latin America"),
+        ("BRPNG", "ecsa", ("grain", "sugar"), "load", "wikipedia", W + "Port_of_Paranagu%C3%A1",
+         "main port for the export of soybeans and soybean meal, also corn; second in Brazil for the export of sugar; largest bulk port in Latin America"),
         ("BRRIG", "ecsa", ("grain",), "load", "wikipedia", W + "Port_of_Rio_Grande",
          "exports soybeans, soybean meal, corn, wheat and rice (2003 list on the page)"),
+        ("BRITQ", "ecsa", ("grain",), "load", "wikipedia", W + "Port_of_Itaqui",
+         "Port of Itaqui, Sao Luis (Maranhao): the main cargoes include aluminium ingots, pig iron, dry and liquid bulk, soybean and copper"),
         ("BRPNG", "ecsa", ("fert",), "discharge", "wikipedia", W + "Port_of_Paranagu%C3%A1",
          "represents 34% of all fertilizer imports in the country"),
         ("BRRIG", "ecsa", ("fert",), "discharge", "wikipedia", W + "Port_of_Rio_Grande",
@@ -234,10 +237,23 @@ G = {
 
 # Countries among the 40 largest traders of these families (2024 customs data) for which no page that names
 # their import or export gateway for these cargoes could be read on 22 November 2026, so that no row is
-# committed. The ports are candidates only; each needs a page before it becomes a row.
+# committed, and the families still missing for countries that have rows. The ports are candidates only; each
+# needs a page before it becomes a row.
 UNSOURCED = {
-    "DZA": "Oran (page read: no cargo statement), Algiers (page not found), Annaba, Bejaia, Skikda; Arzew is an energy terminal",
-    "IRQ": "Umm Qasr (page read: no cargo statement), Khor al-Zubair; Basrah Oil Terminal is an oil terminal",
+    "DZA": "Oran (page read: no cargo statement), Algiers, Annaba, Skikda, Djen Djen (pages not found), Bejaia (page read: historical trade only); Arzew is an energy terminal, so food goes to the nearest seaport until a page is read",
+    "IRQ": "Umm Qasr (Umm Qasr Port page read: food unloaded in 2003 only, no cargo statement), Khor al-Zubair; Basrah Oil Terminal is an oil terminal, so food goes to the nearest seaport until a page is read",
+    "CHN": "grain, soybeans, fertiliser and vegetable oil imports: Dalian, Rizhao, Qingdao and the Yangtze ports (Tianjin, Dalian and Qingdao pages read: no grain or fertiliser named); the Tianjin general-cargo row answers meanwhile",
+    "IDN": "grain, fertiliser and vegetable oil imports: Tanjung Priok page read, 'dry bulk' and 'liquid bulk' only",
+    "MYS": "grain and fertiliser imports: Port Klang page read, 'bulk cargo' only",
+    "IND": "grain and fertiliser at Kandla (Deendayal Port page read: 'bulk cargoes' only)",
+    "PAK": "grain and fertiliser imports: Karachi page read (wheat named only as an export of 1899), Port Qasim (page not read)",
+    "SAU": "grain, fertiliser and vegetable oil: Jeddah page read (containers only), King Abdulaziz Port, Dammam ('food and foodstuffs' only)",
+    "ESP": "grain imports: Tarragona page read ('agricultural products', no grain named)",
+    "ITA": "grain and fertiliser: Ravenna page read (bulk terminals, no cargo named)",
+    "NGA": "grain and fertiliser: Apapa page read (containers and bulk cargo, no cargo named)",
+    "MEX": "grain and fertiliser imports: Manzanillo (page names wheat, sorghum, oat and fertilizer, but a Pacific-only row would send every Gulf cargo through Panama) and a Gulf port, Veracruz or Altamira (Veracruz page read: no grain named); the general-cargo rows answer on each coast meanwhile",
+    "USA": "potash, phosphate rock and DAP imports (the Agrium report names urea only)",
+    "CAN": "fertiliser other than potash at Vancouver (Port of Vancouver page read: no fertiliser named)",
     "FRA": "Marseille-Fos, Rouen, La Pallice, Dunkirk, Le Havre: pages not found under the titles tried",
     "JPN": "Kashima (page read: no cargo statement), Chiba, Nagoya (page read: no cargo statement), Kobe, Yokohama",
     "THA": "Laem Chabang (page not found), Bangkok (page not found)",
