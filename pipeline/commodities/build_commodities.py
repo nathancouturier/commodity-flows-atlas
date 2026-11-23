@@ -2779,13 +2779,14 @@ def qa_dropped(baci):
     def mass(t):
         return f"{_fmt(t / 1e6)} Mt" if t >= 1e6 else f"{_fmt(t / 1e3)} kt"
     for (g, y), grp in pd.DataFrame(rows).groupby(["group", "year"]) if rows else []:
-        out.append(f"- {_label(g)} {y}: {len(grp)} rows, {mass(grp['t'].sum())}")
+        out.append(f"- {_label(g)} {y}: {len(grp)} row{'s' if len(grp) != 1 else ''}, {mass(grp['t'].sum())}")
     out.append("")
     for r in rows:
         est = " (tonnage estimated from value)" if r.get("est") else ""
         uv = f", {r['uvp']:,.0f} USD/t" if r.get("rule") == "low-uv" else ""
-        out.append(f"- {_label(r['group'])} {r['year']}, {K._name(r['o'])} to {K._name(r['d'])}: {mass(r['t'])}{est}, "
-                   f"USD {r['usd'] / 1e3:,.0f} million{uv}")
+        m = r["usd"] / 1e3  # `usd` is in thousand USD
+        value = f"USD {m:,.0f} million" if m >= 100 else f"USD {m:.3g} million" if m >= 1 else f"USD {r['usd']:,.0f} thousand"
+        out.append(f"- {_label(r['group'])} {r['year']}, {K._name(r['o'])} to {K._name(r['d'])}: {mass(r['t'])}{est}, {value}{uv}")
     return out + [""] if rows else out + ["- none", ""]
 
 

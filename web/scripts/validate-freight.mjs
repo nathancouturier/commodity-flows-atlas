@@ -139,8 +139,10 @@ export function validateFreight(root, errors) {
       if (r[ix.m] === 0 || r[ix.m] === 1) seaKt += typeof kt === 'number' ? kt : 0;
     }
     for (const c of unknownCodes) bad(file, `country code "${c}" is not in countries/index.json or places.json`);
-    // the shares are taken over `seaborne`: it must be the tonnes of the sea and transit rows (the rows keep 0.1 kt)
-    if (typeof doc.seaborne !== 'number' || Math.abs(seaKt - doc.seaborne) > Math.max(0.001 * doc.seaborne, 0.1))
+    // the shares are taken over `seaborne`: it must be the tonnes of the sea and transit rows. `seaborne` is the unrounded
+    // sum, as the lane file and the commodity page give it, and each row keeps 0.1 kt (a rounding of up to 0.05 kt per row)
+    const seaRows = doc.rows.filter((r) => r?.[ix.m] === 0 || r?.[ix.m] === 1).length;
+    if (typeof doc.seaborne !== 'number' || Math.abs(seaKt - doc.seaborne) > Math.max(0.001 * doc.seaborne, 0.1, 0.05 * seaRows))
       bad(file, `sea and transit rows add up to ${Math.round(seaKt * 10) / 10} kt, but seaborne is ${doc.seaborne}`);
     if (doc.notes !== undefined) {
       const keys = new Set(doc.rows.map((r) => `${r?.[ix.o]}-${r?.[ix.d]}`));

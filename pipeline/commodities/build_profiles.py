@@ -14,20 +14,23 @@ A profile holds:
             read from the last word of its key), with its world rank and share, read from the full tables; exports
             and imports carry their customs value (CEPII BACI, USD) and are ordered by it, so that "Largest
             raw-material export" is the largest in value. Each line carries the country's series from the history
-            files (value and rank by year), for the History year and the trend line. The `balance` block of a crop
+            files (value and rank by year; the rank of the latest year is the rank printed on the line), for the History year and the
+            trend line. The `balance` block of a crop
             file is a world balance sheet with no country row: it gives no line.
   basket    the ten largest exports and imports by value at HS4 (every chapter), with their share of the country's
             total merchandise exports or imports (pipeline/cache/hs4_*, written by pipeline/trade/extract_hs4.py);
             the first export is the page's "Largest export, all goods"
   other     up to five headings of the raw-material chapters outside the atlas catalogue (diamonds for Botswana, logs
             for Gabon); the chapters hold articles too (tyres, screws, jewellery), and the block is named so
-  balance   per traded product: net exporter or importer (same table, unit and year on both sides), the first three
+  balance   per traded product: net exporter or importer (same table, unit and year on both sides; the net carries its
+            note, and three significant digits when a line is an estimate), the first three
             customers and suppliers with their shares and the Herfindahl index of each side (recorded pairs of
             CEPII BACI, latest year: the pairs tables of the engine, or the cleaned customs frame for the groups that
             have no lanes), and imports over consumption where both tables share unit and year
   freight   from the pairs tables of the engine (data/freight/pairs): mode split, typical ports and the share of the
             seaborne tonnes whose assumed route has to cross ("at least") or may cross ("up to") each passage; no
-            "up to" where the chokepoint page of the passage caps its own "up to" for that group at IMF PortWatch
+            "up to" where the chokepoint page of the passage caps its own "up to" for that group at IMF PortWatch; a
+            group that is an Atlas estimate as a whole (spodumene) is marked and credited to the atlas on every row
   gaps      the caveats of data/freight/caveats.json for this origin (exports customs data miss, hubs)
   hubs      trading or refining hub, a derived label: exports and imports of the same product both large, and no
             production line for it in the atlas

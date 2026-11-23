@@ -40,7 +40,9 @@ def lane_ports(lanes_dir):
                 continue
             kt = ln["flow"]["v"] * (1000 if ln["flow"].get("u") == "Mt" else 1)
             # the lane's ports and those of its options (another loading or discharging port of the same pair)
-            named = {pid for part in (ln, *(ln.get("opts") or [])) for col in ("load", "discharge") for pid in part.get(col) or []}
+            # (a lane lists its ports; an option names one loading and one discharging port)
+            named = {pid for part in (ln, *(ln.get("opts") or [])) for col in ("load", "discharge")
+                     for pid in ([part[col]] if isinstance(part.get(col), str) else part.get(col) or [])}
             for pid in named:
                 p = d["ports"].get(pid)
                 if not p:

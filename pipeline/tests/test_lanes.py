@@ -196,7 +196,7 @@ class Pairs(unittest.TestCase):
             n += len(keys)
         print(f"\nP01: {n} rows")
         # 34 groups since the ferro-nickel and spodumene groups were added (23,739 rows with the first 32); 42 groups
-        # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42)
+        # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42, 25,847 once cleaning rule 9 dropped two lithium pairs)
         self.assertTrue(25700 <= n <= 26100, n)
 
     def test_P02_seaborne_rows_routed(self):

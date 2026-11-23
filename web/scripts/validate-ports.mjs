@@ -6,7 +6,9 @@
  *    pairs file names for a seaborne pair is in the index (a port the file lacks cannot be found);
  *  - the other way round, a port of the index is used by some pair, `n` is the number of pairs that use it, each group of
  *    `g` is a group that uses it, and its `lane` is a pair with a lane page that uses it (a port the pairs files no longer
- *    name, or a wrong count, would stay searchable until the next build).
+ *    name, or a wrong count, would stay searchable until the next build);
+ *  - every port that a main lane page names, in its `load` or `discharge` list or in one of its options, is in the index;
+ *    a port that only lane pages name has `n` = the main lanes that name it, `g` their groups and `lane` one of them.
  * Called by validate-data.mjs; `node validate-ports.mjs [data folder]` runs it alone.
  */
 import fs from 'node:fs';
@@ -47,6 +49,28 @@ export function validatePorts(root, errors) {
       if (!lanesOf(g)?.has(p.lane)) bad(`${at}: lane "${p.lane}" is not in freight/lanes/${g}.json`);
     }
   }
+  // the ports the main lanes name (their lists and their options): port -> ids of the lanes, and the groups
+  const laneNamed = new Map();
+  const lanesDir = path.join(root, 'freight/lanes');
+  if (fs.existsSync(lanesDir))
+    for (const f of fs.readdirSync(lanesDir).filter((x) => x.endsWith('.json'))) {
+      const d = JSON.parse(fs.readFileSync(path.join(lanesDir, f), 'utf8'));
+      for (const l of d.lanes ?? []) {
+        if (l.set !== 'main') continue;
+        const named = new Set();
+        for (const part of [l, ...(l.opts ?? [])])
+          for (const c of ['load', 'discharge']) for (const id of [].concat(part[c] ?? [])) named.add(id);
+        for (const id of named) {
+          if (!laneNamed.has(id)) laneNamed.set(id, { lanes: new Set(), groups: new Set() });
+          laneNamed.get(id).lanes.add(l.id);
+          laneNamed.get(id).groups.add(d.group);
+          if (!seen.has(id) && !laneNamed.get(id).missing) {
+            laneNamed.get(id).missing = true; // said once per port
+            bad(`lanes/${f}: port ${id} is not in the index (rebuild it)`);
+          }
+        }
+      }
+    }
   const pairsDir = path.join(root, 'freight/pairs');
   if (fs.existsSync(pairsDir)) {
     const count = new Map(); // port -> number of pairs that use it, as build_port_index.py counts them
@@ -73,8 +97,15 @@ export function validatePorts(root, errors) {
     }
     for (const p of doc.ports) {
       const at = `port ${p.id}`;
-      if (!count.has(p.id)) bad(`${at}: no pairs file uses it any more (rebuild the index)`);
-      else {
+      if (!count.has(p.id)) {
+        const l = laneNamed.get(p.id);
+        if (!l) bad(`${at}: no pairs file and no lane page uses it any more (rebuild the index)`);
+        else {
+          if (p.n !== l.lanes.size) bad(`${at}: n is ${p.n}, the lane pages that name it are ${l.lanes.size} (rebuild the index)`);
+          for (const g of p.g ?? []) if (!l.groups.has(g)) bad(`${at}: group "${g}" has no lane page that names it`);
+          if (p.lane != null && !l.lanes.has(p.lane)) bad(`${at}: lane "${p.lane}" does not name it`);
+        }
+      } else {
         if (p.n !== count.get(p.id)) bad(`${at}: n is ${p.n}, the pairs files have ${count.get(p.id)} pairs that use it (rebuild the index)`);
         for (const g of p.g ?? []) if (!groupsOf.get(p.id).has(g)) bad(`${at}: group "${g}" does not use it in the pairs files`);
         if (p.lane != null && !laneRows.get(p.id)?.has(p.lane)) bad(`${at}: lane "${p.lane}" is not a pair with a lane page that uses it`);

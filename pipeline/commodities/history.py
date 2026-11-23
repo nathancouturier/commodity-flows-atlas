@@ -46,6 +46,13 @@ FAILED = (KeyError, SystemExit, ValueError, ZeroDivisionError)
 #    UV_SAME times the neighbouring years' means a real change of trade, kept as reported.
 # Shocks spread over many countries (2009, 2020, 2022) move the world without one country carrying the jump: not caught.
 OUT_WORLD, OUT_ROW, OUT_PART, UV_SAME = 1.3, 3.0, 0.5, 2.0
+# The exports and the imports of one customs group have the same world total in a year (a flow is counted once on each side),
+# so a gap of the world that the rule flags on one side is a gap on the other. There the gap falls on different countries:
+# cobalt 2016, a missing flow from DR Congo to China, is a fall of 4.2 times for China's imports (flagged) and of 2.6 times for
+# DR Congo's exports (under OUT_ROW), and the unit value of China's imports moved 2.6 times (flagged) against 1.5 times for DR
+# Congo's exports (within UV_SAME). On the side that did not flag it, the row factor is OUT_ROW_PAIR for those years and the
+# unit-value test is not made again: the other side made it on the same flows, and its verdict is the evidence.
+OUT_ROW_PAIR = 2.0
 # A country whose figures stop before the last year of a series while it held this share of the world: the series note says so.
 COVER_SHARE = 0.05
 
@@ -94,8 +101,9 @@ def _off(v, ns, k):
     return 0
 
 
-def out_of_line(world, vals, usd=None):
-    """{iso: [year index]} of the values far out of line with the years around them (the rule above OUT_WORLD)."""
+def out_of_line(world, vals, usd=None, pair_years=()):
+    """{iso: [year index]} of the values far out of line with the years around them (the rule above OUT_WORLD).
+    pair_years: the years the other side of the customs group flagged (OUT_ROW_PAIR instead of OUT_ROW, and no unit-value test)."""
     out = {}
     n = len(world)
     for i in range(1, n - 1):
@@ -108,11 +116,11 @@ def out_of_line(world, vals, usd=None):
                 continue
             if (prev is None and any(x is not None for x in v[:i])) or (nxt is None and any(x is not None for x in v[i + 1:])):
                 continue  # a gap inside the series, not its start or end: no neighbour to compare with on that side
-            e = _off(v[i], [prev, nxt], OUT_ROW)
+            e = _off(v[i], [prev, nxt], OUT_ROW_PAIR if i in pair_years else OUT_ROW)
             if not e or e / ex < OUT_PART:
                 continue
             u = (usd or {}).get(c)
-            if u and u[i] and v[i]:
+            if u and u[i] and v[i] and i not in pair_years:
                 uv = [u[j] / v[j] for j in (i - 1, i + 1) if u[j] and v[j]]
                 if uv and 1 / UV_SAME <= (u[i] / v[i]) / (sum(uv) / len(uv)) <= UV_SAME:
                     continue  # the declared value moved with the tonnage: a real change, kept as reported
@@ -120,8 +128,9 @@ def out_of_line(world, vals, usd=None):
     return out
 
 
-def series(t, name=None):
-    """The series of one table, or None when its source has fewer than two years. name: iso -> country name, for the notes."""
+def series(t, name=None, pair_years=()):
+    """The series of one table, or None when its source has fewer than two years. name: iso -> country name, for the notes.
+    pair_years: year indexes at which the other side of the customs group set the world total aside (see OUT_ROW_PAIR)."""
     name = name or (lambda c: c)
     years, build = t["_hist"]
     by = {}
@@ -186,7 +195,7 @@ def series(t, name=None):
         out["otherEst"] = oe  # the years in which the source's "Other countries" line is itself marked as an estimate
     label = out.get("labels") or [str(y) for y in ys]
     notes = list(t.get("_hn") or [])
-    bad = out_of_line(out["world"], vals, usd)
+    bad = out_of_line(out["world"], vals, usd, pair_years)
     if bad:
         out["out"] = {c: bad[c] for c in order if c in bad}
         out["worldOut"] = sorted({i for ix in bad.values() for i in ix})
@@ -260,6 +269,14 @@ def series(t, name=None):
     return out
 
 
+def _other_side(key):
+    """The key of the table on the other side of the trade of the same customs group ("refined-exports" and "refined-imports"), or None."""
+    for a, b in (("exports", "imports"), ("imports", "exports")):
+        if key.endswith(a):
+            return key[:-len(a)] + b
+    return None
+
+
 def check(t, h):
     """Differences between the latest year of a series and the table (both built by the same function): [] when equal."""
     last = len(h["years"]) - 1
@@ -278,12 +295,18 @@ def write_all(docs, out_dir, name=None):
     total, written, mism, odd = 0, [], [], []
     for cid in sorted(docs):
         tabs = {}
-        for key, t in _tables(docs[cid]):
-            if "_hist" not in t:
-                continue
-            h = series(t, name)
+        tables = {key: t for key, t in _tables(docs[cid]) if "_hist" in t}
+        built = {key: series(t, name) for key, t in tables.items()}
+        for key, t in tables.items():
+            h = built[key]
             if not h:
                 continue
+            o = built.get(_other_side(key) or "")
+            # the same gap of the world on the other side of the trade: both sides set it aside, or neither (GR4D.7)
+            gap = [i for i in (o or {}).get("worldOut", []) if o["years"] == h["years"] and o["world"][i] == h["world"][i]
+                   and i not in h.get("worldOut", [])]
+            if gap:
+                h = series(t, name, pair_years=gap)
             bad = check(t, h)
             if bad:
                 mism.append(f"{cid}/{key}: {', '.join(bad[:6])}")

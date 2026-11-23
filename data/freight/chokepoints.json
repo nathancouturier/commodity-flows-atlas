@@ -802,14 +802,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 14.0 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 14.0 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.014,
 0.0712
 ],
 "hi": {
-"v": 62.6,
+"v": 62.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -820,18 +820,18 @@
 "k": "rare-earths",
 "p": "rare-earths",
 "f": {
-"v": 11.4,
+"v": 11.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 15.3 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 15.3 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0153,
 0.0228
 ],
 "hi": {
-"v": 17.0,
+"v": 16.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -1000,7 +1000,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 14.8 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 14.8 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0148,
@@ -1257,7 +1257,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 19.5 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 19.5 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0195,
@@ -1367,18 +1367,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.6 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 3.6 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0036,
-0.0815
+0.0664
 ],
 "hi": {
-"v": 16.3,
+"v": 13.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 81.5 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Nigeria 8.6 kt, Brazil 6.5 kt)"
+"n": "up to 66.4 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt)"
 }
 },
 {
@@ -1550,18 +1550,18 @@
 "k": "rare-earths",
 "p": "rare-earths",
 "f": {
-"v": 23.6,
+"v": 23.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 31.7 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 31.7 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0317,
 0.0704
 ],
 "hi": {
-"v": 52.3,
+"v": 52.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -1682,11 +1682,11 @@
 "k": "tin",
 "p": "tin-metal",
 "f": {
-"v": 14.0,
+"v": 14.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 27.3 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 27.3 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0273,
@@ -2082,14 +2082,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.9 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.9 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0049,
 0.0666
 ],
 "hi": {
-"v": 58.6,
+"v": 58.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -2280,14 +2280,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.7 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 6.7 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0067,
 0.6452
 ],
 "hi": {
-"v": 90.6,
+"v": 90.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -2302,18 +2302,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0041,
-0.082
+0.0669
 ],
 "hi": {
-"v": 16.4,
+"v": 13.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 82.0 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Nigeria 8.6 kt, Brazil 6.5 kt)"
+"n": "up to 66.9 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt)"
 }
 },
 {
@@ -2604,7 +2604,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.1 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 0.1 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0001,
@@ -2714,14 +2714,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.6388
 ],
 "hi": {
-"v": 89.7,
+"v": 89.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -2868,18 +2868,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
-0.0779
+0.0628
 ],
 "hi": {
-"v": 15.6,
+"v": 12.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 77.9 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Nigeria 8.6 kt, Brazil 6.5 kt)"
+"n": "up to 62.8 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt)"
 }
 },
 {
@@ -3044,14 +3044,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0387
 ],
 "hi": {
-"v": 28.8,
+"v": 28.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -3220,14 +3220,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0607
 ],
 "hi": {
-"v": 53.4,
+"v": 53.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -3780,18 +3780,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
-0.0697
+0.0632
 ],
 "hi": {
-"v": 13.9,
+"v": 13.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 69.7 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Brazil 6.5 kt, Australia 5.1 kt)"
+"n": "up to 63.2 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Australia 5.1 kt)"
 }
 },
 {
@@ -3846,14 +3846,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0327
 ],
 "hi": {
-"v": 24.3,
+"v": 24.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -4000,7 +4000,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
@@ -4022,14 +4022,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0273
 ],
 "hi": {
-"v": 24.0,
+"v": 24.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -4321,11 +4321,11 @@
 "k": "rare-earths",
 "p": "rare-earths",
 "f": {
-"v": 14.1,
+"v": 14.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 18.9 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 18.9 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0189,
@@ -4385,7 +4385,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 20.6 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 20.6 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0206,
@@ -4683,7 +4683,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 15.4 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 15.4 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0154,
@@ -4951,11 +4951,11 @@
 "k": "rare-earths",
 "p": "rare-earths",
 "f": {
-"v": 14.1,
+"v": 14.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 18.9 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
+"n": "at least 18.9 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.0189,
@@ -5030,7 +5030,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 20.6 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
+"n": "at least 20.6 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.0206,
@@ -5285,7 +5285,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 15.4 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
+"n": "at least 15.4 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). The 'at least' tonnage of all container, general cargo and ro-ro cargo of the atlas through this passage (55 Mt) is above IMF PortWatch's estimate for all container, general cargo and ro-ro ships in 2024 (36.5 Mt; 390 Mt in 2019, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
 },
 "mt": [
 0.0154,
@@ -5490,7 +5490,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 15.8 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 15.8 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0158,
@@ -5505,14 +5505,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 22.5 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 22.5 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0225,
 0.0242
 ],
 "hi": {
-"v": 12.4,
+"v": 12.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -5612,11 +5612,11 @@
 "k": "lithium",
 "p": "lithium",
 "f": {
-"v": 7.8,
+"v": 8.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 39.0 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 39.0 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.039,
@@ -6789,7 +6789,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.9 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.9 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0049,
@@ -6856,7 +6856,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.7 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 2.7 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0027,
@@ -7361,11 +7361,11 @@
 "k": "tin",
 "p": "tin-metal",
 "f": {
-"v": 12.5,
+"v": 12.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 24.4 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 24.4 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0244,
@@ -7513,7 +7513,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 10.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 10.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0101,
@@ -7647,7 +7647,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 17.5 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 17.5 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0175,
@@ -7658,11 +7658,11 @@
 "k": "lithium",
 "p": "lithium",
 "f": {
-"v": 2.4,
+"v": 2.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 12.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 12.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0121,
@@ -7851,7 +7851,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 22.8 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 22.8 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0228,
@@ -8015,11 +8015,26 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 8.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 8.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0081,
 0.0081
+]
+},
+{
+"k": "lithium",
+"p": "lithium",
+"f": {
+"v": 5.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 26.2 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+},
+"mt": [
+0.0262,
+0.0262
 ]
 },
 {
@@ -8035,21 +8050,6 @@
 "mt": [
 6.622,
 6.622
-]
-},
-{
-"k": "lithium",
-"p": "lithium",
-"f": {
-"v": 5.2,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 26.2 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
-},
-"mt": [
-0.0262,
-0.0262
 ]
 },
 {
@@ -8494,7 +8494,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 31.9 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 31.9 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0319,
@@ -8562,21 +8562,6 @@
 ]
 },
 {
-"k": "lithium",
-"p": "lithium",
-"f": {
-"v": 14.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 73.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
-},
-"mt": [
-0.0731,
-0.0731
-]
-},
-{
 "k": "cocoa",
 "p": "cocoa",
 "f": {
@@ -8589,6 +8574,21 @@
 "mt": [
 0.434,
 0.434
+]
+},
+{
+"k": "lithium",
+"p": "lithium",
+"f": {
+"v": 12.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 58.0 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+},
+"mt": [
+0.058,
+0.058
 ]
 },
 {
@@ -9154,7 +9154,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
@@ -9374,18 +9374,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
-0.0892
+0.0741
 ],
 "hi": {
-"v": 17.8,
+"v": 15.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 89.2 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Nigeria 8.6 kt, Brazil 6.5 kt)"
+"n": "up to 74.1 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, China 5.2 kt, Australia 5.1 kt)"
 }
 },
 {
@@ -9572,14 +9572,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0566
 ],
 "hi": {
-"v": 42.1,
+"v": 42.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -9748,7 +9748,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
@@ -9770,14 +9770,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0782
 ],
 "hi": {
-"v": 68.8,
+"v": 69.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -9906,18 +9906,18 @@
 "k": "lithium",
 "p": "lithium",
 "f": {
-"v": 19.6,
+"v": 20.2,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 98.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 98.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0981,
 0.2856
 ],
 "hi": {
-"v": 57.1,
+"v": 58.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -10064,14 +10064,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 13.2 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 13.2 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0132,
 0.0172
 ],
 "hi": {
-"v": 8.8,
+"v": 8.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -10218,7 +10218,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.6 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least 4.6 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0.0046,
@@ -11026,18 +11026,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
-0.0701
+0.0636
 ],
 "hi": {
-"v": 14.0,
+"v": 13.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 70.1 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Brazil 6.5 kt, Australia 5.1 kt)"
+"n": "up to 63.6 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Australia 5.1 kt)"
 }
 },
 {
@@ -11202,14 +11202,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0273
 ],
 "hi": {
-"v": 14.0,
+"v": 14.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -11224,7 +11224,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
@@ -11408,14 +11408,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 712.2 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 712.6 kt of seaborne cobalt: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.6566
 ],
 "hi": {
-"v": 92.2,
+"v": 92.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -11650,18 +11650,18 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 500.1 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 485.0 kt of seaborne lithium: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
-0.0892
+0.0741
 ],
 "hi": {
-"v": 17.8,
+"v": 15.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "up to 89.2 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, Nigeria 8.6 kt, Brazil 6.5 kt)"
+"n": "up to 74.1 kt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Argentina 57.9 kt, China 5.2 kt, Australia 5.1 kt)"
 }
 },
 {
@@ -11848,14 +11848,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0566
 ],
 "hi": {
-"v": 42.1,
+"v": 42.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -12024,7 +12024,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 194.5 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 194.3 kt of seaborne tin metal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
@@ -12046,14 +12046,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0782
 ],
 "hi": {
-"v": 68.8,
+"v": 69.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -12851,14 +12851,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 134.5 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 134.9 kt of seaborne rare earths: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,
 0.0312
 ],
 "hi": {
-"v": 23.2,
+"v": 23.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -12895,7 +12895,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least under 0.1 kt of 113.7 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
+"n": "at least under 0.1 kt of 113.4 kt of seaborne tin ore: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing)"
 },
 "mt": [
 0,

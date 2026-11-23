@@ -5289,13 +5289,13 @@
 "chokepoint": "makassar",
 "type": "cargo",
 "value": 0.0,
-"high": 21.8,
+"high": 21.7,
 "reference": 9.5,
 "best": 10.3,
 "bestYear": 2023,
 "ratio": 0.0,
 "level": "qa",
-"text": "Makassar Strait, container, general cargo and ro-ro: at least 0.00 Mt and up to 21.8 Mt of the atlas's seaborne groups in 2024, against 9.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 10.3 Mt in 2023)"
+"text": "Makassar Strait, container, general cargo and ro-ro: at least 0.00 Mt and up to 21.7 Mt of the atlas's seaborne groups in 2024, against 9.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 10.3 Mt in 2023)"
 },
 {
 "check": "K9",
@@ -5450,7 +5450,7 @@
 "pct": 0.03,
 "nm": 150,
 "value": 1152.0,
-"high": 2308.6,
+"high": 2308.5,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
@@ -5465,7 +5465,7 @@
 "pct": 0.03,
 "nm": 150,
 "value": 23.2,
-"high": 1163.0,
+"high": 1162.9,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",

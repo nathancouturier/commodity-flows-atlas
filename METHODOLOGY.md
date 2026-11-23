@@ -105,6 +105,19 @@ is called one where it is shown. The figures below are those of the build from C
      the estimated tonnage implies a steady grade of 29 to 32% copper in 2010–2013 and 29% in 2021,
      next to 27 to 30% in 2014–2020, where the declared tonnage implies 44 to 56% in 2010–2013 and
      70% in 2021, impossible for a concentrate (Cochilco's figures are not published by the atlas).
+  9. **Ore price in the lithium chemicals group** (`DROP_LOW_UV`, threshold `LITHIUM_MIN_UV`: 1,500 USD per tonne). Lithium
+     carbonate and hydroxide (HS 283691, 282520) trade at thousands of USD per tonne. A row of the group
+     whose reported unit value is under that threshold is dropped, in every year, unless its tonnage was
+     estimated from value by the rules above. The flows are priced like ore or concentrate (in 2024:
+     Nigeria → China, 8.60 kt at 286 USD/t; Brazil → China, 6.48 kt at 1,110 USD/t); that they hold a
+     product or a weight declared under the wrong code is a hypothesis, no source states it. The rule
+     works on the frame after the other rules, with their reference unit values, so that no other row
+     changes. It sits here, and not in the commodity builder as before, so that the lanes, the pairs,
+     the commodity page, the chokepoint estimates and the country profiles read one frame: the page
+     and the lane file give the same world exports. The rows are listed in
+     `pipeline/commodities/QA.md` with the rows of rule 6, and the lithium page and the lane file's year
+     notes say which flows are left out and why. On the 2002–2024 cache the rule drops 33 rows in 15 years;
+     in 2024 the two flows above, 15.1 kt of the 504.3 kt of the group.
 - **Tonnage estimated from value is an Atlas estimate.** Every row whose tonnage rules 2, 3, 4, 7 or
   8 re-estimate carries a note that starts with "Atlas estimate" and gives the method, the declared
   value and the tonnage customs reported. Where such a figure is shown on its own (a lane's flow, a
@@ -276,7 +289,7 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (42 lane groups, 25,849 pairs, 9,154.1 Mt): sea 7,752.5 Mt (18,994 pairs), sea via a
+**2024 by mode** (42 lane groups, 25,847 pairs, 9,154.1 Mt): sea 7,752.5 Mt (18,992 pairs), sea via a
 transit port 170.8 Mt (2,182 pairs), sea and overland 310.2 Mt (63 pairs), land 920.6 Mt (4,610
 pairs). Seaborne: 7,923.3 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
 minor metals were added; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
@@ -379,7 +392,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 2,619 main seaborne lanes, 35 mixed lanes and 272 history lanes over 42 groups (2,400, 35
+  - 2024: 2,617 main seaborne lanes, 35 mixed lanes and 271 history lanes over 42 groups (2,400, 35
     and 182 over 34 groups before the minor metals); the main lanes carry 85.5% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
@@ -387,7 +400,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 81.2% (73.7% before the
     Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,849 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,847 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
@@ -535,7 +548,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
 - **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 103 hand-written
-  routes name 45.1% of the 7,913 Mt of 2024 seaborne tonnes of the 34 customs groups. For the rest, the pairs table
+  routes name 45.1% of the 7,923 Mt of 2024 seaborne tonnes of the 42 customs groups. For the rest, the pairs table
   is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
   discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
   that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
@@ -1087,7 +1100,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   concentrate takes the general transit row of Zimbabwe (Beira): no page read documents its
   corridor. A flow of the lithium
   chemicals codes declared under 1,500 USD per tonne, the price of ore rather than of a chemical,
-  is left out of those tables and listed in a note.
+  is left out (cleaning rule 9) of the tables, the lanes and the country figures, and listed in a note.
 - **Nickel**: ferro-nickel and nickel pig iron declared as ferro-nickel (HS 720260) have their own
   tables (gross weight, not contained nickel). The ore tables mix laterite ore (tens of USD per
   tonne) and sulphide concentrate (over 2,000 USD per tonne), so a low unit value is normal for

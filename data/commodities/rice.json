@@ -1519,7 +1519,7 @@
      {
       "c": "POL",
       "v": 0.0399,
-      "n": "of which 0.0391 Mt to other member states and 0.000782 Mt to countries outside the EU"
+      "n": "of which 0.0391 Mt to other member states and 0.782 kt to countries outside the EU"
      },
      {
       "c": "DEU",
@@ -1529,7 +1529,7 @@
      {
       "c": "CZE",
       "v": 0.0155,
-      "n": "of which 0.0148 Mt to other member states and 0.000672 Mt to countries outside the EU"
+      "n": "of which 0.0148 Mt to other member states and 0.672 kt to countries outside the EU"
      },
      {
       "c": "LTU",
@@ -1579,7 +1579,7 @@
      {
       "c": "LVA",
       "v": 0.0009,
-      "n": "of which 0.000942 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 0.942 kt to other member states and 0 Mt to countries outside the EU"
      }
     ],
     "n": "CEPII BACI 2024, rice (HS 1006): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 1.8 Mt, of which 1.48 Mt to other member states and 0.322 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 61.3 Mt)",
@@ -1732,12 +1732,12 @@
      {
       "c": "LUX",
       "v": 0.0026,
-      "n": "of which 0.00201 Mt from other member states and 0.000592 Mt from countries outside the EU"
+      "n": "of which 0.00201 Mt from other member states and 0.592 kt from countries outside the EU"
      },
      {
       "c": "EST",
       "v": 0.0009,
-      "n": "of which 0.000942 Mt from other member states and 0 Mt from countries outside the EU"
+      "n": "of which 0.942 kt from other member states and 0 Mt from countries outside the EU"
      }
     ],
     "n": "CEPII BACI 2024, rice (HS 1006): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.87 Mt, of which 1.48 Mt from other member states and 2.39 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 61.3 Mt)",

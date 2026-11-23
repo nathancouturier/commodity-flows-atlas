@@ -950,7 +950,7 @@
      {
       "c": "SVN",
       "v": 0.0114,
-      "n": "of which 0.0105 Mt to other member states and 0.000885 Mt to countries outside the EU"
+      "n": "of which 0.0105 Mt to other member states and 0.885 kt to countries outside the EU"
      },
      {
       "c": "ITA",
@@ -965,7 +965,7 @@
      {
       "c": "EST",
       "v": 0.0058,
-      "n": "of which 0.000159 Mt to other member states and 0.00562 Mt to countries outside the EU"
+      "n": "of which 0.159 kt to other member states and 0.00562 Mt to countries outside the EU"
      },
      {
       "c": "MLT",
@@ -975,7 +975,7 @@
      {
       "c": "POL",
       "v": 0.0024,
-      "n": "of which 0.00173 Mt to other member states and 0.000629 Mt to countries outside the EU"
+      "n": "of which 0.00173 Mt to other member states and 0.629 kt to countries outside the EU"
      },
      {
       "c": "SWE",
@@ -995,32 +995,32 @@
      {
       "c": "DNK",
       "v": 0.0007,
-      "n": "of which 0.000741 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 0.741 kt to other member states and 0 Mt to countries outside the EU"
      },
      {
       "c": "AUT",
       "v": 0.0004,
-      "n": "of which 0.000447 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 0.447 kt to other member states and 0 Mt to countries outside the EU"
      },
      {
       "c": "GRC",
       "v": 0.0002,
-      "n": "of which 0.000154 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 0.154 kt to other member states and 0 Mt to countries outside the EU"
      },
      {
       "c": "LVA",
       "v": 0.0001,
-      "n": "of which 7.3e-05 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 73 t to other member states and 0 Mt to countries outside the EU"
      },
      {
       "c": "LTU",
       "v": 0.0001,
-      "n": "of which 6.8e-05 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 68 t to other member states and 0 Mt to countries outside the EU"
      },
      {
       "c": "CZE",
       "v": 0.0001,
-      "n": "of which 5.9e-05 Mt to other member states and 0 Mt to countries outside the EU"
+      "n": "of which 59 t to other member states and 0 Mt to countries outside the EU"
      }
     ],
     "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.44 Mt, of which 0.347 Mt to other member states and 0.0929 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 7.69 Mt)",
@@ -1093,7 +1093,7 @@
      {
       "c": "FIN",
       "v": 0.0494,
-      "n": "of which 0.0003 Mt from other member states and 0.0491 Mt from countries outside the EU"
+      "n": "of which 0.3 kt from other member states and 0.0491 Mt from countries outside the EU"
      },
      {
       "c": "GRC",
@@ -1108,7 +1108,7 @@
      {
       "c": "SVN",
       "v": 0.0226,
-      "n": "of which 0.00088 Mt from other member states and 0.0217 Mt from countries outside the EU"
+      "n": "of which 0.88 kt from other member states and 0.0217 Mt from countries outside the EU"
      },
      {
       "c": "ROU",
@@ -1148,7 +1148,7 @@
      {
       "c": "IRL",
       "v": 0.0063,
-      "n": "of which 0.000506 Mt from other member states and 0.00577 Mt from countries outside the EU"
+      "n": "of which 0.506 kt from other member states and 0.00577 Mt from countries outside the EU"
      },
      {
       "c": "HUN",
@@ -1168,12 +1168,12 @@
      {
       "c": "SVK",
       "v": 0.0032,
-      "n": "of which 0.000667 Mt from other member states and 0.00251 Mt from countries outside the EU"
+      "n": "of which 0.667 kt from other member states and 0.00251 Mt from countries outside the EU"
      },
      {
       "c": "CYP",
       "v": 0.0013,
-      "n": "of which 0.000154 Mt from other member states and 0.00112 Mt from countries outside the EU"
+      "n": "of which 0.154 kt from other member states and 0.00112 Mt from countries outside the EU"
      }
     ],
     "n": "CEPII BACI 2024, green coffee (HS 090111, 090112): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.44 Mt, of which 0.347 Mt from other member states and 3.09 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 7.69 Mt)",
