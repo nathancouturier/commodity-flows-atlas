@@ -26,8 +26,12 @@ Rules
      reference ("uv-suspect-t"), and BULK_REPAIR is "estimate", the tonnage is re-estimated from the
      declared value and the pair's own unit value in the neighbouring years ("uv-repair", an Atlas
      estimate). The estimate then always moves the tonnage towards the neighbouring years.
+  8. Peer unit value (PEER_UV): a row of a listed exporter whose unit value is more than PEER_MAX times that of a
+     peer exporter of the same product, to the same destination and year, has its tonnage re-estimated from the
+     declared value at the peer's unit value ("est-peer", an Atlas estimate). Chile's copper concentrate reads
+     7,000 to 8,000 USD/t in some years against about 2,000 for Peru's, as if its tonnage were contained copper.
 
-Every row whose tonnage is estimated (rules 2, 3, 4, 7) has imputed = True and a note in `enote` that
+Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
 """
 import math
@@ -35,6 +39,7 @@ import math
 import pandas as pd
 
 from checks import label  # display names of the groups ("LNG", "crude oil"), one table for every note
+from checks import _name as country_name
 
 CODE_FIX = {"S19": "TWN"}
 XAS = "XAS"  # pseudo-place "Asia, not specified" (pipeline/geo/places_extra.json)
@@ -56,6 +61,13 @@ BULK = {"iron-ore", "coal", "bauxite", "manganese", "alumina"}
 # Owner decision O3 (22 November 2026): an isolated anomalous year is re-estimated and published as an
 # Atlas estimate. "flag" keeps the reported tonnage and only flags it.
 BULK_REPAIR = "estimate"  # "estimate" | "flag"
+
+# Rule 8. (group, exporter) -> (peer exporter, product named in the note). The peer's unit value to the same destination
+# is the reference when the peer shipped PEER_MIN_T there that year at a unit value within a factor 2 of its own average
+# of the year; otherwise the peer's average of the year (all destinations) is used.
+PEER_UV = {("copper-ore", "CHL"): ("PER", "copper concentrate")}
+PEER_MAX = 1.8
+PEER_MIN_T = 50_000
 
 HOMOGENEOUS = {
     "crude-oil", "refined-products", "lng", "lpg", "wheat", "corn", "soybeans", "soymeal", "soyoil", "rice",
@@ -130,6 +142,12 @@ def _notes(df, nb):
                       f"{_num(ua)} and {_num(ub)} USD/t for this pair in {ya} and {yb}); tonnage = declared value divided by {uve}, "
                       f"{ref} ({_num(m, ' USD/t')}) times the pair's usual ratio to that median ({r['uve'] / m:.3f} on average in "
                       f"{ya} and {yb})")
+        elif "est-peer" in codes:
+            peer, what, where = nb[i]
+            out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])} ({_num(r['uvp'])} USD/t), "
+                      f"{r['uvp'] / r['uve']:.1f} times the {_num(r['uve'])} USD/t of {what} from {country_name(peer)} {where} in {y}; "
+                      f"a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; "
+                      f"tonnage = declared value divided by {uve}")
         elif "est-missing" in codes:
             out[i] = f"Atlas estimate: tonnage missing in CEPII BACI; declared value {_usd(r['usd'])} divided by {ref}, {uve}"
         elif "est-gross" in codes:
@@ -142,6 +160,28 @@ def _notes(df, nb):
             out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])} ({_num(r['uvp'])} USD/t, "
                       f"{r['uvr']:.2g} times {ref}); tonnage = declared value divided by that unit value, {uve}")
     return pd.Series(out, dtype=object)
+
+
+def _peer(df, fix):
+    """Rule 8: {index: (peer, product, where, reference USD/t)} for the rows to re-estimate."""
+    out = {}
+    for (g, o), (p, what) in PEER_UV.items():
+        peer = df[(df["group"] == g) & (df["o"] == p) & (df["uvp"] > 0) & ~fix]
+        by_y = peer.groupby("year").agg(t=("t", "sum"), usd=("usd", "sum"))
+        uv_y = by_y["usd"] * 1000 / by_y["t"]
+        by_d = peer.groupby(["year", "d"]).agg(t=("t", "sum"), usd=("usd", "sum"))
+        uv_d = by_d["usd"] * 1000 / by_d["t"]
+        rows = df[(df["group"] == g) & (df["o"] == o) & (df["uvp"] > 0) & ~fix]
+        for i, r in rows.iterrows():
+            y, d = r["year"], r["d"]
+            if y not in uv_y.index:
+                continue
+            ref, where = uv_y[y], "to all destinations"
+            if (y, d) in uv_d.index and by_d.loc[(y, d), "t"] >= PEER_MIN_T and 0.5 <= uv_d[(y, d)] / ref <= 2:
+                ref, where = uv_d[(y, d)], f"to {country_name(d)}"
+            if r["uvp"] > PEER_MAX * ref:
+                out[i] = (p, what, where, ref)
+    return out
 
 
 def _isolated(df, latest):
@@ -224,19 +264,27 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     _add_flag(df, gross & ~miss, "est-gross")
     _add_flag(df, moderate & ~gross & ~miss, "est-uv")
     _add_flag(df, has_t & ~(df["usd"] > 0), "no-value")
+    peer = _peer(df, fix)
+    if peer:
+        pi = list(peer)
+        ref = pd.Series({i: v[3] for i, v in peer.items()})
+        df.loc[pi, "t"] = df.loc[pi, "usd"] * 1000 / ref[pi]
+        df.loc[pi, "uve"] = ref[pi]
+        df.loc[pi, "imputed"] = True
+        _add_flag(df, df.index.isin(pi), "est-peer")
 
     iso = _isolated(df, int(df["year"].max()) if len(df) else 0)
     sus = df.index.isin(iso.index[~iso["t_out"]])
     _add_flag(df, sus, "uv-suspect")
     out = iso[iso["t_out"]]
-    nb = {}
+    nb = {i: v[:3] for i, v in peer.items()}
     if bulk_repair == "estimate":
         uve = out["ref"] * (out["rel_a"] * out["rel_b"]) ** 0.5
         df.loc[out.index, "t"] = df.loc[out.index, "usd"] * 1000 / uve
         df.loc[out.index, "uve"] = uve
         df.loc[out.index, "imputed"] = True
         df.loc[out.index, "flag"] = "uv-repair"
-        nb = {i: (int(r["ya"]), r["uvp_a"], int(r["yb"]), r["uvp_b"], r["ref"]) for i, r in out.iterrows()}
+        nb.update({i: (int(r["ya"]), r["uvp_a"], int(r["yb"]), r["uvp_b"], r["ref"]) for i, r in out.iterrows()})
         for i in out.index:  # the earlier year first in the note
             ya, ua, yb, ub, m = nb[i]
             nb[i] = (ya, ua, yb, ub, m) if ya < yb else (yb, ub, ya, ua, m)
@@ -271,7 +319,7 @@ def history_flags(tonnes, values, flags=None, min_abs=2.0):
     """
     out, marks = list(tonnes), {}
     codes = [set((f or "").split("+")) for f in (flags or [""] * len(tonnes))]
-    est = {"est-missing", "est-gross", "est-uv", "uv-repair"}
+    est = {"est-missing", "est-gross", "est-uv", "uv-repair", "est-peer"}
 
     def uv(i):
         t, v = tonnes[i], values[i]

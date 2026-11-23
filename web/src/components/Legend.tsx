@@ -205,7 +205,9 @@ export function Legend() {
           <div class="legend-infra-status">
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.damaged }} />Damaged</span>
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.idle }} />Idle / suspended</span>
-            <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.planned }} />Planned / under construction</span>
+            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.planned, borderStyle: 'dotted' }} />Planned</span>
+            <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.construction }} />Under construction</span>
+            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.closed }} />Closed</span>
             <span class="legend-item muted">Dashed pipeline = not operating</span>
           </div>
         </div>

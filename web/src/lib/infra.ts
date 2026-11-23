@@ -1,9 +1,6 @@
 /**
  * What an infrastructure asset says, read from the schema of pipeline/infrastructure/README.md: its figures
  * (capacity and output, each with its own year), its status, and what the History year changes.
- *
- * The files not yet migrated to that schema still carry a feature-level `y` and free-text units: those are
- * read by lib/capacity.ts, which turns them into the same figures.
  */
 import type { InfraFigure, InfraOutput, InfraProps } from '../types';
 
@@ -56,9 +53,6 @@ export function statusText(status?: string, asOf?: string): string {
 export const yearText = (f: { y?: number | null }): string => (f.y != null ? String(f.y) : 'year not stated');
 
 export const OUTPUT_LABEL: Record<InfraOutput['what'], string> = { production: 'Production', exports: 'Exports', throughput: 'Throughput' };
-
-/** The files not yet migrated carry a feature-level year; the new shape has none. */
-export const isLegacy = (p: InfraProps): boolean => p.y !== undefined;
 
 export type FigureKind = 'capacity' | InfraOutput['what'];
 

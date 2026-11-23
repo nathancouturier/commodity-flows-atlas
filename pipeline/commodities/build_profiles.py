@@ -210,16 +210,17 @@ def main():
             pr = ft["properties"]
             for iso in {pr.get("c")} | set(pr.get("cs") or []):
                 if iso in profiles:
-                    cap = (pr.get("capacity") or {}).get("v") or 0
-                    by_country.setdefault(iso, {}).setdefault(pr["type"], []).append((cap, f"{pr['type']}:{pr['id']}"))
+                    by_country.setdefault(iso, {}).setdefault(pr["type"], []).append(f"{pr['type']}:{pr['id']}")
     TYPE_ORDER = ["field", "refinery", "lng-export", "mine", "pipeline", "port", "smelter", "lng-import"]
     for iso, types in by_country.items():
-        queues = [sorted(types[t], key=lambda x: -x[0]) for t in TYPE_ORDER if t in types]
+        # No ranking here: capacities come in different units (kb/d, Mt/y, kt/y...) and a raw number says nothing across
+        # them. The page ranks the assets among comparable figures (web/src/components/views/InfraList.tsx).
+        queues = [sorted(types[t]) for t in TYPE_ORDER if t in types]
         ordered = []
-        while any(queues):  # one asset per type in turn, largest first: every type is represented
+        while any(queues):  # one asset per type in turn: every type is represented
             for q in queues:
                 if q:
-                    ordered.append(q.pop(0)[1])
+                    ordered.append(q.pop(0))
         profiles[iso]["infra"] = ordered
     cp = os.path.join(ROOT, "data", "commodities", "companies.json")
     if os.path.exists(cp):

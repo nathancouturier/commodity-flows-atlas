@@ -28,6 +28,12 @@ CHECKS = os.path.join(ROOT, "pipeline", "cache", "trade_checks.json")
 RAW_PW = os.path.join(ROOT, "raw", "portwatch")
 YEAR = 2024
 TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
+# general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
+CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton"}
+
+
+def vtype(g):
+    return "tanker" if g in TANKER else "cargo" if g in CARGO else "dry"
 
 BUILT = os.path.isdir(PAIRS) and os.path.exists(os.path.join(FREIGHT, "chokepoints.json"))
 need_build = unittest.skipUnless(BUILT, "build_lanes.py and build_freight.py have not written their files yet")
@@ -75,7 +81,7 @@ def tonnage(cid):
 def by_type(per_group):
     out = defaultdict(float)
     for g, v in per_group.items():
-        out["tanker" if g in TANKER else "dry"] += v
+        out[vtype(g)] += v
         out["all"] += v
     return out
 
@@ -100,7 +106,8 @@ def portwatch(cid):
                     continue
                 y = int(a["year"])
                 days[y] += 1
-                for t, col in (("dry", "capacity_dry_bulk"), ("tanker", "capacity_tanker"), ("all", "capacity")):
+                for t, col in (("dry", "capacity_dry_bulk"), ("tanker", "capacity_tanker"), ("cargo", "capacity_container"),
+                               ("cargo", "capacity_general_cargo"), ("cargo", "capacity_roro"), ("all", "capacity")):
                     out[y][t] = out[y].get(t, 0.0) + (a[col] or 0) / 1e6
         out = {y: v for y, v in out.items() if days[y] >= 365}
     else:
@@ -114,7 +121,7 @@ def portwatch(cid):
             w0 = start + timedelta(days=7 * i)
             for k in range(7):
                 dd = w0 + timedelta(days=k)
-                for t, key in (("dry", "dry"), ("tanker", "tanker"), ("all", "total")):
+                for t, key in (("dry", "dry"), ("tanker", "tanker"), ("cargo", "container"), ("cargo", "other"), ("all", "total")):
                     out[dd.year][t] = out[dd.year].get(t, 0.0) + s["vol"][key][i]
         last = date.fromisoformat(s["y"])
         out = {y: v for y, v in out.items() if y >= start.year + (start.month > 1 or start.day > 1) and date(y, 12, 31) <= last}
@@ -143,12 +150,21 @@ class Shares(unittest.TestCase):
         print(f"\nC02: Hormuz crude at least {e['f']['v']}%, {e['mt'][0]} Mt; up to {e.get('hi', {}).get('v')}%")
         self.assertGreaterEqual(e["f"]["v"], 29.5)
         self.assertAlmostEqual(e["mt"][0], 564, delta=15)
-        self.assertTrue(38 <= e["hi"]["v"] <= 42, e["hi"]["v"])
+        # the plan's 38 to 42 is the uncapped figure; where PortWatch's tanker volume less the other tanker groups' "at
+        # least" tonnage caps it (review GE6, finding 8), the UAE crude still adds to the figure and the note says so
+        if "capped" in e["hi"]["n"]:
+            self.assertTrue(e["f"]["v"] + 1 <= e["hi"]["v"] <= 42, e["hi"]["v"])
+            self.assertIn("United Arab Emirates", e["hi"]["n"])
+        else:
+            self.assertTrue(38 <= e["hi"]["v"] <= 42, e["hi"]["v"])
 
     def test_C03_hormuz_products(self):
+        """UAE products have two load options (inside and outside the strait), so the honest figure is a range: the
+        plan's "at least 18%" assumed every Emirati cargo loads inside the strait."""
         e = estimate("hormuz", "refined-products")
         print(f"\nC03: Hormuz refined products at least {e['f']['v']}% ({e['mt'][0]} Mt), up to {e.get('hi', {}).get('v')}%")
-        self.assertGreaterEqual(e["f"]["v"], 18)
+        self.assertGreaterEqual(e.get("hi", e["f"])["v"], 18)
+        self.assertGreaterEqual(e["f"]["v"], 12)
 
     def test_C04_sunda_taiwan_below_portwatch(self):
         for cid in ("sunda", "taiwan-strait"):
@@ -191,7 +207,7 @@ class Shares(unittest.TestCase):
             self.assertEqual(r["level"], "flag", r)
             self.assertIn("PortWatch", r["text"])
             for e in chokepoint(r["chokepoint"]).get("estimates", []):
-                if ("tanker" if e["p"] in TANKER else "dry") == r["type"]:
+                if vtype(e["p"]) == r["type"]:
                     self.assertIn("PortWatch", e["f"]["n"], (r["chokepoint"], e["p"]))
 
     def test_C07_low_high_wording_cap(self):
@@ -205,7 +221,7 @@ class Shares(unittest.TestCase):
                     self.assertTrue(e["hi"]["n"].startswith("up to"), (c["id"], e["p"]))
                 self.assertEqual(e["f"]["s"], "atlas")
                 if c.get("portwatch") and not c.get("portwatchLabel"):
-                    pw = portwatch(c["id"]).get(YEAR, {}).get("tanker" if e["p"] in TANKER else "dry")
+                    pw = portwatch(c["id"]).get(YEAR, {}).get(vtype(e["p"]))
                     if pw is not None and e["mt"][0] <= pw:
                         self.assertLessEqual(e["mt"][1], pw + 0.05, (c["id"], e["p"]))
         for name in ("chokepoints.json", "chokepoint-lanes.json"):
@@ -233,13 +249,21 @@ class Shares(unittest.TestCase):
         self.assertTrue(any(r[4] == 0 for r in rows))
 
     def test_C09_kozmino_and_denominators(self):
+        # review GE6, finding 4: a corridor with no seaborne tonnage gets no share (its numerator would be all modes
+        # over a seaborne total) but a shareNa with the all-modes volume; the history stays, labelled all modes
         r = next(x for x in load_json(os.path.join(FREIGHT, "routes.json")) if x["id"] == "kozmino-china-espo")
-        self.assertNotIn("shareNa", r)
+        self.assertNotIn("shares", r)
+        self.assertNotIn("shareCommodity", r)
         v = next(h["v"] for h in r["history"] if h["y"] == YEAR)
         self.assertAlmostEqual(v, 108.5, delta=0.5)
-        sea = load_json(os.path.join(PAIRS, "crude-oil.json"))["seaborne"] / 1e3
-        self.assertAlmostEqual(r["shares"][0]["f"]["v"], 100 * v / sea, delta=0.06)
-        self.assertRegex(r["shares"][0]["f"]["n"], r"split (is )?not known")
+        self.assertRegex(r["shareNa"], r"split (is )?not known")
+        self.assertIn("all modes", r["shareNa"])
+        self.assertIn(f"{v:.1f} Mt", r["shareNa"])
+        self.assertIn("only if all of it went by sea", r["shareNa"])
+        self.assertIn("All modes", r["historyNote"])
+        for x in load_json(os.path.join(FREIGHT, "routes.json")):
+            for s in x.get("shares", []):
+                self.assertNotIn("all modes", s["f"]["n"], x["id"])
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
             for e in c.get("estimates", []):
                 sea = load_json(os.path.join(PAIRS, e["p"] + ".json"))["seaborne"] / 1e3
@@ -265,6 +289,109 @@ class Shares(unittest.TestCase):
         self.assertNotIn("4.7 mb/d", notes)
         self.assertIn("7,000 kb/d", notes)
         self.assertIn("1,500 kb/d", notes)
+
+    def test_GE6_1_above_same_year_portwatch_is_noted(self):
+        """Review GE6, finding 1: where the "at least" tonnage of a vessel type is above PortWatch's volume of the same
+        type and year, every share of that type says so and gives PortWatch's figures, and the K9 record is a flag.
+        For Suez and Bab el-Mandeb the reason is the curated Red Sea alert, quoted."""
+        seen = set()
+        for r in k9():
+            if r.get("kind") != "passage" or r["chokepoint"] in ("danish-straits",) or r.get("reference") is None:
+                continue
+            if r["value"] <= r["reference"] + 0.05:
+                continue
+            seen.add((r["chokepoint"], r["type"]))
+            self.assertEqual(r["level"], "flag", r)
+            for e in chokepoint(r["chokepoint"]).get("estimates", []):
+                if vtype(e["p"]) == r["type"]:
+                    self.assertIn("IMF PortWatch's estimate for all", e["f"]["n"], (r["chokepoint"], e["p"]))
+                    self.assertRegex(e["f"]["n"], r"normal itinerary|probably overstate", (r["chokepoint"], e["p"]))
+                    if r["chokepoint"] in ("suez", "bab-el-mandeb") and r["value"] <= 1.1 * r["best"]:
+                        self.assertIn("Red Sea diversions", e["f"]["n"], (r["chokepoint"], e["p"]))
+        print("\nGE6.1: passages above PortWatch's volume of the same year:", sorted(seen))
+        self.assertIn(("suez", "tanker"), seen)
+        self.assertIn(("bab-el-mandeb", "dry"), seen)
+
+    def test_GE6_2_unrecorded_origins_beyond_largest_buyer(self):
+        """Review GE6, finding 2: the note on missing exports reads every main buyer (via and viaAlt) and the "break"
+        caveats of a fall, not only the origin's largest buyer."""
+        cv = load_json(os.path.join(FREIGHT, "caveats.json"))
+        if "crude-irn" in cv:
+            self.assertIn("Iran", estimate("malacca", "crude-oil")["f"]["n"])
+            self.assertIn("Iran", estimate("hormuz", "crude-oil")["f"]["n"])
+        if "urea-irn" in cv and estimate("hormuz", "urea"):
+            self.assertIn("Iran", estimate("hormuz", "urea")["f"]["n"])
+        for e in chokepoint("hormuz")["estimates"]:
+            if "are missing:" in e["f"]["n"]:
+                self.assertIn("record only in part", e["f"]["n"])
+
+    def test_GE6_7_general_cargo_type(self):
+        """Review GE6, finding 7: steel, refined copper, aluminium, coffee, cocoa and cotton are compared with PortWatch's
+        container, general-cargo and ro-ro ships, not with its dry bulk."""
+        import build_freight as BF
+        self.assertEqual(BF.CARGO_GROUPS & set(pairs_groups()), CARGO & set(pairs_groups()))
+        recs = {(r["chokepoint"], r["type"]): r for r in k9() if r.get("kind") == "passage"}
+        self.assertIn(("suez", "cargo"), recs)
+        low, _ = tonnage("suez")
+        self.assertAlmostEqual(recs[("suez", "cargo")]["value"], by_type(low)["cargo"], delta=0.2)
+        self.assertAlmostEqual(recs[("suez", "dry")]["value"], by_type(low)["dry"], delta=0.2)
+        self.assertAlmostEqual(recs[("suez", "cargo")]["reference"], portwatch("suez")[YEAR]["cargo"], delta=0.5)
+
+    def test_GE6_8_cap_leaves_room_for_other_groups(self):
+        """Review GE6, finding 8: the upper figure is capped at PortWatch's volume of the type less the "at least"
+        tonnage of the other groups of that type, never below the group's own "at least"; when the type's "at least"
+        already exceeds PortWatch, the upper figure equals the lower one."""
+        n = 0
+        for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
+            if not c.get("portwatch") or c.get("portwatchLabel") or not c.get("estimates"):
+                continue
+            pw = portwatch(c["id"]).get(YEAR)
+            if not pw:
+                continue
+            low, _ = tonnage(c["id"])
+            t = by_type(low)
+            for e in c["estimates"]:
+                typ = vtype(e["p"])
+                room = max(low[e["p"]], pw[typ] - (t[typ] - low[e["p"]]))
+                self.assertLessEqual(e["mt"][1], room + 0.15, (c["id"], e["p"], room))
+                if t[typ] > pw[typ] + 0.05:
+                    self.assertNotIn("hi", e, (c["id"], e["p"]))
+                if "hi" in e and "capped" in e["hi"]["n"]:
+                    n += 1
+                    self.assertAlmostEqual(e["mt"][1], room, delta=0.15, msg=(c["id"], e["p"]))
+        print(f"\nGE6.8: {n} capped upper figures")
+
+    def test_GE6_10_split_lane_files(self):
+        """Review GE6, finding 10: one file per passage, same note and rows as the single file."""
+        one = load_json(os.path.join(FREIGHT, "chokepoint-lanes.json"))
+        d = os.path.join(FREIGHT, "chokepoint-lanes")
+        self.assertEqual(sorted(f[:-5] for f in os.listdir(d) if f.endswith(".json")), sorted(one["chokepoints"]))
+        for cp, rows in one["chokepoints"].items():
+            part = load_json(os.path.join(d, cp + ".json"))
+            self.assertEqual(part["n"], one["n"])
+            self.assertEqual(list(part["chokepoints"]), [cp])
+            self.assertEqual(part["chokepoints"][cp], rows)
+            self.assertEqual(set(part["groups"]), {r[0] for r in rows})
+
+    def test_GE6_5_parallel_table_says_when_incomplete(self):
+        """Review GE6, finding 5: with pairs skipped, the parallel-threshold table says it is incomplete and does not
+        claim to reproduce the published figures."""
+        import build_commodities as BC
+        rec = {"check": "K9", "kind": "parallel", "group": None, "year": YEAR, "chokepoint": "malacca", "pct": 0.05, "nm": 300,
+               "value": 818.0, "high": 1986.3, "level": "qa", "text": "malacca: ..."}
+        real = BC.K.load
+        try:
+            for skipped, want, unwanted in ((298.5, "Incomplete: 298.5 Mt", "The published figures use"),
+                                            (0.0, "The published figures use 5% or 300 nm", "Incomplete")):
+                BC.K.load = lambda s=skipped: [dict(rec, skipped=s, complete=not s)]
+                text = "\n".join(BC.qa_checks())
+                self.assertIn(want, text)
+                self.assertNotIn(unwanted, text)
+        finally:
+            BC.K.load = real
+        for r in k9():
+            if r.get("kind") == "parallel":
+                self.assertEqual(r["complete"], not r["skipped"], r)
 
     def test_detour_from_main_lanes(self):
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
@@ -310,6 +437,10 @@ class Routes(unittest.TestCase):
         for c in vc:
             self.assertEqual(c["speedKn"], VR.speed(c["id"]), c["id"])
             self.assertIn("Atlas assumption", c["speedNote"])
+            # review GE6, finding 9: an assumed figure with source id atlas, a year, and a note on what it is
+            self.assertEqual({k: c["speed"][k] for k in ("v", "u", "s")}, {"v": c["speedKn"], "u": "kn", "s": "atlas"}, c["id"])
+            self.assertIsInstance(c["speed"]["y"], int)
+            self.assertIn("not a measured speed", c["speed"]["n"])
 
 
 # ------------------------------------------------------------------ flow tables and caveats
@@ -416,6 +547,14 @@ class Flows(unittest.TestCase):
                 tree = ast.parse(f.read())
             lits = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str) and "S19" in n.value]
             self.assertEqual(lits, [], name)
+
+    def test_GE6_12_no_lower_bound_wording(self):
+        """Review GE6, finding 12: the USGS world-reserves note says "a minimum", not "lower bound"."""
+        with open(os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py"), encoding="utf-8") as f:
+            tree = ast.parse(f.read())
+        lits = [n.value for n in ast.walk(tree) if isinstance(n, ast.Constant) and isinstance(n.value, str)
+                and "lower bound" in n.value.lower()]
+        self.assertEqual(lits, [])
 
     def test_profiles_have_index_codes_only(self):
         idx = {c["c"] for c in load_json(os.path.join(ROOT, "data", "countries", "index.json"))}

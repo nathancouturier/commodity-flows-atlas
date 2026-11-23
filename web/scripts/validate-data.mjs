@@ -6,8 +6,8 @@
  *  - every chokepoint with a PortWatch counter has a complete weekly series file, and chokepoint-lanes.json only
  *    names chokepoints that exist,
  *  - the lane and pairs files are consistent with each other and with the chokepoints (scripts/validate-freight.mjs),
- *  - the infrastructure files follow their schema (scripts/validate-infra.mjs; warnings while a file is in the old shape,
- *    STRICT_INFRA=1 makes them errors).
+ *  - the infrastructure files follow their schema (scripts/validate-infra.mjs; every finding is an error, a file in the
+ *    old shape gives warnings only with INFRA_OLD_SHAPE=1).
  * Exits non-zero on failure so a broken data commit never reaches the live site.
  */
 import fs from 'node:fs';

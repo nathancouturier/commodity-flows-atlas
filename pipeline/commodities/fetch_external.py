@@ -1,15 +1,18 @@
 """
 Fetch the two external inputs of build_commodities.py that are not in raw/ and cache the extracted tables.
 
-    .venv/bin/python -I pipeline/commodities/fetch_external.py [--wna-html FILE] [--fao-csv FILE]
+    .venv/bin/python -I pipeline/commodities/fetch_external.py [--wna-html FILE] [--fao-csv FILE] [--fert-csv FILE]
 
 Outputs (small, committed):
   pipeline/cache/wna_uranium.json            World Nuclear Association, mine production by country (tU)
   pipeline/cache/faostat_cocoa_production.csv  FAOSTAT QCL, cocoa beans (item 661), production (t)
+  pipeline/cache/faostat_fertilizer_production.csv  FAOSTAT Fertilizers by Product (RFB), urea (item 4001) and
+                                               potassium chloride (item 4016), production in tonnes of product, from 2015
 
 Without arguments the files are downloaded (one request each):
   WNA     https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production
   FAOSTAT https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_All_Data_(Normalized).zip
+  FAOSTAT https://bulks-faostat.fao.org/production/Inputs_FertilizersProduct_E_All_Data_(Normalized).zip
 (the FAOSTAT JSON API at fenixservices.fao.org returned HTTP 521 when this was written, so the bulk file is used.)
 Downloaded data is only ever parsed as text/CSV, never executed.
 """
@@ -27,6 +30,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, "..", "cache")
 WNA_URL = "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production"
 FAO_URL = "https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
+FERT_URL = "https://bulks-faostat.fao.org/production/Inputs_FertilizersProduct_E_All_Data_(Normalized).zip"
+FERT_ITEMS = {"4001": "urea", "4016": "potassium chloride"}
 UA = "Mozilla/5.0 (research data download)"
 
 
@@ -67,10 +72,30 @@ def parse_wna(text):
     return out
 
 
+def fertilizer(fert_csv=None):
+    if fert_csv:
+        f = open(fert_csv, encoding="utf-8", newline="")
+    else:
+        z = zipfile.ZipFile(io.BytesIO(get(FERT_URL)))
+        name = [n for n in z.namelist() if n.endswith("Normalized).csv")][0]
+        f = io.TextIOWrapper(z.open(name), encoding="utf-8", newline="")
+    out = []
+    for r in csv.DictReader(f):
+        if r["Item Code"] in FERT_ITEMS and r["Element"] == "Production" and int(r["Year"]) >= 2015 and r["Value"].strip():
+            out.append([r["Area Code (M49)"].lstrip("'"), r["Area"], r["Item Code"], r["Year"], r["Value"], r["Flag"]])
+    assert any(x[2] == "4001" for x in out) and any(x[2] == "4016" for x in out), "urea or potassium chloride production missing"
+    with open(os.path.join(CACHE, "faostat_fertilizer_production.csv"), "w", newline="", encoding="utf-8") as g:
+        wr = csv.writer(g)
+        wr.writerow(["m49", "area", "item", "year", "value_t", "flag"])
+        wr.writerows(out)
+    print("faostat fertilizer rows:", len(out))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--wna-html")
     ap.add_argument("--fao-csv", help="extracted Production_Crops_Livestock_E_All_Data_(Normalized).csv")
+    ap.add_argument("--fert-csv", help="extracted Inputs_FertilizersProduct_E_All_Data_(Normalized).csv")
     a = ap.parse_args()
     os.makedirs(CACHE, exist_ok=True)
 
@@ -96,6 +121,8 @@ def main():
         wr.writerow(["m49", "area", "year", "value_t", "flag"])
         wr.writerows(out)
     print("faostat cocoa rows:", len(out))
+
+    fertilizer(a.fert_csv)
 
 
 if __name__ == "__main__":

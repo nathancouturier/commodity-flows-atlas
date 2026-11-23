@@ -54,6 +54,11 @@ G = {
         ("MYPKG", "sea", ("box",), "both", "wikipedia", W + "Port_Klang",
          "wharves for containers and for conventional cargo"),
     ],
+    "MMR": [
+        ("MMRGN", "sea", ("box",), "both", "wikipedia", W + "Port_of_Yangon",
+         "Yangon: the country's largest port, Thilawa, and the other Yangon ports; the page says 90% of trade was handled in the Yangon ports in 2019 "
+         "and names a container service; no grain, fertiliser or edible oil (the page does not name the cargo of Sittwe)"),
+    ],
     "CHN": [
         ("CNTSN", "n-china", ("box",), "discharge", "wikipedia", W + "Port_of_Tianjin",
          "general cargo and containers, 13 million TEU in 2013 (the page names no grain, fertiliser or edible oil)"),
@@ -303,6 +308,7 @@ UNSOURCED = {
     "IRQ": "Umm Qasr (Umm Qasr Port page read: food unloaded in 2003 only, no cargo statement), Khor al-Zubair; Basrah Oil Terminal is an oil terminal, so food goes to the nearest seaport until a page is read",
     "CHN": "grain, soybeans, fertiliser and vegetable oil imports: Dalian, Rizhao, Qingdao and the Yangtze ports (Tianjin, Dalian and Qingdao pages read: no grain or fertiliser named); the Tianjin general-cargo row answers meanwhile",
     "IDN": "grain, fertiliser and vegetable oil imports: Tanjung Priok page read, 'dry bulk' and 'liquid bulk' only",
+    "MMR": "grain, fertiliser and vegetable oil: the Port of Yangon page names no such cargo (Thilawa page: a multi-purpose container port); the Yangon general-cargo row answers meanwhile, as the country's general port",
     "MYS": "grain and fertiliser imports: Port Klang page read, 'bulk cargo' only",
     "IND": "grain and fertiliser at Kandla (Deendayal Port page read: 'bulk cargoes' only)",
     "PAK": "grain and fertiliser imports: Karachi page read (wheat named only as an export of 1899), Port Qasim (page not read)",

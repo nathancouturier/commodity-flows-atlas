@@ -457,8 +457,8 @@ class Eia:
 # ====================================================================== USDA PSD
 class Psd:
     UNITS = {  # commodity -> (unit, factor to that unit from PSD unit, conversion note)
-        "Coffee, Green": ("kt", 0.06, "PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"),
-        "Cotton": ("kt", 0.21772434, "PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"),
+        "Coffee, Green": ("Mt", 0.00006, "PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"),
+        "Cotton": ("Mt", 0.00021772434, "PSD reports 1000 480-lb bales; converted to Mt (1000 bales = 217.72 t)"),
     }
 
     def __init__(self):
@@ -768,7 +768,7 @@ def faostat_cocoa():
             v = float(r["value_t"])
             m49 = int(r["m49"])
             if r["area"] == "World":
-                world = v / 1000
+                world = v / 1e6
                 continue
             if r["area"] in FAO_AGG or m49 >= 900:
                 continue
@@ -778,10 +778,46 @@ def faostat_cocoa():
             if not iso or iso not in ISO_SET:
                 UNKNOWN["faostat"].add(f"{r['area']} ({r['m49']})")
                 continue
-            rows.append((iso, v / 1000, "FAO flag: " + r["flag"] if r["flag"] in ("E", "X", "I") else None))
-    n = (f"FAOSTAT QCL, cocoa beans (item 661), production, {year}; tonnes converted to kt; world total as published by FAO "
+            rows.append((iso, v / 1e6, "FAO flag: " + r["flag"] if r["flag"] in ("E", "X", "I") else None))
+    n = (f"FAOSTAT QCL, cocoa beans (item 661), production, {year}; tonnes converted to Mt; world total as published by FAO "
          "(note flags: E estimated, I imputed, X from international organisations; A official)")
-    return ranked(rows, int(year), "faostat", "kt", world=world, n=n)
+    return ranked(rows, int(year), "faostat", "Mt", world=world, n=n)
+
+
+# International Cocoa Organization (ICCO): world gross production of cocoa beans per crop year (October to September), read on
+# the news pages of its Quarterly Bulletin of Cocoa Statistics; the country tables are sold by subscription and are not copied.
+# (crop year, thousand tonnes, issue read, page)
+ICCO_COCOA = [
+    ("2023/24", 4362, "May 2026 issue", "https://www.icco.org/may-2026-quarterly-bulletin-of-cocoa-statistics/"),
+    ("2024/25", 4733, "August 2026 issue", "https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/"),
+]
+
+
+def cocoa_vs_icco(d):
+    """The FAOSTAT cocoa production table against the ICCO's world totals: (discrepancy text, table warning, Indonesia row note)."""
+    t = d["production"]
+    fao = t["world"] * 1000  # kt
+    (cy, cv, issue, url), (cy2, cv2, issue2, url2) = ICCO_COCOA
+    gap = fao / cv - 1
+    text = (f"World cocoa bean production: FAOSTAT gives {_nf(fao)} kt for calendar year {t['y']} (the table above). The International Cocoa Organization "
+            f"(ICCO) estimates {_nf(cv)} kt for the {cy} crop year, October to September ({issue} of its Quarterly Bulletin of Cocoa Statistics, {url}) and "
+            f"{_nf(cv2)} kt for {cy2} ({issue2}, {url2}); the FAOSTAT total is {gap:.0%} above the first and {fao / cv2 - 1:.0%} above the second. "
+            "The two series differ in period (calendar year against crop year); the cause of the gap is not established here. The ICCO's country tables are sold by "
+            "subscription: they are not copied or compared here.")
+    warn = f"World total {gap:.0%} above the ICCO's estimate for the {cy} crop year ({_nf(cv)} kt): see the discrepancies."
+    idn = None
+    path = os.path.join(CACHE, "faostat_cocoa_production.csv")
+    with open(path, encoding="utf-8") as f:
+        ser = {r["year"]: (r["value_t"], r["flag"]) for r in csv.DictReader(f) if r["area"] == "Indonesia"}
+    row = next((r for r in t["rows"] if r["c"] == "IDN"), None)
+    if row:
+        idn = "Official national figure carried by FAO (flag " + ser.get(str(t["y"]), ("", "?"))[1] + ")"
+        ys = sorted(ser)
+        same = [(a, y) for a, y in zip(ys, ys[1:]) if ser[a][0] == ser[y][0]]
+        if same:
+            idn += f"; FAOSTAT carries the same value for {same[0][0]} and {same[0][1]}"
+        idn += ". Not checked against the ICCO's country table, which is not free; see the discrepancies."
+    return text, warn, idn
 
 
 FAO_AGG = {"Africa", "Americas", "Asia", "Europe", "Oceania", "Eastern Africa", "Middle Africa", "Western Africa", "Southern Africa",
@@ -828,9 +864,9 @@ TRADE = {
     "soyoil": ("soyoil", MT, "soybean oil (HS 1507)"),
     "rice": ("rice", MT, "rice (HS 1006)"),
     "sugar": ("sugar", MT, "cane and beet sugar (HS 1701)"),
-    "coffee": ("coffee", KT, "green coffee (HS 090111, 090112)"),
-    "cocoa": ("cocoa", KT, "cocoa beans (HS 1801)"),
-    "cotton": ("cotton", KT, "raw cotton (HS 5201)"),
+    "coffee": ("coffee", MT, "green coffee (HS 090111, 090112)"),
+    "cocoa": ("cocoa", MT, "cocoa beans (HS 1801)"),
+    "cotton": ("cotton", MT, "raw cotton (HS 5201)"),
     "palm-oil": ("palm-oil", MT, "palm oil (HS 1511)"),
     "rapeseed": ("rapeseed", MT, "rapeseed (HS 1205)"),
     "potash": ("potash", MT, "potassium chloride (HS 310420)"),
@@ -1676,7 +1712,8 @@ def qa_checks():
     skipped = max((r.get("skipped") or 0 for r in par), default=0)
     if skipped:
         intro = (f"Incomplete: {_fmt(skipped)} Mt of pairs were not recomputed (their plan was not cached), so every figure of the "
-                 f"table may be short by up to {_fmt(skipped)} Mt and the 5% or 300 nm column does not reproduce the published figures.")
+                 f"table may be short by up to {_fmt(skipped)} Mt and the 5% or 300 nm column is not an exact reproduction of the "
+                 "published figures.")
     else:
         intro = "The published figures use 5% or 300 nm."
     out += ["", "### Parallel passages under other thresholds of the parallel rule (K9)", "",

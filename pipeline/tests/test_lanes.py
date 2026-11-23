@@ -148,7 +148,9 @@ class Selection(unittest.TestCase):
             s = sum(ln["flow"]["v"] for ln in main_lanes(g) if ln.get("mode") != "mixed") + sum(r["v"] for r in f["rest"])
             self.assertAlmostEqual(s, seaborne(g), delta=max(0.005 * seaborne(g), 0.01), msg=g)
             for r in f["rest"]:
-                self.assertEqual(set(r), {"o", "v", "n"})
+                self.assertIn(set(r), ({"o", "v", "n"}, {"o", "v", "n", "est"}))
+                if "est" in r:  # Mt of the remainder estimated by the atlas (review GE5, finding 2)
+                    self.assertTrue(0 < r["est"] <= r["v"] + 0.001, (g, r))
 
     def test_S07_ids_sets_caps(self):
         import build_lanes as BL
@@ -414,14 +416,24 @@ class GatewayLanes(unittest.TestCase):
             ln = lane(lid)
             if ln and {"panama", "cape-horn"} & set(ln["via"]):
                 bad.append(lid)
-        horn = 0.0
+        # The bound of 25 Mt predates the reviewed rule that opens Cape Horn to the South Pacific (routing.horn_allowed):
+        # a pair with an end on the South Pacific is left out, the bound holds for the rest.
+        import routing
+        horn = horn_sp = 0.0
         for g in groups():
             p = pairs_file(g)
             if "cape-horn" not in p["gates"]:
                 continue
             bit = 1 << p["gates"].index("cape-horn")
-            horn += sum(r[2] for r in p["rows"] if r[3] in (0, 1) and r[8] & bit) / 1e3
-        print(f"\nG09: seaborne tonnage with cape-horn in via: {horn:.1f} Mt; lanes still crossing: {bad}")
+            for r in p["rows"]:
+                if r[3] in (0, 1) and r[8] & bit:
+                    ends = (ports.port(p["ports"][r[4]][0])["at"], ports.port(p["ports"][r[5]][0])["at"])
+                    if any(routing.south_pacific(a) for a in ends):
+                        horn_sp += r[2] / 1e3
+                    else:
+                        horn += r[2] / 1e3
+        print(f"\nG09: seaborne tonnage with cape-horn in via: {horn:.1f} Mt, plus {horn_sp:.1f} Mt with an end on the "
+              f"South Pacific; lanes still crossing: {bad}")
         self.assertEqual(bad, [])
         self.assertLessEqual(horn, 25)
 
@@ -552,6 +564,177 @@ class CaveatLanes(unittest.TestCase):
                     r = row(g, ln["o"], ln["d"])  # a history lane may have no row in the latest year
                     if r:
                         self.assertTrue(r["f"] & 2, ln["id"])
+
+
+@need_build
+class ReviewGE5(unittest.TestCase):
+    """Regression tests of the independent review of the lane builder (group GE5) and of its follow-ups (package FE5)."""
+
+    def test_GE5_1_one_of_lists_are_parallel_passages(self):
+        import routing
+        par = [set().union(*grp) for grp in routing.PARALLEL]
+        bad = [(ln["id"], lst) for g in groups() for ln in lane_file(g)["lanes"] for lst in ln.get("viaAlt", [])
+               if len(lst) > 1 and not any(set(lst) <= p for p in par)]
+        self.assertEqual(bad, [])
+        ln = lane("soybeans:USA-IDN")
+        if ln:
+            for gate in ("gibraltar", "suez", "panama"):
+                if gate in {x for lst in ln["viaAlt"] for x in lst}:
+                    self.assertIn([gate], ln["viaAlt"], gate)
+
+    def test_GE5_1_combine(self):
+        import build_lanes as BL
+        a = {"via": ["gibraltar", "suez", "bab-el-mandeb", "sunda"], "viaAlt": [["sunda", "malacca"]]}
+        b = {"via": ["panama", "torres"], "viaAlt": []}
+        via, lists = BL.combine([a, b])
+        self.assertEqual(via, [])
+        self.assertIn(["sunda", "malacca"], lists)
+        for gate in ("gibraltar", "suez", "bab-el-mandeb", "panama", "torres"):
+            self.assertIn([gate], lists)
+
+    def test_GE5_2_estimates_in_the_totals_are_marked(self):
+        import build_lanes as BL
+        for g in groups():
+            f = lane_file(g)
+            self.assertEqual(len(f["estY"]), len(f["years"]), g)
+            for y, s in zip(f["years"], f["estY"]):
+                self.assertTrue(0 <= s <= 1, (g, y, s))
+                if s >= BL.EST_NOTE_MIN:
+                    self.assertIn("of Atlas estimates (", f["yearNotes"].get(str(y), ""), (g, y))
+            i = f["years"].index(f["y"])
+            self.assertAlmostEqual(f["estY"][i], f["est"], delta=0.0006, msg=g)
+        w = lane_file("wheat")
+        self.assertTrue(0.06 <= w["estY"][w["years"].index(2023)] <= 0.07)
+        self.assertIn("Includes 11 Mt of Atlas estimates", w["yearNotes"]["2023"])
+        self.assertTrue(any("est" in r for g in groups() for r in lane_file(g)["rest"]))
+
+    def test_GE5_3_caveats_survive_a_missing_raw_folder(self):
+        import tempfile
+        import build_lanes as BL
+        import caveats as CV
+        import checks as K
+        sys.path.insert(0, os.path.join(ROOT, "pipeline", "tests"))
+        import test_modes
+        df = test_modes.frame()
+        previous = load_json(os.path.join(ROOT, "data", "freight", "caveats.json"))
+        with tempfile.TemporaryDirectory() as empty:
+            ran = set()
+            findings = K.run(df, YEAR, raw=empty, ran=ran)
+            self.assertFalse(ran & K.RAW_CHECKS)
+            fresh = CV.build(df, findings, YEAR, psd=None)
+            kept = BL.keep_caveats(fresh, previous, ran)
+            self.assertEqual(BL.previous_caveats(os.path.join(empty, "caveats.json")), {})
+        for cid, e in previous.items():
+            if e.get("check") in K.RAW_CHECKS:
+                self.assertIn(cid, kept, cid)
+                self.assertEqual(kept[cid], e)
+        self.assertTrue(set(fresh) <= set(kept))
+        # with every check run, nothing is kept from the previous file
+        self.assertEqual(BL.keep_caveats(fresh, previous, set(K.RAW_CHECKS)), fresh)
+
+    def test_GE5_4_mozambique_south_africa_is_pipeline_gas(self):
+        self.assertIsNone(lane("lng:MOZ-ZAF"))
+        r = row("lng", "MOZ", "ZAF")
+        if r:
+            self.assertEqual(r["m"], 3)
+
+    def test_GE5_6_F9_port_sources_follow_the_cargo(self):
+        import ports
+        weak = {ports.BASIS_LEGACY, ports.BASIS_NEAREST}
+        for g in groups():
+            f = lane_file(g)
+            for code, p in f["ports"].items():
+                self.assertIn(p["basis"], ports.BASES, (g, code))
+                if p["basis"] in weak:
+                    self.assertIsNone(p["s"], (g, code))
+                    self.assertNotIn("url", p, (g, code))
+                if g != "lng":
+                    self.assertFalse("giignl" in (p.get("url") or ""), (g, code))
+            for ln in f["lanes"]:
+                for key in ("transit", "transit2"):
+                    t = ln.get(key)
+                    if t and f["ports"][t["port"]]["basis"] not in weak:
+                        self.assertTrue(f["ports"][t["port"]]["s"], (ln["id"], key))
+
+    def test_GE5_7_history_years_follow_the_latest_year(self):
+        import build_lanes as BL
+        self.assertEqual(BL.hist_years(2024), (2005, 2010, 2015, 2019, 2021, 2022, 2023))
+        self.assertEqual(BL.hist_years(2025)[-3:], (2022, 2023, 2024))
+
+    def test_GE5_8_display_names(self):
+        import checks as K
+        self.assertEqual((K.label("lpg"), K.cap_label("lng"), K.cap_label("crude-oil")), ("LPG", "LNG", "Crude oil"))
+        for g in ("lpg", "lng"):
+            text = json.dumps(lane_file(g), ensure_ascii=False)
+            for bad in ("Lpg", "Lng", "of lpg", "of lng"):
+                self.assertNotIn(bad, text, (g, bad))
+
+    def test_GE5_9_F8_two_landlocked_ends(self):
+        import build_lanes as BL
+        ln = lane("crude-oil:KAZ-AUT")
+        if ln:
+            self.assertEqual(ln["transit"]["port"], "KZCPC")
+            self.assertEqual(ln["transit2"]["port"], "ITTRS")
+            self.assertTrue(ln["transit2"]["s"] and ln["transit2"]["url"])
+        rec, why = BL.route_pair("ZMB", "CHE", "copper-refined", 4.9e5, "transit")
+        self.assertIsNone(why)
+        self.assertEqual((rec["transit"]["port"], rec["transit2"]["port"]), ("TZDAR", "NLRTM"))
+        self.assertEqual(rec["opts"][0], ("TZDAR", "NLRTM"))
+        # a landlocked end with no sourced transit port stays unrouted
+        self.assertEqual(BL.route_pair("AZE", "SVK", "crude-oil", 1.7e5, "transit"), (None, "no sourced transit port"))
+        # a coast with no port of its own goes through its TRANSIT port (Bosnia and Herzegovina, Ploce)
+        rec, why = BL.route_pair("USA", "BIH", "coal", 6.9e5, "sea")
+        self.assertIsNone(why)
+        self.assertEqual(rec["opts"][0][1], "HRPLE")
+        self.assertEqual(rec["transit"]["port"], "HRPLE")
+        self.assertIsNone(rec["transit2"])
+        r = row("coal", "USA", "BIH")
+        self.assertGreaterEqual(r["load"], 0)
+        self.assertEqual(pairs_file("coal")["ports"][r["dis"]][0], "HRPLE")
+
+    def test_F1_modes_by_year(self):
+        # LNG between neighbours counts as seaborne only from the year both terminals exist (Map Ta Phut, 2011)
+        sys.path.insert(0, os.path.join(ROOT, "pipeline", "tests"))
+        import modes
+        import test_modes
+        df = test_modes.frame()
+        z = df[df.group == "lng"]
+        f = lane_file("lng")
+        for y in (2008, 2010, 2019, 2024):
+            q = z[z.year == y]
+            kinds = [modes.mode_of(o, d, "lng", y).kind for o, d in zip(q.o, q.d)]
+            s = q.t[[k in ("sea", "transit") for k in kinds]].sum() / 1e6
+            self.assertAlmostEqual(f["seaborne"][f["years"].index(y)], s, delta=0.01, msg=y)
+
+    def test_F2_pairs_ports_carry_their_basis(self):
+        import ports
+        for g in groups():
+            p = pairs_file(g)
+            self.assertEqual(p["bases"], list(ports.BASES), g)
+            for e in p["ports"]:
+                self.assertEqual(len(e), 5, (g, e))
+                self.assertTrue(0 <= e[4] < len(p["bases"]), (g, e))
+
+    def test_F3_no_alt_on_lanes(self):
+        self.assertEqual([ln["id"] for g in groups() for ln in lane_file(g)["lanes"] if "alt" in ln], [])
+
+    def test_F7_notes_of_pairs_without_a_lane(self):
+        n = 0
+        for g in groups():
+            p = pairs_file(g)
+            notes = p.get("notes", {})
+            keys = {f"{r[0]}-{r[1]}": r for r in p["rows"]}
+            for k, text in notes.items():
+                r = keys[k]
+                self.assertTrue(r[10] & 9 and not r[10] & 4, (g, k))
+                self.assertTrue(text, (g, k))
+            for k, r in keys.items():
+                if r[10] & 1 and not r[10] & 4:
+                    self.assertTrue(notes.get(k, "").startswith("Atlas estimate"), (g, k))
+                    n += 1
+                if r[10] & 8 and not r[10] & 4:
+                    self.assertIn(k, notes, (g, k))
+        self.assertGreater(n, 100)
 
 
 class Compatibility(unittest.TestCase):

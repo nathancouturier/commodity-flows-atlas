@@ -25,13 +25,15 @@ HS = {
     "alumina": ["281820"],
     "nickel-ore": ["260400"],
     "nickel-int": ["750110", "750120", "750210", "750220"],
+    "nickel-fe": ["720260"],  # ferro-nickel; nickel pig iron has no code of its own and is declared under it
     "zinc-ore": ["260800"],
     "zinc-metal": ["790111", "790112", "790120"],
     "lead-ore": ["260700"],
     "lead-metal": ["780110", "780191", "780199"],
     "tin-ore": ["260900"],
     "tin-metal": ["800110", "800120"],
-    "lithium": ["283691", "282520"],  # lithium carbonate, lithium oxide & hydroxide (spodumene has no HS6 code)
+    "lithium": ["283691", "282520"],  # lithium carbonate, lithium oxide & hydroxide
+    "spodumene": ["253090"],  # spodumene concentrate has no HS6 code: a subset of "mineral substances n.e.s.", see SPLIT
     "cobalt": ["260500", "810510"],
     "rare-earths": ["280530", "284610", "284690"],
     "manganese": ["260200"],
@@ -62,6 +64,12 @@ HS = {
 
 STEEL_EXCLUDE = ("7201", "7202", "7203", "7204", "7205")
 
+# A code that mixes products, split by trading partners: hs6 -> (group of the listed pairs, exporters, importers,
+# group of the other rows). HS 253090 ("mineral substances n.e.s.") holds spodumene concentrate with other minerals;
+# its rows from the countries that ship spodumene to China are read as spodumene (an Atlas estimate, said so on the
+# lithium page); the rest of the code is kept as "minerals-nes" only to measure the share the subset is of it.
+SPLIT = {"253090": ("spodumene", ("AUS", "ZWE", "BRA", "NGA", "MLI", "CAN"), ("CHN",), "minerals-nes")}
+
 
 def build_lookup():
     """Return (exact: dict hs6 -> group, prefixes: list[(prefix, group)])."""
@@ -73,6 +81,12 @@ def build_lookup():
             else:
                 exact[c] = group
     return exact, prefixes
+
+
+def split_group(hs6, o, d):
+    """Group of a row of a code in SPLIT, from its exporter and importer (ISO3)."""
+    g, exporters, importers, rest = SPLIT[hs6]
+    return g if o in exporters and d in importers else rest
 
 
 def group_of(hs6: str, exact, prefixes):

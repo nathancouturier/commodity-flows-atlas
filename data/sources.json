@@ -253,12 +253,12 @@
  {
   "id": "trade-press",
   "name": "Trade press (see the page linked on each asset)",
-  "publisher": "Trade press and market-data publishers",
+  "publisher": "Trade press and news agencies: Mining.com, Kitco, Mining Technology, Oil & Gas Journal, S&P Global, Statista, Interfax, World Nuclear News, Katadata and others",
   "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
   "licence": "Press articles; facts cited with a link (terms to be confirmed)",
   "update": "continuous",
   "access": "Web pages, cited per entry (url)",
-  "use": "Company figures not found in reports"
+  "use": "Company and asset figures, and events, where no operator page was reachable"
  },
  {
   "id": "wikipedia",
@@ -272,13 +272,13 @@
  },
  {
   "id": "port-authorities",
-  "name": "Port authorities (see the page linked on each asset)",
-  "publisher": "Port authorities and port statistics offices",
+  "name": "Port authority statistics (see the page linked on each asset)",
+  "publisher": "Port authorities and port statistics offices: Vancouver Fraser Port Authority, Maritime and Port Authority of Singapore, Pilbara Ports, Queensland Transport and Main Roads, Government of the State of Paraná",
   "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
   "licence": "No licence stated; statistics cited with attribution (terms to be confirmed)",
   "update": "annual",
   "access": "Web pages, cited per asset (url)",
-  "use": "Port throughput"
+  "use": "Ports: cargo throughput and exports by year"
  },
  {
   "id": "giignl-2026",
@@ -289,26 +289,6 @@
   "update": "Annual (2026 edition covers calendar 2025, with some 2026 events)",
   "access": "Public PDF report, read by hand",
   "use": "LNG liquefaction and regasification capacities"
- },
- {
-  "id": "eia-briefs",
-  "name": "EIA Today in Energy: US LNG export capacity and project status (2026 items)",
-  "publisher": "U.S. Energy Information Administration",
-  "url": "https://www.eia.gov/todayinenergy/",
-  "licence": "US Government public domain",
-  "update": "Continuous",
-  "access": "Web pages, read by hand",
-  "use": "US LNG export capacity and project status"
- },
- {
-  "id": "press-2026",
-  "name": "2026 Gulf conflict status reporting (Bloomberg list via gCaptain, 11 Apr 2026; Cyprus Mail 12 Oct 2026)",
-  "publisher": "Bloomberg / gCaptain / Cyprus Mail",
-  "url": "https://gcaptain.com/heres-a-list-of-gulf-energy-infrastructure-damaged-in-iran-war/",
-  "licence": "Proprietary press; short facts cited with a link",
-  "update": "Point-in-time (Apr and Oct 2026); status needs re-check",
-  "access": "Web pages, read by hand",
-  "use": "Status of Gulf energy infrastructure in 2026"
  },
  {
   "id": "wikipedia-vessel-classes",
@@ -373,5 +353,25 @@
   "update": "irregular",
   "access": "Web page, read by hand",
   "use": "Size band of the mid-size gas carrier class"
+ },
+ {
+  "id": "eia-refinery-capacity",
+  "name": "EIA Refinery Capacity Report 2026 (operable capacity at 1 January 2026)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/petroleum/refinerycapacity/",
+  "licence": "Public domain (US Government)",
+  "update": "annual (2026 edition: data as of 1 January 2026)",
+  "access": "Report workbook, read by hand",
+  "use": "Refineries of the United States: operable capacity"
+ },
+ {
+  "id": "operator-reports",
+  "name": "Operator reports (see the page linked on each asset)",
+  "publisher": "Asset operators and owners, mostly through their production reports and stock-exchange announcements: BHP, Rio Tinto, Vale, Glencore, Peabody, MP Materials, Teck, Valterra Platinum, Kuwait National Petroleum Company and others",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
+  "licence": "Per operator; facts cited with a link (terms to be confirmed)",
+  "update": "quarterly or annual",
+  "access": "Production reports, results releases, filings and operator web pages, linked per asset (url)",
+  "use": "Mines and refineries: dated production figures, capacity, ownership and operating status"
  }
 ]

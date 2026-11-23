@@ -1,6 +1,6 @@
 /**
- * Tests of scripts/validate-infra.mjs: a small valid data folder passes, each way of breaking the schema is reported,
- * a file in the old shape gives warnings (and errors with STRICT_INFRA=1).
+ * Tests of scripts/validate-infra.mjs: a small valid data folder passes, each way of breaking the schema is reported
+ * as an error, and a file in the old shape gives warnings only behind the switch INFRA_OLD_SHAPE=1.
  *
  *     node web/scripts/validate-infra.test.mjs
  */
@@ -45,7 +45,7 @@ function folder(mutate) {
   fs.mkdirSync(path.join(dir, 'commodities'));
   fs.writeFileSync(path.join(dir, 'commodities/index.json'), JSON.stringify([{ id: 'copper' }, { id: 'crude-oil' }]));
   fs.mkdirSync(path.join(dir, 'countries'));
-  fs.writeFileSync(path.join(dir, 'countries/index.json'), JSON.stringify([{ c: 'PER' }, { c: 'CHL' }]));
+  fs.writeFileSync(path.join(dir, 'countries/index.json'), JSON.stringify([{ c: 'PER' }, { c: 'CHL' }, { c: 'AUS' }, { c: 'IDN' }]));
   fs.writeFileSync(path.join(dir, 'sources.json'), JSON.stringify([{ id: 'wikipedia' }]));
   fs.mkdirSync(path.join(dir, 'geo'));
   fs.copyFileSync(path.join(realData, 'geo/countries.topo.json'), path.join(dir, 'geo/countries.topo.json'));
@@ -55,11 +55,11 @@ function folder(mutate) {
   return dir;
 }
 
-async function run(mutate, strict = false) {
+async function run(mutate, tolerateOldShape = false) {
   const dir = folder(mutate);
   const errors = [];
   const warnings = [];
-  await validateInfra(dir, errors, warnings, { strict });
+  await validateInfra(dir, errors, warnings, { tolerateOldShape });
   fs.rmSync(dir, { recursive: true, force: true });
   return { errors, warnings, all: [...errors, ...warnings].join('\n') };
 }
@@ -71,7 +71,7 @@ async function run(mutate, strict = false) {
   assert.deepEqual(r.warnings, []);
 }
 
-// each break is reported as an error (a file of the new shape, or STRICT_INFRA=1; a `y` alone makes a file old-shape)
+// each break is reported as an error
 const breaks = {
   'no status': [(p) => delete p.status, /status ""/],
   'status outside the vocabulary': [(p) => (p.status = 'running'), /status "running"/],
@@ -96,11 +96,11 @@ const breaks = {
   'zero capacity': [(p) => (p.capacity.v = 0), /capacity\.v/],
 };
 for (const [name, [edit, re]] of Object.entries(breaks)) {
-  const r = await run((fs) => edit(fs[0].properties), true);
+  const r = await run((fs) => edit(fs[0].properties));
   assert.ok(r.errors.some((e) => re.test(e)), `${name}: expected an error matching ${re}, got ${JSON.stringify(r.errors)}`);
 }
 
-// unknown source: always an error; duplicate id across files
+// unknown source: always an error; a type and an id identify one asset
 {
   const r = await run((fs) => (fs[0].properties.s = 'nobody'));
   assert.ok(r.errors.some((e) => /unknown source "nobody"/.test(e)));
@@ -109,7 +109,14 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   const r = await run((fs, dir) => {
     fs.push(feat({ ...mine(), name: 'Other' }, [-71.6, -16.6]));
   });
-  assert.ok(r.errors.some((e) => /id also used/.test(e)));
+  assert.ok(r.errors.some((e) => /mine:cerro-test is also in/.test(e)), r.all);
+}
+{
+  // the same id under another type is another asset ("ras-tanura", a refinery and a port)
+  const r = await run((fs) => {
+    fs.push(feat({ ...mine(), type: 'smelter' }));
+  });
+  assert.deepEqual(r.errors, [], r.all);
 }
 
 // coordinates
@@ -132,7 +139,23 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   assert.deepEqual(r.errors, []);
 }
 
-// the old shape: warnings, not errors; with the strict switch, errors
+// assets at sea: an LNG plant or a field may lie far from its country's polygon, but not nearer to another country
+{
+  const lng = (c) => ({ ...mine(), id: 'prelude-test', type: 'lng-export', c, k: ['crude-oil'], capacity: { v: 3.6, u: 'Mtpa', y: 2025 } });
+  const prelude = [123.3, -13.78];
+  const ok = await run((fs) => (fs[0] = feat(lng('AUS'), prelude)));
+  assert.deepEqual(ok.errors, [], ok.all);
+  // the same point stated as Indonesian is 320 km from Indonesia and nearer to Australia
+  const wrong = await run((fs) => (fs[0] = feat(lng('IDN'), prelude)));
+  assert.ok(wrong.errors.some((e) => /nearer to AUS/.test(e)), wrong.all);
+  // a plant at sea is not exempt from the 370 km limit, and a mine at sea is not exempt at all
+  const far = await run((fs) => (fs[0] = feat(lng('AUS'), [95, -13.78])));
+  assert.ok(far.errors.some((e) => /from AUS/.test(e)), far.all);
+  const mineAtSea = await run((fs) => (fs[0] = feat({ ...mine(), c: 'AUS', k: ['copper'] }, prelude)));
+  assert.ok(mineAtSea.errors.some((e) => /the limit is 60 km/.test(e)), mineAtSea.all);
+}
+
+// the old shape: errors; with the switch, warnings
 {
   const old = (fs) => {
     const p = fs[0].properties;
@@ -143,15 +166,15 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     delete p.status;
     delete p.statusAsOf;
   };
-  const soft = await run(old);
+  const strict = await run(old);
+  assert.ok(strict.errors.length >= 4, strict.all);
+  const soft = await run(old, true);
   assert.deepEqual(soft.errors, [], soft.all);
   assert.ok(soft.warnings.length >= 4, soft.all);
   assert.ok(soft.warnings.some((w) => /still in the old shape/.test(w)));
-  const strict = await run(old, true);
-  assert.ok(strict.errors.length >= 4, strict.all);
 }
 
-// the command exits 1 on an error, 0 otherwise, and STRICT_INFRA=1 is read from the environment
+// the command exits 1 on an error, 0 otherwise, and INFRA_OLD_SHAPE=1 is read from the environment
 {
   const dir = folder((fs) => (fs[0].properties.status = 'running'));
   const bad = spawnSync(process.execPath, [script, dir], { encoding: 'utf8' });
@@ -164,11 +187,11 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     delete fs[0].properties.read;
     fs[0].properties.y = 2026;
   });
-  const soft = spawnSync(process.execPath, [script, dir3], { encoding: 'utf8' });
-  const strict = spawnSync(process.execPath, [script, dir3], { encoding: 'utf8', env: { ...process.env, STRICT_INFRA: '1' } });
+  const strict = spawnSync(process.execPath, [script, dir3], { encoding: 'utf8' });
+  const soft = spawnSync(process.execPath, [script, dir3], { encoding: 'utf8', env: { ...process.env, INFRA_OLD_SHAPE: '1' } });
   for (const d of [dir2, dir3]) fs.rmSync(d, { recursive: true, force: true });
-  assert.equal(soft.status, 0, soft.stderr);
   assert.equal(strict.status, 1);
+  assert.equal(soft.status, 0, soft.stderr);
 }
 
 console.log('validate-infra tests passed');

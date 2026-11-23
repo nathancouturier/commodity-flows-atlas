@@ -722,9 +722,9 @@ def main():
                 yn[str(y)] = ". ".join(p[0].upper() + p[1:].rstrip(".") for p in parts)
         # share of each year's seaborne tonnes that is an Atlas estimate, and a line for the years where it shows
         est_y = [round(est_tot.get((group, y), 0) / sea_tot[y], 3) if sea_tot[y] else 0 for y in years]
-        for y in years:
+        for y, share in zip(years, est_y):
             e = est_tot.get((group, y), 0)
-            if sea_tot[y] and e / sea_tot[y] >= EST_NOTE_MIN:
+            if share >= EST_NOTE_MIN:  # on the published share, so that every year it marks has its line
                 txt = (f"Includes {_mt(e / 1e6)} of Atlas estimates ({e / sea_tot[y]:.1%} of the year's seaborne tonnes): "
                        "tonnage estimated from declared value")
                 yn[str(y)] = (yn[str(y)] + ". " if str(y) in yn else "") + txt

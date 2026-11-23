@@ -28,8 +28,6 @@ export interface InfraFeature {
   geom: Geometry;
   /** anchor [lon, lat]: the point itself, or a point along the line */
   at: [number, number];
-  /** 0 = primary (shown at world zoom), 1 = secondary */
-  pri: 0 | 1;
 }
 
 // lng.geojson holds both 'lng-export' and 'lng-import' features (told apart by properties.type)
@@ -63,18 +61,8 @@ export function loadInfra(): Promise<InfraFeature[]> {
           if (!cs.length) continue;
           at = cs[Math.floor(cs.length / 2)];
         }
-        out.push({ p: { ...props, k: props.k ?? [] }, geom: f.geometry, at, pri: 1 });
+        out.push({ p: { ...props, k: props.k ?? [] }, geom: f.geometry, at });
       }
-    }
-    // primary assets: the largest few of each type by stated capacity
-    const byType = new Map<string, InfraFeature[]>();
-    for (const f of out) byType.set(f.p.type, [...(byType.get(f.p.type) ?? []), f]);
-    for (const list of byType.values()) {
-      list
-        .filter((f) => f.p.capacity)
-        .sort((a, b) => b.p.capacity!.v - a.p.capacity!.v)
-        .slice(0, 8)
-        .forEach((f) => (f.pri = 0));
     }
     return out;
   });
@@ -125,13 +113,6 @@ export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
 
 export function infraRef(f: InfraFeature) {
   return { kind: 'infra' as const, id: f.p.id, layer: f.p.type };
-}
-
-/** "1,950 kt/y" for the figure an asset is ranked by (its capacity, else its output); "" when it has none. */
-export function infraCapacity(p: InfraProps): string {
-  const f = figuresOf(p);
-  const fig = f.capacity ?? f.output;
-  return fig ? figureText(fig, fmt) : '';
 }
 
 /** One tooltip line of a figure: "Capacity 1,950 kt/y · 2025 · concentrate". */

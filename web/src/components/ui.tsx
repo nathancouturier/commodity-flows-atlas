@@ -65,7 +65,6 @@ const SHORT_SOURCE: Record<string, string> = {
   'usda-psd': 'USDA',
   'eia-intl': 'EIA',
   'eia-spot': 'EIA',
-  'eia-briefs': 'EIA',
   'eia-tie': 'EIA',
   'eia-chokepoints': 'EIA',
   'wb-pink': 'World Bank',

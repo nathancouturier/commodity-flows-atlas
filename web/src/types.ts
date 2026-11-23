@@ -556,7 +556,7 @@ export type InfraStatus = 'operating' | 'damaged' | 'suspended' | 'idle' | 'cons
 /** A figure of an asset: capacity (what it can do) or output (what it did in a year). */
 export interface InfraFigure {
   v: number;
-  /** one unit of the vocabulary: kb/d, bcm/y, Mtpa, Mt/y, kt/y, t/y, tU/y (the old files carry free text) */
+  /** one unit of the vocabulary: kb/d, bcm/y, Mtpa, Mt/y, kt/y, t/y, tU/y */
   u: string;
   /** year the figure refers to; absent when the source does not say */
   y?: number;
@@ -581,8 +581,7 @@ export interface InfraProps {
   capacity?: InfraFigure;
   output?: InfraOutput;
   opened?: number;
-  /** a value of InfraStatus; the files not yet migrated carry free text or nothing */
-  status?: string;
+  status: InfraStatus;
   /** "YYYY" or "YYYY-MM": when the status was true */
   statusAsOf?: string;
   statusNote?: string;
@@ -592,8 +591,6 @@ export interface InfraProps {
   read?: string;
   /** "approx": the point is a town, a centroid or a schematic position */
   coord?: 'site' | 'approx';
-  /** feature-level year of the files not yet migrated; the new shape has none */
-  y?: number | string;
   /** countries crossed (pipelines) */
   cs?: Iso3[];
   /** pipelines */

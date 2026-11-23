@@ -5,6 +5,7 @@ Extract the atlas commodity groups from a CEPII BACI HS92 zip into one compact t
 
 Output columns: year, group, o (exporter ISO3), d (importer ISO3), t (tonnes), usd (thousand USD).
 Rows below 1,000 t AND below 1 million USD are dropped: they are irrelevant for flows and freight.
+A code of hs_map.SPLIT is shared between two groups by exporter and importer.
 BACI licence: Etalab Open Licence 2.0 — cite "CEPII BACI".
 """
 import io
@@ -14,7 +15,7 @@ import zipfile
 import pandas as pd
 
 sys.path.insert(0, __file__.rsplit("/", 1)[0])
-from hs_map import build_lookup, group_of  # noqa: E402
+from hs_map import SPLIT, build_lookup, group_of, split_group  # noqa: E402
 
 zpath, out = sys.argv[1], sys.argv[2]
 first_year = int(sys.argv[3]) if len(sys.argv) > 3 else 2000
@@ -44,6 +45,9 @@ for n in sorted(names):
     gmap = {c: group_of(c, exact, prefixes) for c in codes}
     df["group"] = df["k"].map(gmap)
     df = df[df["group"].notna()]
+    sp = df["k"].isin(SPLIT)
+    if sp.any():
+        df.loc[sp, "group"] = [split_group(k, iso.get(i), iso.get(j)) for k, i, j in zip(df.loc[sp, "k"], df.loc[sp, "i"], df.loc[sp, "j"])]
     df["q"] = pd.to_numeric(df["q"], errors="coerce")
     g = df.groupby(["group", "i", "j"], as_index=False).agg(t=("q", "sum"), usd=("v", "sum"))
     g = g[(g["t"] >= 1000) | (g["usd"] >= 1000)]

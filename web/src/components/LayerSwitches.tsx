@@ -33,9 +33,11 @@ export function InfraTypeChips() {
   const nHidden = shown.filter((t) => hidden.has(t)).length;
   const cur = commodities.value.find((c) => c.id === commodity.value);
   const scope = cur ? cur.name : family.value !== 'all' ? (family.value === 'freight' ? 'Freight' : FAMILY_LABEL[family.value as Family]) : null;
+  // a commodity with no asset in the files: say so instead of "all types shown"
+  const none = !!avail && shown.length === 0;
   return (
     <div class="infra-filter">
-      {scope && <div class="infra-scope">Showing assets for {scope}</div>}
+      {scope && !none && <div class="infra-scope">Showing assets for {scope}</div>}
       <div class="chips">
         {/* every type is on by default; a click hides or shows that type */}
         {shown.map((t) => {
@@ -55,7 +57,9 @@ export function InfraTypeChips() {
         })}
       </div>
       <div class="infra-hint">
-        {nHidden ? (
+        {none ? (
+          <span>No infrastructure asset is recorded for {scope ?? 'this view'} yet.</span>
+        ) : nHidden ? (
           <button class="link-btn" onClick={() => (infraHidden.value = new Set())}>Show all types</button>
         ) : (
           <span>All types shown. Click a type to hide it.</span>

@@ -6,12 +6,19 @@
  *  - `type`, `status`, the units of `capacity` and `output` and `output.what` are in their vocabularies;
  *    `capacity.y`, `output.y` and `opened` are numbers between 1850 and next year; `read` and `statusAsOf` are dates;
  *  - `k` ids exist in commodities/index.json, `s` exists in sources.json, ids are unique across the seven files;
- *  - coordinates are numbers in range and a point lies inside its country `c` or within 60 km of it (370 km for a
- *    field, which may be offshore; skipped, with a warning, when the country has no polygon in geo/countries.topo.json);
+ *  - coordinates are numbers in range and a point lies inside its country `c` or within 60 km of it. A field or an LNG
+ *    terminal may stand at sea (a field offshore, a floating plant, an island terminal): it may lie up to 370 km
+ *    (200 nautical miles, the limit of the exclusive economic zone) from `c`, provided no other country is nearer to
+ *    it (so a point in the wrong country is still caught). Skipped, with a warning, when the country has no polygon in
+ *    geo/countries.topo.json;
+ *  - a feature is identified by its type and its id: `type:id` is unique across the seven files (the site draws, selects
+ *    and links an asset by `sel=infra:<id>:<type>`); the same id under two types ("ras-tanura", a refinery and a port)
+ *    is allowed;
  *  - `note` holds no working-note phrase ("via search", "stripped", "latest on page").
  *
- * A file that is still in the old shape (a feature-level `y`, or no `read`) produces warnings, not errors, so that the
- * data packages can migrate one file at a time. STRICT_INFRA=1 turns every warning into an error.
+ * Every finding about the shape of a feature is an error. Only INFRA_OLD_SHAPE=1 (or `{ tolerateOldShape: true }`)
+ * makes a file that is still in the old shape (a feature-level `y`, or no `read`) produce warnings instead, for a
+ * data migration that goes one file at a time. STRICT_INFRA=1 is still accepted and changes nothing.
  * Called by validate-data.mjs; `node validate-infra.mjs [data folder]` runs it alone.
  */
 import fs from 'node:fs';
@@ -26,8 +33,9 @@ const WHAT = ['production', 'exports', 'throughput'];
 const COORD = ['site', 'approx'];
 const WORKING_NOTE = /via search|stripped|latest on page/i;
 const NEAR_KM = 60;
-/** Fields can be offshore: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone). */
-const FIELD_KM = 370;
+/** Types that can stand at sea: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone). */
+const OFFSHORE_TYPES = ['field', 'lng-export', 'lng-import'];
+const OFFSHORE_KM = 370;
 const MIN_YEAR = 1850;
 
 const isNum = (x) => typeof x === 'number' && Number.isFinite(x);
@@ -109,10 +117,10 @@ export function kmToCountry(polys, x, y, limit = NEAR_KM) {
  * @param root data folder
  * @param errors array that receives the errors
  * @param warnings array that receives the warnings
- * @param opts { strict } warnings become errors
+ * @param opts { tolerateOldShape } a file in the old shape gives warnings, not errors (default: INFRA_OLD_SHAPE=1)
  */
 export async function validateInfra(root, errors, warnings, opts = {}) {
-  const strict = opts.strict ?? process.env.STRICT_INFRA === '1';
+  const tolerateOldShape = opts.tolerateOldShape ?? process.env.INFRA_OLD_SHAPE === '1';
   const readJson = (rel) => {
     try {
       return JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
@@ -145,7 +153,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
     // a file is still in the old shape while one of its features has a feature-level year or no `read`
     const legacy = doc.features.some((f) => f.properties && ('y' in f.properties || f.properties.read === undefined));
     if (legacy) legacyFiles++;
-    const soft = legacy && !strict;
+    const soft = legacy && tolerateOldShape;
     const hard = (msg) => errors.push(`${rel}: ${msg}`);
     const shape = (msg) => (soft ? warnings : errors).push(`${rel}: ${msg}${soft ? ' [old shape]' : ''}`);
 
@@ -157,9 +165,10 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       if (!f.geometry) hard(`${at}: no geometry`);
       if (typeof p.id !== 'string') continue;
 
-      // ids are unique across the seven files
-      if (seen.has(p.id)) shape(`${at}: id also used in ${seen.get(p.id)}`);
-      else seen.set(p.id, name);
+      // an asset is told apart by its type and its id, across the seven files (the site keeps the first of two equal pairs)
+      const ident = `${p.type}:${p.id}`;
+      if (seen.has(ident)) shape(`${at}: ${ident} is also in ${seen.get(ident)}: a type and an id identify one asset`);
+      else seen.set(ident, name);
 
       if ('y' in p) shape(`${at}: has a feature-level "y" (the reading date is "read", each figure has its own year)`);
       if (!Array.isArray(p.k) || !p.k.length) shape(`${at}: "k" must be a non-empty list of commodity ids`);
@@ -219,15 +228,22 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
         const cp = polys.get(p.c);
         if (!cp) skipped.add(p.c);
         else {
-          const limit = p.type === 'field' ? FIELD_KM : NEAR_KM;
-          const km = kmToCountry(cp, g.coordinates[0], g.coordinates[1], limit);
+          const [x, y] = g.coordinates;
+          const offshore = OFFSHORE_TYPES.includes(p.type);
+          const limit = offshore ? OFFSHORE_KM : NEAR_KM;
+          const km = kmToCountry(cp, x, y, limit);
           if (km > limit) shape(`${at}: the point lies ${Number.isFinite(km) ? `${Math.round(km)} km` : `more than ${limit} km`} from ${p.c} (the limit is ${limit} km)`);
+          else if (offshore && km > NEAR_KM) {
+            // at sea: allowed only when no other country is nearer than the stated one
+            const nearer = [...polys].find(([iso, other]) => iso !== p.c && kmToCountry(other, x, y, km) < km);
+            if (nearer) shape(`${at}: the point lies ${Math.round(km)} km from ${p.c} and nearer to ${nearer[0]}: the country may be wrong`);
+          }
         }
       }
     }
   }
   if (skipped.size) warnings.push(`infrastructure: no polygon for ${[...skipped].sort().join(', ')}: the country check is skipped for these`);
-  if (legacyFiles) warnings.push(`infrastructure: ${legacyFiles} of ${FILES.length} files are still in the old shape; STRICT_INFRA=1 turns these warnings into errors`);
+  if (legacyFiles) warnings.push(`infrastructure: ${legacyFiles} of ${FILES.length} files are still in the old shape (INFRA_OLD_SHAPE=1 is set)`);
 }
 
 /** Warnings as a short text: the count per kind of message, then a few examples. */
@@ -241,7 +257,7 @@ export function summariseWarnings(warnings, examples = 6) {
   return `${warnings.length} warning(s):\n${lines.join('\n')}\nexamples:\n${warnings.slice(0, examples).map((w) => `  ${w}`).join('\n')}`;
 }
 
-// node validate-infra.mjs [data folder]   (STRICT_INFRA=1 for the final check)
+// node validate-infra.mjs [data folder]   (INFRA_OLD_SHAPE=1 tolerates a file still in the old shape)
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const root = path.resolve(process.argv[2] ?? path.join(path.dirname(fileURLToPath(import.meta.url)), '../../data'));
   const errors = [];
