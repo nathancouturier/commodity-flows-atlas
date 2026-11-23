@@ -434,7 +434,7 @@ export interface ProfileBalance {
   /** table key of the exports side (exports, refined-exports...) */
   t: string;
   label?: string;
-  net?: { v: number; exp: number | null; imp: number | null; u: string; y: number | string; s: string; est?: boolean };
+  net?: { v: number; exp: number | null; imp: number | null; u: string; y: number | string; s: string; est?: boolean; n?: string };
   customers?: ProfilePartners;
   suppliers?: ProfilePartners;
   /** imports over consumption, same unit and year */
@@ -459,6 +459,8 @@ export interface FreightProduct {
   /** shares of the tonnes by mode */
   modes: Partial<Record<'sea' | 'transit' | 'mixed' | 'land', number>>;
   est?: boolean;
+  /** `atlas` when the tonnes of the whole group are an Atlas estimate (spodumene); absent when they are the block's source */
+  s?: string;
   seaKt?: number;
   unrouted?: number;
   ports?: { name: string; c: Iso3; share: number; basis?: string }[];

@@ -219,7 +219,7 @@ function BalanceRow({ b }: { b: ProfileBalance }) {
       <div class="cp-bal-head">
         <button class="link-btn cp-bal-name" onClick={() => openCommodity(b.k)} disabled={!commodityMeta(b.k)}>{name}</button>
         {word && net && (
-          <span class="cp-net num">
+          <span class="cp-net num" title={net.n}>
             {word} {net.v !== 0 && <>{fmtEst(Math.abs(net.v), net.est)} {net.u}</>}
             {net.est && <EstMark />}
           </span>
@@ -375,6 +375,8 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
   if (!p.freight || (!p.freight.exports.length && !p.freight.imports.length)) return null;
   const fr = p.freight;
   const capped = [...fr.exports, ...fr.imports, fr.exportsTotal, fr.importsTotal].some((x) => x?.via?.some((v) => v.capped));
+  // a group whose tonnes are wholly the atlas's own estimate is not the customs source's figure: the source line says so
+  const own = [...new Set([...fr.exports, ...fr.imports].filter((x) => x.s === 'atlas').map((x) => groupName(x.g, x.k)))];
   return (
     <FoldSection title="Freight" aside={<span class="muted num">{p.freight.y}</span>} foldOnPhone>
       <FreightSide p={p} side="exports" />
@@ -386,7 +388,11 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
         {capped &&
           ' "No up to": the page of the passage caps its own "up to" for this cargo at IMF PortWatch\'s count of all ships through it, below what the routes that may cross it add up to, so no country\'s share of it is given.'}
       </div>
-      <SourceLine s={p.freight.s} y={p.freight.y} n="recorded pairs, all transport modes; ports, modes and routes: Atlas assumptions" />
+      <SourceLine
+        s={p.freight.s}
+        y={p.freight.y}
+        n={`recorded pairs, all transport modes; ports, modes and routes: Atlas assumptions${own.length ? `; ${own.join(', ')}: tonnes are an Atlas estimate` : ''}`}
+      />
     </FoldSection>
   );
 }
