@@ -283,24 +283,34 @@ pairs). Seaborne: 7,920.4 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the
 minor metals were added; Belarusian potash to China, 2.9 Mt, moved from transit to sea and overland.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
-(`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo family
-or a default row. 23 countries have one: Austria and Czechia (crude: Trieste, Transalpine
+(`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo (a customs
+group or a cargo family) or a default row. 26 countries have one. Before package L1, 23 had one: Austria and Czechia (crude: Trieste, Transalpine
 Pipeline), Hungary and Serbia (crude: Omišalj, Adria pipeline), Kazakhstan (crude: CPC terminal,
 Novorossiysk, a port in Russia), Azerbaijan (crude: Ceyhan, BTC pipeline), Chad (crude: Kribi),
 South Sudan (crude: Port Sudan), Czechia (other cargo: Hamburg), Switzerland (Rotterdam), Uganda and
 Rwanda (Mombasa), Zambia, Malawi, Burundi and DR Congo (Dar es Salaam), Zimbabwe (Beira), Ethiopia
 (Djibouti), Burkina Faso and Mali (Abidjan), Niger (Cotonou), Nepal and Bhutan (Kolkata), and
 Bosnia and Herzegovina, whose short coast has no port of its own (Ploče). Each of these rows cites a
-Wikipedia article. Seven more countries have rows since package L1 (pages read on 23 November
-2026): Belarus (fertilisers: St Petersburg, for the Bronka and St Petersburg terminals, from an OSW
-commentary of November 2024 and a Reform.news report of Kommersant's 2025 figures), Kazakhstan (dry
-bulk: Ust-Luga, from a Kpler note of February 2025 on Kazakh coal for the EU and Morocco), Paraguay
-(grain and vegetable oil: the Up-River Paraná hub of Rosario, from a Bolsa de Comercio de Rosario
-note of April 2017 on the grain coming down the waterway in transit in 2016), Austria and Hungary
-(other cargo: Koper, Port of Koper article), Serbia (other cargo: Constanța, Port of Constanța
-article, Danube traffic) and Botswana (Walvis Bay, Walvis Bay article). A family row rests on a page
-that names one cargo of the family (coal, potash, soy): the other cargoes of the family take the
-same port, which the note says. Slovakia has no row although the Constanța article names it: a
+Wikipedia article. Package L1 (pages read on 23 November 2026) gave rows to three more countries,
+Belarus, Paraguay and Botswana, and new cargo rows to four that had one, Austria, Hungary, Serbia and
+Kazakhstan: Belarus (fertilisers: St Petersburg, for the Bronka and St Petersburg terminals, from an
+OSW commentary of November 2024 and a Reform.news report of Kommersant's 2025 figures), Kazakhstan
+(coal: from a Kpler note of February 2025), Paraguay (soy and corn: from a Bolsa de Comercio de
+Rosario note of April 2017 on the grain coming down the Paraná–Paraguay waterway in transit in
+2016), Austria and Hungary (other cargo: Koper, Port of Koper article), Serbia (other cargo:
+Constanța, Port of Constanța article, Danube traffic) and Botswana (Walvis Bay, Walvis Bay article).
+A row holds only what its page says (review of package L1, fixed in package FL1): the Kazakh coal row
+names the two buyers of the page, Morocco (Ust-Luga) and the member states of the EU (one of Ust-Luga
+and Novorossiysk, the page's chart of the EU trade naming both, no split), so Kazakh coal for Turkey,
+Israel, India, Taiwan, Japan and the other buyers, and the other dry bulk of Kazakhstan, have no row.
+The Paraguayan rows follow the cargo the page counts at each outlet, with its 2016 figures: soybean
+meal at Rosario (1.30 Mt) or Nueva Palmira in Uruguay (about 722,000 t of Paraguay and Bolivia), drawn
+at Rosario; soybeans at Nueva Palmira (nearly 1.7 Mt of Paraguay and Bolivia) or Rosario (767,000 t),
+drawn at Nueva Palmira; corn at Nueva Palmira (294,000 t); soybean oil at Rosario (590,000 t). Wheat,
+rice and sugar of Paraguay are on no page and have no row. Nueva Palmira is placed at the coordinates
+of its Wikipedia page. The Belarusian row names potash: for the other fertilisers of Belarus its port
+is published as a general port of the country, not as a page that names the cargo, and so are the
+default rows. Slovakia has no row although the Constanța article names it: a
 default row would also send its crude imports there. A transit pair is routed from or to that port
 and the site writes "sea via" the port. A seaborne pair whose landlocked end has no sourced row
 (Central Asian products, potash and urea of Uzbekistan and Turkmenistan, Kazakh products, Slovak
@@ -1015,7 +1025,13 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   - LPG, **11.60 barrels per tonne**: the ratio of EIA's own series for United States LPG consumption in
     thousand barrels a day and in thousand metric tons, the same in every year from 1980 to 2019; the
     headline consumption carries kb/d in brackets. Prices are in USD per US gallon: at 42 US gallons per
-    barrel (by definition) one tonne is 487 gallons, which the page note gives.
+    barrel (EIA, units and calculators) one tonne is 487 gallons, which the page note gives.
+  - every constant behind these factors (the pound, the short ton, the troy ounce, the foot and the
+    nautical mile, the atomic weights, the gallons in a barrel, the bcf per Mt of LNG, the PSD bag and bale,
+    the Earth radius) is read from `pipeline/common/constants.py`, which gives for each its value, what it
+    is, the page it was read on and the date; a test checks that every entry has a page and a date and that
+    no builder types one of the values. The two barrels-per-tonne ratios are not constants of nature: they
+    are read in EIA's own data and the module says which series.
 - **Rounding**: the data keep full precision; a figure the atlas estimated or converted is
   published with three significant digits, and an estimated figure is shown with two at display
   (section 1).
@@ -1249,7 +1265,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   - *Monthly blocks* (`pipeline/commodities/monthly.py`, `data/commodities/monthly/<id>.json`, loaded on demand
     by `EnergyMonthly.tsx`): the last 60 months of EIA's monthly series. Crude oil production by producer (every
     producer with 0.1 kb/d or more in the baseline year), OECD imports by origin (petroleum and other liquids,
-    not crude alone; the Persian Gulf and OPEC are EIA's own groups), petroleum stocks and, for the refined
+    not crude alone; the Persian Gulf and OPEC are EIA's own groups, which overlap: Qatar is in the first and
+    not in the second), petroleum stocks and, for the refined
     products page, oil demand, and for the LPG page natural gas plant liquids. Every series carries three
     figures, each with its month, and a change: the average of the year before the latest month (the twelve
     months weighted by their days, which equals EIA's own annual figure: the validator and the tests check it),
@@ -1257,7 +1274,18 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     These are arithmetic on published figures, not estimates. A month that EIA gives as withheld ("w"), not
     available or absent stays empty and nothing is filled in; a series whose last month is more than a year old has
     stopped and is left out. The Gulf total adds Saudi Arabia, Iraq, Kuwait, Qatar, the United Arab Emirates, Iran
-    and Bahrain month by month, only for months in which all seven have a figure.
+    and Bahrain month by month, only for months in which all seven have a figure. The block of the year so far
+    against the year before ("Monthly production in 2026 against the 2025 average") is shown only once the year has
+    three months.
+  - *Months without a figure in the imports by origin*: EIA leaves a month out of an origin's series when it has no
+    figure (the file has the other markers "--", "NA", "w" and "ie" too, and publishes zeros as 0: 1,716 zero months
+    in these series). Neither the file nor the EIA Open Data documentation read on 23 November 2026 says that an
+    absent month is a month without imports, so the atlas does not fill it: the month is shown as "no figure", the
+    average of the year before is shown only when its twelve months have a figure, no lowest month is printed for an
+    origin with a month missing in the year, a latest month that has no figure is not replaced by an older one
+    (the last figure is named with its month), and the note under the table counts the months missing. An origin
+    is left out only when the months of the year before that have a figure average under 1 kb/d; never for an
+    absent month.
   - *Stocks*: EIA gives monthly petroleum stocks (crude oil and products together, not split) with a figure for the
     OECD, OECD Europe and eight countries (the United States, Japan, Germany, South Korea, Canada, France, Italy,
     the United Kingdom); it marks the others withheld, and the atlas shows none for them. Days of cover are the
@@ -1275,10 +1303,14 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   - *United States LPG consumption*: EIA's tonnes have no United States value after 2021, and its world total in
     tonnes leaves the country out from 2022 (the sum of the countries equals it); the same series exist in thousand
     barrels per day for every year. The missing years are that figure converted at 11.60 barrels per tonne, the
-    ratio of EIA's own United States series in both units (the same in every year from 1980 to 2019), and
-    EIA's world total gets the figure added. The tonnes of 2021 (148 Mt against 43 Mt the year before, 3.4 barrels
-    per tonne against 11.6) are replaced the same way, and the world total of 2021 is corrected by the difference.
-    Each such row says so ("Atlas conversion"); 2020, 5% off the ratio, stands as published.
+    ratio of EIA's own United States series in both units (the same in every year from 1980 to 2019). The world
+    total of such a year is EIA's own world series in barrels per day converted at the same ratio, when that agrees
+    within 1% with EIA's tonnes plus the United States (it does for 2021 to 2025: 347.98 Mt in 2025 against 303.66 Mt
+    in EIA's own tonnes, which leave the United States out); otherwise EIA's tonnes with the figure added, and only
+    while EIA's total equals the sum of the other countries within 0.5% (a corrected file is not counted twice).
+    The tonnes of 2021 (148 Mt against 43 Mt the year before, 3.4 barrels per tonne against 11.6) are replaced the
+    same way. The United States row, the table, the key figure, the map legend, the CSV, the history and the
+    country profile line all say "Atlas conversion"; 2020, 5% off the ratio, stands as published.
   - *Other tables from the file*: consumption of motor gasoline, distillate fuel oil, jet fuel and residual fuel
     oil by country (refined products), nuclear generating capacity (uranium), metallurgical coke production and
     trade (metallurgical coal), and in a note the world coal production by rank (the four ranks and metallurgical

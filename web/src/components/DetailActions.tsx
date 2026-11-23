@@ -11,9 +11,10 @@ const LinkIcon = () => (
     <path d="M6 8a2.4 2.4 0 0 0 3.4 0l2-2A2.4 2.4 0 0 0 8 2.6l-.7.7M8 6a2.4 2.4 0 0 0-3.4 0l-2 2A2.4 2.4 0 0 0 6 11.4l.7-.7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
   </svg>
 );
+// two filled quotation marks: at 14 px two open strokes read as "ff"
 const QuoteIcon = () => (
   <svg viewBox="0 0 14 14" aria-hidden="true">
-    <path d="M2.5 11V7.2C2.5 5 3.6 3.7 5.4 3.3M8 11V7.2C8 5 9.1 3.7 10.9 3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+    <path d="M1.8 10.6V6.5C1.8 4.5 2.9 3.2 4.9 2.8l.3 1.1C4.2 4.3 3.7 4.9 3.7 5.7h1.8v4.9zM7.8 10.6V6.5C7.8 4.5 8.9 3.2 10.9 2.8l.3 1.1c-1 .4-1.5 1-1.5 1.8h1.8v4.9z" fill="currentColor" />
   </svg>
 );
 

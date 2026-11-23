@@ -1349,7 +1349,7 @@
 0.006
 ],
 "level": "flag",
-"text": "Tin metal exports of Laos: 5.9e-05 Mt in 2024 against 0.006 Mt in 2023 (CEPII BACI)"
+"text": "Tin metal exports of Laos: 59 t in 2024 against 0.006 Mt in 2023 (CEPII BACI)"
 },
 {
 "check": "K6",
@@ -3581,6 +3581,19 @@
 "text": "Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565)"
 },
 {
+"check": "K13",
+"group": "rare-earths",
+"year": 2024,
+"o": "AUS",
+"d": "MYS",
+"value": 0.031,
+"reference": 12529,
+"unitValue": 4102,
+"ratio": 0.327,
+"level": "flag",
+"text": "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529)"
+},
+{
 "check": "K12",
 "group": "iron-ore",
 "year": 2024,
@@ -3675,30 +3688,6 @@
 "ratio": 2.6,
 "level": "qa",
 "text": "Coal from Indonesia to Brunei (IDTBA to BNMUA): main route 805 nm, 2.6 times the great-circle distance; check the gateways"
-},
-{
-"check": "K12",
-"group": "coal",
-"year": 2024,
-"o": "KAZ",
-"d": "TUR",
-"value": 1.323,
-"reference": 1279,
-"ratio": 3.29,
-"level": "qa",
-"text": "Coal from Kazakhstan to Turkey (RUULU to TRIZM): main route 4,207 nm, 3.3 times the great-circle distance; check the gateways"
-},
-{
-"check": "K12",
-"group": "coal",
-"year": 2024,
-"o": "KAZ",
-"d": "ISR",
-"value": 0.68,
-"reference": 1635,
-"ratio": 2.8,
-"level": "qa",
-"text": "Coal from Kazakhstan to Israel (RUULU to ILHFA): main route 4,578 nm, 2.8 times the great-circle distance; check the gateways"
 },
 {
 "check": "K12",
@@ -4436,6 +4425,18 @@
 "check": "K12",
 "group": "potash",
 "year": 2024,
+"o": "BLR",
+"d": "CHN",
+"value": 2.888,
+"reference": 3353,
+"ratio": 3.69,
+"level": "qa",
+"text": "Potash from Belarus to China (RULED to CNTSN): main route 12,389 nm, 3.7 times the great-circle distance; check the gateways"
+},
+{
+"check": "K12",
+"group": "potash",
+"year": 2024,
 "o": "RUS",
 "d": "IND",
 "value": 1.095,
@@ -4583,14 +4584,14 @@
 "year": 2024,
 "chokepoint": "hormuz",
 "type": "dry",
-"value": 88.7,
+"value": 88.6,
 "high": 90.4,
 "reference": 195.8,
 "best": 203.1,
 "bestYear": 2022,
 "ratio": 0.44,
 "level": "qa",
-"text": "Strait of Hormuz, dry bulk: at least 88.7 Mt and up to 90.4 Mt of the atlas's seaborne groups in 2024, against 196 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 203 Mt in 2022)"
+"text": "Strait of Hormuz, dry bulk: at least 88.6 Mt and up to 90.4 Mt of the atlas's seaborne groups in 2024, against 196 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 203 Mt in 2022)"
 },
 {
 "check": "K9",
@@ -4616,13 +4617,13 @@
 "chokepoint": "hormuz",
 "type": "cargo",
 "value": 22.1,
-"high": 23.6,
+"high": 23.5,
 "reference": 169.8,
 "best": 174.6,
 "bestYear": 2023,
 "ratio": 0.13,
 "level": "qa",
-"text": "Strait of Hormuz, container, general cargo and ro-ro: at least 22.1 Mt and up to 23.6 Mt of the atlas's seaborne groups in 2024, against 170 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 175 Mt in 2023)"
+"text": "Strait of Hormuz, container, general cargo and ro-ro: at least 22.1 Mt and up to 23.5 Mt of the atlas's seaborne groups in 2024, against 170 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 175 Mt in 2023)"
 },
 {
 "check": "K9",
@@ -4631,14 +4632,14 @@
 "year": 2024,
 "chokepoint": "malacca",
 "type": "dry",
-"value": 190.9,
-"high": 1156.3,
+"value": 190.7,
+"high": 1158.3,
 "reference": 1189.5,
 "best": 1287.0,
 "bestYear": 2025,
 "ratio": 0.15,
 "level": "qa",
-"text": "Strait of Malacca, dry bulk: at least 191 Mt and up to 1,156 Mt of the atlas's seaborne groups in 2024, against 1,190 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,287 Mt in 2025)"
+"text": "Strait of Malacca, dry bulk: at least 191 Mt and up to 1,158 Mt of the atlas's seaborne groups in 2024, against 1,190 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,287 Mt in 2025)"
 },
 {
 "check": "K9",
@@ -4680,13 +4681,13 @@
 "chokepoint": "sunda",
 "type": "dry",
 "value": 1.6,
-"high": 997.8,
+"high": 999.9,
 "reference": 300.9,
 "best": 307.1,
 "bestYear": 2025,
 "ratio": 0.01,
 "level": "qa",
-"text": "Sunda Strait, dry bulk: at least 1.6 Mt and up to 998 Mt of the atlas's seaborne groups in 2024, against 301 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 307 Mt in 2025)"
+"text": "Sunda Strait, dry bulk: at least 1.6 Mt and up to 1,000 Mt of the atlas's seaborne groups in 2024, against 301 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 307 Mt in 2025)"
 },
 {
 "check": "K9",
@@ -4775,14 +4776,14 @@
 "year": 2024,
 "chokepoint": "suez",
 "type": "dry",
-"value": 254.7,
-"high": 265.4,
+"value": 255.7,
+"high": 266.4,
 "reference": 183.9,
 "best": 379.8,
 "bestYear": 2023,
 "ratio": 0.67,
 "level": "flag",
-"text": "Suez Canal, dry bulk: at least 255 Mt and up to 265 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
+"text": "Suez Canal, dry bulk: at least 256 Mt and up to 266 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
 },
 {
 "check": "K9",
@@ -4823,14 +4824,14 @@
 "year": 2024,
 "chokepoint": "bab-el-mandeb",
 "type": "dry",
-"value": 249.6,
-"high": 259.7,
+"value": 250.6,
+"high": 260.7,
 "reference": 176.9,
 "best": 381.1,
 "bestYear": 2023,
 "ratio": 0.66,
 "level": "flag",
-"text": "Bab el-Mandeb, dry bulk: at least 250 Mt and up to 260 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
+"text": "Bab el-Mandeb, dry bulk: at least 251 Mt and up to 261 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis)"
 },
 {
 "check": "K9",
@@ -4919,14 +4920,14 @@
 "year": 2024,
 "chokepoint": "bosphorus",
 "type": "dry",
-"value": 179.4,
-"high": 199.8,
+"value": 179.3,
+"high": 201.1,
 "reference": 203.5,
 "best": 241.4,
 "bestYear": 2021,
 "ratio": 0.74,
 "level": "qa",
-"text": "Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 179 Mt and up to 200 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021)"
+"text": "Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 179 Mt and up to 201 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021)"
 },
 {
 "check": "K9",
@@ -4967,14 +4968,14 @@
 "year": 2024,
 "chokepoint": "danish-straits",
 "type": "dry",
-"value": 59.4,
-"high": 79.8,
+"value": 57.0,
+"high": 78.8,
 "reference": 8.8,
 "best": 10.7,
 "bestYear": 2025,
-"ratio": 5.54,
+"ratio": 5.32,
 "level": "qa",
-"text": "Danish Straits, dry bulk: at least 59.4 Mt and up to 79.8 Mt of the atlas's seaborne groups in 2024, against 8.8 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 10.7 Mt in 2025); the PortWatch counter is the Oresund (PortWatch); Great Belt not covered: no comparison is valid"
+"text": "Danish Straits, dry bulk: at least 57.0 Mt and up to 78.8 Mt of the atlas's seaborne groups in 2024, against 8.8 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 10.7 Mt in 2025); the PortWatch counter is the Oresund (PortWatch); Great Belt not covered: no comparison is valid"
 },
 {
 "check": "K9",
@@ -5015,14 +5016,14 @@
 "year": 2024,
 "chokepoint": "gibraltar",
 "type": "dry",
-"value": 328.6,
-"high": 359.0,
+"value": 326.8,
+"high": 358.7,
 "reference": 383.9,
 "best": 514.0,
 "bestYear": 2023,
 "ratio": 0.64,
 "level": "qa",
-"text": "Strait of Gibraltar, dry bulk: at least 329 Mt and up to 359 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023)"
+"text": "Strait of Gibraltar, dry bulk: at least 327 Mt and up to 359 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023)"
 },
 {
 "check": "K9",
@@ -5047,14 +5048,14 @@
 "year": 2024,
 "chokepoint": "gibraltar",
 "type": "cargo",
-"value": 51.9,
-"high": 52.7,
+"value": 51.6,
+"high": 52.4,
 "reference": 407.5,
 "best": 419.7,
 "bestYear": 2021,
 "ratio": 0.12,
 "level": "qa",
-"text": "Strait of Gibraltar, container, general cargo and ro-ro: at least 51.9 Mt and up to 52.7 Mt of the atlas's seaborne groups in 2024, against 408 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 420 Mt in 2021)"
+"text": "Strait of Gibraltar, container, general cargo and ro-ro: at least 51.6 Mt and up to 52.4 Mt of the atlas's seaborne groups in 2024, against 408 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 420 Mt in 2021)"
 },
 {
 "check": "K9",
@@ -5063,14 +5064,14 @@
 "year": 2024,
 "chokepoint": "dover",
 "type": "dry",
-"value": 158.3,
-"high": 172.9,
+"value": 156.6,
+"high": 172.6,
 "reference": 337.1,
 "best": 366.9,
 "bestYear": 2022,
 "ratio": 0.43,
 "level": "qa",
-"text": "Dover Strait, dry bulk: at least 158 Mt and up to 173 Mt of the atlas's seaborne groups in 2024, against 337 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 367 Mt in 2022)"
+"text": "Dover Strait, dry bulk: at least 157 Mt and up to 173 Mt of the atlas's seaborne groups in 2024, against 337 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 367 Mt in 2022)"
 },
 {
 "check": "K9",
@@ -5095,14 +5096,14 @@
 "year": 2024,
 "chokepoint": "dover",
 "type": "cargo",
-"value": 37.9,
-"high": 37.9,
+"value": 37.6,
+"high": 37.6,
 "reference": 390.0,
 "best": 406.9,
 "bestYear": 2025,
 "ratio": 0.09,
 "level": "qa",
-"text": "Dover Strait, container, general cargo and ro-ro: at least 37.9 Mt and up to 37.9 Mt of the atlas's seaborne groups in 2024, against 390 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 407 Mt in 2025)"
+"text": "Dover Strait, container, general cargo and ro-ro: at least 37.6 Mt and up to 37.6 Mt of the atlas's seaborne groups in 2024, against 390 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 407 Mt in 2025)"
 },
 {
 "check": "K9",
@@ -5111,8 +5112,8 @@
 "year": 2024,
 "chokepoint": "cape-good-hope",
 "type": "dry",
-"value": 770.3,
-"high": 771.3,
+"value": 770.2,
+"high": 771.2,
 "reference": 1053.7,
 "best": 1182.6,
 "bestYear": 2025,
@@ -5160,13 +5161,13 @@
 "chokepoint": "taiwan-strait",
 "type": "dry",
 "value": 49.5,
-"high": 1767.1,
+"high": 1769.5,
 "reference": 1061.2,
 "best": 1100.5,
 "bestYear": 2025,
 "ratio": 0.04,
 "level": "qa",
-"text": "Taiwan Strait, dry bulk: at least 49.5 Mt and up to 1,767 Mt of the atlas's seaborne groups in 2024, against 1,061 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,100 Mt in 2025)"
+"text": "Taiwan Strait, dry bulk: at least 49.5 Mt and up to 1,769 Mt of the atlas's seaborne groups in 2024, against 1,061 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,100 Mt in 2025)"
 },
 {
 "check": "K9",
@@ -5207,8 +5208,8 @@
 "year": 2024,
 "chokepoint": "korea-strait",
 "type": "dry",
-"value": 157.5,
-"high": 270.1,
+"value": 157.4,
+"high": 270.0,
 "reference": 428.0,
 "best": 433.6,
 "bestYear": 2025,
@@ -5304,13 +5305,13 @@
 "chokepoint": "luzon",
 "type": "dry",
 "value": 27.3,
-"high": 1828.7,
+"high": 1831.1,
 "reference": 1169.2,
 "best": 1169.2,
 "bestYear": 2024,
 "ratio": 0.02,
 "level": "qa",
-"text": "Luzon Strait, dry bulk: at least 27.3 Mt and up to 1,829 Mt of the atlas's seaborne groups in 2024, against 1,169 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,169 Mt in 2024)"
+"text": "Luzon Strait, dry bulk: at least 27.3 Mt and up to 1,831 Mt of the atlas's seaborne groups in 2024, against 1,169 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 1,169 Mt in 2024)"
 },
 {
 "check": "K9",
@@ -5448,12 +5449,12 @@
 "chokepoint": "malacca",
 "pct": 0.03,
 "nm": 150,
-"value": 1150.0,
-"high": 2306.6,
+"value": 1152.0,
+"high": 2308.6,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "malacca: at least 1,150 Mt, up to 2,307 Mt with parallel passages within 3% or 150 nm"
+"text": "malacca: at least 1,152 Mt, up to 2,309 Mt with parallel passages within 3% or 150 nm"
 },
 {
 "check": "K9",
@@ -5494,11 +5495,11 @@
 "pct": 0.03,
 "nm": 150,
 "value": 464.2,
-"high": 2860.5,
+"high": 2862.9,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "taiwan-strait: at least 464 Mt, up to 2,860 Mt with parallel passages within 3% or 150 nm"
+"text": "taiwan-strait: at least 464 Mt, up to 2,863 Mt with parallel passages within 3% or 150 nm"
 },
 {
 "check": "K9",
@@ -5509,11 +5510,11 @@
 "pct": 0.03,
 "nm": 150,
 "value": 34.4,
-"high": 2510.5,
+"high": 2512.9,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "luzon: at least 34 Mt, up to 2,510 Mt with parallel passages within 3% or 150 nm"
+"text": "luzon: at least 34 Mt, up to 2,513 Mt with parallel passages within 3% or 150 nm"
 },
 {
 "check": "K9",
@@ -5523,12 +5524,12 @@
 "chokepoint": "malacca",
 "pct": 0.05,
 "nm": 300,
-"value": 1067.5,
-"high": 2311.4,
+"value": 1067.3,
+"high": 2313.3,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "malacca: at least 1,067 Mt, up to 2,311 Mt with parallel passages within 5% or 300 nm"
+"text": "malacca: at least 1,067 Mt, up to 2,313 Mt with parallel passages within 5% or 300 nm"
 },
 {
 "check": "K9",
@@ -5539,11 +5540,11 @@
 "pct": 0.05,
 "nm": 300,
 "value": 1.9,
-"high": 1310.3,
+"high": 1312.4,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "sunda: at least 1.9 Mt, up to 1,310 Mt with parallel passages within 5% or 300 nm"
+"text": "sunda: at least 1.9 Mt, up to 1,312 Mt with parallel passages within 5% or 300 nm"
 },
 {
 "check": "K9",
@@ -5569,11 +5570,11 @@
 "pct": 0.05,
 "nm": 300,
 "value": 58.5,
-"high": 2860.7,
+"high": 2863.1,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "taiwan-strait: at least 58 Mt, up to 2,861 Mt with parallel passages within 5% or 300 nm"
+"text": "taiwan-strait: at least 58 Mt, up to 2,863 Mt with parallel passages within 5% or 300 nm"
 },
 {
 "check": "K9",
@@ -5584,11 +5585,11 @@
 "pct": 0.05,
 "nm": 300,
 "value": 34.1,
-"high": 2927.0,
+"high": 2929.5,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "luzon: at least 34 Mt, up to 2,927 Mt with parallel passages within 5% or 300 nm"
+"text": "luzon: at least 34 Mt, up to 2,929 Mt with parallel passages within 5% or 300 nm"
 },
 {
 "check": "K9",
@@ -5599,11 +5600,11 @@
 "pct": 0.1,
 "nm": 500,
 "value": 687.8,
-"high": 2311.4,
+"high": 2313.3,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "malacca: at least 688 Mt, up to 2,311 Mt with parallel passages within 10% or 500 nm"
+"text": "malacca: at least 688 Mt, up to 2,313 Mt with parallel passages within 10% or 500 nm"
 },
 {
 "check": "K9",
@@ -5614,11 +5615,11 @@
 "pct": 0.1,
 "nm": 500,
 "value": 1.8,
-"high": 1696.2,
+"high": 1698.2,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "sunda: at least 1.8 Mt, up to 1,696 Mt with parallel passages within 10% or 500 nm"
+"text": "sunda: at least 1.8 Mt, up to 1,698 Mt with parallel passages within 10% or 500 nm"
 },
 {
 "check": "K9",
@@ -5629,11 +5630,11 @@
 "pct": 0.1,
 "nm": 500,
 "value": 850.9,
-"high": 2130.1,
+"high": 2132.2,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "lombok: at least 851 Mt, up to 2,130 Mt with parallel passages within 10% or 500 nm"
+"text": "lombok: at least 851 Mt, up to 2,132 Mt with parallel passages within 10% or 500 nm"
 },
 {
 "check": "K9",
@@ -5644,11 +5645,11 @@
 "pct": 0.1,
 "nm": 500,
 "value": 49.5,
-"high": 2860.7,
+"high": 2863.1,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "taiwan-strait: at least 49 Mt, up to 2,861 Mt with parallel passages within 10% or 500 nm"
+"text": "taiwan-strait: at least 49 Mt, up to 2,863 Mt with parallel passages within 10% or 500 nm"
 },
 {
 "check": "K9",
@@ -5659,11 +5660,11 @@
 "pct": 0.1,
 "nm": 500,
 "value": 34.1,
-"high": 2936.0,
+"high": 2938.5,
 "skipped": 0.0,
 "complete": true,
 "level": "qa",
-"text": "luzon: at least 34 Mt, up to 2,936 Mt with parallel passages within 10% or 500 nm"
+"text": "luzon: at least 34 Mt, up to 2,938 Mt with parallel passages within 10% or 500 nm"
 },
 {
 "check": "K9",

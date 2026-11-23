@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": 2025,
    "s": "atlas",
-   "n": "Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total: EIA's world series in barrels per day (11,059 thousand) converted at 11.60 barrels per tonne (Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States (EIA's own total in tonnes is 303.66 Mt, which leaves the United States out or holds a figure out of line for it); The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
+   "n": "Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt). EIA's own world total in tonnes is 303.66 Mt; The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. The world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025), because EIA's own total in tonnes leaves the country out or holds the figure out of line.",
    "alt": {
     "v": 11100,
     "u": "kb/d",
@@ -827,10 +827,10 @@
     "v": 0.0001
    }
   ],
-  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); United States converted from barrels per day (Atlas conversion); world total: EIA's world series in barrels per day (11,059 thousand) converted at 11.60 barrels per tonne (Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States (EIA's own total in tonnes is 303.66 Mt, which leaves the United States out or holds a figure out of line for it) · The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
+  "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); United States converted from barrels per day (Atlas conversion); world total: EIA's world series in barrels per day (11,059 thousand) converted at 11.60 barrels per tonne (Atlas conversion), which agrees within 1% with EIA's tonnes plus the United States (EIA's own total in tonnes is 303.66 Mt, which leaves the United States out or holds a figure out of line for it) · The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. The world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025), because EIA's own total in tonnes leaves the country out or holds the figure out of line.",
   "conv": "United States and world total",
   "convWorld": true,
-  "caveat": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. EIA's own world total in tonnes leaves the country out or holds the figure out of line; the world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025).",
+  "caveat": "The United States is converted from EIA's barrels per day at 11.60 barrels per tonne (Atlas conversion): EIA's tonnes for the country are missing from 2022 and out of line with its barrels per day in 2021. The world total of the table is EIA's own world series in barrels per day converted at the same ratio (2021 to 2025), because EIA's own total in tonnes leaves the country out or holds the figure out of line.",
   "caveatYears": [
    2021,
    2022,

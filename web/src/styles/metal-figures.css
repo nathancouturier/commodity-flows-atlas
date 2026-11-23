@@ -43,7 +43,13 @@ button.mf-row:hover {
 /* the side panel is about 350 px wide at every screen size: the name of a concentration row ("Refined and blister copper exports", with its
    estimate mark) takes a line of its own and the three figures ("Chile 23.4%") sit under it, so that nothing is cut */
 .mf-conc {
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.6fr 0.8fr 0.8fr;
+}
+/* "United Arab Emirates 12.3%" wraps rather than being cut */
+.mf-row.mf-conc .num {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .mf-conc .mf-name {
   grid-column: 1 / -1;

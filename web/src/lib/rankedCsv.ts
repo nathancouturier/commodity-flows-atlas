@@ -2,7 +2,7 @@
 import type { Ranked } from '../types';
 import { commodityMeta, countryName, sourceLabel } from './data';
 import { atlasKind, sig2 } from './format';
-import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceOf, licenceTexts, publisherOf, slug, sourceName, toCsv } from './csv';
+import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceOf, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from './csv';
 import { licenceShort } from './licence';
 import { selection } from './store';
 
@@ -51,6 +51,7 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   const method = kind ? methodOf(data) : '';
   const inputs = kind ? inputsOf(data.n ?? '') : [];
   const lic = licenceColumn();
+  const src = sourceColumn();
   // what the page says of the year: the forecast of a marketing year in progress, the estimate of the one before
   const year = data.yk ? `${data.y} ${data.yk}` : data.y;
   const out: (string | number | null)[][] = [];
@@ -63,10 +64,7 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
     // an Atlas estimate or conversion carries its method and inputs on every row, as the page carries them in the table note
     const text = [note, method].filter(Boolean).join(' | ');
     const [full, short] = kind
-      ? [
-          `${ATLAS_LICENCE}; computed from ${inputs.map((i) => `${publisherOf(i)} (${licenceShort(licenceOf(i))})`).join(' and ') || 'the sources named in the note'}`,
-          ATLAS_LICENCE,
-        ]
+      ? [`${ATLAS_LICENCE}; ${kind === 'conv' ? 'converted' : 'computed'} from ${inputs.map((i) => `${publisherOf(i)}: ${licenceShort(licenceOf(i))}`).join('; ') || 'the sources named in the note'}`, undefined]
       : rowEst
         ? licenceTexts([data.s], `; the estimate: ${ATLAS_LICENCE}`)
         : rowConv
@@ -74,9 +72,12 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
           : licenceTexts([data.s]);
     out.push([
       commodity, title, rank, iso, name, year, own ? sig2(v) : v, data.u, share(v), own ? 'Atlas estimate' : kind === 'conv' || rowConv ? 'Atlas conversion' : '', text,
-      kind
-        ? sourceName('atlas', `${kind === 'conv' ? 'converted' : 'computed'} from ${inputs.map(sourceLabel).join(' and ') || 'the sources named in the note'}`)
-        : sourceName(data.s, rowEst ? 'row is an Atlas estimate' : rowConv ? 'row is an Atlas conversion' : undefined),
+      src(
+        kind
+          ? sourceName('atlas', `${kind === 'conv' ? 'converted' : 'computed'} from ${inputs.map(sourceLabel).join(' and ') || 'the sources named in the note'}`)
+          : sourceName(data.s, rowEst ? 'row is an Atlas estimate' : rowConv ? 'row is an Atlas conversion' : undefined),
+        kind ? sourceName('atlas') : undefined,
+      ),
       lic(full, short),
     ]);
   };
@@ -86,7 +87,9 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   // what the world total holds beyond the rows and that line, when it is 0.05% of the world or more (as the table prints it)
   const gap = world ? world - data.rows.reduce((a, r) => a + r.v, 0) - other : 0;
   if (world && gap > world * 5e-4) line('', '', 'Not given by country', gap, false, eu ? 'the EU total minus the member states listed' : 'the world total minus the countries listed');
-  if (world) line('', eu ? 'EU27' : 'WLD', eu ? 'EU total' : 'World', world, false, eu ? 'sum of the 27 member states, the base of the shares' : 'sum the shares are of', !!data.convWorld);
+  // the total row also carries the warning that holds for the whole table (trade hubs, re-exports), which the page prints apart from the note
+  const base = eu ? 'sum of the 27 member states, the base of the shares' : 'sum the shares are of';
+  if (world) line('', eu ? 'EU27' : 'WLD', eu ? 'EU total' : 'World', world, false, [base, data.caveat].filter(Boolean).join(' | '), !!data.convWorld);
   // the title of a table often ends with its year ("Apparent consumption, 2024 (Atlas estimate)"): the file name does not say it twice
   const name = [commodity, title || 'table', title.includes(String(data.y)) ? '' : data.y].filter((x) => x !== '').join(' ');
   return { file: `commodity-flows-atlas-${slug(name)}.csv`, text: toCsv(head, out) };

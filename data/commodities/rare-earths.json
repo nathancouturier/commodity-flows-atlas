@@ -627,7 +627,7 @@
    "uv": 4100,
    "mode": "sea",
    "lane": "rare-earths:AUS-MYS",
-   "n": "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here."
+   "caveat": "uv-rare-earths-AUS-MYS"
   },
   {
    "o": "MYS",

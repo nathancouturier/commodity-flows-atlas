@@ -12,7 +12,7 @@ import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { sources } from '../../lib/data';
-import { ATLAS_LICENCE, csvCell, downloadCsv, licenceColumn, licenceTexts, slug, sourceName, toCsv } from '../../lib/csv';
+import { ATLAS_LICENCE, csvCell, downloadCsv, licenceColumn, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from '../../lib/csv';
 import { CsvAction } from '../CsvAction';
 import '../../styles/lane-table.css';
 
@@ -26,6 +26,9 @@ const PW_COLORS = { tanker: '#ffb547', dry: '#9db7ff', container: '#c7a3ff', oth
 /** The one rule for the atlas's own tonnages on this page (estimates and cargo rows): three significant digits. */
 const nf3 = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 });
 const mt3 = (v: number) => nf3.format(v);
+/** A tonnage (Mt) of a group: in kt with one decimal for a group under 1 Mt a year, as its lane file and commodity page print it. */
+const tonnes = (v: number, small: boolean) => (small ? `${nf1.format(v * 1e3)} kt` : `${mt3(v)} Mt`);
+const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 const shareLabel = (k: string) => SHARE_LABEL[k] ?? commodityMeta(k)?.name ?? k;
 
@@ -97,14 +100,15 @@ const upperMt = (e?: Estimate): number | null => (e?.mt && e.mt[1] - e.mt[0] >= 
 const isCapped = (e: Estimate) => !!e.hi && /capped/i.test(e.hi.n ?? '');
 
 /** The tonnage behind an estimate, "564 to 749 Mt". */
-function estimateMt(e: Estimate): string | null {
+function estimateMt(e: Estimate, small = false): string | null {
   if (!e.mt) return null;
   const [lo, hi] = e.mt;
+  if (small) return tonnes(lo, true);
   return hi - lo >= 0.5 ? `${mt3(lo)} to ${mt3(hi)} Mt` : `${mt3(lo)} Mt`;
 }
 
 /** Share of each commodity's seaborne trade that crosses the passage, as the atlas computes it: a floor and, where the route is not certain, a ceiling. */
-function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boolean }) {
+function Estimates({ cp, withDefinition, small }: { cp: Chokepoint; withDefinition: boolean; small?: (g?: string) => boolean }) {
   const [all, setAll] = useState(false);
   useEffect(() => setAll(false), [cp.id]);
   const rows = useMemo(() => [...(cp.estimates ?? [])].sort((a, b) => (b.hi?.v ?? b.f.v) - (a.hi?.v ?? a.f.v)), [cp]);
@@ -117,7 +121,7 @@ function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boo
       {/* a route of similar length that the atlas does not count as a choice (or counts as one) */}
       {cp.parallelNote && <div class="muted small" style={{ marginBottom: '6px' }}>{cp.parallelNote}</div>}
       {shown.map((e, i) => {
-        const mt = estimateMt(e);
+        const mt = estimateMt(e, !!small?.(e.p));
         const range = !!e.hi && e.hi.v - e.f.v >= 0.05;
         return (
           <div class="est-row" key={`${e.k}-${e.p ?? ''}-${i}`} title={`${sources.value[e.f.s]?.name ?? e.f.s} · ${e.f.y}`}>
@@ -173,6 +177,7 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
   }, [id]);
   if (!rows.length) return null;
   const label = (g: string) => doc.groups[g]?.label ?? commodityMeta(doc.groups[g]?.k ?? g)?.name ?? g;
+  const small = (g: string) => (doc.groups[g]?.seaborne ?? Infinity) < 1;
   const share = (v: number, g: string) => {
     const tot = doc.groups[g]?.seaborne;
     if (!tot) return '—';
@@ -206,14 +211,14 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
                 setOpen(open === g ? null : g);
                 setAllLanes(false);
               }}
-              title={`${label(g)}: ${mt3(v)} Mt of ${fmtNum(doc.groups[g]?.seaborne)} Mt seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${mt3(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
+              title={`${label(g)}: ${tonnes(v, small(g))} of ${small(g) ? tonnes(doc.groups[g]?.seaborne ?? 0, true) : `${fmtNum(doc.groups[g]?.seaborne)} Mt`} seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${mt3(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
             >
               <span style={GRID}>
                 <span>
                   {label(g)}
                   {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {mt3(upTo(g)!)} Mt with the pairs that may cross it</span>}
                 </span>
-                <span class="num" style={RIGHT}>{v > 0 ? mt3(v) : '—'}</span>
+                <span class="num" style={RIGHT}>{v > 0 ? (small(g) ? tonnes(v, true) : mt3(v)) : '—'}</span>
                 <span class="num" style={RIGHT}>{v > 0 ? share(v, g) : '—'}</span>
               </span>
             </button>
@@ -229,7 +234,7 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
                         {countryName(o)} → {countryName(d)}
                         {!sure(r) && <span class="may-use"> · may use</span>}
                       </span>
-                      <span class="num" style={RIGHT}>{mt3(lv)}</span>
+                      <span class="num" style={RIGHT}>{small(g) ? tonnes(lv, true) : mt3(lv)}</span>
                       <span class="num" style={RIGHT}>{share(lv, g)}</span>
                     </span>
                   );
@@ -276,7 +281,8 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
 function weeklyCsv(pw: PortwatchSeries, id: string, name: string, counter?: string): string {
   const TYPES = [['tanker', 'Tanker'], ['dry', 'Dry bulk'], ['container', 'Container'], ['other', 'Other'], ['total', 'Total']] as const;
   const t0 = Date.parse(`${pw.start}T00:00:00Z`);
-  const source = sourceName(pw.s);
+  const src = sourceColumn();
+  const source = () => src(sourceName(pw.s), publisherOf(pw.s));
   const lic = licenceColumn();
   const licence = () => lic(...licenceTexts([pw.s]));
   const measures = [{ what: 'vessel transits', unit: pw.unit, src: pw as Pick<PortwatchSeries, 'tanker' | 'dry' | 'container' | 'other' | 'total'> }];
@@ -285,7 +291,7 @@ function weeklyCsv(pw: PortwatchSeries, id: string, name: string, counter?: stri
   for (const m of measures)
     pw.total.forEach((_, i) => {
       const week = new Date(t0 + i * 7 * 86400e3).toISOString().slice(0, 10);
-      for (const [k, label] of TYPES) rows.push([id, counter ?? name, week, label, m.what, m.src[k][i], m.unit, source, licence()]);
+      for (const [k, label] of TYPES) rows.push([id, counter ?? name, week, label, m.what, m.src[k][i], m.unit, source(), licence()]);
     });
   return toCsv(['passage_id', 'passage', 'week_start', 'ship_type', 'measure', 'value', 'unit', 'source', 'licence'], rows);
 }
@@ -500,7 +506,7 @@ export default function ChokepointView({ id }: { id: string }) {
         )}
         {/* the estimates in their new form (a ceiling beside the floor), or the old fallback when no lane rows exist */}
         {cp.estimates && cp.estimates.length > 0 && (estimatesNew || !(laneRows && laneRows.length > 0)) && lanes !== undefined && (
-          <Estimates cp={cp} withDefinition={estimatesNew} />
+          <Estimates cp={cp} withDefinition={estimatesNew} small={(g) => !!g && (lanes?.groups[g]?.seaborne ?? Infinity) < 1} />
         )}
         {lanes && laneRows && laneRows.length > 0 && <LaneTable doc={lanes} id={cp.id} name={cp.name} definitionHere={!estimatesNew} estimates={cp.estimates ?? []} />}
         {cp.limits && (

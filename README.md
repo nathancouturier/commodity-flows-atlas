@@ -65,7 +65,7 @@ one before wrote):
 | 1 | `python pipeline/geo/adjacency.py` | borders and coasts: `pipeline/cache/adjacency.json`, `data/countries/places.json` (seconds) |
 | 2 | `python pipeline/freight/build_lanes.py` | lanes, pairs, caveats and zones under `data/freight/`; the caches `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `route_cache.json`, `geom_cache.json`, `trade_checks.json` (about 8 minutes cold, under a minute with warm route caches) |
 | 3 | `python pipeline/freight/build_freight.py` | routes, chokepoints and their shares, chokepoint cargo tables, PortWatch series, vessel classes; check K9 in `trade_checks.json` |
-| 4 | `python pipeline/commodities/build_commodities.py`, then `python pipeline/commodities/build_profiles.py` | `data/commodities/*.json`, `pipeline/commodities/QA.md`, `data/countries/profiles.json` |
+| 4 | `python pipeline/commodities/build_commodities.py`, then `python pipeline/commodities/build_profiles.py` | `data/commodities/*.json`, `pipeline/commodities/QA.md`, `data/countries/profiles/*.json`, `data/countries/years.json` |
 | 5 | `node web/scripts/validate-data.mjs` | nothing: checks the data files |
 
 `pipeline/geo/adjacency.py` only needs rerunning when the base map or `pipeline/geo/places_extra.json` changes, and

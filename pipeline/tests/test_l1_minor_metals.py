@@ -102,15 +102,18 @@ class Gateways(unittest.TestCase):
         self.assertIn("RUNVS", {o.load for o in a.options})
 
     def test_belarusian_potash(self):
-        m = MD.mode_of("BLR", "CHN", "potash")
-        self.assertEqual(m.kind, "mixed")
-        self.assertIn("rail", m.note)
+        # review GL1.11: the pages bound the rail share (9% of 2025 exports through Russia, to China and the CIS together),
+        # so Belarus to China is a seaborne transit pair again, and the rail fact is in the caveat of the registry
+        self.assertEqual(MD.mode_of("BLR", "CHN", "potash").kind, "transit")
+        self.assertNotIn(("BLR", "CHN"), MD.MIXED)
         self.assertEqual(EN.transit("BLR", "fert")[0], "RULED")
         self.assertEqual(MD.mode_of("BLR", "BRA", "potash").kind, "transit")
+        import caveats as CV
+        entry = next(e for e in CV.REGISTRY if e[0] == "potash-blr")
+        self.assertIsNone(entry[4])  # every destination of Belarus
 
     def test_transit_rows_of_l1(self):
-        for iso3, fam, code in (("KAZ", "drybulk", "RUULU"), ("PRY", "grain", "ARUPR"), ("PRY", "vegoil", "ARUPR"),
-                                ("AUT", "drybulk", "SIKOP"), ("HUN", "metal", "SIKOP"), ("SRB", "grain", "ROCND"),
+        for iso3, fam, code in (("AUT", "drybulk", "SIKOP"), ("HUN", "metal", "SIKOP"), ("SRB", "grain", "ROCND"),
                                 ("BWA", "drybulk", "NAWVB")):
             t = EN.transit(iso3, fam)
             self.assertEqual(t[0], code, (iso3, fam))
@@ -123,6 +126,9 @@ class Gateways(unittest.TestCase):
             self.assertNotIn(iso3, EN.TRANSIT)
         self.assertIsNone(EN.transit("KAZ", "products"))
         self.assertIsNone(EN.transit("PRY", "products"))
+        # rows keyed by cargo since review GL1: Kazakh coal (not every dry bulk), Paraguayan soy and corn (not every grain)
+        self.assertIsNone(EN.transit("KAZ", "drybulk"))
+        self.assertIsNone(EN.transit("PRY", "grain"))
 
 
 @need_build
@@ -145,24 +151,35 @@ class Lanes(unittest.TestCase):
         self.assertEqual(ln["transit"]["url"], "https://en.wikipedia.org/wiki/Port_of_Dar_es_Salaam")
 
     def test_small_groups_keep_their_tonnage(self):
-        # four decimals of Mt under 1 Mt a year: a 2 kt lane is not printed 0.002 for anything between 1.5 and 2.5 kt
+        # review GL1.9: a group under 1 Mt a year is published in kt with 0.1 kt, the unit its commodity page prints
         f = load(os.path.join(LANES, "tin-metal.json"))
-        self.assertLess(f["seaborne"][-1], 1)
-        self.assertTrue(any(round(ln["flow"]["v"], 3) != ln["flow"]["v"] for ln in f["lanes"]))
+        self.assertEqual(f["unit"], "kt")
+        self.assertLess(f["seaborne"][-1], 1000)
+        self.assertTrue(all(ln["flow"]["u"] == "kt" for ln in f["lanes"]))
+        self.assertTrue(any(round(ln["flow"]["v"]) != ln["flow"]["v"] for ln in f["lanes"]))
         p = load(os.path.join(PAIRS, "tin-metal.json"))
         # the pairs total is the sum of its rows (0.1 kt each): within half a kilotonne of the exact total
-        self.assertAlmostEqual(f["seaborne"][-1], p["seaborne"] / 1e3, delta=0.0005)
+        self.assertAlmostEqual(f["seaborne"][-1], p["seaborne"], delta=0.5)
+        for g in NEW:
+            f = load(os.path.join(LANES, g + ".json"))
+            self.assertEqual(f["unit"], "kt" if load(os.path.join(PAIRS, g + ".json"))["seaborne"] < 1000 else "Mt", g)
 
     def test_belarusian_potash_lanes(self):
         ln = lane("potash:BLR-CHN")
-        self.assertEqual(ln.get("mode"), "mixed")
+        self.assertIsNone(ln.get("mode"))
         self.assertEqual(ln["transit"]["port"], "RULED")
-        self.assertIsNone(ln["share"])
+        self.assertTrue(ln["transit"]["landlocked"])
+        self.assertGreater(ln["share"], 0)
+        self.assertEqual(ln.get("caveat"), "potash-blr")
+        r = pair("potash", "BLR", "CHN")
+        self.assertEqual((r["m"], r["load_code"]), (1, "RULED"))
         r = pair("potash", "BLR", "BRA")
         self.assertEqual((r["m"], r["load_code"]), (1, "RULED"))
 
     def test_landlocked_pairs_now_routed(self):
-        for g, o, d, end, code in (("coal", "KAZ", "MAR", "load", "RUULU"), ("soymeal", "PRY", "PER", "load", "ARUPR"),
+        for g, o, d, end, code in (("coal", "KAZ", "MAR", "load", "RUULU"), ("coal", "KAZ", "ITA", "load", "RUULU"),
+                                   ("soymeal", "PRY", "PER", "load", "ARUPR"), ("soybeans", "PRY", "RUS", "load", "UYNVP"),
+                                   ("corn", "PRY", "KOR", "load", "UYNVP"),
                                    ("coal", "USA", "AUT", "dis", "SIKOP"), ("copper-ore", "SRB", "CHN", "load", "ROCND"),
                                    ("copper-ore", "BWA", "CHN", "load", "NAWVB")):
             r = pair(g, o, d)
@@ -173,9 +190,107 @@ class Lanes(unittest.TestCase):
 
     def test_still_not_routed(self):
         # no page read names a port for these ends: they stay "sea, not routed"
-        for g, o, d in (("refined-products", "TKM", "TUR"), ("potash", "UZB", "BRA"), ("coal", "USA", "SVK")):
+        for g, o, d in (("refined-products", "TKM", "TUR"), ("potash", "UZB", "BRA"), ("coal", "USA", "SVK"),
+                        # review GL1.1 and GL1.2: the pages name no port for these
+                        ("coal", "KAZ", "TUR"), ("coal", "KAZ", "IND"), ("coal", "KAZ", "JPN"), ("rice", "PRY", "TUR")):
             r = pair(g, o, d)
             self.assertEqual((r["m"], r["load"]), (1, -1), (g, o, d))
+
+
+class ReviewGL1(unittest.TestCase):
+    """Package FL1, the fixes after review GL1 (no build needed)."""
+
+    def test_kazakh_coal_only_for_the_buyers_the_page_names(self):
+        # GL1.1: Morocco from Ust-Luga, the EU as one of Ust-Luga and Novorossiysk, nobody else
+        self.assertEqual(BL.transit_row("KAZ", "coal", "MAR")["ports"], ["RUULU"])
+        self.assertEqual(BL.transit_row("KAZ", "coal", "ITA")["ports"], ["RUULU", "RUNVS"])
+        for d in ("TUR", "ISR", "IND", "TWN", "JPN", "BIH"):
+            self.assertIsNone(BL.transit_row("KAZ", "coal", d), d)
+        self.assertIsNone(BL.transit_row("KAZ", "alumina", "CHN"))
+        self.assertEqual(BL.transit_row("KAZ", "crude-oil", "ITA")["port"], "KZCPC")
+        rec, why = BL.route_pair("KAZ", "ITA", "coal", 1e5, "transit")
+        self.assertEqual((rec["basis"], [o[0] for o in rec["opts"]]), ("open", ["RUULU", "RUNVS"]))
+        self.assertEqual(BL.route_pair("KAZ", "TUR", "coal", 1e5, "transit"), (None, "no sourced transit port"))
+
+    def test_eu_list_is_the_one_of_the_commodity_builder(self):
+        with open(os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py"), encoding="utf-8") as f:
+            src = f.read()
+        m = re.search(r"EU_MEMBERS = \[([^\]]+)\]", src)
+        self.assertEqual(EN.EU, frozenset(re.findall(r'"([A-Z]{3})"', m.group(1))))
+
+    def test_paraguay_rows_by_cargo(self):
+        # GL1.2: Rosario for meal and oil, Nueva Palmira for soybeans and corn, no row for wheat, rice and sugar
+        self.assertEqual(BL.transit_row("PRY", "soymeal", "PER")["ports"], ["ARUPR", "UYNVP"])
+        self.assertEqual(BL.transit_row("PRY", "soyoil", "CHL")["ports"], ["ARUPR"])
+        self.assertEqual(BL.transit_row("PRY", "soybeans", "CHN")["ports"], ["UYNVP", "ARUPR"])
+        self.assertEqual(BL.transit_row("PRY", "corn", "KOR")["ports"], ["UYNVP"])
+        for g in ("wheat", "rice", "sugar"):
+            self.assertIsNone(BL.transit_row("PRY", g, "TUR"), g)
+        self.assertEqual(P.port("UYNVP")["c"], "URY")
+        self.assertEqual(P.port_meta("UYNVP")["url"], "https://en.wikipedia.org/wiki/Nueva_Palmira")
+        for g in ("soymeal", "soybeans", "corn", "soyoil"):
+            self.assertIn("2016", P.TRANSIT["PRY"][g][3], g)
+
+    def test_a_cargo_row_names_its_cargo(self):
+        # GL1.13: the Belarusian row names potash; other fertilisers of Belarus take its port as a general port
+        self.assertEqual(BL.transit_row("BLR", "potash", "CHN")["basis"], P.BASIS_PAGE)
+        self.assertEqual(BL.transit_row("BLR", "urea", "IND")["basis"], P.BASIS_GENERAL)
+        self.assertEqual(BL.transit_row("SRB", "copper-ore", "CHN")["basis"], P.BASIS_GENERAL)
+
+    def test_box_rows_are_general_ports_for_the_minor_metals(self):
+        # GL1.6: a page that names containers or general cargo does not name cobalt, tin or lithium
+        for g in P.BOX_GENERAL:
+            for c, _, basis in P.candidates("CHN", g, "discharge"):
+                if not any(r.code == c and g in r.families for r in P.G.get("CHN", ())):
+                    self.assertNotEqual(basis, P.BASIS_PAGE, (g, c))
+        self.assertEqual(P.basis_of("CHN", "cobalt", "discharge", "CNTSN"), P.BASIS_GENERAL)
+        # the same ports, in the same order, as for refined copper, which keeps its basis
+        self.assertEqual([c for c, _, _ in P.candidates("CHN", "cobalt", "discharge")],
+                         [c for c, _, _ in P.candidates("CHN", "copper-refined", "discharge")])
+        self.assertEqual(P.basis_of("CHN", "copper-refined", "discharge", "CNTSN"), P.BASIS_PAGE)
+
+    def test_no_lane_from_the_wrong_coast(self):
+        # GL1.3: Russian lead concentrate and cobalt for East Asia, Turkish lead concentrate from Samsun
+        for o, d, g, kind in (("RUS", "CHN", "lead-ore", "mixed"), ("RUS", "KOR", "lead-ore", "sea"), ("RUS", "CHN", "cobalt", "mixed"),
+                              ("TUR", "CHN", "lead-ore", "sea"), ("NLD", "FRA", "zinc-metal", "sea")):
+            rec, why = BL.route_pair(o, d, g, 1e4, kind)
+            self.assertIsNone(rec, (o, d, g))
+            self.assertIn(why, ("port on the other coast of the country", "only the nearest seaport, on a long detour"))
+        # a long route that geography imposes stays routed (Peru has one coast), and the old groups are not touched
+        self.assertIsNotNone(BL.route_pair("PER", "BRA", "zinc-metal", 1e4, "sea")[0])
+        self.assertIsNotNone(BL.route_pair("RUS", "KOR", "zinc-ore", 1e4, "sea")[0])
+
+    def test_unit_value_check_covers_the_new_groups(self):
+        # GL1.10
+        import checks as K
+        self.assertTrue(set(NEW) <= set(K.UV_GROUPS))
+
+    def test_no_exponent_in_a_tonnage_of_the_notes(self):
+        # GL1.5
+        import checks as K
+        self.assertEqual(K._mt(5.9e-05), "59 t")
+        self.assertEqual(K._mt(0.0077), "0.0077 Mt")
+        self.assertEqual(K._mt(0), "0 Mt")
+        self.assertNotRegex(K._mt(1.2e-07), "e-")
+
+
+@need_build
+class ReviewGL1Built(unittest.TestCase):
+    def test_wording_data_of_transit_ends(self):
+        # GL1.7: DR Congo has a coast, Zambia has none (adjacency data)
+        self.assertFalse(lane("cobalt:COD-CHN")["transit"]["landlocked"])
+        p = load(os.path.join(PAIRS, "cobalt.json"))
+        self.assertNotIn("COD", p.get("landlocked", []))
+        self.assertIn("ZMB", load(os.path.join(PAIRS, "copper-refined.json")).get("landlocked", []))
+
+    def test_no_exponent_in_published_notes(self):
+        bad = []
+        for d in (LANES, PAIRS):
+            for f in os.listdir(d):
+                with open(os.path.join(d, f), encoding="utf-8") as fh:
+                    txt = fh.read()
+                bad += [(f, m) for m in re.findall(r'"[^"]*?\d\.?\d*e-\d+ [Mk]t[^"]*"', txt)]
+        self.assertEqual(bad, [])
 
 
 class SpodumeneRoute(unittest.TestCase):
@@ -185,6 +300,9 @@ class SpodumeneRoute(unittest.TestCase):
         self.assertEqual(r["from"]["ports"][0]["name"], "Bunbury")
         self.assertEqual(P.candidates("AUS", "spodumene", "load")[0][0], "AUBUY")
         self.assertEqual(P.port("AUBUY")["name"].lower(), "bunbury")
+        # review GL1.12: the note says what the principal port rests on, and that the loading figure is one month
+        self.assertIn("technical report", r["notes"])
+        self.assertIn("one month", r["notes"])
 
 
 if __name__ == "__main__":

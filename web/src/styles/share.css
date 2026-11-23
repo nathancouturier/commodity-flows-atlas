@@ -25,10 +25,12 @@
   height: 14px;
 }
 .da-tip {
+  /* to the left of the buttons, level with them: below them it would stand over the page's heading */
   position: absolute;
-  top: 100%;
-  right: 0;
-  margin-top: 2px;
+  top: 50%;
+  right: 100%;
+  transform: translateY(-50%);
+  margin-right: 6px;
   padding: 2px 8px;
   border-radius: 6px;
   background: var(--panel-raised);

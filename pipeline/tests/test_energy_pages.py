@@ -4,6 +4,7 @@ caveats and the small gas carrier class.
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_*.py"
 The tests of the data files read the files as the builders last wrote them.
 """
+import glob
 import json
 import os
 import sys
@@ -193,7 +194,7 @@ class LngPageTests(unittest.TestCase):
         self.assertIn("plausible cause", c)
 
     def test_country_profiles_print_no_lng_rank(self):
-        rows = [load(f"countries/profiles/{c}.json") for c, v in load("countries/profiles.json").items() if "n" in v]
+        rows = [p for p in (load(f"countries/profiles/{os.path.basename(f)}") for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json"))) if "none" not in p]
         seen = 0
         for p in rows:
             for sec in ("exports", "imports"):

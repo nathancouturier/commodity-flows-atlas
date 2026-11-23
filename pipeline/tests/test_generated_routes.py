@@ -110,6 +110,16 @@ class SelectionTest(unittest.TestCase):
         # the largest corridors survive the cap
         self.assertEqual([d["id"] for d in defs], ["gen-wheat-z1-z2", "gen-wheat-z1-z3"])
 
+    def test_the_cap_ranks_corridors_by_tonnes_across_groups(self):
+        # review GL1.8: the first corridor of each group the audit names, then the largest corridors whatever their group, so
+        # that a 1.5 Mt corridor never gives way to a 0.6 Mt one of a small group
+        c = lambda t: {"new": t}  # noqa: E731
+        per = {"wheat": [c(9.0), c(1.5), c(1.4)], "cobalt": [c(0.6)], "tin-metal": [c(0.55)], "sugar": [c(0.7)]}
+        self.assertEqual(GR.cap_order(per, 4), [(0, "sugar"), (0, "wheat"), (1, "wheat"), (2, "wheat")])
+        self.assertEqual(GR.cap_order(per, 6), [(0, "sugar"), (0, "wheat"), (1, "wheat"), (2, "wheat"), (0, "cobalt"), (0, "tin-metal")])
+        # a group's corridors are taken in their own order
+        self.assertEqual(GR.cap_order({"cobalt": [c(0.5), c(0.9)]}, 2), [(0, "cobalt"), (1, "cobalt")])
+
     def test_corridor_entries_are_the_pairs_of_the_corridor(self):
         defs, _ = run(target=0.99)
         z4 = next(d for d in defs if d["id"] == "gen-wheat-z1-z4")
@@ -151,6 +161,17 @@ class NameTest(unittest.TestCase):
         with unittest.mock.patch.dict(GR.ZONE_SAYS, {"z1": {"AAA"}}):
             defs = self.names(40.0, 5.0)
         self.assertEqual([d["name"] for d in defs], ["Wheat: Zone 1 to BBB"])
+
+    def test_an_end_is_named_after_the_customs_country_not_the_transit_port(self):
+        # review GL1.8: DR Congo's cobalt loads at Dar es Salaam, in Tanzania; the route says DR Congo
+        ports = [["TZDAR", "Dar es Salaam", "TZA", "z1", 0, 0], ["CNTSN", "Tianjin", "CHN", "z2", 0, 0]]
+        rows = [row("COD", "CHN", 0.6, 0, 1), row("MDG", "CHN", 0.05, 0, 1)]
+        p = {"k": "cobalt", "y": 2024, "seaborne": 0.65, "rows": rows, "ports": ports}
+        defs, _ = GR.generate({"cobalt": p}, {"cobalt": ports}, {}, ZONES, lambda c: {"TZDAR": [39, -7], "CNTSN": [117, 39]}[c],
+                              lambda g: ("Cobalt", "cobalt"), {}, lambda c: c, target=0.99)
+        self.assertEqual(defs[0]["name"], "Cobalt: COD to CHN")
+        self.assertEqual(defs[0]["from"]["region"], "COD")
+        self.assertEqual(defs[0]["from"]["ports"][0], {"name": "Dar es Salaam", "c": "TZA"})
 
     def test_the_zones_that_say_a_country_exist(self):
         with open(os.path.join(FREIGHT, "zones.json"), encoding="utf-8") as f:

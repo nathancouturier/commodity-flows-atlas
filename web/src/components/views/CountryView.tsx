@@ -326,7 +326,7 @@ export default function CountryView({ id }: { id: string }) {
     const topExp = [...p.exports].filter((e) => e.usd != null).sort(byUsd)[0];
     const allGoods = p.basket?.exports?.rows[0];
     const missing = unrecorded(p);
-    const missNote = missing.length ? `Leaves out the exports of ${missing.join(' and ')} that customs data do not record (see Exports)` : undefined;
+    const missNote = missing.length ? `Leaves out ${missing.join(' and ')} exports that customs data miss (see Exports)` : undefined;
     kpis = (
       <div class="kpis">
         {top10 > 0 && pubs.length > 0 && (
@@ -337,15 +337,6 @@ export default function CountryView({ id }: { id: string }) {
             title="Atlas catalogue commodities where this country ranks in the top 10 of production, exports or imports"
           />
         )}
-        {allGoods && (
-          <Kpi
-            label="Largest export, all goods"
-            value={`${fmt(allGoods.usd)} bn USD`}
-            sub={`HS ${allGoods.hs4} ${allGoods.label} · ${pct(allGoods.share)} of all exports · ${shortSource(p.basket!.s)} ${p.basket!.y}`}
-            title={`The largest four-digit HS heading of the country's merchandise exports, every chapter (${sourceLabel(p.basket!.s)} · ${p.basket!.y})`}
-            note={missNote}
-          />
-        )}
         {topExp && (
           <Kpi
             label="Largest raw-material export"
@@ -353,7 +344,16 @@ export default function CountryView({ id }: { id: string }) {
             sub={`${topExp.label ?? commodityMeta(topExp.k)?.name ?? topExp.k} · of the atlas's commodities · ${shortSource(topExp.usdS ?? topExp.s)} ${topExp.usdY ?? topExp.y}`}
             title={`The largest export among the atlas's commodities, by customs value (${sourceLabel(topExp.usdS ?? topExp.s)} · ${topExp.usdY ?? topExp.y})`}
             note={missNote ?? topExp.warn}
-            span={top10 > 0 && pubs.length > 0 && !!allGoods}
+          />
+        )}
+        {allGoods && (
+          <Kpi
+            label="Largest export, all goods"
+            value={`${fmt(allGoods.usd)} bn USD`}
+            sub={`HS ${allGoods.hs4} ${allGoods.label} · ${pct(allGoods.share)} of all exports · ${shortSource(p.basket!.s)} ${p.basket!.y}`}
+            title={`The largest four-digit HS heading of the country's merchandise exports, every chapter (${sourceLabel(p.basket!.s)} · ${p.basket!.y})`}
+            note={missNote}
+            span={top10 > 0 && pubs.length > 0 && !!topExp}
           />
         )}
       </div>

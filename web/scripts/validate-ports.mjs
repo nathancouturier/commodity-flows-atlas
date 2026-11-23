@@ -3,7 +3,10 @@
  *  - every port has an id, a name and a country of countries/index.json or places.json, ids are unique;
  *  - `n` is a positive integer and `g` lists customs groups that have a lane file;
  *  - `lane`, when set, is the id of a lane of its lane file (the search opens that lane page), and every port that a
- *    pairs file names for a seaborne pair is in the index (a port the file lacks cannot be found).
+ *    pairs file names for a seaborne pair is in the index (a port the file lacks cannot be found);
+ *  - the other way round, a port of the index is used by some pair, `n` is the number of pairs that use it, each group of
+ *    `g` is a group that uses it, and its `lane` is a pair with a lane page that uses it (a port the pairs files no longer
+ *    name, or a wrong count, would stay searchable until the next build).
  * Called by validate-data.mjs; `node validate-ports.mjs [data folder]` runs it alone.
  */
 import fs from 'node:fs';
@@ -46,12 +49,37 @@ export function validatePorts(root, errors) {
   }
   const pairsDir = path.join(root, 'freight/pairs');
   if (fs.existsSync(pairsDir)) {
+    const count = new Map(); // port -> number of pairs that use it, as build_port_index.py counts them
+    const groupsOf = new Map(); // port -> groups that use it
+    const laneRows = new Map(); // port -> ids of the pairs with a lane page (flag 4) that use it
     for (const f of fs.readdirSync(pairsDir).filter((x) => x.endsWith('.json'))) {
       const d = JSON.parse(fs.readFileSync(path.join(pairsDir, f), 'utf8'));
       const ix = Object.fromEntries(d.cols.map((c, i) => [c, i]));
       const used = new Set();
-      for (const r of d.rows) for (const c of ['load', 'dis']) if (r[ix[c]] != null && r[ix[c]] >= 0) used.add(d.ports[r[ix[c]]][0]);
+      for (const r of d.rows)
+        for (const c of ['load', 'dis']) {
+          if (r[ix[c]] == null || r[ix[c]] < 0) continue;
+          const id = d.ports[r[ix[c]]][0];
+          used.add(id);
+          count.set(id, (count.get(id) ?? 0) + 1);
+          if (!groupsOf.has(id)) groupsOf.set(id, new Set());
+          groupsOf.get(id).add(d.group);
+          if (r[ix.f] & 4) {
+            if (!laneRows.has(id)) laneRows.set(id, new Set());
+            laneRows.get(id).add(`${d.group}:${r[ix.o]}-${r[ix.d]}`);
+          }
+        }
       for (const id of used) if (!seen.has(id)) bad(`pairs/${f}: port ${id} is not in the index (rebuild it)`);
+    }
+    for (const p of doc.ports) {
+      const at = `port ${p.id}`;
+      if (!count.has(p.id)) bad(`${at}: no pairs file uses it any more (rebuild the index)`);
+      else {
+        if (p.n !== count.get(p.id)) bad(`${at}: n is ${p.n}, the pairs files have ${count.get(p.id)} pairs that use it (rebuild the index)`);
+        for (const g of p.g ?? []) if (!groupsOf.get(p.id).has(g)) bad(`${at}: group "${g}" does not use it in the pairs files`);
+        if (p.lane != null && !laneRows.get(p.id)?.has(p.lane)) bad(`${at}: lane "${p.lane}" is not a pair with a lane page that uses it`);
+        if (p.lane == null && laneRows.get(p.id)?.size) bad(`${at}: it has no lane, but a pair with a lane page uses it`);
+      }
     }
   }
 }

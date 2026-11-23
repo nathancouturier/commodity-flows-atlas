@@ -303,6 +303,13 @@ export function Search() {
 
   // the phone's overlay is a dialog: Tab stays in it (the page behind is out of reach), and nothing stays in the bar while it is closed
   const trap = (e: KeyboardEvent) => {
+    // Escape closes the dialog from its Cancel button or its chip too, not only from the field
+    if (over && e.key === 'Escape' && e.target !== input.current) {
+      e.preventDefault();
+      e.stopPropagation();
+      close(true);
+      return;
+    }
     if (!over || e.key !== 'Tab' || !root.current) return;
     const f = [...root.current.querySelectorAll<HTMLElement>('input, button')].filter((x) => !x.hasAttribute('disabled'));
     if (!f.length) return;

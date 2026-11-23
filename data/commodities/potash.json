@@ -168,7 +168,7 @@
    {
     "c": "BLR",
     "v": 3.586,
-    "n": "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here."
+    "n": "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here. Of the 11.6 Mt of potash that Belarus exported through Russia in 2025, 9% went by rail to China and the CIS countries together and the rest through Russian seaports, half of it from Bronka (Kommersant, as reported by Reform.news on 27 March 2026, https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports). The atlas counts Belarus's recorded potash exports to China as seaborne, through St Petersburg: the page gives no rail share for China alone, so nothing is subtracted."
    },
    {
     "c": "DEU",
@@ -1251,7 +1251,7 @@
  "notes": [
   "Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium chloride at 0.6318 (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.",
   "FAOSTAT (Fertilizers by Product, RFB) gives 2024 production of potassium chloride in tonnes of product: Canada 24.8 Mt (customs exports in 2024: 26.6 Mt) and Russia 16.9 Mt (customs exports in 2024: 15.5 Mt). It lists 14 countries, with no figure for China, Belarus and Germany, so it is not used for the table.",
-  "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
+  "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here. Of the 11.6 Mt of potash that Belarus exported through Russia in 2025, 9% went by rail to China and the CIS countries together and the rest through Russian seaports, half of it from Bronka (Kommersant, as reported by Reform.news on 27 March 2026, https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports). The atlas counts Belarus's recorded potash exports to China as seaborne, through St Petersburg: the page gives no rail share for China alone, so nothing is subtracted.",
   "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Potash exports of Turkmenistan in customs data rose from 0.0627 Mt in 2022 to 0.92 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."
  ]

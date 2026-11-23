@@ -568,8 +568,8 @@ class Flows(unittest.TestCase):
 
     def test_profiles_have_index_codes_only(self):
         idx = {c["c"] for c in load_json(os.path.join(ROOT, "data", "countries", "index.json"))}
-        prof = load_json(os.path.join(ROOT, "data", "countries", "profiles.json"))
-        keys = set(prof) if isinstance(prof, dict) else {p["c"] for p in prof}
+        # one file per country (data/countries/profiles/<ISO3>.json); the light index profiles.json is gone (review GC1.9)
+        keys = {os.path.basename(f)[:-5] for f in glob.glob(os.path.join(ROOT, "data", "countries", "profiles", "*.json"))}
         self.assertEqual(keys - idx - {"EU27"}, set())  # EU27: USDA PSD reports the Union as one trader
 
 

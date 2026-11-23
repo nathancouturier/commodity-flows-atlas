@@ -30,9 +30,12 @@ Package FE4c (23 November 2026, after the second review GE4): Trieste is no long
   Where no page was found for a large end (Korea, Japan, the Netherlands, Spain, Malaysia, Thailand, India products,
   Indonesia), UNSOURCED_PORTS says which pages were read and what would settle it.
 
-TRANSIT = {iso3: {family or "default": (port code, source id, page read, note)}}: the foreign port through which
-  a landlocked country's trade is assumed to reach the sea. A cargo family wins over "default". transit(iso3,
-  family) returns the tuple or None. Every row is an Atlas assumption (a corridor the page documents, not a
+TRANSIT = {iso3: {group, family or "default": (port code, source id, page read, note[, extra])}}: the foreign port
+  through which a landlocked country's trade is assumed to reach the sea. A group ("coal") wins over its family, a
+  family over "default" (ports.transit_for). `extra` holds what the page limits: "to", the buyers it names (another
+  buyer gets no row); "alt", other ports that are an open choice ({code: buyers or None}); "names", the groups the page
+  names (the other groups of the family take the port as a general port of the country). transit(iso3, family)
+  returns the tuple of a family or "default" row, or None. Every row is an Atlas assumption (a corridor the page documents, not a
   measured share of the trade); countries with no page read are in UNSOURCED with the reason, and their pairs
   stay "sea via a foreign port (not specified)".
 

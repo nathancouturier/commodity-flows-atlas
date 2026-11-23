@@ -261,3 +261,24 @@
     min-height: 48px;
   }
 }
+
+/* the narrowest phones: the title gives up a little size, step by step, so that the name stays on one line next to the four
+   tool buttons (touch targets keep their 34 px): 390 px and more take it at 12 px as it is */
+@media (max-width: 389px) {
+  .topbar .brand {
+    padding-right: 8px;
+  }
+  .topbar .brand-name {
+    font-size: 11.4px;
+    letter-spacing: 0.005em;
+  }
+}
+@media (max-width: 369px) {
+  .topbar .brand {
+    gap: 6px;
+  }
+  .topbar .brand-name {
+    font-size: 10.4px;
+    letter-spacing: 0;
+  }
+}

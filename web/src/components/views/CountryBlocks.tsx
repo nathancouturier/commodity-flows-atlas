@@ -286,9 +286,9 @@ function modeText(x: { modes: FreightProduct['modes'] }): string {
     .join(', ');
 }
 
-/** "at least 3.9%", "at least 3.9%, up to 12%": "up to" only where it differs once printed, "0%" below 0.05%. */
+/** "at least 3.9%", "at least 3.9%, up to 12%": "up to" only where it differs once printed; "at least 0%" below 0.1%. */
 function passageText(v: Passage): string {
-  const low = v.low >= 0.0005 ? pct(v.low) : '0%';
+  const low = v.low >= 0.001 ? pct(v.low) : '0%';
   const high = pct(v.high);
   return `at least ${low}${!v.capped && high !== low && v.high > v.low ? `, up to ${high}` : ''}${v.capped ? ', no "up to"' : ''}`;
 }

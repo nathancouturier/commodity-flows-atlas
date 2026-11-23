@@ -82,7 +82,7 @@ class SeaborneFigure(unittest.TestCase):
         for g in lane_groups():
             lf, pf = load_json(os.path.join(LANES, g + ".json")), load_json(os.path.join(PAIRS, g + ".json"))
             y = pf["y"]
-            lane_mt = lf["seaborne"][lf["years"].index(y)]
+            lane_mt = lf["seaborne"][lf["years"].index(y)] / (1e3 if lf["unit"] == "kt" else 1)  # kt under 1 Mt a year (review GL1.9)
             self.assertAlmostEqual(pf["seaborne"] / 1e3, lane_mt, delta=0.01, msg=g)
             self.assertAlmostEqual(totals[g][str(y)]["sea"] / 1e6, lane_mt, delta=0.01, msg=g)
 

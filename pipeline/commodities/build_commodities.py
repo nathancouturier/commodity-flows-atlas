@@ -1821,8 +1821,8 @@ def main():
                 # conversion of an EIA figure, and says so where it is printed
                 cs = d["summary"]["consumption"]
                 cs["s"] = "atlas"
-                cs["n"] = ("Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); "
-                           + eia.lpg_world_note(int(cs["y"]), lead=False))
+                cs["n"] = ("Atlas conversion of EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt). "
+                           f"EIA's own world total in tonnes is {eia.lpg_us['world'][int(cs['y'])]['eia']:,.2f} Mt.")
             summ(d, "exports", d["exports"])
             seaborne(d, g)
             # production: EIA's LPG series end in 2014, so that table is dated; natural gas plant liquids (ethane, propane, butanes and heavier
@@ -2014,9 +2014,9 @@ def main():
                       f"{abs(ICCO_GRINDINGS[2]):.1f}% {'below' if ICCO_GRINDINGS[2] < 0 else 'above'} the year before ({ICCO_GRINDINGS[3]} of its Quarterly Bulletin of Cocoa Statistics, {ICCO_GRINDINGS[4]}).",
                       "Trade covers cocoa beans only (HS 1801): cocoa paste, butter and powder (HS 1803 to 1805) are not among the customs groups of the atlas, "
                       "so no table of cocoa products is shown yet."]
-            icco, warn, idn, short = cocoa_vs_icco(d)
+            icco, icco_warn, idn, short = cocoa_vs_icco(d)  # not `warn`: that name is the function that main() calls further down
             disc.append(icco)
-            add_caveat(d["production"], warn)
+            add_caveat(d["production"], icco_warn)
             if idn:
                 next(r for r in d["production"]["rows"] if r["c"] == "IDN")["n"] = idn
             d["summary"]["production"]["n"] = joinn(d["summary"]["production"]["n"], short)
@@ -2954,8 +2954,8 @@ def caveats(docs, eia):
         if how["kept"]:
             parts.append(f"EIA's own world total in tonnes ({_years(how['kept'])})")
         out["lpg"] = {"consumption": (f"The United States is converted from EIA's barrels per day at {eia.lpg_us['ratio']:.2f} barrels per tonne "
-                                      f"(Atlas conversion): {what}. EIA's own world total in tonnes leaves the country out or holds the figure out of line; "
-                                      f"the world total of the table is {_and(parts)}."),
+                                      f"(Atlas conversion): {what}. The world total of the table is {_and(parts)}, because EIA's own total in tonnes leaves the "
+                                      "country out or holds the figure out of line."),
                       "caveatYears": {"consumption": sorted(ly)}}
     elif c["y"] not in us:
         last = max(us) if us else None

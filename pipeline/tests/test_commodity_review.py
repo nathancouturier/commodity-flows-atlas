@@ -6,6 +6,7 @@ link and an id, the spodumene exporters, and the label helper of the caveats.
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_commodity_review.py"
 The tests of the data files read the files as the builders last wrote them.
 """
+import glob
 import json
 import math
 import os
@@ -36,7 +37,8 @@ def load(rel):
 
 def profiles():
     """The country profiles with data, one file per country (data/countries/profiles/<ISO3>.json)."""
-    return {c: load(f"countries/profiles/{c}.json") for c, v in load("countries/profiles.json").items() if "n" in v}
+    files = (load(f"countries/profiles/{os.path.basename(f)}") for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json")))
+    return {p["c"]: p for p in files if "none" not in p}
 
 
 def sig_digits(v):
@@ -325,10 +327,10 @@ class Armenia(unittest.TestCase):
     def test_a_country_without_a_profile_is_handled_by_the_page(self):
         """GW3.14, superseded by C-098: every country of the index has a profile file; one with no data at all says what it
         is (CountryView.tsx renders `p.none`), and Armenia, which has trade, has its lines."""
-        light = load("countries/profiles.json")
+        light = {os.path.basename(f)[:-5]: load(f"countries/profiles/{os.path.basename(f)}") for f in glob.glob(os.path.join(DATA, "countries", "profiles", "*.json"))}
         index = {c["c"] for c in load("countries/index.json")}
         self.assertEqual(index - set(light), set())
-        self.assertIn("n", light["ARM"])
+        self.assertNotIn("none", light["ARM"])
         self.assertLess(sum(1 for v in light.values() if "none" in v), 20)
         src = open(os.path.join(ROOT, "web", "src", "components", "views", "CountryView.tsx"), encoding="utf-8").read()
         self.assertIn("<Placeholder>{p.none}</Placeholder>", src)

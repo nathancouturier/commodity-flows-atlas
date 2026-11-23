@@ -78,8 +78,9 @@ def mask_gates(p, mask):
 
 
 def seaborne(group, year=YEAR):
+    """Mt: a group under 1 Mt a year is published in kt (review GL1.9)."""
     f = lane_file(group)
-    return f["seaborne"][f["years"].index(year)]
+    return f["seaborne"][f["years"].index(year)] / (1e3 if f["unit"] == "kt" else 1)
 
 
 def hist(ln, year):
@@ -260,7 +261,7 @@ class Pairs(unittest.TestCase):
                 self.assertIsNotNone(r, ln["id"])
                 self.assertTrue(r["f"] & 4, ln["id"])
                 # rows of 1 Mt or more are whole kt, lane flows are rounded to 1 kt: they agree within 1 kt
-                self.assertAlmostEqual(r["kt"] / 1e3, ln["flow"]["v"], delta=0.0011, msg=ln["id"])
+                self.assertAlmostEqual(r["kt"] / 1e3, ln["flow"]["v"] / (1e3 if ln["flow"]["u"] == "kt" else 1), delta=0.0011, msg=ln["id"])
                 self.assertEqual(r["nm"], ln["distanceNm"], ln["id"])
                 self.assertEqual(mask_gates(p, r["via"]), set(ln["via"]), ln["id"])
                 self.assertEqual(mask_gates(p, r["alt"]), {x for lst in ln.get("viaAlt", []) for x in lst}, ln["id"])

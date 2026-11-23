@@ -34,8 +34,8 @@ export function loadOptional<T>(path: string): Promise<T | null> {
  */
 export function loadProfile(iso3: string): Promise<CountryProfile | null> {
   if (!/^[A-Z0-9]{3,5}$/.test(iso3)) return Promise.resolve(null);
-  return Promise.all([loadOptional<CountryProfile>(`countries/profiles/${iso3}.json`), loadOptional<CountryProfile['years']>('countries/years.json')]).then(
-    ([p, years]) => (p && !p.none ? { ...p, years: years ?? {} } : p),
+  return loadOptional<CountryProfile>(`countries/profiles/${iso3}.json`).then((p) =>
+    p && !p.none ? loadOptional<CountryProfile['years']>('countries/years.json').then((years) => ({ ...p, years: years ?? {} })) : p,
   );
 }
 

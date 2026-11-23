@@ -32,10 +32,12 @@ GROUP_CAP = 12
 # by their tonnes across groups (each group's in its own order), so that no corridor is left out for a smaller one of
 # another group (review GL1.8: three corridors of 1.1 to 1.5 Mt had given way to corridors of 0.5 Mt of small groups).
 TOTAL_CAP = 120
-# The groups that the audit's entries on named routes ask routes for (M-030: coal, refined products, LNG, steel, manganese,
-# alumina; M-031: sugar, rice, rapeseed, corn, soybean meal, wheat, palm oil, urea, DAP, potash).
-AUDIT_GROUPS = frozenset({"coal", "refined-products", "lng", "steel", "manganese", "alumina", "sugar", "rice", "rapeseed", "corn",
-                          "soymeal", "wheat", "palm-oil", "urea", "dap", "potash"})
+# The groups that the audit's entries on named routes name (M-030: crude oil, iron ore, coal, refined products, LNG, steel,
+# sugar, rice, manganese, alumina, rapeseed; M-031: sugar, rice, rapeseed, coffee, cocoa, cotton, phosphate rock, DAP, urea,
+# soybean meal, palm oil, corn, wheat, potash, soybeans).
+AUDIT_GROUPS = frozenset({"crude-oil", "iron-ore", "coal", "refined-products", "lng", "steel", "manganese", "alumina", "sugar", "rice",
+                          "rapeseed", "coffee", "cocoa", "cotton", "phosphate-rock", "dap", "urea", "soymeal", "palm-oil", "corn",
+                          "wheat", "potash", "soybeans"})
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).

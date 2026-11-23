@@ -5,22 +5,12 @@
  */
 import { sourceLabel, sources } from './data';
 import { licenceAllows, licenceShort } from './licence';
+import { LONG_LICENCE, LONG_SOURCE, csvCell, numberText, onceColumn, toCsv } from './csvCore';
 
 /** The Atlas's own figures are published under this licence (the registry's `atlas` entry says the same). */
 export const ATLAS_LICENCE = 'CC BY 4.0 (attribution: Commodity Flows Atlas)';
 
-/** A number as a data file holds it: no floating-point noise ("153.81379999997444" is 153.8138), twelve significant digits at most. */
-export const numberText = (x: number): string => (Number.isFinite(x) && !Number.isInteger(x) ? String(Number(x.toPrecision(12))) : String(x));
-
-export const csvCell = (x: string | number | boolean | null | undefined): string => {
-  const t = x == null ? '' : typeof x === 'number' ? numberText(x) : String(x);
-  return /[",\r\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
-};
-
-/** Header and rows as CSV text. */
-export function toCsv(head: string[], rows: (string | number | boolean | null | undefined)[][]): string {
-  return [head, ...rows].map((r) => r.map(csvCell).join(',')).join('\r\n') + '\r\n';
-}
+export { csvCell, numberText, toCsv };
 
 /** Name of the source, as the page prints it. `extra` is appended after a semicolon (what the Atlas did to the figure). */
 export function sourceName(id: string, extra?: string): string {
@@ -32,25 +22,10 @@ export function licenceOf(id: string): string {
   return id === 'atlas' ? ATLAS_LICENCE : (sources.value[id]?.licence ?? '');
 }
 
-/**
- * The licence cell of each row of one file (make one per file). A licence text of up to 100 characters is written on every
- * row; a longer one (the IMF's) is written in full on the first row that uses it, and on the others by its short name
- * with a pointer to that row, so that a weekly series of four thousand rows does not carry it four thousand times.
- * Called with `licenceTexts(ids, suffix)`: the full text and the short one of the sources a row rests on, and what the
- * atlas adds ("; the estimate: CC BY 4.0").
- */
-export const LONG_LICENCE = 100;
-export function licenceColumn(): (full: string, short?: string) => string {
-  const seen = new Set<string>();
-  return (full, short = full) => {
-    if (full.length <= LONG_LICENCE) return full;
-    if (!seen.has(full)) {
-      seen.add(full);
-      return full;
-    }
-    return `${short} (full text on the first row of this source)`;
-  };
-}
+/** The `licence` cell: called with `licenceTexts(ids, suffix)`, the full text and the short one of the sources a row rests on. */
+export const licenceColumn = () => onceColumn(LONG_LICENCE, 'full text');
+/** The `source` cell: the source's name as the page prints it, and a short form (its publisher) for the rows after the first. */
+export const sourceColumn = () => onceColumn(LONG_SOURCE, 'full name');
 /** The registry's licence texts of sources, joined, and their short names, joined: the two arguments of `licenceColumn()`'s function. */
 export const licenceTexts = (ids: string[], suffix = ''): [string, string] => [
   ids.map(licenceOf).join('; ') + suffix,

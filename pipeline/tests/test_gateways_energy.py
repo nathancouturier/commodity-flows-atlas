@@ -455,8 +455,12 @@ class FE4aSourcedGateways(unittest.TestCase):
         self.assertIsNone(EN.transit("KAZ", "products"))
         self.assertIsNone(EN.transit("AZE", "products"))
         self.assertEqual(EN.transit("KAZ", "crude")[0], "KZCPC")        # a family row still wins over nothing else
-        # package L1 read a page (Kpler, February 2025) that names Ust-Luga for Kazakh coal
-        self.assertEqual(EN.transit("KAZ", "drybulk")[0], "RUULU")
+        # package L1 read a page (Kpler, February 2025) that names Ust-Luga for Kazakh coal; review GL1.1 keys the row by the
+        # cargo and the buyers the page names (coal for the EU and Morocco), not by the whole dry-bulk family
+        self.assertIsNone(EN.transit("KAZ", "drybulk"))
+        self.assertEqual(EN.TRANSIT["KAZ"]["coal"][0], "RUULU")
+        self.assertEqual(self.ports.transit_for("KAZ", "drybulk", "coal", "MAR")[0], "RUULU")
+        self.assertIsNone(self.ports.transit_for("KAZ", "drybulk", "coal", "TUR"))
         self.assertEqual(EN.transit("CZE", "drybulk")[0], "DEHAM")
         self.assertEqual(EN.transit("CZE", "crude")[0], "ITTRS")         # the family row wins over the default
         self.assertEqual(EN.transit("SSD", "crude")[0], "SDPZU")

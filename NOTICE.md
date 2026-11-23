@@ -87,7 +87,7 @@ articles and their infoboxes):
   of their own source; the text of the feature names Wikipedia where a fact comes from it;
 <!-- wikipedia-infra:end -->
 - `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
-- the rows of `data/countries/profiles.json` whose source id is `wikipedia` (they repeat figures of the files above);
+- the lines of `data/countries/profiles/*.json` whose source id is `wikipedia` (they repeat figures of the files above);
 - the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
 - `data/freight/vessel-classes.json`: the size ranges and notes whose source id is `wikipedia-vessel-classes`,
   `vessel-size-conventions` or `wikipedia` (articles Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Bulk
@@ -127,7 +127,7 @@ replaced by one from another source, it leaves this notice.
 The articles below are cited by rows of the trade engine's tables (English Wikipedia unless stated). The list is
   generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the source strings of the
   draught tables, the URL of every mode-list entry) by `pipeline/common/notice_lists.py`, not typed, and
-  `pipeline/tests/test_engine.py` checks that it is complete. 191 distinct articles:
+  `pipeline/tests/test_engine.py` checks that it is complete. 192 distinct articles:
 
 - Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 67):
   [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
@@ -234,7 +234,7 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   Port](https://en.wikipedia.org/wiki/Vostochny_Port); [Weipa](https://en.wikipedia.org/wiki/Weipa);
   [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven).
 - Gateway ports for crude oil, refined products, LPG and LNG, and the transit ports of landlocked countries
-  (`pipeline/freight/gateways/energy.py`, 64): [Adria oil pipeline](https://en.wikipedia.org/wiki/Adria_oil_pipeline);
+  (`pipeline/freight/gateways/energy.py`, 65): [Adria oil pipeline](https://en.wikipedia.org/wiki/Adria_oil_pipeline);
   [Al Başrah Oil Terminal](https://en.wikipedia.org/wiki/Al_Ba%C5%9Frah_Oil_Terminal); [Angra dos
   Reis](https://en.wikipedia.org/wiki/Angra_dos_Reis); [Apapa](https://en.wikipedia.org/wiki/Apapa);
   [Baku–Tbilisi–Ceyhan pipeline](https://en.wikipedia.org/wiki/Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline); [Cabinda
@@ -256,9 +256,9 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   terminals](https://en.wikipedia.org/wiki/List_of_LNG_terminals); [List of oil
   refineries](https://en.wikipedia.org/wiki/List_of_oil_refineries); [Mina Al
   Fahal](https://en.wikipedia.org/wiki/Mina_Al_Fahal); [Mongstad](https://en.wikipedia.org/wiki/Mongstad);
-  [Naftoport](https://en.wikipedia.org/wiki/Naftoport); [Paradip Port](https://en.wikipedia.org/wiki/Paradip_Port);
-  [Pengerang](https://en.wikipedia.org/wiki/Pengerang); [Petroleum industry in
-  Nigeria](https://en.wikipedia.org/wiki/Petroleum_industry_in_Nigeria); [Port of
+  [Naftoport](https://en.wikipedia.org/wiki/Naftoport); [Nueva Palmira](https://en.wikipedia.org/wiki/Nueva_Palmira);
+  [Paradip Port](https://en.wikipedia.org/wiki/Paradip_Port); [Pengerang](https://en.wikipedia.org/wiki/Pengerang);
+  [Petroleum industry in Nigeria](https://en.wikipedia.org/wiki/Petroleum_industry_in_Nigeria); [Port of
   Beira](https://en.wikipedia.org/wiki/Port_of_Beira); [Port of Chiba](https://en.wikipedia.org/wiki/Port_of_Chiba);
   [Port of Constanța](https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba); [Port of Corpus
   Christi](https://en.wikipedia.org/wiki/Port_of_Corpus_Christi); [Port of Dar es

@@ -41,10 +41,12 @@ def build(pairs_dir=PAIRS, out=OUT, lanes_dir=LANES, split_dir=None):
             with open(lf, encoding="utf-8") as fh:
                 label = json.load(fh).get("label")
         # seaborne trade of the group in the latest year: the denominator of every share
-        groups[g] = {"k": d["k"], "label": label, "y": d["y"], "s": d["s"], "seaborne": round(d["seaborne"] / 1e3, 2)}
+        # a group under 1 Mt a year keeps its 0.1 kt (the site prints it in kt, as its lane file)
+        nd = 3 if d["seaborne"] >= 1e3 else 4
+        groups[g] = {"k": d["k"], "label": label, "y": d["y"], "s": d["s"], "seaborne": round(d["seaborne"] / 1e3, 2 if nd == 3 else 4)}
         c = {k: i for i, k in enumerate(d["cols"])}
         for r in d["rows"]:
-            v = round(r[c["kt"]] / 1e3, 3)
+            v = round(r[c["kt"]] / 1e3, nd)
             if r[c["m"]] not in SEABORNE or v <= 0:
                 continue
             for i, cp in enumerate(d["gates"]):
