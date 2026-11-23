@@ -518,7 +518,9 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   Tsugaru Strait and the Sea of Japan, so such cargo may cross it. "Has to cross" therefore means:
   no route of similar length (5% or 300 nm, per class, under the same limits) avoids the passage,
   among the parallel members, the port options and, for the Korea Strait, the route around it.
-  Elsewhere the main route's passages are certain. Applied to every passage, the same test would
+  Elsewhere the main route's passages are certain. Where no tonnage has to cross a passage (the "at
+  least" figure rounds to nothing at the precision printed), the pages say so in words ("no cargo has
+  to cross it", "none has to cross, up to 12% may") rather than print "at least 0". Applied to every passage, the same test would
   turn most of the "at least" tonnage of Lombok, Makassar and Ombai, and part of Dover's and
   Singapore's, into "may cross", through ways round the network offers (the Alas Strait, the
   Banda Sea, north of Scotland, the Durian Strait) that are not how these ships sail, against
@@ -1080,7 +1082,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
 - **Precious metals** (gold, silver, platinum-group metals): trade is shown in fine-metal equivalent,
   an Atlas estimate: declared value ÷ the year's average price (World Bank Pink Sheet; gold
   2,388 USD per troy ounce in 2024, at 31.1034768 g per ounce), never above the customs gross weight,
-  which each row's note gives. Platinum-group metals are valued at the platinum price, so a flow
+  which each row's note gives. A flow whose estimate is above it is capped there (`cap: true`): its
+  figure is the customs gross weight, printed as customs publish it, not rounded to two digits. Platinum-group metals are valued at the platinum price, so a flow
   rich in palladium or rhodium is overstated or understated. These groups get no transport mode.
 - **Copper concentrate**: Chilean rows re-estimated at Peru's unit value (cleaning rule 8, section 1).
 - **Spodumene concentrate** has no customs code of its own. It is read from HS 253090 ("mineral

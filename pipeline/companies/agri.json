@@ -2,26 +2,6 @@
  "wheat": {
   "traders": [
    {
-    "name": "Bunge (incl. Viterra)",
-    "hq": "USA",
-    "role": "trader",
-    "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025",
-    "fig": {
-     "v": 67.2,
-     "u": "Mt",
-     "what": "grain merchandising and milling volumes",
-     "y": 2025,
-     "s": "sec-edgar",
-     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "67,166 thousand tonnes, all grains (the segment includes Viterra from July 2025). Form 10-K 2025."
-    },
-    "s": "sec-edgar",
-    "y": 2025,
-    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-    "read": "2026-11"
-   },
-   {
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
@@ -39,6 +19,17 @@
     "detail": "US food processing and commodities trading company (Chicago); grain origination and export",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "read": "2026-11"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "USA",
+    "role": "trader",
+    "own": "listed",
+    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; its Grain Merchandising and Milling segment sold 67.2 Mt in 2025, corn, wheat, barley, cotton, pulses and sugar together (Form 10-K)",
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
     "read": "2026-11"
    },
    {
@@ -117,26 +108,6 @@
  "corn": {
   "traders": [
    {
-    "name": "Bunge (incl. Viterra)",
-    "hq": "USA",
-    "role": "trader",
-    "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025",
-    "fig": {
-     "v": 67.2,
-     "u": "Mt",
-     "what": "grain merchandising and milling volumes",
-     "y": 2025,
-     "s": "sec-edgar",
-     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "67,166 thousand tonnes, all grains (the segment includes Viterra from July 2025). Form 10-K 2025."
-    },
-    "s": "sec-edgar",
-    "y": 2025,
-    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-    "read": "2026-11"
-   },
-   {
     "name": "Cargill",
     "hq": "USA",
     "role": "trader",
@@ -154,6 +125,17 @@
     "detail": "US food processing and commodities trading company (Chicago); grain origination and export",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "read": "2026-11"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "USA",
+    "role": "trader",
+    "own": "listed",
+    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; its Grain Merchandising and Milling segment sold 67.2 Mt in 2025, corn, wheat, barley, cotton, pulses and sugar together (Form 10-K)",
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
     "read": "2026-11"
    },
    {
@@ -330,26 +312,6 @@
  "soymeal": {
   "processors": [
    {
-    "name": "Bunge (incl. Viterra)",
-    "hq": "USA",
-    "role": "crusher",
-    "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; 35 oilseed processing plants in its soybean segment",
-    "fig": {
-     "v": 41.0,
-     "u": "Mt",
-     "what": "soybeans processed",
-     "y": 2025,
-     "s": "sec-edgar",
-     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "41,013 thousand tonnes. Form 10-K 2025."
-    },
-    "s": "sec-edgar",
-    "y": 2025,
-    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-    "read": "2026-11"
-   },
-   {
     "name": "ADM",
     "hq": "USA",
     "role": "crusher",
@@ -357,6 +319,17 @@
     "detail": "Soybean crusher and processor (Chicago)",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "read": "2026-11"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "USA",
+    "role": "crusher",
+    "own": "listed",
+    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; 35 oilseed processing plants in its soybean segment; processed 41.0 Mt of soybeans in 2025, meal and oil together (Form 10-K)",
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
     "read": "2026-11"
    },
    {
@@ -402,13 +375,13 @@
     "own": "listed",
     "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; 35 oilseed processing plants in its soybean segment",
     "fig": {
-     "v": 41.0,
+     "v": 3.6,
      "u": "Mt",
-     "what": "soybeans processed",
+     "what": "refined oil production, Soybean Processing and Refining segment",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "41,013 thousand tonnes. Form 10-K 2025."
+     "n": "3,612 thousand tonnes of refined oil; the filing does not split it by oil. The segment also processed 41.0 Mt of soybeans. Form 10-K 2025."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -483,26 +456,6 @@
  "rapeseed": {
   "traders": [
    {
-    "name": "Bunge (incl. Viterra)",
-    "hq": "USA",
-    "role": "trader",
-    "own": "listed",
-    "detail": "Viterra (merged July 2025) handles Canadian canola; incorporated in Geneva, headquartered in St. Louis",
-    "fig": {
-     "v": 10.8,
-     "u": "Mt",
-     "what": "softseeds processed (rapeseed, canola, sunflower)",
-     "y": 2025,
-     "s": "sec-edgar",
-     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "10,751 thousand tonnes. Form 10-K 2025."
-    },
-    "s": "sec-edgar",
-    "y": 2025,
-    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-    "read": "2026-11"
-   },
-   {
     "name": "Richardson International",
     "hq": "CAN",
     "role": "trader",
@@ -511,6 +464,17 @@
     "detail": "Winnipeg-based grain and oilseed handler, processor and exporter; owned by James Richardson & Sons",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Richardson_International",
+    "read": "2026-11"
+   },
+   {
+    "name": "Bunge (incl. Viterra)",
+    "hq": "USA",
+    "role": "trader",
+    "own": "listed",
+    "detail": "Viterra (merged July 2025) handles Canadian canola; incorporated in Geneva, headquartered in St. Louis; its Softseed Processing and Refining segment processed 10.8 Mt of softseeds (canola/rapeseed and sunflower seed) in 2025 (Form 10-K)",
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
     "read": "2026-11"
    },
    {
@@ -665,7 +629,7 @@
     "hq": "BRA",
     "role": "processor",
     "own": "listed",
-    "detail": "Brazilian group in bioethanol, sugar and energy (São Paulo); 44% of Raízen",
+    "detail": "Brazilian group in bioethanol, sugar and energy (São Paulo); formed the Raízen joint venture with Shell in 2010",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Cosan",
     "read": "2026-11"
@@ -824,25 +788,6 @@
  "cocoa": {
   "processors": [
    {
-    "name": "Touton",
-    "hq": "FRA",
-    "role": "processor",
-    "detail": "Bordeaux-based merchant of cocoa, coffee, vanilla and other ingredients",
-    "fig": {
-     "v": 400,
-     "u": "kt",
-     "what": "cocoa, coffee and ingredients traded, more than",
-     "y": 2026,
-     "s": "company-reports",
-     "url": "https://www.touton.com/news/touton-publishes-2025-26-sustainability-performance-report",
-     "n": "Financial year 2025-26; 45% of tonnage classified as sustainable. Touton 2025-26 sustainability and performance report."
-    },
-    "s": "company-reports",
-    "y": 2026,
-    "url": "https://www.touton.com/news/touton-publishes-2025-26-sustainability-performance-report",
-    "read": "2026-11"
-   },
-   {
     "name": "Barry Callebaut",
     "hq": "CHE",
     "role": "grinder",
@@ -882,6 +827,16 @@
     "read": "2026-11"
    },
    {
+    "name": "Touton",
+    "hq": "FRA",
+    "role": "processor",
+    "detail": "Bordeaux-based merchant of cocoa, coffee, vanilla and other ingredients; traded more than 400 kt of cocoa, coffee and ingredients together in 2025-26 (company report)",
+    "s": "company-reports",
+    "y": 2026,
+    "url": "https://www.touton.com/news/touton-publishes-2025-26-sustainability-performance-report",
+    "read": "2026-11"
+   },
+   {
     "name": "Mondelez International",
     "hq": "USA",
     "role": "chocolate maker",
@@ -906,7 +861,8 @@
     "hq": "USA",
     "role": "grinder",
     "own": "private",
-    "detail": "Private maker of chocolate, cocoa powder and cocoa butter (East Greenville, Pennsylvania)",
+    "parent": "Fuji Oil Holdings",
+    "detail": "Maker of chocolate, cocoa powder and cocoa butter (East Greenville, Pennsylvania); sold to Fuji Oil Holdings in 2018",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Blommer_Chocolate_Company",
     "read": "2026-11"
@@ -1041,17 +997,17 @@
     "own": "listed",
     "detail": "Oil palm planter with estates in Malaysia, Indonesia, Papua New Guinea and the Solomon Islands",
     "fig": {
-     "v": 1.9,
+     "v": 2.22,
      "u": "Mt",
-     "what": "certified sustainable palm oil produced",
-     "y": 2023,
+     "what": "crude palm oil production, own and outside fruit milled",
+     "y": 2025,
      "s": "company-reports",
-     "url": "https://www.sdguthrie.com/who-we-are",
-     "n": "SD Guthrie, Who we are page."
+     "url": "https://insage.com.my/ir/cmn/loadpdf.aspx?sCompanyCode=SDG&sFileName=26118000067086&sReportType=AUDIT",
+     "n": "2,224,833 t of crude palm oil from its mills in the year to 31 December 2025, from 8.87 Mt of own and 1.63 Mt of outside fresh fruit bunches; own fresh fruit bunch production 8.88 Mt. Integrated Report 2025."
     },
     "s": "company-reports",
-    "y": 2023,
-    "url": "https://www.sdguthrie.com/who-we-are",
+    "y": 2025,
+    "url": "https://insage.com.my/ir/cmn/loadpdf.aspx?sCompanyCode=SDG&sFileName=26118000067086&sReportType=AUDIT",
     "read": "2026-11"
    },
    {
@@ -1206,7 +1162,7 @@
     "hq": "USA",
     "role": "producer",
     "own": "listed",
-    "detail": "Only US producer of potassium chloride (Denver); three mines",
+    "detail": "Potash and langbeinite producer (Denver); three mines near Carlsbad (New Mexico), Moab and Wendover (Utah)",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Intrepid_Potash",
     "read": "2026-11"
@@ -1283,8 +1239,9 @@
     "name": "Yuntianhua",
     "hq": "CHN",
     "role": "producer",
-    "detail": "Yunnan phosphate rock and fertiliser producer; Chinese state-controlled group",
+    "detail": "Yunnan phosphate rock and phosphate fertiliser producer; in December 2023 it stated an ore capacity of 14.5 Mt, about 58% of Yunnan Province, and about 25% of national phosphate fertiliser capacity",
     "s": "trade-press",
+    "y": 2023,
     "url": "https://news.metal.com/en/newscontent/102556141-Yuntianhua-Boasts-Large-Ore-and-Fertilizer-Production-Capacity-in-Yunnan-Province",
     "read": "2026-11"
    },
@@ -1349,6 +1306,7 @@
     "hq": "NOR",
     "role": "producer",
     "own": "listed",
+    "parent": "Government of Norway, largest shareholder (more than one third)",
     "detail": "Norwegian producer of nitrogen fertilisers and industrial products (Oslo)",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Yara_International",

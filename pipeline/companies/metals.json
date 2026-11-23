@@ -70,11 +70,11 @@
     "fig": {
      "v": 201.3,
      "u": "Mt",
-     "what": "iron ore shipments",
+     "what": "iron ore shipments, 100% basis",
      "y": 2026,
      "s": "company-reports",
      "url": "https://announcements.asx.com.au/asxpdf/20260731/pdf/07282pwdb2jzw4.pdf",
-     "n": "Financial year to 30 June 2026. Record; 192.3 Mt hematite and 9.0 Mt Iron Bridge concentrate. June 2026 quarterly production report."
+     "n": "Financial year to 30 June 2026. Fortescue share 198.5 Mt; record 201.3 Mt in total, of which 192.3 Mt hematite and 9.0 Mt Iron Bridge concentrate. June 2026 quarterly production report."
     },
     "s": "company-reports",
     "y": 2026,
@@ -91,11 +91,11 @@
     "fig": {
      "v": 36.1,
      "u": "Mt",
-     "what": "Kumba production, wet basis",
+     "what": "Kumba iron ore production, wet basis (about 1.5% moisture)",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
-     "n": "36,084 kt. Anglo American's premium iron ore (Kumba and Minas-Rio) was 60.8 Mt. Anglo American Q4 2025 production report."
+     "n": "36,084 kt, as reported by Anglo American. Anglo American's premium iron ore (Kumba and Minas-Rio) was 60.8 Mt. Anglo American Q4 2025 production report."
     },
     "s": "company-reports",
     "y": 2025,
@@ -402,11 +402,11 @@
     "fig": {
      "v": 1953,
      "u": "kt",
-     "what": "copper production, Escondida at 100%",
+     "what": "copper production, BHP share with Escondida at 100%",
      "y": 2026,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
-     "n": "Financial year to 30 June 2026. Escondida 1,261 kt. Form 20-F 2026."
+     "n": "Financial year to 30 June 2026. Escondida 1,261 kt at 100%; BHP's interest is 57.5%. Form 20-F 2026."
     },
     "s": "sec-edgar",
     "y": 2026,
@@ -418,7 +418,7 @@
     "hq": "USA",
     "role": "producer",
     "own": "listed",
-    "detail": "Grasberg (Indonesia), Morenci (Arizona), Cerro Verde (Peru); after a mud rush at Grasberg on 8 September 2025 mining there was suspended and PT Freeport Indonesia declared force majeure to some counterparties",
+    "detail": "Grasberg (Indonesia), Morenci (Arizona), Cerro Verde (Peru); after a mud rush at Grasberg on 8 September 2025 mining was suspended; PT Freeport Indonesia restarted the DMLZ and Big Gossan underground mines in late October 2025, with a phased restart of the Grasberg Block Cave planned for the second quarter of 2026; it notified certain counterparties of force majeure",
     "fig": {
      "v": 1535,
      "u": "kt",
@@ -440,16 +440,16 @@
     "own": "state",
     "detail": "Chilean state-owned copper miner",
     "fig": {
-     "v": 1332,
+     "v": 1328,
      "u": "kt",
-     "what": "copper production",
-     "y": 2025,
-     "s": "wikipedia",
-     "url": "https://en.wikipedia.org/wiki/Codelco",
-     "n": "Wikipedia, citing La Tercera and Kitco. In 2026 Codelco was suspected of having inflated its 2025 production figures (Wikipedia)."
+     "what": "copper production, own divisions",
+     "y": 2024,
+     "s": "cochilco",
+     "url": "https://www.cochilco.cl/web/historico-produccion-de-cobre-y-molibdeno/",
+     "n": "1,328.4 thousand tonnes: 'Total CODELCO' of the Chilean Copper Commission's table of copper mine production by company (Chuquicamata, Radomiro Tomic, Ministro Hales, Salvador, Andina, El Teniente, Gaby). The table also gives 1,334.4 kt for 2025, not used because Wikipedia reports that Codelco was suspected in 2026 of having inflated its 2025 production figures."
     },
     "s": "wikipedia",
-    "y": 2025,
+    "y": 2024,
     "url": "https://en.wikipedia.org/wiki/Codelco",
     "read": "2026-11"
    },
@@ -462,11 +462,11 @@
     "fig": {
      "v": 1085,
      "u": "kt",
-     "what": "mine-produced copper",
+     "what": "mine-produced copper, mines at 100% (attributable basis in the note)",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
-     "n": "1,085,126 t. 2025 annual results announcement (HKEX)."
+     "n": "1,085,126 t with controlled mines at 100% and Kamoa and Yulong at attributable share; 885,569 t on an attributable basis. 2025 annual results announcement (HKEX)."
     },
     "s": "company-reports",
     "y": 2025,
@@ -522,11 +522,11 @@
     "fig": {
      "v": 741.1,
      "u": "kt",
-     "what": "copper metal production",
+     "what": "copper metal production, as reported (ownership basis not stated)",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
-     "n": "741,149 t. HKEX filing, March 2026."
+     "n": "741,149 t, from the production table of CMOC's 2025 ESG Report (filed on HKEX in March 2026), which says the data can also be found in the annual report. The report does not state an ownership basis."
     },
     "s": "company-reports",
     "y": 2025,
@@ -542,11 +542,11 @@
     "fig": {
      "v": 695.2,
      "u": "kt",
-     "what": "copper production, contained metal",
+     "what": "copper production, contained metal, Collahuasi at Anglo American's 44% share",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www.rns-pdf.londonstockexchange.com/rns/7886R_1-2026-2-5.pdf",
-     "n": "Q4 2025 production report, 5 February 2026."
+     "n": "Contained metal basis; the total includes Anglo American's 44% interest in Collahuasi. Q4 2025 production report, 5 February 2026."
     },
     "s": "company-reports",
     "y": 2025,
@@ -578,15 +578,15 @@
     "hq": "CAN",
     "role": "producer",
     "own": "listed",
-    "detail": "Quebrada Blanca (Chile), Highland Valley (Canada), Antamina share (Peru)",
+    "detail": "Quebrada Blanca (Chile), Highland Valley (Canada), Antamina share (Peru); merger of equals with Anglo American to form Anglo Teck announced in September 2025, subject to closing conditions at the date of the 2025 MD&A",
     "fig": {
      "v": 453.5,
      "u": "kt",
-     "what": "copper production",
+     "what": "copper production, 100% of Quebrada Blanca and Carmen de Andacollo, 22.5% of Antamina",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
-     "n": "2025 MD&A filed on Form 40-F."
+     "n": "Teck includes 100% of Quebrada Blanca and Carmen de Andacollo, which it consolidates, and 22.5% of Antamina. 2025 MD&A filed on Form 40-F."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -609,6 +609,7 @@
     "hq": "POL",
     "role": "producer",
     "own": "listed",
+    "parent": "State Treasury of Poland, largest shareholder (31.79%)",
     "detail": "Polish copper and silver miner and smelter (Lubin)",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź",
@@ -651,7 +652,7 @@
     "name": "Jiangxi Copper",
     "hq": "CHN",
     "role": "smelter",
-    "own": "state",
+    "own": "state-listed",
     "parent": "Jiangxi Copper Corporation",
     "detail": "Integrated copper miner, smelter and refiner (Nanchang)",
     "s": "wikipedia",
@@ -662,9 +663,9 @@
     "name": "Tongling Nonferrous",
     "hq": "CHN",
     "role": "smelter",
-    "own": "state",
+    "own": "state-listed",
     "parent": "Tongling Nonferrous Metals Group Holding Company",
-    "detail": "Copper miner and smelter (Tongling, Anhui)",
+    "detail": "Copper miner and smelter (Tongling, Anhui); listed in Shenzhen through its subsidiary Tongling Nonferrous Metals Group Company Limited",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Tongling_Nonferrous_Metals",
     "read": "2026-11"
@@ -682,26 +683,6 @@
   ],
   "traders": [
    {
-    "name": "Trafigura",
-    "hq": "SGP",
-    "role": "trader",
-    "own": "private",
-    "detail": "Concentrate and refined metal trading; owner of Nyrstar",
-    "fig": {
-     "v": 19.4,
-     "u": "Mt",
-     "what": "non-ferrous concentrates and refined metals traded, all metals",
-     "y": 2025,
-     "s": "company-reports",
-     "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
-     "n": "Financial year to 30 September 2025; bulk minerals a further 84.6 Mt. 2025 annual report."
-    },
-    "s": "company-reports",
-    "y": 2025,
-    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
-    "read": "2026-11"
-   },
-   {
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
@@ -709,6 +690,17 @@
     "detail": "Marketing arm of the miner: copper, zinc, lead, nickel, cobalt, aluminium",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
+   },
+   {
+    "name": "Trafigura",
+    "hq": "SGP",
+    "role": "trader",
+    "own": "private",
+    "detail": "Concentrate and refined metal trading; owner of Nyrstar; traded 19.4 Mt of non-ferrous concentrates and refined metals, all metals together, and 84.6 Mt of bulk minerals in the year to September 2025 (annual report)",
+    "s": "company-reports",
+    "y": 2025,
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
     "read": "2026-11"
    },
    {
@@ -736,10 +728,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    },
    {
@@ -851,7 +843,8 @@
     "name": "Alba (Aluminium Bahrain)",
     "hq": "BHR",
     "role": "smelter",
-    "own": "listed",
+    "own": "state-listed",
+    "parent": "Mumtalakat Holding Company, Bahrain's sovereign wealth fund (70%)",
     "detail": "Smelter at Askar (Bahrain), operating since 1971",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Aluminium_Bahrain",
@@ -904,10 +897,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    }
   ]
@@ -1015,11 +1008,11 @@
     "fig": {
      "v": 177.2,
      "u": "kt",
-     "what": "finished nickel production",
+     "what": "finished nickel production, contained nickel, incl. 16.0 kt from purchased feed",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/917851/000129281426001844/valeform20f_2025.htm",
-     "n": "Contained nickel; Sorowako at 100%. Form 20-F 2025."
+     "n": "Includes 16.0 kt finished from feed bought from unrelated parties; Sorowako at 100%, not adjusted to Vale's ownership. Form 20-F 2025."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -1143,10 +1136,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    }
   ]
@@ -1162,11 +1155,11 @@
     "fig": {
      "v": 117.5,
      "u": "kt",
-     "what": "cobalt metal production",
+     "what": "cobalt metal production, as reported (ownership basis not stated)",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0327/2026032704052.pdf",
-     "n": "117,549 t. HKEX filing, March 2026."
+     "n": "117,549 t, from the production table of CMOC's 2025 ESG Report (filed on HKEX in March 2026), which says the data can also be found in the annual report. The report does not state an ownership basis."
     },
     "s": "company-reports",
     "y": 2025,
@@ -1250,10 +1243,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    }
   ],
@@ -1303,6 +1296,26 @@
     "read": "2026-11"
    },
    {
+    "name": "Albemarle",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Greenbushes and Wodgina (Australia), Salar de Atacama (Chile), Silver Peak (Nevada)",
+    "fig": {
+     "v": 224,
+     "u": "kt",
+     "what": "lithium carbonate equivalent production, Albemarle share of joint ventures",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
+     "n": "Filing states 42 kt of lithium metal; converted with the filing's own factor of 0.1878 t lithium metal per t LCE (42 / 0.1878 = 223.6). Greenbushes at 49%, Wodgina at 50% since 18 October 2023 (60% before). Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "y": 2025,
+    "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
+    "read": "2026-11"
+   },
+   {
     "name": "Rio Tinto",
     "hq": "GBR",
     "role": "producer",
@@ -1311,35 +1324,15 @@
     "fig": {
      "v": 57,
      "u": "kt",
-     "what": "lithium carbonate equivalent production, Rio Tinto share",
+     "what": "lithium carbonate equivalent production, full year including Arcadium before completion",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
-     "n": "Includes Arcadium's production before the acquisition completed; 46 kt attributable to Rio Tinto. Form 20-F 2025."
+     "n": "Of the 57 kt, 46 kt was attributable to Rio Tinto: Arcadium produced 17 kt in the first quarter of 2025, of which 6 kt after completion in March. Form 20-F 2025."
     },
     "s": "sec-edgar",
     "y": 2025,
     "url": "https://www.sec.gov/Archives/edgar/data/863064/000162828026009531/rio-20251231.htm",
-    "read": "2026-11"
-   },
-   {
-    "name": "Albemarle",
-    "hq": "USA",
-    "role": "producer",
-    "own": "listed",
-    "detail": "Greenbushes and Wodgina (Australia), Salar de Atacama (Chile), Silver Peak (Nevada)",
-    "fig": {
-     "v": 42,
-     "u": "kt",
-     "what": "lithium production, lithium metal basis",
-     "y": 2025,
-     "s": "sec-edgar",
-     "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
-     "n": "Attributable: Greenbushes 49%. Albemarle converts 0.1878 t lithium metal to 1 t LCE. Form 10-K 2025."
-    },
-    "s": "sec-edgar",
-    "y": 2025,
-    "url": "https://www.sec.gov/Archives/edgar/data/915913/000091591326000018/alb-20251231.htm",
     "read": "2026-11"
    },
    {
@@ -1405,7 +1398,7 @@
     "fig": {
      "v": 565,
      "u": "kt",
-     "what": "zinc in concentrate production",
+     "what": "zinc in concentrate production, including 22.5% of Antamina co-product zinc",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
@@ -1422,8 +1415,9 @@
     "role": "smelter",
     "own": "private",
     "parent": "Trafigura",
-    "detail": "Smelting and other operations in Europe, Australia and the United States; owned by Trafigura since 2019",
+    "detail": "Zinc and lead smelting and other operations in Europe and Australia; sold its Tennessee mines and smelter to Korea Zinc in April 2026; owned by Trafigura since 2019",
     "s": "wikipedia",
+    "y": 2026,
     "url": "https://en.wikipedia.org/wiki/Nyrstar",
     "read": "2026-11"
    },
@@ -1595,10 +1589,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    }
   ]
@@ -1609,9 +1603,9 @@
     "name": "Yunnan Tin",
     "hq": "CHN",
     "role": "producer",
-    "own": "state",
+    "own": "state-listed",
     "parent": "Yunnan Tin Group (Holding) Company",
-    "detail": "Kunming-based tin miner, smelter and exporter (Yunnan Tin Group)",
+    "detail": "Kunming-based tin miner, smelter and exporter (Yunnan Tin Group); listed in Shenzhen through its subsidiary Yunnan Tin Company Limited",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Yunnan_Tin",
     "read": "2026-11"
@@ -1654,10 +1648,10 @@
     "name": "Gerald Group",
     "hq": "USA",
     "role": "trader",
-    "own": "private",
-    "detail": "Metals and ferroalloys merchant (Gerald Metals)",
+    "detail": "Metals trader in ferrous, non-ferrous and precious metals, founded in the United States; corporate and trading office in Stamford, Connecticut",
     "s": "company-reports",
-    "url": "https://www.gerald.com/2024sustainabilityreport",
+    "y": 2026,
+    "url": "https://018dc38f-5719-4b38-83ed-ed77973eb1ac.usrfiles.com/ugd/018dc3_25e6dc55c5d14ca39be9f9b272545319.pdf",
     "read": "2026-11"
    },
    {
@@ -1685,11 +1679,21 @@
     "read": "2026-11"
    },
    {
-    "name": "Eramet / Comilog",
+    "name": "Eramet",
     "hq": "FRA",
     "role": "producer",
     "own": "listed",
-    "detail": "Comilog mines at Moanda (Gabon); Eramet is the parent",
+    "detail": "Manganese from mines in Gabon, alongside nickel and high-performance alloys",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Eramet",
+    "read": "2026-11"
+   },
+   {
+    "name": "Comilog",
+    "hq": "GAB",
+    "role": "producer",
+    "parent": "Eramet",
+    "detail": "Manganese mining and processing company based in Moanda, Gabon; subsidiary of Eramet",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Compagnie_minière_de_l'Ogooué",
     "read": "2026-11"
@@ -1776,11 +1780,11 @@
     "fig": {
      "v": 101.4,
      "u": "t",
-     "what": "gold production",
+     "what": "attributable gold production, Barrick's interest in each mine",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/756894/000119312526079253/d833573dex991.htm",
-     "n": "Stated as 3.26 million ounces. Annual information form filed on Form 40-F."
+     "n": "Stated as 3.26 million ounces; Nevada Gold Mines at 61.5%, Pueblo Viejo 60%, Kibali 45%. Annual information form filed on Form 40-F."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -1816,11 +1820,11 @@
     "fig": {
      "v": 89.5,
      "u": "t",
-     "what": "mine-produced gold",
+     "what": "mine-produced gold, mines at 100% (attributable basis in the note)",
      "y": 2025,
      "s": "company-reports",
      "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200055.pdf",
-     "n": "89,544 kg. 2025 annual results announcement (HKEX)."
+     "n": "89,544 kg with controlled mines at 100% and Zhaojin Mining at attributable share; 75,144 kg on an attributable basis. 2025 annual results announcement (HKEX)."
     },
     "s": "company-reports",
     "y": 2025,
@@ -1922,9 +1926,9 @@
     "name": "Shandong Gold",
     "hq": "CHN",
     "role": "producer",
-    "own": "state",
+    "own": "state-listed",
     "parent": "Shandong provincial government",
-    "detail": "Shandong provincial state-owned gold miner (Jinan)",
+    "detail": "Shandong provincial state-owned gold miner (Jinan); its subsidiary Shandong Gold Mining is listed in Shanghai",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Shandong_Gold_Group",
     "read": "2026-11"
@@ -2020,6 +2024,7 @@
     "hq": "POL",
     "role": "producer",
     "own": "listed",
+    "parent": "State Treasury of Poland, largest shareholder (31.79%)",
     "detail": "Polish copper miner; silver as a by-product",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/KGHM_Polska_Miedź",
@@ -2172,6 +2177,7 @@
     "hq": "CHN",
     "role": "producer",
     "own": "listed",
+    "parent": "Ministry of Natural Resources (China), largest shareholder",
     "detail": "Chengdu-based rare earth miner and processor; China's Ministry of Natural Resources is its main shareholder",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Shenghe_Resources",

@@ -175,7 +175,7 @@ function Disruption({ m }: { m: CommodityMonthly }) {
         label="kb/d"
       />
       <div class="muted small mo-note">
-        Crude oil production of the Gulf producers and the world. Average of {base}: the twelve months of {base} weighted by their days, which is EIA's own annual figure. Lowest and latest: the lowest month of {year} so far and the latest month of the file. The Gulf total
+        Crude oil production of the Gulf producers and the world. Average of {base}: the twelve months of {base} weighted by their days, which is EIA's own annual figure. Lowest and latest: the lowest month of {year} so far and the latest month EIA gives. The Gulf total
         adds the seven producers month by month. Change = latest month against the {base} average. The 24-month line of each producer is in the table above.
       </div>
       <SourceLine s={m.s} y={`monthly, to ${monthName(p.to)}`} n="crude oil including lease condensate" />
@@ -208,10 +208,10 @@ function Imports({ m }: { m: CommodityMonthly }) {
       <RangeTable rows={cur.rows} from={cur.from} to={cur.to} baseYear={base} u={imp.u} label={`${cur.name}, kb/d`} names={ORIGIN_NAME} latest={monthName(cur.to)} />
       <div class="muted small mo-note">
         Gross imports of petroleum and other liquids (crude oil and products together, not crude alone) from the origins that EIA gives month by month: its OPEC members and two groups, "Persian Gulf" and "OPEC". The Persian Gulf group
-        includes Qatar, which is not in OPEC: the two groups overlap and are not additive. The file has no other origin. Origins that average under 1 kb/d in the months of {base} that have a figure are left out.
+        includes Qatar, which is not in OPEC: the two groups overlap and are not additive. EIA gives no other origin. Origins that average under 1 kb/d in the months of {base} that have a figure are left out.
       </div>
       <div class="muted small mo-note">
-        EIA leaves out a month for which it has no figure; its file and its documentation do not say that such a month had no imports (it publishes zeros elsewhere). The atlas shows "no figure", not a zero, no average for a year
+        EIA leaves out a month for which it has no figure; its data and its documentation do not say that such a month had no imports (it publishes zeros elsewhere). The atlas shows "no figure", not a zero, no average for a year
         that lacks a month and no lowest month for an origin that lacks one.{' '}
         {lateRows.length
           ? `In ${year}, ${some(lateRows.length, 'origin lacks', 'origins lack')} at least one month (${some(lateMonths, 'month', 'months')} in all).`
@@ -257,8 +257,8 @@ function Stocks({ m }: { m: CommodityMonthly }) {
         })}
       </div>
       <div class="muted small mo-note">
-        Stocks of crude oil and products together (EIA "petroleum and other liquids stocks"): the file does not split them. Days = the stock of the month divided by the oil demand of the same month, both from
-        the EIA file: arithmetic on two published figures, not an EIA figure. The change is against the end of {year - 1}.
+        Stocks of crude oil and products together (EIA "petroleum and other liquids stocks"): EIA does not split them. Days = the stock of the month divided by the oil demand of the same month, both from
+        EIA: arithmetic on two published figures, not an EIA figure. The change is against the end of {year - 1}.
         {st.withheld.length > 0 && ` EIA marks the monthly figures of ${st.withheld.length} other OECD countries as withheld (${st.withheld.slice(0, 6).map(countryName).join(', ')}${st.withheld.length > 6 ? ' and others' : ''}): the atlas shows none for them.`}
       </div>
       <MonthlyCsv m={m} title="Petroleum stocks" parts={[st]} />
@@ -289,7 +289,7 @@ export function EnergyMonthly({ id }: { id: string }) {
         <Section fold latest title="Natural gas plant liquids by month" aside={<span class="year-tag">{monthName(m.ngl.to)}</span>}>
           <LatestTable block={m.ngl} rows={m.ngl.rows} lead={m.ngl.world ? [{ ...m.ngl.world, name: 'World' }] : []} label="kb/d" />
           <div class="muted small mo-note">
-            Ethane, propane, butanes and heavier liquids recovered from natural gas: the monthly series nearest to LPG supply in the EIA file, not LPG alone.
+            Ethane, propane, butanes and heavier liquids recovered from natural gas: the monthly series nearest to LPG supply in the EIA data, not LPG alone.
           </div>
           <MonthlyCsv m={m} title="Natural gas plant liquids by month" parts={[{ ...m.ngl, rows: [...(m.ngl.world ? [{ ...m.ngl.world, name: 'World' }] : []), ...m.ngl.rows] }]} />
           <SourceLine s={m.s} y={`monthly, to ${monthName(m.ngl.to)}`} />

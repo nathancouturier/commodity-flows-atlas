@@ -462,7 +462,7 @@ export function BasketBlock({ p }: { p: CountryProfile }) {
   const b = p.basket;
   if (!b || (!b.exports && !b.imports)) return null;
   return (
-    <FoldSection title="All goods: largest exports and imports" aside={<span class="muted num">{(b.exports?.rows.length ?? 0) + (b.imports?.rows.length ?? 0)} · {b.y}</span>}>
+    <FoldSection title="All goods: largest exports and imports" aside={<span class="muted num">{(b.exports?.rows.length ?? 0) + (b.imports?.rows.length ?? 0)}</span>}>
       {b.exports && <BasketList side="Exports" x={b.exports} note={unrecordedNote(p)} />}
       {b.imports && <BasketList side="Imports" x={b.imports} />}
       <SourceLine
