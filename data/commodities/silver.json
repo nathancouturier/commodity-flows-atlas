@@ -1139,12 +1139,13 @@
   {
    "o": "CHN",
    "d": "GBR",
-   "v": 1580,
+   "v": 1577.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 1478120000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.48 bn of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 1,577 t; capped at the customs gross weight"
   },
   {
@@ -1216,12 +1217,13 @@
   {
    "o": "CHE",
    "d": "GBR",
-   "v": 466,
+   "v": 466.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 426087000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 426.1 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 466.0 t; capped at the customs gross weight"
   },
   {
@@ -1260,12 +1262,13 @@
   {
    "o": "KOR",
    "d": "USA",
-   "v": 404,
+   "v": 404.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 386942000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 386.9 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 404.0 t; capped at the customs gross weight"
   },
   {
@@ -1304,12 +1307,13 @@
   {
    "o": "KAZ",
    "d": "GBR",
-   "v": 283,
+   "v": 283.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 266989000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 267.0 million of declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 283.0 t; capped at the customs gross weight"
   },
   {

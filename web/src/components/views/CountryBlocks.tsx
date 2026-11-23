@@ -317,10 +317,8 @@ function Passages({ via }: { via: Passage[] }) {
   );
 }
 
-function portBasis(b?: string): string {
-  if (!b) return '';
-  return SOURCED_BASES.includes(b) ? b : 'no source page yet';
-}
+/** What a port marked "no source page yet" means (its title, and the words under the block). */
+const NO_PAGE = 'the atlas has not yet read a page that names this cargo at this port';
 
 function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports' }) {
   const via = (x.via ?? []).slice(0, 4);
@@ -328,9 +326,13 @@ function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports
     <div class="cp-fr">
       <div class="cp-bal-head">
         <button class="link-btn cp-bal-name" onClick={() => openCommodity(x.k)} disabled={!commodityMeta(x.k)}>{groupName(x.g, x.k)}</button>
-        <span class="num cp-net">{fmtEst(x.kt / 1000, x.est)} Mt{x.est && <EstMark />}</span>
+        {/* two significant digits only for a group whose tonnes are wholly an Atlas estimate; a total with an estimated part prints in full */}
+        <span class="num cp-net">{fmtEst(x.kt / 1000, x.s === 'atlas')} Mt{x.est && <EstMark title={x.s === 'atlas' ? undefined : 'Part of these tonnes is an Atlas estimate from the declared value: the line under the name says how much'} />}</span>
       </div>
-      <div class="cp-sub">{modeText(x)}</div>
+      <div class="cp-sub">
+        {modeText(x)}
+        {x.s !== 'atlas' && x.estKt != null && x.estKt > 0 && <span class="muted"> · {fmt(x.estKt / 1000)} Mt of it is an Atlas estimate from the declared value</span>}
+      </div>
       {x.ports && x.ports.length > 0 && (
         <div class="cp-sub">
           <span class="cp-k">{side === 'exports' ? 'Load' : 'Discharge'}</span>{' '}
@@ -339,7 +341,12 @@ function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports
               {i > 0 && ', '}
               {pt.name}
               {pt.c !== '' && <span class="muted">, {countryName(pt.c)}</span>} <span class="num">{pct(pt.share, true)}</span>
-              {pt.basis && <span class="muted"> ({portBasis(pt.basis)})</span>}
+              {pt.basis && !SOURCED_BASES.includes(pt.basis) && (
+                <span class="muted" title={`No source page yet: ${NO_PAGE}`}>
+                  {' '}
+                  (no source page yet<span class="sr-only">: {NO_PAGE}</span>)
+                </span>
+              )}
             </span>
           ))}
         </div>
@@ -390,7 +397,7 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
       <FreightSide p={p} side="exports" />
       <FreightSide p={p} side="imports" />
       <div class="muted small cp-fr-note">
-        Typical ports (Atlas assumption): the port of each recorded pair, with the basis of the port. Passages: the share of the seaborne tonnes whose assumed route has
+        Typical ports (Atlas assumption): the port of each recorded pair. A port marked "no source page yet": {NO_PAGE}; the other ports have such a page. Passages: the share of the seaborne tonnes whose assumed route has
         to cross the passage ("at least") or may cross it ("up to"), from the routes of the trade-flow engine; a passage is listed from 2% of these tonnes or
         1 Mt. Mode by cargo family (Atlas rule).
         {capped &&

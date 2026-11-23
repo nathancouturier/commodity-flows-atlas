@@ -1,1 +1,1 @@
-{"id":"lng","s":"eia-intl","gaps":["No monthly LNG series is on disk: the EIA file holds annual natural gas trade and no monthly gas series, and the customs and industry sources of the atlas are annual. The atlas does not estimate one."]}
+{"id":"lng","s":"eia-intl","gaps":["The EIA data the atlas uses hold no monthly LNG series (they give natural gas trade by year), and the customs and industry sources of the atlas are annual: there are no monthly LNG figures on this page. The atlas does not estimate them."]}

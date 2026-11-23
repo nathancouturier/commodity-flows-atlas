@@ -1647,12 +1647,13 @@
   {
    "o": "CHE",
    "d": "CHN",
-   "v": 365,
+   "v": 365.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 28993998000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 28.99 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 365.0 t; capped at the customs gross weight"
   },
   {
@@ -1680,23 +1681,25 @@
   {
    "o": "ARE",
    "d": "IND",
-   "v": 206,
+   "v": 206.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 16107249000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 16.11 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 206.0 t; capped at the customs gross weight"
   },
   {
    "o": "HKG",
    "d": "CHN",
-   "v": 181,
+   "v": 181.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 13978514000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 13.98 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 181.0 t; capped at the customs gross weight"
   },
   {
@@ -1713,34 +1716,37 @@
   {
    "o": "ARE",
    "d": "CHE",
-   "v": 156,
+   "v": 156.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 12383206000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 12.38 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 156.0 t; capped at the customs gross weight"
   },
   {
    "o": "CHN",
    "d": "HKG",
-   "v": 137,
+   "v": 137.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 10823455000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 10.82 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 137.0 t; capped at the customs gross weight"
   },
   {
    "o": "JPN",
    "d": "HKG",
-   "v": 119,
+   "v": 119.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 9952979000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 9.95 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 119.0 t; capped at the customs gross weight"
   },
   {
@@ -1757,12 +1763,13 @@
   {
    "o": "CHE",
    "d": "TUR",
-   "v": 105,
+   "v": 105.0,
    "u": "t",
    "y": 2024,
    "s": "atlas",
    "usd": 8482750000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 8.48 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 105.0 t; capped at the customs gross weight"
   },
   {
@@ -1785,6 +1792,7 @@
    "s": "atlas",
    "usd": 6412297000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 6.41 bn of declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 83.0 t; capped at the customs gross weight"
   },
   {

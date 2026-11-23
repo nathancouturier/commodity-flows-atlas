@@ -770,6 +770,8 @@ def main():
                 whole = pf.get("s") == "atlas"
                 x = {"g": g, "k": pf["k"], "kt": round(total, 1), "modes": {m: round(v / total, 4) for m, v in modes.items() if v},
                      **({"est": True} if whole or bool(mine["est"].any()) else {}), **({"s": "atlas"} if whole else {})}
+                if not whole and bool(mine["est"].any()):  # a total with an estimated part prints in full and says how much (GR4S.12)
+                    x["estKt"] = round(float(mine.loc[mine["est"], "kt"].sum()), 1)
                 if sea > 0:
                     routed = sea_rows[sea_rows[port_col] >= 0]
                     unrouted = sea - float(routed["kt"].sum())

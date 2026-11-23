@@ -134,7 +134,9 @@ class Conversions(unittest.TestCase):
             self.assertLessEqual(sig_digits(k["v"]), 3, cid)
             self.assertIn("Atlas estimate", k["n"], cid)  # the caveat follows the method note, it does not replace it
             for f in d["flows"]:
-                self.assertLessEqual(sig_digits(f["v"]), 3, (cid, f["o"], f["d"]))
+                # a capped estimate is the customs gross weight itself, as published (GR4S.12)
+                if not f.get("cap"):
+                    self.assertLessEqual(sig_digits(f["v"]), 3, (cid, f["o"], f["d"]))
 
 
 class EstimatedRows(unittest.TestCase):

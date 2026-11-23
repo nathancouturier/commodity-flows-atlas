@@ -26,6 +26,16 @@ export function fmtEst(v: number | null | undefined, est = false): string {
 }
 
 /**
+ * A tonnage of a flow or a lane, the same on every page: a figure wholly estimated by the atlas (`est`) to two significant
+ * digits; a group published in kt (under 1 Mt a year) with 0.1 kt, as its lane file holds it; otherwise `fmt`.
+ */
+export function fmtFlow(v: number | null | undefined, u: string, est = false): string {
+  if (est || v == null || Number.isNaN(v)) return fmtEst(v, est);
+  return u === 'kt' ? nf1.format(Math.round(v * 10) / 10) : fmt(v);
+}
+const nf1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+/**
  * What the atlas did to a published figure or table: `est` (it computed the figure: two significant digits, "Atlas estimate")
  * or `conv` (it only converted a published figure to another unit: printed as the file gives it, three significant digits,
  * "Atlas conversion"). A table of source `atlas` with no `est` is an estimate when its note says "Atlas estimate".

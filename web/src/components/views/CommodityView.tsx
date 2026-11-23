@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, CommodityHistory, Fig, Flow, HistTable, LaneFile, Ranked } from '../../types';
 import { loadOptional, loadHistory, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
 import { SMALL_BASE, largestChanges, rowName, tableAt, yearLabel, type Change } from '../../lib/tableYears';
-import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
+import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, fmtFlow, pct } from '../../lib/format';
 import { GROUP_LABEL, LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
@@ -271,6 +271,8 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
         const via = f.transit ? (ports === undefined ? '…' : (ports?.[f.transit.port] ?? `a port in ${countryName(f.transit.c)}`)) : null;
         // a code that is not a country of the index (Gibraltar, "Asia, not specified") is plain text
         const open = f.lane ? () => select({ kind: 'lane', id: f.lane! }) : isCountry(f.o) ? () => select({ kind: 'country', id: f.o }) : undefined;
+        // a row with no lane page opens the page of its origin: it says so, in its title and to a screen reader
+        const opens = !f.lane && open ? `Opens the page of ${countryName(f.o)}` : null;
         return (
           <div key={`${f.o}-${f.d}-${i}`}>
             <RowBtn
@@ -283,10 +285,11 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
                   {f.transit && <span class="mode-via"> via {via}</span>}
                   {props.tag && <span class="muted-cap"> {props.tag}</span>}
                   {f.est ? <EstMark /> : f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
+                  {opens && <span class="sr-only"> · {opens}</span>}
                 </>
               }
-              meta={<>{fmtEst(f.v, f.est)} {f.u}</>}
-              tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode === 'mixed' ? ' · by sea and overland, split not known' : f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}${f.transit ? ' · sea via ' + via : ''}`}
+              meta={<>{fmtFlow(f.v, f.u, f.est && !f.cap)} {f.u}</>}
+              tip={`${opens ? `${opens} · ` : ''}${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode === 'mixed' ? ' · by sea and overland, split not known' : f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}${f.transit ? ' · sea via ' + via : ''}`}
               onClick={open}
             />
             {/* the method of an Atlas estimate is written out under the row, not only in its tooltip */}

@@ -127,6 +127,8 @@ export interface Flow {
   transit?: LaneTransit;
   /** the tonnage is an Atlas estimate (computed from the declared value), source id `atlas` */
   est?: boolean;
+  /** the estimate was above the customs gross weight and is capped there: `v` is the cap, printed as it is */
+  cap?: boolean;
   /** declared customs value of the flow (USD) and its unit value (USD per tonne; none where the tonnage is an Atlas estimate from the value) */
   usd?: number;
   uv?: number;
@@ -459,6 +461,8 @@ export interface FreightProduct {
   /** shares of the tonnes by mode */
   modes: Partial<Record<'sea' | 'transit' | 'mixed' | 'land', number>>;
   est?: boolean;
+  /** kt of `kt` that are an Atlas estimate from the declared value, when only a part of the group's tonnes is */
+  estKt?: number;
   /** `atlas` when the tonnes of the whole group are an Atlas estimate (spodumene); absent when they are the block's source */
   s?: string;
   seaKt?: number;

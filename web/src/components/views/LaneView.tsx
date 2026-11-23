@@ -2,7 +2,7 @@
 import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
-import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
+import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
 import { corridorHas, lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
@@ -59,7 +59,7 @@ export default function LaneView({ id }: { id: string }) {
     if (d?.lane.g) flyToLine(d.lane.g);
   }, [d]);
 
-  const [group, pair = ''] = id.split(':');
+  const [, pair = ''] = id.split(':');
   const [o, dd] = pair.split('-');
   const head = (kicker: string) => (
     <div class="detail-head">
@@ -70,7 +70,7 @@ export default function LaneView({ id }: { id: string }) {
   if (d === undefined)
     return (<>{head('Seaborne lane')}<div class="panel-scroll"><Skeleton lines={7} /></div></>);
   if (d === null)
-    return (<>{head('Seaborne lane')}<div class="panel-scroll"><Placeholder>This lane is not available in the {group} lane file.</Placeholder></div></>);
+    return (<>{head('Seaborne lane')}<div class="panel-scroll"><Placeholder>This lane is not in the atlas.</Placeholder></div></>);
 
   const { file, lane } = d;
   const meta = commodityMeta(lane.k);
@@ -148,7 +148,7 @@ export default function LaneView({ id }: { id: string }) {
           ) : est ? (
             <Kpi label={flowLabel} value={`${fmtEst(flowV, true)} ${file.unit}`} sub={`Atlas estimate · ${flowY}`} title={`Atlas estimate, ${flowY}`} note={n ?? 'Atlas estimate: tonnage computed from the declared value (CEPII BACI).'} span />
           ) : (
-            <Kpi label={flowLabel} f={past ? { v: flowV, u: file.unit, y: flowY, s: file.s } : lane.flow} note={n} span={!!n} />
+            <Kpi label={flowLabel} f={past ? { v: flowV, u: file.unit, y: flowY, s: file.s } : lane.flow} value={`${fmtFlow(flowV, file.unit)} ${file.unit}`} note={n} span={!!n} />
           )}
           {!mixed && !noFigure && (
             <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />

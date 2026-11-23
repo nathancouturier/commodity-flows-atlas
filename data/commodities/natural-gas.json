@@ -1166,7 +1166,7 @@
     "v": 0.0019
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
+  "n": "EIA International Energy Data, dry natural gas exports; world total as published by EIA (all countries); re-exports included; EIA gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
   "caveat": "Pipeline gas and LNG together: LNG is also listed on the LNG page."
  },
  "imports": {
@@ -1540,7 +1540,7 @@
     "v": 0.002
    }
   ],
-  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); re-exports included; the EIA file gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
+  "n": "EIA International Energy Data, dry natural gas imports; world total as published by EIA (all countries); re-exports included; EIA gives no LNG split by country, so none is subtracted · Pipeline gas and LNG together: LNG is also listed on the LNG page.",
   "caveat": "Pipeline gas and LNG together: LNG is also listed on the LNG page."
  },
  "flows": [
@@ -1773,9 +1773,9 @@
   }
  },
  "notes": [
-  "Top exporters and importers rank EIA dry natural gas trade in bcm (2025): pipeline and LNG together, re-exports included. The EIA file has no LNG split by country, so LNG is not subtracted; LNG by pair is under 'lng'.",
+  "Top exporters and importers rank EIA dry natural gas trade in bcm (2025): pipeline and LNG together, re-exports included. EIA gives no LNG split by country, so LNG is not subtracted; LNG by pair is on the LNG page.",
   "Customs tonnage of gas in gaseous state (BACI HS 271121, Mt) does not reconcile with EIA volumes and is not used to rank countries. In 2024 customs data show 12.2 Mt of exports from Canada against 88.6 bcm in EIA, 39.2 Mt from Belgium against 5.31 bcm (counting gas in transit twice, or tonnage estimated from value, are plausible causes; not established here), and 8.79 Mt of imports by Morocco against 0.89 bcm.",
   "The flow list keeps only the country pairs joined by a gas pipeline of the atlas's own layer (16 pipelines, a selection of major ones, not a complete register): a pair appears only if the layer has a pipeline between its countries. Figures are customs tonnes (Mt), not bcm.",
-  "No proved-reserves series exists in the EIA bulk file used (INTL.txt)."
+  "The EIA international data the atlas uses have no proved-reserves series."
  ]
 }

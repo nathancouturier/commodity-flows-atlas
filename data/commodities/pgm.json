@@ -782,6 +782,7 @@
    "s": "atlas",
    "usd": 3773521000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 3.77 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 91.0 t; capped at the customs gross weight"
   },
   {
@@ -793,6 +794,7 @@
    "s": "atlas",
    "usd": 3971293000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 3.97 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 81.0 t; capped at the customs gross weight"
   },
   {
@@ -804,6 +806,7 @@
    "s": "atlas",
    "usd": 2715148000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 2.72 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 67.0 t; capped at the customs gross weight"
   },
   {
@@ -815,6 +818,7 @@
    "s": "atlas",
    "usd": 2207873000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 2.21 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 59.0 t; capped at the customs gross weight"
   },
   {
@@ -837,6 +841,7 @@
    "s": "atlas",
    "usd": 1146630000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.15 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 34.0 t; capped at the customs gross weight"
   },
   {
@@ -848,6 +853,7 @@
    "s": "atlas",
    "usd": 1036639000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.04 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 33.0 t; capped at the customs gross weight"
   },
   {
@@ -859,6 +865,7 @@
    "s": "atlas",
    "usd": 1223897000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 1.22 bn of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 33.0 t; capped at the customs gross weight"
   },
   {
@@ -870,6 +877,7 @@
    "s": "atlas",
    "usd": 877763000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 877.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 28.0 t; capped at the customs gross weight"
   },
   {
@@ -881,6 +889,7 @@
    "s": "atlas",
    "usd": 900159000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 900.2 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 24.0 t; capped at the customs gross weight"
   },
   {
@@ -892,6 +901,7 @@
    "s": "atlas",
    "usd": 815829000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 815.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 20.0 t; capped at the customs gross weight"
   },
   {
@@ -903,6 +913,7 @@
    "s": "atlas",
    "usd": 837990000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 838.0 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 20.0 t; capped at the customs gross weight"
   },
   {
@@ -914,6 +925,7 @@
    "s": "atlas",
    "usd": 757824000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 757.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 19.0 t; capped at the customs gross weight"
   },
   {
@@ -958,6 +970,7 @@
    "s": "atlas",
    "usd": 780635000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 780.6 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 14.0 t; capped at the customs gross weight"
   },
   {
@@ -980,6 +993,7 @@
    "s": "atlas",
    "usd": 507588000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 507.6 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 13.0 t; capped at the customs gross weight"
   },
   {
@@ -991,6 +1005,7 @@
    "s": "atlas",
    "usd": 415792000,
    "est": true,
+   "cap": true,
    "n": "Atlas estimate: fine-metal equivalent, USD 415.8 million of declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; customs gross weight 13.0 t; capped at the customs gross weight"
   }
  ],

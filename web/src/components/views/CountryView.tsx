@@ -5,7 +5,7 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
 import { loadProfile, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
-import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
+import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
 import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, laneMt, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
@@ -174,7 +174,7 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
               {laneEst(lane) && <EstMark />}
             </>
           }
-          meta={<>{fmtEst(lane.flow.v, laneEst(lane))} {lane.flow.u}<small>{lane.flow.y}</small></>}
+          meta={<>{fmtFlow(lane.flow.v, lane.flow.u, laneEst(lane))} {lane.flow.u}<small>{lane.flow.y}</small></>}
           tip={`${sourceLabel(lane.flow.s)} · ${lane.flow.y}${lane.mode === 'mixed' ? ' · by sea and overland, split not known' : ''}`}
           onClick={() => select({ kind: 'lane', id: lane.id })}
         />

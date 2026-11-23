@@ -1086,6 +1086,8 @@ class Baci:
             if r["est"]:
                 # an Atlas estimate: the tonnage is computed from the declared value (pipeline/trade/clean.py)
                 f["s"], f["est"] = "atlas", True
+                if r.get("capped") is True or r.get("capped") == True:  # noqa: E712 (a missing value of another group is NaN)
+                    f["cap"], f["v"] = True, rnd(r["t"] / div)
                 notes.append(r["enote"] if isinstance(r.get("enote"), str) and r["enote"] else "Atlas estimate: tonnage estimated from declared value")
             if notes:
                 f["n"] = "; ".join(notes)
@@ -2543,6 +2545,7 @@ def _fine_metal(d, baci, cid, disc):
                   + ("; capped at the customs gross weight" if cp else "") for v, t0, im, cp in zip(x["usd"], x["t0"], x["imputed"], capped)]
     fg = g + "-fine"
     x["group"], x["imputed"], x["est"], x["susp"], x["t_susp"], x["flag"] = fg, True, True, False, 0.0, "est-fine"
+    x["capped"] = capped  # the flow's figure is the cap, the customs gross weight: the page prints it as it is (GR4S.12)
     x["t_est"] = x["t"]
     baci.df = pd.concat([baci.df[baci.df["group"] != fg], x], ignore_index=True)
     world_gross = x["t0"].sum() / div

@@ -6501,6 +6501,7 @@
   "Customs data record 63.8 Mt of refined products exports from the Netherlands in 2024 (CEPII BACI). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share.",
   "Customs data record 40.5 Mt of refined products exports from Belgium in 2024 (CEPII BACI). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share.",
   "Customs data record 75.2 Mt of refined products exports from Singapore in 2024 (CEPII BACI). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share.",
-  "Customs data record 71.7 Mt of refined products exports from Russia in 2024 (CEPII BACI). These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
+  "Customs data record 71.7 Mt of refined products exports from Russia in 2024 (CEPII BACI). These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here.",
+  "The EIA data the atlas uses give refined-product production and trade by year, not by month: EIA's monthly production series end in 2014, and its trade figures are annual. The atlas does not estimate monthly figures."
  ]
 }
