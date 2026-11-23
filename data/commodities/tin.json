@@ -13,7 +13,7 @@
    "u": "t Sn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)"
+   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000)"
   },
   "exports": {
    "v": 221.9,
@@ -128,7 +128,7 @@
     "v": 23000.0
    }
   ],
-  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a lower bound (>6,000,000)",
+  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000)",
   "basis": "contained tin"
  },
  "exports": {

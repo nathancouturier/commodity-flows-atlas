@@ -13,7 +13,7 @@
    "u": "t",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a lower bound (>76,000,000)"
+   "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000)"
   },
   "exports": {
    "v": 1488.6,
@@ -84,7 +84,7 @@
     "v": 310.0
    }
   ],
-  "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a lower bound (>76,000,000)"
+  "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000)"
  },
  "exports": {
   "y": 2024,

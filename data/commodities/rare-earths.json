@@ -13,7 +13,7 @@
    "u": "t REO",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000)"
+   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000)"
   },
   "exports": {
    "v": 198.84,
@@ -132,7 +132,7 @@
     "v": 710000.0
    }
   ],
-  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>85,000,000)",
+  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000)",
   "basis": "REO equivalent"
  },
  "exports": {

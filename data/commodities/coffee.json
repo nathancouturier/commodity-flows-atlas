@@ -2,25 +2,25 @@
  "id": "coffee",
  "summary": {
   "production": {
-   "v": 10729.8,
-   "u": "kt",
+   "v": 10.73,
+   "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "consumption": {
-   "v": 10407.5,
-   "u": "kt",
+   "v": 10.408,
+   "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "exports": {
-   "v": 8756.5,
-   "u": "kt",
+   "v": 8.757,
+   "u": "Mt",
    "y": "2025/26",
    "s": "usda-psd",
-   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
   },
   "seaborne": {
    "v": 7.29,
@@ -33,230 +33,230 @@
  "production": {
   "y": "2025/26",
   "s": "usda-psd",
-  "u": "kt",
-  "world": 10729.8,
+  "u": "Mt",
+  "world": 10.73,
   "rows": [
    {
     "c": "BRA",
-    "v": 3780.0
+    "v": 3.78
    },
    {
     "c": "VNM",
-    "v": 1902.0
+    "v": 1.902
    },
    {
     "c": "COL",
-    "v": 750.0
+    "v": 0.75
    },
    {
     "c": "IDN",
-    "v": 742.2
+    "v": 0.7422
    },
    {
     "c": "ETH",
-    "v": 693.6
+    "v": 0.6936
    },
    {
     "c": "UGA",
-    "v": 425.7
+    "v": 0.4257
    },
    {
     "c": "IND",
-    "v": 385.8
+    "v": 0.3858
    },
    {
     "c": "HND",
-    "v": 331.8
+    "v": 0.3318
    },
    {
     "c": "PER",
-    "v": 285.84
+    "v": 0.2858
    },
    {
     "c": "MEX",
-    "v": 244.8
+    "v": 0.2448
    },
    {
     "c": "GTM",
-    "v": 189.3
+    "v": 0.1893
    },
    {
     "c": "NIC",
-    "v": 153.6
+    "v": 0.1536
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
  },
  "consumption": {
   "y": "2025/26",
   "s": "usda-psd",
-  "u": "kt",
-  "world": 10407.5,
+  "u": "Mt",
+  "world": 10.408,
   "rows": [
    {
     "c": "EU27",
-    "v": 2494.2
+    "v": 2.494
    },
    {
     "c": "USA",
-    "v": 1533.0
+    "v": 1.533
    },
    {
     "c": "BRA",
-    "v": 1336.8
+    "v": 1.337
    },
    {
     "c": "JPN",
-    "v": 399.18
+    "v": 0.3992
    },
    {
     "c": "PHL",
-    "v": 391.5
+    "v": 0.3915
    },
    {
     "c": "CHN",
-    "v": 385.2
+    "v": 0.3852
    },
    {
     "c": "CAN",
-    "v": 303.0
+    "v": 0.303
    },
    {
     "c": "VNM",
-    "v": 294.0
+    "v": 0.294
    },
    {
     "c": "IDN",
-    "v": 288.6
+    "v": 0.2886
    },
    {
     "c": "RUS",
-    "v": 274.5
+    "v": 0.2745
    },
    {
     "c": "GBR",
-    "v": 274.2
+    "v": 0.2742
    },
    {
     "c": "ETH",
-    "v": 270.0
+    "v": 0.27
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
  },
  "exports": {
   "y": "2025/26",
   "s": "usda-psd",
-  "u": "kt",
-  "world": 8756.5,
+  "u": "Mt",
+  "world": 8.757,
   "rows": [
    {
     "c": "BRA",
-    "v": 2272.2
+    "v": 2.272
    },
    {
     "c": "VNM",
-    "v": 1710.0
+    "v": 1.71
    },
    {
     "c": "COL",
-    "v": 768.6
+    "v": 0.7686
    },
    {
     "c": "IDN",
-    "v": 530.52
+    "v": 0.5305
    },
    {
     "c": "ETH",
-    "v": 417.9
+    "v": 0.4179
    },
    {
     "c": "UGA",
-    "v": 402.0
+    "v": 0.402
    },
    {
     "c": "IND",
-    "v": 361.56
+    "v": 0.3616
    },
    {
     "c": "EU27",
-    "v": 336.0
+    "v": 0.336
    },
    {
     "c": "HND",
-    "v": 301.8
+    "v": 0.3018
    },
    {
     "c": "PER",
-    "v": 272.76
+    "v": 0.2728
    },
    {
     "c": "MEX",
-    "v": 207.0
+    "v": 0.207
    },
    {
     "c": "GTM",
-    "v": 178.8
+    "v": 0.1788
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
  },
  "imports": {
   "y": "2025/26",
   "s": "usda-psd",
-  "u": "kt",
-  "world": 8575.9,
+  "u": "Mt",
+  "world": 8.576,
   "rows": [
    {
     "c": "EU27",
-    "v": 2790.0
+    "v": 2.79
    },
    {
     "c": "USA",
-    "v": 1530.0
+    "v": 1.53
    },
    {
     "c": "JPN",
-    "v": 395.1
+    "v": 0.3951
    },
    {
     "c": "PHL",
-    "v": 364.5
+    "v": 0.3645
    },
    {
     "c": "CHN",
-    "v": 345.0
+    "v": 0.345
    },
    {
     "c": "CAN",
-    "v": 303.0
+    "v": 0.303
    },
    {
     "c": "RUS",
-    "v": 274.5
+    "v": 0.2745
    },
    {
     "c": "GBR",
-    "v": 274.2
+    "v": 0.2742
    },
    {
     "c": "CHE",
-    "v": 210.0
+    "v": 0.21
    },
    {
     "c": "KOR",
-    "v": 192.0
+    "v": 0.192
    },
    {
     "c": "AUS",
-    "v": 152.1
+    "v": 0.1521
    },
    {
     "c": "MEX",
-    "v": 151.8
+    "v": 0.1518
    }
   ],
-  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+  "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
  },
  "extra": [
   {
@@ -265,59 +265,59 @@
    "table": {
     "y": "2025/26",
     "s": "usda-psd",
-    "u": "kt",
-    "world": 1462.2,
+    "u": "Mt",
+    "world": 1.462,
     "rows": [
      {
       "c": "EU27",
-      "v": 450.0
+      "v": 0.45
      },
      {
       "c": "USA",
-      "v": 342.0
+      "v": 0.342
      },
      {
       "c": "BRA",
-      "v": 233.7
+      "v": 0.2337
      },
      {
       "c": "JPN",
-      "v": 132.0
+      "v": 0.132
      },
      {
       "c": "COL",
-      "v": 51.96
+      "v": 0.052
      },
      {
       "c": "IDN",
-      "v": 45.06
+      "v": 0.0451
      },
      {
       "c": "VNM",
-      "v": 41.34
+      "v": 0.0413
      },
      {
       "c": "IND",
-      "v": 29.1
+      "v": 0.0291
      },
      {
       "c": "HND",
-      "v": 26.1
+      "v": 0.0261
      },
      {
       "c": "CHN",
-      "v": 24.0
+      "v": 0.024
      },
      {
       "c": "UGA",
-      "v": 20.04
+      "v": 0.02
      },
      {
       "c": "PHL",
-      "v": 18.0
+      "v": 0.018
      }
     ],
-    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
+    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
    }
   }
  ],
@@ -325,8 +325,8 @@
   {
    "o": "BRA",
    "d": "DEU",
-   "v": 456.56,
-   "u": "kt",
+   "v": 0.4566,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -335,8 +335,8 @@
   {
    "o": "BRA",
    "d": "USA",
-   "v": 453.18,
-   "u": "kt",
+   "v": 0.4532,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -345,8 +345,8 @@
   {
    "o": "COL",
    "d": "USA",
-   "v": 258.33,
-   "u": "kt",
+   "v": 0.2583,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -355,8 +355,8 @@
   {
    "o": "BRA",
    "d": "ITA",
-   "v": 236.24,
-   "u": "kt",
+   "v": 0.2362,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -365,8 +365,8 @@
   {
    "o": "BRA",
    "d": "BEL",
-   "v": 214.17,
-   "u": "kt",
+   "v": 0.2142,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -375,8 +375,8 @@
   {
    "o": "VNM",
    "d": "DEU",
-   "v": 185.02,
-   "u": "kt",
+   "v": 0.185,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -385,8 +385,8 @@
   {
    "o": "BRA",
    "d": "JPN",
-   "v": 133.85,
-   "u": "kt",
+   "v": 0.1339,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -395,8 +395,8 @@
   {
    "o": "VNM",
    "d": "ITA",
-   "v": 132.98,
-   "u": "kt",
+   "v": 0.133,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -405,8 +405,8 @@
   {
    "o": "VNM",
    "d": "ESP",
-   "v": 110.69,
-   "u": "kt",
+   "v": 0.1107,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -415,8 +415,8 @@
   {
    "o": "VNM",
    "d": "JPN",
-   "v": 97.331,
-   "u": "kt",
+   "v": 0.0973,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -425,8 +425,8 @@
   {
    "o": "VNM",
    "d": "USA",
-   "v": 95.947,
-   "u": "kt",
+   "v": 0.0959,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -435,8 +435,8 @@
   {
    "o": "BRA",
    "d": "ESP",
-   "v": 95.827,
-   "u": "kt",
+   "v": 0.0958,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -445,8 +445,8 @@
   {
    "o": "HND",
    "d": "USA",
-   "v": 92.302,
-   "u": "kt",
+   "v": 0.0923,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -455,8 +455,8 @@
   {
    "o": "UGA",
    "d": "ITA",
-   "v": 91.75,
-   "u": "kt",
+   "v": 0.0917,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -471,8 +471,8 @@
   {
    "o": "GTM",
    "d": "USA",
-   "v": 79.164,
-   "u": "kt",
+   "v": 0.0792,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -481,8 +481,8 @@
   {
    "o": "BRA",
    "d": "TUR",
-   "v": 78.231,
-   "u": "kt",
+   "v": 0.0782,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -491,8 +491,8 @@
   {
    "o": "BRA",
    "d": "NLD",
-   "v": 74.307,
-   "u": "kt",
+   "v": 0.0743,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -501,8 +501,8 @@
   {
    "o": "BRA",
    "d": "MEX",
-   "v": 68.931,
-   "u": "kt",
+   "v": 0.0689,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -511,8 +511,8 @@
   {
    "o": "PER",
    "d": "USA",
-   "v": 65.944,
-   "u": "kt",
+   "v": 0.0659,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -521,8 +521,8 @@
   {
    "o": "IND",
    "d": "ITA",
-   "v": 62.496,
-   "u": "kt",
+   "v": 0.0625,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",

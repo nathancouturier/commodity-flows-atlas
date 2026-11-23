@@ -24,13 +24,13 @@
   }
  },
  "kpis": {
-  "production": "Ammonia production (nitrogen content)",
-  "exports": "World exports (product weight)"
+  "production": "Ammonia production (Mt N)",
+  "exports": "World exports (Mt of urea)"
  },
  "labels": {
-  "production": "Ammonia producers — nitrogen content",
-  "exports": "Top exporters — urea, product weight",
-  "imports": "Top importers — urea, product weight"
+  "production": "Ammonia producers — Mt of nitrogen (ammonia plant output)",
+  "exports": "Top exporters — Mt of urea, product weight",
+  "imports": "Top importers — Mt of urea, product weight"
  },
  "production": {
   "y": 2025,
@@ -208,6 +208,69 @@
   "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
   "basis": "urea, product weight"
  },
+ "extra": [
+  {
+   "key": "urea-production",
+   "title": "Urea producers — Mt of urea, product weight",
+   "table": {
+    "y": 2023,
+    "s": "faostat-rfb",
+    "u": "Mt",
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 62.915
+     },
+     {
+      "c": "IND",
+      "v": 31.409
+     },
+     {
+      "c": "RUS",
+      "v": 10.907
+     },
+     {
+      "c": "PAK",
+      "v": 6.441
+     },
+     {
+      "c": "SAU",
+      "v": 5.7
+     },
+     {
+      "c": "CAN",
+      "v": 4.341
+     },
+     {
+      "c": "VNM",
+      "v": 2.531
+     },
+     {
+      "c": "THA",
+      "v": 2.338
+     },
+     {
+      "c": "POL",
+      "v": 1.048
+     },
+     {
+      "c": "BHR",
+      "v": 0.7512
+     },
+     {
+      "c": "BGD",
+      "v": 0.694
+     },
+     {
+      "c": "ITA",
+      "v": 0.5787
+     }
+    ],
+    "n": "FAOSTAT Fertilizers by Product (RFB), urea, production in tonnes of product, 2023, converted to Mt; reporting countries only, no world total (note flags: E estimated, I imputed, X from international organisations; A official)",
+    "basis": "urea, product weight"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "OMN",
@@ -411,7 +474,9 @@
   }
  ],
  "notes": [
-  "Production proxy is ammonia plant output in nitrogen content (USGS); urea output is not in the loaded sources. Trade is urea (HS 310210), product weight.",
+  "Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea, and urea production in tonnes of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds 46.6% nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.",
+  "FAOSTAT has no 2023 urea production figure for Oman, Qatar, Egypt, Algeria, Nigeria, Malaysia and 6 other countries, which each exported more than 1 Mt of urea in the customs data for 2024 (the largest exporters first): the urea producers table lists reporting countries only and gives no world total. For 2022 it gives Oman 2.04 Mt, Malaysia 7.58 Mt, Indonesia 7.47 Mt and United States 5.93 Mt.",
+  "FAOSTAT's 2024 urea table is not used: it lists 20 countries against 34 for 2023 and has no figure for China.",
   "Urea exports of Iran in customs data fell from 3.77 Mt in 2019 to 0.024 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Urea exports of Oman in customs data (7.63 Mt in 2024, CEPII BACI) are 178% of its production in the USGS Mineral Commodity Summaries (2 Mt of nitrogen in 2024); urea exports converted to nitrogen with the nitrogen content of urea (0.4665, from molar masses), against ammonia production in nitrogen content. Declaration of cargoes of other origins under Oman is a plausible cause; it is not established here."
  ]

@@ -93,7 +93,8 @@
    },
    {
     "c": "ARE",
-    "v": 17.561
+    "v": 17.561,
+    "n": "Customs data record 6.98 Mt of LPG from the United Arab Emirates to China in 2024 (40% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under the United Arab Emirates may account for part of this volume; it is not established here, and the atlas has no free source to measure it."
    },
    {
     "c": "QAT",
@@ -121,7 +122,8 @@
    },
    {
     "c": "OMN",
-    "v": 3.188
+    "v": 3.188,
+    "n": "Customs data record 2.75 Mt of LPG from Oman to China in 2024 (86% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under Oman may account for part of this volume; it is not established here, and the atlas has no free source to measure it."
    },
    {
     "c": "AUS",
@@ -146,7 +148,8 @@
   "rows": [
    {
     "c": "CHN",
-    "v": 35.418
+    "v": 35.418,
+    "n": "Customs data record 2.75 Mt of LPG from Oman to China in 2024 (86% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under Oman may account for part of this volume; it is not established here, and the atlas has no free source to measure it.; Customs data record 6.98 Mt of LPG from the United Arab Emirates to China in 2024 (40% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under the United Arab Emirates may account for part of this volume; it is not established here, and the atlas has no free source to measure it."
    },
    {
     "c": "IND",
@@ -245,7 +248,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "lpg:ARE-CHN"
+   "lane": "lpg:ARE-CHN",
+   "caveat": "lpg-are-chn"
   },
   {
    "o": "USA",
@@ -314,7 +318,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "lpg:OMN-CHN"
+   "lane": "lpg:OMN-CHN",
+   "caveat": "lpg-omn-chn"
   },
   {
    "o": "QAT",
@@ -398,6 +403,9 @@
   }
  ],
  "notes": [
-  "EIA's 2025 LPG consumption table has no United States value; the world total excludes it."
+  "EIA's 2025 LPG consumption table has no United States value; the world total excludes it.",
+  "Customs data record 0.00769 Mt of LPG exports from Iran in 2024, against 8.44 Mt in 2022 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here. The atlas has no free source that measures this gap, so it is not quantified.",
+  "Customs data record 2.75 Mt of LPG from Oman to China in 2024 (86% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under Oman may account for part of this volume; it is not established here, and the atlas has no free source to measure it.",
+  "Customs data record 6.98 Mt of LPG from the United Arab Emirates to China in 2024 (40% of its recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent source: while Iran's exports are unrecorded, cargoes of other origins declared under the United Arab Emirates may account for part of this volume; it is not established here, and the atlas has no free source to measure it."
  ]
 }

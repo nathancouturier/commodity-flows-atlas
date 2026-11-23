@@ -805,6 +805,7 @@ def cocoa_vs_icco(d):
             "The two series differ in period (calendar year against crop year); the cause of the gap is not established here. The ICCO's country tables are sold by "
             "subscription: they are not copied or compared here.")
     warn = f"World total {gap:.0%} above the ICCO's estimate for the {cy} crop year ({_nf(cv)} kt): see the discrepancies."
+    short = f"ICCO: {_nf(cv)} kt for the {cy} crop year (see the discrepancies)"
     idn = None
     path = os.path.join(CACHE, "faostat_cocoa_production.csv")
     with open(path, encoding="utf-8") as f:
@@ -817,7 +818,7 @@ def cocoa_vs_icco(d):
         if same:
             idn += f"; FAOSTAT carries the same value for {same[0][0]} and {same[0][1]}"
         idn += ". Not checked against the ICCO's country table, which is not free; see the discrepancies."
-    return text, warn, idn
+    return text, warn, idn, short
 
 
 FAO_AGG = {"Africa", "Americas", "Asia", "Europe", "Oceania", "Eastern Africa", "Middle Africa", "Western Africa", "Southern Africa",
@@ -826,6 +827,96 @@ FAO_AGG = {"Africa", "Americas", "Asia", "Europe", "Oceania", "Eastern Africa", 
            "Western Europe", "Melanesia", "Micronesia", "Polynesia", "Australia and New Zealand", "European Union (27)",
            "Land Locked Developing Countries (LLDCs)", "Least Developed Countries (LDCs)", "Small Island Developing States (SIDS)",
            "Low Income Food Deficit Countries (LIFDCs)", "Net Food Importing Developing Countries (NFIDCs)"}
+
+
+_FAO_CODES = {}
+
+
+def fao_iso(m49, area):
+    """ISO3 of a FAOSTAT area: its M49 code through the BACI table, else its name. None for an aggregate; an unknown name is recorded in UNKNOWN."""
+    if not _FAO_CODES:
+        with open(os.path.join(CACHE, "baci_country_codes.csv"), encoding="utf-8") as f:
+            _FAO_CODES.update({int(r["country_code"]): r["country_iso3"] for r in csv.DictReader(f)})
+    m = int(m49)
+    if area in FAO_AGG or m >= 900 or area == "Faroe Islands":  # a territory the atlas has no country for
+        return None
+    iso = {840: "USA", 158: "TWN"}.get(m) or _FAO_CODES.get(m)  # BACI numbers the United States 842 and Taiwan 490
+    if not iso or iso not in ISO_SET:
+        iso = NAME2ISO.get(fold(area)) or OVERRIDE.get(fold(area))
+    if not iso or iso not in ISO_SET:
+        UNKNOWN["faostat-rfb"].add(f"{area} ({m49})")
+        return None
+    return iso
+
+
+def faostat_fertilizer(item):
+    """Production of one fertiliser in tonnes of product, {year: {iso: (tonnes, flag)}}, from pipeline/cache/faostat_fertilizer_production.csv
+    (FAOSTAT Fertilizers by Product; item 4001 urea, 4016 potassium chloride)."""
+    out = defaultdict(dict)
+    with open(os.path.join(CACHE, "faostat_fertilizer_production.csv"), encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if r["item"] != item:
+                continue
+            iso = fao_iso(r["m49"], r["area"])
+            if not iso:
+                continue
+            y = int(r["year"])
+            if iso in out[y]:
+                raise SystemExit(f"FAOSTAT fertilizer {item}: two areas for {iso} in {y}")
+            out[y][iso] = (float(r["value_t"]), r["flag"])
+    return out
+
+
+def fertilizer_year(by):
+    """FAOSTAT gives no world row and the countries that report change from year to year (its 2024 urea table has no China): the
+    year of a table is the latest of the five most recent years whose reported total is at least 80% of the best of the five."""
+    ys = sorted(by)[-5:]
+    tot = {y: sum(v for v, _ in by[y].values()) for y in ys}
+    best = max(tot.values())
+    return max(y for y in ys if tot[y] >= 0.8 * best)
+
+
+def faostat_urea(baci):
+    """Urea production in tonnes of product, FAOSTAT (reporting countries only, no world total), and the notes on what is missing."""
+    by = faostat_fertilizer("4001")
+    y = fertilizer_year(by)
+    rows = [(iso, v / 1e6, f"FAO flag: {fl}" if fl in ("E", "X", "I") else None) for iso, (v, fl) in by[y].items()]
+    n = (f"FAOSTAT Fertilizers by Product (RFB), urea, production in tonnes of product, {y}, converted to Mt; reporting countries only, no world total "
+         "(note flags: E estimated, I imputed, X from international organisations; A official)")
+    t = set_basis(ranked(rows, y, "faostat-rfb", "Mt", n=n), "urea, product weight")
+    notes = []
+    exp = baci.totals("urea", "exports")
+    gone = sorted(((c, v) for c, v in exp.items() if v >= 1 and c not in by[y]), key=lambda kv: -kv[1])
+    if gone:
+        names = [cname(c) for c, _ in gone[:6]] + ([f"{len(gone) - 6} other countries"] if len(gone) > 6 else [])
+        txt = (f"FAOSTAT has no {y} urea production figure for {_and(names)}, which each exported more than 1 Mt of urea "
+               f"in the customs data for {BACI_YEAR} (the largest exporters first): the urea producers table lists reporting countries only and gives no world total.")
+        earlier = [(c, by[y - 1][c][0] / 1e6) for c, _ in gone if c in by.get(y - 1, {}) and by[y - 1][c][0] >= 1e6]
+        if earlier:
+            txt += f" For {y - 1} it gives {_and([f'{cname(c)} {_nf(v)} Mt' for c, v in earlier])}."
+        notes.append(txt)
+    late = max(by)
+    if late != y:
+        top = [c for c, _ in sorted(by[y].items(), key=lambda kv: -kv[1][0])[:3] if c not in by[late]]
+        notes.append(f"FAOSTAT's {late} urea table is not used: it lists {len(by[late])} countries against {len(by[y])} for {y}"
+                     + (f" and has no figure for {_and([cname(c) for c in top])}" if top else "") + ".")
+    return t, notes
+
+
+def faostat_potash_note(baci, k2o):
+    """FAOSTAT production of potassium chloride in product tonnes beside the customs exports of the same countries: a check on the unit
+    conversion of the production table, not a table (the countries that report change from year to year)."""
+    by = faostat_fertilizer("4016")
+    y = fertilizer_year(by)
+    exp = baci.totals("potash", "exports")
+    have = [r["c"] for r in k2o["rows"] if r["c"] in by[y] and by[y][r["c"]][0] >= 1e6][:2]
+    if not have:
+        return None
+    gone = [r["c"] for r in k2o["rows"][:5] if r["c"] not in by[y]]
+    txt = (f"FAOSTAT (Fertilizers by Product, RFB) gives {y} production of potassium chloride in tonnes of product: "
+           + _and([f"{cname(c)} {_nf(by[y][c][0] / 1e6)} Mt (customs exports in {BACI_YEAR}: {_nf(exp.get(c, 0))} Mt)" for c in have]) + f". It lists {len(by[y])} countries"
+           + (f", with no figure for {_and([cname(c) for c in gone])}," if gone else "") + " so it is not used for the table.")
+    return txt
 
 
 # ====================================================================== commodity specs
@@ -908,7 +999,7 @@ BASIS = {
     "rare-earths": ("REO equivalent", "metals and compounds, gross weight"),
     "manganese": ("manganese content", "ore, gross weight"),
     "uranium": ("contained uranium", "ores and compounds, gross weight"),
-    "potash": ("K2O content", "potassium chloride, product weight"),
+    "potash": ("potassium chloride equivalent", "potassium chloride, product weight"),
     "urea": ("ammonia, nitrogen content", "urea, product weight"),
 }
 # second trade tables (key prefix -> basis); their titles already name the product
@@ -1295,6 +1386,12 @@ def main():
             seaborne(d, g)
             notes += [f"Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar {BACI_YEAR}); production is FAOSTAT {d['production']['y']}.",
                       "No consumption table: grindings data are not in the loaded sources."]
+            icco, warn, idn, short = cocoa_vs_icco(d)
+            disc.append(icco)
+            add_caveat(d["production"], warn)
+            if idn:
+                next(r for r in d["production"]["rows"] if r["c"] == "IDN")["n"] = idn
+            d["summary"]["production"]["n"] += "; " + short
         elif cid in PSD:
             com, cons_attr, ex_attr, im_attr = PSD[cid]
             what = PSD_WHAT[cid]
@@ -1476,9 +1573,26 @@ def main():
         elif cid == "manganese":
             notes.append("Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table.")
         elif cid == "urea":
-            notes.append("Production proxy is ammonia plant output in nitrogen content (USGS); urea output is not in the loaded sources. Trade is urea (HS 310210), product weight.")
+            ut, unotes = faostat_urea(baci)
+            d["extra"] = d.get("extra", []) + [{"key": "urea-production", "title": "Urea producers — Mt of urea, product weight", "table": ut}]
+            notes.append("Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea, and urea production in tonnes "
+                         f"of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds {K.N_IN_UREA:.1%} nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.")
+            notes += unotes
         elif cid == "potash":
-            notes.append("USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight.")
+            k2o, f = d["production"], K.K2O_IN_KCL
+            kcl = {"y": k2o["y"], "s": "atlas", "u": "Mt KCl", "world": rnd(k2o["world"] / f), "rows": [{**r, "v": rnd(r["v"] / f)} for r in k2o["rows"]],
+                   "n": (f"Atlas conversion: {k2o['n']}, divided by {f:.3f}, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium "
+                         "chloride comparable with the trade tables; real products hold less K2O than pure potassium chloride, so their weight is somewhat higher. "
+                         "The K2O figures as published are in the table below")}
+            d["production"] = kcl
+            d["extra"] = d.get("extra", []) + [{"key": "k2o-production", "title": "Top producers — Mt of K2O content, as published by USGS", "table": set_basis(k2o, "K2O content")}]
+            d["summary"]["production"] = fig(kcl["world"], kcl["u"], kcl["y"], "atlas",
+                                             f"Atlas conversion of the USGS world total of potash mine production, {_nf(k2o['world'])} Mt K2O, at {f:.3f} K2O per tonne of potassium chloride")
+            notes.append("Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium "
+                         f"chloride at {f:.3f} (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.")
+            fn = faostat_potash_note(baci, k2o)
+            if fn:
+                notes.append(fn)
 
         if cid in BASIS:
             pb, tb = BASIS[cid]
@@ -1488,14 +1602,17 @@ def main():
                 set_basis(d.get(sec), tb)
             for x in d.get("extra") or []:
                 set_basis(x["table"], EXTRA_BASIS.get(x["key"].split("-")[0]))
-            if cid in ("potash", "urea"):
-                # nutrient tonnes next to product tonnes: say so in every title and KPI of the page
-                what = "Ammonia producers" if cid == "urea" else "Top producers"
-                name_it(d, "production", f"{what} — {pb.split(', ')[-1]}", f"{'Ammonia' if cid == 'urea' else 'World'} production ({pb.split(', ')[-1]})")
-                if "reserves" in d:
-                    name_it(d, "reserves", f"Reserves — {pb}", f"World reserves ({pb})")
-                name_it(d, "exports", f"Top exporters — {tb}", f"World exports ({tb.split(', ')[-1]})")
-                name_it(d, "imports", f"Top importers — {tb}")
+            # nutrient tonnes next to product tonnes: the unit is in every title and KPI of the page
+            if cid == "urea":
+                name_it(d, "production", "Ammonia producers — Mt of nitrogen (ammonia plant output)", "Ammonia production (Mt N)")
+                name_it(d, "exports", "Top exporters — Mt of urea, product weight", "World exports (Mt of urea)")
+                name_it(d, "imports", "Top importers — Mt of urea, product weight")
+            elif cid == "potash":
+                set_basis(d["reserves"], "K2O content")
+                name_it(d, "production", "Top producers — Mt of potassium chloride equivalent (Atlas conversion)", "World production (Mt KCl equivalent)")
+                name_it(d, "reserves", "Reserves — Mt of K2O content", "World reserves (Mt K2O)")
+                name_it(d, "exports", "Top exporters — Mt of potassium chloride, product weight", "World exports (Mt of KCl)")
+                name_it(d, "imports", "Top importers — Mt of potassium chloride, product weight")
 
         notes = [n for n in notes if n]
         if notes:
@@ -1620,6 +1737,13 @@ def update_sources():
          "url": "https://www.eia.gov/international/data/world", "licence": "Public domain (US Government)", "update": "annual, partial monthly"},
         {"id": "faostat", "name": "FAOSTAT Crops and livestock products (QCL)", "publisher": "Food and Agriculture Organization of the United Nations",
          "url": "https://www.fao.org/faostat/en/data/QCL", "licence": "CC BY 4.0", "update": "annual"},
+        {"id": "faostat-rfb", "name": "FAOSTAT Fertilizers by Product (RFB)", "publisher": "Food and Agriculture Organization of the United Nations",
+         "url": "https://www.fao.org/faostat/en/data/RFB", "licence": "CC BY 4.0 (FAO statistical database terms of use also apply)", "update": "annual",
+         "access": "Bulk zip Inputs_FertilizersProduct_E_All_Data_(Normalized).zip, at most every 80 days (pipeline/commodities/fetch_external.py)",
+         "use": "Urea production in tonnes of product; potassium chloride production as a check on the potash units"},
+        {"id": "icco", "name": "ICCO Quarterly Bulletin of Cocoa Statistics (news pages)", "publisher": "International Cocoa Organization",
+         "url": "https://www.icco.org/statistics/", "licence": "Copyright ICCO; only the world total of production is cited, with attribution, and none of its tables is copied (its country tables are sold by subscription)",
+         "update": "quarterly", "access": "Web pages, read by hand", "use": "World cocoa production per crop year, beside the FAOSTAT table"},
         {"id": "wna", "name": "World Nuclear Association: World Uranium Mining Production", "publisher": "World Nuclear Association",
          "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
          "licence": "Copyright World Nuclear Association; figures cited with attribution (see website terms of use)", "update": "annual"},
@@ -1929,7 +2053,7 @@ def caveats(docs, eia):
                       "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]}
     out["cobalt"] = {"exports": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
                      "imports": "Gross weight of cobalt intermediate products and metal, not contained cobalt."}
-    out["potash"] = {"exports": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content.",
+    out["potash"] = {"exports": "Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content.",
                      "imports": "Product weight of potassium chloride, not K2O content."}
     out["urea"] = {"production": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."}
     return out

@@ -234,6 +234,59 @@ class CleanTests(unittest.TestCase):
         self.assertEqual((r.t, r.flag), (4296.0, "no-value"))
 
 
+class PeerUnitValueTests(unittest.TestCase):
+    """Rule 8 (audit C-034): Chile's copper concentrate re-estimated at Peru's unit value."""
+
+    def test_chile_china_2024(self):
+        r = row(frame(), "copper-ore", "CHL", "CHN", 2024)
+        self.assertAlmostEqual(r.t0 / 1e6, 2.787, delta=0.001)  # the figure of the entry, as reported
+        self.assertIn("est-peer", r.flag)
+        self.assertTrue(r.imputed)
+        self.assertAlmostEqual(r.uvp, 7428, delta=1)
+        self.assertAlmostEqual(r.uve, 2234, delta=1)  # Peru to China, 2024
+        self.assertAlmostEqual(r.t / 1e6, 9.27, delta=0.01)
+        self.assertTrue(r.enote.startswith("Atlas estimate: CEPII BACI reports 2.79 Mt for USD 20.7 bn (7,428 USD/t)"), r.enote)
+        self.assertIn("2,234 USD/t of copper concentrate from Peru to China in 2024", r.enote)
+        self.assertIn("plausible cause, not established here", r.enote)
+
+    def test_years_in_gross_weight_are_untouched(self):
+        df = frame()
+        for y, v in ((2019, 7.73), (2020, 7.72), (2023, 7.40)):
+            r = row(df, "copper-ore", "CHL", "CHN", y)
+            self.assertNotIn("est-peer", r.flag, y)
+            self.assertAlmostEqual(r.t / 1e6, v, delta=0.01)
+        for y, v in ((2021, 2.55), (2022, 2.39)):
+            r = row(df, "copper-ore", "CHL", "CHN", y)
+            self.assertIn("est-peer", r.flag, y)
+            self.assertAlmostEqual(r.t0 / 1e6, v, delta=0.01)
+            self.assertTrue(7 <= r.t / 1e6 <= 9.5, (y, r.t))
+
+    def test_totals_and_peer_untouched(self):
+        df = frame()
+        chl = df[(df.group == "copper-ore") & (df.o == "CHL") & (df.year == 2024)]
+        self.assertAlmostEqual(chl.t0.sum() / 1e6, 4.96, delta=0.01)
+        self.assertTrue(13 <= chl.t.sum() / 1e6 <= 15, chl.t.sum())
+        per = df[(df.group == "copper-ore") & (df.o == "PER")]
+        self.assertFalse(per.flag.str.contains("est-peer").any())
+        self.assertFalse(df[df.group != "copper-ore"].flag.str.contains("est-peer").any())
+        self.assertAlmostEqual(mt(df, "copper-ore", o="PER"), 9.37, delta=0.01)
+
+    def test_reference_falls_back_to_the_peer_average(self):
+        rows = [  # Peru ships 1 Mt to China at 2,000 USD/t and 0.01 Mt to Bulgaria; Chile 1 Mt and 0.1 Mt at 7,000 USD/t
+            (2024, "copper-ore", "PER", "CHN", 1e6, 2e6), (2024, "copper-ore", "PER", "BGR", 1e4, 2e4),
+            (2024, "copper-ore", "CHL", "CHN", 1e6, 7e6), (2024, "copper-ore", "CHL", "BGR", 1e5, 7e5),
+            (2024, "copper-ore", "CHL", "JPN", 1e6, 3.5e6),  # 1.75 times Peru: under the threshold
+        ]
+        df = C.clean(pd.DataFrame(rows, columns=["year", "group", "o", "d", "t", "usd"]))
+        chn, bgr, jpn = (row(df, "copper-ore", "CHL", d, 2024) for d in ("CHN", "BGR", "JPN"))
+        self.assertAlmostEqual(chn.t, 3.5e6, delta=1)
+        self.assertIn("from Peru to China", chn.enote)
+        self.assertAlmostEqual(bgr.uve, 2000, delta=0.5)  # Peru's average of the year: its Bulgarian flow is under 50 kt
+        self.assertIn("from Peru to all destinations", bgr.enote)
+        self.assertEqual(jpn.flag, "")
+        self.assertEqual(jpn.t, 1e6)
+
+
 class HistoryTests(unittest.TestCase):
     def test_value_moved_with_tonnage_is_kept(self):
         s, f = C.history_flags([10.0, 1.0, 10.0], [100.0, 10.0, 100.0])

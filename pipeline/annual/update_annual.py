@@ -290,7 +290,7 @@ def src_baci(opts):
 
 
 def src_external(opts):
-    """FAOSTAT cocoa + WNA uranium tables used by build_commodities.py (script written by the commodities job)."""
+    """FAOSTAT cocoa and fertiliser + WNA uranium tables used by build_commodities.py (script written by the commodities job)."""
     script = os.path.join(ROOT, "pipeline", "commodities", "fetch_external.py")
     if not os.path.exists(script):
         return {"changed": False, "note": "script absent", "skip": True}
@@ -298,7 +298,7 @@ def src_external(opts):
     last = prev.get("last_success")
     if last and (datetime.now(timezone.utc) - datetime.strptime(last, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).days < 80:
         return {"changed": False, "note": "checked recently", "skip": True}
-    files = [os.path.join(CACHE, "wna_uranium.json"), os.path.join(CACHE, "faostat_cocoa_production.csv")]
+    files = [os.path.join(CACHE, "wna_uranium.json"), os.path.join(CACHE, "faostat_cocoa_production.csv"), os.path.join(CACHE, "faostat_fertilizer_production.csv")]
     before = [sha256(f) if os.path.exists(f) else None for f in files]
     snap = Snapshot(files)
     try:

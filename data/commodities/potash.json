@@ -2,25 +2,25 @@
  "id": "potash",
  "summary": {
   "production": {
-   "v": 49.0,
-   "u": "Mt K2O",
+   "v": 77.562,
+   "u": "Mt KCl",
    "y": 2025,
-   "s": "usgs-mcs",
-   "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded"
+   "s": "atlas",
+   "n": "Atlas conversion of the USGS world total of potash mine production, 49 Mt K2O, at 0.632 K2O per tonne of potassium chloride"
   },
   "reserves": {
    "v": 5900.0,
    "u": "Mt K2O",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
+   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
   },
   "exports": {
    "v": 62.663,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content."
+   "n": "Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content."
   },
   "seaborne": {
    "v": 41.87,
@@ -31,73 +31,73 @@
   }
  },
  "kpis": {
-  "production": "World production (K2O content)",
-  "reserves": "World reserves (K2O content)",
-  "exports": "World exports (product weight)"
+  "production": "World production (Mt KCl equivalent)",
+  "reserves": "World reserves (Mt K2O)",
+  "exports": "World exports (Mt of KCl)"
  },
  "labels": {
-  "production": "Top producers — K2O content",
-  "reserves": "Reserves — K2O content",
-  "exports": "Top exporters — potassium chloride, product weight",
-  "imports": "Top importers — potassium chloride, product weight"
+  "production": "Top producers — Mt of potassium chloride equivalent (Atlas conversion)",
+  "reserves": "Reserves — Mt of K2O content",
+  "exports": "Top exporters — Mt of potassium chloride, product weight",
+  "imports": "Top importers — Mt of potassium chloride, product weight"
  },
  "production": {
   "y": 2025,
-  "s": "usgs-mcs",
-  "u": "Mt K2O",
-  "world": 49.0,
+  "s": "atlas",
+  "u": "Mt KCl",
+  "world": 77.562,
   "rows": [
    {
     "c": "CAN",
-    "v": 15.0
+    "v": 23.744
    },
    {
     "c": "RUS",
-    "v": 10.0
+    "v": 15.829
    },
    {
     "c": "CHN",
-    "v": 6.3
+    "v": 9.972
    },
    {
     "c": "BLR",
-    "v": 6.0
+    "v": 9.497
    },
    {
     "c": "DEU",
-    "v": 3.0
+    "v": 4.749
    },
    {
     "c": "LAO",
-    "v": 2.4
+    "v": 3.799
    },
    {
     "c": "ISR",
-    "v": 2.0
+    "v": 3.166
    },
    {
     "c": "JOR",
-    "v": 1.8
+    "v": 2.849
    },
    {
     "c": "CHL",
-    "v": 0.6
+    "v": 0.9497
    },
    {
     "c": "USA",
-    "v": 0.5
+    "v": 0.7915
    },
    {
     "c": "ESP",
-    "v": 0.45
+    "v": 0.7123
    },
    {
     "c": "BRA",
-    "v": 0.3
+    "v": 0.4749
    }
   ],
-  "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded",
-  "basis": "K2O content"
+  "n": "Atlas conversion: USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded, divided by 0.632, the K2O content of pure potassium chloride (from molar masses), to give tonnes of potassium chloride comparable with the trade tables; real products hold less K2O than pure potassium chloride, so their weight is somewhat higher. The K2O figures as published are in the table below",
+  "basis": "potassium chloride equivalent"
  },
  "reserves": {
   "y": 2025,
@@ -146,7 +146,7 @@
     "v": 2.3
    }
   ],
-  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a lower bound (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)",
+  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)",
   "basis": "K2O content"
  },
  "exports": {
@@ -207,9 +207,9 @@
     "v": 0.4925
    }
   ],
-  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content.",
+  "n": "CEPII BACI HS92 potassium chloride (HS 310420), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content.",
   "basis": "potassium chloride, product weight",
-  "caveat": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content."
+  "caveat": "Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content."
  },
  "imports": {
   "y": 2024,
@@ -270,6 +270,70 @@
   "basis": "potassium chloride, product weight",
   "caveat": "Product weight of potassium chloride, not K2O content."
  },
+ "extra": [
+  {
+   "key": "k2o-production",
+   "title": "Top producers — Mt of K2O content, as published by USGS",
+   "table": {
+    "y": 2025,
+    "s": "usgs-mcs",
+    "u": "Mt K2O",
+    "world": 49.0,
+    "rows": [
+     {
+      "c": "CAN",
+      "v": 15.0
+     },
+     {
+      "c": "RUS",
+      "v": 10.0
+     },
+     {
+      "c": "CHN",
+      "v": 6.3
+     },
+     {
+      "c": "BLR",
+      "v": 6.0
+     },
+     {
+      "c": "DEU",
+      "v": 3.0
+     },
+     {
+      "c": "LAO",
+      "v": 2.4
+     },
+     {
+      "c": "ISR",
+      "v": 2.0
+     },
+     {
+      "c": "JOR",
+      "v": 1.8
+     },
+     {
+      "c": "CHL",
+      "v": 0.6
+     },
+     {
+      "c": "USA",
+      "v": 0.5
+     },
+     {
+      "c": "ESP",
+      "v": 0.45
+     },
+     {
+      "c": "BRA",
+      "v": 0.3
+     }
+    ],
+    "n": "USGS MCS 2026, potash mine production, K2O equivalent; 2025 values are USGS estimates; USGS world total is rounded",
+    "basis": "K2O content"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "CAN",
@@ -475,7 +539,8 @@
   }
  ],
  "notes": [
-  "USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight.",
+  "Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium chloride at 0.632 (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.",
+  "FAOSTAT (Fertilizers by Product, RFB) gives 2024 production of potassium chloride in tonnes of product: Canada 24.8 Mt (customs exports in 2024: 26.6 Mt) and Russia 16.9 Mt (customs exports in 2024: 15.5 Mt). It lists 14 countries, with no figure for China, Belarus and Germany, so it is not used for the table.",
   "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Potash exports of Turkmenistan in customs data rose from 0.0627 Mt in 2022 to 0.92 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."

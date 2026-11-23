@@ -577,7 +577,7 @@
   "name": "Coffee",
   "family": "softs",
   "blurb": "Green coffee beans; Brazil and Vietnam lead supply.",
-  "unit": "kt",
+  "unit": "Mt",
   "hs": [
    "0901"
   ],
@@ -595,7 +595,7 @@
   "name": "Cocoa",
   "family": "softs",
   "blurb": "Cocoa beans, concentrated in Côte d'Ivoire and Ghana.",
-  "unit": "kt",
+  "unit": "Mt",
   "hs": [
    "1801"
   ],
@@ -612,7 +612,7 @@
   "name": "Cotton",
   "family": "softs",
   "blurb": "Raw cotton fibre; the US, Brazil and Australia export, Asian mills import.",
-  "unit": "kt",
+  "unit": "Mt",
   "hs": [
    "5201"
   ],
@@ -650,8 +650,7 @@
   "blurb": "Oilseed grown in Canada, the EU and Australia.",
   "unit": "Mt",
   "hs": [
-   "1205",
-   "1514"
+   "1205"
   ],
   "has": [
    "production",
@@ -684,7 +683,7 @@
   "id": "phosphate",
   "name": "Phosphate",
   "family": "softs",
-  "blurb": "Phosphate rock and processed fertilisers (DAP/MAP); Morocco holds most reserves.",
+  "blurb": "Phosphate rock and DAP fertiliser; Morocco holds most reserves.",
   "unit": "Mt",
   "hs": [
    "2510",

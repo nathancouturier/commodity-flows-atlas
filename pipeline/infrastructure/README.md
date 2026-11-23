@@ -21,14 +21,16 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `smelters.geojson` | `smelter` (smelters and metal refineries) |
 | `ports.geojson` | `port` |
 
-`sources_energy_infra.json` and `sources_mining_infra.json` in this folder list the source ids the two groups of files
-use; they are merged into `data/sources.json`, which is the registry the site reads.
+The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `operator-reports`, `port-authorities`,
+`trade-press`) are registered in `data/sources.json`, which is the registry the site reads.
+`sources_energy_infra.json` and `sources_mining_infra.json` in this folder are the lists the two groups of files were first
+written with; they were merged into the registry and no code reads them any more.
 
 ## Properties of a feature
 
 | Field | Type | Meaning |
 |---|---|---|
-| `id`, `name`, `type`, `c` | text | Never rename an id or delete a feature: routes, events and the trade engine refer to ids. `c` is the ISO3 code of the country. |
+| `id`, `name`, `type`, `c` | text | Never rename an id or delete a feature: routes, events and the trade engine refer to ids. `c` is the ISO3 code of the country. An asset is identified by its `type` and its `id` together (`type:id` is unique across the seven files; the page of an asset is `sel=infra:<id>:<type>`), so a refinery and a port may both be `ras-tanura`. |
 | `k` | list of commodity ids | The commodities the asset handles, the main one first. Only ids of `data/commodities/index.json`. |
 | `cs` | list of ISO3 | Pipelines: every country crossed, in order. |
 | `operator` | text | Operator and owners as the source states them. |
@@ -97,7 +99,9 @@ asset is drawn as operating, unless it was not open yet.
 `coord` is `site` when the point is the asset itself, and `approx` when it is a town, a centroid or a schematic
 position. The
 site prints "Approximate location" on those assets. A point is checked against the country `c`: it must lie inside the
-country's polygon or within 60 km of it (370 km for a field, which may be offshore).
+country's polygon or within 60 km of it. A field or an LNG terminal may stand at sea (an offshore field, a floating
+plant such as Prelude, an island terminal such as Das Island): it may lie up to 370 km (200 nautical miles) from `c`,
+provided no other country is nearer to the point, so a point in the wrong country is still caught.
 
 ## Adding or changing an asset
 
@@ -112,13 +116,14 @@ country's polygon or within 60 km of it (370 km for a field, which may be offsho
    ```
    node web/scripts/validate-infra.mjs            # this layer alone
    node web/scripts/validate-data.mjs             # every data file, this layer included
-   STRICT_INFRA=1 node web/scripts/validate-infra.mjs   # the same, with every warning an error
+   node web/scripts/validate-infra.test.mjs       # the tests of the validator
    ```
 
    `validate-infra.mjs` checks the required fields, the vocabularies (type, status, units, `output.what`), the numeric
    years (1850 to next year), the date formats, that `k` ids and `s` exist, that ids are unique across the seven files,
-   that coordinates are in range and near the stated country, and that no note holds a working phrase. A file that
-   still has the old shape (a feature-level `y`) gives warnings, not errors, unless `STRICT_INFRA=1` is set.
+   that coordinates are in range and near the stated country, and that no note holds a working phrase. Every finding is
+   an error. Only `INFRA_OLD_SHAPE=1` turns the findings about a file that still has the old shape (a feature-level `y`)
+   into warnings, for a migration that goes one file at a time.
 6. `data/sources.json` feeds `DATA_SOURCES.md`; regenerate that table with `pipeline/common/sources_table.py` after
    changing the registry.
 

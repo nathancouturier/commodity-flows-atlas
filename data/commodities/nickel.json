@@ -13,7 +13,7 @@
    "u": "kt Ni",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)"
+   "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a minimum (>140,000,000)"
   },
   "exports": {
    "v": 52.888,
@@ -119,7 +119,7 @@
     "v": 340.0
    }
   ],
-  "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a lower bound (>140,000,000)",
+  "n": "USGS MCS 2026, nickel reserves, contained nickel; USGS world total is rounded; USGS reports the world total as a minimum (>140,000,000)",
   "basis": "contained nickel"
  },
  "exports": {

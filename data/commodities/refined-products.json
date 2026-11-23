@@ -104,7 +104,8 @@
    },
    {
     "c": "RUS",
-    "v": 71.74
+    "v": 71.74,
+    "n": "Customs data record 71.7 Mt of refined products exports from Russia in 2024 (CEPII BACI). These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
    },
    {
     "c": "IND",
@@ -254,7 +255,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "refined-products:RUS-TUR"
+   "lane": "refined-products:RUS-TUR",
+   "caveat": "refined-products-rus"
   },
   {
    "o": "SGP",
@@ -286,7 +288,8 @@
    "s": "baci",
    "mode": "mixed",
    "lane": "refined-products:RUS-CHN",
-   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known",
+   "caveat": "refined-products-rus"
   },
   {
    "o": "KOR",
@@ -369,7 +372,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "refined-products:RUS-BRA"
+   "lane": "refined-products:RUS-BRA",
+   "caveat": "refined-products-rus"
   },
   {
    "o": "CHN",
@@ -418,6 +422,7 @@
   "Russia: the exports above rest on what importers declare (see the note on Russia). The U.S. Energy Information Administration (Country Analysis Brief: Russia, last updated 24 July 2025, public domain) puts Russia as the world's fourth-largest petroleum product exporter in 2023, with 1.9 million b/d, and says that in 2024 Türkiye received 17% of Russia's product exports, China 11%, and Singapore, the United Arab Emirates, India and Brazil 8% each. The units differ, so no ratio is computed. Customs data record no flow from Russia to the United Arab Emirates in 2024 (1.22 Mt in 2023).",
   "Customs data record 63.8 Mt of refined products exports from the Netherlands in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced.",
   "Customs data record 40.5 Mt of refined products exports from Belgium in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced.",
-  "Customs data record 75.2 Mt of refined products exports from Singapore in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
+  "Customs data record 75.2 Mt of refined products exports from Singapore in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced.",
+  "Customs data record 71.7 Mt of refined products exports from Russia in 2024 (CEPII BACI). These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
  ]
 }

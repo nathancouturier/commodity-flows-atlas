@@ -74,6 +74,9 @@ const SHORT_SOURCE: Record<string, string> = {
   atlas: 'Atlas estimate',
   'port-authorities': 'port authorities',
   'company-reports': 'company reports',
+  'operator-reports': 'operator reports',
+  'eia-refinery-capacity': 'EIA',
+  'giignl-2026': 'GIIGNL',
   'trade-press': 'trade press',
   wikipedia: 'Wikipedia',
 };

@@ -227,7 +227,7 @@ def port_entry(code, use):
         _meta[code] = P.port_meta(code)
     m = _meta[code]
     p = P.port(code)
-    basis, src, url = max(use, key=lambda u: BASIS_RANK[u[0]])
+    basis, src, url = max(use, key=lambda u: (BASIS_RANK[u[0]], u[1] or "", u[2] or ""))  # same pick on every run
     out = {"id": code, "name": p["name"], "c": port_iso3(code), "at": p["at"], "zone": m.get("zone"), "basis": basis, "s": src}
     if url:
         out["url"] = url

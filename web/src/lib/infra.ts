@@ -52,6 +52,22 @@ export function statusText(status?: string, asOf?: string): string {
 /** The year printed beside a figure: its own, or "year not stated". Never the date the page was read. */
 export const yearText = (f: { y?: number | null }): string => (f.y != null ? String(f.y) : 'year not stated');
 
+/**
+ * The source as a reader sees it. An id that stands for many publishers ("Trade press (see the page linked on each
+ * asset)") is shown with the site of the page read: "Trade press · mining.com".
+ */
+export function sourceText(label: string, url?: string): string {
+  const m = /^(.*?)\s*\(see the (?:page|article)[^)]*\)\s*$/.exec(label);
+  if (!m) return label;
+  let host = '';
+  try {
+    host = new URL(url ?? '').hostname.replace(/^www\./, '');
+  } catch {
+    /* no page: the bare name */
+  }
+  return host ? `${m[1]} · ${host}` : m[1];
+}
+
 export const OUTPUT_LABEL: Record<InfraOutput['what'], string> = { production: 'Production', exports: 'Exports', throughput: 'Throughput' };
 
 export type FigureKind = 'capacity' | InfraOutput['what'];

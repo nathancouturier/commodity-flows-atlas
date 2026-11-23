@@ -373,5 +373,25 @@
   "update": "quarterly or annual",
   "access": "Production reports, results releases, filings and operator web pages, linked per asset (url)",
   "use": "Mines and refineries: dated production figures, capacity, ownership and operating status"
+ },
+ {
+  "id": "faostat-rfb",
+  "name": "FAOSTAT Fertilizers by Product (RFB)",
+  "publisher": "Food and Agriculture Organization of the United Nations",
+  "url": "https://www.fao.org/faostat/en/data/RFB",
+  "licence": "CC BY 4.0 (FAO statistical database terms of use also apply)",
+  "update": "annual",
+  "access": "Bulk zip Inputs_FertilizersProduct_E_All_Data_(Normalized).zip, at most every 80 days (pipeline/commodities/fetch_external.py)",
+  "use": "Urea production in tonnes of product; potassium chloride production as a check on the potash units"
+ },
+ {
+  "id": "icco",
+  "name": "ICCO Quarterly Bulletin of Cocoa Statistics (news pages)",
+  "publisher": "International Cocoa Organization",
+  "url": "https://www.icco.org/statistics/",
+  "licence": "Copyright ICCO; only the world total of production is cited, with attribution, and none of its tables is copied (its country tables are sold by subscription)",
+  "update": "quarterly",
+  "access": "Web pages, read by hand",
+  "use": "World cocoa production per crop year, beside the FAOSTAT table"
  }
 ]

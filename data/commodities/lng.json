@@ -16,13 +16,13 @@
    }
   },
   "seaborne": {
-   "v": 369.92,
+   "v": 369.15,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "seaborne subset of BACI flows (lng) under the atlas's mode rule (data/freight/lanes/lng.json): trade by sea, or by sea through a foreign port for a landlocked country",
    "alt": {
-    "v": 503.09,
+    "v": 502.04,
     "u": "bcm",
     "s": "atlas",
     "y": 2024,

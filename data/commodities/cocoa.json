@@ -2,15 +2,15 @@
  "id": "cocoa",
  "summary": {
   "production": {
-   "v": 5233.2,
-   "u": "kt",
+   "v": 5.233,
+   "u": "Mt",
    "y": 2024,
    "s": "faostat",
-   "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to kt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official)"
+   "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to Mt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official); ICCO: 4,362 kt for the 2023/24 crop year (see the discrepancies)"
   },
   "exports": {
-   "v": 3235.3,
-   "u": "kt",
+   "v": 3.235,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "cocoa beans (HS 1801), BACI"
@@ -26,118 +26,120 @@
  "production": {
   "y": 2024,
   "s": "faostat",
-  "u": "kt",
-  "world": 5233.2,
+  "u": "Mt",
+  "world": 5.233,
   "rows": [
    {
     "c": "CIV",
-    "v": 1890.4
+    "v": 1.89
    },
    {
     "c": "IDN",
-    "v": 632.7
+    "v": 0.6327,
+    "n": "Official national figure carried by FAO (flag A); FAOSTAT carries the same value for 2021 and 2022. Not checked against the ICCO's country table, which is not free; see the discrepancies."
    },
    {
     "c": "GHA",
-    "v": 530.0,
+    "v": 0.53,
     "n": "FAO flag: X"
    },
    {
     "c": "ECU",
-    "v": 403.7
+    "v": 0.4037
    },
    {
     "c": "NGA",
-    "v": 350.0,
+    "v": 0.35,
     "n": "FAO flag: X"
    },
    {
     "c": "CMR",
-    "v": 320.0,
+    "v": 0.32,
     "n": "FAO flag: X"
    },
    {
     "c": "BRA",
-    "v": 297.51
+    "v": 0.2975
    },
    {
     "c": "PER",
-    "v": 157.25
+    "v": 0.1573
    },
    {
     "c": "SLE",
-    "v": 93.75
+    "v": 0.0937
    },
    {
     "c": "COL",
-    "v": 67.678
+    "v": 0.0677
    },
    {
     "c": "DOM",
-    "v": 57.461
+    "v": 0.0575
    },
    {
     "c": "UGA",
-    "v": 55.0,
+    "v": 0.055,
     "n": "FAO flag: X"
    }
   ],
-  "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to kt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official)"
+  "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to Mt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official) · World total 20% above the ICCO's estimate for the 2023/24 crop year (4,362 kt): see the discrepancies.",
+  "caveat": "World total 20% above the ICCO's estimate for the 2023/24 crop year (4,362 kt): see the discrepancies."
  },
  "exports": {
   "y": 2024,
   "s": "baci",
-  "u": "kt",
-  "world": 3235.3,
+  "u": "Mt",
+  "world": 3.235,
   "rows": [
    {
     "c": "CIV",
-    "v": 1082.1
+    "v": 1.082
    },
    {
     "c": "ECU",
-    "v": 400.44
+    "v": 0.4004
    },
    {
     "c": "NGA",
-    "v": 360.47
+    "v": 0.3605
    },
    {
     "c": "GHA",
-    "v": 293.78
+    "v": 0.2938
    },
    {
     "c": "CMR",
-    "v": 235.75
+    "v": 0.2357
    },
    {
     "c": "PER",
-    "v": 113.35
+    "v": 0.1133
    },
    {
     "c": "NLD",
-    "v": 91.685
+    "v": 0.0917
    },
    {
     "c": "GIN",
-    "v": 72.255
+    "v": 0.0723
    },
    {
     "c": "DOM",
-    "v": 65.11
+    "v": 0.0651
    },
    {
     "c": "COD",
-    "v": 62.535,
+    "v": 0.0625,
     "n": "12% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    },
    {
     "c": "UGA",
-    "v": 59.247
+    "v": 0.0592
    },
    {
     "c": "BEL",
-    "v": 50.973
+    "v": 0.051
    }
   ],
   "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -145,56 +147,56 @@
  "imports": {
   "y": 2024,
   "s": "baci",
-  "u": "kt",
-  "world": 3235.3,
+  "u": "Mt",
+  "world": 3.235,
   "rows": [
    {
     "c": "NLD",
-    "v": 780.23
+    "v": 0.7802
    },
    {
     "c": "MYS",
-    "v": 466.7
+    "v": 0.4667
    },
    {
     "c": "DEU",
-    "v": 273.04
+    "v": 0.273
    },
    {
     "c": "BEL",
-    "v": 235.26
+    "v": 0.2353
    },
    {
     "c": "USA",
-    "v": 201.16
+    "v": 0.2012
    },
    {
     "c": "IDN",
-    "v": 173.0
+    "v": 0.173
    },
    {
     "c": "TUR",
-    "v": 116.3
+    "v": 0.1163
    },
    {
     "c": "CAN",
-    "v": 114.19
+    "v": 0.1142
    },
    {
     "c": "SGP",
-    "v": 114.17
+    "v": 0.1142
    },
    {
     "c": "ESP",
-    "v": 103.74
+    "v": 0.1037
    },
    {
     "c": "FRA",
-    "v": 103.71
+    "v": 0.1037
    },
    {
     "c": "ITA",
-    "v": 92.919
+    "v": 0.0929
    }
   ],
   "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -203,8 +205,8 @@
   {
    "o": "CIV",
    "d": "NLD",
-   "v": 260.44,
-   "u": "kt",
+   "v": 0.2604,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -213,8 +215,8 @@
   {
    "o": "CMR",
    "d": "NLD",
-   "v": 144.51,
-   "u": "kt",
+   "v": 0.1445,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -223,8 +225,8 @@
   {
    "o": "NGA",
    "d": "NLD",
-   "v": 143.87,
-   "u": "kt",
+   "v": 0.1439,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -233,8 +235,8 @@
   {
    "o": "CIV",
    "d": "BEL",
-   "v": 125.04,
-   "u": "kt",
+   "v": 0.125,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -243,8 +245,8 @@
   {
    "o": "CIV",
    "d": "MYS",
-   "v": 96.449,
-   "u": "kt",
+   "v": 0.0964,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -253,8 +255,8 @@
   {
    "o": "CIV",
    "d": "DEU",
-   "v": 91.379,
-   "u": "kt",
+   "v": 0.0914,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -263,8 +265,8 @@
   {
    "o": "NGA",
    "d": "MYS",
-   "v": 89.331,
-   "u": "kt",
+   "v": 0.0893,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -273,8 +275,8 @@
   {
    "o": "CIV",
    "d": "USA",
-   "v": 79.697,
-   "u": "kt",
+   "v": 0.0797,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -283,8 +285,8 @@
   {
    "o": "ECU",
    "d": "MYS",
-   "v": 71.565,
-   "u": "kt",
+   "v": 0.0716,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -293,8 +295,8 @@
   {
    "o": "NLD",
    "d": "DEU",
-   "v": 69.599,
-   "u": "kt",
+   "v": 0.0696,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "land"
@@ -302,8 +304,8 @@
   {
    "o": "CIV",
    "d": "TUR",
-   "v": 69.09,
-   "u": "kt",
+   "v": 0.0691,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -312,8 +314,8 @@
   {
    "o": "ECU",
    "d": "USA",
-   "v": 56.939,
-   "u": "kt",
+   "v": 0.0569,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -322,8 +324,8 @@
   {
    "o": "ECU",
    "d": "IDN",
-   "v": 56.041,
-   "u": "kt",
+   "v": 0.056,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -332,8 +334,8 @@
   {
    "o": "CIV",
    "d": "GBR",
-   "v": 52.315,
-   "u": "kt",
+   "v": 0.0523,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -342,8 +344,8 @@
   {
    "o": "CIV",
    "d": "CAN",
-   "v": 51.828,
-   "u": "kt",
+   "v": 0.0518,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -352,8 +354,8 @@
   {
    "o": "GHA",
    "d": "NLD",
-   "v": 41.866,
-   "u": "kt",
+   "v": 0.0419,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -362,8 +364,8 @@
   {
    "o": "BEL",
    "d": "DEU",
-   "v": 41.446,
-   "u": "kt",
+   "v": 0.0414,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "land"
@@ -371,8 +373,8 @@
   {
    "o": "ECU",
    "d": "NLD",
-   "v": 39.79,
-   "u": "kt",
+   "v": 0.0398,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -381,8 +383,8 @@
   {
    "o": "CIV",
    "d": "FRA",
-   "v": 39.268,
-   "u": "kt",
+   "v": 0.0393,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -391,8 +393,8 @@
   {
    "o": "CIV",
    "d": "ESP",
-   "v": 38.048,
-   "u": "kt",
+   "v": 0.038,
+   "u": "Mt",
    "y": 2024,
    "s": "baci",
    "mode": "sea",
@@ -402,5 +404,8 @@
  "notes": [
   "Cocoa is not in USDA PSD: exports and imports are BACI cocoa beans (calendar 2024); production is FAOSTAT 2024.",
   "No consumption table: grindings data are not in the loaded sources."
+ ],
+ "discrepancies": [
+  "World cocoa bean production: FAOSTAT gives 5,233 kt for calendar year 2024 (the table above). The International Cocoa Organization (ICCO) estimates 4,362 kt for the 2023/24 crop year, October to September (May 2026 issue of its Quarterly Bulletin of Cocoa Statistics, https://www.icco.org/may-2026-quarterly-bulletin-of-cocoa-statistics/) and 4,733 kt for 2024/25 (August 2026 issue, https://www.icco.org/august-2026-quarterly-bulletin-of-cocoa-statistics/); the FAOSTAT total is 20% above the first and 11% above the second. The two series differ in period (calendar year against crop year); the cause of the gap is not established here. The ICCO's country tables are sold by subscription: they are not copied or compared here."
  ]
 }

@@ -18,7 +18,7 @@ import { commodity, family, hovered, infraAvailable, infraHidden, layers, select
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
 import { figuresOf } from '../../lib/capacity';
-import { OUTPUT_LABEL, figureText, isOperating, monthYear, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
+import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
@@ -131,7 +131,7 @@ export function infraTooltip(f: InfraFeature): string {
   const statusLine = st.notOpen
     ? st.opensIn != null ? `Opens in ${st.opensIn}` : 'Not open yet'
     : status && status !== 'operating' && !st.statusLater ? statusText(status, p.statusAsOf) : '';
-  const source = `${esc(sourceLabel(p.s))}${p.read ? ` · read ${esc(monthYear(p.read))}` : ''}`;
+  const source = `${esc(sourceText(sourceLabel(p.s), p.url))}${p.read ? ` · read ${esc(monthYear(p.read))}` : ''}`;
   return (
     `<div><b>${esc(p.name)}</b></div>` +
     `<div class="muted">${esc(INFRA_META[p.type]?.label ?? p.type)} · ${esc(countryName(p.c))}${statusLine ? ` · ${esc(statusLine)}` : ''}</div>` +

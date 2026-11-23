@@ -4,7 +4,7 @@ import type { InfraType } from '../../types';
 import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { figuresOf } from '../../lib/capacity';
-import { OUTPUT_LABEL, figureText, monthYear, yearText, type Figure } from '../../lib/infra';
+import { OUTPUT_LABEL, figureText, monthYear, sourceText, yearText, type Figure } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select } from '../../lib/store';
@@ -119,10 +119,10 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
           Source:{' '}
           {srcUrl ? (
             <a href={srcUrl} target="_blank" rel="noopener" title={p.url ? 'Open the page read' : sources.value[p.s]?.publisher}>
-              {sourceLabel(p.s)} ↗
+              {sourceText(sourceLabel(p.s), p.url)} ↗
             </a>
           ) : (
-            sourceLabel(p.s)
+            sourceText(sourceLabel(p.s))
           )}
           {p.read && <> · read {monthYear(p.read)}</>}
         </div>
