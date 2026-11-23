@@ -183,6 +183,21 @@ def rnd(v):
     return round(v, 4)
 
 
+def sig(v, digits=3):
+    """A figure the atlas estimated or converted keeps `digits` significant digits and no more (GW3.2)."""
+    if not v:
+        return v
+    r = round(v, digits - 1 - int(math.floor(math.log10(abs(v)))))
+    return int(r) if abs(r) >= 10 ** (digits - 1) else r
+
+
+def joinn(a, b):
+    """Two notes joined with "; ": the full stop that ends a sentence of `a` is dropped, so that no ".;" is written (GW3.8)."""
+    if not a:
+        return b
+    return (a[:-1] if a.endswith(".") and not a.endswith("..") else a) + "; " + b
+
+
 def fig(v, u, y, s, n=None):
     d = {"v": rnd(v), "u": u, "y": y, "s": s}
     if n:
@@ -190,22 +205,26 @@ def fig(v, u, y, s, n=None):
     return d
 
 
-def ranked(rows, y, s, u, world=None, n=None, top=TOP):
-    """rows: list of (iso, value[, note]); returns a Ranked dict (top N by value)."""
+def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None):
+    """rows: list of (iso, value[, note[, est]]); returns a Ranked dict (top N by value).
+    est: the row is mostly an Atlas estimate (`est: true`, value kept to 3 significant digits). digits: every value of the
+    table, the world total included, is rounded to that many significant digits (a table of estimates or conversions)."""
     acc = {}
     for r in rows:
         c, v = r[0], r[1]
         if c is None or v is None or not (v > 0):
             continue
         note = r[2] if len(r) > 2 else None
+        est = bool(r[3]) if len(r) > 3 else False
         if c in acc:
             raise SystemExit(f"duplicate row for {c} ({s} {y})")
-        acc[c] = (v, note)
+        acc[c] = (v, note, est)
     srt = sorted(acc.items(), key=lambda kv: -kv[1][0])[:top]
     out = {"y": y, "s": s, "u": u}
     if world is not None:
-        out["world"] = rnd(world)
-    out["rows"] = [({"c": c, "v": rnd(v), **({"n": nt} if nt else {})}) for c, (v, nt) in srt]
+        out["world"] = sig(world, digits) if digits else rnd(world)
+    out["rows"] = [({"c": c, "v": sig(v, digits or 3) if digits or est else rnd(v), **({"n": nt} if nt else {}), **({"est": True} if est else {})})
+                   for c, (v, nt, est) in srt]
     if n:
         out["n"] = n
     return out
@@ -579,6 +598,7 @@ class Baci:
         df["t_susp"] = df["t"].where(susp, 0.0)
         fix = df["imputed"]
         df["t_est"] = df["t"].where(fix, 0.0)
+        df["t0_est"] = df["t0"].where(fix, 0.0)  # what the customs data declared for the rows the atlas re-estimated
         self.df = df
         self.dropped = list(LAST_DROPPED)  # rows that clean() dropped, for QA.md
         self._modes = {}
@@ -631,7 +651,7 @@ class Baci:
     def ranked(self, g, side, u, div, what, extra=None):
         d = self.group(g)
         col = "o" if side == "exports" else "d"
-        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
+        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
         rows = []
@@ -641,19 +661,29 @@ class Baci:
             note = None
             if code in BACI_OVERRIDE:
                 note = f"BACI code {code} ('Other Asia, nes'), reported as Taiwan"
-            if es >= 0.10:
+            mostly = es >= 0.5
+            if mostly:  # most of the tonnage is the atlas's own estimate (GW3.3): said first, with the method in a few words
+                note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the declared value "
+                                                        f"(customs declared {_fmt(r['t0e'] / div)} {u} for these flows; declared value divided by a reference unit value, see the notes of the page)")
+            elif es >= 0.10:
                 note = (note + "; " if note else "") + f"{es * 100:.0f}% of tonnage estimated from value"
             ss = r["ts"] / r["t"] if r["t"] else 0
             if ss >= 0.10:
                 note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values ({_kept_why(g)})"
-            rows.append((iso, r["t"] / div, note))
+            rows.append((iso, r["t"] / div, note, mostly))
         n = [f"CEPII BACI HS92 {what}, {BACI_YEAR}, all transport modes, gross weight",
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
-        if est_share >= 0.01:
+        if est_share >= 0.10:  # a total that holds a tenth or more of estimated tonnage says so, and keeps three digits
+            n.append(f"includes an Atlas estimate: {est_share * 100:.0f}% of world tonnage is estimated from the declared value where the "
+                     "reported tonnage is missing or inconsistent (world total shown to three significant digits)")
+        elif est_share >= 0.01:
             n.append(f"{est_share * 100:.0f}% of world tonnage estimated from value where missing or inconsistent")
         if extra:
             n.append(extra)
-        return ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n)), est_share
+        t = ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n))
+        if est_share >= 0.10:
+            t["world"] = sig(world)
+        return t, est_share
 
     def flows(self, g, u, div, lane_group=None, only_exporters=None, mode_all=None, n_all=None, adjust=None, only_pairs=None):
         """adjust: {(o, d): (tonnes, note)} replaces the customs tonnage of a pair by an Atlas figure
@@ -677,7 +707,7 @@ class Baci:
             o, de = self.iso(r["o"]), self.iso(r["d"])
             if not o or not de:
                 raise SystemExit(f"flow with unmapped country {r['o']}-{r['d']} in {g}")
-            f = {"o": o, "d": de, "v": rnd(r["t"] / div), "u": u, "y": BACI_YEAR, "s": "baci"}
+            f = {"o": o, "d": de, "v": sig(r["t"] / div) if r["est"] or isinstance(r["adj"], str) else rnd(r["t"] / div), "u": u, "y": BACI_YEAR, "s": "baci"}
             kind, transit = self.mode(r["o"], r["d"], g)
             if mode_all:
                 f["mode"] = mode_all
