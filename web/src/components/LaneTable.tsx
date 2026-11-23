@@ -6,7 +6,7 @@ import { useMemo, useState } from 'preact/hooks';
 import type { Lane, LaneFile } from '../types';
 import { countryName, sourceLabel } from '../lib/data';
 import { fmt, fmtEst, pct, sig2 } from '../lib/format';
-import { GROUP_LABEL, chokepointName, vesselName } from '../lib/freight';
+import { GROUP_LABEL, altText, chokepointName, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
@@ -41,13 +41,13 @@ export interface LaneRow {
   share: number | null;
   est: boolean;
   kind: 'sea' | 'transit' | 'mixed';
-  /** transit port name, for a landlocked end */
-  transit: string | null;
+  /** transit port names, for a landlocked end (two when both ends are landlocked) */
+  transit: string[];
   cls: string | null;
   nm: number;
   via: string[];
-  /** passages that only some options may cross */
-  maybe: string[];
+  /** passages that only some options cross: lists of which one is used */
+  viaAlt: string[][];
   s: string;
   y: number;
 }
@@ -59,9 +59,15 @@ export interface RestRow {
   v: number;
   u: string;
   n: number;
+  /** of `v`, the part that is an Atlas estimate */
+  est: number;
 }
 
-const flat = (l: Lane): string[] => [...new Set((l.viaAlt ?? []).flat())].filter((g) => !l.via.includes(g));
+const alts = (l: Lane): string[][] => (l.viaAlt ?? []).map((list) => list.filter((g) => !l.via.includes(g))).filter((list) => list.length);
+const flat = (r: LaneRow): string[] => [...new Set(r.viaAlt.flat())];
+
+/** Names of a lane's transit ports, loading end first. */
+const transitNames = (l: Lane, f: LaneFile): string[] => [l.transit, l.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => f.ports[t.port]?.name ?? t.port);
 
 /**
  * The lanes to list. With no History year (or the latest year): the main set. In a past year: every lane that
@@ -103,16 +109,16 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         share,
         est,
         kind: mixed ? 'mixed' : l.transit ? 'transit' : 'sea',
-        transit: l.transit ? (f.ports[l.transit.port]?.name ?? null) : null,
+        transit: transitNames(l, f),
         cls: l.vclass[0] ?? null,
         nm: l.distanceNm,
         via: l.via,
-        maybe: flat(l),
+        viaAlt: alts(l),
         s: f.s,
         y: at >= 0 ? (yr as number) : f.y,
       });
     }
-    if (at < 0) for (const r of f.rest ?? []) rest.push({ group: f.group, product, o: r.o, v: r.v, u: f.unit, n: r.n });
+    if (at < 0) for (const r of f.rest ?? []) rest.push({ group: f.group, product, o: r.o, v: r.v, u: f.unit, n: r.n, est: r.est ?? 0 });
   }
   rest.sort((a, b) => b.v - a.v);
   return { rows, rest, past };
@@ -120,12 +126,12 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
 
 const names = (ids: string[]) => ids.map(chokepointName);
 
-/** "Malacca, Singapore" and, for the passages only some options cross, "may use Taiwan Strait, Luzon". */
-export function passagesText(via: string[], maybe: string[]): string {
+/** "Strait of Malacca, Singapore Strait" and, for the passages only some options cross, "One of: Taiwan Strait · Luzon Strait". */
+export function passagesText(via: string[], viaAlt: string[][]): string {
   const parts: string[] = [];
   if (via.length) parts.push(names(via).join(', '));
-  if (maybe.length) parts.push(`may use ${names(maybe).join(', ')}`);
-  return parts.join(' · ');
+  for (const list of viaAlt) parts.push(altText(list));
+  return parts.join('; ');
 }
 
 const cmpNum = (a: number | null, b: number | null, dir: 1 | -1) => {
@@ -145,7 +151,7 @@ function sortRows(rows: LaneRow[], key: SortKey, dir: 1 | -1): LaneRow[] {
       case 'class':
         return r.cls ? vesselName(r.cls) : '';
       default:
-        return names([...r.via, ...r.maybe]).join(' ');
+        return names([...r.via, ...flat(r)]).join(' ');
     }
   };
   const by = [...rows];
@@ -169,12 +175,15 @@ const csvCell = (x: string | number | null | undefined): string => {
   return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
 };
 
+/** What the source column says of a tonnage the atlas computed from the declared value. */
+const EST_SOURCE = 'Atlas estimate (CEPII BACI declared value)';
+
 const MODE_TEXT = { sea: 'sea', transit: 'sea via a foreign port', mixed: 'sea and overland (split not known)' } as const;
 
 /** One line per lane, then one per exporter for what is not on a lane. Values are not rounded, except an Atlas estimate (two significant digits). */
 export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
   const head = [
-    'product', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'tonnes', 'unit', 'share_of_seaborne_pct',
+    'product', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume', 'unit', 'share_of_seaborne_pct',
     'mode', 'transit_port', 'vessel_class', 'distance_nm', 'passages', 'may_use_passages', 'atlas_estimate', 'source',
   ];
   const out = [head.join(',')];
@@ -184,8 +193,8 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
         r.product ?? r.group, r.o, countryName(r.o), r.d, countryName(r.d), r.y,
         r.v == null ? '' : r.est ? sig2(r.v) : r.v, r.u,
         r.share == null ? '' : (r.share * 100).toFixed(2),
-        MODE_TEXT[r.kind], r.transit ?? '', r.cls ? vesselName(r.cls) : '', r.nm || '',
-        names(r.via).join('; '), names(r.maybe).join('; '), r.est ? 'yes' : '', sourceLabel(r.s),
+        MODE_TEXT[r.kind], r.transit.join(' and '), r.cls ? vesselName(r.cls) : '', r.nm || '',
+        names(r.via).join('; '), r.viaAlt.map(altText).join('; '), r.est ? 'yes' : '', r.est ? EST_SOURCE : sourceLabel(r.s),
       ].map(csvCell).join(','),
     );
   }
@@ -194,7 +203,7 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
     out.push(
       [
         r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countr${r.n === 1 ? 'y' : 'ies'})`, y, r.v, r.u,
-        '', 'sea', '', '', '', '', '', '', sourceLabel(rows[0]?.s ?? 'baci'),
+        '', 'sea', '', '', '', '', '', r.est > 0 ? (r.est >= r.v ? 'yes' : 'partly') : '', r.est > 0 ? `${sourceLabel(rows[0]?.s ?? 'baci')}; ${fmt(sig2(r.est))} ${r.u} of it is an Atlas estimate (declared value)` : sourceLabel(rows[0]?.s ?? 'baci'),
       ].map(csvCell).join(','),
     );
   }
@@ -214,7 +223,7 @@ function download(name: string, text: string) {
 }
 
 function LaneLine({ r }: { r: LaneRow }) {
-  const passages = passagesText(r.via, r.maybe);
+  const passages = passagesText(r.via, r.viaAlt);
   return (
     <button class="lt-row" onClick={() => select({ kind: 'lane', id: r.id })} title="Open this lane">
       <span>
@@ -225,8 +234,8 @@ function LaneLine({ r }: { r: LaneRow }) {
           {r.kind === 'mixed' && <ModeBadge mode="mixed" />}
           {r.kind === 'transit' && (
             <>
-              <ModeBadge mode="sea" via={r.transit ?? undefined} />
-              <span class="mode-via">via {r.transit ?? 'a foreign port'} </span>
+              <ModeBadge mode="sea" via={r.transit.join(' and ') || undefined} />
+              <span class="mode-via">via {r.transit.join(' and ') || 'a foreign port'} </span>
             </>
           )}
           {[r.product, r.cls ? vesselName(r.cls) : null, r.nm ? `${r.nm.toLocaleString('en-US')} nm` : null, passages || null].filter(Boolean).join(' · ')}
@@ -269,7 +278,13 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
       <div class="lt-sort" role="group" aria-label="Sort the lanes">
         <span class="lt-sort-k">Sort</span>
         {SORTS.map((s) => (
-          <button key={s.key} aria-pressed={key === s.key} title={s.title} onClick={() => sort(s.key, s.text)}>
+          <button
+            key={s.key}
+            aria-pressed={key === s.key}
+            aria-label={key === s.key ? `${s.label}, ${dir === 1 ? 'ascending' : 'descending'}` : undefined}
+            title={s.title}
+            onClick={() => sort(s.key, s.text)}
+          >
             {s.label}
             {key === s.key ? (dir === 1 ? ' ↑' : ' ↓') : ''}
           </button>
