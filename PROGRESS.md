@@ -25,8 +25,10 @@ released. This file is updated at each release.
 ## Fourth release (23 November 2026): what changed
 
 Seven packages, seven independent reviews (85 findings, 29 of them important), seven fix packages, then a package
-that put the commodity page back in order, a review of the data as a whole (two important findings, both fixed)
-and a review of the site on the production build.
+that put the commodity page back in order, a review of the data as a whole (two important findings, both fixed),
+a review of the site on the production build (13 findings, two of them important: country pages far too tall on
+a desktop, a search that accepted unrelated words; all corrected) and a second reviewer who checked those
+corrections on the final build.
 
 ### Country pages
 
@@ -377,9 +379,19 @@ These were needed to finish the work; each is reversible.
    - Heading names of the all-goods tables are derived from the six-digit descriptions of the CEPII BACI product
      list; the official texts are not redistributed.
    - Page order: consumption before exports on every commodity page, the lanes table open, no "Key
-     infrastructure" block when a commodity has no asset.
-   - Search sits in the top bar, left of Prices. A table is offered as a CSV download only when the registry
-     records a licence that allows it.
+     infrastructure" block when a commodity has no asset. On a country page exports, imports and production are
+     open; consumption, reserves, stocks, capacity, the balance, the freight block, the list of all goods,
+     operators and companies are folded to one line with their count.
+   - Search sits in the top bar, left of Prices. A typed word is matched whole or as the beginning of a word
+     first; a wrong letter is accepted only when no item has the word itself, the first letter is right and
+     fewer than a third of the letters differ; a number is never matched loosely. A table is offered as a CSV
+     download only when the registry records a licence that allows it.
+   - A text already printed higher on a page is not printed again: the later place points to it. "Copy citation"
+     lists the sources of the blocks open on the page.
+   - A customs group under 1 Mt a year is printed in kt with one decimal on every page. A precious-metal flow
+     estimated above its customs gross weight is printed as that weight (gold, Switzerland to China: 365 t).
+   - The block of an event page is titled "Impact"; a sentence that is background and not a consequence sits in
+     "What happened".
 
 ## Known limits
 

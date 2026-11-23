@@ -417,28 +417,29 @@ export default function CountryView({ id }: { id: string }) {
               </Section>
             )}
             {(p.consumption?.length ?? 0) > 0 && (
-              <Section title="Consumption, share of world" aside={<span class="muted num">{p.consumption!.length}</span>}>
+              <FoldSection key={`consumption-${id}`} title="Consumption, share of world" aside={<span class="muted num">{p.consumption!.length}</span>}>
                 <EntryList key={id} rows={p.consumption!} p={p} />
-              </Section>
+              </FoldSection>
             )}
             {(p.reserves?.length ?? 0) > 0 && (
-              <Section title="Reserves, share of world" aside={<span class="muted num">{p.reserves!.length}</span>}>
+              <FoldSection key={`reserves-${id}`} title="Reserves, share of world" aside={<span class="muted num">{p.reserves!.length}</span>}>
                 <EntryList key={id} rows={p.reserves!} p={p} rp />
-              </Section>
+              </FoldSection>
             )}
             {(p.stocks?.length ?? 0) > 0 && (
-              <Section title="Ending stocks, share of world" aside={<span class="muted num">{p.stocks!.length}</span>}>
+              <FoldSection key={`stocks-${id}`} title="Ending stocks, share of world" aside={<span class="muted num">{p.stocks!.length}</span>}>
                 <EntryList key={id} rows={p.stocks!} p={p} />
-              </Section>
+              </FoldSection>
             )}
             {(p.capacity?.length ?? 0) > 0 && (
-              <Section title="Capacity, share of world" aside={<span class="muted num">{p.capacity!.length}</span>}>
+              <FoldSection key={`capacity-${id}`} title="Capacity, share of world" aside={<span class="muted num">{p.capacity!.length}</span>}>
                 <EntryList key={id} rows={p.capacity!} p={p} />
-              </Section>
+              </FoldSection>
             )}
-            <BalanceBlock p={p} />
-            <FreightBlock p={p} />
-            <BasketBlock p={p} />
+            {/* keyed by country: a block unfolded on one country page starts folded on the next */}
+            <BalanceBlock key={`balance-${id}`} p={p} />
+            <FreightBlock key={`freight-${id}`} p={p} />
+            <BasketBlock key={`basket-${id}`} p={p} />
             {p.other && p.other.length > 0 && (
               <Section title="Other goods of the raw-material chapters, outside the atlas catalogue">
                 {p.other.map((e, i) => (
@@ -454,8 +455,8 @@ export default function CountryView({ id }: { id: string }) {
               </Section>
             )}
             {p.infra && p.infra.length > 0 && <CountryInfra ids={p.infra} />}
-            <OperatorsBlock p={p} />
-            {p.companies && p.companies.length > 0 && <CompaniesBlock list={p.companies} />}
+            <OperatorsBlock key={`operators-${id}`} p={p} />
+            {p.companies && p.companies.length > 0 && <CompaniesBlock key={`companies-${id}`} list={p.companies} />}
             <CountryLanes id={id} p={p} />
           </>
         )}
