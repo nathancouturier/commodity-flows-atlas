@@ -407,6 +407,13 @@
     ],
     "c": "ZAF",
     "operator": "Kumba Iron Ore (Anglo American)",
+    "capacity": {
+     "v": 38,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "iron ore, estimated annual capacity of the Sishen mine (Kumba Iron Ore Ltd.); capacity: USGS Minerals Yearbook 2022, South Africa",
+     "orig": "38,000 thousand metric tons"
+    },
     "output": {
      "v": 29.2,
      "u": "Mt/y",
@@ -853,6 +860,13 @@
     ],
     "c": "MNG",
     "operator": "Erdenes Mongol / Mongolian Mining Corp (Ukhaa Khudag)",
+    "capacity": {
+     "v": 31,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity of the Tavan Tolgoi mine (Erdenes Tavan Tolgoi JSC); capacity: USGS Minerals Yearbook 2023, Mongolia",
+     "orig": "31,000 thousand metric tons"
+    },
     "opened": 1966,
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -2027,6 +2041,13 @@
     ],
     "c": "CAN",
     "operator": "Nutrien",
+    "capacity": {
+     "v": 6.5,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity; capacity: USGS Minerals Yearbook 2022, Canada",
+     "orig": "6,500 thousand metric tons"
+    },
     "opened": 1970,
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -2082,6 +2103,13 @@
     ],
     "c": "RUS",
     "operator": "PJSC Uralkali (Uralchem 81.47%)",
+    "capacity": {
+     "v": 8,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity of the Verkhnekamskoye mines; capacity: USGS Minerals Yearbook 2022, Russia",
+     "orig": "8,000,000 metric tons"
+    },
     "output": {
      "v": 11.3,
      "u": "Mt/y",
@@ -2236,6 +2264,13 @@
      "iron-ore"
     ],
     "c": "CHN",
+    "capacity": {
+     "v": 179,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "rare-earth oxide equivalent, estimated annual capacity of the Bayan Obo mine (China Northern Rare Earth Group); capacity: USGS Minerals Yearbook 2023, China",
+     "orig": "179,000 metric tons"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "The mines north of the town accounted for 45% of global rare-earth output as of 2005 (Wikipedia).",
@@ -2328,6 +2363,13 @@
     ],
     "c": "PER",
     "operator": "Minsur",
+    "capacity": {
+     "v": 30,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "tin, estimated annual capacity of the San Rafael mine (Minsur S.A.); capacity: USGS Minerals Yearbook 2019, Peru",
+     "orig": "30,000 metric tons"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "About 12% of world tin in 2014 (Moody's, via Wikipedia); the concentrator was expanding from 2,700 to 2,900 t/day in 2014.",
@@ -2401,6 +2443,3243 @@
     "coordinates": [
      28.905,
      -23.993
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cloudbreak-christmas-creek",
+    "name": "Cloudbreak and Christmas Creek (Chichester hub)",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "operator": "Fortescue Metals Group Ltd. (100%)",
+    "capacity": {
+     "v": 55,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "iron ore, estimated annual capacity of the Cloudbreak mine, which the source says includes the Chichester Range, Christmas Creek, Flinders, Mount Lewin, Mount Nicholas and WhiteKnight deposits",
+     "orig": "55,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Fortescue Pilbara mine area in the Chichester Ranges, railed to Port Hedland. The point is from the Wikipedia article \"Cloudbreak mine\".",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.39694,
+     -22.32398
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "west-angelas",
+    "name": "West Angelas",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "operator": "Robe River Iron Associates (Rio Tinto 53%, Mitsui & Co. 33%, Nippon Steel 14%)",
+    "capacity": {
+     "v": 34.6,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "iron ore, estimated annual capacity",
+     "orig": "34,600 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit iron ore mine 110 km west of Newman, Pilbara. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.65656,
+     -23.14662
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pannawonica-robe-valley",
+    "name": "Pannawonica (Mesa A and J)",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "operator": "Robe River Iron Associates (Rio Tinto 53%, Mitsui & Co. 33%, Nippon Steel 14%)",
+    "capacity": {
+     "v": 25.5,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "iron ore, estimated annual capacity",
+     "orig": "25,500 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit iron ore mine of the Robe Valley, south-southwest of Dampier, Pilbara. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.32461,
+     -21.6386
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gol-gohar",
+    "name": "Gol Gohar mines (Sirjan)",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "IRN",
+    "operator": "Gol Gohar Iron Ore Co., Gohar Pouyesh Gaam Mining & Industrial Co., Gohar Zamin Iron Ore Co., MIDHCO and Mahan Industries & Mines Technology Development Co. (Gol Gohar 1 to 5)",
+    "output": {
+     "v": 37.8,
+     "u": "Mt/y",
+     "y": 2023,
+     "what": "production",
+     "n": "iron ore, gross weight; sum of Gol Gohar 1 to 5, computed from the five figures of the page",
+     "orig": "10.8 + 2.0 + 15.4 + 5.9 + 3.7 Mt"
+    },
+    "status": "operating",
+    "statusAsOf": "2023",
+    "note": "Five iron ore mines in the Gol Gohar region, 50 km southwest of Sirjan, Kerman Province. Iran ranks fifth in the atlas table of iron ore production. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-iran.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     55.33925,
+     29.13551
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "inhulets",
+    "name": "Inhulets mine (Kryvyi Rih)",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "UKR",
+    "operator": "ChAO Inhulets GOK (Metinvest B.V.)",
+    "capacity": {
+     "v": 35,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "iron ore, estimated annual capacity, open-pit mining",
+     "orig": "35,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine south of Kryvyi Rih. The report does not say whether it runs today. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-ukraine.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     33.39177,
+     47.91027
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "poltava-gok",
+    "name": "Poltava GOK (Horishne-Plavni and Lavrykivske mines)",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "UKR",
+    "operator": "Poltavskiy GOK (Ferrexpo plc)",
+    "capacity": {
+     "v": 30,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "iron ore, estimated annual capacity, open-pit mining",
+     "orig": "30,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Two mines 15 km east of Kremenchuk, as the source places them. The report does not say whether they run today. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-ukraine.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     33.63309,
+     49.01406
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mont-wright-fire-lake",
+    "name": "Mont-Wright and Fire Lake",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CAN",
+    "operator": "ArcelorMittal Inc. (85%) and POSCO-China Steel Consortium (15%)",
+    "capacity": {
+     "v": 24,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "iron ore, estimated annual capacity of the two open-pit mines",
+     "orig": "24,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mines at Fermont, Quebec; ore goes to the pellet plant at Port-Cartier. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -67.34079,
+     52.77572
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bloom-lake",
+    "name": "Bloom Lake",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CAN",
+    "operator": "Quebec Iron Ore Inc. (Champion Iron Ltd. 63.2%, Ressources Quebec 36.8%)",
+    "capacity": {
+     "v": 20,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "iron ore, estimated annual capacity",
+     "orig": "20,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine 13 km north of Fermont, Quebec. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -67.0881,
+     52.79842
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "minas-rio",
+    "name": "Minas-Rio",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "BRA",
+    "operator": "Anglo American plc (100%)",
+    "capacity": {
+     "v": 26.5,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "iron ore, estimated annual capacity, open-pit mines",
+     "orig": "26,500 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mines in Minas Gerais state. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -43.42528,
+     -19.03722
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mount-tom-price",
+    "name": "Mount Tom Price",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "operator": "Rio Tinto Iron Ore",
+    "capacity": {
+     "v": 28,
+     "u": "Mt/y",
+     "n": "iron ore, annual production capacity of 28 million tonnes, as stated by Wikipedia (undated)"
+    },
+    "opened": 1966,
+    "status": "not-stated",
+    "note": "Rio Tinto's first Pilbara mine, opened in 1966; ore is railed to Dampier. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Mount_Tom_Price_mine",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.77631,
+     -22.75872
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lebedinsky",
+    "name": "Lebedinsky",
+    "type": "mine",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "RUS",
+    "operator": "Lebedinsky GOK",
+    "capacity": {
+     "v": 38,
+     "u": "Mt/y",
+     "n": "iron ore; average annual production stated as \"more than thirty-eight million tons\" of ore, undated, as stated by Wikipedia"
+    },
+    "opened": 1959,
+    "status": "not-stated",
+    "note": "Open-pit deposit of the Kursk Magnetic Anomaly near Gubkin, Belgorod Oblast; development of rich ores began in 1959 and of ferruginous quartzites in 1973. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lebedinsky_iron_ore_deposit",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     37.53466,
+     51.28371
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kpc-sangatta",
+    "name": "Kaltim Prima Coal (Sangatta)",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "operator": "PT Kaltim Prima Coal Co. (PT Bumi Resources Tbk 51%, Tata Power 30%, China Investment Corp. 19%)",
+    "capacity": {
+     "v": 62,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "62,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines at Sangatta, East Kutai Regency, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.45923,
+     0.62798
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "borneo-indobara",
+    "name": "Borneo Indobara (Angsana)",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "operator": "PT Borneo Indobara (PT Golden Energy Mines Tbk 98.1%)",
+    "capacity": {
+     "v": 40,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "40,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines at Angsana, Tanah Bumbu Regency, South Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.57986,
+     -3.70764
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bayan-tabang",
+    "name": "Tabang mine",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "operator": "White Energy Co. Ltd. (51%) and PT Bayan Resources Tbk (49%)",
+    "capacity": {
+     "v": 40,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "40,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in Kutai Kartanegara, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.12357,
+     0.55376
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kideco",
+    "name": "Kideco (Paser)",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "operator": "PT Kideco Jaya Agung (PT Indika Energy Tbk 91%, Samtan Co. Ltd. 9%)",
+    "capacity": {
+     "v": 35,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "35,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines in Paser, East Kalimantan. The source gives no coal type; it is listed with thermal coal, the main Indonesian product. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.92377,
+     -1.83028
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mount-arthur",
+    "name": "Mount Arthur",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "AUS",
+    "operator": "BHP Group Ltd. (100%)",
+    "capacity": {
+     "v": 15,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "15,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine 5 km southwest of Muswellbrook, New South Wales. The source gives no coal type. The point is from the Wikipedia article \"Mount Arthur coal mine\".",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     150.853,
+     -32.334
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hunter-valley-operations",
+    "name": "Hunter Valley Operations",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "AUS",
+    "operator": "Rio Tinto Ltd. (80%) and others (20%)",
+    "capacity": {
+     "v": 15,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity of the group of open-pit mines",
+     "orig": "15,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Group of open-pit mines (Carrington, Chestnut, Howick, Hunter Valley No. 1, Lemington, Riverview) west and north of Singleton, New South Wales. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.1734,
+     -32.5664
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "moolarben",
+    "name": "Moolarben",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "AUS",
+    "operator": "Yancoal Australia Ltd. (Yankuang Energy Group 62.26%, others 37.74%)",
+    "capacity": {
+     "v": 18.4,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "18,400 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Ulan, New South Wales. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     149.74265,
+     -32.28054
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "blackwater-coal",
+    "name": "Blackwater",
+    "type": "mine",
+    "k": [
+     "met-coal"
+    ],
+    "c": "AUS",
+    "operator": "BHP Mitsubishi Alliance (BHP Group 50%, Mitsubishi Corp. 50%)",
+    "capacity": {
+     "v": 14,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "coal, estimated annual capacity",
+     "orig": "14,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine including the South Blackwater deposit, 195 km west of Rockhampton, Queensland. The source gives no coal type; the Alliance sells mainly metallurgical coal. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     148.88324,
+     -23.5812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fording-river",
+    "name": "Fording River",
+    "type": "mine",
+    "k": [
+     "met-coal"
+    ],
+    "c": "CAN",
+    "operator": "Teck Resources Ltd.",
+    "capacity": {
+     "v": 9,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "coal, estimated annual capacity",
+     "orig": "9,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine near Elkford, British Columbia, in the Elk Valley. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -114.92183,
+     50.02446
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "elkview",
+    "name": "Elkview",
+    "type": "mine",
+    "k": [
+     "met-coal"
+    ],
+    "c": "CAN",
+    "operator": "Teck Resources Ltd. (95%), Nippon Steel & Sumitomo Metal (2.5%), POSCO Canada (2.5%)",
+    "capacity": {
+     "v": 9,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "coal, estimated annual capacity",
+     "orig": "9,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine near Sparwood, British Columbia, in the Elk Valley. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -114.88585,
+     49.73327
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "moatize",
+    "name": "Moatize",
+    "type": "mine",
+    "k": [
+     "met-coal",
+     "thermal-coal"
+    ],
+    "c": "MOZ",
+    "operator": "Vale Moçambique, Lda. (Vale S.A. 80.7%, Mitsui & Co. 14.25%, and others, as stated in 2019)",
+    "capacity": {
+     "v": 22,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bituminous and metallurgical coal, estimated annual capacity",
+     "orig": "22,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in Tete Province. The owners are those the 2019 report names. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-mozambique.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     33.82907,
+     -16.18437
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aktogay",
+    "name": "Aktogay",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "KAZ",
+    "operator": "KAZ Minerals Ltd. (Nova Resources BV, 100%)",
+    "capacity": {
+     "v": 203,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper, recoverable content of the ore; the Aktogay concentrator is listed at 213 kt Cu in concentrate",
+     "orig": "203,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit copper mine in Abay Province (the source also lists 2 kt of molybdenum in concentrate). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-kazakhstan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     79.92627,
+     46.95698
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bozshakol",
+    "name": "Bozshakol",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "KAZ",
+    "operator": "KAZ Minerals Ltd. (Nova Resources BV, 100%)",
+    "capacity": {
+     "v": 102,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper, recoverable content of the ore",
+     "orig": "102,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Copper mine in Pavlodar Province. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-kazakhstan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     74.27255,
+     51.84305
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "buenavista-del-cobre",
+    "name": "Buenavista del Cobre (Cananea)",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "MEX",
+    "operator": "Mexicana de Cananea, S.A. de C.V. (Grupo México, 90%)",
+    "capacity": {
+     "v": 340,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper in concentrate; the source also lists 150 kt/y of cathode from the solvent extraction-electrowinning plant"
+    },
+    "status": "not-stated",
+    "note": "Mine and plants at Cananea, Sonora. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-mexico.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -110.28889,
+     30.98652
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "salobo",
+    "name": "Salobo (Carajás)",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "BRA",
+    "operator": "Vale S.A. (100%)",
+    "capacity": {
+     "v": 200,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper in concentrate, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Copper-gold mine at Carajás, Pará State. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -50.53534,
+     -5.79706
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "las-bambas",
+    "name": "Las Bambas",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "PER",
+    "operator": "Minera Las Bambas S.A. (MMG Ltd. 62.5%, Guoxin International Investment Corp. 22.5%, and others, as stated in 2019)",
+    "capacity": {
+     "v": 460,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine in Cotabambas, Apurímac Region; the owners are those the 2019 report names. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.28084,
+     -14.09022
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "toquepala",
+    "name": "Toquepala",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "PER",
+    "operator": "Southern Copper Corp. (Grupo México 88.9%)",
+    "capacity": {
+     "v": 260,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Tacna Region. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -70.61083,
+     -17.25924
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "antapaccay",
+    "name": "Antapaccay",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "PER",
+    "operator": "Compañía Minera Antapaccay S.A. (Glencore plc, 100%)",
+    "capacity": {
+     "v": 220,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Cusco Region. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.37969,
+     -14.94765
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "batu-hijau",
+    "name": "Batu Hijau",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "IDN",
+    "operator": "PT Amman Mineral Nusa Tenggara (PT Amman Mineral Internasional 82.2%, PT Pukuafu Indah 17.8%)",
+    "capacity": {
+     "v": 150,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper, estimated annual capacity of the mine"
+    },
+    "status": "not-stated",
+    "note": "Copper-gold mine on Sumbawa Island, West Nusa Tenggara. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.87108,
+     -8.97276
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "almalyk",
+    "name": "Almalyk mines (Kalmakyr, Dal'neye and Sary-Cheku)",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "UZB",
+    "operator": "Almalyk mining and metallurgical complex (Almalyk GMK)",
+    "capacity": {
+     "v": 150,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper, estimated annual capacity of the group of mines",
+     "orig": "150,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines near Almalyk, Tashkent Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-uzbekistan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.57793,
+     40.80089
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "erdenet",
+    "name": "Erdenet",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "MNG",
+    "operator": "Erdenet Mining Corp. (Government, 100%)",
+    "capacity": {
+     "v": 150,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper in concentrate, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Erdenetiin-Ovoo mine in Orkhon Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-mongolia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.04439,
+     49.0276
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dexing",
+    "name": "Dexing",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "CHN",
+    "operator": "Jiangxi Copper Co. Ltd.",
+    "capacity": {
+     "v": 190,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper, estimated annual capacity of mines at Dexing"
+    },
+    "status": "not-stated",
+    "note": "Copper mines at Dexing, Jiangxi. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.7294,
+     29.01562
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mount-isa-mines",
+    "name": "Mount Isa mines",
+    "type": "mine",
+    "k": [
+     "copper",
+     "zinc",
+     "lead",
+     "silver"
+    ],
+    "c": "AUS",
+    "operator": "Glencore plc (100%)",
+    "capacity": {
+     "v": 190,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper, estimated annual capacity of the Enterprise, Mount Isa, George Fisher and Lady Loretta mines"
+    },
+    "status": "not-stated",
+    "note": "Underground copper-lead-zinc-silver mines at Mount Isa, Queensland. The source also lists 175 kt/y of zinc and 150 kt/y of lead in ore. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.49315,
+     -20.72899
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sicomines",
+    "name": "Sicomines (Mashamba West)",
+    "type": "mine",
+    "k": [
+     "copper",
+     "cobalt"
+    ],
+    "c": "COD",
+    "operator": "Sicomines (China Railway Group and Sinohydro Corp. 68%, Gécamines 20%, Société Immobilière du Congo 12%)",
+    "capacity": {
+     "v": 254,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper, estimated annual capacity of the mine",
+     "orig": "254,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mashamba West mine, Lualaba Province. The source also lists 5,180 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-congo-kinshasa.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     25.46699,
+     -10.717
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "roan-tailings-retreatment",
+    "name": "Roan Tailings Retreatment (Kolwezi)",
+    "type": "mine",
+    "k": [
+     "copper",
+     "cobalt"
+    ],
+    "c": "COD",
+    "operator": "Eurasian Resources Group (ERG, 100%)",
+    "capacity": {
+     "v": 120,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper, estimated annual capacity of the tailings retreatment project",
+     "orig": "120,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Tailings retreatment project near Kolwezi. The source also lists 24,000 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-congo-kinshasa.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     25.46699,
+     -10.717
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "majdanpek",
+    "name": "Majdanpek (Bor district)",
+    "type": "mine",
+    "k": [
+     "copper"
+    ],
+    "c": "SRB",
+    "operator": "Serbia Zijin Copper DOO (Zijin Mining Co. 63%, Government 37%, as stated in 2019)",
+    "capacity": {
+     "v": 30,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual mine production capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine and mill of the Bor copper district; the Jama and Veliki Krivelj mines are listed at 8 and 20 kt/y. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-serbia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     21.93592,
+     44.42246
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sangaredi-cbg",
+    "name": "Sangaredi (CBG)",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "GIN",
+    "operator": "Compagnie des Bauxites de Guinée (Government of Guinea 49%, Halco Mining 51%: Rio Tinto 23%, Alcoa 23%, Dadco 5%, as stated in 2019)",
+    "output": {
+     "v": 13.7,
+     "u": "Mt/y",
+     "y": 2019,
+     "what": "production",
+     "n": "bauxite"
+    },
+    "status": "operating",
+    "statusAsOf": "2019",
+    "note": "Guinea's largest bauxite mine, near Kamsar. Guinea is the main source of the bauxite the atlas sees in trade (67% of exports). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-guinea.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -13.8106,
+     11.104
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "boke-bauxite",
+    "name": "Boké bauxite mine",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "GIN",
+    "operator": "Hongqiao Group Ltd. (100%, as stated in 2019)",
+    "capacity": {
+     "v": 10,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bauxite, estimated annual capacity as stated in 2019",
+     "orig": "10,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Boké, 168 km north of Conakry; the owner is the one the 2019 report names. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-guinea.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -13.7796,
+     11.0902
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "debele-kindia",
+    "name": "Débélé (Kindia)",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "GIN",
+    "operator": "Compagnie des Bauxites de Kindia S.A. (United Company RUSAL plc, 100%, as stated in 2019)",
+    "capacity": {
+     "v": 10,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bauxite, estimated annual capacity as stated in 2019",
+     "orig": "10,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine 20 km southwest of Kindia; the owner is the one the 2019 report names. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-guinea.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -12.82602,
+     10.0368
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "trombetas",
+    "name": "Porto Trombetas",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "BRA",
+    "operator": "Mineração Rio do Norte S.A. (Vale S.A. 40%, BHP Billiton plc 14.8%, Rio Tinto Alcan Inc. 12%, and others, as stated in 2019)",
+    "capacity": {
+     "v": 18.1,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bauxite, estimated annual capacity",
+     "orig": "18,100 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Bauxite mine in Pará State, Brazil. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -56.37898,
+     -1.46659
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "paragominas",
+    "name": "Paragominas",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "BRA",
+    "operator": "Mineração Paragominas S.A. (Norsk Hydro ASA, 100%, as stated in 2019)",
+    "capacity": {
+     "v": 11.4,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "bauxite, estimated annual capacity",
+     "orig": "11,400 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Bauxite mine in Pará State, Brazil. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -47.35489,
+     -2.99564
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "boddington-bauxite",
+    "name": "Boddington-Worsley bauxite mine",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "AUS",
+    "operator": "Worsley Alumina Pty. Ltd., manager (South32 Ltd. 86%, Japan Alumina Associates (Australia) 10%, Sojitz Alumina 4%)",
+    "capacity": {
+     "v": 19,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "bauxite, estimated annual capacity",
+     "orig": "19,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit bauxite mine 14 km south of Boddington, Western Australia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.47508,
+     -32.80231
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ketapang-bauxite",
+    "name": "Ketapang bauxite mines",
+    "type": "mine",
+    "k": [
+     "bauxite"
+    ],
+    "c": "IDN",
+    "operator": "PT Cita Mineral Investindo Tbk (PT Harita Jayaraya 60.64%, Glencore International Investment 31.68%)",
+    "capacity": {
+     "v": 10,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "metallurgical-grade bauxite, estimated annual capacity",
+     "orig": "10,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines at Ketapang, West Kalimantan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     109.97841,
+     -1.84467
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "weda-bay",
+    "name": "Weda Bay",
+    "type": "mine",
+    "k": [
+     "nickel"
+    ],
+    "c": "IDN",
+    "operator": "PT Weda Bay Nickel (Tsingshan Holding Group 51.3%, Eramet Group 38.7%, PT Antam Tbk 10%)",
+    "capacity": {
+     "v": 70,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Laterite nickel mine on Halmahera, North Maluku. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     127.86896,
+     0.33051
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sorowako-mine",
+    "name": "Sorowako mine",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "cobalt"
+    ],
+    "c": "IDN",
+    "operator": "PT Vale Indonesia Tbk (Vale Canada 44.3%, MIND ID 20%, Sumitomo Metal Mining 15%, others 20.7%)",
+    "capacity": {
+     "v": 72,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Laterite nickel mine at Sorowako, South Sulawesi; the matte smelter on the same site is listed separately. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.35846,
+     -2.52979
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taganito",
+    "name": "Taganito mine",
+    "type": "mine",
+    "k": [
+     "nickel"
+    ],
+    "c": "PHL",
+    "operator": "Taganito Mining Corp. (Nickel Asia Corp. 65%, Pacific Metals Co. 33.5%, Sojitz Corp. 1.5%)",
+    "capacity": {
+     "v": 74.1,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "nickel in ore, estimated annual capacity",
+     "orig": "74,100 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Claver, Surigao del Norte, Mindanao. The Philippines supplies most of the nickel ore the atlas sees in trade. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-philippines.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     125.82242,
+     9.54153
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rio-tuba",
+    "name": "Rio Tuba",
+    "type": "mine",
+    "k": [
+     "nickel"
+    ],
+    "c": "PHL",
+    "operator": "Rio Tuba Nickel Mining Corp. (Nickel Asia Corp. 60%, Pacific Metals Co. 36%, Sojitz Corp. 4%)",
+    "capacity": {
+     "v": 36,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "nickel in ore, estimated annual capacity",
+     "orig": "36,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Bataraza, Palawan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-philippines.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.43455,
+     8.52876
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "voiseys-bay",
+    "name": "Voisey's Bay",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "copper",
+     "cobalt"
+    ],
+    "c": "CAN",
+    "operator": "Vale Newfoundland & Labrador Ltd. (Vale S.A.)",
+    "capacity": {
+     "v": 80,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "nickel in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mines including the Ovoid, Newfoundland and Labrador; the nickel refinery is at Long Harbour. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -61.94784,
+     56.25536
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sudbury-vale",
+    "name": "Vale Ontario operations (Sudbury)",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "copper"
+    ],
+    "c": "CAN",
+    "operator": "Vale Canada Ltd. (Vale S.A.)",
+    "capacity": {
+     "v": 85,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "nickel in ore, estimated annual capacity of the Ontario operations"
+    },
+    "status": "not-stated",
+    "note": "Group of mines around Sudbury, Ontario; the point is the city of Sudbury. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -81.186,
+     46.473
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "moa-nickel",
+    "name": "Moa Nickel (Moa Bay)",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "cobalt"
+    ],
+    "c": "CUB",
+    "operator": "Moa Nickel S.A. (Government 50%, Sherritt International Corp. 50%)",
+    "capacity": {
+     "v": 35,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel, estimated annual capacity of the mine and processing plant"
+    },
+    "status": "not-stated",
+    "note": "Mine and processing plant at Moa, Holguín Province; the source also lists 4 t/y of cobalt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-cuba.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.943,
+     20.656
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "murrin-murrin",
+    "name": "Murrin Murrin",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "cobalt"
+    ],
+    "c": "AUS",
+    "operator": "Murrin Murrin Pty. Ltd. (Glencore plc, 100%)",
+    "capacity": {
+     "v": 40,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel, estimated annual capacity of the open-pit mine"
+    },
+    "status": "not-stated",
+    "note": "Open-pit nickel-cobalt mine 60 km east of Leonora, Western Australia; the source also lists a nickel refinery on the site (45 kt/y). The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.81374,
+     -28.91266
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jinchuan-nickel",
+    "name": "Jinchuan nickel-copper mine (Jinchang)",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "copper",
+     "cobalt",
+     "pgm"
+    ],
+    "c": "CHN",
+    "operator": "Jinchuan Group Co. Ltd.",
+    "capacity": {
+     "v": 90,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel in ore, estimated annual capacity of the mine"
+    },
+    "status": "not-stated",
+    "note": "Mine at Jinchuan, Gansu; the group refinery at Jinchang is listed separately with its copper figure. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     102.18048,
+     38.51251
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rampura-agucha",
+    "name": "Rampura Agucha",
+    "type": "mine",
+    "k": [
+     "zinc",
+     "lead"
+    ],
+    "c": "IND",
+    "operator": "Hindustan Zinc Ltd. (Vedanta Ltd. 64.9%, Government 29.6%)",
+    "capacity": {
+     "v": 640,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 166 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Mine at Bhilwara, Rajasthan. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     74.75449,
+     25.84182
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mcarthur-river-nt",
+    "name": "McArthur River (Northern Territory)",
+    "type": "mine",
+    "k": [
+     "zinc",
+     "lead"
+    ],
+    "c": "AUS",
+    "operator": "McArthur River Mining Pty. Ltd. (Glencore plc, 100%)",
+    "capacity": {
+     "v": 280,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "zinc in ore, estimated annual capacity; the source lists lead in ore at 170 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine 60 km southwest of Borroloola, Northern Territory. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     136.0752,
+     -16.43732
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dugald-river",
+    "name": "Dugald River",
+    "type": "mine",
+    "k": [
+     "zinc"
+    ],
+    "c": "AUS",
+    "operator": "MMG Ltd. (100%)",
+    "capacity": {
+     "v": 180,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "zinc in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine 65 km northwest of Cloncurry, Queensland. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     140.15329,
+     -20.25067
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cannington",
+    "name": "Cannington",
+    "type": "mine",
+    "k": [
+     "lead",
+     "silver",
+     "zinc"
+    ],
+    "c": "AUS",
+    "operator": "South32 Ltd. (100%)",
+    "capacity": {
+     "v": 265,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "lead in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Underground silver-lead-zinc mine 85 km southwest of McKinlay, Queensland. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     140.91861,
+     -21.86645
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "huize",
+    "name": "Huize (Yunnan Chihong)",
+    "type": "mine",
+    "k": [
+     "zinc",
+     "lead"
+    ],
+    "c": "CHN",
+    "operator": "Yunnan Chihong Zinc and Germanium Co. Ltd.",
+    "capacity": {
+     "v": 300,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "zinc in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine at Huize, Yunnan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.29075,
+     26.41647
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "penasquito",
+    "name": "Peñasquito",
+    "type": "mine",
+    "k": [
+     "silver",
+     "gold",
+     "zinc",
+     "lead"
+    ],
+    "c": "MEX",
+    "operator": "Minera Peñasquito S.A. de C.V. (Newmont Corp., 100%)",
+    "capacity": {
+     "v": 1000,
+     "u": "t/y",
+     "y": 2022,
+     "n": "silver, estimated annual capacity",
+     "orig": "1,000,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Mine in Zacatecas; the source entry also names San Julián, Chihuahua, and lists 27 t/y of gold. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-mexico.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -101.69817,
+     24.63774
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fresnillo-mine",
+    "name": "Fresnillo mine",
+    "type": "mine",
+    "k": [
+     "silver"
+    ],
+    "c": "MEX",
+    "operator": "Fresnillo plc (Industrias Peñoles 75%)",
+    "capacity": {
+     "v": 1100,
+     "u": "t/y",
+     "y": 2022,
+     "n": "silver, estimated annual capacity",
+     "orig": "1,100,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Mine at Fresnillo, Zacatecas. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-mexico.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.87291,
+     23.18113
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gejiu",
+    "name": "Gejiu (Yunnan Tin)",
+    "type": "mine",
+    "k": [
+     "tin"
+    ],
+    "c": "CHN",
+    "operator": "Yunnan Tin Industry Group Co. Ltd.",
+    "capacity": {
+     "v": 80,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "tin in ore, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mines at Gejiu, Yunnan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.15774,
+     23.36187
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pt-timah-bangka",
+    "name": "PT Timah mines (Bangka Belitung and Kundur)",
+    "type": "mine",
+    "k": [
+     "tin"
+    ],
+    "c": "IDN",
+    "operator": "PT Timah Tbk (MIND ID 65%, public 35%)",
+    "capacity": {
+     "v": 50,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "tin in ore, estimated annual capacity of the onshore and offshore mines"
+    },
+    "status": "not-stated",
+    "note": "Onshore and offshore mines in the Bangka Belitung Islands and offshore Kundur, Riau Islands. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     105.16514,
+     -2.06722
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "renison-bell",
+    "name": "Renison Bell",
+    "type": "mine",
+    "k": [
+     "tin"
+    ],
+    "c": "AUS",
+    "operator": "Metals X Ltd. (50%), L'sea Resources International Holdings and YT Parksong Australia Holdings (50%)",
+    "capacity": {
+     "v": 4,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "tin in ore, estimated annual capacity",
+     "orig": "4,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Underground tin mine 136 km south of Burnie, Tasmania. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     145.43897,
+     -41.79507
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pitinga",
+    "name": "Pitinga",
+    "type": "mine",
+    "k": [
+     "tin"
+    ],
+    "c": "BRA",
+    "operator": "Mineração Taboca S.A. (Minsur S.A., 100%)",
+    "capacity": {
+     "v": 6,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "tin concentrate, estimated annual capacity",
+     "orig": "6,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in Amazonas State, with a smelter at Pirapora, São Paulo, as the source lists it. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -60.07208,
+     -0.77751
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "esterhazy",
+    "name": "Esterhazy",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "The Mosaic Co.",
+    "capacity": {
+     "v": 5.3,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "5,300 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in southeast Saskatchewan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.07634,
+     50.65362
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "allan-potash",
+    "name": "Allan",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "Nutrien Ltd.",
+    "capacity": {
+     "v": 4,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "4,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Allan, Saskatchewan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.05542,
+     51.89605
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lanigan",
+    "name": "Lanigan",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "Nutrien Ltd.",
+    "capacity": {
+     "v": 3.8,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "3,800 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine near Lanigan, Saskatchewan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.03314,
+     51.84576
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cory-potash",
+    "name": "Cory",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "Nutrien Ltd.",
+    "capacity": {
+     "v": 3,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "3,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine near Saskatoon, Saskatchewan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -106.655,
+     52.223
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vanscoy",
+    "name": "Vanscoy",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "Nutrien Ltd.",
+    "capacity": {
+     "v": 3,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "3,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine at Vanscoy, Saskatchewan. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -107.09171,
+     52.00742
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "belle-plaine",
+    "name": "Belle Plaine",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CAN",
+    "operator": "The Mosaic Co.",
+    "capacity": {
+     "v": 2.8,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "potash, K2O equivalent, estimated annual capacity",
+     "orig": "2,800 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in Saskatchewan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -105.1561,
+     50.3943
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qarhan",
+    "name": "Qarhan salt lake (Qinghai Salt Lake Industry)",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "CHN",
+    "operator": "Qinghai Salt Lake Industry Group Co. Ltd.",
+    "capacity": {
+     "v": 9.1,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "potash as listed by the source, estimated annual capacity",
+     "orig": "9,100 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Potash from the Qarhan salt lake, Qinghai. China is the third potash producer in the atlas table. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     95.30211,
+     36.79576
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dead-sea-works",
+    "name": "Dead Sea Works (Sodom)",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "ISR",
+    "operator": "Dead Sea Works (Israel Chemicals Ltd., 100%)",
+    "capacity": {
+     "v": 4,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "potash, estimated annual capacity",
+     "orig": "4,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Plant at Sodom on the Dead Sea; the same entry lists 700 kt/y of salt. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-israel.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.37261,
+     31.03644
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ks-kali-germany",
+    "name": "K+S potash mines (Werra, Neuhof-Ellers, Zielitz and others)",
+    "type": "mine",
+    "k": [
+     "potash"
+    ],
+    "c": "DEU",
+    "operator": "K+S Kali GmbH (K+S Group, 100%)",
+    "capacity": {
+     "v": 6,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "potash, K2O content, estimated annual capacity of the seven mines together",
+     "orig": "6,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines at Hattorf, Neuhof-Ellers, Niedersachsen-Riedel, Sigmundshall, Unterbreizbach, Wintershall and Zielitz, listed as one entry; the point is the Werra district. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-germany.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     9.97994,
+     50.84039
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "al-jalamid",
+    "name": "Al Jalamid",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "SAU",
+    "operator": "Ma'aden Phosphate Co. (Saudi Arabian Mining Co. 70%, Saudi Basic Industries Corp. 30%)",
+    "capacity": {
+     "v": 12,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "phosphate ore, estimated annual capacity",
+     "orig": "12,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Northern Borders Region; the fertiliser plant is at Ras Al Khair on the Gulf coast. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-saudi-arabia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     40.10417,
+     31.28028
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "khibiny-apatit",
+    "name": "Khibiny apatite mines (Apatit)",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "RUS",
+    "operator": "OAO Apatit (PhosAgro)",
+    "capacity": {
+     "v": 15,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "apatite concentrate, estimated annual capacity of the Khibiny association",
+     "orig": "15,000,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines of the Khibiny massif, Kola Peninsula; the source lists a second Apatit entry of 12 Mt/y for the same area. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-russia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     33.66375,
+     67.61513
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "anning-phosphate",
+    "name": "Anning phosphate mines (Yunnan Tianning)",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "CHN",
+    "operator": "Yunnan Tianning Mining Co. Ltd.",
+    "capacity": {
+     "v": 12,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "phosphate rock, estimated annual capacity",
+     "orig": "12,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines at Anning, Yunnan; China is the first phosphate producer in the atlas table. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     102.48443,
+     24.92487
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bayovar",
+    "name": "Bayóvar",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "PER",
+    "operator": "Compañía Minera Miski Mayo S.R.L. (Mosaic Co. 75%, Mitsui & Co. 25%, as stated in 2019)",
+    "capacity": {
+     "v": 4,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "phosphate rock, estimated annual capacity",
+     "orig": "4,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Piura Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -81.0382,
+     -5.82111
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jordan-phosphate-mines",
+    "name": "Jordan Phosphate Mines (Al Hassa, Al Russeifa, Eshidiya, Wadi Al Abiad)",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "JOR",
+    "operator": "Jordan Phosphate Mines Co. p.l.c. (JPMC)",
+    "capacity": {
+     "v": 9.5,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "phosphate rock, estimated annual capacity of the four mines together",
+     "orig": "9,500,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Four mines listed as one entry; the point is Eshidiya, in the south of Jordan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-jordan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     36.13915,
+     29.93093
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "inkai",
+    "name": "Inkai (JV Inkai)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "KAZ",
+    "operator": "JV Inkai LLP (Kazatomprom 60%, Cameco 40%)",
+    "output": {
+     "v": 3215,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium (tU as U3O8), 100% basis"
+    },
+    "status": "operating",
+    "statusAsOf": "2025",
+    "note": "ISR mine in Turkistan Region; the source lists the JV at 60% Kazatomprom. Kazakhstan is the first uranium producer in the atlas table. The point is from the Wikipedia article \"Inkai\".",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     67.53667,
+     45.28222
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "karatau-uranium",
+    "name": "Karatau (Budenovskoye)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "KAZ",
+    "operator": "Karatau LLP (Kazatomprom 50%)",
+    "output": {
+     "v": 3622,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium (tU as U3O8), 100% basis"
+    },
+    "status": "operating",
+    "statusAsOf": "2025",
+    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     67.651,
+     44.755
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "akbastau",
+    "name": "Akbastau (Budenovskoye)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "KAZ",
+    "operator": "JV Akbastau JSC (Kazatomprom 50%)",
+    "output": {
+     "v": 2227,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium (tU as U3O8), 100% basis"
+    },
+    "status": "operating",
+    "statusAsOf": "2025",
+    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from the Wikipedia article \"Akbastau mine\".",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     67.65,
+     44.74608
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "katco",
+    "name": "KATCO (Moinkum and Tortkuduk)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "KAZ",
+    "operator": "JV KATCO LLP (Kazatomprom 49%)",
+    "output": {
+     "v": 3714,
+     "u": "tU/y",
+     "y": 2025,
+     "what": "production",
+     "n": "uranium (tU as U3O8), 100% basis"
+    },
+    "status": "operating",
+    "statusAsOf": "2025",
+    "note": "In-situ leach mine in Turkistan Region. Kazakhstan is the first uranium producer in the atlas table. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "operator-reports",
+    "url": "https://www.kazatomprom.kz/storage/6c/kap_ir_2025_encjwwsl.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     68.92364,
+     44.2416
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rossing",
+    "name": "Rössing",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "NAM",
+    "operator": "Rössing Uranium Ltd. (China National Uranium Corp. 69%, Iranian Foreign Investment Co. 15%, and others, as stated in 2019)",
+    "capacity": {
+     "v": 4070,
+     "u": "tU/y",
+     "y": 2019,
+     "n": "uranium, estimated annual capacity of 4,800 t U3O8 converted at 0.848",
+     "orig": "4,800 t U3O8"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine 65 km northeast of Swakopmund; the owners are those the 2019 report names. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-namibia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.061,
+     -22.481
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "langer-heinrich",
+    "name": "Langer Heinrich",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "NAM",
+    "operator": "Langer Heinrich Uranium (Pty) Ltd. (Paladin Energy Ltd. 75%, CNNC Overseas Uranium Holdings 25%, as stated in 2019)",
+    "capacity": {
+     "v": 1270,
+     "u": "tU/y",
+     "y": 2019,
+     "n": "uranium, estimated annual capacity of 1,500 t U3O8 converted at 0.848",
+     "orig": "1,500 t U3O8"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Namib Desert, 80 km east of Walvis Bay; the owners are those the 2019 report names. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-namibia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.311,
+     -22.812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "somair-arlit",
+    "name": "SOMAIR (Arlit)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "NER",
+    "operator": "Société des Mines de l'Aïr (SOMAIR; Areva Group 63.4%, SOPAMIN 36.6%, as stated in 2019)",
+    "capacity": {
+     "v": 3000,
+     "u": "tU/y",
+     "y": 2019,
+     "n": "uranium, estimated annual capacity as listed in 2019 (the source does not say whether the figure is U or U3O8)",
+     "orig": "3,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine 6 km northwest of Arlit, Agadez Region; the owners are those the 2019 report names. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-niger.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.39333,
+     18.73908
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tianshan-uranium",
+    "name": "Tianshan Uranium (Yining)",
+    "type": "mine",
+    "k": [
+     "uranium"
+    ],
+    "c": "CHN",
+    "operator": "Tianshan Uranium Co. Ltd. (China National Nuclear Corp.)",
+    "capacity": {
+     "v": 800,
+     "u": "tU/y",
+     "y": 2023,
+     "n": "uranium content, estimated annual capacity",
+     "orig": "800 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Uranium mine at Yining, Xinjiang. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     81.525,
+     43.976
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mount-marion",
+    "name": "Mount Marion",
+    "type": "mine",
+    "k": [
+     "lithium"
+    ],
+    "c": "AUS",
+    "operator": "Reed Industrial Minerals Pty. Ltd. (Mineral Resources Ltd. 50%, Jiangxi Ganfeng Lithium Co. 50%)",
+    "capacity": {
+     "v": 600,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "spodumene concentrate, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Spodumene mine 40 km southwest of Kalgoorlie, Western Australia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.44848,
+     -31.05477
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "wodgina",
+    "name": "Wodgina",
+    "type": "mine",
+    "k": [
+     "lithium"
+    ],
+    "c": "AUS",
+    "operator": "MARBL Lithium Joint Venture (Albemarle Corp. 60%, Mineral Resources Ltd. 40%)",
+    "capacity": {
+     "v": 3.5,
+     "u": "Mt/y",
+     "y": 2023,
+     "n": "direct shipping ore, estimated annual capacity",
+     "orig": "3,500 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine 100 km south of Port Hedland, Western Australia. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.67108,
+     -21.19122
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hombre-muerto",
+    "name": "Salar del Hombre Muerto (Livent)",
+    "type": "mine",
+    "k": [
+     "lithium"
+    ],
+    "c": "ARG",
+    "operator": "Minera del Altiplano S.A. (Livent Corp., 100%, as stated in 2019)",
+    "capacity": {
+     "v": 23,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "lithium carbonate (Li2CO3), estimated annual capacity",
+     "orig": "23,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Brine operation on the Salar del Hombre Muerto, Salta Province, with plants in Catamarca Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-argentina.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -67.14146,
+     -25.35085
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "olaroz",
+    "name": "Salar de Olaroz",
+    "type": "mine",
+    "k": [
+     "lithium"
+    ],
+    "c": "ARG",
+    "operator": "Sales de Jujuy S.A. (Orocobre Ltd. 66.5%, Toyota Tsusho Corp. 25%, and others, as stated in 2019)",
+    "capacity": {
+     "v": 17.5,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "lithium carbonate (Li2CO3), estimated annual capacity",
+     "orig": "17,500 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Brine operation on the Salar de Olaroz, Jujuy Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-argentina.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.70985,
+     -23.47226
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yichun-lithium",
+    "name": "Yichun lithium mines (Yifeng)",
+    "type": "mine",
+    "k": [
+     "lithium"
+    ],
+    "c": "CHN",
+    "operator": "Ningxia Non-Ferrous Metals Import and Export Corp. (operator) and Yichun Tantalum Co. (owner)",
+    "capacity": {
+     "v": 30,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "lithium carbonate equivalent (Li2CO3), estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Mine at Yichun, Jiangxi. China is the second lithium producer in the atlas table. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.0154,
+     28.3803
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tshipi-borwa",
+    "name": "Tshipi Borwa",
+    "type": "mine",
+    "k": [
+     "manganese"
+    ],
+    "c": "ZAF",
+    "operator": "Tshipi e Ntle Manganese Mining (Pty) Ltd. (Jupiter Mines Ltd. 49.9% and others)",
+    "capacity": {
+     "v": 5,
+     "u": "Mt/y",
+     "y": 2022,
+     "n": "manganese ore, estimated annual capacity",
+     "orig": "5,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Northern Cape Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-south-africa.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     22.95703,
+     -27.1998
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "moanda",
+    "name": "Moanda (Comilog)",
+    "type": "mine",
+    "k": [
+     "manganese"
+    ],
+    "c": "GAB",
+    "operator": "Compagnie Minière de l'Ogooué S.A. (Comilog; Eramet Group 63.7% and others, as stated in 2019)",
+    "capacity": {
+     "v": 4.68,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "manganese ore, gross weight, estimated annual capacity",
+     "orig": "4,680,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine at Moanda. Gabon supplies a large share of the manganese ore the atlas sees in trade. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-gabon.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     13.2219,
+     -1.55476
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nsuta",
+    "name": "Nsuta-Wassaw",
+    "type": "mine",
+    "k": [
+     "manganese"
+    ],
+    "c": "GHA",
+    "operator": "Ghana Manganese Company Ltd. (Ningxia Tianyuan Manganese Industry Co. 90%, as stated in 2019)",
+    "capacity": {
+     "v": 5.5,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "manganese ore, estimated annual capacity",
+     "orig": "5,500 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mine in the Western Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-ghana.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -1.98213,
+     5.27337
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cadia",
+    "name": "Cadia Valley",
+    "type": "mine",
+    "k": [
+     "gold",
+     "copper"
+    ],
+    "c": "AUS",
+    "operator": "Newcrest Mining Ltd. (100%, as stated in 2023)",
+    "capacity": {
+     "v": 18.6,
+     "u": "t/y",
+     "y": 2023,
+     "n": "gold, estimated annual capacity",
+     "orig": "18,600 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Mining complex 25 km south-southwest of Orange, New South Wales; the source also lists 90 kt/y of copper. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     149.00112,
+     -33.44481
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "canadian-malartic",
+    "name": "Canadian Malartic",
+    "type": "mine",
+    "k": [
+     "gold"
+    ],
+    "c": "CAN",
+    "operator": "Agnico Eagle Mines Ltd. (50%) and Yamana Gold Inc. (50%), as stated in 2022",
+    "capacity": {
+     "v": 17,
+     "u": "t/y",
+     "y": 2022,
+     "n": "gold, estimated annual capacity",
+     "orig": "17,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Mine about 20 km west of Val-d'Or, Quebec. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.09416,
+     48.11762
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yanacocha",
+    "name": "Yanacocha",
+    "type": "mine",
+    "k": [
+     "gold"
+    ],
+    "c": "PER",
+    "operator": "Minera Yanacocha S.R.L. (Newmont Mining Corp. 51.35%, Compañía de Minas Buenaventura and others, as stated in 2019)",
+    "capacity": {
+     "v": 8,
+     "u": "t/y",
+     "y": 2019,
+     "n": "gold, estimated annual capacity",
+     "orig": "8,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Mine in the Cajamarca Region. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -78.50989,
+     -6.98578
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ahafo",
+    "name": "Ahafo",
+    "type": "mine",
+    "k": [
+     "gold"
+    ],
+    "c": "GHA",
+    "operator": "Newmont Mining Corp. (90%) and Government (10%), as stated in 2019",
+    "capacity": {
+     "v": 20,
+     "u": "t/y",
+     "y": 2019,
+     "n": "gold, estimated annual capacity",
+     "orig": "20,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Ahafo and Subika mines, Brong-Ahafo Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-ghana.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -2.38363,
+     6.97808
     ]
    }
   }

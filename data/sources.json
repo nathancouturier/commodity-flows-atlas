@@ -20,6 +20,16 @@
   "use": "Mine, refinery and smelter production and reserves of metals, minerals and fertilisers; annual average prices (lithium, manganese, rare earths, bauxite and alumina, cobalt, palladium, rhodium)"
  },
  {
+  "id": "usgs-myb",
+  "name": "USGS Minerals Yearbook, area reports (major mineral industry facilities)",
+  "publisher": "U.S. Geological Survey, National Minerals Information Center",
+  "url": "https://www.usgs.gov/centers/national-minerals-information-center/international-minerals-statistics-and-information",
+  "licence": "Public domain (US Government)",
+  "update": "annual, one report per country, years differ by country",
+  "access": "Area report PDFs (pubs.usgs.gov/myb/vol3), table 'Structure of the mineral industry', read by hand and linked on each asset (url)",
+  "use": "Mines and smelters of the infrastructure layer: estimated annual capacity of a facility, its operator and owners, and the year of the report"
+ },
+ {
   "id": "baci",
   "name": "CEPII BACI bilateral trade database",
   "publisher": "CEPII",
@@ -376,13 +386,13 @@
  },
  {
   "id": "openstreetmap",
-  "name": "OpenStreetMap (points of a few assets)",
+  "name": "OpenStreetMap (points of infrastructure assets)",
   "publisher": "OpenStreetMap contributors (OpenStreetMap Foundation)",
   "url": "https://www.openstreetmap.org/copyright",
   "licence": "ODbL 1.0: credit OpenStreetMap and its contributors (openstreetmap.org/copyright)",
   "update": "continuous",
   "access": "Points looked up by hand through Nominatim, one at a time; each asset says so in its note",
-  "use": "Coordinates of a few infrastructure assets (Qingdao LNG, Damietta, Portovaya, Altamira, Husab, Mogalakwena, Caofeidian)"
+  "use": "Coordinates of infrastructure assets that say so in their note (LNG terminals, refineries, oil and gas fields, mines and the end points of two pipelines)"
  },
  {
   "id": "wikidata",

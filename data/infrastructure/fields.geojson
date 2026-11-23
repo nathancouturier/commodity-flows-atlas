@@ -111,9 +111,16 @@
     ],
     "c": "IRQ",
     "operator": "Iraq National Oil Company (owner)",
+    "output": {
+     "v": 470,
+     "u": "kb/d",
+     "y": 2026,
+     "what": "production",
+     "n": "West Qurna-2, estimate of 460,000 to 480,000 b/d (midpoint) in The National, 10 February 2026 (https://www.thenationalnews.com/business/energy/2026/02/10/iraq-tightens-control-over-west-qurna-2-oilfield-as-sanctions-force-lukoil-retreat)"
+    },
     "status": "not-stated",
     "coord": "site",
-    "note": "Super-giant in southern Iraq feeding Basrah exports (Hormuz transit). No production figure given.",
+    "note": "Super-giant in southern Iraq feeding Basrah exports (Hormuz transit). The output figure is for West Qurna-2: Lukoil, the majority stakeholder, has left amid US sanctions and Basrah Oil Company runs the field through interim operators (The National).",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/West_Qurna_field"
@@ -301,10 +308,16 @@
     ],
     "c": "GUY",
     "operator": "ExxonMobil Guyana (45%), Chevron (30%), CNOOC (25%)",
+    "capacity": {
+     "v": 1100,
+     "u": "kb/d",
+     "y": 2026,
+     "n": "Guyana's installed production capacity after the fifth Stabroek project (Uaru), ExxonMobil, 16 November 2026 (https://corporate.exxonmobil.com/news/news-releases/2026/1116-exxonmobil-starts-production-at-uaru); the release names the Destiny, Unity, Prosperity, ONE GUYANA and Errea Wittu vessels"
+    },
     "opened": 2019,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Fastest-growing new supply source; the article gives Guyana's output of about 660 kb/d by 2024 (national figure, no block-level figure).",
+    "note": "Fastest-growing new supply source. The article gives Guyana's output of about 660 kb/d by 2024 (national figure); the capacity figure is the national installed capacity stated by ExxonMobil.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Petroleum_industry_in_Guyana"
@@ -494,12 +507,20 @@
      "IRN"
     ],
     "operator": "QatarEnergy (Qatar); NIOC/POGC (Iran)",
+    "output": {
+     "v": 191.3,
+     "u": "bcm/y",
+     "y": 2026,
+     "what": "production",
+     "n": "Qatari side (North Field), early 2026 before the war, \"about 18.5 billion cubic feet per day\" (the Iranian side is in South Pars (Iranian side))",
+     "orig": "18.5 Bcf/d"
+    },
     "opened": 1989,
     "status": "damaged",
     "statusAsOf": "2026-03",
     "statusNote": "Some South Pars units taken out of production after an attack on 18 March 2026 (Tasnim, in the Bloomberg list via gCaptain, 11 April 2026)",
     "coord": "site",
-    "note": "World's largest gas field, shared by Qatar and Iran; feeds Ras Laffan LNG. The article gives Qatari output of about 18.5 Bcf/d and Iranian output of about 2 Bcf/d in early 2026, before the war.",
+    "note": "World's largest gas field, shared by Qatar and Iran; feeds Ras Laffan LNG. The figure is the Qatari side. The article gives Iranian output of about 2 Bcf/d in early 2026, before the war (see South Pars, Iranian side).",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/South_Pars/North_Dome_Gas-Condensate_field"
@@ -658,12 +679,18 @@
     ],
     "c": "DZA",
     "operator": "Sonatrach",
+    "capacity": {
+     "v": 350,
+     "u": "kb/d",
+     "n": "current production in the infobox, as stated by the source; no year given"
+    },
+    "opened": 1960,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Algeria's largest oil field. No production figure given. Point is the town of Hassi Messaoud.",
+    "note": "Algeria's largest oil field, operated and owned by Sonatrach. Position is the town of Hassi Messaoud; production began in 1960 (Wikipedia, Hassi Messaoud oil field).",
     "s": "wikipedia",
     "read": "2026-11",
-    "url": "https://en.wikipedia.org/wiki/Hassi_Messaoud"
+    "url": "https://en.wikipedia.org/wiki/Hassi_Messaoud_oil_field"
    },
    "geometry": {
     "type": "Point",
@@ -684,10 +711,15 @@
     ],
     "c": "DZA",
     "operator": "Sonatrach",
+    "capacity": {
+     "v": 100,
+     "u": "bcm/y",
+     "n": "annual producing capacity, as stated by the source; no year given"
+    },
     "opened": 1961,
     "status": "not-stated",
     "coord": "site",
-    "note": "Algeria's main gas field and hub for the Transmed, Medgaz and GME pipelines to Europe.",
+    "note": "Algeria's main gas field and hub for the Transmed, Medgaz and GME pipelines to Europe. The article gives an annual producing capacity of about 100 billion cubic metres.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Hassi_R'Mel_gas_field"
@@ -712,9 +744,16 @@
     ],
     "c": "USA",
     "operator": "Many operators (a basin, not a single asset)",
+    "output": {
+     "v": 6187,
+     "u": "kb/d",
+     "y": 2024,
+     "what": "production",
+     "n": "oil, June 2024, EIA Drilling Productivity Report, Permian region (https://www.eia.gov/petroleum/drilling/)"
+    },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Largest US tight-oil basin; the driver of US crude and associated-gas growth. No production figure given.",
+    "note": "Largest US tight-oil basin; the driver of US crude and associated-gas growth. A basin, not a single asset.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Permian_Basin_(North_America)"
@@ -738,9 +777,17 @@
     ],
     "c": "USA",
     "operator": "Many operators (a basin, not a single asset)",
+    "output": {
+     "v": 370.1,
+     "u": "bcm/y",
+     "y": 2024,
+     "what": "production",
+     "n": "gas, June 2024, EIA Drilling Productivity Report, Appalachia region (Marcellus and Utica) (https://www.eia.gov/petroleum/drilling/)",
+     "orig": "35,791 MMcf/d"
+    },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Largest US shale-gas play by output. No production figure given.",
+    "note": "Largest US shale-gas play by output. The EIA figure covers the whole Appalachia region, which includes the Utica.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Marcellus_Formation"
@@ -764,9 +811,17 @@
     ],
     "c": "USA",
     "operator": "Many operators (a basin, not a single asset)",
+    "output": {
+     "v": 158.6,
+     "u": "bcm/y",
+     "y": 2024,
+     "what": "production",
+     "n": "gas, June 2024, EIA Drilling Productivity Report, Haynesville region (https://www.eia.gov/petroleum/drilling/)",
+     "orig": "15,339 MMcf/d"
+    },
     "status": "not-stated",
     "coord": "approx",
-    "note": "Swing gas play feeding Gulf Coast LNG export plants. No production figure given.",
+    "note": "Swing gas play feeding Gulf Coast LNG export plants.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Haynesville_Shale"
@@ -791,10 +846,18 @@
     ],
     "c": "ARG",
     "operator": "YPF (largest operator)",
+    "output": {
+     "v": 39.3,
+     "u": "bcm/y",
+     "y": 2024,
+     "what": "production",
+     "n": "natural gas, September 2024: Vaca Muerta was 74% of Argentina's gas output, 3.8 Bcf/d (EIA, Today in Energy, 5 December 2024: https://www.eia.gov/todayinenergy/detail.php?id=63924)",
+     "orig": "3.8 Bcf/d"
+    },
     "opened": 2011,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Argentina's shale play; fastest-growing Latin American supply after pre-salt and Guyana. No production figure given.",
+    "note": "Argentina's shale play; fastest-growing Latin American supply after pre-salt and Guyana. The EIA gives Vaca Muerta 58% of the country's oil (738 kb/d in September 2024) without a field figure in barrels.",
     "s": "wikipedia",
     "read": "2026-11",
     "url": "https://en.wikipedia.org/wiki/Vaca_Muerta"
@@ -830,6 +893,412 @@
     "coordinates": [
      -64.0,
      8.6
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ahvaz",
+    "name": "Ahvaz",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRN",
+    "operator": "National Iranian South Oil Company (NISOC), for NIOC",
+    "output": {
+     "v": 800,
+     "u": "kb/d",
+     "y": 2016,
+     "what": "production",
+     "n": "oil, \"as of September 2016\"; the infobox gives 750 kb/d without a year"
+    },
+    "opened": 1954,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "Iran's largest single oil field according to the article, which says production is in decline.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Ahvaz_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.6692,
+     31.3203
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "athabasca-oil-sands",
+    "name": "Athabasca oil sands",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "CAN",
+    "operator": "Syncrude, Suncor Energy, Canadian Natural Resources, TotalEnergies, Imperial Oil, Petro-Canada, Devon, Husky, Statoil, Nexen (infobox)",
+    "output": {
+     "v": 3100,
+     "u": "kb/d",
+     "y": 2018,
+     "what": "production",
+     "n": "crude bitumen, \"3.1 million barrels per day\""
+    },
+    "opened": 1967,
+    "status": "not-stated",
+    "coord": "approx",
+    "note": "Alberta bitumen mines and in situ projects, a region rather than a single asset. Production began in 1967 with the Great Canadian Oil Sands plant. Position is the point of the infobox, not a site.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Athabasca_oil_sands"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -111.65,
+     57.02
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ku-maloob-zaap",
+    "name": "Ku-Maloob-Zaap",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "MEX",
+    "operator": "Pemex",
+    "output": {
+     "v": 589,
+     "u": "kb/d",
+     "y": 2024,
+     "what": "production",
+     "n": "\"As of 2024, the field produced 589,000 barrels per day\""
+    },
+    "opened": 1981,
+    "status": "not-stated",
+    "coord": "approx",
+    "note": "Offshore field in the Bay of Campeche, about 105 km from Ciudad del Carmen. Mexico's largest field. Position is Ciudad del Carmen, the nearest town, not the field. Coordinates: OpenStreetMap.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Ku-Maloob-Zaap"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -91.8149,
+     18.6517
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "khurais",
+    "name": "Khurais",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 1500,
+     "u": "kb/d",
+     "y": 2018,
+     "n": "capacity after the expansion completed in 2018"
+    },
+    "output": {
+     "v": 1100,
+     "u": "kb/d",
+     "y": 2024,
+     "what": "production",
+     "n": "\"In 2024, Khurais was producing 1.1 million barrels per day\""
+    },
+    "opened": 2009,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "Came on stream in June 2009 with 1.2 mb/d of added capacity.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Khurais_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.195,
+     25.0694
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "shaybah",
+    "name": "Shaybah",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "operator": "Saudi Aramco",
+    "capacity": {
+     "v": 1000,
+     "u": "kb/d",
+     "n": "current production in the infobox, as stated by the source; no year given"
+    },
+    "opened": 1998,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "Desert field in the Empty Quarter. The article says Aramco raised output from 750 kb/d to 1 mb/d in 2016.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Shaybah_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     54.0691,
+     22.6058
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "priobskoye",
+    "name": "Priobskoye",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "operator": "Samotlorneftegaz (infobox), with Rosneft and Gazprom Neft",
+    "output": {
+     "v": 500,
+     "u": "kb/d",
+     "y": 2019,
+     "what": "production",
+     "n": "oil, infobox"
+    },
+    "opened": 2000,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "The article carries a \"needs more citations\" tag and an unsourced paragraph that gives 400 to 450 kb/d.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Priobskoye_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     70.767,
+     61.217
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "el-sharara",
+    "name": "El Sharara",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "LBY",
+    "operator": "Akakus Oil Operations (infobox)",
+    "capacity": {
+     "v": 300,
+     "u": "kb/d",
+     "n": "current output in the infobox, as stated by the source; no year given"
+    },
+    "opened": 1996,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "Onshore field in the Murzuq basin. Production was briefly suspended on 7 January 2024 by protesters, and an armed group shut a valve on 21 September 2026, reducing output (Wikipedia).",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/El_Sharara_oil_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.2181,
+     26.5767
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "karachaganak",
+    "name": "Karachaganak",
+    "type": "field",
+    "k": [
+     "crude-oil",
+     "natural-gas"
+    ],
+    "c": "KAZ",
+    "operator": "Karachaganak Petroleum Operating (Shell and Eni, 29.25% each; Chevron 18%, Lukoil 13.5%, KazMunayGas)",
+    "capacity": {
+     "v": 200,
+     "u": "kb/d",
+     "n": "current oil output in the infobox, as stated by the source; no year given"
+    },
+    "opened": 1984,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "Gas-condensate field; the infobox also gives 650 million cubic feet of gas a day.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Karachaganak_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.2111,
+     51.3533
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "galkynysh",
+    "name": "Galkynysh",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "TKM",
+    "operator": "Turkmengaz",
+    "opened": 2013,
+    "status": "not-stated",
+    "coord": "site",
+    "note": "One of the largest gas fields; the page gives reserves (2.8 trillion cubic metres proven commercial) and no production figure.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Galkyny%C5%9F_Gas_Field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     62.3586,
+     37.3014
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "azeri-chirag-gunashli",
+    "name": "Azeri-Chirag-Gunashli (ACG)",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "AZE",
+    "operator": "BP, for the AIOC consortium (SOCAR 35.30%, BP 30.37%, MOL 9.57%, INPEX 9.31%, ExxonMobil 6.79%, TPAO 5.73%, ONGC Videsh 2.92%)",
+    "output": {
+     "v": 330,
+     "u": "kb/d",
+     "y": 2025,
+     "what": "production",
+     "n": "\"approximately 330,000 barrels per day in 2025\""
+    },
+    "opened": 1997,
+    "status": "operating",
+    "statusAsOf": "2026-03",
+    "statusNote": "Production averaged about 325 kb/d in the first quarter of 2026 (Wikipedia)",
+    "coord": "site",
+    "note": "Offshore Caspian field about 120 km from the coast. The article says output averaged about 325 kb/d in the first quarter of 2026 and peaked at about 823 kb/d in 2010.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Azeri%E2%80%93Chirag%E2%80%93Gunashli"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     51.2661,
+     40.0178
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bakken",
+    "name": "Bakken (Williston Basin)",
+    "type": "field",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "operator": "Many operators (a basin, not a single asset)",
+    "output": {
+     "v": 1313,
+     "u": "kb/d",
+     "y": 2024,
+     "what": "production",
+     "n": "oil, June 2024, EIA Drilling Productivity Report, Bakken region (https://www.eia.gov/petroleum/drilling/)"
+    },
+    "status": "not-stated",
+    "coord": "approx",
+    "note": "Tight-oil play of North Dakota and Montana. Production peaked in mid-2015 at 1.15 mb/d according to the Wikipedia article. Position is the centre point of the formation.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Bakken_formation"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -102.9399,
+     48.3929
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "south-pars-iran",
+    "name": "South Pars (Iranian side)",
+    "type": "field",
+    "k": [
+     "natural-gas"
+    ],
+    "c": "IRN",
+    "operator": "National Iranian Oil Company; Pars Oil and Gas Company runs the South Pars projects",
+    "output": {
+     "v": 20.7,
+     "u": "bcm/y",
+     "y": 2026,
+     "what": "production",
+     "n": "gas, early 2026 before the war, \"about 2 billion cubic feet per day\"",
+     "orig": "2 Bcf/d"
+    },
+    "opened": 2002,
+    "status": "damaged",
+    "statusAsOf": "2026-03",
+    "statusNote": "Several gas phases shut after the attack of 18 March 2026 (Wikipedia)",
+    "coord": "approx",
+    "note": "Iranian part of the field shared with Qatar. Gas production started with phase 2 in December 2002. The article says an attack on 18 March 2026 shut several gas phases (about 12% of Iran's gas output in the first reports). Position is the Asaluyeh district, the onshore hub, not the offshore field. Coordinates: OpenStreetMap.",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/South_Pars/North_Dome_Gas-Condensate_field"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.6028,
+     27.3541
     ]
    }
   }

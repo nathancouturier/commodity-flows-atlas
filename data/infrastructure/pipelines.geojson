@@ -1677,6 +1677,114 @@
      ]
     ]
    }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "enbridge-mainline",
+    "name": "Enbridge Mainline (Edmonton to Chicago, Sarnia and Montreal)",
+    "type": "pipeline",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "CAN",
+    "cs": [
+     "CAN",
+     "USA"
+    ],
+    "operator": "Enbridge",
+    "capacity": {
+     "v": 2500,
+     "u": "kb/d",
+     "n": "\"can carry up to 2.5 million barrels of oil per day\", as stated by the source; no year given"
+    },
+    "opened": 1950,
+    "status": "not-stated",
+    "coord": "approx",
+    "note": "Largest crude system between Canada and the United States. The article gives an average delivery of about 1.4 mb/d, without a year, and 14 lines. Length is the Canadian Mainline (2,306 km, Edmonton to Montreal via Gretna and Sarnia) plus the US Mainline (3,057 km, Neche to Chicago). Simplified single line through the places the article names: Edmonton, Gretna, Clearbrook, Superior, Griffith (Chicago area), Sarnia and Montreal. Coordinates: OpenStreetMap.",
+    "product": "crude oil and dilbit",
+    "length_km": 5363,
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Enbridge_Pipeline_System"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      -113.4912,
+      53.5462
+     ],
+     [
+      -97.5616,
+      49.0079
+     ],
+     [
+      -95.4311,
+      47.6919
+     ],
+     [
+      -92.1041,
+      46.7208
+     ],
+     [
+      -87.4255,
+      41.5345
+     ],
+     [
+      -82.4035,
+      42.9744
+     ],
+     [
+      -73.5698,
+      45.5032
+     ]
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "goreh-jask",
+    "name": "Goreh-Jask crude oil pipeline",
+    "type": "pipeline",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRN",
+    "cs": [
+     "IRN"
+    ],
+    "operator": "Iran (operator not stated)",
+    "capacity": {
+     "v": 1000,
+     "u": "kb/d",
+     "n": "design capacity; the article says a more likely usable capacity is 0.3 mb/d"
+    },
+    "opened": 2024,
+    "status": "operating",
+    "statusAsOf": "2024-10",
+    "statusNote": "Began exporting oil from Jask in October 2024; actual flows are likely much lower than capacity and the loading buoy is rarely used (Wikipedia, Jask)",
+    "coord": "approx",
+    "note": "Iran's pipeline bypass of the Strait of Hormuz, carrying crude from Goreh (Bushehr) to Jask on the Gulf of Oman. The article says it cannot replace Kharg Island. Straight sketch between the two places the article names. Coordinates: OpenStreetMap.",
+    "product": "crude",
+    "s": "wikipedia",
+    "read": "2026-11",
+    "url": "https://en.wikipedia.org/wiki/Jask"
+   },
+   "geometry": {
+    "type": "LineString",
+    "coordinates": [
+     [
+      50.4507,
+      29.8996
+     ],
+     [
+      57.7817,
+      25.6531
+     ]
+    ]
+   }
   }
  ]
 }

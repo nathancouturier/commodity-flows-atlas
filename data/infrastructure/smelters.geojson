@@ -207,6 +207,12 @@
     ],
     "c": "IDN",
     "operator": "PT Smelting (Freeport / Mitsubishi Materials)",
+    "capacity": {
+     "v": 350,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper metal, estimated annual capacity of the smelter and refinery (PT Smelting Co.); capacity: USGS Minerals Yearbook 2023, Indonesia"
+    },
     "status": "operating",
     "statusAsOf": "2026-10",
     "statusNote": "Halted on 8 August 2026 for furnace repairs; reported operating again on 8 October 2026 (Katadata).",
@@ -235,6 +241,12 @@
     ],
     "c": "DEU",
     "operator": "Aurubis",
+    "capacity": {
+     "v": 500,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "refined copper, estimated annual capacity of the primary smelter and refinery at Hamburg; capacity: USGS Minerals Yearbook 2019, Germany"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Europe's largest primary copper smelter site (Hamburg-Veddel).",
@@ -262,6 +274,12 @@
     ],
     "c": "POL",
     "operator": "KGHM Polska Miedz",
+    "capacity": {
+     "v": 540,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "refined copper, estimated annual capacity of the smelter and refineries at Glogow I, Glogow II and Legnica; capacity: USGS Minerals Yearbook 2019, Poland"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "KGHM owns the Głogów, Legnica and Cedynia smelters; the group produced 656 kt of copper in 2017 (Wikipedia).",
@@ -512,17 +530,22 @@
     "name": "China Hongqiao Binzhou complex",
     "type": "smelter",
     "k": [
-     "aluminium",
-     "bauxite"
+     "aluminium"
     ],
     "c": "CHN",
-    "operator": "China Hongqiao Group",
+    "operator": "China Hongqiao Group Ltd. (Shandong Weiqiao Aluminum and Power Co. Ltd.)",
+    "capacity": {
+     "v": 6500,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity of Shandong Weiqiao Aluminum and Power Co. Ltd. (China Hongqiao Group), Zouping, Binzhou"
+    },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "Smelters, alumina refinery and captive coal power on one site; Wikipedia gives group capacity above 5 Mt/y in 2016 and a 2 Mt/y relocation to Yunnan from 2020. The point is Binzhou, Shandong.",
+    "note": "Aluminium smelters of China Hongqiao Group in Binzhou, Shandong; the same source lists an alumina refinery of 15 Mt/y for the company at Zouping. The point is the city of Binzhou, not the site itself.",
     "coord": "approx",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/China_Hongqiao_Group",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
     "read": "2026-11"
    },
    "geometry": {
@@ -593,6 +616,720 @@
     "coordinates": [
      103.326,
      3.808
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tongling-tongguan",
+    "name": "Tongling smelter and refinery (Tongguang)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "CHN",
+    "operator": "Tongling Nonferrous Metals Group Holding Co. Ltd.",
+    "capacity": {
+     "v": 1600,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "refined copper, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Refinery at Tongling, Anhui; the same group has a second refinery listed at 200 kt/y. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-china.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.80507,
+     30.94746
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dahej-birla-copper",
+    "name": "Birla Copper smelter (Dahej)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "IND",
+    "operator": "Hindalco Industries Ltd. (Aditya Birla Group)",
+    "capacity": {
+     "v": 500,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "copper metal, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Dahej, Gujarat. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     72.509,
+     21.7
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "balkhash-smelter",
+    "name": "Balkhash copper smelter and refinery",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "KAZ",
+    "operator": "Balkhashtsvetmet PA (Kazakhmys Smelting LLP)",
+    "capacity": {
+     "v": 220,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "copper metal, estimated annual capacity",
+     "orig": "220,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Smelting and refinery plant at Balkhash, Karaganda Province. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-kazakhstan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     74.97266,
+     46.84505
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "caletones-smelter",
+    "name": "Caletones smelter (El Teniente)",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "CHL",
+    "operator": "Corporación Nacional del Cobre (Codelco, Government 100%)",
+    "capacity": {
+     "v": 400,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual smelter capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Machalí, O'Higgins Region. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-chile.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -70.45062,
+     -34.10661
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ilo-smelter",
+    "name": "Ilo smelter and refinery",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "PER",
+    "operator": "Southern Copper Corp. (Grupo México 88.9%)",
+    "capacity": {
+     "v": 360,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper, estimated annual smelter capacity; the Ilo refinery is listed at 280 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Smelter and refinery in the Moquegua Region. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-peru.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.3452,
+     -17.64588
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bor-smelter",
+    "name": "Bor smelter and refinery",
+    "type": "smelter",
+    "k": [
+     "copper"
+    ],
+    "c": "SRB",
+    "operator": "Serbia Zijin Copper DOO (Zijin Mining Co. 63%, Government 37%, as stated in 2019)",
+    "capacity": {
+     "v": 80,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "copper metal, estimated annual smelter capacity; the Bor refinery is listed at 120 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Smelter and refinery at Bor. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-serbia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     22.09918,
+     44.07785
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jharsuguda",
+    "name": "Vedanta Jharsuguda smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "IND",
+    "operator": "Vedanta Aluminium Ltd. (Vedanta Ltd., 100%)",
+    "capacity": {
+     "v": 1750,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity of Jharsuguda I and II, computed as the sum of the two figures of the page",
+     "orig": "550 + 1,200 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Two smelters at Jharsuguda, Odisha. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     83.9714,
+     21.80194
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aditya-smelter",
+    "name": "Hindalco Aditya smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "IND",
+    "operator": "Hindalco Industries Ltd. (Aditya Birla Group)",
+    "capacity": {
+     "v": 720,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Sambalpur, Odisha. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     84.03962,
+     21.73249
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "angul-nalco",
+    "name": "NALCO Angul smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "IND",
+    "operator": "National Aluminium Co. Ltd. (Government, 51.28%)",
+    "capacity": {
+     "v": 460,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Angul, Odisha. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     84.95368,
+     21.10254
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kuala-tanjung-inalum",
+    "name": "Inalum Kuala Tanjung smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "IDN",
+    "operator": "PT Indonesia Asahan Aluminium (PT Inalum, MIND ID 100%)",
+    "capacity": {
+     "v": 360,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Kuala Tanjung, North Sumatra. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     99.44993,
+     3.3596
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "maaden-ras-al-khair",
+    "name": "Ma'aden Aluminium smelter (Ras Al Khair)",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "SAU",
+    "operator": "Ma'aden Aluminium Co. (Saudi Arabian Mining Co. 74.9%, Alcoa Saudi Smelting Inversiones 25.1%)",
+    "capacity": {
+     "v": 1010,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "primary aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Ras Al Khair, Jubail Industrial City, Eastern Region, on the Gulf coast. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-saudi-arabia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.30111,
+     27.47278
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "alouette",
+    "name": "Alouette smelter (Sept-Îles)",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "CAN",
+    "operator": "Rio Tinto 40%, Aluminium Austria Metall Québec 20%, Norsk Hydro 20%, Marubeni 13.33%, Société générale de financement du Québec 6.67%",
+    "capacity": {
+     "v": 602,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Sept-Îles, Quebec. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.37906,
+     50.21096
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kitimat",
+    "name": "Kitimat smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "CAN",
+    "operator": "Rio Tinto Group",
+    "capacity": {
+     "v": 420,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Kitimat, British Columbia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -128.65405,
+     54.05356
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "albras",
+    "name": "Albras smelter (Barcarena)",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "BRA",
+    "operator": "Albras Alumínio Brasileiro S.A. (Norsk Hydro ASA 51%, Nippon Amazon Aluminio Co. 49%)",
+    "capacity": {
+     "v": 460,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Barcarena, Pará State. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-brazil.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -48.73547,
+     -1.55727
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sayanogorsk-smelter",
+    "name": "Sayanogorsk aluminium smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "RUS",
+    "operator": "Sayanogorskiy AZ (United Co. RUSAL)",
+    "capacity": {
+     "v": 550,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "primary aluminium, estimated annual capacity",
+     "orig": "550,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Sayanogorsk, Khakassia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-russia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     91.41541,
+     53.09533
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tomago",
+    "name": "Tomago smelter",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "AUS",
+    "operator": "Tomago Aluminium Co. Pty. Ltd. (Pacific Aluminium (Rio Tinto) 51.55%, Gove Aluminium Finance 36.05%, Hydro Aluminium 12.40%)",
+    "capacity": {
+     "v": 590,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "aluminium, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Tomago, New South Wales. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.70111,
+     -32.815
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sorowako-smelter",
+    "name": "Sorowako smelter",
+    "type": "smelter",
+    "k": [
+     "nickel"
+    ],
+    "c": "IDN",
+    "operator": "PT Vale Indonesia Tbk (Vale Canada 44.3%, MIND ID 20%, Sumitomo Metal Mining 15%, others 20.7%)",
+    "capacity": {
+     "v": 80,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "nickel in matte, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Matte smelter at Sorowako, South Sulawesi. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.35846,
+     -2.52979
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chanderiya-smelter",
+    "name": "Chanderiya smelter",
+    "type": "smelter",
+    "k": [
+     "zinc",
+     "lead",
+     "silver"
+    ],
+    "c": "IND",
+    "operator": "Hindustan Zinc Ltd. (Vedanta Ltd. 64.9%, Government 29.6%)",
+    "capacity": {
+     "v": 558,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "zinc metal, estimated annual capacity; the source lists lead metal at 85 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Chittorgarh, Rajasthan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-india.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     74.61822,
+     24.92492
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "trail",
+    "name": "Trail smelter and refinery",
+    "type": "smelter",
+    "k": [
+     "zinc",
+     "lead"
+    ],
+    "c": "CAN",
+    "operator": "Teck Resources Ltd.",
+    "capacity": {
+     "v": 295,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "refined zinc, estimated annual capacity; the source lists lead metal at 100 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Zinc and lead operations at Trail, British Columbia. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-canada.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -117.70977,
+     49.09453
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-pirie",
+    "name": "Port Pirie smelter",
+    "type": "smelter",
+    "k": [
+     "lead"
+    ],
+    "c": "AUS",
+    "operator": "Nyrstar Corp. (100%)",
+    "capacity": {
+     "v": 235,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "lead metal, estimated annual capacity"
+    },
+    "status": "not-stated",
+    "note": "Lead smelter at Port Pirie, South Australia (the report places it in Tasmania by mistake). The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-australia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     137.993,
+     -33.164
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "met-mex-torreon",
+    "name": "Met-Mex Peñoles refinery (Torreón)",
+    "type": "smelter",
+    "k": [
+     "silver",
+     "gold",
+     "zinc",
+     "lead"
+    ],
+    "c": "MEX",
+    "operator": "Metalúrgica Met-Mex Peñoles, S.A. de C.V. (Industrias Peñoles, 100%)",
+    "capacity": {
+     "v": 3350,
+     "u": "t/y",
+     "y": 2022,
+     "n": "refined silver, estimated annual capacity",
+     "orig": "3,350,000 kilograms"
+    },
+    "status": "not-stated",
+    "note": "Refinery at Torreón, Coahuila; the source also lists 53.9 t/y of refined gold, 350 kt/y of refined zinc and 180 kt/y of refined lead. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-mexico.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -103.44174,
+     25.5278
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mentok-smelter",
+    "name": "Mentok smelter (PT Timah)",
+    "type": "smelter",
+    "k": [
+     "tin"
+    ],
+    "c": "IDN",
+    "operator": "PT Timah Tbk (MIND ID 65%, public 35%)",
+    "capacity": {
+     "v": 68,
+     "u": "kt/y",
+     "y": 2023,
+     "n": "tin metal, estimated annual capacity; the Kundur smelter is listed at 70 kt/y"
+    },
+    "status": "not-stated",
+    "note": "Smelter at Mentok, West Bangka. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2023/myb3-2023-indonesia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     105.16514,
+     -2.06722
     ]
    }
   }

@@ -2697,6 +2697,824 @@
      22.4935
     ]
    }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rovigo-lng",
+    "name": "Rovigo LNG Terminal (Adriatic LNG)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ITA",
+    "operator": "Adriatic LNG (VTTI 70%, SNAM 30%)",
+    "capacity": {
+     "v": 7.0,
+     "u": "Mtpa",
+     "y": 2025,
+     "n": "nominal send-out; the report says maintenance in 2025 raised it to 7.7 Mtpa from the first quarter of 2026"
+    },
+    "opened": 2009,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Offshore gravity-based structure near Rovigo. Position is the onshore base at Porto Levante. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     12.3643,
+     45.0495
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "map-ta-phut-lng",
+    "name": "Map Ta Phut LNG Terminal 1",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "THA",
+    "operator": "PTT LNG",
+    "capacity": {
+     "v": 11.5,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2011,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Thailand's first LNG import terminal; terminal 2 (7.5 Mtpa, 2022) is listed separately in the table. Position is Map Ta Phut. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     101.1679,
+     12.7136
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-qasim-gasport-lng",
+    "name": "Port Qasim GasPort (BW Integrity FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "PAK",
+    "operator": "Terminal: Pakistan GasPort Consortium; FSRU owner BW",
+    "capacity": {
+     "v": 5.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2017,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     67.3851,
+     24.83
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "engro-port-qasim-lng",
+    "name": "Engro Port Qasim terminal (Excelerate Exquisite FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "PAK",
+    "operator": "Terminal: Engro; FSRU: Excelerate Energy",
+    "capacity": {
+     "v": 4.8,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2015,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal at Port Qasim, Karachi. Position is Port Qasim. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     67.3851,
+     24.8301
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jurong-slng",
+    "name": "Jurong Island LNG Terminal (SLNG)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "SGP",
+    "operator": "SLNG",
+    "capacity": {
+     "v": 9.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2013,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Singapore's only LNG import terminal in the table. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     103.6704,
+     1.2596
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "costa-azul-lng",
+    "name": "Energia Costa Azul LNG",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "MEX",
+    "operator": "IEnova (Sempra)",
+    "capacity": {
+     "v": 7.6,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2008,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "North of Ensenada, Baja California. Position is the Costa Azul district. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -116.6025,
+     31.8496
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "altamira-lng-terminal",
+    "name": "Altamira LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "MEX",
+    "operator": "Terminal de LNG de Altamira (Vopak 60%, Enagas 40%)",
+    "capacity": {
+     "v": 5.7,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2006,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Not the Altamira floating liquefaction unit. Position is the town of Altamira. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -97.9363,
+     22.3922
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "guanabara-bay-lng",
+    "name": "Guanabara Bay LNG (Excelerate Experience FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "BRA",
+    "operator": "Terminal: Petrobras; FSRU: Excelerate Energy",
+    "capacity": {
+     "v": 6.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2014,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal in Guanabara Bay, Rio de Janeiro. Position is the bay. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -43.1272,
+     -22.8169
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sergipe-lng",
+    "name": "Sergipe LNG (Energos Nanook FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "BRA",
+    "operator": "Terminal: Energos Infrastructure; charterer CELSE",
+    "capacity": {
+     "v": 5.6,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2020,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal serving the Porto de Sergipe power plant. Position is Barra dos Coqueiros. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -37.0386,
+     -10.9076
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nusantara-regas-lng",
+    "name": "Nusantara Regas Satu FSRU (Jakarta Bay)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IDN",
+    "operator": "PT Nusantara Regas (Pertamina 60%, PGN 40%)",
+    "capacity": {
+     "v": 3.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2012,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal in Jakarta Bay. Position is the bay. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.8752,
+     -6.0322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "alexandroupolis-lng",
+    "name": "Alexandroupolis FSRU",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "GRC",
+    "operator": "Gastrade (GasLog, DEPA, DESFA, Elmina Copelouzou, Bulgartransgaz)",
+    "capacity": {
+     "v": 4.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2024,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal off Alexandroupolis. The report says a technical problem halted operations in January 2025 and that capacity was restored by 21 October 2025. Position is the city. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     25.8779,
+     40.8457
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "krk-lng",
+    "name": "Krk LNG Terminal (LNG Croatia FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "HRV",
+    "operator": "LNG Hrvatska (HEP 85%, Plinacro 15%); FSRU: Golar LNG",
+    "capacity": {
+     "v": 2.8,
+     "u": "Mtpa",
+     "y": 2025,
+     "n": "the table lists 2.8 Mtpa and an expansion of 1.6 Mtpa in 2025; the text says a new module raised the maximum from 2.9 to 4.5 Mtpa in November 2025"
+    },
+    "opened": 2021,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Croatia's first LNG import terminal. Position is Omisalj. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     14.574,
+     45.2113
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fgen-batangas-lng",
+    "name": "FGEN Batangas LNG (BW Batangas FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "PHL",
+    "operator": "Terminal: FGEN LNG (First Gen 80%, Tokyo Gas 20%); FSRU owner BW LNG",
+    "capacity": {
+     "v": 5.3,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2023,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal at Batangas. Position is Batangas City. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.059,
+     13.7553
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "canaport-lng",
+    "name": "Canaport LNG (Saint John)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CAN",
+    "operator": "Repsol (operator: Canaport LNG)",
+    "capacity": {
+     "v": 7.4,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2009,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "site",
+    "note": "Canada's only LNG import terminal in the table. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -65.9868,
+     45.2133
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "escobar-lng",
+    "name": "Escobar LNG (Excelerate Expedient FSRU)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ARG",
+    "operator": "GNL Escobar (YPF and Enarsa, 50% each); FSRU: Excelerate Energy",
+    "capacity": {
+     "v": 6.1,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2011,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Floating terminal on the Parana River, about 50 km from Buenos Aires. Position is the town of Belen de Escobar. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.7951,
+     -34.3453
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "quintero-lng",
+    "name": "GNL Quintero",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHL",
+    "operator": "GNL Quintero (consortium led by EIG and Fluxys 80%, ENAP 20%)",
+    "capacity": {
+     "v": 3.8,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2009,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is the town of Quintero. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.5283,
+     -32.784
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zhuhai-lng",
+    "name": "Zhuhai LNG Terminal (CNOOC)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "CNOOC",
+    "capacity": {
+     "v": 7.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2013,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is the Gaolan port area, Zhuhai. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.1588,
+     22.0306
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ningbo-lng",
+    "name": "Ningbo LNG Terminal (CNOOC)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "CHN",
+    "operator": "CNOOC",
+    "capacity": {
+     "v": 6.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2013,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is the city of Ningbo. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.55,
+     29.872
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "higashi-ohgishima-lng",
+    "name": "Higashi-Ohgishima LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "JPN",
+    "operator": "JERA",
+    "capacity": {
+     "v": 13.2,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 1984,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "On Higashi-Ogishima island in Kawasaki. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.7554,
+     35.496
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chita-lng",
+    "name": "Chita LNG Terminal",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "JPN",
+    "operator": "Chita LNG",
+    "capacity": {
+     "v": 10.9,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 1983,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is the city of Tokai, Aichi. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     136.9024,
+     35.0229
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kochi-lng",
+    "name": "Kochi LNG Terminal (Petronet)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IND",
+    "operator": "Petronet LNG",
+    "capacity": {
+     "v": 5.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2013,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is Puthuvype, Kochi. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     76.2221,
+     10.0014
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mundra-lng",
+    "name": "Mundra LNG Terminal (GSPC)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IND",
+    "operator": "GSPC LNG Limited (Government of Gujarat entities 96%, Adani Group 4%)",
+    "capacity": {
+     "v": 5.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2020,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is Mundra port. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.6847,
+     22.753
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cartagena-es-lng",
+    "name": "Cartagena LNG Terminal (Enagas)",
+    "type": "lng-import",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "ESP",
+    "operator": "Enagas",
+    "capacity": {
+     "v": 8.7,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 1989,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Position is Escombreras, the port area of Cartagena. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.9192,
+     37.5715
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "donggi-senoro-lng",
+    "name": "Donggi-Senoro LNG",
+    "type": "lng-export",
+    "k": [
+     "lng",
+     "natural-gas"
+    ],
+    "c": "IDN",
+    "operator": "PT Donggi-Senoro LNG (Mitsubishi 45%, Pertamina 29%, KOGAS, others)",
+    "capacity": {
+     "v": 2.0,
+     "u": "Mtpa",
+     "y": 2025
+    },
+    "opened": 2015,
+    "status": "operating",
+    "statusAsOf": "2025-12",
+    "coord": "approx",
+    "note": "Central Sulawesi. Position is the village of Batui. Coordinates: OpenStreetMap.",
+    "s": "giignl-2026",
+    "read": "2026-11",
+    "url": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf#page=19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     122.5605,
+     -1.2793
+    ]
+   }
   }
  ]
 }
