@@ -59,8 +59,11 @@ let autoOpened: string | null = null;
 function tonnage(kt: number, est = false, group?: string): string {
   if (kt < 1) return 'under 1 kt';
   // a group under 1 Mt a year is printed in kt throughout, as its lane file and commodity page print it
-  if (kt < 100 || (group && SMALL_GROUPS.has(group))) {
+  const small = !!group && SMALL_GROUPS.has(group);
+  if (kt < 100 || small) {
     const v = est ? sig2(kt) : kt;
+    // a small group keeps the 0.1 kt of its files under 100 kt, as its lane page prints it
+    if (small && !est && kt < 100) return `${v.toFixed(1)} kt`;
     return `${kt < 10 ? fmt(v) : Math.round(v)} kt`;
   }
   const mt = kt / 1000;
@@ -533,7 +536,9 @@ function Answer({
         <p class="rf-empty">
           {kind === 'transit'
             ? 'Sea through a port of another country, which the atlas does not know. No route is modelled.'
-            : 'Counted as seaborne, but no route is modelled: a port is missing for one end, or both ends use the same port.'}
+            : kind === 'mixed'
+              ? 'No sea route is modelled: a port is missing for one end, or the only port the atlas has is on the far coast of the country.'
+              : 'Counted as seaborne, but no route is modelled: a port is missing for one end, the only port the atlas has is on the far coast of the country, or both ends use the same port.'}
         </p>
       ) : (
         <>

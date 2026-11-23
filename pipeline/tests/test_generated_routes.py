@@ -312,9 +312,11 @@ class PublishedRoutesTest(unittest.TestCase):
         names = [r["name"] for r in self.gen]
         self.assertEqual(len(names), len(set(names)))
         by_id = {r["id"]: r for r in self.routes}
-        self.assertEqual(by_id["gen-phosphate-rock-waf-med"]["name"], "Phosphate rock: Morocco to the Mediterranean")
-        self.assertEqual(by_id["gen-dap-waf-med"]["name"], "DAP: Morocco to the Mediterranean")
-        self.assertEqual(by_id["gen-dap-waf-ec-india"]["name"], "DAP: Morocco to Bangladesh")
+        # (package FL1: the Moroccan DAP and phosphate rock corridors of 0.8 to 2.2 Mt are now below the cap of 120, ranked by tonnes)
+        self.assertEqual(by_id["gen-phosphate-rock-red-sea-wc-india"]["name"], "Phosphate rock: Jordan to India")
+        self.assertEqual(by_id["gen-dap-meg-wc-india"]["name"], "DAP: Saudi Arabia to India")
+        # review GL1.8: an end is named after the customs country, not the country of its port (St Petersburg, Russia)
+        self.assertEqual(by_id["gen-potash-baltic-n-china"]["name"], "Potash: Belarus to North China")
         for r in self.gen:
             if "The name says the country" in r["notes"]:
                 self.assertIn("% of the tonnes)", r["notes"], r["id"])

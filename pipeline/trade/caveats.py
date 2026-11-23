@@ -281,6 +281,9 @@ def _break(g, o):
 
 
 _BLR_RAIL = ("https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports")
+# Figures of that page (Reform.news, 27 March 2026, citing Kommersant; read on 23 November 2026): potash Belarus exported
+# through Russia in 2025 (tonnes: "11.6 million tonnes"), and the share of it that went by rail to China and the CIS countries
+BLR_VIA_RUSSIA_2025_T, BLR_RAIL_SHARE_2025 = 11_600_000, 0.09
 
 
 def _with_rail(base):
@@ -288,7 +291,8 @@ def _with_rail(base):
     atlas's own, with its source and year; the atlas counts the pairs as seaborne and subtracts nothing."""
     def text(c):
         s = base(c)
-        rail = ("Of the 11.6 Mt of potash that Belarus exported through Russia in 2025, 9% went by rail to China and the CIS countries "
+        rail = (f"Of the {BLR_VIA_RUSSIA_2025_T / 1e6:g} Mt of potash that Belarus exported through Russia in 2025, {BLR_RAIL_SHARE_2025:.0%} went "
+                "by rail to China and the CIS countries "
                 "together and the rest through Russian seaports, half of it from Bronka (Kommersant, as reported by Reform.news on 27 March "
                 f"2026, {_BLR_RAIL}). The atlas counts Belarus's recorded potash exports to China as seaborne, through St Petersburg: "
                 "the page gives no rail share for China alone, so nothing is subtracted")

@@ -78,9 +78,9 @@ def mask_gates(p, mask):
 
 
 def seaborne(group, year=YEAR):
-    """Mt: a group under 1 Mt a year is published in kt (review GL1.9)."""
+    """In the unit of the lane file: a group under 1 Mt a year is published in kt (review GL1.9)."""
     f = lane_file(group)
-    return f["seaborne"][f["years"].index(year)] / (1e3 if f["unit"] == "kt" else 1)
+    return f["seaborne"][f["years"].index(year)]
 
 
 def hist(ln, year):
@@ -99,8 +99,10 @@ class Selection(unittest.TestCase):
     def test_S01_coverage_per_group(self):
         want = {"crude-oil": 0.78, "refined-products": 0.58, "steel": 0.65, "wheat": 0.78, "lng": 0.88, "lpg": 0.87,
                 "coal": 0.93, "iron-ore": 0.93, "urea": 0.79, "rice": 0.73, "corn": 0.89, "soybeans": 0.93, "dap": 0.83,
-                # package L1: unwrought tin is spread over hundreds of parcels of a few hundred tonnes (59.6% in 2024)
-                "tin-metal": 0.58}
+                # package L1: unwrought tin is spread over hundreds of parcels of a few hundred tonnes (59.6% in 2024); package
+                # FL1 leaves the pairs drawn from the wrong coast of a country not routed (Spain to Belgium, Valencia to Antwerp):
+                # 56.9% for unwrought tin and 62.8% for unwrought zinc in 2024
+                "tin-metal": 0.56, "zinc-metal": 0.62}
         low = {}
         for g in groups():
             f = lane_file(g)
@@ -154,7 +156,7 @@ class Selection(unittest.TestCase):
             for r in f["rest"]:
                 self.assertIn(set(r), ({"o", "v", "n"}, {"o", "v", "n", "est"}))
                 if "est" in r:  # Mt of the remainder estimated by the atlas (review GE5, finding 2)
-                    self.assertTrue(0 < r["est"] <= r["v"] + 0.001, (g, r))
+                    self.assertTrue(0 < r["est"] <= r["v"] + (1 if f["unit"] == "kt" else 0.001), (g, r))  # 1 kt in either unit
 
     def test_S07_ids_sets_caps(self):
         import build_lanes as BL
@@ -224,7 +226,7 @@ class Pairs(unittest.TestCase):
             p = pairs_file(g)
             s = sum(r[2] for r in p["rows"] if r[3] in (0, 1))
             self.assertAlmostEqual(s, p["seaborne"], delta=max(0.001 * p["seaborne"], 2), msg=g)
-            self.assertAlmostEqual(p["seaborne"] / 1e3, seaborne(g), delta=0.01, msg=g)
+            self.assertAlmostEqual(p["seaborne"] / 1e3, seaborne(g) / (1e3 if lane_file(g)["unit"] == "kt" else 1), delta=0.01, msg=g)
 
     def test_P05_size(self):
         raw = gz = big = 0

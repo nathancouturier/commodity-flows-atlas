@@ -192,7 +192,7 @@ class Lanes(unittest.TestCase):
         # no page read names a port for these ends: they stay "sea, not routed"
         for g, o, d in (("refined-products", "TKM", "TUR"), ("potash", "UZB", "BRA"), ("coal", "USA", "SVK"),
                         # review GL1.1 and GL1.2: the pages name no port for these
-                        ("coal", "KAZ", "TUR"), ("coal", "KAZ", "IND"), ("coal", "KAZ", "JPN"), ("rice", "PRY", "TUR")):
+                        ("coal", "KAZ", "TUR"), ("coal", "KAZ", "IND"), ("coal", "KAZ", "JPN"), ("rice", "PRY", "CRI"), ("wheat", "PRY", "VNM")):
             r = pair(g, o, d)
             self.assertEqual((r["m"], r["load"]), (1, -1), (g, o, d))
 

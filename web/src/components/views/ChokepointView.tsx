@@ -211,12 +211,12 @@ function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: Chokepoi
                 setOpen(open === g ? null : g);
                 setAllLanes(false);
               }}
-              title={`${label(g)}: ${tonnes(v, small(g))} of ${small(g) ? tonnes(doc.groups[g]?.seaborne ?? 0, true) : `${fmtNum(doc.groups[g]?.seaborne)} Mt`} seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${mt3(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
+              title={`${label(g)}: ${tonnes(v, small(g))} of ${small(g) ? tonnes(doc.groups[g]?.seaborne ?? 0, true) : `${fmtNum(doc.groups[g]?.seaborne)} Mt`} seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${tonnes(upTo(g)!, small(g))} with the pairs that may cross it` : ''}`}
             >
               <span style={GRID}>
                 <span>
                   {label(g)}
-                  {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {mt3(upTo(g)!)} Mt with the pairs that may cross it</span>}
+                  {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {tonnes(upTo(g)!, small(g))} with the pairs that may cross it</span>}
                 </span>
                 <span class="num" style={RIGHT}>{v > 0 ? (small(g) ? tonnes(v, true) : mt3(v)) : '—'}</span>
                 <span class="num" style={RIGHT}>{v > 0 ? share(v, g) : '—'}</span>

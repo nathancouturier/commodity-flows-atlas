@@ -163,7 +163,9 @@ class G11(unittest.TestCase):
                         elif basis == ports.BASIS_GENERAL:
                             self.assertIn(seg, ports.GENERAL_SEGMENTS)
                             self.assertIn(code, {r.code for r in rows if "box" in r.families})
-                            self.assertFalse([r for r in rows if r.families & set(fams)])
+                            # a minor metal of the "box" segment: its box rows are general ports (review GL1.6); no row names the metal
+                            named = (group,) if group in ports.BOX_GENERAL else fams
+                            self.assertFalse([r for r in rows if r.families & set(named)])
                         elif basis == ports.BASIS_LEGACY:
                             self.assertEqual(code, ports._legacy_port(iso, group))
                         else:

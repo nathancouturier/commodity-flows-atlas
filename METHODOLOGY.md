@@ -215,20 +215,19 @@ seaborne totals, the lane shares and the chokepoint shares.
    products and LPG, and grain between Spain and France both ways. 309.8 Mt in 2024 on 52 pairs:
    Russia → China 236.2 Mt, the United States → Mexico 57.1 Mt, Mexico → the United States 10.9 Mt,
    France → Spain 2.7 Mt, China → Russia 2.6 Mt, Spain → France 0.2 Mt; by group, crude oil 108.5 Mt,
-   coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt. Package L1 added
-   Belarus → China for fertilisers: Belarusian potash for China leaves both through Russian seaports
-   and by rail (OSW, November 2024: Belaruskali redirected its shipments to Russian ports and
-   negotiated deliveries to China by land; Kommersant, reported by Reform.news in March 2026: 9% of
-   the potash Belarus exported through Russia in 2025 went by rail to China and the CIS countries). No
-   page gives the split of the trade with China, so the 2.9 Mt of 2024 are a mixed pair, drawn dashed
-   from St Petersburg, the transit port of the Belarusian row. With the minor metals, the mixed pairs
-   hold 313.1 Mt on 64 pairs in 2024.
+   coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt. With the minor
+   metals, the mixed pairs hold 310.2 Mt on 63 pairs in 2024. Belarus → China potash is not a mixed
+   pair: package L1 had made it one, and the review of that package (fixed in package FL1) returned it
+   to the seaborne pairs, because the pages bound the rail share: Kommersant, reported by Reform.news
+   in March 2026, gives 9% of the 11.6 Mt Belarus exported through Russia in 2025 as rail to China and
+   the CIS countries together. The rail fact is in the Belarusian caveat (`potash-blr`), with its
+   source and year; nothing is subtracted from the 2.9 Mt of 2024.
 5. **Land neighbours** (a mainland border, see below): land, unless the pair is in `SEA_NEIGHBOURS`
    for the cargo family. A landlocked end with a land border is land.
 6. **Sea outlets** (`SEA_OUTLET`): a landlocked exporter whose group is listed leaves by sea through
    a foreign port, to a coastal buyer or to a landlocked one outside its overland blocs: Kazakh crude
    (CPC pipeline to Novorossiysk; 63.0 Mt in 2024), Azerbaijani crude (BTC pipeline to Ceyhan;
-   23.3 Mt), Belarusian potash (0.7 Mt; the 2.9 Mt for China are mixed, rule 4), Paraguayan soy and corn (Paraná–Paraguay waterway; 2.6 Mt)
+   23.3 Mt), Belarusian potash (3.6 Mt, China included), Paraguayan soy and corn (Paraná–Paraguay waterway; 2.6 Mt)
    and Zambian copper (TAZARA railway to Dar es Salaam; 1.1 Mt).
 7. **Two landlocked ends**: land.
 8. **One landlocked end**: sea via a transit port when the two countries share no overland bloc
@@ -278,9 +277,9 @@ Islands, all coastal, and the pseudo-place "Asia, not specified". The site names
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
 **2024 by mode** (42 lane groups, 25,849 pairs, 9,154.1 Mt): sea 7,752.5 Mt (18,994 pairs), sea via a
-transit port 167.9 Mt (2,181 pairs), sea and overland 313.1 Mt (64 pairs), land 920.6 Mt (4,610
-pairs). Seaborne: 7,920.4 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
-minor metals were added; Belarusian potash to China, 2.9 Mt, moved from transit to sea and overland.)
+transit port 170.8 Mt (2,182 pairs), sea and overland 310.2 Mt (63 pairs), land 920.6 Mt (4,610
+pairs). Seaborne: 7,923.3 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
+minor metals were added; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
 (`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo (a customs
@@ -314,7 +313,8 @@ default rows. Slovakia has no row although the Constanța article names it: a
 default row would also send its crude imports there. A transit pair is routed from or to that port
 and the site writes "sea via" the port. A seaborne pair whose landlocked end has no sourced row
 (Central Asian products, potash and urea of Uzbekistan and Turkmenistan, Kazakh products, Slovak
-and Bolivian trade among them: 27.4 Mt in 2024, 47.7 Mt before package L1) stays in the seaborne
+and Bolivian trade, and Kazakh coal for the buyers the Kpler page does not name, among them: 31.4 Mt in
+2024, 47.7 Mt before package L1) stays in the seaborne
 totals but is not routed and has no lane.
 
 **Sea and overland.** A mixed pair's tonnage is the customs total for all modes. It is kept out of
@@ -348,8 +348,22 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     lithium carbonate and hydroxide, 0.002 Mt for tin concentrate, cobalt and rare earths and 0.001 Mt
     for unwrought tin, which trade in parcels of a few thousand tonnes). The caps run from 20
     lanes (nickel ore, spodumene concentrate, tin concentrate, cobalt) to 150 (refined products,
-    steel); they are in `CAP`. A group under 1 Mt of seaborne trade a year keeps four decimals of Mt
-    (0.1 kt) in its lane file, and its pairs file's seaborne total is the sum of its published rows.
+    steel); they are in `CAP`. A group under 1 Mt of seaborne trade a year (unwrought tin, tin concentrate,
+    cobalt, lithium chemicals, rare earths) is published in kt with one decimal (the lane file's `unit`),
+    as its commodity page prints it, and the lane page, the lane table, the Route finder and the
+    chokepoint lists print it in kt too; its pairs file's seaborne total is the sum of its published rows.
+    Where figures of several groups are compared or summed (the width of the lanes on the map, the
+    lanes of a country, a commodity with groups in both units), they are taken in Mt.
+    No lane from the wrong coast (review of package L1, fixed in FL1): many minor-metal ports have no page
+    for the cargo, so for these eight groups a pair whose route is more than 1.8 times the great-circle
+    distance of its two ports is not routed when an end's port has no page that names the cargo and
+    either another port of that country in the atlas's tables reaches the other end in under 60% of the
+    distance (Russian lead concentrate and cobalt for China and Korea from Novorossiysk, Saudi lead for
+    the Emirates from Jeddah, Spanish and French metal for northern Europe from Valencia and Fos), or the
+    port is only the country's nearest seaport (Turkish lead concentrate for China and Korea from
+    Samsun): 0.6 Mt of seaborne pairs in 2024, and the 0.37 Mt mixed Russia → China lead concentrate.
+    For the general-cargo minor metals, a row that names containers or general cargo at a port is a
+    general port of the country, not a page that names the cargo; a row that names the metal keeps it.
     The minor metals (lead, zinc and tin metal, tin concentrate, cobalt, lithium chemicals, rare
     earths) sail as general cargo: container first, Handysize second, like refined copper; lead
     concentrate takes the classes of zinc concentrate (Supramax, Handysize).
@@ -365,12 +379,12 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 2,629 main seaborne lanes, 38 mixed lanes and 276 history lanes over 42 groups (2,400, 35
+  - 2024: 2,619 main seaborne lanes, 35 mixed lanes and 272 history lanes over 42 groups (2,400, 35
     and 182 over 34 groups before the minor metals); the main lanes carry 85.5% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
-    (59.6%), refined products (60.1%), aluminium (66.1%), cocoa (66.5%), unwrought lead (66.8%),
-    unwrought zinc (67.5%), steel (68.2%) and coffee (69.9%); potash reads 80.0% (73.7% before the
+    (56.9%), refined products (60.1%), unwrought zinc (62.8%), unwrought lead (64.3%), aluminium
+    (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 81.2% (73.7% before the
     Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
   the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,849 pairs in
@@ -378,10 +392,11 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,149.6 Mt in 2024); a pair "not routed" has no route at all (43.9 Mt in 2024: 27.4 Mt because a
+  (1,150.3 Mt in 2024); a pair "not routed" has no route at all (48.5 Mt in 2024: 31.4 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
-  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway; 64.2
-  Mt, 47.7 Mt of it for want of a transit port, before package L1).
+  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway, 0.6 Mt
+  of minor metals from the wrong coast; 64.2 Mt, 47.7 Mt of it for want of a transit port, before
+  package L1).
 - **The Route finder** reads the pairs files of the commodity's groups, so it never says "no flow" for
   a pair that customs data record. It can start from the origin or from the destination, and
   answers in one of six ways: a drawn lane (with its ports, passages, alternatives and caveat); a
@@ -406,10 +421,10 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
-  two ends, 15,841 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
-  transit port is one more port): page names the cargo 69.8%, port used before 22.4%, general port
-  4.0%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.6% (after package L1; 0.8%
-  had no port before it). Most rows cite a Wikipedia article. The United States crude and
+  two ends, 15,847 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  transit port is one more port): page names the cargo 69.7%, port used before 22.4%, general port
+  4.1%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.6% (after package FL1; 0.8%
+  had no port before package L1). Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
   Malaysia, India and Thailand are the refinery towns of the EIA country briefs (a refinery is the
@@ -531,17 +546,24 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   regions (Europe, East Asia, and so on: an Atlas grouping listed in the code). Unrouted pairs (no gateway, no sea
   route) are in no corridor. The cap on the whole atlas is 120 generated routes: the map draws every route, and a larger
   number made the world view unreadable even with the generated lines drawn thinner (about 120 more lines on top of the
-  103). When a group list is cut, the lower-ranked corridors of the groups that have the most routes go first. The
-  result for 2024 is 223 routes, and 59.9% of the seaborne tonnes named (all groups): eight of the 34 groups reach 70%
-  (iron ore, bauxite, manganese, rapeseed, ferro-nickel, nickel ore, soybeans and spodumene) and 26 stay short of it,
-  from coal (69.2%, one corridor left out by the cap) down to steel (23%), aluminium (21%) and refined products (34%),
-  whose trade is spread over thousands of small pairs. `pipeline/freight/QA_routes.md`, written at each build, gives each
+  103). When the lists exceed it, the first corridor of each group that the audit's entries on named routes name is
+  kept first (crude oil, iron ore, coal, refined products, LNG, steel, manganese, alumina, sugar, rice, rapeseed,
+  coffee, cocoa, cotton, phosphate rock, DAP, urea, soybean meal, palm oil, corn, wheat, potash, soybeans), then the
+  corridors are taken by their tonnes across groups, each group's in its own order, so that no corridor is left out
+  for a smaller one of another group (package FL1; before, the first corridor of every group came first, and three
+  corridors of 1.1 to 1.5 Mt gave way to corridors of 0.5 Mt of the minor metals). The result for 2024 is 223
+  routes over 42 groups, and 66.0% of the seaborne tonnes named (all groups): ten of the 42 groups reach 70% (iron
+  ore, coal, crude oil, LPG, corn, soybeans, bauxite, ferro-nickel, nickel ore and spodumene); the others stay short of
+  it, among them steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
+  groups whose corridors are all smaller than those kept (aluminium, refined copper, zinc concentrate, the minor
+  metals: no generated route). `pipeline/freight/QA_routes.md`, written at each build, gives each
   group with its coverage, its reason when it is under the target, and the corridors the cap left out.
 
   A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
   zone, importing zone or region), its name is "Cargo: zone to zone", its source is `atlas`, and its page says
   "Atlas corridor, generated from customs pairs". An end is named for a country, not a zone, when that country holds at
-  least 80% of the tonnes of the end (counted at the typical ports of the corridor's pairs), unless the zone's own name
+  least 80% of the tonnes of the end (counted by the customs country of the corridor's pairs, not by the country of
+  their port: Belarusian potash loads at St Petersburg and its corridor is "Potash: Belarus to North China"), unless the zone's own name
   already says the country ("Eastern Australia", "US Gulf"): "West Africa" would send a reader to Nigeria or Ghana for
   cargo that loads in Morocco, so the corridor is "Phosphate rock: Morocco to the Mediterranean" and the note gives the
   shares. The name depends on the data only, so it is the same from run to run. Its ports, vessel class, distance and passages are those of the
