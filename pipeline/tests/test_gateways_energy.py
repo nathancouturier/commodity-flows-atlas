@@ -351,7 +351,10 @@ class FE4aSourcedGateways(unittest.TestCase):
         ("SAU", "crude-oil", "load"): "SARTA",        # Ras Tanura: largest crude oil export terminal
         ("IND", "crude-oil", "discharge"): "INVAD",   # Vadinar crude oil terminal (Paradip is the east-coast option)
         ("USA", "crude-oil", "load"): "USCRP",        # Port of Corpus Christi: largest gateway for crude exports
-        ("USA", "crude-oil", "discharge"): "USLOP",   # LOOP offloads tankers of crude oil
+        ("USA", "crude-oil", "discharge"): "USHOU",   # EIA company-level imports 2024: Houston, the largest seaport of entry
+        ("USA", "refined-products", "discharge"): "USEWR",   # same file: Newark (New York Harbor) enters the most products
+        ("TWN", "crude-oil", "discharge"): "TWMAL",   # EIA country brief: Mai Liao 55% of Taiwan's crude imports in 2025
+        ("LBY", "refined-products", "load"): "LYRLA",  # the Ras Lanuf page: loading crude oil and oil products
         ("USA", "lpg", "load"): "USHOU",              # Enterprise Products NGL export terminals, Houston Ship Channel
         ("IRQ", "crude-oil", "load"): "IQBOT",
         ("JPN", "crude-oil", "discharge"): "JPCHB",   # Port of Chiba imports crude petroleum and oil products
@@ -360,17 +363,14 @@ class FE4aSourcedGateways(unittest.TestCase):
         ("NOR", "crude-oil", "load"): "NOMON",
         ("NGA", "crude-oil", "load"): "NGBON",
         ("DEU", "crude-oil", "discharge"): "DEWVN",
-        ("ITA", "crude-oil", "discharge"): "ITTRS",
         ("KAZ", "crude-oil", "load"): "KZCPC",
         ("AZE", "crude-oil", "load"): "TRCEY",
         ("AGO", "crude-oil", "load"): "AOCAB",
         ("MEX", "crude-oil", "load"): "MXDBT",
         ("QAT", "crude-oil", "load"): "QAHAL",       # Halul Island loading terminal, not Mesaieed
-        ("KWT", "crude-oil", "load"): "KWMEA",
         ("GBR", "crude-oil", "load"): "GBSCU",
         ("GBR", "refined-products", "discharge"): "GBFAW",
         ("GBR", "refined-products", "load"): "GBFAW",
-        ("ECU", "crude-oil", "load"): "ECESM",
         ("POL", "crude-oil", "discharge"): "PLGDN",
         ("LBY", "crude-oil", "load"): "LYRLA",       # Ras Lanuf, not Tripoli
         ("VEN", "crude-oil", "load"): "VEPJO",
@@ -400,18 +400,23 @@ class FE4aSourcedGateways(unittest.TestCase):
         self.assertEqual([c[0] for c in self.ports.candidates("SAU", "crude-oil", "load")], ["SARTA", "SAYNB"])
         self.assertEqual([c[0] for c in self.ports.candidates("IND", "crude-oil", "discharge")], ["INVAD", "INPRT"])
         self.assertEqual([c[0] for c in self.ports.candidates("RUS", "refined-products", "load")], ["RUPRI", "RUNJK"])
+        # United States (EIA company-level imports, 2024): Gulf first, then the Pacific and the Atlantic coast
+        self.assertEqual([c[0] for c in self.ports.candidates("USA", "crude-oil", "discharge")], ["USHOU", "USLGB", "USEWR"])
+        self.assertEqual([c[0] for c in self.ports.candidates("USA", "refined-products", "discharge")], ["USEWR", "USHOU", "USLAX"])
+        self.assertEqual([c[0] for c in self.ports.candidates("TWN", "crude-oil", "discharge")], ["TWMAL", "TWKHH"])
 
     def test_legacy_ports_replaced_by_a_sourced_port(self):
         # Libyan crude no longer loads at Tripoli, Brazilian crude at Santos, Qatari crude at Mesaieed, US crude
-        # imports at Corpus Christi
+        # imports at Corpus Christi (and, since FE4c, Italian crude at Trieste, a port of the Transalpine pipeline)
         for (iso3, group, role), old in {("LBY", "crude-oil", "load"): "LYTIP", ("BRA", "crude-oil", "load"): "BRSSZ",
                                           ("QAT", "crude-oil", "load"): "QAMES", ("USA", "crude-oil", "discharge"): "USCRP",
                                           ("IND", "crude-oil", "discharge"): "INSIK", ("GBR", "refined-products", "load"): "GBSOU"}.items():
             self.assertNotIn(old, [c[0] for c in self.ports.candidates(iso3, group, role)], (iso3, group, role))
+        self.assertNotIn("ITTRS", [c[0] for c in self.ports.candidates("ITA", "crude-oil", "discharge")])
 
     def test_every_new_port_is_a_seaport(self):
         P = self.ports
-        new = set(self.PRINCIPAL.values()) | {"SAYNB", "INPRT", "RUNJK", "HRPLE", "GEBUS", "SDPZU", "DEHAM"}
+        new = set(self.PRINCIPAL.values()) | {"SAYNB", "INPRT", "RUNJK", "HRPLE", "SDPZU", "DEHAM", "USLGB", "USLAX", "TWKHH"}
         for code in sorted(new):
             if code in EN.OFFSHORE:
                 self.assertLessEqual(P.sea_km(code), 40, code)   # open water: the test of is_seaport does not apply
@@ -419,8 +424,8 @@ class FE4aSourcedGateways(unittest.TestCase):
                 self.assertTrue(P.is_seaport(code), code)
 
     def test_offshore_terminals_have_the_coordinates_of_their_page(self):
-        # infoboxes: LOOP 28.8852 N 90.02508 W; Halul Island 25.67500 N 52.41139 E
-        for code, (lon, lat) in {"USLOP": (-90.02508, 28.8852), "QAHAL": (52.41139, 25.675)}.items():
+        # infobox: Halul Island 25.67500 N 52.41139 E (the LOOP row went in FE4c: the EIA file of imports names Houston)
+        for code, (lon, lat) in {"QAHAL": (52.41139, 25.675)}.items():
             m = EN.MANUAL_EXTRA[code]
             self.assertLess(km((m[2], m[3]), (lon, lat)), 1.0, code)
             self.assertIn(code, EN.OFFSHORE)
@@ -437,8 +442,9 @@ class FE4aSourcedGateways(unittest.TestCase):
             self.assertEqual(self.ports.candidates(iso3, "crude-oil", "discharge")[0][0], EN.transit(iso3, "crude")[0], iso3)
 
     def test_new_transit_rows(self):
-        self.assertEqual(EN.transit("KAZ", "products")[0], "GEBUS")
-        self.assertEqual(EN.transit("AZE", "products")[0], "GEBUS")
+        # Batumi is no products row (review GE4, finding 3): its page names crude going to refining there, no product
+        self.assertIsNone(EN.transit("KAZ", "products"))
+        self.assertIsNone(EN.transit("AZE", "products"))
         self.assertEqual(EN.transit("KAZ", "crude")[0], "KZCPC")        # a family row still wins over nothing else
         self.assertIsNone(EN.transit("KAZ", "drybulk"))                  # no page names a sea outlet for Kazakh coal
         self.assertEqual(EN.transit("CZE", "drybulk")[0], "DEHAM")

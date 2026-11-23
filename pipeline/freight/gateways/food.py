@@ -285,6 +285,10 @@ G = {
         ("JOAQB", "red-sea", ("phosphate-rock",), "load", "wikipedia", W + "Aqaba",
          "Aqaba page: 'the Aqaba railway which transported phosphate to the old port ceased operations in 2018' and a successor line 'to transport phosphate from Al Shidiya and Ghor es-Safi to the new terminal in Port of Aqaba is planned'; the Port of Aqaba is 'the only port in Jordan' (phosphate rock only: no DAP and no potash named; the page gives no tonnage and the railway is history)"),
     ],
+    "BIH": [
+        ("HRPLE", "med", ("grain",), "discharge", "wikipedia", W + "Port_of_Plo%C4%8De",
+         "Ploce: 'Grain Cargo Terminal - handles transshipment, packaging and storage of cereals and oilseeds'; the port 'mostly serving Bosnia and Herzegovina' (a Croatian port at the outlet of a country with 20 km of coast; direction not given, Bosnia and Herzegovina imports grain)"),
+    ],
     "NLD": [
         ("NLRTM", "nw-europe", ("box",), "both", "wikipedia", W + "Port_of_Rotterdam",
          "Rotterdam: Europe Container Terminals 'operates two major container terminals at the port' (the page names no grain)"),

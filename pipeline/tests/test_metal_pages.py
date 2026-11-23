@@ -153,7 +153,8 @@ class BuiltFiles(unittest.TestCase):
     def test_index_hs_codes_follow_the_pipeline(self):
         idx = {e["id"]: e for e in json.load(open(os.path.join(COMMOD, "index.json"), encoding="utf-8"))}
         self.assertEqual(idx["cobalt"]["hs"], ["2605", "810510"])
-        self.assertNotIn("253090", idx["lithium"]["hs"])
+        # HS 253090 is read for spodumene concentrate since package W3M1 (pipeline/trade/hs_map.py SPLIT)
+        self.assertEqual(idx["lithium"]["hs"], ["283691", "282520", "253090"])
 
     def test_bauxite_has_its_two_discrepancies_and_the_importers_table(self):
         d = self.load("bauxite")

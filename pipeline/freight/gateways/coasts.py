@@ -226,6 +226,12 @@ G = {
         ("MZMNC", "e-africa", ("coal",), "load", "wikipedia", W + "Moatize",
          "Moatize: 'the Nacala railway, connecting the Moatize basin with a new coal harbour at Nacala-a-Velha started operating in 2015'; the Nacala page: 'a coal terminal, operated by the Port of Nacala, is located in the town of Nacala-a-Velha' on the other side of the bay. The searoute point Nacala stands for the bay's port"),
     ],
+    # Bosnia and Herzegovina has no port of its own (20 km of coast): its sea outlet is Ploce, in Croatia (TRANSIT of
+    # gateways/energy.py, fuel row in the same module). The page names the terminals; the direction is not given.
+    "BIH": [
+        ("HRPLE", "med", ("coal", "iron-ore"), "discharge", "wikipedia", W + "Port_of_Plo%C4%8De",
+         "Ploce: the Bulk Cargo Terminal 'handles coal, iron ore, pig iron, scrap iron, phosphates and cinder'; the port 'mostly serving Bosnia and Herzegovina'; opened in 1945 'handling imports of coal and cereal and exports of bauxite and timber' (history: the page gives no bauxite terminal today, so bauxite is not a row; an 'Alumina and Petroleum Coke Terminal' handles alumina, direction not given)"),
+    ],
     "SWE": [
         ("SELLA", "baltic", ("ore",), "load", "wikipedia", W + "Lule%C3%A5",
          "Lulea: 'a transport hub in the region for ore, steel and freight, with trans-shipping between road, ship and rail'; 'in terms of bulk shipments, the Port of Lulea is one of the country's biggest ports'. The page says ore, not iron ore"),
