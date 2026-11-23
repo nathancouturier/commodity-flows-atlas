@@ -104,7 +104,8 @@ is called one where it is shown. The figures below are those of the build from C
   precision, so that lane files, pairs files and totals still add up); no share of the
   destination's imports is written for it. Past years estimated from value are marked on the lane
   chart. Totals that include estimated rows keep the source of the data (`baci`) and say how much
-  is estimated: a lane file's year note when it is 0.5% or more of the year's seaborne tonnes, a
+  is estimated: a lane file's year note when it is 0.5% or more of the year's seaborne tonnes (the
+  file's `estY` gives that share for every year), a
   ranked table's note when it is 1% or more of world tonnage (from 10%, "includes an Atlas
   estimate", and the world total keeps three significant digits); a country row of which half or
   more is estimated is itself labelled "Atlas estimate". In 2024, 168 rows and 76.4 Mt of the lane
