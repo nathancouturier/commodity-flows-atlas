@@ -540,7 +540,7 @@ export interface PairsFile {
   /** sea + transit tonnes (kt): the denominator of the shares */
   seaborne: number;
   /** [code, name, country, zone, basis]: the zone is null outside the zone table; basis (an index in `bases`) is absent in older files */
-  ports: [string, string, string, string | null, number?][];
+  ports: [string, string, string, string | null, (number | null)?, (number | null)?][];
   /** why a port is used, see PortRef.basis */
   bases?: string[];
   /** for estimated or checked pairs that have no lane: the note the lane would carry, keyed "<o>-<d>" */

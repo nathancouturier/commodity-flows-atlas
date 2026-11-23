@@ -19,7 +19,9 @@ file; otherwise the previous good file is kept and the failure is recorded.
 
 Processing chain, run when the inputs it depends on changed (or when its last run failed), each step in its
 own try block with a backup of its outputs that is restored on failure:
-  build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ; build_profiles.py (if present)
+  geo/adjacency.py -> build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ;
+  build_profiles.py (if present)
+No check result raises: checks are written to pipeline/cache/trade_checks.json and QA.md only.
 Always exits 0.
 """
 import argparse
@@ -346,11 +348,17 @@ def process(changed):
     chain = []
     if "baci" in changed or pending("build-freight"):
         def freight():
+            # borders and coasts first: modes.py reads adjacency.json when build_lanes.py imports it
+            run([PY, os.path.join(ROOT, "pipeline", "geo", "adjacency.py")], 600)
             run([PY, os.path.join(ROOT, "pipeline", "freight", "build_lanes.py")], 3 * 3600)
             run([PY, os.path.join(ROOT, "pipeline", "freight", "build_freight.py")], 3600)
+        # data/freight holds the lanes, pairs, caveats and zones files; the caches are those the two builders write
         chain.append(("build-freight", freight, [os.path.join(data, "freight"), sources_json,
+                                                os.path.join(data, "countries", "places.json"),
+                                                os.path.join(CACHE, "adjacency.json"),
                                                 os.path.join(CACHE, "seaborne_totals.json"), os.path.join(CACHE, "geom_cache.json"),
-                                                os.path.join(CACHE, "sea_flows.csv.gz")]))
+                                                os.path.join(CACHE, "route_cache.json"), os.path.join(CACHE, "trade_checks.json"),
+                                                os.path.join(CACHE, "sea_flows.csv.gz"), os.path.join(CACHE, "mixed_flows.csv.gz")]))
     commodities = os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py")
     if os.path.exists(commodities) and (changed or pending("build-commodities")):
         chain.append(("build-commodities", lambda: run([PY, commodities], 3600),

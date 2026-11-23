@@ -144,9 +144,13 @@ export function maskGates(mask: number, gates: string[]): string[] {
 /** Decode the rows of a pairs file (columns are found by name, so their order may change). */
 export function decodePairs(file: PairsFile): Pair[] {
   const ix = Object.fromEntries(file.cols.map((c, i) => [c, i]));
-  const port = (i: number): PairPort | null => {
+  // a port row carries its basis as a loading port (fifth element) and as a discharging port (sixth); an older
+  // file has one basis for both
+  const port = (i: number, discharge = false): PairPort | null => {
     const p = i >= 0 ? file.ports[i] : undefined;
-    return p ? { id: p[0], name: p[1], c: p[2], zone: p[3] ?? null, basis: p[4] != null ? file.bases?.[p[4]] : undefined } : null;
+    if (!p) return null;
+    const b = discharge && p.length > 5 ? p[5] : p[4];
+    return { id: p[0], name: p[1], c: p[2], zone: p[3] ?? null, basis: b != null ? file.bases?.[b] : undefined };
   };
   return file.rows.map((r) => {
     const f = Number(r[ix.f] ?? 0);
@@ -159,7 +163,7 @@ export function decodePairs(file: PairsFile): Pair[] {
       kt: Number(r[ix.kt]),
       kind: PAIR_KINDS[Number(r[ix.m])] ?? 'land',
       load: port(Number(r[ix.load])),
-      dis: port(Number(r[ix.dis])),
+      dis: port(Number(r[ix.dis]), true),
       nm: Number(r[ix.nm]) || 0,
       cls: cls >= 0 ? (file.classes[cls] ?? null) : null,
       via: maskGates(Number(r[ix.via]) || 0, file.gates),

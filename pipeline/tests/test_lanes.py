@@ -713,8 +713,11 @@ class ReviewGE5(unittest.TestCase):
             p = pairs_file(g)
             self.assertEqual(p["bases"], list(ports.BASES), g)
             for e in p["ports"]:
-                self.assertEqual(len(e), 5, (g, e))
-                self.assertTrue(0 <= e[4] < len(p["bases"]), (g, e))
+                # [code, name, country, zone, basis as a loading port, basis as a discharging port]
+                self.assertEqual(len(e), 6, (g, e))
+                self.assertTrue(e[4] is not None or e[5] is not None, (g, e))
+                for b in e[4:6]:
+                    self.assertTrue(b is None or 0 <= b < len(p["bases"]), (g, e))
 
     def test_F3_no_alt_on_lanes(self):
         self.assertEqual([ln["id"] for g in groups() for ln in lane_file(g)["lanes"] if "alt" in ln], [])

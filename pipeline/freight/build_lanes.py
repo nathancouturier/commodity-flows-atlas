@@ -766,7 +766,7 @@ def main():
         write_json(os.path.join(OUT, f"{group}.json"), doc)
 
         # pairs table: every recorded pair of the latest year
-        pport, pcls, prow, puse, pnotes = {}, {}, [], defaultdict(set), {}
+        pport, pcls, prow, puse, pnotes = {}, {}, [], {"load": defaultdict(set), "discharge": defaultdict(set)}, {}
         lane_pairs = set(main) | set(mixed_l)
         for r in gy.itertuples(index=False):
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
@@ -784,8 +784,8 @@ def main():
                 for code in (lo, di):
                     if code not in pport:
                         pport[code] = len(pport)
-                puse[lo].add(port_use(r.o, group, "load", lo, rec["trows"])[0])
-                puse[di].add(port_use(r.d, group, "discharge", di, rec["trows"])[0])
+                puse["load"][lo].add(port_use(r.o, group, "load", lo, rec["trows"])[0])
+                puse["discharge"][di].add(port_use(r.d, group, "discharge", di, rec["trows"])[0])
                 cls = rec["classes"][0]
                 if cls not in pcls:
                     pcls[cls] = len(pcls)
@@ -802,9 +802,12 @@ def main():
         pdoc = {
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "baci", "unit": "kt",
             "seaborne": round(sea_tot[latest] / 1e3),
-            # [code, name, country, zone, basis]: basis indexes `bases`, the weakest of the roles the port has in this file
-            "ports": [[c, P.port(c)["name"], port_iso3(c), (_meta.get(c) or P.port_meta(c)).get("zone"),
-                       max(BASIS_RANK[b] for b in puse[c])] for c in pport],
+            # [code, name, country, zone, basis as a loading port, basis as a discharging port]: each basis indexes `bases`
+            # and is null when no pair of the file uses the port in that role. A page can name a cargo at a port in one
+            # direction only, so the two differ (the weakest is kept where several countries share the port in one role).
+            "ports": [[c, P.port(c)["name"], port_iso3(c), (_meta.get(c) or P.port_meta(c)).get("zone")]
+                      + [max(BASIS_RANK[b] for b in puse[role][c]) if puse[role].get(c) else None for role in ("load", "discharge")]
+                      for c in pport],
             "bases": list(P.BASES),
             "classes": list(pcls),
             "gates": gates,

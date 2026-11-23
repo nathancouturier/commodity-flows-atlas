@@ -85,11 +85,12 @@ export function validateFreight(root, errors) {
       continue;
     }
     for (const p of doc.ports) if (!Array.isArray(p) || p.length < 4 || typeof p[0] !== 'string') bad(file, `a port entry is not [code, name, country, zone]: ${JSON.stringify(p)}`);
-    // the basis of a port (optional fifth element): an index in the file's `bases`
+    // the basis of a port as a loading port (optional fifth element) and as a discharging port (optional sixth): indexes in
+    // the file's `bases`, null when no pair uses the port in that role
     if (doc.bases !== undefined && !(Array.isArray(doc.bases) && doc.bases.every((b) => typeof b === 'string'))) bad(file, 'bases is not a list of strings');
     else for (const b of doc.bases ?? []) if (!PORT_BASES.includes(b)) bad(file, `bases names "${b}", which is not one of the port bases of ports.py`);
     for (const p of doc.ports) {
-      if (Array.isArray(p) && p[4] != null && !(Number.isInteger(p[4]) && p[4] >= 0 && p[4] < (doc.bases?.length ?? 0))) bad(file, `port ${p[0]}: basis index ${p[4]} is not in bases`);
+      for (const i of [4, 5]) if (Array.isArray(p) && p[i] != null && !(Number.isInteger(p[i]) && p[i] >= 0 && p[i] < (doc.bases?.length ?? 0))) bad(file, `port ${p[0]}: basis index ${p[i]} is not in bases`);
       if (knownCountries && Array.isArray(p) && !knownCountries.has(p[2])) bad(file, `port ${p[0]}: country "${p[2]}" is not in countries/index.json or places.json`);
     }
     const range = 2 ** Math.min(gates.length, 31);
