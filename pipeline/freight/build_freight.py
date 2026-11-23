@@ -564,6 +564,8 @@ def main():
                 pair_tm[(g, r["o"], r["d"])] = r["t"] * r["nm"]
                 class_tm[FAMILY.get(r["cls"], r["cls"])] += r["t"] * r["nm"]
 
+    main_lane = {ln["id"]: ln for ln in main_lanes}
+    pair_row = {(g, r["o"], r["d"]): r for g, p in pairs.items() for r in p["rows"] if r["m"] in (0, 1)}
     defs = load("routes_def.json")
     # generated corridors (generated_routes.py): a route for each large seaborne corridor that no hand-written route names
     latest_t = {(g, o, d): t for g, o, d, t in df[df["year"] == latest][["group", "o", "d", "t"]].itertuples(index=False)}
@@ -605,7 +607,9 @@ def main():
         if r.get("standIn"):
             out["standIn"] = r["standIn"]
         if cor:
-            out["corridor"] = cor
+            # an entry that does not name its customs group lists those of its commodity (`gs`), so that the site never
+            # matches a lane of another group (refined copper is not copper concentrate)
+            out["corridor"] = [c if c.get("g") else {**c, "gs": corridor_groups(c)} for c in cor]
         if r.get("roundVoyage"):
             out["roundVoyage"] = True
         if r.get("parcel"):
@@ -627,6 +631,15 @@ def main():
             classes, s = BL._classes_and_plan(g, o, d, latest_t[(g, o, d)], pa["at"], pb["at"], geometry=True)
             if s and (classes[0] != r["vclass"] or round(s["nm"]) != round(r["_nm"])):
                 print("generated route differs from its pair", r["id"], classes, s["nm"], r["vclass"], r["_nm"])
+            if s:
+                # the passages are the pair's own, as the Route finder gives them: those every port option crosses, and those
+                # some option or a parallel passage may cross (the drawn line is the main option's, which may cross more)
+                lane = main_lane.get(f"{g}:{o}-{d}")
+                if lane:
+                    s = {**s, "via": list(lane["via"]), "viaAlt": [list(x) for x in lane.get("viaAlt") or []]}
+                else:
+                    row = pair_row[(g, o, d)]
+                    s = {**s, **dict(zip(("via", "viaAlt"), GR.pair_passages(s["via"], row["via"], row["alt"])))}
         else:
             s = BL.plan_summary(pa["at"], pb["at"], [r["vclass"]], geometry=True)  # routing.plan(), as the lanes
         if not s:
@@ -769,6 +782,9 @@ def main():
     tot = sum(x["seaborne"] for x in gen_report.values())
     print(f"  all groups: hand-written {sum(x['seaborne'] * x['handShare'] for x in gen_report.values()) / tot:.1f}%, "
           f"with generated {sum(x['seaborne'] * x['share'] for x in gen_report.values()) / tot:.1f}% of {tot:,.0f} Mt")
+    # the same report, with what the caps left out, as a tracked file (the same text on every run over the same data)
+    with open(os.path.join(HERE, "QA_routes.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(GR.qa_markdown(gen_report))
 
     # vessel classes (with the typical laden speed used for laden days), events: pass through
     vcs = load("vessel_classes.json")
@@ -796,7 +812,11 @@ def main():
     chk = load("chokepoints.json")
     reg = json.load(open(os.path.join(ROOT, "data", "sources.json")))
     bypass_notes(chk, reg)
-    rows = BW.read_rows(os.path.join(RAW, "portwatch"))
+    # the daily table kept by fetch_portwatch.py (pipeline/cache/portwatch, not in git), else the saved raw pages
+    rows = BW.read_rows()
+    if not rows:
+        print("PortWatch daily table not found (pipeline/cache/portwatch, raw/portwatch): annual tonnages are read from "
+              "the weekly series of data/freight/portwatch and those series are not rebuilt")
     pw = pw_volumes(chk, rows)
     k9 = chokepoint_shares(chk, pairs, pw, active, unrecorded_through(df, active, latest), latest, alerts)
     for c in chk:

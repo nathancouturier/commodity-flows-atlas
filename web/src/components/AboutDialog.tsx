@@ -333,6 +333,10 @@ function MethodTabView() {
         </li>
         <li>The vessel classes shown on a lane are the typical ones for the cargo and the ports. They are not measured shares.</li>
         <li>
+          Atlas corridors are freight routes that the atlas generates from the customs pairs table: the ports, vessel class, distance and passages of the
+          largest pair of each corridor. They are not market benchmarks.
+        </li>
+        <li>
           Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
           the atlas computed from the declared value; it is shown to two significant digits.
         </li>

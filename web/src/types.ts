@@ -314,7 +314,7 @@ export interface Route {
   a: [number, number];
   b: [number, number];
   /** bilateral flows this route represents: commodity id, origin and destination ISO3 lists */
-  corridor?: { k: string; /** customs group, named by a generated corridor */ g?: string; o: string[]; d: string[] }[];
+  corridor?: { k: string; /** customs group, named by a generated corridor */ g?: string; /** customs groups of an entry that has no `g` (the groups of its commodity) */ gs?: string[]; o: string[]; d: string[] }[];
   /** country (ISO3) of each end of the drawn leg: load area, discharge area */
   ends?: [string | null, string | null];
   /** share of each cargo's seaborne trade carried on this corridor */

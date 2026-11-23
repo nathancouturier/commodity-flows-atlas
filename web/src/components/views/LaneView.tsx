@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
+import { corridorHas, lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
@@ -81,7 +81,7 @@ export default function LaneView({ id }: { id: string }) {
   const portNames = (ids: string[]) => ids.map((p) => file.ports[p]?.name ?? p);
   const loadP = portNames(lane.load);
   const disP = portNames(lane.discharge);
-  const matching = (routes ?? []).filter((r) => r.corridor?.some((c) => c.k === lane.k && (!c.g || c.g === file.group) && c.o.includes(lane.o) && c.d.includes(lane.d)));
+  const matching = (routes ?? []).filter((r) => corridorHas(r, file.group, lane.o, lane.d));
   const groupName = file.label ?? meta?.name ?? file.group;
   // History timeline: the flow and its share of seaborne trade are those of the selected year
   const yr = year.value;

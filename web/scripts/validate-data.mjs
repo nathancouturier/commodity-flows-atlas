@@ -170,9 +170,24 @@ function checkPrices() {
     // breaks, annual runs and estimates must sit inside the series and in order
     const inside = (s) => (m.freq === 'A' ? String(s).slice(0, 4) >= m.start && String(s).slice(0, 4) <= m.end : s >= m.start.slice(0, 7) && s <= m.end.slice(0, 7));
     let prev = '';
+    let prevNow = null;
     for (const b of m.breaks ?? []) {
       if (!ym.test(b.at) || !inside(b.at) || b.at <= prev || !b.now) errors.push(`${at}: break ${b.at} is out of range, out of order or empty`);
+      // the breaks form a chain: what a break replaces is what the previous one introduced
+      if (prevNow !== null && b.before !== prevNow) errors.push(`${at}: break ${b.at} replaces "${b.before}", the previous break introduced "${prevNow}"`);
       prev = b.at;
+      prevNow = b.now;
+    }
+    // an index is 100 in its base year: the mean of the twelve months (the value, for an annual series) is 100 once rounded
+    if (/^index \(2010 = 100\)$/.test(m.unit) && m.freq !== 'D') {
+      const at2010 = [];
+      for (let i = 0; i < v.length; i++) {
+        const y = m.freq === 'M' ? Number(m.start.slice(0, 4)) + Math.floor((Number(m.start.slice(5, 7)) - 1 + i) / 12) : Number(m.start) + i;
+        if (y === 2010 && v[i] !== null) at2010.push(v[i]);
+      }
+      const want = m.freq === 'M' ? 12 : 1;
+      const mean = at2010.reduce((a, b) => a + b, 0) / (at2010.length || 1);
+      if (at2010.length !== want || mean < 99.5 || mean > 100.5) errors.push(`${at}: an index (2010 = 100) averages ${mean.toFixed(2)} over 2010 (${at2010.length} values)`);
     }
     for (const r of m.annual ?? []) {
       if (!Array.isArray(r) || r[0] > r[1] || String(r[0]) < m.start.slice(0, 4) || String(r[1]) > m.end.slice(0, 4)) errors.push(`${at}: annual run ${r} is out of range`);
@@ -185,7 +200,36 @@ function checkPrices() {
     }
     if (m.realOf && (!byId.has(m.realOf) || byId.get(m.realOf).real !== m.id)) errors.push(`${at}: realOf ${m.realOf} is missing or does not point back`);
   }
-  for (const f of fs.readdirSync(dir)) if (f.endsWith('.json') && f !== 'index.json' && !ids.has(f.slice(0, -5))) errors.push(`prices/${f}: not listed in index.json`);
+  for (const f of fs.readdirSync(dir)) if (f.endsWith('.json') && f !== 'index.json' && f !== 'figures.json' && !ids.has(f.slice(0, -5))) errors.push(`prices/${f}: not listed in index.json`);
+  checkPriceFigures(dir, idx);
+}
+
+/** figures.json is what a commodity page loads instead of the index: one entry per commodity, copied from the first
+ * live series of the index; a commodity with a daily or monthly series never opens on an annual one. */
+function checkPriceFigures(dir, idx) {
+  let figures;
+  try {
+    figures = JSON.parse(fs.readFileSync(path.join(dir, 'figures.json'), 'utf8'));
+  } catch {
+    errors.push('prices/figures.json: missing or unreadable');
+    return;
+  }
+  const rank = { D: 0, M: 1, A: 2 };
+  const first = new Map();
+  for (const m of idx) if (!m.hidden && !first.has(m.k)) first.set(m.k, m);
+  for (const [k, m] of first) {
+    if (k === 'index' || k === 'freight' || m.fam) continue;
+    const best = Math.min(...idx.filter((x) => x.k === k && !x.hidden).map((x) => rank[x.freq]));
+    if (rank[m.freq] !== best) errors.push(`prices/index.json: ${k} opens on ${m.id}, an annual series, although it has a daily or monthly one`);
+  }
+  const live = new Map();
+  for (const m of idx) if (!m.hidden && !m.closed && m.stats && m.k !== 'freight' && !m.fam && !live.has(m.k)) live.set(m.k, m);
+  for (const [k, m] of live) {
+    const f = figures[k];
+    if (!f) errors.push(`prices/figures.json: no figure for ${k}`);
+    else if (f.id !== m.id || Object.entries(f).some(([a, b]) => JSON.stringify(b) !== JSON.stringify(m[a]))) errors.push(`prices/figures.json: the figure of ${k} is not the first series of the index (${m.id})`);
+  }
+  for (const k of Object.keys(figures)) if (!live.has(k)) errors.push(`prices/figures.json: ${k} has no series in the index`);
 }
 
 /** The commodity tables list every country (largest first, each once, lines within the world total) and the series by

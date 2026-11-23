@@ -41,11 +41,17 @@ export interface LaneRow {
   /** share of the group's seaborne tonnes, 0..1; null for a lane that is not all sea */
   share: number | null;
   est: boolean;
-  /** tonnes of the year shown minus those of the year before (`hist`; no figure counts as 0), null for the first year */
+  /**
+   * tonnes of the year shown minus those of the year before (`hist`; a year with no figure and no flag counts as 0, the
+   * lane starts or stops), null for the first year and when either year has no customs record or a hidden figure
+   */
   chg: number | null;
-  /** the year before; `chgEst`: an Atlas estimate in either year */
+  /** the year before; `chgEst`: an Atlas estimate in either year; `chgCheck`: a figure of either year flagged by a check */
   prevY: number | null;
   chgEst: boolean;
+  chgCheck: boolean;
+  /** the year of the two that has no customs record or whose figure is hidden as suspect (then `chg` is null) */
+  chgGap: number | null;
   kind: 'sea' | 'transit' | 'mixed';
   /** transit port names, for a landlocked end (two when both ends are landlocked) */
   transit: string[];
@@ -108,9 +114,16 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
       const i = at >= 0 ? at : f.years.indexOf(f.y);
       const cur = i >= 0 ? l.hist[i] : null;
       const prev = i >= 1 ? l.hist[i - 1] : null;
-      const chg = i >= 1 && (cur != null || prev != null) ? (cur ?? 0) - (prev ?? 0) : null;
       const prevY = i >= 1 ? f.years[i - 1] : null;
-      const chgEst = chg != null && (est || l.histFlags?.[String(prevY)] === 'est' || l.histFlags?.[String(f.years[i])] === 'est');
+      const flagOf = (y: number | null) => (y == null ? undefined : l.histFlags?.[String(y)]);
+      const fPrev = flagOf(prevY);
+      const fCur = i >= 0 ? flagOf(f.years[i]) : undefined;
+      // a year with no customs record or a hidden figure is not a zero: only a lane with no flag starts or stops that year
+      const gapOf = (v: number | null | undefined, fl: string | undefined) => v == null && (fl === 'nodata' || fl === 'suspect');
+      const chgGap = i >= 1 ? (gapOf(prev, fPrev) ? prevY : gapOf(cur, fCur) ? f.years[i] : null) : null;
+      const chg = i >= 1 && chgGap == null && (cur != null || prev != null) ? (cur ?? 0) - (prev ?? 0) : null;
+      const chgEst = chg != null && (est || fPrev === 'est' || fCur === 'est');
+      const chgCheck = chg != null && [fPrev, fCur].some((x) => x === 'check' || x === 'suspect');
       rows.push({
         id: l.id,
         group: f.group,
@@ -124,6 +137,8 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         chg,
         prevY,
         chgEst,
+        chgCheck,
+        chgGap,
         kind: mixed ? 'mixed' : l.transit ? 'transit' : 'sea',
         transit: transitNames(l, f),
         cls: l.vclass[0] ?? null,
@@ -284,10 +299,19 @@ function LaneLine({ r }: { r: LaneRow }) {
         {r.v == null ? '—' : `${fmtEst(r.v, r.est)} ${r.u}`}
         <small>{r.share == null ? (r.kind === 'mixed' ? 'all modes' : '—') : pct(r.share, true)}</small>
         {r.chg != null && (
-          <small class={`lt-chg ${r.chg > 0 ? 'up' : r.chg < 0 ? 'down' : ''}`} title={`Change from ${r.prevY}${r.chgEst ? '; an Atlas estimate in one of the two years' : ''}`}>
+          <small
+            class={`lt-chg ${r.chg > 0 ? 'up' : r.chg < 0 ? 'down' : ''}`}
+            title={`Change from ${r.prevY}${r.chgEst ? '; an Atlas estimate in one of the two years' : ''}${r.chgCheck ? '; a figure of one of the two years is flagged by a check (see the lane)' : ''}`}
+          >
             {r.chg > 0 ? '+' : r.chg < 0 ? '−' : '±'}
             {fmtEst(Math.abs(r.chg), r.chgEst)} vs {r.prevY}
             {r.chgEst ? ' (est.)' : ''}
+            {r.chgCheck ? ' (check)' : ''}
+          </small>
+        )}
+        {r.chgGap != null && (
+          <small class="lt-chg" title="No change is computed: that year has no customs record or its figure is not shown (see the lane)">
+            no figure for {r.chgGap}
           </small>
         )}
       </span>

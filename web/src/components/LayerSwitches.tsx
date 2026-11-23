@@ -10,7 +10,7 @@ import type { Family } from '../types';
 
 const LAYERS = [
   { id: 'flows', label: 'Physical flows', desc: 'What is traded: country-to-country volumes (customs data); width = tonnage' },
-  { id: 'routes', label: 'Freight routes', desc: 'How it ships: Baltic benchmark and main routes, by vessel class' },
+  { id: 'routes', label: 'Freight routes', desc: "How it ships: Baltic benchmark routes, main routes and the atlas's generated corridors, by vessel class" },
   { id: 'chokepoints', label: 'Chokepoints', desc: 'Straits, canals and passages, with IMF PortWatch traffic' },
   { id: 'infrastructure', label: 'Infrastructure', desc: 'Mines, fields, refineries, LNG terminals, pipelines, ports' },
 ] as const;

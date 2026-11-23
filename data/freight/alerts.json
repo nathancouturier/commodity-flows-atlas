@@ -4,8 +4,7 @@
 "title": "Strait of Hormuz largely closed",
 "since": "2026-02-28",
 "severity": "high",
-"text": "Commercial transits through Hormuz have collapsed since the US-Israeli strikes on Iran on 28 February 2026. Gulf crude, LNG, LPG, products and fertiliser exports are disrupted; flows shown for 2024 are a pre-disruption baseline.",
-"reviewed": "2026-11-23",
+"text": "Commercial transits through Hormuz have collapsed since the US-Israeli air strikes on Iran on 28 February 2026 and Iran's blocking of the strait. Gulf crude, LNG, LPG, petroleum product and fertiliser shipments are disrupted; flows shown for 2024 are a pre-disruption baseline.",
 "event": "iran-war-hormuz-2026",
 "src": "https://en.wikipedia.org/wiki/2026_Iran_war",
 "chokepoints": [
@@ -60,7 +59,13 @@
 "THA",
 "CHN",
 "KOR",
-"USA"
+"USA",
+"JPN",
+"TWN",
+"BRA",
+"SGP",
+"IRN",
+"PAK"
 ],
 "exporters": [
 "SAU",
@@ -84,15 +89,33 @@
 "IRQ",
 "AUS"
 ],
-"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Strait of Hormuz (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
+"derived": "Commodities: at least 10% of their seaborne trade, or 50 Mt, has to cross Strait of Hormuz (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage, and every country with at least 20 Mt of cargo, of any kind, that has to cross it.",
+"also": [
+{
+"label": "EIA, Global Energy Security Data",
+"url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+}
+],
+"checked": "2026-11-23",
+"decidedBy": {
+"chokepoint": "hormuz",
+"name": "Strait of Hormuz",
+"gap": -96.2,
+"refYear": 2023
+},
+"override": {
+"addCountries": [
+"IRN"
+],
+"reason": "Iran is the coastal state and a party to the war. Customs data record no Iranian crude oil exports in 2024 (caveat crude-irn of the atlas's caveats registry), so the main cargo that leaves Iran is missing from the lanes that the country list is derived from."
+}
 },
 {
 "id": "red-sea-2023",
 "title": "Red Sea diversions",
 "since": "2023-12",
 "severity": "high",
-"text": "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023.",
-"reviewed": "2026-11-23",
+"text": "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal. The Houthis halted their attacks when the Gaza peace plan took effect on 10 October 2025.",
 "event": "red-sea-houthi-2023",
 "src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
 "chokepoints": [
@@ -193,7 +216,13 @@
 "DEU",
 "BEL",
 "SEN",
-"BGD"
+"BGD",
+"EGY",
+"KOR",
+"NLD",
+"IRQ",
+"JPN",
+"YEM"
 ],
 "exporters": [
 "RUS",
@@ -234,17 +263,29 @@
 "SEN",
 "BGD"
 ],
-"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Bab el-Mandeb or Suez Canal (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
+"derived": "Commodities: at least 10% of their seaborne trade, or 50 Mt, has to cross Bab el-Mandeb or Suez Canal (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage, and every country with at least 20 Mt of cargo, of any kind, that has to cross it.",
+"checked": "2026-11-23",
+"decidedBy": {
+"chokepoint": "bab-el-mandeb",
+"name": "Bab el-Mandeb",
+"gap": -63.5,
+"refYear": 2023
+},
+"override": {
+"addCountries": [
+"YEM"
+],
+"reason": "The Houthi forces that attack the ships are in Yemen, the coastal state at Bab el-Mandeb: the event of this alert (red-sea-houthi-2023) names it. The lanes give Yemen less than the country threshold."
+}
 },
 {
 "id": "black-sea-2026",
 "title": "Black Sea shipping under attack",
-"since": "2026-01",
+"since": "2026-07",
 "severity": "medium",
-"text": "Escalating attacks on ships and ports in the Black Sea affect grain, oilseed and crude (CPC) exports from Ukraine, Russia and Kazakhstan.",
-"reviewed": "2026-11-23",
+"text": "Ukraine and Russia have attacked each other's ports and the ships using them since July 2026, and the Ukrainian deep-water ports of the Odesa area closed on 23 July. A tanker was hit on 17 July as it approached Novorossiysk and the CPC terminal; the CPC pipeline carries most of Kazakhstan's oil exports.",
 "event": "black-sea-attacks-2026",
-"src": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
+"src": "https://en.wikipedia.org/wiki/Black_Sea",
 "chokepoints": [
 "bosphorus"
 ],
@@ -289,7 +330,9 @@
 "EGY",
 "ESP",
 "DEU",
-"BEL"
+"BEL",
+"TUR",
+"CHN"
 ],
 "exporters": [
 "KAZ",
@@ -304,6 +347,23 @@
 "DEU",
 "BEL"
 ],
-"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Turkish Straits (Bosphorus and Dardanelles) (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
+"derived": "Commodities: at least 10% of their seaborne trade, or 50 Mt, has to cross Turkish Straits (Bosphorus and Dardanelles) (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage, and every country with at least 20 Mt of cargo, of any kind, that has to cross it.",
+"also": [
+{
+"label": "Caspian Pipeline Consortium (Wikipedia)",
+"url": "https://en.wikipedia.org/wiki/Caspian_Pipeline_Consortium"
+},
+{
+"label": "Russo-Ukrainian war (Wikipedia)",
+"url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+}
+],
+"checked": "2026-11-23",
+"decidedBy": {
+"chokepoint": "bosphorus",
+"name": "Turkish Straits (Bosphorus and Dardanelles)",
+"gap": -50.3,
+"refYear": 2023
+}
 }
 ]

@@ -74,8 +74,8 @@
   "title": "Indonesia bans raw mineral ore exports",
   "kind": "policy",
   "commodities": [
-   "nickel",
-   "bauxite"
+   "bauxite",
+   "nickel"
   ],
   "countries": [
    "IDN",
@@ -162,9 +162,9 @@
   "title": "US-China trade war tariffs begin",
   "kind": "policy",
   "commodities": [
-   "soybeans",
    "crude-oil",
-   "lng"
+   "lng",
+   "soybeans"
   ],
   "countries": [
    "USA",
@@ -285,8 +285,8 @@
   "title": "China informally restricts Australian coal imports",
   "kind": "policy",
   "commodities": [
-   "thermal-coal",
-   "met-coal"
+   "met-coal",
+   "thermal-coal"
   ],
   "countries": [
    "AUS",
@@ -313,7 +313,10 @@
   ],
   "summary": "The container ship Ever Given grounded in the canal, blocking traffic until refloated on 29 March 2021.",
   "impact": "Hundreds of ships queued or diverted via the Cape; the week-long closure showed single-point-of-failure risk for tanker, LNG and dry bulk flows.",
-  "src": "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction"
+  "src": "https://en.wikipedia.org/wiki/2021_Suez_Canal_obstruction",
+  "commodities": [
+   "lng"
+  ]
  },
  {
   "id": "russia-invasion-2022",
@@ -329,10 +332,10 @@
    "TC9"
   ],
   "commodities": [
-   "thermal-coal",
    "crude-oil",
+   "natural-gas",
    "refined-products",
-   "natural-gas"
+   "thermal-coal"
   ],
   "countries": [
    "RUS",
@@ -374,8 +377,8 @@
    "bosphorus"
   ],
   "commodities": [
-   "wheat",
-   "corn"
+   "corn",
+   "wheat"
   ],
   "countries": [
    "UKR",
@@ -395,8 +398,8 @@
   "title": "Mississippi and Rhine low-water restrictions",
   "kind": "weather",
   "commodities": [
-   "thermal-coal",
-   "refined-products"
+   "refined-products",
+   "thermal-coal"
   ],
   "countries": [
    "USA"
@@ -417,8 +420,8 @@
    "BLNG3"
   ],
   "commodities": [
-   "natural-gas",
-   "lng"
+   "lng",
+   "natural-gas"
   ],
   "countries": [
    "RUS",
@@ -559,9 +562,16 @@
    "TC20",
    "qatar-europe-lng"
   ],
-  "summary": "Houthi forces seized the Galaxy Leader on 19 November 2023 and began missile and drone attacks on commercial vessels in the Red Sea and Bab el-Mandeb, with US- and UK-led strikes beginning in January 2024.",
-  "impact": "Most container lines and many tankers and LNG carriers diverted via the Cape of Good Hope, adding roughly 10-14 days on Asia-Europe trips, raising tonne-miles and freight rates; Suez revenue fell sharply.",
-  "src": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+  "countries": [
+   "YEM"
+  ],
+  "summary": "Houthi forces in Yemen began attacking commercial ships linked to Israel in the Red Sea on 19 November 2023 and hijacked the Galaxy Leader that month; they later attacked ships with no Israeli link, particularly near Bab el-Mandeb. US- and UK-led air and missile strikes on the Houthis began on 12 January 2024.",
+  "impact": "Global shipping companies moved their vessels around the Cape of Good Hope: by March 2024 over 2,000 ships had left the Red Sea route, container ships first, while many bulk carriers and tankers kept transiting at first. The Cape route adds about ten days. Qatar halted LNG tankers through Bab el-Mandeb after the US-led strikes on Houthi targets. Suez Canal transits fell from 2,068 in November 2023 to about 877 in October 2024.",
+  "src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
+  "checked": "2026-11-23",
+  "commodities": [
+   "lng"
+  ]
  },
  {
   "id": "eu-ets-shipping-2024",
@@ -653,8 +663,8 @@
    "panama"
   ],
   "commodities": [
-   "lpg",
-   "lng"
+   "lng",
+   "lpg"
   ],
   "countries": [
    "PAN"
@@ -755,27 +765,41 @@
  },
  {
   "id": "black-sea-attacks-2026",
-  "date": "2026-01",
+  "date": "2026-07",
   "title": "Escalating attacks on Black Sea shipping and ports",
   "kind": "conflict",
   "chokepoints": [
    "bosphorus"
   ],
-  "commodities": [
-   "wheat"
-  ],
   "countries": [
    "UKR",
-   "RUS"
+   "RUS",
+   "ROU",
+   "BGR",
+   "KAZ"
   ],
   "assets": [
    "novorossiysk",
    "cpc",
    "odesa"
   ],
-  "summary": "Drone attacks hit tankers at Novorossiysk and the CPC terminal from January 2026 and Russian grain ports from mid-2026; Russia also hit vessels at Odesa-region ports.",
-  "impact": "Loadings at CPC were disrupted; war-risk premiums rose; Russian wheat exports from affected ports slowed in August 2026.",
-  "src": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+  "summary": "In July 2026 Ukraine and Russia began attacking each other's ports and the ships using them in the Black Sea and the Sea of Azov, and the Ukrainian deep-water ports of the Odesa area (Chornomorsk, Odesa, Pivdennyi) closed on 23 July. On 17 July 2026 drones struck the tanker Nordic Zenith as it approached the Port of Novorossiysk and the CPC terminal.",
+  "impact": "The Financial Times called the Black Sea \"the world's deadliest shipping route\" because of the number of attacks on commercial ships in 2026 and of sailors killed or missing. Russian drones struck more than 7 ships in the Romanian and Bulgarian economic zones in 2026, and more than 3 sank. The CPC pipeline, which carries most of Kazakhstan's oil exports, runs from Tengiz to Novorossiysk.",
+  "src": "https://en.wikipedia.org/wiki/Black_Sea",
+  "also": [
+   {
+    "label": "Caspian Pipeline Consortium (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/Caspian_Pipeline_Consortium"
+   },
+   {
+    "label": "Russo-Ukrainian war (Wikipedia)",
+    "url": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+   }
+  ],
+  "checked": "2026-11-23",
+  "commodities": [
+   "crude-oil"
+  ]
  },
  {
   "id": "iran-war-hormuz-2026",
@@ -789,21 +813,26 @@
   "routes": [
    "TD3C"
   ],
-  "commodities": [
-   "crude-oil"
-  ],
   "countries": [
    "USA",
    "ISR",
-   "IRN",
-   "SAU"
+   "IRN"
   ],
-  "assets": [
-   "east-west-petroline"
+  "summary": "The United States and Israel began air strikes on Iran on 28 February 2026, and Iran responded by blocking trade through the Strait of Hormuz, which led to what Wikipedia calls the largest ever supply disruption to the global oil market.",
+  "impact": "Per IMF PortWatch, daily transits of the strait fell from about 78 in February 2026 to about 3 in March (atlas calculation from the daily table). The EIA's Global Energy Security Data (16 November 2026) put oil flows through Hormuz, crude oil and petroleum products together, at 21.6 million barrels a day in the fourth quarter of 2025, 5.1 in the second quarter of 2026 and 9.1 in the third, and LNG flows at 10.5, 0.8 and 1.4 billion cubic feet a day.",
+  "src": "https://en.wikipedia.org/wiki/2026_Iran_war",
+  "also": [
+   {
+    "label": "EIA, Global Energy Security Data",
+    "url": "https://www.eia.gov/outlooks/steo/report/energysecurity/article.php"
+   }
   ],
-  "summary": "US strikes on Iran began on 28 February 2026 and Iranian action effectively closed the Strait of Hormuz to most commercial traffic from early March, producing what Wikipedia calls the largest ever supply disruption to the global oil market.",
-  "impact": "Per IMF PortWatch daily Hormuz transits fell from about 78 in February 2026 to about 3 in March. EIA estimates crude and liquids through Hormuz fell from 21.6 mb/d in 4Q25 to 4.9 mb/d in 2Q26; Saudi crude was rerouted to Yanbu via the East-West pipeline.",
-  "src": "https://en.wikipedia.org/wiki/2026_Iran_war"
+  "checked": "2026-11-23",
+  "commodities": [
+   "crude-oil",
+   "lng",
+   "refined-products"
+  ]
  },
  {
   "id": "hormuz-ceasefire-2026",

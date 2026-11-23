@@ -332,7 +332,7 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter RV: delivery Singapore, a trip of 90-105 days via the Atlantic, redelivery Hong Kong-S Korea range including Taiwan (Veson, Baltic definition). The definition names no cargo and no loading range: the cargoes listed are those the atlas uses for the other 82kdwt Panamax routes (P1A, P2A, P3A), not specific to this route.",
+  "notes": "Time-charter RV: delivery Singapore, a trip of 90-105 days via the Atlantic, redelivery Hong Kong-S Korea range including Taiwan (Veson, Baltic definition).",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -545,7 +545,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -571,7 +571,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -597,7 +597,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -623,7 +623,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -649,7 +649,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -675,7 +675,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },
@@ -701,7 +701,7 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family. The Baltic definition fixes delivery and redelivery areas, not a cargo: the cargoes listed are those typical of Handysize ships in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not specific to this route.",
+  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
   "s": "veson-baltic-defs",
   "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
  },

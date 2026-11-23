@@ -3,34 +3,46 @@
   "id": "hormuz-2026",
   "title": "Strait of Hormuz largely closed",
   "since": "2026-02-28",
-  "text": "Commercial transits through Hormuz have collapsed since the US-Israeli strikes on Iran on 28 February 2026. Gulf crude, LNG, LPG, products and fertiliser exports are disrupted; flows shown for 2024 are a pre-disruption baseline.",
+  "text": "Commercial transits through Hormuz have collapsed since the US-Israeli air strikes on Iran on 28 February 2026 and Iran's blocking of the strait. Gulf crude, LNG, LPG, petroleum product and fertiliser shipments are disrupted; flows shown for 2024 are a pre-disruption baseline.",
   "chokepoints": [
    "hormuz"
   ],
   "event": "iran-war-hormuz-2026",
-  "reviewed": "2026-11-23"
+  "checked": "2026-11-23",
+  "override": {
+   "addCountries": [
+    "IRN"
+   ],
+   "reason": "Iran is the coastal state and a party to the war. Customs data record no Iranian crude oil exports in 2024 (caveat crude-irn of the atlas's caveats registry), so the main cargo that leaves Iran is missing from the lanes that the country list is derived from."
+  }
  },
  {
   "id": "red-sea-2023",
   "title": "Red Sea diversions",
   "since": "2023-12",
-  "text": "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023.",
+  "text": "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal. The Houthis halted their attacks when the Gaza peace plan took effect on 10 October 2025.",
   "chokepoints": [
    "bab-el-mandeb",
    "suez"
   ],
   "event": "red-sea-houthi-2023",
-  "reviewed": "2026-11-23"
+  "checked": "2026-11-23",
+  "override": {
+   "addCountries": [
+    "YEM"
+   ],
+   "reason": "The Houthi forces that attack the ships are in Yemen, the coastal state at Bab el-Mandeb: the event of this alert (red-sea-houthi-2023) names it. The lanes give Yemen less than the country threshold."
+  }
  },
  {
   "id": "black-sea-2026",
   "title": "Black Sea shipping under attack",
-  "since": "2026-01",
-  "text": "Escalating attacks on ships and ports in the Black Sea affect grain, oilseed and crude (CPC) exports from Ukraine, Russia and Kazakhstan.",
+  "since": "2026-07",
+  "text": "Ukraine and Russia have attacked each other's ports and the ships using them since July 2026, and the Ukrainian deep-water ports of the Odesa area closed on 23 July. A tanker was hit on 17 July as it approached Novorossiysk and the CPC terminal; the CPC pipeline carries most of Kazakhstan's oil exports.",
   "chokepoints": [
    "bosphorus"
   ],
   "event": "black-sea-attacks-2026",
-  "reviewed": "2026-11-23"
+  "checked": "2026-11-23"
  }
 ]

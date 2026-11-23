@@ -12,7 +12,8 @@
  *  - routes (freight/routes.json): unique ids, every passage named in `via` and `viaAlt` is a chokepoint; a generated corridor
  *    route (`generated`: id "gen-...", never a benchmark, source "atlas", a note that says how it was made, corridor entries
  *    that name a customs group with a pairs file) has no pair in common with another generated route, and its distance,
- *    vessel class and ports are those of the largest pair of its corridor in the pairs table;
+ *    vessel class, ports and passages (`via`, `viaAlt`) are those of the largest pair of its corridor in the pairs table;
+ *    every corridor entry names its customs group (`g`) or the groups of its commodity (`gs`);
  *  - events (freight/events.json): unique ids, a date, every chokepoint, commodity, country and asset an event names
  *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files);
  *  - alerts (freight/alerts.json): unique ids, a review date, an event that exists, passages that exist, a severity from
@@ -215,6 +216,8 @@ function validateRoutes(routes, pairDocs, chokepoints, bad) {
     for (const id of r.via ?? []) if (!chokepoints.has(id)) bad('routes.json', `${at}: via names "${id}", which is not a chokepoint`);
     for (const l of r.viaAlt ?? []) for (const id of l) if (!chokepoints.has(id)) bad('routes.json', `${at}: viaAlt names "${id}", which is not a chokepoint`);
     if (r.cargoNote !== undefined && (typeof r.cargoNote !== 'string' || !r.cargoNote)) bad('routes.json', `${at}: cargoNote is empty`);
+    // an entry without `g` lists the customs groups of its commodity (`gs`): the site matches a lane to a route by group, never by commodity alone
+    for (const c of r.corridor ?? []) if (!c.g && !(Array.isArray(c.gs) && c.gs.length)) bad('routes.json', `${at}: a corridor entry has neither a customs group (g) nor a list of them (gs)`);
     if (!r.generated) {
       if (String(at).startsWith('gen-')) bad('routes.json', `${at}: an id that starts with "gen-" is for a generated route`);
       continue;
@@ -249,6 +252,14 @@ function validateRoutes(routes, pairDocs, chokepoints, bad) {
       if (r.distanceNm !== row[pd.ix.nm]) bad('routes.json', `${at}: distance ${r.distanceNm} nm is not the ${row[pd.ix.nm]} nm of its largest pair in the pairs table`);
       if (r.vclass !== cls) bad('routes.json', `${at}: vessel class ${r.vclass} is not the ${cls} of its largest pair`);
       if (r.from?.ports?.[0] !== pd.doc.ports[row[pd.ix.load]][1] || r.to?.ports?.[0] !== pd.doc.ports[row[pd.ix.dis]][1]) bad('routes.json', `${at}: its ports are not those of its largest pair`);
+      // the passages are the pair's own, as the Route finder gives them (the drawn line is one port option's and may cross more)
+      const gates = pd.doc.gates;
+      const maskSet = (m) => new Set(gates.filter((_, i) => (Number(m) >>> i) & 1));
+      const via = maskSet(row[pd.ix.via]);
+      const alt = [...maskSet(row[pd.ix.alt])].filter((x) => !via.has(x));
+      const same = (a, b) => [...a].sort().join() === [...b].sort().join();
+      if (!same(r.via ?? [], via)) bad('routes.json', `${at}: via [${(r.via ?? []).join(', ')}] is not the passages [${[...via].join(', ')}] that every port option of its largest pair crosses`);
+      if (!same((r.viaAlt ?? []).flat().filter((x) => !via.has(x)), alt)) bad('routes.json', `${at}: its viaAlt is not the passages that its largest pair may cross`);
     }
   }
 }

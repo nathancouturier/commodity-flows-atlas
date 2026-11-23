@@ -201,7 +201,7 @@ rejects('an alert on a passage that does not exist', bad((d) => (d.alerts[0].cho
 const route = (extra = {}) => ({
   id: 'gen-coal-z-z', name: 'Coal: Z to Z', benchmark: false, generated: true, vclass: 'panamax', cargoes: ['thermal-coal'], s: 'atlas',
   notes: 'Atlas corridor, generated from customs pairs: 1 pair', corridor: [{ k: 'thermal-coal', g: 'coal', o: ['AUS'], d: ['CHN'] }],
-  from: { region: 'Z', ports: ['A'] }, to: { region: 'Z', ports: ['B'] }, distanceNm: 100, via: ['malacca'], viaAlt: [], ...extra,
+  from: { region: 'Z', ports: ['A'] }, to: { region: 'Z', ports: ['B'] }, distanceNm: 100, via: ['malacca'], viaAlt: [['suez', 'panama']], ...extra,
 });
 const withRoutes = (mutate) => (d) => {
   d.routes = [route()];
@@ -221,6 +221,13 @@ rejects("a generated route with a distance that is not its pair's", withRoutes((
 rejects("a generated route with a class that is not its pair's", withRoutes((d) => (d.routes[0].vclass = 'vlcc')), 'vessel class vlcc');
 rejects('a generated route with other ports', withRoutes((d) => (d.routes[0].to.ports = ['C'])), 'ports are not those');
 rejects('a corridor entry without a customs group', withRoutes((d) => delete d.routes[0].corridor[0].g), 'names its customs group');
+rejects('a corridor entry with neither g nor gs', withRoutes((d) => d.routes.push({ id: 'hand', benchmark: false, via: [], corridor: [{ k: 'copper', o: ['AUS'], d: ['CHN'] }] })), 'neither a customs group');
+test('a hand-written corridor entry with gs passes', () => {
+  const { errors } = run(withRoutes((d) => d.routes.push({ id: 'hand', benchmark: false, via: [], corridor: [{ k: 'copper', gs: ['copper-ore'], o: ['AUS'], d: ['CHN'] }] })));
+  assert.deepEqual(errors, []);
+});
+rejects("a generated route whose passages are not its pair's", withRoutes((d) => (d.routes[0].via = ['malacca', 'suez'])), 'every port option');
+rejects("a generated route whose alternatives are not its pair's", withRoutes((d) => (d.routes[0].viaAlt = [])), 'may cross');
 rejects('a pair in two generated corridors', withRoutes((d) => d.routes.push(route({ id: 'gen-coal-y-y' }))), 'is in the corridor of');
 rejects('two routes with one id', withRoutes((d) => d.routes.push(route())), 'appears twice');
 rejects('a route that names a passage that does not exist', withRoutes((d) => (d.routes[0].via = ['atlantis'])), '"atlantis"');

@@ -490,17 +490,24 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   route) are in no corridor. The cap on the whole atlas is 120 generated routes: the map draws every route, and a larger
   number made the world view unreadable even with the generated lines drawn thinner (about 120 more lines on top of the
   103). When a group list is cut, the lower-ranked corridors of the groups that have the most routes go first. The
-  result for 2024 is 223 routes, and 59.9% of the seaborne tonnes named (all groups): 70% or more for coal (69.2%, one
-  corridor short), iron ore, bauxite, manganese, rapeseed, nickel (ferro-nickel and ore), soybeans and spodumene; between
-  20% and 65% for the others, the lowest being steel (23%), aluminium (21%) and refined products (34%), whose trade is
-  spread over thousands of small pairs; the report printed by `build_freight.py` gives each group and the reason.
+  result for 2024 is 223 routes, and 59.9% of the seaborne tonnes named (all groups): eight of the 34 groups reach 70%
+  (iron ore, bauxite, manganese, rapeseed, ferro-nickel, nickel ore, soybeans and spodumene) and 26 stay short of it,
+  from coal (69.2%, one corridor left out by the cap) down to steel (23%), aluminium (21%) and refined products (34%),
+  whose trade is spread over thousands of small pairs. `pipeline/freight/QA_routes.md`, written at each build, gives each
+  group with its coverage, its reason when it is under the target, and the corridors the cap left out.
 
   A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
   zone, importing zone or region), its name is "Cargo: zone to zone", its source is `atlas`, and its page says
-  "Atlas corridor, generated from customs pairs". Its ports, vessel class, distance and passages are those of the
+  "Atlas corridor, generated from customs pairs". An end is named for a country, not a zone, when that country holds at
+  least 80% of the tonnes of the end (counted at the typical ports of the corridor's pairs), unless the zone's own name
+  already says the country ("Eastern Australia", "US Gulf"): "West Africa" would send a reader to Nigeria or Ghana for
+  cargo that loads in Morocco, so the corridor is "Phosphate rock: Morocco to the Mediterranean" and the note gives the
+  shares. The name depends on the data only, so it is the same from run to run. Its ports, vessel class, distance and passages are those of the
   largest pair of its corridor, planned with the same call and the same class list as the lanes and the Route finder
   (`build_lanes._classes_and_plan`), so that the Route finder gives the same ports, distance and passages for that
-  pair. Its corridor lists exactly the pairs it holds (one entry per exporter), so a pair belongs to one generated
+  pair: the passages are the pair's own (those of its lane, or of its pairs row: the passages that every port option
+  crosses, and those that some option or a parallel passage may cross), not those of the drawn line, which is the main
+  port option's and may cross more. A test compares them over all generated routes. Its corridor lists exactly the pairs it holds (one entry per exporter), so a pair belongs to one generated
   corridor only; its share of the group's seaborne tonnes, its 2005 to 2024 volume history and, for the classes whose
   cargo base the atlas covers, its share of the class's tonne-miles follow the rules of the hand-written routes. When a
   hand-written route already names some of its pairs, the note says which and how many Mt. The note also says that the
@@ -508,7 +515,10 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
 
   A hand-written route has ports of its own (a benchmark's named ports, or the terminals its editor chose), which are
   often not the typical ports of the Route finder. Where the largest pair of its corridor runs between other ports, the
-  route page says so with that pair's ports and distance ("In the Route finder"). The name of a port in `routes_def.json`
+  route page says so with that pair's ports and distance ("In the Route finder"); the page says that its own distance is
+  for its own ports and that the share, the history and the tonne-miles count every port of the countries of the corridor.
+  A corridor entry that does not name a customs group lists the groups of its commodity (`gs`), and a lane or a Route
+  finder answer lists a route only when its group is one of them (refined copper is not copper concentrate). The name of a port in `routes_def.json`
   is matched to the port tables; a terminal named for a cargo (the Dongjiakou LNG terminal) is no longer taken for the
   port of the place it names (Qingdao) on a route that does not carry that cargo.
 - **Curated tables.** Some rules are entered by hand and are Atlas judgements, not figures from a

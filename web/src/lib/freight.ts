@@ -379,6 +379,11 @@ export function routeTouches(r: Route, iso3: string): boolean {
   return r.corridor?.some((c) => c.o.includes(iso3) || c.d.includes(iso3)) ?? false;
 }
 
+/** Does the route's corridor hold this recorded pair of a customs group? (an entry without `g` or `gs` stands for the group of its commodity) */
+export function corridorHas(r: Route, group: string, o: string, d: string): boolean {
+  return r.corridor?.some((c) => (c.g ? c.g === group : (c.gs ?? [c.k]).includes(group)) && c.o.includes(o) && c.d.includes(d)) ?? false;
+}
+
 export function vesselMatches(have: string | string[], selected: { has(id: string): boolean; size: number }): boolean {
   if (!selected.size) return true;
   const list = Array.isArray(have) ? have : [have];

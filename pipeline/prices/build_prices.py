@@ -5,15 +5,18 @@ prices) and the EIA daily spot prices.
     python pipeline/prices/build_prices.py <pinksheet_monthly.xlsx> <eia_spot_dir> [<pinksheet_annual.xlsx>]
 
 Outputs
-  data/prices/index.json        list of series (PriceSeriesMeta)
+  data/prices/index.json        list of series (PriceSeriesMeta), written compactly
+  data/prices/figures.json      per commodity, the first series with its board figures: all the key figure on a
+                                commodity page needs (the page does not load the index)
   data/prices/<id>.json         packed series: monthly {start, v[]}, daily {d[] days since epoch, v[]},
                                 annual {start "YYYY", v[]}
 
 What the builder adds to the bare numbers, all of it read from the source files
   basis, breaks   what a Pink Sheet series measures and the dates its basis changed, read from the workbook's
                   "Description" sheet (basis.py); EIA series carry the description EIA writes in the file
-  annual          calendar years whose twelve monthly values are identical: the source gives one price for the
-                  year, not twelve monthly observations
+  annual          calendar years whose twelve monthly values are identical. That is what is observed: the source may
+                  publish one price a year there, or an administered price (gold at 35 USD/oz to 1967); only the
+                  iron ore row of the Description sheet says "annual contract prices" and has its own series
   est             months the source itself marks as estimates
   stats           last value and its date, changes over 1 week (daily series), 1 month, 3 months, year to date and
                   1 year, and the position in the 52-week range (the last 12 months for monthly series), for the
@@ -30,6 +33,8 @@ closed at -36.98 on 20 April 2020). A series failing validation keeps its previo
 A mapped column or description row that is missing aborts the build (nothing is written): a renamed header must
 fail the update, not freeze a series. check_freshness() names the series whose last observation did not advance
 as fast as the cadence of its source allows; the weekly job records them in data/_status/ (fetch_prices.py).
+mark_closed() marks `closed` a daily or monthly series that ends far behind the newest series of its own source
+(the publisher stopped it): it is reported once, shown as closed, and no longer checked.
 """
 import bisect
 import json
@@ -194,30 +199,24 @@ PINK_DESC = {
 }
 IRON_ORE_ROW = "Iron ore, spot in US dollar"  # the row that dates the end of the annual contract prices
 
-# What the source does not say but the atlas has always said next to the series (kept, shown as an atlas remark)
-CAVEATS = {
-    "brent-m": "Before the mid-1980s a posted-price proxy, not a traded Brent benchmark.",
-    "lng-japan-m": "Mostly oil-indexed contracts, not a spot price.",
-}
-
-# Monthly Indices sheet: column -> (series id, name); the header text of the column must contain the label
-INDEX_COLS = {
-    1: ("idx-total-m", "World Bank commodity price index, total", "Total Index"),
-    2: ("idx-energy-m", "World Bank energy price index", "Energy"),
-    3: ("idx-nonenergy-m", "World Bank non-energy price index", "Non-energy"),
-    4: ("idx-agriculture-m", "World Bank agriculture price index", "Agriculture"),
-    5: ("idx-beverages-m", "World Bank beverages price index", "Beverages"),
-    6: ("idx-food-m", "World Bank food price index", "Food"),
-    7: ("idx-oils-meals-m", "World Bank oils and meals price index", "Oils & Meals"),
-    8: ("idx-grains-m", "World Bank grains price index", "Grains"),
-    9: ("idx-other-food-m", "World Bank other food price index", "Other Food"),
-    10: ("idx-raw-materials-m", "World Bank raw materials price index", "Raw Materials"),
-    11: ("idx-timber-m", "World Bank timber price index", "Timber"),
-    12: ("idx-other-raw-m", "World Bank other raw materials price index", "Other Raw Mat."),
-    13: ("idx-fertilizers-m", "World Bank fertilizers price index", "Fertilizers"),
-    14: ("idx-metals-m", "World Bank metals and minerals price index", "Metals"),
-    15: ("idx-base-metals-m", "World Bank base metals price index (excluding iron ore)", "Base Metals"),
-    16: ("idx-precious-m", "World Bank precious metals price index", "Precious Metals"),
+# Monthly Indices sheet: the column's header text (the sheet spreads it over four rows) -> (series id, name)
+INDEX_SERIES = {
+    "Total Index": ("idx-total-m", "World Bank commodity price index, total"),
+    "Energy": ("idx-energy-m", "World Bank energy price index"),
+    "Non-energy": ("idx-nonenergy-m", "World Bank non-energy price index"),
+    "Agriculture": ("idx-agriculture-m", "World Bank agriculture price index"),
+    "Beverages": ("idx-beverages-m", "World Bank beverages price index"),
+    "Food": ("idx-food-m", "World Bank food price index"),
+    "Oils & Meals": ("idx-oils-meals-m", "World Bank oils and meals price index"),
+    "Grains": ("idx-grains-m", "World Bank grains price index"),
+    "Other Food": ("idx-other-food-m", "World Bank other food price index"),
+    "Raw Materials": ("idx-raw-materials-m", "World Bank raw materials price index"),
+    "Timber": ("idx-timber-m", "World Bank timber price index"),
+    "Other Raw Mat.": ("idx-other-raw-m", "World Bank other raw materials price index"),
+    "Fertilizers": ("idx-fertilizers-m", "World Bank fertilizers price index"),
+    "Metals & Minerals": ("idx-metals-m", "World Bank metals and minerals price index"),
+    "Base Metals (ex. iron ore)": ("idx-base-metals-m", "World Bank base metals price index (excluding iron ore)"),
+    "Precious Metals": ("idx-precious-m", "World Bank precious metals price index"),
 }
 
 # EIA daily spot files -> (series id, commodity id, name, unit)
@@ -231,6 +230,30 @@ EIA = {
     "EER_EPJK_PF4_RGC_DPGd": ("usgc-jet-d", "refined-products", "Jet fuel (kerosene), US Gulf Coast, daily spot", "USD/gal"),
     "EER_EPLLPA_PF4_Y44MB_DPGd": ("propane-mb-d", "lpg", "Propane, Mont Belvieu, daily spot", "USD/gal"),
 }
+# The series a commodity page, its price figure and the price drawer open on: the first series of the commodity in
+# data/prices/index.json. Daily before monthly before annual decides first (a commodity that has a daily or a monthly
+# series never opens on an annual one); this table decides between series of the same frequency, and every
+# commodity with more than one series is named in it (a test fails for one that is not, so that a series added later
+# is a choice and not the alphabetical order of the ids).
+OPENS_ON = {
+    "crude-oil": "brent-d",  # the daily spot benchmark of the commodity
+    "natural-gas": "hh-d",  # the daily spot benchmark of the commodity
+    "refined-products": "nyh-gasoline-d",  # the first of four daily New York Harbor and Gulf Coast spot series
+    "coffee": "arabica-m",
+    "rice": "rice-thai-m",  # the 5% broken grade, the benchmark column of the sheet; the other grades follow it
+    "sugar": "sugar-m",  # the world price; the EU and US prices follow it
+    "phosphate": "dap-m",
+    "thermal-coal": "coal-aus-m",
+    "wheat": "wheat-hrw-m",
+    "iron-ore": "iron-ore-m",  # the spot series; the annual contract series before 2006 is closed
+    "pgm": "platinum-m",  # monthly (World Bank); palladium and rhodium are annual (USGS) and follow it
+    "bauxite": "usgs-bauxite-import-a",  # bauxite itself, not alumina, a product made from it
+    "rare-earths": "usgs-ndpr-oxide-a",  # NdPr oxide, the price of the oxide the magnet industry buys; the others are single elements
+    # cobalt: the US spot price of cathode (refined metal, S&P Global Platts Metals Week). Of the two cobalt rows of the
+    # USGS file it is the one that names its product and its source; the LME cash row names neither.
+    "cobalt": "usgs-cobalt-spot-a",
+}
+
 # Pink Sheet series added after the first release (M-066): listed after the original benchmark of their commodity
 ADDED = {"crude-avg-m", "ng-index-m", "palm-kernel-oil-m", "sunflower-oil-m", "coconut-oil-m", "groundnut-oil-m", "fish-meal-m",
          "rice-thai25-m", "rice-thai-a1-m", "rice-viet-m", "sugar-eu-m", "sugar-us-m", "tsp-m"}
@@ -344,10 +367,11 @@ def month_times(start, n):
     return [date(y + (m - 1 + i) // 12, (m - 1 + i) % 12 + 1, 1) for i in range(n)]
 
 
-# ---------------------------------------------------------------- annual values repeated over the months
+# ---------------------------------------------------------------- years with twelve identical monthly values
 
 def annual_runs(start, values):
-    """[[first year, last year], ...] of the calendar years whose twelve monthly values are one and the same number."""
+    """[[first year, last year], ...] of the calendar years whose twelve monthly values are one and the same number.
+    The key of the index is still `annual`; it records what is observed, not what the source says it publishes."""
     y0, m0 = int(start[:4]), int(start[5:7])
     by = {}
     for i, v in enumerate(values):
@@ -434,6 +458,9 @@ class Pink:
         self.data = [r for r in rows[hi + 2:] if r and isinstance(r[0], str) and re.fullmatch(r"\d{4}M\d{2}", r[0].strip())]
         self.updated = next((str(r[0]) for r in rows[:hi] if r and r[0] and "Updated" in str(r[0])), "")
         self.index_rows = list(wb["Monthly Indices"].iter_rows(values_only=True))
+        # the index values are read from their own sheet: its rows, not those of 'Monthly Prices'
+        self.index_data = [r for r in self.index_rows if r and isinstance(r[0], str) and re.fullmatch(r"\d{4}M\d{2}", r[0].strip())]
+        self.index_title = " ".join(str(r[0]) for r in self.index_rows[:4] if r and r[0])
         self.descs, self.notes = B.read_description(wb["Description"].iter_rows(values_only=True))
 
     def check(self):
@@ -449,27 +476,45 @@ class Pink:
         except LookupError as e:
             out.append(str(e))
         hdr = self.index_headers()
-        for j, (_, _, label) in INDEX_COLS.items():
-            if label.lower() not in hdr.get(j, "").lower():
-                out.append(f"Monthly Indices column {j} is not '{label}'")
+        names = set(hdr.values())
+        out += [f"Monthly Indices column '{label}' missing" for label in INDEX_SERIES if label not in names]
+        if "2010=100" not in self.index_title.replace(" ", ""):
+            out.append("Monthly Indices is no longer a 2010 = 100 index")
+        if [r[0].strip() for r in self.index_data] != [r[0].strip() for r in self.data]:
+            out.append("Monthly Indices and Monthly Prices do not cover the same months")
         return out
 
     def index_headers(self):
-        """column -> its header text, from the stacked header rows of the Monthly Indices sheet."""
+        """column -> its header text. The sheet spreads the header over four rows (each name sits on the row of its
+        level in the hierarchy), so the name of a column is the text found in it above the first month."""
         out = {}
-        for r in self.index_rows[4:9]:
+        first = next((i for i, r in enumerate(self.index_rows) if r and isinstance(r[0], str) and re.fullmatch(r"\d{4}M\d{2}", r[0].strip())), 0)
+        for r in self.index_rows[:first]:
             for j, c in enumerate(r):
-                if isinstance(c, str) and c.strip():
-                    out[j] = norm(c)
+                if j and isinstance(c, str) and norm(c):
+                    out[j] = f"{out[j]} {norm(c)}" if j in out else norm(c)
         return out
 
-    def column(self, j):
-        """[(month 'YYYY-MM', value or None)] with the empty ends trimmed."""
-        vals = [(r[0].strip().replace("M", "-"), num(r[j])) for r in self.data]
+    def column(self, j, rows=None):
+        """[(month 'YYYY-MM', value or None)] of column j of the given rows (default: Monthly Prices), with the empty
+        ends trimmed."""
+        vals = [(r[0].strip().replace("M", "-"), num(r[j]) if j < len(r) else None) for r in (self.data if rows is None else rows)]
         ok = [i for i, (_, x) in enumerate(vals) if x is not None]
         if not ok:
             return []
         return vals[ok[0]: ok[-1] + 1]
+
+
+def basis_note(basis_text, clauses):
+    """The basis note of a series: the current basis as the source words it, and, where the dates of the source's own
+    clauses overlap, the clauses quoted verbatim with the statement that they overlap (the atlas does not chain them)."""
+    note = basis_text.rstrip(".") + "." if basis_text else ""
+    clash, _ = B.overlapping(clauses)
+    if clash:
+        quoted = "; ".join(f"\u201c{c['raw']}\u201d" for c in clash)
+        note += (f" The dates in the source overlap: {quoted}. The atlas draws no break from the clause that starts inside another"
+                 " period and does not chain them.")
+    return note
 
 
 def contract_split(desc_row):
@@ -489,7 +534,8 @@ def contract_basis(desc_row):
         raise BuildError("iron ore: the Description sheet no longer describes the annual contract prices")
     clauses = B.parse_clauses(m.group(1))
     for c in clauses:
-        c["to"] = None  # "during years 1987-2009": the contract prices stop where the spot series starts, not there
+        if c["from"] == max(d["from"] for d in clauses if d["from"]):
+            c["to"] = None  # "during years 1987-2009": the contract prices stop where the spot series starts, not there
     cur, breaks = B.basis_and_breaks(clauses, "1960-01")
     return cur[:1].upper() + cur[1:], breaks
 
@@ -521,7 +567,8 @@ def pink_series(p, today=None):
         text = B.find(p.descs, prefix)
         first = vals[0][0]
         last = vals[-1][0]
-        basis_text, breaks = B.basis_and_breaks(B.parse_clauses(text), first, last)
+        clauses = B.parse_clauses(text)
+        basis_text, breaks = B.basis_and_breaks(clauses, first, last)
         est = B.estimate_ranges(prefix, p.descs, p.notes, last)
         if col == "Iron ore, cfr spot":
             row1 = B.find(p.descs, IRON_ORE_ROW)
@@ -534,13 +581,16 @@ def pink_series(p, today=None):
             first = vals[0][0]
         v = [x for _, x in vals]
         doc = {"id": sid, "freq": "M", "start": first, "v": v}
-        meta = meta_of(sid, k, name, unit, "M", "wb-pink", first, last, note=note, basis=" ".join(t for t in (basis_text.rstrip(".") + "." if basis_text else "", CAVEATS.get(sid, "")) if t),
+        meta = meta_of(sid, k, name, unit, "M", "wb-pink", first, last, note=note, basis=basis_note(basis_text, clauses),
                        breaks=breaks, annual=annual_runs(first, v), est=[[a, b] for a, b in est if a >= first])
         out.append((doc, meta))
-    for j, (sid, name, label) in INDEX_COLS.items():
-        vals = p.column(j)
+    cols = {label: j for j, label in p.index_headers().items()}
+    for label, (sid, name) in INDEX_SERIES.items():
+        if label not in cols:
+            raise BuildError(f"Monthly Indices has no column '{label}'")
+        vals = p.column(cols[label], p.index_data)
         if not vals:
-            raise BuildError(f"index column {j} ({label}) has no values")
+            raise BuildError(f"index column '{label}' has no values")
         v = [x for _, x in vals]
         doc = {"id": sid, "freq": "M", "start": vals[0][0], "v": v}
         meta = meta_of(sid, "index", name, "index (2010 = 100)", "M", "wb-pink", vals[0][0], vals[-1][0], note=note,
@@ -714,7 +764,9 @@ def real_series(path, nominal_metas):
         raise BuildError("annual workbook: the Definitions sheet no longer defines constant prices")
     out = []
     by_id = {m["id"]: m for m in nominal_metas}
+    # quoted as the sheet "Definitions" words it, typos of the source included
     deflator = f"{definition} {defin_muv}".strip()
+    quoted = f"The sheet \u201cDefinitions\u201d says: \u201c{deflator}\u201d"
     for col, (sid, k, name, unit) in PINK.items():
         if not unit.startswith("USD") or col not in header or sid not in by_id:
             continue
@@ -730,13 +782,13 @@ def real_series(path, nominal_metas):
         doc = {"id": rid, "freq": "A", "start": str(pts[0][0]), "v": [v for _, v in pts]}
         meta = meta_of(rid, k, f"{name}, real", f"{unit} (2010 dollars)", "A", "wb-pink", str(pts[0][0]), str(pts[-1][0]),
                        note=f"Sheet 'Annual Prices (Real)' of the annual workbook. {updated}".strip(),
-                       basis=f"Annual average in constant 2010 US dollars: {deflator}", hidden=True, realOf=sid)
+                       basis=f"Annual average in constant 2010 US dollars. {quoted}", hidden=True, realOf=sid)
         out.append((doc, meta))
     j = header["MUV Index"]
     pts = [(int(r[0]), num(r[j])) for r in data if num(r[j]) is not None]
     doc = {"id": "muv-a", "freq": "A", "start": str(pts[0][0]), "v": [v for _, v in pts]}
     meta = meta_of("muv-a", "index", "Manufactures unit value index (MUV), the deflator of the real prices", "index (2010 = 100)", "A", "wb-pink",
-                   str(pts[0][0]), str(pts[-1][0]), note=f"Column 'MUV Index' of the sheet 'Annual Prices (Real)'. {updated}".strip(), basis=deflator)
+                   str(pts[0][0]), str(pts[-1][0]), note=f"Column 'MUV Index' of the sheet 'Annual Prices (Real)'. {updated}".strip(), basis=quoted)
     out.append((doc, meta))
     return out
 
@@ -753,6 +805,64 @@ def stats_of(doc, meta):
     else:
         times = [date(int(doc["start"]) + i, 1, 1) for i in range(len(doc["v"]))]
     return board_stats(doc["freq"], times, doc["v"])
+
+
+def order_key(m):
+    """Order of data/prices/index.json: by commodity, then daily, monthly, annual; inside a frequency the series the
+    commodity opens on, then the series that were there from the first release, then the added ones, then by id."""
+    return (m["k"], "DMA".index(m["freq"]), m["id"] != OPENS_ON.get(m["k"]), m["id"] in ADDED, m["id"])
+
+
+def opening_problems(metas):
+    """Commodities with more than one series (hidden real-price twins and the price indices do not count) whose
+    first series was not chosen: [(commodity, why)]. The series of a commodity are in the order of order_key()."""
+    first, count = {}, {}
+    for m in metas:
+        if m.get("hidden") or m["k"] in ("index", "freight"):
+            continue
+        first.setdefault(m["k"], m)
+        count[m["k"]] = count.get(m["k"], 0) + 1
+    out = []
+    for k, n in count.items():
+        want = OPENS_ON.get(k)
+        if n > 1 and not want:
+            out.append((k, f"{n} series and no entry in OPENS_ON"))
+        elif want and first[k]["id"] != want:
+            out.append((k, f"opens on {first[k]['id']}, not on {want}"))
+        elif want and n > 1 and first[k]["freq"] == "A" and any(x["freq"] != "A" for x in metas if x["k"] == k and not x.get("hidden")):
+            out.append((k, "opens on an annual series although it has a monthly or daily one"))
+    return out
+
+
+def figures_of(metas):
+    """What the key figure on a commodity page needs, one entry per commodity: the board figures and the label of its
+    first series (the one the page opens on). The page loads this small file and not the whole index."""
+    out = {}
+    for m in metas:
+        if m.get("hidden") or m.get("closed") or m["k"] in NO_PAGE or m["k"] == "freight" or m["k"] in out or "stats" not in m:
+            continue
+        out[m["k"]] = {k: v for k, v in m.items() if k in ("id", "k", "name", "unit", "freq", "s", "start", "end", "basis", "est", "stats", "closed")}
+    return out
+
+
+def mark_closed(metas):
+    """A daily or monthly series that ends far behind the newest series of its source, while that source goes on
+    publishing, has been stopped by its publisher: it is marked `closed` (its `end` is its last period). It stays
+    available as history, the board hides it, and check_freshness() no longer reports it. A series that is only
+    late (the source itself has not published) is not closed: it keeps raising its alert."""
+    live = [m for m in metas if m["freq"] in ("D", "M") and not m.get("hidden")]
+    newest = _newest(live)
+    for m in live:
+        ref = newest[m["s"]]
+        if m["freq"] == "D":
+            behind = (date.fromisoformat(ref) - date.fromisoformat(m["end"])).days > DAILY_BEHIND_SOURCE_DAYS
+        else:
+            behind = (int(ref[:4]) * 12 + int(ref[5:7])) - (int(m["end"][:4]) * 12 + int(m["end"][5:7])) > MONTHLY_BEHIND_SOURCE_MONTHS
+        if behind:
+            m["closed"] = True
+        else:
+            m.pop("closed", None)
+    return [m["id"] for m in live if m.get("closed")]
 
 
 def write(doc, meta, metas, out_dir=None):
@@ -820,9 +930,12 @@ def main():
             m["real"] = m["id"][:-2] + "-real-a"
     # the first series of a commodity (daily before monthly) is the one its page and the event pages open: a series added
     # later never takes that place from the original benchmark
-    metas.sort(key=lambda m: (m["k"], "DMA".index(m["freq"]), m["id"] in ADDED, m["id"]))
+    metas.sort(key=order_key)
+    mark_closed(metas)
     with open(old_path, "w") as f:
-        json.dump(metas, f, indent=0)
+        json.dump(metas, f, separators=(",", ":"))
+    with open(os.path.join(OUT, "figures.json"), "w") as f:
+        json.dump(figures_of(metas), f, separators=(",", ":"))
     print(len(metas), "series")
     for s, i, why in check_freshness(metas):
         print("  late:", s, i, why)

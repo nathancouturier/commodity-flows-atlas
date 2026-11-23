@@ -4,7 +4,8 @@ Build data/freight/alerts.json: the disruption banners of the site, with figures
     python pipeline/freight/build_alerts.py
 
 Written by hand, in pipeline/freight/alerts.json: the title, the text, the start, the event it links to, the passages it
-is about and the date the text was reviewed. Everything else is computed here (METHODOLOGY.md, section 5):
+is about and, when it was done, the date the text was checked against its source (``checked``: only a text that was read
+against the page it cites carries a date). Everything else is computed here (METHODOLOGY.md, section 5):
 
   * transits and estimated tonnes of each passage over the last 28 days, over the same days a year earlier, and the 2023
     average, from the ``compare`` block of data/freight/portwatch/<passage>.json (IMF PortWatch, written by
@@ -14,10 +15,13 @@ is about and the date the text was reviewed. Everything else is computed here (M
   * the commodities: those whose "at least" share of seaborne trade through a passage of the alert is SHARE_MIN % or
     more, or whose "at least" tonnage is TONNES_MIN Mt or more (data/freight/chokepoints.json, ``estimates``);
   * the countries: for each of those commodities, the exporters and the importers that carry COUNTRY_MIN % or more of its
-    "at least" tonnage through the passages (data/freight/chokepoint-lanes.json).
+    "at least" tonnage through the passages, and every country with COUNTRY_MT_MIN Mt or more of cargo that has to cross
+    them, whatever the commodity (data/freight/chokepoint-lanes.json).
 
-An alert may carry an ``override`` with a reason ({"commodities": [...], "countries": [...], "reason": "..."}): the
-lists it gives replace the derived ones and the reason is published with them. No alert uses one today.
+An alert may carry an ``override`` with a reason, shown to the reader behind the banner's "Details":
+``{"addCountries": ["IRN"], "reason": "..."}`` appends countries to the derived list (so it follows the data when they
+change); ``{"commodities": [...], "countries": [...], "reason": "..."}`` replaces a derived list. The reason must come from
+the atlas's own files.
 
 Runs after build_portwatch.py (weekly job) and after build_freight.py (annual job). It never fails the job: an error is
 recorded in data/_status/updates.json (source ``build-alerts``), the previous file is kept and the exit code is 0.
@@ -46,6 +50,7 @@ LOWEST = "low"
 SHARE_MIN = 10.0     # % of the seaborne trade of a commodity (the "at least" share of the estimate)
 TONNES_MIN = 50.0    # Mt (the "at least" tonnage of the estimate)
 COUNTRY_MIN = 15.0   # % of the tonnage of one commodity through the passages, for an exporter or an importer
+COUNTRY_MT_MIN = 20.0  # Mt of cargo, all commodities, that has to cross the passages: a country with this much is in as well
 
 MEASURE_SOURCE = "portwatch"
 
@@ -138,6 +143,22 @@ def exposed_countries(lanes, cids, commodities):
     return out[0], out[1]
 
 
+def heavy_countries(lanes, cids):
+    """Countries (origin or destination) with COUNTRY_MT_MIN Mt or more of cargo that has to cross one of ``cids``, a pair
+    that crosses two of them counting once: [(country, Mt)], most tonnage first."""
+    pairs = {}
+    for cid in cids:
+        for row in lanes["chokepoints"].get(cid, []):
+            g, o, d, mt = row[:4]
+            if (row[4] if len(row) > 4 else 1) == 1:
+                pairs[(g, o, d)] = mt
+    tot = {}
+    for (_, o, d), mt in pairs.items():
+        for c in {o, d}:
+            tot[c] = tot.get(c, 0.0) + mt
+    return sorted(((c, round(mt, 1)) for c, mt in tot.items() if mt >= COUNTRY_MT_MIN), key=lambda x: (-x[1], x[0]))
+
+
 def build_alert(hand, events, chk_by_id, lanes, series_dir):
     cids = hand["chokepoints"]
     for cid in cids:
@@ -160,17 +181,25 @@ def build_alert(hand, events, chk_by_id, lanes, series_dir):
     expo = exposed_commodities(chk_by_id, cids)
     commodities = [x[0] for x in expo]
     exporters, importers = exposed_countries(lanes, cids, set(commodities))
-    countries = list(dict.fromkeys(exporters + importers))
+    heavy = [c for c, _ in heavy_countries(lanes, cids)]
+    countries = list(dict.fromkeys(exporters + importers + heavy))
     out = {
         "id": hand["id"], "title": hand["title"], "since": hand["since"], "severity": sev,
-        "text": hand["text"], "reviewed": hand["reviewed"], "event": hand["event"], "src": ev["src"],
+        "text": hand["text"], "event": hand["event"], "src": ev["src"],
         "chokepoints": cids, "measures": measures,
         "severityNote": severity_note(worst if worst and worst["gap2023"] is not None else None),
         "commodities": commodities, "countries": countries, "exporters": exporters, "importers": importers,
-        "derived": f"Commodities: at least {SHARE_MIN:.0f}% or {TONNES_MIN:.0f} Mt of their seaborne trade has to cross "
+        "derived": f"Commodities: at least {SHARE_MIN:.0f}% of their seaborne trade, or {TONNES_MIN:.0f} Mt, has to cross "
                    f"{' or '.join(chk_by_id[c]['name'] for c in cids)} (Atlas estimate, {lanes['y']}). Countries: for each of those "
-                   f"commodities, the exporters and importers with at least {COUNTRY_MIN:.0f}% of its tonnage through the passage.",
+                   f"commodities, the exporters and importers with at least {COUNTRY_MIN:.0f}% of its tonnage through the passage, "
+                   f"and every country with at least {COUNTRY_MT_MIN:.0f} Mt of cargo, of any kind, that has to cross it.",
     }
+    if ev.get("also"):
+        out["also"] = ev["also"]
+    if hand.get("checked"):
+        out["checked"] = hand["checked"]
+    if worst and worst["gap2023"] is not None:
+        out["decidedBy"] = {"chokepoint": worst["chokepoint"], "name": worst["name"], "gap": worst["gap2023"], "refYear": worst["refYear"]}
     ov = hand.get("override")
     if ov:
         if not ov.get("reason"):
@@ -178,7 +207,9 @@ def build_alert(hand, events, chk_by_id, lanes, series_dir):
         for k in ("commodities", "countries"):
             if k in ov:
                 out[k] = ov[k]
-        out["override"] = {k: v for k, v in ov.items() if k in ("commodities", "countries", "reason")}
+        add = ov.get("addCountries") or []
+        out["countries"] = list(dict.fromkeys(out["countries"] + add))
+        out["override"] = {k: v for k, v in ov.items() if k in ("commodities", "countries", "addCountries", "reason")}
     return out
 
 
@@ -191,7 +222,8 @@ def build(hand_alerts, events, chk, lanes, series_dir):
         if h["id"] in seen:
             raise ValueError("duplicate alert id " + h["id"])
         seen.add(h["id"])
-        date.fromisoformat(h["reviewed"])
+        if h.get("checked"):
+            date.fromisoformat(h["checked"])
         out.append(build_alert(h, ev, chk_by_id, lanes, series_dir))
     return out
 

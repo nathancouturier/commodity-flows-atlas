@@ -29,6 +29,9 @@ interface Row {
   to: string;
 }
 
+/** Below this the board prints "under 0.05 Mt": a volume of the length of a PortWatch rounding error has no meaningful gap in per cent. */
+const TINY_MT = 0.05;
+
 const gapOf = (now: number | null, ref: number | null) => (now != null && ref ? (100 * (now - ref)) / ref : null);
 
 /** The measures of one series: the `compare` block the build writes, else the same figures from the weekly averages. */
@@ -44,11 +47,13 @@ function measure(pw: PortwatchSeries) {
   const last = (a: number[]) => (a.length >= DAYS / 7 ? (a.slice(-DAYS / 7).reduce((s, x) => s + x, 0) * 7) : null);
   const per2023 = mean(pw.total, inYear);
   const mt2023 = pw.vol ? mean(pw.vol.total, inYear) : null;
+  // the `compare` block rounds the tonnage to two decimals: a volume that rounds to zero is read again from the weekly series
+  const mtNow = c ? (c.mt.now != null && c.mt.now < TINY_MT && pw.vol ? (last(pw.vol.total) ?? c.mt.now) : c.mt.now) : pw.vol ? last(pw.vol.total) : null;
   return {
     to: c?.to ?? pw.y,
     transits: c ? c.transits.now : last(pw.total),
     transits2023: c ? c.transits.avg2023 : per2023 != null ? per2023 * DAYS : null,
-    mt: c ? c.mt.now : pw.vol ? last(pw.vol.total) : null,
+    mt: mtNow,
     mt2023: c ? c.mt.avg2023 : mt2023 != null ? mt2023 * DAYS : null,
     base: per2023,
     spark: pw.total.slice(Math.max(0, weeks - SPARK_WEEKS)),
@@ -80,6 +85,15 @@ function Spark({ values, base }: { values: number[]; base: number | null }) {
 }
 
 const signed = (v: number | null) => (v == null ? '—' : `${v > 0 ? '+' : v < 0 ? '−' : ''}${pctText(Math.abs(v))}`);
+const tinyMt = (v: number | null) => v != null && v > 0 && v < TINY_MT;
+const mtText = (v: number | null) => (v == null ? '—' : tinyMt(v) ? `under ${TINY_MT} Mt` : `${fmt(v)} Mt`);
+/** The gap in tonnes: a volume under 0.05 Mt has the gap of "at most 0.05 Mt", said as a bound, not as a figure that rounding made up. */
+const gapMtText = (r: Row) => {
+  if (r.mt == null || r.mt2023 == null) return '—';
+  if (tinyMt(r.mt) && r.mt2023 > TINY_MT) return `down more than ${Math.floor((100 * (r.mt2023 - TINY_MT)) / r.mt2023)}%`;
+  if (tinyMt(r.mt) && r.mt2023 <= TINY_MT) return '—';
+  return signed(r.gapMt);
+};
 
 export default function BoardView({ id }: { id: string }) {
   useFreightCatalogue();
@@ -144,7 +158,8 @@ export default function BoardView({ id }: { id: string }) {
       {head}
       <div class="panel-scroll">
         <p class="prose" style={{ margin: '8px 0 0' }}>
-          Vessel transits and PortWatch's estimated trade volume over the last {DAYS} days{to ? ` (to ${to})` : ''}, against the average of 2023 over the same number of days. 2023 is the last full year before the Red Sea diversions and the closure of Hormuz.
+          Vessel transits and PortWatch's estimated trade volume over the last {DAYS} days{to ? ` (to ${to})` : ''}, against the average of 2023 over the same number of days. 2023 is the reference year of the comparison: it comes before the closure of Hormuz in 2026 and, but for its last six weeks, before the Red Sea attacks on shipping, which began on 19 November 2023.
+          {rows.none.length > 0 ? ` The list has ${rows.rows.length} of the ${rows.rows.length + rows.none.length} passages of the atlas: ${rows.none.join(', ')} has no PortWatch counter of its own.` : ''}
         </p>
         <Section title="Passages">
           <div class="chips" role="group" aria-label="Sort by" style={{ marginBottom: '8px' }}>
@@ -183,11 +198,10 @@ export default function BoardView({ id }: { id: string }) {
               <Spark values={r.spark} base={r.base} />
               <span class="muted small num" style={{ gridColumn: '1 / -1' }}>
                 <span style={{ display: 'block' }}>Transits {r.transits != null ? fmt(r.transits) : '—'} vs {r.transits2023 != null ? fmt(r.transits2023) : '—'} in 2023: <b>{signed(r.gap)}</b></span>
-                <span style={{ display: 'block' }}>Tonnes {r.mt != null ? `${fmt(r.mt)} Mt` : '—'} vs {r.mt2023 != null ? `${fmt(r.mt2023)} Mt` : '—'} in 2023: <b>{signed(r.gapMt)}</b></span>
+                <span style={{ display: 'block' }}>Tonnes {mtText(r.mt)} vs {mtText(r.mt2023)} in 2023: <b>{gapMtText(r)}</b></span>
               </span>
             </button>
           ))}
-          {rows.none.length > 0 && <div class="muted small" style={{ marginTop: '8px' }}>No PortWatch counter of its own: {rows.none.join(', ')}.</div>}
         </Section>
         <SourceLine s="portwatch" y={to ? `28 days to ${to}` : undefined} n="vessels counted are tankers, dry bulk, container, general cargo and ro-ro; the volume is PortWatch's estimate of the cargo they carry, not a customs statistic" />
       </div>

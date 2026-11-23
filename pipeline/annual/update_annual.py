@@ -20,7 +20,7 @@ file; otherwise the previous good file is kept and the failure is recorded.
 Processing chain, run when the inputs it depends on changed (or when its last run failed), each step in its
 own try block with a backup of its outputs that is restored on failure:
   geo/adjacency.py -> build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ;
-  build_profiles.py (if present)
+  build_profiles.py (if present) ; prices/build_prices.py (after a new USGS edition: its annual prices)
 When the freight step fails after a new BACI cache was installed, the old cache is put back, the version it was
 built from is the one recorded again, and the two steps that depend on the lanes do not run (each is recorded as
 failed, so that the next run runs it): the commodity pages never rest on a customs cache that the lanes do not.
@@ -79,7 +79,7 @@ def install(src, dest):
 # before the workflow stops the whole step mid-write. Measured on the 2026 rebuild: build_lanes.py 943 s from cold
 # caches, build_freight.py 18 s, build_commodities.py 7 s, build_profiles.py 1 s.
 STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "lanes": 70, "freight": 20, "commodities": 15,
-            "profiles": 10, "alerts": 5}
+            "profiles": 10, "alerts": 5, "prices": 5}
 
 
 def run(cmd, timeout):
@@ -385,6 +385,13 @@ def process(changed):
     data = os.path.join(ROOT, "data")
     sources_json = os.path.join(data, "sources.json")
     chain = []
+    if "usgs-mcs" in changed or pending("build-prices"):
+        # the annual USGS prices (data/prices/usgs-*-a.json) are rebuilt from the new edition; the monthly and daily
+        # files are not downloaded here: the builder keeps the series of a source whose file is absent
+        chain.append(("build-prices", lambda: run([PY, os.path.join(ROOT, "pipeline", "prices", "build_prices.py"),
+                                                   os.path.join(RAW, "worldbank", "CMO-Historical-Data-Monthly.xlsx"),
+                                                   os.path.join(RAW, "eia-spot")], STEP_MIN["prices"] * 60),
+                      [os.path.join(data, "prices")]))
     if "baci" in changed or pending("build-freight"):
         def freight():
             # borders and coasts first: modes.py reads adjacency.json when build_lanes.py imports it

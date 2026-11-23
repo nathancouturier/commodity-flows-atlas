@@ -1332,6 +1332,106 @@
      -2.06722
     ]
    }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hydro-norway-smelters",
+    "name": "Hydro aluminium smelters (Årdal, Husnes, Høyanger, Karmøy, Sunndal)",
+    "type": "smelter",
+    "k": [
+     "aluminium"
+    ],
+    "c": "NOR",
+    "operator": "Hydro Aluminium AS (Norsk Hydro ASA, 70%, as stated in 2019)",
+    "capacity": {
+     "v": 1032,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "aluminium, estimated annual capacity of the five smelters together"
+    },
+    "status": "not-stated",
+    "note": "Five smelters listed as one entry; the point is Sunndal. Norway ranks eighth in the atlas table of aluminium production. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-norway.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.56329,
+     62.6752
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kazzinc-ust-kamenogorsk",
+    "name": "Kazzinc Ust-Kamenogorsk metallurgical complex",
+    "type": "smelter",
+    "k": [
+     "zinc",
+     "lead",
+     "copper"
+    ],
+    "c": "KAZ",
+    "operator": "Kazzinc LLP (Glencore plc 69.70%, Tau-Ken Samruk NMC JSC 29.82%)",
+    "capacity": {
+     "v": 140,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "zinc metal, estimated annual capacity; the source also lists a lead plant of 110 kt/y and a copper smelter of 19 kt/y at Oskemen",
+     "orig": "140,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Metallurgical complex at Oskemen (Ust-Kamenogorsk), Eastern Kazakhstan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-kazakhstan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     82.62748,
+     49.94844
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ridder-zinc-refinery",
+    "name": "Ridder zinc refinery (Kazzinc)",
+    "type": "smelter",
+    "k": [
+     "zinc"
+    ],
+    "c": "KAZ",
+    "operator": "Kazzinc LLP (Glencore plc 69.70%, Tau-Ken Samruk NMC JSC 29.82%)",
+    "capacity": {
+     "v": 120,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "zinc metal, estimated annual capacity",
+     "orig": "120,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Zinc refinery at Ridder, Eastern Kazakhstan. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-kazakhstan.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     83.52073,
+     50.35327
+    ]
+   }
   }
  ]
 }

@@ -1,5 +1,9 @@
 # Weekly chokepoint transit update (Wednesday): IMF PortWatch -> data/freight/portwatch (only the days after the last one
 # stored are downloaded, the whole table once a month), then the alert banners.
+# The daily table (pipeline/cache/portwatch) is a working file that is not in git: the atlas publishes only its own weekly
+# averages and comparisons. It is restored at the start of the job from the newest artifact "portwatch-daily" of this
+# workflow (kept 90 days) and uploaded again after a successful update; with no usable artifact (first run, expired, corrupt,
+# older than a month) the job downloads the whole table (about 80,000 rows, 41 requests).
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded,
 # and the owner is only alerted (one GitHub issue per source) after 3 failed runs in a row.
 name: Update PortWatch
@@ -12,6 +16,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: read   # list and download the artifact of the previous run
 
 concurrency:
   group: update-portwatch
@@ -37,7 +42,14 @@ jobs:
         continue-on-error: true
         timeout-minutes: 10
         run: pip install -r pipeline/requirements.txt || (sleep 30 && pip install -r pipeline/requirements.txt)
+      - name: Restore the PortWatch daily table from the last run
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python pipeline/freight/restore_portwatch.py
       - name: Fetch PortWatch and rebuild chokepoint series
+        id: fetch
         continue-on-error: true
         # a hung source must not hit the job timeout (that would fail the run and e-mail the owner):
         # the step is stopped, recorded as failed, and the job still finishes green
@@ -56,8 +68,17 @@ jobs:
         uses: ./.github/actions/finish-data-update
         with:
           sources: "portwatch build-alerts"
-          paths: "data pipeline/cache/portwatch web/public/changes.atom"
+          paths: "data web/public/changes.atom"
           message: "data: update PortWatch chokepoint transits"
+      - name: Keep the PortWatch daily table for the next run
+        if: steps.fetch.outputs.cache_updated == 'true'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: portwatch-daily
+          path: pipeline/cache/portwatch
+          retention-days: 90
+          if-no-files-found: ignore
 
   deploy:
     needs: update

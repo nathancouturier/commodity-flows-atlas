@@ -5030,7 +5030,7 @@
      "uranium"
     ],
     "c": "KAZ",
-    "operator": "JV Inkai LLP (Kazatomprom 60%, Cameco 40%)",
+    "operator": "JV Inkai LLP (Kazatomprom 60%)",
     "output": {
      "v": 3215,
      "u": "tU/y",
@@ -5680,6 +5680,205 @@
     "coordinates": [
      -2.38363,
      6.97808
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ambatovy",
+    "name": "Ambatovy",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "cobalt"
+    ],
+    "c": "MDG",
+    "operator": "Ambatovy Minerals S.A. (Sumitomo Corp. 47.7%, Korea Resources Corp. 40.3%, Sherritt International Corp. 12%, as stated in 2019)",
+    "capacity": {
+     "v": 71,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "nickel, estimated annual capacity of the mine",
+     "orig": "71,000 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Nickel-cobalt mine at Ambatovy near Moramanga; the source also lists 6,600 t/y of cobalt. Madagascar ranks fourth in the atlas table of cobalt production. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-madagascar.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.3077,
+     -18.84458
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ramu-nickel",
+    "name": "Ramu NiCo (Kurumbukari)",
+    "type": "mine",
+    "k": [
+     "nickel",
+     "cobalt"
+    ],
+    "c": "PNG",
+    "operator": "MCC Ramu NiCo Ltd. (85%), Nickel 28 Capital Corp. (8.56%), Government of Papua New Guinea and landowners (6.44%)",
+    "capacity": {
+     "v": 35,
+     "u": "kt/y",
+     "y": 2019,
+     "n": "nickel, estimated annual capacity of the mine"
+    },
+    "status": "not-stated",
+    "note": "Kurumbukari mine in Madang Province, with a beneficiation plant at Basamuk; the source also lists 3,500 t/y of cobalt. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-papua-new-guinea.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     145.20648,
+     -5.57137
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "rhenish-lignite-rwe",
+    "name": "RWE Rhenish lignite mines (Garzweiler, Inden, Hambach)",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "DEU",
+    "operator": "RWE Power AG (RWE Aktiengesellschaft, 100%)",
+    "capacity": {
+     "v": 105,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "lignite, estimated annual capacity of the open-pit mines together",
+     "orig": "105,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Open-pit mines in the Rhenish mining area (Bergheim, Garzweiler, Inden, Hambach), listed as one entry; the point is Garzweiler. Germany ranks ninth in the atlas table of thermal coal production. The point is from the Wikipedia article \"Garzweiler surface mine\".",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-germany.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.50972,
+     51.05417
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "la-loma",
+    "name": "La Loma",
+    "type": "mine",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "COL",
+    "operator": "Drummond Ltd. (Drummond Co. Inc. 80%, Itochu Corp. 20%)",
+    "capacity": {
+     "v": 33,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "coal, estimated annual capacity",
+     "orig": "33,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mine in Cesar Department. The source gives no coal type. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-colombia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -73.59738,
+     9.61913
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "abu-tartur",
+    "name": "Abu Tartur",
+    "type": "mine",
+    "k": [
+     "phosphate"
+    ],
+    "c": "EGY",
+    "operator": "Phosphate Misr Co. S.A.E. (National Investment Bank 50%, Egyptian Mineral Resources Co. 20%, Ganoub El Wadi Holding Co. 15%, Egyptian General Petroleum Corp. 15%, as stated in 2019)",
+    "capacity": {
+     "v": 5,
+     "u": "Mt/y",
+     "y": 2019,
+     "n": "phosphate rock, estimated annual capacity of the Abu Tartur, New Valley and Red Sea mines as listed",
+     "orig": "5,000 thousand metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines of Phosphate Misr in the New Valley and on the Red Sea, listed as one entry; the point is Abu Tartur. The point is from OpenStreetMap.",
+    "coord": "site",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-egypt.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     30.09271,
+     25.38063
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lovozero-rare-earths",
+    "name": "Lovozero rare-earth mines",
+    "type": "mine",
+    "k": [
+     "rare-earths"
+    ],
+    "c": "RUS",
+    "operator": "OAO Apatit",
+    "capacity": {
+     "v": 2.7,
+     "u": "kt/y",
+     "y": 2022,
+     "n": "rare earths as listed by the source, estimated annual capacity",
+     "orig": "2,700 metric tons"
+    },
+    "status": "not-stated",
+    "note": "Mines of the Lovozero deposit, Kola Peninsula; the point is the village of Lovozero. The point is a nearby town, locality or area (OpenStreetMap), not the site itself.",
+    "coord": "approx",
+    "s": "usgs-myb",
+    "url": "https://pubs.usgs.gov/myb/vol3/2022/myb3-2022-russia.pdf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.01721,
+     68.00588
     ]
    }
   }

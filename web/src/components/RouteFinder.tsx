@@ -16,6 +16,7 @@ import {
   altOptions,
   caveatFor,
   chokepointName,
+  corridorHas,
   decodePairs,
   familyLabel,
   finderCommodity,
@@ -63,8 +64,6 @@ function tonnage(kt: number, est = false): string {
   const mt = kt / 1000;
   return `${fmt(est ? sig2(mt) : mt)} Mt`;
 }
-/** The coal question covers both customs products and both benchmark kinds. */
-const COAL_KINDS = ['thermal-coal', 'met-coal'];
 const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
@@ -184,10 +183,8 @@ export function RouteFinder() {
   const complete = !!(origin && dest && ready);
   const benchmarks = useMemo(() => {
     if (!sel || !pf || sel.kind === 'land') return [];
-    // the coal files are thermal coal, but the question covers metallurgical coal too
-    const ks = k === COAL ? COAL_KINDS : [pf.k];
-    return routes.filter((r) => r.corridor?.some((c) => ks.includes(c.k) && (!c.g || c.g === pf.group) && c.o.includes(sel.o) && c.d.includes(sel.d)));
-  }, [sel, pf, routes, k]);
+    return routes.filter((r) => corridorHas(r, pf.group, sel.o, sel.d));
+  }, [sel, pf, routes]);
 
   const root = useRef<HTMLDivElement>(null);
   const matchId = lane?.id;

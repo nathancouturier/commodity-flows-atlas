@@ -170,7 +170,7 @@ export function Legend() {
               {SEGMENT_LABEL[s]}
             </span>
           ))}
-          <span class="legend-item legend-width" title="Freight routes have a fixed width: it does not show a volume. Benchmark routes are drawn thicker than the other routes.">
+          <span class="legend-item legend-width" title="Freight routes have a fixed width: it does not show a volume. Benchmark routes are drawn thicker than the other routes, and the atlas's generated corridors (built from the customs pairs table, not market benchmarks) thinner still.">
             <span class="legend-ref">
               <WidthSample px={routePx(ROUTE_W.benchmark)} />
               Benchmark
@@ -179,7 +179,11 @@ export function Legend() {
               <WidthSample px={routePx(ROUTE_W.other)} />
               Other
             </span>
-            <span class="muted">(fixed width)</span>
+            <span class="legend-ref">
+              <WidthSample px={routePx(ROUTE_W.generated)} />
+              Atlas corridor (generated)
+            </span>
+            <span class="muted" style={{ whiteSpace: 'nowrap' }}>(fixed width)</span>
           </span>
         </div>
       )}

@@ -18,7 +18,9 @@ Then build_prices.py is run; if it fails data/prices is restored from a backup.
 After the build, a series whose last observation did not advance as fast as its cadence allows (build_prices.
 check_freshness) is recorded as a failure of its source in data/_status/updates.json, whatever the download
 said: the data are still published, and after three runs in a row the owner is alerted (a frozen series never
-passes as a success).
+passes as a success). A series its publisher stopped (it ends more than 6 months, or 120 days for a daily series,
+behind the newest series of its source) is marked `closed` by the build: it is not late, it is recorded once in the
+status of its source (state "closed": {series: last period}, and the note of that run) and the alert never fires for it.
 
 Always exits 0: a failure is recorded in the status file and the previous good files are kept.
 """
@@ -238,6 +240,31 @@ def late_series():
     return {s: m for s, m in late.items() if s in ("wb-pink", "eia-spot")}
 
 
+def closed_series():
+    """{source: {series id: last period}} of the series the publisher stopped (build_prices.mark_closed marks them in
+    the index): a stopped series is history, not a failure, and it is recorded in the source's status."""
+    try:
+        with open(os.path.join(DATA_PRICES, "index.json"), encoding="utf-8") as f:
+            metas = json.load(f)
+    except (OSError, ValueError) as e:
+        print("  closed series skipped:", e)
+        return {}
+    out = {}
+    for m in metas:
+        if m.get("closed") and m["freq"] in ("D", "M") and not m.get("hidden"):
+            out.setdefault(m["s"], {})[m["id"]] = m["end"]
+    return out
+
+
+def closed_state(source, closed):
+    """(state to record, note) for a source: the closed series, and a note naming those closed since the last run, so
+    that the change is reported once."""
+    now = closed.get(source, {})
+    before = (status.get(source).get("state") or {}).get("closed") or {}
+    new = [f"{i} (last period {e})" for i, e in now.items() if i not in before]
+    return {"closed": now}, ("; closed: " + ", ".join(new) if new else "")
+
+
 def main():
     with tempfile.TemporaryDirectory() as stage:
         try:
@@ -257,7 +284,7 @@ def main():
             fred_info, fred_err, fred_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
 
     build_err = None
-    stale = {}
+    stale, closed = {}, {}
     if pink or eia_updated or fred_updated:
         try:
             rebuild()
@@ -266,13 +293,16 @@ def main():
             print("  rebuild failed:", build_err)
     if not build_err:
         stale = late_series()
+        closed = closed_series()
     # record
     if pink and not build_err and not stale.get("wb-pink"):
-        status.record_success("wb-pink", **pink, note="updated")
+        state, note = closed_state("wb-pink", closed)
+        status.record_success("wb-pink", records=pink["records"], data_to=pink["data_to"], state={**pink["state"], **state}, note="updated" + note)
     else:
         status.record_failure("wb-pink", build_err or stale.get("wb-pink") or pink_err)
     if eia is not None and eia_updated and not build_err and not eia_err and not stale.get("eia-spot"):
-        status.record_success("eia-spot", **eia, note="updated")
+        state, note = closed_state("eia-spot", closed)
+        status.record_success("eia-spot", records=eia["records"], data_to=eia["data_to"], state={**eia["state"], **state}, note="updated" + note)
     elif eia is not None and eia_updated and not build_err:
         status.record_failure("eia-spot", eia_err or stale.get("eia-spot"))  # partial: some files updated, some failed
     else:

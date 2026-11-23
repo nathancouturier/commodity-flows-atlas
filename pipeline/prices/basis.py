@@ -124,31 +124,61 @@ def _strip(clause, span):
 def parse_clauses(text):
     """The clauses of a description row, newest basis first. Each: text (without its dates), from, to (months or
     None), before (True for a "prior to" or "backwards" clause: the text is the basis that ended at `from`)."""
-    text = _MDY.sub(r"\1 \2", _YM_PAREN.sub(r"\2 \1", clean(text)))
     out = []
-    for raw in _SPLIT.split(text):
-        raw = re.sub(r"^\s*previously,?\s+", "", clean(raw))  # "previously, f.o.b. Black Sea": the clause is what it was
+    for quoted in _SPLIT.split(clean(text)):
+        quoted = clean(quoted)  # the clause as the source wrote it (kept as "raw" to quote the source)
+        raw = re.sub(r"^\s*previously,?\s+", "", _MDY.sub(r"\1 \2", _YM_PAREN.sub(r"\2 \1", quoted)))  # "previously, f.o.b. Black Sea": the clause is what it was
         if not raw:
             continue
         p = _period(raw)
         if p is None:
-            out.append({"text": raw.strip(" ,."), "from": None, "to": None, "before": False})
+            out.append({"text": raw.strip(" ,."), "from": None, "to": None, "before": False, "raw": quoted.strip(" ,;")})
             continue
         start, end, kind, span = p
         body = _strip(raw, span)
         if kind == "back":
             start = add_month(start)  # "June 2020 backwards": June 2020 is the last month of that basis
-        out.append({"text": body, "from": start, "to": end, "before": kind in ("prior", "back")})
+        out.append({"text": body, "from": start, "to": end, "before": kind in ("prior", "back"), "raw": quoted.strip(" ,;")})
     return out
+
+
+def _overlap(a, b):
+    """Do two dated clauses cover a month in common? A "from <month>" clause with no end runs until the next clause
+    starts, as the rows of the sheet are written, so only a period with an end of its own can overlap the clause that
+    starts later. Two periods that meet in one month (one ends in the month the other starts: the source gives days
+    there, "February 10, 2017" and "February 13, 2017") do not overlap."""
+    x, y = sorted((a, b), key=lambda c: c["from"])
+    return x["to"] is not None and y["from"] < x["to"]
+
+
+def overlapping(clauses):
+    """The clauses whose dates overlap another clause of the same row, in the order of the source, and the ones the
+    atlas leaves out of the breaks: for each, the later-starting clause of a pair. A row whose periods overlap cannot
+    be chained (the 2017 netback assessment of Richards Bay coal would come "before" a basis that starts in 2015):
+    the atlas keeps the earlier-starting clause of each pair and quotes the source."""
+    dated = sorted((c for c in clauses if not c["before"] and c["from"]), key=lambda c: c["from"])
+    kept, dropped = [], []
+    for c in dated:
+        if kept and _overlap(kept[-1], c):
+            dropped.append(c)
+        else:
+            kept.append(c)
+    involved = {id(c) for d in dropped for c in dated if c is d or _overlap(c, d)}
+    return [c for c in clauses if id(c) in involved], dropped
 
 
 def basis_and_breaks(clauses, first_month, last_month=None):
     """(current basis text, list of breaks). A break is {"at": "YYYY-MM", "now": text, "before": text}: the basis
-    `now` starts at `at`, replacing `before`. Dates at or before the first month of the data are not breaks."""
+    `now` starts at `at`, replacing `before`. Dates at or before the first month of the data are not breaks.
+    The breaks are in date order and each `before` is the previous `now`. Clauses whose dates overlap an earlier
+    one are left out of the chain (see overlapping())."""
     if not clauses:
         return "", []
     plain = [c for c in clauses if not c["before"]]
     current = next((c for c in plain if c["to"] is None), plain[0] if plain else clauses[0])
+    gone = {id(c) for c in overlapping(clauses)[1]}
+    clauses = [c for c in clauses if id(c) not in gone]
+    plain = [c for c in clauses if not c["before"]]
     breaks = {}
     for i, c in enumerate(clauses):
         if c["from"] is None or c["from"] <= first_month or (last_month and c["from"] > last_month):
@@ -156,14 +186,22 @@ def basis_and_breaks(clauses, first_month, last_month=None):
         if c["before"]:
             # the basis ended here: what replaced it is the main (first) clause, or the clause just before in the list
             now = plain[0]["text"] if plain else ""
-            b = breaks.setdefault(c["from"], {"at": c["from"], "now": now, "before": c["text"]})
+            b = breaks.setdefault(c["from"], {"at": c["from"], "now": now, "before": c["text"], "prior": True})
             if not b["before"]:
                 b["before"] = c["text"]
             continue
         nxt = next((d for d in clauses[i + 1:] if not d["before"] and d["from"] != c["from"]), None)
         before = nxt["text"] if nxt else ""
         breaks[c["from"]] = {"at": c["from"], "now": c["text"], "before": before, **({"to": c["to"]} if c["to"] else {})}
-    return current["text"], [breaks[k] for k in sorted(breaks)]
+    out = [breaks[k] for k in sorted(breaks)]
+    # "prior to July 1976 Handy & Harman" and "grade prior to 1962 unrefined silver": the basis that replaced the
+    # earlier one is the one that ends at the next break, not the current one
+    for i in range(len(out) - 1):
+        if out[i].get("prior") and out[i + 1]["before"]:
+            out[i]["now"] = out[i + 1]["before"]
+    for b in out:
+        b.pop("prior", None)
+    return current["text"], out
 
 
 # ---------------------------------------------------------------- estimates marked by the source

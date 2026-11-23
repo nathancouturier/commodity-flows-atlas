@@ -5,11 +5,15 @@ Fetch the IMF PortWatch daily chokepoint transits and rebuild data/freight/portw
 
 Source  ArcGIS feature service Daily_Chokepoints_Data (services9.arcgis.com/weJ1QsnbMYJlCHdG), paged
         2000 records at a time (the service allows 10,000) ordered by ObjectId, 1-2 s pause between pages.
-Incremental  the daily table is kept between runs in pipeline/cache/portwatch/ (one file per year, tracked in git:
-        the runners of GitHub keep nothing else). A run asks only for the days after the last one stored, minus
-        OVERLAP_DAYS days that PortWatch may revise (about 400 records, one page), and replaces those days. Every
-        FULL_EVERY_DAYS days (about once a month) it asks for the whole table again, which also picks up any older
-        revision. The date of the last full download is kept in the "state" of the status file.
+Incremental  the daily table is a working file in pipeline/cache/portwatch/ (one file per year). It is NOT in git: the
+        atlas publishes only its own weekly averages and comparisons (data/freight/portwatch/). On GitHub the weekly job
+        restores it at its start from the newest artifact of the workflow (restore_portwatch.py) and uploads it again
+        when this script has updated it; with no usable artifact (first run, expired, corrupt, older than a month) the
+        run downloads the whole table. A run asks only for the days after the last one stored, minus OVERLAP_DAYS days that
+        PortWatch may revise (about 400 records, one page), and replaces those days. Every FULL_EVERY_DAYS days (about once a
+        month) it asks for the whole table again, which also picks up any older revision; when that download fails it falls
+        back to the incremental update in the same run and records the failure in the "state" of the status file
+        (``full_refresh_failed``). The date of the last full download is kept in the same "state".
 Validation  a page without the expected fields stops the run; the table after the merge must not have fewer records
         than 95% of the previous run's, nor end earlier; a full download of fewer than 1000 records is refused.
         Only then are the cache, the series files (built into a temporary folder, then moved into
@@ -84,6 +88,19 @@ def fetch_rows(where):
     return rows
 
 
+def announce(**outputs):
+    """Tell the workflow what happened (GITHUB_OUTPUT), so that it uploads the working table only after a successful update."""
+    path = os.environ.get("GITHUB_OUTPUT")
+    if not path:
+        return
+    try:
+        with open(path, "a", encoding="utf-8") as fh:
+            for k, v in outputs.items():
+                fh.write(f"{k}={v}\n")
+    except OSError:
+        pass
+
+
 def write_mirror(rows):
     """Rewrite raw/portwatch/ (the pages other local scripts read) from the merged table, on a machine that has it."""
     if not os.path.isdir(RAW):
@@ -101,19 +118,38 @@ def main():
 
     prev = status.get(SOURCE)
     try:
-        stored = BW.read_cache()
+        try:
+            stored = BW.read_cache()
+        except Exception as e:  # noqa: BLE001  (a truncated or corrupt working file: the whole table replaces it)
+            print(f"  working table unreadable ({e.__class__.__name__}: {e}); downloading the whole table")
+            stored = []
         # runs before the cache existed were all full downloads: their date counts as the last full one
         full_on = (prev.get("state") or {}).get("full_refresh") or (prev.get("last_success") or "")[:10] or None
         last_stored = max((r["date"] for r in stored), default=None)
         mode, where = plan(bool(stored), full_on, last_stored, date.today())
         print(f"  {mode} download: where {where}")
+        full_failed = None
         with tempfile.TemporaryDirectory() as tmp:
             built = os.path.join(tmp, "built")
-            new = fetch_rows(where)
+            new = None
+            if mode == "full":
+                try:
+                    new = fetch_rows(where)
+                    if len(new) < 1000:
+                        raise fetch.FetchError(f"only {len(new)} records")
+                except fetch.FetchError as e:
+                    if not stored:
+                        raise
+                    # the monthly refresh failed: the days after the last one stored are still worth fetching
+                    n = int(((prev.get("state") or {}).get("full_refresh_failed") or {}).get("count") or 0) + 1
+                    full_failed = {"on": date.today().isoformat(), "error": " ".join(str(e).split())[:160], "count": n}
+                    print(f"  full download failed ({e}); incremental update instead")
+                    mode, where = plan(True, date.today().isoformat(), last_stored, date.today())
+                    new = None
+            if new is None:
+                new = fetch_rows(where)
             print(f"  {len(new)} records downloaded")
             if mode == "full":
-                if len(new) < 1000:
-                    raise fetch.FetchError(f"only {len(new)} records")
                 rows = BW.merge_days([], new)
             else:
                 if not new:
@@ -139,9 +175,11 @@ def main():
             BW.prune(OUT, chk)
             # the chokepoint cards read their traffic figures from chokepoints.json: refresh them from the new series
             BW.update_headlines()
-        status.record_success(SOURCE, records=total, data_to=latest,
-                              state={"full_refresh": date.today().isoformat() if mode == "full" else full_on,
-                                     "mode": mode, "downloaded": len(new)})
+        state = {"full_refresh": date.today().isoformat() if mode == "full" else full_on, "mode": mode, "downloaded": len(new),
+                 "full_refresh_failed": full_failed}
+        status.record_success(SOURCE, records=total, data_to=latest, state=state,
+                              note="updated" if not full_failed else f"updated (monthly full download failed: {full_failed['error']})")
+        announce(cache_updated="true")
         print("done: updated")
     except Exception as e:  # noqa: BLE001
         if not isinstance(e, fetch.FetchError):

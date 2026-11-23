@@ -150,6 +150,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
 import ports as PT  # noqa: E402  (sourced transit ports of landlocked countries)
 import vessel_rules as VR  # noqa: E402
+from build_lanes import FIRST_YEAR as LANE_FIRST_YEAR  # noqa: E402  (first year a page supports the reading of a group, with the reason)
 
 BACI_OVERRIDE = CODE_FIX  # BACI "Other Asia, nes" = Taiwan (one mapping, pipeline/trade/clean.py)
 # codes that are not countries of the index: territories without a polygon and the pseudo-place XAS
@@ -428,8 +429,11 @@ class Usgs:
         def at(y):
             r, _ = self.ranked(commodity, detail, u, factor, label, kind, full, year=str(y))
             return r
-        # the file holds the year before the edition's estimates too (as revised by the edition): the series by country has both
+        # the file holds the year before the edition's own year too: the series by country has both. The file marks values
+        # "Estimated." one by one (srcEst); it gives no word such as "revised" for a year as a whole
         out["_hist"] = ([int(USGS_YEAR) - 1, int(USGS_YEAR)], at)
+        out["_yl"] = {int(USGS_YEAR) - 1: f"as published in USGS MCS {USGS_EDITION}",
+                      int(USGS_YEAR): f"as published in USGS MCS {USGS_EDITION}; the values it marks 'Estimated.' are its estimates"}
         return out, t
 
 
@@ -550,6 +554,7 @@ class Psd:
         self.release = self.revision(d)  # newest revision of the whole file: build log only
         self.cache = {}
         self._years = None
+        self.top = self  # the reader of the latest market year (at() sets it on the readers of earlier years)
 
     def at(self, my):
         """The table reader for another market year (the file is read once for every year from HIST_FROM to PSD_MY)."""
@@ -558,6 +563,8 @@ class Psd:
         if self._years is None:
             allyears = self.read(HIST_FROM, PSD_MY)
             self._years = {int(y): Psd(x, int(y)) for y, x in allyears.groupby("Market_Year")}
+            for p in self._years.values():
+                p.top = self
         if my not in self._years:
             raise KeyError(my)
         return self._years[my]
@@ -576,6 +583,11 @@ class Psd:
         """True when PSD carries a 'European Union' row for the commodity (cotton lists the members instead)."""
         x = self.d[self.d["Commodity_Description"] == commodity]
         return bool((x["Country_Name"] == "European Union").any())
+
+    def has_uk(self, commodity):
+        """True when PSD has a United Kingdom row for the commodity in this market year (from 2016/17 for most commodities)."""
+        x = self.d[self.d["Commodity_Description"] == commodity]
+        return bool((x["Country_Name"] == "United Kingdom").any())
 
     def trade_year_world(self, commodity, attr):
         """World total of the PSD trade-year attribute ('TY Exports' / 'TY Imports'), where PSD has one."""
@@ -639,6 +651,15 @@ class Psd:
         if extra:
             n.append(extra)
         out = ranked(rows, self.label, "usda-psd", unit, world=world, n="; ".join(n))
+        # PSD's European Union row is its own entity, whose membership changes: the name of each year, as the file shows it
+        if any(r["c"] == "EU27" for r in out["rows"]):
+            x = self.d[(self.d["Commodity_Description"] == commodity) & (self.d["Attribute_Description"] == attr) & (self.d["Value"] > 0)]
+            if (x["Country_Name"] == "EU-25").any():
+                out["_cl"] = {"EU27": "EU-25"}
+            elif self.top.has_uk(commodity) and not self.has_uk(commodity):
+                out["_cl"] = {"EU27": "European Union with the United Kingdom"}
+            out["_clname"] = {"EU27": "European Union"}
+            out["_clwhy"] = {"European Union with the United Kingdom": "until USDA PSD lists the United Kingdom as a row of its own"}
         # market years HIST_FROM/.. to the latest one the tables show (PSD_MY, set in _latest_inputs only)
         out["_hist"] = (list(range(HIST_FROM, PSD_MY + 1)), lambda my: self.at(my).ranked(commodity, attr, what, extra)[0])
         return out, unit
@@ -729,9 +750,11 @@ class Baci:
         agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
-        rows = []
+        rows, usd_by = [], {}
         for code, r in agg.iterrows():
             iso = None if code in EXTRA_CODES else self.iso(code)  # ranked tables (and country profiles) list countries of the index only
+            if iso:
+                usd_by[iso] = float(r["usd"])
             es = r["te"] / r["t"] if r["t"] else 0
             note = None
             if code in BACI_OVERRIDE:
@@ -759,8 +782,14 @@ class Baci:
         if est_share >= 0.10:
             t["world"] = sig(world)
             t["_west"] = True  # the world total holds a tenth or more of Atlas estimates
+        # declared value by country: the series by year keeps a jump of tonnage whose value moved with it (history.out_of_line)
+        t["_usd"] = usd_by
         if year == BACI_YEAR:
-            t["_hist"] = (self.years(), lambda y: self.ranked(g, side, u, div, what, extra, digits, year=y)[0])
+            # a group read from a code only from the year a page supports it (the lanes' FIRST_YEAR): the series starts there too
+            first = LANE_FIRST_YEAR.get(g)
+            t["_hist"] = ([y for y in self.years() if not first or y >= first[0]], lambda y: self.ranked(g, side, u, div, what, extra, digits, year=y)[0])
+            if first:
+                t["_hn"] = [first[1] + "."]
         return t, est_share
 
     def years(self):
@@ -1454,6 +1483,8 @@ def main():
             tr["n"] += f"; last revised by EIA in {rev} and repeated unchanged to {y} (reserve estimates are not revised every year)"
             for flag in flags:
                 add_caveat(tr, flag + ".")
+            if flags:  # the warning is about the years since the revision it names
+                tr["caveatYears"] = list(range(min(since(_iso_to_eia(r["c"])) for r in tr["rows"][:SHOWN_ROWS] if r.get("n", "").startswith("EIA raised")), y + 1))
             d["reserves"] = tr
             g = add_baci_trade(d, cid, notes, disc, extra="HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal")
             allcoal = {"exports": d["exports"], "imports": d["imports"]}  # customs tables, all coal: same basis as flows and lanes
@@ -1885,7 +1916,7 @@ def main():
     known = {k: set(v) for k, v in UNKNOWN.items()}
     QUIET[0] = True
     try:
-        hist_qa, hist_bad = HI.write_all(docs, os.path.join(OUT, "history"))
+        hist_qa, hist_bad = HI.write_all(docs, os.path.join(OUT, "history"), name=cname)
     finally:
         QUIET[0] = False
     for bad in hist_bad:
@@ -2396,7 +2427,9 @@ def caveats(docs, eia):
         if ref:
             t += f" (EIA gives {_fmt(us[ref] * 1e-3)} Mt for {ref})"
         out["lpg"] = {"consumption": t + ", so the world total is understated.",
-                      "notes": [f"EIA's {c['y']} LPG consumption table has no United States value; the world total excludes it."]}
+                      "notes": [f"EIA's {c['y']} LPG consumption table has no United States value; the world total excludes it."],
+                      # the years of the series that have no US value: a past-year table keeps the caveat in those years only
+                      "caveatYears": {"consumption": [y for y in range(HIST_FROM, int(c["y"]) + 1) if y not in us]}}
 
     # LNG: the customs tables against the industry's world totals and the order its publisher gives
     lx = docs["lng"]["exports"]
@@ -2415,7 +2448,9 @@ def caveats(docs, eia):
         text += (f" EIA (U.S. liquefied natural gas exports, series {EIA_US_LNG['series']}, public domain) gives {bcf:,.0f} bcf in {EIA_US_LNG['year']}, "
                  f"about {bcf / BCF_PER_MT_LNG:.1f} Mt (Atlas conversion at {BCF_PER_MT_LNG:.2f} bcf per Mt), against {_fmt(rows[pos - 1]['v'])} Mt in the customs table.")
     text += " Country profiles show no world rank for LNG."
-    out["lng"] = {"exports": text, "discrepancies": [f"BACI LNG trade ({lw:.2f} Mt in {ly}) is below the industry totals: {refs}."]}
+    out["lng"] = {"exports": text, "discrepancies": [f"BACI LNG trade ({lw:.2f} Mt in {ly}) is below the industry totals: {refs}."],
+                  # both caveats compare the customs figures of the latest year: a past-year table shows the short caveat (`caveatShort`)
+                  "caveatYears": {"exports": [ly], "imports": [ly]}}
 
     out["gold"] = {"exports": "This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
                    "imports": "Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure."}
@@ -2426,7 +2461,9 @@ def caveats(docs, eia):
     out["refined-products"] = {"exports": "This ranks customs trade, not refinery output: countries that store, blend and re-export products may rank high, which the atlas does not measure.",
                                "imports": "Customs trade, not final demand: countries that store, blend and re-export products may rank high, which the atlas does not measure."}
     out["uranium"] = {"exports": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
-                      "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."]}
+                      "notes": ["Trade tonnage is the gross weight of uranium ores and compounds, not uranium content."],
+                      # the comparison with mine output was made for the latest year; the unit holds for every year
+                      "caveatYears": {"exports": [BACI_YEAR]}, "caveatPast": {"exports": "Gross weight of ores and compounds, not contained uranium."}}
     out["cobalt"] = {"exports": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
                      "imports": "Gross weight of cobalt intermediate products and metal, not contained cobalt."}
     out["potash"] = {"exports": "Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content.",
@@ -2557,6 +2594,8 @@ def annotate(docs, eia):
         if not d:
             continue
         for sec, text in c.items():
+            if sec in ("caveatYears", "caveatPast"):
+                continue
             if sec in ("notes", "discrepancies"):
                 d.setdefault(sec, [])
                 d[sec] += [t for t in text if t not in d[sec]]
@@ -2566,6 +2605,12 @@ def annotate(docs, eia):
                     kf = d["summary"][sec]
                     # a key figure that holds an Atlas estimate keeps the note that says so, and the caveat follows it
                     kf["n"] = joinn(kf.get("n"), text) if kf.get("est") or "Atlas estimate" in kf.get("n", "") else text
+        # a caveat that holds in some years only (the others hold for every year of the table's series): a past-year table
+        # shows it in those years, and `caveatPast` (else `caveatShort`) in the others (web/src/lib/tableYears.ts)
+        for key in ("caveatYears", "caveatPast"):
+            for sec, v in (c.get(key) or {}).items():
+                if (d.get(sec) or {}).get("caveat"):
+                    d[sec][key] = v
 
 
 if __name__ == "__main__":

@@ -90,7 +90,7 @@ function Body({ r }: { r: Route }) {
             Atlas corridor, generated from customs pairs. It is not a market benchmark: its ports, vessel class, distance and passages are those of its largest pair.
           </div>
         )}
-        {r.roundVoyage && <div class="muted small" style={{ marginTop: '6px' }}>Benchmark is a round voyage (delivery → redelivery); distance shown is the typical laden leg.</div>}
+        {r.roundVoyage && !r.standIn && <div class="muted small" style={{ marginTop: '6px' }}>Benchmark is a round voyage (delivery → redelivery); distance shown is the typical laden leg.</div>}
         {r.standIn ? (
           <div class="muted small" style={{ marginTop: '6px' }}>{r.standIn}</div>
         ) : (
@@ -120,8 +120,10 @@ function Body({ r }: { r: Route }) {
         {r.finder && (
           <Section title="In the Route finder">
             <p class="prose">
-              The largest recorded pair of this corridor, {countryName(r.finder.o)} to {countryName(r.finder.d)} ({fmt(r.finder.mt)} Mt in {r.finder.y}), runs {r.finder.from} to {r.finder.to} there: {fmt(r.finder.nm)} nm. The distance above is for this route's own ports.
+              The distance above is for this route's own ports. The Route finder shows the largest recorded pair of this corridor, {countryName(r.finder.o)} to {countryName(r.finder.d)} ({fmt(r.finder.mt)} Mt in {r.finder.y}), between that pair's typical ports, {r.finder.from} and {r.finder.to}: {fmt(r.finder.nm)} nm.
+              {(r.finder.nm > 1.5 * r.distanceNm || r.finder.nm < r.distanceNm / 1.5) && ' The two distances differ by more than half: that pair does not use this route\'s ports.'}
             </p>
+            <p class="prose">The corridor figures on this page (share of seaborne trade, volume history, tonne-miles) count every port of the countries of the corridor, not only this route's ports.</p>
           </Section>
         )}
         <Section title="Vessel class">

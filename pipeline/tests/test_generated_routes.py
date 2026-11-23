@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import unittest
+import unittest.mock
 from collections import defaultdict
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -83,7 +84,7 @@ class SelectionTest(unittest.TestCase):
         self.assertEqual(d["_pair"][:3], ("wheat", "AAA", "BBB"))
         self.assertEqual((d["vclass"], d["_nm"]), ("supramax", 1000))
         self.assertEqual(d["from"]["ports"][0]["name"], "Alpha")
-        self.assertEqual(d["name"], "Wheat: Zone 1 to Zone 2")
+        self.assertEqual(d["name"], "Wheat: AAA to BBB")  # one country holds all the tonnes of each end
         self.assertTrue(d["generated"] and not d["benchmark"] and d["s"] == "atlas")
 
     def test_what_a_hand_written_route_names_is_not_asked_for_again(self):
@@ -116,6 +117,65 @@ class SelectionTest(unittest.TestCase):
         self.assertEqual(pairs, {("AAA", "DDD"), ("AAA", "EEE")})
 
 
+class NameTest(unittest.TestCase):
+    """The name of a route says the country that holds most of the tonnes of an end (review GF1.4)."""
+    PORTS2 = PORTS[:4] + [["FFF", "Phi", "FFF", "z2", 0, 0]]
+    AT2 = dict(AT, FFF=[11, 0])
+
+    def names(self, b, f, **kw):
+        rows = [row("AAA", "BBB", b, 0, 1), row("AAA", "FFF", f, 0, 4)]
+        p = {"k": "wheat", "y": 2024, "seaborne": b + f, "rows": rows, "ports": self.PORTS2}
+        defs, _ = GR.generate({"wheat": p}, {"wheat": self.PORTS2}, {}, ZONES, lambda c: self.AT2[c], lambda g: ("Wheat", "wheat"), {},
+                              lambda c: c, **kw)
+        return defs
+
+    def test_one_country_holds_most_of_an_end(self):
+        defs = self.names(40.0, 5.0)  # BBB 89% of the discharge tonnes, AAA all of the loading ones
+        self.assertEqual([d["name"] for d in defs], ["Wheat: AAA to BBB"])
+        self.assertEqual((defs[0]["from"]["region"], defs[0]["to"]["region"]), ("AAA", "BBB"))
+        self.assertIn("AAA (loading, 100% of the tonnes) and BBB (discharge, 89% of the tonnes)", defs[0]["notes"])
+
+    def test_below_the_threshold_the_zone_names_the_end(self):
+        defs = self.names(30.0, 20.0)  # BBB 60%
+        self.assertEqual([d["name"] for d in defs], ["Wheat: AAA to Zone 2"])
+        self.assertEqual(defs[0]["to"]["region"], "Zone 2")
+
+    def test_a_zone_that_says_its_country_keeps_its_name(self):
+        with unittest.mock.patch.dict(GR.ZONE_SAYS, {"z1": {"AAA"}}):
+            defs = self.names(40.0, 5.0)
+        self.assertEqual([d["name"] for d in defs], ["Wheat: Zone 1 to BBB"])
+
+    def test_the_zones_that_say_a_country_exist(self):
+        with open(os.path.join(FREIGHT, "zones.json"), encoding="utf-8") as f:
+            zones = json.load(f)
+        self.assertTrue(set(GR.ZONE_SAYS) <= {z["id"] for z in zones})
+
+
+class PassagesTest(unittest.TestCase):
+    def test_the_pairs_own_passages_in_the_order_of_the_route(self):
+        via, alt = GR.pair_passages(["danish-straits", "dover", "suez"], {"suez"}, {"suez", "danish-straits", "sunda", "malacca", "gibraltar"})
+        self.assertEqual(via, ["suez"])
+        self.assertEqual(alt, [["malacca", "sunda"], ["gibraltar"], ["danish-straits"]])  # the order of the pairs file's gates
+        # the parallel group is one list, in the order of the mask (gates of routing.py)
+        via, alt = GR.pair_passages(["panama"], set(), {"panama", "taiwan-strait", "luzon"})
+        self.assertEqual((via, alt), ([], [["taiwan-strait", "luzon"], ["panama"]]))
+
+    def test_a_certain_passage_the_drawn_route_does_not_cross_is_kept(self):
+        self.assertEqual(GR.pair_passages([], {"hormuz"}, set())[0], ["hormuz"])
+
+
+class QaReportTest(unittest.TestCase):
+    def test_report_is_the_same_text_every_time_and_says_what_the_cap_left_out(self):
+        defs, rep = run(target=0.999, total_cap=2)
+        a, b = GR.qa_markdown(rep, total_cap=2), GR.qa_markdown(rep, total_cap=2)
+        self.assertEqual(a, b)
+        self.assertIn("| wheat | 93.3 |", a)
+        self.assertIn("## Corridors the cap left out", a)
+        self.assertTrue(rep["wheat"]["left"])
+        self.assertIn(f"- wheat: {rep['wheat']['left'][0]['name']}", a)
+        self.assertIn("groups reach the target", a)
+
+
 # ---------------------------------------------------------------- the published files
 BUILT = os.path.exists(os.path.join(FREIGHT, "routes.json")) and os.path.isdir(os.path.join(FREIGHT, "pairs"))
 
@@ -135,6 +195,11 @@ class PublishedRoutesTest(unittest.TestCase):
             cls.pairs[p["group"]] = {(r[cols.index("o")], r[cols.index("d")]): dict(zip(cols, r)) | {"ports": p["ports"], "classes": p["classes"]}
                                     for r in p["rows"]}
             cls.pairs[p["group"]]["_sea"] = p["seaborne"] / 1e3
+        cls.gates = {}
+        for path in glob.glob(os.path.join(FREIGHT, "pairs", "*.json")):
+            with open(path, encoding="utf-8") as f:
+                p = json.load(f)
+            cls.gates[p["group"]] = p["gates"]
 
     def test_there_are_generated_routes_and_ids_are_unique(self):
         self.assertGreater(len(self.gen), 0)
@@ -173,6 +238,66 @@ class PublishedRoutesTest(unittest.TestCase):
             self.assertEqual(r["vclass"], big["classes"][big["cls"]], r["id"])
             self.assertEqual(r["from"]["ports"], [big["ports"][big["load"]][1]], r["id"])
             self.assertEqual(r["to"]["ports"], [big["ports"][big["dis"]][1]], r["id"])
+
+    def test_passages_are_those_the_route_finder_gives_for_the_largest_pair(self):
+        """Review GF1.5: the route page and the Route finder name the same passages for the same pair: the lane's when the pair has
+        a main lane, else the pairs row's masks."""
+        lanes = {}
+        for path in glob.glob(os.path.join(FREIGHT, "lanes", "*.json")):
+            with open(path, encoding="utf-8") as f:
+                d = json.load(f)
+            for ln in d["lanes"]:
+                if ln.get("set") == "main":
+                    lanes[(d["group"], ln["o"], ln["d"])] = ln
+        with_lane = 0
+        for r in self.gen:
+            g = r["corridor"][0]["g"]
+            ps = self.pairs[g]
+            rows = [ps[(o, d)] for c in r["corridor"] for o in c["o"] for d in c["d"] if (o, d) in ps]
+            big = max(rows, key=lambda x: (x["kt"], x["o"], x["d"]))
+            ln = lanes.get((g, big["o"], big["d"]))
+            if ln:
+                with_lane += 1
+                self.assertEqual((r["via"], r.get("viaAlt", [])), (ln["via"], ln.get("viaAlt", [])), r["id"])
+            names = self.gates[g]
+            via = {names[i] for i in range(len(names)) if big["via"] >> i & 1}
+            alt = {names[i] for i in range(len(names)) if big["alt"] >> i & 1} - via
+            self.assertEqual(set(r["via"]), via, r["id"])
+            self.assertEqual({x for lst in r.get("viaAlt", []) for x in lst}, alt, r["id"])
+        self.assertGreater(with_lane, 0)
+
+    def test_a_corridor_entry_names_its_customs_groups(self):
+        """Review GF1.3: an entry without `g` lists the groups of its commodity (`gs`), so that the site never matches a lane of another
+        group (refined copper is not copper concentrate)."""
+        import build_freight as BF
+        for r in self.routes:
+            for c in r.get("corridor") or []:
+                self.assertTrue(c.get("g") or c.get("gs"), r["id"])
+                self.assertEqual(c.get("g") and [c["g"]] or c["gs"], BF.corridor_groups(c), r["id"])
+        by_id = {r["id"]: r for r in self.routes}
+        for rid in ("chile-china-copper", "peru-china-copper"):
+            self.assertEqual(by_id[rid]["corridor"][0]["gs"], ["copper-ore"])
+
+    def test_names_say_the_country_that_holds_most_of_an_end(self):
+        """Review GF1.4: no generated route is named after a zone when one country holds COUNTRY_SHARE of the tonnes of an end, unless the
+        zone's own name says the country; names are unique."""
+        names = [r["name"] for r in self.gen]
+        self.assertEqual(len(names), len(set(names)))
+        by_id = {r["id"]: r for r in self.routes}
+        self.assertEqual(by_id["gen-phosphate-rock-waf-med"]["name"], "Phosphate rock: Morocco to the Mediterranean")
+        self.assertEqual(by_id["gen-dap-waf-med"]["name"], "DAP: Morocco to the Mediterranean")
+        self.assertEqual(by_id["gen-dap-waf-ec-india"]["name"], "DAP: Morocco to Bangladesh")
+        for r in self.gen:
+            if "The name says the country" in r["notes"]:
+                self.assertIn("% of the tonnes)", r["notes"], r["id"])
+
+    def test_qa_report_is_written_next_to_the_builder(self):
+        path = os.path.join(ROOT, "pipeline", "freight", "QA_routes.md")
+        self.assertTrue(os.path.exists(path))
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        self.assertIn("Corridors the cap left out", text)
+        self.assertIn(f"{len(self.gen)} generated routes", text)
 
     def test_coverage_by_group(self):
         """The named routes (hand-written and generated) cover the target of every group, or the report gives the reason: here, the
