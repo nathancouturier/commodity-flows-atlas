@@ -21,6 +21,13 @@
 .legend-ref + .legend-ref {
   margin-left: 4px;
 }
+/* a width key is one item made of several samples: where the legend is narrow (the left column while Prices or
+   History is open, a phone) it wraps between samples, never inside one */
+.legend-item.legend-width {
+  flex-wrap: wrap;
+  row-gap: 3px;
+  min-width: 0;
+}
 .legend-line {
   flex: none;
   color: var(--ink-1);
