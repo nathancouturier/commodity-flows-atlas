@@ -121,6 +121,8 @@ export interface Pair {
   via: string[];
   /** passages only some coast options or parallel passages cross */
   viaAlt: string[];
+  /** the same, as lists of which one is used (see altLists) */
+  viaAltLists: string[][];
   /** tonnage estimated from the declared value (an Atlas estimate) */
   est: boolean;
   /** a caveat of freight/caveats.json applies */
@@ -148,6 +150,7 @@ export function decodePairs(file: PairsFile): Pair[] {
   return file.rows.map((r) => {
     const f = Number(r[ix.f] ?? 0);
     const cls = Number(r[ix.cls]);
+    const viaAlt = maskGates(Number(r[ix.alt]) || 0, file.gates);
     return {
       group: file.group,
       o: String(r[ix.o]),
@@ -159,7 +162,8 @@ export function decodePairs(file: PairsFile): Pair[] {
       nm: Number(r[ix.nm]) || 0,
       cls: cls >= 0 ? (file.classes[cls] ?? null) : null,
       via: maskGates(Number(r[ix.via]) || 0, file.gates),
-      viaAlt: maskGates(Number(r[ix.alt]) || 0, file.gates),
+      viaAlt,
+      viaAltLists: altLists(viaAlt),
       est: !!(f & 1),
       caveat: !!(f & 2),
       lane: !!(f & 4),
@@ -189,12 +193,74 @@ export function originCaveats(file: CaveatsFile | null, groups: string[], o: str
     .map(([id, entry]) => ({ id, entry }));
 }
 
-/** Laden days of a sea leg of `nm` nautical miles for a vessel class, at the class's typical laden speed (Atlas assumption); null when the class has no speed. */
+/** Laden days of a sea leg of `nm` nautical miles for a vessel class, at its assumed laden service speed (Atlas assumption); null when the class has no speed. */
 export function ladenDays(nm: number, vclass: string | null): { days: number; speedKn: number; note?: string } | null {
   const v = vclass ? vesselById.value[vclass] : undefined;
-  if (!v?.speedKn || !(nm > 0)) return null;
-  return { days: Math.round((nm / (v.speedKn * 24)) * 10) / 10, speedKn: v.speedKn, note: v.speedNote };
+  const kn = v?.speed?.v ?? v?.speedKn;
+  if (!kn || !(nm > 0)) return null;
+  return { days: Math.round((nm / (kn * 24)) * 10) / 10, speedKn: kn, note: v?.speed?.n ?? v?.speedNote };
 }
+
+// ---------------------------------------------------------------- passages that are crossed together
+
+/**
+ * What "at least" and "up to" mean (the one definition, printed on the chokepoint page and in About).
+ * "at least" counts the pairs whose assumed route has to cross the passage; "up to" adds the pairs that may cross it.
+ */
+export const ESTIMATE_DEFINITION =
+  'At least: customs tonnage of every recorded seaborne pair whose assumed route has to cross this passage. Up to: adds the pairs that may cross it, because they can use a parallel passage of similar length or load on another coast. Mixed sea-and-overland pairs and trades that customs data do not record are in neither.';
+
+/** Passages a ship crosses together on one parallel option (pipeline/freight/routing.py, PARALLEL). */
+const CROSSED_TOGETHER: string[][] = [
+  ['malacca', 'singapore'],
+  ['lombok', 'makassar'],
+];
+
+/** Every passage of a parallel group: a pairs file keeps one mask for all of a pair's lists, which this splits again. */
+const PARALLEL_GROUPS: string[][] = [
+  ['sunda', 'malacca', 'singapore', 'lombok', 'makassar'],
+  ['taiwan-strait', 'luzon'],
+];
+
+/** The options of a `viaAlt` list: the passages of one option are crossed together, so they stay together ([[sunda], [malacca, singapore]]). */
+export function altOptions(list: string[]): string[][] {
+  const out: string[][] = [];
+  const done = new Set<string>();
+  for (const id of list) {
+    if (done.has(id)) continue;
+    const set = CROSSED_TOGETHER.find((g) => g.includes(id));
+    const option = set ? list.filter((x) => set.includes(x)) : [id];
+    option.forEach((x) => done.add(x));
+    out.push(option);
+  }
+  return out;
+}
+
+/** Two or more options: one is used. A single option: the passage is crossed only on some options, or on none of a similar length. */
+export const altLabel = (list: string[]) => (altOptions(list).length > 1 ? 'One of:' : 'May also cross:');
+
+/** "One of: Sunda Strait · Strait of Malacca and Singapore Strait", or "May also cross: Strait of Hormuz". */
+export function altText(list: string[]): string {
+  return `${altLabel(list)} ${altOptions(list)
+    .map((o) => o.map(chokepointName).join(' and '))
+    .join(' · ')}`;
+}
+
+/** The `viaAlt` lists of a pairs row, from its flat mask: each parallel group is one list, any other passage a list of its own. */
+export function altLists(flat: string[]): string[][] {
+  const out = PARALLEL_GROUPS.map((g) => flat.filter((id) => g.includes(id))).filter((l) => l.length);
+  for (const id of flat) if (!PARALLEL_GROUPS.some((g) => g.includes(id))) out.push([id]);
+  return out;
+}
+
+/** A port's source link is printed for these bases of a port (the page was read); the others read "no source page yet". */
+export const SOURCED_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'general port of the country'];
+
+/** What a sourced port's basis adds to its source link, where it matters. */
+export const BASIS_QUALIFIER: Record<string, string> = {
+  'page names the cargo in the other direction': 'page names this cargo in the other direction',
+  'general port of the country': 'general port of the country',
+};
 
 /** Product names of the commodities that have two customs groups (the Route finder tells them apart). */
 export const GROUP_LABEL: Record<string, string> = {

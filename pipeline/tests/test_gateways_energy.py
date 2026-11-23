@@ -52,8 +52,15 @@ SR = searoute_ports()
 
 
 def known_sources():
+    """The ids of data/sources.json and of the source lists that the freight builder merges into it (a new id is in
+    pipeline/freight/sources_freight.json until the next rebuild of the data)."""
+    import glob
     with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as f:
-        return {s["id"] for s in json.load(f)}
+        ids = {s["id"] for s in json.load(f)}
+    for path in glob.glob(os.path.join(ROOT, "pipeline", "freight", "sources_*.json")):
+        with open(path, encoding="utf-8") as f:
+            ids |= {s["id"] for s in json.load(f)}
+    return ids
 
 
 def a2_to_iso3():
@@ -462,6 +469,139 @@ class FE4aSourcedGateways(unittest.TestCase):
             self.assertTrue(why, key)
             # a case listed as unsourced must not also have a sourced row of its family and role
             self.assertIsNone(principal(iso3, fam, role), key)
+
+
+class FE4cGateways(unittest.TestCase):
+    """Package FE4c: the fixes after the second review (GE4) and the leads it left."""
+
+    @classmethod
+    def setUpClass(cls):
+        import ports
+        cls.ports = ports
+        ports.load_modules()
+
+    def test_italian_crude_is_not_drawn_into_trieste(self):
+        # GE4.1: Trieste's crude is the Transalpine pipeline's (Austria, Germany, Czechia); Italy's refineries are elsewhere
+        self.assertFalse([r for r in EN.G["ITA"] if r[0] == "ITTRS"])
+        c = self.ports.candidates("ITA", "crude-oil", "discharge")
+        self.assertEqual([(x[0], x[2]) for x in c], [("ITAUG", self.ports.BASIS_LEGACY)])
+        self.assertIn("ITA/crude/discharge", EN.UNSOURCED_PORTS)
+        self.assertIn("Eurostat", EN.UNSOURCED_PORTS["ITA/crude/discharge"])
+        # the landlocked buyers of the pipeline keep the port their page documents
+        for iso3 in ("AUT", "CZE"):
+            self.assertEqual(self.ports.candidates(iso3, "crude-oil", "discharge")[0][0], "ITTRS", iso3)
+        a = self.ports.assign("LBY", "ITA", "crude-oil")
+        self.assertNotEqual(a.main.discharge, "ITTRS")
+
+    def test_batumi_is_no_products_row(self):
+        # GE4.3: the page names crude going to refining at Batumi, no refined product
+        for iso3, d in EN.TRANSIT.items():
+            for fam, t in d.items():
+                self.assertNotEqual(t[0], "GEBUS", (iso3, fam))
+        for iso3 in ("KAZ", "AZE"):
+            self.assertIn("Batumi", EN.UNSOURCED[iso3])
+            self.assertIsNone(EN.transit(iso3, "products"))
+        self.assertEqual(self.ports.assign("KAZ", "NLD", "refined-products").basis, "unrouted")
+
+    def test_rows_that_rested_on_history_or_existence_are_gone(self):
+        # GE4.6: Mina al-Ahmadi (first export in 1946), Esmeraldas (a pipeline terminus): the port used before answers
+        for iso3, role, code in (("KWT", "load", "KWMEA"), ("ECU", "load", "ECESM")):
+            self.assertFalse([r for r in EN.G.get(iso3, []) if r[0] == code and "crude" in r[2]], iso3)
+            self.assertIn(iso3 + "/crude/" + role, EN.UNSOURCED_PORTS)
+            c = self.ports.candidates(iso3, "crude-oil", role)
+            self.assertEqual((c[0][0], c[0][2]), (code, self.ports.BASIS_LEGACY), iso3)
+
+    def test_ras_lanuf_page_names_crude_and_products(self):
+        r = [x for x in EN.G["LBY"] if x[0] == "LYRLA"][0]
+        self.assertEqual(r[2], {"crude", "products"})
+        self.assertIn("loading crude oil and oil products", r[6])
+        self.assertEqual(self.ports.candidates("LBY", "refined-products", "load")[0], ("LYRLA", "med", self.ports.BASIS_PAGE))
+
+    def test_singapore_products_rest_on_the_eia_brief(self):
+        r = [x for x in EN.G["SGP"] if "products" in x[2] and x[3] == "load"][0]
+        self.assertEqual((r[0], r[4]), ("SGSIN", "eia-cab"))
+        self.assertTrue(r[5].startswith("https://www.eia.gov/international/analysis/country/"))
+        self.assertEqual(self.ports.source_of("SGP", "refined-products", "load", "SGSIN"), (r[4], r[5]))
+
+    def test_notes_say_what_their_page_says(self):
+        # GE4.6: the Adria branch to Hungary does not pass through Serbia; Primorsk's page gives products tonnages
+        for iso3 in ("HUN", "SRB"):
+            for r in EN.G[iso3]:
+                self.assertNotIn("through Croatia and Serbia", r[6], iso3)
+            self.assertNotIn("Serbia to Hungary", EN.transit(iso3, "crude")[3])
+        self.assertIn("Gola", EN.G["HUN"][0][6])
+        self.assertIn("Pancevo", EN.G["SRB"][0][6])
+        primorsk = [x for x in EN.G["RUS"] if x[0] == "RUPRI" and "products" in x[2]][0]
+        self.assertIn("13.5", primorsk[6])
+
+    def test_united_states_ports_of_entry_come_from_the_eia_file(self):
+        # GE4.8: Houston is the largest seaport of entry of 2024; LOOP is no port of entry of the file
+        for fam in ("crude", "products"):
+            rows = [x for x in EN.G["USA"] if fam in x[2] and x[3] == "discharge"]
+            self.assertTrue(rows, fam)
+            for r in rows:
+                self.assertEqual(r[4], "eia-company-imports", r)
+                self.assertEqual(r[5], "https://www.eia.gov/petroleum/imports/companylevel/")
+        self.assertNotIn("USLOP", EN.MANUAL_EXTRA)
+        self.assertEqual({x[1] for x in EN.G["USA"] if "crude" in x[2] and x[3] == "discharge"}, {"us-gulf", "us-west", "us-atlantic"})
+        # the principal stays on the Gulf: an Atlantic or Gulf origin has no Pacific option, a Pacific origin has one
+        a = self.ports.assign("SAU", "USA", "crude-oil")
+        self.assertEqual(a.main.discharge, "USHOU")
+        self.assertEqual({o.discharge for o in a.options}, {"USHOU", "USEWR"})
+        a = self.ports.assign("ECU", "USA", "crude-oil")
+        self.assertEqual(a.main.discharge, "USHOU")
+        self.assertIn("USLGB", {o.discharge for o in a.options})
+        self.assertIn("USA/products/load", EN.UNSOURCED_PORTS)
+
+    def test_taiwan_crude_ports_are_the_two_of_the_brief_that_the_list_has(self):
+        rows = [x for x in EN.G["TWN"] if "crude" in x[2]]
+        self.assertEqual([x[0] for x in rows], ["TWMAL", "TWKHH"])
+        for x in rows:
+            self.assertEqual((x[3], x[4]), ("discharge", "eia-cab"))
+        self.assertIn("55%", rows[0][6])
+        self.assertNotIn("TWN/crude/discharge", EN.UNSOURCED_PORTS)
+
+    def test_indonesian_java_ports_are_unsourced(self):
+        # GE6.3: no page read names crude, products or LPG at Cilacap or Balongan
+        for key in ("IDN/crude/discharge", "IDN/products/load", "IDN/lpg/discharge"):
+            self.assertIn(key, EN.UNSOURCED_PORTS)
+        self.assertIn("Cilacap", EN.UNSOURCED_PORTS["IDN/crude/discharge"])
+
+    def test_fujairah_products_row_is_gone(self):
+        # GE6.6: the Fujairah page names a bunkering hub and crude storage, not UAE refined products loaded for export
+        self.assertFalse([x for x in EN.G["ARE"] if x[0] == "AEFJR" and "products" in x[2]])
+        c = self.ports.candidates("ARE", "refined-products", "load")
+        self.assertEqual(c[0][0], "AERUW")
+        self.assertNotIn("AEFJR", [x[0] for x in c])
+
+    def test_every_lng_exporter_of_the_layer_has_a_row_at_its_terminal(self):
+        # L1: Brunei, Cameroon, Equatorial Guinea, Peru, Yemen, Mexico, and the Qingdao row on the terminal's new point
+        layer = lng_layer()
+        for iso3 in ("BRN", "CMR", "GNQ", "PER", "YEM", "MEX"):
+            self.assertIn(iso3, layer["lng-export"], iso3)
+            r = principal(iso3, "lng", "load")
+            self.assertIsNotNone(r, iso3)
+            self.assertEqual(r[4], "giignl-2026")
+            self.assertTrue(r[5].startswith("https://www.worldlngsummit.com/"), r)
+            d = min(km(coords(r[0]), t[1]) for t in layer["lng-export"][iso3])
+            self.assertLess(d, 50, (iso3, r[0], round(d)))
+            self.assertEqual(self.ports.candidates(iso3, "lng", "load")[0][0], r[0])
+            self.assertTrue(self.ports.is_seaport(r[0]), r[0])
+        self.assertEqual(principal("CMR", "lng", "load")[0], "CMKBI")
+        self.assertEqual(principal("MEX", "lng", "load")[0], "MXATM")
+        self.assertEqual(principal("YEM", "lng", "load")[0], "YEBAL")
+        # a manual port at the terminal where the searoute list has none within 100 km (Balhaf, Dongjiakou)
+        for code, iso3, name in (("YEBAL", "YEM", "Yemen LNG (Balhaf)"), ("CNDJK", "CHN", "Qingdao LNG Terminal")):
+            kind = "lng-export" if iso3 == "YEM" else "lng-import"
+            t = [x for x in layer[kind][iso3] if x[0] == name][0][1]
+            self.assertLess(km(coords(code), t), 1.0, code)
+            self.assertIn(EN.MANUAL_SRC[code]["s"], known_sources())
+        qd = [r for r in EN.G["CHN"] if "lng" in r[2] and r[1] == "n-china"]
+        self.assertEqual(qd[0][0], "CNDJK")
+        self.assertNotIn("CNTAO", [r[0] for r in EN.G["CHN"] if "lng" in r[2]])
+
+    def test_the_mexican_gulf_row_does_not_displace_dos_bocas(self):
+        self.assertEqual(self.ports.candidates("MEX", "crude-oil", "load")[0][0], "MXDBT")
 
 
 if __name__ == "__main__":

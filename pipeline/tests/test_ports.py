@@ -71,6 +71,11 @@ class Sources(unittest.TestCase):
     def setUpClass(cls):
         with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as f:
             cls.sources = {s["id"] for s in json.load(f)}
+        # an id added to pipeline/freight/sources_freight.json reaches data/sources.json at the next rebuild
+        for name in os.listdir(FREIGHT):
+            if name.startswith("sources_") and name.endswith(".json"):
+                with open(os.path.join(FREIGHT, name), encoding="utf-8") as f:
+                    cls.sources |= {s["id"] for s in json.load(f)}
         cls.rows = [(iso, r) for iso, rows in ports.G.items() for r in rows]
 
     def test_tables_are_not_empty(self):
@@ -420,9 +425,10 @@ class ReviewGE3(unittest.TestCase):
 
     def test_3_chinese_soybeans_are_not_on_a_bulk_reading(self):
         self.assertFalse([r for r in ports.G["CHN"] if r.code == "CNTSN" and r.families & {"grain", "fert", "vegoil"}])
-        # FE4b: the Guangzhou and Lianyungang pages name grain, so soybeans no longer rest on the Tianjin general row
+        # FE4b: the Guangzhou and Lianyungang pages name grain, so soybeans no longer rest on the Tianjin general row;
+        # review GE4 (finding 2): the northern port is first, Guangzhou the option, since no page ranks them
         code = ports.gateway("CHN", "soybeans", "discharge")
-        self.assertEqual(code, "CNHUA")
+        self.assertEqual(code, "CNLYG")
         self.assertEqual(ports.basis_of("CHN", "soybeans", "discharge", code), ports.BASIS_PAGE)
         self.assertEqual(ports.basis_of("CHN", "potash", "discharge", "CNTSN"), ports.BASIS_GENERAL)
 
@@ -501,12 +507,12 @@ class FE4b(unittest.TestCase):
 
     SOURCED = [
         ("CHN", "iron-ore", "discharge", "CNTAO"), ("CHN", "bauxite", "discharge", "CNRZH"),
-        ("CHN", "coal", "discharge", "CNCFD"), ("CHN", "soybeans", "discharge", "CNHUA"),
+        ("CHN", "coal", "discharge", "CNCFD"), ("CHN", "soybeans", "discharge", "CNLYG"),
         ("IDN", "coal", "load", "IDTBA"), ("GIN", "bauxite", "load", "GNKMS"), ("CAN", "iron-ore", "load", "CASEI"),
         ("ZAF", "iron-ore", "load", "ZASDB"), ("ZAF", "manganese", "load", "ZAZBA"), ("IND", "iron-ore", "load", "INDHA"),
         ("IND", "manganese", "discharge", "INVTZ"), ("PER", "iron-ore", "load", "PESNX"), ("SWE", "iron-ore", "load", "SELLA"),
         ("NLD", "iron-ore", "discharge", "NLRTM"), ("NLD", "coal", "discharge", "NLRTM"), ("DEU", "coal", "discharge", "DEWVN"),
-        ("MOZ", "coal", "load", "MZMAP"), ("PAK", "coal", "discharge", "PKBQM"), ("SLE", "iron-ore", "load", "SLPEP"),
+        ("MOZ", "coal", "load", "MZBEW"), ("PAK", "coal", "discharge", "PKBQM"), ("SLE", "iron-ore", "load", "SLPEP"),
         ("MRT", "iron-ore", "load", "MRNDB"), ("EGY", "coal", "discharge", "EGALY"),
         ("JPN", "steel", "load", "JPYOK"), ("TWN", "steel", "load", "TWKHH"), ("VNM", "steel", "discharge", "VNCMT"),
         ("THA", "steel", "discharge", "THLCH"), ("PHL", "wheat", "discharge", "PHSFS"), ("PHL", "steel", "discharge", "PHMNL"),
@@ -583,6 +589,61 @@ def _via(a, b):
     return routing.route(ports.port(a)["at"], ports.port(b)["at"]).via
 
 
+class FE4c(unittest.TestCase):
+    """Package FE4c: the fixes of the second review (GE4) in the coast and food tables."""
+
+    def test_chinese_grain_stays_on_the_northern_coast(self):
+        # GE4.2: all Chinese grain (about 120 Mt) on the south coast was a visible error: no page ranks the ports
+        c = ports.candidates("CHN", "soybeans", "discharge")
+        self.assertEqual([x[0] for x in c], ["CNLYG", "CNHUA"])
+        self.assertEqual({x[2] for x in c}, {ports.BASIS_PAGE})
+        self.assertEqual([ports.zone_of(x[0]) for x in c], ["n-china", "s-china"])
+        for g in ("soybeans", "wheat", "corn"):
+            a = ports.assign("USA", "CHN", g)
+            self.assertEqual(a.main.discharge, "CNLYG", g)
+            self.assertEqual({o.discharge for o in a.options}, {"CNLYG", "CNHUA"}, g)
+        # the sea of the main route does not change with the order of the two rows: still the north China coast
+        self.assertEqual(ports.ocean_of("CNLYG"), "pacific")
+
+    def test_us_soybeans_to_china_keep_the_korea_strait(self):
+        import routing
+        a = ports.assign("USA", "CHN", "soybeans").main
+        self.assertIn("korea-strait", routing.route(ports.port(a.load)["at"], ports.port(a.discharge)["at"]).via)
+
+    def test_mozambican_coal_loads_at_the_ports_the_pages_name(self):
+        # GE4.4: Beira (Sena railway from Moatize) and Nacala (Nacala railway, coal terminal at Nacala-a-Velha)
+        c = ports.candidates("MOZ", "coal", "load")
+        self.assertEqual([(x[0], x[2]) for x in c], [("MZBEW", ports.BASIS_PAGE), ("MZMNC", ports.BASIS_PAGE)])
+        self.assertEqual([ports.zone_of(x[0]) for x in c], ["e-africa", "e-africa"])
+        self.assertNotIn("MZMAP", [x[0] for x in c])
+        # searoute codes and coordinates: Beira 34.835 E 19.833 S, Nacala 40.691 E 14.512 S
+        self.assertAlmostEqual(ports.port("MZBEW")["at"][0], 34.835, delta=0.01)
+        self.assertAlmostEqual(ports.port("MZMNC")["at"][1], -14.512, delta=0.01)
+        for code in ("MZBEW", "MZMNC"):
+            self.assertTrue(ports.is_seaport(code), code)
+        a = ports.assign("MOZ", "IND", "coal")
+        self.assertEqual(a.main.load, "MZBEW")
+        self.assertEqual({o.load for o in a.options}, {"MZBEW", "MZMNC"})
+        for row in [r for r in ports.G["MOZ"] if "coal" in r.families]:
+            self.assertTrue(row.url.endswith("/Moatize"))
+
+    def test_sept_iles_note_does_not_turn_history_into_the_present(self):
+        row = [r for r in ports.G["CAN"] if r.code == "CASEI"][0]
+        self.assertNotIn("the Sept-Iles deep-water seaport was second in Canada", row.note)
+        self.assertIn("1950s to 1981", row.note)
+
+    def test_bosnian_rows_of_the_ploce_page(self):
+        # L2: coal, iron ore and cereals at Ploce, 'mostly serving Bosnia and Herzegovina'
+        for g, fam in (("coal", "coal"), ("iron-ore", "iron-ore"), ("wheat", "grain"), ("soybeans", "grain")):
+            c = ports.candidates("BIH", g, "discharge")
+            self.assertEqual((c[0][0], c[0][2]), ("HRPLE", ports.BASIS_PAGE), g)
+            rows = [r for r in ports.G["BIH"] if r.code == "HRPLE" and fam in r.families and r.role in ("discharge", "both")]
+            self.assertTrue(rows and rows[0].url.endswith("Port_of_Plo%C4%8De"), g)
+        # bauxite: the page gives it as an export of 1945 only, no row
+        self.assertFalse([r for r in ports.G["BIH"] if "bauxite" in r.families])
+        self.assertEqual(ports.candidates("BIH", "bauxite", "load"), [])  # the TRANSIT row of the country answers (HRPLE)
+
+
 class Builders(unittest.TestCase):
     def test_existing_builders_still_import(self):
         for p in (os.path.join(ROOT, "pipeline", "trade"), os.path.join(ROOT, "pipeline", "commodities")):
@@ -618,6 +679,8 @@ class FE5Basis(unittest.TestCase):
                     self.assertNotIn(ports.BASIS_OTHER, {b for _, _, b in ports.candidates(iso, g, role)}, (iso, g, role))
 
     def test_source_of_is_the_row_of_that_cargo(self):
+        self.assertEqual(ports.source_of("CHN", "soybeans", "discharge", "CNLYG"),
+                         ("wikipedia", "https://en.wikipedia.org/wiki/Port_of_Lianyungang"))
         self.assertEqual(ports.source_of("CHN", "soybeans", "discharge", "CNHUA"),
                          ("wikipedia", "https://en.wikipedia.org/wiki/Port_of_Guangzhou"))
         self.assertEqual(ports.source_of("ARG", "wheat", "discharge", "ARUPR"),

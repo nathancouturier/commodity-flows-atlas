@@ -1,11 +1,11 @@
 /** Helpers shared by the freight detail views. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { AltRouting, HistFlag } from '../../types';
+import type { AltRouting, HistFlag, PortRef } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
-import { chokepointName, loadFreightCatalogue, openVesselClass, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openVesselClass, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
-import { Section } from '../ui';
+import { Section, shortSource } from '../ui';
 import { TimeChart, type TimeMarker } from '../charts/TimeChart';
 import '../../styles/lane-engine.css';
 
@@ -97,8 +97,32 @@ export function RouteStrip(props: { from: string; to: string; via: string[]; non
 }
 
 /**
- * The voyage with the chokepoints it has to cross. `viaAlt` lists passages of which one is used (parallel
- * straits) or that only some coast options cross: they are shown apart, under "One of" or "On some options".
+ * Where the atlas read a port: the source page of its gateway row. The basis adds a short qualifier where it matters (a page that
+ * names the cargo in the other direction, the country's general port). A port with no page read says so; for a pair that is not
+ * drawn, only the file's own basis decides, and nothing is printed when it names a page that is not linked here.
+ * `settled` is false while the lane file that carries the links is still loading.
+ */
+export function PortSource({ p, basis, settled = true, cls = 'le-src' }: { p?: Partial<PortRef> | null; basis?: string; settled?: boolean; cls?: string }) {
+  const b = p?.basis ?? basis;
+  if (p?.s) {
+    const name = shortSource(p.s).replace(/\s*\(.*\)$/, '');
+    const q = b ? BASIS_QUALIFIER[b] : undefined;
+    return (
+      <span class={cls}>
+        {' · '}
+        {p.url ? <a href={p.url} target="_blank" rel="noopener">{name}</a> : name}
+        {q && <span class="le-q"> ({q})</span>}
+      </span>
+    );
+  }
+  const unsourced = p ? true : b != null && !SOURCED_BASES.includes(b);
+  return settled && unsourced ? <span class={`${cls} muted`}> · no source page yet</span> : null;
+}
+
+/**
+ * The voyage with the chokepoints it has to cross. `viaAlt` lists passages that only some options cross. Two or more
+ * options (parallel straits) read "One of:", the passages one option crosses together staying together; a single
+ * passage reads "May also cross:" (another port option, or a route of similar length, avoids it).
  */
 export function ViaSection(props: { from: string; to: string; via: string[]; viaAlt?: string[][] }) {
   const n = props.via.length;
@@ -108,11 +132,19 @@ export function ViaSection(props: { from: string; to: string; via: string[]; via
       <RouteStrip from={props.from} to={props.to} via={props.via} noneText={alt.length ? 'No chokepoint is crossed on every option.' : undefined} />
       {alt.map((list) => (
         <div class="le-oneof" key={list.join()}>
-          <span class="le-oneof-k">{list.length > 1 ? 'One of' : 'On some options'}</span>
-          {list.map((id) => (
-            <button class="chip" key={id} onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
-              {chokepointName(id)}
-            </button>
+          <span class="le-oneof-k">{altLabel(list)}</span>
+          {altOptions(list).map((option, i) => (
+            <span class="le-option" key={option.join()}>
+              {i > 0 && <span class="le-sep" aria-hidden="true">·</span>}
+              {option.map((id, j) => (
+                <span class="le-option" key={id}>
+                  {j > 0 && <span class="le-and">and</span>}
+                  <button class="chip" onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
+                    {chokepointName(id)}
+                  </button>
+                </span>
+              ))}
+            </span>
           ))}
         </div>
       ))}
@@ -191,5 +223,7 @@ export function HistoryChart(props: { years: number[]; values: (number | null)[]
     }
     return out.length ? out : undefined;
   }, [props.flags]);
-  return <TimeChart x={x} series={series} unit={props.unit} bars xFormat="year" height={130} zoom={false} markers={markers} ariaLabel={`Annual volume, ${props.unit}`} />;
+  // the readout prints an estimated year with the two significant digits the lane figure has
+  const estimated = useMemo(() => props.years.map((y) => props.flags?.[String(y)] === 'est'), [props.years, props.flags]);
+  return <TimeChart x={x} series={series} unit={props.unit} bars xFormat="year" height={130} zoom={false} markers={markers} estimated={estimated} ariaLabel={`Annual volume, ${props.unit}`} />;
 }

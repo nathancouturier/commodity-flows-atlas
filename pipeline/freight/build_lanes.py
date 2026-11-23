@@ -614,7 +614,7 @@ def main():
             for i, code in marks.items():
                 flags[str(years[i])] = code
                 x = series[i]
-                if code == "est" and "uv-repair" in (x.flag or ""):
+                if code == "est" and ("uv-repair" in (x.flag or "") or "est-peer" in (x.flag or "")):
                     notes[str(years[i])] = x.enote
                 elif code == "nodata":
                     notes[str(years[i])] = f"No customs record for {years[i]}"

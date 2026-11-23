@@ -19,6 +19,7 @@ for sub in ("freight", "trade", "geo"):
 import ports  # noqa: E402
 
 FOOD_PATH = os.path.join(ROOT, "pipeline", "freight", "gateways", "food.py")
+W_AQABA = "https://en.wikipedia.org/wiki/Aqaba"
 
 # Zones of section 2.4 of the plan (gateways/coasts.py of package E4b holds the same list).
 ZONES = {
@@ -100,6 +101,9 @@ class FoodGateways(unittest.TestCase):
             where = f"{iso}[{i}] {code}"
             known = code in ports._sr or code in ports.MANUAL or code in extra
             self.assertTrue(known, f"{where}: not in searoute, ports.MANUAL or MANUAL_EXTRA")
+            if (iso, code) == ("BIH", "HRPLE"):
+                # a coast with no port of its own: Ploce, in Croatia, is its outlet (the page says it mostly serves it)
+                continue
             self.assertEqual(code[:2], self.a2[iso], f"{where}: the LOCODE prefix is the country's alpha-2 code")
 
     def test_g10_manual_extra_entries_are_new_and_used(self):
@@ -239,6 +243,19 @@ class FoodGateways(unittest.TestCase):
         self.assertNotEqual(ports.gateway("SAU", "wheat"), "SARTA")
         self.assertEqual(ports.gateway("SAU", "wheat"), "SAJED")
         self.assertEqual(ports.basis_of("SAU", "wheat", "discharge", "SAJED"), ports.BASIS_GENERAL)
+
+    # ------------------------------------------------------------------ package FE4c
+    def test_fe4c_bosnian_grain_and_jordanian_phosphate(self):
+        """L2: the Ploce page names a grain terminal for cereals and oilseeds; GE4.6: the Aqaba page names phosphate
+        carried to the port (the railway is history)."""
+        self.assertEqual(principal(self.food, "BIH", "grain", {"discharge", "both"}), "HRPLE")
+        row = [r for r in self.food.G["BIH"] if "grain" in r[2]][0]
+        self.assertTrue(row[5].endswith("Port_of_Plo%C4%8De"))
+        self.assertIn("cereals and oilseeds", row[6])
+        jo = [r for r in self.food.G["JOR"] if "phosphate-rock" in r[2]][0]
+        self.assertEqual((jo[0], jo[3], jo[5]), ("JOAQB", "load", W_AQABA))
+        self.assertIn("railway which transported phosphate", jo[6])
+        self.assertIn("history", jo[6])
 
     # ------------------------------------------------------------------ sourcing pass FE4b
     def test_fe4b_rows(self):

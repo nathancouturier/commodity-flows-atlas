@@ -205,6 +205,8 @@ export interface VesselClass {
   /** typical laden speed, knots (Atlas assumption, see speedNote): laden days = distance / (speed x 24) */
   speedKn?: number;
   speedNote?: string;
+  /** the same speed as a figure: an assumed laden service speed, `s` is `atlas` */
+  speed?: Fig;
 }
 
 export interface PortRef {
@@ -217,7 +219,10 @@ export interface PortRef {
   /** source id and page of the gateway row (typical ports are an Atlas assumption); null when no page was read */
   s?: string | null;
   url?: string;
-  /** why the atlas uses this port: "page names the cargo", "general port of the country", "port used before, no page read" or "nearest seaport" */
+  /**
+   * why the atlas uses this port: "page names the cargo", "page names the cargo in the other direction",
+   * "general port of the country", "port used before, no page read" or "nearest seaport"
+   */
   basis?: string;
 }
 
@@ -272,6 +277,12 @@ export interface Route {
   /** share of the vessel size class's tonne-mile demand (Atlas estimate); only for classes whose cargo base the atlas covers */
   shareClass?: Fig;
   alt?: AltRouting;
+  /** passages only some options cross: lists of which one is used (parallel straits), or one passage the route may avoid */
+  viaAlt?: string[][];
+  /** every alternative; `alt` is the first */
+  alts?: AltRouting[];
+  /** why no alternative is shown */
+  altNote?: string;
   /** active disruptions touching this route */
   status?: StatusNote[];
   /** annual corridor volumes, all cargoes of the corridor */
@@ -491,9 +502,11 @@ export interface LaneFile {
   yearNotes?: Record<string, string>;
   /** share of the latest year's seaborne tonnes estimated from value, 0..1 */
   est?: number;
+  /** the same share for every year of `years` */
+  estY?: number[];
   coverage?: { lanes: number; share: number };
-  /** per exporter: seaborne tonnes not on a main lane and the number of pairs */
-  rest?: { o: Iso3; v: number; n: number }[];
+  /** per exporter: seaborne tonnes not on a main lane, the number of pairs and, of those tonnes, the part that is an Atlas estimate */
+  rest?: { o: Iso3; v: number; n: number; est?: number }[];
   ports: Record<string, PortRef>;
   lanes: Lane[];
 }

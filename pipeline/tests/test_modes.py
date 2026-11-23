@@ -146,7 +146,7 @@ class ModeTests(unittest.TestCase):
     def test_M10_totals_by_mode(self):
         y = frame()[lambda d: d.year == 2024]
         tot = y.groupby("kind").t.sum() / 1e6
-        self.assertAlmostEqual(tot.get("sea", 0) + tot.get("transit", 0), 7873, delta=40)
+        self.assertAlmostEqual(tot.get("sea", 0) + tot.get("transit", 0), 7873 + 24, delta=40)  # + W3M1, see below
         self.assertAlmostEqual(tot.get("mixed", 0), 309.8, delta=5)
         self.assertAlmostEqual(tot.get("land", 0), 935, delta=40)
         # 9,117.8 Mt before package W3M1, which adds 9.0 Mt of Chilean copper concentrate (clean.py rule 8) and the

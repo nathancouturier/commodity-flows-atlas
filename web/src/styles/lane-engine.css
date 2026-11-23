@@ -65,6 +65,20 @@
 .le-oneof .chip {
   border-style: dashed;
 }
+.le-option {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.le-sep,
+.le-and {
+  font-size: var(--fs-xs);
+  color: var(--ink-3);
+}
+.le-q {
+  white-space: normal;
+}
 .alt-box + .alt-box {
   margin-top: 8px;
 }

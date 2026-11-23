@@ -233,6 +233,8 @@ def _price_gap(g, what, o, d, series, metal, max_ratio=0.5, min_t=10):
     another, cheaper metal declared under the code is the hypothesis."""
     def text(c):
         x = c.df[(c.df["group"] == g) & (c.df["o"] == o) & (c.df["d"] == d)]
+        if x.empty or "usd" not in x:  # a frame without this group, or without values
+            return None
         now = x[x["year"] == c.y]
         t, usd = float(now["t"].sum()), float(now["usd"].sum()) * 1000
         price = annual_price(series, c.y)

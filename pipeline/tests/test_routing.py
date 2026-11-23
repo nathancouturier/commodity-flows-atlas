@@ -251,13 +251,20 @@ class R10Parallel(unittest.TestCase):
 
     def test_port_hedland_qingdao(self):
         p = RT.plan(at("AUPHE"), at("CNTAO"), ["capesize"])
-        self.assertIn("lombok", p.via)
-        self.assertIn("makassar", p.via)
+        # certain against the other members of the group (Sunda and Malacca are no option here) ...
+        self.assertTrue({"lombok", "makassar"} <= set(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0)[0]))
+        # ... but the network goes round each within 5%: the Alas Strait (+53 nm) and Ombai with the Molucca Sea
+        # (+112 nm), review GE6.11
+        self.assertEqual(p.via, [])
+        self.assertIn(["lombok"], p.via_alt)
+        self.assertIn(["makassar"], p.via_alt)
 
     def test_samarinda_paradip(self):
         p = RT.plan(at("IDSRI"), at("INPRT"), ["supramax"])
         self.assertIn("malacca", p.via)
-        self.assertEqual(p.via_alt, [])
+        # the network's passage south of the Singapore gate (Durian Strait, +134 nm) is within 5%
+        self.assertEqual(p.via_alt, [["singapore"]])
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0)[1], [])
 
     def test_gate_crossed_by_every_option_is_certain(self):
         # review GE2.5: from inside the Makassar Strait every option leaves through the Makassar gate

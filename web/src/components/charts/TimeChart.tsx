@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type uPlot from 'uplot';
-import { fmt, TOUCH } from '../../lib/format';
+import { fmt, fmtEst, TOUCH } from '../../lib/format';
 import '../../styles/timechart.css';
 
 export interface TimeSeries {
@@ -66,6 +66,8 @@ export interface TimeChartProps {
   yZero?: boolean;
   /** built-in crosshair readout (default true) */
   readout?: boolean;
+  /** per point of `x`: the value is an Atlas estimate, read out with two significant digits and named as one */
+  estimated?: boolean[];
   /** "Drag to zoom" footer hint (default true when zoom is on) */
   foot?: boolean;
   /** controlled x window (seconds); applied on mount, on data change and whenever it changes */
@@ -529,7 +531,7 @@ export function TimeChart(props: TimeChartProps) {
               <span class="tc-item" key={s.label}>
                 <i style={{ background: s.color }} />
                 <span class="tc-lab">{s.label}</span>
-                <b class="num">{s.values[i] == null ? '—' : fmt(s.values[i])}</b>
+                <b class="num">{s.values[i] == null ? '—' : fmtEst(s.values[i], !!props.estimated?.[i])}</b>
               </span>
             ))}
             {total != null && (
@@ -539,6 +541,7 @@ export function TimeChart(props: TimeChartProps) {
               </span>
             )}
             {unit && <span class="tc-unit">{props.unit}</span>}
+            {props.estimated?.[i] && <span class="tc-hint">Atlas estimate</span>}
             {!live && series.length > 0 && <span class="tc-hint">latest</span>}
           </>
         ) : null}

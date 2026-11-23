@@ -81,8 +81,10 @@ G = {
     "ARE": [
         ("AEFJR", "gulf-of-oman", {"crude"}, "load", "wikipedia", WP + "Port_of_Fujairah", "Fujairah terminal on the Gulf of Oman, outside the Strait of Hormuz; end of the Habshan-Fujairah pipeline (1.5 million barrels a day, Wikipedia: Abu Dhabi Crude Oil Pipeline)"),
         ("AEDAS", "meg", {"crude"}, "load", "wikipedia", WP + "Das_Island", "Das Island exports crude oil from inside the Gulf, so a cargo loaded here has to pass the Strait of Hormuz"),
+        # Fujairah is no products row (review GE6, finding 6): the Port of Fujairah page calls it 'the world second largest
+        # bunkering hub' and names crude storage and the Habshan pipeline terminal, the EIA country brief a 62,000 barrel a
+        # day refinery project and crude storage; no page says that UAE refined products are loaded for export there.
         ("AERUW", "meg", {"products"}, "load", "wikipedia", WP + "Ruwais", "Ruwais refinery and marine terminal"),
-        ("AEFJR", "gulf-of-oman", {"products"}, "load", "wikipedia", WP + "Port_of_Fujairah", "Fujairah is a bunkering hub on the Gulf of Oman"),
         ("AERUW", "meg", {"lpg"}, "load", "wikipedia", WP + "Ruwais", "Natural gas liquids fractionation plant at Ruwais"),
         ("AEDAS", "meg", {"lng"}, "load", "giignl-2026", GIIGNL + "18", None),
     ],
@@ -273,21 +275,21 @@ G = {
         ("BRADR", "ecsa", {"crude"}, "load", "wikipedia", WP + "Angra_dos_Reis", "The TEBIG terminal of Petrobras 'transports large quantities of crude oil' and the port has an oil terminal (the page does not say tankers load there)"),
     ],
     "BRN": [
-        ("BNLUM", "sea", {"lng"}, "load", "wikipedia", LIST, "Brunei LNG, Lumut"),
+        ("BNLUM", "sea", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Brunei LNG, Lumut (five trains in the report's table)"),
     ],
     "GNQ": [
-        ("GQSSG", "waf", {"lng"}, "load", "wikipedia", LIST, "EG LNG, Bioko island (nearest port: Malabo)"),
+        ("GQSSG", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "EG LNG, Bioko island (nearest port: Malabo)"),
     ],
     # LNG export plants of the atlas's layer (data/infrastructure/lng.geojson) that had no load row (package FE4c): the page
     # of the report is that of the feature.
     "CMR": [
-        ("CMKBI", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Kribi FLNG, moored off Kribi (the layer's point is the town)"),
+        ("CMKBI", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Kribi (FLNG) in the report's table, moored off Kribi (the layer's point is the town)"),
     ],
     "PER": [
-        ("PECAZ", "wcsa", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Peru LNG, Pampa Melchorita (nearest port of the searoute list: Cerro Azul, 26 km up the coast)"),
+        ("PECAZ", "wcsa", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Peru LNG in the report's table, Pampa Melchorita (nearest port of the searoute list: Cerro Azul, 26 km up the coast)"),
     ],
     "YEM": [
-        ("YEBAL", "red-sea", {"lng"}, "load", "giignl-2026", GIIGNL + "18", "Yemen LNG, Balhaf, on the Gulf of Aden: shut down since 2015, under force majeure (the layer says so); no port of the searoute list within 120 km"),
+        ("YEBAL", "red-sea", {"lng"}, "load", "giignl-2026", GIIGNL + "18", "Yemen LNG, Balhaf, on the Gulf of Aden: the report's table marks both trains 'stopped' (shut down since 2015 according to the layer); no port of the searoute list within 120 km"),
     ],
     # ------------------------------------------------------------------ FE4a: crude, products and LPG, one page per row
     "SAU": [
@@ -299,7 +301,7 @@ G = {
     ],
     "MEX": [
         ("MXDBT", "mexico-gulf", {"crude"}, "load", "wikipedia", WP + "Dos_Bocas,_Tabasco", "Dos Bocas has a major single buoy mooring crude oil export facility and is one of Mexico's main crude oil ports"),
-        ("MXATM", "mexico-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Altamira FLNG (Fast LNG 1), at the Altamira terminal (LNG export plant of the layer, package FE4c)"),
+        ("MXATM", "mexico-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Altamira Fast LNG in the report's table, at the Altamira terminal"),
     ],
     "LBY": [
         ("LYRLA", "med", {"crude", "products"}, "load", "wikipedia", WP + "Ras_Lanuf", "'The Port of Ra's Lanuf consists of a small harbor ... Its primary activities include loading crude oil and oil products'; the town is the terminus of two oil pipelines from the fields (the page does not cover Es Sider or the other Libyan terminals)"),
@@ -378,8 +380,8 @@ TRANSIT = {
 # Landlocked countries of the plan's candidate table for which no page stating the port was read.
 UNSOURCED = {
     "BLR": "potash by rail to Baltic ports: Belaruskali page read, 'most of its production is exported to China', no port or route named; the Klaipeda page names no Belarusian cargo (ports.py keeps its present Ust-Luga row)",
-    "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica",
-    "PRY": "Parana-Paraguay Waterway page read: it runs to Nueva Palmira (Uruguay), carrying soy first, then iron and fuels, but Nueva Palmira is not in the searoute list and its page gives no coordinates; ports.py keeps Up-River Parana",
+    "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica; the Port of Arica page names Arica a common port of Peru and Bolivia in 1836 (history, no cargo today), so soy products have no transit row",
+    "PRY": "Parana-Paraguay Waterway page read: it runs to Nueva Palmira (Uruguay), carrying soy first, then iron and fuels, but Nueva Palmira is not in the searoute list and its page (Nueva Palmira: 'the second most important commercial port in Uruguay') names no cargo and gives no Paraguayan trade; ports.py keeps Up-River Parana",
     "SRB": "other cargo than crude: the Danube is documented, a seaport is not (Constanta not confirmed)",
     "MDA": "no page read",
     "AFG": "Port of Karachi page mentions Afghanistan only as a historical gateway",
@@ -390,7 +392,7 @@ UNSOURCED = {
     "SWZ": "no page read",
     "LSO": "no page read",
     "SSD": "other cargo than crude (fuel imports): no page read",
-    "KAZ": "refined products, coal, steel, grain, copper and aluminium (crude: CPC): Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
+    "KAZ": "refined products, coal, steel, grain, copper and aluminium (crude: CPC): Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes; the Port of Lianyungang page calls the port 'a logistics cooperation base with Kazakhstan' and an ocean access point for the SCO states, naming no cargo, so it is no row either; the Batumi Seaport page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' (crude going to refining there, the opposite direction of products leaving a landlocked refiner) and names no product, so it is no row",
     "AZE": "refined products, urea, sugar, soymeal (crude: BTC): Transport in Azerbaijan page read, it names no port; the Batumi Seaport page names oil going from Baku to Batumi by rail (the history of the port) and a transit role for oil refining, no product, so Batumi is no row",
     "AUT": "other cargo than crude (coal, steel): Transport in Austria and Port of Koper pages read, neither names Austrian cargo",
     "HUN": "other cargo than crude: no page read",
@@ -460,9 +462,11 @@ UNSOURCED_PORTS = {
     "PAK/products/discharge": "no page read",
     "ZAF/products/discharge": "no page read",
     "ZAF/crude/discharge": "no page read",
-    "AUS/crude/load": "no page read (the loader's nearest seaport, Thevenard, applies)",
+    "AUS/crude/load": "Port Bonython (South Australia): the page says the wharf 'is used for the export of hydrocarbon products' and that the plant 'receive[s] crude oil and gas from the Cooper Basin', no crude or LPG loaded at the port; Varanus Island: 'piping oil and gas', no port; Dampier: iron ore, LNG and salt (Barrow Island: a disambiguation page). The loader's nearest seaport (Thevenard) applies",
+    "AUS/lpg/load": "same pages: Port Bonython has a gas fractionation plant, LPG is not named",
     "AUS/crude/discharge": "no page read",
-    "CAN/crude/load": "no page read that names an Atlantic crude port (Newfoundland); Vancouver stays the port used before",
+    "CAN/crude/load": "no page read that names an Atlantic crude port (Newfoundland): the Come By Chance Refinery page (a renewable diesel refinery today) and the Placentia Bay page name no crude loading, and there is no Whiffen Head page; Vancouver stays the port used before, so Canadian crude for Europe is drawn to the Pacific coast",
+    "GTM/products/discharge": "Puerto Barrios and Santo Tomas de Castilla pages read: 'Guatemala's main Caribbean Sea port' and 'most modern cargo traffic', bananas and containers, no fuel or product named",
     "OMN/products/load": "no page read",
     "EGY/products/load": "no page read",
     "EGY/products/discharge": "no page read",

@@ -1,28 +1,16 @@
 /** Seaborne lane (origin -> destination for one commodity group). */
 import { useEffect } from 'preact/hooks';
-import type { CaveatsFile, HistFlag, LaneFile, Lane, PortRef, Route } from '../../types';
+import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { laneGroup, loadCaveats, loadLaneFile, loadRoutes } from '../../lib/freight';
+import { laneGroup, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners, shortSource } from '../ui';
-import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
+import { AltBox, CommodityChips, HistoryChart, PortSource, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import '../../styles/lane-engine.css';
 
 interface Loaded { file: LaneFile; lane: Lane }
-
-/** The page a gateway row was read from; a port the atlas used before the tables were sourced says so. */
-function PortSource({ p }: { p?: PortRef }) {
-  if (!p?.s) return <span class="le-src muted"> · no source page yet</span>;
-  const name = shortSource(p.s).replace(/\s*\(.*\)$/, '');
-  return (
-    <span class="le-src">
-      {' · '}
-      {p.url ? <a href={p.url} target="_blank" rel="noopener">{name}</a> : name}
-    </span>
-  );
-}
 
 /** Years of a history flag, in order. */
 const flagYears = (flags: Record<string, HistFlag> | undefined, f: HistFlag) =>
@@ -106,8 +94,12 @@ export default function LaneView({ id }: { id: string }) {
   const noFigure = !flowV;
   const flowLabel = `Flow${mixed ? ', all modes' : ''} · ${flowY}`;
   const caveat = lane.caveat ? caveats?.[lane.caveat] : undefined;
-  const transitEnd = lane.transit ? (lane.load.includes(lane.transit.port) ? lane.o : lane.discharge.includes(lane.transit.port) ? lane.d : null) : null;
-  const tport = lane.transit ? file.ports[lane.transit.port] : undefined;
+  // sea through a foreign port: one transit port, or two when both ends are landlocked (loading end first)
+  const transits: { t: LaneTransit; end: string | null }[] = [];
+  if (lane.transit) transits.push({ t: lane.transit, end: lane.transit2 ? lane.o : lane.load.includes(lane.transit.port) ? lane.o : lane.discharge.includes(lane.transit.port) ? lane.d : null });
+  if (lane.transit2) transits.push({ t: lane.transit2, end: lane.d });
+  const landlocked = transits.map((x) => x.end).filter((e): e is string => !!e);
+  const classSpeed = lane.vclass[0] ? vesselById.value[lane.vclass[0]]?.speed : undefined;
   // coast options: "9,251 nm from New Orleans, or 4,352 nm from Kalama"
   const opts = lane.opts ?? [];
   const loadsDiffer = opts.some((o) => !lane.load.includes(o.load));
@@ -156,10 +148,15 @@ export default function LaneView({ id }: { id: string }) {
             <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           )}
           {lane.shareDest != null && !noFigure && !lane.flow.est && (
-            <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest, (flowV ?? 0) > 0)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
+            <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest, lane.flow.v > 0)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
           )}
           <Kpi label="Distance" value={`${fmt(lane.distanceNm)} nm`} sub={opts.length ? 'Atlas routing · main ports' : 'Atlas routing'} title={mixed ? 'Along the sea route the atlas draws; this trade also moves overland' : 'Along the mapped sea route'} />
-          <Kpi label="Laden days" value={`${fmt(lane.days)} d`} sub="Atlas estimate" title="At the typical laden speed of the primary vessel class" />
+          <Kpi
+            label="Laden days"
+            value={`${fmt(lane.days)} d`}
+            sub={classSpeed ? `at ${fmt(classSpeed.v)} kn · Atlas assumption` : 'Atlas estimate'}
+            title={classSpeed ? `Distance at the assumed laden service speed of the primary vessel class, ${fmt(classSpeed.v)} kn (Atlas assumption)` : 'Distance at the assumed laden service speed of the primary vessel class (Atlas assumption)'}
+          />
         </div>
         {lane.vclass.length > 0 && (
           <Section title="Typical vessels">
@@ -169,11 +166,22 @@ export default function LaneView({ id }: { id: string }) {
         )}
         {(loadP.length > 0 || disP.length > 0) && (
           <Section title="Typical ports (Atlas assumption)">
-            {lane.transit && (
+            {transits.length > 0 && (
               <div class="le-transit">
-                Sea via <b>{tport?.name ?? lane.transit.port}</b>, {countryName(lane.transit.c)}.
-                {transitEnd && <> {countryName(transitEnd)} is landlocked.</>}
-                <PortSource p={{ id: lane.transit.port, name: '', c: lane.transit.c, at: [0, 0], s: lane.transit.s, url: lane.transit.url }} />
+                Sea via{' '}
+                {transits.map(({ t }, i) => {
+                  const port = file.ports[t.port];
+                  // the file's basis belongs to this row only when the port carries the same page
+                  const same = !!t.url && port?.url === t.url;
+                  return (
+                    <span key={t.port}>
+                      {i > 0 && ' and '}
+                      <b>{port?.name ?? t.port}</b>, {countryName(t.c)}
+                      <PortSource p={{ s: t.s, url: t.url, basis: same ? port?.basis : undefined }} />
+                    </span>
+                  );
+                })}
+                .{landlocked.length > 0 && <> {landlocked.map(countryName).join(' and ')} {landlocked.length > 1 ? 'are' : 'is'} landlocked.</>}
               </div>
             )}
             <div class="ft">
