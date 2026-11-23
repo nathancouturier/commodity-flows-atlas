@@ -26,6 +26,9 @@ PAIRS = os.path.join(FREIGHT, "pairs")
 COMMOD = os.path.join(ROOT, "data", "commodities")
 CHECKS = os.path.join(ROOT, "pipeline", "cache", "trade_checks.json")
 RAW_PW = os.path.join(ROOT, "raw", "portwatch")
+# the PortWatch caps are checked to 0.05 Mt against the daily table; the weekly series rebuilt from data/ (a fresh clone,
+# the CI) is not that precise
+HAS_PW_DAILY = bool(glob.glob(os.path.join(RAW_PW, "chokepoints_daily_page*.json")))
 YEAR = 2024
 TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
 # general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
@@ -219,6 +222,7 @@ class Shares(unittest.TestCase):
                 if vtype(e["p"]) == r["type"]:
                     self.assertIn("PortWatch", e["f"]["n"], (r["chokepoint"], e["p"]))
 
+    @unittest.skipUnless(HAS_PW_DAILY, "raw/portwatch daily files are not on this machine")
     def test_C07_low_high_wording_cap(self):
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
             for e in c.get("estimates", []):
@@ -347,6 +351,7 @@ class Shares(unittest.TestCase):
         self.assertAlmostEqual(recs[("suez", "dry")]["value"], by_type(low)["dry"], delta=0.2)
         self.assertAlmostEqual(recs[("suez", "cargo")]["reference"], portwatch("suez")[YEAR]["cargo"], delta=0.5)
 
+    @unittest.skipUnless(HAS_PW_DAILY, "raw/portwatch daily files are not on this machine")
     def test_GE6_8_cap_leaves_room_for_other_groups(self):
         """Review GE6, finding 8: the upper figure is capped at PortWatch's volume of the type less the "at least"
         tonnage of the other groups of that type, never below the group's own "at least"; when the type's "at least"
@@ -418,8 +423,8 @@ class Routes(unittest.TestCase):
 
     def test_routes_use_plan(self):
         rs = self.routes()
-        # the 103 hand-written routes of routes_def.json, then the generated corridors (generated_routes.py, test_generated_routes.py)
-        self.assertEqual(sum(1 for r in rs.values() if not r.get("generated")), 103)
+        # the 129 hand-written routes of routes_def.json, then the generated corridors (generated_routes.py, test_generated_routes.py)
+        self.assertEqual(sum(1 for r in rs.values() if not r.get("generated")), 129)
         c3 = rs["C3"]
         self.assertIn("cape-good-hope", c3["via"])
         self.assertNotIn("sunda", c3["via"])

@@ -95,21 +95,58 @@ export interface Ranked {
   uv?: number;
 }
 
+/** A sanctions designation of a company, from the authority's own notice (pipeline/companies/README.md). */
+export interface CompanySanction {
+  by: 'OFAC' | 'EU' | 'UK';
+  /** YYYY or YYYY-MM */
+  since: string;
+  url: string;
+}
+
+/** One comparable figure of a company for the commodity (or the fleet) it stands under. */
+export interface CompanyFig {
+  v: number;
+  /** a unit only (Mt, kt, t, kb/d, Mboe/d, bcm, Mtpa, Mt/y, ships, Mdwt, Mcbm, TEU) */
+  u: string;
+  /** what is counted and on which basis ("copper production, own mines", "fleet, owned and chartered-in") */
+  what: string;
+  /** the year the figure refers to (a fiscal year: the calendar year in which it ends) */
+  y: number;
+  s: string;
+  url: string;
+  /** a conversion or a basis, as the page states it */
+  n?: string;
+}
+
+export type CompanyOwn = 'state' | 'state-listed' | 'listed' | 'private' | 'cooperative';
+
 export interface Company {
   name: string;
   /** headquarters country */
   hq?: Iso3;
   /** e.g. "producer", "refiner", "smelter", "trader", "shipowner" */
   role: string;
+  own?: CompanyOwn;
+  /** the controlling shareholder or parent as the page states it */
+  parent?: string;
   detail?: string;
-  fig?: Fig;
+  fig?: CompanyFig;
+  sanction?: CompanySanction | CompanySanction[];
   s?: string;
-  y?: number | string;
+  /** the year the entry's facts refer to (not the year of reading) */
+  y?: number;
   /** source page */
   url?: string;
+  /** YYYY-MM: the month the page was read */
+  read?: string;
   /** commodity id(s) the company is listed for (country profiles) */
   k?: string | string[];
+  /** shipping companies: the vessel classes it operates */
+  classes?: string[];
 }
+
+/** data/freight/shipping-companies.json: shipping companies by segment. */
+export type ShippingCompanies = Partial<Record<'dry-bulk' | 'tankers' | 'gas' | 'charterers' | 'brokers' | 'terminals', Company[]>>;
 
 /** A bilateral physical trade flow. */
 export interface Flow {
@@ -537,8 +574,18 @@ export interface VesselClass {
   segment: Segment;
   /** deadweight range in tonnes (or cbm for gas carriers, see unit) */
   /** typicalS: source id of the typical size when it is not the class's own source (the atlas, for a convention) */
-  size: { min: number; max: number; typical: number; typicalS?: string; u: 'dwt' | 'cbm' | 'teu' };
+  /** s, url, y, n: the page and year of the band (`atlas` for an Atlas convention) and what it says; typicalUrl, typicalY: the same for the typical size */
+  size: {
+    min: number; max: number; typical: number; typicalS?: string; typicalUrl?: string; typicalY?: number; u: 'dwt' | 'cbm' | 'teu';
+    s?: string; url?: string; y?: number; n?: string;
+  };
   dims?: { loa?: number; beam?: number; draft?: number; s?: string };
+  /** standard vessel of the class as a page describes it: metres, knots, tonnes of fuel a day; n names the fuel and the wording */
+  std?: VesselStd;
+  /** a class without its own benchmark routes: the class whose benchmarks apply */
+  bench?: { id: string; n: string };
+  /** UNCTADstat ship type of the class (data/freight/fleet.json); null when UNCTADstat does not single out its kind of ship */
+  fleetType?: string | null;
   cargoes: string[];
   constraints: string[];
   canals: { suez: string; panama: string };
@@ -551,6 +598,28 @@ export interface VesselClass {
   speedNote?: string;
   /** the same speed as a figure: an assumed laden service speed, `s` is `atlas` */
   speed?: Fig;
+}
+
+export interface VesselStd {
+  dwt?: number;
+  loa?: number;
+  beam?: number;
+  draught?: number;
+  cubic?: number;
+  speed?: { laden?: number; ballast?: number };
+  cons?: { laden?: number; ballast?: number };
+  n: string;
+  s: string;
+  url?: string;
+  y: number;
+}
+
+/** data/freight/fleet.json: world fleet by UNCTADstat ship type, latest year and the last years */
+export interface FleetFile {
+  s: string;
+  url: string;
+  y: number;
+  types: { name: string; ships: Fig | null; dwt: Fig | null; age: Fig | null; hist: { years: number[]; ships: (number | null)[]; dwt: (number | null)[] } }[];
 }
 
 export interface PortRef {
@@ -602,10 +671,15 @@ export interface Route {
   cargoes: string[];
   /** why the cargoes are typical of the class and not those of the benchmark's definition */
   cargoNote?: string;
-  from: { region: string; ports: string[] };
-  to: { region: string; ports: string[] };
+  /** `assets`: for each port, the infrastructure asset it is ("port:primorsk"), or null */
+  from: { region: string; ports: string[]; assets?: (string | null)[] };
+  to: { region: string; ports: string[]; assets?: (string | null)[] };
   parcel?: number;
+  /** upper end when the definition gives two cargo sizes (160,000 or 170,000 t) */
+  parcelMax?: number;
   parcelUnit?: 't' | 'cbm';
+  /** a benchmark's published definition (Baltic Exchange), read by hand */
+  definition?: BenchmarkDefinition;
   distanceNm: number;
   /** laden voyage days at the class's typical laden speed */
   days: number;
@@ -643,6 +717,53 @@ export interface Route {
   historyNote?: string;
   notes?: string;
   s: string;
+}
+
+/** A Baltic benchmark as its definition gives it; index values are proprietary and never shown. */
+export interface BenchmarkDefinition {
+  /** the code as published (BLNG1-174, S1B_63) */
+  code: string;
+  vessel?: string;
+  /** cargo and quantity as defined; absent when the definition names none */
+  cargo?: string;
+  /** load and discharge ports, or delivery and redelivery areas when `tc` */
+  load?: string;
+  discharge?: string;
+  /** a time-charter trip or round voyage */
+  tc?: boolean;
+  /** duration as defined, e.g. "35-45 days" */
+  duration?: string;
+  state: 'active' | 'suspended' | 'ended';
+  /** ISO date: when it went live, or when it ended */
+  stateDate?: string;
+  stateNote: string;
+  stateUrl: string;
+  /** the benchmark that replaced an ended one */
+  replacedBy?: string;
+  index?: BenchmarkIndex[];
+  /** the page of the definition, and the month it was read */
+  doc: string;
+  url: string;
+  read: string;
+}
+
+/** An index or average this benchmark belongs to, with its weight. */
+export interface BenchmarkIndex {
+  id: string;
+  name: string;
+  /** weight in %, null when the index gives none */
+  w: number | null;
+  equal?: boolean;
+  /** built on the time-charter equivalent of the route */
+  tce?: boolean;
+  /** every member; `in`: the atlas has it */
+  members: { r: string; w?: number; in: boolean }[];
+  /** weight (%) of the members the atlas has */
+  covered?: number;
+  since?: string;
+  note?: string;
+  url: string;
+  doc: string;
 }
 
 /** A short dated status line on a lane or route, linked to an event. */
@@ -978,7 +1099,8 @@ export type InfraType =
   | 'lng-import'
   | 'pipeline'
   | 'smelter'
-  | 'port';
+  | 'port'
+  | 'storage';
 
 /** Status vocabulary of an infrastructure asset (pipeline/infrastructure/README.md). */
 export type InfraStatus = 'operating' | 'damaged' | 'suspended' | 'idle' | 'construction' | 'planned' | 'closed' | 'not-stated';
@@ -1030,6 +1152,30 @@ export interface InfraProps {
   length_km?: number;
   /** source page */
   url?: string;
+  /** ports: the code of the place in the trade engine (pipeline/freight/ports.py), a UN/LOCODE where it has one */
+  locode?: string;
+  /** ports: the IMF PortWatch port id */
+  portwatch?: string;
+  /** ports: the largest ship or the deepest berth a page states */
+  limits?: PortLimits;
+  /** ports: the largest vessel class of the atlas each segment can take by the published limits (derived by the atlas) */
+  maxClass?: { dry?: string; tanker?: string; gas?: string; n: string };
+  /** ids of the price series delivered at this place (data/prices/index.json) */
+  prices?: string[];
+}
+
+/** Physical limits of a port: metres and deadweight tonnes, as a page states them. */
+export interface PortLimits {
+  draught?: number;
+  loa?: number;
+  beam?: number;
+  dwt?: number;
+  /** which berth or channel, and at which tide when stated */
+  n: string;
+  s: string;
+  url: string;
+  /** year of the statement; absent when the page does not say */
+  y?: number;
 }
 
 /** A change of basis read from the source's own description: `now` starts at `at` ("YYYY-MM"), replacing `before`. */

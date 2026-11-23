@@ -1,0 +1,68 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cushing",
+    "name": "Cushing",
+    "type": "storage",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "capacity": {
+     "v": 78.4,
+     "u": "Mb",
+     "y": 2024,
+     "n": "working storage capacity of tank farms and underground caverns at Cushing, 31 March 2024 (net available shell capacity 94.4 Mb in operation)",
+     "orig": "78,410 thousand barrels"
+    },
+    "status": "not-stated",
+    "note": "Delivery point of the WTI price; the EIA calls Cushing an important crude oil market center. Position: the town of Cushing (OpenStreetMap).",
+    "coord": "approx",
+    "s": "eia-storage-capacity",
+    "url": "https://www.eia.gov/petroleum/storagecapacity/",
+    "read": "2026-11",
+    "prices": [
+     "wti-d"
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.767,
+     35.985
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mont-belvieu",
+    "name": "Mont Belvieu",
+    "type": "storage",
+    "k": [
+     "lpg"
+    ],
+    "c": "USA",
+    "status": "not-stated",
+    "note": "The salt dome under the city stores liquefied petroleum gas (Wikipedia); delivery point of the atlas's propane spot price. Position: the city of Mont Belvieu (OpenStreetMap).",
+    "coord": "approx",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Mont_Belvieu,_Texas",
+    "read": "2026-11",
+    "prices": [
+     "propane-mb-d"
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.891,
+     29.848
+    ]
+   }
+  }
+ ]
+}

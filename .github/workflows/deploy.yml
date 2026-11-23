@@ -1,4 +1,8 @@
 # Builds the web app and deploys it to GitHub Pages on every push to main (and when called by the update workflows).
+# The checks of ci.yml (type check, unit suites, data validators, build and size budget) run first; nothing is
+# published unless they all pass. On a push, a failed check fails the run and GitHub e-mails the person who pushed
+# (its default for a failed workflow). Called by a data update (soft: true), a failed check does not fail the run: the
+# site is simply not republished, a notice says why, and no e-mail is sent.
 # If Pages is not enabled yet (Settings > Pages > Source: GitHub Actions), the job
 # finishes green with a notice instead of failing, so no failure e-mail is sent.
 name: Deploy site
@@ -15,6 +19,10 @@ on:
         description: "Git ref to build (default is the triggering commit)"
         type: string
         default: ""
+      soft:
+        description: "Do not fail when a check fails: skip the publication instead (scheduled data updates)"
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -26,16 +34,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+    with:
+      ref: ${{ inputs.ref }}
+      soft: ${{ inputs.soft == true }}
+
+  not-published:
+    needs: checks
+    if: needs.checks.outputs.ok != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checks failed notice
+        run: |
+          echo "::notice::A check failed: the site was not republished. See the Checks job of this run."
+          echo "### Site not republished: a check failed (see the checks job)" >> "$GITHUB_STEP_SUMMARY"
+
   build:
+    needs: checks
+    if: needs.checks.outputs.ok == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
       pages: ${{ steps.pages.outcome }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           ref: ${{ inputs.ref }}
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
           cache: npm
@@ -51,13 +78,13 @@ jobs:
       - name: Check Pages is enabled
         id: pages
         continue-on-error: true
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5.0.0
       - name: Pages not enabled notice
         if: steps.pages.outcome != 'success'
         run: |
           echo "::notice::GitHub Pages is not enabled for this repository. Enable it in Settings > Pages > Source: GitHub Actions, then re-run this workflow."
           echo "### Site built but not deployed: enable GitHub Pages (Settings > Pages > Source: GitHub Actions)" >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         if: steps.pages.outcome == 'success'
         with:
           path: web/dist
@@ -72,4 +99,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

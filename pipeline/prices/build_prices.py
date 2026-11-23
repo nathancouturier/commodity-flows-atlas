@@ -1,6 +1,6 @@
 """
 Build price history files from the World Bank Pink Sheet (monthly, since 1960, and the annual workbook for the real
-prices) and the EIA daily spot prices.
+prices) and the EIA daily spot prices; the Freight family (BLS, Dallas Fed, New York Fed) through freight_indicators.py.
 
     python pipeline/prices/build_prices.py <pinksheet_monthly.xlsx> <eia_spot_dir> [<pinksheet_annual.xlsx>]
 
@@ -49,6 +49,7 @@ import openpyxl
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import basis as B  # noqa: E402
+import freight_indicators as FI  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 OUT = os.path.join(ROOT, "data", "prices")
@@ -262,10 +263,10 @@ ADDED = {"crude-avg-m", "ng-index-m", "palm-kernel-oil-m", "sunflower-oil-m", "c
 # has, and its real annual counterpart is the real price of the daily series
 REAL_OF_DAILY = {"brent-d": "brent-m", "wti-d": "wti-m", "hh-d": "hh-m"}
 
-# FRED monthly series (fetched in GitHub Actions; FRED may be unreachable elsewhere) -> raw/fred/<id>.csv
-FRED = {
-    "PCU483111483111": ("freight-ppi-m", "freight", "US producer price index, deep-sea freight transportation", "index"),
-}
+# The "Freight" family (freight_indicators.py): the BLS producer price index for deep-sea freight from the cache of the
+# BLS API (pipeline/cache/bls), the Dallas Fed and New York Fed indices from raw/dallasfed and raw/nyfed. None is a rate.
+# A deviation from a trend or from an average crosses zero: a change in percent means nothing there, the board gets none.
+DEVIATION_UNITS = ("% deviation from trend", "standard deviations from average")
 
 EPOCH = date(1970, 1, 1)
 # Cadences (see check_freshness): the jobs run weekly; the Pink Sheet is published in the first days of the month
@@ -653,28 +654,10 @@ def eia_series(dirpath):
     return out
 
 
-def fred_series(dirpath):
-    """Monthly FRED CSVs (observation_date,<ID>); missing values are '.'"""
-    import csv
-
-    out = []
-    for sid_fred, (sid, k, name, unit) in FRED.items():
-        p = os.path.join(dirpath, sid_fred + ".csv")
-        if not os.path.exists(p):
-            continue
-        with open(p, newline="") as f:
-            rows = [r for r in csv.reader(f) if r][1:]
-        pts = [(r[0][:7], num(r[1]) if r[1] != "." else None) for r in rows if len(r) > 1]
-        if not pts:
-            continue
-        doc = {"id": sid, "freq": "M", "start": pts[0][0], "v": [v for _, v in pts]}
-        if unit == "index":  # name the base period from the data (the month where the index equals 100)
-            base = next((m for m, v in pts if v is not None and abs(v - 100.0) < 1e-9), None)
-            if base:
-                unit = f"index ({date(int(base[:4]), int(base[5:7]), 1):%b %Y} = 100)"
-        meta = meta_of(sid, k, name, unit, "M", "fred", pts[0][0], pts[-1][0], note="Proxy for freight costs: Baltic Exchange indices are proprietary")
-        out.append((doc, meta))
-    return out
+def freight_series(cache_dir=None, dallas=None, nyfed=None):
+    """The series of the Freight family that their inputs allow; a missing input keeps the previous file."""
+    return (FI.bls_series(cache_dir, meta_of=meta_of) + FI.dallasfed_series(dallas or FI.DALLASFED_FILE, meta_of=meta_of)
+            + FI.nyfed_series(nyfed or FI.NYFED_FILE, meta_of=meta_of))
 
 
 # ---------------------------------------------------------------- annual prices of the USGS Mineral Commodity Summaries
@@ -804,7 +787,10 @@ def stats_of(doc, meta):
         return None
     else:
         times = [date(int(doc["start"]) + i, 1, 1) for i in range(len(doc["v"]))]
-    return board_stats(doc["freq"], times, doc["v"])
+    st = board_stats(doc["freq"], times, doc["v"])
+    if st and meta.get("unit") in DEVIATION_UNITS:
+        st.pop("chg", None)
+    return st
 
 
 def order_key(m):
@@ -896,7 +882,7 @@ def main():
             produced += real_series(annual_path, [m for _, m in produced])
     if os.path.isdir(eia_dir):
         produced += eia_series(eia_dir)
-    produced += fred_series(os.path.join(ROOT, "raw", "fred"))
+    produced += freight_series()
     usgs = usgs_file(os.path.join(ROOT, "raw", "usgs"))
     if usgs:
         found, missing = usgs_series(usgs)

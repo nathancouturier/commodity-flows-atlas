@@ -4,7 +4,8 @@ Polite, robust downloader shared by the update scripts.
     from common.fetch import download, get_text, get_json, FetchError
 
 Features
-  * ``requests`` with connect/read timeouts and a browser-like User-Agent (no personal data);
+  * ``requests`` with connect/read timeouts and a plain, truthful User-Agent (``USER_AGENT``: what the client is,
+    no browser name, no project or personal name, no address); every update script downloads through this module;
   * retries with exponential backoff + jitter (default 4 attempts) on network errors, HTTP 408/425/429/5xx;
   * a minimum pause between two requests to the same host (``MIN_INTERVAL``, default 1.5 s);
   * resumable large downloads (HTTP Range) that keep a ``<dest>.part`` file between attempts;
@@ -24,10 +25,9 @@ from urllib.parse import urlsplit
 
 import requests
 
-USER_AGENT = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/124.0 Safari/537.36 CommodityFlowsAtlas-data-update"
-)
+# The one place the identification is set. A site that refuses this client is not worked around: its update becomes a
+# step done by hand (docs/UPDATING.md). Naming the project or a contact page here is the owner's decision.
+USER_AGENT = "data-update-script/1.0 (python-requests)"
 CONNECT_TIMEOUT = 20
 READ_TIMEOUT = 90
 ATTEMPTS = 4
@@ -58,7 +58,6 @@ def _sess():
         _session.headers.update({
             "User-Agent": USER_AGENT,
             "Accept": "*/*",
-            "Accept-Language": "en-US,en;q=0.9",
         })
     return _session
 

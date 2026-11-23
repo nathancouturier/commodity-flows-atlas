@@ -1,16 +1,135 @@
-/** One infrastructure asset: mine, smelter, port, field, refinery, LNG terminal or pipeline. */
+/** One infrastructure asset: mine, smelter, port, storage hub, field, refinery, LNG terminal or pipeline. */
 import { useEffect } from 'preact/hooks';
-import type { InfraType } from '../../types';
-import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
+import type { InfraType, PortLimits, Route } from '../../types';
+import { countryName, sourceLabel, sources, commodityMeta, loadOptional } from '../../lib/data';
 import { fmt } from '../../lib/format';
+import { GROUP_LABEL, loadRoutes } from '../../lib/freight';
+import { loadPriceIndex, openPrices, type PriceMeta } from '../../lib/prices';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, STATUS_LABEL, figureText, monthYear, sourceText, stateAt, yearText, type Figure } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select, year } from '../../lib/store';
 import { Section, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge, shortSource } from '../ui';
-import { CommodityChips, useLoaded } from './shared';
+import { CommodityChips, VesselChip, useLoaded } from './shared';
 import '../../styles/infra.css';
+
+/** The port index of the lanes (pipeline/freight/build_port_index.py): the lanes of each port, by its trade-engine code. */
+interface PortIndexRow { id: string; name: string; c: string; g: string[]; lane: string | null; lanes?: string[]; asset?: string }
+let portIndex: Promise<PortIndexRow[]> | null = null;
+const loadPortIndex = () => (portIndex ??= loadOptional<{ ports: PortIndexRow[] }>('freight/ports.json').then((d) => d?.ports ?? []));
+
+/** "Crude oil, Saudi Arabia to China": a lane id `<group>:<origin>-<destination>` in the words of the lane page. */
+function laneName(id: string): string {
+  const [g, ends = ''] = id.split(':');
+  const [o, d] = ends.split('-');
+  const what = GROUP_LABEL[g] ?? commodityMeta(g)?.name ?? g;
+  return `${what[0].toUpperCase()}${what.slice(1)}, ${countryName(o)} to ${countryName(d)}`;
+}
+
+const LIMIT_LABEL: [keyof PortLimits, string, string][] = [
+  ['draught', 'Max draught', 'm'],
+  ['loa', 'Max length', 'm'],
+  ['beam', 'Max beam', 'm'],
+  ['dwt', 'Max deadweight', 'dwt'],
+];
+
+/** The limits a page states (largest ship or deepest berth) and the largest class of the atlas they allow. */
+function PortLimitsSection({ lim, maxClass }: { lim: PortLimits; maxClass?: { dry?: string; tanker?: string; gas?: string; n: string } }) {
+  const classes = maxClass ? (['dry', 'tanker', 'gas'] as const).filter((k) => maxClass[k]) : [];
+  return (
+    <Section title="Limits">
+      <div class="kpis">
+        {LIMIT_LABEL.filter(([k]) => typeof lim[k] === 'number').map(([k, label, u]) => (
+          <Kpi key={k} label={label} value={`${fmt(lim[k] as number)} ${u}`} sub={`${lim.y ?? 'year not stated'} · ${shortSource(lim.s)}`} />
+        ))}
+      </div>
+      <p class="infra-limits-note">{lim.n}</p>
+      {classes.length > 0 && (
+        <div class="infra-maxclass">
+          <div class="muted small">Largest class by the published limits; derived by the atlas</div>
+          <div class="chips">
+            {classes.map((k) => (
+              <VesselChip key={k} id={maxClass![k]!} />
+            ))}
+          </div>
+          <div class="muted small">{maxClass!.n}</div>
+        </div>
+      )}
+      <div class="src-line">
+        Source:{' '}
+        <a href={lim.url} target="_blank" rel="noopener">
+          {sourceText(sourceLabel(lim.s), lim.url)} ↗
+        </a>
+      </div>
+    </Section>
+  );
+}
+
+interface Uses {
+  routes: Route[];
+  lanes: string[];
+  groups: string[];
+  prices: PriceMeta[];
+}
+
+/** The routes that name this asset, the lanes of its trade-engine code, and the price series delivered there. */
+function useUses(key: string, locode: string | undefined, priceIds: string[] | undefined): Uses | null | undefined {
+  return useLoaded<Uses>(
+    () =>
+      Promise.all([
+        key ? loadRoutes().catch(() => [] as Route[]) : Promise.resolve([] as Route[]),
+        locode ? loadPortIndex().catch(() => [] as PortIndexRow[]) : Promise.resolve([] as PortIndexRow[]),
+        priceIds?.length ? loadPriceIndex().catch(() => [] as PriceMeta[]) : Promise.resolve([] as PriceMeta[]),
+      ]).then(([routes, ports, prices]) => {
+        const row = locode ? ports.find((p) => p.id === locode) : undefined;
+        return {
+          routes: key ? routes.filter((r) => r.from.assets?.includes(key) || r.to.assets?.includes(key)) : [],
+          lanes: row ? (row.lanes ?? (row.lane ? [row.lane] : [])) : [],
+          groups: row?.g ?? [],
+          prices: (priceIds ?? []).map((id) => prices.find((m) => m.id === id)).filter((m): m is PriceMeta => !!m),
+        };
+      }),
+    [key, locode, (priceIds ?? []).join()],
+  );
+}
+
+function UsesSections({ uses }: { uses: Uses }) {
+  return (
+    <>
+      {uses.routes.length > 0 && (
+        <Section title="Routes" aside={<span class="muted num">{uses.routes.length}</span>}>
+          {uses.routes.map((r) => (
+            <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
+              <span class="grow">{r.name}</span>
+              <span class="meta">{r.benchmark ? r.id : 'route'}</span>
+            </button>
+          ))}
+        </Section>
+      )}
+      {uses.lanes.length > 0 && (
+        <Section title="Lanes">
+          {uses.lanes.map((id) => (
+            <button class="list-btn" key={id} onClick={() => select({ kind: 'lane', id })}>
+              <span class="grow">{laneName(id)}</span>
+            </button>
+          ))}
+          <p class="infra-limits-note">The atlas's lanes that load or discharge here, largest first (Atlas estimate of the typical ports of each pair).</p>
+        </Section>
+      )}
+      {uses.prices.length > 0 && (
+        <Section title="Prices delivered here">
+          {uses.prices.map((m) => (
+            <button class="list-btn" key={m.id} onClick={() => openPrices({ series: [m.id] })}>
+              <span class="grow">{m.name}</span>
+              <span class="meta">{m.unit}</span>
+            </button>
+          ))}
+        </Section>
+      )}
+    </>
+  );
+}
 
 /** A figure with its own year, what it counts and, when it was converted, the source's own figure. */
 function FigureKpi({ label, fig, s }: { label: string; fig: Figure; s: string }) {
@@ -32,6 +151,7 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
     () => loadInfra().then((all) => all.find((x) => x.p.id === id && (!layer || x.p.type === layer)) ?? all.find((x) => x.p.id === id) ?? null),
     [id, layer],
   );
+  const uses = useUses(f ? `${f.p.type}:${f.p.id}` : '', f?.p.locode, f?.p.prices);
 
   useEffect(() => {
     if (!f) return;
@@ -114,6 +234,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
             <p class="prose">{p.note}</p>
           </Section>
         )}
+        {p.limits && <PortLimitsSection lim={p.limits} maxClass={p.maxClass} />}
+        {uses && <UsesSections uses={uses} />}
         <Section title="Location">
           {p.coord === 'approx' && <p class="infra-approx">Approximate location</p>}
           <button class="list-btn" onClick={() => select({ kind: 'country', id: p.c })}>

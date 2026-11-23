@@ -22,7 +22,7 @@ const SORTS: { key: SortKey; label: string; title: string; text: boolean }[] = [
   { key: 'mt', label: 'Mt', title: 'Sort by tonnes', text: false },
   { key: 'share', label: 'Share', title: "Sort by share of the commodity's seaborne trade", text: false },
   { key: 'chg', label: 'Change', title: 'Sort by change from the year before', text: false },
-  { key: 'class', label: 'Class', title: 'Sort by typical vessel class', text: true },
+  { key: 'class', label: 'Typical class', title: 'Sort by typical vessel class', text: true },
   { key: 'nm', label: 'Distance', title: 'Sort by distance', text: false },
   { key: 'via', label: 'Passages', title: 'Sort by passages crossed', text: true },
 ];
@@ -290,7 +290,7 @@ function LaneLine({ r }: { r: LaneRow }) {
               <span class="mode-via">via {r.transit.join(' and ') || 'a foreign port'} </span>
             </>
           )}
-          {[r.product, r.cls ? vesselName(r.cls) : null, r.nm ? `${r.nm.toLocaleString('en-US')} nm` : null, passages || null].filter(Boolean).join(' · ')}
+          {[r.product, r.cls ? `${vesselName(r.cls)} (typical)` : null, r.nm ? `${r.nm.toLocaleString('en-US')} nm` : null, passages || null].filter(Boolean).join(' · ')}
           {r.est && <EstMark />}
         </span>
       </span>

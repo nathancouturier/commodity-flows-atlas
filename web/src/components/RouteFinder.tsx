@@ -273,7 +273,7 @@ export function RouteFinder() {
         ? 'Loading the route…'
         : [
             `${countryName(sel.o)} to ${countryName(sel.d)}, ${multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}: ${tonnage(sel.kt, sel.est, sel.group)}`,
-            sel.kind === 'land' ? 'overland' : sel.kind === 'mixed' ? 'sea and overland' : sel.nm > 0 && sel.cls ? `${vesselName(sel.cls)}, ${fmt(sel.nm)} nautical miles` : 'sea, no route modelled',
+            sel.kind === 'land' ? 'overland' : sel.kind === 'mixed' ? 'sea and overland' : sel.nm > 0 && sel.cls ? `${vesselName(sel.cls)} (typical class), ${fmt(sel.nm)} nautical miles` : 'sea, no route modelled',
           ].join(', ') + '.';
 
   return (

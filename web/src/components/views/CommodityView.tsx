@@ -9,7 +9,8 @@ import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, fmtF
 import { GROUP_LABEL, LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, CompanyRows, AlertBanners, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, AlertBanners, shortSource } from '../ui';
+import { CompanyRows } from '../Companies';
 import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { useLoaded } from './shared';

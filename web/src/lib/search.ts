@@ -152,7 +152,7 @@ export function loadIndex(): Promise<Item[]> {
 }
 
 interface PortIndex {
-  ports: { id: string; name: string; c: string; n: number; g: string[]; lane: string | null }[];
+  ports: { id: string; name: string; c: string; n: number; g: string[]; lane: string | null; asset?: string }[];
 }
 
 async function build(): Promise<Item[]> {
@@ -212,6 +212,7 @@ async function build(): Promise<Item[]> {
   const portAssets = (infra ?? []).filter((f) => f.p.type === 'port');
   for (const p of ports?.ports ?? []) {
     const n = norm(p.name);
+    if (p.asset) continue; // the same place as a port asset (its locode): found as the asset
     if (portAssets.some((f) => f.p.c === p.c && (norm(f.p.name) === n || norm(f.p.name).startsWith(`${n} `)))) continue;
     if (!p.lane && !isCountry(p.c)) continue;
     const cargo = p.g.map((g) => GROUP_LABEL[g] ?? commodityMeta(g)?.name ?? g).join(', ');

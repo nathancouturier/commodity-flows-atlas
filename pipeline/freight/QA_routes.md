@@ -3,7 +3,7 @@
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
 - Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.1%. With the generated routes: 66.0%.
+- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.4%. With the generated routes: 66.2%.
 - 10 of 42 groups reach the target; 32 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
@@ -19,9 +19,9 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | copper-refined | 10.3 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 5 corridors |
 | corn | 149.4 | 21.3 | 72.3 | 10 |  |
 | cotton | 7.7 | 0.0 | 12.4 | 1 | the cap of 120 generated routes left out 4 corridors |
-| crude-oil | 1,874.4 | 54.1 | 70.4 | 7 |  |
+| crude-oil | 1,874.4 | 54.4 | 70.7 | 7 |  |
 | dap | 17.5 | 11.2 | 24.1 | 1 | the cap of 120 generated routes left out 9 corridors |
-| iron-ore | 1,635.5 | 71.5 | 71.5 | 0 |  |
+| iron-ore | 1,635.5 | 72.1 | 72.1 | 0 |  |
 | lead-metal | 2.7 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lead-ore | 2.3 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lithium | 0.5 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
@@ -36,7 +36,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | potash | 41.9 | 26.9 | 51.0 | 3 | the cap of 120 generated routes left out 7 corridors |
 | rapeseed | 20.0 | 0.0 | 50.6 | 2 | the cap of 120 generated routes left out 3 corridors |
 | rare-earths | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
-| refined-products | 960.6 | 16.0 | 52.8 | 12 | the cap of 12 routes per group was reached |
+| refined-products | 960.6 | 17.7 | 53.1 | 12 | the cap of 12 routes per group was reached |
 | rice | 49.9 | 0.0 | 54.2 | 5 | the cap of 120 generated routes left out 6 corridors |
 | soybeans | 157.2 | 66.4 | 72.3 | 1 |  |
 | soymeal | 61.4 | 12.1 | 66.3 | 7 | the cap of 120 generated routes left out 2 corridors |

@@ -1,17 +1,28 @@
 name: Finish data update
 description: >
-  Validates the data, discards it when invalid, commits and pushes valid changes to the default branch
-  (with retry), and opens/updates/closes "Data update failing: <source>" issues. Never fails the job.
+  Records a failure for the sources of an update step that did not finish, validates the data and compares it with
+  the previous commit, discards it when invalid, commits and pushes the paths the job owns to the default branch
+  (rebasing on a newer commit without overwriting it), and opens/updates/closes "Data update failing: <source>" and
+  "New release available: <source>" issues. Never fails the job.
 inputs:
   sources:
     description: Space-separated status source ids this workflow updates (a failure is recorded for them when validation fails).
     required: true
   paths:
-    description: Space-separated paths this workflow may change and commit.
+    description: Space-separated paths this workflow owns; only these are committed.
     default: data
   message:
     description: Commit message.
     required: true
+  steps:
+    description: >
+      One line per update step: its outcome (steps.<id>.outcome), then the status sources it records ("?source" for
+      one it runs only when needed). When the outcome is not "success" (timed out, crashed, cancelled), a failure is
+      recorded for the sources the step did not record itself (pipeline/common/status.py interrupted).
+    default: ""
+  since:
+    description: UTC time (YYYY-MM-DDTHH:MM:SSZ) the job started; a source recorded after it was recorded by this run.
+    default: ""
 outputs:
   deploy:
     description: "'true' when site data (not just the status files) changed and was pushed."
@@ -19,11 +30,31 @@ outputs:
 runs:
   using: composite
   steps:
+    - name: Record a failure for an update step that did not finish
+      continue-on-error: true
+      shell: bash
+      env:
+        STEPS: ${{ inputs.steps }}
+        SINCE: ${{ inputs.since }}
+      run: |
+        while read -r outcome srcs; do
+          if [ -z "$outcome" ] || [ "$outcome" = success ] || [ "$outcome" = skipped ] || [ -z "$srcs" ]; then continue; fi
+          echo "::warning::An update step ended with '$outcome' (timed out, crashed or cancelled): $srcs"
+          python pipeline/common/status.py interrupted "${SINCE:-1970-01-01T00:00:00Z}" \
+            "update step did not finish (outcome: $outcome): timed out, crashed or cancelled; see the run log" $srcs
+        done <<< "$STEPS"
+
     - name: Validate data
       id: validate
       continue-on-error: true
       shell: bash
-      run: node web/scripts/validate-data.mjs
+      run: |
+        # the validators, then the comparison with the last commit (a table that lost rows, a price that jumped)
+        log="$RUNNER_TEMP/data-validation.log"
+        node web/scripts/validate-data.mjs > "$log" 2>&1; v=$?
+        node web/scripts/guard-data.mjs >> "$log" 2>&1; g=$?
+        cat "$log"
+        [ $v -eq 0 ] && [ $g -eq 0 ]
 
     - name: Discard invalid data
       if: steps.validate.outcome == 'failure'
@@ -31,10 +62,11 @@ runs:
       shell: bash
       run: |
         echo "::warning::Data validation failed: discarding this update and keeping the previous data."
+        first=$(grep -m1 -iE 'error|missing|invalid|unknown|lost|moved|shrank|revised|removed' "$RUNNER_TEMP/data-validation.log" | cut -c1-140)
         git checkout -- ${{ inputs.paths }}
         git clean -fdq ${{ inputs.paths }}
         for s in ${{ inputs.sources }}; do
-          python pipeline/common/status.py fail "$s" "update discarded: data validation failed"
+          python pipeline/common/status.py fail "$s" "update discarded: data validation failed: ${first:-see the run log}"
         done
 
     - name: Commit and push
@@ -45,56 +77,46 @@ runs:
         MESSAGE: ${{ inputs.message }}
         DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       run: |
-        echo "deploy=false" >> "$GITHUB_OUTPUT"
         git config user.name "github-actions[bot]"
         git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add -A ${{ inputs.paths }}
-        if git diff --cached --quiet; then
-          echo "Nothing changed."
-          exit 0
-        fi
-        deploy=false
-        if git diff --cached --name-only | grep -qv '^data/_status/'; then deploy=true; fi
-        git commit -q -m "$MESSAGE"
-        pushed=false
-        for attempt in 1 2 3; do
-          if git push origin "HEAD:${DEFAULT_BRANCH}"; then pushed=true; break; fi
-          echo "Push rejected (attempt $attempt), rebasing on the latest ${DEFAULT_BRANCH}."
-          sleep $((attempt * 5))
-          if ! git pull --rebase -X theirs origin "${DEFAULT_BRANCH}"; then
-            git rebase --abort || true
-          fi
-        done
-        if [ "$pushed" = true ]; then
-          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
-        else
-          echo "::warning::Could not push the data update after 3 attempts; it will be redone at the next run."
-        fi
+        bash "$GITHUB_ACTION_PATH/push.sh" "$MESSAGE" "$DEFAULT_BRANCH" ${{ inputs.paths }}
 
     - name: Alert on repeated failures
       if: always()
       continue-on-error: true
-      uses: actions/github-script@v7
+      uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
       with:
         script: |
-          // One issue per source that failed 3 runs in a row; closed again when the source recovers.
+          // One issue per source that failed as many runs in a row as its threshold (alert_after: 1 for a build step,
+          // 2 for a source checked monthly, 3 for a weekly one); closed again when the source recovers. One issue per
+          // source whose publisher lists a newer release than the one in use (state.available, e.g. BACI). An update
+          // that the data checks discarded counts as a failure of every source of the job (so that its builds run
+          // again), but opens a single issue, with the output of the checks.
           const fs = require('fs');
           try {
             const doc = JSON.parse(fs.readFileSync('data/_status/updates.json', 'utf8'));
+            let validation = '';
+            try {
+              validation = fs.readFileSync(`${process.env.RUNNER_TEMP}/data-validation.log`, 'utf8').split('\n')
+                .filter((l) => l.trim()).slice(0, 12).join('\n').slice(0, 1500);
+            } catch (e) { /* no validation log */ }
             const label = 'data-update';
             try {
               await github.rest.issues.createLabel({ ...context.repo, name: label, color: 'd93f0b', description: 'Automatic data update problems' });
             } catch (e) { /* exists already, or labels not allowed */ }
             const open = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', labels: label, per_page: 100 });
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const discardedSources = [];
             for (const [source, s] of Object.entries(doc.sources || {})) {
               const title = `Data update failing: ${source}`;
               const existing = open.find((i) => i.title === title && !i.pull_request);
               const n = Number(s.consecutive_failures || 0);
-              const limit = Number(s.alert_after || 3); // yearly sources checked monthly alert after 6
-              if (n >= limit) {
+              const limit = Number(s.alert_after || 3);
+              if (n >= limit && String(s.last_error || '').startsWith('update discarded')) {
+                discardedSources.push(`- \`${source}\`: ${s.last_error} (${n} run${n > 1 ? 's' : ''} in a row, last success ${s.last_success || 'never'})`);
+              } else if (n >= limit) {
                 const body = [
-                  `The data source \`${source}\` has failed **${n} runs in a row**. The site keeps serving the last good data.`,
+                  `The data source \`${source}\` has failed **${n} run${n > 1 ? 's' : ''} in a row**. The site keeps serving the last good data.`,
                   '',
                   `- Last error: ${s.last_error || 'unknown'}`,
                   `- Last attempt: ${s.last_attempt}`,
@@ -102,7 +124,7 @@ runs:
                   `- Data covered up to: ${s.data_to || 'unknown'}`,
                   `- Latest run: ${runUrl}`,
                   '',
-                  'This issue is updated on every run and closes automatically when the source succeeds again. See `data/_status/updates.json` and `data/_status/log.jsonl`.',
+                  'This issue is updated on every run and closes automatically when the source succeeds again. See `data/_status/updates.json`, `data/_status/log.jsonl` and docs/UPDATING.md.',
                 ].join('\n');
                 if (existing) {
                   if (existing.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: existing.number, body });
@@ -113,6 +135,48 @@ runs:
                 await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body: `\`${source}\` updated successfully again (${s.last_success}). Closing.` });
                 await github.rest.issues.update({ ...context.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed' });
               }
+              const relTitle = `New release available: ${source}`;
+              const rel = open.find((i) => i.title === relTitle && !i.pull_request);
+              const available = s.state && typeof s.state.available === 'string' ? s.state.available : null;
+              if (available) {
+                const body = [
+                  `The publisher of \`${source}\` lists **${available}**; the atlas uses ${s.state.version || 'an older release'}.`,
+                  '',
+                  'This release is installed by hand: follow docs/UPDATING.md (section "Yearly refresh by hand"), then commit the result.',
+                  '',
+                  `- Checked: ${s.last_success || s.last_attempt}`,
+                  `- Latest run: ${runUrl}`,
+                  '',
+                  'This issue closes automatically once the status file records the new release in use.',
+                ].join('\n');
+                if (rel) {
+                  if (rel.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: rel.number, body });
+                } else {
+                  await github.rest.issues.create({ ...context.repo, title: relTitle, body, labels: [label] });
+                }
+              } else if (rel && s.state && 'available' in s.state) {
+                await github.rest.issues.createComment({ ...context.repo, issue_number: rel.number, body: `\`${source}\` now uses ${s.state.version}. Closing.` });
+                await github.rest.issues.update({ ...context.repo, issue_number: rel.number, state: 'closed', state_reason: 'completed' });
+              }
+            }
+            const dTitle = 'Data update discarded by the data checks';
+            const dIssue = open.find((i) => i.title === dTitle && !i.pull_request);
+            if (discardedSources.length) {
+              const body = [
+                'The data checks (web/scripts/validate-data.mjs and guard-data.mjs) refused an update: the previous data is kept and the site is unchanged.',
+                '',
+                ...discardedSources,
+                '',
+                `- Latest run: ${runUrl}`,
+                ...(validation ? ['', 'Output of the data checks in this run:', '', '```', validation, '```'] : []),
+                '',
+                'If the change is real (a price that did move by more than half, a table that did lose rows), run the workflow by hand with "accept large moves" (docs/UPDATING.md). This issue closes automatically when the sources update again.',
+              ].join('\n');
+              if (!dIssue) await github.rest.issues.create({ ...context.repo, title: dTitle, body, labels: [label] });
+              else if (validation && dIssue.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: dIssue.number, body });
+            } else if (dIssue) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: dIssue.number, body: 'The sources updated again. Closing.' });
+              await github.rest.issues.update({ ...context.repo, issue_number: dIssue.number, state: 'closed', state_reason: 'completed' });
             }
           } catch (e) {
             core.warning(`Alert step skipped: ${e.message}`);

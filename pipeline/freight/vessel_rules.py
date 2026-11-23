@@ -67,7 +67,9 @@ def classes(group, o, d, tonnes, nm):
     if group in ("potash", "urea", "dap"):
         return ["supramax", "handysize"] if not (group == "potash" and o == "CAN" and mt > 2) else ["panamax", "supramax"]
     if group in ("soyoil", "palm-oil"):
-        return ["mr", "handy-tanker"]
+        # vegetable oils move in chemical tankers; the Baltic assesses them basis 40,000 t shipments (Baltic Chemical
+        # and Agricultural Oil Assessments page), an MR-size cargo, so the MR comes first (see vessel_classes.json)
+        return ["mr", "chemical-tanker"]
     if group in ("steel",):
         return ["supramax", "handysize"]
     if group in ("copper-refined", "aluminium", "coffee", "cocoa", "cotton", "lead-metal", "zinc-metal", "tin-metal",

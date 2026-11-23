@@ -1,7 +1,7 @@
 /** Small shared UI primitives: switches, ranked bars, KPI tiles, source lines. */
 import type { ComponentChildren } from 'preact';
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
-import type { Alert, Chokepoint, Company, Fig, HistTable, InfraType, Ranked, StatusNote } from '../types';
+import type { Alert, Chokepoint, Fig, HistTable, InfraType, Ranked, StatusNote } from '../types';
 import { commodityMeta, countryName, isCountry, load, sourceLabel, sources } from '../lib/data';
 import { trendOf } from '../lib/tableYears';
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
@@ -847,10 +847,16 @@ export const INFRA_META: Record<InfraType, InfraTypeMeta> = {
     glyph:
       '<circle cx="12" cy="5.5" r="2"/><path d="M12 7.5V20M8.5 11h7"/><path d="M5 13.5c.3 3.8 3.3 6.5 7 6.5s6.7-2.7 7-6.5"/><path d="M3.8 12l1.2 2 2.2-1.2M20.2 12L19 14l-2.2-1.2"/>',
   },
+  storage: {
+    label: 'Storage hub',
+    plural: 'Storage hubs',
+    glyph:
+      '<ellipse cx="12" cy="6.5" rx="7" ry="2.5"/><path d="M5 6.5v11c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-11"/><path d="M5 12c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5"/>',
+  },
 };
 
 /** Display order of the infrastructure types in filters. */
-export const INFRA_ORDER: InfraType[] = ['field', 'refinery', 'lng-export', 'lng-import', 'pipeline', 'mine', 'smelter', 'port'];
+export const INFRA_ORDER: InfraType[] = ['field', 'refinery', 'lng-export', 'lng-import', 'pipeline', 'storage', 'mine', 'smelter', 'port'];
 
 /** SVG markup of an infrastructure badge icon (also rasterised for the map). */
 export function infraSvg(type: InfraType, color: string, size = 28): string {
@@ -968,32 +974,3 @@ export function RowBtn(props: {
     </button>
   );
 }
-
-export function CompanyRows(props: { title?: string; list: Company[]; showK?: boolean }) {
-  const { list } = props;
-  if (!list.length) return null;
-  const yrs = list.map((c) => c.fig?.y ?? c.y).filter((y) => y != null);
-  return (
-    <div class="co-group">
-      {props.title && <h4 class="route-sub">{props.title}</h4>}
-      {list.map((c) => (
-        <RowBtn
-          key={c.name}
-          href={c.url}
-          tip={[c.s ? sourceLabel(c.s) : '', c.fig?.y ?? c.y].filter(Boolean).join(' · ')}
-          title={<>{c.name}{c.url && <span class="ext"> ↗</span>}</>}
-          sub={
-            <>
-              {[c.hq ? countryName(c.hq) : null, c.role, props.showK && c.k ? [c.k].flat().map((k) => commodityMeta(k)?.name ?? k).join(', ') : null].filter(Boolean).join(' · ')}
-              {c.detail && <span class="row-detail">{c.detail}</span>}
-            </>
-          }
-          meta={c.fig ? <>{fmt(c.fig.v)} {c.fig.u}<small>{c.fig.y}</small></> : undefined}
-          wrapMeta={!!c.fig && c.fig.u.length > 16}
-        />
-      ))}
-      <SourceLine s={list[0].fig?.s ?? list[0].s} y={yrs.length ? [...new Set(yrs)].slice(0, 3).join(', ') : undefined} />
-    </div>
-  );
-}
-

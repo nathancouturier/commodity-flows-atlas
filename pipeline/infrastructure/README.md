@@ -1,7 +1,7 @@
 # Infrastructure layer
 
-`data/infrastructure/*.geojson` holds the mines, smelters, ports, oil and gas fields, refineries, LNG terminals and
-pipelines that the atlas draws on the map and lists on commodity and country pages.
+`data/infrastructure/*.geojson` holds the mines, smelters, ports, storage hubs, oil and gas fields, refineries, LNG
+terminals and pipelines that the atlas draws on the map and lists on commodity and country pages.
 
 **This layer is a hand-curated sample, not an inventory.** Each asset was picked because it is large, well known or
 needed to read a flow (an LNG terminal that the trade engine reads, a port that a lane starts from). The layer does not
@@ -20,9 +20,10 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `mines.geojson` | `mine` |
 | `smelters.geojson` | `smelter` (smelters and metal refineries) |
 | `ports.geojson` | `port` |
+| `storage.geojson` | `storage` (an inland or coastal storage hub that is not a port: Cushing, Mont Belvieu) |
 
 The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `eia-dpr`, `eia-todayinenergy`, `operator-reports`, `port-authorities`,
-`trade-press`, `usgs-myb`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
+`trade-press`, `usgs-myb`, `portwatch-ports`, `eia-storage-capacity`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
 `DATA_SOURCES.md` is generated from it. There is no other source list in this folder. Three more ids register the
 sources of a few coordinates and statuses that a note names: `openstreetmap` (ODbL; points looked up through Nominatim),
 `wikidata` (CC0) and `norwegian-offshore-directorate` (its licence page could not be read, and the registry says
@@ -37,7 +38,7 @@ figures; what another page supplies (operator, status, a production figure) is n
 
 | Field | Type | Meaning |
 |---|---|---|
-| `id`, `name`, `type`, `c` | text | Never rename an id or delete a feature: routes, events and the trade engine refer to ids. `c` is the ISO3 code of the country. An asset is identified by its `type` and its `id` together (`type:id` is unique across the seven files; the page of an asset is `sel=infra:<id>:<type>`), so a refinery and a port may both be `ras-tanura`. |
+| `id`, `name`, `type`, `c` | text | Never rename an id or delete a feature: routes, events and the trade engine refer to ids. `c` is the ISO3 code of the country. An asset is identified by its `type` and its `id` together (`type:id` is unique across the eight files; the page of an asset is `sel=infra:<id>:<type>`), so a refinery and a port may both be `ras-tanura`. |
 | `k` | list of commodity ids | The commodities the asset handles, the main one first. Only ids of `data/commodities/index.json`. |
 | `cs` | list of ISO3 | Pipelines: every country crossed, in order. |
 | `operator` | text | Operator and owners as the source states them. |
@@ -52,6 +53,11 @@ figures; what another page supplies (operator, status, a production figure) is n
 | `coord` | `"site"` or `"approx"` | See below. |
 | `note` | text | Reader-facing text only: no working notes ("via search summary", "figures were stripped", "latest on page"). |
 | `product`, `length_km` | text, number | Pipelines: what they carry and their length. The site shows both. |
+| `locode` | text | Ports: the code of the place in the trade engine (`pipeline/freight/ports.py`, the key of its table): the UN/LOCODE without its space ("RUPRI"), or the engine's own code for a terminal that has none. A route port, a lane port and the asset are then one place: the route page links the port to the asset, the asset page lists the lanes of its code, and the search finds the place as the asset. Where the engine does not know the place, the UN/LOCODE of the PortWatch database. |
+| `portwatch` | text | Ports: the IMF PortWatch port id ("port1020"), for a later join with PortWatch's port traffic. |
+| `limits` | `{draught?, loa?, beam?, dwt?, n, s, url, y?}` | Ports: what a page states as the largest ship or the deepest berth, in metres (draught, length overall, beam) and deadweight tonnes. `n` says which berth or channel and at which tide when stated, `s` and `url` the page, `y` the year of the statement when the page gives one. At least one of the four figures. A water depth is entered as `draught` with `n` saying "depth". |
+| `maxClass` | `{dry?, tanker?, gas?, n}` | Ports: the largest vessel class of the atlas that each segment of the port can take by its `limits`, written by `pipeline/infrastructure/port_limits.py` (never by hand). An Atlas estimate, shown as "largest class by the published limits; derived by the atlas"; `n` gives the method. |
+| `prices` | list of ids | The price series of `data/prices/index.json` delivered at this place (Cushing: WTI). |
 
 `n` says in a few words what a figure counts ("iron ore", "copper in concentrate", "refined copper (cathode)",
 "total cargo", "100% basis", "phase 1 of 2"). When a figure was converted, `orig` keeps the source's own figure and
@@ -72,7 +78,7 @@ stated by the source" in `n`.
 
 ## Units
 
-`capacity.u` and `output.u` take one of these seven values, nothing else:
+`capacity.u` and `output.u` take one of these eight values, nothing else:
 
 | Unit | Used for | Conversion from the usual source units |
 |---|---|---|
@@ -83,6 +89,7 @@ stated by the source" in `n`.
 | `kt/y` | metal contained or refined metal, spodumene and other small concentrates | billion lb x 453.6 = kt; Mt x 1,000 = kt |
 | `t/y` | gold, silver, platinum-group metals | koz x 0.0311 = t |
 | `tU/y` | uranium | Mlb U3O8 x 384.6 = tU; t U3O8 x 0.848 = tU |
+| `Mb` | storage capacity of crude oil, products and liquefied gases (a stock, not a flow): storage hubs and port tank farms | thousand barrels / 1,000 = Mb; `n` says working or shell capacity |
 
 The site ranks assets of a commodity page only among figures of the same kind (capacity with capacity, production with
 production), the same unit, the same commodity and the same form (ore, concentrate, metal), planned and under-construction
@@ -117,9 +124,10 @@ the atlas does not guess a year.
 `coord` is `site` when the point is the asset itself, and `approx` when it is a town, a centroid or a schematic
 position. The
 site prints "Approximate location" on those assets. A point is checked against the country `c`: it must lie inside the
-country's polygon or within 60 km of it. A field or an LNG terminal may stand at sea (an offshore field, a floating
-plant such as Prelude, an island terminal such as Das Island): it may lie up to 370 km (200 nautical miles) from `c`,
-provided no other country is nearer to the point, so a point in the wrong country is still caught.
+country's polygon or within 60 km of it. A field, an LNG terminal or a port may stand at sea (an offshore field, a
+floating plant such as Prelude, an island terminal such as Das Island or Halul Island, an offshore port such as LOOP):
+it may lie up to 370 km (200 nautical miles) from `c`, provided no other country is nearer to the point, so a point in
+the wrong country is still caught.
 
 ## Adding or changing an asset
 
@@ -138,15 +146,33 @@ provided no other country is nearer to the point, so a point in the wrong countr
    ```
 
    `validate-infra.mjs` checks the required fields, the vocabularies (type, status, units, `output.what`), the numeric
-   years (1800 to next year), the date formats, that `k` ids and `s` exist, that ids are unique across the seven files,
+   years (1800 to next year), the date formats, that `k` ids and `s` exist, that ids are unique across the eight files,
    that coordinates are in range and near the stated country, that `coord` is given, that a pipeline has `cs` starting with
    its country, that a feature sits in the file of its type and uses a unit that fits it (refinery kb/d, LNG Mtpa, ...), that a
-   `not-stated` status has no `statusAsOf`, that `planned` is `true` on a capacity only, and that no note, status note or `n`
+   `not-stated` status has no `statusAsOf`, that `planned` is `true` on a capacity only, that a port's `locode`,
+   `portwatch`, `limits`, `maxClass` and `prices` have their shape (a class id of `data/freight/vessel-classes.json`, a
+   price id of `data/prices/index.json`), and that no note, status note or `n`
    holds a working phrase ("via search summary", "could not be re-read"). Every finding is
    an error. Only `INFRA_OLD_SHAPE=1` turns the findings about a file that still has the old shape (a feature-level `y`)
    into warnings, for a migration that goes one file at a time.
 6. `data/sources.json` feeds `DATA_SOURCES.md`; regenerate that table with `pipeline/common/sources_table.py` after
    changing the registry.
+7. After changing a port's `limits`, or after a change of the standard vessels (`std`) of
+   `pipeline/freight/vessel_classes.json`, run `python pipeline/infrastructure/port_limits.py`: it rewrites `maxClass`.
+
+## Ports and the freight routes
+
+Every port that a route of `pipeline/freight/routes_def.json` names is an asset, except Boke (Guinea), which names the
+river terminals of the Boke region rather than one port. `pipeline/infrastructure/route_assets.py` finds the asset of
+each route port (same country, same name, or a name of its `ALIAS` table); `build_freight.py` publishes it on each route
+(`from.assets`, `to.assets`, "type:id" or null) and the route page links the port to its page. Run
+`python pipeline/infrastructure/route_assets.py` to list the route ports that are not assets.
+
+Positions and UN/LOCODEs come from the IMF PortWatch ports database (`pipeline/cache/portwatch_ports.csv`, downloaded
+once by `pipeline/infrastructure/fetch_portwatch_ports.py`; IMF terms, credited in NOTICE.md); a port that PortWatch
+does not list takes its position from OpenStreetMap or from the Wikipedia article of the terminal, and its note says
+which. The NGA World Port Index, which would give the limits of most ports, could not be downloaded (HTTP 503 in
+November 2026); the limits of a port come from the page its `limits.url` names.
 
 ## What is not here
 

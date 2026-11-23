@@ -1,0 +1,317 @@
+{
+ "s": "unctadstat-fleet",
+ "url": "https://unctadstat.unctad.org/datacentre/dataviewer/US.MerchantFleet",
+ "y": 2026,
+ "types": [
+  {
+   "name": "Oil tankers",
+   "ships": {
+    "v": 12931,
+    "u": "ships",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Oil tankers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "dwt": {
+    "v": 683.4,
+    "u": "million dwt",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Oil tankers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "age": {
+    "v": 21.1,
+    "u": "years",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Oil tankers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "hist": {
+    "years": [
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ships": [
+     10187,
+     10852,
+     10996,
+     11354,
+     11540,
+     12133,
+     12359,
+     12559,
+     12687,
+     12931
+    ],
+    "dwt": [
+     535.0,
+     563.2,
+     568.0,
+     601.7,
+     619.3,
+     631.1,
+     652.9,
+     665.0,
+     670.0,
+     683.4
+    ]
+   }
+  },
+  {
+   "name": "Bulk carriers",
+   "ships": {
+    "v": 14630,
+    "u": "ships",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Bulk carriers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "dwt": {
+    "v": 1067.3,
+    "u": "million dwt",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Bulk carriers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "age": {
+    "v": 12.9,
+    "u": "years",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Bulk carriers', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "hist": {
+    "years": [
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ships": [
+     10895,
+     11384,
+     11623,
+     11987,
+     12379,
+     12783,
+     13316,
+     13792,
+     14211,
+     14630
+    ],
+    "dwt": [
+     795.6,
+     822.9,
+     846.5,
+     879.8,
+     914.0,
+     947.4,
+     976.4,
+     1006.9,
+     1036.6,
+     1067.3
+    ]
+   }
+  },
+  {
+   "name": "General cargo",
+   "ships": {
+    "v": 21661,
+    "u": "ships",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'General cargo', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "dwt": {
+    "v": 91.8,
+    "u": "million dwt",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'General cargo', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "age": {
+    "v": 27.6,
+    "u": "years",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'General cargo', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "hist": {
+    "years": [
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ships": [
+     19044,
+     19079,
+     19287,
+     19887,
+     20066,
+     20332,
+     20778,
+     21244,
+     21409,
+     21661
+    ],
+    "dwt": [
+     75.5,
+     75.7,
+     76.4,
+     77.9,
+     78.7,
+     80.5,
+     84.4,
+     87.8,
+     89.4,
+     91.8
+    ]
+   }
+  },
+  {
+   "name": "Container ships",
+   "ships": {
+    "v": 7044,
+    "u": "ships",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Container ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "dwt": {
+    "v": 388.5,
+    "u": "million dwt",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Container ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "age": {
+    "v": 14.2,
+    "u": "years",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Container ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "hist": {
+    "years": [
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ships": [
+     5150,
+     5198,
+     5305,
+     5384,
+     5495,
+     5673,
+     6077,
+     6370,
+     6789,
+     7044
+    ],
+    "dwt": [
+     245.7,
+     253.6,
+     266.1,
+     275.0,
+     282.3,
+     294.3,
+     307.7,
+     331.8,
+     364.1,
+     388.5
+    ]
+   }
+  },
+  {
+   "name": "Other types of ships",
+   "ships": {
+    "v": 59383,
+    "u": "ships",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Other types of ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "dwt": {
+    "v": 297.7,
+    "u": "million dwt",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Other types of ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "age": {
+    "v": 24.1,
+    "u": "years",
+    "y": 2026,
+    "s": "unctadstat-fleet",
+    "n": "World fleet of the ship type 'Other types of ships', UNCTADstat (Merchant fleet by flag of registration and by type of ship), year 2026"
+   },
+   "hist": {
+    "years": [
+     2017,
+     2018,
+     2019,
+     2020,
+     2021,
+     2022,
+     2023,
+     2024,
+     2025,
+     2026
+    ],
+    "ships": [
+     48242,
+     49137,
+     49922,
+     51536,
+     52692,
+     53906,
+     55214,
+     56129,
+     57686,
+     59383
+    ],
+    "dwt": [
+     216.4,
+     222.3,
+     232.9,
+     238.8,
+     244.6,
+     253.0,
+     261.8,
+     271.6,
+     283.4,
+     297.7
+    ]
+   }
+  }
+ ]
+}

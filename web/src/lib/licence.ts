@@ -28,6 +28,9 @@ const PERMISSION: { re: RegExp; short: (m: RegExpMatchArray) => string }[] = [
   { re: /\bODbL(?: \d(?:\.\d)?)?/, short: (m) => m[0] },
   // the IMF's special terms for statistical data: reuse with attribution and the transformation stated, commercial reuse by permission
   { re: /IMF terms of use for statistical data/i, short: () => 'IMF terms of use for statistical data' },
+  // the terms of two Federal Reserve Banks, quoted in the registry: reproduction with credit (Dallas: not for private gain)
+  { re: /Dallas Fed Terms of Use/, short: () => 'Dallas Fed terms of use' },
+  { re: /New York Fed Terms of Use/, short: () => 'New York Fed terms of use' },
 ];
 
 /** True when the licence text states a permission to reuse the data. */

@@ -5,20 +5,24 @@
  *    and a geometry; there is no feature-level `y` (a reading date is never the year of a figure);
  *  - `type`, `status`, the units of `capacity` and `output` and `output.what` are in their vocabularies;
  *    `capacity.y`, `output.y` and `opened` are numbers between 1800 and next year; `read` and `statusAsOf` are dates;
- *  - `k` ids exist in commodities/index.json, `s` exists in sources.json, ids are unique across the seven files;
- *  - coordinates are numbers in range and a point lies inside its country `c` or within 60 km of it. A field or an LNG
- *    terminal may stand at sea (a field offshore, a floating plant, an island terminal): it may lie up to 370 km
+ *  - `k` ids exist in commodities/index.json, `s` exists in sources.json, ids are unique across the eight files;
+ *  - coordinates are numbers in range and a point lies inside its country `c` or within 60 km of it. A field, an LNG
+ *    terminal or a port may stand at sea (a field offshore, a floating plant, an island terminal): it may lie up to 370 km
  *    (200 nautical miles, the limit of the exclusive economic zone) from `c`, provided no other country is nearer to
  *    it (so a point in the wrong country is still caught). Skipped, with a warning, when the country has no polygon in
  *    geo/countries.topo.json;
- *  - a feature is identified by its type and its id: `type:id` is unique across the seven files (the site draws, selects
+ *  - a feature is identified by its type and its id: `type:id` is unique across the eight files (the site draws, selects
  *    and links an asset by `sel=infra:<id>:<type>`); the same id under two types ("ras-tanura", a refinery and a port)
  *    is allowed;
  *  - `note`, `statusNote`, `capacity.n` and `output.n` hold no working-note phrase ("via search", "stripped",
  *    "latest on page", "could not be re-read");
  *  - `coord` is required; a pipeline has `cs`, starting with its country `c`; a feature sits in the file of its type;
  *    a unit fits the type (a refinery in kb/d, an LNG terminal in Mtpa, ...); a status "not-stated" has no `statusAsOf`;
- *    `capacity.planned`, when present, is `true` and belongs to a capacity.
+ *    `capacity.planned`, when present, is `true` and belongs to a capacity;
+ *  - ports: `locode` is a five-character code and `portwatch` a PortWatch port id; `limits` (a port only) give at least
+ *    one of draught, loa, beam (metres) and dwt, with `n`, `s`, `url` and an optional year; `maxClass` needs `limits`,
+ *    names vessel classes of freight/vessel-classes.json by segment and says its method in `n`; `prices` are ids of
+ *    prices/index.json.
  *
  * Every finding about the shape of a feature is an error. Only INFRA_OLD_SHAPE=1 (or `{ tolerateOldShape: true }`)
  * makes a file that is still in the old shape (a feature-level `y`, or no `read`) produce warnings instead, for a
@@ -29,15 +33,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export const FILES = ['fields', 'refineries', 'lng', 'pipelines', 'mines', 'smelters', 'ports'];
-const TYPES = ['mine', 'field', 'refinery', 'lng-export', 'lng-import', 'pipeline', 'smelter', 'port'];
+export const FILES = ['fields', 'refineries', 'lng', 'pipelines', 'mines', 'smelters', 'ports', 'storage'];
+const TYPES = ['mine', 'field', 'refinery', 'lng-export', 'lng-import', 'pipeline', 'smelter', 'port', 'storage'];
 const STATUSES = ['operating', 'damaged', 'suspended', 'idle', 'construction', 'planned', 'closed', 'not-stated'];
-const UNITS = ['kb/d', 'bcm/y', 'Mtpa', 'Mt/y', 'kt/y', 't/y', 'tU/y'];
+const UNITS = ['kb/d', 'bcm/y', 'Mtpa', 'Mt/y', 'kt/y', 't/y', 'tU/y', 'Mb'];
 const WHAT = ['production', 'exports', 'throughput'];
 const COORD = ['site', 'approx'];
 const WORKING_NOTE = /via search|search summary|stripped|latest on page|re-read|page could not/i;
 /** The file each type belongs to, and the units each type may use. */
-const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports' };
+const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports', storage: 'storage' };
 const UNITS_OF = {
   field: ['kb/d', 'bcm/y'],
   refinery: ['kb/d'],
@@ -46,11 +50,18 @@ const UNITS_OF = {
   pipeline: ['kb/d', 'bcm/y'],
   mine: ['Mt/y', 'kt/y', 't/y', 'tU/y'],
   smelter: ['Mt/y', 'kt/y', 't/y'],
-  port: ['Mt/y', 'kb/d'],
+  port: ['Mt/y', 'kb/d', 'Mb'],
+  storage: ['Mb', 'kb/d'],
 };
+/** Port limits: metres and deadweight tonnes. */
+const LIMIT_KEYS = ['draught', 'loa', 'beam', 'dwt'];
+const SEGMENTS = ['dry', 'tanker', 'gas'];
+const LOCODE = /^[A-Z]{2}[A-Z0-9]{3}$/;
+const PORTWATCH_ID = /^(port|fso)\d+$/;
 const NEAR_KM = 60;
-/** Types that can stand at sea: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone). */
-const OFFSHORE_TYPES = ['field', 'lng-export', 'lng-import'];
+/** Types that can stand at sea: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone).
+ * A port may be an island or offshore oil terminal (Halul Island, Zirku Island, LOOP). */
+const OFFSHORE_TYPES = ['field', 'lng-export', 'lng-import', 'port'];
 const OFFSHORE_KM = 370;
 const MIN_YEAR = 1800;
 
@@ -149,6 +160,8 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
   const commodities = new Set((readJson('commodities/index.json') ?? []).map((c) => c.id));
   const sources = new Set((readJson('sources.json') ?? []).map((s) => s.id));
   const countries = new Set((readJson('countries/index.json') ?? []).map((c) => c.c));
+  const classes = new Set((readJson('freight/vessel-classes.json') ?? []).map((v) => v.id));
+  const prices = new Set((readJson('prices/index.json') ?? []).map((m) => m.id));
   const polys = await countryRings(root, warnings);
   const maxYear = new Date().getFullYear() + 1;
   const seen = new Map();
@@ -182,7 +195,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       if (!f.geometry) hard(`${at}: no geometry`);
       if (typeof p.id !== 'string') continue;
 
-      // an asset is told apart by its type and its id, across the seven files (the site keeps the first of two equal pairs)
+      // an asset is told apart by its type and its id, across the eight files (the site keeps the first of two equal pairs)
       const ident = `${p.type}:${p.id}`;
       if (seen.has(ident)) shape(`${at}: ${ident} is also in ${seen.get(ident)}: a type and an id identify one asset`);
       else seen.set(ident, name);
@@ -237,6 +250,44 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       }
       for (const t of ['note', 'statusNote']) {
         if (typeof p[t] === 'string' && WORKING_NOTE.test(p[t])) shape(`${at}: the ${t} holds a working phrase ("${p[t].match(WORKING_NOTE)[0]}"): notes are for readers`);
+      }
+      // ports: one identity with the trade engine and PortWatch, limits as a page states them, the class derived from them
+      if (p.locode !== undefined && !(typeof p.locode === 'string' && LOCODE.test(p.locode))) shape(`${at}: "locode" must be a five-character code (country + place, "RUPRI")`);
+      else if (p.locode !== undefined && p.locode.slice(0, 2) === 'XX') shape(`${at}: "locode" has no country`);
+      if (p.portwatch !== undefined && !(typeof p.portwatch === 'string' && PORTWATCH_ID.test(p.portwatch))) shape(`${at}: "portwatch" must be a PortWatch port id ("port1020")`);
+      if (p.limits !== undefined) {
+        const l = p.limits;
+        if (p.type !== 'port') shape(`${at}: "limits" belong to a port`);
+        if (!l || typeof l !== 'object') shape(`${at}: "limits" must be an object`);
+        else {
+          const given = LIMIT_KEYS.filter((k) => l[k] !== undefined);
+          if (!given.length) shape(`${at}: limits give none of ${LIMIT_KEYS.join(', ')}`);
+          for (const k of given) if (!isNum(l[k]) || l[k] <= 0) shape(`${at}: limits.${k} must be a positive number`);
+          if (isNum(l.draught) && l.draught > 40) shape(`${at}: limits.draught ${l.draught} is not in metres`);
+          if (isNum(l.dwt) && l.dwt < 1000) shape(`${at}: limits.dwt ${l.dwt} is not in deadweight tonnes`);
+          if (typeof l.n !== 'string' || !l.n) shape(`${at}: limits.n must say which berth or channel the limits are for`);
+          else if (WORKING_NOTE.test(l.n)) shape(`${at}: limits.n holds a working phrase`);
+          if (typeof l.s !== 'string' || (sources.size && !sources.has(l.s))) shape(`${at}: limits.s "${l.s ?? ''}" is not a source of sources.json`);
+          if (typeof l.url !== 'string' || !/^https?:\/\//.test(l.url)) shape(`${at}: limits.url (the page that states the limits) is missing`);
+          if (l.y !== undefined && !isYear(l.y, maxYear)) shape(`${at}: limits.y must be a year between ${MIN_YEAR} and ${maxYear}`);
+          for (const k of Object.keys(l)) if (![...LIMIT_KEYS, 'n', 's', 'url', 'y'].includes(k)) shape(`${at}: limits.${k} is not a field of limits`);
+        }
+      }
+      if (p.maxClass !== undefined) {
+        const m = p.maxClass;
+        if (!p.limits) shape(`${at}: "maxClass" is derived from "limits", which the feature lacks`);
+        if (!m || typeof m !== 'object' || typeof m.n !== 'string' || !m.n) shape(`${at}: "maxClass" needs "n", the method`);
+        else {
+          for (const k of Object.keys(m)) {
+            if (k === 'n') continue;
+            if (!SEGMENTS.includes(k)) shape(`${at}: maxClass.${k} is not a segment (${SEGMENTS.join(', ')})`);
+            else if (classes.size && !classes.has(m[k])) shape(`${at}: maxClass.${k} "${m[k]}" is not a vessel class`);
+          }
+        }
+      }
+      if (p.prices !== undefined) {
+        if (!Array.isArray(p.prices) || !p.prices.length) shape(`${at}: "prices" must be a non-empty list of price series ids`);
+        else for (const id of p.prices) if (prices.size && !prices.has(id)) shape(`${at}: price series "${id}" is not in prices/index.json`);
       }
 
       // coordinates

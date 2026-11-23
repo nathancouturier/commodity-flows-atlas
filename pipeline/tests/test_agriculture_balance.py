@@ -246,6 +246,7 @@ class EuMembers(unittest.TestCase):
         self.assertAlmostEqual(fra["v"], d[d["o"] == "FRA"]["t"].sum() / 1e6, delta=0.002)
 
 
+@unittest.skipUnless(HAS_PSD, "raw USDA PSD file not on disk")  # the note compares the customs tonnage with PSD
 class RussianGrain(unittest.TestCase):
     def test_gap_note_states_the_two_figures_and_the_lost_importers(self):
         w = load("commodities/wheat.json")

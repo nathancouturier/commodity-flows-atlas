@@ -313,8 +313,8 @@ class Freshness(unittest.TestCase):
 
     def test_the_built_index_has_no_late_series(self):
         idx = jload("index.json")
-        # the freight proxy is optional (FRED needs a key) and the checkout date is not the build date: read the file's own end
-        late = P.check_freshness([m for m in idx if m["s"] != "fred"], date(2026, 11, 23))
+        # the checkout date is not the build date: a fixed date
+        late = P.check_freshness(idx, date(2026, 11, 23))
         self.assertEqual(late, [])
 
 
@@ -486,12 +486,12 @@ class WeeklyJobRecordsFrozenSeries(unittest.TestCase):
         import fetch_prices as F
 
         fake = self.FakeStatus()
-        saved = {k: getattr(F, k) for k in ("status", "fetch_pink", "fetch_eia", "fetch_fred", "rebuild", "late_series")}
+        saved = {k: getattr(F, k) for k in ("status", "fetch_pink", "fetch_eia", "fetch_freight", "rebuild", "late_series")}
         try:
             F.status = fake
             F.fetch_pink = lambda stage: ({"records": 800, "data_to": "2026-10", "state": {}}, None)
             F.fetch_eia = lambda stage: ({"records": 9, "data_to": "2026-11-17", "state": {"last": {}}}, None, 8)
-            F.fetch_fred = lambda stage: (None, None, 0)
+            F.fetch_freight = lambda stage: {s: (None, None, False) for s in F.FREIGHT_SOURCES}
             F.late_series = lambda: late
 
             def rebuild():
@@ -504,7 +504,7 @@ class WeeklyJobRecordsFrozenSeries(unittest.TestCase):
         finally:
             for k, v in saved.items():
                 setattr(F, k, v)
-        return fake.calls
+        return [c for c in fake.calls if c[1] in ("wb-pink", "eia-spot")]  # the freight sources: test_freight_indicators.py
 
     def test_nothing_late_is_a_success(self):
         self.assertEqual(self.run_job({}), [("ok", "wb-pink"), ("ok", "eia-spot")])
@@ -525,12 +525,13 @@ class WeeklyJobRecordsFrozenSeries(unittest.TestCase):
         self.assertEqual([c[:2] for c in calls], [("fail", "wb-pink"), ("fail", "eia-spot")])
         self.assertIn("expected shape", calls[0][2])
 
-    def test_late_series_reads_the_index_and_ignores_the_optional_fred_source(self):
+    def test_late_series_reads_the_index_and_alerts_the_freight_sources_too(self):
         import fetch_prices as F
 
         with tempfile.TemporaryDirectory() as d:
             idx = [{"id": "x-d", "freq": "D", "s": "eia-spot", "end": "2020-01-01", "k": "k"},
-                   {"id": "freight-ppi-m", "freq": "M", "s": "fred", "end": "2020-01", "k": "freight"}]
+                   {"id": "freight-ppi-m", "freq": "M", "s": "bls", "end": "2020-01", "k": "freight"},
+                   {"id": "other-m", "freq": "M", "s": "elsewhere", "end": "2020-01", "k": "k"}]
             with open(os.path.join(d, "index.json"), "w") as f:
                 json.dump(idx, f)
             saved = F.DATA_PRICES
@@ -540,7 +541,7 @@ class WeeklyJobRecordsFrozenSeries(unittest.TestCase):
                     late = F.late_series()
             finally:
                 F.DATA_PRICES = saved
-        self.assertEqual(list(late), ["eia-spot"])
+        self.assertEqual(sorted(late), ["bls", "eia-spot"])
 
 
 class CheckoutWithoutTheOtherDownloads(unittest.TestCase):
@@ -859,12 +860,12 @@ class ClosedSeries(unittest.TestCase):
                 self.calls.append(("fail", source, str(error)))
 
         fake = Status()
-        saved = {k: getattr(F, k) for k in ("status", "fetch_pink", "fetch_eia", "fetch_fred", "rebuild", "late_series", "closed_series")}
+        saved = {k: getattr(F, k) for k in ("status", "fetch_pink", "fetch_eia", "fetch_freight", "rebuild", "late_series", "closed_series")}
         try:
             F.status = fake
             F.fetch_pink = lambda stage: ({"records": 800, "data_to": "2026-10", "state": {}}, None)
             F.fetch_eia = lambda stage: ({"records": 9, "data_to": "2026-11-17", "state": {"last": {}}}, None, 8)
-            F.fetch_fred = lambda stage: (None, None, 0)
+            F.fetch_freight = lambda stage: {s: (None, None, False) for s in F.FREIGHT_SOURCES}
             F.rebuild = lambda: None
             F.late_series = lambda: {}  # a closed series is not late
             F.closed_series = lambda: {"wb-pink": {"tin-m": "2026-02"}}

@@ -9,6 +9,8 @@ Input   data/freight/pairs/<group>.json    every recorded pair with the typical 
         data/freight/lanes/<group>.json    the lane pages: the ports they name in their ``load`` and ``discharge`` lists
                                            (``ports`` table of the file), which can be more than the typical ports of
                                            the pairs (GR4D.10)
+        data/infrastructure/ports.geojson  the port assets: a port whose trade-engine code is the ``locode`` of an asset
+                                           gets that asset (``asset``, "port:<id>"), so the search finds it as the asset
 Output  data/freight/ports.json
 
 Nothing is recomputed: the file only lists, for each port of the pairs tables and of the lane pages, the customs groups
@@ -23,15 +25,32 @@ from collections import defaultdict
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PAIRS = os.path.join(ROOT, "data", "freight", "pairs")
 LANES = os.path.join(ROOT, "data", "freight", "lanes")
+INFRA_PORTS = os.path.join(ROOT, "data", "infrastructure", "ports.geojson")
 OUT = os.path.join(ROOT, "data", "freight", "ports.json")
 LANE_FLAG = 4  # bit of a pairs row's ``f``: a main lane exists, id ``<group>:<o>-<d>``
 GROUPS_PER_PORT = 3
+LANES_PER_PORT = 5  # the largest lane pages that use a port, listed on its asset page
+
+
+def port_assets(path=INFRA_PORTS):
+    """{trade-engine code: "port:<id>"} of the port assets that carry a ``locode``."""
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8") as fh:
+        feats = json.load(fh)["features"]
+    out = {}
+    for f in feats:
+        p = f["properties"]
+        if p.get("locode"):
+            out.setdefault(p["locode"], f"port:{p['id']}")
+    return out
 
 
 def lane_ports(lanes_dir):
-    """The ports the lane pages name: ({port: {"id", "name", "c"}}, {port: {group: kt}}, {port: (kt, lane id)}). The tonnes and the
-    largest lane count the main lanes of each file, whose pages exist."""
+    """The ports the lane pages name: ({port: {"id", "name", "c"}}, {port: {group: kt}}, {port: (kt, lane id)}, {port: pages},
+    {port: {lane id: kt}}). The tonnes and the lanes count the main lanes of each file, whose pages exist."""
     ports, tonnes, best, n = {}, defaultdict(lambda: defaultdict(float)), {}, defaultdict(int)
+    per_lane = defaultdict(dict)  # port -> {lane id: kt}
     for f in sorted(glob.glob(os.path.join(lanes_dir, "*.json"))):
         with open(f, encoding="utf-8") as fh:
             d = json.load(fh)
@@ -50,16 +69,18 @@ def lane_ports(lanes_dir):
                 ports.setdefault(pid, {"id": pid, "name": p["name"], "c": p["c"]})
                 tonnes[pid][d["group"]] += kt
                 n[pid] += 1
+                per_lane[pid][ln["id"]] = max(kt, per_lane[pid].get(ln["id"], 0))
                 if pid not in best or kt > best[pid][0]:
                     best[pid] = (kt, ln["id"])
-    return ports, tonnes, best, n
+    return ports, tonnes, best, n, per_lane
 
 
-def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None):
+def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None, infra_ports=INFRA_PORTS):
     ports, years = {}, set()
     tonnes = defaultdict(lambda: defaultdict(float))  # port -> group -> kt
     n_pairs = defaultdict(int)
     best_lane = {}  # port -> (kt, lane id)
+    lanes_of = defaultdict(dict)  # port -> {lane id: kt}
     for f in sorted(glob.glob(os.path.join(pairs_dir, "*.json"))):
         with open(f, encoding="utf-8") as fh:
             d = json.load(fh)
@@ -77,33 +98,46 @@ def build(pairs_dir=PAIRS, out=OUT, lanes_dir=None):
                 n_pairs[p[0]] += 1
                 if r[c["f"]] & LANE_FLAG:
                     lane = f"{d['group']}:{r[c['o']]}-{r[c['d']]}"
+                    lanes_of[p[0]][lane] = max(kt, lanes_of[p[0]].get(lane, 0))
                     if p[0] not in best_lane or kt > best_lane[p[0]][0]:
                         best_lane[p[0]] = (kt, lane)
     # the ports a lane page names and no pair of the files uses as its typical port: Brisbane, Darwin, Yantian...
-    lp, lt, lbest, ln_ = lane_ports(lanes_dir or os.path.join(os.path.dirname(os.path.normpath(pairs_dir)), "lanes"))
+    lp, lt, lbest, ln_, lper = lane_ports(lanes_dir or os.path.join(os.path.dirname(os.path.normpath(pairs_dir)), "lanes"))
     for pid, p in lp.items():
+        # a lane page that names a port lists it among the port's lanes, whichever table found the port first
+        for lane, kt in lper.get(pid, {}).items():
+            lanes_of[pid][lane] = max(kt, lanes_of[pid].get(lane, 0))
         if pid in ports:
             continue
         ports[pid] = p
         tonnes[pid] = lt[pid]
         n_pairs[pid] = ln_[pid]
         best_lane[pid] = lbest[pid]
+    assets = port_assets(infra_ports)
     rows = []
     for pid in sorted(ports, key=lambda k: (-sum(tonnes[k].values()), k)):
         top = sorted(tonnes[pid], key=lambda g: (-tonnes[pid][g], g))[:GROUPS_PER_PORT]
-        rows.append({**ports[pid], "n": n_pairs[pid], "g": top, "lane": best_lane[pid][1] if pid in best_lane else None})
+        row = {**ports[pid], "n": n_pairs[pid], "g": top, "lane": best_lane[pid][1] if pid in best_lane else None}
+        if lanes_of.get(pid):
+            row["lanes"] = sorted(lanes_of[pid], key=lambda k: (-lanes_of[pid][k], k))[:LANES_PER_PORT]
+        if pid in assets:
+            row["asset"] = assets[pid]
+        rows.append(row)
     doc = {
         "s": "atlas",
         "y": max(years) if len(years) == 1 else f"{min(years)}-{max(years)}",
         "n": "Ports of the lanes: the typical ports of the main routes of the recorded seaborne pairs (the pairs tables, CEPII BACI customs data) "
              "and the ports the lane pages name. `n` = pairs that use the port (for a port only the lane pages name: the lane pages "
              "that name it), `g` = customs groups it serves (largest first), `lane` = the largest pair that has a lane page "
-             "(for a port only the lane pages name: the largest lane that names it). Only the names and the links are used by the search field; no figure is published here.",
+             "(for a port only the lane pages name: the largest lane that names it), `lanes` = the largest lane pages that use it, "
+             "`asset` = the port asset of the infrastructure layer that is this place (its `locode`): the search opens the asset. "
+             "Only the names and the links are used by the site; no figure is published here.",
         "ports": rows,
     }
     with open(out, "w", encoding="utf-8") as fh:
         json.dump(doc, fh, separators=(",", ":"), ensure_ascii=False)
-    print(f"port index: {len(rows)} ports, {sum(1 for r in rows if r['lane'])} with a lane page, {os.path.getsize(out)} bytes")
+    print(f"port index: {len(rows)} ports, {sum(1 for r in rows if r['lane'])} with a lane page, "
+          f"{sum(1 for r in rows if r.get('asset'))} are assets, {os.path.getsize(out)} bytes")
     return doc
 
 

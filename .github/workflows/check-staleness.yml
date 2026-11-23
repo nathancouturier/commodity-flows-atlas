@@ -1,0 +1,91 @@
+# Weekly staleness check (Monday): a source can stop being updated without failing (a workflow disabled by GitHub,
+# a schedule that stopped, the same old file served again). pipeline/common/staleness.py compares the last successful
+# check and the last data date of each source with its cadence; one issue "Data stale: <source>" is opened per stale
+# source and closed when it is fresh again. It also opens one issue when GitHub disabled a workflow of this repository.
+# Reads the status file only, writes nothing to the repository, and never fails (no failure e-mail).
+name: Check data freshness
+
+on:
+  schedule:
+    - cron: "37 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  actions: read   # list the workflows, to see whether GitHub disabled one
+
+concurrency:
+  group: check-staleness
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          sparse-checkout: |
+            data/_status
+            pipeline/common
+      - name: Compare each source with its cadence
+        id: check
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 pipeline/common/staleness.py | tee "$RUNNER_TEMP/staleness.json"
+      - name: Open or close the "Data stale" issues
+        if: steps.check.outcome == 'success'
+        continue-on-error: true
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7.1.0
+        with:
+          script: |
+            const fs = require('fs');
+            try {
+              const res = JSON.parse(fs.readFileSync(`${process.env.RUNNER_TEMP}/staleness.json`, 'utf8'));
+              const label = 'data-update';
+              try {
+                await github.rest.issues.createLabel({ ...context.repo, name: label, color: 'd93f0b', description: 'Automatic data update problems' });
+              } catch (e) { /* exists already, or labels not allowed */ }
+              const open = await github.paginate(github.rest.issues.listForRepo, { ...context.repo, state: 'open', labels: label, per_page: 100 });
+              const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+              const upsert = async (title, body) => {
+                const existing = open.find((i) => i.title === title && !i.pull_request);
+                if (!existing) await github.rest.issues.create({ ...context.repo, title, body, labels: [label] });
+                else if (existing.body !== body) await github.rest.issues.update({ ...context.repo, issue_number: existing.number, body });
+              };
+              const close = async (title, comment) => {
+                const existing = open.find((i) => i.title === title && !i.pull_request);
+                if (!existing) return;
+                await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body: comment });
+                await github.rest.issues.update({ ...context.repo, issue_number: existing.number, state: 'closed', state_reason: 'completed' });
+              };
+              for (const [source, why] of Object.entries(res.stale || {})) {
+                await upsert(`Data stale: ${source}`, [
+                  `The data source \`${source}\` is stale: ${why}.`,
+                  '',
+                  'The site keeps serving the last good data and shows the source as late in its "Data freshness" table.',
+                  'Check that the update workflow of this source is enabled and ran (Actions tab), then see docs/UPDATING.md.',
+                  '',
+                  `- Latest check: ${runUrl}`,
+                  '',
+                  'This issue is updated every week and closes automatically when the source is fresh again.',
+                ].join('\n'));
+              }
+              for (const source of res.fresh || []) await close(`Data stale: ${source}`, `\`${source}\` is fresh again. Closing.`);
+              // GitHub disables the scheduled workflows of a public repository after 60 days without activity
+              const wfs = await github.paginate(github.rest.actions.listRepoWorkflows, { ...context.repo, per_page: 100 });
+              const off = wfs.filter((w) => w.state === 'disabled_inactivity').map((w) => w.name);
+              const title = 'Scheduled workflows disabled by GitHub';
+              if (off.length) {
+                await upsert(title, [
+                  `GitHub disabled these workflows after 60 days without activity in the repository: ${off.join(', ')}.`,
+                  '',
+                  'Enable each one again in the Actions tab (select the workflow, then "Enable workflow"). See docs/UPDATING.md.',
+                ].join('\n'));
+              } else {
+                await close(title, 'Every workflow is enabled again. Closing.');
+              }
+            } catch (e) {
+              core.warning(`Staleness issues skipped: ${e.message}`);
+            }

@@ -4,10 +4,36 @@
 "name": "Capesize",
 "segment": "dry",
 "size": {
-"min": 100000,
+"min": 85000,
 "max": 200000,
 "typical": 182000,
-"u": "dwt"
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Bulk_carrier",
+"y": 2026,
+"n": "Wikipedia (Bulk carrier, size categories, read in November 2026) puts Capesize at 80,000 dwt and over, and the very large ore and bulk carriers of over 200,000 dwt in a subset of their own. The Atlas starts the class at 85,000 dwt, where its Kamsarmax band ends, and ends it at 200,000 dwt, where its VLOC band starts; Newcastlemax is a port-defined class that sits inside this band and the next."
+},
+"std": {
+"dwt": 182000,
+"loa": 292,
+"beam": 45,
+"draught": 18.2,
+"cubic": 199500,
+"speed": {
+"laden": 14,
+"ballast": 14
+},
+"cons": {
+"laden": 52,
+"ballast": 44
+},
+"n": "Baltic Capesize vessel for the timecharter routes, non-scrubber fitted: 182,000 t dwt on 18.2 m summer salt-water draft, maximum age 10 years, 199,500 cbm grain. 14 knots on 52 t of marine fuel oil a day laden, 44 t in ballast; the page also gives 13, 12 and 11 knots (44, 36 and 29 t laden). Cubic capacity is the grain capacity.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"y": 2026
 },
 "cargoes": [
 "iron-ore",
@@ -23,6 +49,7 @@
 "suez": "Transits laden within SCA limits (max draft 20.1 m at beam up to 50 m)",
 "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "C3",
 "C5",
@@ -34,13 +61,19 @@
 "simandou-china-iron-ore",
 "queensland-india-met-coal",
 "pilbara-japan-korea-iron-ore",
+"C2",
+"C8_182",
+"C9_182",
+"C10_182",
+"C14_182",
+"C16_182",
 "gen-bauxite-e-australia-n-china",
 "gen-coal-e-australia-n-china",
 "gen-coal-e-australia-sea",
 "gen-coal-canada-west-r-east-asia"
 ],
 "notes": "Baltic standard vessel moved from 180,000 to 182,000 dwt (C5TC(182), effective 2 Jan 2026).",
-"s": "vessel-size-conventions",
+"s": "wikipedia-vessel-classes",
 "speedKn": 11.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -59,11 +92,13 @@
 "min": 185000,
 "max": 210000,
 "typical": 205000,
-"u": "dwt"
-},
-"dims": {
-"loa": 300,
-"beam": 50
+"typicalS": "atlas",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Bulk_carrier",
+"y": 2026,
+"n": "Wikipedia (Bulk carrier, read in November 2026) defines Newcastlemax by the port of Newcastle, Australia: at most 50 m beam and 300 m length overall, the largest ship able to enter the port at about 185,000 dwt. The upper end, 210,000 dwt, is an Atlas convention (no page read gives one). The class sits inside the Capesize and VLOC bands: it is defined by a port, not by a size step."
 },
 "cargoes": [
 "iron-ore",
@@ -78,12 +113,17 @@
 "suez": "Transits at the SCA beam limit (50 m beam allows 20.1 m draft); verify per vessel",
 "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "C5",
 "pilbara-japan-korea-iron-ore"
 ],
-"notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
-"s": "vessel-size-conventions",
+"bench": {
+"id": "capesize",
+"n": "Benchmarks: the Baltic Capesize routes, defined for a 182,000 dwt ship"
+},
+"notes": "No Baltic benchmark uses this class: the Baltic Capesize routes, C5 (West Australia to Qingdao) among them, are defined for the Baltic Capesize vessel of 182,000 dwt. The Pilbara routes are listed because the atlas's lane rules give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes. The typical size is an Atlas convention: no page read gives one.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 11.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -99,10 +139,27 @@
 "name": "VLOC (Valemax/Guaibamax)",
 "segment": "dry",
 "size": {
-"min": 230000,
+"min": 200000,
 "max": 400000,
 "typical": 400000,
-"u": "dwt"
+"typicalS": "wikipedia",
+"typicalUrl": "https://en.wikipedia.org/wiki/Valemax",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Bulk_carrier",
+"y": 2026,
+"n": "Wikipedia (Bulk carrier, read in November 2026): very large ore and bulk carriers are a subset of the Capesize category reserved for ships over 200,000 dwt. The upper end is the Valemax's 400,000 dwt (Wikipedia, Valemax: 380,000 to 400,000 dwt), which meets the Chinamax standard."
+},
+"std": {
+"dwt": 400000,
+"loa": 360,
+"beam": 65,
+"draught": 22,
+"n": "Not a Baltic standard vessel (the Baltic publishes none for this class): the Valemax ships as Wikipedia (Valemax, read in November 2026) describes them, 380,000 to 400,000 dwt (upper figure), 360 to 362 m long (lower figure), about 65 m wide, a loaded draught of 22 to 23 m (lower figure) and about 12 m in ballast. The page gives a speed of 15 knots without saying laden or in ballast, and no consumption.",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Valemax",
+"y": 2026
 },
 "cargoes": [
 "iron-ore"
@@ -115,11 +172,12 @@
 "suez": "Cannot transit Suez laden (beam/draft beyond the SCA wetted-area limit)",
 "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "brazil-china-vloc-iron-ore"
 ],
-"notes": "Chinamax/Valemax typically ~ 400,000 dwt; sizes are conventional.",
-"s": "vessel-size-conventions",
+"notes": "Chinamax/Valemax ships are of about 400,000 dwt (Wikipedia, Valemax and Chinamax).",
+"s": "wikipedia-vessel-classes",
 "speedKn": 11.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -135,10 +193,16 @@
 "name": "Panamax",
 "segment": "dry",
 "size": {
-"min": 60000,
+"min": 65000,
 "max": 80000,
 "typical": 75000,
-"u": "dwt"
+"typicalS": "atlas",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Panamax",
+"y": 2026,
+"n": "Wikipedia (Panamax, read in November 2026): a Panamax cargo ship would typically have 65,000 to 80,000 dwt. (Wikipedia, Bulk carrier, starts the category at 60,000 dwt; the Atlas uses the Panamax article's band so that it does not overlap Ultramax.) The typical size is an Atlas convention: the Baltic's Panamax vessel is an 82,500 dwt ship, filed under Kamsarmax."
 },
 "cargoes": [
 "thermal-coal",
@@ -156,6 +220,7 @@
 "suez": "Transits laden",
 "panama": "Fits Panamax locks (design size: LOA 289.56 m, beam 32.31 m, TFW draft 12.04 m)"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "newcastle-northeast-asia-coal",
 "vostochny-china-korea-coal",
@@ -171,8 +236,12 @@
 "P6_82",
 "gen-potash-canada-east-ecsa"
 ],
-"notes": "Baltic 'Panamax' benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) use an 82,000 dwt ship, which the atlas files under Kamsarmax by size; they are listed here too.",
-"s": "vessel-size-conventions",
+"bench": {
+"id": "kamsarmax",
+"n": "Benchmarks: the Baltic Panamax routes, defined for an 82,500 dwt ship of Kamsarmax size"
+},
+"notes": "The Baltic Panamax vessel of the benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m, which the atlas files under Kamsarmax by size; the routes are listed here too.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -190,11 +259,33 @@
 "size": {
 "min": 80000,
 "max": 85000,
-"typical": 82000,
-"u": "dwt"
+"typical": 82500,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "Wikipedia (Bulk carrier, read in November 2026) defines Kamsarmax by its 229 m length overall, the limit of the port of Kamsar, Guinea, not by deadweight. The band, 80,000 to 85,000 dwt, is an Atlas convention, from the upper end of Panamax (80,000 dwt, Wikipedia, Panamax) to the start of the Atlas's Capesize band."
 },
-"dims": {
-"loa": 229
+"std": {
+"dwt": 82500,
+"loa": 229,
+"beam": 32.25,
+"draught": 14.43,
+"cubic": 97000,
+"speed": {
+"laden": 13.5,
+"ballast": 14
+},
+"cons": {
+"laden": 33,
+"ballast": 31
+},
+"n": "Baltic Panamax vessel for the timecharter routes, non-scrubber fitted: 82,500 t dwt on 14.43 m summer salt-water draft, maximum age 12 years, 97,000 cbm grain. 13.5 knots laden on 33 t and 14 knots in ballast on 31 t of fuel oil (380 cSt) a day, plus 0.1 t of marine gas oil at sea; the page also gives 11.5 knots laden (22 t) and 12.5 knots in ballast (23 t). Cubic capacity is the grain capacity.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"y": 2026
 },
 "cargoes": [
 "thermal-coal",
@@ -210,11 +301,16 @@
 "suez": "Transits laden",
 "panama": "Beam fits Panamax locks (32.31 m) but laden draft typically exceeds the 12.04 m TFW limit; usually uses Neopanamax locks or goes via Suez/Cape"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "P1A_82",
 "P2A_82",
 "P3A_82",
 "P6_82",
+"P4_82",
+"P5_82",
+"P7",
+"P8",
 "gen-corn-ecsa-med",
 "gen-corn-us-gulf-caribbean",
 "gen-corn-ecsa-japan-korea",
@@ -244,8 +340,8 @@
 "gen-wheat-w-australia-r-east-asia",
 "gen-wheat-canada-west-r-east-asia"
 ],
-"notes": "Baltic P1A_82, P2A_82, P3A_82, P6_82 use an 82,000 dwt vessel.",
-"s": "vessel-size-conventions",
+"notes": "The Baltic's Panamax vessel (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m: a Kamsarmax by size.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -264,7 +360,14 @@
 "min": 40000,
 "max": 60000,
 "typical": 58000,
-"u": "dwt"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Handymax",
+"y": 2025,
+"n": "Wikipedia (Handymax, version of 2025 read in November 2026): Supramax ships are of 50,000 to 60,000 dwt and Handymax ships of 40,000 to 50,000 dwt. The Atlas has no Handymax class (no lane rule of its own would use one): this class covers both, from 40,000 dwt, so that no size is left uncovered above Handysize."
 },
 "cargoes": [
 "thermal-coal",
@@ -288,6 +391,7 @@
 "suez": "Transits laden",
 "panama": "Transits Panamax locks (beam ~32 m, draft up to 12.04 m TFW)"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "indonesia-china-coal",
 "indonesia-india-coal",
@@ -346,8 +450,12 @@
 "gen-wheat-black-sea-waf",
 "gen-wheat-black-sea-r-south-asia"
 ],
-"notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes. The range starts at 40,000 dwt so that no size is left uncovered above Handysize: it includes the Handymax ships of 40,000-50,000 dwt (Wikipedia, Handymax).",
-"s": "vessel-size-conventions",
+"bench": {
+"id": "ultramax",
+"n": "Benchmarks: the Baltic Supramax routes, defined for a 63,500 dwt ship of Ultramax size"
+},
+"notes": "The 58,000 dwt typical size is the former Baltic Standard Supramax (BSI58), which the Veson page still quotes for the S*_58 routes. The Baltic's Standard Supramax is now a 63,500 dwt ship, the size the atlas files under Ultramax.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -364,9 +472,34 @@
 "segment": "dry",
 "size": {
 "min": 60000,
-"max": 67000,
+"max": 65000,
 "typical": 63500,
-"u": "dwt"
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "No page read gives an Ultramax band. The band is an Atlas convention: from 60,000 dwt, where Supramax ends (Wikipedia, Handymax), to 65,000 dwt, where Panamax starts (Wikipedia, Panamax). The Baltic's Standard Supramax (63,500 dwt) falls in it."
+},
+"std": {
+"dwt": 63500,
+"loa": 199.98,
+"beam": 32.24,
+"draught": 13.418,
+"cubic": 80500,
+"speed": {
+"laden": 14,
+"ballast": 14
+},
+"cons": {
+"laden": 29,
+"ballast": 25
+},
+"n": "Baltic Supramax vessel for the timecharter routes (BSI 63), non-scrubber fitted: 63,500 t dwt on 13.418 m summer salt-water draft, maximum age 15 years, 80,500 cbm grain (76,200 cbm bale), four 30 t cranes with grabs, five holds. 14 knots on 29 t of marine fuel oil a day laden, 25 t in ballast; the page also gives 13, 12 and 11 knots (24, 20 and 16.5 t laden). Cubic capacity is the grain capacity.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"y": 2026
 },
 "cargoes": [
 "thermal-coal",
@@ -379,20 +512,28 @@
 "steel"
 ],
 "constraints": [
-"Geared, ~ 60-65 kdwt"
+"Geared: the Baltic standard Supramax has four 30 t cranes with grabs"
 ],
 "canals": {
 "suez": "Transits laden",
 "panama": "Transits Panamax locks (beam ~ 32 m, draft 12.04 m)"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "S1C_63",
 "S2_63",
 "S4A_63",
-"S10_63"
+"S10_63",
+"S1B_63",
+"S3_63",
+"S4B_63",
+"S5_63",
+"S8_63",
+"S9_63",
+"S15_63"
 ],
 "notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23). The Baltic calls this 63,500 dwt ship its Standard Supramax, so its S*_63 routes are listed under Supramax too.",
-"s": "vessel-size-conventions",
+"s": "baltic",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -408,10 +549,36 @@
 "name": "Handysize",
 "segment": "dry",
 "size": {
-"min": 15000,
+"min": 10000,
 "max": 40000,
-"typical": 38000,
-"u": "dwt"
+"typical": 38200,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Handymax",
+"y": 2025,
+"n": "Wikipedia (Handymax, version of 2025 read in November 2026): Handy ships are under 40,000 dwt. The lower end, 10,000 dwt, is the start of the Handysize category in Wikipedia (Bulk carrier, size categories). Wikipedia (Handysize) says there is no official definition in exact tonnages."
+},
+"std": {
+"dwt": 38200,
+"loa": 180,
+"beam": 29.8,
+"draught": 10.538,
+"cubic": 47125,
+"speed": {
+"laden": 14,
+"ballast": 14
+},
+"cons": {
+"laden": 26,
+"ballast": 24
+},
+"n": "Baltic Handysize 38 vessel for the timecharter routes, non-scrubber fitted, single-deck geared bulk carrier: 38,200 t dwt on 10.538 m summer salt-water draft, maximum age 15 years, 47,125 cbm grain (45,300 cbm bale), four 30 t cranes. 14 knots on 26 t of fuel oil (380 cSt) a day laden, 24 t in ballast, plus 0.1 t of marine diesel at sea; the page also gives 12 knots (18 t laden, 17 t ballast). Cubic capacity is the grain capacity.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+"y": 2026
 },
 "cargoes": [
 "steel",
@@ -431,6 +598,7 @@
 "suez": "Transits laden",
 "panama": "Transits Panamax locks"
 },
+"fleetType": "Bulk carriers",
 "routes": [
 "HS1_38",
 "HS2_38",
@@ -447,8 +615,8 @@
 "gen-rice-sea-waf",
 "gen-rice-wc-india-sea"
 ],
-"notes": "Baltic Handysize reference 38,000 dwt.",
-"s": "vessel-size-conventions",
+"notes": "Baltic Handysize reference ship: 38,200 dwt.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 11.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -467,7 +635,14 @@
 "min": 200000,
 "max": 320000,
 "typical": 300000,
-"u": "dwt"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Oil_tanker",
+"y": 2026,
+"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: VLCC 200,000 to 320,000 dwt. The typical size is the Baltic VLCC of the benchmark routes (VLCC300)."
 },
 "cargoes": [
 "crude-oil"
@@ -480,6 +655,7 @@
 "suez": "Cannot transit laden (ballast only or partially laden); cargo goes via SUMED or Cape",
 "panama": "Too wide for Panamax locks and laden draft exceeds the 15.24 m Neopanamax limit; does not transit laden"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TD3C",
 "TD34",
@@ -495,8 +671,8 @@
 "gen-crude-oil-meg-r-europe",
 "gen-crude-oil-us-gulf-r-east-asia"
 ],
-"notes": "Baltic TD3C/TD22 VLCC cargo 270kt.",
-"s": "vessel-size-conventions",
+"notes": "Baltic TD3C and TD22 VLCC cargo: 270,000 t (Veson page of Baltic definitions).",
+"s": "wikipedia-vessel-classes",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -515,22 +691,34 @@
 "min": 120000,
 "max": 200000,
 "typical": 160000,
-"u": "dwt"
+"typicalS": "wikipedia",
+"typicalUrl": "https://en.wikipedia.org/wiki/Suezmax",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Oil_tanker",
+"y": 2026,
+"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: Suezmax 120,000 to 200,000 dwt. Typical size: Wikipedia (Suezmax), about 160,000 dwt."
 },
-"dims": {
+"std": {
+"dwt": 160000,
 "beam": 48,
-"s": "wikipedia-vessel-classes"
+"n": "Not a Baltic standard vessel (the pages read give none): a typical Suezmax as Wikipedia (Suezmax, read in November 2026) describes it, about 160,000 dwt and about 48 m beam. The page gives no length or draught of a typical ship; its 20.1 m and 50 m are the canal's limits (see Canals).",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Suezmax",
+"y": 2026
 },
 "cargoes": [
 "crude-oil"
 ],
 "constraints": [
-"Maximum laden draft 20.1 m (66 ft), beam 50 m (164 ft)"
+"Suez Canal limit for a laden transit: 20.1 m draft at a beam of up to 50 m (a limit of the canal, not the size of a typical ship)"
 ],
 "canals": {
 "suez": "Transits laden at 20.1 m max draft (design size)",
 "panama": "Too wide for Panamax locks; Neopanamax locks since 2016 allow laden Suezmax up to 15.24 m draft (below typical full draft)"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TD6",
 "TD20",
@@ -539,10 +727,11 @@
 "russia-baltic-india-crude",
 "usgulf-med-crude",
 "guyana-europe-crude",
+"TD33",
 "gen-crude-oil-sea-e-china"
 ],
-"notes": "Typical beam from Wikipedia (Suezmax): about 48 m for a 160,000 dwt ship. The canal limits (20.1 m draft up to 50 m beam) are not dimensions of a typical ship and are given under Canals. Baltic TD20/TD27 cargo 130kt.",
-"s": "vessel-size-conventions",
+"notes": "Baltic TD20 and TD27 cargo: 130,000 t.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -561,7 +750,14 @@
 "min": 80000,
 "max": 120000,
 "typical": 105000,
-"u": "dwt"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Aframax",
+"y": 2026,
+"n": "Wikipedia (Aframax, read in November 2026): an oil tanker of 80,000 to 120,000 dwt. The typical size is the Baltic Aframax of the forward contracts (105,000 dwt)."
 },
 "cargoes": [
 "crude-oil",
@@ -574,6 +770,7 @@
 "suez": "Transits laden",
 "panama": "Neopanamax locks yes (full cargo); too wide for Panamax locks"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TD7",
 "TD8",
@@ -583,10 +780,13 @@
 "TD25",
 "TD26",
 "kozmino-china-espo",
+"TD14",
+"TD28",
+"TD29",
 "gen-crude-oil-nw-europe-r-europe"
 ],
-"notes": "Baltic TD7 reference 105kdwt (Veson FFA table).",
-"s": "vessel-size-conventions",
+"notes": "Baltic TD7 reference ship: 105,000 dwt (Veson page of Baltic definitions).",
+"s": "wikipedia-vessel-classes",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -605,7 +805,12 @@
 "min": 80000,
 "max": 120000,
 "typical": 110000,
-"u": "dwt"
+"typicalS": "atlas",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "An Atlas convention: the class takes the Aframax band (80,000 to 120,000 dwt, Wikipedia, Aframax) because it is the clean (products) trade of Aframax-size ships, so the two classes share one band. The AFRA scale (Wikipedia, Oil tanker) puts LR2 at 80,000 to 159,999 dwt. The typical size is an Atlas convention: no page read gives one."
 },
 "cargoes": [
 "refined-products"
@@ -618,6 +823,7 @@
 "suez": "Transits laden",
 "panama": "Neopanamax locks yes; too wide for Panamax locks"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TC1",
 "TC15",
@@ -626,8 +832,8 @@
 "middle-east-europe-diesel",
 "gen-refined-products-meg-r-east-asia"
 ],
-"notes": "Dwt range conventional; TC1 cargo 75kt, TC15 80kt.",
-"s": "vessel-size-conventions",
+"notes": "Baltic TC1 cargo: 75,000 t; TC15: 80,000 t.",
+"s": "veson-baltic-defs",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -646,7 +852,13 @@
 "min": 55000,
 "max": 80000,
 "typical": 75000,
-"u": "dwt"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "An Atlas convention: from 55,000 dwt, where the Atlas's MR band ends, to 80,000 dwt, where Aframax and LR2 start. The AFRA scale (Wikipedia, Oil tanker) puts LR1 at 45,000 to 79,999 dwt. The typical size is the Baltic LR1 of the forward contracts (75,000 dwt)."
 },
 "cargoes": [
 "refined-products"
@@ -658,14 +870,16 @@
 "suez": "Transits laden",
 "panama": "Fits Panamax locks (design size, beam ~32 m)"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TC5",
 "TC8",
 "TC16",
-"middle-east-japan-products"
+"middle-east-japan-products",
+"TD21"
 ],
-"notes": "Veson page: TC5 55kt cargo, LR1 75kdwt reference.",
-"s": "vessel-size-conventions",
+"notes": "Baltic TC5 cargo: 55,000 t, on the Baltic LR1 of 75,000 dwt (Veson page of Baltic definitions).",
+"s": "veson-baltic-defs",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -684,10 +898,18 @@
 "min": 40000,
 "max": 55000,
 "typical": 47000,
-"u": "dwt"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "An Atlas convention: from 40,000 dwt, where the Handy tanker band ends, to 55,000 dwt. The AFRA scale (Wikipedia, Oil tanker) puts Medium Range at 25,000 to 44,999 dwt; the Baltic's MR2 reference ship (47,000 dwt) falls above it, which is why the Atlas starts the class at 40,000 dwt. Other published scales cut the classes differently."
 },
 "cargoes": [
-"refined-products"
+"refined-products",
+"palm-oil",
+"soyoil"
 ],
 "constraints": [
 "Most flexible clean carrier; calls at most refinery jetties"
@@ -696,6 +918,7 @@
 "suez": "Transits laden",
 "panama": "Fits Panamax locks"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TC2_37",
 "TC7",
@@ -707,6 +930,8 @@
 "TC19",
 "TC21",
 "usgulf-latam-products",
+"TC11",
+"TC22",
 "gen-palm-oil-sea-n-china",
 "gen-palm-oil-sea-med",
 "gen-palm-oil-sea-sea",
@@ -722,8 +947,8 @@
 "gen-refined-products-black-sea-r-europe",
 "gen-refined-products-japan-korea-r-east-asia"
 ],
-"notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt. The range starts at 40,000 dwt, where Handy tanker ends, so the two bands do not overlap (an Atlas convention; other published scales cut the classes differently).",
-"s": "vessel-size-conventions",
+"notes": "Baltic MR2 reference ship: 47,000 dwt (Veson page of Baltic definitions); TC2_37 cargo 37,000 t, TC10 and TC11 40,000 t. The Atlas puts the class first on vegetable-oil lanes: the Baltic assesses vegetable-oil freight basis 40,000 t shipments on chemical tankers (Baltic Chemical and Agricultural Oil Assessments), a cargo the size of the MR2 benchmark cargoes.",
+"s": "veson-baltic-defs",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -742,11 +967,15 @@
 "min": 10000,
 "max": 40000,
 "typical": 37000,
-"u": "dwt"
+"typicalS": "atlas",
+"typicalY": 2026,
+"u": "dwt",
+"s": "atlas",
+"y": 2026,
+"n": "An Atlas convention: 10,000 to 40,000 dwt, where MR starts. The AFRA scale (Wikipedia, Oil tanker) cuts this range into General Purpose (10,000 to 24,999 dwt) and Medium Range (25,000 to 44,999 dwt). The typical size is an Atlas convention: no page read gives one; the Baltic's handy tanker routes carry 30,000 t cargoes."
 },
 "cargoes": [
-"refined-products",
-"palm-oil"
+"refined-products"
 ],
 "constraints": [
 "Small ports and coastal trades; often IMO II/III chemical-capable"
@@ -755,17 +984,64 @@
 "suez": "Transits laden",
 "panama": "Fits Panamax locks"
 },
+"fleetType": "Oil tankers",
 "routes": [
 "TC6",
 "TC9",
+"TD18",
+"TC23",
 "indo-malay-india-palm-oil"
 ],
-"notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt. Up to 40,000 dwt; MR starts there.",
-"s": "vessel-size-conventions",
+"notes": "Baltic TC6, TC9 and TD18 cargo: 30,000 t (Veson page of Baltic definitions). Up to 40,000 dwt; MR starts there.",
+"s": "veson-baltic-defs",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
 "v": 12.5,
+"u": "kn",
+"y": 2026,
+"s": "atlas",
+"n": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder"
+}
+},
+{
+"id": "chemical-tanker",
+"name": "Chemical tanker",
+"segment": "tanker",
+"size": {
+"min": 5000,
+"max": 35000,
+"typical": 20000,
+"typicalS": "atlas",
+"typicalY": 2026,
+"u": "dwt",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Chemical_tanker",
+"y": 2024,
+"n": "Wikipedia (Chemical tanker, version of 2024 read in November 2026): oceangoing chemical tankers range from 5,000 to 35,000 dwt. A chemical tanker is a type of ship (tanks built, coated and cleaned for the cargoes of the International Bulk Chemical Code), not a size step, so its band overlaps the Handy tanker band. The typical size is the middle of the band, an Atlas convention."
+},
+"cargoes": [
+"palm-oil",
+"soyoil"
+],
+"constraints": [
+"Coated or stainless-steel tanks cleaned between cargoes; besides chemicals it carries palm oil, vegetable oils, tallow, caustic soda and methanol (Wikipedia, Chemical tanker)",
+"The Baltic Exchange assesses vegetable-oil freight basis 40,000 t shipments on chemical tankers (Baltic Chemical and Agricultural Oil Assessments)"
+],
+"canals": {
+"suez": "No restriction applied by the Atlas rules (no sourced limit read)",
+"panama": "No restriction applied by the Atlas rules (no sourced limit read)"
+},
+"fleetType": null,
+"routes": [
+"indo-malay-india-palm-oil"
+],
+"notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil), after the MR: the Baltic assesses vegetable-oil freight on chemical tankers basis 40,000 t shipments, an MR-size cargo, and the smaller ships of this band carry the smaller parcels. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed).",
+"s": "wikipedia-vessel-classes",
+"speedKn": 12.0,
+"speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
+"speed": {
+"v": 12.0,
 "u": "kn",
 "y": 2026,
 "s": "atlas",
@@ -780,19 +1056,27 @@
 "min": 140000,
 "max": 266000,
 "typical": 174000,
-"u": "cbm"
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+"typicalY": 2026,
+"u": "cbm",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/LNG_carrier",
+"y": 2026,
+"n": "Wikipedia (LNG carrier, read in November 2026): LNG carriers have grown to the Q-Max of up to 266,000 cbm; the Q-Flex and Q-Max carry 210,000 to 266,000 cbm. The lower end, 140,000 cbm, is an Atlas convention for the conventional carriers (no page read gives it); small-scale carriers below 40,000 cbm (same page) are not an Atlas class. The typical size is the Baltic's LNG carrier of the BLNG routes (174,000 cbm)."
 },
 "cargoes": [
 "lng"
 ],
 "constraints": [
-"Conventional ~174,000 cbm (Baltic standard vessel); Q-Flex ~210-217k cbm, Q-Max ~266k cbm",
+"Conventional carrier of 174,000 cbm (the Baltic's BLNG routes); Q-Flex and Q-Max of 210,000 to 266,000 cbm (Wikipedia, LNG carrier), owned by Nakilat and chartered to Qatar's LNG producers (Wikipedia, Q-Flex and Q-Max)",
 "Terminal draft and berth restrictions at some US/European terminals"
 ],
 "canals": {
-"suez": "Conventional carriers and Q-Flex transit laden. Q-Max: Wikipedia (Q-Max) says only that the first one, Mozah, transited the canal in January 2009, before its first cargo trip; it does not say whether laden. Check the Suez Canal Authority limits",
-"panama": "Conventional 174k cbm fits Neopanamax locks; Q-Flex fits; Q-Max too wide"
+"suez": "Q-Max: Wikipedia (Q-Max) says the first Q-Max, Mozah, transited the canal for the first time days before it delivered its first cargo, 266,000 cbm, at Bilbao in January 2009, so a laden transit; its 53.8 m beam at about 12 m draft is inside the canal's wetted-area limit of 1,006 m2 (Wikipedia, Suezmax). Conventional carriers and Q-Flex: no restriction applied by the Atlas rules",
+"panama": "Conventional carriers use the Neopanamax locks (the Baltic's BLNG3 route, US Gulf to Japan, is defined via the Panama Canal); the Q-Max's 53.8 m beam (Wikipedia, Q-Max) is wider than the 51.25 m of the Neopanamax locks (Wikipedia, Panamax). No beam of a Q-Flex was read"
 },
+"fleetType": null,
 "routes": [
 "BLNG1",
 "BLNG2",
@@ -812,8 +1096,8 @@
 "gen-lng-w-australia-sea",
 "gen-lng-med-r-europe"
 ],
-"notes": "Ranges conventional: Q-Flex/Q-Max sizes from industry sources not independently verified here.",
-"s": "vessel-size-conventions",
+"notes": "The Atlas has no separate Q-Flex or Q-Max class: they are LNG carriers of the Qatari trades, and no lane rule would use them apart from the class as a whole.",
+"s": "wikipedia-vessel-classes",
 "speedKn": 17.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -829,10 +1113,17 @@
 "name": "VLGC",
 "segment": "gas",
 "size": {
-"min": 80000,
+"min": 70000,
 "max": 100000,
 "typical": 84000,
-"u": "cbm"
+"typicalS": "veson-baltic-defs",
+"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalY": 2026,
+"u": "cbm",
+"s": "wilhelmsen-lpg-sizes",
+"url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management",
+"y": 2026,
+"n": "Wilhelmsen (LPG vessel management, read in November 2026): very large gas carriers are LPG ships of 70,000 cbm and above. The upper end, 100,000 cbm, is an Atlas convention. Large gas carriers (50,000 to 70,000 cbm, same page) are not an Atlas class: no lane rule uses them, so the bands leave that step out. The typical size is the Baltic VLGC of the LPG routes (VLGC84, 84,000 cbm)."
 },
 "cargoes": [
 "lpg"
@@ -844,6 +1135,7 @@
 "suez": "Transits laden",
 "panama": "Neopanamax locks only; too wide for Panamax locks"
 },
+"fleetType": null,
 "routes": [
 "BLPG1",
 "BLPG2",
@@ -855,8 +1147,8 @@
 "gen-lpg-us-gulf-sea",
 "gen-lpg-us-gulf-waf"
 ],
-"notes": "Baltic VLGC TCE references an 84,000 cbm vessel (Veson page: 84kt); BLPG parcel 44kt.",
-"s": "vessel-size-conventions",
+"notes": "The Baltic LPG time-charter equivalents are based on a VLGC of 84,000 cbm (VLGC84); BLPG parcel 44,000 t (Veson page of Baltic definitions).",
+"s": "veson-baltic-defs",
 "speedKn": 15.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -876,7 +1168,12 @@
 "max": 50000,
 "typical": 37500,
 "typicalS": "atlas",
-"u": "cbm"
+"typicalY": 2026,
+"u": "cbm",
+"s": "wilhelmsen-lpg-sizes",
+"url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management",
+"y": 2026,
+"n": "Wilhelmsen (LPG vessel management, read in November 2026): mid-size, fully refrigerated LPG ships of 25,000 to 50,000 cbm, used on intra-regional routes and medium-haul cross-trades. The typical size is the middle of the band, an Atlas convention."
 },
 "cargoes": [
 "lpg"
@@ -888,6 +1185,7 @@
 "suez": "No restriction applied by the Atlas rules (no sourced limit read)",
 "panama": "No restriction applied by the Atlas rules (no sourced limit read)"
 },
+"fleetType": null,
 "routes": [
 "gen-lpg-nw-europe-nw-europe"
 ],
@@ -912,7 +1210,12 @@
 "max": 24000,
 "typical": 12000,
 "typicalS": "atlas",
-"u": "teu"
+"typicalY": 2026,
+"u": "teu",
+"s": "wikipedia",
+"url": "https://en.wikipedia.org/wiki/Container_ship",
+"y": 2026,
+"n": "Wikipedia (Container ship, read in November 2026): size categories from small feeders of up to 1,000 TEU to ultra-large ships of 14,501 TEU and more, and a capacity of up to 24,000 TEU in the infobox. The typical size is the middle of the band, an Atlas convention that describes no single lane."
 },
 "cargoes": [
 "copper",
@@ -928,6 +1231,7 @@
 "suez": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)",
 "panama": "No restriction applied by the Atlas rules (no sourced limit read for the class as a whole)"
 },
+"fleetType": "Container ships",
 "routes": [
 "gen-cocoa-waf-nw-europe",
 "gen-coffee-ecsa-nw-europe",

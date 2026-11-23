@@ -1,0 +1,283 @@
+Year,ShipType,ShipType Label,Number of ships,Dead weight tons in thousands,Average age of vessels (years)
+1980,0,Total fleet,,672192.465,
+1980,1,Oil tankers,,337945.534,
+1980,2,Bulk carriers,,181880.282,
+1980,3,General cargo,,112840.897,
+1980,4,Container ships,,10290.114,
+1980,5,Other types of ships,,29235.638,
+1981,0,Total fleet,,679754.771,
+1981,1,Oil tankers,,338666.313,
+1981,2,Bulk carriers,,184501.243,
+1981,3,General cargo,,114832.851,
+1981,4,Container ships,,11060.523,
+1981,5,Other types of ships,,30693.841,
+1982,0,Total fleet,,686055.109,
+1982,1,Oil tankers,,334264.012,
+1982,2,Bulk carriers,,193217.208,
+1982,3,General cargo,,113293.837,
+1982,4,Container ships,,12108.264,
+1982,5,Other types of ships,,33171.788,
+1983,0,Total fleet,,690098.1,
+1983,1,Oil tankers,,323673.145,
+1983,2,Bulk carriers,,204630.713,
+1983,3,General cargo,,113269.092,
+1983,4,Container ships,,12809.767,
+1983,5,Other types of ships,,35715.383,
+1984,0,Total fleet,,681565.051,
+1984,1,Oil tankers,,304492.495,
+1984,2,Bulk carriers,,212915.21,
+1984,3,General cargo,,111863.049,
+1984,4,Container ships,,14088.79,
+1984,5,Other types of ships,,38205.507,
+1985,0,Total fleet,,668145.098,
+1985,1,Oil tankers,,284950.819,
+1985,2,Bulk carriers,,218518.136,
+1985,3,General cargo,,108308.363,
+1985,4,Container ships,,17266.77,
+1985,5,Other types of ships,,39101.01,
+1986,0,Total fleet,,654332.365,
+1986,1,Oil tankers,,258937.36,
+1986,2,Bulk carriers,,227550.78,
+1986,3,General cargo,,103920.992,
+1986,4,Container ships,,18732.552,
+1986,5,Other types of ships,,45190.681,
+1987,0,Total fleet,,632237.783,
+1987,1,Oil tankers,,238144.528,
+1987,2,Bulk carriers,,226967.377,
+1987,3,General cargo,,100221.979,
+1987,4,Container ships,,20180.653,
+1987,5,Other types of ships,,46723.246,
+1988,0,Total fleet,,625045.766,
+1988,1,Oil tankers,,234908.375,
+1988,2,Bulk carriers,,223659.13,
+1988,3,General cargo,,97110.251,
+1988,4,Container ships,,21489.531,
+1988,5,Other types of ships,,47878.48,
+1989,0,Total fleet,,620734.24,
+1989,1,Oil tankers,,233608.542,
+1989,2,Bulk carriers,,222432.047,
+1989,3,General cargo,,93795.681,
+1989,4,Container ships,,22295.221,
+1989,5,Other types of ships,,48602.749,
+1990,0,Total fleet,,629976,
+1990,1,Oil tankers,,235785,
+1990,2,Bulk carriers,,223619,
+1990,3,General cargo,,100457,
+1990,4,Container ships,,22346,
+1990,5,Other types of ships,,47770,
+1991,0,Total fleet,,651282,
+1991,1,Oil tankers,,244818,
+1991,2,Bulk carriers,,230028,
+1991,3,General cargo,,102109,
+1991,4,Container ships,,23611,
+1991,5,Other types of ships,,50716,
+1992,0,Total fleet,,674421.074,
+1992,1,Oil tankers,,255657.238,
+1992,2,Bulk carriers,,236143.08,
+1992,3,General cargo,,102931.705,
+1992,4,Container ships,,27251.89,
+1992,5,Other types of ships,,52437.161,
+1993,0,Total fleet,,683639.046,
+1993,1,Oil tankers,,261081.516,
+1993,2,Bulk carriers,,234696.615,
+1993,3,General cargo,,104193.343,
+1993,4,Container ships,,29844.257,
+1993,5,Other types of ships,,53823.315,
+1994,0,Total fleet,,699744.505,
+1994,1,Oil tankers,,269289.312,
+1994,2,Bulk carriers,,236843.255,
+1994,3,General cargo,,106185.603,
+1994,4,Container ships,,32045.907,
+1994,5,Other types of ships,,55380.428,
+1995,0,Total fleet,,719216.174,
+1995,1,Oil tankers,,270942.439,
+1995,2,Bulk carriers,,250142.436,
+1995,3,General cargo,,103502.83,
+1995,4,Container ships,,38923.35,
+1995,5,Other types of ships,,55705.119,
+1996,0,Total fleet,,731870.459,
+1996,1,Oil tankers,,266708.185,
+1996,2,Bulk carriers,,261168.634,
+1996,3,General cargo,,103052.431,
+1996,4,Container ships,,43805.665,
+1996,5,Other types of ships,,57135.544,
+1997,0,Total fleet,,755297.943,
+1997,1,Oil tankers,,270899.061,
+1997,2,Bulk carriers,,271702.29,
+1997,3,General cargo,,103556.122,
+1997,4,Container ships,,48732.522,
+1997,5,Other types of ships,,60407.948,
+1998,0,Total fleet,,772801.179,
+1998,1,Oil tankers,,271633.253,
+1998,2,Bulk carriers,,280055.18,
+1998,3,General cargo,,102563.26,
+1998,4,Container ships,,56076.257,
+1998,5,Other types of ships,,62473.229,
+1999,0,Total fleet,,785331.072,
+1999,1,Oil tankers,,280276.91,
+1999,2,Bulk carriers,,274689.582,
+1999,3,General cargo,,101757.05,
+1999,4,Container ships,,61154.933,
+1999,5,Other types of ships,,67452.597,
+2000,0,Total fleet,,793770.794,
+2000,1,Oil tankers,,283065.653,
+2000,2,Bulk carriers,,274445.412,
+2000,3,General cargo,,101519.612,
+2000,4,Container ships,,63580.494,
+2000,5,Other types of ships,,71159.623,
+2001,0,Total fleet,,802771.487,
+2001,1,Oil tankers,,284864.321,
+2001,2,Bulk carriers,,280323.408,
+2001,3,General cargo,,99895.172,
+2001,4,Container ships,,69124.018,
+2001,5,Other types of ships,,68564.568,
+2002,0,Total fleet,,822011.449,
+2002,1,Oil tankers,,286001.44,
+2002,2,Bulk carriers,,294779.972,
+2002,3,General cargo,,95693.187,
+2002,4,Container ships,,77328.677,
+2002,5,Other types of ships,,68208.183,
+2003,0,Total fleet,,841734.985,
+2003,1,Oil tankers,,308683.1,
+2003,2,Bulk carriers,,296140.235,
+2003,3,General cargo,,96457.007,
+2003,4,Container ships,,83281.35,
+2003,5,Other types of ships,,57173.283,
+2004,0,Total fleet,,863667.45,
+2004,1,Oil tankers,,320657.846,
+2004,2,Bulk carriers,,308935.209,
+2004,3,General cargo,,94330.978,
+2004,4,Container ships,,91621.149,
+2004,5,Other types of ships,,48122.278,
+2005,0,Total fleet,,907474.288,
+2005,1,Oil tankers,,340748.411,
+2005,2,Bulk carriers,,325665.804,
+2005,3,General cargo,,91827.046,
+2005,4,Container ships,,100226.403,
+2005,5,Other types of ships,,49006.644,
+2006,0,Total fleet,,965006.238,
+2006,1,Oil tankers,,356109.224,
+2006,2,Bulk carriers,,349720.569,
+2006,3,General cargo,,96391.92,
+2006,4,Container ships,,112702.16,
+2006,5,Other types of ships,,52248.601,
+2007,0,Total fleet,,1042327.622,
+2007,1,Oil tankers,,382975.034,
+2007,2,Bulk carriers,,367542.469,
+2007,3,General cargo,,100934.23,
+2007,4,Container ships,,128321.475,
+2007,5,Other types of ships,,62554.414,
+2008,0,Total fleet,,1117778.582,
+2008,1,Oil tankers,,407880.862,
+2008,2,Bulk carriers,,391126.986,
+2008,3,General cargo,,105491.688,
+2008,4,Container ships,,144654.719,
+2008,5,Other types of ships,,68624.309,
+2009,0,Total fleet,,1192317.222,
+2009,1,Oil tankers,,418266.449,
+2009,2,Bulk carriers,,418356.026,
+2009,3,General cargo,,108880.834,
+2009,4,Container ships,,161918.957,
+2009,5,Other types of ships,,84894.956,
+2010,0,Total fleet,,1276137.155,
+2010,1,Oil tankers,,450052.685,
+2010,2,Bulk carriers,,456623.242,
+2010,3,General cargo,,108231.551,
+2010,4,Container ships,,169157.522,
+2010,5,Other types of ships,,92072.155,
+2011,0,Total fleet,83282,1418377.291,20.396
+2011,1,Oil tankers,10609,440110.81,16.418
+2011,2,Bulk carriers,8228,547191.632,13.327
+2011,3,General cargo,21090,82413.995,24.388
+2011,4,Container ships,4966,183691.408,10.336
+2011,5,Other types of ships,38389,164969.443,22.118
+2012,0,Total fleet,84709,1537483.115,19.932
+2012,1,Oil tankers,8838,454528.747,17.567
+2012,2,Bulk carriers,9001,624021.922,11.515
+2012,3,General cargo,20309,79717.306,23.633
+2012,4,Container ships,5096,196820.992,10.713
+2012,5,Other types of ships,41465,182394.142,21.582
+2013,0,Total fleet,86667,1634029.078,19.682
+2013,1,Oil tankers,9100,473928.388,17.611
+2013,2,Bulk carriers,9688,689743.16,9.755
+2013,3,General cargo,20421,79443.593,23.671
+2013,4,Container ships,5079,206322.135,10.62
+2013,5,Other types of ships,42379,184591.8,21.56
+2014,0,Total fleet,87949,1694518.365,19.646
+2014,1,Oil tankers,9239,481846.411,17.634
+2014,2,Bulk carriers,10162,730295.568,9.134
+2014,3,General cargo,19664,76428.913,23.448
+2014,4,Container ships,5101,216199.135,10.689
+2014,5,Other types of ships,43783,189748.342,21.847
+2015,0,Total fleet,90470,1753091.199,19.737
+2015,1,Oil tankers,9695,491058.343,17.914
+2015,2,Bulk carriers,10509,762322.448,9.019
+2015,3,General cargo,19566,76011.109,23.733
+2015,4,Container ships,5111,228229.988,10.772
+2015,5,Other types of ships,45589,195469.314,21.886
+2016,0,Total fleet,92095,1811213.822,20.094
+2016,1,Oil tankers,9884,505954.949,18.355
+2016,2,Bulk carriers,10729,779289.319,8.805
+2016,3,General cargo,19613,76480.381,24.435
+2016,4,Container ships,5226,244338.846,11.104
+2016,5,Other types of ships,46643,205150.338,22.243
+2017,0,Total fleet,93518,1868251.319,20.154
+2017,1,Oil tankers,10187,535031.289,18.505
+2017,2,Bulk carriers,10895,795585.722,8.764
+2017,3,General cargo,19044,75521.708,25.034
+2017,4,Container ships,5150,245683.478,11.5
+2017,5,Other types of ships,48242,216429.121,22.071
+2018,0,Total fleet,95650,1937776.814,20.35
+2018,1,Oil tankers,10852,563188.284,18.434
+2018,2,Bulk carriers,11384,822905.785,9.043
+2018,3,General cargo,19079,75701.56,25.555
+2018,4,Container ships,5198,253632.593,11.847
+2018,5,Other types of ships,49137,222348.584,22.269
+2019,0,Total fleet,97133,1989923.936,20.658
+2019,1,Oil tankers,10996,568037.37,18.643
+2019,2,Bulk carriers,11623,846461.296,9.69
+2019,3,General cargo,19287,76424.796,25.735
+2019,4,Container ships,5305,266129.351,12.278
+2019,5,Other types of ships,49922,232871.12,22.585
+2020,0,Total fleet,100148,2073310.611,20.878
+2020,1,Oil tankers,11354,601672.2,18.805
+2020,2,Bulk carriers,11987,879826.009,10.169
+2020,3,General cargo,19887,77929.495,25.822
+2020,4,Container ships,5384,275040.953,12.69
+2020,5,Other types of ships,51536,238841.941,22.773
+2021,0,Total fleet,102172,2138844.306,21.31
+2021,1,Oil tankers,11540,619308.597,19.284
+2021,2,Bulk carriers,12379,913975.695,10.553
+2021,3,General cargo,20066,78698.468,26.194
+2021,4,Container ships,5495,282255.84,13.153
+2021,5,Other types of ships,52692,244605.692,23.273
+2022,0,Total fleet,104827,2206295.252,21.536
+2022,1,Oil tankers,12133,631138.806,19.223
+2022,2,Bulk carriers,12783,947424.971,11.069
+2022,3,General cargo,20332,80487.357,26.594
+2022,4,Container ships,5673,294290.654,13.681
+2022,5,Other types of ships,53906,252953.462,23.456
+2023,0,Total fleet,107744,2283273.017,21.829
+2023,1,Oil tankers,12359,652925.535,19.631
+2023,2,Bulk carriers,13316,976438.962,11.538
+2023,3,General cargo,20778,84443.642,26.935
+2023,4,Container ships,6077,307661.387,14.004
+2023,5,Other types of ships,55214,261803.493,23.744
+2024,0,Total fleet,110094,2363140.776,21.732
+2024,1,Oil tankers,12559,665044.242,19.948
+2024,2,Bulk carriers,13792,1006857.021,11.932
+2024,3,General cargo,21244,87825.468,26.572
+2024,4,Container ships,6370,331798.282,13.924
+2024,5,Other types of ships,56129,271615.766,23.592
+2025,0,Total fleet,112782,2443569.336,22.053
+2025,1,Oil tankers,12687,669999.373,20.632
+2025,2,Bulk carriers,14211,1036614.116,12.429
+2025,3,General cargo,21409,89412.576,27.104
+2025,4,Container ships,6789,364116.429,13.765
+2025,5,Other types of ships,57686,283426.842,23.838
+2026,0,Total fleet,115649,2528787.569,22.369
+2026,1,Oil tankers,12931,683403.818,21.077
+2026,2,Bulk carriers,14630,1067305.758,12.879
+2026,3,General cargo,21661,91806.967,27.588
+2026,4,Container ships,7044,388530.831,14.191
+2026,5,Other types of ships,59383,297740.196,24.057

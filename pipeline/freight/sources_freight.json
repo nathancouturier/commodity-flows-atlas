@@ -32,14 +32,6 @@
   "update": "irregular"
  },
  {
-  "id": "vessel-size-conventions",
-  "name": "Conventional vessel class size ranges (industry convention, Baltic reference vessels, Wikipedia bulk carrier)",
-  "publisher": "Various",
-  "url": "https://en.wikipedia.org/wiki/Bulk_carrier",
-  "licence": "Public web page, facts cited (CC BY-SA for Wikipedia)",
-  "update": "irregular"
- },
- {
   "id": "simandou-news",
   "name": "First commercial shipment from Simandou departs for China",
   "publisher": "GMK Center / Caixin / Argus (press)",
@@ -49,7 +41,7 @@
  },
  {
   "id": "wikipedia-vessel-classes",
-  "name": "Wikipedia ship-size and strait articles (Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
+  "name": "Wikipedia ship-size and strait articles (Bulk carrier, Capesize, Valemax, Chinamax, Panamax, Handymax, Handysize, Oil tanker, Suezmax, Aframax, Chemical tanker, LNG carrier, Q-Max, Q-Flex, Malaccamax, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
   "publisher": "Wikipedia contributors",
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",
@@ -74,5 +66,15 @@
   "update": "monthly, with final annual files",
   "access": "Annual workbook impa24d.xlsx (2024 imports by month, port of entry and country of origin), read by hand",
   "use": "US ports of entry for crude oil and petroleum products, 2024"
+ },
+ {
+  "id": "unctadstat-fleet",
+  "name": "UNCTADstat: Merchant fleet by flag of registration and by type of ship (world rows)",
+  "publisher": "UN Trade and Development (UNCTAD), UNCTADstat Data Hub",
+  "url": "https://unctadstat.unctad.org/datacentre/dataviewer/US.MerchantFleet",
+  "licence": "CC BY 3.0 IGO; UNCTADstat terms of use: data may be copied and further distributed provided that United Nations Trade and Development Data Hub is cited as the source",
+  "update": "annual",
+  "access": "Bulk download (7z archive of one CSV), by hand with pipeline/freight/fleet.py; world rows kept in pipeline/cache/unctad_fleet_world.csv",
+  "use": "World fleet (ships, deadweight, average age) of the ship type of each vessel class"
  }
 ]

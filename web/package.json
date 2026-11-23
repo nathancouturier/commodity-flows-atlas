@@ -6,7 +6,10 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test scripts/*.test.mjs",
+    "validate": "node scripts/validate-data.mjs",
+    "check-size": "node scripts/check-size.mjs"
   },
   "license": "MIT",
   "dependencies": {

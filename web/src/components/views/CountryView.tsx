@@ -4,13 +4,14 @@
  */
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
-import { loadProfile, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
+import { loadProfile, loadOptional, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
 import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
 import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, laneEst, laneMt, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select, year } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource, CONV_TITLE } from '../ui';
+import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, AlertBanners, EstMark, ModeBadge, TrendLine, shortSource, CONV_TITLE } from '../ui';
+import { CompanyRows, companiesOf, type CompanyMap } from '../Companies';
 import { passagesText } from '../LaneTable';
 import { EventList } from '../EventList';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
@@ -226,7 +227,7 @@ function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows:
                     {r.kind === 'transit' && <span class="mode-via"> via {via ?? 'a foreign port'}</span>}{' '}
                     {[
                       props.twoGroups ? (GROUP_LABEL[r.group] ?? r.group) : null,
-                      r.cls ? vesselName(r.cls) : null,
+                      r.cls ? `${vesselName(r.cls)} (typical)` : null,
                       r.nm ? `${r.nm.toLocaleString('en-US')} nm` : r.kind === 'sea' || r.kind === 'transit' ? 'no route modelled' : null,
                       passages || null,
                     ]
@@ -294,10 +295,13 @@ function CountryInfra({ ids }: { ids: string[] }) {
   );
 }
 
-/** Companies headquartered in the country, each with every commodity it is listed for. */
-function CompaniesBlock({ list }: { list: Company[] }) {
+/** Companies headquartered in the country, each with every commodity it is listed for (from the companies file; the profile's copy while it loads). */
+function CompaniesBlock({ iso, profile }: { iso: string; profile: Company[] }) {
+  const map = useLoaded<CompanyMap>(() => loadOptional<CompanyMap>('commodities/companies.json'), []);
   const [all, setAll] = useState(false);
+  const list = map ? companiesOf(map, iso) : profile;
   const shown = all ? list : list.slice(0, FIRST_ROWS);
+  if (!list.length) return null;
   return (
     <FoldSection title="Companies headquartered here" aside={<span class="muted num">{list.length}</span>}>
       <CompanyRows list={shown} showK />
@@ -456,7 +460,7 @@ export default function CountryView({ id }: { id: string }) {
             )}
             {p.infra && p.infra.length > 0 && <CountryInfra ids={p.infra} />}
             <OperatorsBlock key={`operators-${id}`} p={p} />
-            {p.companies && p.companies.length > 0 && <CompaniesBlock key={`companies-${id}`} list={p.companies} />}
+            <CompaniesBlock key={`companies-${id}`} iso={id} profile={p.companies ?? []} />
             <CountryLanes id={id} p={p} />
           </>
         )}

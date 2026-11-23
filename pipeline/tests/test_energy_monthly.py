@@ -614,6 +614,7 @@ class MonthlyStepDoesNotStopTheBuild(unittest.TestCase):
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz")), "BACI cache is not on this machine")
+@unittest.skipUnless(HAS_EIA, "raw/eia/INTL.txt is not on this machine")  # the production side is read from the EIA file
 class KuwaitFall(unittest.TestCase):
     """GE1.11: Kuwait's customs crude exports fall to about half their level of the three years before in 2024 while its production in the EIA
     file does not: a registry entry worded as a hypothesis, on the row and (once the lanes are rebuilt) on the lanes of the origin."""

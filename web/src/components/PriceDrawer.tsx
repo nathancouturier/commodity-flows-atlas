@@ -267,9 +267,10 @@ export function PriceDrawer() {
     if (!merged) return [];
     const u0 = data[0].meta.unit;
     const second = data.find((d) => d.meta.unit !== u0)?.meta.unit;
-    const bases = baseKey ? baseKey.split(',').map((k, i) => (Number(k) >= 0 ? data[i].v[Number(k)]! : null)) : null;
+    // a deviation from a trend or an average (two freight indicators) crosses zero: it has no base to index on and is not drawn indexed
+    const bases = baseKey ? baseKey.split(',').map((k, i) => (Number(k) >= 0 && !/deviation/i.test(data[i].meta.unit) ? data[i].v[Number(k)]! : null)) : null;
     return data.map((d, i) => ({
-      label: bases ? `${d.meta.name} (index)` : d.meta.name,
+      label: bases ? `${d.meta.name} (${bases[i] == null && /deviation/i.test(d.meta.unit) ? 'not indexed: a deviation has no base' : 'index'})` : d.meta.name,
       values: bases ? merged.cols[i].map((v) => (v == null || bases[i] == null ? null : (v / bases[i]!) * 100)) : merged.cols[i],
       color: colors[i],
       scale: bases || d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
@@ -1071,7 +1072,7 @@ function withYoy(d: LoadedSeries, row: Row, p: ParsedDate): Row {
     const enough = d.meta.freq !== 'D' || st == null || st.n >= { month: 15, quarter: 44, year: 176, day: 1 }[q.precision];
     prev = st && enough ? st.avg : null;
   }
-  if (prev == null || !(prev > 0) || row.num < 0) return row;
+  if (prev == null || !(prev > 0) || row.num < 0 || /deviation/i.test(d.meta.unit)) return row;
   // a monthly series answers a day with its month: the reference is the same month a year before
   const label = isAnnualSeries(d.meta) ? String(new Date(q.t * 1000).getUTCFullYear()) : p.precision === 'day' && d.meta.freq === 'M' ? fmtObsDate(q.t, 'M') : lookupLabel(q);
   return { ...row, change: `${fmtPct((row.num / prev - 1) * 100)} on ${label}` };
@@ -1095,7 +1096,8 @@ function windowStats(fs: LoadedSeries, win: Win) {
   if (first < 0) return null;
   const f = fs.meta.freq;
   const d = (i: number) => fmtObsDate(fs.x[i], f);
-  const change = fs.v[first]! !== 0 ? (fs.v[last]! / fs.v[first]! - 1) * 100 : null;
+  // a deviation from a trend or an average has no change in percent (it crosses zero)
+  const change = fs.v[first]! !== 0 && !/deviation/i.test(fs.meta.unit) ? (fs.v[last]! / fs.v[first]! - 1) * 100 : null;
   return {
     last: { v: fs.v[last]!, d: d(last) },
     first: { d: d(first) },

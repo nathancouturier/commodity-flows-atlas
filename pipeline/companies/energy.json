@@ -5,61 +5,354 @@
     "name": "Saudi Aramco",
     "hq": "SAU",
     "role": "producer",
-    "detail": "State-controlled; world's largest crude exporter",
+    "own": "state-listed",
+    "detail": "Majority state-owned national oil company of Saudi Arabia; listed on the Saudi Exchange",
     "fig": {
-     "v": 12.7,
-     "u": "Mboe/d hydrocarbon production",
-     "y": 2024,
-     "s": "wikipedia"
+     "v": 10678,
+     "u": "kb/d",
+     "what": "liquids production (crude oil, condensate, NGL)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-fy-2025-results-press-release-english.pdf",
+     "n": "Total liquids production 10,678 mbpd in 2025: crude oil, NGL and condensate. Total hydrocarbon production 12,891 mboed."
     },
-    "s": "wikipedia",
-    "y": 2024,
-    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
-   },
-   {
-    "name": "Rosneft",
-    "hq": "RUS",
-    "role": "producer",
-    "detail": "Russia's largest producer; sanctioned by US",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Rosneft"
+    "s": "company-reports",
+    "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-fy-2025-results-press-release-english.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "ExxonMobil",
     "hq": "USA",
     "role": "producer",
-    "detail": "Largest US-listed major; Permian and Guyana",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+    "own": "listed",
+    "detail": "US major; production in the Americas, Africa, Asia and Australia",
+    "fig": {
+     "v": 3329,
+     "u": "kb/d",
+     "what": "liquids production (crude, NGL, bitumen, synthetic oil)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+     "n": "Net production of crude oil, natural gas liquids, bitumen and synthetic oil, 3,329 kbd in 2025 (Attachment III)."
+    },
+    "s": "company-reports",
+    "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
-    "name": "QatarEnergy",
-    "hq": "QAT",
+    "name": "PetroChina",
+    "hq": "CHN",
     "role": "producer",
-    "detail": "State-owned; oil and gas in Qatar",
+    "own": "state-listed",
+    "parent": "China National Petroleum Corporation (82.62%)",
+    "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC), Beijing",
+    "fig": {
+     "v": 2597,
+     "u": "kb/d",
+     "what": "crude oil production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+     "n": "Crude oil output 948.0 million barrels in 2025 (domestic 780.3, overseas 167.7); divided by 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Petrobras",
+    "hq": "BRA",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "Majority state-owned Brazilian oil company; pre-salt fields 82% of its output in 2025",
+    "fig": {
+     "v": 2400,
+     "u": "kb/d",
+     "what": "oil production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://agencia.petrobras.com.br/en/w/petrobras-supera-metas-de-produ%C3%A7%C3%A3o-de-2025",
+     "n": "Oil production 2.40 million barrels per day in 2025; total oil and gas 2.99 million boed."
+    },
+    "s": "company-reports",
+    "url": "https://agencia.petrobras.com.br/en/w/petrobras-supera-metas-de-produ%C3%A7%C3%A3o-de-2025",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "French integrated energy company",
+    "fig": {
+     "v": 1533,
+     "u": "kb/d",
+     "what": "liquids production (crude oil, condensate, NGL)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+     "n": "Liquids 1,533 kb/d in 2025 (of which oil including bitumen 1,378 kb/d)."
+    },
+    "s": "company-reports",
+    "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "British major; Upstream and Integrated Gas segments",
+    "fig": {
+     "v": 1493,
+     "u": "kb/d",
+     "what": "liquids production (crude oil, condensate, NGL)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+     "n": "Liquids production available for sale in 2025: Upstream 1,365 and Integrated Gas 128 thousand b/d (Annual Report 2025)."
+    },
+    "s": "company-reports",
+    "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "BP",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "British major",
+    "fig": {
+     "v": 1199,
+     "u": "kb/d",
+     "what": "liquids production (crude oil, condensate, NGL)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+     "n": "Liquids in 2025: oil production & operations 1,114 mb/d and gas & low carbon energy 85 mb/d (fourth quarter 2025 results)."
+    },
+    "s": "company-reports",
+    "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Eni",
+    "hq": "ITA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Italian integrated energy company",
+    "fig": {
+     "v": 840,
+     "u": "kb/d",
+     "what": "liquids production (crude oil, condensate, NGL)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.eni.com/content/dam/enicom/documents/press-release/migrated/2026-en/02/PR-2025-fourth-quarter-results.pdf",
+     "n": "Liquids 840 kbbl/d in 2025 (890 kbbl/d in the fourth quarter)."
+    },
+    "s": "company-reports",
+    "url": "https://www.eni.com/content/dam/enicom/documents/press-release/migrated/2026-en/02/PR-2025-fourth-quarter-results.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Rosneft",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "Rosneftegaz (state-owned)",
+    "detail": "Russian integrated oil company; parent is state-owned Rosneftegaz",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2025-10",
+      "url": "https://home.treasury.gov/news/press-releases/sb0290"
+     },
+     {
+      "by": "UK",
+      "since": "2025-10",
+      "url": "https://www.gov.uk/government/news/huge-blow-for-putins-war-machine-as-uk-sanctions-russian-oil"
+     }
+    ],
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+    "url": "https://en.wikipedia.org/wiki/Rosneft",
+    "read": "2026-11"
+   },
+   {
+    "name": "Lukoil",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian oil company, Moscow; in November 2025 the US Treasury said it would block the sale of its international assets to Gunvor (now Centalion)",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2025-10",
+      "url": "https://home.treasury.gov/news/press-releases/sb0290"
+     },
+     {
+      "by": "UK",
+      "since": "2025-10",
+      "url": "https://www.gov.uk/government/news/huge-blow-for-putins-war-machine-as-uk-sanctions-russian-oil"
+     }
+    ],
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lukoil",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Gazprom Neft",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "Gazprom (95.68%)",
+    "detail": "Russian oil producer and refiner, formerly Sibneft; subsidiary of Gazprom",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2025-01",
+      "url": "https://home.treasury.gov/news/press-releases/jy2777"
+     },
+     {
+      "by": "UK",
+      "since": "2025-01",
+      "url": "https://www.gov.uk/government/news/huge-blow-for-putins-war-machine-as-uk-sanctions-russian-oil"
+     }
+    ],
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Gazprom_Neft",
+    "read": "2026-11"
+   },
+   {
+    "name": "Surgutneftegas",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian oil and gas company, Surgut (Western Siberia)",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2025-01",
+      "url": "https://home.treasury.gov/news/press-releases/jy2777"
+     },
+     {
+      "by": "UK",
+      "since": "2025-01",
+      "url": "https://www.gov.uk/government/news/huge-blow-for-putins-war-machine-as-uk-sanctions-russian-oil"
+     }
+    ],
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Surgutneftegas",
+    "read": "2026-11"
    },
    {
     "name": "ADNOC",
     "hq": "ARE",
     "role": "producer",
-    "detail": "Abu Dhabi state oil company",
+    "own": "state",
+    "detail": "State-owned oil company of Abu Dhabi; crude oil production capacity 4.85 million barrels per day in 2024",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Abu_Dhabi_National_Oil_Company"
+    "url": "https://en.wikipedia.org/wiki/Abu_Dhabi_National_Oil_Company",
+    "y": 2024,
+    "read": "2026-11"
+   },
+   {
+    "name": "Kuwait Petroleum Corporation",
+    "hq": "KWT",
+    "role": "producer",
+    "own": "state",
+    "parent": "State of Kuwait (100%)",
+    "detail": "Kuwait's national state-owned oil company, Kuwait City",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Kuwait_Petroleum_Corporation",
+    "read": "2026-11"
+   },
+   {
+    "name": "NIOC",
+    "hq": "IRN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Iranian government (100%)",
+    "detail": "Government-owned national oil and gas company of Iran, under the Ministry of Petroleum",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2020-10",
+      "url": "https://home.treasury.gov/news/press-releases/sm1165"
+     }
+    ],
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/National_Iranian_Oil_Company",
+    "read": "2026-11"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "own": "state",
+    "parent": "Government of Qatar",
+    "detail": "State-owned petroleum and gas company of Qatar",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy",
+    "read": "2026-11"
    },
    {
     "name": "NNPC",
     "hq": "NGA",
     "role": "producer",
-    "detail": "Nigerian state oil company",
+    "own": "state",
+    "detail": "State-owned oil company of Nigeria (a limited liability company since July 2022)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Nigerian_National_Petroleum_Company"
+    "url": "https://en.wikipedia.org/wiki/NNPC",
+    "read": "2026-11"
+   },
+   {
+    "name": "Chevron",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US major, Houston",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Chevron_Corporation",
+    "read": "2026-11"
+   },
+   {
+    "name": "ConocoPhillips",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US exploration and production company, Houston",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/ConocoPhillips",
+    "read": "2026-11"
+   },
+   {
+    "name": "CNOOC",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "detail": "Chinese state-owned offshore oil and gas company",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/CNOOC",
+    "read": "2026-11"
+   },
+   {
+    "name": "Pemex",
+    "hq": "MEX",
+    "role": "producer",
+    "own": "state",
+    "detail": "Mexican state-owned oil company",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pemex",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -67,95 +360,298 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "detail": "World's largest independent oil trader; Geneva and Rotterdam",
-    "s": "wikipedia",
-    "y": 2021,
-    "url": "https://en.wikipedia.org/wiki/Vitol"
+    "own": "private",
+    "detail": "Independent energy trader founded in Rotterdam in 1966, Geneva; delivered 8 million barrels per day of crude oil and products in 2025",
+    "fig": {
+     "v": 190,
+     "u": "Mt",
+     "what": "crude oil physically delivered",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+     "n": "190 mMT of crude oil in the physically delivered volumes of 2025 (ESG report 2025)."
+    },
+    "s": "company-reports",
+    "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Oil and metals trader; Singapore HQ",
-    "s": "wikipedia",
-    "y": 2016,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "own": "private",
+    "detail": "Commodity trader, Singapore; oil and petroleum products traded 318.2 Mt in the year to September 2025",
+    "fig": {
+     "v": 177.8,
+     "u": "Mt",
+     "what": "crude oil traded",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+     "n": "Financial year to 30 September 2025 (Annual Report 2025, oil and petroleum products volumes traded)."
+    },
+    "s": "company-reports",
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Marketing arm trades oil alongside coal and metals",
+    "own": "listed",
+    "detail": "Marketing arm trades oil alongside metals and coal",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
    },
    {
-    "name": "Gunvor",
+    "name": "Centalion",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Major independent crude and products trader",
+    "own": "private",
+    "detail": "Energy trader formerly named Gunvor Group, main trading office in Geneva; withdrew its bid for Lukoil's international assets in November 2025 after the US Treasury said it would block it",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Gunvor"
+    "url": "https://en.wikipedia.org/wiki/Gunvor",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Mercuria",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Major independent energy and commodities trader",
+    "own": "private",
+    "detail": "Independent energy and commodities trader, Geneva",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "SOMO",
+    "hq": "IRQ",
+    "role": "trader",
+    "own": "state",
+    "detail": "State Oil Marketing Organisation: Iraqi state-owned company that markets Iraq's oil, Baghdad",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/State_Oil_Marketing_Organisation",
+    "read": "2026-11"
+   },
+   {
+    "name": "Freepoint Commodities",
+    "hq": "USA",
+    "role": "trader",
+    "own": "private",
+    "detail": "Commodities trading company, Stamford (Connecticut)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Freepoint_Commodities",
+    "read": "2026-11"
+   },
+   {
+    "name": "Castleton Commodities International",
+    "hq": "USA",
+    "role": "trader",
+    "own": "private",
+    "detail": "Privately held commodities trader (United States)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Castleton_Commodities_International",
+    "read": "2026-11"
    }
   ]
  },
  "refined-products": {
   "processors": [
    {
-    "name": "Sinopec",
-    "hq": "CHN",
-    "role": "refiner",
-    "detail": "Asia's largest refiner by throughput",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Sinopec"
-   },
-   {
-    "name": "Reliance Industries",
-    "hq": "IND",
-    "role": "refiner",
-    "detail": "Jamnagar export refinery complex",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Reliance_Industries"
-   },
-   {
-    "name": "Saudi Aramco",
-    "hq": "SAU",
-    "role": "refiner",
-    "detail": "Large domestic and overseas refining JV portfolio",
-    "s": "wikipedia",
-    "y": 2015,
-    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco"
-   },
-   {
     "name": "ExxonMobil",
     "hq": "USA",
     "role": "refiner",
-    "detail": "Large integrated refiner (Baytown, Singapore, Antwerp)",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+    "own": "listed",
+    "detail": "Refineries in the United States, Canada, Europe and Asia Pacific",
+    "fig": {
+     "v": 3979,
+     "u": "kb/d",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+     "n": "Refinery throughput 3,979 kbd worldwide in 2025 (Attachment IV)."
+    },
+    "s": "company-reports",
+    "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "PetroChina",
+    "hq": "CHN",
+    "role": "refiner",
+    "own": "state-listed",
+    "parent": "China National Petroleum Corporation (82.62%)",
+    "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC)",
+    "fig": {
+     "v": 3770,
+     "u": "kb/d",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+     "n": "Processed crude oil 1,375.9 million barrels in 2025; divided by 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "French integrated energy company",
+    "fig": {
+     "v": 1526,
+     "u": "kb/d",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+     "n": "Total refinery throughput 1,526 kb/d in 2025."
+    },
+    "s": "company-reports",
+    "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "BP",
+    "hq": "GBR",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "Refineries in the United States and Europe",
+    "fig": {
+     "v": 1440,
+     "u": "kb/d",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+     "n": "Total refinery throughputs 1,440 mb/d in 2025 (US 635, Europe 805)."
+    },
+    "s": "company-reports",
+    "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Shell",
     "hq": "GBR",
     "role": "refiner",
-    "detail": "Integrated major; Pernis (Netherlands) and other refineries; sold its Singapore Bukom refinery in April 2025",
+    "own": "listed",
+    "detail": "British integrated major",
+    "fig": {
+     "v": 1217,
+     "u": "kb/d",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+     "n": "Refinery processing intake 1,217 thousand b/d in 2025 (Annual Report 2025)."
+    },
+    "s": "company-reports",
+    "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Sinopec",
+    "hq": "CHN",
+    "role": "refiner",
+    "own": "state-listed",
+    "detail": "Chinese state-controlled refiner and petrochemical group",
+    "fig": {
+     "v": 250.33,
+     "u": "Mt",
+     "what": "refinery throughput",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200047.pdf",
+     "n": "Refinery throughput 250.33 million tonnes in 2025 (summary of operations of the refining segment)."
+    },
+    "s": "company-reports",
+    "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200047.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "refiner",
+    "own": "state-listed",
+    "detail": "Oil refining among its businesses",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco",
+    "read": "2026-11"
+   },
+   {
+    "name": "Reliance Industries",
+    "hq": "IND",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "Indian conglomerate, Mumbai; energy and petrochemicals among its businesses",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Reliance_Industries",
+    "read": "2026-11"
+   },
+   {
+    "name": "Marathon Petroleum",
+    "hq": "USA",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "US refiner, marketer and transporter, Findlay (Ohio); spun off from Marathon Oil in 2011",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Marathon_Petroleum",
+    "read": "2026-11"
+   },
+   {
+    "name": "Valero Energy",
+    "hq": "USA",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "US fuels producer, San Antonio (Texas)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Valero_Energy",
+    "read": "2026-11"
+   },
+   {
+    "name": "Phillips 66",
+    "hq": "USA",
+    "role": "refiner",
+    "own": "listed",
+    "detail": "US energy company, Houston",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Phillips_66",
+    "read": "2026-11"
+   },
+   {
+    "name": "Indian Oil Corporation",
+    "hq": "IND",
+    "role": "refiner",
+    "own": "state-listed",
+    "detail": "Indian public-sector oil company under the Ministry of Petroleum and Natural Gas",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Indian_Oil_Corporation",
+    "read": "2026-11"
+   },
+   {
+    "name": "SK Innovation",
+    "hq": "KOR",
+    "role": "refiner",
+    "own": "listed",
+    "parent": "SK Inc.",
+    "detail": "South Korean holding of SK Group's refining (SK Energy) and petrochemical businesses",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/SK_Innovation",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -163,93 +659,163 @@
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Largest independent products trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Vitol"
+    "own": "private",
+    "detail": "Delivered about 60 Mt of gasoil, 55 Mt of gasoline, 30 Mt of fuel oil, 20 Mt of naphtha and 15 Mt of jet fuel in 2025 (ESG report)",
+    "s": "company-reports",
+    "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Large products and gasoil trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "own": "private",
+    "detail": "Traded 49.2 Mt of middle distillates, 31.9 Mt of fuel oil, 26.2 Mt of gasoline and 16.5 Mt of naphtha in the year to September 2025",
+    "s": "company-reports",
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
-    "name": "Gunvor",
+    "name": "Centalion",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Products and crude trader",
+    "own": "private",
+    "detail": "Energy trader formerly named Gunvor Group; trades African, Asian and South American oil products",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Gunvor"
+    "url": "https://en.wikipedia.org/wiki/Gunvor",
+    "read": "2026-11"
    },
    {
     "name": "Mercuria",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Products, LPG and crude trader",
+    "own": "private",
+    "detail": "Independent energy and commodities trader, Geneva",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group"
+    "url": "https://en.wikipedia.org/wiki/Mercuria_Energy_Group",
+    "read": "2026-11"
    }
   ]
  },
  "lng": {
   "producers": [
    {
-    "name": "QatarEnergy",
-    "hq": "QAT",
-    "role": "liquefaction operator",
-    "detail": "Largest LNG exporter; Ras Laffan. Wikipedia reports 2026 Iran-war strikes and force majeure",
-    "fig": {
-     "v": 77,
-     "u": "Mtpa LNG capacity, targeted to rise to 110 Mtpa",
-     "y": 2026,
-     "s": "wikipedia",
-     "n": "North Field East expansion"
-    },
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
-   },
-   {
     "name": "Shell",
     "hq": "GBR",
     "role": "liquefaction operator",
-    "detail": "Largest portfolio LNG seller; Prelude, Nigeria LNG, QCLNG",
+    "own": "listed",
+    "detail": "LNG liquefaction volumes fell in 2025 mainly because of ownership restructuring in Trinidad and Tobago; LNG Canada ramping up",
+    "fig": {
+     "v": 28.4,
+     "u": "Mt",
+     "what": "LNG liquefaction volumes",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+     "n": "LNG liquefaction volumes 28.4 million tonnes in 2025 (29.1 in 2024)."
+    },
+    "s": "company-reports",
+    "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "liquefaction operator",
+    "own": "state",
+    "parent": "Government of Qatar",
+    "detail": "Ras Laffan; declared force majeure on 4 March 2026 after attacks during the 2026 Iran war halted LNG production",
     "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+    "read": "2026-11"
    },
    {
     "name": "Cheniere Energy",
     "hq": "USA",
     "role": "liquefaction operator",
-    "detail": "Largest US LNG exporter; Sabine Pass, Corpus Christi",
+    "own": "listed",
+    "detail": "Sabine Pass and Corpus Christi (United States); exported 670 cargoes in 2025",
+    "s": "company-reports",
+    "url": "https://lngir.cheniere.com/_assets/_75dc2c9a1fb706f14e67cee93b0e9e5a/cheniere/news/2026-02-26_Cheniere_Reports_Fourth_Quarter_and_Full_Year_333.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Venture Global",
+    "hq": "USA",
+    "role": "liquefaction operator",
+    "own": "listed",
+    "detail": "Calcasieu Pass and Plaquemines (Louisiana), Arlington (Virginia); exported 380 cargoes in 2025",
+    "s": "company-reports",
+    "url": "https://ventureglobal.com/2026/03/02/venture-global-reports-fourth-quarter-and-full-year-2025-results/",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Novatek",
+    "hq": "RUS",
+    "role": "liquefaction operator",
+    "own": "listed",
+    "detail": "Russian gas producer; Yamal LNG (51% since 2009) and Arctic LNG 2",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Cheniere_Energy"
+    "url": "https://en.wikipedia.org/wiki/Novatek",
+    "read": "2026-11"
    },
    {
     "name": "Gazprom",
     "hq": "RUS",
     "role": "liquefaction operator",
-    "detail": "Sakhalin-2 stake; sanctions-affected",
+    "own": "state-listed",
+    "detail": "Russian state-owned gas company; Sakhalin-2 (Sakhalin Energy)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Gazprom"
+    "url": "https://en.wikipedia.org/wiki/Gazprom",
+    "read": "2026-11"
    },
    {
     "name": "TotalEnergies",
     "hq": "FRA",
     "role": "liquefaction operator",
-    "detail": "Large LNG portfolio",
+    "own": "listed",
+    "detail": "Integrated LNG segment",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+    "url": "https://en.wikipedia.org/wiki/TotalEnergies",
+    "read": "2026-11"
+   },
+   {
+    "name": "Woodside Energy",
+    "hq": "AUS",
+    "role": "liquefaction operator",
+    "own": "listed",
+    "detail": "Australian oil and gas producer, Perth (formerly Woodside Petroleum); North West Shelf and Pluto LNG",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Woodside_Energy",
+    "read": "2026-11"
+   },
+   {
+    "name": "Petronas",
+    "hq": "MYS",
+    "role": "liquefaction operator",
+    "own": "state",
+    "parent": "Government of Malaysia",
+    "detail": "Malaysian state oil and gas company, Kuala Lumpur; Malaysia LNG",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Petronas",
+    "read": "2026-11"
+   },
+   {
+    "name": "Sonatrach",
+    "hq": "DZA",
+    "role": "liquefaction operator",
+    "own": "state",
+    "parent": "Algerian government",
+    "detail": "Algerian state oil and gas company; LNG among its products",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Sonatrach",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -257,108 +823,456 @@
     "name": "Shell",
     "hq": "GBR",
     "role": "trader",
-    "detail": "Top LNG portfolio trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Shell_plc"
+    "own": "listed",
+    "detail": "LNG sales rose in 2025 mainly through higher third-party purchases after the Pavilion Energy acquisition",
+    "fig": {
+     "v": 72.9,
+     "u": "Mt",
+     "what": "LNG sold",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+     "n": "LNG sales volumes 72.9 million tonnes in 2025 (65.8 in 2024)."
+    },
+    "s": "company-reports",
+    "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "TotalEnergies",
     "hq": "FRA",
     "role": "trader",
-    "detail": "Major LNG portfolio trader",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/TotalEnergies"
+    "own": "listed",
+    "detail": "Integrated LNG: sales from equity production and third-party purchases",
+    "fig": {
+     "v": 43.9,
+     "u": "Mt",
+     "what": "LNG sold",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+     "n": "Overall LNG sales 43.9 Mt in 2025 (39.8 Mt in 2024)."
+    },
+    "s": "company-reports",
+    "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Vitol",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Growing LNG trading",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Vitol"
+    "own": "private",
+    "detail": "LNG trading alongside pipeline gas",
+    "fig": {
+     "v": 23,
+     "u": "Mt",
+     "what": "LNG sold",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.vitol.com/vitol-2025-volumes-and-review/",
+     "n": "LNG volumes grew to 23 million metric tons in 2025 (2024: 18)."
+    },
+    "s": "company-reports",
+    "url": "https://www.vitol.com/vitol-2025-volumes-and-review/",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Growing LNG trading",
+    "own": "private",
+    "detail": "Gas, power and LNG trading",
+    "fig": {
+     "v": 12.7,
+     "u": "Mt",
+     "what": "LNG sold",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+     "n": "Total volume of LNG traded 12.7 mmt in the financial year to 30 September 2025."
+    },
+    "s": "company-reports",
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Centalion",
+    "hq": "CHE",
+    "role": "trader",
+    "own": "private",
+    "detail": "Energy trader formerly named Gunvor Group; gas and LNG were 44% of its traded volumes in 2021",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Gunvor",
+    "y": 2021,
+    "read": "2026-11"
    }
   ]
  },
  "natural-gas": {
   "producers": [
    {
-    "name": "Gazprom",
-    "hq": "RUS",
+    "name": "PetroChina",
+    "hq": "CHN",
     "role": "producer",
-    "detail": "Russian state gas monopoly; pipeline exporter",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Gazprom"
+    "own": "state-listed",
+    "parent": "China National Petroleum Corporation (82.62%)",
+    "detail": "Listed arm of state-owned China National Petroleum Corporation (CNPC)",
+    "fig": {
+     "v": 151.9,
+     "u": "bcm",
+     "what": "marketable natural gas production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+     "n": "Stated as 5,363.2 billion cubic feet in 2025; converted at 0.0283168 cubic metres per cubic foot."
+    },
+    "s": "company-reports",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0329/2026032900005.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "Gas production includes ethane",
+    "fig": {
+     "v": 117.5,
+     "u": "bcm",
+     "what": "natural gas production (incl. ethane)",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-fy-2025-results-press-release-english.pdf",
+     "n": "Stated as total gas production of 11,365 mmscfd in 2025 (natural gas and ethane); converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www.aramco.com/-/media/publications/corporate-reports/reports-and-presentations/2025/fy/saudi-aramco-fy-2025-results-press-release-english.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "ExxonMobil",
     "hq": "USA",
     "role": "producer",
-    "detail": "Major US and global gas producer",
+    "own": "listed",
+    "detail": "Gas in the United States, Asia and Australia/Oceania",
+    "fig": {
+     "v": 87.3,
+     "u": "bcm",
+     "what": "natural gas production available for sale",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+     "n": "Stated as 8,442 million cubic feet per day in 2025; converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://investor.exxonmobil.com/company-information/press-releases/detail/1200/exxonmobil-announces-2025-results",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Novatek",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian gas producer, including its share in joint ventures",
+    "fig": {
+     "v": 84.57,
+     "u": "bcm",
+     "what": "natural gas production, including share of joint ventures",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.novatek.ru/common/upload/doc/Novatek_AR25_eng.pdf",
+     "n": "84.57 bcm in 2025 (Annual Report 2025)."
+    },
+    "s": "company-reports",
+    "url": "https://www.novatek.ru/common/upload/doc/Novatek_AR25_eng.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Shell",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Upstream and Integrated Gas segments",
+    "fig": {
+     "v": 75.8,
+     "u": "bcm",
+     "what": "natural gas production available for sale",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+     "n": "Stated as Integrated Gas 4,654 plus Upstream 2,684 million scf/d in 2025; converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www.shell.com/investors/results-and-reporting/annual-report/_jcr_content/root/main/section_2113846431/link_list/links/item0.stream/1774544186011/5727c329a58b5eb7a54442c0a03f562a5aef1159/shell-annual-report-2025-interactive.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "BP",
+    "hq": "GBR",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Gas & low carbon energy and oil production & operations segments",
+    "fig": {
+     "v": 66.7,
+     "u": "bcm",
+     "what": "natural gas production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+     "n": "Stated as gas & low carbon energy 4,059 plus oil production & operations 2,391 mmcf/d in 2025; converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www.bp.com/api/files/6cqieuqhq4no/master/5sKIER14BbMWHkIyxKh70R/f740ab40cc0d4689454ee1c5cf850a58/bp-fourth-quarter-2025-results.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "TotalEnergies",
+    "hq": "FRA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "French integrated energy company",
+    "fig": {
+     "v": 55.8,
+     "u": "bcm",
+     "what": "natural gas production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+     "n": "Stated as 5,402 Mcf/d (million cubic feet per day) in 2025; converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://totalenergies.com/system/files/documents/totalenergies_pr-results-q4-2025_2026_en.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Eni",
+    "hq": "ITA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Italian integrated energy company",
+    "fig": {
+     "v": 48.0,
+     "u": "bcm",
+     "what": "natural gas production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.eni.com/content/dam/enicom/documents/press-release/migrated/2026-en/02/PR-2025-fourth-quarter-results.pdf",
+     "n": "Stated as 4,644 mmcf/d in 2025; converted at 0.0283168 cubic metres per cubic foot and 365 days."
+    },
+    "s": "company-reports",
+    "url": "https://www.eni.com/content/dam/enicom/documents/press-release/migrated/2026-en/02/PR-2025-fourth-quarter-results.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Sinopec",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "Chinese state-controlled oil and gas group",
+    "fig": {
+     "v": 41.2,
+     "u": "bcm",
+     "what": "natural gas production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200047.pdf",
+     "n": "Stated as 1,456.63 billion cubic feet in 2025; converted at 0.0283168 cubic metres per cubic foot."
+    },
+    "s": "company-reports",
+    "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0322/2026032200047.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Gazprom",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "Russian state-owned gas company, Saint Petersburg; pipeline exporter (Power of Siberia, TurkStream)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/ExxonMobil"
+    "url": "https://en.wikipedia.org/wiki/Gazprom",
+    "read": "2026-11"
    },
    {
     "name": "QatarEnergy",
     "hq": "QAT",
     "role": "producer",
-    "detail": "North Field",
+    "own": "state",
+    "parent": "Government of Qatar",
+    "detail": "North Field; force majeure declared on 4 March 2026 during the 2026 Iran war",
     "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/QatarEnergy"
+    "read": "2026-11"
    },
    {
     "name": "NIOC",
     "hq": "IRN",
     "role": "producer",
+    "own": "state",
+    "parent": "Iranian government (100%)",
     "detail": "South Pars",
+    "sanction": [
+     {
+      "by": "OFAC",
+      "since": "2020-10",
+      "url": "https://home.treasury.gov/news/press-releases/sm1165"
+     }
+    ],
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/National_Iranian_Oil_Company"
+    "url": "https://en.wikipedia.org/wiki/National_Iranian_Oil_Company",
+    "read": "2026-11"
    },
    {
     "name": "Equinor",
     "hq": "NOR",
     "role": "producer",
-    "detail": "Main pipeline gas supplier to Europe",
+    "own": "state-listed",
+    "detail": "Norwegian state-controlled energy company",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Equinor"
+    "url": "https://en.wikipedia.org/wiki/Equinor",
+    "read": "2026-11"
+   },
+   {
+    "name": "Türkmengaz",
+    "hq": "TKM",
+    "role": "producer",
+    "own": "state",
+    "detail": "National gas company of Turkmenistan, established in 1996",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Türkmengaz",
+    "read": "2026-11"
+   },
+   {
+    "name": "Expand Energy",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US natural gas producer, known as Chesapeake Energy until 2024",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Expand_Energy",
+    "read": "2026-11"
+   },
+   {
+    "name": "EQT",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US natural gas producer, Pittsburgh (Pennsylvania)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/EQT_Corporation",
+    "read": "2026-11"
+   },
+   {
+    "name": "Sonatrach",
+    "hq": "DZA",
+    "role": "producer",
+    "own": "state",
+    "parent": "Algerian government",
+    "detail": "Algerian state oil and gas company; pipelines from Hassi R'Mel and Hassi Messaoud",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Sonatrach",
+    "read": "2026-11"
    }
   ]
  },
  "lpg": {
-  "traders": [
+  "producers": [
    {
-    "name": "Vitol",
-    "hq": "CHE",
-    "role": "trader",
-    "detail": "LPG trading",
+    "name": "Saudi Aramco",
+    "hq": "SAU",
+    "role": "producer",
+    "own": "state-listed",
+    "detail": "NGL production counted in its total liquids",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Vitol"
+    "url": "https://en.wikipedia.org/wiki/Saudi_Aramco",
+    "read": "2026-11"
    },
+   {
+    "name": "Enterprise Products Partners",
+    "hq": "USA",
+    "role": "exporter",
+    "own": "listed",
+    "detail": "US midstream company, Houston; NGL pipelines and export terminals",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Enterprise_Products",
+    "read": "2026-11"
+   },
+   {
+    "name": "Targa Resources",
+    "hq": "USA",
+    "role": "exporter",
+    "own": "listed",
+    "detail": "US midstream company, Houston",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Targa_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "QatarEnergy",
+    "hq": "QAT",
+    "role": "producer",
+    "own": "state",
+    "parent": "Government of Qatar",
+    "detail": "LPG from Ras Laffan; production halted under the force majeure of March 2026",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/QatarEnergy",
+    "y": 2026,
+    "read": "2026-11"
+   }
+  ],
+  "traders": [
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
+    "own": "private",
     "detail": "LPG trading",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "fig": {
+     "v": 11.0,
+     "u": "Mt",
+     "what": "LPG traded",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+     "n": "Liquid petroleum gas (LPG) 11.0 mmt in the financial year to 30 September 2025."
+    },
+    "s": "company-reports",
+    "url": "https://www.trafigura.com/media/2yhj4e4c/2025_trafigura_annual_report.pdf",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "own": "private",
+    "detail": "LPG trading and distribution",
+    "fig": {
+     "v": 10,
+     "u": "Mt",
+     "what": "LPG physically delivered",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+     "n": "About 10 mMT of LPG in the physically delivered volumes of 2025 (the report says ~10mMT)."
+    },
+    "s": "company-reports",
+    "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+    "y": 2025,
+    "read": "2026-11"
    }
   ]
  },
@@ -368,46 +1282,154 @@
     "name": "Coal India",
     "hq": "IND",
     "role": "producer",
-    "detail": "State-owned; Majority of India's coal output",
-    "s": "wikipedia",
-    "y": 2017,
-    "url": "https://en.wikipedia.org/wiki/Coal_India"
+    "own": "state-listed",
+    "detail": "Indian state-owned coal miner, Kolkata, under the Ministry of Coal",
+    "fig": {
+     "v": 768.19,
+     "u": "Mt",
+     "what": "coal production, all grades",
+     "y": 2026,
+     "s": "company-reports",
+     "url": "https://www.coalindia.in/about-us/",
+     "n": "Financial year April 2025 to March 2026: 768.19 million tonnes; off-take 744.8 million tonnes."
+    },
+    "s": "company-reports",
+    "url": "https://www.coalindia.in/about-us/",
+    "y": 2026,
+    "read": "2026-11"
+   },
+   {
+    "name": "China Shenhua Energy",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "Shenhua Group (73.06%)",
+    "detail": "State-owned coal miner, subsidiary of Shenhua Group",
+    "fig": {
+     "v": 332.1,
+     "u": "Mt",
+     "what": "commercial coal production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033003774.pdf",
+     "n": "Output of commercial coal 332.1 million tonnes in 2025 (sales 431 million tonnes including purchased coal)."
+    },
+    "s": "company-reports",
+    "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033003774.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "Largest seaborne thermal coal supplier; Australia, Colombia, South Africa",
+    "own": "listed",
+    "detail": "Mines in Australia and Colombia (Cerrejón)",
+    "fig": {
+     "v": 98.0,
+     "u": "Mt",
+     "what": "energy coal production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Energy coal 98.0 Mt in 2025, down 2% mainly through voluntary Cerrejón cuts."
+    },
+    "s": "company-reports",
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "y": 2025,
+    "read": "2026-11"
+   },
+   {
+    "name": "CHN Energy",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "detail": "Chinese state-owned mining and energy company (SASAC)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/CHN_Energy_Investment_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "China Coal Energy",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state-listed",
+    "parent": "China National Coal Group (58.36%)",
+    "detail": "Coal miner listed in Hong Kong and Shanghai",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/China_Coal_Energy",
+    "read": "2026-11"
    },
    {
     "name": "Peabody Energy",
     "hq": "USA",
     "role": "producer",
-    "detail": "Largest private-sector coal producer",
+    "own": "listed",
+    "detail": "US coal miner, St. Louis; mines in the United States and Australia",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy",
+    "read": "2026-11"
    },
    {
-    "name": "Adaro (AlamTri)",
+    "name": "AlamTri Resources",
     "hq": "IDN",
     "role": "producer",
-    "detail": "Major Indonesian exporter",
+    "own": "listed",
+    "detail": "Indonesian coal miner, formerly Adaro Energy",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Adaro_Energy"
+    "url": "https://en.wikipedia.org/wiki/AlamTri_Resources",
+    "read": "2026-11"
    },
    {
     "name": "Bumi Resources",
     "hq": "IDN",
     "role": "producer",
-    "detail": "Indonesian exporter (KPC)",
+    "own": "listed",
+    "detail": "Indonesian mining holding; Kaltim Prima Coal (East Kalimantan)",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Bumi_Resources"
+    "url": "https://en.wikipedia.org/wiki/Bumi_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "SUEK",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "private",
+    "detail": "Siberian Coal Energy Company: Russian coal and energy company",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Siberian_Coal_Energy_Company",
+    "read": "2026-11"
+   },
+   {
+    "name": "Yancoal",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "parent": "Yanzhou Coal (62.5%)",
+    "detail": "Coal miner in New South Wales, Queensland and Western Australia; majority owned by the Yankuang group",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Yancoal",
+    "read": "2026-11"
+   },
+   {
+    "name": "Whitehaven Coal",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Australian coal miner",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Whitehaven_Coal",
+    "read": "2026-11"
+   },
+   {
+    "name": "Exxaro",
+    "hq": "ZAF",
+    "role": "producer",
+    "own": "listed",
+    "detail": "South African resources company, mainly coal",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Exxaro",
+    "read": "2026-11"
    }
   ],
   "traders": [
@@ -415,68 +1437,126 @@
     "name": "Glencore",
     "hq": "CHE",
     "role": "trader",
-    "detail": "Largest coal marketer",
+    "own": "listed",
+    "detail": "Markets its own and third-party coal",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "url": "https://en.wikipedia.org/wiki/Glencore",
+    "read": "2026-11"
+   },
+   {
+    "name": "Vitol",
+    "hq": "CHE",
+    "role": "trader",
+    "own": "private",
+    "detail": "Delivered 25 Mt of coal in 2025 (ESG report)",
+    "s": "company-reports",
+    "url": "https://www.vitol.com/wp-content/uploads/2026/06/Vitol-ESG-report-2025.pdf",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Trafigura",
     "hq": "SGP",
     "role": "trader",
-    "detail": "Coal trading",
+    "own": "private",
+    "detail": "Coal within its bulk minerals trading",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Trafigura"
+    "url": "https://en.wikipedia.org/wiki/Trafigura",
+    "read": "2026-11"
    }
   ]
  },
  "met-coal": {
   "producers": [
    {
-    "name": "BHP Mitsubishi Alliance (BMA)",
-    "hq": "AUS",
-    "role": "producer",
-    "detail": "Largest seaborne met coal supplier; Queensland",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/BHP"
-   },
-   {
     "name": "Glencore",
     "hq": "CHE",
     "role": "producer",
-    "detail": "Largest seaborne steelmaking coal portfolio after acquiring 77% of Elk Valley Resources (ex-Teck coal) in 2024; Nippon Steel and POSCO hold the balance",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Glencore"
+    "own": "listed",
+    "detail": "Elk Valley Resources (acquired July 2024) and Australia",
+    "fig": {
+     "v": 32.5,
+     "u": "Mt",
+     "what": "steelmaking coal production",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+     "n": "Steelmaking coal 32.5 Mt in 2025, of which Elk Valley Resources 25.2 Mt and Australia 7.3 Mt."
+    },
+    "s": "company-reports",
+    "url": "https://www.glencore.com/media-and-insights/news/full-year-2025-production-report",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
-    "name": "Peabody Energy",
-    "hq": "USA",
+    "name": "BHP Mitsubishi Alliance (BMA)",
+    "hq": "AUS",
     "role": "producer",
-    "detail": "Australian met coal operations",
-    "s": "wikipedia",
+    "detail": "BHP and Mitsubishi joint venture in Queensland",
+    "fig": {
+     "v": 18.6,
+     "u": "Mt",
+     "what": "steelmaking coal production, BHP share",
+     "y": 2026,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+     "n": "Financial year to 30 June 2026: BMA production 18.6 Mt (BHP share). Form 20-F 2026."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Peabody_Energy"
+    "read": "2026-11"
    },
    {
     "name": "Anglo American",
     "hq": "GBR",
     "role": "producer",
-    "detail": "Agreed in May 2026 to sell its Australian steelmaking coal mines to Dhilmar (completion expected Q1 2027); Jellinbah stake already sold; arbitration with Peabody over the earlier deal ongoing",
+    "own": "listed",
+    "detail": "Agreed to sell its Australian steelmaking coal business to Dhilmar for up to US$3.875 billion, completion expected by the first quarter of 2027; Peabody ended an earlier agreement to buy it in August 2025",
     "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc",
     "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Anglo_American_plc"
+    "read": "2026-11"
    },
    {
-    "name": "Coronado Global Resources",
+    "name": "Peabody Energy",
     "hq": "USA",
     "role": "producer",
-    "detail": "US and Australian met coal",
+    "own": "listed",
+    "detail": "US coal miner; mines in the United States and Australia; coal for power and steelmaking",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Coronado_Global_Resources"
+    "url": "https://en.wikipedia.org/wiki/Peabody_Energy",
+    "read": "2026-11"
+   },
+   {
+    "name": "Alpha Metallurgical Resources",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US met coal miner (Central and Northern Appalachia), formerly Contura Energy",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Alpha_Metallurgical_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "Core Natural Resources",
+    "hq": "USA",
+    "role": "producer",
+    "own": "listed",
+    "detail": "US coal company; parent of Arch Resources and Consol Energy",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Arch_Resources",
+    "read": "2026-11"
+   },
+   {
+    "name": "Mechel",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Russian mining and metals company, Moscow; coal, iron ore, steel",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Mechel",
+    "read": "2026-11"
    }
   ]
  },
@@ -486,28 +1566,106 @@
     "name": "Kazatomprom",
     "hq": "KAZ",
     "role": "producer",
-    "detail": "World's largest uranium producer; state-owned",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Kazatomprom"
+    "own": "state-listed",
+    "parent": "Samruk-Kazyna (75%)",
+    "detail": "Kazakhstan's national uranium company, listed in 2018; 25,839 tU on a 100% basis in 2025",
+    "fig": {
+     "v": 13519,
+     "u": "t",
+     "what": "uranium production (tU), attributable",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.kazatomprom.kz/en/media/view/Kazatomprom%204Q25%20Operations%20and%20Trading%20Update",
+     "n": "13,519 tU attributable (35.15 Mlbs U3O8) in 2025; 25,839 tU on a 100% basis. Preliminary."
+    },
+    "s": "company-reports",
+    "url": "https://www.kazatomprom.kz/en/media/view/Kazatomprom%204Q25%20Operations%20and%20Trading%20Update",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Cameco",
     "hq": "CAN",
     "role": "producer",
-    "detail": "McArthur River/Cigar Lake",
-    "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Cameco"
+    "own": "listed",
+    "detail": "Canadian uranium company, Saskatoon; McArthur River/Key Lake and Cigar Lake (Saskatchewan), JV Inkai (Kazakhstan)",
+    "fig": {
+     "v": 8078,
+     "u": "t",
+     "what": "uranium production (tU), Cameco share",
+     "y": 2025,
+     "s": "company-reports",
+     "url": "https://www.cameco.com/invest/financial-information/quarterly-reports/2025/q4",
+     "n": "Stated as 21.0 million pounds of uranium (U3O8), Cameco share; converted at 0.45359 kg per pound and 0.848 kg of uranium per kg of U3O8."
+    },
+    "s": "company-reports",
+    "url": "https://www.cameco.com/invest/financial-information/quarterly-reports/2025/q4",
+    "y": 2025,
+    "read": "2026-11"
    },
    {
     "name": "Orano",
     "hq": "FRA",
     "role": "producer",
-    "detail": "Kazakhstan (JV) and Canada; Niger nationalised the Somair mine in 2025",
+    "own": "state",
+    "detail": "French state-majority nuclear fuel company; Canada and Kazakhstan; Niger's junta took operational control of its subsidiary Somaïr in December 2024",
     "s": "wikipedia",
-    "y": 2026,
-    "url": "https://en.wikipedia.org/wiki/Orano"
+    "url": "https://en.wikipedia.org/wiki/Orano",
+    "y": 2024,
+    "read": "2026-11"
+   },
+   {
+    "name": "Uranium One",
+    "hq": "RUS",
+    "role": "producer",
+    "own": "state",
+    "parent": "Rosatom (TENEX group)",
+    "detail": "Group of companies in Rosatom's TENEX group; wholly owned by Uranium One Group since 2013",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Uranium_One",
+    "read": "2026-11"
+   },
+   {
+    "name": "Navoi Mining and Metallurgical Company",
+    "hq": "UZB",
+    "role": "producer",
+    "own": "state",
+    "parent": "Ministry of Economy and Finance of Uzbekistan",
+    "detail": "Uzbek state-owned mining company, Navoiy",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Navoi_Mining_and_Metallurgical_Company",
+    "read": "2026-11"
+   },
+   {
+    "name": "CGN",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "detail": "China General Nuclear Power Group: state-owned energy group (SASAC), Shenzhen",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/China_General_Nuclear_Power_Group",
+    "read": "2026-11"
+   },
+   {
+    "name": "CNNC",
+    "hq": "CHN",
+    "role": "producer",
+    "own": "state",
+    "parent": "Government of China",
+    "detail": "China National Nuclear Corporation: state-owned nuclear group, Beijing",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/China_National_Nuclear_Corporation",
+    "read": "2026-11"
+   },
+   {
+    "name": "Paladin Energy",
+    "hq": "AUS",
+    "role": "producer",
+    "own": "listed",
+    "detail": "Uranium miner, Perth (Western Australia)",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Paladin_Energy",
+    "read": "2026-11"
    }
   ]
  }

@@ -28,10 +28,10 @@ Notices tabs) and in [`NOTICE.md`](NOTICE.md).
 | Path | Contents |
 |---|---|
 | `web/` | The site: Vite + Preact + TypeScript, MapLibre GL for the map, uPlot for charts |
-| `web/scripts/validate-data.mjs` | Checks the data files (source ids, shape) before an update is kept |
+| `web/scripts/validate-data.mjs` | Checks the data files (source ids, shapes, references between files, ranges) before an update is kept; `guard-data.mjs` compares an update with the last commit |
 | `data/` | Processed, versioned data (JSON) served by the site. The shapes are the interfaces of `web/src/types.ts`; `data/sources.json` is the source registry and `data/_status/` records every update run |
 | `pipeline/` | Scripts that download and process the public sources into `data/`; `pipeline/cache/` holds the reduced BACI trade table and other tracked caches (the PortWatch daily table in `pipeline/cache/portwatch/` is an ignored working file, not published) |
-| `.github/workflows/` | Site deployment and scheduled data refresh jobs |
+| `.github/workflows/` | Site deployment, the checks (`ci.yml`) and the scheduled data refresh jobs; how they work and what is done by hand: [`docs/UPDATING.md`](docs/UPDATING.md) |
 | `DATA_SOURCES.md` | Every source, its licence, update cadence and how it is fetched (generated from `data/sources.json`) |
 | `METHODOLOGY.md` | How the figures are built: cleaning and checks of the customs data, sea or overland, lanes, ports and routes, shares, estimates and conversions |
 | `NOTICE.md`, `THIRD-PARTY-NOTICES.md` | Licences of the data and credits; licences of the packages and fonts |
@@ -45,9 +45,10 @@ cd web && npm install && npm run dev
 
 Node 22 is used by the workflows. The site reads `data/` through the symlink `web/public/data`.
 
-To rebuild data, set up Python (3.12 in the workflows, 3.11 or later required):
-`pip install -r pipeline/requirements.txt`. The raw downloads go in `raw/`, which is not tracked.
-The usual order, from the repository root, is:
+To rebuild data, set up Python (3.12 in the workflows, 3.11 or later required) with the exact versions the workflows
+use: `pip install -r pipeline/requirements-lock.txt` (`requirements.txt` names the direct dependencies). The raw
+downloads go in `raw/`, which is not tracked. From a fresh clone, `bash pipeline/bootstrap.sh` does everything below in
+order (`--dry-run` prints the steps). The usual order, from the repository root, is:
 
 1. `python pipeline/prices/fetch_prices.py` (prices) and `python pipeline/freight/fetch_portwatch.py` (chokepoint traffic);
 2. `python pipeline/annual/update_annual.py` downloads the yearly sources, then rebuilds what depends on
@@ -78,15 +79,17 @@ Run them from the repository root with
 `python -m unittest discover -s pipeline/tests -p "test_*.py"` (about a minute); a test that needs a file of `raw/`
 or a built file that is absent is skipped. The data tests read the built files, so run them after the builders. The
 site's checks are `node web/scripts/validate-data.mjs`, its own tests `node web/scripts/validate-freight.test.mjs` and
-`node web/scripts/validate-infra.test.mjs`, and `cd web && npx tsc --noEmit`. None of these runs in the scheduled
-workflows: they are for people changing the code, and a failing test there would block updates or send failure
-e-mails; the scheduled jobs rely on `validate-data.mjs`, which discards an invalid update.
+`node web/scripts/validate-infra.test.mjs` (all of them: `cd web && npm test`), and `cd web && npx tsc --noEmit`. The
+workflow `ci.yml` runs all of them, a production build and its size budget (`web/scripts/check-size.mjs`) on every pull
+request and branch, and the deploy runs them before it publishes. The scheduled data jobs rely on `validate-data.mjs`
+and the before-and-after guard `guard-data.mjs`, which discard an invalid update.
 
 The CEPII BACI trade database is a 2.4 GB download, reduced to `pipeline/cache/baci_flows.csv.gz` by
 `pipeline/trade/extract_baci.py` (years from 2002). The cache is tracked, so rebuilding the lanes and
-commodity pages does not need the download. CEPII can refuse the cloud runners, so a new BACI version
-is normally fetched locally with `python pipeline/annual/update_annual.py --only baci`, and the updated
-cache committed.
+commodity pages does not need the download. A new BACI version is fetched by hand on a local machine once a year
+(`python pipeline/annual/update_annual.py --only baci`, then commit `pipeline/cache` and `data`); the monthly job only
+checks the version CEPII lists and opens an issue when a newer one exists. The steps are in
+[`docs/UPDATING.md`](docs/UPDATING.md).
 
 The infrastructure assets (`data/infrastructure/`) and the company lists
 (`data/commodities/companies.json`) are written by hand from their cited sources; no script rebuilds them.
@@ -98,27 +101,34 @@ Three scheduled GitHub Actions workflows refresh the data. Each can also be star
 
 | Workflow | Schedule (UTC) | Sources |
 |---|---|---|
-| `update-prices.yml` | Wednesdays 21:43 and Thursdays 09:43 (EIA publishes on Wednesday) | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
+| `update-prices.yml` | Wednesdays 21:43 and Thursdays 09:43 (EIA publishes on Wednesday) | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and the Freight family: the US deep-sea freight producer price index from the BLS public API (no key; history cached in `pipeline/cache/bls`), the Dallas Fed index of global real economic activity and the New York Fed Global Supply Chain Pressure Index |
 | `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits: only the days after the last one stored, the whole table once a month. The daily table is a working file kept between runs as a workflow artifact, not in git; only the atlas's weekly averages and comparisons are published (NOTICE.md) |
-| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`adjacency`, `build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
+| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), a check of the CEPII BACI version (the refresh itself is done by hand, see above), then the dependent rebuilds (`build_commodities` and `build_profiles` when any annual source changed) |
+| `check-staleness.yml`, `watch-releases.yml` | Mondays 13:37; the 3rd, 14:41 | issues "Data stale: <source>" for a source that stopped updating without failing, and "New release available: <id>" for the yearly pages read by hand (`pipeline/common/release_watch.json`) |
 
 **Robustness.** Downloads (`pipeline/common/fetch.py`) use retries with exponential backoff and jitter,
 timeouts, a pause between requests to one host, resumable large files, atomic writes, and reject an HTML
-page where a CSV/XLSX/ZIP is expected. Every source is checked before it replaces the previous file (it opens,
-has the expected sheet or columns, the record count has not collapsed, the latest date has not moved
-backwards). On any failure the previous good files stay in place and the run still finishes green. After the
-scripts, `web/scripts/validate-data.mjs` runs; if it fails the whole update is discarded. Valid changes are
-committed by `github-actions[bot]` and pushed to `main` (with retry), and the site is redeployed.
+page where a CSV/XLSX/ZIP is expected; they identify themselves plainly (`data-update-script/1.0 (python-requests)`).
+Every source is checked before it replaces the previous file (it opens, has the expected sheet, columns, commodities
+and series, the record count has not collapsed, the latest date has not moved backwards), and has its own time limit.
+On any failure the previous good files stay in place and the run still finishes green. After the scripts,
+`web/scripts/validate-data.mjs` (shapes, references between files, ranges) and `web/scripts/guard-data.mjs` (against
+the last commit: a table that lost more than a tenth of its rows, a file that shrank by half, a price that moved by
+more than half) run; if either fails the whole update is discarded. Valid changes to the paths the job owns are
+committed by `github-actions[bot]` and pushed to `main`; the three jobs share one concurrency group and never overwrite
+each other's status entries. The deploy then runs the checks and republishes the site.
 
 **Status and alerting.** `data/_status/updates.json` records, per source, the last attempt and success,
 consecutive failures, the last error, the record count and the latest date covered (`data_to`);
-yearly sources checked monthly (CEPII BACI, FAOSTAT/WNA) alert after 6 failed runs instead of 3;
-`data/_status/log.jsonl` keeps the last 500 runs. When a source has failed 3 runs in a row, the workflow opens
-(or updates) one issue titled `Data update failing: <source>` with the label `data-update`, and closes it
-when the source succeeds again. Issues must be enabled for the repository.
+`data/_status/log.jsonl` keeps the last 500 runs. A step that timed out or crashed is recorded as failed too. When a
+weekly source has failed 3 runs in a row, a monthly one 2, or a build step once, the workflow opens (or updates) one
+issue titled `Data update failing: <source>` with the label `data-update`, and closes it when the source succeeds
+again. Issues must be enabled for the repository. What each failure does, what GitHub e-mails (nothing for a data job
+in the normal course), how the schedules stay enabled and the steps done by hand are in
+[`docs/UPDATING.md`](docs/UPDATING.md).
 
 Run a script locally from the repository root, for example `python pipeline/prices/fetch_prices.py`
-(`pip install -r pipeline/requirements.txt`). See `DATA_SOURCES.md` for every source.
+(`pip install -r pipeline/requirements-lock.txt`). See `DATA_SOURCES.md` for every source.
 
 After any change to `data/sources.json`, regenerate the table of `DATA_SOURCES.md` with
 `python pipeline/common/sources_table.py` (`--check` exits 1 when the file is out of date). The check is not part of

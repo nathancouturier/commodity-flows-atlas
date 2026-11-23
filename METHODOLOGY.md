@@ -600,14 +600,26 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   finder answer lists a route only when its group is one of them (refined copper is not copper concentrate). The name of a port in `routes_def.json`
   is matched to the port tables; a terminal named for a cargo (the Dongjiakou LNG terminal) is no longer taken for the
   port of the place it names (Qingdao) on a route that does not carry that cargo.
+- **Benchmark routes.** Each Baltic Exchange benchmark carries its published definition (`definition` in
+  `routes_def.json`): code, vessel, cargo and quantity, load and discharge ports (delivery and redelivery areas for a
+  time-charter trip), duration, status with its date and page, and the page and month it was read (the Guide to
+  Market Benchmarks, version 7.09, the Baltic Exchange's dry, tanker and gas service pages and its circulars, read in
+  November 2026). An ended benchmark stays in the atlas, marked discontinued with its date and the route that replaced
+  it. The indices and averages a benchmark weighs in come from `baltic_indices.json` (members and weights as
+  published); the route page lists the members and, when the atlas lacks some of them, the share of the weight it has.
+  No index value is stored or shown. "Laden days" is the drawn distance divided by the class's assumed laden speed: no
+  port time, no canal wait, no ballast leg; the route page shows the duration of the definition beside it when the
+  definition gives one (time-charter trips and round voyages). A time-charter benchmark whose definition names no
+  cargo has no corridor and says so; its line is a laden leg chosen by the atlas or the trace of another route (a
+  "stand-in"), and its note says which.
 - **Curated tables.** Some rules are entered by hand and are Atlas judgements, not figures from a
   dataset: the mode lists (`modes.py`), the gateway rows and coast rules (`gateways/*.py`), the
   transit ports (`gateways/energy.py`), the vessel class rules and the draught tables
   (`vessel_rules.py`), the gates and routing constants (`routing.py`), the benchmark route
   definitions (`routes_def.json`) and the vessel size ranges (`vessel_classes.json`). Each entry
   gives its reason and, where a page was read, the page. The size ranges are conventional industry
-  ranges, not a single authoritative table, and several benchmark route definitions are marked
-  uncertain in `pipeline/freight/NOTES_routes.md`.
+  ranges, not a single authoritative table; `pipeline/freight/NOTES_routes.md` lists the pages read for the
+  benchmark definitions and what they could not settle.
 
 ## 4. Vessel classes per lane
 
@@ -623,8 +635,23 @@ limits. The rules are in `pipeline/freight/vessel_rules.py`. Examples:
   by mid-size gas carriers (25,000 to 50,000 cbm), with the VLGC second when the lane is large;
   medium hauls (under 3,000 nm) of small lanes by mid-size carriers, then VLGCs; long hauls and
   large lanes by VLGCs. The two distances are Atlas assumptions.
+- Palm oil and soybean oil: MR first, chemical tanker second. Vegetable oils move in chemical tankers, and the Baltic
+  Exchange assesses their freight basis 40,000 t shipments (Baltic Chemical and Agricultural Oil Assessments), the
+  size of the MR2 benchmark cargoes (37,000 to 40,000 t).
 
-These are labelled "typical" in the interface. They are not measured shares of each class.
+These are labelled "typical" in the interface. They are not measured shares of each class: no free source measures how
+a trade splits between vessel classes (that would take ship-by-ship tracking, which the atlas does not use), so the
+class of a lane, a country pair or a route is a rule, not a measurement.
+
+Class pages. Each size band names the page that supports it and the year of that page (Wikipedia's ship-size
+articles, the Wilhelmsen page of LPG carrier sizes); where the Atlas sets a bound itself, so that the bands of one
+segment neither overlap nor leave a gap, the band is labelled "Atlas convention" and its note says which page gives
+what. Classes defined by a port or a cargo (Newcastlemax, Kamsarmax, LR2, chemical tanker) sit inside or beside the
+size steps on purpose; large gas carriers (50,000 to 70,000 cbm) are left out because no lane rule uses them. The
+standard vessel is the Baltic Exchange's description of the vessel of its timecharter routes (dry bulk), or, for a
+class without one, the typical ship of its Wikipedia article. The world fleet is UNCTADstat's count by ship type
+(oil tankers, bulk carriers, container ships), rebuilt by `pipeline/freight/fleet.py`: it covers every ship of the
+type, not one commercial class, whose fleet, age and orderbook are not published for free.
 
 ## 5. Shares
 
@@ -914,9 +941,44 @@ totals of the series by year are the same for every country: they are in one fil
   month.
 - Daily prices: EIA spot series (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating
   oil, US Gulf jet fuel, Mont Belvieu propane).
-- Freight cost proxy: the US producer price index for deep-sea freight transportation
-  (series PCU483111483111, U.S. Bureau of Labor Statistics, index June 1988 = 100, not seasonally
-  adjusted), monthly, fetched through FRED when the owner's free `FRED_API_KEY` is set.
+- Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
+  none is both free and republishable. Three indicators are, each taken from its publisher and each
+  labelled for what it is (`pipeline/prices/freight_indicators.py`):
+  - US deep-sea freight services, producer price index (U.S. Bureau of Labor Statistics, series
+    PCU483111483111, June 1988 = 100, not seasonally adjusted, monthly). It measures the prices US
+    deep-sea carriers receive; it is not a spot rate and barely moved in the 2008 collapse of dry bulk
+    rates (256.5 in May 2008, 258.2 in December 2008). It is fetched from the BLS public API version 1,
+    which needs no key: ten years per request and a small daily quota per address. The history is kept
+    in `pipeline/cache/bls/PCU483111483111.json`; each weekly run asks for the last three years (the
+    window the BLS revises; its last months are marked preliminary and the note says which) and for at
+    most three older ten-year windows until every year has come from the BLS. Until then the older years
+    are the values the atlas took earlier through FRED, the St. Louis Fed's copy of the same series, and
+    the note of the series names those years. A refused request (the quota is shared by the address)
+    keeps the cache, is recorded as a failure of `bls`, and alerts after three runs like any source.
+  - Index of global real economic activity (Federal Reserve Bank of Dallas; Kilian 2009, with the
+    correction of Kilian 2019), monthly from 1968, in percent deviation from trend: a deflated,
+    detrended index built on dollar-denominated dry bulk freight rates. Route pages of dry bulk routes
+    point to it.
+  - Global Supply Chain Pressure Index (Federal Reserve Bank of New York), monthly from 1998, in
+    standard deviations from its average: it combines the Baltic Dry Index, the Harpex container index
+    and BLS air freight costs with PMI supply-chain components. Its last months are revised.
+  The board shows no change in percent for the two deviation measures (a value that crosses zero has
+  none). A series that stops advancing raises the "late series" failure of its source.
+- Freight rates that are not stored. Baltic Exchange, Shanghai Shipping Exchange, Clarksons, Platts,
+  Argus and Ship & Bunker values are proprietary. The USDA Agricultural Marketing Service publishes
+  free grain ocean rates on its AgTransport platform: US Gulf and Pacific Northwest to Japan (dataset
+  ehs5-yac3, source "O'Neil Commodity Consulting"), Brazilian ports to Shanghai and Hamburg (j6ns-hzra,
+  source University of São Paulo ESALQ and USDA), Ukrainian ports to Egypt and other buyers (2n8s-739j,
+  source Centre for Transport Strategies, Kyiv, and USDA), and the weekly cost indicators built on the
+  same Gulf and PNW rates (8uye-ieij). None of these datasets carries a licence, and each credits a
+  private firm or a foreign institute for the rates, so the atlas does not copy them: the route pages
+  of `usgulf-china-grain`, `uspnw-asia-grain`, `brazil-china-soybeans` and `blacksea-egypt-wheat`
+  link to them with one sentence on what they hold. The Bank of Japan's services producer price
+  indices for ocean freight are not stored either: the Bank's copyright page covers its main site, and
+  the API of its time-series site asks every service that uses it to notify the Bank by e-mail; the
+  dry bulk and tanker route pages link to them ("Ocean freight transportation (except Ocean tankers)",
+  "Ocean tankers").
+  Every route page says that Baltic assessments are proprietary and links to the Baltic Exchange.
 - Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics
   (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina "average unit
   value of imports, free alongside ship (f.a.s.)", cobalt, palladium, rhodium): one value a year,
@@ -1361,7 +1423,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
 
 ## 11. Infrastructure layer
 
-The mines, smelters, ports, fields, refineries, LNG terminals and pipelines of
+The mines, smelters, ports, storage hubs, fields, refineries, LNG terminals and pipelines of
 `data/infrastructure/` are a hand-curated sample, not an inventory: each asset was picked because it
 is large, well known or needed to read a flow, and an absent asset means nothing about whether it
 exists. No script rebuilds the files. Capacity (nameplate) and output (a measured figure of a year)
@@ -1369,3 +1431,52 @@ are separate fields, each with its own year; a capacity whose source gives no ye
 "year not stated". The status of an asset is "operating" only when a dated page says it runs, and
 "not stated" when no page read says so; it is never assumed. The rules, units and sources are in
 [`pipeline/infrastructure/README.md`](pipeline/infrastructure/README.md).
+
+Ports. Every port that a freight route names is an asset, except Boke (Guinea), which stands for the river
+terminals of a region. Each port carries the code of the same place in the trade engine (`locode`), so a route
+port, a lane port and the asset are one place: the route page links its ports to their pages, and a port's page
+lists the routes that name it and the largest lanes that load or discharge there. Positions and UN/LOCODEs come
+from the IMF PortWatch ports database (IMF terms of use; no vessel count or traffic figure is taken from it), or,
+for a place it does not list, from OpenStreetMap or Wikipedia. A throughput or capacity is entered only from a
+page read; outside the United States, a terminal's capacity is the operator's or the page's figure, and its `n`
+says so.
+
+Largest class by the published limits (Atlas estimate). Where a page gives the limits of a port (the deepest
+berth, or the largest ship by draught, length, beam or deadweight), `pipeline/infrastructure/port_limits.py`
+compares them with the standard vessel of each class of `pipeline/freight/vessel_classes.json` (`std`). A class
+fits when its standard vessel is no larger than the port's limit in every dimension both give; the largest class
+that fits, by deadweight, is shown for each segment the port handles (dry bulk, tankers, gas). Only the dimensions
+the page gives are compared, a class without a standard vessel is not compared (the page names them), and the
+result is never presented as the port's own statement: a larger ship may call part-laden, with the tide or at
+another berth.
+
+Storage hubs. Cushing (Oklahoma) and Mont Belvieu (Texas), the delivery points of the atlas's WTI and propane
+prices, are assets of their own type. Cushing's figure is the EIA's working storage capacity of 31 March 2024, in
+million barrels (`Mb`, a stock: it is never ranked with a flow).
+
+## 12. Companies layer
+
+The company lists (`pipeline/companies/*.json`, published by `pipeline/companies/build_companies.py`) name the main
+producers, processors and traders of each commodity and the main shipping companies by segment. They are a
+hand-curated selection, not a ranking: a company absent from a list says nothing about its size. The rules, the
+vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeline/companies/README.md).
+
+- **Figures.** A company carries at most one figure per commodity, from its own report or filing (or a page that
+  states it), with the year it refers to and the page. The atlas computes nothing: the only arithmetic is a change
+  of unit, written in the figure's note with the stated number and the factor. Gas volumes in cubic feet are
+  converted at 0.0283168 cubic metres per cubic foot and, for a daily rate, 365 days a year; a yearly volume in
+  barrels is divided by 365 days to give barrels a day; uranium in pounds of U3O8 at 0.45359 kg per pound and
+  0.848 kg of uranium per kg of U3O8. A volume that covers several commodities (crude oil and products together, a
+  segment's grain merchandising) is not a figure: it is written in the line of text with what it covers.
+- **Order.** Within a group, rows whose figures count the same thing in the same unit (liquids production in kb/d,
+  LNG sold in Mt, a fleet in ships) form a block ordered by value; each other kind of figure forms its own block;
+  rows without a figure follow in the order of the file. Bases differ inside a block (attributable, 100%, a
+  company's share), and each row says which.
+- **Ownership and sanctions.** Ownership is the page's statement: state-owned, state-controlled and listed,
+  listed, private or cooperative. A sanction mark names the authority and the month of the designation and links
+  the authority's own notice (US Treasury OFAC, GOV.UK); a lifted sanction is removed.
+- **Years.** The year shown with a fact is the year of the fact. The month a page was read is shown apart ("read in
+  November 2026") and is never the year of a fact.
+- **Company and assets.** A company's row lists the assets of the infrastructure layer whose operator field names
+  it, as operator or as an owner with a share (the name, a name in brackets, or the name without "Energy",
+  "Group"…; a former owner marked "ex-" or "formerly" does not count). The operator field is not otherwise split.

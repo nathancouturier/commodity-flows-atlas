@@ -201,8 +201,11 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           are described from public route definitions. No Baltic Exchange index value or rate assessment is shown.
         </li>
         <li>
-          <b>FRED.</b> This product uses the FRED® API but is not endorsed or certified by the Federal Reserve Bank of St. Louis. The deep-sea
-          freight producer price index it provides is a U.S. Bureau of Labor Statistics series.
+          <b>Freight indicators.</b> The deep-sea freight producer price index is a U.S. Bureau of Labor Statistics series; the years the BLS
+          API has not yet returned are the copy taken earlier through the FRED® API, which the Federal Reserve Bank of St. Louis does not endorse
+          or certify. The index of global real economic activity is published by the Federal Reserve Bank of Dallas (Kilian 2009, 2019).
+          Federal Reserve Bank of New York, Global Supply Chain Pressure Index, https://www.newyorkfed.org/research/policy/gscpi: the GSCPI is not
+          an official estimate of the New York Fed or the Federal Reserve System.
         </li>
         <li>
           <b>No endorsement.</b> The use of data from the U.S. Bureau of Labor Statistics, the International Monetary Fund, the Food and

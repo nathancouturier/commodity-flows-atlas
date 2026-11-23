@@ -8,6 +8,10 @@ Sources (each recorded separately in data/_status/updates.json)
             https://www.worldbank.org/en/research/commodity-markets ("CMO-Historical-Data-Monthly.xlsx");
             the last known URL in raw/DOWNLOAD_REPORT.md is the fallback.
   eia-spot  EIA daily spot prices, 8 xls files (the ones build_prices.py reads).
+  bls       BLS producer price index for deep-sea freight, public API version 1 without a key, cached in
+            pipeline/cache/bls (freight_indicators.fetch_bls: the current window every week, the history once).
+  dallasfed Dallas Fed index of global real economic activity, igrea.xlsx -> raw/dallasfed.
+  nyfed     New York Fed Global Supply Chain Pressure Index, gscpi_data -> raw/nyfed.
 
 Validation before a downloaded file replaces the previous one in raw/:
   Pink Sheet: opens, has the "Monthly Prices", "Monthly Indices" and "Description" sheets, EVERY column the
@@ -38,6 +42,7 @@ sys.path.insert(0, os.path.join(ROOT, "pipeline"))
 sys.path.insert(0, os.path.join(ROOT, "pipeline", "prices"))
 
 from common import fetch, status  # noqa: E402
+import freight_indicators as FI  # noqa: E402
 
 PINK_PAGE = "https://www.worldbank.org/en/research/commodity-markets"
 PINK_NAME = "CMO-Historical-Data-Monthly.xlsx"
@@ -163,42 +168,25 @@ def fetch_eia(stage):
     return info, ("; ".join(errors)[:200] if errors else None), updated
 
 
-RAW_FRED = os.path.join(ROOT, "raw", "fred")
+FREIGHT_SOURCES = ("bls", "dallasfed", "nyfed")
 
 
-def fetch_fred(stage):
-    """Optional FRED series (freight cost proxy) via the official FRED API.
-
-    The anonymous fredgraph.csv endpoint times out from cloud runners, so the API is used, which
-    needs a free key (https://fred.stlouisfed.org/docs/api/api_key.html) stored as the GitHub secret
-    FRED_API_KEY. Without a key this source is skipped silently: no failure, no alert.
-    Returns (info, error, n_updated); info is None when skipped."""
-    from build_prices import FRED
-
-    key = os.environ.get("FRED_API_KEY", "").strip()
-    if not key:
-        print("  FRED skipped: no FRED_API_KEY secret configured")
-        return None, None, 0
-    updated, errors = 0, []
-    for sid in FRED:
+def fetch_freight(stage):
+    """The three sources of the Freight family: {source: (info, error, updated)}. info is None when nothing usable
+    came; a failure keeps the previous cache or raw file."""
+    out = {}
+    try:
+        info, err, changed = FI.fetch_bls()
+        out["bls"] = (info if not err else None, err, changed)
+    except Exception as e:  # noqa: BLE001
+        out["bls"] = (None, f"unexpected {e.__class__.__name__}: {e}", False)
+    for src, fn in (("dallasfed", FI.fetch_dallasfed), ("nyfed", FI.fetch_nyfed)):
         try:
-            j = fetch.get_json("https://api.stlouisfed.org/fred/series/observations",
-                               params={"series_id": sid, "api_key": key, "file_type": "json"}, attempts=2)
-            obs = j.get("observations") or []
-            if len(obs) < 24:
-                raise ValueError(f"only {len(obs)} observations")
-            tmp = os.path.join(stage, sid + ".csv")
-            with open(tmp, "w") as f:
-                f.write(f"observation_date,{sid}\n")
-                for o in obs:
-                    f.write(f"{o['date']},{o['value']}\n")
-        except (fetch.FetchError, ValueError, KeyError, OSError) as e:
-            errors.append(f"{sid}: {str(e).replace(key, '***')}")
-            print("  FRED", sid, "failed")
-            continue
-        install(tmp, os.path.join(RAW_FRED, sid + ".csv"))
-        updated += 1
-    return {"records": updated}, ("; ".join(errors)[:200] if errors else None), updated
+            info, err = fn(stage, prev_to=status.get(src).get("data_to"))
+            out[src] = (info, err, info is not None)
+        except Exception as e:  # noqa: BLE001
+            out[src] = (None, f"unexpected {e.__class__.__name__}: {e}", False)
+    return out
 
 
 def rebuild():
@@ -224,8 +212,7 @@ def rebuild():
 
 
 def late_series():
-    """{source: message} for the sources with a series that stopped advancing (the optional FRED source is not
-    alerted here: without a key it is skipped by design)."""
+    """{source: message} for the sources with a series that stopped advancing."""
     import build_prices
 
     try:
@@ -237,7 +224,7 @@ def late_series():
         return {}
     for s, msg in late.items():
         print("  ", s, msg)
-    return {s: m for s, m in late.items() if s in ("wb-pink", "eia-spot")}
+    return {s: m for s, m in late.items() if s in ("wb-pink", "eia-spot") + FREIGHT_SOURCES}
 
 
 def closed_series():
@@ -278,14 +265,11 @@ def main():
             eia, eia_err, eia_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
             traceback.print_exc()
 
-        try:
-            fred_info, fred_err, fred_updated = fetch_fred(stage)
-        except Exception as e:  # noqa: BLE001
-            fred_info, fred_err, fred_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
+        freight = fetch_freight(stage)
 
     build_err = None
     stale, closed = {}, {}
-    if pink or eia_updated or fred_updated:
+    if pink or eia_updated or any(u for _, _, u in freight.values()):
         try:
             rebuild()
         except Exception as e:  # noqa: BLE001
@@ -307,12 +291,12 @@ def main():
         status.record_failure("eia-spot", eia_err or stale.get("eia-spot"))  # partial: some files updated, some failed
     else:
         status.record_failure("eia-spot", build_err or eia_err or stale.get("eia-spot") or "no EIA file updated")
-    if fred_info is None and not fred_err:
-        pass  # skipped: no API key configured (optional source, never alerts)
-    elif fred_updated and not build_err:
-        status.record_success("fred", records=fred_updated, note="updated")
-    else:
-        status.record_failure("fred", build_err or fred_err or "no FRED series updated")
+    for src in FREIGHT_SOURCES:
+        info, err, _ = freight[src]
+        if info and not build_err and not stale.get(src):
+            status.record_success(src, records=info["records"], data_to=info["data_to"], note="updated" + info.get("note", ""))
+        else:
+            status.record_failure(src, build_err or err or stale.get(src) or "no data")
     print("done")
 
 

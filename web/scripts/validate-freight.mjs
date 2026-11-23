@@ -215,6 +215,36 @@ export function validateFreight(root, errors) {
 }
 
 /** Routes (see the header). Checked only when the file exists; the comparison with the pairs table only for a group that has a pairs file. */
+/** A benchmark's definition: a code, a status from the list with its page (an ended one with its date, and the route that
+ * replaced it when the atlas has it), the page of the definition and the month it was read; in each index, members once,
+ * weights that add up to 100% (or none), and `covered`, the weight of the members the atlas has. */
+function checkDefinition(at, r, routes, bad) {
+  const d = r.definition;
+  const has = (id) => routes.some((x) => x.id === id);
+  if (!r.benchmark) bad('routes.json', `${at}: a route that is not a benchmark has a definition`);
+  if (!d.code) bad('routes.json', `${at}: the definition has no code`);
+  if (!['active', 'suspended', 'ended'].includes(d.state)) bad('routes.json', `${at}: definition state "${d.state}" is not active, suspended or ended`);
+  if (!d.stateNote || !/^https?:\/\//.test(d.stateUrl ?? '')) bad('routes.json', `${at}: the definition's status has no note or no page`);
+  if (d.stateDate !== undefined && !/^\d{4}-\d{2}-\d{2}$/.test(d.stateDate)) bad('routes.json', `${at}: stateDate "${d.stateDate}" is not a date`);
+  if (d.state === 'ended' && (!d.stateDate || !r.discontinued)) bad('routes.json', `${at}: an ended benchmark has a date and is marked discontinued`);
+  if (d.state !== 'ended' && r.discontinued) bad('routes.json', `${at}: a discontinued route has a definition that is not ended`);
+  if (d.replacedBy && !has(d.replacedBy)) bad('routes.json', `${at}: replacedBy "${d.replacedBy}" is not a route`);
+  if (!d.doc || !/^https?:\/\//.test(d.url ?? '') || !d.read) bad('routes.json', `${at}: the definition has no page or no month of reading`);
+  for (const x of d.index ?? []) {
+    const rs = x.members.map((m) => m.r);
+    if (new Set(rs).size !== rs.length) bad('routes.json', `${at}: index ${x.id} lists a member twice`);
+    if (!rs.includes(at)) bad('routes.json', `${at}: index ${x.id} does not list the route among its members`);
+    for (const m of x.members) if (m.in !== has(m.r)) bad('routes.json', `${at}: index ${x.id} member ${m.r} has a wrong "in" flag`);
+    const ws = x.members.map((m) => m.w).filter((w) => w != null);
+    if (ws.length && (ws.length !== rs.length || Math.abs(ws.reduce((a, b) => a + b, 0) - 100) > 0.01)) bad('routes.json', `${at}: the weights of index ${x.id} do not add up to 100%`);
+    if (x.covered != null) {
+      const w = (m) => (x.equal ? 100 / rs.length : m.w);
+      const cov = x.members.filter((m) => m.in).reduce((a, m) => a + w(m), 0);
+      if (Math.abs(cov - x.covered) > 0.01) bad('routes.json', `${at}: index ${x.id} says ${x.covered}% of its weight is in the atlas, not ${cov.toFixed(2)}%`);
+    }
+  }
+}
+
 function validateRoutes(routes, pairDocs, chokepoints, bad) {
   if (routes == null) return;
   if (!Array.isArray(routes)) return bad('routes.json', 'is not a list');
@@ -229,6 +259,8 @@ function validateRoutes(routes, pairDocs, chokepoints, bad) {
     if (r.cargoNote !== undefined && (typeof r.cargoNote !== 'string' || !r.cargoNote)) bad('routes.json', `${at}: cargoNote is empty`);
     // an entry without `g` lists the customs groups of its commodity (`gs`): the site matches a lane to a route by group, never by commodity alone
     for (const c of r.corridor ?? []) if (!c.g && !(Array.isArray(c.gs) && c.gs.length)) bad('routes.json', `${at}: a corridor entry has neither a customs group (g) nor a list of them (gs)`);
+    if (r.definition) checkDefinition(at, r, routes, bad);
+    else if (r.benchmark) bad('routes.json', `${at}: a benchmark has no definition`);
     if (!r.generated) {
       if (String(at).startsWith('gen-')) bad('routes.json', `${at}: an id that starts with "gen-" is for a generated route`);
       continue;

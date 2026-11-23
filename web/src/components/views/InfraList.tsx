@@ -27,6 +27,7 @@ const GROUP_LABEL: Record<InfraType, string> = {
   mine: 'Mines',
   smelter: 'Smelters / refineries',
   port: 'Ports',
+  storage: 'Storage hubs',
 };
 
 const FORM_ORDER: Form[] = ['product', 'concentrate', 'ore', 'feed'];

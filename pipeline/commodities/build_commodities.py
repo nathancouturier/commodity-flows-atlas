@@ -53,20 +53,11 @@ def _latest_inputs():
       PSD adds the next one in May). The year before it, PSD_MY - 1, is USDA's estimate (the PSD_EST of the comparisons with
       customs data). The year rule lives here only: tables, key figures, history files and country colours follow it.
     """
-    import glob as _g
-    by = int(pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"), usecols=["year"])["year"].max())
-    files = sorted(_g.glob(os.path.join(RAW, "usgs", "MCS*_Commodities_Data.csv")))
-    usgs_file = files[-1] if files else os.path.join(RAW, "usgs", "MCS2026_Commodities_Data.csv")
-    mcs = int(os.path.basename(usgs_file)[3:7])
-    psd_path = os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv")
-    my = 2025
-    if os.path.exists(psd_path):
-        x = pd.read_csv(psd_path, usecols=["Commodity_Description", "Market_Year"], encoding="latin-1")
-        crops = ["Wheat", "Corn", "Oilseed, Soybean", "Rice, Milled", "Cotton", "Sugar, Centrifugal", "Oil, Palm"]
-        newest = x[x["Commodity_Description"].isin(crops)].groupby("Commodity_Description")["Market_Year"].max()
-        if len(newest):
-            my = int(newest.median())
-    return by, str(mcs - 1), usgs_file, my
+    # the rules live in common/vintage.py, with the fallbacks of a clone without raw/ (no year written here)
+    sys.path.insert(0, os.path.join(HERE, ".."))
+    from common import vintage as V
+    usgs_file = V.usgs_file()
+    return V.baci_year(), str(V.usgs_edition() - 1), usgs_file, V.psd_market_year()
 
 
 BACI_YEAR, USGS_YEAR, USGS_FILE, PSD_MY = _latest_inputs()

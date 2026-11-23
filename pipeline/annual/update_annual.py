@@ -5,6 +5,10 @@ Monthly update of the yearly/monthly sources and of the data built from them
     python pipeline/annual/update_annual.py [--only usda-psd,usgs-mcs,eia-intl,baci,faostat-wna]
                                             [--no-process] [--baci-check-only]
 
+The scheduled job runs it with --baci-check-only: the BACI refresh (a 2.4 GB download from a site that has refused a
+cloud runner) is done by hand on a local machine once a year (docs/UPDATING.md); the job only reads the version CEPII
+lists and records it as "available" in the status of "baci", which opens a "New release available: baci" issue.
+
 Sources (each independent; one failure never stops the others; all recorded in data/_status/updates.json)
   usda-psd   USDA PSD bulk zip (monthly)                    -> raw/usda/
   usgs-mcs   USGS Mineral Commodity Summaries data release  -> raw/usgs/   (newest release found with the
@@ -15,8 +19,10 @@ Sources (each independent; one failure never stops the others; all recorded in d
              it is then reduced with trade/extract_baci.py into pipeline/cache/baci_flows.csv.gz, and with
              trade/extract_hs4.py into the HS4 tables of the country profiles (pipeline/cache/hs4_*).
   faostat-wna  pipeline/commodities/fetch_external.py (FAOSTAT cocoa and EU member-state crops, WNA uranium), at most every 80 days.
-Each download is validated (type, size, format, row count not collapsing) before it replaces the previous
-file; otherwise the previous good file is kept and the failure is recorded.
+Each download is validated (type, size, format, row count not collapsing, the columns, commodities and series the
+builders read: common/inputs.py) before it replaces the previous file; otherwise the previous good file is kept and the
+failure is recorded. Each source has its own time limit (SOURCE_MIN), so that one hung download cannot use the time of
+the others and of the rebuild.
 
 Processing chain, run when the inputs it depends on changed (or when its last run failed), each step in its
 own try block with a backup of its outputs that is restored on failure:
@@ -35,6 +41,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import tempfile
@@ -45,7 +52,7 @@ from datetime import datetime, timezone
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "pipeline"))
 
-from common import fetch, status  # noqa: E402
+from common import fetch, inputs, status  # noqa: E402
 
 RAW = os.path.join(ROOT, "raw")
 CACHE = os.path.join(ROOT, "pipeline", "cache")
@@ -81,6 +88,36 @@ def install(src, dest):
 # caches, build_freight.py 18 s, build_commodities.py 7 s, build_profiles.py 1 s.
 STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "lanes": 70, "freight": 20, "commodities": 15,
             "profiles": 10, "alerts": 5, "prices": 5}
+
+
+# Time limit of each source (download and checks), in minutes. A BACI download (without --baci-check-only, by hand) has none.
+SOURCE_MIN = {"usda-psd": 15, "usgs-mcs": 15, "eia-intl": 15, "baci": 10, "faostat-wna": 12}
+
+
+class SourceTimeout(Exception):
+    """A source used up its time limit."""
+
+
+class time_limit:
+    """Raise SourceTimeout in the main thread after ``minutes`` (no limit when None, or where SIGALRM does not exist)."""
+
+    def __init__(self, minutes):
+        self.seconds = int(minutes * 60) if minutes and hasattr(signal, "SIGALRM") else 0
+
+    def _fire(self, *_):
+        raise SourceTimeout(f"stopped after its time limit of {self.seconds // 60} min")
+
+    def __enter__(self):
+        if self.seconds:
+            self.old = signal.signal(signal.SIGALRM, self._fire)
+            signal.alarm(self.seconds)
+        return self
+
+    def __exit__(self, *exc):
+        if self.seconds:
+            signal.alarm(0)
+            signal.signal(signal.SIGALRM, self.old)
+        return False
 
 
 def run(cmd, timeout):
@@ -151,10 +188,13 @@ def src_usda(opts):
                 raise ValueError("psd_alldata.csv missing from the zip")
             zf.extract("psd_alldata.csv", tmp)
         csv_path = os.path.join(tmp, "psd_alldata.csv")
-        df = pd.read_csv(csv_path, usecols=["Commodity_Code", "Market_Year", "Value"], dtype=str)
+        inputs.csv_header(csv_path, inputs.PSD_COLUMNS, encoding="latin-1")
+        df = pd.read_csv(csv_path, usecols=["Commodity_Code", "Commodity_Description", "Market_Year", "Attribute_Description",
+                                            "Value"], dtype=str, encoding="latin-1")
         n = len(df)
         if n < 500_000 or (prev.get("records") and n < 0.9 * prev["records"]):
             raise ValueError(f"only {n} rows (previous {prev.get('records')})")
+        inputs.psd_content(df)
         to = str(int(pd.to_numeric(df["Market_Year"], errors="coerce").max()))
         install(z, os.path.join(RAW, "usda", "psd_alldata_csv.zip"))
         install(csv_path, os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv"))
@@ -186,6 +226,7 @@ def src_usgs(opts):
         p = os.path.join(tmp, main["name"])
         fetch.download(main["url"], p, kind="csv", min_bytes=100_000)
         digest = sha256(p)
+        inputs.csv_header(p, inputs.USGS_COLUMNS, encoding="latin-1")
         df = pd.read_csv(p, encoding="latin-1", usecols=["Commodity", "Country", "Statistics", "Year", "Value"])
         n = len(df)
         same_release = prev.get("state", {}).get("item") == item_id
@@ -220,7 +261,7 @@ def src_eia(opts):
                 raise ValueError("INTL.txt missing from the zip")
             zf.extract("INTL.txt", tmp)
         txt = os.path.join(tmp, "INTL.txt")
-        n, last = 0, ""
+        n, last, found = 0, "", set()
         with open(txt, encoding="utf-8") as fh:
             first = json.loads(fh.readline())
             if "series_id" not in first:
@@ -231,8 +272,10 @@ def src_eia(opts):
                 m = re.search(r'"last_updated":"(\d{4}-\d{2}-\d{2})', line)
                 if m and m.group(1) > last:
                     last = m.group(1)
+                found |= inputs.eia_found([line])
         if n < 10_000 or (prev.get("records") and n < 0.9 * prev["records"]):
             raise ValueError(f"only {n} series (previous {prev.get('records')})")
+        inputs.eia_content(found)
         install(z, os.path.join(RAW, "eia", "INTL.zip"))
         install(txt, os.path.join(RAW, "eia", "INTL.txt"))
     return {"changed": True, "records": n, "data_to": last or None, "state": {"sha256": digest}}
@@ -248,7 +291,15 @@ def baci_latest(recorded):
             errors.append(str(e))
     if versions:
         return max(versions, key=ver_tuple)
-    # pages unreadable or without links: probe the next plausible versions with HEAD requests
+    if errors:
+        # a site that refuses the pages refuses the files too: no probing around it. An archive downloaded by hand
+        # into raw/baci is used instead (docs/UPDATING.md, "Yearly refresh by hand").
+        local = [m.group(1) for f in glob.glob(os.path.join(RAW, "baci", "BACI_HS92_V*.zip"))
+                 if (m := re.search(r"BACI_HS92_(V\d{6})\.zip$", f))]
+        if local and ver_tuple(max(local, key=ver_tuple)) > ver_tuple(recorded):
+            return max(local, key=ver_tuple)
+        raise fetch.FetchError("CEPII pages unreachable: " + errors[0])
+    # pages readable but without links: probe the next plausible versions with HEAD requests
     year = datetime.now(timezone.utc).year
     found = []
     for y in (year, year + 1):
@@ -263,8 +314,6 @@ def baci_latest(recorded):
                 pass
     if found:
         return max(found, key=ver_tuple)
-    if errors:
-        raise fetch.FetchError("CEPII pages unreachable: " + errors[0])
     return recorded
 
 
@@ -277,14 +326,21 @@ def src_baci(opts):
     print(f"  BACI recorded {recorded}, latest {latest}")
     if ver_tuple(latest) <= ver_tuple(recorded):
         if not prev.get("state", {}).get("version"):  # first run: record the baseline
-            return {"changed": False, "note": "baseline", "state": {"version": recorded}}
-        return {"changed": False, "note": "no newer version", "state": {"version": recorded}}
+            return {"changed": False, "note": "baseline", "state": {"version": recorded, "available": None}}
+        return {"changed": False, "note": "no newer version", "state": {"version": recorded, "available": None}}
     if opts.baci_check_only:
-        return {"changed": False, "note": f"newer version {latest} available (check only)"}
+        # "available" opens the "New release available: baci" issue (.github/actions/finish-data-update)
+        return {"changed": False, "note": f"newer version {latest} available (check only)",
+                "state": {"version": recorded, "available": latest}}
     name = f"BACI_HS92_{latest}.zip"
     zpath = os.path.join(RAW, "baci", name)
     url = BACI_BASE + name
-    size = int(fetch.head(url).get("Content-Length") or 0)
+    try:
+        size = int(fetch.head(url).get("Content-Length") or 0)
+    except fetch.FetchError:
+        if not os.path.exists(zpath):
+            raise
+        size = os.path.getsize(zpath)  # downloaded by hand: the checks of the archive below decide
     if not (os.path.exists(zpath) and size and os.path.getsize(zpath) == size):
         fetch.download(url, zpath, kind="zip", min_bytes=500_000_000, resume=True, timeout=(20, 120))
     with zipfile.ZipFile(zpath) as zf:
@@ -316,7 +372,8 @@ def src_baci(opts):
         run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_hs4.py"), zpath, CACHE], STEP_MIN["extract"] * 60)
     except RuntimeError as e:
         print("  HS4 extract failed, the country profiles keep the previous HS4 tables:", e)
-    return {"changed": True, "records": int(len(new)), "data_to": str(int(new["year"].max())), "state": {"version": latest}}
+    return {"changed": True, "records": int(len(new)), "data_to": str(int(new["year"].max())),
+            "state": {"version": latest, "available": None}}
 
 
 def src_external(opts):
@@ -353,6 +410,7 @@ SOURCES = {"usda-psd": src_usda, "usgs-mcs": src_usgs, "eia-intl": src_eia, "bac
 def step(name, fn, snapshot_paths):
     """Run one build step with backup/restore and status recording; returns True on success."""
     snap = Snapshot(snapshot_paths)
+    status.begin(name)
     try:
         fn()
         status.record_success(name, note="rebuilt")
@@ -474,9 +532,13 @@ def main():
     changed = set()
     for sid in wanted:
         print(f"== {sid}", flush=True)
+        status.begin(sid)
+        limit = None if (sid == "baci" and not opts.baci_check_only) else SOURCE_MIN.get(sid)
         try:
-            res = SOURCES[sid](opts)
+            with time_limit(limit):
+                res = SOURCES[sid](opts)
             if res.get("skip"):
+                status.end(sid)
                 print("  skipped:", res.get("note"))
                 continue
             status.record_success(sid, records=res.get("records"), data_to=res.get("data_to"),
@@ -485,7 +547,7 @@ def main():
                 changed.add(sid)
             print("  ok:", res.get("note", "updated"))
         except Exception as e:  # noqa: BLE001
-            if not isinstance(e, (fetch.FetchError, ValueError, RuntimeError)):
+            if not isinstance(e, (fetch.FetchError, ValueError, RuntimeError, SourceTimeout)):
                 traceback.print_exc()
             status.record_failure(sid, str(e) or e.__class__.__name__)
             print("  FAILED, previous files kept:", e)

@@ -70,28 +70,31 @@ articles and their infoboxes):
 
 <!-- wikipedia-infra:start -->
 - `data/infrastructure/`, files `fields.geojson`, `mines.geojson`, `pipelines.geojson`, `ports.geojson`,
-  `refineries.geojson` and `smelters.geojson`: 170 assets whose source id is `wikipedia`, each with the `url` of its
-  article;
+  `refineries.geojson`, `smelters.geojson` and `storage.geojson`: 182 assets whose source id is `wikipedia`, each with
+  the `url` of its article;
 - the other infrastructure features whose text names Wikipedia as the origin of a fact (a coordinate, a capacity, an
-  opening year, a length, an operator), although their source id is another one: 61 features, covered here by their `id`
+  opening year, a length, an operator), although their source id is another one: 74 features, covered here by their `id`
   and not edited in the files: `fields.geojson`: `west-qurna`, `stabroek`, `permian-basin`, `marcellus`, `haynesville`,
   `vaca-muerta`, `bakken`; `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
   `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `kiruna`, `sishen`,
   `cerrejon`, `elga`, `tavan-tolgoi`, `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`, `mcarthur-river`,
   `olympic-dam`, `rocanville`, `belaruskali-soligorsk`, `uralkali-berezniki`, `mountain-pass`, `bayan-obo`, `red-dog`,
   `san-rafael-tin`, `cloudbreak-christmas-creek`, `mount-arthur`, `blackwater-coal`, `fording-river`, `elkview`,
-  `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `gladstone`,
-  `houston`, `santos`, `paranagua`; `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`,
-  `galveston-bay-mpc`, `whiting-bp`, `mina-al-ahmadi`, `mina-abdullah`, `rabigh-aramco`, `replan-petrobras`,
-  `salina-cruz-pemex`; `smelters.geojson`: `aurubis-hamburg`, `kghm-glogow`, `boliden-ronnskar`. Their `url` is the page
-  of their own source; the text of the feature names Wikipedia where a fact comes from it;
+  `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `port-hedland`,
+  `newcastle`, `gladstone`, `rotterdam`, `basrah-oil-terminal`, `fujairah`, `singapore`, `houston`, `santos`,
+  `paranagua`, `vancouver`, `hound-point`, `primorsk`, `zhanjiang`, `taman`, `arzew`, `cape-lambert`;
+  `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`,
+  `mina-al-ahmadi`, `mina-abdullah`, `rabigh-aramco`, `replan-petrobras`, `salina-cruz-pemex`; `smelters.geojson`:
+  `aurubis-hamburg`, `kghm-glogow`, `boliden-ronnskar`. Their `url` is the page of their own source; the text of the
+  feature names Wikipedia where a fact comes from it;
 <!-- wikipedia-infra:end -->
-- `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
+- `data/commodities/companies.json` and `data/freight/shipping-companies.json` (and their sources in
+  `pipeline/companies/`): 287 and 28 company entries whose source id is `wikipedia`, each with the `url` of its article;
 - the lines of `data/countries/profiles/*.json` whose source id is `wikipedia` (they repeat figures of the files above);
 - the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
-- `data/freight/vessel-classes.json`: the size ranges and notes whose source id is `wikipedia-vessel-classes`,
-  `vessel-size-conventions` or `wikipedia` (articles Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Bulk
-  carrier, Container ship);
+- `data/freight/vessel-classes.json`: the size ranges, typical ships and notes whose source id is
+  `wikipedia-vessel-classes` or `wikipedia` (articles Bulk carrier, Capesize, Valemax, Chinamax, Panamax, Handymax,
+  Handysize, Oil tanker, Suezmax, Aframax, Chemical tanker, LNG carrier, Q-Max, Q-Flex, Malaccamax, Container ship);
 - `data/freight/chokepoints.json`: the `limits` texts whose `limitsS` is `wikipedia-vessel-classes` (articles Malaccamax,
   Sunda Strait, Lombok Strait, Drogden, Strait of Dover);
 - the notes of `data/freight/routes.json` that say they take a fact from a Wikipedia article (Handysize);
@@ -312,7 +315,7 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
 ## Points taken from OpenStreetMap: ODbL 1.0
 
 <!-- osm-points:start -->
-The coordinates of 186 assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim search)
+The coordinates of 209 assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim search)
   and the note of each feature says so: in `data/infrastructure/`, in `fields.geojson`, Ku-Maloob-Zaap and South Pars;
   in `lng.geojson`, Alexandroupolis FSRU, Altamira FLNG, Altamira LNG Terminal, Bahia Blanca GasPort, Canaport LNG,
   Cartagena LNG Terminal, Chita LNG Terminal, Damietta LNG, Donggi-Senoro LNG, Energia Costa Azul LNG,
@@ -334,16 +337,19 @@ The coordinates of 186 assets of the infrastructure layer were looked up in Open
   Salar del Hombre Muerto, Salar de Olaroz, Salobo, Sangaredi, Sicomines, Sorowako mine, Tabang mine, Taganito mine,
   Tianshan Uranium, Toquepala, Tshipi Borwa, Vale Ontario operations, Vanscoy, Voisey's Bay, Weda Bay, West Angelas,
   Wodgina, Yanacocha and Yichun lithium mines; in `pipelines.geojson`, Enbridge Mainline and
-  Goreh-Jask crude oil pipeline; in `ports.geojson`, Caofeidian; in `refineries.geojson`, Balikpapan, Baton Rouge,
-  Chiba, Daesan, Deer Park, Fawley, Isfahan, Mizushima, Negishi, Yokohama, Olmeca, Pascagoula, Pengerang,
-  Persian Gulf Star, Priolo, Rotterdam, SATORP, Jubail, STAR, Salina Cruz, Schwedt, Sitra, Szazhalombatta and Zhenhai;
-  in `smelters.geojson`, Albras smelter, Alouette smelter, Balkhash copper smelter and refinery, Birla Copper smelter,
-  Bor smelter and refinery, Caletones smelter, Chanderiya smelter, Hindalco Aditya smelter, Hydro aluminium smelters,
-  Ilo smelter and refinery, Inalum Kuala Tanjung smelter, Kazzinc Ust-Kamenogorsk metallurgical complex,
-  Kitimat smelter, Ma'aden Aluminium smelter, Mentok smelter, Met-Mex Peñoles refinery, NALCO Angul smelter,
-  Port Pirie smelter, Ridder zinc refinery, Sayanogorsk aluminium smelter, Sorowako smelter, Tomago smelter,
-  Tongling smelter and refinery, Trail smelter and refinery and Vedanta Jharsuguda smelter. Only a single point per
-  asset is taken; no other OpenStreetMap data is used.
+  Goreh-Jask crude oil pipeline; in `ports.geojson`, CPC terminal, Caofeidian, Dongying, Es Sider, Forcados terminal,
+  Halul Island, Kimitsu, Lavera, Majishan, Mamonal, Mina al-Fahal, Pozos Colorados, Qua Iboe terminal, Roberts Bank,
+  San Lorenzo, Seria, Skikda, St James, Tubay, Vadinar, Valdez Marine Terminal and Westridge Marine Terminal; in
+  `refineries.geojson`, Balikpapan, Baton Rouge, Chiba, Daesan, Deer Park, Fawley, Isfahan, Mizushima,
+  Negishi, Yokohama, Olmeca, Pascagoula, Pengerang, Persian Gulf Star, Priolo, Rotterdam, SATORP, Jubail, STAR,
+  Salina Cruz, Schwedt, Sitra, Szazhalombatta and Zhenhai; in `smelters.geojson`, Albras smelter, Alouette smelter,
+  Balkhash copper smelter and refinery, Birla Copper smelter, Bor smelter and refinery, Caletones smelter,
+  Chanderiya smelter, Hindalco Aditya smelter, Hydro aluminium smelters, Ilo smelter and refinery,
+  Inalum Kuala Tanjung smelter, Kazzinc Ust-Kamenogorsk metallurgical complex, Kitimat smelter,
+  Ma'aden Aluminium smelter, Mentok smelter, Met-Mex Peñoles refinery, NALCO Angul smelter, Port Pirie smelter,
+  Ridder zinc refinery, Sayanogorsk aluminium smelter, Sorowako smelter, Tomago smelter, Tongling smelter and refinery,
+  Trail smelter and refinery and Vedanta Jharsuguda smelter; in `storage.geojson`, Cushing and Mont Belvieu. Only a
+  single point per asset is taken; no other OpenStreetMap data is used.
 <!-- osm-points:end -->
 
 Credit: **© OpenStreetMap contributors**. The data is available under the Open Database License 1.0
@@ -366,10 +372,17 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   rule), the company-level crude and products imports, the refinery capacity report and the natural gas data.
 - **Wikidata** (points of a few assets): CC0 1.0, no credit required.
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
-- **FRED**: the deep-sea freight producer price index is a U.S. Bureau of Labor Statistics series, public domain with
-  citation requested ("Source: U.S. Bureau of Labor Statistics via FRED"). This product uses the FRED API but is not
-  endorsed or certified by the Federal Reserve Bank of St. Louis. Other FRED series are not all in the public domain
-  (some are copyrighted by third parties); the atlas uses no other series.
+- **U.S. Bureau of Labor Statistics**: the deep-sea freight producer price index (series PCU483111483111), public domain
+  with citation requested ("Public Domain: Citation Requested" on FRED's page of the series). It is fetched from the BLS
+  API; the years the BLS has not yet returned are the copy the atlas took earlier through the FRED API, which is not
+  endorsed or certified by the Federal Reserve Bank of St. Louis.
+- **Federal Reserve Bank of Dallas**: Index of global real economic activity (Kilian 2009, 2019), reproduced under the
+  Bank's terms of use ("may be made without limitation as to quantity, provided it is not distributed for the purpose
+  of private gain and is appropriately credited to the Bank").
+- **Federal Reserve Bank of New York**: Federal Reserve Bank of New York, Global Supply Chain Pressure Index,
+  https://www.newyorkfed.org/research/policy/gscpi. Content from the New York Fed subject to the Terms of Use at
+  newyorkfed.org. The GSCPI is not an official estimate of the Federal Reserve Bank of New York, its President, the
+  Federal Reserve System, or the Federal Open Market Committee.
 - **SeaRoute**: the `searoute` Python package is under Apache 2.0; the maritime network of Eurostat's SeaRoute is
   under EUPL 1.2.
 
@@ -383,7 +396,7 @@ verdict (redistribute, cite a few facts, link only).
 
 | Source | Position |
 |---|---|
-| IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit; the daily rows are a working file kept out of git. See below. |
+| IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit; the daily rows are a working file kept out of git. The identity and position of about 2,000 ports (ports database) are kept and used with credit. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
 | World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
@@ -424,6 +437,13 @@ tracking signals; the atlas shows only aggregated counts and volumes, never a po
 
 The CC BY 4.0 release of the atlas's own figures does not extend IMF's rights: the weekly averages stay subject to
 the IMF conditions above.
+
+Ports database. The ports of the infrastructure layer take their position and UN/LOCODE from the PortWatch ports
+database (ArcGIS item "Ports", PortWatch_ports_database), whose licence field points to the same IMF terms of use as
+the chokepoint tables (read on 23 November 2026). The atlas keeps the identity of each port (PortWatch port id, name,
+country, UN/LOCODE, position and page id) in `pipeline/cache/portwatch_ports.csv`, published in the repository with
+this credit, and links each port asset to its PortWatch page. No vessel count or traffic figure of the database is
+kept or shown. Credit line: **IMF PortWatch (IMF and University of Oxford), ports database, data adapted.**
 
 ### Baltic Exchange
 

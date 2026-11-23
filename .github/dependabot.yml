@@ -1,0 +1,31 @@
+# Dependabot version updates, one grouped pull request a month per ecosystem. They are switched OFF here
+# (open-pull-requests-limit: 0) until the owner decides: each pull request sends a notification e-mail. To turn them
+# on, set the three limits to 3. Security updates are separate and need "Dependabot security updates" turned on in
+# the repository settings. The checks of .github/workflows/ci.yml run on each pull request; nothing is merged without
+# the owner.
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: /pipeline
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 0
+    groups:
+      python:
+        patterns: ["*"]
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 0
+    groups:
+      npm:
+        patterns: ["*"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 0
+    groups:
+      actions:
+        patterns: ["*"]

@@ -1,0 +1,4 @@
+# The scheduled data jobs merge the status files entry by entry when two of them push at the same time
+# (.github/actions/finish-data-update/push.sh configures the driver; without it git merges them as text).
+data/_status/updates.json merge=status-union
+data/_status/log.jsonl merge=status-union

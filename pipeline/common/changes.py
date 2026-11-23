@@ -57,7 +57,7 @@ EPOCH = date(1970, 1, 1)
 SOURCES_OF = {"faostat-wna": ["faostat", "wna"]}
 # the workflow (.github/workflows/<id>.yml) that reads each registry source; every other source is entered by hand
 JOBS = {
-    "update-prices": ["eia-spot", "wb-pink", "fred"],
+    "update-prices": ["eia-spot", "wb-pink", "bls", "dallasfed", "nyfed"],
     "update-portwatch": ["portwatch"],
     "update-annual": ["usda-psd", "usgs-mcs", "eia-intl", "baci", "faostat", "wna"],
 }

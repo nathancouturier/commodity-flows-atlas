@@ -36,19 +36,23 @@ const mine = () => ({
 });
 const feat = (p, coordinates = [-71.6, -16.5]) => ({ type: 'Feature', properties: p, geometry: { type: 'Point', coordinates } });
 
-const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports' };
+const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports', storage: 'storage' };
 
-/** A data folder with one valid mine and empty files for the other six; each feature goes to the file of its type, unless `place` is false. */
+/** A data folder with one valid mine and empty files for the other seven; each feature goes to the file of its type, unless `place` is false. */
 function folder(mutate, place = true) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'infra-test-'));
   fs.mkdirSync(path.join(dir, 'infrastructure'), { recursive: true });
-  for (const f of ['fields', 'refineries', 'lng', 'pipelines', 'smelters', 'ports'])
+  for (const f of ['fields', 'refineries', 'lng', 'pipelines', 'smelters', 'ports', 'storage'])
     fs.writeFileSync(path.join(dir, 'infrastructure', `${f}.geojson`), JSON.stringify({ type: 'FeatureCollection', features: [] }));
   fs.mkdirSync(path.join(dir, 'commodities'));
   fs.writeFileSync(path.join(dir, 'commodities/index.json'), JSON.stringify([{ id: 'copper' }, { id: 'crude-oil' }]));
   fs.mkdirSync(path.join(dir, 'countries'));
   fs.writeFileSync(path.join(dir, 'countries/index.json'), JSON.stringify([{ c: 'PER' }, { c: 'CHL' }, { c: 'AUS' }, { c: 'IDN' }]));
   fs.writeFileSync(path.join(dir, 'sources.json'), JSON.stringify([{ id: 'wikipedia' }]));
+  fs.mkdirSync(path.join(dir, 'freight'));
+  fs.writeFileSync(path.join(dir, 'freight/vessel-classes.json'), JSON.stringify([{ id: 'capesize' }, { id: 'suezmax' }]));
+  fs.mkdirSync(path.join(dir, 'prices'));
+  fs.writeFileSync(path.join(dir, 'prices/index.json'), JSON.stringify([{ id: 'wti-d' }]));
   fs.mkdirSync(path.join(dir, 'geo'));
   fs.copyFileSync(path.join(realData, 'geo/countries.topo.json'), path.join(dir, 'geo/countries.topo.json'));
   const features = [feat(mine())];
@@ -242,6 +246,54 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   for (const d of [dir2, dir3]) fs.rmSync(d, { recursive: true, force: true });
   assert.equal(strict.status, 1);
   assert.equal(soft.status, 0, soft.stderr);
+}
+
+// ports: trade-engine code, PortWatch id, limits, the class derived from them, prices; storage hubs in Mb
+{
+  const port = (extra = {}) => {
+    const p = { ...mine(), id: 'port-test', name: 'Port test', type: 'port', k: ['iron-ore'], locode: 'PEMRI', portwatch: 'port88', ...extra };
+    delete p.capacity;
+    delete p.output;
+    p.k = ['copper'];
+    return p;
+  };
+  const lim = { draught: 18.2, dwt: 200000, n: 'Berth 1 at high tide', s: 'wikipedia', url: 'https://en.wikipedia.org/wiki/Port', y: 2025 };
+  const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: 'capesize', n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
+  assert.deepEqual(ok.errors, [], ok.all);
+  const cases = {
+    'bad locode': [{ locode: 'RU PRI' }, /"locode" must be/],
+    'bad portwatch id': [{ portwatch: '1020' }, /"portwatch" must be/],
+    'limits without a figure': [{ limits: { n: 'x', s: 'wikipedia', url: lim.url } }, /limits give none/],
+    'draught in feet': [{ limits: { ...lim, draught: 45 } }, /not in metres/],
+    'limits without n': [{ limits: { ...lim, n: '' } }, /limits\.n must say/],
+    'limits of an unknown source': [{ limits: { ...lim, s: 'nobody' } }, /limits\.s "nobody"/],
+    'limits without a page': [{ limits: { ...lim, url: undefined } }, /limits\.url/],
+    'limits with a stray field': [{ limits: { ...lim, tide: 'high' } }, /limits\.tide is not a field/],
+    'class without limits': [{ maxClass: { dry: 'capesize', n: 'x' } }, /derived from "limits"/],
+    'class of no segment': [{ limits: lim, maxClass: { bulk: 'capesize', n: 'x' } }, /maxClass\.bulk is not a segment/],
+    'unknown class': [{ limits: lim, maxClass: { dry: 'megamax', n: 'x' } }, /"megamax" is not a vessel class/],
+    'class without method': [{ limits: lim, maxClass: { dry: 'capesize' } }, /needs "n"/],
+    'unknown price series': [{ prices: ['brent-x'] }, /price series "brent-x"/],
+  };
+  for (const [name, [extra, re]] of Object.entries(cases)) {
+    const r = await run((fs) => (fs[0] = feat(port(extra), [-72.1, -17.0])));
+    assert.ok(r.errors.some((e) => re.test(e)), `${name}: expected an error matching ${re}, got ${JSON.stringify(r.errors)}`);
+  }
+  // limits belong to a port
+  const onMine = await run((fs) => (fs[0].properties.limits = lim));
+  assert.ok(onMine.errors.some((e) => /"limits" belong to a port/.test(e)), onMine.all);
+  // a storage hub sits in storage.geojson and gives its capacity in Mb; a mine cannot
+  const hub = { ...mine(), id: 'hub-test', type: 'storage', k: ['crude-oil'], capacity: { v: 78.4, u: 'Mb', y: 2024 } };
+  delete hub.output;
+  const st = await run((fs) => (fs[0] = feat(hub)));
+  assert.deepEqual(st.errors, [], st.all);
+  const misplaced = await run((fs) => (fs[0] = feat(hub)), false, false);
+  assert.ok(misplaced.errors.some((e) => /belongs in storage\.geojson/.test(e)), misplaced.all);
+  const mb = await run((fs) => (fs[0].properties.capacity.u = 'Mb'));
+  assert.ok(mb.errors.some((e) => /does not fit a mine/.test(e)), mb.all);
+  // an island oil terminal may stand offshore, like an LNG terminal
+  const offshore = await run((fs) => (fs[0] = feat(port(), [-73.2, -17.8])));
+  assert.deepEqual(offshore.errors, [], offshore.all);
 }
 
 console.log('validate-infra tests passed');

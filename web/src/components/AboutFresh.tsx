@@ -8,7 +8,7 @@ import '../styles/changes.css';
 
 /** The families of data, each with the update jobs (keys of updates.json) that feed it. */
 const FAMILIES: { name: string; keys: string[] }[] = [
-  { name: 'Prices', keys: ['eia-spot', 'wb-pink', 'fred'] },
+  { name: 'Prices', keys: ['eia-spot', 'wb-pink', 'bls', 'dallasfed', 'nyfed'] },
   { name: 'Chokepoint traffic', keys: ['portwatch'] },
   { name: 'Trade flows between countries', keys: ['baci'] },
   { name: 'Production, reserves and consumption', keys: ['usgs-mcs', 'usda-psd', 'eia-intl'] },

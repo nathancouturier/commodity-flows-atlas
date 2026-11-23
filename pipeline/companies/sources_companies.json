@@ -3,7 +3,7 @@
   "id": "company-reports",
   "name": "Company annual and production reports",
   "publisher": "Individual companies",
-  "url": "https://www.vitol.com/",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/companies/README.md",
   "licence": "Per company; facts only cited",
   "update": "annual"
  },

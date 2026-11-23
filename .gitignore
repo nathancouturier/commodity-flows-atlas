@@ -11,3 +11,5 @@ pipeline/cache/*.tmp
 pipeline/cache/*.new.csv.gz
 # IMF PortWatch daily table: a working file between runs (restored from a workflow artifact), not published (NOTICE.md)
 pipeline/cache/portwatch/
+# download leftovers of common/fetch.py (resumable downloads keep <file>.part until complete)
+*.part

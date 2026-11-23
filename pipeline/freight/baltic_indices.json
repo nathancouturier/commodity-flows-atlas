@@ -1,0 +1,451 @@
+[
+ {
+  "id": "BDI",
+  "name": "Baltic Dry Index",
+  "of": [
+   {
+    "ix": "C5TC",
+    "w": 40
+   },
+   {
+    "ix": "P5TC",
+    "w": 30
+   },
+   {
+    "ix": "S11TC",
+    "w": 30
+   }
+  ],
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+  "doc": "Baltic Exchange dry services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "C5TC",
+  "name": "Capesize timecharter average (182,000 dwt)",
+  "since": "2026-01-02",
+  "members": [
+   {
+    "r": "C8_182",
+    "w": 15
+   },
+   {
+    "r": "C9_182",
+    "w": 12.5
+   },
+   {
+    "r": "C10_182",
+    "w": 35
+   },
+   {
+    "r": "C14_182",
+    "w": 25
+   },
+   {
+    "r": "C16_182",
+    "w": 12.5
+   }
+  ],
+  "note": "The Capesize component of the Baltic Dry Index from 2 January 2026 (Circulars 40/25 and 41/25).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+  "doc": "Baltic Exchange dry services page; Circular 40/25",
+  "read": "November 2026"
+ },
+ {
+  "id": "C5TC_180",
+  "name": "Capesize timecharter average (180,000 dwt)",
+  "members": [
+   {
+    "r": "C8_14",
+    "w": 25
+   },
+   {
+    "r": "C9_14",
+    "w": 12.5
+   },
+   {
+    "r": "C10_14",
+    "w": 25
+   },
+   {
+    "r": "C14",
+    "w": 25
+   },
+   {
+    "r": "C16",
+    "w": 12.5
+   }
+  ],
+  "note": "Its five routes ceased on 24 December 2025; from 2 January 2026 the Baltic Exchange derives this average from the 182,000 dwt one (Circular 19/25).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+  "doc": "Baltic Exchange, Circular 19/25; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "P5TC",
+  "name": "Panamax timecharter average",
+  "members": [
+   {
+    "r": "P1A_82",
+    "w": 25
+   },
+   {
+    "r": "P2A_82",
+    "w": 10
+   },
+   {
+    "r": "P3A_82",
+    "w": 25
+   },
+   {
+    "r": "P4_82",
+    "w": 10
+   },
+   {
+    "r": "P6_82",
+    "w": 30
+   }
+  ],
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+  "doc": "Baltic Exchange dry services page",
+  "read": "November 2026"
+ },
+ {
+  "id": "S11TC",
+  "name": "Supramax timecharter average",
+  "members": [
+   {
+    "r": "S1B_63",
+    "w": 5
+   },
+   {
+    "r": "S1C_63",
+    "w": 5
+   },
+   {
+    "r": "S2_63",
+    "w": 15
+   },
+   {
+    "r": "S3_63",
+    "w": 15
+   },
+   {
+    "r": "S4A_63",
+    "w": 7.5
+   },
+   {
+    "r": "S4B_63",
+    "w": 10
+   },
+   {
+    "r": "S5_63",
+    "w": 5
+   },
+   {
+    "r": "S8_63",
+    "w": 10
+   },
+   {
+    "r": "S9_63",
+    "w": 7.5
+   },
+   {
+    "r": "S10_63",
+    "w": 10
+   },
+   {
+    "r": "S15_63",
+    "w": 10
+   }
+  ],
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+  "doc": "Baltic Exchange dry services page",
+  "read": "November 2026"
+ },
+ {
+  "id": "S3TC_63",
+  "name": "Baltic Supramax Asia index (BES Asia)",
+  "members": [
+   {
+    "r": "S2_63",
+    "w": 42
+   },
+   {
+    "r": "S8_63",
+    "w": 29
+   },
+   {
+    "r": "S10_63",
+    "w": 29
+   }
+  ],
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+  "read": "November 2026"
+ },
+ {
+  "id": "HS7TC",
+  "name": "Handysize timecharter average",
+  "members": [
+   {
+    "r": "HS1_38",
+    "w": 12.5
+   },
+   {
+    "r": "HS2_38",
+    "w": 12.5
+   },
+   {
+    "r": "HS3_38",
+    "w": 12.5
+   },
+   {
+    "r": "HS4_38",
+    "w": 12.5
+   },
+   {
+    "r": "HS5_38",
+    "w": 20
+   },
+   {
+    "r": "HS6_38",
+    "w": 20
+   },
+   {
+    "r": "HS7_38",
+    "w": 10
+   }
+  ],
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+  "doc": "Baltic Exchange dry services page",
+  "read": "November 2026"
+ },
+ {
+  "id": "BDTI",
+  "name": "Baltic Dirty Tanker Index",
+  "members": [
+   {
+    "r": "TD2"
+   },
+   {
+    "r": "TD3C"
+   },
+   {
+    "r": "TD6"
+   },
+   {
+    "r": "TD7"
+   },
+   {
+    "r": "TD8"
+   },
+   {
+    "r": "TD9"
+   },
+   {
+    "r": "TD14"
+   },
+   {
+    "r": "TD15"
+   },
+   {
+    "r": "TD18"
+   },
+   {
+    "r": "TD19"
+   },
+   {
+    "r": "TD20"
+   }
+  ],
+  "equal": true,
+  "note": "The formula on both pages still lists TD2, whose publication ceased on 1 August 2024 (Circular 15/24).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "BCTI",
+  "name": "Baltic Clean Tanker Index",
+  "members": [
+   {
+    "r": "TC1"
+   },
+   {
+    "r": "TC2_37"
+   },
+   {
+    "r": "TC5"
+   },
+   {
+    "r": "TC6"
+   },
+   {
+    "r": "TC16"
+   },
+   {
+    "r": "TC23"
+   }
+  ],
+  "equal": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page",
+  "read": "November 2026"
+ },
+ {
+  "id": "VLTCE",
+  "name": "VLCC time-charter equivalent",
+  "members": [
+   {
+    "r": "TD3C"
+   },
+   {
+    "r": "TD15"
+   },
+   {
+    "r": "TD22"
+   }
+  ],
+  "equal": true,
+  "tce": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "SZTCE",
+  "name": "Suezmax time-charter equivalent",
+  "members": [
+   {
+    "r": "TD6"
+   },
+   {
+    "r": "TD20"
+   }
+  ],
+  "equal": true,
+  "tce": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "ATCE",
+  "name": "Aframax time-charter equivalent",
+  "members": [
+   {
+    "r": "TD7"
+   },
+   {
+    "r": "TD8"
+   },
+   {
+    "r": "TD14"
+   },
+   {
+    "r": "TD19"
+   },
+   {
+    "r": "TD25"
+   },
+   {
+    "r": "TD26"
+   }
+  ],
+  "equal": true,
+  "tce": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "MA2TCE",
+  "name": "MR Atlantic basket",
+  "members": [
+   {
+    "r": "TC2_37"
+   },
+   {
+    "r": "TC14"
+   }
+  ],
+  "tce": true,
+  "note": "A time-charter equivalent average on a triangulation basis: the guide gives no weight to each route.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "MP2TCE",
+  "name": "MR Pacific basket",
+  "members": [
+   {
+    "r": "TC11"
+   },
+   {
+    "r": "TC12"
+   }
+  ],
+  "tce": true,
+  "note": "A time-charter equivalent average on a triangulation basis: the guide gives no weight to each route.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+  "doc": "Baltic Exchange tanker services page; Guide to Market Benchmarks, version 7.09",
+  "read": "November 2026"
+ },
+ {
+  "id": "BLPG",
+  "name": "Baltic LPG Index",
+  "members": [
+   {
+    "r": "BLPG1"
+   },
+   {
+    "r": "BLPG2"
+   },
+   {
+    "r": "BLPG3"
+   }
+  ],
+  "equal": true,
+  "tce": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+  "read": "November 2026"
+ },
+ {
+  "id": "BLNG",
+  "name": "Baltic LNG Index",
+  "members": [
+   {
+    "r": "BLNG1"
+   },
+   {
+    "r": "BLNG2"
+   },
+   {
+    "r": "BLNG3"
+   }
+  ],
+  "equal": true,
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+  "read": "November 2026"
+ }
+]

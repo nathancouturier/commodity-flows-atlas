@@ -27,10 +27,14 @@ import io
 import json
 import os
 import re
-import urllib.request
+import sys
+import tempfile
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, ".."))
+
+from common import fetch  # noqa: E402  (the shared downloader: retries, type checks, a truthful User-Agent)
 CACHE = os.path.join(HERE, "..", "cache")
 WNA_URL = "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production"
 FAO_URL = "https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_All_Data_(Normalized).zip"
@@ -43,13 +47,15 @@ EU_M49 = {"040": "AUT", "056": "BEL", "100": "BGR", "191": "HRV", "196": "CYP", 
           "250": "FRA", "276": "DEU", "300": "GRC", "348": "HUN", "372": "IRL", "380": "ITA", "428": "LVA", "440": "LTU", "442": "LUX",
           "470": "MLT", "528": "NLD", "616": "POL", "620": "PRT", "642": "ROU", "703": "SVK", "705": "SVN", "724": "ESP", "752": "SWE"}
 EU_AGG = {"001": "World", "097": "European Union (27)"}
-UA = "Mozilla/5.0 (research data download)"
 
 
-def get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=300) as r:
-        return r.read()
+def get(url, kind="zip"):
+    """The bytes of ``url``, downloaded through common/fetch.py (an HTML error page is never taken for a zip)."""
+    with tempfile.TemporaryDirectory() as tmp:
+        path = os.path.join(tmp, "download")
+        fetch.download(url, path, kind=kind, min_bytes=1000, timeout=(20, 300))
+        with open(path, "rb") as fh:
+            return fh.read()
 
 
 def num(s):
@@ -112,7 +118,7 @@ def main():
     os.makedirs(CACHE, exist_ok=True)
 
     if not a.only:
-        text = open(a.wna_html, encoding="utf-8").read() if a.wna_html else get(WNA_URL).decode("utf-8")
+        text = open(a.wna_html, encoding="utf-8").read() if a.wna_html else fetch.get_text(WNA_URL)
         w = parse_wna(text)
         assert "Kazakhstan" in w["rows"] and "World total tU" in w["rows"]
         json.dump(w, open(os.path.join(CACHE, "wna_uranium.json"), "w"), indent=1)

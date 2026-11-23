@@ -877,7 +877,8 @@ def main():
                         continue
                     key = (iso, co["name"])
                     if key not in found:
-                        found[key] = ({k2: co[k2] for k2 in ("name", "hq", "role", "detail", "s", "y", "url") if k2 in co} | {"k": []},
+                        found[key] = ({k2: co[k2] for k2 in ("name", "hq", "role", "own", "parent", "sanction", "detail", "s", "y", "url", "read")
+                                       if k2 in co} | {"k": []},
                                       role_rank[role], order)
                         order += 1
                     if k not in found[key][0]["k"]:

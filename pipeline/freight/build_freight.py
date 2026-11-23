@@ -42,6 +42,8 @@ import generated_routes as GR  # noqa: E402
 
 sys.path.insert(0, os.path.join(HERE, "..", "trade"))
 import caveats as CV  # noqa: E402
+sys.path.insert(0, os.path.join(HERE, "..", "infrastructure"))
+from route_assets import route_port_assets  # noqa: E402
 import checks as K  # noqa: E402
 from clean import history_flags  # noqa: E402
 
@@ -491,8 +493,11 @@ ROUTE_PORTS = {
     "C10_14": ("AUPHE", "CNTAO"), "C14": ("BRTUB", "CNTAO"), "P1A_82": ("USMSY", "NLRTM"), "P2A_82": ("USMSY", "TWKHH"),
     "P3A_82": ("CAVAN", "JPCHB"), "P6_82": ("BRSSZ", "SGSIN"), "S2_63": ("AUNTL", "CNTAO"), "S10_63": ("IDSRI", "CNZHA"),
     "HS1_38": ("NLRTM", "BRSSZ"), "HS2_38": ("NLRTM", "USHOU"), "HS3_38": ("ARUPR", "NLRTM"), "HS4_38": ("USMSY", "NLRTM"),
-    "HS5_38": ("IDBPN", "JPYOK"), "HS6_38": ("CNTSN", "JPCHB"), "HS7_38": ("CNTSN", "SGSIN"), "TC20": ("SAJUB", "NLRTM"),
-    "TC21": ("USHOU", "JMKIN"),
+    "HS5_38": ("IDBPN", "JPYOK"), "HS6_38": ("CNTSN", "JPCHB"), "HS7_38": ("CNTSN", "SGSIN"),
+    "C8_182": ("COPBO", "NLRTM"), "C9_182": ("BRTUB", "CNTAO"), "C10_182": ("AUPHE", "CNTAO"), "C14_182": ("BRTUB", "CNTAO"),
+    "C16_182": ("AUPHE", "NLRTM"), "P4_82": ("AUNTL", "NLRTM"), "P5_82": ("IDSRI", "CNFOC"), "S1B_63": ("ROCND", "CNTAO"),
+    "S3_63": ("CNTSN", "NGLOS"), "S4B_63": ("NLRTM", "USHOU"), "S5_63": ("BRSSZ", "CNTAO"), "S8_63": ("IDSRI", "INPRT"),
+    "S9_63": ("BRSSZ", "NLRTM"), "S15_63": ("ZARCB", "CNTAO"),
     # partial overrides (None = use the port matched from the route definition)
     "uspnw-asia-grain": ("USKAM", None), "brazil-china-vloc-iron-ore": ("BRPMA", "CNNGB"), "simandou-china-iron-ore": (None, "CNNGB"), "TD34": ("OMMFH", None),
 }
@@ -500,6 +505,27 @@ ROUTE_PORTS = {
 
 def load(name):
     return json.load(open(os.path.join(HERE, name)))
+
+
+def index_membership(defs):
+    """The Baltic indices (baltic_indices.json) each benchmark belongs to: its weight, every member with a flag for those the
+    atlas has, and `covered`, the weight of the index whose routes the atlas has (a page must not suggest 100% when it is less)."""
+    have = {r["id"] for r in defs}
+    out = defaultdict(list)
+    for ix in load("baltic_indices.json"):
+        ms = ix.get("members") or []
+        weight = (lambda m: 100 / len(ms)) if ix.get("equal") else (lambda m: m.get("w"))
+        for m in ms:
+            if m["r"] not in have:
+                continue
+            x = {"id": ix["id"], "name": ix["name"], "w": None if weight(m) is None else round(weight(m), 2)}
+            x.update({k: True for k in ("equal", "tce") if ix.get(k)})
+            x["members"] = [{"r": y["r"], **({"w": y["w"]} if "w" in y else {}), "in": y["r"] in have} for y in ms]
+            if weight(m) is not None:
+                x["covered"] = round(sum(weight(y) for y in ms if y["r"] in have), 2)
+            x.update({k: ix[k] for k in ("since", "note", "url", "doc") if ix.get(k)})
+            out[m["r"]].append(x)
+    return out
 
 
 def corridor_groups(c):
@@ -580,6 +606,7 @@ def main():
     main_lane = {ln["id"]: ln for ln in main_lanes}
     pair_row = {(g, r["o"], r["d"]): r for g, p in pairs.items() for r in p["rows"] if r["m"] in (0, 1)}
     defs = load("routes_def.json")
+    in_index = index_membership(defs)
     # generated corridors (generated_routes.py): a route for each large seaborne corridor that no hand-written route names
     latest_t = {(g, o, d): t for g, o, d, t in df[df["year"] == latest][["group", "o", "d", "t"]].itertuples(index=False)}
     hand = defaultdict(set)
@@ -627,9 +654,17 @@ def main():
             out["roundVoyage"] = True
         if r.get("parcel"):
             out["parcel"] = r["parcel"]
+            if r.get("parcelMax"):
+                out["parcelMax"] = r["parcelMax"]
             out["parcelUnit"] = r.get("parcelUnit", "t")
+        if r.get("definition"):
+            # the benchmark's published definition, with the indices it belongs to
+            out["definition"] = {**r["definition"], **({"index": in_index[r["id"]]} if in_index.get(r["id"]) else {})}
         out["from"] = {"region": r["from"]["region"], "ports": [p["name"] for p in r["from"]["ports"]]}
         out["to"] = {"region": r["to"]["region"], "ports": [p["name"] for p in r["to"]["ports"]]}
+        # the infrastructure asset each port is ("port:primorsk", or None), for the links of the route page
+        out["from"]["assets"] = route_port_assets(r["from"], r.get("cargoes"))
+        out["to"]["assets"] = route_port_assets(r["to"], r.get("cargoes"))
         if r["id"] in ROUTE_PORTS and None not in ROUTE_PORTS[r["id"]]:
             out["drawnAs"] = "typical laden leg"
         if not a or not b:

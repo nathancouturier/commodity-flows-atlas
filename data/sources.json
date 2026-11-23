@@ -50,15 +50,34 @@
   "use": "Monthly prices since 1960, the basis notes and basis changes of the series, price indices, and annual real prices (constant 2010 US dollars, MUV deflator)"
  },
  {
-  "id": "fred",
-  "name": "FRED, Federal Reserve Bank of St. Louis",
-  "publisher": "Federal Reserve Bank of St. Louis",
-  "url": "https://fred.stlouisfed.org/",
-  "licence": "Per series. The series used is a U.S. Bureau of Labor Statistics series: public domain, citation requested (Source: BLS via FRED). Other FRED series can be copyrighted",
-  "update": "daily / monthly",
-  "access": "FRED API (api.stlouisfed.org), needs a free API key stored as the FRED_API_KEY secret; without it the series is skipped",
-  "use": "One series: US producer price index for deep-sea freight (BLS series PCU483111483111)",
-  "key": "Free FRED API key, created by the project owner and stored as the GitHub secret FRED_API_KEY; without it the series is skipped"
+  "id": "bls",
+  "name": "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111)",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "url": "https://www.bls.gov/ppi/",
+  "licence": "Public domain, citation requested: FRED's page of this series (https://fred.stlouisfed.org/series/PCU483111483111) tags it \"Public Domain: Citation Requested\" with \"Source: U.S. Bureau of Labor Statistics\". The BLS's own copyright page (https://www.bls.gov/opub/copyright-information.htm) refused automated access, so its wording is not quoted here",
+  "update": "monthly (mid-month, for the month before last)",
+  "access": "BLS public API version 1 (api.bls.gov/publicAPI/v1), no key and no registration: ten years per request and a small daily quota per address. The history is kept in pipeline/cache/bls; the weekly job asks for the last three years. Years not yet fetched from the BLS are the values the atlas took earlier through FRED, the St. Louis Fed's copy of the same series, and the series note says which",
+  "use": "The Freight family of the prices: US producer price index for deep-sea freight services (not a freight rate)"
+ },
+ {
+  "id": "dallasfed",
+  "name": "Index of global real economic activity (Kilian index)",
+  "publisher": "Federal Reserve Bank of Dallas",
+  "url": "https://www.dallasfed.org/research/igrea",
+  "licence": "Dallas Fed Terms of Use (https://www.dallasfed.org/fed/disclaimer): \"Reproduction of the Bank's information, data, or materials contained herein may be made without limitation as to quantity, provided it is not distributed for the purpose of private gain and is appropriately credited to the Bank.\" Cite Kilian (2009) and Kilian (2019), as the page does",
+  "update": "monthly",
+  "access": "igrea.xlsx from the page, weekly (pipeline/prices/fetch_prices.py)",
+  "use": "The Freight family of the prices: a deflated, detrended index built on dry bulk freight rates, monthly since 1968 (not a freight rate)"
+ },
+ {
+  "id": "nyfed",
+  "name": "Global Supply Chain Pressure Index (GSCPI)",
+  "publisher": "Federal Reserve Bank of New York",
+  "url": "https://www.newyorkfed.org/research/policy/gscpi",
+  "licence": "New York Fed Terms of Use (https://www.newyorkfed.org/privacy/termsofuse): \"The New York Fed grants you a non-exclusive license, subject to the Terms, to use, copy, and distribute Content for your personal or business purposes\", keeping its source identifiers and the form of citation the page gives (\"Federal Reserve Bank of New York, Global Supply Chain Pressure Index, https://www.newyorkfed.org/research/policy/gscpi\"); redistributed content keeps the same terms",
+  "update": "monthly (fourth business day)",
+  "access": "gscpi_data.xlsx from the page, weekly (pipeline/prices/fetch_prices.py)",
+  "use": "The Freight family of the prices: supply-chain pressure index built partly on freight indices, monthly since 1998 (not a freight rate)"
  },
  {
   "id": "usda-psd",
@@ -81,13 +100,33 @@
   "use": "Chokepoint transit counts and trade volume estimates since 2019, published only as the atlas's own weekly averages, a 28-day average and comparisons with the same days a year earlier and the 2023 average"
  },
  {
+  "id": "portwatch-ports",
+  "name": "IMF PortWatch ports database (names, positions and UN/LOCODEs of about 2,000 ports)",
+  "publisher": "IMF and University of Oxford",
+  "url": "https://portwatch.imf.org/",
+  "licence": "IMF terms of use for statistical data (the same as the chokepoint tables): attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford)",
+  "update": "irregular",
+  "access": "ArcGIS feature service PortWatch_ports_database, downloaded once by pipeline/infrastructure/fetch_portwatch_ports.py; the port id, name, country, UN/LOCODE, position and page id of each port are kept in pipeline/cache/portwatch_ports.csv",
+  "use": "Ports of the infrastructure layer: position and UN/LOCODE, and the link to each port's PortWatch page. No vessel count or traffic figure is used"
+ },
+ {
+  "id": "eia-storage-capacity",
+  "name": "EIA Working and Net Available Shell Storage Capacity (as of 31 March 2024)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/petroleum/storagecapacity/",
+  "licence": "Public domain (US Government)",
+  "update": "annual (data for 31 March, released in May)",
+  "access": "Report workbook storagecapacity.xlsx, read by hand",
+  "use": "Storage hubs: the crude oil storage capacity of Cushing, Oklahoma"
+ },
+ {
   "id": "nga-wpi",
   "name": "World Port Index (Pub. 150)",
   "publisher": "US National Geospatial-Intelligence Agency",
   "url": "https://msi.nga.mil/Publications/WPI",
   "licence": "Public domain (US Government)",
   "update": "irregular",
-  "access": "Not used: the server did not respond",
+  "access": "Not used: the download (UpdatedPub150.csv) answered HTTP 503 on 22 and 23 November 2026",
   "use": "Nothing; port coordinates come from UN/LOCODE through searoute"
  },
  {
@@ -191,16 +230,6 @@
   "use": "Suez Canal transit limits"
  },
  {
-  "id": "vessel-size-conventions",
-  "name": "Conventional vessel class size ranges (industry convention, Baltic reference vessels, Wikipedia bulk carrier)",
-  "publisher": "Various",
-  "url": "https://en.wikipedia.org/wiki/Bulk_carrier",
-  "licence": "Industry convention; facts cited (Wikipedia text is CC BY-SA 4.0)",
-  "update": "irregular",
-  "access": "Web pages, read by hand",
-  "use": "Vessel class size ranges"
- },
- {
   "id": "simandou-news",
   "name": "First commercial shipment from Simandou departs for China",
   "publisher": "GMK Center / Caixin / Argus (press)",
@@ -252,13 +281,13 @@
  },
  {
   "id": "company-reports",
-  "name": "Company reports (see the page linked on each asset)",
-  "publisher": "Mining and energy companies",
-  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/infrastructure/README.md",
+  "name": "Company reports (the dated document linked on each entry)",
+  "publisher": "Each company: annual reports, production reports, results releases",
+  "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/pipeline/companies/README.md",
   "licence": "Per company; facts cited with a link (terms to be confirmed)",
   "update": "annual",
-  "access": "Web pages, cited per entry (url)",
-  "use": "Producers and traders: production and capacity figures"
+  "access": "Documents read by hand, cited per entry (url)",
+  "use": "Company lists (producers, processors, traders, shipping companies) and infrastructure assets: production, capacity, traded volume and fleet figures"
  },
  {
   "id": "trade-press",
@@ -279,6 +308,46 @@
   "update": "continuous",
   "access": "Articles read by hand, cited per entry (url)",
   "use": "Infrastructure assets, companies, events and vessel and canal facts"
+ },
+ {
+  "id": "sec-edgar",
+  "name": "SEC EDGAR filings (annual reports on Form 10-K, 20-F and 40-F; the filing linked on each entry)",
+  "publisher": "U.S. Securities and Exchange Commission",
+  "url": "https://www.sec.gov/edgar/search/",
+  "licence": "Public filings, free to read; facts cited with a link (the reuse terms on sec.gov were not read: sec.gov asks automated clients for a contact address)",
+  "update": "annual",
+  "access": "Filings read by hand, cited per entry (url); where sec.gov was not fetched, the same report on the company's investor pages",
+  "use": "Company lists: production, capacity, sales and fleet figures, ownership"
+ },
+ {
+  "id": "cochilco",
+  "name": "Cochilco: historical copper and molybdenum production (copper mine production by company, annual)",
+  "publisher": "Comisión Chilena del Cobre (Chilean Copper Commission)",
+  "url": "https://www.cochilco.cl/web/historico-produccion-de-cobre-y-molibdeno/",
+  "licence": "No terms of reuse found on cochilco.cl (its privacy policy read in November 2026 is about personal data only); one figure cited with a link",
+  "update": "annual",
+  "access": "Spreadsheet read by hand, one figure cited (url)",
+  "use": "Codelco's copper production in the company lists"
+ },
+ {
+  "id": "ofac",
+  "name": "U.S. Treasury, Office of Foreign Assets Control: press releases on designations (the release linked on each company)",
+  "publisher": "U.S. Department of the Treasury, Office of Foreign Assets Control (OFAC)",
+  "url": "https://home.treasury.gov/news/press-releases",
+  "licence": "U.S. government press releases; no licence statement on the pages read; facts cited with a link",
+  "update": "continuous",
+  "access": "Press releases read by hand, cited per company (url)",
+  "use": "Sanction mark of a company (authority and date of designation)"
+ },
+ {
+  "id": "uk-sanctions",
+  "name": "UK government announcements of sanctions designations (the announcement linked on each company)",
+  "publisher": "Foreign, Commonwealth & Development Office (GOV.UK)",
+  "url": "https://www.gov.uk/government/publications/the-uk-sanctions-list",
+  "licence": "Open Government Licence v3.0 (GOV.UK: all content is available under the Open Government Licence v3.0, except where otherwise stated)",
+  "update": "continuous",
+  "access": "Announcements read by hand, cited per company (url)",
+  "use": "Sanction mark of a company (authority and date of designation)"
  },
  {
   "id": "port-authorities",
@@ -302,7 +371,7 @@
  },
  {
   "id": "wikipedia-vessel-classes",
-  "name": "Wikipedia ship-size and strait articles (Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
+  "name": "Wikipedia ship-size and strait articles (Bulk carrier, Capesize, Valemax, Chinamax, Panamax, Handymax, Handysize, Oil tanker, Suezmax, Aframax, Chemical tanker, LNG carrier, Q-Max, Q-Flex, Malaccamax, Sunda Strait, Lombok Strait, Strait of Dover, Drogden)",
   "publisher": "Wikipedia contributors",
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",
@@ -363,6 +432,16 @@
   "update": "irregular",
   "access": "Web page, read by hand",
   "use": "Size band of the mid-size gas carrier class"
+ },
+ {
+  "id": "unctadstat-fleet",
+  "name": "UNCTADstat: Merchant fleet by flag of registration and by type of ship (world rows)",
+  "publisher": "UN Trade and Development (UNCTAD), UNCTADstat Data Hub",
+  "url": "https://unctadstat.unctad.org/datacentre/dataviewer/US.MerchantFleet",
+  "licence": "CC BY 3.0 IGO; UNCTADstat terms of use: data may be copied and further distributed provided that United Nations Trade and Development Data Hub is cited as the source",
+  "update": "annual",
+  "access": "Bulk download (7z archive of one CSV), by hand with pipeline/freight/fleet.py; world rows kept in pipeline/cache/unctad_fleet_world.csv",
+  "use": "World fleet (ships, deadweight, average age) of the ship type of each vessel class"
  },
  {
   "id": "eia-refinery-capacity",

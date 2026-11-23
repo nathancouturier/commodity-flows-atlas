@@ -84,7 +84,9 @@ const MONTHLY = 64;
 const TRACKED: Tracked[] = [
   { key: 'eia-spot', sources: ['eia-spot'], kind: 'day', maxAge: WEEKLY },
   { key: 'wb-pink', sources: ['wb-pink'], kind: 'month', maxAge: WEEKLY },
-  { key: 'fred', sources: ['fred'], kind: 'month', maxAge: WEEKLY, optional: true },
+  { key: 'bls', sources: ['bls'], kind: 'month', maxAge: WEEKLY },
+  { key: 'dallasfed', sources: ['dallasfed'], kind: 'month', maxAge: WEEKLY },
+  { key: 'nyfed', sources: ['nyfed'], kind: 'month', maxAge: WEEKLY },
   { key: 'portwatch', sources: ['portwatch'], kind: 'day', maxAge: WEEKLY },
   { key: 'baci', sources: ['baci'], kind: 'year', maxAge: MONTHLY, manual: true },
   { key: 'usgs-mcs', sources: ['usgs-mcs'], kind: 'edition', maxAge: MONTHLY },
@@ -169,7 +171,7 @@ function clean(raw: RawStatus, now: number): StatusView {
     } else if (!checked || ageDays(checked, now) > t.maxAge) {
       if (t.optional && fails === 0) {
         health = 'unconfigured';
-        why = 'This optional series is fetched only when a free FRED API key is set. The site keeps the last values fetched.';
+        why = 'This optional series is fetched only when its key is set. The site keeps the last values fetched.';
       } else {
         health = 'stale';
         why = checked ? `No successful check for more than ${t.maxAge} days.` : 'No successful check recorded.';

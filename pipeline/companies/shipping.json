@@ -1,1 +1,518 @@
-{}
+{
+ "dry-bulk": [
+  {
+   "name": "Pacific Basin",
+   "hq": "HKG",
+   "role": "shipowner and operator",
+   "own": "listed",
+   "detail": "Handysize and Supramax/Ultramax dry bulk, Hong Kong; at 31 December 2025: 107 owned, 13 long-term and 130 short-term chartered vessels",
+   "fig": {
+    "v": 250,
+    "u": "ships",
+    "what": "fleet on the water, owned and chartered",
+    "y": 2025,
+    "s": "company-reports",
+    "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0303/2026030301446.pdf",
+    "n": "Around 250 owned and chartered vessels on the water at 31 December 2025 (annual results 2025, HKEX)."
+   },
+   "s": "company-reports",
+   "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0303/2026030301446.pdf",
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "handysize",
+    "supramax",
+    "ultramax"
+   ]
+  },
+  {
+   "name": "Belships",
+   "hq": "NOR",
+   "role": "operator and ship manager",
+   "own": "private",
+   "detail": "Bulk carrier operator, Oslo, with a management subsidiary in Singapore",
+   "fig": {
+    "v": 42,
+    "u": "ships",
+    "what": "fleet managed, including 10 due for delivery",
+    "y": 2025,
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Belships",
+    "n": "42 ultramax bulk carriers, of which 10 yet due for delivery, as of August 2025."
+   },
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Belships",
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "ultramax"
+   ]
+  },
+  {
+   "name": "D/S Norden",
+   "hq": "DNK",
+   "role": "operator and shipowner",
+   "own": "listed",
+   "detail": "Danish operator of dry cargo and tanker vessels, owned and chartered; Supramax and Panamax, also Handysize and Post-Panamax",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Dampskibsselskabet_Norden",
+   "read": "2026-11",
+   "classes": [
+    "supramax",
+    "panamax",
+    "handysize"
+   ]
+  },
+  {
+   "name": "Oldendorff Carriers",
+   "hq": "DEU",
+   "role": "operator and shipowner",
+   "own": "private",
+   "detail": "Family-owned dry bulk company, Lübeck; in January 2019: 165 Capesize, 206 Panamax, 178 Supramax and 111 Handysize ships, 143 of all its ships owned",
+   "fig": {
+    "v": 716,
+    "u": "ships",
+    "what": "fleet in service or under construction, owned and chartered",
+    "y": 2019,
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Oldendorff_Carriers",
+    "n": "716 ships as at January 2019, 143 of them owned, the others chartered; 60.9 million dwt in total."
+   },
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Oldendorff_Carriers",
+   "y": 2019,
+   "read": "2026-11",
+   "classes": [
+    "capesize",
+    "panamax",
+    "supramax",
+    "handysize"
+   ]
+  },
+  {
+   "name": "Golden Ocean Group",
+   "hq": "BMU",
+   "role": "shipowner",
+   "own": "listed",
+   "parent": "John Fredriksen (39.6%)",
+   "detail": "Bermuda-registered, Norway-based dry bulk company; created in 2004 from Frontline",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Golden_Ocean_Group",
+   "read": "2026-11"
+  },
+  {
+   "name": "CMB.TECH",
+   "hq": "BEL",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Antwerp maritime group, known as Euronav before October 2024; about 250 vessels: crude tankers, dry bulk carriers, container ships",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/CMB.TECH",
+   "read": "2026-11"
+  },
+  {
+   "name": "NYK Line",
+   "hq": "JPN",
+   "role": "shipowner and operator",
+   "own": "listed",
+   "detail": "Japanese shipping company, Tokyo; container ships, tankers, bulk and woodchip carriers, car carriers",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Nippon_Yusen",
+   "read": "2026-11"
+  },
+  {
+   "name": "K Line",
+   "hq": "JPN",
+   "role": "shipowner and operator",
+   "own": "listed",
+   "detail": "Japanese transport company (Kawasaki Kisen Kaisha); bulk carriers, container ships, LNG carriers, car carriers",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Kawasaki_Kisen_Kaisha",
+   "read": "2026-11"
+  }
+ ],
+ "tankers": [
+  {
+   "name": "Frontline",
+   "hq": "CYP",
+   "role": "shipowner",
+   "own": "listed",
+   "parent": "John Fredriksen (40.2%)",
+   "detail": "Crude and product tanker owner, Limassol; at 31 December 2025: 41 VLCCs, 21 Suezmax and 18 LR2/Aframax tankers",
+   "fig": {
+    "v": 80,
+    "u": "ships",
+    "what": "fleet owned",
+    "y": 2025,
+    "s": "company-reports",
+    "url": "https://via.ritzau.dk/files/90446/14811286/348032/en",
+    "n": "As of December 31, 2025 the company owned 80 vessels, aggregate capacity about 17.6 million DWT (fourth quarter 2025 report)."
+   },
+   "s": "company-reports",
+   "url": "https://via.ritzau.dk/files/90446/14811286/348032/en",
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "vlcc",
+    "suezmax",
+    "aframax",
+    "lr2"
+   ]
+  },
+  {
+   "name": "Hafnia",
+   "hq": "SGP",
+   "role": "shipowner and operator",
+   "own": "listed",
+   "detail": "Product tankers; at the end of 2025: 10 LR2s, 32 LR1s, 57 MRs (12 IMO II) and 24 Handy vessels (18 IMO II)",
+   "fig": {
+    "v": 123,
+    "u": "ships",
+    "what": "fleet, owned and chartered-in",
+    "y": 2025,
+    "s": "company-reports",
+    "url": "https://s201.q4cdn.com/891122012/files/doc_financials/2025/q4/Hafnia-Q4-2025-Earnings-Report-vF.pdf",
+    "n": "114 owned vessels (including joint-venture vessels) and 9 chartered-in at the end of the fourth quarter 2025."
+   },
+   "s": "company-reports",
+   "url": "https://s201.q4cdn.com/891122012/files/doc_financials/2025/q4/Hafnia-Q4-2025-Earnings-Report-vF.pdf",
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "lr2",
+    "lr1",
+    "mr",
+    "handy-tanker"
+   ]
+  },
+  {
+   "name": "TORM",
+   "hq": "GBR",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Product tankers (LR2, LR1, MR), London",
+   "fig": {
+    "v": 93,
+    "u": "ships",
+    "what": "fleet, owned and leased",
+    "y": 2025,
+    "s": "company-reports",
+    "url": "https://s202.q4cdn.com/126069760/files/doc_financials/2025/q4/9d60ec72a315636b.pdf",
+    "n": "93 owned and leased vessels in the LR2, LR1 and MR classes at the end of December 2025 (Annual Report 2025 announcement)."
+   },
+   "s": "company-reports",
+   "url": "https://s202.q4cdn.com/126069760/files/doc_financials/2025/q4/9d60ec72a315636b.pdf",
+   "y": 2025,
+   "read": "2026-11",
+   "classes": [
+    "lr2",
+    "lr1",
+    "mr"
+   ]
+  },
+  {
+   "name": "International Seaways",
+   "hq": "USA",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Crude and product tankers, New York City",
+   "fig": {
+    "v": 70,
+    "u": "ships",
+    "what": "fleet owned and operated, including 4 on order",
+    "y": 2026,
+    "s": "company-reports",
+    "url": "https://s203.q4cdn.com/968379449/files/doc_news/International-Seaways-Reports-Fourth-Quarter-and-Full-Year-2025-Results-2026.pdf",
+    "n": "Approximately 70 vessels across the principal tanker asset classes, including four on order (release of 26 February 2026)."
+   },
+   "s": "company-reports",
+   "url": "https://s203.q4cdn.com/968379449/files/doc_news/International-Seaways-Reports-Fourth-Quarter-and-Full-Year-2025-Results-2026.pdf",
+   "y": 2026,
+   "read": "2026-11"
+  },
+  {
+   "name": "CMB.TECH",
+   "hq": "BEL",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Crude oil tankers (VLCCs, Suezmaxes) and FSOs; known as Euronav before October 2024",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/CMB.TECH",
+   "read": "2026-11",
+   "classes": [
+    "vlcc",
+    "suezmax"
+   ]
+  },
+  {
+   "name": "Scorpio Tankers",
+   "hq": "MCO",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Refined product tankers, Monaco; LR2 and MR tankers",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Scorpio_Tankers",
+   "read": "2026-11",
+   "classes": [
+    "lr2",
+    "mr"
+   ]
+  },
+  {
+   "name": "Teekay",
+   "hq": "CAN",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Canadian crude oil shipping group (Teekay Corporation and Teekay Tankers), Vancouver",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Teekay_Corporation",
+   "read": "2026-11"
+  },
+  {
+   "name": "COSCO Shipping Energy",
+   "hq": "CHN",
+   "role": "shipowner",
+   "own": "state-listed",
+   "parent": "COSCO Shipping (via China Shipping Group)",
+   "detail": "Chinese tanker company, Shanghai: crude oil, LNG and LPG; subsidiary of COSCO Shipping",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/COSCO_Shipping_Energy_Transportation",
+   "read": "2026-11"
+  },
+  {
+   "name": "China Merchants Energy Shipping",
+   "hq": "CHN",
+   "role": "shipowner",
+   "own": "state",
+   "parent": "China Merchants Group",
+   "detail": "Tanker and bulk cargo shipping; parent China Merchants Group",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/China_Merchants_Energy_Shipping",
+   "read": "2026-11"
+  },
+  {
+   "name": "Mitsui O.S.K. Lines",
+   "hq": "JPN",
+   "role": "shipowner and operator",
+   "own": "listed",
+   "detail": "Japanese transport company, Tokyo; tankers among its fleets",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Mitsui_O.S.K._Lines",
+   "read": "2026-11"
+  },
+  {
+   "name": "Sovcomflot",
+   "hq": "RUS",
+   "role": "shipowner",
+   "own": "state-listed",
+   "parent": "Government of Russia (82.8%)",
+   "detail": "Russian state shipping company, Saint Petersburg; in May 2022: 50 crude oil tankers, 34 product tankers, 14 shuttle tankers and 10 gas carriers",
+   "fig": {
+    "v": 122,
+    "u": "ships",
+    "what": "fleet owned",
+    "y": 2022,
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Sovcomflot",
+    "n": "122 vessels owned as of May 2022, plus 10 icebreakers."
+   },
+   "sanction": [
+    {
+     "by": "OFAC",
+     "since": "2024-02",
+     "url": "https://home.treasury.gov/news/press-releases/jy2121"
+    }
+   ],
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sovcomflot",
+   "y": 2022,
+   "read": "2026-11"
+  },
+  {
+   "name": "NITC",
+   "hq": "IRN",
+   "role": "shipowner",
+   "parent": "National Iranian Oil Company",
+   "detail": "National Iranian Tanker Company, Tehran; VLCC, Suezmax and Aframax tankers (as at 2010)",
+   "sanction": [
+    {
+     "by": "OFAC",
+     "since": "2020-10",
+     "url": "https://home.treasury.gov/news/press-releases/sm1165"
+    }
+   ],
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/National_Iranian_Tanker_Company",
+   "read": "2026-11",
+   "classes": [
+    "vlcc",
+    "suezmax",
+    "aframax"
+   ]
+  },
+  {
+   "name": "Bahri",
+   "hq": "SAU",
+   "role": "shipowner",
+   "own": "listed",
+   "parent": "Public Investment Fund (22.55%)",
+   "detail": "National shipping carrier of Saudi Arabia, formerly the National Shipping Company of Saudi Arabia; VLCCs and chemical/product tankers",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Bahri_(company)",
+   "read": "2026-11",
+   "classes": [
+    "vlcc",
+    "chemical-tanker"
+   ]
+  },
+  {
+   "name": "Shipping Corporation of India",
+   "hq": "IND",
+   "role": "shipowner",
+   "own": "state-listed",
+   "parent": "Government of India (63.75%)",
+   "detail": "Indian public sector shipping company, Mumbai",
+   "fig": {
+    "v": 55,
+    "u": "ships",
+    "what": "fleet",
+    "y": 2025,
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Shipping_Corporation_of_India",
+    "n": "A fleet of 55 vessels as of August 2025."
+   },
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Shipping_Corporation_of_India",
+   "y": 2025,
+   "read": "2026-11"
+  }
+ ],
+ "gas": [
+  {
+   "name": "Nakilat",
+   "hq": "QAT",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Qatar Gas Transport Company: LNG carriers; also jointly owns one FSRU",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Nakilat",
+   "read": "2026-11",
+   "classes": [
+    "lng"
+   ]
+  },
+  {
+   "name": "MISC",
+   "hq": "MYS",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Malaysian shipping group, Kuala Lumpur (formerly Malaysia International Shipping Corporation); LNG carriers, and tankers through AET",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/MISC_Berhad",
+   "read": "2026-11",
+   "classes": [
+    "lng"
+   ]
+  },
+  {
+   "name": "Golar LNG",
+   "hq": "BMU",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "LNG shipping company, Hamilton (Bermuda)",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Golar_LNG",
+   "read": "2026-11"
+  },
+  {
+   "name": "BW Group",
+   "hq": "SGP",
+   "role": "shipowner",
+   "own": "private",
+   "detail": "Maritime group (Singapore and Oslo): shipping, floating gas infrastructure, deep-water oil and gas production",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/BW_Group",
+   "read": "2026-11"
+  },
+  {
+   "name": "Navigator Gas",
+   "hq": "GBR",
+   "role": "shipowner",
+   "own": "listed",
+   "detail": "Liquefied gas shipping company (Navigator Holdings), London",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Navigator_Holdings",
+   "read": "2026-11"
+  },
+  {
+   "name": "Höegh LNG",
+   "hq": "NOR",
+   "role": "shipowner",
+   "parent": "Leif Höegh & Co",
+   "detail": "LNG shipping and FSRUs; part of Leif Höegh & Co since 2006",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Leif_Höegh_&_Co",
+   "read": "2026-11"
+  }
+ ],
+ "charterers": [
+  {
+   "name": "Vale",
+   "hq": "BRA",
+   "role": "cargo owner and shipowner",
+   "own": "listed",
+   "detail": "Iron ore miner; very large ore carriers (VLOC, 400,000 dwt) between South America and Asia since 2011",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Vale_S.A.",
+   "read": "2026-11",
+   "classes": [
+    "vloc"
+   ]
+  }
+ ],
+ "brokers": [
+  {
+   "name": "Clarksons",
+   "hq": "GBR",
+   "role": "shipbroker",
+   "own": "listed",
+   "detail": "Clarkson plc: shipbroking, London; listed on the London Stock Exchange",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Clarkson_plc",
+   "read": "2026-11"
+  }
+ ],
+ "terminals": [
+  {
+   "name": "Vopak",
+   "hq": "NLD",
+   "role": "terminal operator",
+   "own": "listed",
+   "detail": "Royal Vopak, Rotterdam: stores and handles chemicals, oil, gases, LNG, biofuels and vegoils",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Royal_Vopak",
+   "read": "2026-11"
+  },
+  {
+   "name": "Oiltanking",
+   "hq": "DEU",
+   "role": "terminal operator",
+   "own": "private",
+   "parent": "Marquard & Bahls AG",
+   "detail": "Tank terminals for petroleum products, chemicals and gases, Hamburg; subsidiary of Marquard & Bahls",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Oiltanking",
+   "read": "2026-11"
+  },
+  {
+   "name": "Kinder Morgan",
+   "hq": "USA",
+   "role": "terminal operator",
+   "own": "listed",
+   "detail": "US energy infrastructure company, Houston: oil and gas pipelines and terminals",
+   "s": "wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Kinder_Morgan",
+   "read": "2026-11"
+  }
+ ]
+}

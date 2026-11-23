@@ -84,8 +84,8 @@ USGS_ROWS = {
     "usgs-palladium-a": ("Palladium", "Palladium", "USD/troy oz"),
     "usgs-rhodium-a": ("Rhodium", "Rhodium", "USD/troy oz"),
 }
-# series the raw files on disk cannot prove: FRED is fetched only in GitHub Actions, with a key
-NOT_ON_DISK = {"freight-ppi-m"}
+# the Freight family (BLS cache, Dallas Fed, New York Fed) is proved by test_freight_indicators.py
+NOT_ON_DISK = {"freight-ppi-m", "igrea-m", "gscpi-m"}
 
 MONTH_ID = re.compile(r"\d{4}M\d{2}")
 

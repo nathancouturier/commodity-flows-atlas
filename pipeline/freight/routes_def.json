@@ -39,9 +39,78 @@
     ]
    }
   ],
-  "notes": "Benchmark Brazil-China ore laden voyage: 160,000 or 170,000 t of iron ore, Tubarao to Qingdao (the Veson page of Baltic definitions, read on 23 November 2026).",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Brazil to China ore voyage. The Veson summary of the definition still gives 160,000 or 170,000 t; the Baltic guide revised the C3 description in January 2025 and gives 170,000 t.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "parcel": 170000,
+  "parcelUnit": "t",
+  "definition": {
+   "code": "C3",
+   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "load": "Tubarao",
+   "discharge": "Qingdao",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C2",
+  "name": "Tubarao – Rotterdam",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore"
+  ],
+  "from": {
+   "region": "Brazil (Tubarao)",
+   "ports": [
+    {
+     "name": "Tubarao",
+     "c": "BRA"
+    }
+   ]
+  },
+  "to": {
+   "region": "Netherlands (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 170000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "iron-ore",
+    "o": [
+     "BRA"
+    ],
+    "d": [
+     "NLD"
+    ]
+   }
+  ],
+  "notes": "Brazilian ore to Europe. The Veson summary still gives 160,000 long tons; the Baltic guide revised the C2 description in January 2025 and gives 170,000 t.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C2",
+   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "load": "Tubarao",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "C5",
@@ -84,9 +153,24 @@
     ]
    }
   ],
-  "notes": "Short-haul Pilbara-China ore benchmark; Pilbara-China is the largest single seaborne iron ore flow.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Short-haul Pilbara to China ore voyage. The definition names a range, West Australia, not a port: the line is drawn from Port Hedland, the largest ore port of that coast.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "parcel": 160000,
+  "parcelMax": 170000,
+  "parcelUnit": "t",
+  "definition": {
+   "code": "C5",
+   "cargo": "160,000 or 170,000 t iron ore, 10% more or less in owner's option",
+   "load": "West Australia",
+   "discharge": "Qingdao",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "C7",
@@ -128,9 +212,23 @@
     ]
    }
   ],
-  "notes": "Colombian steam coal into ARA; Cerrejon is the origin. Cargo size 150-160kt per secondary source.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Colombian coal into Rotterdam; the Cerrejon mine ships through Puerto Bolivar. The Veson summary still gives 150,000 or 160,000 t; the Baltic guide revised the C7 description in January 2025 and gives 160,000 t.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "parcel": 160000,
+  "parcelUnit": "t",
+  "definition": {
+   "code": "C7",
+   "cargo": "160,000 t coal, 10% more or less in owner's option",
+   "load": "Bolivar",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "C17",
@@ -171,9 +269,21 @@
     ]
    }
   ],
-  "notes": "Kumba/Sishen ore exported via Saldanha; cargo 170kt 10% MOLOO, free in and out trimmed.",
-  "s": "veson-baltic-defs",
-  "url": "https://www.bmti-report.com/?p=290"
+  "notes": "Kumba (Sishen) ore exported through Saldanha Bay; 170,000 t, free in and out, trimmed.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C17",
+   "cargo": "170,000 t iron ore, 10% more or less in owner's option",
+   "load": "Saldanha Bay",
+   "discharge": "Qingdao",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "C10_14",
@@ -184,19 +294,36 @@
    "iron-ore"
   ],
   "from": {
-   "region": "China-Japan (delivery)",
+   "region": "Qingdao (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Pacific (Australia/transpacific loading)",
+   "region": "China-Japan (redelivery)",
    "ports": []
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Time-charter round voyage: delivery Qingdao, redelivery China-Japan range, 35-45 days; listed as 'China-Japan transpacific round voyage' and weighted 0.25 in the C5TC on the Veson page of Baltic definitions, read on 23 November 2026.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C5 (West Australia – Qingdao), not of this round voyage."
+  "notes": "The 180,000 dwt version of the transpacific round voyage: its reporting ceased on 24 December 2025 and C10_182 replaced it. It weighed 25% in the 180,000 dwt Capesize timecharter average, which the Baltic Exchange now derives from the 182,000 dwt one. Kept in the atlas because links point to it.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C5 (West Australia – Qingdao), not of this round voyage.",
+  "discontinued": "24 December 2025",
+  "definition": {
+   "code": "C10_14",
+   "vessel": "Baltic standard Capesize (BCI180): 180,000 dwt",
+   "load": "Qingdao",
+   "discharge": "China-Japan range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "ended",
+   "stateDate": "2025-12-24",
+   "stateNote": "Reporting of the 180,000 dwt routes ceased on 24 December 2025 (Baltic Exchange Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "replacedBy": "C10_182",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "C14",
@@ -216,7 +343,7 @@
    ]
   },
   "to": {
-   "region": "Brazil (Atlantic)",
+   "region": "Brazil or West Africa (round voyage)",
    "ports": []
   },
   "roundVoyage": true,
@@ -224,10 +351,228 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter round voyage: delivery Qingdao, round voyage via Brazil, redelivery China-Japan range, 80-90 days; weighted 0.25 in the C5TC on the Veson page of Baltic definitions, read on 23 November 2026.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage."
+  "notes": "The 180,000 dwt version of the China-Brazil round voyage: its reporting ceased on 24 December 2025 and C14_182 replaced it. The guide's last version widened it to a round voyage via Brazil or West Africa. Kept in the atlas because links point to it.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage.",
+  "discontinued": "24 December 2025",
+  "definition": {
+   "code": "C14",
+   "vessel": "Baltic standard Capesize (BCI180): 180,000 dwt",
+   "load": "Qingdao (15-25 days after sailing Qingdao), round voyage via Brazil or West Africa",
+   "discharge": "China-Japan range",
+   "duration": "80-90 days",
+   "tc": true,
+   "state": "ended",
+   "stateDate": "2025-12-24",
+   "stateNote": "Reporting of the 180,000 dwt routes ceased on 24 December 2025 (Baltic Exchange Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "replacedBy": "C14_182",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C8_182",
+  "name": "Gibraltar/Hamburg transatlantic round voyage (182)",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "Gibraltar-Hamburg range (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "Gibraltar-Hamburg range (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
+  "roundVoyage": true,
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C7 (Bolivar – Rotterdam), a transatlantic Capesize voyage, not of this round voyage.",
+  "notes": "Time-charter transatlantic round voyage of the 182,000 dwt Capesize; it weighs 15% in the Capesize timecharter average.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C8_182",
+   "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
+   "load": "Gibraltar-Hamburg range, transatlantic round voyage",
+   "discharge": "Gibraltar-Hamburg range",
+   "duration": "30-45 days",
+   "tc": true,
+   "state": "active",
+   "stateDate": "2026-01-02",
+   "stateNote": "Public trial from 21 October 2024 (Circular 32/24); the 182,000 dwt vessel is the Baltic standard Capesize from 2 January 2026 (Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C9_182",
+  "name": "Continent/Mediterranean trip to China-Japan (182)",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "Amsterdam-Rotterdam-Antwerp or passing Passero (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "China-Japan (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), an Atlantic to China Capesize voyage, not of this trip.",
+  "notes": "Fronthaul time-charter trip of the 182,000 dwt Capesize from Europe to the Far East, loading in the Atlantic; it weighs 12.5% in the Capesize timecharter average.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C9_182",
+   "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
+   "load": "Amsterdam-Rotterdam-Antwerp range or passing Passero",
+   "discharge": "China-Japan range",
+   "duration": "about 65 days",
+   "tc": true,
+   "state": "active",
+   "stateDate": "2026-01-02",
+   "stateNote": "Public trial from 21 October 2024 (Circular 32/24); the 182,000 dwt vessel is the Baltic standard Capesize from 2 January 2026 (Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C10_182",
+  "name": "China-Japan transpacific round voyage (182)",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "Qingdao (delivery)",
+   "ports": [
+    {
+     "name": "Qingdao",
+     "c": "CHN"
+    }
+   ]
+  },
+  "to": {
+   "region": "China-Japan (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
+  "roundVoyage": true,
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C5 (West Australia – Qingdao), not of this round voyage.",
+  "notes": "Time-charter transpacific round voyage of the 182,000 dwt Capesize; it weighs 35% in the Capesize timecharter average, the largest weight. It replaced C10_14.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C10_182",
+   "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
+   "load": "Qingdao",
+   "discharge": "China-Japan range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "active",
+   "stateDate": "2026-01-02",
+   "stateNote": "Public trial from 21 October 2024 (Circular 32/24); the 182,000 dwt vessel is the Baltic standard Capesize from 2 January 2026 (Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C14_182",
+  "name": "China-Brazil or West Africa round voyage (182)",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore"
+  ],
+  "from": {
+   "region": "Qingdao (delivery)",
+   "ports": [
+    {
+     "name": "Qingdao",
+     "c": "CHN"
+    }
+   ]
+  },
+  "to": {
+   "region": "Brazil or West Africa (round voyage)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
+  "roundVoyage": true,
+  "standIn": "Stand-in trace: the benchmark has no fixed ports, so the line, distance and days are those of C3 (Tubarao – Qingdao), not of this round voyage.",
+  "notes": "Time-charter round voyage of the 182,000 dwt Capesize from China via Brazil or West Africa; it weighs 25% in the Capesize timecharter average. It replaced C14.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C14_182",
+   "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
+   "load": "Qingdao (15-25 days after sailing Qingdao), round voyage via Brazil or West Africa",
+   "discharge": "China-Japan range",
+   "duration": "80-90 days",
+   "tc": true,
+   "state": "active",
+   "stateDate": "2026-01-02",
+   "stateNote": "Public trial from 21 October 2024 (Circular 32/24); the 182,000 dwt vessel is the Baltic standard Capesize from 2 January 2026 (Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "C16_182",
+  "name": "Far East-Atlantic backhaul (182)",
+  "benchmark": true,
+  "vclass": "capesize",
+  "cargoes": [
+   "iron-ore",
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "North China-South Japan (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "UK-Continent-Mediterranean (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
+  "notes": "Backhaul time-charter trip of the 182,000 dwt Capesize from the Far East to Europe, loading in Australia, Indonesia, the US west coast, South Africa or Brazil; it weighs 12.5% in the Capesize timecharter average. The definition names no loading port: the line is drawn as a laden leg from Port Hedland to Rotterdam, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "C16_182",
+   "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
+   "load": "North China-South Japan range, trip via Australia, Indonesia, US west coast, South Africa or Brazil",
+   "discharge": "UK-Continent-Mediterranean within Skaw-Passero range",
+   "duration": "65 days",
+   "tc": true,
+   "state": "active",
+   "stateDate": "2026-01-02",
+   "stateNote": "Public trial from 21 October 2024 (Circular 32/24); the 182,000 dwt vessel is the Baltic standard Capesize from 2 January 2026 (Circular 19/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-19-25--market-announcement---c5tc-timeline.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "P1A_82",
@@ -239,7 +584,7 @@
    "soybeans",
    "thermal-coal"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its 82 kdwt Panamax time-charter routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Gibraltar (delivery)",
    "ports": []
@@ -250,9 +595,23 @@
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Time-charter RV, 82kdwt basis; loading 15-20 days out, 40-60 days.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Time-charter round voyage in the Atlantic. The definition names no loading port: the line is drawn as a laden leg from New Orleans to Rotterdam, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P1A_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "Skaw-Gibraltar range, transatlantic round voyage",
+   "discharge": "Skaw-Gibraltar range",
+   "duration": "40-60 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "P2A_82",
@@ -264,19 +623,33 @@
    "soybeans",
    "thermal-coal"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its 82 kdwt Panamax time-charter routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Gibraltar (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Taiwan-Japan (redelivery)",
+   "region": "Hong Kong-South Korea including Taiwan (redelivery)",
    "ports": []
   },
   "corridor": [],
-  "notes": "Fronthaul time-charter trip: delivery Skaw-Gibraltar via Atlantic, redelivery Taiwan-Japan.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Fronthaul time-charter trip from Europe to the Far East, with loading in the Atlantic. The definition names no loading port: the line is drawn as a laden leg from New Orleans to Kaohsiung, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P2A_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "Skaw-Gibraltar range",
+   "discharge": "Hong Kong-South Korea range including Taiwan",
+   "duration": "75-85 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "P3A_82",
@@ -288,20 +661,107 @@
    "soybeans",
    "thermal-coal"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its 82 kdwt Panamax time-charter routes), not part of the definition; no corridor is attached.",
   "from": {
-   "region": "Japan-South Korea (delivery)",
+   "region": "Hong Kong-South Korea including Taiwan (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Pacific (N America / Australia loading)",
+   "region": "Pacific round voyage (redelivery Hong Kong-South Korea)",
    "ports": []
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Pacific time-charter round voyage for Panamax/Kamsarmax tonnage.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Pacific time-charter round voyage. The definition names no loading port: the line is drawn as a laden leg from Vancouver to Chiba, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P3A_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "Hong Kong-South Korea including Taiwan",
+   "discharge": "Hong Kong-South Korea including Taiwan",
+   "duration": "35-50 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "P4_82",
+  "name": "Hong Kong-South Korea trip to Skaw-Passero",
+  "benchmark": true,
+  "vclass": "kamsarmax",
+  "cargoes": [
+   "corn",
+   "soybeans",
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "Hong Kong-South Korea including Taiwan (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "Skaw-Gibraltar (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its 82 kdwt Panamax time-charter routes), not part of the definition; no corridor is attached.",
+  "notes": "Backhaul time-charter trip from the Far East to Europe; it weighs 10% in the Panamax timecharter average. The definition names no loading area: the line is drawn as a laden leg from Newcastle (Australia) to Rotterdam, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P4_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "Hong Kong-South Korea including Taiwan",
+   "discharge": "Skaw-Gibraltar range",
+   "duration": "55-70 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "P5_82",
+  "name": "South China, Indonesian round voyage (BEP Asia)",
+  "benchmark": true,
+  "vclass": "kamsarmax",
+  "cargoes": [
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "South China (Fuzhou-Hong Kong range)",
+   "ports": []
+  },
+  "to": {
+   "region": "South China (Fuzhou-Hong Kong range)",
+   "ports": []
+  },
+  "cargoNote": "The definition names no cargo. Indonesian coal is the usual cargo of a South China to Indonesia round voyage: an atlas choice, not part of the definition; no corridor is attached.",
+  "roundVoyage": true,
+  "notes": "Time-charter round voyage from South China via Indonesia, also known as BEP Asia; it is not in the Panamax timecharter average. The line is drawn as the laden leg from Samarinda to Fuzhou, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P5_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "South China (Fuzhou-Hong Kong range) or passing Taipei southbound, trip via Indonesia",
+   "discharge": "South China (Fuzhou-Hong Kong range)",
+   "duration": "20-25 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "P6_82",
@@ -313,7 +773,7 @@
    "soybeans",
    "thermal-coal"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its 82 kdwt Panamax time-charter routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Singapore (delivery)",
    "ports": [
@@ -324,7 +784,7 @@
    ]
   },
   "to": {
-   "region": "Atlantic (loading)",
+   "region": "Hong Kong-South Korea including Taiwan (redelivery)",
    "ports": []
   },
   "roundVoyage": true,
@@ -332,9 +792,154 @@
    "cape-good-hope"
   ],
   "corridor": [],
-  "notes": "Time-charter RV: delivery Singapore, a trip of 90-105 days via the Atlantic, redelivery Hong Kong-S Korea range including Taiwan (Veson, Baltic definition).",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Time-charter round voyage from Singapore via the Atlantic. The definition names no cargo and no loading area: the line is drawn as a laden leg from Santos to Singapore, an atlas choice, and no corridor is attached.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P6_82",
+   "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
+   "load": "Singapore, round voyage via the Atlantic",
+   "discharge": "Hong Kong-South Korea including Taiwan",
+   "duration": "90-105 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "P7",
+  "name": "US Gulf – Qingdao grain",
+  "benchmark": true,
+  "vclass": "kamsarmax",
+  "cargoes": [
+   "soybeans",
+   "corn",
+   "wheat"
+  ],
+  "from": {
+   "region": "US Gulf (Mississippi river)",
+   "ports": [
+    {
+     "name": "New Orleans",
+     "c": "USA"
+    }
+   ]
+  },
+  "to": {
+   "region": "North China (Qingdao)",
+   "ports": [
+    {
+     "name": "Qingdao",
+     "c": "CHN"
+    }
+   ]
+  },
+  "parcel": 66000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "soybeans",
+    "o": [
+     "USA"
+    ],
+    "d": [
+     "CHN"
+    ]
+   },
+   {
+    "k": "corn",
+    "o": [
+     "USA"
+    ],
+    "d": [
+     "CHN"
+    ]
+   },
+   {
+    "k": "wheat",
+    "o": [
+     "USA"
+    ],
+    "d": [
+     "CHN"
+    ]
+   }
+  ],
+  "notes": "Grain voyage from the Mississippi river to Qingdao, minimum 13 m arrival draft. The cargo is heavy grain, soya and sorghum; the corridor counts US soybeans, corn and wheat to China.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P7",
+   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), 10% more or less in owner's option",
+   "load": "Mississippi river",
+   "discharge": "Qingdao",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "P8",
+  "name": "Santos – Qingdao grain",
+  "benchmark": true,
+  "vclass": "kamsarmax",
+  "cargoes": [
+   "soybeans",
+   "corn"
+  ],
+  "from": {
+   "region": "Brazil (Santos)",
+   "ports": [
+    {
+     "name": "Santos",
+     "c": "BRA"
+    }
+   ]
+  },
+  "to": {
+   "region": "North China (Qingdao)",
+   "ports": [
+    {
+     "name": "Qingdao",
+     "c": "CHN"
+    }
+   ]
+  },
+  "parcel": 66000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "soybeans",
+    "o": [
+     "BRA"
+    ],
+    "d": [
+     "CHN"
+    ]
+   }
+  ],
+  "notes": "Grain voyage from Santos to Qingdao, minimum 13 m arrival draft. The cargo is heavy grain, soya and sorghum; the corridor counts Brazilian soybeans to China only, so that the corn corridors of the atlas stay as they are.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "P8",
+   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), 10% more or less in owner's option",
+   "load": "Santos",
+   "discharge": "Qingdao",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "S1C_63",
@@ -346,7 +951,7 @@
    "soybeans"
   ],
   "from": {
-   "region": "US Gulf",
+   "region": "US Gulf (delivery South West Pass)",
    "ports": [
     {
      "name": "New Orleans",
@@ -359,7 +964,7 @@
    ]
   },
   "to": {
-   "region": "China-South Japan",
+   "region": "North China-South Japan (redelivery)",
    "ports": [
     {
      "name": "Shanghai",
@@ -392,9 +997,24 @@
     ]
    }
   ],
-  "notes": "Supramax/Ultramax US Gulf fronthaul; Panama or Cape routing depending on canal draft/queues.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Time-charter trip from the US Gulf to the Far East, through the Panama Canal or round the Cape depending on draft and queues.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition names no cargo. The corridor is US corn and soybeans to China and Japan, the grain trade of this fronthaul trip, an atlas choice.",
+  "definition": {
+   "code": "S1C_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "South West Pass (US Gulf)",
+   "discharge": "North China-South Japan (Shanghai-Tokyo bay range)",
+   "duration": "50-55 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "S2_63",
@@ -405,7 +1025,7 @@
    "wheat"
   ],
   "from": {
-   "region": "North China (delivery)",
+   "region": "North China, Shanghai-Dalian range (delivery)",
    "ports": [
     {
      "name": "Qingdao",
@@ -414,14 +1034,29 @@
    ]
   },
   "to": {
-   "region": "Australia / Pacific (loading)",
+   "region": "North China (redelivery), via Australia or the Pacific",
    "ports": []
   },
   "roundVoyage": true,
   "corridor": [],
-  "notes": "Time-charter RV from North China via Australia or Pacific.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Time-charter round voyage from North China via Australia or the Pacific. The line is drawn as a laden leg from Newcastle (Australia) to Qingdao, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "definition": {
+   "code": "S2_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "North China (Shanghai-Dalian range), Australian or transpacific round voyage",
+   "discharge": "North China (Shanghai-Dalian range)",
+   "duration": "40-50 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "S4A_63",
@@ -433,7 +1068,7 @@
    "soybeans"
   ],
   "from": {
-   "region": "US Gulf",
+   "region": "US Gulf (delivery)",
    "ports": [
     {
      "name": "New Orleans",
@@ -446,7 +1081,7 @@
    ]
   },
   "to": {
-   "region": "Skaw-Passero (Continent-Mediterranean)",
+   "region": "Skaw-Passero (redelivery)",
    "ports": [
     {
      "name": "Rotterdam",
@@ -484,9 +1119,24 @@
     ]
    }
   ],
-  "notes": "Transatlantic grain trip for Supramax/Ultramax.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Transatlantic time-charter trip from the US Gulf to Europe.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "cargoNote": "The definition names no cargo. The corridor is US corn and soybeans to Europe, the grain trade of this transatlantic trip, an atlas choice.",
+  "definition": {
+   "code": "S4A_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "US Gulf",
+   "discharge": "Skaw-Passero range",
+   "duration": "25-30 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "S10_63",
@@ -497,11 +1147,11 @@
    "thermal-coal"
   ],
   "from": {
-   "region": "South China (delivery)",
+   "region": "South China, Fuzhou-Fangcheng range (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Indonesia (loading)",
+   "region": "South China, Fangcheng-Fuzhou range (redelivery), via Indonesia",
    "ports": []
   },
   "roundVoyage": true,
@@ -519,9 +1169,287 @@
     ]
    }
   ],
-  "notes": "Time-charter trip: delivery South China, Indonesian coal, redelivery South China. Status uncertain: BDI switched S10TC to S11TC in Aug 2024.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Time-charter trip from South China via Indonesia and back, on a coal cargo basis. It weighs 10% in the S11TC, the Supramax timecharter average used in the Baltic Dry Index. The line is drawn as the laden leg from Samarinda to Zhanjiang.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S10_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "cargo": "Coal (cargo basis of the definition)",
+   "load": "South China (Fuzhou-Fangcheng range including Taiwan), trip via Indonesia",
+   "discharge": "South China (Fangcheng-Fuzhou range)",
+   "duration": "20-25 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S1B_63",
+  "name": "Canakkale trip via Mediterranean or Black Sea to China-South Korea",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "wheat",
+   "corn",
+   "steel"
+  ],
+  "from": {
+   "region": "Passing Canakkale (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "China-South Korea (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "notes": "Fronthaul time-charter trip from the Mediterranean or the Black Sea to the Far East; it weighs 5% in the S11TC. The definition names no loading port: the line is drawn as a laden leg from Constanta to Qingdao, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S1B_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "Passing Canakkale, trip via the Mediterranean or Black Sea",
+   "discharge": "China-South Korea range",
+   "duration": "40-50 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S3_63",
+  "name": "North China trip to West Africa",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "steel",
+   "urea"
+  ],
+  "from": {
+   "region": "North China (Shanghai-Dalian range)",
+   "ports": []
+  },
+  "to": {
+   "region": "West Africa (Dakar-Douala range)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "notes": "Time-charter trip from North China to West Africa; it weighs 15% in the S11TC. The line is drawn from Tianjin to Lagos, ports of the delivery and redelivery ranges, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S3_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "North China (Shanghai-Dalian range)",
+   "discharge": "West Africa (Dakar-Douala range)",
+   "duration": "55-65 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S4B_63",
+  "name": "Skaw-Passero trip to US Gulf",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "steel",
+   "potash"
+  ],
+  "from": {
+   "region": "Skaw-Passero (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "US Gulf (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "notes": "Transatlantic backhaul time-charter trip from Europe to the US Gulf; it weighs 10% in the S11TC. The line is drawn from Rotterdam to Houston, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S4B_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "Skaw-Passero range",
+   "discharge": "US Gulf",
+   "duration": "25-30 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S5_63",
+  "name": "West Africa trip via east coast South America to North China",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "soybeans",
+   "corn"
+  ],
+  "from": {
+   "region": "West Africa (Dakar-Douala range)",
+   "ports": []
+  },
+  "to": {
+   "region": "North China (Shanghai-Dalian range)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "notes": "Time-charter trip from West Africa via east coast South America to North China; it weighs 5% in the S11TC. The line is drawn as the laden leg from Santos to Qingdao, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S5_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "West Africa (Dakar-Douala range), trip via east coast South America",
+   "discharge": "North China (Shanghai-Dalian range)",
+   "duration": "60-65 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S8_63",
+  "name": "South China trip via Indonesia to east coast India",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "thermal-coal"
+  ],
+  "from": {
+   "region": "South China (Fuzhou-Fangcheng range including Taiwan)",
+   "ports": []
+  },
+  "to": {
+   "region": "East coast India (Chennai-Paradip range)",
+   "ports": []
+  },
+  "corridor": [
+   {
+    "k": "thermal-coal",
+    "o": [
+     "IDN"
+    ],
+    "d": [
+     "IND"
+    ]
+   }
+  ],
+  "notes": "Time-charter trip from South China via Indonesia to India on a coal cargo basis; it weighs 10% in the S11TC. The line is drawn as the laden leg from Samarinda to Paradip; the corridor counts Indonesian coal to India.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S8_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "cargo": "Coal (cargo basis of the definition)",
+   "load": "South China (Fuzhou-Fangcheng range including Taiwan), trip via Indonesia",
+   "discharge": "East coast India (Chennai-Paradip range)",
+   "duration": "20-25 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S9_63",
+  "name": "West Africa trip via east coast South America to Skaw-Passero",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "soybeans",
+   "corn"
+  ],
+  "from": {
+   "region": "West Africa (Dakar-Douala range)",
+   "ports": []
+  },
+  "to": {
+   "region": "Skaw-Passero (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Supramax: grain, coal, fertiliser, steel products), not part of the definition; no corridor is attached.",
+  "notes": "Time-charter trip from West Africa via east coast South America to Europe; it weighs 7.5% in the S11TC. The line is drawn as the laden leg from Santos to Rotterdam, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S9_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "West Africa (Dakar-Douala range), trip via east coast South America",
+   "discharge": "Skaw-Passero range",
+   "duration": "45-50 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "S15_63",
+  "name": "Indian Ocean trip via South Africa to the Far East",
+  "benchmark": true,
+  "vclass": "ultramax",
+  "cargoes": [
+   "thermal-coal",
+   "manganese"
+  ],
+  "from": {
+   "region": "Passing Colombo (delivery)",
+   "ports": []
+  },
+  "to": {
+   "region": "China-South Korea (redelivery)",
+   "ports": []
+  },
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (South African coal and manganese ore, an atlas choice), not part of the definition; no corridor is attached.",
+  "notes": "Time-charter trip from the Indian Ocean via South Africa to the Far East; it weighs 10% in the S11TC. The Baltic guide removed its coal cargo basis in November 2024. The line is drawn as a laden leg from Richards Bay to Qingdao, an atlas choice.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "S15_63",
+   "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
+   "load": "Passing Colombo, trip via South Africa",
+   "discharge": "China-South Korea",
+   "duration": "40-50 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS1_38",
@@ -535,19 +1463,33 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Passero (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Rio de Janeiro-Recalada (redelivery)",
+   "region": "Recalada-Rio de Janeiro (redelivery)",
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS1_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "Skaw-Passero range",
+   "discharge": "Recalada-Rio de Janeiro range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS2_38",
@@ -561,7 +1503,7 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Passero (delivery)",
    "ports": []
@@ -571,9 +1513,23 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS2_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "Skaw-Passero range",
+   "discharge": "Boston-Galveston range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS3_38",
@@ -587,9 +1543,9 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
-   "region": "Rio de Janeiro-Recalada (delivery)",
+   "region": "Recalada-Rio de Janeiro (delivery)",
    "ports": []
   },
   "to": {
@@ -597,9 +1553,23 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS3_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "Recalada-Rio de Janeiro range",
+   "discharge": "Skaw-Passero range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS4_38",
@@ -613,9 +1583,9 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
-   "region": "US Gulf (delivery)",
+   "region": "Brownsville-Key West (delivery)",
    "ports": []
   },
   "to": {
@@ -623,9 +1593,23 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS4_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "Brownsville-Key West, trip via the US Gulf or north coast South America",
+   "discharge": "Skaw-Passero range",
+   "duration": "35-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS5_38",
@@ -639,19 +1623,33 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
-   "region": "SE Asia (delivery)",
+   "region": "Krabi-Campha range including Malaysia, Indonesia, Philippines (delivery)",
    "ports": []
   },
   "to": {
-   "region": "Singapore-Japan (redelivery)",
+   "region": "Singapore-Japan including China (redelivery)",
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS5_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "Krabi-Campha range including Malaysia, Indonesia and the Philippines",
+   "discharge": "Singapore-Japan range including China",
+   "duration": "30-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS6_38",
@@ -665,7 +1663,7 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
    "ports": []
@@ -675,9 +1673,23 @@
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS6_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "North China-South Korea-Japan range",
+   "discharge": "North China-South Korea-Japan range",
+   "duration": "40-45 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "HS7_38",
@@ -691,19 +1703,33 @@
    "potash",
    "phosphate"
   ],
-  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
+  "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
    "ports": []
   },
   "to": {
-   "region": "SE Asia (redelivery)",
+   "region": "Krabi-Campha range including Malaysia, Indonesia, Philippines (redelivery)",
    "ports": []
   },
   "corridor": [],
-  "notes": "Handysize 38kdwt time-charter trip route; part of the Baltic Handysize index family.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Handysize time-charter trip; one of the seven routes of the Handysize timecharter average (HS7TC).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "HS7_38",
+   "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
+   "load": "North China-South Korea-Japan range",
+   "discharge": "Krabi-Campha range including Malaysia, Indonesia and the Philippines",
+   "duration": "25-30 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange dry services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/dry-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD3C",
@@ -754,9 +1780,21 @@
     ]
    }
   ],
-  "notes": "Core VLCC benchmark: 270,000 t, Ras Tanura to Ningbo (the Veson page of Baltic definitions, read on 23 November 2026). In the week ending 6 April 2026 the Baltic Exchange introduced an emergency route, TD34, 270,000 t from Mina al Fahal (Gulf of Oman) to China, and TD3C remained in publication (AXS Marine, VLCC freight market commentary, https://public.axsmarine.com/blog/vlcc-freight-market-commentary-week-ending-6-april).",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "The core VLCC route from the Gulf to China. In the week ending 6 April 2026 the Baltic Exchange introduced an emergency route, TD34, from Mina al Fahal (Gulf of Oman) to China, and TD3C remained in publication (AXS Marine, VLCC freight market commentary, https://public.axsmarine.com/blog/vlcc-freight-market-commentary-week-ending-6-april).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD3C",
+   "cargo": "270,000 t crude oil",
+   "load": "Ras Tanura",
+   "discharge": "Ningbo",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD34",
@@ -790,9 +1828,23 @@
    "malacca"
   ],
   "corridor": [],
-  "notes": "Alternative to TD3C created in 2026 while Hormuz transits were disrupted; public trial status at time of research;",
-  "s": "veson-baltic-defs",
-  "url": "https://www.maritimeprofessional.com/news/baltic-exchange-considers-amending-methodology-418210"
+  "notes": "Created in 2026 while Hormuz transits were disrupted: it loads in the Gulf of Oman, outside the strait. Public trial from 26 March 2026, live from 5 May 2026 (Baltic Exchange Circular 30/26). Its corridor, Oman to China, is counted on the Atlas corridor of Gulf of Oman crude to China, not twice.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
+  "shareNa": "Its flow, Oman to China, is counted on the Atlas corridor of Gulf of Oman crude to China, not twice",
+  "definition": {
+   "code": "TD34",
+   "cargo": "270,000 t crude oil",
+   "load": "Mina Al Fahal",
+   "discharge": "Ningbo",
+   "state": "active",
+   "stateDate": "2026-05-05",
+   "stateNote": "Live from 5 May 2026 after a public trial (Baltic Exchange Circular 30/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
+   "doc": "Baltic Exchange, Circular 30/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-30-26--new-index---td34--270k-dirty-gulf-of-oman-to-chi.html",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD15",
@@ -843,9 +1895,21 @@
     ]
    }
   ],
-  "notes": "VLCC fronthaul to China: 260,000 t, Serpentina FPSO and Bonny Offshore Terminal to Ningbo (the Veson page of Baltic definitions, read on 23 November 2026).",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "VLCC fronthaul from West Africa to China, round the Cape of Good Hope. The definition loads at the Serpentina FPSO and the Bonny Offshore Terminal: the line starts at Bonny.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD15",
+   "cargo": "260,000 t crude oil",
+   "load": "Serpentina FPSO and Bonny Offshore Terminal",
+   "discharge": "Ningbo",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD22",
@@ -856,14 +1920,10 @@
    "crude-oil"
   ],
   "from": {
-   "region": "US Gulf",
+   "region": "US Gulf (Galveston offshore lightering area)",
    "ports": [
     {
-     "name": "LOOP",
-     "c": "USA"
-    },
-    {
-     "name": "Houston",
+     "name": "Galveston",
      "c": "USA"
     }
    ]
@@ -894,9 +1954,21 @@
     ]
    }
   ],
-  "notes": "Lumpsum basis, long-haul US crude to Asia, laden often via Cape. Baltic published a USG-China VLCC index in 2026.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "US crude to China on a VLCC, assessed as a US$ lumpsum; the laden voyage often goes round the Cape of Good Hope. The definition loads in the Galveston offshore lightering area: the line starts at Galveston.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD22",
+   "cargo": "270,000 t crude oil",
+   "load": "Galveston offshore lightering area",
+   "discharge": "Ningbo",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD6",
@@ -907,7 +1979,7 @@
    "crude-oil"
   ],
   "from": {
-   "region": "Black Sea",
+   "region": "Black Sea (CPC terminal)",
    "ports": [
     {
      "name": "Novorossiysk",
@@ -945,9 +2017,21 @@
     ]
    }
   ],
-  "notes": "Status uncertain after 2022 (sanctions on Russian crude); route retained on the Baltic list as of the Veson page.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "From the CPC terminal, which the atlas's port table places at Novorossiysk, to Augusta through the Turkish Straits. It is one of the two routes of the Suezmax time-charter equivalent.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD6",
+   "cargo": "135,000 t crude oil",
+   "load": "CPC terminal",
+   "discharge": "Augusta",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD7",
@@ -958,10 +2042,10 @@
    "crude-oil"
   ],
   "from": {
-   "region": "North Sea",
+   "region": "North Sea (Hound Point)",
    "ports": [
     {
-     "name": "Sullom Voe",
+     "name": "Hound Point",
      "c": "GBR"
     }
    ]
@@ -992,9 +2076,21 @@
     ]
    }
   ],
-  "notes": "Cross-North Sea Aframax; short-haul Brent/Forties to Continental refiners.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Cross North Sea Aframax: Forth crude from Hound Point to Wilhelmshaven.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD7",
+   "cargo": "80,000 t crude oil",
+   "load": "Hound Point",
+   "discharge": "Wilhelmshaven",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD8",
@@ -1039,8 +2135,21 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "notes": "Kuwaiti crude or dirty products to Singapore, heated to 135 F.",
+  "definition": {
+   "code": "TD8",
+   "cargo": "80,000 t crude oil and/or dirty petroleum products",
+   "load": "Mena al Ahmadi",
+   "discharge": "Singapore",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD9",
@@ -1051,19 +2160,19 @@
    "crude-oil"
   ],
   "from": {
-   "region": "Caribbean",
+   "region": "Caribbean (Covenas)",
    "ports": [
     {
-     "name": "Puerto La Cruz",
-     "c": "VEN"
+     "name": "Covenas",
+     "c": "COL"
     }
    ]
   },
   "to": {
-   "region": "US Gulf",
+   "region": "US Gulf (Corpus Christi)",
    "ports": [
     {
-     "name": "Houston",
+     "name": "Corpus Christi",
      "c": "USA"
     }
    ]
@@ -1082,15 +2191,82 @@
     ]
    }
   ],
-  "notes": "Venezuelan/Colombian crude to USG refiners; volumes very sensitive to US sanctions policy.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Caribbean crude to US Gulf refiners, assessed with the Oil Pollution Act premium paid. The corridor keeps Venezuela beside Colombia: both ship crude across the Caribbean to the US Gulf, and volumes are sensitive to US sanctions policy.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD9",
+   "cargo": "70,000 t crude oil",
+   "load": "Covenas",
+   "discharge": "Corpus Christi",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD14",
+  "name": "South East Asia – East Coast Australia",
+  "benchmark": true,
+  "vclass": "aframax",
+  "cargoes": [
+   "crude-oil"
+  ],
+  "from": {
+   "region": "South East Asia (Seria)",
+   "ports": [
+    {
+     "name": "Seria",
+     "c": "BRN"
+    }
+   ]
+  },
+  "to": {
+   "region": "East Coast Australia (Brisbane)",
+   "ports": [
+    {
+     "name": "Brisbane",
+     "c": "AUS"
+    }
+   ]
+  },
+  "parcel": 80000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "crude-oil",
+    "o": [
+     "BRN"
+    ],
+    "d": [
+     "AUS"
+    ]
+   }
+  ],
+  "notes": "Aframax crude from Brunei to Brisbane; one of the six routes of the Aframax time-charter equivalent and of the Baltic Dirty Tanker Index.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD14",
+   "cargo": "80,000 t crude oil",
+   "load": "Seria",
+   "discharge": "Brisbane",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD17",
   "name": "Baltic – UK-Continent",
   "benchmark": true,
-  "discontinued": "2025",
+  "discontinued": "24 December 2025",
   "vclass": "aframax",
   "cargoes": [
    "crude-oil"
@@ -1105,11 +2281,11 @@
    ]
   },
   "to": {
-   "region": "UK-Continent",
+   "region": "UK-Continent (Wilhelmshaven)",
    "ports": [
     {
-     "name": "Rotterdam",
-     "c": "NLD"
+     "name": "Wilhelmshaven",
+     "c": "DEU"
     }
    ]
   },
@@ -1119,9 +2295,77 @@
    "danish-straits"
   ],
   "corridor": [],
-  "notes": "Suspended route ceased 24 Dec 2025 (Circular 35/25).",
-  "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-35-25--market-announcement---cessation-of-suspended-ind.html"
+  "notes": "Russian Baltic crude to the Continent through the Great Belt. Suspended on 21 October 2022 and ceased from 24 December 2025 (Baltic Exchange Circular 35/25).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD17",
+   "cargo": "100,000 t crude oil",
+   "load": "Primorsk",
+   "discharge": "Wilhelmshaven",
+   "state": "ended",
+   "stateDate": "2025-12-24",
+   "stateNote": "Suspended since 21 October 2022; ceased from 24 December 2025 (Baltic Exchange Circular 35/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-35-25--market-announcement---cessation-of-suspended-ind.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD18",
+  "name": "Baltic – UK-Continent fuel oil",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "Baltic (Tallinn)",
+   "ports": [
+    {
+     "name": "Tallinn",
+     "c": "EST"
+    }
+   ]
+  },
+  "to": {
+   "region": "UK-Continent (Amsterdam)",
+   "ports": [
+    {
+     "name": "Amsterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 30000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "EST"
+    ],
+    "d": [
+     "NLD"
+    ]
+   }
+  ],
+  "notes": "Handy-size fuel oil from Tallinn to Amsterdam; one of the eleven routes of the Baltic Dirty Tanker Index.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD18",
+   "cargo": "30,000 t fuel oil",
+   "load": "Tallinn",
+   "discharge": "Amsterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD19",
@@ -1168,9 +2412,21 @@
     ]
    }
   ],
-  "notes": "Corridor countries approximate (Ceyhan loads Azeri/Iraqi crude).",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Cross-Mediterranean Aframax from Ceyhan to Lavera. The corridor's origin countries are approximate: Ceyhan loads Azeri and Iraqi crude.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD19",
+   "cargo": "80,000 t crude oil",
+   "load": "Ceyhan",
+   "discharge": "Lavera",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD20",
@@ -1221,9 +2477,76 @@
     ]
    }
   ],
-  "notes": "130,000 t, offshore terminal Bonny to Rotterdam, in the CFTC filing of 23 March 2018 and on the Veson page of Baltic definitions, read on 23 November 2026.",
+  "notes": "West African crude to the Continent; also in the CFTC filing of 23 March 2018. One of the two routes of the Suezmax time-charter equivalent.",
   "s": "baltic",
-  "url": "https://cftc.gov/filings/ptc/ptc032318nymexdcm001.pdf"
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD20",
+   "cargo": "130,000 t crude oil",
+   "load": "Offshore terminal Bonny",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD21",
+  "name": "Caribbean – US Gulf fuel oil",
+  "benchmark": true,
+  "vclass": "lr1",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "Caribbean (Mamonal)",
+   "ports": [
+    {
+     "name": "Mamonal",
+     "c": "COL"
+    }
+   ]
+  },
+  "to": {
+   "region": "US Gulf (Houston)",
+   "ports": [
+    {
+     "name": "Houston",
+     "c": "USA"
+    }
+   ]
+  },
+  "parcel": 50000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "COL"
+    ],
+    "d": [
+     "USA"
+    ]
+   }
+  ],
+  "notes": "Fuel oil from Mamonal (Cartagena) to Houston on the Baltic standard Panamax tanker (75,000 dwt), drawn here in the LR1 class, the atlas's class of that size.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD21",
+   "cargo": "50,000 t fuel oil",
+   "load": "Mamonal",
+   "discharge": "Houston",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD23",
@@ -1234,20 +2557,20 @@
    "crude-oil"
   ],
   "from": {
-   "region": "Middle East Gulf",
+   "region": "Middle East Gulf (Basrah)",
    "ports": [
     {
-     "name": "Ras Tanura",
-     "c": "SAU"
+     "name": "Basrah",
+     "c": "IRQ"
     }
    ]
   },
   "to": {
-   "region": "Mediterranean",
+   "region": "Mediterranean (Lavera)",
    "ports": [
     {
-     "name": "Augusta",
-     "c": "ITA"
+     "name": "Lavera",
+     "c": "FRA"
     }
    ]
   },
@@ -1279,9 +2602,21 @@
     ]
    }
   ],
-  "notes": "Suez/SUMED routing; Cape routing when Red Sea is disrupted. Ports are market convention.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Gulf crude to the Mediterranean through the Suez Canal or the SUMED pipeline; round the Cape when the Red Sea is disrupted.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD23",
+   "cargo": "140,000 t crude oil",
+   "load": "Basrah",
+   "discharge": "Lavera",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD25",
@@ -1326,9 +2661,21 @@
     ]
    }
   ],
-  "notes": "Transatlantic WTI to Europe; larger flows move on Suezmax/VLCC (see usg-med-crude).",
-  "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html"
+  "notes": "Transatlantic US crude to Europe on an Aframax; larger cargoes move on Suezmaxes (TD33) and VLCCs.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD25",
+   "cargo": "70,000 t crude oil",
+   "load": "Houston",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD26",
@@ -1369,8 +2716,21 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "notes": "Mexican crude to US Gulf refiners, assessed with the Oil Pollution Act premium paid.",
+  "definition": {
+   "code": "TD26",
+   "cargo": "70,000 t crude oil",
+   "load": "Dos Bocas or Cayo Arcas",
+   "discharge": "Houston",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD27",
@@ -1414,15 +2774,198 @@
     ]
    }
   ],
-  "notes": "Launched Oct 2024; 15-20 day laycan, double hull, max age 15.",
+  "notes": "Guyanese crude from the Stabroek offshore field to Rotterdam; launched in October 2024.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD27",
+   "cargo": "130,000 t crude oil",
+   "load": "Guyana",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD28",
+  "name": "West Coast Canada – China",
+  "benchmark": true,
+  "vclass": "aframax",
+  "cargoes": [
+   "crude-oil"
+  ],
+  "from": {
+   "region": "West Coast Canada (Vancouver)",
+   "ports": [
+    {
+     "name": "Vancouver",
+     "c": "CAN"
+    }
+   ]
+  },
+  "to": {
+   "region": "China (Ningbo)",
+   "ports": [
+    {
+     "name": "Ningbo",
+     "c": "CHN"
+    }
+   ]
+  },
+  "parcel": 80000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "crude-oil",
+    "o": [
+     "CAN"
+    ],
+    "d": [
+     "CHN"
+    ]
+   }
+  ],
+  "notes": "Canadian crude shipped from Vancouver since the Trans Mountain pipeline expansion entered service; assessed as a US$ lumpsum, live since 4 August 2025 (Baltic Exchange Circular 22/25).",
   "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2024/circular-30-24-new-index--td27-and-td27-tce---dirty-130k-guyana-.html"
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+  "definition": {
+   "code": "TD28",
+   "cargo": "80,000 t crude oil",
+   "load": "Vancouver",
+   "discharge": "Ningbo",
+   "state": "active",
+   "stateDate": "2025-08-04",
+   "stateNote": "Live reporting from 4 August 2025 (Baltic Exchange Circular 22/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+   "doc": "Baltic Exchange, Circular 22/25",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD29",
+  "name": "West Coast Canada – Pacific Area Lightering",
+  "benchmark": true,
+  "vclass": "aframax",
+  "cargoes": [
+   "crude-oil"
+  ],
+  "from": {
+   "region": "West Coast Canada (Vancouver)",
+   "ports": [
+    {
+     "name": "Vancouver",
+     "c": "CAN"
+    }
+   ]
+  },
+  "to": {
+   "region": "US West Coast (Pacific Area Lightering)",
+   "ports": [
+    {
+     "name": "Long Beach",
+     "c": "USA"
+    }
+   ]
+  },
+  "parcel": 80000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "crude-oil",
+    "o": [
+     "CAN"
+    ],
+    "d": [
+     "USA"
+    ]
+   }
+  ],
+  "notes": "Canadian crude from Vancouver to the Pacific Area Lightering zone off California (Riviera Maritime Media, 2025), live since 4 August 2025 (Baltic Exchange Circular 22/25). The zone is offshore, not a port: the line is drawn to Long Beach, on the same coast.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+  "definition": {
+   "code": "TD29",
+   "cargo": "80,000 t crude oil",
+   "load": "Vancouver",
+   "discharge": "Pacific Area Lightering",
+   "state": "active",
+   "stateDate": "2025-08-04",
+   "stateNote": "Live reporting from 4 August 2025 (Baltic Exchange Circular 22/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+   "doc": "Baltic Exchange, Circular 22/25",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-22-25--new-index---td28-and-td29-go-live.html",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TD33",
+  "name": "US Gulf – ARA (Suezmax)",
+  "benchmark": true,
+  "vclass": "suezmax",
+  "cargoes": [
+   "crude-oil"
+  ],
+  "from": {
+   "region": "US Gulf (Corpus Christi)",
+   "ports": [
+    {
+     "name": "Corpus Christi",
+     "c": "USA"
+    }
+   ]
+  },
+  "to": {
+   "region": "Amsterdam-Rotterdam-Antwerp (Rotterdam)",
+   "ports": [
+    {
+     "name": "Rotterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "parcel": 145000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "crude-oil",
+    "o": [
+     "USA"
+    ],
+    "d": [
+     "NLD",
+     "BEL",
+     "DEU",
+     "FRA"
+    ]
+   }
+  ],
+  "notes": "Suezmax US crude to Europe: public trial from 12 January 2026, live from 10 February 2026 (Baltic Exchange Circular 08/26). It shares its corridor with TD25, the Aframax route on the same trade.",
+  "s": "baltic-circulars",
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-08-26--new-index---td33-go-live-.html",
+  "definition": {
+   "code": "TD33",
+   "cargo": "145,000 t crude oil",
+   "load": "Corpus Christi",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateDate": "2026-02-10",
+   "stateNote": "Live reporting from 10 February 2026 (Baltic Exchange Circular 08/26)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-08-26--new-index---td33-go-live-.html",
+   "doc": "Baltic Exchange, Circular 08/26",
+   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-08-26--new-index---td33-go-live-.html",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TD2",
   "name": "Middle East Gulf – Singapore",
   "benchmark": true,
-  "discontinued": "2024",
+  "discontinued": "1 August 2024",
   "vclass": "vlcc",
   "cargoes": [
    "crude-oil"
@@ -1452,9 +2995,22 @@
    "malacca"
   ],
   "corridor": [],
-  "notes": "Ceased 1 Aug 2024 (Circular 15/24); cargo size per Veson page.",
-  "s": "baltic-circulars",
-  "url": "https://balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2024/circular-15-24-change--cessation-of-td2-and-td2-tce---1-august-2.html"
+  "notes": "Ceased: its last day of publication was 1 August 2024 (Baltic Exchange Circular 15/24). The Baltic guide and the tanker services page still list it in the Baltic Dirty Tanker Index formula. Kept in the atlas because links point to it.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TD2",
+   "cargo": "270,000 t crude oil",
+   "load": "Ras Tanura",
+   "discharge": "Singapore",
+   "state": "ended",
+   "stateDate": "2024-08-01",
+   "stateNote": "Last day of publication 1 August 2024 (Baltic Exchange Circular 15/24)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2024/circular-15-24-change--cessation-of-td2-and-td2-tce---1-august-2.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC1",
@@ -1489,10 +3045,22 @@
    "malacca"
   ],
   "corridor": [],
-  "notes": "Corridor assigned to TC5 / middle-east-japan-products to avoid double counting. Lloyd's List flagged possible suspension in 2026.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "shareNa": "Its flow is counted on TC5 (same Gulf–Japan products corridor), not twice"
+  "notes": "LR2 clean products from the Gulf to Japan; one of the six routes of the Baltic Clean Tanker Index.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "shareNa": "Its flow is counted on TC5 (same Gulf–Japan products corridor), not twice",
+  "definition": {
+   "code": "TC1",
+   "cargo": "75,000 t clean products and naphtha condensate",
+   "load": "Ras Tanura",
+   "discharge": "Yokohama",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC5",
@@ -1543,9 +3111,21 @@
     ]
    }
   ],
-  "notes": "Basis of Baltic Clean Tanker Index with TC2.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "LR1 clean products and naphtha from the Gulf to Japan. With TC1, TC2_37, TC6, TC16 and TC23 it is one of the six routes of the Baltic Clean Tanker Index, at equal weights.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC5",
+   "cargo": "55,000 t clean products, unleaded gasoline and naphtha condensate",
+   "load": "Ras Tanura",
+   "discharge": "Yokohama",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC8",
@@ -1581,10 +3161,22 @@
    "suez"
   ],
   "corridor": [],
-  "notes": "65,000 t of clean products (middle distillate), Jubail to Rotterdam (the Veson page of Baltic definitions, read on 23 November 2026). Its corridor is counted on the Middle East – Europe diesel/jet route.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
+  "notes": "LR1 middle distillates from the Gulf to Europe through the Suez Canal, assessed in US$ per tonne. Its corridor is counted on the Middle East – Europe diesel/jet route.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice",
+  "definition": {
+   "code": "TC8",
+   "cargo": "65,000 t clean products, unleaded gasoline and middle distillate",
+   "load": "Jubail",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC15",
@@ -1595,19 +3187,19 @@
    "refined-products"
   ],
   "from": {
-   "region": "Mediterranean",
+   "region": "Mediterranean (Skikda)",
    "ports": [
     {
-     "name": "Sidi Kerir",
-     "c": "EGY"
+     "name": "Skikda",
+     "c": "DZA"
     }
    ]
   },
   "to": {
-   "region": "Far East",
+   "region": "Far East (Chiba)",
    "ports": [
     {
-     "name": "Yokohama",
+     "name": "Chiba",
      "c": "JPN"
     }
    ]
@@ -1619,10 +3211,32 @@
    "bab-el-mandeb",
    "malacca"
   ],
-  "corridor": [],
-  "notes": "80,000 t of naphtha, Skikda to Chiba, assessed as a US$ lumpsum (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn from Sidi Kerir to Yokohama, ports of the same seas.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "DZA"
+    ],
+    "d": [
+     "JPN"
+    ]
+   }
+  ],
+  "notes": "LR2 naphtha from Algeria to Japan, assessed as a US$ lumpsum, through the Suez Canal.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC15",
+   "cargo": "80,000 t naphtha",
+   "load": "Skikda",
+   "discharge": "Chiba",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC16",
@@ -1633,16 +3247,16 @@
    "refined-products"
   ],
   "from": {
-   "region": "ARA",
+   "region": "ARA (Amsterdam)",
    "ports": [
     {
-     "name": "Rotterdam",
+     "name": "Amsterdam",
      "c": "NLD"
     }
    ]
   },
   "to": {
-   "region": "West Africa",
+   "region": "West Africa (offshore Lome)",
    "ports": [
     {
      "name": "Lome",
@@ -1667,9 +3281,21 @@
     ]
    }
   ],
-  "notes": "Offshore discharge at Lome anchorage.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "LR1 clean products from Europe to West Africa, discharged offshore Lome; one of the six routes of the Baltic Clean Tanker Index.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC16",
+   "cargo": "60,000 t clean products",
+   "load": "Amsterdam",
+   "discharge": "Offshore Lome",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC20",
@@ -1680,8 +3306,13 @@
    "refined-products"
   ],
   "from": {
-   "region": "Middle East Gulf",
-   "ports": []
+   "region": "Middle East Gulf (Jubail)",
+   "ports": [
+    {
+     "name": "Jubail",
+     "c": "SAU"
+    }
+   ]
   },
   "to": {
    "region": "UK-Continent",
@@ -1698,10 +3329,24 @@
    "suez"
   ],
   "corridor": [],
-  "notes": "TC20 is not on the Veson page of Baltic definitions, read on 23 November 2026; no page read by the atlas gives its cargo size and ports.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice"
+  "notes": "LR2 middle distillates from the Gulf to Europe through the Suez Canal, assessed as a US$ lumpsum. Its corridor is counted on the Middle East – Europe diesel/jet route.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice",
+  "parcel": 90000,
+  "parcelUnit": "t",
+  "definition": {
+   "code": "TC20",
+   "cargo": "90,000 t clean products, unleaded gasoline and middle distillate",
+   "load": "Jubail",
+   "discharge": "Rotterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC2_37",
@@ -1746,9 +3391,21 @@
     ]
    }
   ],
-  "notes": "Gasoline blendstock into New York Harbor; transatlantic MR benchmark.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Transatlantic MR: gasoline into New York Harbor; one of the six routes of the Baltic Clean Tanker Index.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC2_37",
+   "cargo": "37,000 t clean products and unleaded gasoline",
+   "load": "Rotterdam",
+   "discharge": "New York",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC6",
@@ -1791,8 +3448,21 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "notes": "Algerian products across the Mediterranean; one of the six routes of the Baltic Clean Tanker Index.",
+  "definition": {
+   "code": "TC6",
+   "cargo": "30,000 t clean products and unleaded gasoline",
+   "load": "Skikda",
+   "discharge": "Lavera",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC7",
@@ -1836,14 +3506,26 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC7",
+   "cargo": "35,000 t clean products",
+   "load": "Singapore",
+   "discharge": "Sydney",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC9",
   "name": "Baltic – UK-Continent",
   "benchmark": true,
-  "discontinued": "2025",
+  "discontinued": "24 December 2025",
   "vclass": "handy-tanker",
   "cargoes": [
    "refined-products"
@@ -1858,11 +3540,11 @@
    ]
   },
   "to": {
-   "region": "UK-Continent",
+   "region": "UK-Continent (Le Havre)",
    "ports": [
     {
-     "name": "Rotterdam",
-     "c": "NLD"
+     "name": "Le Havre",
+     "c": "FRA"
     }
    ]
   },
@@ -1872,9 +3554,22 @@
    "danish-straits"
   ],
   "corridor": [],
-  "notes": "Suspended; ceased 24 Dec 2025 (Circular 35/25).",
-  "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-35-25--market-announcement---cessation-of-suspended-ind.html"
+  "notes": "Russian Baltic products to the Continent. Suspended on 23 December 2022 and ceased from 24 December 2025 (Baltic Exchange Circular 35/25).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC9",
+   "cargo": "30,000 t clean products, unleaded gasoline and diesel (middle distillate)",
+   "load": "Primorsk",
+   "discharge": "Le Havre",
+   "state": "ended",
+   "stateDate": "2025-12-24",
+   "stateNote": "Suspended since 23 December 2022; ceased from 24 December 2025 (Baltic Exchange Circular 35/25)",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2025/circular-35-25--market-announcement---cessation-of-suspended-ind.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC10",
@@ -1885,10 +3580,10 @@
    "refined-products"
   ],
   "from": {
-   "region": "South Korea",
+   "region": "South Korea (Yeosu)",
    "ports": [
     {
-     "name": "Ulsan",
+     "name": "Yeosu (Yosu)",
      "c": "KOR"
     }
    ]
@@ -1915,9 +3610,66 @@
     ]
    }
   ],
-  "notes": "40,000 t of clean products, Yeosu to Los Angeles (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn from Ulsan, another South Korean refinery port.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Transpacific MR from Korean refineries to the US West Coast, assessed in US$ per tonne.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC10",
+   "cargo": "40,000 t clean products and unleaded gasoline",
+   "load": "Yeosu",
+   "discharge": "Los Angeles",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TC11",
+  "name": "South Korea – Singapore",
+  "benchmark": true,
+  "vclass": "mr",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "South Korea (Yeosu)",
+   "ports": [
+    {
+     "name": "Yeosu (Yosu)",
+     "c": "KOR"
+    }
+   ]
+  },
+  "to": {
+   "region": "Singapore",
+   "ports": [
+    {
+     "name": "Singapore",
+     "c": "SGP"
+    }
+   ]
+  },
+  "parcel": 40000,
+  "parcelUnit": "t",
+  "shareNa": "Its flow, South Korea to Singapore, is counted on the Atlas corridor of refined products from Japan and Korea to South-East Asia, not twice",
+  "notes": "MR clean products from Korean refineries to Singapore, assessed in US$ per tonne; with TC12 it makes the MR Pacific basket.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC11",
+   "cargo": "40,000 t clean products",
+   "load": "Yeosu",
+   "discharge": "Singapore",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC12",
@@ -1961,9 +3713,21 @@
     ]
    }
   ],
-  "notes": "Route direct via Indian Ocean/Malacca/Taiwan Strait; Naphtha basis.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "MR naphtha condensate from Sikka (Jamnagar) on the west coast of India to Japan.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC12",
+   "cargo": "35,000 t naphtha condensate",
+   "load": "Sikka (Jamnagar)",
+   "discharge": "Chiba",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC14",
@@ -1983,10 +3747,10 @@
    ]
   },
   "to": {
-   "region": "Continent",
+   "region": "Continent (Amsterdam)",
    "ports": [
     {
-     "name": "Rotterdam",
+     "name": "Amsterdam",
      "c": "NLD"
     }
    ]
@@ -2008,9 +3772,21 @@
     ]
    }
   ],
-  "notes": "Backhaul US diesel to Europe.",
+  "notes": "US diesel and gasoline to Europe; with TC2_37 it makes the MR Atlantic basket.",
   "s": "baltic",
-  "url": "https://cftc.gov/filings/ptc/ptc032318nymexdcm001.pdf"
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC14",
+   "cargo": "38,000 t clean products, unleaded gasoline and diesel",
+   "load": "Houston",
+   "discharge": "Amsterdam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC17",
@@ -2060,8 +3836,21 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "notes": "MR products from the Gulf to East Africa.",
+  "definition": {
+   "code": "TC17",
+   "cargo": "35,000 t (the product is not named)",
+   "load": "Jubail",
+   "discharge": "Dar es Salaam",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC18",
@@ -2102,9 +3891,21 @@
     ]
    }
   ],
-  "notes": "Corridor includes this route; broader US Gulf-LatAm picture in usg-latam-products.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "US products to Brazil; the broader US Gulf to Latin America trade is on usgulf-latam-products.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC18",
+   "cargo": "38,000 t clean products and unleaded gasoline",
+   "load": "Houston",
+   "discharge": "Santos",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC19",
@@ -2115,10 +3916,10 @@
    "refined-products"
   ],
   "from": {
-   "region": "ARA",
+   "region": "ARA (Amsterdam)",
    "ports": [
     {
-     "name": "Rotterdam",
+     "name": "Amsterdam",
      "c": "NLD"
     }
    ]
@@ -2150,8 +3951,21 @@
     ]
    }
   ],
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "notes": "MR clean products from Europe to Nigeria.",
+  "definition": {
+   "code": "TC19",
+   "cargo": "37,000 t clean products",
+   "load": "Amsterdam",
+   "discharge": "Lagos",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "TC21",
@@ -2171,13 +3985,144 @@
    ]
   },
   "to": {
-   "region": "Caribbean",
-   "ports": []
+   "region": "Caribbean (Pozos Colorados)",
+   "ports": [
+    {
+     "name": "Pozos Colorados",
+     "c": "COL"
+    }
+   ]
   },
-  "corridor": [],
-  "notes": "TC21 is not on the Veson page of Baltic definitions, read on 23 November 2026; no page read by the atlas gives its cargo size and ports.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "USA"
+    ],
+    "d": [
+     "COL"
+    ]
+   }
+  ],
+  "notes": "US products to Colombia's Caribbean coast, assessed as a US$ lumpsum.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "parcel": 38000,
+  "parcelUnit": "t",
+  "definition": {
+   "code": "TC21",
+   "cargo": "38,000 t clean products and unleaded gasoline",
+   "load": "Houston",
+   "discharge": "Pozos Colorados",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TC22",
+  "name": "South Korea – Australia",
+  "benchmark": true,
+  "vclass": "mr",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "South Korea (Yeosu)",
+   "ports": [
+    {
+     "name": "Yeosu (Yosu)",
+     "c": "KOR"
+    }
+   ]
+  },
+  "to": {
+   "region": "Australia (Botany Bay)",
+   "ports": [
+    {
+     "name": "Botany Bay",
+     "c": "AUS"
+    }
+   ]
+  },
+  "parcel": 35000,
+  "parcelUnit": "t",
+  "shareNa": "Its flow, South Korea to Australia, is counted on the Atlas corridor of refined products from Japan and Korea to Eastern Australia, not twice",
+  "notes": "MR clean products from Korean refineries to Sydney's Botany Bay.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC22",
+   "cargo": "35,000 t clean products and unleaded gasoline",
+   "load": "Yeosu",
+   "discharge": "Botany Bay",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
+ },
+ {
+  "id": "TC23",
+  "name": "ARA – UK-Continent (cross)",
+  "benchmark": true,
+  "vclass": "handy-tanker",
+  "cargoes": [
+   "refined-products"
+  ],
+  "from": {
+   "region": "Amsterdam-Rotterdam-Antwerp (Amsterdam)",
+   "ports": [
+    {
+     "name": "Amsterdam",
+     "c": "NLD"
+    }
+   ]
+  },
+  "to": {
+   "region": "UK-Continent (Le Havre)",
+   "ports": [
+    {
+     "name": "Le Havre",
+     "c": "FRA"
+    }
+   ]
+  },
+  "parcel": 30000,
+  "parcelUnit": "t",
+  "corridor": [
+   {
+    "k": "refined-products",
+    "o": [
+     "NLD",
+     "BEL"
+    ],
+    "d": [
+     "GBR",
+     "FRA"
+    ]
+   }
+  ],
+  "notes": "Handy-size clean products within north-west Europe; one of the six routes of the Baltic Clean Tanker Index. The definition names ranges, not ports: the line is drawn from Amsterdam to Le Havre, the ports of its time-charter equivalent.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "TC23",
+   "cargo": "30,000 t clean products, unleaded gasoline and diesel",
+   "load": "Amsterdam-Rotterdam-Antwerp",
+   "discharge": "UK-Continent",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange tanker services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/tankers-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLNG1",
@@ -2219,9 +4164,23 @@
     ]
    }
   ],
-  "notes": "Round voyage on Baltic 174,000 cbm standard vessel; live since Dec 2023. Originally defined as Gladstone-Tokyo.",
+  "notes": "Round voyage from Gladstone via Tokyo on the Baltic 174,000 cbm carrier burning LNG, live since December 2023 (Baltic Exchange circular 35/23). The 160,000 cbm series ceased in 2025 (Guide to Market Benchmarks, version 7.09).",
   "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2023/circular-35-23---new-index--blng1-174--blng2-174--blng3-174-goes.html"
+  "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2023/circular-35-23---new-index--blng1-174--blng2-174--blng3-174-goes.html",
+  "definition": {
+   "code": "BLNG1-174",
+   "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
+   "load": "Gladstone (delivery and redelivery), round voyage via Tokyo",
+   "discharge": "Gladstone",
+   "duration": "22 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLNG2",
@@ -2270,9 +4229,23 @@
     ]
    }
   ],
-  "notes": "Earlier definition was Sabine-Isle of Grain; 174 series is described as US Gulf-Continent.",
+  "notes": "Round voyage from Sabine via the Isle of Grain on the Baltic 174,000 cbm carrier. The line is drawn to the Isle of Grain; the corridor counts US LNG to European importers.",
   "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html"
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+  "definition": {
+   "code": "BLNG2-174",
+   "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
+   "load": "Sabine (delivery and redelivery), round voyage via Isle of Grain",
+   "discharge": "Sabine",
+   "duration": "28 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLNG3",
@@ -2317,9 +4290,23 @@
     ]
    }
   ],
-  "notes": "Round voyage from Sabine via Tokyo, 53 days, routing via the Panama Canal, redelivery Sabine (the Veson page of Baltic definitions, read on 23 November 2026).",
+  "notes": "Round voyage from Sabine via Tokyo through the Panama Canal on the Baltic 174,000 cbm carrier.",
   "s": "baltic-circulars",
-  "url": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html"
+  "url": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+  "definition": {
+   "code": "BLNG3-174",
+   "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
+   "load": "Sabine (delivery and redelivery), round voyage via Tokyo through the Panama Canal",
+   "discharge": "Sabine",
+   "duration": "53 days",
+   "tc": true,
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLPG1",
@@ -2372,9 +4359,22 @@
     ]
    }
   ],
-  "notes": "44,000 t, Ras Tanura to Chiba; the time-charter equivalent is on the basis of a VLGC84 (the Veson page of Baltic definitions, read on 23 November 2026). Corridor share covers Middle East Gulf exports to East Asia and India, the trade this benchmark prices; Japan now buys most of its LPG from North America.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "Corridor share covers Middle East Gulf exports to East Asia and India, the trade this benchmark prices; Japan now buys most of its LPG from North America.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "BLPG1",
+   "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
+   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "load": "Ras Tanura",
+   "discharge": "Chiba",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLPG2",
@@ -2394,10 +4394,10 @@
    ]
   },
   "to": {
-   "region": "Continent",
+   "region": "Continent (Flushing)",
    "ports": [
     {
-     "name": "Rotterdam",
+     "name": "Flushing (Vlissingen)",
      "c": "NLD"
     }
    ]
@@ -2420,9 +4420,22 @@
     ]
    }
   ],
-  "notes": "44,000 t, Houston to Flushing (the Veson page of Baltic definitions, read on 23 November 2026); the line is drawn to Rotterdam, on the same coast.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "US LPG to the Continent, discharged at Flushing (Vlissingen).",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "BLPG2",
+   "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
+   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "load": "Houston",
+   "discharge": "Flushing",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "BLPG3",
@@ -2466,9 +4479,22 @@
     ]
    }
   ],
-  "notes": "44,000 t, Houston to Chiba, routing via the Panama Canal with 2 days of waiting included (the Veson page of Baltic definitions, read on 23 November 2026). Neopanamax-capable VLGCs; Cape routing when Panama restricted.",
-  "s": "veson-baltic-defs",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions"
+  "notes": "US LPG to Japan through the Panama Canal; round the Cape when the canal is restricted.",
+  "s": "baltic",
+  "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+  "definition": {
+   "code": "BLPG3",
+   "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
+   "cargo": "44,000 t fully refrigerated LPG, 5% more or less in owner's option",
+   "load": "Houston",
+   "discharge": "Chiba (via the Panama Canal, 2 days of waiting included)",
+   "state": "active",
+   "stateNote": "Listed on the Baltic Exchange gas services page",
+   "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",
+   "doc": "Baltic Exchange, Guide to Market Benchmarks, version 7.09 (December 2025), appendix 2",
+   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+   "read": "November 2026"
+  }
  },
  {
   "id": "guinea-china-bauxite",
@@ -3889,7 +5915,7 @@
     ]
    }
   ],
-  "notes": "Seaborne ESPO exports from Kozmino. The corridor volume is the customs total of Russian crude to China for all modes, pipeline included: the sea and overland split is not known.",
+  "notes": "Seaborne ESPO exports from Kozmino. The corridor volume is the customs total of Russian crude to China for all modes, pipeline included: the sea and overland split is not known. The Baltic Exchange route on this trade, TD24 (100,000 t, Kozmino to Qingdao), was suspended in October 2022 and ceased from 24 December 2025 (Circular 35/25).",
   "s": "atlas"
  },
  {

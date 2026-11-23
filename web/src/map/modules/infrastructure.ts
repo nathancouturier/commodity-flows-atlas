@@ -1,5 +1,5 @@
 /**
- * Infrastructure layer: mines, smelters, ports, fields, refineries, LNG terminals (icons)
+ * Infrastructure layer: mines, smelters, ports, storage hubs, fields, refineries, LNG terminals (icons)
  * and pipelines (lines), from data/infrastructure/*.geojson.
  *
  * - filters: commodity (feature.k), infrastructure types (side panel), selected country
@@ -31,7 +31,7 @@ export interface InfraFeature {
 }
 
 // lng.geojson holds both 'lng-export' and 'lng-import' features (told apart by properties.type)
-const FILES = ['mines', 'smelters', 'ports', 'fields', 'refineries', 'lng', 'pipelines'];
+const FILES = ['mines', 'smelters', 'ports', 'fields', 'refineries', 'lng', 'pipelines', 'storage'];
 let infraPromise: Promise<InfraFeature[]> | null = null;
 
 function lineCoords(g: Geometry): [number, number][] {

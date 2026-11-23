@@ -11,6 +11,7 @@
      "iron-ore"
     ],
     "c": "AUS",
+    "locode": "AUPHE",
     "operator": "Pilbara Ports Authority",
     "output": {
      "v": 580.4,
@@ -24,7 +25,18 @@
     "coord": "approx",
     "s": "port-authorities",
     "url": "https://www.pilbaraports.com.au/pilbara-ports-delivers-another-year-of-record-trade",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 19.8,
+     "dwt": 320000,
+     "n": "Draft depth 19.8 m (infobox, citing Findaport); 15 berths load ships of 25,000 to 320,000 dwt (Port Hedland Port Authority handbook, cited by the article)",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Port_Hedland"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -45,6 +57,7 @@
      "lng"
     ],
     "c": "AUS",
+    "locode": "AUDAM",
     "operator": "Pilbara Ports Authority",
     "capacity": {
      "v": 140,
@@ -77,6 +90,7 @@
      "iron-ore"
     ],
     "c": "BRA",
+    "locode": "BRTUB",
     "operator": "Vale",
     "output": {
      "v": 103.9,
@@ -111,6 +125,7 @@
      "iron-ore"
     ],
     "c": "CAN",
+    "locode": "CASEI",
     "operator": "Port of Sept-Iles",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -138,6 +153,7 @@
      "iron-ore"
     ],
     "c": "NOR",
+    "locode": "NONVK",
     "operator": "Port of Narvik",
     "capacity": {
      "v": 16,
@@ -170,6 +186,7 @@
      "thermal-coal"
     ],
     "c": "AUS",
+    "locode": "AUNTL",
     "operator": "Port of Newcastle",
     "output": {
      "v": 149,
@@ -184,7 +201,20 @@
     "coord": "site",
     "s": "trade-press",
     "url": "https://www.drycargomag.com/port-of-newcastle-sets-new-record-for-diversified-trade-volumes-in-2025",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 16.2,
+     "n": "Draft depth 16.2 m (infobox, citing Findaport)",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Newcastle"
+    },
+    "maxClass": {
+     "dry": "kamsarmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    },
+    "prices": [
+     "coal-aus-m"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -204,6 +234,7 @@
      "met-coal"
     ],
     "c": "AUS",
+    "locode": "AUHPT",
     "operator": "North Queensland Bulk Ports / Dalrymple Bay Infrastructure",
     "output": {
      "v": 97,
@@ -242,6 +273,7 @@
      "aluminium"
     ],
     "c": "AUS",
+    "locode": "AUGLT",
     "operator": "Gladstone Ports Corporation",
     "output": {
      "v": 117.4,
@@ -255,7 +287,17 @@
     "coord": "site",
     "s": "port-authorities",
     "url": "https://www.tmr.qld.gov.au/business-industry/transport-sectors/ports/trade-statistics-for-queensland-ports",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 18.8,
+     "n": "Draft depth 18.8 m (infobox, citing Findaport)",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Gladstone"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -275,6 +317,7 @@
      "thermal-coal"
     ],
     "c": "ZAF",
+    "locode": "ZARCB",
     "operator": "RBCT",
     "output": {
      "v": 57.66,
@@ -289,7 +332,10 @@
     "coord": "site",
     "s": "trade-press",
     "url": "https://www.miningmx.com/news/energy/63773-sa-coal-exports-continue-turnaround-rising-10-7-last-year/",
-    "read": "2026-11"
+    "read": "2026-11",
+    "prices": [
+     "coal-zaf-m"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -310,6 +356,7 @@
      "crude-oil"
     ],
     "c": "RUS",
+    "locode": "RUVYP",
     "operator": "Vostochny Port JSC",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -338,6 +385,7 @@
      "crude-oil"
     ],
     "c": "CHN",
+    "locode": "CNTAO",
     "operator": "Qingdao Port Group",
     "output": {
      "v": 657.5,
@@ -372,6 +420,7 @@
      "thermal-coal"
     ],
     "c": "CHN",
+    "locode": "CNRZH",
     "operator": "Rizhao Port",
     "output": {
      "v": 570.6,
@@ -406,6 +455,7 @@
      "thermal-coal"
     ],
     "c": "CHN",
+    "locode": "CNCFD",
     "operator": "Tangshan Port Group",
     "output": {
      "v": 768.9,
@@ -440,6 +490,7 @@
      "crude-oil"
     ],
     "c": "CHN",
+    "locode": "CNNGB",
     "operator": "Ningbo Zhoushan Port",
     "output": {
      "v": 1261.3,
@@ -477,6 +528,7 @@
      "iron-ore"
     ],
     "c": "NLD",
+    "locode": "NLRTM",
     "operator": "Port of Rotterdam Authority",
     "output": {
      "v": 428.4,
@@ -491,7 +543,23 @@
     "coord": "approx",
     "s": "trade-press",
     "url": "https://swzmaritime.nl/news/2026/03/02/port-of-rotterdam-throughput-declined-in-2025/",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 24,
+     "n": "EECV ore quay (Maasvlakte): draft of 24 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Rotterdam"
+    },
+    "maxClass": {
+     "dry": "vloc",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    },
+    "prices": [
+     "rapeseed-oil-m",
+     "soymeal-m",
+     "sunflower-oil-m",
+     "palm-kernel-oil-m"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -511,6 +579,7 @@
      "crude-oil"
     ],
     "c": "SAU",
+    "locode": "SARTA",
     "operator": "Saudi Aramco",
     "status": "operating",
     "statusAsOf": "2026-06",
@@ -539,6 +608,7 @@
      "crude-oil"
     ],
     "c": "IRQ",
+    "locode": "IQBOT",
     "operator": "Basra Oil Company",
     "capacity": {
      "v": 3300,
@@ -551,7 +621,13 @@
     "coord": "approx",
     "s": "trade-press",
     "url": "https://marineinsight.com/know-more/10-largest-oil-and-gas-loading-terminals-in-the-middle-east",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 21,
+     "n": "Al Basrah Oil Terminal: four supertanker berths, maximum draft 21 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Al_Ba%C5%9Frah_Oil_Terminal"
+    }
    },
    "geometry": {
     "type": "Point",
@@ -572,13 +648,20 @@
      "refined-products"
     ],
     "c": "ARE",
+    "locode": "AEFJR",
     "operator": "Port of Fujairah / Fujairah Oil Terminal",
     "status": "not-stated",
     "note": "Terminal that bypasses the Strait of Hormuz, fed by the ADCOP pipeline. One of the largest bunker fuel ports in the world, with a growing crude oil trading and storage role (Asharq Al-Awsat).",
     "coord": "approx",
     "s": "trade-press",
     "url": "https://english.aawsat.com/home/article/3155741/expecting-oil-trade-boom-fujairah-oil-terminal-invests-vlcc-project",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 16.5,
+     "n": "Draft depth 16.5 m (infobox, citing Findaport); the southern breakwater berth has a draft of 15 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Fujairah"
+    }
    },
    "geometry": {
     "type": "Point",
@@ -600,6 +683,7 @@
      "lng"
     ],
     "c": "SGP",
+    "locode": "SGSIN",
     "operator": "Maritime and Port Authority of Singapore",
     "output": {
      "v": 614.3,
@@ -614,7 +698,14 @@
     "coord": "approx",
     "s": "port-authorities",
     "url": "https://www.mpa.gov.sg/media-centre/details/singapore-posts-record-port-performance-in-2025-and-develops-future-readiness-through-industry-collaborations-for-2026",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 15.7,
+     "dwt": 150000,
+     "n": "Jurong Port (bulk and general cargo): maximum vessel draft 15.7 m and maximum vessel size 150,000 dwt; PSA container berths: maximum draft 16 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Singapore"
+    }
    },
    "geometry": {
     "type": "Point",
@@ -635,6 +726,7 @@
      "lng"
     ],
     "c": "USA",
+    "locode": "USCRP",
     "operator": "Port of Corpus Christi Authority",
     "output": {
      "v": 203.4,
@@ -670,6 +762,7 @@
      "refined-products"
     ],
     "c": "USA",
+    "locode": "USHOU",
     "operator": "Port Houston",
     "output": {
      "v": 54.5,
@@ -707,6 +800,7 @@
      "coffee"
     ],
     "c": "BRA",
+    "locode": "BRSSZ",
     "operator": "Santos Port Authority",
     "output": {
      "v": 186.4,
@@ -745,6 +839,7 @@
      "soyoil"
     ],
     "c": "BRA",
+    "locode": "BRPNG",
     "operator": "Portos do Parana",
     "output": {
      "v": 73.5,
@@ -781,6 +876,7 @@
      "wheat"
     ],
     "c": "USA",
+    "locode": "USMSY",
     "operator": "Port of South Louisiana",
     "output": {
      "v": 307.9,
@@ -819,6 +915,7 @@
      "rapeseed"
     ],
     "c": "CAN",
+    "locode": "CAVAN",
     "operator": "Vancouver Fraser Port Authority",
     "output": {
      "v": 170.4,
@@ -833,7 +930,17 @@
     "coord": "approx",
     "s": "port-authorities",
     "url": "https://www.portvancouver.com/sites/default/files/2026-03/2025%20Statistics%20overview%20(En).pdf",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 18.4,
+     "n": "Draft depth 18.4 m (infobox, citing Findaport); on the Fraser River ships of up to 294 m, 38 m beam and 11.5 m draft with tidal assistance",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Vancouver"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -854,6 +961,7 @@
      "corn"
     ],
     "c": "UKR",
+    "locode": "UAODS",
     "operator": "Ukrainian Sea Ports Authority",
     "status": "not-stated",
     "note": "Grain terminals in the north of the port; stated annual traffic capacity of 40 Mt, of which 15 Mt dry bulk (undated).",
@@ -881,6 +989,7 @@
      "wheat"
     ],
     "c": "UKR",
+    "locode": "UAILK",
     "operator": "Ukrainian Sea Ports Authority",
     "status": "not-stated",
     "note": "Black Sea grain export corridor port. The point is the city of Chornomorsk.",
@@ -908,6 +1017,7 @@
      "corn"
     ],
     "c": "ROU",
+    "locode": "ROCND",
     "operator": "Constanta Port Administration",
     "capacity": {
      "v": 5,
@@ -942,6 +1052,7 @@
      "wheat"
     ],
     "c": "RUS",
+    "locode": "RUNVS",
     "operator": "Novorossiysk Sea Port; Sheskharis oil terminal run by Transneft",
     "status": "damaged",
     "statusAsOf": "2025-11",
@@ -950,7 +1061,19 @@
     "coord": "site",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 19,
+     "dwt": 250000,
+     "n": "Sheskharis oil terminal, berth 1: ships of up to 250,000 dwt and 19 m draft; the bay allows deep-draft vessels up to 19 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "tanker": "suezmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, newcastlemax, panamax, supramax, vlcc)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -970,6 +1093,7 @@
      "cocoa"
     ],
     "c": "GHA",
+    "locode": "GHTEM",
     "operator": "Ghana Ports and Harbours Authority",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -997,6 +1121,7 @@
      "palm-oil"
     ],
     "c": "MYS",
+    "locode": "MYPKG",
     "operator": "Klang Port Authority",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1024,6 +1149,7 @@
      "soybeans"
     ],
     "c": "BRA",
+    "locode": "BRITQ",
     "operator": "Maranhao Port Administration",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1031,7 +1157,17 @@
     "coord": "site",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Port_of_Itaqui",
-    "read": "2026-11"
+    "read": "2026-11",
+    "limits": {
+     "draught": 19,
+     "n": "Water depth at the deepest of six berths (9.5 to 19 m); the access channel is at least 23 m deep",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Porto_do_Itaqui"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -1055,6 +1191,7 @@
      "soyoil"
     ],
     "c": "ARG",
+    "locode": "ARUPR",
     "operator": "Rosario Port",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1082,6 +1219,7 @@
      "phosphate"
     ],
     "c": "MAR",
+    "locode": "MAJFL",
     "operator": "OCP Group",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1109,6 +1247,7 @@
      "palm-oil"
     ],
     "c": "IDN",
+    "locode": "IDBLW",
     "operator": "Pelindo",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1136,6 +1275,7 @@
      "palm-oil"
     ],
     "c": "MYS",
+    "locode": "MYPGU",
     "operator": "Johor Port",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1150,6 +1290,4692 @@
     "coordinates": [
      103.936,
      1.503
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "puerto-bolivar",
+    "name": "Puerto Bolivar",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "COL",
+    "locode": "COPBO",
+    "portwatch": "port1027",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/dc263b6db4f14c48bdb65d68341c8695",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -71.9626,
+     12.2503
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "saldanha-bay",
+    "name": "Saldanha Bay",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "ZAF",
+    "locode": "ZASDB",
+    "portwatch": "port1133",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/1151e80d08d94028a61d1589a4497db3",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     18.0077,
+     -32.9978
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "shanghai",
+    "name": "Shanghai",
+    "type": "port",
+    "k": [
+     "lng",
+     "corn",
+     "soybeans"
+    ],
+    "c": "CHN",
+    "locode": "CNSGH",
+    "portwatch": "port1188",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bde0534e45f346e9b136bc5b185f9789",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.6442,
+     31.1918
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mina-al-fahal",
+    "name": "Mina al-Fahal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "OMN",
+    "locode": "OMMFH",
+    "status": "not-stated",
+    "note": "Position: the Mina al Fahal district of Muscat (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/19169082",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     58.518,
+     23.623
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bonny",
+    "name": "Bonny",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "lng",
+     "lpg"
+    ],
+    "c": "NGA",
+    "locode": "NGBON",
+    "portwatch": "port155",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c26eb09353114dc18bd1ae95a960e94d",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     7.157,
+     4.4207
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "galveston",
+    "name": "Galveston",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "locode": "USGLS",
+    "portwatch": "port373",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/667d3dc6a1c34f159b363de045bb27cd",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.8046,
+     29.3098
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "augusta",
+    "name": "Augusta",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products",
+     "thermal-coal",
+     "lpg",
+     "zinc"
+    ],
+    "c": "ITA",
+    "locode": "ITAUG",
+    "portwatch": "port80",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/3d061630ff744e50b9e71e03475fb26f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     15.1839,
+     37.1939
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hound-point",
+    "name": "Hound Point",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "GBR",
+    "locode": "GBHPT",
+    "portwatch": "port2238",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/926dbd20bfa9461d8c61f97d919c6f60",
+    "read": "2026-11",
+    "limits": {
+     "dwt": 350000,
+     "n": "Two sea-island berths load ships of up to 350,000 dwt",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Hound_Point"
+    },
+    "maxClass": {
+     "tanker": "suezmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, vlcc)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -3.3589,
+     56.0018
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "wilhelmshaven",
+    "name": "Wilhelmshaven",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "thermal-coal",
+     "iron-ore",
+     "lng",
+     "refined-products"
+    ],
+    "c": "DEU",
+    "locode": "DEWVN",
+    "portwatch": "port1396",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/d23c05b8c470403fa70372fcf1e511f2",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.1244,
+     53.5803
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mina-al-ahmadi",
+    "name": "Mina al-Ahmadi",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products",
+     "lpg",
+     "wheat",
+     "rice"
+    ],
+    "c": "KWT",
+    "locode": "KWMEA",
+    "portwatch": "port743",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a019490627984d30b93e97fa158d2d0a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     48.1452,
+     29.0455
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "covenas",
+    "name": "Covenas",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "COL",
+    "locode": "COCOV",
+    "portwatch": "port266",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/0308e8f2d6664b7faf956bb02121d6c0",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -75.6986,
+     9.4042
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "seria",
+    "name": "Seria",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "BRN",
+    "locode": "BNSER",
+    "status": "not-stated",
+    "note": "Position: the town of Seria (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/8757975",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     114.33,
+     4.614
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "brisbane",
+    "name": "Brisbane",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "aluminium",
+     "cotton",
+     "steel",
+     "zinc"
+    ],
+    "c": "AUS",
+    "locode": "AUBNE",
+    "portwatch": "port174",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/5b230483f9304bb688639c21f070e3cd",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     153.1456,
+     -27.4085
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "primorsk",
+    "name": "Primorsk",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "RUS",
+    "locode": "RUPRI",
+    "portwatch": "port1020",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bffa2ba1727a4233b0319a070d870595",
+    "read": "2026-11",
+    "limits": {
+     "draught": 15.5,
+     "loa": 307,
+     "beam": 55,
+     "dwt": 150000,
+     "n": "Tankers of up to 150,000 dwt, 307 m long, 55 m wide and 15.5 m draft",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Primorsk"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     28.7312,
+     60.3369
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tallinn",
+    "name": "Tallinn",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "EST",
+    "locode": "EETLL",
+    "portwatch": "port1258",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/cc9b5344fa5d4c399effe5c932e10886",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     24.7127,
+     59.4486
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "amsterdam",
+    "name": "Amsterdam",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "NLD",
+    "locode": "NLAMS",
+    "portwatch": "port45",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/148e0d053aec4eb0a27d53cc6a7ae520",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.8196,
+     52.4104
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ceyhan",
+    "name": "Ceyhan",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "lpg"
+    ],
+    "c": "TUR",
+    "locode": "TRCEY",
+    "portwatch": "port162",
+    "status": "not-stated",
+    "note": "The PortWatch database lists the Ceyhan oil terminal under the name of its operator, BOTAS. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/51d4929cbbcc46cb92837344c82833cd",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     35.9186,
+     36.8767
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lavera",
+    "name": "Lavera",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "FRA",
+    "locode": "FRLAV",
+    "status": "not-stated",
+    "note": "Position: the Lavera quarter of Martigues (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/node/5798362062",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.028,
+     43.385
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mamonal",
+    "name": "Mamonal (Cartagena)",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "COL",
+    "locode": "COMAM",
+    "status": "not-stated",
+    "note": "Position: the Puerto de Mamonal site (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/138649049",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -75.507,
+     10.339
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dos-bocas",
+    "name": "Dos Bocas",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "MEX",
+    "locode": "MXDBT",
+    "portwatch": "port298",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/48f2b8f4c14d4a6d9a97e8b6a419b645",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.183,
+     18.4322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "los-angeles-long-beach",
+    "name": "Los Angeles / Long Beach",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "USA",
+    "locode": "USLAX",
+    "portwatch": "port664",
+    "status": "not-stated",
+    "note": "The PortWatch database counts the neighbouring ports of Los Angeles and Long Beach as one port. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/d817810889a241f98e33720b2e77ec2c",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -118.2438,
+     33.7557
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yokohama",
+    "name": "Yokohama",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "thermal-coal",
+     "wheat",
+     "corn",
+     "soybeans"
+    ],
+    "c": "JPN",
+    "locode": "JPYOK",
+    "portwatch": "port1417",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c1cce71c68f84ff8a3421eb918220ed8",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.6688,
+     35.4276
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jubail",
+    "name": "Jubail",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "urea",
+     "phosphate"
+    ],
+    "c": "SAU",
+    "locode": "SAJUB",
+    "portwatch": "port24",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2e70626f9f8d40ee83f3195c99c59dd3",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.6604,
+     27.0557
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "skikda",
+    "name": "Skikda",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "DZA",
+    "locode": "DZSKI",
+    "status": "not-stated",
+    "note": "Position: Skikda New Port (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/282831142",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     6.936,
+     36.888
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "chiba",
+    "name": "Chiba",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "lpg",
+     "crude-oil",
+     "lng"
+    ],
+    "c": "JPN",
+    "locode": "JPCHB",
+    "portwatch": "port239",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a432aba86637409ca14f22f7eeec3101",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     140.0523,
+     35.5251
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lome",
+    "name": "Lome",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "TGO",
+    "locode": "TGLFW",
+    "portwatch": "port657",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/61e1a69ce7e44a1cbbbea3c0a87fc986",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     1.2827,
+     6.1448
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "new-york-new-jersey",
+    "name": "New York / New Jersey",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "USA",
+    "locode": "USNYC",
+    "portwatch": "port815",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/573a99f0db4e483f98aeec3f23e2274d",
+    "read": "2026-11",
+    "prices": [
+     "nyh-gasoline-d",
+     "nyh-heatingoil-d",
+     "nyh-ulsd-d"
+    ]
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.1794,
+     40.633
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sydney",
+    "name": "Sydney",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "AUS",
+    "locode": "AUSYD",
+    "portwatch": "port1243",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7bcdab3579fd46a2be8c097e0d829aeb",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.1856,
+     -33.8532
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "le-havre",
+    "name": "Le Havre",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "FRA",
+    "locode": "FRLEH",
+    "portwatch": "port985",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2e5b9a6357de439b8f6994b32fa33624",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     0.2094,
+     49.4721
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yeosu",
+    "name": "Yeosu (Yosu)",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "KOR",
+    "locode": "KRYOS",
+    "portwatch": "port2033",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7808bcddaabc4567a940ce9bea08b1b6",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     127.7609,
+     34.7505
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sikka",
+    "name": "Sikka",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "IND",
+    "locode": "INSIK",
+    "portwatch": "port1199",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/6eff445f193b4f288087638d2d419a40",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.8079,
+     22.3648
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dar-es-salaam",
+    "name": "Dar es Salaam",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "copper",
+     "thermal-coal",
+     "wheat",
+     "cobalt"
+    ],
+    "c": "TZA",
+    "locode": "TZDAR",
+    "portwatch": "port278",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/99521395f84a4938bccd1b960c12e113",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     39.2962,
+     -6.8435
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lagos",
+    "name": "Lagos",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "NGA",
+    "locode": "NGLOS",
+    "portwatch": "port626",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/f649bb4b1dc14451bc0748f2d5a4d2dd",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     3.3341,
+     6.4473
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pozos-colorados",
+    "name": "Pozos Colorados",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "COL",
+    "locode": "COPOC",
+    "status": "not-stated",
+    "note": "Position: the Pozos Colorados locality of Santa Marta (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/node/13099098294",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.225,
+     11.141
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botany-bay",
+    "name": "Botany Bay",
+    "type": "port",
+    "k": [
+     "refined-products"
+    ],
+    "c": "AUS",
+    "locode": "AUBTB",
+    "portwatch": "port161",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/76e70f1bbaa6425a87c17a98184b7736",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     151.2159,
+     -33.9815
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tokyo",
+    "name": "Tokyo",
+    "type": "port",
+    "k": [
+     "lng"
+    ],
+    "c": "JPN",
+    "locode": "JPTYO",
+    "portwatch": "port1305",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/27118c1e4b3d424f9046df0fc1e0fb5f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.7926,
+     35.6061
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vlissingen",
+    "name": "Flushing (Vlissingen)",
+    "type": "port",
+    "k": [
+     "lpg",
+     "crude-oil"
+    ],
+    "c": "NLD",
+    "locode": "NLVLI",
+    "portwatch": "port1370",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/513b2abbf5104d79959e265aa561d06f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     3.6958,
+     51.4561
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kamsar",
+    "name": "Kamsar",
+    "type": "port",
+    "k": [
+     "bauxite"
+    ],
+    "c": "GIN",
+    "locode": "GNKMS",
+    "portwatch": "port536",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/e505d0b3ba6e491ba93a27207e463ea5",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.6068,
+     10.6482
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yantai",
+    "name": "Yantai",
+    "type": "port",
+    "k": [
+     "bauxite"
+    ],
+    "c": "CHN",
+    "locode": "CNYNT",
+    "portwatch": "port1410",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c08000945dd14ba8b967deb53eda2025",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.4106,
+     37.5573
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "morebaya",
+    "name": "Morebaya",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "GIN",
+    "locode": "GNMOR",
+    "portwatch": "port2453",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/478b178f0a3b4895b192709d1f2e0eaa",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -13.389,
+     9.4322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "majishan",
+    "name": "Majishan",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CHN",
+    "status": "not-stated",
+    "note": "Position: Majishan island (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/10001904",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     122.412,
+     30.682
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "balikpapan",
+    "name": "Balikpapan",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "crude-oil",
+     "lpg",
+     "refined-products"
+    ],
+    "c": "IDN",
+    "locode": "IDBPN",
+    "portwatch": "port102",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/b7a873dac9604debaf14a397f782afcf",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     116.796,
+     -1.2025
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "samarinda",
+    "name": "Samarinda",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "locode": "IDSRI",
+    "portwatch": "port1137",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/628a3605b91a4f9cacb801132f80aa91",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.1922,
+     -0.5513
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "guangzhou",
+    "name": "Guangzhou",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "soybeans",
+     "corn"
+    ],
+    "c": "CHN",
+    "locode": "CNCAN",
+    "portwatch": "port425",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/b2aed870c935402cadd00d7a257246f0",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     113.4836,
+     23.0275
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fangcheng",
+    "name": "Fangcheng",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "locode": "CNFAN",
+    "portwatch": "port339",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/266042b244cf452a89f4a2de14f3da2f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     108.3643,
+     21.6142
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mundra",
+    "name": "Mundra",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "urea",
+     "lpg",
+     "phosphate",
+     "rice"
+    ],
+    "c": "IND",
+    "locode": "INMUN",
+    "portwatch": "port777",
+    "output": {
+     "v": 155,
+     "u": "Mt/y",
+     "y": 2023,
+     "what": "throughput",
+     "n": "total cargo, FY2022-23 (infobox, citing Adani Ports)"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Mundra_Port",
+    "read": "2026-11",
+    "limits": {
+     "draught": 19,
+     "n": "Mechanised import cargo berths: maximum draft 19 m; other berths 17 m; the single point moorings for crude oil imports offer a draft of 32 m",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Mundra_Port"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.622,
+     22.763
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "krishnapatnam",
+    "name": "Krishnapatnam",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IND",
+    "locode": "INKRI",
+    "portwatch": "port599",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2ec26864b5934a00b4b2cdf0528ba600",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     80.1179,
+     14.2607
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "busan",
+    "name": "Busan",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "wheat",
+     "corn",
+     "soybeans",
+     "steel"
+    ],
+    "c": "KOR",
+    "locode": "KRPUS",
+    "portwatch": "port1065",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/36944e57fca54f3a881eab5e7796caf6",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     128.9386,
+     35.0896
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kaohsiung",
+    "name": "Kaohsiung",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "lng",
+     "crude-oil",
+     "iron-ore",
+     "refined-products"
+    ],
+    "c": "TWN",
+    "locode": "TWKHH",
+    "portwatch": "port541",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/f48362e3f2ab4741bcfd1c586d3dd5eb",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.3227,
+     22.5615
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "haldia",
+    "name": "Haldia",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "palm-oil"
+    ],
+    "c": "IND",
+    "locode": "INHAL",
+    "portwatch": "port442",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/37ecc25d36c640349906f484a377ca82",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     88.1042,
+     22.0578
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "paradip",
+    "name": "Paradip",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "phosphate",
+     "crude-oil",
+     "bauxite",
+     "copper"
+    ],
+    "c": "IND",
+    "locode": "INPRT",
+    "portwatch": "port883",
+    "output": {
+     "v": 150.41,
+     "u": "Mt/y",
+     "y": 2025,
+     "what": "throughput",
+     "n": "total cargo, FY2024-25"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Paradip_Port",
+    "read": "2026-11",
+    "limits": {
+     "draught": 14.5,
+     "loa": 300,
+     "beam": 48,
+     "dwt": 118000,
+     "n": "Capesize ships of up to 300 m, 48 m beam and 118,000 dwt at a maximum draft of 14.5 m; maximum draft depth of the port 16 m; single point moorings about 20 km offshore",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Paradip_Port"
+    },
+    "maxClass": {
+     "dry": "kamsarmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     86.6489,
+     20.2804
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "visakhapatnam",
+    "name": "Visakhapatnam",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "iron-ore",
+     "manganese"
+    ],
+    "c": "IND",
+    "locode": "INVTZ",
+    "portwatch": "port1367",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/906332162ba54b8b9b13cb846d4ba905",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     83.2314,
+     17.6554
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vanino",
+    "name": "Vanino",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "met-coal"
+    ],
+    "c": "RUS",
+    "locode": "RUVNN",
+    "portwatch": "port187",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2938439d92104975b6387c28135e7e4a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     140.3006,
+     49.0902
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pohang",
+    "name": "Pohang",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "met-coal",
+     "iron-ore",
+     "nickel",
+     "copper"
+    ],
+    "c": "KOR",
+    "locode": "KRKPO",
+    "portwatch": "port915",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/5c75432a1dd04163ad7952794f3a186d",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     129.4087,
+     36.0352
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "santa-marta",
+    "name": "Santa Marta",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "COL",
+    "locode": "COSMR",
+    "portwatch": "port1154",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/23d423436c764339856b5d700fbf9cc0",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -74.215,
+     11.2515
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "iskenderun",
+    "name": "Iskenderun",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "TUR",
+    "locode": "TRISK",
+    "portwatch": "port503",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/5812ed3cd023404bbb9bfc4a7832e00b",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     36.1931,
+     36.6008
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tarragona",
+    "name": "Tarragona",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "crude-oil"
+    ],
+    "c": "ESP",
+    "locode": "ESTAR",
+    "portwatch": "port1277",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/ed10670aa88c4d1d89711c6a32dcc26a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     1.2023,
+     41.1026
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kandla",
+    "name": "Kandla (Deendayal Port)",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "palm-oil",
+     "phosphate",
+     "urea",
+     "lpg"
+    ],
+    "c": "IND",
+    "locode": "INKDL",
+    "portwatch": "port540",
+    "output": {
+     "v": 132.3,
+     "u": "Mt/y",
+     "y": 2024,
+     "what": "throughput",
+     "n": "total cargo, FY2023-24 (infobox)"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Kandla_Port",
+    "read": "2026-11",
+    "limits": {
+     "draught": 13,
+     "n": "Draft depth 13 m: the minimum depth of the tidal access channel",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Kandla_Port"
+    },
+    "maxClass": {
+     "dry": "handysize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     70.2156,
+     23.0091
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dalian",
+    "name": "Dalian",
+    "type": "port",
+    "k": [
+     "soybeans"
+    ],
+    "c": "CHN",
+    "locode": "CNDLC",
+    "portwatch": "port273",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/98118a8be82148729df888822d3b27b3",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.7703,
+     38.987
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "portland-oregon",
+    "name": "Portland (Oregon)",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn",
+     "soybeans",
+     "potash"
+    ],
+    "c": "USA",
+    "portwatch": "port993",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/ff27216426bc41baaabbf674adefd1ea",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.7355,
+     45.5952
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kalama",
+    "name": "Kalama",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn",
+     "soybeans",
+     "soymeal",
+     "rice"
+    ],
+    "c": "USA",
+    "locode": "USKAM",
+    "portwatch": "port2253",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/f6e736159f60489f849891a9a3e23714",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.8624,
+     46.0274
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tacoma",
+    "name": "Tacoma",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn",
+     "soybeans"
+    ],
+    "c": "USA",
+    "locode": "USTIW",
+    "portwatch": "port1248",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/aacc835c79294b21bdeb10caa650f946",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.3912,
+     47.2536
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "san-lorenzo",
+    "name": "San Lorenzo",
+    "type": "port",
+    "k": [
+     "soymeal",
+     "corn",
+     "soyoil"
+    ],
+    "c": "ARG",
+    "locode": "ARSLO",
+    "status": "not-stated",
+    "note": "Position: the town of San Lorenzo (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/3914668",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -60.743,
+     -32.745
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bahia-blanca",
+    "name": "Bahia Blanca",
+    "type": "port",
+    "k": [
+     "soymeal",
+     "corn",
+     "soyoil"
+    ],
+    "c": "ARG",
+    "locode": "ARBHI",
+    "portwatch": "port1048",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/d0f92b7a022f452d922665eafb044dff",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -62.2835,
+     -38.7821
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "alexandria",
+    "name": "Alexandria",
+    "type": "port",
+    "k": [
+     "wheat",
+     "corn",
+     "refined-products",
+     "iron-ore",
+     "thermal-coal"
+    ],
+    "c": "EGY",
+    "locode": "EGALY",
+    "portwatch": "port23",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a068e6e45ebc45ecb3aeda0a5ea19a38",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.8376,
+     31.1554
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "damietta",
+    "name": "Damietta",
+    "type": "port",
+    "k": [
+     "wheat"
+    ],
+    "c": "EGY",
+    "locode": "EGDAM",
+    "portwatch": "port274",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/1b9285ff906f45c0aa30f0a6f15199d4",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     31.7595,
+     31.4621
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fremantle",
+    "name": "Fremantle",
+    "type": "port",
+    "k": [
+     "wheat",
+     "aluminium",
+     "cotton",
+     "zinc",
+     "steel"
+    ],
+    "c": "AUS",
+    "locode": "AUFRE",
+    "portwatch": "port361",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/b9035bf109c74e5a9fc3379f5473da21",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.7705,
+     -32.152
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-kembla",
+    "name": "Port Kembla",
+    "type": "port",
+    "k": [
+     "wheat"
+    ],
+    "c": "AUS",
+    "locode": "AUPKL",
+    "portwatch": "port959",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/9f7ab17ef5054a4997bc8291f76e2e9f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     150.8845,
+     -34.4621
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jakarta",
+    "name": "Jakarta (Tanjung Priok)",
+    "type": "port",
+    "k": [
+     "wheat"
+    ],
+    "c": "IDN",
+    "locode": "IDJKT",
+    "portwatch": "port514",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/8f01b804b0024036b38c1160b6a0a443",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     106.9055,
+     -6.1005
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "manila",
+    "name": "Manila",
+    "type": "port",
+    "k": [
+     "wheat",
+     "thermal-coal",
+     "refined-products",
+     "steel",
+     "palm-oil"
+    ],
+    "c": "PHL",
+    "locode": "PHMNL",
+    "portwatch": "port694",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/94979fcd181345e9ab7341e1f6c9a9ba",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.8724,
+     14.5916
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "antofagasta",
+    "name": "Antofagasta",
+    "type": "port",
+    "k": [
+     "copper",
+     "refined-products",
+     "thermal-coal",
+     "crude-oil",
+     "steel"
+    ],
+    "c": "CHL",
+    "locode": "CLANF",
+    "portwatch": "port56",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/65ae11bf72d64659b493a54a40372333",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -70.4049,
+     -23.6509
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mejillones",
+    "name": "Mejillones",
+    "type": "port",
+    "k": [
+     "copper"
+    ],
+    "c": "CHL",
+    "locode": "CLMJS",
+    "portwatch": "port728",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/ae534d0fc0d64aa895f67d053d16ef50",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -70.396,
+     -23.0818
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "callao",
+    "name": "Callao",
+    "type": "port",
+    "k": [
+     "copper",
+     "refined-products",
+     "phosphate",
+     "corn",
+     "zinc"
+    ],
+    "c": "PER",
+    "locode": "PECLL",
+    "portwatch": "port1045",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bad6d139b7c6461a88213b0aea345ca2",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -77.1402,
+     -12.0473
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "matarani",
+    "name": "Matarani",
+    "type": "port",
+    "k": [
+     "copper"
+    ],
+    "c": "PER",
+    "locode": "PEMRI",
+    "portwatch": "port88",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/35bbca61689447eab014e6839e517d8a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -72.1078,
+     -17.0046
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "surigao",
+    "name": "Surigao",
+    "type": "port",
+    "k": [
+     "nickel",
+     "iron-ore",
+     "copper"
+    ],
+    "c": "PHL",
+    "locode": "PHNIC",
+    "portwatch": "port1238",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/6f917529467e4176b18ec1f3129a5c1f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     125.4546,
+     9.8156
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tubay",
+    "name": "Tubay",
+    "type": "port",
+    "k": [
+     "nickel"
+    ],
+    "c": "PHL",
+    "status": "not-stated",
+    "note": "Position: the town of Tubay (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/node/198491271",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     125.523,
+     9.165
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lianyungang",
+    "name": "Lianyungang",
+    "type": "port",
+    "k": [
+     "nickel",
+     "lithium",
+     "soybeans",
+     "corn",
+     "wheat"
+    ],
+    "c": "CHN",
+    "locode": "CNLYG",
+    "portwatch": "port644",
+    "output": {
+     "v": 320,
+     "u": "Mt/y",
+     "y": 2023,
+     "what": "throughput",
+     "n": "total cargo (infobox)"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Lianyungang",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.436,
+     34.7413
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bunbury",
+    "name": "Bunbury",
+    "type": "port",
+    "k": [
+     "lithium"
+    ],
+    "c": "AUS",
+    "locode": "AUBUY",
+    "portwatch": "port190",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/88e3a2ba7ad040f5ad89b3c03cfcf19c",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     115.6645,
+     -33.3223
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "esperance",
+    "name": "Esperance",
+    "type": "port",
+    "k": [
+     "lithium"
+    ],
+    "c": "AUS",
+    "locode": "AUEPR",
+    "portwatch": "port331",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/e52f525f966b4f4ba703f945bdb1af5a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     121.9007,
+     -33.8722
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zhangjiagang",
+    "name": "Zhangjiagang",
+    "type": "port",
+    "k": [
+     "lithium"
+    ],
+    "c": "CHN",
+    "locode": "CNZJG",
+    "portwatch": "port1425",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/aeb012c6e5a64054b63ab05cb14af181",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.4288,
+     31.9746
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dumai",
+    "name": "Dumai",
+    "type": "port",
+    "k": [
+     "palm-oil",
+     "crude-oil"
+    ],
+    "c": "IDN",
+    "locode": "IDDUM",
+    "portwatch": "port309",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7d5b72e3984a4d18a204ec2664594d84",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     101.4188,
+     1.7174
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mumbai",
+    "name": "Mumbai",
+    "type": "port",
+    "k": [
+     "palm-oil",
+     "refined-products"
+    ],
+    "c": "IND",
+    "locode": "INBOM",
+    "portwatch": "port776",
+    "status": "not-stated",
+    "note": "The PortWatch database counts Mumbai and Jawaharlal Nehru (Nhava Sheva) as one port. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/926f6c0832684f1cab0ee7441ccc4e35",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     72.9397,
+     18.9173
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pontianak",
+    "name": "Pontianak",
+    "type": "port",
+    "k": [
+     "potash"
+    ],
+    "c": "IDN",
+    "locode": "IDPNK",
+    "portwatch": "port925",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/59ca14831a0f461e878605397891efc3",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     109.2943,
+     0.0063
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ust-luga",
+    "name": "Ust-Luga",
+    "type": "port",
+    "k": [
+     "potash",
+     "crude-oil",
+     "urea",
+     "thermal-coal",
+     "phosphate"
+    ],
+    "c": "RUS",
+    "locode": "RUULU",
+    "portwatch": "port1095",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/ea2bf713619b47d38d9d226138065f62",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     28.4057,
+     59.6827
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "st-petersburg",
+    "name": "St Petersburg",
+    "type": "port",
+    "k": [
+     "potash"
+    ],
+    "c": "RUS",
+    "locode": "RULED",
+    "portwatch": "port1150",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/719cb2b2bcef4567a6a16768e3227c60",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     30.1122,
+     59.8997
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ruwais",
+    "name": "Ruwais",
+    "type": "port",
+    "k": [
+     "urea",
+     "refined-products",
+     "lpg"
+    ],
+    "c": "ARE",
+    "locode": "AERUW",
+    "portwatch": "port512",
+    "status": "not-stated",
+    "note": "The PortWatch database lists the port as Jabal Az Zannah-Ruways. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/3cf7e4a4ae10499bb41728f5b59ebe39",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.7102,
+     24.127
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mesaieed",
+    "name": "Mesaieed",
+    "type": "port",
+    "k": [
+     "urea",
+     "lpg"
+    ],
+    "c": "QAT",
+    "locode": "QAMES",
+    "portwatch": "port1342",
+    "status": "not-stated",
+    "note": "The PortWatch database lists the port as Doha-Umm Said (Umm Said is Mesaieed). Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/f691ec2fd9174aeb95a1ae4cee5a8544",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     51.5671,
+     24.9636
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "vadinar",
+    "name": "Vadinar",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "IND",
+    "locode": "INVAD",
+    "status": "not-stated",
+    "note": "Position: the village of Vadinar (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/node/2075912106",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     69.718,
+     22.394
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kozmino",
+    "name": "Kozmino",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "locode": "RUKOZ",
+    "status": "not-stated",
+    "note": "Position from Wikipedia.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_Kozmino",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     133.0273,
+     42.7309
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dongying",
+    "name": "Dongying",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "status": "not-stated",
+    "note": "Position: Dongying Port (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/1025033486",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     118.943,
+     38.076
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "acu",
+    "name": "Acu",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "BRA",
+    "portwatch": "port166",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/34ffd09ec6814cdc8e06dea0e3f9fa25",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -41.0199,
+     -21.8507
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sao-sebastiao",
+    "name": "Sao Sebastiao",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "BRA",
+    "locode": "BRSSO",
+    "portwatch": "port1162",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/95794fbc5292446798c51cf8ae207753",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -45.4062,
+     -23.8025
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "huelva",
+    "name": "Huelva",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "ESP",
+    "locode": "ESHUV",
+    "portwatch": "port483",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/3911ea1465624dffa8e4929839a451ff",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -6.9147,
+     37.1931
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ulsan",
+    "name": "Ulsan",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products",
+     "lpg"
+    ],
+    "c": "KOR",
+    "locode": "KRUSN",
+    "portwatch": "port1338",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/5a2512e38bb441b29ea24011a5a996b6",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     129.3781,
+     35.4865
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "antwerp",
+    "name": "Antwerp",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "thermal-coal",
+     "iron-ore",
+     "steel",
+     "rapeseed"
+    ],
+    "c": "BEL",
+    "locode": "BEANR",
+    "portwatch": "port57",
+    "output": {
+     "v": 286.9,
+     "u": "Mt/y",
+     "y": 2023,
+     "what": "throughput",
+     "n": "total cargo (infobox, citing the Port of Antwerp-Bruges figures for 2023)"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Antwerp",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.3178,
+     51.2794
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "veracruz",
+    "name": "Veracruz",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "corn",
+     "soybeans",
+     "wheat",
+     "phosphate"
+    ],
+    "c": "MEX",
+    "locode": "MXVER",
+    "portwatch": "port1358",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/0a961c3659af4a228c0f38cd3b2456ce",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -96.1543,
+     19.2212
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "manzanillo-mexico",
+    "name": "Manzanillo",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "corn",
+     "steel",
+     "wheat",
+     "soybeans"
+    ],
+    "c": "MEX",
+    "locode": "MXZLO",
+    "portwatch": "port699",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/debb756cfb934827a80b5bb21d13c88c",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -104.2877,
+     19.0563
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kashima",
+    "name": "Kashima",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "thermal-coal",
+     "copper",
+     "manganese",
+     "nickel"
+    ],
+    "c": "JPN",
+    "locode": "JPKSM",
+    "portwatch": "port548",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/46e987e39dcb4deca196d1d97fbab567",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     140.6899,
+     35.9166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ponta-da-madeira",
+    "name": "Ponta da Madeira",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "BRA",
+    "locode": "BRPMA",
+    "output": {
+     "v": 190.1,
+     "u": "Mt/y",
+     "y": 2020,
+     "what": "throughput",
+     "n": "total cargo (infobox, citing ANTAQ)",
+     "orig": "190,1 million tonnes"
+    },
+    "status": "not-stated",
+    "note": "Position from Wikipedia.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Ponta_da_Madeira",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -44.37,
+     -2.565
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kharg-island",
+    "name": "Kharg Island",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRN",
+    "locode": "IRKHK",
+    "portwatch": "port2164",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/5bad935f978740d98e26c56059c5293d",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     50.3351,
+     29.2431
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "yanbu",
+    "name": "Yanbu (King Fahd Port)",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "SAU",
+    "locode": "SAYNB",
+    "portwatch": "port570",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/79d393e8b28b454db88cc8f1e2bdbfad",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     38.2717,
+     23.9509
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "juaymah",
+    "name": "Juaymah",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "SAU",
+    "portwatch": "port526",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a6b8b4e7d826469dacc3219f7b6c84af",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.977,
+     26.8032
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zhanjiang",
+    "name": "Zhanjiang",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "crude-oil"
+    ],
+    "c": "CHN",
+    "locode": "CNZHA",
+    "portwatch": "port1426",
+    "status": "not-stated",
+    "note": "Wikipedia (Port of Zhanjiang) names a crude oil terminal and a 250,000-ton iron ore terminal. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/cd4fbc54823e4b5fb831ac55f843a5dd",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     110.4084,
+     21.2121
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taman",
+    "name": "Taman",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "potash",
+     "urea",
+     "phosphate"
+    ],
+    "c": "RUS",
+    "locode": "RUTAM",
+    "portwatch": "port978",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c64ea8f91e55401f8507a04df0bee300",
+    "read": "2026-11",
+    "limits": {
+     "draught": 14,
+     "loa": 300,
+     "beam": 50,
+     "dwt": 220000,
+     "y": 2016,
+     "n": "In 2016 ships of up to 220,000 dwt, 300 m long and 50 m wide, with a draft of up to 14 m at the berths, could enter the port",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Port_of_Taman"
+    },
+    "maxClass": {
+     "dry": "ultramax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     36.6757,
+     45.1401
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jose",
+    "name": "Jose terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "VEN",
+    "locode": "VEPJO",
+    "portwatch": "port524",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7050cdf1a2f84ad79d9e7c19bd33e9ab",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -64.8679,
+     10.0676
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "maputo",
+    "name": "Maputo",
+    "type": "port",
+    "k": [
+     "bauxite",
+     "rice",
+     "palm-oil",
+     "aluminium",
+     "wheat"
+    ],
+    "c": "MOZ",
+    "locode": "MZMAP",
+    "portwatch": "port702",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2e8974691bc042ea89dd42662e246114",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.521,
+     -25.9556
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pivdennyi",
+    "name": "Pivdennyi",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "manganese",
+     "sugar"
+    ],
+    "c": "UKR",
+    "locode": "UAPIV",
+    "portwatch": "port1419",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/007a49ba90c14de5ab525d82f091d549",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     31.0181,
+     46.6334
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mongstad",
+    "name": "Mongstad",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "NOR",
+    "locode": "NOMON",
+    "portwatch": "port760",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/cfe12437ca734bb898db343be8a7db0f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.0442,
+     60.8217
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sullom-voe",
+    "name": "Sullom Voe",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "GBR",
+    "locode": "GBSCU",
+    "portwatch": "port2069",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/98b9af5730ec4564ac43c122feb4ae08",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -1.2828,
+     60.4544
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cpc-terminal",
+    "name": "CPC terminal (Novorossiysk)",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "RUS",
+    "locode": "KZCPC",
+    "status": "not-stated",
+    "note": "Position: the village of Yuzhnaya Ozereyevka, next to the terminal (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/14071359",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     37.6304,
+     44.6828
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "pengerang",
+    "name": "Pengerang",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "crude-oil"
+    ],
+    "c": "MYS",
+    "locode": "MYPEN",
+    "portwatch": "port2189",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/afb653f60faf45ee886ec94ddd5469d7",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     104.1619,
+     1.341
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dammam",
+    "name": "Dammam (King Abdulaziz Port)",
+    "type": "port",
+    "k": [
+     "steel",
+     "rice",
+     "palm-oil",
+     "corn",
+     "sugar"
+    ],
+    "c": "SAU",
+    "locode": "SADMM",
+    "portwatch": "port275",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/2691703b702a4cd19e86b482ae00238c",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     50.1944,
+     26.4763
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "bandar-imam-khomeini",
+    "name": "Bandar Imam Khomeini",
+    "type": "port",
+    "k": [
+     "corn",
+     "soymeal",
+     "soybeans",
+     "sugar",
+     "palm-oil"
+    ],
+    "c": "IRN",
+    "locode": "IRBIK",
+    "portwatch": "port108",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/f83962026fcb42db9616b303c45d8025",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     49.0676,
+     30.4357
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "manzanillo-colon",
+    "name": "Manzanillo International Terminal (Colon)",
+    "type": "port",
+    "k": [
+     "corn",
+     "soymeal"
+    ],
+    "c": "PAN",
+    "locode": "PAMIT",
+    "portwatch": "port700",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/4f3b0302410c4409a28349879d4e2765",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -79.8821,
+     9.3679
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tanjung-bara",
+    "name": "Tanjung Bara Coal Terminal",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "IDN",
+    "locode": "IDTBA",
+    "status": "not-stated",
+    "note": "Position from Wikipedia.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tanjung_Bara",
+    "read": "2026-11",
+    "limits": {
+     "draught": 17.25,
+     "n": "Four wharves with a depth alongside of 17.25 m at lowest astronomical tide, for Capesize ships",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Tanjung_Bara"
+    },
+    "maxClass": {
+     "dry": "kamsarmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.7037,
+     0.586
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dhamra",
+    "name": "Dhamra",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "IND",
+    "locode": "INDHA",
+    "portwatch": "port290",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/30897f7645a942fd96753b627a00d606",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     86.9595,
+     20.8277
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "halul-island",
+    "name": "Halul Island",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "QAT",
+    "locode": "QAHAL",
+    "status": "not-stated",
+    "note": "Position: Halul Island (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/13649355",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.411,
+     25.673
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nueva-palmira",
+    "name": "Nueva Palmira",
+    "type": "port",
+    "k": [
+     "soymeal",
+     "soybeans"
+    ],
+    "c": "URY",
+    "locode": "UYNVP",
+    "portwatch": "port2258",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/95cf5bd4705749cea0fb856f90f0ce35",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -58.4179,
+     -33.8819
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "loop",
+    "name": "Louisiana Offshore Oil Port (LOOP)",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "capacity": {
+     "v": 50,
+     "u": "Mb",
+     "n": "crude oil storage of the Clovelly Dome terminal: eight salt caverns"
+    },
+    "status": "not-stated",
+    "note": "Position from Wikipedia.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Louisiana_Offshore_Oil_Port",
+    "read": "2026-11",
+    "limits": {
+     "dwt": 635000,
+     "n": "Three single buoy moorings designed for ships of up to 700,000 deadweight tons (635,000 tonnes)",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Louisiana_Offshore_Oil_Port"
+    },
+    "maxClass": {
+     "tanker": "suezmax",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (aframax, chemical-tanker, handy-tanker, lr1, lr2, mr, vlcc)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.0251,
+     28.8852
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "valdez",
+    "name": "Valdez Marine Terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "status": "not-stated",
+    "note": "Position from OpenStreetMap.",
+    "coord": "site",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/523115525",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -146.382,
+     61.083
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "westridge",
+    "name": "Westridge Marine Terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "CAN",
+    "status": "not-stated",
+    "note": "Position from OpenStreetMap.",
+    "coord": "site",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/42245601",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -122.954,
+     49.289
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sidi-kerir",
+    "name": "Sidi Kerir",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "EGY",
+    "portwatch": "port2129",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/51c5c38a058d4dfcaee0a5cb4b2f7e61",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     29.6187,
+     31.0959
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ain-sokhna",
+    "name": "Ain Sokhna",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "EGY",
+    "locode": "EGSOK",
+    "portwatch": "port828",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/8fb233a8b10b4452ae3d4694fe7fdbf4",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     32.3539,
+     29.6474
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "es-sider",
+    "name": "Es Sider",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "LBY",
+    "status": "not-stated",
+    "note": "Position from OpenStreetMap.",
+    "coord": "site",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/233652374",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     18.365,
+     30.636
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ras-lanuf",
+    "name": "Ras Lanuf",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "LBY",
+    "portwatch": "port21",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/563e936281e04c7f9e18901e1341f004",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     19.5984,
+     30.4071
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "forcados",
+    "name": "Forcados terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "NGA",
+    "status": "not-stated",
+    "note": "Position: the helipad of the terminal (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/321535161",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     5.354,
+     5.346
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qua-iboe",
+    "name": "Qua Iboe terminal",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "NGA",
+    "status": "not-stated",
+    "note": "Position from OpenStreetMap.",
+    "coord": "site",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/15408639",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     8.014,
+     4.548
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "arzew",
+    "name": "Arzew",
+    "type": "port",
+    "k": [
+     "refined-products",
+     "lng"
+    ],
+    "c": "DZA",
+    "locode": "DZAZW",
+    "portwatch": "port70",
+    "status": "not-stated",
+    "note": "Wikipedia (Arzew) describes a refinery and the export of LNG. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a99340ed62c249828bdcff63dabb4df7",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -0.2676,
+     35.8192
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jebel-dhanna",
+    "name": "Jebel Dhanna",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "ARE",
+    "locode": "AEJED",
+    "portwatch": "port2236",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/6d5cb6925ffc409faa4c5e08ea09e234",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     52.591,
+     24.1745
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "zirku-island",
+    "name": "Zirku Island",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "ARE",
+    "locode": "AEZUR",
+    "portwatch": "port2235",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bf353bac76bc4734a65bc68499a6ef5f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     53.0747,
+     24.8852
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jask",
+    "name": "Jask",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "IRN",
+    "locode": "IRJAK",
+    "portwatch": "port2486",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/703085362c1448acbade9987d4bc7b28",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     57.7686,
+     25.6568
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "murmansk",
+    "name": "Murmansk",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "thermal-coal"
+    ],
+    "c": "RUS",
+    "locode": "RUMMK",
+    "portwatch": "port779",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/fa8b666a78cc492eaa40464355d04379",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     33.049,
+     68.9889
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nederland",
+    "name": "Nederland (Beaumont)",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "locode": "USBPT",
+    "portwatch": "port134",
+    "status": "not-stated",
+    "note": "The PortWatch database counts mostly tankers at this port. Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bad0bd9e6b1c42bc855ef3d93910316a",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.0303,
+     30.0258
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-arthur",
+    "name": "Port Arthur",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "USA",
+    "locode": "USPOA",
+    "portwatch": "port933",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/364cdadd07584173b901c879366bc9e7",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.931,
+     29.8817
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "texas-city",
+    "name": "Texas City",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "USA",
+    "locode": "USTXT",
+    "portwatch": "port1285",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/1fb47693f2a6475cbac037526fa92e72",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -94.9128,
+     29.3758
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lake-charles",
+    "name": "Lake Charles",
+    "type": "port",
+    "k": [
+     "crude-oil",
+     "refined-products"
+    ],
+    "c": "USA",
+    "locode": "USLCH",
+    "portwatch": "port629",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/03e65125aa234c9db1274957fbfb0786",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -93.3115,
+     30.1907
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "daesan",
+    "name": "Daesan",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "KOR",
+    "locode": "KRTSN",
+    "portwatch": "port270",
+    "status": "not-stated",
+    "note": "Refineries of Hanwha Total, Hyundai Oilbank and Hyundai Lotte (EIA country brief on South Korea, as the trade engine cites it). Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/119c530a0d6e409f8a3f2d8d86c785da",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     126.4037,
+     37.0132
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "st-james",
+    "name": "St James",
+    "type": "port",
+    "k": [
+     "crude-oil"
+    ],
+    "c": "USA",
+    "status": "not-stated",
+    "note": "Position: the hamlet of Saint James (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/node/151401484",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -90.832,
+     29.982
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cape-lambert",
+    "name": "Cape Lambert (Port Walcott)",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "AUS",
+    "locode": "AUPWL",
+    "portwatch": "port981",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/bf6bb9c5e6c340ad88bff78c8b160716",
+    "read": "2026-11",
+    "limits": {
+     "draught": 22.0,
+     "n": "Draft depth 22.0 m (infobox, citing Findaport); 8 berths",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Cape_Lambert"
+    },
+    "maxClass": {
+     "dry": "vloc",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.1656,
+     -20.6083
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "itaguai",
+    "name": "Itaguai (Guaiba Island)",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "BRA",
+    "portwatch": "port422",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/9dad64ce7fc340b5b8c79b8d6f76f94e",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -43.7831,
+     -22.9155
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "port-cartier",
+    "name": "Port-Cartier",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CAN",
+    "locode": "CAPCA",
+    "portwatch": "port938",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7019c94ba0f843949db931e49749ae90",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -66.8,
+     50.0299
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nouadhibou",
+    "name": "Nouadhibou",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "MRT",
+    "locode": "MRNDB",
+    "portwatch": "port830",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c8c53b6ae3ef43f390658adb31c2388f",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -17.0464,
+     20.8489
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lulea",
+    "name": "Lulea",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "SWE",
+    "locode": "SELLA",
+    "portwatch": "port670",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a59c0dda5d324651b06ff3aef74e85a5",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     22.2501,
+     65.5556
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jingtang",
+    "name": "Tangshan (Jingtang)",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "portwatch": "port1266",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/8ff219c3f1af499a8af8fc0668b395cc",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.0212,
+     39.2353
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dongjiakou",
+    "name": "Dongjiakou",
+    "type": "port",
+    "k": [
+     "iron-ore"
+    ],
+    "c": "CHN",
+    "portwatch": "port1070",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/c5e6bf92ae064185b0723656aa59b07c",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.7633,
+     35.6093
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "gwangyang",
+    "name": "Gwangyang",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "KOR",
+    "locode": "KRKAN",
+    "portwatch": "port432",
+    "status": "not-stated",
+    "note": "Position from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/259443bc082c4126ad2ef415bc6a7fca",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     127.7165,
+     34.8767
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "kimitsu",
+    "name": "Kimitsu",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "JPN",
+    "status": "not-stated",
+    "note": "Position: the city of Kimitsu (OpenStreetMap).",
+    "coord": "approx",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/relation/2679906",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     139.903,
+     35.33
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "oita",
+    "name": "Oita",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "JPN",
+    "locode": "JPOIT",
+    "portwatch": "port846",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/4820117337e64e2cb61bed01609e48ab",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     131.6858,
+     33.2592
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fukuyama",
+    "name": "Fukuyama",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "JPN",
+    "locode": "JPFKY",
+    "portwatch": "port364",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/b8ed6cc1034a4a25a9983c50309fb01b",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     133.4385,
+     34.4629
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ijmuiden",
+    "name": "IJmuiden",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "NLD",
+    "locode": "NLIJM",
+    "portwatch": "port487",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/a8839568a34a4b85bab05488436c90ca",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     4.6173,
+     52.4767
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dunkirk",
+    "name": "Dunkirk",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "FRA",
+    "locode": "FRDKK",
+    "portwatch": "port310",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/3fa76a6b81eb4c52a12d109677c6b656",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     2.2668,
+     51.0207
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taranto",
+    "name": "Taranto",
+    "type": "port",
+    "k": [
+     "iron-ore",
+     "met-coal"
+    ],
+    "c": "ITA",
+    "locode": "ITTAR",
+    "portwatch": "port1275",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/0fef0f729d8f452d8d1e96eb013e58fb",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     17.1904,
+     40.5004
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "qinhuangdao",
+    "name": "Qinhuangdao",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "locode": "CNSHP",
+    "portwatch": "port1072",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/ecba22e319b9411a82c2ce1319e58cf6",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     119.65,
+     39.9265
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "huanghua",
+    "name": "Huanghua",
+    "type": "port",
+    "k": [
+     "thermal-coal"
+    ],
+    "c": "CHN",
+    "locode": "CNHNH",
+    "portwatch": "port154",
+    "output": {
+     "v": 170,
+     "u": "Mt/y",
+     "y": 2016,
+     "what": "throughput",
+     "n": "coal shipped (more than 170 million tonnes)"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Huanghua",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     117.8672,
+     38.3231
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "abbot-point",
+    "name": "Abbot Point",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "met-coal"
+    ],
+    "c": "AUS",
+    "locode": "AUABP",
+    "portwatch": "port0",
+    "output": {
+     "v": 15.06,
+     "u": "Mt/y",
+     "y": 2011,
+     "what": "throughput",
+     "n": "total cargo, FY2010-11 (infobox: 15,063,943 t)",
+     "orig": "15,063,943 t"
+    },
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Abbot_Point",
+    "read": "2026-11",
+    "limits": {
+     "draught": 19.1,
+     "n": "Draft depth 19.1 m (infobox, citing Findaport)",
+     "s": "wikipedia",
+     "url": "https://en.wikipedia.org/wiki/Abbot_Point"
+    },
+    "maxClass": {
+     "dry": "capesize",
+     "n": "Atlas estimate: the largest class whose standard vessel is no larger than every limit the page gives (draught, length, beam, deadweight). Only the dimensions the page gives are compared: a port whose page gives its depth alone may not take a ship that long or that wide. Not the port's own statement: a larger ship may call part-laden, at another berth or with the tide. Classes without a standard vessel in the atlas are not compared (newcastlemax, panamax, supramax)."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     148.0776,
+     -19.8938
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "roberts-bank",
+    "name": "Roberts Bank (Westshore Terminals)",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "met-coal"
+    ],
+    "c": "CAN",
+    "status": "not-stated",
+    "note": "Position from OpenStreetMap.",
+    "coord": "site",
+    "s": "openstreetmap",
+    "url": "https://www.openstreetmap.org/way/170286454",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -123.166,
+     49.018
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "prince-rupert",
+    "name": "Prince Rupert",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "thermal-coal"
+    ],
+    "c": "CAN",
+    "locode": "CAPRR",
+    "portwatch": "port1021",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/327290ae1f034420bef5b38939d919be",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -130.3378,
+     54.2667
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hampton-roads",
+    "name": "Hampton Roads (Norfolk)",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "thermal-coal"
+    ],
+    "c": "USA",
+    "locode": "USORF",
+    "portwatch": "port826",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/7bdfaa29d14f4f5a9dc1a1a12022d3fe",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -76.3305,
+     36.8496
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "baltimore",
+    "name": "Baltimore",
+    "type": "port",
+    "k": [
+     "met-coal",
+     "thermal-coal"
+    ],
+    "c": "USA",
+    "locode": "USBAL",
+    "portwatch": "port103",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/3ee548cdbcfb4663bd14cda1b5d7f92d",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -76.557,
+     39.2598
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mobile",
+    "name": "Mobile",
+    "type": "port",
+    "k": [
+     "met-coal"
+    ],
+    "c": "USA",
+    "locode": "USMOB",
+    "portwatch": "port754",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/fd5da1f2077b46159ff008515a6a34ea",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -88.0667,
+     30.665
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nacala",
+    "name": "Nacala",
+    "type": "port",
+    "k": [
+     "met-coal"
+    ],
+    "c": "MOZ",
+    "locode": "MZMNC",
+    "portwatch": "port784",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/24958416c2c4413385f9c127275cca34",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     40.6512,
+     -14.5353
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taichung",
+    "name": "Taichung",
+    "type": "port",
+    "k": [
+     "thermal-coal",
+     "lng"
+    ],
+    "c": "TWN",
+    "locode": "TWTXG",
+    "portwatch": "port1252",
+    "status": "not-stated",
+    "note": "Position and UN/LOCODE from the IMF PortWatch ports database.",
+    "coord": "site",
+    "s": "portwatch-ports",
+    "url": "https://portwatch.imf.org/pages/6c0d7409aa7c47658de1d866176cc9c0",
+    "read": "2026-11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     120.505,
+     24.2546
     ]
    }
   }

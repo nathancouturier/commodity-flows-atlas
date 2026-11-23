@@ -16,7 +16,12 @@
  *  - the lane and pairs files are consistent with each other and with the chokepoints (scripts/validate-freight.mjs),
  *  - the port index of the search field is consistent with the pairs and lane files (scripts/validate-ports.mjs),
  *  - the infrastructure files follow their schema (scripts/validate-infra.mjs; every finding is an error, a file in the
- *    old shape gives warnings only with INFRA_OLD_SHAPE=1).
+ *    old shape gives warnings only with INFRA_OLD_SHAPE=1),
+ *  - ranges in every file: coordinates of GeoJSON geometries and of `lat`/`lon` pairs on the globe (a swapped pair is
+ *    caught; a line may run past 180 degrees of longitude where it crosses the antimeridian), shares (`share`, `estShare`, `shareDest`) between 0 and 1, the year `y` of a figure between 1950 and two
+ *    years from now (prices excepted: their `y` is not a year), and every three-letter country code `c` in
+ *    countries/index.json or places.json.
+ * The comparison with the previous commit (a table that lost rows, a price that jumped) is scripts/guard-data.mjs.
  * Exits non-zero on failure so a broken data commit never reaches the live site.
  */
 import fs from 'node:fs';
@@ -514,7 +519,67 @@ function checkCountryProfiles() {
   for (const f of fs.readdirSync(dir)) if (!expected.has(f.replace(/\.json$/, ''))) errors.push(`countries/profiles/${f}: not an entry of the country index`);
 }
 
+/** Ranges and country codes, in every file but the status files and the price files. */
+function checkRanges() {
+  const read = (rel) => {
+    try {
+      return JSON.parse(fs.readFileSync(path.join(root, rel), 'utf8'));
+    } catch {
+      return [];
+    }
+  };
+  const codes = new Set([...read('countries/index.json'), ...read('countries/places.json')].map((x) => x?.c).filter(Boolean));
+  const lastYear = new Date().getUTCFullYear() + 2;
+  const onGlobe = (lon, lat) => Number.isFinite(lon) && Number.isFinite(lat) && Math.abs(lon) <= 180 && Math.abs(lat) <= 90;
+  const positions = (c, out) => {
+    if (Array.isArray(c) && typeof c[0] === 'number') out.push(c);
+    else if (Array.isArray(c)) c.forEach((x) => positions(x, out));
+    return out;
+  };
+  const visit = (o, rel, trail, n) => {
+    if (n.bad > 5) return; // five findings per file are enough to find the fault
+    if (Array.isArray(o)) return o.forEach((x, i) => visit(x, rel, `${trail}[${i}]`, n));
+    if (!o || typeof o !== 'object') return;
+    const err = (m) => {
+      n.bad++;
+      errors.push(`${rel}: ${m} at ${trail}`);
+    };
+    if (typeof o.type === 'string' && Array.isArray(o.coordinates)) {
+      // a line that crosses the antimeridian keeps going past 180 degrees, so that the map draws it in one piece
+      const wrap = /LineString$/.test(o.type) ? 360 : 180;
+      const bad = positions(o.coordinates, []).find((p) => !onGlobe(Math.abs(p[0]) <= wrap ? 0 : p[0], p[1]));
+      if (bad) err(`coordinates [${bad[0]}, ${bad[1]}] are not a longitude and a latitude`);
+    }
+    const lon = o.lon ?? o.lng;
+    if (typeof o.lat === 'number' && typeof lon === 'number' && !onGlobe(lon, o.lat)) err(`lat ${o.lat}, lon ${lon} are not on the globe`);
+    for (const k of ['share', 'estShare', 'shareDest'])
+      if (typeof o[k] === 'number' && !(o[k] >= 0 && o[k] <= 1)) err(`${k} ${o[k]} is not between 0 and 1`);
+    if (typeof o.y === 'number' && !(Number.isInteger(o.y) && o.y >= 1950 && o.y <= lastYear)) err(`year ${o.y} is not plausible`);
+    if (typeof o.c === 'string' && /^[A-Z]{3}$/.test(o.c) && codes.size && !codes.has(o.c)) err(`country code "${o.c}" is not in countries/index.json or places.json`);
+    for (const [k, v] of Object.entries(o)) if (v && typeof v === 'object') visit(v, rel, `${trail}.${k}`, n);
+  };
+  const walkRanges = (dir) => {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      const rel = path.relative(root, p).split(path.sep).join('/');
+      if (e.isDirectory()) {
+        if (rel !== '_status' && rel !== 'prices') walkRanges(p);
+      } else if (/\.(geo)?json$/.test(e.name) && rel !== 'sources.json') {
+        let doc;
+        try {
+          doc = JSON.parse(fs.readFileSync(p, 'utf8'));
+        } catch {
+          continue; // reported by check()
+        }
+        visit(doc, rel, '$', { bad: 0 });
+      }
+    }
+  };
+  walkRanges(root);
+}
+
 walk(root);
+checkRanges();
 checkCountryProfiles();
 checkChokepoints();
 checkCommodityTables();
