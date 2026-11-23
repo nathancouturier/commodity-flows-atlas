@@ -440,6 +440,21 @@ These were needed to finish the work; each is reversible.
    today, as the owner set it.
 10. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
     this release from the disruptions of passages; they are filed under the existing kinds for now.
+11. SEC EDGAR (company filings, public domain) asks automated readers to state a contact e-mail address. One
+    package of 23 November read about thirty filings with a placeholder address, which it should not have done:
+    the figures are public facts and an independent reviewer compared them with the saved copies, but no further
+    automated read of sec.gov is made. Either the owner gives an address he accepts to send to the SEC, or the
+    same reports are read on the companies' own sites only (slower, and some sites refuse automated readers).
+12. The scheduled downloads identify themselves to the sources. Today the string names the project; the audit
+    (C-140) suggests naming the project with the repository address as a contact, which puts the owner's account
+    name in every request. Until the owner decides, the downloader will send a plain client name without the
+    project.
+13. Realised time-charter earnings per day, published each quarter by listed shipowners, would give a rate
+    history by vessel class without any Baltic value. They can only be entered by hand, outside the automatic
+    updates: does the owner accept a quarterly manual entry?
+14. The World Port Index of the US National Geospatial-Intelligence Agency (public domain; depths and maximum ship
+    sizes of about 3,700 ports) answers HTTP 503 from this machine. If the owner downloads `UpdatedPub150.csv`
+    by hand from msi.nga.mil and adds it to the repository, the port limits can be filled from it.
 
 ## Update jobs
 
