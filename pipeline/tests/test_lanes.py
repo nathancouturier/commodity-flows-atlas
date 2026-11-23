@@ -170,8 +170,8 @@ class Selection(unittest.TestCase):
         hist_ = sum(1 for g in groups() for ln in lane_file(g)["lanes"] if ln["set"] == "history")
         mixed = sum(1 for g in groups() for ln in main_lanes(g) if ln.get("mode") == "mixed")
         print(f"\nS08: main seaborne lanes {main}, history-only {hist_}, mixed {mixed}")
-        # package L1 added eight groups of minor metals (167 main, 104 history-only and 2 mixed lanes in its build) and
-        # made Belarusian potash to China a mixed pair: 2,400 / 182 / 35 before
+        # package L1 added eight groups of minor metals (225 main, 90 history-only and 2 mixed lanes in its build) and
+        # made Belarusian potash to China a mixed pair: 2,400 / 182 / 35 before, 2,629 / 276 / 38 after
         self.assertTrue(2450 <= main <= 2650, main)
         self.assertTrue(240 <= hist_ <= 320, hist_)
         self.assertTrue(33 <= mixed <= 45, mixed)

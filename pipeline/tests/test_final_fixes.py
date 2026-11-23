@@ -197,7 +197,9 @@ class ChokepointNotes(unittest.TestCase):
                 self.assertTrue(e["mt"][1] >= BF.EST_MIN_MT or up >= 100 * BF.EST_MIN_SHARE - 0.05, (c["id"], e["p"], e["mt"], up))
                 n += 1
             passages += bool(c.get("estimates"))
-        self.assertEqual((n, passages), (490, 20))
+        # 490 entries before package L1; its eight groups of minor metals add 108 and its transit rows one (copper
+        # concentrate at the Cape of Good Hope), under the same floor
+        self.assertEqual((n, passages), (599, 20))
         gone = {("suez", "soybeans"), ("bab-el-mandeb", "soybeans"), ("bab-el-mandeb", "soymeal"), ("torres", "palm-oil")}
         have = {(c["id"], e["p"]) for c in load("freight/chokepoints.json") for e in c.get("estimates") or []}
         self.assertFalse(gone & have)
