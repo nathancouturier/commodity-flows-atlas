@@ -52,6 +52,9 @@ MANUAL_EXTRA = {
     "USCVP": ("Cove Point LNG", "USA", -76.408, 38.389),
     "MZCSL": ("Coral Sul FLNG (Rovuma basin)", "MOZ", 41.0, -11.5),
     "CNRDG": ("Rudong LNG terminal", "CHN", 121.2, 32.55),
+    # Qingdao LNG stands at Dongjiakou, 68 km from the searoute point Qingdao: the layer's point is the port's (OpenStreetMap)
+    "CNDJK": ("Dongjiakou (Qingdao LNG terminal)", "CHN", 119.792, 35.685),
+    "YEBAL": ("Balhaf (Yemen LNG)", "YEM", 48.1802, 13.9854),
     # Bonaire (BES): the searoute list has no port of the Caribbean Netherlands. Coordinates of Kralendijk, "the capital
     # and the main port of the island" (Wikipedia). Not in a gateway row: the page names no oil terminal.
     "BQKRA": ("Kralendijk (Bonaire)", "BES", -68.2656, 12.1444),
@@ -68,6 +71,8 @@ MANUAL_SRC = {
     "USCVP": {"zone": "us-atlantic", "s": "giignl-2026", "url": GIIGNL + "17"},
     "MZCSL": {"zone": "e-africa", "s": "giignl-2026", "url": GIIGNL + "19"},
     "CNRDG": {"zone": "n-china", "s": "giignl-2026", "url": GIIGNL + "29"},
+    "CNDJK": {"zone": "n-china", "s": "giignl-2026", "url": GIIGNL + "29"},
+    "YEBAL": {"zone": "red-sea", "s": "giignl-2026", "url": GIIGNL + "18"},
     "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
     "QAHAL": {"zone": "meg", "s": "wikipedia", "url": WP + "Halul_Island"},
 }
@@ -190,7 +195,7 @@ G = {
         ("KROKP", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Tong-Yeong, south coast (nearest port: Okpo)"),
     ],
     "CHN": [
-        ("CNTAO", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Qingdao terminal (the largest of the layer); 50 km from the port point"),
+        ("CNDJK", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Qingdao terminal (the largest of the layer), at Dongjiakou: the layer's point, 68 km from the searoute point Qingdao"),
         ("CNYTN", "s-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Dapeng, Shenzhen (nearest port: Yantian)"),
         ("CNTSN", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Tianjin terminal"),
         ("CNRDG", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Rudong, Jiangsu (Yangtze delta)"),
@@ -273,6 +278,17 @@ G = {
     "GNQ": [
         ("GQSSG", "waf", {"lng"}, "load", "wikipedia", LIST, "EG LNG, Bioko island (nearest port: Malabo)"),
     ],
+    # LNG export plants of the atlas's layer (data/infrastructure/lng.geojson) that had no load row (package FE4c): the page
+    # of the report is that of the feature.
+    "CMR": [
+        ("CMKBI", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Kribi FLNG, moored off Kribi (the layer's point is the town)"),
+    ],
+    "PER": [
+        ("PECAZ", "wcsa", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Peru LNG, Pampa Melchorita (nearest port of the searoute list: Cerro Azul, 26 km up the coast)"),
+    ],
+    "YEM": [
+        ("YEBAL", "red-sea", {"lng"}, "load", "giignl-2026", GIIGNL + "18", "Yemen LNG, Balhaf, on the Gulf of Aden: shut down since 2015, under force majeure (the layer says so); no port of the searoute list within 120 km"),
+    ],
     # ------------------------------------------------------------------ FE4a: crude, products and LPG, one page per row
     "SAU": [
         ("SARTA", "meg", {"crude"}, "load", "wikipedia", WP + "Ras_Tanura", "The page calls Ras Tanura Port the world's largest crude oil export terminal"),
@@ -283,6 +299,7 @@ G = {
     ],
     "MEX": [
         ("MXDBT", "mexico-gulf", {"crude"}, "load", "wikipedia", WP + "Dos_Bocas,_Tabasco", "Dos Bocas has a major single buoy mooring crude oil export facility and is one of Mexico's main crude oil ports"),
+        ("MXATM", "mexico-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Altamira FLNG (Fast LNG 1), at the Altamira terminal (LNG export plant of the layer, package FE4c)"),
     ],
     "LBY": [
         ("LYRLA", "med", {"crude", "products"}, "load", "wikipedia", WP + "Ras_Lanuf", "'The Port of Ra's Lanuf consists of a small harbor ... Its primary activities include loading crude oil and oil products'; the town is the terminus of two oil pipelines from the fields (the page does not cover Es Sider or the other Libyan terminals)"),
@@ -408,6 +425,12 @@ UNSOURCED_PORTS = {
     "ESP/crude/discharge": "Port of Algeciras, Huelva, Bilbao and Tarragona pages read: no crude oil named at a port",
     "ESP/products/load": "same pages",
     "ESP/products/discharge": "same pages",
+    "ITA/crude/discharge": "Trieste is no row: its crude is mostly the Transalpine pipeline's, in transit to Austria, Germany and Czechia (the Transalpine page gives 34.9 Mt in 2012, no Italian share), while Italy's own refineries stand at Augusta/Priolo, Sarroch, Milazzo and on the Tyrrhenian and Adriatic coasts. No page names crude at those ports: Augusta, Port of Augusta, Priolo Gargallo, Sarroch, Saras, Milazzo, Port of Cagliari, Livorno, Genoa and Taranto pages read (refineries, 'hydrocarbons' at Milazzo, 'oil' berths at Cagliari). Eurostat mar_go_am_it, liquid bulk goods (crude, products and chemicals together, no split by cargo), 2024, thousand tonnes inwards by port: Trieste 40,783, Augusta 13,354, Porto Foxi (Sarroch) 12,739, Genoa 11,129, Siracusa 6,822, Venice 6,527, Milazzo 3,926; this ranks the refinery ports (Augusta first) but names no crude. The port used before (Augusta) answers",
+    "KWT/crude/load": "Ahmadi Governorate page: the first Kuwaiti oil export left Mina Al-Ahmadi in 1946 (history, no recent volume); Kuwait National Petroleum Company page: refineries, no port. No page names crude loading at a port today. The port used before (Mina al-Ahmadi) answers",
+    "ECU/crude/load": "Esmeraldas page: terminus of the Trans-Ecuadorian pipeline and a refinery, the port exports wood and bananas, 'the port of Balao is an important oil processing facility'; no page names tankers loading crude. The port used before (Esmeraldas) answers",
+    "IDN/crude/discharge": "Cilacap (Java, south coast), Balikpapan, Dumai and the Pertamina refinery table (Wikipedia Pertamina; EIA country brief, 2025: Cilacap 348 thousand barrels a day, the largest) read: they place refineries in provinces and towns and name no crude or product at a port. The Cilacap page calls the town a sea port that 'is a hub for national or international trade' and the site of Pertamina's largest processing unit, which is not a cargo at the port; the Balongan page does not exist on Wikipedia and the Pertamina pages are scripts that show no text. Balikpapan, on the Makassar Strait, stays the port used before (28 Mt of tanker cargo of the pairs cross the Makassar Strait because of it, test C06); a Java port needs a page that names crude, products or LPG at Cilacap or Balongan (Pertamina, the port authority Pelindo or the Ministry of Transport)",
+    "IDN/products/load": "same pages",
+    "IDN/lpg/discharge": "same pages",
     "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named",
     "ITA/products/discharge": "same pages",
     "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude",

@@ -1037,6 +1037,8 @@ LITHIUM_MIN_UV = 1500  # USD per tonne
 # (Li 6.94, C 12.011, O 15.999)
 CIAAW_URL = "https://www.ciaaw.org/abridged-atomic-weights.htm"
 LCE_PER_LI = (2 * 6.94 + 12.011 + 3 * 15.999) / (2 * 6.94)
+ABS_LITHIUM = ("Australian Bureau of Statistics, Insights into Australian Exports of Lithium, 4 August 2022, CC BY 4.0, "
+               "https://www.abs.gov.au/articles/insights-australian-exports-lithium")
 
 # USGS: id -> dict(section -> (commodity prefix, detail, unit, factor, label))
 USGS = {
@@ -1613,9 +1615,10 @@ def main():
                 extra.append({"key": "spodumene-exports", "title": f"Spodumene concentrate to China, {BACI_YEAR} (Atlas estimate)",
                               "table": set_basis(t, "concentrate, gross weight")})
                 uv = sp["usd"].sum() * 1e3 / sp["t"].sum()
-                notes.append(f"Spodumene concentrate, the main form in which Australia, Zimbabwe, Brazil and Nigeria ship lithium, is shown in its own table "
-                             f"(Atlas estimate from HS {code}, {_fmt(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {uv:,.0f} USD per tonne on average); "
-                             "it is not added to the chemicals tables, whose tonnes are of another product.")
+                notes.append(f"Spodumene concentrate, the ore concentrate of hard-rock lithium mines, is shown in its own table (Atlas estimate from HS {code}, "
+                             f"{_fmt(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {uv:,.0f} USD per tonne on average); it is not added to the chemicals "
+                             "tables, whose tonnes are of another product. Australia declares its spodumene concentrate under this code: its statistics office "
+                             f"created the national subheading 25309011 'Lithium concentrates' for it in January 2021 ({ABS_LITHIUM}).")
             pr = d["summary"].get("production")
             if pr and pr["u"] == "t Li":
                 alt_fig(pr, pr["v"] * LCE_PER_LI, "t LCE", f"{LCE_PER_LI:.3f} t of lithium carbonate (Li2CO3) per t of lithium, from the standard "

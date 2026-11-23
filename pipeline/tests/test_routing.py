@@ -279,6 +279,79 @@ class R10Parallel(unittest.TestCase):
         self.assertEqual(via_alt, [])
 
 
+class R10bRouteAround(unittest.TestCase):
+    """Review GE6.11: a passage is certain ("at least") only when no route of similar length avoids it."""
+
+    def test_korea_strait_may_be_avoided_from_the_pacific(self):
+        # the network runs Pacific routes to the Yellow Sea through the Tsugaru Strait and the Sea of Japan; south of
+        # Japan is about 245 nm (2.6%) longer
+        for a, b, cl in (("PECLL", "CNTAO", ["supramax", "handysize"]), ("PESNX", "CNTAO", ["supramax", "panamax"]),
+                         ("CAVAN", "CNTSN", ["supramax", "handysize"]), ("USHOU", "CNTAO", ["supramax", "panamax"])):
+            p = RT.plan(at(a), at(b), cl)
+            self.assertIn("korea-strait", p.main.via, (a, b))
+            self.assertNotIn("korea-strait", p.via, (a, b))
+            self.assertIn(["korea-strait"], p.via_alt, (a, b))
+            self.assertNotIn("korea-strait", RT.route(at(a), at(b), p.avoid + ("korea-strait",)).via)
+        self.assertIn("panama", RT.plan(at("USHOU"), at("CNTAO"), ["supramax", "panamax"]).via)
+
+    def test_korea_strait_certain_from_the_sea_of_japan(self):
+        for a, b in (("RUVYP", "CNSHA"), ("RUVVO", "CNTAO")):
+            p = RT.plan(at(a), at(b), ["supramax"])
+            self.assertEqual(p.via, ["korea-strait"], (a, b))
+            self.assertEqual(p.via_alt, [], (a, b))
+
+    def test_passages_with_no_route_of_similar_length_stay_certain(self):
+        p = RT.plan(at("SARTA"), at("JPCHB"), ["vlcc"])
+        self.assertIn("hormuz", p.via)
+        self.assertEqual(dict(p.parallel)["hormuz"], [(sorted(p.main.via), p.main.nm)])    # no route around
+        p = RT.plan(at("RUNVS"), at("ITAUG"), ["aframax", "suezmax"])
+        self.assertEqual(p.via, ["bosphorus"])
+        p = RT.plan(at("NLRTM"), at("INMUN"), ["supramax"])
+        self.assertEqual(p.via, ["dover", "gibraltar", "suez", "bab-el-mandeb"])
+        self.assertEqual(p.via_alt, [])
+        p = RT.plan(at("BRTUB"), at("CNTAO"), ["vloc", "capesize"])
+        self.assertEqual(p.via, ["cape-good-hope"])
+
+    def test_only_the_avoided_gate_moves(self):
+        # avoiding Panama does not make the passages of the route round it "may cross", nor move another gate
+        p = RT.plan(at("USHOU"), at("CNNGB"), ["vlgc"])
+        self.assertEqual(p.via, ["panama"])
+        self.assertEqual(p.via_alt, [["korea-strait"]])
+
+    def test_thresholds_are_parameters(self):
+        p = RT.plan(at("PECLL"), at("CNTAO"), ["supramax", "handysize"])
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.0, 0), (["korea-strait"], []))
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes), ([], [["korea-strait"]]))
+        p = RT.plan(at("RUVYP"), at("CNSHA"), ["supramax"])
+        self.assertEqual(RT.classify(p.main.via, p.parallel, p.classes, 0.10, 500), ([], [["korea-strait"]]))
+
+    def test_classify_from_a_cached_summary(self):
+        # build_freight.py reclassifies from routing.summary() as stored in route_cache.json
+        for a, b, cl in (("PECLL", "CNTAO", ["supramax", "handysize"]), ("BRTUB", "CNTAO", ["vloc", "capesize"]),
+                         ("IDSRI", "INPBD", ["supramax"])):
+            p = RT.plan(at(a), at(b), cl)
+            s = json.loads(json.dumps(RT.summary(p)))
+            self.assertEqual(RT.classify(s["route"], s["par"], cl), (s["via"], s["viaAlt"]), (a, b))
+            self.assertEqual((p.via, p.via_alt), (s["via"], s["viaAlt"]))
+
+    def test_draught_rule_applies_to_the_route_around(self):
+        # a Capesize may not use Torres: for a panamax-led lane through Torres the Capesize option is the long way
+        # round, so Torres is not certain; a panamax alone keeps it
+        a, b = at("AUHPT"), at("INHAL")
+        self.assertIn("torres", RT.plan(a, b, ["panamax"]).via)
+        p = RT.plan(a, b, ["panamax", "capesize"])
+        self.assertIn("torres", p.main.via)
+        self.assertNotIn("torres", p.via)
+        self.assertIn(["torres"], p.via_alt)
+
+    def test_lombok_gate_spans_bali_to_lombok(self):
+        # the Badung Strait, between Bali and Nusa Penida, is part of the Lombok Strait: a route through it crosses
+        # the gate (it used to slip past the gate's western end, 21 nm longer than the main channel)
+        self.assertEqual(RT.crossings([[115.6, -9.1], [115.304, -8.688], [115.579, -8.585]]), ["lombok"])
+        r = RT.route(at("AUPHE"), at("CNTAO"), SO + ("lombok", "torres"))
+        self.assertFalse(any(115.0 < RT.norm(x) < 116.2 and -8.9 < y < -8.5 for x, y in r.coords))
+
+
 class R11Draught(unittest.TestCase):
     def test_avoids(self):
         self.assertTrue({"malacca", "singapore", "sunda", "torres"} <= VR.avoids("vloc"))
