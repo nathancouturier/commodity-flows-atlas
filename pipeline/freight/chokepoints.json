@@ -73,7 +73,8 @@
   "alternatives": [
    {
     "label": "Saudi East-West pipeline to Yanbu (Red Sea) plus UAE Abu Dhabi-Fujairah pipeline",
-    "note": "EIA lists about 4.7 mb/d combined capacity; Goreh-Jask (Iran) about 0.3 mb/d effective; a planned UAE Jebel Dhanna-Fujairah line of 1.5 mb/d by 2027. Yanbu route depends on Red Sea security."
+    "pipelines": ["east-west-petroline", "adcop"],
+    "note": "Goreh-Jask (Iran) about 0.3 mb/d effective; a planned UAE Jebel Dhanna-Fujairah line of 1.5 mb/d by 2027. Yanbu route depends on Red Sea security."
    }
   ],
   "events": [

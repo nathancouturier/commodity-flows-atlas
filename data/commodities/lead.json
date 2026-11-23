@@ -258,7 +258,9 @@
    "v": 0.3727,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "mixed",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "PER",
@@ -266,7 +268,8 @@
    "v": 0.3283,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -274,7 +277,8 @@
    "v": 0.1465,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "AUS",
@@ -282,7 +286,8 @@
    "v": 0.1126,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "AUS",
@@ -290,7 +295,8 @@
    "v": 0.1114,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "PER",
@@ -298,7 +304,8 @@
    "v": 0.0957,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MEX",
@@ -306,7 +313,8 @@
    "v": 0.0874,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "TUR",
@@ -314,7 +322,8 @@
    "v": 0.0799,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MEX",
@@ -322,7 +331,8 @@
    "v": 0.0789,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MMR",
@@ -330,7 +340,8 @@
    "v": 0.0689,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "SWE",
@@ -338,7 +349,8 @@
    "v": 0.0677,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -346,7 +358,8 @@
    "v": 0.0644,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "TJK",
@@ -354,7 +367,8 @@
    "v": 0.0553,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "USA",
@@ -362,7 +376,8 @@
    "v": 0.0543,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "NGA",
@@ -370,7 +385,8 @@
    "v": 0.0539,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MKD",
@@ -378,7 +394,8 @@
    "v": 0.0521,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "BRA",
@@ -386,7 +403,8 @@
    "v": 0.0521,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MAR",
@@ -394,7 +412,8 @@
    "v": 0.0509,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "BOL",
@@ -402,7 +421,9 @@
    "v": 0.0506,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "USA",
@@ -410,7 +431,8 @@
    "v": 0.0483,
    "u": "Mt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   }
  ],
  "notes": [

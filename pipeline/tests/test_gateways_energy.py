@@ -26,6 +26,10 @@ PLAN_ZONES = {
 }
 
 
+# zones that gateways/coasts.py defines and energy.py uses (Ningbo is in "e-china")
+COASTS_ZONES = {"e-china"}
+
+
 def load_energy():
     path = os.path.join(ROOT, "pipeline", "freight", "gateways", "energy.py")
     spec = importlib.util.spec_from_file_location("atlas_gateways_energy", path)
@@ -106,7 +110,7 @@ class G10Rows(unittest.TestCase):
                 code, zone, fams, role, src, url, note = r
                 self.assertTrue(set(fams) and set(fams) <= FAMILIES, (iso3, r))
                 self.assertIn(role, ROLES, (iso3, r))
-                self.assertIn(zone, PLAN_ZONES | set(EN.EXTRA_ZONES), (iso3, r))
+                self.assertIn(zone, PLAN_ZONES | set(EN.EXTRA_ZONES) | COASTS_ZONES, (iso3, r))
 
     def test_every_port_resolves_and_belongs_to_the_country(self):
         m = manual_ports()
@@ -116,7 +120,13 @@ class G10Rows(unittest.TestCase):
                 code = r[0]
                 self.assertTrue(code in m or code in SR, (iso3, code))
                 owner = m[code][1] if code in m else a2.get(code[:2])
-                self.assertEqual(owner, iso3, (iso3, code))
+                if owner != iso3:
+                    # a pipeline terminal that is the country's outlet (CPC for Kazakhstan, Ceyhan for Azerbaijan),
+                    # Ploce for Bosnia and Herzegovina (the engine treats its 20 km of coast as a coast with no port),
+                    # or the port of the country's TRANSIT row (a landlocked end of a pair)
+                    foreign = {("KAZ", "KZCPC"), ("AZE", "TRCEY"), ("BIH", "HRPLE")}
+                    via_transit = any(EN.transit(iso3, f) and EN.transit(iso3, f)[0] == code for f in r[2])
+                    self.assertTrue((iso3, code) in foreign or via_transit, (iso3, code, owner))
 
     def test_every_row_is_sourced(self):
         ids = known_sources()
@@ -323,6 +333,129 @@ class M08Transit(unittest.TestCase):
 
     def test_family_row_wins_over_default(self):
         self.assertEqual(EN.transit("AZE", "crude")[0], "TRCEY")
+
+
+class FE4aSourcedGateways(unittest.TestCase):
+    """Sourcing pass FE4a: the principal gateway of the largest (country, family, role) ends is the port a page names
+    for the cargo, and the loader says so."""
+
+    @classmethod
+    def setUpClass(cls):
+        import ports
+        cls.ports = ports
+        ports.load_modules()
+
+    # (country, group, role) -> principal port, every one with the basis "page names the cargo"
+    PRINCIPAL = {
+        ("CHN", "crude-oil", "discharge"): "CNNGB",   # Port of Ningbo-Zhoushan: crude oil terminal
+        ("SAU", "crude-oil", "load"): "SARTA",        # Ras Tanura: largest crude oil export terminal
+        ("IND", "crude-oil", "discharge"): "INVAD",   # Vadinar crude oil terminal (Paradip is the east-coast option)
+        ("USA", "crude-oil", "load"): "USCRP",        # Port of Corpus Christi: largest gateway for crude exports
+        ("USA", "crude-oil", "discharge"): "USLOP",   # LOOP offloads tankers of crude oil
+        ("USA", "lpg", "load"): "USHOU",              # Enterprise Products NGL export terminals, Houston Ship Channel
+        ("IRQ", "crude-oil", "load"): "IQBOT",
+        ("JPN", "crude-oil", "discharge"): "JPCHB",   # Port of Chiba imports crude petroleum and oil products
+        ("JPN", "refined-products", "discharge"): "JPCHB",
+        ("BRA", "crude-oil", "load"): "BRADR",        # Angra dos Reis, not Santos
+        ("NOR", "crude-oil", "load"): "NOMON",
+        ("NGA", "crude-oil", "load"): "NGBON",
+        ("DEU", "crude-oil", "discharge"): "DEWVN",
+        ("ITA", "crude-oil", "discharge"): "ITTRS",
+        ("KAZ", "crude-oil", "load"): "KZCPC",
+        ("AZE", "crude-oil", "load"): "TRCEY",
+        ("AGO", "crude-oil", "load"): "AOCAB",
+        ("MEX", "crude-oil", "load"): "MXDBT",
+        ("QAT", "crude-oil", "load"): "QAHAL",       # Halul Island loading terminal, not Mesaieed
+        ("KWT", "crude-oil", "load"): "KWMEA",
+        ("GBR", "crude-oil", "load"): "GBSCU",
+        ("GBR", "refined-products", "discharge"): "GBFAW",
+        ("GBR", "refined-products", "load"): "GBFAW",
+        ("ECU", "crude-oil", "load"): "ECESM",
+        ("POL", "crude-oil", "discharge"): "PLGDN",
+        ("LBY", "crude-oil", "load"): "LYRLA",       # Ras Lanuf, not Tripoli
+        ("VEN", "crude-oil", "load"): "VEPJO",
+        ("VEN", "refined-products", "load"): "VEPJO",
+        ("SGP", "crude-oil", "discharge"): "SGSIN",
+        ("SGP", "refined-products", "load"): "SGSIN",
+        ("RUS", "refined-products", "load"): "RUPRI",
+        ("FRA", "refined-products", "discharge"): "FRLEH",
+        ("DEU", "refined-products", "discharge"): "DEWVN",
+        ("BIH", "refined-products", "discharge"): "HRPLE",
+        ("AUT", "crude-oil", "discharge"): "ITTRS",
+        ("CZE", "crude-oil", "discharge"): "ITTRS",
+        ("HUN", "crude-oil", "discharge"): "HROMI",
+        ("SRB", "crude-oil", "discharge"): "HROMI",
+    }
+
+    def test_principal_gateway_and_basis(self):
+        for (iso3, group, role), code in self.PRINCIPAL.items():
+            c = self.ports.candidates(iso3, group, role)
+            self.assertTrue(c, (iso3, group, role))
+            self.assertEqual(c[0][0], code, (iso3, group, role))
+            self.assertEqual(c[0][2], self.ports.BASIS_PAGE, (iso3, group, role))
+            self.assertEqual(self.ports.basis_of(iso3, group, role, code), self.ports.BASIS_PAGE)
+
+    def test_coast_options(self):
+        # Saudi Arabia: Gulf first, Red Sea second; India: west coast first, east coast second
+        self.assertEqual([c[0] for c in self.ports.candidates("SAU", "crude-oil", "load")], ["SARTA", "SAYNB"])
+        self.assertEqual([c[0] for c in self.ports.candidates("IND", "crude-oil", "discharge")], ["INVAD", "INPRT"])
+        self.assertEqual([c[0] for c in self.ports.candidates("RUS", "refined-products", "load")], ["RUPRI", "RUNJK"])
+
+    def test_legacy_ports_replaced_by_a_sourced_port(self):
+        # Libyan crude no longer loads at Tripoli, Brazilian crude at Santos, Qatari crude at Mesaieed, US crude
+        # imports at Corpus Christi
+        for (iso3, group, role), old in {("LBY", "crude-oil", "load"): "LYTIP", ("BRA", "crude-oil", "load"): "BRSSZ",
+                                          ("QAT", "crude-oil", "load"): "QAMES", ("USA", "crude-oil", "discharge"): "USCRP",
+                                          ("IND", "crude-oil", "discharge"): "INSIK", ("GBR", "refined-products", "load"): "GBSOU"}.items():
+            self.assertNotIn(old, [c[0] for c in self.ports.candidates(iso3, group, role)], (iso3, group, role))
+
+    def test_every_new_port_is_a_seaport(self):
+        P = self.ports
+        new = set(self.PRINCIPAL.values()) | {"SAYNB", "INPRT", "RUNJK", "HRPLE", "GEBUS", "SDPZU", "DEHAM"}
+        for code in sorted(new):
+            if code in EN.OFFSHORE:
+                self.assertLessEqual(P.sea_km(code), 40, code)   # open water: the test of is_seaport does not apply
+            else:
+                self.assertTrue(P.is_seaport(code), code)
+
+    def test_offshore_terminals_have_the_coordinates_of_their_page(self):
+        # infoboxes: LOOP 28.8852 N 90.02508 W; Halul Island 25.67500 N 52.41139 E
+        for code, (lon, lat) in {"USLOP": (-90.02508, 28.8852), "QAHAL": (52.41139, 25.675)}.items():
+            m = EN.MANUAL_EXTRA[code]
+            self.assertLess(km((m[2], m[3]), (lon, lat)), 1.0, code)
+            self.assertIn(code, EN.OFFSHORE)
+            self.assertEqual(EN.MANUAL_SRC[code]["s"], "wikipedia")
+
+    def test_pairs_between_landlocked_countries_get_a_port_at_both_ends(self):
+        # Kazakh crude to Austria, Azerbaijani crude to Czechia: the sea outlet of the seller (build_lanes puts the
+        # TRANSIT port there) and the port of the buyer's pipeline
+        for o, d, ld, ds in (("KAZ", "AUT", "KZCPC", "ITTRS"), ("AZE", "CZE", "TRCEY", "ITTRS"), ("KAZ", "SRB", "KZCPC", "HROMI")):
+            a = self.ports.assign(o, d, "crude-oil")
+            self.assertEqual((a.main.load, a.main.discharge), (ld, ds), (o, d))
+        # a landlocked buyer's port is its TRANSIT port
+        for iso3 in ("AUT", "CZE", "HUN", "SRB"):
+            self.assertEqual(self.ports.candidates(iso3, "crude-oil", "discharge")[0][0], EN.transit(iso3, "crude")[0], iso3)
+
+    def test_new_transit_rows(self):
+        self.assertEqual(EN.transit("KAZ", "products")[0], "GEBUS")
+        self.assertEqual(EN.transit("AZE", "products")[0], "GEBUS")
+        self.assertEqual(EN.transit("KAZ", "crude")[0], "KZCPC")        # a family row still wins over nothing else
+        self.assertIsNone(EN.transit("KAZ", "drybulk"))                  # no page names a sea outlet for Kazakh coal
+        self.assertEqual(EN.transit("CZE", "drybulk")[0], "DEHAM")
+        self.assertEqual(EN.transit("CZE", "crude")[0], "ITTRS")         # the family row wins over the default
+        self.assertEqual(EN.transit("SSD", "crude")[0], "SDPZU")
+        self.assertIsNone(EN.transit("SSD", "metal"))
+
+    def test_unsourced_ports_are_listed_with_what_is_missing(self):
+        fams = {"crude", "products", "lpg", "lng"}
+        roles = {"load", "discharge"}
+        for key, why in EN.UNSOURCED_PORTS.items():
+            iso3, fam, role = key.split("/")
+            self.assertIn(fam, fams, key)
+            self.assertIn(role, roles, key)
+            self.assertTrue(why, key)
+            # a case listed as unsourced must not also have a sourced row of its family and role
+            self.assertIsNone(principal(iso3, fam, role), key)
 
 
 if __name__ == "__main__":

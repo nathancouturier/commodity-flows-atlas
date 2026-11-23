@@ -16,11 +16,11 @@
    "n": "cocoa beans (HS 1801), BACI"
   },
   "seaborne": {
-   "v": 2.99,
+   "v": 3.06,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (cocoa) under the Atlas lane method (data/freight/lanes/cocoa.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (cocoa) under the atlas's mode rule (data/freight/lanes/cocoa.json): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
@@ -297,8 +297,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "cocoa:NLD-DEU"
+   "mode": "land"
   },
   {
    "o": "CIV",

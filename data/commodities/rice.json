@@ -23,11 +23,11 @@
    "n": "USDA PSD, Rice, Milled, milled rice exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 59.0 Mt"
   },
   "seaborne": {
-   "v": 49.13,
+   "v": 49.88,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. Seaborne subset of BACI flows (rice) under the Atlas lane method (data/freight/lanes/rice.json); both countries need a sea gateway and must not be land neighbours."
+   "n": "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. Seaborne subset of BACI flows (rice) under the atlas's mode rule (data/freight/lanes/rice.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.83 Mt that move both by sea and overland (split not known) are not in it."
   }
  },
  "labels": {
@@ -372,7 +372,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "rice:THA-IDN"
   },
   {
    "o": "VNM",
@@ -431,7 +432,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "rice:MMR-IDN"
   },
   {
    "o": "THA",
@@ -450,7 +452,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "rice:PAK-IDN"
   },
   {
    "o": "IND",
@@ -488,7 +491,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "rice:IND-TGO"
   },
   {
    "o": "THA",
@@ -507,7 +511,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "rice:IND-VNM"
   },
   {
    "o": "IND",

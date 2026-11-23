@@ -103,12 +103,13 @@ registerLayerModule(() => {
       ),
     ]).then(([d, laneInfo]) => {
       if (my !== seq) return;
-      // the lanes layer draws these pairs (dashed, on their sea route): no second line here
+      // the lanes layer draws these pairs (dashed, on their sea route): no second line here, whatever mode the flow table gives (its
+      // older shape says `land` for them)
       const drawnAsLane = new Set(laneInfo.flatMap((i) => i.mixed));
       const meta = commodityMeta(k);
       const color = meta ? FAMILY_COLOR[meta.family] : '#8aa0b8';
       const all = (d?.flows ?? []).filter(
-        (f) => f.mode && LAND_MODES.has(f.mode) && f.v > 0 && !(f.mode === 'mixed' && (f.lane || drawnAsLane.has(`${f.o}-${f.d}`))),
+        (f) => f.mode && LAND_MODES.has(f.mode) && f.v > 0 && !(f.mode === 'mixed' && f.lane) && !drawnAsLane.has(`${f.o}-${f.d}`),
       );
       const flows = yr != null ? all.filter((f) => String(f.y) === String(yr)) : all;
       const max = Math.max(...flows.map((f) => f.v), 1e-9);

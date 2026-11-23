@@ -12,6 +12,14 @@ G = {iso3: [row, ...]}, a row being the tuple
   (data/infrastructure/lng.geojson, same page of the GIIGNL report as the feature), "wikipedia" for the article
   named in the url (CC BY-SA 4.0, read in November 2026; the note says what the page supports).
 
+Sourcing pass FE4a: the rows after "FE4a" in G give the port a page names for the cargo (crude, products, LPG) to the
+  largest ends of the worklist; a row replaces the port used before as the principal gateway. UNSOURCED_PORTS lists,
+  as "country/family/role", the ends for which no page read names the cargo at a port, and what is missing: the
+  loader's fallback applies there. A few rows sit at a landlocked end (Austria, Czechia, Hungary, Serbia) or at a
+  coast with no port (Bosnia and Herzegovina), or at a pipeline terminal of another country (Kazakhstan, Azerbaijan):
+  ports.candidates() does not read TRANSIT, so a pair of two landlocked countries had no port at one end. OFFSHORE
+  lists the terminals in open water, which the seaport test of ports.py cannot accept.
+
 TRANSIT = {iso3: {family or "default": (port code, source id, page read, note)}}: the foreign port through which
   a landlocked country's trade is assumed to reach the sea. A cargo family wins over "default". transit(iso3,
   family) returns the tuple or None. Every row is an Atlas assumption (a corridor the page documents, not a
@@ -45,7 +53,13 @@ MANUAL_EXTRA = {
     # Bonaire (BES): the searoute list has no port of the Caribbean Netherlands. Coordinates of Kralendijk, "the capital
     # and the main port of the island" (Wikipedia). Not in a gateway row: the page names no oil terminal.
     "BQKRA": ("Kralendijk (Bonaire)", "BES", -68.2656, 12.1444),
+    # Offshore terminals (LOOP lies 29 km off the Louisiana coast, Halul Island 90 km northeast of Doha): coordinates
+    # of the page's infobox. They are further than ports.SEAPORT_KM from the generalised coastline by nature (OFFSHORE).
+    "USLOP": ("Louisiana Offshore Oil Port (LOOP)", "USA", -90.025, 28.885),
+    "QAHAL": ("Halul Island oil terminal", "QAT", 52.411, 25.675),
 }
+# Terminals in open water: the test of ports.is_seaport does not apply, a distance of 40 km does.
+OFFSHORE = {"USLOP", "QAHAL"}
 ZONES = EXTRA_ZONES
 
 # {code: {zone, s, url}}, the layout of ports.MANUAL_SRC
@@ -54,6 +68,8 @@ MANUAL_SRC = {
     "MZCSL": {"zone": "e-africa", "s": "giignl-2026", "url": GIIGNL + "19"},
     "CNRDG": {"zone": "n-china", "s": "giignl-2026", "url": GIIGNL + "29"},
     "BQKRA": {"zone": "caribbean", "s": "wikipedia", "url": WP + "Kralendijk"},
+    "USLOP": {"zone": "us-gulf", "s": "wikipedia", "url": WP + "Louisiana_Offshore_Oil_Port"},
+    "QAHAL": {"zone": "meg", "s": "wikipedia", "url": WP + "Halul_Island"},
 }
 
 G = {
@@ -86,6 +102,8 @@ G = {
         ("GBGRG", "nw-europe", {"crude"}, "discharge", "wikipedia", WP + "Grangemouth_Refinery", "Grangemouth docks imported Middle East crude for the refinery on the Firth of Forth"),
         ("GBPEM", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "32", "South Hook, Milford Haven (nearest port: Pembroke)"),
         ("GBIOG", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "32", None),
+        ("GBSCU", "nw-europe", {"crude"}, "load", "wikipedia", WP + "Sullom_Voe_Terminal", "Oil and gas terminal in Shetland that stores the oil of the northern North Sea 'before it is transported by tanker'"),
+        ("GBFAW", "nw-europe", {"products"}, "both", "wikipedia", WP + "Fawley_Refinery", "Fawley's marine terminal handles 22 million tonnes of crude oil and other products a year; the refinery makes petrol, jet fuel, diesel and LPG (the page does not split loading and discharge)"),
     ],
     "AUS": [
         ("AUBTB", "e-australia", {"products"}, "discharge", "wikipedia", WP + "Kurnell_Refinery", "Kurnell, Botany Bay: refinery converted in 2014 into an import terminal for refined fuel"),
@@ -107,13 +125,18 @@ G = {
     "NGA": [
         ("NGAPP", "waf", {"products"}, "discharge", "wikipedia", WP + "Apapa", "Apapa district, Lagos: refineries and petroleum tank farms (the page does not say what the ports unload)"),
         ("NGBON", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", None),
+        ("NGBON", "waf", {"crude"}, "load", "wikipedia", WP + "Petroleum_industry_in_Nigeria", "Bonny Terminal is one of the country's six petroleum export terminals (with Forcados it stores 13 million barrels of crude oil); Bonny light is named after it"),
     ],
     "QAT": [
         ("QARLF", "meg", {"lng"}, "load", "giignl-2026", GIIGNL + "18", None),
+        ("QAHAL", "meg", {"crude"}, "load", "wikipedia", WP + "Halul_Island", "Island 90 km offshore, a storage area and loading terminal for oil from the offshore fields, with 5 million barrels of crude oil storage"),
     ],
     "USA": [
         ("USSAB", "us-gulf", {"lng"}, "load", "giignl-2026", GIIGNL + "18", "Gulf Coast liquefaction (Sabine Pass is the largest in the layer)"),
         ("USCVP", "us-atlantic", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Atlantic coast liquefaction, Maryland"),
+        ("USCRP", "us-gulf", {"crude"}, "load", "wikipedia", WP + "Port_of_Corpus_Christi", "The page calls the port the United States' largest gateway for crude oil exports"),
+        ("USLOP", "us-gulf", {"crude"}, "discharge", "wikipedia", WP + "Louisiana_Offshore_Oil_Port", "Deepwater port that offloads tankers of crude oil: 'handles 13 percent of the nation's foreign oil'; the page does not name the other import ports"),
+        ("USHOU", "us-gulf", {"lpg"}, "load", "wikipedia", WP + "Enterprise_Products", "Enterprise Products' marine terminals on the Houston Ship Channel load natural gas liquids for export (the page says NGL, not LPG alone)"),
     ],
     "PNG": [
         ("PGPOM", "sea", {"lng"}, "load", "giignl-2026", GIIGNL + "19", None),
@@ -124,9 +147,12 @@ G = {
     "RUS": [
         ("RUSAB", "arctic-russia", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Yamal LNG, Sabetta"),
         ("RUPRG", "russia-far-east", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Sakhalin-2, Prigorodnoye"),
+        ("RUPRI", "baltic", {"products"}, "load", "wikipedia", WP + "Port_of_Primorsk", "Primorsk opened a terminal for transferring light petroleum products"),
+        ("RUNJK", "russia-far-east", {"products"}, "load", "wikipedia", WP + "Port_of_Nakhodka", "Nakhodka's key commodities include petroleum products; the oil loading port opened in 1973"),
     ],
     "NOR": [
         ("NOHFT", "nw-europe", {"lng"}, "load", "giignl-2026", GIIGNL + "17", None),
+        ("NOMON", "nw-europe", {"crude"}, "load", "wikipedia", WP + "Mongstad", "Equinor's crude oil terminal at Mongstad stores 9.5 million barrels (the page does not say that tankers load there)"),
     ],
     "DZA": [
         ("DZAZW", "med", {"lng"}, "load", "giignl-2026", GIIGNL + "17", None),
@@ -140,12 +166,14 @@ G = {
     ],
     "AGO": [
         ("AOSZA", "waf", {"lng"}, "load", "giignl-2026", GIIGNL + "17", None),
+        ("AOCAB", "waf", {"crude"}, "load", "wikipedia", WP + "Cabinda_(city)", "The page says Cabinda 'serves as one of Angola's main oil ports', near rich offshore oil reserves"),
     ],
     "MOZ": [
         ("MZCSL", "e-africa", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Floating plant offshore Cabo Delgado; no port of the searoute list within 150 km"),
     ],
     "JPN": [
         ("JPCHB", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Tokyo Bay (Sodegaura, Futtsu and Negishi terminals)"),
+        ("JPCHB", "japan-korea", {"crude", "products"}, "discharge", "wikipedia", WP + "Port_of_Chiba", "The port 'imports crude petroleum, Liquefied Natural Gas, and other oil products'"),
     ],
     "KOR": [
         ("KRINC", "japan-korea", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Incheon; Pyeong-Taek is 70 km south on the same coast"),
@@ -156,6 +184,7 @@ G = {
         ("CNYTN", "s-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "28", "Dapeng, Shenzhen (nearest port: Yantian)"),
         ("CNTSN", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Tianjin terminal"),
         ("CNRDG", "n-china", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", "Rudong, Jiangsu (Yangtze delta)"),
+        ("CNNGB", "e-china", {"crude"}, "discharge", "wikipedia", WP + "Port_of_Ningbo-Zhoushan", "The page names a 250,000-tonnage crude oil terminal among the port's larger berths (it does not say imports)"),
     ],
     "TWN": [
         ("TWKHH", "taiwan", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Yung-An, Kaohsiung"),
@@ -164,6 +193,8 @@ G = {
     "IND": [
         ("INDAH", "wc-india", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", None),
         ("INHZA", "wc-india", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", None),
+        ("INVAD", "wc-india", {"crude"}, "discharge", "wikipedia", WP + "Vadinar", "Vadinar has the offshore oil terminal of Deendayal Port (single-buoy moorings of Indian Oil, one of the Essar refinery) and a crude oil terminal of Indian Oil; the Reliance refinery is close by (the page does not say imports)"),
+        ("INPRT", "ec-india", {"crude"}, "discharge", "wikipedia", WP + "Paradip_Port", "East coast: the port 'mainly transports bulk cargoes and crude oil' and has single point mooring terminals handling captive crude oil for Indian Oil"),
     ],
     "NLD": [
         ("NLEUR", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Gate terminal, Maasvlakte (nearest port: Europoort)"),
@@ -175,6 +206,7 @@ G = {
         ("FRDKK", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", None),
         ("FRMTX", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Atlantic coast"),
         ("FRFOS", "med", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Mediterranean coast"),
+        ("FRLEH", "nw-europe", {"products"}, "both", "wikipedia", WP + "Port_of_Le_Havre", "Two firms at the port 'manage the flows of gasoil and fuel' (the page does not split loading and discharge)"),
     ],
     "ESP": [
         ("ESBCN", "med", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
@@ -184,6 +216,7 @@ G = {
     ],
     "POL": [
         ("PLSWI", "baltic", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
+        ("PLGDN", "baltic", {"crude"}, "discharge", "wikipedia", WP + "Naftoport", "Naftoport runs the crude oil reloading terminal in the Port of Gdansk, built in the 1990s to diversify Poland's oil imports"),
     ],
     "LTU": [
         ("LTKLJ", "baltic", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
@@ -191,9 +224,12 @@ G = {
     "DEU": [
         ("DEWVN", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
         ("DEBRB", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", None),
+        ("DEWVN", "nw-europe", {"crude"}, "discharge", "wikipedia", WP + "Wilhelmshaven", "The page calls Wilhelmshaven 'the most important German import terminal for crude oil'; pipelines supply refineries inland"),
+        ("DEWVN", "nw-europe", {"products"}, "both", "wikipedia", WP + "Wilhelmshaven", "The port built jetties 'for crude oil and oil products, coal, and chemical products' (the page does not split loading and discharge)"),
     ],
     "KWT": [
         ("KWKWM", "meg", {"lng"}, "discharge", "giignl-2026", GIIGNL + "32", "Al-Zour (nearest port: Khor al Muffatta)"),
+        ("KWMEA", "meg", {"crude"}, "load", "wikipedia", WP + "Ahmadi_Governorate", "'The first oil export from Kuwait was facilitated from Mina Al-Ahmadi in 1946' (the page gives no recent volume)"),
     ],
     "THA": [
         ("THMTP", "sea", {"lng"}, "discharge", "wikipedia", LIST, "Map Ta Phut LNG terminal (phase 1, 2011)"),
@@ -202,6 +238,7 @@ G = {
         ("ITCHI", "med", {"lng"}, "discharge", "wikipedia", LIST, "Adriatic LNG, offshore Porto Levante near Rovigo (nearest port: Chioggia)"),
         ("ITLIV", "med", {"lng"}, "discharge", "wikipedia", LIST, "OLT Toscana terminal, offshore Livorno"),
         ("ITSPE", "med", {"lng"}, "discharge", "wikipedia", LIST, "Panigaglia terminal, La Spezia"),
+        ("ITTRS", "med", {"crude"}, "discharge", "wikipedia", WP + "Transalpine_Pipeline", "The Transalpine crude oil pipeline starts at the marine terminal in Trieste (the page does not give Italy's own share)"),
     ],
     "PAK": [
         ("PKBQM", "wc-india", {"lng"}, "discharge", "wikipedia", LIST, "Engro Elengy terminal and GasPort, Port Qasim, Karachi"),
@@ -217,6 +254,7 @@ G = {
     ],
     "BRA": [
         ("BRPEC", "ecsa", {"lng"}, "discharge", "wikipedia", LIST, "Pecem terminal"),
+        ("BRADR", "ecsa", {"crude"}, "load", "wikipedia", WP + "Angra_dos_Reis", "The TEBIG terminal of Petrobras 'transports large quantities of crude oil' and the port has an oil terminal (the page does not say tankers load there)"),
     ],
     "BRN": [
         ("BNLUM", "sea", {"lng"}, "load", "wikipedia", LIST, "Brunei LNG, Lumut"),
@@ -224,22 +262,78 @@ G = {
     "GNQ": [
         ("GQSSG", "waf", {"lng"}, "load", "wikipedia", LIST, "EG LNG, Bioko island (nearest port: Malabo)"),
     ],
+    # ------------------------------------------------------------------ FE4a: crude, products and LPG, one page per row
+    "SAU": [
+        ("SARTA", "meg", {"crude"}, "load", "wikipedia", WP + "Ras_Tanura", "The page calls Ras Tanura Port the world's largest crude oil export terminal"),
+        ("SAYNB", "red-sea", {"crude"}, "load", "wikipedia", WP + "Yanbu", "Red Sea coast: three oil pipelines from the eastern oilfields end at Yanbu, 'a major hub for oil export'; the page calls it a petroleum shipping terminal"),
+    ],
+    "IRQ": [
+        ("IQBOT", "meg", {"crude"}, "load", "wikipedia", WP + "Al_Ba%C5%9Frah_Oil_Terminal", "Offshore deep sea crude oil marine loading terminal: the crude produced for export from the southern oilfields is piped to it"),
+    ],
+    "MEX": [
+        ("MXDBT", "mexico-gulf", {"crude"}, "load", "wikipedia", WP + "Dos_Bocas,_Tabasco", "Dos Bocas has a major single buoy mooring crude oil export facility and is one of Mexico's main crude oil ports"),
+    ],
+    "LBY": [
+        ("LYRLA", "med", {"crude"}, "load", "wikipedia", WP + "Ras_Lanuf", "Ras Lanuf is 'a major oil terminal' at the end of the Amal, Messla and Defa oil pipelines (the page does not say crude)"),
+    ],
+    "VEN": [
+        ("VEPJO", "caribbean", {"crude", "products"}, "load", "wikipedia", WP + "Puerto_Jos%C3%A9", "Oil tanker loading complex: the port exports refined petroleum products, crude oil and containers"),
+    ],
+    "ECU": [
+        ("ECESM", "wcsa", {"crude"}, "load", "wikipedia", WP + "Esmeraldas,_Ecuador", "Esmeraldas is the terminus of the 504 km Trans-Ecuadorian Pipeline from the oil fields (the page does not name tanker loading)"),
+    ],
+    "SGP": [
+        ("SGSIN", "sea", {"crude"}, "discharge", "wikipedia", WP + "Port_of_Singapore", "The port tranships half of the world's annual crude oil supplies and imports raw materials for refining; Singapore has no crude oil of its own (Jurong Island page)"),
+        ("SGSIN", "sea", {"products"}, "load", "wikipedia", WP + "Jurong_Island", "Jurong Island makes petroleum products, and Singapore's refining capacity 'significantly exceeds domestic consumption'; the page names no tonnage"),
+    ],
+    "KAZ": [
+        ("KZCPC", "black-sea", {"crude"}, "load", "wikipedia", WP + "Caspian_Pipeline_Consortium", "The CPC pipeline handles almost all of Kazakhstan's oil exports, to the Novorossiysk-2 marine terminal in Russia (pipeline terminal, not a Kazakh port)"),
+    ],
+    "AZE": [
+        ("TRCEY", "med", {"crude"}, "load", "wikipedia", WP + "Ceyhan", "The BTC pipeline brings Caspian crude oil to Ceyhan's marine terminal, whose jetty loads tankers (pipeline terminal, not an Azerbaijani port)"),
+    ],
+    # Landlocked ends: candidates() does not read TRANSIT, so a pair between two landlocked countries (Kazakh crude to
+    # Austria) had no port at the buyer's end. The port is the one of the TRANSIT row, same page.
+    "AUT": [
+        ("ITTRS", "med", {"crude"}, "discharge", "wikipedia", WP + "Transalpine_Pipeline", "The Transalpine crude oil pipeline starts at the marine terminal in Trieste and connects Italy, Austria, Germany and the Czech Republic"),
+    ],
+    "CZE": [
+        ("ITTRS", "med", {"crude"}, "discharge", "wikipedia", WP + "Transalpine_Pipeline", "The Transalpine crude oil pipeline starts at the marine terminal in Trieste and connects Italy, Austria, Germany and the Czech Republic"),
+    ],
+    "HUN": [
+        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline runs from Omisalj through Croatia and Serbia to Hungary"),
+    ],
+    "SRB": [
+        ("HROMI", "med", {"crude"}, "discharge", "wikipedia", WP + "Adria_oil_pipeline", "The Adria crude oil pipeline runs from Omisalj through Croatia and Serbia to Hungary"),
+    ],
+    "BIH": [
+        ("HRPLE", "med", {"products"}, "discharge", "wikipedia", WP + "Port_of_Plo%C4%8De", "Ploce is the natural outlet of Bosnia and Herzegovina (Ploce Agreement of 1996); its liquid cargo terminal handles fuel"),
+    ],
 }
 
 _KILINDINI = WP + "Kilindini_Harbour"
 _DAR = WP + "Port_of_Dar_es_Salaam"
 _TAL = WP + "Transalpine_Pipeline"
 _ADRIA = WP + "Adria_oil_pipeline"
+_BATUMI = WP + "Batumi_Seaport"
 
 TRANSIT = {
     "KAZ": {"crude": ("KZCPC", "wikipedia", WP + "Caspian_Pipeline_Consortium",
-                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia")},
+                      "The CPC pipeline carries almost all of Kazakhstan's crude to the Novorossiysk terminal, in Russia"),
+            "products": ("GEBUS", "wikipedia", _BATUMI,
+                         "The page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' and says it has an oil terminal; it does not name refined products or the route")},
     "AZE": {"crude": ("TRCEY", "wikipedia", WP + "Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline",
-                      "The BTC pipeline runs from the Caspian to Ceyhan on the Mediterranean")},
+                      "The BTC pipeline runs from the Caspian to Ceyhan on the Mediterranean"),
+            "products": ("GEBUS", "wikipedia", _BATUMI,
+                         "The page calls Batumi 'a major transit port for oil refining in Kazakhstan and Azerbaijan' and says oil went by rail from Baku to Batumi; it does not name refined products")},
     "TCD": {"crude": ("CMKBI", "wikipedia", WP + "Chad%E2%80%93Cameroon_Petroleum_Development_and_Pipeline_Project",
                       "The pipeline carries Chadian crude to the offshore export terminal near Kribi")},
     "AUT": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline runs from Trieste to Austria and Germany")},
-    "CZE": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline connects Trieste with the Czech Republic")},
+    "CZE": {"crude": ("ITTRS", "wikipedia", _TAL, "The Transalpine pipeline connects Trieste with the Czech Republic"),
+            "default": ("DEHAM", "wikipedia", WP + "Port_of_Hamburg",
+                        "Assumption: the page says the Moldauhafen, a harbour area of the Port of Hamburg, is reserved for the Czech Republic exclusively; it does not say how much Czech trade uses Hamburg")},
+    "SSD": {"crude": ("SDPZU", "wikipedia", WP + "Greater_Nile_Oil_Pipeline",
+                      "The Greater Nile Oil Pipeline begins in the Unity oil field and ends at the Port Sudan refinery on the Red Sea (the page does not name South Sudan or a loading terminal)")},
     "HUN": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
     "SRB": {"crude": ("HROMI", "wikipedia", _ADRIA, "The Adria pipeline runs from Omisalj to Serbia and Hungary")},
     "UGA": {"default": ("KEMBA", "wikipedia", _KILINDINI, "Mombasa's hinterland extends to Uganda; transit cargo for landlocked neighbours")},
@@ -260,9 +354,9 @@ TRANSIT = {
 
 # Landlocked countries of the plan's candidate table for which no page stating the port was read.
 UNSOURCED = {
-    "BLR": "potash by rail to Baltic ports: no page read (ports.py keeps its present Ust-Luga row)",
+    "BLR": "potash by rail to Baltic ports: Belaruskali page read, 'most of its production is exported to China', no port or route named; the Klaipeda page names no Belarusian cargo (ports.py keeps its present Ust-Luga row)",
     "BOL": "Wikipedia (Transport in Bolivia) gives free port privileges in Chile, Argentina and Brazil and the Paraguay river ports, not Arica",
-    "PRY": "the Paraguay river is documented (Wikipedia: Paraguay River), the transfer port is not; ports.py keeps Up-River Parana",
+    "PRY": "Parana-Paraguay Waterway page read: it runs to Nueva Palmira (Uruguay), carrying soy first, then iron and fuels, but Nueva Palmira is not in the searoute list and its page gives no coordinates; ports.py keeps Up-River Parana",
     "SRB": "other cargo than crude: the Danube is documented, a seaport is not (Constanta not confirmed)",
     "MDA": "no page read",
     "AFG": "Port of Karachi page mentions Afghanistan only as a historical gateway",
@@ -272,12 +366,82 @@ UNSOURCED = {
     "BWA": "no page read",
     "SWZ": "no page read",
     "LSO": "no page read",
-    "SSD": "no page read",
+    "SSD": "other cargo than crude (fuel imports): no page read",
+    "KAZ": "coal, steel, grain, copper and aluminium: Transport in Kazakhstan and Trans-Caspian Route pages read, they name no sea outlet for these cargoes (crude: CPC; products: Batumi)",
+    "AZE": "other cargo than crude and products (urea, sugar, soymeal): Transport in Azerbaijan page read, it names no port",
+    "AUT": "other cargo than crude (coal, steel): Transport in Austria and Port of Koper pages read, neither names Austrian cargo",
+    "HUN": "other cargo than crude: no page read",
     "KGZ": "no page read",
     "UZB": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Uzbekistan nor Poti as its outlet",
     "TKM": "Poti Sea Port page read: TRACECA links Constanta and Varna with the Caspian region and Central Asia; it names neither Turkmenistan nor Poti as its outlet",
     "SVK": "Adria oil pipeline page read: the 1968 route to Bratislava was decided, but the page does not say that Slovak crude now comes through Omisalj",
     "TJK": "no page read",
+}
+
+
+# Gateways of the engine's worklist (country/family/role) for which no page read names the cargo at a port: the
+# loader's fallback applies (the port used before, "no source page yet" on the site). What is missing is stated.
+UNSOURCED_PORTS = {
+    "NLD/crude/discharge": "Port of Rotterdam, Europoort, Botlek, Pernis and Maasvlakte pages read: refineries and tank storage, no crude oil named at a port",
+    "NLD/products/load": "same pages: no products named at a port",
+    "NLD/products/discharge": "same pages: no products named at a port",
+    "KOR/crude/discharge": "Ulsan, Port of Ulsan, Yeosu, SK Innovation, GS Caltex and HD Hyundai Oilbank pages read: refineries and crude imports by company, no port or terminal named",
+    "KOR/products/load": "same pages: no port named for exports",
+    "KOR/products/discharge": "same pages: no port named",
+    "KOR/lpg/discharge": "same pages: no port named",
+    "IND/products/load": "Jamnagar refinery and Sikka pages read: oil products exported by the refinery whose complex has port facilities, Sikka port not named",
+    "IND/products/discharge": "no page read names products imports at a port",
+    "IND/lpg/discharge": "Mundra Port page names liquid cargo and a liquid terminal, not LPG",
+    "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port",
+    "USA/products/discharge": "same pages",
+    "SGP/products/discharge": "Port of Singapore and Jurong Island pages read: bunkering and refining, no products import named",
+    "SGP/lng/discharge": "no page read; the layer of the atlas has no Singapore terminal",
+    "BRA/crude/discharge": "Port of Santos page names liquid bulk only; no page names a crude oil import port",
+    "BRA/products/load": "no page read",
+    "BRA/products/discharge": "Port of Santos page names liquid bulk only",
+    "FRA/crude/discharge": "Fos-sur-Mer and Port of Marseille pages read: oil industry, no crude oil named at a port",
+    "ESP/crude/discharge": "Port of Algeciras, Huelva, Bilbao and Tarragona pages read: no crude oil named at a port",
+    "ESP/products/load": "same pages",
+    "ESP/products/discharge": "same pages",
+    "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named",
+    "ITA/products/discharge": "same pages",
+    "TWN/crude/discharge": "Port of Kaohsiung and Mailiao pages read: the Mailiao refinery runs 400,000 barrels of crude oil a day, no crude import port named",
+    "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude",
+    "MYS/crude/load": "Kerteh page names the Terengganu Crude Oil Terminal but gives the town's coordinates (inland), and no searoute port lies within a few km; Labuan page says crude oil is exported, the searoute point for Labuan is inland",
+    "MYS/products/load": "Kuantan and Port Dickson pages read: no products named at a port",
+    "MYS/products/discharge": "same pages",
+    "MYS/crude/discharge": "same pages",
+    "GUY/crude/load": "no page read (the Wikipedia article on the Stabroek block was not found)",
+    "SAU/products/load": "Jubail and Yanbu pages read: refineries and 'petroleum' shipping, no refined products named at a port",
+    "SAU/lpg/load": "Ras Tanura page names oil and gas exports, not LPG",
+    "KWT/products/load": "Ahmadi Governorate page names the Mina Al-Ahmadi refinery, not products at the port",
+    "QAT/products/load": "Ras Laffan and Mesaieed pages read: no products named",
+    "QAT/lpg/load": "same pages",
+    "CHN/products/load": "Port of Ningbo-Zhoushan page names a crude oil terminal and a liquid chemical berth, not products",
+    "CHN/products/discharge": "same page",
+    "CHN/lpg/discharge": "same page",
+    "DZA/crude/load": "Arzew page names LNG; Skikda page names 'a gas and oil terminal' without crude or products",
+    "DZA/products/load": "same pages",
+    "TUR/products/load": "Ceyhan page names the BTC and Kirkuk crude terminal, not products",
+    "SWE/crude/discharge": "Port of Gothenburg page names no refinery or crude",
+    "SWE/products/load": "same page",
+    "FIN/crude/discharge": "Naantali and Porvoo pages read: refineries, no crude oil named at a port",
+    "LTU/crude/discharge": "no page read",
+    "GRC/crude/discharge": "Aspropyrgos and Port of Piraeus pages read: refinery with a dock, no crude named",
+    "GRC/products/load": "same pages",
+    "PAK/crude/discharge": "no page read",
+    "PAK/products/discharge": "no page read",
+    "ZAF/products/discharge": "no page read",
+    "ZAF/crude/discharge": "no page read",
+    "AUS/crude/load": "no page read (the loader's nearest seaport, Thevenard, applies)",
+    "AUS/crude/discharge": "no page read",
+    "CAN/crude/load": "no page read that names an Atlantic crude port (Newfoundland); Vancouver stays the port used before",
+    "OMN/products/load": "no page read",
+    "EGY/products/load": "no page read",
+    "EGY/products/discharge": "no page read",
+    "HKG/products/discharge": "no page read",
+    "ARE/products/discharge": "no page read",
+    "IRQ/products/load": "Al Basrah Oil Terminal page names crude only",
 }
 
 

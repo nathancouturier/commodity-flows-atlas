@@ -23,11 +23,11 @@
    "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 21.02,
+   "v": 20.05,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (rapeseed) under the Atlas lane method (data/freight/lanes/rapeseed.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (rapeseed) under the atlas's mode rule (data/freight/lanes/rapeseed.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.34 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -164,7 +164,8 @@
    },
    {
     "c": "RUS",
-    "v": 0.9
+    "v": 0.9,
+    "n": "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
    },
    {
     "c": "EU27",
@@ -468,8 +469,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "rapeseed:POL-DEU"
+   "mode": "land"
   },
   {
    "o": "UKR",
@@ -518,12 +518,12 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "rapeseed:FRA-BEL"
+   "mode": "land"
   }
  ],
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
  ],
  "discrepancies": [
   "World exports: USDA PSD 2025/26 19.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 25.0 Mt (-23%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."

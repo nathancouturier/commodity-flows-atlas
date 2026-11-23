@@ -306,13 +306,20 @@ function MethodTabView() {
       <h3>How the figures are made</h3>
       <ul>
         <li>Trade flows between countries come from CEPII BACI, which reconciles the customs declarations of exporters and importers. Quantities are in tonnes.</li>
-        <li>Each flow is classed as seaborne or overland from coastlines and land borders, with exceptions listed in the methodology.</li>
         <li>
-          Sea lanes and benchmark routes follow the shortest path on Eurostat's SeaRoute network between gateway ports. Distances and laden days
-          are computed, not measured.
+          Each flow is classed from coastlines, land borders and lists of exceptions given in the methodology: by sea, by sea through a foreign port
+          (for a landlocked country), by sea and overland when the split is not known, or overland. Only the first two count as seaborne.
+        </li>
+        <li>
+          Sea lanes and benchmark routes follow the shortest path on Eurostat's SeaRoute network between typical ports, an Atlas assumption, and keep
+          a vessel class out of the canals and straits it cannot use. Where nothing decides between several coasts or passages, the lane lists them.
+          Distances and laden days are computed, not measured.
         </li>
         <li>The vessel classes shown on a lane are the typical ones for the cargo and the ports. They are not measured shares.</li>
-        <li>Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate".</li>
+        <li>
+          Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
+          the atlas computed from the declared value; it is shown to two significant digits.
+        </li>
         <li>When sources disagree, the official or primary source is shown and the difference is noted.</li>
       </ul>
       <h3>Known limits</h3>
@@ -320,7 +327,11 @@ function MethodTabView() {
         <li>Customs codes do not separate thermal from metallurgical coal, and the trade series has a single code for all refined petroleum products.</li>
         <li>Origins are as declared. Sanctioned crude often appears under a transhipment origin, or is not recorded.</li>
         <li>Pipeline gas tonnage in customs data is often estimated from value and can be far too low.</li>
-        <li>Chokepoint shares computed by the atlas are lower bounds, because smaller flows are not routed.</li>
+        <li>
+          Chokepoint shares computed by the atlas are given as "at least": the customs tonnage of every recorded seaborne pair whose assumed route has to
+          cross the passage. Where a pair can use a parallel passage of similar length or load on another coast, the share is also given as "up to". Pairs
+          that move by sea and overland, and trades that customs data do not record, are in neither.
+        </li>
         <li>Infrastructure is a selection of major mines, fields, refineries, terminals, pipelines and ports, not a complete register.</li>
       </ul>
       <h3>Read more</h3>

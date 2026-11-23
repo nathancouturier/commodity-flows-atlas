@@ -23,11 +23,11 @@
    "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 8.26,
+   "v": 9.2,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (zinc-ore) under the Atlas lane method (data/freight/lanes/zinc-ore.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: zinc-ore"
+   "n": "seaborne subset of BACI flows (zinc-ore) under the atlas's mode rule (data/freight/lanes/zinc-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: zinc-ore"
   }
  },
  "production": {
@@ -391,7 +391,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "mixed",
+   "lane": "zinc-ore:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "PER",
@@ -420,7 +422,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "zinc-ore:SWE-FIN"
   },
   {
    "o": "BEL",
@@ -429,8 +432,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "zinc-ore:BEL-NLD"
+   "mode": "land"
   },
   {
    "o": "USA",
@@ -449,7 +451,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "ERI",
@@ -468,7 +471,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "zinc-ore:AUS-CAN"
   },
   {
    "o": "USA",
@@ -477,7 +481,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "zinc-ore:USA-CHN"
   },
   {
    "o": "USA",
@@ -496,7 +501,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "zinc-ore:PER-BRA"
   }
  ],
  "notes": [

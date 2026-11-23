@@ -16,11 +16,11 @@
    "n": "Includes storage and blending hubs that re-export products (e.g. the Netherlands, Singapore, Belgium): this ranks trade, not refinery output."
   },
   "seaborne": {
-   "v": 1007.4,
+   "v": 960.59,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (refined-products) under the Atlas lane method (data/freight/lanes/refined-products.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (refined-products) under the atlas's mode rule (data/freight/lanes/refined-products.json): trade by sea, or by sea through a foreign port for a landlocked country; 55.4 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "kpis": {
@@ -99,7 +99,8 @@
    },
    {
     "c": "SGP",
-    "v": 75.233
+    "v": 75.233,
+    "n": "Customs data record 75.2 Mt of refined products exports from Singapore in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
    },
    {
     "c": "RUS",
@@ -119,7 +120,8 @@
    },
    {
     "c": "NLD",
-    "v": 63.802
+    "v": 63.802,
+    "n": "Customs data record 63.8 Mt of refined products exports from the Netherlands in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
    },
    {
     "c": "MYS",
@@ -131,7 +133,8 @@
    },
    {
     "c": "BEL",
-    "v": 40.466
+    "v": 40.466,
+    "n": "Customs data record 40.5 Mt of refined products exports from Belgium in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
    },
    {
     "c": "SAU",
@@ -211,8 +214,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "refined-products:USA-MEX"
+   "mode": "mixed",
+   "lane": "refined-products:USA-MEX",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "USA",
@@ -239,8 +243,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "refined-products:NLD-DEU"
+   "mode": "land",
+   "caveat": "hub-refined-products-nld"
   },
   {
    "o": "RUS",
@@ -260,7 +264,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "refined-products:SGP-IDN"
+   "lane": "refined-products:SGP-IDN",
+   "caveat": "hub-refined-products-sgp"
   },
   {
    "o": "MYS",
@@ -279,7 +284,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "mixed",
+   "lane": "refined-products:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "KOR",
@@ -299,7 +306,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "refined-products:SGP-MYS"
+   "lane": "refined-products:SGP-MYS",
+   "caveat": "hub-refined-products-sgp"
   },
   {
    "o": "MEX",
@@ -308,8 +316,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "refined-products:MEX-USA"
+   "mode": "mixed",
+   "lane": "refined-products:MEX-USA",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "SGP",
@@ -319,7 +328,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "refined-products:SGP-AUS"
+   "lane": "refined-products:SGP-AUS",
+   "caveat": "hub-refined-products-sgp"
   },
   {
    "o": "BEL",
@@ -328,8 +338,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "refined-products:BEL-NLD"
+   "mode": "land",
+   "caveat": "hub-refined-products-bel"
   },
   {
    "o": "IND",
@@ -348,8 +358,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "refined-products:NLD-BEL"
+   "mode": "land",
+   "caveat": "hub-refined-products-nld"
   },
   {
    "o": "RUS",
@@ -358,7 +368,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "refined-products:RUS-BRA"
   },
   {
    "o": "CHN",
@@ -367,7 +378,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "refined-products:CHN-HKG"
   },
   {
    "o": "IND",
@@ -376,7 +388,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "refined-products:IND-NLD"
   },
   {
    "o": "MYS",
@@ -385,7 +398,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "refined-products:MYS-CHN"
   },
   {
    "o": "KOR",
@@ -400,6 +414,9 @@
  ],
  "notes": [
   "World consumption by product, 2025 (EIA, eia-intl): distillate fuel oil 29.1 mb/d, motor gasoline 27.9 mb/d, jet fuel 7.3 mb/d, residual fuel oil 6.3 mb/d. The four products do not add up to total oil demand: the other liquids are not listed.",
-  "EIA refined-product production series end in 2014 and are not used; no production table."
+  "EIA refined-product production series end in 2014 and are not used; no production table.",
+  "Customs data record 63.8 Mt of refined products exports from the Netherlands in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced.",
+  "Customs data record 40.5 Mt of refined products exports from Belgium in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced.",
+  "Customs data record 75.2 Mt of refined products exports from Singapore in 2024 (CEPII BACI). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
  ]
 }

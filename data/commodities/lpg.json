@@ -16,11 +16,11 @@
    "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
   },
   "seaborne": {
-   "v": 134.96,
+   "v": 125.84,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (lpg) under the Atlas lane method (data/freight/lanes/lpg.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (lpg) under the atlas's mode rule (data/freight/lanes/lpg.json): trade by sea, or by sea through a foreign port for a landlocked country; 9.76 Mt that move both by sea and overland (split not known) are not in it; 1% of this tonnage estimated from value"
   }
  },
  "consumption": {
@@ -213,8 +213,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "lpg:USA-MEX"
+   "mode": "mixed",
+   "lane": "lpg:USA-MEX",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "ARE",
@@ -302,7 +303,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "lpg:KWT-IND"
   },
   {
    "o": "OMN",
@@ -331,7 +333,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "lpg:USA-MAR"
   },
   {
    "o": "USA",
@@ -350,7 +353,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "lpg:CAN-JPN"
   },
   {
    "o": "USA",
@@ -359,7 +363,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "lpg:USA-EGY"
   },
   {
    "o": "SAU",
@@ -378,7 +383,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "lpg:USA-ECU"
   },
   {
    "o": "DZA",

@@ -23,11 +23,11 @@
    "n": "USDA PSD, Oilseed, Soybean, soybeans exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 159.74,
+   "v": 157.21,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (soybeans) under the Atlas lane method (data/freight/lanes/soybeans.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (soybeans) under the atlas's mode rule (data/freight/lanes/soybeans.json): trade by sea, or by sea through a foreign port for a landlocked country; 3.62 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -180,7 +180,8 @@
    },
    {
     "c": "RUS",
-    "v": 2.0
+    "v": 2.0,
+    "n": "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
    },
    {
     "c": "ZAF",
@@ -388,8 +389,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "soybeans:USA-MEX"
+   "mode": "mixed",
+   "lane": "soybeans:USA-MEX",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "USA",
@@ -508,7 +510,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soybeans:BRA-BGD"
   },
   {
    "o": "BRA",
@@ -523,6 +526,7 @@
  ],
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
-  "PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in 2025 (Brazil/Argentina harvest early 2026, US harvest autumn 2025)."
+  "PSD domestic consumption = crush + food + feed/waste; production is for the market year starting in 2025 (Brazil/Argentina harvest early 2026, US harvest autumn 2025).",
+  "Customs data record 0.714 Mt of soybeans exports from Russia in 2024 (CEPII BACI); USDA PSD gives 1.4 Mt for 2023/24 and 1.02 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
  ]
 }

@@ -3867,9 +3867,8 @@
     ]
    }
   ],
-  "notes": "Seaborne ESPO exports only; pipeline flows to China are not included.",
-  "s": "atlas",
-  "shareNa": "Russia and China share a land border, so the atlas's customs-based seaborne table classes their crude trade as land (pipeline) trade and holds no sea flow for this pair"
+  "notes": "Seaborne ESPO exports from Kozmino. The corridor volume is the customs total of Russian crude to China for all modes, pipeline included: the sea and overland split is not known.",
+  "s": "atlas"
  },
  {
   "id": "brazil-china-crude",

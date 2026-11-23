@@ -277,8 +277,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land",
-   "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
+   "mode": "mixed",
+   "lane": "coal:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known; all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
    "o": "AUS",
@@ -397,6 +398,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:AUS-MYS",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -407,6 +409,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:USA-CHN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -417,6 +420,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:USA-JPN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -427,6 +431,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:USA-MAR",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -448,6 +453,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:CAN-CHN",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   },
   {
@@ -469,6 +475,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "coal:AUS-DEU",
    "n": "all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated"
   }
  ],

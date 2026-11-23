@@ -37,7 +37,9 @@
 "pilbara-japan-korea-iron-ore"
 ],
 "notes": "Baltic standard vessel moved from 180,000 to 182,000 dwt (C5TC(182), effective 2 Jan 2026).",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 11.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "newcastlemax",
@@ -71,7 +73,9 @@
 "pilbara-japan-korea-iron-ore"
 ],
 "notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules (vessel_rules.py) give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 11.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "vloc",
@@ -98,7 +102,9 @@
 "brazil-china-vloc-iron-ore"
 ],
 "notes": "Chinamax/Valemax typically ~ 400,000 dwt; sizes are conventional.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 11.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "panamax",
@@ -140,7 +146,9 @@
 "P6_82"
 ],
 "notes": "Baltic 'Panamax' benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) use an 82,000 dwt ship, which the atlas files under Kamsarmax by size; they are listed here too.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "kamsarmax",
@@ -176,7 +184,9 @@
 "P6_82"
 ],
 "notes": "Baltic P1A_82, P2A_82, P3A_82, P6_82 use an 82,000 dwt vessel.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "supramax",
@@ -223,7 +233,9 @@
 "S10_63"
 ],
 "notes": "Baltic 58,000 dwt Supramax reference; Veson page uses S*_58 codes. The range starts at 40,000 dwt so that no size is left uncovered above Handysize: it includes the Handymax ships of 40,000-50,000 dwt (Wikipedia, Handymax).",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "ultramax",
@@ -259,7 +271,9 @@
 "S10_63"
 ],
 "notes": "Baltic standard Supramax moved to 63,500 dwt (BSI 63, Circular 09/23). The Baltic calls this 63,500 dwt ship its Standard Supramax, so its S*_63 routes are listed under Supramax too.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "handysize",
@@ -297,7 +311,9 @@
 "peru-china-copper"
 ],
 "notes": "Baltic Handysize reference 38,000 dwt.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 11.5,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "vlcc",
@@ -331,7 +347,9 @@
 "middle-east-japan-korea-crude"
 ],
 "notes": "Baltic TD3C/TD22 VLCC cargo 270kt.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.5,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "suezmax",
@@ -367,7 +385,9 @@
 "guyana-europe-crude"
 ],
 "notes": "Typical beam from Wikipedia (Suezmax): about 48 m for a 160,000 dwt ship. The canal limits (20.1 m draft up to 50 m beam) are not dimensions of a typical ship and are given under Canals. Baltic TD20/TD27 cargo 130kt.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 13.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "aframax",
@@ -401,7 +421,9 @@
 "kozmino-china-espo"
 ],
 "notes": "Baltic TD7 reference 105kdwt (Veson FFA table).",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 13.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "lr2",
@@ -432,7 +454,9 @@
 "middle-east-europe-diesel"
 ],
 "notes": "Dwt range conventional; TC1 cargo 75kt, TC15 80kt.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 13.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "lr1",
@@ -461,7 +485,9 @@
 "middle-east-japan-products"
 ],
 "notes": "Veson page: TC5 55kt cargo, LR1 75kdwt reference.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 13.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "mr",
@@ -496,7 +522,9 @@
 "usgulf-latam-products"
 ],
 "notes": "Baltic MR2 47kdwt reference (Veson); TC2_37 cargo 37kt. The range starts at 40,000 dwt, where Handy tanker ends, so the two bands do not overlap (an Atlas convention; other published scales cut the classes differently).",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.5,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "handy-tanker",
@@ -525,7 +553,9 @@
 "indo-malay-india-palm-oil"
 ],
 "notes": "Typical dwt conventional; Baltic TC6/TC9 cargo 30kt. Up to 40,000 dwt; MR starts there.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 12.5,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "lng",
@@ -559,7 +589,9 @@
 "usgulf-asia-lng"
 ],
 "notes": "Ranges conventional: Q-Flex/Q-Max sizes from industry sources not independently verified here.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 17.0,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 },
 {
 "id": "vlgc",
@@ -588,6 +620,8 @@
 "middle-east-india-lpg"
 ],
 "notes": "Baltic VLGC TCE references an 84,000 cbm vessel (Veson page: 84kt); BLPG parcel 44kt.",
-"s": "vessel-size-conventions"
+"s": "vessel-size-conventions",
+"speedKn": 15.5,
+"speedNote": "Typical laden speed of the class (Atlas assumption), used for laden days"
 }
 ]

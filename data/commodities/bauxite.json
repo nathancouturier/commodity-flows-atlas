@@ -23,11 +23,11 @@
    "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 181.09,
+   "v": 181.29,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (bauxite) under the Atlas lane method (data/freight/lanes/bauxite.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: bauxite"
+   "n": "seaborne subset of BACI flows (bauxite) under the atlas's mode rule (data/freight/lanes/bauxite.json): trade by sea, or by sea through a foreign port for a landlocked country; main bulk group used: bauxite"
   }
  },
  "production": {
@@ -327,7 +327,7 @@
     "y": 2024,
     "s": "baci",
     "u": "Mt",
-    "world": 37.136,
+    "world": 37.137,
     "rows": [
      {
       "c": "AUS",
@@ -421,7 +421,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:TUR-CHN"
   },
   {
    "o": "GIN",
@@ -499,7 +500,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:GHA-CHN"
   },
   {
    "o": "BRA",
@@ -508,7 +510,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:BRA-CHN"
   },
   {
    "o": "GIN",
@@ -537,7 +540,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:CIV-CHN"
   },
   {
    "o": "BRA",
@@ -546,7 +550,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:BRA-GRC"
   },
   {
    "o": "MNE",
@@ -555,7 +560,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:MNE-CHN"
   },
   {
    "o": "GIN",
@@ -564,7 +570,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:GIN-GRC"
   },
   {
    "o": "AUS",
@@ -573,7 +580,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "bauxite:AUS-KOR"
   }
  ],
  "notes": [

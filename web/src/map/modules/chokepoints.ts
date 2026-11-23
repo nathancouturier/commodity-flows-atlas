@@ -30,7 +30,7 @@ function tooltip(c: Chokepoint): string {
   const t = c.traffic;
   return (
     `<div><b>${esc(c.name)}</b></div>` +
-    (mayCross.has(c.id) ? `<div class="muted">The selected lane may cross it, on some options</div>` : '') +
+    (mayCross.has(c.id) ? `<div class="muted">A passage the selected lane may use, not on every option</div>` : '') +
     // a counter that covers only part of the chokepoint is named next to its figure
     (t && c.portwatchLabel ? `<div class="src-line">${esc(c.portwatchLabel)}</div>` : '') +
     (t ? `<div class="num">${fmt(t.v)} ${esc(t.u)}</div><div class="src-line">${esc(sourceLabel(t.s))} · ${esc(String(t.y))}</div>` : '')

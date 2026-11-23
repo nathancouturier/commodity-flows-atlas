@@ -193,7 +193,7 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
     const y = rows[0]?.y ?? '';
     out.push(
       [
-        r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countries)`, y, r.v, r.u,
+        r.product ?? r.group, r.o, countryName(r.o), '', `Other destinations (${r.n} countr${r.n === 1 ? 'y' : 'ies'})`, y, r.v, r.u,
         '', 'sea', '', '', '', '', '', '', sourceLabel(rows[0]?.s ?? 'baci'),
       ].map(csvCell).join(','),
     );

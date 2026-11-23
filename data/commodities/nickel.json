@@ -23,11 +23,11 @@
    "n": "CEPII BACI HS92 nickel ores and concentrates (HS 2604), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 52.38,
+   "v": 52.48,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (nickel-ore) under the Atlas lane method (data/freight/lanes/nickel-ore.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: nickel-ore"
+   "n": "seaborne subset of BACI flows (nickel-ore) under the atlas's mode rule (data/freight/lanes/nickel-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: nickel-ore"
   }
  },
  "production": {
@@ -429,6 +429,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:CIV-CHN",
    "n": "reported tonnage implies 68 USD/t, i.e. 0.0430x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -439,6 +440,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:SLB-CHN",
    "n": "reported tonnage implies 78 USD/t, i.e. 0.0494x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -470,6 +472,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:CHN-IDN",
    "n": "reported tonnage implies 40 USD/t, i.e. 0.0253x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -479,7 +482,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "mixed",
+   "lane": "nickel-ore:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "GTM",
@@ -489,6 +494,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:GTM-CHN",
    "n": "reported tonnage implies 45 USD/t, i.e. 0.0285x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -499,6 +505,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:GTM-KOR",
    "n": "reported tonnage implies 28 USD/t, i.e. 0.0175x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -518,6 +525,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:GTM-PAN",
    "n": "reported tonnage implies 31 USD/t, i.e. 0.0193x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -527,7 +535,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "nickel-ore:CAN-FIN"
   },
   {
    "o": "BRA",
@@ -536,7 +545,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "nickel-ore:BRA-CHN"
   },
   {
    "o": "GTM",
@@ -546,6 +556,7 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
+   "lane": "nickel-ore:GTM-COL",
    "n": "reported tonnage implies 49 USD/t, i.e. 0.0312x the nickel-ore group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -555,7 +566,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "nickel-ore:AUS-CHN"
   },
   {
    "o": "VNM",
@@ -564,7 +576,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "nickel-ore:VNM-CHN"
   },
   {
    "o": "ZMB",
@@ -573,7 +586,13 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "transit": {
+    "port": "TZDAR",
+    "c": "TZA",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Dar_es_Salaam"
+   }
   }
  ],
  "notes": [

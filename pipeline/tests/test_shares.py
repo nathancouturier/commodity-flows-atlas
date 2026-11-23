@@ -239,11 +239,12 @@ class Shares(unittest.TestCase):
         self.assertAlmostEqual(v, 108.5, delta=0.5)
         sea = load_json(os.path.join(PAIRS, "crude-oil.json"))["seaborne"] / 1e3
         self.assertAlmostEqual(r["shares"][0]["f"]["v"], 100 * v / sea, delta=0.06)
-        self.assertIn("split not known", r["shares"][0]["f"]["n"])
+        self.assertRegex(r["shares"][0]["f"]["n"], r"split (is )?not known")
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
             for e in c.get("estimates", []):
                 sea = load_json(os.path.join(PAIRS, e["p"] + ".json"))["seaborne"] / 1e3
-                self.assertAlmostEqual(e["f"]["v"], 100 * e["mt"][0] / sea, delta=0.06, msg=(c["id"], e["p"]))
+                # rounding of f.v (0.1 point) and of mt (0.1 Mt from 10 Mt)
+                self.assertAlmostEqual(e["f"]["v"], 100 * e["mt"][0] / sea, delta=0.051 + 5 / sea, msg=(c["id"], e["p"]))
 
     def test_C10_no_exception_on_checks(self):
         for name in ("build_freight.py", "build_lanes.py"):
@@ -359,9 +360,9 @@ class Flows(unittest.TestCase):
     def test_V05_engine_modes(self):
         self.assertEqual(flow("crude-oil", "RUS", "CHN")["mode"], "mixed")
         self.assertEqual(flow("iron-ore", "IND", "CHN")["mode"], "sea")
-        f = flow("crude-oil", "KAZ", "ITA")
+        f = flow("uranium", "NER", "FRA")  # landlocked exporter with a sourced transit port (Cotonou)
         self.assertEqual(f["mode"], "sea")
-        self.assertEqual(f["transit"]["c"], "RUS")
+        self.assertEqual(f["transit"]["c"], "BEN")
         self.assertEqual(flow("crude-oil", "CAN", "USA")["mode"], "land")
 
     def test_flow_lanes_are_main(self):
@@ -391,11 +392,10 @@ class Flows(unittest.TestCase):
     def test_V07_qa_sections(self):
         with open(os.path.join(ROOT, "pipeline", "commodities", "QA.md"), encoding="utf-8") as f:
             qa = f.read()
-        for title in ("## Trade checks", "## Passages against IMF PortWatch (K9)", "## Rows dropped by the cleaning rules",
-                      "## Vessel classes without a sourced draught"):
-            self.assertIn(title, qa)
-        self.assertIn("K8", qa)
-        self.assertRegex(qa, r"Hormuz.*tanker")
+        missing = [t for t in ("## Trade checks", "## Passages against IMF PortWatch (K9)", "## Rows dropped by the cleaning rules",
+                               "## Vessel classes without a sourced draught") if t not in qa]
+        self.assertEqual(missing, [])
+        self.assertTrue("### K8" in qa and re.search(r"\| hormuz \| tanker \|", qa), "no K8 section or no Hormuz tanker row in QA.md")
 
     def test_D14_estimated_flow(self):
         f = flow("wheat", "RUS", "EGY")

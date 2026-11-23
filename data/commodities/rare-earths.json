@@ -264,7 +264,8 @@
    "v": 44.366,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "AUS",
@@ -272,7 +273,8 @@
    "v": 31.224,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MYS",
@@ -280,7 +282,8 @@
    "v": 15.994,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -288,7 +291,8 @@
    "v": 15.969,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -296,7 +300,8 @@
    "v": 10.772,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "LAO",
@@ -304,7 +309,8 @@
    "v": 10.748,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "CHN",
@@ -312,7 +318,8 @@
    "v": 6.072,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "RUS",
@@ -320,7 +327,8 @@
    "v": 3.676,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "VNM",
@@ -328,7 +336,8 @@
    "v": 3.448,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MYS",
@@ -337,6 +346,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "mode": "sea",
    "n": "reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -345,7 +355,8 @@
    "v": 3.188,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "VNM",
@@ -353,7 +364,8 @@
    "v": 2.974,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -362,6 +374,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "mode": "sea",
    "n": "reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -370,7 +383,8 @@
    "v": 1.993,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "JPN",
@@ -378,7 +392,8 @@
    "v": 1.953,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -386,7 +401,8 @@
    "v": 1.93,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "FRA",
@@ -394,7 +410,8 @@
    "v": 1.846,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "KOR",
@@ -403,6 +420,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "mode": "sea",
    "n": "reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -411,7 +429,8 @@
    "v": 1.531,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -419,7 +438,8 @@
    "v": 1.436,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   }
  ],
  "notes": [

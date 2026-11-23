@@ -1,14 +1,31 @@
 /** One infrastructure asset: mine, smelter, port, field, refinery, LNG terminal or pipeline. */
 import { useEffect } from 'preact/hooks';
 import type { InfraType } from '../../types';
-import { countryName, sourceLabel, commodityMeta } from '../../lib/data';
+import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
-import { splitUnit } from '../../lib/capacity';
+import { figuresOf } from '../../lib/capacity';
+import { OUTPUT_LABEL, figureText, monthYear, yearText, type Figure } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
-import { infraColor, infraCapacity, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
+import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge } from '../ui';
+import { Section, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge, shortSource } from '../ui';
 import { CommodityChips, useLoaded } from './shared';
+import '../../styles/infra.css';
+
+/** A figure with its own year, what it counts and, when it was converted, the source's own figure. */
+function FigureKpi({ label, fig, s }: { label: string; fig: Figure; s: string }) {
+  const note = [fig.n, fig.orig ? `source: ${fig.orig}` : ''].filter(Boolean).join(' · ');
+  return (
+    <Kpi
+      label={label}
+      value={figureText(fig, fmt)}
+      sub={`${yearText(fig)} · ${shortSource(s)}`}
+      note={note || undefined}
+      title={`${figureText(fig, fmt)} · ${yearText(fig)} · ${sourceLabel(s)}`}
+      span
+    />
+  );
+}
 
 export default function InfraView({ id, layer }: { id: string; layer?: InfraType }) {
   const f = useLoaded<InfraFeature>(
@@ -45,9 +62,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
   const p = f.p;
   const color = infraColor(f);
   const meta = INFRA_META[p.type];
-  const cap = infraCapacity(p);
-  // "1 billion lb" and "60.5 million short tons" keep their whole unit in the headline figure
-  const [capU, capRest] = splitUnit(p.capacity?.u ?? '');
+  const figs = figuresOf(p);
+  const srcUrl = p.url ?? sources.value[p.s]?.url;
   const crossed = (p.cs ?? []).filter((c) => c !== p.c);
   return (
     <>
@@ -58,22 +74,18 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
         </div>
         <h2 class="detail-title">{p.name}</h2>
         <div class="badges">
-          <StatusBadge status={p.status} />
+          <StatusBadge status={p.status} asOf={p.statusAsOf} />
           {p.type === 'pipeline' && crossed.length > 0 && <span class="badge">Crosses {crossed.map(countryName).join(' · ')}</span>}
         </div>
+        {p.statusNote && <p class="infra-status-note">{p.statusNote}</p>}
       </div>
       <div class="panel-scroll">
         <div class="kpis">
-          {p.capacity && (
-            <Kpi
-              label="Capacity"
-              value={`${fmt(p.capacity.v)} ${capU}`}
-              sub={`${capRest ? capRest + ' · ' : ''}${sourceLabel(p.s)} · ${p.y}`}
-              title={`${cap} · ${p.s} · ${p.y}`}
-              span
-            />
-          )}
-          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} sub={`${sourceLabel(p.s)}`} title={`${p.s} · ${p.y}`} span />}
+          {figs.capacity && <FigureKpi label="Capacity" fig={figs.capacity} s={p.s} />}
+          {figs.output && <FigureKpi label={OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL]} fig={figs.output} s={p.s} />}
+          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
+          {p.length_km != null && <Kpi label="Length" value={`${fmt(p.length_km)} km`} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
+          {p.product && <Kpi label="Carries" value={p.product} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
         </div>
         {p.operator && (
           <Section title="Operator / owners">
@@ -91,6 +103,7 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
           </Section>
         )}
         <Section title="Location">
+          {p.coord === 'approx' && <p class="infra-approx">Approximate location</p>}
           <button class="list-btn" onClick={() => select({ kind: 'country', id: p.c })}>
             <span class="grow">{countryName(p.c)}</span>
             <span class="meta">Country profile →</span>
@@ -102,12 +115,17 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
             </button>
           ))}
         </Section>
-        <SourceLine s={p.s} y={p.y} />
-        {p.url && (
-          <div class="src-line">
-            <a href={p.url} target="_blank" rel="noopener">Open source page ↗</a>
-          </div>
-        )}
+        <div class="src-line">
+          Source:{' '}
+          {srcUrl ? (
+            <a href={srcUrl} target="_blank" rel="noopener" title={p.url ? 'Open the page read' : sources.value[p.s]?.publisher}>
+              {sourceLabel(p.s)} ↗
+            </a>
+          ) : (
+            sourceLabel(p.s)
+          )}
+          {p.read && <> · read {monthYear(p.read)}</>}
+        </div>
       </div>
     </>
   );

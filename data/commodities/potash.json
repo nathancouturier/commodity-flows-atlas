@@ -23,11 +23,11 @@
    "n": "Product weight of potassium chloride: not comparable tonne for tonne with production and reserves, which are in K2O content."
   },
   "seaborne": {
-   "v": 39.12,
+   "v": 41.87,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (potash) under the Atlas lane method (data/freight/lanes/potash.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (potash) under the atlas's mode rule (data/freight/lanes/potash.json): trade by sea, or by sea through a foreign port for a landlocked country; 4.26 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "kpis": {
@@ -165,7 +165,8 @@
    },
    {
     "c": "BLR",
-    "v": 3.586
+    "v": 3.586,
+    "n": "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here."
    },
    {
     "c": "DEU",
@@ -185,11 +186,13 @@
    },
    {
     "c": "UZB",
-    "v": 1.764
+    "v": 1.764,
+    "n": "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."
    },
    {
     "c": "TKM",
-    "v": 0.9198
+    "v": 0.9198,
+    "n": "Potash exports of Turkmenistan in customs data rose from 0.0627 Mt in 2022 to 0.92 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."
    },
    {
     "c": "USA",
@@ -304,7 +307,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "mixed",
+   "lane": "potash:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "BLR",
@@ -314,7 +319,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "potash:BLR-CHN"
+   "n": "sea through a foreign port (not specified)",
+   "caveat": "potash-blr"
   },
   {
    "o": "LAO",
@@ -352,7 +358,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)",
+   "caveat": "potash-uzb"
   },
   {
    "o": "CAN",
@@ -421,7 +429,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)",
+   "caveat": "potash-tkm"
   },
   {
    "o": "CAN",
@@ -465,6 +475,9 @@
   }
  ],
  "notes": [
-  "USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight."
+  "USGS production/reserves are K2O equivalent; trade is potassium chloride (HS 310420), product weight.",
+  "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
+  "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here.",
+  "Potash exports of Turkmenistan in customs data rose from 0.0627 Mt in 2022 to 0.92 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."
  ]
 }

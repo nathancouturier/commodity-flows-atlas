@@ -23,11 +23,11 @@
    "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to kt (1000 bags = 60 t)"
   },
   "seaborne": {
-   "v": 6.55,
+   "v": 7.29,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (coffee) under the Atlas lane method (data/freight/lanes/coffee.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (coffee) under the atlas's mode rule (data/freight/lanes/coffee.json): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
@@ -459,7 +459,14 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "transit": {
+    "port": "KEMBA",
+    "c": "KEN",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Kilindini_Harbour"
+   },
+   "lane": "coffee:UGA-ITA"
   },
   {
    "o": "GTM",

@@ -103,7 +103,11 @@ export interface StateAt {
 export function stateAt(p: InfraProps, year: number | null): StateAt {
   if (year == null) return { status: p.status, notOpen: false, opensIn: null, statusLater: false };
   const opened = typeof p.opened === 'number' ? p.opened : null;
-  if (opened != null && opened > year) return { status: p.status, notOpen: true, opensIn: opened, statusLater: false };
+  if (opened != null && opened > year) {
+    // not open yet: a damage or a closure cannot have happened; planned and under-construction keep their style
+    const unbuilt = p.status === 'planned' || p.status === 'construction';
+    return { status: unbuilt ? p.status : 'operating', notOpen: true, opensIn: opened, statusLater: false };
+  }
   const at = yearOfDate(p.statusAsOf);
   if (at != null && at > year) {
     // a planned or unbuilt asset with no opening year cannot have been running before its status date

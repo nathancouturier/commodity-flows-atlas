@@ -23,11 +23,11 @@
    "n": "USDA PSD, Oil, Palm, palm oil exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 40.55,
+   "v": 40.97,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (palm-oil) under the Atlas lane method (data/freight/lanes/palm-oil.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (palm-oil) under the atlas's mode rule (data/freight/lanes/palm-oil.json): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {

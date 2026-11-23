@@ -16,11 +16,11 @@
    "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 298.95,
+   "v": 286.95,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (steel) under the Atlas lane method (data/freight/lanes/steel.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (steel) under the atlas's mode rule (data/freight/lanes/steel.json): trade by sea, or by sea through a foreign port for a landlocked country; 1.42 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -257,7 +257,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "steel:CHN-ARE"
   },
   {
    "o": "JPN",
@@ -286,7 +287,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "steel:CHN-SAU"
   },
   {
    "o": "USA",
@@ -295,8 +297,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "steel:USA-MEX"
+   "mode": "land"
   },
   {
    "o": "CHN",
@@ -305,7 +306,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "steel:CHN-TUR"
   },
   {
    "o": "CHN",
@@ -344,7 +346,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "steel:CHN-BRA"
   },
   {
    "o": "DEU",
@@ -353,8 +356,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "steel:DEU-POL"
+   "mode": "land"
   },
   {
    "o": "KOR",

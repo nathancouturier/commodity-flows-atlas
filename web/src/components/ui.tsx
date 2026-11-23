@@ -5,6 +5,7 @@ import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../type
 import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
 import { fmt, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
+import { statusClassOf, statusText } from '../lib/infra';
 import '../styles/lane-table.css';
 
 export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
@@ -429,11 +430,14 @@ export function InfraIcon(props: { type: InfraType; color?: string; size?: numbe
   );
 }
 
-/** Status pill: green when operating, amber otherwise. */
-export function StatusBadge(props: { status?: string }) {
+/**
+ * Status pill of an infrastructure asset: green when operating, grey when the status is not stated, amber otherwise.
+ * `asOf` ("2026-03") is when the status was true: "Damaged as of March 2026".
+ */
+export function StatusBadge(props: { status?: string; asOf?: string }) {
   if (!props.status) return null;
-  const ok = /operat|active|producing/i.test(props.status);
-  return <span class={`badge ${ok ? 'badge-ok' : 'badge-warn'}`}>{props.status}</span>;
+  const cls = props.status === 'not-stated' ? 'badge-plain' : statusClassOf(props.status) === 'ok' ? 'badge-ok' : 'badge-warn';
+  return <span class={`badge ${cls}`}>{statusText(props.status, props.asOf)}</span>;
 }
 
 const MODE_LABEL: Record<string, string> = { sea: 'sea', land: 'land', mixed: 'sea + land', pipeline: 'pipeline' };
@@ -456,6 +460,20 @@ export function ModeBadge(props: { mode?: string; via?: string }) {
     <span class={`badge badge-mode mode-${m}`} title={title}>
       {MODE_LABEL[m] ?? m}
     </span>
+  );
+}
+
+/** A note that folds to three lines when it is long and opens on a tap: a hover title cannot be read on a touch screen. */
+export function FoldNote(props: { text?: string | null; class?: string; style?: Record<string, string> }) {
+  const [open, setOpen] = useState(false);
+  const text = props.text;
+  if (!text) return null;
+  const cls = props.class ?? 'kpi-note';
+  if (text.length <= 130) return <div class={cls} style={props.style}>{text}</div>;
+  return (
+    <button class={`${cls} kpi-note-btn${open ? ' open' : ''}`} style={props.style} aria-expanded={open} onClick={() => setOpen(!open)} title={open ? 'Show less' : 'Show the full note'}>
+      {text}
+    </button>
   );
 }
 

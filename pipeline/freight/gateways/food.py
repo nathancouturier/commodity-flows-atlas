@@ -127,8 +127,8 @@ G = {
     "EGY": [
         ("EGALY", "med", ("grain",), "discharge", "wikipedia", W + "Port_of_Alexandria",
          "Zone 5 handles grains and flour"),
-        ("EGALY", "med", ("fert", "box"), "both", "wikipedia", W + "Port_of_Alexandria",
-         "Zone 4: containers, cement, coal, fertilizers and general cargo; Zone 1: general cargo"),
+        ("EGALY", "med", ("fert", "box", "coal"), "both", "wikipedia", W + "Port_of_Alexandria",
+         "Zone 4: 'handling containers, cement, coal, barge discharge, fertilizers, and general cargo'; Zone 1: general cargo (coal added in package FE4b: the same page, read again on 23 November 2026)"),
     ],
     "MAR": [
         ("MAJFL", "waf", ("fert",), "load", "wikipedia", W + "Jorf_Lasfar",
@@ -233,6 +233,65 @@ G = {
         ("PECLL", "wcsa", ("grain", "box"), "discharge", "wikipedia", W + "Port_of_Callao",
          "closed warehouse specialised in grains; docks for containers, bulk and multipurpose; imports of corn, wheat and rice"),
     ],
+    # ------------------------------------------------------------------ sourcing pass FE4b (22-23 November 2026):
+    # general-cargo rows ("box": a container port or a general-cargo terminal on the page) and the few grain and
+    # fertiliser rows that a page names. A box row is also the country's "general port" for food and fertiliser.
+    "JPN": [
+        ("JPYOK", "japan-korea", ("box",), "both", "wikipedia", W + "Port_of_Yokohama",
+         "Yokohama: Honmoku Pier, 'the port's core facility with 24 berths including 14 container berths'; Daikoku Pier with 'seven container berths'"),
+    ],
+    "TWN": [
+        ("TWKHH", "taiwan", ("box",), "both", "wikipedia", W + "Port_of_Kaohsiung",
+         "Kaohsiung: the port plan distinguishes 'Container Docks' and 'Bulk and Sundry Goods Docks'; the 2017 expansion added container capacity"),
+    ],
+    "VNM": [
+        ("VNCMT", "sea", ("box",), "both", "wikipedia", W + "Cai_Mep",
+         "Cai Mep - Thi Vai: 'the main port for container transport' of the southern port complex; Phu My and My Xuan are 'a general port, a container port'. Replaces Ho Chi Minh City, a river port 44 km from the sea, as the general-cargo port"),
+    ],
+    "THA": [
+        ("THLCH", "sea", ("box",), "both", "wikipedia", W + "Laem_Chabang_Port",
+         "Laem Chabang: seven container terminals, a multipurpose terminal and one general cargo terminal"),
+    ],
+    "PHL": [
+        ("PHSFS", "sea", ("grain", "fert"), "discharge", "wikipedia", W + "Port_of_Subic_Bay",
+         "Subic Bay: 'a fertilizer terminal at the Boton Wharf, a grain bulk terminal at the Leyte Wharf' (direction not given; the Philippines imports grain and fertiliser)"),
+        ("PHMNL", "sea", ("box",), "both", "wikipedia", W + "Port_of_Manila",
+         "Manila: North Harbor, South Harbor and the Manila International Container Terminal (the page names no bulk cargo)"),
+    ],
+    "SGP": [
+        ("SGSIN", "sea", ("box",), "both", "wikipedia", W + "Port_of_Singapore",
+         "Singapore: three container terminals at Keppel Harbour, others at Pasir Panjang and Jurong"),
+    ],
+    "HKG": [
+        ("HKHKG", "s-china", ("box",), "both", "wikipedia", W + "Port_of_Hong_Kong",
+         "Hong Kong: 'a deepwater seaport dominated by trade in containerised manufactured products'; container terminals at Kwai Chung"),
+    ],
+    "ARE": [
+        ("AEJEA", "meg", ("box",), "both", "wikipedia", W + "Jebel_Ali",
+         "Jebel Ali: 'the busiest port in the Middle East by container volume'; the page names no bulk cargo"),
+    ],
+    "OMN": [
+        ("OMSOH", "gulf-of-oman", ("grain",), "discharge", "wikipedia", W + "Port_of_Sohar",
+         "Sohar: the Food Cluster 'includes a flourmill, a sugar refinery, a grain silo complex'; 'able to load and unload 600 tonnes of grain per hour'"),
+        ("OMSOH", "gulf-of-oman", ("box",), "both", "wikipedia", W + "Port_of_Sohar",
+         "Sohar: a concession 'for all dry bulk, break-bulk, roll-on/roll-off and container stuffing and stripping related operations'"),
+    ],
+    "JOR": [
+        ("JOAQB", "red-sea", ("phosphate-rock",), "load", "wikipedia", W + "Port_of_Aqaba",
+         "Aqaba, Jordan's only port: 12 terminals, among their operators a 'phosphate Company' (phosphate rock only: the page names no DAP and no potash; direction not given)"),
+    ],
+    "NLD": [
+        ("NLRTM", "nw-europe", ("box",), "both", "wikipedia", W + "Port_of_Rotterdam",
+         "Rotterdam: Europe Container Terminals 'operates two major container terminals at the port' (the page names no grain)"),
+    ],
+    "SWE": [
+        ("SEGOT", "nw-europe", ("box",), "both", "wikipedia", W + "Port_of_Gothenburg",
+         "Gothenburg: 'specialised terminals for containers, ro-ro, cars'; the primary exports include steel"),
+    ],
+    "FRA": [
+        ("FRFOS", "med", ("box",), "both", "wikipedia", W + "Fos-sur-Mer",
+         "Fos: 'the facilities include container handling terminals and a gas (methane) terminal' at the port of Marseille"),
+    ],
 }
 
 # Countries among the 40 largest traders of these families (2024 customs data) for which no page that names
@@ -254,15 +313,15 @@ UNSOURCED = {
     "MEX": "grain and fertiliser imports: Manzanillo (page names wheat, sorghum, oat and fertilizer, but a Pacific-only row would send every Gulf cargo through Panama) and a Gulf port, Veracruz or Altamira (Veracruz page read: no grain named); the general-cargo rows answer on each coast meanwhile",
     "USA": "potash, phosphate rock and DAP imports (the Agrium report names urea only)",
     "CAN": "fertiliser other than potash at Vancouver (Port of Vancouver page read: no fertiliser named)",
-    "FRA": "Marseille-Fos, Rouen, La Pallice, Dunkirk, Le Havre: pages not found under the titles tried",
-    "JPN": "Kashima (page read: no cargo statement), Chiba, Nagoya (page read: no cargo statement), Kobe, Yokohama",
-    "THA": "Laem Chabang (page not found), Bangkok (page not found)",
-    "VNM": "Haiphong (page read: general port, containers), Cai Mep, Ho Chi Minh City: no page ranks the northern and southern ports",
-    "PHL": "Manila (page read: containers only), Subic, Davao",
-    "NLD": "Rotterdam (page read: general cargo and containers, no grain), Amsterdam",
+    "FRA": "wheat and grain: the Fos-sur-Mer page names container terminals and a methane terminal only (a general-cargo row, so Fos answers as the general port); Rouen, Dunkirk, Le Havre (pages not found under the titles tried), La Pallice (La Rochelle page read: no cargo statement)",
+    "JPN": "grain, sugar, fertiliser and vegetable oil: Kashima (page read: no cargo statement), Chiba (page read: crude oil, LNG, steel exports; grain only as a 19th-century trade), Nagoya, Kobe, Tokyo (pages read: containers, no grain); the Yokohama general-cargo row answers meanwhile, as the country's general port",
+    "THA": "grain, fertiliser and vegetable oil: Laem Chabang page read (container terminals and one general cargo terminal, no bulk cargo), Map Ta Phut page read (no cargo), Bangkok (page not found); the Laem Chabang general-cargo row answers meanwhile",
+    "VNM": "grain, fertiliser: Haiphong (the Haiphong city page names containers only), Cai Mep (page read: containers, 'a general port'); no page ranks the northern and southern ports; the Cai Mep general-cargo row answers meanwhile for the south",
+    "PHL": "Manila (page read: containers only), Davao; Subic is a row for grain and fertiliser imports (its page names a grain terminal and a fertilizer terminal); Batangas page read: no bulk cargo; no page gives the shares of Manila, Subic and Batangas",
+    "NLD": "grain: Rotterdam (page read: container terminals; Europoort names iron ore and coal, no grain), Amsterdam (page read: coal transhipment); the Rotterdam general-cargo row answers meanwhile",
     "BEL": "Antwerp-Bruges (page read: no cargo statement), Ghent",
     "COL": "Cartagena (page not found), Barranquilla (page not found), Santa Marta (page not found), Buenaventura (page not found)",
-    "ARE": "Jebel Ali (page read: containers and general cargo storage only), Khalifa, Fujairah",
+    "ARE": "grain, sugar, fertiliser: Jebel Ali (page read: containers; no bulk cargo), Khalifa, Fujairah; the Jebel Ali general-cargo row answers meanwhile",
     "KAZ": "landlocked: its transit port belongs to the TRANSIT table of package E4c",
     "ZAF": "Durban (page read: containers only, no grain), Cape Town, Richards Bay",
     "CZE": "landlocked: transit port belongs to package E4c",
@@ -270,11 +329,13 @@ UNSOURCED = {
     "PRY": "landlocked: transit port belongs to package E4c (up-river Parana)",
     "CHL": "San Antonio and Valparaiso (pages read: no bulk or grain statement), Coronel",
     "ECU": "Guayaquil (page not found), Esmeraldas is an oil terminal",
-    "TWN": "Kaohsiung (page read: containers, 'bulk and sundry goods docks'), Taichung",
+    "TWN": "grain: Kaohsiung (page read: container docks and 'bulk and sundry goods docks', no grain), Taichung (page read: no cargo statement); the Kaohsiung general-cargo row answers meanwhile",
     "KEN": "Mombasa (page read: containers, no grain statement)",
     "GHA": "Tema (page not found)",
     "URY": "Montevideo (page read: containers, no grain statement)",
     "GRC": "Piraeus (page read: general cargo and containers, no grain), Thessaloniki",
     "JOR": "Aqaba (page read: phosphate company and container port, no grain or fertiliser statement)",
     "PRT": "Sines (page read: solid bulk, general cargo, containers; already the default port of the legacy table)",
+    "SGP": "grain and fertiliser: Singapore is not a gateway of bulk cargo on the page read; the container row answers meanwhile",
+    "HKG": "grain and fertiliser: the Hong Kong page names containerised manufactured products; the container row answers meanwhile",
 }

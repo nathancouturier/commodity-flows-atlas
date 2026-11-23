@@ -16,11 +16,11 @@
    "n": "CEPII BACI HS92 urea (HS 310210), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 47.36,
+   "v": 48.56,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (urea) under the Atlas lane method (data/freight/lanes/urea.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (urea) under the atlas's mode rule (data/freight/lanes/urea.json): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "kpis": {
@@ -103,7 +103,8 @@
    },
    {
     "c": "OMN",
-    "v": 7.634
+    "v": 7.634,
+    "n": "Urea exports of Oman in customs data (7.63 Mt in 2024, CEPII BACI) are 178% of its production in the USGS Mineral Commodity Summaries (2 Mt of nitrogen in 2024); urea exports converted to nitrogen with the nitrogen content of urea (0.4665, from molar masses), against ammonia production in nitrogen content. Declaration of cargoes of other origins under Oman is a plausible cause; it is not established here."
    },
    {
     "c": "QAT",
@@ -216,7 +217,8 @@
    "y": 2024,
    "s": "baci",
    "mode": "sea",
-   "lane": "urea:OMN-IND"
+   "lane": "urea:OMN-IND",
+   "caveat": "urea-omn"
   },
   {
    "o": "OMN",
@@ -225,7 +227,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:OMN-BRA",
+   "caveat": "urea-omn"
   },
   {
    "o": "NGA",
@@ -234,7 +238,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:NGA-BRA"
   },
   {
    "o": "RUS",
@@ -253,7 +258,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:OMN-TUR",
+   "caveat": "urea-omn"
   },
   {
    "o": "RUS",
@@ -272,7 +279,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:RUS-IND"
   },
   {
    "o": "QAT",
@@ -321,7 +329,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:ARE-AUS"
   },
   {
    "o": "EGY",
@@ -397,10 +406,13 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "urea:IDN-AUS"
   }
  ],
  "notes": [
-  "Production proxy is ammonia plant output in nitrogen content (USGS); urea output is not in the loaded sources. Trade is urea (HS 310210), product weight."
+  "Production proxy is ammonia plant output in nitrogen content (USGS); urea output is not in the loaded sources. Trade is urea (HS 310210), product weight.",
+  "Urea exports of Iran in customs data fell from 3.77 Mt in 2019 to 0.024 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
+  "Urea exports of Oman in customs data (7.63 Mt in 2024, CEPII BACI) are 178% of its production in the USGS Mineral Commodity Summaries (2 Mt of nitrogen in 2024); urea exports converted to nitrogen with the nitrogen content of urea (0.4665, from molar masses), against ammonia production in nitrogen content. Declaration of cargoes of other origins under Oman is a plausible cause; it is not established here."
  ]
 }

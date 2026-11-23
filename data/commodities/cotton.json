@@ -23,11 +23,11 @@
    "n": "USDA PSD, Cotton, cotton exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; PSD lists the EU members one by one for this commodity; local marketing years, which start in different months by country; PSD reports 1000 480-lb bales; converted to kt (1000 bales = 217.72 t)"
   },
   "seaborne": {
-   "v": 7.76,
+   "v": 7.72,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (cotton) under the Atlas lane method (data/freight/lanes/cotton.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (cotton) under the atlas's mode rule (data/freight/lanes/cotton.json): trade by sea, or by sea through a foreign port for a landlocked country"
   }
  },
  "production": {
@@ -379,8 +379,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "cotton:IND-BGD"
+   "mode": "land"
   },
   {
    "o": "AUS",

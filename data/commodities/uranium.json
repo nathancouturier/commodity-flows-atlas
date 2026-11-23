@@ -204,7 +204,8 @@
    "v": 14.918,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "KAZ",
@@ -212,7 +213,8 @@
    "v": 11.239,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "KAZ",
@@ -220,7 +222,8 @@
    "v": 9.975,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "CAN",
@@ -228,7 +231,8 @@
    "v": 9.929,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "CAN",
@@ -236,7 +240,8 @@
    "v": 4.321,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "NER",
@@ -244,7 +249,14 @@
    "v": 4.149,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "transit": {
+    "port": "BJCOO",
+    "c": "BEN",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Transport_in_Niger"
+   }
   },
   {
    "o": "KAZ",
@@ -252,7 +264,9 @@
    "v": 3.798,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "AUS",
@@ -260,7 +274,8 @@
    "v": 3.304,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CAN",
@@ -268,7 +283,8 @@
    "v": 2.713,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "KAZ",
@@ -276,7 +292,9 @@
    "v": 2.458,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "UZB",
@@ -284,7 +302,9 @@
    "v": 2.185,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "CAN",
@@ -292,7 +312,8 @@
    "v": 2.149,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -300,7 +321,8 @@
    "v": 1.873,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "KAZ",
@@ -308,7 +330,9 @@
    "v": 1.648,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "USA",
@@ -316,7 +340,8 @@
    "v": 1.589,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "AUS",
@@ -324,7 +349,8 @@
    "v": 1.569,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -332,7 +358,8 @@
    "v": 1.26,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CAN",
@@ -340,7 +367,8 @@
    "v": 1.224,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "NAM",
@@ -348,7 +376,8 @@
    "v": 1.136,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "FRA",
@@ -356,7 +385,8 @@
    "v": 0.961,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   }
  ],
  "notes": [

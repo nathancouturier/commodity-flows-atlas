@@ -35,16 +35,16 @@ function HistFlagNotes({ lane }: { lane: Lane }) {
   const est = flagYears(flags, 'est');
   const nodata = flagYears(flags, 'nodata');
   const kept = flagYears(flags, 'kept');
-  const lines: [string, string][] = [];
+  const lines: [string | null, string][] = [];
   if (est.length) lines.push(['Atlas estimate', `tonnage computed from the declared value: ${est.join(', ')}`]);
-  for (const y of flagYears(flags, 'suspect')) lines.push(['Not shown', notes[y] ?? `${y}: the declared value does not fit the tonnage`]);
+  for (const y of flagYears(flags, 'suspect')) lines.push([null, notes[y] ?? `${y}: the declared value does not fit the tonnage; not shown`]);
   if (nodata.length) lines.push(['No customs record', nodata.join(', ')]);
   for (const y of flagYears(flags, 'check')) lines.push([`${y}, checked`, notes[y] ?? 'checked against a national statistic']);
   if (kept.length) lines.push(['Kept as reported', `the declared value moved with the tonnage: ${kept.join(', ')}`]);
   if (!lines.length) return null;
   return (
     <ul class="le-flags">
-      {lines.map(([k, t]) => <li key={k + t}><b>{k}</b>: {t}</li>)}
+      {lines.map(([k, t]) => <li key={k + t}>{k && <><b>{k}</b>: </>}{t}</li>)}
     </ul>
   );
 }
@@ -103,6 +103,7 @@ export default function LaneView({ id }: { id: string }) {
   const seaV = past ? file.seaborne[yi] : null;
   const share = past ? (flowV != null && seaV ? flowV / seaV : null) : lane.share;
   const shareY = past ? yr! : file.y;
+  const noFigure = !flowV;
   const flowLabel = `Flow${mixed ? ', all modes' : ''} · ${flowY}`;
   const caveat = lane.caveat ? caveats?.[lane.caveat] : undefined;
   const transitEnd = lane.transit ? (lane.load.includes(lane.transit.port) ? lane.o : lane.discharge.includes(lane.transit.port) ? lane.d : null) : null;
@@ -151,10 +152,10 @@ export default function LaneView({ id }: { id: string }) {
           ) : (
             <Kpi label={flowLabel} f={past ? { v: flowV, u: file.unit, y: flowY, s: file.s } : lane.flow} note={n} span={!!n} />
           )}
-          {!mixed && (
+          {!mixed && !noFigure && (
             <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           )}
-          {lane.shareDest != null && (
+          {lane.shareDest != null && !noFigure && !lane.flow.est && (
             <Kpi label={`Share of ${countryName(lane.d)} imports${past ? ` · ${file.y}` : ''}`} value={pct(lane.shareDest, (flowV ?? 0) > 0)} sub={`${pub} · ${file.y}`} title={`Share of ${countryName(lane.d)}'s imports of ${groupName} (${file.s}, ${file.y}); Atlas calc`} />
           )}
           <Kpi label="Distance" value={`${fmt(lane.distanceNm)} nm`} sub={opts.length ? 'Atlas routing · main ports' : 'Atlas routing'} title={mixed ? 'Along the sea route the atlas draws; this trade also moves overland' : 'Along the mapped sea route'} />

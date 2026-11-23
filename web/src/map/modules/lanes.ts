@@ -72,7 +72,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
       : `<div class="num">No figure for ${shown}</div>`) +
     transit +
     `<div class="muted">${vessel}${fmt(lane.days)} days${via}</div>` +
-    `<div class="src-line">${esc(sourceLabel(est ? 'atlas' : past ? file.s : lane.flow.s))} · ${esc(String(shown))}</div>`
+    `<div class="src-line">${esc(est ? `${sourceLabel(file.s)}, declared value` : sourceLabel(past ? file.s : lane.flow.s))} · ${esc(String(shown))}</div>`
   );
 }
 

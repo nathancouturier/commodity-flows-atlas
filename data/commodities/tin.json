@@ -256,7 +256,8 @@
    "v": 15.303,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "PER",
@@ -264,7 +265,8 @@
    "v": 12.066,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "IDN",
@@ -272,7 +274,8 @@
    "v": 9.568,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "BOL",
@@ -280,7 +283,9 @@
    "v": 7.025,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "IDN",
@@ -288,7 +293,8 @@
    "v": 6.366,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "IDN",
@@ -296,7 +302,8 @@
    "v": 5.716,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "ESP",
@@ -304,7 +311,8 @@
    "v": 5.296,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "BEL",
@@ -312,7 +320,8 @@
    "v": 4.034,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "BOL",
@@ -320,7 +329,9 @@
    "v": 3.975,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "PER",
@@ -328,7 +339,8 @@
    "v": 3.954,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "MYS",
@@ -336,7 +348,8 @@
    "v": 3.861,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "PER",
@@ -344,7 +357,8 @@
    "v": 3.767,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "IDN",
@@ -352,7 +366,8 @@
    "v": 3.756,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "LUX",
@@ -360,7 +375,8 @@
    "v": 3.191,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "land"
   },
   {
    "o": "CHN",
@@ -368,7 +384,8 @@
    "v": 3.141,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "NLD",
@@ -377,6 +394,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "mode": "land",
    "n": "reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -385,7 +403,9 @@
    "v": 3.058,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "MYS",
@@ -393,7 +413,8 @@
    "v": 2.917,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "BRA",
@@ -401,7 +422,8 @@
    "v": 2.826,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "SGP",
@@ -409,7 +431,8 @@
    "v": 2.664,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   }
  ],
  "notes": [

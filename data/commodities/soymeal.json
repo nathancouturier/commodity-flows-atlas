@@ -23,11 +23,11 @@
    "n": "USDA PSD, Meal, Soybean, soybean meal exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 62.52,
+   "v": 61.44,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (soymeal) under the Atlas lane method (data/freight/lanes/soymeal.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (soymeal) under the atlas's mode rule (data/freight/lanes/soymeal.json): trade by sea, or by sea through a foreign port for a landlocked country; 1.77 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -188,7 +188,8 @@
    },
    {
     "c": "RUS",
-    "v": 0.9
+    "v": 0.9,
+    "n": "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
    },
    {
     "c": "EU27",
@@ -389,7 +390,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "soymeal:BRA-FRA"
   },
   {
    "o": "USA",
@@ -398,8 +400,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea",
-   "lane": "soymeal:USA-MEX"
+   "mode": "mixed",
+   "lane": "soymeal:USA-MEX",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
    "o": "ARG",
@@ -522,7 +525,8 @@
   }
  ],
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "Customs data record 0.54 Mt of soybean meal exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.8 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
  ],
  "discrepancies": [
   "World exports: USDA PSD 2025/26 86.6 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 73.8 Mt (+17%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."

@@ -16,18 +16,18 @@
    "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded"
   },
   "exports": {
-   "v": 1707.3,
+   "v": 1707.4,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 1594.7,
+   "v": 1635.5,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (iron-ore) under the Atlas lane method (data/freight/lanes/iron-ore.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (iron-ore) under the atlas's mode rule (data/freight/lanes/iron-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 9.07 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -148,7 +148,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1707.3,
+  "world": 1707.4,
   "rows": [
    {
     "c": "AUS",
@@ -180,7 +180,7 @@
    },
    {
     "c": "SWE",
-    "v": 19.768
+    "v": 19.783
    },
    {
     "c": "CHL",
@@ -205,7 +205,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 1707.3,
+  "world": 1707.4,
   "rows": [
    {
     "c": "CHN",
@@ -221,7 +221,7 @@
    },
    {
     "c": "MYS",
-    "v": 25.732
+    "v": 25.747
    },
    {
     "c": "NLD",
@@ -306,7 +306,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "iron-ore:IND-CHN"
   },
   {
    "o": "ZAF",
@@ -385,7 +386,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "iron-ore:BRA-OMN"
   },
   {
    "o": "CHL",
@@ -414,7 +416,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "iron-ore:AUS-IDN"
   },
   {
    "o": "MRT",
@@ -433,7 +436,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "iron-ore:AUS-VNM"
   },
   {
    "o": "IRN",
@@ -452,7 +456,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "iron-ore:SLE-CHN"
   }
  ],
  "notes": [

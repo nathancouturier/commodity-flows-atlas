@@ -10,7 +10,9 @@ Inputs (raw/ is read-only, untrusted data: it is only ever parsed, never execute
   raw/eia/INTL.txt                           EIA International Energy Data               (source "eia-intl")
   raw/usda/psd_csv/psd_alldata.csv           USDA PSD                                    (source "usda-psd")
   pipeline/cache/baci_flows.csv.gz           CEPII BACI HS92 bilateral trade             (source "baci")
-  pipeline/cache/sea_flows.csv.gz            seaborne subset of BACI (pipeline/freight/build_lanes.py)
+  pipeline/freight/modes.py, ports.py        mode of every flow (sea, sea via a transit port, mixed, land), as the lanes
+  data/freight/caveats.json                  active caveats of pipeline/trade/caveats.py (build_lanes.py)
+  pipeline/cache/trade_checks.json           findings of the trade checks K1 to K12, rendered in QA.md (read only)
   pipeline/cache/baci_rice_forms.csv         paddy and husked rice per pair (extract_rice_forms.py), to put paddy on a milled basis
   data/freight/lanes/<group>.json            lane ids and seaborne totals
   pipeline/cache/wna_uranium.json            World Nuclear Association (fetch_external.py)   (source "wna")
@@ -89,6 +91,7 @@ def fold(s):
 
 COUNTRIES = json.load(open(os.path.join(DATA, "countries", "index.json"), encoding="utf-8"))
 ISO_SET = {c["c"] for c in COUNTRIES}
+ISO_OF_A2 = {c["a2"]: c["c"] for c in COUNTRIES if c.get("a2")}
 NAME2ISO = {fold(c["name"]): c["c"] for c in COUNTRIES}
 
 # odd names -> ISO3 (USGS / PSD / WNA / FAO spellings that differ from data/countries/index.json)
@@ -131,7 +134,12 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import CODE_FIX, XAS, clean as clean_baci  # noqa: E402
+from clean import BULK, CODE_FIX, LAST_DROPPED, XAS, clean as clean_baci  # noqa: E402
+import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "freight"))
+import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
+import ports as PT  # noqa: E402  (sourced transit ports of landlocked countries)
+import vessel_rules as VR  # noqa: E402
 
 BACI_OVERRIDE = CODE_FIX  # BACI "Other Asia, nes" = Taiwan (one mapping, pipeline/trade/clean.py)
 # codes that are not countries of the index: territories without a polygon and the pseudo-place XAS
@@ -545,16 +553,38 @@ class Baci:
         fix = df["imputed"]
         df["t_est"] = df["t"].where(fix, 0.0)
         self.df = df
-        sea = pd.read_csv(os.path.join(CACHE, "sea_flows.csv.gz"))
-        self.sea = set(zip(sea["year"], sea["group"], sea["o"], sea["d"]))
-        self.sea_groups = set(sea["group"])
+        self.dropped = list(LAST_DROPPED)  # rows that clean() dropped, for QA.md
+        self._modes = {}
         self.lanes = {}
         ld = os.path.join(DATA, "freight", "lanes")
         for f in os.listdir(ld):
             if f.endswith(".json"):
                 j = json.load(open(os.path.join(ld, f), encoding="utf-8"))
-                self.lanes[j["group"]] = {"ids": {l["id"] for l in j["lanes"]}, "seaborne": j["seaborne"], "years": j["years"],
-                                          "unit": j["unit"], "y": j["y"]}
+                # flows link to the lanes of the main set only (a history lane has no latest-year flow)
+                self.lanes[j["group"]] = {"ids": {l["id"] for l in j["lanes"] if l["set"] == "main"}, "seaborne": j["seaborne"],
+                                          "mixed": j.get("mixed"), "est": j.get("est"), "years": j["years"], "unit": j["unit"], "y": j["y"]}
+        try:
+            self.caveats = json.load(open(os.path.join(DATA, "freight", "caveats.json"), encoding="utf-8"))
+        except (OSError, ValueError):
+            self.caveats = {}
+
+    def mode(self, o, d, g):
+        """Mode of a pair under the rule of the lanes (pipeline/freight/modes.py): (kind, transit row or None), or
+        (None, None) for a group without a mode (precious metals: not modelled)."""
+        k = (o, d, g)
+        if k not in self._modes:
+            m = MD.mode_of(o, d, g)
+            tr = None
+            if m and m.kind == "transit":
+                end = o if not MD.coastal(o) else d
+                rows = PT.TRANSIT.get(end) or {}
+                row = rows.get(MD.FAMILY.get(g)) or rows.get("default")
+                if row:
+                    code = row[0]
+                    c = PT.MANUAL[code][1] if code in PT.MANUAL else ISO_OF_A2.get(code[:2])
+                    tr = {"port": code, "c": c, "s": row[1], **({"url": row[2]} if row[2] else {})}
+            self._modes[k] = (m.kind if m else None, tr)
+        return self._modes[k]
 
     def iso(self, code):
         code = BACI_OVERRIDE.get(code, code)
@@ -597,7 +627,6 @@ class Baci:
         """adjust: {(o, d): (tonnes, note)} replaces the customs tonnage of a pair by an Atlas figure
         (source id "atlas", with the note) before the flows are ranked."""
         self.last_susp = []
-        modelled = g in self.sea_groups
         d = self.group(g)
         if only_exporters:
             d = d[d["o"].isin(only_exporters)]
@@ -615,18 +644,33 @@ class Baci:
             if not o or not de:
                 raise SystemExit(f"flow with unmapped country {r['o']}-{r['d']} in {g}")
             f = {"o": o, "d": de, "v": rnd(r["t"] / div), "u": u, "y": BACI_YEAR, "s": "baci"}
-            sea = (BACI_YEAR, g, r["o"], r["d"]) in self.sea
+            kind, transit = self.mode(r["o"], r["d"], g)
             if mode_all:
                 f["mode"] = mode_all
-            elif modelled:  # groups outside the lane model (gold, PGM...) carry no sea/land classification
-                f["mode"] = "sea" if sea else "land"
+            elif kind:  # precious metals carry no mode: "mode not modelled"
+                f["mode"] = "sea" if kind == "transit" else kind
+                if transit:
+                    f["transit"] = transit
             lid = f"{lane_group or g}:{r['o']}-{r['d']}"
             if lg and lid in lg["ids"]:
                 f["lane"] = lid
+            notes = []
+            if kind == "transit" and not transit and not mode_all:
+                notes.append("sea through a foreign port (not specified)")
+            elif kind == "mixed" and not mode_all:
+                notes.append("customs total for all modes: this trade moves both by sea and overland and the split is not known")
             if r["est"]:
-                f["n"] = "tonnage estimated from value"
+                # an Atlas estimate: the tonnage is computed from the declared value (pipeline/trade/clean.py)
+                f["s"], f["est"] = "atlas", True
+                notes.append(r["enote"] if isinstance(r.get("enote"), str) and r["enote"] else "Atlas estimate: tonnage estimated from declared value")
+            if notes:
+                f["n"] = "; ".join(notes)
+            cv = self.caveat_of(g, r["o"], r["d"])
+            if cv:
+                f["caveat"] = cv
             if r["susp"]:
-                msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year median unit value: "
+                ref = "tonne-weighted median" if g in BULK else "median"
+                msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year {ref} unit value: "
                        f"possible misreport, kept because the flow is below the 50 M USD correction rule")
                 f["n"] = (f["n"] + "; " if "n" in f else "") + msg
                 self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
@@ -638,13 +682,28 @@ class Baci:
             out.append(f)
         return out
 
+    def caveat_of(self, g, o, d):
+        """Id of the caveat of data/freight/caveats.json that applies to a pair (one for the pair wins)."""
+        best = None
+        for cid, e in self.caveats.items():
+            if e["group"] == g and e["o"] == o and e.get("d") in (None, d):
+                if e.get("d") == d:
+                    return cid
+                best = best or cid
+        return best
+
     def seaborne(self, g, label=None):
         lg = self.lanes.get(g)
         if not lg:
             return None
         v = lg["seaborne"][-1]
-        n = (f"seaborne subset of BACI flows ({g}) under the Atlas lane method (data/freight/lanes/{g}.json); "
-             "both countries need a sea gateway and must not be land neighbours")
+        n = (f"seaborne subset of BACI flows ({g}) under the atlas's mode rule (data/freight/lanes/{g}.json): trade by sea, "
+             "or by sea through a foreign port for a landlocked country")
+        mx = (lg.get("mixed") or [0])[-1]
+        if mx and mx >= 0.05:
+            n += f"; {_fmt(mx)} Mt that move both by sea and overland (split not known) are not in it"
+        if lg.get("est") and lg["est"] >= 0.01:
+            n += f"; {lg['est'] * 100:.0f}% of this tonnage estimated from value"
         if label:
             n += "; " + label
         return fig(v, "Mt", lg["y"], "baci", n)
@@ -1230,6 +1289,7 @@ def main():
 
     # ------------------------------------------------------------ editorial caveats (from the data audit)
     annotate(docs, eia)
+    registry_caveats(docs, baci)
 
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
@@ -1248,7 +1308,7 @@ def main():
     with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8") as f:
         json.dump(index, f, indent=1, ensure_ascii=False)
     update_sources()
-    write_qa(index, docs)
+    write_qa(index, docs, baci)
     print("wrote", len(docs), "commodity files")
 
 
@@ -1362,7 +1422,97 @@ def _fmt(v):
     return f"{v:.2f}"
 
 
-def write_qa(index, docs):
+CHECK_TITLES = {
+    "K1": "trader totals of crops against USDA PSD", "K2": "a bilateral flow above the importer's total imports in USDA PSD",
+    "K3": "crude oil exports against EIA production", "K4": "coal exports and imports against EIA",
+    "K6": "exporter continuity", "K7": "importer continuity", "K8": "pairs of the latest year that halved or more than doubled",
+    "K10": "exports above USGS mine production", "K11": "physical plausibility against the atlas's own layers (QA only)",
+    "K12": "main route against the great-circle distance of its ports (QA only)",
+}
+
+
+def qa_checks():
+    """Sections of QA.md rendered from pipeline/cache/trade_checks.json (build_lanes.py writes K1 to K12 except K9,
+    build_freight.py adds K9). This builder only reads the file."""
+    recs = K.load()
+    out = ["", "## Trade checks", "",
+           "Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.json`. No check changes a figure; "
+           "a finding marked flag is above the check's threshold and feeds the notes of lanes and tables, watch is the band "
+           "below it, qa is for this file only. K5 (gas against EIA) is not run: the units do not reconcile.", ""]
+    if not recs:
+        return out + ["- trade_checks.json not found or empty", ""]
+    by = defaultdict(list)
+    for r in recs:
+        by[r["check"]].append(r)
+    for cid in sorted(by, key=lambda c: int(c[1:])):
+        if cid == "K9":
+            continue
+        rs = sorted(by[cid], key=lambda r: (-(r.get("year") or 0), r.get("group") or "", -(r.get("value") or 0)))
+        out += [f"### {cid}: {CHECK_TITLES.get(cid, '')} ({len(rs)})", ""]
+        out += [f"- {r.get('level')}: {r['text']}" for r in rs] + [""]
+    k9 = by.get("K9", [])
+    out += ["## Passages against IMF PortWatch (K9)", "",
+            "'At least' and 'up to' tonnage of every lane group's recorded seaborne pairs (chokepoint shares of the atlas) by vessel "
+            "type, against IMF PortWatch's estimated volume of all ships of that type (IMF PortWatch, data adapted). A passage is "
+            "flagged when 'at least' is above 110% of PortWatch's best full year since 2019; the Danish Straits counter is the "
+            "Oresund only. Written by `build_freight.py`; never a failure of the build.", "",
+            "| passage | type | at least (Mt) | up to (Mt) | PortWatch, latest year (Mt) | best year (Mt) | at least / best | level |",
+            "|---|---|---|---|---|---|---|---|"]
+    for r in sorted((r for r in k9 if r.get("kind") == "passage"), key=lambda r: (r["chokepoint"], r["type"])):
+        ref = "-" if r.get("reference") is None else _fmt(r["reference"])
+        out.append(f"| {r['chokepoint']} | {r['type']} | {_fmt(r['value'])} | {_fmt(r['high'])} | {ref} | {_fmt(r['best'])} ({r['bestYear']}) "
+                   f"| {r['ratio']:.2f} | {r['level']} |")
+    out += [""] + [f"- {r['text']}" for r in k9 if r.get("kind") == "passage" and r["level"] == "flag"]
+    passage_names = {r["chokepoint"]: r["text"].split(",")[0] for r in k9 if r.get("kind") == "passage"}
+    par =[r for r in k9 if r.get("kind") == "parallel"]
+    out += ["", "### Parallel passages under other thresholds of the parallel rule (K9)", "",
+            "Recomputed with `routing.classify()` from the option distances cached by `build_lanes.py` (no routing). The published "
+            "figures use 5% or 300 nm.", "", "| passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |", "|---|---|---|---|"]
+    for c in dict.fromkeys(r["chokepoint"] for r in par):
+        cells = [f"{_fmt(r['value'])} to {_fmt(r['high'])}" for r in sorted((r for r in par if r["chokepoint"] == c), key=lambda r: r["pct"])]
+        out.append(f"| {passage_names.get(c, c)} | " + " | ".join(cells) + " |")
+    if par and par[0].get("skipped"):
+        out.append(f"\nPairs skipped because their plan was not cached: {_fmt(par[0]['skipped'])} Mt.")
+    if not par:
+        out.append("\n- not computed (route cache empty or of another version)")
+    eia_rows = [r for r in k9 if r.get("kind") == "eia"]
+    if eia_rows:
+        out += ["", "### EIA beside the atlas (crude oil)", ""] + [f"- {r['text']}" for r in eia_rows]
+    return out + [""]
+
+
+def _label(g):
+    return {"lpg": "LPG", "lng": "LNG", "dap": "DAP"}.get(g) or K.label(g)
+
+
+def qa_dropped(baci):
+    out = ["## Rows dropped by the cleaning rules", "",
+           "Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Qatari LPG pairs with no flow in "
+           "either neighbouring year (rule DROP_NEW_PAIRS): several equal the LNG row of the same pair and year, which suggests "
+           "LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established.", ""]
+    rows = sorted(baci.dropped, key=lambda r: (r["group"], r["year"], -r["t"]))
+    for (g, y), grp in pd.DataFrame(rows).groupby(["group", "year"]) if rows else []:
+        out.append(f"- {_label(g)} {y}: {len(grp)} rows, {_fmt(grp['t'].sum() / 1e6)} Mt")
+    out.append("")
+    for r in rows:
+        est = " (tonnage estimated from value)" if r.get("est") else ""
+        out.append(f"- {_label(r['group'])} {r['year']}, {K._name(r['o'])} to {K._name(r['d'])}: {_fmt(r['t'] / 1e6)} Mt{est}, "
+                   f"USD {r['usd'] / 1e3:,.0f} million")
+    return out + [""] if rows else out + ["- none", ""]
+
+
+def qa_draughts():
+    have = sorted(VR.DRAUGHT_M)
+    none = sorted(set(VR.SPEED) - set(VR.DRAUGHT_M))
+    return ["## Vessel classes without a sourced draught", "",
+            "The draught rule of the routing (`vessel_rules.avoids()`) restricts a class only where a sourced laden draught exceeds a "
+            "sourced passage limit. Classes with a sourced draught: " + ", ".join(f"{c} {VR.DRAUGHT_M[c]:g} m" for c in have) +
+            "; passage limits: " + ", ".join(f"{p} {v:g} m" for p, v in sorted(VR.PASSAGE_LIMIT_M.items())) +
+            " (Wikipedia, CC BY-SA 4.0; sources in `pipeline/freight/vessel_rules.py`).", "",
+            "Not restricted by any strait for want of a sourced draught: " + ", ".join(none) + ".", ""]
+
+
+def write_qa(index, docs, baci=None):
     lines = ["# Commodity data QA", "",
              "Generated by `pipeline/commodities/build_commodities.py`. Top producers use the `production` table, "
              "top exporters the `exports` table; the world total is the published/summed figure in the same table.", "",
@@ -1393,7 +1543,11 @@ def write_qa(index, docs):
     for e in index:
         for t in docs[e["id"]].get("discrepancies", []):
             lines.append(f"- {e['id']}: {t}")
-    lines += ["", "## Build warnings", ""] + ([f"- {w}" for w in QA_WARN] or ["- none"])
+    lines += qa_checks()
+    if baci is not None:
+        lines += qa_dropped(baci)
+    lines += qa_draughts()
+    lines += ["## Build warnings", ""] + ([f"- {w}" for w in QA_WARN] or ["- none"])
     with open(os.path.join(HERE, "QA.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
@@ -1460,6 +1614,27 @@ def caveats(docs, eia):
                      "imports": "Product weight of potassium chloride, not K2O content."}
     out["urea"] = {"production": "Ammonia plant output in tonnes of nitrogen, not urea: not comparable with the urea trade tables, which are in product weight."}
     return out
+
+
+def registry_caveats(docs, baci):
+    """Caveats of the registry (pipeline/trade/caveats.py, active entries in data/freight/caveats.json): the text goes to
+    the page notes and to the row of the origin (and, for a pair, of the destination) in the trade tables, so that a
+    country profile shows it on that country's row only; flow rows carry the caveat id."""
+    by_group = defaultdict(list)
+    for cid, (g, _, _) in TRADE.items():
+        by_group[g].append(cid)
+    for e in baci.caveats.values():
+        for cid in by_group.get(e["group"], []):
+            d = docs.get(cid)
+            if not d:
+                continue
+            d.setdefault("notes", [])
+            if e["text"] not in d["notes"]:
+                d["notes"].append(e["text"])
+            for sec, c in (("exports", e["o"]), ("imports", e.get("d"))):
+                for r in (d.get(sec) or {}).get("rows", []):
+                    if c and r["c"] == c and e["text"] not in r.get("n", ""):
+                        r["n"] = (r["n"] + "; " if r.get("n") else "") + e["text"]
 
 
 def annotate(docs, eia):

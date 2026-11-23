@@ -23,11 +23,11 @@
    "n": "USDA PSD, Sugar, Centrifugal, centrifugal sugar (raw value) exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 59.14,
+   "v": 58.92,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (sugar) under the Atlas lane method (data/freight/lanes/sugar.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (sugar) under the atlas's mode rule (data/freight/lanes/sugar.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.69 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {

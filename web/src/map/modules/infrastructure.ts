@@ -118,7 +118,7 @@ export const statusClass = statusClassOf;
 export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
   damaged: '#ff4d5e',
   idle: '#ffc233',
-  construction: '#7fb2e5',
+  construction: '#e6edf5',
   planned: '#9aa7b5',
   closed: '#6f7b88',
 };
@@ -183,7 +183,14 @@ const iconPending = new Map<string, Promise<void>>();
 function statusSvg(st: StatusClass): string {
   if (st === 'ok') return '';
   const c = STATUS_COLOR[st];
-  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6" stroke-dasharray="3 2.4"/>`;
+  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="0.1 3.2" stroke-linecap="round"/>`;
+  if (st === 'construction') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="3 2.4"/>`;
+  if (st === 'closed')
+    return (
+      `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6"/>` +
+      `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
+      '<path d="M21.2 3.2l3.6 3.6M24.8 3.2l-3.6 3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>'
+    );
   const ring = `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="${st === 'damaged' ? 2.4 : 1.8}"/>`;
   const badge =
     `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
@@ -349,6 +356,7 @@ registerLayerModule((m) => {
     const tab = family.value;
     const hidden = infraHidden.value;
     const sel = selection.value;
+    const hy = year.value;
     void [commodities.value, sources.value];
     const selInfra = sel?.kind === 'infra' ? `${sel.layer}:${sel.id}` : null;
     const selCountry = sel?.kind === 'country' ? sel.id : null;
@@ -383,8 +391,10 @@ registerLayerModule((m) => {
         const mine = selCountry ? f.p.c === selCountry || (f.p.cs?.includes(selCountry) ?? false) : true;
         // a selected country is isolated: other countries' assets are hidden
         if (!mine && !isSelected) continue;
-        const st = statusClass(f.p.status);
-        const op = (st === 'ok' || st === 'damaged' ? 1 : 0.85) * (mine ? 1 : 0.25);
+        // History: an asset that opens after the selected year is dimmed, not hidden; a status dated after it does not apply
+        const at = stateAt(f.p, hy);
+        const st = statusClass(at.status);
+        const op = (st === 'ok' || st === 'damaged' ? 1 : 0.85) * (mine ? 1 : 0.25) * (at.notOpen ? 0.3 : 1);
         if (f.p.type === 'pipeline') {
           for (const coords of f.geom.type === 'LineString' ? [f.geom.coordinates] : f.geom.type === 'MultiLineString' ? f.geom.coordinates : []) {
             lines.push({
@@ -394,10 +404,10 @@ registerLayerModule((m) => {
                 key,
                 id: f.p.id,
                 type: f.p.type,
-                color: st === 'damaged' ? STATUS_COLOR.damaged : st === 'idle' ? STATUS_COLOR.idle : pipelineColor(f.p.k),
+                color: st === 'damaged' || st === 'idle' || st === 'closed' ? STATUS_COLOR[st] : pipelineColor(f.p.k),
                 op,
                 sel: isSelected,
-                dash: st !== 'ok',
+                dash: st !== 'ok' || at.notOpen,
                 label: f.p.name,
               },
             });
@@ -422,7 +432,7 @@ registerLayerModule((m) => {
       await Promise.all(
         pts.map(async (p) => {
           const f = featByKey.get(p.properties.key)!;
-          p.properties.icon = await ensureIcon(m, f.p.type, infraColor(f), statusClass(f.p.status));
+          p.properties.icon = await ensureIcon(m, f.p.type, infraColor(f), statusClass(stateAt(f.p, hy).status));
         }),
       );
       if (my !== seq) return;

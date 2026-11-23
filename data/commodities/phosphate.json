@@ -23,11 +23,11 @@
    "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 32.4,
+   "v": 34.28,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (phosphate-rock) under the Atlas lane method (data/freight/lanes/phosphate-rock.json); both countries need a sea gateway and must not be land neighbours; main bulk group used: phosphate-rock"
+   "n": "seaborne subset of BACI flows (phosphate-rock) under the atlas's mode rule (data/freight/lanes/phosphate-rock.json): trade by sea, or by sea through a foreign port for a landlocked country; main bulk group used: phosphate-rock"
   }
  },
  "production": {
@@ -336,7 +336,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "lane": "phosphate-rock:PER-BRA"
   },
   {
    "o": "JOR",
@@ -355,7 +356,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "phosphate-rock:EGY-CHN"
   },
   {
    "o": "JOR",
@@ -364,7 +366,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "phosphate-rock:JOR-CHN"
   },
   {
    "o": "SYR",
@@ -373,7 +376,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "DZA",
@@ -401,7 +405,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-NOR"
   },
   {
    "o": "MAR",
@@ -430,7 +435,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "phosphate-rock:ZAF-NLD"
   },
   {
    "o": "NLD",
@@ -439,7 +445,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "land"
   },
   {
    "o": "MAR",
@@ -448,7 +454,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "phosphate-rock:MAR-PHL"
   }
  ],
  "notes": [

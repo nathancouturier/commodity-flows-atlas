@@ -85,6 +85,8 @@ export interface Flow {
   est?: boolean;
   /** lane id in freight/lanes (sea geometry), when available */
   lane?: string;
+  /** id in data/freight/caveats.json: a reporting gap or relabelled origin that applies to this flow */
+  caveat?: string;
   n?: string;
 }
 

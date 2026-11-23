@@ -1,0 +1,6 @@
+/* Infrastructure pages and lists: status, notes and the empty message. Tokens come from tokens.css. */
+
+.badge-plain { color: var(--ink-2); border-style: dashed; }
+.infra-status-note { margin: 6px 0 0; font-size: var(--fs-xs); line-height: 1.4; color: var(--ink-1); overflow-wrap: anywhere; }
+.infra-approx { margin: 0 0 6px; font-size: var(--fs-xs); color: var(--ink-2); }
+.infra-empty { margin: 0; font-size: var(--fs-sm); line-height: 1.45; color: var(--ink-2); }

@@ -16,18 +16,18 @@
    "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total"
   },
   "exports": {
-   "v": 43.302,
+   "v": 43.305,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
    "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 42.07,
+   "v": 42.31,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (manganese) under the Atlas lane method (data/freight/lanes/manganese.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (manganese) under the atlas's mode rule (data/freight/lanes/manganese.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.05 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -114,7 +114,7 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 43.302,
+  "world": 43.305,
   "rows": [
    {
     "c": "ZAF",
@@ -172,11 +172,11 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 43.302,
+  "world": 43.305,
   "rows": [
    {
     "c": "CHN",
-    "v": 29.139
+    "v": 29.142
    },
    {
     "c": "IND",
@@ -383,7 +383,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "manganese:ZAF-IDN"
   },
   {
    "o": "MYS",
@@ -412,7 +413,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "manganese:GAB-JPN"
   },
   {
    "o": "GAB",

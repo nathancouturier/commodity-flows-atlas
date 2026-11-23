@@ -1,13 +1,13 @@
 /// <reference types="vite/client" />
 /** Global picture of one commodity: KPIs, ranked countries, main flows, lanes, companies, infrastructure. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
+import type { CaveatsFile, Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
 import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt, fmtEst, pct } from '../../lib/format';
-import { LANE_GROUPS, loadLaneFile, loadPairs } from '../../lib/freight';
+import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, CompanyRows, AlertBanners, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, CompanyRows, AlertBanners, shortSource } from '../ui';
 import LaneTable from '../LaneTable';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
@@ -97,32 +97,41 @@ function useTransitPorts(id: string, flows: Flow[] | undefined): Record<string, 
 function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
   const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);
   const ports = useTransitPorts(props.id, rows);
+  // the text of the reporting gaps that apply to the listed flows (freight/caveats.json)
+  const needCaveats = rows.some((f) => f.caveat);
+  const caveats = useLoaded<CaveatsFile>(() => (needCaveats ? loadCaveats() : Promise.resolve(null)), [props.id, needCaveats]);
   // the footer names the customs source; flows re-based by the atlas say so on their own row
   const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
   const anyEst = rows.some((f) => f.est);
   return (
     <>
       {rows.map((f, i) => {
-        const via = f.transit ? (ports === undefined ? '…' : (ports?.[f.transit.port] ?? null)) : null;
-        // a flow with no mode is not modelled (precious metals): say so rather than leave the badge out
+        // the port's name when a lane or pairs file of the commodity has it, else the country it is in
+        const via = f.transit ? (ports === undefined ? '…' : (ports?.[f.transit.port] ?? `a port in ${countryName(f.transit.c)}`)) : null;
+        // a code that is not a country of the index (Gibraltar, "Asia, not specified") is plain text
         const open = f.lane ? () => select({ kind: 'lane', id: f.lane! }) : isCountry(f.o) ? () => select({ kind: 'country', id: f.o }) : undefined;
         return (
-          <RowBtn
-            key={`${f.o}-${f.d}-${i}`}
-            lead={<span class="bar-rank">{i + 1}</span>}
-            title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
-            sub={
-              <>
-                {f.mode ? <ModeBadge mode={f.mode} via={via ?? undefined} /> : <span class="muted-cap">mode not modelled</span>}
-                {f.transit && <span class="mode-via"> via {via ?? 'a foreign port'}</span>}
-                {props.tag && <span class="muted-cap"> {props.tag}</span>}
-                {f.est ? <EstMark /> : f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
-              </>
-            }
-            meta={<>{fmtEst(f.v, f.est)} {f.u}</>}
-            tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode === 'mixed' ? ' · by sea and overland, split not known' : f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}${f.transit ? ' · sea via ' + (via ?? 'a foreign port') : ''}`}
-            onClick={open}
-          />
+          <div key={`${f.o}-${f.d}-${i}`}>
+            <RowBtn
+              lead={<span class="bar-rank">{i + 1}</span>}
+              title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
+              sub={
+                <>
+                  {/* a flow with no mode is not modelled (precious metals): say so rather than leave the badge out */}
+                  {f.mode ? <ModeBadge mode={f.mode} via={via ?? undefined} /> : <span class="muted-cap">mode not modelled</span>}
+                  {f.transit && <span class="mode-via"> via {via}</span>}
+                  {props.tag && <span class="muted-cap"> {props.tag}</span>}
+                  {f.est ? <EstMark /> : f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
+                </>
+              }
+              meta={<>{fmtEst(f.v, f.est)} {f.u}</>}
+              tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode === 'mixed' ? ' · by sea and overland, split not known' : f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}${f.transit ? ' · sea via ' + via : ''}`}
+              onClick={open}
+            />
+            {/* the method of an Atlas estimate is written out under the row, not only in its tooltip */}
+            {f.est && <FoldNote text={f.n} style={{ margin: '0 4px 3px 30px', width: 'auto' }} />}
+            {f.caveat && <FoldNote text={caveats?.[f.caveat]?.text} style={{ margin: '0 4px 3px 30px', width: 'auto' }} />}
+          </div>
         );
       })}
       {first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
@@ -227,13 +236,15 @@ function KeyInfra({ id }: { id: string }) {
   const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
   const on = layers.value.infrastructure;
   const mine = useMemo(() => (all ?? []).filter((f) => infraMatches(f.p.k, id)), [all, id]);
-  if (!mine.length) return null;
+  if (!all) return null;
   return (
-    <Section title="Key infrastructure" aside={<span class="muted num">{mine.length}</span>}>
+    <Section title="Key infrastructure" aside={mine.length ? <span class="muted num">{mine.length}</span> : undefined}>
       <InfraList key={id} items={mine} commodity={id} showCountry />
-      <button class="act-btn" disabled={on} onClick={() => toggleLayer('infrastructure', true)}>
-        {on ? `${mine.length} asset${mine.length === 1 ? '' : 's'} shown on the map` : `Show ${mine.length} asset${mine.length === 1 ? '' : 's'} on the map`}
-      </button>
+      {mine.length > 0 && (
+        <button class="act-btn" disabled={on} onClick={() => toggleLayer('infrastructure', true)}>
+          {on ? `${mine.length} asset${mine.length === 1 ? '' : 's'} shown on the map` : `Show ${mine.length} asset${mine.length === 1 ? '' : 's'} on the map`}
+        </button>
+      )}
     </Section>
   );
 }

@@ -23,11 +23,11 @@
    "n": "USDA PSD, Oil, Soybean, soybean oil exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 10.93,
+   "v": 11.03,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (soyoil) under the Atlas lane method (data/freight/lanes/soyoil.json); both countries need a sea gateway and must not be land neighbours"
+   "n": "seaborne subset of BACI flows (soyoil) under the atlas's mode rule (data/freight/lanes/soyoil.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.23 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -168,7 +168,8 @@
    },
    {
     "c": "RUS",
-    "v": 0.7
+    "v": 0.7,
+    "n": "Customs data record 0.484 Mt of soybean oil exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.76 Mt for 2023/24 and 0.75 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
    },
    {
     "c": "PRY",
@@ -369,7 +370,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soyoil:ARG-CAN"
   },
   {
    "o": "ARG",
@@ -388,7 +390,9 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soyoil:RUS-IND",
+   "caveat": "grain-rus-soyoil"
   },
   {
    "o": "UKR",
@@ -406,7 +410,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soyoil:TUR-DZA"
   },
   {
    "o": "ESP",
@@ -415,7 +420,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soyoil:ESP-MAR"
   },
   {
    "o": "BOL",
@@ -424,7 +430,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
   },
   {
    "o": "ARG",
@@ -442,7 +449,8 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "sea"
+   "mode": "sea",
+   "lane": "soyoil:ARG-PAK"
   },
   {
    "o": "BRA",
@@ -501,7 +509,10 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "mode": "land"
+   "mode": "mixed",
+   "lane": "soyoil:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known",
+   "caveat": "grain-rus-soyoil"
   },
   {
    "o": "ARG",
@@ -515,7 +526,8 @@
   }
  ],
  "notes": [
-  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ."
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
+  "Customs data record 0.484 Mt of soybean oil exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.76 Mt for 2023/24 and 0.75 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here."
  ],
  "discrepancies": [
   "World exports: USDA PSD 2025/26 15.5 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 13.2 Mt (+18%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); PSD shown in the table."

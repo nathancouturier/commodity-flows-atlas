@@ -243,7 +243,8 @@
    "v": 186.17,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -251,7 +252,8 @@
    "v": 84.441,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "ARG",
@@ -259,7 +261,8 @@
    "v": 47.559,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHL",
@@ -267,7 +270,8 @@
    "v": 35.772,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHN",
@@ -275,7 +279,8 @@
    "v": 34.265,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHL",
@@ -283,7 +288,8 @@
    "v": 9.2,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "NGA",
@@ -292,6 +298,7 @@
    "u": "kt",
    "y": 2024,
    "s": "baci",
+   "mode": "sea",
    "n": "reported tonnage implies 286 USD/t, i.e. 0.0200x the lithium group-year median unit value: possible misreport, kept because the flow is below the 50 M USD correction rule"
   },
   {
@@ -300,7 +307,8 @@
    "v": 8.098,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHL",
@@ -308,7 +316,8 @@
    "v": 8.068,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHL",
@@ -316,7 +325,8 @@
    "v": 7.981,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "ARG",
@@ -324,7 +334,8 @@
    "v": 6.779,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "BRA",
@@ -332,7 +343,8 @@
    "v": 6.482,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "ARG",
@@ -340,7 +352,8 @@
    "v": 5.888,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "KOR",
@@ -348,7 +361,8 @@
    "v": 4.641,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "ARG",
@@ -356,7 +370,8 @@
    "v": 4.432,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -364,7 +379,8 @@
    "v": 3.362,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "AUS",
@@ -372,7 +388,8 @@
    "v": 3.179,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "CHL",
@@ -380,7 +397,8 @@
    "v": 2.85,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "JPN",
@@ -388,7 +406,8 @@
    "v": 2.201,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   },
   {
    "o": "USA",
@@ -396,7 +415,8 @@
    "v": 2.121,
    "u": "kt",
    "y": 2024,
-   "s": "baci"
+   "s": "baci",
+   "mode": "sea"
   }
  ],
  "notes": [
