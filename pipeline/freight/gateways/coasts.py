@@ -122,6 +122,8 @@ G = {
          "Ponta da Madeira, Sao Luis (Maranhao): a private Vale port, 'a large iron ore loading port', one of the few terminals suited to the ultra large Valemax ships. Second iron-ore gateway after Tubarao (the shares are not documented, so the options are open)"),
         ("BRVLC", "ecsa", ("alumina",), "load", "wikipedia", W + "Barcarena,_Par%C3%A1",
          "Barcarena (Para) has a port, and the page shows Norsk Hydro's Alunorte facility (the alumina refinery, Wikipedia: Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together"),
+        ("BRVIX", "ecsa", ("spodumene",), "load", "trade-press", "https://diariodocomercio.com.br/economia/sigma-exporta-maior-carregamento-litio-minas/",
+         "Diario do Comercio (6 February 2024, read on 23 November 2026): about 22,000 t of Sigma Lithium's 'green lithium' from the Grota do Cirilo complex 'were shipped to the Port of Vitoria, in Espirito Santo, bound for China' (translated from Portuguese)"),
     ],
     "CHL": [
         # The page does not rank the two ports, so both are options of Chilean iron ore.
@@ -156,6 +158,18 @@ G = {
          "Weipa: 'the Port of Weipa is mainly involved in exports of bauxite'"),
         ("AUTSV", "e-australia", ("copper-ore", "zinc-ore", "lead-ore"), "load", "wikipedia", W + "Port_of_Townsville",
          "Port of Townsville: 'the number one port in Australia for exports in copper, zinc, lead and sugar' (concentrates)"),
+        # Spodumene (pages read on 23 November 2026). The order follows the loadings of September 2025 on the Argus page
+        # (Bunbury about 230,000 t, Port Hedland 166,200 t, Esperance 49,200 t); one month is no annual share, so the
+        # three ports are options.
+        ("AUBUY", "w-australia", ("spodumene",), "load", "company-reports",
+         "https://www.sec.gov/Archives/edgar/data/915913/000091591325000024/exhibit961greenbushes202.htm",
+         "Greenbushes technical report summary (RPM Global for Albemarle, SEC filing, FY2025): 'transport of the spodumene concentrate is primarily by truck to the Port of Bunbury, located 90 km west of the site, for export'. Argus (https://www.argusmedia.com/en/news-and-insights/latest-market-news/2745299-australia-s-lithium-loadings-hit-2025-peak-in-september): 'lithium shipments loaded at Bunbury come from the Greenbushes mine'"),
+        ("AUPHE", "w-australia", ("spodumene",), "load", "trade-press",
+         "https://www.mining-technology.com/projects/pilgangoora-lithium-tantalum-project-pilbara/",
+         "Mining Technology, Pilgangoora project (15 September 2023): 'the obtained spodumene is transported to the Wedgefield bulk storage facility in Port Hedland for shipping'. Argus (September 2025 loadings): Mineral Resources 'transports the spodumene from its Wodgina site to Port Hedland for export'"),
+        ("AUEPR", "w-australia", ("spodumene",), "load", "trade-press",
+         "https://www.argusmedia.com/en/news-and-insights/latest-market-news/2745299-australia-s-lithium-loadings-hit-2025-peak-in-september",
+         "Argus, Australia's lithium loadings (September 2025): Mineral Resources 'transports the spodumene out of its Mount Marion operation ... to Esperance for export'; Esperance Port loaded a little over 49,200 t of lithium in the month"),
     ],
     # ------------------------------------------------------------------ Asia
     "IND": [
@@ -297,7 +311,8 @@ UNSOURCED = {
     "PER": "San Nicolas is a row, read from two pages together (Mineral industry of Peru, San Juan de Marcona); no page says in one sentence that the ore is loaded there. Copper and zinc concentrate: the Mineral industry page lists Callao, Ilo, Matarani among the mineral ports without a cargo, so they keep the legacy entry (Callao). No page read gives the ship size at San Nicolas, so BIG_ORE is not extended to PER",
     "CHL": "Caldera / Punta Totoralillo (CAP iron ore): no page read. Guayacan and Huasco are rows (Compania Minera del Pacifico page), but no page read gives the ship size at those terminals, so BIG_ORE is not extended to CHL",
     "IDN": "Benete (Batu Hijau copper concentrate, Sumbawa): the page names the port, not its coordinates; Morowali stays the legacy ore entry for the other ores (the Morowali Industrial Park page says only 'served by a seaport'; nickel-ore imports and alumina there have no page). Taboneo (Banjarmasin), named with Tanjung Bara as one of the largest coal loading ports: no coordinates on the page read. Coal imports (17 Mt in 2024): no page read names a port that receives coal in Indonesia (Suralaya and Paiton power station pages, Cilacap: no port statement). The loader gives a country with no discharge row for a family the port of its load row (ports.candidates, 'a page that names the cargo names a port for it, whatever the direction'), which would send Indonesian coal imports to the Tanjung Bara loading terminal under 'page names the cargo'; the rule idn-coal-imports keeps the legacy entry for them",
-    "AUS": "manganese (Groote Eylandt): the Groote Eylandt page names the GEMCO manganese mine, 'about a quarter of the world's total', and 'the mine's port' (a carrier damaged it in 2024), with no name or coordinates of the port, so there is no port to give a row; the legacy chain answers. Dampier page: iron ore, LNG and salt",
+    "AUS": "manganese (Groote Eylandt): the Groote Eylandt page names the GEMCO manganese mine, 'about a quarter of the world's total', and 'the mine's port' (a carrier damaged it in 2024), with no name or coordinates of the port, so there is no port to give a row; the legacy chain answers. Dampier page: iron ore, LNG and salt. Spodumene at Geraldton (named by the route definition australia-china-spodumene): no page read names lithium at Geraldton; the Wikipedia pages Bunbury, Esperance, Port Hedland and Port of Port Hedland name no lithium cargo at the port (Port Hedland: lithium deposits south of the town), so the spodumene rows rest on the mine and press pages",
+    "ZWE": "spodumene: the Reuters report cited by the lithium page (Kitco, 3 February 2026) says most of the concentrate is exported to China and names no port or corridor; no page read documents the corridor, so the transit row of Zimbabwe (Beira, a general row in gateways/energy.py) answers",
     "ZAF": "Alumina imports at Richards Bay: the page names the two aluminium smelters, not alumina. Manganese: Port Elizabeth, the legacy port, is named for containers only; the Ngqura row rests on a page that speaks of the port's purpose in the future tense",
     "IND": "coal imports at Paradip: the Paradip Port page names bulk cargoes and crude oil, not coal (the legacy entry is not used: Krishnapatnam and Mundra have coal rows); the same page names no iron ore either, so Paradip, the legacy iron-ore port, is replaced by the three ports whose pages name iron ore (Dhamra, Visakhapatnam, Mormugao). Gangavaram: its page lists 'iron ore sidings' only (not a row). Manganese loads at Mormugao are on its page; no page names Indian manganese imports apart from Visakhapatnam",
     "FRA": "Rouen, La Pallice, Fos for wheat: pages not found under the titles tried (the same gap is in UNSOURCED of food.py)",

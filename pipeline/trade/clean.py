@@ -28,8 +28,11 @@ Rules
      estimate). The estimate then always moves the tonnage towards the neighbouring years.
   8. Peer unit value (PEER_UV): a row of a listed exporter whose unit value is more than PEER_MAX times that of a
      peer exporter of the same product, to the same destination and year, has its tonnage re-estimated from the
-     declared value at the peer's unit value ("est-peer", an Atlas estimate). Chile's copper concentrate reads
-     7,000 to 8,000 USD/t in some years against about 2,000 for Peru's, as if its tonnage were contained copper.
+     declared value at the peer's unit value times the exporter's usual ratio to the peer ("est-peer", an Atlas
+     estimate). That ratio is the median, over the years in which the exporter's declarations are in line (rows
+     above the threshold hold under PEER_CLEAN of its declared value), of its unit value over the peer's. Chile's
+     copper concentrate reads 7,000 to 8,000 USD/t in some years against about 2,000 for Peru's, as if its tonnage
+     were contained copper; in its other years it reads about 1.1 times Peru's.
 
 Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
@@ -64,10 +67,17 @@ BULK_REPAIR = "estimate"  # "estimate" | "flag"
 
 # Rule 8. (group, exporter) -> (peer exporter, product named in the note). The peer's unit value to the same destination
 # is the reference when the peer shipped PEER_MIN_T there that year at a unit value within a factor 2 of its own average
-# of the year; otherwise the peer's average of the year (all destinations) is used.
+# of the year; otherwise the peer's average of the year (all destinations) is used. That reference is multiplied by the
+# exporter's usual ratio to the peer: in the years in which its declarations are in line, Chile's unit value is above
+# Peru's, so the peer's unit value alone would overstate the estimated tonnage.
 PEER_UV = {("copper-ore", "CHL"): ("PER", "copper concentrate")}
 PEER_MAX = 1.8
 PEER_MIN_T = 50_000
+# a year is in line when the exporter's rows above PEER_MAX hold less than this share of its declared value
+PEER_CLEAN = 0.2
+# (group, exporter) -> (usual ratio, years it was taken from) of the last clean() call; each frame returned by clean()
+# also carries its own in df.attrs["peer"]
+PEER_RATIO = {}
 
 HOMOGENEOUS = {
     "crude-oil", "refined-products", "lng", "lpg", "wheat", "corn", "soybeans", "soymeal", "soyoil", "rice",
@@ -143,11 +153,14 @@ def _notes(df, nb):
                       f"{ref} ({_num(m, ' USD/t')}) times the pair's usual ratio to that median ({r['uve'] / m:.3f} on average in "
                       f"{ya} and {yb})")
         elif "est-peer" in codes:
-            peer, what, where = nb[i]
+            peer, what, where, puv, k, ky = nb[i]
+            usual = (f"{k:.3f}, the median ratio of {country_name(r['o'])}'s unit value of {what} to {country_name(peer)}'s in the "
+                     f"{len(ky)} year{'s' if len(ky) > 1 else ''} in which its declarations are in line ({year_list(ky)})" if ky else
+                     f"1 (no year in which {country_name(r['o'])}'s declarations are in line)")
             out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])} ({_num(r['uvp'])} USD/t), "
-                      f"{r['uvp'] / r['uve']:.1f} times the {_num(r['uve'])} USD/t of {what} from {country_name(peer)} {where} in {y}; "
+                      f"{r['uvp'] / puv:.1f} times the {_num(puv)} USD/t of {what} from {country_name(peer)} {where} in {y}; "
                       f"a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; "
-                      f"tonnage = declared value divided by {uve}")
+                      f"tonnage = declared value divided by {uve}, that unit value of {country_name(peer)} times {usual}")
         elif "est-missing" in codes:
             out[i] = f"Atlas estimate: tonnage missing in CEPII BACI; declared value {_usd(r['usd'])} divided by {ref}, {uve}"
         elif "est-gross" in codes:
@@ -162,8 +175,21 @@ def _notes(df, nb):
     return pd.Series(out, dtype=object)
 
 
+def year_list(ys):
+    """'2002, 2009, 2014 to 2020 and 2023' from a sorted list of years."""
+    runs = []
+    for y in ys:
+        if runs and y == runs[-1][1] + 1:
+            runs[-1][1] = y
+        else:
+            runs.append([y, y])
+    parts = [str(a) if a == b else f"{a} to {b}" for a, b in runs]
+    return parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
 def _peer(df, fix):
-    """Rule 8: {index: (peer, product, where, reference USD/t)} for the rows to re-estimate."""
+    """Rule 8: {index: (peer, product, where, peer USD/t, usual ratio, years of that ratio, USD/t used)} for the rows
+    to re-estimate."""
     out = {}
     for (g, o), (p, what) in PEER_UV.items():
         peer = df[(df["group"] == g) & (df["o"] == p) & (df["uvp"] > 0) & ~fix]
@@ -172,6 +198,7 @@ def _peer(df, fix):
         by_d = peer.groupby(["year", "d"]).agg(t=("t", "sum"), usd=("usd", "sum"))
         uv_d = by_d["usd"] * 1000 / by_d["t"]
         rows = df[(df["group"] == g) & (df["o"] == o) & (df["uvp"] > 0) & ~fix]
+        hit = {}
         for i, r in rows.iterrows():
             y, d = r["year"], r["d"]
             if y not in uv_y.index:
@@ -180,7 +207,16 @@ def _peer(df, fix):
             if (y, d) in uv_d.index and by_d.loc[(y, d), "t"] >= PEER_MIN_T and 0.5 <= uv_d[(y, d)] / ref <= 2:
                 ref, where = uv_d[(y, d)], f"to {country_name(d)}"
             if r["uvp"] > PEER_MAX * ref:
-                out[i] = (p, what, where, ref)
+                hit[i] = (where, ref)
+        # the exporter's usual ratio to the peer, over the years in which its rows above the threshold are marginal
+        own = rows.groupby("year").agg(t=("t", "sum"), usd=("usd", "sum"))
+        above = rows.loc[list(hit)].groupby("year")["usd"].sum().reindex(own.index, fill_value=0)
+        ok = own.index[(above < PEER_CLEAN * own["usd"]) & own.index.isin(uv_y.index)]
+        ky = sorted(int(y) for y in ok)
+        k = float(((own.loc[ok, "usd"] * 1000 / own.loc[ok, "t"]) / uv_y[ok]).median()) if ky else 1.0
+        PEER_RATIO[(g, o)] = (k, ky)
+        for i, (where, ref) in hit.items():
+            out[i] = (p, what, where, ref, k, ky, ref * k)
     return out
 
 
@@ -267,7 +303,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     peer = _peer(df, fix)
     if peer:
         pi = list(peer)
-        ref = pd.Series({i: v[3] for i, v in peer.items()})
+        ref = pd.Series({i: v[6] for i, v in peer.items()})
         df.loc[pi, "t"] = df.loc[pi, "usd"] * 1000 / ref[pi]
         df.loc[pi, "uve"] = ref[pi]
         df.loc[pi, "imputed"] = True
@@ -277,7 +313,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     sus = df.index.isin(iso.index[~iso["t_out"]])
     _add_flag(df, sus, "uv-suspect")
     out = iso[iso["t_out"]]
-    nb = {i: v[:3] for i, v in peer.items()}
+    nb = {i: v[:6] for i, v in peer.items()}
     if bulk_repair == "estimate":
         uve = out["ref"] * (out["rel_a"] * out["rel_b"]) ** 0.5
         df.loc[out.index, "t"] = df.loc[out.index, "usd"] * 1000 / uve
@@ -301,6 +337,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
                                  "t": float(r.usd / r.uvm) if est and r.uvm == r.uvm else float(r.t), "est": bool(est),
                                  "reason": "pair with no flow in both neighbouring years (DROP_NEW_PAIRS)"})
     df.attrs["dropped"] = [dict(r) for r in LAST_DROPPED]
+    df.attrs["peer"] = {key: v for key, v in PEER_RATIO.items()}
     return df
 
 

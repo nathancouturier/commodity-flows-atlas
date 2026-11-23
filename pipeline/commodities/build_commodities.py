@@ -135,7 +135,7 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, XAS, clean as clean_baci  # noqa: E402
+from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, PEER_RATIO, XAS, clean as clean_baci, year_list  # noqa: E402
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
 from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
@@ -612,6 +612,7 @@ class Baci:
         df["t0_est"] = df["t0"].where(fix, 0.0)  # what the customs data declared for the rows the atlas re-estimated
         self.df = df
         self.dropped = list(LAST_DROPPED)  # rows that clean() dropped, for QA.md
+        self.peer = dict(PEER_RATIO)  # rule 8: usual ratio of an exporter to its peer, for the page notes
         self._modes = {}
         self.lanes = {}
         ld = os.path.join(DATA, "freight", "lanes")
@@ -1570,11 +1571,14 @@ def main():
             pe = chl[chl["flag"].str.contains("est-peer", na=False)]
             if len(pe):
                 cn = chl[chl["d"] == "CHN"]
+                k, ky = baci.peer[("copper-ore", "CHL")]
+                usual = (f"times {k:.3f}, the median ratio of Chile's unit value to Peru's in the {len(ky)} years in which Chile's declarations are in "
+                         f"line ({year_list(ky)})" if ky else "(no year in which Chile's declarations are in line gives a usual ratio)")
                 notes.append(f"Chile's copper concentrate: customs data declare some of it at {pe['uvp'].min():,.0f} to {pe['uvp'].max():,.0f} USD per tonne in "
-                             f"{BACI_YEAR}, against about {pe['uve'].median():,.0f} for Peru's concentrate to the same destinations, as if the tonnage were contained "
-                             "copper rather than gross weight. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships "
-                             "50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's "
-                             f"unit value. Chile then exports {chl['t'].sum() / 1e6:.2f} Mt instead of the {chl['t0'].sum() / 1e6:.2f} Mt declared, and Chile to "
+                             f"{BACI_YEAR}, against about {pe['uve'].median() / k:,.0f} for Peru's concentrate to the same destinations; a tonnage declared in "
+                             "contained copper rather than gross weight is a plausible cause, not established here. Where Chile's unit value is more than "
+                             "1.8 times Peru's (to the same destination when Peru ships 50 kt or more there, otherwise Peru's average of the year), the tonnage "
+                             f"is an Atlas estimate: the declared value divided by Peru's unit value {usual}. Chile then exports {chl['t'].sum() / 1e6:.2f} Mt instead of the {chl['t0'].sum() / 1e6:.2f} Mt declared, and Chile to "
                              f"China {cn['t'].sum() / 1e6:.2f} Mt instead of {cn['t0'].sum() / 1e6:.2f} Mt. Importers' own declarations (UN Comtrade) would "
                              "measure it; the atlas has no access key for them.")
             notes.append("Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary).")

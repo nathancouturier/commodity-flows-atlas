@@ -235,7 +235,8 @@ class CleanTests(unittest.TestCase):
 
 
 class PeerUnitValueTests(unittest.TestCase):
-    """Rule 8 (audit C-034): Chile's copper concentrate re-estimated at Peru's unit value."""
+    """Rule 8 (audit C-034, review GR1.1): Chile's copper concentrate re-estimated at Peru's unit value times Chile's
+    usual ratio to Peru, the median over the years in which Chile's declarations are in line."""
 
     def test_chile_china_2024(self):
         r = row(frame(), "copper-ore", "CHL", "CHN", 2024)
@@ -243,11 +244,20 @@ class PeerUnitValueTests(unittest.TestCase):
         self.assertIn("est-peer", r.flag)
         self.assertTrue(r.imputed)
         self.assertAlmostEqual(r.uvp, 7428, delta=1)
-        self.assertAlmostEqual(r.uve, 2234, delta=1)  # Peru to China, 2024
-        self.assertAlmostEqual(r.t / 1e6, 9.27, delta=0.01)
+        k, ky = frame().attrs["peer"][("copper-ore", "CHL")]
+        self.assertAlmostEqual(r.uve, 2234 * k, delta=1)  # Peru to China, 2024, times the usual ratio
+        self.assertAlmostEqual(r.t / 1e6, 2.787 * 7428 / (2234 * k), delta=0.01)
         self.assertTrue(r.enote.startswith("Atlas estimate: CEPII BACI reports 2.79 Mt for USD 20.7 bn (7,428 USD/t)"), r.enote)
         self.assertIn("2,234 USD/t of copper concentrate from Peru to China in 2024", r.enote)
+        self.assertIn(f"that unit value of Peru times {k:.3f}, the median ratio of Chile's unit value of copper concentrate to Peru's", r.enote)
         self.assertIn("plausible cause, not established here", r.enote)
+
+    def test_usual_ratio_comes_from_the_years_in_line(self):
+        k, ky = frame().attrs["peer"][("copper-ore", "CHL")]
+        # in line: 2015 to 2020 and 2023 (Chile 0.93 to 1.17 times Peru); not: 2021, 2022, 2024 (about 2.7 times)
+        self.assertTrue({2015, 2016, 2017, 2018, 2019, 2020, 2023} <= set(ky), ky)
+        self.assertFalse({2003, 2004, 2021, 2022, 2024} & set(ky), ky)
+        self.assertTrue(1.05 <= k <= 1.2, k)
 
     def test_years_in_gross_weight_are_untouched(self):
         df = frame()
@@ -259,13 +269,17 @@ class PeerUnitValueTests(unittest.TestCase):
             r = row(df, "copper-ore", "CHL", "CHN", y)
             self.assertIn("est-peer", r.flag, y)
             self.assertAlmostEqual(r.t0 / 1e6, v, delta=0.01)
-            self.assertTrue(7 <= r.t / 1e6 <= 9.5, (y, r.t))
+            self.assertTrue(6.5 <= r.t / 1e6 <= 8, (y, r.t))
 
     def test_totals_and_peer_untouched(self):
         df = frame()
         chl = df[(df.group == "copper-ore") & (df.o == "CHL") & (df.year == 2024)]
         self.assertAlmostEqual(chl.t0.sum() / 1e6, 4.96, delta=0.01)
-        self.assertTrue(13 <= chl.t.sum() / 1e6 <= 15, chl.t.sum())
+        # no estimated year above Chile's largest year in line (12.85 Mt in 2019; 12.40 in 2020, 10.27 in 2023)
+        tot = df[(df.group == "copper-ore") & (df.o == "CHL")].groupby("year").t.sum() / 1e6
+        self.assertAlmostEqual(tot[2019], 12.9, delta=0.1)
+        for y in (2021, 2022, 2024):
+            self.assertTrue(10 <= tot[y] <= 12.85, (y, tot[y]))
         per = df[(df.group == "copper-ore") & (df.o == "PER")]
         self.assertFalse(per.flag.str.contains("est-peer").any())
         self.assertFalse(df[df.group != "copper-ore"].flag.str.contains("est-peer").any())
@@ -279,12 +293,27 @@ class PeerUnitValueTests(unittest.TestCase):
         ]
         df = C.clean(pd.DataFrame(rows, columns=["year", "group", "o", "d", "t", "usd"]))
         chn, bgr, jpn = (row(df, "copper-ore", "CHL", d, 2024) for d in ("CHN", "BGR", "JPN"))
-        self.assertAlmostEqual(chn.t, 3.5e6, delta=1)
+        self.assertAlmostEqual(chn.t, 3.5e6, delta=1)  # no year in line: ratio 1
         self.assertIn("from Peru to China", chn.enote)
+        self.assertIn("times 1 (no year in which Chile's declarations are in line)", chn.enote)
         self.assertAlmostEqual(bgr.uve, 2000, delta=0.5)  # Peru's average of the year: its Bulgarian flow is under 50 kt
         self.assertIn("from Peru to all destinations", bgr.enote)
         self.assertEqual(jpn.flag, "")
         self.assertEqual(jpn.t, 1e6)
+
+    def test_usual_ratio_scales_the_reference(self):
+        rows = [  # 2023: Chile in line at 1.2 times Peru; 2024: Chile at 3.5 times Peru
+            (2023, "copper-ore", "PER", "CHN", 1e6, 2e6), (2023, "copper-ore", "CHL", "CHN", 1e6, 2.4e6),
+            (2024, "copper-ore", "PER", "CHN", 1e6, 2e6), (2024, "copper-ore", "CHL", "CHN", 1e6, 7e6),
+        ]
+        df = C.clean(pd.DataFrame(rows, columns=["year", "group", "o", "d", "t", "usd"]))
+        self.assertEqual(df.attrs["peer"][("copper-ore", "CHL")], (1.2, [2023]))
+        r = row(df, "copper-ore", "CHL", "CHN", 2024)
+        self.assertAlmostEqual(r.uve, 2400, delta=0.5)
+        self.assertAlmostEqual(r.t, 7e6 / 2.4, delta=1)
+        self.assertIn("times 1.200, the median ratio", r.enote)
+        self.assertIn("in the 1 year in which its declarations are in line (2023)", r.enote)
+        self.assertEqual(row(df, "copper-ore", "CHL", "CHN", 2023).flag, "")
 
 
 class HistoryTests(unittest.TestCase):
