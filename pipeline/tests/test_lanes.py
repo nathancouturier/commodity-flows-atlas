@@ -394,9 +394,10 @@ class GatewayLanes(unittest.TestCase):
 
     def test_G08_mexican_concentrates(self):
         import ports
-        if ports.ocean_of(ports.gateway("MEX", "copper-ore", "load") or "") != "pacific":
+        sourced = [g for g in ("copper-ore", "zinc-ore") if ports.ocean_of(ports.gateway("MEX", g, "load") or "") == "pacific"]
+        if not sourced:
             self.skipTest("no sourced Pacific gateway for Mexican concentrates (package E4b)")
-        for g in ("copper-ore", "zinc-ore"):
+        for g in sourced:  # a group without a sourced Pacific row keeps its present port
             for d in ("CHN", "JPN", "KOR"):
                 ln = lane(f"{g}:MEX-{d}")
                 if ln:

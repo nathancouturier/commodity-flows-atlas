@@ -3792,6 +3792,18 @@
 "check": "K12",
 "group": "crude-oil",
 "year": 2024,
+"o": "CAN",
+"d": "NLD",
+"value": 1.492,
+"reference": 4169,
+"ratio": 3.52,
+"level": "qa",
+"text": "crude oil from Canada to the Netherlands (CAVAN to NLRTM): main route 14,664 nm, 3.5 times the great-circle distance; check the gateways"
+},
+{
+"check": "K12",
+"group": "crude-oil",
+"year": 2024,
 "o": "IRQ",
 "d": "BGR",
 "value": 1.236,
@@ -3816,6 +3828,18 @@
 "check": "K12",
 "group": "crude-oil",
 "year": 2024,
+"o": "CAN",
+"d": "ESP",
+"value": 1.126,
+"reference": 4702,
+"ratio": 2.9,
+"level": "qa",
+"text": "crude oil from Canada to Spain (CAVAN to ESALG): main route 13,653 nm, 2.9 times the great-circle distance; check the gateways"
+},
+{
+"check": "K12",
+"group": "crude-oil",
+"year": 2024,
 "o": "ARE",
 "d": "DEU",
 "value": 0.987,
@@ -3828,13 +3852,13 @@
 "check": "K12",
 "group": "crude-oil",
 "year": 2024,
-"o": "GBR",
-"d": "FRA",
-"value": 0.884,
-"reference": 513,
-"ratio": 3.64,
+"o": "CAN",
+"d": "GBR",
+"value": 0.95,
+"reference": 4096,
+"ratio": 3.53,
 "level": "qa",
-"text": "crude oil from the United Kingdom to France (GBFAW to FRFOS): main route 1,869 nm, 3.6 times the great-circle distance; check the gateways"
+"text": "crude oil from Canada to the United Kingdom (CAVAN to GBFAW): main route 14,442 nm, 3.5 times the great-circle distance; check the gateways"
 },
 {
 "check": "K12",
@@ -3847,6 +3871,18 @@
 "ratio": 2.85,
 "level": "qa",
 "text": "crude oil from Saudi Arabia to Bulgaria (SARTA to BGVAR): main route 4,175 nm, 2.9 times the great-circle distance; check the gateways"
+},
+{
+"check": "K12",
+"group": "crude-oil",
+"year": 2024,
+"o": "CAN",
+"d": "DEU",
+"value": 0.862,
+"reference": 4159,
+"ratio": 3.58,
+"level": "qa",
+"text": "crude oil from Canada to Germany (CAVAN to DEWVN): main route 14,873 nm, 3.6 times the great-circle distance; check the gateways"
 },
 {
 "check": "K12",
@@ -4011,10 +4047,10 @@
 "o": "TUR",
 "d": "ARE",
 "value": 1.249,
-"reference": 1204,
-"ratio": 2.87,
+"reference": 1157,
+"ratio": 3.01,
 "level": "qa",
-"text": "refined products from Turkey to the United Arab Emirates (TRMER to AERUW): main route 3,451 nm, 2.9 times the great-circle distance; check the gateways"
+"text": "refined products from Turkey to the United Arab Emirates (TRCEY to AERUW): main route 3,487 nm, 3.0 times the great-circle distance; check the gateways"
 },
 {
 "check": "K12",
