@@ -148,8 +148,11 @@ class Shares(unittest.TestCase):
     def test_C02_hormuz_crude(self):
         e = estimate("hormuz", "crude-oil")
         print(f"\nC02: Hormuz crude at least {e['f']['v']}%, {e['mt'][0]} Mt; up to {e.get('hi', {}).get('v')}%")
-        self.assertGreaterEqual(e["f"]["v"], 29.5)
-        self.assertAlmostEqual(e["mt"][0], 564, delta=15)
+        # The plan's 29.5% and 564 Mt assumed that every Saudi cargo loads inside the Gulf. The EIA country brief gives
+        # Yanbu, on the Red Sea, a record 18% of Saudi seaborne crude exports in 2024: under the coast rule
+        # sau-crude-red-sea the westbound Saudi cargoes (57.5 Mt) may load at Yanbu and are "may cross" pairs.
+        self.assertGreaterEqual(e["f"]["v"], 26.0)
+        self.assertAlmostEqual(e["mt"][0], 509, delta=20)
         # the plan's 38 to 42 is the uncapped figure; where PortWatch's tanker volume less the other tanker groups' "at
         # least" tonnage caps it (review GE6, finding 8), the UAE crude still adds to the figure and the note says so
         if "capped" in e["hi"]["n"]:
@@ -184,7 +187,11 @@ class Shares(unittest.TestCase):
             t, pw = by_type(low), portwatch(cid)[YEAR]
             out[cid] = (round(t["dry"] / pw["dry"], 2), round(t["tanker"] / pw["tanker"], 2))
         print("\nC05: low over PortWatch 2024 (dry, tanker):", out)
-        bad = {c: v for c, v in out.items() if not all(0.4 <= x <= 1.1 for x in v)}
+        # The Korea Strait has a lower floor: cargo from the Americas for northern China can go south of Japan
+        # (routing.ROUTE_AROUND), and South Korean crude has refinery ports on both sides of the strait, so both are
+        # "may cross" pairs and leave the "at least" figure.
+        floor = {"korea-strait": 0.3}
+        bad = {c: v for c, v in out.items() if not all(floor.get(c, 0.4) <= x <= 1.1 for x in v)}
         self.assertEqual(bad, {})
 
     def test_C06_k9_within_best_year(self):

@@ -555,6 +555,8 @@ export function RowBtn(props: {
   meta?: ComponentChildren;
   tip?: string;
   href?: string;
+  /** the meta text may be long (a unit with a sentence in it): it wraps in its own column instead of widening the row */
+  wrapMeta?: boolean;
 }) {
   const body = (
     <>
@@ -563,7 +565,7 @@ export function RowBtn(props: {
         <span class="row-title">{props.title}</span>
         {props.sub != null && <span class="row-sub">{props.sub}</span>}
       </span>
-      {props.meta != null && <span class="row-meta num">{props.meta}</span>}
+      {props.meta != null && <span class={`row-meta num${props.wrapMeta ? ' row-meta-wrap' : ''}`}>{props.meta}</span>}
     </>
   );
   if (props.href)
@@ -599,6 +601,7 @@ export function CompanyRows(props: { title?: string; list: Company[]; showK?: bo
             </>
           }
           meta={c.fig ? <>{fmt(c.fig.v)} {c.fig.u}<small>{c.fig.y}</small></> : undefined}
+          wrapMeta={!!c.fig && c.fig.u.length > 16}
         />
       ))}
       <SourceLine s={list[0].fig?.s ?? list[0].s} y={yrs.length ? [...new Set(yrs)].slice(0, 3).join(', ') : undefined} />

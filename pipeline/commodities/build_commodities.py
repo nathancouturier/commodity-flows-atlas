@@ -686,7 +686,7 @@ class Baci:
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
         if est_share >= 0.10:  # a total that holds a tenth or more of estimated tonnage says so, and keeps three digits
             n.append(f"includes an Atlas estimate: {est_share * 100:.0f}% of world tonnage is estimated from the declared value where the "
-                     "reported tonnage is missing or inconsistent (world total shown to three significant digits)")
+                     "reported tonnage is missing or inconsistent (world total rounded)")
         elif est_share >= 0.01:
             n.append(f"{est_share * 100:.0f}% of world tonnage estimated from value where missing or inconsistent")
         if extra:
@@ -1671,7 +1671,7 @@ def main():
                 t["n"] = (f"Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS {code} ('mineral substances not elsewhere "
                           f"specified'), keeping only the rows from {_and([cname(c) for c in exporters])} to {_and([cname(c) for c in importers])}, the exporters for "
                           f"which a page read by the atlas says they ship lithium concentrate to China (the pages are in the notes of the page): {st:.0%} of the tonnage and {sv:.0%} of the "
-                          f"value of the code in {BACI_YEAR}. These rows may still hold other minerals. Values shown to three significant digits. "
+                          f"value of the code in {BACI_YEAR}. These rows may still hold other minerals. "
                           "Customs gross weight of concentrate, not lithium content. " + t["n"])
                 extra = d.setdefault("extra", [])
                 extra.append({"key": "spodumene-exports", "title": f"Spodumene concentrate to China, {BACI_YEAR} (Atlas estimate)",
@@ -1921,7 +1921,7 @@ def _fine_metal(d, baci, cid, disc):
     world_gross = x["t0"].sum() / div
     n = (f"Atlas estimate: fine-metal equivalent of every flow of {what} in CEPII BACI HS92, {BACI_YEAR}, all transport modes: {how}; "
          f"never above the customs gross weight, which each row's note gives (world: {_fmt(world_gross)} {u} gross weight); "
-         "values shown to three significant digits")
+         "values rounded")
     if cid == "pgm":
         n += ("; valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that "
               "are not in the loaded sources: a flow rich in them is overstated or understated")

@@ -142,6 +142,12 @@ test('seaborne within 0.1% of the sum passes', () => {
 });
 rejects('a note for a pair that has no row', (d) => (d.pairs.notes = { 'AUS-JPN': 'x' }), 'note "AUS-JPN"');
 rejects('a port basis index out of range', (d) => ((d.pairs.bases = ['page names the cargo']), (d.pairs.ports[0][4] = 3)), 'basis index 3');
+rejects('a pairs basis outside the vocabulary of ports.py', (d) => (d.pairs.bases = ['nearest port']), 'bases names "nearest port"');
+rejects('a lane port basis outside the vocabulary of ports.py', (d) => (d.lane.ports.AAAAA.basis = 'guess'), 'basis "guess"');
+test('a lane port basis from ports.py passes', () => {
+  const { errors } = run((d) => (d.lane.ports.AAAAA.basis = 'general port of the country'));
+  assert.deepEqual(errors, []);
+});
 test('notes and a port basis that are well formed pass', () => {
   const { errors } = run((d) => ((d.pairs.bases = ['nearest seaport']), (d.pairs.ports[0][4] = 0), (d.pairs.notes = { 'AUS-CHN': 'Atlas estimate: x' })));
   assert.deepEqual(errors, []);

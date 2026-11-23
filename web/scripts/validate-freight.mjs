@@ -20,6 +20,8 @@ import { fileURLToPath } from 'node:url';
 const SETS = ['main', 'history'];
 const MODES = ['mixed'];
 const BASES = ['single', 'rule', 'measured', 'open'];
+/** Why a port is used (pipeline/freight/ports.py, BASES): the values of a pairs file's `bases` and of a lane file's port `basis`. */
+const PORT_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'general port of the country', 'port used before, no page read', 'nearest seaport'];
 const COLS = ['o', 'd', 'kt', 'm', 'load', 'dis', 'nm', 'cls', 'via', 'alt', 'f'];
 /** Smallest tonnage (Mt) of a main lane: 0.05 unless the group is listed (PLAN 2.2). */
 const FLOOR = { coffee: 0.02, cocoa: 0.02, cotton: 0.02, 'nickel-int': 0.02, 'copper-refined': 0.02, 'zinc-ore': 0.02, aluminium: 0.03, soyoil: 0.03 };
@@ -85,6 +87,7 @@ export function validateFreight(root, errors) {
     for (const p of doc.ports) if (!Array.isArray(p) || p.length < 4 || typeof p[0] !== 'string') bad(file, `a port entry is not [code, name, country, zone]: ${JSON.stringify(p)}`);
     // the basis of a port (optional fifth element): an index in the file's `bases`
     if (doc.bases !== undefined && !(Array.isArray(doc.bases) && doc.bases.every((b) => typeof b === 'string'))) bad(file, 'bases is not a list of strings');
+    else for (const b of doc.bases ?? []) if (!PORT_BASES.includes(b)) bad(file, `bases names "${b}", which is not one of the port bases of ports.py`);
     for (const p of doc.ports) {
       if (Array.isArray(p) && p[4] != null && !(Number.isInteger(p[4]) && p[4] >= 0 && p[4] < (doc.bases?.length ?? 0))) bad(file, `port ${p[0]}: basis index ${p[4]} is not in bases`);
       if (knownCountries && Array.isArray(p) && !knownCountries.has(p[2])) bad(file, `port ${p[0]}: country "${p[2]}" is not in countries/index.json or places.json`);
@@ -144,6 +147,7 @@ export function validateFreight(root, errors) {
     const group = f.replace(/\.json$/, '');
     if (hasPairs && !pairGroups.has(group)) bad(file, `no pairs file freight/pairs/${f}`);
     const ports = doc.ports ?? {};
+    for (const [id, port] of Object.entries(ports)) if (port?.basis !== undefined && !PORT_BASES.includes(port.basis)) bad(file, `port ${id}: basis "${port.basis}" is not one of the port bases of ports.py`);
     const ids = new Set();
     const mains = new Set();
     mainLanes.set(group, mains);

@@ -130,8 +130,12 @@ def main():
                 share = r["v"] / world if world else None
                 e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
                 if r.get("est") or t["s"] == "atlas":
-                    # most of the row's tonnage is an Atlas estimate (or the table is a conversion): the row is credited to the atlas
-                    e["s"], e["est"] = "atlas", True
+                    # most of the row's tonnage is an Atlas estimate, or the table is the atlas's own: the row is credited
+                    # to the atlas. A table that only converts a published figure to another unit ("Atlas conversion") is
+                    # not an estimate and carries no estimate mark.
+                    e["s"] = "atlas"
+                    if r.get("est") or not str(t.get("n") or "").startswith("Atlas conversion"):
+                        e["est"] = True
                 label = label or (PRODUCTION_LABEL.get(k) if section == "production" else TRADE_LABEL.get(k))
                 if label:
                     e["label"] = label

@@ -259,7 +259,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: coal exports of Tanzania in 2024: 3.49 Mt in customs data (CEPII BACI), 0.0703 Mt in EIA International Energy Data
 - flag: coal exports of the Netherlands in 2024: 2.82 Mt in customs data (CEPII BACI), 15.7 Mt in EIA International Energy Data
 
-### K6: exporter continuity (17)
+### K6: exporter continuity (18)
 
 - flag: Copper ore exports of Panama: 0.0111 Mt in 2024 against 1.36 Mt in 2023 (CEPII BACI)
 - flag: Urea exports of China: 0.511 Mt in 2024 against 4.61 Mt in 2023 (CEPII BACI)
@@ -271,6 +271,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Nickel intermediates exports of Papua New Guinea: 0.0291 Mt in 2016 against 0.103 Mt and 0.16 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Sugar exports of Pakistan: 0.346 Mt in 2016 against 1.65 Mt and 1.55 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Bauxite exports of Malaysia: 25.5 Mt in 2015 against 3.42 Mt and 3.4 Mt in 2014 and 2016 (CEPII BACI)
+- flag: Nickel fe exports of Venezuela: 0.00641 Mt in 2013 against 0.039 Mt and 0.034 Mt in 2012 and 2014 (CEPII BACI)
 - flag: Iron ore exports of China: 5.89 Mt in 2012 against 0.012 Mt and 0.01 Mt in 2011 and 2013 (CEPII BACI)
 - flag: Rapeseed exports of Romania: 0.0755 Mt in 2012 against 0.597 Mt and 0.442 Mt in 2011 and 2013 (CEPII BACI)
 - flag: Refined products exports of Aruba: 4.48 Mt in 2011 against 0.245 Mt and 1.25 Mt in 2010 and 2012 (CEPII BACI)
@@ -470,7 +471,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: LNG exports of Spain: 0.671 Mt in 2024, no LNG export terminal for it in data/infrastructure/lng.geojson
 - qa: LNG exports of Singapore: 0.522 Mt in 2024, no LNG export terminal for it in data/infrastructure/lng.geojson
 
-### K12: main route against the great-circle distance of its ports (QA only) (82)
+### K12: main route against the great-circle distance of its ports (QA only) (81)
 
 - qa: Coal from Indonesia to Brunei (IDTBA to BNMUA): main route 805 nm, 2.6 times the great-circle distance; check the gateways
 - qa: Corn from Argentina to Peru (ARUPR to PECLL): main route 4,434 nm, 2.9 times the great-circle distance; check the gateways
@@ -490,16 +491,17 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Crude oil from Saudi Arabia to the Netherlands (SARTA to NLRTM): main route 11,314 nm, 4.5 times the great-circle distance; check the gateways
 - qa: Crude oil from Brazil to Chile (BRADR to CLANF): main route 4,317 nm, 3.0 times the great-circle distance; check the gateways
 - qa: Crude oil from Saudi Arabia to Lithuania (SARTA to LTKLJ): main route 12,181 nm, 5.7 times the great-circle distance; check the gateways
+- qa: Crude oil from Saudi Arabia to Spain (SARTA to ESBIO): main route 10,832 nm, 3.9 times the great-circle distance; check the gateways
 - qa: Crude oil from Iraq to Germany (IQBOT to DEWVN): main route 11,662 nm, 5.1 times the great-circle distance; check the gateways
 - qa: Crude oil from the United States to Japan (USCRP to JPCHB): main route 15,979 nm, 2.8 times the great-circle distance; check the gateways
 - qa: Crude oil from Saudi Arabia to Greece (SARTA to GRPIR): main route 3,819 nm, 2.6 times the great-circle distance; check the gateways
 - qa: Crude oil from Kazakhstan to Turkey (KZCPC to TRCEY): main route 1,276 nm, 2.7 times the great-circle distance; check the gateways
 - qa: Crude oil from Saudi Arabia to Germany (SARTA to DEWVN): main route 11,523 nm, 4.7 times the great-circle distance; check the gateways
-- qa: Crude oil from Norway to Italy (NOMON to ITTRS): main route 3,599 nm, 3.7 times the great-circle distance; check the gateways
+- qa: Crude oil from Iraq to Spain (IQBOT to ESBIO): main route 10,971 nm, 4.2 times the great-circle distance; check the gateways
 - qa: Crude oil from Canada to the Netherlands (CAVAN to NLRTM): main route 14,664 nm, 3.5 times the great-circle distance; check the gateways
 - qa: Crude oil from Iraq to Bulgaria (IQBOT to BGVAR): main route 4,314 nm, 3.3 times the great-circle distance; check the gateways
 - qa: Crude oil from Saudi Arabia to Egypt (SARTA to EGALY): main route 3,388 nm, 3.1 times the great-circle distance; check the gateways
-- qa: Crude oil from Canada to Spain (CAVAN to ESALG): main route 13,653 nm, 2.9 times the great-circle distance; check the gateways
+- qa: Crude oil from Canada to Spain (CAVAN to ESBIO): main route 14,187 nm, 3.2 times the great-circle distance; check the gateways
 - qa: Crude oil from the United Arab Emirates to Germany (AEFJR to DEWVN): main route 11,131 nm, 4.1 times the great-circle distance; check the gateways
 - qa: Crude oil from Canada to the United Kingdom (CAVAN to GBFAW): main route 14,442 nm, 3.5 times the great-circle distance; check the gateways
 - qa: Crude oil from Saudi Arabia to Bulgaria (SARTA to BGVAR): main route 4,175 nm, 2.9 times the great-circle distance; check the gateways
@@ -507,7 +509,6 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Crude oil from Brazil to Peru (BRADR to PECLL): main route 5,020 nm, 2.5 times the great-circle distance; check the gateways
 - qa: Crude oil from Norway to Bulgaria (NOMON to BGVAR): main route 3,853 nm, 2.9 times the great-circle distance; check the gateways
 - qa: Crude oil from Norway to Romania (NOMON to ROCND): main route 3,892 nm, 3.0 times the great-circle distance; check the gateways
-- qa: Crude oil from the United Kingdom to Italy (GBSCU to ITTRS): main route 3,447 nm, 3.3 times the great-circle distance; check the gateways
 - qa: DAP from China to Bangladesh (CNTSN to BDCGP): main route 4,279 nm, 2.6 times the great-circle distance; check the gateways
 - qa: Iron ore from Bahrain to Saudi Arabia (BHMSN to SAKAC): main route 2,499 nm, 3.7 times the great-circle distance; check the gateways
 - qa: Iron ore from Sweden to Qatar (SELLA to QARLF): main route 7,793 nm, 3.0 times the great-circle distance; check the gateways
@@ -533,7 +534,6 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Refined products from Russia to Saudi Arabia (RUPRI to SAJUB): main route 7,749 nm, 3.6 times the great-circle distance; check the gateways
 - qa: Refined products from Kuwait to the Netherlands (KWMEA to NLRTM): main route 6,672 nm, 2.8 times the great-circle distance; check the gateways
 - qa: Refined products from Iraq to Greece (IQBOT to GRPIR): main route 3,958 nm, 2.9 times the great-circle distance; check the gateways
-- qa: Refined products from Kazakhstan to Turkey (GEBUS to TRMER): main route 1,327 nm, 3.0 times the great-circle distance; check the gateways
 - qa: Refined products from Turkey to the United Arab Emirates (TRCEY to AERUW): main route 3,487 nm, 3.0 times the great-circle distance; check the gateways
 - qa: Refined products from the Netherlands to Saudi Arabia (NLRTM to SAJUB): main route 6,543 nm, 2.6 times the great-circle distance; check the gateways
 - qa: Refined products from Lithuania to Ukraine (LTKLJ to UAODS): main route 4,393 nm, 6.7 times the great-circle distance; check the gateways
@@ -562,93 +562,89 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | passage | type | at least (Mt) | up to (Mt) | PortWatch, latest year (Mt) | best year (Mt) | at least / best | level |
 |---|---|---|---|---|---|---|---|
 | bab-el-mandeb | cargo | 53.9 | 56.0 | 36.5 | 390.3 (2019) | 0.14 | flag |
-| bab-el-mandeb | dry | 242.3 | 252.3 | 176.9 | 381.1 (2023) | 0.64 | flag |
-| bab-el-mandeb | tanker | 336.9 | 648.4 | 211.9 | 473.2 (2023) | 0.71 | flag |
+| bab-el-mandeb | dry | 243.3 | 253.3 | 176.9 | 381.1 (2023) | 0.64 | flag |
+| bab-el-mandeb | tanker | 328.6 | 396.1 | 211.9 | 473.2 (2023) | 0.69 | flag |
 | bosphorus | cargo | 19.1 | 19.1 | 57.6 | 64.3 (2021) | 0.30 | qa |
 | bosphorus | dry | 174.7 | 195.1 | 203.5 | 241.4 (2021) | 0.72 | qa |
-| bosphorus | tanker | 99.8 | 191.8 | 173.5 | 184.2 (2019) | 0.54 | qa |
+| bosphorus | tanker | 95.8 | 187.8 | 173.5 | 184.2 (2019) | 0.52 | qa |
 | cape-good-hope | cargo | 13.8 | 13.8 | 443.2 | 479.7 (2025) | 0.03 | qa |
-| cape-good-hope | dry | 769.3 | 770.3 | 1,054 | 1,183 (2025) | 0.65 | qa |
-| cape-good-hope | tanker | 328.9 | 328.9 | 418.1 | 418.1 (2024) | 0.79 | qa |
+| cape-good-hope | dry | 768.8 | 769.8 | 1,054 | 1,183 (2025) | 0.65 | qa |
+| cape-good-hope | tanker | 334.1 | 334.1 | 418.1 | 418.1 (2024) | 0.80 | qa |
 | danish-straits | cargo | 10.2 | 10.2 | 16.7 | 22.3 (2020) | 0.46 | qa |
-| danish-straits | dry | 51.5 | 71.9 | 8.80 | 10.7 (2025) | 4.81 | qa |
+| danish-straits | dry | 51.6 | 71.9 | 8.80 | 10.7 (2025) | 4.81 | qa |
 | danish-straits | tanker | 92.1 | 184.1 | 9.00 | 12.1 (2025) | 7.60 | qa |
 | dover | cargo | 37.0 | 37.0 | 390.0 | 406.9 (2025) | 0.09 | qa |
-| dover | dry | 150.6 | 165.2 | 337.1 | 366.9 (2022) | 0.41 | qa |
-| dover | tanker | 294.6 | 438.4 | 562.8 | 576.7 (2023) | 0.51 | qa |
+| dover | dry | 150.9 | 165.5 | 337.1 | 366.9 (2022) | 0.41 | qa |
+| dover | tanker | 293.6 | 437.4 | 562.8 | 576.7 (2023) | 0.51 | qa |
 | gibraltar | cargo | 50.5 | 51.2 | 407.5 | 419.7 (2021) | 0.12 | qa |
-| gibraltar | dry | 320.6 | 351.1 | 383.9 | 514.0 (2023) | 0.62 | qa |
-| gibraltar | tanker | 380.9 | 495.8 | 503.8 | 571.0 (2023) | 0.67 | qa |
+| gibraltar | dry | 321.9 | 352.3 | 383.9 | 514.0 (2023) | 0.63 | qa |
+| gibraltar | tanker | 324.5 | 509.7 | 503.8 | 571.0 (2023) | 0.57 | qa |
 | hormuz | cargo | 21.7 | 23.2 | 169.8 | 174.6 (2023) | 0.12 | qa |
 | hormuz | dry | 88.6 | 90.3 | 195.8 | 203.1 (2022) | 0.44 | qa |
-| hormuz | tanker | 510.6 | 1,067 | 915.4 | 1,056 (2022) | 0.48 | qa |
-| korea-strait | cargo | 42.5 | 42.5 | 426.2 | 426.2 (2024) | 0.10 | qa |
-| korea-strait | dry | 215.3 | 262.7 | 428.0 | 433.6 (2025) | 0.50 | qa |
-| korea-strait | tanker | 267.8 | 272.0 | 320.9 | 320.9 (2024) | 0.83 | qa |
+| hormuz | tanker | 823.0 | 1,065 | 915.4 | 1,056 (2022) | 0.78 | qa |
+| korea-strait | cargo | 36.4 | 46.6 | 426.2 | 426.2 (2024) | 0.09 | qa |
+| korea-strait | dry | 156.6 | 269.6 | 428.0 | 433.6 (2025) | 0.36 | qa |
+| korea-strait | tanker | 112.8 | 301.1 | 320.9 | 320.9 (2024) | 0.35 | qa |
 | lombok | cargo | 0.00 | 10.9 | 2.80 | 2.80 (2024) | 0.00 | qa |
-| lombok | dry | 843.7 | 1,581 | 950.3 | 1,025 (2025) | 0.82 | qa |
-| lombok | tanker | 4.90 | 187.0 | 48.4 | 53.3 (2022) | 0.09 | qa |
+| lombok | dry | 847.4 | 1,585 | 950.3 | 1,025 (2025) | 0.83 | qa |
+| lombok | tanker | 3.70 | 184.1 | 48.4 | 53.3 (2022) | 0.07 | qa |
 | luzon | cargo | 0.00 | 127.4 | 81.3 | 84.2 (2025) | 0.00 | qa |
-| luzon | dry | 27.3 | 1,821 | 1,169 | 1,169 (2024) | 0.02 | qa |
-| luzon | tanker | 7.00 | 960.3 | 661.0 | 661.0 (2024) | 0.01 | qa |
+| luzon | dry | 27.3 | 1,826 | 1,169 | 1,169 (2024) | 0.02 | qa |
+| luzon | tanker | 6.80 | 967.8 | 661.0 | 661.0 (2024) | 0.01 | qa |
 | makassar | cargo | 0.00 | 21.3 | 9.50 | 10.3 (2023) | 0.00 | qa |
-| makassar | dry | 1,004 | 1,577 | 1,085 | 1,124 (2023) | 0.89 | qa |
-| makassar | tanker | 31.6 | 164.0 | 21.2 | 27.5 (2022) | 1.15 | flag |
+| makassar | dry | 1,008 | 1,581 | 1,085 | 1,124 (2023) | 0.90 | qa |
+| makassar | tanker | 15.4 | 164.4 | 21.2 | 27.5 (2022) | 0.56 | qa |
 | malacca | cargo | 66.6 | 91.4 | 670.2 | 727.1 (2025) | 0.09 | qa |
-| malacca | dry | 188.7 | 1,150 | 1,190 | 1,287 (2025) | 0.15 | qa |
-| malacca | tanker | 810.0 | 1,045 | 1,253 | 1,295 (2025) | 0.63 | qa |
+| malacca | dry | 188.9 | 1,151 | 1,190 | 1,287 (2025) | 0.15 | qa |
+| malacca | tanker | 808.1 | 1,061 | 1,253 | 1,295 (2025) | 0.62 | qa |
 | ombai | cargo | 0.00 | 1.00 | 10.2 | 10.4 (2021) | 0.00 | qa |
 | ombai | dry | 71.9 | 83.8 | 134.2 | 260.5 (2025) | 0.28 | qa |
-| ombai | tanker | 0.70 | 0.80 | 27.5 | 27.5 (2024) | 0.02 | qa |
+| ombai | tanker | 0.70 | 0.90 | 27.5 | 27.5 (2024) | 0.02 | qa |
 | panama | cargo | 13.5 | 14.6 | 105.4 | 114.8 (2025) | 0.12 | qa |
-| panama | dry | 42.8 | 130.7 | 60.1 | 119.5 (2021) | 0.36 | qa |
-| panama | tanker | 116.9 | 119.2 | 107.1 | 121.7 (2022) | 0.96 | flag |
+| panama | dry | 43.3 | 131.1 | 60.1 | 119.5 (2021) | 0.36 | qa |
+| panama | tanker | 103.6 | 158.1 | 107.1 | 121.7 (2022) | 0.85 | qa |
 | suez | cargo | 54.5 | 55.3 | 79.9 | 392.4 (2021) | 0.14 | qa |
-| suez | dry | 247.1 | 257.8 | 183.9 | 379.8 (2023) | 0.65 | flag |
-| suez | tanker | 352.9 | 355.2 | 226.0 | 452.0 (2023) | 0.78 | flag |
+| suez | dry | 248.2 | 258.8 | 183.9 | 379.8 (2023) | 0.65 | flag |
+| suez | tanker | 341.1 | 351.1 | 226.0 | 452.0 (2023) | 0.75 | flag |
 | sunda | cargo | 0.10 | 27.2 | 37.8 | 37.8 (2024) | 0.00 | qa |
-| sunda | dry | 1.60 | 993.3 | 300.9 | 307.1 (2025) | 0.01 | qa |
-| sunda | tanker | 0.10 | 277.4 | 104.5 | 122.7 (2025) | 0.00 | qa |
+| sunda | dry | 1.60 | 994.8 | 300.9 | 307.1 (2025) | 0.01 | qa |
+| sunda | tanker | 0.10 | 284.1 | 104.5 | 122.7 (2025) | 0.00 | qa |
 | taiwan-strait | cargo | 0.00 | 127.0 | 707.7 | 740.6 (2025) | 0.00 | qa |
-| taiwan-strait | dry | 49.5 | 1,759 | 1,061 | 1,100 (2025) | 0.04 | qa |
-| taiwan-strait | tanker | 9.00 | 962.3 | 294.6 | 329.2 (2021) | 0.03 | qa |
+| taiwan-strait | dry | 49.5 | 1,764 | 1,061 | 1,100 (2025) | 0.04 | qa |
+| taiwan-strait | tanker | 9.00 | 963.6 | 294.6 | 329.2 (2021) | 0.03 | qa |
 | torres | cargo | 0.50 | 4.00 | 12.9 | 13.8 (2019) | 0.04 | qa |
 | torres | dry | 22.6 | 38.3 | 42.5 | 49.0 (2025) | 0.46 | qa |
 | torres | tanker | 13.6 | 50.3 | 13.5 | 14.4 (2023) | 0.94 | flag |
 
-- Suez Canal, dry bulk: at least 247 Mt and up to 258 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
-- Suez Canal, tanker: at least 353 Mt and up to 355 Mt of the atlas's seaborne groups in 2024, against 226 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 452 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
-- Bab el-Mandeb, dry bulk: at least 242 Mt and up to 252 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
-- Bab el-Mandeb, tanker: at least 337 Mt and up to 648 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
+- Suez Canal, dry bulk: at least 248 Mt and up to 259 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
+- Suez Canal, tanker: at least 341 Mt and up to 351 Mt of the atlas's seaborne groups in 2024, against 226 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 452 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
+- Bab el-Mandeb, dry bulk: at least 243 Mt and up to 253 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
+- Bab el-Mandeb, tanker: at least 329 Mt and up to 396 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, container, general cargo and ro-ro: at least 53.9 Mt and up to 56.0 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 390 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023" (Wikipedia, Red Sea crisis)
-- Panama Canal, tanker: at least 117 Mt and up to 119 Mt of the atlas's seaborne groups in 2024, against 107 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 122 Mt in 2022); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
-- Makassar Strait, tanker: at least 31.6 Mt and up to 164 Mt of the atlas's seaborne groups in 2024, against 21.2 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 27.5 Mt in 2022); above 110% of the best year: the ports or routes the atlas assumes probably overstate it. Largest pairs: crude oil Nigeria to Indonesia 4.8 Mt, crude oil Saudi Arabia to Indonesia 3.4 Mt, refined products Indonesia to Singapore 3.4 Mt
 - Torres Strait, tanker: at least 13.6 Mt and up to 50.3 Mt of the atlas's seaborne groups in 2024, against 13.5 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 14.4 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
 
 ### Parallel passages under other thresholds of the parallel rule (K9)
 
-Recomputed with `routing.classify()` from the option distances cached by `build_lanes.py` (no routing). Incomplete: 2.90 Mt of pairs were not recomputed (their plan was not cached), so every figure of the table may be short by up to 2.90 Mt and the 5% or 300 nm column is not an exact reproduction of the published figures.
+Recomputed with `routing.classify()` from the option distances cached by `build_lanes.py` (no routing). The published figures use 5% or 300 nm.
 
 | passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |
 |---|---|---|---|
-| Strait of Malacca | 1,140 to 2,278 | 1,062 to 2,283 | 588.0 to 2,284 |
-| Sunda Strait | 22.9 to 1,160 | 1.70 to 1,298 | 1.60 to 1,777 |
-| Lombok Strait | 850.0 to 1,328 | 848.6 to 1,779 | 848.3 to 2,115 |
-| Taiwan Strait | 387.4 to 2,848 | 58.5 to 2,848 | 49.5 to 2,848 |
-| Luzon Strait | 34.5 to 2,568 | 34.3 to 2,908 | 34.3 to 2,917 |
-
-Pairs skipped because their plan was not cached: 2.90 Mt.
+| Strait of Malacca | 1,145 to 2,299 | 1,064 to 2,304 | 686.4 to 2,304 |
+| Sunda Strait | 23.2 to 1,160 | 1.90 to 1,306 | 1.80 to 1,689 |
+| Lombok Strait | 852.6 to 1,333 | 851.1 to 1,780 | 850.9 to 2,126 |
+| Taiwan Strait | 463.7 to 2,855 | 58.5 to 2,855 | 49.5 to 2,855 |
+| Luzon Strait | 34.4 to 2,505 | 34.1 to 2,921 | 34.1 to 2,930 |
 
 ### EIA beside the atlas (crude oil)
 
-- Strait of Hormuz, crude oil: EIA 14.7 mb/d (1H25, eia-chokepoints) is about 732 Mt a year at 7.33 barrels per tonne; the atlas gives at least 257 Mt and up to 662 Mt in 2024 (ratio of the 'at least' figure: 0.35)
-- Strait of Malacca, crude oil: EIA 16.6 mb/d (1H25, eia-chokepoints) is about 826 Mt a year at 7.33 barrels per tonne; the atlas gives at least 582 Mt and up to 774 Mt in 2024 (ratio of the 'at least' figure: 0.70)
-- Suez Canal, crude oil: EIA 2.8 mb/d (1H25, eia-chokepoints) is about 139 Mt a year at 7.33 barrels per tonne; the atlas gives at least 178 Mt and up to 178 Mt in 2024 (ratio of the 'at least' figure: 1.28)
-- Bab el-Mandeb, crude oil: EIA 2.4 mb/d (1H25, eia-chokepoints) is about 119 Mt a year at 7.33 barrels per tonne; the atlas gives at least 166 Mt and up to 166 Mt in 2024 (ratio of the 'at least' figure: 1.39)
-- Panama Canal, crude oil: EIA 0.1 mb/d (FY2025, eia-chokepoints) is about 5.0 Mt a year at 7.33 barrels per tonne; the atlas gives at least 7.3 Mt and up to 7.3 Mt in 2024 (ratio of the 'at least' figure: 1.47)
-- Turkish Straits (Bosphorus and Dardanelles), crude oil: EIA 2.1 mb/d (1H25, eia-chokepoints) is about 105 Mt a year at 7.33 barrels per tonne; the atlas gives at least 64 Mt and up to 138 Mt in 2024 (ratio of the 'at least' figure: 0.61)
+- Strait of Hormuz, crude oil: EIA 14.7 mb/d (1H25, eia-chokepoints) is about 732 Mt a year at 7.33 barrels per tonne; the atlas gives at least 509 Mt and up to 601 Mt in 2024 (ratio of the 'at least' figure: 0.70)
+- Strait of Malacca, crude oil: EIA 16.6 mb/d (1H25, eia-chokepoints) is about 826 Mt a year at 7.33 barrels per tonne; the atlas gives at least 582 Mt and up to 785 Mt in 2024 (ratio of the 'at least' figure: 0.70)
+- Suez Canal, crude oil: EIA 2.8 mb/d (1H25, eia-chokepoints) is about 139 Mt a year at 7.33 barrels per tonne; the atlas gives at least 173 Mt and up to 173 Mt in 2024 (ratio of the 'at least' figure: 1.24)
+- Bab el-Mandeb, crude oil: EIA 2.4 mb/d (1H25, eia-chokepoints) is about 119 Mt a year at 7.33 barrels per tonne; the atlas gives at least 164 Mt and up to 164 Mt in 2024 (ratio of the 'at least' figure: 1.37)
+- Panama Canal, crude oil: EIA 0.1 mb/d (FY2025, eia-chokepoints) is about 5.0 Mt a year at 7.33 barrels per tonne; the atlas gives at least 3.3 Mt and up to 6.8 Mt in 2024 (ratio of the 'at least' figure: 0.66)
+- Turkish Straits (Bosphorus and Dardanelles), crude oil: EIA 2.1 mb/d (1H25, eia-chokepoints) is about 105 Mt a year at 7.33 barrels per tonne; the atlas gives at least 64 Mt and up to 142 Mt in 2024 (ratio of the 'at least' figure: 0.61)
 - Danish Straits, crude oil: EIA 2.7 mb/d (1H25, eia-chokepoints) is about 134 Mt a year at 7.33 barrels per tonne; the atlas gives at least 47 Mt and up to 139 Mt in 2024 (ratio of the 'at least' figure: 0.35)
-- Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 278 Mt and up to 278 Mt in 2024 (ratio of the 'at least' figure: 0.92)
+- Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 284 Mt and up to 284 Mt in 2024 (ratio of the 'at least' figure: 0.93)
 
 ## Rows dropped by the cleaning rules
 

@@ -1,6 +1,6 @@
 /** Small map legend: only describes what is currently drawn. It can be folded away to free the map. */
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection } from '../lib/store';
+import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection, year } from '../lib/store';
 import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt, pct, shareOpacity } from '../lib/format';
@@ -218,6 +218,11 @@ export function Legend() {
             <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.construction }} />Under construction</span>
             <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.closed }} />Closed</span>
             <span class="legend-item muted">Dashed pipeline = not operating</span>
+            {year.value != null && (
+              <span class="legend-item muted" title="History: an asset whose opening year is known is dimmed before it opens. Many assets have no opening year in the data, and those are drawn at every year.">
+                History: dimmed = not open yet; no opening year = drawn at every year
+              </span>
+            )}
           </div>
         </div>
       )}

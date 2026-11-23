@@ -187,7 +187,8 @@ class Pairs(unittest.TestCase):
             self.assertEqual(set(keys), set(zip(y[y.group == g].o, y[y.group == g].d)), g)
             n += len(keys)
         print(f"\nP01: {n} rows")
-        self.assertTrue(23600 <= n <= 23800, n)
+        # 34 groups since the ferro-nickel and spodumene groups were added (23,739 rows with the first 32)
+        self.assertTrue(23700 <= n <= 24100, n)
 
     def test_P02_seaborne_rows_routed(self):
         for g, o, d, kt, m in (("coal", "USA", "CHN", 12092, None), ("coal", "CAN", "CHN", 9529, None),

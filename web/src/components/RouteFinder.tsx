@@ -20,6 +20,7 @@ import {
   familyLabel,
   finderCommodity,
   ladenDays,
+  lacksSpeed,
   loadCaveats,
   loadLaneFile,
   loadPairs,
@@ -27,6 +28,7 @@ import {
   originCaveats,
   sameVesselFamily,
   vesselName,
+  NO_SPEED,
   type LaneStatus,
   type Pair,
 } from '../lib/freight';
@@ -470,6 +472,8 @@ function Answer({
         : transitPorts(pair).map((t) => ({ ...t, p: laneFile?.ports[t.id] }));
   const days = shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
   const speed = !shown ? ladenDays(nm, typical ?? null) : null;
+  // a class with no speed in the catalogue (container ships): the days cannot be computed, and the card says so
+  const noSpeed = !!typical && lacksSpeed(typical);
 
   return (
     <div class="rf-card">
@@ -510,8 +514,9 @@ function Answer({
         {routed && (
           <div>
             <dt>{days != null ? 'Distance · laden' : 'Distance'}</dt>
-            <dd class="num" title={speed?.note ?? (shown ? 'At the assumed laden service speed of the primary vessel class (Atlas assumption)' : undefined)}>
+            <dd class="num" title={speed?.note ?? (noSpeed ? `The atlas publishes ${NO_SPEED}` : shown ? 'At the assumed laden service speed of the primary vessel class (Atlas assumption)' : undefined)}>
               {fmt(nm)} nm{days != null ? ` · ${fmt(days)} days` : ''}
+              {days == null && noSpeed && <small> · {NO_SPEED}</small>}
             </dd>
           </div>
         )}

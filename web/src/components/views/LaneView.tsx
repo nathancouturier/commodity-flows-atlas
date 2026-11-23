@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { laneGroup, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
+import { NO_SPEED, lacksSpeed, laneGroup, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
@@ -100,6 +100,7 @@ export default function LaneView({ id }: { id: string }) {
   if (lane.transit2) transits.push({ t: lane.transit2, end: lane.d });
   const landlocked = transits.map((x) => x.end).filter((e): e is string => !!e);
   const classSpeed = lane.vclass[0] ? vesselById.value[lane.vclass[0]]?.speed : undefined;
+  const noSpeed = !classSpeed && lacksSpeed(lane.vclass[0]);
   // coast options: "9,251 nm from New Orleans, or 4,352 nm from Kalama"
   const opts = lane.opts ?? [];
   const loadsDiffer = opts.some((o) => !lane.load.includes(o.load));
@@ -153,9 +154,15 @@ export default function LaneView({ id }: { id: string }) {
           <Kpi label="Distance" value={`${fmt(lane.distanceNm)} nm`} sub={opts.length ? 'Atlas routing · main ports' : 'Atlas routing'} title={mixed ? 'Along the sea route the atlas draws; this trade also moves overland' : 'Along the mapped sea route'} />
           <Kpi
             label="Laden days"
-            value={`${fmt(lane.days)} d`}
-            sub={classSpeed ? `at ${fmt(classSpeed.v)} kn · Atlas assumption` : 'Atlas estimate'}
-            title={classSpeed ? `Distance at the assumed laden service speed of the primary vessel class, ${fmt(classSpeed.v)} kn (Atlas assumption)` : 'Distance at the assumed laden service speed of the primary vessel class (Atlas assumption)'}
+            value={lane.days != null ? `${fmt(lane.days)} d` : '—'}
+            sub={classSpeed ? `at ${fmt(classSpeed.v)} kn · Atlas assumption` : noSpeed ? `Atlas estimate · ${NO_SPEED}` : 'Atlas estimate'}
+            title={
+              classSpeed
+                ? `Distance at the assumed laden service speed of the primary vessel class, ${fmt(classSpeed.v)} kn (Atlas assumption)`
+                : noSpeed
+                  ? 'The atlas publishes no assumed laden service speed for the primary vessel class, so these days cannot be checked against a speed'
+                  : 'Distance at the assumed laden service speed of the primary vessel class (Atlas assumption)'
+            }
           />
         </div>
         {lane.vclass.length > 0 && (

@@ -202,6 +202,16 @@ export function ladenDays(nm: number, vclass: string | null): { days: number; sp
   return { days: Math.round((nm / (kn * 24)) * 10) / 10, speedKn: kn, note: v?.speed?.n ?? v?.speedNote };
 }
 
+/** Words for a class with no assumed speed in vessel-classes.json (container ships): the days of a leg cannot be computed from the catalogue. */
+export const NO_SPEED = 'no assumed speed for this class';
+
+/** True once the vessel catalogue is loaded and the class has no assumed laden speed in it. */
+export function lacksSpeed(vclass: string | null | undefined): boolean {
+  if (!vclass || !vesselClassList.value.length) return false;
+  const v = vesselById.value[vclass];
+  return !(v?.speed?.v ?? v?.speedKn);
+}
+
 // ---------------------------------------------------------------- passages that are crossed together
 
 /**

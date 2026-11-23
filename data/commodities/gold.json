@@ -21,7 +21,7 @@
    "y": 2024,
    "s": "atlas",
    "est": true,
-   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values shown to three significant digits; This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
+   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded; This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
    "alt": {
     "v": 9468.4,
     "u": "t gross weight",
@@ -233,7 +233,7 @@
     "n": "customs gross weight 280.1 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values shown to three significant digits · This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure."
  },
@@ -304,7 +304,7 @@
     "n": "customs gross weight 233.0 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values shown to three significant digits · Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure.",
   "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure."
  },

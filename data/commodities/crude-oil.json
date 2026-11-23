@@ -502,6 +502,6 @@
   "Crude oil exports of the United Arab Emirates in customs data (184 Mt in 2024, CEPII BACI) are 100% of its production (183 Mt, EIA International Energy Data). 24.5 Mt of these exports are Atlas estimates from declared value. Crude of other origins loaded or blended in the country and declared as Emirati is a plausible cause; it is not established here.",
   "Crude oil from Mexico to \"Other Asia, not elsewhere specified\" (BACI code S19), shown here as Taiwan: 2.78 Mt in 2018, 13.1 Mt in 2019, 12.7 Mt in 2020, 15.2 Mt in 2021, 9.99 Mt in 2022, 8.43 Mt in 2023, 7.88 Mt in 2024 (CEPII BACI). No source read for the atlas confirms the destination.",
   "No crude oil from Russia to Turkey is recorded in customs data for 2022 to 2024 (4.2 Mt in 2021, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
-  "Customs data record 32.2 Mt of crude oil exports from the Netherlands in 2024 (CEPII BACI), 2705% of its production (EIA International Energy Data). As a trading, blending and re-export hub, the recorded origin may be where the cargo was last shipped from, not where it was produced."
+  "Customs data record 32.2 Mt of crude oil exports from the Netherlands in 2024 (CEPII BACI), 2705% of its production (EIA International Energy Data). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share."
  ]
 }
