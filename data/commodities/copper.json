@@ -16,18 +16,18 @@
    "n": "USGS MCS 2026, copper reserves, contained copper; USGS world total is rounded"
   },
   "exports": {
-   "v": 44.2,
+   "v": 42.7,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)"
+   "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 29% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)"
   },
   "seaborne": {
-   "v": 38.78,
+   "v": 37.24,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (copper-ore) under the atlas's mode rule (data/freight/lanes/copper-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.41 Mt that move both by sea and overland (split not known) are not in it; 36% of this tonnage estimated from value; main bulk group used: copper-ore"
+   "n": "seaborne subset of BACI flows (copper-ore) under the atlas's mode rule (data/freight/lanes/copper-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.41 Mt that move both by sea and overland (split not known) are not in it; 33% of this tonnage estimated from value; main bulk group used: copper-ore"
   }
  },
  "production": {
@@ -207,11 +207,11 @@
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 44.2,
+  "world": 42.7,
   "rows": [
    {
     "c": "CHL",
-    "v": 14.0,
+    "v": 12.4,
     "n": "Atlas estimate: 99% of this tonnage is estimated from the declared value (customs declared 4.81 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true
    },
@@ -260,39 +260,39 @@
     "v": 0.8037
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 29% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
   "basis": "ores and concentrates, gross weight"
  },
  "imports": {
   "y": 2024,
   "s": "baci",
   "u": "Mt",
-  "world": 44.2,
+  "world": 42.7,
   "rows": [
    {
     "c": "CHN",
-    "v": 28.768,
-    "n": "32% of tonnage estimated from value"
+    "v": 27.739,
+    "n": "30% of tonnage estimated from value"
    },
    {
     "c": "JPN",
-    "v": 5.56,
-    "n": "47% of tonnage estimated from value"
+    "v": 5.268,
+    "n": "44% of tonnage estimated from value"
    },
    {
     "c": "KOR",
-    "v": 1.773,
-    "n": "35% of tonnage estimated from value"
+    "v": 1.704,
+    "n": "33% of tonnage estimated from value"
    },
    {
     "c": "IND",
-    "v": 1.299,
-    "n": "48% of tonnage estimated from value"
+    "v": 1.23,
+    "n": "45% of tonnage estimated from value"
    },
    {
     "c": "ESP",
-    "v": 1.192,
-    "n": "23% of tonnage estimated from value"
+    "v": 1.162,
+    "n": "21% of tonnage estimated from value"
    },
    {
     "c": "BGR",
@@ -300,17 +300,17 @@
    },
    {
     "c": "DEU",
-    "v": 0.8831,
-    "n": "27% of tonnage estimated from value"
+    "v": 0.8566,
+    "n": "25% of tonnage estimated from value"
    },
    {
     "c": "PHL",
-    "v": 0.5603,
-    "n": "14% of tonnage estimated from value"
+    "v": 0.5515,
+    "n": "13% of tonnage estimated from value"
    },
    {
     "c": "MEX",
-    "v": 0.4948
+    "v": 0.4924
    },
    {
     "c": "FIN",
@@ -318,14 +318,14 @@
    },
    {
     "c": "TWN",
-    "v": 0.3767
+    "v": 0.3739
    },
    {
     "c": "SWE",
     "v": 0.3539
    }
   ],
-  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 31% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
+  "n": "CEPII BACI HS92 copper ores and concentrates (HS 2603), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); includes an Atlas estimate: 29% of world tonnage is estimated from the declared value where the reported tonnage is missing or inconsistent (world total rounded)",
   "basis": "ores and concentrates, gross weight"
  },
  "extra": [
@@ -459,14 +459,14 @@
   {
    "o": "CHL",
    "d": "CHN",
-   "v": 9.27,
+   "v": 8.24,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
    "mode": "sea",
    "lane": "copper-ore:CHL-CHN",
    "est": true,
-   "n": "Atlas estimate: CEPII BACI reports 2.79 Mt for USD 20.7 bn (7,428 USD/t), 3.3 times the 2,234 USD/t of copper concentrate from Peru to China in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,234 USD/t"
+   "n": "Atlas estimate: CEPII BACI reports 2.79 Mt for USD 20.7 bn (7,428 USD/t), 3.3 times the 2,234 USD/t of copper concentrate from Peru to China in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,512 USD/t, that unit value of Peru times 1.125, the median ratio of Chile's unit value of copper concentrate to Peru's in the 10 years in which its declarations are in line (2002, 2009, 2014 to 2020 and 2023)"
   },
   {
    "o": "PER",
@@ -481,14 +481,14 @@
   {
    "o": "CHL",
    "d": "JPN",
-   "v": 2.63,
+   "v": 2.34,
    "u": "Mt",
    "y": 2024,
    "s": "atlas",
    "mode": "sea",
    "lane": "copper-ore:CHL-JPN",
    "est": true,
-   "n": "Atlas estimate: CEPII BACI reports 1.22 Mt for USD 5.02 bn (4,111 USD/t), 2.2 times the 1,905 USD/t of copper concentrate from Peru to Japan in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 1,905 USD/t"
+   "n": "Atlas estimate: CEPII BACI reports 1.22 Mt for USD 5.02 bn (4,111 USD/t), 2.2 times the 1,905 USD/t of copper concentrate from Peru to Japan in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,143 USD/t, that unit value of Peru times 1.125, the median ratio of Chile's unit value of copper concentrate to Peru's in the 10 years in which its declarations are in line (2002, 2009, 2014 to 2020 and 2023)"
   },
   {
    "o": "KAZ",
@@ -559,18 +559,6 @@
    "lane": "copper-ore:IDN-JPN"
   },
   {
-   "o": "CHL",
-   "d": "KOR",
-   "v": 0.627,
-   "u": "Mt",
-   "y": 2024,
-   "s": "atlas",
-   "mode": "sea",
-   "lane": "copper-ore:CHL-KOR",
-   "est": true,
-   "n": "Atlas estimate: CEPII BACI reports 339 kt for USD 1.35 bn (3,988 USD/t), 1.8 times the 2,158 USD/t of copper concentrate from Peru to South Korea in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,158 USD/t"
-  },
-  {
    "o": "COD",
    "d": "CHN",
    "v": 0.6248,
@@ -581,18 +569,6 @@
    "lane": "copper-ore:COD-CHN"
   },
   {
-   "o": "CHL",
-   "d": "IND",
-   "v": 0.618,
-   "u": "Mt",
-   "y": 2024,
-   "s": "atlas",
-   "mode": "sea",
-   "lane": "copper-ore:CHL-IND",
-   "est": true,
-   "n": "Atlas estimate: CEPII BACI reports 198 kt for USD 1.34 bn (6,778 USD/t), 3.1 times the 2,170 USD/t of copper concentrate from Peru to India in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,170 USD/t"
-  },
-  {
    "o": "ESP",
    "d": "CHN",
    "v": 0.5712,
@@ -601,6 +577,30 @@
    "s": "baci",
    "mode": "sea",
    "lane": "copper-ore:ESP-CHN"
+  },
+  {
+   "o": "CHL",
+   "d": "KOR",
+   "v": 0.557,
+   "u": "Mt",
+   "y": 2024,
+   "s": "atlas",
+   "mode": "sea",
+   "lane": "copper-ore:CHL-KOR",
+   "est": true,
+   "n": "Atlas estimate: CEPII BACI reports 339 kt for USD 1.35 bn (3,988 USD/t), 1.8 times the 2,158 USD/t of copper concentrate from Peru to South Korea in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,427 USD/t, that unit value of Peru times 1.125, the median ratio of Chile's unit value of copper concentrate to Peru's in the 10 years in which its declarations are in line (2002, 2009, 2014 to 2020 and 2023)"
+  },
+  {
+   "o": "CHL",
+   "d": "IND",
+   "v": 0.549,
+   "u": "Mt",
+   "y": 2024,
+   "s": "atlas",
+   "mode": "sea",
+   "lane": "copper-ore:CHL-IND",
+   "est": true,
+   "n": "Atlas estimate: CEPII BACI reports 198 kt for USD 1.34 bn (6,778 USD/t), 3.1 times the 2,170 USD/t of copper concentrate from Peru to India in 2024; a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; tonnage = declared value divided by 2,440 USD/t, that unit value of Peru times 1.125, the median ratio of Chile's unit value of copper concentrate to Peru's in the 10 years in which its declarations are in line (2002, 2009, 2014 to 2020 and 2023)"
   },
   {
    "o": "ECU",
@@ -665,7 +665,7 @@
  ],
  "notes": [
   "Refined copper (HS 7403, 7402), 2024 (CEPII BACI): world 12.08 Mt gross weight; top exporters COD 2.21 Mt, CHL 2.16 Mt, ZMB 1.08 Mt.",
-  "Chile's copper concentrate: customs data declare some of it at 3,988 to 10,220 USD per tonne in 2024, against about 2,195 for Peru's concentrate to the same destinations, as if the tonnage were contained copper rather than gross weight. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships 50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's unit value. Chile then exports 13.97 Mt instead of the 4.95 Mt declared, and Chile to China 9.27 Mt instead of 2.79 Mt. Importers' own declarations (UN Comtrade) would measure it; the atlas has no access key for them.",
+  "Chile's copper concentrate: customs data declare some of it at 3,988 to 10,220 USD per tonne in 2024, against about 2,195 for Peru's concentrate to the same destinations; a tonnage declared in contained copper rather than gross weight is a plausible cause, not established here. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships 50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's unit value times 1.125, the median ratio of Chile's unit value to Peru's in the 10 years in which Chile's declarations are in line (2002, 2009, 2014 to 2020 and 2023). Chile then exports 12.44 Mt instead of the 4.95 Mt declared, and Chile to China 8.24 Mt instead of 2.79 Mt. Importers' own declarations (UN Comtrade) would measure it; the atlas has no access key for them.",
   "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary)."
  ]
 }
