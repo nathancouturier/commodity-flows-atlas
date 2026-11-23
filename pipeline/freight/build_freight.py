@@ -103,6 +103,12 @@ def mt(v):
     return f"{v:,.0f} Mt" if v >= 10 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
 
 
+def mtn(v):
+    """A tonnage of the notes under the chokepoint estimates, to three significant digits like the page that prints
+    them (a total of 1,000 Mt or more keeps its integer digits)."""
+    return f"{v:,.0f} Mt" if v >= 1000 else f"{float(f'{v:.3g}'):,.10g} Mt"
+
+
 def mt3(v):
     """mt() with one more figure under 100 Mt, for comparisons of two close tonnages."""
     return f"{v:,.0f} Mt" if v >= 100 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
@@ -275,9 +281,9 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                         f"against {mt3(ref) if ref is not None else 'no figure'} for all {TYPE_NAME[typ]} ships in IMF PortWatch {latest} "
                         f"(best full year since {PW_FIRST_YEAR}: {mt3(best)} in {by})")
                 level = "qa"
-                above = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mt3(low)}) is above "
-                         f"IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships" + (f" in {latest} ({mt3(ref)}; " if ref is not None else " (")
-                         + f"{mt3(best)} in {by}, its best full year since {PW_FIRST_YEAR})")
+                above = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mtn(low)}) is above "
+                         f"IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships" + (f" in {latest} ({mtn(ref)}; " if ref is not None else " (")
+                         + f"{mtn(best)} in {by}, its best full year since {PW_FIRST_YEAR})")
                 if cid in K9_NO_COMPARISON:
                     text += f"; the PortWatch counter is the {c.get('portwatchLabel') or 'part of the passage'}: no comparison is valid"
                 elif low > K9_MAX * best:
@@ -293,8 +299,8 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                     type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
                                       f"route, not the {latest} traffic" + (f". {reason}" if reason else ""))
                 elif ref and low > PW_NEAR * ref:
-                    type_note[typ] = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mt3(low)}) is "
-                                      f"{low / ref:.0%} of IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in {latest} ({mt3(ref)}), "
+                    type_note[typ] = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mtn(low)}) is "
+                                      f"{low / ref:.0%} of IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in {latest} ({mtn(ref)}), "
                                       f"although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas "
                                       "assumes may overstate it")
                 k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
@@ -304,32 +310,30 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
         for g, (typ, seaborne_rows, low, high, alt_by) in per_group.items():
             p = pairs[g]
             sea = p["seaborne"]
-            if not sea or not (high >= EST_MIN_MT or high / sea >= EST_MIN_SHARE):
+            # the floor applies to the "up to" figure the page prints: the PortWatch cap (below) can bring it under
+            # the floor although the uncapped sum is above it
+            hi_pub, pw_t = high, pw_y.get(typ) if own else None
+            if pw_t is not None:
+                hi_pub = min(high, max(low, pw_t - (by_type[typ][0] - low)))
+            if not sea or not (hi_pub >= EST_MIN_MT or hi_pub / sea >= EST_MIN_SHARE):
                 continue
             label = label_of(g)
-            n = [f"at least {mt(low)} of {mt(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
+            n = [f"at least {mtn(low)} of {mtn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
             unr = sum(r["t"] for r in seaborne_rows if r["load"] == -1)
             if unr >= 0.05:
-                n.append(f"{mt(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
+                n.append(f"{mtn(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
             mixed = sum(r["t"] for r in p["rows"] if r["m"] == 2 and cid in r["via"] | r["alt"])
             if mixed >= 0.05:
-                n.append(f"{mt(mixed)} of {label} that moves both by sea and overland (split not known) would cross it by sea and is not counted")
+                n.append(f"{mtn(mixed)} of {label} that moves both by sea and overland (split not known) would cross it by sea and is not counted")
             names = [K._name(o) for o in unrec.get((g, cid), [])]
             if names:
                 n.append(f"Exports that customs data do not record for {latest}, or record only in part, are missing: {', '.join(names)} "
                          "(see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)")
-            # cap of the upper figure: PortWatch's volume of the type, less the "at least" tonnage of the other groups of
-            # the type, never below this group's own "at least"
-            hi_pub, room = high, None
-            pw_t = pw_y.get(typ) if own else None
-            if pw_t is not None:
-                others = by_type[typ][0] - low
-                room = max(low, pw_t - others)
-                if high > room:
-                    hi_pub = room
-                    if room == low and high - low >= 0.05:
-                        n.append(f"The pairs that may cross it ({mt(high - low)}) are not added: the 'at least' tonnage of all "
-                                 f"{TYPE_NAME[typ]} cargo of the atlas here is already above IMF PortWatch's {latest} estimate")
+            # cap of the upper figure (hi_pub above): PortWatch's volume of the type, less the "at least" tonnage of the
+            # other groups of the type, never below this group's own "at least"
+            if hi_pub < high and hi_pub == low and high - low >= 0.05:
+                n.append(f"The pairs that may cross it ({mtn(high - low)}) are not added: the 'at least' tonnage of all "
+                         f"{TYPE_NAME[typ]} cargo of the atlas here is already above IMF PortWatch's {latest} estimate")
             if typ in type_note:
                 n.append(type_note[typ])
             e = {"k": BL.COMMODITY.get(g, g), "p": g,
@@ -339,15 +343,15 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 top = sorted(alt_by.items(), key=lambda x: -x[1])[:3]
                 top = [x for x in top if x[1] >= 0.005] or top[:1]
                 adds = ("adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on "
-                        "another coast (largest: " + ", ".join(f"{K._name(o)} {mt(v)}" for o, v in top) + ")")
-                hn = f"up to {mt(high)}: {adds}"
+                        "another coast (largest: " + ", ".join(f"{K._name(o)} {mtn(v)}" for o, v in top) + ")")
+                hn = f"up to {mtn(high)}: {adds}"
                 if hi_pub < high:
                     others = by_type[typ][0] - low
-                    less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mt(others)})" if others >= 0.05 else
+                    less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mtn(others)})" if others >= 0.05 else
                             f" (the atlas's other {TYPE_NAME[typ]} groups have almost no 'at least' tonnage here)")
-                    hn = (f"up to {mt(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
-                          f"passage in {latest} ({mt(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
-                          f"cannot exceed; without the cap, {mt(high)}: {adds}")
+                    hn = (f"up to {mtn(hi_pub)}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
+                          f"passage in {latest} ({mtn(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
+                          f"cannot exceed; without the cap, {mtn(high)}: {adds}")
                 e["hi"] = {"v": round(100 * hi_pub / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": hn}
             est.append(e)
         est.sort(key=lambda e: -e["f"]["v"])
@@ -617,7 +621,7 @@ def main():
                     n += f", which would be {100 * vm / tot:.1f}% of the {tot:,.0f} Mt of seaborne {word} trade only if all of it went by sea"
                 mixed_na.append(n)
             else:
-                n = f"{lead}: {v:.1f} Mt of {tot:.0f} Mt seaborne {word} trade, CEPII BACI customs data"
+                n = f"{lead}: {v:.1f} Mt of {tot:,.0f} Mt seaborne {word} trade, CEPII BACI customs data"
                 if vm >= 0.05:
                     n += f"; a further {vm:.1f} Mt move both by sea and overland (split not known) and are not counted"
             n += ". Routes that share a country pair show the same tonnes: do not add them up"
@@ -649,7 +653,7 @@ def main():
                 out["shareNa"] = ". ".join(mixed_na)
             elif tiny:
                 k, v, tot, groups = tiny[0]
-                out["shareNa"] = f"Corridor volume in {latest} is {v:.2f} Mt, under 0.05% of the {tot:.0f} Mt of seaborne {'coal' if groups == ['coal'] else k.replace('-', ' ')} trade: too small for a meaningful share"
+                out["shareNa"] = f"Corridor volume in {latest} is {v:.2f} Mt, under 0.05% of the {tot:,.0f} Mt of seaborne {'coal' if groups == ['coal'] else k.replace('-', ' ')} trade: too small for a meaningful share"
             else:
                 out["shareNa"] = f"The atlas's seaborne customs table holds no flow for this country pair in {latest}"
         elif r.get("shareNa"):

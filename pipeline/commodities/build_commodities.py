@@ -206,10 +206,17 @@ def fig(v, u, y, s, n=None):
     return d
 
 
-def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None):
+# the lines of a table may exceed the published (rounded) world total by this share before the shares move to the sum
+LINES_OVER_WORLD = 5e-4
+
+
+def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None, other=0):
     """rows: list of (iso, value[, note[, est]]); returns a Ranked dict (top N by value).
     est: the row is mostly an Atlas estimate (`est: true`, value kept to 3 significant digits). digits: every value of the
-    table, the world total included, is rounded to that many significant digits (a table of estimates or conversions)."""
+    table, the world total included, is rounded to that many significant digits (a table of estimates or conversions).
+    other: the source's own "Other countries" line, part of the lines but not of `rows`. When every line of the table
+    adds up to more than the published world total (a rounded figure), the shares are computed on that sum, `world`
+    holds it and `worldPublished` keeps the published total; the note says so (GR2.5)."""
     acc = {}
     for r in rows:
         c, v = r[0], r[1]
@@ -223,7 +230,15 @@ def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None):
     srt = sorted(acc.items(), key=lambda kv: -kv[1][0])[:top]
     out = {"y": y, "s": s, "u": u}
     if world is not None:
+        lines = sum(v for v, _, _ in acc.values()) + (other or 0)
+        published = None
+        if world > 0 and lines > world * (1 + LINES_OVER_WORLD):
+            published, world = world, lines
+            n = (n + "; " if n else "") + (f"the country lines of the source add up to {_nf(lines)} {u}, more than the published world total of "
+                                           f"{_nf(published)} {u}: shares are computed on the sum")
         out["world"] = sig(world, digits) if digits else rnd(world)
+        if published is not None:
+            out["worldPublished"] = sig(published, digits) if digits else rnd(published)
     out["rows"] = [({"c": c, "v": sig(v, digits or 3) if digits or est else rnd(v), **({"n": nt} if nt else {}), **({"est": True, "s": "atlas", "y": y} if est else {})})
                    for c, (v, nt, est) in srt]
     if n:
@@ -265,7 +280,7 @@ def rice_adjust(psd, baci):
     Returns ({(o, d): (tonnes, note)}, paddy world tonnes, note for the page) or (None, None, note)."""
     path = os.path.join(CACHE, "baci_rice_forms.csv")
     if not os.path.exists(path):
-        return None, None, "Customs flows add paddy (HS 1006.10) to milled rice at full weight: the paddy extract (pipeline/cache/baci_rice_forms.csv) is missing."
+        return None, None, "Customs flows add paddy (HS 1006.10) to milled rice at full weight: the paddy extract of the customs data is missing."
     f = pd.read_csv(path, dtype={"hs6": str})
     f = f[(f["year"] == BACI_YEAR) & (f["hs6"] == "100610")]
     if f.empty:
@@ -290,11 +305,11 @@ def rice_adjust(psd, baci):
         new = t - r["t"] * (1 - rate)
         if (t - new) / t < 0.005:  # under half a percent: the customs figure stands
             continue
-        out[k] = (new, f"Atlas estimate, milled equivalent: CEPII BACI {BACI_YEAR} customs weight is {_fmt(t / 1e6)} Mt, of which {_fmt(r['t'] / 1e6)} Mt "
+        out[k] = (new, f"Atlas conversion, milled equivalent: CEPII BACI {BACI_YEAR} customs weight is {_fmt(t / 1e6)} Mt, of which {_fmt(r['t'] / 1e6)} Mt "
                        f"is paddy (HS 1006.10), converted at {basis}")
     paddy = float(f["t"].sum())
     note = (f"Customs flows cover HS 1006.10 to 1006.40. Paddy ({_fmt(paddy / 1e6)} Mt in {BACI_YEAR}, CEPII BACI) is converted to milled equivalent with the "
-            f"USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas estimate. "
+            f"USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas conversion. "
             f"Husked rice (HS 1006.20) stays at customs weight. The seaborne total and the map lanes still use customs weight.")
     return out, paddy, note
 
@@ -375,8 +390,7 @@ class Usgs:
         else:
             n.append("USGS world total is rounded")
             if sumrows > world * 1.02:
-                warn(f"{commodity}/{detail}: sum of countries {sumrows:.0f} > world {world:.0f}")
-                n.append("country figures add up to more than the rounded USGS world total")
+                warn(f"{commodity}/{detail}: sum of countries {sumrows:.0f} > world {world:.0f}")  # ranked() moves the shares to the sum
             elif full and t["other"] and sumrows < world * 0.98:
                 n.append(f"the countries and USGS 'Other countries' add up to {_nf(sumrows)} {u}, while the rounded "
                          f"world total of {_nf(world)} {u} is {world / sumrows - 1:.1%} above that sum: shares are computed on the sum")
@@ -388,7 +402,8 @@ class Usgs:
         if t["missing"]:
             names = sorted(set(t["missing"]))
             n.append("not given as a number by USGS (W = withheld): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
-        out = ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n), top=max(TOP, len(t["rows"])) if full else TOP)
+        out = ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n), top=max(TOP, len(t["rows"])) if full else TOP,
+                     other=t["other"])
         if full and t["other"]:
             out["other"] = rnd(t["other"])  # USGS's own "Other countries" line, as published
             hid = out["rows"][SHOWN_ROWS:]
@@ -751,7 +766,7 @@ class Baci:
                 msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year {ref} unit value: "
                        f"possible misreport, {_kept_why(g)}")
                 f["n"] = joinn(f.get("n"), msg)
-                self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
+                self.last_susp.append(f"{cname(o)} to {cname(de)}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
             if n_all:
                 f["n"] = joinn(f.get("n"), n_all)
             if isinstance(r["adj"], str):
@@ -775,7 +790,7 @@ class Baci:
         if not lg:
             return None
         v = lg["seaborne"][-1]
-        n = (f"seaborne subset of BACI flows ({g}) under the atlas's mode rule (data/freight/lanes/{g}.json): trade by sea, "
+        n = (f"seaborne subset of BACI flows ({g}) under the atlas's mode rule (method in the About window): trade by sea, "
              "or by sea through a foreign port for a landlocked country")
         mx = (lg.get("mixed") or [0])[-1]
         if mx and mx >= 0.05:
@@ -1198,10 +1213,10 @@ def main():
         return g
 
     def summ(d, key, r, label=None):
-        """Fig from the world total of a Ranked."""
+        """Fig from the world total of a Ranked: the published one when the shares of the table rest on the sum of its lines."""
         if r is None or r.get("world") is None:
             return
-        d["summary"][key] = fig(r["world"], r["u"], r["y"], r["s"], (label or r.get("n")))
+        d["summary"][key] = fig(r.get("worldPublished", r["world"]), r["u"], r["y"], r["s"], (label or r.get("n")))
 
     def seaborne(d, g, label=None):
         f = baci.seaborne(g, label)
@@ -1437,7 +1452,7 @@ def main():
             for sec, word in (("production", "Top producers"), ("consumption", "Top consumers"), ("exports", "Top exporters"), ("imports", "Top importers")):
                 name_it(d, sec, f"{word} — metallurgical coal, EIA {d[sec]['y']}")
             name_it(d, "flows", f"Main flows — all coal, customs data {BACI_YEAR}")
-            notes += ["Flows are BACI coal flows (HS 2701) from AUS, USA, CAN, MNG and RUS: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
+            notes += [f"Flows are BACI coal flows (HS 2701) from {_and([cname(c) for c in ('AUS', 'USA', 'CAN', 'MNG', 'RUS')])}: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
                       "Seaborne total omitted: the lane file covers all coal and cannot be split.",
                       "Exports/imports tables are EIA metallurgical coal (not BACI)."]
         elif cid == "uranium":
@@ -1551,7 +1566,7 @@ def main():
             if tb:
                 t = ranked([(c if c in ISO_SET else None, v / 1e6) for c, v in tb.items()], BACI_YEAR, "baci", "Mt", world=sum(tb.values()) / 1e6,
                            n=f"CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), {BACI_YEAR}, all transport modes, gross weight; "
-                             "from the HS4 extract (pipeline/cache/hs4_exports.csv.gz), without the cleaning rules of the other trade tables; not part of the steel totals above")
+                             "from the four-digit customs extract, without the cleaning rules of the other trade tables; not part of the steel totals above")
                 extra.append({"key": "tubes-exports", "title": "Tube and pipe exporters (HS 7304 to 7306, not in the totals above)", "table": set_basis(t, "gross weight")})
         if cid in PSD:
             com = PSD[cid][0]
@@ -1838,7 +1853,7 @@ def _note_group(baci, g, label):
     top = sorted(ex.items(), key=lambda kv: -kv[1])[:3]
     world = sum(ex.values())
     unit_n = "Mt"
-    names = ", ".join(f"{baci.iso(c)} {v:.2f} Mt" for c, v in top)
+    names = ", ".join(f"{cname(baci.iso(c))} {v:.2f} Mt" for c, v in top)
     return (f"{label}, {BACI_YEAR} (CEPII BACI): world {world:.2f} Mt gross weight; top exporters {names}.")
 
 
@@ -1971,12 +1986,13 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
          "world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium")
     if total_of(rows) + pt["other"] + pdl["other"] > world * 1.05:
         warn("pgm: country sum above world")
-    d["production"] = ranked(rows, int(USGS_YEAR), "usgs-mcs", "t", world=world, n=n)
+    d["production"] = ranked(rows, int(USGS_YEAR), "usgs-mcs", "t", world=world, n=n, other=pt["other"] + pdl["other"])
     res = us.table("Platinum-Group Metals", "PGM reserves", factor=1e-3)
     rn = f"USGS MCS {USGS_EDITION}, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded"
     if res["wnote"]:
         rn += "; " + res["wnote"]
-    d["reserves"] = ranked(res["rows"], int(USGS_YEAR), "usgs-mcs", "t", world=res["world"] if res["world"] else total_of(res["rows"]) + res["other"], n=rn)
+    d["reserves"] = ranked(res["rows"], int(USGS_YEAR), "usgs-mcs", "t", world=res["world"] if res["world"] else total_of(res["rows"]) + res["other"], n=rn,
+                         other=res["other"])
     g = add_baci_trade(d, cid, notes, disc)
     summ(d, "production", d["production"])
     summ(d, "reserves", d["reserves"])

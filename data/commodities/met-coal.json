@@ -480,7 +480,7 @@
   }
  ],
  "notes": [
-  "Flows are BACI coal flows (HS 2701) from AUS, USA, CAN, MNG and RUS: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
+  "Flows are BACI coal flows (HS 2701) from Australia, United States, Canada, Mongolia and Russia: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
   "Seaborne total omitted: the lane file covers all coal and cannot be split.",
   "Exports/imports tables are EIA metallurgical coal (not BACI)."
  ]

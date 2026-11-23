@@ -213,7 +213,7 @@ seaborne totals, the lane shares and the chokepoint shares.
    but LNG and softs, China → Russia for dry bulk and metals, the United States → Mexico for refined
    products, LPG, grain, vegetable oils and fertilisers, Mexico → the United States for refined
    products and LPG, and grain between Spain and France both ways. 309.8 Mt in 2024 on 52 pairs:
-   Russia → China 236.2 Mt, the United States → Mexico 57.2 Mt, Mexico → the United States 10.9 Mt,
+   Russia → China 236.2 Mt, the United States → Mexico 57.1 Mt, Mexico → the United States 10.9 Mt,
    France → Spain 2.7 Mt, China → Russia 2.6 Mt, Spain → France 0.2 Mt; by group, crude oil 108.5 Mt,
    coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt.
 5. **Land neighbours** (a mainland border, see below): land, unless the pair is in `SEA_NEIGHBOURS`
@@ -240,7 +240,8 @@ claimed. Flows of the groups without lanes are listed with their mode, not drawn
 **The lists** are Atlas assumptions. Each entry carries its reason and, where a page was read, its
 URL, returned with the mode; an entry without a URL is an unsourced assumption. 2024 tonnage:
 
-- `SEA_NEIGHBOURS`: 33 pairs of neighbours that trade by sea, 223.4 Mt. The largest: China–India
+- `SEA_NEIGHBOURS`: 33 pairs of neighbours that trade by sea, 223.4 Mt (the list holds one more entry,
+  Malaysia–Singapore, which is not a neighbour pair in the base map and so never applies). The largest: China–India
   40.7 Mt (Himalayan border; Indian iron ore sails from the east coast), Indonesia–Malaysia 38.7 Mt,
   Mexico → United States crude 26.5 Mt (crude only), China–Vietnam 16.8 Mt, Norway–Sweden 12.6 Mt,
   China–Hong Kong 10.4 Mt, Colombia–Panama 8.3 Mt (no road crosses the Darién gap). Some entries are
@@ -361,12 +362,12 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "page names the cargo in the other direction";
   - "general port of the country";
   - "port used before, no page read" (the earlier table; shown as "no source page yet");
-  - "nearest seaport".
+  - "nearest seaport" (also shown as "no source page yet").
 
-  Share of 2024 pair-end tonnage (each seaborne pair counted at its two ends, 15,826 Mt): page names
-  the cargo 70.2% (plus 0.7% on a transit row that names the cargo), port used before 22.1%, general
-  port 2.7% (plus 0.2% on a transit country's default row), nearest seaport 2.2%, other direction
-  1.1%, no port (not routed) 0.8%. Most rows cite a Wikipedia article. The United States crude and
+  Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
+  two ends, 15,826 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  transit port is one more port): page names the cargo 69.7%, port used before 22.4%, general port
+  3.8%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.8%. Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
   Malaysia, India and Thailand are the refinery towns of the EIA country briefs (a refinery is the
@@ -469,7 +470,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   `geom_cache.json` (lanes and routes with geometry) carry a version key computed from the gates,
   the parallel groups, the draught tables, the speeds, the rule constants, the routing code and the
   `searoute` release: a cache built under other rules is discarded at load. A cold build of the
-  lanes takes about 8 minutes on the development machine, a warm one under a minute.
+  lanes takes about 15 minutes (943 s and 921 s measured in November 2026), a warm one under a minute.
 - **Laden days** are distance ÷ typical laden speed for the class (`SPEED` in
   `pipeline/freight/vessel_rules.py`): 11 kn for Capesize, Newcastlemax and VLOC; 12 kn for
   Panamax, Kamsarmax, Supramax and Ultramax; 11.5 kn for Handysize; 12.5 kn for VLCC, MR and
@@ -540,8 +541,9 @@ These are labelled "typical" in the interface. They are not measured shares of e
   - **up to**: adds the pairs that may cross it, or a parallel passage of similar length, or may
     load or discharge on another coast (the note names the largest origins);
   - both are shares of the group's seaborne tonnes, the figure of the commodity page, not of the
-    routed tonnes. Where the two agree, one figure is shown. An entry is written when "up to" is at
-    least 2% of the group or 1 Mt: 494 entries over 20 passages in 2024 (Hormuz: 20 groups).
+    routed tonnes. Where the two agree, one figure is shown. An entry is written when the "up to" figure
+    that the page prints (after the PortWatch cap below) is at least 2% of the group or 1 Mt: 490
+    entries over 20 passages in 2024 (Hormuz: 20 groups).
   - **What is missing**, stated in each note: the seaborne tonnage of the group that could not be
     routed, the mixed pairs that would cross the passage by sea (not counted), and the origins
     whose exports customs data do not record or record only in part (caveats), named when the
@@ -562,14 +564,21 @@ These are labelled "typical" in the interface. They are not measured shares of e
     cargo of those ships (Panama, tankers, 2024: 97%, 104 Mt against 107 Mt; the assumed ports or
     routes may overstate it). Both figures are estimates, and the note names both ("IMF PortWatch,
     data adapted").
+  - **Without the raw PortWatch rows** (the scheduled job has none), the volumes by vessel type are
+    read from the tracked weekly series (Mt a day times the days of each week inside the year)
+    instead of the daily rows that the committed files come from. For the 20 passages that carry an
+    estimate the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
+    21.1 Mt), so such a build can move a capped figure or a K9 reference by under 1 Mt (Hormuz crude
+    oil "up to": 601.4 or 601.7 Mt).
   - **Check K9** writes, for every passage with a counter, "at least" and "up to" by vessel type
     beside PortWatch's volume of the same year and of its best full year since 2019 (table in
     `QA.md`). A passage is flagged when "at least" is above 110% of the best year (the assumed ports
     or routes probably overstate it) or above the same year's volume. The Danish Straits are not
     compared: PortWatch counts the Oresund only. The check is a report; it never stops a build.
   - **Sunda**: the routing network sends little traffic through the Sunda Strait by itself, so its
-    "at least" figure is a floor of the model (1.9 Mt of all groups in 2024, against 443 Mt of all
-    ships in PortWatch), not a statement about traffic; its "up to" figures carry the cargo that may
+    "at least" figure is a floor of the model (1.9 Mt of all groups in 2024: 1.63 Mt of dry bulk, 0.13
+    of tankers and 0.13 of container and general cargo, against 443 Mt of all ships in PortWatch; the
+    table of `QA.md` rounds each type to 0.1 Mt), not a statement about traffic; its "up to" figures carry the cargo that may
     use it.
   - **Published figures first**: where EIA publishes a flow for the passage (oil through Hormuz,
     Malacca, Suez and others), it is the headline and the atlas's range is shown below it. `QA.md`
@@ -716,7 +725,16 @@ source; where the atlas converts a figure or estimates it, the figure says so.
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown
   as the last row, apart from the countries it names; countries it names beyond the first ten rows
   are counted in a separate line, not in "Other countries". Where USGS's rounded world total differs
-  from the sum of its rows, shares are computed on the sum.
+  from the sum of its rows, shares are computed on the sum. This holds for every table whose country
+  lines (with USGS's "Other countries" line, drawn or not) add up to more than the published world
+  total by over 0.05% (`LINES_OVER_WORLD` in `build_commodities.py`): 17 tables in the 2026 release,
+  from manganese reserves (1,798,000 against a published 1,700,000 kt Mn) to silver reserves
+  (610,400 against 610,000 t). The table keeps the published total as `worldPublished` and says so
+  in its note, and the key figure of the page stays the published total.
+- **Rice** flows are converted from paddy (HS 100610) to milled equivalent at the USDA PSD milling
+  rate of the exporter (the world average where PSD has none), the factor and its market year being
+  written in each row's note. Such a row is an Atlas conversion, not an estimate: its note starts
+  "Atlas conversion", it carries no estimate mark, and its tonnage keeps three significant digits.
 - **Publishers cited for a headline figure only**: GIIGNL and IGU (world LNG trade), the World Steel
   Association (world crude steel production, 1,849.4 Mt in 2025), the World Gold Council (world mine
   production) and the International Cocoa Organization (world cocoa bean production per crop

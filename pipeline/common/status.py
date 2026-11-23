@@ -97,13 +97,15 @@ def record_success(source, records=None, data_to=None, note="updated", state=Non
     return entry
 
 
-def record_failure(source, error):
-    """Record a failed run: increments consecutive_failures, keeps the previous good counts."""
-    old = get(source)
+def record_failure(source, error, previous=None):
+    """Record a failed run: increments consecutive_failures, keeps the previous good counts. ``previous`` is an entry
+    of ``get()`` taken before a run whose new data had to be taken back: its state and counts are the ones kept."""
+    cur = get(source)
+    old = cur if previous is None else previous
     msg = " ".join(str(error).split())[:200]
     entry = dict(old)
     entry.update({
-        "last_attempt": _now(), "consecutive_failures": int(old.get("consecutive_failures") or 0) + 1,
+        "last_attempt": _now(), "consecutive_failures": int(cur.get("consecutive_failures") or 0) + 1,
         "last_error": msg, "alert_after": ALERT_AFTER_SOURCE.get(source, ALERT_AFTER),
     })
     entry.setdefault("last_success", None)

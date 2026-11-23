@@ -83,7 +83,7 @@ workflows: they are for people changing the code, and a failing test there would
 e-mails; the scheduled jobs rely on `validate-data.mjs`, which discards an invalid update.
 
 The CEPII BACI trade database is a 2.4 GB download, reduced to `pipeline/cache/baci_flows.csv.gz` by
-`pipeline/trade/extract_baci.py` (years from 2000). The cache is tracked, so rebuilding the lanes and
+`pipeline/trade/extract_baci.py` (years from 2002). The cache is tracked, so rebuilding the lanes and
 commodity pages does not need the download. CEPII can refuse the cloud runners, so a new BACI version
 is normally fetched locally with `python pipeline/annual/update_annual.py --only baci`, and the updated
 cache committed.

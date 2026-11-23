@@ -67,7 +67,7 @@ def commodity_pages():
         sb = (d.get("summary") or {}).get("seaborne") if isinstance(d, dict) else None
         if not sb:
             continue
-        g = re.findall(r"data/freight/lanes/([a-z-]+)\.json", sb.get("n", ""))
+        g = re.findall(r"seaborne subset of BACI flows \(([a-z-]+)\)", sb.get("n", ""), re.I)  # the lane group, named in the note
         if g:
             out.append((os.path.basename(p)[:-5], d, g[0]))
     return out
@@ -163,7 +163,7 @@ class AnnualJob(unittest.TestCase):
         cls.UA = UA
         chain, cmds = [], []
         saved = (UA.step, UA.run, UA.pending)
-        UA.step = lambda name, fn, paths: chain.append((name, fn, paths))
+        UA.step = lambda name, fn, paths: chain.append((name, fn, paths)) or True
         UA.run = lambda cmd, timeout: cmds.append([os.path.relpath(c, ROOT) if os.path.isabs(c) else c for c in cmd[1:]])
         UA.pending = lambda name: False
         try:
@@ -199,6 +199,69 @@ class AnnualJob(unittest.TestCase):
         src = read(os.path.join(ROOT, "pipeline", "annual", "update_annual.py"))
         for word in ("unittest", "pipeline/tests", "test_", "checks.run", "assert "):
             self.assertNotIn(word, src, word)
+
+    def test_extract_starts_in_the_first_year_of_the_committed_cache(self):
+        """GR3.5: the job's extract and the committed cache cover the same years (2002 to the latest)."""
+        import pandas as pd
+        first = int(pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"), usecols=["year"])["year"].min())
+        self.assertEqual(self.UA.BACI_FIRST_YEAR, str(first))
+        src = read(os.path.join(ROOT, "pipeline", "annual", "update_annual.py"))
+        self.assertIn("extract_baci.py\"), zpath, out, BACI_FIRST_YEAR]", src)
+        sources = {x["id"]: x for x in load_json(os.path.join(DATA, "sources.json"))}
+        self.assertIn(f"years from {first})", sources["baci"]["access"])
+        self.assertIn(f"(years from {first})", read(os.path.join(ROOT, "README.md")))
+
+    def _process(self, changed, freight_ok, pending=()):
+        """process() with stand-ins: the order of the steps run, the steps recorded as failed, the cache taken back."""
+        UA = self.UA
+        ran, failed, back = [], [], []
+        saved = (UA.step, UA.pending, UA.take_back_baci, UA.status.record_failure)
+        UA.step = lambda name, fn, paths: ran.append(name) or (freight_ok if name == "build-freight" else True)
+        UA.pending = lambda name: name in pending
+        UA.take_back_baci = lambda: back.append(True)
+        UA.status.record_failure = lambda source, error, previous=None: failed.append(source)
+        try:
+            UA.process(changed)
+        finally:
+            UA.step, UA.pending, UA.take_back_baci, UA.status.record_failure = saved
+        return ran, failed, back
+
+    def test_dependents_do_not_run_when_freight_fails_after_a_new_cache(self):
+        """GR3.4: no commodity page is built on a new customs cache that the lanes were not built from."""
+        ran, failed, back = self._process({"baci"}, freight_ok=False)
+        self.assertEqual(ran, ["build-freight"])
+        self.assertEqual(failed, ["build-commodities", "build-profiles"])  # recorded, so that the next run runs them
+        self.assertEqual(back, [True])  # the old cache is put back
+        ran, failed, back = self._process({"baci"}, freight_ok=True)
+        self.assertEqual((ran, failed, back), (["build-freight", "build-commodities", "build-profiles"], [], []))
+
+    def test_a_failed_freight_step_without_a_new_cache_does_not_stop_the_others(self):
+        # the lanes are restored to the build that goes with the old cache, the pages still build on it
+        ran, failed, back = self._process({"usda-psd"}, freight_ok=False, pending=("build-freight",))
+        self.assertEqual(ran, ["build-freight", "build-commodities", "build-profiles"])
+        self.assertEqual((failed, back), ([], []))
+
+    def test_the_new_cache_is_taken_back_with_its_recorded_version(self):
+        import tempfile
+        UA = self.UA
+        with tempfile.TemporaryDirectory() as tmp:
+            f = os.path.join(tmp, "baci_flows.csv.gz")
+            with open(f, "w") as fh:
+                fh.write("old")
+            UA._baci_backup.update(snap=UA.Snapshot([f]), entry={"state": {"version": "V202601"}})
+            with open(f, "w") as fh:
+                fh.write("new")
+            recorded = []
+            saved = UA.status.record_failure
+            UA.status.record_failure = lambda source, error, previous=None: recorded.append((source, previous))
+            try:
+                UA.take_back_baci()
+            finally:
+                UA.status.record_failure = saved
+                UA.release_baci_backup()
+            self.assertEqual(read(f), "old")
+            self.assertEqual(recorded, [("baci", {"state": {"version": "V202601"}})])
+            self.assertEqual(UA._baci_backup, {})
 
 
 WIKI = re.compile(r"https?://([a-z]{2,3})\.wikipedia\.org/wiki/[^\s\"'<>]+")
@@ -262,6 +325,32 @@ class Documentation(unittest.TestCase):
                 pr = f["properties"]
                 if "OpenStreetMap" in json.dumps(pr):
                     self.assertIn(pr["name"].split(" (")[0].replace(" Terminal", ""), notice, pr["id"])
+
+    def test_notice_covers_every_infrastructure_feature_that_names_wikipedia(self):
+        """GR3.2: a feature whose text names Wikipedia as the origin of a fact is adapted from it whatever its source id:
+        it is either sourced `wikipedia` (145, with the url of its article) or listed by id in the Wikipedia section."""
+        text = read(os.path.join(ROOT, "NOTICE.md"))
+        section = text.split("## Material adapted from Wikipedia", 1)[1].split("\n## ", 1)[0]
+        named = []
+        for p in sorted(glob.glob(os.path.join(DATA, "infrastructure", "*.geojson"))):
+            for f in load_json(p)["features"]:
+                pr = f["properties"]
+                if re.search("wikipedia", json.dumps(pr, ensure_ascii=False), re.I) and pr.get("s") != "wikipedia":
+                    named.append(pr["id"])
+                    self.assertIn(f"`{pr['id']}`", section, pr["id"])
+        self.assertGreaterEqual(len(named), 32)
+        self.assertIn(f"{len(named)} features", section)
+
+    def test_notice_names_the_articles_of_the_vessel_classes(self):
+        """The class sourced from the generic Wikipedia id (Container ship) resolves in the registry and has its article in the notice."""
+        sources = {x["id"] for x in load_json(os.path.join(DATA, "sources.json"))}
+        section = read(os.path.join(ROOT, "NOTICE.md")).split("## Material adapted from Wikipedia", 1)[1].split("\n## ", 1)[0]
+        for c in load_json(os.path.join(DATA, "freight", "vessel-classes.json")):
+            self.assertIn(c["s"], sources, c["id"])
+            if c["s"] == "wikipedia":
+                self.assertIn(c["name"], section.replace("\n", " "), c["id"])
+                self.assertIn("`wikipedia`", section)
+        self.assertNotIn("Open source page", read(os.path.join(ROOT, "NOTICE.md")))  # no such label in the site (GR3.9)
 
     def test_methodology_wording(self):
         text = read(os.path.join(ROOT, "METHODOLOGY.md"))

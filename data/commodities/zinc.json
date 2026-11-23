@@ -13,7 +13,7 @@
    "u": "kt Zn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded"
+   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; the country lines of the source add up to 240,800 kt Zn, more than the published world total of 240,000 kt Zn: shares are computed on the sum"
   },
   "exports": {
    "v": 11.424,
@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (zinc-ore) under the atlas's mode rule (data/freight/lanes/zinc-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: zinc-ore"
+   "n": "seaborne subset of BACI flows (zinc-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: zinc-ore"
   }
  },
  "production": {
@@ -84,7 +84,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Zn",
-  "world": 240000.0,
+  "world": 240800.0,
+  "worldPublished": 240000.0,
   "rows": [
    {
     "c": "AUS",
@@ -123,7 +124,7 @@
     "v": 4100.0
    }
   ],
-  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded",
+  "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; the country lines of the source add up to 240,800 kt Zn, more than the published world total of 240,000 kt Zn: shares are computed on the sum",
   "basis": "contained zinc"
  },
  "exports": {
@@ -506,7 +507,7 @@
   }
  ],
  "notes": [
-  "Unwrought zinc (HS 7901), 2024 (CEPII BACI): world 5.06 Mt gross weight; top exporters ESP 0.51 Mt, KOR 0.48 Mt, AUS 0.42 Mt.",
+  "Unwrought zinc (HS 7901), 2024 (CEPII BACI): world 5.06 Mt gross weight; top exporters Spain 0.51 Mt, South Korea 0.48 Mt, Australia 0.42 Mt.",
   "Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn)."
  ]
 }

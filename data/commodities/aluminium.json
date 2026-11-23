@@ -6,7 +6,7 @@
    "u": "kt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 74,210 kt, on which the shares of the table are computed"
   },
   "exports": {
    "v": 30.395,
@@ -20,14 +20,15 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (aluminium) under the atlas's mode rule (data/freight/lanes/aluminium.json): trade by sea, or by sea through a foreign port for a landlocked country; 1.49 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (aluminium) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 1.49 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt",
-  "world": 74000.0,
+  "world": 74210.0,
+  "worldPublished": 74000.0,
   "rows": [
    {
     "c": "CHN",
@@ -78,7 +79,7 @@
     "v": 660.0
    }
   ],
-  "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, primary aluminium smelter production (metal); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 74,210 kt, more than the published world total of 74,000 kt: shares are computed on the sum"
  },
  "exports": {
   "y": 2024,

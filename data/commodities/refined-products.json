@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (refined-products) under the atlas's mode rule (data/freight/lanes/refined-products.json): trade by sea, or by sea through a foreign port for a landlocked country; 55.4 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (refined-products) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 55.4 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "kpis": {

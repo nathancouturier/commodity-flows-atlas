@@ -6,7 +6,7 @@
    "u": "t Co",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 314,600 t Co, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 12000000.0,
@@ -30,7 +30,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Co",
-  "world": 310000.0,
+  "world": 314600.0,
+  "worldPublished": 310000.0,
   "rows": [
    {
     "c": "COD",
@@ -81,7 +82,7 @@
     "v": 300.0
    }
   ],
-  "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 314,600 t Co, more than the published world total of 310,000 t Co: shares are computed on the sum",
   "basis": "contained cobalt"
  },
  "reserves": {

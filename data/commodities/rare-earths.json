@@ -13,7 +13,7 @@
    "u": "t REO",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000)"
+   "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000); the country lines of the source add up to 85,290,000 t REO, more than the published world total of 85,000,000 t REO: shares are computed on the sum"
   },
   "exports": {
    "v": 198.84,
@@ -85,7 +85,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t REO",
-  "world": 85000000.0,
+  "world": 85290000.0,
+  "worldPublished": 85000000.0,
   "rows": [
    {
     "c": "CHN",
@@ -132,7 +133,7 @@
     "v": 710000.0
    }
   ],
-  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000)",
+  "n": "USGS MCS 2026, rare-earth reserves, REO equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>85,000,000); the country lines of the source add up to 85,290,000 t REO, more than the published world total of 85,000,000 t REO: shares are computed on the sum",
   "basis": "REO equivalent"
  },
  "exports": {
@@ -446,8 +447,8 @@
   "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO)."
  ],
  "discrepancies": [
-  "MYS->FRA: 3.336 kt of rare-earths in 2024 (reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
-  "USA->HKG: 2.693 kt of rare-earths in 2024 (reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
-  "KOR->PHL: 1.551 kt of rare-earths in 2024 (reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)."
+  "Malaysia to France: 3.336 kt of rare-earths in 2024 (reported tonnage implies 1,268 USD/t, i.e. 0.0388x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
+  "United States to Hong Kong: 2.693 kt of rare-earths in 2024 (reported tonnage implies 854 USD/t, i.e. 0.0261x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
+  "South Korea to Philippines: 1.551 kt of rare-earths in 2024 (reported tonnage implies 1,544 USD/t, i.e. 0.0472x the rare-earths group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)."
  ]
 }

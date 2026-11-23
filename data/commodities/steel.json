@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (steel) under the atlas's mode rule (data/freight/lanes/steel.json): trade by sea, or by sea through a foreign port for a landlocked country; 1.42 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (steel) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 1.42 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -257,7 +257,7 @@
       "v": 0.6624
      }
     ],
-    "n": "CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), 2024, all transport modes, gross weight; from the HS4 extract (pipeline/cache/hs4_exports.csv.gz), without the cleaning rules of the other trade tables; not part of the steel totals above",
+    "n": "CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), 2024, all transport modes, gross weight; from the four-digit customs extract, without the cleaning rules of the other trade tables; not part of the steel totals above",
     "basis": "gross weight"
    }
   }

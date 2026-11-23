@@ -26,7 +26,7 @@
   "url": "https://www.cepii.fr/CEPII/en/bdd_modele/bdd_modele_item.asp?id=37",
   "licence": "Etalab Open Licence 2.0",
   "update": "annual (January)",
-  "access": "One zip (about 2.4 GB) from cepii.fr, reduced by pipeline/trade/extract_baci.py to pipeline/cache/baci_flows.csv.gz (years from 2000). The monthly job downloads it only when a newer version exists; CEPII can refuse cloud runners, so the refresh is normally run locally",
+  "access": "One zip (about 2.4 GB) from cepii.fr, reduced by pipeline/trade/extract_baci.py to pipeline/cache/baci_flows.csv.gz (years from 2002). The monthly job downloads it only when a newer version exists; CEPII can refuse cloud runners, so the refresh is normally run locally",
   "use": "Flows, exports and imports, lanes (from 2005), route shares, 20-year history"
  },
  {
@@ -102,7 +102,7 @@
  },
  {
   "id": "atlas",
-  "name": "Commodity Flows Atlas estimate (derived; see METHODOLOGY.md)",
+  "name": "Commodity Flows Atlas estimate (derived; method in the About window)",
   "publisher": "Commodity Flows Atlas",
   "url": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/METHODOLOGY.md",
   "licence": "CC BY 4.0 (attribution: Commodity Flows Atlas)",

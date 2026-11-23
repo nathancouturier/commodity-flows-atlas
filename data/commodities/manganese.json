@@ -6,14 +6,14 @@
    "u": "kt Mn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 20,140 kt Mn, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 1700000.0,
    "u": "kt Mn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total"
+   "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; the country lines of the source add up to 1,798,000 kt Mn, more than the published world total of 1,700,000 kt Mn: shares are computed on the sum"
   },
   "exports": {
    "v": 43.305,
@@ -27,14 +27,15 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (manganese) under the atlas's mode rule (data/freight/lanes/manganese.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.05 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (manganese) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.05 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Mn",
-  "world": 20000.0,
+  "world": 20140.0,
+  "worldPublished": 20000.0,
   "rows": [
    {
     "c": "ZAF",
@@ -69,14 +70,15 @@
     "v": 350.0
    }
   ],
-  "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 20,140 kt Mn, more than the published world total of 20,000 kt Mn: shares are computed on the sum",
   "basis": "manganese content"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "kt Mn",
-  "world": 1700000.0,
+  "world": 1798000.0,
+  "worldPublished": 1700000.0,
   "rows": [
    {
     "c": "AUS",
@@ -107,7 +109,7 @@
     "v": 13000.0
    }
   ],
-  "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; country figures add up to more than the rounded USGS world total",
+  "n": "USGS MCS 2026, manganese reserves, section titled 'manganese content'; USGS world total is rounded; the country lines of the source add up to 1,798,000 kt Mn, more than the published world total of 1,700,000 kt Mn: shares are computed on the sum",
   "basis": "manganese content"
  },
  "exports": {

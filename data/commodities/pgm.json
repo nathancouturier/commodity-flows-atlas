@@ -6,14 +6,14 @@
    "u": "t",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium"
+   "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium; the country lines of the source add up to 363 t, more than the published world total of 360 t: shares are computed on the sum"
   },
   "reserves": {
    "v": 76000.0,
    "u": "t",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000)"
+   "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000); the country lines of the source add up to 76,200 t, more than the published world total of 76,000 t: shares are computed on the sum"
   },
   "exports": {
    "v": 1200,
@@ -43,7 +43,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t",
-  "world": 360.0,
+  "world": 362.8,
+  "worldPublished": 360.0,
   "rows": [
    {
     "c": "ZAF",
@@ -71,14 +72,15 @@
     "n": "platinum 1.8 t + palladium 6.2 t"
    }
   ],
-  "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium",
+  "n": "USGS MCS 2026, platinum plus palladium mine production, PGM content (kg converted to t); 2025 values are USGS estimates; world = sum of the USGS rounded world totals for platinum and palladium; excludes rhodium, ruthenium, iridium and osmium; the country lines of the source add up to 363 t, more than the published world total of 360 t: shares are computed on the sum",
   "basis": "platinum and palladium content"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t",
-  "world": 76000.0,
+  "world": 76200.0,
+  "worldPublished": 76000.0,
   "rows": [
    {
     "c": "ZAF",
@@ -101,7 +103,7 @@
     "v": 310.0
    }
   ],
-  "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000)",
+  "n": "USGS MCS 2026, platinum-group metals reserves, PGM content (kg converted to t); USGS world total is rounded; USGS reports the world total as a minimum (>76,000,000); the country lines of the source add up to 76,200 t, more than the published world total of 76,000 t: shares are computed on the sum",
   "basis": "platinum and palladium content"
  },
  "exports": {
@@ -454,6 +456,6 @@
   "Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here."
  ],
  "discrepancies": [
-  "World exports in fine-metal equivalent (Atlas estimate from customs values) 1,200 t (2024) are 3.3x USGS world mine production 360 t (2025): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade."
+  "World exports in fine-metal equivalent (Atlas estimate from customs values) 1,200 t (2024) are 3.3x USGS world mine production 363 t (2025): customs trade can count refined or recycled metal, and metal re-exported from one country to another, more than once, so it is not comparable with mine output (the atlas does not measure how much); USGS is used for production, BACI for trade."
  ]
 }

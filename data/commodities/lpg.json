@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (lpg) under the atlas's mode rule (data/freight/lanes/lpg.json): trade by sea, or by sea through a foreign port for a landlocked country; 9.76 Mt that move both by sea and overland (split not known) are not in it; 1% of this tonnage estimated from value"
+   "n": "seaborne subset of BACI flows (lpg) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 9.76 Mt that move both by sea and overland (split not known) are not in it; 1% of this tonnage estimated from value"
   }
  },
  "consumption": {

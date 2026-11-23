@@ -13,7 +13,7 @@
    "u": "Mt K2O",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)"
+   "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large); the country lines of the source add up to 5,922 Mt K2O, more than the published world total of 5,900 Mt K2O: shares are computed on the sum"
   },
   "exports": {
    "v": 62.663,
@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (potash) under the atlas's mode rule (data/freight/lanes/potash.json): trade by sea, or by sea through a foreign port for a landlocked country; 4.26 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (potash) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 4.26 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "kpis": {
@@ -103,7 +103,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt K2O",
-  "world": 5900.0,
+  "world": 5922.3,
+  "worldPublished": 5900.0,
   "rows": [
    {
     "c": "RUS",
@@ -146,7 +147,7 @@
     "v": 2.3
    }
   ],
-  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large)",
+  "n": "USGS MCS 2026, potash reserves, K2O equivalent; USGS world total is rounded; USGS reports the world total as a minimum (>5,900,000); not given as a number by USGS (W = withheld): Israel (Large), Jordan (Large); the country lines of the source add up to 5,922 Mt K2O, more than the published world total of 5,900 Mt K2O: shares are computed on the sum",
   "basis": "K2O content"
  },
  "exports": {

@@ -595,6 +595,43 @@ class ReviewGE5(unittest.TestCase):
         for gate in ("gibraltar", "suez", "bab-el-mandeb", "panama", "torres"):
             self.assertIn([gate], lists)
 
+    def test_GR2_3_a_group_that_only_another_option_crosses_is_not_one_of(self):
+        """The drawn route (main option) uses none of the members of a parallel group that only another port option
+        crosses: one list per member ("may also cross"). A group the main option crosses stays one list."""
+        import build_lanes as BL
+        main = {"via": ["korea-strait"], "viaAlt": []}
+        other = {"via": ["korea-strait"], "viaAlt": [["taiwan-strait", "luzon"]]}
+        via, lists = BL.combine([main, other])
+        self.assertEqual(via, ["korea-strait"])
+        self.assertEqual(lists, [["taiwan-strait"], ["luzon"]])
+        # the main option crosses the group: one list, whichever option adds a member
+        via, lists = BL.combine([{"via": [], "viaAlt": [["taiwan-strait", "luzon"]]}, {"via": [], "viaAlt": [["luzon"]]}])
+        self.assertEqual(lists, [["taiwan-strait", "luzon"]])
+        # the gates that an option crosses together stay together
+        main = {"via": [], "viaAlt": []}
+        other = {"via": [], "viaAlt": [["malacca", "singapore", "sunda"]]}
+        self.assertEqual(BL.combine([main, other])[1], [["sunda"], ["malacca", "singapore"]])
+        # a one-member list is left as it is
+        self.assertEqual(BL.combine([main, {"via": [], "viaAlt": [["suez"]]}])[1], [["suez"]])
+
+    def test_GR2_3_the_russia_china_coal_lane(self):
+        ln = lane("coal:RUS-CHN")
+        self.assertEqual(ln["via"], ["korea-strait"])
+        self.assertEqual(ln["viaAlt"], [["taiwan-strait"], ["luzon"]])  # only the Huangpu option crosses one of them
+
+    def test_GR2_3_the_pairs_masks_do_not_change(self):
+        """The masks of the pairs files carry the same passages as the lists of the lane files, flat."""
+        for g in groups():
+            pf = pairs_file(g)
+            ix = {c: i for i, c in enumerate(pf["cols"])}
+            masks = {(r[ix["o"]], r[ix["d"]]): r[ix["alt"]] for r in pf["rows"]}
+            for ln in lane_file(g)["lanes"]:
+                if (ln["o"], ln["d"]) not in masks:  # a lane that is not routed has no row in the pairs table
+                    continue
+                m = masks[(ln["o"], ln["d"])]
+                flat = {pf["gates"][i] for i in range(len(pf["gates"])) if m >> i & 1}
+                self.assertEqual(flat - set(ln["via"]), {x for lst in ln["viaAlt"] for x in lst} - set(ln["via"]), ln["id"])
+
     def test_GE5_2_estimates_in_the_totals_are_marked(self):
         import build_lanes as BL
         for g in groups():

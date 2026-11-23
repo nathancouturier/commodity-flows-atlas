@@ -41,7 +41,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (crude-oil) under the atlas's mode rule (data/freight/lanes/crude-oil.json): trade by sea, or by sea through a foreign port for a landlocked country; 108.5 Mt that move both by sea and overland (split not known) are not in it; 2% of this tonnage estimated from value"
+   "n": "seaborne subset of BACI flows (crude-oil) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 108.5 Mt that move both by sea and overland (split not known) are not in it; 2% of this tonnage estimated from value"
   }
  },
  "kpis": {

@@ -68,15 +68,24 @@ articles and their infoboxes):
 
 - `data/infrastructure/fields.geojson`, `mines.geojson`, `pipelines.geojson`, `ports.geojson`, `refineries.geojson`
   and `smelters.geojson`: 145 assets whose source id is `wikipedia`;
+- the other infrastructure features whose text names Wikipedia as the origin of a fact (a coordinate, a capacity, an
+  opening year, a length), although their source id is another one: 32 features, covered here by their `id` and not
+  edited in the files: `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
+  `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `cerrejon`, `elga`,
+  `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`, `mcarthur-river`, `olympic-dam`, `mountain-pass`,
+  `red-dog`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `gladstone`, `houston`, `santos`, `paranagua`;
+  `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`,
+  `mina-al-ahmadi`, `mina-abdullah`. Their `url` is the page of their own source; the text of the feature names
+  Wikipedia where a fact comes from it (for five refineries, the article too);
 - `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
 - the rows of `data/countries/profiles.json` whose source id is `wikipedia` (they repeat figures of the files above);
 - the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
-- `data/freight/vessel-classes.json`: the size ranges and notes whose source id is `wikipedia-vessel-classes` or
-  `vessel-size-conventions` (articles Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Bulk carrier);
+- `data/freight/vessel-classes.json`: the size ranges and notes whose source id is `wikipedia-vessel-classes`,
+  `vessel-size-conventions` or `wikipedia` (articles Suezmax, Malaccamax, Q-Max, Handymax, Handysize, Oil tanker, Bulk
+  carrier, Container ship);
 - `data/freight/chokepoints.json`: the `limits` texts whose `limitsS` is `wikipedia-vessel-classes` (articles Malaccamax,
   Sunda Strait, Lombok Strait, Drogden, Strait of Dover);
-- the notes of `data/freight/routes.json` and `data/infrastructure/lng.geojson` that say they take a fact or a
-  coordinate from a Wikipedia article (Handysize; Ras Laffan Industrial City);
+- the notes of `data/freight/routes.json` that say they take a fact from a Wikipedia article (Handysize);
 - the port tables of `data/freight/lanes/*.json` (the typical ports, transit ports and their notes whose source id is
   `wikipedia`, each with the `url` of its article) and the same ports in `data/freight/pairs/*.json`;
 - the matching definition files under `pipeline/freight/` (see "Source code: MIT"), among them the rows of the
@@ -90,10 +99,12 @@ and converted to the atlas's units, coordinates were located or approximated, an
 figures from other sources.
 
 **Credit.** Every Wikipedia-sourced asset and company keeps the `url` of the article it comes from (checked for
-all 145 assets and 231 companies); the infrastructure panel links it as "Open source page". Every Wikipedia-sourced
+all 145 assets and 231 companies); the infrastructure panel links it from the source line of the asset. Every Wikipedia-sourced
 port of a lane file keeps the `url` of its article, which the lane page links beside the port. The history tab of each
 article lists its authors. Event entries keep the article link in `src`; vessel-class, chokepoint and route notes name
-the article in their text.
+the article in their text. The 32 other infrastructure features keep the `url` of their own source: for them the credit
+is this list, the mention of Wikipedia in the feature and the article of the asset (named in the text for five
+refineries, otherwise the article under the asset's name), whose history tab lists its authors.
 
 **Share-alike.** The files listed above are shared under CC BY-SA 4.0, with the credit above. A figure in them that
 comes from another source keeps its own source id, and that source's terms.

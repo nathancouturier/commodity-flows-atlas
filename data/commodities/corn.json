@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (corn) under the atlas's mode rule (data/freight/lanes/corn.json): trade by sea, or by sea through a foreign port for a landlocked country; 9.14 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (corn) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 9.14 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {

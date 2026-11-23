@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (nickel-ore) under the atlas's mode rule (data/freight/lanes/nickel-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: nickel-ore"
+   "n": "seaborne subset of BACI flows (nickel-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; main bulk group used: nickel-ore"
   }
  },
  "production": {
@@ -700,8 +700,8 @@
   }
  ],
  "notes": [
-  "Nickel intermediates and unwrought nickel (HS 7501, 7502), 2024 (CEPII BACI): world 3.43 Mt gross weight; top exporters IDN 1.88 Mt, CAN 0.21 Mt, RUS 0.17 Mt.",
-  "Ferro-nickel, including nickel pig iron declared as ferro-nickel (HS 720260), 2024 (CEPII BACI): world 10.09 Mt gross weight; top exporters IDN 9.39 Mt, NCL 0.18 Mt, BRA 0.17 Mt.",
+  "Nickel intermediates and unwrought nickel (HS 7501, 7502), 2024 (CEPII BACI): world 3.43 Mt gross weight; top exporters Indonesia 1.88 Mt, Canada 0.21 Mt, Russia 0.17 Mt.",
+  "Ferro-nickel, including nickel pig iron declared as ferro-nickel (HS 720260), 2024 (CEPII BACI): world 10.09 Mt gross weight; top exporters Indonesia 9.39 Mt, New Caledonia 0.18 Mt, Brazil 0.17 Mt.",
   "Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni).",
   "The ore tables mix two products: laterite ore, 51.8 Mt in 2024 at 48 USD per tonne on average (by unit value, flows under 300 USD per tonne), and sulphide concentrate, 1.08 Mt at 2,257 USD per tonne. A low unit value is normal for laterite ore, so no ore flow is flagged for it."
  ]

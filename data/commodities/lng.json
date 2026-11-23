@@ -20,7 +20,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (lng) under the atlas's mode rule (data/freight/lanes/lng.json): trade by sea, or by sea through a foreign port for a landlocked country",
+   "n": "seaborne subset of BACI flows (lng) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country",
    "alt": {
     "v": 502,
     "u": "bcm",

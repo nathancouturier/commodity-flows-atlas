@@ -6,14 +6,14 @@
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 2,610 Mt, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 200000.0,
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded"
+   "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded; the country lines of the source add up to 203,990 Mt, more than the published world total of 200,000 Mt: shares are computed on the sum"
   },
   "exports": {
    "v": 1707.4,
@@ -27,14 +27,15 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (iron-ore) under the atlas's mode rule (data/freight/lanes/iron-ore.json): trade by sea, or by sea through a foreign port for a landlocked country; 9.07 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (iron-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 9.07 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 2600.0,
+  "world": 2609.7,
+  "worldPublished": 2600.0,
   "rows": [
    {
     "c": "AUS",
@@ -85,13 +86,14 @@
     "v": 26.0
    }
   ],
-  "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 2,610 Mt, more than the published world total of 2,600 Mt: shares are computed on the sum"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 200000.0,
+  "world": 203990.0,
+  "worldPublished": 200000.0,
   "rows": [
    {
     "c": "AUS",
@@ -142,7 +144,7 @@
     "v": 3000.0
    }
   ],
-  "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded"
+  "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded; the country lines of the source add up to 203,990 Mt, more than the published world total of 200,000 Mt: shares are computed on the sum"
  },
  "exports": {
   "y": 2024,

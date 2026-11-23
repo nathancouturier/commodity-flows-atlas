@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (phosphate-rock) under the atlas's mode rule (data/freight/lanes/phosphate-rock.json): trade by sea, or by sea through a foreign port for a landlocked country; main bulk group used: phosphate-rock"
+   "n": "seaborne subset of BACI flows (phosphate-rock) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; main bulk group used: phosphate-rock"
   }
  },
  "production": {
@@ -459,7 +459,7 @@
   }
  ],
  "notes": [
-  "DAP (HS 310530), 2024 (CEPII BACI): world 18.50 Mt gross weight; top exporters MAR 6.25 Mt, CHN 4.25 Mt, SAU 3.83 Mt.",
+  "DAP (HS 310530), 2024 (CEPII BACI): world 18.50 Mt gross weight; top exporters Morocco 6.25 Mt, China 4.25 Mt, Saudi Arabia 3.83 Mt.",
   "Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock."
  ]
 }

@@ -27,7 +27,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. Seaborne subset of BACI flows (rice) under the atlas's mode rule (data/freight/lanes/rice.json): trade by sea, or by sea through a foreign port for a landlocked country; 0.83 Mt that move both by sea and overland (split not known) are not in it."
+   "n": "Customs gross weight: paddy and husked rice count at full weight, unlike the milled-basis tables. Seaborne subset of BACI flows (rice) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.83 Mt that move both by sea and overland (split not known) are not in it."
   }
  },
  "labels": {
@@ -343,7 +343,7 @@
    "y": 2024,
    "s": "atlas",
    "mode": "land",
-   "n": "Atlas estimate, milled equivalent: CEPII BACI 2024 customs weight is 5.00 Mt, of which 5.00 Mt is paddy (HS 1006.10), converted at the USDA PSD milling rate of Cambodia (0.61, market year 2025/26)"
+   "n": "Atlas conversion, milled equivalent: CEPII BACI 2024 customs weight is 5.00 Mt, of which 5.00 Mt is paddy (HS 1006.10), converted at the USDA PSD milling rate of Cambodia (0.61, market year 2025/26)"
   },
   {
    "o": "IND",
@@ -528,6 +528,6 @@
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market-year 2025/26 (trader reference). Years differ.",
   "PSD rice is on a milled basis; PSD 'Exports' are market-year (not trade-year) figures.",
-  "Customs flows cover HS 1006.10 to 1006.40. Paddy (7.95 Mt in 2024, CEPII BACI) is converted to milled equivalent with the USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas estimate. Husked rice (HS 1006.20) stays at customs weight. The seaborne total and the map lanes still use customs weight."
+  "Customs flows cover HS 1006.10 to 1006.40. Paddy (7.95 Mt in 2024, CEPII BACI) is converted to milled equivalent with the USDA PSD milling rate of the exporter, so that flows compare with the milled-basis tables; such flows are marked Atlas conversion. Husked rice (HS 1006.20) stays at customs weight. The seaborne total and the map lanes still use customs weight."
  ]
 }

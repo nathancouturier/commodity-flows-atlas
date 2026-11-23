@@ -18,7 +18,7 @@ sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from hs_map import SPLIT, build_lookup, group_of, split_group  # noqa: E402
 
 zpath, out = sys.argv[1], sys.argv[2]
-first_year = int(sys.argv[3]) if len(sys.argv) > 3 else 2000
+first_year = int(sys.argv[3]) if len(sys.argv) > 3 else 2002
 
 exact, prefixes = build_lookup()
 z = zipfile.ZipFile(zpath)

@@ -6,14 +6,14 @@
    "u": "t Sn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 291,100 t Sn, on which the shares of the table are computed"
   },
   "reserves": {
    "v": 6000000.0,
    "u": "t Sn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000)"
+   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000); the country lines of the source add up to 6,004,000 t Sn, more than the published world total of 6,000,000 t Sn: shares are computed on the sum"
   },
   "exports": {
    "v": 221.9,
@@ -27,7 +27,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Sn",
-  "world": 290000.0,
+  "world": 291100.0,
+  "worldPublished": 290000.0,
   "rows": [
    {
     "c": "CHN",
@@ -78,14 +79,15 @@
     "v": 4500.0
    }
   ],
-  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded",
+  "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 291,100 t Sn, more than the published world total of 290,000 t Sn: shares are computed on the sum",
   "basis": "contained tin"
  },
  "reserves": {
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Sn",
-  "world": 6000000.0,
+  "world": 6004000.0,
+  "worldPublished": 6000000.0,
   "rows": [
    {
     "c": "IDN",
@@ -128,7 +130,7 @@
     "v": 23000.0
    }
   ],
-  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000)",
+  "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000); the country lines of the source add up to 6,004,000 t Sn, more than the published world total of 6,000,000 t Sn: shares are computed on the sum",
   "basis": "contained tin"
  },
  "exports": {
@@ -436,13 +438,13 @@
   }
  ],
  "notes": [
-  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.12 Mt gross weight; top exporters COD 0.03 Mt, AUS 0.02 Mt, NGA 0.02 Mt.",
+  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.12 Mt gross weight; top exporters DR Congo 0.03 Mt, Australia 0.02 Mt, Nigeria 0.02 Mt.",
   "Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure).",
   "Myanmar ranks 8 in the USGS production table (12,000 t Sn in 2025); mining in Wa State, its main tin area, was suspended from 1 August 2023 (see the events).",
   "Republic of the Congo is recorded as an exporter of tin concentrate (7.7 kt in 2024, 18,887 USD/t) but is not a tin producer in the USGS table, while DR Congo is (17,732 USD/t). Relabelling of DR Congo material is a possible cause; it is not established here."
  ],
  "discrepancies": [
-  "NLD->HUN: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
+  "Netherlands to Hungary: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
   "Tin concentrate from Myanmar to China, 2024: customs data (BACI, HS 2609) record 0.0 kt from Myanmar and 92.1 kt for China's imports from all origins. Chinese customs figures reported by SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs, give about 150.8 kt of tin ores and concentrates imported in January to November 2024, 75.3 kt of it from Myanmar (https://news.metal.com/en/newscontent/103438801). The Myanmar flow is missing from the BACI extract and the world figure for tin concentrate is probably too low; the cause is not established here. Comparing with China's own import declarations (UN Comtrade) needs an API key that the atlas does not have."
  ]
 }

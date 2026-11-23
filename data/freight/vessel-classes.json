@@ -78,7 +78,7 @@
 "C5",
 "pilbara-japan-korea-iron-ore"
 ],
-"notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules (vessel_rules.py) give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
+"notes": "Dimensions are design maxima from Wikipedia, not typical. No Baltic benchmark uses this class: the Pilbara routes are listed because the atlas's lane rules give Newcastlemax as the second class of large Australian ore lanes; C5 and the Pilbara route stay Capesize routes.",
 "s": "vessel-size-conventions",
 "speedKn": 11.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -772,7 +772,7 @@
 "panama": "No restriction applied by the Atlas rules (no sourced limit read)"
 },
 "routes": [],
-"notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions, in pipeline/freight/vessel_rules.py. Speed: the default of vessel_rules.speed().",
+"notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed).",
 "s": "wilhelmsen-lpg-sizes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",

@@ -13,7 +13,7 @@
    "u": "t Ag",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded"
+   "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded; the country lines of the source add up to 610,400 t Ag, more than the published world total of 610,000 t Ag: shares are computed on the sum"
   },
   "exports": {
    "v": 32700,
@@ -101,7 +101,8 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "t Ag",
-  "world": 610000.0,
+  "world": 610400.0,
+  "worldPublished": 610000.0,
   "rows": [
    {
     "c": "PER",
@@ -152,7 +153,7 @@
     "v": 4900.0
    }
   ],
-  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded",
+  "n": "USGS MCS 2026, silver reserves, contained silver; USGS world total is rounded; the country lines of the source add up to 610,400 t Ag, more than the published world total of 610,000 t Ag: shares are computed on the sum",
   "basis": "contained silver"
  },
  "exports": {

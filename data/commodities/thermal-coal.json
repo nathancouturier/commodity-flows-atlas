@@ -34,7 +34,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "All coal, thermal and metallurgical: customs codes do not separate them, so this is not comparable with the thermal-only exports figure. Customs data give 1,609 Mt of all-coal trade by all modes in 2024; EIA puts world exports of all coal at 1,533 Mt in 2024. Seaborne subset of BACI flows (coal) under the atlas's mode rule (data/freight/lanes/coal.json): trade by sea, or by sea through a foreign port for a landlocked country; 95.1 Mt that move both by sea and overland (split not known) are not in it; all coal (thermal and metallurgical)."
+   "n": "All coal, thermal and metallurgical: customs codes do not separate them, so this is not comparable with the thermal-only exports figure. Customs data give 1,609 Mt of all-coal trade by all modes in 2024; EIA puts world exports of all coal at 1,533 Mt in 2024. Seaborne subset of BACI flows (coal) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 95.1 Mt that move both by sea and overland (split not known) are not in it; all coal (thermal and metallurgical)."
   }
  },
  "kpis": {

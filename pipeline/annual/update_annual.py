@@ -21,6 +21,9 @@ Processing chain, run when the inputs it depends on changed (or when its last ru
 own try block with a backup of its outputs that is restored on failure:
   geo/adjacency.py -> build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ;
   build_profiles.py (if present)
+When the freight step fails after a new BACI cache was installed, the old cache is put back, the version it was
+built from is the one recorded again, and the two steps that depend on the lanes do not run (each is recorded as
+failed, so that the next run runs it): the commodity pages never rest on a customs cache that the lanes do not.
 No check result raises: checks are written to pipeline/cache/trade_checks.json and QA.md only.
 Always exits 0.
 """
@@ -121,6 +124,13 @@ class Snapshot:
 
 def ver_tuple(v):
     return int(v.lstrip("V"))
+
+
+# the customs caches that a new BACI version replaces, and what src_baci keeps of the old ones until the freight step
+# has rebuilt the lanes from the new ones: {"snap": Snapshot of the caches, "entry": the stored status of "baci"}
+BACI_CACHES = [os.path.join(CACHE, "baci_flows.csv.gz"), os.path.join(CACHE, "baci_rice_forms.csv")]
+BACI_FIRST_YEAR = "2002"   # first year of the committed cache (METHODOLOGY.md, section 1)
+_baci_backup = {}
 
 
 # ----------------------------------------------------------------------------- sources
@@ -281,7 +291,7 @@ def src_baci(opts):
     if len(years) < 25 or not any(n.startswith("country_codes") for n in names):
         raise ValueError(f"unexpected BACI archive layout ({len(years)} yearly files)")
     out = os.path.join(CACHE, "baci_flows.csv.gz.tmp")
-    run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_baci.py"), zpath, out, "2000"], STEP_MIN["extract"] * 60)
+    run([PY, os.path.join(ROOT, "pipeline", "trade", "extract_baci.py"), zpath, out, BACI_FIRST_YEAR], STEP_MIN["extract"] * 60)
     new = pd.read_csv(out, usecols=["year", "t"])
     old_path = os.path.join(CACHE, "baci_flows.csv.gz")
     if os.path.exists(old_path):
@@ -289,6 +299,8 @@ def src_baci(opts):
         if len(new) < 0.9 * len(old) or new["year"].max() < old["year"].max():
             os.remove(out)
             raise ValueError(f"extract looks wrong: {len(new)} rows to {new['year'].max()} vs {len(old)} to {old['year'].max()}")
+    release_baci_backup()
+    _baci_backup.update(snap=Snapshot(BACI_CACHES), entry=prev)
     os.replace(out, old_path)
     # paddy and husked rice, kept apart for the milled-equivalent rice flows; a failure here leaves the old file,
     # and build_commodities.py then says that the rice flows stay at customs weight
@@ -350,6 +362,25 @@ def pending(name):
     return int(status.get(name).get("consecutive_failures") or 0) > 0
 
 
+def release_baci_backup():
+    snap = _baci_backup.pop("snap", None)
+    _baci_backup.pop("entry", None)
+    if snap is not None:
+        snap.close()
+
+
+def take_back_baci():
+    """Put the previous BACI caches back and record "baci" as it was before this run, plus one failure: the next run
+    downloads the new version again."""
+    snap = _baci_backup.get("snap")
+    if snap is None:
+        return
+    snap.restore()
+    status.record_failure("baci", "the lanes could not be rebuilt from the new version: previous cache restored",
+                          previous=_baci_backup.get("entry"))
+    print("[baci] new cache taken back")
+
+
 def process(changed):
     data = os.path.join(ROOT, "data")
     sources_json = os.path.join(data, "sources.json")
@@ -376,8 +407,19 @@ def process(changed):
     if profiles and (changed or pending("build-profiles")):
         chain.append(("build-profiles", lambda: run([PY, profiles], STEP_MIN["profiles"] * 60),
                       [os.path.join(data, "countries"), sources_json]))
-    for name, fn, paths in chain:
-        step(name, fn, paths)
+    freight_failed = False
+    try:
+        for name, fn, paths in chain:
+            if freight_failed:
+                status.record_failure(name, "not run: build-freight failed after a new BACI cache was installed")
+                print(f"[{name}] not run")
+                continue
+            ok = step(name, fn, paths)
+            if name == "build-freight" and not ok and "baci" in changed:
+                freight_failed = True
+                take_back_baci()
+    finally:
+        release_baci_backup()
 
 
 # ----------------------------------------------------------------------------- main
