@@ -1,9 +1,10 @@
 /// <reference types="vite/client" />
 /** Global picture of one commodity: KPIs, ranked countries, main flows, lanes, companies, infrastructure. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { CaveatsFile, Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
-import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst } from '../../lib/format';
+import type { CaveatsFile, Company, CommodityData, CommodityHistory, Fig, Flow, HistTable, LaneFile, Ranked } from '../../types';
+import { loadOptional, loadHistory, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
+import { largestChanges, tableAt, yearLabel } from '../../lib/tableYears';
+import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
 import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
@@ -13,6 +14,7 @@ import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import '../../styles/history-year.css';
 import { PRICE_COVERAGE_NOTE, loadPriceIndex, lowerName, openPrices, priceIndex, seriesForCommodity } from '../../lib/prices';
+import { PriceFigure } from '../PriceFigure';
 
 /**
  * Opens the bottom price drawer on this commodity's series. `none` is true once the price catalogue is
@@ -51,18 +53,91 @@ type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]
  * Ranked table with a marketing-year caption under USDA PSD tables. The figures are PSD local marketing
  * years, which start in a different month in each country: no single month range describes them.
  */
-function RankedBlock({ data, color }: { id: string; data: Ranked; color?: string }) {
+function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; color?: string; hist?: HistTable; at?: number | null }) {
   // the table's warning is written into its note too: it is shown once, as its own line under the table
   const cv = data.caveat;
   const n = cv && data.n ? data.n.replace(` · ${cv}`, '').replace(cv, '').replace(/ · $/, '') : data.n;
+  const shown = useMemo(() => (cv ? { ...data, n: n || undefined } : data), [data, cv, n]);
   return (
     <>
-      <RankedBars data={cv ? { ...data, n: n || undefined } : data} color={color} />
+      <RankedBars data={shown} color={color} hist={hist} at={at} />
       {cv && <FoldNote class="table-caveat" text={cv} />}
       {data.s === 'usda-psd' && (
         <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
       )}
     </>
+  );
+}
+
+/**
+ * A ranked table that follows the History year when its series by year holds that year (heading, source line, shares on
+ * that year's world total); otherwise the latest table, with the words "2025: no series for 2010" next to the heading.
+ */
+function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string }) {
+  const yr = year.value;
+  const { table, i, note, past } = useMemo(() => tableAt(props.data, props.hist, yr), [props.data, props.hist, yr]);
+  // a title that names the latest year ("EIA 2024") names the year shown
+  const title = past ? props.title.split(String(props.data.y)).join(String(table.y)) : props.title;
+  const aside = note ? <span class="year-tag">{note}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
+  return (
+    <Section title={title} aside={aside}>
+      <RankedBlock id={props.id} data={table} color={props.color} hist={props.hist} at={i} />
+    </Section>
+  );
+}
+
+/** "+12.3" / "−4.1": a change with its sign. */
+const signed = (v: number, est: boolean) => `${v > 0 ? '+' : '−'}${fmtEst(Math.abs(v), est)}`;
+
+/**
+ * The five largest increases and decreases of the exporters and of the importers from one year to the next, from the
+ * series by year; the History year when the series holds it, else its latest year.
+ */
+function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: CommodityData; color?: string }) {
+  const yr = year.value;
+  const sides = (['exports', 'imports'] as const).flatMap((k) => {
+    const h = hist.t[k];
+    if (!h || h.years.length < 2) return [];
+    const at = yr != null && h.years.indexOf(yr) >= 1 ? h.years.indexOf(yr) : h.years.length - 1;
+    const ch = largestChanges(h, at);
+    return ch && (ch.up.length || ch.down.length) ? [{ k, h, at, ch }] : [];
+  });
+  if (!sides.length) return null;
+  const { h, at } = sides[0];
+  const from = yearLabel(h, at - 1);
+  const to = yearLabel(h, at);
+  const anyEst = sides.some((s) => [...s.ch.up, ...s.ch.down].some((c) => c.est));
+  const note = yr != null && !h.years.includes(yr) ? <span class="year-tag">no series for {yr}</span> : null;
+  return (
+    <Section title={`Largest changes, ${from} to ${to}`} aside={note}>
+      {sides.map(({ k, h: s, ch }) => (
+        <div class="chg-block" key={k} style={{ '--bar-color': color }}>
+          <div class="chg-head">{k === 'exports' ? 'Exporters' : 'Importers'}{data[k]?.basis ? ` — ${data[k]!.basis}` : ''}</div>
+          {[...ch.up, ...ch.down].map((c) => (
+            <button
+              class={`chg-row ${c.d > 0 ? 'chg-up' : 'chg-down'}`}
+              key={c.c}
+              onClick={() => (isCountry(c.c) ? select({ kind: 'country', id: c.c }) : undefined)}
+              title={`${countryName(c.c)}: ${fmt(s.c[c.c][at - 1])} ${s.u} in ${yearLabel(s, at - 1)}, ${fmt(s.c[c.c][at])} ${s.u} in ${yearLabel(s, at)}${c.est ? '; an Atlas estimate on one side' : ''}`}
+            >
+              <span class="chg-name">
+                {countryName(c.c)}
+                {c.est && <EstMark />}
+              </span>
+              <span class="chg-d">
+                {signed(c.d, c.est)} {s.u}
+              </span>
+              <span class="chg-p">{c.p == null ? 'new' : `${c.p > 0 ? '+' : '−'}${pct(Math.abs(c.p))}`}</span>
+            </button>
+          ))}
+        </div>
+      ))}
+      <SourceLine
+        s={h.s}
+        y={`${from} and ${to}`}
+        n={`change in ${h.u}, this year minus the year before, from the series by year; a country with no figure in one year counts as 0 there${anyEst ? '; a change with an Atlas estimate on either side is marked' : ''}`}
+      />
+    </Section>
   );
 }
 
@@ -95,8 +170,11 @@ function useTransitPorts(id: string, flows: Flow[] | undefined): Record<string, 
 }
 
 function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
-  const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);
-  const ports = useTransitPorts(props.id, rows);
+  const [all, setAll] = useState(false);
+  useEffect(() => setAll(false), [props.id]);
+  const sorted = [...props.flows].sort((a, b) => b.v - a.v);
+  const rows = all ? sorted : sorted.slice(0, 10);
+  const ports = useTransitPorts(props.id, sorted);
   // the text of the reporting gaps that apply to the listed flows (freight/caveats.json)
   const needCaveats = rows.some((f) => f.caveat);
   const caveats = useLoaded<CaveatsFile>(() => (needCaveats ? loadCaveats() : Promise.resolve(null)), [props.id, needCaveats]);
@@ -134,6 +212,11 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
           </div>
         );
       })}
+      {sorted.length > 10 && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
+          {all ? 'Show fewer' : `Show all (${sorted.length})`}
+        </button>
+      )}
       {first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
     </>
   );
@@ -287,6 +370,14 @@ export default function CommodityView({ id }: { id: string }) {
   const hasCo = !!companies && (companies.producers?.length || companies.processors?.length || companies.traders?.length);
   const seaborne = seaborneAt(d?.summary.seaborne, seaFile, yr);
   const seaFollows = !!seaborne && String(seaborne.y) === String(yr);
+  const hist = useLoaded<CommodityHistory>(() => loadHistory(id), [id]);
+  const ht = (key: string): HistTable | undefined => hist?.t[key];
+  // what follows the History year on this page
+  const following = [
+    yr != null && hist && Object.values(hist.t).some((h) => h.years.includes(yr)) ? 'the tables that have a series by year' : null,
+    seaFollows ? 'the seaborne trade figure' : null,
+    LANE_GROUPS[id]?.length ? 'the seaborne lanes' : null,
+  ].filter((x): x is string => !!x);
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
@@ -298,11 +389,9 @@ export default function CommodityView({ id }: { id: string }) {
         {yr != null && d && (
           <div class="year-note">
             History year <b class="num">{yr}</b>:{' '}
-            {seaFollows
-              ? 'the seaborne trade figure and the seaborne lanes follow it. Every other figure and table'
-              : LANE_GROUPS[id]?.length
-                ? 'only the seaborne lanes follow it. Every other figure and table'
-                : 'no yearly series for this commodity. Every figure and table'}{' '}
+            {following.length
+              ? `${following.length > 1 ? `${following.slice(0, -1).join(', ')} and ${following[following.length - 1]}` : `only ${following[0]}`} follow it. Every other figure and table`
+              : 'no yearly series for this commodity. Every figure and table'}{' '}
             is the latest published and shows its own year.
           </div>
         )}
@@ -315,6 +404,7 @@ export default function CommodityView({ id }: { id: string }) {
             {seaborne && <Kpi label={`${d.kpis?.seaborne ?? 'Seaborne trade'}${yr != null ? ` · ${seaborne.y}` : ''}`} f={seaborne} {...altKpi(seaborne)} />}
           </div>
         )}
+        <PriceFigure commodity={id} />
         <AlertBanners commodity={id} />
         {prices.none ? (
           <button class="act-btn act-prices" disabled title="The atlas only charts prices from free sources; none is available for this commodity yet.">
@@ -332,51 +422,22 @@ export default function CommodityView({ id }: { id: string }) {
           <Placeholder>Data for this commodity is being compiled and will appear in a later release.</Placeholder>
         ) : (
           <>
-            {d.production && (
-              <Section title={sectionTitle(d, 'production', 'Top producers')} aside={<YearTag y={d.production.y} />}>
-                <RankedBlock id={id} data={d.production} color={color} />
-              </Section>
-            )}
+            {d.production && <TableSection id={id} title={sectionTitle(d, 'production', 'Top producers')} data={d.production} hist={ht('production')} color={color} />}
             {d.extra?.filter((x) => x.key.endsWith('production')).map((x) => (
-              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
-                <RankedBlock id={id} data={x.table} color={color} />
-              </Section>
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
             ))}
-            {d.refinery && (
-              <Section title="Refinery / smelter output" aside={<YearTag y={d.refinery.y} />}>
-                <RankedBlock id={id} data={d.refinery} color={color} />
-              </Section>
-            )}
-            {d.exports && (
-              <Section title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} aside={<YearTag y={d.exports.y} />}>
-                <RankedBlock id={id} data={d.exports} color={color} />
-              </Section>
-            )}
+            {d.refinery && <TableSection id={id} title="Refinery / smelter output" data={d.refinery} hist={ht('refinery')} color={color} />}
+            {d.exports && <TableSection id={id} title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} data={d.exports} hist={ht('exports')} color={color} />}
             {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
-              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
-                <RankedBlock id={id} data={x.table} color={color} />
-              </Section>
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
             ))}
-            {d.imports && (
-              <Section title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} aside={<YearTag y={d.imports.y} />}>
-                <RankedBlock id={id} data={d.imports} color={color} />
-              </Section>
-            )}
+            {d.imports && <TableSection id={id} title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} data={d.imports} hist={ht('imports')} color={color} />}
+            {hist && <LargestChanges hist={hist} data={d} color={color} />}
             {d.extra?.filter((x) => !x.key.endsWith('exports') && !x.key.endsWith('production')).map((x) => (
-              <Section title={x.title} key={x.key} aside={<YearTag y={x.table.y} />}>
-                <RankedBlock id={id} data={x.table} color={color} />
-              </Section>
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
             ))}
-            {d.reserves && (
-              <Section title={sectionTitle(d, 'reserves', 'Reserves')} aside={<YearTag y={d.reserves.y} />}>
-                <RankedBlock id={id} data={d.reserves} color={color} />
-              </Section>
-            )}
-            {d.consumption && (
-              <Section title={sectionTitle(d, 'consumption', 'Top consumers')} aside={<YearTag y={d.consumption.y} />}>
-                <RankedBlock id={id} data={d.consumption} color={color} />
-              </Section>
-            )}
+            {d.reserves && <TableSection id={id} title={sectionTitle(d, 'reserves', 'Reserves')} data={d.reserves} hist={ht('reserves')} color={color} />}
+            {d.consumption && <TableSection id={id} title={sectionTitle(d, 'consumption', 'Top consumers')} data={d.consumption} hist={ht('consumption')} color={color} />}
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
                 <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />

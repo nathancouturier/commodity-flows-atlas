@@ -124,6 +124,7 @@
    }
   ],
   "n": "USGS MCS 2026, lithium reserves, contained lithium; USGS world total is rounded",
+  "other": 2400000.0,
   "basis": "contained lithium"
  },
  "exports": {
@@ -179,6 +180,34 @@
    {
     "c": "RUS",
     "v": 0.873
+   },
+   {
+    "c": "FRA",
+    "v": 0.509
+   },
+   {
+    "c": "BEL",
+    "v": 0.469
+   },
+   {
+    "c": "SWE",
+    "v": 0.305
+   },
+   {
+    "c": "LAO",
+    "v": 0.14
+   },
+   {
+    "c": "IND",
+    "v": 0.071
+   },
+   {
+    "c": "CHE",
+    "v": 0.053
+   },
+   {
+    "c": "BRA",
+    "v": 0.016
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -237,6 +266,94 @@
    {
     "c": "POL",
     "v": 1.695
+   },
+   {
+    "c": "TUR",
+    "v": 1.243
+   },
+   {
+    "c": "TWN",
+    "v": 0.92
+   },
+   {
+    "c": "ITA",
+    "v": 0.67
+   },
+   {
+    "c": "HUN",
+    "v": 0.621
+   },
+   {
+    "c": "ESP",
+    "v": 0.586
+   },
+   {
+    "c": "CAN",
+    "v": 0.573
+   },
+   {
+    "c": "SGP",
+    "v": 0.471
+   },
+   {
+    "c": "LVA",
+    "v": 0.46
+   },
+   {
+    "c": "ARE",
+    "v": 0.407
+   },
+   {
+    "c": "IDN",
+    "v": 0.371
+   },
+   {
+    "c": "HKG",
+    "v": 0.335
+   },
+   {
+    "c": "RUS",
+    "v": 0.299
+   },
+   {
+    "c": "THA",
+    "v": 0.296
+   },
+   {
+    "c": "AUS",
+    "v": 0.259
+   },
+   {
+    "c": "ARG",
+    "v": 0.256
+   },
+   {
+    "c": "CHE",
+    "v": 0.25
+   },
+   {
+    "c": "BRA",
+    "v": 0.208
+   },
+   {
+    "c": "MEX",
+    "v": 0.14
+   },
+   {
+    "c": "VNM",
+    "v": 0.1
+   },
+   {
+    "c": "ZAF",
+    "v": 0.092
+   },
+   {
+    "c": "EGY",
+    "v": 0.071
+   },
+   {
+    "c": "MYS",
+    "v": 0.046
    }
   ],
   "n": "CEPII BACI HS92 lithium carbonate, oxide and hydroxide (HS 283691, 282520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

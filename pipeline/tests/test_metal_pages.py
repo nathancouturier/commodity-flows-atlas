@@ -40,7 +40,7 @@ class FullTables(unittest.TestCase):
     def test_steel_without_full_keeps_the_usgs_total(self):
         r, _ = self.us.ranked("Iron And Steel", "Raw steel", "Mt", 1.0, "raw steel production")
         self.assertEqual(r["world"], 1900)
-        self.assertNotIn("other", r)
+        self.assertEqual(r["other"], 230)  # the USGS line is kept on every table (its own row on the page)
 
     def test_gold_lists_all_13_countries_and_other(self):
         r, _ = self.us.ranked("Gold", "Mine production", "t Au", 1.0, "gold mine production", full=True)

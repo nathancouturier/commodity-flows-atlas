@@ -1,0 +1,103 @@
+/* commodity tables: trend line per row, world total by year, "Rest of world", largest changes */
+.bar-row.has-trend {
+  grid-template-columns: 18px minmax(0, 1fr) 44px auto;
+}
+.trend {
+  display: inline-block;
+  width: 44px;
+  height: 14px;
+  line-height: 0;
+}
+.trend svg {
+  display: block;
+  overflow: visible;
+}
+.trend path {
+  fill: none;
+  stroke: var(--bar-color, var(--accent));
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.trend circle {
+  fill: var(--ink-0);
+}
+.bar-world {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0 4px 6px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+.bar-world .trend {
+  width: 64px;
+  height: 16px;
+}
+.bar-world .trend path {
+  stroke: var(--ink-1);
+}
+.bar-world .num {
+  color: var(--ink-1);
+}
+
+/* largest changes from one year to the next */
+.chg-block + .chg-block {
+  margin-top: 8px;
+}
+.chg-head {
+  margin: 2px 4px 2px;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.chg-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 3px 4px;
+  border-radius: 6px;
+  text-align: left;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+.chg-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.chg-row .chg-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.chg-row .chg-d {
+  font-family: var(--font-num);
+  color: var(--ink-0);
+  text-align: right;
+}
+.chg-row .chg-p {
+  min-width: 46px;
+  font-family: var(--font-num);
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  text-align: right;
+}
+.chg-up .chg-d {
+  color: var(--positive);
+}
+.chg-down .chg-d {
+  color: var(--alert);
+}
+.lt-chg {
+  font-size: 10.5px;
+}
+.lt-chg.up {
+  color: var(--positive);
+}
+.lt-chg.down {
+  color: var(--alert);
+}

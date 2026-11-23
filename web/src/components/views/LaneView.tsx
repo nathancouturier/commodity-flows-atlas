@@ -81,7 +81,7 @@ export default function LaneView({ id }: { id: string }) {
   const portNames = (ids: string[]) => ids.map((p) => file.ports[p]?.name ?? p);
   const loadP = portNames(lane.load);
   const disP = portNames(lane.discharge);
-  const matching = (routes ?? []).filter((r) => r.corridor?.some((c) => c.k === lane.k && c.o.includes(lane.o) && c.d.includes(lane.d)));
+  const matching = (routes ?? []).filter((r) => r.corridor?.some((c) => c.k === lane.k && (!c.g || c.g === file.group) && c.o.includes(lane.o) && c.d.includes(lane.d)));
   const groupName = file.label ?? meta?.name ?? file.group;
   // History timeline: the flow and its share of seaborne trade are those of the selected year
   const yr = year.value;
@@ -227,7 +227,7 @@ export default function LaneView({ id }: { id: string }) {
           </Section>
         )}
         {matching.length > 0 && (
-          <Section title="Benchmark routes on this corridor">
+          <Section title="Routes on this corridor">
             {matching.map((r) => (
               <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
                 {r.benchmark && <span class="code-badge sm">{r.id}</span>}

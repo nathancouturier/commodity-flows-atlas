@@ -78,6 +78,7 @@
    }
   ],
   "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores",
+  "other": 2000.0,
   "basis": "contained zinc"
  },
  "reserves": {
@@ -125,6 +126,7 @@
    }
   ],
   "n": "USGS MCS 2026, zinc reserves, contained zinc; USGS world total is rounded; the country lines of the source add up to 240,800 kt Zn, more than the published world total of 240,000 kt Zn: shares are computed on the sum",
+  "other": 25000.0,
   "basis": "contained zinc"
  },
  "exports": {
@@ -180,6 +182,226 @@
    {
     "c": "PRT",
     "v": 0.2518
+   },
+   {
+    "c": "BEL",
+    "v": 0.2091
+   },
+   {
+    "c": "CHL",
+    "v": 0.1506
+   },
+   {
+    "c": "ESP",
+    "v": 0.1211
+   },
+   {
+    "c": "MNG",
+    "v": 0.1125
+   },
+   {
+    "c": "CAN",
+    "v": 0.1114
+   },
+   {
+    "c": "MAR",
+    "v": 0.1034
+   },
+   {
+    "c": "TJK",
+    "v": 0.1034
+   },
+   {
+    "c": "PAK",
+    "v": 0.1032
+   },
+   {
+    "c": "SAU",
+    "v": 0.1017
+   },
+   {
+    "c": "COD",
+    "v": 0.0999
+   },
+   {
+    "c": "CUB",
+    "v": 0.0981
+   },
+   {
+    "c": "FIN",
+    "v": 0.0934
+   },
+   {
+    "c": "ITA",
+    "v": 0.0876
+   },
+   {
+    "c": "IRN",
+    "v": 0.0856
+   },
+   {
+    "c": "NGA",
+    "v": 0.0768
+   },
+   {
+    "c": "VNM",
+    "v": 0.075
+   },
+   {
+    "c": "NAM",
+    "v": 0.0731
+   },
+   {
+    "c": "BRA",
+    "v": 0.0698
+   },
+   {
+    "c": "DEU",
+    "v": 0.0668
+   },
+   {
+    "c": "GBR",
+    "v": 0.062
+   },
+   {
+    "c": "OMN",
+    "v": 0.061
+   },
+   {
+    "c": "FRA",
+    "v": 0.0557
+   },
+   {
+    "c": "ZMB",
+    "v": 0.054
+   },
+   {
+    "c": "MKD",
+    "v": 0.0495
+   },
+   {
+    "c": "GRC",
+    "v": 0.0363
+   },
+   {
+    "c": "DOM",
+    "v": 0.0326
+   },
+   {
+    "c": "SRB",
+    "v": 0.0312
+   },
+   {
+    "c": "IDN",
+    "v": 0.0259
+   },
+   {
+    "c": "MNE",
+    "v": 0.0245
+   },
+   {
+    "c": "BIH",
+    "v": 0.0242
+   },
+   {
+    "c": "MMR",
+    "v": 0.0223
+   },
+   {
+    "c": "POL",
+    "v": 0.0196
+   },
+   {
+    "c": "KOR",
+    "v": 0.0195
+   },
+   {
+    "c": "HND",
+    "v": 0.017
+   },
+   {
+    "c": "NLD",
+    "v": 0.0116
+   },
+   {
+    "c": "ARM",
+    "v": 0.0116
+   },
+   {
+    "c": "ARG",
+    "v": 0.0104
+   },
+   {
+    "c": "ROU",
+    "v": 0.0066
+   },
+   {
+    "c": "MYS",
+    "v": 0.0065
+   },
+   {
+    "c": "CHN",
+    "v": 0.0056
+   },
+   {
+    "c": "IND",
+    "v": 0.0055
+   },
+   {
+    "c": "ECU",
+    "v": 0.0048
+   },
+   {
+    "c": "COG",
+    "v": 0.0037
+   },
+   {
+    "c": "TUN",
+    "v": 0.0036
+   },
+   {
+    "c": "AFG",
+    "v": 0.0033
+   },
+   {
+    "c": "EGY",
+    "v": 0.0025
+   },
+   {
+    "c": "LAO",
+    "v": 0.0023
+   },
+   {
+    "c": "TWN",
+    "v": 0.002
+   },
+   {
+    "c": "KHM",
+    "v": 0.002
+   },
+   {
+    "c": "LBY",
+    "v": 0.0015
+   },
+   {
+    "c": "HKG",
+    "v": 0.0015
+   },
+   {
+    "c": "JPN",
+    "v": 0.0012
+   },
+   {
+    "c": "LKA",
+    "v": 0.0011
+   },
+   {
+    "c": "ARE",
+    "v": 0.001
+   },
+   {
+    "c": "BGR",
+    "v": 0.0005
    }
   ],
   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -238,6 +460,106 @@
    {
     "c": "AUS",
     "v": 0.2421
+   },
+   {
+    "c": "NLD",
+    "v": 0.2154
+   },
+   {
+    "c": "KAZ",
+    "v": 0.199
+   },
+   {
+    "c": "POL",
+    "v": 0.1485
+   },
+   {
+    "c": "BRA",
+    "v": 0.147
+   },
+   {
+    "c": "SWE",
+    "v": 0.1209
+   },
+   {
+    "c": "RUS",
+    "v": 0.0895
+   },
+   {
+    "c": "BGR",
+    "v": 0.0854
+   },
+   {
+    "c": "UZB",
+    "v": 0.0825
+   },
+   {
+    "c": "ZMB",
+    "v": 0.078
+   },
+   {
+    "c": "USA",
+    "v": 0.0416
+   },
+   {
+    "c": "CHE",
+    "v": 0.0405
+   },
+   {
+    "c": "TZA",
+    "v": 0.0262
+   },
+   {
+    "c": "NAM",
+    "v": 0.0227
+   },
+   {
+    "c": "SGP",
+    "v": 0.0178
+   },
+   {
+    "c": "VNM",
+    "v": 0.0173
+   },
+   {
+    "c": "IDN",
+    "v": 0.0161
+   },
+   {
+    "c": "THA",
+    "v": 0.0148
+   },
+   {
+    "c": "MEX",
+    "v": 0.0124
+   },
+   {
+    "c": "TUR",
+    "v": 0.0112
+   },
+   {
+    "c": "SVK",
+    "v": 0.011
+   },
+   {
+    "c": "PER",
+    "v": 0.0101
+   },
+   {
+    "c": "HRV",
+    "v": 0.0079
+   },
+   {
+    "c": "HKG",
+    "v": 0.0066
+   },
+   {
+    "c": "ARE",
+    "v": 0.005
+   },
+   {
+    "c": "ITA",
+    "v": 0.0011
    }
   ],
   "n": "CEPII BACI HS92 zinc ores and concentrates (HS 2608), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -300,6 +622,158 @@
      {
       "c": "NOR",
       "v": 0.1758
+     },
+     {
+      "c": "JPN",
+      "v": 0.1613
+     },
+     {
+      "c": "IRN",
+      "v": 0.1225
+     },
+     {
+      "c": "SGP",
+      "v": 0.1224
+     },
+     {
+      "c": "BRA",
+      "v": 0.114
+     },
+     {
+      "c": "DEU",
+      "v": 0.0983
+     },
+     {
+      "c": "POL",
+      "v": 0.0969
+     },
+     {
+      "c": "FRA",
+      "v": 0.0802
+     },
+     {
+      "c": "BGR",
+      "v": 0.0643
+     },
+     {
+      "c": "UZB",
+      "v": 0.052
+     },
+     {
+      "c": "USA",
+      "v": 0.0378
+     },
+     {
+      "c": "SWE",
+      "v": 0.0358
+     },
+     {
+      "c": "MYS",
+      "v": 0.0315
+     },
+     {
+      "c": "CHN",
+      "v": 0.0201
+     },
+     {
+      "c": "ITA",
+      "v": 0.0172
+     },
+     {
+      "c": "AUT",
+      "v": 0.0138
+     },
+     {
+      "c": "HKG",
+      "v": 0.0131
+     },
+     {
+      "c": "THA",
+      "v": 0.012
+     },
+     {
+      "c": "TWN",
+      "v": 0.0119
+     },
+     {
+      "c": "SVK",
+      "v": 0.0104
+     },
+     {
+      "c": "LUX",
+      "v": 0.0101
+     },
+     {
+      "c": "ARE",
+      "v": 0.007
+     },
+     {
+      "c": "MMR",
+      "v": 0.0059
+     },
+     {
+      "c": "SVN",
+      "v": 0.004
+     },
+     {
+      "c": "TUR",
+      "v": 0.004
+     },
+     {
+      "c": "CHE",
+      "v": 0.0036
+     },
+     {
+      "c": "VNM",
+      "v": 0.0031
+     },
+     {
+      "c": "COG",
+      "v": 0.0028
+     },
+     {
+      "c": "IDN",
+      "v": 0.0026
+     },
+     {
+      "c": "CZE",
+      "v": 0.0015
+     },
+     {
+      "c": "KEN",
+      "v": 0.0014
+     },
+     {
+      "c": "PRT",
+      "v": 0.0012
+     },
+     {
+      "c": "HUN",
+      "v": 0.0011
+     },
+     {
+      "c": "NGA",
+      "v": 0.001
+     },
+     {
+      "c": "GBR",
+      "v": 0.0008
+     },
+     {
+      "c": "PHL",
+      "v": 0.0005
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0005
+     },
+     {
+      "c": "KHM",
+      "v": 0.0004
+     },
+     {
+      "c": "SHN",
+      "v": 0.0002
      }
     ],
     "n": "CEPII BACI HS92 unwrought zinc (HS 7901), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

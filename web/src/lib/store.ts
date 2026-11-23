@@ -21,7 +21,9 @@ export type Selection =
   | { kind: 'chokepoint'; id: string }
   | { kind: 'infra'; id: string; layer: InfraType }
   | { kind: 'vessel'; id: string }
-  | { kind: 'event'; id: string };
+  | { kind: 'event'; id: string }
+  /** a page that lists things and has no id of its own: `board:chokepoints` */
+  | { kind: 'board'; id: string };
 
 export const family = signal<FamilyFilter>('all');
 export const commodity = signal<string | null>(null);
@@ -119,7 +121,7 @@ export function select(s: Selection | null) {
 
 const HASH_FAMILIES: readonly string[] = ['energy', 'metals', 'softs', 'freight'];
 const HASH_METRICS: readonly string[] = ['production', 'reserves', 'consumption', 'exports', 'imports'];
-const HASH_KINDS: readonly string[] = ['country', 'commodity', 'route', 'lane', 'chokepoint', 'infra', 'vessel', 'event'];
+const HASH_KINDS: readonly string[] = ['country', 'commodity', 'route', 'lane', 'chokepoint', 'infra', 'vessel', 'event', 'board'];
 
 /** Route finder state of a link: `rf=<commodity>:<o|d>:<origin>-<destination>[:<group>]`. */
 interface FinderState {

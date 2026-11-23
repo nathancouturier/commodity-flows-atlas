@@ -12,13 +12,14 @@ import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
 import '../styles/lane-table.css';
 
-type SortKey = 'from' | 'to' | 'mt' | 'share' | 'class' | 'nm' | 'via';
+type SortKey = 'from' | 'to' | 'mt' | 'share' | 'chg' | 'class' | 'nm' | 'via';
 
 const SORTS: { key: SortKey; label: string; title: string; text: boolean }[] = [
   { key: 'from', label: 'From', title: 'Sort by origin', text: true },
   { key: 'to', label: 'To', title: 'Sort by destination', text: true },
   { key: 'mt', label: 'Mt', title: 'Sort by tonnes', text: false },
   { key: 'share', label: 'Share', title: "Sort by share of the commodity's seaborne trade", text: false },
+  { key: 'chg', label: 'Change', title: 'Sort by change from the year before', text: false },
   { key: 'class', label: 'Class', title: 'Sort by typical vessel class', text: true },
   { key: 'nm', label: 'Distance', title: 'Sort by distance', text: false },
   { key: 'via', label: 'Passages', title: 'Sort by passages crossed', text: true },
@@ -40,6 +41,11 @@ export interface LaneRow {
   /** share of the group's seaborne tonnes, 0..1; null for a lane that is not all sea */
   share: number | null;
   est: boolean;
+  /** tonnes of the year shown minus those of the year before (`hist`; no figure counts as 0), null for the first year */
+  chg: number | null;
+  /** the year before; `chgEst`: an Atlas estimate in either year */
+  prevY: number | null;
+  chgEst: boolean;
   kind: 'sea' | 'transit' | 'mixed';
   /** transit port names, for a landlocked end (two when both ends are landlocked) */
   transit: string[];
@@ -98,6 +104,13 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         share = laneShare(l, f);
         est = laneEst(l);
       }
+      // change from the year before, on the yearly series of the lane
+      const i = at >= 0 ? at : f.years.indexOf(f.y);
+      const cur = i >= 0 ? l.hist[i] : null;
+      const prev = i >= 1 ? l.hist[i - 1] : null;
+      const chg = i >= 1 && (cur != null || prev != null) ? (cur ?? 0) - (prev ?? 0) : null;
+      const prevY = i >= 1 ? f.years[i - 1] : null;
+      const chgEst = chg != null && (est || l.histFlags?.[String(prevY)] === 'est' || l.histFlags?.[String(f.years[i])] === 'est');
       rows.push({
         id: l.id,
         group: f.group,
@@ -108,6 +121,9 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         u: f.unit,
         share,
         est,
+        chg,
+        prevY,
+        chgEst,
         kind: mixed ? 'mixed' : l.transit ? 'transit' : 'sea',
         transit: transitNames(l, f),
         cls: l.vclass[0] ?? null,
@@ -177,6 +193,7 @@ function sortRows(rows: LaneRow[], key: SortKey, dir: 1 | -1): LaneRow[] {
     let c = 0;
     if (key === 'mt') c = cmpNum(a.v, b.v, dir);
     else if (key === 'share') c = cmpNum(a.share, b.share, dir);
+    else if (key === 'chg') c = cmpNum(a.chg, b.chg, dir);
     else if (key === 'nm') c = cmpNum(a.nm, b.nm, dir);
     else if (key === 'via') {
       // fewest certain passages first when ascending, then by name; a lane with none sorts as "no passage"
@@ -266,6 +283,13 @@ function LaneLine({ r }: { r: LaneRow }) {
       <span class="lt-fig num">
         {r.v == null ? '—' : `${fmtEst(r.v, r.est)} ${r.u}`}
         <small>{r.share == null ? (r.kind === 'mixed' ? 'all modes' : '—') : pct(r.share, true)}</small>
+        {r.chg != null && (
+          <small class={`lt-chg ${r.chg > 0 ? 'up' : r.chg < 0 ? 'down' : ''}`} title={`Change from ${r.prevY}${r.chgEst ? '; an Atlas estimate in one of the two years' : ''}`}>
+            {r.chg > 0 ? '+' : r.chg < 0 ? '−' : '±'}
+            {fmtEst(Math.abs(r.chg), r.chgEst)} vs {r.prevY}
+            {r.chgEst ? ' (est.)' : ''}
+          </small>
+        )}
       </span>
     </button>
   );

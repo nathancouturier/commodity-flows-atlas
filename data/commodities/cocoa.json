@@ -81,6 +81,199 @@
     "c": "UGA",
     "v": 0.055,
     "n": "FAO flag: X"
+   },
+   {
+    "c": "COD",
+    "v": 0.05,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "PNG",
+    "v": 0.045,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "IND",
+    "v": 0.0304
+   },
+   {
+    "c": "LBR",
+    "v": 0.03,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "VEN",
+    "v": 0.0294,
+    "n": "FAO flag: I"
+   },
+   {
+    "c": "MEX",
+    "v": 0.0284
+   },
+   {
+    "c": "TGO",
+    "v": 0.025,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "GIN",
+    "v": 0.0242,
+    "n": "FAO flag: I"
+   },
+   {
+    "c": "MDG",
+    "v": 0.021,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "COG",
+    "v": 0.015,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "TZA",
+    "v": 0.015,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "GTM",
+    "v": 0.0117,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "PHL",
+    "v": 0.0108
+   },
+   {
+    "c": "BOL",
+    "v": 0.0058
+   },
+   {
+    "c": "SLB",
+    "v": 0.0042,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "STP",
+    "v": 0.004,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "HTI",
+    "v": 0.003,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "HND",
+    "v": 0.002,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "VUT",
+    "v": 0.0015,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "VNM",
+    "v": 0.0015,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "CUB",
+    "v": 0.0015,
+    "n": "FAO flag: I"
+   },
+   {
+    "c": "LKA",
+    "v": 0.0011
+   },
+   {
+    "c": "CRI",
+    "v": 0.001,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "DMA",
+    "v": 0.001,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "GNQ",
+    "v": 0.0006,
+    "n": "FAO flag: X"
+   },
+   {
+    "c": "GUY",
+    "v": 0.0005,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "WSM",
+    "v": 0.0005,
+    "n": "FAO flag: I"
+   },
+   {
+    "c": "AGO",
+    "v": 0.0005,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "MYS",
+    "v": 0.0004
+   },
+   {
+    "c": "SLV",
+    "v": 0.0004,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "PAN",
+    "v": 0.0003
+   },
+   {
+    "c": "TTO",
+    "v": 0.0002
+   },
+   {
+    "c": "VCT",
+    "v": 0.0002,
+    "n": "FAO flag: I"
+   },
+   {
+    "c": "BLZ",
+    "v": 0.0002
+   },
+   {
+    "c": "FJI",
+    "v": 0.0002
+   },
+   {
+    "c": "GRD",
+    "v": 0.0002
+   },
+   {
+    "c": "JAM",
+    "v": 0.0002
+   },
+   {
+    "c": "TLS",
+    "v": 0.0002,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "CAF",
+    "v": 0.0001,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "THA",
+    "v": 0.0001,
+    "n": "FAO flag: E"
+   },
+   {
+    "c": "GAB",
+    "v": 0.0001,
+    "n": "FAO flag: X"
    }
   ],
   "n": "FAOSTAT QCL, cocoa beans (item 661), production, 2024; tonnes converted to Mt; world total as published by FAO (note flags: E estimated, I imputed, X from international organisations; A official) · World total 20% above the ICCO's estimate for the 2023/24 crop year (4,362 kt): see the discrepancies.",
@@ -140,6 +333,167 @@
    {
     "c": "BEL",
     "v": 0.051
+   },
+   {
+    "c": "PNG",
+    "v": 0.0469
+   },
+   {
+    "c": "LBR",
+    "v": 0.0308
+   },
+   {
+    "c": "USA",
+    "v": 0.0287
+   },
+   {
+    "c": "SLE",
+    "v": 0.0286
+   },
+   {
+    "c": "MYS",
+    "v": 0.0281
+   },
+   {
+    "c": "TGO",
+    "v": 0.0228
+   },
+   {
+    "c": "IDN",
+    "v": 0.0186
+   },
+   {
+    "c": "MDG",
+    "v": 0.0164
+   },
+   {
+    "c": "EST",
+    "v": 0.0156
+   },
+   {
+    "c": "COG",
+    "v": 0.0149
+   },
+   {
+    "c": "TZA",
+    "v": 0.0131
+   },
+   {
+    "c": "VEN",
+    "v": 0.0112
+   },
+   {
+    "c": "COL",
+    "v": 0.0098
+   },
+   {
+    "c": "GBR",
+    "v": 0.0086
+   },
+   {
+    "c": "NIC",
+    "v": 0.0073
+   },
+   {
+    "c": "FRA",
+    "v": 0.0067
+   },
+   {
+    "c": "DEU",
+    "v": 0.0064
+   },
+   {
+    "c": "SGP",
+    "v": 0.0054
+   },
+   {
+    "c": "STP",
+    "v": 0.0037
+   },
+   {
+    "c": "BGR",
+    "v": 0.0035,
+    "n": "57% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "PHL",
+    "v": 0.0034
+   },
+   {
+    "c": "KEN",
+    "v": 0.0031
+   },
+   {
+    "c": "HTI",
+    "v": 0.0021
+   },
+   {
+    "c": "SLB",
+    "v": 0.0021
+   },
+   {
+    "c": "CAN",
+    "v": 0.0018
+   },
+   {
+    "c": "BOL",
+    "v": 0.0016
+   },
+   {
+    "c": "VUT",
+    "v": 0.0014
+   },
+   {
+    "c": "CHE",
+    "v": 0.0008
+   },
+   {
+    "c": "VNM",
+    "v": 0.0008
+   },
+   {
+    "c": "AUT",
+    "v": 0.0008
+   },
+   {
+    "c": "PAN",
+    "v": 0.0005
+   },
+   {
+    "c": "GNQ",
+    "v": 0.0005
+   },
+   {
+    "c": "JPN",
+    "v": 0.0002
+   },
+   {
+    "c": "HND",
+    "v": 0.0002
+   },
+   {
+    "c": "CUB",
+    "v": 0.0002
+   },
+   {
+    "c": "ITA",
+    "v": 0.0002
+   },
+   {
+    "c": "GTM",
+    "v": 0.0002
+   },
+   {
+    "c": "THA",
+    "v": 0.0002
+   },
+   {
+    "c": "GNB",
+    "v": 0.0001
+   },
+   {
+    "c": "TUR",
+    "v": 0.0001
    }
   ],
   "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -197,6 +551,157 @@
    {
     "c": "ITA",
     "v": 0.0929
+   },
+   {
+    "c": "GBR",
+    "v": 0.0612
+   },
+   {
+    "c": "CHE",
+    "v": 0.0572
+   },
+   {
+    "c": "MEX",
+    "v": 0.0412
+   },
+   {
+    "c": "BGR",
+    "v": 0.0337
+   },
+   {
+    "c": "JPN",
+    "v": 0.0329
+   },
+   {
+    "c": "EST",
+    "v": 0.0283
+   },
+   {
+    "c": "BRA",
+    "v": 0.028
+   },
+   {
+    "c": "IND",
+    "v": 0.0274
+   },
+   {
+    "c": "AUT",
+    "v": 0.0211
+   },
+   {
+    "c": "RUS",
+    "v": 0.0177
+   },
+   {
+    "c": "SVK",
+    "v": 0.0147
+   },
+   {
+    "c": "GHA",
+    "v": 0.0112
+   },
+   {
+    "c": "POL",
+    "v": 0.0099
+   },
+   {
+    "c": "CHN",
+    "v": 0.0092
+   },
+   {
+    "c": "UGA",
+    "v": 0.0078,
+    "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "TUN",
+    "v": 0.0062
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0052
+   },
+   {
+    "c": "GTM",
+    "v": 0.0051
+   },
+   {
+    "c": "KHM",
+    "v": 0.005,
+    "n": "40% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "KOR",
+    "v": 0.0048
+   },
+   {
+    "c": "UKR",
+    "v": 0.0047
+   },
+   {
+    "c": "BLR",
+    "v": 0.0046
+   },
+   {
+    "c": "SRB",
+    "v": 0.0042
+   },
+   {
+    "c": "GRC",
+    "v": 0.0042
+   },
+   {
+    "c": "NZL",
+    "v": 0.0036
+   },
+   {
+    "c": "VNM",
+    "v": 0.0034
+   },
+   {
+    "c": "ARE",
+    "v": 0.0022
+   },
+   {
+    "c": "TGO",
+    "v": 0.0015,
+    "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "HRV",
+    "v": 0.0012
+   },
+   {
+    "c": "DZA",
+    "v": 0.0011
+   },
+   {
+    "c": "SLV",
+    "v": 0.0007
+   },
+   {
+    "c": "LTU",
+    "v": 0.0005
+   },
+   {
+    "c": "CRI",
+    "v": 0.0003
+   },
+   {
+    "c": "ARG",
+    "v": 0.0003
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0003
+   },
+   {
+    "c": "COL",
+    "v": 0.0002
+   },
+   {
+    "c": "AUS",
+    "v": 0.0001
    }
   ],
   "n": "CEPII BACI HS92 cocoa beans (HS 1801), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"

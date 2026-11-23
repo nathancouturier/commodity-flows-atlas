@@ -79,6 +79,13 @@
    }
   ],
   "n": "USGS MCS 2026, rare-earth mine production, REO equivalent; 2025 values are USGS estimates; USGS world total is rounded",
+  "other": 550.0,
+  "hidden": {
+   "v": 260.0,
+   "k": 2,
+   "from": 10,
+   "n": "2 further countries named by USGS (Vietnam and Malaysia), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "REO equivalent"
  },
  "reserves": {
@@ -192,6 +199,96 @@
     "c": "KOR",
     "v": 1.779,
     "n": "88% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "NLD",
+    "v": 1.424
+   },
+   {
+    "c": "AUT",
+    "v": 1.334
+   },
+   {
+    "c": "POL",
+    "v": 1.18
+   },
+   {
+    "c": "IND",
+    "v": 1.163
+   },
+   {
+    "c": "ITA",
+    "v": 0.966
+   },
+   {
+    "c": "THA",
+    "v": 0.84
+   },
+   {
+    "c": "SVN",
+    "v": 0.713,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "DEU",
+    "v": 0.472,
+    "n": "Atlas estimate: 65% of this tonnage is estimated from the declared value (customs declared 0.00 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "TWN",
+    "v": 0.35
+   },
+   {
+    "c": "GBR",
+    "v": 0.325
+   },
+   {
+    "c": "ZAF",
+    "v": 0.224
+   },
+   {
+    "c": "TUR",
+    "v": 0.2,
+    "n": "Atlas estimate: 53% of this tonnage is estimated from the declared value (customs declared 40.7 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "NOR",
+    "v": 0.119,
+    "n": "15% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "SGP",
+    "v": 0.1
+   },
+   {
+    "c": "CAN",
+    "v": 0.096
+   },
+   {
+    "c": "BRA",
+    "v": 0.06
+   },
+   {
+    "c": "HKG",
+    "v": 0.057
+   },
+   {
+    "c": "ESP",
+    "v": 0.029
+   },
+   {
+    "c": "PHL",
+    "v": 0.028
+   },
+   {
+    "c": "LTU",
+    "v": 0.01
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -253,6 +350,110 @@
     "c": "HKG",
     "v": 2.693,
     "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "NLD",
+    "v": 2.174
+   },
+   {
+    "c": "IND",
+    "v": 1.805
+   },
+   {
+    "c": "THA",
+    "v": 1.54
+   },
+   {
+    "c": "BRA",
+    "v": 1.391,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "RUS",
+    "v": 1.279,
+    "n": "24% of tonnage estimated from value"
+   },
+   {
+    "c": "MKD",
+    "v": 0.925
+   },
+   {
+    "c": "NOR",
+    "v": 0.854
+   },
+   {
+    "c": "CAN",
+    "v": 0.782
+   },
+   {
+    "c": "SGP",
+    "v": 0.76
+   },
+   {
+    "c": "TUR",
+    "v": 0.7238,
+    "n": "22% of tonnage estimated from value"
+   },
+   {
+    "c": "GBR",
+    "v": 0.449
+   },
+   {
+    "c": "ESP",
+    "v": 0.42
+   },
+   {
+    "c": "ITA",
+    "v": 0.349
+   },
+   {
+    "c": "POL",
+    "v": 0.343
+   },
+   {
+    "c": "SWE",
+    "v": 0.209
+   },
+   {
+    "c": "KGZ",
+    "v": 0.094
+   },
+   {
+    "c": "MEX",
+    "v": 0.07
+   },
+   {
+    "c": "BEN",
+    "v": 0.0658,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 40.7 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "ARE",
+    "v": 0.038
+   },
+   {
+    "c": "ZAF",
+    "v": 0.034
+   },
+   {
+    "c": "PAK",
+    "v": 0.033
+   },
+   {
+    "c": "BEL",
+    "v": 0.031
+   },
+   {
+    "c": "IRL",
+    "v": 0.015,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "CHE",
+    "v": 0.003
    }
   ],
   "n": "CEPII BACI HS92 rare-earth metals and compounds (HS 280530, 284610, 284690), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

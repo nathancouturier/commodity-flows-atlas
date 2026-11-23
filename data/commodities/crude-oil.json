@@ -103,6 +103,354 @@
    {
     "c": "NOR",
     "v": 1858.5
+   },
+   {
+    "c": "MEX",
+    "v": 1726.0
+   },
+   {
+    "c": "NGA",
+    "v": 1605.4
+   },
+   {
+    "c": "LBY",
+    "v": 1363.0
+   },
+   {
+    "c": "QAT",
+    "v": 1297.4
+   },
+   {
+    "c": "DZA",
+    "v": 1143.0
+   },
+   {
+    "c": "AGO",
+    "v": 1030.8
+   },
+   {
+    "c": "OMN",
+    "v": 1002.1
+   },
+   {
+    "c": "VEN",
+    "v": 972.62
+   },
+   {
+    "c": "ARG",
+    "v": 794.0
+   },
+   {
+    "c": "GUY",
+    "v": 747.43
+   },
+   {
+    "c": "COL",
+    "v": 746.48
+   },
+   {
+    "c": "GBR",
+    "v": 615.78
+   },
+   {
+    "c": "IDN",
+    "v": 581.67
+   },
+   {
+    "c": "IND",
+    "v": 580.6
+   },
+   {
+    "c": "AZE",
+    "v": 571.26
+   },
+   {
+    "c": "MYS",
+    "v": 512.67
+   },
+   {
+    "c": "EGY",
+    "v": 504.79
+   },
+   {
+    "c": "ECU",
+    "v": 440.7
+   },
+   {
+    "c": "AUS",
+    "v": 245.58
+   },
+   {
+    "c": "COG",
+    "v": 241.24
+   },
+   {
+    "c": "GAB",
+    "v": 239.32
+   },
+   {
+    "c": "TKM",
+    "v": 190.66
+   },
+   {
+    "c": "GHA",
+    "v": 182.98
+   },
+   {
+    "c": "BHR",
+    "v": 175.78
+   },
+   {
+    "c": "VNM",
+    "v": 164.67
+   },
+   {
+    "c": "THA",
+    "v": 161.58
+   },
+   {
+    "c": "TCD",
+    "v": 126.49
+   },
+   {
+    "c": "TUR",
+    "v": 124.62
+   },
+   {
+    "c": "SSD",
+    "v": 112.66
+   },
+   {
+    "c": "NER",
+    "v": 101.41
+   },
+   {
+    "c": "BRN",
+    "v": 100.88
+   },
+   {
+    "c": "SEN",
+    "v": 100.0
+   },
+   {
+    "c": "ITA",
+    "v": 83.704
+   },
+   {
+    "c": "GNQ",
+    "v": 76.387
+   },
+   {
+    "c": "SYR",
+    "v": 75.247
+   },
+   {
+    "c": "DNK",
+    "v": 71.811
+   },
+   {
+    "c": "CMR",
+    "v": 59.244
+   },
+   {
+    "c": "PAK",
+    "v": 57.515
+   },
+   {
+    "c": "CIV",
+    "v": 55.092
+   },
+   {
+    "c": "ROU",
+    "v": 51.548
+   },
+   {
+    "c": "TTO",
+    "v": 51.2
+   },
+   {
+    "c": "PER",
+    "v": 44.153
+   },
+   {
+    "c": "DEU",
+    "v": 31.58
+   },
+   {
+    "c": "PNG",
+    "v": 31.516
+   },
+   {
+    "c": "UKR",
+    "v": 31.231
+   },
+   {
+    "c": "SDN",
+    "v": 30.0
+   },
+   {
+    "c": "UZB",
+    "v": 29.584
+   },
+   {
+    "c": "BLR",
+    "v": 25.73
+   },
+   {
+    "c": "CUB",
+    "v": 25.463
+   },
+   {
+    "c": "TUN",
+    "v": 25.326
+   },
+   {
+    "c": "HUN",
+    "v": 23.42
+   },
+   {
+    "c": "NLD",
+    "v": 21.47
+   },
+   {
+    "c": "ISR",
+    "v": 19.521
+   },
+   {
+    "c": "BOL",
+    "v": 17.661
+   },
+   {
+    "c": "POL",
+    "v": 16.541
+   },
+   {
+    "c": "COD",
+    "v": 16.0
+   },
+   {
+    "c": "YEM",
+    "v": 15.0
+   },
+   {
+    "c": "MNG",
+    "v": 13.672
+   },
+   {
+    "c": "ALB",
+    "v": 12.156
+   },
+   {
+    "c": "SUR",
+    "v": 12.089
+   },
+   {
+    "c": "SRB",
+    "v": 11.481
+   },
+   {
+    "c": "FRA",
+    "v": 10.222
+   },
+   {
+    "c": "HRV",
+    "v": 8.997
+   },
+   {
+    "c": "AUT",
+    "v": 8.755
+   },
+   {
+    "c": "NZL",
+    "v": 7.915
+   },
+   {
+    "c": "MMR",
+    "v": 5.555
+   },
+   {
+    "c": "KGZ",
+    "v": 5.543
+   },
+   {
+    "c": "GTM",
+    "v": 5.385
+   },
+   {
+    "c": "JPN",
+    "v": 3.107
+   },
+   {
+    "c": "BGD",
+    "v": 3.0
+   },
+   {
+    "c": "TLS",
+    "v": 2.0
+   },
+   {
+    "c": "CHL",
+    "v": 1.968
+   },
+   {
+    "c": "GRC",
+    "v": 1.497
+   },
+   {
+    "c": "CZE",
+    "v": 1.346
+   },
+   {
+    "c": "BRB",
+    "v": 1.0
+   },
+   {
+    "c": "BGR",
+    "v": 1.0
+   },
+   {
+    "c": "BLZ",
+    "v": 0.7871
+   },
+   {
+    "c": "LTU",
+    "v": 0.7
+   },
+   {
+    "c": "PHL",
+    "v": 0.503
+   },
+   {
+    "c": "ZAF",
+    "v": 0.3709
+   },
+   {
+    "c": "TJK",
+    "v": 0.316
+   },
+   {
+    "c": "GEO",
+    "v": 0.2235
+   },
+   {
+    "c": "TWN",
+    "v": 0.196
+   },
+   {
+    "c": "ESP",
+    "v": 0.0265
+   },
+   {
+    "c": "MAR",
+    "v": 0.025
+   },
+   {
+    "c": "JOR",
+    "v": 0.02
+   },
+   {
+    "c": "SVK",
+    "v": 0.0186
    }
   ],
   "n": "EIA International Energy Data, crude oil including lease condensate production; world total as published by EIA (all countries)"
@@ -160,6 +508,798 @@
    {
     "c": "MEX",
     "v": 1905.7
+   },
+   {
+    "c": "IDN",
+    "v": 1778.9
+   },
+   {
+    "c": "SGP",
+    "v": 1541.9
+   },
+   {
+    "c": "FRA",
+    "v": 1534.6
+   },
+   {
+    "c": "THA",
+    "v": 1471.8
+   },
+   {
+    "c": "GBR",
+    "v": 1413.4
+   },
+   {
+    "c": "ESP",
+    "v": 1324.7
+   },
+   {
+    "c": "ITA",
+    "v": 1220.0
+   },
+   {
+    "c": "TUR",
+    "v": 1157.5
+   },
+   {
+    "c": "AUS",
+    "v": 1146.4
+   },
+   {
+    "c": "ARE",
+    "v": 1016.3
+   },
+   {
+    "c": "IRQ",
+    "v": 1008.2
+   },
+   {
+    "c": "TWN",
+    "v": 842.94
+   },
+   {
+    "c": "EGY",
+    "v": 828.99
+   },
+   {
+    "c": "NLD",
+    "v": 822.77
+   },
+   {
+    "c": "POL",
+    "v": 737.17
+   },
+   {
+    "c": "ARG",
+    "v": 737.14
+   },
+   {
+    "c": "MYS",
+    "v": 712.39
+   },
+   {
+    "c": "ZAF",
+    "v": 670.37
+   },
+   {
+    "c": "VNM",
+    "v": 653.79
+   },
+   {
+    "c": "PAK",
+    "v": 649.68
+   },
+   {
+    "c": "BEL",
+    "v": 598.59
+   },
+   {
+    "c": "NGA",
+    "v": 542.33
+   },
+   {
+    "c": "PHL",
+    "v": 511.43
+   },
+   {
+    "c": "KWT",
+    "v": 492.05
+   },
+   {
+    "c": "DZA",
+    "v": 475.74
+   },
+   {
+    "c": "COL",
+    "v": 386.66
+   },
+   {
+    "c": "CHL",
+    "v": 383.97
+   },
+   {
+    "c": "KAZ",
+    "v": 355.18
+   },
+   {
+    "c": "LBY",
+    "v": 326.32
+   },
+   {
+    "c": "GRC",
+    "v": 316.08
+   },
+   {
+    "c": "MAR",
+    "v": 308.49
+   },
+   {
+    "c": "QAT",
+    "v": 308.25
+   },
+   {
+    "c": "ECU",
+    "v": 292.67
+   },
+   {
+    "c": "VEN",
+    "v": 286.8
+   },
+   {
+    "c": "SWE",
+    "v": 284.52
+   },
+   {
+    "c": "PER",
+    "v": 276.78
+   },
+   {
+    "c": "HKG",
+    "v": 267.7
+   },
+   {
+    "c": "BGD",
+    "v": 236.31
+   },
+   {
+    "c": "AUT",
+    "v": 234.17
+   },
+   {
+    "c": "OMN",
+    "v": 231.19
+   },
+   {
+    "c": "ISR",
+    "v": 224.48
+   },
+   {
+    "c": "PRT",
+    "v": 223.12
+   },
+   {
+    "c": "CZE",
+    "v": 220.0
+   },
+   {
+    "c": "NOR",
+    "v": 219.81
+   },
+   {
+    "c": "ROU",
+    "v": 217.52
+   },
+   {
+    "c": "UKR",
+    "v": 195.82
+   },
+   {
+    "c": "CHE",
+    "v": 194.83
+   },
+   {
+    "c": "FIN",
+    "v": 181.53
+   },
+   {
+    "c": "HUN",
+    "v": 172.16
+   },
+   {
+    "c": "BLR",
+    "v": 166.85
+   },
+   {
+    "c": "PAN",
+    "v": 165.05
+   },
+   {
+    "c": "NZL",
+    "v": 161.05
+   },
+   {
+    "c": "IRL",
+    "v": 156.04
+   },
+   {
+    "c": "TKM",
+    "v": 148.46
+   },
+   {
+    "c": "DOM",
+    "v": 142.07
+   },
+   {
+    "c": "DNK",
+    "v": 140.37
+   },
+   {
+    "c": "AGO",
+    "v": 129.22
+   },
+   {
+    "c": "CUB",
+    "v": 128.3
+   },
+   {
+    "c": "GTM",
+    "v": 127.11
+   },
+   {
+    "c": "AZE",
+    "v": 125.44
+   },
+   {
+    "c": "KEN",
+    "v": 123.5
+   },
+   {
+    "c": "MMR",
+    "v": 118.35
+   },
+   {
+    "c": "GHA",
+    "v": 117.85
+   },
+   {
+    "c": "LBN",
+    "v": 114.05
+   },
+   {
+    "c": "ETH",
+    "v": 111.99
+   },
+   {
+    "c": "UZB",
+    "v": 111.39
+   },
+   {
+    "c": "BGR",
+    "v": 108.63
+   },
+   {
+    "c": "TUN",
+    "v": 106.8
+   },
+   {
+    "c": "BOL",
+    "v": 101.67
+   },
+   {
+    "c": "SDN",
+    "v": 100.81
+   },
+   {
+    "c": "JOR",
+    "v": 100.79
+   },
+   {
+    "c": "LKA",
+    "v": 98.387
+   },
+   {
+    "c": "TZA",
+    "v": 95.732
+   },
+   {
+    "c": "CIV",
+    "v": 92.232
+   },
+   {
+    "c": "KHM",
+    "v": 89.659
+   },
+   {
+    "c": "SVK",
+    "v": 89.148
+   },
+   {
+    "c": "SRB",
+    "v": 83.896
+   },
+   {
+    "c": "AFG",
+    "v": 82.974
+   },
+   {
+    "c": "SYR",
+    "v": 82.514
+   },
+   {
+    "c": "PRI",
+    "v": 80.099
+   },
+   {
+    "c": "HRV",
+    "v": 76.843
+   },
+   {
+    "c": "HND",
+    "v": 70.963
+   },
+   {
+    "c": "NPL",
+    "v": 69.966
+   },
+   {
+    "c": "SEN",
+    "v": 68.936
+   },
+   {
+    "c": "YEM",
+    "v": 68.088
+   },
+   {
+    "c": "CRI",
+    "v": 66.392
+   },
+   {
+    "c": "LTU",
+    "v": 64.863
+   },
+   {
+    "c": "BHR",
+    "v": 61.59
+   },
+   {
+    "c": "PRY",
+    "v": 59.427
+   },
+   {
+    "c": "SLV",
+    "v": 55.662
+   },
+   {
+    "c": "BFA",
+    "v": 54.055
+   },
+   {
+    "c": "SVN",
+    "v": 52.748
+   },
+   {
+    "c": "CYP",
+    "v": 51.806
+   },
+   {
+    "c": "UGA",
+    "v": 51.39
+   },
+   {
+    "c": "URY",
+    "v": 51.154
+   },
+   {
+    "c": "MLI",
+    "v": 48.256
+   },
+   {
+    "c": "MNG",
+    "v": 47.868
+   },
+   {
+    "c": "MLT",
+    "v": 47.638
+   },
+   {
+    "c": "LUX",
+    "v": 46.416
+   },
+   {
+    "c": "CMR",
+    "v": 45.378
+   },
+   {
+    "c": "BEN",
+    "v": 44.814
+   },
+   {
+    "c": "GEO",
+    "v": 43.843
+   },
+   {
+    "c": "MOZ",
+    "v": 42.88
+   },
+   {
+    "c": "KGZ",
+    "v": 42.035
+   },
+   {
+    "c": "MUS",
+    "v": 41.878
+   },
+   {
+    "c": "ZMB",
+    "v": 41.094
+   },
+   {
+    "c": "MRT",
+    "v": 39.179
+   },
+   {
+    "c": "COD",
+    "v": 38.081
+   },
+   {
+    "c": "ZWE",
+    "v": 37.204
+   },
+   {
+    "c": "JAM",
+    "v": 37.052
+   },
+   {
+    "c": "TJK",
+    "v": 36.024
+   },
+   {
+    "c": "BIH",
+    "v": 34.178
+   },
+   {
+    "c": "GIN",
+    "v": 34.101
+   },
+   {
+    "c": "LVA",
+    "v": 33.858
+   },
+   {
+    "c": "PNG",
+    "v": 30.518
+   },
+   {
+    "c": "NIC",
+    "v": 29.569
+   },
+   {
+    "c": "TTO",
+    "v": 28.089
+   },
+   {
+    "c": "PSE",
+    "v": 27.638
+   },
+   {
+    "c": "MDG",
+    "v": 25.63
+   },
+   {
+    "c": "NAM",
+    "v": 24.741
+   },
+   {
+    "c": "MDA",
+    "v": 24.725
+   },
+   {
+    "c": "EST",
+    "v": 24.704
+   },
+   {
+    "c": "MKD",
+    "v": 23.956
+   },
+   {
+    "c": "ALB",
+    "v": 23.752
+   },
+   {
+    "c": "BHS",
+    "v": 23.353
+   },
+   {
+    "c": "LAO",
+    "v": 23.135
+   },
+   {
+    "c": "GUM",
+    "v": 22.768
+   },
+   {
+    "c": "BWA",
+    "v": 22.536
+   },
+   {
+    "c": "MWI",
+    "v": 22.252
+   },
+   {
+    "c": "MDV",
+    "v": 21.619
+   },
+   {
+    "c": "SUR",
+    "v": 21.499
+   },
+   {
+    "c": "ISL",
+    "v": 20.921
+   },
+   {
+    "c": "GUY",
+    "v": 19.827
+   },
+   {
+    "c": "KOS",
+    "v": 19.503
+   },
+   {
+    "c": "HTI",
+    "v": 19.164
+   },
+   {
+    "c": "PRK",
+    "v": 18.173
+   },
+   {
+    "c": "NER",
+    "v": 16.864
+   },
+   {
+    "c": "TCD",
+    "v": 16.206
+   },
+   {
+    "c": "VIR",
+    "v": 16.084
+   },
+   {
+    "c": "TGO",
+    "v": 15.77
+   },
+   {
+    "c": "ARM",
+    "v": 15.524
+   },
+   {
+    "c": "BRN",
+    "v": 15.436
+   },
+   {
+    "c": "GAB",
+    "v": 14.336
+   },
+   {
+    "c": "COG",
+    "v": 13.545
+   },
+   {
+    "c": "RWA",
+    "v": 12.764
+   },
+   {
+    "c": "NCL",
+    "v": 12.073
+   },
+   {
+    "c": "MAC",
+    "v": 11.454
+   },
+   {
+    "c": "SSD",
+    "v": 11.381
+   },
+   {
+    "c": "FJI",
+    "v": 10.483
+   },
+   {
+    "c": "MNE",
+    "v": 10.365
+   },
+   {
+    "c": "SLE",
+    "v": 9.295
+   },
+   {
+    "c": "BRB",
+    "v": 9.039
+   },
+   {
+    "c": "ABW",
+    "v": 7.418
+   },
+   {
+    "c": "SYC",
+    "v": 7.076
+   },
+   {
+    "c": "SWZ",
+    "v": 6.768
+   },
+   {
+    "c": "ATG",
+    "v": 6.5
+   },
+   {
+    "c": "LSO",
+    "v": 6.426
+   },
+   {
+    "c": "SOM",
+    "v": 6.387
+   },
+   {
+    "c": "CPV",
+    "v": 6.354
+   },
+   {
+    "c": "GNQ",
+    "v": 6.149
+   },
+   {
+    "c": "GMB",
+    "v": 5.945
+   },
+   {
+    "c": "DJI",
+    "v": 5.739
+   },
+   {
+    "c": "TLS",
+    "v": 5.728
+   },
+   {
+    "c": "ERI",
+    "v": 5.685
+   },
+   {
+    "c": "BLZ",
+    "v": 5.639
+   },
+   {
+    "c": "CYM",
+    "v": 5.611
+   },
+   {
+    "c": "FRO",
+    "v": 5.386
+   },
+   {
+    "c": "COM",
+    "v": 5.291
+   },
+   {
+    "c": "PYF",
+    "v": 5.192
+   },
+   {
+    "c": "GRL",
+    "v": 4.817
+   },
+   {
+    "c": "BDI",
+    "v": 4.678
+   },
+   {
+    "c": "SLB",
+    "v": 4.556
+   },
+   {
+    "c": "LCA",
+    "v": 4.392
+   },
+   {
+    "c": "BTN",
+    "v": 4.079
+   },
+   {
+    "c": "LBR",
+    "v": 3.673
+   },
+   {
+    "c": "BMU",
+    "v": 3.496
+   },
+   {
+    "c": "TCA",
+    "v": 3.207
+   },
+   {
+    "c": "GNB",
+    "v": 2.837
+   },
+   {
+    "c": "WSM",
+    "v": 2.589
+   },
+   {
+    "c": "CAF",
+    "v": 2.569
+   },
+   {
+    "c": "GRD",
+    "v": 2.323
+   },
+   {
+    "c": "ASM",
+    "v": 2.188
+   },
+   {
+    "c": "VUT",
+    "v": 1.987
+   },
+   {
+    "c": "KNA",
+    "v": 1.977
+   },
+   {
+    "c": "VCT",
+    "v": 1.796
+   },
+   {
+    "c": "VGB",
+    "v": 1.354
+   },
+   {
+    "c": "FSM",
+    "v": 1.348
+   },
+   {
+    "c": "DMA",
+    "v": 1.223
+   },
+   {
+    "c": "STP",
+    "v": 0.9679
+   },
+   {
+    "c": "TON",
+    "v": 0.8769
+   },
+   {
+    "c": "COK",
+    "v": 0.7821
+   },
+   {
+    "c": "KIR",
+    "v": 0.6128
+   },
+   {
+    "c": "NRU",
+    "v": 0.5169
+   },
+   {
+    "c": "SPM",
+    "v": 0.4276
+   },
+   {
+    "c": "FLK",
+    "v": 0.2051
+   },
+   {
+    "c": "MSR",
+    "v": 0.1527
+   },
+   {
+    "c": "SHN",
+    "v": 0.0792
+   },
+   {
+    "c": "NIU",
+    "v": 0.06
    }
   ],
   "n": "EIA International Energy Data, petroleum and other liquids consumption: total oil demand, all liquids (the EIA series 'refined petroleum products consumption' carries the same values); world total as published by EIA (all countries)",
@@ -221,6 +1361,359 @@
     "c": "MYS",
     "v": 54.247,
     "n": "Crude oil exports of Malaysia in customs data (54.2 Mt in 2024, CEPII BACI) are 227% of its production (23.9 Mt, EIA International Energy Data). Blending, or crude of other origins declared as Malaysian after ship-to-ship transfers, is a plausible cause; it is not established here."
+   },
+   {
+    "c": "MEX",
+    "v": 53.212,
+    "n": "Crude oil from Mexico to \"Other Asia, not elsewhere specified\" (BACI code S19), shown here as Taiwan: 2.78 Mt in 2018, 13.1 Mt in 2019, 12.7 Mt in 2020, 15.2 Mt in 2021, 9.99 Mt in 2022, 8.43 Mt in 2023, 7.88 Mt in 2024 (CEPII BACI). No source read for the atlas confirms the destination."
+   },
+   {
+    "c": "KWT",
+    "v": 49.423
+   },
+   {
+    "c": "OMN",
+    "v": 47.641
+   },
+   {
+    "c": "LBY",
+    "v": 44.806
+   },
+   {
+    "c": "GUY",
+    "v": 34.812,
+    "n": "16% of tonnage estimated from value"
+   },
+   {
+    "c": "QAT",
+    "v": 33.566
+   },
+   {
+    "c": "NLD",
+    "v": 32.212,
+    "n": "Customs data record 32.2 Mt of crude oil exports from the Netherlands in 2024 (CEPII BACI), 2705% of its production (EIA International Energy Data). Where cargoes are blended, stored or re-exported from this country, the recorded origin may be where the cargo was last shipped from, not where it was produced; the atlas does not measure that share."
+   },
+   {
+    "c": "GBR",
+    "v": 28.461
+   },
+   {
+    "c": "ECU",
+    "v": 27.37
+   },
+   {
+    "c": "COL",
+    "v": 26.01
+   },
+   {
+    "c": "AZE",
+    "v": 23.699
+   },
+   {
+    "c": "VEN",
+    "v": 21.675,
+    "n": "Customs data record 21.7 Mt of crude oil exports from Venezuela in 2024, against 60.3 Mt in 2018 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here."
+   },
+   {
+    "c": "DZA",
+    "v": 20.366
+   },
+   {
+    "c": "AUS",
+    "v": 10.907
+   },
+   {
+    "c": "ARG",
+    "v": 9.421
+   },
+   {
+    "c": "COG",
+    "v": 8.885
+   },
+   {
+    "c": "GAB",
+    "v": 8.473
+   },
+   {
+    "c": "GHA",
+    "v": 6.089
+   },
+   {
+    "c": "TCD",
+    "v": 5.504
+   },
+   {
+    "c": "CMR",
+    "v": 4.594
+   },
+   {
+    "c": "IDN",
+    "v": 3.736
+   },
+   {
+    "c": "GNQ",
+    "v": 3.652
+   },
+   {
+    "c": "BRN",
+    "v": 3.413
+   },
+   {
+    "c": "TTO",
+    "v": 3.1
+   },
+   {
+    "c": "VNM",
+    "v": 2.471
+   },
+   {
+    "c": "EGY",
+    "v": 2.188
+   },
+   {
+    "c": "CIV",
+    "v": 1.898
+   },
+   {
+    "c": "TUR",
+    "v": 1.865
+   },
+   {
+    "c": "SEN",
+    "v": 1.659
+   },
+   {
+    "c": "ITA",
+    "v": 1.646
+   },
+   {
+    "c": "PNG",
+    "v": 1.25
+   },
+   {
+    "c": "DNK",
+    "v": 1.216
+   },
+   {
+    "c": "SDN",
+    "v": 1.144
+   },
+   {
+    "c": "CHN",
+    "v": 1.084
+   },
+   {
+    "c": "HRV",
+    "v": 1.06
+   },
+   {
+    "c": "THA",
+    "v": 0.9717
+   },
+   {
+    "c": "COD",
+    "v": 0.9694
+   },
+   {
+    "c": "ESP",
+    "v": 0.9677
+   },
+   {
+    "c": "TUN",
+    "v": 0.9122
+   },
+   {
+    "c": "NZL",
+    "v": 0.8868
+   },
+   {
+    "c": "BEL",
+    "v": 0.8642
+   },
+   {
+    "c": "SSD",
+    "v": 0.6205
+   },
+   {
+    "c": "ISR",
+    "v": 0.5826
+   },
+   {
+    "c": "MNG",
+    "v": 0.5687
+   },
+   {
+    "c": "NIC",
+    "v": 0.5289
+   },
+   {
+    "c": "NER",
+    "v": 0.5258
+   },
+   {
+    "c": "PER",
+    "v": 0.5003
+   },
+   {
+    "c": "SVK",
+    "v": 0.429
+   },
+   {
+    "c": "FRA",
+    "v": 0.3819
+   },
+   {
+    "c": "SGP",
+    "v": 0.3182
+   },
+   {
+    "c": "PAK",
+    "v": 0.3121
+   },
+   {
+    "c": "TKM",
+    "v": 0.2993
+   },
+   {
+    "c": "PHL",
+    "v": 0.2807
+   },
+   {
+    "c": "ALB",
+    "v": 0.2465
+   },
+   {
+    "c": "DEU",
+    "v": 0.2398
+   },
+   {
+    "c": "GRC",
+    "v": 0.218
+   },
+   {
+    "c": "LBR",
+    "v": 0.1916
+   },
+   {
+    "c": "POL",
+    "v": 0.1872
+   },
+   {
+    "c": "GTM",
+    "v": 0.1762
+   },
+   {
+    "c": "MOZ",
+    "v": 0.1722,
+    "n": "18% of tonnage estimated from value"
+   },
+   {
+    "c": "MLT",
+    "v": 0.1691
+   },
+   {
+    "c": "ZAF",
+    "v": 0.14,
+    "n": "Atlas estimate: 57% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "IND",
+    "v": 0.1333
+   },
+   {
+    "c": "HUN",
+    "v": 0.1062
+   },
+   {
+    "c": "SWE",
+    "v": 0.1033
+   },
+   {
+    "c": "KOR",
+    "v": 0.0945
+   },
+   {
+    "c": "JPN",
+    "v": 0.0917
+   },
+   {
+    "c": "TLS",
+    "v": 0.0759
+   },
+   {
+    "c": "CYP",
+    "v": 0.0642
+   },
+   {
+    "c": "PAN",
+    "v": 0.0545
+   },
+   {
+    "c": "PRT",
+    "v": 0.0449
+   },
+   {
+    "c": "IRL",
+    "v": 0.0443
+   },
+   {
+    "c": "URY",
+    "v": 0.0274
+   },
+   {
+    "c": "BRB",
+    "v": 0.0242
+   },
+   {
+    "c": "VGB",
+    "v": 0.024
+   },
+   {
+    "c": "CHL",
+    "v": 0.022
+   },
+   {
+    "c": "ROU",
+    "v": 0.0087
+   },
+   {
+    "c": "BIH",
+    "v": 0.0079
+   },
+   {
+    "c": "STP",
+    "v": 0.0049
+   },
+   {
+    "c": "PRY",
+    "v": 0.0044
+   },
+   {
+    "c": "FIN",
+    "v": 0.0031
+   },
+   {
+    "c": "BOL",
+    "v": 0.003
+   },
+   {
+    "c": "AUT",
+    "v": 0.0025
+   },
+   {
+    "c": "TZA",
+    "v": 0.0018
+   },
+   {
+    "c": "MDA",
+    "v": 0.0016
+   },
+   {
+    "c": "LVA",
+    "v": 0.0016
    }
   ],
   "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
@@ -280,6 +1773,314 @@
     "c": "THA",
     "v": 50.379,
     "n": "49% of tonnage estimated from value"
+   },
+   {
+    "c": "SGP",
+    "v": 47.331
+   },
+   {
+    "c": "FRA",
+    "v": 46.452
+   },
+   {
+    "c": "BEL",
+    "v": 30.212
+   },
+   {
+    "c": "PAN",
+    "v": 26.95,
+    "n": "16% of tonnage estimated from value"
+   },
+   {
+    "c": "POL",
+    "v": 26.646
+   },
+   {
+    "c": "CAN",
+    "v": 25.462
+   },
+   {
+    "c": "MYS",
+    "v": 24.125
+   },
+   {
+    "c": "GRC",
+    "v": 23.744
+   },
+   {
+    "c": "SWE",
+    "v": 17.56
+   },
+   {
+    "c": "IDN",
+    "v": 16.691
+   },
+   {
+    "c": "BRA",
+    "v": 14.238
+   },
+   {
+    "c": "PRT",
+    "v": 10.367
+   },
+   {
+    "c": "PAK",
+    "v": 9.921
+   },
+   {
+    "c": "AUS",
+    "v": 8.746
+   },
+   {
+    "c": "FIN",
+    "v": 8.709
+   },
+   {
+    "c": "CHL",
+    "v": 8.703
+   },
+   {
+    "c": "LTU",
+    "v": 8.683
+   },
+   {
+    "c": "ZAF",
+    "v": 8.127
+   },
+   {
+    "c": "ROU",
+    "v": 7.893
+   },
+   {
+    "c": "AUT",
+    "v": 7.495
+   },
+   {
+    "c": "BRN",
+    "v": 6.568
+   },
+   {
+    "c": "PHL",
+    "v": 6.481
+   },
+   {
+    "c": "BGR",
+    "v": 6.251
+   },
+   {
+    "c": "PER",
+    "v": 6.194
+   },
+   {
+    "c": "CZE",
+    "v": 5.79
+   },
+   {
+    "c": "HUN",
+    "v": 5.514
+   },
+   {
+    "c": "SVK",
+    "v": 5.439
+   },
+   {
+    "c": "TUR",
+    "v": 5.22,
+    "n": "No crude oil from Russia to Turkey is recorded in customs data for 2022 to 2024 (4.2 Mt in 2021, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here."
+   },
+   {
+    "c": "DNK",
+    "v": 4.679
+   },
+   {
+    "c": "CIV",
+    "v": 3.773
+   },
+   {
+    "c": "HRV",
+    "v": 2.878
+   },
+   {
+    "c": "QAT",
+    "v": 2.85
+   },
+   {
+    "c": "CHE",
+    "v": 2.713
+   },
+   {
+    "c": "NGA",
+    "v": 2.379
+   },
+   {
+    "c": "SRB",
+    "v": 2.333
+   },
+   {
+    "c": "IRL",
+    "v": 2.079
+   },
+   {
+    "c": "ISR",
+    "v": 2.061,
+    "n": "12% of tonnage estimated from value"
+   },
+   {
+    "c": "AZE",
+    "v": 1.95
+   },
+   {
+    "c": "LKA",
+    "v": 1.519
+   },
+   {
+    "c": "EGY",
+    "v": 1.519
+   },
+   {
+    "c": "URY",
+    "v": 1.48
+   },
+   {
+    "c": "MMR",
+    "v": 1.357
+   },
+   {
+    "c": "DOM",
+    "v": 1.305
+   },
+   {
+    "c": "SEN",
+    "v": 1.175
+   },
+   {
+    "c": "NOR",
+    "v": 1.133
+   },
+   {
+    "c": "VNM",
+    "v": 1.07,
+    "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "BRB",
+    "v": 1.002
+   },
+   {
+    "c": "ARE",
+    "v": 0.9726
+   },
+   {
+    "c": "TGO",
+    "v": 0.845,
+    "n": "Atlas estimate: 83% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "HKG",
+    "v": 0.8151
+   },
+   {
+    "c": "COL",
+    "v": 0.7493
+   },
+   {
+    "c": "NIC",
+    "v": 0.6889
+   },
+   {
+    "c": "UZB",
+    "v": 0.6166
+   },
+   {
+    "c": "JAM",
+    "v": 0.584
+   },
+   {
+    "c": "TUN",
+    "v": 0.5705
+   },
+   {
+    "c": "LCA",
+    "v": 0.394,
+    "n": "Atlas estimate: 63% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "BHS",
+    "v": 0.3455,
+    "n": "12% of tonnage estimated from value"
+   },
+   {
+    "c": "SWZ",
+    "v": 0.285,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 2.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "BOL",
+    "v": 0.1687
+   },
+   {
+    "c": "SAU",
+    "v": 0.122,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 1.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "SVN",
+    "v": 0.1021
+   },
+   {
+    "c": "MLT",
+    "v": 0.0798
+   },
+   {
+    "c": "BGD",
+    "v": 0.0548
+   },
+   {
+    "c": "RUS",
+    "v": 0.0154
+   },
+   {
+    "c": "GEO",
+    "v": 0.0105
+   },
+   {
+    "c": "MLI",
+    "v": 0.0073
+   },
+   {
+    "c": "UKR",
+    "v": 0.0046
+   },
+   {
+    "c": "ECU",
+    "v": 0.0024
+   },
+   {
+    "c": "COD",
+    "v": 0.0018
+   },
+   {
+    "c": "GIN",
+    "v": 0.0016
+   },
+   {
+    "c": "ZWE",
+    "v": 0.0011
    }
   ],
   "n": "CEPII BACI HS92 crude oil (HS 2709), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"

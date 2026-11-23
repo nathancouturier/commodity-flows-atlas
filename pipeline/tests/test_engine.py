@@ -230,15 +230,15 @@ class AnnualJob(unittest.TestCase):
         """GR3.4: no commodity page is built on a new customs cache that the lanes were not built from."""
         ran, failed, back = self._process({"baci"}, freight_ok=False)
         self.assertEqual(ran, ["build-freight"])
-        self.assertEqual(failed, ["build-commodities", "build-profiles"])  # recorded, so that the next run runs them
+        self.assertEqual(failed, ["build-alerts", "build-commodities", "build-profiles"])  # recorded, so that the next run runs them
         self.assertEqual(back, [True])  # the old cache is put back
         ran, failed, back = self._process({"baci"}, freight_ok=True)
-        self.assertEqual((ran, failed, back), (["build-freight", "build-commodities", "build-profiles"], [], []))
+        self.assertEqual((ran, failed, back), (["build-freight", "build-alerts", "build-commodities", "build-profiles"], [], []))
 
     def test_a_failed_freight_step_without_a_new_cache_does_not_stop_the_others(self):
         # the lanes are restored to the build that goes with the old cache, the pages still build on it
         ran, failed, back = self._process({"usda-psd"}, freight_ok=False, pending=("build-freight",))
-        self.assertEqual(ran, ["build-freight", "build-commodities", "build-profiles"])
+        self.assertEqual(ran, ["build-freight", "build-alerts", "build-commodities", "build-profiles"])
         self.assertEqual((failed, back), ([], []))
 
     def test_the_new_cache_is_taken_back_with_its_recorded_version(self):

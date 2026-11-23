@@ -31,6 +31,40 @@ const shareLabel = (k: string) => SHARE_LABEL[k] ?? commodityMeta(k)?.name ?? k;
 const loadChokepointLanes = (id: string) =>
   load<ChokepointLanes>(`freight/chokepoint-lanes/${id}.json`).catch(() => load<ChokepointLanes>('freight/chokepoint-lanes.json'));
 
+const csvCell = (x: string | number | null | undefined): string => {
+  const t = x == null ? '' : String(x);
+  return /[",\r\n]/.test(t) ? `"${t.replace(/"/g, '""')}"` : t;
+};
+
+/** Every flow of the table, not only the rows on screen: one line per recorded pair whose route crosses (or may cross) the passage. */
+function flowsCsv(doc: ChokepointLanes, id: string, name: string, fromPairs: boolean): string {
+  const head = ['commodity', 'from_iso3', 'from', 'to_iso3', 'to', 'year', 'volume_mt', 'share_of_commodity_seaborne_pct', 'passage', 'crossing', 'source'];
+  const out = [head.join(',')];
+  for (const [g, o, d, v, sure] of doc.chokepoints[id] ?? []) {
+    const m = doc.groups[g];
+    out.push(
+      [
+        m?.label ?? commodityMeta(m?.k ?? g)?.name ?? g, o, countryName(o), d, countryName(d), m?.y ?? doc.y, v,
+        m?.seaborne ? ((100 * v) / m.seaborne).toFixed(2) : '', name, fromPairs ? (sure === 0 ? 'may use' : 'has to cross') : 'mapped lane',
+        `${sources.value[m?.s ?? doc.s]?.name ?? m?.s ?? doc.s}; Atlas routing`,
+      ].map(csvCell).join(','),
+    );
+  }
+  return out.join('\r\n') + '\r\n';
+}
+
+function downloadCsv(file: string, text: string) {
+  // a byte-order mark so that spreadsheet programs read the country names as UTF-8
+  const url = URL.createObjectURL(new Blob(['\ufeff', text], { type: 'text/csv;charset=utf-8' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = file;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
 /** End of a published period as a decimal year, to order "2Q26", "1H25", "FY2025" and plain years. */
 function periodEnd(y: number | string): number {
   const s = String(y);
@@ -120,7 +154,7 @@ function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boo
 }
 
 /** Cargo that crosses the chokepoint: one row per commodity group, opening its pairs. Pairs that only may cross it are marked. */
-function LaneTable({ doc, id, definitionHere, estimates }: { doc: ChokepointLanes; id: string; definitionHere: boolean; estimates: Estimate[] }) {
+function LaneTable({ doc, id, name, definitionHere, estimates }: { doc: ChokepointLanes; id: string; name: string; definitionHere: boolean; estimates: Estimate[] }) {
   const [open, setOpen] = useState<string | null>(null);
   const [allGroups, setAllGroups] = useState(false);
   const [allLanes, setAllLanes] = useState(false);
@@ -234,6 +268,15 @@ function LaneTable({ doc, id, definitionHere, estimates }: { doc: ChokepointLane
           Show all {groups.length} commodities
         </button>
       )}
+      <div class="lt-foot">
+        <button
+          class="act-btn"
+          onClick={() => downloadCsv(`commodity-flows-atlas-${id}-cargo-${doc.y}.csv`, flowsCsv(doc, id, name, fromPairs))}
+          title="Every flow of this table, with its share of the commodity's seaborne trade, as a CSV file"
+        >
+          Download all {rows.length.toLocaleString('en-US')} flows (CSV)
+        </button>
+      </div>
       <SourcesLine items={[{ s: doc.s, y: doc.y }, ...srcs.map((x) => ({ s: x, y: doc.y }))]} n={`${fromPairs ? 'pair' : 'lane'} tonnages from customs data; shares of each commodity's seaborne trade`} />
     </Section>
   );
@@ -355,6 +398,9 @@ export default function ChokepointView({ id }: { id: string }) {
         <h2 class="detail-title">{cp.name}</h2>
       </div>
       <div class="panel-scroll">
+        <div class="chips" style={{ marginTop: '8px' }}>
+          <button class="chip" onClick={() => select({ kind: 'board', id: 'chokepoints' })} title="Every passage: traffic of the last 28 days against the 2023 average">All passages</button>
+        </div>
         <AlertBanners chokepoints={[cp.id]} />
         <p class="prose" style={{ margin: '8px 0 0' }}>{cp.summary}</p>
         {(traffic || trafficVol || cp.trafficRef) && (
@@ -441,7 +487,7 @@ export default function ChokepointView({ id }: { id: string }) {
         {cp.estimates && cp.estimates.length > 0 && (estimatesNew || !(laneRows && laneRows.length > 0)) && lanes !== undefined && (
           <Estimates cp={cp} withDefinition={estimatesNew} />
         )}
-        {lanes && laneRows && laneRows.length > 0 && <LaneTable doc={lanes} id={cp.id} definitionHere={!estimatesNew} estimates={cp.estimates ?? []} />}
+        {lanes && laneRows && laneRows.length > 0 && <LaneTable doc={lanes} id={cp.id} name={cp.name} definitionHere={!estimatesNew} estimates={cp.estimates ?? []} />}
         {cp.limits && (
           <Section title="Physical limits">
             <p class="prose">{cp.limits}</p>

@@ -74,8 +74,7 @@ export default function VesselView({ id }: { id: string }) {
               <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
                 {r.benchmark && <span class="code-badge sm">{r.id}</span>}
                 <span class="grow">{r.name}</span>
-                {r.standIn && <span class="meta" title={r.standIn}>stand-in</span>}
-                <span class="meta num">{fmt(r.distanceNm)} nm</span>
+                {r.standIn ? <span class="meta" title={r.standIn}>stand-in trace</span> : <span class="meta num">{fmt(r.distanceNm)} nm</span>}
               </button>
             ))}
           </Section>

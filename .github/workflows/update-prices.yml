@@ -1,11 +1,22 @@
-# Weekly price update (Tuesday): World Bank Pink Sheet + EIA daily spot prices -> data/prices.
+# Weekly price update (Wednesday evening, with a second try on Thursday morning): World Bank Pink Sheet + EIA
+# daily spot prices -> data/prices.
+# Why Wednesday: EIA publishes its spot-price files once a week, on Wednesday, with data to the Tuesday before.
+# Pages read on 23 Nov 2026: https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=PET&s=RBRTE&f=D and
+# https://www.eia.gov/dnav/ng/hist/rngwhhdD.htm ("Release Date: 11/18/2026, Next Release Date: 11/25/2026", both
+# Wednesdays), and the "Contents" sheet of the eight .xls files (same dates, latest data 11/17/2026). A Tuesday run
+# fetched the previous week's file and left the prices up to 14 days old. 21:43 UTC is after the release (the file
+# of 18 Nov is stamped 11:17 AM, no time zone given); the Thursday run catches a late release (EIA moves its
+# petroleum releases after federal holidays: see the notice on https://www.eia.gov/petroleum/prices/) and, in the
+# first days of a month, the Pink Sheet (second business day).
+# An unchanged file is not a failure and commits no price data.
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded,
 # and the owner is only alerted (one GitHub issue per source) after 3 failed runs in a row.
 name: Update prices
 
 on:
   schedule:
-    - cron: "43 17 * * 2"
+    - cron: "43 21 * * 3"
+    - cron: "43 9 * * 4"
   workflow_dispatch:
 
 permissions:
@@ -44,12 +55,16 @@ jobs:
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}  # optional; without it the FRED series is skipped
         run: python pipeline/prices/fetch_prices.py
+      - name: Update the "what changed" digest and feed
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python pipeline/common/changes.py
       - name: Validate, commit, alert
         id: finish
         uses: ./.github/actions/finish-data-update
         with:
           sources: "wb-pink eia-spot"
-          paths: "data"
+          paths: "data web/public/changes.atom"
           message: "data: update prices"
 
   deploy:

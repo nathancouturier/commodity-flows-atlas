@@ -86,6 +86,172 @@
    {
     "c": "TTO",
     "v": 4.95
+   },
+   {
+    "c": "BRN",
+    "v": 4.75
+   },
+   {
+    "c": "NOR",
+    "v": 4.517
+   },
+   {
+    "c": "MOZ",
+    "v": 4.03,
+    "n": "17% of tonnage estimated from value"
+   },
+   {
+    "c": "PER",
+    "v": 3.841
+   },
+   {
+    "c": "AGO",
+    "v": 3.812,
+    "n": "12% of tonnage estimated from value"
+   },
+   {
+    "c": "GNQ",
+    "v": 2.639
+   },
+   {
+    "c": "CMR",
+    "v": 1.251
+   },
+   {
+    "c": "EGY",
+    "v": 1.045
+   },
+   {
+    "c": "GBR",
+    "v": 1.005
+   },
+   {
+    "c": "CHN",
+    "v": 0.8615
+   },
+   {
+    "c": "ESP",
+    "v": 0.671
+   },
+   {
+    "c": "SGP",
+    "v": 0.5219
+   },
+   {
+    "c": "VNM",
+    "v": 0.3104
+   },
+   {
+    "c": "NLD",
+    "v": 0.2694
+   },
+   {
+    "c": "COG",
+    "v": 0.2529
+   },
+   {
+    "c": "BEL",
+    "v": 0.2398
+   },
+   {
+    "c": "DEU",
+    "v": 0.1641
+   },
+   {
+    "c": "LTU",
+    "v": 0.1572
+   },
+   {
+    "c": "FRA",
+    "v": 0.155
+   },
+   {
+    "c": "FIN",
+    "v": 0.1447
+   },
+   {
+    "c": "ITA",
+    "v": 0.1129
+   },
+   {
+    "c": "GIN",
+    "v": 0.0911
+   },
+   {
+    "c": "LUX",
+    "v": 0.0869
+   },
+   {
+    "c": "MEX",
+    "v": 0.0562
+   },
+   {
+    "c": "CZE",
+    "v": 0.0514
+   },
+   {
+    "c": "AUT",
+    "v": 0.0409
+   },
+   {
+    "c": "CHL",
+    "v": 0.038
+   },
+   {
+    "c": "SWE",
+    "v": 0.0245
+   },
+   {
+    "c": "SVK",
+    "v": 0.0232
+   },
+   {
+    "c": "KOR",
+    "v": 0.0154
+   },
+   {
+    "c": "DNK",
+    "v": 0.0116
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0115
+   },
+   {
+    "c": "BGR",
+    "v": 0.0104
+   },
+   {
+    "c": "EST",
+    "v": 0.0099
+   },
+   {
+    "c": "THA",
+    "v": 0.009
+   },
+   {
+    "c": "GRC",
+    "v": 0.0061
+   },
+   {
+    "c": "IND",
+    "v": 0.0046
+   },
+   {
+    "c": "PRT",
+    "v": 0.0037
+   },
+   {
+    "c": "POL",
+    "v": 0.0022
+   },
+   {
+    "c": "HRV",
+    "v": 0.0019
+   },
+   {
+    "c": "LVA",
+    "v": 0.0013
    }
   ],
   "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · The country tables and their order are customs tonnage (CEPII BACI, 371.32 Mt of world trade in 2024), below the industry totals. GIIGNL (Annual Report 2026 edition, https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf): 428 Mt in 2025; GIIGNL (Annual Report 2026 edition, https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf): 406 Mt in 2024; IGU (World LNG Report 2025, https://igu.org/igu-reports/2025-world-lng-report): 411.24 Mt in 2024. GIIGNL (Annual Report 2026 edition) calls the United States the world's dominant LNG exporter (109 Mt in 2025); in the customs table Australia comes first (78.7 Mt) and the United States second (73.3 Mt), so the order of the first rows is not the publisher's. EIA (U.S. liquefied natural gas exports, series N9133US2, public domain) gives 4,367 bcf in 2024, about 90.9 Mt (Atlas conversion at 48.03 bcf per Mt), against 73.3 Mt in the customs table. Country profiles show no world rank for LNG.",
@@ -146,6 +312,288 @@
    {
     "c": "SGP",
     "v": 6.639
+   },
+   {
+    "c": "BEL",
+    "v": 5.767
+   },
+   {
+    "c": "GBR",
+    "v": 5.598
+   },
+   {
+    "c": "DEU",
+    "v": 3.749
+   },
+   {
+    "c": "BRA",
+    "v": 3.268
+   },
+   {
+    "c": "PRT",
+    "v": 3.179
+   },
+   {
+    "c": "MYS",
+    "v": 3.171
+   },
+   {
+    "c": "EGY",
+    "v": 2.822
+   },
+   {
+    "c": "TUR",
+    "v": 2.631
+   },
+   {
+    "c": "CHL",
+    "v": 1.875
+   },
+   {
+    "c": "LTU",
+    "v": 1.8
+   },
+   {
+    "c": "HRV",
+    "v": 1.699
+   },
+   {
+    "c": "USA",
+    "v": 1.694
+   },
+   {
+    "c": "FIN",
+    "v": 1.627
+   },
+   {
+    "c": "POL",
+    "v": 1.618
+   },
+   {
+    "c": "COL",
+    "v": 1.615
+   },
+   {
+    "c": "GRC",
+    "v": 1.588
+   },
+   {
+    "c": "DOM",
+    "v": 1.303
+   },
+   {
+    "c": "PHL",
+    "v": 1.183
+   },
+   {
+    "c": "KWT",
+    "v": 1.14,
+    "n": "Atlas estimate: 67% of this tonnage is estimated from the declared value (customs declared 0.06 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "ARG",
+    "v": 1.134
+   },
+   {
+    "c": "HKG",
+    "v": 0.7466
+   },
+   {
+    "c": "ZAF",
+    "v": 0.704,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 2.92 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "JOR",
+    "v": 0.5872
+   },
+   {
+    "c": "BGD",
+    "v": 0.513,
+    "n": "Atlas estimate: 53% of this tonnage is estimated from the declared value (customs declared 0.02 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "CAN",
+    "v": 0.5082
+   },
+   {
+    "c": "KHM",
+    "v": 0.4677
+   },
+   {
+    "c": "MLT",
+    "v": 0.4545
+   },
+   {
+    "c": "IRL",
+    "v": 0.3692
+   },
+   {
+    "c": "SLV",
+    "v": 0.3604
+   },
+   {
+    "c": "JAM",
+    "v": 0.3525,
+    "n": "39% of tonnage estimated from value"
+   },
+   {
+    "c": "SWE",
+    "v": 0.3454
+   },
+   {
+    "c": "VNM",
+    "v": 0.2613
+   },
+   {
+    "c": "MEX",
+    "v": 0.2053
+   },
+   {
+    "c": "MAR",
+    "v": 0.2044
+   },
+   {
+    "c": "ARE",
+    "v": 0.0998
+   },
+   {
+    "c": "IDN",
+    "v": 0.099
+   },
+   {
+    "c": "TGO",
+    "v": 0.0881,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.03 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "SEN",
+    "v": 0.0635
+   },
+   {
+    "c": "NOR",
+    "v": 0.0609
+   },
+   {
+    "c": "SVK",
+    "v": 0.0391
+   },
+   {
+    "c": "PAN",
+    "v": 0.0316
+   },
+   {
+    "c": "LBR",
+    "v": 0.0296
+   },
+   {
+    "c": "EST",
+    "v": 0.0263
+   },
+   {
+    "c": "CZE",
+    "v": 0.0207
+   },
+   {
+    "c": "BRB",
+    "v": 0.0185
+   },
+   {
+    "c": "BGR",
+    "v": 0.0126
+   },
+   {
+    "c": "AUT",
+    "v": 0.0103
+   },
+   {
+    "c": "BHS",
+    "v": 0.0096
+   },
+   {
+    "c": "AUS",
+    "v": 0.0069
+   },
+   {
+    "c": "LSO",
+    "v": 0.0051
+   },
+   {
+    "c": "MKD",
+    "v": 0.0045
+   },
+   {
+    "c": "ISL",
+    "v": 0.0034
+   },
+   {
+    "c": "CHE",
+    "v": 0.0032
+   },
+   {
+    "c": "AND",
+    "v": 0.0031
+   },
+   {
+    "c": "GNQ",
+    "v": 0.003
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0029
+   },
+   {
+    "c": "LVA",
+    "v": 0.0027
+   },
+   {
+    "c": "NAM",
+    "v": 0.0027
+   },
+   {
+    "c": "ZWE",
+    "v": 0.0021
+   },
+   {
+    "c": "HTI",
+    "v": 0.0018
+   },
+   {
+    "c": "NGA",
+    "v": 0.0016
+   },
+   {
+    "c": "ROU",
+    "v": 0.0014,
+    "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "ATG",
+    "v": 0.0013
+   },
+   {
+    "c": "DNK",
+    "v": 0.0012
+   },
+   {
+    "c": "LUX",
+    "v": 0.0012
+   },
+   {
+    "c": "KAZ",
+    "v": 0.001
    }
   ],
   "n": "CEPII BACI HS92 LNG (HS 271111), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Customs data can miss LNG that an importer receives. Where no pipeline gas is involved (no gas pipeline of the atlas layer ends in the country, pipeline gas is under 1% of the customs LNG, no neighbour exports gas in EIA), customs LNG converted to bcm agrees with EIA's total gas imports for Japan, South Korea and Taiwan (within 10%), but not for Kuwait: 1.14 Mt (1.55 bcm) in customs data against 9.42 bcm in EIA (2024). Incomplete declarations by importers are a plausible cause; it is not established here. Atlas conversion: 1 Mt of LNG = 48.03 bcf = 1.36 bcm of gas (Natural Resources Canada, conversion factors for North American energy information, 2025); it assumes a typical LNG composition.",

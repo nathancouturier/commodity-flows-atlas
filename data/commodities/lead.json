@@ -79,6 +79,13 @@
    }
   ],
   "n": "USGS MCS 2026, lead mine production, contained lead; 2025 values are USGS estimates; USGS world total is rounded",
+  "other": 500.0,
+  "hidden": {
+   "v": 110.0,
+   "k": 2,
+   "from": 10,
+   "n": "2 further countries named by USGS (Turkey and Tajikistan), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained lead"
  },
  "reserves": {
@@ -133,6 +140,13 @@
    }
   ],
   "n": "USGS MCS 2026, lead reserves, contained lead; USGS world total is rounded",
+  "other": 5900.0,
+  "hidden": {
+   "v": 1600.0,
+   "k": 1,
+   "from": 10,
+   "n": "1 further country named by USGS (Turkey), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained lead"
  },
  "exports": {
@@ -188,6 +202,168 @@
    {
     "c": "MAR",
     "v": 0.0706
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0642
+   },
+   {
+    "c": "MKD",
+    "v": 0.0585
+   },
+   {
+    "c": "NGA",
+    "v": 0.057
+   },
+   {
+    "c": "BRA",
+    "v": 0.0521
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0456
+   },
+   {
+    "c": "OMN",
+    "v": 0.0406
+   },
+   {
+    "c": "VNM",
+    "v": 0.0386
+   },
+   {
+    "c": "SRB",
+    "v": 0.0339
+   },
+   {
+    "c": "CAN",
+    "v": 0.0307
+   },
+   {
+    "c": "BGR",
+    "v": 0.0272
+   },
+   {
+    "c": "BIH",
+    "v": 0.0235
+   },
+   {
+    "c": "ARG",
+    "v": 0.0235
+   },
+   {
+    "c": "PRT",
+    "v": 0.0233
+   },
+   {
+    "c": "GRC",
+    "v": 0.0216
+   },
+   {
+    "c": "NAM",
+    "v": 0.0207
+   },
+   {
+    "c": "THA",
+    "v": 0.0186,
+    "n": "43% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "ITA",
+    "v": 0.018
+   },
+   {
+    "c": "UZB",
+    "v": 0.018
+   },
+   {
+    "c": "HND",
+    "v": 0.015
+   },
+   {
+    "c": "PAK",
+    "v": 0.0139
+   },
+   {
+    "c": "MNG",
+    "v": 0.0137
+   },
+   {
+    "c": "BEL",
+    "v": 0.0128
+   },
+   {
+    "c": "NLD",
+    "v": 0.0123
+   },
+   {
+    "c": "IDN",
+    "v": 0.0117
+   },
+   {
+    "c": "IRN",
+    "v": 0.0113
+   },
+   {
+    "c": "SAU",
+    "v": 0.0088
+   },
+   {
+    "c": "MNE",
+    "v": 0.0082
+   },
+   {
+    "c": "MYS",
+    "v": 0.0078
+   },
+   {
+    "c": "TUN",
+    "v": 0.0029,
+    "n": "39% of tonnage estimated from value"
+   },
+   {
+    "c": "FIN",
+    "v": 0.0026
+   },
+   {
+    "c": "TWN",
+    "v": 0.0024
+   },
+   {
+    "c": "ARE",
+    "v": 0.0022
+   },
+   {
+    "c": "FRA",
+    "v": 0.0018
+   },
+   {
+    "c": "POL",
+    "v": 0.0013
+   },
+   {
+    "c": "LAO",
+    "v": 0.0011
+   },
+   {
+    "c": "CHN",
+    "v": 0.001
+   },
+   {
+    "c": "COL",
+    "v": 0.001
+   },
+   {
+    "c": "ECU",
+    "v": 0.0007
+   },
+   {
+    "c": "DEU",
+    "v": 0.0006
+   },
+   {
+    "c": "JPN",
+    "v": 0.0005
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -246,6 +422,104 @@
    {
     "c": "NLD",
     "v": 0.0287
+   },
+   {
+    "c": "MEX",
+    "v": 0.0212
+   },
+   {
+    "c": "MNE",
+    "v": 0.0201
+   },
+   {
+    "c": "CHE",
+    "v": 0.0129
+   },
+   {
+    "c": "THA",
+    "v": 0.0111
+   },
+   {
+    "c": "SVK",
+    "v": 0.0105
+   },
+   {
+    "c": "KHM",
+    "v": 0.0088
+   },
+   {
+    "c": "LAO",
+    "v": 0.008,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "HRV",
+    "v": 0.0057
+   },
+   {
+    "c": "GBR",
+    "v": 0.0048
+   },
+   {
+    "c": "LUX",
+    "v": 0.0043
+   },
+   {
+    "c": "PER",
+    "v": 0.0038
+   },
+   {
+    "c": "VNM",
+    "v": 0.0036
+   },
+   {
+    "c": "HKG",
+    "v": 0.0028
+   },
+   {
+    "c": "ESP",
+    "v": 0.0028
+   },
+   {
+    "c": "SWE",
+    "v": 0.0026
+   },
+   {
+    "c": "IND",
+    "v": 0.0022
+   },
+   {
+    "c": "IRN",
+    "v": 0.0018
+   },
+   {
+    "c": "SRB",
+    "v": 0.0015
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0013
+   },
+   {
+    "c": "EST",
+    "v": 0.0012
+   },
+   {
+    "c": "TUR",
+    "v": 0.0011,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "MYS",
+    "v": 0.001
+   },
+   {
+    "c": "SGP",
+    "v": 0.0007
+   },
+   {
+    "c": "POL",
+    "v": 0.0006
    }
   ],
   "n": "CEPII BACI HS92 lead ores and concentrates (HS 2607), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

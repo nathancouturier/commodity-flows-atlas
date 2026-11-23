@@ -115,6 +115,253 @@
    {
     "c": "VNM",
     "v": 51.942
+   },
+   {
+    "c": "COL",
+    "v": 42.956
+   },
+   {
+    "c": "SRB",
+    "v": 33.3,
+    "n": "of which lignite 33.3 Mt (100%)"
+   },
+   {
+    "c": "MNG",
+    "v": 30.18,
+    "n": "of which lignite 14.2 Mt (47%)"
+   },
+   {
+    "c": "PRK",
+    "v": 25.157
+   },
+   {
+    "c": "CZE",
+    "v": 23.729,
+    "n": "of which lignite 23.2 Mt (98%)"
+   },
+   {
+    "c": "LAO",
+    "v": 20.169,
+    "n": "of which lignite 15.3 Mt (76%)"
+   },
+   {
+    "c": "PHL",
+    "v": 19.51
+   },
+   {
+    "c": "BGR",
+    "v": 17.201,
+    "n": "of which lignite 17.2 Mt (100%)"
+   },
+   {
+    "c": "UKR",
+    "v": 17.0
+   },
+   {
+    "c": "CAN",
+    "v": 12.949,
+    "n": "of which lignite 5.68 Mt (44%)"
+   },
+   {
+    "c": "THA",
+    "v": 12.46,
+    "n": "of which lignite 12.5 Mt (100%)"
+   },
+   {
+    "c": "BIH",
+    "v": 12.273,
+    "n": "of which lignite 4.81 Mt (39%)"
+   },
+   {
+    "c": "ROU",
+    "v": 12.241,
+    "n": "of which lignite 12.2 Mt (100%)"
+   },
+   {
+    "c": "PAK",
+    "v": 9.386,
+    "n": "of which lignite 5.55 Mt (59%)"
+   },
+   {
+    "c": "UZB",
+    "v": 8.972,
+    "n": "of which lignite 7.70 Mt (86%)"
+   },
+   {
+    "c": "MOZ",
+    "v": 7.323
+   },
+   {
+    "c": "KOS",
+    "v": 7.052,
+    "n": "of which lignite 7.05 Mt (100%)"
+   },
+   {
+    "c": "BRA",
+    "v": 6.906,
+    "n": "of which lignite 3.95 Mt (57%)"
+   },
+   {
+    "c": "GRC",
+    "v": 6.291,
+    "n": "of which lignite 6.29 Mt (100%)"
+   },
+   {
+    "c": "MEX",
+    "v": 4.943
+   },
+   {
+    "c": "ZWE",
+    "v": 4.549
+   },
+   {
+    "c": "KGZ",
+    "v": 4.537,
+    "n": "of which lignite 3.91 Mt (86%)"
+   },
+   {
+    "c": "MMR",
+    "v": 3.508,
+    "n": "of which lignite 2.49 Mt (71%)"
+   },
+   {
+    "c": "MKD",
+    "v": 3.439,
+    "n": "of which lignite 3.44 Mt (100%)"
+   },
+   {
+    "c": "MYS",
+    "v": 3.331
+   },
+   {
+    "c": "TJK",
+    "v": 3.115,
+    "n": "of which lignite 0.16 Mt (5%)"
+   },
+   {
+    "c": "BWA",
+    "v": 2.929
+   },
+   {
+    "c": "ZMB",
+    "v": 2.395
+   },
+   {
+    "c": "HUN",
+    "v": 2.132,
+    "n": "of which lignite 2.13 Mt (100%)"
+   },
+   {
+    "c": "PER",
+    "v": 1.894
+   },
+   {
+    "c": "SVN",
+    "v": 1.758,
+    "n": "of which lignite 1.76 Mt (100%)"
+   },
+   {
+    "c": "NZL",
+    "v": 1.404,
+    "n": "of which lignite 0.24 Mt (17%)"
+   },
+   {
+    "c": "ETH",
+    "v": 1.313
+   },
+   {
+    "c": "NGA",
+    "v": 1.306
+   },
+   {
+    "c": "BGD",
+    "v": 1.257
+   },
+   {
+    "c": "AFG",
+    "v": 1.211
+   },
+   {
+    "c": "TZA",
+    "v": 1.001
+   },
+   {
+    "c": "MNE",
+    "v": 0.7329,
+    "n": "of which lignite 0.73 Mt (100%)"
+   },
+   {
+    "c": "JPN",
+    "v": 0.4502
+   },
+   {
+    "c": "KOR",
+    "v": 0.42
+   },
+   {
+    "c": "VEN",
+    "v": 0.3416
+   },
+   {
+    "c": "ALB",
+    "v": 0.3069,
+    "n": "of which lignite 0.07 Mt (23%)"
+   },
+   {
+    "c": "SWZ",
+    "v": 0.2505
+   },
+   {
+    "c": "NER",
+    "v": 0.2197,
+    "n": "of which lignite 0.22 Mt (100%)"
+   },
+   {
+    "c": "GEO",
+    "v": 0.158,
+    "n": "of which lignite 0.16 Mt (100%)"
+   },
+   {
+    "c": "BTN",
+    "v": 0.1318
+   },
+   {
+    "c": "GBR",
+    "v": 0.1196
+   },
+   {
+    "c": "IRN",
+    "v": 0.1126
+   },
+   {
+    "c": "NOR",
+    "v": 0.0927
+   },
+   {
+    "c": "ARG",
+    "v": 0.065
+   },
+   {
+    "c": "KHM",
+    "v": 0.0305,
+    "n": "of which lignite 0.03 Mt (100%)"
+   },
+   {
+    "c": "MWI",
+    "v": 0.0288
+   },
+   {
+    "c": "CHL",
+    "v": 0.0175
+   },
+   {
+    "c": "NPL",
+    "v": 0.003
+   },
+   {
+    "c": "ARM",
+    "v": 0.0001,
+    "n": "of which lignite 0.00 Mt (64%)"
    }
   ],
   "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt; includes lignite: 963.4 Mt of the world total (12%, EIA lignite production)",
@@ -177,6 +424,374 @@
    {
     "c": "TUR",
     "v": 10975.0
+   },
+   {
+    "c": "PRK",
+    "v": 10600.0,
+    "n": "EIA raised its estimate from 600.0 Mt to 10,600 Mt in 2014, a 18-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "ZAF",
+    "v": 9893.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "SRB",
+    "v": 7112.0
+   },
+   {
+    "c": "NZL",
+    "v": 6750.0
+   },
+   {
+    "c": "BRA",
+    "v": 6596.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "CAN",
+    "v": 6582.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "SWZ",
+    "v": 4644.0,
+    "n": "EIA raised its estimate from 144.0 Mt to 4,644 Mt in 2014, a 32-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "COL",
+    "v": 4554.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "BEL",
+    "v": 4100.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "TJK",
+    "v": 4075.0,
+    "n": "EIA raised its estimate from 375.0 Mt to 4,075 Mt in 2014, a 11-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "CZE",
+    "v": 3595.0,
+    "n": "EIA value unchanged since 2020"
+   },
+   {
+    "c": "BGD",
+    "v": 3260.0,
+    "n": "EIA raised its estimate from 293.0 Mt to 3,260 Mt in 2014, a 11-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "NLD",
+    "v": 3247.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "VNM",
+    "v": 3116.0
+   },
+   {
+    "c": "GRC",
+    "v": 2876.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "PAK",
+    "v": 2857.0
+   },
+   {
+    "c": "HUN",
+    "v": 2633.0
+   },
+   {
+    "c": "MNG",
+    "v": 2520.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "BIH",
+    "v": 2264.0,
+    "n": "EIA value unchanged since 2012"
+   },
+   {
+    "c": "BGR",
+    "v": 2174.0
+   },
+   {
+    "c": "NGA",
+    "v": 2144.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "MOZ",
+    "v": 1792.0,
+    "n": "EIA value unchanged since 2013"
+   },
+   {
+    "c": "BWA",
+    "v": 1660.0,
+    "n": "EIA raised its estimate from 115.9 Mt to 1,660 Mt in 2018, a 14-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "PER",
+    "v": 1567.0,
+    "n": "EIA raised its estimate from 102.0 Mt to 1,567 Mt in 2014, a 15-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "KOS",
+    "v": 1564.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "TZA",
+    "v": 1410.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "UZB",
+    "v": 1375.0,
+    "n": "EIA value unchanged since 2011"
+   },
+   {
+    "c": "IRN",
+    "v": 1203.0,
+    "n": "EIA value unchanged since 2009"
+   },
+   {
+    "c": "ESP",
+    "v": 1187.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "CHL",
+    "v": 1181.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "MEX",
+    "v": 1160.0
+   },
+   {
+    "c": "THA",
+    "v": 1063.0,
+    "n": "EIA value unchanged since 2009"
+   },
+   {
+    "c": "COD",
+    "v": 988.0,
+    "n": "EIA raised its estimate from 88.0 Mt to 988.0 Mt in 2014, a 11-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "ZMB",
+    "v": 945.0,
+    "n": "EIA raised its estimate from 45.0 Mt to 945.0 Mt in 2014, a 21-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "GEO",
+    "v": 901.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "MWI",
+    "v": 802.0,
+    "n": "EIA raised its estimate from 2.00 Mt to 802.0 Mt in 2014, a 401-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "TKM",
+    "v": 800.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "UGA",
+    "v": 800.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "ARG",
+    "v": 800.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "VEN",
+    "v": 731.0,
+    "n": "EIA value unchanged since 2011"
+   },
+   {
+    "c": "ITA",
+    "v": 610.0,
+    "n": "EIA raised its estimate from 17.0 Mt to 610.0 Mt in 2014, a 36-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "ALB",
+    "v": 522.0,
+    "n": "EIA value unchanged since 2009"
+   },
+   {
+    "c": "ZWE",
+    "v": 502.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "GRL",
+    "v": 383.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "PHL",
+    "v": 361.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "NAM",
+    "v": 350.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "JPN",
+    "v": 350.0,
+    "n": "EIA value unchanged since 2009"
+   },
+   {
+    "c": "MNE",
+    "v": 337.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "MKD",
+    "v": 332.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "KOR",
+    "v": 326.0,
+    "n": "EIA value unchanged since 2010"
+   },
+   {
+    "c": "ARM",
+    "v": 317.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "ROU",
+    "v": 291.0,
+    "n": "EIA value unchanged since 2009"
+   },
+   {
+    "c": "MMR",
+    "v": 252.0,
+    "n": "EIA raised its estimate from 6.00 Mt to 252.0 Mt in 2014, a 42-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "MYS",
+    "v": 226.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "DZA",
+    "v": 223.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "EGY",
+    "v": 182.0,
+    "n": "EIA raised its estimate from 16.0 Mt to 182.0 Mt in 2014, a 11-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "FRA",
+    "v": 160.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "MDG",
+    "v": 150.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "MAR",
+    "v": 96.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "SVN",
+    "v": 95.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "NER",
+    "v": 90.0,
+    "n": "EIA raised its estimate from 6.00 Mt to 90.0 Mt in 2014, a 15-fold step, and has not changed it since; treat this rank with caution"
+   },
+   {
+    "c": "AFG",
+    "v": 66.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "LAO",
+    "v": 62.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "IRL",
+    "v": 40.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "GBR",
+    "v": 26.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "ECU",
+    "v": 24.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "SVK",
+    "v": 19.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "NPL",
+    "v": 8.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "SWE",
+    "v": 5.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "PRT",
+    "v": 3.0,
+    "n": "EIA value unchanged since 2014"
+   },
+   {
+    "c": "CAF",
+    "v": 3.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "NOR",
+    "v": 2.0,
+    "n": "EIA value unchanged since 2018"
+   },
+   {
+    "c": "NCL",
+    "v": 2.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "TWN",
+    "v": 1.0,
+    "n": "EIA value unchanged since 2008"
+   },
+   {
+    "c": "BOL",
+    "v": 1.0,
+    "n": "EIA value unchanged since 2008"
    }
   ],
   "n": "EIA International Energy Data, coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt; world total as published by EIA (all countries); last revised by EIA in 2022 and repeated unchanged to 2025 (reserve estimates are not revised every year) · Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution.",
@@ -243,6 +858,498 @@
    {
     "c": "KOR",
     "v": 87.758
+   },
+   {
+    "c": "KAZ",
+    "v": 83.769,
+    "n": "of which lignite 3.48 Mt (4%)"
+   },
+   {
+    "c": "POL",
+    "v": 76.949,
+    "n": "of which lignite 37.8 Mt (49%)"
+   },
+   {
+    "c": "PHL",
+    "v": 48.544
+   },
+   {
+    "c": "TWN",
+    "v": 46.822
+   },
+   {
+    "c": "THA",
+    "v": 42.679,
+    "n": "of which lignite 12.5 Mt (29%)"
+   },
+   {
+    "c": "MYS",
+    "v": 42.269
+   },
+   {
+    "c": "SRB",
+    "v": 35.239,
+    "n": "of which lignite 35.0 Mt (99%)"
+   },
+   {
+    "c": "PRK",
+    "v": 25.157
+   },
+   {
+    "c": "CZE",
+    "v": 24.244,
+    "n": "of which lignite 23.1 Mt (95%)"
+   },
+   {
+    "c": "BGD",
+    "v": 22.977
+   },
+   {
+    "c": "PAK",
+    "v": 20.423,
+    "n": "of which lignite 5.54 Mt (27%)"
+   },
+   {
+    "c": "UKR",
+    "v": 18.415
+   },
+   {
+    "c": "BGR",
+    "v": 17.634,
+    "n": "of which lignite 17.1 Mt (97%)"
+   },
+   {
+    "c": "LAO",
+    "v": 15.439,
+    "n": "of which lignite 14.9 Mt (96%)"
+   },
+   {
+    "c": "MEX",
+    "v": 13.06
+   },
+   {
+    "c": "BRA",
+    "v": 12.746,
+    "n": "of which lignite 3.95 Mt (31%)"
+   },
+   {
+    "c": "ROU",
+    "v": 12.355,
+    "n": "of which lignite 12.2 Mt (99%)"
+   },
+   {
+    "c": "UZB",
+    "v": 12.085,
+    "n": "of which lignite 8.78 Mt (73%)"
+   },
+   {
+    "c": "BIH",
+    "v": 11.646,
+    "n": "of which lignite 3.94 Mt (34%)"
+   },
+   {
+    "c": "MAR",
+    "v": 10.813
+   },
+   {
+    "c": "MNG",
+    "v": 9.816,
+    "n": "of which lignite 7.60 Mt (77%)"
+   },
+   {
+    "c": "CAN",
+    "v": 9.691,
+    "n": "of which lignite 5.60 Mt (58%)"
+   },
+   {
+    "c": "KOS",
+    "v": 7.162,
+    "n": "of which lignite 7.11 Mt (99%)"
+   },
+   {
+    "c": "NLD",
+    "v": 6.139
+   },
+   {
+    "c": "GRC",
+    "v": 5.878,
+    "n": "of which lignite 5.84 Mt (99%)"
+   },
+   {
+    "c": "CHL",
+    "v": 5.59
+   },
+   {
+    "c": "KHM",
+    "v": 5.502
+   },
+   {
+    "c": "FRA",
+    "v": 4.973
+   },
+   {
+    "c": "MKD",
+    "v": 4.321,
+    "n": "of which lignite 4.32 Mt (100%)"
+   },
+   {
+    "c": "COL",
+    "v": 4.191
+   },
+   {
+    "c": "ZWE",
+    "v": 4.063
+   },
+   {
+    "c": "HKG",
+    "v": 3.983
+   },
+   {
+    "c": "KGZ",
+    "v": 3.975,
+    "n": "of which lignite 3.55 Mt (89%)"
+   },
+   {
+    "c": "MMR",
+    "v": 3.568,
+    "n": "of which lignite 2.49 Mt (70%)"
+   },
+   {
+    "c": "ISR",
+    "v": 3.27
+   },
+   {
+    "c": "EGY",
+    "v": 3.169
+   },
+   {
+    "c": "TJK",
+    "v": 2.656,
+    "n": "of which lignite 0.16 Mt (6%)"
+   },
+   {
+    "c": "DOM",
+    "v": 2.528
+   },
+   {
+    "c": "ZMB",
+    "v": 2.443
+   },
+   {
+    "c": "BWA",
+    "v": 2.333
+   },
+   {
+    "c": "HUN",
+    "v": 2.201,
+    "n": "of which lignite 2.15 Mt (98%)"
+   },
+   {
+    "c": "LKA",
+    "v": 2.026
+   },
+   {
+    "c": "NZL",
+    "v": 2.002,
+    "n": "of which lignite 0.24 Mt (12%)"
+   },
+   {
+    "c": "ETH",
+    "v": 1.81
+   },
+   {
+    "c": "KEN",
+    "v": 1.778
+   },
+   {
+    "c": "ITA",
+    "v": 1.74
+   },
+   {
+    "c": "ARE",
+    "v": 1.717
+   },
+   {
+    "c": "BEL",
+    "v": 1.64
+   },
+   {
+    "c": "SVN",
+    "v": 1.613,
+    "n": "of which lignite 1.44 Mt (90%)"
+   },
+   {
+    "c": "GTM",
+    "v": 1.504
+   },
+   {
+    "c": "PRI",
+    "v": 1.405
+   },
+   {
+    "c": "NGA",
+    "v": 1.137
+   },
+   {
+    "c": "BRN",
+    "v": 1.135,
+    "n": "of which lignite 1.13 Mt (100%)"
+   },
+   {
+    "c": "SGP",
+    "v": 1.106
+   },
+   {
+    "c": "NPL",
+    "v": 1.096
+   },
+   {
+    "c": "ESP",
+    "v": 1.09
+   },
+   {
+    "c": "TZA",
+    "v": 0.911
+   },
+   {
+    "c": "BLR",
+    "v": 0.861
+   },
+   {
+    "c": "GBR",
+    "v": 0.7981
+   },
+   {
+    "c": "SWE",
+    "v": 0.7927
+   },
+   {
+    "c": "MUS",
+    "v": 0.6956
+   },
+   {
+    "c": "NOR",
+    "v": 0.6789
+   },
+   {
+    "c": "PER",
+    "v": 0.6768
+   },
+   {
+    "c": "AUT",
+    "v": 0.6426,
+    "n": "of which lignite 0.01 Mt (2%)"
+   },
+   {
+    "c": "YEM",
+    "v": 0.5701
+   },
+   {
+    "c": "MNE",
+    "v": 0.5509,
+    "n": "of which lignite 0.55 Mt (100%)"
+   },
+   {
+    "c": "FIN",
+    "v": 0.475
+   },
+   {
+    "c": "MDG",
+    "v": 0.4392
+   },
+   {
+    "c": "HRV",
+    "v": 0.4311
+   },
+   {
+    "c": "SVK",
+    "v": 0.358,
+    "n": "of which lignite 0.12 Mt (33%)"
+   },
+   {
+    "c": "IRN",
+    "v": 0.3547
+   },
+   {
+    "c": "ARG",
+    "v": 0.3173
+   },
+   {
+    "c": "AFG",
+    "v": 0.2923
+   },
+   {
+    "c": "GEO",
+    "v": 0.2838,
+    "n": "of which lignite 0.17 Mt (59%)"
+   },
+   {
+    "c": "DNK",
+    "v": 0.2703
+   },
+   {
+    "c": "NCL",
+    "v": 0.2577
+   },
+   {
+    "c": "IRL",
+    "v": 0.2398
+   },
+   {
+    "c": "BTN",
+    "v": 0.2313
+   },
+   {
+    "c": "NER",
+    "v": 0.2197,
+    "n": "of which lignite 0.22 Mt (100%)"
+   },
+   {
+    "c": "ALB",
+    "v": 0.218
+   },
+   {
+    "c": "COD",
+    "v": 0.1733
+   },
+   {
+    "c": "LBN",
+    "v": 0.1516
+   },
+   {
+    "c": "BEN",
+    "v": 0.1503
+   },
+   {
+    "c": "MDA",
+    "v": 0.1446
+   },
+   {
+    "c": "SAU",
+    "v": 0.1402,
+    "n": "of which lignite 0.00 Mt (1%)"
+   },
+   {
+    "c": "ISL",
+    "v": 0.1289
+   },
+   {
+    "c": "RWA",
+    "v": 0.1126
+   },
+   {
+    "c": "LTU",
+    "v": 0.1068,
+    "n": "of which lignite 0.00 Mt (1%)"
+   },
+   {
+    "c": "KWT",
+    "v": 0.1001
+   },
+   {
+    "c": "CHE",
+    "v": 0.0911,
+    "n": "of which lignite 0.07 Mt (80%)"
+   },
+   {
+    "c": "JOR",
+    "v": 0.0872
+   },
+   {
+    "c": "SEN",
+    "v": 0.0686
+   },
+   {
+    "c": "MWI",
+    "v": 0.0543
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0483
+   },
+   {
+    "c": "TGO",
+    "v": 0.0411
+   },
+   {
+    "c": "NAM",
+    "v": 0.0356
+   },
+   {
+    "c": "JAM",
+    "v": 0.0349
+   },
+   {
+    "c": "LUX",
+    "v": 0.0337
+   },
+   {
+    "c": "ARM",
+    "v": 0.0277
+   },
+   {
+    "c": "HND",
+    "v": 0.0275
+   },
+   {
+    "c": "GHA",
+    "v": 0.025
+   },
+   {
+    "c": "OMN",
+    "v": 0.0243
+   },
+   {
+    "c": "LVA",
+    "v": 0.019
+   },
+   {
+    "c": "AZE",
+    "v": 0.0189
+   },
+   {
+    "c": "CYP",
+    "v": 0.0168
+   },
+   {
+    "c": "ECU",
+    "v": 0.0162
+   },
+   {
+    "c": "SYR",
+    "v": 0.0145
+   },
+   {
+    "c": "MOZ",
+    "v": 0.013
+   },
+   {
+    "c": "BOL",
+    "v": 0.0096
+   },
+   {
+    "c": "PRT",
+    "v": 0.0024
+   },
+   {
+    "c": "PRY",
+    "v": 0.0018
+   },
+   {
+    "c": "URY",
+    "v": 0.0008
+   },
+   {
+    "c": "EST",
+    "v": 0.0008
+   },
+   {
+    "c": "CUB",
+    "v": 0.0006
+   },
+   {
+    "c": "CRI",
+    "v": 0.0003
    }
   ],
   "n": "EIA International Energy Data, coal consumption; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt; includes lignite: 953.2 Mt of the world total (12%, EIA lignite consumption)",
@@ -301,6 +1408,214 @@
    {
     "c": "CAN",
     "v": 6.554
+   },
+   {
+    "c": "CHN",
+    "v": 5.374
+   },
+   {
+    "c": "LAO",
+    "v": 3.731
+   },
+   {
+    "c": "POL",
+    "v": 2.04
+   },
+   {
+    "c": "PER",
+    "v": 1.97
+   },
+   {
+    "c": "IND",
+    "v": 1.877
+   },
+   {
+    "c": "KGZ",
+    "v": 1.591
+   },
+   {
+    "c": "BLR",
+    "v": 1.133
+   },
+   {
+    "c": "ESP",
+    "v": 1.088
+   },
+   {
+    "c": "VNM",
+    "v": 0.9272
+   },
+   {
+    "c": "AFG",
+    "v": 0.9025
+   },
+   {
+    "c": "DEU",
+    "v": 0.8759
+   },
+   {
+    "c": "CZE",
+    "v": 0.8101
+   },
+   {
+    "c": "BIH",
+    "v": 0.7967
+   },
+   {
+    "c": "BWA",
+    "v": 0.5959
+   },
+   {
+    "c": "GBR",
+    "v": 0.58
+   },
+   {
+    "c": "TJK",
+    "v": 0.5588
+   },
+   {
+    "c": "GRC",
+    "v": 0.537
+   },
+   {
+    "c": "ZWE",
+    "v": 0.4864
+   },
+   {
+    "c": "TUR",
+    "v": 0.429
+   },
+   {
+    "c": "UKR",
+    "v": 0.3973
+   },
+   {
+    "c": "VEN",
+    "v": 0.3416
+   },
+   {
+    "c": "DNK",
+    "v": 0.2599
+   },
+   {
+    "c": "FRA",
+    "v": 0.2185
+   },
+   {
+    "c": "NZL",
+    "v": 0.2024
+   },
+   {
+    "c": "ZMB",
+    "v": 0.1904
+   },
+   {
+    "c": "MNE",
+    "v": 0.1891
+   },
+   {
+    "c": "ALB",
+    "v": 0.1862
+   },
+   {
+    "c": "NGA",
+    "v": 0.1688
+   },
+   {
+    "c": "UZB",
+    "v": 0.1387
+   },
+   {
+    "c": "BEL",
+    "v": 0.0986
+   },
+   {
+    "c": "TZA",
+    "v": 0.09
+   },
+   {
+    "c": "IRL",
+    "v": 0.0733
+   },
+   {
+    "c": "NOR",
+    "v": 0.0602
+   },
+   {
+    "c": "ARG",
+    "v": 0.06
+   },
+   {
+    "c": "ROU",
+    "v": 0.0523
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0504
+   },
+   {
+    "c": "SRB",
+    "v": 0.0415
+   },
+   {
+    "c": "THA",
+    "v": 0.038
+   },
+   {
+    "c": "BGR",
+    "v": 0.0112
+   },
+   {
+    "c": "IRN",
+    "v": 0.0089
+   },
+   {
+    "c": "HUN",
+    "v": 0.004
+   },
+   {
+    "c": "JPN",
+    "v": 0.0033
+   },
+   {
+    "c": "MKD",
+    "v": 0.0033
+   },
+   {
+    "c": "MEX",
+    "v": 0.0024
+   },
+   {
+    "c": "SVN",
+    "v": 0.0022
+   },
+   {
+    "c": "SWE",
+    "v": 0.001
+   },
+   {
+    "c": "MYS",
+    "v": 0.0009
+   },
+   {
+    "c": "TWN",
+    "v": 0.0009
+   },
+   {
+    "c": "BRA",
+    "v": 0.0002
+   },
+   {
+    "c": "KOR",
+    "v": 0.0002
+   },
+   {
+    "c": "SAU",
+    "v": 0.0001
+   },
+   {
+    "c": "AUT",
+    "v": 0.0001
    }
   ],
   "n": "EIA International Energy Data, coal exports; all coal exports minus metallurgical coal exports (EIA), per country; 1000 metric tons converted to Mt"
@@ -358,6 +1673,430 @@
    {
     "c": "RUS",
     "v": 20.802
+   },
+   {
+    "c": "DEU",
+    "v": 19.028
+   },
+   {
+    "c": "NLD",
+    "v": 14.572
+   },
+   {
+    "c": "PAK",
+    "v": 11.039
+   },
+   {
+    "c": "MAR",
+    "v": 10.813
+   },
+   {
+    "c": "POL",
+    "v": 9.076
+   },
+   {
+    "c": "MEX",
+    "v": 8.072
+   },
+   {
+    "c": "IDN",
+    "v": 5.658
+   },
+   {
+    "c": "CHL",
+    "v": 5.572
+   },
+   {
+    "c": "KHM",
+    "v": 5.471
+   },
+   {
+    "c": "FRA",
+    "v": 4.902
+   },
+   {
+    "c": "BRA",
+    "v": 4.36
+   },
+   {
+    "c": "HKG",
+    "v": 4.238
+   },
+   {
+    "c": "CAN",
+    "v": 3.297
+   },
+   {
+    "c": "ISR",
+    "v": 3.225
+   },
+   {
+    "c": "EGY",
+    "v": 3.169
+   },
+   {
+    "c": "DOM",
+    "v": 2.528
+   },
+   {
+    "c": "SRB",
+    "v": 2.476
+   },
+   {
+    "c": "USA",
+    "v": 2.217
+   },
+   {
+    "c": "LKA",
+    "v": 2.026
+   },
+   {
+    "c": "ESP",
+    "v": 2.024
+   },
+   {
+    "c": "BLR",
+    "v": 1.994
+   },
+   {
+    "c": "ITA",
+    "v": 1.983
+   },
+   {
+    "c": "UZB",
+    "v": 1.983
+   },
+   {
+    "c": "UKR",
+    "v": 1.812
+   },
+   {
+    "c": "KEN",
+    "v": 1.778
+   },
+   {
+    "c": "ARE",
+    "v": 1.717
+   },
+   {
+    "c": "BEL",
+    "v": 1.617
+   },
+   {
+    "c": "GTM",
+    "v": 1.509
+   },
+   {
+    "c": "PRI",
+    "v": 1.405
+   },
+   {
+    "c": "GBR",
+    "v": 1.399
+   },
+   {
+    "c": "NZL",
+    "v": 1.328
+   },
+   {
+    "c": "BRN",
+    "v": 1.135
+   },
+   {
+    "c": "SGP",
+    "v": 1.106
+   },
+   {
+    "c": "NPL",
+    "v": 1.093
+   },
+   {
+    "c": "CZE",
+    "v": 1.059
+   },
+   {
+    "c": "MKD",
+    "v": 1.001
+   },
+   {
+    "c": "ZAF",
+    "v": 0.9363
+   },
+   {
+    "c": "SWE",
+    "v": 0.7937
+   },
+   {
+    "c": "KGZ",
+    "v": 0.7176
+   },
+   {
+    "c": "NOR",
+    "v": 0.6816
+   },
+   {
+    "c": "AUT",
+    "v": 0.6429
+   },
+   {
+    "c": "MUS",
+    "v": 0.6388
+   },
+   {
+    "c": "ETH",
+    "v": 0.6121
+   },
+   {
+    "c": "YEM",
+    "v": 0.5701
+   },
+   {
+    "c": "BGR",
+    "v": 0.4846
+   },
+   {
+    "c": "SVK",
+    "v": 0.4486
+   },
+   {
+    "c": "MDG",
+    "v": 0.4392
+   },
+   {
+    "c": "HRV",
+    "v": 0.3982
+   },
+   {
+    "c": "SVN",
+    "v": 0.359
+   },
+   {
+    "c": "IRL",
+    "v": 0.3183
+   },
+   {
+    "c": "NCL",
+    "v": 0.2577
+   },
+   {
+    "c": "IRN",
+    "v": 0.251
+   },
+   {
+    "c": "ARG",
+    "v": 0.2453
+   },
+   {
+    "c": "ZMB",
+    "v": 0.238
+   },
+   {
+    "c": "DNK",
+    "v": 0.2102
+   },
+   {
+    "c": "ROU",
+    "v": 0.1815
+   },
+   {
+    "c": "COD",
+    "v": 0.1733
+   },
+   {
+    "c": "PER",
+    "v": 0.1686
+   },
+   {
+    "c": "JOR",
+    "v": 0.162
+   },
+   {
+    "c": "BIH",
+    "v": 0.1589
+   },
+   {
+    "c": "LBN",
+    "v": 0.1516
+   },
+   {
+    "c": "BEN",
+    "v": 0.1503
+   },
+   {
+    "c": "SAU",
+    "v": 0.1403
+   },
+   {
+    "c": "ISL",
+    "v": 0.1289
+   },
+   {
+    "c": "GEO",
+    "v": 0.1279
+   },
+   {
+    "c": "MDA",
+    "v": 0.1156
+   },
+   {
+    "c": "FIN",
+    "v": 0.115
+   },
+   {
+    "c": "AUS",
+    "v": 0.1127
+   },
+   {
+    "c": "RWA",
+    "v": 0.1126
+   },
+   {
+    "c": "HUN",
+    "v": 0.1123
+   },
+   {
+    "c": "KWT",
+    "v": 0.1001
+   },
+   {
+    "c": "TJK",
+    "v": 0.0997
+   },
+   {
+    "c": "ALB",
+    "v": 0.0973
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0929
+   },
+   {
+    "c": "LTU",
+    "v": 0.0862
+   },
+   {
+    "c": "CHE",
+    "v": 0.0759
+   },
+   {
+    "c": "MMR",
+    "v": 0.0601
+   },
+   {
+    "c": "SEN",
+    "v": 0.0601
+   },
+   {
+    "c": "KOS",
+    "v": 0.0532
+   },
+   {
+    "c": "AFG",
+    "v": 0.0516
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0483
+   },
+   {
+    "c": "GRC",
+    "v": 0.0442
+   },
+   {
+    "c": "TGO",
+    "v": 0.0411
+   },
+   {
+    "c": "BTN",
+    "v": 0.0384
+   },
+   {
+    "c": "NAM",
+    "v": 0.0356
+   },
+   {
+    "c": "JAM",
+    "v": 0.0349
+   },
+   {
+    "c": "LUX",
+    "v": 0.0339
+   },
+   {
+    "c": "ARM",
+    "v": 0.0276
+   },
+   {
+    "c": "HND",
+    "v": 0.0275
+   },
+   {
+    "c": "OMN",
+    "v": 0.0253
+   },
+   {
+    "c": "GHA",
+    "v": 0.025
+   },
+   {
+    "c": "LVA",
+    "v": 0.0238
+   },
+   {
+    "c": "AZE",
+    "v": 0.0189
+   },
+   {
+    "c": "CYP",
+    "v": 0.0185
+   },
+   {
+    "c": "ECU",
+    "v": 0.0162
+   },
+   {
+    "c": "SYR",
+    "v": 0.0145
+   },
+   {
+    "c": "BOL",
+    "v": 0.0096
+   },
+   {
+    "c": "PRT",
+    "v": 0.0024
+   },
+   {
+    "c": "COL",
+    "v": 0.002
+   },
+   {
+    "c": "PRY",
+    "v": 0.0018
+   },
+   {
+    "c": "NGA",
+    "v": 0.0011
+   },
+   {
+    "c": "URY",
+    "v": 0.0008
+   },
+   {
+    "c": "CUB",
+    "v": 0.0006
+   },
+   {
+    "c": "EST",
+    "v": 0.0006
+   },
+   {
+    "c": "CRI",
+    "v": 0.0003
+   },
+   {
+    "c": "BWA",
+    "v": 0.0001
    }
   ],
   "n": "EIA International Energy Data, coal imports; all coal imports minus metallurgical coal imports (EIA), per country; 1000 metric tons converted to Mt"
@@ -419,6 +2158,110 @@
      {
       "c": "BGR",
       "v": 17.201
+     },
+     {
+      "c": "LAO",
+      "v": 15.336
+     },
+     {
+      "c": "MNG",
+      "v": 14.154
+     },
+     {
+      "c": "THA",
+      "v": 12.46
+     },
+     {
+      "c": "ROU",
+      "v": 12.241
+     },
+     {
+      "c": "UZB",
+      "v": 7.703
+     },
+     {
+      "c": "KOS",
+      "v": 7.052
+     },
+     {
+      "c": "GRC",
+      "v": 6.291
+     },
+     {
+      "c": "CAN",
+      "v": 5.681
+     },
+     {
+      "c": "PAK",
+      "v": 5.547
+     },
+     {
+      "c": "BIH",
+      "v": 4.813
+     },
+     {
+      "c": "KAZ",
+      "v": 4.529
+     },
+     {
+      "c": "BRA",
+      "v": 3.952
+     },
+     {
+      "c": "KGZ",
+      "v": 3.912
+     },
+     {
+      "c": "MKD",
+      "v": 3.439
+     },
+     {
+      "c": "MMR",
+      "v": 2.485
+     },
+     {
+      "c": "HUN",
+      "v": 2.132
+     },
+     {
+      "c": "SVN",
+      "v": 1.758
+     },
+     {
+      "c": "MNE",
+      "v": 0.7329
+     },
+     {
+      "c": "NZL",
+      "v": 0.2385
+     },
+     {
+      "c": "NER",
+      "v": 0.2197
+     },
+     {
+      "c": "TJK",
+      "v": 0.1596
+     },
+     {
+      "c": "GEO",
+      "v": 0.158
+     },
+     {
+      "c": "ALB",
+      "v": 0.0704
+     },
+     {
+      "c": "KHM",
+      "v": 0.0305
+     },
+     {
+      "c": "MEX",
+      "v": 0.023
+     },
+     {
+      "c": "ARM",
+      "v": 0.0001
      }
     ],
     "n": "EIA International Energy Data, lignite production; 1000 metric tons converted to Mt; world total as published by EIA (all countries); these tonnages are included in the thermal coal production table"
@@ -480,6 +2323,270 @@
      {
       "c": "POL",
       "v": 4.219
+     },
+     {
+      "c": "CHN",
+      "v": 4.094
+     },
+     {
+      "c": "TZA",
+      "v": 3.487
+     },
+     {
+      "c": "NLD",
+      "v": 2.819
+     },
+     {
+      "c": "KGZ",
+      "v": 2.018
+     },
+     {
+      "c": "IND",
+      "v": 1.9
+     },
+     {
+      "c": "CZE",
+      "v": 1.808
+     },
+     {
+      "c": "PER",
+      "v": 1.664
+     },
+     {
+      "c": "DEU",
+      "v": 1.446
+     },
+     {
+      "c": "NZL",
+      "v": 1.406
+     },
+     {
+      "c": "ESP",
+      "v": 0.9642
+     },
+     {
+      "c": "BIH",
+      "v": 0.9187
+     },
+     {
+      "c": "AFG",
+      "v": 0.9127
+     },
+     {
+      "c": "GBR",
+      "v": 0.9036
+     },
+     {
+      "c": "BWA",
+      "v": 0.8962
+     },
+     {
+      "c": "BEL",
+      "v": 0.8828
+     },
+     {
+      "c": "GRC",
+      "v": 0.8697
+     },
+     {
+      "c": "VNM",
+      "v": 0.8338
+     },
+     {
+      "c": "UKR",
+      "v": 0.5434
+     },
+     {
+      "c": "TUR",
+      "v": 0.5
+     },
+     {
+      "c": "ARE",
+      "v": 0.4919
+     },
+     {
+      "c": "VEN",
+      "v": 0.4869
+     },
+     {
+      "c": "SWZ",
+      "v": 0.48
+     },
+     {
+      "c": "MYS",
+      "v": 0.4192
+     },
+     {
+      "c": "ZWE",
+      "v": 0.3902
+     },
+     {
+      "c": "LAO",
+      "v": 0.3104
+     },
+     {
+      "c": "TJK",
+      "v": 0.2974
+     },
+     {
+      "c": "MMR",
+      "v": 0.2723
+     },
+     {
+      "c": "FRA",
+      "v": 0.2352
+     },
+     {
+      "c": "ROU",
+      "v": 0.2025
+     },
+     {
+      "c": "SVK",
+      "v": 0.2014
+     },
+     {
+      "c": "MNE",
+      "v": 0.2001
+     },
+     {
+      "c": "ZMB",
+      "v": 0.1904
+     },
+     {
+      "c": "SGP",
+      "v": 0.1752
+     },
+     {
+      "c": "ALB",
+      "v": 0.1709
+     },
+     {
+      "c": "IRN",
+      "v": 0.1313
+     },
+     {
+      "c": "NOR",
+      "v": 0.1186
+     },
+     {
+      "c": "NGA",
+      "v": 0.1186
+     },
+     {
+      "c": "ITA",
+      "v": 0.1182
+     },
+     {
+      "c": "IRL",
+      "v": 0.106
+     },
+     {
+      "c": "THA",
+      "v": 0.1049
+     },
+     {
+      "c": "UZB",
+      "v": 0.0856
+     },
+     {
+      "c": "LTU",
+      "v": 0.0755
+     },
+     {
+      "c": "EGY",
+      "v": 0.0614
+     },
+     {
+      "c": "BHS",
+      "v": 0.0497
+     },
+     {
+      "c": "OMN",
+      "v": 0.049
+     },
+     {
+      "c": "BGR",
+      "v": 0.0485
+     },
+     {
+      "c": "DNK",
+      "v": 0.0415
+     },
+     {
+      "c": "AUT",
+      "v": 0.0386
+     },
+     {
+      "c": "HKG",
+      "v": 0.036
+     },
+     {
+      "c": "LVA",
+      "v": 0.0358
+     },
+     {
+      "c": "HRV",
+      "v": 0.0227
+     },
+     {
+      "c": "EST",
+      "v": 0.0179
+     },
+     {
+      "c": "MLT",
+      "v": 0.0099
+     },
+     {
+      "c": "SRB",
+      "v": 0.0098
+     },
+     {
+      "c": "JPN",
+      "v": 0.0071
+     },
+     {
+      "c": "SAU",
+      "v": 0.0068
+     },
+     {
+      "c": "HUN",
+      "v": 0.0057
+     },
+     {
+      "c": "BHR",
+      "v": 0.0038
+     },
+     {
+      "c": "ISL",
+      "v": 0.0037
+     },
+     {
+      "c": "MEX",
+      "v": 0.0034
+     },
+     {
+      "c": "COG",
+      "v": 0.0028
+     },
+     {
+      "c": "SVN",
+      "v": 0.0025
+     },
+     {
+      "c": "SWE",
+      "v": 0.0022
+     },
+     {
+      "c": "FIN",
+      "v": 0.0022
+     },
+     {
+      "c": "CUW",
+      "v": 0.0014
+     },
+     {
+      "c": "KEN",
+      "v": 0.0012
      }
     ],
     "n": "CEPII BACI HS92 coal and lignite, thermal and metallurgical together (HS 270111, 270112, 270119, 270210, 270220), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal",
@@ -542,6 +2649,474 @@
      {
       "c": "THA",
       "v": 18.478
+     },
+     {
+      "c": "BRA",
+      "v": 17.473
+     },
+     {
+      "c": "IDN",
+      "v": 17.285
+     },
+     {
+      "c": "RUS",
+      "v": 17.281
+     },
+     {
+      "c": "MAR",
+      "v": 15.611
+     },
+     {
+      "c": "BGD",
+      "v": 14.351
+     },
+     {
+      "c": "POL",
+      "v": 8.817
+     },
+     {
+      "c": "PAK",
+      "v": 7.732
+     },
+     {
+      "c": "HKG",
+      "v": 6.371
+     },
+     {
+      "c": "KHM",
+      "v": 5.746
+     },
+     {
+      "c": "CHL",
+      "v": 5.583
+     },
+     {
+      "c": "CAN",
+      "v": 5.505
+     },
+     {
+      "c": "FRA",
+      "v": 4.912
+     },
+     {
+      "c": "ESP",
+      "v": 4.103
+     },
+     {
+      "c": "ITA",
+      "v": 3.925
+     },
+     {
+      "c": "DOM",
+      "v": 3.831
+     },
+     {
+      "c": "UZB",
+      "v": 3.814
+     },
+     {
+      "c": "ISR",
+      "v": 3.803
+     },
+     {
+      "c": "MEX",
+      "v": 3.718
+     },
+     {
+      "c": "BEL",
+      "v": 3.648
+     },
+     {
+      "c": "EGY",
+      "v": 3.555
+     },
+     {
+      "c": "USA",
+      "v": 3.167
+     },
+     {
+      "c": "ARE",
+      "v": 2.978
+     },
+     {
+      "c": "CZE",
+      "v": 2.833
+     },
+     {
+      "c": "ZAF",
+      "v": 2.828
+     },
+     {
+      "c": "SRB",
+      "v": 2.786
+     },
+     {
+      "c": "SVK",
+      "v": 2.698
+     },
+     {
+      "c": "BRN",
+      "v": 2.326
+     },
+     {
+      "c": "SWE",
+      "v": 2.171
+     },
+     {
+      "c": "AUT",
+      "v": 2.147
+     },
+     {
+      "c": "FIN",
+      "v": 2.039
+     },
+     {
+      "c": "KEN",
+      "v": 1.96
+     },
+     {
+      "c": "LKA",
+      "v": 1.924
+     },
+     {
+      "c": "GTM",
+      "v": 1.92
+     },
+     {
+      "c": "UKR",
+      "v": 1.894
+     },
+     {
+      "c": "HRV",
+      "v": 1.831
+     },
+     {
+      "c": "GBR",
+      "v": 1.641
+     },
+     {
+      "c": "MOZ",
+      "v": 1.535
+     },
+     {
+      "c": "SEN",
+      "v": 1.531
+     },
+     {
+      "c": "MUS",
+      "v": 1.493
+     },
+     {
+      "c": "NPL",
+      "v": 1.38
+     },
+     {
+      "c": "NOR",
+      "v": 1.079
+     },
+     {
+      "c": "ARG",
+      "v": 1.074
+     },
+     {
+      "c": "SGP",
+      "v": 1.058
+     },
+     {
+      "c": "MKD",
+      "v": 1.048
+     },
+     {
+      "c": "KAZ",
+      "v": 1.022
+     },
+     {
+      "c": "NZL",
+      "v": 0.9859
+     },
+     {
+      "c": "ROU",
+      "v": 0.9092
+     },
+     {
+      "c": "BIH",
+      "v": 0.8309
+     },
+     {
+      "c": "KGZ",
+      "v": 0.6763
+     },
+     {
+      "c": "COD",
+      "v": 0.5754
+     },
+     {
+      "c": "SVN",
+      "v": 0.4503
+     },
+     {
+      "c": "KWT",
+      "v": 0.4458
+     },
+     {
+      "c": "MDG",
+      "v": 0.4253
+     },
+     {
+      "c": "YEM",
+      "v": 0.3862
+     },
+     {
+      "c": "TGO",
+      "v": 0.3745
+     },
+     {
+      "c": "BGR",
+      "v": 0.3488
+     },
+     {
+      "c": "NCL",
+      "v": 0.3278
+     },
+     {
+      "c": "DNK",
+      "v": 0.3122
+     },
+     {
+      "c": "IRL",
+      "v": 0.2989
+     },
+     {
+      "c": "CHE",
+      "v": 0.2714
+     },
+     {
+      "c": "ZMB",
+      "v": 0.2653
+     },
+     {
+      "c": "DJI",
+      "v": 0.2434
+     },
+     {
+      "c": "GEO",
+      "v": 0.2188
+     },
+     {
+      "c": "LVA",
+      "v": 0.215
+     },
+     {
+      "c": "ISL",
+      "v": 0.2107
+     },
+     {
+      "c": "PER",
+      "v": 0.2093
+     },
+     {
+      "c": "LTU",
+      "v": 0.2025
+     },
+     {
+      "c": "HUN",
+      "v": 0.1966
+     },
+     {
+      "c": "UGA",
+      "v": 0.186
+     },
+     {
+      "c": "SAU",
+      "v": 0.1782
+     },
+     {
+      "c": "OMN",
+      "v": 0.1762
+     },
+     {
+      "c": "AUS",
+      "v": 0.1756
+     },
+     {
+      "c": "COL",
+      "v": 0.1597
+     },
+     {
+      "c": "BEN",
+      "v": 0.1391
+     },
+     {
+      "c": "SWZ",
+      "v": 0.1213
+     },
+     {
+      "c": "COG",
+      "v": 0.1212
+     },
+     {
+      "c": "BHR",
+      "v": 0.1208
+     },
+     {
+      "c": "ALB",
+      "v": 0.1183
+     },
+     {
+      "c": "LAO",
+      "v": 0.1032
+     },
+     {
+      "c": "HND",
+      "v": 0.0935
+     },
+     {
+      "c": "TJK",
+      "v": 0.0856
+     },
+     {
+      "c": "EST",
+      "v": 0.0822
+     },
+     {
+      "c": "MDA",
+      "v": 0.0811
+     },
+     {
+      "c": "CPV",
+      "v": 0.0782
+     },
+     {
+      "c": "GRC",
+      "v": 0.0683
+     },
+     {
+      "c": "PAN",
+      "v": 0.0629
+     },
+     {
+      "c": "LUX",
+      "v": 0.0622
+     },
+     {
+      "c": "NAM",
+      "v": 0.0509
+     },
+     {
+      "c": "BTN",
+      "v": 0.0491
+     },
+     {
+      "c": "MWI",
+      "v": 0.0443
+     },
+     {
+      "c": "RWA",
+      "v": 0.0428
+     },
+     {
+      "c": "JAM",
+      "v": 0.0379
+     },
+     {
+      "c": "LBN",
+      "v": 0.0332
+     },
+     {
+      "c": "MMR",
+      "v": 0.0325
+     },
+     {
+      "c": "ARM",
+      "v": 0.0266
+     },
+     {
+      "c": "GHA",
+      "v": 0.025
+     },
+     {
+      "c": "AZE",
+      "v": 0.0235
+     },
+     {
+      "c": "LSO",
+      "v": 0.0219
+     },
+     {
+      "c": "CYP",
+      "v": 0.019
+     },
+     {
+      "c": "IRQ",
+      "v": 0.0169
+     },
+     {
+      "c": "NER",
+      "v": 0.0162
+     },
+     {
+      "c": "ECU",
+      "v": 0.0162
+     },
+     {
+      "c": "QAT",
+      "v": 0.015
+     },
+     {
+      "c": "SYR",
+      "v": 0.0139
+     },
+     {
+      "c": "PRT",
+      "v": 0.012
+     },
+     {
+      "c": "BOL",
+      "v": 0.01
+     },
+     {
+      "c": "MNE",
+      "v": 0.0097
+     },
+     {
+      "c": "BDI",
+      "v": 0.006
+     },
+     {
+      "c": "PNG",
+      "v": 0.0045
+     },
+     {
+      "c": "NGA",
+      "v": 0.0025
+     },
+     {
+      "c": "LBY",
+      "v": 0.0021
+     },
+     {
+      "c": "DZA",
+      "v": 0.0021
+     },
+     {
+      "c": "SLV",
+      "v": 0.0018
+     },
+     {
+      "c": "BHS",
+      "v": 0.0015
+     },
+     {
+      "c": "TUN",
+      "v": 0.0014
+     },
+     {
+      "c": "GAB",
+      "v": 0.0011
+     },
+     {
+      "c": "SSD",
+      "v": 0.001
      }
     ],
     "n": "CEPII BACI HS92 coal and lignite, thermal and metallurgical together (HS 270111, 270112, 270119, 270210, 270220), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal",

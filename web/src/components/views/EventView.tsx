@@ -2,9 +2,13 @@
 import type { FreightEvent } from '../../types';
 import { loadEvents } from '../../lib/freight';
 import { chokepointName } from '../../lib/freight';
+import { commodityMeta, countryName } from '../../lib/data';
 import { select } from '../../lib/store';
+import { loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
+import { EventPrices } from '../EventPrices';
 import { Section, Skeleton, Placeholder } from '../ui';
 import { useFreightCatalogue, useLoaded } from './shared';
+import '../../styles/changes.css';
 
 export const EVENT_COLOR: Record<FreightEvent['kind'], string> = {
   conflict: '#ff5c7a',
@@ -39,6 +43,22 @@ function host(u: string) {
   } catch {
     return u;
   }
+}
+
+/** The assets the event names, as chips that open their page. */
+function EventAssets({ ids }: { ids: string[] }) {
+  const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
+  const items = ids.map((id) => all?.find((f) => f.p.id === id)).filter((f): f is InfraFeature => !!f);
+  if (!items.length) return null;
+  return (
+    <Section title="Assets">
+      <div class="chips">
+        {items.map((f) => (
+          <button class="chip" key={f.p.id} onClick={() => select(infraRef(f))}>{f.p.name}</button>
+        ))}
+      </div>
+    </Section>
+  );
 }
 
 export default function EventView({ id }: { id: string }) {
@@ -84,6 +104,30 @@ export default function EventView({ id }: { id: string }) {
                 <button class="chip" key={r} onClick={() => select({ kind: 'route', id: r })}>{r}</button>
               ))}
             </div>
+          </Section>
+        )}
+        {ev.commodities && ev.commodities.length > 0 && (
+          <Section title="Commodities">
+            <div class="chips">
+              {ev.commodities.map((k) => (
+                <button class="chip" key={k} onClick={() => select({ kind: 'commodity', id: k })}>{commodityMeta(k)?.name ?? k}</button>
+              ))}
+            </div>
+          </Section>
+        )}
+        {ev.countries && ev.countries.length > 0 && (
+          <Section title="Countries">
+            <div class="chips">
+              {ev.countries.map((c) => (
+                <button class="chip" key={c} onClick={() => select({ kind: 'country', id: c })}>{countryName(c)}</button>
+              ))}
+            </div>
+          </Section>
+        )}
+        {ev.assets && ev.assets.length > 0 && <EventAssets ids={ev.assets} />}
+        {ev.commodities && ev.commodities.length > 0 && (
+          <Section title="Prices around this date">
+            <EventPrices ev={ev} />
           </Section>
         )}
         <div class="src-line">

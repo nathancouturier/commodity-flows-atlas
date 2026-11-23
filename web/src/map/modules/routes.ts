@@ -10,24 +10,25 @@ import { registerLayerModule } from '../layers';
 import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
-import { SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
+import { GROUP_LABEL, SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeTouches, segmentOf, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt, pctText } from '../../lib/format';
 import { lowerName } from '../../lib/prices';
 
 /**
  * Route line widths, as a fraction of the lane width range: fixed, they do not show a volume
- * (benchmark routes are drawn thicker than the other routes). The legend draws the same widths.
+ * (benchmark routes are drawn thicker than the other routes, the generated corridors thinner: there are many of them).
+ * The legend draws the same widths.
  */
-export const ROUTE_W = { selected: 0.85, benchmark: 0.45, other: 0.3 };
+export const ROUTE_W = { selected: 0.85, benchmark: 0.45, other: 0.3, generated: 0.12 };
 
 function routeLabel(r: Route): string {
   const share = r.shares?.[0];
-  const what = share ? lowerName(commodityMeta(share.k)?.name ?? share.k) : '';
+  const what = share ? lowerName((share.g && GROUP_LABEL[share.g]) || (commodityMeta(share.k)?.name ?? share.k)) : '';
   return (
     `<div>${r.benchmark ? `<b>${esc(r.id)}</b> ` : '<b>'}${esc(r.name)}${r.benchmark ? '' : '</b>'}</div>` +
-    `<div class="muted">${esc(vesselName(r.vclass))} · ${fmt(r.distanceNm)} nm · ${fmt(r.days)} days</div>` +
+    `<div class="muted">${esc(vesselName(r.vclass))}${r.standIn ? ' · stand-in trace, no distance of its own' : ` · ${fmt(r.distanceNm)} nm · ${fmt(r.days)} days`}</div>` +
     (share ? `<div class="num">${pctText(share.f.v)} of seaborne ${esc(what)} (${esc(String(share.f.y))})</div>` : '') +
-    `<div class="src-line">${esc(r.s === 'atlas' ? 'Atlas estimate' : sourceLabel(r.s))}${r.discontinued ? ` · discontinued ${esc(r.discontinued)}` : ''}</div>`
+    `<div class="src-line">${esc(r.generated ? 'Atlas corridor, generated from customs pairs' : r.s === 'atlas' ? 'Atlas estimate' : sourceLabel(r.s))}${r.discontinued ? ` · discontinued ${esc(r.discontinued)}` : ''}</div>`
   );
 }
 
@@ -78,7 +79,7 @@ registerLayerModule(() => {
               id: f.properties.id,
               kind: isAlt ? 'alt' : 'route',
               color: SEGMENT_COLOR[segmentOf(r.vclass)],
-              w: isSel ? ROUTE_W.selected : r.benchmark ? ROUTE_W.benchmark : ROUTE_W.other,
+              w: isSel ? ROUTE_W.selected : r.benchmark ? ROUTE_W.benchmark : r.generated ? ROUTE_W.generated : ROUTE_W.other,
               dim: !!selId && !isSel,
               hl: isSel && !isAlt,
               dash: isAlt,

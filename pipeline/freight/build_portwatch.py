@@ -3,7 +3,9 @@ Build the weekly chokepoint transit series served by the site from IMF PortWatch
 
     python pipeline/freight/build_portwatch.py [pages_dir] [out_dir]
 
-Input   raw/portwatch/chokepoints_daily_page*.json  (ArcGIS query pages; written by fetch_portwatch.py)
+Input   pipeline/cache/portwatch/daily_<year>.csv.gz (the daily table, one file per year; kept by fetch_portwatch.py,
+                                                     which downloads only the days after the last one stored)
+        raw/portwatch/chokepoints_daily_page*.json  (ArcGIS query pages: a local mirror, used when there is no cache)
         data/freight/chokepoints.json                (maps PortWatch ids to atlas chokepoint ids)
 Output  data/freight/portwatch/<chokepoint id>.json  weekly averages of daily vessel counts and of
                                                      PortWatch's estimated trade volume, by vessel type,
@@ -18,7 +20,10 @@ PortWatch fields: ``n_*`` are daily transit counts by vessel type; ``capacity_*`
 estimate of the trade volume carried, in tonnes (not deadweight). ``n_total`` and ``capacity`` are the
 sums over the five types (container, dry bulk, general cargo, ro-ro, tanker).
 """
+import csv
 import glob
+import gzip
+import io
 import json
 import math
 import os
@@ -29,6 +34,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 RAW_PAGES = os.path.join(ROOT, "raw", "portwatch")
+CACHE_DIR = os.path.join(ROOT, "pipeline", "cache", "portwatch")
 OUT = os.path.join(ROOT, "data", "freight", "portwatch")
 DATA_CHK = os.path.join(ROOT, "data", "freight", "chokepoints.json")
 
@@ -37,15 +43,75 @@ VESSELS = "Tankers, dry bulk, container, general cargo and ro-ro"
 COUNT = {"tanker": "n_tanker", "dry": "n_dry_bulk", "container": "n_container", "other": "other", "total": "n_total"}
 VOLUME = {"tanker": "capacity_tanker", "dry": "capacity_dry_bulk", "container": "capacity_container",
           "other": "capacity_other", "total": "capacity"}
+# the fields of the daily table the atlas keeps (the cache and the page checks of fetch_portwatch.py)
+FIELDS = ["date", "portid", "portname", "n_tanker", "n_dry_bulk", "n_container", "n_general_cargo", "n_roro", "n_total",
+          "capacity_tanker", "capacity_dry_bulk", "capacity_container", "capacity_general_cargo", "capacity_roro", "capacity"]
+TEXT_FIELDS = {"date", "portid", "portname"}
+# the headline and the comparison of a chokepoint cover this many days; the reference year is the last full year before
+# every disruption the atlas lists (the Red Sea diversions start in December 2023)
+WINDOW_DAYS = 28
+REFERENCE_YEAR = 2023
 
 
-def read_rows(pages_dir=RAW_PAGES):
-    """All attribute dicts from the saved pages (empty list when there are none)."""
+def read_pages(pages_dir=RAW_PAGES):
+    """All attribute dicts from saved ArcGIS pages (empty list when there are none)."""
     rows = []
     for p in sorted(glob.glob(os.path.join(pages_dir, "chokepoints_daily_page*.json")),
                     key=lambda p: int(os.path.basename(p).split("page")[1].split(".")[0])):
         rows += [f["attributes"] for f in json.load(open(p))["features"]]
     return rows
+
+
+def read_cache(cache_dir=CACHE_DIR):
+    """The daily table kept between runs (rows as dicts of FIELDS, oldest first); empty when there is no cache."""
+    rows = []
+    for p in sorted(glob.glob(os.path.join(cache_dir, "daily_*.csv.gz"))):
+        with gzip.open(p, "rt", encoding="utf-8", newline="") as fh:
+            for r in csv.DictReader(fh):
+                rows.append({k: (v if k in TEXT_FIELDS else (int(v) if v != "" else None)) for k, v in r.items()})
+    return rows
+
+
+def write_cache(rows, cache_dir=CACHE_DIR):
+    """Write the daily table, one file per year, sorted and without a timestamp in the archive, so that a year
+    that did not change gives byte-identical files and no change in git."""
+    by_year = {}
+    for r in rows:
+        by_year.setdefault(r["date"][:4], []).append(r)
+    os.makedirs(cache_dir, exist_ok=True)
+    for y, rs in by_year.items():
+        rs.sort(key=lambda r: (r["date"], r["portid"]))
+        buf = io.StringIO()
+        w = csv.writer(buf, lineterminator="\n")
+        w.writerow(FIELDS)
+        for r in rs:
+            w.writerow(["" if r.get(k) is None else r[k] for k in FIELDS])
+        path = os.path.join(cache_dir, f"daily_{y}.csv.gz")
+        tmp = path + ".tmp"
+        with open(tmp, "wb") as raw, gzip.GzipFile(fileobj=raw, mode="wb", mtime=0, compresslevel=9) as gz:
+            gz.write(buf.getvalue().encode("utf-8"))
+        os.replace(tmp, path)
+    for p in glob.glob(os.path.join(cache_dir, "daily_*.csv.gz")):
+        if os.path.basename(p)[6:10] not in by_year:
+            os.remove(p)
+
+
+def merge_days(old, new):
+    """``old`` with the days of ``new`` added or replaced: one row per (date, portid), the newer row wins (PortWatch
+    revises its latest days). Rows are cut to FIELDS and sorted."""
+    out = {}
+    for rows in (old, new):
+        for r in rows:
+            out[(r["date"], r["portid"])] = {k: r.get(k) for k in FIELDS}
+    return [out[k] for k in sorted(out)]
+
+
+def read_rows(pages_dir=None):
+    """The daily rows: the cache, or the saved pages of ``pages_dir`` (default raw/portwatch) when there is no cache or
+    when a folder is given. Empty list when neither exists."""
+    if pages_dir is None:
+        return read_cache() or read_pages(RAW_PAGES)
+    return read_pages(pages_dir)
 
 
 def mapped(chk):
@@ -82,6 +148,39 @@ def _headline(daily, unit, ref_unit, digits, text):
             refs.append(f"{yr} average {m:.{_decimals(m, digits)}f}{ref_unit}")
     return {"v": round(recent, _decimals(recent, digits)), "u": unit, "y": f"28 days to {last.date()}", "s": "portwatch",
             "n": "; ".join([text] + refs)}
+
+
+def _window(s, end, days):
+    """Sum of a daily series over the ``days`` days ending on ``end`` (included); None when a day is missing."""
+    w = s[(s.index > end - pd.Timedelta(days=days)) & (s.index <= end)]
+    return float(w.sum()) if len(w) == days else None
+
+
+def compare(day):
+    """What the alerts and the weekly digest compare, from the daily table of one chokepoint (``day``: DataFrame indexed by
+    date with n_total and capacity). Transits and estimated tonnes (Mt) over the last WINDOW_DAYS days, over the same days
+    a year earlier (364 days back, the same weekdays) and the average of REFERENCE_YEAR scaled to the same length; and the
+    daily average of the last 7 days against the 28 and 365 days before them. A value is None when its days are not all
+    in the table."""
+    last = day.index.max()
+    n, mt = day["n_total"], day["capacity"] / 1e6
+    year_ago = last - pd.Timedelta(days=364)
+    ref = day[day.index.year == REFERENCE_YEAR]
+    complete = len(ref) >= 365
+
+    def block(s, nd):
+        now, ago = _window(s, last, WINDOW_DAYS), _window(s, year_ago, WINDOW_DAYS)
+        return {"now": None if now is None else round(now, nd), "yearAgo": None if ago is None else round(ago, nd),
+                "avg2023": round(float(s[s.index.year == REFERENCE_YEAR].mean()) * WINDOW_DAYS, nd) if complete else None}
+
+    def per_day(s, end, days):
+        v = _window(s, end, days)
+        return None if v is None else round(v / days, 2)
+
+    before = last - pd.Timedelta(days=7)
+    return {"to": str(last.date()), "days": WINDOW_DAYS, "yearAgoTo": str(year_ago.date()), "refYear": REFERENCE_YEAR,
+            "transits": block(n, 0), "mt": block(mt, 2),
+            "perDay": {"week": per_day(n, last, 7), "prior28": per_day(n, before, 28), "prior365": per_day(n, before, 365)}}
 
 
 def build(rows, chk, out_dir=OUT):
@@ -121,6 +220,7 @@ def build(rows, chk, out_dir=OUT):
         doc["headline"] = _headline(day["n_total"], "vessels/day", "/day", 1, VESSELS + " (IMF PortWatch daily transits)")
         doc["headlineVol"] = _headline(day["capacity"] / 1e6, "Mt/day", " Mt/day", None,
                                        "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic)")
+        doc["compare"] = compare(day)
         json.dump(doc, open(os.path.join(out_dir, f"{ids[pid]}.json"), "w"), separators=(",", ":"))
     prune(out_dir, chk)
     print("portwatch series", len(ids), "last date", pw["date"].max().date())
@@ -171,11 +271,11 @@ def update_headlines(path=DATA_CHK, series_dir=OUT):
 
 
 def main():
-    pages = sys.argv[1] if len(sys.argv) > 1 else RAW_PAGES
+    pages = sys.argv[1] if len(sys.argv) > 1 else None
     out = sys.argv[2] if len(sys.argv) > 2 else OUT
     rows = read_rows(pages)
     if not rows:
-        sys.exit("no PortWatch pages found in " + pages)
+        sys.exit("no PortWatch data found in " + (pages or CACHE_DIR))
     chk = json.load(open(DATA_CHK))
     build(rows, chk, out)
     if os.path.abspath(out) == os.path.abspath(OUT):

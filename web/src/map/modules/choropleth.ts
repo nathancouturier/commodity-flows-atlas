@@ -8,9 +8,10 @@ import maplibregl, { type Map as MLMap, type Marker } from 'maplibre-gl';
 import type { CommodityData, Ranked } from '../../types';
 import { registerLayerModule } from '../layers';
 import { setCountryTooltipExtra } from '../controller';
-import { choroInfo, commodity, metric, select } from '../../lib/store';
+import { choroInfo, commodity, metric, select, year } from '../../lib/store';
 import { commodities } from '../../lib/data';
-import { loadOptional, commodityMeta, countries, countryName, sourceLabel } from '../../lib/data';
+import { loadHistory, loadOptional, commodityMeta, countries, countryName, sourceLabel } from '../../lib/data';
+import { tableAt } from '../../lib/tableYears';
 import { FAMILY_COLOR, fmt, pct, escapeHtml } from '../../lib/format';
 
 let painted: string[] = [];
@@ -21,6 +22,8 @@ const labelAt = new Map<Marker, { el: HTMLElement; at: [number, number] }>();
 /** Countries labelled with their share on the map: >= 1% of the world total, at most 16. */
 const LABEL_MIN_SHARE = 0.01;
 const LABEL_MAX = 16;
+/** The opacity of this share (SHARE_STOPS) is the floor for a country that has a value: under it the tint would not show. */
+const MIN_TINT_SHARE = 0.0025;
 /** Where the EU27 aggregate label sits (central Europe). */
 const EU_LABEL_AT: [number, number] = [11.5, 49.5];
 
@@ -66,6 +69,7 @@ registerLayerModule((m: MLMap) => {
   effect(() => {
     const k = commodity.value;
     const met = metric.value;
+    const yr = year.value;
     clear(m);
     choroInfo.value = null;
     if (!k || met === 'none') {
@@ -75,10 +79,12 @@ registerLayerModule((m: MLMap) => {
     }
     const meta = commodityMeta(k);
     const color = meta ? FAMILY_COLOR[meta.family] : '#3ee6ff';
-    loadOptional<CommodityData>(`commodities/${k}.json`).then((d) => {
+    // with a History year, the table of that year when the measure has a series that holds it (the latest table otherwise)
+    Promise.all([loadOptional<CommodityData>(`commodities/${k}.json`), yr != null ? loadHistory(k) : Promise.resolve(null)]).then(([d, h]) => {
       // ignore stale responses
-      if (commodity.value !== k || metric.value !== met) return;
-      const table = d?.[met as keyof CommodityData] as Ranked | undefined;
+      if (commodity.value !== k || metric.value !== met || year.value !== yr) return;
+      const latest = d?.[met as keyof CommodityData] as Ranked | undefined;
+      const table = latest ? tableAt(latest, h?.t[met], yr).table : undefined;
       if (!table || !table.rows?.length) {
         m.setLayoutProperty('choropleth', 'visibility', 'none');
         setCountryTooltipExtra(null);
@@ -97,7 +103,8 @@ registerLayerModule((m: MLMap) => {
       let hi = 0;
       for (const [c, r] of byC) {
         const share = r.v / world;
-        m.setFeatureState({ source: 'countries', id: c }, { v: share, col: color });
+        // every country with a value is coloured: a very small share still gets the faintest visible tint
+        m.setFeatureState({ source: 'countries', id: c }, { v: Math.max(share, MIN_TINT_SHARE), col: color });
         painted.push(c);
         if (share > 0) {
           lo = Math.min(lo, share);

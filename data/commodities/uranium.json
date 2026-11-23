@@ -133,6 +133,10 @@
     "c": "DEU",
     "v": 0.0267,
     "n": "18% of tonnage estimated from value"
+   },
+   {
+    "c": "NLD",
+    "v": 0.019
    }
   ],
   "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
@@ -192,6 +196,14 @@
    {
     "c": "SWE",
     "v": 0.022
+   },
+   {
+    "c": "BRA",
+    "v": 0.015
+   },
+   {
+    "c": "ZAF",
+    "v": 0.005
    }
   ],
   "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

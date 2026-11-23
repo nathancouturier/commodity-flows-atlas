@@ -8,7 +8,165 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Aluminum (LME) London Metal Exchange, unalloyed primary ingots, high grade, minimum 99.7% purity, settlement price.",
+"breaks": [
+{
+"at": "2005-01",
+"now": "Aluminum (LME) London Metal Exchange, unalloyed primary ingots, high grade, minimum 99.7% purity, settlement price",
+"before": "cash price"
+}
+],
+"annual": [
+[
+1960,
+1961
+],
+[
+1965,
+1967
+]
+],
+"stats": {
+"last": {
+"v": 3061.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -6.76,
+"q": -3.16,
+"ytd": 6.43,
+"y": 9.6
+},
+"rng": {
+"lo": 2819.0,
+"hi": 3666.0,
+"pos": 0.286
+}
+},
+"real": "aluminium-real-a"
+},
+{
+"id": "aluminium-real-a",
+"k": "aluminium",
+"name": "Aluminium, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "aluminium-m"
+},
+{
+"id": "usgs-alumina-import-a",
+"k": "bauxite",
+"name": "Alumina, US import unit value, annual average",
+"unit": "USD/t",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average unit value of imports, f.a.s., dollars per metric ton.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 590.0,
+"t": "2025"
+},
+"chg": {
+"y": 1.72
+}
+}
+},
+{
+"id": "usgs-bauxite-import-a",
+"k": "bauxite",
+"name": "Bauxite, US import unit value, annual average",
+"unit": "USD/t",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average unit value of imports, free alongside ship (f.a.s.), dollars per metric ton.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 32.0,
+"t": "2025"
+},
+"chg": {
+"y": 3.23
+}
+}
+},
+{
+"id": "usgs-cobalt-lme-a",
+"k": "cobalt",
+"name": "Cobalt, LME cash, annual average",
+"unit": "USD/lb",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per pound: London Metal Exchange (LME), cash.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 15.0,
+"t": "2025"
+},
+"chg": {
+"y": 26.69
+}
+}
+},
+{
+"id": "usgs-cobalt-spot-a",
+"k": "cobalt",
+"name": "Cobalt cathode, US spot, annual average",
+"unit": "USD/lb",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per pound: U.S. spot, cathode. Source: S&P Global Platts Metals Week. Cobalt cathode is refined cobalt metal produced by an electrolytic process.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 21.0,
+"t": "2025"
+},
+"chg": {
+"y": 25.22
+}
+}
 },
 {
 "id": "cocoa-m",
@@ -19,7 +177,116 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Cocoa (ICCO), International Cocoa Organization daily price, average of the first three positions on the terminal markets of New York and London, nearest three future trading months.",
+"annual": [
+[
+1970,
+1975
+]
+],
+"stats": {
+"last": {
+"v": 5.75,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.87,
+"q": 2.5,
+"ytd": -0.52,
+"y": -3.36
+},
+"rng": {
+"lo": 3.24,
+"hi": 5.95,
+"pos": 0.926
+}
+},
+"real": "cocoa-real-a"
+},
+{
+"id": "cocoa-real-a",
+"k": "cocoa",
+"name": "Cocoa, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "cocoa-m"
+},
+{
+"id": "coconut-oil-m",
+"k": "coconut-oil",
+"name": "Coconut oil",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "softs",
+"note": "Updated on November 03, 2026",
+"basis": "Coconut oil, CFR Europe.",
+"breaks": [
+{
+"at": "1999-01",
+"now": "crude, CIF NW Europe",
+"before": "bulk, c.i.f. Rotterdam",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "crude, CIF Rotterdam",
+"before": "crude, CIF NW Europe",
+"to": "2024-10"
+},
+{
+"at": "2024-11",
+"now": "(Philippines/Indonesia), bulk, CIF Rotterdam",
+"before": "crude, CIF Rotterdam"
+},
+{
+"at": "2025-01",
+"now": "Coconut oil, CFR Europe",
+"before": "(Philippines/Indonesia), bulk, CIF Rotterdam"
+}
+],
+"stats": {
+"last": {
+"v": 2029.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.41,
+"q": 5.46,
+"ytd": -12.66,
+"y": -20.34
+},
+"rng": {
+"lo": 1924.0,
+"hi": 2440.0,
+"pos": 0.203
+}
+},
+"real": "coconut-oil-real-a"
+},
+{
+"id": "coconut-oil-real-a",
+"k": "coconut-oil",
+"name": "Coconut oil, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"fam": "softs",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "coconut-oil-m"
 },
 {
 "id": "arabica-m",
@@ -30,7 +297,26 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Coffee, Arabica (ICO), International Coffee Organization indicator price, other mild Arabicas, average New York and Bremen/Hamburg markets, ex-dock.",
+"stats": {
+"last": {
+"v": 7.4,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.93,
+"q": -6.45,
+"ytd": -11.9,
+"y": -16.85
+},
+"rng": {
+"lo": 6.79,
+"hi": 9.05,
+"pos": 0.27
+}
+},
+"real": "arabica-real-a"
 },
 {
 "id": "robusta-m",
@@ -41,7 +327,54 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Coffee, Robusta (ICO), International Coffee Organization indicator price, Robustas, average New York and Le Havre/Marseilles markets, ex-dock.",
+"stats": {
+"last": {
+"v": 3.63,
+"t": "2026-10"
+},
+"chg": {
+"m": -1.63,
+"q": -10.81,
+"ytd": -13.57,
+"y": -23.42
+},
+"rng": {
+"lo": 3.63,
+"hi": 4.74,
+"pos": 0.0
+}
+},
+"real": "robusta-real-a"
+},
+{
+"id": "arabica-real-a",
+"k": "coffee",
+"name": "Coffee, Arabica, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "arabica-m"
+},
+{
+"id": "robusta-real-a",
+"k": "coffee",
+"name": "Coffee, Robusta, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "robusta-m"
 },
 {
 "id": "copper-m",
@@ -52,7 +385,40 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Copper (LME), grade A, minimum 99.9935% purity, cathodes and wire bar shapes, settlement price.",
+"stats": {
+"last": {
+"v": 14508.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.23,
+"q": 7.13,
+"ytd": 23.11,
+"y": 35.08
+},
+"rng": {
+"lo": 10812.0,
+"hi": 14508.0,
+"pos": 1.0
+}
+},
+"real": "copper-real-a"
+},
+{
+"id": "copper-real-a",
+"k": "copper",
+"name": "Copper, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "copper-m"
 },
 {
 "id": "maize-m",
@@ -63,7 +429,46 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Maize (U.S.), no. 2, yellow, f.o.b. US Gulf ports.",
+"annual": [
+[
+1970,
+1971
+]
+],
+"stats": {
+"last": {
+"v": 226.5,
+"t": "2026-10"
+},
+"chg": {
+"m": -5.47,
+"q": 6.14,
+"ytd": 10.11,
+"y": 14.34
+},
+"rng": {
+"lo": 197.1,
+"hi": 239.6,
+"pos": 0.692
+}
+},
+"real": "maize-real-a"
+},
+{
+"id": "maize-real-a",
+"k": "corn",
+"name": "Maize (US Gulf), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "maize-m"
 },
 {
 "id": "cotton-m",
@@ -74,7 +479,47 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Cotton (Cotton Outlook \"CotlookA index\"), middling 1-3/32 inch, traded in Far East, C/F.",
+"breaks": [
+{
+"at": "2006-01",
+"now": "Cotton (Cotton Outlook \"CotlookA index\"), middling 1-3/32 inch, traded in Far East, C/F",
+"before": "Northern Europe, c.i.f"
+}
+],
+"stats": {
+"last": {
+"v": 2.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -4.76,
+"q": 2.04,
+"ytd": 22.7,
+"y": 19.05
+},
+"rng": {
+"lo": 1.63,
+"hi": 2.11,
+"pos": 0.771
+}
+},
+"real": "cotton-real-a"
+},
+{
+"id": "cotton-real-a",
+"k": "cotton",
+"name": "Cotton, A Index, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "cotton-m"
 },
 {
 "id": "brent-d",
@@ -85,7 +530,27 @@
 "s": "eia-spot",
 "start": "1987-05-20",
 "end": "2026-11-17",
-"basis": "EIA daily spot (FOB North Sea)."
+"basis": "EIA series RBRTE: Europe Brent Spot Price FOB (Dollars per Barrel)",
+"stats": {
+"last": {
+"v": 92.94,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -22.12,
+"q": 0.55,
+"ytd": 51.49,
+"y": 47.15,
+"w": 3.08
+},
+"rng": {
+"lo": 59.93,
+"hi": 138.21,
+"pos": 0.422
+}
+},
+"monthly": "brent-m",
+"real": "brent-real-a"
 },
 {
 "id": "wti-d",
@@ -96,7 +561,27 @@
 "s": "eia-spot",
 "start": "1986-01-02",
 "end": "2026-11-17",
-"basis": "EIA daily spot at Cushing, Oklahoma."
+"basis": "EIA series RWTC: Cushing, OK WTI Spot Price FOB (Dollars per Barrel)",
+"stats": {
+"last": {
+"v": 89.53,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -17.26,
+"q": 4.06,
+"ytd": 56.36,
+"y": 47.59,
+"w": -0.1
+},
+"rng": {
+"lo": 55.44,
+"hi": 114.58,
+"pos": 0.576
+}
+},
+"monthly": "wti-m",
+"real": "wti-real-a"
 },
 {
 "id": "brent-m",
@@ -108,7 +593,31 @@
 "start": "1960-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "World Bank monthly average; before the mid-1980s a posted-price proxy, not a traded Brent benchmark."
+"basis": "Crude oil, UK Brent 38` API. Before the mid-1980s a posted-price proxy, not a traded Brent benchmark.",
+"annual": [
+[
+1960,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 125.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 7.02,
+"q": 49.88,
+"ytd": 99.36,
+"y": 93.2
+},
+"rng": {
+"lo": 62.7,
+"hi": 125.0,
+"pos": 1.0
+}
+},
+"real": "brent-real-a"
 },
 {
 "id": "dubai-m",
@@ -120,7 +629,38 @@
 "start": "1960-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "World Bank monthly average of Dubai Fateh spot."
+"basis": "Crude oil, Dubai Fateh 32` API.",
+"breaks": [
+{
+"at": "1985-01",
+"now": "Crude oil, Dubai Fateh 32` API",
+"before": "Saudi Arabian Light, 34` API"
+}
+],
+"annual": [
+[
+1960,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 102.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 10.08,
+"q": 33.9,
+"ytd": 65.65,
+"y": 59.72
+},
+"rng": {
+"lo": 62.0,
+"hi": 102.7,
+"pos": 1.0
+}
+},
+"real": "dubai-real-a"
 },
 {
 "id": "wti-m",
@@ -132,7 +672,182 @@
 "start": "1982-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "World Bank monthly average of WTI spot."
+"basis": "Crude oil, US, West Texas Intermediate (WTI) 40` API.",
+"stats": {
+"last": {
+"v": 97.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.83,
+"q": 23.05,
+"ytd": 68.74,
+"y": 62.29
+},
+"rng": {
+"lo": 57.9,
+"hi": 99.1,
+"pos": 0.966
+}
+},
+"real": "wti-real-a"
+},
+{
+"id": "crude-avg-m",
+"k": "crude-oil",
+"name": "Crude oil, average of Brent, Dubai and WTI",
+"unit": "USD/bbl",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Crude oil, average spot price of Brent, Dubai and West Texas Intermediate, equally weighed.",
+"annual": [
+[
+1960,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 108.5,
+"t": "2026-10"
+},
+"chg": {
+"m": 6.06,
+"q": 35.96,
+"ytd": 78.16,
+"y": 72.22
+},
+"rng": {
+"lo": 60.9,
+"hi": 108.5,
+"pos": 1.0
+}
+},
+"real": "crude-avg-real-a"
+},
+{
+"id": "brent-real-a",
+"k": "crude-oil",
+"name": "Brent crude, real",
+"unit": "USD/bbl (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "brent-m"
+},
+{
+"id": "crude-avg-real-a",
+"k": "crude-oil",
+"name": "Crude oil, average of Brent, Dubai and WTI, real",
+"unit": "USD/bbl (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "crude-avg-m"
+},
+{
+"id": "dubai-real-a",
+"k": "crude-oil",
+"name": "Dubai crude, real",
+"unit": "USD/bbl (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "dubai-m"
+},
+{
+"id": "wti-real-a",
+"k": "crude-oil",
+"name": "WTI crude, real",
+"unit": "USD/bbl (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1982",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "wti-m"
+},
+{
+"id": "fish-meal-m",
+"k": "fish-meal",
+"name": "Fish meal",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1979-01",
+"end": "2026-10",
+"fam": "softs",
+"note": "Updated on November 03, 2026",
+"basis": "Fish meal, Herring Fish Meal, 64% Protein, FOB North Germany.",
+"breaks": [
+{
+"at": "1999-01",
+"now": "German, 64% protein, EXW Hamburg",
+"before": "",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "German Fishmeal, Danish 64% Pro, FOB Bremen",
+"before": "German, 64% protein, EXW Hamburg",
+"to": "2026-06"
+},
+{
+"at": "2026-07",
+"now": "Fish meal, Herring Fish Meal, 64% Protein, FOB North Germany",
+"before": "German Fishmeal, Danish 64% Pro, FOB Bremen"
+}
+],
+"stats": {
+"last": {
+"v": 2840.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.61,
+"q": 35.05,
+"ytd": 55.62,
+"y": 60.54
+},
+"rng": {
+"lo": 1794.0,
+"hi": 2916.0,
+"pos": 0.932
+}
+},
+"real": "fish-meal-real-a"
+},
+{
+"id": "fish-meal-real-a",
+"k": "fish-meal",
+"name": "Fish meal, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1979",
+"end": "2025",
+"fam": "softs",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "fish-meal-m"
 },
 {
 "id": "freight-ppi-m",
@@ -143,7 +858,24 @@
 "s": "fred",
 "start": "1988-06",
 "end": "2026-10",
-"note": "Proxy for freight costs: Baltic Exchange indices are proprietary"
+"note": "Proxy for freight costs: Baltic Exchange indices are proprietary",
+"stats": {
+"last": {
+"v": 572.968,
+"t": "2026-10"
+},
+"chg": {
+"m": -0.08,
+"q": 9.94,
+"ytd": 37.96,
+"y": 36.2
+},
+"rng": {
+"lo": 402.725,
+"hi": 573.44,
+"pos": 0.997
+}
+}
 },
 {
 "id": "gold-m",
@@ -154,19 +886,742 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Gold, spot average of daily rates.",
+"breaks": [
+{
+"at": "2025-06",
+"now": "Gold, spot average of daily rates",
+"before": "(UK), 99.5% fine, London afternoon fixing, average of daily rates"
+}
+],
+"annual": [
+[
+1960,
+1967
+]
+],
+"stats": {
+"last": {
+"v": 4105.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -4.95,
+"q": 0.79,
+"ytd": -4.73,
+"y": 1.16
+},
+"rng": {
+"lo": 4073.0,
+"hi": 5020.0,
+"pos": 0.034
+}
+},
+"real": "gold-real-a"
+},
+{
+"id": "gold-real-a",
+"k": "gold",
+"name": "Gold, real",
+"unit": "USD/troy oz (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "gold-m"
+},
+{
+"id": "groundnut-oil-m",
+"k": "groundnut-oil",
+"name": "Groundnut oil",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "softs",
+"note": "Updated on November 03, 2026",
+"basis": "Peanut (Groundnut) oil, Indian Groundnut Oil, refined, EXW.",
+"breaks": [
+{
+"at": "1999-01",
+"now": "U.S. crude, FOB South-East",
+"before": "any origin, c.i.f. Rotterdam",
+"to": "2020-11"
+},
+{
+"at": "2020-12",
+"now": "Dutch Refined Groundnut Oil A/O, Ex Tank Rotterdam",
+"before": "U.S. crude, FOB South-East",
+"to": "2022-12"
+},
+{
+"at": "2023-01",
+"now": "refined, FOR Ports India",
+"before": "Dutch Refined Groundnut Oil A/O, Ex Tank Rotterdam",
+"to": "2024-10"
+},
+{
+"at": "2024-11",
+"now": "FOR Indian Ports",
+"before": "refined, FOR Ports India",
+"to": "2024-12"
+},
+{
+"at": "2025-01",
+"now": "Peanut (Groundnut) oil, Indian Groundnut Oil, refined, EXW",
+"before": "FOR Indian Ports"
+}
+],
+"stats": {
+"last": {
+"v": 1850.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -0.54,
+"q": 9.4,
+"ytd": 14.13,
+"y": 13.64
+},
+"rng": {
+"lo": 1621.0,
+"hi": 1906.0,
+"pos": 0.804
+}
+},
+"real": "groundnut-oil-real-a"
+},
+{
+"id": "groundnut-oil-real-a",
+"k": "groundnut-oil",
+"name": "Groundnut oil, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"fam": "softs",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "groundnut-oil-m"
+},
+{
+"id": "idx-agriculture-m",
+"k": "index",
+"name": "World Bank agriculture price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1982-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 97.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.83,
+"q": 23.05,
+"ytd": 68.74,
+"y": 62.29
+},
+"rng": {
+"lo": 57.9,
+"hi": 99.1,
+"pos": 0.966
+}
+}
+},
+{
+"id": "idx-base-metals-m",
+"k": "index",
+"name": "World Bank base metals price index (excluding iron ore)",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 3.75,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.54,
+"q": 4.75,
+"ytd": -5.06,
+"y": -4.82
+},
+"rng": {
+"lo": 3.5,
+"hi": 3.96,
+"pos": 0.543
+}
+}
+},
+{
+"id": "idx-beverages-m",
+"k": "index",
+"name": "World Bank beverages price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1970-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 152.3,
+"t": "2026-10"
+},
+"chg": {
+"m": 3.54,
+"q": 15.47,
+"ytd": 41.41,
+"y": 41.67
+},
+"rng": {
+"lo": 107.7,
+"hi": 152.3,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-energy-m",
+"k": "index",
+"name": "World Bank energy price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 125.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 7.02,
+"q": 49.88,
+"ytd": 99.36,
+"y": 93.2
+},
+"rng": {
+"lo": 62.7,
+"hi": 125.0,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-fertilizers-m",
+"k": "index",
+"name": "World Bank fertilizers price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 3.63,
+"t": "2026-10"
+},
+"chg": {
+"m": -1.63,
+"q": -10.81,
+"ytd": -13.57,
+"y": -23.42
+},
+"rng": {
+"lo": 3.63,
+"hi": 4.74,
+"pos": 0.0
+}
+}
+},
+{
+"id": "idx-food-m",
+"k": "index",
+"name": "World Bank food price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1984-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 100.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.83,
+"q": 3.84,
+"ytd": 10.01,
+"y": 9.17
+},
+"rng": {
+"lo": 90.6,
+"hi": 100.0,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-grains-m",
+"k": "index",
+"name": "World Bank grains price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 28.5,
+"t": "2026-10"
+},
+"chg": {
+"m": 12.12,
+"q": 57.81,
+"ytd": 200.63,
+"y": 161.71
+},
+"rng": {
+"lo": 9.48,
+"hi": 28.5,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-metals-m",
+"k": "index",
+"name": "World Bank metals and minerals price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 2.88,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.7,
+"q": -3.36,
+"ytd": 0.0,
+"y": -4.32
+},
+"rng": {
+"lo": 2.69,
+"hi": 3.0,
+"pos": 0.613
+}
+}
+},
+{
+"id": "idx-nonenergy-m",
+"k": "index",
+"name": "World Bank non-energy price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 102.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 10.08,
+"q": 33.9,
+"ytd": 65.65,
+"y": 59.72
+},
+"rng": {
+"lo": 62.0,
+"hi": 102.7,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-oils-meals-m",
+"k": "index",
+"name": "World Bank oils and meals price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 2.96,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.34,
+"q": 2.42,
+"ytd": -30.35,
+"y": -7.5
+},
+"rng": {
+"lo": 2.77,
+"hi": 7.58,
+"pos": 0.04
+}
+}
+},
+{
+"id": "idx-other-food-m",
+"k": "index",
+"name": "World Bank other food price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1977-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 16.59,
+"t": "2026-10"
+},
+"chg": {
+"m": 2.03,
+"q": 19.78,
+"ytd": 46.55,
+"y": 49.46
+},
+"rng": {
+"lo": 11.15,
+"hi": 16.59,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-other-raw-m",
+"k": "index",
+"name": "World Bank other raw materials price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 7.4,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.93,
+"q": -6.45,
+"ytd": -11.9,
+"y": -16.85
+},
+"rng": {
+"lo": 6.79,
+"hi": 9.05,
+"pos": 0.27
+}
+}
+},
+{
+"id": "idx-precious-m",
+"k": "index",
+"name": "World Bank precious metals price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 2.55,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.79,
+"q": -18.79,
+"ytd": 5.37,
+"y": -10.84
+},
+"rng": {
+"lo": 2.01,
+"hi": 3.14,
+"pos": 0.478
+}
+}
+},
+{
+"id": "idx-raw-materials-m",
+"k": "index",
+"name": "World Bank raw materials price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1977-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 182.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 8.94,
+"q": 40.21,
+"ytd": 75.0,
+"y": 86.24
+},
+"rng": {
+"lo": 103.1,
+"hi": 182.7,
+"pos": 1.0
+}
+}
+},
+{
+"id": "idx-timber-m",
+"k": "index",
+"name": "World Bank timber price index",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 5.75,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.87,
+"q": 2.5,
+"ytd": -0.52,
+"y": -3.36
+},
+"rng": {
+"lo": 3.24,
+"hi": 5.95,
+"pos": 0.926
+}
+}
+},
+{
+"id": "idx-total-m",
+"k": "index",
+"name": "World Bank commodity price index, total",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "World Bank Laspeyres price index, nominal US dollars, 2010 = 100 (sheet 'Monthly Indices'; weights in sheet 'Index Weights').",
+"stats": {
+"last": {
+"v": 108.5,
+"t": "2026-10"
+},
+"chg": {
+"m": 6.06,
+"q": 35.96,
+"ytd": 78.16,
+"y": 72.22
+},
+"rng": {
+"lo": 60.9,
+"hi": 108.5,
+"pos": 1.0
+}
+}
+},
+{
+"id": "ng-index-m",
+"k": "index",
+"name": "Natural gas price index (Europe, US, Japan LNG)",
+"unit": "index (2010 = 100)",
+"freq": "M",
+"s": "wb-pink",
+"start": "1977-01",
+"end": "2026-10",
+"fam": "index",
+"note": "Updated on November 03, 2026",
+"basis": "Natural gas index (Laspeyres), average of Europe, US and Japan (LNG), weights based on 5-year average consumption volumes, updated every 5 years, except the 11-year period.",
+"stats": {
+"last": {
+"v": 182.7,
+"t": "2026-10"
+},
+"chg": {
+"m": 8.94,
+"q": 40.21,
+"ytd": 75.0,
+"y": 86.24
+},
+"rng": {
+"lo": 103.1,
+"hi": 182.7,
+"pos": 1.0
+}
+}
+},
+{
+"id": "muv-a",
+"k": "index",
+"name": "Manufactures unit value index (MUV), the deflator of the real prices",
+"unit": "index (2010 = 100)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"fam": "index",
+"note": "Column 'MUV Index' of the sheet 'Annual Prices (Real)'. Updated on September 02, 2026",
+"basis": "Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"stats": {
+"last": {
+"v": 116.1,
+"t": "2025"
+},
+"chg": {
+"y": 0.87
+}
+}
 },
 {
 "id": "iron-ore-m",
 "k": "iron-ore",
 "name": "Iron ore, CFR China spot",
-"unit": "USD/dmtu",
+"unit": "USD/dry t",
 "freq": "M",
 "s": "wb-pink",
-"start": "1960-01",
+"start": "2006-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "China import, Iron Ore Fines 62% Fe, spot CFR; earlier years are Brazilian contract prices."
+"basis": "Iron ore (any origin) fines, spot price, c.f.r. China, 62% Fe.",
+"breaks": [
+{
+"at": "2008-12",
+"now": "Iron ore (any origin) fines, spot price, c.f.r. China, 62% Fe",
+"before": "63.5%"
+}
+],
+"stats": {
+"last": {
+"v": 90.8,
+"t": "2026-10"
+},
+"chg": {
+"m": -7.06,
+"q": -7.54,
+"ytd": -13.19,
+"y": -12.27
+},
+"rng": {
+"lo": 90.8,
+"hi": 108.6,
+"pos": 0.0
+}
+},
+"real": "iron-ore-real-a"
+},
+{
+"id": "iron-ore-contract-a",
+"k": "iron-ore",
+"name": "Iron ore, Brazil annual contract price",
+"unit": "US cents/dmtu",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2005",
+"note": "Updated on November 03, 2026",
+"basis": "Annual contract prices (Brazil for Europe,) VALE Carajas mines sinter feed, f.o.b. Ponta da Madeira (dmtu = dry metric ton unit, 1% Fe). One price a year: the Pink Sheet's monthly sheet repeats it over twelve months. The series ends where the CFR China spot series starts. May 1965 reads 15.3 in the source against 10.2 in the other months: the annual value is 10.2.",
+"breaks": [
+{
+"at": "1987-01",
+"now": "annual contract prices (Brazil for Europe,) VALE Carajas mines sinter feed, f.o.b. Ponta da Madeira",
+"before": "Itabira mines f.o.b. Tubar\u00e3o"
+}
+],
+"closed": true,
+"stats": {
+"last": {
+"v": 65.0,
+"t": "2005"
+},
+"chg": {
+"y": 71.5
+}
+}
+},
+{
+"id": "iron-ore-real-a",
+"k": "iron-ore",
+"name": "Iron ore, CFR China spot, real",
+"unit": "USD/dry t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "2006",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "iron-ore-m"
 },
 {
 "id": "lead-m",
@@ -177,7 +1632,67 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Lead (LME), refined, 99.97% purity, settlement price.",
+"stats": {
+"last": {
+"v": 1860.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -0.69,
+"q": 0.98,
+"ytd": -4.12,
+"y": -5.49
+},
+"rng": {
+"lo": 1842.0,
+"hi": 1998.0,
+"pos": 0.115
+}
+},
+"real": "lead-real-a"
+},
+{
+"id": "lead-real-a",
+"k": "lead",
+"name": "Lead, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "lead-m"
+},
+{
+"id": "usgs-lithium-carbonate-a",
+"k": "lithium",
+"name": "Lithium carbonate, battery grade, annual average",
+"unit": "USD/t",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, annual average-real, battery-grade lithium carbonate, dollars per metric ton. Lithium carbonate price assessments for spot and long-term contracts. Source: Benchmark Mineral Intelligence Ltd.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 9000.0,
+"t": "2025"
+},
+"chg": {
+"y": -23.73
+}
+}
 },
 {
 "id": "lng-japan-m",
@@ -189,7 +1704,51 @@
 "start": "1977-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "Japan average LNG import price (mostly oil-indexed contracts), not a spot price."
+"basis": "Liquefied natural gas (Japan), LNG, import price, cif. Mostly oil-indexed contracts, not a spot price.",
+"annual": [
+[
+1977,
+1991
+]
+],
+"est": [
+[
+"2026-09",
+"2026-10"
+]
+],
+"stats": {
+"last": {
+"v": 16.59,
+"t": "2026-10"
+},
+"chg": {
+"m": 2.03,
+"q": 19.78,
+"ytd": 46.55,
+"y": 49.46
+},
+"rng": {
+"lo": 11.15,
+"hi": 16.59,
+"pos": 1.0
+}
+},
+"real": "lng-japan-real-a"
+},
+{
+"id": "lng-japan-real-a",
+"k": "lng",
+"name": "LNG, Japan import price, real",
+"unit": "USD/MMBtu (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1977",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "lng-japan-m"
 },
 {
 "id": "propane-mb-d",
@@ -199,7 +1758,53 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1992-07-09",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA series EER_EPLLPA_PF4_Y44MB_DPG: Mont Belvieu, TX Propane Spot Price FOB (Dollars per Gallon)",
+"stats": {
+"last": {
+"v": 1.019,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -8.45,
+"q": 45.99,
+"ytd": 67.05,
+"y": 69.55,
+"w": -4.86
+},
+"rng": {
+"lo": 0.583,
+"hi": 1.285,
+"pos": 0.621
+}
+}
+},
+{
+"id": "usgs-manganese-ore-a",
+"k": "manganese",
+"name": "Manganese ore, CIF China, annual average",
+"unit": "USD/mtu",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, manganese content, cost, insurance, and freight, China, dollars per metric ton unit. Manganese content typically ranges from 35% to 54% for manganese ore and from 74% to 95% for ferromanganese. For average metallurgical-grade ore containing 44% manganese. Source: CRU Group.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 4.5,
+"t": "2025"
+},
+"chg": {
+"y": -18.63
+}
+}
 },
 {
 "id": "hh-d",
@@ -210,7 +1815,27 @@
 "s": "eia-spot",
 "start": "1997-01-07",
 "end": "2026-11-17",
-"basis": "EIA daily spot at Henry Hub, Louisiana."
+"basis": "EIA series RNGWHHD: Henry Hub Natural Gas Spot Price (Dollars per Million Btu)",
+"stats": {
+"last": {
+"v": 3.1,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -3.73,
+"q": 11.91,
+"ytd": -22.5,
+"y": -16.44,
+"w": 3.33
+},
+"rng": {
+"lo": 2.42,
+"hi": 30.72,
+"pos": 0.024
+}
+},
+"monthly": "hh-m",
+"real": "hh-real-a"
 },
 {
 "id": "hh-m",
@@ -222,7 +1847,31 @@
 "start": "1960-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "World Bank monthly average of Henry Hub spot."
+"basis": "Natural Gas (U.S.), spot price at Henry Hub, Louisiana.",
+"annual": [
+[
+1960,
+1975
+]
+],
+"stats": {
+"last": {
+"v": 2.96,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.34,
+"q": 2.42,
+"ytd": -30.35,
+"y": -7.5
+},
+"rng": {
+"lo": 2.77,
+"hi": 7.58,
+"pos": 0.04
+}
+},
+"real": "hh-real-a"
 },
 {
 "id": "ttf-m",
@@ -234,7 +1883,78 @@
 "start": "1960-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "World Bank series: historically an average import border price; based on the Dutch TTF hub in recent years."
+"basis": "Natural Gas (Europe), Netherlands Title Transfer Facility (TTF).",
+"breaks": [
+{
+"at": "2000-06",
+"now": "prices excludes UK",
+"before": "",
+"to": "2010-03"
+},
+{
+"at": "2010-04",
+"now": "average import border price and a spot price component, including UK",
+"before": "prices excludes UK",
+"to": "2015-03"
+},
+{
+"at": "2015-04",
+"now": "Natural Gas (Europe), Netherlands Title Transfer Facility (TTF)",
+"before": "average import border price and a spot price component, including UK"
+}
+],
+"annual": [
+[
+1960,
+1990
+]
+],
+"stats": {
+"last": {
+"v": 28.5,
+"t": "2026-10"
+},
+"chg": {
+"m": 12.12,
+"q": 57.81,
+"ytd": 200.63,
+"y": 161.71
+},
+"rng": {
+"lo": 9.48,
+"hi": 28.5,
+"pos": 1.0
+}
+},
+"real": "ttf-real-a"
+},
+{
+"id": "hh-real-a",
+"k": "natural-gas",
+"name": "Natural gas, US (Henry Hub), real",
+"unit": "USD/MMBtu (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "hh-m"
+},
+{
+"id": "ttf-real-a",
+"k": "natural-gas",
+"name": "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years), real",
+"unit": "USD/MMBtu (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "ttf-m"
 },
 {
 "id": "nickel-m",
@@ -245,7 +1965,122 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Nickel (LME), cathodes, minimum 99.8% purity, settlement price.",
+"breaks": [
+{
+"at": "2005-01",
+"now": "Nickel (LME), cathodes, minimum 99.8% purity, settlement price",
+"before": "cash price"
+}
+],
+"annual": [
+[
+1960,
+1962
+],
+[
+1965,
+1973
+]
+],
+"stats": {
+"last": {
+"v": 15436.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -5.44,
+"q": -7.3,
+"ytd": 3.71,
+"y": 2.28
+},
+"rng": {
+"lo": 14671.0,
+"hi": 18806.0,
+"pos": 0.185
+}
+},
+"real": "nickel-real-a"
+},
+{
+"id": "nickel-real-a",
+"k": "nickel",
+"name": "Nickel, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "nickel-m"
+},
+{
+"id": "palm-kernel-oil-m",
+"k": "palm-kernel-oil",
+"name": "Palm kernel oil",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1996-01",
+"end": "2026-10",
+"fam": "softs",
+"note": "Updated on November 03, 2026",
+"basis": "Palmkernel oil (Malaysia), CIF Rotterdam.",
+"breaks": [
+{
+"at": "2001-08",
+"now": "crude, CIF NW Europe",
+"before": "Malaysian, nearest forward",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "(Malaysia/Indonesia), crude CIF Rotterdam",
+"before": "crude, CIF NW Europe",
+"to": "2024-10"
+},
+{
+"at": "2024-11",
+"now": "Palmkernel oil (Malaysia), CIF Rotterdam",
+"before": "(Malaysia/Indonesia), crude CIF Rotterdam"
+}
+],
+"stats": {
+"last": {
+"v": 2287.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.89,
+"q": -5.22,
+"ytd": 14.75,
+"y": 0.62
+},
+"rng": {
+"lo": 1993.0,
+"hi": 2606.0,
+"pos": 0.48
+}
+},
+"real": "palm-kernel-oil-real-a"
+},
+{
+"id": "palm-kernel-oil-real-a",
+"k": "palm-kernel-oil",
+"name": "Palm kernel oil, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1996",
+"end": "2025",
+"fam": "softs",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "palm-kernel-oil-m"
 },
 {
 "id": "palm-oil-m",
@@ -256,7 +2091,71 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Palm oil (Malaysia), RBD, average export price FOB.",
+"breaks": [
+{
+"at": "2001-12",
+"now": "RBD, CIF Rotterdam",
+"before": "Malaysia 5%, c.i.f. N.W. Europe, bulk, nearest forward",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "RBD, FOB Malaysia Ports",
+"before": "RBD, CIF Rotterdam",
+"to": "2024-10"
+},
+{
+"at": "2024-11",
+"now": "5% Bulk, CIF North West Europe",
+"before": "RBD, FOB Malaysia Ports",
+"to": "2025-01"
+},
+{
+"at": "2025-02",
+"now": "Crude, DAP",
+"before": "5% Bulk, CIF North West Europe",
+"to": "2025-12"
+},
+{
+"at": "2026-01",
+"now": "Palm oil (Malaysia), RBD, average export price FOB",
+"before": "Crude, DAP"
+}
+],
+"stats": {
+"last": {
+"v": 1120.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -5.08,
+"q": -1.15,
+"ytd": 14.29,
+"y": 7.9
+},
+"rng": {
+"lo": 980.0,
+"hi": 1181.0,
+"pos": 0.697
+}
+},
+"real": "palm-oil-real-a"
+},
+{
+"id": "palm-oil-real-a",
+"k": "palm-oil",
+"name": "Palm oil, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "palm-oil-m"
 },
 {
 "id": "platinum-m",
@@ -267,7 +2166,111 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Platinum, 99.95% minimum purity, plate or ingot form, spot average of daily rates.",
+"breaks": [
+{
+"at": "2025-06",
+"now": "Platinum, 99.95% minimum purity, plate or ingot form, spot average of daily rates",
+"before": "(UK), 99.9% refined, London afternoon fixing"
+}
+],
+"annual": [
+[
+1960,
+1962
+],
+[
+1970,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 1621.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -9.14,
+"q": -0.06,
+"ytd": -14.37,
+"y": 0.31
+},
+"rng": {
+"lo": 1565.0,
+"hi": 2434.0,
+"pos": 0.064
+}
+},
+"real": "platinum-real-a"
+},
+{
+"id": "platinum-real-a",
+"k": "pgm",
+"name": "Platinum, real",
+"unit": "USD/troy oz (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "platinum-m"
+},
+{
+"id": "usgs-palladium-a",
+"k": "pgm",
+"name": "Palladium, annual average",
+"unit": "USD/troy oz",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, dollars per troy ounce: Palladium. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 1100.0,
+"t": "2025"
+},
+"chg": {
+"y": 10.56
+}
+}
+},
+{
+"id": "usgs-rhodium-a",
+"k": "pgm",
+"name": "Rhodium, annual average",
+"unit": "USD/troy oz",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, dollars per troy ounce: Rhodium. Engelhard unfabricated metal average annual prices. Source: S&P Global Platts Metals Week.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 5800.0,
+"t": "2025"
+},
+"chg": {
+"y": 24.45
+}
+}
 },
 {
 "id": "dap-m",
@@ -278,7 +2281,32 @@
 "s": "wb-pink",
 "start": "1967-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "DAP (diammonium phosphate), spot, f.o.b. US Gulf.",
+"annual": [
+[
+1967,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 803.1,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.31,
+"q": 2.79,
+"ytd": 27.98,
+"y": 6.51
+},
+"rng": {
+"lo": 619.2,
+"hi": 803.1,
+"pos": 1.0
+}
+},
+"real": "dap-real-a"
 },
 {
 "id": "phosrock-m",
@@ -289,7 +2317,134 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Phosphate rock , f.o.b. North Africa.",
+"annual": [
+[
+1960,
+1973
+],
+[
+1985,
+1986
+],
+[
+1989,
+1989
+],
+[
+1991,
+1993
+],
+[
+1997,
+1998
+],
+[
+2000,
+2006
+],
+[
+2024,
+2025
+]
+],
+"stats": {
+"last": {
+"v": 170.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.0,
+"q": 0.0,
+"ytd": 11.48,
+"y": 11.48
+},
+"rng": {
+"lo": 152.5,
+"hi": 170.0,
+"pos": 1.0
+}
+},
+"real": "phosrock-real-a"
+},
+{
+"id": "tsp-m",
+"k": "phosphate",
+"name": "TSP (triple superphosphate)",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "TSP (triple superphosphate), spot, import US Gulf.",
+"annual": [
+[
+1960,
+1966
+]
+],
+"stats": {
+"last": {
+"v": 692.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 0.29,
+"q": -3.82,
+"ytd": 28.51,
+"y": 5.09
+},
+"rng": {
+"lo": 529.2,
+"hi": 735.6,
+"pos": 0.789
+}
+},
+"real": "tsp-real-a"
+},
+{
+"id": "dap-real-a",
+"k": "phosphate",
+"name": "DAP, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "dap-m"
+},
+{
+"id": "phosrock-real-a",
+"k": "phosphate",
+"name": "Phosphate rock, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "phosrock-m"
+},
+{
+"id": "tsp-real-a",
+"k": "phosphate",
+"name": "TSP (triple superphosphate), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "tsp-m"
 },
 {
 "id": "potash-m",
@@ -300,7 +2455,69 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Potassium chloride (muriate of potash), Brazil CFR granular spot price.",
+"breaks": [
+{
+"at": "2020-01",
+"now": "Potassium chloride (muriate of potash), Brazil CFR granular spot price",
+"before": "f.o.b. Vancouver"
+}
+],
+"annual": [
+[
+1960,
+1973
+],
+[
+1980,
+1980
+],
+[
+1994,
+2003
+],
+[
+2013,
+2013
+],
+[
+2018,
+2018
+]
+],
+"stats": {
+"last": {
+"v": 357.5,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.72,
+"q": -9.84,
+"ytd": -0.22,
+"y": 1.56
+},
+"rng": {
+"lo": 353.8,
+"hi": 405.0,
+"pos": 0.072
+}
+},
+"real": "potash-real-a"
+},
+{
+"id": "potash-real-a",
+"k": "potash",
+"name": "Potassium chloride (potash), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "potash-m"
 },
 {
 "id": "rapeseed-oil-m",
@@ -311,7 +2528,187 @@
 "s": "wb-pink",
 "start": "2002-02",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Rapeseed Oil, Dutch rapeseed oil, FOB Rotterdam.",
+"stats": {
+"last": {
+"v": 1405.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.57,
+"q": -5.58,
+"ytd": 11.69,
+"y": 11.16
+},
+"rng": {
+"lo": 1223.0,
+"hi": 1522.0,
+"pos": 0.609
+}
+}
+},
+{
+"id": "usgs-dy-oxide-a",
+"k": "rare-earths",
+"name": "Dysprosium oxide, annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Dysprosium oxide, 99.5% minimum. Free on board. Sources: Argus Media group, Argus Non-Ferrous Markets and Asian Metal Ltd.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 239.0,
+"t": "2025"
+},
+"chg": {
+"y": -7.0
+}
+}
+},
+{
+"id": "usgs-mischmetal-a",
+"k": "rare-earths",
+"name": "Mischmetal (65% Ce, 35% La), annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Mischmetal, 65% cerium, 35% lanthanum. Free on board. Source: Argus Media group, Argus Non-Ferrous Markets.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 5.62,
+"t": "2025"
+},
+"chg": {
+"y": 3.12
+}
+}
+},
+{
+"id": "usgs-nd-oxide-a",
+"k": "rare-earths",
+"name": "Neodymium oxide, annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Neodymium oxide, 99.5% minimum. Free on board. Source: Argus Media group, Argus Non-Ferrous Markets.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 73.0,
+"t": "2025"
+},
+"chg": {
+"y": 30.36
+}
+}
+},
+{
+"id": "usgs-ndpr-oxide-a",
+"k": "rare-earths",
+"name": "NdPr oxide, annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Neodymium-praseodymium (NdPr) oxide, 99% minimum. Free on board. Source: Argus Media group, Argus Non-Ferrous Markets.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 69.0,
+"t": "2025"
+},
+"chg": {
+"y": 25.45
+}
+}
+},
+{
+"id": "usgs-pr-oxide-a",
+"k": "rare-earths",
+"name": "Praseodymium oxide, annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Praseodymium oxide, 99.99% minimum. Free on board. Source: Argus Media group, Argus Non-Ferrous Markets.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 74.0,
+"t": "2025"
+},
+"chg": {
+"y": 32.14
+}
+}
+},
+{
+"id": "usgs-tb-oxide-a",
+"k": "rare-earths",
+"name": "Terbium oxide, annual average",
+"unit": "USD/kg",
+"freq": "A",
+"s": "usgs-mcs",
+"start": "2021",
+"end": "2025",
+"note": "USGS Mineral Commodity Summaries 2026, Salient Statistics, statistic 'Price'",
+"basis": "Price, average, dollars per kilogram: Terbium oxide, 99.99% minimum. Free on board. Sources: Argus Media group, Argus Non-Ferrous Markets and Asian Metal Ltd.",
+"est": [
+[
+"2025-01",
+"2025-12"
+]
+],
+"stats": {
+"last": {
+"v": 1010.0,
+"t": "2025"
+},
+"chg": {
+"y": 24.38
+}
+}
 },
 {
 "id": "nyh-gasoline-d",
@@ -321,7 +2718,26 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1986-06-02",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA series EER_EPMRU_PF4_Y35NY_DPG: New York Harbor Conventional Gasoline Regular Spot Price FOB (Dollars per Gallon)",
+"stats": {
+"last": {
+"v": 2.328,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -21.56,
+"q": -29.96,
+"ytd": 33.26,
+"y": 16.93,
+"w": -3.6
+},
+"rng": {
+"lo": 1.689,
+"hi": 3.843,
+"pos": 0.297
+}
+}
 },
 {
 "id": "nyh-heatingoil-d",
@@ -331,7 +2747,26 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1986-06-02",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA series EER_EPD2F_PF4_Y35NY_DPG: New York Harbor No. 2 Heating Oil Spot Price FOB (Dollars per Gallon)",
+"stats": {
+"last": {
+"v": 3.96,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -17.57,
+"q": -9.01,
+"ytd": 97.41,
+"y": 62.1,
+"w": -2.61
+},
+"rng": {
+"lo": 1.944,
+"hi": 5.163,
+"pos": 0.626
+}
+}
 },
 {
 "id": "nyh-ulsd-d",
@@ -341,7 +2776,26 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "2006-06-14",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA series EER_EPD2DXL0_PF4_Y35NY_DPG: New York Harbor Ultra-Low Sulfur No 2 Diesel Spot Price (Dollars per Gallon)",
+"stats": {
+"last": {
+"v": 4.093,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -19.78,
+"q": -9.69,
+"ytd": 90.02,
+"y": 57.97,
+"w": -2.64
+},
+"rng": {
+"lo": 2.091,
+"hi": 5.365,
+"pos": 0.611
+}
+}
 },
 {
 "id": "usgc-jet-d",
@@ -351,7 +2805,26 @@
 "freq": "D",
 "s": "eia-spot",
 "start": "1990-04-02",
-"end": "2026-11-17"
+"end": "2026-11-17",
+"basis": "EIA series EER_EPJK_PF4_RGC_DPG: U.S. Gulf Coast Kerosene-Type Jet Fuel Spot Price FOB (Dollars per Gallon)",
+"stats": {
+"last": {
+"v": 3.763,
+"t": "2026-11-17"
+},
+"chg": {
+"m": -16.67,
+"q": -3.81,
+"ytd": 96.91,
+"y": 60.06,
+"w": -5.52
+},
+"rng": {
+"lo": 1.821,
+"hi": 4.705,
+"pos": 0.673
+}
+}
 },
 {
 "id": "rice-thai-m",
@@ -362,7 +2835,179 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Rice (Thailand), 5% broken, white rice (WR), milled, indicative price based on weekly surveys of export transactions, government standard, f.o.b. Bangkok.",
+"stats": {
+"last": {
+"v": 489.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.45,
+"q": 4.71,
+"ytd": 15.33,
+"y": 37.36
+},
+"rng": {
+"lo": 368.0,
+"hi": 494.0,
+"pos": 0.96
+}
+},
+"real": "rice-thai-real-a"
+},
+{
+"id": "rice-thai-a1-m",
+"k": "rice",
+"name": "Rice, Thai 100% broken (A.1)",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1986-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Rice (Thailand), 100% broken, A.1 Super, government standard, f.o.b. Bangkok.",
+"breaks": [
+{
+"at": "2006-01",
+"now": "Rice (Thailand), 100% broken, A.1 Super, government standard, f.o.b. Bangkok",
+"before": "A1 Special, a slightly lower grade than A1 Super"
+}
+],
+"stats": {
+"last": {
+"v": 467.4,
+"t": "2026-10"
+},
+"chg": {
+"m": -1.23,
+"q": 2.79,
+"ytd": 20.03,
+"y": 39.15
+},
+"rng": {
+"lo": 338.5,
+"hi": 473.2,
+"pos": 0.957
+}
+},
+"real": "rice-thai-a1-real-a"
+},
+{
+"id": "rice-thai25-m",
+"k": "rice",
+"name": "Rice, Thai 25%",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "1986-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Rice (Thailand), 25% broken, WR, milled indicative survey price, government standard, f.o.b. Bangkok.",
+"stats": {
+"last": {
+"v": 472.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 2.39,
+"q": 4.19,
+"ytd": 14.01,
+"y": 34.47
+},
+"rng": {
+"lo": 362.0,
+"hi": 479.0,
+"pos": 0.94
+}
+},
+"real": "rice-thai25-real-a"
+},
+{
+"id": "rice-viet-m",
+"k": "rice",
+"name": "Rice, Vietnamese 5%",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "2003-12",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Rice (Vietnam), 5% broken, WR, milled, weekly indicative survey price, Minimum Export Price, f.o.b. Hanoi.",
+"stats": {
+"last": {
+"v": 413.9,
+"t": "2026-10"
+},
+"chg": {
+"m": -1.1,
+"q": 4.49,
+"ytd": 17.62,
+"y": 13.21
+},
+"rng": {
+"lo": 345.8,
+"hi": 418.5,
+"pos": 0.937
+}
+},
+"real": "rice-viet-real-a"
+},
+{
+"id": "rice-thai-a1-real-a",
+"k": "rice",
+"name": "Rice, Thai 100% broken (A.1), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1986",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "rice-thai-a1-m"
+},
+{
+"id": "rice-thai-real-a",
+"k": "rice",
+"name": "Rice, Thai 5%, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "rice-thai-m"
+},
+{
+"id": "rice-thai25-real-a",
+"k": "rice",
+"name": "Rice, Thai 25%, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1986",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "rice-thai25-m"
+},
+{
+"id": "rice-viet-real-a",
+"k": "rice",
+"name": "Rice, Vietnamese 5%, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "2004",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "rice-viet-m"
 },
 {
 "id": "silver-m",
@@ -373,7 +3018,62 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Silver (UK), 99.9% refined, London afternoon fixing.",
+"breaks": [
+{
+"at": "1962-01",
+"now": "Silver (UK), 99.9% refined, London afternoon fixing",
+"before": "unrefined silver"
+},
+{
+"at": "1976-07",
+"now": "Silver (UK), 99.9% refined, London afternoon fixing",
+"before": "Handy & Harman"
+}
+],
+"annual": [
+[
+1960,
+1960
+],
+[
+1964,
+1966
+]
+],
+"stats": {
+"last": {
+"v": 57.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -11.76,
+"q": -3.06,
+"ytd": -8.51,
+"y": 15.38
+},
+"rng": {
+"lo": 50.4,
+"hi": 92.1,
+"pos": 0.158
+}
+},
+"real": "silver-real-a"
+},
+{
+"id": "silver-real-a",
+"k": "silver",
+"name": "Silver, real",
+"unit": "USD/troy oz (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "silver-m"
 },
 {
 "id": "soybeans-m",
@@ -384,7 +3084,59 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Soybeans, U.S. Soybeans, FOB U.S. Gulf.",
+"breaks": [
+{
+"at": "2007-12",
+"now": "U.S. No. 2 yellow meal, CIF Rotterdam",
+"before": "US origin, nearest forward",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "U.S Gulf Yellow Soybean #2, CIF Rotterdam",
+"before": "U.S. No. 2 yellow meal, CIF Rotterdam",
+"to": "2024-12"
+},
+{
+"at": "2025-01",
+"now": "Soybeans, U.S. Soybeans, FOB U.S. Gulf",
+"before": "U.S Gulf Yellow Soybean #2, CIF Rotterdam"
+}
+],
+"stats": {
+"last": {
+"v": 515.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -1.72,
+"q": 7.74,
+"ytd": 17.05,
+"y": 27.48
+},
+"rng": {
+"lo": 425.0,
+"hi": 524.0,
+"pos": 0.909
+}
+},
+"real": "soybeans-real-a"
+},
+{
+"id": "soybeans-real-a",
+"k": "soybeans",
+"name": "Soybeans, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "soybeans-m"
 },
 {
 "id": "soymeal-m",
@@ -395,7 +3147,65 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Soybean meal, U.S. Soymeal, 48% protein, average weekly price, FOB Rotterdam.",
+"breaks": [
+{
+"at": "1990-01",
+"now": "45/46% c.i.f. Rotterdam, nearest forward",
+"before": "US origin 44%",
+"to": "1998-12"
+},
+{
+"at": "1999-01",
+"now": "Brazilian pellets 48% protein, CIF Rotterdam",
+"before": "45/46% c.i.f. Rotterdam, nearest forward",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "Soybean Pellets 48% Pro, Brazil, CIF Rotterdam",
+"before": "Brazilian pellets 48% protein, CIF Rotterdam",
+"to": "2024-12"
+},
+{
+"at": "2025-01",
+"now": "Soybean meal, U.S. Soymeal, 48% protein, average weekly price, FOB Rotterdam",
+"before": "Soybean Pellets 48% Pro, Brazil, CIF Rotterdam"
+}
+],
+"stats": {
+"last": {
+"v": 453.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.34,
+"q": 10.49,
+"ytd": 13.53,
+"y": 27.25
+},
+"rng": {
+"lo": 386.0,
+"hi": 453.0,
+"pos": 1.0
+}
+},
+"real": "soymeal-real-a"
+},
+{
+"id": "soymeal-real-a",
+"k": "soymeal",
+"name": "Soybean meal, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "soymeal-m"
 },
 {
 "id": "soyoil-m",
@@ -406,7 +3216,59 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Soybean oil, U.S. Soybean Oil, Crude Degummed, FOB U.S. Gulf.",
+"breaks": [
+{
+"at": "1999-01",
+"now": "Dutch crude degummed, FOB NW Europe",
+"before": "crude, f.o.b. ex-mill Netherlands, nearest forward",
+"to": "2020-12"
+},
+{
+"at": "2021-01",
+"now": "Dutch Soyoil Crude Degummed, EXW Dutch Mills",
+"before": "Dutch crude degummed, FOB NW Europe",
+"to": "2024-12"
+},
+{
+"at": "2025-01",
+"now": "Soybean oil, U.S. Soybean Oil, Crude Degummed, FOB U.S. Gulf",
+"before": "Dutch Soyoil Crude Degummed, EXW Dutch Mills"
+}
+],
+"stats": {
+"last": {
+"v": 1546.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -4.27,
+"q": -6.76,
+"ytd": 38.53,
+"y": 36.57
+},
+"rng": {
+"lo": 1116.0,
+"hi": 1781.0,
+"pos": 0.647
+}
+},
+"real": "soyoil-real-a"
+},
+{
+"id": "soyoil-real-a",
+"k": "soyoil",
+"name": "Soybean oil, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "soyoil-m"
 },
 {
 "id": "sugar-m",
@@ -417,7 +3279,193 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Sugar (World), International Sugar Agreement (ISA) daily price, raw, f.o.b. and stowed at greater Caribbean ports.",
+"stats": {
+"last": {
+"v": 0.43,
+"t": "2026-10"
+},
+"chg": {
+"m": 4.88,
+"q": 26.47,
+"ytd": 34.38,
+"y": 26.47
+},
+"rng": {
+"lo": 0.31,
+"hi": 0.43,
+"pos": 1.0
+}
+},
+"real": "sugar-real-a"
+},
+{
+"id": "sugar-eu-m",
+"k": "sugar",
+"name": "Sugar, EU import price",
+"unit": "USD/kg",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Sugar (EU), European Union negotiated import price for raw unpackaged sugar from African, Caribbean and Pacific (ACP) under Lome Conventions, c.I.f. European ports.",
+"annual": [
+[
+1960,
+1963
+],
+[
+1965,
+1970
+]
+],
+"stats": {
+"last": {
+"v": 0.37,
+"t": "2026-10"
+},
+"chg": {
+"m": -2.63,
+"q": 0.0,
+"ytd": -2.63,
+"y": -2.63
+},
+"rng": {
+"lo": 0.37,
+"hi": 0.39,
+"pos": 0.0
+}
+},
+"real": "sugar-eu-real-a"
+},
+{
+"id": "sugar-us-m",
+"k": "sugar",
+"name": "Sugar, US",
+"unit": "USD/kg",
+"freq": "M",
+"s": "wb-pink",
+"start": "1960-01",
+"end": "2026-10",
+"note": "Updated on November 03, 2026",
+"basis": "Sugar (U.S.), nearby futures contract, c.i.f.",
+"annual": [
+[
+1962,
+1962
+]
+],
+"stats": {
+"last": {
+"v": 0.92,
+"t": "2026-10"
+},
+"chg": {
+"m": 8.24,
+"q": 16.46,
+"ytd": 26.03,
+"y": 19.48
+},
+"rng": {
+"lo": 0.7,
+"hi": 0.92,
+"pos": 1.0
+}
+},
+"real": "sugar-us-real-a"
+},
+{
+"id": "sugar-eu-real-a",
+"k": "sugar",
+"name": "Sugar, EU import price, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "sugar-eu-m"
+},
+{
+"id": "sugar-real-a",
+"k": "sugar",
+"name": "Sugar, world, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "sugar-m"
+},
+{
+"id": "sugar-us-real-a",
+"k": "sugar",
+"name": "Sugar, US, real",
+"unit": "USD/kg (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "sugar-us-m"
+},
+{
+"id": "sunflower-oil-m",
+"k": "sunflower-oil",
+"name": "Sunflower oil",
+"unit": "USD/t",
+"freq": "M",
+"s": "wb-pink",
+"start": "2002-02",
+"end": "2026-10",
+"fam": "softs",
+"note": "Updated on November 03, 2026",
+"basis": "Sunflower oil, EU, Cash, FOB Rotterdam.",
+"breaks": [
+{
+"at": "2011-02",
+"now": "European crude, f.o.b. Rotterdam",
+"before": "EU f.o.b NW Europe ports",
+"to": "2020-08"
+},
+{
+"at": "2020-09",
+"now": "Dutch Sunseed Oil, crude, f.o.b. Rotterdam",
+"before": "European crude, f.o.b. Rotterdam",
+"to": "2024-10"
+},
+{
+"at": "2024-11",
+"now": "Sunflower oil, EU, Cash, FOB Rotterdam",
+"before": "Dutch Sunseed Oil, crude, f.o.b. Rotterdam"
+}
+],
+"stats": {
+"last": {
+"v": 1413.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.44,
+"q": -5.61,
+"ytd": 4.51,
+"y": 3.67
+},
+"rng": {
+"lo": 1352.0,
+"hi": 1508.0,
+"pos": 0.391
+}
+}
 },
 {
 "id": "coal-aus-m",
@@ -429,7 +3477,58 @@
 "start": "1970-01",
 "end": "2026-10",
 "note": "Updated on November 03, 2026",
-"basis": "Newcastle, 6,000 kcal/kg NAR, FOB."
+"basis": "Coal (Australia), port thermal, f.o.b. Newcastle, 6000 kcal/kg futures price.",
+"breaks": [
+{
+"at": "2002-01",
+"now": "thermal GAR, f.o.b. piers, Newcastle/Port Kembla, 6,300 kcal/kg (11,340 btu/lb), less than 0.8%, sulfur 13% ash",
+"before": "6,667 kcal/kg (12,000 btu/lb), less than 1.0% sulfur, 14% ash",
+"to": "2014-12"
+},
+{
+"at": "2015-01",
+"now": "port thermal, f.o.b. Newcastle, 6000 kcal/kg spot price",
+"before": "thermal GAR, f.o.b. piers, Newcastle/Port Kembla, 6,300 kcal/kg (11,340 btu/lb), less than 0.8%, sulfur 13% ash",
+"to": "2022-01"
+},
+{
+"at": "2022-02",
+"now": "Coal (Australia), port thermal, f.o.b. Newcastle, 6000 kcal/kg futures price",
+"before": "port thermal, f.o.b. Newcastle, 6000 kcal/kg spot price"
+}
+],
+"annual": [
+[
+1970,
+1977
+],
+[
+1985,
+1985
+],
+[
+1989,
+1989
+]
+],
+"stats": {
+"last": {
+"v": 152.3,
+"t": "2026-10"
+},
+"chg": {
+"m": 3.54,
+"q": 15.47,
+"ytd": 41.41,
+"y": 41.67
+},
+"rng": {
+"lo": 107.7,
+"hi": 152.3,
+"pos": 1.0
+}
+},
+"real": "coal-aus-real-a"
 },
 {
 "id": "coal-zaf-m",
@@ -440,7 +3539,109 @@
 "s": "wb-pink",
 "start": "1984-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Coal (South Africa), f.o.b. Richards Bay, NAR, 6,000 kcal/kg, sulfur less than 1%, forward month 1.",
+"breaks": [
+{
+"at": "1990-01",
+"now": "6390 kcal/kg (11,500 btu/lb)",
+"before": "",
+"to": "2001-12"
+},
+{
+"at": "2002-01",
+"now": "6,200 kcal/kg (11,200 btu/lb), less than 1.0%, sulfur 16% ash",
+"before": "6390 kcal/kg (11,500 btu/lb)",
+"to": "2005-12"
+},
+{
+"at": "2006-01",
+"now": "thermal NAR",
+"before": "6,200 kcal/kg (11,200 btu/lb), less than 1.0%, sulfur 16% ash",
+"to": "2017-02"
+},
+{
+"at": "2015-01",
+"now": "Coal (South Africa), f.o.b. Richards Bay, NAR, 6,000 kcal/kg, sulfur less than 1%, forward month 1",
+"before": "thermal NAR netback assessment f.o.b. Richards Bay 6,000 kcal/kg"
+},
+{
+"at": "2017-02",
+"now": "thermal NAR netback assessment f.o.b. Richards Bay 6,000 kcal/kg",
+"before": "thermal NAR",
+"to": "2017-12"
+}
+],
+"annual": [
+[
+1989,
+1989
+]
+],
+"est": [
+[
+"2022-06",
+"2022-11"
+],
+[
+"2023-03",
+"2023-04"
+],
+[
+"2023-06",
+"2023-09"
+],
+[
+"2023-12",
+"2024-05"
+]
+],
+"stats": {
+"last": {
+"v": 100.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 1.83,
+"q": 3.84,
+"ytd": 10.01,
+"y": 9.17
+},
+"rng": {
+"lo": 90.6,
+"hi": 100.0,
+"pos": 1.0
+}
+},
+"real": "coal-zaf-real-a"
+},
+{
+"id": "coal-aus-real-a",
+"k": "thermal-coal",
+"name": "Thermal coal, Australia (Newcastle), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1970",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "coal-aus-m"
+},
+{
+"id": "coal-zaf-real-a",
+"k": "thermal-coal",
+"name": "Thermal coal, South Africa (Richards Bay), real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1984",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "coal-zaf-m"
 },
 {
 "id": "tin-m",
@@ -451,7 +3652,40 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Tin (LME), refined, 99.85% purity, settlement price.",
+"stats": {
+"last": {
+"v": 51696.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -3.75,
+"q": -2.41,
+"ytd": 25.41,
+"y": 43.55
+},
+"rng": {
+"lo": 36963.0,
+"hi": 55385.0,
+"pos": 0.8
+}
+},
+"real": "tin-real-a"
+},
+{
+"id": "tin-real-a",
+"k": "tin",
+"name": "Tin, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "tin-m"
 },
 {
 "id": "urea-m",
@@ -462,7 +3696,53 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Urea, (Ukraine), prill spot f.o.b. Middle East.",
+"breaks": [
+{
+"at": "2022-03",
+"now": "Urea, (Ukraine), prill spot f.o.b. Middle East",
+"before": "f.o.b. Black Sea"
+}
+],
+"annual": [
+[
+1960,
+1976
+]
+],
+"stats": {
+"last": {
+"v": 420.0,
+"t": "2026-10"
+},
+"chg": {
+"m": 3.07,
+"q": 5.0,
+"ytd": 7.01,
+"y": 6.49
+},
+"rng": {
+"lo": 390.0,
+"hi": 856.9,
+"pos": 0.064
+}
+},
+"real": "urea-real-a"
+},
+{
+"id": "urea-real-a",
+"k": "urea",
+"name": "Urea, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "urea-m"
 },
 {
 "id": "wheat-hrw-m",
@@ -473,7 +3753,33 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Wheat (U.S.), no. 2 hard red winter Gulf export price.",
+"breaks": [
+{
+"at": "2020-07",
+"now": "Wheat (U.S.), no. 2 hard red winter Gulf export price",
+"before": "no. 1, hard red winter, ordinary protein, export price delivered at the US Gulf port for prompt or 30 days shipment"
+}
+],
+"stats": {
+"last": {
+"v": 317.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -8.65,
+"q": 2.26,
+"ytd": 30.56,
+"y": 37.35
+},
+"rng": {
+"lo": 242.8,
+"hi": 347.0,
+"pos": 0.712
+}
+},
+"real": "wheat-hrw-real-a"
 },
 {
 "id": "wheat-srw-m",
@@ -484,7 +3790,54 @@
 "s": "wb-pink",
 "start": "1979-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Wheat (U.S.), no. 2, soft red winter, export price delivered at the US Gulf port for prompt or 30 days shipment.",
+"stats": {
+"last": {
+"v": 260.3,
+"t": "2026-10"
+},
+"chg": {
+"m": -6.57,
+"q": 0.85,
+"ytd": 16.62,
+"y": 24.37
+},
+"rng": {
+"lo": 217.7,
+"hi": 278.6,
+"pos": 0.7
+}
+},
+"real": "wheat-srw-real-a"
+},
+{
+"id": "wheat-hrw-real-a",
+"k": "wheat",
+"name": "Wheat, US HRW, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "wheat-hrw-m"
+},
+{
+"id": "wheat-srw-real-a",
+"k": "wheat",
+"name": "Wheat, US SRW, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1979",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "wheat-srw-m"
 },
 {
 "id": "zinc-m",
@@ -495,6 +3848,46 @@
 "s": "wb-pink",
 "start": "1960-01",
 "end": "2026-10",
-"note": "Updated on November 03, 2026"
+"note": "Updated on November 03, 2026",
+"basis": "Zinc (LME), high grade, minimum 99.95% purity, settlement price.",
+"breaks": [
+{
+"at": "1990-04",
+"now": "Zinc (LME), high grade, minimum 99.95% purity, settlement price",
+"before": "special high grade, minimum 99.995%, cash prices"
+}
+],
+"stats": {
+"last": {
+"v": 3818.0,
+"t": "2026-10"
+},
+"chg": {
+"m": -5.05,
+"q": 6.09,
+"ytd": 20.52,
+"y": 21.13
+},
+"rng": {
+"lo": 3168.0,
+"hi": 4021.0,
+"pos": 0.762
+}
+},
+"real": "zinc-real-a"
+},
+{
+"id": "zinc-real-a",
+"k": "zinc",
+"name": "Zinc, real",
+"unit": "USD/t (2010 dollars)",
+"freq": "A",
+"s": "wb-pink",
+"start": "1960",
+"end": "2025",
+"note": "Sheet 'Annual Prices (Real)' of the annual workbook. Updated on September 02, 2026",
+"basis": "Annual average in constant 2010 US dollars: Constant prices are prices which are deflated by the Manufacturers Unit Value Index (MUV). MUV is the unit value index in U.S. dollar terms of manufactures exported from fifteen countries: Brazil, Canada, China, Germany, France, India, Italy, Japan, Mexico, Republic of Korea, South Africa, Spain, Pailand, the United Kingdom, and the United States.",
+"hidden": true,
+"realOf": "zinc-m"
 }
 ]

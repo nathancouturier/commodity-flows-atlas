@@ -289,9 +289,9 @@ class Shares(unittest.TestCase):
         self.assertTrue(all(r["level"] in ("flag", "qa") for r in k9()))
 
     def test_C11_alert_and_bypass_note(self):
-        for path in (os.path.join(ROOT, "pipeline", "freight", "alerts.json"), os.path.join(FREIGHT, "alerts.json")):
-            a = next(x for x in load_json(path) if x["id"] == "hormuz-2026")
-            self.assertIn("phosphate", a["commodities"])
+        # the commodities of an alert are derived from the chokepoint estimates (build_alerts.py), not written by hand
+        a = next(x for x in load_json(os.path.join(FREIGHT, "alerts.json")) if x["id"] == "hormuz-2026")
+        self.assertIn("phosphate", a["commodities"])
         notes = " ".join(x.get("note", "") for x in chokepoint("hormuz")["alternatives"])
         self.assertNotIn("4.7 mb/d", notes)
         self.assertIn("7,000 kb/d", notes)
@@ -415,7 +415,8 @@ class Routes(unittest.TestCase):
 
     def test_routes_use_plan(self):
         rs = self.routes()
-        self.assertEqual(len(rs), 103)
+        # the 103 hand-written routes of routes_def.json, then the generated corridors (generated_routes.py, test_generated_routes.py)
+        self.assertEqual(sum(1 for r in rs.values() if not r.get("generated")), 103)
         c3 = rs["C3"]
         self.assertIn("cape-good-hope", c3["via"])
         self.assertNotIn("sunda", c3["via"])

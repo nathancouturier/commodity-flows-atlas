@@ -16,6 +16,13 @@ export interface TimeSeries {
   color: string;
   /** y scale: 'y2' draws against a second axis on the right (default 'y') */
   scale?: 'y' | 'y2';
+  /**
+   * x ranges (seconds, [last point before, first point after]) over which the line is not drawn: the source has no
+   * observation there. A point left alone between two ranges is drawn as a dot. Without it nulls are joined.
+   */
+  gaps?: [number, number][];
+  /** each value holds until the next observation (annual values), instead of a sloping line */
+  step?: boolean;
 }
 
 export interface TimeMarker {
@@ -34,6 +41,8 @@ export interface TimeMarker {
   id?: string;
   /** short qualifier shown after the title in the hover list (e.g. the kind of event) */
   tag?: string;
+  /** a period (needs `end`) drawn as a plain tint over the plot, with no line or flag, still listed on hover */
+  shade?: boolean;
 }
 
 export interface TimeRange {
@@ -310,16 +319,38 @@ export function TimeChart(props: TimeChartProps) {
         ],
         series: [
           {},
-          ...drawOrder.map((s) => ({
-            label: s.label,
-            scale: s.scale ?? 'y',
-            stroke: s.color,
-            width: bars ? 0 : 1.5,
-            fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
-            points: { show: false },
-            spanGaps: true,
-            paths: bars ? uPlot.paths.bars!({ size: [0.72, 60], radius: 0.15 }) : undefined,
-          })),
+          ...drawOrder.map((s) => {
+            const gaps = s.gaps?.length ? s.gaps : null;
+            // a point between two gaps has no neighbour to be joined to: it is drawn as a dot
+            const alone = new Set<number>();
+            if (gaps) for (let g = 1; g < gaps.length; g++) if (gaps[g][0] === gaps[g - 1][1]) alone.add(gaps[g][0]);
+            return {
+              label: s.label,
+              scale: s.scale ?? 'y',
+              stroke: s.color,
+              width: bars ? 0 : 1.5,
+              fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
+              points: gaps && alone.size
+                ? {
+                    show: true,
+                    size: 3,
+                    fill: s.color,
+                    width: 0,
+                    filter: (u: uPlot) => {
+                      const xs = u.data[0];
+                      const out: number[] = [];
+                      for (let i = 0; i < xs.length; i++) if (alone.has(xs[i] as number)) out.push(i);
+                      return out;
+                    },
+                  }
+                : { show: false },
+              spanGaps: !gaps,
+              ...(gaps
+                ? { gaps: (u: uPlot) => gaps.map(([a, b]) => [u.valToPos(a, 'x', true), u.valToPos(b, 'x', true)] as [number, number]) }
+                : {}),
+              paths: bars ? uPlot.paths.bars!({ size: [0.72, 60], radius: 0.15 }) : s.step ? uPlot.paths.stepped!({ align: 1 }) : undefined,
+            };
+          }),
         ],
         hooks: {
           setCursor: [
@@ -363,6 +394,11 @@ export function TimeChart(props: TimeChartProps) {
                 if (m.subtle && m.end != null) continue;
                 const c = m.color ?? '#ff5c7a';
                 const x1 = u.valToPos(m.t, 'x', true);
+                if (m.shade && m.end != null) {
+                  ctx.fillStyle = c + '26';
+                  ctx.fillRect(x1, top, Math.max(1, u.valToPos(m.end, 'x', true) - x1), h);
+                  continue;
+                }
                 if (m.end != null) {
                   const x2 = u.valToPos(m.end, 'x', true);
                   ctx.fillStyle = c + '1f';

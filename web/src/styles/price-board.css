@@ -1,0 +1,290 @@
+/* Price board (opened from the price drawer) and the price figure of the commodity pages */
+
+.pd.pd-board-open {
+  height: min(76vh, 660px);
+}
+@media (max-width: 1024px) {
+  .pd.pd-board-open {
+    height: 68vh;
+  }
+}
+@media (max-width: 760px) and (min-height: 501px) {
+  .pd.pd-board-open {
+    height: calc(100dvh - 64px);
+  }
+}
+
+.pb {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px 8px;
+  background: var(--panel-solid);
+  border-radius: inherit;
+  container-type: inline-size;
+  container-name: pb;
+  min-height: 0;
+}
+.pb-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pb-head > div:first-child {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+}
+.pb-head b {
+  font-size: var(--fs-md);
+  color: var(--ink-0);
+}
+.pb-sub {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+.pb-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+}
+.pb-groups {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.pb-sort {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+.pb-sort select {
+  background: var(--panel-raised);
+  color: var(--ink-0);
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+  padding: 4px 6px;
+  font: inherit;
+  font-size: var(--fs-sm);
+}
+.pb-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2a3442 transparent;
+}
+.pb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+.pb-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--panel-solid);
+  text-align: left;
+  font-weight: 500;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--hairline-strong);
+  white-space: nowrap;
+}
+.pb-table .pb-num {
+  text-align: right;
+  white-space: nowrap;
+}
+.pb-th {
+  all: unset;
+  cursor: pointer;
+  color: inherit;
+}
+.pb-th:hover,
+.pb-th:focus-visible {
+  color: var(--ink-0);
+  text-decoration: underline;
+}
+.pb-table tbody th[scope='row'],
+.pb-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--hairline);
+  vertical-align: top;
+  font-weight: 400;
+  text-align: left;
+}
+.pb-table td.pb-num {
+  text-align: right;
+}
+.pb-grp th {
+  padding: 10px 6px 3px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  border-bottom: 1px solid var(--hairline-strong);
+}
+.pb-name {
+  all: unset;
+  cursor: pointer;
+  color: var(--ink-0);
+  line-height: 1.3;
+  display: block;
+}
+.pb-name:hover,
+.pb-name:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.pb-unit,
+.pb-last small {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  line-height: 1.3;
+}
+.pb-last {
+  white-space: nowrap;
+  text-align: right !important;
+}
+.pb-up {
+  color: var(--positive);
+}
+.pb-dn {
+  color: #ff7a8e;
+}
+.pb-none {
+  color: var(--ink-3);
+}
+.pb-late td,
+.pb-late th[scope='row'] {
+  opacity: 0.7;
+}
+.pb-bar {
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 4px;
+  margin-top: 7px;
+  border-radius: 2px;
+  background: var(--hairline-strong);
+}
+.pb-bar i {
+  position: absolute;
+  top: -3px;
+  width: 3px;
+  height: 10px;
+  margin-left: -1.5px;
+  border-radius: 1px;
+  background: var(--accent);
+}
+.pb-foot {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+.pb-status {
+  color: var(--ink-1);
+}
+.pb :focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* a narrow board has fewer columns (name, last, 1 month, 1 year), never a sideways table */
+@container pb (max-width: 680px) {
+  .pb-c-w,
+  .pb-c-q,
+  .pb-c-ytd {
+    display: none;
+  }
+}
+@container pb (max-width: 520px) {
+  .pb-c-rng {
+    display: none;
+  }
+  .pb-table {
+    font-size: 12px;
+  }
+  .pb-back {
+    display: none;
+  }
+}
+
+/* price figure on a commodity page */
+.pf {
+  margin: 4px 0 2px;
+}
+.pf .kpi-value.pf-up {
+  color: var(--positive);
+}
+.pf .kpi-value.pf-dn {
+  color: #ff7a8e;
+}
+.pf .kpi-value small {
+  font-size: 0.62em;
+  margin-left: 4px;
+  color: var(--ink-2);
+  font-weight: 400;
+}
+
+/* what each charted price measures (side column of the price drawer) */
+.pd-basis {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+.pd-bs {
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+  line-height: 1.4;
+}
+.pd-bs > b {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.pd-bs > b i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--c);
+  flex: none;
+}
+.pd-bs p,
+.pd-bs ul {
+  margin: 3px 0 0;
+}
+.pd-bs ul {
+  padding-left: 14px;
+}
+.pd-bs li {
+  margin: 2px 0;
+}
+.pd-bs em {
+  color: var(--ink-2);
+  font-style: normal;
+}
+.pd-board-btn {
+  border-style: solid;
+}
+.pd-bs-key {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  line-height: 1.4;
+}

@@ -71,6 +71,7 @@
    }
   ],
   "n": "USGS MCS 2026, manganese mine production, section titled 'manganese content' (chapter header says gross weight; unit as USGS table); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 20,140 kt Mn, more than the published world total of 20,000 kt Mn: shares are computed on the sum",
+  "other": 1300.0,
   "basis": "manganese content"
  },
  "reserves": {
@@ -165,6 +166,130 @@
    {
     "c": "GUY",
     "v": 0.1299
+   },
+   {
+    "c": "MEX",
+    "v": 0.1077
+   },
+   {
+    "c": "NAM",
+    "v": 0.1035
+   },
+   {
+    "c": "MAR",
+    "v": 0.0986
+   },
+   {
+    "c": "UKR",
+    "v": 0.043
+   },
+   {
+    "c": "KHM",
+    "v": 0.0402
+   },
+   {
+    "c": "FRA",
+    "v": 0.0388
+   },
+   {
+    "c": "TUR",
+    "v": 0.0311
+   },
+   {
+    "c": "KEN",
+    "v": 0.0302
+   },
+   {
+    "c": "NGA",
+    "v": 0.013
+   },
+   {
+    "c": "GEO",
+    "v": 0.0127
+   },
+   {
+    "c": "NLD",
+    "v": 0.0114
+   },
+   {
+    "c": "THA",
+    "v": 0.0112
+   },
+   {
+    "c": "MLI",
+    "v": 0.0099
+   },
+   {
+    "c": "BFA",
+    "v": 0.0083
+   },
+   {
+    "c": "EGY",
+    "v": 0.00815,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "SEN",
+    "v": 0.008
+   },
+   {
+    "c": "IND",
+    "v": 0.0052
+   },
+   {
+    "c": "ROU",
+    "v": 0.0047
+   },
+   {
+    "c": "PAK",
+    "v": 0.0044
+   },
+   {
+    "c": "BEL",
+    "v": 0.003
+   },
+   {
+    "c": "SVK",
+    "v": 0.0025
+   },
+   {
+    "c": "NOR",
+    "v": 0.0022
+   },
+   {
+    "c": "PER",
+    "v": 0.0021
+   },
+   {
+    "c": "CAN",
+    "v": 0.002
+   },
+   {
+    "c": "COD",
+    "v": 0.0018
+   },
+   {
+    "c": "TZA",
+    "v": 0.0015
+   },
+   {
+    "c": "GBR",
+    "v": 0.0014
+   },
+   {
+    "c": "MNG",
+    "v": 0.0013
+   },
+   {
+    "c": "TWN",
+    "v": 0.0012
+   },
+   {
+    "c": "USA",
+    "v": 0.0012
    }
   ],
   "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -224,6 +349,142 @@
    {
     "c": "RUS",
     "v": 0.2144
+   },
+   {
+    "c": "ARE",
+    "v": 0.1904
+   },
+   {
+    "c": "ESP",
+    "v": 0.1718
+   },
+   {
+    "c": "SAU",
+    "v": 0.1682
+   },
+   {
+    "c": "AUS",
+    "v": 0.1374
+   },
+   {
+    "c": "GEO",
+    "v": 0.1271
+   },
+   {
+    "c": "HKG",
+    "v": 0.0927
+   },
+   {
+    "c": "TUR",
+    "v": 0.0905
+   },
+   {
+    "c": "VNM",
+    "v": 0.0899
+   },
+   {
+    "c": "UKR",
+    "v": 0.0842
+   },
+   {
+    "c": "URY",
+    "v": 0.0759
+   },
+   {
+    "c": "SVK",
+    "v": 0.0755
+   },
+   {
+    "c": "MUS",
+    "v": 0.0639
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0534
+   },
+   {
+    "c": "NAM",
+    "v": 0.0472
+   },
+   {
+    "c": "AGO",
+    "v": 0.0435
+   },
+   {
+    "c": "NLD",
+    "v": 0.0408
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0281
+   },
+   {
+    "c": "CHE",
+    "v": 0.0264
+   },
+   {
+    "c": "ARG",
+    "v": 0.023
+   },
+   {
+    "c": "OMN",
+    "v": 0.0212
+   },
+   {
+    "c": "GRC",
+    "v": 0.021
+   },
+   {
+    "c": "COL",
+    "v": 0.0188
+   },
+   {
+    "c": "DEU",
+    "v": 0.0169
+   },
+   {
+    "c": "BEL",
+    "v": 0.0136
+   },
+   {
+    "c": "POL",
+    "v": 0.0127
+   },
+   {
+    "c": "THA",
+    "v": 0.0125
+   },
+   {
+    "c": "IRN",
+    "v": 0.0117
+   },
+   {
+    "c": "GBR",
+    "v": 0.0067
+   },
+   {
+    "c": "CZE",
+    "v": 0.004
+   },
+   {
+    "c": "COD",
+    "v": 0.0021
+   },
+   {
+    "c": "LKA",
+    "v": 0.0012
+   },
+   {
+    "c": "CAN",
+    "v": 0.0012
+   },
+   {
+    "c": "TGO",
+    "v": 0.000301,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.04 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
    }
   ],
   "n": "CEPII BACI HS92 manganese ores (HS 2602), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

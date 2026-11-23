@@ -37,6 +37,7 @@ import build_chokepoint_lanes as BCL  # noqa: E402
 import routing as RT  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 import route_countries as RC  # noqa: E402
+import generated_routes as GR  # noqa: E402
 
 sys.path.insert(0, os.path.join(HERE, "..", "trade"))
 import caveats as CV  # noqa: E402
@@ -123,8 +124,8 @@ def label_of(g):
 
 
 def load_pairs(path=None):
-    """Pairs files of build_lanes.py, decoded: {group: {k, y, seaborne (Mt), rows: [{o, d, t (Mt), m, load, nm, cls,
-    via (set), alt (set), f}]}}."""
+    """Pairs files of build_lanes.py, decoded: {group: {k, y, seaborne (Mt), ports (the file's port table), rows: [{o, d,
+    t (Mt), m, load, dis, nm, cls, via (set), alt (set), f}]}}."""
     out = {}
     for f in sorted(glob.glob(os.path.join(path or os.path.join(OUT, "pairs"), "*.json"))):
         with open(f, encoding="utf-8") as fh:
@@ -137,7 +138,7 @@ def load_pairs(path=None):
             x["alt"] = {g for i, g in enumerate(gates) if x["alt"] >> i & 1} - x["via"]
             x["cls"] = classes[x["cls"]] if x["cls"] >= 0 else None
             rows.append(x)
-        out[p["group"]] = {"k": p["k"], "y": p["y"], "seaborne": p["seaborne"] / 1e3, "rows": rows}
+        out[p["group"]] = {"k": p["k"], "y": p["y"], "seaborne": p["seaborne"] / 1e3, "rows": rows, "ports": p["ports"]}
     return out
 
 
@@ -488,11 +489,45 @@ def load(name):
     return json.load(open(os.path.join(HERE, name)))
 
 
+def corridor_groups(c):
+    """Customs groups of a corridor entry: the one a generated corridor names (`g`), else those of its commodity."""
+    return [c["g"]] if c.get("g") else GROUPS_OF.get(c["k"], [c["k"]])
+
+
+def finder_pair(cor, pairs, a, b):
+    """The largest recorded seaborne pair of a corridor, as the Route finder runs it, when its ports are not the route's own
+    (`a`, `b`: port codes): the route page and the finder then give two distances, and the page says why."""
+    best = None
+    for c in cor:
+        for g in corridor_groups(c):
+            p = pairs.get(g)
+            for r in p["rows"] if p else []:
+                if r["m"] in (0, 1) and r["load"] >= 0 and r["nm"] > 0 and r["o"] in c["o"] and r["d"] in c["d"] and (best is None or r["t"] > best[0]["t"]):
+                    best = (r, g, p)
+    if not best:
+        return None
+    r, g, p = best
+    lo, di = p["ports"][r["load"]], p["ports"][r["dis"]]
+    if (lo[0], di[0]) == (a, b):
+        return None
+    return {"g": g, "o": r["o"], "d": r["d"], "mt": round(r["t"], 1), "y": p["y"], "from": lo[1], "to": di[1], "nm": r["nm"]}
+
+
+def cargo_names(g):
+    """(name in a generated route's name, noun in its note) of a customs group."""
+    what = label_of(g)
+    return GR.CARGO_NAME.get(g) or what[0].upper() + what[1:], what
+
+
 def find_port(name, iso3, group):
     """Match a port name from the route definitions to the port table; fall back to the country gateway."""
     a2 = BL.A2.get(iso3)
     n = name.lower().replace("ã", "a").replace("é", "e")
     for code, (pn, c, x, y) in P.MANUAL.items():
+        # a terminal named for its cargo is not the port that its name mentions for another cargo ("Qingdao" is not
+        # the Dongjiakou LNG terminal on the Qingdao coast: it is the port the Route finder uses for ore, coal and grain)
+        if "lng" in pn.lower() and group != "lng":
+            continue
         if c == iso3 and (n in pn.lower() or pn.lower().split(" ")[0] in n):
             return code
     best = None
@@ -529,13 +564,32 @@ def main():
                 pair_tm[(g, r["o"], r["d"])] = r["t"] * r["nm"]
                 class_tm[FAMILY.get(r["cls"], r["cls"])] += r["t"] * r["nm"]
 
+    defs = load("routes_def.json")
+    # generated corridors (generated_routes.py): a route for each large seaborne corridor that no hand-written route names
+    latest_t = {(g, o, d): t for g, o, d, t in df[df["year"] == latest][["group", "o", "d", "t"]].itertuples(index=False)}
+    hand = defaultdict(set)
+    for r in defs:
+        for c in [] if r.get("discontinued") else r.get("corridor") or []:
+            for g in corridor_groups(c):
+                for o in c["o"]:
+                    for d in c["d"]:
+                        hand[(g, o, d)].add(r["id"])
+    hand = {k: sorted(v) for k, v in hand.items()}
+    zones = json.load(open(os.path.join(OUT, "zones.json"), encoding="utf-8"))
+    gen, gen_report = GR.generate(
+        pairs, {g: p["ports"] for g, p in pairs.items()}, hand, zones, lambda code: P.port(code)["at"], cargo_names,
+        {r["id"]: r["name"] for r in defs}, K._name)
+    defs = defs + gen
+
     routes, feats = [], []
-    for r in load("routes_def.json"):
+    for r in defs:
         cor = r.get("corridor") or []
         k0 = (r.get("cargoes") or [None])[0]
         g0 = (GROUPS_OF.get(k0) or [k0])[0] if k0 else "iron-ore"
         a = b = None
-        if r["id"] in ROUTE_PORTS:
+        if r.get("_ports"):
+            a, b = r["_ports"]
+        elif r["id"] in ROUTE_PORTS:
             a, b = ROUTE_PORTS[r["id"]]
         if a is None:
             fp = r["from"]["ports"][0]
@@ -543,7 +597,9 @@ def main():
         if b is None:
             tp = r["to"]["ports"][0]
             b = find_port(tp["name"], tp["c"], g0)
-        out = {k: r[k] for k in ("id", "name", "benchmark", "vclass", "cargoes", "notes", "s") if k in r}
+        out = {k: r[k] for k in ("id", "name", "benchmark", "vclass", "cargoes", "cargoNote", "notes", "s") if k in r}
+        if r.get("generated"):
+            out["generated"] = True
         if r.get("discontinued"):
             out["discontinued"] = r["discontinued"]
         if r.get("standIn"):
@@ -564,13 +620,24 @@ def main():
             continue
         pa, pb = P.port(a), P.port(b)
         spd = VR.speed(r["vclass"])
-        s = BL.plan_summary(pa["at"], pb["at"], [r["vclass"]], geometry=True)  # routing.plan(), as the lanes
+        if r.get("_pair"):
+            # a generated route is planned as its largest pair is (classes of vessel_rules, same ports): the Route finder and the
+            # route page give the same ports, distance and passages for that pair
+            g, o, d, _ = r["_pair"]
+            classes, s = BL._classes_and_plan(g, o, d, latest_t[(g, o, d)], pa["at"], pb["at"], geometry=True)
+            if s and (classes[0] != r["vclass"] or round(s["nm"]) != round(r["_nm"])):
+                print("generated route differs from its pair", r["id"], classes, s["nm"], r["vclass"], r["_nm"])
+        else:
+            s = BL.plan_summary(pa["at"], pb["at"], [r["vclass"]], geometry=True)  # routing.plan(), as the lanes
         if not s:
             print("skip (no path)", r["id"])
             continue
         nm, via = s["nm"], s["via"]
         out.update({"distanceNm": nm, "speedKn": spd, "days": round(nm / (spd * 24), 1), "via": via, "viaAlt": s["viaAlt"],
                     "a": pa["at"], "b": pb["at"]})
+        ref = None if r.get("_pair") else finder_pair(cor, pairs, a, b)
+        if ref:
+            out["finder"] = ref
         st = BL.status_of(via, {x for lst in s["viaAlt"] for x in lst})
         if st:
             out["status"] = st
@@ -594,9 +661,18 @@ def main():
         # route: thermal and metallurgical coal are the same group "coal".
         shares, hist_t, hist_v, cor_tm, tiny, mixed_na = [], defaultdict(float), defaultdict(float), 0.0, [], []
         counted, late = set(), []  # late: (first year, note) of a group whose reading starts after LATEST_MIN_YEAR
+        # the entries of a generated corridor (one per exporter) are one corridor of one customs group: one share, one history
+        units = []
         for c in cor:
-            groups = GROUPS_OF.get(c["k"], [c["k"]])
-            fresh = {(g, o, d) for g in groups for o in c["o"] for d in c["d"]} - counted
+            want = {(g, o, d) for g in corridor_groups(c) for o in c["o"] for d in c["d"]}
+            if c.get("g") and units and units[-1][0].get("g") == c["g"]:
+                prev, prev_want = units[-1]
+                units[-1] = ({**prev, "o": sorted({*prev["o"], *c["o"]}), "d": sorted({*prev["d"], *c["d"]})}, prev_want | want)
+            else:
+                units.append((c, want))
+        for c, want in units:
+            groups = corridor_groups(c)
+            fresh = want - counted
             if not fresh:
                 continue
             counted |= fresh
@@ -608,7 +684,7 @@ def main():
             tot = sum(sea_tot.get(g, 0.0) for g in groups)
             v = sub[sub["year"] == latest]["t"].sum() / 1e6
             vm = subm[subm["year"] == latest]["t"].sum() / 1e6
-            word = "all-coal (thermal and metallurgical)" if groups == ["coal"] else c["k"].replace("-", " ")
+            word = "all-coal (thermal and metallurgical)" if groups == ["coal"] else label_of(c["g"]) if c.get("g") else c["k"].replace("-", " ")
             lead = "Country-pair corridor (all ports and vessel sizes, not this route's ports alone)"
             if v <= 0 and vm > 0:
                 # no known seaborne tonnage: no share (its numerator would be all modes over a seaborne total); the
@@ -621,13 +697,14 @@ def main():
                     n += f", which would be {100 * vm / tot:.1f}% of the {tot:,.0f} Mt of seaborne {word} trade only if all of it went by sea"
                 mixed_na.append(n)
             else:
-                n = f"{lead}: {v:.1f} Mt of {tot:,.0f} Mt seaborne {word} trade, CEPII BACI customs data"
+                # a small cargo keeps its decimals (a corridor of 0.96 Mt of 7.7 Mt of cotton)
+                n = (f"{lead}: {v:.1f} Mt of " if v >= 1 else f"{lead}: {v:.2f} Mt of ") + (f"{tot:,.0f}" if tot >= 10 else f"{tot:.1f}") + f" Mt seaborne {word} trade, CEPII BACI customs data"
                 if vm >= 0.05:
                     n += f"; a further {vm:.1f} Mt move both by sea and overland (split not known) and are not counted"
             n += ". Routes that share a country pair show the same tonnes: do not add them up"
             share = round(100 * v / tot, 1) if v > 0 and tot > 0 else 0.0
             if share > 0:
-                shares.append({"k": c["k"], "f": {"v": share, "u": "%", "y": latest, "s": "atlas", "n": n}})
+                shares.append({"k": c["k"], **({"g": c["g"]} if c.get("g") else {}), "f": {"v": share, "u": "%", "y": latest, "s": "atlas", "n": n}})
             elif v > 0 and tot > 0:
                 tiny.append((c["k"], v, tot, groups))
             per_year = sub.groupby("year").agg(t=("t", "sum"), usd=("usd", "sum"))
@@ -677,18 +754,27 @@ def main():
             if hn:
                 out["historyNote"] = hn
             out["historyUnit"] = "Mt"
-            out["historySrc"] = "atlas" if any(g in BL.EST_GROUP for c in cor for g in GROUPS_OF.get(c["k"], [c["k"]])) else "baci"
+            out["historySrc"] = "atlas" if any(g in BL.EST_GROUP for c in cor for g in corridor_groups(c)) else "baci"
         routes.append(out)
 
     os.makedirs(OUT, exist_ok=True)
     RC.add_end_countries(routes)  # load / discharge country of each route end (site: country isolation)
     json.dump(routes, open(os.path.join(OUT, "routes.json"), "w"), separators=(",", ":"))
     json.dump({"type": "FeatureCollection", "features": feats}, open(os.path.join(OUT, "routes.geo.json"), "w"), separators=(",", ":"))
-    print("routes", len(routes), "with shares", sum(1 for r in routes if r.get("shares")))
+    print("routes", len(routes), "with shares", sum(1 for r in routes if r.get("shares")), "with history", sum(1 for r in routes if r.get("history")),
+          "generated", sum(1 for r in routes if r.get("generated")))
+    for g, x in gen_report.items():
+        print(f"  {g:17s} {x['seaborne']:7.1f} Mt  named by hand {x['handShare']:5.1f}%  with generated {x['share']:5.1f}%  generated routes {x['generated']:2d}"
+              + (f"  ({x['why']})" if x["why"] else ""))
+    tot = sum(x["seaborne"] for x in gen_report.values())
+    print(f"  all groups: hand-written {sum(x['seaborne'] * x['handShare'] for x in gen_report.values()) / tot:.1f}%, "
+          f"with generated {sum(x['seaborne'] * x['share'] for x in gen_report.values()) / tot:.1f}% of {tot:,.0f} Mt")
 
     # vessel classes (with the typical laden speed used for laden days), events: pass through
     vcs = load("vessel_classes.json")
     for vc in vcs:
+        # the routes of a class page: the curated list, then the generated corridors of the class
+        vc["routes"] = list(vc["routes"]) + [r["id"] for r in routes if r.get("generated") and r["vclass"] == vc["id"]]
         vc["speedKn"] = VR.speed(vc["id"])
         vc["speedNote"] = ("Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not "
                            "from a published source. It is used for laden days (distance divided by speed) on routes and in the "
@@ -698,13 +784,13 @@ def main():
     json.dump(vcs, open(os.path.join(OUT, "vessel-classes.json"), "w"), indent=0)
     events = sorted(load("events.json"), key=lambda e: e["date"])
     json.dump(events, open(os.path.join(OUT, "events.json"), "w"), indent=0)
-    # active disruptions shown as banners (curated; each links to an event with its source)
+    # active disruptions: the curated text quoted in the chokepoint notes below. data/freight/alerts.json, the banners of
+    # the site, is written by build_alerts.py (figures, severity, commodities and countries from the data)
     alerts = load("alerts.json")
     ev_ids = {e["id"] for e in events}
     for a in alerts:
         assert a["event"] in ev_ids, f"alert {a['id']} points to unknown event {a['event']}"
         a["src"] = next(e["src"] for e in events if e["id"] == a["event"])
-    json.dump(alerts, open(os.path.join(OUT, "alerts.json"), "w"), indent=0)
 
     # chokepoints: Atlas estimates of the share of every lane group's seaborne trade (pairs table), against PortWatch
     chk = load("chokepoints.json")

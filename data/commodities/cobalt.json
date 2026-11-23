@@ -83,6 +83,13 @@
    }
   ],
   "n": "USGS MCS 2026, cobalt mine production, contained cobalt; 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 314,600 t Co, more than the published world total of 310,000 t Co: shares are computed on the sum",
+  "other": 9100.0,
+  "hidden": {
+   "v": 2200.0,
+   "k": 2,
+   "from": 10,
+   "n": "2 further countries named by USGS (Turkey and United States), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained cobalt"
  },
  "reserves": {
@@ -141,6 +148,13 @@
    }
   ],
   "n": "USGS MCS 2026, cobalt reserves, contained cobalt; USGS world total is rounded",
+  "other": 780000.0,
+  "hidden": {
+   "v": 154000.0,
+   "k": 2,
+   "from": 10,
+   "n": "2 further countries named by USGS (Papua New Guinea and United States), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained cobalt"
  },
  "exports": {
@@ -199,6 +213,115 @@
     "c": "DEU",
     "v": 3.108,
     "n": "36% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "NOR",
+    "v": 2.993
+   },
+   {
+    "c": "ZAF",
+    "v": 2.738
+   },
+   {
+    "c": "MDG",
+    "v": 2.718
+   },
+   {
+    "c": "TUR",
+    "v": 2.486
+   },
+   {
+    "c": "GBR",
+    "v": 2.11
+   },
+   {
+    "c": "IDN",
+    "v": 2.071
+   },
+   {
+    "c": "ITA",
+    "v": 1.933
+   },
+   {
+    "c": "MAR",
+    "v": 1.896
+   },
+   {
+    "c": "NLD",
+    "v": 1.789
+   },
+   {
+    "c": "BEL",
+    "v": 1.562
+   },
+   {
+    "c": "AUT",
+    "v": 1.397
+   },
+   {
+    "c": "FRA",
+    "v": 0.952
+   },
+   {
+    "c": "TZA",
+    "v": 0.915
+   },
+   {
+    "c": "NAM",
+    "v": 0.628
+   },
+   {
+    "c": "IRL",
+    "v": 0.485
+   },
+   {
+    "c": "IND",
+    "v": 0.462
+   },
+   {
+    "c": "MYS",
+    "v": 0.42
+   },
+   {
+    "c": "LUX",
+    "v": 0.404
+   },
+   {
+    "c": "COL",
+    "v": 0.401
+   },
+   {
+    "c": "SGP",
+    "v": 0.293
+   },
+   {
+    "c": "TWN",
+    "v": 0.1819,
+    "n": "41% of tonnage estimated from value"
+   },
+   {
+    "c": "TUN",
+    "v": 0.165
+   },
+   {
+    "c": "LAO",
+    "v": 0.108,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 kt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "ROU",
+    "v": 0.107
+   },
+   {
+    "c": "CHE",
+    "v": 0.07
+   },
+   {
+    "c": "ZMB",
+    "v": 0.036
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt.",
@@ -260,6 +383,98 @@
     "c": "FIN",
     "v": 2.497,
     "n": "45% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "DEU",
+    "v": 2.19
+   },
+   {
+    "c": "NOR",
+    "v": 1.808
+   },
+   {
+    "c": "BRA",
+    "v": 1.62
+   },
+   {
+    "c": "CAN",
+    "v": 1.48
+   },
+   {
+    "c": "IND",
+    "v": 1.254
+   },
+   {
+    "c": "SGP",
+    "v": 1.237
+   },
+   {
+    "c": "ESP",
+    "v": 1.016
+   },
+   {
+    "c": "AUT",
+    "v": 0.918
+   },
+   {
+    "c": "IRL",
+    "v": 0.687
+   },
+   {
+    "c": "TUR",
+    "v": 0.606
+   },
+   {
+    "c": "ITA",
+    "v": 0.438
+   },
+   {
+    "c": "KHM",
+    "v": 0.398
+   },
+   {
+    "c": "PHL",
+    "v": 0.373
+   },
+   {
+    "c": "AUS",
+    "v": 0.188
+   },
+   {
+    "c": "THA",
+    "v": 0.161
+   },
+   {
+    "c": "LUX",
+    "v": 0.142
+   },
+   {
+    "c": "SWE",
+    "v": 0.138
+   },
+   {
+    "c": "RUS",
+    "v": 0.122
+   },
+   {
+    "c": "CHE",
+    "v": 0.114
+   },
+   {
+    "c": "TUN",
+    "v": 0.104
+   },
+   {
+    "c": "VNM",
+    "v": 0.071
+   },
+   {
+    "c": "ISR",
+    "v": 0.036
+   },
+   {
+    "c": "ROU",
+    "v": 0.012
    }
   ],
   "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of cobalt intermediate products and metal, not contained cobalt.",

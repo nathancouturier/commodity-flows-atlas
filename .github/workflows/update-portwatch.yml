@@ -1,4 +1,5 @@
-# Weekly chokepoint transit update (Wednesday): IMF PortWatch -> data/freight/portwatch.
+# Weekly chokepoint transit update (Wednesday): IMF PortWatch -> data/freight/portwatch (only the days after the last one
+# stored are downloaded, the whole table once a month), then the alert banners.
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded,
 # and the owner is only alerted (one GitHub issue per source) after 3 failed runs in a row.
 name: Update PortWatch
@@ -42,12 +43,20 @@ jobs:
         # the step is stopped, recorded as failed, and the job still finishes green
         timeout-minutes: 25
         run: python pipeline/freight/fetch_portwatch.py
+      - name: Rebuild the alert banners from the new series
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python pipeline/freight/build_alerts.py
+      - name: Update the "what changed" digest and feed
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python pipeline/common/changes.py
       - name: Validate, commit, alert
         id: finish
         uses: ./.github/actions/finish-data-update
         with:
-          sources: "portwatch"
-          paths: "data"
+          sources: "portwatch build-alerts"
+          paths: "data pipeline/cache/portwatch web/public/changes.atom"
           message: "data: update PortWatch chokepoint transits"
 
   deploy:

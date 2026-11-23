@@ -42,12 +42,16 @@ jobs:
         # the step is stopped, recorded as failed, and the job still finishes green
         timeout-minutes: 200
         run: python pipeline/annual/update_annual.py
+      - name: Update the "what changed" digest and feed
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python pipeline/common/changes.py
       - name: Validate, commit, alert
         id: finish
         uses: ./.github/actions/finish-data-update
         with:
-          sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-commodities build-profiles"
-          paths: "data pipeline/cache pipeline/commodities/QA.md"
+          sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-alerts build-commodities build-profiles"
+          paths: "data pipeline/cache pipeline/commodities/QA.md web/public/changes.atom"
           message: "data: monthly update of annual sources"
 
   deploy:

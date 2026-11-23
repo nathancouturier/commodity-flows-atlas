@@ -4,7 +4,7 @@
  * The event axis runs to the present: past the last year of flow data it carries events only.
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
-import { commodity, historyOpen, metric, select, selection, sheetSnap, year, type SheetSnap } from '../lib/store';
+import { choroInfo, commodity, historyOpen, metric, select, selection, sheetSnap, year, type SheetSnap } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
 import { lowerName, toggleHistory } from '../lib/prices';
@@ -154,16 +154,18 @@ export function Timeline() {
   const span = end != null ? end - first : 1;
   const dataFrac = end != null ? (last - first) / span : 1;
 
+  // with a commodity chosen, only the events that name it in their own text are marked
   const ticks = useMemo(() => {
     if (first == null || end == null) return [];
     return events
+      .filter((e) => !k || !!e.commodities?.includes(k))
       .map((e) => {
         const frac = yearFraction(e.date);
         return { e, frac, pos: (frac - first) / (end - first) };
       })
       .filter((x) => x.pos >= 0 && x.pos <= 1)
       .sort((a, b) => a.frac - b.frac);
-  }, [events, first, end]);
+  }, [events, first, end, k]);
 
   const cur = y ?? last;
   const pctPos = first == null || last === first ? 0 : ((cur - first) / (last - first)) * 100;
@@ -308,8 +310,11 @@ export function Timeline() {
           </span>
         ))}
         {noData && !noDataOnTrack && <span class="tl-note">{noData}: events only, no flow data yet</span>}
-        {k && metric.value !== 'none' && <span class="tl-note">Country colours: latest data, not by year</span>}
+        {k && metric.value !== 'none' && y != null && choroInfo.value && !String(choroInfo.value.year).startsWith(String(cur)) && (
+          <span class="tl-note">Country colours: {choroInfo.value.year}, no series for {cur}</span>
+        )}
         {!TOUCH && <span class="tl-hint">Arrow keys step the year · ticks mark events</span>}
+        {k && ticks.length === 0 && events.length > 0 && <span class="tl-note">No event names {lowerName(commodityMeta(k)?.name ?? k)}: choose All commodities to see them all</span>}
         {ticks.length > 0 && (
           <div class="tl-step">
             <button class="tl-step-btn" disabled={prevIdx < 0} aria-label="Previous event" onClick={() => openEvent(ticks[prevIdx].e)}>
@@ -321,7 +326,7 @@ export function Timeline() {
                   <span class="num">{selTick.e.date}</span> · {selTick.e.title}
                 </>
               ) : (
-                `${ticks.length} events: pick a tick or step through them`
+                `${ticks.length} event${ticks.length > 1 ? 's' : ''}${k ? ` linked to ${lowerName(commodityMeta(k)?.name ?? k)}` : ''}: pick a tick or step through them`
               )}
             </span>
             <button class="tl-step-btn" disabled={nextIdx < 0 || nextIdx >= ticks.length} aria-label="Next event" onClick={() => openEvent(ticks[nextIdx].e)}>

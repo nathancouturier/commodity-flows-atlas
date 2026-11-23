@@ -1,13 +1,16 @@
 /** Small shared UI primitives: switches, ranked bars, KPI tiles, source lines. */
 import type { ComponentChildren } from 'preact';
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
-import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../types';
+import type { Alert, Chokepoint, Company, Fig, HistTable, InfraType, Ranked, StatusNote } from '../types';
 import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
+import { GROUP_LABEL, loadChokepoints } from '../lib/freight';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
 import { openAbout } from './AboutHost';
+import { EventList } from './EventList';
 import '../styles/lane-table.css';
+import '../styles/tables-by-year.css';
 
 export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
   return (
@@ -152,21 +155,119 @@ function useAlerts(): Alert[] {
   return a;
 }
 
+let chokepointsPromise: Promise<Chokepoint[]> | null = null;
+/** The chokepoint records, loaded once (the share of a commodity's seaborne trade through a passage is read from them). */
+function useChokepoints(wanted: boolean): Chokepoint[] {
+  const [c, setC] = useState<Chokepoint[]>([]);
+  useEffect(() => {
+    if (!wanted) return;
+    chokepointsPromise ??= loadChokepoints().catch(() => []);
+    let live = true;
+    chokepointsPromise.then((r) => live && setC(r));
+    return () => {
+      live = false;
+    };
+  }, [wanted]);
+  return c;
+}
+
 const MON_S = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function sinceLabel(s: string): string {
   const [y, m] = s.split('-');
   return m ? `${MON_S[Number(m) - 1] ?? m} ${y}` : y;
 }
 
+/** "15 Nov 2026" from an ISO date. */
+function dayLabel(s: string): string {
+  const [y, m, d] = s.split('-');
+  return d ? `${Number(d)} ${MON_S[Number(m) - 1] ?? m} ${y}` : sinceLabel(s);
+}
+
+const SEVERITY_WORD = { high: 'High', medium: 'Medium', low: 'Low' } as const;
+
+/** "4% of the 2023 average": the 28-day transits as a share of the reference. */
+function ofReference(m: Alert['measures'][number]): string | null {
+  const { now, avg2023 } = m.transits;
+  if (now == null || !avg2023) return null;
+  const p = (100 * now) / avg2023;
+  return `${p < 1 ? '<1' : Math.round(p)}% of the ${m.refYear} average`;
+}
+
+/** "96% below the same days a year earlier", or null without a figure. */
+function againstYear(m: Alert['measures'][number]): string | null {
+  if (m.gapYear == null) return null;
+  const g = Math.round(Math.abs(m.gapYear));
+  if (g === 0) return 'level with the same days a year earlier';
+  return `${g}% ${m.gapYear < 0 ? 'below' : 'above'} the same days a year earlier`;
+}
+
+/** What the Atlas estimates of one commodity's seaborne trade say about one passage, "At least 27%, up to 32% of seaborne crude oil crossed it in 2024". */
+function exposureText(k: string, e: NonNullable<Chokepoint['estimates']>[number]): string {
+  const name = e.p && e.p !== e.k && GROUP_LABEL[e.p] ? GROUP_LABEL[e.p].replace(/ \(Atlas estimate\)$/, '') : (commodityMeta(k)?.name ?? k);
+  const what = /^[A-Z][a-z]/.test(name) ? name[0].toLowerCase() + name.slice(1) : name;
+  const lo = fmtEst(e.f.v, true);
+  const hi = e.hi && fmtEst(e.hi.v, true) !== lo ? fmtEst(e.hi.v, true) : null;
+  return `At least ${lo}%${hi ? `, up to ${hi}%` : ''} of seaborne ${what}`;
+}
+
+/** "the Strait of Hormuz", "Bab el-Mandeb": a passage's name inside a sentence (the part in brackets left out). */
+function inSentence(name: string): string {
+  const short = name.replace(/ \(.*\)$/, '');
+  return /^(Bab |Cape Horn)/.test(short) ? short : `the ${short}`;
+}
+
+/** The passage line of a banner: the traffic figure with its date and source, then, on a commodity page, the exposure of that commodity. */
+function PassageLine(props: { m: Alert['measures'][number]; commodity?: string; chk?: Chokepoint }) {
+  const { m, commodity: k, chk } = props;
+  const ref = ofReference(m);
+  const yr = againstYear(m);
+  const short = m.name.replace(/ \(.*\)$/, '');
+  const est = k ? (chk?.estimates ?? []).filter((e) => e.k === k) : [];
+  const mt = m.mt.now != null ? ` · about ${fmt(m.mt.now)} Mt of cargo` : '';
+  return (
+    <div class="alert-pass">
+      <div class="alert-pass-fig">
+        {ref ? (
+          <>
+            <b>{short}:</b> transits <b class="num">{ref}</b>
+            {yr && <> · {yr}</>}
+          </>
+        ) : (
+          <>
+            <b>{short}:</b> {yr ?? 'no comparison available'}
+          </>
+        )}
+      </div>
+      <div class="alert-pass-sub num" title="Transits and estimated cargo of the vessels IMF PortWatch counts at the passage, summed over the window. Data adapted from IMF PortWatch.">
+        {m.days} days to {dayLabel(m.to)}
+        {m.transits.now != null && <> · {fmt(m.transits.now)} transits</>}
+        {mt} · {shortSource(m.s)}
+      </div>
+      {est.map((e) => (
+        <div class="alert-expo" key={`${e.k}-${e.p ?? ''}`}>
+          {exposureText(k!, e)} crossed{' '}
+          <button class="alert-pass-link" onClick={() => select({ kind: 'chokepoint', id: m.chokepoint })}>
+            {inSentence(m.name)}
+          </button>{' '}
+          in {e.f.y}. <EstMark />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /**
  * Dated disruption banners. Alerts are matched by commodity, country, or chokepoint ids;
  * `status` are lane/route-specific notes, de-duplicated against the alerts by event id.
+ * Each banner shows the traffic of its passages against the year before and 2023 (IMF PortWatch), the date of the
+ * last observation, the date its text was reviewed and, on a commodity page, the commodity's exposure to each passage.
+ * The events linked to the commodity, route or country come with it (EventList).
  */
-type AlertProps = { commodity?: string; country?: string; chokepoints?: string[]; status?: StatusNote[]; expanded?: boolean };
+type AlertProps = { commodity?: string; country?: string; route?: string; chokepoints?: string[]; status?: StatusNote[]; expanded?: boolean };
 
 function CollapsedAlerts(props: AlertProps & { count: number; high: boolean; titles: string[] }) {
   const [open, setOpen] = useState(false);
-  if (open) return <AlertBanners {...props} expanded />;
+  if (open) return <AlertList {...props} expanded />;
   return (
     <button class={`alert alert-${props.high ? 'high' : 'medium'} alert-collapsed`} onClick={() => setOpen(true)} aria-expanded="false">
       <b>Active disruptions ({props.count})</b>
@@ -176,7 +277,7 @@ function CollapsedAlerts(props: AlertProps & { count: number; high: boolean; tit
   );
 }
 
-export function AlertBanners(props: AlertProps) {
+function AlertList(props: AlertProps) {
   const all = useAlerts();
   const cps = props.chokepoints ?? [];
   const hit = all.filter(
@@ -185,6 +286,7 @@ export function AlertBanners(props: AlertProps) {
       (props.country != null && a.countries.includes(props.country)) ||
       cps.some((c) => a.chokepoints.includes(c)),
   );
+  const chks = useChokepoints(props.commodity != null && hit.length > 0);
   const seen = new Set(hit.map((a) => a.event));
   const notes = (props.status ?? []).filter((n) => {
     const key = n.event ?? n.text;
@@ -193,7 +295,8 @@ export function AlertBanners(props: AlertProps) {
     return true;
   });
   // high severity first
-  hit.sort((a, b) => (a.severity === b.severity ? 0 : a.severity === 'high' ? -1 : 1));
+  const rank = { high: 0, medium: 1, low: 2 } as const;
+  hit.sort((a, b) => (rank[a.severity ?? 'low'] ?? 2) - (rank[b.severity ?? 'low'] ?? 2));
   if (!hit.length && !notes.length) return null;
   const total = hit.length + notes.length;
   if (total > 1 && !props.expanded) {
@@ -202,21 +305,37 @@ export function AlertBanners(props: AlertProps) {
   }
   return (
     <div class="alerts">
-      {hit.map((a) => (
-        <div class={`alert alert-${a.severity}`} role="note" key={a.id}>
-          <div class="alert-head">
-            <b>{a.title}</b>
-            <span class="alert-since num">since {sinceLabel(a.since)}</span>
+      {hit.map((a) => {
+        // on a passage page the figures are those of that passage; elsewhere all the passages of the alert
+        const own = a.measures.filter((m) => cps.includes(m.chokepoint));
+        const shown = own.length ? own : a.measures;
+        return (
+          <div class={`alert alert-${a.severity ?? 'low'}`} role="note" key={a.id}>
+            <div class="alert-head">
+              <b>{a.title}</b>
+              <span class="alert-since num">
+                {a.severity && (
+                  <span class="alert-sev" title={a.severityNote}>
+                    {SEVERITY_WORD[a.severity]}
+                  </span>
+                )}
+                since {sinceLabel(a.since)}
+              </span>
+            </div>
+            <p>{a.text}</p>
+            {shown.map((m) => (
+              <PassageLine key={m.chokepoint} m={m} commodity={props.commodity} chk={chks.find((c) => c.id === m.chokepoint)} />
+            ))}
+            <div class="alert-reviewed muted">Text reviewed on {dayLabel(a.reviewed)}</div>
+            <div class="alert-links">
+              <button onClick={() => select({ kind: 'event', id: a.event })}>Details</button>
+              <a href={a.src} target="_blank" rel="noopener">
+                Source ↗
+              </a>
+            </div>
           </div>
-          <p>{a.text}</p>
-          <div class="alert-links">
-            <button onClick={() => select({ kind: 'event', id: a.event })}>Details</button>
-            <a href={a.src} target="_blank" rel="noopener">
-              Source ↗
-            </a>
-          </div>
-        </div>
-      ))}
+        );
+      })}
       {notes.map((n, i) => (
         <div class="alert alert-medium" role="note" key={'n' + i}>
           <p>{n.text}</p>
@@ -228,6 +347,15 @@ export function AlertBanners(props: AlertProps) {
         </div>
       ))}
     </div>
+  );
+}
+
+export function AlertBanners(props: AlertProps) {
+  return (
+    <>
+      <AlertList {...props} />
+      <EventList commodity={props.commodity} country={props.country} route={props.route} />
+    </>
   );
 }
 
@@ -294,9 +422,56 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
   );
 }
 
-/** Ranked horizontal bars for a country table. Rows are clickable (open the country). */
-export function RankedBars(props: { data: Ranked; color?: string; limit?: number; unitLabel?: string }) {
-  const { data } = props;
+/**
+ * Small trend line of a series (inline SVG): one segment per pair of years that both have a figure, a dot on the year
+ * shown. The vertical scale is the series' own range.
+ */
+export function TrendLine(props: { vals: (number | null)[]; at?: number | null; title?: string; w?: number; h?: number }) {
+  const w = props.w ?? 44;
+  const h = props.h ?? 14;
+  const n = props.vals.length;
+  const nums = props.vals.filter((v): v is number => v != null);
+  if (n < 2 || !nums.length) return <span class="trend" style={{ width: `${w}px` }} />;
+  const lo = Math.min(...nums);
+  const hi = Math.max(...nums);
+  const x = (i: number) => 1 + (i / (n - 1)) * (w - 2);
+  const y = (v: number) => (hi === lo ? h / 2 : 1.5 + (1 - (v - lo) / (hi - lo)) * (h - 3));
+  const segs: string[] = [];
+  let cur = '';
+  props.vals.forEach((v, i) => {
+    if (v == null) {
+      if (cur) segs.push(cur);
+      cur = '';
+      return;
+    }
+    cur += `${cur ? ' L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`;
+  });
+  if (cur) segs.push(cur);
+  const at = props.at != null ? props.vals[props.at] : null;
+  return (
+    <span class="trend" title={props.title}>
+      <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} aria-hidden="true">
+        {segs.map((d) => <path key={d} d={d} />)}
+        {at != null && props.at != null && <circle cx={x(props.at)} cy={y(at)} r="1.8" />}
+      </svg>
+    </span>
+  );
+}
+
+/** "2005 12.3 → 2024 18.9": the first and last figures of a series, for the title of its trend line. */
+function trendTitle(h: HistTable, vals: (number | null)[], u: string): string {
+  const pts = vals.map((v, i) => (v == null ? null : `${h.labels?.[i] ?? h.years[i]} ${fmt(v)}`)).filter(Boolean);
+  return pts.length ? `${pts[0]} → ${pts[pts.length - 1]} ${u}` : '';
+}
+
+/**
+ * Ranked horizontal bars for a country table. Rows are clickable (open the country). The first `limit` rows are drawn,
+ * then "Rest of world" (the world total minus the rows drawn and the source's own "Other countries" line, so that the
+ * shares add up to 100%) and "Show all". `hist`: the table by year, for a trend line per row and the world by year;
+ * `at` is the year of the series shown.
+ */
+export function RankedBars(props: { data: Ranked; color?: string; limit?: number; unitLabel?: string; hist?: HistTable; at?: number | null }) {
+  const { data, hist } = props;
   const limit = props.limit ?? 10;
   const [all, setAll] = useState(false);
   // a new table starts folded
@@ -310,10 +485,19 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const world = data.world;
   // the source's own "Other countries" line, and apart from it the countries the table names beyond the rows shown
   const other = data.other && data.other > 0 ? data.other : 0;
-  const named = other > 0 || !!data.hidden;
-  const further = !all && named ? beyond : [];
-  const furtherSum = further.reduce((a, r) => a + r.v, 0);
-  const furtherNames = further.map((r) => countryName(r.c)).join(', ');
+  // what the world total holds beyond the countries listed and that line (places that are not countries of the atlas,
+  // regions the source does not split, rounding): its own line when it is 0.05% of the world or more
+  const gap = world ? world - data.rows.reduce((a, r) => a + r.v, 0) - other : 0;
+  const notBy = world && gap > world * 5e-4 ? gap : 0;
+  const further = all ? [] : beyond;
+  const furtherSum = further.reduce((a, r) => a + r.v, 0) + notBy;
+  const furtherNames = further.map((r) => countryName(r.c));
+  const restTitle =
+    data.hidden && data.hidden.k === further.length
+      ? data.hidden.n
+      : `${furtherNames.slice(0, 12).join(', ')}${furtherNames.length > 12 ? ` and ${furtherNames.length - 12} more` : ''}${notBy ? '; and what the world total holds that the source does not give by country' : ''}`;
+  const notByTitle = `The world total minus the countries listed${other ? ' and the source\'s "Other countries" line' : ''}: places and regions the source does not give as a country of the atlas, and rounding`;
+  const trendAt = props.at ?? (hist ? hist.years.length - 1 : null);
   const longNote = !!data.n && data.n.length > 130;
   const published = data.worldPublished != null && data.worldPublished !== world ? data.worldPublished : null;
   // the accessible name of a row reads "China 980 Mt, 53.8% of world", not "China 98053.8%": the unit and the separator are for screen readers
@@ -324,11 +508,24 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
       <span class="sr-only"> of world</span>
     </>
   );
+  const tr = hist ? ' has-trend' : '';
+  const trendSlot = (vals?: (number | null)[]) =>
+    hist ? vals ? <TrendLine vals={vals} at={trendAt} title={trendTitle(hist, vals, hist.u)} /> : <span class="trend" /> : null;
+  const wFirst = hist ? hist.world.findIndex((v) => v != null) : -1;
   return (
     <div>
+      {hist && wFirst >= 0 && (
+        <div class="bar-world" title={`World total by year, ${hist.u}: ${hist.world.map((v, i) => `${hist.labels?.[i] ?? hist.years[i]} ${fmt(v)}`).join(', ')}`}>
+          <span>World, {hist.labels?.[wFirst] ?? hist.years[wFirst]} to {hist.labels?.[hist.years.length - 1] ?? hist.years[hist.years.length - 1]}</span>
+          <TrendLine vals={hist.world} at={trendAt} w={64} h={16} />
+          <span class="num">
+            {fmt(hist.world[wFirst])} → {fmt(hist.world[hist.world.length - 1])} {hist.u}
+          </span>
+        </div>
+      )}
       <div class="bars" style={{ '--bar-color': props.color }}>
         {rows.map((r, i) => (
-          <button class="bar-row" key={r.c} onClick={() => select({ kind: 'country', id: r.c })} title={r.n}>
+          <button class={`bar-row${tr}`} key={r.c} onClick={() => select({ kind: 'country', id: r.c })} title={r.n}>
             <span class="bar-rank">{i + 1}</span>
             <span>
               <span class="bar-label">
@@ -339,6 +536,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
                 <div class="bar-fill" style={{ width: `${(r.v / max) * 100}%` }} />
               </div>
             </span>
+            {trendSlot(hist?.c[r.c])}
             <span class="bar-value">
               {val(r.v, r.est)}
               {value}
@@ -346,24 +544,42 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
             </span>
           </button>
         ))}
-        {further.length > 0 && (
-          <button class="bar-row bar-other bar-further" onClick={() => setAll(true)} title={data.hidden?.n ?? `Named by the source: ${furtherNames}`}>
+        {further.length > 0 ? (
+          <button class={`bar-row bar-other bar-further${tr}`} onClick={() => setAll(true)} title={restTitle}>
             <span class="bar-rank" />
             <span>
-              <span class="bar-label">Further countries named by the source</span>
-              <span class="bar-names">{furtherNames}</span>
+              <span class="bar-label">Rest of world</span>
+              <span class="bar-names">
+                {further.length} more countr{further.length === 1 ? 'y' : 'ies'}
+                {notBy ? ' and amounts not given by country' : ''}
+              </span>
             </span>
+            {trendSlot()}
             <span class="bar-value">
               {val(furtherSum)}
               {value}
               {world ? share(pct(furtherSum / world)) : null}
             </span>
           </button>
+        ) : (
+          notBy > 0 && (
+            <div class={`bar-row bar-other${tr}`} title={notByTitle}>
+              <span class="bar-rank" />
+              <span class="bar-label">Not given by country</span>
+              {trendSlot()}
+              <span class="bar-value">
+                {val(notBy)}
+                {value}
+                {world ? share(pct(notBy / world)) : null}
+              </span>
+            </div>
+          )
         )}
         {other > 0 && (
-          <div class="bar-row bar-other">
+          <div class={`bar-row bar-other${tr}`}>
             <span class="bar-rank" />
             <span class="bar-label">Other countries (as published)</span>
+            {trendSlot(hist?.other)}
             <span class="bar-value">
               {val(other)}
               {value}
@@ -372,9 +588,9 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           </div>
         )}
       </div>
-      {named && beyond.length > 0 && (
+      {beyond.length > 0 && (
         <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
-          {all ? 'Show fewer' : `Show all ${data.rows.length}`}
+          {all ? 'Show fewer' : `Show all (${data.rows.length})`}
         </button>
       )}
       <SourceLine

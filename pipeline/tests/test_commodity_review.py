@@ -149,7 +149,7 @@ class EstimatedRows(unittest.TestCase):
 
     def test_every_row_above_half_estimated_is_marked_in_every_file(self):
         for f in os.listdir(os.path.join(DATA, "commodities")):
-            if f in ("index.json", "companies.json"):
+            if f in ("index.json", "companies.json") or not f.endswith(".json"):  # history/ holds the series by year
                 continue
             d = load("commodities/" + f)
             tabs = [d.get(s) for s in ("production", "reserves", "consumption", "exports", "imports", "refinery")] + [x["table"] for x in d.get("extra") or []]
@@ -190,7 +190,8 @@ class OtherCountries(unittest.TestCase):
         self.assertEqual(g["other"], 1000)
         self.assertEqual(g["hidden"]["k"], 3)
         self.assertNotIn("worldPublished", g)
-        self.assertNotIn("hidden", load("commodities/bauxite.json")["production"])  # not a full table
+        bx = load("commodities/bauxite.json")["production"]  # not a full table: the USGS total stays, its "Other countries" line is its own row
+        self.assertEqual((bx["other"], bx["hidden"]["k"]), (8.0, len(bx["rows"]) - B.SHOWN_ROWS))
 
     def test_no_country_named_from_memory(self):
         txt = " ".join(load("commodities/steel.json")["notes"] + load("commodities/gold.json")["notes"])
@@ -202,6 +203,8 @@ class Notes(unittest.TestCase):
     def test_no_full_stop_before_a_semicolon(self):
         bad = []
         for f in os.listdir(os.path.join(DATA, "commodities")):
+            if not f.endswith(".json"):  # history/ holds the series by year
+                continue
             with open(os.path.join(DATA, "commodities", f), encoding="utf-8") as fh:
                 if re.search(r"\.; ", fh.read()):
                     bad.append(f)
@@ -242,7 +245,7 @@ class Notes(unittest.TestCase):
         self.assertIn("World LNG trade", src["giignl-2026"]["use"])
         # every source id of a commodity file is in the registry
         for f in os.listdir(os.path.join(DATA, "commodities")):
-            if f in ("index.json", "companies.json"):
+            if f in ("index.json", "companies.json") or not f.endswith(".json"):  # history/: checked by test_history.py
                 continue
             ids = set(re.findall(r'"(?:s|usdS)": "([^"]+)"', open(os.path.join(DATA, "commodities", f), encoding="utf-8").read()))
             self.assertLessEqual(ids, set(src), (f, ids - set(src)))

@@ -28,6 +28,9 @@ from hs_map import HS  # noqa: E402
 from clean import CODE_FIX  # noqa: E402  (BACI code S19 is Taiwan: one mapping for all builders)
 
 TOP_RANK, MIN_SHARE, MIN_WEIGHT = 10, 0.03, 0.10
+# The commodity tables list every country; profiles read their first 12 rows, as when the tables held 12 rows, until the
+# profiles are rebuilt from the full tables (a later package).
+PROFILE_ROWS = 12
 
 # atlas commodity -> BACI groups used to value its trade.
 # Customs codes do not separate thermal from metallurgical coal: the value of all coal belongs to
@@ -126,7 +129,7 @@ def main():
             if not t or not t.get("rows"):
                 continue
             world = t.get("world") or sum(r["v"] for r in t["rows"])
-            for i, r in enumerate(t["rows"]):
+            for i, r in enumerate(t["rows"][:PROFILE_ROWS]):
                 share = r["v"] / world if world else None
                 e = {"k": k, "v": r["v"], "u": t["u"], "share": round(share, 4) if share else None, "rank": i + 1, "y": t["y"], "s": t["s"]}
                 if r.get("est") or t["s"] == "atlas":

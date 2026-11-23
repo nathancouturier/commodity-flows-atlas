@@ -1,0 +1,56 @@
+/* Alerts with figures, events of a commodity / route / country, prices around an event, "What changed" and the publication calendar. */
+
+/* ---- alert banners: figures and severity */
+.alert-low { background: rgba(157, 183, 255, 0.07); border-color: rgba(157, 183, 255, 0.35); }
+.alert-low .alert-head b { color: #9db7ff; }
+.alert-sev { margin-right: 8px; padding: 0 6px; border: 1px solid currentColor; border-radius: 3px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; cursor: help; }
+.alert-pass { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.alert-pass-fig { color: var(--ink-0); }
+.alert-pass-sub { font-size: 11px; color: var(--ink-2); margin-top: 1px; }
+.alert-expo { margin-top: 3px; color: var(--ink-1); }
+.alert-pass-link { padding: 0; font-size: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.alert-pass-link:hover { color: var(--ink-0); }
+.alert-reviewed { font-size: 11px; margin-top: 6px; }
+
+/* ---- events of a commodity, a route or a country */
+.evl { margin: 8px 0 4px; border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); border-radius: var(--r-md); font-size: var(--fs-xs); }
+.evl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; width: 100%; padding: 8px 10px; text-align: left; cursor: pointer; color: var(--ink-1); }
+.evl-head b { font-size: var(--fs-sm); color: var(--ink-0); }
+.evl-peek { color: var(--ink-2); flex: 1 1 12ch; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.evl-more { margin-left: auto; text-decoration: underline; color: var(--accent); }
+.evl-list { list-style: none; margin: 0; padding: 0 4px 6px; }
+.evl-row { display: grid; grid-template-columns: 8px 6.5em 1fr; gap: 8px; align-items: baseline; width: 100%; padding: 5px 6px; text-align: left; border-radius: var(--r-sm, 4px); color: var(--ink-1); }
+.evl-row:hover { background: rgba(255, 255, 255, 0.05); color: var(--ink-0); }
+.evl-dot { width: 8px; height: 8px; border-radius: 50%; align-self: center; }
+.evl-date { color: var(--ink-2); font-size: 11px; }
+
+/* ---- prices around an event */
+.evp-row { padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.evp-row:first-child { border-top: 0; padding-top: 0; }
+.evp-line { font-size: var(--fs-xs); margin-top: 2px; }
+.evp-up { color: #7ee0a1; }
+.evp-dn { color: #ff7d94; }
+.evp-open { margin-top: 4px; padding: 0; font-size: 11px; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.evp-open:hover { color: var(--ink-0); }
+
+/* ---- About window: what changed, calendar */
+.chg-sec { margin: 8px 0 12px; }
+.chg-sec h4 { margin: 10px 0 4px; font-size: var(--fs-sm); color: var(--ink-0); }
+.chg-list { list-style: none; margin: 0; padding: 0; }
+.chg-list li { padding: 4px 0; font-size: var(--fs-xs); color: var(--ink-1); }
+.chg-up { color: #7ee0a1; }
+.chg-dn { color: #ff7d94; }
+.chg-when { display: block; color: var(--ink-2); font-size: 11px; }
+@media (max-width: 640px) {
+  .evl-row { grid-template-columns: 8px 1fr; }
+  .evl-date { grid-column: 2; }
+  .evl-title { grid-column: 2; }
+}
+
+/* ---- About window: freshness by family, calendar */
+.fresh-fam { margin: 6px 0 12px; padding-left: 18px; font-size: var(--fs-sm); line-height: 1.45; }
+.fresh-fam li { margin: 3px 0; color: var(--ink-1); }
+.fresh-fam b { color: var(--ink-0); }
+.about-cal th:first-child { width: 34%; }
+.about-cal td:nth-child(2) { width: 22%; }
+.about-cal small { display: block; color: var(--ink-2); }

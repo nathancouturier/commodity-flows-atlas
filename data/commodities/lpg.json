@@ -76,6 +76,742 @@
    {
     "c": "IRQ",
     "v": 4.395
+   },
+   {
+    "c": "TUR",
+    "v": 3.956
+   },
+   {
+    "c": "ITA",
+    "v": 3.423
+   },
+   {
+    "c": "DZA",
+    "v": 3.235
+   },
+   {
+    "c": "FRA",
+    "v": 3.114
+   },
+   {
+    "c": "MAR",
+    "v": 3.05
+   },
+   {
+    "c": "EGY",
+    "v": 2.982
+   },
+   {
+    "c": "NLD",
+    "v": 2.835
+   },
+   {
+    "c": "VNM",
+    "v": 2.649
+   },
+   {
+    "c": "BEL",
+    "v": 2.619
+   },
+   {
+    "c": "POL",
+    "v": 2.489
+   },
+   {
+    "c": "DEU",
+    "v": 2.468
+   },
+   {
+    "c": "GBR",
+    "v": 2.355
+   },
+   {
+    "c": "MYS",
+    "v": 2.289
+   },
+   {
+    "c": "IRN",
+    "v": 2.268
+   },
+   {
+    "c": "PAK",
+    "v": 2.1
+   },
+   {
+    "c": "PHL",
+    "v": 2.074
+   },
+   {
+    "c": "PER",
+    "v": 2.016
+   },
+   {
+    "c": "ESP",
+    "v": 1.983
+   },
+   {
+    "c": "TWN",
+    "v": 1.906
+   },
+   {
+    "c": "ARG",
+    "v": 1.594
+   },
+   {
+    "c": "CHL",
+    "v": 1.568
+   },
+   {
+    "c": "KAZ",
+    "v": 1.553
+   },
+   {
+    "c": "BGD",
+    "v": 1.357
+   },
+   {
+    "c": "NGA",
+    "v": 1.337
+   },
+   {
+    "c": "ECU",
+    "v": 1.308
+   },
+   {
+    "c": "TKM",
+    "v": 1.278
+   },
+   {
+    "c": "FIN",
+    "v": 1.218
+   },
+   {
+    "c": "QAT",
+    "v": 1.064
+   },
+   {
+    "c": "DOM",
+    "v": 1.043
+   },
+   {
+    "c": "SWE",
+    "v": 0.973
+   },
+   {
+    "c": "UKR",
+    "v": 0.9238
+   },
+   {
+    "c": "AUS",
+    "v": 0.873
+   },
+   {
+    "c": "AFG",
+    "v": 0.8703
+   },
+   {
+    "c": "ARE",
+    "v": 0.8211
+   },
+   {
+    "c": "UZB",
+    "v": 0.8184
+   },
+   {
+    "c": "COL",
+    "v": 0.8107
+   },
+   {
+    "c": "CIV",
+    "v": 0.7316
+   },
+   {
+    "c": "GRC",
+    "v": 0.724
+   },
+   {
+    "c": "NOR",
+    "v": 0.686
+   },
+   {
+    "c": "TUN",
+    "v": 0.68
+   },
+   {
+    "c": "NPL",
+    "v": 0.6173
+   },
+   {
+    "c": "VEN",
+    "v": 0.5873
+   },
+   {
+    "c": "JOR",
+    "v": 0.579
+   },
+   {
+    "c": "GTM",
+    "v": 0.54
+   },
+   {
+    "c": "YEM",
+    "v": 0.5299
+   },
+   {
+    "c": "BOL",
+    "v": 0.4956
+   },
+   {
+    "c": "AGO",
+    "v": 0.4895
+   },
+   {
+    "c": "BGR",
+    "v": 0.4516
+   },
+   {
+    "c": "ISR",
+    "v": 0.437
+   },
+   {
+    "c": "ROU",
+    "v": 0.4286
+   },
+   {
+    "c": "PRT",
+    "v": 0.425
+   },
+   {
+    "c": "KEN",
+    "v": 0.4245
+   },
+   {
+    "c": "KHM",
+    "v": 0.4092
+   },
+   {
+    "c": "LKA",
+    "v": 0.3757
+   },
+   {
+    "c": "TZA",
+    "v": 0.3681
+   },
+   {
+    "c": "CZE",
+    "v": 0.368
+   },
+   {
+    "c": "LBY",
+    "v": 0.3664
+   },
+   {
+    "c": "TJK",
+    "v": 0.3615
+   },
+   {
+    "c": "SLV",
+    "v": 0.3321
+   },
+   {
+    "c": "GHA",
+    "v": 0.3309
+   },
+   {
+    "c": "HUN",
+    "v": 0.29
+   },
+   {
+    "c": "BFA",
+    "v": 0.2862
+   },
+   {
+    "c": "SYR",
+    "v": 0.2728
+   },
+   {
+    "c": "OMN",
+    "v": 0.2695
+   },
+   {
+    "c": "LBN",
+    "v": 0.2421
+   },
+   {
+    "c": "AZE",
+    "v": 0.2389
+   },
+   {
+    "c": "CRI",
+    "v": 0.2362
+   },
+   {
+    "c": "HKG",
+    "v": 0.2329
+   },
+   {
+    "c": "KWT",
+    "v": 0.2236
+   },
+   {
+    "c": "PAN",
+    "v": 0.2165
+   },
+   {
+    "c": "HND",
+    "v": 0.2152
+   },
+   {
+    "c": "SEN",
+    "v": 0.2089
+   },
+   {
+    "c": "NZL",
+    "v": 0.195
+   },
+   {
+    "c": "ARM",
+    "v": 0.1835
+   },
+   {
+    "c": "CMR",
+    "v": 0.1782
+   },
+   {
+    "c": "IRL",
+    "v": 0.174
+   },
+   {
+    "c": "PSE",
+    "v": 0.1703
+   },
+   {
+    "c": "PRI",
+    "v": 0.1682
+   },
+   {
+    "c": "LTU",
+    "v": 0.167
+   },
+   {
+    "c": "ALB",
+    "v": 0.164
+   },
+   {
+    "c": "CHE",
+    "v": 0.159
+   },
+   {
+    "c": "ZAF",
+    "v": 0.1577
+   },
+   {
+    "c": "SRB",
+    "v": 0.1553
+   },
+   {
+    "c": "CUB",
+    "v": 0.1528
+   },
+   {
+    "c": "BLR",
+    "v": 0.145
+   },
+   {
+    "c": "KGZ",
+    "v": 0.1427
+   },
+   {
+    "c": "SGP",
+    "v": 0.1414
+   },
+   {
+    "c": "AUT",
+    "v": 0.137
+   },
+   {
+    "c": "PRY",
+    "v": 0.1356
+   },
+   {
+    "c": "URY",
+    "v": 0.1171
+   },
+   {
+    "c": "NIC",
+    "v": 0.1151
+   },
+   {
+    "c": "JAM",
+    "v": 0.1114
+   },
+   {
+    "c": "GEO",
+    "v": 0.1044
+   },
+   {
+    "c": "MUS",
+    "v": 0.0997
+   },
+   {
+    "c": "SVK",
+    "v": 0.092
+   },
+   {
+    "c": "TTO",
+    "v": 0.0909
+   },
+   {
+    "c": "BHR",
+    "v": 0.0837
+   },
+   {
+    "c": "HRV",
+    "v": 0.0835
+   },
+   {
+    "c": "MRT",
+    "v": 0.0809
+   },
+   {
+    "c": "BIH",
+    "v": 0.078
+   },
+   {
+    "c": "BEN",
+    "v": 0.0779
+   },
+   {
+    "c": "LVA",
+    "v": 0.077
+   },
+   {
+    "c": "NER",
+    "v": 0.0763
+   },
+   {
+    "c": "SDN",
+    "v": 0.0754
+   },
+   {
+    "c": "TGO",
+    "v": 0.0749
+   },
+   {
+    "c": "ZWE",
+    "v": 0.0738
+   },
+   {
+    "c": "VIR",
+    "v": 0.0666
+   },
+   {
+    "c": "DNK",
+    "v": 0.061
+   },
+   {
+    "c": "SVN",
+    "v": 0.058
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0578
+   },
+   {
+    "c": "MKD",
+    "v": 0.0572
+   },
+   {
+    "c": "CYP",
+    "v": 0.0572
+   },
+   {
+    "c": "MDA",
+    "v": 0.0546
+   },
+   {
+    "c": "EST",
+    "v": 0.05
+   },
+   {
+    "c": "TCD",
+    "v": 0.0486
+   },
+   {
+    "c": "GAB",
+    "v": 0.0485
+   },
+   {
+    "c": "HTI",
+    "v": 0.0401
+   },
+   {
+    "c": "UGA",
+    "v": 0.0393
+   },
+   {
+    "c": "GUY",
+    "v": 0.0368
+   },
+   {
+    "c": "BHS",
+    "v": 0.0357
+   },
+   {
+    "c": "RWA",
+    "v": 0.0323
+   },
+   {
+    "c": "MAC",
+    "v": 0.0313
+   },
+   {
+    "c": "LAO",
+    "v": 0.0304
+   },
+   {
+    "c": "MDV",
+    "v": 0.0268
+   },
+   {
+    "c": "BLZ",
+    "v": 0.0263
+   },
+   {
+    "c": "KOS",
+    "v": 0.0258
+   },
+   {
+    "c": "SUR",
+    "v": 0.0255
+   },
+   {
+    "c": "MLT",
+    "v": 0.0249
+   },
+   {
+    "c": "MMR",
+    "v": 0.0246
+   },
+   {
+    "c": "LUX",
+    "v": 0.024
+   },
+   {
+    "c": "BWA",
+    "v": 0.022
+   },
+   {
+    "c": "FJI",
+    "v": 0.0203
+   },
+   {
+    "c": "MDG",
+    "v": 0.0185
+   },
+   {
+    "c": "NAM",
+    "v": 0.0182
+   },
+   {
+    "c": "BRN",
+    "v": 0.0169
+   },
+   {
+    "c": "NCL",
+    "v": 0.0166
+   },
+   {
+    "c": "MLI",
+    "v": 0.0163
+   },
+   {
+    "c": "PNG",
+    "v": 0.0155
+   },
+   {
+    "c": "DJI",
+    "v": 0.0152
+   },
+   {
+    "c": "CPV",
+    "v": 0.0146
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0139
+   },
+   {
+    "c": "SSD",
+    "v": 0.0136
+   },
+   {
+    "c": "GUM",
+    "v": 0.0126
+   },
+   {
+    "c": "MNE",
+    "v": 0.0119
+   },
+   {
+    "c": "GNQ",
+    "v": 0.0118
+   },
+   {
+    "c": "ETH",
+    "v": 0.0108
+   },
+   {
+    "c": "PYF",
+    "v": 0.0099
+   },
+   {
+    "c": "LSO",
+    "v": 0.009
+   },
+   {
+    "c": "ABW",
+    "v": 0.009
+   },
+   {
+    "c": "SOM",
+    "v": 0.0081
+   },
+   {
+    "c": "LCA",
+    "v": 0.0079
+   },
+   {
+    "c": "ERI",
+    "v": 0.0068
+   },
+   {
+    "c": "BRB",
+    "v": 0.0065
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0064
+   },
+   {
+    "c": "ATG",
+    "v": 0.0063
+   },
+   {
+    "c": "BTN",
+    "v": 0.0062
+   },
+   {
+    "c": "VCT",
+    "v": 0.006
+   },
+   {
+    "c": "TCA",
+    "v": 0.0051
+   },
+   {
+    "c": "COG",
+    "v": 0.0051
+   },
+   {
+    "c": "MWI",
+    "v": 0.0047
+   },
+   {
+    "c": "GRD",
+    "v": 0.0041
+   },
+   {
+    "c": "SYC",
+    "v": 0.0041
+   },
+   {
+    "c": "BMU",
+    "v": 0.0037
+   },
+   {
+    "c": "WSM",
+    "v": 0.0036
+   },
+   {
+    "c": "COD",
+    "v": 0.0035
+   },
+   {
+    "c": "COM",
+    "v": 0.0034
+   },
+   {
+    "c": "SLE",
+    "v": 0.003
+   },
+   {
+    "c": "DMA",
+    "v": 0.0029
+   },
+   {
+    "c": "CYM",
+    "v": 0.0028
+   },
+   {
+    "c": "GMB",
+    "v": 0.0026
+   },
+   {
+    "c": "GNB",
+    "v": 0.0022
+   },
+   {
+    "c": "KNA",
+    "v": 0.0021
+   },
+   {
+    "c": "LBR",
+    "v": 0.0021
+   },
+   {
+    "c": "SLB",
+    "v": 0.0019
+   },
+   {
+    "c": "VUT",
+    "v": 0.0018
+   },
+   {
+    "c": "TON",
+    "v": 0.0017
+   },
+   {
+    "c": "MSR",
+    "v": 0.0016
+   },
+   {
+    "c": "TLS",
+    "v": 0.0012
+   },
+   {
+    "c": "ISL",
+    "v": 0.001
+   },
+   {
+    "c": "PRK",
+    "v": 0.0005
+   },
+   {
+    "c": "KIR",
+    "v": 0.0002
+   },
+   {
+    "c": "STP",
+    "v": 0.0002
+   },
+   {
+    "c": "CAF",
+    "v": 0.0001
+   },
+   {
+    "c": "GRL",
+    "v": 0.0001
    }
   ],
   "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries) · Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated.",
@@ -136,6 +872,314 @@
    {
     "c": "RUS",
     "v": 1.144
+   },
+   {
+    "c": "ARG",
+    "v": 0.9766
+   },
+   {
+    "c": "SWE",
+    "v": 0.9284
+   },
+   {
+    "c": "BEL",
+    "v": 0.8712
+   },
+   {
+    "c": "NLD",
+    "v": 0.8687
+   },
+   {
+    "c": "FRA",
+    "v": 0.8513
+   },
+   {
+    "c": "KAZ",
+    "v": 0.7233
+   },
+   {
+    "c": "ESP",
+    "v": 0.7192
+   },
+   {
+    "c": "MYS",
+    "v": 0.6932
+   },
+   {
+    "c": "CHN",
+    "v": 0.6896
+   },
+   {
+    "c": "AGO",
+    "v": 0.6186
+   },
+   {
+    "c": "NGA",
+    "v": 0.4966,
+    "n": "37% of tonnage estimated from value"
+   },
+   {
+    "c": "GNQ",
+    "v": 0.3901,
+    "n": "20% of tonnage estimated from value"
+   },
+   {
+    "c": "GTM",
+    "v": 0.3447
+   },
+   {
+    "c": "DEU",
+    "v": 0.3342
+   },
+   {
+    "c": "BHR",
+    "v": 0.2734
+   },
+   {
+    "c": "EGY",
+    "v": 0.2643
+   },
+   {
+    "c": "CHL",
+    "v": 0.2558
+   },
+   {
+    "c": "GRC",
+    "v": 0.2541
+   },
+   {
+    "c": "IRQ",
+    "v": 0.1891
+   },
+   {
+    "c": "CHE",
+    "v": 0.178
+   },
+   {
+    "c": "THA",
+    "v": 0.1768
+   },
+   {
+    "c": "TTO",
+    "v": 0.1636
+   },
+   {
+    "c": "ZAF",
+    "v": 0.1627
+   },
+   {
+    "c": "KOR",
+    "v": 0.1529
+   },
+   {
+    "c": "ITA",
+    "v": 0.1529
+   },
+   {
+    "c": "LBY",
+    "v": 0.1508
+   },
+   {
+    "c": "GHA",
+    "v": 0.1442
+   },
+   {
+    "c": "LTU",
+    "v": 0.1269
+   },
+   {
+    "c": "SLV",
+    "v": 0.1237
+   },
+   {
+    "c": "ROU",
+    "v": 0.1227
+   },
+   {
+    "c": "TUR",
+    "v": 0.0903
+   },
+   {
+    "c": "CIV",
+    "v": 0.0786,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "SGP",
+    "v": 0.0707
+   },
+   {
+    "c": "BRN",
+    "v": 0.0703
+   },
+   {
+    "c": "PRT",
+    "v": 0.0556
+   },
+   {
+    "c": "POL",
+    "v": 0.0546
+   },
+   {
+    "c": "CZE",
+    "v": 0.0533
+   },
+   {
+    "c": "HUN",
+    "v": 0.0493
+   },
+   {
+    "c": "LVA",
+    "v": 0.0466
+   },
+   {
+    "c": "AUT",
+    "v": 0.0456
+   },
+   {
+    "c": "HRV",
+    "v": 0.0401
+   },
+   {
+    "c": "IND",
+    "v": 0.0363
+   },
+   {
+    "c": "DNK",
+    "v": 0.0337
+   },
+   {
+    "c": "SVK",
+    "v": 0.0336
+   },
+   {
+    "c": "TUN",
+    "v": 0.0332,
+    "n": "18% of tonnage estimated from value"
+   },
+   {
+    "c": "TZA",
+    "v": 0.0307
+   },
+   {
+    "c": "DOM",
+    "v": 0.0277
+   },
+   {
+    "c": "BGR",
+    "v": 0.0248
+   },
+   {
+    "c": "MDV",
+    "v": 0.0206
+   },
+   {
+    "c": "PAN",
+    "v": 0.0204
+   },
+   {
+    "c": "BRB",
+    "v": 0.0199
+   },
+   {
+    "c": "JPN",
+    "v": 0.0191
+   },
+   {
+    "c": "ALB",
+    "v": 0.0168
+   },
+   {
+    "c": "TKM",
+    "v": 0.0165
+   },
+   {
+    "c": "BRA",
+    "v": 0.0157
+   },
+   {
+    "c": "SEN",
+    "v": 0.0155
+   },
+   {
+    "c": "SRB",
+    "v": 0.0153
+   },
+   {
+    "c": "LBN",
+    "v": 0.0152
+   },
+   {
+    "c": "CYM",
+    "v": 0.0148
+   },
+   {
+    "c": "IRL",
+    "v": 0.0142
+   },
+   {
+    "c": "MLT",
+    "v": 0.0098
+   },
+   {
+    "c": "FIN",
+    "v": 0.0096
+   },
+   {
+    "c": "BOL",
+    "v": 0.0088
+   },
+   {
+    "c": "IRN",
+    "v": 0.0077,
+    "n": "Customs data record 0.00769 Mt of LPG exports from Iran in 2024, against 8.44 Mt in 2022 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here. The atlas has no free source that measures this gap, so it is not quantified."
+   },
+   {
+    "c": "UZB",
+    "v": 0.0075
+   },
+   {
+    "c": "LUX",
+    "v": 0.0071
+   },
+   {
+    "c": "SVN",
+    "v": 0.0042
+   },
+   {
+    "c": "NIC",
+    "v": 0.0041
+   },
+   {
+    "c": "CUW",
+    "v": 0.0028
+   },
+   {
+    "c": "LKA",
+    "v": 0.0024
+   },
+   {
+    "c": "COG",
+    "v": 0.0018
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0016
+   },
+   {
+    "c": "MDG",
+    "v": 0.0012
+   },
+   {
+    "c": "UGA",
+    "v": 0.0012
+   },
+   {
+    "c": "NZL",
+    "v": 0.001
    }
   ],
   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"
@@ -194,6 +1238,618 @@
    {
     "c": "ITA",
     "v": 2.014
+   },
+   {
+    "c": "EGY",
+    "v": 1.763
+   },
+   {
+    "c": "BRA",
+    "v": 1.724
+   },
+   {
+    "c": "POL",
+    "v": 1.686
+   },
+   {
+    "c": "ESP",
+    "v": 1.529
+   },
+   {
+    "c": "THA",
+    "v": 1.518
+   },
+   {
+    "c": "DEU",
+    "v": 1.492
+   },
+   {
+    "c": "ECU",
+    "v": 1.357
+   },
+   {
+    "c": "CHL",
+    "v": 1.263
+   },
+   {
+    "c": "SWE",
+    "v": 1.202
+   },
+   {
+    "c": "TWN",
+    "v": 1.177
+   },
+   {
+    "c": "DOM",
+    "v": 0.9593
+   },
+   {
+    "c": "GBR",
+    "v": 0.8005
+   },
+   {
+    "c": "GTM",
+    "v": 0.7898
+   },
+   {
+    "c": "SLV",
+    "v": 0.7383
+   },
+   {
+    "c": "PHL",
+    "v": 0.7168
+   },
+   {
+    "c": "AUS",
+    "v": 0.6621
+   },
+   {
+    "c": "CIV",
+    "v": 0.6477
+   },
+   {
+    "c": "MYS",
+    "v": 0.6172
+   },
+   {
+    "c": "TUR",
+    "v": 0.603,
+    "n": "Atlas estimate: 54% of this tonnage is estimated from the declared value (customs declared 0.07 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "NGA",
+    "v": 0.562,
+    "n": "Atlas estimate: 96% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "ZAF",
+    "v": 0.5582
+   },
+   {
+    "c": "CAN",
+    "v": 0.5409
+   },
+   {
+    "c": "VNM",
+    "v": 0.5257,
+    "n": "25% of tonnage estimated from value"
+   },
+   {
+    "c": "SGP",
+    "v": 0.5204
+   },
+   {
+    "c": "KEN",
+    "v": 0.4889
+   },
+   {
+    "c": "TUN",
+    "v": 0.4814
+   },
+   {
+    "c": "FIN",
+    "v": 0.3932
+   },
+   {
+    "c": "PRT",
+    "v": 0.3796
+   },
+   {
+    "c": "UKR",
+    "v": 0.3282
+   },
+   {
+    "c": "TJK",
+    "v": 0.3081
+   },
+   {
+    "c": "HKG",
+    "v": 0.2999
+   },
+   {
+    "c": "LBN",
+    "v": 0.2837
+   },
+   {
+    "c": "TZA",
+    "v": 0.2707
+   },
+   {
+    "c": "PER",
+    "v": 0.2631
+   },
+   {
+    "c": "CRI",
+    "v": 0.2574
+   },
+   {
+    "c": "ROU",
+    "v": 0.25
+   },
+   {
+    "c": "BGR",
+    "v": 0.2417
+   },
+   {
+    "c": "SEN",
+    "v": 0.233
+   },
+   {
+    "c": "HND",
+    "v": 0.2132
+   },
+   {
+    "c": "PAN",
+    "v": 0.2069
+   },
+   {
+    "c": "NOR",
+    "v": 0.1977,
+    "n": "19% of tonnage estimated from value"
+   },
+   {
+    "c": "BFA",
+    "v": 0.1974
+   },
+   {
+    "c": "ALB",
+    "v": 0.1916
+   },
+   {
+    "c": "NIC",
+    "v": 0.1794
+   },
+   {
+    "c": "COL",
+    "v": 0.1755
+   },
+   {
+    "c": "HUN",
+    "v": 0.1667
+   },
+   {
+    "c": "GHA",
+    "v": 0.151,
+    "n": "Atlas estimate: 93% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "UZB",
+    "v": 0.1379
+   },
+   {
+    "c": "LKA",
+    "v": 0.136
+   },
+   {
+    "c": "ZWE",
+    "v": 0.1223
+   },
+   {
+    "c": "NZL",
+    "v": 0.1128
+   },
+   {
+    "c": "AFG",
+    "v": 0.106
+   },
+   {
+    "c": "MUS",
+    "v": 0.1021
+   },
+   {
+    "c": "BGD",
+    "v": 0.1,
+    "n": "Atlas estimate: 93% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "ARM",
+    "v": 0.0961
+   },
+   {
+    "c": "CHE",
+    "v": 0.0956
+   },
+   {
+    "c": "CZE",
+    "v": 0.0937
+   },
+   {
+    "c": "MLI",
+    "v": 0.0911,
+    "n": "Atlas estimate: 86% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "IRL",
+    "v": 0.085
+   },
+   {
+    "c": "LVA",
+    "v": 0.0803
+   },
+   {
+    "c": "MRT",
+    "v": 0.0766
+   },
+   {
+    "c": "URY",
+    "v": 0.075
+   },
+   {
+    "c": "EST",
+    "v": 0.0721
+   },
+   {
+    "c": "GRC",
+    "v": 0.0646
+   },
+   {
+    "c": "KGZ",
+    "v": 0.0626
+   },
+   {
+    "c": "CYP",
+    "v": 0.0609
+   },
+   {
+    "c": "MKD",
+    "v": 0.0583
+   },
+   {
+    "c": "SVK",
+    "v": 0.0571
+   },
+   {
+    "c": "AIA",
+    "v": 0.0516
+   },
+   {
+    "c": "JAM",
+    "v": 0.0515,
+    "n": "Atlas estimate: 83% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "MDA",
+    "v": 0.0508
+   },
+   {
+    "c": "MLT",
+    "v": 0.0492
+   },
+   {
+    "c": "UGA",
+    "v": 0.0465
+   },
+   {
+    "c": "BHS",
+    "v": 0.044
+   },
+   {
+    "c": "DNK",
+    "v": 0.0436
+   },
+   {
+    "c": "GUY",
+    "v": 0.043
+   },
+   {
+    "c": "LTU",
+    "v": 0.0429
+   },
+   {
+    "c": "FJI",
+    "v": 0.041
+   },
+   {
+    "c": "BLZ",
+    "v": 0.0382
+   },
+   {
+    "c": "KHM",
+    "v": 0.0382
+   },
+   {
+    "c": "SVN",
+    "v": 0.0367
+   },
+   {
+    "c": "PRY",
+    "v": 0.0312
+   },
+   {
+    "c": "GEO",
+    "v": 0.031
+   },
+   {
+    "c": "SRB",
+    "v": 0.0261
+   },
+   {
+    "c": "BWA",
+    "v": 0.0249
+   },
+   {
+    "c": "BEN",
+    "v": 0.0248
+   },
+   {
+    "c": "NER",
+    "v": 0.0233
+   },
+   {
+    "c": "HRV",
+    "v": 0.0224
+   },
+   {
+    "c": "MDV",
+    "v": 0.0222
+   },
+   {
+    "c": "MMR",
+    "v": 0.0203
+   },
+   {
+    "c": "AUT",
+    "v": 0.0196
+   },
+   {
+    "c": "MDG",
+    "v": 0.0176
+   },
+   {
+    "c": "PYF",
+    "v": 0.0175
+   },
+   {
+    "c": "ISR",
+    "v": 0.0171
+   },
+   {
+    "c": "CAF",
+    "v": 0.0157,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "WSM",
+    "v": 0.0146
+   },
+   {
+    "c": "NCL",
+    "v": 0.0142
+   },
+   {
+    "c": "SXM",
+    "v": 0.0135,
+    "n": "16% of tonnage estimated from value"
+   },
+   {
+    "c": "CPV",
+    "v": 0.0127
+   },
+   {
+    "c": "VUT",
+    "v": 0.0118
+   },
+   {
+    "c": "SUR",
+    "v": 0.0114
+   },
+   {
+    "c": "TGO",
+    "v": 0.011
+   },
+   {
+    "c": "BIH",
+    "v": 0.0104
+   },
+   {
+    "c": "COD",
+    "v": 0.0103,
+    "n": "Atlas estimate: 78% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "MNE",
+    "v": 0.0096
+   },
+   {
+    "c": "MAC",
+    "v": 0.009
+   },
+   {
+    "c": "BRB",
+    "v": 0.0087
+   },
+   {
+    "c": "NAM",
+    "v": 0.0084
+   },
+   {
+    "c": "LUX",
+    "v": 0.0082
+   },
+   {
+    "c": "CYM",
+    "v": 0.0054
+   },
+   {
+    "c": "CUB",
+    "v": 0.0051
+   },
+   {
+    "c": "ABW",
+    "v": 0.00481,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "LAO",
+    "v": 0.0043
+   },
+   {
+    "c": "HTI",
+    "v": 0.0041,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "JOR",
+    "v": 0.0035
+   },
+   {
+    "c": "ISL",
+    "v": 0.0034
+   },
+   {
+    "c": "BMU",
+    "v": 0.003
+   },
+   {
+    "c": "PNG",
+    "v": 0.003
+   },
+   {
+    "c": "MOZ",
+    "v": 0.003
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0029
+   },
+   {
+    "c": "RUS",
+    "v": 0.0028
+   },
+   {
+    "c": "SYC",
+    "v": 0.0028
+   },
+   {
+    "c": "LSO",
+    "v": 0.0027,
+    "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+   },
+   {
+    "c": "SSD",
+    "v": 0.0025
+   },
+   {
+    "c": "MSR",
+    "v": 0.0024
+   },
+   {
+    "c": "TON",
+    "v": 0.0022
+   },
+   {
+    "c": "PSE",
+    "v": 0.00189,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024
+   },
+   {
+    "c": "SLB",
+    "v": 0.0018
+   },
+   {
+    "c": "ETH",
+    "v": 0.0015
+   },
+   {
+    "c": "AND",
+    "v": 0.0014
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0014
+   },
+   {
+    "c": "ARE",
+    "v": 0.0013
+   },
+   {
+    "c": "COM",
+    "v": 0.0012
+   },
+   {
+    "c": "LBR",
+    "v": 0.0011
+   },
+   {
+    "c": "GUM",
+    "v": 0.0011
+   },
+   {
+    "c": "COG",
+    "v": 0.0011
+   },
+   {
+    "c": "AZE",
+    "v": 0.001
+   },
+   {
+    "c": "KIR",
+    "v": 0.0009
+   },
+   {
+    "c": "MNG",
+    "v": 0.0008
+   },
+   {
+    "c": "SAU",
+    "v": 0.0006
+   },
+   {
+    "c": "ARG",
+    "v": 0.0004
    }
   ],
   "n": "CEPII BACI HS92 LPG: propane and butanes (HS 271112, 271113), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 1% of world tonnage estimated from value where missing or inconsistent"

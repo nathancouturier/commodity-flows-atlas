@@ -691,6 +691,50 @@ The draught rule of the routing (`vessel_rules.avoids()`) restricts a class only
 
 Not restricted by any strait for want of a sourced draught: aframax, container, handy-tanker, kamsarmax, lng, lr1, lr2, mr, newcastlemax, panamax, suezmax, supramax, ultramax, vlcc, vlgc.
 
+## Series by country and year (data/commodities/history)
+
+38 files, 1.70 MB in all.
+
+- aluminium (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- bauxite (production 2024-2025, refinery 2024-2025, exports 2005-2024, imports 2005-2024, alumina-exports 2005-2024, alumina-imports 2005-2024)
+- cobalt (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- cocoa (exports 2005-2024, imports 2005-2024)
+- coffee (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- copper (production 2024-2025, refinery 2024-2025, exports 2005-2024, imports 2005-2024, refined-exports 2005-2024, refined-imports 2005-2024)
+- corn (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- cotton (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- crude-oil (production 2005-2025, consumption 2005-2025, exports 2005-2024, imports 2005-2024)
+- gold (production 2024-2025)
+- iron-ore (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- lead (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- lithium (production 2024-2025, exports 2005-2024, imports 2005-2024, spodumene-exports 2005-2024)
+- lng (exports 2005-2024, imports 2005-2024)
+- lpg (consumption 2005-2025, exports 2005-2024, imports 2005-2024)
+- manganese (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- met-coal (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025)
+- natural-gas (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025)
+- nickel (production 2024-2025, exports 2005-2024, imports 2005-2024, int-exports 2005-2024, int-imports 2005-2024, ferro-exports 2005-2024, ferro-imports 2005-2024)
+- palm-oil (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- phosphate (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- potash (exports 2005-2024, imports 2005-2024, k2o-production 2024-2025)
+- rapeseed (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- rare-earths (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- refined-products (consumption 2005-2025, exports 2005-2024, imports 2005-2024)
+- rice (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- silver (production 2024-2025)
+- soybeans (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- soymeal (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- soyoil (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- steel (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- sugar (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- thermal-coal (production 2005-2025, reserves 2008-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, lignite-production 2005-2025, allcoal-exports 2005-2024, allcoal-imports 2005-2024)
+- tin (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- uranium (exports 2005-2024, imports 2005-2024)
+- urea (production 2024-2025, exports 2005-2024, imports 2005-2024)
+- wheat (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
+- zinc (production 2024-2025, exports 2005-2024, imports 2005-2024, metal-exports 2005-2024)
+- Codes of earlier years without a country of the index (psd), counted in the world total only: Reunion.
+
 ## Build warnings
 
 - Manganese/Reserves: sum of countries 1798000 > world 1700000

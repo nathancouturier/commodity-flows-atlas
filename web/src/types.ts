@@ -143,6 +143,37 @@ export interface CommodityData {
   discrepancies?: string[];
 }
 
+/** One table of a commodity by country and year (pipeline/commodities/history.py); the last year is the table of the page. */
+export interface HistTable {
+  u: string;
+  s: string;
+  years: number[];
+  /** how each year is printed when it is not the year itself (USDA PSD market years, "2010/11") */
+  labels?: string[];
+  /** world total per year, the basis of the shares */
+  world: number[];
+  /** years (indexes) whose world total holds a tenth or more of Atlas estimates */
+  worldEst?: number[];
+  /** the published world total per year, where the shares rest on the sum of the lines */
+  pub?: number[];
+  /** the source's own "Other countries" line per year (USGS) */
+  other?: (number | null)[];
+  /** how the source labels each year (USGS MCS: "revised", "estimated") */
+  yl?: string[];
+  /** one value per year; null = no figure that year */
+  c: Record<Iso3, (number | null)[]>;
+  /** years (indexes) in which the row is mostly an Atlas estimate */
+  est?: Record<Iso3, number[]>;
+  /** years (indexes) in which the value is the source's own estimate */
+  srcEst?: Record<Iso3, number[]>;
+}
+
+/** data/commodities/history/<id>.json: `t` is keyed by table (production, exports... or the key of an extra table). */
+export interface CommodityHistory {
+  id: string;
+  t: Record<string, HistTable>;
+}
+
 export interface CountryMeta {
   c: Iso3;
   name: string;
@@ -255,14 +286,20 @@ export interface Route {
   name: string;
   /** true for Baltic Exchange benchmark routes */
   benchmark: boolean;
+  /** an Atlas corridor generated from the customs pairs table (never a benchmark): ports, class, distance and passages are those of its largest pair */
+  generated?: boolean;
   discontinued?: string;
   roundVoyage?: boolean;
   /** "typical laden leg" when a time-charter trip is drawn as its laden leg */
   drawnAs?: string;
   /** set when the line, distance and days are borrowed from another route (the benchmark has no fixed ports) */
   standIn?: string;
+  /** the largest recorded pair of the corridor as the Route finder runs it, when its ports are not the route's own (distance in nm) */
+  finder?: { g: string; o: string; d: string; mt: number; y: number; from: string; to: string; nm: number };
   vclass: string;
   cargoes: string[];
+  /** why the cargoes are typical of the class and not those of the benchmark's definition */
+  cargoNote?: string;
   from: { region: string; ports: string[] };
   to: { region: string; ports: string[] };
   parcel?: number;
@@ -277,11 +314,11 @@ export interface Route {
   a: [number, number];
   b: [number, number];
   /** bilateral flows this route represents: commodity id, origin and destination ISO3 lists */
-  corridor?: { k: string; o: string[]; d: string[] }[];
+  corridor?: { k: string; /** customs group, named by a generated corridor */ g?: string; o: string[]; d: string[] }[];
   /** country (ISO3) of each end of the drawn leg: load area, discharge area */
   ends?: [string | null, string | null];
   /** share of each cargo's seaborne trade carried on this corridor */
-  shares?: { k: string; f: Fig }[];
+  shares?: { k: string; g?: string; f: Fig }[];
   shareCommodity?: Fig;
   /** why the route has no corridor share (shown as "n/a") */
   shareNa?: string;
@@ -312,17 +349,51 @@ export interface StatusNote {
   event?: string;
 }
 
-/** data/freight/alerts.json entry: an active disruption. */
+/** Comparison of one passage's traffic over the last days with the same days a year earlier and the 2023 average (IMF PortWatch). */
+export interface AlertMeasure {
+  chokepoint: string;
+  name: string;
+  /** last day observed (ISO date) */
+  to: string;
+  /** length of the window, days */
+  days: number;
+  yearAgoTo: string;
+  refYear: number;
+  /** vessel transits over the window, the same days a year earlier, and the average of the reference year scaled to the same length */
+  transits: { now: number | null; yearAgo: number | null; avg2023: number | null };
+  /** PortWatch's estimated trade volume of those vessels, Mt */
+  mt: { now: number | null; yearAgo: number | null; avg2023: number | null };
+  /** per cent against the same days a year earlier and against the reference year (negative: fewer) */
+  gapYear: number | null;
+  gap2023: number | null;
+  gapMtYear: number | null;
+  gapMt2023: number | null;
+  s: string;
+}
+
+/** data/freight/alerts.json entry: an active disruption (text by hand, figures and lists from the data: build_alerts.py). */
 export interface Alert {
   id: string;
   title: string;
   /** "YYYY-MM" */
   since: string;
-  severity: 'medium' | 'high';
+  /** from the transits against the 2023 average; null when no figure exists */
+  severity: 'low' | 'medium' | 'high' | null;
+  /** the rule behind the severity, in words (title attribute) */
+  severityNote: string;
   text: string;
+  /** date the text was last reviewed (ISO) */
+  reviewed: string;
   chokepoints: string[];
+  measures: AlertMeasure[];
+  /** commodities and countries derived from the chokepoint estimates and lanes */
   commodities: string[];
   countries: Iso3[];
+  exporters: Iso3[];
+  importers: Iso3[];
+  /** how the lists are derived */
+  derived: string;
+  override?: { commodities?: string[]; countries?: Iso3[]; reason: string };
   event: string;
   /** source URL */
   src: string;
@@ -389,6 +460,15 @@ export interface PortwatchSeries {
   annual?: { years: number[]; transits: number[]; mt: number[] };
   headline?: Fig;
   headlineVol?: Fig;
+  /** the last `days` days against the same days a year earlier and the average of `refYear` scaled to the same length (transits; Mt of estimated trade volume) */
+  compare?: {
+    to: string;
+    days: number;
+    yearAgoTo: string;
+    refYear: number;
+    transits: { now: number | null; yearAgo: number | null; avg2023: number | null };
+    mt: { now: number | null; yearAgo: number | null; avg2023: number | null };
+  };
 }
 
 /** data/freight/chokepoint-lanes.json — mapped lanes that cross each chokepoint (from the lanes' `via`). */
@@ -411,6 +491,10 @@ export interface FreightEvent {
   kind: 'conflict' | 'canal' | 'weather' | 'policy' | 'accident' | 'market' | 'infrastructure';
   chokepoints?: string[];
   routes?: string[];
+  /** commodity, country and asset ids the event's own text names */
+  commodities?: string[];
+  countries?: Iso3[];
+  assets?: string[];
   summary: string;
   impact?: string;
   src: string;
@@ -628,25 +712,64 @@ export interface InfraProps {
   url?: string;
 }
 
+/** A change of basis read from the source's own description: `now` starts at `at` ("YYYY-MM"), replacing `before`. */
+export interface PriceBreak {
+  at: string;
+  now: string;
+  before: string;
+  /** end of a bounded period ("YYYY-MM") */
+  to?: string;
+}
+
+/** Board figures precomputed by the builder from the published values: percent changes, 52-week range. */
+export interface PriceStats {
+  last: { v: number; t: string };
+  /** percent: w 1 week (daily series), m 1 month, q 3 months, ytd since the last observation of the previous year, y 1 year */
+  chg?: { w?: number; m?: number; q?: number; ytd?: number; y?: number };
+  /** lowest and highest of the last 52 weeks (12 months for a monthly series) and where the last value stands in it, 0 to 1; none for an annual series */
+  rng?: { lo: number; hi: number; pos?: number };
+}
+
 export interface PriceSeriesMeta {
   id: string;
+  /** commodity id of the atlas, "freight", or "index" */
   k: string;
   name: string;
   unit: string;
-  freq: 'D' | 'M';
+  /** D daily, M monthly, A annual */
+  freq: 'D' | 'M' | 'A';
   s: string;
+  /** "YYYY-MM-DD" (D), "YYYY-MM" (M), "YYYY" (A) */
   start: string;
   end: string;
   /** e.g. "Updated on November 03, 2026" */
   note?: string;
-  /** what the price measures (benchmark basis, series breaks) */
+  /** what the price measures, from the source's own description */
   basis?: string;
+  /** dates the basis changed (monthly series) */
+  breaks?: PriceBreak[];
+  /** runs of calendar years whose twelve monthly values are one and the same number: one price for the year */
+  annual?: [number, number][];
+  /** months the source marks as estimates */
+  est?: [string, string][];
+  stats?: PriceStats;
+  /** the series has no page in the atlas: the family it is listed under */
+  fam?: string;
+  /** annual real-price counterpart (constant 2010 US dollars) */
+  real?: string;
+  /** daily series: the monthly series of the same benchmark (it covers a month the daily file has too few quotes for) */
+  monthly?: string;
+  /** a real-price series: the nominal series it deflates. Not listed in the picker or on the board */
+  realOf?: string;
+  hidden?: boolean;
+  /** the source stopped publishing it (kept as history) */
+  closed?: boolean;
 }
 
-/** Packed price series. Monthly: start "YYYY-MM" + consecutive values. Daily: d = days since 1970-01-01. */
+/** Packed price series. Monthly: start "YYYY-MM" + consecutive values. Annual: start "YYYY". Daily: d = days since 1970-01-01. */
 export interface PriceSeries {
   id: string;
-  freq: 'D' | 'M';
+  freq: 'D' | 'M' | 'A';
   start?: string;
   d?: number[];
   v: (number | null)[];

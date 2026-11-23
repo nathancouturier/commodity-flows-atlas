@@ -98,7 +98,7 @@ Three scheduled GitHub Actions workflows refresh the data. Each can also be star
 
 | Workflow | Schedule (UTC) | Sources |
 |---|---|---|
-| `update-prices.yml` | Tuesdays 17:43 | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
+| `update-prices.yml` | Wednesdays 21:43 and Thursdays 09:43 (EIA publishes on Wednesday) | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
 | `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits |
 | `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`adjacency`, `build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
 

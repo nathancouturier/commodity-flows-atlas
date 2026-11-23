@@ -83,9 +83,64 @@
    {
     "c": "SEN",
     "v": 2.8
+   },
+   {
+    "c": "AUS",
+    "v": 2.5
+   },
+   {
+    "c": "ISR",
+    "v": 2.4
+   },
+   {
+    "c": "ZAF",
+    "v": 2.2
+   },
+   {
+    "c": "DZA",
+    "v": 2.0
+   },
+   {
+    "c": "KAZ",
+    "v": 1.9
+   },
+   {
+    "c": "TGO",
+    "v": 1.6
+   },
+   {
+    "c": "IND",
+    "v": 1.5
+   },
+   {
+    "c": "TUR",
+    "v": 1.2
+   },
+   {
+    "c": "FIN",
+    "v": 0.98
+   },
+   {
+    "c": "UZB",
+    "v": 0.95
+   },
+   {
+    "c": "SYR",
+    "v": 0.8
+   },
+   {
+    "c": "MEX",
+    "v": 0.45
    }
   ],
-  "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, phosphate rock mine production, marketable product; 2025 values are USGS estimates; USGS world total is rounded",
+  "other": 0.77,
+  "hidden": {
+   "v": 24.28,
+   "k": 14,
+   "from": 10,
+   "n": "14 further countries named by USGS (Vietnam, Senegal, Australia, Israel, South Africa, Algeria, Kazakhstan, Togo, India, Turkey, Finland, Uzbekistan, Syria and Mexico), listed after the first rows; not part of USGS's 'Other countries' line"
+  }
  },
  "reserves": {
   "y": 2025,
@@ -140,9 +195,64 @@
    {
     "c": "JOR",
     "v": 820.0
+   },
+   {
+    "c": "AUS",
+    "v": 800.0
+   },
+   {
+    "c": "KAZ",
+    "v": 260.0
+   },
+   {
+    "c": "SYR",
+    "v": 250.0
+   },
+   {
+    "c": "PER",
+    "v": 210.0
+   },
+   {
+    "c": "UZB",
+    "v": 100.0
+   },
+   {
+    "c": "TUR",
+    "v": 71.0
+   },
+   {
+    "c": "ISR",
+    "v": 60.0
+   },
+   {
+    "c": "SEN",
+    "v": 50.0
+   },
+   {
+    "c": "IND",
+    "v": 31.0
+   },
+   {
+    "c": "MEX",
+    "v": 30.0
+   },
+   {
+    "c": "TGO",
+    "v": 30.0
+   },
+   {
+    "c": "VNM",
+    "v": 30.0
    }
   ],
-  "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded"
+  "n": "USGS MCS 2026, phosphate rock reserves; USGS world total is rounded",
+  "other": 800.0,
+  "hidden": {
+   "v": 3742.0,
+   "k": 14,
+   "from": 10,
+   "n": "14 further countries named by USGS (Saudi Arabia, Jordan, Australia, Kazakhstan, Syria, Peru, Uzbekistan, Turkey, Israel, Senegal, India, Mexico, Togo and Vietnam), listed after the first rows; not part of USGS's 'Other countries' line"
+  }
  },
  "exports": {
   "y": 2024,
@@ -197,6 +307,110 @@
    {
     "c": "LBN",
     "v": 0.5264
+   },
+   {
+    "c": "NLD",
+    "v": 0.4446
+   },
+   {
+    "c": "AUS",
+    "v": 0.2888
+   },
+   {
+    "c": "TUN",
+    "v": 0.1502
+   },
+   {
+    "c": "NRU",
+    "v": 0.1318
+   },
+   {
+    "c": "CHN",
+    "v": 0.097
+   },
+   {
+    "c": "PAK",
+    "v": 0.0927
+   },
+   {
+    "c": "UZB",
+    "v": 0.0907
+   },
+   {
+    "c": "FIN",
+    "v": 0.0805
+   },
+   {
+    "c": "HRV",
+    "v": 0.0237
+   },
+   {
+    "c": "LKA",
+    "v": 0.0206
+   },
+   {
+    "c": "ITA",
+    "v": 0.0185
+   },
+   {
+    "c": "AUT",
+    "v": 0.0166
+   },
+   {
+    "c": "TUR",
+    "v": 0.015
+   },
+   {
+    "c": "FRA",
+    "v": 0.0091
+   },
+   {
+    "c": "NZL",
+    "v": 0.0087
+   },
+   {
+    "c": "SRB",
+    "v": 0.0077
+   },
+   {
+    "c": "DEU",
+    "v": 0.0063
+   },
+   {
+    "c": "CUW",
+    "v": 0.0054
+   },
+   {
+    "c": "URY",
+    "v": 0.005
+   },
+   {
+    "c": "CAN",
+    "v": 0.0038
+   },
+   {
+    "c": "BRB",
+    "v": 0.0033
+   },
+   {
+    "c": "BEL",
+    "v": 0.0024
+   },
+   {
+    "c": "USA",
+    "v": 0.0018
+   },
+   {
+    "c": "DNK",
+    "v": 0.0017
+   },
+   {
+    "c": "ISR",
+    "v": 0.0012
+   },
+   {
+    "c": "ROU",
+    "v": 0.0011
    }
   ],
   "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -254,6 +468,198 @@
    {
     "c": "SRB",
     "v": 0.7253
+   },
+   {
+    "c": "NOR",
+    "v": 0.6469
+   },
+   {
+    "c": "RUS",
+    "v": 0.5893
+   },
+   {
+    "c": "KOR",
+    "v": 0.5801
+   },
+   {
+    "c": "PAK",
+    "v": 0.5767
+   },
+   {
+    "c": "LBN",
+    "v": 0.5065
+   },
+   {
+    "c": "PHL",
+    "v": 0.4919
+   },
+   {
+    "c": "ESP",
+    "v": 0.4363
+   },
+   {
+    "c": "MYS",
+    "v": 0.3894
+   },
+   {
+    "c": "NZL",
+    "v": 0.3861
+   },
+   {
+    "c": "GRC",
+    "v": 0.3477
+   },
+   {
+    "c": "ARG",
+    "v": 0.3322
+   },
+   {
+    "c": "AUS",
+    "v": 0.264
+   },
+   {
+    "c": "DEU",
+    "v": 0.2524
+   },
+   {
+    "c": "PER",
+    "v": 0.2144
+   },
+   {
+    "c": "ROU",
+    "v": 0.2034
+   },
+   {
+    "c": "TWN",
+    "v": 0.1882
+   },
+   {
+    "c": "JPN",
+    "v": 0.1876
+   },
+   {
+    "c": "AUT",
+    "v": 0.1856
+   },
+   {
+    "c": "POL",
+    "v": 0.1687
+   },
+   {
+    "c": "FRA",
+    "v": 0.1591
+   },
+   {
+    "c": "ITA",
+    "v": 0.1196
+   },
+   {
+    "c": "CHE",
+    "v": 0.1082
+   },
+   {
+    "c": "URY",
+    "v": 0.0992
+   },
+   {
+    "c": "TKM",
+    "v": 0.0888
+   },
+   {
+    "c": "BLR",
+    "v": 0.0838
+   },
+   {
+    "c": "COL",
+    "v": 0.0703
+   },
+   {
+    "c": "UKR",
+    "v": 0.0506
+   },
+   {
+    "c": "PRT",
+    "v": 0.0454
+   },
+   {
+    "c": "PRK",
+    "v": 0.0408
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0363
+   },
+   {
+    "c": "SVN",
+    "v": 0.0319
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0284
+   },
+   {
+    "c": "BGD",
+    "v": 0.0272
+   },
+   {
+    "c": "VNM",
+    "v": 0.0234
+   },
+   {
+    "c": "UZB",
+    "v": 0.0233
+   },
+   {
+    "c": "HRV",
+    "v": 0.0195
+   },
+   {
+    "c": "ISR",
+    "v": 0.017
+   },
+   {
+    "c": "PRY",
+    "v": 0.017
+   },
+   {
+    "c": "CIV",
+    "v": 0.0108
+   },
+   {
+    "c": "GUY",
+    "v": 0.0087
+   },
+   {
+    "c": "CHL",
+    "v": 0.0081
+   },
+   {
+    "c": "TUN",
+    "v": 0.0073
+   },
+   {
+    "c": "GBR",
+    "v": 0.0067
+   },
+   {
+    "c": "HUN",
+    "v": 0.0052
+   },
+   {
+    "c": "SLV",
+    "v": 0.004
+   },
+   {
+    "c": "GHA",
+    "v": 0.0033
+   },
+   {
+    "c": "CAN",
+    "v": 0.0018
+   },
+   {
+    "c": "SWE",
+    "v": 0.0017
    }
   ],
   "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"

@@ -83,6 +83,118 @@
    {
     "c": "NIC",
     "v": 0.1536
+   },
+   {
+    "c": "CHN",
+    "v": 0.114
+   },
+   {
+    "c": "MYS",
+    "v": 0.09
+   },
+   {
+    "c": "TZA",
+    "v": 0.087
+   },
+   {
+    "c": "CIV",
+    "v": 0.078
+   },
+   {
+    "c": "CRI",
+    "v": 0.0696
+   },
+   {
+    "c": "THA",
+    "v": 0.054
+   },
+   {
+    "c": "KEN",
+    "v": 0.051
+   },
+   {
+    "c": "PNG",
+    "v": 0.048
+   },
+   {
+    "c": "SLV",
+    "v": 0.0352
+   },
+   {
+    "c": "VEN",
+    "v": 0.03
+   },
+   {
+    "c": "LAO",
+    "v": 0.0285
+   },
+   {
+    "c": "PHL",
+    "v": 0.027
+   },
+   {
+    "c": "ECU",
+    "v": 0.021
+   },
+   {
+    "c": "RWA",
+    "v": 0.021
+   },
+   {
+    "c": "MDG",
+    "v": 0.018
+   },
+   {
+    "c": "CMR",
+    "v": 0.0135
+   },
+   {
+    "c": "COD",
+    "v": 0.0096
+   },
+   {
+    "c": "BDI",
+    "v": 0.0084
+   },
+   {
+    "c": "DOM",
+    "v": 0.0075
+   },
+   {
+    "c": "CUB",
+    "v": 0.006
+   },
+   {
+    "c": "TGO",
+    "v": 0.0054
+   },
+   {
+    "c": "BOL",
+    "v": 0.0048
+   },
+   {
+    "c": "PAN",
+    "v": 0.0048
+   },
+   {
+    "c": "GIN",
+    "v": 0.0045
+   },
+   {
+    "c": "USA",
+    "v": 0.003
+   },
+   {
+    "c": "AGO",
+    "v": 0.0027
+   },
+   {
+    "c": "SLE",
+    "v": 0.0018
+   },
+   {
+    "c": "JAM",
+    "v": 0.0009
    }
   ],
   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) production, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
@@ -140,6 +252,246 @@
    {
     "c": "ETH",
     "v": 0.27
+   },
+   {
+    "c": "KOR",
+    "v": 0.192
+   },
+   {
+    "c": "MEX",
+    "v": 0.1896
+   },
+   {
+    "c": "AUS",
+    "v": 0.1521
+   },
+   {
+    "c": "COL",
+    "v": 0.132
+   },
+   {
+    "c": "DZA",
+    "v": 0.123
+   },
+   {
+    "c": "TUR",
+    "v": 0.105
+   },
+   {
+    "c": "IND",
+    "v": 0.0945
+   },
+   {
+    "c": "SAU",
+    "v": 0.081
+   },
+   {
+    "c": "CHE",
+    "v": 0.072
+   },
+   {
+    "c": "EGY",
+    "v": 0.0705
+   },
+   {
+    "c": "UKR",
+    "v": 0.0666
+   },
+   {
+    "c": "THA",
+    "v": 0.0555
+   },
+   {
+    "c": "MAR",
+    "v": 0.0546
+   },
+   {
+    "c": "GTM",
+    "v": 0.0525
+   },
+   {
+    "c": "ARG",
+    "v": 0.0489
+   },
+   {
+    "c": "TWN",
+    "v": 0.0486
+   },
+   {
+    "c": "NOR",
+    "v": 0.0477
+   },
+   {
+    "c": "JOR",
+    "v": 0.0462
+   },
+   {
+    "c": "IRN",
+    "v": 0.042
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0411
+   },
+   {
+    "c": "SRB",
+    "v": 0.0408
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0336
+   },
+   {
+    "c": "NZL",
+    "v": 0.0309
+   },
+   {
+    "c": "MYS",
+    "v": 0.03
+   },
+   {
+    "c": "VEN",
+    "v": 0.03
+   },
+   {
+    "c": "HND",
+    "v": 0.0228
+   },
+   {
+    "c": "ECU",
+    "v": 0.0218
+   },
+   {
+    "c": "SLV",
+    "v": 0.0199
+   },
+   {
+    "c": "UGA",
+    "v": 0.0198
+   },
+   {
+    "c": "CRI",
+    "v": 0.0192
+   },
+   {
+    "c": "BIH",
+    "v": 0.018
+   },
+   {
+    "c": "PER",
+    "v": 0.018
+   },
+   {
+    "c": "CHL",
+    "v": 0.0138
+   },
+   {
+    "c": "ARM",
+    "v": 0.0132
+   },
+   {
+    "c": "MDG",
+    "v": 0.0126
+   },
+   {
+    "c": "PAN",
+    "v": 0.0102
+   },
+   {
+    "c": "NIC",
+    "v": 0.0096
+   },
+   {
+    "c": "ALB",
+    "v": 0.0066
+   },
+   {
+    "c": "DOM",
+    "v": 0.0066
+   },
+   {
+    "c": "COD",
+    "v": 0.006
+   },
+   {
+    "c": "SGP",
+    "v": 0.006
+   },
+   {
+    "c": "CUB",
+    "v": 0.0054
+   },
+   {
+    "c": "LAO",
+    "v": 0.0053
+   },
+   {
+    "c": "TZA",
+    "v": 0.0051
+   },
+   {
+    "c": "GEO",
+    "v": 0.0048
+   },
+   {
+    "c": "MKD",
+    "v": 0.0045
+   },
+   {
+    "c": "SEN",
+    "v": 0.0045
+   },
+   {
+    "c": "KOS",
+    "v": 0.0042
+   },
+   {
+    "c": "CMR",
+    "v": 0.0039
+   },
+   {
+    "c": "KEN",
+    "v": 0.0037
+   },
+   {
+    "c": "CIV",
+    "v": 0.003
+   },
+   {
+    "c": "PNG",
+    "v": 0.003
+   },
+   {
+    "c": "BOL",
+    "v": 0.0027
+   },
+   {
+    "c": "MNE",
+    "v": 0.0024
+   },
+   {
+    "c": "URY",
+    "v": 0.0021
+   },
+   {
+    "c": "GIN",
+    "v": 0.0015
+   },
+   {
+    "c": "BDI",
+    "v": 0.0009
+   },
+   {
+    "c": "AGO",
+    "v": 0.0007
+   },
+   {
+    "c": "SLE",
+    "v": 0.0006
+   },
+   {
+    "c": "JAM",
+    "v": 0.0002
    }
   ],
   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) domestic consumption/use, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
@@ -197,6 +549,114 @@
    {
     "c": "GTM",
     "v": 0.1788
+   },
+   {
+    "c": "MYS",
+    "v": 0.15
+   },
+   {
+    "c": "NIC",
+    "v": 0.1452
+   },
+   {
+    "c": "CHE",
+    "v": 0.138
+   },
+   {
+    "c": "TZA",
+    "v": 0.0822
+   },
+   {
+    "c": "CIV",
+    "v": 0.075
+   },
+   {
+    "c": "CHN",
+    "v": 0.0738
+   },
+   {
+    "c": "CRI",
+    "v": 0.0612
+   },
+   {
+    "c": "KEN",
+    "v": 0.0504
+   },
+   {
+    "c": "PNG",
+    "v": 0.045
+   },
+   {
+    "c": "SLV",
+    "v": 0.0321
+   },
+   {
+    "c": "THA",
+    "v": 0.03
+   },
+   {
+    "c": "ECU",
+    "v": 0.0265
+   },
+   {
+    "c": "LAO",
+    "v": 0.0232
+   },
+   {
+    "c": "RWA",
+    "v": 0.021
+   },
+   {
+    "c": "CMR",
+    "v": 0.0096
+   },
+   {
+    "c": "BDI",
+    "v": 0.0075
+   },
+   {
+    "c": "MDG",
+    "v": 0.0054
+   },
+   {
+    "c": "TGO",
+    "v": 0.0054
+   },
+   {
+    "c": "COD",
+    "v": 0.0036
+   },
+   {
+    "c": "GIN",
+    "v": 0.003
+   },
+   {
+    "c": "BOL",
+    "v": 0.0021
+   },
+   {
+    "c": "AGO",
+    "v": 0.002
+   },
+   {
+    "c": "PAN",
+    "v": 0.0018
+   },
+   {
+    "c": "SLE",
+    "v": 0.0012
+   },
+   {
+    "c": "DOM",
+    "v": 0.0009
+   },
+   {
+    "c": "JAM",
+    "v": 0.0007
+   },
+   {
+    "c": "CUB",
+    "v": 0.0006
    }
   ],
   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) exports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
@@ -254,6 +714,174 @@
    {
     "c": "MEX",
     "v": 0.1518
+   },
+   {
+    "c": "COL",
+    "v": 0.1472
+   },
+   {
+    "c": "DZA",
+    "v": 0.123
+   },
+   {
+    "c": "TUR",
+    "v": 0.105
+   },
+   {
+    "c": "MYS",
+    "v": 0.09
+   },
+   {
+    "c": "IDN",
+    "v": 0.0847
+   },
+   {
+    "c": "SAU",
+    "v": 0.081
+   },
+   {
+    "c": "IND",
+    "v": 0.08
+   },
+   {
+    "c": "VNM",
+    "v": 0.078
+   },
+   {
+    "c": "EGY",
+    "v": 0.0705
+   },
+   {
+    "c": "UKR",
+    "v": 0.0666
+   },
+   {
+    "c": "MAR",
+    "v": 0.0546
+   },
+   {
+    "c": "ARG",
+    "v": 0.0489
+   },
+   {
+    "c": "TWN",
+    "v": 0.0486
+   },
+   {
+    "c": "NOR",
+    "v": 0.0477
+   },
+   {
+    "c": "JOR",
+    "v": 0.0462
+   },
+   {
+    "c": "GTM",
+    "v": 0.0423
+   },
+   {
+    "c": "IRN",
+    "v": 0.042
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0411
+   },
+   {
+    "c": "SRB",
+    "v": 0.0408
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0336
+   },
+   {
+    "c": "THA",
+    "v": 0.0315
+   },
+   {
+    "c": "NZL",
+    "v": 0.0309
+   },
+   {
+    "c": "ECU",
+    "v": 0.0255
+   },
+   {
+    "c": "BIH",
+    "v": 0.018
+   },
+   {
+    "c": "SLV",
+    "v": 0.0162
+   },
+   {
+    "c": "CHL",
+    "v": 0.0138
+   },
+   {
+    "c": "ARM",
+    "v": 0.0132
+   },
+   {
+    "c": "HND",
+    "v": 0.0082
+   },
+   {
+    "c": "CRI",
+    "v": 0.0072
+   },
+   {
+    "c": "PAN",
+    "v": 0.0072
+   },
+   {
+    "c": "ALB",
+    "v": 0.0066
+   },
+   {
+    "c": "SGP",
+    "v": 0.006
+   },
+   {
+    "c": "BRA",
+    "v": 0.0054
+   },
+   {
+    "c": "GEO",
+    "v": 0.0048
+   },
+   {
+    "c": "PER",
+    "v": 0.0048
+   },
+   {
+    "c": "KEN",
+    "v": 0.0045
+   },
+   {
+    "c": "MKD",
+    "v": 0.0045
+   },
+   {
+    "c": "SEN",
+    "v": 0.0045
+   },
+   {
+    "c": "KOS",
+    "v": 0.0042
+   },
+   {
+    "c": "MNE",
+    "v": 0.0024
+   },
+   {
+    "c": "URY",
+    "v": 0.0021
+   },
+   {
+    "c": "TZA",
+    "v": 0.0004
    }
   ],
   "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) imports, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"
@@ -315,6 +943,54 @@
      {
       "c": "PHL",
       "v": 0.018
+     },
+     {
+      "c": "ETH",
+      "v": 0.0105
+     },
+     {
+      "c": "SLV",
+      "v": 0.0088
+     },
+     {
+      "c": "CRI",
+      "v": 0.008
+     },
+     {
+      "c": "KEN",
+      "v": 0.0058
+     },
+     {
+      "c": "ECU",
+      "v": 0.0036
+     },
+     {
+      "c": "NIC",
+      "v": 0.0033
+     },
+     {
+      "c": "TZA",
+      "v": 0.0031
+     },
+     {
+      "c": "PNG",
+      "v": 0.0021
+     },
+     {
+      "c": "PER",
+      "v": 0.0013
+     },
+     {
+      "c": "MEX",
+      "v": 0.0012
+     },
+     {
+      "c": "GTM",
+      "v": 0.0007
+     },
+     {
+      "c": "CMR",
+      "v": 0.0006
      }
     ],
     "n": "USDA PSD, Coffee, Green, green coffee (all forms, green-bean equivalent) ending stocks, market year 2025/26 (latest revision 2026-07); world = sum of reporting countries; PSD reports 1000 60-kg bags; converted to Mt (1000 bags = 60 t)"

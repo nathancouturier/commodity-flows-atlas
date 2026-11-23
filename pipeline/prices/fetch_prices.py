@@ -10,12 +10,19 @@ Sources (each recorded separately in data/_status/updates.json)
   eia-spot  EIA daily spot prices, 8 xls files (the ones build_prices.py reads).
 
 Validation before a downloaded file replaces the previous one in raw/:
-  Pink Sheet: opens, has the "Monthly Prices" sheet and the expected columns, latest month is not
-  older than the previous run's. EIA: opens, has "Data 1", latest day is not older than before.
+  Pink Sheet: opens, has the "Monthly Prices", "Monthly Indices" and "Description" sheets, EVERY column the
+  builder maps is there (matched without the asterisks and spaces of the header) and every description row it
+  reads can be found; latest month is not older than the previous run's. EIA: opens, has "Data 1", latest day is
+  not older than before.
 Then build_prices.py is run; if it fails data/prices is restored from a backup.
+After the build, a series whose last observation did not advance as fast as its cadence allows (build_prices.
+check_freshness) is recorded as a failure of its source in data/_status/updates.json, whatever the download
+said: the data are still published, and after three runs in a row the owner is alerted (a frozen series never
+passes as a success).
 
 Always exits 0: a failure is recorded in the status file and the previous good files are kept.
 """
+import json
 import os
 import re
 import shutil
@@ -70,27 +77,21 @@ def pink_candidates():
 
 def check_pink(path):
     """Return (latest 'YYYY-MM', month count) or raise ValueError."""
-    import openpyxl
-    from build_prices import PINK
+    from build_prices import BuildError, Pink
 
     try:
-        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        p = Pink(path)
+    except BuildError as e:
+        raise ValueError(str(e))
     except Exception as e:  # noqa: BLE001
         raise ValueError(f"workbook does not open ({e.__class__.__name__})")
-    if "Monthly Prices" not in wb.sheetnames:
-        raise ValueError("no 'Monthly Prices' sheet")
-    rows = list(wb["Monthly Prices"].iter_rows(values_only=True))
-    hdr_i = next((i for i, r in enumerate(rows) if r and "Crude oil, Brent" in [str(c) for c in r if c]), None)
-    if hdr_i is None:
-        raise ValueError("header row with 'Crude oil, Brent' not found")
-    hdr = {str(c) for c in rows[hdr_i] if c}
-    missing = [c for c in PINK if c not in hdr]
-    if len(missing) > 4:
-        raise ValueError(f"{len(missing)} expected columns missing (e.g. {missing[0]})")
-    months = [r[0] for r in rows[hdr_i + 1:] if r and isinstance(r[0], str) and re.fullmatch(r"\d{4}M\d{2}", r[0].strip())]
+    problems = p.check()
+    if problems:
+        raise ValueError(f"{len(problems)} expected columns or description rows missing (e.g. {problems[0]})")
+    months = [r[0].strip() for r in p.data]
     if len(months) < 600:
         raise ValueError(f"only {len(months)} months")
-    return months[-1].strip().replace("M", "-"), len(months)
+    return months[-1].replace("M", "-"), len(months)
 
 
 def check_eia(path):
@@ -220,6 +221,23 @@ def rebuild():
             raise
 
 
+def late_series():
+    """{source: message} for the sources with a series that stopped advancing (the optional FRED source is not
+    alerted here: without a key it is skipped by design)."""
+    import build_prices
+
+    try:
+        with open(os.path.join(DATA_PRICES, "index.json"), encoding="utf-8") as f:
+            metas = json.load(f)
+        late = build_prices.stale_by_source(metas)
+    except (OSError, ValueError, KeyError) as e:
+        print("  freshness check skipped:", e)
+        return {}
+    for s, msg in late.items():
+        print("  ", s, msg)
+    return {s: m for s, m in late.items() if s in ("wb-pink", "eia-spot")}
+
+
 def main():
     with tempfile.TemporaryDirectory() as stage:
         try:
@@ -239,23 +257,26 @@ def main():
             fred_info, fred_err, fred_updated = None, f"unexpected {e.__class__.__name__}: {e}", 0
 
     build_err = None
+    stale = {}
     if pink or eia_updated or fred_updated:
         try:
             rebuild()
         except Exception as e:  # noqa: BLE001
             build_err = str(e)
             print("  rebuild failed:", build_err)
+    if not build_err:
+        stale = late_series()
     # record
-    if pink and not build_err:
+    if pink and not build_err and not stale.get("wb-pink"):
         status.record_success("wb-pink", **pink, note="updated")
     else:
-        status.record_failure("wb-pink", build_err or pink_err)
-    if eia is not None and eia_updated and not build_err and not eia_err:
+        status.record_failure("wb-pink", build_err or stale.get("wb-pink") or pink_err)
+    if eia is not None and eia_updated and not build_err and not eia_err and not stale.get("eia-spot"):
         status.record_success("eia-spot", **eia, note="updated")
     elif eia is not None and eia_updated and not build_err:
-        status.record_failure("eia-spot", eia_err)  # partial: some files updated, some failed
+        status.record_failure("eia-spot", eia_err or stale.get("eia-spot"))  # partial: some files updated, some failed
     else:
-        status.record_failure("eia-spot", build_err or eia_err or "no EIA file updated")
+        status.record_failure("eia-spot", build_err or eia_err or stale.get("eia-spot") or "no EIA file updated")
     if fred_info is None and not fred_err:
         pass  # skipped: no API key configured (optional source, never alerts)
     elif fred_updated and not build_err:

@@ -186,7 +186,7 @@ export function RouteFinder() {
     if (!sel || !pf || sel.kind === 'land') return [];
     // the coal files are thermal coal, but the question covers metallurgical coal too
     const ks = k === COAL ? COAL_KINDS : [pf.k];
-    return routes.filter((r) => r.corridor?.some((c) => ks.includes(c.k) && c.o.includes(sel.o) && c.d.includes(sel.d)));
+    return routes.filter((r) => r.corridor?.some((c) => ks.includes(c.k) && (!c.g || c.g === pf.group) && c.o.includes(sel.o) && c.d.includes(sel.d)));
   }, [sel, pf, routes, k]);
 
   const root = useRef<HTMLDivElement>(null);
@@ -651,7 +651,7 @@ function Answer({
 
           {benchmarks.length > 0 && (
             <>
-              <div class="rf-sub">Benchmark routes</div>
+              <div class="rf-sub">Routes on this corridor</div>
               <div class="muted small">Ports and distance above are this country-to-country pair's own; the routes below have their own ports and distance.</div>
               {benchmarks.map((r) => (
                 <button class="list-btn rf-route" onClick={() => select({ kind: 'route', id: r.id })}>

@@ -239,6 +239,7 @@
    "soybeans",
    "thermal-coal"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Gibraltar (delivery)",
    "ports": []
@@ -263,6 +264,7 @@
    "soybeans",
    "thermal-coal"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Gibraltar (delivery)",
    "ports": []
@@ -286,6 +288,7 @@
    "soybeans",
    "thermal-coal"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Japan-South Korea (delivery)",
    "ports": []
@@ -310,6 +313,7 @@
    "soybeans",
    "thermal-coal"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (the atlas's own choice, shared by its four 82 kdwt Panamax routes), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Singapore (delivery)",
    "ports": [
@@ -531,6 +535,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Passero (delivery)",
    "ports": []
@@ -556,6 +561,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Skaw-Passero (delivery)",
    "ports": []
@@ -581,6 +587,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "Rio de Janeiro-Recalada (delivery)",
    "ports": []
@@ -606,6 +613,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "US Gulf (delivery)",
    "ports": []
@@ -631,6 +639,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "SE Asia (delivery)",
    "ports": []
@@ -656,6 +665,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
    "ports": []
@@ -681,6 +691,7 @@
    "potash",
    "phosphate"
   ],
+  "cargoNote": "The Baltic definition (Veson page, read on 23 November 2026) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (Wikipedia, Handysize: steel products, grain, phosphate, fertiliser), not part of the definition; no corridor is attached.",
   "from": {
    "region": "North China-South Korea-Japan (delivery)",
    "ports": []

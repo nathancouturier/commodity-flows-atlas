@@ -84,9 +84,20 @@
    {
     "c": "VNM",
     "v": 3.8
+   },
+   {
+    "c": "GRC",
+    "v": 0.96
    }
   ],
   "n": "USGS MCS 2026, bauxite mine production, dry tonnes; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production; not given as a number by USGS (W = withheld): United States (W); the country lines of the source add up to 441 Mt, more than the published world total of 440 Mt: shares are computed on the sum",
+  "other": 8.0,
+  "hidden": {
+   "v": 8.56,
+   "k": 3,
+   "from": 10,
+   "n": "3 further countries named by USGS (Turkey, Vietnam and Greece), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "dry tonnes"
  },
  "refinery": {
@@ -235,9 +246,20 @@
    {
     "c": "TUR",
     "v": 69.0
+   },
+   {
+    "c": "USA",
+    "v": 20.0
    }
   ],
   "n": "USGS MCS 2026, bauxite reserves, dry tonnes; USGS world total is rounded",
+  "other": 5300.0,
+  "hidden": {
+   "v": 249.0,
+   "k": 3,
+   "from": 10,
+   "n": "3 further countries named by USGS (Kazakhstan, Turkey and United States), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "dry tonnes"
  },
  "exports": {
@@ -293,6 +315,111 @@
    {
     "c": "CHN",
     "v": 0.4571
+   },
+   {
+    "c": "SLE",
+    "v": 0.4554
+   },
+   {
+    "c": "IND",
+    "v": 0.3617
+   },
+   {
+    "c": "CAN",
+    "v": 0.1272
+   },
+   {
+    "c": "GRC",
+    "v": 0.1079
+   },
+   {
+    "c": "BIH",
+    "v": 0.0682
+   },
+   {
+    "c": "DEU",
+    "v": 0.0475
+   },
+   {
+    "c": "HRV",
+    "v": 0.0267
+   },
+   {
+    "c": "NLD",
+    "v": 0.0263
+   },
+   {
+    "c": "GBR",
+    "v": 0.0213
+   },
+   {
+    "c": "USA",
+    "v": 0.0183
+   },
+   {
+    "c": "ESP",
+    "v": 0.0177
+   },
+   {
+    "c": "HUN",
+    "v": 0.0156
+   },
+   {
+    "c": "PAK",
+    "v": 0.0144
+   },
+   {
+    "c": "LUX",
+    "v": 0.0101,
+    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "KEN",
+    "v": 0.01
+   },
+   {
+    "c": "ARE",
+    "v": 0.0069
+   },
+   {
+    "c": "TZA",
+    "v": 0.0065
+   },
+   {
+    "c": "SVN",
+    "v": 0.005
+   },
+   {
+    "c": "MOZ",
+    "v": 0.005
+   },
+   {
+    "c": "BEL",
+    "v": 0.0033
+   },
+   {
+    "c": "ZAF",
+    "v": 0.003
+   },
+   {
+    "c": "LVA",
+    "v": 0.0015
+   },
+   {
+    "c": "TWN",
+    "v": 0.0013
+   },
+   {
+    "c": "ITA",
+    "v": 0.0013
+   },
+   {
+    "c": "FRA",
+    "v": 0.0011
+   },
+   {
+    "c": "ROU",
+    "v": 0.001
    }
   ],
   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -351,6 +478,231 @@
    {
     "c": "KWT",
     "v": 0.154
+   },
+   {
+    "c": "SRB",
+    "v": 0.1182
+   },
+   {
+    "c": "NLD",
+    "v": 0.1108
+   },
+   {
+    "c": "BIH",
+    "v": 0.0954
+   },
+   {
+    "c": "MEX",
+    "v": 0.0844
+   },
+   {
+    "c": "HRV",
+    "v": 0.0841
+   },
+   {
+    "c": "NPL",
+    "v": 0.0733
+   },
+   {
+    "c": "POL",
+    "v": 0.071
+   },
+   {
+    "c": "TUR",
+    "v": 0.0575
+   },
+   {
+    "c": "SGP",
+    "v": 0.0557
+   },
+   {
+    "c": "ITA",
+    "v": 0.0428
+   },
+   {
+    "c": "SEN",
+    "v": 0.0416
+   },
+   {
+    "c": "BEN",
+    "v": 0.0407
+   },
+   {
+    "c": "SAU",
+    "v": 0.0383
+   },
+   {
+    "c": "UKR",
+    "v": 0.0349
+   },
+   {
+    "c": "JPN",
+    "v": 0.0343
+   },
+   {
+    "c": "ARG",
+    "v": 0.0329
+   },
+   {
+    "c": "OMN",
+    "v": 0.0243
+   },
+   {
+    "c": "ISR",
+    "v": 0.0241
+   },
+   {
+    "c": "GBR",
+    "v": 0.024
+   },
+   {
+    "c": "SVN",
+    "v": 0.0235
+   },
+   {
+    "c": "THA",
+    "v": 0.023
+   },
+   {
+    "c": "TWN",
+    "v": 0.0222
+   },
+   {
+    "c": "CZE",
+    "v": 0.0209
+   },
+   {
+    "c": "ROU",
+    "v": 0.0208
+   },
+   {
+    "c": "CHE",
+    "v": 0.0197
+   },
+   {
+    "c": "SVK",
+    "v": 0.0192
+   },
+   {
+    "c": "DNK",
+    "v": 0.0142
+   },
+   {
+    "c": "MAR",
+    "v": 0.0132
+   },
+   {
+    "c": "PRY",
+    "v": 0.0128
+   },
+   {
+    "c": "DZA",
+    "v": 0.0126
+   },
+   {
+    "c": "LVA",
+    "v": 0.0113
+   },
+   {
+    "c": "MYS",
+    "v": 0.0107
+   },
+   {
+    "c": "UGA",
+    "v": 0.01
+   },
+   {
+    "c": "EGY",
+    "v": 0.0095
+   },
+   {
+    "c": "URY",
+    "v": 0.0092
+   },
+   {
+    "c": "SWE",
+    "v": 0.0084
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0083
+   },
+   {
+    "c": "AUT",
+    "v": 0.007,
+    "n": "34% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "KEN",
+    "v": 0.0065
+   },
+   {
+    "c": "COL",
+    "v": 0.0058
+   },
+   {
+    "c": "ECU",
+    "v": 0.0057
+   },
+   {
+    "c": "BRA",
+    "v": 0.0057
+   },
+   {
+    "c": "CYP",
+    "v": 0.0056
+   },
+   {
+    "c": "DOM",
+    "v": 0.0054
+   },
+   {
+    "c": "BGR",
+    "v": 0.0053
+   },
+   {
+    "c": "ZWE",
+    "v": 0.005
+   },
+   {
+    "c": "MDA",
+    "v": 0.0044
+   },
+   {
+    "c": "AGO",
+    "v": 0.0035
+   },
+   {
+    "c": "BEL",
+    "v": 0.0026
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0024
+   },
+   {
+    "c": "PRT",
+    "v": 0.0021
+   },
+   {
+    "c": "AUS",
+    "v": 0.0021
+   },
+   {
+    "c": "LTU",
+    "v": 0.0015
+   },
+   {
+    "c": "VNM",
+    "v": 0.0013
+   },
+   {
+    "c": "IDN",
+    "v": 0.0011
+   },
+   {
+    "c": "FIN",
+    "v": 0.001
    }
   ],
   "n": "CEPII BACI HS92 bauxite (HS 2606), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -413,6 +765,112 @@
      {
       "c": "NLD",
       "v": 0.3328
+     },
+     {
+      "c": "GRC",
+      "v": 0.3247
+     },
+     {
+      "c": "SAU",
+      "v": 0.2204
+     },
+     {
+      "c": "FRA",
+      "v": 0.1862
+     },
+     {
+      "c": "BIH",
+      "v": 0.1516
+     },
+     {
+      "c": "USA",
+      "v": 0.0727
+     },
+     {
+      "c": "JPN",
+      "v": 0.0515
+     },
+     {
+      "c": "SVN",
+      "v": 0.0482
+     },
+     {
+      "c": "CAN",
+      "v": 0.0405
+     },
+     {
+      "c": "NOR",
+      "v": 0.0395,
+      "n": "46% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "KOR",
+      "v": 0.0345
+     },
+     {
+      "c": "HUN",
+      "v": 0.023
+     },
+     {
+      "c": "ITA",
+      "v": 0.0226
+     },
+     {
+      "c": "AUT",
+      "v": 0.0191
+     },
+     {
+      "c": "GBR",
+      "v": 0.0143
+     },
+     {
+      "c": "BHR",
+      "v": 0.0071,
+      "n": "40% of tonnage estimated from value"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0067
+     },
+     {
+      "c": "TUR",
+      "v": 0.0058
+     },
+     {
+      "c": "TWN",
+      "v": 0.0052
+     },
+     {
+      "c": "LUX",
+      "v": 0.003
+     },
+     {
+      "c": "BEL",
+      "v": 0.0029
+     },
+     {
+      "c": "GIN",
+      "v": 0.0028
+     },
+     {
+      "c": "SGP",
+      "v": 0.0025
+     },
+     {
+      "c": "LVA",
+      "v": 0.0016
+     },
+     {
+      "c": "SVK",
+      "v": 0.0013
+     },
+     {
+      "c": "ROU",
+      "v": 0.0011
+     },
+     {
+      "c": "GUY",
+      "v": 0.001
      }
     ],
     "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -475,6 +933,241 @@
      {
       "c": "QAT",
       "v": 1.097
+     },
+     {
+      "c": "USA",
+      "v": 1.095
+     },
+     {
+      "c": "IDN",
+      "v": 1.086
+     },
+     {
+      "c": "ARG",
+      "v": 0.8706
+     },
+     {
+      "c": "FRA",
+      "v": 0.7643
+     },
+     {
+      "c": "MOZ",
+      "v": 0.6756
+     },
+     {
+      "c": "NLD",
+      "v": 0.6409
+     },
+     {
+      "c": "NZL",
+      "v": 0.5607
+     },
+     {
+      "c": "DEU",
+      "v": 0.4065
+     },
+     {
+      "c": "EGY",
+      "v": 0.3742
+     },
+     {
+      "c": "SWE",
+      "v": 0.1923
+     },
+     {
+      "c": "AUS",
+      "v": 0.19
+     },
+     {
+      "c": "TJK",
+      "v": 0.1595
+     },
+     {
+      "c": "GBR",
+      "v": 0.1393
+     },
+     {
+      "c": "ITA",
+      "v": 0.1322,
+      "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "ROU",
+      "v": 0.1306
+     },
+     {
+      "c": "JPN",
+      "v": 0.0968
+     },
+     {
+      "c": "AZE",
+      "v": 0.096
+     },
+     {
+      "c": "KOR",
+      "v": 0.0901
+     },
+     {
+      "c": "THA",
+      "v": 0.0706
+     },
+     {
+      "c": "POL",
+      "v": 0.064
+     },
+     {
+      "c": "SVN",
+      "v": 0.0628
+     },
+     {
+      "c": "TWN",
+      "v": 0.0573
+     },
+     {
+      "c": "HUN",
+      "v": 0.0559
+     },
+     {
+      "c": "BEL",
+      "v": 0.0492
+     },
+     {
+      "c": "GEO",
+      "v": 0.0427
+     },
+     {
+      "c": "AUT",
+      "v": 0.0416
+     },
+     {
+      "c": "ESP",
+      "v": 0.0404
+     },
+     {
+      "c": "GHA",
+      "v": 0.034
+     },
+     {
+      "c": "MEX",
+      "v": 0.0316
+     },
+     {
+      "c": "LVA",
+      "v": 0.0315
+     },
+     {
+      "c": "CMR",
+      "v": 0.0284
+     },
+     {
+      "c": "TUR",
+      "v": 0.0261
+     },
+     {
+      "c": "SAU",
+      "v": 0.0205
+     },
+     {
+      "c": "CZE",
+      "v": 0.0159
+     },
+     {
+      "c": "DNK",
+      "v": 0.0134
+     },
+     {
+      "c": "VNM",
+      "v": 0.0128
+     },
+     {
+      "c": "BRA",
+      "v": 0.0121
+     },
+     {
+      "c": "FIN",
+      "v": 0.0105
+     },
+     {
+      "c": "JOR",
+      "v": 0.0099
+     },
+     {
+      "c": "CHE",
+      "v": 0.0097
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0075
+     },
+     {
+      "c": "PRT",
+      "v": 0.0066
+     },
+     {
+      "c": "KWT",
+      "v": 0.006
+     },
+     {
+      "c": "SVK",
+      "v": 0.0046
+     },
+     {
+      "c": "BGD",
+      "v": 0.0046
+     },
+     {
+      "c": "LUX",
+      "v": 0.0045
+     },
+     {
+      "c": "TUN",
+      "v": 0.0037
+     },
+     {
+      "c": "UZB",
+      "v": 0.0036
+     },
+     {
+      "c": "SGP",
+      "v": 0.0027,
+      "n": "26% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "COL",
+      "v": 0.0024
+     },
+     {
+      "c": "MDA",
+      "v": 0.0024
+     },
+     {
+      "c": "BGR",
+      "v": 0.002
+     },
+     {
+      "c": "IRN",
+      "v": 0.0018,
+      "n": "11% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "TZA",
+      "v": 0.0017
+     },
+     {
+      "c": "BLR",
+      "v": 0.0011
+     },
+     {
+      "c": "NGA",
+      "v": 0.001
+     },
+     {
+      "c": "MKD",
+      "v": 0.0005
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0005
      }
     ],
     "n": "CEPII BACI HS92 alumina (HS 281820), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

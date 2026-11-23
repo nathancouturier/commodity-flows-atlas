@@ -62,7 +62,24 @@ function write(root, d) {
   put('countries/places.json', d.places);
   put('freight/lanes/coal.json', d.lane);
   put(`freight/pairs/${d.pairsFile ?? 'coal'}.json`, d.pairs);
+  if (d.routes) put('freight/routes.json', d.routes);
+  if (d.events) put('freight/events.json', d.events);
+  if (d.alerts) put('freight/alerts.json', d.alerts);
+  if (d.commodities) put('commodities/index.json', d.commodities);
+  if (d.assets) put('infrastructure/ports.geojson', { type: 'FeatureCollection', features: d.assets.map((id) => ({ properties: { id } })) });
 }
+
+/** A valid events and alerts layer on top of base(). */
+const withAlerts = (d) => {
+  d.commodities = [{ id: 'thermal-coal' }, { id: 'lng' }];
+  d.assets = ['fujairah'];
+  d.events = [{ id: 'ev1', date: '2026-02-28', title: 't', kind: 'conflict', chokepoints: ['suez'], commodities: ['lng'], countries: ['AUS'], assets: ['fujairah'], summary: 's', src: 'https://example.org' }];
+  d.alerts = [{
+    id: 'a1', title: 'T', since: '2026-02', severity: 'high', severityNote: 'n', text: 'x', reviewed: '2026-11-23', event: 'ev1', src: 'https://example.org',
+    chokepoints: ['suez'], commodities: ['lng'], countries: ['AUS'], exporters: [], importers: [],
+    measures: [{ chokepoint: 'suez', to: '2026-11-15', transits: { now: 10, yearAgo: 20, avg2023: 30 }, s: 'portwatch' }],
+  }];
+};
 
 function run(mutate) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'freight-validate-'));
@@ -154,6 +171,59 @@ test('notes and a port basis that are well formed pass', () => {
 });
 rejects('a second transit port without a source', (d) => ((d.lane.lanes[0].transit = { port: 'AAAAA', c: 'AUS', s: 'wikipedia' }), (d.lane.lanes[0].transit2 = { port: 'BBBBB', c: 'CHN' })), 'second transit port has no source');
 rejects('a lane file without its pairs file', (d) => (d.pairsFile = 'other'), 'no pairs file');
+
+test('a valid events and alerts layer passes', () => {
+  const { errors, status } = run(withAlerts);
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+const bad = (mut) => (d) => {
+  withAlerts(d);
+  mut(d);
+};
+rejects('an event that names a commodity the atlas does not have', bad((d) => (d.events[0].commodities = ['unobtainium'])), '"unobtainium"');
+rejects('an event that names an unknown country', bad((d) => (d.events[0].countries = ['ZZZ'])), '"ZZZ"');
+rejects('an event that names an unknown asset', bad((d) => (d.events[0].assets = ['nowhere-port'])), '"nowhere-port"');
+rejects('an event whose commodities are not a list', bad((d) => (d.events[0].commodities = 'lng')), 'not a list of ids');
+rejects('an event with a date that is not a date', bad((d) => (d.events[0].date = 'March 2026')), 'is not YYYY-MM');
+rejects('two events with one id', bad((d) => d.events.push({ ...d.events[0] })), 'appears twice');
+rejects('an alert without a review date', bad((d) => delete d.alerts[0].reviewed), '"reviewed"');
+rejects('an alert that points to no event', bad((d) => (d.alerts[0].event = 'ev9')), 'event "ev9"');
+rejects('an alert with a severity outside the list', bad((d) => (d.alerts[0].severity = 'critical')), 'severity "critical"');
+rejects('an alert without a PortWatch figure', bad((d) => (d.alerts[0].measures = [])), 'no PortWatch figure');
+rejects('an alert figure without a date', bad((d) => delete d.alerts[0].measures[0].to), 'no date of last observation');
+rejects('an alert figure that does not credit PortWatch', bad((d) => (d.alerts[0].measures[0].s = 'atlas')), 'must credit portwatch');
+rejects('an alert on a derived commodity that does not exist', bad((d) => (d.alerts[0].commodities = ['lng', 'x-ore'])), '"x-ore"');
+rejects('an alert override without a reason', bad((d) => (d.alerts[0].override = { commodities: ['lng'] })), 'override needs a reason');
+rejects('an alert on a passage that does not exist', bad((d) => (d.alerts[0].chokepoints = ['atlantis'])), '"atlantis"');
+
+// ---- generated corridor routes (routes.json) against the pairs table of base(): the pair AUS-CHN, 100 nm, panamax, ports A and B
+const route = (extra = {}) => ({
+  id: 'gen-coal-z-z', name: 'Coal: Z to Z', benchmark: false, generated: true, vclass: 'panamax', cargoes: ['thermal-coal'], s: 'atlas',
+  notes: 'Atlas corridor, generated from customs pairs: 1 pair', corridor: [{ k: 'thermal-coal', g: 'coal', o: ['AUS'], d: ['CHN'] }],
+  from: { region: 'Z', ports: ['A'] }, to: { region: 'Z', ports: ['B'] }, distanceNm: 100, via: ['malacca'], viaAlt: [], ...extra,
+});
+const withRoutes = (mutate) => (d) => {
+  d.routes = [route()];
+  mutate?.(d);
+};
+test('a valid generated route passes', () => {
+  const { errors, status } = run(withRoutes());
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+rejects('a generated route that is a benchmark', withRoutes((d) => (d.routes[0].benchmark = true)), 'never a benchmark');
+rejects('a generated route with another source', withRoutes((d) => (d.routes[0].s = 'baci')), 'source id "atlas"');
+rejects('a generated route without the note', withRoutes((d) => (d.routes[0].notes = 'x')), 'generated from customs pairs');
+rejects('a generated route whose id is not gen-', withRoutes((d) => (d.routes[0].id = 'coal-z')), 'starts with "gen-"');
+rejects('a hand-written route with a gen- id', withRoutes((d) => d.routes.push({ id: 'gen-x', benchmark: false, via: [] })), 'is for a generated route');
+rejects("a generated route with a distance that is not its pair's", withRoutes((d) => (d.routes[0].distanceNm = 90)), 'largest pair');
+rejects("a generated route with a class that is not its pair's", withRoutes((d) => (d.routes[0].vclass = 'vlcc')), 'vessel class vlcc');
+rejects('a generated route with other ports', withRoutes((d) => (d.routes[0].to.ports = ['C'])), 'ports are not those');
+rejects('a corridor entry without a customs group', withRoutes((d) => delete d.routes[0].corridor[0].g), 'names its customs group');
+rejects('a pair in two generated corridors', withRoutes((d) => d.routes.push(route({ id: 'gen-coal-y-y' }))), 'is in the corridor of');
+rejects('two routes with one id', withRoutes((d) => d.routes.push(route())), 'appears twice');
+rejects('a route that names a passage that does not exist', withRoutes((d) => (d.routes[0].via = ['atlantis'])), '"atlantis"');
 
 if (failed) {
   console.error(`\n${failed} test(s) failed`);

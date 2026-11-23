@@ -17,7 +17,7 @@
   "licence": "Public domain (US Government)",
   "update": "annual (late January)",
   "access": "Data release (CSV) found through the ScienceBase search API, monthly check",
-  "use": "Mine, refinery and smelter production and reserves of metals, minerals and fertilisers"
+  "use": "Mine, refinery and smelter production and reserves of metals, minerals and fertilisers; annual average prices (lithium, manganese, rare earths, bauxite and alumina, cobalt, palladium, rhodium)"
  },
  {
   "id": "baci",
@@ -36,8 +36,8 @@
   "url": "https://www.worldbank.org/en/research/commodity-markets",
   "licence": "CC BY 4.0",
   "update": "monthly (2nd business day)",
-  "access": "CMO-Historical-Data-Monthly.xlsx, weekly check",
-  "use": "Monthly prices since 1960"
+  "access": "CMO-Historical-Data-Monthly.xlsx, weekly check; the annual workbook CMO-Historical-Data-Annual.xlsx (real prices) is read from raw/ when present",
+  "use": "Monthly prices since 1960, the basis notes and basis changes of the series, price indices, and annual real prices (constant 2010 US dollars, MUV deflator)"
  },
  {
   "id": "fred",
@@ -206,8 +206,8 @@
   "publisher": "U.S. Energy Information Administration",
   "url": "https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm",
   "licence": "Public domain (US Government)",
-  "update": "weekly (daily data)",
-  "access": "eia.gov/dnav/.../hist_xls/*.xls, weekly check",
+  "update": "weekly (published on Wednesday, data to the Tuesday before)",
+  "access": "eia.gov/dnav/.../hist_xls/*.xls, checked Wednesday evening and Thursday morning",
   "use": "Daily Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating oil, US Gulf jet, Mont Belvieu propane"
  },
  {

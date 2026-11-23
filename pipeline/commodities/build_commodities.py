@@ -70,14 +70,18 @@ def _latest_inputs():
 BACI_YEAR, USGS_YEAR, USGS_FILE, PSD_MY = _latest_inputs()
 PSD_LABEL = f"{PSD_MY}/{(PSD_MY + 1) % 100:02d}"
 USGS_EDITION = int(USGS_YEAR) + 1
-TOP = 12
-SHOWN_ROWS = 10  # rows the commodity page draws before the "Other countries" row (RankedBars, web/src/components/ui.tsx)
+# every table lists every country that has a value; the page draws the first SHOWN_ROWS and a "Rest of world" line
+SHOWN_ROWS = 10  # rows the commodity page draws before "Rest of world" and "Other countries" (RankedBars, web/src/components/ui.tsx)
 NFLOWS = 20
+HIST_FROM = 2005  # first year of the series by country (data/commodities/history, history.py)
 
 QA_WARN = []
+QUIET = [False]  # True while the past years of the series are built (history.py): the page shows the latest year
 
 
 def warn(msg):
+    if QUIET[0]:
+        return
     QA_WARN.append(msg)
     print("WARN:", msg)
 
@@ -119,6 +123,7 @@ OVERRIDE = {
     "south sudan": "SSD",
     "sao tome and principe": "STP",
     "european union": "EU27",
+    "eu-25": "EU27",  # PSD sugar, market year 2005/06: the EU entity of that year (its "European Union" row is 0)
 }
 # true aggregates / entities without an ISO3 in the Atlas country list: skipped on purpose
 AGGREGATE = {
@@ -139,6 +144,8 @@ from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, PEER_RATIO, XAS, cl
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
 from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
+sys.path.insert(0, HERE)
+import history as HI  # noqa: E402  (series by country and year, data/commodities/history)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "freight"))
 import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
 import ports as PT  # noqa: E402  (sourced transit ports of landlocked countries)
@@ -210,8 +217,9 @@ def fig(v, u, y, s, n=None):
 LINES_OVER_WORLD = 5e-4
 
 
-def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None, other=0):
-    """rows: list of (iso, value[, note[, est]]); returns a Ranked dict (top N by value).
+def ranked(rows, y, s, u, world=None, n=None, top=None, digits=None, other=0):
+    """rows: list of (iso, value[, note[, est]]); returns a Ranked dict, every row with a value, largest first (the
+    first `top` only when it is given).
     est: the row is mostly an Atlas estimate (`est: true`, value kept to 3 significant digits). digits: every value of the
     table, the world total included, is rounded to that many significant digits (a table of estimates or conversions).
     other: the source's own "Other countries" line, part of the lines but not of `rows`. When every line of the table
@@ -227,7 +235,7 @@ def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None, other=0):
         if c in acc:
             raise SystemExit(f"duplicate row for {c} ({s} {y})")
         acc[c] = (v, note, est)
-    srt = sorted(acc.items(), key=lambda kv: -kv[1][0])[:top]
+    srt = sorted(acc.items(), key=lambda kv: -kv[1][0])[:top]  # top None: every row
     out = {"y": y, "s": s, "u": u}
     if world is not None:
         lines = sum(v for v, _, _ in acc.values()) + (other or 0)
@@ -241,6 +249,7 @@ def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None, other=0):
             out["worldPublished"] = sig(published, digits) if digits else rnd(published)
     out["rows"] = [({"c": c, "v": sig(v, digits or 3) if digits or est else rnd(v), **({"n": nt} if nt else {}), **({"est": True, "s": "atlas", "y": y} if est else {})})
                    for c, (v, nt, est) in srt]
+    out["rows"] = [r for r in out["rows"] if r["v"]]  # a value that rounds to 0 in the table's unit is left to the world total
     if n:
         out["n"] = n
     return out
@@ -342,7 +351,7 @@ class Usgs:
                      & (base["Country"] == "World total")]
         if cty.empty:
             raise SystemExit(f"USGS: no rows for {commodity} / {detail} / {year}")
-        rows, missing, other_sum, estimated = [], [], 0.0, False
+        rows, missing, other_sum, estimated, est_isos = [], [], 0.0, False, set()
         for _, r in cty.iterrows():
             if r["Country"] in ("World total",):
                 continue
@@ -358,6 +367,8 @@ class Usgs:
                 missing.append(f"{r['Country']} ({r['Value']})")
             if isinstance(r["Notes"], str) and "Estimated" in r["Notes"]:
                 estimated = True
+                if iso and kind == "num":
+                    est_isos.add(iso)  # the value is a USGS estimate ("Estimated." in the notes of the file), not the atlas's
         world, wnote = None, None
         for _, r in wrows.iterrows():
             kind, v = self.parse(r["Value"])
@@ -371,13 +382,13 @@ class Usgs:
                 if extra and "See Appendix" not in extra:
                     wnote = (wnote + "; " if wnote else "") + extra
         return {"rows": [r for r in rows if r[0]], "world": world, "wnote": wnote, "missing": missing,
-                "other": other_sum, "estimated": estimated}
+                "other": other_sum, "estimated": estimated, "est_isos": est_isos}
 
-    def ranked(self, commodity, detail, u, factor, label, kind="production", full=False):
-        """full: list every country USGS gives, then USGS's 'Other countries' line as the field `other` (shown as the last
-        row of the table). If the countries and that line add up to more than 2% below the USGS world total, the
-        shares are computed on their sum and the note says so."""
-        t = self.table(commodity, detail, factor=factor)
+    def ranked(self, commodity, detail, u, factor, label, kind="production", full=False, year=USGS_YEAR):
+        """Every country USGS gives, and USGS's 'Other countries' line as the field `other` (its own row of the table).
+        full: if the countries and that line add up to more than 2% below the USGS world total, the shares are computed
+        on their sum and the note says so. year: another year of the file (the series by country, history.py)."""
+        t = self.table(commodity, detail, year=year, factor=factor)
         world = t["world"]
         n = [f"USGS MCS {USGS_EDITION}, {label}"]
         if kind == "production" and t["estimated"]:
@@ -402,9 +413,8 @@ class Usgs:
         if t["missing"]:
             names = sorted(set(t["missing"]))
             n.append("not given as a number by USGS (W = withheld): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
-        out = ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n), top=max(TOP, len(t["rows"])) if full else TOP,
-                     other=t["other"])
-        if full and t["other"]:
+        out = ranked(t["rows"], int(year), "usgs-mcs", u, world=world, n="; ".join(n), other=t["other"])
+        if t["other"]:
             out["other"] = rnd(t["other"])  # USGS's own "Other countries" line, as published
             hid = out["rows"][SHOWN_ROWS:]
             if hid:  # countries USGS names in the table that the page does not draw as a row of their own (GW3.5)
@@ -413,6 +423,13 @@ class Usgs:
                                       "listed after the first rows; not part of USGS's 'Other countries' line"}
             if published is not None and world != published:
                 out["worldPublished"] = rnd(published)  # the USGS world total as published; `world` is the sum the shares are computed on
+        out["_srcest"] = t["est_isos"]
+
+        def at(y):
+            r, _ = self.ranked(commodity, detail, u, factor, label, kind, full, year=str(y))
+            return r
+        # the file holds the year before the edition's estimates too (as revised by the edition): the series by country has both
+        out["_hist"] = ([int(USGS_YEAR) - 1, int(USGS_YEAR)], at)
         return out, t
 
 
@@ -480,23 +497,29 @@ class Eia:
         s = sum(v for _, v in rows)
         if s > world * 1.02:
             warn(f"EIA {key}: sum countries {s:.0f} > world {world:.0f}")
-        return ranked(rows, year, "eia-intl", u, world=world, n=n)
+        out = ranked(rows, year, "eia-intl", u, world=world, n=n)
+        out["_hist"] = (list(range(HIST_FROM, year + 1)), lambda y: self.ranked(key, u, factor, label, year=y, n_extra=n_extra))
+        return out
 
-    def minus(self, key_total, key_sub, u, factor, label, n_extra):
+    def minus(self, key_total, key_sub, u, factor, label, n_extra, year=None):
         """total minus subset per country (thermal coal = all coal minus metallurgical coal)."""
-        year = self.latest_year(key_total, key_sub)
+        latest = year is None
+        year = year or self.latest_year(key_total, key_sub)
         tot = dict(self.country_values(key_total, year))
         sub = {c: v for c, v in self.country_values(key_sub, year)}
         rows = []
         for c, v in tot.items():
             d = v - sub.get(c, 0.0)
             if d < -1e-6:
-                warn(f"EIA thermal coal {c}: metallurgical {sub[c]:.0f} > total {v:.0f}; set to 0")
+                if latest:  # a past year of the series is not warned about: the page shows the latest year
+                    warn(f"EIA thermal coal {c}: metallurgical {sub[c]:.0f} > total {v:.0f}; set to 0")
                 d = 0
             rows.append((c, d * factor))
         world = (self.s[key_total]["WORL"][year] - self.s[key_sub]["WORL"][year]) * factor
         n = f"EIA International Energy Data, {label}; {n_extra}"
-        return ranked(rows, year, "eia-intl", u, world=world, n=n)
+        out = ranked(rows, year, "eia-intl", u, world=world, n=n)
+        out["_hist"] = (list(range(HIST_FROM, year + 1)), lambda y: self.minus(key_total, key_sub, u, factor, label, n_extra, year=y))
+        return out
 
 
 # ====================================================================== USDA PSD
@@ -506,17 +529,38 @@ class Psd:
         "Cotton": ("Mt", 0.00021772434, "PSD reports 1000 480-lb bales; converted to Mt (1000 bales = 217.72 t)"),
     }
 
-    def __init__(self):
+    ATTRS = ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks",
+             "TY Exports", "TY Imports", "Milling Rate (.9999)", "Rough Production"]
+
+    @staticmethod
+    def read(first, last):
         d = pd.read_csv(os.path.join(RAW, "usda", "psd_csv", "psd_alldata.csv"), encoding="latin-1",
                         usecols=["Commodity_Description", "Country_Name", "Market_Year", "Calendar_Year", "Month",
                                  "Attribute_Description", "Unit_Description", "Value"])
-        d = d[(d["Market_Year"] == PSD_MY) & d["Attribute_Description"].isin(
-            ["Production", "Exports", "Imports", "Domestic Consumption", "Domestic Use", "Human Dom. Consumption", "Ending Stocks",
-             "TY Exports", "TY Imports", "Milling Rate (.9999)", "Rough Production"])]
-        d = d[~d["Unit_Description"].isin(["(PERCENT)"])]
+        d = d[d["Market_Year"].between(first, last) & d["Attribute_Description"].isin(Psd.ATTRS)]
+        return d[~d["Unit_Description"].isin(["(PERCENT)"])]
+
+    def __init__(self, d=None, my=PSD_MY):
+        """d: the rows of market year `my` (another market year of the file: the series by country, history.py)."""
+        self.my = my
+        self.label = f"{my}/{(my + 1) % 100:02d}"  # PSD_LABEL for the latest market year
+        if d is None:
+            d = self.read(my, my)
         self.d = d
         self.release = self.revision(d)  # newest revision of the whole file: build log only
         self.cache = {}
+        self._years = None
+
+    def at(self, my):
+        """The table reader for another market year (the file is read once for every year from HIST_FROM to PSD_MY)."""
+        if my == self.my:
+            return self
+        if self._years is None:
+            allyears = self.read(HIST_FROM, PSD_MY)
+            self._years = {int(y): Psd(x, int(y)) for y, x in allyears.groupby("Market_Year")}
+        if my not in self._years:
+            raise KeyError(my)
+        return self._years[my]
 
     @staticmethod
     def revision(rows):
@@ -577,7 +621,7 @@ class Psd:
     def ranked(self, commodity, attr, what, extra=None):
         unit, conv, rows, world = self.table(commodity, attr)
         trade = attr in ("Exports", "Imports")
-        n = [f"USDA PSD, {commodity}, {what}, market year {PSD_LABEL} ({self.release_of(commodity)})"]
+        n = [f"USDA PSD, {commodity}, {what}, market year {self.label} ({self.release_of(commodity)})"]
         if trade and self.has_eu(commodity):
             n.append("world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded)")
         elif trade:
@@ -594,7 +638,10 @@ class Psd:
             n.append(conv)
         if extra:
             n.append(extra)
-        return ranked(rows, PSD_LABEL, "usda-psd", unit, world=world, n="; ".join(n)), unit
+        out = ranked(rows, self.label, "usda-psd", unit, world=world, n="; ".join(n))
+        # market years HIST_FROM/.. to the latest one the tables show (PSD_MY, set in _latest_inputs only)
+        out["_hist"] = (list(range(HIST_FROM, PSD_MY + 1)), lambda my: self.at(my).ranked(commodity, attr, what, extra)[0])
+        return out, unit
 
 
 # ====================================================================== BACI
@@ -675,14 +722,15 @@ class Baci:
     def group(self, g, year=BACI_YEAR):
         return self.df[(self.df["group"] == g) & (self.df["year"] == year)]
 
-    def ranked(self, g, side, u, div, what, extra=None, digits=None):
-        d = self.group(g)
+    def ranked(self, g, side, u, div, what, extra=None, digits=None, year=BACI_YEAR):
+        """year: another year of the cleaned frame, same rules and the same estimate marks (the series by country, history.py)."""
+        d = self.group(g, year)
         col = "o" if side == "exports" else "d"
         agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
         rows = []
-        for code, r in agg.head(TOP + 5).iterrows():
+        for code, r in agg.iterrows():
             iso = None if code in EXTRA_CODES else self.iso(code)  # ranked tables (and country profiles) list countries of the index only
             es = r["te"] / r["t"] if r["t"] else 0
             note = None
@@ -698,7 +746,7 @@ class Baci:
             if ss >= 0.10:
                 note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values ({_kept_why(g)})"
             rows.append((iso, r["t"] / div, note, mostly))
-        n = [f"CEPII BACI HS92 {what}, {BACI_YEAR}, all transport modes, gross weight",
+        n = [f"CEPII BACI HS92 {what}, {year}, all transport modes, gross weight",
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
         if est_share >= 0.10:  # a total that holds a tenth or more of estimated tonnage says so, and keeps three digits
             n.append(f"includes an Atlas estimate: {est_share * 100:.0f}% of world tonnage is estimated from the declared value where the "
@@ -707,10 +755,17 @@ class Baci:
             n.append(f"{est_share * 100:.0f}% of world tonnage estimated from value where missing or inconsistent")
         if extra:
             n.append(extra)
-        t = ranked(rows, BACI_YEAR, "baci", u, world=world, n="; ".join(n), digits=digits)
+        t = ranked(rows, year, "baci", u, world=world, n="; ".join(n), digits=digits)
         if est_share >= 0.10:
             t["world"] = sig(world)
+            t["_west"] = True  # the world total holds a tenth or more of Atlas estimates
+        if year == BACI_YEAR:
+            t["_hist"] = (self.years(), lambda y: self.ranked(g, side, u, div, what, extra, digits, year=y)[0])
         return t, est_share
+
+    def years(self):
+        """Years of the series by country: HIST_FROM to the latest year of the cache."""
+        return sorted(int(y) for y in self.df["year"].unique() if HIST_FROM <= y <= BACI_YEAR)
 
     def flows(self, g, u, div, lane_group=None, only_exporters=None, mode_all=None, n_all=None, adjust=None, only_pairs=None):
         """adjust: {(o, d): (tonnes, note)} replaces the customs tonnage of a pair by an Atlas figure
@@ -1383,7 +1438,7 @@ def main():
 
             rev = since("WORL")
             flags = []
-            for r in tr["rows"]:
+            for i, r in enumerate(tr["rows"]):
                 code = _iso_to_eia(r["c"])
                 s0 = since(code)
                 if s0 < rev:
@@ -1393,7 +1448,8 @@ def main():
                     flag = (f"{cname(r['c'])}: EIA raised its estimate from {_fmt(prev * 0.90718474)} Mt to {_fmt(ser[code][s0] * 0.90718474)} Mt in {s0}, "
                             f"a {ser[code][s0] / prev:.0f}-fold step, and has not changed it since; treat this rank with caution")
                     r["n"] = flag.split(": ", 1)[1]
-                    flags.append(flag)
+                    if i < SHOWN_ROWS:  # the table's warning names the ranks drawn first; every flagged row keeps its own note
+                        flags.append(flag)
             tr["y"] = rev
             tr["n"] += f"; last revised by EIA in {rev} and repeated unchanged to {y} (reserve estimates are not revised every year)"
             for flag in flags:
@@ -1663,7 +1719,9 @@ def main():
             notes.append("Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock.")
         elif cid == "lithium":
             df_ = baci.df
-            low = (df_["group"] == "lithium") & (df_["year"] == BACI_YEAR) & (df_["uvp"] < LITHIUM_MIN_UV) & ~df_["imputed"]
+            low_all = (df_["group"] == "lithium") & (df_["uvp"] < LITHIUM_MIN_UV) & ~df_["imputed"]
+            low = low_all & (df_["year"] == BACI_YEAR)
+            df_.loc[low_all & ~low, "group"] = "lithium-low"  # the same rule in every year of the series by country
             if low.any():
                 lows = df_[low].sort_values("t", ascending=False)
                 df_.loc[low, "group"] = "lithium-low"  # out of the chemicals tables, listed below
@@ -1823,6 +1881,20 @@ def main():
         if docs["lng"].get(sec, {}).get("caveat"):
             docs["lng"][sec]["caveatShort"] = short
 
+    # ------------------------------------------------------------ series by country and year
+    known = {k: set(v) for k, v in UNKNOWN.items()}
+    QUIET[0] = True
+    try:
+        hist_qa, hist_bad = HI.write_all(docs, os.path.join(OUT, "history"))
+    finally:
+        QUIET[0] = False
+    for bad in hist_bad:
+        warn(f"history: the latest year of the series differs from the table: {bad}")
+    gone = {k: sorted(v - known.get(k, set())) for k, v in UNKNOWN.items() if v - known.get(k, set())}
+    for k, v in gone.items():  # codes of earlier years that are not countries of the index: in the world total, not in a series
+        hist_qa.append(f"Codes of earlier years without a country of the index ({k}), counted in the world total only: {', '.join(v)}.")
+    print("history:", hist_qa[0])
+
     # ------------------------------------------------------------ write
     HAS = ["production", "reserves", "consumption", "exports", "imports", "flows"]
     for e in index:
@@ -1830,6 +1902,9 @@ def main():
         for k in ("production", "reserves", "consumption", "exports", "imports", "flows"):
             if k in d and not d[k]:
                 raise SystemExit(f"{e['id']}: empty {k}")
+        for t in [d[k] for k in ("production", "refinery", "reserves", "consumption", "exports", "imports") if isinstance(d.get(k), dict)] + [x["table"] for x in d.get("extra") or []]:
+            for k in [k for k in t if k.startswith("_")]:  # the recipes of the series (history.py) are not published
+                del t[k]
         mine = [k for k in HAS if k in d]
         e["has"] = mine + [h for h in e.get("has", []) if h not in HAS]
         # field order
@@ -1840,7 +1915,7 @@ def main():
     with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8") as f:
         json.dump(index, f, indent=1, ensure_ascii=False)
     update_sources()
-    write_qa(index, docs, baci)
+    write_qa(index, docs, baci, hist_qa)
     print("wrote", len(docs), "commodity files")
 
 
@@ -1948,7 +2023,7 @@ def _fine_metal(d, baci, cid, disc):
     for side, col in (("exports", "o"), ("imports", "d")):
         agg = x.groupby(col).agg(t=("t", "sum"), t0=("t0", "sum")).sort_values("t", ascending=False)
         rows = [(None if c in EXTRA_CODES else baci.iso(c), r["t"] / div, f"customs gross weight {_fmt(r['t0'] / div)} {u}")
-                for c, r in agg.head(TOP + 5).iterrows()]
+                for c, r in agg.iterrows()]
         d[side] = ranked(rows, BACI_YEAR, "atlas", u, world=x["t"].sum() / div, n=n, digits=3)  # an estimate: three significant digits
         _name_it(d, side, f"Top {side[:-1]}ers — fine-metal equivalent (Atlas estimate)")
     for m in baci.last_susp:  # the discrepancies of the gross-weight flows replaced below
@@ -2178,7 +2253,7 @@ def qa_draughts():
             "Not restricted by any strait for want of a sourced draught: " + ", ".join(none) + ".", ""]
 
 
-def write_qa(index, docs, baci=None):
+def write_qa(index, docs, baci=None, hist=None):
     lines = ["# Commodity data QA", "",
              "Generated by `pipeline/commodities/build_commodities.py`. Top producers use the `production` table, "
              "top exporters the `exports` table; the world total is the published/summed figure in the same table.", "",
@@ -2213,6 +2288,8 @@ def write_qa(index, docs, baci=None):
     if baci is not None:
         lines += qa_dropped(baci)
     lines += qa_draughts()
+    if hist:
+        lines += ["## Series by country and year (data/commodities/history)", "", hist[0], ""] + [f"- {h}" for h in hist[1:]] + [""]
     lines += ["## Build warnings", ""] + ([f"- {w}" for w in QA_WARN] or ["- none"])
     with open(os.path.join(HERE, "QA.md"), "w", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")

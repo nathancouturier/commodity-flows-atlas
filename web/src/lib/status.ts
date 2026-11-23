@@ -58,6 +58,8 @@ export interface StatusView {
   baciVersion: string | null;
   /** date of the last successful FAOSTAT / WNA check (ISO) */
   faoChecked: string | null;
+  /** last successful rebuild of the disruption banners (ISO) */
+  alertsBuilt: string | null;
 }
 
 /** How the job dates its source: an end of data (day, month) or a release (the annual sources). */
@@ -75,7 +77,7 @@ interface Tracked {
   optional?: boolean;
 }
 
-// The price job runs every Tuesday and the PortWatch job every Wednesday; the annual job runs on the 15th of
+// The price job runs every Wednesday evening (and Thursday morning) and the PortWatch job every Wednesday; the annual job runs on the 15th of
 // each month, and checks FAOSTAT and WNA only when their last check is 80 days old (.github/workflows).
 const WEEKLY = 16;
 const MONTHLY = 64;
@@ -201,6 +203,7 @@ function clean(raw: RawStatus, now: number): StatusView {
     rebuilt: rebuilt ?? null,
     baciVersion: typeof ver === 'string' ? ver.replace(/^V/, '') : null,
     faoChecked: str(obj(src['faostat-wna']).last_success),
+    alertsBuilt: str(obj(src['build-alerts']).last_success),
   };
 }
 
@@ -257,3 +260,143 @@ export const BUILD = {
   commit: typeof __BUILD_COMMIT__ === 'string' ? __BUILD_COMMIT__ : '',
   date: typeof __BUILD_DATE__ === 'string' ? __BUILD_DATE__ : '',
 };
+
+// ---------------------------------------------------------------- what changed and the calendar
+
+/** One move of a price series: the last quote against the one a week (or a month) before. */
+export interface PriceMove {
+  id: string;
+  name: string;
+  unit: string;
+  s: string;
+  from: string;
+  to: string;
+  v0: number;
+  v1: number;
+  pct: number;
+}
+/** A passage's last 7 days against the 28 and the 365 days before them (IMF PortWatch). */
+export interface PassageMove {
+  id: string;
+  name: string;
+  to: string;
+  week: number;
+  gap28: number;
+  gap365: number;
+}
+export interface SourceNews {
+  id: string;
+  name: string;
+  data_to: string | null;
+  t: string;
+}
+export interface JobRun {
+  min: number;
+  hour: number;
+  /** weekday 0 (Sunday) to 6, or null */
+  dow: number | null;
+  /** day of the month, or null */
+  dom: number | null;
+  text: string;
+}
+export interface Job {
+  id: string;
+  name: string;
+  runs: JobRun[];
+  sources: string[];
+}
+export interface FeedEntry {
+  id: string;
+  kind: string;
+  t: string;
+  title: string;
+  lines: string[];
+}
+/** data/_status/changes.json, written by pipeline/common/changes.py, read field by field. */
+export interface Changes {
+  generated: string | null;
+  weekly: { to: string | null; moves: PriceMove[] };
+  monthly: { to: string | null; moves: PriceMove[] };
+  passages: { to: string | null; moves: PassageMove[] };
+  sources: SourceNews[];
+  jobs: Job[];
+  entries: FeedEntry[];
+}
+
+const num = (v: unknown): number | null => (typeof v === 'number' && Number.isFinite(v) ? v : null);
+const arr = (v: unknown): unknown[] => (Array.isArray(v) ? v : []);
+
+function moves(v: unknown): PriceMove[] {
+  return arr(v).flatMap((x) => {
+    const o = obj(x);
+    const [pct, v0, v1] = [num(o.pct), num(o.v0), num(o.v1)];
+    const [id, name, to] = [str(o.id), str(o.name), str(o.to)];
+    return id && name && to && pct != null && v0 != null && v1 != null
+      ? [{ id, name, unit: str(o.unit) ?? '', s: str(o.s) ?? '', from: str(o.from) ?? '', to, v0, v1, pct }]
+      : [];
+  });
+}
+
+/** Load the digest of the update jobs; null when there is none yet (a fresh clone) or the file is not what is expected. */
+export async function loadChanges(): Promise<Changes | null> {
+  const raw = await loadOptional<unknown>('_status/changes.json');
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const r = obj(raw);
+  const block = (k: string) => obj(r[k]);
+  return {
+    generated: str(r.generated),
+    weekly: { to: str(block('weekly').to), moves: moves(block('weekly').moves) },
+    monthly: { to: str(block('monthly').to), moves: moves(block('monthly').moves) },
+    passages: {
+      to: str(block('passages').to),
+      moves: arr(block('passages').moves).flatMap((x) => {
+        const o = obj(x);
+        const [id, name, to, week, gap28, gap365] = [str(o.id), str(o.name), str(o.to), num(o.week), num(o.gap28), num(o.gap365)];
+        return id && name && to && week != null && gap28 != null && gap365 != null ? [{ id, name, to, week, gap28, gap365 }] : [];
+      }),
+    },
+    sources: arr(r.sources).flatMap((x) => {
+      const o = obj(x);
+      const [id, name, t] = [str(o.id), str(o.name), str(o.t)];
+      return id && name && t ? [{ id, name, t, data_to: str(o.data_to) }] : [];
+    }),
+    jobs: arr(r.jobs).flatMap((x) => {
+      const o = obj(x);
+      const [id, name] = [str(o.id), str(o.name)];
+      const runs = arr(o.runs).flatMap((y) => {
+        const q = obj(y);
+        const [min, hour, text] = [num(q.min), num(q.hour), str(q.text)];
+        return min != null && hour != null && text ? [{ min, hour, dow: num(q.dow), dom: num(q.dom), text }] : [];
+      });
+      return id && name && runs.length ? [{ id, name, runs, sources: arr(o.sources).filter((z): z is string => typeof z === 'string') }] : [];
+    }),
+    entries: arr(r.entries).flatMap((x) => {
+      const o = obj(x);
+      const [id, kind, t, title] = [str(o.id), str(o.kind), str(o.t), str(o.title)];
+      return id && kind && t && title ? [{ id, kind, t, title, lines: arr(o.lines).filter((z): z is string => typeof z === 'string') }] : [];
+    }),
+  };
+}
+
+/** The next time one of ``runs`` fires after ``now`` (UTC), as a Date. */
+export function nextRun(runs: JobRun[], now = Date.now()): Date | null {
+  let best: number | null = null;
+  const d0 = new Date(now);
+  for (const r of runs) {
+    for (let add = 0; add < 62; add++) {
+      const t = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate() + add, r.hour, r.min);
+      const d = new Date(t);
+      const ok = (r.dow != null && d.getUTCDay() === r.dow) || (r.dom != null && d.getUTCDate() === r.dom);
+      if (ok && t > now) {
+        if (best == null || t < best) best = t;
+        break;
+      }
+    }
+  }
+  return best == null ? null : new Date(best);
+}
+
+/** The job that reads a registry source, or undefined for a source entered by hand. */
+export function jobOf(jobs: Job[], sourceId: string): Job | undefined {
+  return jobs.find((j) => j.sources.includes(sourceId));
+}

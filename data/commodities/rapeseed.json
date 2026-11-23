@@ -83,6 +83,74 @@
    {
     "c": "KAZ",
     "v": 0.63
+   },
+   {
+    "c": "PAK",
+    "v": 0.578
+   },
+   {
+    "c": "URY",
+    "v": 0.37
+   },
+   {
+    "c": "IRN",
+    "v": 0.325
+   },
+   {
+    "c": "ZAF",
+    "v": 0.306
+   },
+   {
+    "c": "MDA",
+    "v": 0.296
+   },
+   {
+    "c": "TUR",
+    "v": 0.15
+   },
+   {
+    "c": "ARG",
+    "v": 0.149
+   },
+   {
+    "c": "CHL",
+    "v": 0.14
+   },
+   {
+    "c": "PRY",
+    "v": 0.125
+   },
+   {
+    "c": "CHE",
+    "v": 0.088
+   },
+   {
+    "c": "ETH",
+    "v": 0.045
+   },
+   {
+    "c": "NOR",
+    "v": 0.01
+   },
+   {
+    "c": "JPN",
+    "v": 0.003
+   },
+   {
+    "c": "MAR",
+    "v": 0.003
+   },
+   {
+    "c": "VNM",
+    "v": 0.002
+   },
+   {
+    "c": "KOR",
+    "v": 0.001
+   },
+   {
+    "c": "MEX",
+    "v": 0.001
    }
   ],
   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed production, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
@@ -140,6 +208,78 @@
    {
     "c": "BLR",
     "v": 1.355
+   },
+   {
+    "c": "PAK",
+    "v": 1.335
+   },
+   {
+    "c": "MEX",
+    "v": 1.3
+   },
+   {
+    "c": "ARE",
+    "v": 1.2
+   },
+   {
+    "c": "KAZ",
+    "v": 0.36
+   },
+   {
+    "c": "IRN",
+    "v": 0.335
+   },
+   {
+    "c": "ZAF",
+    "v": 0.228
+   },
+   {
+    "c": "CHL",
+    "v": 0.17
+   },
+   {
+    "c": "TUR",
+    "v": 0.15
+   },
+   {
+    "c": "PRY",
+    "v": 0.122
+   },
+   {
+    "c": "CHE",
+    "v": 0.093
+   },
+   {
+    "c": "ARG",
+    "v": 0.091
+   },
+   {
+    "c": "URY",
+    "v": 0.075
+   },
+   {
+    "c": "ETH",
+    "v": 0.045
+   },
+   {
+    "c": "MDA",
+    "v": 0.045
+   },
+   {
+    "c": "NOR",
+    "v": 0.015
+   },
+   {
+    "c": "MAR",
+    "v": 0.003
+   },
+   {
+    "c": "VNM",
+    "v": 0.002
+   },
+   {
+    "c": "KOR",
+    "v": 0.001
    }
   ],
   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed domestic consumption/use, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"
@@ -198,6 +338,14 @@
    {
     "c": "ARG",
     "v": 0.05
+   },
+   {
+    "c": "CHL",
+    "v": 0.005
+   },
+   {
+    "c": "PRY",
+    "v": 0.001
    }
   ],
   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed exports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
@@ -255,6 +403,42 @@
    {
     "c": "RUS",
     "v": 0.075
+   },
+   {
+    "c": "CHL",
+    "v": 0.04
+   },
+   {
+    "c": "KAZ",
+    "v": 0.028
+   },
+   {
+    "c": "IRN",
+    "v": 0.01
+   },
+   {
+    "c": "MDA",
+    "v": 0.005
+   },
+   {
+    "c": "NOR",
+    "v": 0.005
+   },
+   {
+    "c": "CHE",
+    "v": 0.005
+   },
+   {
+    "c": "UKR",
+    "v": 0.004
+   },
+   {
+    "c": "AUS",
+    "v": 0.002
+   },
+   {
+    "c": "URY",
+    "v": 0.001
    }
   ],
   "n": "USDA PSD, Oilseed, Rapeseed, rapeseed imports, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
@@ -316,6 +500,46 @@
      {
       "c": "BLR",
       "v": 0.121
+     },
+     {
+      "c": "PAK",
+      "v": 0.116
+     },
+     {
+      "c": "GBR",
+      "v": 0.075
+     },
+     {
+      "c": "MDA",
+      "v": 0.045
+     },
+     {
+      "c": "KAZ",
+      "v": 0.035
+     },
+     {
+      "c": "ARG",
+      "v": 0.021
+     },
+     {
+      "c": "TUR",
+      "v": 0.021
+     },
+     {
+      "c": "ZAF",
+      "v": 0.016
+     },
+     {
+      "c": "CHL",
+      "v": 0.011
+     },
+     {
+      "c": "URY",
+      "v": 0.007
+     },
+     {
+      "c": "PRY",
+      "v": 0.003
      }
     ],
     "n": "USDA PSD, Oilseed, Rapeseed, rapeseed ending stocks, market year 2025/26 (latest revision 2026-11); world = sum of reporting countries"

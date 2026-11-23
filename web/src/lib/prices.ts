@@ -4,18 +4,40 @@
  * date and free-text date parsing for the price explorer.
  */
 import { signal } from '@preact/signals';
-import type { PriceSeries, PriceSeriesMeta } from '../types';
-import { load } from './data';
+import type { Family, PriceSeries, PriceSeriesMeta } from '../types';
+import { commodityMeta, load } from './data';
+import { FAMILY_LABEL } from './format';
 import { historyOpen, priceDrawer, commodity } from './store';
 
-export type PriceMeta = PriceSeriesMeta & { note?: string };
+/** A spread or ratio is built in the browser from two series of the same frequency: `spread` names the legs. */
+export interface SpreadLegs {
+  a: string;
+  b: string;
+  kind: 'diff' | 'ratio';
+}
+export type PriceMeta = PriceSeriesMeta & { note?: string; spread?: SpreadLegs };
 
 export interface LoadedSeries {
   meta: PriceMeta;
   /** seconds since epoch (UTC), ascending */
   x: number[];
   v: (number | null)[];
+  /** daily series: [last day before, first day after] of every stretch longer than GAP_DAYS without an observation */
+  gaps?: [number, number][];
 }
+
+/** Where a series is listed: the family of its commodity, or the price indices (series with no page in the atlas name their own). */
+export type PriceGroup = Family | 'index';
+export const GROUP_ORDER: PriceGroup[] = ['energy', 'metals', 'softs', 'freight', 'index'];
+export const GROUP_LABEL: Record<PriceGroup, string> = { ...FAMILY_LABEL, index: 'Price indices' };
+export function groupOf(m: { k: string; fam?: string }): PriceGroup {
+  if (m.k === 'freight') return 'freight';
+  return commodityMeta(m.k)?.family ?? ((m.fam as PriceGroup | undefined) ?? 'energy');
+}
+
+/** A daily series is drawn as broken over a stretch of more than a week without an observation. */
+export const GAP_DAYS = 7;
+export const FREQ_WORD = { D: 'daily', M: 'monthly', A: 'annual' } as const;
 
 export const DAY_S = 86400;
 export const priceIndex = signal<PriceMeta[]>([]);
@@ -43,6 +65,11 @@ const seriesCache = new Map<string, Promise<LoadedSeries>>();
 
 export function loadSeries(id: string): Promise<LoadedSeries> {
   let p = seriesCache.get(id);
+  if (!p && id.startsWith(SPREAD_PREFIX)) {
+    p = loadSpread(id);
+    p.catch(() => seriesCache.delete(id));
+    seriesCache.set(id, p);
+  }
   if (!p) {
     p = Promise.all([loadPriceIndex(), load<PriceSeries>(`prices/${id}.json`)]).then(([idx, raw]) => {
       const meta = idx.find((m) => m.id === id);
@@ -60,11 +87,26 @@ export function unpack(meta: PriceMeta, raw: PriceSeries): LoadedSeries {
   const x = new Array<number>(n);
   if (raw.freq === 'D' && raw.d) {
     for (let i = 0; i < n; i++) x[i] = raw.d[i] * DAY_S;
+  } else if (raw.freq === 'A') {
+    const sy = Number((raw.start ?? meta.start).slice(0, 4));
+    for (let i = 0; i < n; i++) x[i] = Date.UTC(sy + i, 0, 1) / 1000;
   } else {
     const [sy, sm] = (raw.start ?? meta.start).split('-').map(Number);
     for (let i = 0; i < n; i++) x[i] = Date.UTC(sy, sm - 1 + i, 1) / 1000;
   }
-  return { meta, x, v: raw.v };
+  return { meta, x, v: raw.v, gaps: raw.freq === 'D' ? gapsOf(x, raw.v) : undefined };
+}
+
+/** Stretches of a daily series longer than GAP_DAYS between two observations (nothing is interpolated over them). */
+export function gapsOf(x: number[], v: (number | null)[]): [number, number][] {
+  const out: [number, number][] = [];
+  let prev = -1;
+  for (let i = 0; i < x.length; i++) {
+    if (v[i] == null) continue;
+    if (prev >= 0 && x[i] - x[prev] > GAP_DAYS * DAY_S) out.push([x[prev], x[i]]);
+    prev = i;
+  }
+  return out;
 }
 
 /** Merge series onto the union of their timestamps (gaps are null; the chart joins them). */
@@ -256,9 +298,10 @@ export function parseLookup(input: string): ParsedDate | null {
 
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export function fmtObsDate(t: number, freq: 'D' | 'M'): string {
+export function fmtObsDate(t: number, freq: 'D' | 'M' | 'A'): string {
   const d = new Date(t * 1000);
   const y = d.getUTCFullYear();
+  if (freq === 'A') return String(y);
   return freq === 'M' ? `${MON[d.getUTCMonth()]} ${y}` : `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${y}`;
 }
 
@@ -286,7 +329,8 @@ export const DEFAULT_SERIES = 'brent-d';
 /** Series of a commodity, daily first (the monthly series stays available as an optional second series). */
 export function seriesForCommodity(k: string | null | undefined, idx = priceIndex.value): PriceMeta[] {
   if (!k) return [];
-  return idx.filter((m) => m.k === k).sort((a, b) => (a.freq === b.freq ? 0 : a.freq === 'D' ? -1 : 1));
+  const rank = { D: 0, M: 1, A: 2 };
+  return idx.filter((m) => m.k === k && !m.hidden).sort((a, b) => rank[a.freq] - rank[b.freq]);
 }
 
 /** A commodity opens on its own series, or on nothing when it has none: never on another commodity's price. */
@@ -298,7 +342,7 @@ export function defaultSeriesIds(k: string | null | undefined): string[] {
 
 /** Commodities whose price series cover only part of what the page describes. */
 export const PRICE_COVERAGE_NOTE: Record<string, string> = {
-  pgm: 'Platinum only: no free price series for palladium or rhodium yet.',
+  pgm: 'Platinum monthly (World Bank). Palladium and rhodium: annual average prices only (USGS).',
 };
 
 /** "uranium", "rare earths": a catalogue name inside a sentence (acronyms such as LNG keep their capitals). */
@@ -313,7 +357,141 @@ const stamp = (s: string): number => {
 
 /** Other series of the same commodity whose published range overlaps t0 <= t < t1. */
 export function seriesCovering(k: string, t0: number, t1: number, exclude: string[], idx = priceIndex.value): PriceMeta[] {
-  return idx.filter((m) => m.k === k && !exclude.includes(m.id) && stamp(m.start) < t1 && obsEnd(stamp(m.end), m.freq) > t0);
+  return idx.filter((m) => m.k === k && !m.hidden && !exclude.includes(m.id) && stamp(m.start) < t1 && obsEnd(stamp(m.end), m.freq) > t0);
+}
+
+// ---------------------------------------------------------------- annual values, estimates, late series
+
+/** The run of calendar years [first, last] a monthly series gives one price for (twelve identical monthly values), or null. */
+export function annualRun(m: PriceSeriesMeta, year: number): [number, number] | null {
+  return m.annual?.find((r) => year >= r[0] && year <= r[1]) ?? null;
+}
+
+/** First year with real monthly data when the series opens with annual values (the audit's "monthlyFrom"), else null. */
+export function monthlyFrom(m: PriceSeriesMeta): number | null {
+  const r = m.annual?.[0];
+  return r && String(r[0]) === m.start.slice(0, 4) ? r[1] + 1 : null;
+}
+
+/** Is the month containing t one the source itself marks as an estimate? */
+export function inEstimate(m: PriceSeriesMeta, t: number): boolean {
+  if (!m.est) return false;
+  const d = new Date(t * 1000);
+  const ym = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  return m.est.some((r) => ym >= r[0] && ym <= r[1]);
+}
+
+/**
+ * Late: a daily series more than three weeks behind (the jobs are weekly), a monthly one once the following month is
+ * overdue (mid-month, two months on). Same rule as pipeline/prices/build_prices.py check_freshness, which records it.
+ */
+export function isLate(m: PriceSeriesMeta, now = Date.now()): boolean {
+  if (m.closed || m.hidden || m.freq === 'A') return false;
+  const [y, mo = '1', d = '1'] = m.end.split('-');
+  if (m.freq === 'D') return now - Date.UTC(Number(y), Number(mo) - 1, Number(d)) > 21 * DAY_S * 1000;
+  return now > Date.UTC(Number(y), Number(mo) - 1 + 2, 15);
+}
+
+// ---------------------------------------------------------------- spreads and ratios
+
+export const SPREAD_PREFIX = 'spread:';
+
+interface SpreadDef {
+  id: string;
+  name: string;
+  k: string;
+  kind: 'diff' | 'ratio';
+  a: string;
+  b: string;
+}
+
+/**
+ * Differences and ratios of two published series of the same frequency AND unit, so that no conversion factor is
+ * needed (crack spreads, which set USD/gal against USD/bbl, and the soybean crush margin, which needs yield factors,
+ * are left out). The browser computes them where both legs have a value; a leg's basis changes carry over.
+ */
+const SPREADS: SpreadDef[] = [
+  { id: 'brent-wti-d', name: 'Brent minus WTI, daily spot', k: 'crude-oil', kind: 'diff', a: 'brent-d', b: 'wti-d' },
+  { id: 'brent-wti-m', name: 'Brent minus WTI, monthly average', k: 'crude-oil', kind: 'diff', a: 'brent-m', b: 'wti-m' },
+  { id: 'brent-dubai-m', name: 'Brent minus Dubai, monthly average', k: 'crude-oil', kind: 'diff', a: 'brent-m', b: 'dubai-m' },
+  { id: 'ttf-hh-m', name: 'European gas minus Henry Hub', k: 'natural-gas', kind: 'diff', a: 'ttf-m', b: 'hh-m' },
+  { id: 'lng-ttf-m', name: 'Japan LNG minus European gas', k: 'lng', kind: 'diff', a: 'lng-japan-m', b: 'ttf-m' },
+  { id: 'coal-aus-zaf-m', name: 'Newcastle minus Richards Bay coal', k: 'thermal-coal', kind: 'diff', a: 'coal-aus-m', b: 'coal-zaf-m' },
+  { id: 'gold-silver-m', name: 'Gold to silver ratio', k: 'gold', kind: 'ratio', a: 'gold-m', b: 'silver-m' },
+  { id: 'platinum-gold-m', name: 'Platinum to gold ratio', k: 'pgm', kind: 'ratio', a: 'platinum-m', b: 'gold-m' },
+  { id: 'hrw-srw-m', name: 'Wheat, HRW minus SRW', k: 'wheat', kind: 'diff', a: 'wheat-hrw-m', b: 'wheat-srw-m' },
+  { id: 'wheat-maize-m', name: 'Wheat (HRW) minus maize', k: 'wheat', kind: 'diff', a: 'wheat-hrw-m', b: 'maize-m' },
+  { id: 'arabica-robusta-m', name: 'Arabica minus Robusta', k: 'coffee', kind: 'diff', a: 'arabica-m', b: 'robusta-m' },
+  { id: 'palm-soyoil-m', name: 'Palm oil minus soybean oil', k: 'palm-oil', kind: 'diff', a: 'palm-oil-m', b: 'soyoil-m' },
+  { id: 'urea-maize-m', name: 'Urea to maize ratio', k: 'urea', kind: 'ratio', a: 'urea-m', b: 'maize-m' },
+  { id: 'dap-wheat-m', name: 'DAP to wheat (HRW) ratio', k: 'phosphate', kind: 'ratio', a: 'dap-m', b: 'wheat-hrw-m' },
+];
+
+function mergeRuns(a: [number, number][] = [], b: [number, number][] = []): [number, number][] | undefined {
+  const years = new Set<number>();
+  for (const [x, y] of [...a, ...b]) for (let i = x; i <= y; i++) years.add(i);
+  const list = [...years].sort((p, q) => p - q);
+  const out: [number, number][] = [];
+  for (const y of list) {
+    if (out.length && out[out.length - 1][1] === y - 1) out[out.length - 1][1] = y;
+    else out.push([y, y]);
+  }
+  return out.length ? out : undefined;
+}
+
+/** The spreads whose two legs are in the index with the same frequency and unit. */
+export function spreadMetas(idx = priceIndex.value): PriceMeta[] {
+  const by = new Map(idx.map((m) => [m.id, m]));
+  const out: PriceMeta[] = [];
+  for (const d of SPREADS) {
+    const a = by.get(d.a);
+    const b = by.get(d.b);
+    if (!a || !b || a.freq !== b.freq || a.unit !== b.unit) continue;
+    const brk = [
+      ...(a.breaks ?? []).map((x) => ({ ...x, now: `${a.name}: ${x.now}` })),
+      ...(b.breaks ?? []).map((x) => ({ ...x, now: `${b.name}: ${x.now}` })),
+    ].sort((p, q) => (p.at < q.at ? -1 : 1));
+    out.push({
+      id: SPREAD_PREFIX + d.id,
+      k: d.k,
+      name: d.name,
+      unit: d.kind === 'diff' ? a.unit : 'ratio',
+      freq: a.freq,
+      s: a.s === b.s ? a.s : 'atlas',
+      start: a.start > b.start ? a.start : b.start,
+      end: a.end < b.end ? a.end : b.end,
+      basis: `Arithmetic on two published series, computed here wherever both have a value: ${a.name} ${d.kind === 'diff' ? 'minus' : 'divided by'} ${b.name}. ${a.name}: ${a.basis ?? 'see the series'} ${b.name}: ${b.basis ?? 'see the series'}`,
+      breaks: brk.length ? brk : undefined,
+      annual: mergeRuns(a.annual, b.annual),
+      spread: { a: a.id, b: b.id, kind: d.kind },
+    });
+  }
+  return out;
+}
+
+/** The index entry of a series, including the spreads (which exist only in the browser). */
+export function findMeta(id: string, idx = priceIndex.value): PriceMeta | undefined {
+  return id.startsWith(SPREAD_PREFIX) ? spreadMetas(idx).find((m) => m.id === id) : idx.find((m) => m.id === id);
+}
+
+async function loadSpread(id: string): Promise<LoadedSeries> {
+  const idx = await loadPriceIndex();
+  const meta = spreadMetas(idx).find((m) => m.id === id);
+  if (!meta?.spread) throw new Error(`unknown spread ${id}`);
+  const [a, b] = await Promise.all([loadSeries(meta.spread.a), loadSeries(meta.spread.b)]);
+  const bv = new Map<number, number>();
+  for (let i = 0; i < b.x.length; i++) if (b.v[i] != null) bv.set(b.x[i], b.v[i]!);
+  const x: number[] = [];
+  const v: number[] = [];
+  for (let i = 0; i < a.x.length; i++) {
+    const av = a.v[i];
+    const bb = bv.get(a.x[i]);
+    if (av == null || bb == null) continue;
+    if (meta.spread.kind === 'ratio' && bb === 0) continue;
+    x.push(a.x[i]);
+    v.push(meta.spread.kind === 'diff' ? av - bb : av / bb);
+  }
+  return { meta, x, v, gaps: meta.freq === 'D' ? gapsOf(x, v) : undefined };
 }
 
 let nonce = 0;

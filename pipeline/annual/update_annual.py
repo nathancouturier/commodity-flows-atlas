@@ -74,12 +74,12 @@ def install(src, dest):
     shutil.move(src, dest)
 
 
-# Time limit of each command, in minutes. Their sum (170) stays under the workflow step's 200 minutes, so that the
+# Time limit of each command, in minutes. Their sum (175) stays under the workflow step's 200 minutes, so that the
 # downloads keep about 30 minutes and a command that runs long is stopped here, its outputs restored by its Snapshot,
 # before the workflow stops the whole step mid-write. Measured on the 2026 rebuild: build_lanes.py 943 s from cold
 # caches, build_freight.py 18 s, build_commodities.py 7 s, build_profiles.py 1 s.
 STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "lanes": 70, "freight": 20, "commodities": 15,
-            "profiles": 10}
+            "profiles": 10, "alerts": 5}
 
 
 def run(cmd, timeout):
@@ -398,6 +398,9 @@ def process(changed):
                                                 os.path.join(CACHE, "seaborne_totals.json"), os.path.join(CACHE, "geom_cache.json"),
                                                 os.path.join(CACHE, "route_cache.json"), os.path.join(CACHE, "trade_checks.json"),
                                                 os.path.join(CACHE, "sea_flows.csv.gz"), os.path.join(CACHE, "mixed_flows.csv.gz")]))
+        # the alert banners read the chokepoint estimates and lanes that build_freight.py has just written
+        chain.append(("build-alerts", lambda: run([PY, os.path.join(ROOT, "pipeline", "freight", "build_alerts.py"), "--strict"],
+                                                  STEP_MIN["alerts"] * 60), [os.path.join(data, "freight", "alerts.json")]))
     commodities = os.path.join(ROOT, "pipeline", "commodities", "build_commodities.py")
     if os.path.exists(commodities) and (changed or pending("build-commodities")):
         # build_commodities.py also rewrites pipeline/commodities/QA.md, which the workflow commits

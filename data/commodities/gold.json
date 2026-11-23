@@ -161,9 +161,20 @@
    {
     "c": "MEX",
     "v": 1400.0
+   },
+   {
+    "c": "GHA",
+    "v": 1000.0
    }
   ],
   "n": "USGS MCS 2026, gold reserves, contained gold; USGS world total is rounded",
+  "other": 11000.0,
+  "hidden": {
+   "v": 4600.0,
+   "k": 3,
+   "from": 10,
+   "n": "3 further countries named by USGS (Uzbekistan, Mexico and Ghana), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained gold"
  },
  "exports": {
@@ -231,6 +242,581 @@
     "c": "RUS",
     "v": 158,
     "n": "customs gross weight 280.1 t"
+   },
+   {
+    "c": "GBR",
+    "v": 153,
+    "n": "customs gross weight 211.2 t"
+   },
+   {
+    "c": "SGP",
+    "v": 135,
+    "n": "customs gross weight 158.2 t"
+   },
+   {
+    "c": "UZB",
+    "v": 124,
+    "n": "customs gross weight 131.9 t"
+   },
+   {
+    "c": "KAZ",
+    "v": 108,
+    "n": "customs gross weight 110.1 t"
+   },
+   {
+    "c": "BFA",
+    "v": 108,
+    "n": "customs gross weight 121.1 t"
+   },
+   {
+    "c": "THA",
+    "v": 105,
+    "n": "customs gross weight 109.8 t"
+   },
+   {
+    "c": "MEX",
+    "v": 95.7,
+    "n": "customs gross weight 164.6 t"
+   },
+   {
+    "c": "KGZ",
+    "v": 84.8,
+    "n": "customs gross weight 85.7 t"
+   },
+   {
+    "c": "GHA",
+    "v": 76.8,
+    "n": "customs gross weight 90.1 t"
+   },
+   {
+    "c": "CIV",
+    "v": 76.3,
+    "n": "customs gross weight 107.1 t"
+   },
+   {
+    "c": "ARM",
+    "v": 73.2,
+    "n": "customs gross weight 78.1 t"
+   },
+   {
+    "c": "TUR",
+    "v": 60.5,
+    "n": "customs gross weight 63.7 t"
+   },
+   {
+    "c": "TZA",
+    "v": 57.8,
+    "n": "customs gross weight 112.0 t"
+   },
+   {
+    "c": "BRA",
+    "v": 55.1,
+    "n": "customs gross weight 63.8 t"
+   },
+   {
+    "c": "ITA",
+    "v": 54.2,
+    "n": "customs gross weight 76.3 t"
+   },
+   {
+    "c": "UGA",
+    "v": 54.1,
+    "n": "customs gross weight 57.1 t"
+   },
+   {
+    "c": "ESP",
+    "v": 53.8,
+    "n": "customs gross weight 63.2 t"
+   },
+   {
+    "c": "COL",
+    "v": 50.2,
+    "n": "customs gross weight 64.1 t"
+   },
+   {
+    "c": "ARG",
+    "v": 43.6,
+    "n": "customs gross weight 193.0 t"
+   },
+   {
+    "c": "EGY",
+    "v": 43.4,
+    "n": "customs gross weight 50.4 t"
+   },
+   {
+    "c": "PHL",
+    "v": 41.2,
+    "n": "customs gross weight 88.4 t"
+   },
+   {
+    "c": "FRA",
+    "v": 40.4,
+    "n": "customs gross weight 59.9 t"
+   },
+   {
+    "c": "PNG",
+    "v": 33.0,
+    "n": "customs gross weight 39.0 t"
+   },
+   {
+    "c": "ZWE",
+    "v": 32.7,
+    "n": "customs gross weight 34.4 t"
+   },
+   {
+    "c": "SAU",
+    "v": 25.0,
+    "n": "customs gross weight 30.4 t"
+   },
+   {
+    "c": "AUT",
+    "v": 23.6,
+    "n": "customs gross weight 26.1 t"
+   },
+   {
+    "c": "DOM",
+    "v": 20.4,
+    "n": "customs gross weight 69.2 t"
+   },
+   {
+    "c": "KOR",
+    "v": 19.7,
+    "n": "customs gross weight 29.5 t"
+   },
+   {
+    "c": "NIC",
+    "v": 19.4,
+    "n": "customs gross weight 45.1 t"
+   },
+   {
+    "c": "BEL",
+    "v": 18.9,
+    "n": "customs gross weight 35.0 t"
+   },
+   {
+    "c": "CHL",
+    "v": 18.4,
+    "n": "customs gross weight 187.2 t"
+   },
+   {
+    "c": "SWE",
+    "v": 17.7,
+    "n": "customs gross weight 19.7 t"
+   },
+   {
+    "c": "SUR",
+    "v": 17.3,
+    "n": "customs gross weight 19.2 t"
+   },
+   {
+    "c": "MRT",
+    "v": 15.9,
+    "n": "customs gross weight 23.0 t"
+   },
+   {
+    "c": "FIN",
+    "v": 15.7,
+    "n": "customs gross weight 16.2 t"
+   },
+   {
+    "c": "ECU",
+    "v": 15.1,
+    "n": "customs gross weight 19.6 t"
+   },
+   {
+    "c": "BOL",
+    "v": 15.0,
+    "n": "customs gross weight 16.3 t"
+   },
+   {
+    "c": "IDN",
+    "v": 14.9,
+    "n": "customs gross weight 15.1 t"
+   },
+   {
+    "c": "MYS",
+    "v": 14.3,
+    "n": "customs gross weight 16.9 t"
+   },
+   {
+    "c": "GUY",
+    "v": 14.2,
+    "n": "customs gross weight 16.2 t"
+   },
+   {
+    "c": "LBR",
+    "v": 13.4,
+    "n": "customs gross weight 14.0 t"
+   },
+   {
+    "c": "TWN",
+    "v": 12.1,
+    "n": "customs gross weight 14.8 t"
+   },
+   {
+    "c": "MNG",
+    "v": 11.1,
+    "n": "customs gross weight 13.0 t"
+   },
+   {
+    "c": "SEN",
+    "v": 10.7,
+    "n": "customs gross weight 14.0 t"
+   },
+   {
+    "c": "KHM",
+    "v": 10.6,
+    "n": "customs gross weight 11.0 t"
+   },
+   {
+    "c": "NAM",
+    "v": 10.4,
+    "n": "customs gross weight 11.0 t"
+   },
+   {
+    "c": "NLD",
+    "v": 10.1,
+    "n": "customs gross weight 12.8 t"
+   },
+   {
+    "c": "LAO",
+    "v": 9.45,
+    "n": "customs gross weight 31.1 t"
+   },
+   {
+    "c": "MLI",
+    "v": 9.16,
+    "n": "customs gross weight 10.1 t"
+   },
+   {
+    "c": "NZL",
+    "v": 7.85,
+    "n": "customs gross weight 11.6 t"
+   },
+   {
+    "c": "IND",
+    "v": 6.37,
+    "n": "customs gross weight 6.71 t"
+   },
+   {
+    "c": "GIN",
+    "v": 5.3,
+    "n": "customs gross weight 5.35 t"
+   },
+   {
+    "c": "MOZ",
+    "v": 5.16,
+    "n": "customs gross weight 6.61 t"
+   },
+   {
+    "c": "TJK",
+    "v": 4.44,
+    "n": "customs gross weight 5.00 t"
+   },
+   {
+    "c": "VEN",
+    "v": 4.02,
+    "n": "customs gross weight 4.02 t"
+   },
+   {
+    "c": "ROU",
+    "v": 3.76,
+    "n": "customs gross weight 6.28 t"
+   },
+   {
+    "c": "LBN",
+    "v": 3.38,
+    "n": "customs gross weight 4.08 t"
+   },
+   {
+    "c": "PRT",
+    "v": 3.13,
+    "n": "customs gross weight 12.3 t"
+   },
+   {
+    "c": "NGA",
+    "v": 3.11,
+    "n": "customs gross weight 3.13 t"
+   },
+   {
+    "c": "LUX",
+    "v": 3.07,
+    "n": "customs gross weight 3.89 t"
+   },
+   {
+    "c": "CMR",
+    "v": 3.0,
+    "n": "customs gross weight 3.00 t"
+   },
+   {
+    "c": "EST",
+    "v": 2.98,
+    "n": "customs gross weight 3.55 t"
+   },
+   {
+    "c": "AZE",
+    "v": 2.86,
+    "n": "customs gross weight 6.00 t"
+   },
+   {
+    "c": "KWT",
+    "v": 2.76,
+    "n": "customs gross weight 3.06 t"
+   },
+   {
+    "c": "GEO",
+    "v": 2.73,
+    "n": "customs gross weight 5.22 t"
+   },
+   {
+    "c": "NOR",
+    "v": 2.47,
+    "n": "customs gross weight 3.21 t"
+   },
+   {
+    "c": "HND",
+    "v": 2.46,
+    "n": "customs gross weight 3.00 t"
+   },
+   {
+    "c": "POL",
+    "v": 2.28,
+    "n": "customs gross weight 2.95 t"
+   },
+   {
+    "c": "BHR",
+    "v": 2.02,
+    "n": "customs gross weight 2.02 t"
+   },
+   {
+    "c": "JOR",
+    "v": 1.82,
+    "n": "customs gross weight 3.51 t"
+   },
+   {
+    "c": "PRY",
+    "v": 1.73,
+    "n": "customs gross weight 2.19 t"
+   },
+   {
+    "c": "PAN",
+    "v": 1.59,
+    "n": "customs gross weight 3.10 t"
+   },
+   {
+    "c": "BGR",
+    "v": 1.22,
+    "n": "customs gross weight 2.71 t"
+   },
+   {
+    "c": "CZE",
+    "v": 1.13,
+    "n": "customs gross weight 2.63 t"
+   },
+   {
+    "c": "HUN",
+    "v": 1.09,
+    "n": "customs gross weight 1.57 t"
+   },
+   {
+    "c": "ZMB",
+    "v": 1.09,
+    "n": "customs gross weight 1.10 t"
+   },
+   {
+    "c": "SLB",
+    "v": 1.02,
+    "n": "customs gross weight 1.02 t"
+   },
+   {
+    "c": "FJI",
+    "v": 0.997,
+    "n": "customs gross weight 1.02 t"
+   },
+   {
+    "c": "HRV",
+    "v": 0.981,
+    "n": "customs gross weight 1.13 t"
+   },
+   {
+    "c": "OMN",
+    "v": 0.827,
+    "n": "customs gross weight 1.02 t"
+   },
+   {
+    "c": "MLT",
+    "v": 0.806,
+    "n": "customs gross weight 1.07 t"
+   },
+   {
+    "c": "DNK",
+    "v": 0.654,
+    "n": "customs gross weight 0.75 t"
+   },
+   {
+    "c": "CRI",
+    "v": 0.576,
+    "n": "customs gross weight 15.0 t"
+   },
+   {
+    "c": "SVN",
+    "v": 0.53,
+    "n": "customs gross weight 0.61 t"
+   },
+   {
+    "c": "MAR",
+    "v": 0.508,
+    "n": "customs gross weight 0.58 t"
+   },
+   {
+    "c": "SVK",
+    "v": 0.454,
+    "n": "customs gross weight 1.46 t"
+   },
+   {
+    "c": "SRB",
+    "v": 0.39,
+    "n": "customs gross weight 1.10 t"
+   },
+   {
+    "c": "VNM",
+    "v": 0.343,
+    "n": "customs gross weight 0.39 t"
+   },
+   {
+    "c": "KEN",
+    "v": 0.293,
+    "n": "customs gross weight 29.0 t"
+   },
+   {
+    "c": "SDN",
+    "v": 0.281,
+    "n": "customs gross weight 0.32 t"
+   },
+   {
+    "c": "UKR",
+    "v": 0.267,
+    "n": "customs gross weight 0.31 t"
+   },
+   {
+    "c": "CYP",
+    "v": 0.203,
+    "n": "customs gross weight 0.23 t"
+   },
+   {
+    "c": "MAC",
+    "v": 0.198,
+    "n": "customs gross weight 0.23 t"
+   },
+   {
+    "c": "LVA",
+    "v": 0.193,
+    "n": "customs gross weight 0.22 t"
+   },
+   {
+    "c": "CUW",
+    "v": 0.184,
+    "n": "customs gross weight 0.21 t"
+   },
+   {
+    "c": "ISR",
+    "v": 0.183,
+    "n": "customs gross weight 0.21 t"
+   },
+   {
+    "c": "GRC",
+    "v": 0.169,
+    "n": "customs gross weight 0.19 t"
+   },
+   {
+    "c": "IRL",
+    "v": 0.158,
+    "n": "customs gross weight 0.18 t"
+   },
+   {
+    "c": "BEN",
+    "v": 0.144,
+    "n": "customs gross weight 7.00 t"
+   },
+   {
+    "c": "NER",
+    "v": 0.127,
+    "n": "customs gross weight 3.06 t"
+   },
+   {
+    "c": "AFG",
+    "v": 0.111,
+    "n": "customs gross weight 0.13 t"
+   },
+   {
+    "c": "URY",
+    "v": 0.0969,
+    "n": "customs gross weight 0.11 t"
+   },
+   {
+    "c": "IRQ",
+    "v": 0.084,
+    "n": "customs gross weight 0.10 t"
+   },
+   {
+    "c": "CAF",
+    "v": 0.0732,
+    "n": "customs gross weight 0.08 t"
+   },
+   {
+    "c": "LTU",
+    "v": 0.0653,
+    "n": "customs gross weight 0.08 t"
+   },
+   {
+    "c": "LBY",
+    "v": 0.061,
+    "n": "customs gross weight 0.07 t"
+   },
+   {
+    "c": "AGO",
+    "v": 0.0447,
+    "n": "customs gross weight 0.05 t"
+   },
+   {
+    "c": "CUB",
+    "v": 0.0274,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0264,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "BRN",
+    "v": 0.0257,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "BWA",
+    "v": 0.0249,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "MUS",
+    "v": 0.0235,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "ALB",
+    "v": 0.0223,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "QAT",
+    "v": 0.0209,
+    "n": "customs gross weight 0.02 t"
+   },
+   {
+    "c": "MDA",
+    "v": 0.0163,
+    "n": "customs gross weight 0.02 t"
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · This ranks customs trade, not mine supply: countries that refine, trade or vault gold may rank high through re-exports, which the atlas does not measure.",
@@ -302,6 +888,511 @@
     "c": "CAN",
     "v": 121,
     "n": "customs gross weight 233.0 t"
+   },
+   {
+    "c": "SAU",
+    "v": 106,
+    "n": "customs gross weight 108.7 t"
+   },
+   {
+    "c": "AUS",
+    "v": 84.7,
+    "n": "customs gross weight 101.2 t"
+   },
+   {
+    "c": "DEU",
+    "v": 80.6,
+    "n": "customs gross weight 102.8 t"
+   },
+   {
+    "c": "ARM",
+    "v": 77.4,
+    "n": "customs gross weight 198.7 t"
+   },
+   {
+    "c": "KHM",
+    "v": 70.1,
+    "n": "customs gross weight 72.3 t"
+   },
+   {
+    "c": "IDN",
+    "v": 54.7,
+    "n": "customs gross weight 56.3 t"
+   },
+   {
+    "c": "ZAF",
+    "v": 52.0,
+    "n": "customs gross weight 91.6 t"
+   },
+   {
+    "c": "MYS",
+    "v": 51.1,
+    "n": "customs gross weight 87.5 t"
+   },
+   {
+    "c": "FRA",
+    "v": 50.9,
+    "n": "customs gross weight 84.2 t"
+   },
+   {
+    "c": "AZE",
+    "v": 48.0,
+    "n": "customs gross weight 82.1 t"
+   },
+   {
+    "c": "UGA",
+    "v": 42.2,
+    "n": "customs gross weight 85.0 t"
+   },
+   {
+    "c": "LBN",
+    "v": 33.7,
+    "n": "customs gross weight 35.2 t"
+   },
+   {
+    "c": "TWN",
+    "v": 32.9,
+    "n": "customs gross weight 33.6 t"
+   },
+   {
+    "c": "KOR",
+    "v": 29.6,
+    "n": "customs gross weight 33.2 t"
+   },
+   {
+    "c": "AUT",
+    "v": 20.9,
+    "n": "customs gross weight 21.7 t"
+   },
+   {
+    "c": "VNM",
+    "v": 17.5,
+    "n": "customs gross weight 23.1 t"
+   },
+   {
+    "c": "KWT",
+    "v": 13.8,
+    "n": "customs gross weight 14.1 t"
+   },
+   {
+    "c": "BEL",
+    "v": 12.4,
+    "n": "customs gross weight 23.8 t"
+   },
+   {
+    "c": "GEO",
+    "v": 9.16,
+    "n": "customs gross weight 10.0 t"
+   },
+   {
+    "c": "ESP",
+    "v": 7.9,
+    "n": "customs gross weight 25.7 t"
+   },
+   {
+    "c": "KAZ",
+    "v": 7.0,
+    "n": "customs gross weight 7.00 t"
+   },
+   {
+    "c": "JPN",
+    "v": 6.67,
+    "n": "customs gross weight 9.04 t"
+   },
+   {
+    "c": "QAT",
+    "v": 6.21,
+    "n": "customs gross weight 6.84 t"
+   },
+   {
+    "c": "IRN",
+    "v": 6.14,
+    "n": "customs gross weight 6.17 t"
+   },
+   {
+    "c": "NLD",
+    "v": 5.33,
+    "n": "customs gross weight 5.73 t"
+   },
+   {
+    "c": "OMN",
+    "v": 5.0,
+    "n": "customs gross weight 5.00 t"
+   },
+   {
+    "c": "JOR",
+    "v": 4.78,
+    "n": "customs gross weight 5.00 t"
+   },
+   {
+    "c": "TJK",
+    "v": 4.59,
+    "n": "customs gross weight 5.00 t"
+   },
+   {
+    "c": "BHR",
+    "v": 3.5,
+    "n": "customs gross weight 4.05 t"
+   },
+   {
+    "c": "DOM",
+    "v": 3.4,
+    "n": "customs gross weight 3.82 t"
+   },
+   {
+    "c": "POL",
+    "v": 3.06,
+    "n": "customs gross weight 4.70 t"
+   },
+   {
+    "c": "BGR",
+    "v": 2.8,
+    "n": "customs gross weight 3.34 t"
+   },
+   {
+    "c": "BGD",
+    "v": 2.72,
+    "n": "customs gross weight 3.00 t"
+   },
+   {
+    "c": "CZE",
+    "v": 2.5,
+    "n": "customs gross weight 2.61 t"
+   },
+   {
+    "c": "EST",
+    "v": 2.47,
+    "n": "customs gross weight 2.53 t"
+   },
+   {
+    "c": "EGY",
+    "v": 2.21,
+    "n": "customs gross weight 3.34 t"
+   },
+   {
+    "c": "HRV",
+    "v": 2.09,
+    "n": "customs gross weight 2.54 t"
+   },
+   {
+    "c": "LAO",
+    "v": 2.02,
+    "n": "customs gross weight 2.03 t"
+   },
+   {
+    "c": "RUS",
+    "v": 2.02,
+    "n": "customs gross weight 2.02 t"
+   },
+   {
+    "c": "KGZ",
+    "v": 2.0,
+    "n": "customs gross weight 2.00 t"
+   },
+   {
+    "c": "PHL",
+    "v": 1.99,
+    "n": "customs gross weight 9.09 t"
+   },
+   {
+    "c": "BOL",
+    "v": 1.86,
+    "n": "customs gross weight 2.00 t"
+   },
+   {
+    "c": "SVN",
+    "v": 1.71,
+    "n": "customs gross weight 1.82 t"
+   },
+   {
+    "c": "SRB",
+    "v": 1.68,
+    "n": "customs gross weight 2.37 t"
+   },
+   {
+    "c": "SVK",
+    "v": 1.58,
+    "n": "customs gross weight 1.83 t"
+   },
+   {
+    "c": "ISR",
+    "v": 1.54,
+    "n": "customs gross weight 1.62 t"
+   },
+   {
+    "c": "MEX",
+    "v": 1.46,
+    "n": "customs gross weight 33.5 t"
+   },
+   {
+    "c": "HUN",
+    "v": 1.3,
+    "n": "customs gross weight 2.42 t"
+   },
+   {
+    "c": "MAR",
+    "v": 1.22,
+    "n": "customs gross weight 1.50 t"
+   },
+   {
+    "c": "IRQ",
+    "v": 1.11,
+    "n": "customs gross weight 1.12 t"
+   },
+   {
+    "c": "BTN",
+    "v": 1.0,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "MNG",
+    "v": 1.0,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "PRT",
+    "v": 0.932,
+    "n": "customs gross weight 1.38 t"
+   },
+   {
+    "c": "UZB",
+    "v": 0.879,
+    "n": "customs gross weight 1.01 t"
+   },
+   {
+    "c": "ROU",
+    "v": 0.854,
+    "n": "customs gross weight 1.46 t"
+   },
+   {
+    "c": "TUN",
+    "v": 0.802,
+    "n": "customs gross weight 1.04 t"
+   },
+   {
+    "c": "MLT",
+    "v": 0.785,
+    "n": "customs gross weight 1.03 t"
+   },
+   {
+    "c": "SWE",
+    "v": 0.708,
+    "n": "customs gross weight 1.48 t"
+   },
+   {
+    "c": "PER",
+    "v": 0.672,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "MAC",
+    "v": 0.644,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "LUX",
+    "v": 0.61,
+    "n": "customs gross weight 0.70 t"
+   },
+   {
+    "c": "GHA",
+    "v": 0.499,
+    "n": "customs gross weight 0.57 t"
+   },
+   {
+    "c": "DNK",
+    "v": 0.493,
+    "n": "customs gross weight 1.42 t"
+   },
+   {
+    "c": "MUS",
+    "v": 0.481,
+    "n": "customs gross weight 0.55 t"
+   },
+   {
+    "c": "LVA",
+    "v": 0.436,
+    "n": "customs gross weight 0.50 t"
+   },
+   {
+    "c": "IRL",
+    "v": 0.379,
+    "n": "customs gross weight 8.16 t"
+   },
+   {
+    "c": "NZL",
+    "v": 0.362,
+    "n": "customs gross weight 0.42 t"
+   },
+   {
+    "c": "GRC",
+    "v": 0.359,
+    "n": "customs gross weight 0.41 t"
+   },
+   {
+    "c": "CYM",
+    "v": 0.356,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "PAK",
+    "v": 0.338,
+    "n": "customs gross weight 0.39 t"
+   },
+   {
+    "c": "FIN",
+    "v": 0.317,
+    "n": "customs gross weight 1.30 t"
+   },
+   {
+    "c": "LTU",
+    "v": 0.224,
+    "n": "customs gross weight 0.26 t"
+   },
+   {
+    "c": "MOZ",
+    "v": 0.199,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "ALB",
+    "v": 0.197,
+    "n": "customs gross weight 0.23 t"
+   },
+   {
+    "c": "CYP",
+    "v": 0.176,
+    "n": "customs gross weight 0.20 t"
+   },
+   {
+    "c": "NPL",
+    "v": 0.15,
+    "n": "customs gross weight 0.17 t"
+   },
+   {
+    "c": "BEN",
+    "v": 0.145,
+    "n": "customs gross weight 6.00 t"
+   },
+   {
+    "c": "BRN",
+    "v": 0.144,
+    "n": "customs gross weight 1.00 t"
+   },
+   {
+    "c": "AND",
+    "v": 0.137,
+    "n": "customs gross weight 0.16 t"
+   },
+   {
+    "c": "MNE",
+    "v": 0.136,
+    "n": "customs gross weight 0.16 t"
+   },
+   {
+    "c": "RWA",
+    "v": 0.123,
+    "n": "customs gross weight 0.14 t"
+   },
+   {
+    "c": "SWZ",
+    "v": 0.113,
+    "n": "customs gross weight 0.13 t"
+   },
+   {
+    "c": "TCA",
+    "v": 0.107,
+    "n": "customs gross weight 0.12 t"
+   },
+   {
+    "c": "LKA",
+    "v": 0.0897,
+    "n": "customs gross weight 0.10 t"
+   },
+   {
+    "c": "MKD",
+    "v": 0.0873,
+    "n": "customs gross weight 0.10 t"
+   },
+   {
+    "c": "UKR",
+    "v": 0.0859,
+    "n": "customs gross weight 0.10 t"
+   },
+   {
+    "c": "BRA",
+    "v": 0.0814,
+    "n": "customs gross weight 0.09 t"
+   },
+   {
+    "c": "NGA",
+    "v": 0.0739,
+    "n": "customs gross weight 0.08 t"
+   },
+   {
+    "c": "BRB",
+    "v": 0.0668,
+    "n": "customs gross weight 0.08 t"
+   },
+   {
+    "c": "NER",
+    "v": 0.0643,
+    "n": "customs gross weight 3.00 t"
+   },
+   {
+    "c": "NOR",
+    "v": 0.0617,
+    "n": "customs gross weight 0.07 t"
+   },
+   {
+    "c": "TZA",
+    "v": 0.0603,
+    "n": "customs gross weight 0.07 t"
+   },
+   {
+    "c": "CRI",
+    "v": 0.0585,
+    "n": "customs gross weight 0.07 t"
+   },
+   {
+    "c": "DZA",
+    "v": 0.0304,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "PAN",
+    "v": 0.0286,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "TUV",
+    "v": 0.0278,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0269,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "GTM",
+    "v": 0.0245,
+    "n": "customs gross weight 0.03 t"
+   },
+   {
+    "c": "ABW",
+    "v": 0.0156,
+    "n": "customs gross weight 0.02 t"
+   },
+   {
+    "c": "SMR",
+    "v": 0.0134,
+    "n": "customs gross weight 0.02 t"
+   },
+   {
+    "c": "SEN",
+    "v": 0.0131,
+    "n": "customs gross weight 0.01 t"
    }
   ],
   "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight); values rounded · Customs trade, not final demand: countries that refine or vault gold may rank high through re-exports, which the atlas does not measure.",

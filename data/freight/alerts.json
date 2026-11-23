@@ -5,54 +5,236 @@
 "since": "2026-02-28",
 "severity": "high",
 "text": "Commercial transits through Hormuz have collapsed since the US-Israeli strikes on Iran on 28 February 2026. Gulf crude, LNG, LPG, products and fertiliser exports are disrupted; flows shown for 2024 are a pre-disruption baseline.",
+"reviewed": "2026-11-23",
+"event": "iran-war-hormuz-2026",
+"src": "https://en.wikipedia.org/wiki/2026_Iran_war",
 "chokepoints": [
 "hormuz"
 ],
+"measures": [
+{
+"chokepoint": "hormuz",
+"name": "Strait of Hormuz",
+"to": "2026-11-15",
+"days": 28,
+"yearAgoTo": "2025-11-16",
+"refYear": 2023,
+"transits": {
+"now": 97.0,
+"yearAgo": 2432.0,
+"avg2023": 2585.0
+},
+"mt": {
+"now": 1.48,
+"yearAgo": 94.92,
+"avg2023": 103.42
+},
+"gapYear": -96.0,
+"gap2023": -96.2,
+"gapMtYear": -98.4,
+"gapMt2023": -98.6,
+"s": "portwatch"
+}
+],
+"severityNote": "Severity from the 28-day transits against the 2023 average: high when 60% or more below, medium when 25% or more below, otherwise low. Decided by Strait of Hormuz: 96% below.",
 "commodities": [
+"lpg",
 "crude-oil",
+"urea",
+"phosphate",
+"aluminium",
+"bauxite",
 "refined-products",
 "lng",
-"lpg",
-"urea",
-"aluminium",
-"phosphate"
+"rice"
 ],
 "countries": [
 "SAU",
 "IRQ",
-"KWT",
 "QAT",
 "ARE",
-"IRN",
-"BHR"
+"KWT",
+"IND",
+"BHR",
+"AUS",
+"THA",
+"CHN",
+"KOR",
+"USA"
 ],
-"event": "iran-war-hormuz-2026",
-"src": "https://en.wikipedia.org/wiki/2026_Iran_war"
+"exporters": [
+"SAU",
+"IRQ",
+"QAT",
+"ARE",
+"KWT",
+"IND",
+"BHR",
+"AUS",
+"THA"
+],
+"importers": [
+"CHN",
+"IND",
+"KOR",
+"USA",
+"ARE",
+"SAU",
+"BHR",
+"IRQ",
+"AUS"
+],
+"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Strait of Hormuz (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
 },
 {
 "id": "red-sea-2023",
 "title": "Red Sea diversions",
 "since": "2023-12",
-"severity": "medium",
-"text": "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023. Suez transits were recovering in late 2026 but remain well below 2023 levels.",
+"severity": "high",
+"text": "Attacks on shipping near Bab el-Mandeb have diverted most Asia-Europe tanker, bulk and container traffic around the Cape of Good Hope since December 2023.",
+"reviewed": "2026-11-23",
+"event": "red-sea-houthi-2023",
+"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis",
 "chokepoints": [
 "bab-el-mandeb",
 "suez"
 ],
+"measures": [
+{
+"chokepoint": "bab-el-mandeb",
+"name": "Bab el-Mandeb",
+"to": "2026-11-15",
+"days": 28,
+"yearAgoTo": "2025-11-16",
+"refYear": 2023,
+"transits": {
+"now": 756.0,
+"yearAgo": 1025.0,
+"avg2023": 2072.0
+},
+"mt": {
+"now": 26.2,
+"yearAgo": 40.01,
+"avg2023": 94.33
+},
+"gapYear": -26.2,
+"gap2023": -63.5,
+"gapMtYear": -34.5,
+"gapMt2023": -72.2,
+"s": "portwatch"
+},
+{
+"chokepoint": "suez",
+"name": "Suez Canal",
+"to": "2026-11-15",
+"days": 28,
+"yearAgoTo": "2025-11-16",
+"refYear": 2023,
+"transits": {
+"now": 1224.0,
+"yearAgo": 1196.0,
+"avg2023": 2063.0
+},
+"mt": {
+"now": 51.82,
+"yearAgo": 44.46,
+"avg2023": 93.84
+},
+"gapYear": 2.3,
+"gap2023": -40.7,
+"gapMtYear": 16.6,
+"gapMt2023": -44.8,
+"s": "portwatch"
+}
+],
+"severityNote": "Severity from the 28-day transits against the 2023 average: high when 60% or more below, medium when 25% or more below, otherwise low. Decided by Bab el-Mandeb: 64% below.",
 "commodities": [
-"crude-oil",
-"refined-products",
-"lng",
+"phosphate",
+"aluminium",
+"coffee",
+"palm-oil",
 "wheat",
-"corn"
+"steel",
+"rice",
+"potash",
+"refined-products",
+"rapeseed",
+"urea",
+"copper",
+"cotton",
+"crude-oil",
+"thermal-coal",
+"iron-ore"
 ],
 "countries": [
-"EGY",
+"RUS",
+"USA",
 "SAU",
-"YEM"
+"CAN",
+"AUS",
+"IND",
+"UKR",
+"ARE",
+"CHN",
+"JOR",
+"IDN",
+"MYS",
+"MAR",
+"TUR",
+"OMN",
+"QAT",
+"VNM",
+"PAK",
+"ESP",
+"ISR",
+"UGA",
+"FRA",
+"ITA",
+"DEU",
+"BEL",
+"SEN",
+"BGD"
 ],
-"event": "red-sea-houthi-2023",
-"src": "https://en.wikipedia.org/wiki/Red_Sea_crisis"
+"exporters": [
+"RUS",
+"USA",
+"SAU",
+"CAN",
+"AUS",
+"IND",
+"UKR",
+"ARE",
+"CHN",
+"JOR",
+"IDN",
+"MYS",
+"MAR",
+"TUR",
+"OMN",
+"QAT",
+"VNM",
+"PAK",
+"ESP",
+"ISR",
+"UGA"
+],
+"importers": [
+"IND",
+"CHN",
+"FRA",
+"ITA",
+"SAU",
+"TUR",
+"USA",
+"DEU",
+"IDN",
+"BEL",
+"MYS",
+"PAK",
+"SEN",
+"BGD"
+],
+"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Bab el-Mandeb or Suez Canal (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
 },
 {
 "id": "black-sea-2026",
@@ -60,21 +242,68 @@
 "since": "2026-01",
 "severity": "medium",
 "text": "Escalating attacks on ships and ports in the Black Sea affect grain, oilseed and crude (CPC) exports from Ukraine, Russia and Kazakhstan.",
+"reviewed": "2026-11-23",
+"event": "black-sea-attacks-2026",
+"src": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war",
 "chokepoints": [
 "bosphorus"
 ],
+"measures": [
+{
+"chokepoint": "bosphorus",
+"name": "Turkish Straits (Bosphorus and Dardanelles)",
+"to": "2026-11-15",
+"days": 28,
+"yearAgoTo": "2025-11-16",
+"refYear": 2023,
+"transits": {
+"now": 1345.0,
+"yearAgo": 2816.0,
+"avg2023": 2707.0
+},
+"mt": {
+"now": 15.63,
+"yearAgo": 32.76,
+"avg2023": 31.93
+},
+"gapYear": -52.2,
+"gap2023": -50.3,
+"gapMtYear": -52.3,
+"gapMt2023": -51.0,
+"s": "portwatch"
+}
+],
+"severityNote": "Severity from the 28-day transits against the 2023 average: high when 60% or more below, medium when 25% or more below, otherwise low. Decided by Turkish Straits (Bosphorus and Dardanelles): 50% below.",
 "commodities": [
 "wheat",
+"rapeseed",
 "corn",
-"crude-oil",
-"rapeseed"
+"crude-oil"
 ],
 "countries": [
+"KAZ",
 "UKR",
 "RUS",
-"KAZ"
+"ROU",
+"ITA",
+"EGY",
+"ESP",
+"DEU",
+"BEL"
 ],
-"event": "black-sea-attacks-2026",
-"src": "https://en.wikipedia.org/wiki/Russo-Ukrainian_war"
+"exporters": [
+"KAZ",
+"UKR",
+"RUS",
+"ROU"
+],
+"importers": [
+"ITA",
+"EGY",
+"ESP",
+"DEU",
+"BEL"
+],
+"derived": "Commodities: at least 10% or 50 Mt of their seaborne trade has to cross Turkish Straits (Bosphorus and Dardanelles) (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage."
 }
 ]

@@ -9,6 +9,15 @@
  *    mode in 0..3, port and class indexes in range, passage masks inside the gate list, country codes known to the atlas
  *    (countries/index.json and places.json), bit 2 of `f` set exactly when the group's lane file has a main lane for the pair,
  *    sea and transit tonnes adding up to `seaborne` (within 0.1%), the optional `bases` and `notes` well formed.
+ *  - routes (freight/routes.json): unique ids, every passage named in `via` and `viaAlt` is a chokepoint; a generated corridor
+ *    route (`generated`: id "gen-...", never a benchmark, source "atlas", a note that says how it was made, corridor entries
+ *    that name a customs group with a pairs file) has no pair in common with another generated route, and its distance,
+ *    vessel class and ports are those of the largest pair of its corridor in the pairs table;
+ *  - events (freight/events.json): unique ids, a date, every chokepoint, commodity, country and asset an event names
+ *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files);
+ *  - alerts (freight/alerts.json): unique ids, a review date, an event that exists, passages that exist, a severity from
+ *    the list, a PortWatch figure per passage with its date, derived commodities and countries that exist, and a reason
+ *    on every override.
  * Called by validate-data.mjs; `node validate-freight.mjs [data folder]` runs it alone.
  * A tree from before the pairs table (no data/freight/pairs folder) is checked by the rules that its lane files
  * can meet; once the folder exists every lane file must also meet the rules of the new shape.
@@ -187,8 +196,128 @@ export function validateFreight(root, errors) {
     const off = doc.rows.filter((r) => Array.isArray(r) && !!(Number(r[ix.f]) & 4) !== mains.has(`${r[ix.o]}-${r[ix.d]}`)).map((r) => `${r[ix.o]}-${r[ix.d]}`);
     if (off.length) bad(file, `${off.length} row(s) where bit 2 of f disagrees with the main lanes of lanes/${group}.json: ${off.slice(0, 5).join(', ')}`);
   }
+  validateRoutes(read('freight/routes.json'), pairDocs, chokepoints, bad);
+  validateEvents(root, errors, { read, list, chokepoints, knownCountries });
   // a port that no gateway row sources (the typical ports of the older tables) is allowed with s = null, and said once
   if (unsourced.size) console.warn(`freight: ${unsourced.size} lane ports have no source yet (s = null): ${[...unsourced].sort().slice(0, 12).join(', ')}...`);
+}
+
+/** Routes (see the header). Checked only when the file exists; the comparison with the pairs table only for a group that has a pairs file. */
+function validateRoutes(routes, pairDocs, chokepoints, bad) {
+  if (routes == null) return;
+  if (!Array.isArray(routes)) return bad('routes.json', 'is not a list');
+  const ids = new Set();
+  const owner = new Map();
+  for (const r of routes) {
+    const at = r?.id;
+    if (ids.has(at)) bad('routes.json', `route id ${at} appears twice`);
+    ids.add(at);
+    for (const id of r.via ?? []) if (!chokepoints.has(id)) bad('routes.json', `${at}: via names "${id}", which is not a chokepoint`);
+    for (const l of r.viaAlt ?? []) for (const id of l) if (!chokepoints.has(id)) bad('routes.json', `${at}: viaAlt names "${id}", which is not a chokepoint`);
+    if (r.cargoNote !== undefined && (typeof r.cargoNote !== 'string' || !r.cargoNote)) bad('routes.json', `${at}: cargoNote is empty`);
+    if (!r.generated) {
+      if (String(at).startsWith('gen-')) bad('routes.json', `${at}: an id that starts with "gen-" is for a generated route`);
+      continue;
+    }
+    if (!String(at).startsWith('gen-')) bad('routes.json', `${at}: a generated route has an id that starts with "gen-"`);
+    if (r.benchmark) bad('routes.json', `${at}: a generated route is never a benchmark`);
+    if (r.s !== 'atlas') bad('routes.json', `${at}: a generated route carries the source id "atlas", not "${r.s}"`);
+    if (!String(r.notes ?? '').startsWith('Atlas corridor, generated from customs pairs')) bad('routes.json', `${at}: the note must say that the route is generated from customs pairs`);
+    if (!Array.isArray(r.corridor) || !r.corridor.length) {
+      bad('routes.json', `${at}: a generated route has a corridor`);
+      continue;
+    }
+    let best = null;
+    for (const c of r.corridor) {
+      if (!c.g) bad('routes.json', `${at}: a corridor entry of a generated route names its customs group (g)`);
+      const pd = pairDocs.get(c.g);
+      if (c.g && pairDocs.size && !pd) bad('routes.json', `${at}: customs group "${c.g}" has no pairs file`);
+      for (const o of c.o) {
+        for (const d of c.d) {
+          const key = `${c.g}:${o}-${d}`;
+          if (owner.has(key) && owner.get(key) !== at) bad('routes.json', `pair ${key} is in the corridor of ${owner.get(key)} and of ${at}`);
+          owner.set(key, at);
+          if (!pd) continue;
+          const row = pd.doc.rows.find((x) => x[pd.ix.o] === o && x[pd.ix.d] === d && x[pd.ix.load] >= 0 && (x[pd.ix.m] === 0 || x[pd.ix.m] === 1));
+          if (row && (!best || row[pd.ix.kt] > best.row[pd.ix.kt])) best = { row, pd };
+        }
+      }
+    }
+    if (best) {
+      const { row, pd } = best;
+      const cls = pd.doc.classes[row[pd.ix.cls]];
+      if (r.distanceNm !== row[pd.ix.nm]) bad('routes.json', `${at}: distance ${r.distanceNm} nm is not the ${row[pd.ix.nm]} nm of its largest pair in the pairs table`);
+      if (r.vclass !== cls) bad('routes.json', `${at}: vessel class ${r.vclass} is not the ${cls} of its largest pair`);
+      if (r.from?.ports?.[0] !== pd.doc.ports[row[pd.ix.load]][1] || r.to?.ports?.[0] !== pd.doc.ports[row[pd.ix.dis]][1]) bad('routes.json', `${at}: its ports are not those of its largest pair`);
+    }
+  }
+}
+
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const EVENT_DATE = /^\d{4}-\d{2}(-\d{2})?$/;
+const SEVERITIES = ['low', 'medium', 'high'];
+
+/** Events and alerts (see the header). Checked only when the files exist; a link to a catalogue is checked only when that catalogue is there. */
+function validateEvents(root, errors, { read, list, chokepoints, knownCountries }) {
+  const events = read('freight/events.json');
+  const alerts = read('freight/alerts.json');
+  const bad = (file, msg) => errors.push(`freight/${file}: ${msg}`);
+  const commodityIds = Array.isArray(read('commodities/index.json')) ? new Set(read('commodities/index.json').map((c) => c.id)) : null;
+  let assetIds = null;
+  try {
+    const dir = path.join(root, 'infrastructure');
+    const files = fs.readdirSync(dir).filter((f) => f.endsWith('.geojson'));
+    assetIds = new Set(files.flatMap((f) => (JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')).features ?? []).map((x) => x.properties?.id)));
+  } catch {
+    /* no infrastructure folder in this data tree */
+  }
+  const ids = (file, at, v, known, what) => {
+    if (v === undefined) return;
+    if (!Array.isArray(v) || v.some((x) => typeof x !== 'string')) return bad(file, `${at}: ${what} is not a list of ids`);
+    if (new Set(v).size !== v.length) bad(file, `${at}: ${what} lists an id twice`);
+    if (known) for (const x of v) if (!known.has(x)) bad(file, `${at}: ${what} names "${x}", which the atlas does not have`);
+  };
+  const eventIds = new Set();
+  if (events !== null) {
+    if (!Array.isArray(events)) return bad('events.json', 'is not a list');
+    for (const e of events) {
+      const at = `event ${e.id}`;
+      if (typeof e.id !== 'string' || !e.id) bad('events.json', 'an event has no id');
+      else if (eventIds.has(e.id)) bad('events.json', `${at} appears twice`);
+      eventIds.add(e.id);
+      if (!EVENT_DATE.test(e.date ?? '')) bad('events.json', `${at}: date "${e.date}" is not YYYY-MM or YYYY-MM-DD`);
+      if (e.end !== undefined && !EVENT_DATE.test(e.end)) bad('events.json', `${at}: end "${e.end}" is not YYYY-MM or YYYY-MM-DD`);
+      ids('events.json', at, e.chokepoints, chokepoints, 'chokepoints');
+      ids('events.json', at, e.commodities, commodityIds, 'commodities');
+      ids('events.json', at, e.countries, knownCountries, 'countries');
+      ids('events.json', at, e.assets, assetIds, 'assets');
+    }
+  }
+  if (alerts !== null) {
+    if (!Array.isArray(alerts)) return bad('alerts.json', 'is not a list');
+    const seen = new Set();
+    for (const a of alerts) {
+      const at = `alert ${a.id}`;
+      if (typeof a.id !== 'string' || !a.id) bad('alerts.json', 'an alert has no id');
+      else if (seen.has(a.id)) bad('alerts.json', `${at} appears twice`);
+      seen.add(a.id);
+      if (!a.title || !a.text) bad('alerts.json', `${at}: title and text are required`);
+      if (!ISO_DATE.test(a.reviewed ?? '')) bad('alerts.json', `${at}: "reviewed" must be the date the text was reviewed (YYYY-MM-DD)`);
+      if (events !== null && !eventIds.has(a.event)) bad('alerts.json', `${at}: event "${a.event}" is not in events.json`);
+      if (a.severity !== null && !SEVERITIES.includes(a.severity)) bad('alerts.json', `${at}: severity "${a.severity}" is not one of ${SEVERITIES.join(', ')}`);
+      ids('alerts.json', at, a.chokepoints, chokepoints, 'chokepoints');
+      ids('alerts.json', at, a.commodities, commodityIds, 'commodities');
+      ids('alerts.json', at, a.countries, knownCountries, 'countries');
+      if (!Array.isArray(a.measures) || a.measures.length === 0) bad('alerts.json', `${at}: no PortWatch figure (measures)`);
+      for (const m of a.measures ?? []) {
+        if (!(a.chokepoints ?? []).includes(m.chokepoint)) bad('alerts.json', `${at}: a figure for "${m.chokepoint}", which is not one of its passages`);
+        if (!ISO_DATE.test(m.to ?? '')) bad('alerts.json', `${at}: the figure of ${m.chokepoint} has no date of last observation`);
+        if (typeof m.transits?.now !== 'number') bad('alerts.json', `${at}: the figure of ${m.chokepoint} has no transits`);
+        if (m.s !== 'portwatch') bad('alerts.json', `${at}: the figure of ${m.chokepoint} must credit portwatch`);
+      }
+      if (a.override !== undefined && !a.override?.reason) bad('alerts.json', `${at}: an override needs a reason`);
+    }
+  }
 }
 
 // node validate-freight.mjs [data folder]

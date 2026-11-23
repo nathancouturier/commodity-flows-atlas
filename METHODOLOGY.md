@@ -477,6 +477,40 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   handy tankers; 13 kn for Suezmax, Aframax, LR1 and LR2; 15.5 kn for VLGCs; 12 kn for mid-size gas
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
+- **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 103 hand-written
+  routes name 45.1% of the 7,913 Mt of 2024 seaborne tonnes of the 34 customs groups. For the rest, the pairs table
+  is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
+  discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
+  that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
+  corridor names are ranked by the tonnes outside the hand-written corridors, and the largest become routes until the
+  group reaches the target of 70% of its seaborne tonnes (hand-written routes counted), or has 12 generated routes. A
+  corridor needs at least 0.5 Mt and 2% of its group outside the hand-written corridors, and at least half of its own
+  tonnes outside them. What the zone-to-zone corridors leave out is grouped again with the importing zones merged into
+  regions (Europe, East Asia, and so on: an Atlas grouping listed in the code). Unrouted pairs (no gateway, no sea
+  route) are in no corridor. The cap on the whole atlas is 120 generated routes: the map draws every route, and a larger
+  number made the world view unreadable even with the generated lines drawn thinner (about 120 more lines on top of the
+  103). When a group list is cut, the lower-ranked corridors of the groups that have the most routes go first. The
+  result for 2024 is 223 routes, and 59.9% of the seaborne tonnes named (all groups): 70% or more for coal (69.2%, one
+  corridor short), iron ore, bauxite, manganese, rapeseed, nickel (ferro-nickel and ore), soybeans and spodumene; between
+  20% and 65% for the others, the lowest being steel (23%), aluminium (21%) and refined products (34%), whose trade is
+  spread over thousands of small pairs; the report printed by `build_freight.py` gives each group and the reason.
+
+  A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
+  zone, importing zone or region), its name is "Cargo: zone to zone", its source is `atlas`, and its page says
+  "Atlas corridor, generated from customs pairs". Its ports, vessel class, distance and passages are those of the
+  largest pair of its corridor, planned with the same call and the same class list as the lanes and the Route finder
+  (`build_lanes._classes_and_plan`), so that the Route finder gives the same ports, distance and passages for that
+  pair. Its corridor lists exactly the pairs it holds (one entry per exporter), so a pair belongs to one generated
+  corridor only; its share of the group's seaborne tonnes, its 2005 to 2024 volume history and, for the classes whose
+  cargo base the atlas covers, its share of the class's tonne-miles follow the rules of the hand-written routes. When a
+  hand-written route already names some of its pairs, the note says which and how many Mt. The note also says that the
+  ports are the atlas's typical ports (an assumption): the route stands for the corridor, not for each pair.
+
+  A hand-written route has ports of its own (a benchmark's named ports, or the terminals its editor chose), which are
+  often not the typical ports of the Route finder. Where the largest pair of its corridor runs between other ports, the
+  route page says so with that pair's ports and distance ("In the Route finder"). The name of a port in `routes_def.json`
+  is matched to the port tables; a terminal named for a cargo (the Dongjiakou LNG terminal) is no longer taken for the
+  port of the place it names (Qingdao) on a route that does not carry that cargo.
 - **Curated tables.** Some rules are entered by hand and are Atlas judgements, not figures from a
   dataset: the mode lists (`modes.py`), the gateway rows and coast rules (`gateways/*.py`), the
   transit ports (`gateways/energy.py`), the vessel class rules and the draught tables
@@ -598,6 +632,42 @@ These are labelled "typical" in the interface. They are not measured shares of e
   counts"); the counts are aggregated, no vessel position or track is used. PortWatch counts the Oresund but not the Great Belt, so the Danish Straits series is
   labelled as Oresund only; it has no counter for the Singapore Strait or for Cape Horn, whose
   page shows the Magellan Strait counter under its own name.
+- **Incremental update of the traffic**: the weekly job keeps the daily table in
+  `pipeline/cache/portwatch/daily_<year>.csv.gz` (the runners keep nothing else between runs) and asks
+  the service only for the days after the last one stored, less 14 days that PortWatch may revise
+  (one page of 2,000 records instead of 41); every 28 days it downloads the whole table again.
+  A table with fewer than 95% of the previous run's records, or ending earlier, is refused and the
+  previous files are kept.
+- **Alerts** (`pipeline/freight/build_alerts.py`, `data/freight/alerts.json`). The title, the text, the
+  start, the event and the passages of a banner are written by hand, with the date the text was
+  reviewed. Everything else is computed: for each passage, the transits and PortWatch's estimated
+  tonnes over the last 28 days, over the same 28 days a year earlier (364 days back, the same
+  weekdays) and the 2023 average scaled to 28 days (2023 is the last full year before every
+  disruption listed), with the gap in per cent and the date of the last observation; these are
+  arithmetic on a published series, credited to IMF PortWatch without the "Atlas estimate" mark. The
+  **severity** comes from the gap of the transits against the 2023 average at the worst passage of
+  the alert: **high** at 60% or more below, **medium** at 25% or more below, **low** otherwise (the
+  thresholds are `SEVERITY_LEVELS` in `build_alerts.py`; the banner names them in the title attribute
+  of the severity). The **commodities** of an alert are those whose "at least" share of seaborne
+  trade through one of its passages is 10% or more, or whose "at least" tonnage is 50 Mt or more
+  (the estimates above); the **countries** are, for each of those commodities, the exporters and the
+  importers that carry 15% or more of its "at least" tonnage through the passages (a pair that
+  crosses two passages counts once). An alert may keep an `override` with a reason; none does. On a
+  commodity page the banner adds the commodity's own estimate for each passage ("at least 27%, up to
+  32% of seaborne crude oil crossed the Strait of Hormuz in 2024", two significant digits, "Atlas
+  estimate"). The weekly job runs the builder after the PortWatch update and the annual job after the
+  freight build. A threshold is never a reason to open an issue: the severity changes on the banner
+  and the build prints the change.
+- **Events** carry `commodities`, `countries` and `assets` when their own text, or the page they cite,
+  names them; an event that names none has none. The commodity, route and country pages list the
+  events that name them; History marks, with a commodity chosen, only the events that name it; the
+  event page shows the change of the atlas's price series of each linked commodity one and three
+  months after the event's start (arithmetic on the published prices, not an estimate of the effect).
+- **What changed**: after each update `pipeline/common/changes.py` writes `data/_status/changes.json`
+  (the five largest weekly moves of the daily price series, the five largest monthly moves, the five
+  passages furthest from their 4-week and 365-day averages with at least 3 vessels a day, the sources
+  whose data or release changed since the previous run) and `web/public/changes.atom`, the same items
+  as an Atom feed.
 
 ## 6. Country profiles
 
@@ -636,8 +706,73 @@ or alumina).
 - Freight cost proxy: the US producer price index for deep-sea freight transportation
   (series PCU483111483111, U.S. Bureau of Labor Statistics, index June 1988 = 100, not seasonally
   adjusted), monthly, fetched through FRED when the owner's free `FRED_API_KEY` is set.
-- Each series carries a note on what it measures (for example, the Brent series is a posted-price
-  proxy before the mid-1980s). A series with fewer than 24 values is rejected.
+- Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics
+  (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina US import unit
+  values, cobalt, palladium, rhodium): one value a year, 2021 to 2025, in the unit and with the basis
+  the file states; the last year is USGS's own estimate and is marked as such. Monthly series for
+  these commodities exist in the IMF Primary Commodity Prices (in other forms: lithium metal,
+  electrolytic manganese, rare-earth carbonate); they are not used, because the terms of use for
+  scripted downloads are not confirmed.
+- Real prices: the annual workbook of the Pink Sheet (sheet "Annual Prices (Real)", constant 2010 US
+  dollars, deflated by the Manufactures Unit Value (MUV) index, column "MUV Index"; the "Definitions"
+  sheet gives the deflator). They are annual averages from 1960, shown by the "Real prices" switch of
+  the price drawer for the series that have one (the Pink Sheet series, and Brent, WTI and Henry Hub
+  daily through their monthly benchmark). No monthly real price is built: that would need a consumer
+  price index that is not among the downloaded files.
+- Price indices: the 16 indices of the sheet "Monthly Indices" (World Bank, nominal US dollars,
+  2010 = 100), the natural gas index and the MUV index.
+- **What a price measures.** The basis note and the dates of the basis changes of every Pink Sheet
+  series are read by the builder (`pipeline/prices/basis.py`) from the workbook's own "Description"
+  sheet: grade, delivery term (FOB, CFR, CIF), place, and each "from <month>", "<month> to <month>",
+  "beginning", "prior to" or "<month> backwards" in the text. The drawer draws a thin line at each
+  change and lists them, with what they replace, under "What the price measures". The months the
+  source itself marks as estimates (the last two months of Japanese LNG, the estimated months of
+  South African coal) are tinted. EIA series carry the description EIA writes in the file. Two
+  remarks are the atlas's own and are labelled as such: Brent before the mid-1980s is a posted-price
+  proxy, and Japanese LNG is mostly oil-indexed contracts, not a spot price.
+- **Annual values in monthly series.** A calendar year whose twelve monthly values are one and the
+  same number is one annual (or contract) price repeated over the months, not twelve observations:
+  the builder lists those years (`annual`), the chart tints them, and the date lookup answers "1975
+  annual value ... monthly data start in 1977" instead of "monthly average". 244 series-years in 22
+  series (260 series-years in 19 series before the iron ore split).
+- **Iron ore.** The Pink Sheet column joins the Brazilian annual contract price in US cents per dmtu
+  (to 2005; FOB Ponta da Madeira, Itabira mines before 1987) and the spot price in US dollars per dry
+  tonne (from January 2006: 63.5% Fe to November 2008, 62% Fe CFR China after). They are two series:
+  `iron-ore-m` (spot, USD/dry t, 2006 on) and `iron-ore-contract-a` (annual, US cents/dmtu, 1960 to
+  2005). One month of 1965 reads 15.3 in the source against 10.2 in the eleven others; the annual
+  value kept is 10.2 and the note says so.
+- **Gaps.** An EIA daily file has days missing before 2007 to 2008 (Henry Hub: 58 to 99 quotes a year
+  from 1998 to 2006 against about 250). The chart does not join over more than seven days without a
+  quote, a lone quote is drawn as a dot, and an average over a period names how many quotes it holds
+  ("only 2 of about 21 trading days") and offers the monthly average of the same benchmark. Nothing is
+  interpolated. The missing days are not recovered: ALFRED vintages need a key and their republication
+  terms are not confirmed.
+- **Price board.** For every price series the builder precomputes the last value and its date, the
+  change over 1 week (daily series), 1 month, 3 months, since the last observation of the previous
+  year and 1 year, and the position of the last value between the lowest and highest of the last 52
+  weeks (the last 12 months for a monthly series). A reference is the last observation on or before
+  the same date one week, month, quarter or year earlier (at most 7 days before it for a daily series,
+  the same month for a monthly one); without one there is no figure. These are arithmetic on the
+  published values, credited to their source, not Atlas estimates. The commodity pages show the last
+  price and its one-year change from the same figures.
+- **Spreads and ratios** are computed in the browser from two published series of the same frequency
+  and unit, wherever both have a value, and are labelled as arithmetic on the two named series: Brent
+  minus WTI (daily and monthly), Brent minus Dubai, European gas minus Henry Hub, Japan LNG minus
+  European gas, Newcastle minus Richards Bay coal, gold to silver and platinum to gold, wheat HRW
+  minus SRW and minus maize, Arabica minus Robusta, palm oil minus soybean oil, urea to maize and DAP
+  to wheat. The legs' basis changes carry over (the soybean complex changed basis in January 2025).
+  Crack spreads (USD per gallon against USD per barrel) and the soybean crush margin need a
+  conversion factor or a yield, and are not built.
+- Each series carries a note on what it measures. A series with fewer than 24 values (10 for an annual
+  series, 5 for a USGS one) is rejected; a negative last price is a price (WTI, 20 April 2020).
+- **Freshness.** The weekly job (Wednesday evening, with a second try on Thursday morning: EIA
+  publishes the daily files on Wednesday with data to Tuesday) rejects a Pink Sheet workbook in which
+  a mapped column, a description row or an index column is missing (headers are matched without their
+  asterisks and spaces), and after each build records in `data/_status/updates.json` every series
+  whose last observation did not advance as fast as its cadence allows: a daily series more than 21
+  days old or 120 days behind the newest of its source, a monthly series once the next month is overdue
+  or 6 months behind the newest of its source. A late series is also marked "late" in the drawer and on
+  the board. `web/scripts/validate-data.mjs` checks that the series files agree with the index.
 - Baltic Exchange freight indices are proprietary and are not shown.
 
 ## 8. Discrepancies

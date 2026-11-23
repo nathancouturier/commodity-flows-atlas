@@ -77,9 +77,24 @@
    {
     "c": "RUS",
     "v": 4500.0
+   },
+   {
+    "c": "NGA",
+    "v": 3500.0
+   },
+   {
+    "c": "LAO",
+    "v": 1800.0
    }
   ],
   "n": "USGS MCS 2026, tin mine production, contained tin; 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 291,100 t Sn, more than the published world total of 290,000 t Sn: shares are computed on the sum",
+  "other": 1700.0,
+  "hidden": {
+   "v": 14400.0,
+   "k": 4,
+   "from": 10,
+   "n": "4 further countries named by USGS (Rwanda, Russia, Nigeria and Laos), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
   "basis": "contained tin"
  },
  "reserves": {
@@ -131,6 +146,7 @@
    }
   ],
   "n": "USGS MCS 2026, tin reserves, contained tin; USGS world total is rounded; USGS reports the world total as a minimum (>6,000,000); the country lines of the source add up to 6,004,000 t Sn, more than the published world total of 6,000,000 t Sn: shares are computed on the sum",
+  "other": 310000.0,
   "basis": "contained tin"
  },
  "exports": {
@@ -187,6 +203,134 @@
     "c": "NLD",
     "v": 5.542,
     "n": "56% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "LUX",
+    "v": 3.428
+   },
+   {
+    "c": "DEU",
+    "v": 2.516
+   },
+   {
+    "c": "USA",
+    "v": 2.431
+   },
+   {
+    "c": "TWN",
+    "v": 2.17
+   },
+   {
+    "c": "ITA",
+    "v": 1.842
+   },
+   {
+    "c": "JPN",
+    "v": 1.74
+   },
+   {
+    "c": "CHL",
+    "v": 1.699
+   },
+   {
+    "c": "PRT",
+    "v": 0.957
+   },
+   {
+    "c": "ARE",
+    "v": 0.933
+   },
+   {
+    "c": "AUT",
+    "v": 0.921
+   },
+   {
+    "c": "IND",
+    "v": 0.869
+   },
+   {
+    "c": "PHL",
+    "v": 0.862
+   },
+   {
+    "c": "RWA",
+    "v": 0.845
+   },
+   {
+    "c": "HUN",
+    "v": 0.56
+   },
+   {
+    "c": "KOR",
+    "v": 0.556
+   },
+   {
+    "c": "HKG",
+    "v": 0.482
+   },
+   {
+    "c": "MEX",
+    "v": 0.429
+   },
+   {
+    "c": "CAN",
+    "v": 0.309
+   },
+   {
+    "c": "TUR",
+    "v": 0.271
+   },
+   {
+    "c": "MMR",
+    "v": 0.258
+   },
+   {
+    "c": "FRA",
+    "v": 0.252
+   },
+   {
+    "c": "RUS",
+    "v": 0.226
+   },
+   {
+    "c": "VNM",
+    "v": 0.211
+   },
+   {
+    "c": "COD",
+    "v": 0.2
+   },
+   {
+    "c": "KEN",
+    "v": 0.135
+   },
+   {
+    "c": "COG",
+    "v": 0.104
+   },
+   {
+    "c": "DNK",
+    "v": 0.099
+   },
+   {
+    "c": "UGA",
+    "v": 0.065
+   },
+   {
+    "c": "LAO",
+    "v": 0.059
+   },
+   {
+    "c": "TZA",
+    "v": 0.053
+   },
+   {
+    "c": "PAN",
+    "v": 0.05
+   },
+   {
+    "c": "GBR",
+    "v": 0.039
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
@@ -246,6 +390,198 @@
    {
     "c": "TWN",
     "v": 6.831
+   },
+   {
+    "c": "GBR",
+    "v": 6.27
+   },
+   {
+    "c": "ESP",
+    "v": 5.8
+   },
+   {
+    "c": "ITA",
+    "v": 5.295
+   },
+   {
+    "c": "THA",
+    "v": 4.488
+   },
+   {
+    "c": "AUT",
+    "v": 4.109
+   },
+   {
+    "c": "FRA",
+    "v": 3.217
+   },
+   {
+    "c": "TUR",
+    "v": 3.201
+   },
+   {
+    "c": "CAN",
+    "v": 2.64
+   },
+   {
+    "c": "POL",
+    "v": 2.308
+   },
+   {
+    "c": "VNM",
+    "v": 2.301
+   },
+   {
+    "c": "MEX",
+    "v": 2.234
+   },
+   {
+    "c": "BIH",
+    "v": 1.817
+   },
+   {
+    "c": "PRT",
+    "v": 1.399
+   },
+   {
+    "c": "PHL",
+    "v": 1.309
+   },
+   {
+    "c": "ARE",
+    "v": 1.231
+   },
+   {
+    "c": "IDN",
+    "v": 1.004
+   },
+   {
+    "c": "CZE",
+    "v": 0.878
+   },
+   {
+    "c": "HKG",
+    "v": 0.712
+   },
+   {
+    "c": "ARG",
+    "v": 0.635
+   },
+   {
+    "c": "ROU",
+    "v": 0.426
+   },
+   {
+    "c": "ZAF",
+    "v": 0.345
+   },
+   {
+    "c": "SRB",
+    "v": 0.333
+   },
+   {
+    "c": "KAZ",
+    "v": 0.271
+   },
+   {
+    "c": "IRN",
+    "v": 0.271
+   },
+   {
+    "c": "BGR",
+    "v": 0.256
+   },
+   {
+    "c": "SVK",
+    "v": 0.255
+   },
+   {
+    "c": "SAU",
+    "v": 0.239
+   },
+   {
+    "c": "TZA",
+    "v": 0.226
+   },
+   {
+    "c": "BGD",
+    "v": 0.223
+   },
+   {
+    "c": "PAK",
+    "v": 0.207
+   },
+   {
+    "c": "AUS",
+    "v": 0.188
+   },
+   {
+    "c": "COL",
+    "v": 0.176
+   },
+   {
+    "c": "CHL",
+    "v": 0.151
+   },
+   {
+    "c": "NAM",
+    "v": 0.15
+   },
+   {
+    "c": "EGY",
+    "v": 0.135
+   },
+   {
+    "c": "SVN",
+    "v": 0.114
+   },
+   {
+    "c": "LUX",
+    "v": 0.098
+   },
+   {
+    "c": "DNK",
+    "v": 0.064
+   },
+   {
+    "c": "IRL",
+    "v": 0.06
+   },
+   {
+    "c": "FIN",
+    "v": 0.055
+   },
+   {
+    "c": "BRA",
+    "v": 0.046
+   },
+   {
+    "c": "VEN",
+    "v": 0.044
+   },
+   {
+    "c": "SWE",
+    "v": 0.044
+   },
+   {
+    "c": "RUS",
+    "v": 0.042
+   },
+   {
+    "c": "GRC",
+    "v": 0.04
+   },
+   {
+    "c": "TUN",
+    "v": 0.039
+   },
+   {
+    "c": "AGO",
+    "v": 0.016
+   },
+   {
+    "c": "KGZ",
+    "v": 0.005
    }
   ],
   "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",

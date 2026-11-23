@@ -9,6 +9,9 @@
    "bab-el-mandeb",
    "cape-good-hope"
   ],
+  "countries": [
+   "SOM"
+  ],
   "summary": "Somali piracy surged from 2008 and peaked around 2010-2011, with attacks across the Gulf of Aden, Arabian Sea and western Indian Ocean; international naval patrols (EUNAVFOR Atalanta, CMF) and onboard armed guards later cut attacks sharply.",
   "impact": "Many owners rerouted via the Cape of Good Hope, added war-risk premiums, security costs and speed increases; Gulf of Aden transits became a risk-priced route for tankers and bulkers.",
   "src": "https://en.wikipedia.org/wiki/Piracy_in_Somalia"
@@ -23,6 +26,9 @@
    "C5",
    "C3"
   ],
+  "countries": [
+   "CHN"
+  ],
   "summary": "The Baltic Dry Index peaked at an all-time high of 11,793 on 20 May 2008 on Chinese raw-material demand and a tight fleet, then fell to about 663 by early December 2008 after the financial crisis and a collapse in letters of credit.",
   "impact": "Capesize earnings swung from record highs to near zero within months; ordering booked at the peak fed years of fleet oversupply.",
   "src": "https://en.wikipedia.org/wiki/Baltic_Dry_Index"
@@ -33,6 +39,12 @@
   "end": "2011-10-23",
   "title": "Libyan uprising halts oil exports",
   "kind": "conflict",
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "LBY"
+  ],
   "summary": "The uprising against Gaddafi and ensuing civil war shut most of Libya's oil production and export terminals through much of 2011.",
   "impact": "Light sweet Mediterranean crude disappeared from the market, tightening Brent and lifting Mediterranean tanker demand for replacement barrels.",
   "src": "https://en.wikipedia.org/wiki/First_Libyan_Civil_War"
@@ -45,6 +57,13 @@
   "routes": [
    "BLNG3"
   ],
+  "commodities": [
+   "lng",
+   "thermal-coal"
+  ],
+  "countries": [
+   "JPN"
+  ],
   "summary": "The Tohoku earthquake and tsunami triggered the Fukushima Daiichi accident, and Japan progressively idled its nuclear fleet.",
   "impact": "Japan sharply increased LNG, coal and oil-fired generation imports, tightening LNG shipping and lifting spot LNG prices in Asia.",
   "src": "https://en.wikipedia.org/wiki/Fukushima_nuclear_accident"
@@ -54,6 +73,15 @@
   "date": "2014-01-12",
   "title": "Indonesia bans raw mineral ore exports",
   "kind": "policy",
+  "commodities": [
+   "nickel",
+   "bauxite"
+  ],
+  "countries": [
+   "IDN",
+   "CHN",
+   "PHL"
+  ],
   "summary": "Indonesia's mining law took effect, banning exports of unprocessed mineral ores including nickel ore and bauxite, with limited relaxations later.",
   "impact": "Chinese nickel-pig-iron producers lost Indonesian ore and turned to Philippine ore; bauxite flows to China also fell until the policy was eased.",
   "src": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia"
@@ -66,6 +94,9 @@
   "chokepoints": [
    "suez"
   ],
+  "countries": [
+   "EGY"
+  ],
   "summary": "Egypt inaugurated a new parallel channel and deepened sections of the Suez Canal, allowing two-way transit over a longer stretch.",
   "impact": "Reduced waiting times for convoys and raised the canal's throughput capacity.",
   "src": "https://en.wikipedia.org/wiki/Suez_Canal"
@@ -75,6 +106,13 @@
   "date": "2015-11-05",
   "title": "Samarco Fundao dam failure, Brazil",
   "kind": "accident",
+  "commodities": [
+   "iron-ore"
+  ],
+  "countries": [
+   "BRA",
+   "CHN"
+  ],
   "summary": "The Fundao tailings dam at the Samarco iron ore operation (Vale/BHP) failed, halting Samarco's pellet and fines output.",
   "impact": "Removed a Brazilian supplier of iron ore pellets for several years, shifting pellet trade and Brazil-China ore flows.",
   "src": "https://en.wikipedia.org/wiki/Mariana_dam_disaster"
@@ -90,6 +128,14 @@
   "routes": [
    "BLNG3"
   ],
+  "commodities": [
+   "lng",
+   "lpg"
+  ],
+  "countries": [
+   "PAN",
+   "USA"
+  ],
   "summary": "The third set of locks opened, allowing Neopanamax vessels with much greater beam, draft and cargo capacity to transit.",
   "impact": "Opened the canal to US Gulf LNG and LPG carriers and larger boxships, reshaping US-Asia energy and container routings.",
   "src": "https://en.wikipedia.org/wiki/Panama_Canal_expansion_project"
@@ -100,6 +146,12 @@
   "end": "2017-09-05",
   "title": "Hurricane Harvey hits US Gulf Coast",
   "kind": "weather",
+  "commodities": [
+   "refined-products"
+  ],
+  "countries": [
+   "USA"
+  ],
   "summary": "Hurricane Harvey made landfall in Texas and flooded Houston-area refineries and shut Gulf ports and terminals for days.",
   "impact": "US product exports and Gulf port operations were disrupted, tightening Atlantic gasoline and diesel balances.",
   "src": "https://en.wikipedia.org/wiki/Hurricane_Harvey"
@@ -109,6 +161,16 @@
   "date": "2018-07-06",
   "title": "US-China trade war tariffs begin",
   "kind": "policy",
+  "commodities": [
+   "soybeans",
+   "crude-oil",
+   "lng"
+  ],
+  "countries": [
+   "USA",
+   "CHN",
+   "BRA"
+  ],
   "summary": "The US imposed its first Section 301 tariffs on Chinese goods; China retaliated including on US soybeans, crude and LNG.",
   "impact": "Chinese buyers shifted soybean purchases from the US Gulf and PNW to Brazil and cut US crude and LNG imports, lengthening average soybean voyages.",
   "src": "https://en.wikipedia.org/wiki/China%E2%80%93United_States_trade_war"
@@ -121,6 +183,13 @@
   "routes": [
    "C3",
    "C5"
+  ],
+  "commodities": [
+   "iron-ore"
+  ],
+  "countries": [
+   "BRA",
+   "CHN"
   ],
   "summary": "The B1 tailings dam at Vale's Corrego do Feijao mine collapsed, killing about 270 people and prompting Vale to halt several Brazilian iron ore operations and decommission upstream dams.",
   "impact": "Removed a notable volume of Brazilian iron ore from the seaborne market, lifted iron ore prices and cut Brazil-China Capesize demand (C3).",
@@ -138,6 +207,9 @@
   "routes": [
    "TD3C"
   ],
+  "assets": [
+   "fujairah"
+  ],
   "summary": "Sabotage of tankers off Fujairah (May 2019), attacks on tankers in the Gulf of Oman (13 June 2019) and later vessel seizures raised security risk in the Strait of Hormuz.",
   "impact": "Gulf war-risk premiums rose and VLCC rates responded; the episode prompted naval escort initiatives in the Gulf.",
   "src": "https://en.wikipedia.org/wiki/Gulf_of_Oman_incident"
@@ -150,6 +222,12 @@
   "chokepoints": [
    "hormuz"
   ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "SAU"
+  ],
   "summary": "Attacks on Saudi Aramco facilities temporarily removed a large share of Saudi crude output.",
   "impact": "Brent spiked on the day of reopening; Saudi crude exports to Asia recovered within weeks.",
   "src": "https://en.wikipedia.org/wiki/Abqaiq%E2%80%93Khurais_attack"
@@ -159,6 +237,9 @@
   "date": "2020-01-01",
   "title": "IMO 2020 global sulphur cap on marine fuel",
   "kind": "policy",
+  "commodities": [
+   "refined-products"
+  ],
   "summary": "The IMO 0.50% global sulphur limit on marine fuel took effect, moving the fleet to low-sulphur fuel or scrubbers.",
   "impact": "Shifted demand between high- and low-sulphur fuel oil and changed bunker costs underlying all freight rates.",
   "src": "https://en.wikipedia.org/wiki/IMO_2020"
@@ -168,6 +249,14 @@
   "date": "2020-01-01",
   "title": "Indonesia nickel ore export ban takes effect",
   "kind": "policy",
+  "commodities": [
+   "nickel"
+  ],
+  "countries": [
+   "IDN",
+   "CHN",
+   "PHL"
+  ],
   "summary": "Indonesia halted nickel ore exports (brought forward from 2022) to force domestic smelting.",
   "impact": "Ended Indonesia-China nickel ore shipments and spurred smelter build-out; ore supply for Chinese NPI producers shifted to the Philippines.",
   "src": "https://en.wikipedia.org/wiki/Nickel_mining_in_Indonesia"
@@ -181,6 +270,10 @@
   "routes": [
    "TD3C"
   ],
+  "commodities": [
+   "crude-oil",
+   "refined-products"
+  ],
   "summary": "WHO declared a pandemic on 11 March 2020; demand destruction and the OPEC+ price war pushed WTI futures negative on 20 April 2020.",
   "impact": "Floating storage boom for crude and products (tanker rates spiked in spring 2020), then a demand rebound; port congestion and boxship dislocations followed.",
   "src": "https://en.wikipedia.org/wiki/Economic_impact_of_the_COVID-19_pandemic"
@@ -191,6 +284,20 @@
   "end": "2023-01",
   "title": "China informally restricts Australian coal imports",
   "kind": "policy",
+  "commodities": [
+   "thermal-coal",
+   "met-coal"
+  ],
+  "countries": [
+   "AUS",
+   "CHN",
+   "IND",
+   "JPN",
+   "KOR",
+   "RUS",
+   "IDN",
+   "MNG"
+  ],
   "summary": "From about October 2020 Chinese customs and buyers curbed imports of Australian thermal and coking coal, while restrictions were lifted progressively from early 2023.",
   "impact": "Australian coal redirected to India, Japan, Korea and others while China bought more Russian, Indonesian and Mongolian coal; Pacific coal tonne-miles shifted.",
   "src": "https://en.wikipedia.org/wiki/Australia%E2%80%93China_relations"
@@ -221,6 +328,16 @@
    "TD17",
    "TC9"
   ],
+  "commodities": [
+   "thermal-coal",
+   "crude-oil",
+   "refined-products",
+   "natural-gas"
+  ],
+  "countries": [
+   "RUS",
+   "UKR"
+  ],
   "summary": "Russia launched a full-scale invasion of Ukraine; Ukrainian Black Sea ports were closed and the Black Sea became a war zone.",
   "impact": "Black Sea war-risk premiums rose and Ukrainian grain exports initially halted; Europe began replacing Russian coal, crude, products and pipeline gas.",
   "src": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
@@ -233,6 +350,15 @@
   "kind": "accident",
   "routes": [
    "BLNG3"
+  ],
+  "commodities": [
+   "lng"
+  ],
+  "countries": [
+   "USA"
+  ],
+  "assets": [
+   "freeport-lng"
   ],
   "summary": "An explosion at the Freeport LNG terminal in Texas shut a major US export plant for months.",
   "impact": "Cut US LNG exports to Europe during the energy crisis and reduced Atlantic LNG ship demand.",
@@ -247,6 +373,18 @@
   "chokepoints": [
    "bosphorus"
   ],
+  "commodities": [
+   "wheat",
+   "corn"
+  ],
+  "countries": [
+   "UKR",
+   "RUS",
+   "TUR"
+  ],
+  "assets": [
+   "odesa"
+  ],
   "summary": "UN- and Turkey-brokered deal let Ukrainian grain move from Odesa-area ports via a Bosphorus inspection regime until Russia withdrew on 17 July 2023.",
   "impact": "Ukrainian wheat, corn and sunflower exports resumed on Handysize and Supramax vessels, easing food prices; it ended with renewed Russian strikes on Odesa ports.",
   "src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative"
@@ -256,6 +394,13 @@
   "date": "2022-09",
   "title": "Mississippi and Rhine low-water restrictions",
   "kind": "weather",
+  "commodities": [
+   "thermal-coal",
+   "refined-products"
+  ],
+  "countries": [
+   "USA"
+  ],
   "summary": "Drought lowered the Mississippi River and the Rhine in 2022, limiting barge loadings and draft for grain, coal and oil products.",
   "impact": "Grain and coal barge freight spiked; Rhine low water raised inland costs for coal and oil product deliveries to Europe.",
   "src": "https://en.wikipedia.org/wiki/Rhine"
@@ -270,6 +415,17 @@
   ],
   "routes": [
    "BLNG3"
+  ],
+  "commodities": [
+   "natural-gas",
+   "lng"
+  ],
+  "countries": [
+   "RUS",
+   "DEU"
+  ],
+  "assets": [
+   "nord-stream-1"
   ],
   "summary": "Explosions damaged the Nord Stream 1 and 2 gas pipelines in the Baltic Sea.",
   "impact": "Removed the largest Russia-Germany gas pipeline route, deepening reliance on LNG and raising demand for LNG shipping.",
@@ -290,6 +446,15 @@
    "TD17",
    "TC9"
   ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "RUS",
+   "IND",
+   "CHN",
+   "TUR"
+  ],
   "summary": "The EU ban on seaborne Russian crude and the G7 price cap (USD 60/bbl) took effect on 5 December 2022.",
   "impact": "Russian crude was redirected to India, China and Turkey on longer voyages, lifting tonne-miles; a shadow fleet outside Western insurance grew.",
   "src": "https://en.wikipedia.org/wiki/Russian_oil_price_cap"
@@ -302,6 +467,15 @@
   "chokepoints": [
    "suez",
    "cape-good-hope"
+  ],
+  "commodities": [
+   "refined-products"
+  ],
+  "countries": [
+   "RUS",
+   "IND",
+   "TUR",
+   "BRA"
   ],
   "summary": "The EU ban on seaborne Russian oil products and G7 product price caps took effect on 5 February 2023.",
   "impact": "Europe replaced Russian diesel with Middle East and Indian supply, lengthening product tanker voyages; Russian products moved to Turkey, North Africa and Brazil.",
@@ -324,6 +498,13 @@
   "routes": [
    "BLNG3"
   ],
+  "commodities": [
+   "lng",
+   "lpg"
+  ],
+  "countries": [
+   "PAN"
+  ],
   "summary": "Low Gatun Lake levels from the 2023 El Nino drought forced draft limits and cut daily transit slots, with reductions deepening into early 2024.",
   "impact": "Neopanamax LNG, LPG and bulk vessels were delayed or diverted via the Cape of Good Hope or Suez; slot auctions reached large premiums.",
   "src": "https://en.wikipedia.org/wiki/Panama_Canal"
@@ -336,6 +517,12 @@
   "chokepoints": [
    "bosphorus"
   ],
+  "countries": [
+   "UKR"
+  ],
+  "assets": [
+   "odesa"
+  ],
   "summary": "After the grain deal collapsed, Ukraine opened its own Black Sea corridor hugging the western coast, with vessels calling at Odesa-region ports.",
   "impact": "Ukrainian exports resumed at somewhat lower volumes with higher insurance cost; Danube and EU land routes also expanded.",
   "src": "https://en.wikipedia.org/wiki/Black_Sea_Grain_Initiative"
@@ -345,6 +532,13 @@
   "date": "2023-08-01",
   "title": "Wa State suspends mining, including Myanmar's main tin supply",
   "kind": "policy",
+  "commodities": [
+   "tin"
+  ],
+  "countries": [
+   "MMR",
+   "CHN"
+  ],
   "summary": "Wa State authorities in Myanmar halted all mining, refining, transport and export in the state from 1 August 2023 for an indefinite period, citing protection of the environment, preservation of tin reserves and the formalisation of mining. The state accounts for about 95% of Myanmar's tin production and up to a tenth of the world's tin, according to Mining Technology.",
   "impact": "Myanmar had supplied 77% of China's tin ore imports in 2022 (Chinese customs data, via Kitco). China's imports of tin ores and concentrates were about 150,800 t in January to November 2024, down 35% on a year earlier, with the Myanmar part down 55% (SMM, 23 December 2024).",
   "src": "https://www.mining-technology.com/news/wa-state-closes-tin-mines/"
@@ -383,6 +577,12 @@
   "date": "2024-01-26",
   "title": "US pauses new LNG export approvals",
   "kind": "policy",
+  "commodities": [
+   "lng"
+  ],
+  "countries": [
+   "USA"
+  ],
   "summary": "The US administration paused pending approvals for non-FTA LNG export projects, a pause later lifted under the next administration in early 2025.",
   "impact": "Created uncertainty for new US LNG capacity supplying Atlantic and Pacific shipping demand.",
   "src": "https://en.wikipedia.org/wiki/Liquefied_natural_gas"
@@ -393,6 +593,12 @@
   "end": "2024-06-10",
   "title": "Baltimore Francis Scott Key Bridge collapse",
   "kind": "accident",
+  "commodities": [
+   "thermal-coal"
+  ],
+  "countries": [
+   "USA"
+  ],
   "summary": "The container ship Dali struck the bridge, closing the Port of Baltimore main channel until it fully reopened in June 2024.",
   "impact": "Baltimore handled coal exports and roro; thermal coal cargoes rerouted to Norfolk and other East Coast ports, with temporary disruption to US coal shipments.",
   "src": "https://en.wikipedia.org/wiki/Francis_Scott_Key_Bridge_collapse"
@@ -408,6 +614,14 @@
   ],
   "routes": [
    "TD3C"
+  ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "ISR",
+   "IRN",
+   "USA"
   ],
   "summary": "Israel struck Iran on 13 June 2025 and Iran retaliated; the US struck Iranian nuclear sites on 22 June and a ceasefire took effect on 24 June 2025.",
   "impact": "Oil prices and Gulf war-risk premiums spiked; Hormuz flows held, with tanker traffic largely continuing.",
@@ -438,6 +652,13 @@
   "chokepoints": [
    "panama"
   ],
+  "commodities": [
+   "lpg",
+   "lng"
+  ],
+  "countries": [
+   "PAN"
+  ],
   "summary": "Fiscal year 2025 (to 30 September 2025) transits rose 19.3% to 13,404 with LPG a key growth driver while LNG underperformed.",
   "impact": "Panama remains an alternative for US Gulf LPG to Asia.",
   "src": "https://en.wikipedia.org/wiki/Panama_Canal"
@@ -461,6 +682,10 @@
   "end": "2025-11-10",
   "title": "USTR port fees on Chinese-built and operated ships take effect",
   "kind": "policy",
+  "countries": [
+   "USA",
+   "CHN"
+  ],
   "summary": "USTR Section 301 port fees on Chinese-owned or operated and Chinese-built vessels took effect on 14 October 2025; China imposed reciprocal special port fees on US-linked ships.",
   "impact": "Owners reshuffled vessel deployment; both sets of fees were suspended for one year from 10 November 2025 (to 9 November 2026) after the US-China trade deal. Status after that date was not verified.",
   "src": "https://www.federalregister.gov/documents/2025/11/13/2025-19873/notice-of-modification-of-section-301-action-chinas-targeting-of-the-maritime-logistics-and"
@@ -470,6 +695,12 @@
   "date": "2025-10-16",
   "title": "DR Congo replaces its cobalt export suspension with quotas",
   "kind": "policy",
+  "commodities": [
+   "cobalt"
+  ],
+  "countries": [
+   "COD"
+  ],
   "summary": "DR Congo's regulator ARECOMS lifted the cobalt export suspension, which had been extended to 15 October 2025, and replaced it from 16 October 2025 with export quotas: 18,125 t for the rest of 2025 and 96,600 t a year for 2026 and 2027, of which 87,000 t are shared among producers pro rata and 9,600 t stay under the regulator's discretion (Benchmark Minerals, 22 September 2025).",
   "impact": "DR Congo is by far the largest exporter in the atlas's customs data for 2024, which predates the suspension and the quotas.",
   "src": "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027"
@@ -483,6 +714,15 @@
    "russia-baltic-india-crude",
    "TD17",
    "TC9"
+  ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "USA",
+   "RUS",
+   "IND",
+   "CHN"
   ],
   "summary": "The US Treasury imposed sanctions on Rosneft and Lukoil on 22 October 2025.",
   "impact": "Indian and Chinese refiners adjusted Russian crude purchases, changing tanker trade patterns.",
@@ -499,6 +739,16 @@
   "routes": [
    "simandou-china-iron-ore"
   ],
+  "commodities": [
+   "iron-ore"
+  ],
+  "countries": [
+   "GIN",
+   "CHN"
+  ],
+  "assets": [
+   "simandou"
+  ],
   "summary": "The Winning Youth, carrying about 200,000 t of Simandou iron ore, departed Guinea on 2 December 2025 (arrived in China 17 January 2026).",
   "impact": "A new Atlantic-basin supplier adds Guinea-China voyages round the Cape, increasing Capesize tonne-miles over time.",
   "src": "https://en.wikipedia.org/wiki/Simandou_mine"
@@ -510,6 +760,18 @@
   "kind": "conflict",
   "chokepoints": [
    "bosphorus"
+  ],
+  "commodities": [
+   "wheat"
+  ],
+  "countries": [
+   "UKR",
+   "RUS"
+  ],
+  "assets": [
+   "novorossiysk",
+   "cpc",
+   "odesa"
   ],
   "summary": "Drone attacks hit tankers at Novorossiysk and the CPC terminal from January 2026 and Russian grain ports from mid-2026; Russia also hit vessels at Odesa-region ports.",
   "impact": "Loadings at CPC were disrupted; war-risk premiums rose; Russian wheat exports from affected ports slowed in August 2026.",
@@ -527,6 +789,18 @@
   "routes": [
    "TD3C"
   ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "USA",
+   "ISR",
+   "IRN",
+   "SAU"
+  ],
+  "assets": [
+   "east-west-petroline"
+  ],
   "summary": "US strikes on Iran began on 28 February 2026 and Iranian action effectively closed the Strait of Hormuz to most commercial traffic from early March, producing what Wikipedia calls the largest ever supply disruption to the global oil market.",
   "impact": "Per IMF PortWatch daily Hormuz transits fell from about 78 in February 2026 to about 3 in March. EIA estimates crude and liquids through Hormuz fell from 21.6 mb/d in 4Q25 to 4.9 mb/d in 2Q26; Saudi crude was rerouted to Yanbu via the East-West pipeline.",
   "src": "https://en.wikipedia.org/wiki/2026_Iran_war"
@@ -538,6 +812,10 @@
   "kind": "conflict",
   "chokepoints": [
    "hormuz"
+  ],
+  "countries": [
+   "USA",
+   "IRN"
   ],
   "summary": "A two-week ceasefire began on 8 April 2026, the Islamabad talks failed on 12-13 April, and the US imposed a naval blockade on Iran, with an indefinite ceasefire announced on 21 April.",
   "impact": "Hormuz traffic stayed far below pre-war levels. Exact blockade start date differs by source.",
@@ -551,6 +829,10 @@
   "chokepoints": [
    "hormuz"
   ],
+  "countries": [
+   "USA",
+   "IRN"
+  ],
   "summary": "The US and Iran signed a memorandum to end the war on 17 June 2026 lifting the dual blockade; the ceasefire was renewed on 28 June.",
   "impact": "Hormuz transits partially recovered in late June but remained a fraction of pre-war levels.",
   "src": "https://en.wikipedia.org/wiki/2026_Iran_war"
@@ -562,6 +844,15 @@
   "kind": "conflict",
   "chokepoints": [
    "bab-el-mandeb"
+  ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "SAU"
+  ],
+  "assets": [
+   "east-west-petroline"
   ],
   "summary": "The Houthis declared a naval blockade on Saudi Arabia in July 2026 and launched an offensive in September, escalating Red Sea risks to Saudi Red Sea exports via Yanbu.",
   "impact": "Threatens the main Hormuz bypass (East-West pipeline to Yanbu), which had pushed Bab el-Mandeb oil flows to 8.1 mb/d in 2Q26 per EIA.",
@@ -582,6 +873,12 @@
   ],
   "routes": [
    "TD3C"
+  ],
+  "commodities": [
+   "crude-oil"
+  ],
+  "countries": [
+   "IRN"
   ],
   "summary": "The ceasefire collapsed on 8 July 2026 after Iran initiated attacks on commercial vessels in the Strait of Hormuz.",
   "impact": "Per PortWatch, Hormuz transits averaged about 3.8 per day in October 2026 versus 78 in February; EIA reports oil flows through Middle East chokepoints rose 19% in 3Q26 versus 2Q26, and Brent averaged USD 124/bbl in October 2026.",

@@ -134,8 +134,8 @@ class GasPageTests(unittest.TestCase):
             self.assertIn("no LNG split by country", t["n"])
         self.assertEqual([r["c"] for r in self.d["exports"]["rows"][:3]], ["USA", "RUS", "QAT"])
         # Belgium (transit) and Morocco (0.89 bcm in EIA) are out of the first twelve
-        self.assertNotIn("BEL", [r["c"] for r in self.d["exports"]["rows"]])
-        self.assertNotIn("MAR", [r["c"] for r in self.d["imports"]["rows"]])
+        self.assertNotIn("BEL", [r["c"] for r in self.d["exports"]["rows"][:12]])  # the tables list every country
+        self.assertNotIn("MAR", [r["c"] for r in self.d["imports"]["rows"][:12]])
         self.assertGreater(self.d["exports"]["rows"][0]["v"], 200)  # United States, bcm
         self.assertEqual(self.d["summary"]["exports"]["u"], "bcm")
 

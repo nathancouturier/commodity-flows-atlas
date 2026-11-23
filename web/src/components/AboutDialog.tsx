@@ -5,11 +5,14 @@
  */
 import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
-import { sources } from '../lib/data';
+import { load, sources } from '../lib/data';
 import { ESTIMATE_DEFINITION } from '../lib/freight';
-import { BUILD, fmtDate, loadStatus, loadVintages, type Freshness, type StatusView } from '../lib/status';
+import { BUILD, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
+import type { Alert } from '../types';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
 import { CloseIcon, Skeleton } from './ui';
+import { WhatChanged } from './WhatChanged';
+import { Calendar, FamilySummary } from './AboutFresh';
 
 const REPO = 'https://github.com/nathancouturier/commodity-flows-atlas';
 const DOC = `${REPO}/blob/main/`;
@@ -40,11 +43,12 @@ function longDate(iso: string): string {
 
 // ---------------------------------------------------------------- about
 
-function AboutTabView() {
+function AboutTabView(props: { changes: Changes | null | undefined }) {
   // the registry also lists the atlas's own figures (id `atlas`), which are not a third-party source
   const n = Object.keys(sources.value).filter((id) => id !== 'atlas').length;
   return (
     <>
+      <WhatChanged changes={props.changes} />
       <h3>What the atlas is</h3>
       <p>
         Commodity Flows Atlas is an interactive map of the world's raw material trade: who produces, exports and imports energy, metals and
@@ -221,7 +225,7 @@ const HEALTH_LABEL: Record<Freshness['health'], string> = {
 };
 const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
 
-function FreshnessTabView(props: { status: StatusView | null; failed: boolean; vintages: Record<string, string> }) {
+function FreshnessTabView(props: { status: StatusView | null; failed: boolean; vintages: Record<string, string>; changes: Changes | null | undefined; alerts: Alert[] }) {
   const st = props.status;
   const name = (id: string) => sources.value[id]?.name ?? id;
   return (
@@ -238,12 +242,13 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
         <p class="about-empty">No scheduled job has reported yet.</p>
       ) : (
         <>
+          <FamilySummary status={st} vintages={props.vintages} alerts={props.alerts} />
           <table class="about-table about-fresh">
             <thead>
               <tr>
                 <th scope="col">Source</th>
                 <th scope="col">Data to</th>
-                <th scope="col">Last checked</th>
+                <th scope="col">Last successful update</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
@@ -265,7 +270,7 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
                       <span class="num">{to ?? 'Not dated'}</span>
                       {r.release && <small>{r.release}</small>}
                     </td>
-                    <td data-label="Last checked">
+                    <td data-label="Last successful update">
                       <span class="num">{r.checked ? fmtDate(r.checked) : 'Never'}</span>
                     </td>
                     <td data-label="Status">
@@ -286,6 +291,10 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
           </p>
         </>
       )}
+      <Calendar changes={props.changes} />
+      <p class="about-foot-note">
+        The same news, as they come: <a href="changes.atom" type="application/atom+xml">Atom feed</a> of the weekly digest.
+      </p>
       {(BUILD.commit || BUILD.date) && (
         <p class="about-foot-note">
           Site build:{' '}
@@ -433,6 +442,8 @@ export default function AboutDialog() {
   const [status, setStatus] = useState<StatusView | null>(null);
   const [failed, setFailed] = useState(false);
   const [vintages, setVintages] = useState<Record<string, string>>({});
+  const [changes, setChanges] = useState<Changes | null | undefined>(undefined);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
 
   useEffect(() => {
     const d = ref.current;
@@ -446,6 +457,11 @@ export default function AboutDialog() {
       () => live && setFailed(true),
     );
     loadVintages().then((v) => live && setVintages(v));
+    loadChanges().then(
+      (c) => live && setChanges(c),
+      () => live && setChanges(null),
+    );
+    load<Alert[]>('freight/alerts.json').then((a) => live && setAlerts(a), () => undefined);
     return () => {
       live = false;
       if (d.open) d.close();
@@ -525,11 +541,11 @@ export default function AboutDialog() {
         </div>
         <div class="about-body" id="about-panel" role="tabpanel" aria-labelledby={`about-tab-${tab}`} tabIndex={0} ref={body}>
           {tab === 'about' ? (
-            <AboutTabView />
+            <AboutTabView changes={changes} />
           ) : tab === 'sources' ? (
             <SourcesTabView status={status} vintages={vintages} />
           ) : tab === 'freshness' ? (
-            <FreshnessTabView status={status} failed={failed} vintages={vintages} />
+            <FreshnessTabView status={status} failed={failed} vintages={vintages} changes={changes} alerts={alerts} />
           ) : tab === 'method' ? (
             <MethodTabView />
           ) : (

@@ -1,9 +1,9 @@
 /** Freight route card: Baltic benchmark or heavy-traffic route. */
 import { useEffect, useMemo } from 'preact/hooks';
 import type { Route } from '../../types';
-import { commodityMeta } from '../../lib/data';
+import { commodityMeta, countryName } from '../../lib/data';
 import { fmt, fig as fmtFig } from '../../lib/format';
-import { loadRoutes, loadRouteGeo, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { GROUP_LABEL, loadRoutes, loadRouteGeo, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
@@ -51,19 +51,20 @@ function Body({ r }: { r: Route }) {
   const shares = useMemo(() => {
     const out: { label: string; f: NonNullable<Route['shareCommodity']> }[] = [];
     const seen = new Set<string>();
-    const add = (k: string, f: NonNullable<Route['shareCommodity']>) => {
-      const key = `${k}:${f.v}`;
+    const add = (k: string, f: NonNullable<Route['shareCommodity']>, g?: string) => {
+      const key = `${k}:${g ?? ''}:${f.v}`;
       if (seen.has(key)) return;
       seen.add(key);
       // customs codes do not separate thermal from metallurgical coal: both shares are computed on all coal
-      const name = k === 'thermal-coal' || k === 'met-coal' ? 'coal (all types)' : lowerName(commodityMeta(k)?.name ?? k);
+      // (a generated corridor names its customs group: alumina and DAP are not bauxite and phosphate rock)
+      const name = k === 'thermal-coal' || k === 'met-coal' ? 'coal (all types)' : lowerName((g && GROUP_LABEL[g]) || (commodityMeta(k)?.name ?? k));
       out.push({ label: `Corridor share of seaborne ${name}`, f });
     };
     if (r.shareCommodity) {
       const match = r.shares?.find((s) => s.f.v === r.shareCommodity!.v);
-      add(match?.k ?? r.cargoes[0], r.shareCommodity);
+      add(match?.k ?? r.cargoes[0], r.shareCommodity, match?.g);
     }
-    for (const s of r.shares ?? []) add(s.k, s.f);
+    for (const s of r.shares ?? []) add(s.k, s.f, s.g);
     return out;
   }, [r]);
   // a corridor whose customs total includes overland and pipeline trade says so in its history note
@@ -75,14 +76,20 @@ function Body({ r }: { r: Route }) {
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
-        <div class="detail-kicker">{r.benchmark ? `Baltic benchmark · ${SEGMENT_LABEL[seg]}` : 'Heavy-traffic route'}</div>
+        <div class="detail-kicker">{r.generated ? `Atlas corridor · ${SEGMENT_LABEL[seg]}` : r.benchmark ? `Baltic benchmark · ${SEGMENT_LABEL[seg]}` : 'Heavy-traffic route'}</div>
         <h2 class="detail-title">{r.name}</h2>
         <div class="badges">
           {r.benchmark && <span class="code-badge" title="Baltic Exchange route code">{r.id}</span>}
           {r.discontinued && <span class="badge badge-warn">Discontinued {r.discontinued}</span>}
+          {r.generated && <span class="badge" title="Not a market benchmark: a corridor of the customs pairs table, drawn between the typical ports of its largest pair">Generated from customs pairs</span>}
           {r.roundVoyage && <span class="badge" title="Benchmark is quoted for a round voyage">Round voyage</span>}
           {r.standIn && <span class="badge badge-warn" title={r.standIn}>Stand-in trace</span>}
         </div>
+        {r.generated && (
+          <div class="muted small" style={{ marginTop: '6px' }}>
+            Atlas corridor, generated from customs pairs. It is not a market benchmark: its ports, vessel class, distance and passages are those of its largest pair.
+          </div>
+        )}
         {r.roundVoyage && <div class="muted small" style={{ marginTop: '6px' }}>Benchmark is a round voyage (delivery → redelivery); distance shown is the typical laden leg.</div>}
         {r.standIn ? (
           <div class="muted small" style={{ marginTop: '6px' }}>{r.standIn}</div>
@@ -91,10 +98,10 @@ function Body({ r }: { r: Route }) {
         )}
       </div>
       <div class="panel-scroll">
-        <AlertBanners chokepoints={r.via} status={r.status} />
+        <AlertBanners route={r.id} chokepoints={r.via} status={r.status} />
         <div class="kpis">
-          <Kpi label={leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub="SeaRoute network · Atlas routing" title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
-          <Kpi label={leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas assumption`} title={`Distance divided by the assumed laden service speed of the class, ${fmt(r.speedKn)} kn (Atlas assumption)`} />
+          <Kpi label={r.standIn ? 'Distance · stand-in trace' : leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub={r.standIn ? 'Not a distance of this benchmark' : 'SeaRoute network · Atlas routing'} title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
+          <Kpi label={r.standIn ? 'Laden days · stand-in trace' : leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas assumption`} title={`Distance divided by the assumed laden service speed of the class, ${fmt(r.speedKn)} kn (Atlas assumption)`} />
           {shares.map((s) => (
             <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
@@ -110,12 +117,20 @@ function Body({ r }: { r: Route }) {
             <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · {r.to.ports.join(', ')}</span>}</span></div>
           </div>
         </Section>
+        {r.finder && (
+          <Section title="In the Route finder">
+            <p class="prose">
+              The largest recorded pair of this corridor, {countryName(r.finder.o)} to {countryName(r.finder.d)} ({fmt(r.finder.mt)} Mt in {r.finder.y}), runs {r.finder.from} to {r.finder.to} there: {fmt(r.finder.nm)} nm. The distance above is for this route's own ports.
+            </p>
+          </Section>
+        )}
         <Section title="Vessel class">
           <div class="chips"><VesselChip id={r.vclass} /></div>
         </Section>
         {r.cargoes.length > 0 && (
           <Section title="Cargoes">
             <CommodityChips ids={r.cargoes} />
+            {r.cargoNote && <div class="muted small" style={{ marginTop: '6px' }}>{r.cargoNote}</div>}
           </Section>
         )}
         <ViaSection from={fromPort} to={toPort} via={r.via} viaAlt={r.viaAlt} />

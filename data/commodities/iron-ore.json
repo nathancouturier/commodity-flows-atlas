@@ -84,9 +84,36 @@
    {
     "c": "SWE",
     "v": 26.0
+   },
+   {
+    "c": "PER",
+    "v": 21.0
+   },
+   {
+    "c": "CHL",
+    "v": 19.0
+   },
+   {
+    "c": "TUR",
+    "v": 18.0
+   },
+   {
+    "c": "MRT",
+    "v": 15.0
+   },
+   {
+    "c": "MEX",
+    "v": 7.7
    }
   ],
-  "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 2,610 Mt, more than the published world total of 2,600 Mt: shares are computed on the sum"
+  "n": "USGS MCS 2026, iron ore, usable ore (gross weight); 2025 values are USGS estimates; USGS world total is rounded; the country lines of the source add up to 2,610 Mt, more than the published world total of 2,600 Mt: shares are computed on the sum",
+  "other": 64.0,
+  "hidden": {
+   "v": 141.7,
+   "k": 7,
+   "from": 10,
+   "n": "7 further countries named by USGS (Kazakhstan, Sweden, Peru, Chile, Turkey, Mauritania and Mexico), listed after the first rows; not part of USGS's 'Other countries' line"
+  }
  },
  "reserves": {
   "y": 2025,
@@ -142,9 +169,36 @@
    {
     "c": "CHL",
     "v": 3000.0
+   },
+   {
+    "c": "PER",
+    "v": 1800.0
+   },
+   {
+    "c": "SWE",
+    "v": 1300.0
+   },
+   {
+    "c": "ZAF",
+    "v": 1200.0
+   },
+   {
+    "c": "MEX",
+    "v": 940.0
+   },
+   {
+    "c": "TUR",
+    "v": 150.0
    }
   ],
-  "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded; the country lines of the source add up to 203,990 Mt, more than the published world total of 200,000 Mt: shares are computed on the sum"
+  "n": "USGS MCS 2026, iron ore reserves, crude ore; USGS world total is rounded; the country lines of the source add up to 203,990 Mt, more than the published world total of 200,000 Mt: shares are computed on the sum",
+  "other": 11000.0,
+  "hidden": {
+   "v": 11990.0,
+   "k": 7,
+   "from": 10,
+   "n": "7 further countries named by USGS (United States, Chile, Peru, Sweden, South Africa, Mexico and Turkey), listed after the first rows; not part of USGS's 'Other countries' line"
+  }
  },
  "exports": {
   "y": 2024,
@@ -201,6 +255,262 @@
     "c": "OMN",
     "v": 13.245,
     "n": "Oman is both an importer (rank 11, 12.8 Mt) and an exporter (rank 12, 13.2 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)"
+   },
+   {
+    "c": "USA",
+    "v": 12.63
+   },
+   {
+    "c": "KAZ",
+    "v": 10.478
+   },
+   {
+    "c": "RUS",
+    "v": 9.653
+   },
+   {
+    "c": "IRN",
+    "v": 9.301
+   },
+   {
+    "c": "SLE",
+    "v": 9.281
+   },
+   {
+    "c": "BHR",
+    "v": 9.02
+   },
+   {
+    "c": "MNG",
+    "v": 7.422
+   },
+   {
+    "c": "PHL",
+    "v": 6.448
+   },
+   {
+    "c": "LAO",
+    "v": 4.097
+   },
+   {
+    "c": "LBR",
+    "v": 3.404
+   },
+   {
+    "c": "CHN",
+    "v": 3.158
+   },
+   {
+    "c": "NZL",
+    "v": 3.137
+   },
+   {
+    "c": "TUR",
+    "v": 2.266
+   },
+   {
+    "c": "VEN",
+    "v": 2.247
+   },
+   {
+    "c": "NOR",
+    "v": 1.948
+   },
+   {
+    "c": "MMR",
+    "v": 1.741
+   },
+   {
+    "c": "DEU",
+    "v": 1.229
+   },
+   {
+    "c": "UZB",
+    "v": 1.001
+   },
+   {
+    "c": "ARE",
+    "v": 0.9573
+   },
+   {
+    "c": "MEX",
+    "v": 0.9232
+   },
+   {
+    "c": "KHM",
+    "v": 0.8621
+   },
+   {
+    "c": "PAK",
+    "v": 0.7677
+   },
+   {
+    "c": "NLD",
+    "v": 0.4539
+   },
+   {
+    "c": "KOR",
+    "v": 0.4252
+   },
+   {
+    "c": "MLI",
+    "v": 0.4218
+   },
+   {
+    "c": "CHE",
+    "v": 0.4183
+   },
+   {
+    "c": "HND",
+    "v": 0.3815
+   },
+   {
+    "c": "UGA",
+    "v": 0.3427
+   },
+   {
+    "c": "THA",
+    "v": 0.2631
+   },
+   {
+    "c": "SAU",
+    "v": 0.2056
+   },
+   {
+    "c": "TTO",
+    "v": 0.1849
+   },
+   {
+    "c": "ROU",
+    "v": 0.1777
+   },
+   {
+    "c": "GIN",
+    "v": 0.158
+   },
+   {
+    "c": "URY",
+    "v": 0.1437
+   },
+   {
+    "c": "FJI",
+    "v": 0.1319
+   },
+   {
+    "c": "EGY",
+    "v": 0.1215
+   },
+   {
+    "c": "BOL",
+    "v": 0.1143
+   },
+   {
+    "c": "HKG",
+    "v": 0.0734
+   },
+   {
+    "c": "HUN",
+    "v": 0.0696
+   },
+   {
+    "c": "FIN",
+    "v": 0.0684
+   },
+   {
+    "c": "MAR",
+    "v": 0.0629
+   },
+   {
+    "c": "QAT",
+    "v": 0.0511
+   },
+   {
+    "c": "DZA",
+    "v": 0.0505
+   },
+   {
+    "c": "FRA",
+    "v": 0.0497
+   },
+   {
+    "c": "ESP",
+    "v": 0.049
+   },
+   {
+    "c": "SEN",
+    "v": 0.0471
+   },
+   {
+    "c": "ARG",
+    "v": 0.0446
+   },
+   {
+    "c": "NGA",
+    "v": 0.0356
+   },
+   {
+    "c": "BGR",
+    "v": 0.0314
+   },
+   {
+    "c": "MUS",
+    "v": 0.0256
+   },
+   {
+    "c": "BEL",
+    "v": 0.0253
+   },
+   {
+    "c": "SVK",
+    "v": 0.0223
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0212
+   },
+   {
+    "c": "LBY",
+    "v": 0.0171
+   },
+   {
+    "c": "GBR",
+    "v": 0.0163
+   },
+   {
+    "c": "BIH",
+    "v": 0.0126
+   },
+   {
+    "c": "GAB",
+    "v": 0.0101
+   },
+   {
+    "c": "POL",
+    "v": 0.0084
+   },
+   {
+    "c": "RWA",
+    "v": 0.0082
+   },
+   {
+    "c": "LUX",
+    "v": 0.0049
+   },
+   {
+    "c": "BWA",
+    "v": 0.003
+   },
+   {
+    "c": "NAM",
+    "v": 0.0028
+   },
+   {
+    "c": "MKD",
+    "v": 0.0026
+   },
+   {
+    "c": "ITA",
+    "v": 0.0018
    }
   ],
   "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
@@ -260,6 +570,259 @@
    {
     "c": "EGY",
     "v": 9.954
+   },
+   {
+    "c": "TUR",
+    "v": 9.794
+   },
+   {
+    "c": "FRA",
+    "v": 9.312
+   },
+   {
+    "c": "CAN",
+    "v": 8.011
+   },
+   {
+    "c": "DZA",
+    "v": 6.517
+   },
+   {
+    "c": "BEL",
+    "v": 5.853
+   },
+   {
+    "c": "PHL",
+    "v": 5.747
+   },
+   {
+    "c": "POL",
+    "v": 5.438
+   },
+   {
+    "c": "SAU",
+    "v": 5.43
+   },
+   {
+    "c": "USA",
+    "v": 5.112
+   },
+   {
+    "c": "ESP",
+    "v": 5.006
+   },
+   {
+    "c": "SVK",
+    "v": 4.995
+   },
+   {
+    "c": "IND",
+    "v": 4.936
+   },
+   {
+    "c": "MOZ",
+    "v": 4.935
+   },
+   {
+    "c": "RUS",
+    "v": 4.612
+   },
+   {
+    "c": "ARG",
+    "v": 4.39
+   },
+   {
+    "c": "AUT",
+    "v": 3.688
+   },
+   {
+    "c": "ARE",
+    "v": 3.326
+   },
+   {
+    "c": "ITA",
+    "v": 3.209
+   },
+   {
+    "c": "QAT",
+    "v": 3.005
+   },
+   {
+    "c": "FIN",
+    "v": 2.954
+   },
+   {
+    "c": "CZE",
+    "v": 2.927
+   },
+   {
+    "c": "GBR",
+    "v": 2.742
+   },
+   {
+    "c": "LBY",
+    "v": 2.479
+   },
+   {
+    "c": "SGP",
+    "v": 2.441
+   },
+   {
+    "c": "MEX",
+    "v": 2.415
+   },
+   {
+    "c": "TTO",
+    "v": 2.068
+   },
+   {
+    "c": "ROU",
+    "v": 1.681
+   },
+   {
+    "c": "HKG",
+    "v": 1.433
+   },
+   {
+    "c": "URY",
+    "v": 1.378
+   },
+   {
+    "c": "SRB",
+    "v": 1.374
+   },
+   {
+    "c": "CHE",
+    "v": 1.161
+   },
+   {
+    "c": "AUS",
+    "v": 1.047
+   },
+   {
+    "c": "KEN",
+    "v": 0.8594
+   },
+   {
+    "c": "CHL",
+    "v": 0.2632
+   },
+   {
+    "c": "SVN",
+    "v": 0.2517
+   },
+   {
+    "c": "NPL",
+    "v": 0.228
+   },
+   {
+    "c": "CPV",
+    "v": 0.1913
+   },
+   {
+    "c": "KGZ",
+    "v": 0.1242
+   },
+   {
+    "c": "DNK",
+    "v": 0.0807,
+    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+   },
+   {
+    "c": "HRV",
+    "v": 0.0802
+   },
+   {
+    "c": "SWE",
+    "v": 0.0788
+   },
+   {
+    "c": "NOR",
+    "v": 0.0543
+   },
+   {
+    "c": "BRA",
+    "v": 0.0295
+   },
+   {
+    "c": "IRQ",
+    "v": 0.0283
+   },
+   {
+    "c": "JOR",
+    "v": 0.025
+   },
+   {
+    "c": "PRY",
+    "v": 0.0206
+   },
+   {
+    "c": "MDA",
+    "v": 0.0183
+   },
+   {
+    "c": "LUX",
+    "v": 0.015
+   },
+   {
+    "c": "GRC",
+    "v": 0.0143
+   },
+   {
+    "c": "ISL",
+    "v": 0.0119
+   },
+   {
+    "c": "GEO",
+    "v": 0.0109
+   },
+   {
+    "c": "THA",
+    "v": 0.0066
+   },
+   {
+    "c": "HUN",
+    "v": 0.0065
+   },
+   {
+    "c": "BGR",
+    "v": 0.0048
+   },
+   {
+    "c": "IRN",
+    "v": 0.0029
+   },
+   {
+    "c": "ISR",
+    "v": 0.0028
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0028
+   },
+   {
+    "c": "UKR",
+    "v": 0.0017
+   },
+   {
+    "c": "NZL",
+    "v": 0.0017
+   },
+   {
+    "c": "COG",
+    "v": 0.0015
+   },
+   {
+    "c": "PRT",
+    "v": 0.0011
+   },
+   {
+    "c": "MNG",
+    "v": 0.001
+   },
+   {
+    "c": "BWA",
+    "v": 0.001
    }
   ],
   "n": "CEPII BACI HS92 iron ore (HS 260111, 260112), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"

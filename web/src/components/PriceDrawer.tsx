@@ -7,16 +7,25 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries, select } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, TOUCH } from '../lib/format';
+import { FAMILY_COLOR, TOUCH } from '../lib/format';
 import { loadEvents } from '../lib/freight';
 import {
   DAY_S,
+  FREQ_WORD,
+  GROUP_LABEL,
+  GROUP_ORDER,
   PRICE_COVERAGE_NOTE,
+  annualRun,
   closePrices,
   defaultSeriesIds,
+  findMeta,
   fmtObsDate,
   fmtPct,
   firstAtOrAfter,
+  groupOf,
+  inEstimate,
+  isLate,
+  monthlyFrom,
   periodStats,
   fmtPrice,
   loadPriceIndex,
@@ -32,13 +41,16 @@ import {
   seriesBounds,
   seriesCovering,
   seriesForCommodity,
+  spreadMetas,
   type LoadedSeries,
   type ParsedDate,
+  type PriceGroup,
   type PriceMeta,
 } from '../lib/prices';
 import { TimeChart, parseDate, parseEnd, type TimeMarker, type TimeSeries } from './charts/TimeChart';
+import { PriceBoard, PriceStatusLine } from './PriceBoard';
 import { CloseIcon } from './ui';
-import type { Family, FreightEvent } from '../types';
+import type { FreightEvent } from '../types';
 import '../styles/drawers.css';
 
 const PALETTE = ['#3ee6ff', '#ffb547', '#c7a3ff', '#7ee0a1', '#9db7ff'];
@@ -50,9 +62,9 @@ const RANGES = [
   { label: '20Y', seconds: 20 * 365.25 * DAY_S },
   { label: 'All', seconds: null as number | null },
 ];
-const FAMILY_ORDER: Family[] = ['energy', 'metals', 'softs', 'freight'];
-/** Price series keyed 'freight' (freight cost proxies) have no catalogue commodity. */
-const famOf = (k: string): Family | undefined => (k === 'freight' ? 'freight' : commodityMeta(k)?.family);
+const SPREAD_GROUP = 'Spreads and ratios';
+/** A series listed in the picker: a few words of its basis, the rest is in the side column. */
+const shortBasis = (b: string): string => (b.length > 110 ? b.slice(0, 107).replace(/[\s,;(]+\S*$/, '') + '…' : b);
 
 interface Lookup {
   query: string;
@@ -66,8 +78,8 @@ interface Win {
 function pickColors(list: PriceMeta[]): string[] {
   const used = new Set<string>();
   return list.map((m) => {
-    const fam = famOf(m.k);
-    const pref = fam ? FAMILY_COLOR[fam] : undefined;
+    const fam = groupOf(m);
+    const pref = fam !== 'index' ? FAMILY_COLOR[fam] : undefined;
     const c = pref && !used.has(pref) && PALETTE.includes(pref) ? pref : PALETTE.find((p) => !used.has(p)) ?? PALETTE[0];
     used.add(c);
     return c;
@@ -129,6 +141,10 @@ export function PriceDrawer() {
   const [noSeries, setNoSeries] = useState<string | null>(null);
   const [openedFor, setOpenedFor] = useState<string | null>(null);
   const [h, setH] = useState(160);
+  const [board, setBoard] = useState(false);
+  const [real, setReal] = useState(false);
+  const boardOpen = useRef(false);
+  boardOpen.current = board;
   const chartBox = useRef<HTMLDivElement>(null);
   const resetView = useRef(true);
   const pendingDate = useRef<string | null>(null);
@@ -154,7 +170,7 @@ export function PriceDrawer() {
         setNoSeries(lowerName(commodityMeta(k)?.name ?? k));
         next = [];
       } else if (!cur.length) next = defaultSeriesIds(k);
-      else if (k && !cur.some((id) => priceIndex.value.find((m) => m.id === id)?.k === k)) next = defaultSeriesIds(k);
+      else if (k && !cur.some((id) => findMeta(id)?.k === k)) next = defaultSeriesIds(k);
       if (next.join() !== cur.join()) {
         priceSeries.value = next;
         resetView.current = true;
@@ -169,15 +185,21 @@ export function PriceDrawer() {
     };
   }, [reqKey]);
 
+  // Real prices: each selected series is replaced by its annual real counterpart (constant 2010 US dollars, deflated by
+  // the MUV index). Possible only when every selected series has one.
+  const realOk = ids.length > 0 && ids.every((id) => !!findMeta(id)?.real);
+  const realOn = real && realOk;
+  const loadIds = realOn ? ids.map((id) => findMeta(id)!.real!) : ids;
+
   // ---- load the selected series lazily
   useEffect(() => {
-    if (!ids.length) {
+    if (!loadIds.length) {
       setData([]);
       return;
     }
     let alive = true;
     setLoading(true);
-    Promise.all(ids.map(loadSeries))
+    Promise.all(loadIds.map(loadSeries))
       .then((r) => {
         if (!alive) return;
         setData(r);
@@ -192,7 +214,11 @@ export function PriceDrawer() {
     return () => {
       alive = false;
     };
-  }, [ids.join()]);
+  }, [loadIds.join()]);
+
+  useEffect(() => {
+    if (!open) setBoard(false);
+  }, [open]);
 
   useEffect(() => {
     if (open && !events.length) loadEvents().then(setEvents).catch(() => undefined);
@@ -218,6 +244,8 @@ export function PriceDrawer() {
       values: bases ? merged.cols[i].map((v) => (v == null || bases[i] == null ? null : (v / bases[i]!) * 100)) : merged.cols[i],
       color: colors[i],
       scale: bases || d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
+      gaps: d.gaps,
+      step: d.meta.freq === 'A',
     }));
   }, [merged, data, colors, baseKey]);
   const xMin = merged ? merged.x[0] : 0;
@@ -285,10 +313,16 @@ export function PriceDrawer() {
   const lookupRows = useMemo(() => {
     if (!lookup || !ready) return null;
     const p = lookup.parsed;
-    const rows = data.map((d, i) => (p.precision === 'day' ? rowAt(d, colors[i], p.t) : periodRow(d, colors[i], p)));
+    const rows = data.map((d, i) => withYoy(d, p.precision === 'day' || d.meta.freq === 'A' ? rowAt(d, colors[i], p.t) : periodRow(d, colors[i], p), p));
     const answered = new Set(data.filter((_, i) => !rows[i].pre).map((d) => d.meta.k));
     // a series without data for the date names the other series of its commodity that have some, unless one is already charted
     return rows.map((r, i) => {
+      if (r.sparse) {
+        // the monthly average of the same commodity covers the whole month: offer it
+        const mon = data[i].meta.monthly ? findMeta(data[i].meta.monthly!) : undefined;
+        const offer = mon && !ids.includes(mon.id) && !loadIds.includes(mon.id) ? [mon] : [];
+        return offer.length ? { ...r, offer, offerLead: 'The monthly average of the same benchmark covers the whole period:' } : r;
+      }
       if (!r.pre || answered.has(data[i].meta.k)) return r;
       // the same benchmark at another frequency first ("Brent crude" for "Brent crude, daily spot")
       const head = data[i].meta.name.split(/[ ,]/)[0];
@@ -323,6 +357,26 @@ export function PriceDrawer() {
         m.push({ t, end, id: e.id, title: `${eventDate(e.date)}${e.end ? ' to ' + eventDate(e.end) : ''} · ${e.title}`, tag: e.kind, color: EVENT_COLOR[e.kind], subtle: true });
       }
     }
+    // changes of basis (thin lines), runs of annual values (grey tint) and months the source marks as estimates (amber tint)
+    data.forEach((d, i) => {
+      for (const b of d.meta.breaks ?? []) {
+        const t = parseDate(b.at);
+        if (t < xMin || t > xMax) continue;
+        m.push({ t, subtle: true, color: colors[i], tag: 'basis change', title: `${d.meta.name} · ${eventDate(b.at)}: ${b.now}${b.before ? ` (before: ${b.before})` : ''}` });
+      }
+      for (const [y0, y1] of d.meta.annual ?? []) {
+        const t = Date.UTC(y0, 0, 1) / 1000;
+        const end = Date.UTC(y1, 11, 31) / 1000;
+        if (end < xMin || t > xMax) continue;
+        m.push({ t, end, shade: true, color: '#98a4b2', tag: 'annual values', title: `${d.meta.name} · ${y0 === y1 ? y0 : `${y0} to ${y1}`}: one price for the year, repeated over its twelve months` });
+      }
+      for (const [a, b] of d.meta.est ?? []) {
+        const t = parseDate(a);
+        const end = parseEnd(b);
+        if (end < xMin || t > xMax) continue;
+        m.push({ t, end, shade: true, color: '#ffb547', tag: 'estimate', title: `${d.meta.name} · ${eventDate(a)}${b !== a ? ' to ' + eventDate(b) : ''}: estimated by the source` });
+      }
+    });
     if (lookup) {
       const e = endOfPeriod(lookup.parsed);
       m.push({
@@ -333,7 +387,7 @@ export function PriceDrawer() {
       });
     }
     return m;
-  }, [events, showEvents, lookup, merged, xMin, xMax]);
+  }, [events, showEvents, lookup, merged, xMin, xMax, data, colors]);
 
   // ---- chart height follows its box
   useEffect(() => {
@@ -350,7 +404,9 @@ export function PriceDrawer() {
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && !(e.target as HTMLElement)?.closest?.('.pd-pop')) closePrices();
+      if (e.key !== 'Escape' || (e.target as HTMLElement)?.closest?.('.pd-pop')) return;
+      if (boardOpen.current) setBoard(false);
+      else closePrices();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -399,7 +455,7 @@ export function PriceDrawer() {
   return (
     <section
       ref={rootRef}
-      class={`pd glass${open ? ' open' : ''}${data.length >= MAX_SERIES ? ' pd-tall' : ''}`}
+      class={`pd glass${open ? ' open' : ''}${data.length >= MAX_SERIES ? ' pd-tall' : ''}${board ? ' pd-board-open' : ''}`}
       aria-label="Price explorer"
       aria-hidden={!open}
     >
@@ -424,7 +480,7 @@ export function PriceDrawer() {
                       </small>
                     </button>
                     {data.length > 1 && (
-                      <button class="pd-chip-x" aria-label={`Remove ${d.meta.name}`} onClick={() => setIds(ids.filter((x) => x !== d.meta.id))}>
+                      <button class="pd-chip-x" aria-label={`Remove ${d.meta.name}`} onClick={() => setIds(ids.filter((_, j) => j !== i))}>
                         <CloseIcon />
                       </button>
                     )}
@@ -438,6 +494,9 @@ export function PriceDrawer() {
 
             <div class="pd-tools">
               <Picker meta={meta} ids={ids} onPick={addSeries} onRemove={(id) => setIds(ids.filter((x) => x !== id))} />
+              <button class="pd-add pd-board-btn" onClick={() => setBoard(true)} title="Every series with its last value and its changes">
+                Price board
+              </button>
               <div class="tc-ranges" role="group" aria-label="Time range">
                 {shown.map((r) => (
                   <button
@@ -495,6 +554,21 @@ export function PriceDrawer() {
                 <span class="switch" aria-hidden="true" />
                 Events
               </button>
+              <button
+                class="pd-toggle"
+                role="switch"
+                aria-checked={realOn}
+                disabled={!realOk}
+                onClick={() => setReal(!real)}
+                title={
+                  realOk
+                    ? 'Annual averages in constant 2010 US dollars, deflated by the World Bank MUV index (monthly and daily prices stay in current dollars)'
+                    : 'Real prices exist for the World Bank price series (and Brent, WTI and Henry Hub through them), not for the other series or for spreads'
+                }
+              >
+                <span class="switch" aria-hidden="true" />
+                Real prices
+              </button>
             </div>
 
             {!noSeries && openedFor && PRICE_COVERAGE_NOTE[openedFor] && data.some((d) => d.meta.k === openedFor) && (
@@ -548,11 +622,18 @@ export function PriceDrawer() {
                   <i />
                   <span>
                     {d.meta.name}: {sourceLabel(d.meta.s)}
-                    {d.meta.basis ? ` · ${d.meta.basis}` : ''}
-                    {d.meta.note ? ` · ${d.meta.note}` : ''} · {d.meta.unit} · {d.meta.freq === 'D' ? 'daily' : 'monthly'} {d.meta.start.slice(0, 7)} to {d.meta.end.slice(0, 7)}
+                    {d.meta.basis ? ` · ${shortBasis(d.meta.basis)}` : ''}
+                    {d.meta.note ? ` · ${d.meta.note}` : ''} · {d.meta.unit} · {FREQ_WORD[d.meta.freq]} {d.meta.start.slice(0, 7)} to {d.meta.end.slice(0, 7)}
+                    {d.gaps?.length ? ` · ${d.gaps.length} stretch${d.gaps.length === 1 ? '' : 'es'} of more than 7 days without a quote left blank` : ''}
+                    {isLate(d.meta) ? ' · late: no new value yet' : ''}
                   </span>
                 </div>
               ))}
+              {realOn && (
+                <div class="pd-hint">
+                  Real prices: annual averages in constant 2010 US dollars, deflated by the World Bank MUV index (workbook CMO-Historical-Data-Annual, sheet "Annual Prices (Real)").
+                </div>
+              )}
               {idxOn && (
                 <div class={forcedIndex ? 'pd-hint pd-warn' : 'pd-hint'}>
                   {forcedIndex ? `${unitCount} different units cannot share two axes, so the chart is indexed: ` : 'Index: '}
@@ -680,6 +761,7 @@ export function PriceDrawer() {
                           <b class="num pd-val">
                             {r.value} {r.unit}
                           </b>
+                          {r.change && <> · {r.change}</>}
                         </>
                       )}
                       {r.detail && <> · {r.detail}</>}
@@ -687,7 +769,7 @@ export function PriceDrawer() {
                       {r.post && <em> · {r.post}</em>}
                       {r.offer && r.offer.length > 0 && lookup && (
                         <span class="pd-offers">
-                          Other {lowerName(commodityMeta(r.k)?.name ?? r.k)} series with data for {lookupLabel(lookup.parsed)}:
+                          {r.offerLead ?? `Other ${lowerName(commodityMeta(r.k)?.name ?? r.k)} series with data for ${lookupLabel(lookup.parsed)}:`}
                           {r.offer.map((m) => (
                             <button
                               key={m.id}
@@ -697,7 +779,7 @@ export function PriceDrawer() {
                               onClick={() => addSeries(m.id)}
                             >
                               {full ? '' : '+ '}
-                              {m.name} · {m.freq === 'D' ? 'daily' : 'monthly'}, {m.start.slice(0, 4)} to {m.end.slice(0, 4)}
+                              {m.name} · {FREQ_WORD[m.freq]}, {m.start.slice(0, 4)} to {m.end.slice(0, 4)}
                             </button>
                           ))}
                         </span>
@@ -709,8 +791,26 @@ export function PriceDrawer() {
                 <div class="pd-empty">Hover the chart, or type a year, a quarter, a month or a day (for example 2008, Q3 2008 or 14 Mar 2008) to read the exact value.</div>
               )}
             </div>
+            {ready && <BasisBlock data={data} colors={colors} />}
+            <div class="pd-hint">
+              <PriceStatusLine />
+            </div>
           </aside>
         </div>
+      )}
+      {everOpen && board && (
+        <PriceBoard
+          onClose={() => setBoard(false)}
+          onOpen={(id) => {
+            priceSeries.value = [id];
+            resetView.current = true;
+            setNoSeries(null);
+            setFocus(0);
+            setLookup(null);
+            setQuery('');
+            setBoard(false);
+          }}
+        />
       )}
     </section>
   );
@@ -734,12 +834,44 @@ interface Row {
   post: string | null;
   /** series of the same commodity that cover the date asked */
   offer?: PriceMeta[];
+  /** words that introduce the offer, when it is not the default */
+  offerLead?: string;
+  /** a daily series with too few quotes in the period asked for it to stand for the period */
+  sparse?: boolean;
+  /** the figure as a number, and its change on the same period one year earlier ("+74% on Jul 2007") */
+  num?: number;
+  change?: string;
 }
 
 const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
 /** "14 Mar 2008" for a daily quote; "Mar 2008 monthly average" for a monthly price ("monthly value" for an index). */
-const obsLabel = (d: LoadedSeries, i: number) =>
-  fmtObsDate(d.x[i], d.meta.freq) + (d.meta.freq !== 'M' ? '' : d.meta.unit.startsWith('index') ? ' monthly value' : ' monthly average');
+const obsLabel = (d: LoadedSeries, i: number) => {
+  const f = d.meta.freq;
+  const year = new Date(d.x[i] * 1000).getUTCFullYear();
+  // twelve identical monthly figures are one annual price, not twelve monthly averages
+  if (f === 'A' || (f === 'M' && annualRun(d.meta, year))) return `${year} annual value`;
+  return fmtObsDate(d.x[i], f) + (f !== 'M' ? '' : d.meta.unit.startsWith('index') ? ' monthly value' : ' monthly average');
+};
+
+/** What a figure of a series that opens with, or contains, annual values is: said next to the value. */
+function annualNote(m: PriceMeta, year: number): string | null {
+  const run = annualRun(m, year);
+  if (!run) return null;
+  const mf = monthlyFrom(m);
+  const lead = mf != null && run[0] === Number(m.start.slice(0, 4));
+  return `one price for the year, repeated over its twelve months${lead ? `; monthly data start in ${mf}` : ''}`;
+}
+
+/** Caveats of one observation: an annual value in a monthly series, a month the source estimates. */
+function obsCaveats(d: LoadedSeries, i: number): string[] {
+  const out: string[] = [];
+  if (d.meta.freq === 'M') {
+    const a = annualNote(d.meta, new Date(d.x[i] * 1000).getUTCFullYear());
+    if (a) out.push(a);
+  }
+  if (d.meta.freq !== 'D' && inEstimate(d.meta, d.x[i])) out.push('estimated by the source');
+  return out;
+}
 
 function blankRow(d: LoadedSeries, color: string): Row {
   return { id: d.meta.id, k: d.meta.k, name: d.meta.name, color, unit: d.meta.unit, source: sourceLabel(d.meta.s), label: null, value: null, detail: null, pre: null, post: null };
@@ -763,7 +895,8 @@ function rowAt(d: LoadedSeries, color: string, t: number): Row {
   const o = observationAt(d, f, t);
   if (o.kind === 'missing') return { ...row, pre: 'no value at this date' };
   if (o.kind === 'before' || o.kind === 'after') return outside(d, row, o.kind, o.i, fmtObsDate(t, f), t);
-  const out = { ...row, label: obsLabel(d, o.i), value: fmtPrice(d.v[o.i]) };
+  const notes = obsCaveats(d, o.i);
+  const out = { ...row, label: obsLabel(d, o.i), value: fmtPrice(d.v[o.i]), num: d.v[o.i] ?? undefined, post: notes.length ? notes.join(' · ') : null };
   if (o.kind !== 'previous') return out;
   const gap = Math.round((t - d.x[o.i]) / DAY_S);
   const day = `${WEEKDAY[new Date(t * 1000).getUTCDay()]} ${fmtObsDate(t, 'D')}`;
@@ -795,18 +928,75 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
     const months = (to.getUTCFullYear() - from.getUTCFullYear()) * 12 + to.getUTCMonth() - from.getUTCMonth();
     if (st.n < months) caveats.push(`${st.n} of ${months} months have a value`);
   }
-  const post = caveats.length ? `partial period: ${caveats.join('; ')}` : null;
-  if (f === 'M' && p.precision === 'month') return { ...row, label: obsLabel(d, st.min.i), value: fmtPrice(st.avg), post };
+  // monthly series: months that are annual values or estimates of the source
+  let annualMonths = 0;
+  let estMonths = 0;
+  let months = 0;
+  if (f === 'M') {
+    for (let t = Math.max(p.t, d.x[b.first]); t < Math.min(t1, dataEnd); ) {
+      const dt = new Date(t * 1000);
+      months++;
+      if (annualRun(d.meta, dt.getUTCFullYear())) annualMonths++;
+      if (inEstimate(d.meta, t)) estMonths++;
+      t = Date.UTC(dt.getUTCFullYear(), dt.getUTCMonth() + 1, 1) / 1000;
+    }
+  }
+  const allAnnual = months > 0 && annualMonths === months;
+  if (annualMonths && !allAnnual) caveats.push(`${plural(annualMonths, 'month')} of ${months} are annual values (one price for the year)`);
+  // a daily series with far fewer quotes than the period has trading days does not stand for the period
+  const expected = f === 'D' ? { month: 21, quarter: 63, year: 252 }[p.precision as 'month' | 'quarter' | 'year'] : undefined;
+  const sparse = expected != null && st.n < expected * 0.7;
+  if (estMonths) caveats.push(`${plural(estMonths, 'month')} estimated by the source`);
+  const post = [
+    allAnnual ? annualNote(d.meta, new Date(Math.max(p.t, d.x[b.first]) * 1000).getUTCFullYear()) : null,
+    sparse ? `the file has a quote on only ${st.n} of about ${expected} trading days: this average does not stand for the period` : null,
+    caveats.length ? `partial period: ${caveats.join('; ')}` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ') || null;
+  if (f === 'M' && p.precision === 'month') return { ...row, label: obsLabel(d, st.min.i), value: fmtPrice(st.avg), num: st.avg, post };
   const on = (i: number) => fmtObsDate(d.x[i], f);
   return {
     ...row,
     // the source publishes the observations, not this average
-    source: `average computed by the atlas from ${row.source}`,
-    label: f === 'M' ? `${name} average of ${plural(st.n, d.meta.unit.startsWith('index') ? 'monthly value' : 'monthly average')}` : `${name} average`,
+    source: allAnnual ? row.source : `average computed by the atlas from ${row.source}`,
+    label: allAnnual
+      ? `${name} annual value`
+      : f === 'M'
+        ? `${name} average of ${plural(st.n, d.meta.unit.startsWith('index') ? 'monthly value' : 'monthly average')}`
+        : `${name} average`,
     value: fmtPrice(st.avg),
-    detail: `low ${fmtPrice(st.min.v)} (${on(st.min.i)}) · high ${fmtPrice(st.max.v)} (${on(st.max.i)})${f === 'M' ? '' : ` · ${plural(st.n, 'daily price')}`}`,
+    num: st.avg,
+    detail: allAnnual ? null : `low ${fmtPrice(st.min.v)} (${on(st.min.i)}) · high ${fmtPrice(st.max.v)} (${on(st.max.i)})${f === 'M' ? '' : ` · ${plural(st.n, 'daily price')}`}`,
     post,
+    sparse,
   };
+}
+
+/** The same day, month, quarter or year one year earlier. */
+function yearBefore(p: ParsedDate): ParsedDate {
+  const d = new Date(p.t * 1000);
+  return { ...p, t: Date.UTC(d.getUTCFullYear() - 1, d.getUTCMonth(), d.getUTCDate()) / 1000 };
+}
+
+/** Adds "+74% on Jul 2007": the figure against the same period a year earlier, from the same series (arithmetic on the published values). */
+function withYoy(d: LoadedSeries, row: Row, p: ParsedDate): Row {
+  if (row.num == null || row.pre) return row;
+  const q = yearBefore(p);
+  let prev: number | null = null;
+  if (p.precision === 'day' || d.meta.freq === 'A') {
+    const o = observationAt(d, d.meta.freq, q.t);
+    if (o.kind === 'exact' || o.kind === 'period' || (o.kind === 'previous' && d.x[o.i] > q.t - 7 * DAY_S)) prev = d.v[o.i];
+  } else {
+    const st = periodStats(d, q.t, lookupEnd(q) - 1);
+    // a daily average over a handful of quotes is not a reference
+    const enough = d.meta.freq !== 'D' || st == null || st.n >= { month: 15, quarter: 44, year: 176, day: 1 }[q.precision];
+    prev = st && enough ? st.avg : null;
+  }
+  if (prev == null || !(prev > 0) || row.num < 0) return row;
+  // a monthly series answers a day with its month: the reference is the same month a year before
+  const label = d.meta.freq === 'A' ? String(new Date(q.t * 1000).getUTCFullYear()) : p.precision === 'day' && d.meta.freq === 'M' ? fmtObsDate(q.t, 'M') : lookupLabel(q);
+  return { ...row, change: `${fmtPct((row.num / prev - 1) * 100)} on ${label}` };
 }
 
 /** Last, change, low and high of one series over the visible window. */
@@ -836,6 +1026,62 @@ function windowStats(fs: LoadedSeries, win: Win) {
     max: { v: fs.v[mx]!, d: d(mx) },
     n: last - first + 1,
   };
+}
+
+/** What each charted price measures and when that changed, read from the source's own description. */
+function BasisBlock({ data, colors }: { data: LoadedSeries[]; colors: string[] }) {
+  if (!data.some((d) => d.meta.basis || d.meta.breaks?.length || d.meta.annual?.length || d.meta.est?.length)) return null;
+  return (
+    <div class="pd-basis" aria-label="What each price measures">
+      <div class="pd-read-head">
+        <span>What the price measures</span>
+      </div>
+      <div class="pd-bs-key">Thin lines on the chart mark a change of basis, grey bands one price a year repeated over the months, amber bands months the source estimates: hover them.</div>
+      {data.map((d, i) => {
+        const m = d.meta;
+        const mf = monthlyFrom(m);
+        const inner = (m.annual ?? []).filter((r) => !(mf != null && r[0] === Number(m.start.slice(0, 4))));
+        const runs = (l: [number, number][]) => l.map((r) => (r[0] === r[1] ? r[0] : `${r[0]} to ${r[1]}`)).join(', ');
+        return (
+          <div class="pd-bs" key={m.id} style={{ '--c': colors[i] }}>
+            <b>
+              <i />
+              {m.name}
+            </b>
+            {m.basis && <p>{m.basis}</p>}
+            {!!m.breaks?.length && (
+              <ul>
+                {[...m.breaks].reverse().map((b) => (
+                  <li key={b.at}>
+                    <b class="num">{eventDate(b.at)}</b> {b.now}
+                    {b.before && <em> (before: {b.before})</em>}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {mf != null && (
+              <p>
+                {m.start.slice(0, 4)} to {mf - 1}: one price a year, repeated over the months. Monthly data start in {mf}.
+              </p>
+            )}
+            {inner.length > 0 && <p>One price a year, repeated over the months: {runs(inner)}.</p>}
+            {!!m.est?.length && (
+              <p>
+                Estimated by the source:{' '}
+                {m.est
+                  .map((r) => {
+                    const [a, b] = m.freq === 'A' ? [r[0].slice(0, 4), r[1].slice(0, 4)] : [eventDate(r[0]), eventDate(r[1])];
+                    return a === b ? a : `${a} to ${b}`;
+                  })
+                  .join(', ')}
+                .
+              </p>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 function Tile(props: { label: string; value: string; unit?: string; sub: string; tone?: 'up' | 'down' }) {
@@ -879,20 +1125,19 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
     };
   }, [open]);
 
+  const spreads = useMemo(() => spreadMetas(props.meta), [props.meta]);
   const groups = useMemo(() => {
     const needle = q.trim().toLowerCase();
-    const out: { fam: Family; items: PriceMeta[] }[] = [];
-    for (const fam of FAMILY_ORDER) {
-      const items = props.meta.filter((m) => {
-        const cm = commodityMeta(m.k);
-        if ((famOf(m.k) ?? 'energy') !== fam) return false;
-        if (!needle) return true;
-        return `${m.name} ${cm?.name ?? ''} ${m.unit} ${m.id}`.toLowerCase().includes(needle);
-      });
+    const match = (m: PriceMeta) => !needle || `${m.name} ${commodityMeta(m.k)?.name ?? ''} ${m.unit} ${m.id}`.toLowerCase().includes(needle);
+    const out: { fam: PriceGroup | 'spread'; items: PriceMeta[] }[] = [];
+    for (const fam of GROUP_ORDER) {
+      const items = props.meta.filter((m) => !m.hidden && groupOf(m) === fam && match(m));
       if (items.length) out.push({ fam, items });
     }
+    const sp = spreads.filter(match);
+    if (sp.length) out.push({ fam: 'spread', items: sp });
     return out;
-  }, [props.meta, q]);
+  }, [props.meta, spreads, q]);
 
   const option = (m: PriceMeta) => {
     const sel = props.ids.includes(m.id);
@@ -920,10 +1165,11 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
         <span class="pd-opt-name">
           {m.name}
           <small>{commodityMeta(m.k)?.name ?? m.k}</small>
-          {m.basis && <em class="pd-opt-basis">{m.basis}</em>}
+          {m.basis && <em class="pd-opt-basis">{shortBasis(m.basis)}</em>}
         </span>
         <span class="pd-opt-meta num">
-          {m.unit} · {m.freq === 'D' ? 'daily' : 'monthly'} {m.start.slice(0, 4)}
+          {m.unit} · {FREQ_WORD[m.freq]} {m.start.slice(0, 4)}
+          {m.closed ? ` to ${m.end.slice(0, 4)}` : ''}
         </span>
         {sel && <span class="pd-check" aria-hidden="true">✓</span>}
       </button>
@@ -968,14 +1214,14 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
             {full && !q.trim() && (
               <div>
                 <div class="pd-fam">Shown now · click to remove</div>
-                {props.ids.map((id) => props.meta.find((m) => m.id === id)).map((m) => m && option(m))}
+                {props.ids.map((id) => findMeta(id, props.meta)).map((m) => m && option(m))}
               </div>
             )}
             {groups.length === 0 && <div class="pd-empty">No series match.</div>}
             {groups.map((g) => (
               <div key={g.fam}>
-                <div class="pd-fam" style={{ color: FAMILY_COLOR[g.fam] }}>
-                  {FAMILY_LABEL[g.fam]}
+                <div class="pd-fam" style={{ color: g.fam === 'index' || g.fam === 'spread' ? undefined : FAMILY_COLOR[g.fam] }}>
+                  {g.fam === 'spread' ? SPREAD_GROUP : GROUP_LABEL[g.fam]}
                 </div>
                 {g.items.map(option)}
               </div>

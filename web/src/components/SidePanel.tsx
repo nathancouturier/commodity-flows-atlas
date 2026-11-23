@@ -448,7 +448,8 @@ function RouteList() {
     </button>
   );
 
-  const others = visible.filter((r) => !r.benchmark);
+  const others = visible.filter((r) => !r.benchmark && !r.generated);
+  const atlas = visible.filter((r) => r.generated);
   const keep = (key: string) => (e: Event) => {
     const isOpen = (e.currentTarget as HTMLDetailsElement).open;
     setOpened((prev) => {
@@ -484,6 +485,26 @@ function RouteList() {
             </summary>
             {others.map(row)}
           </details>
+        </>
+      )}
+      {atlas.length > 0 && (
+        <>
+          <h4 class="route-sub">Atlas corridors</h4>
+          {vesselClassList.value.map((v) => {
+            const items = atlas.filter((r) => r.vclass === v.id);
+            if (!items.length) return null;
+            const key = `gen:${v.id}`;
+            return (
+              <details class="route-group" key={key} open={opened.has(key) || vc.size > 0 || items.some((r) => r.id === selId)} onToggle={keep(key)}>
+                <summary>
+                  {dot(SEGMENT_COLOR[v.segment])}
+                  {shortName(v.name)}
+                  <span class="meta">{items.length}</span>
+                </summary>
+                {items.map(row)}
+              </details>
+            );
+          })}
         </>
       )}
       {!visible.length && <p class="muted" style={{ fontSize: '12px' }}>No routes for the selected vessel classes.</p>}
