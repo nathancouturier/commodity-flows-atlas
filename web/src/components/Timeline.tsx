@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { choroInfo, commodity, historyOpen, metric, select, selection, sheetSnap, year, type SheetSnap } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
+import { eventShownFor, loadAlertEvents, type AlertEvents } from '../lib/events';
 import { lowerName, toggleHistory } from '../lib/prices';
 import { fmt, TOUCH } from '../lib/format';
 import { isSheetLayout } from '../map/controller';
@@ -48,6 +49,7 @@ export function Timeline() {
   const k = commodity.value;
   const [years, setYears] = useState<number[]>([]);
   const [events, setEvents] = useState<FreightEvent[]>([]);
+  const [byAlert, setByAlert] = useState<AlertEvents>(new Map());
   const [playing, setPlaying] = useState(false);
   const [files, setFiles] = useState<LaneFile[]>([]);
   const barRef = useRef<HTMLElement>(null);
@@ -63,6 +65,7 @@ export function Timeline() {
       .then((f) => setYears(f.years))
       .catch(() => undefined);
     loadEvents().then(setEvents).catch(() => undefined);
+    loadAlertEvents().then(setByAlert);
   }, [open]);
 
   const first = years[0];
@@ -154,18 +157,18 @@ export function Timeline() {
   const span = end != null ? end - first : 1;
   const dataFrac = end != null ? (last - first) / span : 1;
 
-  // with a commodity chosen, only the events that name it in their own text are marked
+  // with a commodity chosen, the events that name it, name no commodity at all or belong to an alert that covers it are marked (lib/events.ts)
   const ticks = useMemo(() => {
     if (first == null || end == null) return [];
     return events
-      .filter((e) => !k || !!e.commodities?.includes(k))
+      .filter((e) => !k || eventShownFor(e, k, byAlert))
       .map((e) => {
         const frac = yearFraction(e.date);
         return { e, frac, pos: (frac - first) / (end - first) };
       })
       .filter((x) => x.pos >= 0 && x.pos <= 1)
       .sort((a, b) => a.frac - b.frac);
-  }, [events, first, end, k]);
+  }, [events, first, end, k, byAlert]);
 
   const cur = y ?? last;
   const pctPos = first == null || last === first ? 0 : ((cur - first) / (last - first)) * 100;

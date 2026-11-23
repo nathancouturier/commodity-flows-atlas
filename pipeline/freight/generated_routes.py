@@ -302,8 +302,9 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
                     hand_ids[rid] += r["t"]
             end = {e: (iso, sh) for e, iso, sh in d["named"]}
             # the end of the route page says the country when the name does
-            a_region = country(end["load"][0]) if "load" in end else d["a_label"]
-            b_region = country(end["dis"][0]) if "dis" in end else d["b_label"]
+            bare = lambda n: n[4:] if n.startswith("the ") else n  # noqa: E731
+            a_region = bare(country(end["load"][0])) if "load" in end else d["a_label"]
+            b_region = bare(country(end["dis"][0])) if "dis" in end else d["b_label"]
             defs.append({
                 "id": ids, "name": d["name"], "benchmark": False, "generated": True, "vclass": big["cls"], "cargoes": [p["k"]],
                 "from": {"region": a_region, "ports": [{"name": ports[big["load"]][1], "c": ports[big["load"]][2]}]},

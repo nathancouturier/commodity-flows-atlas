@@ -2,13 +2,14 @@
 import type { ComponentChildren } from 'preact';
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
 import type { Alert, Chokepoint, Company, Fig, HistTable, InfraType, Ranked, StatusNote } from '../types';
-import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
+import { commodityMeta, countryName, isCountry, load, sourceLabel, sources } from '../lib/data';
+import { trendOf } from '../lib/tableYears';
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
 import { GROUP_LABEL, loadChokepoints } from '../lib/freight';
 import { select } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
 import { openAbout } from './AboutHost';
-import { EventList } from './EventList';
+import { checkedLabel } from '../lib/events';
 import '../styles/lane-table.css';
 import '../styles/tables-by-year.css';
 
@@ -216,52 +217,76 @@ function inSentence(name: string): string {
   return /^(Bab |Cape Horn)/.test(short) ? short : `the ${short}`;
 }
 
-/** The passage line of a banner: the traffic figure with its date and source, then, on a commodity page, the exposure of that commodity. */
-function PassageLine(props: { m: Alert['measures'][number]; commodity?: string; chk?: Chokepoint }) {
-  const { m, commodity: k, chk } = props;
+/** The figure line of one passage: "Bab el-Mandeb: transits 36% of the 2023 average, 28 days to 15 Nov 2026". */
+function PassageFigure(props: { m: Alert['measures'][number]; full?: boolean; chip?: { text: string; title: string } | null }) {
+  const { m, full, chip } = props;
   const ref = ofReference(m);
   const yr = againstYear(m);
   const short = m.name.replace(/ \(.*\)$/, '');
-  const est = k ? (chk?.estimates ?? []).filter((e) => e.k === k) : [];
   const mt = m.mt.now != null ? ` · about ${fmt(m.mt.now)} Mt of cargo` : '';
   return (
-    <div class="alert-pass">
-      <div class="alert-pass-fig">
-        {ref ? (
-          <>
-            <b>{short}:</b> transits <b class="num">{ref}</b>
-            {yr && <> · {yr}</>}
-          </>
-        ) : (
-          <>
-            <b>{short}:</b> {yr ?? 'no comparison available'}
-          </>
-        )}
-      </div>
-      <div class="alert-pass-sub num" title="Transits and estimated cargo of the vessels IMF PortWatch counts at the passage, summed over the window. Data adapted from IMF PortWatch.">
-        {m.days} days to {dayLabel(m.to)}
-        {m.transits.now != null && <> · {fmt(m.transits.now)} transits</>}
-        {mt} · {shortSource(m.s)}
-      </div>
-      {est.map((e) => (
-        <div class="alert-expo" key={`${e.k}-${e.p ?? ''}`}>
-          {exposureText(k!, e)} crossed{' '}
-          <button class="alert-pass-link" onClick={() => select({ kind: 'chokepoint', id: m.chokepoint })}>
-            {inSentence(m.name)}
-          </button>{' '}
-          in {e.f.y}. <EstMark />
-        </div>
-      ))}
+    <div class="alert-pass-fig">
+      {chip && (
+        <span class="alert-sev" title={chip.title}>
+          {chip.text}
+        </span>
+      )}
+      {ref ? (
+        <>
+          <b>{short}:</b> transits <b class="num">{ref}</b>
+          {full && yr && <> · {yr}</>}
+        </>
+      ) : (
+        <>
+          <b>{short}:</b> {yr ?? 'no comparison available'}
+        </>
+      )}
+      <span
+        class="alert-pass-sub"
+        title="Transits and estimated cargo of the vessels IMF PortWatch counts at the passage, summed over the window. Data adapted from IMF PortWatch."
+      >
+        {' '}
+        · {m.days} days to {dayLabel(m.to)}
+        {full && m.transits.now != null && <> · {fmt(m.transits.now)} transits</>}
+        {full && mt} · {shortSource(m.s)}
+      </span>
     </div>
   );
+}
+
+/** What the Atlas estimates say about one commodity and one passage: "At least 27%, up to 32% of seaborne crude oil crossed the Strait of Hormuz in 2024." */
+function ExposureLine(props: { k: string; m: Alert['measures'][number]; e: NonNullable<Chokepoint['estimates']>[number] }) {
+  const { k, m, e } = props;
+  return (
+    <div class="alert-expo">
+      {exposureText(k, e)} crossed{' '}
+      <button class="alert-pass-link" onClick={() => select({ kind: 'chokepoint', id: m.chokepoint })}>
+        {inSentence(m.name)}
+      </button>{' '}
+      in {e.f.y}. <EstMark />
+    </div>
+  );
+}
+
+/** "High: 64% below 2023" (the severity word and the rule that gave it), with the passage when it is not the one shown. */
+function severityLine(a: Alert, shownPassage: string): string | null {
+  if (!a.severity) return null;
+  const word = SEVERITY_WORD[a.severity];
+  const d = a.decidedBy;
+  if (!d) return word;
+  const g = Math.round(Math.abs(d.gap));
+  const rule = g === 0 ? `level with ${d.refYear}` : `${g}% ${d.gap < 0 ? 'below' : 'above'} ${d.refYear}`;
+  return `${word}: ${rule}${d.chokepoint !== shownPassage ? ` at ${d.name.replace(/ \(.*\)$/, '')}` : ''}`;
 }
 
 /**
  * Dated disruption banners. Alerts are matched by commodity, country, or chokepoint ids;
  * `status` are lane/route-specific notes, de-duplicated against the alerts by event id.
- * Each banner shows the traffic of its passages against the year before and 2023 (IMF PortWatch), the date of the
- * last observation, the date its text was reviewed and, on a commodity page, the commodity's exposure to each passage.
- * The events linked to the commodity, route or country come with it (EventList).
+ * A banner is compact: the title, the severity with its rule ("High: 64% below 2023"), the worst passage in one line with the
+ * date of its last observation (IMF PortWatch) and, on a commodity page, the commodity's exposure to that passage. "Details"
+ * unfolds the rest: the text, the other passages and their windows, the date the text was checked against its source, how the
+ * commodities and countries of the banner were derived, and the reason of any country added by hand.
+ * The events of a commodity, route or country are a section of their own further down the page (EventList).
  */
 type AlertProps = { commodity?: string; country?: string; route?: string; chokepoints?: string[]; status?: StatusNote[]; expanded?: boolean };
 
@@ -274,6 +299,83 @@ function CollapsedAlerts(props: AlertProps & { count: number; high: boolean; tit
       <span>{props.titles.join(' · ')}</span>
       <span class="alert-more">Show</span>
     </button>
+  );
+}
+
+function AlertCard(props: { a: Alert; cps: string[]; commodity?: string; chks: Chokepoint[] }) {
+  const { a, cps, commodity: k, chks } = props;
+  const [open, setOpen] = useState(false);
+  // on a passage page the figures are those of that passage; elsewhere the passage that decided the severity comes first
+  const own = a.measures.filter((m) => cps.includes(m.chokepoint));
+  const ordered = [...a.measures].sort((x, y) => Number(y.chokepoint === a.decidedBy?.chokepoint) - Number(x.chokepoint === a.decidedBy?.chokepoint));
+  const shown = own.length ? own : ordered;
+  const first = shown[0];
+  const estOf = (m: Alert['measures'][number]) => (k ? (chks.find((c) => c.id === m.chokepoint)?.estimates ?? []).filter((e) => e.k === k) : []);
+  const exposures = a.measures.flatMap((m) => estOf(m).map((e) => ({ m, e })));
+  // one exposure line in the banner: the passage shown when the commodity has an estimate there, else the passage with the largest share
+  const lead = (first && exposures.find((x) => x.m === first)) ?? [...exposures].sort((x, y) => y.e.f.v - x.e.f.v)[0];
+  const rest = exposures.filter((x) => x !== lead);
+  const sev = severityLine(a, first?.chokepoint ?? '');
+  const checked = checkedLabel(a.checked, dayLabel);
+  const added = a.override?.addCountries ?? [];
+  return (
+    <div class={`alert alert-${a.severity ?? 'low'}`} role="note">
+      <div class="alert-head">
+        <b>{a.title}</b>
+        <span class="alert-links">
+          <button onClick={() => setOpen(!open)} aria-expanded={open}>
+            {open ? 'Hide details' : 'Details'}
+          </button>
+          <a href={a.src} target="_blank" rel="noopener">
+            Source ↗
+          </a>
+        </span>
+      </div>
+      {first && <PassageFigure m={first} chip={sev ? { text: sev, title: a.severityNote } : null} />}
+      {lead && <ExposureLine k={k!} m={lead.m} e={lead.e} />}
+      {open && (
+        <div class="alert-det">
+          <p>
+            <b>Since {sinceLabel(a.since)}.</b> {a.text}
+          </p>
+          {a.severityNote && <p class="muted">{a.severityNote}</p>}
+          {a.measures.map((m) => (
+            <PassageFigure key={m.chokepoint} m={m} full />
+          ))}
+          {rest.length > 0 && (
+            <>
+              {rest.map(({ m, e }) => (
+                <ExposureLine key={`${m.chokepoint}-${e.k}-${e.p ?? ''}`} k={k!} m={m} e={e} />
+              ))}
+              <div class="alert-note muted">These passages are on the same routes: the shares are not additive.</div>
+            </>
+          )}
+          <p class="muted">
+            {checked ?? 'The text of this banner has not been checked against its source.'}
+            {a.also?.map((x) => (
+              <span key={x.url}>
+                {' · '}
+                <a href={x.url} target="_blank" rel="noopener">
+                  {x.label} ↗
+                </a>
+              </span>
+            ))}
+          </p>
+          <p class="muted">
+            {a.derived}
+            {added.length > 0 && (
+              <>
+                {' '}
+                Added by the atlas: {added.map((c) => countryName(c)).join(', ')}. {a.override?.reason}
+              </>
+            )}
+          </p>
+          <div class="alert-links">
+            <button onClick={() => select({ kind: 'event', id: a.event })}>Open the event</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -305,37 +407,9 @@ function AlertList(props: AlertProps) {
   }
   return (
     <div class="alerts">
-      {hit.map((a) => {
-        // on a passage page the figures are those of that passage; elsewhere all the passages of the alert
-        const own = a.measures.filter((m) => cps.includes(m.chokepoint));
-        const shown = own.length ? own : a.measures;
-        return (
-          <div class={`alert alert-${a.severity ?? 'low'}`} role="note" key={a.id}>
-            <div class="alert-head">
-              <b>{a.title}</b>
-              <span class="alert-since num">
-                {a.severity && (
-                  <span class="alert-sev" title={a.severityNote}>
-                    {SEVERITY_WORD[a.severity]}
-                  </span>
-                )}
-                since {sinceLabel(a.since)}
-              </span>
-            </div>
-            <p>{a.text}</p>
-            {shown.map((m) => (
-              <PassageLine key={m.chokepoint} m={m} commodity={props.commodity} chk={chks.find((c) => c.id === m.chokepoint)} />
-            ))}
-            <div class="alert-reviewed muted">Text reviewed on {dayLabel(a.reviewed)}</div>
-            <div class="alert-links">
-              <button onClick={() => select({ kind: 'event', id: a.event })}>Details</button>
-              <a href={a.src} target="_blank" rel="noopener">
-                Source ↗
-              </a>
-            </div>
-          </div>
-        );
-      })}
+      {hit.map((a) => (
+        <AlertCard key={a.id} a={a} cps={cps} commodity={props.commodity} chks={chks} />
+      ))}
       {notes.map((n, i) => (
         <div class="alert alert-medium" role="note" key={'n' + i}>
           <p>{n.text}</p>
@@ -351,12 +425,7 @@ function AlertList(props: AlertProps) {
 }
 
 export function AlertBanners(props: AlertProps) {
-  return (
-    <>
-      <AlertList {...props} />
-      <EventList commodity={props.commodity} country={props.country} route={props.route} />
-    </>
-  );
+  return <AlertList {...props} />;
 }
 
 /** Smallest size a key figure shrinks to before it is allowed to wrap, px. */
@@ -424,9 +493,10 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
 
 /**
  * Small trend line of a series (inline SVG): one segment per pair of years that both have a figure, a dot on the year
- * shown. The vertical scale is the series' own range.
+ * shown. The vertical scale is the series' own range. `breaks`: years (indexes) the line does not join to the year
+ * before (the entity of the row changes there).
  */
-export function TrendLine(props: { vals: (number | null)[]; at?: number | null; title?: string; w?: number; h?: number }) {
+export function TrendLine(props: { vals: (number | null)[]; at?: number | null; title?: string; w?: number; h?: number; breaks?: number[] }) {
   const w = props.w ?? 44;
   const h = props.h ?? 14;
   const n = props.vals.length;
@@ -438,15 +508,17 @@ export function TrendLine(props: { vals: (number | null)[]; at?: number | null; 
   const y = (v: number) => (hi === lo ? h / 2 : 1.5 + (1 - (v - lo) / (hi - lo)) * (h - 3));
   const segs: string[] = [];
   let cur = '';
+  // a year alone between gaps or breaks is drawn as a dot (a zero-length line with round caps)
+  const push = () => cur && segs.push(cur.includes(' L') ? cur : `${cur} h0`);
   props.vals.forEach((v, i) => {
-    if (v == null) {
-      if (cur) segs.push(cur);
+    if (v == null || props.breaks?.includes(i)) {
+      push();
       cur = '';
-      return;
+      if (v == null) return;
     }
     cur += `${cur ? ' L' : 'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`;
   });
-  if (cur) segs.push(cur);
+  push();
   const at = props.at != null ? props.vals[props.at] : null;
   return (
     <span class="trend" title={props.title}>
@@ -491,7 +563,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const notBy = world && gap > world * 5e-4 ? gap : 0;
   const further = all ? [] : beyond;
   const furtherSum = further.reduce((a, r) => a + r.v, 0) + notBy;
-  const furtherNames = further.map((r) => countryName(r.c));
+  const furtherNames = further.map((r) => r.name ?? countryName(r.c));
   const restTitle =
     data.hidden && data.hidden.k === further.length
       ? data.hidden.n
@@ -509,41 +581,51 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
     </>
   );
   const tr = hist ? ' has-trend' : '';
-  const trendSlot = (vals?: (number | null)[]) =>
-    hist ? vals ? <TrendLine vals={vals} at={trendAt} title={trendTitle(hist, vals, hist.u)} /> : <span class="trend" /> : null;
+  const trendSlot = (vals?: (number | null)[], breaks?: number[]) =>
+    hist ? vals ? <TrendLine vals={vals} at={trendAt} title={trendTitle(hist, vals, hist.u)} breaks={breaks} /> : <span class="trend" /> : null;
+  // a row's line leaves out a value out of line with the years around it, and breaks where the row's entity changes
+  const rowTrend = (c: string) => {
+    if (!hist?.c[c]) return trendSlot();
+    const t = trendOf(hist, c);
+    return trendSlot(t.vals, t.breaks);
+  };
   const wFirst = hist ? hist.world.findIndex((v) => v != null) : -1;
   return (
     <div>
       {hist && wFirst >= 0 && (
         <div class="bar-world" title={`World total by year, ${hist.u}: ${hist.world.map((v, i) => `${hist.labels?.[i] ?? hist.years[i]} ${fmt(v)}`).join(', ')}`}>
           <span>World, {hist.labels?.[wFirst] ?? hist.years[wFirst]} to {hist.labels?.[hist.years.length - 1] ?? hist.years[hist.years.length - 1]}</span>
-          <TrendLine vals={hist.world} at={trendAt} w={64} h={16} />
+          <TrendLine vals={trendOf(hist).vals} at={trendAt} w={64} h={16} />
           <span class="num">
             {fmt(hist.world[wFirst])} → {fmt(hist.world[hist.world.length - 1])} {hist.u}
           </span>
         </div>
       )}
       <div class="bars" style={{ '--bar-color': props.color }}>
-        {rows.map((r, i) => (
-          <button class={`bar-row${tr}`} key={r.c} onClick={() => select({ kind: 'country', id: r.c })} title={r.n}>
-            <span class="bar-rank">{i + 1}</span>
-            <span>
-              <span class="bar-label">
-                {countryName(r.c)}
-                {r.est && kind !== 'est' && <EstMark />}
+        {rows.map((r, i) => {
+          // a row that is not a country of the index (USDA's European Union) has no page to open: plain text
+          const Row = isCountry(r.c) ? 'button' : 'div';
+          return (
+            <Row class={`bar-row${tr}`} key={r.c} onClick={Row === 'button' ? () => select({ kind: 'country', id: r.c }) : undefined} title={r.n}>
+              <span class="bar-rank">{i + 1}</span>
+              <span>
+                <span class="bar-label">
+                  {r.name ?? countryName(r.c)}
+                  {r.est && kind !== 'est' && <EstMark />}
+                </span>
+                <div class="bar-track">
+                  <div class="bar-fill" style={{ width: `${(r.v / max) * 100}%` }} />
+                </div>
               </span>
-              <div class="bar-track">
-                <div class="bar-fill" style={{ width: `${(r.v / max) * 100}%` }} />
-              </div>
-            </span>
-            {trendSlot(hist?.c[r.c])}
-            <span class="bar-value">
-              {val(r.v, r.est)}
-              {value}
-              {world ? share(pct(r.v / world)) : null}
-            </span>
-          </button>
-        ))}
+              {rowTrend(r.c)}
+              <span class="bar-value">
+                {val(r.v, r.est)}
+                {value}
+                {world ? share(pct(r.v / world)) : null}
+              </span>
+            </Row>
+          );
+        })}
         {further.length > 0 ? (
           <button class={`bar-row bar-other bar-further${tr}`} onClick={() => setAll(true)} title={restTitle}>
             <span class="bar-rank" />

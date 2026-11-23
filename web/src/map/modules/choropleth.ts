@@ -22,8 +22,11 @@ const labelAt = new Map<Marker, { el: HTMLElement; at: [number, number] }>();
 /** Countries labelled with their share on the map: >= 1% of the world total, at most 16. */
 const LABEL_MIN_SHARE = 0.01;
 const LABEL_MAX = 16;
-/** The opacity of this share (SHARE_STOPS) is the floor for a country that has a value: under it the tint would not show. */
-const MIN_TINT_SHARE = 0.0025;
+/**
+ * The opacity of this share (SHARE_STOPS) is the floor for a country that has a value: under it the tint would not show.
+ * Every share under it gets that one tint, which the legend shows as its own swatch ("under 0.25%").
+ */
+export const MIN_TINT_SHARE = 0.0025;
 /** Where the EU27 aggregate label sits (central Europe). */
 const EU_LABEL_AT: [number, number] = [11.5, 49.5];
 

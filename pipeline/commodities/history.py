@@ -55,17 +55,20 @@ CODES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "cac
 
 
 def code_ends():
-    """{code: (name, last year)} for the codes of the CEPII country list whose name carries their last year."""
-    out = {}
+    """{code: (name, last year, still a country)} for the codes of the CEPII country list whose name carries their last
+    year; `still a country`: the list has the same ISO code without an end year too (Sudan after 2011)."""
+    out, current = {}, set()
     try:
         with open(CODES_FILE, encoding="utf-8") as f:
             for r in csv.DictReader(f):
                 name = r["country_name"]
-                if "(..." in name and r["country_iso3"] in CODE_CHANGES:
+                if "(..." not in name:
+                    current.add(r["country_iso3"])
+                elif r["country_iso3"] in CODE_CHANGES:
                     out[r["country_iso3"]] = (name.split(" (...")[0], int(name.split("(...")[1].rstrip(")")))
     except (OSError, ValueError, KeyError):
         pass
-    return out
+    return {c: (n, y, c in current) for c, (n, y) in out.items()}
 
 
 def _tables(d):
@@ -187,6 +190,10 @@ def series(t, name=None):
                     seg.append([lb[i], i, i])
             for a, b in zip(seg, seg[1:]):
                 brk.setdefault(c, []).append(b[1])
+                # the country that leaves the entity starts its own row that year (the United Kingdom in 2016/17): not a new trade
+                for c2, v2 in vals.items():
+                    if c2 != c and a[0] and name(c2) in a[0] and next((i for i, x in enumerate(v2) if x is not None), None) == b[1]:
+                        brk.setdefault(c2, []).append(b[1])
             default = t.get("_clname", {}).get(c, name(c))
             why = t.get("_clwhy", {})
             parts = []
@@ -197,7 +204,7 @@ def series(t, name=None):
                 notes.append(f"The {default} row is the source's own entity, whose membership changes: " + "; ".join(parts)
                              + ". The atlas does not add or remove members: the trend line breaks where the row changes.")
     # countries that split or changed code inside the period (the code list of the source names the last year of the old code)
-    for old, (oname, end) in sorted(code_ends().items()):
+    for old, (oname, end, still) in sorted(code_ends().items()):
         new = []
         for c in CODE_CHANGES[old]:
             v = vals.get(c)
@@ -208,13 +215,15 @@ def series(t, name=None):
             continue
         first = min(i for _, i in new)
         names = " and ".join(name(c) for c, _ in new)
-        if any(x is not None for x in (vals.get(old) or [])[:first]):  # the old code is a country of the index too (Sudan)
-            notes.append(f"{names} {'has' if len(new) == 1 else 'have'} figures of {'its' if len(new) == 1 else 'their'} own from {label[first]}: "
-                         f"the source's {oname} up to {end} covers {'it' if len(new) == 1 else 'them'} too.")
+        own = f"{names} {'has' if len(new) == 1 else 'have'} figures of {'its' if len(new) == 1 else 'their'} own from {label[first]}"
+        upto = label[ys.index(end)] if end in ys else str(end)
+        if still:  # the old code goes on as a country (Sudan): its figures up to the change hold the new country too
+            if not any(x is not None for x in (vals.get(old) or [])[:first]):
+                continue  # no figure of the old country before: the new one only starts in this series
+            notes.append(f"{own}: the source's {oname} up to {upto} covers {'it' if len(new) == 1 else 'them'} too.")
             brk.setdefault(old, []).append(first)
         else:
-            notes.append(f"{names} {'has' if len(new) == 1 else 'have'} figures of {'its' if len(new) == 1 else 'their'} own from {label[first]}: "
-                         f"up to {end} the source gives {oname} as one entity, which is not a country row of the table.")
+            notes.append(f"{own}: up to {upto} the source gives {oname} as one entity, which is not a country row of the table.")
         for c, i in new:
             brk.setdefault(c, []).append(i)
     # a large country whose figures stop before the last year: the world total of the later years leaves it out

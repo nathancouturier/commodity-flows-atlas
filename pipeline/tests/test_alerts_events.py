@@ -12,7 +12,7 @@ import shutil
 import sys
 import tempfile
 import unittest
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 
 import pandas as pd
 
@@ -24,7 +24,9 @@ for sub in ("", "freight"):
 
 import build_alerts as BA  # noqa: E402
 import build_portwatch as BW  # noqa: E402
+import event_links as EL  # noqa: E402
 import fetch_portwatch as FP  # noqa: E402
+import restore_portwatch as RP  # noqa: E402
 
 FREIGHT = os.path.join(ROOT, "data", "freight")
 HAVE_DATA = all(os.path.exists(os.path.join(FREIGHT, f)) for f in ("chokepoints.json", "chokepoint-lanes.json", "alerts.json"))
@@ -96,14 +98,50 @@ class Severity(unittest.TestCase):
                                    "transits": {"now": gap_now, "yearAgo": 100, "avg2023": 100}, "mt": {"now": 1, "yearAgo": 2, "avg2023": 2}}}
                 json.dump(doc, open(os.path.join(tmp, cid + ".json"), "w"))
             chk = [{"id": "a", "name": "A", "estimates": []}, {"id": "b", "name": "B", "estimates": []}]
-            hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a", "b"], "reviewed": "2026-11-23"}
+            hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a", "b"], "checked": "2026-11-23"}
             out = BA.build_alert(hand, {"e": {"src": "https://example.org"}}, {c["id"]: c for c in chk}, {"groups": {}, "chokepoints": {}, "y": 2024}, tmp)
             self.assertEqual(out["measures"][0]["gap2023"], -30.0)  # a alone would be medium
             self.assertEqual(out["measures"][1]["gap2023"], -60.0)
             self.assertEqual(out["severity"], "high")  # b, 60% below, decides
 
+    def test_a_text_without_a_check_carries_no_date(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            json.dump({"compare": {"to": "2026-11-15", "days": 28, "yearAgoTo": "x", "refYear": 2023, "transits": {"now": 1, "yearAgo": 1, "avg2023": 1},
+                                   "mt": {"now": 1, "yearAgo": 1, "avg2023": 1}}}, open(os.path.join(tmp, "a.json"), "w"))
+            hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a"]}
+            out = BA.build_alert(hand, {"e": {"src": "u", "also": [{"label": "L", "url": "https://example.org"}]}}, {"a": {"id": "a", "name": "A"}},
+                                 {"groups": {}, "chokepoints": {}, "y": 2024}, tmp)
+            self.assertNotIn("checked", out)
+            self.assertEqual(out["also"], [{"label": "L", "url": "https://example.org"}])
+            hand["checked"] = "2026-11-23"
+            self.assertEqual(BA.build_alert(hand, {"e": {"src": "u"}}, {"a": {"id": "a", "name": "A"}}, {"groups": {}, "chokepoints": {}, "y": 2024}, tmp)["checked"], "2026-11-23")
+
+    def test_a_country_with_enough_cargo_is_in_whatever_the_commodity(self):
+        lanes = {"groups": {"g": {"k": "k1"}, "h": {"k": "k2"}},
+                 "chokepoints": {"a": [["g", "AAA", "BBB", 100.0, 1], ["h", "CCC", "BBB", BA.COUNTRY_MT_MIN, 1], ["h", "DDD", "EEE", BA.COUNTRY_MT_MIN - 0.1, 1],
+                                       ["h", "FFF", "GGG", 90.0, 0]],
+                         "b": [["g", "AAA", "BBB", 100.0, 1]]}}
+        heavy = BA.heavy_countries(lanes, ["a", "b"])
+        self.assertEqual([c for c, _ in heavy], ["BBB", "AAA", "CCC"])  # a pair that only may cross is left out; one that crosses both counts once
+        self.assertEqual(dict(heavy)["BBB"], 100.0 + BA.COUNTRY_MT_MIN)
+
+    def test_add_countries_appends_to_the_derived_list_with_its_reason(self):
+        chk = {"a": {"id": "a", "name": "A", "estimates": []}}
+        lanes = {"groups": {"g": {"k": "k1"}}, "chokepoints": {"a": [["g", "AAA", "BBB", 30.0, 1]]}, "y": 2024}
+        hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a"],
+                "override": {"addCountries": ["ZZZ", "AAA"], "reason": "named by the event"}}
+        with tempfile.TemporaryDirectory() as tmp:
+            json.dump({"compare": {"to": "2026-11-15", "days": 28, "yearAgoTo": "x", "refYear": 2023, "transits": {"now": 1, "yearAgo": 1, "avg2023": 1},
+                                   "mt": {"now": 1, "yearAgo": 1, "avg2023": 1}}}, open(os.path.join(tmp, "a.json"), "w"))
+            out = BA.build_alert(hand, {"e": {"src": "u"}}, chk, lanes, tmp)
+            self.assertEqual(out["countries"], ["AAA", "BBB", "ZZZ"])  # the derived ones first, the added one once
+            self.assertEqual(out["override"], {"addCountries": ["ZZZ", "AAA"], "reason": "named by the event"})
+            hand["override"].pop("reason")
+            with self.assertRaises(ValueError):
+                BA.build_alert(hand, {"e": {"src": "u"}}, chk, lanes, tmp)
+
     def test_override_needs_a_reason(self):
-        hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a"], "reviewed": "2026-11-23",
+        hand = {"id": "x", "title": "t", "since": "2026-01", "text": "x", "event": "e", "chokepoints": ["a"], "checked": "2026-11-23",
                 "override": {"commodities": ["lng"]}}
         with tempfile.TemporaryDirectory() as tmp:
             json.dump({"compare": {"to": "2026-11-15", "days": 28, "yearAgoTo": "x", "refYear": 2023, "transits": {"now": 1, "yearAgo": 1, "avg2023": 1},
@@ -151,6 +189,21 @@ class Derived(unittest.TestCase):
         ]}}
         self.assertEqual({x[0] for x in BA.exposed_commodities(chk, ["p"])}, {"share", "tonnes"})
 
+    def test_the_countries_of_the_published_alerts(self):
+        """The countries the audit found missing (the lanes carry at least COUNTRY_MT_MIN Mt for them) and the two added by hand."""
+        alerts = {a["id"]: a for a in load(FREIGHT, "alerts.json")}
+        for c in ("JPN", "TWN", "SGP", "IRN"):
+            self.assertIn(c, alerts["hormuz-2026"]["countries"], c)
+        for c in ("EGY", "KOR", "NLD", "IRQ", "YEM"):
+            self.assertIn(c, alerts["red-sea-2023"]["countries"], c)
+        self.assertIn("TUR", alerts["black-sea-2026"]["countries"])
+        for a in alerts.values():
+            for c, _ in BA.heavy_countries(self.lanes, a["chokepoints"]):
+                self.assertIn(c, a["countries"], (a["id"], c))
+        # what an override adds is explained to the reader
+        self.assertIn("crude-irn", alerts["hormuz-2026"]["override"]["reason"])
+        self.assertIn("YEM", alerts["red-sea-2023"]["override"]["addCountries"])
+
     def test_pairs_through_two_passages_count_once(self):
         lanes = {"groups": {"g": {"k": "k1"}}, "chokepoints": {"a": [["g", "AAA", "BBB", 14.0, 1], ["g", "CCC", "DDD", 86.0, 1]],
                                                                 "b": [["g", "AAA", "BBB", 14.0, 1], ["g", "EEE", "FFF", 50.0, 0]]}}
@@ -166,7 +219,10 @@ class Derived(unittest.TestCase):
         self.assertEqual(out, load(FREIGHT, "alerts.json"))
         for a in out:
             self.assertIn(a["severity"], ("low", "medium", "high"))
-            self.assertRegex(a["reviewed"], r"^\d{4}-\d{2}-\d{2}$")
+            self.assertNotIn("reviewed", a)  # only a text read against its source carries a date, and it is called "checked"
+            if "checked" in a:
+                self.assertRegex(a["checked"], r"^\d{4}-\d{2}-\d{2}$")
+            self.assertEqual(a["decidedBy"]["gap"], min(m["gap2023"] for m in a["measures"]))
             for m in a["measures"]:
                 self.assertEqual(m["s"], "portwatch")
                 self.assertRegex(m["to"], r"^\d{4}-\d{2}-\d{2}$")
@@ -310,16 +366,52 @@ class IncrementalFetch(unittest.TestCase):
             self.assertEqual(len(BW.read_cache(tmp)), 1)  # the previous cache is kept
 
 
+def ev(**kw):
+    return {"id": "e", "date": "2026-01", "title": "T", "kind": "conflict", "summary": "", "src": "https://example.org", **kw}
+
+
+class EventLinkRule(unittest.TestCase):
+    """The rule of pipeline/freight/event_links.py on small texts: whole words, no guess."""
+
+    def test_whole_words_only(self):
+        self.assertEqual(EL.named_commodities("Shipping of tinplate, gasoline and oil-fired plants"), ["refined-products"])
+        self.assertEqual(EL.named_commodities("tin and cobalt"), ["cobalt", "tin"])
+        self.assertEqual(EL.named_commodities("a gas turbine"), [])
+        self.assertEqual(EL.named_commodities("fuel oil and bunker costs"), ["refined-products"])  # fuel oil is a product, not crude
+        self.assertEqual(EL.named_commodities("Brent and crude"), ["crude-oil"])
+        self.assertEqual(EL.named_commodities("liquefied natural gas and natural gas"), ["lng", "natural-gas"])
+        self.assertEqual(EL.named_commodities("coking coal"), ["met-coal"])
+        self.assertEqual(EL.named_commodities("thermal and coking coal"), ["met-coal", "thermal-coal"])
+        self.assertEqual(EL.named_commodities("Houthi attacks: many tankers and LNG carriers diverted"), ["lng"])
+
+    def test_an_event_that_names_none_has_none(self):
+        self.assertEqual(EL.derive(ev(summary="Container ships queued for days", impact="Hundreds of ships diverted via the Cape")), [])
+
+    def test_the_name_of_a_linked_asset_counts(self):
+        self.assertEqual(EL.derive(ev(summary="The terminal shut for months", assets=["freeport-lng"])), ["lng"])
+
+    def test_a_linked_route_or_passage_does_not_name_a_commodity(self):
+        self.assertEqual(EL.derive(ev(summary="Traffic fell", routes=["russia-baltic-india-crude"], chokepoints=["hormuz"])), [])
+
+    def test_countries_by_name_and_demonym_but_not_a_sea(self):
+        countries = [{"c": "OMN", "name": "Oman"}, {"c": "IND", "name": "India"}, {"c": "BRA", "name": "Brazil"}, {"c": "CHN", "name": "China"}]
+        self.assertEqual(EL.named_countries("Tankers in the Gulf of Oman and the Indian Ocean", countries), [])
+        self.assertEqual(EL.named_countries("Brazil-China ore flows and Indian refiners", countries), ["BRA", "CHN", "IND"])
+
+
 @unittest.skipUnless(os.path.exists(os.path.join(ROOT, "pipeline", "freight", "events.json")), "no events file")
 class EventLinks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.events = load(ROOT, "pipeline", "freight", "events.json")
+        cls.by_id = {e["id"]: e for e in cls.events}
         cls.commodities = {c["id"] for c in load(ROOT, "data", "commodities", "index.json")}
-        cls.countries = {c["c"] for c in load(ROOT, "data", "countries", "index.json")}
+        cls.countries_index = load(ROOT, "data", "countries", "index.json")
+        cls.countries = {c["c"] for c in cls.countries_index}
         cls.assets = set()
         for f in glob.glob(os.path.join(ROOT, "data", "infrastructure", "*.geojson")):
             cls.assets |= {x["properties"]["id"] for x in load(f)["features"]}
+        cls.prices = {m["id"]: m["k"] for m in load(ROOT, "data", "prices", "index.json")}
 
     def test_every_link_is_an_id_of_the_atlas(self):
         for e in self.events:
@@ -328,26 +420,200 @@ class EventLinks(unittest.TestCase):
                     self.assertIn(v, known, (e["id"], key))
                 self.assertEqual(len(e.get(key, [])), len(set(e.get(key, []))), (e["id"], key))
 
-    def test_the_links_follow_the_text(self):
-        """No guess: every link is backed by a word of the event's own text (or its source address)."""
-        words = {
-            "crude-oil": ("crude", "oil"), "lng": ("lng",), "lpg": ("lpg",), "thermal-coal": ("coal",), "met-coal": ("coking", "coal"),
-            "natural-gas": ("gas",), "refined-products": ("product", "gasoline", "diesel", "fuel oil"), "iron-ore": ("iron ore",),
-            "nickel": ("nickel",), "bauxite": ("bauxite",), "tin": ("tin",), "cobalt": ("cobalt",), "wheat": ("wheat",), "corn": ("corn",),
-            "soybeans": ("soybean",),
-        }
+    def test_the_commodities_are_what_the_rule_gives(self):
+        """Every event links to exactly the commodities its own text names (whole words, rule in event_links.py): none is guessed,
+        none that the text names is missing."""
         for e in self.events:
-            text = " ".join([e["title"], e["summary"], e.get("impact", "")]).lower()
-            for k in e.get("commodities", []):
-                self.assertTrue(any(w in text for w in words[k]), (e["id"], k))
+            self.assertEqual(sorted(e.get("commodities", [])), EL.derive(e), e["id"])
 
-    def test_an_event_without_a_commodity_in_its_text_has_none(self):
+    def test_the_countries_and_assets_are_named_in_the_text(self):
         for e in self.events:
-            if e["id"] in ("ever-given-2021", "red-sea-houthi-2023", "eu-ets-shipping-2024", "gaza-ceasefire-2025", "suez-return-2026"):
-                self.assertNotIn("commodities", e)
+            names = [w for a in e.get("assets", []) for w in EL.ASSET_WORDS.get(a, [])]
+            text = EL.text_of(e, names)
+            self.assertEqual(sorted(e.get("countries", [])), EL.named_countries(text, self.countries_index), e["id"])
+            self.assertEqual(sorted(e.get("assets", [])), EL.named_assets(text), e["id"])
+
+    def test_the_cases_of_the_review(self):
+        # the Black Sea event names tankers and the oil exports of Kazakhstan; the Red Sea event names LNG carriers; the Hormuz event
+        # names oil, LNG and petroleum products
+        self.assertIn("crude-oil", self.by_id["black-sea-attacks-2026"]["commodities"])
+        self.assertIn("lng", self.by_id["red-sea-houthi-2023"]["commodities"])
+        self.assertTrue({"crude-oil", "lng", "refined-products"} <= set(self.by_id["iran-war-hormuz-2026"]["commodities"]))
+        # a text that names no commodity at all gets none (and the site shows it with every commodity)
+        for k in ("gaza-ceasefire-2025", "suez-return-2026", "somali-piracy-2008-2011"):
+            self.assertNotIn("commodities", self.by_id[k])
+
+    def test_an_event_alert_pair_takes_the_commodities_of_the_alert(self):
+        """What the site does (web/src/lib/events.ts): the event of an alert is shown with the alert's commodities."""
+        alerts = load(FREIGHT, "alerts.json")
+        for a in alerts:
+            self.assertIn(a["event"], self.by_id)
+        hormuz = next(a for a in alerts if a["event"] == "iran-war-hormuz-2026")
+        self.assertIn("lng", hormuz["commodities"])
+        self.assertIn("lng", self.by_id["iran-war-hormuz-2026"]["commodities"])
+
+    def test_price_series_of_an_event_are_series_of_its_commodity(self):
+        for e in self.events:
+            for k, sid in e.get("series", {}).items():
+                self.assertEqual(self.prices.get(sid), k, (e["id"], k, sid))
+
+    def test_only_a_checked_text_carries_a_date_and_every_other_source_is_a_link(self):
+        for e in self.events:
+            if "checked" in e:
+                self.assertRegex(e["checked"], r"^\d{4}-\d{2}-\d{2}$", e["id"])
+            for x in e.get("also", []):
+                self.assertTrue(x["label"] and x["url"].startswith("https://"), e["id"])
+        # the three events that the alerts point to were read against their sources
+        for k in ("iran-war-hormuz-2026", "red-sea-houthi-2023", "black-sea-attacks-2026"):
+            self.assertEqual(self.by_id[k]["checked"], "2026-11-23")
 
     def test_published_events_are_the_sorted_file(self):
         self.assertEqual(load(FREIGHT, "events.json"), sorted(self.events, key=lambda e: e["date"]))
+
+
+class WorkingTable(unittest.TestCase):
+    """The daily PortWatch table is a working file kept between runs outside git (restored from the artifact of the workflow)."""
+
+    def test_the_table_is_ignored_by_git(self):
+        with open(os.path.join(ROOT, ".gitignore"), encoding="utf-8") as fh:
+            self.assertIn("pipeline/cache/portwatch/", fh.read().split())
+
+    def test_the_published_weekly_series_do_not_need_it(self):
+        # build_portwatch reads the table only through read_cache / read_pages; with neither the build says so instead of failing
+        with tempfile.TemporaryDirectory() as tmp:
+            self.assertEqual(BW.read_cache(tmp), [])
+            self.assertEqual(BW.read_pages(tmp), [])
+
+    def test_the_newest_unexpired_artifact_is_chosen(self):
+        now = datetime(2026, 11, 25, 19, 30, tzinfo=timezone.utc)
+
+        def art(i, made, name="portwatch-daily", expired=False):
+            return {"id": i, "name": name, "expired": expired, "created_at": made}
+
+        listing = {"artifacts": [art(5, "2026-11-18T19:40:00Z"), art(4, "2026-11-11T19:40:00Z"), art(9, "2026-11-24T09:00:00Z", name="other"),
+                                 art(8, "2026-11-23T09:00:00Z", expired=True)]}
+        self.assertEqual(RP.newest_usable(listing, now)["id"], 5)
+        self.assertIsNone(RP.newest_usable({"artifacts": [art(1, "2026-10-01T19:40:00Z")]}, now))  # older than the monthly refresh
+        self.assertIsNone(RP.newest_usable({"artifacts": []}, now))
+        self.assertIsNone(RP.newest_usable({}, now))
+        self.assertIsNone(RP.newest_usable({"artifacts": [{"id": 2, "name": "portwatch-daily", "expired": False, "created_at": "garbage"}]}, now))
+
+    def test_a_good_artifact_is_installed_and_a_corrupt_one_is_not(self):
+        import zipfile
+
+        rows = [{k: 1 for k in BW.FIELDS} | {"date": f"2026-01-{d:02d}", "portid": f"chokepoint{p}", "portname": "x"} for d in range(1, 29) for p in range(1, 41)]
+        with tempfile.TemporaryDirectory() as tmp:
+            src = os.path.join(tmp, "src")
+            BW.write_cache(rows, src)
+            good = os.path.join(tmp, "good.zip")
+            with zipfile.ZipFile(good, "w") as z:
+                for f in os.listdir(src):
+                    z.write(os.path.join(src, f), f)
+            dest = os.path.join(tmp, "dest")
+            work = os.path.join(tmp, "work")
+            os.makedirs(work)
+            self.assertEqual(RP.install(good, dest, work), len(rows))
+            self.assertEqual(len(BW.read_cache(dest)), len(rows))
+            # a corrupt archive (a daily file that is not gzip) leaves the folder as it was
+            bad = os.path.join(tmp, "bad.zip")
+            with zipfile.ZipFile(bad, "w") as z:
+                z.writestr("daily_2026.csv.gz", b"not a gzip file")
+            work2 = os.path.join(tmp, "work2")
+            os.makedirs(work2)
+            with self.assertRaises(ValueError):
+                RP.install(bad, dest, work2)
+            self.assertEqual(len(BW.read_cache(dest)), len(rows))
+            # a table that is far too small is refused as well
+            tiny = os.path.join(tmp, "tiny.zip")
+            BW.write_cache(rows[:10], os.path.join(tmp, "t"))
+            with zipfile.ZipFile(tiny, "w") as z:
+                z.write(os.path.join(tmp, "t", "daily_2026.csv.gz"), "daily_2026.csv.gz")
+            work3 = os.path.join(tmp, "work3")
+            os.makedirs(work3)
+            with self.assertRaises(ValueError):
+                RP.install(tiny, dest, work3)
+            self.assertEqual(len(BW.read_cache(dest)), len(rows))
+
+    def test_restore_exits_quietly_off_github(self):
+        saved = os.environ.pop("GITHUB_REPOSITORY", None)
+        try:
+            RP.main()  # no GITHUB_REPOSITORY: nothing to restore, no exception
+        finally:
+            if saved is not None:
+                os.environ["GITHUB_REPOSITORY"] = saved
+
+
+class FullRefreshFallback(unittest.TestCase):
+    def test_a_failed_monthly_download_falls_back_to_the_incremental_update_and_is_recorded(self):
+        ports = [f"chokepoint{i}" for i in range(1, 13)]
+        chk = [{"id": f"cp{i}", "portwatch": p} for i, p in enumerate(ports, 1)]
+        start = date(2025, 1, 1)
+
+        def row(d, pid, n):
+            r = {k: 1 for k in BW.FIELDS}
+            r.update({"date": d, "portid": pid, "portname": "x", "n_total": n})
+            return r
+
+        stored = [row((start + timedelta(days=i)).isoformat(), p, 10) for i in range(500) for p in ports]
+        asked = []
+
+        def fake_fetch(where):
+            asked.append(where)
+            if where == "1=1":
+                raise FP.fetch.FetchError("HTTP 503")
+            new_day = (start + timedelta(days=500)).isoformat()
+            return [row(new_day, p, 12) for p in ports]
+
+        statuses = {"portwatch": {"records": len(stored), "data_to": (start + timedelta(days=499)).isoformat(),
+                                  "state": {"full_refresh": (date.today() - timedelta(days=40)).isoformat()}}}
+
+        class Status:
+            @staticmethod
+            def get(source):
+                return dict(statuses.get(source, {}))
+
+            @staticmethod
+            def record_success(source, records=None, data_to=None, note="updated", state=None):
+                statuses[source] = {"records": records, "data_to": data_to, "state": dict(state or {}), "note": note}
+
+            @staticmethod
+            def record_failure(source, error, previous=None):
+                statuses[source] = {**statuses.get(source, {}), "failed": str(error)}
+
+        with tempfile.TemporaryDirectory() as tmp:
+            saved = (FP.fetch_rows, FP.status, FP.OUT, FP.RAW, FP.CHK, BW.read_cache.__defaults__, BW.write_cache.__defaults__, BW.update_headlines)
+            try:
+                json.dump(chk, open(os.path.join(tmp, "chk.json"), "w"))
+                cache = os.path.join(tmp, "cache")
+                BW.write_cache(stored, cache)
+                FP.fetch_rows, FP.status, FP.CHK = fake_fetch, Status, os.path.join(tmp, "chk.json")
+                FP.OUT, FP.RAW = os.path.join(tmp, "out"), os.path.join(tmp, "no-raw")
+                BW.read_cache.__defaults__, BW.write_cache.__defaults__ = (cache,), (cache,)
+                BW.update_headlines = lambda *a, **k: 0
+                FP.main()
+                self.assertEqual(asked[0], "1=1")  # the monthly full download was tried first
+                self.assertTrue(asked[1].startswith("date > '"), asked)  # then the incremental one, in the same run
+                st = statuses["portwatch"]
+                self.assertNotIn("failed", st)
+                self.assertEqual(st["state"]["mode"], "incremental")
+                self.assertEqual(st["state"]["full_refresh"], (date.today() - timedelta(days=40)).isoformat())  # still due: tried again next week
+                self.assertEqual(st["state"]["full_refresh_failed"]["count"], 1)
+                self.assertIn("503", st["state"]["full_refresh_failed"]["error"])
+                self.assertIn("failed", st["note"])
+                self.assertEqual(st["data_to"], (start + timedelta(days=500)).isoformat())
+                self.assertEqual(len(BW.read_cache(cache)), 501 * 12)
+            finally:
+                (FP.fetch_rows, FP.status, FP.OUT, FP.RAW, FP.CHK, BW.read_cache.__defaults__, BW.write_cache.__defaults__, BW.update_headlines) = saved
+
+    def test_a_truncated_working_table_is_replaced_by_the_whole_table(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            os.makedirs(os.path.join(tmp, "cache"))
+            with open(os.path.join(tmp, "cache", "daily_2026.csv.gz"), "wb") as fh:
+                fh.write(b"\x1f\x8b\x08\x00truncated")
+            with self.assertRaises(Exception):
+                BW.read_cache(os.path.join(tmp, "cache"))  # the reader fails ...
+            # ... and fetch_portwatch.main() catches it and plans a full download (the plan of an empty cache)
+            self.assertEqual(FP.plan(False, "2026-11-22", None, date(2026, 11, 25)), ("full", "1=1"))
 
 
 if __name__ == "__main__":

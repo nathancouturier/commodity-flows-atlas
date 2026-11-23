@@ -4,6 +4,8 @@ import { loadEvents } from '../../lib/freight';
 import { chokepointName } from '../../lib/freight';
 import { commodityMeta, countryName } from '../../lib/data';
 import { select } from '../../lib/store';
+import { checkedLabel, eventCommodities, useAlertEvents } from '../../lib/events';
+import { fmtDate } from '../../lib/status';
 import { loadInfra, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
 import { EventPrices } from '../EventPrices';
 import { Section, Skeleton, Placeholder } from '../ui';
@@ -64,11 +66,15 @@ function EventAssets({ ids }: { ids: string[] }) {
 export default function EventView({ id }: { id: string }) {
   useFreightCatalogue();
   const ev = useLoaded<FreightEvent>(() => loadEvents().then((l) => l.find((e) => e.id === id) ?? null), [id]);
+  const byAlert = useAlertEvents();
   if (ev === undefined)
     return (<><div class="detail-head"><div class="detail-kicker">Event</div><h2 class="detail-title">…</h2></div><div class="panel-scroll"><Skeleton lines={6} /></div></>);
   if (ev === null)
     return (<><div class="detail-head"><div class="detail-kicker">Event</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This event is not in the atlas catalogue.</Placeholder></div></>);
   const color = EVENT_COLOR[ev.kind];
+  // the commodities of the event's text and those of the alert that points to it
+  const ks = eventCommodities(ev, byAlert);
+  const checked = checkedLabel(ev.checked, (d) => fmtDate(d));
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
@@ -106,10 +112,10 @@ export default function EventView({ id }: { id: string }) {
             </div>
           </Section>
         )}
-        {ev.commodities && ev.commodities.length > 0 && (
+        {ks.length > 0 && (
           <Section title="Commodities">
             <div class="chips">
-              {ev.commodities.map((k) => (
+              {ks.map((k) => (
                 <button class="chip" key={k} onClick={() => select({ kind: 'commodity', id: k })}>{commodityMeta(k)?.name ?? k}</button>
               ))}
             </div>
@@ -125,7 +131,7 @@ export default function EventView({ id }: { id: string }) {
           </Section>
         )}
         {ev.assets && ev.assets.length > 0 && <EventAssets ids={ev.assets} />}
-        {ev.commodities && ev.commodities.length > 0 && (
+        {ks.length > 0 && (
           <Section title="Prices around this date">
             <EventPrices ev={ev} />
           </Section>
@@ -133,7 +139,14 @@ export default function EventView({ id }: { id: string }) {
         <div class="src-line">
           Source:{' '}
           <a href={ev.src} target="_blank" rel="noopener noreferrer">{host(ev.src)} ↗</a>
+          {ev.also?.map((x) => (
+            <span key={x.url}>
+              {' · '}
+              <a href={x.url} target="_blank" rel="noopener noreferrer">{x.label} ↗</a>
+            </span>
+          ))}
         </div>
+        {checked && <div class="muted small">{checked}.</div>}
       </div>
     </>
   );

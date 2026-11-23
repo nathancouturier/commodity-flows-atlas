@@ -16,6 +16,8 @@ messages of the status file are never copied. Always exits 0: a failure is recor
 
     largest price moves of the week   the daily series (EIA spot): last quote against the last quote 7 days or more before it
     monthly prices                    the monthly series (World Bank): the latest month against the month before
+                                      (a move beyond MAX_RATIO, and series that carry the same two figures under another name or
+                                      unit, are refused: not published, listed in the status of the job)
     passages                          the last 7 days of IMF PortWatch against the 28 days before them and the 365 days before
                                       them, the five furthest from either average (passages under MIN_TRAFFIC a day before the last week left out)
     sources                           the sources whose last published data or release differs from the previous run
@@ -45,6 +47,11 @@ SOURCE = "build-changes"
 TOP = 5            # moves listed per kind
 KEEP = 60          # feed entries kept
 MIN_TRAFFIC = 3.0  # vessels a day, both for the 28 and for the 365 days before the last week: a passage under it is left out (small counts swing)
+# A price that moves further than this in a week (daily series) or a month (monthly series) is taken for a data fault (a wrong
+# column, a change of unit), not for news: the digest does not publish it and says so in the status of the job. A ratio, so
+# that a rise and a fall weigh the same: more than five times or less than a fifth. (In the atlas's history only Henry Hub in
+# February 2021, ten times in a week, would have been refused; a real move of that size is then checked by a person.)
+MAX_RATIO = 5.0
 EPOCH = date(1970, 1, 1)
 # status keys that feed several registry sources
 SOURCES_OF = {"faostat-wna": ["faostat", "wna"]}
@@ -85,8 +92,35 @@ def signed(p, nd=1):
 
 
 # ----------------------------------------------------------------------------- prices
+def implausible(v0, v1, kind):
+    """True when a move from v0 to v1 is beyond MAX_RATIO for ``kind`` ("week" or "month")."""
+    if not v0 or not v1 or v0 < 0 or v1 < 0:
+        return True
+    r = v1 / v0
+    return r > MAX_RATIO or r < 1 / MAX_RATIO
+
+
+def refuse(rows, kind):
+    """(kept, refused): the moves of ``rows`` without those that are out of range or that repeat the figures of a series with another
+    name or unit (a duplicated column). A refused move is {"id", "pct", "why"}: ids and figures only."""
+    groups = {}
+    for r in rows:
+        groups.setdefault((r["v0"], r["v1"], r["to"]), []).append(r)
+    kept, refused = [], []
+    for r in rows:
+        twins = [x for x in groups[(r["v0"], r["v1"], r["to"])] if x is not r and (x["unit"], x["name"]) != (r["unit"], r["name"])]
+        if implausible(r["v0"], r["v1"], kind):
+            refused.append({"id": r["id"], "pct": r["pct"], "why": f"beyond a factor {MAX_RATIO:g} in a {kind}"})
+        elif twins:
+            refused.append({"id": r["id"], "pct": r["pct"], "why": "same two figures as " + ", ".join(sorted(x["id"] for x in twins))})
+        else:
+            kept.append(r)
+    return kept, refused
+
+
 def price_moves(prices_dir=os.path.join(DATA, "prices")):
-    """({weekly}, {monthly}): the series that run to the latest day or month, largest move first, TOP of each."""
+    """({weekly}, {monthly}): the series that run to the latest day or month, largest move first, TOP of each, and the moves
+    refused (``refused``: see ``refuse``)."""
     index = load(prices_dir, "index.json", default=[])
     weekly, monthly = [], []
     for m in index:
@@ -118,15 +152,16 @@ def price_moves(prices_dir=os.path.join(DATA, "prices")):
             monthly.append({"id": m["id"], "name": m["name"], "k": m["k"], "unit": m["unit"], "s": m["s"],
                             "from": lab(t0), "to": lab(t1), "v0": v0, "v1": v1, "pct": round(100 * (v1 / v0 - 1), 1)})
 
-    def top(rows):
+    def top(rows, kind):
         if not rows:
-            return {"to": None, "moves": []}
+            return {"to": None, "moves": [], "refused": []}
         last = max(r["to"] for r in rows)
         cur = [r for r in rows if r["to"] == last]  # a series that stopped earlier is not this week's news
+        cur, refused = refuse(cur, kind)
         cur.sort(key=lambda r: (-abs(r["pct"]), r["id"]))
-        return {"to": last, "moves": cur[:TOP]}
+        return {"to": last, "moves": cur[:TOP], "refused": sorted(refused, key=lambda r: r["id"])}
 
-    return top(weekly), top(monthly)
+    return top(weekly, "week"), top(monthly, "month")
 
 
 # ----------------------------------------------------------------------------- passages
@@ -235,13 +270,19 @@ def build(prices_dir=os.path.join(DATA, "prices"), series_dir=os.path.join(DATA,
     passages = passage_moves(series_dir)
     items, prints = published(updates if updates is not None else status.load(), registry if registry is not None else load(DATA, "sources.json", default=[]),
                               (seen or {}).get("sources") if seen else None)
+    stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
+    day = now.strftime("%Y-%m-%d")
+    if items and prev.get("sourcesOn") == day:
+        # a second run on the same UTC day (the PortWatch and the prices jobs both run on Wednesday): the sources that the first
+        # run reported stay, those of this run replace theirs
+        mine = {i["id"] for i in items}
+        items = items + [i for i in prev.get("sources") or [] if i["id"] not in mine]
     new = {
         "weekly": weekly, "monthly": monthly, "passages": passages, "sources": items if items else (prev.get("sources") or []),
+        "sourcesOn": day if items else prev.get("sourcesOn"),
         "jobs": jobs(),
         "seen": {"weekly": weekly["to"], "monthly": monthly["to"], "passages": passages["to"], "sources": prints},
     }
-    stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
-    day = now.strftime("%Y-%m-%d")
     entries = list(prev.get("entries") or [])
     add = []
     s = seen or {}
@@ -296,7 +337,12 @@ def main():
             _write(CHANGES, json.dumps(new, indent=1, ensure_ascii=False) + "\n")
             _write(FEED, atom(new))
         print(f"  changes: {len(new['entries'])} entries" + (", new ones added" if changed else ", nothing new"))
-        status.record_success(SOURCE, records=len(new["entries"]), data_to=(new["entries"][0]["t"][:10] if new["entries"] else None))
+        refused = new["weekly"]["refused"] + new["monthly"]["refused"]
+        for r in refused:
+            print(f"  refused: {r['id']} {signed(r['pct'])} ({r['why']})")
+        status.record_success(SOURCE, records=len(new["entries"]), data_to=(new["entries"][0]["t"][:10] if new["entries"] else None),
+                              note="updated" if not refused else f"updated; {len(refused)} price move(s) refused as implausible",
+                              state={"refused": refused[:10]})
     except Exception as e:  # noqa: BLE001
         traceback.print_exc()
         status.record_failure(SOURCE, f"{e.__class__.__name__}: {e}")

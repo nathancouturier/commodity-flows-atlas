@@ -47,7 +47,8 @@ export interface Ranked {
   u: string;
   /** world total in the same unit, if known (from the same source) */
   world?: number;
-  rows: { c: Iso3; v: number; n?: string; est?: boolean }[];
+  /** `name`: the source's entity of a past year when it is not the usual one (tableAt: "EU-25") */
+  rows: { c: Iso3; v: number; n?: string; est?: boolean; name?: string }[];
   /** the whole table is an Atlas estimate (rows without `est` too); a table of source `atlas` whose note does not start "Atlas estimate" is a conversion */
   est?: boolean;
   /** the source's own "Other countries" line, in the same unit: its own row, "Other countries (as published)" */
@@ -61,6 +62,12 @@ export interface Ranked {
   basis?: string;
   /** warning that applies to the whole table (trade hubs, unit mismatch); also part of `n` */
   caveat?: string;
+  /** the caveat in a few words (country profiles; a past-year table when the caveat holds for other years only) */
+  caveatShort?: string;
+  /** the years the caveat holds for, when not every year of the table's series (a past-year table: tableAt) */
+  caveatYears?: number[];
+  /** the part of the caveat that holds in the other years */
+  caveatPast?: string;
   /** the order of the rows is not a world ranking (a source that understates some countries): country profiles print no rank */
   norank?: boolean;
 }
@@ -158,10 +165,20 @@ export interface HistTable {
   pub?: number[];
   /** the source's own "Other countries" line per year (USGS) */
   other?: (number | null)[];
-  /** how the source labels each year (USGS MCS: "revised", "estimated") */
+  /** what each year is, in the words the source supports (USGS MCS: "as published in USGS MCS 2026") */
   yl?: string[];
   /** one value per year; null = no figure that year */
   c: Record<Iso3, (number | null)[]>;
+  /** years (indexes) in which the source's value is far out of line with the years around it: kept, not ranked or drawn */
+  out?: Record<Iso3, number[]>;
+  /** years (indexes) whose world total holds such a value */
+  worldOut?: number[];
+  /** the name of a row in the years where the source's entity is another one (USDA PSD's European Union); null = its usual name */
+  cl?: Record<Iso3, (string | null)[]>;
+  /** years (indexes) at which the series of a row breaks (its entity changes): no line and no change across them */
+  brk?: Record<Iso3, number[]>;
+  /** notes on the series as a whole (first year of a rule, change of membership or coverage, a country that split) */
+  n?: string[];
   /** years (indexes) in which the row is mostly an Atlas estimate */
   est?: Record<Iso3, number[]>;
   /** years (indexes) in which the value is the source's own estimate */
@@ -382,8 +399,10 @@ export interface Alert {
   /** the rule behind the severity, in words (title attribute) */
   severityNote: string;
   text: string;
-  /** date the text was last reviewed (ISO) */
-  reviewed: string;
+  /** date the text was checked against its source (ISO); absent when it was not */
+  checked?: string;
+  /** the passage and the gap (per cent against the reference year) that decided the severity */
+  decidedBy?: { chokepoint: string; name: string; gap: number; refYear: number };
   chokepoints: string[];
   measures: AlertMeasure[];
   /** commodities and countries derived from the chokepoint estimates and lanes */
@@ -393,10 +412,13 @@ export interface Alert {
   importers: Iso3[];
   /** how the lists are derived */
   derived: string;
-  override?: { commodities?: string[]; countries?: Iso3[]; reason: string };
+  /** countries added (or lists replaced) by hand, with the reason */
+  override?: { commodities?: string[]; countries?: Iso3[]; addCountries?: Iso3[]; reason: string };
   event: string;
   /** source URL */
   src: string;
+  /** other pages that support the text */
+  also?: { label: string; url: string }[];
 }
 
 export interface Chokepoint {
@@ -498,6 +520,12 @@ export interface FreightEvent {
   summary: string;
   impact?: string;
   src: string;
+  /** other pages that support the text */
+  also?: { label: string; url: string }[];
+  /** date the text was checked against its source (ISO); absent when it was not */
+  checked?: string;
+  /** price series (ids of data/prices/index.json) to read for a commodity when the catalogue has several markets, e.g. { "natural-gas": "ttf-m" } */
+  series?: Record<string, string>;
 }
 
 /** Sea through a foreign port: the landlocked end's cargo sails from (or to) this port. */

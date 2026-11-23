@@ -34,7 +34,7 @@ COMMODITY_WORDS = {
     "natural-gas": [(r"(?<!liquefied )\bnatural\s+gas\b", _I), (r"\bpipeline\s+gas\b", _I), (r"\bgas\s+pipelines?\b", _I),
                     (r"\bgas\b(?!\s+turbine)", _I)],
     "lpg": [(r"\bLPG\b", _C)],
-    "thermal-coal": [(r"(?<!coking )(?<!metallurgical )\bcoal\b", _I)],
+    "thermal-coal": [(r"(?<!coking )(?<!metallurgical )\bcoal\b", _I), (r"\b(?:thermal|steam)\s+and\s+\w+\s+coal\b", _I)],
     "met-coal": [(r"\bcoking\s+coal\b", _I), (r"\bmetallurgical\s+coal\b", _I)],
     "iron-ore": [(r"\biron\s+ore\b", _I)],
     "nickel": [(r"\bnickel\b", _I)],
@@ -51,7 +51,7 @@ COUNTRY_ALIASES = {
     "USA": ["US", "U.S.", "American", "Mississippi"], "RUS": ["Russian"], "UKR": ["Ukrainian"], "CHN": ["Chinese"], "JPN": ["Japanese"],
     "IRN": ["Iranian"], "ISR": ["Israeli"], "SAU": ["Saudi"], "LBY": ["Libyan"], "IDN": ["Indonesian"], "PHL": ["Philippine"],
     "BRA": ["Brazilian"], "IND": ["Indian(?! Ocean)"], "TUR": ["Turkish"], "KAZ": ["Kazakh"], "EGY": ["Egyptian"], "YEM": ["Yemeni"],
-    "DEU": ["German"], "AUS": ["Australian"], "SOM": ["Somali"], "KOR": ["Korean"], "ROU": ["Romanian"], "BGR": ["Bulgarian"],
+    "DEU": ["German"], "AUS": ["Australian"], "SOM": ["Somali"], "KOR": ["Korean", "(?<!North )Korea"], "ROU": ["Romanian"], "BGR": ["Bulgarian"],
     "QAT": ["Qatari"], "GBR": ["UK"], "ARE": ["UAE", "Emirati"], "MNG": ["Mongolian"],
 }
 # water bodies and the like that carry a country's name

@@ -77,8 +77,8 @@
   "url": "https://portwatch.imf.org/",
   "licence": "IMF terms of use for statistical data: attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford), data adapted",
   "update": "weekly",
-  "access": "ArcGIS feature service Daily_Chokepoints_Data, paged, weekly",
-  "use": "Chokepoint transit counts and trade volume estimates since 2019, as weekly averages and a 28-day average"
+  "access": "ArcGIS feature service Daily_Chokepoints_Data, paged; each week only the days after the last one stored, the whole table once a month. The verbatim daily rows are a working file kept between runs outside git, not published",
+  "use": "Chokepoint transit counts and trade volume estimates since 2019, published only as the atlas's own weekly averages, a 28-day average and comparisons with the same days a year earlier and the 2023 average"
  },
  {
   "id": "nga-wpi",

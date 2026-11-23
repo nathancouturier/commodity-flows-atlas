@@ -815,7 +815,13 @@
    }
   ],
   "n": "EIA International Energy Data, liquefied petroleum gases consumption (1000 metric tons converted to Mt); world total as published by EIA (all countries) · Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated.",
-  "caveat": "Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated."
+  "caveat": "Excludes the United States: the EIA series for US LPG consumption ends in 2021 (EIA gives 43.1 Mt for 2020), so the world total is understated.",
+  "caveatYears": [
+   2022,
+   2023,
+   2024,
+   2025
+  ]
  },
  "exports": {
   "y": 2024,

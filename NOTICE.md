@@ -340,7 +340,7 @@ verdict (redistribute, cite a few facts, link only).
 
 | Source | Position |
 |---|---|
-| IMF PortWatch | Aggregated, transformed counts are published, with credit. See below. |
+| IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit; the daily rows are a working file kept out of git. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
 | World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
@@ -356,9 +356,19 @@ verdict (redistribute, cite a few facts, link only).
 
 Credit line: **IMF PortWatch (IMF and University of Oxford), data adapted.**
 
-The atlas publishes weekly averages of PortWatch's daily counts of chokepoint transits and of its estimates of the trade
-volume carried, and a 28-day average. They are a transformation of the daily data, and are described as such in
-`data/sources.json` and METHODOLOGY.md: "Atlas weekly averages of IMF PortWatch daily counts".
+What the atlas publishes: weekly averages of PortWatch's daily counts of chokepoint transits and of its estimates of the
+trade volume carried, a 28-day average, and the comparisons built from them (the last 28 days against the same days a
+year earlier and against the 2023 average, on the alert banners and in the "What changed" digest). They are a
+transformation of the daily data, and are described as such in `data/sources.json` and METHODOLOGY.md: "Atlas weekly
+averages of IMF PortWatch daily counts". Nothing else leaves the atlas: the daily rows are not in the repository.
+
+What the atlas keeps and does not publish: the verbatim daily table (about 80,000 rows, fifteen fields of the PortWatch
+table) is a working file, `pipeline/cache/portwatch/daily_<year>.csv.gz`, ignored by git. It is there so that each weekly
+run asks the service only for the days after the last one stored. On GitHub the weekly workflow keeps it between runs as
+the workflow artifact `portwatch-daily` (90 days; the next run restores it, or downloads the whole table when there is
+none). The artifact is not a publication of the atlas and the CC BY 4.0 release does not cover it; like every artifact of a
+public repository it can be downloaded from the Actions tab by a signed-in GitHub user, and the IMF conditions below apply
+to it.
 
 Terms, as read on 22 November 2026: the PortWatch dataset (ArcGIS item "Daily_Chokepoints_Data") points to the IMF
 terms of use (<https://www.imf.org/external/terms.htm>). The IMF's "Special Terms for Statistical Data"

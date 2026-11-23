@@ -2,6 +2,7 @@
 import type { Alert } from '../types';
 import { sources } from '../lib/data';
 import { fmtDate, jobOf, nextRun, type Changes, type Freshness, type StatusView } from '../lib/status';
+import { CHECK_STALE_DAYS } from '../lib/events';
 import { shortSource } from './ui';
 import '../styles/changes.css';
 
@@ -28,7 +29,23 @@ export function FamilySummary(props: { status: StatusView; vintages: Record<stri
   const { status: st, vintages, alerts } = props;
   const rows = (keys: string[]) => st.rows.filter((r) => keys.includes(r.key));
   const alertTo = latest(alerts.flatMap((a) => a.measures.map((m) => m.to)));
-  const reviewed = alerts.map((a) => a.reviewed).sort()[0] ?? null;
+  // the text of a banner is checked against its source by hand: only a dated check is told, and an old one is said to be old
+  const checks = alerts.map((a) => a.checked).filter((c): c is string => !!c).sort();
+  const oldest = checks[0] ?? null;
+  const stale = oldest != null && (Date.now() - Date.parse(oldest + 'T00:00:00Z')) / 86_400_000 > CHECK_STALE_DAYS;
+  const checkedText = !checks.length ? (
+    <>texts not checked against their sources.</>
+  ) : checks.length < alerts.length ? (
+    <>
+      {checks.length} of {alerts.length} texts checked against their sources, the oldest check on <span class="num">{fmtDate(oldest)}</span>
+      {stale ? ` (more than ${CHECK_STALE_DAYS} days ago)` : ''}; the others not checked.
+    </>
+  ) : (
+    <>
+      texts checked against their sources on <span class="num">{fmtDate(oldest)}</span>
+      {stale ? ` (more than ${CHECK_STALE_DAYS} days ago)` : ''}.
+    </>
+  );
   return (
     <ul class="fresh-fam">
       {FAMILIES.map((f) => {
@@ -50,8 +67,8 @@ export function FamilySummary(props: { status: StatusView; vintages: Record<stri
       })}
       {alerts.length > 0 && (
         <li data-family="Disruption banners">
-          <b>Disruption banners:</b> traffic figures run to <span class="num">{fmtDate(alertTo)}</span> (IMF PortWatch); texts reviewed on{' '}
-          <span class="num">{fmtDate(reviewed)}</span>. {st.alertsBuilt ? <>Last successful update <span class="num">{fmtDate(st.alertsBuilt)}</span>.</> : null}
+          <b>Disruption banners:</b> traffic figures run to <span class="num">{fmtDate(alertTo)}</span> (IMF PortWatch); {checkedText}{' '}
+          {st.alertsBuilt ? <>Last successful update <span class="num">{fmtDate(st.alertsBuilt)}</span>.</> : null}
         </li>
       )}
     </ul>

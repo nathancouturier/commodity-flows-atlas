@@ -9,6 +9,7 @@ import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select } from '../../lib/store';
 import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, shortSource } from '../ui';
 import { passagesText } from '../LaneTable';
+import { EventList } from '../EventList';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import '../../styles/lane-table.css';
@@ -369,6 +370,7 @@ export default function CountryView({ id }: { id: string }) {
             <CountryLanes id={id} p={p} />
           </>
         )}
+        <EventList country={id} />
       </div>
     </>
   );

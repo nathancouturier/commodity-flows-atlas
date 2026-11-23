@@ -264,6 +264,11 @@ function checkCommodityTables() {
       });
       if (typeof t.world === 'number' && sum + (t.other ?? 0) > t.world * (1 + 5e-4) + 1e-6) errors.push(`${where}: the lines add up to more than the world total`);
       if (t.hidden && t.hidden.k !== rows.length - t.hidden.from) errors.push(`${where}: hidden.k does not match the rows after the first ${t.hidden.from}`);
+      // a caveat that holds in some years only names them; `caveatPast` replaces it in the others
+      if ((t.caveatYears !== undefined || t.caveatPast !== undefined) && !t.caveat) errors.push(`${where}: caveatYears or caveatPast without a caveat`);
+      if (t.caveatYears !== undefined && (!Array.isArray(t.caveatYears) || !t.caveatYears.length || t.caveatYears.some((y) => !Number.isInteger(y))))
+        errors.push(`${where}: caveatYears must be a list of years`);
+      if (t.caveatPast !== undefined && !(typeof t.caveatPast === 'string' && t.caveatPast)) errors.push(`${where}: caveatPast must be a sentence`);
     }
   }
   const hdir = path.join(dir, 'history');
@@ -294,6 +299,13 @@ function checkCommodityTables() {
       for (const f2 of ['world', 'labels', 'pub', 'other', 'yl']) if (s[f2] !== undefined && (!Array.isArray(s[f2]) || s[f2].length !== n)) errors.push(`${w}: ${f2} is not one entry per year`);
       for (const f2 of ['est', 'srcEst']) for (const [c, ix] of Object.entries(s[f2] ?? {})) if (!s.c?.[c] || ix.some((i) => !(i >= 0 && i < n) || s.c[c][i] == null)) errors.push(`${w}: ${f2} of ${c} names a year without a figure`);
       if ((s.worldEst ?? []).some((i) => !(i >= 0 && i < n))) errors.push(`${w}: worldEst out of range`);
+      // an out-of-line value is a published value with its flag, never in the latest year (the table of the page)
+      for (const [c, ix] of Object.entries(s.out ?? {}))
+        if (!s.c?.[c] || ix.some((i) => !(i > 0 && i < n - 1) || s.c[c][i] == null)) errors.push(`${w}: out of ${c} names a year without a figure, or an end year`);
+      if (s.out && JSON.stringify(s.worldOut) !== JSON.stringify([...new Set(Object.values(s.out).flat())].sort((a, b) => a - b))) errors.push(`${w}: worldOut does not list the years of out`);
+      for (const [c, v] of Object.entries(s.cl ?? {})) if (!s.c?.[c] || !Array.isArray(v) || v.length !== n) errors.push(`${w}: cl of ${c} is not one label per year`);
+      for (const [c, ix] of Object.entries(s.brk ?? {})) if (!s.c?.[c] || ix.some((i) => !(i > 0 && i < n))) errors.push(`${w}: brk of ${c} out of range`);
+      if (s.n !== undefined && (!Array.isArray(s.n) || s.n.some((x) => typeof x !== 'string' || !x))) errors.push(`${w}: n must be a list of sentences`);
       for (const [c, v] of Object.entries(s.c ?? {})) {
         if (!Array.isArray(v) || v.length !== n) errors.push(`${w}: series of ${c} is not one value per year`);
         else if (v.some((x) => x !== null && !(typeof x === 'number' && x > 0))) errors.push(`${w}: series of ${c} holds a value that is not positive`);

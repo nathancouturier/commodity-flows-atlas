@@ -141,7 +141,11 @@
   ],
   "n": "CEPII BACI HS92 uranium ores and natural uranium compounds (HS 261210, 284410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
   "basis": "ores and compounds, gross weight",
-  "caveat": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative."
+  "caveat": "Gross weight of ores and compounds, not contained uranium; Namibia and Niger tonnage exceeds their mine output, so treat as indicative.",
+  "caveatYears": [
+   2024
+  ],
+  "caveatPast": "Gross weight of ores and compounds, not contained uranium."
  },
  "imports": {
   "y": 2024,

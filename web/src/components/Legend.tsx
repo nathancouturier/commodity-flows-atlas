@@ -8,6 +8,7 @@ import { STATUS_COLOR } from '../map/modules/infrastructure';
 import { LANE_PX, laneGap, laneScale, laneWidthPx, mixedLanesShown } from '../map/modules/lanes';
 import { mixedArcsShown } from '../map/modules/landflows';
 import { ROUTE_W } from '../map/modules/routes';
+import { MIN_TINT_SHARE } from '../map/modules/choropleth';
 import type { Family, Segment } from '../types';
 import '../styles/legend-scale.css';
 import '../styles/lane-engine.css';
@@ -196,13 +197,23 @@ export function Legend() {
       {choro && (
         <div class="legend-block legend-ramp">
           <div class="legend-ramp-bar">
-            <span class="num">{pct(choro.min)}</span>
+            {/* every share under the floor has the one floor tint on the map: its own swatch, and the ramp starts above it */}
+            {choro.min < MIN_TINT_SHARE && choro.max > MIN_TINT_SHARE && (
+              <>
+                <span class="ramp-floor" aria-hidden="true" style={{ background: hexA(choro.color, shareOpacity(MIN_TINT_SHARE)) }} />
+                <span class="num">under {pct(MIN_TINT_SHARE)}</span>
+              </>
+            )}
+            <span class="num">{pct(Math.max(choro.min, choro.max > MIN_TINT_SHARE ? MIN_TINT_SHARE : choro.min))}</span>
             <span
               class="ramp"
               aria-hidden="true"
               style={{
                 background: `linear-gradient(90deg, ${[0, 0.25, 0.5, 0.75, 1]
-                  .map((t) => hexA(choro.color, shareOpacity(choro.min + (choro.max - choro.min) * t)))
+                  .map((t) => {
+                    const lo = Math.max(choro.min, choro.max > MIN_TINT_SHARE ? MIN_TINT_SHARE : choro.min);
+                    return hexA(choro.color, shareOpacity(lo + (choro.max - lo) * t));
+                  })
                   .join(', ')})`,
               }}
             />

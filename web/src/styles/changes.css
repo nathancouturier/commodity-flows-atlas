@@ -3,26 +3,29 @@
 /* ---- alert banners: figures and severity */
 .alert-low { background: rgba(157, 183, 255, 0.07); border-color: rgba(157, 183, 255, 0.35); }
 .alert-low .alert-head b { color: #9db7ff; }
-.alert-sev { margin-right: 8px; padding: 0 6px; border: 1px solid currentColor; border-radius: 3px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; cursor: help; }
-.alert-pass { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
-.alert-pass-fig { color: var(--ink-0); }
-.alert-pass-sub { font-size: 11px; color: var(--ink-2); margin-top: 1px; }
+.alert-sev { margin-right: 6px; padding: 0 5px; border: 1px solid currentColor; border-radius: 3px; font-size: 11px; cursor: help; white-space: nowrap; }
+.alert-pass-fig { margin-top: 3px; color: var(--ink-0); }
+.alert-head .alert-links { margin-top: 0; }
+.alert-high .alert-sev { color: #ff7d94; }
+.alert-medium .alert-sev { color: #ffb547; }
+.alert-low .alert-sev { color: #9db7ff; }
+.alert-pass-sub { font-size: 11px; color: var(--ink-2); }
 .alert-expo { margin-top: 3px; color: var(--ink-1); }
+.alert-det { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.alert-det p { margin: 0 0 4px; }
+.alert-det .alert-pass-fig { margin-top: 6px; }
+.alert-note { margin-top: 3px; font-size: 11px; }
 .alert-pass-link { padding: 0; font-size: inherit; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 .alert-pass-link:hover { color: var(--ink-0); }
-.alert-reviewed { font-size: 11px; margin-top: 6px; }
 
 /* ---- events of a commodity, a route or a country */
-.evl { margin: 8px 0 4px; border: 1px solid var(--line, rgba(255, 255, 255, 0.12)); border-radius: var(--r-md); font-size: var(--fs-xs); }
-.evl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; width: 100%; padding: 8px 10px; text-align: left; cursor: pointer; color: var(--ink-1); }
-.evl-head b { font-size: var(--fs-sm); color: var(--ink-0); }
-.evl-peek { color: var(--ink-2); flex: 1 1 12ch; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.evl-more { margin-left: auto; text-decoration: underline; color: var(--accent); }
-.evl-list { list-style: none; margin: 0; padding: 0 4px 6px; }
-.evl-row { display: grid; grid-template-columns: 8px 6.5em 1fr; gap: 8px; align-items: baseline; width: 100%; padding: 5px 6px; text-align: left; border-radius: var(--r-sm, 4px); color: var(--ink-1); }
+.evl-list { list-style: none; margin: 0; padding: 0; }
+.evl-row { display: grid; grid-template-columns: 8px 6.5em 1fr; gap: 8px; align-items: baseline; width: 100%; padding: 5px 6px; text-align: left; border-radius: var(--r-sm, 4px); color: var(--ink-1); font-size: var(--fs-xs); }
 .evl-row:hover { background: rgba(255, 255, 255, 0.05); color: var(--ink-0); }
 .evl-dot { width: 8px; height: 8px; border-radius: 50%; align-self: center; }
 .evl-date { color: var(--ink-2); font-size: 11px; }
+.evl-more { margin: 2px 0 0 6px; padding: 0; font-size: 11px; color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.evl-more:hover { color: var(--ink-0); }
 
 /* ---- prices around an event */
 .evp-row { padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); }

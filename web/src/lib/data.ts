@@ -56,8 +56,11 @@ export async function loadCatalogue() {
   if (commodity.value && !com.some((c) => c.id === commodity.value)) commodity.value = null;
 }
 
+/** Aggregate rows of the tables that are neither countries nor places (USDA PSD's European Union), with the name the map uses. */
+const REGION_NAME: Record<string, string> = { EU27: 'European Union' };
+
 export function countryName(iso3: string): string {
-  return countries.value[iso3]?.name ?? places.value[iso3] ?? iso3;
+  return countries.value[iso3]?.name ?? places.value[iso3] ?? REGION_NAME[iso3] ?? iso3;
 }
 
 /** A country of the index (it has a page and can be isolated on the map), as opposed to a place that has only a name. */

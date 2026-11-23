@@ -101,3 +101,14 @@
 .lt-chg.down {
   color: var(--alert);
 }
+/* map legend: the one tint of every share under the floor of the country colours (choropleth.ts MIN_TINT_SHARE) */
+.ramp-floor {
+  flex: 0 0 12px;
+  height: 8px;
+  border-radius: 2px;
+  border: 1px solid var(--hairline);
+}
+.legend-ramp-bar .ramp-floor + .num {
+  margin-left: -4px;
+  margin-right: 4px;
+}

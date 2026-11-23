@@ -795,7 +795,21 @@
    }
   ],
   "n": "EIA International Energy Data, coal reserves (all ranks, not split thermal/metallurgical); million short tons converted to Mt; world total as published by EIA (all countries); last revised by EIA in 2022 and repeated unchanged to 2025 (reserve estimates are not revised every year) · Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution.",
-  "caveat": "Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution."
+  "caveat": "Kyrgyzstan: EIA raised its estimate from 971.0 Mt to 28,499 Mt in 2014, a 29-fold step, and has not changed it since; treat this rank with caution.",
+  "caveatYears": [
+   2014,
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ]
  },
  "consumption": {
   "y": 2025,

@@ -66,6 +66,7 @@ function write(root, d) {
   if (d.events) put('freight/events.json', d.events);
   if (d.alerts) put('freight/alerts.json', d.alerts);
   if (d.commodities) put('commodities/index.json', d.commodities);
+  if (d.prices) put('prices/index.json', d.prices);
   if (d.assets) put('infrastructure/ports.geojson', { type: 'FeatureCollection', features: d.assets.map((id) => ({ properties: { id } })) });
 }
 
@@ -73,9 +74,10 @@ function write(root, d) {
 const withAlerts = (d) => {
   d.commodities = [{ id: 'thermal-coal' }, { id: 'lng' }];
   d.assets = ['fujairah'];
+  d.prices = [{ id: 'lng-m', k: 'lng' }, { id: 'coal-m', k: 'thermal-coal' }];
   d.events = [{ id: 'ev1', date: '2026-02-28', title: 't', kind: 'conflict', chokepoints: ['suez'], commodities: ['lng'], countries: ['AUS'], assets: ['fujairah'], summary: 's', src: 'https://example.org' }];
   d.alerts = [{
-    id: 'a1', title: 'T', since: '2026-02', severity: 'high', severityNote: 'n', text: 'x', reviewed: '2026-11-23', event: 'ev1', src: 'https://example.org',
+    id: 'a1', title: 'T', since: '2026-02', severity: 'high', severityNote: 'n', text: 'x', checked: '2026-11-23', event: 'ev1', src: 'https://example.org',
     chokepoints: ['suez'], commodities: ['lng'], countries: ['AUS'], exporters: [], importers: [],
     measures: [{ chokepoint: 'suez', to: '2026-11-15', transits: { now: 10, yearAgo: 20, avg2023: 30 }, s: 'portwatch' }],
   }];
@@ -187,7 +189,13 @@ rejects('an event that names an unknown asset', bad((d) => (d.events[0].assets =
 rejects('an event whose commodities are not a list', bad((d) => (d.events[0].commodities = 'lng')), 'not a list of ids');
 rejects('an event with a date that is not a date', bad((d) => (d.events[0].date = 'March 2026')), 'is not YYYY-MM');
 rejects('two events with one id', bad((d) => d.events.push({ ...d.events[0] })), 'appears twice');
-rejects('an alert without a review date', bad((d) => delete d.alerts[0].reviewed), '"reviewed"');
+rejects('an alert with a check date that is not a date', bad((d) => (d.alerts[0].checked = 'yesterday')), '"checked"');
+rejects('an alert that still carries the old "reviewed" date', bad((d) => (d.alerts[0].reviewed = '2026-11-23')), '"reviewed"');
+rejects('an alert that adds a country the atlas does not have', bad((d) => (d.alerts[0].override = { addCountries: ['ZZZ'], reason: 'r' })), '"ZZZ"');
+rejects('an event that reads a price series of another commodity', bad((d) => (d.events[0].series = { lng: 'coal-m' })), 'is not a price series of "lng"');
+rejects('an event that reads a price series that does not exist', bad((d) => (d.events[0].series = { lng: 'nope-m' })), 'is not a price series of "lng"');
+rejects('an event with a check date that is not a date', bad((d) => (d.events[0].checked = 'today')), '"checked"');
+rejects('an event whose other sources are not links', bad((d) => (d.events[0].also = [{ label: 'x', url: 'ftp://x' }])), '"also"');
 rejects('an alert that points to no event', bad((d) => (d.alerts[0].event = 'ev9')), 'event "ev9"');
 rejects('an alert with a severity outside the list', bad((d) => (d.alerts[0].severity = 'critical')), 'severity "critical"');
 rejects('an alert without a PortWatch figure', bad((d) => (d.alerts[0].measures = [])), 'no PortWatch figure');

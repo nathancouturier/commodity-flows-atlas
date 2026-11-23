@@ -8,6 +8,7 @@ import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { EventList } from '../EventList';
 
 export default function RouteView({ id }: { id: string }) {
   useFreightCatalogue();
@@ -149,6 +150,7 @@ function Body({ r }: { r: Route }) {
             <p class="prose">{r.notes}</p>
           </Section>
         )}
+        <EventList route={r.id} />
         <Section title="Definition">
           <SourceLine s={r.s} />
         </Section>

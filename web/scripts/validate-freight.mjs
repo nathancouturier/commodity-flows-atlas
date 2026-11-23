@@ -15,10 +15,12 @@
  *    vessel class, ports and passages (`via`, `viaAlt`) are those of the largest pair of its corridor in the pairs table;
  *    every corridor entry names its customs group (`g`) or the groups of its commodity (`gs`);
  *  - events (freight/events.json): unique ids, a date, every chokepoint, commodity, country and asset an event names
- *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files);
- *  - alerts (freight/alerts.json): unique ids, a review date, an event that exists, passages that exist, a severity from
- *    the list, a PortWatch figure per passage with its date, derived commodities and countries that exist, and a reason
- *    on every override.
+ *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files); an optional date of
+ *    check, other source pages (`also`) and price series (`series`: a commodity of the atlas and a series of prices/index.json
+ *    that is of that commodity);
+ *  - alerts (freight/alerts.json): unique ids, an optional date of check (`checked`: only a text that was read against its
+ *    source carries one), an event that exists, passages that exist, a severity from the list, a PortWatch figure per
+ *    passage with its date, derived commodities and countries that exist, and a reason on every override.
  * Called by validate-data.mjs; `node validate-freight.mjs [data folder]` runs it alone.
  * A tree from before the pairs table (no data/freight/pairs folder) is checked by the rules that its lane files
  * can meet; once the folder exists every lane file must also meet the rules of the new shape.
@@ -274,6 +276,8 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
   const alerts = read('freight/alerts.json');
   const bad = (file, msg) => errors.push(`freight/${file}: ${msg}`);
   const commodityIds = Array.isArray(read('commodities/index.json')) ? new Set(read('commodities/index.json').map((c) => c.id)) : null;
+  const prices = read('prices/index.json');
+  const priceSeries = Array.isArray(prices) ? new Map(prices.map((m) => [m.id, m.k])) : null;
   let assetIds = null;
   try {
     const dir = path.join(root, 'infrastructure');
@@ -302,6 +306,16 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
       ids('events.json', at, e.commodities, commodityIds, 'commodities');
       ids('events.json', at, e.countries, knownCountries, 'countries');
       ids('events.json', at, e.assets, assetIds, 'assets');
+      if (e.checked !== undefined && !ISO_DATE.test(e.checked)) bad('events.json', `${at}: "checked" must be a date (YYYY-MM-DD)`);
+      if (e.also !== undefined && (!Array.isArray(e.also) || e.also.some((x) => !x?.label || !/^https?:\/\//.test(x?.url ?? '')))) bad('events.json', `${at}: "also" must be a list of {label, url}`);
+      if (e.series !== undefined) {
+        if (typeof e.series !== 'object' || e.series === null || Array.isArray(e.series)) bad('events.json', `${at}: "series" must map a commodity to a price series`);
+        else
+          for (const [k, sid] of Object.entries(e.series)) {
+            if (commodityIds && !commodityIds.has(k)) bad('events.json', `${at}: series for "${k}", which the atlas does not have`);
+            if (priceSeries && priceSeries.get(sid) !== k) bad('events.json', `${at}: series "${sid}" is not a price series of "${k}"`);
+          }
+      }
     }
   }
   if (alerts !== null) {
@@ -313,7 +327,8 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
       else if (seen.has(a.id)) bad('alerts.json', `${at} appears twice`);
       seen.add(a.id);
       if (!a.title || !a.text) bad('alerts.json', `${at}: title and text are required`);
-      if (!ISO_DATE.test(a.reviewed ?? '')) bad('alerts.json', `${at}: "reviewed" must be the date the text was reviewed (YYYY-MM-DD)`);
+      if (a.checked !== undefined && !ISO_DATE.test(a.checked)) bad('alerts.json', `${at}: "checked" must be the date the text was checked against its source (YYYY-MM-DD)`);
+      if (a.reviewed !== undefined) bad('alerts.json', `${at}: "reviewed" is replaced by "checked", which only a text read against its source carries`);
       if (events !== null && !eventIds.has(a.event)) bad('alerts.json', `${at}: event "${a.event}" is not in events.json`);
       if (a.severity !== null && !SEVERITIES.includes(a.severity)) bad('alerts.json', `${at}: severity "${a.severity}" is not one of ${SEVERITIES.join(', ')}`);
       ids('alerts.json', at, a.chokepoints, chokepoints, 'chokepoints');
@@ -327,6 +342,7 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
         if (m.s !== 'portwatch') bad('alerts.json', `${at}: the figure of ${m.chokepoint} must credit portwatch`);
       }
       if (a.override !== undefined && !a.override?.reason) bad('alerts.json', `${at}: an override needs a reason`);
+      if (a.override !== undefined) ids('alerts.json', at, a.override.addCountries, knownCountries, 'override.addCountries');
     }
   }
 }

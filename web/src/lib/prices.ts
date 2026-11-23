@@ -39,6 +39,21 @@ export function groupOf(m: { k: string; fam?: string }): PriceGroup {
 export const GAP_DAYS = 7;
 export const FREQ_WORD = { D: 'daily', M: 'monthly', A: 'annual' } as const;
 
+/**
+ * An annual series gives one value for a calendar year (USGS annual averages, the annual contract prices of iron ore,
+ * the real prices). It is never read as a current price, nor as "the price one month later": a page that looks for the
+ * price at a date or after it uses a daily or monthly series, and says "annual average <year>" for an annual one.
+ */
+export const isAnnualSeries = (m: { freq: string }): boolean => m.freq === 'A';
+
+/**
+ * What an annual value of a series is called. Only the iron ore row of the World Bank Description sheet says that its
+ * early prices are "annual contract prices"; the others are the annual averages their sources publish.
+ */
+export function annualWord(m: { id: string }): string {
+  return m.id === 'iron-ore-contract-a' ? 'annual contract price' : 'annual average';
+}
+
 export const DAY_S = 86400;
 export const priceIndex = signal<PriceMeta[]>([]);
 export const priceIndexError = signal<string | null>(null);
@@ -59,6 +74,28 @@ export function loadPriceIndex(): Promise<PriceMeta[]> {
     );
   }
   return indexPromise;
+}
+
+/**
+ * The key figure of a commodity page needs only the first series of the commodity: prices/figures.json holds it, with its
+ * board figures, for every commodity (the page does not load the whole index).
+ */
+export const priceFigures = signal<Record<string, PriceMeta> | null>(null);
+let figuresPromise: Promise<Record<string, PriceMeta>> | null = null;
+export function loadPriceFigures(): Promise<Record<string, PriceMeta>> {
+  if (!figuresPromise) {
+    figuresPromise = load<Record<string, PriceMeta>>('prices/figures.json').then(
+      (r) => {
+        priceFigures.value = r;
+        return r;
+      },
+      (e) => {
+        figuresPromise = null;
+        throw e;
+      },
+    );
+  }
+  return figuresPromise;
 }
 
 const seriesCache = new Map<string, Promise<LoadedSeries>>();
@@ -316,6 +353,16 @@ export function fmtPrice(v: number | null | undefined): string {
   if (a >= 10000) return nf0.format(v);
   if (a < 1) return nf3.format(v);
   return nf2.format(v);
+}
+
+/**
+ * A value as its series gives it. An annual series is shown with the decimals of the published number (USGS gives 9,000,
+ * not 9,000.00, and 4.5, not 4.50); the other series use the usual price format.
+ */
+export function fmtSeriesValue(m: { freq: string }, v: number | null | undefined): string {
+  if (v == null || Number.isNaN(v) || !isAnnualSeries(m)) return fmtPrice(v);
+  const dec = Math.min(6, (String(v).split('.')[1] ?? '').length);
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: dec, maximumFractionDigits: dec }).format(v);
 }
 
 export function fmtPct(p: number): string {

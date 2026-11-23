@@ -133,6 +133,13 @@ class NameTest(unittest.TestCase):
         defs = self.names(40.0, 5.0)  # BBB 89% of the discharge tonnes, AAA all of the loading ones
         self.assertEqual([d["name"] for d in defs], ["Wheat: AAA to BBB"])
         self.assertEqual((defs[0]["from"]["region"], defs[0]["to"]["region"]), ("AAA", "BBB"))
+        # the end of the page says "Netherlands", the name "the Netherlands"
+        with unittest.mock.patch.object(GR, "COUNTRY_SHARE", 0.8):
+            rows = [row("AAA", "BBB", 40.0, 0, 1)]
+            p = {"k": "wheat", "y": 2024, "seaborne": 40.0, "rows": rows, "ports": self.PORTS2}
+            d = GR.generate({"wheat": p}, {"wheat": self.PORTS2}, {}, ZONES, lambda c: self.AT2[c], lambda g: ("Wheat", "wheat"), {},
+                            lambda c: {"AAA": "the Alps", "BBB": "Bern"}[c])[0][0]
+        self.assertEqual((d["name"], d["from"]["region"]), ("Wheat: the Alps to Bern", "Alps"))
         self.assertIn("AAA (loading, 100% of the tonnes) and BBB (discharge, 89% of the tonnes)", defs[0]["notes"])
 
     def test_below_the_threshold_the_zone_names_the_end(self):

@@ -69,6 +69,66 @@ class PriceMoves(unittest.TestCase):
             self.assertEqual(C.price_moves(tmp)[0]["moves"], [])
 
 
+class RefusedMoves(unittest.TestCase):
+    def test_a_move_beyond_the_bound_is_refused_and_listed_not_published(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp, brent=(90.0, 90.0 * C.MAX_RATIO * 1.01), other=(10.0, 10.0 / C.MAX_RATIO / 1.01))
+            weekly, _ = C.price_moves(tmp)
+            self.assertEqual(weekly["moves"], [])
+            self.assertEqual([r["id"] for r in weekly["refused"]], ["a-d", "b-d"])
+            self.assertIn("beyond a factor", weekly["refused"][0]["why"])
+
+    def test_the_bound_itself_is_allowed_and_a_real_large_move_is_published(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp, brent=(90.0, 90.0 * 1.7), other=(10.0, 10.0 * C.MAX_RATIO))  # +70% (Brent in March 2026); exactly at the bound
+            weekly, _ = C.price_moves(tmp)
+            self.assertEqual([m["id"] for m in weekly["moves"]], ["b-d", "a-d"])
+            self.assertEqual(weekly["refused"], [])
+
+    def test_a_series_that_repeats_another_under_another_name_is_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp)
+            idx = json.load(open(os.path.join(tmp, "index.json")))
+            # a copy of the monthly series under another name and unit (a duplicated column), and an honest twin with the same name and unit
+            write(tmp, "m2-m", {"id": "m2-m", "freq": "M", "start": "2026-01", "v": [1, 2, 3, 4, 5, 6, 7, 8, 9, 12]})
+            idx.append({"id": "m2-m", "name": "Another index", "k": "k", "unit": "index (2010 = 100)", "freq": "M", "s": "wb-pink", "start": "2026-01", "end": "2026-10"})
+            write(tmp, "index", idx)
+            _, monthly = C.price_moves(tmp)
+            self.assertEqual(monthly["moves"], [])
+            self.assertEqual([r["id"] for r in monthly["refused"]], ["m-m", "m2-m"])
+            self.assertIn("same two figures as m2-m", monthly["refused"][0]["why"])
+
+    def test_the_status_of_the_job_says_what_was_refused(self):
+        calls = []
+
+        class Status:
+            @staticmethod
+            def record_success(source, records=None, data_to=None, note="updated", state=None):
+                calls.append((source, note, state))
+
+            @staticmethod
+            def record_failure(*a, **k):
+                raise AssertionError("failed")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            saved = (C.status, C.CHANGES, C.FEED, C.DATA, C.build)
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices, brent=(90.0, 900.0))
+            try:
+                C.status, C.CHANGES, C.FEED = Status, os.path.join(tmp, "changes.json"), os.path.join(tmp, "changes.atom")
+                orig = saved[4]
+                C.build = lambda previous=None: orig(prices_dir=prices, series_dir=tmp, previous=previous, updates={"sources": {}}, registry=[])
+                C.main()
+            finally:
+                C.status, C.CHANGES, C.FEED, C.DATA, C.build = saved
+            self.assertEqual(calls[0][0], "build-changes")
+            self.assertIn("refused", calls[0][1])
+            self.assertEqual([r["id"] for r in calls[0][2]["refused"]], ["a-d"])
+            doc = json.load(open(os.path.join(tmp, "changes.json")))
+            self.assertNotIn("a-d", json.dumps(doc["entries"]))  # not published in the feed either
+
+
 class PassageMoves(unittest.TestCase):
     def folder(self, tmp, **perday):
         write(tmp, "x", {"compare": {"to": "2026-11-15", "perDay": perday}})
@@ -150,6 +210,36 @@ class Digest(unittest.TestCase):
             self.assertEqual(doc2["entries"][0]["t"] >= doc2["entries"][-1]["t"], True)
             self.assertEqual(len({e["id"] for e in doc2["entries"]}), len(doc2["entries"]))
             self.assertIn("eia-spot", {s["id"] for s in doc2["sources"]})
+
+    def test_two_runs_on_one_day_keep_the_sources_of_the_first(self):
+        """The PortWatch job (Wednesday 19:17) and the prices job (21:43) run on the same UTC day."""
+        reg = [{"id": "portwatch", "name": "IMF PortWatch"}, {"id": "eia-spot", "name": "EIA spot"}]
+        with tempfile.TemporaryDirectory() as tmp:
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices)
+            empty = os.path.join(tmp, "none")
+            os.makedirs(empty)
+
+            def entry(to, at):
+                return {"last_success": at, "data_to": to, "state": {}}
+
+            quiet = {"sources": {"portwatch": entry("2026-11-08", "2026-11-18T19:20:00Z"), "eia-spot": entry("2026-11-10", "2026-11-18T21:50:00Z")}}
+            base, _ = C.build(prices_dir=prices, series_dir=empty, now=datetime(2026, 11, 18, 22, 0, tzinfo=timezone.utc), previous={}, updates=quiet, registry=reg)
+            day1 = datetime(2026, 11, 25, 19, 30, tzinfo=timezone.utc)
+            run1 = {"sources": {"portwatch": entry("2026-11-22", "2026-11-25T19:20:00Z"), "eia-spot": entry("2026-11-10", "2026-11-18T21:50:00Z")}}
+            doc1, _ = C.build(prices_dir=prices, series_dir=empty, now=day1, previous=base, updates=run1, registry=reg)
+            self.assertEqual([i["id"] for i in doc1["sources"]], ["portwatch"])
+            run2 = {"sources": {"portwatch": entry("2026-11-22", "2026-11-25T19:20:00Z"), "eia-spot": entry("2026-11-24", "2026-11-25T21:50:00Z")}}
+            doc2, _ = C.build(prices_dir=prices, series_dir=empty, now=day1 + timedelta(hours=2, minutes=15), previous=doc1, updates=run2, registry=reg)
+            self.assertEqual(sorted(i["id"] for i in doc2["sources"]), ["eia-spot", "portwatch"])  # the first run's source is still there
+            entry_ = next(e for e in doc2["entries"] if e["id"] == "2026-11-25-sources")
+            self.assertEqual(len(entry_["lines"]), 2)
+            self.assertTrue(any("IMF PortWatch" in l for l in entry_["lines"]) and any("EIA spot" in l for l in entry_["lines"]))
+            # a run on the next day does not carry yesterday's sources over
+            run3 = {"sources": {"portwatch": entry("2026-11-29", "2026-12-02T19:20:00Z"), "eia-spot": entry("2026-11-24", "2026-11-25T21:50:00Z")}}
+            doc3, _ = C.build(prices_dir=prices, series_dir=empty, now=day1 + timedelta(days=7), previous=doc2, updates=run3, registry=reg)
+            self.assertEqual([i["id"] for i in doc3["sources"]], ["portwatch"])
 
     def test_feed_is_valid_atom(self):
         doc = {"generated": "2026-11-24T18:00:00Z", "entries": [

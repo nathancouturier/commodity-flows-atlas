@@ -404,7 +404,8 @@ def process(changed):
                                                 os.path.join(CACHE, "adjacency.json"),
                                                 os.path.join(CACHE, "seaborne_totals.json"), os.path.join(CACHE, "geom_cache.json"),
                                                 os.path.join(CACHE, "route_cache.json"), os.path.join(CACHE, "trade_checks.json"),
-                                                os.path.join(CACHE, "sea_flows.csv.gz"), os.path.join(CACHE, "mixed_flows.csv.gz")]))
+                                                os.path.join(CACHE, "sea_flows.csv.gz"), os.path.join(CACHE, "mixed_flows.csv.gz"),
+                                                os.path.join(ROOT, "pipeline", "freight", "QA_routes.md")]))
         # the alert banners read the chokepoint estimates and lanes that build_freight.py has just written
         chain.append(("build-alerts", lambda: run([PY, os.path.join(ROOT, "pipeline", "freight", "build_alerts.py"), "--strict"],
                                                   STEP_MIN["alerts"] * 60), [os.path.join(data, "freight", "alerts.json")]))

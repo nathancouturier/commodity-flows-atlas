@@ -642,42 +642,72 @@ These are labelled "typical" in the interface. They are not measured shares of e
   counts"); the counts are aggregated, no vessel position or track is used. PortWatch counts the Oresund but not the Great Belt, so the Danish Straits series is
   labelled as Oresund only; it has no counter for the Singapore Strait or for Cape Horn, whose
   page shows the Magellan Strait counter under its own name.
-- **Incremental update of the traffic**: the weekly job keeps the daily table in
-  `pipeline/cache/portwatch/daily_<year>.csv.gz` (the runners keep nothing else between runs) and asks
-  the service only for the days after the last one stored, less 14 days that PortWatch may revise
-  (one page of 2,000 records instead of 41); every 28 days it downloads the whole table again.
-  A table with fewer than 95% of the previous run's records, or ending earlier, is refused and the
-  previous files are kept.
+- **Incremental update of the traffic**: the weekly job keeps the daily table as a working file,
+  `pipeline/cache/portwatch/daily_<year>.csv.gz`, which is **not in git** (the atlas publishes only its
+  own weekly averages and comparisons: NOTICE.md, "IMF PortWatch"). On GitHub the job restores it at its
+  start from the newest artifact `portwatch-daily` of the same workflow (`restore_portwatch.py`; the
+  artifact is uploaded after each successful update and kept 90 days) and asks the service only for
+  the days after the last one stored, less 14 days that PortWatch may revise (one page of 2,000 records
+  instead of 41); every 28 days it downloads the whole table again, which also picks up older revisions.
+  With no usable artifact (first run, expired, older than 28 days, unreadable) the job downloads the whole
+  table; when the monthly download fails it falls back to the incremental update in the same run and
+  records the failure in the status file (`full_refresh_failed`). A table with fewer than 95% of the
+  previous run's records, or ending earlier, is refused and the previous files are kept. The annual job
+  has no table on its runner: `build_freight.py` then reads the annual PortWatch tonnages from the weekly
+  series and does not rebuild them.
 - **Alerts** (`pipeline/freight/build_alerts.py`, `data/freight/alerts.json`). The title, the text, the
-  start, the event and the passages of a banner are written by hand, with the date the text was
-  reviewed. Everything else is computed: for each passage, the transits and PortWatch's estimated
-  tonnes over the last 28 days, over the same 28 days a year earlier (364 days back, the same
+  start, the event and the passages of a banner are written by hand; the date the text was **checked
+  against its source** (`checked`) is set only when someone has read the page it cites and kept the
+  sentences and dates that page supports, and the banner says so ("Text checked against its source
+  on ..."; a check older than 90 days is shown as such; a text that was not checked carries no date). Everything else is computed:
+  for each passage, the transits and PortWatch's estimated tonnes over the last 28 days, over the same 28 days a year earlier (364 days back, the same
   weekdays) and the 2023 average scaled to 28 days (2023 is the last full year before every
   disruption listed), with the gap in per cent and the date of the last observation; these are
   arithmetic on a published series, credited to IMF PortWatch without the "Atlas estimate" mark. The
   **severity** comes from the gap of the transits against the 2023 average at the worst passage of
   the alert: **high** at 60% or more below, **medium** at 25% or more below, **low** otherwise (the
-  thresholds are `SEVERITY_LEVELS` in `build_alerts.py`; the banner names them in the title attribute
-  of the severity). The **commodities** of an alert are those whose "at least" share of seaborne
-  trade through one of its passages is 10% or more, or whose "at least" tonnage is 50 Mt or more
-  (the estimates above); the **countries** are, for each of those commodities, the exporters and the
-  importers that carry 15% or more of its "at least" tonnage through the passages (a pair that
-  crosses two passages counts once). An alert may keep an `override` with a reason; none does. On a
-  commodity page the banner adds the commodity's own estimate for each passage ("at least 27%, up to
-  32% of seaborne crude oil crossed the Strait of Hormuz in 2024", two significant digits, "Atlas
-  estimate"). The weekly job runs the builder after the PortWatch update and the annual job after the
+  thresholds are `SEVERITY_LEVELS` in `build_alerts.py`; the banner shows the rule applied in visible
+  text, "High: 64% below 2023", and the whole rule behind "Details"). The **commodities** of an alert
+  are those whose "at least" share of seaborne trade through one of its passages is 10% or more
+  (`SHARE_MIN`), or whose "at least" tonnage is 50 Mt or more (`TONNES_MIN`; the estimates above).
+  The **countries** are, for each of those commodities, the exporters and the importers that carry
+  15% or more of its "at least" tonnage through the passages (`COUNTRY_MIN`), and every country with
+  20 Mt or more of cargo, of any commodity, that has to cross the passages (`COUNTRY_MT_MIN`); a pair
+  that crosses two passages counts once. An alert may keep an `override` with a reason taken from the
+  atlas's own files: `addCountries` appends countries to the derived list (so it follows the data
+  when they change). Today Iran is added to the Hormuz alert (customs data record no Iranian crude
+  oil exports in 2024, caveat `crude-irn`, so the lanes cannot name the country at the centre of
+  the event) and Yemen to the Red Sea alert (the coastal state at Bab el-Mandeb, named by the event).
+  The derivation, and the reason of an override, are shown to the reader behind the banner's
+  "Details". On a commodity page the banner adds the commodity's own estimate for the passage
+  ("at least 27%, up to 32% of seaborne crude oil crossed the Strait of Hormuz in 2024", two
+  significant digits, "Atlas estimate"); the estimates for the alert's other passages are behind
+  "Details", with the note that the passages are on the same routes and the shares are not additive. The weekly job runs the builder after the PortWatch update and the annual job after the
   freight build. A threshold is never a reason to open an issue: the severity changes on the banner
   and the build prints the change.
-- **Events** carry `commodities`, `countries` and `assets` when their own text, or the page they cite,
-  names them; an event that names none has none. The commodity, route and country pages list the
-  events that name them; History marks, with a commodity chosen, only the events that name it; the
-  event page shows the change of the atlas's price series of each linked commodity one and three
-  months after the event's start (arithmetic on the published prices, not an estimate of the effect).
+- **Events** carry `commodities`, `countries` and `assets` when their own text (title, summary,
+  impact, and the names of the assets they link to) names them, by whole words (`pipeline/freight/event_links.py`
+  is the rule; the tests check every event against it: "tin" is not "tinplate", "gas" is not
+  "gasoline", "oil" is not "oil-fired"); a linked route or passage does not name a commodity by being
+  linked. An event that names no commodity has none. The event that an alert points to is also shown
+  with the alert's commodities. With a commodity chosen, the "Events" section of its page, the History
+  timeline and the event markers of the price chart keep an event that names the commodity, or names no
+  commodity at all (a shipping or market event), or belongs to an alert that covers it
+  (`web/src/lib/events.ts`). The event page shows the change of the atlas's price series of each linked
+  commodity one and three months after the event: from the series the event names (`series`, where the
+  catalogue has several markets: a European gas event reads the TTF), else the commodity's first
+  daily or monthly series, with its name in the line. A monthly series gives month averages (the first
+  figure is the average of the month of the event) and a figure that is the same observation as the
+  first is left out; an annual series gives none. It is arithmetic on the published prices, not an
+  estimate of the effect.
 - **What changed**: after each update `pipeline/common/changes.py` writes `data/_status/changes.json`
   (the five largest weekly moves of the daily price series, the five largest monthly moves, the five
   passages furthest from their 4-week and 365-day averages with at least 3 vessels a day, the sources
   whose data or release changed since the previous run) and `web/public/changes.atom`, the same items
-  as an Atom feed.
+  as an Atom feed. A price move beyond a factor of 5 in a week or a month (`MAX_RATIO`), and a series
+  that carries the same two figures as another series of another name or unit, are not published:
+  the job lists them in its status (`refused`). Two runs on one day (the PortWatch job at 19:17 and
+  the prices job at 21:43 on Wednesday) keep the sources that the first reported.
 
 ## 6. Country profiles
 

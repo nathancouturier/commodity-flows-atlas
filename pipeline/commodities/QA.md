@@ -693,7 +693,7 @@ Not restricted by any strait for want of a sourced draught: aframax, container, 
 
 ## Series by country and year (data/commodities/history)
 
-38 files, 1.70 MB in all.
+38 files, 1.76 MB in all.
 
 - aluminium (production 2024-2025, exports 2005-2024, imports 2005-2024)
 - bauxite (production 2024-2025, refinery 2024-2025, exports 2005-2024, imports 2005-2024, alumina-exports 2005-2024, alumina-imports 2005-2024)
@@ -707,7 +707,7 @@ Not restricted by any strait for want of a sourced draught: aframax, container, 
 - gold (production 2024-2025)
 - iron-ore (production 2024-2025, exports 2005-2024, imports 2005-2024)
 - lead (production 2024-2025, exports 2005-2024, imports 2005-2024)
-- lithium (production 2024-2025, exports 2005-2024, imports 2005-2024, spodumene-exports 2005-2024)
+- lithium (production 2024-2025, exports 2005-2024, imports 2005-2024, spodumene-exports 2021-2024)
 - lng (exports 2005-2024, imports 2005-2024)
 - lpg (consumption 2005-2025, exports 2005-2024, imports 2005-2024)
 - manganese (production 2024-2025, exports 2005-2024, imports 2005-2024)

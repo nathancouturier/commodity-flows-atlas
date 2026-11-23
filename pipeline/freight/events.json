@@ -343,7 +343,11 @@
   ],
   "summary": "Russia launched a full-scale invasion of Ukraine; Ukrainian Black Sea ports were closed and the Black Sea became a war zone.",
   "impact": "Black Sea war-risk premiums rose and Ukrainian grain exports initially halted; Europe began replacing Russian coal, crude, products and pipeline gas.",
-  "src": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine"
+  "src": "https://en.wikipedia.org/wiki/Russian_invasion_of_Ukraine",
+  "series": {
+   "natural-gas": "ttf-m",
+   "thermal-coal": "coal-zaf-m"
+  }
  },
  {
   "id": "us-lng-freeport-2022",
@@ -432,7 +436,10 @@
   ],
   "summary": "Explosions damaged the Nord Stream 1 and 2 gas pipelines in the Baltic Sea.",
   "impact": "Removed the largest Russia-Germany gas pipeline route, deepening reliance on LNG and raising demand for LNG shipping.",
-  "src": "https://en.wikipedia.org/wiki/Nord_Stream_pipelines_sabotage"
+  "src": "https://en.wikipedia.org/wiki/Nord_Stream_pipelines_sabotage",
+  "series": {
+   "natural-gas": "ttf-m"
+  }
  },
  {
   "id": "eu-crude-embargo-2022",
@@ -563,7 +570,11 @@
    "qatar-europe-lng"
   ],
   "countries": [
-   "YEM"
+   "YEM",
+   "ISR",
+   "USA",
+   "GBR",
+   "QAT"
   ],
   "summary": "Houthi forces in Yemen began attacking commercial ships linked to Israel in the Red Sea on 19 November 2023 and hijacked the Galaxy Leader that month; they later attacked ships with no Israeli link, particularly near Bab el-Mandeb. US- and UK-led air and missile strikes on the Houthis began on 12 January 2024.",
   "impact": "Global shipping companies moved their vessels around the Cape of Good Hope: by March 2024 over 2,000 ships had left the Red Sea route, container ships first, while many bulk carriers and tankers kept transiting at first. The Cape route adds about ten days. Qatar halted LNG tankers through Bab el-Mandeb after the US-led strikes on Houthi targets. Suez Canal transits fell from 2,068 in November 2023 to about 877 in October 2024.",
@@ -611,7 +622,10 @@
   ],
   "summary": "The container ship Dali struck the bridge, closing the Port of Baltimore main channel until it fully reopened in June 2024.",
   "impact": "Baltimore handled coal exports and roro; thermal coal cargoes rerouted to Norfolk and other East Coast ports, with temporary disruption to US coal shipments.",
-  "src": "https://en.wikipedia.org/wiki/Francis_Scott_Key_Bridge_collapse"
+  "src": "https://en.wikipedia.org/wiki/Francis_Scott_Key_Bridge_collapse",
+  "series": {
+   "thermal-coal": "coal-zaf-m"
+  }
  },
  {
   "id": "hormuz-israel-iran-2025",
@@ -667,7 +681,8 @@
    "lpg"
   ],
   "countries": [
-   "PAN"
+   "PAN",
+   "USA"
   ],
   "summary": "Fiscal year 2025 (to 30 September 2025) transits rose 19.3% to 13,404 with LPG a key growth driver while LNG underperformed.",
   "impact": "Panama remains an alternative for US Gulf LPG to Asia.",

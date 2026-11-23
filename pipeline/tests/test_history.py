@@ -160,7 +160,9 @@ class Series(unittest.TestCase):
         self.assertEqual(wh["labels"][-1], B.PSD_LABEL)
         cp = self.hist["copper"]["t"]["production"]
         self.assertEqual(cp["years"], [int(B.USGS_YEAR) - 1, int(B.USGS_YEAR)])
-        self.assertEqual(cp["yl"], ["revised", "estimated"])
+        # the file marks values "Estimated." one by one and gives no word such as "revised" for a year (GH1.2)
+        self.assertEqual(cp["yl"][0], f"as published in USGS MCS {B.USGS_EDITION}")
+        self.assertNotIn("revised", " ".join(cp["yl"]))
 
     def test_one_value_per_year(self):
         for cid, h in self.hist.items():
@@ -190,6 +192,106 @@ class Series(unittest.TestCase):
     def test_eu_entity_of_2005_is_the_eu_row(self):
         su = self.hist["sugar"]["t"]["production"]
         self.assertIsNotNone(su["c"]["EU27"][0])  # PSD names it "EU-25" in market year 2005/06
+
+    def test_eu_row_is_labelled_for_what_it_is_each_year(self):
+        """USDA PSD's European Union row holds the United Kingdom until the file gives the United Kingdom a row of its own
+        (2016/17), and is EU-25 in 2005/06 sugar: the row is named so, its line breaks, the note says it (GH1.4)."""
+        wi = self.hist["wheat"]["t"]["imports"]
+        i16 = wi["years"].index(2016)
+        cl = wi["cl"]["EU27"]
+        self.assertTrue(all(x == "European Union with the United Kingdom" for x in cl[:i16]))
+        self.assertTrue(all(x is None for x in cl[i16:]))
+        self.assertIsNone(wi["c"]["GBR"][i16 - 1])
+        self.assertIsNotNone(wi["c"]["GBR"][i16])
+        self.assertIn(i16, wi["brk"]["EU27"])
+        self.assertIn(i16, wi["brk"]["GBR"])  # the United Kingdom leaving the row is not a new trade
+        note = next(n for n in wi["n"] if n.startswith("The European Union row"))
+        self.assertIn("2005/06 to 2015/16", note)
+        self.assertIn("from 2016/17", note)
+        su = self.hist["sugar"]["t"]["production"]
+        self.assertEqual(su["cl"]["EU27"][0], "EU-25")
+        self.assertEqual(su["brk"]["EU27"], [1, su["years"].index(2016)])
+        # no rebuilt aggregate: the row is the file's own value
+        self.assertEqual(wi["c"]["EU27"][-1], next(r["v"] for r in self.docs["wheat"]["imports"]["rows"] if r["c"] == "EU27"))
+
+    def test_out_of_line_rule(self):
+        """A value far out of line with both its neighbours, which carries the jump of the world total, is flagged; a shock
+        spread over many countries, a fall where a series stops, and a jump whose declared value moved with it are not."""
+        w = [100.0, 102.0, 300.0, 101.0, 99.0]
+        vals = {"AAA": [10.0, 11.0, 210.0, 10.0, 9.0], "BBB": [90.0, 91.0, 90.0, 91.0, 90.0]}
+        self.assertEqual(H.out_of_line(w, vals), {"AAA": [2]})
+        # the declared value moved with the tonnage: a real change of trade
+        usd = {"AAA": [100.0, 110.0, 2100.0, 100.0, 90.0]}
+        self.assertEqual(H.out_of_line(w, vals, usd), {})
+        # a shock spread over many countries moves the world without one country carrying the jump
+        spread = {k: [10.0, 10.0, 5.0, 10.0, 10.0] for k in "ABCDEFGHIJ"}
+        self.assertEqual(H.out_of_line([100.0, 100.0, 50.0, 100.0, 100.0], spread), {})
+        # a country whose series stops after a big fall (an export ban) is not a break
+        self.assertEqual(H.out_of_line([100.0, 100.0, 60.0, 62.0], {"AAA": [50.0, 50.0, 5.0, None], "BBB": [50.0, 50.0, 55.0, 62.0]}), {})
+        # a jump on the last year of a series that stops, carrying the world's jump (the EIA's US LPG of 2021)
+        self.assertEqual(H.out_of_line([300.0, 310.0, 420.0, 290.0], {"USA": [43.0, 43.0, 148.0, None], "CHN": [70.0, 72.0, 74.0, 76.0]}), {"USA": [2]})
+
+    def test_out_of_line_on_the_real_series(self):
+        lp = self.hist["lpg"]["t"]["consumption"]
+        i21 = lp["years"].index(2021)
+        self.assertEqual(lp["out"], {"USA": [i21]})
+        self.assertEqual(lp["worldOut"], [i21])
+        self.assertGreater(lp["c"]["USA"][i21], 3 * lp["c"]["USA"][i21 - 1])  # kept as published, flagged
+        self.assertTrue(any(n.startswith("United States has no figure after 2021") for n in lp["n"]))  # the change of coverage
+        # real shocks survive: Libya's blockade of 2020, Russia's export ban of 2010, Malaysia's bauxite boom of 2015 (its
+        # declared value moved with the tonnage), and the crisis year 2009 spread over every potash trader
+        for cid, k, c, y in (("crude-oil", "exports", "LBY", 2020), ("wheat", "exports", "RUS", 2010), ("bauxite", "exports", "MYS", 2015)):
+            s = self.hist[cid]["t"][k]
+            self.assertNotIn(s["years"].index(y), (s.get("out") or {}).get(c, []), (cid, k, c, y))
+        self.assertNotIn("out", self.hist["potash"]["t"]["exports"])
+        flagged = {(cid, k) for cid, h in self.hist.items() for k, s in h["t"].items() if s.get("out")}
+        self.assertLessEqual(len(flagged), 6, flagged)  # a rule for breaks, not for the ups and downs of trade
+
+    def test_spodumene_series_starts_with_the_lanes(self):
+        """The spodumene estimate is not extended to years its rule does not cover: the series starts in the lanes' first year,
+        with the same sentence (GH1.6)."""
+        import build_lanes as BL
+        first, why = BL.FIRST_YEAR["spodumene"]
+        sp = self.hist["lithium"]["t"]["spodumene-exports"]
+        self.assertEqual(sp["years"][0], first)
+        self.assertEqual(sp["n"][0], why + ".")
+
+    def test_caveats_of_some_years_only(self):
+        """A past-year table keeps the caveats of its table; one that speaks of some years only names them (GH1.3)."""
+        d = self.docs
+        lp = d["lpg"]["consumption"]
+        s = self.hist["lpg"]["t"]["consumption"]
+        self.assertEqual(lp["caveatYears"], [y for i, y in enumerate(s["years"]) if s["c"]["USA"][i] is None])
+        self.assertEqual(d["lng"]["exports"]["caveatYears"], [B.BACI_YEAR])
+        self.assertTrue(d["lng"]["exports"]["caveatShort"])  # shown in the other years
+        self.assertTrue(d["uranium"]["exports"]["caveat"].startswith(d["uranium"]["exports"]["caveatPast"][:-1]))
+        kg = d["thermal-coal"]["reserves"]
+        self.assertEqual(kg["caveatYears"][0], 2014)
+        # scope caveats hold for every year: no years named
+        for cid, k in (("refined-products", "exports"), ("refined-products", "imports"), ("natural-gas", "exports"), ("cobalt", "exports"), ("potash", "imports")):
+            self.assertTrue(d[cid][k]["caveat"], (cid, k))
+            self.assertNotIn("caveatYears", d[cid][k], (cid, k))
+        for cid, doc in d.items():
+            for k, t in tables(doc):
+                if "caveatYears" in t:
+                    self.assertTrue(t.get("caveat"), (cid, k))
+                    self.assertIn(k, self.hist[cid]["t"], (cid, k))
+
+    def test_countries_that_split_are_noted(self):
+        """Sudan and South Sudan, Serbia and Montenegro, the Netherlands Antilles: one sentence where the series holds the
+        break, with the years read from the files (GH1.10)."""
+        cp = self.hist["crude-oil"]["t"]["production"]
+        i12 = cp["years"].index(2012)
+        self.assertIn("South Sudan has figures of its own from 2012: the source's Sudan up to 2011 covers it too.", cp["n"])
+        self.assertIn(i12, cp["brk"]["SDN"])
+        self.assertIsNone(cp["c"]["SSD"][i12 - 1])
+        ends = H.code_ends()
+        self.assertEqual({c: e[1] for c, e in ends.items()}, {"SCG": 2005, "ANT": 2010, "SDN": 2011})
+        notes = [n for h in self.hist.values() for s in h["t"].values() for n in s.get("n", [])]
+        self.assertTrue(any("Serbia" in n and "Serbia and Montenegro as one entity" in n for n in notes))
+        self.assertTrue(any("Curaçao" in n and "Netherlands Antilles" in n for n in notes))
+        # South Sudan starting in a series where Sudan has no figure is not a split of Sudan's figures
+        self.assertFalse(any("South Sudan" in n for n in self.hist["corn"]["t"]["production"].get("n", [])))
 
     @unittest.skipUnless(HAS_BACI, "pipeline/cache/baci_flows.csv.gz is not on disk")
     def test_a_past_estimated_year_matches_the_cleaned_frame(self):

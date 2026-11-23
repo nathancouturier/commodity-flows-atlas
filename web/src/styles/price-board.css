@@ -288,3 +288,21 @@
   color: var(--ink-2);
   line-height: 1.4;
 }
+
+/* Stacked layout of the price drawer (the drawer is narrower than 860 px) on a desktop screen, which happens as soon as
+   the detail panel is open: the main column is as tall as its content and the chart has a box of its own, so that the
+   source lines, the event legend and the hint never run over the statistics under them (the sheet scrolls). The same
+   rule for tablets and phones is in drawers.css. */
+@media (min-width: 1025px) and (min-height: 501px) {
+  @container pd (max-width: 859px) {
+    .app .pd .pd-main {
+      min-height: 0;
+      height: max-content;
+    }
+    .app .pd .pd-main .pd-chart {
+      flex: none;
+      height: clamp(190px, 24vh, 260px);
+      min-height: 0;
+    }
+  }
+}

@@ -30,7 +30,7 @@ Notices tabs) and in [`NOTICE.md`](NOTICE.md).
 | `web/` | The site: Vite + Preact + TypeScript, MapLibre GL for the map, uPlot for charts |
 | `web/scripts/validate-data.mjs` | Checks the data files (source ids, shape) before an update is kept |
 | `data/` | Processed, versioned data (JSON) served by the site. The shapes are the interfaces of `web/src/types.ts`; `data/sources.json` is the source registry and `data/_status/` records every update run |
-| `pipeline/` | Scripts that download and process the public sources into `data/`; `pipeline/cache/` holds the reduced BACI trade table and other tracked caches |
+| `pipeline/` | Scripts that download and process the public sources into `data/`; `pipeline/cache/` holds the reduced BACI trade table and other tracked caches (the PortWatch daily table in `pipeline/cache/portwatch/` is an ignored working file, not published) |
 | `.github/workflows/` | Site deployment and scheduled data refresh jobs |
 | `DATA_SOURCES.md` | Every source, its licence, update cadence and how it is fetched (generated from `data/sources.json`) |
 | `METHODOLOGY.md` | How the figures are built: cleaning and checks of the customs data, sea or overland, lanes, ports and routes, shares, estimates and conversions |
@@ -99,7 +99,7 @@ Three scheduled GitHub Actions workflows refresh the data. Each can also be star
 | Workflow | Schedule (UTC) | Sources |
 |---|---|---|
 | `update-prices.yml` | Wednesdays 21:43 and Thursdays 09:43 (EIA publishes on Wednesday) | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
-| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits |
+| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits: only the days after the last one stored, the whole table once a month. The daily table is a working file kept between runs as a workflow artifact, not in git; only the atlas's weekly averages and comparisons are published (NOTICE.md) |
 | `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`adjacency`, `build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
 
 **Robustness.** Downloads (`pipeline/common/fetch.py`) use retries with exponential backoff and jitter,

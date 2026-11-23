@@ -3,17 +3,18 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, CommodityHistory, Fig, Flow, HistTable, LaneFile, Ranked } from '../../types';
 import { loadOptional, loadHistory, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
-import { largestChanges, tableAt, yearLabel } from '../../lib/tableYears';
+import { SMALL_BASE, largestChanges, rowName, tableAt, yearLabel, type Change } from '../../lib/tableYears';
 import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
 import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, CompanyRows, AlertBanners, shortSource } from '../ui';
 import LaneTable, { yearNote } from '../LaneTable';
+import { EventList } from '../EventList';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import '../../styles/history-year.css';
-import { PRICE_COVERAGE_NOTE, loadPriceIndex, lowerName, openPrices, priceIndex, seriesForCommodity } from '../../lib/prices';
+import { PRICE_COVERAGE_NOTE, loadPriceFigures, lowerName, openPrices, priceFigures } from '../../lib/prices';
 import { PriceFigure } from '../PriceFigure';
 
 /**
@@ -22,10 +23,11 @@ import { PriceFigure } from '../PriceFigure';
  */
 function usePriceDrawer(id: string): { open: () => void; none: boolean } {
   useEffect(() => {
-    loadPriceIndex().catch(() => undefined);
+    loadPriceFigures().catch(() => undefined);
   }, []);
-  const idx = priceIndex.value;
-  return { open: () => openPrices({ commodity: id }), none: idx.length > 0 && !seriesForCommodity(id, idx).length };
+  // prices/figures.json has an entry for every commodity that has a price series: the page does not load the whole index
+  const figures = priceFigures.value;
+  return { open: () => openPrices({ commodity: id }), none: figures !== null && !figures[id] };
 }
 
 /** What the main trade tables measure when it is not the finished commodity (used when the data file has no `basis`). */
@@ -62,6 +64,8 @@ function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; colo
     <>
       <RankedBars data={shown} color={color} hist={hist} at={at} />
       {cv && <FoldNote class="table-caveat" text={cv} />}
+      {/* notes on the series by year (a first year set by a rule, a change of membership or coverage, a country that split) */}
+      {!!hist?.n?.length && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={`Series by year: ${hist.n.join(' ')}`} />}
       {data.s === 'usda-psd' && (
         <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
       )}
@@ -73,9 +77,16 @@ function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; colo
  * A ranked table that follows the History year when its series by year holds that year (heading, source line, shares on
  * that year's world total); otherwise the latest table, with the words "2025: no series for 2010" next to the heading.
  */
-function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string }) {
+function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string; loading?: boolean }) {
   const yr = year.value;
   const { table, i, note, past } = useMemo(() => tableAt(props.data, props.hist, yr), [props.data, props.hist, yr]);
+  // with a History year, nothing is said of the year until the series by year is loaded: no latest table, no "no series" tag
+  if (yr != null && props.loading)
+    return (
+      <Section title={props.title}>
+        <Skeleton lines={4} />
+      </Section>
+    );
   // a title that names the latest year ("EIA 2024") names the year shown
   const title = past ? props.title.split(String(props.data.y)).join(String(table.y)) : props.title;
   const aside = note ? <span class="year-tag">{note}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
@@ -95,9 +106,17 @@ const signed = (v: number, est: boolean) => `${v > 0 ? '+' : '−'}${fmtEst(Math
  */
 function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: CommodityData; color?: string }) {
   const yr = year.value;
-  const sides = (['exports', 'imports'] as const).flatMap((k) => {
-    const h = hist.t[k];
-    if (!h || h.years.length < 2) return [];
+  const series = (['exports', 'imports'] as const).flatMap((k) => (hist.t[k] && hist.t[k].years.length >= 2 ? [{ k, h: hist.t[k] }] : []));
+  if (!series.length) return null;
+  // the History year is the first year of the series: there is no year before it to compare with
+  const first = yr != null && series.every(({ h }) => h.years.indexOf(yr) === 0) ? yearLabel(series[0].h, 0) : null;
+  if (first)
+    return (
+      <Section title="Largest changes" aside={<span class="year-tag">no year before {first}</span>}>
+        <div class="muted small">The series by year start in {first}: there is no year before it to compare with.</div>
+      </Section>
+    );
+  const sides = series.flatMap(({ k, h }) => {
     const at = yr != null && h.years.indexOf(yr) >= 1 ? h.years.indexOf(yr) : h.years.length - 1;
     const ch = largestChanges(h, at);
     return ch && (ch.up.length || ch.down.length) ? [{ k, h, at, ch }] : [];
@@ -108,34 +127,60 @@ function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: C
   const to = yearLabel(h, at);
   const anyEst = sides.some((s) => [...s.ch.up, ...s.ch.down].some((c) => c.est));
   const note = yr != null && !h.years.includes(yr) ? <span class="year-tag">no series for {yr}</span> : null;
+  // no percentage where one year has no figure or a very small one: the words say why
+  const pctText = (c: Change) =>
+    c.p != null
+      ? `${c.p > 0 ? '+' : '−'}${pct(Math.abs(c.p))}`
+      : c.why === 'none-before'
+        ? `none in ${from}`
+        : c.why === 'none-after'
+          ? `none in ${to}`
+          : `<0.1% in ${from}`;
+  const pctTitle = (c: Change) =>
+    c.why === 'small'
+      ? `Under ${pct(SMALL_BASE)} of the world total in ${from}: no percentage change`
+      : c.why
+        ? `No figure in ${c.why === 'none-before' ? from : to}: the source gives none${h.s === 'baci' ? ', or the flows are under its reporting threshold (1,000 t and 1 million USD)' : ''}, or it rounds to 0; counted as 0`
+        : '';
   return (
     <Section title={`Largest changes, ${from} to ${to}`} aside={note}>
       {sides.map(({ k, h: s, ch }) => (
         <div class="chg-block" key={k} style={{ '--bar-color': color }}>
           <div class="chg-head">{k === 'exports' ? 'Exporters' : 'Importers'}{data[k]?.basis ? ` — ${data[k]!.basis}` : ''}</div>
-          {[...ch.up, ...ch.down].map((c) => (
-            <button
-              class={`chg-row ${c.d > 0 ? 'chg-up' : 'chg-down'}`}
-              key={c.c}
-              onClick={() => (isCountry(c.c) ? select({ kind: 'country', id: c.c }) : undefined)}
-              title={`${countryName(c.c)}: ${fmt(s.c[c.c][at - 1])} ${s.u} in ${yearLabel(s, at - 1)}, ${fmt(s.c[c.c][at])} ${s.u} in ${yearLabel(s, at)}${c.est ? '; an Atlas estimate on one side' : ''}`}
-            >
-              <span class="chg-name">
-                {countryName(c.c)}
-                {c.est && <EstMark />}
-              </span>
-              <span class="chg-d">
-                {signed(c.d, c.est)} {s.u}
-              </span>
-              <span class="chg-p">{c.p == null ? 'new' : `${c.p > 0 ? '+' : '−'}${pct(Math.abs(c.p))}`}</span>
-            </button>
-          ))}
+          {[...ch.up, ...ch.down].map((c) => {
+            // an aggregate that is not a country of the index (USDA's European Union) has no page: plain text
+            const Row = isCountry(c.c) ? 'button' : 'div';
+            const name = rowName(s, c.c, at);
+            return (
+              <Row
+                class={`chg-row ${c.d > 0 ? 'chg-up' : 'chg-down'}`}
+                key={c.c}
+                onClick={Row === 'button' ? () => select({ kind: 'country', id: c.c }) : undefined}
+                title={`${name}: ${fmt(s.c[c.c][at - 1])} ${s.u} in ${yearLabel(s, at - 1)}, ${fmt(s.c[c.c][at])} ${s.u} in ${yearLabel(s, at)}${c.est ? '; an Atlas estimate on one side' : ''}`}
+              >
+                <span class="chg-name">
+                  {name}
+                  {c.est && <EstMark />}
+                </span>
+                <span class="chg-d">
+                  {signed(c.d, c.est)} {s.u}
+                </span>
+                <span class="chg-p" title={pctTitle(c) || undefined}>
+                  {pctText(c)}
+                </span>
+              </Row>
+            );
+          })}
         </div>
       ))}
       <SourceLine
         s={h.s}
         y={`${from} and ${to}`}
-        n={`change in ${h.u}, this year minus the year before, from the series by year; a country with no figure in one year counts as 0 there${anyEst ? '; a change with an Atlas estimate on either side is marked' : ''}`}
+        n={
+          `change in ${h.u}, this year minus the year before, from the series by year; a country with no figure in one year counts as 0 there, with no percentage ` +
+          `(the source gives none${h.s === 'baci' ? ', or its flows are under the reporting threshold of 1,000 t and 1 million USD' : ''}, or it rounds to 0); ` +
+          `a figure out of line with the years around it, or a row that changes entity, gives no change${anyEst ? '; a change with an Atlas estimate on either side is marked' : ''}`
+        }
       />
     </Section>
   );
@@ -386,7 +431,7 @@ export default function CommodityView({ id }: { id: string }) {
         {meta?.blurb && <p class="muted" style={{ margin: '4px 0 0', fontSize: '13px' }}>{meta.blurb}</p>}
       </div>
       <div class="panel-scroll">
-        {yr != null && d && (
+        {yr != null && d && hist !== undefined && (
           <div class="year-note">
             History year <b class="num">{yr}</b>:{' '}
             {following.length
@@ -422,22 +467,22 @@ export default function CommodityView({ id }: { id: string }) {
           <Placeholder>Data for this commodity is being compiled and will appear in a later release.</Placeholder>
         ) : (
           <>
-            {d.production && <TableSection id={id} title={sectionTitle(d, 'production', 'Top producers')} data={d.production} hist={ht('production')} color={color} />}
+            {d.production && <TableSection id={id} title={sectionTitle(d, 'production', 'Top producers')} data={d.production} hist={ht('production')} loading={hist === undefined} color={color} />}
             {d.extra?.filter((x) => x.key.endsWith('production')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
-            {d.refinery && <TableSection id={id} title="Refinery / smelter output" data={d.refinery} hist={ht('refinery')} color={color} />}
-            {d.exports && <TableSection id={id} title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} data={d.exports} hist={ht('exports')} color={color} />}
+            {d.refinery && <TableSection id={id} title="Refinery / smelter output" data={d.refinery} hist={ht('refinery')} loading={hist === undefined} color={color} />}
+            {d.exports && <TableSection id={id} title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} data={d.exports} hist={ht('exports')} loading={hist === undefined} color={color} />}
             {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
-            {d.imports && <TableSection id={id} title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} data={d.imports} hist={ht('imports')} color={color} />}
+            {d.imports && <TableSection id={id} title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} data={d.imports} hist={ht('imports')} loading={hist === undefined} color={color} />}
             {hist && <LargestChanges hist={hist} data={d} color={color} />}
             {d.extra?.filter((x) => !x.key.endsWith('exports') && !x.key.endsWith('production')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} color={color} />
+              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
             ))}
-            {d.reserves && <TableSection id={id} title={sectionTitle(d, 'reserves', 'Reserves')} data={d.reserves} hist={ht('reserves')} color={color} />}
-            {d.consumption && <TableSection id={id} title={sectionTitle(d, 'consumption', 'Top consumers')} data={d.consumption} hist={ht('consumption')} color={color} />}
+            {d.reserves && <TableSection id={id} title={sectionTitle(d, 'reserves', 'Reserves')} data={d.reserves} hist={ht('reserves')} loading={hist === undefined} color={color} />}
+            {d.consumption && <TableSection id={id} title={sectionTitle(d, 'consumption', 'Top consumers')} data={d.consumption} hist={ht('consumption')} loading={hist === undefined} color={color} />}
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
                 <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
@@ -452,6 +497,7 @@ export default function CommodityView({ id }: { id: string }) {
               </Section>
             )}
             <KeyInfra id={id} />
+            <EventList commodity={id} />
             {((d.notes?.length ?? 0) > 0 || (d.discrepancies?.length ?? 0) > 0) && (
               <Section title="Notes">
                 <ul class="bullets small-print">

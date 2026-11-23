@@ -16,6 +16,7 @@ import {
   GROUP_ORDER,
   PRICE_COVERAGE_NOTE,
   annualRun,
+  annualWord,
   closePrices,
   defaultSeriesIds,
   findMeta,
@@ -24,10 +25,12 @@ import {
   firstAtOrAfter,
   groupOf,
   inEstimate,
+  isAnnualSeries,
   isLate,
   monthlyFrom,
   periodStats,
   fmtPrice,
+  fmtSeriesValue,
   loadPriceIndex,
   loadSeries,
   lookupEnd,
@@ -245,7 +248,7 @@ export function PriceDrawer() {
       color: colors[i],
       scale: bases || d.meta.unit === u0 || d.meta.unit !== second ? 'y' : 'y2',
       gaps: d.gaps,
-      step: d.meta.freq === 'A',
+      step: isAnnualSeries(d.meta),
     }));
   }, [merged, data, colors, baseKey]);
   const xMin = merged ? merged.x[0] : 0;
@@ -313,7 +316,7 @@ export function PriceDrawer() {
   const lookupRows = useMemo(() => {
     if (!lookup || !ready) return null;
     const p = lookup.parsed;
-    const rows = data.map((d, i) => withYoy(d, p.precision === 'day' || d.meta.freq === 'A' ? rowAt(d, colors[i], p.t) : periodRow(d, colors[i], p), p));
+    const rows = data.map((d, i) => withYoy(d, p.precision === 'day' || isAnnualSeries(d.meta) ? rowAt(d, colors[i], p.t) : periodRow(d, colors[i], p), p));
     const answered = new Set(data.filter((_, i) => !rows[i].pre).map((d) => d.meta.k));
     // a series without data for the date names the other series of its commodity that have some, unless one is already charted
     return rows.map((r, i) => {
@@ -350,7 +353,11 @@ export function PriceDrawer() {
   const markers: TimeMarker[] = useMemo(() => {
     const m: TimeMarker[] = [];
     if (showEvents && merged) {
+      // an event that names commodities is shown when one of them is charted; one that names none (a general shipping or
+      // market event) is always shown
+      const charted = new Set(data.map((d) => d.meta.k));
       for (const e of events) {
+        if (e.commodities?.length && !e.commodities.some((c) => charted.has(c))) continue;
         const t = parseDate(e.date);
         const end = e.end ? parseEnd(e.end) : undefined;
         if ((end ?? t) < xMin || t > xMax) continue;
@@ -368,7 +375,7 @@ export function PriceDrawer() {
         const t = Date.UTC(y0, 0, 1) / 1000;
         const end = Date.UTC(y1, 11, 31) / 1000;
         if (end < xMin || t > xMax) continue;
-        m.push({ t, end, shade: true, color: '#98a4b2', tag: 'annual values', title: `${d.meta.name} · ${y0 === y1 ? y0 : `${y0} to ${y1}`}: one price for the year, repeated over its twelve months` });
+        m.push({ t, end, shade: true, color: '#98a4b2', tag: 'unchanged all year', title: `${d.meta.name} · ${y0 === y1 ? y0 : `${y0} to ${y1}`}: the twelve monthly values of each year are identical` });
       }
       for (const [a, b] of d.meta.est ?? []) {
         const t = parseDate(a);
@@ -455,7 +462,7 @@ export function PriceDrawer() {
   return (
     <section
       ref={rootRef}
-      class={`pd glass${open ? ' open' : ''}${data.length >= MAX_SERIES ? ' pd-tall' : ''}${board ? ' pd-board-open' : ''}`}
+      class={`pd glass${open ? ' open' : ''}${data.length >= 2 ? ' pd-tall' : ''}${board ? ' pd-board-open' : ''}`}
       aria-label="Price explorer"
       aria-hidden={!open}
     >
@@ -550,7 +557,7 @@ export function PriceDrawer() {
                 <span class="switch" aria-hidden="true" />
                 Index to 100
               </button>
-              <button class="pd-toggle" role="switch" aria-checked={showEvents} onClick={() => setShowEvents(!showEvents)} title="Freight and market events from the Atlas timeline">
+              <button class="pd-toggle" role="switch" aria-checked={showEvents} onClick={() => setShowEvents(!showEvents)} title="Freight and market events from the Atlas timeline. An event that names commodities is shown when one of them is charted; general events always">
                 <span class="switch" aria-hidden="true" />
                 Events
               </button>
@@ -626,6 +633,7 @@ export function PriceDrawer() {
                     {d.meta.note ? ` · ${d.meta.note}` : ''} · {d.meta.unit} · {FREQ_WORD[d.meta.freq]} {d.meta.start.slice(0, 7)} to {d.meta.end.slice(0, 7)}
                     {d.gaps?.length ? ` · ${d.gaps.length} stretch${d.gaps.length === 1 ? '' : 'es'} of more than 7 days without a quote left blank` : ''}
                     {isLate(d.meta) ? ' · late: no new value yet' : ''}
+                    {d.meta.closed ? ' · closed: no new values' : ''}
                   </span>
                 </div>
               ))}
@@ -674,15 +682,15 @@ export function PriceDrawer() {
                   </div>
                   {stats && fs && (
                     <div class="pd-tiles">
-                      <Tile label="Last" value={fmtPrice(stats.last.v)} unit={fs.meta.unit} sub={stats.last.d} />
+                      <Tile label="Last" value={fmtSeriesValue(fs.meta, stats.last.v)} unit={fs.meta.unit} sub={stats.last.d} />
                       <Tile
                         label="Change"
                         value={stats.change == null ? '—' : fmtPct(stats.change)}
                         tone={stats.change == null ? undefined : stats.change >= 0 ? 'up' : 'down'}
                         sub={`since ${stats.first.d}`}
                       />
-                      <Tile label="Low" value={fmtPrice(stats.min.v)} unit={fs.meta.unit} sub={stats.min.d} />
-                      <Tile label="High" value={fmtPrice(stats.max.v)} unit={fs.meta.unit} sub={stats.max.d} />
+                      <Tile label="Low" value={fmtSeriesValue(fs.meta, stats.min.v)} unit={fs.meta.unit} sub={stats.min.d} />
+                      <Tile label="High" value={fmtSeriesValue(fs.meta, stats.max.v)} unit={fs.meta.unit} sub={stats.max.d} />
                     </div>
                   )}
                 </>
@@ -706,7 +714,7 @@ export function PriceDrawer() {
                         {st ? (
                           <div class="pd-st-g">
                             <span>
-                              <b class="num">{fmtPrice(st.last.v)}</b>
+                              <b class="num">{fmtSeriesValue(d.meta, st.last.v)}</b>
                               <small>{st.last.d}</small>
                             </span>
                             <span>
@@ -714,11 +722,11 @@ export function PriceDrawer() {
                               <small>since {st.first.d}</small>
                             </span>
                             <span>
-                              <b class="num">{fmtPrice(st.min.v)}</b>
+                              <b class="num">{fmtSeriesValue(d.meta, st.min.v)}</b>
                               <small>{st.min.d}</small>
                             </span>
                             <span>
-                              <b class="num">{fmtPrice(st.max.v)}</b>
+                              <b class="num">{fmtSeriesValue(d.meta, st.max.v)}</b>
                               <small>{st.max.d}</small>
                             </span>
                           </div>
@@ -848,18 +856,21 @@ const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
 const obsLabel = (d: LoadedSeries, i: number) => {
   const f = d.meta.freq;
   const year = new Date(d.x[i] * 1000).getUTCFullYear();
-  // twelve identical monthly figures are one annual price, not twelve monthly averages
-  if (f === 'A' || (f === 'M' && annualRun(d.meta, year))) return `${year} annual value`;
+  if (f === 'A') return `${year} ${annualWord(d.meta)}`;
   return fmtObsDate(d.x[i], f) + (f !== 'M' ? '' : d.meta.unit.startsWith('index') ? ' monthly value' : ' monthly average');
 };
 
-/** What a figure of a series that opens with, or contains, annual values is: said next to the value. */
+/**
+ * What a figure of a series with years of twelve identical monthly values is: said next to the value, as what is
+ * observed. The source may publish one price a year there, or an administered price (the official price of gold):
+ * only the iron ore row of the source says "annual contract prices", and that is its own annual series.
+ */
 function annualNote(m: PriceMeta, year: number): string | null {
   const run = annualRun(m, year);
   if (!run) return null;
   const mf = monthlyFrom(m);
   const lead = mf != null && run[0] === Number(m.start.slice(0, 4));
-  return `one price for the year, repeated over its twelve months${lead ? `; monthly data start in ${mf}` : ''}`;
+  return `unchanged all year: the twelve monthly values of ${year} are identical${lead ? `; the values differ from month to month from ${mf}` : ''}`;
 }
 
 /** Caveats of one observation: an annual value in a monthly series, a month the source estimates. */
@@ -884,7 +895,7 @@ function outside(d: LoadedSeries, row: Row, kind: 'before' | 'after', i: number,
   // a past date just after the last value is a publication lag, not the end of the series: show the latest value, named as such
   const lag = askedStart - obsEnd(d.x[i], f);
   if (askedStart * 1000 <= Date.now() && lag <= (f === 'D' ? 14 : 92) * DAY_S)
-    return { ...row, pre: `${asked} is not published yet`, label: `latest: ${obsLabel(d, i)}`, value: fmtPrice(d.v[i]) };
+    return { ...row, pre: `${asked} is not published yet`, label: `latest: ${obsLabel(d, i)}`, value: fmtSeriesValue(d.meta, d.v[i]) };
   return { ...row, pre: `no data after ${fmtObsDate(d.x[i], f)}, the latest value of this series` };
 }
 
@@ -896,7 +907,7 @@ function rowAt(d: LoadedSeries, color: string, t: number): Row {
   if (o.kind === 'missing') return { ...row, pre: 'no value at this date' };
   if (o.kind === 'before' || o.kind === 'after') return outside(d, row, o.kind, o.i, fmtObsDate(t, f), t);
   const notes = obsCaveats(d, o.i);
-  const out = { ...row, label: obsLabel(d, o.i), value: fmtPrice(d.v[o.i]), num: d.v[o.i] ?? undefined, post: notes.length ? notes.join(' · ') : null };
+  const out = { ...row, label: obsLabel(d, o.i), value: fmtSeriesValue(d.meta, d.v[o.i]), num: d.v[o.i] ?? undefined, post: notes.length ? notes.join(' · ') : null };
   if (o.kind !== 'previous') return out;
   const gap = Math.round((t - d.x[o.i]) / DAY_S);
   const day = `${WEEKDAY[new Date(t * 1000).getUTCDay()]} ${fmtObsDate(t, 'D')}`;
@@ -942,7 +953,7 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
     }
   }
   const allAnnual = months > 0 && annualMonths === months;
-  if (annualMonths && !allAnnual) caveats.push(`${plural(annualMonths, 'month')} of ${months} are annual values (one price for the year)`);
+  if (annualMonths && !allAnnual) caveats.push(`${plural(annualMonths, 'month')} of ${months} are in years whose twelve monthly values are identical`);
   // a daily series with far fewer quotes than the period has trading days does not stand for the period
   const expected = f === 'D' ? { month: 21, quarter: 63, year: 252 }[p.precision as 'month' | 'quarter' | 'year'] : undefined;
   const sparse = expected != null && st.n < expected * 0.7;
@@ -961,7 +972,7 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
     // the source publishes the observations, not this average
     source: allAnnual ? row.source : `average computed by the atlas from ${row.source}`,
     label: allAnnual
-      ? `${name} annual value`
+      ? `${name} value, unchanged all year`
       : f === 'M'
         ? `${name} average of ${plural(st.n, d.meta.unit.startsWith('index') ? 'monthly value' : 'monthly average')}`
         : `${name} average`,
@@ -984,7 +995,7 @@ function withYoy(d: LoadedSeries, row: Row, p: ParsedDate): Row {
   if (row.num == null || row.pre) return row;
   const q = yearBefore(p);
   let prev: number | null = null;
-  if (p.precision === 'day' || d.meta.freq === 'A') {
+  if (p.precision === 'day' || isAnnualSeries(d.meta)) {
     const o = observationAt(d, d.meta.freq, q.t);
     if (o.kind === 'exact' || o.kind === 'period' || (o.kind === 'previous' && d.x[o.i] > q.t - 7 * DAY_S)) prev = d.v[o.i];
   } else {
@@ -995,7 +1006,7 @@ function withYoy(d: LoadedSeries, row: Row, p: ParsedDate): Row {
   }
   if (prev == null || !(prev > 0) || row.num < 0) return row;
   // a monthly series answers a day with its month: the reference is the same month a year before
-  const label = d.meta.freq === 'A' ? String(new Date(q.t * 1000).getUTCFullYear()) : p.precision === 'day' && d.meta.freq === 'M' ? fmtObsDate(q.t, 'M') : lookupLabel(q);
+  const label = isAnnualSeries(d.meta) ? String(new Date(q.t * 1000).getUTCFullYear()) : p.precision === 'day' && d.meta.freq === 'M' ? fmtObsDate(q.t, 'M') : lookupLabel(q);
   return { ...row, change: `${fmtPct((row.num / prev - 1) * 100)} on ${label}` };
 }
 
@@ -1036,7 +1047,7 @@ function BasisBlock({ data, colors }: { data: LoadedSeries[]; colors: string[] }
       <div class="pd-read-head">
         <span>What the price measures</span>
       </div>
-      <div class="pd-bs-key">Thin lines on the chart mark a change of basis, grey bands one price a year repeated over the months, amber bands months the source estimates: hover them.</div>
+      <div class="pd-bs-key">Thin lines on the chart mark a change of basis, grey bands years whose twelve monthly values are identical, amber bands months the source estimates: hover them.</div>
       {data.map((d, i) => {
         const m = d.meta;
         const mf = monthlyFrom(m);
@@ -1061,10 +1072,10 @@ function BasisBlock({ data, colors }: { data: LoadedSeries[]; colors: string[] }
             )}
             {mf != null && (
               <p>
-                {m.start.slice(0, 4)} to {mf - 1}: one price a year, repeated over the months. Monthly data start in {mf}.
+                {m.start.slice(0, 4)} to {mf - 1}: the twelve monthly values of each year are identical (the source may publish one price a year, or an administered price). They differ from month to month from {mf}.
               </p>
             )}
-            {inner.length > 0 && <p>One price a year, repeated over the months: {runs(inner)}.</p>}
+            {inner.length > 0 && <p>Twelve identical monthly values in each year of: {runs(inner)}.</p>}
             {!!m.est?.length && (
               <p>
                 Estimated by the source:{' '}
@@ -1169,7 +1180,7 @@ function Picker(props: { meta: PriceMeta[]; ids: string[]; onPick: (id: string) 
         </span>
         <span class="pd-opt-meta num">
           {m.unit} · {FREQ_WORD[m.freq]} {m.start.slice(0, 4)}
-          {m.closed ? ` to ${m.end.slice(0, 4)}` : ''}
+          {m.closed ? ` to ${m.end.slice(0, 4)} · closed` : ''}
         </span>
         {sel && <span class="pd-check" aria-hidden="true">✓</span>}
       </button>
