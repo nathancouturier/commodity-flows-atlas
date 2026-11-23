@@ -187,6 +187,12 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           that contain this material are shared under the same licence (see <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>).
         </li>
         <li>
+          <b>OpenStreetMap.</b> © <Ext href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</Ext>. The coordinates of a
+          few infrastructure assets are taken from OpenStreetMap, available under the{' '}
+          <Ext href="https://opendatacommons.org/licenses/odbl/1-0/">Open Database License 1.0</Ext> (the assets are listed in{' '}
+          <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>).
+        </li>
+        <li>
           <b>Baltic Exchange.</b> Commodity Flows Atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. Benchmark routes
           are described from public route definitions. No Baltic Exchange index value or rate assessment is shown.
         </li>

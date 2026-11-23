@@ -87,15 +87,24 @@ is called one where it is shown. The figures below are those of the build from C
   8. **Peer unit value** (`PEER_UV`): Chilean copper concentrate. A Chilean row whose unit value is
      more than 1.8× that of Peruvian copper concentrate to the same destination and year (Peru's
      unit value to that destination when it shipped at least 50 kt there at a unit value within a
-     factor 2 of its yearly average, otherwise Peru's average of the year) is re-estimated at Peru's
-     unit value. Chile reads 7,000 to 8,000 USD/t in some years against about 2,000 for Peru, as if
-     its tonnage were contained copper; a tonnage declared in contained metal is the plausible
-     cause, not established. The rule changes 221 rows from 2002 to 2024; in 2024, 11 rows declared
-     at 4.81 Mt become 13.8 Mt (Chile → China 2.79 Mt declared, 9.27 Mt estimated). Checked against
+     factor 2 of its yearly average, otherwise Peru's average of the year) is re-estimated at that
+     unit value of Peru times Chile's usual ratio to Peru: the median, over the years in which
+     Chile's declarations are in line, of Chile's unit value of the year over Peru's. A year is in
+     line when Chile's rows above the 1.8× threshold hold under 20% of its declared value
+     (`PEER_CLEAN`); the ratio is computed from the data at each build (1.125 on the 2002–2024
+     cache, from 2002, 2009, 2014 to 2020 and 2023), because in those years Chile's concentrate
+     reads above Peru's (0.93 to 1.17 times in 2015–2020 and 2023), so Peru's unit value alone would
+     overstate Chile's tonnage. Chile reads 7,000 to 8,000 USD/t in some years against about 2,000
+     for Peru, as if its tonnage were contained copper; a tonnage declared in contained metal is the
+     plausible cause, not established. The rule changes 221 rows from 2002 to 2024; in 2024, 11 rows
+     declared at 4.81 Mt become 12.3 Mt, and Chile's exports read 12.4 Mt (Chile → China 2.79 Mt
+     declared, 8.24 Mt estimated), against 12.85 Mt in 2019, 12.40 Mt in 2020 and 10.27 Mt in 2023,
+     years in which Chile's declarations are in line and nothing is estimated for its large flows;
+     2021 reads 11.4 Mt and 2022 10.0 Mt. Checked against
      Cochilco's export tables of fine copper in concentrate (free tables, available to 2021 only),
-     the estimated tonnage implies a steady grade of 26 to 30% copper in 2010–2021, where the declared
-     tonnage implies 44 to 56% in 2010–2013 and 70% in 2021, impossible for a concentrate (check made
-     by the commodity package; Cochilco's figures are not published by the atlas).
+     the estimated tonnage implies a steady grade of 29 to 32% copper in 2010–2013 and 29% in 2021,
+     next to 27 to 30% in 2014–2020, where the declared tonnage implies 44 to 56% in 2010–2013 and
+     70% in 2021, impossible for a concentrate (Cochilco's figures are not published by the atlas).
 - **Tonnage estimated from value is an Atlas estimate.** Every row whose tonnage rules 2, 3, 4, 7 or
   8 re-estimate carries a note that starts with "Atlas estimate" and gives the method, the declared
   value and the tonnage customs reported. Where such a figure is shown on its own (a lane's flow, a
@@ -108,12 +117,12 @@ is called one where it is shown. The figures below are those of the build from C
   file's `estY` gives that share for every year), a
   ranked table's note when it is 1% or more of world tonnage (from 10%, "includes an Atlas
   estimate", and the world total keeps three significant digits); a country row of which half or
-  more is estimated is itself labelled "Atlas estimate". In 2024, 168 rows and 76.4 Mt of the lane
-  groups (0.84% of their tonnage) are estimated; the largest are crude oil United Arab Emirates →
-  Thailand (24.5 Mt), wheat Russia → Egypt (11.1 Mt) and copper concentrate Chile → China (9.27 Mt).
-  The share of each lane group's 2024 seaborne tonnes that is estimated is the field `est` of its
-  lane file: 35.7% for copper concentrate, 8.0% for wheat, 1.8% for crude oil, 1.3% for LPG, under
-  1% for every other group.
+  more is estimated is itself labelled "Atlas estimate" (with the source id `atlas`). In 2024, 168
+  rows and 74.8 Mt of the lane groups (0.82% of their tonnage) are estimated; the largest are crude
+  oil United Arab Emirates → Thailand (24.5 Mt), wheat Russia → Egypt (11.1 Mt) and copper
+  concentrate Chile → China (8.24 Mt). The share of each lane group's 2024 seaborne tonnes that is
+  estimated is the field `est` of its lane file: 33.0% for copper concentrate, 8.0% for wheat, 1.8%
+  for crude oil, 1.3% for LPG, under 1% for every other group.
 - **History rule** (`clean.history_flags`). A year of a pair's 2005–2024 series is blanked only on
   evidence: when rule 7 flagged it, or when it is a sharp one-year change (below 35% or above 2.8×
   both neighbouring years, by more than 2 Mt) whose unit value is off by more than 2.5 times against
@@ -258,9 +267,9 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (34 lane groups, 23,853 pairs, 9,141.9 Mt): sea 7,744.2 Mt (17,489 pairs), sea via a
+**2024 by mode** (34 lane groups, 23,853 pairs, 9,140.4 Mt): sea 7,742.7 Mt (17,489 pairs), sea via a
 transit port 170.3 Mt (2,061 pairs), sea and overland 309.8 Mt (52 pairs), land 917.6 Mt (4,251
-pairs). Seaborne: 7,914.5 Mt.
+pairs). Seaborne: 7,913.0 Mt.
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
 (`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo family
@@ -290,9 +299,9 @@ earlier rule then current, for the groups that moved by 1 Mt or more (Mt): iron 
 1,635.5; crude oil 1,861.2 → 1,874.4; coal 1,364.4 → 1,377.3; LNG 360.0 → 369.2; potash 39.1 → 41.9;
 phosphate rock 32.4 → 34.3; DAP 16.3 → 17.5; urea 47.4 → 48.6; refined products 1,007.4 → 960.6; steel
 299.0 → 287.0; corn 159.3 → 149.4; LPG 135.0 → 125.8; wheat 175.0 → 167.3; soybeans 159.7 → 157.2;
-soybean meal 62.5 → 61.4; rapeseed 21.0 → 20.0. Copper concentrate (28.8 → 38.8 Mt) moved because of
+soybean meal 62.5 → 61.4; rapeseed 21.0 → 20.0. Copper concentrate (28.8 → 37.2 Mt) moved because of
 cleaning rule 8, not of the mode rule. The 32 groups of the earlier rule total 7,893.0 Mt before and
-7,899.4 Mt now; ferro-nickel (10.1 Mt) and spodumene concentrate (5.0 Mt) are new groups.
+7,897.9 Mt now; ferro-nickel (10.1 Mt) and spodumene concentrate (5.0 Mt) are new groups.
 
 ## 3. Lanes and routes
 
@@ -354,7 +363,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "port used before, no page read" (the earlier table; shown as "no source page yet");
   - "nearest seaport".
 
-  Share of 2024 pair-end tonnage (each seaborne pair counted at its two ends, 15,829 Mt): page names
+  Share of 2024 pair-end tonnage (each seaborne pair counted at its two ends, 15,826 Mt): page names
   the cargo 70.2% (plus 0.7% on a transit row that names the cargo), port used before 22.1%, general
   port 2.7% (plus 0.2% on a transit country's default row), nearest seaport 2.2%, other direction
   1.1%, no port (not routed) 0.8%. Most rows cite a Wikipedia article. The United States crude and
@@ -548,7 +557,10 @@ These are labelled "typical" in the interface. They are not measured shares of e
     in 2024). Where the "at least" tonnage of a type is itself above PortWatch's volume of the year,
     the shares of that type say so; for Suez and Bab el-Mandeb in 2024 this is because the atlas
     routes cargo on the normal itinerary while most ships avoided the Red Sea (the note quotes the
-    atlas's Red Sea alert). Both figures are estimates, and the note names both ("IMF PortWatch,
+    atlas's Red Sea alert). From 85% of that volume (`PW_NEAR` in `build_freight.py`), the shares of
+    the type say how close the "at least" tonnage is to it, since the atlas's groups are not all the
+    cargo of those ships (Panama, tankers, 2024: 97%, 104 Mt against 107 Mt; the assumed ports or
+    routes may overstate it). Both figures are estimates, and the note names both ("IMF PortWatch,
     data adapted").
   - **Check K9** writes, for every passage with a counter, "at least" and "up to" by vessel type
     beside PortWatch's volume of the same year and of its best full year since 2019 (table in
@@ -677,7 +689,18 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   substances not elsewhere specified"), keeping only the rows to China from Australia, Zimbabwe and
   Brazil, the exporters for which a page read says that they ship lithium concentrate to China:
   30% of the code's tonnage and 67% of its value in 2024 (5.04 Mt). It is labelled an Atlas estimate,
-  shown in its own table and not added to the lithium chemicals tables. A flow of the lithium
+  shown in its own table and not added to the lithium chemicals tables. Its lanes, lane file and
+  pairs file carry the source id `atlas` and the method in their note (`EST_GROUP` in
+  `build_lanes.py`). Its history starts in 2021: the Australian Bureau of Statistics created the
+  national subheading 25309011 "Lithium concentrates" in January 2021, and no page read says what
+  the code held from these exporters before, so the years 2005–2020 are published as null points
+  (flag `nodata`, with the note; `FIRST_YEAR`), and the route Western Australia – China spodumene
+  starts its history in 2021 too. Its ports are rows of `gateways/coasts.py` whose pages name the
+  cargo at the port: Bunbury (Greenbushes technical report summary, SEC filing), Port Hedland
+  (Mining Technology, Argus) and Esperance (Argus) for Australia, as options in the order of the
+  Argus loadings of September 2025, and Vitoria for Brazil (Diario do Comercio). Zimbabwe's
+  concentrate takes the general transit row of Zimbabwe (Beira): no page read documents its
+  corridor. A flow of the lithium
   chemicals codes declared under 1,500 USD per tonne, the price of ore rather than of a chemical,
   is left out of those tables and listed in a note.
 - **Nickel**: ferro-nickel and nickel pig iron declared as ferro-nickel (HS 720260) have their own

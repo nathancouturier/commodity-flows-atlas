@@ -224,7 +224,7 @@ def ranked(rows, y, s, u, world=None, n=None, top=TOP, digits=None):
     out = {"y": y, "s": s, "u": u}
     if world is not None:
         out["world"] = sig(world, digits) if digits else rnd(world)
-    out["rows"] = [({"c": c, "v": sig(v, digits or 3) if digits or est else rnd(v), **({"n": nt} if nt else {}), **({"est": True} if est else {})})
+    out["rows"] = [({"c": c, "v": sig(v, digits or 3) if digits or est else rnd(v), **({"n": nt} if nt else {}), **({"est": True, "s": "atlas", "y": y} if est else {})})
                    for c, (v, nt, est) in srt]
     if n:
         out["n"] = n
