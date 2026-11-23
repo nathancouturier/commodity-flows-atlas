@@ -21,6 +21,7 @@ import {
   finderCommodity,
   ladenDays,
   lacksSpeed,
+  laneEst,
   loadCaveats,
   loadLaneFile,
   loadPairs,
@@ -414,7 +415,7 @@ function Answer({
       <small>{name}</small>
     </div>
   );
-  const est = lane ? !!lane.flow.est : pair.est;
+  const est = lane ? laneEst(lane) : pair.est;
   const vy = lane?.flow.y ?? pf.y;
 
   if (loading) {

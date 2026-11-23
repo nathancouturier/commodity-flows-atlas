@@ -3,7 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
-import { lacksSpeed, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
+import { lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
@@ -26,7 +26,12 @@ function HistFlagNotes({ lane }: { lane: Lane }) {
   const lines: [string | null, string][] = [];
   if (est.length) lines.push(['Atlas estimate', `tonnage computed from the declared value: ${est.join(', ')}`]);
   for (const y of flagYears(flags, 'suspect')) lines.push([null, notes[y] ?? `${y}: the declared value does not fit the tonnage; not shown`]);
-  if (nodata.length) lines.push(['No customs record', nodata.join(', ')]);
+  // a year can lack a figure because customs data hold none, or because the atlas does not read the series before a
+  // given year (the lane's own notes then say why): the two are not the same statement
+  const why = nodata.filter((y) => notes[y]);
+  const none = nodata.filter((y) => !notes[y]);
+  if (why.length) lines.push(['No figure', `${why.length > 1 ? `${why[0]} to ${why[why.length - 1]}` : why[0]}: ${lane.histNote ?? notes[why[0]].replace(/^\d{4}: /, '')}`]);
+  if (none.length) lines.push(['No customs record', none.join(', ')]);
   for (const y of flagYears(flags, 'check')) lines.push([`${y}, checked`, notes[y] ?? 'checked against a national statistic']);
   if (kept.length) lines.push(['Kept as reported', `the declared value moved with the tonnage: ${kept.join(', ')}`]);
   if (!lines.length) return null;
@@ -87,7 +92,7 @@ export default function LaneView({ id }: { id: string }) {
   const flowV = past ? lane.hist[yi] : lane.flow.v;
   const flowY = past ? yr! : lane.flow.y;
   // an estimated tonnage is an Atlas estimate: labelled as one and printed with two significant digits
-  const est = past ? lane.histFlags?.[String(yr)] === 'est' : !!lane.flow.est;
+  const est = past ? lane.histFlags?.[String(yr)] === 'est' : laneEst(lane);
   const seaV = past ? file.seaborne[yi] : null;
   const share = past ? (flowV != null && seaV ? flowV / seaV : null) : laneShare(lane, file);
   const shareY = past ? yr! : file.y;

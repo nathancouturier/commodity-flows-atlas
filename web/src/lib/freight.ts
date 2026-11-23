@@ -5,6 +5,7 @@
 import { computed, signal } from '@preact/signals';
 import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortwatchSeries, Route, Segment, VesselClass } from '../types';
 import { load } from './data';
+import { atlasKind } from './format';
 import { commodity, family, layers, select, selection, setFamily, toggleLayer, vesselClasses } from './store';
 
 /** Customs product groups with lanes, per atlas commodity id. */
@@ -135,6 +136,12 @@ export interface Pair {
 }
 
 /** Gate ids of a bit mask (bit i = gates[i]). Masks are at most 31 bits wide, so they stay in JavaScript's 32-bit integers. */
+/** A lane's latest flow is an Atlas estimate: flagged so, or credited to the atlas with a note that says so (a group the atlas
+ * reads from a mixed customs code). Estimates are printed with two significant digits and the "Atlas estimate" mark. */
+export function laneEst(lane: { flow: { s: string; est?: boolean; n?: string } }): boolean {
+  return atlasKind(lane.flow) === 'est';
+}
+
 export function maskGates(mask: number, gates: string[]): string[] {
   const out: string[] = [];
   for (let i = 0; i < gates.length && i < 31; i++) if ((mask >>> i) & 1) out.push(gates[i]);

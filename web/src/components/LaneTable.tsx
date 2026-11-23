@@ -6,7 +6,7 @@ import { useMemo, useState } from 'preact/hooks';
 import type { Lane, LaneFile } from '../types';
 import { countryName, sourceLabel } from '../lib/data';
 import { fmt, fmtEst, pct, sig2 } from '../lib/format';
-import { GROUP_LABEL, altText, chokepointName, laneShare, vesselName } from '../lib/freight';
+import { GROUP_LABEL, altText, chokepointName, laneEst, laneShare, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
@@ -96,7 +96,7 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         if (l.set === 'history') continue;
         v = l.flow.v;
         share = laneShare(l, f);
-        est = !!l.flow.est;
+        est = laneEst(l);
       }
       rows.push({
         id: l.id,

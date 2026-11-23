@@ -208,7 +208,7 @@ export function AltBox(props: { alt?: AltRouting; alts?: AltRouting[]; note?: st
 const FLAG_TITLE: Partial<Record<HistFlag, string>> = {
   est: 'Atlas estimate (tonnage from the declared value)',
   check: 'Checked against a national statistic: see the note',
-  nodata: 'No customs record',
+  nodata: 'No figure for this year',
   suspect: 'Not shown: the declared value does not fit the tonnage',
 };
 const DAY = 86400;

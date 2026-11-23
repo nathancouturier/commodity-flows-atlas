@@ -17,7 +17,7 @@ import { registerLayerModule } from '../layers';
 import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { commodity, family, laneVia, layers, selection, vesselClasses, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
-import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
+import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneEst, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt, fmtEst, pct } from '../../lib/format';
 import '../../styles/lane-engine.css';
 
@@ -56,7 +56,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
   const past = isPastYear(file, yr);
   const i = past ? file.years.indexOf(yr) : -1;
   const shown = past ? yr : lane.flow.y;
-  const est = past ? lane.histFlags?.[String(yr)] === 'est' : !!lane.flow.est;
+  const est = past ? lane.histFlags?.[String(yr)] === 'est' : laneEst(lane);
   const mixed = lane.mode === 'mixed';
   const share = mixed ? null : past ? (v && file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
   const name = file.label || commodityMeta(lane.k)?.name || lane.k;

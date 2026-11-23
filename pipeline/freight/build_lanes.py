@@ -312,10 +312,18 @@ def _merge_lists(lists):
 def combine(summaries):
     """`via` and `viaAlt` of a pair from the plans of its port options, main option first (plan 2.4): a passage is
     certain only when every option crosses it whatever the parallel choice; a passage crossed by some options only
-    is one more "one of" list."""
+    is one more "one of" list. A parallel group that the main option crosses stays one list (the drawn route uses one
+    of its members); a group that only another option crosses is one list per member ("may also cross"), since the
+    drawn route uses none of them."""
     sets = [set(s["via"]) for s in summaries]
     via = [g for g in summaries[0]["via"] if all(g in x for x in sets)]
-    lists = _merge_lists([lst for s in summaries for lst in s["viaAlt"]])
+    main_gates = set(summaries[0]["via"]) | {g for lst in summaries[0]["viaAlt"] for g in lst}
+    lists = []
+    for lst in _merge_lists([lst for s in summaries for lst in s["viaAlt"]]):
+        if len(lst) > 1 and not main_gates & set(lst):
+            lists.extend([g] for g in lst)
+        else:
+            lists.append(lst)
     listed = {g for lst in lists for g in lst}
     some = [g for s in summaries for g in s["via"] if g not in via and g not in listed]
     # each such passage is its own list ("on some options"): passages that one option crosses together are no
