@@ -796,8 +796,10 @@ def main():
     # vessel classes (with the typical laden speed used for laden days), events: pass through
     vcs = load("vessel_classes.json")
     for vc in vcs:
-        # the routes of a class page: the curated list, then the generated corridors of the class
-        vc["routes"] = list(vc["routes"]) + [r["id"] for r in routes if r.get("generated") and r["vclass"] == vc["id"]]
+        # the routes of a class page: the curated list (it may name another class's benchmarks, as Panamax does for
+        # the Kamsarmax ones), then every other route of the class: the hand-written ones the list does not name,
+        # then the generated corridors (the list `routes` is in that order)
+        vc["routes"] = list(vc["routes"]) + [r["id"] for r in routes if r["vclass"] == vc["id"] and r["id"] not in vc["routes"]]
         vc["speedKn"] = VR.speed(vc["id"])
         vc["speedNote"] = ("Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not "
                            "from a published source. It is used for laden days (distance divided by speed) on routes and in the "
