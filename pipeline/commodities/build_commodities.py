@@ -927,7 +927,7 @@ WORLDSTEEL = ("World Steel Association", "press release of 23 January 2026", 184
 WGC_MINE = ("World Gold Council", "Gold Demand Trends, full year 2025 (supply)", 3671.6, "t", 2025,
             "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply", "wgc")
 # Official or press figures read on a page, quoted in a discrepancy note: Guinea's exports and China's imports of tin concentrate
-GUINEA_EXPORTS = ("Reuters, from official Guinean data (Hellenic Shipping News, 26 January 2026)", 182.8, 2025,
+GUINEA_EXPORTS = ("official data seen by Reuters, in Hellenic Shipping News, January 2026", 182.8, 2025,
                   "https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/")
 CHINA_TIN_ORE = ("SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs", 150.8, 75.3,
                  "https://news.metal.com/en/newscontent/103438801")
@@ -1284,8 +1284,8 @@ def main():
             if gin:
                 gp, gv, gy, gurl = GUINEA_EXPORTS
                 disc.append(f"Guinea {gy}: the USGS estimate of bauxite mined is {_nf(gin)} Mt, {gin / d['production']['world']:.0%} of the world total, but Guinea's exports alone "
-                            f"were reported at {gv} Mt for {gy} ({gp}, {gurl}), which is more than USGS estimates it mined. The USGS production figure and Guinea's "
-                            f"share of the world total are therefore probably understated.")
+                            f"were reported at {gv} Mt for {gy} ({gp}: {gurl}), more than USGS estimates Guinea mined; the same article gives 74% of the shipments to China "
+                            "(Chinese customs data). The USGS production figure and Guinea's share of the world total are therefore probably understated.")
             idn_prod = dict(us.table("Alumina", "Alumina, refinery production", year=str(BACI_YEAR))["rows"]).get("IDN")
             idn_exp = baci.totals("alumina", "exports").get("IDN")
             if idn_prod and idn_exp and idn_exp > idn_prod:
@@ -1336,8 +1336,8 @@ def main():
             ore, mat = hs4_exports(["2605"]), hs4_exports(["8105"])
             if ore and mat:
                 notes.append(f"Trade is in gross weight (kt), mostly HS 8105 (mattes, intermediate products such as crude hydroxide, unwrought cobalt, scrap and powders): "
-                             f"ores and concentrates (HS 2605) are only {sum(ore.values()) / 1e3:.0f} kt of the {sum(ore.values()) / 1e3 + sum(mat.values()) / 1e3:.0f} kt exported by all countries "
-                             f"in {BACI_YEAR} (HS4 extract). USGS production is contained cobalt (t Co), so the two are not comparable.")
+                             f"ores and concentrates (HS 2605) are only {sum(ore.values()) / 1e3:.0f} kt of the {sum(ore.values()) / 1e3 + sum(mat.values()) / 1e3:.0f} kt "
+                             f"({sum(ore.values()) / (sum(ore.values()) + sum(mat.values())):.0%}) that the HS4 extract gives for both headings in {BACI_YEAR}, before the cleaning rules. USGS production is contained cobalt (t Co), so the two are not comparable.")
             cb = baci.group("cobalt")
             cn_ = cb[(cb["o"] == "COD") & (cb["d"] == "CHN")]
             if len(cn_):
@@ -1446,7 +1446,7 @@ def _note_group(baci, g, label):
     world = sum(ex.values())
     unit_n = "Mt"
     names = ", ".join(f"{baci.iso(c)} {v:.2f} Mt" for c, v in top)
-    return (f"{label}, {BACI_YEAR} (BACI, baci): world {world:.2f} Mt gross weight; top exporters {names}.")
+    return (f"{label}, {BACI_YEAR} (CEPII BACI): world {world:.2f} Mt gross weight; top exporters {names}.")
 
 
 def _compare(kind, eia, key, factor, baci, group, div, unit, label, year, tol=0.10):
