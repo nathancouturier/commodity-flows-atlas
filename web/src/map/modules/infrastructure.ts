@@ -4,7 +4,9 @@
  *
  * - filters: commodity (feature.k), infrastructure types (side panel), selected country
  * - every asset is drawn at its true position at every zoom; icons at the same place simply overlap
- * - hover tooltip with operator, capacity and source; click selects the asset (InfraView)
+ * - hover tooltip with operator, capacity, output and source; click selects the asset (InfraView)
+ * - History: an asset that opens after the selected year is drawn dimmed (never hidden), and a status dated
+ *   after that year is not applied
  */
 import { effect } from '@preact/signals';
 import type { Map as MLMap, GeoJSONSource, ExpressionSpecification } from 'maplibre-gl';
@@ -12,9 +14,11 @@ import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'ge
 import type { Family, InfraProps, InfraType } from '../../types';
 import { registerLayerModule } from '../layers';
 import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../controller';
-import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection } from '../../lib/store';
+import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
+import { figuresOf } from '../../lib/capacity';
+import { OUTPUT_LABEL, figureText, isOperating, monthYear, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
@@ -105,45 +109,56 @@ export function infraColor(f: InfraFeature): string {
   return FAMILY_COLOR[infraFamily(f)];
 }
 
-export function isOperating(status?: string): boolean {
-  return !status || /operat|active|producing/i.test(status);
-}
+export { isOperating };
+export type { StatusClass };
 
-export type StatusClass = 'ok' | 'damaged' | 'idle' | 'planned';
-
-/** Visual class of an asset status: damaged = red, idle / suspended = amber, construction / planned = grey dashed. */
-export function statusClass(status?: string): StatusClass {
-  if (isOperating(status)) return 'ok';
-  if (/damag|destroy|attack|struck|\bhit\b/i.test(status!)) return 'damaged';
-  if (/construct|planned|propos|commission|develop|build/i.test(status!)) return 'planned';
-  return 'idle';
-}
+/** Visual class of an asset status: damaged = red, idle / suspended = amber, construction / planned = dashed ring, closed = grey. */
+export const statusClass = statusClassOf;
 
 export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
   damaged: '#ff4d5e',
   idle: '#ffc233',
+  construction: '#7fb2e5',
   planned: '#9aa7b5',
+  closed: '#6f7b88',
 };
 
 export function infraRef(f: InfraFeature) {
   return { kind: 'infra' as const, id: f.p.id, layer: f.p.type };
 }
 
+/** "1,950 kt/y" for the figure an asset is ranked by (its capacity, else its output); "" when it has none. */
 export function infraCapacity(p: InfraProps): string {
-  return p.capacity ? `${fmt(p.capacity.v)} ${p.capacity.u}` : '';
+  const f = figuresOf(p);
+  const fig = f.capacity ?? f.output;
+  return fig ? figureText(fig, fmt) : '';
+}
+
+/** One tooltip line of a figure: "Capacity 1,950 kt/y · 2025 · concentrate". */
+function figureLine(label: string, f: Figure): string {
+  const bits = [yearText(f), f.n, f.orig ? `source: ${f.orig}` : ''].filter(Boolean).join(' · ');
+  return `<div class="num">${esc(label)} ${esc(figureText(f, fmt))}</div><div class="muted">${esc(bits)}</div>`;
 }
 
 /** Tooltip HTML for an asset (already escaped). */
 export function infraTooltip(f: InfraFeature): string {
   const p = f.p;
-  const cap = infraCapacity(p);
-  const yr = p.y != null ? ` · ${esc(String(p.y))}` : '';
+  const figs = figuresOf(p);
+  const st = stateAt(p, year.value);
+  const status = st.status;
+  // an operating asset needs no word; the others, and "not stated", are named
+  const statusLine = st.notOpen
+    ? st.opensIn != null ? `Opens in ${st.opensIn}` : 'Not open yet'
+    : status && status !== 'operating' && !st.statusLater ? statusText(status, p.statusAsOf) : '';
+  const source = `${esc(sourceLabel(p.s))}${p.read ? ` · read ${esc(monthYear(p.read))}` : ''}`;
   return (
     `<div><b>${esc(p.name)}</b></div>` +
-    `<div class="muted">${esc(INFRA_META[p.type]?.label ?? p.type)} · ${esc(countryName(p.c))}${p.status && !isOperating(p.status) ? ` · ${esc(p.status)}` : ''}</div>` +
+    `<div class="muted">${esc(INFRA_META[p.type]?.label ?? p.type)} · ${esc(countryName(p.c))}${statusLine ? ` · ${esc(statusLine)}` : ''}</div>` +
+    (p.coord === 'approx' ? '<div class="muted">Approximate location</div>' : '') +
     (p.operator ? `<div class="muted">${esc(p.operator)}</div>` : '') +
-    (cap ? `<div class="num">${esc(cap)}</div>` : '') +
-    `<div class="src-line">${esc(sourceLabel(p.s))}${yr}</div>`
+    (figs.capacity ? figureLine('Capacity', figs.capacity) : '') +
+    (figs.output ? figureLine(OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL], figs.output) : '') +
+    `<div class="src-line">${source}</div>`
   );
 }
 

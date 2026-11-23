@@ -37,9 +37,8 @@
   color: var(--ink-2);
   white-space: nowrap;
 }
-.le-port + .le-port::before {
-  content: ' · ';
-  color: var(--ink-3);
+.le-port {
+  display: block;
 }
 .le-dist {
   margin-top: 8px;
