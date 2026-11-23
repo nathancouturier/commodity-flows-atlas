@@ -23,6 +23,9 @@
    "n": "Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt."
   }
  },
+ "kpis": {
+  "exports": "World exports (intermediates and metal, gross wt)"
+ },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
@@ -195,8 +198,8 @@
     "n": "36% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt.",
-  "basis": "ores and unwrought metal, gross weight",
+  "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt.",
+  "basis": "intermediates and metal, gross weight",
   "caveat": "Gross weight of ores and unwrought cobalt: not comparable with mine production, which is in tonnes of contained cobalt."
  },
  "imports": {
@@ -256,8 +259,8 @@
     "n": "45% of tonnage from flows with implausible unit values (not corrected: below the 50 M USD rule)"
    }
   ],
-  "n": "CEPII BACI HS92 cobalt ores and unwrought cobalt (HS 260500, 810510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt, not contained cobalt.",
-  "basis": "ores and unwrought metal, gross weight",
+  "n": "CEPII BACI HS92 cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted) · Gross weight of ores and unwrought cobalt, not contained cobalt.",
+  "basis": "intermediates and metal, gross weight",
   "caveat": "Gross weight of ores and unwrought cobalt, not contained cobalt."
  },
  "flows": [
@@ -444,6 +447,8 @@
   }
  ],
  "notes": [
-  "Trade covers cobalt ores and unwrought cobalt in gross weight (kt); USGS production is contained cobalt (t Co)."
+  "Trade is in gross weight (kt), mostly HS 8105 (mattes, intermediate products such as crude hydroxide, unwrought cobalt, scrap and powders): ores and concentrates (HS 2605) are only 8 kt of the 743 kt exported by all countries in 2024 (HS4 extract). USGS production is contained cobalt (t Co), so the two are not comparable.",
+  "DR Congo to China is the main flow (629 kt, declared at 4,805 USD per tonne, against 17,957 USD per tonne for all other flows): by its unit value it is mostly intermediate products rather than metal; customs data do not say so.",
+  "DR Congo suspended its cobalt exports until 15 October 2025 and, from 16 October 2025, caps them by quota: 18,125 t for the rest of 2025 and 96,600 t a year for 2026 and 2027, set by its regulator ARECOMS (https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027). The 2024 flows shown here predate these measures; the basis of the quotas (contained or gross weight) is not compared with the tables."
  ]
 }

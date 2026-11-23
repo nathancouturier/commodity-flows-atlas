@@ -97,7 +97,9 @@ export interface PairPort {
   id: string;
   name: string;
   c: string;
-  zone: string;
+  zone: string | null;
+  /** why the atlas uses the port (PortRef.basis), when the file says */
+  basis?: string;
 }
 
 /** One row of a pairs file, decoded. */
@@ -141,7 +143,7 @@ export function decodePairs(file: PairsFile): Pair[] {
   const ix = Object.fromEntries(file.cols.map((c, i) => [c, i]));
   const port = (i: number): PairPort | null => {
     const p = i >= 0 ? file.ports[i] : undefined;
-    return p ? { id: p[0], name: p[1], c: p[2], zone: p[3] } : null;
+    return p ? { id: p[0], name: p[1], c: p[2], zone: p[3] ?? null, basis: p[4] != null ? file.bases?.[p[4]] : undefined } : null;
   };
   return file.rows.map((r) => {
     const f = Number(r[ix.f] ?? 0);
@@ -185,6 +187,13 @@ export function originCaveats(file: CaveatsFile | null, groups: string[], o: str
   return Object.entries(file ?? {})
     .filter(([, e]) => e.o === o && e.d == null && e.group != null && groups.includes(e.group))
     .map(([id, entry]) => ({ id, entry }));
+}
+
+/** Laden days of a sea leg of `nm` nautical miles for a vessel class, at the class's typical laden speed (Atlas assumption); null when the class has no speed. */
+export function ladenDays(nm: number, vclass: string | null): { days: number; speedKn: number; note?: string } | null {
+  const v = vclass ? vesselById.value[vclass] : undefined;
+  if (!v?.speedKn || !(nm > 0)) return null;
+  return { days: Math.round((nm / (v.speedKn * 24)) * 10) / 10, speedKn: v.speedKn, note: v.speedNote };
 }
 
 /** Product names of the commodities that have two customs groups (the Route finder tells them apart). */

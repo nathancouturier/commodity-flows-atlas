@@ -157,6 +157,42 @@ def _k10(g, o):
     return text
 
 
+def _lab(g):
+    return "LPG" if g == "lpg" else K.label(g)
+
+
+def _unrecorded_peak(g, o, span=6):
+    """An origin whose recorded exports fall far below the largest of the `span` years before the build year (for a
+    series that has no single reference year, as Iranian LPG: recorded in some years, none in others)."""
+    def text(c):
+        past = [(y, c.exports(g, o, y)) for y in range(c.y - span, c.y)]
+        top_y, top = max(past, key=lambda p: p[1])
+        v = c.exports(g, o, c.y)
+        if top <= 0 or v >= 0.5 * top:
+            return None
+        return (f"Customs data record {mt(v) + ' of' if v > 0 else 'no'} {_lab(g)} exports from {name(o)} in {c.y}, "
+                f"against {mt(top)} in {top_y} (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, "
+                "are a plausible cause; it is not established here. The atlas has no free source that measures this gap, "
+                "so it is not quantified.")
+    return text
+
+
+def _unchecked_pair(g, o, d, missing):
+    """A pair whose origin is not checked against an independent source, while the exports of `missing` (an origin that
+    customs data no longer record) are absent: the volume may include cargoes of other origins declared under `o`."""
+    gap = _unrecorded_peak(g, missing)
+
+    def text(c):
+        v, tot = c.flow(g, o, d, c.y), c.exports(g, o, c.y)
+        if v <= 0 or tot <= 0 or not gap(c):
+            return None
+        return (f"Customs data record {mt(v)} of {_lab(g)} from {name(o)} to {name(d)} in {c.y} ({v / tot:.0%} of its "
+                "recorded exports, CEPII BACI). The origin of these cargoes is not checked against an independent "
+                f"source: while {name(missing)}'s exports are unrecorded, cargoes of other origins declared under {name(o)} "
+                "may account for part of this volume; it is not established here, and the atlas has no free source to measure it.")
+    return text
+
+
 def _hub(g, o, check=None):
     def text(c):
         v = c.exports(g, o, c.y)
@@ -195,6 +231,9 @@ REGISTRY = [
     ("hub-refined-products-bel", "hub", "refined-products", "BEL", None, None, _hub("refined-products", "BEL")),
     ("hub-refined-products-sgp", "hub", "refined-products", "SGP", None, None, _hub("refined-products", "SGP")),
     ("hub-crude-oil-nld", "hub", "crude-oil", "NLD", None, "K3", _hub("crude-oil", "NLD", "K3")),
+    ("lpg-irn", "unrecorded", "lpg", "IRN", None, None, _unrecorded_peak("lpg", "IRN")),
+    ("lpg-omn-chn", "origin-unchecked", "lpg", "OMN", "CHN", None, _unchecked_pair("lpg", "OMN", "CHN", "IRN")),
+    ("lpg-are-chn", "origin-unchecked", "lpg", "ARE", "CHN", None, _unchecked_pair("lpg", "ARE", "CHN", "IRN")),
 ]
 
 

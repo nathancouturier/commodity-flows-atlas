@@ -336,7 +336,10 @@ class Usgs:
         return {"rows": [r for r in rows if r[0]], "world": world, "wnote": wnote, "missing": missing,
                 "other": other_sum, "estimated": estimated}
 
-    def ranked(self, commodity, detail, u, factor, label, kind="production"):
+    def ranked(self, commodity, detail, u, factor, label, kind="production", full=False):
+        """full: list every country USGS gives, then USGS's 'Other countries' line as the field `other` (shown as the last
+        row of the table). If the countries and that line add up to more than 2% below the USGS world total, the
+        shares are computed on their sum and the note says so."""
         t = self.table(commodity, detail, factor=factor)
         world = t["world"]
         n = [f"USGS MCS {USGS_EDITION}, {label}"]
@@ -351,12 +354,21 @@ class Usgs:
             if sumrows > world * 1.02:
                 warn(f"{commodity}/{detail}: sum of countries {sumrows:.0f} > world {world:.0f}")
                 n.append("country figures add up to more than the rounded USGS world total")
+            elif full and t["other"] and sumrows < world * 0.98:
+                n.append(f"the countries and USGS 'Other countries' add up to {_nf(sumrows)} {u}, while the rounded "
+                         f"world total of {_nf(world)} {u} is {world / sumrows - 1:.1%} above that sum: shares are computed on the sum")
+                world = sumrows
+        if full and t["other"]:
+            n.append(f"'Other countries' is the USGS line for the producers it does not list ({_nf(t['other'])} {u})")
         if t["wnote"]:
-            n.append(t["wnote"])
+            n.append(t["wnote"].rstrip(". "))
         if t["missing"]:
             names = sorted(set(t["missing"]))
             n.append("not given as a number by USGS (W = withheld): " + ", ".join(names[:8]) + ("..." if len(names) > 8 else ""))
-        return ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n)), t
+        out = ranked(t["rows"], int(USGS_YEAR), "usgs-mcs", u, world=world, n="; ".join(n), top=max(TOP, len(t["rows"])) if full else TOP)
+        if full and t["other"]:
+            out["other"] = rnd(t["other"])
+        return out, t
 
 
 # ====================================================================== EIA
@@ -364,7 +376,7 @@ class Eia:
     NEED = {("57-1", "TBPD"), ("26-1", "BCM"), ("26-2", "BCM"), ("7-1", "MT"), ("7-2", "MT"), ("7-3", "MT"), ("7-4", "MT"),
             ("7-6", "MST"), ("130-1", "MT"), ("130-2", "MT"), ("130-3", "MT"), ("130-4", "MT"), ("5-2", "TBPD"),
             ("67-2", "MT"), ("62-2", "TBPD"), ("63-2", "TBPD"), ("65-2", "TBPD"), ("66-2", "TBPD"),
-            ("14-1", "MT"), ("14-2", "MT"), ("26-4", "BCM")}
+            ("14-1", "MT"), ("14-2", "MT"), ("26-4", "BCM"), ("26-3", "BCM"), ("57-1", "MT")}
 
     def __init__(self):
         self.s = defaultdict(dict)  # (prefix, unit) -> code -> {year: value}
@@ -799,9 +811,9 @@ TRADE = {
     "nickel": ("nickel-ore", MT, "nickel ores and concentrates (HS 2604)"),
     "zinc": ("zinc-ore", MT, "zinc ores and concentrates (HS 2608)"),
     "lead": ("lead-ore", MT, "lead ores and concentrates (HS 2607)"),
-    "tin": ("tin-metal", KT, "unwrought tin and tin waste (HS 8001)"),
+    "tin": ("tin-metal", KT, "unwrought tin (HS 8001)"),
     "lithium": ("lithium", KT, "lithium carbonate, oxide and hydroxide (HS 283691, 282520)"),
-    "cobalt": ("cobalt", KT, "cobalt ores and unwrought cobalt (HS 260500, 810510)"),
+    "cobalt": ("cobalt", KT, "cobalt intermediates, unwrought cobalt, scrap and powders (HS 810510), with ores and concentrates (HS 260500)"),
     "rare-earths": ("rare-earths", KT, "rare-earth metals and compounds (HS 280530, 284610, 284690)"),
     "manganese": ("manganese", MT, "manganese ores (HS 2602)"),
     "gold": ("gold", T, "non-monetary gold (HS 710811-710813)"),
@@ -854,7 +866,7 @@ BASIS = {
     "bauxite": ("dry tonnes", "bauxite, gross weight"),
     "tin": ("contained tin", "unwrought metal, gross weight"),
     "lithium": ("contained lithium", "carbonate, oxide and hydroxide, gross weight"),
-    "cobalt": ("contained cobalt", "ores and unwrought metal, gross weight"),
+    "cobalt": ("contained cobalt", "intermediates and metal, gross weight"),
     "rare-earths": ("REO equivalent", "metals and compounds, gross weight"),
     "manganese": ("manganese content", "ore, gross weight"),
     "uranium": ("contained uranium", "ores and compounds, gross weight"),
@@ -903,6 +915,39 @@ USGS = {
                       reserves=("Phosphate Rock", "Reserves", "Mt", 1e-3, "phosphate rock reserves")),
     "urea": dict(production=("Nitrogen", "Plant production", "Mt N", 1e-3, "ammonia plant production, nitrogen content (urea feedstock; not urea output)")),
 }
+
+
+# USGS tables listed in full, with the line "Other countries" as the last row: (commodity id, section)
+FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refinery")}
+
+# Headline figures of publishers whose tables are not free to copy: one world total each, cited with publisher, year and link
+# (publisher, publication, figure, unit, year, page read, id in data/sources.json)
+WORLDSTEEL = ("World Steel Association", "press release of 23 January 2026", 1849.4, "Mt", 2025,
+              "https://worldsteel.org/media/press-releases/2026/december-2025-crude-steel-production-2025-global-crude-steel-production/", "worldsteel")
+WGC_MINE = ("World Gold Council", "Gold Demand Trends, full year 2025 (supply)", 3671.6, "t", 2025,
+            "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply", "wgc")
+# Official or press figures read on a page, quoted in a discrepancy note: Guinea's exports and China's imports of tin concentrate
+GUINEA_EXPORTS = ("Reuters, from official Guinean data (Hellenic Shipping News, 26 January 2026)", 182.8, 2025,
+                  "https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/")
+CHINA_TIN_ORE = ("SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs", 150.8, 75.3,
+                 "https://news.metal.com/en/newscontent/103438801")
+BENCHMARK_COBALT = "https://source.benchmarkminerals.com/article/drc-to-lift-cobalt-export-ban-and-impose-quotas-through-2027"
+
+_HS4 = {}
+
+
+def hs4_exports(prefixes, year=BACI_YEAR):
+    """Exports in tonnes by exporter of the HS4 headings starting with `prefixes`, from the extract
+    pipeline/cache/hs4_exports.csv.gz (CEPII BACI as downloaded: none of the cleaning rules is applied).
+    {} if the extract is not of `year`."""
+    if "df" not in _HS4:
+        _HS4["df"] = pd.read_csv(os.path.join(CACHE, "hs4_exports.csv.gz"), dtype={"hs4": str})
+    h = _HS4["df"]
+    h = h[(h["t"] == year) & h["hs4"].str.startswith(tuple(prefixes)) & h["o"].notna()]
+    out = defaultdict(float)
+    for o, t in zip(h["o"], h["tonnes"]):
+        out[BACI_OVERRIDE.get(o, o)] += float(t)
+    return dict(out)
 
 
 def main():
@@ -1132,7 +1177,8 @@ def main():
             spec = USGS[cid]
             tabs = {}
             for sec, (com, det, u, fac, label) in spec.items():
-                r, t = us.ranked(com, det, u, fac, label, kind="production" if sec != "reserves" else "reserves")
+                r, t = us.ranked(com, det, u, fac, label, kind="production" if sec != "reserves" else "reserves",
+                                 full=(cid, sec) in FULL_TABLE)
                 tabs[sec] = r
             for sec in ("production", "reserves", "refinery"):
                 if sec in tabs:
@@ -1204,9 +1250,18 @@ def main():
         elif cid == "bauxite":
             t, _ = baci.ranked("alumina", "exports", *MT, "alumina (HS 281820)")
             extra.append({"key": "alumina-exports", "title": "Alumina exporters", "table": t})
+            t, _ = baci.ranked("alumina", "imports", *MT, "alumina (HS 281820)")
+            extra.append({"key": "alumina-imports", "title": "Alumina importers", "table": t})
         elif cid == "zinc":
             t, _ = baci.ranked("zinc-metal", "exports", *MT, "unwrought zinc (HS 7901)")
             extra.append({"key": "metal-exports", "title": "Refined zinc exporters", "table": t})
+        elif cid == "steel":
+            tb = hs4_exports(["7304", "7305", "7306"])
+            if tb:
+                t = ranked([(c if c in ISO_SET else None, v / 1e6) for c, v in tb.items()], BACI_YEAR, "baci", "Mt", world=sum(tb.values()) / 1e6,
+                           n=f"CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), {BACI_YEAR}, all transport modes, gross weight; "
+                             "from the HS4 extract (pipeline/cache/hs4_exports.csv.gz), without the cleaning rules of the other trade tables; not part of the steel totals above")
+                extra.append({"key": "tubes-exports", "title": "Tube and pipe exporters (HS 7304 to 7306, not in the totals above)", "table": set_basis(t, "gross weight")})
         if cid in PSD:
             com = PSD[cid][0]
             try:
@@ -1223,7 +1278,21 @@ def main():
             notes.append("Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). 'refinery' is an extra field: USGS refined copper production.")
         elif cid == "bauxite":
             notes.append(_note_group(baci, "alumina", "Alumina (HS 281820)"))
-            notes.append("USGS production/reserves are dry tonnes; 'refinery' is an extra field: USGS alumina refinery production (Mt).")
+            notes.append("USGS production and reserves are dry tonnes; the refinery table is USGS alumina refinery production in calcined-equivalent weight (Mt), "
+                         "listed for every country USGS names.")
+            gin = next((r["v"] for r in d["production"]["rows"] if r["c"] == "GIN"), None)
+            if gin:
+                gp, gv, gy, gurl = GUINEA_EXPORTS
+                disc.append(f"Guinea {gy}: the USGS estimate of bauxite mined is {_nf(gin)} Mt, {gin / d['production']['world']:.0%} of the world total, but Guinea's exports alone "
+                            f"were reported at {gv} Mt for {gy} ({gp}, {gurl}), which is more than USGS estimates it mined. The USGS production figure and Guinea's "
+                            f"share of the world total are therefore probably understated.")
+            idn_prod = dict(us.table("Alumina", "Alumina, refinery production", year=str(BACI_YEAR))["rows"]).get("IDN")
+            idn_exp = baci.totals("alumina", "exports").get("IDN")
+            if idn_prod and idn_exp and idn_exp > idn_prod:
+                disc.append(f"Indonesia, alumina {BACI_YEAR}: customs data (BACI, HS 281820, gross weight) record {idn_exp:.2f} Mt of exports (rank "
+                            f"{1 + sum(1 for v in baci.totals('alumina', 'exports').values() if v > idn_exp)} among exporters), against a USGS alumina refinery output of {idn_prod:.2f} Mt "
+                            f"(calcined-equivalent weight) for {BACI_YEAR}. The two sources are on different bases and the cause is not established here; "
+                            "the exporters table follows customs data.")
         elif cid == "nickel":
             notes.append(_note_group(baci, "nickel-int", "Nickel intermediates and unwrought nickel (HS 7501, 7502)"))
             notes.append("Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni).")
@@ -1235,23 +1304,78 @@ def main():
             notes.append("Trade tables are lead ores and concentrates in gross weight (Mt); production and reserves are contained lead (kt Pb). No lead lanes exist (no seaborne figure).")
         elif cid == "tin":
             notes.append(_note_group(baci, "tin-ore", "Tin ores and concentrates (HS 2609)"))
-            notes.append("Trade tables are unwrought tin metal (HS 8001) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure).")
+            notes.append("Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). "
+                         "No tin lanes exist (no seaborne figure).")
+            ranks = [r["c"] for r in d["production"]["rows"]]
+            if "MMR" in ranks:
+                mmr = d["production"]["rows"][ranks.index("MMR")]["v"]
+                notes.append(f"Myanmar ranks {ranks.index('MMR') + 1} in the USGS production table ({_nf(mmr)} t Sn in {d['production']['y']}); "
+                             "mining in Wa State, its main tin area, was suspended from 1 August 2023 (see the events).")
+            tin = baci.group("tin-ore", 2024)
+            mm = tin[(tin["o"] == "MMR") & (tin["d"] == "CHN")]["t"].sum() / 1e3
+            cn = tin[tin["d"] == "CHN"]["t"].sum() / 1e3
+            sp, sworld, smmr, surl = CHINA_TIN_ORE
+            if cn and mm < 0.1 * smmr:
+                disc.append(f"Tin concentrate from Myanmar to China, 2024: customs data (BACI, HS 2609) record {mm:.1f} kt from Myanmar and {cn:.1f} kt for China's imports from all origins. "
+                            f"Chinese customs figures reported by {sp}, give about {sworld} kt of tin ores and concentrates imported in January to November 2024, {smmr} kt of it from Myanmar "
+                            f"({surl}). The Myanmar flow is missing from the BACI extract and the world figure for tin concentrate is probably too low; the cause is not established here. "
+                            "Comparing with China's own import declarations (UN Comtrade) needs an API key that the atlas does not have.")
+            cog = tin[tin["o"] == "COG"]
+            cod = tin[tin["o"] == "COD"]
+            listed = {r[0] for r in us.table("Tin", "Mine production")["rows"]}
+            if len(cog) and len(cod) and "COG" not in listed:
+                notes.append(f"Republic of the Congo is recorded as an exporter of tin concentrate ({cog['t'].sum() / 1e3:.1f} kt in 2024, "
+                             f"{cog['usd'].sum() * 1e3 / cog['t'].sum():,.0f} USD/t) but is not a tin producer in the USGS table, while DR Congo is "
+                             f"({cod['usd'].sum() * 1e3 / cod['t'].sum():,.0f} USD/t). Relabelling of DR Congo material is a possible cause; it is not established here.")
         elif cid == "phosphate":
             notes.append(_note_group(baci, "dap", "DAP (HS 310530)"))
             notes.append("Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock.")
         elif cid == "lithium":
             notes.append("Trade is lithium carbonate and hydroxide/oxide in gross weight (kt); spodumene concentrate has no HS6 code. USGS production is contained lithium (t Li), so units differ.")
         elif cid == "cobalt":
-            notes.append("Trade covers cobalt ores and unwrought cobalt in gross weight (kt); USGS production is contained cobalt (t Co).")
+            ore, mat = hs4_exports(["2605"]), hs4_exports(["8105"])
+            if ore and mat:
+                notes.append(f"Trade is in gross weight (kt), mostly HS 8105 (mattes, intermediate products such as crude hydroxide, unwrought cobalt, scrap and powders): "
+                             f"ores and concentrates (HS 2605) are only {sum(ore.values()) / 1e3:.0f} kt of the {sum(ore.values()) / 1e3 + sum(mat.values()) / 1e3:.0f} kt exported by all countries "
+                             f"in {BACI_YEAR} (HS4 extract). USGS production is contained cobalt (t Co), so the two are not comparable.")
+            cb = baci.group("cobalt")
+            cn_ = cb[(cb["o"] == "COD") & (cb["d"] == "CHN")]
+            if len(cn_):
+                rest = cb.drop(cn_.index)
+                notes.append(f"DR Congo to China is the main flow ({cn_['t'].sum() / 1e3:.0f} kt, declared at {cn_['usd'].sum() * 1e3 / cn_['t'].sum():,.0f} USD per tonne, against "
+                             f"{rest['usd'].sum() * 1e3 / rest['t'].sum():,.0f} USD per tonne for all other flows): by its unit value it is mostly intermediate products rather than metal; "
+                             "customs data do not say so.")
+            notes.append("DR Congo suspended its cobalt exports until 15 October 2025 and, from 16 October 2025, caps them by quota: 18,125 t for the rest of 2025 and "
+                         f"96,600 t a year for 2026 and 2027, set by its regulator ARECOMS ({BENCHMARK_COBALT}). The {BACI_YEAR} flows shown here predate these measures; "
+                         "the basis of the quotas (contained or gross weight) is not compared with the tables.")
+            name_it(d, "exports", kpi="World exports (intermediates and metal, gross wt)")
         elif cid == "rare-earths":
             notes.append("Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO).")
         elif cid == "aluminium":
             notes.append("Trade is unwrought aluminium (HS 7601); USGS production is primary smelter output. Bauxite reserves are under 'bauxite'.")
         elif cid == "steel":
-            notes.append("Trade is steel products (HS 72 excluding pig iron, ferro-alloys and scrap), gross weight; USGS production is raw steel.")
+            tb = hs4_exports(["7304", "7305", "7306"])
+            tube = (f" Tubes, pipes and hollow profiles (HS 7304 to 7306, chapter 73) are not included: all countries exported {sum(tb.values()) / 1e6:.1f} Mt of them "
+                    f"in {BACI_YEAR}, {tb.get('CHN', 0) / 1e6:.1f} Mt by China (see the table of tube exporters)." if tb else "")
+            notes.append("Trade is steel products, gross weight: HS 72 (iron and steel) without pig iron, ferro-alloys and scrap (HS 7201 to 7205)." + tube
+                         + " The world total adds up the exports of every country, so it includes trade between EU member states. USGS production is raw steel.")
+            pr = d["production"]
+            notes.append(f"USGS lists {len(pr['rows'])} producing countries; Italy, Taiwan, Mexico, Indonesia, Canada, France and Spain, among others, are in its 'Other countries' line.")
+            wp, wdoc, wv, wu, wy, wurl, _ = WORLDSTEEL
+            disc.append(f"Crude steel production {wy}: the USGS estimate is {_nf(pr['world'])} {pr['u']} for the listed countries and 'Other countries' "
+                        f"(USGS rounds its world total to {_nf(us.table('Iron And Steel', 'Raw steel')['world'])} {pr['u']}); the {wp} reports {wv:,} {wu} of world crude steel "
+                        f"production for {wy} ({wdoc}, {wurl}). The table shows the USGS figures, which come by country; the {wp}'s own tables are not copied.")
+            d["summary"]["production"]["n"] += f"; {wp}: {wv:,} {wu} in {wy} (see the discrepancies)"
         elif cid in ("gold", "silver"):
             disc.append(_prec_disc(d, cid))
             notes.append("Trade tonnage in BACI is frequently missing for precious metals and is estimated from value (see percentage in the table note); treat flows as indicative.")
+            if cid == "gold":
+                pr = d["production"]
+                wp, wdoc, wv, wu, wy, wurl, _ = WGC_MINE
+                disc.append(f"World mine production {wy}: the USGS estimate is {_nf(pr['world'])} {wu} (rounded); the {wp} reports {wv:,} {wu} ({wdoc}, {wurl}), "
+                            f"so the USGS total is {1 - pr['world'] / wv:.0%} lower. The {wp} describes its {wy} figure as subject to revision; its own tables are not copied.")
+                notes.append(f"The table lists the {len(pr['rows'])} countries USGS names; its 'Other countries' line ({_nf(pr['other'])} {pr['u'].split()[0]}, "
+                             f"{pr['other'] / pr['world']:.0%} of the total) covers the rest, for instance Mali, Burkina Faso, Tanzania, Colombia and Papua New Guinea.")
         elif cid == "iron-ore":
             notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS file but not shown.")
         elif cid == "manganese":
@@ -1420,6 +1544,11 @@ def _fmt(v):
     if abs(v) >= 10:
         return f"{v:.1f}"
     return f"{v:.2f}"
+
+
+def _nf(v):
+    """A figure of the source without invented decimals: 230, 1,823, 1.3."""
+    return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.3g}"
 
 
 CHECK_TITLES = {

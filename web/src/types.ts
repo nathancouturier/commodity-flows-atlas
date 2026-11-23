@@ -44,6 +44,8 @@ export interface Ranked {
   /** world total in the same unit, if known (from the same source) */
   world?: number;
   rows: { c: Iso3; v: number; n?: string }[];
+  /** the source's own "Other countries" line, in the same unit: shown as the last row, with the rows below the visible ones */
+  other?: number;
   n?: string;
   /** what the tonnage measures when it is not the finished commodity, e.g. "ores and concentrates, gross weight" */
   basis?: string;
@@ -196,6 +198,9 @@ export interface VesselClass {
   routes: string[];
   notes?: string;
   s: string;
+  /** typical laden speed, knots (Atlas assumption, see speedNote): laden days = distance / (speed x 24) */
+  speedKn?: number;
+  speedNote?: string;
 }
 
 export interface PortRef {
@@ -203,11 +208,13 @@ export interface PortRef {
   name: string;
   c: Iso3;
   at: [number, number];
-  /** freight zone id, see data/freight/zones.json */
-  zone?: string;
-  /** source id and page of the gateway row (typical ports are an Atlas assumption) */
-  s?: string;
+  /** freight zone id, see data/freight/zones.json; null for a port outside the zone table */
+  zone?: string | null;
+  /** source id and page of the gateway row (typical ports are an Atlas assumption); null when no page was read */
+  s?: string | null;
   url?: string;
+  /** why the atlas uses this port: "page names the cargo", "general port of the country", "port used before, no page read" or "nearest seaport" */
+  basis?: string;
 }
 
 export interface AltRouting {
@@ -418,8 +425,10 @@ export interface Lane {
   set?: 'main' | 'history';
   /** `mixed`: the trade moves by sea and overland and the split is not known; absent = sea */
   mode?: 'mixed';
-  /** sea through a foreign port, for a landlocked end */
+  /** sea through a foreign port, for a landlocked end (the loading end when both ends are landlocked) */
   transit?: LaneTransit;
+  /** the discharging end's transit port, when both ends are landlocked */
+  transit2?: LaneTransit;
   /** port ids, see LaneFile.ports */
   load: string[];
   discharge: string[];
@@ -501,8 +510,12 @@ export interface PairsFile {
   unit: 'kt';
   /** sea + transit tonnes (kt): the denominator of the shares */
   seaborne: number;
-  /** [code, name, country, zone] */
-  ports: [string, string, string, string][];
+  /** [code, name, country, zone, basis]: the zone is null outside the zone table; basis (an index in `bases`) is absent in older files */
+  ports: [string, string, string, string | null, number?][];
+  /** why a port is used, see PortRef.basis */
+  bases?: string[];
+  /** for estimated or checked pairs that have no lane: the note the lane would carry, keyed "<o>-<d>" */
+  notes?: Record<string, string>;
   classes: string[];
   /** chokepoint ids, bit order of the `via` and `alt` masks (at most 31) */
   gates: string[];

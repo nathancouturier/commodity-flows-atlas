@@ -6,7 +6,7 @@
    "u": "kt Zn",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores."
+   "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores"
   },
   "reserves": {
    "v": 240000.0,
@@ -77,7 +77,7 @@
     "v": 230.0
    }
   ],
-  "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores.",
+  "n": "USGS MCS 2026, zinc mine production, contained zinc; 2025 values are USGS estimates; USGS world total is rounded; Zinc content of concentrates and direct shipping ores",
   "basis": "contained zinc"
  },
  "reserves": {

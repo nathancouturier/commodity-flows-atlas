@@ -78,3 +78,16 @@
 .rf-or > span {
   color: var(--ink-2);
 }
+
+/* where a port was read: its source page, or "no source page yet" */
+.rf-src {
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.rf-src a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--hairline-strong);
+}

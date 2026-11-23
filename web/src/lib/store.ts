@@ -215,7 +215,11 @@ function applyHash(st: HashState) {
     historyOpen.value = st.year != null;
     if (selKey(st.selection) !== selKey(selection.peek())) selection.value = st.selection;
     // a link without a finder question leaves the finder's commodity alone (it follows the panel's) and empties the question
-    if (st.finder) rfCommodity.value = st.finder.commodity;
+    if (st.finder) {
+      rfCommodity.value = st.finder.commodity;
+      // a link that brings a question shows it, even when it is pasted into the open atlas
+      routeFinderOpen.value = true;
+    }
     rfFrom.value = st.finder?.from ?? 'o';
     rfOrigin.value = st.finder?.origin ?? null;
     rfDest.value = st.finder?.dest ?? null;
@@ -234,7 +238,8 @@ function currentHash(): string {
   if (s) p.set('sel', selKey(s));
   const rf = finderHash();
   if (rf) p.set('rf', rf);
-  const h = p.toString();
+  // the question reads as written (`rf=coal:o:AUS-CHN`): its ids hold only letters, digits and hyphens
+  const h = p.toString().replace(/(^|&)rf=[^&]*/, (m) => m.replace(/%3A/gi, ':'));
   return h ? `#${h}` : '';
 }
 

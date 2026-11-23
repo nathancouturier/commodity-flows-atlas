@@ -21,6 +21,7 @@ import {
   rfDest,
   rfGroup,
   rfCommodity,
+  routeFinderOpen,
   setFamily,
   type FamilyFilter,
   type Metric,
@@ -113,7 +114,7 @@ export function SidePanel() {
         <CommoditySection current={current} />
         <FreightSection />
         <div class="panel-block">
-          <Dropdown name="Route finder" stack value={<RouteFinderSummary />} defaultOpen={!!(rfOrigin.peek() || rfDest.peek())}>
+          <Dropdown name="Route finder" stack value={<RouteFinderSummary />} open={routeFinderOpen.value} onToggle={(o) => (routeFinderOpen.value = o)}>
             <RouteFinderSlot always />
           </Dropdown>
         </div>

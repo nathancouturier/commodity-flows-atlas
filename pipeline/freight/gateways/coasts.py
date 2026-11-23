@@ -22,6 +22,12 @@ How a row was admitted. Each page was read on 22 November 2026 (English Wikipedi
 the page names that cargo or a cargo of that family ("bulk cargoes" or "dry bulk" alone names none; a "container
 terminal" or "container port" is general cargo, `box`). A row whose page does not say what the port ships is not
 committed: the candidates are in UNSOURCED, with the reason. Nothing here comes from memory.
+
+Sourcing pass FE4b (pages read on 23 November 2026, English Wikipedia): the rows of iron ore, coal, bauxite and manganese
+that follow the first passes (China, Indonesia, India, Peru, South Africa, Guinea, Canada, Sierra Leone, Mauritania,
+Mozambique, Sweden, Germany, the Netherlands, Pakistan, Egypt). A row of a country that has a load row but no discharge
+row for a family is also the loader's answer for the other role (ports.candidates), which is why a rule keeps Indonesian
+coal imports off the Tanjung Bara loading terminal.
 """
 
 W = "https://en.wikipedia.org/wiki/"
@@ -106,7 +112,7 @@ G = {
         ("CAVAN", "canada-west", ("coal",), "load", "wikipedia", W + "Roberts_Bank_Superport",
          "Roberts Bank (Westshore Terminals), part of the Port of Vancouver: 'the busiest single coal export terminal in North America'; the searoute point Vancouver stands for the port"),
         ("CASEI", "canada-east", ("iron-ore",), "load", "wikipedia", W + "Sept-%C3%8Eles,_Quebec",
-         "Sept-Iles: iron ore from Schefferville and Labrador (Iron Ore Company of Canada) 'was transported on this railway and shipped from the Port of Sept-Iles'; 'with the iron ore business, the deep-water seaport was second in Canada only to Vancouver in terms of yearly tonnage'. Port-Cartier (CAPCA), also an iron-ore port on its page, is not a row: the page gives no share"),
+         "Sept-Iles: iron ore from Schefferville and Labrador (Iron Ore Company of Canada) 'was transported on this railway and shipped from the Port of Sept-Iles'; 'with the iron ore business, the Sept-Iles deep-water seaport was second in Canada only to Vancouver in terms of yearly tonnage'. Port-Cartier (CAPCA), also an iron-ore port on its page, is not a row: the page gives no share"),
     ],
     # ------------------------------------------------------------------ South America
     "BRA": [
@@ -160,7 +166,7 @@ G = {
         ("INVTZ", "ec-india", ("iron-ore", "manganese"), "both", "wikipedia", W + "Visakhapatnam_Port",
          "Visakhapatnam: 'iron ore, manganese ore, steel products, general cargo, coal and crude oil are the main commodities handled at this port' (the page does not say in which direction)"),
         ("INMRM", "wc-india", ("iron-ore", "manganese"), "load", "wikipedia", W + "Mormugao_Port",
-         "Mormugao: 'MPT has berths for coal and iron ore'; 'briefly the leading iron ore exporting port in India, 54.5 Mt in 2010-11'; 'MPT also exports manganese and bauxite'. The page's iron-ore figure is of 2010-11"),
+         "Mormugao: 'MPT has berths for coal and iron ore'; the port 'briefly became the leading iron ore exporting port in India', about 54.5 Mt of iron ore in 2010-11 (a figure of that year, not of 2024); the page also says the port exports manganese and bauxite"),
         ("INKRI", "ec-india", ("coal",), "discharge", "wikipedia", W + "Krishnapatnam_Port",
          "Krishnapatnam Port: a mechanised coal berth in phase 1; 'coal is now the primary commodity handled by the port'"),
         ("INMUN", "wc-india", ("coal",), "discharge", "wikipedia", W + "Mundra_Port",
@@ -174,7 +180,7 @@ G = {
         ("CNRZH", "n-china", ("iron-ore", "bauxite"), "discharge", "wikipedia", W + "Rizhao",
          "Rizhao: 'the seaport serves as a site for loading and unloading iron ore and coal'; 'other products passing through the harbor include cement, nickel, bauxite'. Coal is on the page but not a row here: the Caofeidian row and the South China rule stand for Chinese coal. The page gives no share between Qingdao and Rizhao: options"),
         ("CNHUA", "s-china", ("coal",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
-         "Port of Guangzhou (searoute point Huangpu, the page's coordinates): 'products shipped through the port include oil, coal, grain, chemical fertilizer, steel, ore and automobiles' (the page does not say in which direction; Chinese coal at sea is an import). Replaces Zhanjiang, whose page names iron ore only, as the South China coal port"),
+         "Port of Guangzhou (searoute point Huangpu, the page's coordinates): 'many agricultural, industrial and manufactured products are shipped through the port which include oil, coal, grain, chemical fertilizer, steel, ore and automobiles' (the page does not say in which direction; Chinese coal at sea is an import). Replaces Zhanjiang, whose page names iron ore only, as the South China coal port"),
         ("CNHUA", "s-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Guangzhou",
          "Port of Guangzhou: grain is among the products shipped through the port (direction not given; grain at sea is an import of China). The Tianjin page names no grain"),
         ("CNLYG", "n-china", ("grain",), "discharge", "wikipedia", W + "Port_of_Lianyungang",
@@ -275,7 +281,7 @@ UNSOURCED = {
     "BRA": "bauxite: Porto Trombetas (MRN, searoute code BRTMT) and Juruti: no page read names them (Wikipedia: Mineracao Rio do Norte, Porto Trombetas not found; Oriximina read: an airport only); the Barcarena page names bauxite only as the town's economy and the Itaqui page names aluminium ingots, so neither is a bauxite row. Alumina at Itaqui (Alumar): the page does not name alumina",
     "PER": "San Nicolas is a row, read from two pages together (Mineral industry of Peru, San Juan de Marcona); no page says in one sentence that the ore is loaded there. Copper and zinc concentrate: the Mineral industry page lists Callao, Ilo, Matarani among the mineral ports without a cargo, so they keep the legacy entry (Callao). No page read gives the ship size at San Nicolas, so BIG_ORE is not extended to PER",
     "CHL": "Caldera / Punta Totoralillo (CAP iron ore): no page read. Guayacan and Huasco are rows (Compania Minera del Pacifico page), but no page read gives the ship size at those terminals, so BIG_ORE is not extended to CHL",
-    "IDN": "Benete (Batu Hijau copper concentrate, Sumbawa): the page names the port, not its coordinates; Morowali stays the legacy ore entry for the other ores (the Morowali Industrial Park page says only 'served by a seaport'; nickel-ore imports and alumina there have no page). Taboneo (Banjarmasin), named with Tanjung Bara as one of the largest coal loading ports: no coordinates on the page read. Coal imports (17 Mt in 2024): no page read names a port that receives coal in Indonesia (Suralaya and Paiton power station pages, Cilacap: no port statement). The loader gives a country with no discharge row for a family the port of its load row (ports.candidates, 'a page that names the cargo names a port for it, whatever the direction'), so Indonesian coal imports are assigned to Tanjung Bara and read 'page names the cargo' although the page names a loading port: a defect of that rule for this case, reported to the orchestrator",
+    "IDN": "Benete (Batu Hijau copper concentrate, Sumbawa): the page names the port, not its coordinates; Morowali stays the legacy ore entry for the other ores (the Morowali Industrial Park page says only 'served by a seaport'; nickel-ore imports and alumina there have no page). Taboneo (Banjarmasin), named with Tanjung Bara as one of the largest coal loading ports: no coordinates on the page read. Coal imports (17 Mt in 2024): no page read names a port that receives coal in Indonesia (Suralaya and Paiton power station pages, Cilacap: no port statement). The loader gives a country with no discharge row for a family the port of its load row (ports.candidates, 'a page that names the cargo names a port for it, whatever the direction'), which would send Indonesian coal imports to the Tanjung Bara loading terminal under 'page names the cargo'; the rule idn-coal-imports keeps the legacy entry for them",
     "ZAF": "Alumina imports at Richards Bay: the page names the two aluminium smelters, not alumina. Manganese: Port Elizabeth, the legacy port, is named for containers only; the Ngqura row rests on a page that speaks of the port's purpose in the future tense",
     "IND": "coal imports at Paradip: the Paradip Port page names bulk cargoes and crude oil, not coal (the legacy entry is not used: Krishnapatnam and Mundra have coal rows); the same page names no iron ore either, so Paradip, the legacy iron-ore port, is replaced by the three ports whose pages name iron ore (Dhamra, Visakhapatnam, Mormugao). Gangavaram: its page lists 'iron ore sidings' only (not a row). Manganese loads at Mormugao are on its page; no page names Indian manganese imports apart from Visakhapatnam",
     "FRA": "Rouen, La Pallice, Fos for wheat: pages not found under the titles tried (the same gap is in UNSOURCED of food.py)",
@@ -333,6 +339,13 @@ ATLANTIC_SIDE = {
     "BRA", "ARG", "URY", "VEN", "GUY", "SUR", "TTO", "CUB", "DOM", "JAM", "HTI", "BHS", "BRB",
 }
 
+class _Anyone:
+    """Stands for every country in the `when_other_in` of a rule."""
+
+    def __contains__(self, _):
+        return True
+
+
 COAST_RULES = [
     {
         "id": "rus-by-destination", "kind": "sides", "country": "RUS", "role": "load",
@@ -342,6 +355,12 @@ COAST_RULES = [
         "open": {("crude-oil", "IND"): ["west", "south"]},
         "ports": RUS_PORTS,
         "reason": "Russia loads from three coasts. Cargo for East Asia leaves from the Far East, for the Mediterranean and the Black Sea from the Black Sea, for the rest from the Baltic; Indian coal is taken from the Far East. Russian crude for India is shipped from the Baltic and from the Black Sea and customs data do not say in what shares: both are options, the Baltic is principal",
+        "src": "atlas", "url": None,
+    },
+    {
+        "id": "idn-coal-imports", "kind": "origin", "country": "IDN", "role": "discharge", "groups": {"coal"},
+        "when_other_in": _Anyone(), "port": "IDSRI",
+        "reason": "No page names a port that receives coal in Indonesia. Without this rule the loader gives a country with no discharge row the port of its load row (Tanjung Bara, a coal loading terminal), and Indonesian coal imports would read 'page names the cargo' at a loading port. The rule keeps the entry used before, published as 'port used before, no page read'",
         "src": "atlas", "url": None,
     },
     {

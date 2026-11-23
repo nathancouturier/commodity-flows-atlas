@@ -7,7 +7,7 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { batch } from '@preact/signals';
-import type { CaveatsFile, Lane, LaneFile, PairsFile, Route } from '../types';
+import type { CaveatsFile, Lane, LaneFile, PairsFile, PortRef, Route } from '../types';
 import { commodityMeta, countryName } from '../lib/data';
 import {
   GROUP_LABEL,
@@ -17,6 +17,7 @@ import {
   decodePairs,
   familyLabel,
   finderCommodity,
+  ladenDays,
   loadCaveats,
   loadLaneFile,
   loadPairs,
@@ -30,7 +31,7 @@ import {
 import { fmt, pct, sig2 } from '../lib/format';
 import { rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { isSheetLayout } from '../map/controller';
-import { SourceLine } from './ui';
+import { SourceLine, shortSource } from './ui';
 import '../styles/finder.css';
 
 /** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
@@ -43,12 +44,23 @@ const MIN_KT = 50;
 /** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */
 let autoOpened: string | null = null;
 
-/** Customs tonnes (kt) as Mt, or as kt when small. */
+/**
+ * Customs tonnes (kt) as printed everywhere in the finder (lists, Flow, overland sentence): Mt from 100 kt, kt below,
+ * "under 1 kt" under 1 kt (the files keep 0.1 kt, so nothing finer is known). An estimate keeps two significant digits.
+ */
 function tonnage(kt: number, est = false): string {
-  if (kt < 100) return `${Math.max(1, Math.round(kt))} kt`;
+  if (kt < 1) return 'under 1 kt';
+  if (kt < 100) {
+    const v = est ? sig2(kt) : kt;
+    return `${kt < 10 ? fmt(v) : Math.round(v)} kt`;
+  }
   const mt = kt / 1000;
   return `${fmt(est ? sig2(mt) : mt)} Mt`;
 }
+/** Basis of a port (lane files and pairs files) for which the atlas read a page: its source link is printed. */
+const SOURCED_BASES = ['page names the cargo', 'general port of the country'];
+/** The coal question covers both customs products and both benchmark kinds. */
+const COAL_KINDS = ['thermal-coal', 'met-coal'];
 const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
@@ -64,7 +76,7 @@ export function RouteFinder() {
   const [data, setData] = useState<Loaded | 'error' | null>(null);
   const [caveats, setCaveats] = useState<CaveatsFile | null>(null);
   const [routes, setRoutes] = useState<Route[]>([]);
-  const [laneFile, setLaneFile] = useState<LaneFile | null>(null);
+  const [laneSlot, setLaneSlot] = useState<{ group: string; file: LaneFile | null } | null>(null);
 
   // the pairs files of the chosen commodity's groups: every recorded pair of the latest year
   useEffect(() => {
@@ -95,6 +107,11 @@ export function RouteFinder() {
     });
   }, [known]);
 
+  // a group that is not one of the commodity's two products is dropped from the question (and so from the address)
+  useEffect(() => {
+    if (group && !(multi && groupsOf(k).includes(group))) rfGroup.value = null;
+  }, [group, k, multi]);
+
   const ready = data && data !== 'error' && data.k === k ? data : null;
   const pairs = ready?.pairs ?? [];
   const lead = from === 'o' ? origin : dest;
@@ -118,6 +135,20 @@ export function RouteFinder() {
 
   // the second field: every country with a flow with the first, largest first, one entry per customs group
   const counterparts = useMemo(() => (lead ? pairs.filter((p) => leadOf(p) === lead) : []), [pairs, lead, from]);
+  // pairs that customs data do not record but a caveat explains (crude oil from Russia to Turkey): offered too, so the caveat can be reached
+  const absent = useMemo(() => {
+    const out: { group: string; c: string }[] = [];
+    if (!lead || !caveats) return out;
+    const gs = groupsOf(k);
+    for (const e of Object.values(caveats)) {
+      const c = from === 'o' ? (e.o === lead ? e.d : null) : e.d === lead ? e.o : null;
+      if (!c || !e.group || !gs.includes(e.group)) continue;
+      const g = e.group;
+      if (counterparts.some((p) => p.group === g && otherOf(p) === c) || out.some((a) => a.group === g && a.c === c)) continue;
+      out.push({ group: g, c });
+    }
+    return out;
+  }, [lead, caveats, counterparts, from, k]);
 
   const sel = useMemo(() => {
     if (!origin || !dest) return undefined;
@@ -125,29 +156,31 @@ export function RouteFinder() {
     return both.find((p) => p.group === group) ?? both[0];
   }, [pairs, origin, dest, group]);
 
-  // the lane file of the answer, when the pair is drawn
-  const selGroup = sel?.lane ? sel.group : null;
+  // the lane file of the answer: the lane itself when the pair is drawn, the ports' source pages when it is only routed
+  const selGroup = sel && (sel.lane || (sel.load && sel.dis)) ? sel.group : null;
   useEffect(() => {
-    if (!selGroup) {
-      setLaneFile(null);
-      return;
-    }
+    if (!selGroup) return;
     let live = true;
     loadLaneFile(selGroup)
-      .then((f) => live && setLaneFile(f))
-      .catch(() => live && setLaneFile(null));
+      .then((f) => live && setLaneSlot({ group: selGroup, file: f }))
+      .catch(() => live && setLaneSlot({ group: selGroup, file: null }));
     return () => {
       live = false;
     };
   }, [selGroup]);
+  const laneFile = selGroup && laneSlot?.group === selGroup ? laneSlot.file : null;
+  // a drawn pair waits for its lane file (a card without the lane's own figures would change under the reader's eyes)
+  const waiting = !!sel?.lane && laneSlot?.group !== sel.group;
   const lane = sel && laneFile?.group === sel.group ? laneFile.lanes.find((l) => l.o === sel.o && l.d === sel.d) : undefined;
   const pf = sel ? ready?.files.find((f) => f.group === sel.group) : undefined;
 
   const complete = !!(origin && dest && ready);
   const benchmarks = useMemo(() => {
     if (!sel || !pf || sel.kind === 'land') return [];
-    return routes.filter((r) => r.corridor?.some((c) => c.k === pf.k && c.o.includes(sel.o) && c.d.includes(sel.d)));
-  }, [sel, pf, routes]);
+    // the coal files are thermal coal, but the question covers metallurgical coal too
+    const ks = k === COAL ? COAL_KINDS : [pf.k];
+    return routes.filter((r) => r.corridor?.some((c) => ks.includes(c.k) && c.o.includes(sel.o) && c.d.includes(sel.d)));
+  }, [sel, pf, routes, k]);
 
   const root = useRef<HTMLDivElement>(null);
   const matchId = lane?.id;
@@ -188,11 +221,48 @@ export function RouteFinder() {
       rfGroup.value = c && multi ? v.slice(0, i) : null;
     });
 
-  const unit = 'Mt';
-  const otherValue = sel ? `${sel.group}:${other}` : other ? `${groupsOf(k)[0]}:${other}` : '';
+  const originCav = from === 'o' && origin && ready && !counterparts.length && caveats ? originCaveats(caveats, groupsOf(k), origin) : [];
+
+  // Start from: with only one end chosen, that end moves into the first field of the new direction
+  const switchFrom = (f: 'o' | 'd') => {
+    if (f === from) return;
+    batch(() => {
+      if (!(origin && dest)) {
+        const c = origin ?? dest;
+        rfOrigin.value = f === 'o' ? c : null;
+        rfDest.value = f === 'd' ? c : null;
+        rfGroup.value = null;
+      }
+      rfFrom.value = f;
+    });
+  };
+
+  const gs = groupsOf(k);
+  const otherValue = sel
+    ? `${sel.group}:${other}`
+    : other
+      ? `${group && gs.includes(group) ? group : (absent.find((a) => a.c === other)?.group ?? gs[0])}:${other}`
+      : '';
+  const absentGroups = gs.filter((g) => !group || g === group);
+  // no row for the pair: the caveats that name it (and, unless the origin's own card shows it, the origin's)
+  const noRowCav =
+    complete && !sel && caveats
+      ? [...new Map(absentGroups.map((g) => caveatFor(caveats, g, origin!, dest!)).filter((x) => x && (x.entry.d === dest || !originCav.length)).map((x) => [x!.id, x!])).values()]
+      : [];
+  const noRowExplained = noRowCav.some((x) => x.entry.d === dest);
   const leadName = from === 'o' ? 'origin' : 'destination';
   const otherName = from === 'o' ? 'destination' : 'origin';
-  const originCav = from === 'o' && origin && ready && !counterparts.length && caveats ? originCaveats(caveats, groupsOf(k), origin) : [];
+
+  const announce = !complete
+    ? ''
+    : !sel
+      ? `No trade recorded between ${countryName(origin!)} and ${countryName(dest!)}.`
+      : waiting
+        ? 'Loading the route…'
+        : [
+            `${countryName(sel.o)} to ${countryName(sel.d)}, ${multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}: ${tonnage(sel.kt, sel.est)}`,
+            sel.kind === 'land' ? 'overland' : sel.kind === 'mixed' ? 'sea and overland' : sel.nm > 0 && sel.cls ? `${vesselName(sel.cls)}, ${fmt(sel.nm)} nautical miles` : 'sea, no route modelled',
+          ].join(', ') + '.';
 
   return (
     <div class="rf" ref={root}>
@@ -219,10 +289,10 @@ export function RouteFinder() {
       <div class="rf-switch" role="group" aria-label="Start from">
         <span>Start from</span>
         <span class="rf-switch-seg">
-          <button type="button" aria-pressed={from === 'o'} onClick={() => (rfFrom.value = 'o')}>
+          <button type="button" aria-pressed={from === 'o'} onClick={() => switchFrom('o')}>
             Origin
           </button>
-          <button type="button" aria-pressed={from === 'd'} onClick={() => (rfFrom.value = 'd')}>
+          <button type="button" aria-pressed={from === 'd'} onClick={() => switchFrom('d')}>
             Destination
           </button>
         </span>
@@ -247,7 +317,10 @@ export function RouteFinder() {
               {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est), KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
             </option>
           ))}
-          {other && !sel && <option value={otherValue}>{countryName(other)} · no record</option>}
+          {absent.map((a) => (
+            <option value={`${a.group}:${a.c}`}>{[countryName(a.c), multi ? (GROUP_LABEL[a.group] ?? a.group) : '', 'no recorded tonnage'].filter(Boolean).join(' · ')}</option>
+          ))}
+          {lead && other && !sel && !absent.some((a) => a.c === other) && <option value={otherValue}>{countryName(other)} · no record</option>}
         </select>
       </label>
 
@@ -271,9 +344,14 @@ export function RouteFinder() {
       )}
       {complete && !sel && (
         <div class="rf-card">
+          {noRowCav.map(({ id, entry }) => (
+            <div class="rf-status" role="note" key={id}>
+              <span>{entry.text}</span>
+            </div>
+          ))}
           <p class="rf-empty">
-            No trade recorded between {countryName(origin!)} and {countryName(dest!)} for this commodity (CEPII BACI {ready!.files[0]?.y ?? ''}; flows under 1,000 t
-            and USD 1 million are not kept).
+            No trade recorded between {countryName(origin!)} and {countryName(dest!)} for this commodity (CEPII BACI {ready!.files[0]?.y ?? ''}
+            {noRowExplained ? '' : '; flows under 1,000 t and USD 1 million are not kept'}).
           </p>
         </div>
       )}
@@ -284,13 +362,17 @@ export function RouteFinder() {
           pf={pf}
           lane={lane}
           laneFile={laneFile?.group === sel.group ? laneFile : null}
+          laneSettled={!selGroup || laneSlot?.group === selGroup}
+          loading={waiting}
           caveats={caveats}
           benchmarks={benchmarks}
           name={multi ? (GROUP_LABEL[sel.group] ?? sel.group) : commodityLabel(k)}
           importsKt={ready!.pairs.filter((p) => p.group === sel.group && p.d === sel.d).reduce((s, p) => s + p.kt, 0)}
-          unit={unit}
         />
       )}
+      <div class="sr-only" role="status" aria-live="polite">
+        {announce}
+      </div>
     </div>
   );
 }
@@ -300,21 +382,24 @@ function Answer({
   pf,
   lane,
   laneFile,
+  laneSettled,
+  loading,
   caveats,
   benchmarks,
   name,
   importsKt,
-  unit,
 }: {
   pair: Pair;
   pf: PairsFile;
   lane?: Lane;
   laneFile: LaneFile | null;
+  /** the lane file has loaded (or failed): port source pages are known */
+  laneSettled: boolean;
+  loading: boolean;
   caveats: CaveatsFile | null;
   benchmarks: Route[];
   name: string;
   importsKt: number;
-  unit: string;
 }) {
   const { kind } = pair;
   const title = (
@@ -326,6 +411,15 @@ function Answer({
   const est = lane ? !!lane.flow.est : pair.est;
   const vy = lane?.flow.y ?? pf.y;
 
+  if (loading) {
+    return (
+      <div class="rf-card">
+        {title}
+        <p class="rf-empty">Loading the route…</p>
+      </div>
+    );
+  }
+
   // overland or pipeline: nothing to route
   if (kind === 'land') {
     return (
@@ -334,7 +428,7 @@ function Answer({
         <p class="rf-empty">
           Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est)}</span> (CEPII BACI {pf.y}).
         </p>
-        <Notes pair={pair} lane={lane} caveats={caveats} est={est} />
+        <Notes pair={pair} pf={pf} lane={lane} caveats={caveats} est={est} />
       </div>
     );
   }
@@ -342,8 +436,17 @@ function Answer({
   const routed = pair.nm > 0 && !!pair.load && !!pair.dis;
   const shown = lane ?? undefined;
   const portName = (id: string) => laneFile?.ports[id]?.name ?? id;
-  const loadNames = shown ? shown.load.map(portName) : pair.load ? [pair.load.name] : [];
-  const disNames = shown ? shown.discharge.map(portName) : pair.dis ? [pair.dis.name] : [];
+  const loadIds = shown ? shown.load : pair.load ? [pair.load.id] : [];
+  const disIds = shown ? shown.discharge : pair.dis ? [pair.dis.id] : [];
+  const pairBasis = (id: string) => [pair.load, pair.dis].find((p) => p?.id === id)?.basis;
+  const portsOf = (ids: string[]) =>
+    ids.map((id, i) => (
+      <span key={id}>
+        {i > 0 && ', '}
+        {shown ? portName(id) : ([pair.load, pair.dis].find((p) => p?.id === id)?.name ?? id)}
+        <PortSource p={laneFile?.ports[id]} basis={pairBasis(id)} settled={laneSettled} />
+      </span>
+    ));
   const status = (shown as (Lane & { status?: LaneStatus[] }) | undefined)?.status ?? [];
   const classes = shown ? shown.vclass : pair.cls ? [pair.cls] : [];
   const typical = classes[0];
@@ -353,9 +456,16 @@ function Answer({
   const nm = shown ? shown.distanceNm : pair.nm;
   const share = shown ? shown.share : kind === 'mixed' ? null : pair.kt / pf.seaborne;
   const shareDest = est ? null : shown ? (shown.shareDest ?? null) : importsKt > 0 ? pair.kt / importsKt : null;
-  const mt = shown ? shown.flow.v : pair.kt / 1000;
-  const transit =
-    kind !== 'transit' ? null : shown?.transit ? { name: portName(shown.transit.port), c: shown.transit.c as string | undefined, url: shown.transit.url } : transitPort(pair);
+  // the flow figure is the pairs row's, so the list, the card and the overland sentence print the same number
+  const kt = pair.kt;
+  const transits =
+    kind !== 'transit'
+      ? []
+      : shown?.transit
+        ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, p: { s: t.s, url: t.url } as Partial<PortRef> }))
+        : transitPorts(pair).map((t) => ({ ...t, p: laneFile?.ports[t.id] }));
+  const days = shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
+  const speed = !shown ? ladenDays(nm, typical ?? null) : null;
 
   return (
     <div class="rf-card">
@@ -377,63 +487,64 @@ function Answer({
             {est && <em class="rf-est">Atlas estimate</em>}
           </dt>
           <dd class="num">
-            {est ? fmt(sig2(mt)) : fmt(mt)} {unit}
+            {tonnage(kt, est)}
             <small> · {vy}</small>
           </dd>
         </div>
         {share != null && (
           <div>
             <dt>Share of seaborne trade</dt>
-            <dd class="num">{pct(share, mt > 0)}</dd>
+            <dd class="num">{pct(share, true)}</dd>
           </div>
         )}
         {shareDest != null && (
           <div>
-            <dt>Share of {countryName(pair.d)}'s imports</dt>
-            <dd class="num">{pct(shareDest, mt > 0)}</dd>
+            <dt>Share of {countryName(pair.d)} imports</dt>
+            <dd class="num">{pct(shareDest, true)}</dd>
           </div>
         )}
         {routed && (
           <div>
-            <dt>{shown ? 'Distance · laden' : 'Distance'}</dt>
-            <dd class="num">
-              {fmt(nm)} nm{shown ? ` · ${fmt(shown.days)} days` : ''}
+            <dt>{days != null ? 'Distance · laden' : 'Distance'}</dt>
+            <dd class="num" title={speed?.note ?? (shown ? 'At the typical laden speed of the primary vessel class' : undefined)}>
+              {fmt(nm)} nm{days != null ? ` · ${fmt(days)} days` : ''}
             </dd>
           </div>
         )}
       </dl>
       <SourceLine s={est ? 'atlas' : (shown?.flow.s ?? pf.s)} y={vy} n="flow and shares" />
-      <Notes pair={pair} lane={shown} caveats={caveats} est={est} />
+      <Notes pair={pair} pf={pf} lane={shown} caveats={caveats} est={est} />
 
       {!routed ? (
         <p class="rf-empty">
           {kind === 'transit'
-            ? 'Sea through a foreign port (not specified). No route is modelled for it.'
+            ? 'Sea through a port of another country, which the atlas does not know. No route is modelled.'
             : 'Counted as seaborne, but no route is modelled: a port is missing for one end, or both ends use the same port.'}
         </p>
       ) : (
         <>
-          {transit && (
+          {transits.length > 0 && (
             <p class="rf-line">
               Sea via{' '}
-              {transit.url ? (
-                <a href={transit.url} target="_blank" rel="noopener">
-                  {transit.name}
-                </a>
-              ) : (
-                transit.name
-              )}
-              {transit.c ? `, ${countryName(transit.c)}` : ''}: the landlocked end ships through a port of another country.
+              {transits.map((t, i) => (
+                <span key={t.id}>
+                  {i > 0 && ' and '}
+                  {t.name}
+                  {t.c ? ` (${countryName(t.c)})` : ''}
+                  <PortSource p={t.p} basis={pairBasis(t.id)} settled={laneSettled} />
+                </span>
+              ))}
+              : {transits.length > 1 ? 'both ends are landlocked and ship through ports of other countries.' : 'the landlocked end ships through a port of another country.'}
             </p>
           )}
           <dl class="rf-stats rf-ports">
             <div>
-              <dt>Load port{loadNames.length > 1 ? 's' : ''}</dt>
-              <dd>{loadNames.length ? loadNames.join(', ') : 'n/a'}</dd>
+              <dt>Load port{loadIds.length > 1 ? 's' : ''}</dt>
+              <dd>{loadIds.length ? portsOf(loadIds) : 'n/a'}</dd>
             </div>
             <div>
-              <dt>Discharge port{disNames.length > 1 ? 's' : ''}</dt>
-              <dd>{disNames.length ? disNames.join(', ') : 'n/a'}</dd>
+              <dt>Discharge port{disIds.length > 1 ? 's' : ''}</dt>
+              <dd>{disIds.length ? portsOf(disIds) : 'n/a'}</dd>
             </div>
           </dl>
           {shown?.opts && shown.opts.length > 0 && (
@@ -487,7 +598,7 @@ function Answer({
           </div>
           {alsoVia.map((list) => (
             <div class="rf-tags rf-or">
-              <span>{shown && list.length > 1 ? 'One of' : 'May also cross'}</span>
+              <span>{!shown ? 'May also cross' : list.length > 1 ? 'One of' : 'On some port options'}</span>
               {list.map((c) => (
                 <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
                   {chokepointName(c)}
@@ -511,7 +622,12 @@ function Answer({
             </>
           )}
           {shown?.altNote && <p class="rf-small">{shown.altNote}</p>}
-          <div class="src-line">Atlas estimate · {pf.y} · vessel classes, distances{shown ? ' and days' : ''}</div>
+          {speed && (
+            <p class="rf-small">
+              Days at {speed.speedKn} kn, the typical laden speed of the {vesselName(typical!)} (Atlas assumption).
+            </p>
+          )}
+          <div class="src-line">Atlas estimate · {pf.y} · vessel classes, distances{days != null ? ' and days' : ''}</div>
           {!shown && !pair.lane && <p class="rf-small">Not drawn on the map (below the lanes shown for this commodity).</p>}
 
           {benchmarks.length > 0 && (
@@ -535,17 +651,43 @@ function Answer({
   );
 }
 
-/** The sea route's transit port, from the pairs table, when the lane does not name it: the port that lies in a third country. */
-function transitPort(pair: Pair): { name: string; c?: string; url?: string } | null {
-  const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? p : null);
-  const p = foreign(pair.load, pair.o) ?? foreign(pair.dis, pair.d);
-  return p ? { name: p.name, c: p.c } : null;
+/** The sea route's transit ports, from the pairs table, when the lane does not name them: the ports that lie in a third country (one per landlocked end). */
+function transitPorts(pair: Pair): { id: string; name: string; c?: string }[] {
+  const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? { id: p.id, name: p.name, c: p.c } : null);
+  return [foreign(pair.load, pair.o), foreign(pair.dis, pair.d)].filter((t): t is NonNullable<typeof t> => !!t);
+}
+
+/**
+ * Where the atlas read a port: the source page of its gateway row, as on the lane page. A port the atlas used before the
+ * tables were sourced says so; for a pair that is not drawn the file's own basis decides, and nothing is printed when it names a page
+ * that this table does not link.
+ */
+function PortSource({ p, basis, settled }: { p?: Partial<PortRef>; basis?: string; settled: boolean }) {
+  if (p?.s) {
+    const name = shortSource(p.s).replace(/\s*\(.*\)$/, '');
+    return (
+      <span class="rf-src">
+        {' · '}
+        {p.url ? (
+          <a href={p.url} target="_blank" rel="noopener">
+            {name}
+          </a>
+        ) : (
+          name
+        )}
+      </span>
+    );
+  }
+  const b = p?.basis ?? basis;
+  const unsourced = p ? true : b != null && !SOURCED_BASES.includes(b);
+  return settled && unsourced ? <span class="rf-src muted"> · no source page yet</span> : null;
 }
 
 /** Caveat box, estimate note and check note of an answer. */
-function Notes({ pair, lane, caveats, est }: { pair: Pair; lane?: Lane; caveats: CaveatsFile | null; est: boolean }) {
+function Notes({ pair, pf, lane, caveats, est }: { pair: Pair; pf: PairsFile; lane?: Lane; caveats: CaveatsFile | null; est: boolean }) {
   const cav = lane?.caveat && caveats?.[lane.caveat] ? caveats[lane.caveat] : pair.caveat ? caveatFor(caveats, pair.group, pair.o, pair.d)?.entry : undefined;
-  const note = lane?.flow.n;
+  // the lane's note, or the pairs file's for a pair that has no lane
+  const note = lane?.flow.n ?? pf.notes?.[`${pair.o}-${pair.d}`];
   return (
     <>
       {cav && (
@@ -557,7 +699,7 @@ function Notes({ pair, lane, caveats, est }: { pair: Pair; lane?: Lane; caveats:
         <p class="rf-small">
           {note?.startsWith('Atlas estimate')
             ? note
-            : 'Atlas estimate: customs data give no usable tonnage for this pair, so the atlas computes it from the declared value (CEPII BACI) and a reference unit value. The method is in the methodology.'}
+            : 'Atlas estimate: the atlas computed this tonnage from the declared value (CEPII BACI) and a reference unit value; the inputs for this pair are not published yet. The method is in the methodology.'}
         </p>
       )}
       {pair.flagged && (

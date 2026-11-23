@@ -562,6 +562,14 @@ class FE4b(unittest.TestCase):
         for o in ("AUS", "RUS"):
             self.assertEqual(ports.assign(o, "CHN", "coal").main.discharge, "CNCFD")
 
+    def test_indonesian_coal_imports_do_not_land_at_the_loading_terminal(self):
+        # no page names an Indonesian coal import port: the loader would take the load row (Tanjung Bara) otherwise
+        for o in ("AUS", "RUS", "ZAF", "USA"):
+            a = ports.assign(o, "IDN", "coal")
+            self.assertEqual(a.main.discharge, "IDSRI", o)
+            self.assertEqual(ports.basis_of("IDN", "coal", "discharge", a.main.discharge), ports.BASIS_LEGACY)
+        self.assertEqual(ports.assign("IDN", "IND", "coal").main.load, "IDTBA")
+
     def test_ngqura_is_named_after_its_page(self):
         self.assertIn("Ngqura", ports.port("ZAZBA")["name"])
 

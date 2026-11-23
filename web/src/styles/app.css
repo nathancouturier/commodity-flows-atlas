@@ -502,6 +502,13 @@ button {
   background: rgba(255, 255, 255, 0.04);
 }
 
+/* the source's "Other countries" line: not a country, not clickable */
+.bar-other,
+.bar-other:hover {
+  background: none;
+  color: var(--ink-2);
+}
+
 .bar-rank {
   color: var(--ink-3);
   font-family: var(--font-num);

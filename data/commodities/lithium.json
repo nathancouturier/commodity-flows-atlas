@@ -6,7 +6,7 @@
    "u": "t Li",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)"
+   "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production; not given as a number by USGS (W = withheld): United States (W)"
   },
   "reserves": {
    "v": 37000000.0,
@@ -66,7 +66,7 @@
     "v": 380.0
    }
   ],
-  "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production.; not given as a number by USGS (W = withheld): United States (W)",
+  "n": "USGS MCS 2026, lithium mine production, contained lithium; 2025 values are USGS estimates; USGS world total is rounded; Excludes U.S. production; not given as a number by USGS (W = withheld): United States (W)",
   "basis": "contained lithium"
  },
  "reserves": {

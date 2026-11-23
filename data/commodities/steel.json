@@ -2,11 +2,11 @@
  "id": "steel",
  "summary": {
   "production": {
-   "v": 1900.0,
+   "v": 1823.0,
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded"
+   "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,823 Mt, while the rounded world total of 1,900 Mt is 4.2% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (230 Mt); World Steel Association: 1,849.4 Mt in 2025 (see the discrepancies)"
   },
   "exports": {
    "v": 382.54,
@@ -27,7 +27,7 @@
   "y": 2025,
   "s": "usgs-mcs",
   "u": "Mt",
-  "world": 1900.0,
+  "world": 1823.0,
   "rows": [
    {
     "c": "CHN",
@@ -74,7 +74,8 @@
     "v": 23.0
    }
   ],
-  "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded"
+  "n": "USGS MCS 2026, raw steel production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,823 Mt, while the rounded world total of 1,900 Mt is 4.2% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (230 Mt)",
+  "other": 230.0
  },
  "exports": {
   "y": 2024,
@@ -190,6 +191,70 @@
   ],
   "n": "CEPII BACI HS92 steel products (HS 72 excl. 7201-7205), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
  },
+ "extra": [
+  {
+   "key": "tubes-exports",
+   "title": "Tube and pipe exporters (HS 7304 to 7306, not in the totals above)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 35.791,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 10.085
+     },
+     {
+      "c": "ITA",
+      "v": 2.903
+     },
+     {
+      "c": "TUR",
+      "v": 2.083
+     },
+     {
+      "c": "KOR",
+      "v": 1.803
+     },
+     {
+      "c": "DEU",
+      "v": 1.546
+     },
+     {
+      "c": "IND",
+      "v": 1.296
+     },
+     {
+      "c": "RUS",
+      "v": 1.268
+     },
+     {
+      "c": "JPN",
+      "v": 1.063
+     },
+     {
+      "c": "MEX",
+      "v": 0.9501
+     },
+     {
+      "c": "CAN",
+      "v": 0.7923
+     },
+     {
+      "c": "USA",
+      "v": 0.7563
+     },
+     {
+      "c": "ESP",
+      "v": 0.6624
+     }
+    ],
+    "n": "CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), 2024, all transport modes, gross weight; from the HS4 extract (pipeline/cache/hs4_exports.csv.gz), without the cleaning rules of the other trade tables; not part of the steel totals above",
+    "basis": "gross weight"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "CHN",
@@ -388,6 +453,10 @@
   }
  ],
  "notes": [
-  "Trade is steel products (HS 72 excluding pig iron, ferro-alloys and scrap), gross weight; USGS production is raw steel."
+  "Trade is steel products, gross weight: HS 72 (iron and steel) without pig iron, ferro-alloys and scrap (HS 7201 to 7205). Tubes, pipes and hollow profiles (HS 7304 to 7306, chapter 73) are not included: all countries exported 35.8 Mt of them in 2024, 10.1 Mt by China (see the table of tube exporters). The world total adds up the exports of every country, so it includes trade between EU member states. USGS production is raw steel.",
+  "USGS lists 11 producing countries; Italy, Taiwan, Mexico, Indonesia, Canada, France and Spain, among others, are in its 'Other countries' line."
+ ],
+ "discrepancies": [
+  "Crude steel production 2025: the USGS estimate is 1,823 Mt for the listed countries and 'Other countries' (USGS rounds its world total to 1,900 Mt); the World Steel Association reports 1,849.4 Mt of world crude steel production for 2025 (press release of 23 January 2026, https://worldsteel.org/media/press-releases/2026/december-2025-crude-steel-production-2025-global-crude-steel-production/). The table shows the USGS figures, which come by country; the World Steel Association's own tables are not copied."
  ]
 }
