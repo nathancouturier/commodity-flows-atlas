@@ -404,7 +404,8 @@ class CheckTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as empty:
             ran = set()
             out = checks.run(frame(), 2024, raw=empty, ran=ran)
-        self.assertTrue({r["check"] for r in out} <= {"K6", "K7", "K8", "K11"})
+        # K13 (unit values far below the others of a product) reads the frame only, like K6 to K8: it needs no raw file
+        self.assertTrue({r["check"] for r in out} <= {"K6", "K7", "K8", "K11", "K13"})
         self.assertTrue({"K6", "K7", "K8"} <= ran)
         self.assertFalse({"K1", "K2", "K3", "K4", "K10"} & ran)
         # previous records of the checks that did not run are kept by merge()

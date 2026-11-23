@@ -418,6 +418,8 @@ def k13(df, year):
     tonne-weighted median unit value of the group-year, without the pairs whose tonnage the atlas re-estimated from their value.
     Nothing is changed: the pair is reported, and the caveat registry words it as a hypothesis."""
     out = []
+    if "usd" not in df.columns:  # a frame without the declared value has nothing to compare
+        return out
     for g in UV_GROUPS:
         x = df[(df["group"] == g) & (df["year"] == year) & (df["t"] > 0) & (df["usd"] > 0)]
         if "imputed" in x:

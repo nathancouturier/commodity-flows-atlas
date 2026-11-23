@@ -1067,7 +1067,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   - **Concentration.** For every table with a world total: the share of the first country, of the
     first three, and the Herfindahl index (the sum of the squares of the countries' shares in
     percent, from near 0 to 10,000), computed on the countries the table lists. Where USGS's "Other
-    countries" line is large the countries cover less than the whole and the index is a lower bound.
+    countries" line is large the countries cover less than the whole: the index of the whole market is
+    at least the figure shown.
     It is arithmetic on published figures and carries the estimate mark only where a row is an
     estimate.
   - **Notes on trading places.** A country that both imports and exports the same product in
