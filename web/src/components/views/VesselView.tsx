@@ -14,6 +14,8 @@ function PageLine(props: { s?: string; url?: string; y?: number }) {
   if (!props.url || props.s === 'atlas') return <SourceLine s={props.s} y={props.y} />;
   const wiki = props.url.match(/wikipedia\.org\/wiki\/([^#?]+)/);
   const baltic = props.url.match(/balticexchange\.com\/.*\/([^/]+)\.html$/);
+  // the guide is one document for every class: it is named, not labelled with the registry's general name
+  const guide = /balticexchange\.com\/.*\/GMB\.pdf$/.test(props.url);
   return (
     <div class="src-line" data-src={props.s} data-y={props.y != null ? String(props.y) : undefined}>
       Source:{' '}
@@ -22,7 +24,9 @@ function PageLine(props: { s?: string; url?: string; y?: number }) {
           ? `Wikipedia, ${decodeURIComponent(wiki[1]).replace(/_/g, ' ')} (CC BY-SA 4.0)`
           : baltic
             ? `The Baltic Exchange, ${baltic[1].replace(/-+$/, '').replace(/-+/g, ' ')} page`
-            : sourceLabel(props.s)}
+            : guide
+              ? 'The Baltic Exchange, Guide to Market Benchmarks'
+              : sourceLabel(props.s)}
       </a>
       {props.y != null && <> · {props.y}</>}
     </div>
