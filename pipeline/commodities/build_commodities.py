@@ -733,18 +733,18 @@ class Baci:
             if cv in self.file_caveats:
                 f["caveat"] = cv
             elif cv:  # a caveat of a group without lanes is not in data/freight/caveats.json: its text goes with the flow
-                f["n"] = (f["n"] + "; " if "n" in f else "") + self.caveats[cv]["text"]
+                f["n"] = joinn(f.get("n"), self.caveats[cv]["text"])
             if r["susp"]:
                 ref = "tonne-weighted median" if g in BULK else "median"
                 msg = (f"reported tonnage implies {r['usd'] * 1000 / r['t0']:,.0f} USD/t, i.e. {r['uvr']:.4f}x the {g} group-year {ref} unit value: "
                        f"possible misreport, {_kept_why(g)}")
-                f["n"] = (f["n"] + "; " if "n" in f else "") + msg
+                f["n"] = joinn(f.get("n"), msg)
                 self.last_susp.append(f"{o}->{de}: {rnd(r['t'] / div)} {u} of {g} in {BACI_YEAR} ({msg}).")
             if n_all:
-                f["n"] = (f["n"] + "; " if "n" in f else "") + n_all
+                f["n"] = joinn(f.get("n"), n_all)
             if isinstance(r["adj"], str):
                 f["s"] = "atlas"
-                f["n"] = r["adj"] + ("; " + f["n"] if "n" in f else "")
+                f["n"] = joinn(r["adj"], f["n"]) if "n" in f else r["adj"]
             out.append(f)
         return out
 
@@ -1363,7 +1363,7 @@ def main():
             g = add_baci_trade(d, cid, notes, disc, extra="HS 2701 and 2702 do not separate thermal from metallurgical coal: figures cover all coal")
             allcoal = {"exports": d["exports"], "imports": d["imports"]}  # customs tables, all coal: same basis as flows and lanes
             for f in d["flows"]:
-                f["n"] = (f["n"] + "; " if "n" in f else "") + "all coal (HS 2701, 2702): thermal and metallurgical not separated"
+                f["n"] = joinn(f.get("n"), "all coal (HS 2701, 2702): thermal and metallurgical not separated")
             for sec, key in (("production", ("14-1", "MT")), ("consumption", ("14-2", "MT"))):
                 t = d[sec]
                 lw = eia.s[key]["WORL"].get(t["y"])
@@ -1456,7 +1456,7 @@ def main():
             add_caveat(d["production"], warn)
             if idn:
                 next(r for r in d["production"]["rows"] if r["c"] == "IDN")["n"] = idn
-            d["summary"]["production"]["n"] += "; " + short
+            d["summary"]["production"]["n"] = joinn(d["summary"]["production"]["n"], short)
         elif cid in PSD:
             com, cons_attr, ex_attr, im_attr = PSD[cid]
             what = PSD_WHAT[cid]
@@ -1894,7 +1894,7 @@ def _fine_metal(d, baci, cid, disc):
     for f in d["flows"]:
         cv = baci.caveat_of(g, f["o"], f["d"])
         if cv and baci.caveats[cv]["text"] not in f.get("n", ""):
-            f["n"] = (f["n"] + "; " if f.get("n") else "") + baci.caveats[cv]["text"]
+            f["n"] = joinn(f.get("n"), baci.caveats[cv]["text"])
     _name_it(d, "flows", f"Main flows — fine-metal equivalent (Atlas estimate), {BACI_YEAR}")
     d["summary"]["exports"] = fig(x["t"].sum() / div, u, BACI_YEAR, "atlas", n)
     d["summary"]["exports"]["alt"] = {"v": rnd(world_gross), "u": f"{u} gross weight", "s": "baci", "y": BACI_YEAR,
@@ -2294,7 +2294,7 @@ def registry_caveats(docs, baci):
             for sec, c in (("exports", e["o"]), ("imports", e.get("d"))):
                 for r in (d.get(sec) or {}).get("rows", []):
                     if c and r["c"] == c and e["text"] not in r.get("n", ""):
-                        r["n"] = (r["n"] + "; " if r.get("n") else "") + e["text"]
+                        r["n"] = joinn(r.get("n"), e["text"])
 
 
 def metal_row_notes(docs, baci):
@@ -2317,7 +2317,7 @@ def metal_row_notes(docs, baci):
     def put(cid, sec, iso, text, key=None):
         r, _ = find(cid, sec, iso, key)
         if r is not None:
-            r["n"] = (r["n"] + "; " if r.get("n") else "") + text
+            r["n"] = joinn(r.get("n"), text)
 
     def pair(g, o, d, year=BACI_YEAR):
         x = baci.group(g, year)
@@ -2387,9 +2387,9 @@ def metal_row_notes(docs, baci):
                 continue
             uv = x["usd"].sum() * 1e3 / x["t"].sum()
             if uv < 0.5 * price:
-                f["n"] = (f["n"] + "; " if f.get("n") else "") + (
+                f["n"] = joinn(f.get("n"), (
                     f"declared at {uv:,.0f} USD/t, {uv / price:.0%} of the {BACI_YEAR} average aluminium price ({price:,.0f} USD/t, World Bank Pink Sheet): material priced like "
-                    f"scrap or alloy declared as unwrought metal is {hint}")
+                    f"scrap or alloy declared as unwrought metal is {hint}"))
 
 
 def annotate(docs, eia):
