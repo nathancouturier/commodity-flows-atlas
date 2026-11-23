@@ -1506,7 +1506,7 @@
     },
     "maxClass": {
      "tanker": "vlcc",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its typical deadweight (300,000 dwt) with the deadweight limit (350,000 dwt)."
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its standard vessel (300,000 dwt)."
     }
    },
    "geometry": {
@@ -1692,8 +1692,8 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Primorsk"
     },
     "maxClass": {
-     "tanker": "lr2",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: LR2, compared by its typical deadweight (110,000 dwt) with the deadweight limit (150,000 dwt)."
+     "tanker": "aframax",
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: Aframax, compared by its standard vessel (115,000 dwt)."
     }
    },
    "geometry": {
@@ -4771,7 +4771,7 @@
     },
     "maxClass": {
      "tanker": "vlcc",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its typical deadweight (300,000 dwt) with the deadweight limit (635,000 dwt)."
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its standard vessel (300,000 dwt)."
     }
    },
    "geometry": {

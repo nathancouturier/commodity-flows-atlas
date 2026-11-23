@@ -39,7 +39,7 @@
     ]
    }
   ],
-  "notes": "Brazil to China ore voyage. The Veson summary of the definition still gives 160,000 or 170,000 t; the Baltic guide revised the C3 description in January 2025 and gives 170,000 t.",
+  "notes": "Brazil to China ore voyage. The Baltic guide revised the C3 description in January 2025 and gives 170,000 t.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "parcel": 170000,
@@ -96,7 +96,7 @@
     ]
    }
   ],
-  "notes": "Brazilian ore to Europe. The Veson summary still gives 160,000 long tons; the Baltic guide revised the C2 description in January 2025 and gives 170,000 t.",
+  "notes": "Brazilian ore to Europe. The Baltic guide revised the C2 description in January 2025 and gives 170,000 t.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
@@ -212,7 +212,7 @@
     ]
    }
   ],
-  "notes": "Colombian coal into Rotterdam; the Cerrejon mine ships through Puerto Bolivar. The Veson summary still gives 150,000 or 160,000 t; the Baltic guide revised the C7 description in January 2025 and gives 160,000 t.",
+  "notes": "Colombian coal into Rotterdam; the Cerrejon mine ships through Puerto Bolivar. The Baltic guide revised the C7 description in January 2025 and gives 160,000 t.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "parcel": 160000,
@@ -1888,7 +1888,7 @@
     ]
    }
   ],
-  "notes": "Clean products from Rotterdam to the Thames, assessed in US$ per tonne. The circular names the Thames, not a terminal: the line is drawn to Tilbury, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "notes": "Clean products from Rotterdam to the Thames, assessed in US$ per tonne. The circular names the Thames, not a terminal: the line is drawn to Tilbury, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,800 dwt) is much larger than this 15,000 t parcel.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
   "definition": {
@@ -1945,7 +1945,7 @@
     ]
    }
   ],
-  "notes": "Clean products from Kaarsto in Norway to Rotterdam, assessed in US$ per tonne. Kaarsto is not in the atlas's port table: the line is drawn from Stavanger, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 12,500 t parcel.",
+  "notes": "Clean products from Kaarsto in Norway to Rotterdam, assessed in US$ per tonne. Kaarsto is not in the atlas's port table: the line is drawn from Stavanger, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,800 dwt) is much larger than this 12,500 t parcel.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
   "definition": {
@@ -2003,7 +2003,7 @@
     ]
    }
   ],
-  "notes": "Dirty products from Immingham to Rotterdam, assessed in US$ per tonne. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "notes": "Dirty products from Immingham to Rotterdam, assessed in US$ per tonne. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,800 dwt) is much larger than this 15,000 t parcel.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
   "definition": {
@@ -2061,7 +2061,7 @@
     ]
    }
   ],
-  "notes": "Dirty products from Port Jerome on the Seine to Rotterdam, assessed in US$ per tonne. Port Jerome is not in the atlas's port table: the line is drawn from Le Havre, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,000 dwt) is much larger than this 15,000 t parcel.",
+  "notes": "Dirty products from Port Jerome on the Seine to Rotterdam, assessed in US$ per tonne. Port Jerome is not in the atlas's port table: the line is drawn from Le Havre, an atlas choice. Intermediate tanker route: the circular gives no ship size. Drawn in the atlas's Handy tanker class, whose typical ship (37,800 dwt) is much larger than this 15,000 t parcel.",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2026/circular-03-26--new-index---baltic-intermediate-tankers-go-live.html",
   "definition": {

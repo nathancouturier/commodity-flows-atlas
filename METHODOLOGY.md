@@ -658,7 +658,7 @@ limits. The rules are in `pipeline/freight/vessel_rules.py`. Examples:
   large lanes by VLGCs. The two distances are Atlas assumptions.
 - Palm oil and soybean oil: MR first, chemical tanker second. Vegetable oils move in chemical tankers, and the Baltic
   Exchange assesses their freight basis 40,000 t shipments (Baltic Chemical and Agricultural Oil Assessments), the
-  size of the MR2 benchmark cargoes (37,000 to 40,000 t) and more than the largest chemical tanker of the Wikipedia
+  size of the MR benchmark cargoes (37,000 to 40,000 t) and more than the largest chemical tanker of the Wikipedia
   scale (35,000 dwt), which is why the MR comes first.
 
 These are labelled "typical" in the interface (lane and route tooltips, the route list, the lane table and its CSV
@@ -671,12 +671,14 @@ articles, the Wilhelmsen page of LPG carrier sizes); where the Atlas sets a boun
 segment neither overlap nor leave a gap, the band is labelled "Atlas convention" and its note says which page gives
 what. Classes defined by a port or a cargo (Newcastlemax, Kamsarmax, LR2, chemical tanker) sit inside or beside the
 size steps on purpose; large gas carriers (50,000 to 70,000 cbm) are left out because no lane rule uses them. The
-typical size is a page's figure where one is given (a Baltic Exchange reference ship, the Veson page of Baltic
-definitions, a Wikipedia article: Newcastlemax takes the article's 185,000 dwt, Panamax the Baltic Panamax 74 of
-74,000 dwt), else an Atlas convention, labelled so. The standard vessel gives the figures of the Baltic Exchange's
-reference ship of its timecharter routes (dry bulk), stated as facts in the atlas's words with a link to the page (the
-Baltic Exchange's site terms restrict copying; see the `baltic` entry of DATA_SOURCES.md), or, for a class without
-one, the typical ship of its Wikipedia article. Laden days use the assumed laden service speed of the class, not the
+typical size is a page's figure where one is given (a Baltic Exchange standard vessel, a Wikipedia article:
+Newcastlemax takes the article's 185,000 dwt), else an Atlas convention, labelled so (Panamax 74,000 dwt and Supramax
+58,000 dwt, the sizes in the names of the Baltic's derived P4TC and S10TC averages, for which the Baltic describes no
+vessel). The standard vessel gives the figures of the Baltic Exchange's standard ship of its time-charter routes:
+for dry bulk from its dry services page, for tankers and gas carriers from its Guide to Market Benchmarks (version
+7.09, December 2025), stated as facts in the atlas's words with a link to the page (the Baltic Exchange's site terms
+restrict copying; see the `baltic` entry of DATA_SOURCES.md). The Suezmax adds the beam of Wikipedia's typical ship;
+the VLOC, which has no Baltic standard vessel, shows the typical ship of its Wikipedia article. Laden days use the assumed laden service speed of the class, not the
 standard vessel's speed. A class page lists the routes of its class, ended benchmarks last, then, under "Also served
 by", routes of another class that it also serves (the Kamsarmax benchmarks on the Panamax page, the palm oil route on
 the chemical tanker page); choosing a class in the side panel shows both. The world fleet is UNCTADstat's count by ship type

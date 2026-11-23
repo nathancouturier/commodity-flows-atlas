@@ -137,7 +137,7 @@
   "licence": "Site terms restrict reuse (owner's verdict pending). Clause 5.1 of the Baltic Exchange Terms and Conditions: no part of the website or its content \"may be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic\". The atlas states route definitions and standard-vessel figures as facts, in its own words, with a link; it shows no index value (index values are proprietary); it is not affiliated with the Baltic Exchange",
   "update": "n/a",
   "access": "Web pages, read by hand",
-  "use": "Names and definitions of the benchmark routes and the standard vessels of the dry time-charter routes; no index value"
+  "use": "Names and definitions of the benchmark routes and the standard vessels of the dry, tanker and gas time-charter routes; no index value"
  },
  {
   "id": "eurostat-searoute",
@@ -188,16 +188,6 @@
   "update": "annual (fiscal year ends 30 Sep)",
   "access": "Web pages, read by hand",
   "use": "Panama Canal transits"
- },
- {
-  "id": "veson-baltic-defs",
-  "name": "Baltic Exchange time-series/route definitions (Veson VesselsValue help)",
-  "publisher": "Veson Nautical (summarising Baltic Exchange)",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "licence": "Site terms restrict reuse (owner's verdict pending). Veson End User Terms of Use (last modified 23 June 2026): a user \"must not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material comprising the Veson Offerings, except as expressly authorized by Veson\", and may not link to a Veson website without Veson's prior written consent; the Baltic Exchange information on Veson's pages is owned by Baltic Exchange Information Services Limited, whose notice there prohibits copying without its licence. The atlas states a few sizes and cargo figures as facts, in its own words, with a link; it shows no index value (index values are proprietary)",
-  "update": "irregular",
-  "access": "Web page, read by hand",
-  "use": "Benchmark route definitions; typical sizes of some vessel classes"
  },
  {
   "id": "baltic-circulars",

@@ -73,7 +73,7 @@ articles and their infoboxes):
   `refineries.geojson`, `smelters.geojson` and `storage.geojson`: 182 assets whose source id is `wikipedia`, each with
   the `url` of its article;
 - the other infrastructure features whose text names Wikipedia as the origin of a fact (a coordinate, a capacity, an
-  opening year, a length, an operator), although their source id is another one: 74 features, covered here by their `id`
+  opening year, a length, an operator), although their source id is another one: 96 features, covered here by their `id`
   and not edited in the files: `fields.geojson`: `west-qurna`, `stabroek`, `permian-basin`, `marcellus`, `haynesville`,
   `vaca-muerta`, `bakken`; `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
   `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `kiruna`, `sishen`,
@@ -82,11 +82,14 @@ articles and their infoboxes):
   `san-rafael-tin`, `cloudbreak-christmas-creek`, `mount-arthur`, `blackwater-coal`, `fording-river`, `elkview`,
   `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `port-hedland`,
   `newcastle`, `gladstone`, `rotterdam`, `basrah-oil-terminal`, `fujairah`, `singapore`, `houston`, `santos`,
-  `paranagua`, `vancouver`, `hound-point`, `primorsk`, `zhanjiang`, `taman`, `arzew`, `cape-lambert`;
-  `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`,
-  `mina-al-ahmadi`, `mina-abdullah`, `rabigh-aramco`, `replan-petrobras`, `salina-cruz-pemex`; `smelters.geojson`:
-  `aurubis-hamburg`, `kghm-glogow`, `boliden-ronnskar`. Their `url` is the page of their own source; the text of the
-  feature names Wikipedia where a fact comes from it;
+  `paranagua`, `vancouver`, `hound-point`, `primorsk`, `kharg-island`, `juaymah`, `zhanjiang`, `taman`, `valdez`,
+  `westridge`, `sidi-kerir`, `es-sider`, `ras-lanuf`, `forcados`, `qua-iboe`, `arzew`, `zirku-island`, `jask`,
+  `murmansk`, `nederland`, `port-arthur`, `texas-city`, `lake-charles`, `cape-lambert`, `itaguai`, `port-cartier`,
+  `ijmuiden`, `qinhuangdao`, `roberts-bank`, `hampton-roads`; `refineries.geojson`: `port-arthur-motiva`,
+  `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`, `mina-al-ahmadi`, `mina-abdullah`,
+  `rabigh-aramco`, `replan-petrobras`, `salina-cruz-pemex`; `smelters.geojson`: `aurubis-hamburg`, `kghm-glogow`,
+  `boliden-ronnskar`. Their `url` is the page of their own source; the text of the feature names Wikipedia where a fact
+  comes from it;
 <!-- wikipedia-infra:end -->
 - `data/commodities/companies.json` and `data/freight/shipping-companies.json` (and their sources in
   `pipeline/companies/`): 287 and 28 company entries whose source id is `wikipedia`, each with the `url` of its article;
@@ -315,7 +318,7 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
 ## Points taken from OpenStreetMap: ODbL 1.0
 
 <!-- osm-points:start -->
-The coordinates of 209 assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim search)
+The coordinates of 207 assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim search)
   and the note of each feature says so: in `data/infrastructure/`, in `fields.geojson`, Ku-Maloob-Zaap and South Pars;
   in `lng.geojson`, Alexandroupolis FSRU, Altamira FLNG, Altamira LNG Terminal, Bahia Blanca GasPort, Canaport LNG,
   Cartagena LNG Terminal, Chita LNG Terminal, Damietta LNG, Donggi-Senoro LNG, Energia Costa Azul LNG,
@@ -338,16 +341,16 @@ The coordinates of 209 assets of the infrastructure layer were looked up in Open
   Tianshan Uranium, Toquepala, Tshipi Borwa, Vale Ontario operations, Vanscoy, Voisey's Bay, Weda Bay, West Angelas,
   Wodgina, Yanacocha and Yichun lithium mines; in `pipelines.geojson`, Enbridge Mainline and
   Goreh-Jask crude oil pipeline; in `ports.geojson`, CPC terminal, Caofeidian, Dongying, Es Sider, Forcados terminal,
-  Halul Island, Kimitsu, Lavera, Majishan, Mamonal, Mina al-Fahal, Pozos Colorados, Qua Iboe terminal, Roberts Bank,
-  San Lorenzo, Seria, Skikda, St James, Tubay, Vadinar, Valdez Marine Terminal and Westridge Marine Terminal; in
-  `refineries.geojson`, Balikpapan, Baton Rouge, Chiba, Daesan, Deer Park, Fawley, Isfahan, Mizushima,
-  Negishi, Yokohama, Olmeca, Pascagoula, Pengerang, Persian Gulf Star, Priolo, Rotterdam, SATORP, Jubail, STAR,
-  Salina Cruz, Schwedt, Sitra, Szazhalombatta and Zhenhai; in `smelters.geojson`, Albras smelter, Alouette smelter,
-  Balkhash copper smelter and refinery, Birla Copper smelter, Bor smelter and refinery, Caletones smelter,
-  Chanderiya smelter, Hindalco Aditya smelter, Hydro aluminium smelters, Ilo smelter and refinery,
-  Inalum Kuala Tanjung smelter, Kazzinc Ust-Kamenogorsk metallurgical complex, Kitimat smelter,
-  Ma'aden Aluminium smelter, Mentok smelter, Met-Mex Peñoles refinery, NALCO Angul smelter, Port Pirie smelter,
-  Ridder zinc refinery, Sayanogorsk aluminium smelter, Sorowako smelter, Tomago smelter, Tongling smelter and refinery,
+  Halul Island, Lavera, Majishan, Mamonal, Mina al-Fahal, Pozos Colorados, Qua Iboe terminal, Roberts Bank, San Lorenzo,
+  Seria, Skikda, Tubay, Vadinar, Valdez Marine Terminal and Westridge Marine Terminal; in `refineries.geojson`,
+  Balikpapan, Baton Rouge, Chiba, Daesan, Deer Park, Fawley, Isfahan, Mizushima, Negishi, Yokohama, Olmeca, Pascagoula,
+  Pengerang, Persian Gulf Star, Priolo, Rotterdam, SATORP, Jubail, STAR, Salina Cruz, Schwedt, Sitra, Szazhalombatta and
+  Zhenhai; in `smelters.geojson`, Albras smelter, Alouette smelter, Balkhash copper smelter and refinery,
+  Birla Copper smelter, Bor smelter and refinery, Caletones smelter, Chanderiya smelter, Hindalco Aditya smelter,
+  Hydro aluminium smelters, Ilo smelter and refinery, Inalum Kuala Tanjung smelter,
+  Kazzinc Ust-Kamenogorsk metallurgical complex, Kitimat smelter, Ma'aden Aluminium smelter, Mentok smelter,
+  Met-Mex Peñoles refinery, NALCO Angul smelter, Port Pirie smelter, Ridder zinc refinery,
+  Sayanogorsk aluminium smelter, Sorowako smelter, Tomago smelter, Tongling smelter and refinery,
   Trail smelter and refinery and Vedanta Jharsuguda smelter; in `storage.geojson`, Cushing and Mont Belvieu. Only a
   single point per asset is taken; no other OpenStreetMap data is used.
 <!-- osm-points:end -->
@@ -448,9 +451,9 @@ kept or shown. Credit line: **IMF PortWatch (IMF and University of Oxford), port
 ### Baltic Exchange
 
 The atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. Benchmark route codes (for example
-C3, TD3C, BLNG1) and their definitions are taken from public pages and from the Veson VesselsValue summary of the
-Baltic definitions; the Baltic site refuses automated access, so no definition was read at its source and several
-are marked uncertain in `pipeline/freight/NOTES_routes.md` (TC20, TC21, TD6, TD15, S10 and port names). The Baltic
+C3, TD3C, BLNG1), their definitions and the standard vessels are taken from the Baltic Exchange's Guide to Market
+Benchmarks (version 7.09, December 2025), its service pages and its circulars, stated as facts in the atlas's own
+words; the pages read are listed in `pipeline/freight/NOTES_routes.md`. The Baltic
 indices and rate assessments are proprietary and are not shown.
 
 ## Use of the data

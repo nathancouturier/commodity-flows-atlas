@@ -93,6 +93,26 @@ class StandardVessel(unittest.TestCase):
             self.assertEqual((s["dwt"], s["loa"], s["beam"], s["draught"], s["s"]), (dwt, loa, beam, draught, "baltic"), cid)
             self.assertEqual(CLASSES[cid]["size"]["typical"], dwt, cid)
 
+    def test_baltic_tanker_and_gas_vessels(self):
+        """The Baltic standard tankers and gas carriers of the Guide to Market Benchmarks (version 7.09, December 2025):
+        deadweight in tonnes, speed and fuel laden and in ballast; the typical size is the guide's (cbm for gas)."""
+        gmb = "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf"
+        want = {"vlcc": (300000, 300000, (13, 12), (57.3, 39.5)), "suezmax": (160000, 160000, (13, 12), (38.5, 28.5)),
+                "aframax": (115000, 115000, (13, 12), (35.3, 25.3)), "lr2": (115000, 115000, (13, 12), (35.3, 25.3)),
+                "lr1": (75000, 75000, (13, 12), (30.5, 24.5)), "mr": (50000, 50000, (13, 12), (23.3, 17)),
+                "handy-tanker": (37800, 37800, (13, 12), (21.3, 16.8)),
+                "vlgc": (54500, 84000, (16, 16), (48, 43)), "lng": (93500, 174000, (17, 17), (69, 66))}
+        for cid, (dwt, typical, speed, cons) in want.items():
+            c = CLASSES[cid]
+            s = c["std"]
+            self.assertEqual((s["s"], s["url"], s["y"], s["dwt"]), ("baltic", gmb, 2025, dwt), cid)
+            self.assertEqual((s["speed"]["laden"], s["speed"]["ballast"]), speed, cid)
+            self.assertEqual((s["cons"]["laden"], s["cons"]["ballast"]), cons, cid)
+            self.assertEqual(c["size"]["typical"], typical, cid)
+        self.assertEqual({k: CLASSES["vlgc"]["std"][k] for k in ("loa", "beam", "draught", "cubic")},
+                         {"loa": 225, "beam": 36.5, "draught": 12, "cubic": 84000})
+        self.assertEqual({k: CLASSES["lng"]["std"][k] for k in ("loa", "beam", "cubic")}, {"loa": 295, "beam": 47, "cubic": 174000})
+
     def test_classes_without_benchmarks_point_to_the_class_that_has_them(self):
         for cid, other in (("panamax", "kamsarmax"), ("supramax", "ultramax"), ("newcastlemax", "capesize")):
             self.assertEqual(CLASSES[cid]["bench"]["id"], other)
@@ -110,7 +130,7 @@ class StandardVessel(unittest.TestCase):
             for phrase in ("non-scrubber", "salt-water", "maximum age", "bale", "cranes", "the page also gives"):
                 self.assertNotIn(phrase, s["n"], cid)
             self.assertLessEqual(len(s["n"]), 220, cid)
-        for sid in ("baltic", "baltic-circulars", "veson-baltic-defs"):
+        for sid in ("baltic", "baltic-circulars"):
             self.assertIn("verdict pending", SOURCES[sid]["licence"], sid)
         for sid in ("baltic", "baltic-circulars"):
             self.assertIn("without the prior written consent of the Baltic", SOURCES[sid]["licence"], sid)
@@ -128,8 +148,18 @@ class TypicalSize(unittest.TestCase):
         nc, pmx = CLASSES["newcastlemax"]["size"], CLASSES["panamax"]["size"]
         # Wikipedia (Bulk carrier): the largest vessel able to enter Newcastle, about 185,000 dwt
         self.assertEqual((nc["typical"], nc["typicalS"]), (185000, "wikipedia"))
-        # the Panamax 74 of the Baltic's P4TC, as the Veson page of Baltic definitions lists it
-        self.assertEqual((pmx["typical"], pmx["typicalS"]), (74000, "veson-baltic-defs"))
+        # the size in the name of the Baltic's Panamax 74 average (P4TC): the guide describes no such vessel
+        self.assertEqual((pmx["typical"], pmx["typicalS"]), (74000, "atlas"))
+
+    def test_every_page_of_a_class_is_a_page_the_atlas_may_cite(self):
+        """The summary of the Baltic definitions on a third-party site (see NOTES_routes.md) is no longer cited: the
+        Baltic's own guide and pages, Wikipedia and the LPG ship manager's page are."""
+        hosts = ("https://en.wikipedia.org/", "https://www.balticexchange.com/", "https://wilhelmsen.com/")
+        for cid, c in CLASSES.items():
+            for part in (c["size"], c.get("std") or {}):
+                for k in ("url", "typicalUrl"):
+                    if part.get(k):
+                        self.assertTrue(part[k].startswith(hosts), (cid, k, part[k]))
 
 
 class RoutesOfAClass(unittest.TestCase):

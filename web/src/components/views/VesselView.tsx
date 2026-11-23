@@ -39,11 +39,11 @@ function StdBlock({ std, u, assumed }: { std: VesselStd; u: string; assumed?: nu
         : [p.laden != null ? `${num(p.laden)} ${unit} laden` : null, p.ballast != null ? `${num(p.ballast)} ${unit} ballast` : null].filter(Boolean).join(' · ')
       : null;
   const cells: [string, string | null][] = [
-    ['Deadweight', std.dwt != null ? `${num(std.dwt)} ${u === 'dwt' ? 't' : u}` : null],
+    ['Deadweight', std.dwt != null ? `${num(std.dwt)} t` : null],
     ['Length overall', std.loa != null ? `${num(std.loa)} m` : null],
     ['Beam', std.beam != null ? `${num(std.beam)} m` : null],
     ['Draught', std.draught != null ? `${num(std.draught)} m` : null],
-    ['Grain capacity', std.cubic != null ? `${num(std.cubic)} cbm` : null],
+    [u === 'cbm' ? 'Cargo capacity' : 'Grain capacity', std.cubic != null ? `${num(std.cubic)} cbm` : null],
     ['Speed', pair(std.speed, 'kn')],
     ['Fuel a day', pair(std.cons, 't')],
   ];
@@ -54,7 +54,9 @@ function StdBlock({ std, u, assumed }: { std: VesselStd; u: string; assumed?: nu
       </div>
       <p class="prose small">
         {std.n}
-        {assumed != null && std.speed && ` Laden days in the atlas use the assumed laden service speed of ${fmt(assumed)} kn above, not this speed.`}
+        {assumed != null && std.speed && (std.speed.laden === assumed
+          ? ` Laden days in the atlas use the assumed laden service speed of ${fmt(assumed)} kn above, an Atlas assumption that happens to equal this laden speed.`
+          : ` Laden days in the atlas use the assumed laden service speed of ${fmt(assumed)} kn above, not this speed.`)}
       </p>
       <PageLine s={std.s} url={std.url} y={std.y} />
     </>

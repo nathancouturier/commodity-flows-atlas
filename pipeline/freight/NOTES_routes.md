@@ -15,9 +15,9 @@ Pages read in full, one request at a time, for the 90 benchmarks of `routes_def.
   4 August 2025), 02/26 and 08/26 (TD33 trial 12 January, live 10 February 2026), 30/26 (TD34 live 5 May 2026),
   03/26 (TC25, TC26, TD30 and TD31, the Baltic Intermediate Tanker routes, live 14 January 2026; read in the copy the
   review of 23 November 2026 saved).
-- Veson VesselsValue summary of Baltic definitions (https://help.veson.com/vesselsvalue/baltic-timeseries-definitions):
-  read in full; it is older than the guide (Supramax routes as _58, the 180,000 dwt Capesize average, C2 in long tons,
-  C3 at 160,000 or 170,000 t, C7 at 150,000 or 160,000 t). Where the two differ the guide is followed.
+- A Veson Nautical help page that summarised the Baltic definitions is no longer used or linked: Veson's terms forbid
+  reproducing its material and linking to its sites without written consent, and the guide above states every fact the
+  atlas took from it.
 - Riviera Maritime Media (2025) for the location of the Pacific Area Lightering zone of TD29 (off California).
 The extraction (code, description, vessel, cargo, quantity, load and discharge, duration, weight) is kept outside the
 repository with the saved pages. Index values are proprietary: none is stored or shown.
@@ -79,4 +79,4 @@ repository with the saved pages. Index values are proprietary: none is stored or
 - **Suez**: 20.1 m (66 ft) draft for beam up to 50 m with a 1,006 m2 wetted-area cap (Wikipedia/EIA citing SCA). SCA tables not fetched directly.
 
 ## Vessel class size ranges
-Min/max/typical values are conventional industry ranges plus Baltic reference vessels (Capesize 182k, Kamsarmax/"Panamax" 82k, Ultramax 63.5k, Supramax 58k, Handysize 38k, VLCC 300k, Suezmax 160k, Aframax 105k, LR1 75k, MR 47k per Veson). They are not from a single authoritative table. Newcastlemax (185-210k), VLOC (230-400k), handy tanker 37k, LR2, and LNG Q-Flex/Q-Max ranges are unverified. `dims` only where sourced: Suezmax draft/beam (SCA limits), Newcastlemax maxima (Wikipedia), Kamsarmax 229 m LOA.
+Min/max/typical values are conventional industry ranges plus Baltic reference vessels (Capesize 182k, Kamsarmax/"Panamax" 82k, Ultramax 63.5k, Handysize 38k; VLCC 300k, Suezmax 160k, Aframax 115k, LR2 115k, LR1 75k, MR 50k, handy tanker 37.8k, VLGC 84,000 cbm and LNG 174,000 cbm from the standard vessels of the Baltic guide). The Panamax 74k and Supramax 58k typical sizes are Atlas conventions after the names of the Baltic's derived P4TC and S10TC averages. They are not from a single authoritative table. Newcastlemax (185-210k), VLOC (230-400k), and LNG Q-Flex/Q-Max ranges are unverified. `dims` only where sourced: Suezmax draft/beam (SCA limits), Newcastlemax maxima (Wikipedia), Kamsarmax 229 m LOA.

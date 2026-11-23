@@ -197,14 +197,13 @@
 "min": 65000,
 "max": 80000,
 "typical": 74000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalS": "atlas",
 "typicalY": 2026,
 "u": "dwt",
 "s": "wikipedia",
 "url": "https://en.wikipedia.org/wiki/Panamax",
 "y": 2026,
-"n": "Wikipedia (Panamax, read in November 2026): a Panamax cargo ship would typically have 65,000 to 80,000 dwt. (Wikipedia, Bulk carrier, starts the category at 60,000 dwt; the Atlas uses the Panamax article's band so that it does not overlap Ultramax.) The typical size, 74,000 dwt, is the Panamax 74 of the Baltic's Panamax 74 timecharter average (P4TC), as the Veson page of Baltic definitions lists it; the Baltic's Panamax vessel of the P*_82 routes is an 82,500 dwt ship, filed under Kamsarmax."
+"n": "Wikipedia (Panamax, read in November 2026): a Panamax cargo ship would typically have 65,000 to 80,000 dwt. (Wikipedia, Bulk carrier, starts the category at 60,000 dwt; the Atlas uses the Panamax article's band so that it does not overlap Ultramax.) The typical size, 74,000 dwt, is an Atlas convention: the size in the name of the Baltic's Panamax 74 time-charter average (P4TC), which the Baltic's Guide to Market Benchmarks (December 2025) derives from its 82,500 dwt routes without describing a 74,000 dwt vessel; the Baltic's Panamax vessel of the P*_82 routes is an 82,500 dwt ship, filed under Kamsarmax."
 },
 "cargoes": [
 "thermal-coal",
@@ -362,8 +361,7 @@
 "min": 40000,
 "max": 60000,
 "typical": 58000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
+"typicalS": "atlas",
 "typicalY": 2026,
 "u": "dwt",
 "s": "wikipedia",
@@ -456,7 +454,7 @@
 "id": "ultramax",
 "n": "Benchmarks: the Baltic Supramax routes, defined for a 63,500 dwt ship of Ultramax size"
 },
-"notes": "The 58,000 dwt typical size is the former Baltic Standard Supramax (BSI58), which the Veson page still quotes for the S*_58 routes. The Baltic's Standard Supramax is now a 63,500 dwt ship, the size the atlas files under Ultramax.",
+"notes": "The typical size, 58,000 dwt, is an Atlas convention: the size in the name of the Baltic's Supramax 58 time-charter average (S10TC), which the Baltic's Guide to Market Benchmarks (December 2025) derives from its 63,500 dwt routes without describing a 58,000 dwt vessel. The Baltic's Standard Supramax is a 63,500 dwt ship, the size the atlas files under Ultramax.",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -637,14 +635,29 @@
 "min": 200000,
 "max": 320000,
 "typical": 300000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-"typicalY": 2026,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "wikipedia",
 "url": "https://en.wikipedia.org/wiki/Oil_tanker",
 "y": 2026,
-"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: VLCC 200,000 to 320,000 dwt. The typical size is the Baltic VLCC of the benchmark routes (VLCC300)."
+"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: VLCC 200,000 to 320,000 dwt. The typical size is the Baltic Exchange's standard VLCC of the benchmark routes (VLCC300), from its Guide to Market Benchmarks (December 2025)."
+},
+"std": {
+"dwt": 300000,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 57.3,
+"ballast": 39.5
+},
+"n": "The Baltic Exchange's standard VLCC for its tanker time-charter equivalents, from its Guide to Market Benchmarks: fuel oil in tonnes a day at the speed shown. The guide gives no length, beam or draught.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "crude-oil"
@@ -673,7 +686,7 @@
 "gen-crude-oil-meg-r-europe",
 "gen-crude-oil-us-gulf-r-east-asia"
 ],
-"notes": "Baltic TD3C and TD22 VLCC cargo: 270,000 t (Veson page of Baltic definitions).",
+"notes": "Baltic TD3C and TD22 VLCC cargo: 270,000 t (Baltic Exchange, Guide to Market Benchmarks, December 2025).",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -700,15 +713,23 @@
 "s": "wikipedia",
 "url": "https://en.wikipedia.org/wiki/Oil_tanker",
 "y": 2026,
-"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: Suezmax 120,000 to 200,000 dwt. Typical size: Wikipedia (Suezmax), about 160,000 dwt."
+"n": "Wikipedia (Oil tanker, size categories, read in November 2026), flexible market scale: Suezmax 120,000 to 200,000 dwt. Typical size: Wikipedia (Suezmax), about 160,000 dwt, the deadweight of the Baltic Exchange's standard Suezmax (SUEZ160) too."
 },
 "std": {
 "dwt": 160000,
 "beam": 48,
-"n": "Not a Baltic standard vessel: a typical Suezmax as Wikipedia (Suezmax, read in November 2026) gives it, about 160,000 dwt and about 48 m beam; the page gives no typical length or draught (its 20.1 m and 50 m are the canal's limits, see Canals).",
-"s": "wikipedia",
-"url": "https://en.wikipedia.org/wiki/Suezmax",
-"y": 2026
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 38.5,
+"ballast": 28.5
+},
+"n": "The Baltic Exchange's standard Suezmax, from its guide: deadweight, speed and fuel oil in tonnes a day. The beam, about 48 m, is Wikipedia's (Suezmax, 2026). Neither gives a length or a draught.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "crude-oil"
@@ -751,15 +772,30 @@
 "size": {
 "min": 80000,
 "max": 120000,
-"typical": 105000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-"typicalY": 2026,
+"typical": 115000,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "wikipedia",
 "url": "https://en.wikipedia.org/wiki/Aframax",
 "y": 2026,
-"n": "Wikipedia (Aframax, read in November 2026): an oil tanker of 80,000 to 120,000 dwt. The typical size is the Baltic Aframax of the forward contracts (105,000 dwt)."
+"n": "Wikipedia (Aframax, read in November 2026): an oil tanker of 80,000 to 120,000 dwt. The typical size is the Baltic Exchange's standard Aframax (AFRA115, 115,000 dwt), from its Guide to Market Benchmarks (December 2025)."
+},
+"std": {
+"dwt": 115000,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 35.3,
+"ballast": 25.3
+},
+"n": "The Baltic Exchange's standard Aframax for its tanker time-charter equivalents, from its Guide to Market Benchmarks: fuel oil in tonnes a day at the speed shown. The guide gives no length, beam or draught.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "crude-oil",
@@ -787,7 +823,7 @@
 "TD29",
 "gen-crude-oil-nw-europe-r-europe"
 ],
-"notes": "Baltic TD7 reference ship: 105,000 dwt (Veson page of Baltic definitions).",
+"notes": "Baltic cargoes on the Aframax routes run from 70,000 t (TD9, TD25, TD26) to 100,000 t (TD17); their time-charter equivalents use the Baltic's 115,000 dwt Aframax, except TD25, which uses a 105,000 dwt one (Baltic Exchange, Guide to Market Benchmarks, December 2025).",
 "s": "wikipedia-vessel-classes",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -806,13 +842,29 @@
 "size": {
 "min": 80000,
 "max": 120000,
-"typical": 110000,
-"typicalS": "atlas",
-"typicalY": 2026,
+"typical": 115000,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "atlas",
 "y": 2026,
-"n": "An Atlas convention: the class takes the Aframax band (80,000 to 120,000 dwt, Wikipedia, Aframax) because it is the clean (products) trade of Aframax-size ships, so the two classes share one band. The AFRA scale (Wikipedia, Oil tanker) puts LR2 at 80,000 to 159,999 dwt. The typical size is an Atlas convention: no page read gives one."
+"n": "An Atlas convention: the class takes the Aframax band (80,000 to 120,000 dwt, Wikipedia, Aframax) because it is the clean (products) trade of Aframax-size ships, so the two classes share one band. The AFRA scale (Wikipedia, Oil tanker) puts LR2 at 80,000 to 159,999 dwt. The typical size is the Baltic Exchange's standard LR2 (LR2-115, 115,000 dwt), from its Guide to Market Benchmarks (December 2025)."
+},
+"std": {
+"dwt": 115000,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 35.3,
+"ballast": 25.3
+},
+"n": "The Baltic Exchange's standard LR2 for its clean tanker time-charter equivalents, from its Guide to Market Benchmarks: fuel oil in tonnes a day at the speed shown. No length, beam or draught is given.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "refined-products"
@@ -834,8 +886,8 @@
 "middle-east-europe-diesel",
 "gen-refined-products-meg-r-east-asia"
 ],
-"notes": "Baltic TC1 cargo: 75,000 t; TC15: 80,000 t.",
-"s": "veson-baltic-defs",
+"notes": "Baltic TC1 cargo: 75,000 t; TC15: 80,000 t; TC20: 90,000 t (Baltic Exchange, Guide to Market Benchmarks, December 2025).",
+"s": "baltic",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -854,13 +906,28 @@
 "min": 55000,
 "max": 80000,
 "typical": 75000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-"typicalY": 2026,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "atlas",
 "y": 2026,
-"n": "An Atlas convention: from 55,000 dwt, where the Atlas's MR band ends, to 80,000 dwt, where Aframax and LR2 start. The AFRA scale (Wikipedia, Oil tanker) puts LR1 at 45,000 to 79,999 dwt. The typical size is the Baltic LR1 of the forward contracts (75,000 dwt)."
+"n": "An Atlas convention: from 55,000 dwt, where the Atlas's MR band ends, to 80,000 dwt, where Aframax and LR2 start. The AFRA scale (Wikipedia, Oil tanker) puts LR1 at 45,000 to 79,999 dwt. The typical size is the Baltic Exchange's standard LR1 (LR1-75, 75,000 dwt), from its Guide to Market Benchmarks (December 2025)."
+},
+"std": {
+"dwt": 75000,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 30.5,
+"ballast": 24.5
+},
+"n": "The Baltic Exchange's standard LR1 for its clean tanker time-charter equivalents, from its Guide to Market Benchmarks: fuel oil in tonnes a day at the speed shown. No length, beam or draught is given.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "refined-products"
@@ -880,8 +947,8 @@
 "middle-east-japan-products",
 "TD21"
 ],
-"notes": "Baltic TC5 cargo: 55,000 t, on the Baltic LR1 of 75,000 dwt (Veson page of Baltic definitions).",
-"s": "veson-baltic-defs",
+"notes": "Baltic TC5 cargo: 55,000 t, on the Baltic's standard LR1 of 75,000 dwt; the Baltic's standard Panamax tanker is of the same deadweight (Baltic Exchange, Guide to Market Benchmarks, December 2025).",
+"s": "baltic",
 "speedKn": 13.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -899,14 +966,29 @@
 "size": {
 "min": 40000,
 "max": 55000,
-"typical": 47000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-"typicalY": 2026,
+"typical": 50000,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "atlas",
 "y": 2026,
-"n": "An Atlas convention: from 40,000 dwt, where the Handy tanker band ends, to 55,000 dwt. The AFRA scale (Wikipedia, Oil tanker) puts Medium Range at 25,000 to 44,999 dwt; the Baltic's MR2 reference ship (47,000 dwt) falls above it, which is why the Atlas starts the class at 40,000 dwt. Other published scales cut the classes differently."
+"n": "An Atlas convention: from 40,000 dwt, where the Handy tanker band ends, to 55,000 dwt. The AFRA scale (Wikipedia, Oil tanker) puts Medium Range at 25,000 to 44,999 dwt; the Baltic Exchange's standard MR (MR50, 50,000 dwt, Guide to Market Benchmarks, December 2025) falls above it, which is why the Atlas starts the class at 40,000 dwt. Other published scales cut the classes differently. The typical size is the Baltic's standard MR."
+},
+"std": {
+"dwt": 50000,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 23.3,
+"ballast": 17
+},
+"n": "The Baltic Exchange's standard MR for its clean tanker time-charter equivalents, from its Guide to Market Benchmarks: fuel oil in tonnes a day at the speed shown. No length, beam or draught is given.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "refined-products",
@@ -914,7 +996,7 @@
 "soyoil"
 ],
 "constraints": [
-"Most flexible clean carrier; calls at most refinery jetties"
+"Clean products: the Baltic's MR routes carry cargoes of 35,000 to 40,000 t"
 ],
 "canals": {
 "suez": "Transits laden",
@@ -950,8 +1032,8 @@
 "gen-refined-products-black-sea-r-europe",
 "gen-refined-products-japan-korea-r-east-asia"
 ],
-"notes": "Baltic MR2 reference ship: 47,000 dwt (Veson page of Baltic definitions); TC2_37 cargo 37,000 t, TC10 and TC11 40,000 t. The Atlas puts the class first on vegetable-oil lanes: the Baltic assesses vegetable-oil freight basis 40,000 t shipments on chemical tankers (Baltic Chemical and Agricultural Oil Assessments), a cargo the size of the MR2 benchmark cargoes.",
-"s": "veson-baltic-defs",
+"notes": "The Baltic's standard MR is a 50,000 dwt ship; TC2_37 cargo 37,000 t, TC10 and TC11 40,000 t (Baltic Exchange, Guide to Market Benchmarks, December 2025). The Atlas puts the class first on vegetable-oil lanes: the Baltic assesses vegetable-oil freight basis 40,000 t shipments on chemical tankers (Baltic Chemical and Agricultural Oil Assessments), a cargo the size of the MR benchmark cargoes.",
+"s": "baltic",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -969,19 +1051,35 @@
 "size": {
 "min": 10000,
 "max": 40000,
-"typical": 37000,
-"typicalS": "atlas",
-"typicalY": 2026,
+"typical": 37800,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "dwt",
 "s": "atlas",
 "y": 2026,
-"n": "An Atlas convention: 10,000 to 40,000 dwt, where MR starts. The AFRA scale (Wikipedia, Oil tanker) cuts this range into General Purpose (10,000 to 24,999 dwt) and Medium Range (25,000 to 44,999 dwt). The typical size is an Atlas convention: no page read gives one; the Baltic's handy tanker routes carry 30,000 t cargoes."
+"n": "An Atlas convention: 10,000 to 40,000 dwt, where MR starts. The AFRA scale (Wikipedia, Oil tanker) cuts this range into General Purpose (10,000 to 24,999 dwt) and Medium Range (25,000 to 44,999 dwt). The typical size is the Baltic Exchange's standard Handy tanker (37,800 dwt), from its Guide to Market Benchmarks (December 2025); the Baltic's Handy routes carry 30,000 t cargoes."
+},
+"std": {
+"dwt": 37800,
+"speed": {
+"laden": 13,
+"ballast": 12
+},
+"cons": {
+"laden": 21.3,
+"ballast": 16.8
+},
+"n": "The Baltic Exchange's standard Handy tanker (clean and dirty versions alike) for its time-charter equivalents, from its guide: fuel oil in tonnes a day at the speed shown. No length, beam or draught is given.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "refined-products"
 ],
 "constraints": [
-"Small ports and coastal trades; often IMO II/III chemical-capable"
+"Clean products or fuel oil: the Baltic's Handy routes carry 30,000 t cargoes"
 ],
 "canals": {
 "suez": "Transits laden",
@@ -998,8 +1096,8 @@
 "TD18",
 "TC23"
 ],
-"notes": "Baltic TC6, TC9 and TD18 cargo: 30,000 t (Veson page of Baltic definitions). Up to 40,000 dwt; MR starts there.",
-"s": "veson-baltic-defs",
+"notes": "Baltic TC6, TC9 and TD18 cargo: 30,000 t, on the Baltic's standard Handy tanker of 37,800 dwt (Baltic Exchange, Guide to Market Benchmarks, December 2025). Up to 40,000 dwt; MR starts there.",
+"s": "baltic",
 "speedKn": 12.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {
@@ -1071,6 +1169,24 @@
 "y": 2026,
 "n": "Wikipedia (LNG carrier, read in November 2026): LNG carriers have grown to the Q-Max of up to 266,000 cbm; the Q-Flex and Q-Max carry 210,000 to 266,000 cbm. The lower end, 140,000 cbm, is an Atlas convention for the conventional carriers (no page read gives it); small-scale carriers below 40,000 cbm (same page) are not an Atlas class. The typical size is the Baltic's LNG carrier of the BLNG routes (174,000 cbm)."
 },
+"std": {
+"dwt": 93500,
+"loa": 295,
+"beam": 47,
+"cubic": 174000,
+"speed": {
+"laden": 17,
+"ballast": 17
+},
+"cons": {
+"laden": 69,
+"ballast": 66
+},
+"n": "The Baltic Exchange's standard LNG carrier of its BLNG routes, from its Guide to Market Benchmarks: cargo capacity in cubic metres, fuel oil in tonnes a day at the speed shown; length and beam are approximate.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
+},
 "cargoes": [
 "lng"
 ],
@@ -1122,14 +1238,33 @@
 "min": 70000,
 "max": 100000,
 "typical": 84000,
-"typicalS": "veson-baltic-defs",
-"typicalUrl": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-"typicalY": 2026,
+"typicalS": "baltic",
+"typicalUrl": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"typicalY": 2025,
 "u": "cbm",
 "s": "wilhelmsen-lpg-sizes",
 "url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management",
 "y": 2026,
-"n": "Wilhelmsen (LPG vessel management, read in November 2026): very large gas carriers are LPG ships of 70,000 cbm and above. The upper end, 100,000 cbm, is an Atlas convention. Large gas carriers (50,000 to 70,000 cbm, same page) are not an Atlas class: no lane rule uses them, so the bands leave that step out. The typical size is the Baltic VLGC of the LPG routes (VLGC84, 84,000 cbm)."
+"n": "Wilhelmsen (LPG vessel management, read in November 2026): very large gas carriers are LPG ships of 70,000 cbm and above. The upper end, 100,000 cbm, is an Atlas convention. Large gas carriers (50,000 to 70,000 cbm, same page) are not an Atlas class: no lane rule uses them, so the bands leave that step out. The typical size is the Baltic Exchange's standard LPG carrier of the LPG routes (VLGC84, 84,000 cbm), from its Guide to Market Benchmarks (December 2025)."
+},
+"std": {
+"dwt": 54500,
+"loa": 225,
+"beam": 36.5,
+"draught": 12,
+"cubic": 84000,
+"speed": {
+"laden": 16,
+"ballast": 16
+},
+"cons": {
+"laden": 48,
+"ballast": 43
+},
+"n": "The Baltic Exchange's standard LPG carrier of its BLPG routes, from its Guide to Market Benchmarks: cargo capacity in cubic metres, fuel oil in tonnes a day at the speed shown.",
+"s": "baltic",
+"url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
+"y": 2025
 },
 "cargoes": [
 "lpg"
@@ -1153,8 +1288,8 @@
 "gen-lpg-us-gulf-sea",
 "gen-lpg-us-gulf-waf"
 ],
-"notes": "The Baltic LPG time-charter equivalents are based on a VLGC of 84,000 cbm (VLGC84); BLPG parcel 44,000 t (Veson page of Baltic definitions).",
-"s": "veson-baltic-defs",
+"notes": "The Baltic LPG time-charter equivalents are based on a VLGC of 84,000 cbm (VLGC84); BLPG parcel 44,000 t (Baltic Exchange, Guide to Market Benchmarks, December 2025).",
+"s": "baltic",
 "speedKn": 15.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
 "speed": {

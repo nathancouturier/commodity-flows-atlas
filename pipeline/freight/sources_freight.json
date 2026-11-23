@@ -1,13 +1,5 @@
 [
  {
-  "id": "veson-baltic-defs",
-  "name": "Baltic Exchange time-series/route definitions (Veson VesselsValue help)",
-  "publisher": "Veson Nautical (summarising Baltic Exchange)",
-  "url": "https://help.veson.com/vesselsvalue/baltic-timeseries-definitions",
-  "licence": "Public web page, facts cited",
-  "update": "irregular"
- },
- {
   "id": "baltic-circulars",
   "name": "Baltic Exchange circulars and service pages (TD27, TD2/TD17/TC9 cessation, BLNG-174, BSI 63.5, C5TC 182)",
   "publisher": "The Baltic Exchange",
