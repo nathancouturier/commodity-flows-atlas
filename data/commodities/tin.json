@@ -23,8 +23,8 @@
    "n": "CEPII BACI HS92 unwrought tin (HS 8001), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
   },
   "seaborne": {
-   "v": 0.1943,
-   "u": "Mt",
+   "v": 194.3,
+   "u": "kt",
    "y": 2024,
    "s": "baci",
    "n": "seaborne subset of BACI flows (tin-metal) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
@@ -896,8 +896,7 @@
    "s": "baci",
    "usd": 70499000,
    "uv": 13300,
-   "mode": "sea",
-   "lane": "tin-metal:ESP-BEL"
+   "mode": "sea"
   },
   {
    "o": "BEL",

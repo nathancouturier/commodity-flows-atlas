@@ -23,8 +23,8 @@
    "n": "Gross weight of cobalt intermediate products and metal (ores are a small part): not comparable with mine production, which is in tonnes of contained cobalt."
   },
   "seaborne": {
-   "v": 0.7126,
-   "u": "Mt",
+   "v": 712.6,
+   "u": "kt",
    "y": 2024,
    "s": "baci",
    "n": "seaborne subset of BACI flows (cobalt) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
@@ -695,7 +695,6 @@
    "usd": 25544000,
    "uv": 4570,
    "mode": "mixed",
-   "lane": "cobalt:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {

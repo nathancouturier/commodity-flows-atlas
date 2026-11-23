@@ -23,11 +23,11 @@
    "n": "Product weight of potassium chloride. The production table is converted to the same unit (Atlas conversion); reserves are in K2O content."
   },
   "seaborne": {
-   "v": 38.98,
+   "v": 41.87,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (potash) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 7.15 Mt that move both by sea and overland (split not known) are not in it"
+   "n": "seaborne subset of BACI flows (potash) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 4.26 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "kpis": {

@@ -724,7 +724,6 @@
    "usd": 622203000,
    "uv": 1670,
    "mode": "mixed",
-   "lane": "lead-ore:RUS-CHN",
    "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
   },
   {
@@ -808,8 +807,7 @@
    "s": "baci",
    "usd": 127972000,
    "uv": 1600,
-   "mode": "sea",
-   "lane": "lead-ore:TUR-CHN"
+   "mode": "sea"
   },
   {
    "o": "MEX",
