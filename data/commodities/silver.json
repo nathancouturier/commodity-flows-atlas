@@ -22,11 +22,11 @@
    "s": "atlas",
    "n": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
    "alt": {
-    "v": 53264.0,
+    "v": 51415.7,
     "u": "t gross weight",
     "s": "baci",
     "y": 2024,
-    "n": "customs gross weight (CEPII BACI), the sum of the declared tonnages"
+    "n": "customs gross weight (CEPII BACI), estimated from value where it is missing or implausible"
    }
   }
  },
@@ -163,7 +163,7 @@
    {
     "c": "CHN",
     "v": 5534.5,
-    "n": "customs gross weight 7,961 t"
+    "n": "customs gross weight 6,106 t"
    },
    {
     "c": "MEX",
@@ -221,7 +221,7 @@
     "n": "customs gross weight 892.0 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 53,264 t gross weight) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight) · Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply.",
   "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "Includes refining and trading hubs that re-export silver: this ranks trade, not mine supply."
  },
@@ -249,7 +249,7 @@
    {
     "c": "IND",
     "v": 3936.6,
-    "n": "customs gross weight 8,032 t"
+    "n": "customs gross weight 6,177 t"
    },
    {
     "c": "JPN",
@@ -269,7 +269,7 @@
    {
     "c": "ARE",
     "v": 1243.2,
-    "n": "customs gross weight 1,445 t"
+    "n": "customs gross weight 1,450 t"
    },
    {
     "c": "DEU",
@@ -284,7 +284,7 @@
    {
     "c": "ITA",
     "v": 786.59,
-    "n": "customs gross weight 920.0 t"
+    "n": "customs gross weight 921.6 t"
    },
    {
     "c": "THA",
@@ -292,7 +292,7 @@
     "n": "customs gross weight 1,161 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 53,264 t gross weight)",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of silver (HS 710610, 710691, 710692) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 28 USD per troy ounce, the 2024 average silver price (World Bank Pink Sheet), i.e. 0.9 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 51,416 t gross weight)",
   "basis": "fine-metal equivalent (Atlas estimate)"
  },
  "flows": [

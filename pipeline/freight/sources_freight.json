@@ -54,5 +54,25 @@
   "url": "https://en.wikipedia.org/wiki/Suezmax",
   "licence": "CC BY-SA 4.0 (Wikipedia)",
   "update": "irregular"
+ },
+ {
+  "id": "eia-cab",
+  "name": "EIA International Country Analysis Briefs",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/international/analysis/country",
+  "licence": "Public domain (US Government publications are in the public domain and not subject to copyright, EIA Copyrights and Reuse)",
+  "update": "irregular (each brief carries its own date)",
+  "access": "Web page, read by hand",
+  "use": "A port named for a cargo in a country's brief (Taiwan's crude oil import ports, Singapore's refined product exports)"
+ },
+ {
+  "id": "eia-company-imports",
+  "name": "EIA Company Level Imports (Form EIA-814 Monthly Imports Report)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/petroleum/imports/companylevel/",
+  "licence": "Public domain (US Government publications are in the public domain and not subject to copyright, EIA Copyrights and Reuse)",
+  "update": "monthly, with final annual files",
+  "access": "Annual workbook impa24d.xlsx (2024 imports by month, port of entry and country of origin), read by hand",
+  "use": "US ports of entry for crude oil and petroleum products, 2024"
  }
 ]

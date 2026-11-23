@@ -199,6 +199,8 @@ G = {
     "TWN": [
         ("TWKHH", "taiwan", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", "Yung-An, Kaohsiung"),
         ("TWTXG", "taiwan", {"lng"}, "discharge", "giignl-2026", GIIGNL + "30", None),
+        ("TWMAL", "taiwan", {"crude"}, "discharge", "eia-cab", EIACAB + "TWN", "EIA country brief: 'Taiwan's crude oil imports come in through three ports: Mai Liao (55% in 2025), Kaohsiung (30% in 2025), and Shalung (15% in 2025)'; Mai Liao is the Mailiao of the searoute list (the third port is not in it)"),
+        ("TWKHH", "taiwan", {"crude"}, "discharge", "eia-cab", EIACAB + "TWN", "Same EIA sentence: Kaohsiung 30% of Taiwan's crude oil imports in 2025"),
     ],
     "IND": [
         ("INDAH", "wc-india", {"lng"}, "discharge", "giignl-2026", GIIGNL + "29", None),
@@ -290,7 +292,7 @@ G = {
     ],
     "SGP": [
         ("SGSIN", "sea", {"crude"}, "discharge", "wikipedia", WP + "Port_of_Singapore", "The port tranships half of the world's annual crude oil supplies and imports raw materials for refining; Singapore has no crude oil of its own (Jurong Island page)"),
-        ("SGSIN", "sea", {"products"}, "load", "eia-cab", "https://www.eia.gov/international/analysis/country/SGP", "EIA country brief: Singapore is 'the fifth-largest refinery and export hub in the world' and 'most of Singapore's refined petroleum product and petrochemical exports are destined for neighboring Asian countries' (a city-state with one port system: the page names the exports of the country, not a berth; no tonnage by port)"),
+        ("SGSIN", "sea", {"products"}, "load", "eia-cab", EIACAB + "SGP", "EIA country brief: Singapore is 'the fifth-largest refinery and export hub in the world' and 'most of Singapore's refined petroleum product and petrochemical exports are destined for neighboring Asian countries' (a city-state with one port system: the page names the exports of the country, not a berth; no tonnage by port)"),
     ],
     "KAZ": [
         ("KZCPC", "black-sea", {"crude"}, "load", "wikipedia", WP + "Caspian_Pipeline_Consortium", "The CPC pipeline handles almost all of Kazakhstan's oil exports, to the Novorossiysk-2 marine terminal in Russia (pipeline terminal, not a Kazakh port)"),
@@ -396,8 +398,7 @@ UNSOURCED_PORTS = {
     "IND/products/load": "Jamnagar refinery and Sikka pages read: oil products exported by the refinery whose complex has port facilities, Sikka port not named",
     "IND/products/discharge": "no page read names products imports at a port",
     "IND/lpg/discharge": "Mundra Port page names liquid cargo and a liquid terminal, not LPG",
-    "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port",
-    "USA/products/discharge": "same pages",
+    "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port; the EIA file of company-level imports covers imports only, and no free statistic of exports by port was found (EIA publishes exports by PADD, not by port)",
     "SGP/products/discharge": "Port of Singapore and Jurong Island pages read: bunkering and refining, no products import named",
     "SGP/lng/discharge": "no page read; the layer of the atlas has no Singapore terminal",
     "BRA/crude/discharge": "Port of Santos page names liquid bulk only; no page names a crude oil import port",
@@ -409,7 +410,6 @@ UNSOURCED_PORTS = {
     "ESP/products/discharge": "same pages",
     "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named",
     "ITA/products/discharge": "same pages",
-    "TWN/crude/discharge": "Port of Kaohsiung and Mailiao pages read: the Mailiao refinery runs 400,000 barrels of crude oil a day, no crude import port named",
     "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude",
     "MYS/crude/load": "Kerteh page names the Terengganu Crude Oil Terminal but gives the town's coordinates (inland), and no searoute port lies within a few km; Labuan page says crude oil is exported, the searoute point for Labuan is inland",
     "MYS/products/load": "Kuantan and Port Dickson pages read: no products named at a port",

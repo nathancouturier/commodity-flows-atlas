@@ -22,11 +22,11 @@
    "s": "atlas",
    "n": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
    "alt": {
-    "v": 9566.0,
+    "v": 9468.4,
     "u": "t gross weight",
     "s": "baci",
     "y": 2024,
-    "n": "customs gross weight (CEPII BACI), the sum of the declared tonnages"
+    "n": "customs gross weight (CEPII BACI), estimated from value where it is missing or implausible"
    }
   }
  },
@@ -168,65 +168,65 @@
    {
     "c": "CHE",
     "v": 1356.3,
-    "n": "customs gross weight 1,594 t"
+    "n": "customs gross weight 1,600 t"
    },
    {
     "c": "ARE",
     "v": 754.08,
-    "n": "customs gross weight 749.0 t"
+    "n": "customs gross weight 764.1 t"
    },
    {
     "c": "HKG",
     "v": 458.35,
-    "n": "customs gross weight 491.0 t"
+    "n": "customs gross weight 491.6 t"
    },
    {
     "c": "AUS",
     "v": 427.1,
-    "n": "customs gross weight 544.0 t"
+    "n": "customs gross weight 545.3 t"
    },
    {
     "c": "ZAF",
     "v": 375.73,
-    "n": "customs gross weight 387.0 t"
+    "n": "customs gross weight 387.2 t"
    },
    {
     "c": "USA",
     "v": 289.42,
-    "n": "customs gross weight 541.0 t"
+    "n": "customs gross weight 542.9 t"
    },
    {
     "c": "CAN",
     "v": 258.8,
-    "n": "customs gross weight 495.0 t"
+    "n": "customs gross weight 496.7 t"
    },
    {
     "c": "JPN",
     "v": 221.18,
-    "n": "customs gross weight 251.0 t"
+    "n": "customs gross weight 251.5 t"
    },
    {
     "c": "DEU",
     "v": 204.74,
-    "n": "customs gross weight 260.0 t"
+    "n": "customs gross weight 263.1 t"
    },
    {
     "c": "PER",
     "v": 171.2,
-    "n": "customs gross weight 432.0 t"
+    "n": "customs gross weight 433.2 t"
    },
    {
     "c": "CHN",
     "v": 168.06,
-    "n": "customs gross weight 177.0 t"
+    "n": "customs gross weight 178.0 t"
    },
    {
     "c": "RUS",
     "v": 157.79,
-    "n": "customs gross weight 280.0 t"
+    "n": "customs gross weight 280.1 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,566 t gross weight) · Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight) · Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply.",
   "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "Includes refining, trading and vaulting hubs (e.g. Switzerland, UAE, Hong Kong) that re-export gold: this ranks trade, not mine supply."
  },
@@ -239,65 +239,65 @@
    {
     "c": "CHE",
     "v": 1407.4,
-    "n": "customs gross weight 2,260 t"
+    "n": "customs gross weight 2,262 t"
    },
    {
     "c": "CHN",
     "v": 917.66,
-    "n": "customs gross weight 935.0 t"
+    "n": "customs gross weight 937.9 t"
    },
    {
     "c": "HKG",
     "v": 833.13,
-    "n": "customs gross weight 897.0 t"
+    "n": "customs gross weight 898.4 t"
    },
    {
     "c": "IND",
     "v": 750.6,
-    "n": "customs gross weight 827.0 t"
+    "n": "customs gross weight 828.3 t"
    },
    {
     "c": "GBR",
     "v": 616.35,
-    "n": "customs gross weight 1,041 t"
+    "n": "customs gross weight 1,042 t"
    },
    {
     "c": "ARE",
     "v": 424.43,
-    "n": "customs gross weight 456.0 t"
+    "n": "customs gross weight 458.5 t"
    },
    {
     "c": "USA",
     "v": 257.17,
-    "n": "customs gross weight 403.0 t"
+    "n": "customs gross weight 403.8 t"
    },
    {
     "c": "SGP",
     "v": 222.26,
-    "n": "customs gross weight 273.0 t"
+    "n": "customs gross weight 274.3 t"
    },
    {
     "c": "TUR",
     "v": 211.07,
-    "n": "customs gross weight 221.0 t"
+    "n": "customs gross weight 226.0 t"
    },
    {
     "c": "THA",
     "v": 184.99,
-    "n": "customs gross weight 206.0 t"
+    "n": "customs gross weight 220.9 t"
    },
    {
     "c": "ITA",
     "v": 130.05,
-    "n": "customs gross weight 204.0 t"
+    "n": "customs gross weight 208.0 t"
    },
    {
     "c": "CAN",
     "v": 120.89,
-    "n": "customs gross weight 232.0 t"
+    "n": "customs gross weight 233.0 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,566 t gross weight) · Includes refining and vaulting hubs; not a measure of final demand.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of non-monetary gold (HS 710811-710813) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 2,388 USD per troy ounce, the 2024 average gold price (World Bank Pink Sheet), i.e. 76.8 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 9,468 t gross weight) · Includes refining and vaulting hubs; not a measure of final demand.",
   "basis": "fine-metal equivalent (Atlas estimate)",
   "caveat": "Includes refining and vaulting hubs; not a measure of final demand."
  },

@@ -22,11 +22,11 @@
    "s": "atlas",
    "n": "May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the wrong code: this ranks trade, not mine supply.",
    "alt": {
-    "v": 1454.0,
+    "v": 1488.6,
     "u": "t gross weight",
     "s": "baci",
     "y": 2024,
-    "n": "customs gross weight (CEPII BACI), the sum of the declared tonnages"
+    "n": "customs gross weight (CEPII BACI), estimated from value where it is missing or implausible"
    }
   }
  },
@@ -112,65 +112,65 @@
    {
     "c": "ZAF",
     "v": 413.19,
-    "n": "customs gross weight 414.0 t"
+    "n": "customs gross weight 415.2 t"
    },
    {
     "c": "RUS",
     "v": 114.78,
-    "n": "customs gross weight 117.0 t"
+    "n": "customs gross weight 117.3 t"
    },
    {
     "c": "GBR",
     "v": 92.869,
-    "n": "customs gross weight 97.0 t"
+    "n": "customs gross weight 99.0 t"
    },
    {
     "c": "DEU",
     "v": 75.204,
-    "n": "customs gross weight 119.0 t"
+    "n": "customs gross weight 121.5 t"
    },
    {
     "c": "USA",
     "v": 70.984,
-    "n": "customs gross weight 122.0 t"
+    "n": "customs gross weight 124.0 t"
    },
    {
     "c": "ITA",
     "v": 58.041,
-    "n": "customs gross weight 60.0 t"
+    "n": "customs gross weight 61.7 t"
    },
    {
     "c": "ARE",
     "v": 57.248,
-    "n": "customs gross weight 186.0 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here.; rank 7: the United Arab Emirates is not in the USGS list of platinum-group producers; its exports may be re-exports of metal traded and refined there (a possible reading, not established here)"
+    "n": "customs gross weight 186.7 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here.; rank 7: the United Arab Emirates is not in the USGS list of platinum-group producers; its exports may be re-exports of metal traded and refined there (a possible reading, not established here)"
    },
    {
     "c": "BEL",
     "v": 52.399,
-    "n": "customs gross weight 54.0 t"
+    "n": "customs gross weight 55.0 t"
    },
    {
     "c": "CHE",
     "v": 46.558,
-    "n": "customs gross weight 47.0 t"
+    "n": "customs gross weight 48.5 t"
    },
    {
     "c": "JPN",
     "v": 44.877,
-    "n": "customs gross weight 54.0 t"
+    "n": "customs gross weight 55.8 t"
    },
    {
     "c": "HKG",
     "v": 41.463,
-    "n": "customs gross weight 41.0 t"
+    "n": "customs gross weight 42.7 t"
    },
    {
     "c": "CHN",
     "v": 19.388,
-    "n": "customs gross weight 23.0 t"
+    "n": "customs gross weight 23.2 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,454 t gross weight); valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the wrong code: this ranks trade, not mine supply.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,489 t gross weight); valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the wrong code: this ranks trade, not mine supply.",
   "basis": "fine-metal equivalent at the platinum price (Atlas estimate)",
   "caveat": "May include refining and trading hubs that re-export platinum-group metals bought elsewhere, and metals declared under the wrong code: this ranks trade, not mine supply."
  },
@@ -183,65 +183,65 @@
    {
     "c": "USA",
     "v": 167.25,
-    "n": "customs gross weight 173.0 t"
+    "n": "customs gross weight 174.8 t"
    },
    {
     "c": "CHN",
     "v": 145.98,
-    "n": "customs gross weight 151.0 t"
+    "n": "customs gross weight 153.4 t"
    },
    {
     "c": "GBR",
     "v": 132.37,
-    "n": "customs gross weight 134.0 t"
+    "n": "customs gross weight 134.4 t"
    },
    {
     "c": "JPN",
     "v": 127.05,
-    "n": "customs gross weight 129.0 t"
+    "n": "customs gross weight 129.9 t"
    },
    {
     "c": "DEU",
     "v": 111.18,
-    "n": "customs gross weight 115.0 t"
+    "n": "customs gross weight 118.0 t"
    },
    {
     "c": "HKG",
     "v": 111.01,
-    "n": "customs gross weight 115.0 t"
+    "n": "customs gross weight 116.6 t"
    },
    {
     "c": "CHE",
     "v": 72.106,
-    "n": "customs gross weight 80.0 t"
+    "n": "customs gross weight 83.8 t"
    },
    {
     "c": "IND",
     "v": 71.641,
-    "n": "customs gross weight 202.0 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here."
+    "n": "customs gross weight 202.9 t; Customs data record 186 t of platinum-group metals from the United Arab Emirates to India in 2024 (CEPII BACI), 92% of India's recorded imports, against 2.0 t in 2023. They are declared at 9,338 USD per kg, 30% of the 2024 average platinum price (30,712 USD per kg, World Bank Pink Sheet). Gold or another cheaper metal declared as a platinum alloy is a plausible cause; it is not established here."
    },
    {
     "c": "ITA",
     "v": 54.976,
-    "n": "customs gross weight 56.0 t"
+    "n": "customs gross weight 58.3 t"
    },
    {
     "c": "MKD",
     "v": 33.26,
-    "n": "customs gross weight 33.0 t"
+    "n": "customs gross weight 33.3 t"
    },
    {
     "c": "KOR",
     "v": 29.904,
-    "n": "customs gross weight 30.0 t"
+    "n": "customs gross weight 30.5 t"
    },
    {
     "c": "CAN",
     "v": 20.787,
-    "n": "customs gross weight 22.0 t"
+    "n": "customs gross weight 22.8 t"
    }
   ],
-  "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,454 t gross weight); valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · May include refining and trading hubs that re-export what they import; not a measure of final demand.",
+  "n": "Atlas estimate: fine-metal equivalent of every flow of platinum-group metals (HS 7110) in CEPII BACI HS92, 2024, all transport modes: declared value divided by 955 USD per troy ounce, the 2024 average platinum price (World Bank Pink Sheet), i.e. 30.7 million USD per tonne at 31.1034768 g per troy ounce; never above the customs gross weight, which each row's note gives (world: 1,489 t gross weight); valued at the platinum price, as palladium, rhodium and the other platinum-group metals have prices of their own that are not in the loaded sources: a flow rich in them is overstated or understated · May include refining and trading hubs that re-export what they import; not a measure of final demand.",
   "basis": "fine-metal equivalent at the platinum price (Atlas estimate)",
   "caveat": "May include refining and trading hubs that re-export what they import; not a measure of final demand."
  },
