@@ -22,12 +22,16 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `ports.geojson` | `port` |
 
 The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `operator-reports`, `port-authorities`,
-`trade-press`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
+`trade-press`, `usgs-myb`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
 `DATA_SOURCES.md` is generated from it. There is no other source list in this folder. Three more ids register the
 sources of a few coordinates and statuses that a note names: `openstreetmap` (ODbL; points looked up through Nominatim),
 `wikidata` (CC0) and `norwegian-offshore-directorate` (its licence page could not be read, and the registry says
 "terms not read"). The ids that stand for many publishers (`operator-reports`, `trade-press`, `port-authorities`)
 link to this README: the page that was read is linked on each asset (its `url`).
+`usgs-myb` stands for the USGS Minerals Yearbook area reports: the capacities of its table "Structure of the mineral
+industry" are entered with `basis not stated` in `n`, because neither the heading nor the footnotes of any report read says
+whether a capacity is the facility's total or an owner's share. A feature's `s` and `url` name the page that carries its
+figures; what another page supplies (operator, status, a production figure) is named in `note` or in that figure's `n`.
 
 ## Properties of a feature
 

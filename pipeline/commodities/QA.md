@@ -733,7 +733,7 @@ Not restricted by any strait for want of a sourced draught: aframax, container, 
 - urea (production 2024-2025, exports 2005-2024, imports 2005-2024)
 - wheat (production 2005-2025, consumption 2005-2025, exports 2005-2025, imports 2005-2025, stocks 2005-2025)
 - zinc (production 2024-2025, exports 2005-2024, imports 2005-2024, metal-exports 2005-2024)
-- Values out of line with the years around them (kept, flagged, not ranked or drawn): cobalt/imports: CHN 2016 (79.221 kt, against 383.57 and 329.44); lpg/consumption: USA 2021 (148.28 Mt, against 43.122 and None); uranium/exports: NAM 2009 (184.65 kt, against 7.174 and 12.529); uranium/imports: CAN 2009 (181.19 kt, against 5.806 and 10.148).
+- Values out of line with the years around them (kept, flagged, not ranked or drawn): cobalt/imports: CHN 2016 (79.221 kt, against 383.57 and 329.44); lpg/consumption: USA 2021 (148.28 Mt, against 43.122 and no figure); uranium/exports: NAM 2009 (184.65 kt, against 7.174 and 12.529); uranium/imports: CAN 2009 (181.19 kt, against 5.806 and 10.148).
 - Codes of earlier years without a country of the index (psd), counted in the world total only: Reunion.
 
 ## Build warnings
