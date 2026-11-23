@@ -78,7 +78,7 @@ export default function EventView({ id }: { id: string }) {
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
-        <div class="detail-kicker">Freight event</div>
+        <div class="detail-kicker">Event</div>
         <h2 class="detail-title">{ev.title}</h2>
         <div class="badges">
           <span class="badge" style={{ color, borderColor: color }}>{EVENT_KIND_LABEL[ev.kind]}</span>

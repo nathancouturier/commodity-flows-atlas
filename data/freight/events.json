@@ -636,8 +636,8 @@
 "assets": [
 "colonial"
 ],
-"summary": "The Colonial Pipeline Company halted all pipeline operations to contain a ransomware attack in May 2021. The Colonial Pipeline network carries gasoline, diesel and jet fuel from Texas to New York.",
-"impact": "Overseen by the FBI, the company paid the 75 bitcoin (USD 4.4 million) that the hackers asked for within hours. The Energy Secretary cautioned on 12 May against gasoline hoarding, saying that the United States was undergoing a supply crunch rather than a shortage.",
+"summary": "The Colonial Pipeline Company halted all pipeline operations to contain a ransomware attack in May 2021. The Colonial Pipeline network carries gasoline, diesel and jet fuel from Texas to New York. Overseen by the FBI, the company paid the 75 bitcoin (USD 4.4 million) that the hackers asked for within hours.",
+"impact": "The Energy Secretary cautioned on 12 May against gasoline hoarding, saying that the United States was undergoing a supply crunch rather than a shortage.",
 "src": "https://en.wikipedia.org/wiki/Colonial_Pipeline_ransomware_attack",
 "checked": "2026-11-23"
 },

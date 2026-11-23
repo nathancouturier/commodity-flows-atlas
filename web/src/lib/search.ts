@@ -22,6 +22,15 @@ import { INFRA_META } from '../components/ui';
 
 export type Kind = 'commodity' | 'country' | 'route' | 'chokepoint' | 'vessel' | 'infra' | 'port' | 'event' | 'price';
 
+/** Every year an event spans, as text: "2024" finds an event that began in 2023 and ended in 2025. */
+function eventYears(date: string, end?: string | null): string[] {
+  const a = Number(date.slice(0, 4));
+  const b = Number((end ?? date).slice(0, 4));
+  const out: string[] = [];
+  for (let y = a; y <= b && out.length < 60; y++) out.push(String(y));
+  return out;
+}
+
 /** Kinds in the order the lists show them, with the words the site uses for them. */
 export const KINDS: { kind: Kind; label: string; one: string }[] = [
   { kind: 'commodity', label: 'Commodities', one: 'commodity' },
@@ -216,7 +225,7 @@ async function build(): Promise<Item[]> {
   for (const e of events ?? []) {
     out.push(
       make(
-        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.id, e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName), ...(e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)]),
+        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.id, ...eventYears(e.date, e.end), e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName), ...(e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)]),
         // newest first
         -Date.parse(e.date.length === 4 ? `${e.date}-01-01` : e.date.length === 7 ? `${e.date}-01` : e.date), () => select({ kind: 'event', id: e.id }),
       ),

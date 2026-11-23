@@ -8,7 +8,7 @@ import type { ComponentChildren } from 'preact';
 import type { BasketRow, CountryProfile, FreightProduct, InfraType, Passage, ProfileBalance, ProfileEntry, ProfilePartners } from '../../types';
 import { commodityMeta, countryName, isCountry } from '../../lib/data';
 import { fmt, fmtEst, pct } from '../../lib/format';
-import { GROUP_LABEL, SOURCED_BASES, chokepointName } from '../../lib/freight';
+import { BASIS_QUALIFIER, GROUP_LABEL, SOURCED_BASES, chokepointName } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { EstMark, Section, SourceLine, SourcesLine, shortSource } from '../ui';
 import { useFreightCatalogue, useLoaded } from './shared';
@@ -297,6 +297,8 @@ function passageText(v: Passage): string {
   const high = pct(v.high);
   const up = !v.capped && v.high > v.low && high !== pct(v.low, v.low > 0);
   if (v.low < 0.0005) return `none has to cross${up ? `, up to ${high} may` : ''}${v.capped ? ', no "up to"' : ''}`;
+  // a floor that prints as "<0.1%" is not put behind "at least"
+  if (v.low < 0.001) return `under 0.1% has to cross${up ? `, up to ${high} may` : ''}${v.capped ? ', no "up to"' : ''}`;
   const low = pct(v.low);
   return `at least ${low}${up && high !== low ? `, up to ${high}` : ''}${v.capped ? ', no "up to"' : ''}`;
 }
@@ -347,6 +349,8 @@ function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports
                   (no source page yet<span class="sr-only">: {NO_PAGE}</span>)
                 </span>
               )}
+              {/* a weaker basis than a page that names the cargo at the port is said too */}
+              {pt.basis && BASIS_QUALIFIER[pt.basis] && <span class="muted"> ({BASIS_QUALIFIER[pt.basis]})</span>}
             </span>
           ))}
         </div>
@@ -397,7 +401,8 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
       <FreightSide p={p} side="exports" />
       <FreightSide p={p} side="imports" />
       <div class="muted small cp-fr-note">
-        Typical ports (Atlas assumption): the port of each recorded pair. A port marked "no source page yet": {NO_PAGE}; the other ports have such a page. Passages: the share of the seaborne tonnes whose assumed route has
+        Typical ports (Atlas assumption): the port of each recorded pair. A port with no mention: a page read names this cargo at this port. The others say what they
+        rest on: a page that names the cargo in the other direction, the general port of the country, or "no source page yet" ({NO_PAGE}). Passages: the share of the seaborne tonnes whose assumed route has
         to cross the passage ("at least") or may cross it ("up to"), from the routes of the trade-flow engine; a passage is listed from 2% of these tonnes or
         1 Mt. Mode by cargo family (Atlas rule).
         {capped &&

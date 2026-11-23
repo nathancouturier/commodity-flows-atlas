@@ -426,6 +426,11 @@ These were needed to finish the work; each is reversible.
   exist.
 - CEPII BACI is refreshed by hand once a year: the publisher can refuse automated downloads.
 - The country files weigh 9 MB in the repository (one per country, loaded one at a time by the site).
+- Left from the last review of the site, all minor: the search for "iran war" finds two of the seven events of
+  the 2026 war (the others do not hold the word; a tag on the events would settle it); a typo that fits two names
+  equally lists them in alphabetical order ("irak" shows Iran before Iraq); the long method sentence of the gold,
+  silver and platinum tables is printed under the key figure and again under each table; the title of a selected
+  event is cut beside an open panel at about 1,100 px (the full title is in the tooltip).
 
 ## Open questions for the owner
 

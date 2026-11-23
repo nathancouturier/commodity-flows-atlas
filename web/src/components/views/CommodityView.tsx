@@ -358,10 +358,13 @@ function seaborneAt(f: Fig | undefined, file: LaneFile | null | undefined, yr: n
   // value) are said again for the year shown, from the same lane file
   const mixed = file.mixed?.[i] ?? 0;
   const est = estimatedShare(file, yr);
-  const n = (f.n ?? '')
-    .replace(/; [\d.,]+ \S+ that move both by sea and overland \(split not known\) are not in it/, mixed >= 0.005 ? `; ${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '')
+  const bare = (f.n ?? '')
+    .replace(/; [\d.,]+ \S+ that move both by sea and overland \(split not known\) are not in it/, '')
     .replace(/; [\d.]+% of this tonnage estimated from value/, '');
-  const withEst = est ? n.replace(/(\.?)$/, `; ${pct(est.share)} of this tonnage estimated from value$1`) : n;
+  // each clause is added for the year shown, whether or not the note of the latest year had one
+  const add = (base: string, clause: string) => (!clause ? base : base ? base.replace(/(\.?)$/, `; ${clause}$1`) : clause);
+  const withMixed = add(bare, mixed >= 0.005 ? `${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '');
+  const withEst = add(withMixed, est ? `${pct(est.share)} of this tonnage estimated from value` : '');
   return { ...f, v: file.seaborne[i], y: yr, n: withEst || undefined };
 }
 

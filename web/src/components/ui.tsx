@@ -122,8 +122,15 @@ const SHORT_SOURCE: Record<string, string> = {
   'trade-press': 'trade press',
   wikipedia: 'Wikipedia',
 };
+/** One short label per publisher, so that two sources of one publisher share an entry of a sources line. */
+const SHORT_PUBLISHER: Record<string, string> = {
+  'U.S. Energy Information Administration': 'EIA',
+  'U.S. Geological Survey': 'USGS',
+  'U.S. Geological Survey, National Minerals Information Center': 'USGS',
+};
 export function shortSource(id: string): string {
-  return SHORT_SOURCE[id] ?? sources.value[id]?.publisher ?? id;
+  const pub = sources.value[id]?.publisher;
+  return SHORT_SOURCE[id] ?? (pub ? SHORT_PUBLISHER[pub] ?? pub : id);
 }
 
 /** "Sources: CEPII BACI 2024 · USGS 2024, 2025 · EIA 2023": every distinct source and year of a block. */

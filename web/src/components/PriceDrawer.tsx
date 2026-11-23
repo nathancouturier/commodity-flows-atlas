@@ -1027,7 +1027,7 @@ function periodRow(d: LoadedSeries, color: string, p: ParsedDate): Row {
   if (estMonths) caveats.push(`${plural(estMonths, 'month')} estimated by the source`);
   const post = [
     allAnnual ? annualNote(d.meta, new Date(Math.max(p.t, d.x[b.first]) * 1000).getUTCFullYear()) : null,
-    sparse ? `the file has a quote on only ${st.n} of about ${expected} trading days: this average does not stand for the period` : null,
+    sparse ? `the source has a quote on only ${st.n} of about ${expected} trading days: this average does not stand for the period` : null,
     caveats.length ? `partial period: ${caveats.join('; ')}` : null,
   ]
     .filter(Boolean)
