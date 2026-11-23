@@ -101,6 +101,200 @@ comes from another source keeps its own source id, and that source's terms.
 Wikipedia is an accepted source for now; better sources will be looked for later. When a Wikipedia-sourced entry is
 replaced by one from another source, it leaves this notice.
 
+### Articles cited by the gateway, transit-port, draught and mode tables
+
+The articles below are cited by rows of the trade engine's tables, read in November 2026 (English Wikipedia unless
+stated). The list is generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the
+source strings of the draught tables, the URL of every mode-list entry), not typed, and
+`pipeline/tests/test_engine.py` checks that it is complete. 189 distinct articles:
+
+- Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 67):
+  [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
+  Khomeini](https://en.wikipedia.org/wiki/Bandar_Imam_Khomeini); [Cai Mep](https://en.wikipedia.org/wiki/Cai_Mep);
+  [Canpotex](https://en.wikipedia.org/wiki/Canpotex); [Deendayal Port](https://en.wikipedia.org/wiki/Deendayal_Port);
+  [Fos-sur-Mer](https://en.wikipedia.org/wiki/Fos-sur-Mer); [Fremantle
+  Harbour](https://en.wikipedia.org/wiki/Fremantle_Harbour); [Jebel Ali](https://en.wikipedia.org/wiki/Jebel_Ali); [Jorf
+  Lasfar](https://en.wikipedia.org/wiki/Jorf_Lasfar); [King Abdulaziz
+  Port](https://en.wikipedia.org/wiki/King_Abdulaziz_Port); [Laem Chabang
+  Port](https://en.wikipedia.org/wiki/Laem_Chabang_Port); [Mundra Port](https://en.wikipedia.org/wiki/Mundra_Port);
+  [Pasir Gudang](https://en.wikipedia.org/wiki/Pasir_Gudang); [Port Klang](https://en.wikipedia.org/wiki/Port_Klang);
+  [Port of Aden](https://en.wikipedia.org/wiki/Port_of_Aden); [Port of
+  Alexandria](https://en.wikipedia.org/wiki/Port_of_Alexandria); [Port of
+  Bremerhaven](https://en.wikipedia.org/wiki/Port_of_Bremerhaven); [Port of
+  Brisbane](https://en.wikipedia.org/wiki/Port_of_Brisbane); [Port of Buenos
+  Aires](https://en.wikipedia.org/wiki/Port_of_Buenos_Aires); [Port of
+  Busan](https://en.wikipedia.org/wiki/Port_of_Busan); [Port of Callao](https://en.wikipedia.org/wiki/Port_of_Callao);
+  [Port of Casablanca](https://en.wikipedia.org/wiki/Port_of_Casablanca); [Port of
+  Chittagong](https://en.wikipedia.org/wiki/Port_of_Chittagong); [Port of
+  Constanța](https://en.wikipedia.org/wiki/Port_of_Constan%C8%9Ba); [Port of
+  Gdańsk](https://en.wikipedia.org/wiki/Port_of_Gda%C5%84sk); [Port of
+  Genoa](https://en.wikipedia.org/wiki/Port_of_Genoa); [Port of
+  Gothenburg](https://en.wikipedia.org/wiki/Port_of_Gothenburg); [Port of
+  Haifa](https://en.wikipedia.org/wiki/Port_of_Haifa); [Port of Hamburg](https://en.wikipedia.org/wiki/Port_of_Hamburg);
+  [Port of Hong Kong](https://en.wikipedia.org/wiki/Port_of_Hong_Kong); [Port of
+  Houston](https://en.wikipedia.org/wiki/Port_of_Houston); [Port of
+  Itaqui](https://en.wikipedia.org/wiki/Port_of_Itaqui); [Port of
+  İzmir](https://en.wikipedia.org/wiki/Port_of_%C4%B0zmir); [Port of
+  Jeddah](https://en.wikipedia.org/wiki/Port_of_Jeddah); [Port of
+  Kaohsiung](https://en.wikipedia.org/wiki/Port_of_Kaohsiung); [Port of
+  Karachi](https://en.wikipedia.org/wiki/Port_of_Karachi); [Port of
+  Liverpool](https://en.wikipedia.org/wiki/Port_of_Liverpool); [Port of
+  Manila](https://en.wikipedia.org/wiki/Port_of_Manila); [Port of
+  Manzanillo](https://en.wikipedia.org/wiki/Port_of_Manzanillo); [Port of
+  Mersin](https://en.wikipedia.org/wiki/Port_of_Mersin); [Port of
+  Montreal](https://en.wikipedia.org/wiki/Port_of_Montreal); [Port of New
+  Orleans](https://en.wikipedia.org/wiki/Port_of_New_Orleans); [Port of
+  Novorossiysk](https://en.wikipedia.org/wiki/Port_of_Novorossiysk); [Port of
+  Odesa](https://en.wikipedia.org/wiki/Port_of_Odesa); [Port of
+  Paranaguá](https://en.wikipedia.org/wiki/Port_of_Paranagu%C3%A1); [Port of
+  Ploče](https://en.wikipedia.org/wiki/Port_of_Plo%C4%8De); [Port of Rio
+  Grande](https://en.wikipedia.org/wiki/Port_of_Rio_Grande); [Port of
+  Rosario](https://en.wikipedia.org/wiki/Port_of_Rosario); [Port of
+  Rotterdam](https://en.wikipedia.org/wiki/Port_of_Rotterdam); [Port of
+  Santos](https://en.wikipedia.org/wiki/Port_of_Santos); [Port of
+  Singapore](https://en.wikipedia.org/wiki/Port_of_Singapore); [Port of
+  Sohar](https://en.wikipedia.org/wiki/Port_of_Sohar); [Port of South
+  Louisiana](https://en.wikipedia.org/wiki/Port_of_South_Louisiana); [Port of Subic
+  Bay](https://en.wikipedia.org/wiki/Port_of_Subic_Bay); [Port of Tampa](https://en.wikipedia.org/wiki/Port_of_Tampa);
+  [Port of Tanjung Perak](https://en.wikipedia.org/wiki/Port_of_Tanjung_Perak); [Port of Tanjung
+  Priok](https://en.wikipedia.org/wiki/Port_of_Tanjung_Priok); [Port of
+  Tianjin](https://en.wikipedia.org/wiki/Port_of_Tianjin); [Port of
+  Townsville](https://en.wikipedia.org/wiki/Port_of_Townsville); [Port of
+  Ust-Luga](https://en.wikipedia.org/wiki/Port_of_Ust-Luga); [Port of
+  Valencia](https://en.wikipedia.org/wiki/Port_of_Valencia); [Port of
+  Vancouver](https://en.wikipedia.org/wiki/Port_of_Vancouver); [Port of
+  Varna](https://en.wikipedia.org/wiki/Port_of_Varna); [Port of
+  Veracruz](https://en.wikipedia.org/wiki/Port_of_Veracruz); [Port of
+  Yangon](https://en.wikipedia.org/wiki/Port_of_Yangon); [Port of
+  Yokohama](https://en.wikipedia.org/wiki/Port_of_Yokohama).
+- Gateway ports for dry bulk and metals, and the coast rules (`pipeline/freight/gateways/coasts.py`, 56): [Balboa,
+  Panama](https://en.wikipedia.org/wiki/Balboa,_Panama); [Barcarena,
+  Pará](https://en.wikipedia.org/wiki/Barcarena,_Par%C3%A1); [Caofeidian](https://en.wikipedia.org/wiki/Caofeidian);
+  [Cerrejón](https://en.wikipedia.org/wiki/Cerrej%C3%B3n); [Compañía Minera del
+  Pacífico](https://en.wikipedia.org/wiki/Compa%C3%B1%C3%ADa_Minera_del_Pac%C3%ADfico); [Corinto,
+  Nicaragua](https://en.wikipedia.org/wiki/Corinto,_Nicaragua); [Dhamra
+  Port](https://en.wikipedia.org/wiki/Dhamra_Port); [Europoort](https://en.wikipedia.org/wiki/Europoort); [Grasberg
+  mine](https://en.wikipedia.org/wiki/Grasberg_mine); [Hampton Roads](https://en.wikipedia.org/wiki/Hampton_Roads); [Hay
+  Point, Queensland](https://en.wikipedia.org/wiki/Hay_Point,_Queensland); [Kalama,
+  Washington](https://en.wikipedia.org/wiki/Kalama,_Washington); [Kamsar](https://en.wikipedia.org/wiki/Kamsar);
+  [Krishnapatnam Port](https://en.wikipedia.org/wiki/Krishnapatnam_Port);
+  [Luleå](https://en.wikipedia.org/wiki/Lule%C3%A5); [Manzanillo International
+  Terminal](https://en.wikipedia.org/wiki/Manzanillo_International_Terminal); [Mineral industry of
+  Peru](https://en.wikipedia.org/wiki/Mineral_industry_of_Peru); [Moatize](https://en.wikipedia.org/wiki/Moatize);
+  [Mormugao Port](https://en.wikipedia.org/wiki/Mormugao_Port); [Mundra
+  Port](https://en.wikipedia.org/wiki/Mundra_Port); [Nouadhibou](https://en.wikipedia.org/wiki/Nouadhibou);
+  [Novorossiysk](https://en.wikipedia.org/wiki/Novorossiysk); [Pepel](https://en.wikipedia.org/wiki/Pepel); [Ponta da
+  Madeira](https://en.wikipedia.org/wiki/Ponta_da_Madeira); [Port Hedland](https://en.wikipedia.org/wiki/Port_Hedland);
+  [Port of Alexandria](https://en.wikipedia.org/wiki/Port_of_Alexandria); [Port of
+  Baltimore](https://en.wikipedia.org/wiki/Port_of_Baltimore); [Port of
+  Gladstone](https://en.wikipedia.org/wiki/Port_of_Gladstone); [Port of
+  Guangzhou](https://en.wikipedia.org/wiki/Port_of_Guangzhou); [Port of
+  Lianyungang](https://en.wikipedia.org/wiki/Port_of_Lianyungang); [Port of
+  Manzanillo](https://en.wikipedia.org/wiki/Port_of_Manzanillo); [Port of
+  Mobile](https://en.wikipedia.org/wiki/Port_of_Mobile); [Port of
+  Newcastle](https://en.wikipedia.org/wiki/Port_of_Newcastle); [Port of
+  Ngqura](https://en.wikipedia.org/wiki/Port_of_Ngqura); [Port of
+  Ploče](https://en.wikipedia.org/wiki/Port_of_Plo%C4%8De); [Port of
+  Qingdao](https://en.wikipedia.org/wiki/Port_of_Qingdao); [Port of Richards
+  Bay](https://en.wikipedia.org/wiki/Port_of_Richards_Bay); [Port of
+  Taman](https://en.wikipedia.org/wiki/Port_of_Taman); [Port of
+  Townsville](https://en.wikipedia.org/wiki/Port_of_Townsville); [Port of
+  Tubarão](https://en.wikipedia.org/wiki/Port_of_Tubar%C3%A3o); [Port Qasim](https://en.wikipedia.org/wiki/Port_Qasim);
+  [Primorsk, Leningrad Oblast](https://en.wikipedia.org/wiki/Primorsk,_Leningrad_Oblast); [Puerto
+  Cortés](https://en.wikipedia.org/wiki/Puerto_Cort%C3%A9s); [Puerto
+  Quetzal](https://en.wikipedia.org/wiki/Puerto_Quetzal); [Rizhao](https://en.wikipedia.org/wiki/Rizhao); [Roberts Bank
+  Superport](https://en.wikipedia.org/wiki/Roberts_Bank_Superport); [Saldanha
+  Bay](https://en.wikipedia.org/wiki/Saldanha_Bay); [San Juan de
+  Marcona](https://en.wikipedia.org/wiki/San_Juan_de_Marcona); [Santo Tomás de
+  Castilla](https://en.wikipedia.org/wiki/Santo_Tom%C3%A1s_de_Castilla); [Sept-Îles,
+  Quebec](https://en.wikipedia.org/wiki/Sept-%C3%8Eles,_Quebec); [Tanjung
+  Bara](https://en.wikipedia.org/wiki/Tanjung_Bara); [Ust-Luga](https://en.wikipedia.org/wiki/Ust-Luga); [Visakhapatnam
+  Port](https://en.wikipedia.org/wiki/Visakhapatnam_Port); [Vostochny
+  Port](https://en.wikipedia.org/wiki/Vostochny_Port); [Weipa](https://en.wikipedia.org/wiki/Weipa);
+  [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven).
+- Gateway ports for crude oil, refined products, LPG and LNG, and the transit ports of landlocked countries
+  (`pipeline/freight/gateways/energy.py`, 61): [Adria oil pipeline](https://en.wikipedia.org/wiki/Adria_oil_pipeline);
+  [Al Başrah Oil Terminal](https://en.wikipedia.org/wiki/Al_Ba%C5%9Frah_Oil_Terminal); [Angra dos
+  Reis](https://en.wikipedia.org/wiki/Angra_dos_Reis); [Apapa](https://en.wikipedia.org/wiki/Apapa);
+  [Baku–Tbilisi–Ceyhan pipeline](https://en.wikipedia.org/wiki/Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline); [Cabinda
+  (city)](https://en.wikipedia.org/wiki/Cabinda_(city)); [Caspian Pipeline
+  Consortium](https://en.wikipedia.org/wiki/Caspian_Pipeline_Consortium);
+  [Ceyhan](https://en.wikipedia.org/wiki/Ceyhan); [Chad–Cameroon Petroleum Development and Pipeline
+  Project](https://en.wikipedia.org/wiki/Chad%E2%80%93Cameroon_Petroleum_Development_and_Pipeline_Project);
+  [Coveñas](https://en.wikipedia.org/wiki/Cove%C3%B1as); [Das Island](https://en.wikipedia.org/wiki/Das_Island); [Dos
+  Bocas, Tabasco](https://en.wikipedia.org/wiki/Dos_Bocas,_Tabasco); [Enterprise
+  Products](https://en.wikipedia.org/wiki/Enterprise_Products); [Fawley
+  Refinery](https://en.wikipedia.org/wiki/Fawley_Refinery); [Grangemouth
+  Refinery](https://en.wikipedia.org/wiki/Grangemouth_Refinery); [Greater Nile Oil
+  Pipeline](https://en.wikipedia.org/wiki/Greater_Nile_Oil_Pipeline); [Halul
+  Island](https://en.wikipedia.org/wiki/Halul_Island); [Irving Oil
+  Refinery](https://en.wikipedia.org/wiki/Irving_Oil_Refinery); [Jamnagar
+  Refinery](https://en.wikipedia.org/wiki/Jamnagar_Refinery); [Kilindini
+  Harbour](https://en.wikipedia.org/wiki/Kilindini_Harbour); [Kralendijk](https://en.wikipedia.org/wiki/Kralendijk);
+  [Kurnell Refinery](https://en.wikipedia.org/wiki/Kurnell_Refinery); [List of LNG
+  terminals](https://en.wikipedia.org/wiki/List_of_LNG_terminals); [List of oil
+  refineries](https://en.wikipedia.org/wiki/List_of_oil_refineries); [Mina Al
+  Fahal](https://en.wikipedia.org/wiki/Mina_Al_Fahal); [Mongstad](https://en.wikipedia.org/wiki/Mongstad);
+  [Naftoport](https://en.wikipedia.org/wiki/Naftoport); [Paradip Port](https://en.wikipedia.org/wiki/Paradip_Port);
+  [Pengerang](https://en.wikipedia.org/wiki/Pengerang); [Petroleum industry in
+  Nigeria](https://en.wikipedia.org/wiki/Petroleum_industry_in_Nigeria); [Port of
+  Beira](https://en.wikipedia.org/wiki/Port_of_Beira); [Port of Chiba](https://en.wikipedia.org/wiki/Port_of_Chiba);
+  [Port of Corpus Christi](https://en.wikipedia.org/wiki/Port_of_Corpus_Christi); [Port of Dar es
+  Salaam](https://en.wikipedia.org/wiki/Port_of_Dar_es_Salaam); [Port of
+  Djibouti](https://en.wikipedia.org/wiki/Port_of_Djibouti); [Port of
+  Fujairah](https://en.wikipedia.org/wiki/Port_of_Fujairah); [Port of
+  Hamburg](https://en.wikipedia.org/wiki/Port_of_Hamburg); [Port of
+  Kolkata](https://en.wikipedia.org/wiki/Port_of_Kolkata); [Port of Le
+  Havre](https://en.wikipedia.org/wiki/Port_of_Le_Havre); [Port of
+  Melbourne](https://en.wikipedia.org/wiki/Port_of_Melbourne); [Port of
+  Mersin](https://en.wikipedia.org/wiki/Port_of_Mersin); [Port of
+  Nakhodka](https://en.wikipedia.org/wiki/Port_of_Nakhodka); [Port of
+  Ningbo-Zhoushan](https://en.wikipedia.org/wiki/Port_of_Ningbo-Zhoushan); [Port of
+  Ploče](https://en.wikipedia.org/wiki/Port_of_Plo%C4%8De); [Port of
+  Primorsk](https://en.wikipedia.org/wiki/Port_of_Primorsk); [Port of
+  Singapore](https://en.wikipedia.org/wiki/Port_of_Singapore); [Port of Tanjung
+  Priok](https://en.wikipedia.org/wiki/Port_of_Tanjung_Priok); [Puerto
+  José](https://en.wikipedia.org/wiki/Puerto_Jos%C3%A9); [Ras Lanuf](https://en.wikipedia.org/wiki/Ras_Lanuf); [Ras
+  Tanura](https://en.wikipedia.org/wiki/Ras_Tanura); [Rotterdam](https://en.wikipedia.org/wiki/Rotterdam);
+  [Ruwais](https://en.wikipedia.org/wiki/Ruwais); [Sullom Voe
+  Terminal](https://en.wikipedia.org/wiki/Sullom_Voe_Terminal); [Trans-Panama
+  Pipeline](https://en.wikipedia.org/wiki/Trans-Panama_Pipeline); [Transalpine
+  Pipeline](https://en.wikipedia.org/wiki/Transalpine_Pipeline); [Transport in Burkina
+  Faso](https://en.wikipedia.org/wiki/Transport_in_Burkina_Faso); [Transport in
+  Mali](https://en.wikipedia.org/wiki/Transport_in_Mali); [Transport in
+  Niger](https://en.wikipedia.org/wiki/Transport_in_Niger); [Vadinar](https://en.wikipedia.org/wiki/Vadinar);
+  [Wilhelmshaven](https://en.wikipedia.org/wiki/Wilhelmshaven); [Yanbu](https://en.wikipedia.org/wiki/Yanbu).
+- Draught limits of straits and laden draughts of vessel classes (the draught rule) (`pipeline/freight/vessel_rules.py`,
+  7): [Capesize](https://en.wikipedia.org/wiki/Capesize); [Handysize](https://en.wikipedia.org/wiki/Handysize);
+  [Malaccamax](https://en.wikipedia.org/wiki/Malaccamax); [Singapore
+  Strait](https://en.wikipedia.org/wiki/Singapore_Strait); [Sunda Strait](https://en.wikipedia.org/wiki/Sunda_Strait);
+  [Torres Strait](https://en.wikipedia.org/wiki/Torres_Strait); [Valemax](https://en.wikipedia.org/wiki/Valemax).
+- Sea, transit, mixed and land rules (sea neighbours, sea outlets, overland blocs, LNG terminals)
+  (`pipeline/freight/modes.py`, 12): [Baku–Tbilisi–Ceyhan
+  pipeline](https://en.wikipedia.org/wiki/Baku%E2%80%93Tbilisi%E2%80%93Ceyhan_pipeline);
+  [Belaruskali](https://en.wikipedia.org/wiki/Belaruskali); [Caspian Pipeline
+  Consortium](https://en.wikipedia.org/wiki/Caspian_Pipeline_Consortium); [China–India
+  border](https://en.wikipedia.org/wiki/China%E2%80%93India_border); [Eastern Siberia–Pacific Ocean oil
+  pipeline](https://en.wikipedia.org/wiki/Eastern_Siberia%E2%80%93Pacific_Ocean_oil_pipeline); [India–Bangladesh
+  Friendship Pipeline](https://en.wikipedia.org/wiki/India%E2%80%93Bangladesh_Friendship_Pipeline); [List of LNG
+  terminals](https://en.wikipedia.org/wiki/List_of_LNG_terminals); [Paraná–Paraguay
+  Waterway](https://en.wikipedia.org/wiki/Paran%C3%A1%E2%80%93Paraguay_Waterway); [Russian
+  gauge](https://en.wikipedia.org/wiki/Russian_gauge); [Sasol](https://en.wikipedia.org/wiki/Sasol); [TAZARA
+  Railway](https://en.wikipedia.org/wiki/TAZARA_Railway); [Trans Mountain
+  pipeline](https://en.wikipedia.org/wiki/Trans_Mountain_pipeline).
+- Passages closed to the routing (Kanmon Strait) (`pipeline/freight/routing.py`, 1):
+  [関門海峡](https://ja.wikipedia.org/wiki/%E9%96%A2%E9%96%80%E6%B5%B7%E5%B3%A1) (Japanese Wikipedia).
+
+## Points taken from OpenStreetMap: ODbL 1.0
+
+The coordinates of seven assets of the infrastructure layer were looked up in OpenStreetMap (through its Nominatim
+search) and the note of each feature says so: in `data/infrastructure/lng.geojson`, Qingdao LNG Terminal (the port of
+Dongjiakou), Damietta LNG, Portovaya LNG and Altamira FLNG; in `mines.geojson`, Husab and Mogalakwena; in
+`ports.geojson`, Caofeidian. Only a single point per asset is taken; no other OpenStreetMap data is used.
+
+Credit: **© OpenStreetMap contributors**. The data is available under the Open Database License 1.0
+(<https://www.openstreetmap.org/copyright>). Source id `openstreetmap` in `data/sources.json`.
+
 ## Third-party datasets
 
 Each dataset keeps the licence of its source. The credits the sources ask for:
@@ -113,7 +307,11 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
 - **World Bank Pink Sheet**, **FAOSTAT**: CC BY 4.0. FAOSTAT is also subject to the FAO statistical database terms of
   use (no endorsement by FAO, no promotion of a commercial product).
 - **U.S. Energy Information Administration, USGS, USDA**: U.S. Government publications, public domain; EIA asks for an
-  acknowledgment ("Source: U.S. Energy Information Administration").
+  acknowledgment ("Source: U.S. Energy Information Administration"). The EIA material used includes the International
+  Energy Data, the country analysis briefs (refinery towns and ports of entry of the gateway tables, the Saudi coast
+  rule), the company-level crude and products imports, the refinery capacity report and the natural gas data.
+- **Wikidata** (points of a few assets): CC0 1.0, no credit required.
+- **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
 - **FRED**: the deep-sea freight producer price index is a U.S. Bureau of Labor Statistics series, public domain with
   citation requested ("Source: U.S. Bureau of Labor Statistics via FRED"). This product uses the FRED API but is not
   endorsed or certified by the Federal Reserve Bank of St. Louis. Other FRED series are not all in the public domain
@@ -134,6 +332,10 @@ verdict (redistribute, cite a few facts, link only).
 | IMF PortWatch | Aggregated, transformed counts are published, with credit. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
+| World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
+| Natural Resources Canada (conversion factors), Wilhelmsen (LPG carrier sizes) | A conversion factor and a size band, cited with attribution. Reuse terms to be confirmed. |
+| Norwegian Offshore Directorate (FactMaps) | The outline and status of two fields, cited with attribution. Its licence page could not be read: terms not read. |
+| Cochilco (Chilean copper export tables) | Used only to check the atlas's estimate of Chilean copper concentrate (METHODOLOGY.md, section 1); none of its figures is published. Licence not confirmed. |
 | Press reports (Bloomberg via gCaptain, Cyprus Mail, GMK Center and others) | Short facts with a link to the article. No article text is copied. |
 | Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. |
 | Company reports | Facts cited with a link to the report. |
@@ -180,3 +382,6 @@ provided as is, without warranty of any kind. The full text is in the "Disclaime
   of the Oak Ridge network it is built on.
 - Whether the CC BY 4.0 release is acceptable for figures derived from IMF PortWatch, given the IMF's conditions.
 - Terms of the Panama Canal Authority, Suez Canal Authority, port authorities and the World Nuclear Association.
+- Whether single points taken from OpenStreetMap make the infrastructure files a database derived from it under the
+  ODbL's share-alike clause, or should be re-sourced.
+- Terms of the Norwegian Offshore Directorate, Natural Resources Canada, Wilhelmsen and Cochilco.

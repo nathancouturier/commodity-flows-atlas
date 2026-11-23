@@ -330,8 +330,14 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
   (1,153.7 Mt in 2024); a pair "not routed" has no route at all (64.2 Mt in 2024: 47.7 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
-  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway). The
-  Route finder reads this table, so it never says "no flow" for a pair that customs data record.
+  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway).
+- **The Route finder** reads the pairs files of the commodity's groups, so it never says "no flow" for
+  a pair that customs data record. It can start from the origin or from the destination, and
+  answers in one of six ways: a drawn lane (with its ports, passages, alternatives and caveat); a
+  sea pair not drawn on the map (below the lanes shown for the commodity); a pair that moves by sea
+  and overland with the split not known; an overland or pipeline pair; a sea pair with no route
+  modelled; or no trade recorded (flows under 1,000 t and USD 1 million are not kept). The question
+  is kept in the address (`rf=` in the hash), nothing in the browser's storage.
 - **Typical ports (Atlas assumption)**. A pair is given a load and a discharge port per cargo family,
   role and coast (`pipeline/freight/ports.py`, with the rows of `pipeline/freight/gateways/food.py`,
   `coasts.py` and `energy.py`). Every row has a port, a freight zone, the cargo families, the role
@@ -441,7 +447,8 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   chokepoint pages name the routes of similar length that the atlas does not count as a choice
   (`parallelNote`). `QA.md` also prints
   the "at least" and "up to" tonnage of Malacca, Sunda, Lombok, the Taiwan Strait and Luzon at 3% or
-  150 nm, 5% or 300 nm and 10% or 500 nm.
+  150 nm, 5% or 300 nm and 10% or 500 nm, recomputed from the cached option distances; the table
+  says "Incomplete" and gives the tonnage left out when some pairs could not be recomputed.
 - **Alternatives**: when the main route passes Suez or Bab el-Mandeb, the alternative avoids Suez,
   Bab el-Mandeb and Panama (so that "avoiding Suez" never goes through Panama). When it passes
   Panama, the alternative avoids Panama; when that one goes through Suez, a second one avoids Suez
@@ -561,7 +568,7 @@ These are labelled "typical" in the interface. They are not measured shares of e
     Malacca crude 31.0% to 41.9%.
   - The cargo table of a chokepoint page lists these pairs one by one (commodity, origin,
     destination, Mt), from the pairs files, with the pairs that may use the passage marked "may
-    use".
+    use" (one file per passage, `data/freight/chokepoint-lanes/<id>.json`).
 - **Chokepoint traffic** is IMF PortWatch's daily count of tankers, dry bulk, container, general
   cargo and ro-ro vessels, and PortWatch's estimate of the trade volume they carry (tonnes of
   cargo, not deadweight). Both are shown as weekly averages (calendar weeks starting on Monday,

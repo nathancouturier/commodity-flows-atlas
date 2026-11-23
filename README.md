@@ -33,7 +33,7 @@ Notices tabs) and in [`NOTICE.md`](NOTICE.md).
 | `pipeline/` | Scripts that download and process the public sources into `data/`; `pipeline/cache/` holds the reduced BACI trade table and other tracked caches |
 | `.github/workflows/` | Site deployment and scheduled data refresh jobs |
 | `DATA_SOURCES.md` | Every source, its licence, update cadence and how it is fetched (generated from `data/sources.json`) |
-| `METHODOLOGY.md` | How derived figures (route shares, vessel class estimates) are computed |
+| `METHODOLOGY.md` | How the figures are built: cleaning and checks of the customs data, sea or overland, lanes, ports and routes, shares, estimates and conversions |
 | `NOTICE.md`, `THIRD-PARTY-NOTICES.md` | Licences of the data and credits; licences of the packages and fonts |
 | `PROGRESS.md` | Build progress and open questions |
 
@@ -51,10 +51,36 @@ The usual order, from the repository root, is:
 
 1. `python pipeline/prices/fetch_prices.py` (prices) and `python pipeline/freight/fetch_portwatch.py` (chokepoint traffic);
 2. `python pipeline/annual/update_annual.py` downloads the yearly sources, then rebuilds what depends on
-   them: `pipeline/freight/build_lanes.py` and `pipeline/freight/build_freight.py` run when CEPII BACI has a new
-   version (or the previous run left them pending), and `pipeline/commodities/build_commodities.py` and
-   `pipeline/commodities/build_profiles.py` run when any annual source changed;
+   them: `pipeline/geo/adjacency.py`, `pipeline/freight/build_lanes.py` and `pipeline/freight/build_freight.py` run
+   when CEPII BACI has a new version (or the previous run left them pending), and
+   `pipeline/commodities/build_commodities.py` and `pipeline/commodities/build_profiles.py` run when any annual
+   source changed;
 3. `node web/scripts/validate-data.mjs` checks the result.
+
+To rebuild the trade engine by hand, run the builders in this order, from the repository root (each reads what the
+one before wrote):
+
+| # | Command | What it writes |
+|---|---|---|
+| 1 | `python pipeline/geo/adjacency.py` | borders and coasts: `pipeline/cache/adjacency.json`, `data/countries/places.json` (seconds) |
+| 2 | `python pipeline/freight/build_lanes.py` | lanes, pairs, caveats and zones under `data/freight/`; the caches `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `route_cache.json`, `geom_cache.json`, `trade_checks.json` (about 8 minutes cold, under a minute with warm route caches) |
+| 3 | `python pipeline/freight/build_freight.py` | routes, chokepoints and their shares, chokepoint cargo tables, PortWatch series, vessel classes; check K9 in `trade_checks.json` |
+| 4 | `python pipeline/commodities/build_commodities.py`, then `python pipeline/commodities/build_profiles.py` | `data/commodities/*.json`, `pipeline/commodities/QA.md`, `data/countries/profiles.json` |
+| 5 | `node web/scripts/validate-data.mjs` | nothing: checks the data files |
+
+`pipeline/geo/adjacency.py` only needs rerunning when the base map or `pipeline/geo/places_extra.json` changes, and
+`build_lanes.py` when the customs cache, the cleaning rules, the mode rules, the gateway tables or the routing change.
+A change to `pipeline/freight/routing.py` or to the draught tables discards the route caches (they carry a version
+key), so the next lane build is a cold one. The methods are in [`METHODOLOGY.md`](METHODOLOGY.md).
+
+**Tests.** The pipeline has unit and data tests under `pipeline/tests/` (Python `unittest`, no extra dependency).
+Run them from the repository root with
+`python -m unittest discover -s pipeline/tests -p "test_*.py"` (about a minute); a test that needs a file of `raw/`
+or a built file that is absent is skipped. The data tests read the built files, so run them after the builders. The
+site's checks are `node web/scripts/validate-data.mjs`, its own tests `node web/scripts/validate-freight.test.mjs` and
+`node web/scripts/validate-infra.test.mjs`, and `cd web && npx tsc --noEmit`. None of these runs in the scheduled
+workflows: they are for people changing the code, and a failing test there would block updates or send failure
+e-mails; the scheduled jobs rely on `validate-data.mjs`, which discards an invalid update.
 
 The CEPII BACI trade database is a 2.4 GB download, reduced to `pipeline/cache/baci_flows.csv.gz` by
 `pipeline/trade/extract_baci.py` (years from 2000). The cache is tracked, so rebuilding the lanes and
@@ -74,7 +100,7 @@ Three scheduled GitHub Actions workflows refresh the data. Each can also be star
 |---|---|---|
 | `update-prices.yml` | Tuesdays 17:43 | World Bank Pink Sheet (monthly file, checked weekly), the 8 EIA daily spot-price files, and (optional, with a free `FRED_API_KEY` secret created by the owner) the US deep-sea freight producer price index (a BLS series, via FRED) |
 | `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch daily chokepoint transits |
-| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
+| `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS Mineral Commodity Summaries, EIA INTL, FAOSTAT and WNA (at most every 80 days), CEPII BACI (2.4 GB, downloaded only when a newer version exists; see the note above on running it locally), then the dependent rebuilds (`adjacency`, `build_lanes` and `build_freight` only when BACI has a new version; `build_commodities` and `build_profiles` when any annual source changed) |
 
 **Robustness.** Downloads (`pipeline/common/fetch.py`) use retries with exponential backoff and jitter,
 timeouts, a pause between requests to one host, resumable large files, atomic writes, and reject an HTML

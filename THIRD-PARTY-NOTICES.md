@@ -5,6 +5,10 @@ unchanged, from `web/node_modules` (the version installed is given for each), as
 when the code or the fonts are redistributed with the built site. The packages are not modified.
 
 The data the atlas publishes and the third-party datasets behind it are covered by `NOTICE.md`, not by this file.
+That includes the two attributions the published data carry besides its sources: material adapted from Wikipedia
+(CC BY-SA 4.0; `NOTICE.md` lists the articles, among them those cited by the typical-port, transit-port, draught and
+mode tables of the trade engine) and the points of seven infrastructure assets taken from OpenStreetMap
+(© OpenStreetMap contributors, ODbL 1.0).
 The repository's own code is under the MIT licence (`LICENSE`).
 
 ---
