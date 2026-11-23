@@ -414,23 +414,15 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Urea exports of Brunei: 1.09 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries (2024)
 - flag: Urea exports of Turkmenistan: 0.911 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries (2024)
 
-### K11: physical plausibility against the atlas's own layers (QA only) (54)
+### K11: physical plausibility against the atlas's own layers (QA only) (43)
 
-- qa: crude oil imports of Japan: 117 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Germany: 67.3 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Spain: 63.9 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Italy: 63.1 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of the United Kingdom: 51.6 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Thailand: 50.4 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of France: 46.5 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Panama: 26.9 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Poland: 26.6 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Canada: 25.5 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Malaysia: 24.1 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Greece: 23.7 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Sweden: 17.6 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Indonesia: 16.7 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Brazil: 14.2 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Portugal: 10.4 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Pakistan: 9.92 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Australia: 8.75 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
@@ -445,9 +437,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: crude oil imports of Bulgaria: 6.25 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Peru: 6.19 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Czechia: 5.79 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Hungary: 5.51 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Slovakia: 5.44 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Turkey: 5.22 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Denmark: 4.68 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Côte d'Ivoire: 3.77 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Croatia: 2.88 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
@@ -464,7 +454,6 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: crude oil imports of the Dominican Rep.: 1.3 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Senegal: 1.18 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Norway: 1.13 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
-- qa: crude oil imports of Vietnam: 1.07 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: crude oil imports of Barbados: 1 Mt in 2024, no refinery for it in data/infrastructure/refineries.geojson
 - qa: LNG exports of the United Kingdom: 1.01 Mt in 2024, no LNG export terminal for it in data/infrastructure/lng.geojson
 - qa: LNG exports of China: 0.862 Mt in 2024, no LNG export terminal for it in data/infrastructure/lng.geojson
@@ -563,7 +552,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 |---|---|---|---|---|---|---|---|
 | bab-el-mandeb | cargo | 53.9 | 56.0 | 36.5 | 390.3 (2019) | 0.14 | flag |
 | bab-el-mandeb | dry | 243.3 | 253.3 | 176.9 | 381.1 (2023) | 0.64 | flag |
-| bab-el-mandeb | tanker | 328.6 | 396.1 | 211.9 | 473.2 (2023) | 0.69 | flag |
+| bab-el-mandeb | tanker | 328.7 | 396.1 | 211.9 | 473.2 (2023) | 0.69 | flag |
 | bosphorus | cargo | 19.1 | 19.1 | 57.6 | 64.3 (2021) | 0.30 | qa |
 | bosphorus | dry | 174.7 | 195.1 | 203.5 | 241.4 (2021) | 0.72 | qa |
 | bosphorus | tanker | 95.8 | 187.8 | 173.5 | 184.2 (2019) | 0.52 | qa |
@@ -578,7 +567,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | dover | tanker | 293.6 | 437.4 | 562.8 | 576.7 (2023) | 0.51 | qa |
 | gibraltar | cargo | 50.5 | 51.2 | 407.5 | 419.7 (2021) | 0.12 | qa |
 | gibraltar | dry | 321.8 | 352.3 | 383.9 | 514.0 (2023) | 0.63 | qa |
-| gibraltar | tanker | 324.5 | 509.7 | 503.8 | 571.0 (2023) | 0.57 | qa |
+| gibraltar | tanker | 324.6 | 509.7 | 503.8 | 571.0 (2023) | 0.57 | qa |
 | hormuz | cargo | 21.7 | 23.2 | 169.8 | 174.6 (2023) | 0.12 | qa |
 | hormuz | dry | 88.6 | 90.3 | 195.8 | 203.1 (2022) | 0.44 | qa |
 | hormuz | tanker | 823.0 | 1,065 | 915.4 | 1,056 (2022) | 0.78 | qa |
@@ -587,13 +576,13 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | korea-strait | tanker | 112.8 | 301.1 | 320.9 | 320.9 (2024) | 0.35 | qa |
 | lombok | cargo | 0.00 | 10.9 | 2.80 | 2.80 (2024) | 0.00 | qa |
 | lombok | dry | 847.4 | 1,585 | 950.3 | 1,025 (2025) | 0.83 | qa |
-| lombok | tanker | 3.70 | 184.1 | 48.4 | 53.3 (2022) | 0.07 | qa |
+| lombok | tanker | 3.70 | 184.0 | 48.4 | 53.3 (2022) | 0.07 | qa |
 | luzon | cargo | 0.00 | 127.4 | 81.3 | 84.2 (2025) | 0.00 | qa |
 | luzon | dry | 27.3 | 1,826 | 1,169 | 1,169 (2024) | 0.02 | qa |
 | luzon | tanker | 6.80 | 967.8 | 661.0 | 661.0 (2024) | 0.01 | qa |
 | makassar | cargo | 0.00 | 21.3 | 9.50 | 10.3 (2023) | 0.00 | qa |
 | makassar | dry | 1,008 | 1,581 | 1,085 | 1,124 (2023) | 0.90 | qa |
-| makassar | tanker | 15.4 | 164.4 | 21.2 | 27.5 (2022) | 0.56 | qa |
+| makassar | tanker | 15.4 | 164.3 | 21.2 | 27.5 (2022) | 0.56 | qa |
 | malacca | cargo | 66.6 | 91.4 | 670.2 | 727.1 (2025) | 0.09 | qa |
 | malacca | dry | 188.9 | 1,151 | 1,190 | 1,287 (2025) | 0.15 | qa |
 | malacca | tanker | 808.1 | 1,061 | 1,253 | 1,295 (2025) | 0.62 | qa |
@@ -602,10 +591,10 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | ombai | tanker | 0.70 | 0.90 | 27.5 | 27.5 (2024) | 0.02 | qa |
 | panama | cargo | 13.5 | 14.6 | 105.4 | 114.8 (2025) | 0.12 | qa |
 | panama | dry | 43.2 | 131.1 | 60.1 | 119.5 (2021) | 0.36 | qa |
-| panama | tanker | 103.6 | 158.1 | 107.1 | 121.7 (2022) | 0.85 | qa |
+| panama | tanker | 103.1 | 157.5 | 107.1 | 121.7 (2022) | 0.85 | qa |
 | suez | cargo | 54.5 | 55.3 | 79.9 | 392.4 (2021) | 0.14 | qa |
 | suez | dry | 248.2 | 258.8 | 183.9 | 379.8 (2023) | 0.65 | flag |
-| suez | tanker | 341.1 | 351.1 | 226.0 | 452.0 (2023) | 0.75 | flag |
+| suez | tanker | 341.2 | 351.1 | 226.0 | 452.0 (2023) | 0.75 | flag |
 | sunda | cargo | 0.10 | 27.2 | 37.8 | 37.8 (2024) | 0.00 | qa |
 | sunda | dry | 1.60 | 994.8 | 300.9 | 307.1 (2025) | 0.01 | qa |
 | sunda | tanker | 0.10 | 284.1 | 104.5 | 122.7 (2025) | 0.00 | qa |
@@ -641,7 +630,7 @@ Recomputed with `routing.classify()` from the option distances cached by `build_
 - Strait of Malacca, crude oil: EIA 16.6 mb/d (1H25, eia-chokepoints) is about 826 Mt a year at 7.33 barrels per tonne; the atlas gives at least 582 Mt and up to 785 Mt in 2024 (ratio of the 'at least' figure: 0.70)
 - Suez Canal, crude oil: EIA 2.8 mb/d (1H25, eia-chokepoints) is about 139 Mt a year at 7.33 barrels per tonne; the atlas gives at least 173 Mt and up to 173 Mt in 2024 (ratio of the 'at least' figure: 1.24)
 - Bab el-Mandeb, crude oil: EIA 2.4 mb/d (1H25, eia-chokepoints) is about 119 Mt a year at 7.33 barrels per tonne; the atlas gives at least 164 Mt and up to 164 Mt in 2024 (ratio of the 'at least' figure: 1.37)
-- Panama Canal, crude oil: EIA 0.1 mb/d (FY2025, eia-chokepoints) is about 5.0 Mt a year at 7.33 barrels per tonne; the atlas gives at least 3.3 Mt and up to 6.8 Mt in 2024 (ratio of the 'at least' figure: 0.66)
+- Panama Canal, crude oil: EIA 0.1 mb/d (FY2025, eia-chokepoints) is about 5.0 Mt a year at 7.33 barrels per tonne; the atlas gives at least 3.3 Mt and up to 7.3 Mt in 2024 (ratio of the 'at least' figure: 0.66)
 - Turkish Straits (Bosphorus and Dardanelles), crude oil: EIA 2.1 mb/d (1H25, eia-chokepoints) is about 105 Mt a year at 7.33 barrels per tonne; the atlas gives at least 64 Mt and up to 142 Mt in 2024 (ratio of the 'at least' figure: 0.61)
 - Danish Straits, crude oil: EIA 2.7 mb/d (1H25, eia-chokepoints) is about 134 Mt a year at 7.33 barrels per tonne; the atlas gives at least 47 Mt and up to 139 Mt in 2024 (ratio of the 'at least' figure: 0.35)
 - Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 284 Mt and up to 284 Mt in 2024 (ratio of the 'at least' figure: 0.93)

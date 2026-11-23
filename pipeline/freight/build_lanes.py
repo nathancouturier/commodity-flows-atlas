@@ -528,8 +528,10 @@ def main():
     sea = df[df["mode"].isin(["sea", "transit"])]
     mixed = df[df["mode"] == "mixed"]
     cols = ["year", "group", "o", "d", "t", "imputed", "mode"]
-    sea[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "sea_flows.csv.gz"), index=False, compression="gzip")
-    mixed[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "mixed_flows.csv.gz"), index=False, compression="gzip")
+    # mtime 0: the gzip header carries no clock time, so an unchanged frame gives an unchanged file
+    gz = {"method": "gzip", "mtime": 0}
+    sea[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "sea_flows.csv.gz"), index=False, compression=gz)
+    mixed[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "mixed_flows.csv.gz"), index=False, compression=gz)
     totals = sea.groupby(["group", "year"])["t"].sum()
     est_tot = sea[sea["imputed"].astype(bool)].groupby(["group", "year"])["t"].sum()  # Atlas estimates in the seaborne totals
     mtot = mixed.groupby(["group", "year"])["t"].sum()

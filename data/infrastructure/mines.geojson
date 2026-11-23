@@ -349,7 +349,7 @@
      "v": 50,
      "u": "Mt/y",
      "y": 2019,
-     "n": "iron ore, estimated annual capacity of the LKAB mines at Kiruna, Leveaniemi and Malmberget together, not split between them; the same figure is given for Kiruna and for Malmberget, basis not stated",
+     "n": "iron ore, estimated annual capacity of the LKAB mines at Kiruna, Leveaniemi and Malmberget together (the report does not split it between them), basis not stated",
      "orig": "50,000 thousand metric tons"
     },
     "output": {
@@ -387,19 +387,12 @@
     ],
     "c": "SWE",
     "operator": "LKAB (Swedish state)",
-    "capacity": {
-     "v": 50,
-     "u": "Mt/y",
-     "y": 2019,
-     "n": "iron ore, estimated annual capacity of the LKAB mines at Kiruna, Leveaniemi and Malmberget together, not split between them; the same figure is given for Kiruna and for Malmberget, basis not stated",
-     "orig": "50,000 thousand metric tons"
-    },
     "status": "operating",
     "statusAsOf": "2026-11",
-    "note": "LKAB's second Norrbotten mine; pellets/fines via Luleå. Operator, opening year, status and this text: Wikipedia, \"Malmberget mine\" (CC BY-SA 4.0).",
+    "note": "LKAB's second Norrbotten mine; pellets/fines via Luleå. No capacity of its own: the USGS gives one figure for LKAB's mines at Kiruna, Leveaniemi and Malmberget together, shown on the Kiruna page.",
     "coord": "site",
-    "s": "usgs-myb",
-    "url": "https://pubs.usgs.gov/myb/vol3/2019/myb3-2019-sweden.pdf",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Malmberget_mine",
     "read": "2026-11"
    },
    "geometry": {

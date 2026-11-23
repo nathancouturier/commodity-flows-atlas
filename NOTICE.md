@@ -68,22 +68,21 @@ articles and their infoboxes):
 
 <!-- wikipedia-infra:start -->
 - `data/infrastructure/`, files `fields.geojson`, `mines.geojson`, `pipelines.geojson`, `ports.geojson`,
-  `refineries.geojson` and `smelters.geojson`: 169 assets whose source id is `wikipedia`, each with the `url` of its
+  `refineries.geojson` and `smelters.geojson`: 170 assets whose source id is `wikipedia`, each with the `url` of its
   article;
 - the other infrastructure features whose text names Wikipedia as the origin of a fact (a coordinate, a capacity, an
-  opening year, a length, an operator), although their source id is another one: 62 features, covered here by their `id`
+  opening year, a length, an operator), although their source id is another one: 61 features, covered here by their `id`
   and not edited in the files: `fields.geojson`: `west-qurna`, `stabroek`, `permian-basin`, `marcellus`, `haynesville`,
   `vaca-muerta`, `bakken`; `lng.geojson`: `ras-laffan-lng`, `cove-point-lng`, `yamal-lng`, `brunei-lng`, `eg-lng`,
-  `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `kiruna`, `malmberget`,
-  `sishen`, `cerrejon`, `elga`, `tavan-tolgoi`, `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`,
-  `mcarthur-river`, `olympic-dam`, `rocanville`, `belaruskali-soligorsk`, `uralkali-berezniki`, `mountain-pass`,
-  `bayan-obo`, `red-dog`, `san-rafael-tin`, `cloudbreak-christmas-creek`, `mount-arthur`, `blackwater-coal`,
-  `fording-river`, `elkview`, `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`;
-  `ports.geojson`: `gladstone`, `houston`, `santos`, `paranagua`; `refineries.geojson`: `port-arthur-motiva`,
-  `baytown-exxon`, `garyville-mpc`, `galveston-bay-mpc`, `whiting-bp`, `mina-al-ahmadi`, `mina-abdullah`,
-  `rabigh-aramco`, `replan-petrobras`, `salina-cruz-pemex`; `smelters.geojson`: `aurubis-hamburg`, `kghm-glogow`,
-  `boliden-ronnskar`. Their `url` is the page of their own source; the text of the feature names Wikipedia where a fact
-  comes from it;
+  `kribi-flng`, `damietta-lng`, `elba-island-lng`, `vysotsk-lng`, `yemen-lng`; `mines.geojson`: `kiruna`, `sishen`,
+  `cerrejon`, `elga`, `tavan-tolgoi`, `cerro-verde`, `los-pelambres`, `greenbushes`, `mutanda`, `mcarthur-river`,
+  `olympic-dam`, `rocanville`, `belaruskali-soligorsk`, `uralkali-berezniki`, `mountain-pass`, `bayan-obo`, `red-dog`,
+  `san-rafael-tin`, `cloudbreak-christmas-creek`, `mount-arthur`, `blackwater-coal`, `fording-river`, `elkview`,
+  `inkai`, `akbastau`, `rhenish-lignite-rwe`; `pipelines.geojson`: `power-of-siberia`; `ports.geojson`: `gladstone`,
+  `houston`, `santos`, `paranagua`; `refineries.geojson`: `port-arthur-motiva`, `baytown-exxon`, `garyville-mpc`,
+  `galveston-bay-mpc`, `whiting-bp`, `mina-al-ahmadi`, `mina-abdullah`, `rabigh-aramco`, `replan-petrobras`,
+  `salina-cruz-pemex`; `smelters.geojson`: `aurubis-hamburg`, `kghm-glogow`, `boliden-ronnskar`. Their `url` is the page
+  of their own source; the text of the feature names Wikipedia where a fact comes from it;
 <!-- wikipedia-infra:end -->
 - `data/commodities/companies.json`: 231 company entries whose source id is `wikipedia`;
 - the rows of `data/countries/profiles.json` whose source id is `wikipedia` (they repeat figures of the files above);
