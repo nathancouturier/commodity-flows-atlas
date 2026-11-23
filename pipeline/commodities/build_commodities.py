@@ -1684,7 +1684,8 @@ def main():
                 notes.append(f"Spodumene concentrate, the ore concentrate of hard-rock lithium mines, is shown in its own table (Atlas estimate from HS {code}, "
                              f"{sig(sp['t'].sum() / 1e6)} Mt to China in {BACI_YEAR} at {sig(uv)} USD per tonne on average); it is not added to the chemicals "
                              "tables, whose tonnes are of another product. Australia declares its spodumene concentrate under this code: its statistics office "
-                             f"created the national subheading 25309011 'Lithium concentrates' for it in January 2021 ({ABS_LITHIUM}).")
+                             f"created the national subheading 25309011 'Lithium concentrates' for it in January 2021 ({ABS_LITHIUM}). The spodumene "
+                             "lanes and their route show its history from 2021 only: no page read says what the code held from these exporters before.")
                 notes.append("Pages read for the exporters of the spodumene table: " + "; ".join(pages) + ".")
                 skipped = allc[(allc["group"] == rest) & allc["o"].isin(HS_NOT_READ[code]) & allc["d"].isin(importers)].groupby("o")["t"].sum()
                 names = [f"{cname(c)} {skipped.get(c, 0) / 1e6:.2f} Mt" if skipped.get(c, 0) else f"{cname(c)} (no {BACI_YEAR} row)" for c in HS_NOT_READ[code]]

@@ -95,10 +95,13 @@ class Pages(unittest.TestCase):
         d = page("copper")
         ex = {r["c"]: r["v"] for r in d["exports"]["rows"]}
         self.assertEqual(d["exports"]["rows"][0]["c"], "CHL")  # was second with 4.96 Mt
-        self.assertAlmostEqual(ex["CHL"], 13.97, delta=0.05)  # shown to three significant digits: 14.0
+        # 12.44 Mt shown to three significant digits; 13.97 Mt before review GR1.1 scaled Peru's unit value by Chile's
+        # usual ratio to it (1.125)
+        self.assertAlmostEqual(ex["CHL"], 12.4, delta=0.05)
+        self.assertTrue(d["exports"]["rows"][0]["est"] and d["exports"]["rows"][0]["s"] == "atlas")
         self.assertAlmostEqual(ex["PER"], 9.37, delta=0.01)
         f = next(f for f in d["flows"] if (f["o"], f["d"]) == ("CHL", "CHN"))
-        self.assertAlmostEqual(f["v"], 9.27, delta=0.01)  # was 2.79 Mt
+        self.assertAlmostEqual(f["v"], 8.24, delta=0.01)  # was 2.79 Mt declared, 9.27 Mt before review GR1.1
         self.assertTrue(f["est"] and f["s"] == "atlas" and f["n"].startswith("Atlas estimate"))
         self.assertIn("2.79 Mt", f["n"])  # the customs figure stays in the note
         imp = {r["c"]: r["v"] for r in d["imports"]["rows"]}

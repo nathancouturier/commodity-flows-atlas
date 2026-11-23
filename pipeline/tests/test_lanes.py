@@ -523,10 +523,12 @@ class CustomsLanes(unittest.TestCase):
         self.assertTrue(0.05 <= lane_file("wheat")["est"] <= 0.09, lane_file("wheat")["est"])
         p = pairs_file("wheat")
         self.assertTrue(row("wheat", "RUS", "EGY")["f"] & 1)
-        # every estimated flow says so, and only estimated flows carry "est"
+        # every estimated flow says so, and only estimated flows carry "est"; a group that is an Atlas estimate by
+        # construction (spodumene, review GR1.2) has the source id "atlas" and its method on every flow
+        import build_lanes as BL
         for g in groups():
             for x in lane_file(g)["lanes"]:
-                if x["flow"].get("est"):
+                if x["flow"].get("est") or g in BL.EST_GROUP:
                     self.assertEqual(x["flow"]["s"], "atlas", x["id"])
                     self.assertTrue(x["flow"]["n"].startswith("Atlas estimate"), x["id"])
                 else:
@@ -598,7 +600,11 @@ class ReviewGE5(unittest.TestCase):
         for g in groups():
             f = lane_file(g)
             self.assertEqual(len(f["estY"]), len(f["years"]), g)
+            first = BL.FIRST_YEAR.get(g, (f["years"][0],))[0]
             for y, s in zip(f["years"], f["estY"]):
+                if y < first:  # a group whose reading starts late (spodumene, review GR1.2) has no figure before
+                    self.assertIsNone(s, (g, y))
+                    continue
                 self.assertTrue(0 <= s <= 1, (g, y, s))
                 if s >= BL.EST_NOTE_MIN:
                     self.assertIn("of Atlas estimates (", f["yearNotes"].get(str(y), ""), (g, y))
