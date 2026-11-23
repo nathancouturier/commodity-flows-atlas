@@ -4,7 +4,8 @@
  *
  * Visible when the layer is on or the Freight tab is active; when a route / lane /
  * chokepoint is selected, only the chokepoints it crosses (plus the selected one) are shown,
- * even when the layer itself is on (keeps the map uncluttered).
+ * even when the layer itself is on (keeps the map uncluttered). A selected lane also shows, dimmed and
+ * dashed, the passages it may cross (parallel straits, passages of one coast option only).
  */
 import { effect, signal } from '@preact/signals';
 import maplibregl, { type Map as MLMap } from 'maplibre-gl';
@@ -15,16 +16,21 @@ import { hovered, laneVia, layers, routeVia, select, selection } from '../../lib
 import { sourceLabel, sources } from '../../lib/data';
 import { MAJOR_CHOKEPOINTS, chokepointList, laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { escapeHtml as esc, fmt } from '../../lib/format';
+import '../../styles/lane-engine.css';
 
 interface Entry {
   el: HTMLElement;
   marker: maplibregl.Marker;
 }
 
+/** Passages that the selected lane may cross, but not on every option (set while a lane is selected). */
+let mayCross = new Set<string>();
+
 function tooltip(c: Chokepoint): string {
   const t = c.traffic;
   return (
     `<div><b>${esc(c.name)}</b></div>` +
+    (mayCross.has(c.id) ? `<div class="muted">The selected lane may cross it, on some options</div>` : '') +
     // a counter that covers only part of the chokepoint is named next to its figure
     (t && c.portwatchLabel ? `<div class="src-line">${esc(c.portwatchLabel)}</div>` : '') +
     (t ? `<div class="num">${fmt(t.v)} ${esc(t.u)}</div><div class="src-line">${esc(sourceLabel(t.s))} · ${esc(String(t.y))}</div>` : '')
@@ -110,14 +116,17 @@ registerLayerModule((m: MLMap) => {
     void chokepointList.value;
     const my = ++seq;
 
-    const apply = (crossed: Set<string> | null, selectedId: string | null) => {
+    const apply = (crossed: Set<string> | null, selectedId: string | null, maybe: Set<string> = new Set()) => {
+      mayCross = maybe;
       for (const [id, { el }] of entries) {
         const hit = crossed?.has(id) ?? false;
-        // a selection narrows the set to the chokepoints it crosses
-        const visible = crossed ? hit : on;
+        const may = !hit && maybe.has(id);
+        // a selection narrows the set to the chokepoints it crosses (and, dimmed, those it may cross)
+        const visible = crossed ? hit || may : on;
         el.classList.toggle('cp-hidden', !visible);
         el.classList.toggle('cp-minor', lowZoom && !MAJOR_CHOKEPOINTS.has(id));
         el.classList.toggle('cp-on', hit);
+        el.classList.toggle('cp-alt', may);
         el.classList.toggle('cp-sel', id === selectedId);
       }
       syncTap();
@@ -138,7 +147,9 @@ registerLayerModule((m: MLMap) => {
       apply(null, null);
       loadLaneFile(laneGroup(sel.id))
         .then((f) => {
-          if (my === seq) apply(new Set(f.lanes.find((l) => l.id === sel.id)?.via ?? []), null);
+          if (my !== seq) return;
+          const lane = f.lanes.find((l) => l.id === sel.id);
+          apply(new Set(lane?.via ?? []), null, new Set((lane?.viaAlt ?? []).flat()));
         })
         .catch(() => undefined);
     } else {

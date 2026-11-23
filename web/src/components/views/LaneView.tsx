@@ -1,15 +1,53 @@
 /** Seaborne lane (origin -> destination for one commodity group). */
 import { useEffect } from 'preact/hooks';
-import type { LaneFile, Lane, Route } from '../../types';
+import type { CaveatsFile, HistFlag, LaneFile, Lane, PortRef, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
-import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
-import { laneGroup, loadLaneFile, loadRoutes } from '../../lib/freight';
+import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
+import { laneGroup, loadCaveats, loadLaneFile, loadRoutes } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners, shortSource } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import '../../styles/lane-engine.css';
 
 interface Loaded { file: LaneFile; lane: Lane }
+
+/** The page a gateway row was read from; a port the atlas used before the tables were sourced says so. */
+function PortSource({ p }: { p?: PortRef }) {
+  if (!p?.s) return <span class="le-src muted"> · no source page yet</span>;
+  const name = shortSource(p.s).replace(/\s*\(.*\)$/, '');
+  return (
+    <span class="le-src">
+      {' · '}
+      {p.url ? <a href={p.url} target="_blank" rel="noopener">{name}</a> : name}
+    </span>
+  );
+}
+
+/** Years of a history flag, in order. */
+const flagYears = (flags: Record<string, HistFlag> | undefined, f: HistFlag) =>
+  Object.entries(flags ?? {}).filter(([, v]) => v === f).map(([y]) => y).sort();
+
+/** One line per kind of flagged year under the history chart (estimated, no record, hidden, checked, kept). */
+function HistFlagNotes({ lane }: { lane: Lane }) {
+  const flags = lane.histFlags;
+  const notes = lane.histNotes ?? {};
+  const est = flagYears(flags, 'est');
+  const nodata = flagYears(flags, 'nodata');
+  const kept = flagYears(flags, 'kept');
+  const lines: [string, string][] = [];
+  if (est.length) lines.push(['Atlas estimate', `tonnage computed from the declared value: ${est.join(', ')}`]);
+  for (const y of flagYears(flags, 'suspect')) lines.push(['Not shown', notes[y] ?? `${y}: the declared value does not fit the tonnage`]);
+  if (nodata.length) lines.push(['No customs record', nodata.join(', ')]);
+  for (const y of flagYears(flags, 'check')) lines.push([`${y}, checked`, notes[y] ?? 'checked against a national statistic']);
+  if (kept.length) lines.push(['Kept as reported', `the declared value moved with the tonnage: ${kept.join(', ')}`]);
+  if (!lines.length) return null;
+  return (
+    <ul class="le-flags">
+      {lines.map(([k, t]) => <li key={k + t}><b>{k}</b>: {t}</li>)}
+    </ul>
+  );
+}
 
 export default function LaneView({ id }: { id: string }) {
   useFreightCatalogue();

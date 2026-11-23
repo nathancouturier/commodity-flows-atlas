@@ -3,9 +3,10 @@
  * (flows with mode land / pipeline / rail / mixed; customs data, no route geometry).
  * Drawn as curved, dashed great-circle arcs between the two countries' anchor points, in the
  * commodity's family colour and slightly fainter than the seaborne lanes. Click selects the
- * destination country.
+ * destination country. A mixed (sea and overland) flow that has a lane is not drawn here: the
+ * lanes layer draws it, dashed, on its sea route.
  */
-import { effect } from '@preact/signals';
+import { effect, signal } from '@preact/signals';
 import type { Feature, LineString } from 'geojson';
 import type { CommodityData, Flow } from '../../types';
 import { registerLayerModule } from '../layers';
@@ -13,10 +14,20 @@ import { setLineSet, type LineFeatureProps } from '../controller';
 import { commodity, landFlowsShown, layers, mapNotice, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
-import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
-import { lowerName } from '../../lib/prices';
+import { FAMILY_COLOR, escapeHtml as esc, fmtEst } from '../../lib/format';
 
 const LAND_MODES = new Set(['land', 'pipeline', 'rail', 'mixed']);
+/** Arcs now drawn that stand for a mixed (sea and overland) flow, for the legend. */
+export const mixedArcsShown = signal(0);
+
+/** What the tooltip calls a flow: its own mode word (the data say `land` for rail, road and pipeline alike). */
+const MODE_WORD: Record<string, string> = {
+  land: 'overland or pipeline',
+  pipeline: 'pipeline',
+  rail: 'rail',
+  mixed: 'by sea and overland, split not known',
+};
+
 const rad = (d: number) => (d * Math.PI) / 180;
 const deg = (r: number) => (r * 180) / Math.PI;
 
@@ -58,7 +69,7 @@ export function arc(a: [number, number], b: [number, number], bow = 0.14, n = 48
 function label(f: Flow, name: string): string {
   return (
     `<div><b>${esc(countryName(f.o))} → ${esc(countryName(f.d))}</b> · ${esc(name)}</div>` +
-    `<div class="num">${fmt(f.v)} ${esc(f.u)} · overland / pipeline (customs)</div>` +
+    `<div class="num">${fmtEst(f.v, f.est)} ${esc(f.u)}${f.est ? ' · Atlas estimate' : ''} · ${MODE_WORD[f.mode ?? 'land'] ?? 'overland'} (customs)</div>` +
     `<div class="src-line">${esc(sourceLabel(f.s))} · ${esc(String(f.y))}</div>`
   );
 }
@@ -76,21 +87,33 @@ registerLayerModule(() => {
     const clear = () => {
       setLineSet('land', []);
       landFlowsShown.value = 0;
+      mixedArcsShown.value = 0;
       mapNotice.value = null;
     };
     if (!on || !k) return clear();
 
     Promise.all([
       loadOptional<CommodityData>(`commodities/${k}.json`),
-      Promise.all((LANE_GROUPS[k] ?? []).map((g) => loadLaneFile(g).then((f) => f.lanes.length).catch(() => 0))),
-    ]).then(([d, laneCounts]) => {
+      Promise.all(
+        (LANE_GROUPS[k] ?? []).map((g) =>
+          loadLaneFile(g)
+            .then((f) => ({ n: f.lanes.length, mixed: f.lanes.filter((l) => l.mode === 'mixed').map((l) => `${l.o}-${l.d}`) }))
+            .catch(() => ({ n: 0, mixed: [] as string[] })),
+        ),
+      ),
+    ]).then(([d, laneInfo]) => {
       if (my !== seq) return;
+      // the lanes layer draws these pairs (dashed, on their sea route): no second line here
+      const drawnAsLane = new Set(laneInfo.flatMap((i) => i.mixed));
       const meta = commodityMeta(k);
       const color = meta ? FAMILY_COLOR[meta.family] : '#8aa0b8';
-      const all = (d?.flows ?? []).filter((f) => f.mode && LAND_MODES.has(f.mode) && f.v > 0);
+      const all = (d?.flows ?? []).filter(
+        (f) => f.mode && LAND_MODES.has(f.mode) && f.v > 0 && !(f.mode === 'mixed' && (f.lane || drawnAsLane.has(`${f.o}-${f.d}`))),
+      );
       const flows = yr != null ? all.filter((f) => String(f.y) === String(yr)) : all;
       const max = Math.max(...flows.map((f) => f.v), 1e-9);
       const features: Feature<LineString, LineFeatureProps>[] = [];
+      let mixedArcs = 0;
       for (const f of flows.sort((a, b) => b.v - a.v)) {
         const a = countries.value[f.o]?.at;
         const b = countries.value[f.d]?.at;
@@ -98,6 +121,7 @@ registerLayerModule(() => {
         // a selected country is isolated: only its own overland / pipeline flows
         if (sel?.kind === 'country' && f.o !== sel.id && f.d !== sel.id) continue;
         const bright = true;
+        if (f.mode === 'mixed') mixedArcs++;
         features.push({
           type: 'Feature',
           geometry: { type: 'LineString', coordinates: arc(a, b) },
@@ -116,18 +140,27 @@ registerLayerModule(() => {
       }
       setLineSet('land', features);
       landFlowsShown.value = features.length;
-      const hasLanes = laneCounts.some((n) => n > 0);
+      mixedArcsShown.value = mixedArcs;
+      const hasLanes = laneInfo.some((i) => i.n > 0);
       const cur = selection.peek();
-      // Flows of a commodity outside the lane model (uranium, gold, lithium...) carry no transport mode in the
-      // data file: they are listed on the commodity page but cannot be drawn. The notice says that, not "no flows".
-      const unclassified = (d?.flows ?? []).some((f) => !f.mode && f.v > 0);
+      // A commodity outside the lane model (uranium, gold, lithium...) has no sea routes: its sea flows are listed on
+      // the commodity page, not drawn, and so are flows whose transport mode the atlas does not model (precious
+      // metals). The notice says that, not "no flows"; overland flows are still drawn as arcs.
+      const listed = d?.flows ?? [];
+      const seaListed = listed.some((f) => f.mode === 'sea' && f.v > 0);
+      const unmodelled = listed.some((f) => !f.mode && f.v > 0);
       const name = meta?.name ?? k;
+      const onPage = cur && (cur.kind === 'lane' || cur.kind === 'route');
       mapNotice.value =
-        !hasLanes && !features.length && !(cur && (cur.kind === 'lane' || cur.kind === 'route'))
-          ? unclassified
-            ? `${name} flows are not drawn on the map: the atlas has not yet classified them as seaborne or overland. The ${lowerName(name)} page lists the main ones.`
-            : `No mapped seaborne or overland flows for ${name} in the open data${yr != null ? ` for ${yr}` : ''}.`
-          : null;
+        hasLanes || onPage
+          ? null
+          : seaListed
+            ? `${name} flows are listed in the panel; sea routes are not drawn for this commodity.`
+            : unmodelled
+              ? `${name} flows are listed in the panel and not drawn: the atlas does not model their transport mode.`
+              : features.length
+                ? null
+                : `No mapped seaborne or overland flows for ${name} in the open data${yr != null ? ` for ${yr}` : ''}.`;
     });
   });
 });

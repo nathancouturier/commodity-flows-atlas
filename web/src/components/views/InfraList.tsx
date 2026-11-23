@@ -6,11 +6,14 @@
 import { useMemo, useState } from 'preact/hooks';
 import type { InfraType } from '../../types';
 import { commodityMeta, countryName, sourceLabel } from '../../lib/data';
+import { fmt } from '../../lib/format';
 import { readCapacity, type CapacityRead, type Form } from '../../lib/capacity';
+import { figureText, isOperating, OUTPUT_LABEL, yearText } from '../../lib/infra';
 import { lowerName } from '../../lib/prices';
 import { select } from '../../lib/store';
-import { infraCapacity, infraColor, infraRef, isOperating, type InfraFeature } from '../../map/modules/infrastructure';
+import { infraColor, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
 import { InfraIcon, INFRA_ORDER, RowBtn, SourcesLine, StatusBadge, shortSource } from '../ui';
+import '../../styles/infra.css';
 
 /** Rows shown before "Show all N". */
 const FIRST_ROWS = 8;
@@ -60,8 +63,8 @@ function buildGroups(items: InfraFeature[], commodity?: string): Group[] {
     blocks.set(key, b);
     byType.set(f.p.type, blocks);
   }
-  // operating figures first, then planned / expected / licensed ones, then the assets without a figure
-  const kindOrder = (b: Block) => (b.cap.kind === 'none' ? 3 : b.cap.basis === 'planned' ? 2 : b.cap.kind === 'own' ? 0 : 1);
+  // operating figures first, then planned and under-construction ones, then closed assets, then the assets without a figure
+  const kindOrder = (b: Block) => (b.cap.kind === 'none' ? 4 : b.cap.basis === 'closed' ? 3 : b.cap.basis === 'planned' ? 2 : b.cap.kind === 'own' ? 0 : 1);
   const groups: Group[] = [];
   for (const type of INFRA_ORDER) {
     const blocks = byType.get(type);
@@ -92,8 +95,9 @@ function preview(groups: Group[], commodity: string | undefined, max: number): S
     };
     const fig = g.blocks.filter((b) => b.key !== 'none');
     return [
-      ...turns(fig.filter((b) => b.cap.basis !== 'planned')),
+      ...turns(fig.filter((b) => b.cap.basis === 'operating')),
       ...turns(fig.filter((b) => b.cap.basis === 'planned')),
+      ...turns(fig.filter((b) => b.cap.basis === 'closed')),
       ...g.blocks.filter((b) => b.key === 'none').flatMap((b) => b.rows),
     ];
   });
@@ -111,15 +115,19 @@ function blockLabel(b: Block, commodity: string | undefined, first: boolean, alo
     return commodity ? `No ${lowerName(commodityMeta(commodity)?.name ?? commodity)} figure` : 'No capacity figure';
   }
   const form = FORM_LABEL[c.form];
-  if (c.basis === 'planned') {
+  // an output block says what the figure is: production, exports or port throughput are not capacities
+  const out = c.fig && c.fig.kind !== 'capacity' ? OUTPUT_LABEL[c.fig.kind] : '';
+  if (c.basis !== 'operating') {
     const what = c.kind === 'cargo' ? 'all cargo' : commodity ? '' : subjectName(c.subject ?? '');
-    return `Planned, expected or licensed${what ? `: ${what}` : ''}${form && c.kind !== 'cargo' ? `, ${form}` : ''}`;
+    const head = c.basis === 'closed' ? 'Closed' : 'Planned or under construction';
+    return `${head}${what ? `: ${what}` : ''}${form && c.kind !== 'cargo' ? `, ${form}` : ''}`;
   }
-  if (c.kind === 'cargo') return 'All cargo of the port';
-  if (commodity) return form ? cap1(form) : first ? null : 'Other unit';
-  if (alone) return null;
+  if (c.kind === 'cargo') return out ? `${out}: all cargo of the port` : 'All cargo of the port';
+  if (commodity) return out ? (form ? `${out}, ${form}` : out) : form ? cap1(form) : first ? null : 'Other unit';
+  if (alone && !out) return null;
   const name = subjectName(c.subject ?? '');
-  return form ? `${name}, ${form}` : name;
+  const sub = form ? `${name}, ${form}` : name;
+  return out ? `${out}: ${sub}` : sub;
 }
 
 export function InfraList(props: { items: InfraFeature[]; commodity?: string; showCountry?: boolean; allStatus?: boolean }) {
@@ -129,6 +137,7 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
   const first = useMemo(() => preview(groups, commodity, FIRST_ROWS), [groups, commodity]);
   const visible = (r: Row) => showAll || first.has(r.f);
   const shown = groups.flatMap((g) => g.blocks.flatMap((b) => b.rows.filter(visible)));
+  if (!items.length) return <p class="infra-empty">No infrastructure asset recorded for this commodity yet.</p>;
   return (
     <>
       {groups.map((g) => {
@@ -145,8 +154,9 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
                 label && <div class="infra-block" key={b.key}>{label}</div>,
                 ...rows.map(({ f, cap }) => {
                   const p = f.p;
-                  const figure = cap.kind === 'own' || cap.kind === 'cargo' ? infraCapacity(p) : '';
-                  const badge = p.status && (props.allStatus || !isOperating(p.status));
+                  const fig = cap.kind === 'own' || cap.kind === 'cargo' ? cap.fig : null;
+                  const figure = fig ? figureText(fig, fmt) : '';
+                  const badge = p.status && p.status !== 'not-stated' && (props.allStatus || !isOperating(p.status));
                   const line = [props.showCountry ? countryName(p.c) : null, figure || null].filter(Boolean).join(' · ');
                   return (
                     <RowBtn
@@ -163,11 +173,11 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
                                 <StatusBadge status={p.status} />
                               </>
                             )}
-                            {figure && <span class="row-detail">{shortSource(p.s)} {p.y}</span>}
+                            {fig && <span class="row-detail">{fig.kind === 'capacity' ? '' : `${OUTPUT_LABEL[fig.kind].toLowerCase()} `}{yearText(fig)} · {shortSource(p.s)}</span>}
                           </>
                         ) : undefined
                       }
-                      tip={`${sourceLabel(p.s)} · ${p.y}`}
+                      tip={`${sourceLabel(p.s)}${fig ? ` · ${yearText(fig)}` : ''}${fig?.n ? ` · ${fig.n}` : ''}${fig?.orig ? ` · source: ${fig.orig}` : ''}`}
                       onClick={() => select(infraRef(f))}
                     />
                   );

@@ -217,6 +217,8 @@ export interface AltRouting {
   /** extra laden days vs the main routing (negative = the alternative is shorter) */
   extraDays: number;
   when?: string;
+  /** dated notes that apply to this alternative (the Red Sea diversion for a Suez routing) */
+  status?: StatusNote[];
 }
 
 export interface Route {
@@ -529,6 +531,27 @@ export type InfraType =
   | 'smelter'
   | 'port';
 
+/** Status vocabulary of an infrastructure asset (pipeline/infrastructure/README.md). */
+export type InfraStatus = 'operating' | 'damaged' | 'suspended' | 'idle' | 'construction' | 'planned' | 'closed' | 'not-stated';
+
+/** A figure of an asset: capacity (what it can do) or output (what it did in a year). */
+export interface InfraFigure {
+  v: number;
+  /** one unit of the vocabulary: kb/d, bcm/y, Mtpa, Mt/y, kt/y, t/y, tU/y (the old files carry free text) */
+  u: string;
+  /** year the figure refers to; absent when the source does not say */
+  y?: number;
+  /** what the figure counts ("iron ore", "100% basis") */
+  n?: string;
+  /** the source's own figure and unit, when v was converted */
+  orig?: string;
+}
+
+export interface InfraOutput extends InfraFigure {
+  y: number;
+  what: 'production' | 'exports' | 'throughput';
+}
+
 export interface InfraProps {
   id: string;
   name: string;
@@ -536,14 +559,27 @@ export interface InfraProps {
   k: string[];
   c: Iso3;
   operator?: string;
-  capacity?: { v: number; u: string };
+  capacity?: InfraFigure;
+  output?: InfraOutput;
   opened?: number;
+  /** a value of InfraStatus; the files not yet migrated carry free text or nothing */
   status?: string;
+  /** "YYYY" or "YYYY-MM": when the status was true */
+  statusAsOf?: string;
+  statusNote?: string;
   note?: string;
   s: string;
-  y: number | string;
+  /** "YYYY-MM": the month the page was read. Never the year of a figure. */
+  read?: string;
+  /** "approx": the point is a town, a centroid or a schematic position */
+  coord?: 'site' | 'approx';
+  /** feature-level year of the files not yet migrated; the new shape has none */
+  y?: number | string;
   /** countries crossed (pipelines) */
   cs?: Iso3[];
+  /** pipelines */
+  product?: string;
+  length_km?: number;
   /** source page */
   url?: string;
 }

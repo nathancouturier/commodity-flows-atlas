@@ -2,12 +2,13 @@
 /** Global picture of one commodity: KPIs, ranked countries, main flows, lanes, companies, infrastructure. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
-import { loadOptional, commodityMeta, countryName, sourceLabel } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, fmt } from '../../lib/format';
-import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
+import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
+import { FAMILY_COLOR, FAMILY_LABEL, fmt, fmtEst, pct } from '../../lib/format';
+import { LANE_GROUPS, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, CompanyRows, AlertBanners, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, CompanyRows, AlertBanners, shortSource } from '../ui';
+import LaneTable from '../LaneTable';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import '../../styles/history-year.css';
@@ -51,9 +52,13 @@ type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]
  * years, which start in a different month in each country: no single month range describes them.
  */
 function RankedBlock({ data, color }: { id: string; data: Ranked; color?: string }) {
+  // the table's warning is written into its note too: it is shown once, as its own line under the table
+  const cv = data.caveat;
+  const n = cv && data.n ? data.n.replace(` · ${cv}`, '').replace(cv, '').replace(/ · $/, '') : data.n;
   return (
     <>
-      <RankedBars data={data} color={color} />
+      <RankedBars data={cv ? { ...data, n: n || undefined } : data} color={color} />
+      {cv && <div class="table-caveat">{cv}</div>}
       {data.s === 'usda-psd' && (
         <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
       )}
@@ -71,30 +76,56 @@ function exportsLabel(f: Fig, tbl?: Ranked): string {
   return parts.length ? `World exports (${parts.join(', ')})` : 'World exports';
 }
 
-function FlowRows(props: { flows: Flow[]; tag?: string }) {
+/** Names of the ports that landlocked countries' sea cargo goes through, from the lane and pairs files of the commodity's groups. */
+function useTransitPorts(id: string, flows: Flow[] | undefined): Record<string, string> | null | undefined {
+  const need = !!flows?.some((f) => f.transit);
+  return useLoaded<Record<string, string>>(async () => {
+    const groups = LANE_GROUPS[id] ?? [];
+    if (!need || !groups.length) return {};
+    const out: Record<string, string> = {};
+    await Promise.all(
+      groups.map(async (g) => {
+        const [lf, pf] = await Promise.all([loadLaneFile(g).catch(() => null), loadPairs(g).catch(() => null)]);
+        for (const p of pf?.ports ?? []) out[p[0]] = p[1];
+        for (const p of Object.values(lf?.ports ?? {})) out[p.id] = p.name;
+      }),
+    );
+    return out;
+  }, [id, need]);
+}
+
+function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
   const rows = [...props.flows].sort((a, b) => b.v - a.v).slice(0, 10);
+  const ports = useTransitPorts(props.id, rows);
   // the footer names the customs source; flows re-based by the atlas say so on their own row
   const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
+  const anyEst = rows.some((f) => f.est);
   return (
     <>
-      {rows.map((f, i) => (
-        <RowBtn
-          key={`${f.o}-${f.d}-${i}`}
-          lead={<span class="bar-rank">{i + 1}</span>}
-          title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
-          sub={
-            <>
-              <ModeBadge mode={f.mode === 'sea' ? 'sea' : f.mode ? 'land' : undefined} />
-              {props.tag && <span class="muted-cap"> {props.tag}</span>}
-              {f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
-            </>
-          }
-          meta={<>{fmt(f.v)} {f.u}</>}
-          tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}`}
-          onClick={() => (f.lane ? select({ kind: 'lane', id: f.lane }) : select({ kind: 'country', id: f.o }))}
-        />
-      ))}
-      {first && <SourceLine s={first.s} y={first.y} n="bilateral flows, all transport modes" />}
+      {rows.map((f, i) => {
+        const via = f.transit ? (ports === undefined ? '…' : (ports?.[f.transit.port] ?? null)) : null;
+        // a flow with no mode is not modelled (precious metals): say so rather than leave the badge out
+        const open = f.lane ? () => select({ kind: 'lane', id: f.lane! }) : isCountry(f.o) ? () => select({ kind: 'country', id: f.o }) : undefined;
+        return (
+          <RowBtn
+            key={`${f.o}-${f.d}-${i}`}
+            lead={<span class="bar-rank">{i + 1}</span>}
+            title={<>{countryName(f.o)} <span class="arrow">→</span> {countryName(f.d)}</>}
+            sub={
+              <>
+                {f.mode ? <ModeBadge mode={f.mode} via={via ?? undefined} /> : <span class="muted-cap">mode not modelled</span>}
+                {f.transit && <span class="mode-via"> via {via ?? 'a foreign port'}</span>}
+                {props.tag && <span class="muted-cap"> {props.tag}</span>}
+                {f.est ? <EstMark /> : f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
+              </>
+            }
+            meta={<>{fmtEst(f.v, f.est)} {f.u}</>}
+            tip={`${sourceLabel(f.s)} · ${f.y}${f.n ? ' · ' + f.n : ''}${f.mode === 'mixed' ? ' · by sea and overland, split not known' : f.mode && f.mode !== 'sea' ? ' · ' + f.mode : ''}${f.transit ? ' · sea via ' + (via ?? 'a foreign port') : ''}`}
+            onClick={open}
+          />
+        );
+      })}
+      {first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
     </>
   );
 }
@@ -133,14 +164,26 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
   );
   if (!files || !files.length) return null;
   const on = layers.value.flows;
-  const total = files.reduce((n, f) => n + f.lanes.length, 0);
   const hy = year.value;
+  // the main set is what the map draws with no year chosen; sea-and-overland lanes belong to it (drawn dashed)
+  const main = (f: LaneFile) => f.lanes.filter((l) => l.set !== 'history');
+  const mixedN = files.reduce((n, f) => n + main(f).filter((l) => l.mode === 'mixed').length, 0);
+  // in a past year: the lanes that have a figure that year, as on the map
+  const pastAt = (f: LaneFile) => (hy != null && hy !== f.y ? f.years.indexOf(hy) : -1);
+  const total = files.reduce((n, f) => {
+    const at = pastAt(f);
+    return n + (at >= 0 ? f.lanes.filter((l) => (l.hist[at] ?? 0) > 0).length : main(f).length);
+  }, 0);
+  const past = files.some((f) => pastAt(f) >= 0);
   const shownY = hy != null && files[0].years.includes(hy) ? hy : files[0].y;
   return (
     <Section title="Seaborne lanes">
       <div class="lane-sum">
         <div class="lane-sum-n num" style={{ color }}>{total}</div>
-        <div class="lane-sum-t">mapped lane{total === 1 ? '' : 's'}</div>
+        <div class="lane-sum-t">
+          {past ? `lane${total === 1 ? '' : 's'} with a flow in ${shownY}` : `mapped lane${total === 1 ? '' : 's'}`}
+          {!past && mixedN > 0 && <span class="muted"> · {mixedN} by sea and overland</span>}
+        </div>
       </div>
       <div class="ft" style={{ marginTop: '8px' }}>
         {files.map((f) => {
@@ -149,17 +192,29 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
           const i = at >= 0 ? at : f.years.length - 1;
           const last = f.seaborne[i];
           const yr = f.years[i];
-          const active = at >= 0 ? f.lanes.filter((l) => (l.hist[i] ?? 0) > 0).length : f.lanes.length;
+          const active = pastAt(f) >= 0 ? f.lanes.filter((l) => (l.hist[i] ?? 0) > 0).length : main(f).length;
+          const mixed = f.mixed?.[i] ?? 0;
+          const note = f.yearNotes?.[String(yr)];
           return (
-            <div class="ft-row ft-wide" key={f.group} title={`${sourceLabel(f.s)} · ${yr}`}>
-              <span class="ft-k">{f.label ?? f.group}</span>
-              <span class="num">
-                {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
-              </span>
+            <div key={f.group}>
+              <div class="ft-row ft-wide" title={`${sourceLabel(f.s)} · ${yr}`}>
+                <span class="ft-k">{f.label ?? f.group}</span>
+                <span class="num">
+                  {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
+                </span>
+              </div>
+              {(mixed > 0 || note || (i === f.years.length - 1 && (f.est ?? 0) >= 0.01)) && (
+                <div class="lt-note" style={{ margin: '2px 0 0 0' }}>
+                  {mixed > 0 && <div>Plus {fmt(mixed)} {f.unit} by sea and overland, split not known: not in the seaborne figure.</div>}
+                  {i === f.years.length - 1 && (f.est ?? 0) >= 0.01 && <div>{pct(f.est!)} of the {yr} seaborne tonnage is estimated from the declared value (Atlas estimate).</div>}
+                  {note && <div>{note}</div>}
+                </div>
+              )}
             </div>
           );
         })}
       </div>
+      <LaneTable files={files} yr={hy} name={id} />
       <SourceLine s={files[0].s} y={shownY} n="Atlas lane method, seaborne subset of customs flows" />
       <button class="act-btn" disabled={on} onClick={() => toggleLayer('flows', true)}>
         {on ? 'Lanes shown on the map' : 'Show lanes on the map'}
@@ -298,7 +353,7 @@ export default function CommodityView({ id }: { id: string }) {
             )}
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
-                <FlowRows flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
+                <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />

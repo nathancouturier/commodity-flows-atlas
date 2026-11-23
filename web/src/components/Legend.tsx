@@ -5,10 +5,12 @@ import { commodityMeta } from '../lib/data';
 import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt, pct, shareOpacity } from '../lib/format';
 import { STATUS_COLOR } from '../map/modules/infrastructure';
-import { LANE_PX, laneScale, laneWidthPx } from '../map/modules/lanes';
+import { LANE_PX, laneGap, laneScale, laneWidthPx, mixedLanesShown } from '../map/modules/lanes';
+import { mixedArcsShown } from '../map/modules/landflows';
 import { ROUTE_W } from '../map/modules/routes';
 import type { Family, Segment } from '../types';
 import '../styles/legend-scale.css';
+import '../styles/lane-engine.css';
 
 const SEGMENTS: Segment[] = ['dry', 'tanker', 'gas'];
 
@@ -70,10 +72,14 @@ export function Legend() {
   const choro = choroInfo.value;
   const infraOn = layers.value.infrastructure;
   const land = landFlowsShown.value;
+  const mixedArcs = mixedArcsShown.value;
 
   const flowsOn = layers.value.flows && (!!k || fam !== 'freight') && !mapNotice.value;
   const routesOn = layers.value.routes;
   const scale = flowsOn ? laneScale.value : null;
+  const mixedLanes = flowsOn ? mixedLanesShown.value : 0;
+  const gap = flowsOn ? laneGap.value : null;
+  const legendColor = k ? FAMILY_COLOR[commodityMeta(k)?.family ?? 'energy'] : FAMILY_COLOR.energy;
   const routePx = (w: number) => LANE_PX.min + (LANE_PX.max - LANE_PX.min) * w;
   const chokeOn =
     layers.value.chokepoints || sel?.kind === 'route' || sel?.kind === 'lane' || sel?.kind === 'chokepoint';
@@ -129,10 +135,21 @@ export function Legend() {
           )}
         </div>
       )}
-      {land > 0 && (
+      {mixedLanes + mixedArcs > 0 && (
+        <span class="legend-item" title="Trade that moves both by sea and overland, with no source for the split: the line is the sea route and the tonnage is the customs total for all modes. It is not in the seaborne totals.">
+          <span class="legend-swatch legend-dash legend-mixed" style={{ color: k ? legendColor : 'var(--ink-1)' }} />
+          Sea and overland
+        </span>
+      )}
+      {land - mixedArcs > 0 && (
         <span class="legend-item" title="Customs flows by land or pipeline, drawn between country anchor points (no route geometry)">
-          <span class="legend-swatch legend-dash" style={{ color: k ? FAMILY_COLOR[commodityMeta(k)?.family ?? 'energy'] : FAMILY_COLOR.energy }} />
+          <span class="legend-swatch legend-dash" style={{ color: legendColor }} />
           Overland / pipeline
+        </span>
+      )}
+      {gap && (
+        <span class="legend-item legend-gap" title="Hidden as unreliable (the declared value does not fit the tonnage) or no customs record for that year">
+          {gap.n} lane{gap.n === 1 ? ' has' : 's have'} no figure for {gap.year}, not drawn
         </span>
       )}
       {routesOn && (

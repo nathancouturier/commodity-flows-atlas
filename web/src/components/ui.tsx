@@ -5,6 +5,7 @@ import type { Alert, Company, Fig, InfraType, Ranked, StatusNote } from '../type
 import { commodityMeta, countryName, load, sourceLabel, sources } from '../lib/data';
 import { fmt, pct, fig as fmtFig } from '../lib/format';
 import { select } from '../lib/store';
+import '../styles/lane-table.css';
 
 export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
   return (
@@ -435,9 +436,36 @@ export function StatusBadge(props: { status?: string }) {
   return <span class={`badge ${ok ? 'badge-ok' : 'badge-warn'}`}>{props.status}</span>;
 }
 
-export function ModeBadge(props: { mode?: string }) {
-  if (!props.mode) return null;
-  return <span class={`badge badge-mode mode-${props.mode}`}>{props.mode}</span>;
+const MODE_LABEL: Record<string, string> = { sea: 'sea', land: 'land', mixed: 'sea + land', pipeline: 'pipeline' };
+const MODE_TITLE: Record<string, string> = {
+  sea: 'Seaborne',
+  land: 'Overland',
+  mixed: 'By sea and overland; the split is not known',
+  pipeline: 'Pipeline',
+};
+
+/**
+ * How a flow moves: SEA, LAND, SEA + LAND (both, split not known) or PIPELINE. `via` is the transit port of a
+ * landlocked country's sea cargo ("sea via Dar es Salaam"): the badge stays SEA and its title names the port.
+ */
+export function ModeBadge(props: { mode?: string; via?: string }) {
+  const m = props.mode;
+  if (!m) return null;
+  const title = m === 'sea' && props.via ? `Sea via ${props.via}` : (MODE_TITLE[m] ?? m);
+  return (
+    <span class={`badge badge-mode mode-${m}`} title={title}>
+      {MODE_LABEL[m] ?? m}
+    </span>
+  );
+}
+
+/** Mark on a figure that the atlas computed itself (a tonnage estimated from the declared value). */
+export function EstMark(props: { title?: string }) {
+  return (
+    <span class="est-mark" title={props.title ?? 'Tonnage computed by the atlas from the declared value, shown to two significant digits'}>
+      Atlas estimate
+    </span>
+  );
 }
 
 /** Compact clickable row: leading node, title, optional sub line, right-aligned meta. */

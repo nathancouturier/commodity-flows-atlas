@@ -5,6 +5,10 @@
  * - commodity: every lane of the commodity's groups
  * - filters: family tab, vessel classes, year; a selected country / chokepoint / lane
  *   keeps its lanes bright and dims the rest
+ * - with no year (or the latest) only the main set is drawn; with a past year every lane that has a figure
+ *   that year is, history-only lanes included. A year with no figure (hidden as suspect, or no customs
+ *   record) is not drawn and the legend says how many lanes are in that case
+ * - a mixed lane (by sea and overland, split not known) is dashed
  */
 import { effect, signal } from '@preact/signals';
 import type { Feature, LineString } from 'geojson';
@@ -14,7 +18,8 @@ import { setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { commodity, family, laneVia, layers, selection, vesselClasses, year } from '../../lib/store';
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
 import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneGroup, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
-import { FAMILY_COLOR, escapeHtml as esc, fmt, pct } from '../../lib/format';
+import { FAMILY_COLOR, escapeHtml as esc, fmt, fmtEst, pct } from '../../lib/format';
+import '../../styles/lane-engine.css';
 
 const NEUTRAL = '#8aa0b8';
 
@@ -25,35 +30,49 @@ const NEUTRAL = '#8aa0b8';
  */
 export const laneScale = signal<{ max: number; unit: string } | null>(null);
 
+/** Lanes in view that have no figure for the chosen past year (so are not drawn); null = none, or no past year. */
+export const laneGap = signal<{ year: number; n: number } | null>(null);
+/** Mixed (sea and overland) lanes now drawn, for the legend. */
+export const mixedLanesShown = signal(0);
+
 /** Line width in px for a volume; the two ends are the 'lanes-line' widths in map/controller.ts. */
 export const LANE_PX = { min: 0.8, max: 4.5 };
 export function laneWidthPx(v: number, max: number): number {
   return LANE_PX.min + (LANE_PX.max - LANE_PX.min) * Math.sqrt(Math.min(1, Math.max(0, v / max)));
 }
 
-/** Annual value of a lane for the chosen year (null when the lane has no data that year). */
-export function laneValue(lane: Lane, file: LaneFile, yr: number | null): number {
-  if (yr != null) {
-    const i = file.years.indexOf(yr);
-    if (i >= 0) return lane.hist[i] ?? 0;
-  }
+/** A past year of the timeline: not the latest year, which is the default view. */
+export function isPastYear(file: LaneFile, yr: number | null): yr is number {
+  return yr != null && yr !== file.y && file.years.includes(yr);
+}
+
+/** Annual value of a lane for the chosen year; null when the lane has no figure that year (not 0). */
+export function laneValue(lane: Lane, file: LaneFile, yr: number | null): number | null {
+  if (isPastYear(file, yr)) return lane.hist[file.years.indexOf(yr)] ?? null;
   return lane.flow.v;
 }
 
-function laneLabel(lane: Lane, file: LaneFile, v: number, yr: number | null): string {
-  const i = yr != null ? file.years.indexOf(yr) : -1;
-  const shown = i >= 0 ? yr! : lane.flow.y;
-  const share = i >= 0 ? (file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
+function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | null): string {
+  const past = isPastYear(file, yr);
+  const i = past ? file.years.indexOf(yr) : -1;
+  const shown = past ? yr : lane.flow.y;
+  const est = past ? lane.histFlags?.[String(yr)] === 'est' : !!lane.flow.est;
+  const mixed = lane.mode === 'mixed';
+  const share = mixed ? null : past ? (v && file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
   const name = file.label || commodityMeta(lane.k)?.name || lane.k;
   const via = lane.via.length ? ` · via ${lane.via.map((c) => esc(chokepointName(c))).join(', ')}` : '';
   const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} · ` : '';
+  const transit = lane.transit ? `<div class="muted">Sea via ${esc(file.ports[lane.transit.port]?.name ?? lane.transit.port)}</div>` : '';
+  const figure = `${fmtEst(v, est)} ${esc(lane.flow.u)}`;
+  const tail = mixed ? ' · by sea and overland (split not known)' : ` · ${pct(share, (v ?? 0) > 0)} of seaborne trade`;
   return (
     `<div><b>${esc(countryName(lane.o))} → ${esc(countryName(lane.d))}</b> · ${esc(name)}</div>` +
-    (v > 0 || i < 0
-      ? `<div class="num">${fmt(v)} ${esc(lane.flow.u)} · ${pct(share, v > 0)} of seaborne trade</div>`
+    (v != null && v > 0
+      ? `<div class="num">${figure}${est ? ' · Atlas estimate' : ''}${tail}</div>`
       : `<div class="num">No figure for ${shown}</div>`) +
+    transit +
     `<div class="muted">${vessel}${fmt(lane.days)} days${via}</div>` +
-    `<div class="src-line">${esc(sourceLabel(lane.flow.s))} · ${esc(String(shown))}</div>`
+    `<div class="src-line">${esc(sourceLabel(est ? 'atlas' : past ? file.s : lane.flow.s))} · ${esc(String(shown))}</div>`
   );
 }
 
@@ -80,6 +99,8 @@ registerLayerModule(() => {
     if (!on && !selLane0) {
       setLineSet('lanes', []);
       laneScale.value = null;
+      laneGap.value = null;
+      mixedLanesShown.value = 0;
       laneVia.value = sel?.kind === 'country' ? new Set() : null;
       return;
     }
@@ -103,16 +124,29 @@ registerLayerModule(() => {
       const byGroup = new Map(files.filter((f): f is LaneFile => !!f).map((f) => [f.group, f]));
       type Item = { lane: Lane; file: LaneFile; v: number };
       let items: Item[] = [];
+      let gap = 0;
+      let gapYear: number | null = null;
 
       for (const { group, top } of plan) {
         const file = byGroup.get(group);
         if (!file) continue;
         let part: Item[] = [];
+        const past = isPastYear(file, yr);
         for (const lane of file.lanes) {
           if (iso && lane.o !== iso && lane.d !== iso) continue;
           if (!k && fam !== 'all' && commodityMeta(lane.k)?.family !== fam) continue;
           if (!vesselMatches(lane.vclass, vc)) continue;
+          // the latest year draws the main set; a past year draws every lane that has a figure that year
+          if (!past && lane.set === 'history') continue;
           const v = laneValue(lane, file, yr);
+          if (v == null) {
+            // no figure that year (not zero): not drawn; counted for the legend where the whole set is in view
+            if (past && (k || iso)) {
+              gap++;
+              gapYear = yr;
+            }
+            continue;
+          }
           if (v > 0) part.push({ lane, file, v });
         }
         part.sort((a, b) => b.v - a.v);
@@ -127,7 +161,7 @@ registerLayerModule(() => {
         const lane = file?.lanes.find((l) => l.id === selLane);
         if (file && lane) {
           // no value for the chosen year: it is drawn at the minimum width, not at the width of the latest year
-          picked = { lane, file, v: laneValue(lane, file, yr) };
+          picked = { lane, file, v: laneValue(lane, file, yr) ?? 0 };
           items.push(picked);
         }
       }
@@ -156,9 +190,12 @@ registerLayerModule(() => {
       };
 
       const features: Feature<LineString, LineFeatureProps>[] = [];
+      let mixed = 0;
       // biggest first so thin lanes are drawn on top
       for (const { lane, file, v } of items.sort((a, b) => b.v - a.v)) {
         const fam2 = commodityMeta(lane.k)?.family;
+        const isMixed = lane.mode === 'mixed';
+        if (isMixed) mixed++;
         features.push({
           type: 'Feature',
           geometry: { type: 'LineString', coordinates: lane.g },
@@ -169,25 +206,30 @@ registerLayerModule(() => {
             w: Math.sqrt(Math.min(1, v / max)),
             dim: !isBright(lane),
             hl: lane.id === selLane,
+            // a mixed lane (sea and overland, split not known) is dashed, and softer unless selected
+            ...(isMixed ? { dash: true, soft: lane.id !== selLane } : {}),
             label: laneLabel(lane, file, v, yr),
           },
         });
       }
-      // alternative routing of the selected lane, dashed
-      if (picked?.lane.alt) {
+      // alternative routings of the selected lane, dashed (a click on one selects the lane again)
+      const alts = picked ? (picked.lane.alts?.length ? picked.lane.alts : picked.lane.alt ? [picked.lane.alt] : []) : [];
+      for (const alt of alts) {
         features.push({
           type: 'Feature',
-          geometry: { type: 'LineString', coordinates: picked.lane.alt.g },
+          geometry: { type: 'LineString', coordinates: alt.g },
           properties: {
-            id: `${picked.lane.id}:alt`,
+            id: picked!.lane.id,
             kind: 'lane',
             dash: true,
             color: NEUTRAL,
             w: 0.4,
-            label: `<div><b>Alternative routing</b></div><div class="muted">${esc(picked.lane.alt.label)}</div>`,
+            label: `<div><b>Alternative routing</b></div><div class="muted">${esc(alt.label)}</div>`,
           },
         });
       }
+      mixedLanesShown.value = mixed;
+      laneGap.value = gap > 0 && gapYear != null ? { year: gapYear, n: gap } : null;
       setLineSet('lanes', features);
 
       if (selLane && picked && flown !== selLane) flyToLine(picked.lane.g);

@@ -1,12 +1,13 @@
 /** Helpers shared by the freight detail views. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { AltRouting } from '../../types';
+import type { AltRouting, HistFlag } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { chokepointName, loadFreightCatalogue, openVesselClass, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { Section } from '../ui';
-import { TimeChart } from '../charts/TimeChart';
+import { TimeChart, type TimeMarker } from '../charts/TimeChart';
+import '../../styles/lane-engine.css';
 
 /** Async loader hook: undefined = loading, null = missing/failed. */
 export function useLoaded<T>(fn: () => Promise<T | null>, deps: unknown[]): T | null | undefined {
@@ -68,7 +69,7 @@ export function VesselChip(props: { id: string }) {
  * Voyage strip: load port, the chokepoints crossed in order, discharge port. The two ports are captioned
  * text ("From", "To"); only chokepoints are chips, so a port is never read as a chokepoint.
  */
-export function RouteStrip(props: { from: string; to: string; via: string[] }) {
+export function RouteStrip(props: { from: string; to: string; via: string[]; noneText?: string }) {
   return (
     <>
       <div class="strip" role="list">
@@ -90,56 +91,105 @@ export function RouteStrip(props: { from: string; to: string; via: string[] }) {
           </span>
         </span>
       </div>
-      {props.via.length === 0 && <div class="muted small strip-none">No tracked chokepoint on this voyage.</div>}
+      {props.via.length === 0 && <div class="muted small strip-none">{props.noneText ?? 'No tracked chokepoint on this voyage.'}</div>}
     </>
   );
 }
 
-export function ViaSection(props: { from: string; to: string; via: string[] }) {
+/**
+ * The voyage with the chokepoints it has to cross. `viaAlt` lists passages of which one is used (parallel
+ * straits) or that only some coast options cross: they are shown apart, under "One of" or "On some options".
+ */
+export function ViaSection(props: { from: string; to: string; via: string[]; viaAlt?: string[][] }) {
   const n = props.via.length;
+  const alt = props.viaAlt ?? [];
   return (
     <Section title="Voyage" aside={n > 0 && <span class="muted strip-count">{n} chokepoint{n === 1 ? '' : 's'} crossed</span>}>
-      <RouteStrip from={props.from} to={props.to} via={props.via} />
+      <RouteStrip from={props.from} to={props.to} via={props.via} noneText={alt.length ? 'No chokepoint is crossed on every option.' : undefined} />
+      {alt.map((list) => (
+        <div class="le-oneof" key={list.join()}>
+          <span class="le-oneof-k">{list.length > 1 ? 'One of' : 'On some options'}</span>
+          {list.map((id) => (
+            <button class="chip" key={id} onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
+              {chokepointName(id)}
+            </button>
+          ))}
+        </div>
+      ))}
     </Section>
   );
 }
 
-export function AltBox(props: { alt: AltRouting }) {
-  const a = props.alt;
+function AltOne(props: { a: AltRouting; last: boolean }) {
+  const a = props.a;
   const d = a.extraDays;
   return (
-    <Section title="Alternative routing">
-      <div class="alt-box">
-        <div class="alt-label">{a.label}</div>
-        <div class="alt-stats">
-          <span class={`alt-days num ${d > 0 ? 'worse' : d < 0 ? 'better' : ''}`} title="Atlas estimate vs the main routing">
-            {d > 0 ? '+' : d < 0 ? '−' : '±'}
-            {fmt(Math.abs(d))} days
-          </span>
-          <span class="num">{fmt(a.distanceNm)} nm</span>
-        </div>
-        {a.via.length > 0 && (
-          <div class="chips" style={{ marginTop: '8px' }}>
-            {a.via.map((id) => (
-              <button class="chip" key={id} onClick={() => select({ kind: 'chokepoint', id })}>
-                via {chokepointName(id)}
-              </button>
-            ))}
-          </div>
-        )}
-        {a.when && <div class="muted small" style={{ marginTop: '6px' }}>{a.when}</div>}
-        <div class="muted small" style={{ marginTop: '6px' }}>Atlas estimate</div>
+    <div class="alt-box">
+      <div class="alt-label">{a.label}</div>
+      <div class="alt-stats">
+        <span class={`alt-days num ${d > 0 ? 'worse' : d < 0 ? 'better' : ''}`} title="Atlas estimate vs the main routing">
+          {d > 0 ? '+' : d < 0 ? '−' : '±'}
+          {fmt(Math.abs(d))} days
+        </span>
+        <span class="num">{fmt(a.distanceNm)} nm</span>
       </div>
+      {a.via.length > 0 && (
+        <div class="chips" style={{ marginTop: '8px' }}>
+          {a.via.map((id) => (
+            <button class="chip" key={id} onClick={() => select({ kind: 'chokepoint', id })}>
+              via {chokepointName(id)}
+            </button>
+          ))}
+        </div>
+      )}
+      {a.when && <div class="muted small" style={{ marginTop: '6px' }}>{a.when}</div>}
+      {a.status?.map((n) => <div class="muted small alt-status" key={n.text}>{n.text}</div>)}
+      {props.last && <div class="muted small" style={{ marginTop: '6px' }}>Atlas estimate</div>}
+    </div>
+  );
+}
+
+/**
+ * Alternative routings: every entry of `alts` (a lane's alternatives; `alt` alone for a route), or the `note`
+ * that says why none is shown (the way round is more than three times as long).
+ */
+export function AltBox(props: { alt?: AltRouting; alts?: AltRouting[]; note?: string }) {
+  const list = props.alts?.length ? props.alts : props.alt ? [props.alt] : [];
+  if (!list.length && !props.note) return null;
+  return (
+    <Section title="Alternative routing">
+      {list.map((a, i) => <AltOne key={a.label} a={a} last={i === list.length - 1} />)}
+      {!list.length && props.note && <p class="le-note">{props.note}</p>}
     </Section>
   );
 }
 
-/** Annual history bars (2005-2024 style). */
-export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string }) {
+/** What a flagged year of a history chart is called in the chart's hover list. */
+const FLAG_TITLE: Partial<Record<HistFlag, string>> = {
+  est: 'Atlas estimate (tonnage from the declared value)',
+  check: 'Checked against a national statistic: see the note',
+  nodata: 'No customs record',
+  suspect: 'Not shown: the declared value does not fit the tonnage',
+};
+const DAY = 86400;
+
+/** Annual history bars (2005-2024 style). `flags` marks the years that are estimated, checked or have no figure. */
+export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag> }) {
   const x = useMemo(() => props.years.map((y) => Date.UTC(y, 0, 1) / 1000), [props.years]);
   const series = useMemo(
     () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? '#3ee6ff' }],
     [props.values, props.label, props.color],
   );
-  return <TimeChart x={x} series={series} unit={props.unit} bars xFormat="year" height={130} zoom={false} ariaLabel={`Annual volume, ${props.unit}`} />;
+  // a ribbon under the bars, one year wide and centred on the bar
+  const markers = useMemo<TimeMarker[] | undefined>(() => {
+    const out: TimeMarker[] = [];
+    for (const [y, f] of Object.entries(props.flags ?? {})) {
+      const title = FLAG_TITLE[f];
+      if (!title) continue;
+      const t = Date.UTC(Number(y), 0, 1) / 1000;
+      out.push({ t: t - 182 * DAY, end: t + 182 * DAY, title: `${y}: ${title}`, subtle: true, color: f === 'est' ? '#ffb547' : '#8aa0b8' });
+    }
+    return out.length ? out : undefined;
+  }, [props.flags]);
+  return <TimeChart x={x} series={series} unit={props.unit} bars xFormat="year" height={130} zoom={false} markers={markers} ariaLabel={`Annual volume, ${props.unit}`} />;
 }

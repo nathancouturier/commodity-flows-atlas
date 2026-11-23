@@ -1,15 +1,17 @@
 /** Country profile: ranked exports, imports, production shares, infrastructure, companies, lanes. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
-import { loadOptional, countryName, commodityMeta, countries, sourceLabel } from '../../lib/data';
-import { fmt, pct, FAMILY_COLOR } from '../../lib/format';
-import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
+import type { CaveatsFile, CountryProfile, Lane, LaneFile, ProfileEntry } from '../../types';
+import { loadOptional, countryName, commodityMeta, countries, isCountry, sourceLabel } from '../../lib/data';
+import { fmt, fmtEst, pct, FAMILY_COLOR } from '../../lib/format';
+import { GROUP_LABEL, LANE_GROUPS, caveatFor, decodePairs, loadCaveats, loadLaneFile, loadPairs, vesselName, type Pair } from '../../lib/freight';
 import { flyToCountry } from '../../map/controller';
 import { loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { commodity, select } from '../../lib/store';
-import { Section, Placeholder, Skeleton, SourcesLine, Kpi, RowBtn, CompanyRows, AlertBanners, shortSource } from '../ui';
-import { publisher, useLoaded } from './shared';
+import { Section, Placeholder, Skeleton, SourcesLine, SourceLine, Kpi, RowBtn, CompanyRows, AlertBanners, EstMark, ModeBadge, shortSource } from '../ui';
+import { passagesText } from '../LaneTable';
+import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { InfraList } from './InfraList';
+import '../../styles/lane-table.css';
 
 /** Rows shown before "Show all N": the profile file holds every row that passes the relevance rule. */
 const FIRST_ROWS = 8;
@@ -103,22 +105,25 @@ function EntryList(props: { rows: ProfileEntry[]; showUsd?: boolean }) {
 
 const byUsd = (a: ProfileEntry, b: ProfileEntry) => (b.usd ?? -1) - (a.usd ?? -1);
 
-/** Seaborne lanes touching a country, across the lane files of its profile commodities. */
+/** Seaborne lanes touching a country, across the lane files of its profile commodities (or of the selected commodity). */
 function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
+  const sel = commodity.value;
   const groups = useMemo(() => {
+    // with a commodity selected the list follows it; the lanes of its own groups are the only ones that make sense there
+    if (sel && LANE_GROUPS[sel]) return LANE_GROUPS[sel];
     const ks = new Set([...p.exports, ...p.imports, ...p.production].map((e) => e.k));
     const gs = new Set<string>();
     for (const k of ks) (LANE_GROUPS[k] ?? []).forEach((g) => gs.add(g));
     return [...gs].slice(0, 14);
-  }, [p]);
+  }, [p, sel]);
   const lanes = useLoaded<{ lane: Lane; file: LaneFile }[]>(
     () =>
       Promise.all(groups.map((g) => loadLaneFile(g).catch(() => null))).then((files) => {
         const out: { lane: Lane; file: LaneFile }[] = [];
         for (const file of files) {
           if (!file) continue;
-          // hide lanes that would display as 0.0 Mt
-          for (const lane of file.lanes) if ((lane.o === id || lane.d === id) && lane.flow.v >= (lane.flow.u === 'Mt' ? 0.05 : 1e-9)) out.push({ lane, file });
+          // the main set only (a history lane is drawn only in a year when it was large); hide lanes that would display as 0.0 Mt
+          for (const lane of file.lanes) if (lane.set !== 'history' && (lane.o === id || lane.d === id) && lane.flow.v >= (lane.flow.u === 'Mt' ? 0.05 : 1e-9)) out.push({ lane, file });
         }
         return out.sort((a, b) => b.lane.flow.v - a.lane.flow.v).slice(0, 6);
       }),
@@ -131,14 +136,112 @@ function CountryLanes({ id, p }: { id: string; p: CountryProfile }) {
         <RowBtn
           key={lane.id}
           title={<>{countryName(lane.o)} <span class="arrow">→</span> {countryName(lane.d)}</>}
-          sub={file.label ?? commodityMeta(lane.k)?.name ?? file.group}
-          meta={<>{lane.flow.u === 'Mt' ? lane.flow.v.toFixed(1) : fmt(lane.flow.v)} {lane.flow.u}<small>{lane.flow.y}</small></>}
-          tip={`${sourceLabel(lane.flow.s)} · ${lane.flow.y}`}
+          sub={
+            <>
+              {lane.mode === 'mixed' && <ModeBadge mode="mixed" />}
+              {file.label ?? commodityMeta(lane.k)?.name ?? file.group}
+              {lane.flow.est && <EstMark />}
+            </>
+          }
+          meta={<>{lane.flow.est ? fmtEst(lane.flow.v, true) : lane.flow.u === 'Mt' ? lane.flow.v.toFixed(1) : fmt(lane.flow.v)} {lane.flow.u}<small>{lane.flow.y}</small></>}
+          tip={`${sourceLabel(lane.flow.s)} · ${lane.flow.y}${lane.mode === 'mixed' ? ' · by sea and overland, split not known' : ''}`}
           onClick={() => select({ kind: 'lane', id: lane.id })}
         />
       ))}
-      <SourcesLine items={lanes.map((l) => l.lane.flow)} n="largest lanes of this country's main commodities" />
+      <SourcesLine items={lanes.map((l) => l.lane.flow)} n={sel && LANE_GROUPS[sel] ? 'largest lanes of the selected commodity' : "largest lanes of this country's main commodities"} />
     </Section>
+  );
+}
+
+/** Rows shown before "Show all N" in the supplier and customer tables. */
+const PARTNER_ROWS = 8;
+
+/**
+ * Suppliers (importers' side) or customers (exporters' side) of the selected commodity, from the pairs table
+ * of its customs groups: every recorded pair of the latest year, whatever its mode. A row with a lane opens
+ * the lane; a partner that is not a country of the index (Gibraltar, "Asia, not specified") is plain text.
+ */
+function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows: Pair[]; caveats: CaveatsFile | null; twoGroups: boolean; src: { s: string; y: number } }) {
+  const [all, setAll] = useState(false);
+  const { side, id } = props;
+  const mine = props.rows.filter((r) => r[side] === id).sort((a, b) => b.kt - a.kt);
+  if (!mine.length) return null;
+  const total = mine.reduce((n, r) => n + r.kt, 0);
+  const shown = all ? mine : mine.slice(0, PARTNER_ROWS);
+  const k = commodity.value;
+  return (
+    <Section title={props.title} aside={<span class="muted num">{commodityMeta(k ?? '')?.name ?? k} · {props.src.y}</span>}>
+      <div class="pt-list">
+        {shown.map((r, i) => {
+          const partner = side === 'd' ? r.o : r.d;
+          // the transit port is the end of the route that is not in the pair's own country
+          const via = r.kind === 'transit' ? ([r.load, r.dis].find((x) => x && x.c !== (x === r.load ? r.o : r.d))?.name ?? null) : null;
+          const mt = r.kt / 1000;
+          const cav = r.caveat ? caveatFor(props.caveats, r.group, r.o, r.d) : null;
+          const lane = r.lane ? `${r.group}:${r.o}-${r.d}` : null;
+          const open = lane ? () => select({ kind: 'lane', id: lane }) : isCountry(partner) ? () => select({ kind: 'country', id: partner }) : undefined;
+          const passages = passagesText(r.via, r.viaAlt);
+          return (
+            <div key={`${r.group}:${r.o}-${r.d}`}>
+              <RowBtn
+                lead={<span class="bar-rank">{i + 1}</span>}
+                title={countryName(partner)}
+                sub={
+                  <>
+                    <ModeBadge mode={r.kind === 'transit' ? 'sea' : r.kind} via={via ?? undefined} />
+                    {r.kind === 'transit' && <span class="mode-via"> via {via ?? 'a foreign port'}</span>}{' '}
+                    {[
+                      props.twoGroups ? (GROUP_LABEL[r.group] ?? r.group) : null,
+                      r.cls ? vesselName(r.cls) : null,
+                      r.nm ? `${r.nm.toLocaleString('en-US')} nm` : r.kind === 'sea' || r.kind === 'transit' ? 'no route modelled' : null,
+                      passages || null,
+                    ]
+                      .filter(Boolean)
+                      .join(' · ')}
+                    {r.est && <EstMark />}
+                  </>
+                }
+                meta={<>{fmtEst(mt, r.est)} Mt<small>{pct(r.kt / total, true)}</small></>}
+                tip={lane ? 'Open this lane' : isCountry(partner) ? `Open ${countryName(partner)}` : undefined}
+                onClick={open}
+              />
+              {cav && <RowNote text={cav.entry.text} />}
+            </div>
+          );
+        })}
+      </div>
+      {mine.length > PARTNER_ROWS && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
+          {all ? 'Show fewer' : `Show all ${mine.length}`}
+        </button>
+      )}
+      <SourceLine s={props.src.s} y={props.src.y} n={`all transport modes; shares are of ${countryName(id)}'s recorded ${side === 'd' ? 'imports' : 'exports'} of this commodity`} />
+    </Section>
+  );
+}
+
+/** "Suppliers" and "Customers" of the selected commodity (A-001), above the country's other sections. */
+function PartnerTables({ id }: { id: string }) {
+  useFreightCatalogue();
+  const k = commodity.value;
+  const groups = k ? (LANE_GROUPS[k] ?? []) : [];
+  const data = useLoaded<{ rows: Pair[]; caveats: CaveatsFile | null; src: { s: string; y: number } }>(
+    () =>
+      groups.length
+        ? Promise.all([Promise.all(groups.map((g) => loadPairs(g).catch(() => null))), loadCaveats().catch(() => null)]).then(([files, caveats]) => {
+            const ok = files.filter((f): f is NonNullable<typeof f> => !!f);
+            return ok.length ? { rows: ok.flatMap(decodePairs), caveats, src: { s: ok[0].s, y: ok[0].y } } : null;
+          })
+        : Promise.resolve(null),
+    [k],
+  );
+  if (!data) return null;
+  const common = { id, rows: data.rows, caveats: data.caveats, twoGroups: groups.length > 1, src: data.src };
+  return (
+    <>
+      <PartnerTable title="Suppliers" side="d" {...common} />
+      <PartnerTable title="Customers" side="o" {...common} />
+    </>
   );
 }
 
@@ -215,6 +318,7 @@ export default function CountryView({ id }: { id: string }) {
       </div>
       <div class="panel-scroll">
         <AlertBanners country={id} />
+        <PartnerTables key={id} id={id} />
         {p === undefined ? (
           <Skeleton lines={6} />
         ) : p === null ? (

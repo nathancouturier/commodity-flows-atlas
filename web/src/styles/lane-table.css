@@ -1,0 +1,74 @@
+/* lane table, "Atlas estimate" mark, sea-and-land badge, supplier and customer tables, estimates of a chokepoint */
+.est-mark {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(62, 230, 255, 0.4);
+  font-style: normal;
+  font-size: 10.5px;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.badge-mode.mode-mixed { color: var(--freight); border-style: dashed; border-color: rgba(62, 230, 255, 0.55); }
+.badge-mode.mode-pipeline { color: var(--ink-1); }
+.mode-via { color: var(--ink-2); }
+
+/* sort controls and rows of the lane table */
+.lt { margin-top: 10px; }
+.lt-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 2px 0 6px; }
+.lt-sort-k { font-size: var(--fs-xs); color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; margin-right: 2px; }
+.lt-sort button {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--hairline-strong);
+  font-size: var(--fs-xs);
+  color: var(--ink-1);
+}
+.lt-sort button:hover { color: var(--ink-0); background: rgba(255, 255, 255, 0.05); }
+.lt-sort button[aria-pressed='true'] { color: var(--accent); background: var(--accent-soft); border-color: rgba(62, 230, 255, 0.4); font-weight: 600; }
+.lt-sort button:focus-visible, .lt-row:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
+
+.lt-list { display: grid; }
+.lt-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: baseline;
+  width: 100%;
+  padding: 6px 6px;
+  text-align: left;
+  border-radius: var(--r-sm);
+  color: var(--ink-1);
+  font-size: var(--fs-sm);
+}
+button.lt-row:hover { background: rgba(255, 255, 255, 0.05); color: var(--ink-0); }
+div.lt-row { cursor: default; }
+.lt-route { display: block; color: var(--ink-0); overflow-wrap: anywhere; }
+.lt-sub { display: block; font-size: 11px; line-height: 1.4; color: var(--ink-2); overflow-wrap: anywhere; }
+.lt-sub .badge { margin-right: 4px; }
+.lt-fig { text-align: right; white-space: nowrap; color: var(--ink-0); }
+.lt-fig small { display: block; color: var(--ink-3); font-size: 10.5px; }
+.lt-rest .lt-route { color: var(--ink-1); }
+.lt-rest-title { margin: 8px 6px 2px; font-size: var(--fs-xs); color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.08em; }
+.lt-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 6px; }
+.lt-foot .act-btn { margin-top: 0; }
+.lt-note { margin: 6px 6px 0; font-size: 11px; line-height: 1.4; color: var(--ink-2); }
+.may-use { font-style: italic; color: var(--ink-3); }
+
+/* the Route-less rows of a country's supplier and customer tables */
+.pt-list { display: grid; }
+
+/* estimates of a chokepoint: at least / up to */
+.est-row { padding: 6px 0; border-bottom: 1px solid var(--hairline); }
+.est-row:last-of-type { border-bottom: 0; }
+.est-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.est-k { color: var(--ink-0); font-size: var(--fs-sm); }
+.est-v { color: var(--ink-0); font-size: var(--fs-sm); text-align: right; }
+.est-sub { margin-top: 2px; font-size: 11px; line-height: 1.4; color: var(--ink-2); overflow-wrap: anywhere; }
+
+/* a warning that belongs to a whole table, under the table */
+.table-caveat { margin-top: 6px; padding: 4px 8px; border-left: 2px solid rgba(255, 181, 71, 0.55); font-size: 11px; line-height: 1.4; color: var(--ink-1); overflow-wrap: anywhere; }
