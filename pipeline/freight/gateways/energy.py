@@ -20,6 +20,16 @@ Sourcing pass FE4a: the rows after "FE4a" in G give the port a page names for th
   ports.candidates() does not read TRANSIT, so a pair of two landlocked countries had no port at one end. OFFSHORE
   lists the terminals in open water, which the seaport test of ports.py cannot accept.
 
+Package FE4c (23 November 2026, after the second review GE4): Trieste is no longer the Italian crude gateway (its crude is
+  the Transalpine pipeline's, and no page names crude at an Italian refinery port); Batumi is no products transit port of
+  Kazakhstan and Azerbaijan; Kuwait and Ecuador crude (a history and a pipeline terminus) and the Fujairah products row
+  (a bunkering hub) are gone, with their reasons in UNSOURCED_PORTS or in a comment; the Ras Lanuf page does name crude and
+  products. Two free public-domain sources of the EIA were read by hand: the file of company-level imports (Form EIA-814,
+  2024, ports of entry: source id eia-company-imports) gives the US crude and product import ports, and the country brief
+  of Taiwan gives its crude import ports (source id eia-cab). The LNG export plants of the layer that had no row have one.
+  Where no page was found for a large end (Korea, Japan, the Netherlands, Spain, Malaysia, Thailand, India products,
+  Indonesia), UNSOURCED_PORTS says which pages were read and what would settle it.
+
 TRANSIT = {iso3: {family or "default": (port code, source id, page read, note)}}: the foreign port through which
   a landlocked country's trade is assumed to reach the sea. A cargo family wins over "default". transit(iso3,
   family) returns the tuple or None. Every row is an Atlas assumption (a corridor the page documents, not a
@@ -164,7 +174,7 @@ G = {
     "RUS": [
         ("RUSAB", "arctic-russia", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Yamal LNG, Sabetta"),
         ("RUPRG", "russia-far-east", {"lng"}, "load", "giignl-2026", GIIGNL + "19", "Sakhalin-2, Prigorodnoye"),
-        ("RUPRI", "baltic", {"products"}, "load", "wikipedia", WP + "Port_of_Primorsk", "Primorsk: the page opened 'a terminal for transferring light petroleum products' and gives the port's throughput of petroleum products, 1.56 million tonnes in 2008 and 13.5 in 2019 (an oil-loading port)"),
+        ("RUPRI", "baltic", {"products"}, "load", "wikipedia", WP + "Port_of_Primorsk", "Primorsk, the largest Russian oil-loading port of the Baltic: 'a terminal for transferring light petroleum products was opened', and the page gives the port's throughput of petroleum products, 1.56 million tonnes in 2008 and 13.5 in 2019"),
         ("RUNJK", "russia-far-east", {"products"}, "load", "wikipedia", WP + "Port_of_Nakhodka", "The Nakhodka port complex includes maritime and oil terminals and its 'key commodities handled include coal, petroleum products, containers' (the page gives no tonnage; the oil loading port was commissioned in 1973)"),
     ],
     "NOR": [
@@ -407,14 +417,14 @@ UNSOURCED = {
 # Gateways of the engine's worklist (country/family/role) for which no page read names the cargo at a port: the
 # loader's fallback applies (the port used before, "no source page yet" on the site). What is missing is stated.
 UNSOURCED_PORTS = {
-    "NLD/crude/discharge": "Port of Rotterdam, Europoort, Botlek, Pernis and Maasvlakte pages read: refineries and tank storage, no crude oil named at a port",
+    "NLD/crude/discharge": "Port of Rotterdam, Europoort, Botlek, Pernis and Maasvlakte pages read: refineries and tank storage, no crude oil named at a port (the EIA country brief of the Netherlands, read, gives storage in Rotterdam, 'more than 170 million barrels' at the beginning of 2014, and calls Amsterdam a gasoline hub: no tonnage by port; the Port of Rotterdam Authority's throughput statistics by cargo, a free page whose address was not found, would settle it)",
     "NLD/products/load": "same pages: no products named at a port",
     "NLD/products/discharge": "same pages: no products named at a port",
-    "KOR/crude/discharge": "Ulsan, Port of Ulsan, Yeosu, SK Innovation, GS Caltex and HD Hyundai Oilbank pages read: refineries and crude imports by company, no port or terminal named",
+    "KOR/crude/discharge": "Ulsan, Port of Ulsan, Yeosu, SK Innovation, GS Caltex and HD Hyundai Oilbank pages read: refineries and crude imports by company, no port or terminal named (the EIA country brief of South Korea, read, lists the refineries by town: Ulsan 1,383, Daesan 809, Yeosu 744 and Incheon 349 thousand barrels a day in its 2022 table, no port; the national port statistics of the Ministry of Oceans and Fisheries by port and cargo would settle it)",
     "KOR/products/load": "same pages: no port named for exports",
     "KOR/products/discharge": "same pages: no port named",
     "KOR/lpg/discharge": "same pages: no port named",
-    "IND/products/load": "Jamnagar refinery and Sikka pages read: oil products exported by the refinery whose complex has port facilities, Sikka port not named",
+    "IND/products/load": "Jamnagar refinery and Sikka pages read: oil products exported by the refinery whose complex has port facilities, Sikka port not named (the EIA country brief of India, read, lists the refineries by town: Jamnagar, Vadinar, Kochi, Mangalore, Visakhapatnam, Paradip, Mumbai, Manali and Haldia among others, no port)",
     "IND/products/discharge": "no page read names products imports at a port",
     "IND/lpg/discharge": "Mundra Port page names liquid cargo and a liquid terminal, not LPG",
     "USA/products/load": "Port of Houston, Houston Ship Channel, Port of Corpus Christi, Port Arthur and Texas City pages read: refineries and 'petroleum related' cargo, no refined products named at a port; the EIA file of company-level imports covers imports only, and no free statistic of exports by port was found (EIA publishes exports by PADD, not by port)",
@@ -424,7 +434,7 @@ UNSOURCED_PORTS = {
     "BRA/products/load": "no page read",
     "BRA/products/discharge": "Port of Santos page names liquid bulk only",
     "FRA/crude/discharge": "Fos-sur-Mer and Port of Marseille pages read: oil industry, no crude oil named at a port",
-    "ESP/crude/discharge": "Port of Algeciras, Huelva, Bilbao and Tarragona pages read: no crude oil named at a port",
+    "ESP/crude/discharge": "Port of Algeciras, Huelva, Bilbao and Tarragona pages read: no crude oil named at a port (the EIA country brief of Spain, read, names LNG terminals only; Eurostat's mar_go_am_es, built like the Italian table (liquid bulk by port, no crude split), would rank the ports but name no crude)",
     "ESP/products/load": "same pages",
     "ESP/products/discharge": "same pages",
     "ITA/crude/discharge": "Trieste is no row: its crude is mostly the Transalpine pipeline's, in transit to Austria, Germany and Czechia (the Transalpine page gives 34.9 Mt in 2012, no Italian share), while Italy's own refineries stand at Augusta/Priolo, Sarroch, Milazzo and on the Tyrrhenian and Adriatic coasts. No page names crude at those ports: Augusta, Port of Augusta, Priolo Gargallo, Sarroch, Saras, Milazzo, Port of Cagliari, Livorno, Genoa and Taranto pages read (refineries, 'hydrocarbons' at Milazzo, 'oil' berths at Cagliari). Eurostat mar_go_am_it, liquid bulk goods (crude, products and chemicals together, no split by cargo), 2024, thousand tonnes inwards by port: Trieste 40,783, Augusta 13,354, Porto Foxi (Sarroch) 12,739, Genoa 11,129, Siracusa 6,822, Venice 6,527, Milazzo 3,926; this ranks the refinery ports (Augusta first) but names no crude. The port used before (Augusta) answers",
@@ -435,8 +445,8 @@ UNSOURCED_PORTS = {
     "IDN/lpg/discharge": "same pages",
     "ITA/products/load": "Augusta and Priolo Gargallo pages read: refineries (16 million tonnes of crude a year), no products or port role named",
     "ITA/products/discharge": "same pages",
-    "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude",
-    "MYS/crude/load": "Kerteh page names the Terengganu Crude Oil Terminal but gives the town's coordinates (inland), and no searoute port lies within a few km; Labuan page says crude oil is exported, the searoute point for Labuan is inland",
+    "THA/crude/discharge": "Laem Chabang, Map Ta Phut and Si Racha pages read: a Thai Oil jetty is named, with oil, not crude (the EIA country brief of Thailand, read, names the Map Ta Phut LNG terminal only)",
+    "MYS/crude/load": "Kerteh page names the Terengganu Crude Oil Terminal but gives the town's coordinates (inland), and no searoute port lies within a few km; Labuan page says crude oil is exported, the searoute point for Labuan is inland (the EIA country brief of Malaysia, read, lists the refineries by town: Melaka, Pengerang, Port Dickson, Kerteh and Kemaman, no port)",
     "MYS/products/load": "Kuantan and Port Dickson pages read: no products named at a port",
     "MYS/products/discharge": "same pages",
     "MYS/crude/discharge": "same pages",

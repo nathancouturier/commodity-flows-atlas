@@ -121,6 +121,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2019,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -362,6 +363,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2017,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -395,6 +397,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 1989,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -462,6 +465,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2018,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -563,6 +567,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2015,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -596,6 +601,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2016,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -663,6 +669,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 1983,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -695,11 +702,11 @@
      "v": 11.6,
      "u": "Mtpa",
      "y": 2025,
-     "n": "4 trains x 2.9 Mtpa as listed by GIIGNL"
+     "n": "4 trains x 2.9 Mtpa as listed by GIIGNL, including Train E (listed as mothballed)"
     },
     "status": "operating",
     "statusAsOf": "2025-12",
-    "statusNote": "Trains G and H in operation; Train E on standby (GIIGNL 2026)",
+    "statusNote": "Only Trains G and H in operation because of limited feedgas; Train E mothballed but kept in operational condition (GIIGNL 2026)",
     "coord": "approx",
     "note": "Train E is on standby for lack of feedgas and only Trains G and H were in operation (GIIGNL 2026).",
     "s": "giignl-2026",
@@ -731,6 +738,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2009,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -764,6 +772,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2017,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "site",
@@ -797,6 +806,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2009,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -907,6 +917,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2007,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1007,6 +1018,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2000,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1074,6 +1086,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 1999,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1844,6 +1857,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2009,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1876,6 +1890,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2005,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1909,6 +1924,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2009,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -1942,6 +1958,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 1969,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -2176,6 +2193,7 @@
      "u": "Mtpa",
      "y": 2025
     },
+    "opened": 2006,
     "status": "operating",
     "statusAsOf": "2025-12",
     "coord": "approx",
@@ -2484,7 +2502,7 @@
      "v": 2.5,
      "u": "Mtpa",
      "y": 2025,
-     "n": "10 small trains: T1-6 x 1.5 and T7-10 x 1.0 as listed by GIIGNL"
+     "n": "10 small trains: T1-6 1.5 Mtpa in total and T7-10 1.0 Mtpa in total, as listed by GIIGNL"
     },
     "opened": 2019,
     "status": "operating",
@@ -2556,8 +2574,8 @@
      "n": "single train"
     },
     "opened": 2019,
-    "status": "idle",
-    "statusAsOf": "2025-12",
+    "status": "suspended",
+    "statusAsOf": "2025-02",
     "statusNote": "US-sanctioned in January 2025; has not loaded a cargo since February 2025 (GIIGNL 2026)",
     "coord": "site",
     "note": "Coordinates from the Wikipedia article.",
@@ -2592,8 +2610,8 @@
      "n": "single train with a floating storage unit"
     },
     "opened": 2022,
-    "status": "idle",
-    "statusAsOf": "2025-12",
+    "status": "suspended",
+    "statusAsOf": "2025-02",
     "statusNote": "US-sanctioned in January 2025; exports ceased after the grace period ended on 27 February 2025 (GIIGNL 2026)",
     "coord": "site",
     "note": "Coordinates from OpenStreetMap.",

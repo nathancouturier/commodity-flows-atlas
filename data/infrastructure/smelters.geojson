@@ -323,9 +323,9 @@
      "n": "aluminium"
     },
     "opened": 1971,
-    "status": "damaged",
-    "statusAsOf": "2026-03",
-    "statusNote": "Hit in an attack in March 2026 (minor damage); potlines 1-3 shut on 15 March 2026; operating at 80% on 16 September 2026.",
+    "status": "operating",
+    "statusAsOf": "2026-09",
+    "statusNote": "Operating at 80% on 16 September 2026. Potlines 1-3 were shut on 15 March 2026 to conserve alumina, and the plant was hit in an attack on 28 March 2026 (minor damage).",
     "note": "Wikipedia reports alumina now arrives by truck and exports are routed through Jeddah and Sohar.",
     "coord": "site",
     "s": "wikipedia",
@@ -388,9 +388,8 @@
      "u": "kt/y",
      "n": "aluminium, as stated by Wikipedia (undated)"
     },
-    "status": "damaged",
-    "statusAsOf": "2026-03",
-    "statusNote": "Sustained \"significant damage\" in Iranian missile and drone attacks on 28 March 2026.",
+    "status": "not-stated",
+    "statusNote": "Sustained \"significant damage\" in Iranian missile and drone attacks on 28 March 2026; the article does not say whether production stopped",
     "coord": "approx",
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Emirates_Global_Aluminium",
@@ -577,7 +576,8 @@
     "capacity": {
      "v": 11,
      "u": "kt/y",
-     "n": "rare-earth oxide, target as stated by the source (undated)"
+     "n": "rare-earth oxide, a target of 11,000 tonnes a year stated in 2014 (undated capacity); as stated by the source",
+     "planned": true
     },
     "opened": 2012,
     "status": "operating",

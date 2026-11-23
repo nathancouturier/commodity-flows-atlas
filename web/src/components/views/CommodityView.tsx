@@ -3,12 +3,12 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, Fig, Flow, LaneFile, Ranked } from '../../types';
 import { loadOptional, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
-import { FAMILY_COLOR, FAMILY_LABEL, fig as fmtFig, fmt, fmtEst, pct } from '../../lib/format';
+import { FAMILY_COLOR, FAMILY_LABEL, fig as fmtFig, fmt, fmtEst } from '../../lib/format';
 import { LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, CompanyRows, AlertBanners, shortSource } from '../ui';
-import LaneTable from '../LaneTable';
+import LaneTable, { yearNote } from '../LaneTable';
 import { useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import '../../styles/history-year.css';
@@ -210,7 +210,7 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
           const yr = f.years[i];
           const active = pastAt(f) >= 0 ? f.lanes.filter((l) => (l.hist[i] ?? 0) > 0).length : main(f).length;
           const mixed = f.mixed?.[i] ?? 0;
-          const note = f.yearNotes?.[String(yr)];
+          const note = yearNote(f, hy);
           return (
             <div key={f.group}>
               <div class="ft-row ft-wide" title={`${sourceLabel(f.s)} · ${yr}`}>
@@ -219,10 +219,9 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
                   {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
                 </span>
               </div>
-              {(mixed > 0 || note || (i === f.years.length - 1 && (f.est ?? 0) >= 0.01)) && (
+              {(mixed > 0 || note) && (
                 <div class="lt-note" style={{ margin: '2px 0 0 0' }}>
                   {mixed > 0 && <div>Plus {fmt(mixed)} {f.unit} by sea and overland, split not known: not in the seaborne figure.</div>}
-                  {i === f.years.length - 1 && (f.est ?? 0) >= 0.01 && <div>{pct(f.est!)} of the {yr} seaborne tonnage is estimated from the declared value (Atlas estimate).</div>}
                   {note && <div>{note}</div>}
                 </div>
               )}

@@ -29,6 +29,11 @@ export default function VesselView({ id }: { id: string }) {
         <div class="kpis">
           <Kpi label="Typical size" value={`${fmt(v.size.typical)} ${u}`} sub={pub} title={`Typical size (${v.s})`} />
           <Kpi label="Size range" value={`${fmt(v.size.min)}–${fmt(v.size.max)}`} sub={`${u} · ${pub}`} title={`Size range (${v.s})`} />
+          {v.speed ? (
+            <Kpi label="Assumed laden service speed" value={`${fmt(v.speed.v)} ${v.speed.u}`} sub={`Atlas assumption · ${v.speed.y}`} title={`${v.speed.s} · ${v.speed.y}`} note={v.speed.n} span />
+          ) : v.speedKn ? (
+            <Kpi label="Assumed laden service speed" value={`${fmt(v.speedKn)} kn`} sub="Atlas assumption" note={v.speedNote} span />
+          ) : null}
           {v.fleet && <Kpi label="Fleet" f={v.fleet} note={v.fleet.n} span />}
         </div>
         {d && (d.loa || d.beam || d.draft) && (

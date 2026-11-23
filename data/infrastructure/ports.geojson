@@ -512,12 +512,6 @@
     ],
     "c": "SAU",
     "operator": "Saudi Aramco",
-    "capacity": {
-     "v": 6500,
-     "u": "kb/d",
-     "n": "commonly cited rating; some sources give up to 9 mb/d",
-     "orig": "6.5 mb/d"
-    },
     "status": "operating",
     "statusAsOf": "2026-06",
     "statusNote": "Loadings halted for almost four months by the closure of the Strait of Hormuz; Aramco resumed loading on 26 June 2026.",
@@ -547,10 +541,10 @@
     "c": "IRQ",
     "operator": "Basra Oil Company",
     "capacity": {
-     "v": 3500,
+     "v": 3300,
      "u": "kb/d",
-     "n": "southern export system: Al Basrah Oil Terminal 1.25 mb/d plus offshore moorings 2.25 mb/d",
-     "orig": "3.5 mb/d"
+     "n": "Al Basrah and Khor al-Amaya terminals together; the page says the capacity \"exceeds\" this figure",
+     "orig": "3.3 million bpd"
     },
     "status": "not-stated",
     "note": "Iraq's southern crude export outlet.",
@@ -647,7 +641,7 @@
      "u": "Mt/y",
      "y": 2025,
      "what": "throughput",
-     "n": "total cargo; the port's 'tons' are probably US short tons (not converted)"
+     "n": "total cargo; tons as reported (not converted)"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -682,7 +676,7 @@
      "u": "Mt/y",
      "y": 2025,
      "what": "throughput",
-     "n": "public terminals only; the private energy terminals along the ship channel are not included. The port's 'tons' are probably US short tons (not converted)"
+     "n": "public terminals only; the private energy terminals along the ship channel are not included. Tons as reported (not converted)."
     },
     "status": "operating",
     "statusAsOf": "2026-11",

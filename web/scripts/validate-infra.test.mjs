@@ -36,8 +36,10 @@ const mine = () => ({
 });
 const feat = (p, coordinates = [-71.6, -16.5]) => ({ type: 'Feature', properties: p, geometry: { type: 'Point', coordinates } });
 
-/** A data folder with one valid mine and empty files for the other six. */
-function folder(mutate) {
+const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports' };
+
+/** A data folder with one valid mine and empty files for the other six; each feature goes to the file of its type, unless `place` is false. */
+function folder(mutate, place = true) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'infra-test-'));
   fs.mkdirSync(path.join(dir, 'infrastructure'), { recursive: true });
   for (const f of ['fields', 'refineries', 'lng', 'pipelines', 'smelters', 'ports'])
@@ -51,12 +53,15 @@ function folder(mutate) {
   fs.copyFileSync(path.join(realData, 'geo/countries.topo.json'), path.join(dir, 'geo/countries.topo.json'));
   const features = [feat(mine())];
   mutate?.(features, dir);
-  fs.writeFileSync(path.join(dir, 'infrastructure/mines.geojson'), JSON.stringify({ type: 'FeatureCollection', features }));
+  const files = {};
+  for (const ft of features) (files[place ? (FILE_OF[ft.properties.type] ?? 'mines') : 'mines'] ??= []).push(ft);
+  files.mines ??= [];
+  for (const [name, list] of Object.entries(files)) fs.writeFileSync(path.join(dir, `infrastructure/${name}.geojson`), JSON.stringify({ type: 'FeatureCollection', features: list }));
   return dir;
 }
 
-async function run(mutate, tolerateOldShape = false) {
-  const dir = folder(mutate);
+async function run(mutate, tolerateOldShape = false, place = true) {
+  const dir = folder(mutate, place);
   const errors = [];
   const warnings = [];
   await validateInfra(dir, errors, warnings, { tolerateOldShape });
@@ -94,6 +99,14 @@ const breaks = {
   'working note 2': [(p) => (p.note = 'figures were stripped'), /working phrase/],
   'unknown type': [(p) => (p.type = 'dam'), /type "dam"/],
   'zero capacity': [(p) => (p.capacity.v = 0), /capacity\.v/],
+  'no coord': [(p) => delete p.coord, /coord ""/],
+  'a mine in kb/d': [(p) => (p.capacity.u = 'kb/d'), /does not fit a mine/],
+  'not-stated keeps its date': [(p) => (p.status = 'not-stated'), /remove "statusAsOf"/],
+  'working phrase in statusNote': [(p) => (p.statusNote = 'Shut (via search summary)'), /statusNote holds a working phrase/],
+  'working phrase in capacity.n': [(p) => (p.capacity.n = 'Platts roundup; the page could not be re-read'), /capacity\.n holds a working phrase/],
+  'working phrase in output.n': [(p) => (p.output.n = 'figures were stripped'), /output\.n holds a working phrase/],
+  'planned on an output': [(p) => (p.output.planned = true), /"planned" is only/],
+  'planned that is not true': [(p) => (p.capacity.planned = 'yes'), /"planned" is only/],
 };
 for (const [name, [edit, re]] of Object.entries(breaks)) {
   const r = await run((fs) => edit(fs[0].properties));
@@ -118,6 +131,37 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   });
   assert.deepEqual(r.errors, [], r.all);
 }
+{
+  // a feature must sit in the file of its type
+  const r = await run((fs) => (fs[0].properties.type = 'port'), false, false);
+  assert.ok(r.errors.some((e) => /belongs in ports\.geojson/.test(e)), r.all);
+}
+{
+  // a planned capacity is accepted
+  const r = await run((fs) => (fs[0].properties.capacity.planned = true));
+  assert.deepEqual(r.errors, [], r.all);
+}
+
+// pipelines: `cs` is required and starts with the country `c`; a refinery is in kb/d and an LNG terminal in Mtpa
+{
+  const pipe = () => {
+    const p = { ...mine(), id: 'pipe-test', type: 'pipeline', k: ['crude-oil'], cs: ['PER', 'CHL'], capacity: { v: 500, u: 'kb/d' }, product: 'crude', length_km: 800 };
+    delete p.output;
+    return p;
+  };
+  const line = [[-71.6, -16.5], [-70.5, -18.3]];
+  const geo = (p) => ({ type: 'Feature', properties: p, geometry: { type: 'LineString', coordinates: line } });
+  const ok = await run((fs) => (fs[0] = geo(pipe())));
+  assert.deepEqual(ok.errors, [], ok.all);
+  const noCs = await run((fs) => { const p = pipe(); delete p.cs; fs[0] = geo(p); });
+  assert.ok(noCs.errors.some((e) => /needs "cs"/.test(e)), noCs.all);
+  const wrongStart = await run((fs) => (fs[0] = geo({ ...pipe(), cs: ['CHL', 'PER'] })));
+  assert.ok(wrongStart.errors.some((e) => /must start with the country "PER"/.test(e)), wrongStart.all);
+  const refinery = await run((fs) => (fs[0] = feat({ ...mine(), id: 'ref-test', type: 'refinery', k: ['crude-oil'], capacity: { v: 300, u: 'Mt/y' }, output: undefined })));
+  assert.ok(refinery.errors.some((e) => /does not fit a refinery/.test(e)), refinery.all);
+  const lng = await run((fs) => (fs[0] = feat({ ...mine(), id: 'lng-test', type: 'lng-export', k: ['lng'], capacity: { v: 5, u: 'kb/d' }, output: undefined })));
+  assert.ok(lng.errors.some((e) => /does not fit a lng-export/.test(e)), lng.all);
+}
 
 // coordinates
 {
@@ -141,7 +185,11 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
 
 // assets at sea: an LNG plant or a field may lie far from its country's polygon, but not nearer to another country
 {
-  const lng = (c) => ({ ...mine(), id: 'prelude-test', type: 'lng-export', c, k: ['crude-oil'], capacity: { v: 3.6, u: 'Mtpa', y: 2025 } });
+  const lng = (c) => {
+    const p = { ...mine(), id: 'prelude-test', type: 'lng-export', c, k: ['crude-oil'], capacity: { v: 3.6, u: 'Mtpa', y: 2025 } };
+    delete p.output;
+    return p;
+  };
   const prelude = [123.3, -13.78];
   const ok = await run((fs) => (fs[0] = feat(lng('AUS'), prelude)));
   assert.deepEqual(ok.errors, [], ok.all);
@@ -172,6 +220,8 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   assert.deepEqual(soft.errors, [], soft.all);
   assert.ok(soft.warnings.length >= 4, soft.all);
   assert.ok(soft.warnings.some((w) => /still in the old shape/.test(w)));
+  // the hint about the switch is printed only when the switch is set
+  assert.ok(!strict.all.includes('INFRA_OLD_SHAPE=1 is set'), strict.all);
 }
 
 // the command exits 1 on an error, 0 otherwise, and INFRA_OLD_SHAPE=1 is read from the environment

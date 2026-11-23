@@ -92,7 +92,7 @@ function Body({ r }: { r: Route }) {
         <AlertBanners chokepoints={r.via} status={r.status} />
         <div class="kpis">
           <Kpi label={leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub="SeaRoute network · Atlas routing" title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
-          <Kpi label={leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas calc`} title="Distance divided by the class's typical laden speed" />
+          <Kpi label={leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · Atlas assumption`} title={`Distance divided by the assumed laden service speed of the class, ${fmt(r.speedKn)} kn (Atlas assumption)`} />
           {shares.map((s) => (
             <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
@@ -116,8 +116,8 @@ function Body({ r }: { r: Route }) {
             <CommodityChips ids={r.cargoes} />
           </Section>
         )}
-        <ViaSection from={fromPort} to={toPort} via={r.via} />
-        {r.alt && <AltBox alt={r.alt} />}
+        <ViaSection from={fromPort} to={toPort} via={r.via} viaAlt={r.viaAlt} />
+        <AltBox alt={r.alt} alts={r.alts} note={r.altNote} />
         {r.history && r.history.length > 1 && (
           <Section title={`Corridor volume ${r.history[0].y}–${r.history[r.history.length - 1].y}`}>
             <HistoryChart years={r.history.map((h) => h.y)} values={r.history.map((h) => h.v)} unit={r.historyUnit ?? ''} color={color} />

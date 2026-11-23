@@ -109,6 +109,12 @@ function preview(groups: Group[], commodity: string | undefined, max: number): S
 }
 
 function blockLabel(b: Block, commodity: string | undefined, alone: boolean): string | null {
+  const label = blockName(b, commodity, alone);
+  // an owner's share, or a figure whose basis the source does not state, is not a 100% figure
+  return b.cap.partial ? (label ? `${label}, share or basis not stated` : 'Share or basis not stated') : label;
+}
+
+function blockName(b: Block, commodity: string | undefined, alone: boolean): string | null {
   const c = b.cap;
   if (b.key === 'none') {
     if (alone && !commodity) return null;
@@ -177,7 +183,7 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
                                 <StatusBadge status={p.status} />
                               </>
                             )}
-                            {fig && <span class="row-detail">{fig.kind === 'capacity' ? '' : `${OUTPUT_LABEL[fig.kind].toLowerCase()} `}{yearText(fig)} · {shortSource(p.s)}</span>}
+                            {fig && <span class="row-detail">{fig.planned ? 'planned capacity, ' : fig.kind === 'capacity' ? '' : `${OUTPUT_LABEL[fig.kind].toLowerCase()} `}{yearText(fig)} · {shortSource(p.s)}</span>}
                           </>
                         ) : undefined
                       }

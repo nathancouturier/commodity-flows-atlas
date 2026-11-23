@@ -283,7 +283,7 @@ G = {
     ],
     "JOR": [
         ("JOAQB", "red-sea", ("phosphate-rock",), "load", "wikipedia", W + "Aqaba",
-         "Aqaba page: 'the Aqaba railway which transported phosphate to the old port ceased operations in 2018' and a successor line 'to transport phosphate from Al Shidiya and Ghor es-Safi to the new terminal in Port of Aqaba is planned'; the Port of Aqaba is 'the only port in Jordan' (phosphate rock only: no DAP and no potash named; the page gives no tonnage and the railway is history)"),
+         "Two pages read together: the Aqaba page says 'the Port of Aqaba is the only port in Jordan' and that 'the Aqaba railway which transported phosphate to the old port ceased operations in 2018' (a successor line 'to the new terminal in Port of Aqaba is planned'); the Jordan Phosphate Mines page says 60% of its production was already exported to India in 2018. Phosphate rock only: no DAP and no potash named; the page gives no tonnage and the railway is history"),
     ],
     "BIH": [
         ("HRPLE", "med", ("grain",), "discharge", "wikipedia", W + "Port_of_Plo%C4%8De",

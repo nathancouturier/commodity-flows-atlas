@@ -24,6 +24,9 @@ const ALL_CARGO = /\bcargo\b|\bthroughput\b|\btonnage\b|^total\b/i;
 /** Wording that always means all traffic, whatever commodities the port is tagged with ("throughput" may be one commodity's). */
 const TOTAL_TRAFFIC = /^total\b|\btonnage\b/i;
 
+/** A figure that is an owner's share, or whose basis the source does not state, is not ranked with 100% figures. */
+const PARTIAL_BASIS = /basis not stated|share only/i;
+
 export type Form = 'product' | 'concentrate' | 'ore' | 'feed';
 
 export interface CapacityRead {
@@ -41,10 +44,12 @@ export interface CapacityRead {
   subject?: string;
   form: Form;
   /**
-   * planned: a figure of an asset that is planned or under construction, closed: an asset that no longer runs.
-   * Both are kept apart from operating figures.
+   * planned: a figure of an asset that is planned or under construction, or a planned or target capacity of an
+   * asset that runs; closed: an asset that no longer runs. Both are kept apart from operating figures.
    */
   basis: 'operating' | 'planned' | 'closed';
+  /** the figure is a share, or its basis is not stated: ranked apart from 100% figures */
+  partial?: boolean;
   /** the figure the asset is ranked and printed by (see mainFigure) */
   fig: Figure | null;
 }
@@ -96,12 +101,14 @@ export function readCapacity(p: InfraProps, id?: string): CapacityRead {
   const rank = fig.v;
   const rest = fig.n ?? '';
   const form = formOf(rest);
-  const basis: CapacityRead['basis'] = p.status === 'planned' || p.status === 'construction' ? 'planned' : p.status === 'closed' ? 'closed' : 'operating';
-  const sfx = basis === 'operating' ? '' : `|${basis}`;
+  const basis: CapacityRead['basis'] =
+    p.status === 'planned' || p.status === 'construction' || fig.planned ? 'planned' : p.status === 'closed' ? 'closed' : 'operating';
+  const partial = PARTIAL_BASIS.test(rest);
+  const sfx = `${basis === 'operating' ? '' : `|${basis}`}${partial ? '|partial' : ''}`;
   // capacity, production, exports and throughput are never ranked against each other
   const what = `${fig.kind}|`;
   const main = p.k[0];
-  const base = { form, basis, fig, rank };
+  const base = { form, basis, fig, rank, partial: partial || undefined };
   // a figure counted as port traffic says how busy the port is when the text names no commodity
   const text = fig.kind === 'throughput' ? `${rest} throughput` : rest;
 

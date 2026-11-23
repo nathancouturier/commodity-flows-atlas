@@ -166,7 +166,9 @@ function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows:
   const { side, id } = props;
   const mine = props.rows.filter((r) => r[side] === id).sort((a, b) => b.kt - a.kt);
   if (!mine.length) return null;
-  const total = mine.reduce((n, r) => n + r.kt, 0);
+  // a commodity with two customs groups (concentrate and refined copper) has two products: a share is of its own product's total
+  const totals = new Map<string, number>();
+  for (const r of mine) totals.set(r.group, (totals.get(r.group) ?? 0) + r.kt);
   const shown = all ? mine : mine.slice(0, PARTNER_ROWS);
   const k = commodity.value;
   return (
@@ -175,12 +177,13 @@ function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows:
         {shown.map((r, i) => {
           const partner = side === 'd' ? r.o : r.d;
           // the transit port is the end of the route that is not in the pair's own country
-          const via = r.kind === 'transit' ? ([r.load, r.dis].find((x) => x && x.c !== (x === r.load ? r.o : r.d))?.name ?? null) : null;
+          const transit = r.kind === 'transit' ? [r.load, r.dis].filter((x) => x && x.c !== (x === r.load ? r.o : r.d)).map((x) => x!.name) : [];
+          const via = transit.length ? transit.join(' and ') : null;
           const mt = r.kt / 1000;
           const cav = r.caveat ? caveatFor(props.caveats, r.group, r.o, r.d) : null;
           const lane = r.lane ? `${r.group}:${r.o}-${r.d}` : null;
           const open = lane ? () => select({ kind: 'lane', id: lane }) : isCountry(partner) ? () => select({ kind: 'country', id: partner }) : undefined;
-          const passages = passagesText(r.via, r.viaAlt);
+          const passages = passagesText(r.via, r.viaAltLists);
           return (
             <div key={`${r.group}:${r.o}-${r.d}`}>
               <RowBtn
@@ -201,7 +204,7 @@ function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows:
                     {r.est && <EstMark />}
                   </>
                 }
-                meta={<>{fmtEst(mt, r.est)} Mt<small>{pct(r.kt / total, true)}</small></>}
+                meta={<>{fmtEst(mt, r.est)} Mt<small>{pct(r.kt / totals.get(r.group)!, true)}</small></>}
                 tip={lane ? 'Open this lane' : isCountry(partner) ? `Open ${countryName(partner)}` : undefined}
                 onClick={open}
               />
@@ -215,7 +218,7 @@ function PartnerTable(props: { title: string; side: 'o' | 'd'; id: string; rows:
           {all ? 'Show fewer' : `Show all ${mine.length}`}
         </button>
       )}
-      <SourceLine s={props.src.s} y={props.src.y} n={`all transport modes; shares are of ${countryName(id)}'s recorded ${side === 'd' ? 'imports' : 'exports'} of this commodity`} />
+      <SourceLine s={props.src.s} y={props.src.y} n={`all transport modes; shares are of ${countryName(id)}'s recorded ${side === 'd' ? 'imports' : 'exports'} of ${props.twoGroups ? 'the same product (each product has its own total)' : 'this commodity'}`} />
     </Section>
   );
 }

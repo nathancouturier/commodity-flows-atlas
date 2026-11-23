@@ -4,7 +4,7 @@
  *  - each feature has id, name, type, c, k, s, url, read, status (and statusAsOf unless the status is "not-stated"),
  *    and a geometry; there is no feature-level `y` (a reading date is never the year of a figure);
  *  - `type`, `status`, the units of `capacity` and `output` and `output.what` are in their vocabularies;
- *    `capacity.y`, `output.y` and `opened` are numbers between 1850 and next year; `read` and `statusAsOf` are dates;
+ *    `capacity.y`, `output.y` and `opened` are numbers between 1800 and next year; `read` and `statusAsOf` are dates;
  *  - `k` ids exist in commodities/index.json, `s` exists in sources.json, ids are unique across the seven files;
  *  - coordinates are numbers in range and a point lies inside its country `c` or within 60 km of it. A field or an LNG
  *    terminal may stand at sea (a field offshore, a floating plant, an island terminal): it may lie up to 370 km
@@ -14,7 +14,11 @@
  *  - a feature is identified by its type and its id: `type:id` is unique across the seven files (the site draws, selects
  *    and links an asset by `sel=infra:<id>:<type>`); the same id under two types ("ras-tanura", a refinery and a port)
  *    is allowed;
- *  - `note` holds no working-note phrase ("via search", "stripped", "latest on page").
+ *  - `note`, `statusNote`, `capacity.n` and `output.n` hold no working-note phrase ("via search", "stripped",
+ *    "latest on page", "could not be re-read");
+ *  - `coord` is required; a pipeline has `cs`, starting with its country `c`; a feature sits in the file of its type;
+ *    a unit fits the type (a refinery in kb/d, an LNG terminal in Mtpa, ...); a status "not-stated" has no `statusAsOf`;
+ *    `capacity.planned`, when present, is `true` and belongs to a capacity.
  *
  * Every finding about the shape of a feature is an error. Only INFRA_OLD_SHAPE=1 (or `{ tolerateOldShape: true }`)
  * makes a file that is still in the old shape (a feature-level `y`, or no `read`) produce warnings instead, for a
@@ -31,12 +35,24 @@ const STATUSES = ['operating', 'damaged', 'suspended', 'idle', 'construction', '
 const UNITS = ['kb/d', 'bcm/y', 'Mtpa', 'Mt/y', 'kt/y', 't/y', 'tU/y'];
 const WHAT = ['production', 'exports', 'throughput'];
 const COORD = ['site', 'approx'];
-const WORKING_NOTE = /via search|stripped|latest on page/i;
+const WORKING_NOTE = /via search|search summary|stripped|latest on page|re-read|page could not/i;
+/** The file each type belongs to, and the units each type may use. */
+const FILE_OF = { field: 'fields', refinery: 'refineries', 'lng-export': 'lng', 'lng-import': 'lng', pipeline: 'pipelines', mine: 'mines', smelter: 'smelters', port: 'ports' };
+const UNITS_OF = {
+  field: ['kb/d', 'bcm/y'],
+  refinery: ['kb/d'],
+  'lng-export': ['Mtpa'],
+  'lng-import': ['Mtpa'],
+  pipeline: ['kb/d', 'bcm/y'],
+  mine: ['Mt/y', 'kt/y', 't/y', 'tU/y'],
+  smelter: ['Mt/y', 'kt/y', 't/y'],
+  port: ['Mt/y', 'kb/d'],
+};
 const NEAR_KM = 60;
 /** Types that can stand at sea: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone). */
 const OFFSHORE_TYPES = ['field', 'lng-export', 'lng-import'];
 const OFFSHORE_KM = 370;
-const MIN_YEAR = 1850;
+const MIN_YEAR = 1800;
 
 const isNum = (x) => typeof x === 'number' && Number.isFinite(x);
 const isYear = (x, max) => isNum(x) && Number.isInteger(x) && x >= MIN_YEAR && x <= max;
@@ -162,6 +178,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       const at = `${p.id ?? `#${i}`}`;
       for (const k of ['id', 'name', 'type', 'c']) if (typeof p[k] !== 'string' || !p[k]) hard(`${at}: missing "${k}"`);
       if (typeof p.type === 'string' && !TYPES.includes(p.type)) hard(`${at}: type "${p.type}" is not one of ${TYPES.join(', ')}`);
+      else if (typeof p.type === 'string' && FILE_OF[p.type] !== name) shape(`${at}: type "${p.type}" belongs in ${FILE_OF[p.type]}.geojson, not in ${name}.geojson`);
       if (!f.geometry) hard(`${at}: no geometry`);
       if (typeof p.id !== 'string') continue;
 
@@ -182,6 +199,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       // status
       if (!STATUSES.includes(p.status)) shape(`${at}: status "${p.status ?? ''}" is not one of ${STATUSES.join(', ')}`);
       else if (p.status !== 'not-stated' && (typeof p.statusAsOf !== 'string' || !AS_OF.test(p.statusAsOf))) shape(`${at}: status "${p.status}" needs "statusAsOf" ("YYYY" or "YYYY-MM")`);
+      else if (p.status === 'not-stated' && p.statusAsOf !== undefined) shape(`${at}: status "not-stated" has no date: remove "statusAsOf"`);
       if (p.statusAsOf !== undefined && !(typeof p.statusAsOf === 'string' && AS_OF.test(p.statusAsOf))) shape(`${at}: "statusAsOf" must be "YYYY" or "YYYY-MM"`);
       if (p.statusNote !== undefined && typeof p.statusNote !== 'string') shape(`${at}: "statusNote" must be text`);
 
@@ -196,6 +214,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
         }
         if (!isNum(g.v) || g.v <= 0) shape(`${at}: ${key}.v must be a positive number`);
         if (!UNITS.includes(g.u)) shape(`${at}: ${key}.u "${g.u}" is not one of ${UNITS.join(', ')}`);
+        else if (UNITS_OF[p.type] && !UNITS_OF[p.type].includes(g.u)) shape(`${at}: ${key}.u "${g.u}" does not fit a ${p.type} (${UNITS_OF[p.type].join(', ')})`);
         if (key === 'output') {
           if (!isYear(g.y, maxYear)) shape(`${at}: output.y is required and must be a year between ${MIN_YEAR} and ${maxYear}`);
           if (!WHAT.includes(g.what)) shape(`${at}: output.what "${g.what ?? ''}" is not one of ${WHAT.join(', ')}`);
@@ -203,14 +222,22 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
           if (g.y !== undefined && !isYear(g.y, maxYear)) shape(`${at}: capacity.y must be a year between ${MIN_YEAR} and ${maxYear} (leave it out when the source does not say)`);
           if (g.what !== undefined) shape(`${at}: capacity has no "what"; production, exports and throughput go in "output"`);
         }
+        if (g.planned !== undefined && (key !== 'capacity' || g.planned !== true)) shape(`${at}: "planned" is only \`true\`, on a capacity (a planned or target capacity)`);
+        if (typeof g.n === 'string' && WORKING_NOTE.test(g.n)) shape(`${at}: ${key}.n holds a working phrase ("${g.n.match(WORKING_NOTE)[0]}"): notes are for readers`);
         for (const t of ['n', 'orig']) if (g[t] !== undefined && typeof g[t] !== 'string') shape(`${at}: ${key}.${t} must be text`);
       }
-      if (p.coord !== undefined && !COORD.includes(p.coord)) shape(`${at}: coord "${p.coord}" is not "site" or "approx"`);
+      if (!COORD.includes(p.coord)) shape(`${at}: coord "${p.coord ?? ''}" must be "site" or "approx"`);
       if (p.type === 'pipeline') {
         if (p.length_km !== undefined && !(isNum(p.length_km) && p.length_km > 0)) shape(`${at}: length_km must be a positive number`);
-        if (p.cs !== undefined && (!Array.isArray(p.cs) || p.cs.some((c) => countries.size && !countries.has(c)))) shape(`${at}: "cs" must be a list of country codes`);
+        if (!Array.isArray(p.cs) || !p.cs.length) shape(`${at}: a pipeline needs "cs", the countries it crosses, starting with "${p.c}"`);
+        else {
+          if (p.cs.some((c) => countries.size && !countries.has(c))) shape(`${at}: "cs" must be a list of country codes`);
+          if (p.cs[0] !== p.c) shape(`${at}: "cs" must start with the country "${p.c}", not "${p.cs[0]}"`);
+        }
       }
-      if (typeof p.note === 'string' && WORKING_NOTE.test(p.note)) shape(`${at}: the note holds a working phrase ("${p.note.match(WORKING_NOTE)[0]}"): notes are for readers`);
+      for (const t of ['note', 'statusNote']) {
+        if (typeof p[t] === 'string' && WORKING_NOTE.test(p[t])) shape(`${at}: the ${t} holds a working phrase ("${p[t].match(WORKING_NOTE)[0]}"): notes are for readers`);
+      }
 
       // coordinates
       const g = f.geometry;
@@ -243,7 +270,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
     }
   }
   if (skipped.size) warnings.push(`infrastructure: no polygon for ${[...skipped].sort().join(', ')}: the country check is skipped for these`);
-  if (legacyFiles) warnings.push(`infrastructure: ${legacyFiles} of ${FILES.length} files are still in the old shape (INFRA_OLD_SHAPE=1 is set)`);
+  if (legacyFiles && tolerateOldShape) warnings.push(`infrastructure: ${legacyFiles} of ${FILES.length} files are still in the old shape (INFRA_OLD_SHAPE=1 is set)`);
 }
 
 /** Warnings as a short text: the count per kind of message, then a few examples. */

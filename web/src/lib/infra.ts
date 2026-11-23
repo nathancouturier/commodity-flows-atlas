@@ -82,6 +82,8 @@ export interface Figure {
   n?: string;
   /** the source's own figure, when v was converted */
   orig?: string;
+  /** a planned or target capacity, not one the asset has reached */
+  planned?: boolean;
 }
 
 /** "1,950 kt/y". The unit is printed whole. */
@@ -94,6 +96,7 @@ export const figureOf = (kind: FigureKind, f: InfraFigure): Figure => ({
   y: typeof f.y === 'number' && Number.isFinite(f.y) ? f.y : null,
   n: f.n,
   orig: f.orig,
+  planned: f.planned || undefined,
 });
 
 /**

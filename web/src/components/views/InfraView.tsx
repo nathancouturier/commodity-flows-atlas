@@ -81,11 +81,11 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
       </div>
       <div class="panel-scroll">
         <div class="kpis">
-          {figs.capacity && <FigureKpi label="Capacity" fig={figs.capacity} s={p.s} />}
+          {figs.capacity && <FigureKpi label={figs.capacity.planned ? 'Planned capacity' : 'Capacity'} fig={figs.capacity} s={p.s} />}
           {figs.output && <FigureKpi label={OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL]} fig={figs.output} s={p.s} />}
-          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
-          {p.length_km != null && <Kpi label="Length" value={`${fmt(p.length_km)} km`} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
-          {p.product && <Kpi label="Carries" value={p.product} sub={shortSource(p.s)} title={`${sourceLabel(p.s)}`} />}
+          {p.opened != null && <Kpi label="Opened" value={String(p.opened)} />}
+          {p.length_km != null && <Kpi label="Length" value={`${fmt(p.length_km)} km`} />}
+          {p.product && <Kpi label="Carries" value={p.product} />}
         </div>
         {p.operator && (
           <Section title="Operator / owners">

@@ -491,10 +491,10 @@ export function FoldNote(props: { text?: string | null; class?: string; style?: 
 }
 
 /** Mark on a figure that the atlas computed itself (a tonnage estimated from the declared value). */
-export function EstMark(props: { title?: string }) {
+export function EstMark(props: { title?: string; label?: string }) {
   return (
     <span class="est-mark" title={props.title ?? 'Tonnage computed by the atlas from the declared value, shown to two significant digits'}>
-      Atlas estimate
+      {props.label ?? 'Atlas estimate'}
     </span>
   );
 }

@@ -133,17 +133,17 @@ export function ViaSection(props: { from: string; to: string; via: string[]; via
       {alt.map((list) => (
         <div class="le-oneof" key={list.join()}>
           <span class="le-oneof-k">{altLabel(list)}</span>
-          {altOptions(list).map((option, i) => (
+          {altOptions(list).map((option, i, all) => (
             <span class="le-option" key={option.join()}>
-              {i > 0 && <span class="le-sep" aria-hidden="true">·</span>}
               {option.map((id, j) => (
-                <span class="le-option" key={id}>
+                <>
                   {j > 0 && <span class="le-and">and</span>}
-                  <button class="chip" onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
+                  <button class="chip" key={id} onClick={() => select({ kind: 'chokepoint', id })} title={`Chokepoint: open ${chokepointName(id)}`}>
                     {chokepointName(id)}
                   </button>
-                </span>
+                </>
               ))}
+              {i < all.length - 1 && <span class="le-sep" aria-hidden="true">·</span>}
             </span>
           ))}
         </div>

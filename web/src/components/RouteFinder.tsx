@@ -12,6 +12,8 @@ import { commodityMeta, countryName } from '../lib/data';
 import {
   GROUP_LABEL,
   LANE_GROUPS,
+  altLabel,
+  altOptions,
   caveatFor,
   chokepointName,
   decodePairs,
@@ -31,7 +33,8 @@ import {
 import { fmt, pct, sig2 } from '../lib/format';
 import { rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { isSheetLayout } from '../map/controller';
-import { SourceLine, shortSource } from './ui';
+import { SourceLine } from './ui';
+import { PortSource } from './views/shared';
 import '../styles/finder.css';
 
 /** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
@@ -57,8 +60,6 @@ function tonnage(kt: number, est = false): string {
   const mt = kt / 1000;
   return `${fmt(est ? sig2(mt) : mt)} Mt`;
 }
-/** Basis of a port (lane files and pairs files) for which the atlas read a page: its source link is printed. */
-const SOURCED_BASES = ['page names the cargo', 'general port of the country'];
 /** The coal question covers both customs products and both benchmark kinds. */
 const COAL_KINDS = ['thermal-coal', 'met-coal'];
 const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
@@ -445,14 +446,14 @@ function Answer({
       <span key={id}>
         {i > 0 && ', '}
         {shown ? portName(id) : ([pair.load, pair.dis].find((p) => p?.id === id)?.name ?? id)}
-        <PortSource p={laneFile?.ports[id]} basis={pairBasis(id)} settled={laneSettled} />
+        <PortSource p={laneFile?.ports[id]} basis={pairBasis(id)} settled={laneSettled} cls="rf-src" />
       </span>
     ));
   const status = (shown as (Lane & { status?: LaneStatus[] }) | undefined)?.status ?? [];
   const classes = shown ? shown.vclass : pair.cls ? [pair.cls] : [];
   const typical = classes[0];
   const via = shown ? shown.via : pair.via;
-  const alsoVia = shown ? (shown.viaAlt ?? []) : pair.viaAlt.length ? [pair.viaAlt] : [];
+  const alsoVia = shown ? (shown.viaAlt ?? []) : pair.viaAltLists;
   const alts = shown ? (shown.alts ?? (shown.alt ? [shown.alt] : [])) : [];
   const nm = shown ? shown.distanceNm : pair.nm;
   const share = shown ? shown.share : kind === 'mixed' ? null : pair.kt / pf.seaborne;
@@ -507,7 +508,7 @@ function Answer({
         {routed && (
           <div>
             <dt>{days != null ? 'Distance · laden' : 'Distance'}</dt>
-            <dd class="num" title={speed?.note ?? (shown ? 'At the typical laden speed of the primary vessel class' : undefined)}>
+            <dd class="num" title={speed?.note ?? (shown ? 'At the assumed laden service speed of the primary vessel class (Atlas assumption)' : undefined)}>
               {fmt(nm)} nm{days != null ? ` · ${fmt(days)} days` : ''}
             </dd>
           </div>
@@ -532,7 +533,7 @@ function Answer({
                   {i > 0 && ' and '}
                   {t.name}
                   {t.c ? ` (${countryName(t.c)})` : ''}
-                  <PortSource p={t.p} basis={pairBasis(t.id)} settled={laneSettled} />
+                  <PortSource p={t.p} basis={pairBasis(t.id)} settled={laneSettled} cls="rf-src" />
                 </span>
               ))}
               : {transits.length > 1 ? 'both ends are landlocked and ship through ports of other countries.' : 'the landlocked end ships through a port of another country.'}
@@ -599,11 +600,19 @@ function Answer({
           </div>
           {alsoVia.map((list) => (
             <div class="rf-tags rf-or">
-              <span>{!shown ? 'May also cross' : list.length > 1 ? 'One of' : 'On some port options'}</span>
-              {list.map((c) => (
-                <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
-                  {chokepointName(c)}
-                </button>
+              <span>{altLabel(list)}</span>
+              {altOptions(list).map((option, i, all) => (
+                <>
+                  {option.map((c, j) => (
+                    <>
+                      {j > 0 && <span>and</span>}
+                      <button class="rf-tag rf-link" onClick={() => select({ kind: 'chokepoint', id: c })}>
+                        {chokepointName(c)}
+                      </button>
+                    </>
+                  ))}
+                  {i < all.length - 1 && <span aria-hidden="true">·</span>}
+                </>
               ))}
             </div>
           ))}
@@ -625,7 +634,7 @@ function Answer({
           {shown?.altNote && <p class="rf-small">{shown.altNote}</p>}
           {speed && (
             <p class="rf-small">
-              Days at {speed.speedKn} kn, the typical laden speed of the {vesselName(typical!)} (Atlas assumption).
+              Days at {speed.speedKn} kn, the assumed laden service speed of the {vesselName(typical!)} (Atlas assumption).
             </p>
           )}
           <div class="src-line">Atlas estimate · {pf.y} · vessel classes, distances{days != null ? ' and days' : ''}</div>
@@ -656,32 +665,6 @@ function Answer({
 function transitPorts(pair: Pair): { id: string; name: string; c?: string }[] {
   const foreign = (p: Pair['load'], end: string) => (p && p.c.length === 3 && p.c !== end ? { id: p.id, name: p.name, c: p.c } : null);
   return [foreign(pair.load, pair.o), foreign(pair.dis, pair.d)].filter((t): t is NonNullable<typeof t> => !!t);
-}
-
-/**
- * Where the atlas read a port: the source page of its gateway row, as on the lane page. A port the atlas used before the
- * tables were sourced says so; for a pair that is not drawn the file's own basis decides, and nothing is printed when it names a page
- * that this table does not link.
- */
-function PortSource({ p, basis, settled }: { p?: Partial<PortRef>; basis?: string; settled: boolean }) {
-  if (p?.s) {
-    const name = shortSource(p.s).replace(/\s*\(.*\)$/, '');
-    return (
-      <span class="rf-src">
-        {' · '}
-        {p.url ? (
-          <a href={p.url} target="_blank" rel="noopener">
-            {name}
-          </a>
-        ) : (
-          name
-        )}
-      </span>
-    );
-  }
-  const b = p?.basis ?? basis;
-  const unsourced = p ? true : b != null && !SOURCED_BASES.includes(b);
-  return settled && unsourced ? <span class="rf-src muted"> · no source page yet</span> : null;
 }
 
 /** Caveat box, estimate note and check note of an answer. */

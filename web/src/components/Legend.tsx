@@ -136,7 +136,16 @@ export function Legend() {
         </div>
       )}
       {mixedLanes + mixedArcs > 0 && (
-        <span class="legend-item" title="Trade that moves both by sea and overland, with no source for the split: the line is the sea route and the tonnage is the customs total for all modes. It is not in the seaborne totals.">
+        <span
+          class="legend-item"
+          title={
+            mixedLanes === 0
+              ? 'Trade that moves both by sea and overland, with no source for the split: the arc joins the two countries and is not a route. The tonnage is the customs total for all modes. It is not in the seaborne totals.'
+              : mixedArcs > 0
+                ? 'Trade that moves both by sea and overland, with no source for the split: the line is the sea route where the atlas has one, otherwise an arc between the two countries that is not a route. The tonnage is the customs total for all modes. It is not in the seaborne totals.'
+                : 'Trade that moves both by sea and overland, with no source for the split: the line is the sea route and the tonnage is the customs total for all modes. It is not in the seaborne totals.'
+          }
+        >
           <span class="legend-swatch legend-dash legend-mixed" style={{ color: k ? legendColor : 'var(--ink-1)' }} />
           Sea and overland
         </span>

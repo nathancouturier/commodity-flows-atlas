@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import type { Chokepoint, ChokepointLanes, Fig, FreightEvent, PortwatchSeries } from '../../types';
 import { commodityMeta, countryName, load } from '../../lib/data';
 import { fig as fmtFig, fmt as fmtNum, pctText } from '../../lib/format';
-import { GROUP_LABEL, chokepointName, loadChokepoints, loadEvents, loadLaneFile, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
+import { ESTIMATE_DEFINITION, GROUP_LABEL, chokepointName, loadChokepoints, loadEvents, loadLaneFile, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
 import { getMap } from '../../map/controller';
 import { select } from '../../lib/store';
 import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote } from '../ui';
@@ -23,7 +23,9 @@ const PW_COLORS = { tanker: '#ffb547', dry: '#9db7ff', container: '#c7a3ff', oth
 
 const shareLabel = (k: string) => SHARE_LABEL[k] ?? commodityMeta(k)?.name ?? k;
 
-const loadChokepointLanes = () => load<ChokepointLanes>('freight/chokepoint-lanes.json');
+/** The rows of one passage: its own file, or the file of every passage when the split file is missing. */
+const loadChokepointLanes = (id: string) =>
+  load<ChokepointLanes>(`freight/chokepoint-lanes/${id}.json`).catch(() => load<ChokepointLanes>('freight/chokepoint-lanes.json'));
 
 /** End of a published period as a decimal year, to order "2Q26", "1H25", "FY2025" and plain years. */
 function periodEnd(y: number | string): number {
@@ -50,13 +52,6 @@ const RIGHT = { textAlign: 'right' as const };
 const TOP_GROUPS = 8;
 const TOP_LANES = 10;
 
-/**
- * What "at least" and "up to" mean (the one definition, also in the methodology). "at least" counts the pairs
- * whose assumed route has to cross the passage; "up to" adds the pairs that may cross it.
- */
-const ESTIMATE_DEFINITION =
-  'At least: customs tonnage of every recorded seaborne pair whose assumed route has to cross this passage. Up to: adds the pairs that may cross it, because they can use a parallel passage of similar length or load on another coast. Mixed sea-and-overland pairs and trades that customs data do not record are in neither.';
-
 type Estimate = NonNullable<Chokepoint['estimates']>[number];
 
 /** "at least 30.2%" when only the lower figure is known, "30.2% to 40.1%" for a range, "30.2%" when both agree. */
@@ -66,6 +61,12 @@ function estimateText(e: Estimate): string {
   if (!e.hi && /^at least/i.test(e.f.n ?? '')) return `at least ${lo}`;
   return lo;
 }
+
+/** The upper tonnage of an estimate, or null when it does not differ from the lower one (the same test as estimateMt). */
+const upperMt = (e?: Estimate): number | null => (e?.mt && e.mt[1] - e.mt[0] >= 0.5 ? e.mt[1] : null);
+
+/** The upper figure rests on PortWatch's volume: the note of the estimate says it was capped there. */
+const isCapped = (e: Estimate) => !!e.hi && /capped/i.test(e.hi.n ?? '');
 
 /** The tonnage behind an estimate, "564 to 749 Mt". */
 function estimateMt(e: Estimate): string | null {
@@ -94,7 +95,7 @@ function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boo
               <span class="est-k">{shareLabel(e.k)}{two(e) ? ` · ${GROUP_LABEL[e.p!]}` : ''}</span>
               <span class="est-v num">{estimateText(e)}</span>
             </div>
-            {mt && <div class="est-sub num">{mt}</div>}
+            {mt && <div class="est-sub num">{mt}{isCapped(e) && <span class="muted"> · capped at PortWatch volume</span>}</div>}
             <FoldNote class="est-sub" style={{ marginTop: '2px' }} text={[e.f.n, range ? e.hi!.n : null].filter(Boolean).join(' · ')} />
           </div>
         );
@@ -104,13 +105,16 @@ function Estimates({ cp, withDefinition }: { cp: Chokepoint; withDefinition: boo
           Show all {rows.length} commodities
         </button>
       )}
-      <SourcesLine items={[{ s: rows[0].f.s, y: rows[0].f.y }, { s: 'baci', y: rows[0].f.y }]} n="Atlas routing of every recorded seaborne pair" />
+      <SourcesLine
+        items={[{ s: rows[0].f.s, y: rows[0].f.y }, { s: 'baci', y: rows[0].f.y }, ...(shown.some(isCapped) ? [{ s: 'portwatch', y: rows[0].f.y }] : [])]}
+        n="Atlas routing of every recorded seaborne pair"
+      />
     </Section>
   );
 }
 
 /** Cargo that crosses the chokepoint: one row per commodity group, opening its pairs. Pairs that only may cross it are marked. */
-function LaneTable({ doc, id, definitionHere }: { doc: ChokepointLanes; id: string; definitionHere: boolean }) {
+function LaneTable({ doc, id, definitionHere, estimates }: { doc: ChokepointLanes; id: string; definitionHere: boolean; estimates: Estimate[] }) {
   const [open, setOpen] = useState<string | null>(null);
   const [allGroups, setAllGroups] = useState(false);
   const [allLanes, setAllLanes] = useState(false);
@@ -119,6 +123,8 @@ function LaneTable({ doc, id, definitionHere }: { doc: ChokepointLanes; id: stri
   const sure = (r: (typeof rows)[number]) => r[4] !== 0;
   const fromPairs = rows.some((r) => r.length > 4);
   const hasMay = rows.some((r) => !sure(r));
+  // the "up to" tonnage of a group is the one of its estimate above: capped at PortWatch's volume, or equal to the floor
+  const upTo = (g: string) => upperMt(estimates.find((e) => e.p === g));
   const groups = useMemo(() => {
     const by = new Map<string, { v: number; maybe: number }>();
     for (const r of rows) {
@@ -153,8 +159,6 @@ function LaneTable({ doc, id, definitionHere }: { doc: ChokepointLanes; id: stri
           : 'Lanes mapped in the atlas whose route crosses this passage, by commodity: an Atlas estimate, not a published statistic. Select a commodity to list its lanes.'}
         {fromPairs && definitionHere && <> {ESTIMATE_DEFINITION}</>}
       </div>
-      {/* how the rows were chosen, as the builder writes it */}
-      {fromPairs && <FoldNote class="muted small" style={{ marginBottom: '6px' }} text={doc.n} />}
       <div class="muted small" style={{ ...GRID, padding: '0 8px' }}>
         <span>Commodity</span>
         <span style={RIGHT} title={hasMay ? 'Pairs whose route has to cross the passage; the pairs that may cross it are not in this figure' : undefined}>{hasMay ? 'At least, Mt' : 'Mt'}</span>
@@ -172,12 +176,12 @@ function LaneTable({ doc, id, definitionHere }: { doc: ChokepointLanes; id: stri
                 setOpen(open === g ? null : g);
                 setAllLanes(false);
               }}
-              title={`${label(g)}: ${fmtNum(v)} Mt of ${fmtNum(doc.groups[g]?.seaborne)} Mt seaborne trade (${doc.groups[g]?.y})${maybe > 0 ? `; up to ${fmtNum(v + maybe)} Mt with the pairs that may cross it` : ''}`}
+              title={`${label(g)}: ${fmtNum(v)} Mt of ${fmtNum(doc.groups[g]?.seaborne)} Mt seaborne trade (${doc.groups[g]?.y})${maybe > 0 && upTo(g) != null ? `; up to ${fmtNum(upTo(g)!)} Mt with the pairs that may cross it` : ''}`}
             >
               <span style={GRID}>
                 <span>
                   {label(g)}
-                  {maybe > 0 && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {fmtNum(v + maybe)} Mt with the pairs that may cross it</span>}
+                  {maybe > 0 && upTo(g) != null && <span class="est-sub" style={{ display: 'block', margin: 0 }}>up to {fmtNum(upTo(g)!)} Mt with the pairs that may cross it</span>}
                 </span>
                 <span class="num" style={RIGHT}>{v > 0 ? fmtNum(v) : '—'}</span>
                 <span class="num" style={RIGHT}>{v > 0 ? share(v, g) : '—'}</span>
@@ -236,7 +240,7 @@ export default function ChokepointView({ id }: { id: string }) {
   // the series of the chokepoint's own PortWatch counter, or of the counter it points to (`seriesFrom`); none otherwise
   const seriesId = cp ? (cp.seriesFrom ?? (cp.portwatch ? cp.id : null)) : null;
   const pw = useLoaded<PortwatchSeries>(() => (seriesId ? loadPortwatch(seriesId) : Promise.resolve(null)), [seriesId]);
-  const lanes = useLoaded<ChokepointLanes>(() => loadChokepointLanes(), []);
+  const lanes = useLoaded<ChokepointLanes>(() => loadChokepointLanes(id), [id]);
   const [mode, setMode] = useState<'count' | 'vol'>('count');
   // the chart's visible window survives the vessels / Mt toggle; a new chokepoint starts from the default again
   const win = useRef<{ min: number; max: number } | null>(null);
@@ -431,7 +435,7 @@ export default function ChokepointView({ id }: { id: string }) {
         {cp.estimates && cp.estimates.length > 0 && (estimatesNew || !(laneRows && laneRows.length > 0)) && lanes !== undefined && (
           <Estimates cp={cp} withDefinition={estimatesNew} />
         )}
-        {lanes && laneRows && laneRows.length > 0 && <LaneTable doc={lanes} id={cp.id} definitionHere={!estimatesNew} />}
+        {lanes && laneRows && laneRows.length > 0 && <LaneTable doc={lanes} id={cp.id} definitionHere={!estimatesNew} estimates={cp.estimates ?? []} />}
         {cp.limits && (
           <Section title="Physical limits">
             <p class="prose">{cp.limits}</p>

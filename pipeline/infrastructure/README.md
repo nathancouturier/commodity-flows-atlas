@@ -22,9 +22,12 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `ports.geojson` | `port` |
 
 The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `operator-reports`, `port-authorities`,
-`trade-press`) are registered in `data/sources.json`, which is the registry the site reads.
-`sources_energy_infra.json` and `sources_mining_infra.json` in this folder are the lists the two groups of files were first
-written with; they were merged into the registry and no code reads them any more.
+`trade-press`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
+`DATA_SOURCES.md` is generated from it. There is no other source list in this folder. Three more ids register the
+sources of a few coordinates and statuses that a note names: `openstreetmap` (ODbL; points looked up through Nominatim),
+`wikidata` (CC0) and `norwegian-offshore-directorate` (its licence page could not be read, and the registry says
+"terms not read"). The ids that stand for many publishers (`operator-reports`, `trade-press`, `port-authorities`)
+link to this README: the page that was read is linked on each asset (its `url`).
 
 ## Properties of a feature
 
@@ -35,11 +38,11 @@ written with; they were merged into the registry and no code reads them any more
 | `cs` | list of ISO3 | Pipelines: every country crossed, in order. |
 | `operator` | text | Operator and owners as the source states them. |
 | `opened` | number | Year of first operation. |
-| `capacity` | `{v, u, y?, n?, orig?}` | Nameplate or design capacity only: what the asset can do per year or per day. `y` is the year the statement refers to, left out when the source does not say (the site then prints "year not stated"). |
+| `capacity` | `{v, u, y?, n?, orig?, planned?}` | Nameplate or design capacity only: what the asset can do per year or per day. `y` is the year the statement refers to, left out when the source does not say (the site then prints "year not stated"). `planned: true` marks a planned or target capacity that the asset has not reached (a capacity "after ramp-up", "at full production", a target for a later year): the asset page says "Planned capacity" and the lists rank it with the planned and under-construction assets, not with operating ones. |
 | `output` | `{v, u, y, what, n?, orig?}` | A dated, measured figure. `what` is `production`, `exports` or `throughput` (port traffic, pipeline flow). `y` is required and is a number; a fiscal year takes the calendar year in which it ends, with the label in `n` ("FY2024-25"). |
 | `status` | text | One of the values below. Required on every feature. |
 | `statusAsOf` | `"YYYY"` or `"YYYY-MM"` | When the status was true according to the page read. Required unless the status is `not-stated`. |
-| `statusNote` | text | Optional short reason a reader sees next to the status ("drone strike on 14 March 2026, two units shut"). |
+| `statusNote` | text | Optional short reason a reader sees next to the status ("drone strike on 14 March 2026, two units shut"). A reason only: a remark about the source goes in `capacity.n` or `note`. |
 | `s`, `url` | source id, page | `s` is an id of `data/sources.json`; `url` is the page that supports the figures of this feature. |
 | `read` | `"YYYY-MM"` | The month the page was read. It is shown once, in the source line, and never as the year of a figure. There is no feature-level `y`. |
 | `coord` | `"site"` or `"approx"` | See below. |
@@ -50,6 +53,14 @@ written with; they were merged into the registry and no code reads them any more
 "total cargo", "100% basis", "phase 1 of 2"). When a figure was converted, `orig` keeps the source's own figure and
 unit ("1 billion lb Cu/y") and `v` is rounded to the precision of the original. The site prints `v u` and shows `orig`
 beside it.
+
+One basis per figure of a commodity. A figure is on a 100% basis: where a page gives an owner's share and the percentage, `v`
+holds the 100% figure (the share divided by the percentage), `orig` keeps the reported share ("129,026 kt at BHP interest
+85%") and `n` says "100% basis computed from BHP's 85% share". Where only a share is known, or the page does not say which
+basis it uses, keep the figure and write "share only" or "basis not stated" in `n`: the lists rank such figures apart,
+under "share or basis not stated", not with 100% figures. US "tons" are converted to tonnes (x 0.9072) only where a page of
+the publisher or of the EIA says its figure is in short tons (`n` names that page), with the reported figure in `orig`;
+otherwise the figure stays as reported and `n` says "tons as reported".
 
 A figure that is the production, exports or traffic of a year goes in `output`, not in `capacity`. A feature may have
 both. When the source does not let you tell which one a figure is, keep it as `capacity` without `y` and write "as
@@ -71,15 +82,15 @@ stated by the source" in `n`.
 
 The site ranks assets of a commodity page only among figures of the same kind (capacity with capacity, production with
 production), the same unit, the same commodity and the same form (ore, concentrate, metal), planned and under-construction
-assets apart. A figure that does not fit one of these units is not entered until the vocabulary is extended here, in
+assets apart (a capacity flagged `planned` counts as planned), and figures of an unknown or partial basis apart. A figure that does not fit one of these units is not entered until the vocabulary is extended here, in
 `web/scripts/validate-infra.mjs` and in `web/src/lib/capacity.ts`.
 
 ## Status
 
 | Status | Use it when |
 |---|---|
-| `operating` | The page read says the asset runs. |
-| `damaged` | The page reports damage (an attack, a fire, a storm) and the asset is not back to normal. |
+| `operating` | A dated page says the asset runs. The month the page was read is its date when the page describes the asset as running today. An asset that runs at a reduced rate after damage is `operating`, and `statusNote` says so ("operating at 80% after an attack"). |
+| `damaged` | The asset is shut, or a substantial part of it is shut, because of damage (an attack, a fire, a storm) at the date given. A page that reports damage without saying that anything stopped does not make it `damaged`. |
 | `suspended` | Work is stopped for a reason that is not damage (a strike, a licence, a sanction, force majeure). |
 | `idle` | Built, able to run, and not running (care and maintenance, no supply). |
 | `construction` | Being built. Put the expected year in `opened` only if the source gives one. |
@@ -92,7 +103,10 @@ page was read. The site shows it as "Damaged as of March 2026".
 
 The History timeline reads two fields. An asset whose `opened` year is later than the selected year is drawn dimmed and
 its tooltip says "opens in <year>" (it is never hidden). A status dated after the selected year is not applied: the
-asset is drawn as operating, unless it was not open yet.
+asset is drawn as operating, unless it was not open yet. `opened` is filled in from the article or report the asset
+already cites, where it gives a start year. An asset without `opened` (the oil and gas basins, most ports and
+smelters, and the assets whose page gives no start year) stays drawn as open at every year of the History timeline:
+the atlas does not guess a year.
 
 ## Coordinates
 
@@ -120,8 +134,11 @@ provided no other country is nearer to the point, so a point in the wrong countr
    ```
 
    `validate-infra.mjs` checks the required fields, the vocabularies (type, status, units, `output.what`), the numeric
-   years (1850 to next year), the date formats, that `k` ids and `s` exist, that ids are unique across the seven files,
-   that coordinates are in range and near the stated country, and that no note holds a working phrase. Every finding is
+   years (1800 to next year), the date formats, that `k` ids and `s` exist, that ids are unique across the seven files,
+   that coordinates are in range and near the stated country, that `coord` is given, that a pipeline has `cs` starting with
+   its country, that a feature sits in the file of its type and uses a unit that fits it (refinery kb/d, LNG Mtpa, ...), that a
+   `not-stated` status has no `statusAsOf`, that `planned` is `true` on a capacity only, and that no note, status note or `n`
+   holds a working phrase ("via search summary", "could not be re-read"). Every finding is
    an error. Only `INFRA_OLD_SHAPE=1` turns the findings about a file that still has the old shape (a feature-level `y`)
    into warnings, for a migration that goes one file at a time.
 6. `data/sources.json` feeds `DATA_SOURCES.md`; regenerate that table with `pipeline/common/sources_table.py` after

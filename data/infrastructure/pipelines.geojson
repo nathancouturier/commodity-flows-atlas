@@ -18,9 +18,9 @@
      "DEU"
     ],
     "operator": "Transneft",
-    "status": "idle",
-    "statusAsOf": "2026-04",
-    "statusNote": "Russian oil to Poland and Germany ended in early 2023; in April 2026 Russia confirmed that Kazakh crude would stop flowing to Germany from 1 May 2026 (Wikipedia)",
+    "opened": 1963,
+    "status": "not-stated",
+    "statusNote": "Russian oil to Poland and Germany ended in early 2023; the article says Russia would stop Kazakh crude to Germany from 1 May 2026 and does not say whether it did (Wikipedia)",
     "coord": "approx",
     "note": "Almetyevsk to Mazyr in southern Belarus, where the system splits; the northern branch crosses Belarus and Poland to Plock and Schwedt. Poland stopped Russian oil in February 2023 and Germany ceased buying in January 2023; Russia announced that Kazakh crude would stop flowing to Germany on 1 May 2026. Length is the whole system.",
     "product": "crude",
@@ -77,6 +77,7 @@
      "HUN"
     ],
     "operator": "Transneft / UkrTransNafta / MOL",
+    "opened": 1962,
     "status": "operating",
     "statusAsOf": "2026-05",
     "statusNote": "Deliveries halted by an attack on 27 January 2026; flow restarted on 22 April 2026 and supplies to Hungary and Slovakia were back to normal levels in May (Wikipedia, citing Reuters)",
@@ -130,7 +131,8 @@
     "capacity": {
      "v": 1600,
      "u": "kb/d",
-     "n": "infobox figure; the article gives 600 kb/d as the initial capacity and 1.6 mb/d as the target for 2025"
+     "n": "infobox figure; the article gives 600 kb/d as the initial capacity and 1.6 mb/d as the target for 2025",
+     "planned": true
     },
     "opened": 2009,
     "status": "not-stated",
@@ -268,6 +270,7 @@
      "what": "throughput",
      "n": "deliveries by TurkStream, as stated by the source"
     },
+    "opened": 2020,
     "status": "operating",
     "statusAsOf": "2025-01",
     "statusNote": "The article calls it the only pipeline through which Russia can directly supply gas to Europe after transit through Ukraine ended",
@@ -370,6 +373,7 @@
      "v": 55,
      "u": "bcm/y"
     },
+    "opened": 2011,
     "status": "damaged",
     "statusAsOf": "2022-09",
     "statusNote": "Pipes damaged by the explosions of 26 September 2022; the article's infobox lists the pipeline as inoperable",
@@ -494,18 +498,20 @@
     "operator": "CPC-R / CPC-K",
     "capacity": {
      "v": 1400,
-     "u": "kb/d"
+     "u": "kb/d",
+     "n": "second stage, as stated by the source"
     },
     "output": {
-     "v": 1300,
+     "v": 1200,
      "u": "kb/d",
-     "y": 2021,
+     "y": 2022,
      "what": "throughput",
-     "n": "\"up to\" 1.3 mb/d, about 80% of Kazakh output"
+     "n": "\"about\" 1.2 mb/d as of 2022; the article also says the pipeline exported up to 1.3 mb/d in 2021",
+     "orig": "1.2 million bpd"
     },
     "opened": 2001,
     "status": "not-stated",
-    "statusNote": "Terminal operations were suspended after a drone attack damaged a mooring point on 29 November; the article does not say when they resumed",
+    "statusNote": "Terminal operations were suspended after a drone attack damaged a mooring point on 29 November 2025; the article does not say when they resumed",
     "coord": "approx",
     "note": "Tengiz to the Novorossiysk terminal. A drone attack on 17 February 2025 on a pumping station cut flows by 30-40%.",
     "product": "crude",
@@ -730,6 +736,7 @@
      "v": 1500,
      "u": "kb/d"
     },
+    "opened": 2012,
     "status": "not-stated",
     "coord": "approx",
     "note": "UAE Hormuz bypass from Habshan to Fujairah. Fujairah, at its end, was periodically shut by drone strikes in 2026 (Bloomberg list of Gulf energy infrastructure damaged in the Iran war, via gCaptain, 11 April 2026).",
@@ -779,6 +786,7 @@
      "v": 2500,
      "u": "kb/d"
     },
+    "opened": 1977,
     "status": "not-stated",
     "coord": "approx",
     "note": "Suez Canal bypass for Gulf crude to the Mediterranean; the infobox gives 2.5 mb/d capacity.",
@@ -831,6 +839,7 @@
      "y": 2013,
      "n": "phases 1-2 into the US Midwest"
     },
+    "opened": 2010,
     "status": "operating",
     "statusAsOf": "2025-04",
     "statusNote": "A rupture near Fort Ransom, North Dakota, on 8 April 2025 shows the line in service (Wikipedia)",
@@ -890,6 +899,7 @@
      "v": 890,
      "u": "kb/d"
     },
+    "opened": 1953,
     "status": "operating",
     "statusAsOf": "2024-05",
     "statusNote": "Infobox: operational, twinning completed 1 May 2024",
@@ -948,9 +958,9 @@
      "v": 3000,
      "u": "kb/d"
     },
+    "opened": 1964,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "statusNote": "Described in the present tense by the article read",
     "coord": "approx",
     "note": "Gulf Coast to New York Harbor; gasoline, diesel and jet fuel. A May 2021 ransomware attack shut it for five days.",
     "product": "products",
@@ -1014,6 +1024,7 @@
      "v": 55,
      "u": "bcm/y"
     },
+    "opened": 2009,
     "status": "operating",
     "statusAsOf": "2026-11",
     "statusNote": "More than half of Turkmen gas exports are delivered through it (Wikipedia)",
@@ -1073,6 +1084,7 @@
      "v": 240,
      "u": "kb/d"
     },
+    "opened": 2014,
     "status": "not-stated",
     "coord": "approx",
     "note": "Kyaukphyu to Kunming; bypasses the Malacca Strait. Capacity as stated in the infobox (240 koilbbl/d).",
@@ -1124,6 +1136,7 @@
      "u": "bcm/y",
      "n": "infobox figure"
     },
+    "opened": 2013,
     "status": "not-stated",
     "coord": "approx",
     "note": "Kyaukphyu to Kunming and onward to Guizhou and Guangxi (total 2,806 km).",
@@ -1239,6 +1252,7 @@
      "v": 10,
      "u": "bcm/y"
     },
+    "opened": 2020,
     "status": "operating",
     "statusAsOf": "2026-11",
     "statusNote": "Article: operational since 2020",
@@ -1295,9 +1309,9 @@
      "v": 25.5,
      "u": "bcm/y"
     },
+    "opened": 2006,
     "status": "operating",
     "statusAsOf": "2026-11",
-    "statusNote": "Described in the present tense by the article read",
     "coord": "approx",
     "note": "Nyhamna to Easington; Norway's main gas link to the UK.",
     "product": "gas",
@@ -1347,6 +1361,7 @@
      "v": 24,
      "u": "bcm/y"
     },
+    "opened": 1999,
     "status": "not-stated",
     "coord": "approx",
     "note": "Kaarsto to Dornum (Germany); Norway's main route into continental Europe.",
@@ -1398,6 +1413,7 @@
      "v": 30.2,
      "u": "bcm/y"
     },
+    "opened": 1983,
     "status": "not-stated",
     "coord": "approx",
     "note": "Hassi R'Mel via Tunisia to Sicily and Italy; an extension delivers gas to Slovenia.",
@@ -1460,9 +1476,10 @@
      "v": 10.5,
      "u": "bcm/y"
     },
+    "opened": 2010,
     "status": "not-stated",
     "coord": "approx",
-    "note": "Direct Algeria-Spain subsea route (Beni Saf to Almeria).",
+    "note": "Direct Algeria-Spain subsea route (Beni Saf to Almeria). The article gives 2010 as the commissioning year and says it was officially inaugurated on 1 March 2011.",
     "product": "gas",
     "length_km": 757,
     "s": "wikipedia",
@@ -1514,6 +1531,7 @@
      "v": 11,
      "u": "bcm/y"
     },
+    "opened": 2004,
     "status": "not-stated",
     "coord": "approx",
     "note": "Mellitah to Gela (Sicily). Length 520 km in the infobox.",
@@ -1624,6 +1642,7 @@
      "v": 10.3,
      "u": "bcm/y"
     },
+    "opened": 2003,
     "status": "not-stated",
     "coord": "approx",
     "note": "Egypt-Jordan-Syria-Lebanon; maximum annual discharge 10.3 bcm. Operating state not given.",

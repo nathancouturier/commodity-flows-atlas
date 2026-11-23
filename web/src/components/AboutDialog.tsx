@@ -6,6 +6,7 @@
 import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { sources } from '../lib/data';
+import { ESTIMATE_DEFINITION } from '../lib/freight';
 import { BUILD, fmtDate, loadStatus, loadVintages, type Freshness, type StatusView } from '../lib/status';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
 import { CloseIcon, Skeleton } from './ui';
@@ -325,13 +326,9 @@ function MethodTabView() {
       <h3>Known limits</h3>
       <ul>
         <li>Customs codes do not separate thermal from metallurgical coal, and the trade series has a single code for all refined petroleum products.</li>
-        <li>Origins are as declared. Sanctioned crude often appears under a transhipment origin, or is not recorded.</li>
+        <li>Origins are as declared. Crude from sanctioned origins may appear under another origin or not be recorded; see the note on each lane.</li>
         <li>Pipeline gas tonnage in customs data is often estimated from value and can be far too low.</li>
-        <li>
-          Chokepoint shares computed by the atlas are given as "at least": the customs tonnage of every recorded seaborne pair whose assumed route has to
-          cross the passage. Where a pair can use a parallel passage of similar length or load on another coast, the share is also given as "up to". Pairs
-          that move by sea and overland, and trades that customs data do not record, are in neither.
-        </li>
+        <li>Chokepoint shares computed by the atlas are an Atlas estimate in two figures. {ESTIMATE_DEFINITION}</li>
         <li>Infrastructure is a selection of major mines, fields, refineries, terminals, pipelines and ports, not a complete register.</li>
       </ul>
       <h3>Read more</h3>

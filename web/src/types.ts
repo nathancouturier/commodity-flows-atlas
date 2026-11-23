@@ -577,6 +577,8 @@ export interface InfraFigure {
   n?: string;
   /** the source's own figure and unit, when v was converted */
   orig?: string;
+  /** capacity only: a planned or target capacity (after ramp-up, at full production), not one the asset has reached */
+  planned?: true;
 }
 
 export interface InfraOutput extends InfraFigure {

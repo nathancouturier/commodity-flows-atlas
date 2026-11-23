@@ -375,6 +375,36 @@
   "use": "Mines and refineries: dated production figures, capacity, ownership and operating status"
  },
  {
+  "id": "openstreetmap",
+  "name": "OpenStreetMap (points of a few assets)",
+  "publisher": "OpenStreetMap contributors (OpenStreetMap Foundation)",
+  "url": "https://www.openstreetmap.org/copyright",
+  "licence": "ODbL 1.0: credit OpenStreetMap and its contributors (openstreetmap.org/copyright)",
+  "update": "continuous",
+  "access": "Points looked up by hand through Nominatim, one at a time; each asset says so in its note",
+  "use": "Coordinates of a few infrastructure assets (Qingdao LNG, Damietta, Portovaya, Altamira, Husab, Mogalakwena, Caofeidian)"
+ },
+ {
+  "id": "wikidata",
+  "name": "Wikidata (points of a few assets)",
+  "publisher": "Wikimedia Foundation (Wikidata contributors)",
+  "url": "https://www.wikidata.org/wiki/Wikidata:Licensing",
+  "licence": "CC0 1.0: structured data is in the public domain (Wikidata:Licensing)",
+  "update": "continuous",
+  "access": "Items read by hand; each asset says so in its note",
+  "use": "Coordinates of a few infrastructure assets (Peru LNG, Skikda, Darwin LNG)"
+ },
+ {
+  "id": "norwegian-offshore-directorate",
+  "name": "Norwegian Offshore Directorate FactMaps (Sodir)",
+  "publisher": "Norwegian Offshore Directorate (Sodir)",
+  "url": "https://sodir.no/en/about-us/open-data",
+  "licence": "Terms not read: the open-data page of the publisher could not be opened (HTTP 403) when it was checked, so no licence is stated here",
+  "update": "continuous",
+  "access": "FactMaps read by hand; each field says so in its note",
+  "use": "Position of Johan Sverdrup and the producing status of Johan Sverdrup and Troll"
+ },
+ {
   "id": "faostat-rfb",
   "name": "FAOSTAT Fertilizers by Product (RFB)",
   "publisher": "Food and Agriculture Organization of the United Nations",

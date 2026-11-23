@@ -80,11 +80,12 @@
     "c": "AUS",
     "operator": "BHP",
     "output": {
-     "v": 129.0,
+     "v": 151.8,
      "u": "Mt/y",
      "y": 2026,
      "what": "production",
-     "n": "saleable iron ore, Area C joint venture incl. South Flank, FY2025-26, BHP 85% share"
+     "n": "saleable iron ore, Area C joint venture incl. South Flank, FY2025-26, 100% basis computed from BHP's 85% share",
+     "orig": "129,026 kt at BHP interest 85%"
     },
     "opened": 2021,
     "status": "operating",
@@ -312,8 +313,8 @@
     "capacity": {
      "v": 120,
      "u": "Mt/y",
-     "y": 2025,
-     "n": "combined SimFer and WCS exports after commissioning and ramp-up (planned)"
+     "n": "combined SimFer and WCS export capacity after commissioning and ramp-up (a target, not yet reached)",
+     "planned": true
     },
     "opened": 2025,
     "status": "operating",
@@ -413,6 +414,7 @@
      "what": "production",
      "n": "iron ore, FY2019"
     },
+    "opened": 1947,
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "Feeds Saldanha Bay via the 861 km Sishen-Saldanha line.",
@@ -474,11 +476,11 @@
     "c": "USA",
     "operator": "Peabody",
     "output": {
-     "v": 65,
+     "v": 59.0,
      "u": "Mt/y",
      "y": 2025,
      "what": "production",
-     "n": "coal; Peabody's 'tons' are probably US short tons (not converted)",
+     "n": "coal, converted from short tons at 0.9072 (Peabody states its volumes in short tons, Q1 2026 results release)",
      "orig": "65 million tons"
     },
     "status": "operating",
@@ -513,7 +515,7 @@
      "u": "Mt/y",
      "y": 2023,
      "what": "production",
-     "n": "coal; the source's 'tons' are probably US short tons (not converted)",
+     "n": "coal; tons as reported (not converted)",
      "orig": "60.5 million tons"
     },
     "status": "operating",
@@ -680,11 +682,12 @@
     "c": "AUS",
     "operator": "BHP Mitsubishi Alliance (BMA)",
     "output": {
-     "v": 6.25,
+     "v": 12.5,
      "u": "Mt/y",
      "y": 2026,
      "what": "production",
-     "n": "Goonyella saleable coal, FY2025-26, BHP 50% share"
+     "n": "Goonyella saleable coal, FY2025-26, 100% basis computed from BHP's 50% share",
+     "orig": "6,253 kt at BHP interest 50%"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -714,11 +717,12 @@
     "c": "AUS",
     "operator": "BHP Mitsubishi Alliance (BMA)",
     "output": {
-     "v": 4.84,
+     "v": 9.68,
      "u": "Mt/y",
      "y": 2026,
      "what": "production",
-     "n": "saleable coal, FY2025-26, BHP 50% share"
+     "n": "Peak Downs saleable coal, FY2025-26, 100% basis computed from BHP's 50% share",
+     "orig": "4,838 kt at BHP interest 50%"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -753,11 +757,12 @@
      "n": "saleable coal; the source says capability can exceed this (BHP compliance report)"
     },
     "output": {
-     "v": 3.95,
+     "v": 7.9,
      "u": "Mt/y",
      "y": 2026,
      "what": "production",
-     "n": "saleable coal, FY2025-26, BHP 50% share"
+     "n": "Saraji saleable coal, FY2025-26, 100% basis computed from BHP's 50% share",
+     "orig": "3,952 kt at BHP interest 50%"
     },
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -954,9 +959,9 @@
      "n": "copper"
     },
     "opened": 1972,
-    "status": "damaged",
-    "statusAsOf": "2025",
-    "statusNote": "Landslide at the Block Cave underground mine in 2025; output fell to about 30% of normal at one point, and full capacity is expected by early 2028 (Mining.com; Katadata, September 2026).",
+    "status": "operating",
+    "statusAsOf": "2026-09",
+    "statusNote": "Running below normal after the 2025 Block Cave landslide: output fell to about 30% of normal at one point, concentrate supply to the Gresik smelter resumed in August 2026, and full capacity is expected by early 2028 (Mining.com; Katadata, September 2026; Kontan, 18 September 2026).",
     "note": "Concentrate supply to the new Freeport smelter in Gresik resumed in August 2026 (Kontan, 18 September 2026).",
     "coord": "site",
     "s": "trade-press",
@@ -1060,11 +1065,12 @@
     "c": "PER",
     "operator": "BHP 33.75% / Glencore 33.75% / Teck 22.5% / Mitsubishi 10%",
     "output": {
-     "v": 368,
+     "v": 385.5,
      "u": "kt/y",
      "y": 2025,
      "what": "production",
-     "n": "copper, 100% basis; Glencore reports 130.1 kt for its 33.75% share"
+     "n": "copper in concentrate, 100% basis computed from Glencore's 33.75% share (Glencore 2025 production report); the Mining.com ranking gives 368 kt",
+     "orig": "130.1 kt at Glencore 33.75%"
     },
     "opened": 2001,
     "status": "operating",
@@ -1094,6 +1100,7 @@
     ],
     "c": "CHL",
     "operator": "Codelco",
+    "opened": 1819,
     "status": "operating",
     "statusAsOf": "2026-11",
     "note": "World's largest underground copper mine.",
@@ -1311,7 +1318,8 @@
     "capacity": {
      "v": 450,
      "u": "kt/y",
-     "n": "copper expected at full production; the source also quotes 430 kt"
+     "n": "copper expected at full production (a target); the source also quotes 430 kt",
+     "planned": true
     },
     "output": {
      "v": 345.1,
@@ -1765,7 +1773,7 @@
      "u": "t/y",
      "y": 2018,
      "what": "production",
-     "n": "gold, as reported by Barrick; the source does not say whether this is the 60% share",
+     "n": "gold, as reported by Barrick; basis not stated by the source (it may be the 60% share)",
      "orig": "581 koz Au"
     },
     "opened": 2012,

@@ -124,6 +124,24 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
   return { rows, rest, past };
 }
 
+/** The share of a file's seaborne tonnes that is an Atlas estimate in the year shown (the latest year, or the History year when the file has it), when it is 1% or more. */
+export function estimatedShare(f: LaneFile, yr: number | null): { share: number; year: number } | null {
+  const i = yr != null && f.years.includes(yr) ? f.years.indexOf(yr) : f.years.indexOf(f.y);
+  const share = f.estY?.[i] ?? (f.years[i] === f.y ? f.est : undefined);
+  return share != null && share >= 0.01 ? { share, year: f.years[i] } : null;
+}
+
+/** The sentence the builder puts in a year's note for the estimated tonnage: the table footer says it when the share is 1% or more. */
+const EST_YEAR_NOTE = /\s*Includes [\d.,]+ \S+ of Atlas estimates \([^)]*\): tonnage estimated from declared value\.?/;
+
+/** A year note of a lane file, without the estimate sentence when the lane table's footer carries it. */
+export function yearNote(f: LaneFile, yr: number | null): string | undefined {
+  const i = yr != null && f.years.includes(yr) ? f.years.indexOf(yr) : f.years.indexOf(f.y);
+  const note = f.yearNotes?.[String(f.years[i])];
+  if (!note || !estimatedShare(f, yr)) return note;
+  return note.replace(EST_YEAR_NOTE, '').trim() || undefined;
+}
+
 const names = (ids: string[]) => ids.map(chokepointName);
 
 /** "Strait of Malacca, Singapore Strait" and, for the passages only some options cross, "One of: Taiwan Strait · Luzon Strait". */
@@ -266,6 +284,11 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
   const restV = rest.reduce((n, r) => n + r.v, 0);
   const restN = rest.reduce((n, r) => n + r.n, 0);
   const cover = props.files.length === 1 ? first.coverage : undefined;
+  // how much of each group's seaborne total of the year shown is an Atlas estimate
+  const estimated = props.files.flatMap((f) => {
+    const e = estimatedShare(f, props.yr);
+    return e ? [`${props.files.length > 1 ? `${GROUP_LABEL[f.group] ?? f.label ?? f.group}: ` : ''}${pct(e.share)} of the ${e.year} seaborne tonnage is estimated from the declared value (Atlas estimate).`] : [];
+  });
   const sort = (k: SortKey, text: boolean) => {
     if (k === key) setDir((dir * -1) as 1 | -1);
     else {
@@ -306,7 +329,10 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
                 <div class="lt-row">
                   <span>
                     <span class="lt-route">{countryName(r.o)} <span class="arrow">→</span> other destinations</span>
-                    <span class="lt-sub">{[r.product, `to ${r.n.toLocaleString('en-US')} countr${r.n === 1 ? 'y' : 'ies'}`].filter(Boolean).join(' · ')}</span>
+                    <span class="lt-sub">
+                      {[r.product, `to ${r.n.toLocaleString('en-US')} countr${r.n === 1 ? 'y' : 'ies'}`].filter(Boolean).join(' · ')}
+                      {r.est > 0 && <EstMark label={r.est >= r.v ? 'Atlas estimate' : 'includes Atlas estimate'} title={`${fmt(sig2(r.est))} ${r.u} of this tonnage is computed by the atlas from the declared value`} />}
+                    </span>
                   </span>
                   <span class="lt-fig num">{fmt(r.v)} {r.u}</span>
                 </div>
@@ -326,14 +352,19 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
         </button>
       </div>
       <div class="lt-note">
-        {past
-          ? `Lanes with a flow in ${year}; the tonnage that is not on a lane is listed for the latest year only.`
-          : [
-              cover ? `The lanes carry ${pct(cover.share)} of the ${fmt(first.seaborne[first.seaborne.length - 1])} ${first.unit} seaborne in ${year}.` : null,
-              rest.length && !open ? `Not on a lane: ${fmt(restV)} ${first.unit} in ${restN.toLocaleString('en-US')} pairs, listed by exporter under "Show all".` : null,
-            ]
-              .filter(Boolean)
-              .join(' ')}
+        {[
+          past
+            ? `Lanes with a flow in ${year}; the tonnage that is not on a lane is listed for the latest year only.`
+            : [
+                cover ? `The lanes carry ${pct(cover.share)} of the ${fmt(first.seaborne[first.seaborne.length - 1])} ${first.unit} seaborne in ${year}.` : null,
+                rest.length && !open ? `Not on a lane: ${fmt(restV)} ${first.unit} in ${restN.toLocaleString('en-US')} pairs, listed by exporter under "Show all".` : null,
+              ]
+                .filter(Boolean)
+                .join(' '),
+          ...estimated,
+        ]
+          .filter(Boolean)
+          .join(' ')}
       </div>
     </div>
   );
