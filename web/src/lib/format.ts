@@ -15,6 +15,16 @@ export function fmt(v: number | null | undefined): string {
   return v.toPrecision(2);
 }
 
+/** Two significant digits: a figure the atlas estimated is not printed with more precision than it has. */
+export function sig2(v: number): number {
+  return Number(v.toPrecision(2));
+}
+
+/** A value for display: an estimated one is rounded to two significant digits first ("11 Mt", not "11.056 Mt"). */
+export function fmtEst(v: number | null | undefined, est = false): string {
+  return fmt(est && v != null && !Number.isNaN(v) ? sig2(v) : v);
+}
+
 /**
  * The one rounding rule for every share the atlas prints, `p` in percent: one decimal ("7.0%", "10.9%",
  * "36.2%"), "<0.1%" for a positive share below 0.1%, "0%" for a true zero and "100%" at the top.

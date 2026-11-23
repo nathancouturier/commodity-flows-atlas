@@ -27,7 +27,7 @@ import {
   type LaneStatus,
   type Pair,
 } from '../lib/freight';
-import { fmt, pct } from '../lib/format';
+import { fmt, pct, sig2 } from '../lib/format';
 import { rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { isSheetLayout } from '../map/controller';
 import { SourceLine } from './ui';
@@ -43,8 +43,6 @@ const MIN_KT = 50;
 /** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */
 let autoOpened: string | null = null;
 
-/** Two significant digits: an estimated figure is not printed with more precision than it has. */
-const sig2 = (v: number) => Number(v.toPrecision(2));
 /** Customs tonnes (kt) as Mt, or as kt when small. */
 function tonnage(kt: number, est = false): string {
   if (kt < 100) return `${Math.max(1, Math.round(kt))} kt`;
