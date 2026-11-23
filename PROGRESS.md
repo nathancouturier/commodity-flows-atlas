@@ -47,7 +47,9 @@ and a review of the site on the production build.
 
 - **One order for every commodity.** Key figures, price and alerts; the core tables, open (production,
   consumption, exports, imports, reserves); main flows and seaborne lanes; then every other block folded to one
-  line. A default page is now 0.60 to 0.78 times as tall as in the third release.
+  line. A default page is now 0.60 to 0.89 times as tall as in the third release (ten pages measured by the
+  release reviewer: copper 0.60, LNG 0.61, crude oil 0.64, sugar 0.68, cocoa 0.71, wheat and lithium 0.73, steel
+  0.78, tin 0.84, LPG 0.89).
 - **Energy.** Monthly crude production by producer to mid-2026 with the lowest month of 2026 against the 2025
   average, OECD imports by origin, petroleum stocks with days of cover, oil demand by month, from the EIA file. A
   month without a figure in the file is shown as "no figure", never as zero. LPG consumption includes the United
