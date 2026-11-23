@@ -355,12 +355,12 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 2,571 main seaborne lanes, 38 mixed lanes and 286 history lanes over 42 groups (2,400, 35
+  - 2024: 2,629 main seaborne lanes, 38 mixed lanes and 276 history lanes over 42 groups (2,400, 35
     and 182 over 34 groups before the minor metals); the main lanes carry 85.5% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
-    bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought lead
-    (49.5%), unwrought tin (50.2%), refined products (60.1%), unwrought zinc (61.8%), aluminium
-    (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 80.0% (73.7% before the
+    bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
+    (59.6%), refined products (60.1%), aluminium (66.1%), cocoa (66.5%), unwrought lead (66.8%),
+    unwrought zinc (67.5%), steel (68.2%) and coffee (69.9%); potash reads 80.0% (73.7% before the
     Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
   the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,849 pairs in
@@ -368,7 +368,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,150.2 Mt in 2024); a pair "not routed" has no route at all (43.9 Mt in 2024: 27.4 Mt because a
+  (1,149.6 Mt in 2024); a pair "not routed" has no route at all (43.9 Mt in 2024: 27.4 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
   50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway; 64.2
   Mt, 47.7 Mt of it for want of a transit port, before package L1).

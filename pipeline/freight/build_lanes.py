@@ -120,7 +120,7 @@ CAP = {
 }
 # The minor metals trade in parcels of a few thousand tonnes (tin, cobalt, lithium and rare-earth groups hold 0.1 to
 # 0.7 Mt a year in all) and unwrought lead and zinc over hundreds of small pairs: their floor is lower, so that the main
-# set carries about two thirds of their seaborne tonnes or more (tin metal: 61%, at its cap).
+# set carries about two thirds of their seaborne tonnes or more (unwrought tin: 60%).
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
          "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
          "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002}
