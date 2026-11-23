@@ -7,6 +7,8 @@ import { fmt, fmtEst, pct } from '../../lib/format';
 import { select } from '../../lib/store';
 import { Section, SourceLine, EstMark, FoldNote } from '../ui';
 import '../../styles/metal-figures.css';
+import { CsvAction } from '../CsvAction';
+import { downloadTradeValue, downloadYears } from '../../lib/blockCsv';
 
 /** "554 bn", "845 M", "12.3 k": a customs value in USD to three significant digits (the column says USD). */
 export function fmtUsd(v: number): string {
@@ -49,15 +51,15 @@ function UsgsYears({ d, hist, color }: { d: CommodityData; hist: CommodityHistor
   const keys = Object.entries(hist.t).filter(([, h]) => h.s === 'usgs-mcs' && h.years.length === 2).map(([k]) => k);
   if (!keys.length) return null;
   return (
-    <Section title="Two years of USGS figures">
+    <Section fold latest title="Two years of USGS figures">
       {keys.map((k) => (
-        <YearsTable key={k} title={tableTitle(d, k)} h={hist.t[k]} color={color} />
+        <YearsTable key={k} commodity={commodityMeta(d.id)?.name ?? d.id} title={tableTitle(d, k)} h={hist.t[k]} color={color} />
       ))}
     </Section>
   );
 }
 
-function YearsTable({ title, h, color }: { title: string; h: HistTable; color?: string }) {
+function YearsTable({ commodity, title, h, color }: { commodity: string; title: string; h: HistTable; color?: string }) {
   const [all, setAll] = useState(false);
   const rows = useMemo(
     () => Object.entries(h.c).map(([c, v]) => ({ c, v })).sort((a, b) => (b.v[1] ?? b.v[0] ?? 0) - (a.v[1] ?? a.v[0] ?? 0)),
@@ -123,11 +125,14 @@ function YearsTable({ title, h, color }: { title: string; h: HistTable; color?: 
         </span>
         <span class="num mf-chg">{chg(h.world[0], h.world[1])}</span>
       </div>
-      {rows.length > 10 && (
-        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
-          {all ? 'Show fewer' : `Show all (${rows.length})`}
-        </button>
-      )}
+      <div class="lt-foot">
+        {rows.length > 10 && (
+          <button class="act-btn" onClick={() => setAll(!all)} aria-expanded={all}>
+            {all ? 'Show fewer' : `Show all (${rows.length})`}
+          </button>
+        )}
+        <CsvAction sources={[h.s]} onClick={() => downloadYears(commodity, title, h)} title="Both years of every row of this table, with the source's estimate marks and licence, as a CSV file" />
+      </div>
       <SourceLine s={h.s} y={`${h.years[0]} and ${h.years[1]}`} n={`${h.u} · ${h.years[0]}: ${h.yl?.[0] ?? ''}; ${h.years[1]}: ${h.yl?.[1] ?? ''}. "e": a value USGS marks as estimated`} />
     </div>
   );
@@ -171,7 +176,7 @@ function TradeValue({ d, color }: { d: CommodityData; color?: string }) {
   const shown = all ? rows : rows.slice(0, 10);
   const anyHidden = tab.rows.some((r) => r.uv == null);
   return (
-    <Section title="Value and unit value">
+    <Section fold latest title="Value and unit value">
       <div class="mf-tabs" role="tablist">
         {tabs.map((t, k) => (
           <button class={`mf-tab${k === i ? ' on' : ''}`} role="tab" aria-selected={k === i} key={t.key} onClick={() => { setI(k); setAll(false); }}>
@@ -215,11 +220,18 @@ function TradeValue({ d, color }: { d: CommodityData; color?: string }) {
           <span class="num">{tab.uv != null ? fmtUv(tab.uv) : '—'}</span>
         </div>
       )}
-      {rows.length > 10 && (
-        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
-          {all ? 'Show fewer' : `Show all (${rows.length})`}
-        </button>
-      )}
+      <div class="lt-foot">
+        {rows.length > 10 && (
+          <button class="act-btn" onClick={() => setAll(!all)} aria-expanded={all}>
+            {all ? 'Show fewer' : `Show all (${rows.length})`}
+          </button>
+        )}
+        <CsvAction
+          sources={tab.rows.some((r) => r.est) ? ['baci', 'atlas'] : ['baci']}
+          onClick={() => downloadTradeValue(commodityMeta(d.id)?.name ?? d.id, tab, d.exports?.y ?? d.flows?.[0]?.y)}
+          title="Every row of this tab with its tonnes, value and unit value, year, source and licence, as a CSV file"
+        />
+      </div>
       <SourceLine
         s="baci"
         y={d.exports?.y ?? d.flows?.[0]?.y}
@@ -244,7 +256,7 @@ function ConcentrationBlock({ d }: { d: CommodityData }) {
   if (!keys.length) return null;
   const hhi = (x: Concentration) => `${x.cov < 0.995 ? '≥ ' : ''}${x.hhi.toLocaleString('en-US')}`;
   return (
-    <Section title="Concentration">
+    <Section fold latest title="Concentration">
       <div class="mf-row mf-conc mf-th">
         <span />
         <span class="num">First</span>
@@ -293,7 +305,7 @@ function UnitedStates({ d }: { d: CommodityData }) {
   const u = d.us;
   if (!u || (!u.consumption?.length && !u.reliance?.length)) return null;
   return (
-    <Section title="United States, as USGS states it">
+    <Section fold latest title="United States, as USGS states it">
       {u.consumption?.map((c) => (
         <div class="mf-us" key={c.label}>
           <div class="mf-us-k">{c.label}</div>

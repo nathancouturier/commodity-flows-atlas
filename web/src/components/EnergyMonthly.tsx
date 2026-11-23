@@ -7,12 +7,14 @@
  */
 import { useState } from 'preact/hooks';
 import type { CommodityMonthly, ImportRow, MonthlyBlock, MonthlyRow } from '../types';
-import { countryName, isCountry, loadOptional } from '../lib/data';
+import { commodityMeta, countryName, isCountry, loadOptional } from '../lib/data';
 import { fmt } from '../lib/format';
 import { select } from '../lib/store';
 import { Section, SourceLine, TrendLine } from './ui';
 import { useLoaded } from './views/shared';
 import '../styles/energy-monthly.css';
+import { CsvAction } from './CsvAction';
+import { downloadMonthly } from '../lib/blockCsv';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 /** "2026-07" -> "Jul 2026" */
@@ -139,6 +141,16 @@ function RangeTable(props: { rows: (MonthlyRow | ImportRow)[]; from: string; to:
   );
 }
 
+/** The CSV of a monthly block: every month of every row (all importers for the imports by origin). */
+function MonthlyCsv(props: { m: CommodityMonthly; title: string; parts: Parameters<typeof downloadMonthly>[3] }) {
+  const { m } = props;
+  return (
+    <div class="lt-foot">
+      <CsvAction sources={[m.s]} onClick={() => downloadMonthly(commodityMeta(m.id)?.name ?? m.id, props.title, m.s, props.parts)} title="Every month of this series, with its source and licence, as a CSV file" />
+    </div>
+  );
+}
+
 /** The block compares a year so far with the year before: it needs three months of that year to say anything. */
 const MIN_MONTHS = 3;
 
@@ -152,7 +164,7 @@ function Disruption({ m }: { m: CommodityMonthly }) {
   const base = p.baseYear ?? Number(year) - 1;
   const last36 = (r: MonthlyRow): MonthlyRow => ({ ...r, v: r.v.slice(-36) });
   return (
-    <Section title={`Monthly production in ${year} against the ${base} average`} aside={<span class="year-tag">{monthName(p.to)}</span>}>
+    <Section fold latest title={`Monthly production in ${year} against the ${base} average`} aside={<span class="year-tag">{monthName(p.to)}</span>}>
       <RangeTable
         rows={[...gulf, total].map(last36)}
         lead={world ? [last36(world)] : []}
@@ -185,7 +197,7 @@ function Imports({ m }: { m: CommodityMonthly }) {
   const baseMonths = baseRows.reduce((n, r) => n + 12 - (r.nb ?? 12), 0);
   const some = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
   return (
-    <Section title="OECD imports by origin" aside={<span class="year-tag">{monthName(cur.to)}</span>}>
+    <Section fold latest title="OECD imports by origin" aside={<span class="year-tag">{monthName(cur.to)}</span>}>
       <div class="chips mo-chips" role="group" aria-label="Importer">
         {imp.importers.map((x, k) => (
           <button class="chip" key={x.id} aria-pressed={k === i} onClick={() => setI(k)}>
@@ -206,6 +218,7 @@ function Imports({ m }: { m: CommodityMonthly }) {
           : `In ${year}, every origin of this table has a figure for each month.`}{' '}
         {baseRows.length ? `In ${base}, ${some(baseRows.length, 'origin lacks', 'origins lack')} at least one month (${some(baseMonths, 'month', 'months')} in all).` : `In ${base}, every origin has twelve months.`}
       </div>
+      <MonthlyCsv m={m} title="OECD imports by origin" parts={imp.importers.map((x) => ({ group: x.name, u: imp.u, from: x.from, to: x.to, rows: x.rows, names: ORIGIN_NAME }))} />
       <SourceLine s={m.s} y={`monthly, to ${monthName(cur.to)}`} />
     </Section>
   );
@@ -217,7 +230,7 @@ function Stocks({ m }: { m: CommodityMonthly }) {
   const year = Number(st.to.slice(0, 4));
   const dec = st.rows.find((r) => r.end)?.end?.m;
   return (
-    <Section title="Petroleum stocks" aside={<span class="year-tag">{monthName(st.to)}</span>}>
+    <Section fold latest title="Petroleum stocks" aside={<span class="year-tag">{monthName(st.to)}</span>}>
       <div class="mo-table">
         <div class="mo-row mo-stock mo-head" aria-hidden="true">
           <span>Mbbl</span>
@@ -248,6 +261,7 @@ function Stocks({ m }: { m: CommodityMonthly }) {
         the EIA file: arithmetic on two published figures, not an EIA figure. The change is against the end of {year - 1}.
         {st.withheld.length > 0 && ` EIA marks the monthly figures of ${st.withheld.length} other OECD countries as withheld (${st.withheld.slice(0, 6).map(countryName).join(', ')}${st.withheld.length > 6 ? ' and others' : ''}): the atlas shows none for them.`}
       </div>
+      <MonthlyCsv m={m} title="Petroleum stocks" parts={[st]} />
       <SourceLine s={m.s} y={`monthly, to ${monthName(st.to)}`} />
     </Section>
   );
@@ -256,7 +270,7 @@ function Stocks({ m }: { m: CommodityMonthly }) {
 function Gaps({ m }: { m: CommodityMonthly }) {
   if (!m.gaps?.length) return null;
   return (
-    <Section title="Monthly data">
+    <Section fold title="Monthly data">
       {m.gaps.map((g) => (
         <div class="muted small mo-note" key={g}>
           {g}
@@ -273,31 +287,34 @@ export function EnergyMonthly({ id }: { id: string }) {
   return (
     <>
       {m.production && (
-        <Section title="Crude oil production by month" aside={<span class="year-tag">{monthName(m.production.to)}</span>}>
+        <Section fold latest title="Crude oil production by month" aside={<span class="year-tag">{monthName(m.production.to)}</span>}>
           <LatestTable block={m.production} rows={m.production.rows} lead={m.production.world ? [{ ...m.production.world, name: 'World' }] : []} label="kb/d" />
           <div class="muted small mo-note">
             Latest month of each producer against its {m.production.baseYear} average, from EIA's monthly series (crude oil including lease condensate). Click a producer to open its page.
           </div>
+          <MonthlyCsv m={m} title="Crude oil production by month" parts={[{ ...m.production, rows: [...(m.production.world ? [{ ...m.production.world, name: 'World' }] : []), ...m.production.rows] }]} />
           <SourceLine s={m.s} y={`monthly, to ${monthName(m.production.to)}`} />
         </Section>
       )}
       <Disruption m={m} />
       <Imports m={m} />
       {m.ngl && (
-        <Section title="Natural gas plant liquids by month" aside={<span class="year-tag">{monthName(m.ngl.to)}</span>}>
+        <Section fold latest title="Natural gas plant liquids by month" aside={<span class="year-tag">{monthName(m.ngl.to)}</span>}>
           <LatestTable block={m.ngl} rows={m.ngl.rows} lead={m.ngl.world ? [{ ...m.ngl.world, name: 'World' }] : []} label="kb/d" />
           <div class="muted small mo-note">
             Ethane, propane, butanes and heavier liquids recovered from natural gas: the monthly series nearest to LPG supply in the EIA file, not LPG alone.
           </div>
+          <MonthlyCsv m={m} title="Natural gas plant liquids by month" parts={[{ ...m.ngl, rows: [...(m.ngl.world ? [{ ...m.ngl.world, name: 'World' }] : []), ...m.ngl.rows] }]} />
           <SourceLine s={m.s} y={`monthly, to ${monthName(m.ngl.to)}`} />
         </Section>
       )}
       {m.consumption && (
-        <Section title="Oil demand by month" aside={<span class="year-tag">{monthName(m.consumption.to)}</span>}>
+        <Section fold latest title="Oil demand by month" aside={<span class="year-tag">{monthName(m.consumption.to)}</span>}>
           <LatestTable block={m.consumption} rows={m.consumption.rows} label="kb/d" />
           <div class="muted small mo-note">
             Refined petroleum products consumption, the OECD and the countries for which EIA gives a monthly figure. Latest month against the {m.consumption.baseYear} average.
           </div>
+          <MonthlyCsv m={m} title="Oil demand by month" parts={[m.consumption]} />
           <SourceLine s={m.s} y={`monthly, to ${monthName(m.consumption.to)}`} />
         </Section>
       )}

@@ -1,0 +1,51 @@
+/* a block whose title opens and closes it (Section `fold`): the whole title line is the button, with the caret of the site's folds */
+.sec-fold-t {
+  flex: 1;
+  min-width: 0;
+}
+.sec-fold-btn {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+  min-height: 28px;
+  padding: 6px 0;
+  margin: -6px 0;
+  text-align: left;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  font-weight: inherit;
+}
+.sec-fold-btn::before {
+  content: '▸';
+  flex: none;
+  width: 10px;
+  font-size: 10px;
+  color: var(--ink-2);
+  transition: transform var(--t-fast);
+}
+.sec-fold-btn[aria-expanded='true']::before {
+  transform: rotate(90deg);
+}
+.sec-fold-btn:hover {
+  color: var(--ink-1);
+}
+.sec-folded {
+  padding: 8px 0;
+}
+.sec-folded > .section-title {
+  margin-bottom: 0;
+}
+.sec-aside {
+  display: inline-flex;
+  flex: none;
+  align-items: baseline;
+  gap: 8px;
+}
+/* the folded tables of one kind sit inside their line: no second rule above the first of them */
+.sec-fold .section {
+  padding-bottom: 6px;
+}
+.sec-fold .section:last-child {
+  padding-bottom: 0;
+}

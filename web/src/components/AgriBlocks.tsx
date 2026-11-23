@@ -1,6 +1,6 @@
 /** The blocks of the agriculture pages that sit beside the flows: the balance of a USDA crop, and the gap between customs flows and USDA. */
 import type { CommodityData } from '../types';
-import { countryName } from '../lib/data';
+import { commodityMeta, countryName } from '../lib/data';
 import { Section, SourceLine } from './ui';
 import CropBalanceSection from './CropBalance';
 
@@ -24,11 +24,12 @@ function GapNote({ gaps }: { gaps: NonNullable<CommodityData['gaps']> }) {
   );
 }
 
-export default function AgriBlocks({ d, color }: { d: CommodityData; color?: string }) {
+/** `part`: the balance sits with the secondary blocks of the page, the gap note just above the flows it is about. */
+export default function AgriBlocks({ d, color, part }: { d: CommodityData; color?: string; part: 'balance' | 'gaps' }) {
   return (
     <>
-      {d.balance && <CropBalanceSection bal={d.balance} color={color} />}
-      {!!d.gaps?.length && <GapNote gaps={d.gaps} />}
+      {part === 'balance' && d.balance && <CropBalanceSection bal={d.balance} color={color} commodity={commodityMeta(d.id)?.name ?? d.id} />}
+      {part === 'gaps' && !!d.gaps?.length && <GapNote gaps={d.gaps} />}
     </>
   );
 }

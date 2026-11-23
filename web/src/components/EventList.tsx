@@ -68,7 +68,7 @@ function Rows({ list }: { list: FreightEvent[] }) {
 }
 
 /** The events that name the page's commodity, country or route (three shown, the rest on request); on a commodity page, behind one more line, the general events. The count in the title is of the page's own events. */
-export function EventList(props: { commodity?: string; country?: string; route?: string }) {
+export function EventList(props: { commodity?: string; country?: string; route?: string; fold?: boolean }) {
   const all = useEvents();
   const byEvent = useAlertEvents();
   const [open, setOpen] = useState(false);
@@ -81,7 +81,7 @@ export function EventList(props: { commodity?: string; country?: string; route?:
   const { own, general: other } = eventsFor(all, props, byEvent);
   if (!own.length && !other.length) return null;
   return (
-    <Section title="Events" aside={own.length > 0 ? <span class="muted num">{own.length}</span> : undefined}>
+    <Section fold={props.fold} title="Events" aside={own.length > 0 ? <span class="muted num">{own.length}</span> : undefined}>
       <Rows list={open ? own : own.slice(0, FOLDED)} />
       {own.length > FOLDED && (
         <button class="evl-more" onClick={() => setOpen(!open)} aria-expanded={open}>

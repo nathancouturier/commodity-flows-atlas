@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 /** Global picture of one commodity: KPIs, ranked countries, main flows, lanes, companies, infrastructure. */
+import { Fragment } from 'preact';
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { CaveatsFile, Company, CommodityData, CommodityHistory, Fig, Flow, HistTable, LaneFile, Ranked } from '../../types';
 import { loadOptional, loadHistory, commodityMeta, countryName, isCountry, sourceLabel } from '../../lib/data';
@@ -20,6 +21,8 @@ import { PriceFigure } from '../PriceFigure';
 import { EnergyMonthly } from '../EnergyMonthly';
 import AgriBlocks from '../AgriBlocks';
 import { reportMonth } from '../CropBalance';
+import { CsvAction } from '../CsvAction';
+import { downloadFlows, flowSources } from '../../lib/blockCsv';
 
 /**
  * Opens the bottom price drawer on this commodity's series. `none` is true once the price catalogue is
@@ -84,13 +87,13 @@ function RankedBlock({ data, color, hist, at }: { id: string; data: Ranked; colo
  * A ranked table that follows the History year when its series by year holds that year (heading, source line, shares on
  * that year's world total); otherwise the latest table, with the words "2025: no series for 2010" next to the heading.
  */
-function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string; loading?: boolean }) {
+function TableSection(props: { id: string; title: string; data: Ranked; hist?: HistTable; color?: string; loading?: boolean; fold?: boolean }) {
   const yr = year.value;
   const { table, i, note, past } = useMemo(() => tableAt(props.data, props.hist, yr), [props.data, props.hist, yr]);
   // with a History year, nothing is said of the year until the series by year is loaded: no latest table, no "no series" tag
   if (yr != null && props.loading)
     return (
-      <Section title={props.title}>
+      <Section title={props.title} fold={props.fold}>
         <Skeleton lines={4} />
       </Section>
     );
@@ -101,7 +104,7 @@ function TableSection(props: { id: string; title: string; data: Ranked; hist?: H
   // a USDA table says what its marketing year is in USDA's words: the forecast of the year in progress, or the estimate of the one before
   const aside = note ? <span class="year-tag">{note}</span> : table.yk ? <span class="year-tag">{table.y} {table.yk}</span> : past && title === props.title ? <span class="year-tag">{table.y}</span> : null;
   return (
-    <Section title={title} aside={aside}>
+    <Section title={title} aside={aside} fold={props.fold}>
       <RankedBlock id={props.id} data={table} color={props.color} hist={props.hist} at={i} />
     </Section>
   );
@@ -122,7 +125,7 @@ function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: C
   const first = yr != null && series.every(({ h }) => h.years.indexOf(yr) === 0) ? yearLabel(series[0].h, 0) : null;
   if (first)
     return (
-      <Section title="Largest changes" aside={<span class="year-tag">no year before {first}</span>}>
+      <Section fold title="Largest changes" aside={<span class="year-tag">no year before {first}</span>}>
         <div class="muted small">The series by year start in {first}: there is no year before it to compare with.</div>
       </Section>
     );
@@ -155,7 +158,7 @@ function LargestChanges({ hist, data, color }: { hist: CommodityHistory; data: C
         ? `No figure in ${c.why === 'none-before' ? from : to}: the source gives none${h.s === 'baci' ? ', or the flows are under its reporting threshold (1,000 t and 1 million USD)' : ''}, or it rounds to 0; counted as 0`
         : '';
   return (
-    <Section title={`Largest changes, ${withKind(at - 1)} to ${withKind(at)}`} aside={note}>
+    <Section fold title={`Largest changes, ${withKind(at - 1)} to ${withKind(at)}`} aside={note}>
       {sides.map(({ k, h: s, ch }) => (
         <div class="chg-block" key={k} style={{ '--bar-color': color }}>
           <div class="chg-head">{k === 'exports' ? 'Exporters' : 'Importers'}{data[k]?.basis ? ` — ${data[k]!.basis}` : ''}</div>
@@ -269,11 +272,18 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string }) {
           </div>
         );
       })}
-      {sorted.length > 10 && (
-        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
-          {all ? 'Show fewer' : `Show all (${sorted.length})`}
-        </button>
-      )}
+      <div class="lt-foot" style={{ marginTop: '6px' }}>
+        {sorted.length > 10 && (
+          <button class="act-btn" onClick={() => setAll(!all)} aria-expanded={all}>
+            {all ? 'Show fewer' : `Show all (${sorted.length})`}
+          </button>
+        )}
+        <CsvAction
+          sources={flowSources(props.flows)}
+          onClick={() => downloadFlows(commodityMeta(props.id)?.name ?? props.id, 'Main flows', props.flows)}
+          title="Every flow of this table with its year, source and licence, as a CSV file"
+        />
+      </div>
       {first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
     </>
   );
@@ -391,9 +401,9 @@ function KeyInfra({ id }: { id: string }) {
   const all = useLoaded<InfraFeature[]>(() => loadInfra(), []);
   const on = layers.value.infrastructure;
   const mine = useMemo(() => (all ?? []).filter((f) => infraMatches(f.p.k, id)), [all, id]);
-  if (!all) return null;
+  if (!all || !mine.length) return null;
   return (
-    <Section title="Key infrastructure" aside={mine.length ? <span class="muted num">{mine.length}</span> : undefined}>
+    <Section fold title="Key infrastructure" aside={<span class="muted num">{mine.length}</span>}>
       <InfraList key={id} items={mine} commodity={id} showCountry />
       {mine.length > 0 && (
         <button class="act-btn" disabled={on} onClick={() => toggleLayer('infrastructure', true)}>
@@ -402,6 +412,90 @@ function KeyInfra({ id }: { id: string }) {
       )}
     </Section>
   );
+}
+
+/** The core kinds of table, in the order of the page. */
+const KINDS = ['production', 'consumption', 'exports', 'imports', 'reserves'] as const;
+type Kind = (typeof KINDS)[number];
+/** The word of a kind in the Notes section. */
+const KIND_WORD: Record<string, string> = { production: 'production', refinery: 'refinery output', consumption: 'consumption', exports: 'exporters', imports: 'importers', reserves: 'reserves' };
+
+type Table = { key: string; title: string; data: Ranked };
+
+/** "Top consumers — motor gasoline, EIA 2025" names itself "motor gasoline, EIA 2025" in the line that holds the other tables of its kind. */
+const shortName = (title: string) => title.match(/^Top \w+ — (.+)$/)?.[1] ?? title;
+
+/**
+ * The tables of the page by place: each core kind (its main table first, then the extra tables whose key ends with the kind; refinery or
+ * smelter output goes with production), the EU member states and the ending stocks (secondary blocks of the crops), and the rest.
+ */
+function pageTables(d: CommodityData, id: string) {
+  const kinds = {} as Record<Kind, Table[]>;
+  for (const k of KINDS) {
+    const main = d[k];
+    const fallback = k === 'exports' || k === 'imports' ? TRADE_BASIS[id] : undefined;
+    const base = { production: 'Top producers', consumption: 'Top consumers', exports: 'Top exporters', imports: 'Top importers', reserves: 'Reserves' }[k];
+    kinds[k] = main ? [{ key: k, title: sectionTitle(d, k, base, fallback), data: main }] : [];
+  }
+  const eu: Table[] = [];
+  const stocks: Table[] = [];
+  const other: Table[] = [];
+  for (const x of d.extra ?? []) {
+    const t = { key: x.key, title: x.title, data: x.table };
+    const k = KINDS.find((kk) => x.key === kk || x.key.endsWith(`-${kk}`));
+    if (x.key.startsWith('eu-')) eu.push(t);
+    else if (x.key === 'stocks') stocks.push(t);
+    else if (k) kinds[k].push(t);
+    else other.push(t);
+  }
+  if (d.refinery) kinds.production.push({ key: 'refinery', title: 'Refinery / smelter output', data: d.refinery });
+  return { kinds, eu, stocks, other };
+}
+
+/** "a, b and c". */
+const listText = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : (xs[0] ?? ''));
+
+/** A table note without the warning the page prints apart (RankedBlock does the same). */
+function ownNote(t: Ranked): string {
+  const cv = t.caveat;
+  return (cv && t.n ? t.n.replace(` · ${cv}`, '').replace(cv, '').replace(/ · $/, '') : (t.n ?? '')).trim();
+}
+
+/**
+ * Notes that repeat under several tables of the page are printed once, in the Notes section: the notes on a table's series by year
+ * (a country that split), and the clauses of the table notes after the first one, which says what the table counts (the method of
+ * the customs extract, "world = sum of reporting countries"). Each table keeps the notes that are its own, and every clause about an
+ * estimate. The note of an Atlas estimate or conversion is kept whole: it is the method of the figure.
+ */
+function sharedNotes(tables: Table[], hist: CommodityHistory | null | undefined) {
+  // in the middle of a sentence: "ending stocks", but "EU member states"
+  const label = (t: Table) => KIND_WORD[t.key] ?? shortName(t.title).replace(/^[A-Z](?![A-Z])/, (c) => c.toLowerCase());
+  const count = (m: Map<string, Table[]>, k: string, t: Table) => m.set(k, [...(m.get(k) ?? []), t]);
+  const series = new Map<string, Table[]>();
+  const clauses = new Map<string, Table[]>();
+  for (const t of tables) {
+    for (const n of new Set(hist?.t[t.key]?.n ?? [])) count(series, n, t);
+    // a clause about an estimate stays with the figures it qualifies
+    if (!atlasKind(t.data)) for (const c of new Set(ownNote(t.data).split('; ').slice(1))) if (!/estimat/i.test(c)) count(clauses, c, t);
+  }
+  const many = (m: Map<string, Table[]>) => new Set([...m].filter(([, ts]) => ts.length > 1).map(([k]) => k));
+  const seriesOut = many(series);
+  const clauseOut = many(clauses);
+  const data: Record<string, Ranked> = {};
+  const hists: Record<string, HistTable> = {};
+  for (const t of tables) {
+    const h = hist?.t[t.key];
+    if (h?.n?.some((n) => seriesOut.has(n))) hists[t.key] = { ...h, n: h.n.filter((n) => !seriesOut.has(n)) };
+    if (atlasKind(t.data)) continue;
+    const parts = ownNote(t.data).split('; ');
+    const kept = [parts[0], ...parts.slice(1).filter((c) => !clauseOut.has(c))];
+    if (kept.length < parts.length) data[t.key] = { ...t.data, n: [kept.join('; '), t.data.caveat].filter(Boolean).join(' · ') };
+  }
+  const notes = [
+    ...[...clauseOut].map((c) => `In the tables of ${listText(clauses.get(c)!.map(label))}: ${c}`),
+    ...[...seriesOut].map((n) => `Series by year of ${listText(series.get(n)!.map(label))}: ${n}`),
+  ];
+  return { data, hists, notes };
 }
 
 export default function CommodityView({ id }: { id: string }) {
@@ -429,6 +523,28 @@ export default function CommodityView({ id }: { id: string }) {
   const seaFollows = !!seaborne && String(seaborne.y) === String(yr);
   const hist = useLoaded<CommodityHistory>(() => loadHistory(id), [id]);
   const ht = (key: string): HistTable | undefined => hist?.t[key];
+  const tables = useMemo(() => (d ? pageTables(d, id) : null), [d, id]);
+  const shared = useMemo(
+    () => (tables ? sharedNotes([...KINDS.flatMap((k) => tables.kinds[k]), ...tables.other, ...tables.stocks, ...tables.eu], hist) : null),
+    [tables, hist],
+  );
+  const tableEl = (t: Table, fold?: boolean) => (
+    <TableSection id={id} key={t.key} title={t.title} data={shared?.data[t.key] ?? t.data} hist={shared?.hists[t.key] ?? ht(t.key)} loading={hist === undefined} color={color} fold={fold} />
+  );
+  // the first table of a kind is open; the others are folded under one line that names them
+  const kindEl = (ts: Table[]) =>
+    ts.length > 0 && (
+      <>
+        {tableEl(ts[0])}
+        {ts.length > 1 && (
+          <Section fold latest={!ts.slice(1).some((t) => yr != null && ht(t.key)?.years.includes(yr))} title={ts.slice(1).map((t) => shortName(t.title)).join(' · ')}>
+            {ts.slice(1).map((t) => tableEl(t))}
+          </Section>
+        )}
+      </>
+    );
+  const coCount = (companies?.producers?.length ?? 0) + (companies?.processors?.length ?? 0) + (companies?.traders?.length ?? 0);
+  const noteCount = (d?.notes?.length ?? 0) + (shared?.notes.length ?? 0) + (d?.discrepancies?.length ?? 0);
   // what follows the History year on this page
   const following = [
     yr != null && hist && Object.values(hist.t).some((h) => h.years.includes(yr)) ? 'the tables that have a series by year' : null,
@@ -481,50 +597,50 @@ export default function CommodityView({ id }: { id: string }) {
         ) : d === null ? (
           <Placeholder>Data for this commodity is being compiled and will appear in a later release.</Placeholder>
         ) : (
-          <>
-            {d.production && <TableSection id={id} title={sectionTitle(d, 'production', 'Top producers')} data={d.production} hist={ht('production')} loading={hist === undefined} color={color} />}
-            {d.extra?.filter((x) => x.key.endsWith('production')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
-            ))}
-            {d.refinery && <TableSection id={id} title="Refinery / smelter output" data={d.refinery} hist={ht('refinery')} loading={hist === undefined} color={color} />}
-            <EnergyMonthly id={id} />
-            {d.exports && <TableSection id={id} title={sectionTitle(d, 'exports', 'Top exporters', TRADE_BASIS[id])} data={d.exports} hist={ht('exports')} loading={hist === undefined} color={color} />}
-            {d.extra?.filter((x) => x.key.endsWith('exports')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
-            ))}
-            {d.imports && <TableSection id={id} title={sectionTitle(d, 'imports', 'Top importers', TRADE_BASIS[id])} data={d.imports} hist={ht('imports')} loading={hist === undefined} color={color} />}
-            {hist && <LargestChanges hist={hist} data={d} color={color} />}
-            <MetalFigures id={id} d={d} hist={hist} color={color} />
-            {d.extra?.filter((x) => !x.key.endsWith('exports') && !x.key.endsWith('production')).map((x) => (
-              <TableSection id={id} key={x.key} title={x.title} data={x.table} hist={ht(x.key)} loading={hist === undefined} color={color} />
-            ))}
-            {d.reserves && <TableSection id={id} title={sectionTitle(d, 'reserves', 'Reserves')} data={d.reserves} hist={ht('reserves')} loading={hist === undefined} color={color} />}
-            {d.consumption && <TableSection id={id} title={sectionTitle(d, 'consumption', 'Top consumers')} data={d.consumption} hist={ht('consumption')} loading={hist === undefined} color={color} />}
-            <AgriBlocks d={d} color={color} />
+          <Fragment key={id}>
+            {kindEl(tables!.kinds.production)}
+            {kindEl(tables!.kinds.consumption)}
+            {kindEl(tables!.kinds.exports)}
+            {kindEl(tables!.kinds.imports)}
+            {kindEl(tables!.kinds.reserves)}
+            {tables!.other.map((t) => tableEl(t, true))}
+            <AgriBlocks d={d} color={color} part="gaps" />
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
                 <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />
+            {/* the secondary blocks, folded to their title: the commodity's family first */}
+            <EnergyMonthly id={id} />
+            <AgriBlocks d={d} color={color} part="balance" />
+            {tables!.stocks.map((t) => tableEl(t, true))}
+            {tables!.eu.length > 0 && (
+              <Section fold latest={!tables!.eu.some((t) => yr != null && ht(t.key)?.years.includes(yr))} title={`EU member states: ${listText(tables!.eu.map((t) => t.key.replace(/^eu-/, '')))}`}>
+                {tables!.eu.map((t) => tableEl(t))}
+              </Section>
+            )}
+            <MetalFigures id={id} d={d} hist={hist} color={color} />
+            {hist && <LargestChanges hist={hist} data={d} color={color} />}
+            <KeyInfra id={id} />
             {hasCo && (
-              <Section title="Main companies">
+              <Section fold latest title="Main companies" aside={<span class="muted num">{coCount}</span>}>
                 <CompanyRows title="Producers" list={companies!.producers ?? []} />
                 <CompanyRows title="Processors" list={companies!.processors ?? []} />
                 <CompanyRows title="Traders" list={companies!.traders ?? []} />
               </Section>
             )}
-            <KeyInfra id={id} />
-            <EventList commodity={id} />
-            {((d.notes?.length ?? 0) > 0 || (d.discrepancies?.length ?? 0) > 0) && (
-              <Section title="Notes">
+            <EventList commodity={id} fold />
+            {noteCount > 0 && (
+              <Section fold title="Notes" aside={<span class="muted num">{noteCount}</span>}>
                 <ul class="bullets small-print">
                   {d.notes?.map((n, i) => <li key={'n' + i}>{n}</li>)}
+                  {shared?.notes.map((n, i) => <li key={'s' + i}>{n}</li>)}
                   {d.discrepancies?.map((n, i) => <li key={'d' + i} class="disc">Discrepancy: {n}</li>)}
                 </ul>
               </Section>
             )}
-          </>
+          </Fragment>
         )}
       </div>
     </>

@@ -6,7 +6,7 @@ import { commodityMeta, countryName, isCountry, load, sourceLabel, sources } fro
 import { trendOf } from '../lib/tableYears';
 import { atlasKind, fmt, fmtEst, pct, fig as fmtFig } from '../lib/format';
 import { GROUP_LABEL, loadChokepoints, loadEvents } from '../lib/freight';
-import { select } from '../lib/store';
+import { select, year } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
 import { downloadRanked, rankedSources } from '../lib/rankedCsv';
 import { CsvAction } from './CsvAction';
@@ -14,6 +14,7 @@ import { openAbout } from './AboutHost';
 import { checkedLabel } from '../lib/events';
 import '../styles/lane-table.css';
 import '../styles/tables-by-year.css';
+import '../styles/section-fold.css';
 
 export function Switch(props: { label: string; checked: boolean; onChange: (v: boolean) => void; hint?: string; desc?: string }) {
   return (
@@ -33,14 +34,36 @@ export function Switch(props: { label: string; checked: boolean; onChange: (v: b
   );
 }
 
-export function Section(props: { title: ComponentChildren; children: ComponentChildren; aside?: ComponentChildren }) {
+/**
+ * A block of a page. With `fold`, its title is a button that opens and closes it in place, closed at first unless `open`;
+ * nothing is remembered. With `latest`, a History year on the timeline adds "latest" to the title: the block does not follow it.
+ */
+export function Section(props: { title: ComponentChildren; children: ComponentChildren; aside?: ComponentChildren; fold?: boolean; open?: boolean; latest?: boolean }) {
+  const [open, setOpen] = useState(!!props.open);
+  const tag = props.latest && year.value != null ? <span class="year-tag">latest</span> : null;
+  const aside = tag && props.aside ? <span class="sec-aside">{tag}{props.aside}</span> : (tag ?? props.aside);
+  if (!props.fold)
+    return (
+      <section class="section">
+        <h3 class="section-title">
+          <span>{props.title}</span>
+          {aside}
+        </h3>
+        {props.children}
+      </section>
+    );
+  // the title stays the only text of the first span: a table's CSV file is named after it (rankedCsv tableTitle)
   return (
-    <section class="section">
+    <section class={`section sec-fold${open ? '' : ' sec-folded'}`}>
       <h3 class="section-title">
-        <span>{props.title}</span>
-        {props.aside}
+        <span class="sec-fold-t">
+          <button class="sec-fold-btn" aria-expanded={open} onClick={() => setOpen(!open)}>
+            {props.title}
+          </button>
+        </span>
+        {aside}
       </h3>
-      {props.children}
+      {open && props.children}
     </section>
   );
 }

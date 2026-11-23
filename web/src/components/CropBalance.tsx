@@ -8,6 +8,8 @@ import { fmt } from '../lib/format';
 import { year } from '../lib/store';
 import { Section, SourceLine } from './ui';
 import '../styles/crop-balance.css';
+import { CsvAction } from './CsvAction';
+import { downloadBalance } from '../lib/blockCsv';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -32,7 +34,7 @@ function change(r: CropBalanceRow): { text: string; dir: number } {
   return { text: Math.abs(p) < 0.05 ? '0%' : `${p > 0 ? '+' : '−'}${Math.abs(p).toFixed(1)}%`, dir: Math.sign(p) };
 }
 
-export default function CropBalanceSection({ bal, color }: { bal: CropBalance; color?: string }) {
+export default function CropBalanceSection({ bal, color, commodity }: { bal: CropBalance; color?: string; commodity: string }) {
   if (!bal || bal.years.length < 2 || !bal.rows.length) return null;
   const [a, b] = bal.years;
   const head = (y: CropBalance['years'][number]) => (
@@ -45,7 +47,7 @@ export default function CropBalanceSection({ bal, color }: { bal: CropBalance; c
   // the unit of the production line is the unit of the table: only the lines in another unit say theirs
   const main = bal.rows.find((r) => r.k === 'production')?.u;
   return (
-    <Section title="Balance" aside={<span class="year-tag">{year.value != null ? 'latest: ' : ''}{a.y} {a.yk} and {b.y} {b.yk}</span>}>
+    <Section fold title="Balance" aside={<span class="year-tag">{year.value != null ? 'latest: ' : ''}{a.y} {a.yk} and {b.y} {b.yk}</span>}>
       <div class="cb" style={{ '--bar-color': color }}>
         <div class="cb-row cb-head">
           <span />
@@ -67,6 +69,9 @@ export default function CropBalanceSection({ bal, color }: { bal: CropBalance; c
             </div>
           );
         })}
+      </div>
+      <div class="lt-foot">
+        <CsvAction sources={[bal.s]} onClick={() => downloadBalance(commodity, bal)} title="Every line of the balance for both marketing years, with its source and licence, as a CSV file" />
       </div>
       <SourceLine
         s={bal.s}
