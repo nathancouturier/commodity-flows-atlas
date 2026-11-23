@@ -66,6 +66,8 @@ function Body({ r }: { r: Route }) {
     for (const s of r.shares ?? []) add(s.k, s.f);
     return out;
   }, [r]);
+  // a corridor whose customs total includes overland and pipeline trade says so in its history note
+  const allModes = /^all modes/i.test(r.historyNote ?? '');
   const leg = !!(r.roundVoyage || r.drawnAs);
   const parcel = r.parcel != null ? `${fmt(r.parcel)} ${r.parcelUnit ?? 't'}` : null;
   const fromPort = r.from.ports.join(' / ') || r.from.region;
@@ -119,9 +121,9 @@ function Body({ r }: { r: Route }) {
         <ViaSection from={fromPort} to={toPort} via={r.via} viaAlt={r.viaAlt} />
         <AltBox alt={r.alt} alts={r.alts} note={r.altNote} />
         {r.history && r.history.length > 1 && (
-          <Section title={`Corridor volume ${r.history[0].y}–${r.history[r.history.length - 1].y}`}>
+          <Section title={`Corridor volume${allModes ? ', all modes' : ''} ${r.history[0].y}–${r.history[r.history.length - 1].y}`}>
             <HistoryChart years={r.history.map((h) => h.y)} values={r.history.map((h) => h.v)} unit={r.historyUnit ?? ''} color={color} />
-            <div class="muted small">All cargoes of the corridor, {r.historyUnit}.</div>
+            <div class="muted small">All cargoes of the corridor{allModes ? ', every mode of transport' : ''}, {r.historyUnit}.</div>
             <SourceLine s={r.historySrc} y={`${r.history[0].y}–${r.history[r.history.length - 1].y}`} n={r.historyNote} />
           </Section>
         )}

@@ -464,7 +464,7 @@ function Answer({
     kind !== 'transit'
       ? []
       : shown?.transit
-        ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, p: { s: t.s, url: t.url } as Partial<PortRef> }))
+        ? [shown.transit, shown.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => ({ id: t.port, name: portName(t.port), c: t.c as string | undefined, p: { s: t.s, url: t.url, basis: t.url && laneFile?.ports[t.port]?.url === t.url ? laneFile.ports[t.port].basis : undefined } as Partial<PortRef> }))
         : transitPorts(pair).map((t) => ({ ...t, p: laneFile?.ports[t.id] }));
   const days = shown ? shown.days : ladenDays(nm, typical ?? null)?.days;
   const speed = !shown ? ladenDays(nm, typical ?? null) : null;

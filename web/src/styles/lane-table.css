@@ -73,4 +73,5 @@ div.lt-row { cursor: default; }
 /* a warning that belongs to a whole table, under the table */
 .table-caveat { margin-top: 6px; padding: 4px 8px; border-left: 2px solid rgba(255, 181, 71, 0.55); font-size: 11px; line-height: 1.4; color: var(--ink-1); overflow-wrap: anywhere; }
 
+.table-caveat.kpi-note-btn { padding: 4px 8px; width: auto; }
 .pair-static { padding: 4px 8px; cursor: default; color: var(--ink-1); }

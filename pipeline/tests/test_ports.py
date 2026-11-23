@@ -697,5 +697,68 @@ class FE5Basis(unittest.TestCase):
                 self.assertFalse(url and "giignl" in url, (iso, g, code, url))
 
 
+class FE4d(unittest.TestCase):
+    """Package FE4d: Saudi crude loads at Ras Tanura, and at Yanbu only for the buyers Yanbu reaches westbound."""
+
+    WEST = ("NLD", "ITA", "ESP", "POL", "USA", "BRA", "EGY")
+    ELSEWHERE = ("CHN", "KOR", "JPN", "IND", "SGP", "AUS", "KEN", "ZAF")
+
+    def loads(self, o, d, group="crude-oil"):
+        return {x.load for x in ports.assign(o, d, group).options}
+
+    def test_westbound_buyers_keep_both_load_ports(self):
+        for d in self.WEST:
+            a = ports.assign("SAU", d, "crude-oil")
+            self.assertEqual(a.main.load, "SARTA", d)
+            self.assertEqual({x.load for x in a.options}, {"SARTA", "SAYNB"}, d)
+            self.assertEqual(a.basis, "open", d)
+            self.assertEqual(a.rule, "sau-crude-red-sea", d)
+            self.assertTrue(all(x.w is None for x in a.options), d)   # no weight, no split of the tonnage
+
+    def test_every_other_buyer_loads_at_ras_tanura_only(self):
+        for d in self.ELSEWHERE:
+            a = ports.assign("SAU", d, "crude-oil")
+            self.assertEqual({x.load for x in a.options}, {"SARTA"}, d)
+            self.assertEqual(a.main.load, "SARTA", d)
+            self.assertEqual(a.rule, "sau-crude-red-sea", d)
+
+    def test_a_landlocked_european_buyer_is_on_the_westbound_side(self):
+        self.assertEqual(self.loads("SAU", "AUT"), {"SARTA", "SAYNB"})
+
+    def test_the_principal_port_and_the_basis(self):
+        c = ports.candidates("SAU", "crude-oil", "load")
+        self.assertEqual([x[0] for x in c], ["SARTA", "SAYNB"])
+        for code in ("SARTA", "SAYNB"):
+            self.assertEqual(ports.basis_of("SAU", "crude-oil", "load", code), ports.BASIS_PAGE, code)
+            self.assertEqual(ports.source_of("SAU", "crude-oil", "load", code)[0], "wikipedia", code)
+
+    def test_the_rule_is_for_saudi_crude_exports_only(self):
+        # products and LPG, and Saudi Arabia as a buyer, are left alone
+        for g in ("refined-products", "lpg", "lng", "wheat"):
+            self.assertNotEqual(ports.assign("SAU", "CHN", g).rule, "sau-crude-red-sea", g)
+        self.assertNotEqual(ports.assign("USA", "SAU", "crude-oil").rule, "sau-crude-red-sea")
+        self.assertNotEqual(ports.assign("KWT", "CHN", "crude-oil").rule, "sau-crude-red-sea")
+
+    def test_the_rule_states_its_assumption_its_page_and_its_tonnage(self):
+        rule = next(r for r in ports.COAST_RULES if r["id"] == "sau-crude-red-sea")
+        self.assertTrue(rule["reason"].startswith("Atlas assumption"))
+        self.assertIn("https://www.eia.gov/international/content/analysis/countries_long/Saudi_Arabia/", rule["reason"])
+        self.assertEqual(rule["url"], "https://www.eia.gov/international/content/analysis/countries_long/Saudi_Arabia/")
+        for text in ("record 18%", "Yanbu", "Europe", "Mt", "no weight"):
+            self.assertIn(text, rule["reason"])
+        for west in ("NLD", "USA"):
+            self.assertIn(("crude-oil", west), rule["open"])
+        for east in ("CHN", "IND", "KEN"):
+            self.assertNotIn(("crude-oil", east), rule["open"])
+
+    def test_emirati_crude_keeps_both_options_for_every_buyer(self):
+        # the EIA brief on the UAE gives a pipeline capacity and the exports, no share loaded at Fujairah: no rule
+        self.assertFalse([r for r in ports.COAST_RULES if r["country"] == "ARE"])
+        for d in ("CHN", "JPN", "IND", "NLD", "USA"):
+            a = ports.assign("ARE", d, "crude-oil")
+            self.assertEqual(a.main.load, "AEFJR", d)
+            self.assertEqual({x.load for x in a.options}, {"AEFJR", "AEDAS"}, d)
+
+
 if __name__ == "__main__":
     unittest.main()

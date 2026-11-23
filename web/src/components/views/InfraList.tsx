@@ -125,7 +125,7 @@ function blockName(b: Block, commodity: string | undefined, alone: boolean): str
   const out = c.fig && c.fig.kind !== 'capacity' ? OUTPUT_LABEL[c.fig.kind] : '';
   if (c.basis !== 'operating') {
     const what = c.kind === 'cargo' ? 'all cargo' : commodity ? '' : subjectName(c.subject ?? '');
-    const head = c.basis === 'closed' ? 'Closed' : 'Planned or under construction';
+    const head = c.basis === 'closed' ? 'Closed' : 'Planned, target or under construction';
     return `${head}${what ? `: ${what}` : ''}${form && c.kind !== 'cargo' ? `, ${form}` : ''}`;
   }
   if (c.kind === 'cargo') return out ? `${out}: all cargo of the port` : 'All cargo of the port';

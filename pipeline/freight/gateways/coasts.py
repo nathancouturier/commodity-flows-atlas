@@ -355,6 +355,19 @@ ATLANTIC_SIDE = {
     "BRA", "ARG", "URY", "VEN", "GUY", "SUR", "TTO", "CUB", "DOM", "JAM", "HTI", "BHS", "BRB",
 }
 
+# Buyers of Saudi crude that are reached westbound through the Red Sea (rule sau-crude-red-sea): Europe (landlocked
+# countries included, they are supplied through a sea port), the Mediterranean and the Black Sea, North Africa and the
+# Atlantic side of the Americas. West, Southern and East Africa are not here: the EIA brief names none of them.
+SAU_RED_SEA_BUYERS = {
+    "GBR", "IRL", "FRA", "ESP", "PRT", "BEL", "NLD", "DEU", "DNK", "NOR", "SWE", "FIN", "POL", "LTU", "LVA", "EST", "ISL",
+    "ITA", "GRC", "MLT", "HRV", "SVN", "ALB", "MNE", "ROU", "BGR", "UKR", "GEO", "TUR", "CYP", "ISR", "LBN", "SYR",
+    "AUT", "CZE", "SVK", "HUN", "SRB", "BIH", "MKD", "CHE", "LUX", "BLR", "MDA",
+    "MAR", "DZA", "TUN", "LBY", "EGY",
+    "USA", "CAN", "MEX", "COL", "BRA", "ARG", "URY", "VEN", "GUY", "SUR", "TTO", "CUB", "DOM", "JAM", "HTI", "BHS", "BRB",
+    "PAN", "CRI", "GTM", "HND", "NIC", "BLZ",
+}
+
+
 class _Anyone:
     """Stands for every country in the `when_other_in` of a rule."""
 
@@ -372,6 +385,29 @@ COAST_RULES = [
         "ports": RUS_PORTS,
         "reason": "Russia loads from three coasts. Cargo for East Asia leaves from the Far East, for the Mediterranean and the Black Sea from the Black Sea, for the rest from the Baltic; Indian coal is taken from the Far East. Russian crude for India is shipped from the Baltic and from the Black Sea and customs data do not say in what shares: both are options, the Baltic is principal",
         "src": "atlas", "url": None,
+    },
+    {
+        # kind "sides" with no side set: every buyer takes the default side (Ras Tanura only), except the buyers of `open`,
+        # which keep both load ports (ports.assign(): the first port is the principal, the other the option)
+        "id": "sau-crude-red-sea", "kind": "sides", "country": "SAU", "role": "load", "groups": {"crude-oil"},
+        "sides": {}, "default_side": "gulf",
+        "open": {("crude-oil", c): ["gulf", "red-sea"] for c in sorted(SAU_RED_SEA_BUYERS)},
+        "ports": {"crude-oil": {"gulf": "SARTA", "red-sea": "SAYNB"}},
+        "reason": "Atlas assumption, from the EIA country brief on Saudi Arabia (public domain, "
+                  "https://www.eia.gov/international/content/analysis/countries_long/Saudi_Arabia/). The brief says Saudi Arabia can "
+                  "bypass the Strait of Hormuz and Bab el-Mandeb through its 5 million b/d East-West pipeline to the Red Sea, that the "
+                  "proportion of its seaborne crude exports loaded at Yanbu 'reached a record 18% in the second quarter of 2024', and "
+                  "that in early 2024 Saudi Aramco began exporting Arab Heavy from Yanbu, which is usually exported from the Gulf coast; "
+                  "the brief's sources are titled 'Aramco Bypasses Houthi Threat With Yanbu Arab Heavy-To-Europe Shipments' and "
+                  "'Saudi Red Sea Crude Exports To Europe Soar'. So in 2024 at least about four fifths of Saudi seaborne crude "
+                  "loaded inside the Gulf. Rule: crude for the buyers that Yanbu reaches westbound through the Red Sea (Europe, the "
+                  "Mediterranean, North Africa, the Atlantic side of the Americas) keeps both load options, Ras Tanura principal and "
+                  "Yanbu the option; crude for every other buyer (Asia, Africa south and west of Suez, Oceania, the Pacific; Asia took "
+                  "75% of Saudi crude exports in 2023, the brief says) loads at Ras Tanura only. In the atlas's 2024 pairs (CEPII BACI) "
+                  "57.5 Mt of Saudi seaborne crude, 18.6%, falls on the westbound side and 251.7 Mt, 81.4%, on the other, so the "
+                  "westbound tonnage that may load at Yanbu is of the order of the brief's 18% record and is a ceiling for the "
+                  "annual Yanbu share. The brief gives no split by buyer: no weight is used and no pair is split between ports",
+        "src": "atlas", "url": "https://www.eia.gov/international/content/analysis/countries_long/Saudi_Arabia/",
     },
     {
         "id": "idn-coal-imports", "kind": "origin", "country": "IDN", "role": "discharge", "groups": {"coal"},

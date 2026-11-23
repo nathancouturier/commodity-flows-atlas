@@ -58,7 +58,7 @@ function RankedBlock({ data, color }: { id: string; data: Ranked; color?: string
   return (
     <>
       <RankedBars data={cv ? { ...data, n: n || undefined } : data} color={color} />
-      {cv && <div class="table-caveat">{cv}</div>}
+      {cv && <FoldNote class="table-caveat" text={cv} />}
       {data.s === 'usda-psd' && (
         <div class="muted small my-cap">Marketing year {data.y}: USDA PSD local marketing years, which start in different months by country.</div>
       )}
@@ -150,7 +150,9 @@ function YearTag({ y }: { y?: number | string }) {
 function altKpi(f: Fig): { value?: string; note?: string } {
   // the History year can replace the seaborne figure by another year's: the conversion belongs to the latest year only
   if (!f.alt || String(f.alt.y) !== String(f.y)) return { note: f.n };
-  return { value: `${fmtFig(f)} (${fmt(f.alt.v)} ${f.alt.u})`, note: f.n ? `${f.n} · ${f.alt.n}` : f.alt.n };
+  // no break inside a figure: a narrow card wraps before the bracket, not inside "3,140 Mt LNG"
+  const nb = (t: string) => t.replace(/ /g, '\u00a0');
+  return { value: `${nb(fmtFig(f))} (${nb(`${fmt(f.alt.v)} ${f.alt.u}`)})`, note: f.n ? `${f.n} · ${f.alt.n}` : f.alt.n };
 }
 
 /** KPI label with the figure's own year when the History timeline is on another year. */

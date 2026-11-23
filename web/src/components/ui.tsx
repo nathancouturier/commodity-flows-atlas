@@ -286,6 +286,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const max = Math.max(...rows.map((r) => r.v), 1e-9);
   const world = data.world;
   const rest = data.other ? data.other + data.rows.slice(rows.length).reduce((a, r) => a + r.v, 0) : 0;
+  const longNote = !!data.n && data.n.length > 130;
   return (
     <div>
       <div class="bars" style={{ '--bar-color': props.color }}>
@@ -315,7 +316,9 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           </div>
         )}
       </div>
-      <SourceLine s={data.s} y={data.y} n={`${props.unitLabel ?? data.u}${world ? ` · world ${fmt(world)} ${data.u}` : ''}${data.n ? ' · ' + data.n : ''}`} />
+      <SourceLine s={data.s} y={data.y} n={`${props.unitLabel ?? data.u}${world ? ` · world ${fmt(world)} ${data.u}` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`} />
+      {/* a long note folds to three lines and opens on a tap, as the estimate notes do */}
+      {longNote && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={data.n} />}
     </div>
   );
 }

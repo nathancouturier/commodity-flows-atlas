@@ -89,8 +89,12 @@ MANUAL_SRC = {
 
 G = {
     "ARE": [
-        ("AEFJR", "gulf-of-oman", {"crude"}, "load", "wikipedia", WP + "Port_of_Fujairah", "Fujairah terminal on the Gulf of Oman, outside the Strait of Hormuz; end of the Habshan-Fujairah pipeline (1.5 million barrels a day, Wikipedia: Abu Dhabi Crude Oil Pipeline)"),
-        ("AEDAS", "meg", {"crude"}, "load", "wikipedia", WP + "Das_Island", "Das Island exports crude oil from inside the Gulf, so a cargo loaded here has to pass the Strait of Hormuz"),
+        # Emirati crude keeps both options for every buyer (no coast rule): the EIA country brief on the UAE
+        # (https://www.eia.gov/international/content/analysis/countries_long/United_Arab_Emirates/, July 2026) gives the capacity of
+        # the pipeline to Fujairah and the crude exports, not the share loaded at Fujairah, and 99% of the exports went to Asia and
+        # Oceania, so no side of the buyer separates the two ports.
+        ("AEFJR", "gulf-of-oman", {"crude"}, "load", "wikipedia", WP + "Port_of_Fujairah", "Fujairah terminal on the Gulf of Oman, outside the Strait of Hormuz; end of the Habshan-Fujairah pipeline (1.5 million barrels a day, Wikipedia: Abu Dhabi Crude Oil Pipeline). The EIA country brief on the UAE (public domain, July 2026) gives that pipeline as 1.8 million b/d, Fujairah's crude storage as 42 million barrels, and crude and condensate exports of about 3.1 million b/d on average in 2022-2025: the pipeline could carry about 58% of them, so at least about 42% has to load inside the Gulf (a comparison of a capacity with an average, not a measured share). The brief gives no share loaded at Fujairah and none by buyer (99% of 2025 exports went to Asia and Oceania), so the atlas keeps both load options for every buyer, Fujairah first, with no weight"),
+        ("AEDAS", "meg", {"crude"}, "load", "wikipedia", WP + "Das_Island", "Das Island exports crude oil from inside the Gulf, so a cargo loaded here has to pass the Strait of Hormuz. No page read gives the share of Emirati crude loaded here against Fujairah (see the Fujairah row), so both ports stay options"),
         # Fujairah is no products row (review GE6, finding 6): the Port of Fujairah page calls it 'the world second largest
         # bunkering hub' and names crude storage and the Habshan pipeline terminal, the EIA country brief a 62,000 barrel a
         # day refinery project and crude storage; no page says that UAE refined products are loaded for export there.
