@@ -147,7 +147,7 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, PEER_RATIO, XAS, clean as clean_baci, year_list  # noqa: E402
+from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, LITHIUM_MIN_UV, PEER_RATIO, XAS, clean as clean_baci, year_list  # noqa: E402
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
 from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
@@ -1430,9 +1430,8 @@ BASIS = {
 # second trade tables (key prefix -> basis); their titles already name the product
 EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight", "ferro": "gross weight"}
 
-# Lithium (audit C-036). Lithium carbonate and hydroxide trade at thousands of USD per tonne: a flow of the chemicals group
-# declared below this unit value is priced like ore or concentrate and is left out of the chemicals tables (listed in a note).
-LITHIUM_MIN_UV = 1500  # USD per tonne
+# Lithium (audit C-036): the unit-value rule that leaves ore-priced flows out of the chemicals group is rule 9 of clean()
+# (pipeline/trade/clean.py, LITHIUM_MIN_UV), read by every builder.
 # Lithium carbonate equivalent: tonnes of Li2CO3 per tonne of lithium, from the abridged standard atomic weights of CIAAW
 # (pipeline/common/constants.py)
 CIAAW_URL = CN.ATOMIC_WEIGHT_PAGE["url"]
@@ -1599,14 +1598,14 @@ def eu_trade_table(side, tr, what, u):
         if tot <= 0:
             continue
         way = "to" if side == "exports" else "from"
-        rows.append((iso, tot, f"of which {_nf(intra)} {u} {way} other member states and {_nf(tot - intra)} {u} {way} countries outside the EU"))
+        rows.append((iso, tot, f"of which {_nfu(intra, u)} {way} other member states and {_nfu(tot - intra, u)} {way} countries outside the EU"))
     tot, intra, extra = tr["ex" if side == "exports" else "im"]
     word = "exports" if side == "exports" else "imports"
     n = (f"CEPII BACI {BACI_YEAR}, {what}: customs {word} of the 27 member states, all destinations, trade between members included; {EU_SCOPE_NOTE}: "
-         f"{_nf(tot)} {u}, of which {_nf(intra)} {u} {'to' if side == 'exports' else 'from'} other member states and {_nf(extra)} {u} "
+         f"{_nfu(tot, u)}, of which {_nfu(intra, u)} {'to' if side == 'exports' else 'from'} other member states and {_nfu(extra, u)} "
          f"{'to' if side == 'exports' else 'from'} countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only "
          "(and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: "
-         f"customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is {_nf(tr['world'][side])} {u})")
+         f"customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is {_nfu(tr['world'][side], u)})")
     t = ranked(rows, BACI_YEAR, "baci", u, world=sum(r[1] for r in rows), n=n)
     t["scope"] = "EU"
     t["scopeLabel"] = "EU member states"
@@ -1620,8 +1619,8 @@ def eu_trade_table(side, tr, what, u):
 def eu_split_note(tr, side, u):
     """The sentence on the EU27 line of a USDA trade table: what the customs data say of the 27 members, inside and outside the EU."""
     tot, intra, extra = tr["ex" if side == "exports" else "im"]
-    return (f"Customs data (CEPII BACI {BACI_YEAR}), the 27 member states together: {_nf(tot)} {u} of {side}, of which {_nf(intra)} {u} "
-            f"{'to' if side == 'exports' else 'from'} other member states and {_nf(extra)} {u} {'to' if side == 'exports' else 'from'} countries outside the EU; "
+    return (f"Customs data (CEPII BACI {BACI_YEAR}), the 27 member states together: {_nfu(tot, u)} of {side}, of which {_nfu(intra, u)} "
+            f"{'to' if side == 'exports' else 'from'} other member states and {_nfu(extra, u)} {'to' if side == 'exports' else 'from'} countries outside the EU; "
             "the USDA row counts trade outside the EU only")
 
 
@@ -2202,21 +2201,13 @@ def main():
             notes.append(_note_group(baci, "dap", "DAP (HS 310530)"))
             notes.append("Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock.")
         elif cid == "lithium":
-            df_ = baci.df
-            low_all = (df_["group"] == "lithium") & (df_["uvp"] < LITHIUM_MIN_UV) & ~df_["imputed"]
-            low = low_all & (df_["year"] == BACI_YEAR)
-            df_.loc[low_all & ~low, "group"] = "lithium-low"  # the same rule in every year of the series by country
-            if low.any():
-                lows = df_[low].sort_values("t", ascending=False)
-                df_.loc[low, "group"] = "lithium-low"  # out of the chemicals tables, listed below
-                for m in baci.last_susp:
-                    if m in disc:
-                        disc.remove(m)
-                add_baci_trade(d, cid, notes, disc)
-                summ(d, "exports", d["exports"])
-                notes.append(f"{len(lows)} flows of the lithium chemicals codes ({_fmt(lows['t'].sum() / 1e3)} kt in {BACI_YEAR}) are declared under "
-                             f"{LITHIUM_MIN_UV:,} USD per tonne, the price of ore or concentrate rather than of a lithium chemical, and are left out of the "
-                             "trade tables: " + "; ".join(f"{cname(r.o)} to {cname(r.d)} {_fmt(r.t / 1e3)} kt at {r.uvp:,.0f} USD/t" for r in lows.head(6).itertuples())
+            # rule 9 of clean() (pipeline/trade/clean.py) has already left these flows out of every table, lane and country figure
+            lows = [r for r in baci.dropped if r["rule"] == "low-uv" and r["group"] == "lithium" and r["year"] == BACI_YEAR]
+            if lows:
+                notes.append(f"{len(lows)} flows of the lithium chemicals codes ({_fmt(sum(r['t'] for r in lows) / 1e3)} kt in {BACI_YEAR}) are declared under "
+                             f"{LITHIUM_MIN_UV:,} USD per tonne, the price of ore or concentrate rather than of a lithium chemical. The atlas leaves them out of "
+                             "the trade tables, the lanes, the chokepoint estimates and the country figures; the cause (a product or a weight misdeclared, for "
+                             "instance) is not established here: " + "; ".join(f"{cname(r['o'])} to {cname(r['d'])} {_fmt(r['t'] / 1e3)} kt at {r['uvp']:,.0f} USD/t" for r in lows[:6])
                              + (f"; and {len(lows) - 6} smaller" if len(lows) > 6 else "") + ".")
             notes.append("Trade tables and flows are lithium carbonate and hydroxide/oxide (HS 283691, 282520) in gross weight (kt), not lithium content. "
                          "USGS production is contained lithium (t Li), so units differ.")
@@ -2690,8 +2681,19 @@ def _fmt(v):
 
 
 def _nf(v):
-    """A figure of the source without invented decimals: 230, 1,823, 1.3."""
+    """A figure of the source without invented decimals: 230, 1,823, 1.3. Never an exponent: .3g prints "7.3e-05" under 0.0001, so a
+    figure under 0.001 is "under 0.001" (a caller that knows the unit uses _nfu, which prints it in the smaller unit)."""
+    if v and abs(v) < 0.001:
+        return "under 0.001"
     return f"{v:,.0f}" if abs(v) >= 100 else f"{v:,.3g}"
+
+
+def _nfu(v, u):
+    """_nf with its unit; a small figure in Mt or kt moves to the smaller unit (0.000073 Mt is 73 t), a figure of another unit keeps it."""
+    for big, small in (("Mt", "kt"), ("kt", "t")):
+        if u == big and v and abs(v) < (0.001 if big == "Mt" else 0.1):
+            v, u = v * 1e3, small
+    return f"{_nf(v)} {u}"
 
 
 CHECK_TITLES = {
@@ -2767,17 +2769,23 @@ def _label(g):
 
 def qa_dropped(baci):
     out = ["## Rows dropped by the cleaning rules", "",
-           "Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Qatari LPG pairs with no flow in "
-           "either neighbouring year (rule DROP_NEW_PAIRS): several equal the LNG row of the same pair and year, which suggests "
-           "LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established.", ""]
+           "Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Rule 6 (DROP_NEW_PAIRS): Qatari LPG pairs with no flow in "
+           "either neighbouring year; several equal the LNG row of the same pair and year, which suggests "
+           "LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established. "
+           f"Rule 9 (DROP_LOW_UV): rows of the lithium chemicals group declared under {LITHIUM_MIN_UV:,} USD per tonne in any year, a price of ore or "
+           "concentrate rather than of a lithium chemical (hypothesis: a product or a weight misdeclared); rows whose tonnage the atlas estimated are kept.", ""]
     rows = sorted(baci.dropped, key=lambda r: (r["group"], r["year"], -r["t"]))
+
+    def mass(t):
+        return f"{_fmt(t / 1e6)} Mt" if t >= 1e6 else f"{_fmt(t / 1e3)} kt"
     for (g, y), grp in pd.DataFrame(rows).groupby(["group", "year"]) if rows else []:
-        out.append(f"- {_label(g)} {y}: {len(grp)} rows, {_fmt(grp['t'].sum() / 1e6)} Mt")
+        out.append(f"- {_label(g)} {y}: {len(grp)} rows, {mass(grp['t'].sum())}")
     out.append("")
     for r in rows:
         est = " (tonnage estimated from value)" if r.get("est") else ""
-        out.append(f"- {_label(r['group'])} {r['year']}, {K._name(r['o'])} to {K._name(r['d'])}: {_fmt(r['t'] / 1e6)} Mt{est}, "
-                   f"USD {r['usd'] / 1e3:,.0f} million")
+        uv = f", {r['uvp']:,.0f} USD/t" if r.get("rule") == "low-uv" else ""
+        out.append(f"- {_label(r['group'])} {r['year']}, {K._name(r['o'])} to {K._name(r['d'])}: {mass(r['t'])}{est}, "
+                   f"USD {r['usd'] / 1e3:,.0f} million{uv}")
     return out + [""] if rows else out + ["- none", ""]
 
 

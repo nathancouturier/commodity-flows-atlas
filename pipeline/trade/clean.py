@@ -34,6 +34,13 @@ Rules
      copper concentrate reads 7,000 to 8,000 USD/t in some years against about 2,000 for Peru's, as if its tonnage
      were contained copper; in its other years it reads about 1.1 times Peru's.
 
+  9. Ore price in a chemicals group (DROP_LOW_UV, audit C-036): a row of a group listed there whose reported unit value is
+     under the group's threshold is dropped, in every year, unless its tonnage was estimated from value by the rules above.
+     Lithium carbonate and hydroxide (HS 283691, 282520) trade at thousands of USD per tonne; Nigeria to China at 286 USD/t
+     in 2024 is priced like an ore or concentrate declared under a chemical's code (hypothesis: the code or the weight
+     is misdeclared; no source says so). The rule is applied here, after the other rules and with their group median,
+     so that lanes, pairs, commodity pages, chokepoint estimates and country profiles read one frame.
+
 Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
 """
@@ -56,8 +63,13 @@ S19_UNSPECIFIED = {("crude-oil", "IRN"): 2019}
 # source states it): LNG cargoes recorded a second time under the LPG code. Owner decision O7: drop.
 DROP_NEW_PAIRS = {("lpg", "QAT"): (2021, 2023)}
 LPG_DEDUP = "drop"  # "drop" | "flag"
-# rows removed by DROP_NEW_PAIRS in the last clean() call only, for QA.md; each frame returned by clean() also
-# carries its own list in df.attrs["dropped"], which a later call on another frame does not erase
+# Rule 9. Lithium carbonate and hydroxide trade at thousands of USD per tonne: a flow of the group declared below this unit
+# value (USD per tonne) is priced like ore or concentrate, not like a lithium chemical, and is dropped.
+LITHIUM_MIN_UV = 1500
+DROP_LOW_UV = {"lithium": LITHIUM_MIN_UV}  # group -> minimum reported unit value, USD per tonne
+# rows removed by rules 6 and 9 in the last clean() call only, for QA.md; each frame returned by clean() also
+# carries its own list in df.attrs["dropped"], which a later call on another frame does not erase. "rule" is
+# "new-pair" (rule 6) or "low-uv" (rule 9)
 LAST_DROPPED = []
 
 BULK = {"iron-ore", "coal", "bauxite", "manganese", "alumina"}
@@ -326,6 +338,10 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
             nb[i] = (ya, ua, yb, ub, m) if ya < yb else (yb, ub, ya, ua, m)
     else:
         _add_flag(df, df.index.isin(out.index), "uv-suspect-t")
+    # rule 9: after every estimate, so that the group reference of the other rules is the same as before the rule existed
+    low = (df["uvp"].astype(float) < df["group"].map(DROP_LOW_UV).astype(float)) & ~df["imputed"].astype(bool)
+    cut = df[low]
+    df = df[~low].copy()
     df["enote"] = _notes(df, nb).reindex(df.index)
 
     del LAST_DROPPED[:]
@@ -335,7 +351,11 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
             est = r.t <= 0
             LAST_DROPPED.append({"group": r.group, "o": r.o, "d": r.d, "year": int(r.year), "usd": float(r.usd),
                                  "t": float(r.usd / r.uvm) if est and r.uvm == r.uvm else float(r.t), "est": bool(est),
-                                 "reason": "pair with no flow in both neighbouring years (DROP_NEW_PAIRS)"})
+                                 "rule": "new-pair", "reason": "pair with no flow in both neighbouring years (DROP_NEW_PAIRS)"})
+    for r in cut.sort_values(["group", "year", "t"], ascending=[True, True, False]).itertuples():
+        LAST_DROPPED.append({"group": r.group, "o": r.o, "d": r.d, "year": int(r.year), "usd": float(r.usd), "t": float(r.t), "est": False,
+                             "uvp": float(r.uvp), "rule": "low-uv",
+                             "reason": f"reported unit value under {DROP_LOW_UV[r.group]:,} USD per tonne (DROP_LOW_UV)"})
     df.attrs["dropped"] = [dict(r) for r in LAST_DROPPED]
     df.attrs["peer"] = {key: v for key, v in PEER_RATIO.items()}
     return df

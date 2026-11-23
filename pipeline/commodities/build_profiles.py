@@ -292,10 +292,22 @@ def extra_label(title, section):
     return t[0].upper() + t[1:]
 
 
-def series_at(h, iso):
+def net_note(est, has_exp, has_imp):
+    """The note of a net balance, which the atlas computes: what is subtracted from what, and that it is an estimate only
+    when one of the two lines is."""
+    n = "Exports minus imports, computed by the atlas"
+    if not has_exp or not has_imp:
+        n += f"; no {'exports' if not has_exp else 'imports'} line, taken as 0"
+    return n + ("; an Atlas estimate, as at least one of the two lines is one" if est else "; not an estimate")
+
+
+def series_at(h, iso, last_rank=None):
     """The country's series of a history table, with its rank and the world total of each year under the rules of the
     site's past-year table (web/src/lib/tableYears.ts tableAt): a value out of line with the years around it is not
-    ranked, and the world total of that year leaves it out."""
+    ranked, and the world total of that year leaves it out. A rank is a position in the table, not a tie-sharing rank
+    (GR4D.6): the countries with the same value follow each other in the order of the history file, which is the order
+    in which tableAt sorts them (a stable sort). The latest year is the latest table itself, so it takes the rank
+    printed on the line (`last_rank`)."""
     vals = h["c"].get(iso)
     if not vals or not any(v for v in vals if v):
         return None
@@ -309,7 +321,15 @@ def series_at(h, iso):
         if v is None or v <= 0 or iso in odd:
             ranks.append(None)
             continue
-        ranks.append(1 + sum(1 for c, s in h["c"].items() if c not in odd and s[i] is not None and s[i] > v))
+        ahead, seen = 0, False
+        for c, s in h["c"].items():
+            if c == iso:
+                seen = True
+            elif c not in odd and s[i] is not None and (s[i] > v or (s[i] == v and not seen)):
+                ahead += 1
+        ranks.append(1 + ahead)
+    if last_rank is not None and ranks and ranks[-1] is not None:
+        ranks[-1] = last_rank
     e = {"hv": vals, "hr": ranks}
     for key, short in (("est", "hest"), ("out", "hout"), ("brk", "hbrk"), ("srcEst", "hsrc"), ("conv", "hconv")):
         if (h.get(key) or {}).get(iso):
@@ -500,7 +520,7 @@ def main():
                     e["_norank"] = True  # the order of the table is not a world ranking (LNG customs tonnage): no rank is printed
                 e["t"] = tkey
                 if h:
-                    sa = series_at(h, r["c"])
+                    sa = series_at(h, r["c"], i + 1)
                     if sa:
                         ser, worlds = sa
                         e.update(ser)
@@ -672,8 +692,12 @@ def main():
                 row["label"] = line["label"]
             if etab and itab and etab["u"] == itab["u"] and str(etab["y"]) == str(itab["y"]):
                 ev, iv = (el or {}).get("v", 0.0), (il or {}).get("v", 0.0)
-                row["net"] = {"v": round(ev - iv, 4), "exp": ev if el else None, "imp": iv if il else None, "u": etab["u"],
-                              "y": etab["y"], "s": (el or il)["s"], **({"est": True} if (el or {}).get("est") or (il or {}).get("est") else {})}
+                est = bool((el or {}).get("est") or (il or {}).get("est"))
+                # an estimated line holds three significant digits: the difference does not hold more (115 t less 0.0415 t is 115 t)
+                net = float(f"{ev - iv:.3g}") if est else round(ev - iv, 4)
+                row["net"] = {"v": net, "exp": ev if el else None, "imp": iv if il else None, "u": etab["u"],
+                              "y": etab["y"], "s": (el or il)["s"], **({"est": True} if est else {}),
+                              "n": net_note(est, bool(el), bool(il))}
             cons = next((e for e in p["consumption"] if e["k"] == k and e["t"] == "consumption"), None) if ek == "exports" else None
             # only against a consumption figure a source publishes: the atlas's apparent consumption (production + imports -
             # exports, steel) holds the imports already, and the ratio would measure nothing
@@ -738,8 +762,11 @@ def main():
                 modes = {m: float(mine.loc[mine["m"] == i, "kt"].sum()) for i, m in enumerate(("sea", "transit", "mixed", "land"))}
                 sea_rows = mine[mine["m"].isin([0, 1])]
                 sea = float(sea_rows["kt"].sum())
+                # a group that is an Atlas estimate as a whole (spodumene, read from HS 253090) is an estimate on every row and is
+                # credited to the atlas, like its lines; the block's own source stays customs data for the other groups
+                whole = pf.get("s") == "atlas"
                 x = {"g": g, "k": pf["k"], "kt": round(total, 1), "modes": {m: round(v / total, 4) for m, v in modes.items() if v},
-                     **({"est": True} if bool(mine["est"].any()) else {})}
+                     **({"est": True} if whole or bool(mine["est"].any()) else {}), **({"s": "atlas"} if whole else {})}
                 if sea > 0:
                     routed = sea_rows[sea_rows[port_col] >= 0]
                     unrouted = sea - float(routed["kt"].sum())

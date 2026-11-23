@@ -54,7 +54,7 @@ import caveats as CV  # noqa: E402
 import checks as K  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, ".."))
 from common import constants as CN  # noqa: E402  (the Earth radius and the nautical mile, with the page that gives each)
-from clean import LAST_DROPPED, clean as clean_baci, despike, history_flags  # noqa: E402,F401  (despike: used by build_freight.py)
+from clean import LAST_DROPPED, LITHIUM_MIN_UV, clean as clean_baci, despike, history_flags  # noqa: E402,F401  (despike: used by build_freight.py)
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 CACHE = os.path.join(ROOT, "pipeline", "cache")
@@ -822,7 +822,11 @@ def main():
         yn = {}
         for y, texts in sorted(year_notes[group].items()):
             parts = [x for x in texts if x]
-            drops = [r for r in LAST_DROPPED if r["group"] == group and r["year"] == y]
+            drops = [r for r in LAST_DROPPED if r["group"] == group and r["year"] == y and r["rule"] == "new-pair"]
+            low = [r for r in LAST_DROPPED if r["group"] == group and r["year"] == y and r["rule"] == "low-uv"]
+            if low:
+                parts.append(f"{len(low)} flows of {K.label(group)} ({sum(r['t'] for r in low) / 1e3:,.1f} kt) declared under {LITHIUM_MIN_UV:,} USD per tonne, the price of "
+                             "ore or concentrate rather than of a lithium chemical, are left out; the cause is not established")
             if drops:
                 os_ = sorted({r["o"] for r in drops})
                 parts.append(f"{len(drops)} rows of {K.label(group)} from {', '.join(K._name(c) for c in os_)} ({_mt(sum(r['t'] for r in drops) / 1e6)}) "
@@ -918,8 +922,9 @@ def main():
         pdoc = {
             "group": group, "k": COMMODITY.get(group, group), "y": latest, "s": "atlas" if group in EST_GROUP else "baci", "unit": "kt",
             **({"n": EST_GROUP[group]} if group in EST_GROUP else {}),
-            # a small group's total is that of its published rows (0.1 kt each), so that its shares add up
-            "seaborne": (round(sum(r[2] for r in prow if r[3] in (0, 1)), 1) if small else round(sea_tot[latest] / 1e3)),
+            # the unrounded seaborne sum, as the lanes file and the commodity page give it (a small group in kt, one decimal;
+            # the sum of its rows, each rounded to 0.1 kt, differs from it by up to 0.4 kt: GR4D.3)
+            "seaborne": round(sea_tot[latest] / 1e3, 1) if small else round(sea_tot[latest] / 1e3),
             # [code, name, country, zone, basis as a loading port, basis as a discharging port]: each basis indexes `bases`
             # and is null when no pair of the file uses the port in that role. A page can name a cargo at a port in one
             # direction only, so the two differ (the weakest is kept where several countries share the port in one role).
