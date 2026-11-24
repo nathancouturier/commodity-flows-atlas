@@ -62,9 +62,23 @@ HS = {
     "palm-oil": ["151110", "151190"],
     "rapeseed": ["120500"],
     "potash": ["310420"],
+    "potassium-sulphate": ["310430"],  # sulphate of potash (SOP): second group of the potash page
     "phosphate-rock": ["251010", "251020"],
     "dap": ["310530"],
+    # more fertilisers (audit M-022). One code, one group: 310240 (ammonium nitrate with limestone, CAN), 310260 (calcium nitrate
+    # double salts), 310229 and 310290 (other nitrogen), 310390 (other phosphatic), 3105 other than 310520, 310530 and 310540
+    # (the other NP and PK fertilisers, tablets) are not loaded
+    "monoammonium-phosphate": ["310540"],  # HS92: MAP and its mixtures with DAP
+    "superphosphates": ["310310"],  # HS92: one code for single and triple superphosphate
+    "phosphoric-acid": ["280920"],  # HS92: phosphoric acid and polyphosphoric acids; moves as a liquid
+    "npk": ["310520"],  # HS92: fertilisers with the three nutrients nitrogen, phosphorus and potassium
     "urea": ["310210"],
+    "ammonia": ["281410"],  # anhydrous ammonia (refrigerated or pressurised liquid); 281420, ammonia in solution, is not loaded
+    "ammonium-nitrate": ["310230"],  # HS92: ammonium nitrate, whether or not in aqueous solution
+    "uan": ["310280"],  # HS92: urea and ammonium nitrate mixtures in aqueous or ammoniacal solution; moves as a liquid
+    "ammonium-sulphate": ["310221"],
+    # sulphur: crude and unrefined (250310) with sublimed, precipitated and colloidal sulphur (280200); 250390 has no flow in BACI
+    "sulphur": ["250310", "250390", "280200"],
     # ---------------------------------------------------------------- minor (country check only)
     "diamonds": ["710210", "710231"],
     "wood": ["4403*"],
