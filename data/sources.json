@@ -561,7 +561,7 @@
   "name": "Resources and Energy Quarterly, December 2025: principal markets for Australia's commodity exports (table 41)",
   "publisher": "Department of Industry, Science and Resources, Commonwealth of Australia",
   "url": "https://www.industry.gov.au/sites/default/files/2025-12/resources-and-energy-quarterly-december-2025-historical-data.xlsx",
-  "licence": "Creative Commons Attribution 4.0 International; attribution as the workbook asks: \"Department of Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"",
+  "licence": "CC BY 4.0 (Creative Commons Attribution 4.0 International, as the About sheet of the workbook states); attribution as it asks: \"Department of Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"",
   "update": "quarterly (the workbook of December 2025: calendar years to 2024)",
   "access": "Historical data workbook downloaded by hand (the site refuses scripted downloads); table 41 read by pipeline/trade/aus_req_lng.py into a small cache, never by a scheduled job",
   "use": "Australia's LNG exports in 2024 by principal market, beside the customs figures of the LNG page"
