@@ -396,13 +396,14 @@ export const PRICE_COVERAGE_NOTE: Record<string, string> = {
   pgm: 'Platinum monthly (World Bank). Palladium and rhodium: annual average prices only (USGS).',
   // the metals pages of the third commodity package (review GNC3.5): USGS annual averages, each one product of a page that holds more
   chromium: 'Annual average price of chromite ore (USGS, United States salient statistics). No monthly series.',
-  'ferro-alloys': 'Annual average price of ferro-chromium only, per pound of chromium content (USGS, United States salient statistics). No free series for the other alloys.',
+  'ferro-alloys': 'Annual average prices (USGS, United States salient statistics): ferro-chromium, per pound of chromium content, and 75% ferrosilicon, in US cents per pound of silicon. No free series for the other alloys.',
   'ferrous-scrap': 'Annual average price of No. 1 heavy melting scrap only, one grade of the scrap the tables count (USGS, United States). No monthly series.',
   molybdenum: 'Annual average price of molybdic oxide, a product made from the concentrates the tables count (USGS, United States). No price series for the concentrates.',
   graphite: 'Annual average import unit values of three kinds of natural graphite (USGS, United States): flake, lump and chip, and amorphous. No monthly series.',
   // the fertiliser pages hold more products than the Pink Sheet prices (M-022): the note says which ones have a free series
   phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate only; the superphosphate tables hold single and triple together, HS 310310). No free series for MAP or phosphoric acid.',
-  urea: 'Monthly price (World Bank): urea only. No free series for ammonia, ammonium nitrate, UAN or ammonium sulphate.',
+  urea: 'Monthly price (World Bank): urea. Annual average price of ammonia, free on board Gulf Coast, in US dollars per short ton (USGS, United States). No free series for ammonium nitrate, UAN or ammonium sulphate.',
+  sulphur: 'Annual average price of elemental sulphur, free on board mine or plant (USGS, United States). No monthly series.',
   potash: 'Monthly price (World Bank): potassium chloride only. No free series for potassium sulphate.',
   // the oilseed pages hold the seed, the oil and the meal (M-023): the price is the oil's
   rapeseed: 'Monthly price (World Bank): rapeseed oil only, the price of the oil and not of the seed. No free series for rapeseed seed or meal.',

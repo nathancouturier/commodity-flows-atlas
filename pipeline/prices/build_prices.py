@@ -261,6 +261,8 @@ OPENS_ON = {
     "barley": "barley-m",
     "sorghum": "sorghum-m",
     "graphite": "usgs-graphite-flake-a",  # flake, the grade the page's flake and powder code mostly holds; the other grades follow
+    "urea": "urea-m",  # the Pink Sheet's urea; the USGS annual price of ammonia (FNCD) is a second product of the page and follows it
+    "ferro-alloys": "usgs-ferrochromium-a",  # ferro-chromium, the alloy the page opens on; the 75% ferrosilicon follows it
 }
 
 # Pink Sheet series added after the first release (M-066): listed after the original benchmark of their commodity
@@ -696,6 +698,11 @@ USGS_PRICES = [
     ("usgs-graphite-flake-a", "graphite", "Natural graphite, flake, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Flake"),
     ("usgs-graphite-lump-a", "graphite", "Natural graphite, lump and chip (Sri Lanka), US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Lump and chip"),
     ("usgs-graphite-amorphous-a", "graphite", "Natural graphite, amorphous, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Amorphous"),
+    # the rows that the pages of the fertilisers, sulphur and ferro-alloys denied (FNCD, D5): each is a product of the page, in the file's own unit.
+    # The ammonia unit is the file's (dollars per short ton, nitrogen chapter): no conversion. Sulphur is elemental sulphur.
+    ("usgs-sulphur-a", "sulphur", "Sulphur (elemental), US mine or plant unit value, annual average", "USD/t", "Sulfur", "Price, average unit value, free on board, mine and (or) plant"),
+    ("usgs-ammonia-a", "urea", "Ammonia, US Gulf Coast, annual average", "USD/short ton", "Nitrogen (Fixed)\u2014Ammonia", "Price, average, free on board Gulf Coast"),
+    ("usgs-ferrosilicon-75-a", "ferro-alloys", "Ferrosilicon (75% silicon), US salient statistics, annual average", "US cents/lb", "Silicon", "Price, average, cents per pound of silicon: Ferrosilicon, 75% silicon"),
 ]
 
 
@@ -722,14 +729,14 @@ def usgs_series(path):
         for r in mine:
             v = num(r["Value"])
             if v is not None and r["Year"].isdigit():
-                by[int(r["Year"])] = (v, "Estimated" in (r.get("Notes") or ""), r)
+                by[int(r["Year"])] = (v, "Estimated." in [n.strip() for n in (r.get("Notes") or "").split(" -- ")], r)
         years = sorted(by)
         if len(years) < 3 or years != list(range(years[0], years[-1] + 1)):
             missing.append(sid)
             continue
         first = by[years[0]][2]
         notes = [n.strip() for n in re.split(r" -- ", first.get("Notes") or "") if n.strip() and n.strip() != "Estimated."]
-        est = [y for y in years if by[y][1]]
+        est = [y for y in years if by[y][1]]  # a row whose own notes start "Estimated." (a note that quotes the estimated year of another row is not one)
         doc = {"id": sid, "freq": "A", "start": str(years[0]), "v": [by[y][0] for y in years]}
         meta = meta_of(sid, k, name, unit, "A", "usgs-mcs", str(years[0]), str(years[-1]),
                        note=f"USGS Mineral Commodity Summaries {edition}, Salient Statistics, statistic 'Price'",

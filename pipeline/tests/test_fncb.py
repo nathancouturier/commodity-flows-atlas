@@ -350,16 +350,14 @@ NEW_GROUPS = set("""
 """.split())
 
 # B2: the rows that rules 3 and 4 of clean.py re-estimate to more than 50 kt and to more than five times the pair's median of the other
-# years, in the groups added by the three packages (all years): 27 rows, 20 kept as reported (clean.KEEP_REPORTED and the sunflower seed
-# group) and 7 re-estimated, each for the reason given here
+# years, in the groups added by the three packages (all years): 23 rows, 19 kept as reported (clean.KEEP_REPORTED and the sunflower seed
+# group) and 4 re-estimated, each for the reason given here (FNCD, D6, took coke out of rule 4: the three rows of China to the United States and the
+# row of sunflower oil from Ukraine to Greece are no longer on the list)
 ESTIMATE_RIGHT = {
     ("sulphur", "CHE", "ZMB", 2012): "the pair's declared value is steady (USD 37, 45, 41 and 28 million in 2011 to 2014) while the tonnage is missing or under 2 kt; "
                                      "the estimate (206 kt) follows Zambia's imports of 226, 402, 445 and 374 kt",
     ("dri", "MYS", "TWN", 2003): "the estimate (131 kt) is the tonnage of 2002 (129 kt) for the same value, and Taiwan's imports are 162 and 161 kt in 2002 and 2003",
     ("sulphur", "USA", "CHL", 2004): "the value (USD 5.3 million) is that of 2003 (5.4 million, 61 kt); the estimate (59 kt) puts Chile's imports at 62 kt, against 80 and 24 kt in the years around",
-    ("coke", "CHN", "USA", 2002): "coke is homogeneous (B3): the value (USD 110 million) is of the order of 2004 and 2006 (USD 690 and 430 million, 1.7 and 2.4 Mt); the estimate (1.1 Mt) is in line with them",
-    ("coke", "CHN", "USA", 2003): "same pair and reason: USD 107 million for 117 kt reported, 0.9 Mt estimated, between 2002 and 2004",
-    ("coke", "CHN", "USA", 2005): "USD 410 million for 175 kt reported (2,343 USD/t, ten times the group median); the estimate (1.8 Mt) lies between 2004 (1.7 Mt) and 2006 (2.4 Mt)",
     ("sulphur", "SAU", "PNG", 2019): "the estimate (87 kt) puts Papua New Guinea's imports at 159 kt, against 134, 130 and 123 kt in 2021 to 2023",
 }
 
@@ -400,7 +398,7 @@ class B2ValueRulesKeepSowingSeed(unittest.TestCase):
     def test_the_table_is_of_the_new_groups_and_each_row_has_a_reason(self):
         import clean as C
         new = NEW_GROUPS
-        self.assertEqual(len(C.KEEP_REPORTED), 19)
+        self.assertEqual(len(C.KEEP_REPORTED), 18)
         for (g, o, d, y), why in C.KEEP_REPORTED.items():
             self.assertIn(g, new, (g, o, d, y))
             self.assertGreater(len(why), 40, (g, o, d, y))
@@ -431,9 +429,9 @@ class B2ValueRulesKeepSowingSeed(unittest.TestCase):
             others = [t for t, y in zip(*[raw[(raw["group"] == r.group) & (raw["o"] == r.o) & (raw["d"] == r.d)][c].tolist() for c in ("t", "year")]) if y != r.year]
             if not others or r.t > 5 * float(pd.Series(others).median()):
                 far.add((r.group, r.o, r.d, int(r.year)))
-        self.assertEqual(len(far), 27)
+        self.assertEqual(len(far), 23)
         self.assertEqual(far, set(keep) | set(ESTIMATE_RIGHT) | {("sunflower-seed", "FRA", "RUS", 2024)})
-        # the cleaned frame of the package: the 20 rows keep their tonnage, the 7 are estimates
+        # the cleaned frame of the package: the 19 rows keep their tonnage, the 4 are estimates
         now = C.clean(df)
         now = now[now["group"].isin(new)].set_index(["group", "o", "d", "year"])
         for k in keep:
@@ -452,11 +450,13 @@ class B2ValueRulesKeepSowingSeed(unittest.TestCase):
 
 
 class B3Coke(unittest.TestCase):
-    def test_coke_is_homogeneous_and_pig_iron_and_dri_are_not(self):
+    def test_coke_pig_iron_and_dri_are_not_homogeneous_and_the_2016_row_is_listed(self):
+        """FNCB put coke in HOMOGENEOUS; package FNCD (D6) took it out again (steady pairs carry 92% of the tonnes that rule 4 moves: test_fncd.py) and
+        holds the Mozambique to India row of 2016 in ESTIMATE_ROWS."""
         import clean as C
-        self.assertIn("coke", C.HOMOGENEOUS)
-        self.assertNotIn("pig-iron", C.HOMOGENEOUS)
-        self.assertNotIn("dri", C.HOMOGENEOUS)
+        for g in ("coke", "pig-iron", "dri"):
+            self.assertNotIn(g, C.HOMOGENEOUS)
+        self.assertIn(("coke", "MOZ", "IND", 2016), C.ESTIMATE_ROWS)
 
     def test_unit_value_check_covers_coke_pig_iron_and_dri(self):
         import checks as K

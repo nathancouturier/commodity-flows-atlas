@@ -2455,6 +2455,9 @@ def main():
                          "HS 310230 is ammonium nitrate alone, solid or in solution; HS 310240 is ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no "
                          "fertilising element (calcium ammonium nitrate and the like): two tables, and a tonne is in one of them only. "
                          "HS 281420 (ammonia in solution), 310229, 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.")
+            notes.append("Price: the World Bank Pink Sheet gives urea monthly. The one other product of the page with a free price is ammonia: the annual average, free on board "
+                         "Gulf Coast, in US dollars per short ton as USGS gives it (United States salient statistics, source Green Markets), not converted. "
+                         "No free price series was found for ammonium nitrate, UAN or ammonium sulphate.")
             see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
         elif cid == "potash":
             k2o, f = d["production"], round(K.K2O_IN_KCL, 4)  # the factor as printed: each converted figure reproduces from it, to 3 digits
@@ -2491,7 +2494,8 @@ def main():
                          "sulphur) is in the group but holds no flow in the customs file. Sulphuric acid and sulphur compounds are not covered.")
             notes.append("USGS production is sulphur content in all forms (elemental sulphur and the sulphur in sulphuric acid, by country), in tonnes of sulphur: "
                          "the trade tables are tonnes of the product shipped, so the two are not on one basis.")
-            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no sulphur series, and no other free one was found.")
+            notes.append("Price: the World Bank Pink Sheet has no sulphur series. The only price on the page is the USGS annual average unit value of elemental sulphur, "
+                         "free on board mine or plant, in US dollars per metric ton (United States salient statistics); no monthly series was loaded.")
             see.append({"k": "phosphate", "text": "phosphate rock, the phosphate fertilisers and phosphoric acid"})
         elif cid == "wheat":
             notes.append("The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to "
@@ -2582,7 +2586,8 @@ def main():
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("Ferro-nickel and nickel pig iron (HS 720260) are on the nickel page, where their group already was: no tonne is counted twice. The steel page leaves out HS 7201 to 7205.")
             notes.append("No production table: USGS has no world table of the ferro-alloys. Price: the World Bank Pink Sheet has none for them. The only price on the page is the USGS "
-                         "annual average of ferro-chromium, per pound of chromium content (United States salient statistics); no price series for the other alloys was loaded.")
+                         "annual average of ferro-chromium, per pound of chromium content, and of 75% ferrosilicon, in US cents per pound of silicon (United States salient statistics); "
+                         "no price series for the other alloys was loaded.")
             see.append({"k": "nickel", "text": "ferro-nickel and nickel pig iron (HS 720260)"})
             see.append({"k": "chromium", "text": "chromium ore, the raw material of ferro-chromium"})
             see.append({"k": "manganese", "text": "manganese ore, the raw material of ferro-manganese and silico-manganese"})
