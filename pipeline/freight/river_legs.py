@@ -33,7 +33,24 @@ RIVER_LEGS = {
         "s": "wikipedia",
         "url": "https://fr.wikipedia.org/wiki/Port_de_Rouen",
         "page": "Port de Rouen, French Wikipedia",
-        "sentence": "L'activité portuaire se répartit tout au long de la Seine entre Rouen et Honfleur sur environ 120 km.",
+        "sentence": "L'activité portuaire se répartit tout au long de la Seine entre Rouen et Honfleur sur environ 120 km. "
+                    "The same page gives another figure: \"Bien que le port de Rouen soit situé à 80 km de l'estuaire par le fleuve et à 6 heures de navigation\". "
+                    "The 80 km are to the estuary; the 120 km are to Honfleur, at the far end of the estuary, where the node of the network is.",
+    },
+    # Weser (English Wikipedia, CC BY-SA 4.0, read 24 November 2026), introduction: "The Weser begins at Hannoversch Münden through the
+    # confluence of the Werra and Fulda. It passes through the Hanseatic city of Bremen. Its mouth is 50 km (31 mi) further north opposite
+    # the ports of Bremerhaven and Nordenham." The mouth is the node of the network that the router used for Bremen before (Bremerhaven, 53 km
+    # from the town in a straight line: the page's 50 km is a round figure and the leg may be short by a few km; no other free page was read).
+    "DEBRE": {
+        "river": "Weser",
+        "mouth_name": "Bremerhaven",
+        "mouth": [8.536713, 53.55888],
+        "km": 50,
+        "s": "wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Weser",
+        "page": "Weser, English Wikipedia",
+        "sentence": "The Weser begins at Hannoversch Münden through the confluence of the Werra and Fulda. It passes through the Hanseatic city of Bremen. "
+                    "Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and Nordenham.",
     },
 }
 

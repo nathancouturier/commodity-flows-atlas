@@ -548,7 +548,13 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   de Rouen, "L'activité portuaire se répartit tout au long de la Seine entre Rouen et Honfleur sur environ 120 km", read on
   24 November 2026: 120 km, 65 nm; the mouth is the node of the network nearest to Honfleur, which is 8 to 10 nm up the
   estuary from the node of Le Havre, so a route from Rouen is longer than the same route from Le Havre by the leg and that
-  stretch. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
+  stretch. The same page gives another figure, "à 80 km de l'estuaire par le fleuve et à 6 heures de navigation": the 80 km are
+  to the estuary, the 120 km are to Honfleur, at the far end of the estuary, where the network's node is; the leg is the 120 km,
+  and the days of a lane count it at the lane's speed. Bremen (package FNCH, review GV7B.1), 55 km from the network, is the other
+  port of an open choice of German lanes and never the principal port of a pair: English Wikipedia, Weser, read on 24 November 2026,
+  "It passes through the Hanseatic city of Bremen. Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and
+  Nordenham": 50 km, 27 nm, from the node of Bremerhaven, the one the router already used for Bremen. The page's figure is round and
+  shorter than the 53 km of the straight line from Bremen to that node, so the leg is a lower bound. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
   (`test_ports.py`) requires a leg for every port of a flow's gateway that is more than 50 km from the coast and the network;
   the other ports of the tables at 20 to 50 km from the network (estuary and river ports, and islands) are listed in
   `test_fnce.py`, which fails when one more comes into a table, and are not changed.
@@ -1485,8 +1491,12 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the partners
   that the Rouen page names (China, Morocco, Algeria) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
   Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, West and southern
-  Africa, the Americas, the Middle East and the rest of Asia); the pairs that were left open keep both ports, the other as an option, and Fos stays the port
-  of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). The split between the two
+  Africa, the Americas, the Middle East and the rest of Asia); and Fos stays the port
+  of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). No page says that a partner is served by
+  one of the two ports only, so the other port is an option of every one of these partners (package FNCH): the lane page prints both distances and says that no source gives the
+  split, and the principal port of no pair changed (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 13 and 11, carry the other port as an option;
+  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, had none before, and every passage and every estimate stayed as it was, since the two ports
+  are on the same seaboard). The split between the two
   ports is the atlas's rule, not a measured share. In 2024 the atlas loads 11.3 Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, 3.5 Mt at La Pallice and 0.9 Mt
   at Fos (14.8 Mt at Rouen, none at La Pallice and 0.9 Mt at Fos before the rule, against 12.7 Mt of cereals for the whole port of Rouen on its page); the lanes of La Pallice carry
   no river leg (the leg of the Seine is for Rouen). Generated corridors: the eight groups of lanes share a cap of

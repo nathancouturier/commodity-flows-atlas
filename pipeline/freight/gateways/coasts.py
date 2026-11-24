@@ -490,20 +490,21 @@ COAST_RULES = [
         "src": "atlas", "url": None, "two_ocean": True,
     },
     {
-        # Exports of grain, oilseeds and meal (FNCF, review GV6A.2): the principal port is chosen by the partner, the other port stays an option where
-        # the partner was left open before (a "ports" entry lists the principal port first). The Mediterranean basin has no ports: Fos, as in the next rule.
+        # Exports of grain, oilseeds and meal (FNCF, review GV6A.2): the principal port is chosen by the partner and the other port is an option of every
+        # partner (FNCH: no page says that a partner is served by one port only; a "ports" entry lists the principal port first). The Mediterranean basin has no ports: Fos, as in the next rule.
         "id": "fra-grain-ports", "kind": "basin", "country": "FRA", "role": "load", "groups": FRA_GRAIN_GROUPS,
         "basins": {"med": FRA_GRAIN_MED_SIDE, "rouen-named": FRA_GRAIN_ROUEN_NAMED, "rouen": FRA_GRAIN_ROUEN_SEAS, "la-pallice": FRA_ATLANTIC_SIDE,
                    "la-pallice-open": _Anyone()},
         "zones": {"med": ["med"]},
-        "ports": {"rouen-named": ["FRURO", "FRLPE"], "rouen": ["FRURO"], "la-pallice": ["FRLPE"], "la-pallice-open": ["FRLPE", "FRURO"]},
-        "reason": "Atlas assumption: no page gives the split of French grain exports between Rouen and La Pallice. The Rouen page (French Wikipedia, 2023) "
-                  "names China, Morocco and Algeria as its main destinations and calls Rouen the first European port for cereals, and the La Rochelle page "
-                  "calls La Pallice the second French port for cereal exports. So Rouen is the principal port for China, Morocco and Algeria and for the "
-                  "partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, Germany, the Nordic and "
-                  "Baltic countries, Poland), La Pallice for every other partner on the Atlantic side or left open (the Atlantic coast of Europe, West and "
-                  "southern Africa, the Americas, the Middle East and the rest of Asia); China, Morocco and Algeria and the partners that no rule "
-                  "assigns keep the other port as an option. The Mediterranean and Black Sea partners, Russia included, take Fos",
+        "ports": {"rouen-named": ["FRURO", "FRLPE"], "rouen": ["FRURO", "FRLPE"], "la-pallice": ["FRLPE", "FRURO"], "la-pallice-open": ["FRLPE", "FRURO"]},
+        "reason": "Atlas assumption: no page gives the split of French grain exports between Rouen and La Pallice, by partner or in total. The Rouen page "
+                  "(French Wikipedia, 2023) names China, Morocco and Algeria as its main destinations and calls Rouen the first European port for cereals, "
+                  "and the La Rochelle page calls La Pallice the second French port for cereal exports. So the principal port is Rouen for China, Morocco "
+                  "and Algeria and for the partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, "
+                  "Germany, the Nordic and Baltic countries, Poland), and La Pallice for every other partner on the Atlantic side or left open (the Atlantic "
+                  "coast of Europe, West and southern Africa, the Americas, the Middle East and the rest of Asia). Since no page says that a partner is "
+                  "served by one port only, the other port is an option of every one of these partners: a lane page prints both distances and says "
+                  "that no source gives the split. The Mediterranean and Black Sea partners, Russia included, take Fos",
         "src": "atlas", "url": None,
     },
     {

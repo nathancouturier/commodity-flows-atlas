@@ -212,8 +212,8 @@ G = {
         # products in 2023 (79% to Asia Pacific), without naming a port.
         ("MYPEN", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Malaysia/", "EIA country brief (November 2024), table of operating refineries, 2023: Pengerang (Petronas) 300 thousand barrels a day, the largest place; the point is the town of the Pengerang page. The brief names the refinery, not the berth"),
         ("MYPDI", "sea", {"crude"}, "discharge", "eia-cab", EIAL + "Malaysia/", "Same table: Port Dickson, Hengyuan Refining 156 and Petron 85 thousand barrels a day (241 together). The brief names the refineries, not the berth"),
-        ("MYPEN", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Pengerang 300 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refinery, not the berth, and does not say which refinery exports"),
-        ("MYPDI", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Port Dickson 241 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refineries, not the berth, and does not say which refinery exports"),
+        ("MYPEN", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Pengerang 300 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refinery, not the berth, and does not say which refinery exports", "plant"),
+        ("MYPDI", "sea", {"products"}, "load", "eia-cab", EIAL + "Malaysia/", "Same table: Port Dickson 241 thousand barrels a day; the brief says Malaysia exported 1.3 million b/d of petroleum products in 2023. It names the refineries, not the berth, and does not say which refinery exports", "plant"),
     ],
     "RUS": [
         ("RUSAB", "arctic-russia", {"lng"}, "load", "giignl-2026", GIIGNL + "17", "Yamal LNG, Sabetta"),
@@ -285,8 +285,8 @@ G = {
         # names no port. Order: the table's, by coastal place (Jamnagar 771 and 666, Mumbai 241 and 190, Vadinar 404); the other
         # coastal places (Kochi 312, Mangalore 303, Visakhapatnam 300, Paradip 300) come after, and the engine takes three.
         ("INSIK", "wc-india", {"products"}, "load", "wikipedia", WP + "Jamnagar_Refinery", "The Jamnagar refinery (Reliance), 'currently the largest oil refinery in the world' (1,240,000 barrels a day on the page; the EIA brief gives 771 and 666 thousand b/d at Jamnagar), is a complex with 'port facilities', and the page says it exports oil products. The Sikka page says Reliance operates one of the largest grass-root refineries there, in a coastal town with a port: Sikka stands for the refinery's port, and neither page names the berth"),
-        ("INBOM", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "EIA country brief (February 2025), table of refineries: Mumbai, Bharat Petroleum 241 and Hindustan Petroleum 190 thousand barrels a day (431 together); the brief says India exports petroleum products, 84% of them transportation fuels in 2023. It names the refineries by town, not the berth, and does not say which refinery exports"),
-        ("INVAD", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "Same table: Vadinar, Nayara Energy, 404 thousand barrels a day; the brief says India exports petroleum products. It names the refinery by town, not the berth, and does not say which refinery exports"),
+        ("INBOM", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "EIA country brief (February 2025), table of refineries: Mumbai, Bharat Petroleum 241 and Hindustan Petroleum 190 thousand barrels a day (431 together); the brief says India exports petroleum products, 84% of them transportation fuels in 2023. It names the refineries by town, not the berth, and does not say which refinery exports", "plant"),
+        ("INVAD", "wc-india", {"products"}, "load", "eia-cab", EIAL + "India/", "Same table: Vadinar, Nayara Energy, 404 thousand barrels a day; the brief says India exports petroleum products. It names the refinery by town, not the berth, and does not say which refinery exports", "plant"),
     ],
     "NLD": [
         ("NLEUR", "nw-europe", {"lng"}, "discharge", "giignl-2026", GIIGNL + "31", "Gate terminal, Maasvlakte (nearest port: Europoort)"),

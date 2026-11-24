@@ -37,7 +37,7 @@ TITLES = {
     "pipeline/freight/vessel_rules.py": "Draught limits of straits and laden draughts of vessel classes (the draught rule)",
     "pipeline/freight/modes.py": "Sea, transit, mixed and land rules (sea neighbours, sea outlets, overland blocs, LNG terminals)",
     "pipeline/freight/routing.py": "Passages closed to the routing (Kanmon Strait)",
-    "pipeline/freight/river_legs.py": "River legs of the ports up a river that the sea network does not follow (Rouen)",
+    "pipeline/freight/river_legs.py": "River legs of the ports up a river that the sea network does not follow (Rouen, Bremen)",
 }
 LANGS = {"ja": "Japanese", "fr": "French", "es": "Spanish", "pt": "Portuguese", "de": "German", "ru": "Russian", "zh": "Chinese"}
 

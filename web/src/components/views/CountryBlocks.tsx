@@ -401,7 +401,7 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
       <FreightSide p={p} side="exports" />
       <FreightSide p={p} side="imports" />
       <div class="muted small cp-fr-note">
-        Typical ports (Atlas assumption): the port of each recorded pair. A port with no mention: a page read names this cargo at this port. The others say what they
+        Typical ports (Atlas assumption). {fr.note ?? 'The port of each recorded pair.'} A port with no mention: a page read names this cargo at this port. The others say what they
         rest on: a page that names the cargo in the other direction, a page that names the plant (a steel works) and not the cargo, the general port of the country, or "no source page yet" ({NO_PAGE}). Passages: the share of the seaborne tonnes whose assumed route has
         to cross the passage ("at least") or may cross it ("up to"), from the routes of the trade-flow engine; a passage is listed from 2% of these tonnes or
         1 Mt. Mode by cargo family (Atlas rule).

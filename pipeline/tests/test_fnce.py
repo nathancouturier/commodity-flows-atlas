@@ -57,12 +57,16 @@ class E1RiverLegTable(unittest.TestCase):
                 self.assertTrue(leg["url"].startswith("https://"))
                 self.assertEqual(leg["s"], "wikipedia")
                 # the sentence of the page gives the length the table uses
-                self.assertEqual([int(x) for x in re.findall(r"(\d+) km", leg["sentence"])], [leg["km"]])
+                figures = [int(x) for x in re.findall(r"(\d+) km", leg["sentence"])]
+                self.assertEqual(figures[0], leg["km"])
+                # FNCH H6: where the page gives a second figure (Rouen: 80 km to the estuary), the sentence says what each one is
+                self.assertEqual(set(figures[1:]), {80, 120} if code == "FRURO" else set())
                 self.assertIn(leg["river"], leg["sentence"])
                 self.assertIn(leg["mouth_name"], leg["sentence"])
-                # the gateway row of the port cites the same page
+                # the gateway row of Rouen cites the same page (Bremen's leg comes from the page of the river, its row cites the page of the port)
                 rows = [r for rs in P.G.values() for r in rs if r.code == code]
-                self.assertIn(leg["url"], {r.url for r in rows})
+                if code == "FRURO":
+                    self.assertIn(leg["url"], {r.url for r in rows})
 
     def test_rouen_is_the_65_nm_of_120_km(self):
         self.assertEqual(RL.RIVER_LEGS["FRURO"]["km"], 120)
@@ -76,7 +80,7 @@ class E1RiverLegTable(unittest.TestCase):
         plant) farther than 50 km from the coast and the sea network is routed from the mouth of its river."""
         codes = {r.code for rs in P.G.values() for r in rs} | {c for t in P.LEGACY_P.values() for c in t.values()}
         far = sorted(c for c in codes if P._known(c) and c not in P.MANUAL and P.sea_km(c) > 50)
-        self.assertTrue(set(far) <= set(RL.RIVER_LEGS) | {"DEBRE"}, far)  # Bremen: no lane uses it (test below); a question for the owner
+        self.assertTrue(set(far) <= set(RL.RIVER_LEGS), far)
         for c in RL.RIVER_LEGS:
             self.assertGreater(P.sea_km(c), 50, c)
 
@@ -92,17 +96,35 @@ class E1RiverLegTable(unittest.TestCase):
         self.assertEqual(manual, {"QAHAL": 36})  # Halul Island: an island, the terminal is the island
         self.assertFalse(set(band) & set(RL.RIVER_LEGS))
 
-    def test_bremen_is_an_open_point_it_is_an_option_of_some_lanes_and_never_a_main_port(self):
-        """Bremen is 55 km from the network (the Weser) and has no leg: no page was read for its length, so the distance of the options
-        through it leaves the river out. It is the other port of an open choice of German lanes, never the main port of a lane or a
-        pair (reported to the owner). When it gets a leg, move it to RIVER_LEGS and delete this test."""
-        self.assertNotIn("DEBRE", RL.RIVER_LEGS)
+    def test_bremen_has_a_leg_of_the_weser_and_the_distance_of_its_options_includes_it(self):
+        """FNCH H2 (GV7B.1): Bremen is 55 km from the network. Its leg is the 50 km of the Weser that the English Wikipedia page of the river gives
+        (the mouth is Bremerhaven, the node the router already used). It is the other port of an open choice of German lanes, never the main port
+        of a lane or a pair, and a lane that offers it carries the note of the leg."""
+        leg = RL.RIVER_LEGS["DEBRE"]
+        self.assertEqual((leg["river"], leg["mouth_name"], leg["km"], RL.nm_of(leg)), ("Weser", "Bremerhaven", 50, 27))
+        self.assertEqual(RL.leg_at(at("DEBRE"))["code"], "DEBRE")
+        sea = RT.route(at("DEHAM"), at("NLRTM")).nm
+        brm = RT.route(at("DEBRE"), at("NLRTM"))
+        self.assertEqual(brm.nm, RT.route(leg["mouth"], at("NLRTM")).nm + 27)
+        self.assertEqual(brm.coords[0], at("DEBRE"))
+        self.assertEqual((sea, brm.nm), (310, 291))  # Bremen to Rotterdam was 264 nm, 46 nm shorter than Hamburg, with the Weser left out
+        n = RL.note(leg, "Bremen")
+        self.assertEqual(n, "Bremen is 27 nm up the Weser from Bremerhaven (50 km, Weser page): included in the distance; the line runs straight from the port to Bremerhaven.")
         d = os.path.join(DATA, "freight")
+        seen = 0
         for f in sorted(os.listdir(os.path.join(d, "pairs"))):
             self.assertNotIn("DEBRE", {p[0] for p in load("freight", "pairs", f)["ports"]}, f)
         for f in sorted(os.listdir(os.path.join(d, "lanes"))):
-            for lane in load("freight", "lanes", f)["lanes"]:
+            doc = load("freight", "lanes", f)
+            offered = 0
+            for lane in doc["lanes"]:
                 self.assertNotIn("DEBRE", lane["load"] + lane["discharge"], lane["id"])
+                if "DEBRE" in [x for o in lane.get("opts") or [] for x in (o["load"], o["discharge"])]:
+                    offered += 1
+            seen += offered
+            if offered:  # the page of such a lane prints the note of the leg
+                self.assertEqual(doc["ports"]["DEBRE"]["river"]["n"], n, f)
+        self.assertGreater(seen, 20)
 
     def test_the_note_names_the_leg_the_mouth_the_length_and_the_straight_line(self):
         n = RL.note(RL.RIVER_LEGS["FRURO"], "Rouen")

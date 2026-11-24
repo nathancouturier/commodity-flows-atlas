@@ -135,21 +135,32 @@ class F3FrenchGrainPorts(unittest.TestCase):
     SEAS = ("GBR", "IRL", "BEL", "NLD", "DEU", "DNK", "NOR", "SWE", "FIN", "ISL", "POL", "LTU", "LVA", "EST")
     OTHER = ("PRT", "SEN", "NGA", "ZAF", "BRA", "USA", "MEX", "SAU", "JPN", "KOR", "AUS", "KEN")
 
-    def test_the_principal_port_is_chosen_by_the_partner(self):
+    def test_the_principal_port_is_chosen_by_the_partner_and_the_other_port_is_an_option_of_every_partner(self):
+        """FNCH H1: no page gives the split between the two ports, so no partner outside the Mediterranean side is given one port only."""
         for g in ("wheat", "barley", "corn", "rapeseed", "soymeal", "rapeseed-meal"):
-            for c in self.NAMED:
+            for c in self.NAMED + self.SEAS:
                 a = P.assign("FRA", c, g)
-                self.assertEqual(a.main.load, "FRURO", (g, c))
-                self.assertIn("FRLPE", {o.load for o in a.options}, (g, c))  # the other port stays an option
-            for c in self.SEAS:
-                a = P.assign("FRA", c, g)
-                self.assertEqual((a.main.load, {o.load for o in a.options}, a.rule), ("FRURO", {"FRURO"}, "fra-grain-ports"), (g, c))
+                self.assertEqual((a.main.load, {o.load for o in a.options}, a.basis), ("FRURO", {"FRURO", "FRLPE"}, "open"), (g, c))
             for c in self.OTHER:
                 a = P.assign("FRA", c, g)
-                self.assertEqual(a.main.load, "FRLPE", (g, c))
-        for c in ("ITA", "ESP", "GRC", "EGY", "TUR", "RUS"):  # the Mediterranean side keeps Fos
-            self.assertEqual(P.assign("FRA", c, "wheat").main.load, "FRFOS", c)
-        self.assertIn("FRURO", {o.load for o in P.assign("FRA", "SAU", "wheat").options})  # a partner left open keeps both ports
+                self.assertEqual((a.main.load, {o.load for o in a.options}, a.basis), ("FRLPE", {"FRURO", "FRLPE"}, "open"), (g, c))  # the rule of the other end (Mexico's coast) may name the pair
+        for c in ("ITA", "ESP", "GRC", "EGY", "TUR", "RUS"):  # the Mediterranean side keeps Fos, with no option
+            a = P.assign("FRA", c, "wheat")
+            self.assertEqual((a.main.load, {o.load for o in a.options}), ("FRFOS", {"FRFOS"}), c)
+        self.assertEqual({o.load for o in P.assign("FRA", "SAU", "wheat").options}, {"FRURO", "FRLPE"})  # a partner left open keeps both ports
+
+    def test_the_lane_pages_of_the_partners_of_the_two_ports_print_both_distances_and_the_principal_is_the_one_of_the_rule(self):
+        seen = {}
+        for g in ("wheat", "barley", "corn", "rapeseed", "sunflower-seed", "rapeseed-meal"):
+            for lane in load(DATA, "freight", "lanes", g + ".json")["lanes"]:
+                if lane["id"].split(":")[1].startswith("FRA-") and lane["load"][0] in ("FRURO", "FRLPE"):
+                    c = lane["id"].split("-")[-1]
+                    other = {"FRURO": "FRLPE", "FRLPE": "FRURO"}[lane["load"][0]]
+                    self.assertEqual(lane["portBasis"], "open", lane["id"])
+                    self.assertIn(other, {o["load"] for o in lane["opts"]}, lane["id"])  # a distance from the other port (a lane with several discharge ports also lists those of the main port)
+                    self.assertEqual(lane["load"][0], "FRURO" if c in self.NAMED + self.SEAS else "FRLPE", lane["id"])
+                    seen[lane["id"]] = 1
+        self.assertGreater(len(seen), 10, seen)
 
     def test_sugar_and_the_imports_are_not_touched_by_the_rule(self):
         self.assertIn(P.assign("FRA", "BRA", "sugar").main.load, ("FRLEH", "FRFOS"))  # no page names sugar at a grain port

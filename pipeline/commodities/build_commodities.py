@@ -209,6 +209,11 @@ def joinn(a, b):
     return (a[:-1] if a.endswith(".") and not a.endswith("..") else a) + "; " + b
 
 
+# The tonnage that moves both by sea and overland (split not known) is said beside the seaborne figure from this size, in Mt: the note below,
+# the line and the year note of the commodity panel share it (web/src/lib/mixedShown.ts, MIXED_MIN_MT; a test ties the two constants)
+MIXED_MIN_MT = 0.005
+
+
 def fig(v, u, y, s, n=None):
     d = {"v": rnd(v), "u": u, "y": y, "s": s}
     if n:
@@ -1120,8 +1125,8 @@ class Baci:
              "or by sea through a foreign port for a landlocked country")
         u = lg.get("unit") or "Mt"  # a group under 1 Mt a year is published in kt by the lanes builder
         mx = (lg.get("mixed") or [0])[-1]
-        if mx and mx >= (50 if u == "kt" else 0.05):
-            n += f"; {_fmt(mx)} {u} that move both by sea and overland (split not known) are not in it"
+        if mx and mx >= MIXED_MIN_MT * (1000 if u == "kt" else 1):
+            n += f"; {_fmts(mx, u, under=0.05)} that move both by sea and overland (split not known) are not in it"
         if lg.get("est") and lg["est"] >= 0.01:
             n += f"; {lg['est'] * 100:.0f}% of this tonnage estimated from value"
         if label:
@@ -3129,12 +3134,13 @@ def _fmt(v):
     return f"{v:.2f}"
 
 
-def _fmts(v, u):
+def _fmts(v, u, under=0.0):
     """`_fmt` with its unit, but a figure that two decimals would write "0.00" (a small row beside a large one) keeps three significant digits,
-    in the smaller unit under 0.001 Mt: "0.00 Mt" is not a figure (GV6C.11)."""
+    in the smaller unit under 0.001 Mt: "0.00 Mt" is not a figure (GV6C.11). `under`: the same for every figure below it ("0.01 Mt" for 0.0102
+    is 2% off, "0.02 Mt" for 0.0167 is 20%: the note of the mixed tonnage starts at 0.005 Mt; above 0.05 Mt, where it started before, it is written as before)."""
     if not v:
         return f"0 {u}"
-    return _nfu(v, u) if round(v, 2) == 0 else f"{_fmt(v)} {u}"
+    return _nfu(v, u) if round(v, 2) == 0 or abs(v) < under else f"{_fmt(v)} {u}"
 
 
 def _pct1(x):

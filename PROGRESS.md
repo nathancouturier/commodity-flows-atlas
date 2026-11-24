@@ -370,6 +370,25 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   figure, the atlas may publish its own estimate, labelled "Atlas estimate" with its method.
   Code under MIT; the atlas's own derived figures under CC BY 4.0.
 - Three visual style proposals were sent as images; the site style is unchanged until one is chosen.
+- 24 November 2026:
+  - **Baltic Exchange.** The facts are kept as they are (route definitions, index weights, status and standard
+    vessels stated in the atlas's own words, each with a link, no index value), with attribution and without
+    asking the Baltic Exchange for written consent. The owner was told that the site and the repository are
+    public today.
+  - **Alerts.** Issues are enabled on the repository and the owner watches it, so a failing update reaches him
+    as an issue.
+  - **BLS.** The owner opened the BLS copyright page in a browser and reports "Public Domain: Citation
+    Requested", the terms the registry already quoted from FRED's page of the series. A free BLS key is created
+    only if the keyless quota fails on GitHub (known after the first scheduled run).
+  - **SEC EDGAR.** The owner accepts that a contact address is sent to the SEC, and to nobody else, when its
+    filings are read. He set it himself as an environment variable (`SEC_CONTACT_EMAIL`) that the reading
+    script takes its `User-Agent` from; the address is written in no file of the repository. The company
+    entries without a figure will be read on sec.gov under these rules in a later round.
+  - **Pace.** Several packages may run at the same time.
+  - The owner downloaded by hand and handed over four files that the machine could not fetch: Queensland's coal
+    sales and coal production workbooks, the historical tables of Australia's Resources and Energy Quarterly
+    (all CC BY 4.0) and the World Port Index of the US National Geospatial-Intelligence Agency (public domain).
+    They feed the next rounds (metallurgical coal by pair, port limits).
 
 ## Choices made without the owner, to confirm
 
@@ -468,7 +487,7 @@ These were needed to finish the work; each is reversible.
      "What happened".
 10. Fifth release, each reversible:
    - Benchmark definitions are taken from the Baltic Exchange's own guide and circulars, stated as facts in the
-     atlas's words with a link, never an index value (see the open question on the Baltic's terms). The Veson
+     atlas's words with a link, never an index value (kept as they are by the owner's decision of 24 November). The Veson
      page is no longer used or linked: its terms forbid both.
    - A benchmark that would have removed a generated corridor has no corridor of its own and links to that
      corridor (TC11, TC22); the grain route P8 counts soybeans only. This keeps the 120 generated ids stable.
@@ -568,31 +587,26 @@ These were needed to finish the work; each is reversible.
 
 ## Open questions for the owner
 
-Decisions that weigh most, first.
+Decisions that weigh most, first. (The questions on the Baltic Exchange's terms, on GitHub issues, on the BLS
+copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decisions of the owner".)
 
-1. **The Baltic Exchange's website terms.** Clause 5.1 says that no part of its website or content "may be copied
-   or reproduced (except for your personal use), shared with third parties ... or used to create any derivative
-   work ... without the prior written consent of the Baltic". The atlas states the definitions of 90 benchmark
-   routes, their index weights and status, and the figures of 13 standard vessels as facts, in its own words,
-   each with a link to the document; it shows no index value and says it is not affiliated. Three options:
-   keep the facts with attribution (the present state, and what the audit recommended); ask the Baltic Exchange
-   for written consent; or remove what comes only from its site (the definition tables, the weights, the
-   standard vessels and the typical sizes taken from them). The registry records the clause and that the verdict
-   is pending.
-2. **Alerts arrive as GitHub issues only.** Please check that issues are enabled on the repository and that you
-   watch it; otherwise no signal of a failing update reaches you. The first real runs of the reworked jobs are
-   this week: a first run may show a defect that no simulation could.
-3. **The BLS.** (a) Its copyright page refuses automated readers: please open
-   https://www.bls.gov/opub/copyright-information.htm in a browser and confirm that its data may be reused with a
-   citation (the registry relies on the tag "Public Domain: Citation Requested" of FRED's page of the series).
-   (b) If the keyless quota of its API stays exhausted on GitHub's shared addresses, the series needs a free BLS
-   registration key, which only the owner can create.
-4. **SEC EDGAR** asks automated readers for a contact e-mail address. One package of 23 November read about
-   thirty filings with a placeholder address, which it should not have done; no automated read of sec.gov is made
-   any more. Either the owner gives an address he accepts to send to the SEC, or the same reports are read on the
-   companies' own sites only (several refuse automated readers, so some companies stay without a figure).
+1. **The BLS key.** If the keyless quota of the BLS API stays exhausted on GitHub's shared addresses, the
+   freight producer price series needs a free BLS registration key, which only the owner can create. The first
+   scheduled run (Wednesday 25 November 2026, 21:43 UTC) will tell.
+2. **Russian fertilisers leave from the Baltic for every destination.** Russian urea, DAP and potash of the
+   earlier releases, and now ammonia, UAN, phosphoric acid and sulphur, load at Ust-Luga whatever the buyer
+   (Russian sulphur to China is drawn round Europe and through Suez, 12,300 nm). A coast rule (Black Sea ports
+   for the Mediterranean, Africa and Asia; Far East ports for China) needs pages that name the cargo at those
+   ports and moves published lanes of three large groups. Do it next?
+3. **French ports for oil, coal and ore** are still the country's general ports (Le Havre, Fos); grain,
+   fertilisers and general cargo now follow a rule by partner. The same work for the three bulk families needs
+   a page per terminal (Dunkirk, Fos, Le Havre, Donges).
+4. **Zimbabwe's coke.** Customs data record 0.9 Mt of coke exported by Zimbabwe in 2024 while the EIA series
+   of its coke production reads 399 kt in 2022, 5 kt in 2023 and nothing since. The tonnes are kept, with a
+   note that the two sources disagree; Mozambique's, with no production in any year of the EIA series and
+   large coal exports, were dropped as coal declared under the coke code. Keep the two treatments?
 5. **The map with 190 ports.** Every asset is drawn at every zoom and every type is on by default, as the owner
-   decided; the world view is now crowded, most of all on a phone. One option inside those decisions: draw the
+   decided; the world view is crowded, most of all on a phone. One option inside those decisions: draw the
    port icons smaller at the lowest zooms. Nothing was changed.
 6. **Dependabot pull requests** are switched off (each one is a notification e-mail). Turn them on (one grouped
    pull request a month per ecosystem)? Branch protection of `main`, required checks and Dependabot security
@@ -606,32 +620,37 @@ Decisions that weigh most, first.
    owner send that notice? (c) Realised time-charter earnings per day, published each quarter by listed
    shipowners, would give a rate history by class without any Baltic value, but only by hand: is a quarterly
    manual entry acceptable?
-9. **Free accounts** that would replace estimates with measured figures, if the owner creates them: UN Comtrade
-   (importer-side quantities for Chilean copper, tin and lithium; key stored as the repository secret
-   `COMTRADE_API_KEY`), US Census USA Trade Online (LPG from the United States to Mexico by transport mode), an
-   EIA API key (a fallback for the EIA bulk file). The `FRED_API_KEY` secret is no longer read and can be deleted.
-10. **Files the owner could download by hand**: the World Port Index of the US National Geospatial-Intelligence
-    Agency (`UpdatedPub150.csv` on msi.nga.mil, public domain; it answers HTTP 503 from here) for port limits;
-    Global Energy Monitor's inventories (CC BY 4.0, behind a form with an e-mail address) to move the
-    infrastructure layer from a sample to an inventory.
-11. The IMF PortWatch ports table (names, positions, codes of about 2,000 ports) is kept in the repository under
+9. **Tables that need a publisher's written consent.** worldsteel (crude steel, pig iron and direct-reduced iron
+   by country), GIIGNL and the IGU (LNG by country) publish tables that are free to read and that their terms
+   forbid to copy. The atlas cites one total each beside its own customs table. A country table would need a
+   written request from the owner to each publisher (addresses and wording are in the notes of the source
+   scouts); nothing is asked unless the owner wants it.
+10. **Free accounts and keys**, none needed today: UN Comtrade's public preview answers without a key (slowly,
+    a few calls a minute), the US Census monthly export file is a free download, and the EIA bulk files cover
+    what the API would. A free Comtrade key or EIA key would only make the downloads faster. The `FRED_API_KEY`
+    secret is no longer read and can be deleted.
+11. **Files the owner could download by hand**: Global Energy Monitor's inventories (CC BY 4.0, behind a form
+    with an e-mail address) to move the infrastructure layer from a sample to an inventory; the Energy
+    Institute's Statistical Review workbook and its terms of use (the site refuses automated readers), for
+    reserves and LNG by country.
+12. The IMF PortWatch ports table (names, positions, codes of about 2,000 ports) is kept in the repository under
     the IMF's terms of use, with credit; commercial reuse would need the IMF's permission. Accept?
-12. Benchmark routes: give TC11 and TC22 their own corridor (two generated corridors would disappear and their
+13. Benchmark routes: give TC11 and TC22 their own corridor (two generated corridors would disappear and their
     addresses with them)? Add TD32 and TC24 once their definition can be read? A page per index?
-13. Companies: also show EU designations and OFAC's sectoral lists as sanction marks? Accept "cargoes" or "TBtu"
+14. Companies: also show EU designations and OFAC's sectoral lists as sanction marks? Accept "cargoes" or "TBtu"
     as units (Cheniere and Venture Global publish LNG that way)? Ask Cochilco for its terms of reuse (one figure
     is cited with a link)?
-14. Containers: still neither in scope nor declared out of scope (audit point C-056); the class page says what it
+15. Containers: still neither in scope nor declared out of scope (audit point C-056); the class page says what it
     is.
-15. Licence of the documentation files (README, METHODOLOGY, DATA_SOURCES, NOTICE): not decided.
-16. Where should a second entry point to the chokepoint status board go (it opens from any chokepoint page)?
-17. Official names of the four-digit customs headings: the texts of UN Comtrade are for internal use only; the
+16. Licence of the documentation files (README, METHODOLOGY, DATA_SOURCES, NOTICE): not decided.
+17. Where should a second entry point to the chokepoint status board go (it opens from any chokepoint page)?
+18. Official names of the four-digit customs headings: the texts of UN Comtrade are for internal use only; the
     atlas derives its names from the CEPII BACI product list.
-18. Should a commodity filter the freight routes drawn on the map (audit point A-070)? Every route stays drawn
+19. Should a commodity filter the freight routes drawn on the map (audit point A-070)? Every route stays drawn
     today, as the owner set it.
-19. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
+20. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
     the fourth release from the disruptions of passages.
-20. The choices listed above, each reversible.
+21. The choices listed above, each reversible.
 
 ## Update jobs
 
