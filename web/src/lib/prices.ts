@@ -384,14 +384,24 @@ export function seriesForCommodity(k: string | null | undefined, idx = priceInde
 export function defaultSeriesIds(k: string | null | undefined): string[] {
   if (!k) return [DEFAULT_SERIES];
   const l = seriesForCommodity(k);
-  return l.length ? [l[0].id] : [];
+  if (!l.length) return [];
+  // a series its publisher closed (barley, sorghum) opens with the live series of the same unit that goes on after it, never alone:
+  // a closed price must not read as the current one
+  const next = l[0].closed ? l.find((m) => !m.closed && m.unit === l[0].unit) : undefined;
+  return next ? [l[0].id, next.id] : [l[0].id];
 }
 
 /** Commodities whose price series cover only part of what the page describes. */
 export const PRICE_COVERAGE_NOTE: Record<string, string> = {
   pgm: 'Platinum monthly (World Bank). Palladium and rhodium: annual average prices only (USGS).',
+  // the metals pages of the third commodity package (review GNC3.5): USGS annual averages, each one product of a page that holds more
+  chromium: 'Annual average price of chromite ore (USGS, United States salient statistics). No monthly series.',
+  'ferro-alloys': 'Annual average price of ferro-chromium only, per pound of chromium content (USGS, United States salient statistics). No free series for the other alloys.',
+  'ferrous-scrap': 'Annual average price of No. 1 heavy melting scrap only, one grade of the scrap the tables count (USGS, United States). No monthly series.',
+  molybdenum: 'Annual average price of molybdic oxide, a product made from the concentrates the tables count (USGS, United States). No price series for the concentrates.',
+  graphite: 'Annual average import unit values of three kinds of natural graphite (USGS, United States): flake, lump and chip, and amorphous. No monthly series.',
   // the fertiliser pages hold more products than the Pink Sheet prices (M-022): the note says which ones have a free series
-  phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate). No free series for MAP or phosphoric acid.',
+  phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate only; the superphosphate tables hold single and triple together, HS 310310). No free series for MAP or phosphoric acid.',
   urea: 'Monthly price (World Bank): urea only. No free series for ammonia, ammonium nitrate, UAN or ammonium sulphate.',
   potash: 'Monthly price (World Bank): potassium chloride only. No free series for potassium sulphate.',
   // the oilseed pages hold the seed, the oil and the meal (M-023): the price is the oil's

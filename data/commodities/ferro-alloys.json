@@ -254,6 +254,7 @@
    {
     "c": "MOZ",
     "v": 1.152,
+    "n": "Mozambique is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)",
     "usd": 1155567000,
     "uv": 1000
    },
@@ -3766,6 +3767,10 @@
   "Ferro-silicon (HS 720221, 720229), 2024 (CEPII BACI): world 2.46 Mt gross weight; top exporters China 0.46 Mt, Norway 0.25 Mt, Malaysia 0.24 Mt.",
   "The other ferro-alloys of heading 7202: ferro-silico-chromium, ferro-molybdenum, ferro-tungsten and ferro-silico-tungsten, ferro-titanium and ferro-silico-titanium, ferro-vanadium, ferro-niobium and the ferro-alloys not elsewhere specified (HS 720250, 720270, 720280, 720291, 720292, 720293, 720299), 2024 (CEPII BACI): world 0.69 Mt gross weight; top exporters China 0.17 Mt, Brazil 0.16 Mt, South Korea 0.03 Mt.",
   "Ferro-nickel and nickel pig iron (HS 720260) are on the nickel page, where their group already was: no tonne is counted twice. The steel page leaves out HS 7201 to 7205.",
-  "No production table: USGS has no world table of the ferro-alloys. No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for them, and no other free one was loaded."
+  "No production table: USGS has no world table of the ferro-alloys. Price: the World Bank Pink Sheet has none for them. The only price on the page is the USGS annual average of ferro-chromium, per pound of chromium content (United States salient statistics); no price series for the other alloys was loaded.",
+  "Ferro-manganese (HS 720211, 720219): the tables hold 1.74 Mt, 96% of the 1.82 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.0765 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 173 of the 912 pairs of the file are kept)",
+  "Ferro-silicon (HS 720221, 720229): the tables hold 2.46 Mt, 95% of the 2.59 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.121 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 338 of the 1,351 pairs of the file are kept)",
+  "The other ferro-alloys of heading 7202: ferro-silico-chromium, ferro-molybdenum, ferro-tungsten and ferro-silico-tungsten, ferro-titanium and ferro-silico-titanium, ferro-vanadium, ferro-niobium and the ferro-alloys not elsewhere specified (HS 720250, 720270, 720280, 720291, 720292, 720293, 720299): the tables hold 0.693 Mt, 94% of the 0.736 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.0404 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 483 of the 1,507 pairs of the file are kept)",
+  "Mozambique is among the importers of ferro-chromium (HS 720241, 720249) although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)."
  ]
 }

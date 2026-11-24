@@ -51,9 +51,9 @@ export const LANE_GROUPS: Record<string, string[]> = {
   pulses: ['pulses'],
   potash: ['potash', 'potassium-sulphate'],
   phosphate: ['phosphate-rock', 'dap', 'monoammonium-phosphate', 'superphosphates', 'phosphoric-acid'],
-  urea: ['urea', 'ammonia', 'ammonium-nitrate', 'uan', 'ammonium-sulphate'],
-  npk: ['npk'],
+  urea: ['urea', 'ammonia', 'ammonium-nitrate', 'ammonium-nitrate-limestone', 'uan', 'ammonium-sulphate'],
   sulphur: ['sulphur'],
+  npk: ['npk', 'npk-two-nutrient'],
 };
 
 /** Groups shown in the default "global flows" overview, with how many lanes of each. */
@@ -322,6 +322,9 @@ export const GROUP_LABEL: Record<string, string> = {
   urea: 'Urea',
   ammonia: 'Ammonia',
   'ammonium-nitrate': 'Ammonium nitrate',
+  'ammonium-nitrate-limestone': 'Ammonium nitrate with limestone',
+  npk: 'NPK (three nutrients)',
+  'npk-two-nutrient': 'Two-nutrient compounds',
   uan: 'UAN solution',
   'ammonium-sulphate': 'Ammonium sulphate',
   rapeseed: 'Rapeseed',

@@ -30,7 +30,8 @@ ZONES = {
     "taiwan", "gulf-of-oman",  # declared by gateways/energy.py, used by the general-cargo rows of FE4b
 }
 FAMILIES = {"grain", "sugar", "vegoil", "fert", "box"}
-GROUP_FAMILIES = {"urea", "potash", "phosphate-rock"}  # a row may name one group of a family when its page names that cargo only
+# a row may name one group of a family when its page names that cargo only (ammonia and soya meal: the Montoir rows of France, FNCA)
+GROUP_FAMILIES = {"urea", "potash", "phosphate-rock", "ammonia", "soymeal"}
 ROLES = {"load", "discharge", "both"}
 
 # G01: the terminals that today receive food and fertiliser lanes although they are oil, gas or ore terminals.
@@ -92,7 +93,8 @@ class FoodGateways(unittest.TestCase):
             self.assertIn(src, self.sources, where)
             self.assertTrue(url and url.startswith("https://"), f"{where}: the page read")
             if src == "wikipedia":
-                self.assertTrue(url.startswith("https://en.wikipedia.org/wiki/"), where)
+                # the English page, or the French one where the English Wikipedia has none (the French ports of FNCA: Rouen, La Rochelle, Nantes-Saint-Nazaire)
+                self.assertTrue(url.startswith(("https://en.wikipedia.org/wiki/", "https://fr.wikipedia.org/wiki/")), where)
 
     def test_g10_codes_resolve_and_belong_to_their_country(self):
         extra = self.food.MANUAL_EXTRA

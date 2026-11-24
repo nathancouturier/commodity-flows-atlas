@@ -66,7 +66,7 @@ def classes(group, o, d, tonnes, nm):
     if group == "rice":
         return ["handysize", "supramax"]
     if group in ("potash", "urea", "dap", "potassium-sulphate", "monoammonium-phosphate", "superphosphates", "npk",
-                 "ammonium-nitrate", "ammonium-sulphate", "sulphur"):
+                 "ammonium-nitrate", "ammonium-sulphate", "sulphur", "ammonium-nitrate-limestone", "npk-two-nutrient"):
         # fertilisers in bulk and sulphur: geared handy bulk carriers, as for the three groups of the first fertiliser pages
         return ["supramax", "handysize"] if not (group == "potash" and o == "CAN" and mt > 2) else ["panamax", "supramax"]
     if group == "ammonia":

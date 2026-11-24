@@ -1974,7 +1974,7 @@
      {
       "c": "HKG",
       "v": 0.0021,
-      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)",
       "usd": 13000,
       "uv": 6.2
      },

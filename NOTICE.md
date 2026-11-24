@@ -133,9 +133,9 @@ replaced by one from another source, it leaves this notice.
 The articles below are cited by rows of the trade engine's tables (English Wikipedia unless stated). The list is
   generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the source strings of the
   draught tables, the URL of every mode-list entry) by `pipeline/common/notice_lists.py`, not typed, and
-  `pipeline/tests/test_engine.py` checks that it is complete. 192 distinct articles:
+  `pipeline/tests/test_engine.py` checks that it is complete. 196 distinct articles:
 
-- Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 67):
+- Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 71):
   [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
   Khomeini](https://en.wikipedia.org/wiki/Bandar_Imam_Khomeini); [Cai Mep](https://en.wikipedia.org/wiki/Cai_Mep);
   [Canpotex](https://en.wikipedia.org/wiki/Canpotex); [Deendayal Port](https://en.wikipedia.org/wiki/Deendayal_Port);
@@ -164,7 +164,8 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   İzmir](https://en.wikipedia.org/wiki/Port_of_%C4%B0zmir); [Port of
   Jeddah](https://en.wikipedia.org/wiki/Port_of_Jeddah); [Port of
   Kaohsiung](https://en.wikipedia.org/wiki/Port_of_Kaohsiung); [Port of
-  Karachi](https://en.wikipedia.org/wiki/Port_of_Karachi); [Port of
+  Karachi](https://en.wikipedia.org/wiki/Port_of_Karachi); [Port of Le
+  Havre](https://en.wikipedia.org/wiki/Port_of_Le_Havre); [Port of
   Liverpool](https://en.wikipedia.org/wiki/Port_of_Liverpool); [Port of
   Manila](https://en.wikipedia.org/wiki/Port_of_Manila); [Port of
   Manzanillo](https://en.wikipedia.org/wiki/Port_of_Manzanillo); [Port of
@@ -193,16 +194,20 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   Varna](https://en.wikipedia.org/wiki/Port_of_Varna); [Port of
   Veracruz](https://en.wikipedia.org/wiki/Port_of_Veracruz); [Port of
   Yangon](https://en.wikipedia.org/wiki/Port_of_Yangon); [Port of
-  Yokohama](https://en.wikipedia.org/wiki/Port_of_Yokohama).
-- Gateway ports for dry bulk and metals, and the coast rules (`pipeline/freight/gateways/coasts.py`, 56): [Balboa,
+  Yokohama](https://en.wikipedia.org/wiki/Port_of_Yokohama); [Grand port maritime de La
+  Rochelle](https://fr.wikipedia.org/wiki/Grand_port_maritime_de_La_Rochelle) (French Wikipedia); [Port de
+  Nantes-Saint-Nazaire](https://fr.wikipedia.org/wiki/Port_de_Nantes-Saint-Nazaire) (French Wikipedia); [Port de
+  Rouen](https://fr.wikipedia.org/wiki/Port_de_Rouen) (French Wikipedia).
+- Gateway ports for dry bulk and metals, and the coast rules (`pipeline/freight/gateways/coasts.py`, 57): [Balboa,
   Panama](https://en.wikipedia.org/wiki/Balboa,_Panama); [Barcarena,
   Pará](https://en.wikipedia.org/wiki/Barcarena,_Par%C3%A1); [Caofeidian](https://en.wikipedia.org/wiki/Caofeidian);
   [Cerrejón](https://en.wikipedia.org/wiki/Cerrej%C3%B3n); [Compañía Minera del
   Pacífico](https://en.wikipedia.org/wiki/Compa%C3%B1%C3%ADa_Minera_del_Pac%C3%ADfico); [Corinto,
   Nicaragua](https://en.wikipedia.org/wiki/Corinto,_Nicaragua); [Dhamra
-  Port](https://en.wikipedia.org/wiki/Dhamra_Port); [Europoort](https://en.wikipedia.org/wiki/Europoort); [Grasberg
-  mine](https://en.wikipedia.org/wiki/Grasberg_mine); [Hampton Roads](https://en.wikipedia.org/wiki/Hampton_Roads); [Hay
-  Point, Queensland](https://en.wikipedia.org/wiki/Hay_Point,_Queensland); [Kalama,
+  Port](https://en.wikipedia.org/wiki/Dhamra_Port); [Erdemir](https://en.wikipedia.org/wiki/Erdemir);
+  [Europoort](https://en.wikipedia.org/wiki/Europoort); [Grasberg mine](https://en.wikipedia.org/wiki/Grasberg_mine);
+  [Hampton Roads](https://en.wikipedia.org/wiki/Hampton_Roads); [Hay Point,
+  Queensland](https://en.wikipedia.org/wiki/Hay_Point,_Queensland); [Kalama,
   Washington](https://en.wikipedia.org/wiki/Kalama,_Washington); [Kamsar](https://en.wikipedia.org/wiki/Kamsar);
   [Krishnapatnam Port](https://en.wikipedia.org/wiki/Krishnapatnam_Port);
   [Luleå](https://en.wikipedia.org/wiki/Lule%C3%A5); [Manzanillo International

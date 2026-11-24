@@ -29,6 +29,7 @@ should be found for. Nothing here comes from memory.
 """
 
 W = "https://en.wikipedia.org/wiki/"
+WFR = "https://fr.wikipedia.org/wiki/"
 
 # Terminals missing from the searoute list: code -> (name, iso3, lon, lat), same shape as ports.MANUAL.
 # Coordinates are those printed on the page of the row that uses the code.
@@ -300,6 +301,19 @@ G = {
     "FRA": [
         ("FRFOS", "med", ("box",), "both", "wikipedia", W + "Fos-sur-Mer",
          "Fos: 'the facilities include container handling terminals and a gas (methane) terminal' at the port of Marseille"),
+        # FNCA (review GNC2.4): France has a Mediterranean and a Channel and Atlantic seaboard; every French lane loaded or discharged at Fos
+        # until these rows. The pages are the French Wikipedia (CC BY-SA 4.0), read on 24 November 2026, translated here. The Biscay ports
+        # carry the zone nw-europe, as the Montoir LNG row of energy.py does (the zone is the Atlantic and Channel side of the coast rule fra-coast).
+        ("FRURO", "nw-europe", ("grain",), "load", "wikipedia", WFR + "Port_de_Rouen",
+         "Rouen: 'the first European port for cereals with 12.7 Mt in 2023 (50% of French exports)'; port silos of 1.3 million tonnes of cereals; main destinations in 2023 China (2.48 Mt), Morocco (2.07 Mt) and Algeria (1.15 Mt)"),
+        ("FRLPE", "nw-europe", ("grain",), "load", "wikipedia", WFR + "Grand_port_maritime_de_La_Rochelle",
+         "La Rochelle (La Pallice): 'second French port for cereal exports'; 3.0 to 3.5 Mt of cereals a year in 2023 to 2025; grain terminal of Soufflet at Chef de Baie (63,000 t silo, 1,200 t/hour loader)"),
+        ("FRMTX", "nw-europe", ("ammonia",), "both", "wikipedia", WFR + "Port_de_Nantes-Saint-Nazaire",
+         "Montoir-de-Bretagne: 'a berth reserved for liquid bulk lets acids, ammonia, molasses, diester and carbon dioxide transit'"),
+        ("FRMTX", "nw-europe", ("soymeal",), "discharge", "wikipedia", WFR + "Port_de_Nantes-Saint-Nazaire",
+         "Montoir-de-Bretagne: agri-food and multi-bulk terminal, 'berths 2 and 3 are reserved for agri-food bulks (mainly imports of soya meal)'; berth 4 is equipped for cement imports and cereal exports"),
+        ("FRLEH", "nw-europe", ("box",), "both", "wikipedia", W + "Port_of_Le_Havre",
+         "Le Havre: the first container port of France; 'handles every type of commodity thanks to the diversity of its terminals'; general cargo including containers 23 million tonnes in 2005; five firms handle and store liquid bulk (the page names no grain, fertiliser or edible oil)"),
     ],
 }
 
@@ -323,7 +337,7 @@ UNSOURCED = {
     "MEX": "grain and fertiliser imports: Manzanillo (page names wheat, sorghum, oat and fertilizer, but a Pacific-only row would send every Gulf cargo through Panama) and a Gulf port, Veracruz or Altamira (Veracruz page read: no grain named); the general-cargo rows answer on each coast meanwhile",
     "USA": "potash, phosphate rock and DAP imports (the Agrium report names urea only)",
     "CAN": "fertiliser other than potash at Vancouver (Port of Vancouver page read: no fertiliser named)",
-    "FRA": "wheat and grain: the Fos-sur-Mer page names container terminals and a methane terminal only (a general-cargo row, so Fos answers as the general port); Rouen, Dunkirk, Le Havre (pages not found under the titles tried), La Pallice (La Rochelle page read: no cargo statement)",
+    "FRA": "vegetable oils, urea, liquid fertilisers other than ammonia (UAN, phosphoric acid) and dry fertiliser: no page read names them at a French port (Rouen, La Rochelle, Bordeaux, Nantes-Saint-Nazaire, Dunkirk, Marseille-Fos and Le Havre read on 24 November 2026: the Nantes-Saint-Nazaire page says fertiliser is received at Cheviré, Nantes, a port with no searoute point; Dunkirk names liquid and solid bulk only in a footnote), so the general ports of the country answer, Fos and Le Havre, by the coast rule fra-coast. Bordeaux (cereals, 900,000 t a year, Bassens and Blaye) and Montoir (cereal exports) are named but are not rows",
     "JPN": "grain, sugar, fertiliser and vegetable oil: Kashima (page read: no cargo statement), Chiba (page read: crude oil, LNG, steel exports; grain only as a 19th-century trade), Nagoya, Kobe, Tokyo (pages read: containers, no grain); the Yokohama general-cargo row answers meanwhile, as the country's general port",
     "THA": "grain, fertiliser and vegetable oil: Laem Chabang page read (container terminals and one general cargo terminal, no bulk cargo), Map Ta Phut page read (no cargo), Bangkok (page not found); the Laem Chabang general-cargo row answers meanwhile",
     "VNM": "grain, fertiliser: Haiphong (the Haiphong city page names containers only), Cai Mep (page read: containers, 'a general port'); no page ranks the northern and southern ports; the Cai Mep general-cargo row answers meanwhile for the south",

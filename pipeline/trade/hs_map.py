@@ -109,23 +109,30 @@ HS = {
     "wheat-flour": ["110100"],
     "brewing-distilling-dregs": ["230330"],
     # dried leguminous vegetables, shelled: peas 071310, chickpeas 071320, beans 071331 (mung and urd), 071332 (adzuki),
-    # 071333 (kidney), 071339 (other beans), 071350 (broad and horse beans), lentils 071340, other 071390 (cowpeas, pigeon
-    # peas and every other pulse). The kinds are read from the six-digit rows (pipeline/commodities/metals.py SPLITS)
+    # 071333 (kidney), 071339 (other beans), 071350 (broad and horse beans), lentils 071340, other 071390 (pigeon
+    # peas and every pulse the code does not name). The kinds are read from the six-digit rows (pipeline/commodities/metals.py SPLITS)
     "pulses": ["071310", "071320", "071331", "071332", "071333", "071339", "071340", "071350", "071390"],
     "potash": ["310420"],
     "potassium-sulphate": ["310430"],  # sulphate of potash (SOP): second group of the potash page
     "phosphate-rock": ["251010", "251020"],
     "dap": ["310530"],
-    # more fertilisers (audit M-022). One code, one group: 310240 (ammonium nitrate with limestone, CAN), 310260 (calcium nitrate
-    # double salts), 310229 and 310290 (other nitrogen), 310390 (other phosphatic), 3105 other than 310520, 310530 and 310540
-    # (the other NP and PK fertilisers, tablets) are not loaded
+    # more fertilisers (audit M-022). One code, one group: 310260 (calcium nitrate double salts), 310229 and 310290 (other nitrogen),
+    # 310390 (other phosphatic), 310510 (tablets and small packages) and 310590 (the rest of heading 3105) are not loaded. 310240
+    # (ammonium nitrate with limestone) and 310551, 310559, 310560 (the two-nutrient compounds) are loaded since package FNCB
+    # (review GNC1.4: together about as heavy as the products added with M-022)
     "monoammonium-phosphate": ["310540"],  # HS92: MAP and its mixtures with DAP
     "superphosphates": ["310310"],  # HS92: one code for single and triple superphosphate
     "phosphoric-acid": ["280920"],  # HS92: phosphoric acid and polyphosphoric acids; moves as a liquid
     "npk": ["310520"],  # HS92: fertilisers with the three nutrients nitrogen, phosphorus and potassium
+    # the compound fertilisers with two of the three nutrients: nitrates and phosphates (310551), nitrogen and phosphorus other than
+    # nitrates and phosphates (310559, the ammonium phosphate nitrates), phosphorus and potassium (310560). The NPK page's second group
+    "npk-two-nutrient": ["310551", "310559", "310560"],
     "urea": ["310210"],
     "ammonia": ["281410"],  # anhydrous ammonia (refrigerated or pressurised liquid); 281420, ammonia in solution, is not loaded
     "ammonium-nitrate": ["310230"],  # HS92: ammonium nitrate, whether or not in aqueous solution
+    # ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element: calcium ammonium
+    # nitrate (CAN) and the like. The nitrogen page's group next to ammonium nitrate (310230); the two are never the same code
+    "ammonium-nitrate-limestone": ["310240"],
     "uan": ["310280"],  # HS92: urea and ammonium nitrate mixtures in aqueous or ammoniacal solution; moves as a liquid
     "ammonium-sulphate": ["310221"],
     # sulphur: crude and unrefined (250310) with sublimed, precipitated and colloidal sulphur (280200); 250390 has no flow in BACI

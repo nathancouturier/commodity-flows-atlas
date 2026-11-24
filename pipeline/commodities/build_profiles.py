@@ -251,6 +251,7 @@ PRODUCTS = [
     ("thermal-coal", "allcoal-exports", "allcoal-imports", "coal", None),
     ("urea", "ammonia-exports", "ammonia-imports", "ammonia", None),
     ("urea", "ammonium-nitrate-exports", "ammonium-nitrate-imports", "ammonium-nitrate", None),
+    ("urea", "an-limestone-exports", "an-limestone-imports", "ammonium-nitrate-limestone", None),
     ("urea", "uan-exports", "uan-imports", "uan", None),
     ("urea", "ammonium-sulphate-exports", "ammonium-sulphate-imports", "ammonium-sulphate", None),
     ("phosphate", "dap-exports", "dap-imports", "dap", None),
@@ -258,6 +259,7 @@ PRODUCTS = [
     ("phosphate", "superphosphates-exports", "superphosphates-imports", "superphosphates", None),
     ("phosphate", "phosphoric-acid-exports", "phosphoric-acid-imports", "phosphoric-acid", None),
     ("potash", "sop-exports", "sop-imports", "potassium-sulphate", None),
+    ("npk", "two-nutrient-exports", "two-nutrient-imports", "npk-two-nutrient", None),
     ("wheat", "flour-exports", "flour-imports", "wheat-flour", None),
     ("corn", "dregs-exports", "dregs-imports", "brewing-distilling-dregs", None),
     ("sunflower", "sunflower-oil-exports", "sunflower-oil-imports", "sunflower-oil", "sunflower-oil-production"),
@@ -301,6 +303,10 @@ EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined 
               "ammonia-exports": ("exports", "ammonia", "Ammonia"), "ammonia-imports": ("imports", "ammonia", "Ammonia"),
               "ammonium-nitrate-exports": ("exports", "ammonium-nitrate", "Ammonium nitrate"),
               "ammonium-nitrate-imports": ("imports", "ammonium-nitrate", "Ammonium nitrate"),
+              "an-limestone-exports": ("exports", "ammonium-nitrate-limestone", "Ammonium nitrate with limestone"),
+              "an-limestone-imports": ("imports", "ammonium-nitrate-limestone", "Ammonium nitrate with limestone"),
+              "two-nutrient-exports": ("exports", "npk-two-nutrient", "Two-nutrient compound fertilisers"),
+              "two-nutrient-imports": ("imports", "npk-two-nutrient", "Two-nutrient compound fertilisers"),
               "uan-exports": ("exports", "uan", "UAN solution"), "uan-imports": ("imports", "uan", "UAN solution"),
               "ammonium-sulphate-exports": ("exports", "ammonium-sulphate", "Ammonium sulphate"),
               "ammonium-sulphate-imports": ("imports", "ammonium-sulphate", "Ammonium sulphate"),
@@ -427,6 +433,12 @@ def caveat_concerns(t, iso, names):
     text = re.sub(r"^The ", "", str(t["caveat"]))
     about = [c for c, n in names.items() if re.match(rf"{re.escape(re.sub(r'^The ', '', n))}\b", text)]
     return not about or iso in about
+
+
+def bn(x):
+    """A value in billions of US dollars: three decimals from 1 bn, three significant digits below it, so that a small line (USD 340,000)
+    keeps its value and is not written 0.0 (review GNC1.9)."""
+    return round(x, 3) if abs(x) >= 1 else float(f"{x:.3g}")
 
 
 def hs4_year_of(frames, latest):
@@ -588,7 +600,7 @@ def main():
                     val = 0
                 if val:
                     # the value has its own source and year, whatever the tonnage comes from
-                    e["usd"], e["usdS"], e["usdY"] = round(val / 1e9, 3), "baci", int(t["y"]) if grp == "row" else latest
+                    e["usd"], e["usdS"], e["usdY"] = bn(val / 1e9), "baci", int(t["y"]) if grp == "row" else latest
                 if r.get("n"):
                     e["n"] = r["n"]
                 if r.get("conv"):
@@ -690,14 +702,14 @@ def main():
                 for r in top.itertuples():
                     lab, detail = label_of(r.hs4)
                     ks = head_k.get(r.hs4) or set()
-                    row = {"hs4": r.hs4, "label": lab, "usd": round(r.usd / 1e6, 3), "share": round(r.usd / total, 4)}
+                    row = {"hs4": r.hs4, "label": lab, "usd": bn(r.usd / 1e6), "share": round(r.usd / total, 4)}
                     # one atlas commodity under the heading; not coal, which customs codes do not split into thermal and metallurgical
                     if len(ks) == 1 and None not in ks and not ks & set(COAL):
                         row["k"] = next(iter(ks))
                     if detail:
                         row["d"] = detail[:200]  # the first parts of its subheadings, when the name lists several
                     rows.append(row)
-                prof(iso).setdefault("basket", {"y": hs4_year, "s": "baci"})[side] = {"total": round(total / 1e6, 3), "rows": rows}
+                prof(iso).setdefault("basket", {"y": hs4_year, "s": "baci"})[side] = {"total": bn(total / 1e6), "rows": rows}
         # raw materials outside the catalogue (the "country check": diamonds for Botswana, logs for Gabon)
         raw = he[he["o"].notna() & he["hs4"].str[:2].isin(RAW_CHAPTERS)]
         raw = raw.assign(o=raw["o"].replace(CODE_FIX))

@@ -19,8 +19,11 @@ export const BUDGET = {
   // Package NC3 (audit A-010, the metal bulks that were missing: ferrous scrap, chromium, ferro-alloys, pig iron and direct-reduced iron, coke,
   // molybdenum, graphite) took the data folder from 31,715 kB to 34,657 kB (+2,942 kB) and the largest file, the chokepoint lanes, from 1,634 kB
   // to 1,797 kB (+163 kB). The budgets rose by what the pages need and a fifth of room: 32,000 to 35,600 kB and 1,700 to 1,900 kB.
-  dataFile: 1900 * KB,
-  data: 35600 * KB,
+  // Package FNCB (review GNC3.10): the two raised budgets left 5% and 3% of room, because the fifth had been taken of the increase and not of the total.
+  // Each is now the size measured after the rebuild of package FNCB plus a fifth, rounded up to 100 kB: the data folder 35,287 kB (the sum of its
+  // file sizes: 36,100 kB of disk blocks by `du -sk`) gives 42,400 kB, and the largest file, data/freight/chokepoint-lanes.json, 1,817 kB gives 2,200 kB.
+  dataFile: 2200 * KB,
+  data: 42400 * KB,
 };
 
 function files(dir) {

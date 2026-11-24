@@ -18,7 +18,7 @@ Output  data/freight/ports.json
 
 Nothing is recomputed: the file only lists, for each port of the pairs tables and of the lane pages, the customs groups
 it serves and the largest lane page that uses it, so that a search for a port can open that lane. The site would
-otherwise have to download the 69 pairs files (more than 1 MB) to know the ports. Run it after build_lanes.py.
+otherwise have to download the 71 pairs files (more than 1 MB) to know the ports. Run it after build_lanes.py.
 """
 import glob
 import json

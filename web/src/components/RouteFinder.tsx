@@ -49,6 +49,17 @@ const COKE = 'coke';
 const commodityLabel = (k: string) => (k === COAL ? 'Coal (thermal + met)' : k === COKE ? 'Coke and semi-coke' : (commodityMeta(k)?.name ?? k));
 const groupsOf = (k: string) => (k === COAL ? ['coal'] : k === COKE ? [COKE] : (LANE_GROUPS[k] ?? []));
 const OPTIONS = [COAL, COKE, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'thermal-coal' && id !== 'met-coal')];
+/**
+ * The finder's commodities in the order of the commodity list (the `rank` of the index): the coal entry stands where thermal coal does and
+ * coke after metallurgical coal. Until the index is loaded the order is that of LANE_GROUPS.
+ */
+function inListOrder(ids: string[]): string[] {
+  const rankOf = (id: string) => (id === COAL ? commodityMeta('thermal-coal')?.rank : id === COKE ? (commodityMeta('met-coal')?.rank ?? NaN) + 0.5 : commodityMeta(id)?.rank);
+  return ids
+    .map((id, i) => ({ id, i, r: rankOf(id) }))
+    .sort((a, b) => (Number.isFinite(a.r) ? a.r! : 1e3) - (Number.isFinite(b.r) ? b.r! : 1e3) || a.i - b.i)
+    .map((x) => x.id);
+}
 /** Below this tonnage (kt) a country is not offered as the starting point of a question. */
 const MIN_KT = 50;
 /** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */
@@ -294,7 +305,7 @@ export function RouteFinder() {
             })
           }
         >
-          {OPTIONS.map((id) => (
+          {inListOrder(OPTIONS).map((id) => (
             <option value={id}>{commodityLabel(id)}</option>
           ))}
         </select>

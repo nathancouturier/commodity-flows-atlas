@@ -257,6 +257,10 @@ OPENS_ON = {
     # cobalt: the US spot price of cathode (refined metal, S&P Global Platts Metals Week). Of the two cobalt rows of the
     # USGS file it is the one that names its product and its source; the LME cash row names neither.
     "cobalt": "usgs-cobalt-spot-a",
+    # barley and sorghum: the closed monthly series, then the annual average that goes on after it (review GNC2.1)
+    "barley": "barley-m",
+    "sorghum": "sorghum-m",
+    "graphite": "usgs-graphite-flake-a",  # flake, the grade the page's flake and powder code mostly holds; the other grades follow
 }
 
 # Pink Sheet series added after the first release (M-066): listed after the original benchmark of their commodity
@@ -683,6 +687,15 @@ USGS_PRICES = [
     ("usgs-cobalt-lme-a", "cobalt", "Cobalt, LME cash, annual average", "USD/lb", "Cobalt", "Price, average, dollars per pound: London Metal Exchange"),
     ("usgs-palladium-a", "pgm", "Palladium, annual average", "USD/troy oz", "Palladium", "Price, dollars per troy ounce: Palladium"),
     ("usgs-rhodium-a", "pgm", "Rhodium, annual average", "USD/troy oz", "Rhodium", "Price, dollars per troy ounce: Rhodium"),
+    # the metals pages of the third commodity package (review GNC3.5). Every row of these is in the file's section "Salient
+    # Statistics - United States" (country "United States"): the names say so where the row itself does not name its market.
+    ("usgs-chromite-ore-a", "chromium", "Chromite ore, US salient statistics, annual average", "USD/t", "Chromium", "Price: Chromite ore (gross weight)"),
+    ("usgs-ferrochromium-a", "ferro-alloys", "Ferro-chromium (chromium content), US salient statistics, annual average", "USD/lb", "Chromium", "Price: Ferrochromium (chromium content)"),
+    ("usgs-heavy-melting-scrap-a", "ferrous-scrap", "Ferrous scrap, No. 1 heavy melting composite, delivered, US, annual average", "USD/t", "Iron And Steel Scrap", "Price, average, delivered, No. 1 heavy melting composite price"),
+    ("usgs-molybdenum-a", "molybdenum", "Molybdenum, US molybdic oxide (57% Mo), annual average", "USD/kg", "Molybdenum", "Price, average, dollars per kilogram"),
+    ("usgs-graphite-flake-a", "graphite", "Natural graphite, flake, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Flake"),
+    ("usgs-graphite-lump-a", "graphite", "Natural graphite, lump and chip (Sri Lanka), US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Lump and chip"),
+    ("usgs-graphite-amorphous-a", "graphite", "Natural graphite, amorphous, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Amorphous"),
 ]
 
 
@@ -724,6 +737,56 @@ def usgs_series(path):
                        est=[[f"{y}-01", f"{y}-12"] for y in est])
         out.append((doc, meta))
     return out, missing
+
+
+# ---------------------------------------------------------------- annual nominal prices after a monthly series closed (annual workbook)
+
+# Pink Sheet column -> (id of the annual series, id of the monthly series it continues). The Pink Sheet stopped both
+# monthly series in August 2020, while the annual workbook goes on to the year of its last update (review GNC2.1): the
+# annual average of the years after the last month of the monthly series is published as a series of its own, labelled
+# annual. A year the monthly series covers in part (2020) is not repeated, so no annual value ever stands for a month
+# that has its own.
+ANNUAL_NOMINAL = {"Barley": ("barley-a", "barley-m"), "Sorghum": ("sorghum-a", "sorghum-m")}
+ANNUAL_TWIN = {a: m[:-2] + "-real-a" for a, m in ANNUAL_NOMINAL.values()}  # annual series id -> id of the real twin
+
+
+def annual_nominal_series(path, nominal_metas):
+    """[(doc, meta)] of ANNUAL_NOMINAL, read from the sheet "Annual Prices (Nominal)" of the annual workbook: the years
+    after the last month of the monthly series, with the unit the sheet prints under the header. Nothing is computed."""
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    if "Annual Prices (Nominal)" not in wb.sheetnames:
+        raise BuildError("annual workbook: no 'Annual Prices (Nominal)' sheet")
+    rows = list(wb["Annual Prices (Nominal)"].iter_rows(values_only=True))
+    hi = next((i for i, r in enumerate(rows) if r and "Crude oil, Brent" in [str(c) for c in r if c]), None)
+    if hi is None:
+        raise BuildError("annual workbook: header row of the nominal sheet not found")
+    header = {norm(c): j for j, c in enumerate(rows[hi]) if c}
+    updated = next((str(r[0]) for r in rows[:hi] if r and r[0] and "Updated" in str(r[0])), "")
+    data = [r for r in rows[hi + 2:] if r and isinstance(r[0], (int, float)) and 1900 < r[0] < 2100]
+    by_id = {m["id"]: m for m in nominal_metas}
+    out = []
+    for col, (sid, monthly) in ANNUAL_NOMINAL.items():
+        m = by_id.get(monthly)
+        if m is None:
+            continue
+        if col not in header:
+            raise BuildError(f"annual workbook: no column '{col}' in the nominal sheet")
+        j = header[col]
+        unit_cell = norm(rows[hi + 1][j])
+        if unit_cell != "($/mt)" or m["unit"] != "USD/t":
+            raise BuildError(f"annual workbook: '{col}' is printed in {unit_cell}, not in dollars per tonne")
+        last = int(m["end"][:4])
+        pts = [(int(r[0]), num(r[j])) for r in data if int(r[0]) > last]
+        pts = [(y, v) for y, v in pts if v is not None]
+        if not pts or [y for y, _ in pts] != list(range(pts[0][0], pts[-1][0] + 1)):
+            continue
+        doc = {"id": sid, "freq": "A", "start": str(pts[0][0]), "v": [v for _, v in pts]}
+        basis = (f"Annual average in nominal US dollars per tonne, for the years after the last month of the monthly series ({m['end']}), which the Pink Sheet stopped. "
+                 f"The workbook does not say how its values after {last} are built. Definition of the monthly series in the workbook: {m.get('basis', '').strip()}")
+        meta = meta_of(sid, m["k"], f"{col}, annual average", m["unit"], "A", "wb-pink", str(pts[0][0]), str(pts[-1][0]),
+                       note=f"Sheet 'Annual Prices (Nominal)' of the annual workbook. {updated}".strip(), basis=basis)
+        out.append((doc, meta))
+    return out
 
 
 # ---------------------------------------------------------------- real prices (annual workbook)
@@ -888,6 +951,7 @@ def main():
         produced += pink_series(p)
         if os.path.exists(annual_path):
             produced += real_series(annual_path, [m for _, m in produced])
+            produced += annual_nominal_series(annual_path, [m for _, m in produced])
     if os.path.isdir(eia_dir):
         produced += eia_series(eia_dir)
     produced += freight_series()
@@ -922,6 +986,8 @@ def main():
             m["real"] = REAL_OF_DAILY[m["id"]][:-2] + "-real-a"
         elif m["id"][:-2] + "-real-a" in ids and m["freq"] == "M" and not m.get("hidden"):
             m["real"] = m["id"][:-2] + "-real-a"
+        elif m["id"] in ANNUAL_TWIN and ANNUAL_TWIN[m["id"]] in ids:
+            m["real"] = ANNUAL_TWIN[m["id"]]  # the annual average that goes on after a closed monthly series has the real twin of that series
     # the first series of a commodity (daily before monthly) is the one its page and the event pages open: a series added
     # later never takes that place from the original benchmark
     metas.sort(key=order_key)

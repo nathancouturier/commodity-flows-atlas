@@ -755,6 +755,7 @@
  "notes": [
   "No lanes: the atlas shows the customs trade of this product as tables only (449 kt of exports in 2024).",
   "Trade is natural graphite, in powder or flakes (HS 250410) and in other forms (HS 250490), customs gross weight (kt). USGS production and reserves are natural graphite as USGS states it, in the file's metric tons (shown in kt). Artificial graphite and graphite articles are not loaded.",
-  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for graphite, and no other free one was loaded."
+  "Price: the World Bank Pink Sheet has none for graphite. The only prices on the page are the USGS annual average import unit values of three kinds of natural graphite (flake, lump and chip, amorphous), United States imports. No monthly series was loaded.",
+  "Natural graphite, in powder or flakes and in other forms (HS 250410, 250490): the tables hold 0.449 Mt, 90% of the 0.5 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.0508 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 92 of the 1,396 pairs of the file are kept)"
  ]
 }

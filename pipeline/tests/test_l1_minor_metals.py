@@ -252,7 +252,7 @@ class ReviewGL1(unittest.TestCase):
     def test_no_lane_from_the_wrong_coast(self):
         # GL1.3: Russian lead concentrate and cobalt for East Asia, Turkish lead concentrate from Samsun
         for o, d, g, kind in (("RUS", "CHN", "lead-ore", "mixed"), ("RUS", "KOR", "lead-ore", "sea"), ("RUS", "CHN", "cobalt", "mixed"),
-                              ("TUR", "CHN", "lead-ore", "sea"), ("NLD", "FRA", "zinc-metal", "sea")):
+                              ("TUR", "CHN", "lead-ore", "sea"), ("ESP", "NLD", "zinc-metal", "sea")):
             rec, why = BL.route_pair(o, d, g, 1e4, kind)
             self.assertIsNone(rec, (o, d, g))
             self.assertIn(why, ("port on the other coast of the country", "only the nearest seaport, on a long detour"))

@@ -5,6 +5,9 @@ Extract the atlas commodity groups from a CEPII BACI HS92 zip into one compact t
 
 Output columns: year, group, o (exporter ISO3), d (importer ISO3), t (tonnes), usd (thousand USD).
 Rows below 1,000 t AND below 1 million USD are dropped: they are irrelevant for flows and freight.
+The totals of every group and year BEFORE that threshold (customs file as it stands: tonnes, thousand USD, pairs in the file, pairs kept)
+are written beside the output, to baci_group_totals.csv (tonnes and thousand USD of the file, pairs in the file, pairs kept and their tonnes): a page whose
+tables hold noticeably less than the file says so with both figures.
 A code of hs_map.SPLIT is shared between two groups by exporter and importer.
 BACI licence: Etalab Open Licence 2.0 — cite "CEPII BACI".
 """
@@ -27,7 +30,7 @@ cc_name = next(n for n in names if n.startswith("country_codes"))
 cc = pd.read_csv(z.open(cc_name), dtype=str)
 iso = dict(zip(cc["country_code"].astype(int), cc["country_iso3"]))
 
-frames = []
+frames, totals = [], []
 for n in sorted(names):
     if not (n.startswith("BACI_") and n.endswith(".csv")):
         continue
@@ -50,7 +53,13 @@ for n in sorted(names):
         df.loc[sp, "group"] = [split_group(k, iso.get(i), iso.get(j)) for k, i, j in zip(df.loc[sp, "k"], df.loc[sp, "i"], df.loc[sp, "j"])]
     df["q"] = pd.to_numeric(df["q"], errors="coerce")
     g = df.groupby(["group", "i", "j"], as_index=False).agg(t=("q", "sum"), usd=("v", "sum"))
-    g = g[(g["t"] >= 1000) | (g["usd"] >= 1000)]
+    kept = (g["t"] >= 1000) | (g["usd"] >= 1000)
+    tot = g.groupby("group").agg(t=("t", "sum"), usd=("usd", "sum"), pairs=("t", "size"))
+    tot["kept"] = g[kept].groupby("group").size().reindex(tot.index, fill_value=0)
+    tot["t_kept"] = g[kept].groupby("group")["t"].sum().reindex(tot.index, fill_value=0)
+    tot.insert(0, "year", year)
+    totals.append(tot.reset_index())
+    g = g[kept]
     g.insert(0, "year", year)
     g["o"] = g["i"].map(iso)
     g["d"] = g["j"].map(iso)
@@ -62,3 +71,10 @@ res["t"] = res["t"].round(0)
 res["usd"] = res["usd"].round(0)
 res.to_csv(out, index=False, compression="gzip")
 print("rows", len(res), "->", out)
+tt = pd.concat(totals)
+tt["t"] = tt["t"].round(0)
+tt["usd"] = tt["usd"].round(0)
+tpath = out.rsplit("/", 1)[0] + "/baci_group_totals.csv" if "/" in out else "baci_group_totals.csv"
+tt["t_kept"] = tt["t_kept"].round(0)
+tt[["year", "group", "t", "usd", "pairs", "kept", "t_kept"]].to_csv(tpath, index=False)
+print("totals", len(tt), "->", tpath)

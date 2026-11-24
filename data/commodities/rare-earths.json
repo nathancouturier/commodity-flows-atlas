@@ -922,6 +922,7 @@
  },
  "notes": [
   "Trade covers rare-earth metals and compounds (HS 280530, 284610, 284690) in gross weight (kt); USGS production is REO equivalent (t REO).",
+  "Rare-earth metals and compounds (HS 280530, 284610, 284690): the tables hold 0.199 Mt, 81% of the 0.247 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.00767 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 138 of the 1,384 pairs of the file are kept); 0.0401 Mt are taken out by the cleaning rules (tonnage re-estimated from value, or flows left out)",
   "Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529). Material priced like scrap or alloy, or another cheaper product, declared under this code is a plausible cause; it is not established here."
  ],
  "discrepancies": [

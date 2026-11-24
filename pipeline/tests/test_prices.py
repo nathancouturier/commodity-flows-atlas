@@ -465,7 +465,8 @@ class UsgsPrices(unittest.TestCase):
             self.assertEqual([m["start"], m["end"]], ["2021", "2025"])
         self.assertEqual(jload("usgs-lithium-carbonate-a.json")["v"], [11700.0, 63700.0, 39000.0, 11800.0, 9000.0])
         self.assertEqual(jload("usgs-alumina-import-a.json")["v"][0], 462.0)
-        self.assertEqual({m["k"] for m in usgs}, {"lithium", "manganese", "rare-earths", "bauxite", "cobalt", "pgm"})
+        self.assertEqual({m["k"] for m in usgs}, {"lithium", "manganese", "rare-earths", "bauxite", "cobalt", "pgm",
+                                                      "chromium", "ferro-alloys", "ferrous-scrap", "molybdenum", "graphite"})  # the last five: FNCC, GNC3.5
 
 
 class WeeklyJobRecordsFrozenSeries(unittest.TestCase):
@@ -972,7 +973,9 @@ class FiguresFile(unittest.TestCase):
                 if not (m.get("hidden") or bool(m.get("closed")) != closed or m["k"] in P.NO_PAGE or m["k"] == "freight"):
                     first.setdefault(m["k"], m)
         self.assertEqual(sorted(figures), sorted(first))
-        self.assertTrue(figures["barley"]["closed"] and figures["sorghum"]["closed"])
+        # FNCC (GNC2.1): a live annual series goes on after the closed monthly one, so the closed one is no longer the page's figure
+        self.assertTrue(all(m.get("closed") for m in idx if m["id"] in ("barley-m", "sorghum-m")))
+        self.assertEqual([figures[k]["id"] for k in ("barley", "sorghum")], ["barley-a", "sorghum-a"])
         for k, f in figures.items():
             m = first[k]
             self.assertEqual({a: b for a, b in f.items()}, {a: m[a] for a in f})

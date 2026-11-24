@@ -222,7 +222,12 @@ export function PriceDrawer() {
   // the MUV index). Possible only when every selected series has one.
   const realOk = ids.length > 0 && ids.every((id) => !!findMeta(id)?.real);
   const realOn = real && realOk;
-  const loadIds = realOn ? ids.map((id) => findMeta(id)!.real!) : ids;
+  // a closed series and the annual series that goes on after it share one real twin: it is loaded once
+  const loadIds = realOn ? [...new Set(ids.map((id) => findMeta(id)!.real!))] : ids;
+  // the window of the nominal series is not the window of its real twin (annual, to another year): the chart opens it afresh
+  useEffect(() => {
+    resetView.current = true;
+  }, [realOn]);
 
   // ---- load the selected series lazily
   useEffect(() => {

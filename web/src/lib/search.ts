@@ -131,22 +131,23 @@ const COUNTRY_ALIASES: Record<string, string[]> = {
 
 /** Trade names of the products that a commodity page holds besides the one in its name (the fertiliser pages hold several customs groups). */
 const COMMODITY_ALIASES: Record<string, string[]> = {
-  urea: ['ammonia', 'ammonium nitrate', 'UAN', 'urea ammonium nitrate', 'ammonium sulphate', 'ammonium sulfate', 'nitrogen fertiliser', 'nitrogen fertilizer', 'fertiliser', 'fertilizer'],
+  urea: ['ammonia', 'ammonium nitrate', 'calcium ammonium nitrate', 'CAN', 'ammonium nitrate with limestone', 'UAN', 'urea ammonium nitrate', 'ammonium sulphate', 'ammonium sulfate', 'nitrogen fertiliser', 'nitrogen fertilizer', 'fertiliser', 'fertilizer'],
   phosphate: ['phosphate rock', 'DAP', 'diammonium phosphate', 'MAP', 'monoammonium phosphate', 'TSP', 'triple superphosphate', 'superphosphate', 'phosphoric acid', 'phosphate fertiliser', 'fertilizer'],
   potash: ['potassium chloride', 'muriate of potash', 'MOP', 'SOP', 'sulphate of potash', 'potassium sulphate', 'potassium sulfate', 'potassium fertiliser', 'fertilizer'],
-  sulphur: ['sulfur', 'brimstone'],
+  sulphur: ['sulfur', 'brimstone', 'fertiliser', 'fertilizer'],
   // the grains and oilseeds (M-023): the pages hold the oils, meals and flour too
   wheat: ['wheat flour', 'flour'],
-  corn: ['maize', 'distillers grains', 'distillers dried grains', 'DDGS', 'brewers grains', 'brewing and distilling dregs'],
+  corn: ['maize', 'distillers grains', 'DDGS', 'brewers grains', 'brewing and distilling dregs'],
   barley: ['malting barley', 'feed barley'],
   sorghum: ['milo', 'grain sorghum'],
   sunflower: ['sunflower seed', 'sunflower oil', 'sunflower meal', 'safflower oil'],
   rapeseed: ['rapeseed oil', 'canola oil', 'rapeseed meal', 'canola meal', 'colza', 'mustard oil'],
-  pulses: ['peas', 'chickpeas', 'lentils', 'beans', 'dried beans', 'legumes', 'garbanzo'],
-  npk: ['compound fertiliser', 'compound fertilizer', 'NPK', 'fertiliser', 'fertilizer'],
+  // no alias with the word "dried": it would be found by "DRI", the direct-reduced iron of the pig iron page
+  pulses: ['peas', 'chickpeas', 'lentils', 'beans', 'dry beans', 'dry peas', 'legumes', 'garbanzo'],
+  npk: ['compound fertiliser', 'compound fertilizer', 'NPK', 'two-nutrient compound', 'NP fertiliser', 'PK fertiliser', 'ammonium phosphate nitrate', 'fertiliser', 'fertilizer'],
   // the metal bulks (A-010): the trade names of the raw materials of steel and of the ferro-alloys, as a buyer writes them
-  'ferrous-scrap': ['scrap', 'steel scrap', 'iron scrap', 'metal scrap', 'ferrous waste', 'recycled steel'],
-  'pig-iron': ['pig iron', 'DRI', 'direct reduced iron', 'direct-reduced iron', 'sponge iron', 'spongy iron', 'spiegeleisen'],
+  'ferrous-scrap': ['scrap', 'steel scrap', 'iron scrap', 'metal scrap', 'ferrous waste', 'recycled steel', 'HMS', 'heavy melting scrap', 'shredded scrap'],
+  'pig-iron': ['pig iron', 'DRI', 'HBI', 'hot briquetted iron', 'direct reduced iron', 'direct-reduced iron', 'sponge iron', 'spongy iron', 'spiegeleisen'],
   chromium: ['chromite', 'chrome', 'chrome ore', 'chromium ore'],
   'ferro-alloys': ['ferroalloys', 'ferro alloys', 'ferrochrome', 'ferrochromium', 'ferro-chromium', 'ferromanganese', 'ferro-manganese', 'silicomanganese', 'silico-manganese', 'ferrosilicon', 'ferro-silicon', 'ferromolybdenum', 'ferrovanadium', 'ferroniobium', 'ferrotungsten', 'ferrotitanium'],
   'met-coal': ['coke', 'metallurgical coke', 'semi-coke', 'coking coal'],

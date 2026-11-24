@@ -308,15 +308,24 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 elif ref is not None and low > ref:
                     level = "flag"
                     reason = alert_reason(alerts, cid, latest)
-                    text += (f"; above PortWatch's {latest} volume: the atlas routes cargo on the normal itinerary"
-                             + (f". {reason}" if reason else ""))
-                    type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
-                                      f"route, not the {latest} traffic" + (f". {reason}" if reason else ""))
+                    if reason:
+                        text += f"; above PortWatch's {latest} volume: the atlas routes cargo on the normal itinerary. {reason}"
+                        type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
+                                          f"route, not the {latest} traffic. {reason}")
+                    else:
+                        # no diversion explains it: the assumed ports, routes or ship types are the likely cause
+                        text += (f"; above PortWatch's {latest} volume and no alert explains it: the ports, routes or ship types the atlas "
+                                 "assumes probably overstate it")
+                        type_note[typ] = f"{above}, and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it"
                 elif ref and low > PW_NEAR * ref:
                     type_note[typ] = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mtn(low)}) is "
                                       f"{low / ref:.0%} of IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in {latest} ({mtn(ref)}), "
                                       f"although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas "
                                       "assumes may overstate it")
+                if own and ref and low > PW_NEAR * ref and typ in type_note:
+                    # the cap compares the atlas with PortWatch: it says nothing once the two are this close
+                    type_note[typ] += (f". The 'up to' figures of these groups are not capped at PortWatch's volume here, because the "
+                                       f"atlas's own tonnage is above {PW_NEAR:.0%} of it")
                 k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
                            "value": round(low, 1), "high": round(high, 1), "reference": None if ref is None else round(ref, 1),
                            "best": round(best, 1), "bestYear": by, "ratio": round(low / best, 2), "level": level, "text": text})
@@ -325,9 +334,12 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             p = pairs[g]
             sea = p["seaborne"]
             # the floor applies to the "up to" figure the page prints: the PortWatch cap (below) can bring it under
-            # the floor although the uncapped sum is above it
+            # the floor although the uncapped sum is above it. The cap is PortWatch's volume of the type less the "at
+            # least" tonnage of the other groups of the type, never below this group's own "at least"; it is applied only
+            # while the type's "at least" tonnage is at most PW_NEAR of PortWatch's volume: above that the comparison
+            # says nothing (the ports or routes the atlas assumes overstate it) and the uncapped figure stands
             hi_pub, pw_t = high, pw_y.get(typ) if own else None
-            if pw_t is not None:
+            if pw_t is not None and by_type[typ][0] <= PW_NEAR * pw_t:
                 hi_pub = min(high, max(low, pw_t - (by_type[typ][0] - low)))
             if not sea or not (hi_pub >= EST_MIN_MT or hi_pub / sea >= EST_MIN_SHARE):
                 continue
@@ -350,11 +362,6 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             if names:
                 n.append(f"Exports that customs data do not record for {latest}, or record only in part, are missing: {', '.join(names)} "
                          "(see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)")
-            # cap of the upper figure (hi_pub above): PortWatch's volume of the type, less the "at least" tonnage of the
-            # other groups of the type, never below this group's own "at least"
-            if hi_pub < high and hi_pub == low and high - low >= 0.05:
-                n.append(f"The pairs that may cross it ({tn(high - low)}) are not added: the 'at least' tonnage of all "
-                         f"{TYPE_NAME[typ]} cargo of the atlas here is already above IMF PortWatch's {latest} estimate")
             if typ in type_note:
                 n.append(type_note[typ])
             e = {"k": BL.COMMODITY.get(g, g), "p": g,

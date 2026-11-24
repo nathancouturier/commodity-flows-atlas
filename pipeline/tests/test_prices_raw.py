@@ -84,6 +84,14 @@ USGS_ROWS = {
     "usgs-cobalt-lme-a": ("Cobalt", "London Metal Exchange (LME), cash", "USD/lb"),
     "usgs-palladium-a": ("Palladium", "Palladium", "USD/troy oz"),
     "usgs-rhodium-a": ("Rhodium", "Rhodium", "USD/troy oz"),
+    # FNCC (GNC3.5): the metal bulks
+    "usgs-chromite-ore-a": ("Chromium", "Chromite ore (gross weight)", "USD/t"),
+    "usgs-ferrochromium-a": ("Chromium", "Ferrochromium (chromium content)", "USD/lb"),
+    "usgs-heavy-melting-scrap-a": ("Iron And Steel Scrap", "No. 1 heavy melting composite price", "USD/t"),
+    "usgs-molybdenum-a": ("Molybdenum", "Price, average, dollars per kilogram", "USD/kg"),
+    "usgs-graphite-flake-a": ("Graphite (Natural)", "at foreign ports: Flake", "USD/t"),
+    "usgs-graphite-lump-a": ("Graphite (Natural)", "at foreign ports: Lump and chip", "USD/t"),
+    "usgs-graphite-amorphous-a": ("Graphite (Natural)", "at foreign ports: Amorphous", "USD/t"),
 }
 # the Freight family (BLS cache, Dallas Fed, New York Fed) is proved by test_freight_indicators.py
 NOT_ON_DISK = {"freight-ppi-m", "igrea-m", "gscpi-m"}
@@ -245,7 +253,7 @@ class PinkSheetMonthly(unittest.TestCase):
         self.assertAlmostEqual(sum(base) / len(base), 100.0, delta=0.5)
 
     def test_every_series_of_the_index_is_proved_by_one_of_the_classes_of_this_file(self):
-        proved = (set(PINK_HEADER) | set(INDEX_HEADER) | {"iron-ore-contract-a", "muv-a"} | set(EIA_FILES) | set(USGS_ROWS) | NOT_ON_DISK
+        proved = (set(PINK_HEADER) | set(INDEX_HEADER) | {"iron-ore-contract-a", "muv-a"} | set(EIA_FILES) | set(USGS_ROWS) | NOT_ON_DISK | {"barley-a", "sorghum-a"}
                   | {m["id"] for m in self.idx.values() if m.get("realOf")})
         self.assertEqual(sorted(set(self.idx) - proved), [], "series that no raw file proves")
         self.assertEqual(sorted(proved - set(self.idx)), [], "proofs of series that are not in the index")
@@ -288,6 +296,19 @@ class PinkSheetAnnual(unittest.TestCase):
                 self.assertEqual((expected[0][0], expected[-1][0], len(expected)), (int(doc["start"]), int(m["end"]), len(doc["v"])))
                 self.assertEqual([v for _, v in expected], doc["v"])
                 self.assertEqual(m["stats"] if "stats" in m else None, None)  # hidden series are not on the board
+
+    def test_the_annual_averages_after_the_closed_series_are_the_nominal_columns(self):
+        """FNCC (GNC2.1): barley-a and sorghum-a are the years after August 2020 of the sheet 'Annual Prices (Nominal)'."""
+        cols, units, data = self.nominal
+        for sid, header in (("barley-a", "Barley"), ("sorghum-a", "Sorghum")):
+            with self.subTest(sid):
+                j = cols[header]
+                self.assertEqual(SHEET_UNIT[units[j]], "USD/t")
+                expected = trim([(y, number(r[j])) for y, r in sorted(data.items()) if y > 2020])
+                doc = jload(sid + ".json")
+                self.assertEqual((int(doc["start"]), len(doc["v"])), (expected[0][0], len(expected)))
+                self.assertEqual([v for _, v in expected], doc["v"])
+                self.assertEqual((self.idx[sid]["freq"], self.idx[sid]["end"]), ("A", str(expected[-1][0])))
 
     def test_the_deflator_is_the_muv_column(self):
         cols, units, data = self.real

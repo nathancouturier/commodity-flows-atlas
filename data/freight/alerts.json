@@ -68,8 +68,8 @@
 "USA",
 "MAR",
 "JPN",
-"TWN",
 "BRA",
+"TWN",
 "SGP",
 "IRN",
 "PAK"
@@ -94,7 +94,6 @@
 "ARE",
 "SAU",
 "MAR",
-"AUS",
 "BHR",
 "IRQ"
 ],
@@ -240,7 +239,6 @@
 "ZAF",
 "FRA",
 "VNM",
-"NOR",
 "BLR",
 "JPN",
 "POL",
@@ -255,6 +253,7 @@
 "BGD",
 "THA",
 "SEN",
+"DJI",
 "PHL",
 "KOR",
 "IRQ",
@@ -283,7 +282,6 @@
 "ZAF",
 "FRA",
 "VNM",
-"NOR",
 "BLR",
 "JPN",
 "POL",
@@ -310,6 +308,7 @@
 "BGD",
 "THA",
 "SEN",
+"DJI",
 "PHL"
 ],
 "derived": "Commodities: at least 10% of their seaborne trade, or 50 Mt, has to cross Bab el-Mandeb or Suez Canal (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage, and every country with at least 20 Mt of cargo, of any kind, that has to cross it.",
@@ -372,11 +371,11 @@
 "sunflower",
 "wheat",
 "barley",
-"urea",
 "rapeseed",
 "corn",
 "pig-iron",
 "pulses",
+"urea",
 "crude-oil"
 ],
 "countries": [
@@ -384,22 +383,27 @@
 "KAZ",
 "RUS",
 "ROU",
-"ITA",
 "EGY",
+"GEO",
+"CHN",
+"ITA",
 "ESP",
 "TUR",
 "SAU",
 "DEU",
 "IND",
+"BGR",
 "USA",
-"BEL",
-"CHN"
+"BEL"
 ],
 "exporters": [
 "UKR",
 "KAZ",
 "RUS",
-"ROU"
+"ROU",
+"EGY",
+"GEO",
+"CHN"
 ],
 "importers": [
 "ITA",
@@ -409,8 +413,11 @@
 "SAU",
 "DEU",
 "IND",
+"BGR",
+"ROU",
 "USA",
-"BEL"
+"BEL",
+"UKR"
 ],
 "derived": "Commodities: at least 10% of their seaborne trade, or 50 Mt, has to cross Turkish Straits (Bosphorus and Dardanelles) (Atlas estimate, 2024). Countries: for each of those commodities, the exporters and importers with at least 15% of its tonnage through the passage, and every country with at least 20 Mt of cargo, of any kind, that has to cross it.",
 "also": [

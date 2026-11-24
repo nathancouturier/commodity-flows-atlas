@@ -142,7 +142,7 @@ class Series(unittest.TestCase):
     def test_files_and_size(self):
         self.assertGreaterEqual(len(self.hist), 35)
         size = sum(os.path.getsize(p) for p in glob.glob(os.path.join(COMMOD, "history", "*.json")))
-        self.assertLess(size, 3.4e6)  # 3 MB until package NC3 (A-010: six new pages, 3.16 MB with them)
+        self.assertLess(size, 3.9e6)  # 3 MB until package NC3 (A-010: six new pages, 3.16 MB with them), 3.4 MB until FNCB: 3.22 MB measured plus a fifth
 
     def test_the_latest_year_is_the_table_of_the_page(self):
         n = 0
@@ -252,11 +252,16 @@ class Series(unittest.TestCase):
             self.assertNotIn(s["years"].index(y), (s.get("out") or {}).get(c, []), (cid, k, c, y))
         self.assertNotIn("out", self.hist["potash"]["t"]["exports"])
         flagged = {(cid, k) for cid, h in self.hist.items() for k, s in h["t"].items() if s.get("out")}
-        # a rule for breaks, not for the ups and downs of trade. Four tables before package NC2 (cobalt and uranium trade); the PSD and customs
-        # tables of the new pages add three: China's and the EU's sorghum imports, Ukraine's sunflower seed exports and stocks, real swings of
-        # one country in the source's own figures (M-023); the metal bulks add four more (A-010): Mozambique's coke exports and India's coke
-        # imports, North Korea's graphite exports and China's graphite imports, each one year (2016)
-        self.assertLessEqual(len(flagged), 11, flagged)
+        # a rule for breaks, not for the ups and downs of trade: nine tables, each named. Four are older (cobalt and uranium trade: Congo's cobalt
+        # exports and China's cobalt imports of 2016, Namibia's uranium exports and Canada's uranium imports of 2009); the PSD and customs tables of
+        # package NC2 add three, real swings of one country in the source's own figures (M-023: China's and the EU's sorghum imports, Ukraine's sunflower seed
+        # exports and stocks); the metal bulks add two (A-010): North Korea's graphite exports and China's graphite imports, each one year (2016). Mozambique's
+        # coke exports and India's coke imports of 2016 (A-010, 65 Mt at 4 USD per tonne) were flagged too until package FNCB made coke a homogeneous group:
+        # the row is now a flagged Atlas estimate and the series has no break
+        self.assertEqual(flagged, {("cobalt", "exports"), ("cobalt", "imports"), ("uranium", "exports"), ("uranium", "imports"),
+                                   ("sorghum", "imports"), ("sunflower", "exports"), ("sunflower", "stocks"),
+                                   ("graphite", "exports"), ("graphite", "imports")})
+        self.assertNotIn("met-coal", {cid for cid, _ in flagged})
 
     def test_spodumene_series_starts_with_the_lanes(self):
         """The spodumene estimate is not extended to years its rule does not cover: the series starts in the lanes' first year,

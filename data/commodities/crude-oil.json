@@ -41,7 +41,7 @@
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (crude-oil) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 108.5 Mt that move both by sea and overland (split not known) are not in it; 2% of this tonnage estimated from value"
+   "n": "seaborne subset of BACI flows (crude-oil) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 108.0 Mt that move both by sea and overland (split not known) are not in it; 2% of this tonnage estimated from value"
   }
  },
  "kpis": {
@@ -2379,6 +2379,7 @@
   "Production is in kb/d (EIA) and trade in Mt per year (BACI tonnage); the figures above carry the other unit in brackets. Atlas conversion: 7.33 barrels per tonne, the ratio of EIA's series for United States crude oil production in thousand barrels per day and in thousand metric tons (1980 to 1999); other grades and other countries differ.",
   "Oil demand is EIA petroleum and other liquids consumption: all liquids, not crude alone. The same table is shown under refined products.",
   "The EIA international data the atlas uses have no proved-reserves series.",
+  "Crude oil (HS 2709): the tables hold 2,264 Mt, 95% of the 2,388 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.00918 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 795 of the 1,267 pairs of the file are kept); 124 Mt are taken out by the cleaning rules (tonnage re-estimated from value, or flows left out)",
   "Customs data record no crude oil exports from Iran in 2024, against 88.9 Mt in 2018 (CEPII BACI). From 2019 to 2022, 75.4 Mt of them were recorded under \"Other Asia, not elsewhere specified\" and are shown as \"Asia, not specified\". Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here.",
   "Customs data record 21.7 Mt of crude oil exports from Venezuela in 2024, against 60.3 Mt in 2018 (CEPII BACI). Unrecorded shipments, or cargoes declared under other origins, are a plausible cause; it is not established here.",
   "Crude oil exports of Malaysia in customs data (54.2 Mt in 2024, CEPII BACI) are 227% of its production (23.9 Mt, EIA International Energy Data). Blending, or crude of other origins declared as Malaysian after ship-to-ship transfers, is a plausible cause; it is not established here.",

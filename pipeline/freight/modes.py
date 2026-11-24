@@ -141,6 +141,7 @@ FAMILY = {
     # is the business of vessel_rules.py
     "potassium-sulphate": "fert", "monoammonium-phosphate": "fert", "superphosphates": "fert", "phosphoric-acid": "fert",
     "npk": "fert", "ammonia": "fert", "ammonium-nitrate": "fert", "uan": "fert", "ammonium-sulphate": "fert", "sulphur": "fert",
+    "ammonium-nitrate-limestone": "fert", "npk-two-nutrient": "fert",
     "steel": "metal", "copper-refined": "metal", "aluminium": "metal", "nickel-int": "metal", "nickel-fe": "metal",
     "coffee": "soft", "cocoa": "soft", "cotton": "soft",
     # groups outside the lane model (M-100): the same geographic rule as the metals

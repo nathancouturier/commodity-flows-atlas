@@ -211,6 +211,16 @@ G = {
          "Grasberg: the copper-gold concentrate slurry goes by pipeline to the seaport of Amamapare, is dried and shipped. Batu Hijau (Benete, Sumbawa) is the second concentrate port and is not committed: no coordinates were read (UNSOURCED)"),
     ],
     # ------------------------------------------------------------------ Africa
+    # FNCA (review GNC3.2): the steel works of Turkey sit on three coasts and the groups that feed them (scrap, pig iron, direct-reduced iron) had only the
+    # general port of the country (Mersin), so the largest flows from the Black Sea were refused as "port on the other coast". The pages are the English
+    # Wikipedia, read on 24 November 2026: they name the steel works and the port that serves them, not the cargo of the berth (the basis of these
+    # rows reads "page names the cargo", which is the table's word for a row of the group: the note says what the page says).
+    "TUR": [
+        ("TRERE", "black-sea", ("ferrous-scrap", "pig-iron", "dri"), "both", "wikipedia", W + "Erdemir",
+         "Erdemir: its main steel plant is at Karadeniz Eregli on the Black Sea shore and 'operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo); the Eregli page says the town is 'the home of Erdemir, an important steel plant of Turkey' with a large natural harbour"),
+        ("TRISK", "med", ("ferrous-scrap", "pig-iron", "dri"), "discharge", "wikipedia", W + "Erdemir",
+         "Erdemir 'also acquired the steel plant at Iskenderun, Hatay Province in southern Turkey' (Isdemir, named on the page among the largest emitters of the country's steelmakers); the page names the plant, not its port or the cargo it takes"),
+    ],
     "ZAF": [
         ("ZARCB", "s-africa", ("coal",), "load", "wikipedia", W + "Port_of_Richards_Bay",
          "Port of Richards Bay: the Richards Bay Coal Terminal, the largest coal export facility in Africa"),
@@ -316,7 +326,7 @@ UNSOURCED = {
     "ZWE": "spodumene: the Reuters report cited by the lithium page (Kitco, 3 February 2026) says most of the concentrate is exported to China and names no port or corridor; no page read documents the corridor, so the transit row of Zimbabwe (Beira, a general row in gateways/energy.py) answers",
     "ZAF": "Alumina imports at Richards Bay: the page names the two aluminium smelters, not alumina. Manganese: Port Elizabeth, the legacy port, is named for containers only; the Ngqura row rests on a page that speaks of the port's purpose in the future tense",
     "IND": "coal imports at Paradip: the Paradip Port page names bulk cargoes and crude oil, not coal (the legacy entry is not used: Krishnapatnam and Mundra have coal rows); the same page names no iron ore either, so Paradip, the legacy iron-ore port, is replaced by the three ports whose pages name iron ore (Dhamra, Visakhapatnam, Mormugao). Gangavaram: its page lists 'iron ore sidings' only (not a row). Manganese loads at Mormugao are on its page; no page names Indian manganese imports apart from Visakhapatnam",
-    "FRA": "Rouen, La Pallice, Fos for wheat: pages not found under the titles tried (the same gap is in UNSOURCED of food.py)",
+    "FRA": "wheat and grain: Rouen and La Rochelle (La Pallice) are rows of food.py since 24 November 2026 (FNCA); see UNSOURCED of food.py for what no page names at a French port",
     "CRI": "Limon-Moin (Caribbean) and Caldera (Pacific): the Port of Limon and Port of Moin pages name a seaport and a container terminal operated by APM Terminals, no cargo; Caldera: page not found",
     "COL": "Cartagena, Barranquilla, Santa Marta, Buenaventura: pages not found under the titles tried (also in food.py); the Pacific gateway of Colombia is therefore missing and the rule by ocean falls back on the principal gateway",
     "CHN": "Zhanjiang (CNZHA, kept as a manual port): the Port of Zhanjiang page names a 250,000-ton iron ore terminal and a crude oil terminal, no coal, so the South China coal rule now uses Guangzhou (Huangpu); the Guangzhou page lists coal among the products shipped through the port without a direction. Nickel, copper and zinc ore discharge (59 Mt): the Qingdao and Rizhao pages name iron ore (and bauxite, nickel for Rizhao: 'other products passing through the harbor include cement, nickel, bauxite') but no ore concentrate by port, so those groups keep Qingdao as the legacy entry. Manganese (28.5 Mt): Qingdao, Rizhao, Qinzhou and Fangchenggang pages read, none names manganese. Soybeans: the Dalian, Nantong, Zhangjiagang, Qingdao and Tianjin pages name no grain; the Chinese coast has no coast rule for grain",
@@ -326,7 +336,7 @@ UNSOURCED = {
     "TWN": "coal (51 Mt) and ore (20 Mt): Kaohsiung, Taichung and Keelung pages read: containers and 'bulk and sundry goods docks', no coal or ore; the Taichung and Mailiao power station pages name no port",
     "MYS": "coal (44 Mt) and iron ore (26 Mt imports, 14 Mt exports): the Kuantan Port, Manjung, Lumut, Tanjung Bin and Port Dickson pages read: no cargo statement",
     "PHL": "coal imports (39 Mt) and exports (17.5 Mt, Semirara): the Semirara Island page names the mines and no port (and no coordinates of a terminal); the Pagbilao, Masinloc, Calaca, Sual and Mariveles pages name power stations, not ports. Nickel ore (Surigao, 45 Mt): the Surigao City page says that nickel ore was exported from Nonoc Island from 1969 and that the mine has been mothballed since 1986, so it is no page for 2024 shipments; the Claver page (23 November) names 'the nickel ore loading port at Taganito', 10 km from the town on the Taganito river, with no coordinates of the port (the page's point is the town, and the legacy Surigao point is about 35 km from that town), so no manual port can be given; the Semirara Mining and Power page says Semirara coal has been exported to China, India, Hong Kong, Japan, Taiwan and Thailand since 2007 and names no port",
-    "TUR": "coal (38 Mt, Izmir) and iron ore, bauxite (Samsun): Izmir, Samsun, Iskenderun, Zonguldak, Bandirma and Karadeniz Eregli pages read; Mersin page says that coal was its main import in the 19th century. None names a cargo for the port today",
+    "TUR": "coal (38 Mt, Izmir) and iron ore, bauxite (Samsun): Izmir, Samsun, Iskenderun, Zonguldak, Bandirma and Karadeniz Eregli pages read; Mersin page says that coal was its main import in the 19th century. None names a cargo for the port today. Scrap, pig iron and direct-reduced iron (FNCA, 24 November 2026): the Erdemir page names the steel plants of Karadeniz Eregli and Iskenderun, which are rows; the Aliaga page names a port 'mainly for oil and bulk cargo' and ship-breaking (no steel works, no scrap import), the Derince page names vehicles, so no Marmara row and the Aegean has only the Izmir general row. Chromite: no page read names a Turkish chromite port, so it keeps Samsun, the nearest seaport (1.5 Mt at the Bosphorus). The ferro-alloys have no page for Turkey either",
     "DEU": "iron ore and coal by port beyond Wilhelmshaven's coal jetties: the Hamburg and HHLA pages name Hansaport as 'Germany's largest terminal for bulk cargo' without a cargo, so iron ore stays on Wilhelmshaven's legacy entry",
     "UKR": "Pivdennyi (iron ore, 18 Mt): the Pivdennyi Port and Chornomorsk pages read: no cargo statement",
     "OMN": "iron ore (Sohar, 12.8 Mt imports and 12.5 Mt exports): the Sohar page names jetties for Valemax 'Very Large Ore Carriers' and aluminium and steel plants, not iron ore",
@@ -382,6 +392,20 @@ SAU_RED_SEA_BUYERS = {
     "USA", "CAN", "MEX", "COL", "BRA", "ARG", "URY", "VEN", "GUY", "SUR", "TTO", "CUB", "DOM", "JAM", "HTI", "BHS", "BRB",
     "PAN", "CRI", "GTM", "HND", "NIC", "BLZ",
 }
+
+
+# France (FNCA, review GNC2.4): the Mediterranean buyers take the Mediterranean port (Fos), the buyers on the Atlantic, the North Sea and the
+# Baltic and the Americas the Channel and Atlantic port (Rouen, La Pallice, Le Havre, Montoir); the others (Asia, the Gulf, East Africa, Oceania) and
+# the countries that the page of Rouen names among its destinations (Morocco, Algeria) are left open (Spain is on the Mediterranean side: the atlas's port for
+# its general cargo is Valencia, and its other ports are Algeciras for the fertilisers).
+FRA_MED_SIDE = {"ITA", "ESP", "GRC", "MLT", "HRV", "SVN", "ALB", "MNE", "TUR", "CYP", "ISR", "LBN", "SYR", "EGY", "LBY", "TUN", "BGR", "ROU", "UKR", "GEO"}
+FRA_ATLANTIC_SIDE = (ATLANTIC_SIDE - FRA_MED_SIDE - {"FRA", "MAR", "DZA", "ZAF", "MOZ", "TZA", "KEN", "DJI", "SDN"}) | {"USA", "CAN", "MEX", "COL", "PAN", "CRI", "GTM", "HND", "NIC", "BLZ"}
+# Russian and Belarusian fertiliser loads in the Baltic (Ust-Luga is the port used before for the fertilisers of both); their general cargo is Novorossiysk, on the Black Sea
+FRA_ATLANTIC_FERT = FRA_ATLANTIC_SIDE | {"RUS", "BLR"}
+
+
+# Partners whose Black Sea ports reach Turkey's Black Sea port without crossing the Bosphorus (the rule tur-coast)
+TUR_BLACK_SEA_SIDE = {"RUS", "UKR", "ROU", "BGR", "GEO", "MDA"}
 
 
 class _Anyone:
@@ -443,6 +467,46 @@ COAST_RULES = [
         "zones": {"pacific": ["canada-west"], "atlantic": ["canada-east"]},
         "reason": "Canada has a Pacific and an Atlantic seaboard. Cargo for Asia, Oceania and the Pacific coast of the Americas uses the British Columbia gateways, cargo for Europe, Africa and the Atlantic side of the Americas the St Lawrence and Maritime gateways; other ends (India, the Gulf) are left open",
         "src": "atlas", "url": None, "two_ocean": True,
+    },
+    {
+        "id": "fra-coast-grain", "kind": "basin", "country": "FRA", "role": "both", "groups": None, "segments": {"grain"},
+        "basins": {"med": FRA_MED_SIDE, "atlantic": FRA_ATLANTIC_SIDE},
+        "zones": {"med": ["med"], "atlantic": ["nw-europe"]},
+        "reason": "France has a Mediterranean seaboard and a Channel and Atlantic one. Grain, oilseeds and meal to and from the Mediterranean and the Black "
+                  "Sea (Italy, Greece, Turkey, Egypt, Romania and the others of the rule) use the Mediterranean port (Fos, the general port of the country), "
+                  "to and from the countries of the Atlantic, the North Sea and the Baltic and the Americas the Channel and Atlantic ports named by "
+                  "pages (Rouen, La Pallice, Montoir); the other buyers (Asia, the Gulf, East Africa, Oceania), Spain, Portugal, Morocco and Algeria are left "
+                  "open, so that the principal grain port answers: the Rouen page names China, Morocco and Algeria as its main destinations in 2023",
+        "src": "atlas", "url": None,
+    },
+    {
+        "id": "fra-coast", "kind": "basin", "country": "FRA", "role": "both", "groups": None, "segments": {"vegoil", "fert"},
+        "basins": {"med": FRA_MED_SIDE, "atlantic": FRA_ATLANTIC_FERT, "rest": _Anyone()},
+        "zones": {"med": ["med"], "atlantic": ["nw-europe"], "rest": ["med"]},
+        "reason": "France has a Mediterranean seaboard and a Channel and Atlantic one, and the pages read name no port for vegetable oils, dry fertiliser "
+                  "or general cargo, so the general ports of the country answer: Le Havre for the countries of the Atlantic, the North Sea and the Baltic "
+                  "and the Americas, Fos for the Mediterranean and the Black Sea and for every other partner (Asia, the Gulf, Africa, Oceania), which "
+                  "reach France through Suez or Gibraltar. Ammonia, which a page names at Montoir, takes that port on the Atlantic side",
+        "src": "atlas", "url": None,
+    },
+    {
+        "id": "fra-coast-box", "kind": "basin", "country": "FRA", "role": "both", "groups": None, "segments": {"box"},
+        "basins": {"med": FRA_MED_SIDE, "atlantic": FRA_ATLANTIC_SIDE, "rest": _Anyone()},
+        "zones": {"med": ["med"], "atlantic": ["nw-europe"], "rest": ["med"]},
+        "reason": "France has a Mediterranean seaboard and a Channel and Atlantic one: general cargo (steel, aluminium, scrap, metals and the like, "
+                  "which the atlas moves through the general port of a country) takes Le Havre for the countries of the Atlantic, the North Sea "
+                  "and the Baltic and the Americas, and Fos for the Mediterranean and the Black Sea, Russia (whose general port is Novorossiysk) and every other "
+                  "partner (Asia, the Gulf, Africa, Oceania), which reach France through Suez or Gibraltar",
+        "src": "atlas", "url": None,
+    },
+    {
+        "id": "tur-coast", "kind": "basin", "country": "TUR", "role": "both", "groups": {"ferrous-scrap", "pig-iron", "dri"},
+        "basins": {"black-sea": TUR_BLACK_SEA_SIDE, "med": _Anyone()},
+        "zones": {"black-sea": ["black-sea"], "med": ["med"]},
+        "reason": "Turkey's steel works are on the Black Sea (Eregli) and on the Mediterranean (Iskenderun). Cargo to and from the countries of the Black "
+                  "Sea takes the Black Sea port; every other partner reaches Turkey through the Bosphorus or the Dardanelles only by a detour, so it "
+                  "takes the Mediterranean port (Iskenderun, then Mersin and Izmir, the general ports of the country)",
+        "src": "atlas", "url": None,
     },
     {
         "id": "sau-dry-cargo", "kind": "ocean", "country": "SAU", "role": "discharge",

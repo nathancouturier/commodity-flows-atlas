@@ -20,8 +20,8 @@
   "exports": "World exports (Mt of NPK)"
  },
  "labels": {
-  "exports": "Top exporters — Mt of NPK fertilisers, product weight",
-  "imports": "Top importers — Mt of NPK fertilisers, product weight"
+  "exports": "Top exporters — Mt of NPK fertilisers (three nutrients, HS 310520), product weight",
+  "imports": "Top importers — Mt of NPK fertilisers (three nutrients, HS 310520), product weight"
  },
  "exports": {
   "y": 2024,
@@ -931,6 +931,672 @@
   "n": "CEPII BACI HS92 NPK compound fertilisers (HS 310520), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
   "basis": "compound fertilisers, product weight"
  },
+ "extra": [
+  {
+   "key": "two-nutrient-exports",
+   "title": "Two-nutrient compound fertilisers exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 11.045,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 2.439
+     },
+     {
+      "c": "MAR",
+      "v": 2.025
+     },
+     {
+      "c": "USA",
+      "v": 1.637
+     },
+     {
+      "c": "RUS",
+      "v": 1.203
+     },
+     {
+      "c": "SAU",
+      "v": 0.4389
+     },
+     {
+      "c": "KOR",
+      "v": 0.3629
+     },
+     {
+      "c": "KAZ",
+      "v": 0.3389
+     },
+     {
+      "c": "BEL",
+      "v": 0.3347
+     },
+     {
+      "c": "NLD",
+      "v": 0.2876
+     },
+     {
+      "c": "GRC",
+      "v": 0.2704
+     },
+     {
+      "c": "ESP",
+      "v": 0.2371
+     },
+     {
+      "c": "TUR",
+      "v": 0.1711
+     },
+     {
+      "c": "LTU",
+      "v": 0.1589
+     },
+     {
+      "c": "DEU",
+      "v": 0.1403
+     },
+     {
+      "c": "BGR",
+      "v": 0.1282
+     },
+     {
+      "c": "AUT",
+      "v": 0.0831
+     },
+     {
+      "c": "FIN",
+      "v": 0.0796
+     },
+     {
+      "c": "SRB",
+      "v": 0.0795
+     },
+     {
+      "c": "BRA",
+      "v": 0.0713
+     },
+     {
+      "c": "IDN",
+      "v": 0.0708
+     },
+     {
+      "c": "ITA",
+      "v": 0.0661
+     },
+     {
+      "c": "TZA",
+      "v": 0.0487
+     },
+     {
+      "c": "BLR",
+      "v": 0.0458
+     },
+     {
+      "c": "POL",
+      "v": 0.042
+     },
+     {
+      "c": "ISR",
+      "v": 0.032
+     },
+     {
+      "c": "DOM",
+      "v": 0.0264
+     },
+     {
+      "c": "FRA",
+      "v": 0.0231
+     },
+     {
+      "c": "PRT",
+      "v": 0.0227
+     },
+     {
+      "c": "UZB",
+      "v": 0.0197
+     },
+     {
+      "c": "THA",
+      "v": 0.0187
+     },
+     {
+      "c": "NOR",
+      "v": 0.0177
+     },
+     {
+      "c": "TUN",
+      "v": 0.0154
+     },
+     {
+      "c": "JOR",
+      "v": 0.0141
+     },
+     {
+      "c": "OMN",
+      "v": 0.01
+     },
+     {
+      "c": "VNM",
+      "v": 0.0099
+     },
+     {
+      "c": "AUS",
+      "v": 0.0077
+     },
+     {
+      "c": "GBR",
+      "v": 0.0071
+     },
+     {
+      "c": "ROU",
+      "v": 0.0064
+     },
+     {
+      "c": "DNK",
+      "v": 0.0064
+     },
+     {
+      "c": "CAN",
+      "v": 0.0058
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0052
+     },
+     {
+      "c": "HUN",
+      "v": 0.0041
+     },
+     {
+      "c": "EGY",
+      "v": 0.0028
+     },
+     {
+      "c": "LVA",
+      "v": 0.0028
+     },
+     {
+      "c": "PER",
+      "v": 0.0027
+     },
+     {
+      "c": "HRV",
+      "v": 0.0027
+     },
+     {
+      "c": "SVK",
+      "v": 0.0021
+     },
+     {
+      "c": "EST",
+      "v": 0.002
+     },
+     {
+      "c": "MUS",
+      "v": 0.002
+     },
+     {
+      "c": "IRL",
+      "v": 0.0018
+     },
+     {
+      "c": "SWE",
+      "v": 0.0016
+     },
+     {
+      "c": "CZE",
+      "v": 0.0016
+     },
+     {
+      "c": "PAK",
+      "v": 0.0015
+     },
+     {
+      "c": "SEN",
+      "v": 0.0014
+     },
+     {
+      "c": "MEX",
+      "v": 0.0014
+     },
+     {
+      "c": "URY",
+      "v": 0.0013
+     },
+     {
+      "c": "ARE",
+      "v": 0.0011
+     },
+     {
+      "c": "JPN",
+      "v": 0.0011
+     },
+     {
+      "c": "MYS",
+      "v": 0.001
+     },
+     {
+      "c": "TWN",
+      "v": 0.0007
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0002
+     },
+     {
+      "c": "SVN",
+      "v": 0.0001
+     }
+    ],
+    "n": "CEPII BACI HS92 compound fertilisers with two of the three nutrients: nitrates and phosphates (HS 310551), nitrogen and phosphorus other than those (HS 310559), phosphorus and potassium (HS 310560), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "two-nutrient-imports",
+   "title": "Two-nutrient compound fertilisers importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 11.045,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 2.796
+     },
+     {
+      "c": "DJI",
+      "v": 1.638
+     },
+     {
+      "c": "THA",
+      "v": 1.065
+     },
+     {
+      "c": "CAN",
+      "v": 0.5633
+     },
+     {
+      "c": "IND",
+      "v": 0.4928
+     },
+     {
+      "c": "FRA",
+      "v": 0.4289
+     },
+     {
+      "c": "ROU",
+      "v": 0.3058
+     },
+     {
+      "c": "UKR",
+      "v": 0.2962
+     },
+     {
+      "c": "ARG",
+      "v": 0.2603
+     },
+     {
+      "c": "PHL",
+      "v": 0.2464
+     },
+     {
+      "c": "PER",
+      "v": 0.219
+     },
+     {
+      "c": "BGR",
+      "v": 0.2137
+     },
+     {
+      "c": "DEU",
+      "v": 0.1647
+     },
+     {
+      "c": "TUR",
+      "v": 0.1543
+     },
+     {
+      "c": "VNM",
+      "v": 0.1515
+     },
+     {
+      "c": "POL",
+      "v": 0.1422
+     },
+     {
+      "c": "KEN",
+      "v": 0.1325
+     },
+     {
+      "c": "USA",
+      "v": 0.1143
+     },
+     {
+      "c": "MEX",
+      "v": 0.1101
+     },
+     {
+      "c": "MYS",
+      "v": 0.0959
+     },
+     {
+      "c": "IDN",
+      "v": 0.0813
+     },
+     {
+      "c": "IRQ",
+      "v": 0.077
+     },
+     {
+      "c": "CHN",
+      "v": 0.0739
+     },
+     {
+      "c": "GTM",
+      "v": 0.0695
+     },
+     {
+      "c": "RUS",
+      "v": 0.067
+     },
+     {
+      "c": "NLD",
+      "v": 0.0632
+     },
+     {
+      "c": "AFG",
+      "v": 0.0543
+     },
+     {
+      "c": "BEL",
+      "v": 0.0542
+     },
+     {
+      "c": "GRC",
+      "v": 0.0507
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0506
+     },
+     {
+      "c": "PRY",
+      "v": 0.0439
+     },
+     {
+      "c": "TZA",
+      "v": 0.0416
+     },
+     {
+      "c": "SWE",
+      "v": 0.04
+     },
+     {
+      "c": "MDA",
+      "v": 0.0372
+     },
+     {
+      "c": "ITA",
+      "v": 0.037
+     },
+     {
+      "c": "ESP",
+      "v": 0.0328
+     },
+     {
+      "c": "AUS",
+      "v": 0.0315
+     },
+     {
+      "c": "SRB",
+      "v": 0.0309
+     },
+     {
+      "c": "LVA",
+      "v": 0.0283
+     },
+     {
+      "c": "CZE",
+      "v": 0.0282
+     },
+     {
+      "c": "HRV",
+      "v": 0.0265
+     },
+     {
+      "c": "SAU",
+      "v": 0.0261
+     },
+     {
+      "c": "LTU",
+      "v": 0.0235
+     },
+     {
+      "c": "CYP",
+      "v": 0.0228
+     },
+     {
+      "c": "HUN",
+      "v": 0.0225
+     },
+     {
+      "c": "MMR",
+      "v": 0.0218
+     },
+     {
+      "c": "DNK",
+      "v": 0.0204
+     },
+     {
+      "c": "CHL",
+      "v": 0.019
+     },
+     {
+      "c": "LAO",
+      "v": 0.018
+     },
+     {
+      "c": "PRT",
+      "v": 0.0163
+     },
+     {
+      "c": "URY",
+      "v": 0.0153
+     },
+     {
+      "c": "KHM",
+      "v": 0.0144
+     },
+     {
+      "c": "CHE",
+      "v": 0.0125
+     },
+     {
+      "c": "IRL",
+      "v": 0.0123
+     },
+     {
+      "c": "SVK",
+      "v": 0.0118
+     },
+     {
+      "c": "TWN",
+      "v": 0.0118
+     },
+     {
+      "c": "JPN",
+      "v": 0.0114
+     },
+     {
+      "c": "GBR",
+      "v": 0.0113
+     },
+     {
+      "c": "MWI",
+      "v": 0.0111
+     },
+     {
+      "c": "ECU",
+      "v": 0.0102
+     },
+     {
+      "c": "UZB",
+      "v": 0.0099
+     },
+     {
+      "c": "HTI",
+      "v": 0.0096
+     },
+     {
+      "c": "TJK",
+      "v": 0.0082
+     },
+     {
+      "c": "KOR",
+      "v": 0.0076
+     },
+     {
+      "c": "GMB",
+      "v": 0.0074
+     },
+     {
+      "c": "PAK",
+      "v": 0.0067
+     },
+     {
+      "c": "ISL",
+      "v": 0.0066
+     },
+     {
+      "c": "CRI",
+      "v": 0.0056
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0048
+     },
+     {
+      "c": "HND",
+      "v": 0.0043
+     },
+     {
+      "c": "COL",
+      "v": 0.0041
+     },
+     {
+      "c": "HKG",
+      "v": 0.004
+     },
+     {
+      "c": "GUY",
+      "v": 0.0035
+     },
+     {
+      "c": "AZE",
+      "v": 0.0035
+     },
+     {
+      "c": "SUR",
+      "v": 0.003
+     },
+     {
+      "c": "DZA",
+      "v": 0.003
+     },
+     {
+      "c": "MLT",
+      "v": 0.003
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0029
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0023
+     },
+     {
+      "c": "SVN",
+      "v": 0.0021
+     },
+     {
+      "c": "ZMB",
+      "v": 0.002
+     },
+     {
+      "c": "JAM",
+      "v": 0.0019
+     },
+     {
+      "c": "NOR",
+      "v": 0.0016
+     },
+     {
+      "c": "TTO",
+      "v": 0.0016
+     },
+     {
+      "c": "BWA",
+      "v": 0.0015
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0013
+     },
+     {
+      "c": "VCT",
+      "v": 0.0013
+     },
+     {
+      "c": "AUT",
+      "v": 0.0012
+     },
+     {
+      "c": "GEO",
+      "v": 0.0012
+     },
+     {
+      "c": "BOL",
+      "v": 0.0012
+     },
+     {
+      "c": "LSO",
+      "v": 0.001
+     },
+     {
+      "c": "NIC",
+      "v": 0.001
+     },
+     {
+      "c": "MKD",
+      "v": 0.001
+     },
+     {
+      "c": "NAM",
+      "v": 0.0006
+     },
+     {
+      "c": "EGY",
+      "v": 0.0004
+     },
+     {
+      "c": "MAR",
+      "v": 0.0004
+     },
+     {
+      "c": "MUS",
+      "v": 0.0002
+     }
+    ],
+    "n": "CEPII BACI HS92 compound fertilisers with two of the three nutrients: nitrates and phosphates (HS 310551), nitrogen and phosphorus other than those (HS 310559), phosphorus and potassium (HS 310560), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "RUS",
@@ -1191,6 +1857,28 @@
    "eq": 28.6,
    "k": 142,
    "cov": 1.0
+  },
+  "two-nutrient-exports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2208
+   },
+   "top3": 0.5524,
+   "hhi": 1236,
+   "eq": 8.1,
+   "k": 62,
+   "cov": 0.9999
+  },
+  "two-nutrient-imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.2531
+   },
+   "top3": 0.4979,
+   "hhi": 1065,
+   "eq": 9.4,
+   "k": 97,
+   "cov": 1.0
   }
  },
  "see": [
@@ -1208,7 +1896,7 @@
   }
  ],
  "notes": [
-  "Trade is HS 310520, fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium, product weight. The grade of each flow (the shares of the three nutrients) is not in customs data. Compound fertilisers with two of the three nutrients (HS 310551, 310559, 310560), the tablets and small packages (HS 310510) and the rest of heading 3105 (HS 310590) are not loaded.",
+  "The main trade tables are HS 310520, fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium, product weight. The tables under them are the compound fertilisers with two of the three nutrients: nitrates and phosphates (HS 310551), nitrogen and phosphorus other than those (HS 310559) and phosphorus and potassium (HS 310560), also product weight; each customs code is in one group, and none is in the totals of the other. The grade of each flow (the shares of the nutrients) is not in customs data. The tablets and small packages (HS 310510) and the rest of heading 3105 (HS 310590) are not loaded.",
   "No production table: no free file loaded by the atlas gives the production of compound fertilisers (FAOSTAT's fertiliser tables by nutrient are not loaded yet)."
  ]
 }

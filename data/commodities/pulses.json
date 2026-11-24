@@ -4965,7 +4965,7 @@
   }
  },
  "notes": [
-  "Trade is the dried leguminous vegetables of HS 0713, shelled, customs gross weight: peas (HS 071310), chickpeas (HS 071320), beans (HS 071331 to 071339 and the broad and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (cowpeas, pigeon peas and every pulse the code does not name). Each pair of the main tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI), from 2019; the tables of each kind follow the main tables.",
+  "Trade is the dried leguminous vegetables of HS 0713, shelled, customs gross weight: peas (HS 071310), chickpeas (HS 071320), beans (HS 071331 to 071339 and the broad and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (pigeon peas and every pulse the code does not name). Each pair of the main tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI). The kinds exist from 2019, the first year of those rows, and the tables of each kind show the latest year only; they follow the main tables.",
   "No production table: the USDA PSD file has no pulses, and no other file loaded by the atlas gives the production of dried pulses.",
   "By kind, 2024 (CEPII BACI, the main tables' 24.0 Mt split by the six-digit rows): dried peas 7.5 Mt, dried chickpeas 3.0 Mt, dried beans 6.8 Mt, dried lentils 5.0 Mt, other dried pulses 1.7 Mt. The kinds are the codes' own words: HS 071350 (broad and horse beans) is counted with the beans, and HS 071390 holds every pulse that has no code of its own."
  ]

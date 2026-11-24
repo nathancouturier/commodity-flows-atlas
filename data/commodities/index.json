@@ -908,12 +908,13 @@
   "id": "urea",
   "name": "Urea & nitrogen",
   "family": "softs",
-  "blurb": "Nitrogen fertilisers made from natural gas: urea, ammonia, ammonium nitrate, UAN and ammonium sulphate; Russia and the Gulf producers lead urea exports.",
+  "blurb": "Nitrogen fertilisers made from natural gas: urea, ammonia, ammonium nitrate (pure and mixed with limestone), UAN and ammonium sulphate; Russia and the Gulf producers lead urea exports.",
   "unit": "Mt",
   "hs": [
    "310210",
    "281410",
    "310230",
+   "310240",
    "310280",
    "310221"
   ],
@@ -949,10 +950,13 @@
   "id": "npk",
   "name": "NPK fertilisers",
   "family": "softs",
-  "blurb": "Compound fertilisers that carry nitrogen, phosphorus and potassium in one product.",
+  "blurb": "Compound fertilisers: the grades that carry all three nutrients, nitrogen, phosphorus and potassium (NPK), and those that carry two of them in one product.",
   "unit": "Mt",
   "hs": [
-   "310520"
+   "310520",
+   "310551",
+   "310559",
+   "310560"
   ],
   "has": [
    "exports",

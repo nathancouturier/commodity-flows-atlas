@@ -240,10 +240,13 @@ class Freight(unittest.TestCase):
             self.assertAlmostEqual(via[g]["low"], round(low[g] / sea, 4), places=4)
         self.assertAlmostEqual(via["malacca"]["high"], round(high["malacca"] / sea, 4), places=4)
         self.assertGreater(via["malacca"]["low"], 0.5)
-        # GC1.2: the Hormuz page caps its crude "up to" at IMF PortWatch: Japan's is not printed, "at least" stays
+        # GC1.2: where the Hormuz page caps its crude "up to" at IMF PortWatch, Japan's is not printed, "at least" stays. Since package FNCB the cap
+        # applies only while the atlas's "at least" tonnage of the type is at most 85% of PortWatch's volume: Hormuz tankers are at 90% in 2024, so the page
+        # prints the uncapped figure and Japan's "up to" is printed with it
         self.assertGreater(high["hormuz"], low["hormuz"])
-        self.assertTrue(via["hormuz"].get("capped"))
-        self.assertEqual(via["hormuz"]["high"], via["hormuz"]["low"])
+        self.assertFalse(via["hormuz"].get("capped"))
+        self.assertAlmostEqual(via["hormuz"]["high"], round(high["hormuz"] / sea, 4), places=4)
+        self.assertGreater(via["hormuz"]["high"], via["hormuz"]["low"])
 
     def test_no_country_up_to_above_the_cap_of_its_passage_page(self):
         """GC1.2: every country "up to" for a passage and a group is within what the passage page prints for that group."""
@@ -266,10 +269,14 @@ class Freight(unittest.TestCase):
                         self.assertTrue(v["high"] >= P.PASSAGE_MIN_SHARE or v["high"] * x["seaKt"] >= P.PASSAGE_MIN_KT * 0.999, (p["c"], x["g"], v))
         self.assertGreater(n, 1000)
         # the review's cases: USA crude imports through Panama, Australia's LNG through Makassar
-        for iso, side, g, gate in (("USA", "imports", "crude-oil", "panama"), ("AUS", "exports", "lng", "makassar"), ("CHN", "imports", "crude-oil", "taiwan-strait")):
+        for iso, side, g, gate in (("AUS", "exports", "lng", "makassar"), ("CHN", "imports", "crude-oil", "taiwan-strait")):
             x = next(x for x in prof(iso)["freight"][side] if x["g"] == g)
             v = next((v for v in x["via"] if v["id"] == gate), None)
             self.assertTrue(v is None or v["high"] == v["low"], (iso, gate, v))
+        # the Panama tankers are at 97% of PortWatch's volume in 2024 (package FNCB: no cap there): the page prints an "up to" for crude oil and so does the country
+        x = next(x for x in prof("USA")["freight"]["imports"] if x["g"] == "crude-oil")
+        v = next(v for v in x["via"] if v["id"] == "panama")
+        self.assertGreater(v["high"], v["low"])
 
     def test_kazakhstan_crude_leaves_through_a_foreign_port(self):
         fr = next(x for x in prof("KAZ")["freight"]["exports"] if x["g"] == "crude-oil")

@@ -43,14 +43,22 @@ export function openCommodity(k: string) {
   select({ kind: 'commodity', id: k });
 }
 
-export function CommodityChips(props: { ids: string[] }) {
+/**
+ * Chips that open commodity pages. `labels` names the product of a page where only one of its groups is meant (the ammonia of the
+ * Urea & nitrogen page on a gas carrier, the oil of the Sunflower page on a tanker): the chip says the product and still opens the page.
+ */
+export function CommodityChips(props: { ids: string[]; labels?: Record<string, string> }) {
   return (
     <div class="chips">
-      {props.ids.map((k) => (
-        <button class="chip" key={k} onClick={() => openCommodity(k)}>
-          {commodityMeta(k)?.name ?? k}
-        </button>
-      ))}
+      {props.ids.map((k) => {
+        const page = commodityMeta(k)?.name ?? k;
+        const label = props.labels?.[k];
+        return (
+          <button class="chip" key={k} onClick={() => openCommodity(k)} title={label ? `Opens the page ${page}` : undefined}>
+            {label ?? page}
+          </button>
+        );
+      })}
     </div>
   );
 }

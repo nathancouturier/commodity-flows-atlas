@@ -179,6 +179,7 @@ SEGMENT = {
     # the other fertilisers (M-022): the fertiliser rows of the tables, as the products above
     "potassium-sulphate": "fert", "monoammonium-phosphate": "fert", "superphosphates": "fert", "phosphoric-acid": "fert",
     "npk": "fert", "ammonia": "fert", "ammonium-nitrate": "fert", "uan": "fert", "ammonium-sulphate": "fert", "sulphur": "fert",
+    "ammonium-nitrate-limestone": "fert", "npk-two-nutrient": "fert",
     "cocoa": "box", "cotton": "box", "nickel-int": "nickel", "nickel-fe": "nickel", "spodumene": "ore",
     # minor metals and chemicals that sail in bags, drums or containers (M-015): general cargo, as refined copper
     "lead-metal": "box", "zinc-metal": "box", "tin-metal": "box", "tin-ore": "box", "cobalt": "box", "lithium": "box",
@@ -332,6 +333,11 @@ def segment(group):
 # engine's own fall-backs give the general port of the country (no port is attached to these cargoes on the atlas's authority).
 # Coke (A-010) is the same: a page that names a coal terminal says nothing of coke.
 OWN_FAMILY = {"sugar", "ammonia", "uan", "phosphoric-acid", "sulphur", "coke"}
+# The fertiliser groups of OWN_FAMILY keep the legacy entry of the "fert" segment ahead of the general-cargo rows: it is the port the same
+# exporter's other fertilisers load at (Jubail for Saudi DAP, MAP and urea), published as "port used before, no page read", not a port
+# attached to the cargo. Without it ammonia and sulphur of Saudi Arabia fell on Jeddah, on the Red Sea, the general port of the country.
+# Sugar and coke do not: the legacy entry of their segment is a grain or a coal port.
+LEGACY_OWN_FAMILY = {"ammonia", "uan", "phosphoric-acid", "sulphur"}
 
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
 BASIS_PAGE = "page names the cargo"
@@ -348,6 +354,10 @@ GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
 # row that names the group itself keeps "page names the cargo".
 BOX_GENERAL = frozenset({"lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths",
                          "ferrous-scrap", "pig-iron", "dri", "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"})
+# The sunflower and rapeseed oils take the "vegoil" rows written for palm and soybean oil (their family), and no page read names either oil
+# at those ports: the port stays, its basis reads "general port of the country" (review GNC2.7). Unlike BOX_GENERAL these groups are not
+# under the wrong-coast check of build_lanes.py, which is for general cargo that has no port of its own.
+GENERAL_BASIS = BOX_GENERAL | {"sunflower-oil", "rapeseed-oil"}
 
 # Oil, gas and ore terminals that the audit found carrying other cargo (plan 2.4, test G01; C-020 for Tubarao and
 # Saldanha Bay): the legacy table and the nearest-port search may give them only for the cargo they serve.
@@ -407,11 +417,11 @@ def candidates(iso3, group, role=None):
         # Not for oil and gas: an import terminal (a refinery's crude jetty, an LNG regasification plant) is no
         # export terminal, and the reverse.
         add(_rows(iso3, group), BASIS_OTHER)
-    if group in BOX_GENERAL:
+    if group in GENERAL_BASIS:
         # same ports, in the same order; only the basis of the rows that do not name the group itself changes
         out = [(c, z, b if any(r.code == c and group in r.families for r in _rows(iso3, group)) else BASIS_GENERAL)
                for c, z, b in out]
-    if not out and group not in OWN_FAMILY:
+    if not out and (group not in OWN_FAMILY or group in LEGACY_OWN_FAMILY):
         # The legacy entry of the family itself (Dumai for Indonesian palm oil, Jubail for Saudi fertiliser,
         # Rosario for Argentine soy oil) is the port used before for that cargo: it comes before a general port.
         code = (LEGACY_P.get(iso3) or {}).get(segment(group))
@@ -437,7 +447,7 @@ def basis_of(iso3, group, role, code):
     for c, _, basis in candidates(iso3, group, role):
         if c == code:
             return basis
-    if group in BOX_GENERAL and not any(r.code == code and group in r.families for r in _rows(iso3, group)):
+    if group in GENERAL_BASIS and not any(r.code == code and group in r.families for r in _rows(iso3, group)):
         return BASIS_GENERAL if any(r.code == code for r in _rows(iso3, group) + _box_rows(iso3)) else BASIS_LEGACY
     if any(r.code == code for r in _rows(iso3, group, role)):
         return BASIS_PAGE
@@ -458,6 +468,8 @@ def source_of(iso3, group, role, code):
         rows = _rows(iso3, group)
     elif basis == BASIS_GENERAL:
         rows = _box_rows(iso3, role) + _box_rows(iso3)
+        if group in GENERAL_BASIS:  # a row of the family (palm oil's port for the sunflower oil) is still the page behind the port
+            rows = rows + _rows(iso3, group, role) + _rows(iso3, group)
     else:
         return None, None
     for r in rows:

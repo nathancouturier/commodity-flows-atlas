@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+   "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 61.359,
@@ -23,11 +23,11 @@
    "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
   },
   "seaborne": {
-   "v": 2.19,
+   "v": 2.1,
    "u": "Mt",
    "y": 2024,
    "s": "baci",
-   "n": "seaborne subset of BACI flows (sunflower-seed) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; 5% of this tonnage estimated from value"
+   "n": "seaborne subset of BACI flows (sunflower-seed) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it"
   }
  },
  "production": {
@@ -157,7 +157,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -333,7 +333,7 @@
    {
     "c": "EU27",
     "v": 0.55,
-    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.31 Mt of exports, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.23 Mt of exports, of which 2.88 Mt to other member states and 0.35 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "MDA",
@@ -396,16 +396,16 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.31 Mt of exports, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.23 Mt of exports, of which 2.88 Mt to other member states and 0.35 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
   "rel": "2026-11",
   "yk": "forecast",
   "eu": {
    "y": 2024,
    "s": "baci",
    "u": "Mt",
-   "total": 3.312,
+   "total": 3.225,
    "intra": 2.876,
-   "extra": 0.4364
+   "extra": 0.3496
   }
  },
  "imports": {
@@ -417,7 +417,7 @@
    {
     "c": "EU27",
     "v": 1.2,
-    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.794 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
    },
    {
     "c": "TUR",
@@ -552,16 +552,16 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.794 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
   "rel": "2026-11",
   "yk": "forecast",
   "eu": {
    "y": 2024,
    "s": "baci",
    "u": "Mt",
-   "total": 3.671,
+   "total": 3.669,
    "intra": 2.876,
-   "extra": 0.7948
+   "extra": 0.7936
   }
  },
  "extra": [
@@ -572,7 +572,7 @@
     "y": 2024,
     "s": "baci",
     "u": "Mt",
-    "world": 3.312,
+    "world": 3.225,
     "rows": [
      {
       "c": "ROU",
@@ -580,14 +580,14 @@
       "n": "of which 1.1 Mt to other member states and 0.0988 Mt to countries outside the EU"
      },
      {
-      "c": "FRA",
-      "v": 0.5989,
-      "n": "of which 0.488 Mt to other member states and 0.111 Mt to countries outside the EU"
-     },
-     {
       "c": "BGR",
       "v": 0.5689,
       "n": "of which 0.374 Mt to other member states and 0.195 Mt to countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.5121,
+      "n": "of which 0.488 Mt to other member states and 0.0241 Mt to countries outside the EU"
      },
      {
       "c": "HUN",
@@ -680,16 +680,16 @@
       "n": "of which 0.702 kt to other member states and 0.256 kt to countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.31 Mt, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.42 Mt)",
+    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.23 Mt, of which 2.88 Mt to other member states and 0.35 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.33 Mt)",
     "scope": "EU",
     "scopeLabel": "EU member states",
     "norank": true,
     "noMap": true,
-    "worldAll": 5.422,
+    "worldAll": 5.326,
     "split": {
-     "total": 3.312,
+     "total": 3.225,
      "intra": 2.876,
-     "extra": 0.4364
+     "extra": 0.3496
     }
    }
   },
@@ -700,7 +700,7 @@
     "y": 2024,
     "s": "baci",
     "u": "Mt",
-    "world": 3.671,
+    "world": 3.669,
     "rows": [
      {
       "c": "BGR",
@@ -709,8 +709,8 @@
      },
      {
       "c": "NLD",
-      "v": 0.5624,
-      "n": "of which 0.504 Mt from other member states and 0.0586 Mt from countries outside the EU"
+      "v": 0.5613,
+      "n": "of which 0.504 Mt from other member states and 0.0574 Mt from countries outside the EU"
      },
      {
       "c": "ROU",
@@ -823,16 +823,16 @@
       "n": "of which 0.88 kt from other member states and 0 Mt from countries outside the EU"
      }
     ],
-    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.67 Mt, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.42 Mt)",
+    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.67 Mt, of which 2.88 Mt from other member states and 0.794 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.33 Mt)",
     "scope": "EU",
     "scopeLabel": "EU member states",
     "norank": true,
     "noMap": true,
-    "worldAll": 5.422,
+    "worldAll": 5.326,
     "split": {
-     "total": 3.671,
+     "total": 3.669,
      "intra": 2.876,
-     "extra": 0.7948
+     "extra": 0.7936
     }
    }
   },
@@ -2366,7 +2366,7 @@
       "v": 0.003
      }
     ],
-    "n": "USDA PSD, Oil, Sunflowerseed, sunflower oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "n": "USDA PSD, Oil, Sunflowerseed, sunflower oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
     "rel": "2026-11",
     "yk": "forecast"
    }
@@ -2708,7 +2708,7 @@
       "v": 0.003
      }
     ],
-    "n": "USDA PSD, Meal, Sunflowerseed, sunflower meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "n": "USDA PSD, Meal, Sunflowerseed, sunflower meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
     "rel": "2026-11",
     "yk": "forecast"
    }
@@ -3137,7 +3137,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Oilseed, Sunflowerseed: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  "n": "USDA PSD, Oilseed, Sunflowerseed: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "flows": [
   {
@@ -3324,19 +3324,6 @@
   },
   {
    "o": "FRA",
-   "d": "RUS",
-   "v": 0.0871,
-   "u": "Mt",
-   "y": 2024,
-   "s": "atlas",
-   "usd": 112313000,
-   "mode": "sea",
-   "lane": "sunflower-seed:FRA-RUS",
-   "est": true,
-   "n": "Atlas estimate: CEPII BACI reports 292 t for USD 112 million, a unit value more than 100 times the 2024 median unit value of sunflower seed; tonnage = declared value divided by the 2024 median unit value of sunflower seed, 1,289 USD/t"
-  },
-  {
-   "o": "FRA",
    "d": "NLD",
    "v": 0.0838,
    "u": "Mt",
@@ -3369,6 +3356,18 @@
    "uv": 897,
    "mode": "sea",
    "lane": "sunflower-seed:BGR-DEU"
+  },
+  {
+   "o": "CHN",
+   "d": "IRN",
+   "v": 0.0765,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 131068000,
+   "uv": 1710,
+   "mode": "sea",
+   "lane": "sunflower-seed:CHN-IRN"
   }
  ],
  "concentration": {
@@ -3521,6 +3520,6 @@
   "The price series is the oil's, not the seed's or the meal's: the Pink Sheet gives sunflower oil only; there is no free series for the seed or the meal."
  ],
  "discrepancies": [
-  "World exports: USDA PSD 2025/26 4.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 5.4 Mt (-20%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); the tables show USDA PSD."
+  "World exports: USDA PSD 2025/26 4.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 5.3 Mt (-19%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); the tables show USDA PSD."
  ]
 }

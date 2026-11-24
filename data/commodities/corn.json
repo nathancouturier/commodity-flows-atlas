@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Corn, corn production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+   "n": "USDA PSD, Corn, corn production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 1310.0,
@@ -497,7 +497,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Corn, corn production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "n": "USDA PSD, Corn, corn production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -3334,7 +3334,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Corn: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  "n": "USDA PSD, Corn: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "gaps": [
   {
@@ -3657,7 +3657,7 @@
  },
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
-  "The tables under the USDA tables are brewing or distilling dregs and waste (HS 230330), customs gross weight (CEPII BACI). This one code holds distillers' dried grains (DDGS, the residue of grain ethanol and spirits) with brewers' grains and other dregs and waste: customs data do not tell them apart, so the tables are not a DDGS series. They are not added to the grain tables above. Brewing and distilling dregs and waste (HS 230330), 2024 (CEPII BACI): world 15.08 Mt gross weight; top exporters United States 11.07 Mt, Brazil 0.55 Mt, Germany 0.40 Mt. A large part of this trade moves in bags and containers, so the atlas draws no lanes for it. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.",
+  "The tables under the USDA tables are brewing or distilling dregs and waste (HS 230330), customs gross weight (CEPII BACI). This one code holds distillers' dried grains (DDGS, the residue of grain ethanol and spirits) with brewers' grains and other dregs and waste: customs data do not tell them apart, so the tables are not a DDGS series. They are not added to the grain tables above. Brewing and distilling dregs and waste (HS 230330), 2024 (CEPII BACI): world 15.08 Mt gross weight; top exporters United States 11.07 Mt, Brazil 0.55 Mt, Germany 0.40 Mt. Customs gross weight does not tell bulk from bagged or containerised cargo and no free source gives the split, so the atlas draws no lanes for the dregs. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.",
   "Customs data record 2.24 Mt of corn exports from Russia in 2024 (CEPII BACI), of which 0.0212 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Lebanon 0.0163 Mt, Israel 0.00491 Mt) and 2.22 Mt is as reported; USDA PSD gives 6.6 Mt for 2023/24 and 3 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 66% below the first and 25% below the second. On the tonnage as reported alone (2.22 Mt) the gap is 66% below the first and 26% below the second. Importers that took corn from Russia in 2019 to 2021 and have none recorded in 2024: Iran (0.917 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ],
  "discrepancies": [

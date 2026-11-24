@@ -149,9 +149,11 @@ class CodesTests(unittest.TestCase):
 
     def test_the_codes_the_pages_leave_out_are_in_no_group(self):
         loaded = {c for codes in hs_map.HS.values() for c in codes}
-        for c in ("281420", "310229", "310240", "310250", "310260", "310270", "310290", "310320", "310390", "310410", "310490", "310510",
-                  "310551", "310559", "310560", "310590"):
+        # 310240 (ammonium nitrate with limestone) and 310551, 310559, 310560 (the two-nutrient compounds) are loaded since package FNCB
+        for c in ("281420", "310229", "310250", "310260", "310270", "310290", "310320", "310390", "310410", "310490", "310510", "310590"):
             self.assertNotIn(c, loaded, c)
+        for c in ("310240", "310551", "310559", "310560"):
+            self.assertIn(c, loaded, c)
 
 
 class EngineTests(unittest.TestCase):

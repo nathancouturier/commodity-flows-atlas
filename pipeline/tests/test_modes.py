@@ -160,7 +160,9 @@ class ModeTests(unittest.TestCase):
         # package NC1 adds the ten groups of fertilisers and sulphur, 149.5 Mt after clean()
         # package NC2 adds the eight groups of grains, oilseeds and pulses, 132.4 Mt after clean()
         # package NC3 adds the nine groups of metal bulks, 204.5 Mt after clean()
-        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5, delta=1)
+        # package FNCB adds the two fertiliser groups (ammonium nitrate with limestone 9.2 Mt, two-nutrient compounds 11.0 Mt), 20.2 Mt after clean(), and keeps
+        # 0.1 Mt of sunflower seed as reported where rule 3 had estimated it (UV_KEPT_GROUPS): 20.1 Mt more in all
+        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5 + 20.1, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

@@ -210,7 +210,7 @@ export default function VesselView({ id }: { id: string }) {
         <ShippingCompaniesBlock v={v} />
         {v.cargoes.length > 0 && (
           <Section title="Cargoes">
-            <CommodityChips ids={v.cargoes} />
+            <CommodityChips ids={v.cargoes} labels={v.cargoLabels} />
           </Section>
         )}
         {v.constraints.length > 0 && (

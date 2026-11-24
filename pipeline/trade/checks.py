@@ -91,7 +91,11 @@ LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm
          # what the code holds in HS 1992 (M-023): two oils in each oil code, every dried pulse in the pulses code
          "sunflower-oil": "sunflower and safflower oil", "rapeseed-oil": "rapeseed, canola and mustard oil", "pulses": "dried pulses",
          # the metal bulks of A-010: the group id is not the product's name
-         "dri": "direct-reduced iron", "chromium-ore": "chromium ore", "coke": "coke and semi-coke", "ferro-alloys-other": "other ferro-alloys"}
+         "dri": "direct-reduced iron", "ammonium-nitrate-limestone": "ammonium nitrate with limestone",
+         "npk-two-nutrient": "two-nutrient compound fertilisers", "chromium-ore": "chromium ore", "coke": "coke and semi-coke", "ferro-alloys-other": "other ferro-alloys",
+         # the alloys keep the hyphen of their names (the page title, the table titles); a group id with its hyphens turned into spaces loses it
+         "ferro-chromium": "ferro-chromium", "ferro-manganese": "ferro-manganese", "silico-manganese": "silico-manganese",
+         "ferro-silicon": "ferro-silicon"}
 
 
 def label(g):
@@ -424,7 +428,10 @@ UV_GROUPS = {"aluminium": "unwrought aluminium (HS 7601)", "copper-refined": "re
              "lead-ore": "lead ores and concentrates (HS 2607)", "tin-ore": "tin ores and concentrates (HS 2609)",
              "cobalt": "cobalt ores, intermediates and unwrought cobalt (HS 2605, 810510)",
              "lithium": "lithium carbonate and lithium oxide and hydroxide (HS 283691, 282520)",
-             "rare-earths": "rare-earth metals and compounds (HS 280530, 284610, 284690)"}
+             "rare-earths": "rare-earth metals and compounds (HS 280530, 284610, 284690)",
+             # the groups of package NC3 that one product tonne prices (review GNC3.8: coke Mozambique to India 2016, 65 Mt at 4 USD per tonne)
+             "coke": "coke and semi-coke (HS 2704)", "pig-iron": "pig iron and spiegeleisen (HS 7201)",
+             "dri": "direct-reduced iron (HS 7203)"}
 UV_RATIO = 0.5   # a pair declared below this share of the group's usual unit value
 UV_SHARE = 0.01  # and carrying at least this share of the group's tonnage ...
 UV_MIN_T = 10e3  # ... and at least this many tonnes

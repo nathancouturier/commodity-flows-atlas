@@ -201,10 +201,17 @@ class ChokepointNotes(unittest.TestCase):
         # concentrate at the Cape of Good Hope), under the same floor; the ten groups of fertilisers and sulphur of package NC1 add 122
         # package NC2: the eight groups of grains, oilseeds and pulses add 101 (822)
         # package NC3: the nine groups of metal bulks add 114 (936)
-        self.assertEqual((n, passages), (936, 20))
-        gone = {("suez", "soybeans"), ("bab-el-mandeb", "soybeans"), ("bab-el-mandeb", "soymeal"), ("torres", "palm-oil")}
+        # package FNCA: the Saudi and Russian fertiliser and sulphur lanes load at their legacy ports and Turkey's scrap, pig iron and DRI reach its steel works
+        # (the Bosphorus entries of sulphur, ammonia and UAN went under the floor; the other estimates moved), and France loads on the Channel: 935
+        # package FNCB: the cap of the "up to" figure is applied only below PW_NEAR (85%) of PortWatch's volume of the type, so the estimates that the new dry-bulk
+        # groups had taken under the floor are back, and the two fertiliser groups (ammonium nitrate with limestone, two-nutrient compounds) add their own: 968
+        self.assertEqual((n, passages), (968, 20))
+        # These four were under the floor on the released site because the PortWatch cap had emptied their "up to" figure (Suez and Bab el-Mandeb
+        # dry bulk and tankers, Torres Strait tankers: the atlas's "at least" tonnage is above PortWatch's volume there). Since package FNCB the cap is
+        # not applied above 85% of PortWatch's volume and the floor reads the figure that is published, so they are published, with their note.
+        back = {("suez", "soybeans"), ("bab-el-mandeb", "soybeans"), ("bab-el-mandeb", "soymeal"), ("torres", "palm-oil")}
         have = {(c["id"], e["p"]) for c in load("freight/chokepoints.json") for e in c.get("estimates") or []}
-        self.assertFalse(gone & have)
+        self.assertEqual(back & have, back)
         self.assertEqual(BF.EST_MIN_MT, 1.0)  # Mt: the pairs table is read in Mt (kt / 1e3)
 
 

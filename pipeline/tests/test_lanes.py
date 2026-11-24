@@ -28,6 +28,7 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
          "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002,  # L1: minor metals
          "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,  # NC1: the groups whose default floor left their main set under the coverage floor
+         "ammonium-nitrate-limestone": 0.02,  # FNCB: 62% of its seaborne tonnes at the default floor
          "sunflower-seed": 0.01, "rapeseed-oil": 0.01,  # NC2: the same, for two groups of the grains and oilseeds
          "ferro-manganese": 0.02, "silico-manganese": 0.02, "ferro-silicon": 0.005}  # NC3: the same, for three ferro-alloys
 BUILT = os.path.isdir(PAIRS) and os.path.exists(os.path.join(ROOT, "data", "freight", "caveats.json"))
@@ -204,7 +205,8 @@ class Pairs(unittest.TestCase):
         # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42, 25,847 once cleaning rule 9 dropped two lithium pairs)
         # 52 groups since package NC1 added the fertilisers and sulphur (29,135 rows)
         # 60 groups since package NC2 added the grains, oilseeds and pulses (32,475 rows)
-        self.assertTrue(35200 <= n <= 35700, n)  # 32,475 pairs before the nine groups of metal bulks of package NC3 (A-010)
+        # 35,456 rows with the nine groups of metal bulks of package NC3 (A-010); 36,075 with the two fertiliser groups of package FNCB (619 pairs)
+        self.assertTrue(35900 <= n <= 36300, n)
 
     def test_P02_seaborne_rows_routed(self):
         for g, o, d, kt, m in (("coal", "USA", "CHN", 12092, None), ("coal", "CAN", "CHN", 9529, None),

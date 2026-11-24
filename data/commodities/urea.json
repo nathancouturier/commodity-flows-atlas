@@ -1457,7 +1457,7 @@
   },
   {
    "key": "ammonium-nitrate-exports",
-   "title": "Ammonium nitrate exporters",
+   "title": "Ammonium nitrate exporters (HS 310230, not mixed with limestone)",
    "table": {
     "y": 2024,
     "s": "baci",
@@ -1703,7 +1703,7 @@
   },
   {
    "key": "ammonium-nitrate-imports",
-   "title": "Ammonium nitrate importers",
+   "title": "Ammonium nitrate importers (HS 310230, not mixed with limestone)",
    "table": {
     "y": 2024,
     "s": "baci",
@@ -2181,6 +2181,454 @@
      }
     ],
     "n": "CEPII BACI HS92 ammonium nitrate, solid or in solution (HS 310230), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "an-limestone-exports",
+   "title": "Ammonium nitrate with limestone exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 9.19,
+    "rows": [
+     {
+      "c": "NLD",
+      "v": 1.961
+     },
+     {
+      "c": "BEL",
+      "v": 1.659
+     },
+     {
+      "c": "DEU",
+      "v": 0.9669
+     },
+     {
+      "c": "SVK",
+      "v": 0.5516
+     },
+     {
+      "c": "AUT",
+      "v": 0.5103
+     },
+     {
+      "c": "HUN",
+      "v": 0.4778
+     },
+     {
+      "c": "FRA",
+      "v": 0.3955
+     },
+     {
+      "c": "RUS",
+      "v": 0.3735
+     },
+     {
+      "c": "POL",
+      "v": 0.3635
+     },
+     {
+      "c": "LTU",
+      "v": 0.3605
+     },
+     {
+      "c": "ESP",
+      "v": 0.3258
+     },
+     {
+      "c": "TUR",
+      "v": 0.2439
+     },
+     {
+      "c": "CZE",
+      "v": 0.2392
+     },
+     {
+      "c": "PRT",
+      "v": 0.0995
+     },
+     {
+      "c": "DNK",
+      "v": 0.0753
+     },
+     {
+      "c": "ITA",
+      "v": 0.0737
+     },
+     {
+      "c": "HRV",
+      "v": 0.0731
+     },
+     {
+      "c": "GRC",
+      "v": 0.063
+     },
+     {
+      "c": "EGY",
+      "v": 0.0585
+     },
+     {
+      "c": "MUS",
+      "v": 0.051
+     },
+     {
+      "c": "FIN",
+      "v": 0.045
+     },
+     {
+      "c": "GBR",
+      "v": 0.0379
+     },
+     {
+      "c": "SWE",
+      "v": 0.0281
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0278
+     },
+     {
+      "c": "ROU",
+      "v": 0.0231
+     },
+     {
+      "c": "CAN",
+      "v": 0.0224
+     },
+     {
+      "c": "UKR",
+      "v": 0.0124
+     },
+     {
+      "c": "SRB",
+      "v": 0.0108
+     },
+     {
+      "c": "SVN",
+      "v": 0.0108
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0089
+     },
+     {
+      "c": "DZA",
+      "v": 0.0079
+     },
+     {
+      "c": "NOR",
+      "v": 0.0059
+     },
+     {
+      "c": "LUX",
+      "v": 0.0054
+     },
+     {
+      "c": "IRL",
+      "v": 0.0047
+     },
+     {
+      "c": "BGR",
+      "v": 0.0042
+     },
+     {
+      "c": "EST",
+      "v": 0.0033
+     },
+     {
+      "c": "CHN",
+      "v": 0.0028
+     },
+     {
+      "c": "USA",
+      "v": 0.0024
+     },
+     {
+      "c": "LVA",
+      "v": 0.0017
+     },
+     {
+      "c": "UZB",
+      "v": 0.0013
+     },
+     {
+      "c": "ARG",
+      "v": 0.0011
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element, such as calcium ammonium nitrate (HS 310240), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "an-limestone-imports",
+   "title": "Ammonium nitrate with limestone importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 9.19,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 1.914
+     },
+     {
+      "c": "FRA",
+      "v": 0.9644
+     },
+     {
+      "c": "GBR",
+      "v": 0.6049
+     },
+     {
+      "c": "SWE",
+      "v": 0.4904
+     },
+     {
+      "c": "DNK",
+      "v": 0.4406
+     },
+     {
+      "c": "IRL",
+      "v": 0.413
+     },
+     {
+      "c": "POL",
+      "v": 0.3242
+     },
+     {
+      "c": "CZE",
+      "v": 0.3092
+     },
+     {
+      "c": "ESP",
+      "v": 0.3087
+     },
+     {
+      "c": "NLD",
+      "v": 0.2678
+     },
+     {
+      "c": "HUN",
+      "v": 0.243
+     },
+     {
+      "c": "ROU",
+      "v": 0.2358
+     },
+     {
+      "c": "BRA",
+      "v": 0.2333
+     },
+     {
+      "c": "BEL",
+      "v": 0.2329
+     },
+     {
+      "c": "AUT",
+      "v": 0.1675
+     },
+     {
+      "c": "LVA",
+      "v": 0.138
+     },
+     {
+      "c": "KEN",
+      "v": 0.1343
+     },
+     {
+      "c": "CAN",
+      "v": 0.1215
+     },
+     {
+      "c": "MEX",
+      "v": 0.1097
+     },
+     {
+      "c": "EST",
+      "v": 0.1033
+     },
+     {
+      "c": "ITA",
+      "v": 0.0918
+     },
+     {
+      "c": "BGR",
+      "v": 0.0881
+     },
+     {
+      "c": "ARG",
+      "v": 0.0876
+     },
+     {
+      "c": "SRB",
+      "v": 0.087
+     },
+     {
+      "c": "LTU",
+      "v": 0.087
+     },
+     {
+      "c": "NOR",
+      "v": 0.0855
+     },
+     {
+      "c": "ZAF",
+      "v": 0.078
+     },
+     {
+      "c": "HRV",
+      "v": 0.0775
+     },
+     {
+      "c": "CHE",
+      "v": 0.0716
+     },
+     {
+      "c": "SVK",
+      "v": 0.0644
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0598
+     },
+     {
+      "c": "BIH",
+      "v": 0.0586
+     },
+     {
+      "c": "LUX",
+      "v": 0.0575
+     },
+     {
+      "c": "SVN",
+      "v": 0.055
+     },
+     {
+      "c": "FIN",
+      "v": 0.0414
+     },
+     {
+      "c": "USA",
+      "v": 0.0411
+     },
+     {
+      "c": "UKR",
+      "v": 0.0347
+     },
+     {
+      "c": "NAM",
+      "v": 0.0308
+     },
+     {
+      "c": "TZA",
+      "v": 0.0306
+     },
+     {
+      "c": "PRT",
+      "v": 0.0287
+     },
+     {
+      "c": "COD",
+      "v": 0.0278
+     },
+     {
+      "c": "GHA",
+      "v": 0.0245
+     },
+     {
+      "c": "TUR",
+      "v": 0.0222
+     },
+     {
+      "c": "IDN",
+      "v": 0.0093
+     },
+     {
+      "c": "GRC",
+      "v": 0.0092
+     },
+     {
+      "c": "ISL",
+      "v": 0.0081
+     },
+     {
+      "c": "NZL",
+      "v": 0.008
+     },
+     {
+      "c": "CHL",
+      "v": 0.008
+     },
+     {
+      "c": "CRI",
+      "v": 0.0072
+     },
+     {
+      "c": "GTM",
+      "v": 0.0071
+     },
+     {
+      "c": "MDA",
+      "v": 0.0063
+     },
+     {
+      "c": "PER",
+      "v": 0.0062
+     },
+     {
+      "c": "MKD",
+      "v": 0.0044
+     },
+     {
+      "c": "ECU",
+      "v": 0.0042
+     },
+     {
+      "c": "MAR",
+      "v": 0.004
+     },
+     {
+      "c": "URY",
+      "v": 0.004
+     },
+     {
+      "c": "COL",
+      "v": 0.0038
+     },
+     {
+      "c": "MUS",
+      "v": 0.0031
+     },
+     {
+      "c": "THA",
+      "v": 0.002
+     },
+     {
+      "c": "LBN",
+      "v": 0.0018
+     },
+     {
+      "c": "TWN",
+      "v": 0.0018
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0017
+     },
+     {
+      "c": "UGA",
+      "v": 0.0011
+     },
+     {
+      "c": "LAO",
+      "v": 0.0011
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element, such as calcium ammonium nitrate (HS 310240), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
     "basis": "gross weight"
    }
   },
@@ -3655,6 +4103,28 @@
    "k": 117,
    "cov": 1.0
   },
+  "an-limestone-exports": {
+   "top1": {
+    "c": "NLD",
+    "p": 0.2134
+   },
+   "top3": 0.4991,
+   "hhi": 1083,
+   "eq": 9.2,
+   "k": 41,
+   "cov": 1.0001
+  },
+  "an-limestone-imports": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.2083
+   },
+   "top3": 0.379,
+   "hhi": 752,
+   "eq": 13.3,
+   "k": 64,
+   "cov": 1.0
+  },
   "uan-exports": {
    "top1": {
     "c": "USA",
@@ -3710,12 +4180,13 @@
   "Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea and of the other nitrogen fertilisers, and urea production in tonnes of product (FAOSTAT), the basis of the urea trade tables (HS 310210). Urea holds 46.6% nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.",
   "FAOSTAT has no 2023 urea production figure for Oman, Qatar, Egypt, Algeria, Nigeria, Malaysia and 6 other countries, which each exported more than 1 Mt of urea in the customs data for 2024 (the largest exporters first): the urea producers table lists reporting countries only and gives no world total. For 2022 it gives Oman 2.04 Mt, Malaysia 7.58 Mt, Indonesia 7.47 Mt and United States 5.93 Mt.",
   "FAOSTAT's 2024 urea table is not used: it lists 20 countries against 34 for 2023 and has no figure for China.",
-  "The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, UAN and ammonium sulphate, each its own customs code, gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.",
+  "The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, ammonium nitrate with limestone, UAN and ammonium sulphate, each its own customs code, gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.",
   "Anhydrous ammonia (HS 281410), 2024 (CEPII BACI): world 18.39 Mt gross weight; top exporters Trinidad and Tobago 3.72 Mt, Saudi Arabia 2.72 Mt, Indonesia 1.81 Mt.",
   "Ammonium nitrate, solid or in solution (HS 310230), 2024 (CEPII BACI): world 8.42 Mt gross weight; top exporters Russia 3.22 Mt, United States 0.68 Mt, Bulgaria 0.51 Mt.",
+  "Ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element, such as calcium ammonium nitrate (HS 310240), 2024 (CEPII BACI): world 9.19 Mt gross weight; top exporters Netherlands 1.96 Mt, Belgium 1.66 Mt, Germany 0.97 Mt.",
   "Urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280), 2024 (CEPII BACI): world 6.72 Mt gross weight; top exporters United States 1.76 Mt, Russia 1.43 Mt, Trinidad and Tobago 1.09 Mt.",
   "Ammonium sulphate (HS 310221), 2024 (CEPII BACI): world 21.35 Mt gross weight; top exporters China 15.99 Mt, Belgium 1.17 Mt, Netherlands 0.67 Mt.",
-  "Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. HS 281420 (ammonia in solution), 310229, 310240 (ammonium nitrate with limestone), 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.",
+  "Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. HS 310230 is ammonium nitrate alone, solid or in solution; HS 310240 is ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element (calcium ammonium nitrate and the like): two tables, and a tonne is in one of them only. HS 281420 (ammonia in solution), 310229, 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.",
   "Urea exports of Iran in customs data fell from 3.77 Mt in 2019 to 0.024 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Urea exports of Oman in customs data (7.63 Mt in 2024, CEPII BACI) are 178% of its production in the USGS Mineral Commodity Summaries (2 Mt of nitrogen in 2024); urea exports converted to nitrogen with the nitrogen content of urea (0.4665, from molar masses), against ammonia production in nitrogen content. Declaration of cargoes of other origins under Oman is a plausible cause; it is not established here."
  ]

@@ -8,7 +8,7 @@
  *  - the price files agree with prices/index.json: ordered dates, range, frequency, source id, breaks and estimate
  *    ranges inside the series, real-price pairs, board statistics equal to the last observation, no orphan file,
  *  - the commodity tables list every country once, largest first, within the world total, and the series by year of
- *    data/commodities/history have one entry per year and end on the table of the page (3.4 MB budget for them all),
+ *    data/commodities/history have one entry per year and end on the table of the page (3.9 MB budget for them all),
  *  - every country of the index has a profile file (data/countries/profiles/<ISO3>.json), and no other file is there,
  *    with data or with the words for a territory that has none; shares, ranks, series by year (their years in the one
  *    shared file countries/years.json), partners, passages and the basket are within their bounds; a country file stays
@@ -338,7 +338,8 @@ function checkCommodityTables() {
   }
   // 3 MB until the metal bulks of package NC3 (audit A-010: six new pages, ten new groups): they take the series by year to 3.16 MB, and the budget
   // rises by what they need and a fifth of room
-  if (bytes > 3.4e6) errors.push(`commodities/history: ${(bytes / 1e6).toFixed(2)} MB, above the 3.4 MB budget`);
+  // 3.4 MB until package FNCB (review GNC3.10), which measured 3.22 MB (3,217,507 bytes) and took a fifth over the measure, rounded: 3.9 MB
+  if (bytes > 3.9e6) errors.push(`commodities/history: ${(bytes / 1e6).toFixed(2)} MB, above the 3.9 MB budget`);
 }
 
 /** The monthly files of the energy pages (data/commodities/monthly, pipeline/commodities/monthly.py): each series has one value per month of its

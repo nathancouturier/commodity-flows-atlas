@@ -243,7 +243,8 @@ class EngineTests(unittest.TestCase):
         gen = [r for r in routes if r.get("generated")]
         ids = [r["id"] for r in gen if r["id"].startswith(tuple(f"gen-{g}-" for g in LANES))]
         self.assertTrue(1 <= len(ids) <= 10, ids)
-        later = [r for r in gen if r["id"].startswith(NC3_GROUPS)]  # the 10 routes of package NC3 (A-010) have a cap of their own
+        # the 10 routes of package NC3 (A-010) and the 6 of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds) have a cap of their own
+        later = [r for r in gen if r["id"].startswith(NC3_GROUPS + ("gen-ammonium-nitrate-limestone-", "gen-npk-two-nutrient-"))]
         self.assertEqual(len(gen) - len(later), 120 + 20 + len(ids))
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
@@ -354,7 +355,8 @@ class PageTests(unittest.TestCase):
         self.assertTrue(any("wheat or meslin flour" in n and "no lanes" in n for n in w["notes"]))
         c = load("commodities/corn.json")
         self.assertTrue(any("distillers' dried grains" in n and "not a DDGS" in n for n in c["notes"]))
-        self.assertTrue(any("bags" in n for n in c["notes"]))
+        # FNCC (GNC2.6): the reason for no lanes is what the atlas does, not a share of bagged cargo no file gives
+        self.assertTrue(any("does not tell bulk from bagged or containerised cargo" in n for n in c["notes"]))
 
     def test_the_oil_pages_say_that_the_codes_hold_two_oils_and_that_the_price_is_the_oils(self):
         for k, other in (("sunflower", "safflower"), ("rapeseed", "mustard")):
@@ -379,8 +381,9 @@ class PriceTests(unittest.TestCase):
         for k in ("barley", "sorghum"):
             m = idx[f"{k}-m"]
             self.assertEqual((m["k"], m["end"], m["freq"], m["s"], m["closed"]), (k, "2020-08", "M", "wb-pink", True))
-            self.assertTrue(fig[k]["closed"])
-            self.assertEqual(fig[k]["stats"]["last"]["t"], "2020-08")
+            # FNCC (GNC2.1): the key figure of the page is the annual average that goes on after the closed monthly series
+            self.assertNotIn("closed", fig[k])
+            self.assertEqual((fig[k]["id"], fig[k]["freq"], fig[k]["stats"]["last"]["t"]), (f"{k}-a", "A", "2025"))
             d = load(f"commodities/{k}.json")
             self.assertTrue(any("stops in August 2020" in n for n in d["notes"]), k)
 

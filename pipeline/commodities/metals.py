@@ -16,6 +16,7 @@ Metals pages built from tables that are already on disk (audit M-017, M-018, A-0
 The helpers that need no file (herfindahl, concentration, unit_value, apparent_consumption) are pure and tested
 (pipeline/tests/test_metals.py). `B` is the module of build_commodities, passed in because it cannot be imported from here.
 """
+import json
 import math
 import os
 import re
@@ -526,6 +527,74 @@ def hub_notes(B, docs):
     return done
 
 
+# A large importer that neither produces nor exports the product and receives it overland (review GNC3.3): Mozambique, which
+# customs data record as the second importer of South African chromite and ferro-chromium. The hub rule above needs the country in
+# the export table as well, so it never fires for it. The rule reads three things in the atlas's own files, and it states a
+# reading, no figure and no cause:
+#   - the country has at least TRANSIT_MIN_SHARE of the table's world imports, and no row in the page's production tables;
+#   - it has no export line of note: under HUB_MIN_SHARE of the table's world exports, and under TRANSIT_MAX_EXPORT of its own imports;
+#   - most of its imports in the pairs file of the group are overland (mode "land": the sea routes of the engine do not start or end there).
+# The overland test is what keeps the rule off the importers that consume the product (Japan's coking coal, Morocco's ammonia and
+# sulphur, which come by sea): "cargo in transit to a port" is a reading for goods that cross the country by land, not for those that land in it.
+# It reads the tables of the groups the three commodity packages added: the main table of a page they added and the further tables of
+# the pages they extended (EXTRA_GROUPS); the tables of the older groups are not touched.
+TRANSIT_MIN_SHARE = 0.10
+TRANSIT_MAX_EXPORT = 0.10
+TRANSIT_LAND_SHARE = 0.5
+TRANSIT_NEW_PAGES = ("sulphur", "npk", "barley", "sorghum", "sunflower", "pulses", "rapeseed", "ferrous-scrap", "pig-iron", "chromium",
+                     "ferro-alloys", "molybdenum", "graphite")
+PAIR_LAND = 3  # the mode code of a land pair in data/freight/pairs/<group>.json (sea, transit, mixed, land)
+
+
+def _land_share(B, group, iso):
+    """Share of the tonnes recorded into `iso` in the group's pairs file that move overland, or None without a pairs file."""
+    path = os.path.join(B.DATA, "freight", "pairs", f"{group}.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+    except (OSError, ValueError):
+        return None
+    ix = {c: j for j, c in enumerate(doc["cols"])}
+    rows = [r for r in doc["rows"] if r[ix["d"]] == iso]
+    tot = sum(r[ix["kt"]] for r in rows)
+    return sum(r[ix["kt"]] for r in rows if r[ix["m"]] == PAIR_LAND) / tot if tot else None
+
+
+def transit_notes(B, docs):
+    """The note of a large importer that has no production and no export line of the product and receives it overland: what the
+    customs data record, and that these tonnes may be cargo in transit to a port and not the country's own use. Returns the rows it fired on."""
+    done = []
+    for cid, d in docs.items():
+        if not d:
+            continue
+        tabs = ([("imports", "exports", B.TRADE[cid][0])] if cid in TRANSIT_NEW_PAGES and cid in B.TRADE else []) + \
+               [(f"{stem}-imports", f"{stem}-exports", g) for g, stem, *_ in B.EXTRA_GROUPS.get(cid, [])]
+        named = {r["c"] for k in ("production", "refinery") for r in (d.get(k) or {}).get("rows", [])}
+        for ik, ek, g in tabs:
+            i, e = _tab(d, ik), _tab(d, ek)
+            if not i or not e or i.get("s") != "baci" or i.get("scope") not in (None, "world") or not i.get("world") or not e.get("world"):
+                continue
+            ex = {r["c"]: r["v"] for r in e["rows"]}
+            for rank, r in enumerate(i["rows"][:15], 1):
+                iso = r["c"]
+                if iso in named or r["v"] / i["world"] < TRANSIT_MIN_SHARE:
+                    continue
+                if ex.get(iso, 0) / e["world"] >= HUB_MIN_SHARE or ex.get(iso, 0) >= TRANSIT_MAX_EXPORT * r["v"]:
+                    continue
+                land = _land_share(B, g, iso)
+                if land is None or land < TRANSIT_LAND_SHARE or "possible reading" in (r.get("n") or ""):
+                    continue
+                r["n"] = B.joinn(r.get("n"), f"{B.cname(iso)} is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as "
+                                 "arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)")
+                # the row note is a tooltip: the page says it in its notes too, with the product the table counts
+                what = (B.TRADE[cid][2] if ik == "imports" and cid in B.TRADE else next((w for gg, st, _, w in B.EXTRA_GROUPS.get(cid, []) if st + "-imports" == ik), g))
+                d.setdefault("notes", []).append(
+                    f"{B.cname(iso)} is among the importers of {what} although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its "
+                    "imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here).")
+                done.append(f"{cid}/{ik}/{iso}")
+    return done
+
+
 def add_concentration(docs):
     for d in docs.values():
         out = {}
@@ -552,6 +621,7 @@ def metal_pages(B, docs, us, baci, index):
     iron_content(B, docs, us)
     us_blocks(B, docs, us)
     hubs = hub_notes(B, docs)
+    transit = transit_notes(B, docs)
     add_values(B, docs, index)
     add_concentration(docs)
-    return {"hs6_years": years, "consumption": rep, "hub_notes": hubs}
+    return {"hs6_years": years, "consumption": rep, "hub_notes": hubs, "transit_notes": transit}

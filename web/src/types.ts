@@ -593,6 +593,8 @@ export interface VesselClass {
   /** UNCTADstat ship type of the class (data/freight/fleet.json); null when UNCTADstat does not single out its kind of ship */
   fleetType?: string | null;
   cargoes: string[];
+  /** the product of a cargo page when only one group of the page sails in this class (urea page -> "Ammonia" on a gas carrier) */
+  cargoLabels?: Record<string, string>;
   constraints: string[];
   canals: { suez: string; panama: string };
   fleet?: Fig;

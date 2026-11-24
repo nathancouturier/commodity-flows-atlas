@@ -242,7 +242,8 @@ class Shares(unittest.TestCase):
                 self.assertEqual(e["f"]["s"], "atlas")
                 if c.get("portwatch") and not c.get("portwatchLabel"):
                     pw = portwatch(c["id"]).get(YEAR, {}).get(vtype(e["p"]))
-                    if pw is not None and e["mt"][0] <= pw:
+                    # package FNCB: not where the type's "at least" tonnage is above PW_NEAR of PortWatch's volume (no cap there)
+                    if pw is not None and e["mt"][0] <= pw and by_type(tonnage(c["id"])[0])[vtype(e["p"])] <= 0.85 * pw:
                         self.assertLessEqual(e["mt"][1], pw + 0.05, (c["id"], e["p"]))
         for name in ("chokepoints.json", "chokepoint-lanes.json"):
             with open(os.path.join(FREIGHT, name), encoding="utf-8") as f:
@@ -360,8 +361,9 @@ class Shares(unittest.TestCase):
     @unittest.skipUnless(HAS_PW_DAILY, "raw/portwatch daily files are not on this machine")
     def test_GE6_8_cap_leaves_room_for_other_groups(self):
         """Review GE6, finding 8: the upper figure is capped at PortWatch's volume of the type less the "at least"
-        tonnage of the other groups of that type, never below the group's own "at least"; when the type's "at least"
-        already exceeds PortWatch, the upper figure equals the lower one."""
+        tonnage of the other groups of that type, never below the group's own "at least". Package FNCB: only while the type's
+        "at least" tonnage is at most PW_NEAR of PortWatch's volume; above it the upper figure is not capped."""
+        import build_freight as BF
         n = 0
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
             if not c.get("portwatch") or c.get("portwatchLabel") or not c.get("estimates"):
@@ -374,9 +376,10 @@ class Shares(unittest.TestCase):
             for e in c["estimates"]:
                 typ = vtype(e["p"])
                 room = max(low[e["p"]], pw[typ] - (t[typ] - low[e["p"]]))
+                if t[typ] > BF.PW_NEAR * pw[typ] + 0.05:
+                    self.assertFalse("hi" in e and "capped at" in e["hi"]["n"], (c["id"], e["p"]))
+                    continue
                 self.assertLessEqual(e["mt"][1], room + 0.15, (c["id"], e["p"], room))
-                if t[typ] > pw[typ] + 0.05:
-                    self.assertNotIn("hi", e, (c["id"], e["p"]))
                 if "hi" in e and "capped" in e["hi"]["n"]:
                     n += 1
                     self.assertAlmostEqual(e["mt"][1], room, delta=0.15, msg=(c["id"], e["p"]))

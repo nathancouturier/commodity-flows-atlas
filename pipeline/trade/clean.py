@@ -9,6 +9,9 @@ Rules
   3. Gross unit errors (unit value < 1/100 or > 100x the group-year median, any size): re-estimated
      the same way. This catches kg/t slips such as rare earths Turkey -> Benin. A row with a tonnage and no
      declared value (USD 0) is not an error of this kind: its tonnage is kept as reported and flagged "no-value".
+     The groups of UV_KEPT_GROUPS (sunflower seed: seed for sowing at about USD 12,000 a tonne and oil seed at about
+     USD 1,300 are one code) and the rows of KEEP_REPORTED (one by one, with the reason) keep their reported
+     tonnage and are flagged "uv-suspect-t", as the isolated unit-value anomalies of rule 7 are in the "flag" mode.
   4. Moderate inconsistencies (unit value < 1/3 or > 3x the median, flows > USD 50 million) are
      re-estimated ONLY for homogeneous groups (crude oil, LNG, LPG, grains, oilseeds...). Ore and
      concentrate groups mix grades worth 40 to 2,000 USD/t (e.g. laterite vs sulphide nickel), so
@@ -72,6 +75,39 @@ DROP_LOW_UV = {"lithium": LITHIUM_MIN_UV}  # group -> minimum reported unit valu
 # "new-pair" (rule 6) or "low-uv" (rule 9)
 LAST_DROPPED = []
 
+# Rules 3 and 4 do not apply to a group priced by kinds that lie more than 100 times apart: sunflower seed is seed for sowing (about
+# USD 12,000 a tonne from France, every year) and oil seed (about USD 1,300) under one code, so the group median is no reference for a
+# pair. The reported tonnage stands and the row is flagged "uv-suspect-t". (Rule 4 already leaves it out: see HOMOGENEOUS.)
+UV_KEPT_GROUPS = {"sunflower-seed"}
+# Rows of the groups added with M-022, M-023 and A-010 that rule 3 or 4 would re-estimate to more than 50 kt and to more than five times
+# the pair's own median of the other years (27 rows, listed by test_fncb.py B2: France to Russia sunflower seed is one, kept by
+# UV_KEPT_GROUPS). Each row below keeps its reported tonnage, flagged "uv-suspect-t", for the reason beside it:
+# (group, exporter, importer, year) -> reason. The 7 other rows of the list are re-estimated because the estimate is right: the pair's
+# declared value is steady over the years and the reported tonnage is the odd figure, or the estimate puts the importer's total in line
+# with its other years (sulphur Switzerland to Zambia 2012, DRI Malaysia to Taiwan 2003, sulphur United States to Chile 2004,
+# sulphur Saudi Arabia to Papua New Guinea 2019, coke China to the United States 2002, 2003 and 2005); the reasons are in the test.
+KEEP_REPORTED = {
+    ("coke", "ZWE", "COD", 2006): "tonnage in line with the years around (11 and 230 kt); the value (USD 680 million, 150 to 400 times the neighbours) is the odd figure",
+    ("ammonium-sulphate", "USA", "PER", 2017): "tonnage in line with the pair's other years (50 to 185 kt); the value is five times theirs",
+    ("ammonia", "NGA", "BGD", 2010): "one other year only (28.5 kt, USD 9 million); the estimate (546 kt) is 19 times its tonnage, the reported 125 kt 4 times",
+    ("sorghum", "ITA", "ETH", 2017): "this pair's unit value is 640 to 750 USD/t in every year it is recorded from 2012: the group median (220) is no reference for it",
+    ("monoammonium-phosphate", "RUS", "PAK", 2005): "the pair's unit value is 775 and 590 in the next two years, like the 886 of the row: tonnage and value agree",
+    ("ammonium-sulphate", "UKR", "DZA", 2015): "tonnage in line with the pair's only other year (3.4 kt); the value is 80 times that year's",
+    ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 50 times theirs",
+    ("dri", "CHN", "SAU", 2018): "the estimate (181 kt) is four times the pair's largest year (48 kt); value and tonnage are both at odds with the years around",
+    ("dri", "CHN", "SAU", 2019): "the estimate (66 kt) is more than the pair's largest year (48 kt); value and tonnage are both at odds with the years around",
+    ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 240 times that year's",
+    ("sulphur", "MYS", "KOR", 2003): "the pair's unit value is 1,100 to 1,450 USD/t in 2004 to 2007, 16 times the group median: the estimate (121 kt) is 16 times the tonnage of the next year (7.5 kt)",
+    ("graphite", "JPN", "MEX", 2002): "the estimate (99 kt) would be the whole of Mexico's graphite imports of 2002 (102 kt, against 1 to 5 kt in every other year) and of Japan's exports (101 kt, against 1 to 7 kt)",
+    ("ammonium-sulphate", "CHL", "AGO", 2014): "the estimate (99 kt) is Chile's only recorded export of the product and puts Angola's imports at 116 kt, against 5 to 58 kt in the other years",
+    ("npk-two-nutrient", "CMR", "NGA", 2002): "Cameroon's recorded exports of the product are 34 t, 6 kt and 1.7 kt in its three years; the estimate (115 kt) is 20 times the largest",
+    ("sunflower-oil", "UKR", "GRC", 2003): "tonnage in line with the pair's other years (5 to 39 kt); the value (USD 65 million) is three to twelve times theirs",
+    ("coke", "LBY", "USA", 2004): "Libya's only recorded coke export in 21 years: the estimate (82 kt) has no other year to stand on",
+    ("ferrous-scrap", "BWA", "VNM", 2013): "the estimate (64 kt) would put Botswana's scrap exports at 94 kt, against 8 to 45 kt in the other years",
+    ("dri", "GBR", "USA", 2004): "the pair's other years are about 600 t; the estimate (62 kt) has nothing to stand on",
+    ("ferrous-scrap", "VEN", "CAN", 2002): "the pair's other years are 1.7 to 3.9 kt; the value (USD 7.5 million) is 4 to 36 times theirs",
+}
+
 BULK = {"iron-ore", "coal", "bauxite", "manganese", "alumina"}
 # Owner decision O3 (22 November 2026): an isolated anomalous year is re-estimated and published as an
 # Atlas estimate. "flag" keeps the reported tonnage and only flags it.
@@ -95,12 +131,19 @@ HOMOGENEOUS = {
     "crude-oil", "refined-products", "lng", "lpg", "wheat", "corn", "soybeans", "soymeal", "soyoil", "rice",
     "sugar", "palm-oil", "rapeseed", "coffee", "cocoa", "cotton", "urea", "potash", "dap",
     # one product each, priced by the product tonne (M-022). Not NPK (a mix of grades), phosphoric acid (declared by the tonne of acid
-    # or of P2O5) nor sulphur (crude and sublimed sulphur, at very different prices): only the gross errors of rule 3 are corrected
+    # or of P2O5) nor sulphur (crude and sublimed sulphur, at very different prices): only the gross errors of rule 3 are corrected.
+    # Nor ammonium nitrate with limestone (310240, FNCB): its pairs keep their own unit values (twelve flows between Belgium, the Netherlands
+    # and France declare 700 to 1,900 USD/t in 2006 to 2010, against a group median of 180 to 370), and rule 4 would have trebled their tonnage
     "potassium-sulphate", "monoammonium-phosphate", "superphosphates", "ammonia", "ammonium-nitrate", "uan", "ammonium-sulphate",
     # the grains, oils and meals added with M-023: a grade of one product each. Not sunflower seed (oil seed, seed for sowing
     # and snack seed are priced far apart), pulses (peas, lentils, chickpeas and beans), wheat flour nor brewing and distilling dregs
     # (distillers' grains and brewers' grains in one code): only the gross errors of rule 3 are corrected for these
     "barley", "sorghum", "sunflower-oil", "rapeseed-oil", "sunflower-meal", "rapeseed-meal",
+    # coke and semi-coke (HS 2704) is one product priced by the tonne: its unit values span a factor 4 from the 5th to the 95th percentile
+    # (140 to 600 USD/t in 2024). Without this rule Mozambique to India 2016 stood at 65 Mt for USD 245 million (4 USD/t, 3 times the
+    # world series of the year); with it the row is a flagged Atlas estimate (1.3 Mt). Not pig iron nor direct-reduced iron: several
+    # grades, and only the gross errors of rule 3 are corrected for them
+    "coke",
 }
 
 # (group, exporter, importer or None for any) -> reason
@@ -309,7 +352,12 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     # a bulk row that is a gross error against either reference stays one (coal MOZ-POL 2019: 201 Mt at 0.94 USD/t)
     gross = pos & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100) | (bulk & ((plain < 0.01) | (plain > 100))))
     moderate = has_t & df["group"].isin(HOMOGENEOUS) & (df["usd"] > 50_000) & ((ratio < 1 / 3) | (ratio > 3)) & df["uv"].notna()
+    # rules 3 and 4 leave a row alone that is in KEEP_REPORTED or belongs to UV_KEPT_GROUPS: reported tonnage kept, flagged
+    keys = pd.MultiIndex.from_frame(df[["group", "o", "d", "year"]])
+    keep = (gross | moderate) & ~miss & (df["group"].isin(UV_KEPT_GROUPS) | keys.isin(list(KEEP_REPORTED)))
+    gross, moderate = gross & ~keep, moderate & ~keep
     fix = miss | gross | moderate
+    _add_flag(df, keep, "uv-suspect-t")
     df["t0"] = df["t"]
     df.loc[fix, "t"] = df.loc[fix, "usd"] / df.loc[fix, "uv"]
     df["imputed"] = fix

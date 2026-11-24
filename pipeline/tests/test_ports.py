@@ -86,7 +86,8 @@ class Sources(unittest.TestCase):
             with self.subTest(iso=iso, code=r.code):
                 self.assertIn(r.src, self.sources)
                 if r.src.startswith("wikipedia"):
-                    self.assertTrue(r.url and r.url.startswith("https://en.wikipedia.org/wiki/"), r)
+                    # the English page, or the French one where the English Wikipedia has none (FNCA: the French ports)
+                    self.assertTrue(r.url and r.url.startswith(("https://en.wikipedia.org/wiki/", "https://fr.wikipedia.org/wiki/")), r)
 
     def test_every_row_has_a_known_zone_role_and_port(self):
         for iso, r in self.rows:
@@ -162,9 +163,11 @@ class G11(unittest.TestCase):
                             self.assertNotIn(seg, ports.ENERGY_SEGMENTS)
                         elif basis == ports.BASIS_GENERAL:
                             self.assertIn(seg, ports.GENERAL_SEGMENTS)
-                            self.assertIn(code, {r.code for r in rows if "box" in r.families})
-                            # a minor metal of the "box" segment: its box rows are general ports (review GL1.6); no row names the metal
-                            named = (group,) if group in ports.BOX_GENERAL else fams
+                            # a minor metal of the "box" segment: its box rows are general ports (review GL1.6); no row names the metal.
+                            # The two oils of GENERAL_BASIS keep the vegetable-oil rows of palm and soybean oil as their ports, with this basis
+                            oil_rows = {r.code for r in rows if r.families & set(fams)} if group in ports.GENERAL_BASIS - ports.BOX_GENERAL else set()
+                            self.assertIn(code, {r.code for r in rows if "box" in r.families} | oil_rows)
+                            named = (group,) if group in ports.GENERAL_BASIS else fams
                             self.assertFalse([r for r in rows if r.families & set(named)])
                         elif basis == ports.BASIS_LEGACY:
                             self.assertEqual(code, ports._legacy_port(iso, group))
@@ -185,7 +188,8 @@ class G11(unittest.TestCase):
                 bad.append((g, c, role, code))
             elif basis == ports.BASIS_NEAREST and not ports.is_seaport(code):
                 bad.append((g, c, role, code))
-            elif code not in ports.MANUAL and ports.sea_km(code) > 50:  # river ports up an estuary: Ho Chi Minh City 44 km
+            elif code not in ports.MANUAL and code not in ("FRURO",) and ports.sea_km(code) > 50:  # river ports up an estuary: Ho Chi Minh City 44 km
+                # (Rouen, 53 km up the Seine, is the grain port that the page names for France: FNCA)
                 bad.append((g, c, role, code, round(ports.sea_km(code))))
         self.assertEqual(bad, [])
 

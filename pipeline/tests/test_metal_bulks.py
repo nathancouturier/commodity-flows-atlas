@@ -247,8 +247,12 @@ class EngineTests(unittest.TestCase):
         self.assertIn("coke", ports.OWN_FAMILY)
         for g in ("ferrous-scrap", "pig-iron", "dri", "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"):
             self.assertIn(g, ports.BOX_GENERAL)
-        for rows in ports.G.values():
+        for iso, rows in ports.G.items():
             for r in rows:
+                if iso == "TUR" and r.code in ("TRERE", "TRISK"):
+                    # FNCA (review GNC3.2): the two steel works of Turkey, named by the Erdemir page, are rows of the three steel-input groups only
+                    self.assertEqual(set(r.families), {"ferrous-scrap", "pig-iron", "dri"}, r)
+                    continue
                 self.assertFalse(r.families & set(NEW), r)
 
     def test_the_vessel_type_of_the_chokepoint_estimates(self):
@@ -282,7 +286,7 @@ class EngineTests(unittest.TestCase):
         gen = [r for r in routes if r.get("generated")]
         ids = [r["id"] for r in gen if r["id"].startswith(tuple(f"gen-{g}-" for g in LANES))]
         self.assertTrue(1 <= len(ids) <= 10, ids)
-        self.assertEqual(len(gen), 120 + 20 + 10 + len(ids))
+        self.assertEqual(len(gen), 120 + 20 + 10 + len(ids) + 6)  # + the 6 routes of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds)
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
 
@@ -304,7 +308,8 @@ class CacheTests(unittest.TestCase):
             self.assertGreater(self.totals[g][2][2024], 3e5, g)
 
     def test_the_cache_holds_the_groups_before_and_the_new_ones_only(self):
-        self.assertEqual(set(self.totals), set(BEFORE) | set(NEW))
+        # + the two fertiliser groups of package FNCB (review GNC1.4)
+        self.assertEqual(set(self.totals), set(BEFORE) | set(NEW) | {"ammonium-nitrate-limestone", "npk-two-nutrient"})
 
 
 class PageTests(unittest.TestCase):
@@ -412,12 +417,15 @@ class PageTests(unittest.TestCase):
                 self.assertNotEqual(s["k"], k)
         self.assertIn("nickel", [s["k"] for s in load("commodities/ferro-alloys.json")["see"]])
 
-    def test_no_new_page_has_a_price_series_and_each_says_so(self):
+    def test_the_new_pages_have_a_price_only_where_the_usgs_file_has_one_and_the_others_say_so(self):
+        # FNCC (GNC3.5): the USGS annual prices of five of the pages are published (test_fncc.py C3); pig iron has none
         fig = load("prices/figures.json")
-        for k in ("ferrous-scrap", "pig-iron", "chromium", "ferro-alloys", "molybdenum", "graphite"):
-            self.assertNotIn(k, fig, k)
+        for k in ("ferrous-scrap", "chromium", "ferro-alloys", "molybdenum", "graphite"):
+            self.assertEqual(fig[k]["s"], "usgs-mcs", k)
             d = load(f"commodities/{k}.json")
-            self.assertTrue(any("No free price series" in n for n in d["notes"]), k)
+            self.assertFalse(any("No free price series" in n for n in d["notes"]), k)
+        self.assertNotIn("pig-iron", fig)
+        self.assertTrue(any("No free price series" in n for n in load("commodities/pig-iron.json")["notes"]))
 
 
 class LaneAndProfileTests(unittest.TestCase):
@@ -437,14 +445,19 @@ class LaneAndProfileTests(unittest.TestCase):
             for lane in load(f"freight/lanes/{g}.json")["lanes"]:
                 self.assertEqual(lane["vclass"], ["container", "handysize"], (g, lane["id"]))
 
-    def test_the_scrap_that_turkey_imports_does_not_go_to_the_black_sea(self):
-        """The first importer of scrap is in the Aegean and Marmara in the lanes, as for steel: the "ore" fall-backs had sent it to Samsun by the Bosphorus."""
+    def test_the_scrap_that_turkey_imports_goes_to_the_steel_works_not_to_samsun(self):
+        """The first importer of scrap: the "ore" fall-backs had sent it to Samsun by the Bosphorus; the general port of the country (Mersin) refused
+        the Black Sea flows (FNCA, review GNC3.2). Since FNCA the cargo of the Black Sea partners goes to Karadeniz Eregli, where the page names the
+        steel works, and the cargo of the others to Iskenderun, the other steel works: no lane crosses the Bosphorus and none goes to Samsun."""
         f = load("freight/lanes/ferrous-scrap.json")
         turkish = [ln for ln in f["lanes"] if ln["d"] == "TUR"]
         self.assertTrue(turkish)
         for ln in turkish:
             self.assertNotIn("bosphorus", ln["via"], ln["id"])
-            self.assertEqual(f["ports"][ln["discharge"][0]]["basis"], "general port of the country", ln["id"])
+            port = ln["discharge"][0]
+            self.assertNotEqual(port, "TRSSX", ln["id"])
+            self.assertEqual(port, "TRERE" if ln["o"] in ("RUS", "UKR", "ROU", "BGR", "GEO", "MDA") else "TRISK", ln["id"])
+            self.assertEqual(f["ports"][port]["basis"], "page names the cargo", ln["id"])
 
     def test_south_africa_exports_chromite_and_ferro_chromium_first(self):
         zaf = load("countries/profiles/ZAF.json")

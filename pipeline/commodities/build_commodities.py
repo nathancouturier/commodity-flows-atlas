@@ -624,7 +624,7 @@ class Eia:
 # The rule behind the words "forecast" and "estimate" of a USDA table, said on the page (review GA1.8). The PSD file has no label column; USDA's
 # World Agricultural Production circular (https://apps.fas.usda.gov/psdonline/circulars/production.pdf, read on 23 November 2026, issue WAP 11-26)
 # heads the same two years "Prel." (2025/26) and "Proj." (2026/27) in its tables and writes "forecasts" and "estimates" in its text.
-YK_RULE = ("The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; "
+YK_RULE = ("The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while "
            "USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years "
            "'Prel.' and 'Proj.' in its tables)")
 
@@ -1420,6 +1420,8 @@ EXTRA_GROUPS = {
     "urea": [
         ("ammonia", "ammonia", "Ammonia", "anhydrous ammonia (HS 281410)"),
         ("ammonium-nitrate", "ammonium-nitrate", "Ammonium nitrate", "ammonium nitrate, solid or in solution (HS 310230)"),
+        ("ammonium-nitrate-limestone", "an-limestone", "Ammonium nitrate with limestone",
+         "ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no fertilising element, such as calcium ammonium nitrate (HS 310240)"),
         ("uan", "uan", "UAN solution", "urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280)"),
         ("ammonium-sulphate", "ammonium-sulphate", "Ammonium sulphate", "ammonium sulphate (HS 310221)"),
     ],
@@ -1431,6 +1433,12 @@ EXTRA_GROUPS = {
     ],
     "potash": [
         ("potassium-sulphate", "sop", "Potassium sulphate (SOP)", "potassium sulphate, SOP (HS 310430)"),
+    ],
+    # the compounds with two of the three nutrients; the page's main table is the three-nutrient grades (HS 310520)
+    "npk": [
+        ("npk-two-nutrient", "two-nutrient", "Two-nutrient compound fertilisers",
+         "compound fertilisers with two of the three nutrients: nitrates and phosphates (HS 310551), nitrogen and phosphorus other than those (HS 310559), "
+         "phosphorus and potassium (HS 310560)"),
     ],
     # wheat flour and the dregs are tables only: bagged or boxed for a large part, so no lanes (pipeline/freight/build_lanes.py GROUPS)
     "wheat": [
@@ -1474,6 +1482,9 @@ PSD_EXTRA = {
     "rapeseed": [("Oil, Rapeseed", "rapeseed-oil", "Rapeseed oil", "rapeseed oil"),
                  ("Meal, Rapeseed", "rapeseed-meal", "Rapeseed meal", "rapeseed meal")],
 }
+# the title of an extra table says what its code holds where the product's name would promise more (review GNC1.4): ammonium nitrate is the
+# pure salt and its solutions, the mixtures with limestone are the next table
+TITLE_NOTE = {"ammonium-nitrate": " (HS 310230, not mixed with limestone)"}
 PSD_WHAT = {
     "wheat": "wheat", "corn": "corn", "soybeans": "soybeans", "soymeal": "soybean meal", "soyoil": "soybean oil",
     "rice": "milled rice", "sugar": "centrifugal sugar (raw value)", "coffee": "green coffee (all forms, green-bean equivalent)",
@@ -2222,7 +2233,7 @@ def main():
         for g2, stem, nm, what2 in EXTRA_GROUPS.get(cid, []):
             for side, word in (("exports", "exporters"), ("imports", "importers")):
                 t, _ = baci.ranked(g2, side, *MT, what2)
-                extra.append({"key": f"{stem}-{side}", "title": f"{nm} {word}", "table": set_basis(t, "gross weight")})
+                extra.append({"key": f"{stem}-{side}", "title": f"{nm} {word}{TITLE_NOTE.get(g2, '')}", "table": set_basis(t, "gross weight")})
         for com2, stem, nm, what2 in PSD_EXTRA.get(cid, []):
             for attr, key, word in (("Production", "production", "producers"), ("Domestic Consumption", "consumption", "consumers")):
                 t, _ = psd.ranked(com2, attr, f"{what2} {'production' if key == 'production' else 'domestic consumption'}")
@@ -2325,9 +2336,10 @@ def main():
                          "The tables under them are the phosphate fertilisers and the acid, each its own customs code, gross weight, and none is in the totals of another.")
             for g2, _, _, what2 in EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
-            notes.append("HS 310310 holds all the superphosphates, single and triple (TSP), in one code. HS 310540 holds MAP and its mixtures with DAP. "
+            notes.append("HS 310310 holds all the superphosphates, single and triple, in one code; TSP, the triple grade, has no code of its own. The Pink Sheet's TSP price is the price "
+                         "of triple superphosphate only: it is not a price of the whole group. HS 310540 holds MAP and its mixtures with DAP. "
                          "HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. "
-                         "Other phosphatic and compound fertilisers (HS 310320, 310390, 310551, 310559, 310560) are not loaded; NPK has its own page.")
+                         "Other phosphatic fertilisers (HS 310320, 310390) are not loaded; the compound fertilisers, with two or three nutrients, are on the NPK page.")
             see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
             see.append({"k": "sulphur", "text": "sulphur, its production and trade"})
         elif cid == "lithium":
@@ -2433,14 +2445,16 @@ def main():
                          f"fertilisers, and urea production in tonnes of product (FAOSTAT), the basis of the urea trade tables (HS 310210). Urea holds {K.N_IN_UREA:.1%} nitrogen "
                          "(from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.")
             notes += unotes
-            notes.append("The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, UAN and ammonium sulphate, each its own customs code, "
+            notes.append("The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, ammonium nitrate with limestone, UAN and ammonium sulphate, each its own customs code, "
                          "gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output "
                          "in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.")
             for g2, _, _, what2 in EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them "
                          "the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. "
-                         "HS 281420 (ammonia in solution), 310229, 310240 (ammonium nitrate with limestone), 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.")
+                         "HS 310230 is ammonium nitrate alone, solid or in solution; HS 310240 is ammonium nitrate mixed with calcium carbonate or other inorganic substances that carry no "
+                         "fertilising element (calcium ammonium nitrate and the like): two tables, and a tonne is in one of them only. "
+                         "HS 281420 (ammonia in solution), 310229, 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.")
             see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
         elif cid == "potash":
             k2o, f = d["production"], round(K.K2O_IN_KCL, 4)  # the factor as printed: each converted figure reproduces from it, to 3 digits
@@ -2463,9 +2477,11 @@ def main():
                          "Crude natural potassium salts (HS 310410) and the other potassic fertilisers (HS 310490) are not loaded.")
             see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
         elif cid == "npk":
-            notes.append("Trade is HS 310520, fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium, product weight. The grade of each flow "
-                         "(the shares of the three nutrients) is not in customs data. Compound fertilisers with two of the three nutrients (HS 310551, 310559, 310560), "
-                         "the tablets and small packages (HS 310510) and the rest of heading 3105 (HS 310590) are not loaded.")
+            notes.append("The main trade tables are HS 310520, fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium, product weight. The tables "
+                         "under them are the compound fertilisers with two of the three nutrients: nitrates and phosphates (HS 310551), nitrogen and phosphorus other than "
+                         "those (HS 310559) and phosphorus and potassium (HS 310560), also product weight; each customs code is in one group, and none is in the totals of the "
+                         "other. The grade of each flow (the shares of the nutrients) is not in customs data. The tablets and small packages (HS 310510) and the rest of "
+                         "heading 3105 (HS 310590) are not loaded.")
             notes.append("No production table: no free file loaded by the atlas gives the production of compound fertilisers (FAOSTAT's fertiliser tables by nutrient are not loaded yet).")
             see.append({"k": "urea", "text": "urea, ammonia, ammonium nitrate, UAN and ammonium sulphate"})
             see.append({"k": "phosphate", "text": "phosphate rock, DAP, MAP, superphosphates and phosphoric acid"})
@@ -2480,12 +2496,12 @@ def main():
         elif cid == "wheat":
             notes.append("The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to "
                          "the grain tables above, and the flour is not converted to wheat. " + _note_group(baci, "wheat-flour", "Wheat flour (HS 110100)") +
-                         " A large part of flour trade moves in bags or boxes, so the atlas draws no lanes for it. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.")
+                         " Customs gross weight does not tell bulk from bagged or boxed cargo and no free source gives the split, so the atlas draws no lanes for flour. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.")
         elif cid == "corn":
             notes.append("The tables under the USDA tables are brewing or distilling dregs and waste (HS 230330), customs gross weight (CEPII BACI). This one code holds distillers' dried grains "
                          "(DDGS, the residue of grain ethanol and spirits) with brewers' grains and other dregs and waste: customs data do not tell them apart, so the tables are not a DDGS "
                          "series. They are not added to the grain tables above. " + _note_group(baci, "brewing-distilling-dregs", "Brewing and distilling dregs and waste (HS 230330)") +
-                         " A large part of this trade moves in bags and containers, so the atlas draws no lanes for it. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.")
+                         " Customs gross weight does not tell bulk from bagged or containerised cargo and no free source gives the split, so the atlas draws no lanes for the dregs. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.")
         elif cid in ("barley", "sorghum"):
             kind = "barley" if cid == "barley" else "grain sorghum"
             code = "100300" if cid == "barley" else "100700"
@@ -2493,9 +2509,14 @@ def main():
                          + ("Malting and feed barley are not told apart in the customs code; malt (HS 1107), barley flours and worked barley grains (HS 1104) are not loaded." if cid == "barley"
                             else "Sweet sorghum, broomcorn and forage sorghum are not in the code or are not told apart; sorghum flour and groats are not loaded."))
             end = _price_end(f"{cid}-m")
-            if end:
+            annual = _price_span(f"{cid}-a")
+            if end and annual:
+                notes.append(f"Price: the World Bank Pink Sheet has a monthly {kind} series that stops in {end}; it is published to that month and marked closed. "
+                             f"After it the price is the annual average of the World Bank's annual workbook, {annual[0]} to {annual[1]}, a series of its own (nominal US dollars a tonne). "
+                             "The workbook does not say how its annual values after the monthly series are built. No monthly series after the Pink Sheet's was loaded.")
+            elif end:
                 notes.append(f"Price: the only free price file the atlas loads, the World Bank Pink Sheet, has a {kind} series that stops in {end}; it is published to that month and marked closed. "
-                             "No free series after it was found.")
+                             "No annual series after it was loaded.")
             else:
                 notes.append(f"No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no current {kind} series, and no other free one was found.")
         elif cid in ("sunflower", "rapeseed"):
@@ -2518,8 +2539,9 @@ def main():
             see.append({"k": "rapeseed" if sun else "sunflower", "text": "the " + ("rapeseed and canola seed, oil and meal" if sun else "sunflower seed, oil and meal")})
         elif cid == "pulses":
             notes.append("Trade is the dried leguminous vegetables of HS 0713, shelled, customs gross weight: peas (HS 071310), chickpeas (HS 071320), beans (HS 071331 to 071339 and the broad "
-                         "and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (cowpeas, pigeon peas and every pulse the code does not name). Each pair of the main "
-                         "tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI), from 2019; the tables of each kind follow the main tables.")
+                         "and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (pigeon peas and every pulse the code does not name). Each pair of the main "
+                         "tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI). The kinds exist from 2019, the first year of those rows, "
+                         "and the tables of each kind show the latest year only; they follow the main tables.")
             notes.append("No production table: the USDA PSD file has no pulses, and no other file loaded by the atlas gives the production of dried pulses.")
         elif cid == "ferrous-scrap":
             notes.append("Trade is HS 7204, the whole heading of ferrous waste and scrap, customs gross weight: cast iron (HS 720410), stainless steel (HS 720421), other alloy steel (HS 720429), "
@@ -2527,7 +2549,8 @@ def main():
                          "The grades are not told apart in the tables. Scrap of the other metals and the granules and powders of HS 7205 are not loaded; the steel page leaves out HS 7201 to 7205 too.")
             notes.append("No production table: USGS gives ferrous scrap for the United States only (the block below), and no other free file loaded by the atlas gives the "
                          "scrap generated or consumed by country. The industry's yearly reviews of scrap trade and use are not loaded (their terms are not settled).")
-            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no ferrous scrap series, and no other free one was loaded.")
+            notes.append("Price: the World Bank Pink Sheet has no ferrous scrap series. The only price on the page is the USGS annual average of No. 1 heavy melting scrap, delivered, "
+                         "a United States composite price and one grade of the scrap the tables count; no monthly series was loaded.")
             see.append({"k": "steel", "text": "steel products, and the steel production that scrap feeds"})
             see.append({"k": "pig-iron", "text": "pig iron and direct-reduced iron, the other iron units of the steel industry"})
         elif cid == "pig-iron":
@@ -2547,7 +2570,8 @@ def main():
                          "(thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: USGS also gives reserves in ore, but for 2024, an earlier year than the rest of "
                          "the table, and the page does not show them.")
             notes.append("Ferro-chromium (HS 720241, 720249) and ferro-silico-chromium are alloys of the ferro-alloys page, not of this one; chromium metal and chromium chemicals are not loaded.")
-            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for chromium, and no other free one was loaded.")
+            notes.append("Price: the World Bank Pink Sheet has no chromium series. The only price on the page is the USGS annual average of chromite ore, gross weight "
+                         "(United States salient statistics); no monthly series was loaded.")
             see.append({"k": "ferro-alloys", "text": "ferro-chromium, the alloy that most chromite is smelted into"})
         elif cid == "ferro-alloys":
             tot = sum(sum(baci.totals(g2, "exports").values()) for g2 in ["ferro-chromium"] + [x[0] for x in EXTRA_GROUPS[cid]])
@@ -2557,8 +2581,8 @@ def main():
             for g2, _, _, what2 in [("ferro-chromium", None, None, TRADE[cid][2])] + EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("Ferro-nickel and nickel pig iron (HS 720260) are on the nickel page, where their group already was: no tonne is counted twice. The steel page leaves out HS 7201 to 7205.")
-            notes.append("No production table: USGS has no world table of the ferro-alloys. No free price series: the World Bank Pink Sheet, the only price file the atlas loads, "
-                         "has none for them, and no other free one was loaded.")
+            notes.append("No production table: USGS has no world table of the ferro-alloys. Price: the World Bank Pink Sheet has none for them. The only price on the page is the USGS "
+                         "annual average of ferro-chromium, per pound of chromium content (United States salient statistics); no price series for the other alloys was loaded.")
             see.append({"k": "nickel", "text": "ferro-nickel and nickel pig iron (HS 720260)"})
             see.append({"k": "chromium", "text": "chromium ore, the raw material of ferro-chromium"})
             see.append({"k": "manganese", "text": "manganese ore, the raw material of ferro-manganese and silico-manganese"})
@@ -2572,9 +2596,15 @@ def main():
             else:
                 notes.append("Trade is natural graphite, in powder or flakes (HS 250410) and in other forms (HS 250490), customs gross weight (kt). USGS production and reserves are "
                              "natural graphite as USGS states it, in the file's metric tons (shown in kt). Artificial graphite and graphite articles are not loaded.")
-            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for "
-                         f"{'molybdenum' if cid == 'molybdenum' else 'graphite'}, and no other free one was loaded.")
+            notes.append("Price: the World Bank Pink Sheet has none for " + ("molybdenum. The only price on the page is the USGS annual average of molybdic oxide (57% molybdenum), "
+                                                                          "a product made from the concentrates of the tables, not their own price." if cid == "molybdenum" else
+                                                                          "graphite. The only prices on the page are the USGS annual average import unit values of three kinds of natural graphite (flake, "
+                                                                          "lump and chip, amorphous), United States imports.") + " No monthly series was loaded.")
 
+        for g2, what2 in ([(TRADE[cid][0], TRADE[cid][2])] if cid in TRADE else []) + [(x[0], x[3]) for x in EXTRA_GROUPS.get(cid, [])]:
+            gap = _gap_note(baci, g2, what2)
+            if gap:
+                notes.append(gap)
         if cid in BASIS:
             pb, tb = BASIS[cid]
             for sec in ("production", "reserves"):
@@ -2596,8 +2626,8 @@ def main():
                 name_it(d, "exports", "Top exporters — Mt of sulphur, gross weight", "World exports (Mt of sulphur)")
                 name_it(d, "imports", "Top importers — Mt of sulphur, gross weight")
             elif cid == "npk":
-                name_it(d, "exports", "Top exporters — Mt of NPK fertilisers, product weight", "World exports (Mt of NPK)")
-                name_it(d, "imports", "Top importers — Mt of NPK fertilisers, product weight")
+                name_it(d, "exports", "Top exporters — Mt of NPK fertilisers (three nutrients, HS 310520), product weight", "World exports (Mt of NPK)")
+                name_it(d, "imports", "Top importers — Mt of NPK fertilisers (three nutrients, HS 310520), product weight")
             elif cid == "ferrous-scrap":
                 name_it(d, "exports", "Top exporters — Mt of ferrous scrap, gross weight", "World exports (Mt of scrap)")
                 name_it(d, "imports", "Top importers — Mt of ferrous scrap, gross weight")
@@ -2735,6 +2765,43 @@ def _price_end(sid):
     except (OSError, ValueError):
         return None
     return f"{MONTHS[int(m['end'][5:7]) - 1]} {m['end'][:4]}" if m else None
+
+
+def _price_span(sid):
+    """(first year, last year) of a price series as the atlas published it, from data/prices/index.json, or None."""
+    try:
+        with open(os.path.join(DATA, "prices", "index.json"), encoding="utf-8") as f:
+            m = next((x for x in json.load(f) if x["id"] == sid), None)
+    except (OSError, ValueError):
+        return None
+    return (m["start"][:4], m["end"][:4]) if m else None
+
+
+COVERAGE_MIN = 0.97  # a page says how much the customs file holds that its tables do not, below this share of the file's total
+GROUP_TOTALS = os.path.join(CACHE, "baci_group_totals.csv")  # pipeline/trade/extract_baci.py: the file's totals before its 1,000 t / USD 1 million threshold
+
+
+def _gap_note(baci, g, label):
+    """For a group whose tables hold under COVERAGE_MIN of the customs file's total in the latest year: the two figures and where the difference comes from
+    (review GNC3.6). The extract keeps only the pairs of 1,000 t or USD 1 million and more, and the tables are the cleaned frame (tonnage re-estimated from
+    value, flows left out), so a product traded in many small flows has tables smaller than its file. None when the totals file is missing or the group is covered."""
+    try:
+        tot = pd.read_csv(GROUP_TOTALS)
+    except OSError:
+        return None
+    r = tot[(tot["group"] == g) & (tot["year"] == BACI_YEAR)]
+    if r.empty or not r["t"].iloc[0] > 0:
+        return None
+    file_mt, kept_mt = r["t"].iloc[0] / 1e6, r["t_kept"].iloc[0] / 1e6
+    pairs, kept = int(r["pairs"].iloc[0]), int(r["kept"].iloc[0])
+    held = sum(baci.totals(g, "exports").values())
+    if held >= COVERAGE_MIN * file_mt:
+        return None
+    parts = [f"{_nf(file_mt - kept_mt)} Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; {kept:,} of the {pairs:,} pairs of the file are kept)"]
+    if abs(kept_mt - held) >= 0.005 * file_mt:
+        parts.append(f"{_nf(abs(kept_mt - held))} Mt are {'taken out' if kept_mt > held else 'added'} by the cleaning rules (tonnage re-estimated from value, or flows left out)")
+    return (f"{label[:1].upper()}{label[1:]}: the tables hold {_nf(held)} Mt, {held / file_mt:.0%} of the {_nf(file_mt)} Mt that the customs file records for these "
+            f"codes in {BACI_YEAR} (gross weight). The difference: " + "; ".join(parts))
 
 
 def _note_group(baci, g, label):

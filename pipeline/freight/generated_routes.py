@@ -40,7 +40,8 @@ AUDIT_GROUPS = frozenset({"crude-oil", "iron-ore", "coal", "refined-products", "
                           "wheat", "potash", "soybeans"})
 # Groups added to the atlas after the cap above was set, each package with a cap of its own: (groups, cap). Their first corridors are kept first,
 # as for AUDIT_GROUPS, and the corridors kept for the earlier groups do not move when a group is added (a shared cap would drop routes that
-# are published). M-022: the other fertilisers and sulphur (20 routes); M-023: the grains, oilseeds and their products (10); A-010: the metal bulks (10).
+# are published). M-022: the other fertilisers and sulphur (20 routes); M-023: the grains, oilseeds and their products (10); A-010: the metal bulks (10);
+# FNCB: ammonium nitrate with limestone and the two-nutrient compounds, the two fertiliser groups left out of M-022 (6).
 LATER_GROUPS = [(frozenset({"potassium-sulphate", "monoammonium-phosphate", "superphosphates", "phosphoric-acid", "npk", "ammonia",
                             "ammonium-nitrate", "uan", "ammonium-sulphate", "sulphur"}), 20),
                # M-023: the grains, oilseeds and products added after the fertilisers, 10 routes in all for the whole package
@@ -48,7 +49,9 @@ LATER_GROUPS = [(frozenset({"potassium-sulphate", "monoammonium-phosphate", "sup
                            "pulses"}), 10),
                # A-010: the metal bulks (scrap, chromite, pig iron, direct-reduced iron, coke and the ferro-alloys), 10 routes in all for the package
                (frozenset({"ferrous-scrap", "chromium-ore", "pig-iron", "dri", "coke", "ferro-chromium", "ferro-manganese", "silico-manganese",
-                           "ferro-silicon"}), 10)]
+                           "ferro-silicon"}), 10),
+               # review GNC1.4: the two fertiliser groups loaded after the first package, 6 routes in all
+               (frozenset({"ammonium-nitrate-limestone", "npk-two-nutrient"}), 6)]
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).
@@ -268,12 +271,18 @@ def _describe(g, p, c, ports, names, zone, country, cargo_label):
             "what": what, "cargo": cargo}
 
 
-def cap_order(per_group, total_cap=TOTAL_CAP, first=AUDIT_GROUPS):
+# A group of a later package with more than this many Mt of seaborne trade keeps its two largest corridors before the rest of the
+# package's cap is shared by tonnes (review GNC1.7: ten groups shared 20 routes, sulphur got ten and ammonia one).
+TWO_ROUTES_ABOVE_MT = 10
+
+
+def cap_order(per_group, total_cap=TOTAL_CAP, first=AUDIT_GROUPS, second=frozenset()):
     """[(rank, group)] of the corridors kept under the cap of the whole atlas, in the order they are taken: the first
-    corridor of each group of `first` (AUDIT_GROUPS), then the largest corridor (Mt that no hand-written route names) among the next
-    corridor of every group, and so on."""
+    corridor of each group of `first` (AUDIT_GROUPS), then the second of each group of `second`, then the largest corridor (Mt that no
+    hand-written route names) among the next corridor of every group, and so on."""
     order = [(0, g) for g in sorted(per_group) if g in first and per_group[g]]
-    nxt = {g: (1 if g in first else 0) for g in per_group}
+    order += [(1, g) for g in sorted(per_group) if g in second and len(per_group[g]) > 1]
+    nxt = {g: (1 if g in first else 0) + (1 if g in second and len(per_group[g]) > 1 else 0) for g in per_group}
     while len(order) < total_cap:
         heads = [(per_group[g][i]["new"], g) for g, i in nxt.items() if i < len(per_group[g])]
         if not heads:
@@ -303,7 +312,8 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
     later = set().union(*(gs for gs, _ in LATER_GROUPS)) if LATER_GROUPS else set()
     kept = {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g not in later}, total_cap)}
     for gs, cap in LATER_GROUPS:
-        kept |= {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g in gs}, cap, first=gs)}
+        big = {g for g in gs if g in pairs and pairs[g]["seaborne"] > TWO_ROUTES_ABOVE_MT}
+        kept |= {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g in gs}, cap, first=gs, second=big)}
     desc = {(g, i): _describe(g, pairs[g], c, ports_by_group[g], names, zone, country, cargo_label)
             for g, cs in per_group.items() for i, c in enumerate(cs)}
     # two routes of a group never share a name: the zone names tell them apart

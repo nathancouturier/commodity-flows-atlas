@@ -529,9 +529,20 @@ function sharedNotes(tables: Table[], hist: CommodityHistory | null | undefined)
     const kept = [parts[0], ...parts.slice(1).filter((c) => !clauseOut.has(c))];
     if (kept.length < parts.length) data[t.key] = { ...t.data, n: [kept.join('; '), t.data.caveat].filter(Boolean).join(' · ') };
   }
+  // a note that stands under many tables is said once for the kinds of table it covers, not as a list of their titles (the pulses page has ten):
+  // "Tables of exporters and importers, in total and by kind", where the tables are the main ones and the further ones of the same kinds
+  const covers = (ts: Table[], lead: string, collapsed: string) => {
+    const kindOf = (t: Table) => KINDS.find((k) => t.key === k || t.key.endsWith(`-${k}`));
+    const wordOf = (t: Table) => { const k = kindOf(t); return k ? KIND_WORD[k] : label(t); };
+    const words = [...new Set(ts.map(wordOf))];
+    if (ts.length <= 3) return `${lead} ${listText(ts.map(label))}`;
+    const isMain = (t: Table) => (KINDS as readonly string[]).includes(t.key);
+    const byKind = ts.some(isMain) && ts.some((t) => !isMain(t));
+    return `${collapsed} ${listText(words)}${byKind ? ', in total and by kind' : ''}`;
+  };
   const notes = [
-    ...[...clauseOut].map((c) => `In the tables of ${listText(clauses.get(c)!.map(label))}: ${c}`),
-    ...[...seriesOut].map((n) => `Series by year of ${listText(series.get(n)!.map(label))}: ${n}`),
+    ...[...clauseOut].map((c) => `${covers(clauses.get(c)!, 'In the tables of', 'Tables of')}: ${c}`),
+    ...[...seriesOut].map((n) => `${covers(series.get(n)!, 'Series by year of', 'Series by year of')}: ${n}`),
   ];
   return { data, hists, notes };
 }
@@ -637,7 +648,7 @@ export default function CommodityView({ id }: { id: string }) {
         {d?.see?.map((s) => (
           <div class="muted small my-cap" key={s.k}>
             See{' '}
-            <button class="link-btn" onClick={() => openCommodity(s.k)} disabled={!commodityMeta(s.k)}>
+            <button class="link-btn link-inline" onClick={() => openCommodity(s.k)} disabled={!commodityMeta(s.k)}>
               {commodityMeta(s.k)?.name ?? s.k}
             </button>{' '}
             for {s.text}.

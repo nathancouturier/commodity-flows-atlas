@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": "2026/27 forecast",
    "s": "usda-psd",
-   "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+   "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
   },
   "consumption": {
    "v": 824.74,
@@ -353,7 +353,7 @@
     "v": 0.001
    }
   ],
-  "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "n": "USDA PSD, Wheat, wheat production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
   "rel": "2026-11",
   "yk": "forecast"
  },
@@ -3810,7 +3810,7 @@
     "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
    }
   ],
-  "n": "USDA PSD, Wheat: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  "n": "USDA PSD, Wheat: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words, while USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
  },
  "gaps": [
   {
@@ -4133,7 +4133,7 @@
  },
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
-  "The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to the grain tables above, and the flour is not converted to wheat. Wheat flour (HS 110100), 2024 (CEPII BACI): world 13.07 Mt gross weight; top exporters Turkey 3.00 Mt, Kazakhstan 1.85 Mt, Uzbekistan 1.12 Mt. A large part of flour trade moves in bags or boxes, so the atlas draws no lanes for it. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.",
+  "The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to the grain tables above, and the flour is not converted to wheat. Wheat flour (HS 110100), 2024 (CEPII BACI): world 13.07 Mt gross weight; top exporters Turkey 3.00 Mt, Kazakhstan 1.85 Mt, Uzbekistan 1.12 Mt. Customs gross weight does not tell bulk from bagged or boxed cargo and no free source gives the split, so the atlas draws no lanes for flour. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.",
   "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI), of which 11.6 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Egypt 11.1 Mt, Nigeria 0.55 Mt) and 22.9 Mt is as reported; USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 38% below the first and 20% below the second. On the tonnage as reported alone (22.9 Mt) the gap is 59% below the first and 47% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ]
 }

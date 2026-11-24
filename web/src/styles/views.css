@@ -37,6 +37,8 @@
 .kpi-note-btn:hover { color: var(--ink-1); }
 .muted-cap { color: var(--ink-3); }
 .my-cap { margin-top: 4px; }
+/* a link inside a sentence ("See Sulphur for ..."): the name of the page is written as it is, not in capitals */
+.link-btn.link-inline { text-transform: none; letter-spacing: normal; font-size: inherit; }
 
 /* active-disruption banners */
 .alerts { display: grid; gap: 8px; margin: 8px 0 4px; }

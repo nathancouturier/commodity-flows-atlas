@@ -79,6 +79,8 @@ GROUPS = {
     # the other fertilisers and sulphur (M-022); ammonia, UAN and phosphoric acid are liquids (vessel_rules.py)
     "potassium-sulphate": "Mt", "monoammonium-phosphate": "Mt", "superphosphates": "Mt", "phosphoric-acid": "Mt", "npk": "Mt",
     "ammonia": "Mt", "ammonium-nitrate": "Mt", "uan": "Mt", "ammonium-sulphate": "Mt", "sulphur": "Mt",
+    # ammonium nitrate with limestone (HS 310240) and the two-nutrient compounds (HS 310551, 310559, 310560), added with review GNC1.4
+    "ammonium-nitrate-limestone": "Mt", "npk-two-nutrient": "Mt",
     # the grains, oilseeds and products added with M-023: the oils sail in tankers, the rest as grain in dry bulk (vessel_rules.py).
     # Wheat flour and brewing and distilling dregs go in bags and boxes for a large part: tables only, no lanes
     "barley": "Mt", "sorghum": "Mt", "sunflower-seed": "Mt", "sunflower-oil": "Mt", "sunflower-meal": "Mt",
@@ -95,6 +97,7 @@ COMMODITY = {
     "lead-ore": "lead", "lead-metal": "lead", "zinc-metal": "zinc", "tin-metal": "tin", "tin-ore": "tin",
     "potassium-sulphate": "potash", "monoammonium-phosphate": "phosphate", "superphosphates": "phosphate",
     "phosphoric-acid": "phosphate", "ammonia": "urea", "ammonium-nitrate": "urea", "uan": "urea", "ammonium-sulphate": "urea",
+    "ammonium-nitrate-limestone": "urea", "npk-two-nutrient": "npk",
     "sunflower-seed": "sunflower", "sunflower-oil": "sunflower", "sunflower-meal": "sunflower",
     "rapeseed-oil": "rapeseed", "rapeseed-meal": "rapeseed",
     "chromium-ore": "chromium", "dri": "pig-iron", "coke": "met-coal",
@@ -111,6 +114,9 @@ LABEL = {
     "potassium-sulphate": "Potassium sulphate (SOP)", "monoammonium-phosphate": "MAP", "superphosphates": "Superphosphates",
     "phosphoric-acid": "Phosphoric acid", "ammonia": "Ammonia", "ammonium-nitrate": "Ammonium nitrate", "uan": "UAN solution",
     "ammonium-sulphate": "Ammonium sulphate",
+    # HS 310240 is ammonium nitrate mixed with calcium carbonate or other inorganic substances (calcium ammonium nitrate); the three codes of
+    # the second group are the compounds that carry two of the three nutrients (nitrates and phosphates, nitrogen and phosphorus, phosphorus and potassium)
+    "ammonium-nitrate-limestone": "Ammonium nitrate with limestone", "npk-two-nutrient": "Two-nutrient compound fertilisers",
     # what each code holds in HS 1992 (the oils' codes hold two oils each; pulses are every dried leguminous vegetable, shelled)
     "sunflower-seed": "Sunflower seed", "sunflower-oil": "Sunflower and safflower oil", "sunflower-meal": "Sunflower meal",
     "rapeseed-oil": "Rapeseed, canola and mustard oil", "rapeseed-meal": "Rapeseed meal", "pulses": "Dried pulses",
@@ -149,6 +155,7 @@ CAP = {
     "rare-earths": 30,
     "potassium-sulphate": 40, "monoammonium-phosphate": 60, "superphosphates": 40, "phosphoric-acid": 40, "npk": 80,
     "ammonia": 60, "ammonium-nitrate": 40, "uan": 40, "ammonium-sulphate": 60, "sulphur": 60,
+    "ammonium-nitrate-limestone": 40, "npk-two-nutrient": 60,
     "barley": 80, "sorghum": 40, "sunflower-seed": 60, "sunflower-oil": 60, "sunflower-meal": 60, "rapeseed-oil": 60,
     "rapeseed-meal": 40, "pulses": 80,
     "ferrous-scrap": 80, "chromium-ore": 30, "pig-iron": 40, "dri": 30, "coke": 60,
@@ -163,6 +170,8 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          # potassium sulphate (1.5 Mt over 193 seaborne pairs, 54 kt at most) and ammonium nitrate (a few large pairs over 300 small
          # ones): the default floor kept 21% and 57% of their seaborne tonnes in the main set (M-022)
          "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,
+         # ammonium nitrate with limestone (4.1 Mt by sea over 281 pairs): the default floor kept 62% of its seaborne tonnes (FNCB)
+         "ammonium-nitrate-limestone": 0.02,
          # sunflower seed (2.2 Mt by sea over 358 pairs) and rapeseed oil (2.8 Mt over 323 pairs) trade in parcels of a few tens of
          # thousands of tonnes: the default floor kept 49% and 35% of their seaborne tonnes in the main set (M-023)
          "sunflower-seed": 0.01, "rapeseed-oil": 0.01,
@@ -915,7 +924,8 @@ def main():
             **({"n": EST_GROUP[group] + (f". {first[1]}" if first else "")} if group in EST_GROUP else {}),
             "years": years,
             "seaborne": [None if first and y < first[0] else round(sea_tot[y] / div, nt) for y in years],
-            "mixed": [None if first and y < first[0] else round(mtot.get((group, y), 0) / div, nt) for y in years],
+            # three significant digits, not two decimals: 23,849 t of DAP read "Plus 0.020 Mt" (review GNC1.9)
+            "mixed": [None if first and y < first[0] else float(f"{mtot.get((group, y), 0) / div:.3g}") for y in years],
             "world": [None if first and y < first[0] else round(world.get((group, y), 0) / div, nt) for y in years],
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),

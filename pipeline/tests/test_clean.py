@@ -136,9 +136,15 @@ class CleanTests(unittest.TestCase):
 
     def test_D07_isolated_anomalies_count(self):
         df = frame()
-        n = int(df.flag.isin(["uv-suspect-t", "uv-suspect", "uv-repair"]).sum())
+        hit = df[df.flag.isin(["uv-suspect-t", "uv-suspect", "uv-repair"])]
+        n = int(hit.group.isin(C.BULK).sum())
         self.assertTrue(35 <= n <= 47, n)
-        self.assertTrue(set(df[df.flag.isin(["uv-suspect-t", "uv-suspect", "uv-repair"])].group) <= C.BULK)
+        # rule 7 is for the bulk groups; outside them only the rows that rules 3 and 4 keep as reported carry "uv-suspect-t" (package FNCB:
+        # UV_KEPT_GROUPS and KEEP_REPORTED of clean.py)
+        out = hit[~hit.group.isin(C.BULK)]
+        self.assertTrue(set(out.flag) <= {"uv-suspect-t"}, set(out.flag))
+        kept = out.group.isin(C.UV_KEPT_GROUPS) | pd.Series(list(zip(out.group, out.o, out.d, out.year)), index=out.index).isin(list(C.KEEP_REPORTED))
+        self.assertTrue(bool(kept.all()), out[~kept][["group", "o", "d", "year"]].head())
 
     def test_D18_columns_and_compatibility(self):
         df = frame()

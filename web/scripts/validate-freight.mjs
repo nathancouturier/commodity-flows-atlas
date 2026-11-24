@@ -42,6 +42,8 @@ const FLOOR = {
   'lead-ore': 0.02, 'lead-metal': 0.01, 'zinc-metal': 0.015, 'tin-metal': 0.001, 'tin-ore': 0.002, cobalt: 0.002, lithium: 0.005, 'rare-earths': 0.002,
   // the fertilisers whose default floor left their main set under the coverage floor (build_lanes.py FLOOR, package NC1)
   'potassium-sulphate': 0.01, 'ammonium-nitrate': 0.02,
+  // ammonium nitrate with limestone (build_lanes.py FLOOR, package FNCB)
+  'ammonium-nitrate-limestone': 0.02,
   // sunflower seed and rapeseed oil trade in small parcels (build_lanes.py FLOOR, package NC2)
   'sunflower-seed': 0.01, 'rapeseed-oil': 0.01,
   // the ferro-alloys, which trade in parcels of a few thousand tonnes (build_lanes.py FLOOR, package NC3)
