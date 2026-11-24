@@ -386,6 +386,23 @@ class E2PlantBasis(unittest.TestCase):
         self.assertGreaterEqual(n, 14)
         self.assertIn(f"package FNCE, {n} pairs", read("METHODOLOGY.md"))
 
+    def test_si_racha_loads_with_the_plant_basis_and_methodology_counts_its_pairs(self):
+        """FNCI (FNCH's follow-up): the products row of Thailand, whose note says that no page says which refinery exports, takes the basis like the four of FNCH;
+        the crude row of the same town (discharge) keeps the cargo basis."""
+        self.assertEqual(P.basis_of("THA", "refined-products", "load", "THSRI"), P.BASIS_PLANT)
+        self.assertNotEqual(P.basis_of("THA", "crude-oil", "discharge", "THSRI"), P.BASIS_PLANT)
+        lane = load("freight", "lanes", "refined-products.json")
+        self.assertEqual(lane["ports"]["THSRI"]["basis"], P.BASIS_PLANT)
+        self.assertEqual([x["id"] for x in lane["lanes"] if x["load"] == ["THSRI"]], ["refined-products:THA-SGP"])
+        p = load("freight", "pairs", "refined-products.json")
+        i = [x[0] for x in p["ports"]].index("THSRI")
+        rows = [dict(zip(p["cols"], r)) for r in p["rows"] if r[3] in (0, 1) and r[4] == i]
+        self.assertEqual(p["bases"][p["ports"][i][4]], P.BASIS_PLANT)
+        text = " ".join(read("METHODOLOGY.md").split())
+        self.assertIn(f"it loads {len(rows)} pairs of Thailand's refined-products exports, {sum(r['kt'] for r in rows) / 1000:.2f} Mt in 2024", text)
+        tha = load("countries", "profiles", "THA.json")["freight"]["exports"]
+        self.assertEqual(next(x for x in tha if x["g"] == "refined-products")["ports"][0]["basis"], P.BASIS_PLANT)
+
     def test_the_methodology_shares_by_basis_are_the_files(self):
         """Share of 2024 pair-end tonnage by basis (METHODOLOGY section 3), recomputed from the pairs files as the text says."""
         from collections import defaultdict
