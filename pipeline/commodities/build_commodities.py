@@ -2851,7 +2851,10 @@ def _gap_note(baci, g, label):
 def _left_out_note(baci, g):
     """What clean() leaves out of a group as a misclassification (rule 5, the DROP table), in the words of the page that shows the group: who, how
     much in the customs file of the latest year, in which years, why, and that the rows are not counted. None when nothing is left out. For coke the
-    EIA series that the K14 check reads is quoted with its years and Mozambique's coal exports of its last year, from the file (FNCF)."""
+    EIA series that the K14 check reads is quoted with its years, with the series of the coke exports and with the metallurgical coal exports of the
+    last year of the country, from the file (FNCF, FNCI). The rows are out of the coke tables, lanes, passage estimates, history and totals of the
+    commodity pages and of the commodity blocks of the country pages; the all-goods list of a country page, which is the customs value by heading of
+    the unfiltered file, still shows the heading as declared, and the note says so."""
     rows = [r for r in baci.dropped if r["rule"] == "misclassified" and r["group"] == g]
     if not rows:
         return None
@@ -2860,7 +2863,7 @@ def _left_out_note(baci, g):
         mine = [r for r in rows if r["o"] == o]
         latest = [r for r in mine if r["year"] == BACI_YEAR]
         years = sorted({r["year"] for r in mine})
-        s = f"{cname(o)}'s exports under this code are left out of every table, lane and total of the atlas, in each of the {len(years)} years {years[0]} to {years[-1]} in which the customs file records them"
+        s = f"{cname(o)}'s exports under this code are left out of the coke tables, lanes, passage estimates, history and totals of the commodity pages and of the commodity blocks of the country pages, in each of the {len(years)} years {years[0]} to {years[-1]} in which the customs file records them"
         if latest:
             s += f" ({_nf(sum(r['t'] for r in latest) / 1e6)} Mt in {BACI_YEAR}, {len({r['d'] for r in latest})} destinations)"
         s += f": {mine[0]['reason']}"
@@ -2868,11 +2871,22 @@ def _left_out_note(baci, g):
             eia = K._eia_k14()
             ser = ((eia or {}).get(K.NO_PRODUCTION[g][0]) or {}).get(o)
             coal = ((eia or {}).get(K.NO_PRODUCTION[g][2]) or {}).get(o)
+            xser = ((eia or {}).get(K.NO_PRODUCTION[g][3]) or {}).get(o)
             if ser and not any(v > 0 for v in ser.values()):
-                s += f" (EIA International Energy Data: its coke series reads 0 in every year from {min(ser)} to {max(ser)}"
+                s += f" (EIA International Energy Data: its coke production series reads 0 in every year from {min(ser)} to {max(ser)}"
+                if xser:
+                    # the series of the coke exports (21-4) is not the production series (21-1): it can read above 0 where production reads 0
+                    up = sorted(y for y, v in xser.items() if v > 0)
+                    if not up:
+                        s += f" (its coke export series reads 0 in every year from {min(xser)} to {max(xser)} too)"
+                    elif len(up) <= 3:
+                        s += f" (its coke export series reads {', '.join(f'{xser[y]:,.0f} kt in {y}' for y in up)} and 0 in the other years)"
+                    else:
+                        s += f" (its coke export series is above 0 in {len(up)} years, last {xser[up[-1]]:,.0f} kt in {up[-1]})"
                 if coal and coal[max(coal)] > 0:
-                    s += f"; the same file gives it {coal[max(coal)] / 1e3:.3g} Mt of coal exports in {max(coal)}"
+                    s += f"; the same file gives it {coal[max(coal)] / 1e3:.3g} Mt of metallurgical coal exports in {max(coal)}"
                 s += ")"
+            s += f". The all-goods list of the country page of {cname(o)} shows the customs value of heading 2704 as declared"
         out.append(s + ". These rows are not counted: the tables and totals of this group are the customs file less them.")
     return " ".join(out)
 

@@ -75,8 +75,10 @@ is called one where it is shown. The figures below are those of the build from C
   5. **Known misclassifications** are dropped (`DROP`, listed in `pipeline/commodities/QA.md`). Examples: Israeli pipeline gas to Egypt and Jordan
      declared as LNG (Israel has no liquefaction plant), and all of Mozambique's exports under the coke code, in every year and to every destination
      (package FNCF): the EIA series of coke production (International Energy Data, series 21-1, the one that check K14 reads) gives Mozambique zero in every
-     year of the file, so the tonnes are probably coal declared under the coke code, a hypothesis that no source establishes. The coke page says what was left out
-     (1.63 Mt in the customs file of 2024, 16 years from 2005) and that these rows are not counted.
+     year of the file (from 1980 to 2025; its coke export series, 21-4, reads 33 kt in 2023 and 0 in the other years), so the tonnes are probably coal declared under the coke code,
+     a hypothesis that no source establishes. The coke page says what was left out (1.63 Mt in the customs file of 2024, 16 years from 2005) and that these rows are not counted.
+     They are out of the coke tables, lanes, passage estimates, history and totals of the commodity pages and of the commodity blocks of the country pages; the all-goods list of
+     a country page is the customs value by heading of the unfiltered file, so that Mozambique's page still shows heading 2704 as declared (USD 0.257 billion in 2024), and the note says so.
   6. **Qatari LPG in 2021 and 2023** (`DROP_NEW_PAIRS`). Customs data give Qatar about 10 Mt of LPG
      exports a year from 2018 to 2024, except in 2021 and 2023, when pairs that have no LPG in either
      neighbouring year add 29.0 Mt (19 rows, reported tonnage) and 26.5 Mt (12 rows, 11 of them
@@ -189,7 +191,7 @@ is called one where it is shown. The figures below are those of the build from C
   | K11 | the atlas's own infrastructure layers | an LNG exporter with no export terminal in the layer, a crude importer of 1 Mt or more with no refinery in it (QA file only: the layers are hand-built and incomplete) |
   | K12 | the gateways | a pair of 0.5 Mt or more whose main route is more than 2.5× the great-circle distance of its ports (QA file only: it points at a wrong gateway) |
   | K13 | the usual unit value of the product (tonne-weighted median of the group-year) | a pair of one product (unwrought metals, alumina, coke, pig iron, direct-reduced iron...) declared under half of it, 10 kt or more and 1% of the group; the caveat names the cheaper product that may be declared under the code: scrap or alloy by default, coal for coke, iron ore or scrap for pig iron and direct-reduced iron |
-  | K14 | EIA production of the product (coke: series 21-1, with the coal series 130-1 and 130-4 of the Metallurgical coal page) | an exporter of 1% or more of the group's recorded exports that has a series in the EIA file and no production in its latest year (package FNCD found Mozambique, 1.63 Mt, and Zimbabwe, 0.893 Mt, of coke in 2024; since package FNCF Mozambique's coke is dropped by rule 5 of section 1 and the check finds Zimbabwe only); a country with no series is not reported. The note on the row, the page and the lanes says what the customs data record and what the EIA series reads, and that the tonnes may be another product declared under the code (coal where the page's EIA tables show the country as a coal exporter or producer): a possible reading, not established here |
+  | K14 | EIA production of the product (coke: series 21-1, with the metallurgical coal series 130-1, production, and 130-4, exports, of the Metallurgical coal page, not all coal, series 7-4; the coke export series 21-4 is read for the note on what a page leaves out) | an exporter of 1% or more of the group's recorded exports that has a series in the EIA file and no production in its latest year (package FNCD found Mozambique, 1.63 Mt, and Zimbabwe, 0.893 Mt, of coke in 2024; since package FNCF Mozambique's coke is dropped by rule 5 of section 1 and the check finds Zimbabwe only); a country with no series is not reported. The note on the row, the page and the lanes says what the customs data record and what the EIA series reads, and that the tonnes may be another product declared under the code (metallurgical coal where the page's EIA tables show the country as a producer or exporter of it). Where the series has production in an earlier year the note quotes its last two years with production (Zimbabwe: 399 kt in 2022 and 5 kt in 2023) and gives two readings the same weight, that the series no longer covers the country's plants (a series that falls to nothing may be a series that stopped) or that part of the tonnes is another product declared under the code; neither is established here. Where the series reads 0 in every year, the second reading only |
 
 - **No "provisional" label on the latest year.** Neither CEPII's BACI page nor the readme of the
   release says that the latest year is provisional or will be revised, and the pairs that halve
@@ -920,8 +922,9 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     estimates, and the note names both ("IMF PortWatch, data adapted").
   - **Without the raw PortWatch rows** (the scheduled job has none), the volumes by vessel type are
     read from the tracked weekly series (Mt a day times the days of each week inside the year)
-    instead of the daily rows that the committed files come from. For the 18 passages that carry an
-    estimate and a PortWatch counter of their own the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
+    instead of the daily rows that the committed files come from. For the 17 passages that carry an
+    estimate and a PortWatch counter of their own (20 passages carry estimates; Singapore and Cape Horn have no counter, and the counter of the
+    Danish Straits is the Oresund only) the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
     21.1 Mt, and Ombai dry bulk, 134.2 against 134.8 Mt), so such a build can move a capped figure or a K9 reference by under 1 Mt (Lombok
     iron ore "up to": 950.3 Mt from the daily rows, 949.9 Mt from the weekly series).
   - **Check K9** writes, for every passage with a counter, "at least" and "up to" by vessel type
@@ -1486,20 +1489,25 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   oil (a "vegoil" gateway row), so that a palm-oil terminal can be the port of an import of sunflower oil; since package FNCA (review GNC2.7) these two
   oils show such a port with the basis "general port of the country", as no page read names either oil there (`GENERAL_BASIS` in `ports.py`; no port changed).
   France has Rouen and La Pallice for grain, oilseeds and meal (French Wikipedia: Rouen "the first European port for cereals", 12.7 Mt in 2023, with China,
-  Morocco and Algeria as its main destinations; La Rochelle "second French port for cereal exports") and Montoir for soya meal, chosen against Fos by the
+  Morocco and Algeria as its main trading partners and eight "less common destinations"; La Rochelle "second French port for cereal exports") and Montoir for soya meal, chosen against Fos by the
   partner (coast rules `fra-grain-ports` and `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; the router had snapped Rouen to the coast near Dieppe and read 196 nm: package FNCE), not 2,092 nm from Fos.
   The two pages give figures for the ports and none for the split between them: Rouen "12.7 Mt in 2023 (50% of French exports)" of cereals for the whole port, La Pallice 3.0 to 3.5 Mt a year of
-  cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the partners
-  that the Rouen page names (China, Morocco, Algeria) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
-  Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, West and southern
-  Africa, the Americas, the Middle East and the rest of Asia); and Fos stays the port
+  cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the eleven partners
+  that the Rouen page names (China, Morocco and Algeria, then, as destinations "less common" in 2023, Mauritania, Mexico, Thailand, India, Colombia, Madagascar, the United States and
+  South Africa: the principle of the engine is that the page names the partner at a port, so that port; the first version had the first three only) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
+  Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, West and Central
+  Africa, the Americas other than Mexico, Colombia and the United States, the Middle East and the rest of Asia); and Fos stays the port
   of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). No page says that a partner is served by
   one of the two ports only, so the other port is an option of every one of these partners (package FNCH): the lane page prints both distances and says that no source gives the
-  split, and the principal port of no pair changed (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 13 and 11, carry the other port as an option;
-  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, had none before, and every passage and every estimate stayed as it was, since the two ports
-  are on the same seaboard). The split between the two
-  ports is the atlas's rule, not a measured share. In 2024 the atlas loads 11.3 Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, 3.5 Mt at La Pallice and 0.9 Mt
-  at Fos (14.8 Mt at Rouen, none at La Pallice and 0.9 Mt at Fos before the rule, against 12.7 Mt of cereals for the whole port of Rouen on its page); the lanes of La Pallice carry
+  split (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 17 and 7, carry the other port as an option;
+  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, had none before that change, and every passage and every estimate stayed as it was, since the two ports
+  are on the same seaboard). The page's tonnages for China, Morocco and Algeria (2.48, 2.07 and 1.15 Mt) are those of the whole port's trade with each country, not of grain,
+  and the atlas does not use them: the eight "less common destinations" have no tonnage on the page, and what is assumed is the principal port of their pairs, not a quantity. Adding the eight to the named set moved the principal port of 11 of the 202 pairs with France as exporter in these twelve groups
+  (barley to Colombia, India, Mexico and South Africa; pulses and rapeseed to the United States; wheat to Madagascar, Mexico, Mauritania, Thailand and the United States) from La Pallice to Rouen, 0.93 Mt in all
+  (the distances are 52 to 282 nm longer; no passage, no class and no estimate changed, and no pair without France as its exporter moved). The split between the two
+  ports is the atlas's rule, not a measured share. In 2024 the atlas loads 12.3 Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, 2.5 Mt at La Pallice and 0.9 Mt
+  at Fos (11.3 Mt at Rouen, 3.5 Mt at La Pallice and 0.9 Mt at Fos before the eight were added, and 14.8 Mt at Rouen, none at La Pallice and 0.9 Mt at Fos before the rule; Rouen's page gives 12.7 Mt of cereals for the whole port, and the page of La Pallice 3.0 to 3.5 Mt a year,
+  so that the atlas's principal-port tonnage of La Pallice is now below the range of its page: the other port of every pair stays an option, and the page gives no split); the lanes of La Pallice carry
   no river leg (the leg of the Seine is for Rouen). Generated corridors: the eight groups of lanes share a cap of
   10 routes (`LATER_GROUPS`).
 - **Metal bulks** (package NC3, audit A-010). Six pages are new (ferrous scrap, pig iron and DRI, chromium, ferro-alloys,
@@ -1554,7 +1562,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   groups leave the set and keep the reported tonnage of their rows (coke: Belgium → France 2004, China → Brazil 2009, China → India 2006 and 2007, China → United States 2002, 2003
   and 2005; sunflower oil Ukraine → Nepal 2021). China → Brazil 2009, 108 kt declared at 825 USD/t, is one of them (review GV6B.3): the pair's own unit value is 467 to 518 USD/t in 2008 and
   2010 to 2012, the years of the Chinese export tax, so the criterion keeps the reported tonnage rather than the 340 kt that rule 4 would estimate.
-  Package FNCF (the owner's decision on FNCD's first question) drops all of Mozambique's coke by rule 5 of section 1 (`DROP`): the EIA series of coke production gives
+  Since the sixth release (a choice made without the owner, listed in PROGRESS.md) the atlas drops all of Mozambique's coke by rule 5 of section 1 (`DROP`): the EIA series of coke production gives
   Mozambique none in any year, and its exports under the code (16 years, 2005 to 2024: 65.2 Mt in 2016, 65.0 Mt of it to India at 4 USD/t, 3.8 and 8.7 Mt at 26 and 56 USD/t to India in 2021
   and 2022, 1.63 Mt in 2024) are probably coal declared under the coke code, a hypothesis that no source establishes. The world coke series reads
   26.6 Mt in 2016 (was 28.1), 28.3 in 2017 (39.8), 32.2 in 2021 (38.6), 31.5 in 2022 (41.5) and

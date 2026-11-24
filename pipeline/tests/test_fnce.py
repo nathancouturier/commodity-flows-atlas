@@ -291,8 +291,8 @@ class E1DataFiles(unittest.TestCase):
 
 class E2PlantBasis(unittest.TestCase):
     # FNCH H5 (GV7B.5): the loading of refined products at the refinery towns of the EIA briefs (the brief names the refinery, not the berth, and says
-    # nothing of which refinery exports)
-    PLANT_ROWS = {("TUR", "TRERE"), ("TUR", "TRISK"), ("BRA", "BRVLC"), ("MYS", "MYPEN"), ("MYS", "MYPDI"), ("IND", "INBOM"), ("IND", "INVAD")}
+    # nothing of which refinery exports); FNCI adds Si Racha (Thailand), whose note says the same
+    PLANT_ROWS = {("TUR", "TRERE"), ("TUR", "TRISK"), ("BRA", "BRVLC"), ("MYS", "MYPEN"), ("MYS", "MYPDI"), ("IND", "INBOM"), ("IND", "INVAD"), ("THA", "THSRI")}
 
     def test_turkish_exports_of_the_three_groups_load_at_the_steel_works_by_the_coast_rule(self):
         """The page gives no direction: Iskenderun is a row for both roles (it was a discharge row, and the exports to the Mediterranean loaded at
@@ -322,7 +322,8 @@ class E2PlantBasis(unittest.TestCase):
         decided = ("the page names the plant, not its port or the cargo it takes",       # Iskenderun
                    "operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo)",  # Eregli
                    "That the cargo leaves from the Vila do Conde terminals is read from the two pages together",  # Alunorte
-                   "and does not say which refinery exports")  # Pengerang, Port Dickson, Mumbai, Vadinar (FNCH)
+                   "and does not say which refinery exports",  # Pengerang, Port Dickson, Mumbai, Vadinar (FNCH)
+                   "or says which refinery exports")  # Si Racha (FNCI: "No page names the berth or says which refinery exports")
         for iso, rs in P.G.items():
             for r in rs:
                 said = any(s in (r.note or "") for s in decided)
@@ -364,12 +365,12 @@ class E2PlantBasis(unittest.TestCase):
                     seen.add((f[:-5], port[0]))
         groups = {g for g, _ in seen}
         self.assertTrue({"ferrous-scrap", "pig-iron", "dri", "alumina"} <= groups, seen)
-        self.assertEqual({c for _, c in seen}, {"TRERE", "TRISK", "BRVLC", "MYPEN"})  # MYPEN: FNCH (the products pairs of Malaysia; the other three refinery rows are in the lane files only)
+        self.assertEqual({c for _, c in seen}, {"TRERE", "TRISK", "BRVLC", "MYPEN", "THSRI"})  # MYPEN: FNCH (the products pairs of Malaysia; the other three refinery rows are in the lane files only); THSRI: FNCI
         for g, c in seen:
             lane = load("freight", "lanes", g + ".json")["ports"].get(c)
             if lane:
                 self.assertEqual(lane["basis"], P.BASIS_PLANT, (g, c))
-                self.assertEqual(lane["s"], "eia-cab" if c == "MYPEN" else "wikipedia")
+                self.assertEqual(lane["s"], "eia-cab" if c in ("MYPEN", "THSRI") else "wikipedia")
                 self.assertTrue(lane["url"])
 
     def test_turkish_exports_load_at_the_steel_works_in_the_files_and_methodology_counts_them(self):

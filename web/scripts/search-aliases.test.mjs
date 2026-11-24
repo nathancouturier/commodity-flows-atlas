@@ -14,12 +14,16 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(here, '../src/lib/search.ts'), 'utf8');
 const literal = src.slice(src.indexOf('const COMMODITY_ALIASES'), src.indexOf('const cap ='));
 const ALIASES = new Function(`return ${literal.slice(literal.indexOf('= {') + 2, literal.lastIndexOf('};') + 1)}`)();
+// the tie among the five fertiliser pages is read from the source as well (FNCI, GV8B.5)
+const pagesLiteral = src.slice(src.indexOf('const FERTILISER_PAGES'), src.indexOf('/** Trade names of the products'));
+const FERTILISER_PAGES = new Function(`return ${pagesLiteral.slice(pagesLiteral.indexOf('= [') + 2, pagesLiteral.lastIndexOf('];') + 1)}`)();
 const index = JSON.parse(fs.readFileSync(path.join(here, '../../data/commodities/index.json'), 'utf8'));
 const items = (Array.isArray(index) ? index : index.commodities).map((c) => ({
   kind: 'commodity',
   id: c.id,
   label: c.name,
   order: c.rank,
+  tie: FERTILISER_PAGES.indexOf(c.id) >= 0 ? FERTILISER_PAGES.indexOf(c.id) : undefined,
   d: prepare([c.name, ...(ALIASES[c.id] ?? [])], [c.id], [c.family, 'commodity']),
 }));
 const find = (q) => matchKind(tokens(q), items, 'commodity').map((m) => m.item.id);
@@ -146,6 +150,18 @@ test('"can": Canada comes first, the nitrogen page has no bare "CAN" alias, "cal
 test('"fertiliser" and "fertilizer" give the same pages in the same order', () => {
   assert.deepEqual(find('fertiliser'), find('fertilizer'));
   assert.deepEqual(find('fertiliser').slice(0, 5).sort(), ['npk', 'phosphate', 'potash', 'sulphur', 'urea']);
+});
+
+test('"fertiliser" and "fertilizer" give the five pages in the order of the seaborne tonnage of their groups, and the trade names keep their own page', () => {
+  const root = path.join(here, '../../data/freight/pairs');
+  const groups = { urea: ['urea', 'uan', 'ammonia', 'ammonium-nitrate', 'ammonium-nitrate-limestone', 'ammonium-sulphate'], phosphate: ['phosphate-rock', 'dap', 'monoammonium-phosphate', 'phosphoric-acid', 'tsp'], potash: ['potash', 'potassium-sulphate'], sulphur: ['sulphur'], npk: ['npk', 'npk-two-nutrient'] };
+  const tonnes = Object.fromEntries(Object.entries(groups).map(([id, gs]) => [id, gs.filter((g) => fs.existsSync(path.join(root, `${g}.json`))).reduce((t, g) => t + JSON.parse(fs.readFileSync(path.join(root, `${g}.json`), 'utf8')).seaborne, 0)]));
+  const byTonnes = Object.keys(tonnes).sort((a, b) => tonnes[b] - tonnes[a]);
+  assert.deepEqual(FERTILISER_PAGES, byTonnes, JSON.stringify(tonnes));
+  for (const q of ['fertiliser', 'fertilizer']) assert.deepEqual(find(q).slice(0, 5), byTonnes, q);
+  for (const [q, id] of [['potash', 'potash'], ['DAP', 'phosphate'], ['sulfur', 'sulphur'], ['NPK', 'npk']]) assert.deepEqual(find(q).slice(0, 1), [id], q);
+  // the tie decides nothing among pages that do not match alike, and nothing without a query
+  assert.deepEqual(matchKind([], items, 'commodity').map((m) => m.item.id).filter((id) => FERTILISER_PAGES.includes(id)), ['potash', 'phosphate', 'urea', 'sulphur', 'npk']);
 });
 
 test('the other queries of the review keep their first page: HMS, moly, sulfur, canola oil, lentils', () => {

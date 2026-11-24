@@ -469,9 +469,10 @@ def k13(df, year):
 
 # K14: a group whose exporters should be producers of the product, against an EIA table of its production (FNCD, D4: the customs coke table
 # of the metallurgical coal page ranked Mozambique sixth with 1.63 Mt, and the EIA table of coke production of the same page gives it none).
-# group -> (EIA series of the production, of the coal production and of the coal exports, product named in the finding). The EIA series of
-# metallurgical coal are the ones of the page that holds the coke tables.
-NO_PRODUCTION = {"coke": (("21-1", "MT"), ("130-1", "MT"), ("130-4", "MT"), "coke and semi-coke (HS 2704)")}
+# group -> (EIA series of the production, of the metallurgical coal production and of the metallurgical coal exports, of the exports of the product,
+# product named in the finding). The EIA series of metallurgical coal (130-1, 130-4: not all coal, series 7-4) are the ones of the page that holds the
+# coke tables; the series of the exports of the product (21-4) is read for the note on what a page leaves out.
+NO_PRODUCTION = {"coke": (("21-1", "MT"), ("130-1", "MT"), ("130-4", "MT"), ("21-4", "MT"), "coke and semi-coke (HS 2704)")}
 NO_PRODUCTION_SHARE = 0.01  # an exporter with at least this share of the group's recorded exports of the year
 _EIA_K14 = {}
 
@@ -480,7 +481,7 @@ def _eia_k14(raw=None):
     """EIA series for K14, read once per process: {(series, unit): {code: {year: value}}} or None without the file."""
     key = raw or RAW
     if key not in _EIA_K14:
-        keys = sorted({k for v in NO_PRODUCTION.values() for k in v[:3]})
+        keys = sorted({k for v in NO_PRODUCTION.values() for k in v[:4]})
         _EIA_K14[key] = eia_series(keys, raw)
     return _EIA_K14[key]
 
@@ -494,7 +495,7 @@ def k14(df, year, raw=None, eia=None):
     eia = eia or _eia_k14(raw)
     if not eia:
         return out
-    for g, (pk, ck, xk, what) in NO_PRODUCTION.items():
+    for g, (pk, ck, xk, _ek, what) in NO_PRODUCTION.items():
         prod = eia.get(pk) or {}
         world = prod.get("WORL") or {}
         x = df[(df["group"] == g) & (df["year"] == year) & (df["t"] > 0)]
@@ -512,6 +513,8 @@ def k14(df, year, raw=None, eia=None):
             coal_x = (eia.get(xk) or {}).get(c, {}).get(ey) or 0.0
             out.append({"check": "K14", "group": g, "year": year, "o": c, "value": round(t / 1e6, 3), "share": round(t / total, 4),
                         "eiaYear": ey, "firstYear": min(ser), "lastYear": pos[-1] if pos else None, "lastKt": round(ser[pos[-1]], 1) if pos else None,
+                        # the year with production before the last one: a series that falls from 399 kt to 5 kt and to nothing may be a series that stopped
+                        "priorYear": pos[-2] if len(pos) > 1 else None, "priorKt": round(ser[pos[-2]], 1) if len(pos) > 1 else None,
                         "coalKt": round(coal, 1), "coalExportKt": round(coal_x, 1), "level": "flag",
                         "text": (f"{label(g)[:1].upper()}{label(g)[1:]} exports of {_name(c)} in {year}: {_mt(t / 1e6)} in customs data (CEPII BACI), "
                                  f"{t / total:.1%} of the world total; the EIA table of production of the product for {ey} gives it none "
@@ -564,7 +567,7 @@ def run(df, year, raw=None, ran=None):
     if psd:
         do("K1", k1, df, year, psd)
         do("K2", k2, df, year, psd)
-    eia = read("EIA INTL", eia_series, [("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")] + sorted({k for v in NO_PRODUCTION.values() for k in v[:3]}), raw) or {}
+    eia = read("EIA INTL", eia_series, [("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")] + sorted({k for v in NO_PRODUCTION.values() for k in v[:4]}), raw) or {}
     # a file that holds none of a check's series has not checked anything: the check is not run
     if eia.get(("57-1", "MT")) and eia.get(("57-1", "TBPD")):
         do("K3", k3, df, year, eia)

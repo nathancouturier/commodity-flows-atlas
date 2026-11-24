@@ -101,7 +101,7 @@ KEEP_REPORTED = {
     ("monoammonium-phosphate", "RUS", "PAK", 2005): "the pair's unit value is 775 and 590 in the next two years, like the 886 of the row: tonnage and value agree",
     ("ammonium-sulphate", "UKR", "DZA", 2015): "tonnage in line with the pair's only other year (3.4 kt); the value is 81 times that year's",
     ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 45 to 204 times theirs (USD 0.4 to 1.7 million)",
-    ("dri", "CHN", "SAU", 2018): "no tonnage is recorded and the value (USD 60 million) is above that of every other year (USD 4.5 to 39.7 million); the estimate (181 kt) is 3.7 times the pair's largest year (48 kt)",
+    ("dri", "CHN", "SAU", 2018): "no tonnage is recorded and the value (USD 60 million) is above that of every other year (USD 3.1 to 39.6 million); the estimate (181 kt) is 3.7 times the pair's largest year (48 kt)",
     ("dri", "CHN", "SAU", 2019): "no tonnage is recorded; the estimate (66 kt) is 1.4 times the pair's largest year (48 kt)",
     ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 240 times that year's",
     ("sulphur", "MYS", "KOR", 2003): "the pair's unit value is 1,089 to 1,447 USD/t in 2004 to 2007, 14 to 18 times the group median of 2003 (80): the estimate (121 kt) is 16 times the tonnage of 2004 (7.6 kt)",
@@ -165,7 +165,7 @@ ESTIMATE_ROWS = {}
 # (group, exporter, importer or None for any) -> reason
 DROP = {
     ("lng", "ISR", None): "Israel has no liquefaction plant: this is pipeline gas to Egypt and Jordan declared under HS 2711.11",
-    # FNCF (decision on FNCD's first question, review GV6B.3): the EIA table of coke production (International Energy Data, series 21-1, the one
+    # FNCF (a choice made without the owner, listed in PROGRESS.md; review GV6B.3): the EIA table of coke production (International Energy Data, series 21-1, the one
     # that check K14 reads) gives Mozambique zero in every year, so its exports under HS 2704 are a product that the country
     # cannot have made: coal declared under the coke code, a hypothesis that no source confirms. Every year, every destination.
     ("coke", "MOZ", None): "the EIA series of coke production gives Mozambique none in any year, so its exports under the coke code are probably coal "

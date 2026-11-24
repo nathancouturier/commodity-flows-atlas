@@ -52,6 +52,21 @@ class G1PassageNotes(unittest.TestCase):
         self.assertEqual(BF.ktn(0.0123), "12.3 kt")
         self.assertEqual(BF.ktn(0.00004), "under 0.1 kt")
 
+    def test_the_near_line_never_says_100_percent_while_the_tonnage_is_below(self):
+        """FNCI (GV8B.7): {low / ref:.0%} printed "100%" for a ratio of 99.5% to 100%; the share is floored."""
+        self.assertEqual([BF.pct_floor(v, 1000.0) for v in (997.0, 995.0, 999.9, 1000.0, 904.0, 936.7, 970.1)], ["99%", "99%", "99%", "100%", "90%", "93%", "97%"])
+        n = BF.passage_type_note("dry", "near", 997.0, 1000.0, 1100.0, 2023, 2024, "", "whole", 0, 3)
+        self.assertIn("is 99% of IMF PortWatch's 1,000 Mt for all dry bulk ships in 2024", n["line"])
+        self.assertNotIn("100%", n["line"])
+        self.assertEqual(n["cmp"], "near")
+        # the lines of the file are those of the function: Makassar dry bulk, 1,016.1 of 1,084.7 Mt, is 93.7% and reads 93%
+        mak = next(c for c in load(DATA, "freight", "chokepoints.json") if c["id"] == "makassar")["typeNotes"]["dry"]
+        self.assertIn(f"is {BF.pct_floor(mak['low'], mak['ref'])} of IMF PortWatch's", mak["line"])
+        for c in load(DATA, "freight", "chokepoints.json"):
+            for tn in (c.get("typeNotes") or {}).values():
+                if tn["cmp"] == "near":
+                    self.assertIn(f"is {BF.pct_floor(tn['low'], tn['ref'])} of ", tn["line"], c["id"])
+
     def test_a_note_is_written_from_the_figure_that_is_stored(self):
         """The rounding twice (the file stores 5.865, the page prints 5.87) is the case of the review: the note says 5.87, from the stored figure."""
         def row(o, d, t, via=()):
@@ -392,6 +407,17 @@ class G9Methodology(unittest.TestCase):
         self.assertGreater(whole, 100)  # the 138 of the review: the estimates of the types under the whole-volume regime
         size = os.path.getsize(os.path.join(DATA, "freight", "chokepoints.json"))
         self.assertIn(f"was 882,538 bytes and is {size:,}", self.text)
+        # FNCI (GV8B.3): "the 18 passages that carry an estimate and a PortWatch counter of their own" were 17 by the builder's own test (`own` of
+        # chokepoint_shares: a counter of the passage, not of a part of it); 20 passages carry estimates; Singapore and Cape Horn have no counter
+        with_est = [c for c in chk.values() if c.get("estimates")]
+        own = [c["id"] for c in with_est if c.get("portwatch") and not c.get("portwatchLabel")]
+        self.assertEqual((len(with_est), len(own)), (20, 17))
+        self.assertEqual(sorted(c["id"] for c in with_est if c["id"] not in own), ["cape-horn", "danish-straits", "singapore"])
+        self.assertTrue(all(not c.get("portwatch") for c in chk.values() if c["id"] in ("singapore", "cape-horn")))
+        self.assertIn("Oresund", chk["danish-straits"]["portwatchLabel"])
+        self.assertIn(f"For the {len(own)} passages that carry an estimate and a PortWatch counter of their own ({len(with_est)} passages carry estimates; Singapore and Cape Horn have no counter, "
+                      "and the counter of the Danish Straits is the Oresund only)", self.text)
+        self.assertNotIn("For the 18 passages", self.text)
 
 
 class G13Prices(unittest.TestCase):
@@ -423,7 +449,10 @@ class G10Recipe(unittest.TestCase):
     def test_the_recipe_has_the_price_paragraph_and_section_7_and_the_later_rounds(self):
         recipe = flat(read("docs", "ADDING_A_COMMODITY.md"))
         self.assertIn("Pink Sheet series that is already published without a page (`NO_PAGE` of `build_prices.py`", recipe)
-        self.assertIn("is attached by changing its key in `PINK` to the page's id and deleting its entry of `NO_PAGE`", recipe)
+        self.assertNotIn("is attached by changing its key in `PINK`", recipe)
+        self.assertNotIn("palm kernel oil is there under the key `softs`", recipe)
+        self.assertIn("is attached by changing its page key, the second element of its tuple in `PINK`, to the page's id, and deleting its entry of `NO_PAGE`", recipe)
+        self.assertIn("(the key of `PINK` itself is the World Bank column name, `\"Palm kernel oil\"`, which the header check reads: leave it)", recipe)
         self.assertIn("7 (prices: a series attached, a unit, a note)", recipe)
         self.assertIn("## 7. What the review rounds after the first three packages added (FNCD to FNCG)", read("docs", "ADDING_A_COMMODITY.md"))
         # the caveat kinds of the recipe are the kinds of the file
@@ -442,6 +471,15 @@ class G10Recipe(unittest.TestCase):
         self.assertTrue(hasattr(CV, "REGISTRY"))
         NO_PAGE = __import__("build_prices").NO_PAGE
         self.assertIn("palm-kernel-oil", NO_PAGE)  # the example of the recipe
+        # FNCI (GV8B.2): what the recipe says of the two tables, read from build_prices.py: the key of NO_PAGE is the series' page key and its value the family;
+        # the key of PINK is the World Bank column, which the header check reads, and the page key is the second element of the tuple
+        BP = __import__("build_prices")
+        self.assertEqual(NO_PAGE["palm-kernel-oil"], "softs")
+        self.assertEqual(BP.PINK["Palm kernel oil"][1], "palm-kernel-oil")
+        self.assertIn("palm-kernel-oil", {v[1] for v in BP.PINK.values()})
+        self.assertNotIn("palm-kernel-oil", BP.PINK)  # the key of PINK is not a page key
+        self.assertIn("`palm-kernel-oil`", recipe)
+        self.assertIn("`softs`", recipe)
 
 
 if __name__ == "__main__":

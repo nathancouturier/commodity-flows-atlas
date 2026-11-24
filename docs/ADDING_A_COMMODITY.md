@@ -78,8 +78,9 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
   `TRADE`, `PSD` and `PSD_WHAT` entries), notes with the codes left out, `see.append({"k": page,
   "text": ...})` for a product of another page (drawn "See <page> for <text>."), `name_it()` for titles and KPI labels.
 - A page with no free production table says so in a note (`No production table: ...`). Prices: look before you write that a page has none. A Pink Sheet series that is
-  already published without a page (`NO_PAGE` of `build_prices.py`: palm kernel oil is there under the key `softs`, so adding its customs groups to the Palm oil page does not
-  attach it) is attached by changing its key in `PINK` to the page's id and deleting its entry of `NO_PAGE`; the page's `PRICE_COVERAGE_NOTE` then says which
+  already published without a page (`NO_PAGE` of `build_prices.py`: its keys are the page keys of the series, here `palm-kernel-oil`, and its values the family that the series
+  is listed under, `softs`; so adding its customs groups to the Palm oil page does not attach it) is attached by changing its page key, the second element of its tuple in `PINK`,
+  to the page's id, and deleting its entry of `NO_PAGE` (the key of `PINK` itself is the World Bank column name, `"Palm kernel oil"`, which the header check reads: leave it); the page's `PRICE_COVERAGE_NOTE` then says which
   products of the page the series prices, and METHODOLOGY section 7 (prices) lists it. With no series at all there is nothing to write: the page shows "No free price series" by
   itself. Prices only from the World Bank file (`build_prices.py` `PINK` with its `PINK_DESC`
   row, `NO_PAGE`, `ADDED`; `PINK_LEFT_OUT` lists the columns the atlas leaves out) and from the USGS file on disk: look first in the price rows of

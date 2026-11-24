@@ -1,4 +1,4 @@
-/** A page that no longer exists says so and gives a way back (GV6D.7): the route page, the lane page and the unknown commodity page. */
+/** A page that no longer exists says so and gives a way back (GV6D.7): the route page, the lane page and the unknown commodity page; the passage and the vessel class too (FNCI, GV8B.4). */
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -30,4 +30,25 @@ test('the link is inside the placeholder, so that a page with only that message 
   // DetailPanel.readTitle looks for a placeholder that is the only child of .panel-scroll
   assert.match(read('components/DetailPanel.tsx'), /\.panel-scroll > \.placeholder:only-child/);
   assert.match(read('components/ui.tsx'), /export function WayBack/);
+});
+
+test('an unknown passage links to the list of passages and an unknown vessel class to the Freight view', () => {
+  const cp = read('components/views/ChokepointView.tsx');
+  assert.match(cp, /This chokepoint is not in the atlas catalogue\.<WayBack onClick=\{\(\) => select\(\{ kind: 'board', id: 'chokepoints' \}\)\}>All passages<\/WayBack><\/Placeholder>/);
+  assert.match(cp, /import \{[^}]*\bWayBack\b[^}]*\} from '\.\.\/ui'/);
+  // the button of the passage pages that it repeats opens the same board
+  assert.match(cp, /onClick=\{\(\) => select\(\{ kind: 'board', id: 'chokepoints' \}\)\} title="Every passage[^"]*">All passages<\/button>/);
+  const vessel = read('components/views/VesselView.tsx');
+  assert.match(vessel, /This vessel class is not in the atlas catalogue\.<FreightWayBack \/><\/Placeholder>/);
+  assert.match(vessel, /import \{[^}]*\bFreightWayBack\b[^}]*\} from '\.\/shared'/);
+});
+
+test('the source line of the estimates lists PortWatch whenever a ship-type line is printed or a shown figure is capped (FNCI, GV8B.1)', () => {
+  const cp = read('components/views/ChokepointView.tsx');
+  assert.match(cp, /const typeLines = TYPE_ORDER\.filter\(\(t\) => cp\.typeNotes\?\.\[t\]\);/);
+  assert.match(cp, /typeLines\.map\(\(t\) =>/);
+  assert.match(cp, /\.\.\.\(typeLines\.length \|\| shown\.some\(isCapped\) \? \[\{ s: 'portwatch'/);
+  // the passages that print a type line, from the file: every one of them lists PortWatch
+  const notes = JSON.parse(fs.readFileSync(path.join(here, '../../data/freight/chokepoints.json'), 'utf8')).filter((c) => Object.keys(c.typeNotes ?? {}).length);
+  assert.ok(notes.length > 0, String(notes.length));
 });

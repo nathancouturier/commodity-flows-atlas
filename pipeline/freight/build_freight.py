@@ -287,6 +287,11 @@ def alert_reason(alerts, cid, latest):
     return None
 
 
+def pct_floor(part, whole):
+    """A share in whole percent, rounded down: "100%" only where the part is the whole or more (a ratio of 0.997 is 99%, not 100%)."""
+    return f"{int(100 * part / whole + 1e-9)}%"
+
+
 def passage_type_note(typ, kind, low, ref, best, best_y, year, reason, regime, capped, groups):
     """The note of a ship type at a passage, written once on the passage record (`typeNotes`, GV6D.1) and not in the note of each estimate:
     where the "at least" tonnage of the atlas for the type is above IMF PortWatch's volume of the same year, or within PW_NEAR of it, and
@@ -306,7 +311,7 @@ def passage_type_note(typ, kind, low, ref, best, best_y, year, reason, regime, c
         n = (f"{pw_est}, and {subset}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the "
              f"{year} traffic. {reason}")
     elif kind == "near":
-        s = f"{head}: 'at least' {mtn(low)} is {low / ref:.0%} of {vs}; the ports or routes the atlas assumes may overstate the passage."
+        s = f"{head}: 'at least' {mtn(low)} is {pct_floor(low, ref)} of {vs}; the ports or routes the atlas assumes may overstate the passage."
         n = (f"{pw_est}, and {subset}, so an 'at least' tonnage this close to it leaves little room: the ports or routes the atlas assumes "
              "may overstate the passage")
     elif kind == "noalert":

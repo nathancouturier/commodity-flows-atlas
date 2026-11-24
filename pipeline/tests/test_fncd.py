@@ -403,13 +403,54 @@ class D4CokeExportersWithoutProduction(unittest.TestCase):
         import pandas as pd
         import checks as K
         df = pd.DataFrame([{"year": 2024, "group": "coke", "o": o, "d": "IND", "t": t, "usd": t * 0.3, "imputed": False}
-                           for o, t in (("AAA", 5e6), ("BBB", 4e6), ("CCC", 3e6), ("DDD", 1e6))])
-        series = {"WORL": {2025: 100.0}, "AAA": {2025: 50.0}, "BBB": {2025: 0.0, 2020: 40.0}, "CCC": {2025: 0.0}}  # DDD: no series at all
+                           for o, t in (("AAA", 5e6), ("BBB", 4e6), ("CCC", 3e6), ("DDD", 1e6), ("EEE", 2e6))])
+        series = {"WORL": {2025: 100.0}, "AAA": {2025: 50.0}, "BBB": {2025: 0.0, 2020: 40.0}, "CCC": {2025: 0.0}, "EEE": {2025: 0.0, 2023: 5.0, 2022: 399.0, 2021: 330.0}}  # DDD: no series at all
         eia = {("21-1", "MT"): series, ("130-1", "MT"): {"CCC": {2025: 1200.0}}, ("130-4", "MT"): {"CCC": {2025: 800.0}}}
         out = K.k14(df, 2024, eia=eia)
-        self.assertEqual([r["o"] for r in out], ["BBB", "CCC"])
+        self.assertEqual([r["o"] for r in out], ["BBB", "CCC", "EEE"])
         self.assertEqual((out[0]["lastYear"], out[0]["lastKt"], out[0]["coalKt"]), (2020, 40.0, 0.0))
         self.assertEqual((out[1]["lastYear"], out[1]["coalKt"], out[1]["coalExportKt"]), (None, 1200.0, 800.0))
+        # FNCI (GV8A.3): the year with production before the last one is in the finding (a series that falls from 399 kt to 5 kt and to nothing)
+        self.assertEqual((out[0]["priorYear"], out[0]["priorKt"]), (None, None))
+        self.assertEqual((out[1]["priorYear"], out[1]["priorKt"]), (None, None))
+        self.assertEqual((out[2]["lastYear"], out[2]["lastKt"], out[2]["priorYear"], out[2]["priorKt"]), (2023, 5.0, 2022, 399.0))
+
+    def test_the_wording_depends_on_what_the_series_has_before(self):
+        """FNCI (GV8A.3): a series with production in an earlier year gives two readings with the same weight and the last two years with production;
+        a series that reads 0 in every year keeps the wording of the second reading only; one year with production quotes that year."""
+        import caveats as CV
+        base = {"group": "coke", "o": "ZWE", "year": 2024, "value": 0.893, "share": 0.0271, "eiaYear": 2025, "firstYear": 1980, "coalKt": 1248.5, "coalExportKt": 0.0}
+        two = CV._no_production(dict(base, lastYear=2023, lastKt=4.96, priorYear=2022, priorKt=398.64))
+        self.assertIn("(its series reads 0 in 2025, and its last two years with production are 399 kt in 2022 and 5 kt in 2023; EIA International Energy Data)", two)
+        self.assertIn("a series that falls from 399 kt to 5 kt and then to nothing may be a series that stopped", two)
+        self.assertEqual(two.count("not established"), 0)
+        self.assertTrue(two.endswith("Neither is established here."))
+        one = CV._no_production(dict(base, lastYear=2020, lastKt=40.0, priorYear=None, priorKt=None))
+        self.assertIn("its last year with production is 40 kt in 2020", one)
+        self.assertIn("a series that ends at 40 kt and then reads nothing may be a series that stopped", one)
+        none = CV._no_production(dict(base, lastYear=None, lastKt=None, priorYear=None, priorKt=None))
+        self.assertIn("its series reads 0 in every year from 1980 to 2025", none)
+        self.assertTrue(none.endswith("a possible reading, not established here."))
+        self.assertNotIn("Two readings fit", none)
+        for t in (two, one, none):
+            self.assertIn("metallurgical coal for instance", t)
+
+    def test_the_finding_of_zimbabwe_carries_the_two_years_and_they_are_the_series_of_the_file(self):
+        f = next(r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"] if r["check"] == "K14")
+        self.assertEqual((f["o"], f["lastYear"], f["priorYear"]), ("ZWE", 2023, 2022))
+        self.assertAlmostEqual(f["lastKt"], 5.0, delta=0.05)
+        self.assertAlmostEqual(f["priorKt"], 398.6, delta=0.05)
+        eia = os.path.join(ROOT, "raw", "eia", "INTL.txt")
+        if os.path.exists(eia):
+            with open(eia, encoding="utf-8") as fh:
+                for line in fh:
+                    if '"INTL.21-1-ZWE-MT.A"' in line:
+                        ser = {int(y): v for y, v in json.loads(line)["data"] if v}
+                        pos = sorted(ser)
+                        self.assertEqual((pos[-2], round(ser[pos[-2]], 1), pos[-1], round(ser[pos[-1]], 1)), (f["priorYear"], f["priorKt"], f["lastYear"], f["lastKt"]))
+                        break
+                else:
+                    self.fail("series 21-1 of Zimbabwe not in the file")
 
     def test_the_row_note_the_page_note_the_lane_caveat_and_the_country_page_say_it(self):
         cv = self.caveats()
@@ -420,15 +461,23 @@ class D4CokeExportersWithoutProduction(unittest.TestCase):
             e = cv[f"nop-coke-{iso}"]
             self.assertEqual((e["kind"], e["group"], e["o"], e["d"]), ("no-production", "coke", iso, None))
             for part in ("Customs data record", "of coke and semi-coke exported from", "(CEPII BACI, HS 2704)", "gives", "no coke production in 2025",
-                         "EIA International Energy Data", "may be another product declared under the coke code", coal, "a possible reading, not established here"):
+                         "EIA International Energy Data", "another product declared under the coke code", coal, "established here"):
                 self.assertIn(part, e["text"], (iso, part))
             row = next(r for r in cust["rows"] if r["c"] == iso)
             self.assertIn(e["text"], row["n"])
             self.assertIn(e["text"], met["notes"])
             prof = load(DATA, "countries", "profiles", iso + ".json")
             self.assertTrue(any(g["id"] == f"nop-coke-{iso}" for g in prof["gaps"]), iso)
-        self.assertIn("last reads 5 kt in 2023", cv["nop-coke-ZWE"]["text"])
-        self.assertIn("1.25 Mt in 2025 and no exports", cv["nop-coke-ZWE"]["text"])
+        t = cv["nop-coke-ZWE"]["text"]
+        self.assertNotIn("last reads 5 kt in 2023", t)
+        # FNCI (GV8A.3): the last two years with production, the two readings with the same weight, and the coal of the series 130-1 named for what it is
+        self.assertIn("its last two years with production are 399 kt in 2022 and 5 kt in 2023", t)
+        self.assertIn("Two readings fit, with the same weight: the EIA series no longer covers the country's coke plants (a series that falls from 399 kt to 5 kt and then to nothing may be a series that stopped), "
+                      "or part of these tonnes is another product declared under the coke code, metallurgical coal for instance", t)
+        self.assertTrue(t.endswith("Neither is established here."))
+        self.assertIn("1.25 Mt in 2025 and no exports", t)
+        self.assertNotIn(", coal for instance", t)
+        self.assertIn("metallurgical coal for instance", t)
         # no other exporter of the table has the note
         notes = [r["c"] for r in cust["rows"] if "no coke production" in (r.get("n") or "")]
         self.assertEqual(sorted(notes), ["ZWE"])

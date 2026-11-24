@@ -4355,6 +4355,8 @@
 "firstYear": 1980,
 "lastYear": 2023,
 "lastKt": 5.0,
+"priorYear": 2022,
+"priorKt": 398.6,
 "coalKt": 1248.5,
 "coalExportKt": 0.0,
 "level": "flag",

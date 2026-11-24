@@ -429,27 +429,35 @@ def _low_unit_value(r):
 
 def _no_production(r):
     """An exporter of a group whose product the EIA table of production gives no producer (check K14): what the customs data record, what the EIA
-    series reads, and the reading that these tonnes may be another product declared under the code (coal, where the atlas's coal tables give the
-    country coal). Every figure is read from the finding; no cause is stated."""
+    series reads, and what the tonnes may be. A series that has production in an earlier year gives two readings with the same weight: the series no
+    longer covers the country's plants, or part of the tonnes is another product declared under the code (metallurgical coal, where the atlas's tables
+    give the country some). A series that reads 0 in every year gives the second reading only. Every figure is read from the finding; no cause is stated."""
     g, o = r["group"], r["o"]
     n = name(o)
-    if r["lastYear"] is None:
-        eia = f"its series reads 0 in every year from {r['firstYear']} to {r['eiaYear']}"
-    else:
-        eia = (f"its series reads 0 in {r['eiaYear']} and last reads {r['lastKt']:,.0f} kt in {r['lastYear']}" if r["lastYear"] < r["eiaYear"] - 1 else
-               f"its series reads 0 in {r['eiaYear']} and {r['lastKt']:,.0f} kt in {r['lastYear']}")
     if r["coalExportKt"] > 0:
-        coal = (f", coal for instance, which the EIA tables of the Metallurgical coal page show {n} exporting "
+        coal = (f", metallurgical coal for instance, which the EIA tables of the Metallurgical coal page show {n} exporting "
                 f"({r['coalExportKt'] / 1e3:.3g} Mt in {r['eiaYear']})")
     elif r["coalKt"] > 0:
-        coal = (f", coal for instance, of which the EIA tables of the Metallurgical coal page give {n} a production of "
+        coal = (f", metallurgical coal for instance, of which the EIA tables of the Metallurgical coal page give {n} a production of "
                 f"{r['coalKt'] / 1e3:.3g} Mt in {r['eiaYear']} and no exports")
     else:
         coal = ""
-    return (f"Customs data record {mt(r['value'])} of {K.label(g)} exported from {n} in {r['year']} (CEPII BACI, HS 2704), {r['share']:.1%} of "
+    head = (f"Customs data record {mt(r['value'])} of {K.label(g)} exported from {n} in {r['year']} (CEPII BACI, HS 2704), {r['share']:.1%} of "
             f"the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives {n} no coke production in "
-            f"{r['eiaYear']} ({eia}; EIA International Energy Data). These tonnes may be another product declared under the coke code{coal}: "
-            "a possible reading, not established here.")
+            f"{r['eiaYear']} (")
+    if r["lastYear"] is None:
+        return (f"{head}its series reads 0 in every year from {r['firstYear']} to {r['eiaYear']}; EIA International Energy Data). These tonnes may be "
+                f"another product declared under the coke code{coal}: a possible reading, not established here.")
+    last = f"{r['lastKt']:,.0f} kt in {r['lastYear']}"
+    if r.get("priorYear"):
+        series = (f"its series reads 0 in {r['eiaYear']}, and its last two years with production are {r['priorKt']:,.0f} kt in {r['priorYear']} and {last}")
+        fall = f"a series that falls from {r['priorKt']:,.0f} kt to {r['lastKt']:,.0f} kt and then to nothing"
+    else:
+        series = f"its series reads 0 in {r['eiaYear']}, and its last year with production is {last}"
+        fall = f"a series that ends at {r['lastKt']:,.0f} kt and then reads nothing"
+    return (f"{head}{series}; EIA International Energy Data). Two readings fit, with the same weight: the EIA series no longer covers the country's coke "
+            f"plants ({fall} may be a series that stopped), or part of these tonnes is another product declared under the coke code{coal}. "
+            "Neither is established here.")
 
 
 REF_YEAR = min(S19_UNSPECIFIED.values()) - 1  # the last year before Iran's crude was recorded under "Other Asia"

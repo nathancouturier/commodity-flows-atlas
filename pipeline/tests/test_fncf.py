@@ -210,7 +210,10 @@ class F3FrenchGrainPorts(unittest.TestCase):
         # the pages: 12.7 Mt of cereals at Rouen in 2023 for the whole port, 3.0 to 3.5 Mt a year at La Pallice: the atlas does not exceed the first
         # and stays in the range of the second (the split is the atlas's rule, not a measured share)
         self.assertLess(tot["FRURO"] / 1000, 12.7)
-        self.assertTrue(3.0 <= tot["FRLPE"] / 1000 <= 3.6, tot)
+        # FNCI (GV8A.1): the eight "less common destinations" of the Rouen page took 0.93 Mt from La Pallice, which now loads under the range of its page
+        # (the other port stays an option of every pair, and no page gives the split): METHODOLOGY says so, with these figures
+        self.assertLess(tot["FRLPE"] / 1000, 3.0, tot)
+        self.assertTrue(2.0 <= tot["FRLPE"] / 1000, tot)
 
     def test_no_french_grain_route_leaves_a_port_other_than_the_three(self):
         for g in ("wheat", "barley", "corn", "rapeseed", "soymeal", "sunflower-meal", "rapeseed-meal"):
@@ -228,8 +231,41 @@ class F3FrenchGrainPorts(unittest.TestCase):
 
     def test_methodology_says_what_the_pages_give_and_that_the_split_is_the_rule(self):
         text = " ".join(read("METHODOLOGY.md").split())
-        for word in ("fra-grain-ports", "12.7 Mt", "3.0 to 3.5 Mt", "not a measured share"):
+        for word in ("fra-grain-ports", "12.7 Mt", "3.0 to 3.5 Mt", "not a measured share", "the eleven partners", "Mauritania, Mexico, Thailand, India, Colombia, Madagascar, the United States and",
+                     "not of grain", "the page names the partner at a port, so that port"):
             self.assertIn(word, text)
+        self.assertNotIn("the partners that the Rouen page names (China, Morocco, Algeria)", text)
+        self.assertNotIn("the principal port of no pair changed", text)
+
+    def test_methodology_figures_of_the_french_grain_ports_are_the_files(self):
+        """FNCI (GV8A.1): the tonnes by port, the lanes and the eight partners' pairs, recomputed from the pairs and lanes files as the text says."""
+        text = " ".join(read("METHODOLOGY.md").split())
+        tot = {"FRURO": 0.0, "FRLPE": 0.0, "FRFOS": 0.0}
+        eight = {"MRT", "MEX", "THA", "IND", "COL", "MDG", "USA", "ZAF"}
+        P_GRAIN = ("wheat", "barley", "corn", "sorghum", "rice", "pulses", "rapeseed", "soybeans", "sunflower-seed", "soymeal", "sunflower-meal", "rapeseed-meal")
+        moved, kt = 0, 0.0
+        for g in ("wheat", "barley", "corn", "sorghum", "rice"):
+            rows, _ = pairs(g)
+            for (o, d), r in rows.items():
+                if o == "FRA" and r["m"] in (0, 1) and r["load_port"] in tot:
+                    tot[r["load_port"]] += r["kt"]
+        for g in P_GRAIN:
+            rows, _ = pairs(g)
+            for (o, d), r in rows.items():
+                if o == "FRA" and d in eight and r["m"] in (0, 1):
+                    self.assertEqual(r["load_port"], "FRURO", (g, d))
+                    moved += 1
+                    kt += r["kt"]
+        self.assertIn(f"loads {tot['FRURO'] / 1000:.1f} Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, {tot['FRLPE'] / 1000:.1f} Mt at La Pallice and {tot['FRFOS'] / 1000:.1f} Mt at Fos", text)
+        self.assertIn(f"moved the principal port of {moved} of the", text)
+        self.assertIn(f"{kt / 1000:.2f} Mt in all", text)
+        n = {"FRURO": 0, "FRLPE": 0}
+        for g in P_GRAIN:
+            for lane in load(DATA, "freight", "lanes", g + ".json")["lanes"]:
+                if lane["id"].split(":")[1].startswith("FRA-") and lane["load"][0] in n:
+                    n[lane["load"][0]] += 1
+        self.assertIn(f"(24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, {n['FRURO']} and {n['FRLPE']}, carry the other port as an option", text)
+        self.assertEqual(sum(n.values()), 24)
 
 
 class F4TurkishScrap(unittest.TestCase):
@@ -486,14 +522,47 @@ class F7MozambiqueCoke(unittest.TestCase):
         tabs = {x["key"]: x["table"] for x in met["extra"]}
         self.assertNotIn("MOZ", [r["c"] for r in tabs["coke-customs-exports"]["rows"]])
         note = next(n for n in met["notes"] if n.startswith("Mozambique's exports under this code are left out"))
-        for part in ("every table, lane and total of the atlas", "in each of the 16 years 2005 to 2024", "1.63 Mt in 2024", "EIA series of coke production gives Mozambique none",
-                     "a hypothesis, not established", "reads 0 in every year from 1980 to 2025", "6.5 Mt of coal exports in 2025", "These rows are not counted"):
+        for part in ("left out of the coke tables, lanes, passage estimates, history and totals of the commodity pages and of the commodity blocks of the country pages",
+                     "in each of the 16 years 2005 to 2024", "1.63 Mt in 2024", "EIA series of coke production gives Mozambique none",
+                     "a hypothesis, not established", "its coke production series reads 0 in every year from 1980 to 2025 (its coke export series reads 33 kt in 2023 and 0 in the other years)",
+                     "6.5 Mt of metallurgical coal exports in 2025", "The all-goods list of the country page of Mozambique shows the customs value of heading 2704 as declared",
+                     "These rows are not counted"):
             self.assertIn(part, note)
+        self.assertNotIn("every table, lane and total of the atlas", note)
+        self.assertNotIn("of coal exports in 2025", note)
         gap = next(n for n in met["notes"] if n.startswith("Coke and semi-coke of coal, lignite or peat (HS 270400): the tables hold"))
         for part in ("95% of the 34.6 Mt", "1.63 Mt are the exports of Mozambique, left out as a misclassification (rule 5 of the cleaning rules", "pairs under the threshold"):
             self.assertIn(part, gap)
         self.assertTrue(gap.endswith("."))
         self.assertAlmostEqual(tabs["coke-customs-exports"]["world"], 32.916, delta=0.01)
+
+    def test_the_country_page_of_mozambique_has_the_heading_only_in_its_all_goods_list(self):
+        """FNCI (GV8A.4): what the note says is true: the customs value of heading 2704 is in the list of all goods (the unfiltered file), and nowhere else on the page
+        as a coke export; the coke balance takes no exports line."""
+        prof = load(DATA, "countries", "profiles", "MOZ.json")
+        row = next(r for r in prof["basket"]["exports"]["rows"] if r.get("hs4") == "2704")
+        self.assertEqual(row["usd"], 0.257)
+        self.assertIn("(USD 0.257 billion in 2024)", " ".join(read("METHODOLOGY.md").split()))
+        self.assertFalse([k for k in prof.get("exports", []) if "coke" in (k.get("label") or "").lower()])
+        bal = next(b for b in prof["balance"] if b.get("t") == "coke-customs-exports")
+        self.assertIsNone(bal["net"]["exp"])
+        self.assertIn("no exports line, taken as 0", bal["net"]["n"])
+
+    def test_the_two_notes_quote_the_eia_series_for_what_they_are(self):
+        """FNCI (GV8A.3): the series 130-1 and 130-4 are metallurgical coal, not all coal (7-4); the coke export series 21-4 is read for the note."""
+        import checks as K
+        self.assertEqual(K.NO_PRODUCTION["coke"][1:4], (("130-1", "MT"), ("130-4", "MT"), ("21-4", "MT")))
+        met = load(DATA, "commodities", "met-coal.json")
+        for n in met["notes"]:
+            if n.startswith(("Mozambique's exports", "Customs data record")):
+                self.assertNotRegex(n, r"(?<!metallurgical )coal exports in 20\d\d", n[:40])
+                self.assertNotRegex(n, r", coal for instance", n[:40])
+        text = " ".join(read("METHODOLOGY.md").split())
+        self.assertIn("the metallurgical coal series 130-1, production, and 130-4, exports, of the Metallurgical coal page, not all coal, series 7-4", text)
+        self.assertNotIn("with the coal series 130-1 and 130-4", text)
+        self.assertIn("metallurgical coal where the page's EIA tables show the country as a producer or exporter of it", text)
+        self.assertIn("Zimbabwe: 399 kt in 2022 and 5 kt in 2023", text)
+        self.assertIn("its coke export series, 21-4, reads 33 kt in 2023 and 0 in the other years", text)
 
     def test_qa_lists_the_dropped_rows(self):
         qa = read("pipeline", "commodities", "QA.md")
@@ -532,6 +601,25 @@ class F7MozambiqueCoke(unittest.TestCase):
         sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
         import test_fncb
         self.assertIn("2.0 kt in 2011 (kept as reported", test_fncb.ESTIMATE_RIGHT[("sulphur", "CHE", "ZMB", 2012)])
+
+    def test_a_range_of_values_quoted_in_a_reason_is_the_range_of_the_cache(self):
+        """FNCI (GV8A.2): "every other year (USD 4.5 to 39.7 million)" was USD 3.1 to 39.6 million in the cache. Both bounds of every range of values that a
+        reason gives for the other years of the pair are the cache's, at the precision written."""
+        import pandas as pd
+        import clean as C
+        df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        n = 0
+        for (g, o, d, y), why in C.KEEP_REPORTED.items():
+            for m in re.finditer(r"USD ([\d.]+) to ([\d.]+) million\)", why):
+                if "other year" not in why:
+                    continue
+                other = df[(df["group"] == g) & (df["o"] == o) & (df["d"] == d) & (df["year"] != y)]["usd"] / 1e3  # the cache gives thousands of USD
+                for quoted, value in ((m.group(1), other.min()), (m.group(2), other.max())):
+                    dec = len(quoted.split(".")[1]) if "." in quoted else 0
+                    self.assertEqual(quoted, f"{value:.{dec}f}", (g, o, d, y, why))
+                n += 1
+        self.assertGreaterEqual(n, 2)
+        self.assertIn("USD 3.1 to 39.6 million", C.KEEP_REPORTED[("dri", "CHN", "SAU", 2018)])
 
 
 class F8GapNote(unittest.TestCase):
