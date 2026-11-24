@@ -20,14 +20,15 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, forecasts, new commodities |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests. Nothing of it has run on GitHub yet: the first real runs are those of this week |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
 
 ## Fifth release (24 November 2026): what changed
 
 Six packages, six independent reviews (65 findings, 22 of them important), six fix packages and one more for a
 source whose terms forbid its use, then a rebuild of everything together and a review of the site on the
 production build (10 findings, three of them important: an internal remark shown in the Sources window, the
-largest class of three ports, pages that had grown too long; all corrected, then checked by a second reviewer).
+largest class of three ports, pages that had grown too long; all corrected, then checked by a second reviewer,
+whose five remaining minor points were corrected before publication).
 
 ### Baltic benchmark routes
 
