@@ -44,9 +44,11 @@ import '../styles/finder.css';
 
 /** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
 const COAL = 'coal';
-const commodityLabel = (k: string) => (k === COAL ? 'Coal (thermal + met)' : (commodityMeta(k)?.name ?? k));
-const groupsOf = (k: string) => (k === COAL ? ['coal'] : (LANE_GROUPS[k] ?? []));
-const OPTIONS = [COAL, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'thermal-coal' && id !== 'met-coal')];
+/** Coke and semi-coke (HS 2704) has its own customs group, beside the coal group of the two coal pages: its own entry, so that the coal entry stays as it was. */
+const COKE = 'coke';
+const commodityLabel = (k: string) => (k === COAL ? 'Coal (thermal + met)' : k === COKE ? 'Coke and semi-coke' : (commodityMeta(k)?.name ?? k));
+const groupsOf = (k: string) => (k === COAL ? ['coal'] : k === COKE ? [COKE] : (LANE_GROUPS[k] ?? []));
+const OPTIONS = [COAL, COKE, ...Object.keys(LANE_GROUPS).filter((id) => id !== 'thermal-coal' && id !== 'met-coal')];
 /** Below this tonnage (kt) a country is not offered as the starting point of a question. */
 const MIN_KT = 50;
 /** Lane last opened by the finder itself on a phone: the same answer is not forced open again (a re-opened dropdown, say). */

@@ -399,16 +399,16 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 3,662 main seaborne lanes, 59 mixed lanes and 561 history lanes over 69 groups (3,317, 57 and 469
+  - 2024: 3,657 main seaborne lanes, 58 mixed lanes and 557 history lanes over 69 groups (3,317, 57 and 469
     over 60 groups before the metal bulks; 3,001, 42
     and 387 over 52 groups before the grains, oilseeds and pulses; 2,617, 35 and 271 over 42 groups before the
     fertilisers and sulphur; 2,400, 35
-    and 182 over 34 groups before the minor metals); the main lanes carry 85.3% of 2024 seaborne
+    and 182 over 34 groups before the minor metals); the main lanes carry 85.2% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
     (56.9%), refined products (60.1%), unwrought zinc (62.8%), unwrought lead (64.3%), aluminium
     (66.1%), cocoa (66.5%), ferro-silicon (66.9%), dried pulses (68.2%), ferro-chromium (68.2%), steel (68.2%),
-    ferro-manganese (69.7%) and coffee (69.9%); potash reads 81.2% (73.7% before the
+    pig iron (69.4%), ferro-manganese (69.7%) and coffee (69.9%); potash reads 81.2% (73.7% before the
     Belarusian transit row). The ferro-alloys, which trade in parcels of a few thousand tonnes over hundreds of pairs, have a
     lower floor than the default 0.05 Mt (0.02 Mt for ferro-manganese and silico-manganese, 0.005 Mt for ferro-silicon, `FLOOR` of
     `build_lanes.py`) so that their main set reaches 63% of their seaborne tonnes; the other ferro-alloys (the alloys of seven
@@ -419,10 +419,11 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,219.0 Mt in 2024); a pair "not routed" has no route at all (58.0 Mt in 2024: 40.4 Mt because a
+  (1,222.8 Mt in 2024); a pair "not routed" has no route at all (64.5 Mt in 2024: 40.4 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
-  50 nm, mostly Malaysian refined products to Singapore, 1.4 Mt because an end has no gateway, 1.0 Mt
-  from the wrong coast of a country or on a long detour to the nearest seaport; 64.2 Mt, 47.7 Mt of it for want of a transit port, before
+  50 nm, mostly Malaysian refined products to Singapore, 1.4 Mt because an end has no gateway, 7.5 Mt
+  because the general port of a country is on the other coast from its partner or only the nearest seaport, on a long detour, is left
+  (1.0 Mt before package NC3: the rise is the scrap, pig iron and direct-reduced iron of that package, whose general ports are on one coast); 64.2 Mt, 47.7 Mt of it for want of a transit port, before
   package L1).
 - **The Route finder** reads the pairs files of the commodity's groups, so it never says "no flow" for
   a pair that customs data record. It can start from the origin or from the destination, and
@@ -1344,9 +1345,11 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   scrap page), and no world table of the ferro-alloys or of direct-reduced iron: those pages say "No production table". The
   figures of the steel industry's associations are not loaded (their terms are not settled). The World Bank Pink Sheet has no
   series for any of these products (its steel series is an index of steel products): the pages say that there is no free price
-  series. Ports: the engine's own fall-backs, with their basis; no port was attached to these cargoes (chromium ore, scrap, pig
-  iron and direct-reduced iron take the ore rows and legacy ports, coke only a row that names it, the ferro-alloys the general
-  port of the country). Molybdenum and graphite are tables only, without lanes. The shared cleaning rules apply only the
+  series. Ports: the engine's own fall-backs, with their basis; no port was attached to these cargoes. Chromium ore takes the ore rows and
+  the port used before, coke only a row that names it (then the port used before for coal), and scrap, pig iron, direct-reduced iron and
+  the ferro-alloys the general port of the country, as steel does (the ore fall-backs would have sent the 20 Mt of Turkish scrap
+  imports to the nearest seaport of Turkey, Samsun on the Black Sea, by the Bosphorus). Scrap, pig iron and
+  direct-reduced iron sail in bulk carriers all the same, and the chokepoint estimates compare them with the dry-bulk ships of PortWatch. Molybdenum and graphite are tables only, without lanes. The shared cleaning rules apply only the
   gross-error rule to these groups (rule 3 of section 1): none is a single graded product. Generated corridors: the nine
   groups with lanes share a cap of 10 routes (`LATER_GROUPS`), so that no earlier route moved.
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown

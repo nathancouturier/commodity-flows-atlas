@@ -183,9 +183,12 @@ SEGMENT = {
     # minor metals and chemicals that sail in bags, drums or containers (M-015): general cargo, as refined copper
     "lead-metal": "box", "zinc-metal": "box", "tin-metal": "box", "tin-ore": "box", "cobalt": "box", "lithium": "box",
     "rare-earths": "box",
-    # the metal bulks added with A-010: chromite, scrap, pig iron and direct-reduced iron sail in bulk (the ore rows and fall-backs, the dry-bulk
-    # comparison of the chokepoint estimates), coke with the coal rows; the ferro-alloys are general cargo or containers like the minor metals
-    "chromium-ore": "ore", "ferrous-scrap": "ore", "pig-iron": "ore", "dri": "ore", "coke": "coal",
+    # the metal bulks added with A-010. Chromite takes the ore rows and fall-backs like the other ores and coke the coal ones (rows that name coke only).
+    # Scrap, pig iron and direct-reduced iron are the cargoes that steel is the like of (the steel mill's raw materials and its products, which have no
+    # ports of their own in the tables): the "box" rows, so the general port of the country, with the basis "general port of the country" (BOX_GENERAL).
+    # The "ore" fall-backs gave Turkey, the first importer of scrap, no port of its own and sent its scrap to the Black Sea by the Bosphorus (the nearest
+    # seaport to the label point of the country). They are dry bulk all the same: build_freight.py DRY_BOX. The ferro-alloys are general cargo like the minor metals
+    "chromium-ore": "ore", "coke": "coal", "ferrous-scrap": "box", "pig-iron": "box", "dri": "box",
     "ferro-chromium": "box", "ferro-manganese": "box", "silico-manganese": "box", "ferro-silicon": "box",
 }
 
@@ -344,7 +347,7 @@ GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
 # the product: such a row is a general port of the country for them, not a page that names the cargo (review GL1.6). A
 # row that names the group itself keeps "page names the cargo".
 BOX_GENERAL = frozenset({"lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths",
-                         "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"})
+                         "ferrous-scrap", "pig-iron", "dri", "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"})
 
 # Oil, gas and ore terminals that the audit found carrying other cargo (plan 2.4, test G01; C-020 for Tubarao and
 # Saldanha Bay): the legacy table and the nearest-port search may give them only for the cargo they serve.

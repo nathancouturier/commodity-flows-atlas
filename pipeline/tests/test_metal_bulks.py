@@ -215,7 +215,7 @@ class CodesTests(unittest.TestCase):
 class EngineTests(unittest.TestCase):
     FAMILY = {"chromium-ore": "drybulk", "coke": "drybulk", "ferrous-scrap": "metal", "pig-iron": "metal", "dri": "metal",
               "ferro-chromium": "metal", "ferro-manganese": "metal", "silico-manganese": "metal", "ferro-silicon": "metal"}
-    SEGMENT = {"chromium-ore": "ore", "ferrous-scrap": "ore", "pig-iron": "ore", "dri": "ore", "coke": "coal",
+    SEGMENT = {"chromium-ore": "ore", "ferrous-scrap": "box", "pig-iron": "box", "dri": "box", "coke": "coal",
                "ferro-chromium": "box", "ferro-manganese": "box", "silico-manganese": "box", "ferro-silicon": "box"}
 
     def test_every_group_that_sails_has_a_mode_a_segment_and_a_page(self):
@@ -242,9 +242,10 @@ class EngineTests(unittest.TestCase):
             self.assertEqual(VR.classes(g, "NOR", "USA", 0.1e6, 3500), ["container", "handysize"], g)
 
     def test_the_ports_are_the_engines_own_fall_backs(self):
-        """No port was attached to these cargoes: coke takes only a row that names it, the ferro-alloys' box rows are the general port of the country."""
+        """No port was attached to these cargoes: coke takes only a row that names it, the box rows of scrap, pig iron, DRI and the ferro-alloys are the
+        general port of the country (Turkey's scrap goes to Izmir, not to the Black Sea)."""
         self.assertIn("coke", ports.OWN_FAMILY)
-        for g in ("ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"):
+        for g in ("ferrous-scrap", "pig-iron", "dri", "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"):
             self.assertIn(g, ports.BOX_GENERAL)
         for rows in ports.G.values():
             for r in rows:
@@ -256,6 +257,7 @@ class EngineTests(unittest.TestCase):
             self.assertEqual(BF.vessel_type(g), "dry", g)
         for g in ("ferro-chromium", "ferro-silicon"):
             self.assertEqual(BF.vessel_type(g), "cargo", g)
+        self.assertTrue(BF.DRY_BOX <= {g for g, s in ports.SEGMENT.items() if s == "box"})
 
     def test_the_classes_the_lanes_name_list_the_new_pages_among_their_cargoes(self):
         with open(os.path.join(ROOT, "pipeline", "freight", "vessel_classes.json"), encoding="utf-8") as f:
@@ -434,6 +436,15 @@ class LaneAndProfileTests(unittest.TestCase):
         for g in ("ferro-chromium", "ferro-silicon"):
             for lane in load(f"freight/lanes/{g}.json")["lanes"]:
                 self.assertEqual(lane["vclass"], ["container", "handysize"], (g, lane["id"]))
+
+    def test_the_scrap_that_turkey_imports_does_not_go_to_the_black_sea(self):
+        """The first importer of scrap is in the Aegean and Marmara in the lanes, as for steel: the "ore" fall-backs had sent it to Samsun by the Bosphorus."""
+        f = load("freight/lanes/ferrous-scrap.json")
+        turkish = [ln for ln in f["lanes"] if ln["d"] == "TUR"]
+        self.assertTrue(turkish)
+        for ln in turkish:
+            self.assertNotIn("bosphorus", ln["via"], ln["id"])
+            self.assertEqual(f["ports"][ln["discharge"][0]]["basis"], "general port of the country", ln["id"])
 
     def test_south_africa_exports_chromite_and_ferro_chromium_first(self):
         zaf = load("countries/profiles/ZAF.json")

@@ -31,7 +31,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | ferro-chromium | 5.3 | 0.0 | 27.6 | 1 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | ferro-manganese | 1.6 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | ferro-silicon | 1.8 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
-| ferrous-scrap | 67.6 | 0.0 | 43.0 | 5 | the cap of 10 generated routes for the groups added with it left out 7 corridors |
+| ferrous-scrap | 67.6 | 0.0 | 41.6 | 5 | the cap of 10 generated routes for the groups added with it left out 7 corridors |
 | iron-ore | 1,635.5 | 72.1 | 72.1 | 0 |  |
 | lead-metal | 2.7 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lead-ore | 2.3 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
@@ -166,17 +166,17 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - dap: DAP: West Africa to North-West Europe, 0.6 Mt
 - dap: DAP: West Africa to the rest of Africa, 0.5 Mt
 - dap: DAP: the Baltic to Central America and the Caribbean, 0.5 Mt
-- dri: Direct-reduced iron: the Baltic to the Red Sea, 1.4 Mt
-- dri: Direct-reduced iron: the Black Sea to the Mediterranean, 1.2 Mt
+- dri: Direct-reduced iron: North-West Europe to the Red Sea, 1.4 Mt
 - dri: Direct-reduced iron: US Gulf to the Mediterranean, 0.9 Mt
+- dri: Direct-reduced iron: the Black Sea to the Mediterranean, 0.7 Mt
 - dri: Direct-reduced iron: the Mediterranean to North-West Europe, 0.5 Mt
-- ferrous-scrap: Ferrous scrap: US Gulf to India and Bangladesh, east coast, 3.2 Mt
+- ferrous-scrap: Ferrous scrap within North-West Europe, 2.4 Mt
+- ferrous-scrap: Ferrous scrap: the Baltic to the Mediterranean, 2.1 Mt
+- ferrous-scrap: Ferrous scrap: US Gulf to India and Bangladesh, east coast, 1.8 Mt
 - ferrous-scrap: Ferrous scrap within Japan and Korea, 1.8 Mt
-- ferrous-scrap: Ferrous scrap within North-West Europe, 1.8 Mt
-- ferrous-scrap: Ferrous scrap: the Black Sea to the Mediterranean, 1.7 Mt
-- ferrous-scrap: Ferrous scrap: Eastern Australia to India and Bangladesh, east coast, 1.7 Mt
-- ferrous-scrap: Ferrous scrap: North-West Europe to India and Bangladesh, east coast, 1.5 Mt
-- ferrous-scrap: Ferrous scrap: Middle East Gulf to South Asia, 1.4 Mt
+- ferrous-scrap: Ferrous scrap: US Gulf to India and Pakistan, west coast, 1.7 Mt
+- ferrous-scrap: Ferrous scrap: Middle East Gulf to India and Pakistan, west coast, 1.4 Mt
+- ferrous-scrap: Ferrous scrap: South-East Asia to South Asia, 1.4 Mt
 - manganese: Manganese: West Africa to India and Bangladesh, east coast, 2.3 Mt
 - monoammonium-phosphate: MAP: West Africa to Western Australia, 1.0 Mt
 - monoammonium-phosphate: MAP: Middle East Gulf to East coast South America, 0.7 Mt
@@ -210,8 +210,8 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - phosphate-rock: Phosphate rock: the Mediterranean to North China, 1.0 Mt
 - phosphoric-acid: Phosphoric acid: West Africa to the Mediterranean, 0.7 Mt
 - phosphoric-acid: Phosphoric acid: the Red Sea to India and Pakistan, west coast, 0.6 Mt
-- pig-iron: Pig iron: the Black Sea to the Mediterranean, 2.0 Mt
 - pig-iron: Pig iron: the Black Sea to US Gulf, 1.0 Mt
+- pig-iron: Pig iron: the Black Sea to the Mediterranean, 0.9 Mt
 - pig-iron: Pig iron: Southern Africa to Europe, 0.5 Mt
 - potash: Potash: the Baltic to US Gulf, 1.5 Mt
 - potash: Potash: the Mediterranean to East coast South America, 1.3 Mt

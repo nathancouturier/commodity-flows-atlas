@@ -74,7 +74,10 @@ CLASS_SHARE_NAME = {"capesize": "Capesize, Newcastlemax and VLOC", "vlcc": "VLCC
 # with its dry-bulk ships. An entry is written when the "up to" tonnage is at least 2% of the group or 1 Mt.
 TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil", "ammonia", "uan", "phosphoric-acid",
                  "sunflower-oil", "rapeseed-oil"}
-CARGO_GROUPS = {g for g, s in P.SEGMENT.items() if s == "box"}
+# Groups whose gateway segment is general cargo (the "box" rows of ports.py: the general port of the country) but which sail in bulk carriers
+# and are compared with PortWatch's dry-bulk ships: ferrous scrap, pig iron and direct-reduced iron (A-010)
+DRY_BOX = {"ferrous-scrap", "pig-iron", "dri"}
+CARGO_GROUPS = {g for g, s in P.SEGMENT.items() if s == "box"} - DRY_BOX
 TYPES = ("dry", "tanker", "cargo")
 TYPE_NAME = {"dry": "dry bulk", "tanker": "tanker", "cargo": "container, general cargo and ro-ro"}
 

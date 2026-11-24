@@ -1921,7 +1921,7 @@
  ],
  "notes": [
   "Trade is HS 7204, the whole heading of ferrous waste and scrap, customs gross weight: cast iron (HS 720410), stainless steel (HS 720421), other alloy steel (HS 720429), tinned iron or steel (HS 720430), turnings, shavings and the like (HS 720441), remelting scrap ingots (HS 720450) and the scrap that no other code names (HS 720449). The grades are not told apart in the tables. Scrap of the other metals and the granules and powders of HS 7205 are not loaded; the steel page leaves out HS 7201 to 7205 too.",
-  "No production table: the USGS file gives ferrous scrap for the United States only (the block below), and no other free file loaded by the atlas gives the scrap generated or consumed by country. The industry's yearly reviews of scrap trade and use are not loaded (their terms are not settled).",
+  "No production table: USGS gives ferrous scrap for the United States only (the block below), and no other free file loaded by the atlas gives the scrap generated or consumed by country. The industry's yearly reviews of scrap trade and use are not loaded (their terms are not settled).",
   "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no ferrous scrap series, and no other free one was loaded."
  ]
 }

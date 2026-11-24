@@ -181,7 +181,7 @@ class Selection(unittest.TestCase):
         # package NC1 added ten groups of fertilisers and sulphur: 3,001 / 387 / 42
         # package NC2 added eight groups of grains, oilseeds and pulses: 3,317 / 469 / 57
         self.assertTrue(3500 <= main <= 3800, main)  # 3,317 before the nine groups of metal bulks of package NC3 (A-010)
-        self.assertTrue(420 <= hist_ <= 520, hist_)
+        self.assertTrue(520 <= hist_ <= 640, hist_)  # 469 before the nine groups of metal bulks of package NC3 (A-010)
         self.assertTrue(50 <= mixed <= 65, mixed)
 
 

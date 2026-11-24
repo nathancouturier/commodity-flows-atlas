@@ -483,7 +483,7 @@
   "id": "molybdenum",
   "name": "Molybdenum",
   "family": "metals",
-  "blurb": "Alloying metal for steels, mined as a by-product of copper and in its own mines; ores and concentrates are traded.",
+  "blurb": "Alloying metal for steels; China, Chile, the United States and Peru mine the most, and concentrates are traded.",
   "unit": "kt Mo",
   "hs": [
    "2613"
@@ -501,7 +501,7 @@
   "id": "graphite",
   "name": "Graphite",
   "family": "metals",
-  "blurb": "Natural flake and powder graphite for refractories, steelmaking and battery anodes; China leads production.",
+  "blurb": "Natural graphite in flake and powder; China leads production and exports.",
   "unit": "kt",
   "hs": [
    "2504"

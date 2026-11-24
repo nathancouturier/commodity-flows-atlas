@@ -3766,6 +3766,6 @@
   "Ferro-silicon (HS 720221, 720229), 2024 (CEPII BACI): world 2.46 Mt gross weight; top exporters China 0.46 Mt, Norway 0.25 Mt, Malaysia 0.24 Mt.",
   "The other ferro-alloys of heading 7202: ferro-silico-chromium, ferro-molybdenum, ferro-tungsten and ferro-silico-tungsten, ferro-titanium and ferro-silico-titanium, ferro-vanadium, ferro-niobium and the ferro-alloys not elsewhere specified (HS 720250, 720270, 720280, 720291, 720292, 720293, 720299), 2024 (CEPII BACI): world 0.69 Mt gross weight; top exporters China 0.17 Mt, Brazil 0.16 Mt, South Korea 0.03 Mt.",
   "Ferro-nickel and nickel pig iron (HS 720260) are on the nickel page, where their group already was: no tonne is counted twice. The steel page leaves out HS 7201 to 7205.",
-  "No production table: the USGS file has no world table of the ferro-alloys. No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for them, and no other free one was loaded."
+  "No production table: USGS has no world table of the ferro-alloys. No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for them, and no other free one was loaded."
  ]
 }

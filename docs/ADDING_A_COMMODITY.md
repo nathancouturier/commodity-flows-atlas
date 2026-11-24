@@ -1,7 +1,7 @@
 # Adding a customs group or a commodity page
 
 Written while the fertilisers were added (package NC1, audit M-022), corrected and extended with the grains and oilseeds (package NC2,
-audit M-023). A **customs group** is a set of HS 1992 codes of
+audit M-023) and with the metal bulks (package NC3, audit A-010). A **customs group** is a set of HS 1992 codes of
 `pipeline/trade/hs_map.py`; a **page** is a commodity of `data/commodities/index.json`. A group lives on one page (it may
 be the page's main table, a further pair of tables of it, or the page's lanes). Commands run from the repository root with
 `.venv/bin/python -I`; never run `npm install`, `vite build` or a formatter.
@@ -16,6 +16,14 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
 3. A product that moves in bags or boxes gets tables and no lanes (leave it out of `GROUPS` of `build_lanes.py`: wheat flour and the brewing
    and distilling dregs). The label of a group says what its code holds (one code for two oils, one for all dregs): `LABEL` of `build_lanes.py`
    and of `checks.py`, the titles of the tables, the notes.
+
+4. A page whose products are alloys or grades of one family (the ferro-alloys) is one page with one customs group for each product that
+   has lanes or its own table; the page opens on its largest group (`TRADE`: its key figure and its first table are that group's) and the
+   others are `EXTRA_GROUPS`. Heading 7202 minus ferro-nickel is five groups; ferro-nickel stays in its group of the nickel page, and each
+   page names the other by a `see` line.
+5. Check that the stem of an extra group is free: the metallurgical coal page already holds the EIA tables `coke-production`, `coke-exports` and
+   `coke-imports`, so the customs coke group takes the stem `coke-customs` (a key is read by its last word and a table of the same key would hide
+   the other).
 
 ## 1. Customs cache (`pipeline/trade`)
 - `hs_map.py`: add the group to `HS` (comment: what the code holds, what is left out).
@@ -33,13 +41,16 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
 | File | Entry |
 |---|---|
 | `modes.py` | `FAMILY[group]` (the mode depends on borders and ports, not on the cargo: `grain` for dry food cargo, `vegoil` for the oils) |
-| `ports.py` | `SEGMENT[group]`; add the group to `OWN_FAMILY` when the cargo is not served by the berths that the fertiliser, grain or other rows name (liquids, sulphur): only a row that names the group counts, the fall-backs and their basis do the rest. Add no port. |
+| `ports.py` | `SEGMENT[group]` (a group that sails in bulk must not be in segment `box`: `build_freight.py` compares every `box` group with PortWatch's container, general-cargo and ro-ro ships, so chromite is `ore` and coke `coal`, and scrap, pig iron and DRI are `box` for their ports (the general port of the country, as steel has: the `ore` fall-backs would send Turkey's scrap to Samsun on the Black Sea, the nearest seaport of a country with no ore row) with `DRY_BOX` of `build_freight.py` keeping them in the dry-bulk comparison; the ferro-alloys, which are general cargo, are `box` too; all are in `BOX_GENERAL` so that their basis reads "general port of the country". Read the ports of the biggest lanes of a new group before you accept its segment); add the group to `OWN_FAMILY` when the cargo is not served by the berths that the fertiliser, grain or other rows name (liquids, sulphur): only a row that names the group counts, the fall-backs and their basis do the rest. Add no port. |
 | `vessel_rules.py` | `classes()`: a group not dry bulk needs its own branch (comment the reason; METHODOLOGY section 4); a group that falls in an existing family joins that branch's tuple (the grains and oilseeds, the vegetable oils) |
 | `vessel_classes.json` | `cargoes` of the classes the rule names (page ids), and a sentence in `notes` of a class used in a new way (keep the file's own layout: `json.dumps(indent=1, ensure_ascii=False)` rewrites it byte for byte) |
 | `build_lanes.py` | `GROUPS`, `COMMODITY` (group to page id, when different), `LABEL`, `CAP`, `FLOOR` |
 | `build_freight.py` | `TANKER_GROUPS` for tankers and gas carriers, `ACRONYM`; `GROUPS_OF` only for hand-written routes |
 | `generated_routes.py` | `LATER_GROUPS`: one entry (groups, cap) for each package, so that no published route is dropped; its first corridors come first |
 
+A group dropped from `GROUPS` after a run leaves its lane and pairs files behind (`build_lanes.py` writes, never deletes): remove them.
+A group whose pairs are spread over hundreds of small flows (the other ferro-alloys: 0.6 Mt over 396 pairs) reaches 63% only with dozens of lanes: give it
+tables and no lanes rather than a floor of a few hundred tonnes, and say so in the page's notes and METHODOLOGY.
 Check the coverage test (`test_lanes.py`, S01): a group whose main set carries under 63% of its seaborne tonnes needs a
 lower `FLOOR` (a tonnage in Mt, not a share) and a higher `CAP`. Mirror every floor in `test_lanes.py` and in `web/scripts/validate-freight.mjs`.
 Do not write hand-made routes.
@@ -67,6 +78,10 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
   products of a page have a series. A series that stopped (barley and sorghum, August 2020) is published as it is: `mark_closed()` marks it
   `closed`, `figures_of()` keeps it for a page that has no other series, the page shows "Last price ... series closed", and the page's note
   (`_price_end()`) says the last month from the published index; run `build_prices.py` before `build_commodities.py` (the rebuild script does).
+- A group with tables and no lanes (the other ferro-alloys, molybdenum ore, graphite) needs `GROUP_K` of `build_profiles.py` (customs group to page), and
+  `MAIN_GROUP`, `VALUE_GROUPS` and `TRADE_LABEL` when the page id is not its group's (chromium, molybdenum); a page of a USGS commodity takes its
+  production and reserves from `USGS` (read the rows first: chromium reserves are given in two measures for two different years, and the page shows the
+  one of the year of the production). The United States figures of the USGS file go to the page by `US_NAMES` in `metals.py` (ferrous scrap has no other).
 - `build_profiles.py`: `EXTRA_SIDE` (key to side, customs group, label) for each extra table, `PRODUCTS` (net and partners; the customs group
   of a product with no lanes needs `GROUP_K`, which makes the builder read its cleaned frame), `MAIN_GROUP` and `VALUE_GROUPS` when the page's
   main customs group is not its id (`sunflower` is read from `sunflower-seed`), `TRADE_LABEL` for the main line of a page that now holds
@@ -95,6 +110,13 @@ window, README or METHODOLOGY (checked in package NC1). `npx tsc --noEmit` from 
 - METHODOLOGY.md: section 2 (families), 3 (generated corridors, counts), 4 (vessel rules), 10 (what the group holds, basis,
   limits). DATA_SOURCES.md and NOTICE.md lists are written by `common/sources_table.py` and `common/notice_lists.py`.
 
+Tests of the whole atlas that a new group moves (NC3 found them all): `test_shares.py` (`CARGO` and `TANKER` sets: the vessel type of a group), `test_final_fixes.py` (the
+number of chokepoint estimates), `test_history.py` (size of the series by year, 3.4 MB since NC3, and the number of tables with an out-of-line year), `test_modes.py` M10,
+`test_lanes.py` (P01, P05, S08 and the `FLOOR` mirror), `test_release_gr4d.py` (METHODOLOGY: the groups and Mt of "2024 by mode" and "Generated corridors"; the count of pairs
+files in `build_port_index.py`), `test_release_gr4s.py` (the words a visitor reads: no "USGS file", "builder", "cache" in a page text), `test_metal_flows.py` (`group_of`
+of a ferro-alloy code), and `test_grains.py` / `test_fertilisers.py` (the cache holds the groups before and the new ones: a later package adds groups; the number of
+generated routes).
+
 ## 6. Rebuild and checks
 Builders in this order: `geo/adjacency.py`, `freight/build_lanes.py`, `freight/build_freight.py`, `infrastructure/port_limits.py`,
 `infrastructure/route_assets.py`, `freight/build_alerts.py`, `prices/build_prices.py`, `companies/build_companies.py`,
@@ -107,6 +129,10 @@ Browser: `cd web && npx vite --port <port> --strictPort`; open each new page at 
 lines, the search, the price drawer; no "undefined", "NaN", empty block or console error.
 
 ## Traps met
+- A product whose first customs group has most of its tonnage in a mixed code (scrap: HS 720449 holds three quarters of heading 7204) is shown as the whole code; say it in
+  the notes instead of splitting it with a six-digit table the page cannot support for every year.
+- Raising a size budget (`web/scripts/check-size.mjs`, the 3.4 MB of the series by year in `validate-data.mjs`) is part of the package: measure the data folder in bytes before
+  and after (the budget sums file sizes, `du -sk` counts blocks), raise by what the pages need and a fifth, and write the reason in the comment.
 - Wikipedia refuses the research client with a 429: write the class of a lane as an Atlas assumption, say no page was read.
 - Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the 120-route cap and drops published routes: use `LATER_GROUPS`.
 - `GROUPS_OF` in `build_freight.py` also sums the volumes of the hand-written routes: leave the new groups out of it.

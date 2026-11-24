@@ -611,11 +611,11 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Crude oil from Norway to Bulgaria (NOMON to BGVAR): main route 3,853 nm, 2.9 times the great-circle distance; check the gateways
 - qa: Crude oil from Norway to Romania (NOMON to ROCND): main route 3,892 nm, 3.0 times the great-circle distance; check the gateways
 - qa: DAP from China to Bangladesh (CNTSN to BDCGP): main route 4,279 nm, 2.6 times the great-circle distance; check the gateways
-- qa: Ferrous scrap from Germany to Italy (DEWVN to ITAUG): main route 2,651 nm, 2.6 times the great-circle distance; check the gateways
-- qa: Ferrous scrap from Lithuania to Turkey (LTKLJ to TRSSX): main route 4,430 nm, 4.2 times the great-circle distance; check the gateways
-- qa: Ferrous scrap from Denmark to Turkey (DKAAR to TRSSX): main route 4,093 nm, 3.0 times the great-circle distance; check the gateways
-- qa: Ferrous scrap from Germany to Turkey (DEWVN to TRSSX): main route 3,771 nm, 2.8 times the great-circle distance; check the gateways
-- qa: Ferrous scrap from Poland to Turkey (PLGDN to TRSSX): main route 4,391 nm, 4.2 times the great-circle distance; check the gateways
+- qa: Ferrous scrap from Germany to Italy (DEHAM to ITGOA): main route 2,513 nm, 4.6 times the great-circle distance; check the gateways
+- qa: Ferrous scrap from Lithuania to Turkey (LTKLJ to TRMER): main route 4,235 nm, 3.4 times the great-circle distance; check the gateways
+- qa: Ferrous scrap from Denmark to Turkey (DKAAR to TRMER): main route 3,899 nm, 2.6 times the great-circle distance; check the gateways
+- qa: Ferrous scrap from Germany to Turkey (DEHAM to TRMER): main route 3,622 nm, 2.5 times the great-circle distance; check the gateways
+- qa: Ferrous scrap from Poland to Turkey (PLGDN to TRMER): main route 4,196 nm, 3.4 times the great-circle distance; check the gateways
 - qa: Iron ore from Bahrain to Saudi Arabia (BHMSN to SAKAC): main route 2,499 nm, 3.7 times the great-circle distance; check the gateways
 - qa: Iron ore from Sweden to Qatar (SELLA to QARLF): main route 7,793 nm, 3.0 times the great-circle distance; check the gateways
 - qa: Iron ore from Bahrain to Egypt (BHMSN to EGALY): main route 3,348 nm, 3.0 times the great-circle distance; check the gateways
@@ -677,67 +677,67 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | passage | type | at least (Mt) | up to (Mt) | PortWatch, latest year (Mt) | best year (Mt) | at least / best | level |
 |---|---|---|---|---|---|---|---|
 | bab-el-mandeb | cargo | 56.6 | 58.8 | 36.5 | 390.3 (2019) | 0.15 | flag |
-| bab-el-mandeb | dry | 296.5 | 314.7 | 176.9 | 381.1 (2023) | 0.78 | flag |
+| bab-el-mandeb | dry | 295.2 | 313.7 | 176.9 | 381.1 (2023) | 0.77 | flag |
 | bab-el-mandeb | tanker | 337.5 | 407.7 | 211.9 | 473.2 (2023) | 0.71 | flag |
 | bosphorus | cargo | 19.7 | 19.7 | 57.6 | 64.3 (2021) | 0.31 | qa |
-| bosphorus | dry | 228.1 | 260.0 | 203.5 | 241.4 (2021) | 0.95 | flag |
+| bosphorus | dry | 207.3 | 239.2 | 203.5 | 241.4 (2021) | 0.86 | flag |
 | bosphorus | tanker | 107.1 | 199.1 | 173.5 | 184.2 (2019) | 0.58 | qa |
 | cape-good-hope | cargo | 14.8 | 14.9 | 443.2 | 479.7 (2025) | 0.03 | qa |
-| cape-good-hope | dry | 786.2 | 788.5 | 1,054 | 1,183 (2025) | 0.66 | qa |
+| cape-good-hope | dry | 786.1 | 788.4 | 1,054 | 1,183 (2025) | 0.66 | qa |
 | cape-good-hope | tanker | 335.0 | 335.0 | 418.1 | 418.1 (2024) | 0.80 | qa |
 | danish-straits | cargo | 11.1 | 11.1 | 16.7 | 22.3 (2020) | 0.50 | qa |
-| danish-straits | dry | 73.0 | 105.0 | 8.80 | 10.7 (2025) | 6.82 | qa |
+| danish-straits | dry | 69.3 | 101.2 | 8.80 | 10.7 (2025) | 6.46 | qa |
 | danish-straits | tanker | 93.0 | 185.0 | 9.00 | 12.1 (2025) | 7.68 | qa |
 | dover | cargo | 38.7 | 38.7 | 390.0 | 406.9 (2025) | 0.10 | qa |
-| dover | dry | 194.2 | 219.3 | 337.1 | 366.9 (2022) | 0.53 | qa |
+| dover | dry | 192.3 | 217.3 | 337.1 | 366.9 (2022) | 0.52 | qa |
 | dover | tanker | 299.0 | 442.8 | 562.8 | 576.7 (2023) | 0.52 | qa |
 | gibraltar | cargo | 53.0 | 53.8 | 407.5 | 419.7 (2021) | 0.13 | qa |
-| gibraltar | dry | 402.2 | 445.0 | 383.9 | 514.0 (2023) | 0.78 | flag |
+| gibraltar | dry | 399.2 | 442.1 | 383.9 | 514.0 (2023) | 0.78 | flag |
 | gibraltar | tanker | 336.6 | 521.8 | 503.8 | 571.0 (2023) | 0.59 | qa |
 | hormuz | cargo | 22.5 | 24.0 | 169.8 | 174.6 (2023) | 0.13 | qa |
-| hormuz | dry | 112.8 | 123.0 | 195.8 | 203.1 (2022) | 0.56 | qa |
+| hormuz | dry | 112.8 | 123.2 | 195.8 | 203.1 (2022) | 0.56 | qa |
 | hormuz | tanker | 824.8 | 1,069 | 915.4 | 1,056 (2022) | 0.78 | qa |
 | korea-strait | cargo | 38.3 | 48.8 | 426.2 | 426.2 (2024) | 0.09 | qa |
-| korea-strait | dry | 161.8 | 289.3 | 428.0 | 433.6 (2025) | 0.37 | qa |
+| korea-strait | dry | 163.4 | 289.0 | 428.0 | 433.6 (2025) | 0.38 | qa |
 | korea-strait | tanker | 114.2 | 302.6 | 320.9 | 320.9 (2024) | 0.36 | qa |
 | lombok | cargo | 0.00 | 11.7 | 2.80 | 2.80 (2024) | 0.00 | qa |
-| lombok | dry | 849.7 | 1,611 | 950.3 | 1,025 (2025) | 0.83 | qa |
+| lombok | dry | 849.6 | 1,611 | 950.3 | 1,025 (2025) | 0.83 | qa |
 | lombok | tanker | 3.70 | 184.6 | 48.4 | 53.3 (2022) | 0.07 | qa |
 | luzon | cargo | 0.00 | 134.1 | 81.3 | 84.2 (2025) | 0.00 | qa |
-| luzon | dry | 27.3 | 1,920 | 1,169 | 1,169 (2024) | 0.02 | qa |
+| luzon | dry | 27.3 | 1,922 | 1,169 | 1,169 (2024) | 0.02 | qa |
 | luzon | tanker | 6.80 | 971.3 | 661.0 | 661.0 (2024) | 0.01 | qa |
 | makassar | cargo | 0.00 | 22.0 | 9.50 | 10.3 (2023) | 0.00 | qa |
 | makassar | dry | 1,016 | 1,609 | 1,085 | 1,124 (2023) | 0.90 | qa |
 | makassar | tanker | 15.4 | 165.9 | 21.2 | 27.5 (2022) | 0.56 | qa |
 | malacca | cargo | 69.7 | 97.9 | 670.2 | 727.1 (2025) | 0.10 | qa |
-| malacca | dry | 227.9 | 1,229 | 1,190 | 1,287 (2025) | 0.18 | qa |
+| malacca | dry | 227.3 | 1,228 | 1,190 | 1,287 (2025) | 0.18 | qa |
 | malacca | tanker | 810.6 | 1,064 | 1,253 | 1,295 (2025) | 0.63 | qa |
 | ombai | cargo | 0.00 | 1.20 | 10.2 | 10.4 (2021) | 0.00 | qa |
-| ombai | dry | 72.3 | 84.7 | 134.2 | 260.5 (2025) | 0.28 | qa |
+| ombai | dry | 72.0 | 85.0 | 134.2 | 260.5 (2025) | 0.28 | qa |
 | ombai | tanker | 0.70 | 1.00 | 27.5 | 27.5 (2024) | 0.02 | qa |
 | panama | cargo | 14.2 | 15.3 | 105.4 | 114.8 (2025) | 0.12 | qa |
-| panama | dry | 50.1 | 144.1 | 60.1 | 119.5 (2021) | 0.42 | qa |
+| panama | dry | 50.1 | 144.2 | 60.1 | 119.5 (2021) | 0.42 | qa |
 | panama | tanker | 103.9 | 158.4 | 107.1 | 121.7 (2022) | 0.85 | qa |
 | suez | cargo | 57.4 | 58.1 | 79.9 | 392.4 (2021) | 0.15 | qa |
-| suez | dry | 310.9 | 323.1 | 183.9 | 379.8 (2023) | 0.82 | flag |
+| suez | dry | 309.7 | 322.0 | 183.9 | 379.8 (2023) | 0.82 | flag |
 | suez | tanker | 350.8 | 360.7 | 226.0 | 452.0 (2023) | 0.78 | flag |
 | sunda | cargo | 0.60 | 31.3 | 37.8 | 37.8 (2024) | 0.02 | qa |
-| sunda | dry | 3.20 | 1,044 | 300.9 | 307.1 (2025) | 0.01 | qa |
+| sunda | dry | 2.40 | 1,045 | 300.9 | 307.1 (2025) | 0.01 | qa |
 | sunda | tanker | 0.20 | 284.8 | 104.5 | 122.7 (2025) | 0.00 | qa |
 | taiwan-strait | cargo | 0.00 | 133.6 | 707.7 | 740.6 (2025) | 0.00 | qa |
-| taiwan-strait | dry | 49.5 | 1,859 | 1,061 | 1,100 (2025) | 0.04 | qa |
+| taiwan-strait | dry | 49.5 | 1,860 | 1,061 | 1,100 (2025) | 0.04 | qa |
 | taiwan-strait | tanker | 9.00 | 967.0 | 294.6 | 329.2 (2021) | 0.03 | qa |
 | torres | cargo | 0.50 | 4.50 | 12.9 | 13.8 (2019) | 0.04 | qa |
-| torres | dry | 24.3 | 40.2 | 42.5 | 49.0 (2025) | 0.50 | qa |
+| torres | dry | 24.1 | 42.3 | 42.5 | 49.0 (2025) | 0.49 | qa |
 | torres | tanker | 13.6 | 50.6 | 13.5 | 14.4 (2023) | 0.95 | flag |
 
-- Suez Canal, dry bulk: at least 311 Mt and up to 323 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
+- Suez Canal, dry bulk: at least 310 Mt and up to 322 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Suez Canal, tanker: at least 351 Mt and up to 361 Mt of the atlas's seaborne groups in 2024, against 226 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 452 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
-- Bab el-Mandeb, dry bulk: at least 297 Mt and up to 315 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
+- Bab el-Mandeb, dry bulk: at least 295 Mt and up to 314 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, tanker: at least 338 Mt and up to 408 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, container, general cargo and ro-ro: at least 56.6 Mt and up to 58.8 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 390 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
-- Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 228 Mt and up to 260 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
-- Strait of Gibraltar, dry bulk: at least 402 Mt and up to 445 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
+- Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 207 Mt and up to 239 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
+- Strait of Gibraltar, dry bulk: at least 399 Mt and up to 442 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
 - Torres Strait, tanker: at least 13.6 Mt and up to 50.6 Mt of the atlas's seaborne groups in 2024, against 13.5 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 14.4 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary
 
 ### Parallel passages under other thresholds of the parallel rule (K9)
@@ -746,11 +746,11 @@ Recomputed with `routing.classify()` from the option distances cached by `build_
 
 | passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |
 |---|---|---|---|
-| Strait of Malacca | 1,195 to 2,386 | 1,108 to 2,390 | 707.1 to 2,390 |
-| Sunda Strait | 25.4 to 1,209 | 3.90 to 1,360 | 3.30 to 1,768 |
-| Lombok Strait | 854.9 to 1,346 | 853.5 to 1,807 | 853.1 to 2,182 |
-| Taiwan Strait | 469.3 to 2,959 | 58.5 to 2,959 | 49.5 to 2,959 |
-| Luzon Strait | 34.4 to 2,604 | 34.2 to 3,026 | 34.2 to 3,035 |
+| Strait of Malacca | 1,194 to 2,385 | 1,108 to 2,390 | 706.6 to 2,390 |
+| Sunda Strait | 24.6 to 1,210 | 3.20 to 1,361 | 2.60 to 1,768 |
+| Lombok Strait | 854.8 to 1,347 | 853.4 to 1,808 | 853.1 to 2,183 |
+| Taiwan Strait | 469.0 to 2,960 | 58.5 to 2,960 | 49.5 to 2,960 |
+| Luzon Strait | 34.4 to 2,605 | 34.2 to 3,027 | 34.1 to 3,036 |
 
 ### EIA beside the atlas (crude oil)
 

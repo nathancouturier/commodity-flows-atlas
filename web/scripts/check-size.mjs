@@ -17,8 +17,8 @@ export const BUDGET = {
   otherJs: 600 * KB,
   css: 220 * KB,
   // Package NC3 (audit A-010, the metal bulks that were missing: ferrous scrap, chromium, ferro-alloys, pig iron and direct-reduced iron, coke,
-  // molybdenum, graphite) took the data folder from 31,715 kB to 34,683 kB (+2,968 kB) and the largest file, the chokepoint lanes, from 1,634 kB
-  // to 1,806 kB (+172 kB). The budgets rose by what the pages need and a fifth of room: 32,000 to 35,600 kB and 1,700 to 1,900 kB.
+  // molybdenum, graphite) took the data folder from 31,715 kB to 34,657 kB (+2,942 kB) and the largest file, the chokepoint lanes, from 1,634 kB
+  // to 1,797 kB (+163 kB). The budgets rose by what the pages need and a fifth of room: 32,000 to 35,600 kB and 1,700 to 1,900 kB.
   dataFile: 1900 * KB,
   data: 35600 * KB,
 };

@@ -872,7 +872,7 @@
   }
  ],
  "notes": [
-  "Trade is chromium ores and concentrates (HS 2610), customs gross weight, the chromite of the steel and chemical industries. USGS mine production is in the same gross weight (thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: the file also gives reserves in ore, but for 2024, an earlier year than the rest of the table, and the page does not show them.",
+  "Trade is chromium ores and concentrates (HS 2610), customs gross weight, the chromite of the steel and chemical industries. USGS mine production is in the same gross weight (thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: USGS also gives reserves in ore, but for 2024, an earlier year than the rest of the table, and the page does not show them.",
   "Ferro-chromium (HS 720241, 720249) and ferro-silico-chromium are alloys of the ferro-alloys page, not of this one; chromium metal and chromium chemicals are not loaded.",
   "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for chromium, and no other free one was loaded."
  ]
