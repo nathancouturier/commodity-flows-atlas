@@ -44,8 +44,11 @@
        },
        {
         "id": "capesize",
+        "also": [
+         "newcastlemax"
+        ],
         "by": "By the 19.8 m depth",
-        "basis": "Its standard vessel is within every limit given; the next larger class compared, VLOC, has a 22 m draught."
+        "basis": "Its standard vessel is within every limit given; the next larger class compared, VLOC, has a 22 m draught. Newcastlemax, between the two in size, has no standard vessel in the atlas and cannot be ruled out."
        }
       ]
      },
@@ -4385,8 +4388,11 @@
        },
        {
         "id": "ultramax",
+        "also": [
+         "panamax"
+        ],
         "by": "By the 14 m draught",
-        "basis": "Its standard vessel is within every limit given; the next larger class compared, Kamsarmax, has a 14.43 m draught."
+        "basis": "Its standard vessel is within every limit given; the next larger class compared, Kamsarmax, has a 14.43 m draught. Panamax, between the two in size, has no standard vessel in the atlas and cannot be ruled out."
        }
       ]
      },

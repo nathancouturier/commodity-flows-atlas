@@ -28,17 +28,28 @@ function handWrittenSources(panel: Element): string[] {
     // other lines of this class are notes, not sources
     if (!/^Sources?:/i.test(text)) continue;
     const links = [...line.querySelectorAll('a')].map((a) => ({ text: clean(a.textContent), href: a.href }));
-    for (const seg of text.replace(/^Sources?:\s*/i, '').split(' · ')) {
+    let body = text.replace(/^Sources?:\s*/i, '');
+    // one link is one source, even when its text holds the separator ("Port authority statistics · pilbaraports.com.au")
+    for (const l of links) {
+      if (!l.text.includes(' · ')) continue;
+      const joined = l.text.replace(/ · /g, ', ');
+      body = body.split(l.text).join(joined);
+      l.text = joined;
+    }
+    const mine: { base: string; read?: string }[] = [];
+    for (const seg of body.split(' · ')) {
       // a sentence that follows a source on its line is a remark, not a source; the citation adds its own full stop
       const t = seg.trim().replace(/^(read [A-Za-z]+ \d{4})\..*$/i, '$1').replace(/\.+$/, '');
       if (!t) continue;
       const l = links.find((x) => x.text === t);
-      // "read November 2026" belongs to the source before it
-      if (/^read /i.test(t) && out.length) out[out.length - 1].read ??= t;
-      else {
-        const base = l?.href ? `${t} (${l.href})` : t;
-        if (!out.some((o) => o.base === base)) out.push({ base });
-      }
+      // "read November 2026" belongs to the source before it on its line
+      if (/^read /i.test(t) && mine.length) mine[mine.length - 1].read ??= t;
+      else mine.push({ base: l?.href ? `${t} (${l.href})` : t });
+    }
+    for (const m of mine) {
+      const had = out.find((o) => o.base === m.base);
+      if (!had) out.push(m);
+      else had.read ??= m.read;
     }
   }
   return out.map((o) => (o.read ? `${o.base}, ${o.read}` : o.base));

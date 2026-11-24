@@ -118,9 +118,9 @@ function Body({ r }: { r: Route }) {
       <div class="panel-scroll">
         <AlertBanners route={r.id} chokepoints={r.via} status={r.status} />
         <div class="kpis">
-          <Kpi label={r.standIn ? 'Distance · stand-in trace' : leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub={r.standIn ? 'Not a distance of this benchmark' : 'SeaRoute network · Atlas routing'} title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" />
+          <Kpi label={r.standIn ? 'Distance · stand-in trace' : leg ? 'Distance · laden leg only' : 'Distance'} value={`${fmt(r.distanceNm)} nm`} sub={r.standIn ? 'Not a distance of this benchmark' : 'SeaRoute network · Atlas routing'} title="Sea-route distance between the representative ports, computed on Eurostat's SeaRoute maritime network" s={r.standIn ? undefined : 'eurostat-searoute'} />
           <Kpi label={r.standIn ? 'Laden days · stand-in trace' : leg ? 'Laden days · laden leg only' : 'Laden days'} value={`${fmt(r.days)} d`} sub={`at ${fmt(r.speedKn)} kn · no port, canal or ballast time`} title={`Distance divided by the assumed laden service speed of the class, ${fmt(r.speedKn)} kn (Atlas assumption): no port time, no canal wait, no ballast leg`} />
-          {dfn?.duration && <Kpi label="Duration as defined" value={dfn.duration} sub={`Whole trip · Baltic definition${dfn.y ? `, ${dfn.y}` : ''}`} title={`Duration of the whole time-charter trip or round voyage, as the Baltic definition gives it (${dfn.doc})`} />}
+          {dfn?.duration && <Kpi label="Duration as defined" value={dfn.duration} sub={`Whole trip · Baltic definition${dfn.y ? `, ${dfn.y}` : ''}`} title={`Duration of the whole time-charter trip or round voyage, as the Baltic definition gives it (${dfn.doc})`} s={r.s} y={dfn.y} />}
           {shares.map((s) => (
             <Kpi key={s.label} label={s.label} f={s.f} value={fmtFig(s.f)} note={s.f.n} span={!!s.f.n} />
           ))}
@@ -130,9 +130,9 @@ function Body({ r }: { r: Route }) {
           )}
           {/* an LNG benchmark gives the size of its standard carrier, not a cargo */}
           {parcel && (r.vclass === 'lng' ? (
-            <Kpi label="Vessel size" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title="Capacity of the standard carrier of the definition, not a cargo size" />
+            <Kpi label="Vessel size" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title="Capacity of the standard carrier of the definition, not a cargo size" s={r.s} y={dfn?.y} />
           ) : (
-            <Kpi label="Standard parcel" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title={`Parcel size per route definition (${dfn?.doc ?? r.s})`} />
+            <Kpi label="Standard parcel" value={parcel} sub={`${pub}${dfn?.y ? ` · ${dfn.y}` : ''}`} title={`Parcel size per route definition (${dfn?.doc ?? r.s})`} s={r.s} y={dfn?.y} />
           ))}
         </div>
         {!r.shareCommodity && r.shareOn && (

@@ -64,6 +64,7 @@ function PortLimitsSection({ lim, maxClass, read }: { lim: PortLimits; maxClass?
                     <span class="muted small">{e.by}:</span>
                     <VesselChip id={e.id} />
                     {e.orLarger && <span class="small">or larger</span>}
+                    {(e.also ?? []).flatMap((id) => [<span key={`or-${id}`} class="small">or</span>, <VesselChip key={id} id={id} />])}
                   </div>
                   <div class="muted small">{e.basis}</div>
                 </div>

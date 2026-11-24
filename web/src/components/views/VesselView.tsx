@@ -1,4 +1,5 @@
 /** Vessel size class: size band, standard vessel, world fleet, cargoes, constraints, canal limits, routes served. */
+import { useState } from 'preact/hooks';
 import type { FleetFile, Route, VesselClass, VesselStd } from '../../types';
 import { fmt } from '../../lib/format';
 import { load, sourceLabel } from '../../lib/data';
@@ -97,22 +98,16 @@ function FleetBlock({ v }: { v: VesselClass }) {
   );
 }
 
-export default function VesselView({ id }: { id: string }) {
-  useFreightCatalogue();
-  const v = useLoaded<VesselClass>(() => loadVesselClasses().then((l) => l.find((c) => c.id === id) ?? null), [id]);
-  const routes = useLoaded<Route[]>(() => loadRoutes(), []);
-  if (v === undefined)
-    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Skeleton lines={6} /></div></>);
-  if (v === null)
-    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This vessel class is not in the atlas catalogue.</Placeholder></div></>);
-  const u = v.size.u === 'teu' ? 'TEU' : v.size.u;
-  const byId = new Map((routes ?? []).map((r) => [r.id, r]));
-  const served = v.routes.map((rid) => byId.get(rid)).filter((r): r is Route => !!r);
-  // ended benchmarks after the active ones (as in the side panel); a listed route whose own class is another one apart
-  const activeFirst = (l: Route[]) => [...l].sort((a, b) => Number(!!a.discontinued) - Number(!!b.discontinued));
-  const own = activeFirst(served.filter((r) => r.vclass === v.id));
-  const also = activeFirst(served.filter((r) => r.vclass !== v.id));
-  const routeRow = (r: Route, other: boolean) => (
+/** Rows of "Routes served" shown before "Show all (N)": a Capesize or a Supramax is listed for more than twenty routes. */
+const FIRST_ROUTES = 8;
+
+/** The routes a class is listed for: its own first (ended benchmarks last), then those of another class it also serves. */
+function RoutesServed({ v, own, also }: { v: VesselClass; own: Route[]; also: Route[] }) {
+  const [all, setAll] = useState(false);
+  const n = own.length + also.length;
+  const ownShown = all ? own : own.slice(0, FIRST_ROUTES);
+  const alsoShown = all ? also : also.slice(0, Math.max(0, FIRST_ROUTES - own.length));
+  const row = (r: Route, other: boolean) => (
     <button class="list-btn" key={r.id} style={r.discontinued ? { opacity: 0.45 } : undefined} onClick={() => select({ kind: 'route', id: r.id })}>
       {r.benchmark && <span class="code-badge sm">{r.id}</span>}
       <span class="grow">
@@ -128,6 +123,39 @@ export default function VesselView({ id }: { id: string }) {
       )}
     </button>
   );
+  return (
+    <Section title={`Routes served (${n})`}>
+      {ownShown.map((r) => row(r, false))}
+      {alsoShown.length > 0 && (
+        <>
+          <h4 class="route-sub">Also served by {v.name}</h4>
+          {alsoShown.map((r) => row(r, true))}
+        </>
+      )}
+      {n > FIRST_ROUTES && (
+        <button class="act-btn" style={{ alignSelf: 'flex-start' }} onClick={() => setAll(!all)} aria-expanded={all}>
+          {all ? 'Show fewer' : `Show all (${n})`}
+        </button>
+      )}
+    </Section>
+  );
+}
+
+export default function VesselView({ id }: { id: string }) {
+  useFreightCatalogue();
+  const v = useLoaded<VesselClass>(() => loadVesselClasses().then((l) => l.find((c) => c.id === id) ?? null), [id]);
+  const routes = useLoaded<Route[]>(() => loadRoutes(), []);
+  if (v === undefined)
+    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Skeleton lines={6} /></div></>);
+  if (v === null)
+    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This vessel class is not in the atlas catalogue.</Placeholder></div></>);
+  const u = v.size.u === 'teu' ? 'TEU' : v.size.u;
+  const byId = new Map((routes ?? []).map((r) => [r.id, r]));
+  const served = v.routes.map((rid) => byId.get(rid)).filter((r): r is Route => !!r);
+  // ended benchmarks after the active ones (as in the side panel); a listed route whose own class is another one apart
+  const activeFirst = (l: Route[]) => [...l].sort((a, b) => Number(!!a.discontinued) - Number(!!b.discontinued));
+  const own = activeFirst(served.filter((r) => r.vclass === v.id));
+  const also = activeFirst(served.filter((r) => r.vclass !== v.id));
   const z = v.size;
 
   const short = (s: string) => (s === 'wikipedia' ? 'Wikipedia' : publisher(s));
@@ -146,10 +174,12 @@ export default function VesselView({ id }: { id: string }) {
             value={`${fmt(z.typical)} ${u}`}
             sub={typicalSub}
             title={`Typical size (${z.typicalS ?? v.s}${z.typicalY ? ` · ${z.typicalY}` : ''})`}
+            s={z.typicalS ?? v.s}
+            y={z.typicalY}
           />
-          <Kpi label="Size range" value={z.min > 0 ? `${fmt(z.min)}–${fmt(z.max)}` : `up to ${fmt(z.max)}`} sub={rangeSub} title={`Size range (${z.s ?? v.s}${z.y ? ` · ${z.y}` : ''})`} />
+          <Kpi label="Size range" value={z.min > 0 ? `${fmt(z.min)}–${fmt(z.max)}` : `up to ${fmt(z.max)}`} sub={rangeSub} title={`Size range (${z.s ?? v.s}${z.y ? ` · ${z.y}` : ''})`} s={z.s ?? v.s} y={z.y} />
           {v.speed ? (
-            <Kpi label="Assumed laden service speed" value={`${fmt(v.speed.v)} ${v.speed.u}`} sub={`Atlas assumption · ${v.speed.y}`} title={`${v.speed.s} · ${v.speed.y}`} note={v.speed.n} span />
+            <Kpi label="Assumed laden service speed" value={`${fmt(v.speed.v)} ${v.speed.u}`} sub={`Atlas assumption · ${v.speed.y}`} title={`${v.speed.s} · ${v.speed.y}`} note={v.speed.n} span s={v.speed.s} y={v.speed.y} />
           ) : v.speedKn ? (
             <Kpi label="Assumed laden service speed" value={`${fmt(v.speedKn)} kn`} sub="Atlas assumption" note={v.speedNote} span />
           ) : null}
@@ -197,17 +227,7 @@ export default function VesselView({ id }: { id: string }) {
           {!v.canals.suez.startsWith('No restriction') && <SourceLine s="sca-rules" />}
           {!v.canals.panama.startsWith('No restriction') && <SourceLine s="pca-vessel-requirements" />}
         </Section>
-        {served.length > 0 && (
-          <Section title={`Routes served (${served.length})`}>
-            {own.map((r) => routeRow(r, false))}
-            {also.length > 0 && (
-              <>
-                <h4 class="route-sub">Also served by {v.name}</h4>
-                {also.map((r) => routeRow(r, true))}
-              </>
-            )}
-          </Section>
-        )}
+        {served.length > 0 && <RoutesServed key={`${v.id}-routes`} v={v} own={own} also={also} />}
         {v.notes && (
           <Section key={`${v.id}-notes`} fold title="Notes">
             <p class="prose">{v.notes}</p>

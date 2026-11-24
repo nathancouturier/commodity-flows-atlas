@@ -22,8 +22,10 @@ oils, dry bulk for the rest):
   not above the smallest band gives no class. Classes measured in cubic metres or TEU have no deadweight band.
 - By dimensions. When the page gives a draught, a length or a beam, the largest class of the segment whose standard
   vessel (`std`) is no larger than the limit in every one of those dimensions that both give. A class whose standard
-  vessel has none of them is not compared, and the note names it. A water depth is entered as a draught (`depth`):
-  it is an upper bound of a ship's draught, so it can rule a class out, but it never gives a class on its own.
+  vessel has none of them is not compared, and the note names it; one whose size lies between the class found and
+  the next larger class ruled out is named beside the class found (`also`), since nothing rules it out. A water depth
+  is entered as a draught (`depth`): it is an upper bound of a ship's draught, so it can rule a class out, but it
+  never gives a class on its own.
 - Only a size of ship (deadweight, length or beam) opens the way to a class: a draught, a channel depth or a berth depth
   alone gives none.
 - Both rules give the same class, or only one applies: that class, with its basis. They disagree: both, each with its
@@ -112,9 +114,11 @@ def _shared(std, limits):
 
 
 def class_by_dimensions(limits, classes, segment):
-    """(class, excluded, not compared) for the largest class of a segment whose standard vessel is within every
-    dimension (draught, length, beam) that it and the page both give. `excluded` is (class, dimensions that rule out)
-    for the next larger class compared, or None; `not compared` lists the classes with no dimension in common."""
+    """(class, excluded, not compared, between) for the largest class of a segment whose standard vessel is within
+    every dimension (draught, length, beam) that it and the page both give. `excluded` is (class, dimensions that rule
+    out) for the next larger class compared, or None; `not compared` lists the classes with no dimension in common;
+    `between` lists those of them that are larger than the class found and smaller than the one ruled out: nothing
+    rules them out, so the class found is not named alone."""
     cands = [c for c in classes if c.get("segment") == segment]
     fit, out, skipped = [], [], []  # the list of classes not compared is of use only when some class was compared
     for c in cands:
@@ -127,11 +131,14 @@ def class_by_dimensions(limits, classes, segment):
         else:
             fit.append(c)
     if not fit:
-        return None, None, skipped if out else []
+        return None, None, skipped if out else [], []
     best = max(fit, key=_weight)
     larger = [(c, ds) for c, ds in out if _weight(c) > _weight(best)]
     excluded = min(larger, key=lambda cd: _weight(cd[0])) if larger else None
-    return best, excluded, skipped
+    # a class with no figure to compare that sits between the class found and the one ruled out (Panamax between
+    # Ultramax and Kamsarmax); with no class ruled out, nothing bounds the list, and none is named
+    between = sorted((c for c in skipped if excluded and _weight(best) < _weight(c) < _weight(excluded[0])), key=_weight)
+    return best, excluded, skipped, between
 
 
 def _dim_text(d, limits):
@@ -159,12 +166,17 @@ def _dwt_entry(c, or_larger, band, limits):
     return {"id": c["id"], **({"orLarger": True} if or_larger else {}), "by": "By deadweight", "basis": basis}
 
 
-def _dim_entry(c, excluded, limits):
+def _dim_entry(c, excluded, limits, between=()):
     if excluded:
         ex, dims = excluded
         by = f"By {_join([_dim_text(d, limits) for d in dims])}"
         what = _join([f"a {_fmt(ex['std'][d])} m {WORD[d]}" for d in dims])
         basis = f"Its standard vessel is within every limit given; the next larger class compared, {_name(ex)}, has {what}."
+        if between:
+            names = _join([_name(b) for b in between])
+            basis += (f" {names}, between the two in size, {'has' if len(between) == 1 else 'have'} no standard vessel in the "
+                      "atlas and cannot be ruled out.")
+            return {"id": c["id"], "also": [b["id"] for b in between], "by": by, "basis": basis}
     else:
         given = [d for d in DIMS if _num(c["std"].get(d)) and _num(limits.get(d))]
         by = f"By {_join([_dim_text(d, limits) for d in given])}"
@@ -201,10 +213,10 @@ def max_class(props, classes):
             elif band is None and any(_band(x) for x in classes if x.get("segment") == seg):
                 dwt_none = True  # a limit not above the smallest band: no class, whatever the dimensions say
         if not dwt_none:
-            c, excluded, sk = class_by_dimensions(lim, classes, seg)
+            c, excluded, sk, between = class_by_dimensions(lim, classes, seg)
             skipped += sk
             if c:
-                e = _dim_entry(c, excluded, lim)
+                e = _dim_entry(c, excluded, lim, between)
                 if entries and entries[0]["id"] == e["id"]:
                     entries[0] = {**entries[0], "by": f"{entries[0]['by']} and {e['by'][3:]}", "basis": f"{entries[0]['basis']} {e['basis']}"}
                 else:

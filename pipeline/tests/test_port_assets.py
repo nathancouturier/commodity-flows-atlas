@@ -140,10 +140,23 @@ class PortLimits(unittest.TestCase):
         self.assertEqual([(e["id"], e["by"]) for e in m["dry"]["classes"]],
                          [("vloc", "By deadweight"), ("ultramax", "By the 14 m draught")])
         self.assertIn("Kamsarmax", m["dry"]["classes"][1]["basis"])
+        # Panamax (no standard vessel) lies between Ultramax and the Kamsarmax ruled out: named beside Ultramax, not left out
+        self.assertEqual(m["dry"]["classes"][1].get("also"), ["panamax"])
+        self.assertIn("Panamax, between the two in size, has no standard vessel in the atlas and cannot be ruled out",
+                      m["dry"]["classes"][1]["basis"])
+        self.assertNotIn("also", m["dry"]["classes"][0])
         # Port Hedland: a depth of 19.8 m (the VLOC standard vessel needs 22 m) and ships of up to 320,000 dwt
         m = self.entries(["iron-ore"], draught=19.8, depth=True, dwt=320000)
         self.assertEqual([(e["id"], e["by"]) for e in m["dry"]["classes"]],
                          [("vloc", "By deadweight"), ("capesize", "By the 19.8 m depth")])
+        self.assertEqual(m["dry"]["classes"][1].get("also"), ["newcastlemax"])
+        # with no larger class ruled out, nothing bounds the list and none is added (the largest class compared fits)
+        m = self.entries(["iron-ore"], draught=23, loa=365, beam=66, seg="dry")
+        self.assertEqual([e["id"] for e in m["dry"]["classes"]], ["vloc"])
+        self.assertTrue(all("also" not in e for e in m["dry"]["classes"]))
+        # Kandla: Panamax is smaller than the Kamsarmax found, Newcastlemax larger than the Capesize ruled out: neither is between
+        m = self.entries(["thermal-coal"], draught=14.5, loa=255, seg="dry")
+        self.assertTrue(all("also" not in e for e in m["dry"]["classes"]))
 
     def test_two_rules_that_agree_give_one_class_with_both_bases(self):
         # Primorsk: 150,000 dwt, 55 m beam; the Suezmax standard vessel (48 m beam) is the only tanker with a dimension

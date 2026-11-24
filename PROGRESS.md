@@ -482,11 +482,19 @@ These were needed to finish the work; each is reversible.
      By deadweight it is the class whose size band holds the limit ("or larger" beyond the largest band: LOOP,
      Hound Point); by dimensions it is the largest class whose standard vessel fits the draught, length and beam
      given. When the two differ, the page shows both with their basis and no single class (Port Hedland, Taman).
+     A class with no standard vessel that lies between the class found and the next one ruled out is named
+     beside it, since nothing rules it out ("Ultramax or Panamax" at Taman, "Capesize or Newcastlemax" at Port
+     Hedland).
      Six coal ports keep a coal tag although their page does not say thermal or metallurgical.
    - Route, class and port pages fold their secondary blocks to one line, as commodity and country pages do: the
      Baltic definition, the Route finder paragraph, the freight rate and the notes of a route; the size band, the
      standard vessel, the world fleet and the shipping companies of a class; the routes, lanes and price series
-     of a port. A folded block is not part of "Copy citation".
+     of a port. A folded block is not part of "Copy citation". A class page lists the first eight of its routes,
+     the rest behind "Show all (N)".
+   - "Copy citation" reads the source of every key figure that is open, including those given as text (the
+     standard parcel and the duration of a Baltic definition, the typical size and size band of a class, the
+     distance computed on the SeaRoute network), and a source line whose link holds a name and a site is one
+     source, with its address.
    - A port of a route that is not an asset links to the largest lane through it of a cargo the route carries,
      or stays plain text.
    - Ports are drawn at every zoom like every other asset: with 190 of them the world view is crowded,

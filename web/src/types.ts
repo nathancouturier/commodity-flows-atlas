@@ -1177,6 +1177,8 @@ export interface PortClassEntry {
   id: string;
   /** the limit is above the band of the largest class of the segment */
   orLarger?: true;
+  /** classes between this one and the next one ruled out that have no standard vessel to compare: not ruled out */
+  also?: string[];
   /** "By deadweight", "By the 14 m draught" */
   by: string;
   /** one sentence: what the class rests on */

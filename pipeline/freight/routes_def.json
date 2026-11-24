@@ -2374,10 +2374,10 @@
   ],
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
-  "notes": "Kuwaiti crude or dirty products to Singapore, heated to 135 F.",
+  "notes": "Kuwaiti crude and/or dirty products to Singapore, heated to 135 F.",
   "definition": {
    "code": "TD8",
-   "cargo": "crude oil or dirty petroleum products, 80,000 t",
+   "cargo": "crude oil and/or dirty petroleum products, 80,000 t",
    "load": "Mena al Ahmadi",
    "discharge": "Singapore",
    "state": "active",

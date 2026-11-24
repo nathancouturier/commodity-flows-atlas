@@ -525,7 +525,18 @@ function useFitOneLine(text: string) {
   return ref;
 }
 
-export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: string; note?: string; title?: string; span?: boolean }) {
+export function Kpi(props: {
+  label: string;
+  f?: Fig;
+  value?: string;
+  sub?: string;
+  note?: string;
+  title?: string;
+  span?: boolean;
+  /** source and year of a tile given as a text value (no `f`), so that "Copy citation" reads it as it reads a figure's */
+  s?: string;
+  y?: number | string;
+}) {
   const f = props.f;
   const [open, setOpen] = useState(false);
   const valueText = props.value ?? fmtFig(f);
@@ -534,7 +545,7 @@ export function Kpi(props: { label: string; f?: Fig; value?: string; sub?: strin
   const note = props.note;
   const long = !!note && note.length > 90;
   return (
-    <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title} data-src={f?.s} data-y={f ? String(f.y) : undefined}>
+    <div class={`kpi${props.span ? ' kpi-span' : ''}`} title={title} data-src={f?.s ?? props.s} data-y={f ? String(f.y) : props.y != null ? String(props.y) : undefined}>
       <div class="kpi-label">{props.label}</div>
       <div class="kpi-value" ref={valueRef}>{valueText}</div>
       {(f || props.sub) && (

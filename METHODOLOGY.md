@@ -1493,7 +1493,9 @@ segment, that class "or larger"; not above the smallest band, no class. Where ba
 the Capesize and VLOC bands; Aframax and LR2 share one) the widest band stands for the class, so a nested class is
 never chosen. (2) By dimensions: when the page gives a draught, a length or a beam, the largest class whose standard
 vessel (`std`) is no larger in every one of those dimensions that both give; a class whose standard vessel has none of
-them is not compared, and the note names it. When the two rules give the same class, or only one applies, the page
+them is not compared, and the note names it. A class not compared whose size lies between the class found and the
+next larger class ruled out (Panamax between Ultramax and Kamsarmax) is named beside the class found ("Ultramax or
+Panamax"), since nothing rules it out. When the two rules give the same class, or only one applies, the page
 shows that class and its basis; when they differ it shows both with their basis ("By deadweight: VLOC. By the 14 m
 draught: Ultramax.") and no single class. No class comes from a depth alone: a class needs a deadweight, a length or
 a beam, and a channel or berth depth is shown as a limit ("Depth") that can only rule a class out. A limit stated

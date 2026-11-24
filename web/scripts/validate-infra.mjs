@@ -305,6 +305,8 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
               else if (classSegment.size && classSegment.get(e.id) !== k) shape(`${at}: maxClass.${k} "${e.id}" is not a class of that segment`);
               else if (typeof e.by !== 'string' || !e.by || typeof e.basis !== 'string' || !e.basis) shape(`${at}: maxClass.${k} "${e.id}" needs "by" and "basis"`);
               else if (e.orLarger !== undefined && e.orLarger !== true) shape(`${at}: maxClass.${k} "${e.id}": orLarger can only be true`);
+              else if (e.also !== undefined && (!Array.isArray(e.also) || !e.also.length || e.also.some((id) => (classes.size && !classes.has(id)) || (classSegment.size && classSegment.get(id) !== k) || id === e.id)))
+                shape(`${at}: maxClass.${k} "${e.id}": "also" lists other classes of that segment`);
             }
             if (list.length === 2 && list[0].id === list[1].id) shape(`${at}: maxClass.${k} gives the same class twice`);
           }
