@@ -178,9 +178,10 @@ class Selection(unittest.TestCase):
         # package L1 added eight groups of minor metals (225 main, 90 history-only and 2 mixed lanes in its build) and
         # made Belarusian potash to China a mixed pair: 2,400 / 182 / 35 before, 2,629 / 276 / 38 after
         # package NC1 added ten groups of fertilisers and sulphur: 3,001 / 387 / 42
-        self.assertTrue(2900 <= main <= 3100, main)
-        self.assertTrue(340 <= hist_ <= 440, hist_)
-        self.assertTrue(36 <= mixed <= 50, mixed)
+        # package NC2 added eight groups of grains, oilseeds and pulses: 3,317 / 469 / 57
+        self.assertTrue(3200 <= main <= 3400, main)
+        self.assertTrue(420 <= hist_ <= 520, hist_)
+        self.assertTrue(50 <= mixed <= 65, mixed)
 
 
 @need_build
@@ -201,7 +202,8 @@ class Pairs(unittest.TestCase):
         # 34 groups since the ferro-nickel and spodumene groups were added (23,739 rows with the first 32); 42 groups
         # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42, 25,847 once cleaning rule 9 dropped two lithium pairs)
         # 52 groups since package NC1 added the fertilisers and sulphur (29,135 rows)
-        self.assertTrue(28900 <= n <= 29400, n)
+        # 60 groups since package NC2 added the grains, oilseeds and pulses (32,475 rows)
+        self.assertTrue(32200 <= n <= 32800, n)
 
     def test_P02_seaborne_rows_routed(self):
         for g, o, d, kt, m in (("coal", "USA", "CHN", 12092, None), ("coal", "CAN", "CHN", 9529, None),
@@ -241,9 +243,9 @@ class Pairs(unittest.TestCase):
             gz += len(gzip.compress(b, 9))
             big = max(big, len(b))
         print(f"\nP05: pairs folder {raw / 1024:.0f} KB raw, {gz / 1024:.0f} KB gzip, largest file {big / 1024:.0f} KB")
-        self.assertLessEqual(raw, 1.5 * 1024 * 1024)
+        self.assertLessEqual(raw, 1.75 * 1024 * 1024)  # 1.5 MB before package NC2 added eight groups (1.6 MB with them)
         self.assertLessEqual(big, 230 * 1024)
-        self.assertLessEqual(gz, 500 * 1024)  # 380 KB before package L1 added eight groups (406 KB with them), 466 KB with the ten groups of package NC1
+        self.assertLessEqual(gz, 560 * 1024)  # 380 KB before package L1 added eight groups (406 KB with them), 466 KB with the ten groups of package NC1, 519 KB with the eight of NC2
 
     def test_P06_indexes_and_masks(self):
         cps = {c["id"] for c in load_json(os.path.join(ROOT, "data", "freight", "chokepoints.json"))}

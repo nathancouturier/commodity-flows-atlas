@@ -3513,7 +3513,7 @@
  ],
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
-  "The main trade tables are sunflower seed (HS 120600), customs gross weight; oil seed, seed for sowing and snack seed are not told apart in the code. ",
+  "The tables of the seed are USDA PSD (marketing years); its flows and seaborne figure are customs data for sunflower seed (HS 120600), gross weight (CEPII BACI); oil seed, seed for sowing and snack seed are not told apart in the code. ",
   "The oil and the meal are two more customs groups, each its own code, gross weight, in none of the totals of another: sunflower-seed or safflower oil (HS 151211, 151219), and sunflower-seed oil-cake and other solid residues (HS 230630). Safflower oil is in the oil code with sunflower oil and customs data do not separate them; the USDA oil table is sunflower oil only.",
   "Sunflower and safflower oil (HS 151211, 151219), 2024 (CEPII BACI): world 17.70 Mt gross weight; top exporters Ukraine 5.89 Mt, Russia 4.59 Mt, Turkey 1.04 Mt.",
   "Sunflower meal (HS 230630), 2024 (CEPII BACI): world 11.50 Mt gross weight; top exporters Ukraine 4.45 Mt, Russia 2.06 Mt, Argentina 1.02 Mt.",

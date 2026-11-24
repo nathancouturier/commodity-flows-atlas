@@ -252,7 +252,10 @@ class Series(unittest.TestCase):
             self.assertNotIn(s["years"].index(y), (s.get("out") or {}).get(c, []), (cid, k, c, y))
         self.assertNotIn("out", self.hist["potash"]["t"]["exports"])
         flagged = {(cid, k) for cid, h in self.hist.items() for k, s in h["t"].items() if s.get("out")}
-        self.assertLessEqual(len(flagged), 6, flagged)  # a rule for breaks, not for the ups and downs of trade
+        # a rule for breaks, not for the ups and downs of trade. Four tables before package NC2 (cobalt and uranium trade); the PSD and customs
+        # tables of the new pages add three: China's and the EU's sorghum imports, Ukraine's sunflower seed exports and stocks, real swings of
+        # one country in the source's own figures (M-023)
+        self.assertLessEqual(len(flagged), 8, flagged)
 
     def test_spodumene_series_starts_with_the_lanes(self):
         """The spodumene estimate is not extended to years its rule does not cover: the series starts in the lanes' first year,

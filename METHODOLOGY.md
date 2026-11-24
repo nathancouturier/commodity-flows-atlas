@@ -249,7 +249,8 @@ seaborne totals, the lane shares and the chokepoint shares.
 
 **Cargo families** (`FAMILY`): crude; refined products; LPG; LNG; dry bulk (iron ore, coal, bauxite,
 alumina, manganese, copper, nickel and zinc ores, spodumene concentrate); grain (wheat, corn,
-soybeans, soybean meal, rice, sugar, rapeseed); vegetable oils (soybean and palm oil); fertilisers
+soybeans, soybean meal, rice, sugar, rapeseed, and since package NC2 barley, sorghum, sunflower seed, sunflower
+meal, rapeseed meal and dried pulses); vegetable oils (soybean, palm, sunflower and rapeseed oil); fertilisers
 (potash, potassium sulphate, phosphate rock, DAP, MAP, superphosphates, phosphoric acid, urea, ammonia, ammonium
 nitrate, UAN, ammonium sulphate, NPK and sulphur: the mode of a pair depends on the borders and the ports, not on
 whether the cargo is a solid or a liquid); metals (steel, refined copper, aluminium, nickel intermediates,
@@ -291,10 +292,11 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (52 lane groups, 29,135 pairs, 9,303.6 Mt): sea 7,871.9 Mt (21,299 pairs), sea via a
-transit port 178.9 Mt (2,359 pairs), sea and overland 312.1 Mt (76 pairs), land 940.7 Mt (5,401
-pairs). Seaborne: 8,050.8 Mt. (42 groups, 25,847 pairs and 9,154.1 Mt before the ten groups of fertilisers
-and sulphur were added, and 34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
+**2024 by mode** (60 lane groups, 32,475 pairs, 9,436.0 Mt): sea 7,957.8 Mt (23,384 pairs), sea via a
+transit port 181.8 Mt (2,527 pairs), sea and overland 317.1 Mt (101 pairs), land 979.3 Mt (6,463
+pairs). Seaborne: 8,139.6 Mt. (52 groups, 29,135 pairs and 9,303.6 Mt before the eight groups of grains, oilseeds
+and pulses were added, 42 groups, 25,847 pairs and 9,154.1 Mt before the ten groups of fertilisers
+and sulphur, and 34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
 minor metals; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
@@ -395,23 +397,24 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 3,001 main seaborne lanes, 42 mixed lanes and 387 history lanes over 52 groups (2,617, 35
-    and 271 over 42 groups before the fertilisers and sulphur; 2,400, 35
-    and 182 over 34 groups before the minor metals); the main lanes carry 85.4% of 2024 seaborne
+  - 2024: 3,317 main seaborne lanes, 57 mixed lanes and 469 history lanes over 60 groups (3,001, 42
+    and 387 over 52 groups before the grains, oilseeds and pulses; 2,617, 35 and 271 over 42 groups before the
+    fertilisers and sulphur; 2,400, 35
+    and 182 over 34 groups before the minor metals); the main lanes carry 85.3% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
     (56.9%), refined products (60.1%), unwrought zinc (62.8%), unwrought lead (64.3%), aluminium
-    (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 81.2% (73.7% before the
+    (66.1%), cocoa (66.5%), dried pulses (68.1%), steel (68.2%) and coffee (69.9%); potash reads 81.2% (73.7% before the
     Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 29,135 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 32,475 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,176.1 Mt in 2024); a pair "not routed" has no route at all (54.3 Mt in 2024: 37.2 Mt because a
+  (1,192.6 Mt in 2024); a pair "not routed" has no route at all (56.2 Mt in 2024: 39.0 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
-  50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway, 0.6 Mt
+  50 nm, mostly Malaysian refined products to Singapore, 1.4 Mt because an end has no gateway, 0.6 Mt
   of minor metals from the wrong coast; 64.2 Mt, 47.7 Mt of it for want of a transit port, before
   package L1).
 - **The Route finder** reads the pairs files of the commodity's groups, so it never says "no flow" for
@@ -554,7 +557,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
 - **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 103 hand-written
-  routes name 44.8% of the 8,051 Mt of 2024 seaborne tonnes of the 52 customs groups. For the rest, the pairs table
+  routes name 44.3% of the 8,140 Mt of 2024 seaborne tonnes of the 60 customs groups. For the rest, the pairs table
   is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
   discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
   that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
@@ -571,10 +574,11 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   corridors are taken by their tonnes across groups, each group's in its own order, so that no corridor is left out
   for a smaller one of another group (package FL1; before, the first corridor of every group came first, and three
   corridors of 1.1 to 1.5 Mt gave way to corridors of 0.5 Mt of the minor metals). The groups added after this rule was
-  set (the fertilisers and sulphur of package NC1) have a cap of 20 routes of their own, their first corridors first, so that
-  no earlier route is dropped when a group is added (`LATER_GROUPS`). The result for 2024 is 140
-  generated routes (120 and 20) over 52 groups beside 133 hand-written ones (273 routes), and 65.8% of the seaborne tonnes named (all
-  groups; 44.8% by the hand-written routes alone): ten of the 52 groups reach 70% (iron
+  set have a cap of routes of their own for each package, their first corridors first, so that no earlier route is dropped
+  when a group is added (`LATER_GROUPS`): 20 routes for the fertilisers and sulphur of package NC1, 10 for the eight groups
+  of grains, oilseeds and pulses of package NC2. The result for 2024 is 150
+  generated routes (120, 20 and 10) over 60 groups beside 133 hand-written ones (283 routes), and 65.4% of the seaborne tonnes named (all
+  groups; 44.3% by the hand-written routes alone): ten of the 60 groups reach 70% (iron
   ore, coal, crude oil, LPG, corn, soybeans, bauxite, ferro-nickel, nickel ore and spodumene); the others stay short of
   it, among them steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
   groups whose corridors are all smaller than those kept (aluminium, refined copper, zinc concentrate, the minor
@@ -674,6 +678,13 @@ limits. The rules are in `pipeline/freight/vessel_rules.py`. Examples:
   ammonium nitrate, potassium sulphate) and sulphur take the class of urea, DAP and potash: Supramax first, Handysize
   second. The three liquids are compared with the tankers of IMF PortWatch in the chokepoint estimates, the others
   with its dry bulk ships.
+- The grains, oilseeds and pulses of package NC2 (audit M-023) fall in the families that exist. Barley, sorghum, sunflower
+  seed, sunflower meal, rapeseed meal and dried pulses are dry cargo like wheat, corn and soybean meal and take their rule
+  (Supramax and Handysize, with Kamsarmax first for a lane of more than 1 Mt from the United States, Brazil, Argentina,
+  Canada or Australia). Sunflower oil and rapeseed oil (with the safflower and mustard oil of the same codes) are vegetable
+  oils and take the rule of palm oil and soybean oil: MR first, chemical tanker second, and the tanker comparison of the
+  chokepoint estimates. No new rule was written; the classes are Atlas assumptions as for every lane, and the vessel
+  catalogue lists the sunflower and rapeseed pages among the cargoes of the classes concerned.
 
 These are labelled "typical" in the interface (lane and route tooltips, the route list, the lane table and its CSV
 column `typical_vessel_class`); a benchmark's class is the class of its definition and is not called typical. They are not measured shares of each class: no free source measures how
@@ -984,7 +995,11 @@ totals of the series by year are the same for every country: they are in one fil
 ## 7. Prices
 
 - Monthly prices: World Bank Commodity Price Data (Pink Sheet), nominal USD, 1960 to the latest
-  month.
+  month. Two series stopped in August 2020, barley and sorghum: since package NC2 (audit M-023) they are published to that
+  month, marked closed by the builder (a monthly series that ends more than six months before the newest series of its
+  source), and their pages say when they stop and show the last price as "last price" with "series closed"
+  (`figures.json` keeps a closed series for a commodity that has no other). Sunflower oil, which had no page, is on the
+  sunflower page; the rapeseed page keeps the rapeseed oil series, and both pages say that the price is the oil's.
 - Daily prices: EIA spot series (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating
   oil, US Gulf jet fuel, Mont Belvieu propane).
 - Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
@@ -1258,6 +1273,34 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   (`OWN_FAMILY` in `ports.py`). The groups have lanes under their page (`COMMODITY` in `build_lanes.py`); SOP keeps few
   (its lanes cover about a fifth of its seaborne tonnes). Generated corridors: the new groups have a cap of their own, 20
   routes (`LATER_GROUPS` in `generated_routes.py`), so that the 120 routes of the earlier groups stay as they were.
+- **Grains, oilseeds and pulses** (package NC2, audit M-023). Four pages are new (barley, sorghum, sunflower, pulses) and the
+  wheat, corn and rapeseed pages hold more products. Every HS 1992 code is in one group and every group on one page
+  (`pipeline/trade/hs_map.py`); the groups, with the wording of the official list of CEPII BACI, are: barley (100300; malting
+  and feed barley are not told apart); grain sorghum (100700); sunflower seeds (120600; oil seed, seed for sowing and snack seed
+  are not told apart); sunflower-seed or safflower oil, crude and other (151211, 151219: one code holds two oils, so the group is
+  "Sunflower and safflower oil"); rape, colza or mustard oil, crude and other (151410, 151490: "Rapeseed, canola and mustard
+  oil"); the oil-cake and other solid residues of sunflower seed oil extraction (230630) and of rape or colza seed oil extraction
+  (230640), here "meal"; wheat or meslin flour (110100); brewing or distilling dregs and waste (230330: the code of distillers' dried
+  grains, which it holds with brewers' grains and other dregs, so the tables are not a DDGS series); and the dried leguminous
+  vegetables, shelled (071310 peas, 071320 chickpeas, 071331 to 071339 beans, 071340 lentils, 071350 broad and horse beans,
+  071390 other). Left out: malt (1107), oats (1004), rye (1002), the other flours, groats and starches (1102 to 1109), the other
+  oilseeds, oils and meals (1207, 1512 other than sunflower, 2306 other than sunflower and rape), fresh pulses. The customs tonnage
+  is the gross weight as declared; the tables of a product are in none of the totals of another. Pulses are one customs group for
+  the main tables and the lanes; the kinds are read from the six-digit rows of the same pair and year
+  (`pipeline/cache/baci_hs6_detail.csv.gz`, from 2019; the main tables' tonnage is split by the shares of the raw rows, so the
+  cleaning rules are kept), as the two codes of unwrought aluminium are (`SPLITS` in `metals.py`). Barley, sorghum and sunflower
+  seed have the USDA PSD tables and balance of a grain page; the sunflower and rapeseed pages add the PSD production and domestic use of the oil and the
+  meal (the Oil and Meal commodities of the PSD file), and USDA's oil is sunflower oil only or rapeseed oil only, while the customs
+  codes hold safflower and mustard oil too. The pulses page has no production table: the PSD file has no pulses and no other file
+  on disk gives them. Wheat flour and the dregs are trade tables only and have no lanes: a large part of this trade moves in bags
+  or boxes. The shared cleaning rules treat barley, sorghum, sunflower oil, rapeseed oil and the two meals as homogeneous groups
+  (rule 4), and sunflower seed, pulses, wheat flour and the dregs get only the gross-error rule. The World Bank Pink Sheet gives
+  the price of sunflower oil and of rapeseed oil (the pages say that the price is the oil's), and barley and sorghum to August 2020;
+  there is no free series for the seed, the meals, the flour, the dregs or the pulses. Ports: the engine's own fall-backs
+  (page names the cargo, the general port of the country, the port used before, the nearest seaport) give each lane's ports with
+  their basis; no port was attached to these cargoes, and the sunflower and rapeseed oils take the rows written for palm and soybean
+  oil (a "vegoil" gateway row), so that a palm-oil terminal can be the port of an import of sunflower oil. Generated corridors: the eight groups of lanes share a cap of
+  10 routes (`LATER_GROUPS`), so that no earlier route moved.
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown
   as the last row, apart from the countries it names; countries it names beyond the first ten rows
   are counted in a separate line, not in "Other countries". **Shares on the sum of the lines**

@@ -376,7 +376,7 @@ def qa_markdown(report, target=TARGET, total_cap=TOTAL_CAP):
         "Method: METHODOLOGY.md, section 3, \"Generated corridors\".",
         "",
         f"- Target: {100 * target:.0f}% of the seaborne tonnes of each customs group named by routes. Caps: {GROUP_CAP} generated routes "
-        f"per group, {total_cap} in all" + "".join(f", and {cap} more for the groups added after it ({len(gs)} groups)" for gs, cap in LATER_GROUPS) + f". Floors: {FLOOR_MT} Mt and {100 * FLOOR_SHARE:.0f}% of the group's seaborne tonnes of a corridor not named by "
+        f"per group, {total_cap} in all" + "".join(f", and {cap} more for the {len(gs)} groups of a later package" for gs, cap in LATER_GROUPS) + f". Floors: {FLOOR_MT} Mt and {100 * FLOOR_SHARE:.0f}% of the group's seaborne tonnes of a corridor not named by "
         f"hand-written routes, at least {100 * MIN_NEW_SHARE:.0f}% of the corridor's own tonnes outside them.",
         f"- {sum(x['generated'] for x in report.values())} generated routes over {len(report)} groups, {tot:,.0f} Mt of seaborne trade. "
         f"Named by hand-written routes: {hand:.1f}%. With the generated routes: {both:.1f}%.",

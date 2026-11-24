@@ -3096,7 +3096,7 @@
  ],
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
-  "The main trade tables are rapeseed (HS 120500), customs gross weight. ",
+  "The tables of the seed are USDA PSD (marketing years); its flows and seaborne figure are customs data for rapeseed (HS 120500), gross weight (CEPII BACI). ",
   "The oil and the meal are two more customs groups, each its own code, gross weight, in none of the totals of another: rape, colza or mustard oil (HS 151410, 151490), and rape or colza seed oil-cake and other solid residues (HS 230640). Mustard oil is in the oil code with rapeseed and canola oil and customs data do not separate them; the USDA oil table is rapeseed oil only.",
   "Rapeseed, canola and mustard oil (HS 151410, 151490), 2024 (CEPII BACI): world 10.39 Mt gross weight; top exporters Canada 3.54 Mt, Germany 1.20 Mt, Russia 1.17 Mt.",
   "Rapeseed meal (HS 230640), 2024 (CEPII BACI): world 14.47 Mt gross weight; top exporters Canada 5.77 Mt, India 1.61 Mt, Germany 1.58 Mt.",

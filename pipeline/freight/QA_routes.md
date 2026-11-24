@@ -2,7 +2,7 @@
 
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
-- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all, and 20 more for the groups added after it (10 groups), and 10 more for the groups added after it (8 groups). Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
+- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all, and 20 more for the 10 groups of a later package, and 10 more for the 8 groups of a later package. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
 - 150 generated routes over 60 groups, 8,140 Mt of seaborne trade. Named by hand-written routes: 44.3%. With the generated routes: 65.4%.
 - 10 of 60 groups reach the target; 50 are short of it.
 

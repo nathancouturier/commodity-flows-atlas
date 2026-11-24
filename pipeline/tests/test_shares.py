@@ -32,7 +32,9 @@ HAS_PW_DAILY = bool(glob.glob(os.path.join(RAW_PW, "chokepoints_daily_page*.json
 YEAR = 2024
 TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil",
           # package NC1: ammonia (gas carriers), UAN solution and phosphoric acid (chemical tankers)
-          "ammonia", "uan", "phosphoric-acid"}
+          "ammonia", "uan", "phosphoric-acid",
+          # package NC2: the sunflower and rapeseed oils (chemical tankers, as soybean and palm oil)
+          "sunflower-oil", "rapeseed-oil"}
 # general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
 CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton",
          # package L1: the minor metals that sail as general cargo

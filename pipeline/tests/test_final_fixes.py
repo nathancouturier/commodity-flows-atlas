@@ -199,7 +199,8 @@ class ChokepointNotes(unittest.TestCase):
             passages += bool(c.get("estimates"))
         # 490 entries before package L1; its eight groups of minor metals add 108 and its transit rows one (copper
         # concentrate at the Cape of Good Hope), under the same floor; the ten groups of fertilisers and sulphur of package NC1 add 122
-        self.assertEqual((n, passages), (721, 20))
+        # package NC2: the eight groups of grains, oilseeds and pulses add 101 (822)
+        self.assertEqual((n, passages), (822, 20))
         gone = {("suez", "soybeans"), ("bab-el-mandeb", "soybeans"), ("bab-el-mandeb", "soymeal"), ("torres", "palm-oil")}
         have = {(c["id"], e["p"]) for c in load("freight/chokepoints.json") for e in c.get("estimates") or []}
         self.assertFalse(gone & have)

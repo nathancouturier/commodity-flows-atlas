@@ -169,7 +169,9 @@ class OverlappingClauses(unittest.TestCase):
             self.assertEqual([b["at"] for b in br], sorted(b["at"] for b in br), col)
             for prev, b in zip(br, br[1:]):
                 self.assertEqual(b["before"], prev["now"], f"{col} {b['at']}")
-        self.assertEqual(overlapping, ["Coal, South African"])  # the only row whose own dates overlap
+        # the rows whose own dates overlap: the coal row, and the barley row since M-023 published it ("from May 2012 onwards; during
+        # 1980 - 2012 April Canadian ...": the atlas draws no break from the clause that starts inside another period)
+        self.assertEqual(overlapping, ["Coal, South African", "Barley"])
 
     def test_every_built_series_chains(self):
         for m in jload("index.json"):
@@ -661,7 +663,9 @@ class BuiltData(unittest.TestCase):
         self.assertEqual(len([m for m in self.idx if m["id"].startswith("idx-")]), 16)
         for sid in ("rice-thai25-m", "rice-viet-m", "sunflower-oil-m", "tsp-m", "sugar-eu-m", "sugar-us-m", "crude-avg-m"):
             self.assertIn(sid, self.by)
-        self.assertEqual(self.by["sunflower-oil-m"]["fam"], "softs")  # no page in the atlas: grouped, not linked
+        # sunflower oil had no page in the atlas (grouped, not linked: family "softs"); the sunflower page (M-023) now holds it
+        self.assertEqual(self.by["sunflower-oil-m"]["k"], "sunflower")
+        self.assertNotIn("fam", self.by["sunflower-oil-m"])
         self.assertNotIn("fam", self.by["copper-m"])
 
     def test_the_series_that_existed_keep_their_numbers(self):
@@ -884,7 +888,10 @@ class ClosedSeries(unittest.TestCase):
     def test_the_built_index_has_none_closed_among_live_series_and_the_contract_series_is(self):
         idx = {m["id"]: m for m in jload("index.json")}
         self.assertTrue(idx["iron-ore-contract-a"]["closed"])
-        self.assertEqual([m["id"] for m in idx.values() if m.get("closed") and m["freq"] != "A"], [])
+        # barley and sorghum (M-023): the World Bank stopped both in August 2020; they are published, closed, with their last month
+        self.assertEqual([m["id"] for m in idx.values() if m.get("closed") and m["freq"] != "A"], ["barley-m", "sorghum-m"])
+        for sid in ("barley-m", "sorghum-m"):
+            self.assertEqual(idx[sid]["end"], "2020-08")
 
 
 class AnnualJobRebuildsThePrices(unittest.TestCase):
@@ -959,10 +966,13 @@ class FiguresFile(unittest.TestCase):
         self.assertLess(os.path.getsize(os.path.join(DATA, "figures.json")), 20000)
         self.assertLess(os.path.getsize(os.path.join(DATA, "figures.json")), os.path.getsize(os.path.join(DATA, "index.json")) / 4)
         first = {}
-        for m in idx:
-            if not (m.get("hidden") or m.get("closed") or m["k"] in P.NO_PAGE or m["k"] == "freight"):
-                first.setdefault(m["k"], m)
+        # a closed series gives way to a live one of its commodity; barley and sorghum have no other (M-023)
+        for closed in (False, True):
+            for m in idx:
+                if not (m.get("hidden") or bool(m.get("closed")) != closed or m["k"] in P.NO_PAGE or m["k"] == "freight"):
+                    first.setdefault(m["k"], m)
         self.assertEqual(sorted(figures), sorted(first))
+        self.assertTrue(figures["barley"]["closed"] and figures["sorghum"]["closed"])
         for k, f in figures.items():
             m = first[k]
             self.assertEqual({a: b for a, b in f.items()}, {a: m[a] for a in f})

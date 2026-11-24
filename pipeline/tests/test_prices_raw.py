@@ -37,6 +37,7 @@ PINK_HEADER = {
     "soyoil-m": "Soybean oil", "soymeal-m": "Soybean meal", "rapeseed-oil-m": "Rapeseed oil", "sunflower-oil-m": "Sunflower oil",
     "coconut-oil-m": "Coconut oil", "groundnut-oil-m": "Groundnut oil", "fish-meal-m": "Fish meal", "maize-m": "Maize",
     "rice-thai-m": "Rice, Thai 5%", "rice-thai25-m": "Rice, Thai 25%", "rice-thai-a1-m": "Rice, Thai A.1", "rice-viet-m": "Rice, Viet Namese 5%",
+    "barley-m": "Barley", "sorghum-m": "Sorghum",
     "wheat-hrw-m": "Wheat, US HRW", "wheat-srw-m": "Wheat, US SRW", "sugar-m": "Sugar, world", "sugar-eu-m": "Sugar, EU",
     "sugar-us-m": "Sugar, US", "cotton-m": "Cotton, A Index", "phosrock-m": "Phosphate rock", "dap-m": "DAP", "tsp-m": "TSP",
     "urea-m": "Urea", "potash-m": "Potassium chloride", "aluminium-m": "Aluminum", "iron-ore-m": "Iron ore, cfr spot",
