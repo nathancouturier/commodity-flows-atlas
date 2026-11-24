@@ -138,7 +138,8 @@
    },
    {
     "c": "QAT",
-    "v": 4.817
+    "v": 4.817,
+    "n": "Customs data record 1.13 Mt of sulphur from Qatar to Switzerland in 2024 (23.5% of Qatar's recorded exports and 98.8% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair."
    },
    {
     "c": "CAN",
@@ -432,7 +433,8 @@
    },
    {
     "c": "CHE",
-    "v": 1.144
+    "v": 1.144,
+    "n": "Customs data record 1.13 Mt of sulphur from Qatar to Switzerland in 2024 (23.5% of Qatar's recorded exports and 98.8% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair."
    },
    {
     "c": "ISR",
@@ -909,7 +911,8 @@
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Rotterdam"
    },
-   "lane": "sulphur:QAT-CHE"
+   "lane": "sulphur:QAT-CHE",
+   "caveat": "sulphur-qat-che"
   },
   {
    "o": "CAN",
@@ -1076,6 +1079,7 @@
  "notes": [
   "Trade is sulphur gross weight: crude or unrefined sulphur (HS 250310) with sublimed, precipitated and colloidal sulphur (HS 280200); HS 250390 (other sulphur) is in the group but holds no flow in the customs file. Sulphuric acid and sulphur compounds are not covered.",
   "USGS production is sulphur content in all forms (elemental sulphur and the sulphur in sulphuric acid, by country), in tonnes of sulphur: the trade tables are tonnes of the product shipped, so the two are not on one basis.",
-  "Price: the World Bank Pink Sheet has no sulphur series. The only price on the page is the USGS annual average unit value of elemental sulphur, free on board mine or plant, in US dollars per metric ton (United States salient statistics); no monthly series was loaded."
+  "Price: the World Bank Pink Sheet has no sulphur series. The only price on the page is the USGS annual average unit value of elemental sulphur, free on board mine or plant, in US dollars per metric ton (United States salient statistics); no monthly series was loaded.",
+  "Customs data record 1.13 Mt of sulphur from Qatar to Switzerland in 2024 (23.5% of Qatar's recorded exports and 98.8% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair."
  ]
 }

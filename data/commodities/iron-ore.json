@@ -269,7 +269,7 @@
    {
     "c": "MYS",
     "v": 14.374,
-    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "n": "Customs data record 1.1 Mt of iron ore from Malaysia to Switzerland in 2024 (7.7% of Malaysia's recorded exports and 94.9% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair; Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
     "usd": 1182472000,
     "uv": 82.3
    },
@@ -433,6 +433,7 @@
    {
     "c": "CHE",
     "v": 0.4183,
+    "n": "Customs data record 0.418 Mt of iron ore from Switzerland to Malaysia in 2024 (100.0% of Switzerland's recorded exports and 1.6% of Malaysia's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably started elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route from its declared origin; no generated route is built from this pair.",
     "usd": 22063000,
     "uv": 52.7
    },
@@ -696,7 +697,7 @@
    {
     "c": "MYS",
     "v": 25.747,
-    "n": "Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
+    "n": "Customs data record 0.418 Mt of iron ore from Switzerland to Malaysia in 2024 (100.0% of Switzerland's recorded exports and 1.6% of Malaysia's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably started elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route from its declared origin; no generated route is built from this pair; Malaysia is both an importer (rank 4, 25.7 Mt) and an exporter (rank 11, 14.4 Mt) of iron ore: ore may be transshipped, stored or blended there and shipped on, which counts the same ore in two countries' trade (a possible reading, not established here)",
     "usd": 2200319000,
     "uv": 85.5
    },
@@ -932,6 +933,7 @@
    {
     "c": "CHE",
     "v": 1.161,
+    "n": "Customs data record 1.1 Mt of iron ore from Malaysia to Switzerland in 2024 (7.7% of Malaysia's recorded exports and 94.9% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair.",
     "usd": 69846000,
     "uv": 60.1
    },
@@ -1648,6 +1650,8 @@
   }
  },
  "notes": [
-  "USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS data but not shown."
+  "USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS data but not shown.",
+  "Customs data record 1.1 Mt of iron ore from Malaysia to Switzerland in 2024 (7.7% of Malaysia's recorded exports and 94.9% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair.",
+  "Customs data record 0.418 Mt of iron ore from Switzerland to Malaysia in 2024 (100.0% of Switzerland's recorded exports and 1.6% of Malaysia's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably started elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route from its declared origin; no generated route is built from this pair."
  ]
 }

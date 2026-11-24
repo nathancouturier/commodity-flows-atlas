@@ -1,0 +1,1014 @@
+{
+"BLNG1": {
+"generated": false,
+"sha256": "bdc0b15e02a311920187b64c0a94b39907a7bb583e9ad54ce00683424feab13c"
+},
+"BLNG2": {
+"generated": false,
+"sha256": "a3f46187078d26ecc4897eb258a10902aba0214c8e0d89b30339b13b62ae7a08"
+},
+"BLNG3": {
+"generated": false,
+"sha256": "bc8052b9af27cb24980e22eba085bd05c6c121f571f4da79f6b435792f0ab233"
+},
+"BLPG1": {
+"generated": false,
+"sha256": "d933e80a941d92a85e95db1959f0f2b60c3140d30f5ee720e35d7917006ea937"
+},
+"BLPG2": {
+"generated": false,
+"sha256": "c14b826fd05c9336baab7fb5aac7428dbc3dbe701c6969db01acaf1cd9b5fa6e"
+},
+"BLPG3": {
+"generated": false,
+"sha256": "5ee4a8ddc820d8dd5ee03746ec3f8522d7faacafd374d5434585d2195154a68c"
+},
+"C10_14": {
+"generated": false,
+"sha256": "ceb3750fa39a4f89c373b0fdd57fb68a9e9093a521b6d2a4b318c9360f3a8c9a"
+},
+"C10_182": {
+"generated": false,
+"sha256": "f066306400f697639414b36f7b506aa033f0896fd20fe53ac7743527f4f31e86"
+},
+"C14": {
+"generated": false,
+"sha256": "f689c74977ccdd92c73cc418f29417eabdb85f8676556a534ffe8e96858bf99b"
+},
+"C14_182": {
+"generated": false,
+"sha256": "6dbec37afff17203e9b348ac4660ff2112753f733f2befd35b291b2c8cc2437b"
+},
+"C16_182": {
+"generated": false,
+"sha256": "f23bcde9b6aff8d13d4892cb82d71eaf3f2f932ed2b1531c9882e9575c4628fb"
+},
+"C17": {
+"generated": false,
+"sha256": "c59d30959c926efd2f843343ebd28b8367a7f0c4504de5c85f55d5018e03922a"
+},
+"C2": {
+"generated": false,
+"sha256": "83d341fe21558e076355894aabe26d5a8ec3eaeae38aeb31e64283a710458dcd"
+},
+"C3": {
+"generated": false,
+"sha256": "692e578e4d9c9b8546b622da5cc15e5cc4a0f4c33537e2bf193ee0a9758f4c84"
+},
+"C5": {
+"generated": false,
+"sha256": "854b52a53e0f3ea22350703feb7b0987cd6c24d6cbbff079a0a17dd4e7f42e56"
+},
+"C7": {
+"generated": false,
+"sha256": "dc43b1be8a2737b3bbcb7894a1bd605db04a2d841af1879f2a68f8f3c61f4d1a"
+},
+"C8_182": {
+"generated": false,
+"sha256": "a4936f8f5e53755f9b3edc94e50cda2af51dfe794d17dffad30b5467a39afdda"
+},
+"C9_182": {
+"generated": false,
+"sha256": "3a90895777c009accf2304c795bd9adb1272498a5525922df6e74c7c3afcebb8"
+},
+"HS1_38": {
+"generated": false,
+"sha256": "0e40d5f1c3668552ec38a9cf0f93645ffae69b5ed060546afa5db3aa5477f3e1"
+},
+"HS2_38": {
+"generated": false,
+"sha256": "7fa7ad7ef92012f93a692cfa78829b9a1e5b2b2c04d5b4dee4beba9a95e91b4a"
+},
+"HS3_38": {
+"generated": false,
+"sha256": "86a68ed7ae2b7794135798209b74e1924d36a0234b5f037c46cf1e4e9dec3119"
+},
+"HS4_38": {
+"generated": false,
+"sha256": "79af36b086a3accc1e1cbbfd8725209a35262790cad15c6210a1f1c4ff97e3d6"
+},
+"HS5_38": {
+"generated": false,
+"sha256": "e6fc14fbd74b6837a03976ff92743563a12bd980868400ea8579386c86f7689e"
+},
+"HS6_38": {
+"generated": false,
+"sha256": "dd8b7f1dc070d391fb58ab7a5804011f6d85fe25fe75d16b8da4c6a839ff63f6"
+},
+"HS7_38": {
+"generated": false,
+"sha256": "dcd07c6131212d98c52169a8bceff741604d293a028843a9c0eb4c6cbd62e1f6"
+},
+"P1A_82": {
+"generated": false,
+"sha256": "2277098bcce801f81691bd5a03c3e67d657eb8817e33964b4aaccdba21481bef"
+},
+"P2A_82": {
+"generated": false,
+"sha256": "5e53a2dd9d9aecdcfcc7f111d136720f0c3104b528350d095f6462eab5b8b450"
+},
+"P3A_82": {
+"generated": false,
+"sha256": "17f61bba230afc23c2b73fdaae731a7d7ef409db20516072a30f06cea4e5558b"
+},
+"P4_82": {
+"generated": false,
+"sha256": "9416d3c618cb744b565c8f06c74223ba1b122159f62282b596f41b652adaa667"
+},
+"P5_82": {
+"generated": false,
+"sha256": "85c8de00ab80db4977bbffe7a047df92574d6efb8dc6bf9546bfe64ea92f6747"
+},
+"P6_82": {
+"generated": false,
+"sha256": "d207bcf467785c6c9f5c5d3eaa4e5facb746ffccdbc00ec876c4f8915867658c"
+},
+"P7": {
+"generated": false,
+"sha256": "5442cb04ce8b4957d9ee27c95a41ab41001f92afda1621b9181fb2937557a1fa"
+},
+"P8": {
+"generated": false,
+"sha256": "c9e114175d6d4ccac576298cc5f1807f1c9a0fa86df37c373f392df1bf5870d9"
+},
+"S10_63": {
+"generated": false,
+"sha256": "ee77f7fae1e4f5a3f89058ad95297270dea7e693484341197d0b5f2e196dea4b"
+},
+"S15_63": {
+"generated": false,
+"sha256": "308727d181d9a5dd51da5373510fbe4988b2824604ac7c17c7ede5b0bba67aa0"
+},
+"S1B_63": {
+"generated": false,
+"sha256": "f463c88c46aaead5e69e43ec0be9da3bf0fe7740a6e7f73c8f0f61bcd0e9d69b"
+},
+"S1C_63": {
+"generated": false,
+"sha256": "f26bef454cf37c62c818068c44950f4b0244d617b5937579c94caeaaf280a5ed"
+},
+"S2_63": {
+"generated": false,
+"sha256": "76f1b6a0df5fbf46b8bc9a5fb1f38d17ffab0c41f90e38ba4e743b443c2ed1da"
+},
+"S3_63": {
+"generated": false,
+"sha256": "d854104dffa75e32b75804318d9416d7c46da03f9a609076645e60d2f01331a7"
+},
+"S4A_63": {
+"generated": false,
+"sha256": "e31e98cd8ee060fecad497696d6806cde46a1d0d0e6c7fc6835d8e95ac78b442"
+},
+"S4B_63": {
+"generated": false,
+"sha256": "70672ee41539039d458c4a7ec9213b4de79166a0d237a00f3e79862f630fd76a"
+},
+"S5_63": {
+"generated": false,
+"sha256": "d9e68d7d19221d647d30d51aa096ead88e10e3231c37babc403bd7631d685091"
+},
+"S8_63": {
+"generated": false,
+"sha256": "5c26aae4ded1f02eb41807d5d6213ebde8f0fa33de3fa4af12309e1499dc407c"
+},
+"S9_63": {
+"generated": false,
+"sha256": "7f2b6ba79ef15a8b2fdb697219c735c2afa272c18cff4d650075a9a6e05038d0"
+},
+"TC1": {
+"generated": false,
+"sha256": "8fbebd674ee5fd885207e9acf1a4b86d3a00d2f72509ef15d2979616a430acd3"
+},
+"TC10": {
+"generated": false,
+"sha256": "b537c3412f6af3e8b74dc1d00ae6f546b58809bd3dd5c0c57768a39384af7dce"
+},
+"TC11": {
+"generated": false,
+"sha256": "f5f2c91260eba77cb72b2056a639fcf7339ee5db46dca37fdde5f5ae47f50f9f"
+},
+"TC12": {
+"generated": false,
+"sha256": "5e46e3d28740874e872d044f788aba5c555db107fecceb0c74734e0ac297e3bb"
+},
+"TC14": {
+"generated": false,
+"sha256": "070356417af59850f187afa2c54d69cd9746aa739237ffe5d99c58a3749a5fd6"
+},
+"TC15": {
+"generated": false,
+"sha256": "156c2c16cef5c3b4f493e1c4bc8268b4d83c3354433c87fe78e73ac1ef27bf80"
+},
+"TC16": {
+"generated": false,
+"sha256": "1e6697166c238cf122601dd5ac043eca117821f4991113b064b1f5b3d6b00b48"
+},
+"TC17": {
+"generated": false,
+"sha256": "6cf614144d8473f91f4143b63de433d3cf0feba567e79cd55b3317f00a8a4b88"
+},
+"TC18": {
+"generated": false,
+"sha256": "9e274e7c57c4bde04cb3b31edf6f47a1b6b9fce25f3ae9ca5cd5ae2060e12b00"
+},
+"TC19": {
+"generated": false,
+"sha256": "a4f5152756033b4b381c0302bc9cdb1209f4a2d5b2dab3daa4852a4100b6e666"
+},
+"TC20": {
+"generated": false,
+"sha256": "04bca637f71600d83aedb2b84cd523779853a3775cbb4de5f86d4106d320250f"
+},
+"TC21": {
+"generated": false,
+"sha256": "43ccdb4b14f4edb0b94e68692b207fc6f40e52199873cc506366899835849b5c"
+},
+"TC22": {
+"generated": false,
+"sha256": "ec9f6a4bc552ba026a2170c29190bd48535880e273bc6a1816674ee1a11af735"
+},
+"TC23": {
+"generated": false,
+"sha256": "6c4fa52b219eae7760ece92c352afdb4e60de8e57a5b08bda226cd051dcf0528"
+},
+"TC25": {
+"generated": false,
+"sha256": "3e783248c45c432e3dbb2c627a5435e79a2cba7a618438dcbccf5e9a23594608"
+},
+"TC26": {
+"generated": false,
+"sha256": "fbbb77479e85779bc54b72f9b8821c382df2e701f4723cff9e0f8ff986a3c984"
+},
+"TC2_37": {
+"generated": false,
+"sha256": "67a44d091a81576273291b4770d99d087f293917017b83746024195c6f018214"
+},
+"TC5": {
+"generated": false,
+"sha256": "c34d3a965d0490a682454f237584ea24ce6be6c4cf85274860c60b9cd859de3e"
+},
+"TC6": {
+"generated": false,
+"sha256": "59ca3101f9aa4c79dc8784d0ba513c6a7e921703f94f272d3e7014f01f46c94a"
+},
+"TC7": {
+"generated": false,
+"sha256": "9be8cbb3d6d9528d4aa67677e311ce1f68b4504d86174899d1972826b5b1b8b6"
+},
+"TC8": {
+"generated": false,
+"sha256": "f0ad8ec5f5f49a792f34d7e77e36ac8bff2b57b6a39a94f3c1bed1557073bfc9"
+},
+"TC9": {
+"generated": false,
+"sha256": "fe6bf8afc8ca0253fe0e8e70b19cabca8f7d5ba85d77c17651a1fc8888fca9c1"
+},
+"TD14": {
+"generated": false,
+"sha256": "f55f92580ac46739d10c9dacec54b08b4f37455dc36054129b1c2e033021111b"
+},
+"TD15": {
+"generated": false,
+"sha256": "6ba7cd953b4c023b242a77709439d9c39c99e8c97233c56140fb84d14b1b45ef"
+},
+"TD17": {
+"generated": false,
+"sha256": "f38b7bdb80d0705d3773f698cbf7b4e7fc5d69a7a6f4dbc4321fde980abe28f9"
+},
+"TD18": {
+"generated": false,
+"sha256": "5b5f88925b988cc1a04cea87d6d9ce14637b58efdeebe5f546f5088cb5b87943"
+},
+"TD19": {
+"generated": false,
+"sha256": "fd78741b726f05fbe7be69bd45b209ea2af2df2e775d2731a035fd032260f3d3"
+},
+"TD2": {
+"generated": false,
+"sha256": "141aa248b55aa70d77975fc88c1ff0c6a06b00018e523a1f37ccc067ed11ad11"
+},
+"TD20": {
+"generated": false,
+"sha256": "b20dacd5a9039118013eb84ba400526ae3e07291f270e851832a3ab8c8a01e0d"
+},
+"TD21": {
+"generated": false,
+"sha256": "12a7701a3fba865d8155577ec6904f6201963e90680995f63abd3dd7273cc319"
+},
+"TD22": {
+"generated": false,
+"sha256": "1fa48dc723dc9b774e8be1ad53d6ff1cc666cbe4848f1fa2452f9c31f1a85d14"
+},
+"TD23": {
+"generated": false,
+"sha256": "7cb21d64c6a8ab9410796f4873ba03c790b92b01ca82565517fcc7ba7021c080"
+},
+"TD25": {
+"generated": false,
+"sha256": "748c28087f708f9872319c05a1938e0d1320d2350b8c54437be214e248d4293d"
+},
+"TD26": {
+"generated": false,
+"sha256": "b11b90b636e4dfd7a3daf7b206494cd7862dc08dcec1517469db160ad488753f"
+},
+"TD27": {
+"generated": false,
+"sha256": "731395601ecbeb9d7be58adbc902587d7f555bb49e8a878b64e6ddb1277f15c2"
+},
+"TD28": {
+"generated": false,
+"sha256": "e0cf6c6d0a02cc7a833288c6159f97d7ea250802d6a9490fb64ec18737b47743"
+},
+"TD29": {
+"generated": false,
+"sha256": "216422f8ddfdb319b55c9b76f8772199719f6d22bfe518beb6f14ae4ded30a81"
+},
+"TD30": {
+"generated": false,
+"sha256": "81f90a55b5047d0040053da61d189b45924d73b6e9a177f7319b788db6c05d67"
+},
+"TD31": {
+"generated": false,
+"sha256": "39248b1621b1e122921a3c9645f71b46a26fd72a68bf7a4b2b398ee58207179a"
+},
+"TD33": {
+"generated": false,
+"sha256": "3be3154f75c600953f63353e5c4dcf740c27579d837bf1a9ddceefcedbf37687"
+},
+"TD34": {
+"generated": false,
+"sha256": "5e85aee1b0405d790c6a19ffbf4b32d3fe8bbd708d485f4b9c90730eea3385da"
+},
+"TD3C": {
+"generated": false,
+"sha256": "949c9cbd3add66ba5d68ad9f34f5b35cf7cd9176cfbe4fc797435421935b63d4"
+},
+"TD6": {
+"generated": false,
+"sha256": "afac7e22ca0b9a063047eb9b88056abad5e6cace571039a96fa1b86db1d47a60"
+},
+"TD7": {
+"generated": false,
+"sha256": "93bb9296d040ce4ba2863797c0970464dda014d136c9b3e08f6fe6cd463e201b"
+},
+"TD8": {
+"generated": false,
+"sha256": "155bca164476a17e91a03ec2b4af16964be33f2efa6153c0d4624b67f167e46c"
+},
+"TD9": {
+"generated": false,
+"sha256": "31a03c681d95cedd95d13fac665ccd86c5cbba57b75bc5fa58c5cfb0c3881656"
+},
+"argentina-soymeal-corn": {
+"generated": false,
+"sha256": "14fdbbf6c535b9ea4b3add5fc1ce5cd3c20cf949b34d685d013aa8fcc6db04d5"
+},
+"australia-china-lng": {
+"generated": false,
+"sha256": "a47ff61a40aff07f84de73b7f4f8820766457c19318025767b7d487e2e9970a9"
+},
+"australia-china-spodumene": {
+"generated": false,
+"sha256": "adac63aae8110fe3ae88f4b8cf57d0112a69f356bae974a9d8d8237e3a7e8115"
+},
+"australia-seasia-wheat": {
+"generated": false,
+"sha256": "5d86b467d3a1aa3dd488fa7f97d58468942a0dc16d386b124e9b7a0ec5e7e908"
+},
+"baltic-brazil-potash": {
+"generated": false,
+"sha256": "fa43bdadb326440b73e0355af773be3336b6e7f6aa46dc328c8aa10d45ff2dd3"
+},
+"blacksea-egypt-wheat": {
+"generated": false,
+"sha256": "96a2e24eae6cfd853ad7b9ff1503e23e26d536f5adf6dbe246cb0205d4e1f5b6"
+},
+"brazil-china-crude": {
+"generated": false,
+"sha256": "a51f2ebb6aba609ddec3aef42a4e90eaceb2ab934c2dcf5eef1dc6b7ba11e446"
+},
+"brazil-china-soybeans": {
+"generated": false,
+"sha256": "4f14310bf525fb50563951ff29b97ab93bc146b2ef19ede277cd2817e566cdf6"
+},
+"brazil-china-vloc-iron-ore": {
+"generated": false,
+"sha256": "90f09650758dd2f136163f3686e527edb641be4c4482d09e86a72a174c43bb9c"
+},
+"chile-china-copper": {
+"generated": false,
+"sha256": "7c48e9a7897a7f40454c898da7f3011c485172d4fbb9a15d3cfc02c3bd364bf6"
+},
+"colombia-med-coal": {
+"generated": false,
+"sha256": "a44f8407b32844c55e3a31613af77493f2a3a8575130b6dde84fe0def3936c3d"
+},
+"gen-alumina-e-australia-meg": {
+"generated": true,
+"sha256": "c30cb61477a63ab7d898622fb718baf57bd6e9ce5f78176efbc62f2817185dbf"
+},
+"gen-alumina-ecsa-canada-east": {
+"generated": true,
+"sha256": "81c2ac96eabfa8a68a876f24024ce44301a88c138a13749cd50432abbb4764b5"
+},
+"gen-alumina-ecsa-nw-europe": {
+"generated": true,
+"sha256": "44346e18d2efe0469970c6d400083c4fcf34026bb53b55c3a2ebb114ba1aa25e"
+},
+"gen-bauxite-e-australia-n-china": {
+"generated": true,
+"sha256": "d9ab018b3fb1802b178e8bd1e39915393b46382984d593e07ad121e61fe15a14"
+},
+"gen-coal-canada-west-r-east-asia": {
+"generated": true,
+"sha256": "efe3ecd9f526223d0090cd311dbfa7146942d102a4b9f7a51b37814f32e9416f"
+},
+"gen-coal-e-australia-n-china": {
+"generated": true,
+"sha256": "0428f4d9259eb1472d0c989fdb44e8cbbe882e92f1e5528886e839473b3c2217"
+},
+"gen-coal-e-australia-sea": {
+"generated": true,
+"sha256": "dc6cbbf5c96696f2563a7ee57fde572fe4ba6f24c8149863998f4158d3d36e7b"
+},
+"gen-coal-sea-japan-korea": {
+"generated": true,
+"sha256": "cb6a7d4a5342e6a036bada45b47f92fa5df10a4135a4f3763fd4924ecdb97621"
+},
+"gen-coal-sea-sea": {
+"generated": true,
+"sha256": "48afdcf1c4d50031601192638d77bb7e625ecbfe32af6eed842cdc068cf6de06"
+},
+"gen-cocoa-waf-nw-europe": {
+"generated": true,
+"sha256": "765f91ee8e164d80a6d971d53902e186629965c1d4142afba8f92b71cbd1808e"
+},
+"gen-coffee-ecsa-nw-europe": {
+"generated": true,
+"sha256": "8eedbb7818a5aa91555cfe541c728b6a818cd2dcb678258bbc090fa708f15942"
+},
+"gen-copper-ore-wcsa-japan-korea": {
+"generated": true,
+"sha256": "fee164e0cfcd62ad6d9bafce974cddb4af0a5ff4678310aac55a3673c72d292c"
+},
+"gen-corn-black-sea-med": {
+"generated": true,
+"sha256": "e25855706c7f464652480ba718aa271a1a09b6c52ad8503b5395bc5aff3877e5"
+},
+"gen-corn-black-sea-n-china": {
+"generated": true,
+"sha256": "374163c81adeaad3d6e965f0eb0b90f2a7963d0fb0efdc9fb4cc16822149ba2f"
+},
+"gen-corn-black-sea-nw-europe": {
+"generated": true,
+"sha256": "4f9587273db4f6bc891967504fef7c45637f6118e01bd3a4daad39b623017e4b"
+},
+"gen-corn-ecsa-japan-korea": {
+"generated": true,
+"sha256": "3d351d51ad5f9c71516a67e3bab5077989e17a038e966e3a884fb59aa03a800c"
+},
+"gen-corn-ecsa-med": {
+"generated": true,
+"sha256": "7cb64ba6e5675db9347f8d9f8e67080b6ef6ecfee45dee9a25daac3071db4656"
+},
+"gen-corn-ecsa-meg": {
+"generated": true,
+"sha256": "086fc627b8dcced48e5d574b1f68b7a688ded77ac0626b7791ac214fa9de8d42"
+},
+"gen-corn-ecsa-red-sea": {
+"generated": true,
+"sha256": "81d9f7c89d652a9c96bea736f8151f2699d8f4eeacaa3929078c221daf1024ca"
+},
+"gen-corn-ecsa-waf": {
+"generated": true,
+"sha256": "d7082a35ab6fa2ef38362fcf6a4114abea7f47d9ac780c3671f8c572f53a6778"
+},
+"gen-corn-ecsa-wcsa": {
+"generated": true,
+"sha256": "ab3acc7c14a7d906b2fd5ee5c0e16325aec7ecc13ca17b11c731a504f87b913e"
+},
+"gen-corn-us-gulf-caribbean": {
+"generated": true,
+"sha256": "7d66a7f7988dbfbe98db0222fef0d8e8e5bf356da8ce52c2df593d64e8477ecc"
+},
+"gen-cotton-ecsa-n-china": {
+"generated": true,
+"sha256": "eca0a0a284915dd731a8ebea35d44fc9e7e106671a955709d070ad5a40f4603a"
+},
+"gen-crude-oil-gulf-of-oman-e-china": {
+"generated": true,
+"sha256": "c127c75cd9cdb17a50fbac449d1b9536bf0f227a09e5a147c540ba1e49f6b961"
+},
+"gen-crude-oil-gulf-of-oman-sea": {
+"generated": true,
+"sha256": "95210d0dcefb3f97e667ed5a88d24a08794b08395d6185fa13e2893926a0c2e1"
+},
+"gen-crude-oil-meg-r-europe": {
+"generated": true,
+"sha256": "29af08d58f4fdc77c5102731cbe8209cae29f5c34a9a02b64de177a3657537ec"
+},
+"gen-crude-oil-meg-sea": {
+"generated": true,
+"sha256": "bc7d8d82aebd57dc9a2994146346255fb181f2b779fbd74012da9ba08b400be1"
+},
+"gen-crude-oil-nw-europe-r-europe": {
+"generated": true,
+"sha256": "76e19b794578feb6819a763b7ccabb15b92eb4795346ec803d59a316c501ad90"
+},
+"gen-crude-oil-sea-e-china": {
+"generated": true,
+"sha256": "fab8f3037ddc80d4612c091c23ae06ddaa5b0a78af6f940c931b773af3342976"
+},
+"gen-crude-oil-us-gulf-r-east-asia": {
+"generated": true,
+"sha256": "007ed45a5221134c6f0bd4b6700a2b0f3705cb761cd7237837e1fb98034f7327"
+},
+"gen-dap-meg-wc-india": {
+"generated": true,
+"sha256": "9a54917f14d5e881941362c8bc7fea594efb9fd7d621c6e44a11507cfadf643c"
+},
+"gen-lng-arctic-russia-nw-europe": {
+"generated": true,
+"sha256": "f83f2496968671d6b37d796caa222b2dc0548b88b81544faa639a6236772718e"
+},
+"gen-lng-gulf-of-oman-japan-korea": {
+"generated": true,
+"sha256": "69297ffcd917a0286cb1246f97f79b655c5a1293941d7a174994a7bf8c27c2cb"
+},
+"gen-lng-med-r-europe": {
+"generated": true,
+"sha256": "9bbac091d415f4cf435283f31460ae80d003639cefaf4bb9da65a6cb2858f265"
+},
+"gen-lng-russia-far-east-japan-korea": {
+"generated": true,
+"sha256": "f1b2de52b660d262d270d29031f1714e38a8134cb50588eb89a26c112543ac18"
+},
+"gen-lng-russia-far-east-n-china": {
+"generated": true,
+"sha256": "535c0848c4e673fa54f42082200196481300632a1a1d0b910aef8542dd4864cd"
+},
+"gen-lng-sea-japan-korea": {
+"generated": true,
+"sha256": "acc8571dc9ca461c7d7dd08dc9cdfeff46e6e17c9d460bd05180e7798725b594"
+},
+"gen-lng-sea-n-china": {
+"generated": true,
+"sha256": "f3e2e637e570058574340f0df2f16bb80fc355a0ca9b2893a439debef7578188"
+},
+"gen-lng-w-australia-sea": {
+"generated": true,
+"sha256": "3b60d1a99214cfa9b6513da53d2a080bda46330b78ff33c8a964d31e52027670"
+},
+"gen-lng-w-australia-taiwan": {
+"generated": true,
+"sha256": "f0b4b443f30a2f0c5143cda66449c875611ee6d43fbc5c0a4aecefa61f0e53d3"
+},
+"gen-lpg-meg-sea": {
+"generated": true,
+"sha256": "834f5353b0e430ce2a07ed620147fac2468e01646a1b33deaca8c09d76068dfb"
+},
+"gen-lpg-nw-europe-nw-europe": {
+"generated": true,
+"sha256": "4803bbfb52694b8ca9e9448052aef8668bd110eb8c593473a8f1db5f8b4aea4d"
+},
+"gen-lpg-us-gulf-e-china": {
+"generated": true,
+"sha256": "a9c1c777ef6f9e9fc99a8e7a699bcf9c0d7653f082d4d16ad37ef268dae4f166"
+},
+"gen-lpg-us-gulf-japan-korea": {
+"generated": true,
+"sha256": "af3c67f3eee919de0bbd6d1c3d09e451d4711186c638424fc22583e8a946ff73"
+},
+"gen-lpg-us-gulf-sea": {
+"generated": true,
+"sha256": "dba18c971647e81a4d0b91f55f843143a480002653015f6d30c4cb69a29c1386"
+},
+"gen-lpg-us-gulf-waf": {
+"generated": true,
+"sha256": "06f2bc7b7ac438424cf71f2186be6afa7ba1a45abf5cdf577aceef572233c18b"
+},
+"gen-manganese-s-africa-ec-india": {
+"generated": true,
+"sha256": "e5121a5c697e7179a06c22e96a0812239994f2125f178597f2c075a656e05ac0"
+},
+"gen-manganese-s-africa-n-china": {
+"generated": true,
+"sha256": "58f2adabe53cdbd66c7e5792e69e0968afb84377f55d49003bbb664b29029668"
+},
+"gen-manganese-waf-n-china": {
+"generated": true,
+"sha256": "30b775b0dc5daa70be8bebc17a15bce370333136906b8937de642f54b7ccabf3"
+},
+"gen-nickel-fe-sea-n-china": {
+"generated": true,
+"sha256": "c01edee9d3eb144aab13bd131ef18d6a146a5460dbb093e6579642c089cd92f0"
+},
+"gen-nickel-ore-sea-sea": {
+"generated": true,
+"sha256": "9592a4c24ce44abfec99f06f40bbc59165916dfa58e5236b0bd785a02dc346ff"
+},
+"gen-palm-oil-sea-med": {
+"generated": true,
+"sha256": "8a12e7788fc4f37bb88dcf63df86f7887552bd71ab73879049027cd4fb281692"
+},
+"gen-palm-oil-sea-n-china": {
+"generated": true,
+"sha256": "ecd24d9afbe11703f37d3219d6d87b07097e5e142953f45c4b745a63d67cf517"
+},
+"gen-palm-oil-sea-sea": {
+"generated": true,
+"sha256": "bcf8b3531bb67e4086167776eea09b4fbec9bf69f60a93d790bec5d32ff64aa2"
+},
+"gen-phosphate-rock-med-wc-india": {
+"generated": true,
+"sha256": "fd4e49ef9bea69ee3fdf79429aa5ac8620a1d25ad6e39648229b7aac5ca3db19"
+},
+"gen-phosphate-rock-red-sea-wc-india": {
+"generated": true,
+"sha256": "c5bc989b92d8eddd86c214af7b9e1d0139513c03f1fefcc456523a83abec0ef4"
+},
+"gen-phosphate-rock-wcsa-us-gulf": {
+"generated": true,
+"sha256": "57103a1ea8e086980ee847b739091914e8fe13417e3af09e0fb98f9a7fc13c79"
+},
+"gen-potash-baltic-n-china": {
+"generated": true,
+"sha256": "908840b404d9681fe296b27e3652927f7818ae8119ff03e9a85af2a5ca3ca617"
+},
+"gen-potash-baltic-sea": {
+"generated": true,
+"sha256": "10a4cb259fcbbb1c2975140a6bb7b655d4b13cf9746c813f3e9219eb4d32abfd"
+},
+"gen-potash-canada-east-ecsa": {
+"generated": true,
+"sha256": "85efd3dc6bb70e2c63868393841e82cb11d115b8ae8486dbc61820879a5e0228"
+},
+"gen-rapeseed-black-sea-nw-europe": {
+"generated": true,
+"sha256": "564f149f4e55e5f73f5b93c6640ecb63971e8d443638cebe5d5e8b403da9cb2f"
+},
+"gen-rapeseed-canada-west-n-china": {
+"generated": true,
+"sha256": "c9c1bbc2676471ec8601dd6569402ed292ec7b0dbbcebfd348297cb902b48c67"
+},
+"gen-refined-products-black-sea-r-europe": {
+"generated": true,
+"sha256": "21247763dd72d629cfaf3492a48d88d3e0bbc6b156f2f4dc72f9210356c13751"
+},
+"gen-refined-products-japan-korea-e-australia": {
+"generated": true,
+"sha256": "dd2ee43ed27b05cb8b85477f6fcd5e8b43bc61fc597cb3d60a5ef3b2b62d8ebe"
+},
+"gen-refined-products-japan-korea-r-east-asia": {
+"generated": true,
+"sha256": "548ec6c013a19b26babb6b8e71b4281f3f563d5175912b358cc0070f7fbf5afb"
+},
+"gen-refined-products-japan-korea-sea": {
+"generated": true,
+"sha256": "0eaf4c90a370eed6eea6f3384beaf811ac17ef90398a6e88b6365e3def10077d"
+},
+"gen-refined-products-med-med": {
+"generated": true,
+"sha256": "008e61641cdc883cf4dc4b17eb6417ba57b1987e5676369bb43acbecd4321d4d"
+},
+"gen-refined-products-med-r-europe": {
+"generated": true,
+"sha256": "005bcbfb820871c9cd6d889a1c26d504c3becc0faf3cb2c8ef747bd6467c2cc1"
+},
+"gen-refined-products-meg-r-east-asia": {
+"generated": true,
+"sha256": "2b79ab2a39cc15326c43511c3cd7518f5ed31884065819dcd84fd54e0afc2453"
+},
+"gen-refined-products-meg-sea": {
+"generated": true,
+"sha256": "3d180c286119f881618742909768dbf8f6d01b27ee5f29859160b305b3cc045e"
+},
+"gen-refined-products-nw-europe-nw-europe": {
+"generated": true,
+"sha256": "f82f2f1c2ca99d7e223965f31e300522c89c1550950e53d836ca41816ab7bac0"
+},
+"gen-refined-products-sea-r-east-asia": {
+"generated": true,
+"sha256": "fa44d9418b4213d07ccbd25148905f53a1940de61efa15b54a75c12d1b82f410"
+},
+"gen-refined-products-sea-sea": {
+"generated": true,
+"sha256": "70a9422818d594445f7a966376f88a5930b081e0aa1503dd4118aed58935aa92"
+},
+"gen-refined-products-us-gulf-r-central-america": {
+"generated": true,
+"sha256": "32298de3345ed5aacc381a6a0fa53d2e1b9b4314ec051afbdba07621fdc69d41"
+},
+"gen-rice-sea-sea": {
+"generated": true,
+"sha256": "70bc165ae6603506085906a1d382442c048d494b88a254c899246b40b1ede594"
+},
+"gen-rice-sea-waf": {
+"generated": true,
+"sha256": "87a7c56f6305662e2e7219394564d6b8fdb9e1b8f9cbd4bd438d7e39ad4286cd"
+},
+"gen-rice-wc-india-meg": {
+"generated": true,
+"sha256": "14bc936178fb9ee580352b30d8eb8b027533006ec2eaf45a4a70ed51a2fc3d7c"
+},
+"gen-rice-wc-india-sea": {
+"generated": true,
+"sha256": "62db30657621ebc4fbe1d8927754ed829a8a71b18007ddfddc86a2af9537d4a1"
+},
+"gen-rice-wc-india-waf": {
+"generated": true,
+"sha256": "9de9d6503c4233a72472b34a5e42ca1b449a4037dd9d39f0a4982f223eb95343"
+},
+"gen-soybeans-ecsa-med": {
+"generated": true,
+"sha256": "50af2f5037a7fbfe819c0feeb996304f87ee9bd8956bb137a0005b06b3115a6d"
+},
+"gen-soymeal-ecsa-baltic": {
+"generated": true,
+"sha256": "542f2d35c2701c588814123d4d0ba5de57397c28cdc9a7868943ba2cf08ab569"
+},
+"gen-soymeal-ecsa-med": {
+"generated": true,
+"sha256": "5241a1c62a20712adaf8ab8ca5137fd49959994762aded61f948a42d22bbbdfd"
+},
+"gen-soymeal-ecsa-meg": {
+"generated": true,
+"sha256": "99411a2c33bd1251a3b07854877c561516794d14d7367c1f45f308ba6c9fc632"
+},
+"gen-soymeal-ecsa-nw-europe": {
+"generated": true,
+"sha256": "96941acb469ac57c06373664e49f3300a2afb87709e19026d9e20b68add4d380"
+},
+"gen-soymeal-ecsa-sea": {
+"generated": true,
+"sha256": "0ce4a1c31437ca571385f928063c4974a543096168d14f2cd635d6575c2764d9"
+},
+"gen-soymeal-us-gulf-caribbean": {
+"generated": true,
+"sha256": "dd8da830c4caa14068f2583fab54ee95db3179d0fb77a132beb57b4de67cb89c"
+},
+"gen-soymeal-us-gulf-sea": {
+"generated": true,
+"sha256": "6cb101be860114957a60ea037b3589c521022831d908f4e0634247b52652ff3d"
+},
+"gen-steel-japan-korea-japan-korea": {
+"generated": true,
+"sha256": "123fdb1f703dd970e65a0d2ca861d12ac1117df7c7b976692827b847a45808fd"
+},
+"gen-steel-japan-korea-sea": {
+"generated": true,
+"sha256": "ae9db829b04ff0eae2dc8bd49e58101bec92b72351561532ea095204f0900473"
+},
+"gen-steel-med-med": {
+"generated": true,
+"sha256": "b073d1c2766f23735c080f1f6bfe9452ef44255f93a70d6f860a7833d03f71b0"
+},
+"gen-steel-med-nw-europe": {
+"generated": true,
+"sha256": "28762b9703006699742b5d7056b9251f6cf255d98eee14f7888d2aff1d3efb2f"
+},
+"gen-steel-n-china-japan-korea": {
+"generated": true,
+"sha256": "b196b2c07fe39f8437d9e0685d7704391042642381dcd0a1b0074c907e9b65b2"
+},
+"gen-steel-n-china-med": {
+"generated": true,
+"sha256": "aafca71af04279085b825f5c02df35b7be4686a95604ddc06037e5e5cf9606df"
+},
+"gen-steel-n-china-meg": {
+"generated": true,
+"sha256": "88427918fc2f43645e38676c91a2d169f32e3a8a6124d8d1f4a2d9cdec42dfca"
+},
+"gen-steel-n-china-sea": {
+"generated": true,
+"sha256": "cebe953ede64a06852b8fa4b9b0e8f8c099c40a060049564134fe466c6639c21"
+},
+"gen-steel-nw-europe-med": {
+"generated": true,
+"sha256": "9defbfb1707158caf528cca5c64140bb52c987f43fa6cb0cbf64357bad30f92c"
+},
+"gen-steel-nw-europe-nw-europe": {
+"generated": true,
+"sha256": "7e7c379440165b34919d149c804dc8152eddf5aa1afa1cdc4e367d6718e580eb"
+},
+"gen-steel-sea-med": {
+"generated": true,
+"sha256": "08849ddc4b1c978b4b5910152481731944487331174a83e7e61aca0ca086941b"
+},
+"gen-steel-sea-sea": {
+"generated": true,
+"sha256": "b4f0c1d5599da03dd26508734ee08df51fa324f32219ee4343c0e8ccba1e13e6"
+},
+"gen-sugar-ecsa-med": {
+"generated": true,
+"sha256": "bc5cc831d16c07e688bfe3c56bebde933af38a56106b228326fda3767d59866e"
+},
+"gen-sugar-ecsa-meg": {
+"generated": true,
+"sha256": "95fcc82b8e8ec20df20cc708ee0a9322f4afc5231851419790eb8f1a95d1ab81"
+},
+"gen-sugar-ecsa-n-china": {
+"generated": true,
+"sha256": "2c8150f9653627a75fb48f32ccda0502c2fc00205e0f6c197e1ae8034d45aaae"
+},
+"gen-sugar-ecsa-red-sea": {
+"generated": true,
+"sha256": "86ba9409e9a40ac5b40ca85876f440251ebfbc5778aefc5d488e32121f4c2225"
+},
+"gen-sugar-ecsa-sea": {
+"generated": true,
+"sha256": "d9e82d52c18ac13120a807a1896a2324c9115c8727f850228035285d1900a41e"
+},
+"gen-sugar-ecsa-waf": {
+"generated": true,
+"sha256": "d868b7a33e40b69cc02152aeadb99762e45db6f00644ef436da817b582e3dc4f"
+},
+"gen-sugar-ecsa-wc-india": {
+"generated": true,
+"sha256": "c7a8bde961ea2e0f3796644a3ed14d2e854797df4091d1b3f6ead568d8f71fd7"
+},
+"gen-sugar-sea-sea": {
+"generated": true,
+"sha256": "efa23f3690661342e35682fa18adf010516448150d429685f34d8c76f40a7b97"
+},
+"gen-urea-med-med": {
+"generated": true,
+"sha256": "f3f61169de2de89f933d38f4f6cce4baa218d255dd9bfc9e75a67638ee425607"
+},
+"gen-wheat-baltic-waf": {
+"generated": true,
+"sha256": "1623176440a4529f38c8126f71ec397456c76ec9cb09e89cabb792d6dbf6860f"
+},
+"gen-wheat-black-sea-e-africa": {
+"generated": true,
+"sha256": "a7de76e08388c0b4b8d618a18900c420622927f3132ab98213d76d5860934697"
+},
+"gen-wheat-black-sea-r-south-asia": {
+"generated": true,
+"sha256": "515ae7a1a61e287790409d1b55bb02ca777a70b450f13da735d7dcfdb23f1f9c"
+},
+"gen-wheat-black-sea-sea": {
+"generated": true,
+"sha256": "2c45af4f634622c4587ad8bd08e89166604477abe4e63b8038343b1c99f97b0e"
+},
+"gen-wheat-black-sea-waf": {
+"generated": true,
+"sha256": "8d5c3d599e785ee962bd8650f373440a544e9c9a1b00d223138938ab67171122"
+},
+"gen-wheat-canada-west-r-east-asia": {
+"generated": true,
+"sha256": "3383d54098717ed01074be9406ad27f213c7ba695fa23766574060fa57c14269"
+},
+"gen-wheat-canada-west-sea": {
+"generated": true,
+"sha256": "15080feec10b17492dd0c67b81681b0ba14b82dc02b3442c91f3b26e5482131b"
+},
+"gen-wheat-ecsa-ecsa": {
+"generated": true,
+"sha256": "dcc8ff8afe42ba123a0138e11d0e36a2ec9c1bff58dab4ff40a7ebbd5cc4cb77"
+},
+"gen-wheat-ecsa-sea": {
+"generated": true,
+"sha256": "d2a3af7d183f4fcffd6e0de22997d74a9279c47f4bfa63b7dcdb1ad28da5cfb0"
+},
+"gen-wheat-med-med": {
+"generated": true,
+"sha256": "b668fd11be7f62fb9d025e892bdacb9fc5079ee97dfbcee2199a7883efded145"
+},
+"gen-wheat-med-waf": {
+"generated": true,
+"sha256": "f2b04076160ff9e328f42ede07fb7f51bba08070a8f5151150f883386137806f"
+},
+"gen-wheat-w-australia-r-east-asia": {
+"generated": true,
+"sha256": "5bdc1139e10b3c209f0be682afe7bb41c20cfa21ec504848394978a3ab6267ee"
+},
+"guinea-china-bauxite": {
+"generated": false,
+"sha256": "21bd48b480ad039675eed8c38c17a96094d3c003af1a767135ac7c406d87ee89"
+},
+"gulf-india-urea": {
+"generated": false,
+"sha256": "c4b090f89cdaf867a5caa78cfced1b3e9c8bc9fd3abd22f65f885eab7b10b575"
+},
+"guyana-europe-crude": {
+"generated": false,
+"sha256": "64978d07389ac18c2f2ab22bcc161c542087379f052ba175f378094feffdb1d8"
+},
+"india-europe-diesel": {
+"generated": false,
+"sha256": "004c3fb4858cc533cbdbaa7c84ed717e80ff3a905e16235fc66fba34d7320b53"
+},
+"indo-malay-india-palm-oil": {
+"generated": false,
+"sha256": "27ed858e1512da84a30063a480c792b6f5cdc20b74614a0fafa83a87b5a6b590"
+},
+"indonesia-china-coal": {
+"generated": false,
+"sha256": "27ac4244f8890de4fb37f2e465a31ed82769bfc43000e112f8acea3b2426a5e9"
+},
+"indonesia-india-coal": {
+"generated": false,
+"sha256": "a417ab8a8514cbe3b6193ccfc844d080112a1d2b99c4aec8d832b90e39ce273b"
+},
+"kozmino-china-espo": {
+"generated": false,
+"sha256": "0d70727ce9a4fc688608d441454928a3753891260d9ffb9c5cc6b064e72e2434"
+},
+"middle-east-europe-diesel": {
+"generated": false,
+"sha256": "e1bb5c74c27bdf79a08be68e1ceb84572309cf49c52bab15b5133ecec63fa934"
+},
+"middle-east-india-crude": {
+"generated": false,
+"sha256": "623061a923d66fbaad9ed09927b831f3b66baa48b53bf19c0a9536b9ad314c7d"
+},
+"middle-east-india-lpg": {
+"generated": false,
+"sha256": "1b693c32252074695460d926581de4e6bdc95fe3aa59484cdd139e74eab897e2"
+},
+"middle-east-japan-korea-crude": {
+"generated": false,
+"sha256": "e0c02896003e7218c558d63877d1995b47ec3dbbb0104f4e435cc7a19026f0a6"
+},
+"middle-east-japan-products": {
+"generated": false,
+"sha256": "d537c7e80cc54b18d8c4d29ce6997aa706c1d209acaf2fa1dd0b711e06970ddf"
+},
+"morocco-india-phosphate": {
+"generated": false,
+"sha256": "9369b3fd8272440638d1b15ba83fde3686084b134fee04bf0a8c59f9c332ccb4"
+},
+"newcastle-northeast-asia-coal": {
+"generated": false,
+"sha256": "e8e20e19ecf0d51dae1a552549f02be7673b37526275c494f9d83a42c2d49ca1"
+},
+"peru-china-copper": {
+"generated": false,
+"sha256": "1c387f6b55dde1d62c48ad4630b0302be236e8b7047ca831e3f4f3bef428a5fe"
+},
+"philippines-china-nickel-ore": {
+"generated": false,
+"sha256": "674d610413044d8f27f6c996881b349aad8fa3c0e8c1775c2d1c5c69a41f4d78"
+},
+"pilbara-japan-korea-iron-ore": {
+"generated": false,
+"sha256": "22f4d97789852c372cd0264817a44c49356cf2d73e1dae83ed5b4461075dc388"
+},
+"qatar-europe-lng": {
+"generated": false,
+"sha256": "78336a4d06a7c5f6d24ab0396f7882fa3f1f8b589417636f56884a92ef0826aa"
+},
+"qatar-india-lng": {
+"generated": false,
+"sha256": "f09a73234ddd50bb3c8e4c9c37d4577ce5b5b2b621ef10c79d0dc80d20a559b8"
+},
+"qatar-northeast-asia-lng": {
+"generated": false,
+"sha256": "4f5a0a4c3a98458edfc5c0172f53b73e0c1246f3b122acb45735fab248e9404a"
+},
+"queensland-india-met-coal": {
+"generated": false,
+"sha256": "9836b7f6553256bd688fd5737470fbe23fc58d3a6b8a5652998d2e5a15af27e8"
+},
+"richards-bay-india-coal": {
+"generated": false,
+"sha256": "88b8d2b062307caec90a799e4ce280e5057cf2e87c9e28c68c602d3d12f18c99"
+},
+"russia-baltic-india-crude": {
+"generated": false,
+"sha256": "961f005500c139ace1616b9fc0d4ad5573bde464eca816c86935a6485c3b1179"
+},
+"simandou-china-iron-ore": {
+"generated": false,
+"sha256": "8091cf3e2c33aa424044063d17af23471713d019ed932e29acd4d339664fd7f1"
+},
+"usgulf-asia-lng": {
+"generated": false,
+"sha256": "06a299c5e2ca6c129aa75c76c18a4ce47203309fbd1fe5d069ee0a27951d677c"
+},
+"usgulf-china-grain": {
+"generated": false,
+"sha256": "bd29f98d05fd27cd5972e2fe2835638b412ce6062b33d61d487668f462296c1f"
+},
+"usgulf-latam-products": {
+"generated": false,
+"sha256": "31cc1572213e308d985c850ed96e696dd1b94b641d2fe1083bf4b6e12b5937a0"
+},
+"usgulf-med-crude": {
+"generated": false,
+"sha256": "58eb69ca16328d823035de6005bc6785fac9d11646d89202890d006b618343b5"
+},
+"uspnw-asia-grain": {
+"generated": false,
+"sha256": "7053e758bc6ff0e309e0fbc48a9bf72412029ea6cc288d978af979ecf4b48797"
+},
+"vancouver-asia-potash": {
+"generated": false,
+"sha256": "ba5ec5342ebb8e607c8168afbabe098362c51fc547d54f531c506771ad560f5c"
+},
+"vostochny-china-korea-coal": {
+"generated": false,
+"sha256": "20da4786f67301329b6142d1e42fef0678e0121fbff846951680f9bd638eb9bc"
+}
+}

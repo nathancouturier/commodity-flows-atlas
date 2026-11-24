@@ -320,7 +320,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: coal exports of Tanzania in 2024: 3.49 Mt in customs data (CEPII BACI), 0.0703 Mt in EIA International Energy Data
 - flag: coal exports of the Netherlands in 2024: 2.82 Mt in customs data (CEPII BACI), 15.7 Mt in EIA International Energy Data
 
-### K6: exporter continuity (58)
+### K6: exporter continuity (57)
 
 - flag: Ammonia exports of Bahrain: 0.0748 Mt in 2024 against 0.424 Mt in 2023 (CEPII BACI)
 - flag: Cobalt exports of Malaysia: 0.00042 Mt in 2024 against 0.011 Mt in 2023 (CEPII BACI)
@@ -347,7 +347,6 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Sunflower seed exports of Russia: 0.0898 Mt in 2018 against 0.359 Mt and 0.673 Mt in 2017 and 2019 (CEPII BACI)
 - flag: Crude oil exports of Myanmar: 5.39 Mt in 2017 against 0.12 Mt and 0.158 Mt in 2016 and 2018 (CEPII BACI)
 - flag: Bauxite exports of Malaysia: 3.4 Mt in 2016 against 25.5 Mt and 3.15 Mt in 2015 and 2017 (CEPII BACI)
-- flag: Coke and semi-coke exports of Mozambique: 1.48 Mt in 2016 against 4.42 Mt and 11.5 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Nickel intermediates exports of Papua New Guinea: 0.0291 Mt in 2016 against 0.103 Mt and 0.16 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Sugar exports of Pakistan: 0.346 Mt in 2016 against 1.65 Mt and 1.55 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Bauxite exports of Malaysia: 25.5 Mt in 2015 against 3.42 Mt and 3.4 Mt in 2014 and 2016 (CEPII BACI)
@@ -381,16 +380,14 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Rare earths exports of the United States: 0.002 Mt in 2005 against 0.038 Mt and 0.004 Mt in 2004 and 2006 (CEPII BACI)
 - flag: Sunflower seed exports of Ukraine: 0.0868 Mt in 2005 against 0.484 Mt and 0.252 Mt in 2004 and 2006 (CEPII BACI)
 
-### K7: importer continuity (28)
+### K7: importer continuity (26)
 
 - flag: Bauxite imports of the United Arab Emirates: 10.7 Mt in 2023 against 3.77 Mt and 0.417 Mt in 2022 and 2024 (CEPII BACI)
-- flag: Coke and semi-coke imports of India: 12.3 Mt in 2022 against 6.31 Mt and 5.64 Mt in 2021 and 2023 (CEPII BACI)
 - flag: LNG imports of Turkey: 17.3 Mt in 2021 against 3.72 Mt and 3.93 Mt in 2020 and 2022 (CEPII BACI)
 - flag: Coal imports of Vietnam: 77 Mt in 2020 against 48.3 Mt and 38.3 Mt in 2019 and 2021 (CEPII BACI)
 - flag: LNG imports of Colombia: 9.78 Mt in 2020 against 0.154 Mt and 0.284 Mt in 2019 and 2021 (CEPII BACI)
 - flag: Pig iron imports of China: 5.03 Mt in 2020 against 1.1 Mt and 1.78 Mt in 2019 and 2021 (CEPII BACI)
 - flag: LNG imports of Norway: 9.44 Mt in 2019 against 0.007 Mt and 0.151 Mt in 2018 and 2020 (CEPII BACI)
-- flag: Coke and semi-coke imports of India: 15.6 Mt in 2017 against 5.31 Mt and 10 Mt in 2016 and 2018 (CEPII BACI)
 - flag: Nickel ore imports of Hong Kong: 4.3 Mt in 2016 against 0.801 Mt and 0.66 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Wheat imports of Sudan: 8.09 Mt in 2016 against 1.21 Mt and 4.53 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Barley imports of China: 9.34 Mt in 2015 against 4.1 Mt and 4.38 Mt in 2014 and 2016 (CEPII BACI)
@@ -661,17 +658,15 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Wheat from the United Arab Emirates to Israel (AEJEA to ILHFA): main route 3,172 nm, 2.8 times the great-circle distance; check the gateways
 - qa: Wheat from Canada to Mexico (CAVAN to MXVER): main route 5,679 nm, 2.6 times the great-circle distance; check the gateways
 
-### K13: pairs declared far below the usual unit value of their product (4)
+### K13: pairs declared far below the usual unit value of their product (3)
 
 - flag: Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565)
-- flag: Coke and semi-coke (HS 2704) from Mozambique to the United Arab Emirates: 0.396 Mt in 2024 (CEPII BACI), declared at 71 USD per tonne, 24% of the tonne-weighted median of the group (296)
 - flag: Direct-reduced iron (HS 7203) from Algeria to Germany: 0.182 Mt in 2024 (CEPII BACI), declared at 140 USD per tonne, 45% of the tonne-weighted median of the group (313)
 - flag: Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529)
 
-### K14: exporters with no production in the EIA table (2)
+### K14: exporters with no production in the EIA table (1)
 
-- flag: Coke and semi-coke exports of Mozambique in 2024: 1.63 Mt in customs data (CEPII BACI), 4.7% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)
-- flag: Coke and semi-coke exports of Zimbabwe in 2024: 0.893 Mt in customs data (CEPII BACI), 2.6% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)
+- flag: Coke and semi-coke exports of Zimbabwe in 2024: 0.893 Mt in customs data (CEPII BACI), 2.7% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)
 
 ## Passages against IMF PortWatch (K9)
 
@@ -686,7 +681,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | bosphorus | dry | 206.9 | 240.2 | 203.5 | 241.4 (2021) | 0.86 | flag |
 | bosphorus | tanker | 105.2 | 197.2 | 173.5 | 184.2 (2019) | 0.57 | qa |
 | cape-good-hope | cargo | 14.8 | 14.9 | 443.2 | 479.7 (2025) | 0.03 | qa |
-| cape-good-hope | dry | 788.5 | 789.9 | 1,054 | 1,183 (2025) | 0.67 | qa |
+| cape-good-hope | dry | 788.4 | 789.8 | 1,054 | 1,183 (2025) | 0.67 | qa |
 | cape-good-hope | tanker | 335.0 | 335.0 | 418.1 | 418.1 (2024) | 0.80 | qa |
 | danish-straits | cargo | 11.1 | 11.1 | 16.7 | 22.3 (2020) | 0.50 | qa |
 | danish-straits | dry | 71.2 | 104.5 | 8.80 | 10.7 (2025) | 6.64 | qa |
@@ -695,10 +690,10 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | dover | dry | 195.3 | 221.3 | 337.1 | 366.9 (2022) | 0.53 | qa |
 | dover | tanker | 299.1 | 442.9 | 562.8 | 576.7 (2023) | 0.52 | qa |
 | gibraltar | cargo | 49.8 | 50.5 | 407.5 | 419.7 (2021) | 0.12 | qa |
-| gibraltar | dry | 394.3 | 437.7 | 383.9 | 514.0 (2023) | 0.77 | flag |
+| gibraltar | dry | 394.1 | 437.5 | 383.9 | 514.0 (2023) | 0.77 | flag |
 | gibraltar | tanker | 333.1 | 518.2 | 503.8 | 571.0 (2023) | 0.58 | qa |
 | hormuz | cargo | 22.5 | 24.0 | 169.8 | 174.6 (2023) | 0.13 | qa |
-| hormuz | dry | 121.7 | 123.6 | 195.8 | 203.1 (2022) | 0.60 | qa |
+| hormuz | dry | 121.3 | 123.2 | 195.8 | 203.1 (2022) | 0.60 | qa |
 | hormuz | tanker | 827.5 | 1,069 | 915.4 | 1,056 (2022) | 0.78 | qa |
 | korea-strait | cargo | 38.3 | 48.8 | 426.2 | 426.2 (2024) | 0.09 | qa |
 | korea-strait | dry | 163.8 | 289.4 | 428.0 | 433.6 (2025) | 0.38 | qa |
@@ -720,7 +715,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | ombai | tanker | 0.70 | 1.00 | 27.5 | 27.5 (2024) | 0.02 | qa |
 | panama | cargo | 14.2 | 15.3 | 105.4 | 114.8 (2025) | 0.12 | qa |
 | panama | dry | 50.5 | 144.5 | 60.1 | 119.5 (2021) | 0.42 | qa |
-| panama | tanker | 104.0 | 158.4 | 107.1 | 121.7 (2022) | 0.85 | qa |
+| panama | tanker | 103.9 | 158.4 | 107.1 | 121.7 (2022) | 0.85 | qa |
 | suez | cargo | 57.4 | 58.1 | 79.9 | 392.4 (2021) | 0.15 | qa |
 | suez | dry | 312.0 | 323.4 | 183.9 | 379.8 (2023) | 0.82 | flag |
 | suez | tanker | 350.8 | 360.7 | 226.0 | 452.0 (2023) | 0.78 | flag |
@@ -740,7 +735,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - Bab el-Mandeb, tanker: at least 339 Mt and up to 406 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, container, general cargo and ro-ro: at least 56.6 Mt and up to 58.8 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 390 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 207 Mt and up to 240 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
-- Strait of Gibraltar, dry bulk: at least 394 Mt and up to 438 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
+- Strait of Gibraltar, dry bulk: at least 394 Mt and up to 437 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
 - Torres Strait, tanker: at least 13.6 Mt and up to 50.6 Mt of the atlas's seaborne groups in 2024, against 13.5 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 14.4 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
 
 ### Parallel passages under other thresholds of the parallel rule (K9)
@@ -779,6 +774,22 @@ Rows that fit the detector of `metals.transit_notes` (an importer of at least 10
 
 Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Rule 6 (DROP_NEW_PAIRS): Qatari LPG pairs with no flow in either neighbouring year; several equal the LNG row of the same pair and year, which suggests LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established. Rule 9 (DROP_LOW_UV): rows of the lithium chemicals group declared under 1,500 USD per tonne in any year, a price of ore or concentrate rather than of a lithium chemical (hypothesis: a product or a weight misdeclared); rows whose tonnage the atlas estimated are kept.
 
+- coke and semi-coke 2005: 1 row, 4.09 kt
+- coke and semi-coke 2006: 1 row, 5.69 kt
+- coke and semi-coke 2011: 2 rows, 192.5 kt
+- coke and semi-coke 2012: 2 rows, 2.23 Mt
+- coke and semi-coke 2013: 2 rows, 1.88 Mt
+- coke and semi-coke 2014: 7 rows, 2.26 Mt
+- coke and semi-coke 2015: 4 rows, 4.42 Mt
+- coke and semi-coke 2016: 6 rows, 65.2 Mt
+- coke and semi-coke 2017: 4 rows, 11.5 Mt
+- coke and semi-coke 2018: 1 row, 4.91 Mt
+- coke and semi-coke 2019: 1 row, 1.14 Mt
+- coke and semi-coke 2020: 2 rows, 2.03 Mt
+- coke and semi-coke 2021: 17 rows, 6.37 Mt
+- coke and semi-coke 2022: 10 rows, 10.0 Mt
+- coke and semi-coke 2023: 4 rows, 2.58 Mt
+- coke and semi-coke 2024: 4 rows, 1.63 Mt
 - lithium 2003: 3 rows, 19.6 kt
 - lithium 2004: 4 rows, 23.7 kt
 - lithium 2006: 1 row, 1.55 kt
@@ -794,9 +805,95 @@ Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is buil
 - lithium 2021: 2 rows, 2.96 kt
 - lithium 2022: 2 rows, 2.69 kt
 - lithium 2024: 2 rows, 15.1 kt
+- LNG 2007: 1 row, 184.2 kt
+- LNG 2008: 1 row, 143.9 kt
+- LNG 2009: 1 row, 194.5 kt
+- LNG 2010: 1 row, 547.0 kt
+- LNG 2011: 1 row, 480.1 kt
+- LNG 2012: 1 row, 284.7 kt
+- LNG 2013: 1 row, 276.3 kt
+- LNG 2014: 1 row, 265.1 kt
+- LNG 2015: 1 row, 138.3 kt
+- LNG 2016: 1 row, 201.4 kt
+- LNG 2017: 1 row, 340.2 kt
+- LNG 2018: 1 row, 294.6 kt
+- LNG 2019: 1 row, 233.7 kt
+- LNG 2020: 1 row, 274.6 kt
+- LNG 2021: 1 row, 213.4 kt
+- LNG 2022: 2 rows, 1.78 Mt
+- LNG 2023: 2 rows, 3.69 Mt
+- LNG 2024: 1 row, 5.36 Mt
 - LPG 2021: 19 rows, 29.0 Mt
 - LPG 2023: 12 rows, 26.5 Mt
 
+- coke and semi-coke 2005, Mozambique to Zimbabwe: 4.09 kt, USD 1.42 million
+- coke and semi-coke 2006, Mozambique to Zimbabwe: 5.69 kt, USD 1.75 million
+- coke and semi-coke 2011, Mozambique to China: 157.8 kt, USD 20.7 million
+- coke and semi-coke 2011, Mozambique to South Africa: 34.7 kt, USD 10.9 million
+- coke and semi-coke 2012, Mozambique to China: 2.23 Mt, USD 435 million
+- coke and semi-coke 2012, Mozambique to South Africa: 0.08 kt, USD 16.4 million
+- coke and semi-coke 2013, Mozambique to India: 1.85 Mt, USD 527 million
+- coke and semi-coke 2013, Mozambique to Nepal: 34.9 kt, USD 4.82 million
+- coke and semi-coke 2014, Mozambique to Singapore: 784.9 kt, USD 247 million
+- coke and semi-coke 2014, Mozambique to India: 763.8 kt, USD 170 million
+- coke and semi-coke 2014, Mozambique to Germany: 377.5 kt, USD 32.9 million
+- coke and semi-coke 2014, Mozambique to Luxembourg: 253.0 kt, USD 25.5 million
+- coke and semi-coke 2014, Mozambique to South Korea: 71.5 kt, USD 8.39 million
+- coke and semi-coke 2014, Mozambique to Nepal: 7.20 kt, USD 955 thousand
+- coke and semi-coke 2014, Mozambique to Egypt: 0.05 kt, USD 4.43 million
+- coke and semi-coke 2015, Mozambique to India: 3.13 Mt, USD 263 million
+- coke and semi-coke 2015, Mozambique to Singapore: 601.6 kt, USD 43.1 million
+- coke and semi-coke 2015, Mozambique to Luxembourg: 470.0 kt, USD 46.6 million
+- coke and semi-coke 2015, Mozambique to South Korea: 220.0 kt, USD 22.9 million
+- coke and semi-coke 2016, Mozambique to India: 65.0 Mt, USD 245 million
+- coke and semi-coke 2016, Mozambique to South Korea: 63.4 kt, USD 4.26 million
+- coke and semi-coke 2016, Mozambique to Singapore: 63.4 kt, USD 4.06 million
+- coke and semi-coke 2016, Mozambique to Luxembourg: 61.4 kt, USD 4 million
+- coke and semi-coke 2016, Mozambique to the United Arab Emirates: 25.0 kt, USD 771 thousand
+- coke and semi-coke 2016, Mozambique to Egypt: 10.7 kt, USD 2.37 million
+- coke and semi-coke 2017, Mozambique to India: 11.5 Mt, USD 1,499 million
+- coke and semi-coke 2017, Mozambique to Egypt: 20.2 kt, USD 6.1 million
+- coke and semi-coke 2017, Mozambique to South Africa: 0.00 kt, USD 1.57 million
+- coke and semi-coke 2017, Mozambique to the United Arab Emirates: 0.00 kt, USD 1.72 million
+- coke and semi-coke 2018, Mozambique to India: 4.91 Mt, USD 1,140 million
+- coke and semi-coke 2019, Mozambique to India: 1.14 Mt, USD 212 million
+- coke and semi-coke 2020, Mozambique to India: 1.82 Mt, USD 30.3 million
+- coke and semi-coke 2020, Mozambique to the United Arab Emirates: 205.7 kt, USD 2.98 million
+- coke and semi-coke 2021, Mozambique to India: 3.78 Mt, USD 99.7 million
+- coke and semi-coke 2021, Mozambique to Singapore: 1.05 Mt, USD 20.8 million
+- coke and semi-coke 2021, Mozambique to China: 509.8 kt, USD 16.9 million
+- coke and semi-coke 2021, Mozambique to the United Arab Emirates: 462.4 kt, USD 12.7 million
+- coke and semi-coke 2021, Mozambique to Switzerland: 173.7 kt, USD 3.25 million
+- coke and semi-coke 2021, Mozambique to Poland: 73.6 kt, USD 7.89 million
+- coke and semi-coke 2021, Mozambique to Turkey: 62.0 kt, USD 6.08 million
+- coke and semi-coke 2021, Mozambique to Japan: 57.9 kt, USD 7.5 million
+- coke and semi-coke 2021, Mozambique to the Netherlands: 45.9 kt, USD 8.77 million
+- coke and semi-coke 2021, Mozambique to Pakistan: 45.9 kt, USD 8.77 million
+- coke and semi-coke 2021, Mozambique to Malawi: 30.5 kt, USD 3.45 million
+- coke and semi-coke 2021, Mozambique to DR Congo: 25.2 kt, USD 5.2 million
+- coke and semi-coke 2021, Mozambique to Nigeria: 18.0 kt, USD 2.88 million
+- coke and semi-coke 2021, Mozambique to Kenya: 17.1 kt, USD 1.84 million
+- coke and semi-coke 2021, Mozambique to the United States: 9.63 kt, USD 401 thousand
+- coke and semi-coke 2021, Mozambique to South Korea: 4.90 kt, USD 437 thousand
+- coke and semi-coke 2021, Mozambique to Croatia: 4.33 kt, USD 320 thousand
+- coke and semi-coke 2022, Mozambique to India: 8.69 Mt, USD 490 million
+- coke and semi-coke 2022, Mozambique to South Korea: 449.4 kt, USD 181 million
+- coke and semi-coke 2022, Mozambique to the United Arab Emirates: 436.6 kt, USD 20.8 million
+- coke and semi-coke 2022, Mozambique to Japan: 130.6 kt, USD 39.2 million
+- coke and semi-coke 2022, Mozambique to the Netherlands: 123.8 kt, USD 53.4 million
+- coke and semi-coke 2022, Mozambique to Turkey: 67.9 kt, USD 20.4 million
+- coke and semi-coke 2022, Mozambique to Kenya: 46.0 kt, USD 13.8 million
+- coke and semi-coke 2022, Mozambique to Pakistan: 37.1 kt, USD 11.1 million
+- coke and semi-coke 2022, Mozambique to Togo: 17.2 kt, USD 5.17 million
+- coke and semi-coke 2022, Mozambique to the United States: 14.5 kt, USD 934 thousand
+- coke and semi-coke 2023, Mozambique to India: 1.90 Mt, USD 380 million
+- coke and semi-coke 2023, Mozambique to the United Arab Emirates: 629.1 kt, USD 57.4 million
+- coke and semi-coke 2023, Mozambique to South Africa: 33.0 kt, USD 10.4 million
+- coke and semi-coke 2023, Mozambique to the United States: 17.2 kt, USD 1.19 million
+- coke and semi-coke 2024, Mozambique to India: 1.12 Mt, USD 221 million
+- coke and semi-coke 2024, Mozambique to the United Arab Emirates: 396.3 kt, USD 28 million
+- coke and semi-coke 2024, Mozambique to the United States: 113.2 kt, USD 7.04 million
+- coke and semi-coke 2024, Mozambique to Zambia: 1.00 kt, USD 258 thousand
 - lithium 2003, Chile to the United States: 13.4 kt, USD 16.4 million, 1,221 USD/t
 - lithium 2003, Chile to Belgium: 5.09 kt, USD 6.77 million, 1,330 USD/t
 - lithium 2003, Switzerland to Germany: 1.05 kt, USD 122 thousand, 116 USD/t
@@ -830,6 +927,26 @@ Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is buil
 - lithium 2022, the Netherlands to South Korea: 0.94 kt, USD 1.13 million, 1,204 USD/t
 - lithium 2024, Nigeria to China: 8.60 kt, USD 2.46 million, 286 USD/t
 - lithium 2024, Brazil to China: 6.48 kt, USD 7.19 million, 1,110 USD/t
+- LNG 2007, Israel to Palestine: 184.2 kt, USD 94.6 million
+- LNG 2008, Israel to Palestine: 143.9 kt, USD 119 million
+- LNG 2009, Israel to Palestine: 194.5 kt, USD 75.4 million
+- LNG 2010, Israel to Palestine: 547.0 kt, USD 220 million
+- LNG 2011, Israel to Palestine: 480.1 kt, USD 213 million
+- LNG 2012, Israel to Palestine: 284.7 kt, USD 155 million
+- LNG 2013, Israel to Palestine: 276.3 kt, USD 202 million
+- LNG 2014, Israel to Palestine: 265.1 kt, USD 215 million
+- LNG 2015, Israel to Palestine: 138.3 kt, USD 105 million
+- LNG 2016, Israel to Palestine: 201.4 kt, USD 93 million
+- LNG 2017, Israel to Palestine: 340.2 kt, USD 114 million
+- LNG 2018, Israel to Palestine: 294.6 kt, USD 115 million
+- LNG 2019, Israel to Palestine: 233.7 kt, USD 79.3 million
+- LNG 2020, Israel to Palestine: 274.6 kt, USD 75.4 million
+- LNG 2021, Israel to Palestine: 213.4 kt, USD 97.2 million
+- LNG 2022, Israel to Egypt: 1.65 Mt, USD 1,887 million
+- LNG 2022, Israel to Palestine: 132.4 kt, USD 152 million
+- LNG 2023, Israel to Egypt: 3.52 Mt, USD 2,412 million
+- LNG 2023, Israel to Palestine: 164.1 kt, USD 111 million
+- LNG 2024, Israel to Egypt: 5.36 Mt, USD 2,826 million
 - LPG 2021, Qatar to Pakistan: 5.21 Mt, USD 2,396 million
 - LPG 2021, Qatar to Italy: 4.81 Mt, USD 2,254 million
 - LPG 2021, Qatar to the United Kingdom: 4.31 Mt, USD 2,766 million

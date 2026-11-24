@@ -71,6 +71,10 @@ FULL_PRODUCTION_SOURCES = {"eia-intl", "usda-psd", "faostat"}
 # pipeline/freight/build_freight.py EST_MIN_SHARE and EST_MIN_MT)
 PASSAGE_MIN_SHARE = 0.02
 PASSAGE_MIN_KT = 1000  # or 1 Mt (build_freight.py EST_MIN_MT)
+# The sentence that the freight block prints before the figures (FNCF, review GV6A.4): a percentage after a port is an allocation by the atlas's
+# rules, not a count of what the port handles. The page reads it from `freight.note`.
+PORT_SHARE_NOTE = ("The percentage after a port is the share of the seaborne tonnes that the atlas allocates to that typical port by its rules, "
+                   "one port for each recorded pair: an allocation, not a count of what the port handles.")
 PORTS = 3
 # the EU27 aggregate of USDA PSD and its member states (the same list as web/src/map/modules/choropleth.ts EU27)
 EU27 = ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU",
@@ -887,7 +891,7 @@ def main():
                     x["via"] = sorted(via, key=lambda v: (-v["low"], -v["high"]))
                     x["_every"] = every
                     x["seaKt"] = round(sea, 1)
-                fr = prof(iso).setdefault("freight", {"y": int(pf["y"]), "s": "baci", "exports": [], "imports": []})
+                fr = prof(iso).setdefault("freight", {"y": int(pf["y"]), "s": "baci", "note": PORT_SHARE_NOTE, "exports": [], "imports": []})
                 fr["exports" if side == "o" else "imports"].append(x)
     for p in profiles.values():
         fr = p.get("freight")

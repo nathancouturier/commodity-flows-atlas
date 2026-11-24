@@ -631,21 +631,6 @@
 ]
 },
 {
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 2.4,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 0.621 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
-},
-"mt": [
-0.621,
-0.621
-]
-},
-{
 "k": "ferrous-scrap",
 "p": "ferrous-scrap",
 "f": {
@@ -887,6 +872,28 @@
 }
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 24.7,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 6.02 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+},
+"mt": [
+6.02,
+8.803
+],
+"hi": {
+"v": 36.1,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "up to 8.8 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.12 Mt, Japan 0.925 Mt, China 0.685 Mt)"
+}
+},
+{
 "k": "rapeseed",
 "p": "rapeseed-meal",
 "f": {
@@ -906,28 +913,6 @@
 "y": 2024,
 "s": "atlas",
 "n": "up to 1.66 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: India 0.0381 Mt)"
-}
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 23.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 6.02 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
-},
-"mt": [
-6.02,
-8.803
-],
-"hi": {
-"v": 33.8,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 8.8 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.12 Mt, Japan 0.925 Mt, China 0.685 Mt)"
 }
 },
 {
@@ -2358,6 +2343,28 @@
 }
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 24.6,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 6 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+},
+"mt": [
+6.002,
+8.785
+],
+"hi": {
+"v": 36.0,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "up to 8.79 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.12 Mt, Japan 0.925 Mt, China 0.685 Mt)"
+}
+},
+{
 "k": "lead",
 "p": "lead-metal",
 "f": {
@@ -2443,28 +2450,6 @@
 "y": 2024,
 "s": "atlas",
 "n": "up to 86.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 10 Mt, Indonesia 3.91 Mt, Japan 1.51 Mt)"
-}
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 23.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 6 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
-},
-"mt": [
-6.002,
-8.785
-],
-"hi": {
-"v": 33.8,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 8.79 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 1.12 Mt, Japan 0.925 Mt, China 0.685 Mt)"
 }
 },
 {
@@ -4317,14 +4302,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 26 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 24.4 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 0,
 3.13
 ],
 "hi": {
-"v": 12.0,
+"v": 12.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -5735,14 +5720,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 26 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (850 Mt) is 89% of IMF PortWatch's estimate for all dry bulk ships in 2024 (950 Mt), although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas assumes may overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (950 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 24.4 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (850 Mt) is 89% of IMF PortWatch's estimate for all dry bulk ships in 2024 (950 Mt), although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas assumes may overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (950 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
 },
 "mt": [
 0,
 2.184
 ],
 "hi": {
-"v": 8.4,
+"v": 9.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -6564,11 +6549,11 @@
 "k": "met-coal",
 "p": "coke",
 "f": {
-"v": 17.5,
+"v": 18.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.56 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (312 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis). The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages of the normal route, and the 2024 traffic is not a ceiling for them"
+"n": "at least 4.56 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (312 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (184 Mt; 380 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis). The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages of the normal route, and the 2024 traffic is not a ceiling for them"
 },
 "mt": [
 4.562,
@@ -7788,11 +7773,11 @@
 "k": "met-coal",
 "p": "coke",
 "f": {
-"v": 17.5,
+"v": 18.7,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.56 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (301 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis). The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages of the normal route, and the 2024 traffic is not a ceiling for them"
+"n": "at least 4.56 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (301 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (177 Mt; 381 Mt in 2023, its best full year since 2019). The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the 2024 traffic. The atlas's alert \"Red Sea diversions\" says: \"Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal\" (Wikipedia, Red Sea crisis). The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages of the normal route, and the 2024 traffic is not a ceiling for them"
 },
 "mt": [
 4.556,
@@ -10583,6 +10568,21 @@
 }
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 8.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 2.14 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+},
+"mt": [
+2.141,
+2.141
+]
+},
+{
 "k": "urea",
 "p": "ammonium-nitrate",
 "f": {
@@ -10617,21 +10617,6 @@
 "mt": [
 0.264,
 0.264
-]
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 8.2,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 2.14 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
-},
-"mt": [
-2.141,
-2.141
 ]
 },
 {
@@ -11564,6 +11549,21 @@
 ]
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 20.2,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 4.92 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
+},
+"mt": [
+4.922,
+4.922
+]
+},
+{
 "k": "aluminium",
 "p": "aluminium",
 "f": {
@@ -11606,21 +11606,6 @@
 "s": "atlas",
 "n": "up to 3.16 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Indonesia 0.0157 Mt)"
 }
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 18.9,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 4.92 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
-},
-"mt": [
-4.922,
-4.922
-]
 },
 {
 "k": "soymeal",
@@ -11711,21 +11696,6 @@
 }
 },
 {
-"k": "sunflower",
-"p": "sunflower-meal",
-"f": {
-"v": 16.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 1.31 Mt of 7.92 Mt of seaborne sunflower meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.149 Mt of seaborne sunflower meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
-},
-"mt": [
-1.313,
-1.314
-]
-},
-{
 "k": "copper",
 "p": "copper-refined",
 "f": {
@@ -11761,6 +11731,21 @@
 "s": "atlas",
 "n": "up to 4.57 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Russia 2.67 Mt)"
 }
+},
+{
+"k": "sunflower",
+"p": "sunflower-meal",
+"f": {
+"v": 15.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 1.22 Mt of 7.92 Mt of seaborne sunflower meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.149 Mt of seaborne sunflower meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
+},
+"mt": [
+1.217,
+1.218
+]
 },
 {
 "k": "sugar",
@@ -12224,15 +12209,15 @@
 "k": "rapeseed",
 "p": "rapeseed-meal",
 "f": {
-"v": 8.7,
+"v": 7.4,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.586 Mt of 6.77 Mt of seaborne rapeseed meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.0943 Mt of seaborne rapeseed meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
+"n": "at least 0.501 Mt of 6.77 Mt of seaborne rapeseed meal: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.0943 Mt of seaborne rapeseed meal could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (394 Mt) is above IMF PortWatch's estimate for all dry bulk ships in 2024 (384 Mt; 514 Mt in 2023, its best full year since 2019), and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (384 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
 },
 "mt": [
-0.586,
-0.588
+0.501,
+0.503
 ]
 },
 {
@@ -12797,6 +12782,21 @@
 ]
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 13.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 3.27 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+},
+"mt": [
+3.272,
+3.272
+]
+},
+{
 "k": "refined-products",
 "p": "refined-products",
 "f": {
@@ -12854,21 +12854,6 @@
 "mt": [
 1.324,
 1.324
-]
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 12.6,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 3.27 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
-},
-"mt": [
-3.272,
-3.272
 ]
 },
 {
@@ -14114,15 +14099,15 @@
 "k": "met-coal",
 "p": "coke",
 "f": {
-"v": 5.2,
+"v": 5.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.35 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.24 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
-1.353,
-1.353
+1.239,
+1.239
 ]
 },
 {
@@ -14849,14 +14834,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 26 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 24.4 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 0,
 9.172
 ],
 "hi": {
-"v": 35.2,
+"v": 37.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -16729,6 +16714,28 @@
 }
 },
 {
+"k": "met-coal",
+"p": "coke",
+"f": {
+"v": 1.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 0.441 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.0934 Mt of coke and semi-coke that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+},
+"mt": [
+0.441,
+0.605
+],
+"hi": {
+"v": 2.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "up to 0.605 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 0.164 Mt)"
+}
+},
+{
 "k": "nickel",
 "p": "nickel-int",
 "f": {
@@ -16770,28 +16777,6 @@
 "y": 2024,
 "s": "atlas",
 "n": "up to 0.709 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Peru 0.0877 Mt)"
-}
-},
-{
-"k": "met-coal",
-"p": "coke",
-"f": {
-"v": 1.7,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 0.441 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.0934 Mt of coke and semi-coke that moves both by sea and overland (split not known) would cross it by sea and is not counted"
-},
-"mt": [
-0.441,
-0.605
-],
-"hi": {
-"v": 2.3,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 0.605 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: China 0.164 Mt)"
 }
 },
 {
@@ -17180,18 +17165,18 @@
 "k": "met-coal",
 "p": "coke",
 "f": {
-"v": 17.8,
+"v": 19.0,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 4.63 Mt of 26 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (1,016 Mt) is 94% of IMF PortWatch's estimate for all dry bulk ships in 2024 (1,085 Mt), although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas assumes may overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (1,085 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
+"n": "at least 4.63 Mt of 24.4 Mt of seaborne coke and semi-coke: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends). The 'at least' tonnage of all dry bulk cargo of the atlas through this passage (1,016 Mt) is 94% of IMF PortWatch's estimate for all dry bulk ships in 2024 (1,085 Mt), although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas assumes may overstate it. The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships (1,085 Mt), not at that volume less the other groups' 'at least' tonnage, because the atlas's own tonnage is above 85% of it and the two are too close to compare"
 },
 "mt": [
 4.631,
 5.347
 ],
 "hi": {
-"v": 20.5,
+"v": 21.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -18329,14 +18314,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 26 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 24.4 Mt of seaborne coke and semi-coke has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.146 Mt of seaborne coke and semi-coke could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 0,
 9.172
 ],
 "hi": {
-"v": 35.2,
+"v": 37.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",

@@ -344,7 +344,8 @@
 "gen-wheat-ecsa-ecsa",
 "gen-wheat-ecsa-sea",
 "gen-wheat-canada-west-sea",
-"gen-wheat-w-australia-r-east-asia"
+"gen-wheat-w-australia-r-east-asia",
+"gen-wheat-canada-west-r-east-asia"
 ],
 "notes": "The Baltic's Panamax vessel (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m: a Kamsarmax by size.",
 "s": "wikipedia-vessel-classes",
@@ -484,6 +485,7 @@
 "gen-steel-nw-europe-med",
 "gen-steel-sea-med",
 "gen-steel-black-sea-med",
+"gen-sugar-sea-sea",
 "gen-sulphur-meg-waf",
 "gen-sulphur-meg-n-china",
 "gen-sulphur-meg-sea",
@@ -491,7 +493,7 @@
 "gen-sulphur-meg-wc-india",
 "gen-sulphur-canada-west-n-china",
 "gen-sulphur-meg-ecsa",
-"gen-sulphur-meg-nw-europe",
+"gen-sulphur-us-gulf-ecsa",
 "gen-sunflower-meal-black-sea-med",
 "gen-sunflower-seed-black-sea-nw-europe",
 "gen-superphosphates-waf-ecsa",

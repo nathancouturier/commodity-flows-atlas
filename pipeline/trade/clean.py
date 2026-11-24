@@ -17,7 +17,9 @@ Rules
      re-estimated ONLY for homogeneous groups (crude oil, LNG, LPG, grains, oilseeds...). Ore and
      concentrate groups mix grades worth 40 to 2,000 USD/t (e.g. laterite vs sulphide nickel), so
      their reported tonnage is kept. A row of ESTIMATE_ROWS is treated like a row of a homogeneous group, whatever its group.
-  5. Known misclassifications are dropped (e.g. Israeli pipeline gas to Egypt declared as LNG).
+  5. Known misclassifications are dropped (e.g. Israeli pipeline gas to Egypt declared as LNG, and Mozambique's exports under the coke code:
+     the EIA series of coke production gives it none in any year, so the tonnes are probably coal declared as coke). Each dropped row is
+     listed in LAST_DROPPED (rule "misclassified") and in QA.md.
   6. Pairs that appear for one year only in an exporter-year listed in DROP_NEW_PAIRS (Qatari LPG in
      2021 and 2023) are dropped, or flagged "dup-suspect" when LPG_DEDUP is "flag".
   7. Bulk groups (BULK): the reference of rules 2 and 3 is the tonne-weighted median unit value (the
@@ -149,20 +151,23 @@ HOMOGENEOUS = {
     # 5th to the 95th percentile, 140 to 600 USD/t in 2024): seven of the eleven rows that rule 4 would re-estimate, which carry 92% of the tonnes
     # it adds or removes, belong to pairs that declare a unit value beyond the factor 3 of the same side in at least three other years
     # (China to the United States, Mozambique to India and to the United Arab Emirates): the estimate would erase their own price level.
-    # Only the gross errors of rule 3 are corrected for coke, as for pig iron and direct-reduced iron (several grades), and the one row
-    # that FNCB repaired by this rule, Mozambique to India 2016, is in ESTIMATE_ROWS
+    # Only the gross errors of rule 3 are corrected for coke, as for pig iron and direct-reduced iron (several grades). Mozambique's exports,
+    # the pair that FNCB repaired, are out of the frame altogether (DROP, FNCF)
 }
 # Rows re-estimated by rule 4 in a group that is not in HOMOGENEOUS: (group, exporter, importer, year) -> reason. A row listed here is
 # treated as rule 4 treats a row of a homogeneous group (unit value beyond 3 times the group's, flow of more than USD 50 million; flag
 # "est-uv"), and only then.
-ESTIMATE_ROWS = {
-    ("coke", "MOZ", "IND", 2016): "65.0 Mt for USD 245 million, 4 USD/t, 0.02 of the group's unit value of the year and three times the world series of coke: "
-                                  "no unit value of the pair in any other year is near it (16 to 56 USD/t in 2020 to 2022, about 200 in 2023 and 2024)",
-}
+# Empty since FNCF: its only row, Mozambique to India 2016 (coke, repaired by FNCB), is in DROP with the rest of Mozambique's coke.
+ESTIMATE_ROWS = {}
 
 # (group, exporter, importer or None for any) -> reason
 DROP = {
     ("lng", "ISR", None): "Israel has no liquefaction plant: this is pipeline gas to Egypt and Jordan declared under HS 2711.11",
+    # FNCF (decision on FNCD's first question, review GV6B.3): the EIA table of coke production (International Energy Data, series 21-1, the one
+    # that check K14 reads) gives Mozambique zero in every year, so its exports under HS 2704 are a product that the country
+    # cannot have made: coal declared under the coke code, a hypothesis that no source confirms. Every year, every destination.
+    ("coke", "MOZ", None): "the EIA series of coke production gives Mozambique none in any year, so its exports under the coke code are probably coal "
+                           "declared as coke; this is a hypothesis, not established",
 }
 
 
@@ -345,10 +350,12 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     df["o"] = df["o"].replace(CODE_FIX)
     df["d"] = df["d"].replace(CODE_FIX)
     df = df[df["o"] != df["d"]]
-    for (g, o, d), _ in DROP.items():
+    misclassified = []
+    for (g, o, d), why in DROP.items():
         m = (df["group"] == g) & (df["o"] == o)
         if d:
             m &= df["d"] == d
+        misclassified.append(df[m].assign(why=why))
         df = df[~m]
     df, dropped = _drop_new_pairs(df, lpg_dedup)
     has_t = df["t"] > 0
@@ -426,6 +433,10 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
         LAST_DROPPED.append({"group": r.group, "o": r.o, "d": r.d, "year": int(r.year), "usd": float(r.usd), "t": float(r.t), "est": False,
                              "uvp": float(r.uvp), "rule": "low-uv",
                              "reason": f"reported unit value under {DROP_LOW_UV[r.group]:,} USD per tonne (DROP_LOW_UV)"})
+    for x in misclassified:
+        for r in x.sort_values(["group", "year", "t"], ascending=[True, True, False]).itertuples():
+            LAST_DROPPED.append({"group": r.group, "o": r.o, "d": r.d, "year": int(r.year), "usd": float(r.usd), "t": float(r.t), "est": False,
+                                 "rule": "misclassified", "reason": r.why})
     df.attrs["dropped"] = [dict(r) for r in LAST_DROPPED]
     df.attrs["peer"] = {key: v for key, v in PEER_RATIO.items()}
     return df

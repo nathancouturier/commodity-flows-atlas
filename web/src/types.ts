@@ -518,6 +518,8 @@ export interface FreightProduct {
 export interface ProfileFreight {
   y: number;
   s: string;
+  /** what a port's percentage is (an allocation by the atlas's rules); the block prints it before the figures */
+  note?: string;
   exports: FreightProduct[];
   imports: FreightProduct[];
   exportsTotal?: { kt: number; sea: number; mixed: number; seaKt?: number; via?: Passage[] };

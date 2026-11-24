@@ -339,6 +339,7 @@ OWN_FAMILY = {"sugar", "ammonia", "uan", "phosphoric-acid", "sulphur", "coke"}
 # exporter's other fertilisers load at (Jubail for Saudi DAP, MAP and urea), published as "port used before, no page read", not a port
 # attached to the cargo. Without it ammonia and sulphur of Saudi Arabia fell on Jeddah, on the Red Sea, the general port of the country.
 # Sugar and coke do not: the legacy entry of their segment is a grain or a coal port.
+# Only for the role "load": see candidates().
 LEGACY_OWN_FAMILY = {"ammonia", "uan", "phosphoric-acid", "sulphur"}
 
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
@@ -427,9 +428,11 @@ def candidates(iso3, group, role=None):
         # same ports, in the same order; only the basis of the rows that do not name the group itself changes
         out = [(c, z, b if any(r.code == c and group in r.families for r in _rows(iso3, group)) else BASIS_GENERAL)
                for c, z, b in out]
-    if not out and (group not in OWN_FAMILY or group in LEGACY_OWN_FAMILY):
+    if not out and (group not in OWN_FAMILY or (group in LEGACY_OWN_FAMILY and role != "discharge")):
         # The legacy entry of the family itself (Dumai for Indonesian palm oil, Jubail for Saudi fertiliser,
         # Rosario for Argentine soy oil) is the port used before for that cargo: it comes before a general port.
+        # The four fertilisers of LEGACY_OWN_FAMILY keep it for the exporter's own port only (the reason of FNCA's A1): the legacy port of
+        # a country is its export port (Vancouver for Canadian potash), not where it takes ammonia or phosphoric acid in (FNCF, review GV6A.5).
         code = (LEGACY_P.get(iso3) or {}).get(segment(group))
         if code and _known(code) and _serves(code, group):
             out.append((code, zone_of(code), BASIS_LEGACY))
@@ -724,9 +727,12 @@ def _apply_rule(rule, iso3, group, role, other, other_port, other_is_two_ocean):
         if other in rule["when_other_in"]:
             return ("port", rule["port"])
         return None
-    if kind == "basin":                       # zone chosen from the basin of the other end (country sets)
+    if kind == "basin":                       # zone chosen from the basin of the other end (country sets), or the ports a basin names
         for basin, members in rule["basins"].items():
             if other in members:
+                named = rule.get("ports", {}).get(basin)
+                if named:                     # principal port first; the others are options of the pair
+                    return ("ports", named)
                 return ("zone", rule["zones"][basin])
         return None
     if kind == "ocean":                       # zone chosen from the ocean of the other end's principal port

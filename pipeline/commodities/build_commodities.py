@@ -138,7 +138,7 @@ EIA_SKIP_RE = re.compile(r"^WP\d\d$")
 EIA_OVERRIDE = {"XKS": "KOS"}
 # BACI exporter/importer codes without a country entry
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "trade"))
-from clean import BULK, CODE_FIX, HOMOGENEOUS, LAST_DROPPED, LITHIUM_MIN_UV, PEER_RATIO, XAS, clean as clean_baci, year_list  # noqa: E402
+from clean import BULK, CODE_FIX, DROP, HOMOGENEOUS, LAST_DROPPED, LITHIUM_MIN_UV, PEER_RATIO, XAS, clean as clean_baci, year_list  # noqa: E402
 import caveats as CV  # noqa: E402  (the registry of caveats, for the groups that have no lanes)
 from hs_map import SPLIT as HS_SPLIT, SPLIT_NOT_READ as HS_NOT_READ  # noqa: E402  (HS 253090, read as spodumene for some pairs)
 import checks as K  # noqa: E402  (labels, names and the records of pipeline/cache/trade_checks.json)
@@ -1592,6 +1592,15 @@ USGS = {
 
 
 # USGS tables listed in full, with the line "Other countries" as the last row: (commodity id, section)
+# The groups that a page shows as a table through its own code instead of TRADE and EXTRA_GROUPS (the "second trade tables" of main(), built with
+# baci.ranked): the completeness note of _gap_note is written for these too (FNCF, review GV6B.2). test_fncf.py reads the source for every
+# group that main() ranks and finds it in TRADE, EXTRA_GROUPS or here.
+HAND_GROUPS = {
+    "copper": [("copper-refined", "refined and blister copper (HS 7402, 7403)")],
+    "nickel": [("nickel-int", "nickel mattes, intermediates and unwrought nickel (HS 7501, 7502)"), ("nickel-fe", "ferro-nickel (HS 720260)")],
+    "bauxite": [("alumina", "alumina (HS 281820)")],
+    "zinc": [("zinc-metal", "unwrought zinc (HS 7901)")],
+}
 FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refinery"), ("pig-iron", "production")}
 
 # Headline figures of publishers whose tables are not free to copy: one world total each, cited with publisher, year and link
@@ -2068,6 +2077,9 @@ def main():
             notes.append(_note_group(baci, "coke", "Coke and semi-coke (HS 270400, customs data)") + " The tables of customs coke follow the EIA tables of metallurgical coke: the two sources "
                          "differ in what they count (EIA's coke is metallurgical coke by country; HS 2704 is every coke and semi-coke of coal, lignite or peat) and are not added. "
                          "Customs coke is not in the coal tables above, whose code list is the coal codes only, and the coal lanes do not hold it: the coke lanes are listed apart.")
+            left_out = _left_out_note(baci, "coke")
+            if left_out:
+                notes.append(left_out)
             notes += [f"Flows are BACI coal flows (HS 2701) from {_and([cname(c) for c in ('AUS', 'USA', 'CAN', 'MNG', 'RUS')])}: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
                       "Seaborne total omitted: the lane file covers all coal and cannot be split.",
                       "Exports/imports tables are EIA metallurgical coal (not BACI)."]
@@ -2606,7 +2618,7 @@ def main():
                                                                           "graphite. The only prices on the page are the USGS annual average import unit values of three kinds of natural graphite (flake, "
                                                                           "lump and chip, amorphous), United States imports.") + " No monthly series was loaded.")
 
-        for g2, what2 in ([(TRADE[cid][0], TRADE[cid][2])] if cid in TRADE else []) + [(x[0], x[3]) for x in EXTRA_GROUPS.get(cid, [])]:
+        for g2, what2 in ([(TRADE[cid][0], TRADE[cid][2])] if cid in TRADE else []) + [(x[0], x[3]) for x in EXTRA_GROUPS.get(cid, [])] + HAND_GROUPS.get(cid, []):
             gap = _gap_note(baci, g2, what2)
             if gap:
                 notes.append(gap)
@@ -2678,6 +2690,8 @@ def main():
     annotate(docs, eia)
     registry_caveats(docs, baci)
     no_production_notes(docs, baci)
+    landlocked_centre_notes(docs, baci)
+    transit_port_notes(docs, baci)
     metal_row_notes(docs, baci)
     print("metals:", MET.metal_pages(sys.modules[__name__], docs, us, baci, index))
     # a country profile row carries the short caveat (`caveatShort`), the commodity page the long one (`caveat`) (GW3.7)
@@ -2804,10 +2818,55 @@ def _gap_note(baci, g, label):
     if held >= COVERAGE_MIN * file_mt:
         return None
     parts = [f"{_nf(file_mt - kept_mt)} Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; {kept:,} of the {pairs:,} pairs of the file are kept)"]
-    if abs(kept_mt - held) >= 0.005 * file_mt:
-        parts.append(f"{_nf(abs(kept_mt - held))} Mt are {'taken out' if kept_mt > held else 'added'} by the cleaning rules (tonnage re-estimated from value, or flows left out)")
+    # rows that rule 5 of clean() drops as misclassified are named apart (the coke exports of Mozambique, FNCF): they are in the file and in no table
+    out = [r for r in baci.dropped if r["rule"] == "misclassified" and r["group"] == g and r["year"] == BACI_YEAR]
+    out_mt = sum(r["t"] for r in out) / 1e6
+    if out_mt >= 0.005 * file_mt:
+        who = " and ".join(cname(c) for c in sorted({r["o"] for r in out}))
+        parts.append(f"{_nf(out_mt)} Mt are the exports of {who}, left out as a misclassification (rule 5 of the cleaning rules: {out[0]['reason']})")
+    else:
+        out_mt = 0.0
+    rest = kept_mt - out_mt - held
+    if abs(rest) >= 0.005 * file_mt:
+        what = f"{_nf(abs(rest))} Mt are {'taken out' if rest > 0 else 'added'} by the cleaning rules (tonnage re-estimated from value, or flows left out)"
+        # a single row that holds most of it is named (unwrought zinc, Spain to Mexico: 5 Mt reported for USD 61 million)
+        x = baci.group(g)
+        cut = (x["t0"].fillna(x["t"]) - x["t"]).clip(lower=0) if rest > 0 else None
+        if cut is not None and len(x) and cut.max() >= 0.5 * rest * 1e6:
+            r = x.loc[cut.idxmax()]
+            what += f"; most of it is one row, {cname(r['o'])} to {cname(r['d'])}: {_nf(r['t0'] / 1e6)} Mt reported for USD {r['usd'] / 1e3:,.0f} million, {_nf(r['t'] / 1e6)} Mt after the rule"
+        parts.append(what)
     return (f"{label[:1].upper()}{label[1:]}: the tables hold {_nf(held)} Mt, {held / file_mt:.0%} of the {_nf(file_mt)} Mt that the customs file records for these "
-            f"codes in {BACI_YEAR} (gross weight). The difference: " + "; ".join(parts))
+            f"codes in {BACI_YEAR} (gross weight). The difference: " + "; ".join(parts) + ".")
+
+
+def _left_out_note(baci, g):
+    """What clean() leaves out of a group as a misclassification (rule 5, the DROP table), in the words of the page that shows the group: who, how
+    much in the customs file of the latest year, in which years, why, and that the rows are not counted. None when nothing is left out. For coke the
+    EIA series that the K14 check reads is quoted with its years and Mozambique's coal exports of its last year, from the file (FNCF)."""
+    rows = [r for r in baci.dropped if r["rule"] == "misclassified" and r["group"] == g]
+    if not rows:
+        return None
+    out = []
+    for o in sorted({r["o"] for r in rows}):
+        mine = [r for r in rows if r["o"] == o]
+        latest = [r for r in mine if r["year"] == BACI_YEAR]
+        years = sorted({r["year"] for r in mine})
+        s = f"{cname(o)}'s exports under this code are left out of every table, lane and total of the atlas, in each of the {len(years)} years {years[0]} to {years[-1]} in which the customs file records them"
+        if latest:
+            s += f" ({_nf(sum(r['t'] for r in latest) / 1e6)} Mt in {BACI_YEAR}, {len({r['d'] for r in latest})} destinations)"
+        s += f": {mine[0]['reason']}"
+        if g == "coke":
+            eia = K._eia_k14()
+            ser = ((eia or {}).get(K.NO_PRODUCTION[g][0]) or {}).get(o)
+            coal = ((eia or {}).get(K.NO_PRODUCTION[g][2]) or {}).get(o)
+            if ser and not any(v > 0 for v in ser.values()):
+                s += f" (EIA International Energy Data: its coke series reads 0 in every year from {min(ser)} to {max(ser)}"
+                if coal and coal[max(coal)] > 0:
+                    s += f"; the same file gives it {coal[max(coal)] / 1e3:.3g} Mt of coal exports in {max(coal)}"
+                s += ")"
+        out.append(s + ". These rows are not counted: the tables and totals of this group are the customs file less them.")
+    return " ".join(out)
 
 
 def _note_group(baci, g, label):
@@ -3160,6 +3219,8 @@ def qa_dropped(baci):
            "Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Rule 6 (DROP_NEW_PAIRS): Qatari LPG pairs with no flow in "
            "either neighbouring year; several equal the LNG row of the same pair and year, which suggests "
            "LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established. "
+           "Rule 5 (DROP): the exports of a product that the country cannot have made, left out in every year: " + "; ".join(
+               f"{_label(g)} from {K._name(o)}{' to ' + K._name(d) if d else ''} ({why})" for (g, o, d), why in DROP.items()) + ". "
            f"Rule 9 (DROP_LOW_UV): rows of the lithium chemicals group declared under {LITHIUM_MIN_UV:,} USD per tonne in any year, a price of ore or "
            "concentrate rather than of a lithium chemical (hypothesis: a product or a weight misdeclared); rows whose tonnage the atlas estimated are kept.", ""]
     rows = sorted(baci.dropped, key=lambda r: (r["group"], r["year"], -r["t"]))
@@ -3475,6 +3536,67 @@ def no_production_notes(docs, baci):
             d["notes"].append(e["text"])
 
 
+def landlocked_centre_notes(docs, baci):
+    """The pairs whose declared destination or origin is a landlocked trading centre (caveat kind "landlocked-centre", FNCF): the registry text goes to
+    the rows of the two countries in the customs tables and to the notes of the page. A group that is the main group of a page is handled by
+    registry_caveats(); here the groups that a page holds as an extra table (refined copper), whose tables the registry does not know."""
+    for e in baci.caveats.values():
+        if e["kind"] != "landlocked-centre":
+            continue
+        for cid, xs in EXTRA_GROUPS.items():
+            for g2, stem, *_ in xs:
+                d = docs.get(cid)
+                if g2 != e["group"] or not d:
+                    continue
+                found = False
+                for sec, c in (("exports", e["o"]), ("imports", e["d"])):
+                    t = next((x["table"] for x in d.get("extra") or [] if x["key"] == f"{stem}-{sec}"), None)
+                    r = next((r for r in (t or {}).get("rows", []) if r["c"] == c), None)
+                    if r is not None:
+                        r["n"] = joinn(r.get("n"), e["text"])
+                        found = True
+                d.setdefault("notes", [])
+                if found and e["text"] not in d["notes"]:
+                    d["notes"].append(e["text"])
+
+
+# An importer that is the transit port of a landlocked country in the engine's transit tables (pipeline/freight/gateways/energy.py TRANSIT), where the
+# customs record of the importer reads like the landlocked country's own trade: (page, key of the importers table, importer, group of the table,
+# the landlocked country). The note is built from that entry (FNCF, review GV6B: Djibouti, 1.64 Mt of two-nutrient compounds in 2024, second importer).
+TRANSIT_PORT_ROWS = [("npk", "two-nutrient-imports", "DJI", "npk-two-nutrient", "ETH")]
+
+
+def transit_port_notes(docs, baci):
+    """A row note and a page note for an importer that is the transit port of a landlocked country by a sourced entry of the engine's transit tables:
+    what the customs data record (tonnes, rank, share of the world, the same importer ten years earlier, the landlocked country's own recorded
+    imports), the entry and its source, and the reading that the tonnes may be that country's cargo declared at the port, which no source here
+    establishes. Written only while the engine's entry gives that port for that country."""
+    for cid, key, iso, g, land in TRANSIT_PORT_ROWS:
+        d = docs.get(cid)
+        t = next((x["table"] for x in (d or {}).get("extra") or [] if x["key"] == key), None)
+        tr = PT.transit_for(land, PT.segment(g), g)
+        if not t or not tr or PT.port(tr[0])["name"] != cname(iso):
+            continue
+        i = next((k for k, r in enumerate(t["rows"]) if r["c"] == iso), None)
+        if i is None:
+            continue
+        row = t["rows"][i]
+        y0 = BACI_YEAR - 9
+        before = baci.group(g, y0)
+        v0 = before[before["d"] == iso]["t"].sum() / 1e6
+        own = baci.group(g, BACI_YEAR)
+        own = own[own["d"] == land]["t"].sum() / 1e6
+        what = next((w for gg, _, _, w in EXTRA_GROUPS.get(cid, []) if gg == g), g)
+        text = (f"Customs data record {row['v']:.2f} Mt of {what} imported by {cname(iso)} in {BACI_YEAR} (rank {i + 1}, {row['v'] / t['world']:.1%} of the world imports), "
+                f"against {v0:.2f} Mt in {y0}. {cname(iso)} is the port that the atlas's transit tables give {cname(land)}, which has no coast ({tr[3]}: {'Wikipedia' if tr[1] == 'wikipedia' else tr[1]}, {tr[2]}), "
+                f"and {cname(land)}'s own recorded imports of this product are {own:.2f} Mt in {BACI_YEAR}: some of these tonnes may be cargo for {cname(land)} declared at the port, "
+                "a possible reading, not established here")
+        row["n"] = joinn(row.get("n"), text)
+        d.setdefault("notes", [])
+        if text not in d["notes"]:
+            d["notes"].append(text + ".")
+
+
 def metal_row_notes(docs, baci):
     """Notes on single rows of the metal pages (audit C-038 to C-043): trading hubs and re-exporters in the rankings, the republic
     of the Congo, the DR Congo export quotas, and flows priced far below the metal. The cause of a hub effect is a hypothesis, worded
@@ -3505,7 +3627,8 @@ def metal_row_notes(docs, baci):
     # copper: Switzerland among the importers of refined copper
     r, k = find("copper", None, "CHE", "refined-imports")
     zm = pair("copper-refined", "ZMB", "CHE")
-    if r and zm >= 0.5 * r["v"]:
+    # the registry caveat of the pair (landlocked_centre_notes) says it with the shares of both countries: this note stays only without it
+    if r and zm >= 0.5 * r["v"] and "copper-refined-zmb-che" not in baci.caveats:
         put("copper", None, "CHE", f"rank {k}: {zm:.2f} Mt of it comes from Zambia. Switzerland is a commodity-trading centre, so this may be metal bought by traders "
             f"based there rather than metal used there ({hint})", "refined-imports")
     # aluminium: the Netherlands and Malaysia among the exporters

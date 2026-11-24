@@ -775,7 +775,8 @@ def main():
     zones = json.load(open(os.path.join(OUT, "zones.json"), encoding="utf-8"))
     gen, gen_report = GR.generate(
         pairs, {g: p["ports"] for g, p in pairs.items()}, hand, zones, lambda code: P.port(code)["at"], cargo_names,
-        {r["id"]: r["name"] for r in defs}, K._name)
+        {r["id"]: r["name"] for r in defs}, K._name,
+        excluded={(e["group"], e["o"], e["d"]) for e in active.values() if e["kind"] == "landlocked-centre"})
     defs = defs + gen
 
     routes, feats = [], []

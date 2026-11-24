@@ -1428,6 +1428,7 @@
  },
  "notes": [
   "Unwrought zinc (HS 7901), 2024 (CEPII BACI): world 5.06 Mt gross weight; top exporters Spain 0.51 Mt, South Korea 0.48 Mt, Australia 0.42 Mt.",
-  "Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn)."
+  "Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn).",
+  "Unwrought zinc (HS 7901): the tables hold 5.06 Mt, 50% of the 10.1 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.0613 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 560 of the 1,757 pairs of the file are kept); 5 Mt are taken out by the cleaning rules (tonnage re-estimated from value, or flows left out)."
  ]
 }

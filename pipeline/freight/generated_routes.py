@@ -27,11 +27,20 @@ FLOOR_MT, FLOOR_SHARE = 0.5, 0.02
 # ... and at least this share of its own tonnes must be outside the hand-written corridors (else it is already named).
 MIN_NEW_SHARE = 0.5
 GROUP_CAP = 12
+# Groups that may keep one corridor more than GROUP_CAP (FNCF, review GV6A.3). Wheat had twelve corridors on the released site; once French wheat
+# loads at Rouen, two North-West European corridors (France to West Africa, and within North-West Europe) take places in the first twelve, one of
+# them in place of the Mediterranean corridor to West Africa that no longer exists, and the Canadian one (West Canada to East Asia, 3.8 Mt, a corridor
+# that has not changed) would be pushed out of the group by them, not by anything that moved on its own side.
+GROUP_CAP_MORE = {"wheat": 13}
 # Cap on the generated routes of the whole atlas: the map draws every route, so the count has to stay readable. When the
 # per-group lists exceed it, the first corridor of each group of AUDIT_GROUPS is kept first, then the corridors are taken
 # by their tonnes across groups (each group's in its own order), so that no corridor is left out for a smaller one of
 # another group (review GL1.8: three corridors of 1.1 to 1.5 Mt had given way to corridors of 0.5 Mt of small groups).
-TOTAL_CAP = 120
+# 120 on the released site; 122 since FNCF (review GV6A.3): with French grain, sugar and steel on their new ports, two corridors that the
+# release holds and that did not change (sugar within South-East Asia, 2.3 Mt, and with the wheat exception above wheat from West Canada to
+# East Asia, 3.8 Mt) came after the 120th by tonnes. Rebuilt at 121 the sugar corridor is still left out, at 122 every generated route of the
+# released site whose corridor still exists is generated again (two routes end with the French ports: gen-steel-med-nw-europe and gen-wheat-med-waf).
+TOTAL_CAP = 122
 # The groups that the audit's entries on named routes name (M-030: crude oil, iron ore, coal, refined products, LNG, steel,
 # sugar, rice, manganese, alumina, rapeseed; M-031: sugar, rice, rapeseed, coffee, cocoa, cotton, phosphate rock, DAP, urea,
 # soybean meal, palm oil, corn, wheat, potash, soybeans).
@@ -135,14 +144,15 @@ def _candidates(rows, level, zone_of):
     return cells
 
 
-def select_group(group, p, ports, covered, zone, target=TARGET):
+def select_group(group, p, ports, covered, zone, target=TARGET, excluded=frozenset()):
     """Corridors of one group, in the order they are chosen: [{level, a, b, rows, t, new}]. `p` is the decoded pairs file,
     `ports` its port table, `covered` {(group, o, d): [route ids]} of the hand-written routes. Only routed seaborne pairs
-    take part: a pair with no gateway, or no sea route, has no ports to draw."""
+    take part: a pair with no gateway, or no sea route, has no ports to draw. `excluded` is {(group, o, d)} of the pairs that
+    no corridor takes (a landlocked trading centre as declared destination or origin, caveat kind "landlocked-centre")."""
     sea = p["seaborne"]
     rows, named = [], 0.0
     for r in p["rows"]:
-        if r["m"] not in (0, 1):
+        if r["m"] not in (0, 1) or (group, r["o"], r["d"]) in excluded:
             continue
         if (group, r["o"], r["d"]) in covered:
             named += r["t"]
@@ -156,7 +166,7 @@ def select_group(group, p, ports, covered, zone, target=TARGET):
         cells = _candidates(left, level, zone)
         ranked = sorted(cells.items(), key=lambda kv: (-sum(r["t"] for r in kv[1] if r["new"]), kv[0]))
         for (a, b), rs in ranked:
-            if reached >= target * sea or len(chosen) >= GROUP_CAP:
+            if reached >= target * sea or len(chosen) >= GROUP_CAP_MORE.get(group, GROUP_CAP):
                 return chosen
             tot, new = sum(r["t"] for r in rs), sum(r["t"] for r in rs if r["new"])
             if new < floor or new < MIN_NEW_SHARE * tot:
@@ -199,7 +209,7 @@ def _note(p, c, big, a_label, b_label, what, hand_ids, route_names, ports, count
     """How the route was derived, from which customs year, and what a hand-written route already covers of it. `named` lists
     the ends whose country names the route: (end, country, share)."""
     sea = p["seaborne"]
-    n = (f"Atlas corridor, generated from customs pairs: the {len(c['rows'])} recorded seaborne {what} pairs whose typical ports lie in "
+    n = (f"Atlas corridor, generated from customs pairs: the {len(c['rows'])} recorded seaborne {what} pair{'' if len(c['rows']) == 1 else 's'} whose typical ports lie in "
          f"{a_label} (loading) and {b_label} (discharge), {p['y']}: {_mt(c['t'])}, {100 * c['t'] / sea:.1f}% of the {_mt(sea)} of seaborne "
          f"{what} trade (CEPII BACI customs data)")
     if c["level"] == 1:
@@ -293,13 +303,13 @@ def cap_order(per_group, total_cap=TOTAL_CAP, first=AUDIT_GROUPS, second=frozens
     return order[:total_cap]
 
 
-def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, country, target=TARGET, total_cap=TOTAL_CAP):
+def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, country, target=TARGET, total_cap=TOTAL_CAP, excluded=frozenset()):
     """Route definitions of the generated corridors, and a report.
 
     pairs: decoded pairs files (build_freight.load_pairs, with `ports`); hand: {(group, o, d): [route ids]} of the
     hand-written routes still running; zones: zones.json; at(code): [lon, lat] of a port; cargo_label(group): (name for a route
     name, noun for a sentence) of the cargo; country(iso3): its name; route_names: {route id: name} of the hand-written
-    routes. Returns (defs, report). A def holds the fields of a routes_def.json entry plus `generated`, `_ports` (load and
+    routes; excluded: {(group, o, d)} of the pairs that no corridor takes (select_group). Returns (defs, report). A def holds the fields of a routes_def.json entry plus `generated`, `_ports` (load and
     discharge port of the largest pair), `_pair` (group, exporter, importer, Mt of that pair) and `_nm` (its distance);
     build_freight.py plans and measures it like any other route. The report gives, for each group, its seaborne
     Mt, the share named by the hand-written routes, the share after the generated routes, the corridors the cap left out
@@ -308,7 +318,7 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
     zone = zone_lookup(ports_by_group, at)
     per_group = {}
     for g in sorted(pairs):
-        per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target)
+        per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target, excluded)
     later = set().union(*(gs for gs, _ in LATER_GROUPS)) if LATER_GROUPS else set()
     kept = {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g not in later}, total_cap)}
     for gs, cap in LATER_GROUPS:
@@ -365,8 +375,8 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
             if left:
                 why = (f"the cap of {next((cap for gs, cap in LATER_GROUPS if g in gs), total_cap)} generated routes "
                        f"{'for the groups added with it ' if g in later else ''}left out {len(left)} corridor{'s' if len(left) > 1 else ''}")
-            elif got >= GROUP_CAP:
-                why = f"the cap of {GROUP_CAP} routes per group was reached"
+            elif got >= GROUP_CAP_MORE.get(g, GROUP_CAP):
+                why = f"the cap of {GROUP_CAP_MORE.get(g, GROUP_CAP)} routes per group was reached"
             else:
                 why = (f"the remaining corridors are each under {max(FLOOR_MT, FLOOR_SHARE * sea):.1f} Mt, or mostly named by "
                        "hand-written routes, or have no routed port")

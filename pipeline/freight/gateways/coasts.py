@@ -402,6 +402,17 @@ FRA_MED_SIDE = {"ITA", "ESP", "GRC", "MLT", "HRV", "SVN", "ALB", "MNE", "TUR", "
 FRA_ATLANTIC_SIDE = (ATLANTIC_SIDE - FRA_MED_SIDE - {"FRA", "MAR", "DZA", "ZAF", "MOZ", "TZA", "KEN", "DJI", "SDN"}) | {"USA", "CAN", "MEX", "COL", "PAN", "CRI", "GTM", "HND", "NIC", "BLZ"}
 # Russian and Belarusian fertiliser loads in the Baltic (Ust-Luga is the port used before for the fertilisers of both); their general cargo is Novorossiysk, on the Black Sea
 FRA_ATLANTIC_FERT = FRA_ATLANTIC_SIDE | {"RUS", "BLR"}
+# Russia is on the Mediterranean side of the grain rule, not of the fertiliser rule above: its grain, oilseed and meal port in the atlas is
+# Novorossiysk, on the Black Sea, as for Ukraine, Romania and Bulgaria, and from there France is reached through the Bosphorus and Fos is the
+# nearest French port (1,817 nm to Fos, 3,469 nm to Rouen). FNCF, review GV6A.1.
+FRA_GRAIN_MED_SIDE = FRA_MED_SIDE | {"RUS"}
+# Exports of grain, oilseeds and meal: which of the two grain ports of the pages read is the principal one (FNCF, review GV6A.2). The Rouen page
+# names China, Morocco and Algeria as its main destinations; the partners of the Channel, the North Sea and the Baltic are nearer Rouen than La Pallice
+# (Rouen is the port that the page calls the first European port for cereals). Every other partner that is not on the Mediterranean side takes La Pallice,
+# the second French port for cereal exports, on the Atlantic coast. This is an Atlas assumption: no page gives the split between the two ports.
+FRA_GRAIN_ROUEN_NAMED = {"CHN", "MAR", "DZA"}
+FRA_GRAIN_ROUEN_SEAS = {"GBR", "IRL", "BEL", "NLD", "DEU", "DNK", "NOR", "SWE", "FIN", "ISL", "POL", "LTU", "LVA", "EST"}
+FRA_GRAIN_GROUPS = {"wheat", "barley", "corn", "sorghum", "rice", "pulses", "rapeseed", "soybeans", "sunflower-seed", "soymeal", "sunflower-meal", "rapeseed-meal"}
 
 
 # Partners whose Black Sea ports reach Turkey's Black Sea port without crossing the Bosphorus (the rule tur-coast)
@@ -413,6 +424,16 @@ class _Anyone:
 
     def __contains__(self, _):
         return True
+
+
+class _Except:
+    """Stands for every country but those of the sets given (a basin that is 'the rest')."""
+
+    def __init__(self, *sets):
+        self.out = set().union(*sets)
+
+    def __contains__(self, c):
+        return c not in self.out
 
 
 COAST_RULES = [
@@ -469,14 +490,33 @@ COAST_RULES = [
         "src": "atlas", "url": None, "two_ocean": True,
     },
     {
+        # Exports of grain, oilseeds and meal (FNCF, review GV6A.2): the principal port is chosen by the partner, the other port stays an option where
+        # the partner was left open before (a "ports" entry lists the principal port first). The Mediterranean basin has no ports: Fos, as in the next rule.
+        "id": "fra-grain-ports", "kind": "basin", "country": "FRA", "role": "load", "groups": FRA_GRAIN_GROUPS,
+        "basins": {"med": FRA_GRAIN_MED_SIDE, "rouen-named": FRA_GRAIN_ROUEN_NAMED, "rouen": FRA_GRAIN_ROUEN_SEAS, "la-pallice": FRA_ATLANTIC_SIDE,
+                   "la-pallice-open": _Anyone()},
+        "zones": {"med": ["med"]},
+        "ports": {"rouen-named": ["FRURO", "FRLPE"], "rouen": ["FRURO"], "la-pallice": ["FRLPE"], "la-pallice-open": ["FRLPE", "FRURO"]},
+        "reason": "Atlas assumption: no page gives the split of French grain exports between Rouen and La Pallice. The Rouen page (French Wikipedia, 2023) "
+                  "names China, Morocco and Algeria as its main destinations and calls Rouen the first European port for cereals, and the La Rochelle page "
+                  "calls La Pallice the second French port for cereal exports. So Rouen is the principal port for China, Morocco and Algeria and for the "
+                  "partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, Germany, the Nordic and "
+                  "Baltic countries, Poland), La Pallice for every other partner on the Atlantic side or left open (the Atlantic coast of Europe, West and "
+                  "southern Africa, the Americas, the Middle East and the rest of Asia); China, Morocco and Algeria and the partners that no rule "
+                  "assigns keep the other port as an option. The Mediterranean and Black Sea partners, Russia included, take Fos",
+        "src": "atlas", "url": None,
+    },
+    {
         "id": "fra-coast-grain", "kind": "basin", "country": "FRA", "role": "both", "groups": None, "segments": {"grain"},
-        "basins": {"med": FRA_MED_SIDE, "atlantic": FRA_ATLANTIC_SIDE},
+        "basins": {"med": FRA_GRAIN_MED_SIDE, "atlantic": FRA_ATLANTIC_SIDE},
         "zones": {"med": ["med"], "atlantic": ["nw-europe"]},
         "reason": "France has a Mediterranean seaboard and a Channel and Atlantic one. Grain, oilseeds and meal to and from the Mediterranean and the Black "
-                  "Sea (Italy, Greece, Turkey, Egypt, Romania and the others of the rule) use the Mediterranean port (Fos, the general port of the country), "
-                  "to and from the countries of the Atlantic, the North Sea and the Baltic and the Americas the Channel and Atlantic ports named by "
-                  "pages (Rouen, La Pallice, Montoir); the other buyers (Asia, the Gulf, East Africa, Oceania), Spain, Portugal, Morocco and Algeria are left "
-                  "open, so that the principal grain port answers: the Rouen page names China, Morocco and Algeria as its main destinations in 2023",
+                  "Sea (Italy, Spain, Greece, Turkey, Egypt, Romania, Russia, whose grain port is Novorossiysk, and the others of the rule) use the "
+                  "Mediterranean port (Fos, the general port of the country); to and from the countries of the Atlantic, the North Sea and the Baltic and the "
+                  "Americas the Channel and Atlantic ports named by pages (Rouen, La Pallice, Montoir). Portugal is on the Atlantic side. The other partners "
+                  "(Asia, the Gulf, Morocco, Algeria, the rest of Africa, Oceania) are left open: the principal grain port answers and the other is an "
+                  "option. Exports are decided one step earlier, by the rule fra-grain-ports; this rule keeps the imports and the groups of the segment "
+                  "that the rule fra-grain-ports does not name (sugar)",
         "src": "atlas", "url": None,
     },
     {
@@ -502,10 +542,14 @@ COAST_RULES = [
     {
         "id": "tur-coast", "kind": "basin", "country": "TUR", "role": "both", "groups": {"ferrous-scrap", "pig-iron", "dri"},
         "basins": {"black-sea": TUR_BLACK_SEA_SIDE, "med": _Anyone()},
-        "zones": {"black-sea": ["black-sea"], "med": ["med"]},
+        "zones": {"black-sea": ["black-sea"]},
+        # FNCF, review GV6A.4: the Erdemir page names two steel works, not where scrap lands, and the Aegean and Marmara coasts had no port: Izmir (the
+        # general row of the country) is the second option of the Mediterranean basin, so that no source is claimed for the split between the two
+        "ports": {"med": ["TRISK", "TRIZM"]},
         "reason": "Turkey's steel works are on the Black Sea (Eregli) and on the Mediterranean (Iskenderun). Cargo to and from the countries of the Black "
                   "Sea takes the Black Sea port; every other partner reaches Turkey through the Bosphorus or the Dardanelles only by a detour, so it "
-                  "takes the Mediterranean port (Iskenderun, then Mersin and Izmir, the general ports of the country)",
+                  "takes the Mediterranean port (Iskenderun, the principal one, and Izmir, the general port of the country on the Aegean). The Erdemir page "
+                  "names the steel works, not the cargo or where scrap lands, so the split between the two Mediterranean ports is not known: both are options",
         "src": "atlas", "url": None,
     },
     {

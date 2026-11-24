@@ -62,6 +62,11 @@ class Ctx:
     def flow(self, g, o, d, y):
         return float(self.pair.get((g, o, d, y), 0.0))
 
+    def imports(self, g, d, y):
+        if not hasattr(self, "_imp"):
+            self._imp = self.df.groupby(["group", "d", "year"])["t"].sum() / 1e6
+        return float(self._imp.get((g, d, y), 0.0))
+
     def finding(self, check, **kw):
         for r in self.findings:
             if r["check"] == check and all(r.get(k) == v for k, v in kw.items()):
@@ -343,6 +348,26 @@ def _unchecked_pair(g, o, d, missing):
     return text
 
 
+def _centre(g, o, d, side):
+    """A pair whose declared destination (side "d") or origin (side "o") is a landlocked trading centre (Switzerland): the customs figure is
+    kept, and the cargo probably ends (or started) elsewhere. Every figure is computed from the frame, and no cause is stated beyond the
+    reading (FNCF, review GV6D.3). The pair is left out of the generated corridors (generated_routes.py), its tonnes stay in the tables and in
+    the estimates of the passages, counted on the route to the declared destination."""
+    def text(c):
+        v, eo, di = c.flow(g, o, d, c.y), c.exports(g, o, c.y), c.imports(g, d, c.y)
+        if v <= 0 or eo <= 0 or di <= 0:
+            return None
+        centre = name(d if side == "d" else o)
+        what = {"copper-refined": "refined copper"}.get(g) or K.label(g)  # the label of the checks would read "copper refined"
+        reading = ("the cargo probably ends elsewhere" if side == "d" else "the cargo probably started elsewhere")
+        route = "to its declared destination" if side == "d" else "from its declared origin"
+        return (f"Customs data record {mt(v)} of {what} from {name(o)} to {name(d)} in {c.y} ({v / eo:.1%} of {name(o)}'s recorded "
+                f"exports and {v / di:.1%} of {name(d)}'s recorded imports, CEPII BACI). {centre} has no coast and is a trading centre for "
+                f"commodities, so {reading} and the customs record only the declared country: a possible reading, not established here. "
+                f"The tonnes stay in the tables and are counted at the passages of the route {route}; no generated route is built from this pair.")
+    return text
+
+
 def _hub(g, o, check=None):
     def text(c):
         v = c.exports(g, o, c.y)
@@ -459,6 +484,11 @@ REGISTRY = [
     ("lpg-irn", "unrecorded", "lpg", "IRN", None, None, _unrecorded_peak("lpg", "IRN")),
     ("lpg-omn-chn", "origin-unchecked", "lpg", "OMN", "CHN", None, _unchecked_pair("lpg", "OMN", "CHN", "IRN")),
     ("lpg-are-chn", "origin-unchecked", "lpg", "ARE", "CHN", None, _unchecked_pair("lpg", "ARE", "CHN", "IRN")),
+    # a declared destination or origin that is a landlocked trading centre (FNCF, review GV6D.3): text only, no widening of the passages
+    ("sulphur-qat-che", "landlocked-centre", "sulphur", "QAT", "CHE", None, _centre("sulphur", "QAT", "CHE", "d")),
+    ("copper-refined-zmb-che", "landlocked-centre", "copper-refined", "ZMB", "CHE", None, _centre("copper-refined", "ZMB", "CHE", "d")),
+    ("iron-ore-mys-che", "landlocked-centre", "iron-ore", "MYS", "CHE", None, _centre("iron-ore", "MYS", "CHE", "d")),
+    ("iron-ore-che-mys", "landlocked-centre", "iron-ore", "CHE", "MYS", None, _centre("iron-ore", "CHE", "MYS", "o")),
     # metals (audit C-035): groups without lanes, built by build_commodities.py from the same registry
     ("pgm-are-ind", "declaration", "pgm", "ARE", "IND", None, _price_gap("pgm", "platinum-group metals", "ARE", "IND", "platinum-m", "platinum")),
 ]
