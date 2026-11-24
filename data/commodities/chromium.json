@@ -288,7 +288,7 @@
    {
     "c": "MOZ",
     "v": 8.807,
-    "n": "Mozambique is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)",
+    "n": "Mozambique is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here): the ore comes overland from South Africa, the first producer in the USGS table of this page; Mozambique has no line in that table; and its own exports of ore in the customs data are next to nothing",
     "usd": 1982171000,
     "uv": 225
    },
@@ -876,6 +876,6 @@
   "Trade is chromium ores and concentrates (HS 2610), customs gross weight, the chromite of the steel and chemical industries. USGS mine production is in the same gross weight (thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: USGS also gives reserves in ore, but for 2024, an earlier year than the rest of the table, and the page does not show them.",
   "Ferro-chromium (HS 720241, 720249) and ferro-silico-chromium are alloys of the ferro-alloys page, not of this one; chromium metal and chromium chemicals are not loaded.",
   "Price: the World Bank Pink Sheet has no chromium series. The only price on the page is the USGS annual average of chromite ore, gross weight (United States salient statistics); no monthly series was loaded.",
-  "Mozambique is among the importers of chromium ores and concentrates (HS 2610) although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)."
+  "Mozambique is among the importers of chromium ores and concentrates (HS 2610) although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here): the ore comes overland from South Africa, the first producer in the USGS table of this page; Mozambique has no line in that table; and its own exports of ore in the customs data are next to nothing."
  ]
 }

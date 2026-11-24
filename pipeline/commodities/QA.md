@@ -760,6 +760,15 @@ Recomputed with `routing.classify()` from the option distances cached by `build_
 - Danish Straits, crude oil: EIA 2.7 mb/d (1H25, eia-chokepoints) is about 134 Mt a year at 7.33 barrels per tonne; the atlas gives at least 47 Mt and up to 139 Mt in 2024 (ratio of the 'at least' figure: 0.35)
 - Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 284 Mt and up to 284 Mt in 2024 (ratio of the 'at least' figure: 0.93)
 
+## Importers in transit
+
+Rows that fit the detector of `metals.transit_notes` (an importer of at least 10% of the table's world imports with no production line, no export line of note, and most of its imports overland). A note is printed only for the rows of the reviewed table `TRANSIT_REVIEWED`; the other rows are "detected, no note": an overland delivery to a neighbour that uses the product is the plain reading, and nothing in the tables on disk tells such a row from Mozambique's.
+
+- pig-iron/dri-imports/SAU: Saudi Arabia, imports of direct-reduced iron and other spongy ferrous products (HS 7203): 73% of the tonnes recorded into it come from Oman, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
+- chromium/imports/MOZ: Mozambique, imports of chromium ores and concentrates (HS 2610): 94% of the tonnes recorded into it come from South Africa, overland; note printed (reviewed row)
+- ferro-alloys/imports/MOZ: Mozambique, imports of ferro-chromium (HS 720241, 720249): 99% of the tonnes recorded into it come from South Africa, overland; note printed (reviewed row)
+- phosphate/map-imports/CAN: Canada, imports of monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540): 69% of the tonnes recorded into it come from United States, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
+
 ## Rows dropped by the cleaning rules
 
 Rows that `clean()` (`pipeline/trade/clean.py`) removes before any table is built. Rule 6 (DROP_NEW_PAIRS): Qatari LPG pairs with no flow in either neighbouring year; several equal the LNG row of the same pair and year, which suggests LNG cargoes recorded a second time under the LPG code; this is a hypothesis, not established. Rule 9 (DROP_LOW_UV): rows of the lithium chemicals group declared under 1,500 USD per tonne in any year, a price of ore or concentrate rather than of a lithium chemical (hypothesis: a product or a weight misdeclared); rows whose tonnage the atlas estimated are kept.

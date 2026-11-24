@@ -1516,8 +1516,7 @@
      },
      {
       "c": "CAN",
-      "v": 1.862,
-      "n": "Canada is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)"
+      "v": 1.862
      },
      {
       "c": "AUS",
@@ -3167,7 +3166,6 @@
   "Monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540), 2024 (CEPII BACI): world 14.15 Mt gross weight; top exporters Morocco 4.89 Mt, Russia 3.09 Mt, United States 1.72 Mt.",
   "Superphosphates, single and triple (HS 310310), 2024 (CEPII BACI): world 7.84 Mt gross weight; top exporters Morocco 3.54 Mt, China 1.41 Mt, Israel 1.06 Mt.",
   "Phosphoric acid and polyphosphoric acids (HS 280920), 2024 (CEPII BACI): world 7.13 Mt gross weight; top exporters Morocco 3.11 Mt, China 0.71 Mt, Jordan 0.70 Mt.",
-  "HS 310310 holds all the superphosphates, single and triple, in one code; TSP, the triple grade, has no code of its own. The Pink Sheet's TSP price is the price of triple superphosphate only: it is not a price of the whole group. HS 310540 holds MAP and its mixtures with DAP. HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. Other phosphatic fertilisers (HS 310320, 310390) are not loaded; the compound fertilisers, with two or three nutrients, are on the NPK page.",
-  "Canada is among the importers of monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540) although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)."
+  "HS 310310 holds all the superphosphates, single and triple, in one code; TSP, the triple grade, has no code of its own. The Pink Sheet's TSP price is the price of triple superphosphate only: it is not a price of the whole group. HS 310540 holds MAP and its mixtures with DAP. HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. Other phosphatic fertilisers (HS 310320, 310390) are not loaded; the compound fertilisers, with two or three nutrients, are on the NPK page."
  ]
 }

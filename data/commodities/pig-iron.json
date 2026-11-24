@@ -964,7 +964,6 @@
      {
       "c": "SAU",
       "v": 5.822,
-      "n": "Saudi Arabia is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)",
       "usd": 1090589000,
       "uv": 187
      },
@@ -1573,7 +1572,6 @@
   "The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second product with its own customs code, in none of the totals above. No production table for it: USGS gives pig iron and raw steel only, and the producers' association's figures are not loaded (their terms are not settled).",
   "Direct-reduced iron and spongy iron (HS 7203), 2024 (CEPII BACI): world 16.17 Mt gross weight; top exporters Oman 4.31 Mt, Russia 2.48 Mt, Trinidad and Tobago 1.67 Mt.",
   "Nickel pig iron has no code of its own: it is declared as ferro-nickel (HS 720260), which is on the nickel page.",
-  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded.",
-  "Saudi Arabia is among the importers of direct-reduced iron and other spongy ferrous products (HS 7203) although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)."
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded."
  ]
 }
