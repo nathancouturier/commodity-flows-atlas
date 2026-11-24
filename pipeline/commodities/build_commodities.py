@@ -938,7 +938,7 @@ class Baci:
                 self.caveats.setdefault(cid, e)
         # pairs far below the usual unit value of their product (check K13), for the groups with lanes too: build_lanes.py writes them to
         # the file at its next run, and until then their text goes with the flow
-        for cid, e in CV.unit_value_entries(df, BACI_YEAR).items():
+        for cid, e in {**CV.unit_value_entries(df, BACI_YEAR), **CV.no_production_entries(df, BACI_YEAR)}.items():
             self.caveats.setdefault(cid, e)
         # entries of the registry that build_lanes.py has not written to the file yet, for the groups with lanes (a new entry waits for its next
         # run): their text goes with the row and the flows until then. Only the entries that need no check of the lanes' run (no `check`)
@@ -2672,6 +2672,7 @@ def main():
     # ------------------------------------------------------------ editorial caveats (from the data audit)
     annotate(docs, eia)
     registry_caveats(docs, baci)
+    no_production_notes(docs, baci)
     metal_row_notes(docs, baci)
     print("metals:", MET.metal_pages(sys.modules[__name__], docs, us, baci, index))
     # a country profile row carries the short caveat (`caveatShort`), the commodity page the long one (`caveat`) (GW3.7)
@@ -3083,6 +3084,7 @@ CHECK_TITLES = {
     "K6": "exporter continuity", "K7": "importer continuity", "K8": "pairs of the latest year that halved or more than doubled",
     "K10": "exports above USGS mine production", "K11": "physical plausibility against the atlas's own layers (QA only)",
     "K12": "main route against the great-circle distance of its ports (QA only)",
+    "K13": "pairs declared far below the usual unit value of their product", "K14": "exporters with no production in the EIA table",
 }
 
 
@@ -3449,6 +3451,23 @@ def registry_caveats(docs, baci):
                 add_caveat(t, f"{cname(e['o'])} has no row. {e['text']}")
                 t["caveatYears"] = [t["y"]]
                 t["caveatShort"] = "Customs tonnage: some origins are recorded badly (see the notes on the commodity page)."
+
+
+def no_production_notes(docs, baci):
+    """The exporters of the customs coke table that the EIA table of coke production of the same page gives no production (check K14, FNCD):
+    the registry text goes to the row of the country in the customs table and to the notes of the page, as every caveat of the registry does."""
+    d = docs.get("met-coal")
+    for e in baci.caveats.values():
+        if e["kind"] != "no-production" or not d:
+            continue
+        t = next((x["table"] for x in d.get("extra") or [] if x["key"] == f"{e['group']}-customs-exports"), None)
+        r = next((r for r in (t or {}).get("rows", []) if r["c"] == e["o"]), None)
+        if r is None:
+            continue
+        r["n"] = joinn(r.get("n"), e["text"])
+        d.setdefault("notes", [])
+        if e["text"] not in d["notes"]:
+            d["notes"].append(e["text"])
 
 
 def metal_row_notes(docs, baci):

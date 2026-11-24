@@ -117,3 +117,105 @@ class D2SunflowerSeedBelowTheReference(unittest.TestCase):
             for n in ("1,289", "1,021", "10,900", "13,900"):
                 self.assertIn(n, text)
         self.assertNotIn("about USD 12,000 a tonne", meth + src)
+
+
+class D3TransitNoteOnReviewedRowsOnly(unittest.TestCase):
+    PHRASE = "may be cargo in transit to a port"
+
+    def test_the_reviewed_table_is_the_two_mozambique_rows(self):
+        import metals as MET
+        self.assertEqual(set(MET.TRANSIT_REVIEWED), {("chromium", "imports", "MOZ"), ("ferro-alloys", "imports", "MOZ")})
+        for why in MET.TRANSIT_REVIEWED.values():
+            for clause in ("overland from South Africa", "first producer", "Mozambique has no line in that table", "exports", "next to nothing"):
+                self.assertIn(clause, why)
+            self.assertNotRegex(why, r"\d")
+
+    def test_the_note_is_on_the_two_rows_their_pages_and_their_profile_lines_and_nowhere_else(self):
+        import glob
+        where = []
+        for f in sorted(glob.glob(os.path.join(DATA, "commodities", "*.json"))):
+            if f.endswith(("index.json", "companies.json")):
+                continue
+            text = json.dumps(load(f))
+            name = os.path.basename(f)[:-5]
+            d = load(f)
+            tabs = [(k, d[k]) for k in ("exports", "imports") if isinstance(d.get(k), dict)] + [(x["key"], x["table"]) for x in d.get("extra") or []]
+            for key, t in tabs:
+                for r in t.get("rows", []):
+                    if self.PHRASE in (r.get("n") or ""):
+                        where.append((name, key, r["c"], "row"))
+            for n in d.get("notes", []):
+                if self.PHRASE in n:
+                    where.append((name, "notes", n.split(" ")[0], "page"))
+            self.assertEqual(text.count(self.PHRASE), sum(1 for w in where if w[0] == name) if name in ("chromium", "ferro-alloys") else 0, name)
+        self.assertEqual(sorted(where), [("chromium", "imports", "MOZ", "row"), ("chromium", "notes", "Mozambique", "page"),
+                                         ("ferro-alloys", "imports", "MOZ", "row"), ("ferro-alloys", "notes", "Mozambique", "page")])
+        hits = []
+        for f in sorted(glob.glob(os.path.join(DATA, "countries", "profiles", "*.json"))):
+            p = load(f)
+            for side in ("exports", "imports"):
+                for e in p.get(side) or []:
+                    if self.PHRASE in (e.get("n") or ""):
+                        hits.append((os.path.basename(f)[:-5], side, e["k"]))
+        self.assertEqual(sorted(hits), [("MOZ", "imports", "chromium"), ("MOZ", "imports", "ferro-alloys")])
+
+    def test_the_two_rows_say_why(self):
+        for page, key in (("chromium", "imports"), ("ferro-alloys", "imports")):
+            d = load(DATA, "commodities", page + ".json")
+            r = next(x for x in d[key]["rows"] if x["c"] == "MOZ")
+            self.assertIn("a possible reading, not established here", r["n"])
+            self.assertIn("comes overland from South Africa, the first producer", r["n"])
+            self.assertTrue(any(self.PHRASE in n and "comes overland from South Africa" in n for n in d["notes"]), page)
+
+    def test_every_clause_of_the_reason_holds_in_the_files(self):
+        """Each clause, read in the built files: South Africa is the first row of the USGS production table of the Chromium page; Mozambique has no
+        line in it (nor in the reserves); the pairs files record the imports of both products from South Africa overland; Mozambique's exports of
+        both are under 1% of the world's and under 2% of its own imports."""
+        cr = load(DATA, "commodities", "chromium.json")
+        self.assertEqual(cr["production"]["rows"][0]["c"], "ZAF")
+        self.assertEqual(cr["production"]["s"], "usgs-mcs")
+        self.assertNotIn("MOZ", [r["c"] for r in cr["production"]["rows"]])
+        self.assertNotIn("MOZ", [r["c"] for r in cr["reserves"]["rows"]])
+        fa = load(DATA, "commodities", "ferro-alloys.json")
+        self.assertNotIn("production", fa)  # the second clause is about the table of the Chromium page
+        for page, group in (("chromium", "chromium-ore"), ("ferro-alloys", "ferro-chromium")):
+            d = load(DATA, "commodities", page + ".json")
+            imp = next(r for r in d["imports"]["rows"] if r["c"] == "MOZ")["v"]
+            exp = next((r["v"] for r in d["exports"]["rows"] if r["c"] == "MOZ"), 0.0)
+            self.assertLess(exp / d["exports"]["world"], 0.01, page)
+            self.assertLess(exp / imp, 0.02, page)
+            pairs = load(DATA, "freight", "pairs", group + ".json")
+            rows = [dict(zip(pairs["cols"], r)) for r in pairs["rows"] if r[1] == "MOZ"]
+            tot = sum(r["kt"] for r in rows)
+            zaf = sum(r["kt"] for r in rows if r["o"] == "ZAF" and r["m"] == 3)
+            self.assertGreater(zaf / tot, 0.9, page)
+
+    def test_the_detected_rows_outside_the_table_are_in_qa(self):
+        qa = read("pipeline", "commodities", "QA.md")
+        sec = qa[qa.index("## Importers in transit"):]
+        sec = sec[:sec.index("\n## ", 5)]
+        for key in ("pig-iron/dri-imports/SAU", "phosphate/map-imports/CAN"):
+            line = next(x for x in sec.splitlines() if x.startswith(f"- {key}:"))
+            self.assertIn("detected, no note", line)
+            self.assertIn("overland delivery to a neighbour that uses the product is the plain reading", line)
+        for key in ("chromium/imports/MOZ", "ferro-alloys/imports/MOZ"):
+            self.assertIn("note printed (reviewed row)", next(x for x in sec.splitlines() if x.startswith(f"- {key}:")))
+
+    def test_a_detected_row_outside_the_table_gets_no_note(self):
+        import tempfile
+        import metals as MET
+        from test_fncc import FakeBuilder
+        tmp = tempfile.mkdtemp()
+        os.makedirs(os.path.join(tmp, "freight", "pairs"))
+        with open(os.path.join(tmp, "freight", "pairs", "chromium-ore.json"), "w") as f:
+            json.dump({"cols": ["o", "d", "kt", "m"], "rows": [["ZAF", "MOZ", 8000, 3], ["OMN", "SAU", 5000, 3]]}, f)
+        B = FakeBuilder(tmp)
+        B.cname = lambda iso: {"MOZ": "Mozambique", "SAU": "Saudi Arabia", "OMN": "Oman"}.get(iso, iso)
+        def table(rows):
+            return {"s": "baci", "u": "Mt", "world": sum(v for _, v in rows), "rows": [{"c": c, "v": v} for c, v in rows]}
+        d = {"imports": table([("CHN", 15.0), ("SAU", 8.0), ("MOZ", 7.0)]), "exports": table([("ZAF", 23.0), ("TUR", 1.4)]), "production": {"rows": []}}
+        self.assertEqual(MET.transit_notes(B, {"chromium": d}), ["chromium/imports/MOZ"])
+        self.assertEqual([(k, noted) for k, _, noted in MET.TRANSIT_REPORT], [("chromium/imports/SAU", False), ("chromium/imports/MOZ", True)])
+        self.assertNotIn("n", d["imports"]["rows"][1])  # Saudi Arabia: detected, no note
+        self.assertIn("n", d["imports"]["rows"][2])
+        self.assertEqual(len(d["notes"]), 1)

@@ -221,7 +221,14 @@ class C2TransitImporter(unittest.TestCase):
         self.pairs("ammonia", [["ZAF", "MOZ", 800, 3]])
         d = {"ammonia-imports": None, "extra": [{"key": "ammonia-imports", "table": self.doc([("CHN", 15.0), ("MOZ", 8.8)], [("ZAF", 2.0)])["imports"]},
                                                   {"key": "ammonia-exports", "table": self.doc([("ZAF", 2.0)], [("ZAF", 23.0)])["exports"]}]}
-        self.assertEqual(MET.transit_notes(self.B, {"urea": d}), ["urea/ammonia-imports/MOZ"])
+        # package FNCD (D3): the rule detects the row, and a note is printed only for the rows of the reviewed table
+        self.assertEqual(MET.transit_notes(self.B, {"urea": d}), [])
+        self.assertEqual([k for k, _, noted in MET.TRANSIT_REPORT], ["urea/ammonia-imports/MOZ"])
+        MET.TRANSIT_REVIEWED[("urea", "ammonia-imports", "MOZ")] = "a reason"
+        try:
+            self.assertEqual(MET.transit_notes(self.B, {"urea": d}), ["urea/ammonia-imports/MOZ"])
+        finally:
+            del MET.TRANSIT_REVIEWED[("urea", "ammonia-imports", "MOZ")]
 
     def test_the_built_pages_carry_it_for_mozambique_and_the_rows_it_fires_on_are_these(self):
         fired = []
@@ -234,7 +241,8 @@ class C2TransitImporter(unittest.TestCase):
                 for r in t.get("rows", []):
                     if "may be cargo in transit to a port" in (r.get("n") or ""):
                         fired.append(f"{os.path.basename(f)[:-5]}/{key}/{r['c']}")
-        self.assertEqual(sorted(fired), ["chromium/imports/MOZ", "ferro-alloys/imports/MOZ", "phosphate/map-imports/CAN", "pig-iron/dri-imports/SAU"])
+        # package FNCD (D3): the detector finds four rows, the note is printed on the two reviewed ones (test_fncd.py D3)
+        self.assertEqual(sorted(fired), ["chromium/imports/MOZ", "ferro-alloys/imports/MOZ"])
         moz = load(DATA, "countries", "profiles", "MOZ.json")
         lines = [e for e in moz["imports"] if e["k"] in ("chromium", "ferro-alloys")]
         self.assertEqual(len(lines), 2)

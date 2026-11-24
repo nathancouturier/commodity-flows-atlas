@@ -386,6 +386,11 @@ METAL_PRICE = {"aluminium": ("aluminium-m", "aluminium"), "copper-refined": ("co
                "lead-metal": ("lead-m", "lead"), "tin-metal": ("tin-m", "tin")}
 
 
+# what a pair declared far below its product's usual unit value may be priced like (the words of the caveat): the metals' own scrap or alloy
+# by default; coke is priced like coal, and pig iron and direct-reduced iron like iron ore or scrap (FNCD, D4)
+LOW_UV_LIKE = {"coke": "coal", "pig-iron": "iron ore or scrap", "dri": "iron ore or scrap"}
+
+
 def _low_unit_value(r):
     """A pair of one metal product declared far below the usual unit value of that product (check K13): scrap, alloy or another
     cheaper product declared under the code is the hypothesis; the metal's price is quoted where the repository holds it."""
@@ -394,7 +399,32 @@ def _low_unit_value(r):
     price = annual_price(series, r["year"], "USD/t") if series else None
     if price:
         s += f"; the {r['year']} average {metal} price is {price:,.0f} USD per tonne (World Bank Pink Sheet), and the pair is declared at {r['unitValue'] / price:.0%} of it"
-    return (f"{s}. Material priced like scrap or alloy, or another cheaper product, declared under this code {HYPOTHESIS}")
+    return (f"{s}. Material priced like {LOW_UV_LIKE.get(r['group'], 'scrap or alloy')}, or another cheaper product, declared under this code {HYPOTHESIS}")
+
+
+def _no_production(r):
+    """An exporter of a group whose product the EIA table of production gives no producer (check K14): what the customs data record, what the EIA
+    series reads, and the reading that these tonnes may be another product declared under the code (coal, where the atlas's coal tables give the
+    country coal). Every figure is read from the finding; no cause is stated."""
+    g, o = r["group"], r["o"]
+    n = name(o)
+    if r["lastYear"] is None:
+        eia = f"its series reads 0 in every year from {r['firstYear']} to {r['eiaYear']}"
+    else:
+        eia = (f"its series reads 0 in {r['eiaYear']} and last reads {r['lastKt']:,.0f} kt in {r['lastYear']}" if r["lastYear"] < r["eiaYear"] - 1 else
+               f"its series reads 0 in {r['eiaYear']} and {r['lastKt']:,.0f} kt in {r['lastYear']}")
+    if r["coalExportKt"] > 0:
+        coal = (f", coal for instance, which the EIA tables of the Metallurgical coal page show {n} exporting "
+                f"({r['coalExportKt'] / 1e3:.3g} Mt in {r['eiaYear']})")
+    elif r["coalKt"] > 0:
+        coal = (f", coal for instance, of which the EIA tables of the Metallurgical coal page give {n} a production of "
+                f"{r['coalKt'] / 1e3:.3g} Mt in {r['eiaYear']} and no exports")
+    else:
+        coal = ""
+    return (f"Customs data record {mt(r['value'])} of {K.label(g)} exported from {n} in {r['year']} (CEPII BACI, HS 2704), {r['share']:.1%} of "
+            f"the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives {n} no coke production in "
+            f"{r['eiaYear']} ({eia}; EIA International Energy Data). These tonnes may be another product declared under the coke code{coal}: "
+            "a possible reading, not established here.")
 
 
 REF_YEAR = min(S19_UNSPECIFIED.values()) - 1  # the last year before Iran's crude was recorded under "Other Asia"
@@ -450,6 +480,7 @@ def build(df, findings, year, psd="load"):
         if text:
             out[cid] = {"kind": kind, "text": text, "group": g, "o": o, "d": d, **({"check": check} if check else {})}
     out.update(unit_value_entries(c.df, year))
+    out.update(no_production_entries(c.df, year))
     return out
 
 
@@ -457,6 +488,12 @@ def unit_value_entries(df, year):
     """Entries for the pairs K13 finds: one per pair, active only while the pair is that far below the others."""
     return {f"uv-{r['group']}-{r['o']}-{r['d']}": {"kind": "declaration", "text": _low_unit_value(r), "group": r["group"], "o": r["o"], "d": r["d"],
                                                   "check": "K13"} for r in K.k13(df, year)}
+
+
+def no_production_entries(df, year):
+    """Entries for the exporters K14 finds: one per origin and group, active only while the EIA table gives the origin no production."""
+    return {f"nop-{r['group']}-{r['o']}": {"kind": "no-production", "text": _no_production(r), "group": r["group"], "o": r["o"], "d": None,
+                                           "check": "K14"} for r in K.k14(df, year)}
 
 
 def lookup(active, group, o, d):

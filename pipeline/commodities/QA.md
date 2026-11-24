@@ -764,10 +764,10 @@ Recomputed with `routing.classify()` from the option distances cached by `build_
 
 Rows that fit the detector of `metals.transit_notes` (an importer of at least 10% of the table's world imports with no production line, no export line of note, and most of its imports overland). A note is printed only for the rows of the reviewed table `TRANSIT_REVIEWED`; the other rows are "detected, no note": an overland delivery to a neighbour that uses the product is the plain reading, and nothing in the tables on disk tells such a row from Mozambique's.
 
-- pig-iron/dri-imports/SAU: Saudi Arabia, imports of direct-reduced iron and other spongy ferrous products (HS 7203): 73% of the tonnes recorded into it come from Oman, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
-- chromium/imports/MOZ: Mozambique, imports of chromium ores and concentrates (HS 2610): 94% of the tonnes recorded into it come from South Africa, overland; note printed (reviewed row)
-- ferro-alloys/imports/MOZ: Mozambique, imports of ferro-chromium (HS 720241, 720249): 99% of the tonnes recorded into it come from South Africa, overland; note printed (reviewed row)
-- phosphate/map-imports/CAN: Canada, imports of monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540): 69% of the tonnes recorded into it come from United States, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
+- pig-iron/dri-imports/SAU: Saudi Arabia, imports of direct-reduced iron and other spongy ferrous products (HS 7203); largest origin Oman, 73% of the tonnes recorded into it, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
+- chromium/imports/MOZ: Mozambique, imports of chromium ores and concentrates (HS 2610); largest origin South Africa, 94% of the tonnes recorded into it, overland; note printed (reviewed row)
+- ferro-alloys/imports/MOZ: Mozambique, imports of ferro-chromium (HS 720241, 720249); largest origin South Africa, 99% of the tonnes recorded into it, overland; note printed (reviewed row)
+- phosphate/map-imports/CAN: Canada, imports of monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540); largest origin United States, 69% of the tonnes recorded into it, overland; detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)
 
 ## Rows dropped by the cleaning rules
 

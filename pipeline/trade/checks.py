@@ -36,6 +36,7 @@ Checks
   K12 detour of a pair's main route against the great-circle distance: detour(), called by the
       lane builder once the pairs are routed
   K13 a pair of one metal product declared at under half the usual unit value of that product
+  K14 an exporter of at least 1% of the group's exports that has no production of the product in the EIA table (coke)
 """
 import json
 import os
@@ -51,7 +52,7 @@ from common import constants as CN  # noqa: E402  (physical and conventional con
 RAW = os.path.join(ROOT, "raw")
 DATA = os.path.join(ROOT, "data")
 TRADE_CHECKS = os.path.join(ROOT, "pipeline", "cache", "trade_checks.json")
-RAW_CHECKS = {"K1", "K2", "K3", "K4", "K10"}
+RAW_CHECKS = {"K1", "K2", "K3", "K4", "K10", "K14"}
 
 EU27 = set("AUT BEL BGR HRV CYP CZE DNK EST FIN FRA DEU GRC HUN IRL ITA LVA LTU LUX MLT NLD POL PRT ROU SVK SVN ESP SWE".split())
 
@@ -466,6 +467,58 @@ def k13(df, year):
     return out
 
 
+# K14: a group whose exporters should be producers of the product, against an EIA table of its production (FNCD, D4: the customs coke table
+# of the metallurgical coal page ranked Mozambique sixth with 1.63 Mt, and the EIA table of coke production of the same page gives it none).
+# group -> (EIA series of the production, of the coal production and of the coal exports, product named in the finding). The EIA series of
+# metallurgical coal are the ones of the page that holds the coke tables.
+NO_PRODUCTION = {"coke": (("21-1", "MT"), ("130-1", "MT"), ("130-4", "MT"), "coke and semi-coke (HS 2704)")}
+NO_PRODUCTION_SHARE = 0.01  # an exporter with at least this share of the group's recorded exports of the year
+_EIA_K14 = {}
+
+
+def _eia_k14(raw=None):
+    """EIA series for K14, read once per process: {(series, unit): {code: {year: value}}} or None without the file."""
+    key = raw or RAW
+    if key not in _EIA_K14:
+        keys = sorted({k for v in NO_PRODUCTION.values() for k in v[:3]})
+        _EIA_K14[key] = eia_series(keys, raw)
+    return _EIA_K14[key]
+
+
+def k14(df, year, raw=None, eia=None):
+    """K14. Exporters with at least NO_PRODUCTION_SHARE of a group's recorded exports of `year` that have no production of the product in the
+    latest year of EIA's world series: the customs tonnes may be another product declared under the code (a hypothesis, worded by the
+    caveat registry). A country with no series in the EIA file is not reported: the file cannot support "no production" for it. Nothing is
+    changed."""
+    out = []
+    eia = eia or _eia_k14(raw)
+    if not eia:
+        return out
+    for g, (pk, ck, xk, what) in NO_PRODUCTION.items():
+        prod = eia.get(pk) or {}
+        world = prod.get("WORL") or {}
+        x = df[(df["group"] == g) & (df["year"] == year) & (df["t"] > 0)]
+        if not world or x.empty:
+            continue
+        ey = max(world)
+        by = x.groupby("o")["t"].sum().sort_values(ascending=False)
+        total = float(by.sum())
+        for c, t in by.items():
+            if t < NO_PRODUCTION_SHARE * total or c not in prod or prod[c].get(ey, 0) > 0:
+                continue
+            ser = prod[c]
+            pos = sorted(y for y, v in ser.items() if v > 0)
+            coal = (eia.get(ck) or {}).get(c, {}).get(ey) or 0.0
+            coal_x = (eia.get(xk) or {}).get(c, {}).get(ey) or 0.0
+            out.append({"check": "K14", "group": g, "year": year, "o": c, "value": round(t / 1e6, 3), "share": round(t / total, 4),
+                        "eiaYear": ey, "firstYear": min(ser), "lastYear": pos[-1] if pos else None, "lastKt": round(ser[pos[-1]], 1) if pos else None,
+                        "coalKt": round(coal, 1), "coalExportKt": round(coal_x, 1), "level": "flag",
+                        "text": (f"{label(g)[:1].upper()}{label(g)[1:]} exports of {_name(c)} in {year}: {_mt(t / 1e6)} in customs data (CEPII BACI), "
+                                 f"{t / total:.1%} of the world total; the EIA table of production of the product for {ey} gives it none "
+                                 f"(EIA International Energy Data)")})
+    return out
+
+
 def detour(pairs, year, min_t=0.5e6, ratio=2.5):
     """K12. pairs: iterable of dicts with group, o, d, t (tonnes), nm (main route) and gc_nm (great-circle distance of the
     two ports), and optionally load and dis. Called by the lane builder after routing."""
@@ -511,7 +564,7 @@ def run(df, year, raw=None, ran=None):
     if psd:
         do("K1", k1, df, year, psd)
         do("K2", k2, df, year, psd)
-    eia = read("EIA INTL", eia_series, [("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")], raw) or {}
+    eia = read("EIA INTL", eia_series, [("57-1", "MT"), ("57-1", "TBPD"), ("7-4", "MT"), ("7-3", "MT")] + sorted({k for v in NO_PRODUCTION.values() for k in v[:3]}), raw) or {}
     # a file that holds none of a check's series has not checked anything: the check is not run
     if eia.get(("57-1", "MT")) and eia.get(("57-1", "TBPD")):
         do("K3", k3, df, year, eia)
@@ -527,6 +580,8 @@ def run(df, year, raw=None, ran=None):
         do("K10", k10, df, year, usgs)
     do("K11", k11, df, year)
     do("K13", k13, df, year)
+    if all(eia.get(k) for k in NO_PRODUCTION["coke"][:1]):
+        do("K14", k14, df, year, raw, eia)
     return out
 
 
