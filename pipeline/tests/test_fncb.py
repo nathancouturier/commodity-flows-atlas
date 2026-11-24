@@ -505,8 +505,11 @@ class B4TwoMoreFertiliserGroups(unittest.TestCase):
             for c in cs:
                 self.assertNotIn(c, seen, (c, g, seen.get(c)))
                 seen[c] = g
-        # the official wording of the codes (CEPII BACI product list)
-        with open(os.path.join(ROOT, "raw", "baci", "product_codes_HS92_V202601.csv"), encoding="utf-8") as f:
+        # the official wording of the codes (CEPII BACI product list); raw/ is not tracked, so a fresh clone skips only this check
+        codes_file = os.path.join(ROOT, "raw", "baci", "product_codes_HS92_V202601.csv")
+        if not os.path.exists(codes_file):
+            self.skipTest("raw BACI product list not on disk (raw/ is not tracked)")
+        with open(codes_file, encoding="utf-8") as f:
             words = {r.split(",", 1)[0]: r.split(",", 1)[1] for r in f.read().splitlines()[1:]}
         self.assertIn("ammonium nitrate with calcium carbonate", words["310240"])
         self.assertIn("nitrates and phosphates", words["310551"])
