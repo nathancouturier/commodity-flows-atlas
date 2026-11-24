@@ -1208,6 +1208,7 @@
      {
       "c": "MOZ",
       "v": 1.626,
+      "n": "Customs data record 1.63 Mt of coke and semi-coke exported from Mozambique in 2024 (CEPII BACI, HS 2704), 4.7% of the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives Mozambique no coke production in 2025 (its series reads 0 in every year from 1980 to 2025; EIA International Energy Data). These tonnes may be another product declared under the coke code, coal for instance, which the EIA tables of the Metallurgical coal page show Mozambique exporting (6.5 Mt in 2025): a possible reading, not established here.",
       "usd": 256561000,
       "uv": 158
      },
@@ -1226,6 +1227,7 @@
      {
       "c": "ZWE",
       "v": 0.8928,
+      "n": "Customs data record 0.893 Mt of coke and semi-coke exported from Zimbabwe in 2024 (CEPII BACI, HS 2704), 2.6% of the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives Zimbabwe no coke production in 2025 (its series reads 0 in 2025 and last reads 5 kt in 2023; EIA International Energy Data). These tonnes may be another product declared under the coke code, coal for instance, of which the EIA tables of the Metallurgical coal page give Zimbabwe a production of 1.25 Mt in 2025 and no exports: a possible reading, not established here.",
       "usd": 170148000,
       "uv": 191
      },
@@ -1974,7 +1976,7 @@
      {
       "c": "HKG",
       "v": 0.0021,
-      "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)",
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
       "usd": 13000,
       "uv": 6.2
      },
@@ -2407,6 +2409,8 @@
   "Coke and semi-coke (HS 270400, customs data), 2024 (CEPII BACI): world 34.54 Mt gross weight; top exporters China 8.59 Mt, Poland 5.23 Mt, Indonesia 5.22 Mt. The tables of customs coke follow the EIA tables of metallurgical coke: the two sources differ in what they count (EIA's coke is metallurgical coke by country; HS 2704 is every coke and semi-coke of coal, lignite or peat) and are not added. Customs coke is not in the coal tables above, whose code list is the coal codes only, and the coal lanes do not hold it: the coke lanes are listed apart.",
   "Flows are BACI coal flows (HS 2701) from Australia, United States, Canada, Mongolia and Russia: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
   "Seaborne total omitted: the lane file covers all coal and cannot be split.",
-  "Exports/imports tables are EIA metallurgical coal (not BACI)."
+  "Exports/imports tables are EIA metallurgical coal (not BACI).",
+  "Customs data record 1.63 Mt of coke and semi-coke exported from Mozambique in 2024 (CEPII BACI, HS 2704), 4.7% of the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives Mozambique no coke production in 2025 (its series reads 0 in every year from 1980 to 2025; EIA International Energy Data). These tonnes may be another product declared under the coke code, coal for instance, which the EIA tables of the Metallurgical coal page show Mozambique exporting (6.5 Mt in 2025): a possible reading, not established here.",
+  "Customs data record 0.893 Mt of coke and semi-coke exported from Zimbabwe in 2024 (CEPII BACI, HS 2704), 2.6% of the world total. The EIA table of metallurgical coke production on the Metallurgical coal page gives Zimbabwe no coke production in 2025 (its series reads 0 in 2025 and last reads 5 kt in 2023; EIA International Energy Data). These tonnes may be another product declared under the coke code, coal for instance, of which the EIA tables of the Metallurgical coal page give Zimbabwe a production of 1.25 Mt in 2025 and no exports: a possible reading, not established here."
  ]
 }

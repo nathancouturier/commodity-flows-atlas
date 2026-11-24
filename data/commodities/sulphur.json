@@ -1076,6 +1076,6 @@
  "notes": [
   "Trade is sulphur gross weight: crude or unrefined sulphur (HS 250310) with sublimed, precipitated and colloidal sulphur (HS 280200); HS 250390 (other sulphur) is in the group but holds no flow in the customs file. Sulphuric acid and sulphur compounds are not covered.",
   "USGS production is sulphur content in all forms (elemental sulphur and the sulphur in sulphuric acid, by country), in tonnes of sulphur: the trade tables are tonnes of the product shipped, so the two are not on one basis.",
-  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no sulphur series, and no other free one was found."
+  "Price: the World Bank Pink Sheet has no sulphur series. The only price on the page is the USGS annual average unit value of elemental sulphur, free on board mine or plant, in US dollars per metric ton (United States salient statistics); no monthly series was loaded."
  ]
 }

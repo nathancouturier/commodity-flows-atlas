@@ -92,6 +92,10 @@ USGS_ROWS = {
     "usgs-graphite-flake-a": ("Graphite (Natural)", "at foreign ports: Flake", "USD/t"),
     "usgs-graphite-lump-a": ("Graphite (Natural)", "at foreign ports: Lump and chip", "USD/t"),
     "usgs-graphite-amorphous-a": ("Graphite (Natural)", "at foreign ports: Amorphous", "USD/t"),
+    # FNCD (D5): sulphur, ammonia and 75% ferrosilicon, each in the file's own unit
+    "usgs-sulphur-a": ("Sulfur", "free on board, mine and (or) plant", "USD/t"),
+    "usgs-ammonia-a": ("Nitrogen (Fixed)\u2014Ammonia", "free on board Gulf Coast", "USD/short ton"),
+    "usgs-ferrosilicon-75-a": ("Silicon", "Ferrosilicon, 75% silicon", "US cents/lb"),
 }
 # the Freight family (BLS cache, Dallas Fed, New York Fed) is proved by test_freight_indicators.py
 NOT_ON_DISK = {"freight-ppi-m", "igrea-m", "gscpi-m"}
@@ -437,7 +441,7 @@ class UsgsAnnual(unittest.TestCase):
                 # the unit written in the file's own words
                 words = mine[0]["Unit"] + " " + mine[0]["Statistics_detail"]
                 self.assertIn({"USD/t": "per metric ton", "USD/mtu": "per metric ton unit", "USD/kg": "per kilogram", "USD/lb": "per pound",
-                               "USD/troy oz": "per troy ounce"}[unit], words)
+                               "USD/troy oz": "per troy ounce", "USD/short ton": "per short ton", "US cents/lb": "cents per pound"}[unit], words)
 
 
 if __name__ == "__main__":

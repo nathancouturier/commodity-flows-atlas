@@ -466,7 +466,8 @@ class UsgsPrices(unittest.TestCase):
         self.assertEqual(jload("usgs-lithium-carbonate-a.json")["v"], [11700.0, 63700.0, 39000.0, 11800.0, 9000.0])
         self.assertEqual(jload("usgs-alumina-import-a.json")["v"][0], 462.0)
         self.assertEqual({m["k"] for m in usgs}, {"lithium", "manganese", "rare-earths", "bauxite", "cobalt", "pgm",
-                                                      "chromium", "ferro-alloys", "ferrous-scrap", "molybdenum", "graphite"})  # the last five: FNCC, GNC3.5
+                                                      "chromium", "ferro-alloys", "ferrous-scrap", "molybdenum", "graphite",
+                                                      "sulphur", "urea"})  # the five before the last two: FNCC, GNC3.5; sulphur and ammonia (urea page): FNCD, D5
 
 
 class WeeklyJobRecordsFrozenSeries(unittest.TestCase):

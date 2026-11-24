@@ -305,7 +305,8 @@ class C3UsgsPrices(unittest.TestCase):
 
     def test_a_page_with_no_free_series_keeps_its_wording(self):
         fig = load(DATA, "prices", "figures.json")
-        for page in ("pig-iron", "met-coal", "npk", "sulphur", "pulses"):
+        # sulphur has a USGS price since package FNCD (D5)
+        for page in ("pig-iron", "met-coal", "npk", "pulses"):
             with self.subTest(page):
                 self.assertNotIn(page, fig)
         notes = " ".join(load(DATA, "commodities", "pig-iron.json")["notes"])

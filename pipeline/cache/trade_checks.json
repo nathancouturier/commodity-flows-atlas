@@ -1304,13 +1304,13 @@
 "side": "exports",
 "country": "CHN",
 "kind": "gap",
-"value": 1.598,
+"value": 1.366,
 "reference": [
 16.302,
 3.144
 ],
 "level": "flag",
-"text": "Coke and semi-coke exports of China: 1.6 Mt in 2009 against 16.3 Mt and 3.14 Mt in 2008 and 2010 (CEPII BACI)"
+"text": "Coke and semi-coke exports of China: 1.37 Mt in 2009 against 16.3 Mt and 3.14 Mt in 2008 and 2010 (CEPII BACI)"
 },
 {
 "check": "K6",
@@ -2215,6 +2215,21 @@
 ],
 "level": "flag",
 "text": "Coke and semi-coke imports of India: 15.6 Mt in 2017 against 5.31 Mt and 10 Mt in 2016 and 2018 (CEPII BACI)"
+},
+{
+"check": "K7",
+"group": "coke",
+"year": 2022,
+"side": "imports",
+"country": "IND",
+"kind": "spike",
+"value": 12.283,
+"reference": [
+6.307,
+5.638
+],
+"level": "flag",
+"text": "Coke and semi-coke imports of India: 12.3 Mt in 2022 against 6.31 Mt and 5.64 Mt in 2021 and 2023 (CEPII BACI)"
 },
 {
 "check": "K7",
@@ -4386,6 +4401,38 @@
 "ratio": 0.447,
 "level": "flag",
 "text": "Direct-reduced iron (HS 7203) from Algeria to Germany: 0.182 Mt in 2024 (CEPII BACI), declared at 140 USD per tonne, 45% of the tonne-weighted median of the group (313)"
+},
+{
+"check": "K14",
+"group": "coke",
+"year": 2024,
+"o": "MOZ",
+"value": 1.626,
+"share": 0.0471,
+"eiaYear": 2025,
+"firstYear": 1980,
+"lastYear": null,
+"lastKt": null,
+"coalKt": 6497.5,
+"coalExportKt": 6497.5,
+"level": "flag",
+"text": "Coke and semi-coke exports of Mozambique in 2024: 1.63 Mt in customs data (CEPII BACI), 4.7% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)"
+},
+{
+"check": "K14",
+"group": "coke",
+"year": 2024,
+"o": "ZWE",
+"value": 0.893,
+"share": 0.0258,
+"eiaYear": 2025,
+"firstYear": 1980,
+"lastYear": 2023,
+"lastKt": 5.0,
+"coalKt": 1248.5,
+"coalExportKt": 0.0,
+"level": "flag",
+"text": "Coke and semi-coke exports of Zimbabwe in 2024: 0.893 Mt in customs data (CEPII BACI), 2.6% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)"
 },
 {
 "check": "K12",

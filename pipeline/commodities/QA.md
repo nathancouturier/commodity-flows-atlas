@@ -360,7 +360,7 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Two-nutrient compound fertilisers exports of Croatia: 0.00916 Mt in 2010 against 0.069 Mt and 0.175 Mt in 2009 and 2011 (CEPII BACI)
 - flag: Sunflower seed exports of Russia: 0.0148 Mt in 2010 against 0.161 Mt and 0.099 Mt in 2009 and 2011 (CEPII BACI)
 - flag: Tin ore exports of Peru: 0 Mt in 2010 against 0.004 Mt and 0.004 Mt in 2009 and 2011 (CEPII BACI)
-- flag: Coke and semi-coke exports of China: 1.6 Mt in 2009 against 16.3 Mt and 3.14 Mt in 2008 and 2010 (CEPII BACI)
+- flag: Coke and semi-coke exports of China: 1.37 Mt in 2009 against 16.3 Mt and 3.14 Mt in 2008 and 2010 (CEPII BACI)
 - flag: Ferro-manganese exports of China: 0.0607 Mt in 2009 against 0.506 Mt and 0.093 Mt in 2008 and 2010 (CEPII BACI)
 - flag: Two-nutrient compound fertilisers exports of China: 0.0946 Mt in 2009 against 0.53 Mt and 0.684 Mt in 2008 and 2010 (CEPII BACI)
 - flag: Two-nutrient compound fertilisers exports of the Netherlands: 0.0715 Mt in 2009 against 0.284 Mt and 0.295 Mt in 2008 and 2010 (CEPII BACI)
@@ -381,9 +381,10 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Rare earths exports of the United States: 0.002 Mt in 2005 against 0.038 Mt and 0.004 Mt in 2004 and 2006 (CEPII BACI)
 - flag: Sunflower seed exports of Ukraine: 0.0868 Mt in 2005 against 0.484 Mt and 0.252 Mt in 2004 and 2006 (CEPII BACI)
 
-### K7: importer continuity (27)
+### K7: importer continuity (28)
 
 - flag: Bauxite imports of the United Arab Emirates: 10.7 Mt in 2023 against 3.77 Mt and 0.417 Mt in 2022 and 2024 (CEPII BACI)
+- flag: Coke and semi-coke imports of India: 12.3 Mt in 2022 against 6.31 Mt and 5.64 Mt in 2021 and 2023 (CEPII BACI)
 - flag: LNG imports of Turkey: 17.3 Mt in 2021 against 3.72 Mt and 3.93 Mt in 2020 and 2022 (CEPII BACI)
 - flag: Coal imports of Vietnam: 77 Mt in 2020 against 48.3 Mt and 38.3 Mt in 2019 and 2021 (CEPII BACI)
 - flag: LNG imports of Colombia: 9.78 Mt in 2020 against 0.154 Mt and 0.284 Mt in 2019 and 2021 (CEPII BACI)
@@ -660,12 +661,17 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - qa: Wheat from the United Arab Emirates to Israel (AEJEA to ILHFA): main route 3,172 nm, 2.8 times the great-circle distance; check the gateways
 - qa: Wheat from Canada to Mexico (CAVAN to MXVER): main route 5,679 nm, 2.6 times the great-circle distance; check the gateways
 
-### K13:  (4)
+### K13: pairs declared far below the usual unit value of their product (4)
 
 - flag: Unwrought aluminium (HS 7601) from the United States to Malaysia: 0.536 Mt in 2024 (CEPII BACI), declared at 1,034 USD per tonne, 40% of the tonne-weighted median of the group (2,565)
 - flag: Coke and semi-coke (HS 2704) from Mozambique to the United Arab Emirates: 0.396 Mt in 2024 (CEPII BACI), declared at 71 USD per tonne, 24% of the tonne-weighted median of the group (296)
 - flag: Direct-reduced iron (HS 7203) from Algeria to Germany: 0.182 Mt in 2024 (CEPII BACI), declared at 140 USD per tonne, 45% of the tonne-weighted median of the group (313)
 - flag: Rare-earth metals and compounds (HS 280530, 284610, 284690) from Australia to Malaysia: 0.0312 Mt in 2024 (CEPII BACI), declared at 4,102 USD per tonne, 33% of the tonne-weighted median of the group (12,529)
+
+### K14: exporters with no production in the EIA table (2)
+
+- flag: Coke and semi-coke exports of Mozambique in 2024: 1.63 Mt in customs data (CEPII BACI), 4.7% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)
+- flag: Coke and semi-coke exports of Zimbabwe in 2024: 0.893 Mt in customs data (CEPII BACI), 2.6% of the world total; the EIA table of production of the product for 2025 gives it none (EIA International Energy Data)
 
 ## Passages against IMF PortWatch (K9)
 

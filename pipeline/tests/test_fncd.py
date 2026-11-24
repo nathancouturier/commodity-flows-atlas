@@ -329,3 +329,206 @@ class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
         self.assertIn("23 rows", src)
         self.assertIn("92%", src)
         self.assertNotIn('    "coke",\n}', src)
+
+
+class D7TwoSentencesOfMethodology(unittest.TestCase):
+    def test_the_annual_workbook_is_read_as_published_and_the_sentence_is_tied_to_its_cover_sheet(self):
+        meth = read("METHODOLOGY.md")
+        self.assertIn("last saved by the publisher on 3 November 2026", meth)
+        self.assertIn("reads the workbook as\n  published", meth)
+        path = os.path.join(ROOT, "raw", "worldbank", "CMO-Historical-Data-Annual.xlsx")
+        if not os.path.exists(path):
+            self.skipTest("raw/ is not tracked in git: the workbook is not on this machine")
+        import zipfile
+        import openpyxl
+        with zipfile.ZipFile(path) as z:
+            self.assertIn("2026-11-03", z.read("docProps/core.xml").decode("utf-8"))
+        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        cover = " ".join(str(c) for r in wb["Cover"].iter_rows(values_only=True) for c in r if c)
+        self.assertIn("exact comparison against", cover)  # "a comparison of the real annual prices against an earlier copy"
+        self.assertIn("9 remaining exact value mismatches", cover)  # "nine values that differ"
+        self.assertIn("nine values that differ", meth)
+
+    def test_other_ferro_alloys_sentence_is_the_cleaned_frame(self):
+        """0.58 Mt over 396 sea and transit pairs (0.69 Mt over 483 pairs in all modes), from the cleaned 2024 frame with the mode rule of the other
+        ferro-alloys (the group has no lanes and no pairs file); FNCC read 393 pairs in the uncleaned cache."""
+        import pandas as pd
+        import clean as C
+        import modes as MD
+        df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        x = C.clean(df)
+        x = x[(x["group"] == "ferro-alloys-other") & (x["year"] == 2024)]
+        kinds = x.apply(lambda r: (lambda m: m.kind if m else None)(MD.mode_of(r["o"], r["d"], "ferro-silicon")), axis=1)
+        sea = x[kinds.isin(["sea", "transit"])]
+        self.assertEqual((len(sea), round(sea["t"].sum() / 1e6, 2), len(x), round(x["t"].sum() / 1e6, 2)), (396, 0.58, 483, 0.69))
+        meth, lanes = read("METHODOLOGY.md"), read("pipeline", "freight", "build_lanes.py")
+        self.assertIn("0.58 Mt by sea or via a transit port over 396 pairs, of 0.69 Mt over 483 pairs in all modes", meth)
+        self.assertIn("0.58 Mt over 396 sea and transit pairs", lanes)
+        self.assertNotIn("0.6 Mt by sea over 396 pairs", meth)
+
+
+class D4CokeExportersWithoutProduction(unittest.TestCase):
+    def caveats(self):
+        return load(DATA, "freight", "caveats.json")
+
+    def test_k14_finds_mozambique_and_zimbabwe_in_the_customs_table_and_only_them(self):
+        """The exporters of the customs coke table with at least 1% of its world total that have no coke production in the EIA table of the page."""
+        met = load(DATA, "commodities", "met-coal.json")
+        ex = {x["key"]: x["table"] for x in met["extra"]}
+        cust, prod = ex["coke-customs-exports"], ex["coke-production"]
+        have = {r["c"] for r in prod["rows"]}
+        big = [r["c"] for r in cust["rows"] if r["v"] >= 0.01 * cust["world"]]
+        self.assertEqual([c for c in big if c not in have], ["MOZ", "ZWE"])
+        first15 = [r["c"] for r in cust["rows"][:15]]
+        self.assertEqual([c for c in first15 if c not in have], ["MOZ", "ZWE"])  # every other exporter of the first fifteen has production
+        found = [r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"] if r["check"] == "K14"]
+        self.assertEqual(sorted(r["o"] for r in found), ["MOZ", "ZWE"])
+        for r in found:
+            row = next(x for x in cust["rows"] if x["c"] == r["o"])
+            self.assertAlmostEqual(r["value"], row["v"], places=2)
+            self.assertAlmostEqual(r["share"], row["v"] / cust["world"], places=3)
+            self.assertGreaterEqual(r["share"], 0.01)
+
+    def test_the_file_supports_no_production_only_where_the_series_exists(self):
+        """A country with no series in the EIA file is not reported: the file cannot support "no production" for it."""
+        import pandas as pd
+        import checks as K
+        df = pd.DataFrame([{"year": 2024, "group": "coke", "o": o, "d": "IND", "t": t, "usd": t * 0.3, "imputed": False}
+                           for o, t in (("AAA", 5e6), ("BBB", 4e6), ("CCC", 3e6), ("DDD", 1e6))])
+        series = {"WORL": {2025: 100.0}, "AAA": {2025: 50.0}, "BBB": {2025: 0.0, 2020: 40.0}, "CCC": {2025: 0.0}}  # DDD: no series at all
+        eia = {("21-1", "MT"): series, ("130-1", "MT"): {"CCC": {2025: 1200.0}}, ("130-4", "MT"): {"CCC": {2025: 800.0}}}
+        out = K.k14(df, 2024, eia=eia)
+        self.assertEqual([r["o"] for r in out], ["BBB", "CCC"])
+        self.assertEqual((out[0]["lastYear"], out[0]["lastKt"], out[0]["coalKt"]), (2020, 40.0, 0.0))
+        self.assertEqual((out[1]["lastYear"], out[1]["coalKt"], out[1]["coalExportKt"]), (None, 1200.0, 800.0))
+
+    def test_the_row_note_the_page_note_the_lane_caveat_and_the_country_page_say_it(self):
+        cv = self.caveats()
+        met = load(DATA, "commodities", "met-coal.json")
+        cust = next(x["table"] for x in met["extra"] if x["key"] == "coke-customs-exports")
+        for iso, coal in (("MOZ", "show Mozambique exporting"), ("ZWE", "give Zimbabwe a production of")):
+            e = cv[f"nop-coke-{iso}"]
+            self.assertEqual((e["kind"], e["group"], e["o"], e["d"]), ("no-production", "coke", iso, None))
+            for part in ("Customs data record", "of coke and semi-coke exported from", "(CEPII BACI, HS 2704)", "gives", "no coke production in 2025",
+                         "EIA International Energy Data", "may be another product declared under the coke code", coal, "a possible reading, not established here"):
+                self.assertIn(part, e["text"], (iso, part))
+            row = next(r for r in cust["rows"] if r["c"] == iso)
+            self.assertIn(e["text"], row["n"])
+            self.assertIn(e["text"], met["notes"])
+            prof = load(DATA, "countries", "profiles", iso + ".json")
+            self.assertTrue(any(g["id"] == f"nop-coke-{iso}" for g in prof["gaps"]), iso)
+        self.assertIn("its series reads 0 in every year from 1980 to 2025", cv["nop-coke-MOZ"]["text"])
+        self.assertIn("last reads 5 kt in 2023", cv["nop-coke-ZWE"]["text"])
+        self.assertIn("6.5 Mt in 2025", cv["nop-coke-MOZ"]["text"])
+        self.assertIn("1.25 Mt in 2025 and no exports", cv["nop-coke-ZWE"]["text"])
+        # no other exporter of the table has the note
+        notes = [r["c"] for r in cust["rows"] if "no coke production" in (r.get("n") or "")]
+        self.assertEqual(sorted(notes), ["MOZ", "ZWE"])
+
+    def test_the_lanes_of_the_exporters_carry_the_caveat(self):
+        """Mozambique's lanes carry it (the pair with its own K13 caveat keeps that one: an entry for the pair wins over one for the origin).
+        Zimbabwe has no coke lane: its tonnes go overland (South Africa, Zambia, Congo DR), so its note is on the page and the country page."""
+        lanes = load(DATA, "freight", "lanes", "coke.json")["lanes"]
+        mine = [ln for ln in lanes if ln["o"] == "MOZ"]
+        self.assertTrue(mine)
+        for ln in mine:
+            self.assertIn(ln.get("caveat"), ("nop-coke-MOZ", "uv-coke-MOZ-ARE"), (ln["d"], ln.get("caveat")))
+        self.assertTrue(any(ln.get("caveat") == "nop-coke-MOZ" for ln in mine))
+        self.assertEqual([ln for ln in lanes if ln["o"] == "ZWE"], [])
+        # another exporter's lanes do not
+        self.assertFalse(any((ln.get("caveat") or "").startswith("nop-") for ln in lanes if ln["o"] not in ("MOZ", "ZWE")))
+
+    def test_the_wording_of_the_low_unit_value_caveat_depends_on_the_group(self):
+        cv = self.caveats()
+        coke, dri, alu = cv["uv-coke-MOZ-ARE"]["text"], cv["uv-dri-DZA-DEU"]["text"], cv["uv-aluminium-USA-MYS"]["text"]
+        self.assertIn("Material priced like coal, or another cheaper product, declared under this code is a plausible cause; it is not established here.", coke)
+        self.assertNotIn("scrap or alloy", coke)
+        self.assertIn("Material priced like iron ore or scrap, or another cheaper product, declared under this code", dri)
+        self.assertNotIn("scrap or alloy", dri)
+        self.assertIn("Material priced like scrap or alloy, or another cheaper product, declared under this code", alu)  # the groups that had the words keep them
+        for cid, e in cv.items():
+            if cid.startswith("uv-") and e["group"] not in ("coke", "pig-iron", "dri"):
+                self.assertIn("priced like scrap or alloy", e["text"], cid)
+
+
+class D5UsgsPricesOfSulphurAmmoniaAndFerrosilicon(unittest.TestCase):
+    NEW = {
+        "usgs-sulphur-a": ("sulphur", "Sulfur", "Price, average unit value, free on board, mine and (or) plant, dollars per metric ton of elemental sulfur", "USD/t"),
+        "usgs-ammonia-a": ("urea", "Nitrogen (Fixed)—Ammonia", "Price, average, free on board Gulf Coast, dollars per short ton", "USD/short ton"),
+        "usgs-ferrosilicon-75-a": ("ferro-alloys", "Silicon", "Price, average, cents per pound of silicon: Ferrosilicon, 75% silicon", "US cents/lb"),
+    }
+
+    def test_each_series_is_its_rows_in_the_file_with_the_files_unit_and_basis(self):
+        import csv
+        import glob
+        files = sorted(glob.glob(os.path.join(ROOT, "raw", "usgs", "MCS*_Commodities_Data.csv")))
+        if not files:
+            self.skipTest("raw/ is not tracked in git: the USGS file is not on this machine")
+        with open(files[-1], encoding="cp1252", newline="") as f:
+            rows = [r for r in csv.DictReader(f) if r["Statistics"] == "Price"]
+        idx = {m["id"]: m for m in load(DATA, "prices", "index.json")}
+        for sid, (page, com, detail, unit) in self.NEW.items():
+            with self.subTest(sid):
+                mine = [r for r in rows if r["Commodity"] == com and r["Statistics_detail"].startswith(detail) and r["Value"] != "NA"]
+                self.assertEqual({r["Country"] for r in mine}, {"United States"})
+                by = {int(r["Year"]): float(r["Value"].replace(",", "")) for r in mine}
+                self.assertEqual(sorted(by), [2021, 2022, 2023, 2024, 2025])
+                self.assertEqual(load(DATA, "prices", sid + ".json")["v"], [by[y] for y in sorted(by)])  # each series equals its rows, no conversion
+                m = idx[sid]
+                self.assertEqual((m["k"], m["unit"], m["freq"], m["s"], m["start"], m["end"]), (page, unit, "A", "usgs-mcs", "2021", "2025"))
+                self.assertTrue(m["basis"].startswith(mine[0]["Statistics_detail"].rstrip(".")))
+                self.assertEqual(m["est"], [["2025-01", "2025-12"]])  # estimated for 2025 only
+                self.assertTrue(any(w in m["name"] for w in ("US", "United States")) and "annual" in m["name"])
+        self.assertIn("Source: Green Markets.", idx["usgs-ammonia-a"]["basis"])
+        self.assertIn("short ton", idx["usgs-ammonia-a"]["basis"])
+        self.assertEqual([v for v in load(DATA, "prices", "usgs-ammonia-a.json")["v"]], [578.0, 1070.0, 470.0, 440.0, 450.0])
+        self.assertIn("Source: S&P Global Platts Metals Week", idx["usgs-ferrosilicon-75-a"]["basis"])
+
+    def test_the_pages_no_longer_deny_the_prices_and_the_series_open_as_before(self):
+        import build_prices as P
+        sul = " ".join(load(DATA, "commodities", "sulphur.json")["notes"])
+        self.assertNotIn("No free price series", sul)
+        self.assertNotIn("no other free one was found", sul)
+        self.assertIn("USGS annual average unit value of elemental sulphur", sul)
+        ure = " ".join(load(DATA, "commodities", "urea.json")["notes"])
+        self.assertIn("ammonia: the annual average, free on board Gulf Coast, in US dollars per short ton", ure)
+        fer = " ".join(load(DATA, "commodities", "ferro-alloys.json")["notes"])
+        self.assertIn("75% ferrosilicon", fer)
+        prices = read("web", "src", "lib", "prices.ts")
+        self.assertIn("No free series for ammonium nitrate, UAN or ammonium sulphate.", prices)
+        self.assertNotIn("No free series for ammonia", prices)
+        self.assertRegex(prices, r"sulphur: 'Annual average price of elemental sulphur[^']*USGS")
+        fig = load(DATA, "prices", "figures.json")
+        self.assertEqual(fig["sulphur"]["id"], "usgs-sulphur-a")
+        self.assertEqual(fig["urea"]["id"], "urea-m")  # the monthly urea stays the key figure of its page
+        self.assertEqual(fig["ferro-alloys"]["id"], "usgs-ferrochromium-a")
+        meta = [m for m in load(DATA, "prices", "index.json")]
+        self.assertEqual(P.opening_problems(meta), [])
+
+    def test_the_sweep_the_other_pages_that_say_no_free_price_keep_their_wording_with_the_reason(self):
+        """Pages that still print 'No free price series': pig iron and direct-reduced iron. The USGS file has no price row of either (its Iron and Steel
+        row is a producer price index of steel mill products, not a price of pig iron or direct-reduced iron). The other pages without a series (uranium,
+        steel, metallurgical coal, pulses, NPK) say so in their own words, and the file has no row for their product."""
+        import csv
+        import glob
+        deny = []
+        for p in glob.glob(os.path.join(DATA, "commodities", "*.json")):
+            if p.endswith(("index.json", "companies.json")):
+                continue
+            d = load(p)
+            if any("No free price series" in n for n in d.get("notes", [])):
+                deny.append(os.path.basename(p)[:-5])
+        self.assertEqual(deny, ["pig-iron"])
+        files = sorted(glob.glob(os.path.join(ROOT, "raw", "usgs", "MCS*_Commodities_Data.csv")))
+        if not files:
+            self.skipTest("raw/ is not tracked in git: the USGS file is not on this machine")
+        with open(files[-1], encoding="cp1252", newline="") as f:
+            price = {(r["Commodity"], r["Statistics_detail"]) for r in csv.DictReader(f) if r["Statistics"] == "Price"}
+        steel = [d for c, d in price if c == "Iron And Steel"]
+        self.assertEqual(steel, ["Producer price index, steel mill products (1982=100)"])
+        names = " ".join(c.lower() for c, _ in price)
+        for product in ("pig iron", "direct-reduced", "uranium", "pulses", "npk", "coke", "pea", "lentil"):
+            self.assertNotIn(product, names)
+        # the potash price rows are of K2O in all products (MOP, SOP, SOPM): not the price of potassium sulphate, which the page keeps saying has none
+        self.assertTrue(any(c == "Potash" and "All products" in d for c, d in price))
+        self.assertIn("No free series for potassium sulphate", read("web", "src", "lib", "prices.ts"))

@@ -278,12 +278,14 @@ class PageTests(unittest.TestCase):
                 self.assertNotEqual(s["k"], k)
         self.assertEqual({s["k"] for s in load("commodities/npk.json")["see"]}, {"urea", "phosphate", "potash"})
 
-    def test_sulphur_says_what_its_production_table_measures_and_that_it_has_no_price(self):
+    def test_sulphur_says_what_its_production_table_measures_and_what_its_price_is(self):
         d = load("commodities/sulphur.json")
         self.assertEqual(d["summary"]["production"]["u"], "Mt S")
         self.assertIn("sulphur content", d["labels"]["production"])
-        self.assertTrue(any("No free price series" in n for n in d["notes"]))
-        self.assertNotIn("sulphur", load("prices/figures.json"))
+        # package FNCD (D5): USGS gives an annual price of elemental sulphur; the page says that it is the only one and no longer denies it
+        self.assertFalse(any("No free price series" in n for n in d["notes"]))
+        self.assertTrue(any("USGS annual average unit value of elemental sulphur" in n for n in d["notes"]))
+        self.assertEqual(load("prices/figures.json")["sulphur"]["id"], "usgs-sulphur-a")
 
     def test_npk_has_no_production_table_and_says_so(self):
         d = load("commodities/npk.json")

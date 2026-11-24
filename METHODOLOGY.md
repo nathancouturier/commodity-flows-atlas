@@ -418,7 +418,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 3,734 main seaborne lanes, 58 mixed lanes and 573 history lanes over 71 groups (3,657, 58 and 557 over 69
+  - 2024: 3,734 main seaborne lanes, 58 mixed lanes and 572 history lanes over 71 groups (3,657, 58 and 557 over 69
     groups before the two fertiliser groups of package FNCB; 3,317, 57 and 469
     over 60 groups before the metal bulks; 3,001, 42
     and 387 over 52 groups before the grains, oilseeds and pulses; 2,617, 35 and 271 over 42 groups before the
@@ -433,7 +433,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     Belarusian transit row). The ferro-alloys, which trade in parcels of a few thousand tonnes over hundreds of pairs, have a
     lower floor than the default 0.05 Mt (0.02 Mt for ferro-manganese and silico-manganese, 0.005 Mt for ferro-silicon, `FLOOR` of
     `build_lanes.py`) so that their main set reaches 63% of their seaborne tonnes; the other ferro-alloys (the alloys of seven
-    customs codes, 0.6 Mt by sea over 396 pairs) would need more than sixty lanes for 63% and have tables and no lanes. Where trade is spread over thousands of pairs, the pairs table answers.
+    customs codes, 0.58 Mt by sea or via a transit port over 396 pairs, of 0.69 Mt over 483 pairs in all modes: from the cleaned frame that the lane builder reads, with the mode rule of the other ferro-alloys, since this group has no pairs file) would need more than sixty lanes for 63% and have tables and no lanes. Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
   the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 36,075 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two

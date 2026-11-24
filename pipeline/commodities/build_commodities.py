@@ -2457,7 +2457,7 @@ def main():
                          "HS 281420 (ammonia in solution), 310229, 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.")
             notes.append("Price: the World Bank Pink Sheet gives urea monthly. The one other product of the page with a free price is ammonia: the annual average, free on board "
                          "Gulf Coast, in US dollars per short ton as USGS gives it (United States salient statistics, source Green Markets), not converted. "
-                         "No free price series was found for ammonium nitrate, UAN or ammonium sulphate.")
+                         "No free price was found for ammonium nitrate, UAN or ammonium sulphate.")
             see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
         elif cid == "potash":
             k2o, f = d["production"], round(K.K2O_IN_KCL, 4)  # the factor as printed: each converted figure reproduces from it, to 3 digits

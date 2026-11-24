@@ -177,7 +177,7 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          "sunflower-seed": 0.01, "rapeseed-oil": 0.01,
          # the ferro-alloys (A-010) trade in parcels of a few thousand tonnes: ferro-manganese and silico-manganese (1.6 and 2.7 Mt by sea over
          # 146 and 217 pairs) and ferro-silicon (1.8 Mt over 266 pairs) kept 39%, 45% and 31% of their seaborne tonnes in the main set at the
-         # default floor; ferro-silicon, more scattered, needs a lower floor than the other two. The other ferro-alloys (0.6 Mt over 396 pairs, seven
+         # default floor; ferro-silicon, more scattered, needs a lower floor than the other two. The other ferro-alloys (0.58 Mt over 396 sea and transit pairs, seven
          # codes of different alloys) reach no coverage at a floor that leaves a readable set: they have tables and no lanes
          "ferro-manganese": 0.02, "silico-manganese": 0.02, "ferro-silicon": 0.005}
 FLOOR_DEFAULT = 0.05
