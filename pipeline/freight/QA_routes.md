@@ -2,14 +2,17 @@
 
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
-- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 120 generated routes over 42 groups, 7,923 Mt of seaborne trade. Named by hand-written routes: 45.5%. With the generated routes: 66.2%.
-- 10 of 42 groups reach the target; 32 are short of it.
+- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all, and 20 more for the groups added after it (10 groups). Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
+- 140 generated routes over 52 groups, 8,051 Mt of seaborne trade. Named by hand-written routes: 44.8%. With the generated routes: 65.8%.
+- 10 of 52 groups reach the target; 42 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
 |---|---:|---:|---:|---:|---|
 | alumina | 33.6 | 0.0 | 37.0 | 3 | the cap of 120 generated routes left out 9 corridors |
 | aluminium | 22.1 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 12 corridors |
+| ammonia | 15.9 | 0.0 | 5.9 | 1 | the cap of 20 generated routes for the groups added with it left out 11 corridors |
+| ammonium-nitrate | 5.4 | 0.0 | 20.1 | 1 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| ammonium-sulphate | 18.4 | 0.0 | 53.4 | 2 | the cap of 20 generated routes for the groups added with it left out 5 corridors |
 | bauxite | 181.3 | 60.7 | 83.2 | 1 |  |
 | coal | 1,377.3 | 47.2 | 71.4 | 5 |  |
 | cobalt | 0.7 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
@@ -28,12 +31,16 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | lng | 369.2 | 41.5 | 69.9 | 9 | the remaining corridors are each under 7.4 Mt, or mostly named by hand-written routes, or have no routed port |
 | lpg | 125.8 | 37.5 | 71.1 | 6 |  |
 | manganese | 42.3 | 0.0 | 68.9 | 3 | the cap of 120 generated routes left out 1 corridor |
+| monoammonium-phosphate | 12.1 | 0.0 | 34.0 | 2 | the cap of 20 generated routes for the groups added with it left out 4 corridors |
 | nickel-fe | 10.1 | 0.0 | 88.7 | 1 |  |
 | nickel-int | 3.2 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
 | nickel-ore | 52.5 | 66.0 | 85.3 | 1 |  |
+| npk | 12.8 | 0.0 | 11.7 | 1 | the cap of 20 generated routes for the groups added with it left out 10 corridors |
 | palm-oil | 41.0 | 18.0 | 42.8 | 3 | the cap of 120 generated routes left out 7 corridors |
 | phosphate-rock | 34.3 | 8.3 | 40.6 | 3 | the cap of 120 generated routes left out 8 corridors |
+| phosphoric-acid | 6.4 | 0.0 | 34.9 | 1 | the cap of 20 generated routes for the groups added with it left out 2 corridors |
 | potash | 41.9 | 26.9 | 51.0 | 3 | the cap of 120 generated routes left out 7 corridors |
+| potassium-sulphate | 1.5 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | rapeseed | 20.0 | 0.0 | 50.6 | 2 | the cap of 120 generated routes left out 3 corridors |
 | rare-earths | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | refined-products | 960.6 | 18.3 | 53.1 | 12 | the cap of 12 routes per group was reached |
@@ -44,14 +51,17 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | spodumene | 5.0 | 73.8 | 73.8 | 0 |  |
 | steel | 287.0 | 0.0 | 44.9 | 12 | the cap of 12 routes per group was reached |
 | sugar | 58.9 | 0.0 | 55.0 | 8 | the cap of 120 generated routes left out 4 corridors |
+| sulphur | 42.5 | 0.0 | 57.8 | 10 | the cap of 20 generated routes for the groups added with it left out 2 corridors |
+| superphosphates | 7.4 | 0.0 | 15.5 | 1 | the cap of 20 generated routes for the groups added with it left out 5 corridors |
 | tin-metal | 0.2 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | tin-ore | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| uan | 5.1 | 0.0 | 19.3 | 1 | the cap of 20 generated routes for the groups added with it left out 3 corridors |
 | urea | 48.6 | 9.6 | 16.0 | 1 | the cap of 120 generated routes left out 11 corridors |
 | wheat | 167.3 | 26.7 | 61.2 | 12 | the cap of 12 routes per group was reached |
 | zinc-metal | 3.6 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | zinc-ore | 9.2 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 6 corridors |
 
-## Corridors the cap left out (108)
+## Corridors the cap left out (150)
 
 Mt are the tonnes of the corridor that no hand-written route names. The corridors of a group are listed in the order they were chosen.
 
@@ -76,6 +86,22 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - aluminium: Aluminium: US Gulf to South-East Asia, 0.5 Mt
 - aluminium: Aluminium: the Mediterranean to the rest of Europe, 0.8 Mt
 - aluminium: Aluminium: India and Pakistan, west coast to Europe, 0.6 Mt
+- ammonia: Ammonia: the Gulf of Oman to India and Pakistan, west coast, 0.9 Mt
+- ammonia: Ammonia within the Mediterranean, 0.8 Mt
+- ammonia: Ammonia: the Caribbean and north coast of South America to West Africa, 0.8 Mt
+- ammonia: Ammonia: the Red Sea to India and Pakistan, west coast, 0.8 Mt
+- ammonia: Ammonia: the Caribbean and north coast of South America to US Gulf, 0.8 Mt
+- ammonia: Ammonia: US Gulf to West Africa, 0.8 Mt
+- ammonia: Ammonia: South-East Asia to Japan and Korea, 0.7 Mt
+- ammonia: Ammonia: the Caribbean and north coast of South America to North-West Europe, 0.7 Mt
+- ammonia: Ammonia: the Mediterranean to North-West Europe, 0.6 Mt
+- ammonia: Ammonia: the Red Sea to Japan and Korea, 0.5 Mt
+- ammonia: Ammonia: the Caribbean and north coast of South America to South America, 0.6 Mt
+- ammonium-sulphate: Ammonium sulphate: North China to the Mediterranean, 0.9 Mt
+- ammonium-sulphate: Ammonium sulphate: North China to India and Pakistan, west coast, 0.7 Mt
+- ammonium-sulphate: Ammonium sulphate: North China to West Africa, 0.6 Mt
+- ammonium-sulphate: Ammonium sulphate: North-West Europe to US Gulf, 0.5 Mt
+- ammonium-sulphate: Ammonium sulphate: North China to Central America and the Caribbean, 0.8 Mt
 - cobalt: Cobalt: East Africa to North China, 0.6 Mt
 - coffee: Coffee: East coast South America to the Mediterranean, 0.6 Mt
 - coffee: Coffee: South-East Asia to Europe, 0.8 Mt
@@ -105,7 +131,21 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - dap: DAP: West Africa to the rest of Africa, 0.5 Mt
 - dap: DAP: the Baltic to Central America and the Caribbean, 0.5 Mt
 - manganese: Manganese: West Africa to India and Bangladesh, east coast, 2.3 Mt
+- monoammonium-phosphate: MAP: West Africa to Western Australia, 1.0 Mt
+- monoammonium-phosphate: MAP: Middle East Gulf to East coast South America, 0.7 Mt
+- monoammonium-phosphate: MAP: West Africa to US Gulf, 0.6 Mt
+- monoammonium-phosphate: MAP: West Africa to Canada east, 0.6 Mt
 - nickel-int: Nickel intermediates: South-East Asia to North China, 1.8 Mt
+- npk: NPK: the Baltic to East coast South America, 1.0 Mt
+- npk: NPK: the Baltic to South-East Asia, 0.8 Mt
+- npk: NPK: North-West Europe to North China, 0.7 Mt
+- npk: NPK: North-West Europe to the Mediterranean, 0.6 Mt
+- npk: NPK: the Baltic to the Mediterranean, 0.6 Mt
+- npk: NPK within North-West Europe, 0.6 Mt
+- npk: NPK: North-West Europe to South-East Asia, 0.6 Mt
+- npk: NPK: the Baltic to North-West Europe, 0.5 Mt
+- npk: NPK within West Africa, 0.5 Mt
+- npk: NPK: West Africa to Europe, 0.5 Mt
 - palm-oil: Palm oil: South-East Asia to Middle East Gulf, 2.2 Mt
 - palm-oil: Palm oil: South-East Asia to East Africa, 2.0 Mt
 - palm-oil: Palm oil: South-East Asia to North-West Europe, 1.8 Mt
@@ -121,6 +161,8 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - phosphate-rock: Phosphate rock within the Mediterranean, 1.1 Mt
 - phosphate-rock: Phosphate rock: the Mediterranean to the Black Sea, 1.0 Mt
 - phosphate-rock: Phosphate rock: the Mediterranean to North China, 1.0 Mt
+- phosphoric-acid: Phosphoric acid: West Africa to the Mediterranean, 0.7 Mt
+- phosphoric-acid: Phosphoric acid: the Red Sea to India and Pakistan, west coast, 0.6 Mt
 - potash: Potash: the Baltic to US Gulf, 1.5 Mt
 - potash: Potash: the Mediterranean to East coast South America, 1.3 Mt
 - potash: Potash: the Baltic to India and Pakistan, west coast, 1.1 Mt
@@ -146,6 +188,16 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - sugar: Sugar: East coast South America to India and Bangladesh, east coast, 1.6 Mt
 - sugar: Sugar: East coast South America to Canada east, 1.4 Mt
 - sugar: Sugar: North-West Europe to the Mediterranean, 1.4 Mt
+- sulphur: Sulphur: US Gulf to East coast South America, 1.0 Mt
+- sulphur: Sulphur: the Red Sea to East coast South America, 0.9 Mt
+- superphosphates: Superphosphates: the Mediterranean to East coast South America, 0.9 Mt
+- superphosphates: Superphosphates: West Africa to India and Bangladesh, east coast, 0.9 Mt
+- superphosphates: Superphosphates: West Africa to India and Pakistan, west coast, 0.7 Mt
+- superphosphates: Superphosphates: North China to East coast South America, 0.6 Mt
+- superphosphates: Superphosphates: the Mediterranean to US Gulf, 0.5 Mt
+- uan: UAN: North-West Europe to the Mediterranean, 0.5 Mt
+- uan: UAN: US Gulf to Europe, 0.7 Mt
+- uan: UAN: the Caribbean and north coast of South America to Europe, 0.6 Mt
 - urea: Urea: Middle East Gulf to Western Australia, 2.1 Mt
 - urea: Urea within South-East Asia, 2.0 Mt
 - urea: Urea: West Africa to East coast South America, 1.9 Mt

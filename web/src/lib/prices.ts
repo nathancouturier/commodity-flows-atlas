@@ -390,6 +390,10 @@ export function defaultSeriesIds(k: string | null | undefined): string[] {
 /** Commodities whose price series cover only part of what the page describes. */
 export const PRICE_COVERAGE_NOTE: Record<string, string> = {
   pgm: 'Platinum monthly (World Bank). Palladium and rhodium: annual average prices only (USGS).',
+  // the fertiliser pages hold more products than the Pink Sheet prices (M-022): the note says which ones have a free series
+  phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate). No free series for MAP or phosphoric acid.',
+  urea: 'Monthly price (World Bank): urea only. No free series for ammonia, ammonium nitrate, UAN or ammonium sulphate.',
+  potash: 'Monthly price (World Bank): potassium chloride only. No free series for potassium sulphate.',
 };
 
 /** "uranium", "rare earths": a catalogue name inside a sentence (acronyms such as LNG keep their capitals). */

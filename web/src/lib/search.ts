@@ -129,6 +129,15 @@ const COUNTRY_ALIASES: Record<string, string[]> = {
   MKD: ['macedonia'],
 };
 
+/** Trade names of the products that a commodity page holds besides the one in its name (the fertiliser pages hold several customs groups). */
+const COMMODITY_ALIASES: Record<string, string[]> = {
+  urea: ['ammonia', 'ammonium nitrate', 'UAN', 'urea ammonium nitrate', 'ammonium sulphate', 'ammonium sulfate', 'nitrogen fertiliser', 'nitrogen fertilizer', 'fertiliser', 'fertilizer'],
+  phosphate: ['phosphate rock', 'DAP', 'diammonium phosphate', 'MAP', 'monoammonium phosphate', 'TSP', 'triple superphosphate', 'superphosphate', 'phosphoric acid', 'phosphate fertiliser', 'fertilizer'],
+  potash: ['potassium chloride', 'muriate of potash', 'MOP', 'SOP', 'sulphate of potash', 'potassium sulphate', 'potassium sulfate', 'potassium fertiliser', 'fertilizer'],
+  sulphur: ['sulfur', 'brimstone'],
+  npk: ['compound fertiliser', 'compound fertilizer', 'NPK', 'fertiliser', 'fertilizer'],
+};
+
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const joinSub = (...p: (string | undefined | false)[]) => p.filter(Boolean).join(' · ');
 
@@ -235,7 +244,7 @@ async function build(): Promise<Item[]> {
   const cpName = (id: string) => cps?.find((c) => c.id === id)?.name ?? id;
 
   for (const c of commodities.value) {
-    out.push(make('commodity', c.id, c.name, FAMILY_LABEL[c.family], prepare([c.name], [c.id], [FAMILY_LABEL[c.family], 'commodity']), c.rank, () => openCommodity(c.id)));
+    out.push(make('commodity', c.id, c.name, FAMILY_LABEL[c.family], prepare([c.name, ...(COMMODITY_ALIASES[c.id] ?? [])], [c.id], [FAMILY_LABEL[c.family], 'commodity']), c.rank, () => openCommodity(c.id)));
   }
   for (const c of Object.values(countries.value)) {
     out.push(

@@ -1040,6 +1040,2192 @@
  },
  "extra": [
   {
+   "key": "ammonia-exports",
+   "title": "Ammonia exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 18.386,
+    "rows": [
+     {
+      "c": "TTO",
+      "v": 3.723
+     },
+     {
+      "c": "SAU",
+      "v": 2.722
+     },
+     {
+      "c": "IDN",
+      "v": 1.807
+     },
+     {
+      "c": "OMN",
+      "v": 1.38
+     },
+     {
+      "c": "USA",
+      "v": 1.342
+     },
+     {
+      "c": "CAN",
+      "v": 1.081
+     },
+     {
+      "c": "DZA",
+      "v": 0.9765
+     },
+     {
+      "c": "RUS",
+      "v": 0.7003
+     },
+     {
+      "c": "QAT",
+      "v": 0.613
+     },
+     {
+      "c": "EGY",
+      "v": 0.5561
+     },
+     {
+      "c": "NLD",
+      "v": 0.5142
+     },
+     {
+      "c": "MYS",
+      "v": 0.4956
+     },
+     {
+      "c": "DEU",
+      "v": 0.4721
+     },
+     {
+      "c": "LBY",
+      "v": 0.3823
+     },
+     {
+      "c": "AUS",
+      "v": 0.3335
+     },
+     {
+      "c": "TUR",
+      "v": 0.2448
+     },
+     {
+      "c": "GBR",
+      "v": 0.1326
+     },
+     {
+      "c": "FRA",
+      "v": 0.117
+     },
+     {
+      "c": "ESP",
+      "v": 0.1043
+     },
+     {
+      "c": "CHN",
+      "v": 0.0924
+     },
+     {
+      "c": "BEL",
+      "v": 0.0801
+     },
+     {
+      "c": "BHR",
+      "v": 0.0748
+     },
+     {
+      "c": "ARE",
+      "v": 0.0612
+     },
+     {
+      "c": "BGR",
+      "v": 0.0563
+     },
+     {
+      "c": "SVK",
+      "v": 0.0542
+     },
+     {
+      "c": "ARG",
+      "v": 0.0473
+     },
+     {
+      "c": "KOR",
+      "v": 0.0406
+     },
+     {
+      "c": "BGD",
+      "v": 0.0376
+     },
+     {
+      "c": "CZE",
+      "v": 0.027
+     },
+     {
+      "c": "POL",
+      "v": 0.0253
+     },
+     {
+      "c": "PRT",
+      "v": 0.0223
+     },
+     {
+      "c": "AUT",
+      "v": 0.0157
+     },
+     {
+      "c": "CHE",
+      "v": 0.0152
+     },
+     {
+      "c": "IRN",
+      "v": 0.0125
+     },
+     {
+      "c": "HRV",
+      "v": 0.0052
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0044
+     },
+     {
+      "c": "COL",
+      "v": 0.0039
+     },
+     {
+      "c": "MEX",
+      "v": 0.0029
+     },
+     {
+      "c": "GRC",
+      "v": 0.0023
+     },
+     {
+      "c": "ITA",
+      "v": 0.0021
+     },
+     {
+      "c": "HUN",
+      "v": 0.0021
+     },
+     {
+      "c": "SWE",
+      "v": 0.0017
+     },
+     {
+      "c": "TWN",
+      "v": 0.0017
+     }
+    ],
+    "n": "CEPII BACI HS92 anhydrous ammonia (HS 281410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ammonia-imports",
+   "title": "Ammonia importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 18.386,
+    "rows": [
+     {
+      "c": "MAR",
+      "v": 3.565
+     },
+     {
+      "c": "IND",
+      "v": 2.357
+     },
+     {
+      "c": "USA",
+      "v": 1.993
+     },
+     {
+      "c": "KOR",
+      "v": 1.197
+     },
+     {
+      "c": "TUR",
+      "v": 0.8202
+     },
+     {
+      "c": "BEL",
+      "v": 0.8141
+     },
+     {
+      "c": "NOR",
+      "v": 0.5955
+     },
+     {
+      "c": "TWN",
+      "v": 0.5672
+     },
+     {
+      "c": "FRA",
+      "v": 0.5063
+     },
+     {
+      "c": "DEU",
+      "v": 0.4976
+     },
+     {
+      "c": "CHN",
+      "v": 0.4563
+     },
+     {
+      "c": "BRA",
+      "v": 0.3788
+     },
+     {
+      "c": "CHL",
+      "v": 0.3371
+     },
+     {
+      "c": "THA",
+      "v": 0.3326
+     },
+     {
+      "c": "BGR",
+      "v": 0.3123
+     },
+     {
+      "c": "ESP",
+      "v": 0.3079
+     },
+     {
+      "c": "MEX",
+      "v": 0.2947
+     },
+     {
+      "c": "GBR",
+      "v": 0.2837
+     },
+     {
+      "c": "JPN",
+      "v": 0.2757
+     },
+     {
+      "c": "PRT",
+      "v": 0.2458
+     },
+     {
+      "c": "CHE",
+      "v": 0.2334
+     },
+     {
+      "c": "SWE",
+      "v": 0.2232
+     },
+     {
+      "c": "VNM",
+      "v": 0.1827
+     },
+     {
+      "c": "CZE",
+      "v": 0.1779
+     },
+     {
+      "c": "ZAF",
+      "v": 0.1652
+     },
+     {
+      "c": "FIN",
+      "v": 0.1321
+     },
+     {
+      "c": "NLD",
+      "v": 0.1293
+     },
+     {
+      "c": "TUN",
+      "v": 0.111
+     },
+     {
+      "c": "LTU",
+      "v": 0.0927
+     },
+     {
+      "c": "ISR",
+      "v": 0.0887
+     },
+     {
+      "c": "COL",
+      "v": 0.0764
+     },
+     {
+      "c": "ITA",
+      "v": 0.0759
+     },
+     {
+      "c": "SGP",
+      "v": 0.0713
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0709
+     },
+     {
+      "c": "IDN",
+      "v": 0.053
+     },
+     {
+      "c": "JOR",
+      "v": 0.0492
+     },
+     {
+      "c": "SRB",
+      "v": 0.0488
+     },
+     {
+      "c": "AUS",
+      "v": 0.0486
+     },
+     {
+      "c": "GRC",
+      "v": 0.032
+     },
+     {
+      "c": "AUT",
+      "v": 0.0314
+     },
+     {
+      "c": "DNK",
+      "v": 0.0243
+     },
+     {
+      "c": "HUN",
+      "v": 0.0238
+     },
+     {
+      "c": "KEN",
+      "v": 0.0234
+     },
+     {
+      "c": "MDG",
+      "v": 0.0181
+     },
+     {
+      "c": "SEN",
+      "v": 0.0171
+     },
+     {
+      "c": "PHL",
+      "v": 0.0133
+     },
+     {
+      "c": "CAN",
+      "v": 0.0086
+     },
+     {
+      "c": "POL",
+      "v": 0.0074
+     },
+     {
+      "c": "NAM",
+      "v": 0.0044
+     },
+     {
+      "c": "MYS",
+      "v": 0.0042
+     },
+     {
+      "c": "ROU",
+      "v": 0.0038
+     },
+     {
+      "c": "GTM",
+      "v": 0.0029
+     },
+     {
+      "c": "BIH",
+      "v": 0.002
+     },
+     {
+      "c": "UKR",
+      "v": 0.0012
+     }
+    ],
+    "n": "CEPII BACI HS92 anhydrous ammonia (HS 281410), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ammonium-nitrate-exports",
+   "title": "Ammonium nitrate exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 8.417,
+    "rows": [
+     {
+      "c": "RUS",
+      "v": 3.217
+     },
+     {
+      "c": "USA",
+      "v": 0.6833
+     },
+     {
+      "c": "BGR",
+      "v": 0.5125
+     },
+     {
+      "c": "LTU",
+      "v": 0.4156
+     },
+     {
+      "c": "GEO",
+      "v": 0.4152
+     },
+     {
+      "c": "SWE",
+      "v": 0.2939
+     },
+     {
+      "c": "POL",
+      "v": 0.2747
+     },
+     {
+      "c": "EGY",
+      "v": 0.2423
+     },
+     {
+      "c": "CAN",
+      "v": 0.2304
+     },
+     {
+      "c": "UZB",
+      "v": 0.2229
+     },
+     {
+      "c": "KAZ",
+      "v": 0.2107
+     },
+     {
+      "c": "TUR",
+      "v": 0.209
+     },
+     {
+      "c": "ZAF",
+      "v": 0.1752
+     },
+     {
+      "c": "KOR",
+      "v": 0.1599
+     },
+     {
+      "c": "ESP",
+      "v": 0.1018
+     },
+     {
+      "c": "TTO",
+      "v": 0.0873
+     },
+     {
+      "c": "CHL",
+      "v": 0.0781
+     },
+     {
+      "c": "ITA",
+      "v": 0.0752
+     },
+     {
+      "c": "BEL",
+      "v": 0.0738
+     },
+     {
+      "c": "VNM",
+      "v": 0.0597
+     },
+     {
+      "c": "ARE",
+      "v": 0.0521
+     },
+     {
+      "c": "IDN",
+      "v": 0.0504
+     },
+     {
+      "c": "CHN",
+      "v": 0.0503
+     },
+     {
+      "c": "GRC",
+      "v": 0.048
+     },
+     {
+      "c": "FRA",
+      "v": 0.0455
+     },
+     {
+      "c": "DEU",
+      "v": 0.0404
+     },
+     {
+      "c": "THA",
+      "v": 0.0388
+     },
+     {
+      "c": "NLD",
+      "v": 0.0299
+     },
+     {
+      "c": "SGP",
+      "v": 0.0268
+     },
+     {
+      "c": "HUN",
+      "v": 0.0264
+     },
+     {
+      "c": "SVK",
+      "v": 0.0256
+     },
+     {
+      "c": "AUS",
+      "v": 0.0213
+     },
+     {
+      "c": "FIN",
+      "v": 0.02
+     },
+     {
+      "c": "MUS",
+      "v": 0.0177
+     },
+     {
+      "c": "ARG",
+      "v": 0.0166
+     },
+     {
+      "c": "CHE",
+      "v": 0.0157
+     },
+     {
+      "c": "NOR",
+      "v": 0.0156
+     },
+     {
+      "c": "AUT",
+      "v": 0.0147
+     },
+     {
+      "c": "IND",
+      "v": 0.0139
+     },
+     {
+      "c": "GBR",
+      "v": 0.0136
+     },
+     {
+      "c": "PAN",
+      "v": 0.0124
+     },
+     {
+      "c": "TZA",
+      "v": 0.0112
+     },
+     {
+      "c": "MEX",
+      "v": 0.0111
+     },
+     {
+      "c": "ROU",
+      "v": 0.0092
+     },
+     {
+      "c": "BRA",
+      "v": 0.0078
+     },
+     {
+      "c": "MYS",
+      "v": 0.0058
+     },
+     {
+      "c": "PER",
+      "v": 0.0058
+     },
+     {
+      "c": "SRB",
+      "v": 0.0053
+     },
+     {
+      "c": "LVA",
+      "v": 0.004
+     },
+     {
+      "c": "MKD",
+      "v": 0.0038
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0038
+     },
+     {
+      "c": "PRT",
+      "v": 0.0035
+     },
+     {
+      "c": "HRV",
+      "v": 0.003
+     },
+     {
+      "c": "MAR",
+      "v": 0.0024
+     },
+     {
+      "c": "DNK",
+      "v": 0.0019
+     },
+     {
+      "c": "HND",
+      "v": 0.0017
+     },
+     {
+      "c": "EST",
+      "v": 0.0015
+     },
+     {
+      "c": "ALB",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium nitrate, solid or in solution (HS 310230), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ammonium-nitrate-imports",
+   "title": "Ammonium nitrate importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 8.417,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 1.161
+     },
+     {
+      "c": "PER",
+      "v": 0.471
+     },
+     {
+      "c": "CAN",
+      "v": 0.4422
+     },
+     {
+      "c": "IND",
+      "v": 0.4204
+     },
+     {
+      "c": "UKR",
+      "v": 0.3695
+     },
+     {
+      "c": "KAZ",
+      "v": 0.3507
+     },
+     {
+      "c": "ROU",
+      "v": 0.3102
+     },
+     {
+      "c": "USA",
+      "v": 0.2971
+     },
+     {
+      "c": "MAR",
+      "v": 0.2567
+     },
+     {
+      "c": "LTU",
+      "v": 0.2515
+     },
+     {
+      "c": "MEX",
+      "v": 0.2409
+     },
+     {
+      "c": "GBR",
+      "v": 0.1959
+     },
+     {
+      "c": "POL",
+      "v": 0.1655
+     },
+     {
+      "c": "AUS",
+      "v": 0.1627
+     },
+     {
+      "c": "ZMB",
+      "v": 0.1419
+     },
+     {
+      "c": "SRB",
+      "v": 0.1252
+     },
+     {
+      "c": "CHL",
+      "v": 0.1242
+     },
+     {
+      "c": "GTM",
+      "v": 0.1197
+     },
+     {
+      "c": "CRI",
+      "v": 0.1138
+     },
+     {
+      "c": "FRA",
+      "v": 0.1092
+     },
+     {
+      "c": "ZWE",
+      "v": 0.1088
+     },
+     {
+      "c": "COL",
+      "v": 0.0855
+     },
+     {
+      "c": "SAU",
+      "v": 0.0854
+     },
+     {
+      "c": "LVA",
+      "v": 0.0843
+     },
+     {
+      "c": "AZE",
+      "v": 0.0828
+     },
+     {
+      "c": "ECU",
+      "v": 0.0803
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0729
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0694
+     },
+     {
+      "c": "NAM",
+      "v": 0.0678
+     },
+     {
+      "c": "MRT",
+      "v": 0.0644
+     },
+     {
+      "c": "ESP",
+      "v": 0.0641
+     },
+     {
+      "c": "TUR",
+      "v": 0.0634
+     },
+     {
+      "c": "BEL",
+      "v": 0.061
+     },
+     {
+      "c": "NLD",
+      "v": 0.0605
+     },
+     {
+      "c": "GHA",
+      "v": 0.0604
+     },
+     {
+      "c": "MYS",
+      "v": 0.0569
+     },
+     {
+      "c": "CIV",
+      "v": 0.0564
+     },
+     {
+      "c": "BGR",
+      "v": 0.0543
+     },
+     {
+      "c": "COD",
+      "v": 0.0497
+     },
+     {
+      "c": "TZA",
+      "v": 0.0496
+     },
+     {
+      "c": "ISR",
+      "v": 0.0495
+     },
+     {
+      "c": "ARE",
+      "v": 0.0482
+     },
+     {
+      "c": "EST",
+      "v": 0.0449
+     },
+     {
+      "c": "IDN",
+      "v": 0.0446
+     },
+     {
+      "c": "VNM",
+      "v": 0.0419
+     },
+     {
+      "c": "PNG",
+      "v": 0.0405
+     },
+     {
+      "c": "ARM",
+      "v": 0.0377
+     },
+     {
+      "c": "NGA",
+      "v": 0.0377,
+      "n": "12% of tonnage estimated from value"
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0376
+     },
+     {
+      "c": "MDA",
+      "v": 0.0372
+     },
+     {
+      "c": "HND",
+      "v": 0.0361
+     },
+     {
+      "c": "NOR",
+      "v": 0.0338
+     },
+     {
+      "c": "JOR",
+      "v": 0.0309
+     },
+     {
+      "c": "SWE",
+      "v": 0.0286
+     },
+     {
+      "c": "PHL",
+      "v": 0.0276
+     },
+     {
+      "c": "BOL",
+      "v": 0.0263
+     },
+     {
+      "c": "HUN",
+      "v": 0.0256
+     },
+     {
+      "c": "LAO",
+      "v": 0.025
+     },
+     {
+      "c": "GIN",
+      "v": 0.0243
+     },
+     {
+      "c": "MKD",
+      "v": 0.0237
+     },
+     {
+      "c": "SUR",
+      "v": 0.0231
+     },
+     {
+      "c": "TJK",
+      "v": 0.0225
+     },
+     {
+      "c": "TWN",
+      "v": 0.0213
+     },
+     {
+      "c": "GEO",
+      "v": 0.0211
+     },
+     {
+      "c": "BWA",
+      "v": 0.021
+     },
+     {
+      "c": "FIN",
+      "v": 0.0182
+     },
+     {
+      "c": "JPN",
+      "v": 0.0179
+     },
+     {
+      "c": "ARG",
+      "v": 0.0161
+     },
+     {
+      "c": "IRL",
+      "v": 0.0159
+     },
+     {
+      "c": "SEN",
+      "v": 0.0154
+     },
+     {
+      "c": "AUT",
+      "v": 0.0145
+     },
+     {
+      "c": "TKM",
+      "v": 0.0145
+     },
+     {
+      "c": "THA",
+      "v": 0.0145
+     },
+     {
+      "c": "GRC",
+      "v": 0.0139
+     },
+     {
+      "c": "CZE",
+      "v": 0.0137
+     },
+     {
+      "c": "EGY",
+      "v": 0.0136
+     },
+     {
+      "c": "NZL",
+      "v": 0.0134
+     },
+     {
+      "c": "NIC",
+      "v": 0.0131
+     },
+     {
+      "c": "ITA",
+      "v": 0.0123
+     },
+     {
+      "c": "KHM",
+      "v": 0.0117
+     },
+     {
+      "c": "OMN",
+      "v": 0.0117
+     },
+     {
+      "c": "HRV",
+      "v": 0.0099
+     },
+     {
+      "c": "TUN",
+      "v": 0.0093
+     },
+     {
+      "c": "LBR",
+      "v": 0.0089
+     },
+     {
+      "c": "SDN",
+      "v": 0.0085
+     },
+     {
+      "c": "PAN",
+      "v": 0.0084
+     },
+     {
+      "c": "BIH",
+      "v": 0.0081
+     },
+     {
+      "c": "AGO",
+      "v": 0.0081
+     },
+     {
+      "c": "DOM",
+      "v": 0.007
+     },
+     {
+      "c": "KEN",
+      "v": 0.0069
+     },
+     {
+      "c": "DEU",
+      "v": 0.0062
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0062
+     },
+     {
+      "c": "PAK",
+      "v": 0.0061
+     },
+     {
+      "c": "SVK",
+      "v": 0.0055
+     },
+     {
+      "c": "PRT",
+      "v": 0.0053
+     },
+     {
+      "c": "MNE",
+      "v": 0.005
+     },
+     {
+      "c": "GUY",
+      "v": 0.0045
+     },
+     {
+      "c": "CYP",
+      "v": 0.0044
+     },
+     {
+      "c": "BFA",
+      "v": 0.0043
+     },
+     {
+      "c": "MLI",
+      "v": 0.004
+     },
+     {
+      "c": "MMR",
+      "v": 0.004
+     },
+     {
+      "c": "CHE",
+      "v": 0.0038
+     },
+     {
+      "c": "CMR",
+      "v": 0.0037
+     },
+     {
+      "c": "ERI",
+      "v": 0.0037
+     },
+     {
+      "c": "ALB",
+      "v": 0.0036
+     },
+     {
+      "c": "UGA",
+      "v": 0.0034
+     },
+     {
+      "c": "LSO",
+      "v": 0.0033
+     },
+     {
+      "c": "MUS",
+      "v": 0.0025
+     },
+     {
+      "c": "DNK",
+      "v": 0.0021
+     },
+     {
+      "c": "NER",
+      "v": 0.0021
+     },
+     {
+      "c": "BEN",
+      "v": 0.0019
+     },
+     {
+      "c": "ETH",
+      "v": 0.0015
+     },
+     {
+      "c": "SLE",
+      "v": 0.0014
+     },
+     {
+      "c": "MDG",
+      "v": 0.0014
+     },
+     {
+      "c": "GRL",
+      "v": 0.0012
+     },
+     {
+      "c": "DJI",
+      "v": 0.0011
+     },
+     {
+      "c": "LKA",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium nitrate, solid or in solution (HS 310230), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "uan-exports",
+   "title": "UAN solution exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 6.718,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 1.762
+     },
+     {
+      "c": "RUS",
+      "v": 1.429
+     },
+     {
+      "c": "TTO",
+      "v": 1.086
+     },
+     {
+      "c": "NLD",
+      "v": 0.7989
+     },
+     {
+      "c": "CAN",
+      "v": 0.4677
+     },
+     {
+      "c": "LTU",
+      "v": 0.3626
+     },
+     {
+      "c": "POL",
+      "v": 0.1565
+     },
+     {
+      "c": "SVK",
+      "v": 0.1489
+     },
+     {
+      "c": "DEU",
+      "v": 0.1212
+     },
+     {
+      "c": "BEL",
+      "v": 0.1146
+     },
+     {
+      "c": "BLR",
+      "v": 0.0638
+     },
+     {
+      "c": "BGR",
+      "v": 0.0521
+     },
+     {
+      "c": "DZA",
+      "v": 0.0477
+     },
+     {
+      "c": "PRT",
+      "v": 0.0221
+     },
+     {
+      "c": "TUR",
+      "v": 0.0205
+     },
+     {
+      "c": "KEN",
+      "v": 0.0092
+     },
+     {
+      "c": "ESP",
+      "v": 0.0086
+     },
+     {
+      "c": "HUN",
+      "v": 0.0075
+     },
+     {
+      "c": "TKM",
+      "v": 0.0059
+     },
+     {
+      "c": "SVN",
+      "v": 0.0058
+     },
+     {
+      "c": "HRV",
+      "v": 0.0044
+     },
+     {
+      "c": "CHE",
+      "v": 0.0042
+     },
+     {
+      "c": "CZE",
+      "v": 0.0035
+     },
+     {
+      "c": "FRA",
+      "v": 0.0027
+     },
+     {
+      "c": "AUT",
+      "v": 0.0027
+     },
+     {
+      "c": "SAU",
+      "v": 0.0023
+     },
+     {
+      "c": "UKR",
+      "v": 0.002
+     },
+     {
+      "c": "GUY",
+      "v": 0.0016
+     },
+     {
+      "c": "LVA",
+      "v": 0.0015
+     },
+     {
+      "c": "CHN",
+      "v": 0.0011
+     },
+     {
+      "c": "ROU",
+      "v": 0.0011
+     },
+     {
+      "c": "BRA",
+      "v": 0.0006
+     }
+    ],
+    "n": "CEPII BACI HS92 urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "uan-imports",
+   "title": "UAN solution importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 6.718,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 1.993
+     },
+     {
+      "c": "FRA",
+      "v": 1.687
+     },
+     {
+      "c": "GBR",
+      "v": 0.4824
+     },
+     {
+      "c": "AUS",
+      "v": 0.4255
+     },
+     {
+      "c": "BEL",
+      "v": 0.3417
+     },
+     {
+      "c": "ARG",
+      "v": 0.3305
+     },
+     {
+      "c": "MEX",
+      "v": 0.2799
+     },
+     {
+      "c": "CAN",
+      "v": 0.1328
+     },
+     {
+      "c": "DEU",
+      "v": 0.1173
+     },
+     {
+      "c": "ESP",
+      "v": 0.1156
+     },
+     {
+      "c": "CZE",
+      "v": 0.0977
+     },
+     {
+      "c": "POL",
+      "v": 0.0965
+     },
+     {
+      "c": "HUN",
+      "v": 0.0923
+     },
+     {
+      "c": "ROU",
+      "v": 0.0834
+     },
+     {
+      "c": "UKR",
+      "v": 0.0703
+     },
+     {
+      "c": "DNK",
+      "v": 0.0608
+     },
+     {
+      "c": "URY",
+      "v": 0.0541
+     },
+     {
+      "c": "BRA",
+      "v": 0.0452
+     },
+     {
+      "c": "LVA",
+      "v": 0.0421
+     },
+     {
+      "c": "ISR",
+      "v": 0.0311
+     },
+     {
+      "c": "MDA",
+      "v": 0.0292
+     },
+     {
+      "c": "CHL",
+      "v": 0.0153
+     },
+     {
+      "c": "GUY",
+      "v": 0.015
+     },
+     {
+      "c": "TZA",
+      "v": 0.0115
+     },
+     {
+      "c": "NLD",
+      "v": 0.0103
+     },
+     {
+      "c": "AUT",
+      "v": 0.0079
+     },
+     {
+      "c": "KEN",
+      "v": 0.0076
+     },
+     {
+      "c": "TUR",
+      "v": 0.0059
+     },
+     {
+      "c": "BGR",
+      "v": 0.0054
+     },
+     {
+      "c": "SVK",
+      "v": 0.004
+     },
+     {
+      "c": "IRL",
+      "v": 0.0032
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0029
+     },
+     {
+      "c": "ITA",
+      "v": 0.0028
+     },
+     {
+      "c": "EST",
+      "v": 0.0027
+     },
+     {
+      "c": "CHN",
+      "v": 0.0025
+     },
+     {
+      "c": "PRT",
+      "v": 0.0021
+     },
+     {
+      "c": "LUX",
+      "v": 0.002
+     },
+     {
+      "c": "LTU",
+      "v": 0.002
+     },
+     {
+      "c": "SUR",
+      "v": 0.0016
+     },
+     {
+      "c": "SVN",
+      "v": 0.0013
+     },
+     {
+      "c": "HRV",
+      "v": 0.0013
+     },
+     {
+      "c": "NZL",
+      "v": 0.0011
+     },
+     {
+      "c": "COL",
+      "v": 0.001
+     },
+     {
+      "c": "PRY",
+      "v": 0.0006
+     }
+    ],
+    "n": "CEPII BACI HS92 urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ammonium-sulphate-exports",
+   "title": "Ammonium sulphate exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 21.35,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 15.995
+     },
+     {
+      "c": "BEL",
+      "v": 1.174
+     },
+     {
+      "c": "NLD",
+      "v": 0.6731
+     },
+     {
+      "c": "USA",
+      "v": 0.528
+     },
+     {
+      "c": "CAN",
+      "v": 0.4087
+     },
+     {
+      "c": "DEU",
+      "v": 0.3187
+     },
+     {
+      "c": "RUS",
+      "v": 0.2673
+     },
+     {
+      "c": "JPN",
+      "v": 0.2616
+     },
+     {
+      "c": "ESP",
+      "v": 0.2498
+     },
+     {
+      "c": "TWN",
+      "v": 0.1829
+     },
+     {
+      "c": "POL",
+      "v": 0.1438
+     },
+     {
+      "c": "KOR",
+      "v": 0.109
+     },
+     {
+      "c": "FIN",
+      "v": 0.0908
+     },
+     {
+      "c": "THA",
+      "v": 0.0718
+     },
+     {
+      "c": "MDG",
+      "v": 0.069
+     },
+     {
+      "c": "ITA",
+      "v": 0.058
+     },
+     {
+      "c": "NGA",
+      "v": 0.0572
+     },
+     {
+      "c": "SRB",
+      "v": 0.0547
+     },
+     {
+      "c": "SGP",
+      "v": 0.0505
+     },
+     {
+      "c": "TUR",
+      "v": 0.0494
+     },
+     {
+      "c": "EGY",
+      "v": 0.049
+     },
+     {
+      "c": "LVA",
+      "v": 0.041
+     },
+     {
+      "c": "IDN",
+      "v": 0.0403
+     },
+     {
+      "c": "SAU",
+      "v": 0.0394
+     },
+     {
+      "c": "CZE",
+      "v": 0.0391
+     },
+     {
+      "c": "LBN",
+      "v": 0.033
+     },
+     {
+      "c": "LTU",
+      "v": 0.0239
+     },
+     {
+      "c": "BRA",
+      "v": 0.0206
+     },
+     {
+      "c": "MUS",
+      "v": 0.0185
+     },
+     {
+      "c": "CHE",
+      "v": 0.0179
+     },
+     {
+      "c": "HND",
+      "v": 0.0177
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0176
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0174
+     },
+     {
+      "c": "NOR",
+      "v": 0.0155
+     },
+     {
+      "c": "NAM",
+      "v": 0.0134
+     },
+     {
+      "c": "QAT",
+      "v": 0.011
+     },
+     {
+      "c": "ARE",
+      "v": 0.0108
+     },
+     {
+      "c": "FRA",
+      "v": 0.0106
+     },
+     {
+      "c": "HKG",
+      "v": 0.0103
+     },
+     {
+      "c": "HRV",
+      "v": 0.0098
+     },
+     {
+      "c": "AUT",
+      "v": 0.0093
+     },
+     {
+      "c": "GEO",
+      "v": 0.0078
+     },
+     {
+      "c": "SVK",
+      "v": 0.0071
+     },
+     {
+      "c": "GTM",
+      "v": 0.0063
+     },
+     {
+      "c": "IND",
+      "v": 0.0059
+     },
+     {
+      "c": "UZB",
+      "v": 0.0051
+     },
+     {
+      "c": "JOR",
+      "v": 0.005
+     },
+     {
+      "c": "MYS",
+      "v": 0.0045
+     },
+     {
+      "c": "SLV",
+      "v": 0.0043
+     },
+     {
+      "c": "ROU",
+      "v": 0.0038
+     },
+     {
+      "c": "BIH",
+      "v": 0.0034
+     },
+     {
+      "c": "CIV",
+      "v": 0.0027
+     },
+     {
+      "c": "DNK",
+      "v": 0.0025
+     },
+     {
+      "c": "PRT",
+      "v": 0.0025
+     },
+     {
+      "c": "VNM",
+      "v": 0.0019
+     },
+     {
+      "c": "BLR",
+      "v": 0.0018
+     },
+     {
+      "c": "GBR",
+      "v": 0.0016
+     },
+     {
+      "c": "HUN",
+      "v": 0.0014
+     },
+     {
+      "c": "IRL",
+      "v": 0.0011
+     },
+     {
+      "c": "BGR",
+      "v": 0.0011
+     },
+     {
+      "c": "URY",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium sulphate (HS 310221), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "ammonium-sulphate-imports",
+   "title": "Ammonium sulphate importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 21.35,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 6.093
+     },
+     {
+      "c": "VNM",
+      "v": 1.237
+     },
+     {
+      "c": "IDN",
+      "v": 1.111
+     },
+     {
+      "c": "USA",
+      "v": 1.048
+     },
+     {
+      "c": "MYS",
+      "v": 0.8802
+     },
+     {
+      "c": "TUR",
+      "v": 0.8766
+     },
+     {
+      "c": "MMR",
+      "v": 0.6841
+     },
+     {
+      "c": "PHL",
+      "v": 0.6314
+     },
+     {
+      "c": "IND",
+      "v": 0.5349
+     },
+     {
+      "c": "THA",
+      "v": 0.4804
+     },
+     {
+      "c": "AUS",
+      "v": 0.4519
+     },
+     {
+      "c": "UKR",
+      "v": 0.4267
+     },
+     {
+      "c": "NGA",
+      "v": 0.4157
+     },
+     {
+      "c": "ZAF",
+      "v": 0.4003
+     },
+     {
+      "c": "PER",
+      "v": 0.3536
+     },
+     {
+      "c": "FRA",
+      "v": 0.3186
+     },
+     {
+      "c": "LAO",
+      "v": 0.3146
+     },
+     {
+      "c": "NLD",
+      "v": 0.2577
+     },
+     {
+      "c": "MEX",
+      "v": 0.2275
+     },
+     {
+      "c": "ITA",
+      "v": 0.2189
+     },
+     {
+      "c": "NZL",
+      "v": 0.2009
+     },
+     {
+      "c": "GTM",
+      "v": 0.1904
+     },
+     {
+      "c": "DEU",
+      "v": 0.1894
+     },
+     {
+      "c": "PRY",
+      "v": 0.1888
+     },
+     {
+      "c": "COL",
+      "v": 0.1776
+     },
+     {
+      "c": "GBR",
+      "v": 0.1713
+     },
+     {
+      "c": "PAK",
+      "v": 0.1588
+     },
+     {
+      "c": "LTU",
+      "v": 0.1582
+     },
+     {
+      "c": "ECU",
+      "v": 0.1544
+     },
+     {
+      "c": "BEL",
+      "v": 0.1397
+     },
+     {
+      "c": "MAR",
+      "v": 0.1333
+     },
+     {
+      "c": "CAN",
+      "v": 0.1304
+     },
+     {
+      "c": "LVA",
+      "v": 0.1115
+     },
+     {
+      "c": "SLV",
+      "v": 0.1109
+     },
+     {
+      "c": "GRC",
+      "v": 0.1037
+     },
+     {
+      "c": "ROU",
+      "v": 0.1009
+     },
+     {
+      "c": "TZA",
+      "v": 0.0985
+     },
+     {
+      "c": "NOR",
+      "v": 0.0985
+     },
+     {
+      "c": "URY",
+      "v": 0.0871
+     },
+     {
+      "c": "KOR",
+      "v": 0.0866
+     },
+     {
+      "c": "DOM",
+      "v": 0.0795
+     },
+     {
+      "c": "CZE",
+      "v": 0.0792
+     },
+     {
+      "c": "POL",
+      "v": 0.0705
+     },
+     {
+      "c": "SVK",
+      "v": 0.0675
+     },
+     {
+      "c": "LKA",
+      "v": 0.0641
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0621
+     },
+     {
+      "c": "HUN",
+      "v": 0.0601
+     },
+     {
+      "c": "AGO",
+      "v": 0.058
+     },
+     {
+      "c": "EGY",
+      "v": 0.054
+     },
+     {
+      "c": "HND",
+      "v": 0.0534
+     },
+     {
+      "c": "KEN",
+      "v": 0.0529
+     },
+     {
+      "c": "IRL",
+      "v": 0.0522
+     },
+     {
+      "c": "GHA",
+      "v": 0.051
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0499
+     },
+     {
+      "c": "JPN",
+      "v": 0.0499
+     },
+     {
+      "c": "DNK",
+      "v": 0.0472
+     },
+     {
+      "c": "NIC",
+      "v": 0.0447
+     },
+     {
+      "c": "ARG",
+      "v": 0.041
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0393
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0391
+     },
+     {
+      "c": "ESP",
+      "v": 0.0379
+     },
+     {
+      "c": "MWI",
+      "v": 0.0267
+     },
+     {
+      "c": "CMR",
+      "v": 0.0259
+     },
+     {
+      "c": "NAM",
+      "v": 0.0255
+     },
+     {
+      "c": "AUT",
+      "v": 0.0252
+     },
+     {
+      "c": "KHM",
+      "v": 0.0222
+     },
+     {
+      "c": "LBN",
+      "v": 0.0217
+     },
+     {
+      "c": "CHL",
+      "v": 0.0209
+     },
+     {
+      "c": "DZA",
+      "v": 0.0208
+     },
+     {
+      "c": "CHE",
+      "v": 0.0208
+     },
+     {
+      "c": "CRI",
+      "v": 0.0177
+     },
+     {
+      "c": "FJI",
+      "v": 0.0165
+     },
+     {
+      "c": "BGD",
+      "v": 0.0143
+     },
+     {
+      "c": "CIV",
+      "v": 0.0143
+     },
+     {
+      "c": "SAU",
+      "v": 0.0136
+     },
+     {
+      "c": "MDA",
+      "v": 0.0128
+     },
+     {
+      "c": "PRT",
+      "v": 0.0126
+     },
+     {
+      "c": "ISR",
+      "v": 0.0115
+     },
+     {
+      "c": "BGR",
+      "v": 0.0114
+     },
+     {
+      "c": "JOR",
+      "v": 0.0091
+     },
+     {
+      "c": "HRV",
+      "v": 0.0085
+     },
+     {
+      "c": "TWN",
+      "v": 0.0077
+     },
+     {
+      "c": "SYR",
+      "v": 0.0069
+     },
+     {
+      "c": "TUN",
+      "v": 0.006
+     },
+     {
+      "c": "YEM",
+      "v": 0.0059
+     },
+     {
+      "c": "PAN",
+      "v": 0.0053
+     },
+     {
+      "c": "BOL",
+      "v": 0.0053
+     },
+     {
+      "c": "NPL",
+      "v": 0.0044
+     },
+     {
+      "c": "JAM",
+      "v": 0.0042
+     },
+     {
+      "c": "MUS",
+      "v": 0.0042
+     },
+     {
+      "c": "EST",
+      "v": 0.0041
+     },
+     {
+      "c": "IRN",
+      "v": 0.0039
+     },
+     {
+      "c": "AZE",
+      "v": 0.0038
+     },
+     {
+      "c": "ALB",
+      "v": 0.0034
+     },
+     {
+      "c": "ARE",
+      "v": 0.0029
+     },
+     {
+      "c": "MLI",
+      "v": 0.0027
+     },
+     {
+      "c": "LUX",
+      "v": 0.0026
+     },
+     {
+      "c": "GAB",
+      "v": 0.0023
+     },
+     {
+      "c": "MHL",
+      "v": 0.002
+     },
+     {
+      "c": "OMN",
+      "v": 0.0019
+     },
+     {
+      "c": "UGA",
+      "v": 0.0019
+     },
+     {
+      "c": "SVN",
+      "v": 0.0019
+     },
+     {
+      "c": "VEN",
+      "v": 0.0017
+     },
+     {
+      "c": "BEN",
+      "v": 0.0016
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0015
+     },
+     {
+      "c": "PNG",
+      "v": 0.0013
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0013
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0013
+     },
+     {
+      "c": "SGP",
+      "v": 0.0001,
+      "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+     }
+    ],
+    "n": "CEPII BACI HS92 ammonium sulphate (HS 310221), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
    "key": "urea-production",
    "title": "Urea producers — Mt of urea, product weight",
    "table": {
@@ -1424,12 +3610,112 @@
    "eq": 17.1,
    "k": 129,
    "cov": 1.0
+  },
+  "ammonia-exports": {
+   "top1": {
+    "c": "TTO",
+    "p": 0.2025
+   },
+   "top3": 0.4488,
+   "hhi": 966,
+   "eq": 10.3,
+   "k": 43,
+   "cov": 1.0
+  },
+  "ammonia-imports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.1939
+   },
+   "top3": 0.4305,
+   "hhi": 815,
+   "eq": 12.3,
+   "k": 54,
+   "cov": 1.0
+  },
+  "ammonium-nitrate-exports": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.3822
+   },
+   "top3": 0.5243,
+   "hhi": 1687,
+   "eq": 5.9,
+   "k": 58,
+   "cov": 1.0
+  },
+  "ammonium-nitrate-imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.1379
+   },
+   "top3": 0.2464,
+   "hhi": 408,
+   "eq": 24.5,
+   "k": 117,
+   "cov": 1.0
+  },
+  "uan-exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2623
+   },
+   "top3": 0.6366,
+   "hhi": 1640,
+   "eq": 6.1,
+   "k": 32,
+   "cov": 1.0
+  },
+  "uan-imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2967
+   },
+   "top3": 0.6196,
+   "hhi": 1691,
+   "eq": 5.9,
+   "k": 44,
+   "cov": 1.0001
+  },
+  "ammonium-sulphate-exports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.7492
+   },
+   "top3": 0.8357,
+   "hhi": 5672,
+   "eq": 1.8,
+   "k": 61,
+   "cov": 1.0
+  },
+  "ammonium-sulphate-imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.2854
+   },
+   "top3": 0.3954,
+   "hhi": 1001,
+   "eq": 10.0,
+   "k": 109,
+   "cov": 1.0
   }
  },
+ "see": [
+  {
+   "k": "npk",
+   "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"
+  }
+ ],
  "notes": [
-  "Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea, and urea production in tonnes of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds 46.6% nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.",
+  "Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea and of the other nitrogen fertilisers, and urea production in tonnes of product (FAOSTAT), the basis of the urea trade tables (HS 310210). Urea holds 46.6% nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.",
   "FAOSTAT has no 2023 urea production figure for Oman, Qatar, Egypt, Algeria, Nigeria, Malaysia and 6 other countries, which each exported more than 1 Mt of urea in the customs data for 2024 (the largest exporters first): the urea producers table lists reporting countries only and gives no world total. For 2022 it gives Oman 2.04 Mt, Malaysia 7.58 Mt, Indonesia 7.47 Mt and United States 5.93 Mt.",
   "FAOSTAT's 2024 urea table is not used: it lists 20 countries against 34 for 2023 and has no figure for China.",
+  "The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, UAN and ammonium sulphate, each its own customs code, gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.",
+  "Anhydrous ammonia (HS 281410), 2024 (CEPII BACI): world 18.39 Mt gross weight; top exporters Trinidad and Tobago 3.72 Mt, Saudi Arabia 2.72 Mt, Indonesia 1.81 Mt.",
+  "Ammonium nitrate, solid or in solution (HS 310230), 2024 (CEPII BACI): world 8.42 Mt gross weight; top exporters Russia 3.22 Mt, United States 0.68 Mt, Bulgaria 0.51 Mt.",
+  "Urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280), 2024 (CEPII BACI): world 6.72 Mt gross weight; top exporters United States 1.76 Mt, Russia 1.43 Mt, Trinidad and Tobago 1.09 Mt.",
+  "Ammonium sulphate (HS 310221), 2024 (CEPII BACI): world 21.35 Mt gross weight; top exporters China 15.99 Mt, Belgium 1.17 Mt, Netherlands 0.67 Mt.",
+  "Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. HS 281420 (ammonia in solution), 310229, 310240 (ammonium nitrate with limestone), 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.",
   "Urea exports of Iran in customs data fell from 3.77 Mt in 2019 to 0.024 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Urea exports of Oman in customs data (7.63 Mt in 2024, CEPII BACI) are 178% of its production in the USGS Mineral Commodity Summaries (2 Mt of nitrogen in 2024); urea exports converted to nitrogen with the nitrogen content of urea (0.4665, from molar masses), against ammonia production in nitrogen content. Declaration of cargoes of other origins under Oman is a plausible cause; it is not established here."
  ]

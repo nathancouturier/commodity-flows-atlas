@@ -30,7 +30,9 @@ RAW_PW = os.path.join(ROOT, "raw", "portwatch")
 # the CI) is not that precise
 HAS_PW_DAILY = bool(glob.glob(os.path.join(RAW_PW, "chokepoints_daily_page*.json")))
 YEAR = 2024
-TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
+TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil",
+          # package NC1: ammonia (gas carriers), UAN solution and phosphoric acid (chemical tankers)
+          "ammonia", "uan", "phosphoric-acid"}
 # general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
 CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton",
          # package L1: the minor metals that sail as general cargo

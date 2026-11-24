@@ -30,6 +30,13 @@
    "n": "seaborne subset of BACI flows (phosphate-rock) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; main bulk group used: phosphate-rock"
   }
  },
+ "kpis": {
+  "exports": "World exports (Mt of phosphate rock)"
+ },
+ "labels": {
+  "exports": "Top exporters — Mt of phosphate rock, gross weight",
+  "imports": "Top importers — Mt of phosphate rock, gross weight"
+ },
  "production": {
   "y": 2025,
   "s": "usgs-mcs",
@@ -141,7 +148,8 @@
    "from": 10,
    "n": "14 further countries named by USGS (Vietnam, Senegal, Australia, Israel, South Africa, Algeria, Kazakhstan, Togo, India, Turkey, Finland, Uzbekistan, Syria and Mexico), listed after the first rows; not part of USGS's 'Other countries' line"
   },
-  "worldPublished": 250.0
+  "worldPublished": 250.0,
+  "basis": "marketable phosphate rock"
  },
  "reserves": {
   "y": 2025,
@@ -254,7 +262,8 @@
    "from": 10,
    "n": "14 further countries named by USGS (Saudi Arabia, Jordan, Australia, Kazakhstan, Syria, Peru, Uzbekistan, Turkey, Israel, Senegal, India, Mexico, Togo and Vietnam), listed after the first rows; not part of USGS's 'Other countries' line"
   },
-  "worldPublished": 73000.0
+  "worldPublished": 73000.0,
+  "basis": "marketable phosphate rock"
  },
  "exports": {
   "y": 2024,
@@ -415,7 +424,8 @@
     "v": 0.0011
    }
   ],
-  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "phosphate rock, gross weight"
  },
  "imports": {
   "y": 2024,
@@ -664,8 +674,2100 @@
     "v": 0.0017
    }
   ],
-  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  "n": "CEPII BACI HS92 natural phosphates (HS 2510), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "phosphate rock, gross weight"
  },
+ "extra": [
+  {
+   "key": "dap-exports",
+   "title": "DAP exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 18.501,
+    "rows": [
+     {
+      "c": "MAR",
+      "v": 6.25
+     },
+     {
+      "c": "CHN",
+      "v": 4.246
+     },
+     {
+      "c": "SAU",
+      "v": 3.826
+     },
+     {
+      "c": "RUS",
+      "v": 1.23
+     },
+     {
+      "c": "JOR",
+      "v": 0.5349
+     },
+     {
+      "c": "USA",
+      "v": 0.3941
+     },
+     {
+      "c": "EGY",
+      "v": 0.3535
+     },
+     {
+      "c": "AUS",
+      "v": 0.3432
+     },
+     {
+      "c": "TUN",
+      "v": 0.2349
+     },
+     {
+      "c": "TUR",
+      "v": 0.1761
+     },
+     {
+      "c": "VNM",
+      "v": 0.1693
+     },
+     {
+      "c": "LTU",
+      "v": 0.1163
+     },
+     {
+      "c": "BEL",
+      "v": 0.0932
+     },
+     {
+      "c": "IND",
+      "v": 0.0661
+     },
+     {
+      "c": "UZB",
+      "v": 0.0552
+     },
+     {
+      "c": "MUS",
+      "v": 0.0471
+     },
+     {
+      "c": "KOR",
+      "v": 0.0426
+     },
+     {
+      "c": "MEX",
+      "v": 0.0368
+     },
+     {
+      "c": "ITA",
+      "v": 0.0336
+     },
+     {
+      "c": "POL",
+      "v": 0.0332
+     },
+     {
+      "c": "BGR",
+      "v": 0.0226
+     },
+     {
+      "c": "DEU",
+      "v": 0.0226
+     },
+     {
+      "c": "TZA",
+      "v": 0.0185,
+      "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "ARE",
+      "v": 0.0144
+     },
+     {
+      "c": "NLD",
+      "v": 0.0143
+     },
+     {
+      "c": "ROU",
+      "v": 0.0131
+     },
+     {
+      "c": "MOZ",
+      "v": 0.012
+     },
+     {
+      "c": "SVN",
+      "v": 0.0116
+     },
+     {
+      "c": "NAM",
+      "v": 0.0107
+     },
+     {
+      "c": "HND",
+      "v": 0.0096
+     },
+     {
+      "c": "FRA",
+      "v": 0.0095
+     },
+     {
+      "c": "CAN",
+      "v": 0.0085
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0076
+     },
+     {
+      "c": "KEN",
+      "v": 0.0068
+     },
+     {
+      "c": "PER",
+      "v": 0.0065
+     },
+     {
+      "c": "PRT",
+      "v": 0.0058
+     },
+     {
+      "c": "ESP",
+      "v": 0.0053
+     },
+     {
+      "c": "FIN",
+      "v": 0.0053
+     },
+     {
+      "c": "THA",
+      "v": 0.0048
+     },
+     {
+      "c": "MYS",
+      "v": 0.0045
+     },
+     {
+      "c": "AUT",
+      "v": 0.0024
+     },
+     {
+      "c": "GTM",
+      "v": 0.0016
+     },
+     {
+      "c": "SLV",
+      "v": 0.0015
+     }
+    ],
+    "n": "CEPII BACI HS92 diammonium phosphate, DAP (HS 310530), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "dap-imports",
+   "title": "DAP importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 18.501,
+    "rows": [
+     {
+      "c": "IND",
+      "v": 5.255
+     },
+     {
+      "c": "BGD",
+      "v": 2.207
+     },
+     {
+      "c": "USA",
+      "v": 1.263
+     },
+     {
+      "c": "PAK",
+      "v": 1.053
+     },
+     {
+      "c": "VNM",
+      "v": 0.8151
+     },
+     {
+      "c": "MEX",
+      "v": 0.4897
+     },
+     {
+      "c": "TUR",
+      "v": 0.4536
+     },
+     {
+      "c": "FRA",
+      "v": 0.3816
+     },
+     {
+      "c": "JPN",
+      "v": 0.3306
+     },
+     {
+      "c": "IDN",
+      "v": 0.292
+     },
+     {
+      "c": "ARG",
+      "v": 0.2844
+     },
+     {
+      "c": "NGA",
+      "v": 0.2772
+     },
+     {
+      "c": "DEU",
+      "v": 0.2759
+     },
+     {
+      "c": "ESP",
+      "v": 0.2605
+     },
+     {
+      "c": "AUS",
+      "v": 0.2524
+     },
+     {
+      "c": "POL",
+      "v": 0.2475
+     },
+     {
+      "c": "ITA",
+      "v": 0.2269
+     },
+     {
+      "c": "BRA",
+      "v": 0.2118
+     },
+     {
+      "c": "NZL",
+      "v": 0.1936
+     },
+     {
+      "c": "PER",
+      "v": 0.1871
+     },
+     {
+      "c": "ROU",
+      "v": 0.1568
+     },
+     {
+      "c": "IRL",
+      "v": 0.154
+     },
+     {
+      "c": "KEN",
+      "v": 0.1515
+     },
+     {
+      "c": "IRQ",
+      "v": 0.1462
+     },
+     {
+      "c": "COL",
+      "v": 0.1424
+     },
+     {
+      "c": "GBR",
+      "v": 0.1401
+     },
+     {
+      "c": "PHL",
+      "v": 0.1346
+     },
+     {
+      "c": "TZA",
+      "v": 0.1339
+     },
+     {
+      "c": "CAN",
+      "v": 0.1257
+     },
+     {
+      "c": "BEL",
+      "v": 0.1152
+     },
+     {
+      "c": "NPL",
+      "v": 0.1115
+     },
+     {
+      "c": "KOR",
+      "v": 0.1086
+     },
+     {
+      "c": "GTM",
+      "v": 0.1026
+     },
+     {
+      "c": "ECU",
+      "v": 0.0926
+     },
+     {
+      "c": "LBY",
+      "v": 0.0902
+     },
+     {
+      "c": "HND",
+      "v": 0.0891
+     },
+     {
+      "c": "URY",
+      "v": 0.086
+     },
+     {
+      "c": "LTU",
+      "v": 0.0752
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0728
+     },
+     {
+      "c": "BGR",
+      "v": 0.0727
+     },
+     {
+      "c": "UKR",
+      "v": 0.0721
+     },
+     {
+      "c": "MYS",
+      "v": 0.0712
+     },
+     {
+      "c": "ETH",
+      "v": 0.0578
+     },
+     {
+      "c": "AFG",
+      "v": 0.0577
+     },
+     {
+      "c": "UZB",
+      "v": 0.0569
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0527
+     },
+     {
+      "c": "THA",
+      "v": 0.0516
+     },
+     {
+      "c": "SVN",
+      "v": 0.0415
+     },
+     {
+      "c": "NIC",
+      "v": 0.0413
+     },
+     {
+      "c": "NLD",
+      "v": 0.04
+     },
+     {
+      "c": "CYP",
+      "v": 0.0393
+     },
+     {
+      "c": "CIV",
+      "v": 0.0384
+     },
+     {
+      "c": "KHM",
+      "v": 0.0336
+     },
+     {
+      "c": "MMR",
+      "v": 0.0332
+     },
+     {
+      "c": "CRI",
+      "v": 0.0311
+     },
+     {
+      "c": "AUT",
+      "v": 0.0302
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0285
+     },
+     {
+      "c": "PRT",
+      "v": 0.028
+     },
+     {
+      "c": "PRY",
+      "v": 0.0251
+     },
+     {
+      "c": "SLV",
+      "v": 0.0245
+     },
+     {
+      "c": "BOL",
+      "v": 0.0236
+     },
+     {
+      "c": "HUN",
+      "v": 0.0234
+     },
+     {
+      "c": "ARE",
+      "v": 0.0233
+     },
+     {
+      "c": "JOR",
+      "v": 0.023
+     },
+     {
+      "c": "DNK",
+      "v": 0.0207
+     },
+     {
+      "c": "CHL",
+      "v": 0.0202
+     },
+     {
+      "c": "DOM",
+      "v": 0.0195
+     },
+     {
+      "c": "NAM",
+      "v": 0.0193
+     },
+     {
+      "c": "GRC",
+      "v": 0.0166
+     },
+     {
+      "c": "PRK",
+      "v": 0.0151
+     },
+     {
+      "c": "LVA",
+      "v": 0.015
+     },
+     {
+      "c": "MRT",
+      "v": 0.0148
+     },
+     {
+      "c": "PAN",
+      "v": 0.0132
+     },
+     {
+      "c": "HRV",
+      "v": 0.0127
+     },
+     {
+      "c": "COD",
+      "v": 0.0113,
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "CMR",
+      "v": 0.0112
+     },
+     {
+      "c": "SEN",
+      "v": 0.0108
+     },
+     {
+      "c": "SYR",
+      "v": 0.0098
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0097
+     },
+     {
+      "c": "ALB",
+      "v": 0.009
+     },
+     {
+      "c": "MWI",
+      "v": 0.0088
+     },
+     {
+      "c": "RWA",
+      "v": 0.0068
+     },
+     {
+      "c": "UGA",
+      "v": 0.0059
+     },
+     {
+      "c": "GHA",
+      "v": 0.0057
+     },
+     {
+      "c": "BRN",
+      "v": 0.0048
+     },
+     {
+      "c": "CHE",
+      "v": 0.004
+     },
+     {
+      "c": "AGO",
+      "v": 0.0035
+     },
+     {
+      "c": "JAM",
+      "v": 0.0032
+     },
+     {
+      "c": "ZAF",
+      "v": 0.003
+     },
+     {
+      "c": "PNG",
+      "v": 0.003
+     },
+     {
+      "c": "MDG",
+      "v": 0.0026
+     },
+     {
+      "c": "LAO",
+      "v": 0.0024
+     },
+     {
+      "c": "FJI",
+      "v": 0.002
+     },
+     {
+      "c": "MUS",
+      "v": 0.0019
+     },
+     {
+      "c": "SDN",
+      "v": 0.0016
+     },
+     {
+      "c": "SLE",
+      "v": 0.0013
+     },
+     {
+      "c": "COG",
+      "v": 0.0013
+     },
+     {
+      "c": "TWN",
+      "v": 0.0011
+     },
+     {
+      "c": "CHN",
+      "v": 0.0011,
+      "n": "100% of tonnage from flows with implausible unit values (kept because the flow is below the USD 50 million correction rule)"
+     }
+    ],
+    "n": "CEPII BACI HS92 diammonium phosphate, DAP (HS 310530), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "map-exports",
+   "title": "MAP exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 14.146,
+    "rows": [
+     {
+      "c": "MAR",
+      "v": 4.891
+     },
+     {
+      "c": "RUS",
+      "v": 3.092
+     },
+     {
+      "c": "USA",
+      "v": 1.72
+     },
+     {
+      "c": "CHN",
+      "v": 1.609
+     },
+     {
+      "c": "SAU",
+      "v": 1.439
+     },
+     {
+      "c": "MEX",
+      "v": 0.2425
+     },
+     {
+      "c": "EGY",
+      "v": 0.127
+     },
+     {
+      "c": "BGR",
+      "v": 0.1105
+     },
+     {
+      "c": "LTU",
+      "v": 0.0913
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0818
+     },
+     {
+      "c": "BEL",
+      "v": 0.0548
+     },
+     {
+      "c": "TUN",
+      "v": 0.0544
+     },
+     {
+      "c": "FIN",
+      "v": 0.0492
+     },
+     {
+      "c": "DEU",
+      "v": 0.042
+     },
+     {
+      "c": "SEN",
+      "v": 0.0406
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0405
+     },
+     {
+      "c": "ARE",
+      "v": 0.0396
+     },
+     {
+      "c": "MUS",
+      "v": 0.0375
+     },
+     {
+      "c": "KOR",
+      "v": 0.0369
+     },
+     {
+      "c": "NAM",
+      "v": 0.0336
+     },
+     {
+      "c": "VNM",
+      "v": 0.0325
+     },
+     {
+      "c": "AUS",
+      "v": 0.0305
+     },
+     {
+      "c": "SVN",
+      "v": 0.0241
+     },
+     {
+      "c": "POL",
+      "v": 0.022
+     },
+     {
+      "c": "ESP",
+      "v": 0.0163
+     },
+     {
+      "c": "PER",
+      "v": 0.016
+     },
+     {
+      "c": "CAN",
+      "v": 0.0155
+     },
+     {
+      "c": "PRT",
+      "v": 0.0153
+     },
+     {
+      "c": "BLR",
+      "v": 0.015
+     },
+     {
+      "c": "NLD",
+      "v": 0.0149
+     },
+     {
+      "c": "NOR",
+      "v": 0.0145
+     },
+     {
+      "c": "THA",
+      "v": 0.0127
+     },
+     {
+      "c": "JOR",
+      "v": 0.011
+     },
+     {
+      "c": "ITA",
+      "v": 0.0107
+     },
+     {
+      "c": "TUR",
+      "v": 0.0092
+     },
+     {
+      "c": "LVA",
+      "v": 0.0091
+     },
+     {
+      "c": "ISR",
+      "v": 0.0074
+     },
+     {
+      "c": "FRA",
+      "v": 0.0068
+     },
+     {
+      "c": "BRA",
+      "v": 0.0053
+     },
+     {
+      "c": "SRB",
+      "v": 0.0036
+     },
+     {
+      "c": "MYS",
+      "v": 0.0028
+     },
+     {
+      "c": "SGP",
+      "v": 0.0028
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0023
+     },
+     {
+      "c": "DNK",
+      "v": 0.0021
+     },
+     {
+      "c": "LBN",
+      "v": 0.002
+     },
+     {
+      "c": "HKG",
+      "v": 0.0015
+     },
+     {
+      "c": "URY",
+      "v": 0.0015
+     },
+     {
+      "c": "SVK",
+      "v": 0.0015
+     },
+     {
+      "c": "ARG",
+      "v": 0.0014
+     },
+     {
+      "c": "COL",
+      "v": 0.0013
+     },
+     {
+      "c": "ZMB",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "map-imports",
+   "title": "MAP importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 14.146,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 4.437
+     },
+     {
+      "c": "CAN",
+      "v": 1.862
+     },
+     {
+      "c": "AUS",
+      "v": 1.807
+     },
+     {
+      "c": "USA",
+      "v": 1.502
+     },
+     {
+      "c": "ARG",
+      "v": 0.7843
+     },
+     {
+      "c": "ZAF",
+      "v": 0.351
+     },
+     {
+      "c": "PRY",
+      "v": 0.2432
+     },
+     {
+      "c": "CHL",
+      "v": 0.1989
+     },
+     {
+      "c": "MEX",
+      "v": 0.1915
+     },
+     {
+      "c": "COL",
+      "v": 0.1832
+     },
+     {
+      "c": "IND",
+      "v": 0.1756
+     },
+     {
+      "c": "ESP",
+      "v": 0.1389
+     },
+     {
+      "c": "ZMB",
+      "v": 0.135
+     },
+     {
+      "c": "ITA",
+      "v": 0.1238
+     },
+     {
+      "c": "POL",
+      "v": 0.1182
+     },
+     {
+      "c": "UKR",
+      "v": 0.111
+     },
+     {
+      "c": "CIV",
+      "v": 0.1046
+     },
+     {
+      "c": "MYS",
+      "v": 0.0936
+     },
+     {
+      "c": "TUR",
+      "v": 0.0912
+     },
+     {
+      "c": "JPN",
+      "v": 0.0895
+     },
+     {
+      "c": "ZWE",
+      "v": 0.087
+     },
+     {
+      "c": "URY",
+      "v": 0.0753
+     },
+     {
+      "c": "SVN",
+      "v": 0.0741
+     },
+     {
+      "c": "IDN",
+      "v": 0.0579
+     },
+     {
+      "c": "DZA",
+      "v": 0.0561
+     },
+     {
+      "c": "DEU",
+      "v": 0.0506
+     },
+     {
+      "c": "LTU",
+      "v": 0.0428
+     },
+     {
+      "c": "SRB",
+      "v": 0.0421
+     },
+     {
+      "c": "NAM",
+      "v": 0.0421
+     },
+     {
+      "c": "VNM",
+      "v": 0.0417
+     },
+     {
+      "c": "PER",
+      "v": 0.0416
+     },
+     {
+      "c": "BOL",
+      "v": 0.0394
+     },
+     {
+      "c": "CZE",
+      "v": 0.039
+     },
+     {
+      "c": "LVA",
+      "v": 0.0372
+     },
+     {
+      "c": "ISR",
+      "v": 0.0372
+     },
+     {
+      "c": "FRA",
+      "v": 0.0371
+     },
+     {
+      "c": "MOZ",
+      "v": 0.035
+     },
+     {
+      "c": "BEL",
+      "v": 0.0344
+     },
+     {
+      "c": "NLD",
+      "v": 0.0334
+     },
+     {
+      "c": "GBR",
+      "v": 0.0332
+     },
+     {
+      "c": "ROU",
+      "v": 0.0324
+     },
+     {
+      "c": "BGR",
+      "v": 0.0307
+     },
+     {
+      "c": "HUN",
+      "v": 0.0292
+     },
+     {
+      "c": "AZE",
+      "v": 0.0288
+     },
+     {
+      "c": "GRC",
+      "v": 0.0231
+     },
+     {
+      "c": "NOR",
+      "v": 0.0227
+     },
+     {
+      "c": "CHN",
+      "v": 0.0198
+     },
+     {
+      "c": "TWN",
+      "v": 0.0192
+     },
+     {
+      "c": "HRV",
+      "v": 0.0175
+     },
+     {
+      "c": "ARE",
+      "v": 0.0173
+     },
+     {
+      "c": "BGD",
+      "v": 0.0165
+     },
+     {
+      "c": "PRT",
+      "v": 0.0153
+     },
+     {
+      "c": "MMR",
+      "v": 0.0141
+     },
+     {
+      "c": "SWE",
+      "v": 0.0136
+     },
+     {
+      "c": "AGO",
+      "v": 0.0136
+     },
+     {
+      "c": "SVK",
+      "v": 0.0118
+     },
+     {
+      "c": "DOM",
+      "v": 0.0115
+     },
+     {
+      "c": "ECU",
+      "v": 0.0115
+     },
+     {
+      "c": "KHM",
+      "v": 0.011
+     },
+     {
+      "c": "EGY",
+      "v": 0.011
+     },
+     {
+      "c": "JOR",
+      "v": 0.0099
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0082
+     },
+     {
+      "c": "KEN",
+      "v": 0.008
+     },
+     {
+      "c": "UZB",
+      "v": 0.0078
+     },
+     {
+      "c": "PAK",
+      "v": 0.0074
+     },
+     {
+      "c": "THA",
+      "v": 0.0059
+     },
+     {
+      "c": "SAU",
+      "v": 0.0057
+     },
+     {
+      "c": "NIC",
+      "v": 0.0045
+     },
+     {
+      "c": "IRL",
+      "v": 0.0043
+     },
+     {
+      "c": "CRI",
+      "v": 0.0042
+     },
+     {
+      "c": "KOR",
+      "v": 0.0037
+     },
+     {
+      "c": "GTM",
+      "v": 0.0034
+     },
+     {
+      "c": "LAO",
+      "v": 0.003
+     },
+     {
+      "c": "GEO",
+      "v": 0.0024
+     },
+     {
+      "c": "IRN",
+      "v": 0.0024
+     },
+     {
+      "c": "PHL",
+      "v": 0.0023
+     },
+     {
+      "c": "DNK",
+      "v": 0.0021
+     },
+     {
+      "c": "HND",
+      "v": 0.0018
+     },
+     {
+      "c": "VEN",
+      "v": 0.0013
+     },
+     {
+      "c": "PNG",
+      "v": 0.0013
+     },
+     {
+      "c": "EST",
+      "v": 0.0012
+     },
+     {
+      "c": "PAN",
+      "v": 0.0011
+     },
+     {
+      "c": "FIN",
+      "v": 0.0011
+     },
+     {
+      "c": "AUT",
+      "v": 0.001
+     },
+     {
+      "c": "LBY",
+      "v": 0.001
+     },
+     {
+      "c": "MWI",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "superphosphates-exports",
+   "title": "Superphosphate exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.84,
+    "rows": [
+     {
+      "c": "MAR",
+      "v": 3.545
+     },
+     {
+      "c": "CHN",
+      "v": 1.407
+     },
+     {
+      "c": "ISR",
+      "v": 1.059
+     },
+     {
+      "c": "EGY",
+      "v": 0.63
+     },
+     {
+      "c": "IND",
+      "v": 0.1868
+     },
+     {
+      "c": "LBN",
+      "v": 0.1383
+     },
+     {
+      "c": "ESP",
+      "v": 0.1361
+     },
+     {
+      "c": "TUN",
+      "v": 0.1238
+     },
+     {
+      "c": "NLD",
+      "v": 0.0897
+     },
+     {
+      "c": "ARG",
+      "v": 0.085
+     },
+     {
+      "c": "POL",
+      "v": 0.066
+     },
+     {
+      "c": "UZB",
+      "v": 0.0594
+     },
+     {
+      "c": "VNM",
+      "v": 0.0533
+     },
+     {
+      "c": "MEX",
+      "v": 0.0359
+     },
+     {
+      "c": "TUR",
+      "v": 0.033
+     },
+     {
+      "c": "DEU",
+      "v": 0.0252
+     },
+     {
+      "c": "BGR",
+      "v": 0.0238
+     },
+     {
+      "c": "BEL",
+      "v": 0.0234
+     },
+     {
+      "c": "PRT",
+      "v": 0.0208
+     },
+     {
+      "c": "USA",
+      "v": 0.0201
+     },
+     {
+      "c": "URY",
+      "v": 0.0167
+     },
+     {
+      "c": "IDN",
+      "v": 0.0109
+     },
+     {
+      "c": "BRA",
+      "v": 0.0089
+     },
+     {
+      "c": "FRA",
+      "v": 0.0073
+     },
+     {
+      "c": "TZA",
+      "v": 0.0058
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0046
+     },
+     {
+      "c": "SVN",
+      "v": 0.0039
+     },
+     {
+      "c": "AUT",
+      "v": 0.0037
+     },
+     {
+      "c": "SYR",
+      "v": 0.003
+     },
+     {
+      "c": "ITA",
+      "v": 0.0025
+     },
+     {
+      "c": "ROU",
+      "v": 0.0024
+     },
+     {
+      "c": "KEN",
+      "v": 0.0023
+     },
+     {
+      "c": "GBR",
+      "v": 0.002
+     },
+     {
+      "c": "SAU",
+      "v": 0.0014
+     },
+     {
+      "c": "CZE",
+      "v": 0.0011
+     },
+     {
+      "c": "SRB",
+      "v": 0.0011
+     },
+     {
+      "c": "IRN",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 superphosphates, single and triple (HS 310310), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "superphosphates-imports",
+   "title": "Superphosphate importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.84,
+    "rows": [
+     {
+      "c": "BRA",
+      "v": 2.753
+     },
+     {
+      "c": "BGD",
+      "v": 1.036
+     },
+     {
+      "c": "USA",
+      "v": 0.7026
+     },
+     {
+      "c": "IND",
+      "v": 0.6797
+     },
+     {
+      "c": "AUS",
+      "v": 0.3485
+     },
+     {
+      "c": "FRA",
+      "v": 0.2741
+     },
+     {
+      "c": "IDN",
+      "v": 0.2434
+     },
+     {
+      "c": "PRY",
+      "v": 0.212
+     },
+     {
+      "c": "ARG",
+      "v": 0.1351
+     },
+     {
+      "c": "URY",
+      "v": 0.1072
+     },
+     {
+      "c": "CIV",
+      "v": 0.0923
+     },
+     {
+      "c": "GBR",
+      "v": 0.0859
+     },
+     {
+      "c": "BEL",
+      "v": 0.0748
+     },
+     {
+      "c": "CHL",
+      "v": 0.0708
+     },
+     {
+      "c": "ITA",
+      "v": 0.064
+     },
+     {
+      "c": "TUR",
+      "v": 0.0633
+     },
+     {
+      "c": "TKM",
+      "v": 0.0546
+     },
+     {
+      "c": "MMR",
+      "v": 0.0542
+     },
+     {
+      "c": "POL",
+      "v": 0.0516
+     },
+     {
+      "c": "DEU",
+      "v": 0.0511
+     },
+     {
+      "c": "NLD",
+      "v": 0.0496
+     },
+     {
+      "c": "ROU",
+      "v": 0.0457
+     },
+     {
+      "c": "UKR",
+      "v": 0.0424
+     },
+     {
+      "c": "GHA",
+      "v": 0.0392
+     },
+     {
+      "c": "CYP",
+      "v": 0.0351
+     },
+     {
+      "c": "NZL",
+      "v": 0.0338
+     },
+     {
+      "c": "JPN",
+      "v": 0.0319
+     },
+     {
+      "c": "VNM",
+      "v": 0.0316
+     },
+     {
+      "c": "TZA",
+      "v": 0.0312
+     },
+     {
+      "c": "LKA",
+      "v": 0.0308
+     },
+     {
+      "c": "ESP",
+      "v": 0.0226
+     },
+     {
+      "c": "DJI",
+      "v": 0.02
+     },
+     {
+      "c": "SYR",
+      "v": 0.0189
+     },
+     {
+      "c": "MYS",
+      "v": 0.0158
+     },
+     {
+      "c": "PAK",
+      "v": 0.0135
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0133
+     },
+     {
+      "c": "IRL",
+      "v": 0.0129
+     },
+     {
+      "c": "CZE",
+      "v": 0.0121
+     },
+     {
+      "c": "ALB",
+      "v": 0.0115
+     },
+     {
+      "c": "LTU",
+      "v": 0.011
+     },
+     {
+      "c": "AUT",
+      "v": 0.0108
+     },
+     {
+      "c": "HUN",
+      "v": 0.0106
+     },
+     {
+      "c": "TGO",
+      "v": 0.01
+     },
+     {
+      "c": "BGR",
+      "v": 0.0094
+     },
+     {
+      "c": "CAN",
+      "v": 0.0089
+     },
+     {
+      "c": "GTM",
+      "v": 0.0084
+     },
+     {
+      "c": "PHL",
+      "v": 0.0083
+     },
+     {
+      "c": "BDI",
+      "v": 0.008
+     },
+     {
+      "c": "GRC",
+      "v": 0.0078
+     },
+     {
+      "c": "TJK",
+      "v": 0.0076
+     },
+     {
+      "c": "GUY",
+      "v": 0.0076
+     },
+     {
+      "c": "DZA",
+      "v": 0.007
+     },
+     {
+      "c": "NPL",
+      "v": 0.0068
+     },
+     {
+      "c": "NER",
+      "v": 0.0048
+     },
+     {
+      "c": "HND",
+      "v": 0.0043
+     },
+     {
+      "c": "BOL",
+      "v": 0.0042
+     },
+     {
+      "c": "SVN",
+      "v": 0.0041
+     },
+     {
+      "c": "THA",
+      "v": 0.0039
+     },
+     {
+      "c": "PER",
+      "v": 0.0036
+     },
+     {
+      "c": "DNK",
+      "v": 0.0029
+     },
+     {
+      "c": "HRV",
+      "v": 0.0025
+     },
+     {
+      "c": "KWT",
+      "v": 0.0024
+     },
+     {
+      "c": "KOR",
+      "v": 0.0022
+     },
+     {
+      "c": "PRT",
+      "v": 0.0021
+     },
+     {
+      "c": "IRQ",
+      "v": 0.0019
+     },
+     {
+      "c": "CHE",
+      "v": 0.0018
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0017
+     },
+     {
+      "c": "DOM",
+      "v": 0.0015
+     },
+     {
+      "c": "COD",
+      "v": 0.0014
+     },
+     {
+      "c": "SVK",
+      "v": 0.0012
+     },
+     {
+      "c": "SLV",
+      "v": 0.0012
+     },
+     {
+      "c": "LBY",
+      "v": 0.0011
+     },
+     {
+      "c": "SWE",
+      "v": 0.0011
+     },
+     {
+      "c": "FJI",
+      "v": 0.0011
+     }
+    ],
+    "n": "CEPII BACI HS92 superphosphates, single and triple (HS 310310), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "phosphoric-acid-exports",
+   "title": "Phosphoric acid exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.129,
+    "rows": [
+     {
+      "c": "MAR",
+      "v": 3.108
+     },
+     {
+      "c": "CHN",
+      "v": 0.7091
+     },
+     {
+      "c": "JOR",
+      "v": 0.6985
+     },
+     {
+      "c": "SEN",
+      "v": 0.4834
+     },
+     {
+      "c": "ISR",
+      "v": 0.4102
+     },
+     {
+      "c": "USA",
+      "v": 0.3793
+     },
+     {
+      "c": "BEL",
+      "v": 0.288
+     },
+     {
+      "c": "MEX",
+      "v": 0.1875
+     },
+     {
+      "c": "TUN",
+      "v": 0.1678
+     },
+     {
+      "c": "ZAF",
+      "v": 0.163
+     },
+     {
+      "c": "NLD",
+      "v": 0.1212
+     },
+     {
+      "c": "VNM",
+      "v": 0.0827
+     },
+     {
+      "c": "LBN",
+      "v": 0.0502
+     },
+     {
+      "c": "PHL",
+      "v": 0.0471
+     },
+     {
+      "c": "SRB",
+      "v": 0.043
+     },
+     {
+      "c": "CZE",
+      "v": 0.0338
+     },
+     {
+      "c": "TWN",
+      "v": 0.0242
+     },
+     {
+      "c": "POL",
+      "v": 0.0172
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0162
+     },
+     {
+      "c": "KOR",
+      "v": 0.0157
+     },
+     {
+      "c": "DEU",
+      "v": 0.0137
+     },
+     {
+      "c": "JPN",
+      "v": 0.0129
+     },
+     {
+      "c": "FIN",
+      "v": 0.0101
+     },
+     {
+      "c": "BRA",
+      "v": 0.0077
+     },
+     {
+      "c": "ESP",
+      "v": 0.0069
+     },
+     {
+      "c": "EGY",
+      "v": 0.0067
+     },
+     {
+      "c": "CHE",
+      "v": 0.0061
+     },
+     {
+      "c": "CAN",
+      "v": 0.0053
+     },
+     {
+      "c": "GBR",
+      "v": 0.0047
+     },
+     {
+      "c": "SVN",
+      "v": 0.0022
+     },
+     {
+      "c": "TUR",
+      "v": 0.0021
+     },
+     {
+      "c": "SGP",
+      "v": 0.0017
+     },
+     {
+      "c": "IND",
+      "v": 0.0012
+     },
+     {
+      "c": "AUT",
+      "v": 0.001
+     },
+     {
+      "c": "DNK",
+      "v": 0.0006
+     },
+     {
+      "c": "FRA",
+      "v": 0.0006
+     }
+    ],
+    "n": "CEPII BACI HS92 phosphoric acid and polyphosphoric acids (HS 280920), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "phosphoric-acid-imports",
+   "title": "Phosphoric acid importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 7.129,
+    "rows": [
+     {
+      "c": "IND",
+      "v": 2.635
+     },
+     {
+      "c": "PAK",
+      "v": 0.7904
+     },
+     {
+      "c": "NLD",
+      "v": 0.4313
+     },
+     {
+      "c": "TUR",
+      "v": 0.4218
+     },
+     {
+      "c": "ESP",
+      "v": 0.3647
+     },
+     {
+      "c": "USA",
+      "v": 0.3346
+     },
+     {
+      "c": "MEX",
+      "v": 0.3314
+     },
+     {
+      "c": "BEL",
+      "v": 0.3053
+     },
+     {
+      "c": "FRA",
+      "v": 0.2047
+     },
+     {
+      "c": "BRA",
+      "v": 0.2041
+     },
+     {
+      "c": "CAN",
+      "v": 0.1223
+     },
+     {
+      "c": "DEU",
+      "v": 0.0999
+     },
+     {
+      "c": "THA",
+      "v": 0.0938
+     },
+     {
+      "c": "BGD",
+      "v": 0.0916
+     },
+     {
+      "c": "ITA",
+      "v": 0.0821
+     },
+     {
+      "c": "KOR",
+      "v": 0.0579
+     },
+     {
+      "c": "TWN",
+      "v": 0.0554
+     },
+     {
+      "c": "GBR",
+      "v": 0.0499
+     },
+     {
+      "c": "IDN",
+      "v": 0.047
+     },
+     {
+      "c": "JPN",
+      "v": 0.0364
+     },
+     {
+      "c": "IRL",
+      "v": 0.0259
+     },
+     {
+      "c": "PER",
+      "v": 0.024
+     },
+     {
+      "c": "MYS",
+      "v": 0.0229
+     },
+     {
+      "c": "VNM",
+      "v": 0.0227
+     },
+     {
+      "c": "RUS",
+      "v": 0.0224
+     },
+     {
+      "c": "PRT",
+      "v": 0.022
+     },
+     {
+      "c": "SAU",
+      "v": 0.0187
+     },
+     {
+      "c": "ARG",
+      "v": 0.0149
+     },
+     {
+      "c": "POL",
+      "v": 0.0142
+     },
+     {
+      "c": "AUS",
+      "v": 0.0132
+     },
+     {
+      "c": "EGY",
+      "v": 0.0131
+     },
+     {
+      "c": "SGP",
+      "v": 0.0124
+     },
+     {
+      "c": "CHN",
+      "v": 0.0116
+     },
+     {
+      "c": "SVN",
+      "v": 0.0113
+     },
+     {
+      "c": "COL",
+      "v": 0.0107
+     },
+     {
+      "c": "CHL",
+      "v": 0.01
+     },
+     {
+      "c": "AUT",
+      "v": 0.0099
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0099
+     },
+     {
+      "c": "ARE",
+      "v": 0.0066
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0063
+     },
+     {
+      "c": "DNK",
+      "v": 0.0058
+     },
+     {
+      "c": "COD",
+      "v": 0.0053
+     },
+     {
+      "c": "UKR",
+      "v": 0.0053
+     },
+     {
+      "c": "DZA",
+      "v": 0.0053
+     },
+     {
+      "c": "NOR",
+      "v": 0.0037
+     },
+     {
+      "c": "CYP",
+      "v": 0.0034
+     },
+     {
+      "c": "GTM",
+      "v": 0.0033
+     },
+     {
+      "c": "NZL",
+      "v": 0.0032
+     },
+     {
+      "c": "PHL",
+      "v": 0.0032
+     },
+     {
+      "c": "CRI",
+      "v": 0.0032
+     },
+     {
+      "c": "IRN",
+      "v": 0.0032
+     },
+     {
+      "c": "HUN",
+      "v": 0.0029
+     },
+     {
+      "c": "MAR",
+      "v": 0.0026
+     },
+     {
+      "c": "BGR",
+      "v": 0.0025
+     },
+     {
+      "c": "ECU",
+      "v": 0.0022
+     },
+     {
+      "c": "GRC",
+      "v": 0.0021
+     },
+     {
+      "c": "KEN",
+      "v": 0.0021
+     },
+     {
+      "c": "SWE",
+      "v": 0.0016
+     },
+     {
+      "c": "VEN",
+      "v": 0.0014
+     },
+     {
+      "c": "LTU",
+      "v": 0.0012
+     },
+     {
+      "c": "CIV",
+      "v": 0.0011
+     },
+     {
+      "c": "BLR",
+      "v": 0.001
+     },
+     {
+      "c": "CHE",
+      "v": 0.0006
+     },
+     {
+      "c": "PRY",
+      "v": 0.0005
+     },
+     {
+      "c": "NGA",
+      "v": 0.0003
+     },
+     {
+      "c": "LKA",
+      "v": 0.0001
+     }
+    ],
+    "n": "CEPII BACI HS92 phosphoric acid and polyphosphoric acids (HS 280920), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "JOR",
@@ -956,10 +3058,114 @@
    "eq": 7.0,
    "k": 60,
    "cov": 1.0
+  },
+  "dap-exports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.3378
+   },
+   "top3": 0.7741,
+   "hhi": 2164,
+   "eq": 4.6,
+   "k": 43,
+   "cov": 1.0,
+   "est": true
+  },
+  "dap-imports": {
+   "top1": {
+    "c": "IND",
+    "p": 0.284
+   },
+   "top3": 0.4716,
+   "hhi": 1097,
+   "eq": 9.1,
+   "k": 99,
+   "cov": 1.0,
+   "est": true
+  },
+  "map-exports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.3458
+   },
+   "top3": 0.6859,
+   "hhi": 2060,
+   "eq": 4.9,
+   "k": 51,
+   "cov": 1.0
+  },
+  "map-imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.3137
+   },
+   "top3": 0.573,
+   "hhi": 1488,
+   "eq": 6.7,
+   "k": 86,
+   "cov": 1.0
+  },
+  "superphosphates-exports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.4522
+   },
+   "top3": 0.7667,
+   "hhi": 2633,
+   "eq": 3.8,
+   "k": 37,
+   "cov": 1.0
+  },
+  "superphosphates-imports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.3511
+   },
+   "top3": 0.5729,
+   "hhi": 1627,
+   "eq": 6.1,
+   "k": 74,
+   "cov": 0.9999
+  },
+  "phosphoric-acid-exports": {
+   "top1": {
+    "c": "MAR",
+    "p": 0.436
+   },
+   "top3": 0.6334,
+   "hhi": 2243,
+   "eq": 4.5,
+   "k": 36,
+   "cov": 1.0001
+  },
+  "phosphoric-acid-imports": {
+   "top1": {
+    "c": "IND",
+    "p": 0.3696
+   },
+   "top3": 0.541,
+   "hhi": 1678,
+   "eq": 6.0,
+   "k": 66,
+   "cov": 1.0001
   }
  },
+ "see": [
+  {
+   "k": "npk",
+   "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"
+  },
+  {
+   "k": "sulphur",
+   "text": "sulphur, its production and trade"
+  }
+ ],
  "notes": [
-  "DAP (HS 310530), 2024 (CEPII BACI): world 18.50 Mt gross weight; top exporters Morocco 6.25 Mt, China 4.25 Mt, Saudi Arabia 3.83 Mt.",
-  "Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock."
+  "The main trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock. The tables under them are the phosphate fertilisers and the acid, each its own customs code, gross weight, and none is in the totals of another.",
+  "Diammonium phosphate, DAP (HS 310530), 2024 (CEPII BACI): world 18.50 Mt gross weight; top exporters Morocco 6.25 Mt, China 4.25 Mt, Saudi Arabia 3.83 Mt.",
+  "Monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540), 2024 (CEPII BACI): world 14.15 Mt gross weight; top exporters Morocco 4.89 Mt, Russia 3.09 Mt, United States 1.72 Mt.",
+  "Superphosphates, single and triple (HS 310310), 2024 (CEPII BACI): world 7.84 Mt gross weight; top exporters Morocco 3.54 Mt, China 1.41 Mt, Israel 1.06 Mt.",
+  "Phosphoric acid and polyphosphoric acids (HS 280920), 2024 (CEPII BACI): world 7.13 Mt gross weight; top exporters Morocco 3.11 Mt, China 0.71 Mt, Jordan 0.70 Mt.",
+  "HS 310310 holds all the superphosphates, single and triple (TSP), in one code. HS 310540 holds MAP and its mixtures with DAP. HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. Other phosphatic and compound fertilisers (HS 310320, 310390, 310551, 310559, 310560) are not loaded; NPK has its own page."
  ]
 }

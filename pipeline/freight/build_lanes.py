@@ -76,6 +76,9 @@ GROUPS = {
     # minor metals (M-015): concentrate in bulk like zinc concentrate, the others as general cargo like refined copper
     "lead-ore": "Mt", "lead-metal": "Mt", "zinc-metal": "Mt", "tin-metal": "Mt", "tin-ore": "Mt", "cobalt": "Mt",
     "lithium": "Mt", "rare-earths": "Mt",
+    # the other fertilisers and sulphur (M-022); ammonia, UAN and phosphoric acid are liquids (vessel_rules.py)
+    "potassium-sulphate": "Mt", "monoammonium-phosphate": "Mt", "superphosphates": "Mt", "phosphoric-acid": "Mt", "npk": "Mt",
+    "ammonia": "Mt", "ammonium-nitrate": "Mt", "uan": "Mt", "ammonium-sulphate": "Mt", "sulphur": "Mt",
 }
 # atlas commodity id for each group (the site loads lanes by commodity)
 COMMODITY = {
@@ -83,6 +86,8 @@ COMMODITY = {
     "nickel-ore": "nickel", "nickel-int": "nickel", "zinc-ore": "zinc", "phosphate-rock": "phosphate",
     "dap": "phosphate", "nickel-fe": "nickel", "spodumene": "lithium",
     "lead-ore": "lead", "lead-metal": "lead", "zinc-metal": "zinc", "tin-metal": "tin", "tin-ore": "tin",
+    "potassium-sulphate": "potash", "monoammonium-phosphate": "phosphate", "superphosphates": "phosphate",
+    "phosphoric-acid": "phosphate", "ammonia": "urea", "ammonium-nitrate": "urea", "uan": "urea", "ammonium-sulphate": "urea",
 }
 LABEL = {
     "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
@@ -92,6 +97,9 @@ LABEL = {
     "lead-ore": "Lead concentrate", "lead-metal": "Unwrought lead", "zinc-metal": "Unwrought zinc",
     "tin-metal": "Unwrought tin", "tin-ore": "Tin concentrate", "cobalt": "Cobalt intermediates, metal and ores",
     "lithium": "Lithium carbonate and hydroxide", "rare-earths": "Rare-earth metals and compounds",
+    "potassium-sulphate": "Potassium sulphate (SOP)", "monoammonium-phosphate": "MAP", "superphosphates": "Superphosphates",
+    "phosphoric-acid": "Phosphoric acid", "ammonia": "Ammonia", "ammonium-nitrate": "Ammonium nitrate", "uan": "UAN solution",
+    "ammonium-sulphate": "Ammonium sulphate",
 }
 # Groups that are an Atlas estimate by construction (a read of a customs code that mixes products, hs_map.SPLIT): their
 # flows, lane file and pairs file carry the source id "atlas" and this note of the method.
@@ -119,13 +127,18 @@ CAP = {
     "zinc-ore": 60, "coffee": 100, "cocoa": 60, "cotton": 60, "nickel-fe": 40, "spodumene": 20,
     "lead-ore": 60, "lead-metal": 60, "zinc-metal": 60, "tin-metal": 40, "tin-ore": 20, "cobalt": 20, "lithium": 30,
     "rare-earths": 30,
+    "potassium-sulphate": 40, "monoammonium-phosphate": 60, "superphosphates": 40, "phosphoric-acid": 40, "npk": 80,
+    "ammonia": 60, "ammonium-nitrate": 40, "uan": 40, "ammonium-sulphate": 60, "sulphur": 60,
 }
 # The minor metals trade in parcels of a few thousand tonnes (tin, cobalt, lithium and rare-earth groups hold 0.1 to
 # 0.7 Mt a year in all) and unwrought lead and zinc over hundreds of small pairs: their floor is lower, so that the main
 # set carries about two thirds of their seaborne tonnes or more (unwrought tin: 60%).
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
          "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
-         "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002}
+         "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002,
+         # potassium sulphate (1.5 Mt over 193 seaborne pairs, 54 kt at most) and ammonium nitrate (a few large pairs over 300 small
+         # ones): the default floor kept 21% and 57% of their seaborne tonnes in the main set (M-022)
+         "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02}
 FLOOR_DEFAULT = 0.05
 # history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
 # three years before the latest, so that a new BACI year moves the window)

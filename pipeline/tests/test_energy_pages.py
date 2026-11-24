@@ -93,7 +93,7 @@ class LpgVesselRuleTests(unittest.TestCase):
             classes = {c["id"]: c for c in json.load(f)}
         c = classes["mgc"]
         self.assertEqual((c["size"]["min"], c["size"]["max"], c["size"]["u"]), (25000, 50000, "cbm"))
-        self.assertEqual(c["cargoes"], ["lpg"])
+        self.assertEqual(c["cargoes"], ["lpg", "urea"])  # and ammonia, on the page "Urea & nitrogen" (package NC1)
         with open(os.path.join(DATA, "sources.json"), encoding="utf-8") as f:
             self.assertIn(c["s"], {s["id"] for s in json.load(f)})
         # the class sits below the VLGC band

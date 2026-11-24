@@ -146,7 +146,8 @@ class ModeTests(unittest.TestCase):
     def test_M10_totals_by_mode(self):
         y = frame()[lambda d: d.year == 2024]
         tot = y.groupby("kind").t.sum() / 1e6
-        self.assertAlmostEqual(tot.get("sea", 0) + tot.get("transit", 0), 7873 + 24, delta=40)  # + W3M1, see below
+        # + W3M1, see below; + 153.8 Mt of the ten groups of fertilisers and sulphur of package NC1
+        self.assertAlmostEqual(tot.get("sea", 0) + tot.get("transit", 0), 7873 + 24 + 153.8, delta=40)
         self.assertAlmostEqual(tot.get("mixed", 0), 309.8, delta=5)
         self.assertAlmostEqual(tot.get("land", 0), 935, delta=40)
         # 9,117.8 Mt before package W3M1, which adds 9.0 Mt of Chilean copper concentrate (clean.py rule 8) and the
@@ -154,7 +155,8 @@ class ModeTests(unittest.TestCase):
         # (Peru's unit value times Chile's usual ratio to it)
         # package L1 adds the eight groups of minor metals, 13.7 Mt after clean() (9.8 sea, 0.5 transit, 0.4 mixed,
         # 3.0 land), and reads Belarusian potash to China (2.9 Mt) as mixed instead of transit
-        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7, delta=1)
+        # package NC1 adds the ten groups of fertilisers and sulphur, 149.5 Mt after clean()
+        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

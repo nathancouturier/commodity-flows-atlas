@@ -38,6 +38,11 @@ TOTAL_CAP = 120
 AUDIT_GROUPS = frozenset({"crude-oil", "iron-ore", "coal", "refined-products", "lng", "steel", "manganese", "alumina", "sugar", "rice",
                           "rapeseed", "coffee", "cocoa", "cotton", "phosphate-rock", "dap", "urea", "soymeal", "palm-oil", "corn",
                           "wheat", "potash", "soybeans"})
+# Groups added to the atlas after the cap above was set, each package with a cap of its own: (groups, cap). Their first corridors are kept first,
+# as for AUDIT_GROUPS, and the corridors kept for the earlier groups do not move when a group is added (a shared cap would drop routes that
+# are published). M-022: the other fertilisers and sulphur.
+LATER_GROUPS = [(frozenset({"potassium-sulphate", "monoammonium-phosphate", "superphosphates", "phosphoric-acid", "npk", "ammonia",
+                            "ammonium-nitrate", "uan", "ammonium-sulphate", "sulphur"}), 20)]
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).
@@ -257,12 +262,12 @@ def _describe(g, p, c, ports, names, zone, country, cargo_label):
             "what": what, "cargo": cargo}
 
 
-def cap_order(per_group, total_cap=TOTAL_CAP):
+def cap_order(per_group, total_cap=TOTAL_CAP, first=AUDIT_GROUPS):
     """[(rank, group)] of the corridors kept under the cap of the whole atlas, in the order they are taken: the first
-    corridor of each group of AUDIT_GROUPS, then the largest corridor (Mt that no hand-written route names) among the next
+    corridor of each group of `first` (AUDIT_GROUPS), then the largest corridor (Mt that no hand-written route names) among the next
     corridor of every group, and so on."""
-    order = [(0, g) for g in sorted(per_group) if g in AUDIT_GROUPS and per_group[g]]
-    nxt = {g: (1 if g in AUDIT_GROUPS else 0) for g in per_group}
+    order = [(0, g) for g in sorted(per_group) if g in first and per_group[g]]
+    nxt = {g: (1 if g in first else 0) for g in per_group}
     while len(order) < total_cap:
         heads = [(per_group[g][i]["new"], g) for g, i in nxt.items() if i < len(per_group[g])]
         if not heads:
@@ -289,7 +294,10 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
     per_group = {}
     for g in sorted(pairs):
         per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target)
-    kept = {(g, i) for i, g in cap_order(per_group, total_cap)}
+    later = set().union(*(gs for gs, _ in LATER_GROUPS)) if LATER_GROUPS else set()
+    kept = {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g not in later}, total_cap)}
+    for gs, cap in LATER_GROUPS:
+        kept |= {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g in gs}, cap, first=gs)}
     desc = {(g, i): _describe(g, pairs[g], c, ports_by_group[g], names, zone, country, cargo_label)
             for g, cs in per_group.items() for i, c in enumerate(cs)}
     # two routes of a group never share a name: the zone names tell them apart
@@ -339,7 +347,8 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
         why = None
         if tonnes < target * sea:
             if left:
-                why = f"the cap of {total_cap} generated routes left out {len(left)} corridor{'s' if len(left) > 1 else ''}"
+                why = (f"the cap of {next((cap for gs, cap in LATER_GROUPS if g in gs), total_cap)} generated routes "
+                       f"{'for the groups added with it ' if g in later else ''}left out {len(left)} corridor{'s' if len(left) > 1 else ''}")
             elif got >= GROUP_CAP:
                 why = f"the cap of {GROUP_CAP} routes per group was reached"
             else:
@@ -364,7 +373,7 @@ def qa_markdown(report, target=TARGET, total_cap=TOTAL_CAP):
         "Method: METHODOLOGY.md, section 3, \"Generated corridors\".",
         "",
         f"- Target: {100 * target:.0f}% of the seaborne tonnes of each customs group named by routes. Caps: {GROUP_CAP} generated routes "
-        f"per group, {total_cap} in all. Floors: {FLOOR_MT} Mt and {100 * FLOOR_SHARE:.0f}% of the group's seaborne tonnes of a corridor not named by "
+        f"per group, {total_cap} in all" + "".join(f", and {cap} more for the groups added after it ({len(gs)} groups)" for gs, cap in LATER_GROUPS) + f". Floors: {FLOOR_MT} Mt and {100 * FLOOR_SHARE:.0f}% of the group's seaborne tonnes of a corridor not named by "
         f"hand-written routes, at least {100 * MIN_NEW_SHARE:.0f}% of the corridor's own tonnes outside them.",
         f"- {sum(x['generated'] for x in report.values())} generated routes over {len(report)} groups, {tot:,.0f} Mt of seaborne trade. "
         f"Named by hand-written routes: {hand:.1f}%. With the generated routes: {both:.1f}%.",

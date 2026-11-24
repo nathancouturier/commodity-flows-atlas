@@ -83,7 +83,8 @@ USGS_UNIT = {"potash": " K2O", "urea": " of nitrogen"}
 
 LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm-oil": "palm oil", "iron-ore": "iron ore",
          "phosphate-rock": "phosphate rock", "soymeal": "soybean meal", "soyoil": "soybean oil", "lng": "LNG", "lpg": "LPG",
-         "dap": "DAP", "nickel-int": "nickel intermediates"}
+         "dap": "DAP", "nickel-int": "nickel intermediates", "uan": "UAN", "npk": "NPK",
+         "monoammonium-phosphate": "MAP", "potassium-sulphate": "potassium sulphate (SOP)"}
 
 
 def label(g):

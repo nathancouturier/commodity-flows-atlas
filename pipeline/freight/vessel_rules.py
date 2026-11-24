@@ -64,8 +64,18 @@ def classes(group, o, d, tonnes, nm):
         return ["supramax", "handysize"]
     if group == "rice":
         return ["handysize", "supramax"]
-    if group in ("potash", "urea", "dap"):
+    if group in ("potash", "urea", "dap", "potassium-sulphate", "monoammonium-phosphate", "superphosphates", "npk",
+                 "ammonium-nitrate", "ammonium-sulphate", "sulphur"):
+        # fertilisers in bulk and sulphur: geared handy bulk carriers, as for the three groups of the first fertiliser pages
         return ["supramax", "handysize"] if not (group == "potash" and o == "CAN" and mt > 2) else ["panamax", "supramax"]
+    if group == "ammonia":
+        # Not dry bulk (M-022): anhydrous ammonia is a refrigerated liquid, carried in gas carriers like LPG. The mid-size
+        # class first, the VLGC second: an Atlas assumption, no page read for the class of ammonia lanes
+        return ["mgc", "vlgc"]
+    if group in ("uan", "phosphoric-acid"):
+        # Not dry bulk (M-022): UAN solution and phosphoric acid are liquids carried in chemical tankers (an Atlas assumption, no
+        # page read for the class of these lanes); the Handy tanker, the size of the chemical tanker band, second
+        return ["chemical-tanker", "handy-tanker"]
     if group in ("soyoil", "palm-oil"):
         # vegetable oils move in chemical tankers; the Baltic assesses them basis 40,000 t shipments (Baltic Chemical
         # and Agricultural Oil Assessments page), an MR-size cargo, so the MR comes first (see vessel_classes.json)

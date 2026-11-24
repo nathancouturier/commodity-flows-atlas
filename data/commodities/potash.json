@@ -871,6 +871,501 @@
  },
  "extra": [
   {
+   "key": "sop-exports",
+   "title": "Potassium sulphate (SOP) exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 1.763,
+    "rows": [
+     {
+      "c": "DEU",
+      "v": 0.4962
+     },
+     {
+      "c": "BEL",
+      "v": 0.3007,
+      "n": "13% of tonnage estimated from value"
+     },
+     {
+      "c": "TWN",
+      "v": 0.1886
+     },
+     {
+      "c": "SWE",
+      "v": 0.1488
+     },
+     {
+      "c": "EGY",
+      "v": 0.1483,
+      "n": "30% of tonnage estimated from value"
+     },
+     {
+      "c": "CHN",
+      "v": 0.1069
+     },
+     {
+      "c": "RUS",
+      "v": 0.0974,
+      "n": "Atlas estimate: 79% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "USA",
+      "v": 0.0374
+     },
+     {
+      "c": "CAN",
+      "v": 0.0294
+     },
+     {
+      "c": "UZB",
+      "v": 0.0227
+     },
+     {
+      "c": "GBR",
+      "v": 0.0161
+     },
+     {
+      "c": "SAU",
+      "v": 0.0155
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0144
+     },
+     {
+      "c": "AUT",
+      "v": 0.0143
+     },
+     {
+      "c": "VNM",
+      "v": 0.0135
+     },
+     {
+      "c": "IDN",
+      "v": 0.0135
+     },
+     {
+      "c": "KOR",
+      "v": 0.0093
+     },
+     {
+      "c": "SGP",
+      "v": 0.0082
+     },
+     {
+      "c": "TUR",
+      "v": 0.0081
+     },
+     {
+      "c": "MOZ",
+      "v": 0.008
+     },
+     {
+      "c": "NLD",
+      "v": 0.0072
+     },
+     {
+      "c": "ITA",
+      "v": 0.0065
+     },
+     {
+      "c": "MUS",
+      "v": 0.0062
+     },
+     {
+      "c": "FIN",
+      "v": 0.0052
+     },
+     {
+      "c": "POL",
+      "v": 0.0051
+     },
+     {
+      "c": "FRA",
+      "v": 0.005
+     },
+     {
+      "c": "NAM",
+      "v": 0.005
+     },
+     {
+      "c": "JOR",
+      "v": 0.0047
+     },
+     {
+      "c": "ESP",
+      "v": 0.0037
+     },
+     {
+      "c": "PHL",
+      "v": 0.0028
+     },
+     {
+      "c": "ISR",
+      "v": 0.0026
+     },
+     {
+      "c": "PRK",
+      "v": 0.0025
+     },
+     {
+      "c": "ARE",
+      "v": 0.0025
+     },
+     {
+      "c": "DOM",
+      "v": 0.0018
+     },
+     {
+      "c": "DNK",
+      "v": 0.0014
+     },
+     {
+      "c": "PRT",
+      "v": 0.0014
+     },
+     {
+      "c": "LVA",
+      "v": 0.0013
+     },
+     {
+      "c": "IND",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 potassium sulphate, SOP (HS 310430), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 9% of world tonnage estimated from value where missing or inconsistent",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "sop-imports",
+   "title": "Potassium sulphate (SOP) importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 1.763,
+    "rows": [
+     {
+      "c": "ZAF",
+      "v": 0.1195
+     },
+     {
+      "c": "USA",
+      "v": 0.1184
+     },
+     {
+      "c": "AUS",
+      "v": 0.0916
+     },
+     {
+      "c": "PER",
+      "v": 0.0864
+     },
+     {
+      "c": "MEX",
+      "v": 0.0759
+     },
+     {
+      "c": "NGA",
+      "v": 0.0732,
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "NLD",
+      "v": 0.0671
+     },
+     {
+      "c": "IND",
+      "v": 0.0655
+     },
+     {
+      "c": "NOR",
+      "v": 0.0615
+     },
+     {
+      "c": "PAK",
+      "v": 0.0599
+     },
+     {
+      "c": "ESP",
+      "v": 0.0595
+     },
+     {
+      "c": "BEL",
+      "v": 0.0587
+     },
+     {
+      "c": "FRA",
+      "v": 0.0526
+     },
+     {
+      "c": "BRA",
+      "v": 0.052
+     },
+     {
+      "c": "EGY",
+      "v": 0.0478,
+      "n": "Atlas estimate: 80% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "MAR",
+      "v": 0.0461
+     },
+     {
+      "c": "ITA",
+      "v": 0.0447
+     },
+     {
+      "c": "JPN",
+      "v": 0.0399
+     },
+     {
+      "c": "DZA",
+      "v": 0.0376,
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024
+     },
+     {
+      "c": "GRC",
+      "v": 0.0299
+     },
+     {
+      "c": "COL",
+      "v": 0.0267
+     },
+     {
+      "c": "CHN",
+      "v": 0.0263
+     },
+     {
+      "c": "VNM",
+      "v": 0.0232
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0223
+     },
+     {
+      "c": "TUR",
+      "v": 0.022
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0211
+     },
+     {
+      "c": "SAU",
+      "v": 0.0205
+     },
+     {
+      "c": "KOR",
+      "v": 0.0202
+     },
+     {
+      "c": "KEN",
+      "v": 0.0193
+     },
+     {
+      "c": "MMR",
+      "v": 0.0169
+     },
+     {
+      "c": "CHL",
+      "v": 0.0168
+     },
+     {
+      "c": "ECU",
+      "v": 0.0168
+     },
+     {
+      "c": "NZL",
+      "v": 0.0166
+     },
+     {
+      "c": "POL",
+      "v": 0.0149
+     },
+     {
+      "c": "AUT",
+      "v": 0.0136
+     },
+     {
+      "c": "THA",
+      "v": 0.0133
+     },
+     {
+      "c": "GBR",
+      "v": 0.0113
+     },
+     {
+      "c": "NAM",
+      "v": 0.0105
+     },
+     {
+      "c": "DEU",
+      "v": 0.0092
+     },
+     {
+      "c": "SRB",
+      "v": 0.0089
+     },
+     {
+      "c": "PRT",
+      "v": 0.0085
+     },
+     {
+      "c": "IDN",
+      "v": 0.008
+     },
+     {
+      "c": "MYS",
+      "v": 0.0079
+     },
+     {
+      "c": "MWI",
+      "v": 0.0069
+     },
+     {
+      "c": "CRI",
+      "v": 0.0068
+     },
+     {
+      "c": "ARG",
+      "v": 0.0066
+     },
+     {
+      "c": "TUN",
+      "v": 0.0061
+     },
+     {
+      "c": "CAN",
+      "v": 0.0059
+     },
+     {
+      "c": "SWE",
+      "v": 0.0046
+     },
+     {
+      "c": "FIN",
+      "v": 0.0044
+     },
+     {
+      "c": "ARE",
+      "v": 0.0044
+     },
+     {
+      "c": "IRN",
+      "v": 0.0043,
+      "n": "40% of tonnage estimated from value"
+     },
+     {
+      "c": "ISR",
+      "v": 0.0039
+     },
+     {
+      "c": "TZA",
+      "v": 0.0038
+     },
+     {
+      "c": "CHE",
+      "v": 0.0035
+     },
+     {
+      "c": "DOM",
+      "v": 0.0031
+     },
+     {
+      "c": "SEN",
+      "v": 0.0031
+     },
+     {
+      "c": "CZE",
+      "v": 0.0028
+     },
+     {
+      "c": "LTU",
+      "v": 0.0026
+     },
+     {
+      "c": "GTM",
+      "v": 0.0026
+     },
+     {
+      "c": "AZE",
+      "v": 0.0025
+     },
+     {
+      "c": "DNK",
+      "v": 0.0023
+     },
+     {
+      "c": "IRL",
+      "v": 0.0022
+     },
+     {
+      "c": "KAZ",
+      "v": 0.002
+     },
+     {
+      "c": "JOR",
+      "v": 0.0019
+     },
+     {
+      "c": "HUN",
+      "v": 0.0019
+     },
+     {
+      "c": "UGA",
+      "v": 0.0019
+     },
+     {
+      "c": "GUY",
+      "v": 0.0018
+     },
+     {
+      "c": "UKR",
+      "v": 0.0016
+     },
+     {
+      "c": "TKM",
+      "v": 0.0015
+     },
+     {
+      "c": "HRV",
+      "v": 0.0015
+     },
+     {
+      "c": "LBN",
+      "v": 0.0015
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0012
+     },
+     {
+      "c": "PHL",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 potassium sulphate, SOP (HS 310430), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted); 9% of world tonnage estimated from value where missing or inconsistent",
+    "basis": "gross weight"
+   }
+  },
+  {
    "key": "k2o-production",
    "title": "Top producers — Mt of K2O content, as published by USGS",
    "table": {
@@ -1236,6 +1731,30 @@
    "k": 116,
    "cov": 1.0
   },
+  "sop-exports": {
+   "top1": {
+    "c": "DEU",
+    "p": 0.2815
+   },
+   "top3": 0.559,
+   "hhi": 1422,
+   "eq": 7.0,
+   "k": 38,
+   "cov": 1.0001,
+   "est": true
+  },
+  "sop-imports": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.0678
+   },
+   "top3": 0.1869,
+   "hhi": 327,
+   "eq": 30.6,
+   "k": 74,
+   "cov": 0.9999,
+   "est": true
+  },
   "k2o-production": {
    "top1": {
     "c": "CAN",
@@ -1248,9 +1767,17 @@
    "cov": 0.9928
   }
  },
+ "see": [
+  {
+   "k": "npk",
+   "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"
+  }
+ ],
  "notes": [
   "Units: trade is potassium chloride (HS 310420), product weight. USGS production is in K2O equivalent; the production table converts it to potassium chloride at 0.6318 (Atlas conversion) so that it reads beside trade, and the K2O figures as published follow it. Reserves stay in K2O content.",
   "FAOSTAT (Fertilizers by Product, RFB) gives 2024 production of potassium chloride in tonnes of product: Canada 24.8 Mt (customs exports in 2024: 26.6 Mt) and Russia 16.9 Mt (customs exports in 2024: 15.5 Mt). It lists 14 countries, with no figure for China, Belarus and Germany, so it is not used for the table.",
+  "Potassium sulphate, SOP (HS 310430), 2024 (CEPII BACI): world 1.76 Mt gross weight; top exporters Germany 0.50 Mt, Belgium 0.30 Mt, Taiwan 0.19 Mt.",
+  "The tables for potassium sulphate (SOP, HS 310430) are a second product with its own customs code, gross weight, in none of the totals above. Crude natural potassium salts (HS 310410) and the other potassic fertilisers (HS 310490) are not loaded.",
   "Potash exports of Belarus in customs data fell from 11.6 Mt in 2020 to 3.59 Mt in 2024 (CEPII BACI). A change in the recorded origin of shipments is a plausible cause; it is not established here. Of the 11.6 Mt of potash that Belarus exported through Russia in 2025, 9% went by rail to China and the CIS countries together and the rest through Russian seaports, half of it from Bronka (Kommersant, as reported by Reform.news on 27 March 2026, https://reform.news/en/belarus-exported-11-6-million-tonnes-of-potash-fertilizers-via-russian-ports). The atlas counts Belarus's recorded potash exports to China as seaborne, through St Petersburg: the page gives no rail share for China alone, so nothing is subtracted.",
   "Potash exports of Uzbekistan in customs data rose from 0.158 Mt in 2022 to 1.76 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here.",
   "Potash exports of Turkmenistan in customs data rose from 0.0627 Mt in 2022 to 0.92 Mt in 2024 (CEPII BACI); the country is not a listed producer in the USGS Mineral Commodity Summaries. A change in the recorded origin of shipments is a plausible cause; it is not established here."

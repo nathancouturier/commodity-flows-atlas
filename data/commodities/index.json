@@ -670,10 +670,11 @@
   "id": "potash",
   "name": "Potash",
   "family": "softs",
-  "blurb": "Potassium fertiliser; Canada, Russia and Belarus dominate.",
+  "blurb": "Potassium fertiliser, as chloride and as sulphate; Canada, Russia and Belarus dominate.",
   "unit": "Mt K2O",
   "hs": [
-   "310420"
+   "310420",
+   "310430"
   ],
   "has": [
    "production",
@@ -689,11 +690,14 @@
   "id": "phosphate",
   "name": "Phosphate",
   "family": "softs",
-  "blurb": "Phosphate rock and DAP fertiliser; Morocco holds most reserves.",
+  "blurb": "Phosphate rock and the fertilisers and acid made from it: DAP, MAP, superphosphates and phosphoric acid; Morocco holds most reserves.",
   "unit": "Mt",
   "hs": [
    "2510",
-   "310530"
+   "310530",
+   "310540",
+   "310310",
+   "280920"
   ],
   "has": [
    "production",
@@ -709,10 +713,14 @@
   "id": "urea",
   "name": "Urea & nitrogen",
   "family": "softs",
-  "blurb": "Nitrogen fertiliser made from natural gas; Russia and the Gulf producers lead exports.",
+  "blurb": "Nitrogen fertilisers made from natural gas: urea, ammonia, ammonium nitrate, UAN and ammonium sulphate; Russia and the Gulf producers lead urea exports.",
   "unit": "Mt",
   "hs": [
-   "310210"
+   "310210",
+   "281410",
+   "310230",
+   "310280",
+   "310221"
   ],
   "has": [
    "production",
@@ -721,6 +729,42 @@
    "flows"
   ],
   "rank": 38,
+  "sub": "Fertilisers"
+ },
+ {
+  "id": "sulphur",
+  "name": "Sulphur",
+  "family": "softs",
+  "blurb": "Sulphur recovered from oil and gas and mined, shipped in bulk to fertiliser and chemical makers.",
+  "unit": "Mt",
+  "hs": [
+   "2503",
+   "2802"
+  ],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 39,
+  "sub": "Fertilisers"
+ },
+ {
+  "id": "npk",
+  "name": "NPK fertilisers",
+  "family": "softs",
+  "blurb": "Compound fertilisers that carry nitrogen, phosphorus and potassium in one product.",
+  "unit": "Mt",
+  "hs": [
+   "310520"
+  ],
+  "has": [
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 40,
   "sub": "Fertilisers"
  }
 ]

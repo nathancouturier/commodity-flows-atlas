@@ -131,7 +131,7 @@ interface FinderState {
   from: 'o' | 'd';
   origin: string | null;
   dest: string | null;
-  /** customs group, only for a commodity that has two (phosphate: rock or DAP) */
+  /** customs group, only for a commodity that has several (phosphate: rock, DAP, MAP...) */
   group: string | null;
 }
 

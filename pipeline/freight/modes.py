@@ -133,6 +133,11 @@ FAMILY = {
     "rapeseed": "grain",
     "soyoil": "vegoil", "palm-oil": "vegoil",
     "potash": "fert", "phosphate-rock": "fert", "dap": "fert", "urea": "fert",
+    # the other fertilisers (M-022): the same geographic rule. Ammonia, UAN and phosphoric acid are liquids and sulphur is
+    # a dry bulk, but the mode of a pair depends on the land borders and the ports, not on the cargo; the ship of each
+    # is the business of vessel_rules.py
+    "potassium-sulphate": "fert", "monoammonium-phosphate": "fert", "superphosphates": "fert", "phosphoric-acid": "fert",
+    "npk": "fert", "ammonia": "fert", "ammonium-nitrate": "fert", "uan": "fert", "ammonium-sulphate": "fert", "sulphur": "fert",
     "steel": "metal", "copper-refined": "metal", "aluminium": "metal", "nickel-int": "metal", "nickel-fe": "metal",
     "coffee": "soft", "cocoa": "soft", "cotton": "soft",
     # groups outside the lane model (M-100): the same geographic rule as the metals

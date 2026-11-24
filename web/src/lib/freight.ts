@@ -41,9 +41,11 @@ export const LANE_GROUPS: Record<string, string[]> = {
   cotton: ['cotton'],
   'palm-oil': ['palm-oil'],
   rapeseed: ['rapeseed'],
-  potash: ['potash'],
-  phosphate: ['phosphate-rock', 'dap'],
-  urea: ['urea'],
+  potash: ['potash', 'potassium-sulphate'],
+  phosphate: ['phosphate-rock', 'dap', 'monoammonium-phosphate', 'superphosphates', 'phosphoric-acid'],
+  urea: ['urea', 'ammonia', 'ammonium-nitrate', 'uan', 'ammonium-sulphate'],
+  npk: ['npk'],
+  sulphur: ['sulphur'],
 };
 
 /** Groups shown in the default "global flows" overview, with how many lanes of each. */
@@ -304,6 +306,16 @@ export const BASIS_QUALIFIER: Record<string, string> = {
 export const GROUP_LABEL: Record<string, string> = {
   'phosphate-rock': 'Phosphate rock',
   dap: 'DAP',
+  'monoammonium-phosphate': 'MAP',
+  superphosphates: 'Superphosphates',
+  'phosphoric-acid': 'Phosphoric acid',
+  potash: 'Potassium chloride',
+  'potassium-sulphate': 'Potassium sulphate (SOP)',
+  urea: 'Urea',
+  ammonia: 'Ammonia',
+  'ammonium-nitrate': 'Ammonium nitrate',
+  uan: 'UAN solution',
+  'ammonium-sulphate': 'Ammonium sulphate',
   'copper-ore': 'Copper concentrate',
   'copper-refined': 'Refined copper',
   bauxite: 'Bauxite',

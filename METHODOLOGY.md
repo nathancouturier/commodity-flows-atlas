@@ -250,7 +250,9 @@ seaborne totals, the lane shares and the chokepoint shares.
 **Cargo families** (`FAMILY`): crude; refined products; LPG; LNG; dry bulk (iron ore, coal, bauxite,
 alumina, manganese, copper, nickel and zinc ores, spodumene concentrate); grain (wheat, corn,
 soybeans, soybean meal, rice, sugar, rapeseed); vegetable oils (soybean and palm oil); fertilisers
-(potash, phosphate rock, DAP, urea); metals (steel, refined copper, aluminium, nickel intermediates,
+(potash, potassium sulphate, phosphate rock, DAP, MAP, superphosphates, phosphoric acid, urea, ammonia, ammonium
+nitrate, UAN, ammonium sulphate, NPK and sulphur: the mode of a pair depends on the borders and the ports, not on
+whether the cargo is a solid or a liquid); metals (steel, refined copper, aluminium, nickel intermediates,
 ferro-nickel, lead concentrate, unwrought lead, zinc and tin, tin concentrate, cobalt, lithium
 carbonate and hydroxide, rare earths, and uranium, which has no lanes); softs (coffee, cocoa,
 cotton). Gold, silver and platinum-group metals get no mode ("mode not modelled"): much of it may
@@ -289,10 +291,11 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (42 lane groups, 25,847 pairs, 9,154.1 Mt): sea 7,752.5 Mt (18,992 pairs), sea via a
-transit port 170.8 Mt (2,182 pairs), sea and overland 310.2 Mt (63 pairs), land 920.6 Mt (4,610
-pairs). Seaborne: 7,923.3 Mt. (34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
-minor metals were added; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
+**2024 by mode** (52 lane groups, 29,135 pairs, 9,303.6 Mt): sea 7,871.9 Mt (21,299 pairs), sea via a
+transit port 178.9 Mt (2,359 pairs), sea and overland 312.1 Mt (76 pairs), land 940.7 Mt (5,401
+pairs). Seaborne: 8,050.8 Mt. (42 groups, 25,847 pairs and 9,154.1 Mt before the ten groups of fertilisers
+and sulphur were added, and 34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
+minor metals; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
 (`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo (a customs
@@ -392,20 +395,21 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 2,617 main seaborne lanes, 35 mixed lanes and 271 history lanes over 42 groups (2,400, 35
-    and 182 over 34 groups before the minor metals); the main lanes carry 85.5% of 2024 seaborne
+  - 2024: 3,001 main seaborne lanes, 42 mixed lanes and 387 history lanes over 52 groups (2,617, 35
+    and 271 over 42 groups before the fertilisers and sulphur; 2,400, 35
+    and 182 over 34 groups before the minor metals); the main lanes carry 85.4% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
     (56.9%), refined products (60.1%), unwrought zinc (62.8%), unwrought lead (64.3%), aluminium
     (66.1%), cocoa (66.5%), steel (68.2%) and coffee (69.9%); potash reads 81.2% (73.7% before the
     Belarusian transit row). Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 25,847 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 29,135 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
   main lane, check finding. A seaborne pair "not drawn on the map" is one without a main lane
-  (1,150.3 Mt in 2024); a pair "not routed" has no route at all (48.5 Mt in 2024: 31.4 Mt because a
+  (1,176.1 Mt in 2024); a pair "not routed" has no route at all (54.3 Mt in 2024: 37.2 Mt because a
   landlocked end has no sourced transit port, 15.2 Mt because there is no sea route or it is under
   50 nm, mostly Malaysian refined products to Singapore, 1.3 Mt because an end has no gateway, 0.6 Mt
   of minor metals from the wrong coast; 64.2 Mt, 47.7 Mt of it for want of a transit port, before
@@ -550,7 +554,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
 - **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 103 hand-written
-  routes name 45.1% of the 7,923 Mt of 2024 seaborne tonnes of the 42 customs groups. For the rest, the pairs table
+  routes name 44.8% of the 8,051 Mt of 2024 seaborne tonnes of the 52 customs groups. For the rest, the pairs table
   is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
   discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
   that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
@@ -566,9 +570,11 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   coffee, cocoa, cotton, phosphate rock, DAP, urea, soybean meal, palm oil, corn, wheat, potash, soybeans), then the
   corridors are taken by their tonnes across groups, each group's in its own order, so that no corridor is left out
   for a smaller one of another group (package FL1; before, the first corridor of every group came first, and three
-  corridors of 1.1 to 1.5 Mt gave way to corridors of 0.5 Mt of the minor metals). The result for 2024 is 120
-  generated routes over 42 groups beside 133 hand-written ones (253 routes), and 66.2% of the seaborne tonnes named (all
-  groups; 45.5% by the hand-written routes alone): ten of the 42 groups reach 70% (iron
+  corridors of 1.1 to 1.5 Mt gave way to corridors of 0.5 Mt of the minor metals). The groups added after this rule was
+  set (the fertilisers and sulphur of package NC1) have a cap of 20 routes of their own, their first corridors first, so that
+  no earlier route is dropped when a group is added (`LATER_GROUPS`). The result for 2024 is 140
+  generated routes (120 and 20) over 52 groups beside 133 hand-written ones (273 routes), and 65.8% of the seaborne tonnes named (all
+  groups; 44.8% by the hand-written routes alone): ten of the 52 groups reach 70% (iron
   ore, coal, crude oil, LPG, corn, soybeans, bauxite, ferro-nickel, nickel ore and spodumene); the others stay short of
   it, among them steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
   groups whose corridors are all smaller than those kept (aluminium, refined copper, zinc concentrate, the minor
@@ -660,6 +666,14 @@ limits. The rules are in `pipeline/freight/vessel_rules.py`. Examples:
   Exchange assesses their freight basis 40,000 t shipments (Baltic Chemical and Agricultural Oil Assessments), the
   size of the MR benchmark cargoes (37,000 to 40,000 t) and more than the largest chemical tanker of the Wikipedia
   scale (35,000 dwt), which is why the MR comes first.
+- Ammonia, UAN solution and phosphoric acid (package NC1, audit M-022) are not dry bulk. Anhydrous ammonia is a
+  refrigerated liquid and goes in gas carriers like LPG: the mid-size gas carrier first, the VLGC second. UAN solution and
+  phosphoric acid are liquids and go in chemical tankers: the chemical tanker first, the Handy tanker second. These
+  classes are an Atlas assumption: no page was read for the class of these three cargoes, and the lane, route and
+  country pages call them "typical" like every other. The other new fertilisers (MAP, superphosphates, NPK, ammonium sulphate,
+  ammonium nitrate, potassium sulphate) and sulphur take the class of urea, DAP and potash: Supramax first, Handysize
+  second. The three liquids are compared with the tankers of IMF PortWatch in the chokepoint estimates, the others
+  with its dry bulk ships.
 
 These are labelled "typical" in the interface (lane and route tooltips, the route list, the lane table and its CSV
 column `typical_vessel_class`); a benchmark's class is the class of its definition and is not called typical. They are not measured shares of each class: no free source measures how
@@ -1212,6 +1226,38 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   years whose reported total is at least 80% of the best of the five (2023 in this release: the
   2024 table has no China), and it names the large exporters it lacks. USGS ammonia production in tonnes of nitrogen is shown as a
   second basis; urea holds 46.6% nitrogen.
+- **Fertilisers and sulphur** (package NC1, audit M-022). The nitrogen, phosphate and potash pages hold several customs
+  groups each, and two pages are new (NPK, sulphur). Every HS 1992 code is in one group and every group on one page
+  (`pipeline/trade/hs_map.py`); the groups, with the wording of the official list of CEPII BACI
+  (`product_codes_HS92_V202601.csv`), are: urea (310210); ammonia, anhydrous (281410: ammonia in solution, 281420, is not
+  loaded); ammonium nitrate whether or not in solution (310230); UAN, the urea and ammonium nitrate mixtures in aqueous
+  or ammoniacal solution (310280); ammonium sulphate (310221); phosphate rock (2510); DAP (310530); MAP and its mixtures
+  with DAP (310540); superphosphates (310310: one code for single and triple superphosphate, so TSP has no code of its
+  own); phosphoric acid and polyphosphoric acids (280920); potassium chloride (310420); potassium sulphate, SOP
+  (310430); the compound fertilisers with the three nutrients (310520, NPK); and sulphur (250310 crude or unrefined, 280200
+  sublimed, precipitated and colloidal; 250390 is in the group and holds no flow). Left out: ammonium nitrate with
+  limestone and the calcium nitrate mixtures (310240, 310260), the other nitrogen and phosphatic fertilisers (310229,
+  310250, 310270, 310290, 310320, 310390), the crude potassium salts and the other potassic fertilisers (310410, 310490),
+  the compound fertilisers with two nutrients and the rest of heading 3105 (310510, 310551, 310559, 310560, 310590).
+  The customs tonnage is the gross weight of the product as declared, not tonnes of nutrient; the tables of the
+  extra groups are in none of the totals of another (no tonne is counted twice, in a total, on a country page or in a
+  chokepoint estimate), and the main trade table of each of the three pages keeps its own product (phosphate rock,
+  urea, potassium chloride) and is named so. The shared cleaning rules (`clean.py`) treat ammonia, ammonium nitrate, UAN,
+  ammonium sulphate, MAP, superphosphates and potassium sulphate as homogeneous groups, like urea, DAP and potash (rule 4 re-estimates a flow
+  of 50 million USD or more whose unit value is off by a factor of three); NPK (a mix of grades), phosphoric acid
+  (declared by the tonne of acid or of P2O5) and sulphur (crude and sublimed sulphur at very different prices) only get
+  the gross-error rule. The sulphur page has the USGS table "Production, all forms", in tonnes of sulphur content
+  (elemental sulphur and the sulphur in sulphuric acid): it is not the tonnage of the traded product. NPK has no production
+  table: no free file loaded by the atlas gives it (FAOSTAT's fertiliser tables by nutrient are not loaded yet). The
+  World Bank Pink Sheet has prices for phosphate rock, DAP, TSP, urea and potassium chloride only; the pages say that
+  there is no free series for the other products, sulphur and NPK included. A product that matters to a second page has
+  one line on that page that names the first and links to it (`see` in the page file).
+  Ports of the liquids and of sulphur: only a gateway row that names the group counts as "page names the cargo", so a
+  fertiliser berth is not an ammonia terminal; the engine's fall-backs (the general port of the country, the port
+  used before, the nearest seaport) give the port, each with its basis, and no port was added for these cargoes
+  (`OWN_FAMILY` in `ports.py`). The groups have lanes under their page (`COMMODITY` in `build_lanes.py`); SOP keeps few
+  (its lanes cover about a fifth of its seaborne tonnes). Generated corridors: the new groups have a cap of their own, 20
+  routes (`LATER_GROUPS` in `generated_routes.py`), so that the 120 routes of the earlier groups stay as they were.
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown
   as the last row, apart from the countries it names; countries it names beyond the first ten rows
   are counted in a separate line, not in "Other countries". **Shares on the sum of the lines**

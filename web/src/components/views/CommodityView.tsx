@@ -13,7 +13,7 @@ import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, Mo
 import { CompanyRows, linkedCompany } from '../Companies';
 import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
-import { useLoaded } from './shared';
+import { openCommodity, useLoaded } from './shared';
 import { InfraList } from './InfraList';
 import { MetalFigures } from './MetalFigures';
 import '../../styles/history-year.css';
@@ -634,6 +634,15 @@ export default function CommodityView({ id }: { id: string }) {
             {seaborne && <Kpi label={`${d.kpis?.seaborne ?? 'Seaborne trade'}${yr != null ? ` · ${seaborne.y}` : ''}`} f={seaborne} {...altKpi(seaborne)} />}
           </div>
         )}
+        {d?.see?.map((s) => (
+          <div class="muted small my-cap" key={s.k}>
+            See{' '}
+            <button class="link-btn" onClick={() => openCommodity(s.k)} disabled={!commodityMeta(s.k)}>
+              {commodityMeta(s.k)?.name ?? s.k}
+            </button>{' '}
+            for {s.text}.
+          </div>
+        ))}
         <PriceFigure commodity={id} />
         <AlertBanners commodity={id} />
         {prices.none ? (

@@ -72,7 +72,7 @@ CLASS_SHARE_NAME = {"capesize": "Capesize, Newcastlemax and VLOC", "vlcc": "VLCC
 # gateway segment is general cargo ("box" in ports.py: steel, refined copper, aluminium, coffee, cocoa, cotton; metal
 # and soft families of modes.py) are compared with PortWatch's container, general-cargo and ro-ro ships; the others
 # with its dry-bulk ships. An entry is written when the "up to" tonnage is at least 2% of the group or 1 Mt.
-TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil"}
+TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil", "ammonia", "uan", "phosphoric-acid"}
 CARGO_GROUPS = {g for g, s in P.SEGMENT.items() if s == "box"}
 TYPES = ("dry", "tanker", "cargo")
 TYPE_NAME = {"dry": "dry bulk", "tanker": "tanker", "cargo": "container, general cargo and ro-ro"}
@@ -123,7 +123,8 @@ def mt3(v):
     return f"{v:,.0f} Mt" if v >= 100 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
 
 
-ACRONYM = {"lng": "LNG", "lpg": "LPG", "dap": "DAP", "nickel-int": "nickel intermediates", "copper-ore": "copper concentrate",
+ACRONYM = {"lng": "LNG", "lpg": "LPG", "dap": "DAP", "uan": "UAN", "npk": "NPK", "monoammonium-phosphate": "MAP",
+           "potassium-sulphate": "potassium sulphate (SOP)", "nickel-int": "nickel intermediates", "copper-ore": "copper concentrate",
            "zinc-ore": "zinc concentrate", "copper-refined": "refined copper"}
 
 

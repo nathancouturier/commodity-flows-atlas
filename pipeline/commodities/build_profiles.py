@@ -103,7 +103,9 @@ ALL_COAL = "Coal (all types)"
 # What the main trade table of a commodity really is, where the commodity name alone would mislead
 # (names as in pipeline/freight/build_lanes.py).
 TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nickel": "Nickel ore", "lead": "Lead concentrate",
-               "bauxite": "Bauxite", "cobalt": "Cobalt intermediates and metal", "tin": "Tin (unwrought)"}
+               "bauxite": "Bauxite", "cobalt": "Cobalt intermediates and metal", "tin": "Tin (unwrought)",
+               # the pages that hold several traded products (M-022): the main line says which one it is
+               "phosphate": "Phosphate rock", "urea": "Urea", "potash": "Potassium chloride (potash)"}
 PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
 # Names of HS4 headings. The heading texts of the HS are not reused: the free list on disk is UN Comtrade's, whose terms
@@ -235,6 +237,15 @@ PRODUCTS = [
     ("zinc", "metal-exports", None, "zinc-metal", None),
     ("lithium", "spodumene-exports", None, "spodumene", None),
     ("thermal-coal", "allcoal-exports", "allcoal-imports", "coal", None),
+    ("urea", "ammonia-exports", "ammonia-imports", "ammonia", None),
+    ("urea", "ammonium-nitrate-exports", "ammonium-nitrate-imports", "ammonium-nitrate", None),
+    ("urea", "uan-exports", "uan-imports", "uan", None),
+    ("urea", "ammonium-sulphate-exports", "ammonium-sulphate-imports", "ammonium-sulphate", None),
+    ("phosphate", "dap-exports", "dap-imports", "dap", None),
+    ("phosphate", "map-exports", "map-imports", "monoammonium-phosphate", None),
+    ("phosphate", "superphosphates-exports", "superphosphates-imports", "superphosphates", None),
+    ("phosphate", "phosphoric-acid-exports", "phosphoric-acid-imports", "phosphoric-acid", None),
+    ("potash", "sop-exports", "sop-imports", "potassium-sulphate", None),
 ]
 # the customs group of a commodity's main trade table; None: the table is not customs data (EIA) and has no partners here
 MAIN_GROUP = {"copper": "copper-ore", "nickel": "nickel-ore", "zinc": "zinc-ore", "lead": "lead-ore", "tin": "tin-metal",
@@ -260,6 +271,21 @@ EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined 
               "tubes-exports": ("exports", "", "Steel tubes and pipes"),
               "lignite-production": ("production", "", "Lignite (part of thermal coal)"),
               "urea-production": ("production", "", "Urea"),
+              # the fertiliser groups that are tables of the nitrogen, phosphate and potash pages (audit M-022)
+              "ammonia-exports": ("exports", "ammonia", "Ammonia"), "ammonia-imports": ("imports", "ammonia", "Ammonia"),
+              "ammonium-nitrate-exports": ("exports", "ammonium-nitrate", "Ammonium nitrate"),
+              "ammonium-nitrate-imports": ("imports", "ammonium-nitrate", "Ammonium nitrate"),
+              "uan-exports": ("exports", "uan", "UAN solution"), "uan-imports": ("imports", "uan", "UAN solution"),
+              "ammonium-sulphate-exports": ("exports", "ammonium-sulphate", "Ammonium sulphate"),
+              "ammonium-sulphate-imports": ("imports", "ammonium-sulphate", "Ammonium sulphate"),
+              "dap-exports": ("exports", "dap", "DAP"), "dap-imports": ("imports", "dap", "DAP"),
+              "map-exports": ("exports", "monoammonium-phosphate", "MAP"), "map-imports": ("imports", "monoammonium-phosphate", "MAP"),
+              "superphosphates-exports": ("exports", "superphosphates", "Superphosphates"),
+              "superphosphates-imports": ("imports", "superphosphates", "Superphosphates"),
+              "phosphoric-acid-exports": ("exports", "phosphoric-acid", "Phosphoric acid"),
+              "phosphoric-acid-imports": ("imports", "phosphoric-acid", "Phosphoric acid"),
+              "sop-exports": ("exports", "potassium-sulphate", "Potassium sulphate (SOP)"),
+              "sop-imports": ("imports", "potassium-sulphate", "Potassium sulphate (SOP)"),
               "k2o-production": ("production", "", "Potash (K2O content)"),
               # the 27 member states of the EU, beside USDA's single European Union row (FAOSTAT production, customs trade); the tables
               # are `norank` and their `world` is the EU total: the share of a line is read on `worldAll`, the world total of its source

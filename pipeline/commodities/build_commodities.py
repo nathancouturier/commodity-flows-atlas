@@ -1376,6 +1376,8 @@ TRADE = {
     "potash": ("potash", MT, "potassium chloride (HS 310420)"),
     "phosphate": ("phosphate-rock", MT, "natural phosphates (HS 2510)"),
     "urea": ("urea", MT, "urea (HS 310210)"),
+    "npk": ("npk", MT, "NPK compound fertilisers (HS 310520)"),
+    "sulphur": ("sulphur", MT, "sulphur: crude or unrefined, sublimed, precipitated and colloidal (HS 250310, 250390, 280200)"),
 }
 
 PSD = {  # id -> PSD commodity, domestic-consumption attribute, exports attr
@@ -1392,7 +1394,29 @@ PSD = {  # id -> PSD commodity, domestic-consumption attribute, exports attr
     "rapeseed": ("Oilseed, Rapeseed", "Domestic Consumption", "Exports", "Imports"),
 }
 # sub-heading of the commodity list under "Softs & agriculture" (index.json `sub`, shown by SidePanel.tsx before the first commodity that has it)
-INDEX_SUB = {"potash": "Fertilisers", "phosphate": "Fertilisers", "urea": "Fertilisers"}
+INDEX_SUB = {"potash": "Fertilisers", "phosphate": "Fertilisers", "urea": "Fertilisers", "npk": "Fertilisers", "sulphur": "Fertilisers"}
+
+# Customs groups that are a further pair of trade tables of a fertiliser page (audit M-022): page id -> [(customs group, stem of the table keys,
+# name in the table titles, what the code holds)]. The keys are "<stem>-exports" and "<stem>-imports": the page lists them under its
+# exporters and importers, the country pages draw a line from each, and build_profiles.py EXTRA_SIDE names the customs group of the line.
+# Each code belongs to one group and each group to one page (pipeline/trade/hs_map.py); a page that needs a product of another page links to it.
+FERT_EXTRA = {
+    "urea": [
+        ("ammonia", "ammonia", "Ammonia", "anhydrous ammonia (HS 281410)"),
+        ("ammonium-nitrate", "ammonium-nitrate", "Ammonium nitrate", "ammonium nitrate, solid or in solution (HS 310230)"),
+        ("uan", "uan", "UAN solution", "urea and ammonium nitrate mixtures in aqueous or ammoniacal solution, UAN (HS 310280)"),
+        ("ammonium-sulphate", "ammonium-sulphate", "Ammonium sulphate", "ammonium sulphate (HS 310221)"),
+    ],
+    "phosphate": [
+        ("dap", "dap", "DAP", "diammonium phosphate, DAP (HS 310530)"),
+        ("monoammonium-phosphate", "map", "MAP", "monoammonium phosphate, MAP, and its mixtures with DAP (HS 310540)"),
+        ("superphosphates", "superphosphates", "Superphosphate", "superphosphates, single and triple (HS 310310)"),
+        ("phosphoric-acid", "phosphoric-acid", "Phosphoric acid", "phosphoric acid and polyphosphoric acids (HS 280920)"),
+    ],
+    "potash": [
+        ("potassium-sulphate", "sop", "Potassium sulphate (SOP)", "potassium sulphate, SOP (HS 310430)"),
+    ],
+}
 PSD_WHAT = {
     "wheat": "wheat", "corn": "corn", "soybeans": "soybeans", "soymeal": "soybean meal", "soyoil": "soybean oil",
     "rice": "milled rice", "sugar": "centrifugal sugar (raw value)", "coffee": "green coffee (all forms, green-bean equivalent)",
@@ -1419,6 +1443,9 @@ BASIS = {
     "uranium": ("contained uranium", "ores and compounds, gross weight"),
     "potash": ("potassium chloride equivalent", "potassium chloride, product weight"),
     "urea": ("ammonia, nitrogen content", "urea, product weight"),
+    "phosphate": ("marketable phosphate rock", "phosphate rock, gross weight"),
+    "sulphur": ("sulphur content, all forms", "sulphur, gross weight"),
+    "npk": (None, "compound fertilisers, product weight"),
 }
 # second trade tables (key prefix -> basis); their titles already name the product
 EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight", "ferro": "gross weight"}
@@ -1475,6 +1502,7 @@ USGS = {
     "phosphate": dict(production=("Phosphate Rock", "Mine production", "Mt", 1e-3, "phosphate rock mine production, marketable product"),
                       reserves=("Phosphate Rock", "Reserves", "Mt", 1e-3, "phosphate rock reserves")),
     "urea": dict(production=("Nitrogen", "Plant production", "Mt N", 1e-3, "ammonia plant production, nitrogen content (urea feedstock; not urea output)")),
+    "sulphur": dict(production=("Sulfur", "Production, all forms", "Mt S", 1e-3, "sulphur production, all forms, in sulphur content")),
 }
 
 
@@ -1692,6 +1720,7 @@ def main():
     for cid in ids:
         d, notes, disc = start(cid)
         extra_first = []  # extra tables decided inside the recipe (shown before the generic ones)
+        see = []  # one line per product that is on another page: {k: that page, text}, drawn with a link (CommodityView.tsx)
 
         # ------------------------------------------------------------ energy
         if cid == "crude-oil":
@@ -1992,6 +2021,11 @@ def main():
             seaborne(d, g, f"main bulk group used: {g}" if cid in ("copper", "nickel", "zinc", "bauxite", "phosphate") else None)
         elif cid == "pgm":
             _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid)
+        elif cid == "npk":
+            # trade only: no free file on disk gives the production of compound fertilisers (audit M-022)
+            g = add_baci_trade(d, cid, notes, disc)
+            summ(d, "exports", d["exports"], "NPK compound fertilisers (HS 310520), BACI, product weight")
+            seaborne(d, g)
         # ------------------------------------------------------------ softs
         elif cid == "cocoa":
             d["production"] = faostat_cocoa()
@@ -2098,6 +2132,10 @@ def main():
                            n=f"CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), {BACI_YEAR}, all transport modes, gross weight; "
                              "from the four-digit customs extract, without the cleaning rules of the other trade tables; not part of the steel totals above")
                 extra.append({"key": "tubes-exports", "title": "Tube and pipe exporters (HS 7304 to 7306, not in the totals above)", "table": set_basis(t, "gross weight")})
+        for g2, stem, nm, what2 in FERT_EXTRA.get(cid, []):
+            for side, word in (("exports", "exporters"), ("imports", "importers")):
+                t, _ = baci.ranked(g2, side, *MT, what2)
+                extra.append({"key": f"{stem}-{side}", "title": f"{nm} {word}", "table": set_basis(t, "gross weight")})
         if cid in PSD:
             com = PSD[cid][0]
             try:
@@ -2191,8 +2229,15 @@ def main():
                              f"{cog['usd'].sum() * 1e3 / cog['t'].sum():,.0f} USD/t) but is not a tin producer in the USGS table, while DR Congo is "
                              f"({cod['usd'].sum() * 1e3 / cod['t'].sum():,.0f} USD/t). Relabelling of DR Congo material is a possible cause; it is not established here.")
         elif cid == "phosphate":
-            notes.append(_note_group(baci, "dap", "DAP (HS 310530)"))
-            notes.append("Trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock.")
+            notes.append("The main trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock. "
+                         "The tables under them are the phosphate fertilisers and the acid, each its own customs code, gross weight, and none is in the totals of another.")
+            for g2, _, _, what2 in FERT_EXTRA[cid]:
+                notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
+            notes.append("HS 310310 holds all the superphosphates, single and triple (TSP), in one code. HS 310540 holds MAP and its mixtures with DAP. "
+                         "HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. "
+                         "Other phosphatic and compound fertilisers (HS 310320, 310390, 310551, 310559, 310560) are not loaded; NPK has its own page.")
+            see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
+            see.append({"k": "sulphur", "text": "sulphur, its production and trade"})
         elif cid == "lithium":
             # rule 9 of clean() (pipeline/trade/clean.py) has already left these flows out of every table, lane and country figure
             lows = [r for r in baci.dropped if r["rule"] == "low-uv" and r["group"] == "lithium" and r["year"] == BACI_YEAR]
@@ -2291,9 +2336,19 @@ def main():
         elif cid == "urea":
             ut, unotes = faostat_urea(baci)
             d["extra"] = d.get("extra", []) + [{"key": "urea-production", "title": "Urea producers — Mt of urea, product weight", "table": ut}]
-            notes.append("Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea, and urea production in tonnes "
-                         f"of product (FAOSTAT), the basis of the trade tables (HS 310210). Urea holds {K.N_IN_UREA:.1%} nitrogen (from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.")
+            notes.append("Two production tables on two bases: ammonia plant output in tonnes of nitrogen (USGS), the feedstock of urea and of the other nitrogen "
+                         f"fertilisers, and urea production in tonnes of product (FAOSTAT), the basis of the urea trade tables (HS 310210). Urea holds {K.N_IN_UREA:.1%} nitrogen "
+                         "(from molar masses), so tonnes of nitrogen and tonnes of urea are not interchangeable.")
             notes += unotes
+            notes.append("The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, UAN and ammonium sulphate, each its own customs code, "
+                         "gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output "
+                         "in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.")
+            for g2, _, _, what2 in FERT_EXTRA[cid]:
+                notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
+            notes.append("Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them "
+                         "the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. "
+                         "HS 281420 (ammonia in solution), 310229, 310240 (ammonium nitrate with limestone), 310250, 310260, 310270 and 310290 (the other nitrogen fertilisers) are not loaded.")
+            see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
         elif cid == "potash":
             k2o, f = d["production"], round(K.K2O_IN_KCL, 4)  # the factor as printed: each converted figure reproduces from it, to 3 digits
             kcl = {"y": k2o["y"], "s": "atlas", "u": "Mt KCl", "world": sig(k2o["world"] / f), "rows": [{**r, "v": sig(r["v"] / f)} for r in k2o["rows"]],
@@ -2309,6 +2364,26 @@ def main():
             fn = faostat_potash_note(baci, k2o)
             if fn:
                 notes.append(fn)
+            for g2, _, _, what2 in FERT_EXTRA[cid]:
+                notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
+            notes.append("The tables for potassium sulphate (SOP, HS 310430) are a second product with its own customs code, gross weight, in none of the totals above. "
+                         "Crude natural potassium salts (HS 310410) and the other potassic fertilisers (HS 310490) are not loaded.")
+            see.append({"k": "npk", "text": "the compound fertilisers that carry nitrogen, phosphorus and potassium"})
+        elif cid == "npk":
+            notes.append("Trade is HS 310520, fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium, product weight. The grade of each flow "
+                         "(the shares of the three nutrients) is not in customs data. Compound fertilisers with two of the three nutrients (HS 310551, 310559, 310560), "
+                         "the tablets and small packages (HS 310510) and the rest of heading 3105 (HS 310590) are not loaded.")
+            notes.append("No production table: no free file loaded by the atlas gives the production of compound fertilisers (FAOSTAT's fertiliser tables by nutrient are not loaded yet).")
+            see.append({"k": "urea", "text": "urea, ammonia, ammonium nitrate, UAN and ammonium sulphate"})
+            see.append({"k": "phosphate", "text": "phosphate rock, DAP, MAP, superphosphates and phosphoric acid"})
+            see.append({"k": "potash", "text": "potassium chloride and potassium sulphate"})
+        elif cid == "sulphur":
+            notes.append("Trade is sulphur gross weight: crude or unrefined sulphur (HS 250310) with sublimed, precipitated and colloidal sulphur (HS 280200); HS 250390 (other "
+                         "sulphur) is in the group but holds no flow in the customs file. Sulphuric acid and sulphur compounds are not covered.")
+            notes.append("USGS production is sulphur content in all forms (elemental sulphur and the sulphur in sulphuric acid, by country), in tonnes of sulphur: "
+                         "the trade tables are tonnes of the product shipped, so the two are not on one basis.")
+            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no sulphur series, and no other free one was found.")
+            see.append({"k": "phosphate", "text": "phosphate rock, the phosphate fertilisers and phosphoric acid"})
 
         if cid in BASIS:
             pb, tb = BASIS[cid]
@@ -2323,6 +2398,16 @@ def main():
                 name_it(d, "production", "Ammonia producers — Mt of nitrogen (ammonia plant output)", "Ammonia production (Mt N)")
                 name_it(d, "exports", "Top exporters — Mt of urea, product weight", "World exports (Mt of urea)")
                 name_it(d, "imports", "Top importers — Mt of urea, product weight")
+            elif cid == "phosphate":
+                name_it(d, "exports", "Top exporters — Mt of phosphate rock, gross weight", "World exports (Mt of phosphate rock)")
+                name_it(d, "imports", "Top importers — Mt of phosphate rock, gross weight")
+            elif cid == "sulphur":
+                name_it(d, "production", "Top producers — Mt of sulphur content, all forms", "World production (Mt S)")
+                name_it(d, "exports", "Top exporters — Mt of sulphur, gross weight", "World exports (Mt of sulphur)")
+                name_it(d, "imports", "Top importers — Mt of sulphur, gross weight")
+            elif cid == "npk":
+                name_it(d, "exports", "Top exporters — Mt of NPK fertilisers, product weight", "World exports (Mt of NPK)")
+                name_it(d, "imports", "Top importers — Mt of NPK fertilisers, product weight")
             elif cid == "potash":
                 set_basis(d["reserves"], "K2O content")
                 name_it(d, "production", "Top producers — Mt of potassium chloride equivalent (Atlas conversion)", "World production (Mt KCl equivalent)")
@@ -2333,6 +2418,8 @@ def main():
         notes = [n for n in notes if n]
         if notes:
             d["notes"] = notes
+        if see:
+            d["see"] = see
         if disc:
             d["discrepancies"] = disc
         docs[cid] = d
@@ -2400,7 +2487,7 @@ def main():
         if e["id"] in INDEX_SUB:
             e["sub"] = INDEX_SUB[e["id"]]
         # field order
-        order = ["id", "summary", "kpis", "labels", "production", "refinery", "reserves", "consumption", "exports", "imports", "extra", "balance", "gaps", "flows", "us", "concentration", "notes", "discrepancies"]
+        order = ["id", "summary", "kpis", "labels", "production", "refinery", "reserves", "consumption", "exports", "imports", "extra", "balance", "gaps", "flows", "us", "concentration", "see", "notes", "discrepancies"]
         dd = {k: d[k] for k in order if k in d}
         with open(os.path.join(OUT, e["id"] + ".json"), "w", encoding="utf-8") as f:
             json.dump(dd, f, indent=1, ensure_ascii=False)

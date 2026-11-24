@@ -225,6 +225,8 @@ export interface CommodityData {
   us?: UsFigures;
   /** concentration of each table that has a world total, by table key (production, exports, an extra table's key...) */
   concentration?: Record<string, Concentration>;
+  /** products of this page that are on another commodity page: one line each, "See <page> for <text>." with a link (`k`: the other page) */
+  see?: { k: string; text: string }[];
   notes?: string[];
   discrepancies?: string[];
 }

@@ -173,6 +173,9 @@ SEGMENT = {
     "soybeans": "grain", "soymeal": "grain", "rice": "grain", "sugar": "grain", "rapeseed": "grain",
     "soyoil": "vegoil", "palm-oil": "vegoil", "potash": "fert", "phosphate-rock": "fert", "dap": "fert",
     "urea": "fert", "steel": "box", "copper-refined": "box", "aluminium": "box", "coffee": "box",
+    # the other fertilisers (M-022): the fertiliser rows of the tables, as the products above
+    "potassium-sulphate": "fert", "monoammonium-phosphate": "fert", "superphosphates": "fert", "phosphoric-acid": "fert",
+    "npk": "fert", "ammonia": "fert", "ammonium-nitrate": "fert", "uan": "fert", "ammonium-sulphate": "fert", "sulphur": "fert",
     "cocoa": "box", "cotton": "box", "nickel-int": "nickel", "nickel-fe": "nickel", "spodumene": "ore",
     # minor metals and chemicals that sail in bags, drums or containers (M-015): general cargo, as refined copper
     "lead-metal": "box", "zinc-metal": "box", "tin-metal": "box", "tin-ore": "box", "cobalt": "box", "lithium": "box",
@@ -313,7 +316,11 @@ def segment(group):
 
 # Groups that a row of their segment does not cover: raw sugar is not shipped from a wheat terminal, so a "grain"
 # row (a page that names grain) is no sugar gateway; only a row that names "sugar" is.
-OWN_FAMILY = {"sugar"}
+# The same holds for the fertilisers that are not dry fertiliser on a fertiliser berth: a page that names fertilisers (a
+# fertiliser jetty, bagged and bulk product) says nothing of a refrigerated ammonia terminal, of a liquid terminal for UAN
+# or phosphoric acid, or of a sulphur berth. Only a row that names the group counts as "page names the cargo"; otherwise the
+# engine's own fall-backs give the general port of the country (no port is attached to these cargoes on the atlas's authority).
+OWN_FAMILY = {"sugar", "ammonia", "uan", "phosphoric-acid", "sulphur"}
 
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
 BASIS_PAGE = "page names the cargo"

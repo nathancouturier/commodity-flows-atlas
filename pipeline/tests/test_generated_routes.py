@@ -231,7 +231,7 @@ class PublishedRoutesTest(unittest.TestCase):
 
     def test_there_are_generated_routes_and_ids_are_unique(self):
         self.assertGreater(len(self.gen), 0)
-        self.assertLessEqual(len(self.gen), GR.TOTAL_CAP)
+        self.assertLessEqual(len(self.gen), GR.TOTAL_CAP + sum(cap for _, cap in GR.LATER_GROUPS))
         ids = [r["id"] for r in self.routes]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertTrue(all(r["id"].startswith("gen-") for r in self.gen))

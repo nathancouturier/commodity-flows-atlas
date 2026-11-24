@@ -294,7 +294,9 @@
    "manganese",
    "copper",
    "zinc",
-   "lead"
+   "lead",
+   "npk",
+   "sulphur"
   ],
   "constraints": [
    "Geared; used at ports lacking shore cranes"
@@ -370,7 +372,9 @@
    "potash",
    "phosphate",
    "urea",
-   "steel"
+   "steel",
+   "npk",
+   "sulphur"
   ],
   "constraints": [
    "Geared: the Baltic standard Supramax has four 30 t cranes with grabs"
@@ -434,7 +438,9 @@
    "copper",
    "zinc",
    "lead",
-   "aluminium"
+   "aluminium",
+   "npk",
+   "sulphur"
   ],
   "constraints": [
    "Can call at shallow ports and use own cranes"
@@ -823,7 +829,9 @@
    "y": 2025
   },
   "cargoes": [
-   "refined-products"
+   "refined-products",
+   "urea",
+   "phosphate"
   ],
   "constraints": [
    "Clean products or fuel oil: the Baltic's Handy routes carry 30,000 t cargoes"
@@ -858,7 +866,9 @@
   },
   "cargoes": [
    "palm-oil",
-   "soyoil"
+   "soyoil",
+   "urea",
+   "phosphate"
   ],
   "constraints": [
    "Coated or stainless-steel tanks cleaned between cargoes; besides chemicals it carries palm oil, vegetable oils, tallow, caustic soda and methanol (Wikipedia, Chemical tanker)",
@@ -872,7 +882,7 @@
   "routes": [
    "indo-malay-india-palm-oil"
   ],
-  "notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed).",
+  "notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). It is also first on the lanes of UAN solution (the Urea & nitrogen page) and of phosphoric acid (the Phosphate page), the Handy tanker second: liquids that are not dry bulk. This is an Atlas assumption: no page was read for the class of these lanes.",
   "s": "wikipedia-vessel-classes"
  },
  {
@@ -972,7 +982,8 @@
    "y": 2025
   },
   "cargoes": [
-   "lpg"
+   "lpg",
+   "urea"
   ],
   "constraints": [
    "Fully refrigerated LPG carrier; Neopanamax-size (beam > 32.31 m)"
@@ -1008,7 +1019,8 @@
    "n": "Wilhelmsen (LPG vessel management, read in November 2026): mid-size, fully refrigerated LPG ships of 25,000 to 50,000 cbm, used on intra-regional routes and medium-haul cross-trades. The typical size is the middle of the band, an Atlas convention."
   },
   "cargoes": [
-   "lpg"
+   "lpg",
+   "urea"
   ],
   "constraints": [
    "Fully refrigerated LPG carrier, smaller than a VLGC; serves regional LPG trades and short hauls"
@@ -1019,7 +1031,7 @@
   },
   "fleetType": null,
   "routes": [],
-  "notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed).",
+  "notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). The Atlas also puts it first on ammonia lanes (the Urea & nitrogen page), the VLGC second: ammonia is a refrigerated liquid carried in gas carriers like LPG. This is an Atlas assumption: no page was read for the class of ammonia lanes.",
   "s": "wilhelmsen-lpg-sizes"
  },
  {

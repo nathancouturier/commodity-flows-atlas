@@ -94,6 +94,9 @@ PEER_RATIO = {}
 HOMOGENEOUS = {
     "crude-oil", "refined-products", "lng", "lpg", "wheat", "corn", "soybeans", "soymeal", "soyoil", "rice",
     "sugar", "palm-oil", "rapeseed", "coffee", "cocoa", "cotton", "urea", "potash", "dap",
+    # one product each, priced by the product tonne (M-022). Not NPK (a mix of grades), phosphoric acid (declared by the tonne of acid
+    # or of P2O5) nor sulphur (crude and sublimed sulphur, at very different prices): only the gross errors of rule 3 are corrected
+    "potassium-sulphate", "monoammonium-phosphate", "superphosphates", "ammonia", "ammonium-nitrate", "uan", "ammonium-sulphate",
 }
 
 # (group, exporter, importer or None for any) -> reason
