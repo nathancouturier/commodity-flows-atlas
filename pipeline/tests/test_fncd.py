@@ -237,15 +237,20 @@ class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
         import clean as C
         df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
         df = df[df["group"].isin(cls.GROUPS)]
-        saved, rows_saved = set(C.HOMOGENEOUS), dict(C.ESTIMATE_ROWS)
+        # rule 4 on for all fourteen groups, as before this package; the one row of KEEP_REPORTED that only rule 4 had reached (sunflower oil
+        # Ukraine to Greece 2003, removed from the table because the group left the set) is held as it was
+        saved, rows_saved, keep_saved = set(C.HOMOGENEOUS), dict(C.ESTIMATE_ROWS), dict(C.KEEP_REPORTED)
         try:
             C.HOMOGENEOUS.update(cls.GROUPS)
             C.ESTIMATE_ROWS.clear()
+            C.KEEP_REPORTED[("sunflower-oil", "UKR", "GRC", 2003)] = "held as before FNCD"
             c = C.clean(df)
         finally:
             C.HOMOGENEOUS.clear()
             C.HOMOGENEOUS.update(saved)
             C.ESTIMATE_ROWS.update(rows_saved)
+            C.KEEP_REPORTED.clear()
+            C.KEEP_REPORTED.update(keep_saved)
         out, rows = {}, []
         for g in cls.GROUPS:
             x = c[c["group"] == g]
@@ -284,8 +289,8 @@ class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
         self.assertAlmostEqual(out["coke"][2], 69.4, delta=0.1)  # the Mozambique to India row of 2016 in the world total of the year
         self.assertLess(max(v[2] for g, v in out.items() if g != "coke"), 8.0)
 
-    def test_the_rows_that_change_are_the_sixteen_of_the_two_groups_and_the_four_of_sunflower_seed(self):
-        """Published tonnage against the state after FNCB: 12 rows of coke and sunflower oil go back to the reported tonnage, the 4 rows of
+    def test_the_rows_that_change_are_those_of_coke_and_sunflower_oil_and_the_four_of_sunflower_seed(self):
+        """Published tonnage against the state after FNCB: 11 rows of coke and sunflower oil go back to the reported tonnage, the 4 rows of
         sunflower seed (D2) go to the rule-3 estimate; the Mozambique to India row of coke 2016 stays an estimate."""
         import pandas as pd
         import clean as C
@@ -315,14 +320,6 @@ class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
         self.assertTrue(a["imputed"] and "est-uv" in a["flag"])
         self.assertFalse(b["imputed"])
         self.assertEqual(b["t"], 64992713.0)
-
-    def test_the_series_of_the_released_site_did_not_move(self):
-        """clean() on the groups of the 65b007f site gives the same frame as before this package (the file written by the pre-FNCD state is
-        compared in the report; here the groups outside the fourteen, sunflower seed and the earlier groups are read from the lanes files)."""
-        import hs_map
-        released = set(load(DATA, "freight", "lanes", "index.json")["groups"]) if os.path.exists(os.path.join(DATA, "freight", "lanes", "index.json")) else set()
-        self.assertTrue(set(self.GROUPS).isdisjoint(set(hs_map.GROUPS) - set(self.GROUPS)))
-        self.assertTrue(released or True)
 
     def test_methodology_and_comments_say_the_same(self):
         meth = read("METHODOLOGY.md")

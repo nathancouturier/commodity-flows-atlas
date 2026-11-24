@@ -57,13 +57,18 @@ is called one where it is shown. The figures below are those of the build from C
      The rows of `KEEP_REPORTED` keep their reported tonnage too: France → Russia sunflower seed 2024
      (292 t for USD 112 million) was an 87 kt estimate, a main flow and a lane of the headline year. `KEEP_REPORTED` is the one table
      of the rows of the new groups that rules 3 and 4 would re-estimate to more than 50 kt and five times the pair's own median of the other
-     years (27 rows in all years: 20 kept as reported, the 19 of the table and France → Russia sunflower seed, and 7 re-estimated, each
+     years (23 rows in all years: 19 kept as reported, the 18 of the table and France → Russia sunflower seed, and 4 re-estimated, each
      for the reason written in `test_fncb.py`), each kept row with its reason beside it.
   4. **Moderate inconsistencies** (unit value below 1/3 or above 3× the reference, flows over USD 50
      million) are re-estimated only for homogeneous goods (crude, products, LNG, LPG, grains,
-     oilseeds, vegetable oils, softs, fertilisers, coke). Ore and concentrate groups keep the reported
+     oilseeds, vegetable oils, softs, fertilisers). Ore and concentrate groups keep the reported
      tonnage, because their grades range from about USD 40/t (laterite nickel ore) to over
-     USD 2,000/t (sulphide concentrate).
+     USD 2,000/t (sulphide concentrate). A group of the three commodity packages stays in the set only
+     if the pairs that declare their own price level do not carry more than a tenth of the tonnes that rule 4 adds
+     or removes over all years (a re-estimated row whose pair declares, in at least three other years, a unit value
+     beyond the same factor 3 on the same side: the estimate would erase the pair's own level); coke and sunflower
+     oil are out for that reason (below, section on the new groups). A row of `ESTIMATE_ROWS`
+     (Mozambique → India 2016, coke) is treated as rule 4 treats a homogeneous group, whatever its group.
   5. **Known misclassifications** are dropped. Example: Israeli pipeline gas to Egypt and Jordan
      declared as LNG (Israel has no liquefaction plant).
   6. **Qatari LPG in 2021 and 2023** (`DROP_NEW_PAIRS`). Customs data give Qatar about 10 Mt of LPG
@@ -1152,7 +1157,10 @@ totals of the series by year are the same for every country: they are in one fil
   sheet gives the deflator). They are annual averages from 1960, shown by the "Real prices" switch of
   the price drawer for the series that have one (the Pink Sheet series, and Brent, WTI and Henry Hub
   daily through their monthly benchmark). No monthly real price is built: that would need a consumer
-  price index that is not among the downloaded files.
+  price index that is not among the downloaded files. The annual workbook (downloaded from the World Bank's address listed in
+  `raw/DOWNLOAD_REPORT.md`, last saved by the publisher on 3 November 2026) opens on a cover sheet that calls itself a comparison of
+  the real annual prices against an earlier copy of the file and speaks of nine values that differ; the atlas reads the workbook as
+  published, for the real annual prices and for the annual nominal series of barley and sorghum above, and has checked neither against another copy.
 - Price indices: the 16 indices of the sheet "Monthly Indices" (World Bank, nominal US dollars,
   2010 = 100), the natural gas index and the MUV index. The header of that sheet is spread over four
   rows, so a column is found by the text above it, never by its position, and the builder refuses a
@@ -1448,10 +1456,20 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   (no page read names a chromite port: 1.5 Mt at the Bosphorus), and the ferro-alloys the general port; the Aegean and Marmara have no row (the Aliaga page names
   no steel works and the Derince page names vehicles). Scrap, pig iron and
   direct-reduced iron sail in bulk carriers all the same, and the chokepoint estimates compare them with the dry-bulk ships of PortWatch. Molybdenum and graphite are tables only, without lanes. The shared cleaning rules apply only the
-  gross-error rule to these groups (rule 3 of section 1): none is a single graded product, except coke (HS 2704), one product priced by the tonne, which
-  rule 4 treats as homogeneous since package FNCB (review GNC3.8): Mozambique → India 2016, 65 Mt declared for USD 245 million (4 USD/t), had tripled the
-  world and seaborne series of that year (91.8 and 83.3 Mt against 31.6 and 22.9 Mt in 2015); it is now a flagged Atlas estimate of 1.3 Mt, and the
-  world series reads 28.1 Mt. Coke, pig iron and direct-reduced iron are in the unit-value check K13. Generated corridors: the nine
+  gross-error rule to these groups (rule 3 of section 1): none is a single graded product, except coke (HS 2704), one product priced by the tonne. Mozambique →
+  India 2016, 65 Mt declared for USD 245 million (4 USD/t), had tripled the world and seaborne series of that year (91.8 and 83.3 Mt against 31.6 and 22.9 Mt in
+  2015) (review GNC3.8); it is a flagged Atlas estimate of 1.3 Mt, and the world series reads 28.1 Mt. Package FNCB repaired it by putting coke in rule 4;
+  package FNCD (D6) checked rule 4 on the fourteen groups of the three packages that it covered, with one criterion: where the pairs that rule 4 would
+  re-estimate declare, in at least three other years, a unit value beyond the factor 3 on the same side, and carry more than a tenth of the tonnes that rule 4
+  adds or removes over all years, the group leaves the set. Rule 4 re-estimates 19 rows in 7 of the 14 groups (potassium sulphate 1, UAN 1, ammonium
+  sulphate 1, sorghum 2, sunflower oil 1, rapeseed meal 2, coke 11) and none in the 7 others (the largest change of a world total of a year is 8.0%, sorghum 2019); no
+  re-estimated row of the 5 groups that stay belongs to such a pair. For coke 7 of the 11 rows do (92% of the tonnes: China → United States 2002, 2003
+  and 2005, Mozambique → India 2016, 2021 and 2022, Mozambique → United Arab Emirates 2023), and for sunflower oil the one row (Ukraine → Nepal 2021), so
+  both groups leave the set and keep the reported tonnage of their rows, except Mozambique → India 2016, which is listed in `ESTIMATE_ROWS`. The 11 rows
+  that go back to their reported tonnage (coke: Belgium → France 2004, China → Brazil 2009, China → India 2006 and 2007, China → United States 2002,
+  2003 and 2005, Mozambique → United Arab Emirates 2023, Mozambique → India 2021 and 2022; sunflower oil Ukraine → Nepal 2021) add 3.5 Mt to the
+  world coke series of 2021 and 7.7 Mt to that of 2022 (Mozambique → India, 3.8 and 8.7 Mt at 26 and 56 USD/t, which the page notes read as possibly coal declared
+  under the coke code), and move the other years by under 3.5 Mt (sunflower oil by 0.04 Mt in 2021). Coke, pig iron and direct-reduced iron are in the unit-value check K13. Generated corridors: the nine
   groups with lanes share a cap of 10 routes (`LATER_GROUPS`), so that no earlier route moved.
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown
   as the last row, apart from the countries it names; countries it names beyond the first ten rows
