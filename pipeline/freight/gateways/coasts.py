@@ -218,8 +218,8 @@ G = {
     "TUR": [
         ("TRERE", "black-sea", ("ferrous-scrap", "pig-iron", "dri"), "both", "wikipedia", W + "Erdemir",
          "Erdemir: its main steel plant is at Karadeniz Eregli on the Black Sea shore and 'operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo); the Eregli page says the town is 'the home of Erdemir, an important steel plant of Turkey' with a large natural harbour", "plant"),
-        ("TRISK", "med", ("ferrous-scrap", "pig-iron", "dri"), "discharge", "wikipedia", W + "Erdemir",
-         "Erdemir 'also acquired the steel plant at Iskenderun, Hatay Province in southern Turkey' (Isdemir, named on the page among the largest emitters of the country's steelmakers); the page names the plant, not its port or the cargo it takes", "plant"),
+        ("TRISK", "med", ("ferrous-scrap", "pig-iron", "dri"), "both", "wikipedia", W + "Erdemir",
+         "Erdemir 'also acquired the steel plant at Iskenderun, Hatay Province in southern Turkey' (Isdemir, named on the page among the largest emitters of the country's steelmakers); the page names the plant, not its port or the cargo it takes; the page gives no direction (FNCE: the row was a discharge row, and Turkish scrap and pig iron exports to the Mediterranean loaded at Izmir, the general port)", "plant"),
     ],
     "ZAF": [
         ("ZARCB", "s-africa", ("coal",), "load", "wikipedia", W + "Port_of_Richards_Bay",

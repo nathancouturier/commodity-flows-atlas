@@ -171,6 +171,19 @@ test('notes and a port basis that are well formed pass', () => {
   const { errors } = run((d) => ((d.pairs.bases = ['nearest seaport']), (d.pairs.ports[0][4] = 0), (d.pairs.notes = { 'AUS-CHN': 'Atlas estimate: x' })));
   assert.deepEqual(errors, []);
 });
+// ---- the river leg of a port up a river (package FNCE) and the basis "page names the plant, not the cargo"
+const RIVER = { river: 'Seine', mouth: 'Honfleur', km: 120, nm: 65, s: 'wikipedia', url: 'https://fr.wikipedia.org/wiki/Port_de_Rouen', n: 'Rouen is up the Seine: the distance includes about 65 nm of the Seine, and the line is drawn as one straight segment.' };
+test('a lane port with its river leg and a pairs file with its rivers pass', () => {
+  const { errors } = run((d) => ((d.lane.ports.AAAAA.river = RIVER), (d.pairs.rivers = { AAAAA: RIVER })));
+  assert.deepEqual(errors, []);
+});
+rejects('a river leg without its length in nm', (d) => (d.lane.ports.AAAAA.river = { ...RIVER, nm: 0 }), 'river needs river, mouth, km, nm');
+rejects('a river leg whose note does not say the line is straight', (d) => (d.lane.ports.AAAAA.river = { ...RIVER, n: 'about 65 nm of the Seine' }), 'drawn straight');
+rejects('a river leg of a pairs file for a port that is not in it', (d) => (d.pairs.rivers = { ZZZZZ: RIVER }), 'rivers.ZZZZZ: not a port of the file');
+test('the basis "page names the plant, not the cargo" is one of the port bases', () => {
+  const { errors } = run((d) => ((d.pairs.bases = ['page names the plant, not the cargo']), (d.pairs.ports[0][4] = 0), (d.lane.ports.AAAAA.basis = 'page names the plant, not the cargo')));
+  assert.deepEqual(errors, []);
+});
 rejects('a second transit port without a source', (d) => ((d.lane.lanes[0].transit = { port: 'AAAAA', c: 'AUS', s: 'wikipedia' }), (d.lane.lanes[0].transit2 = { port: 'BBBBB', c: 'CHN' })), 'second transit port has no source');
 rejects('a lane file without its pairs file', (d) => (d.pairsFile = 'other'), 'no pairs file');
 
@@ -231,6 +244,11 @@ test('a valid generated route passes', () => {
   const { errors, status } = run(withRoutes());
   assert.deepEqual(errors, []);
   assert.equal(status, 0);
+});
+rejects('a generated route with a river leg that has no port', withRoutes((d) => (d.routes[0].rivers = [RIVER])), 'rivers entry');
+test('a generated route with its river leg passes', () => {
+  const { errors } = run(withRoutes((d) => (d.routes[0].rivers = [{ ...RIVER, port: 'Rouen' }])));
+  assert.deepEqual(errors, []);
 });
 rejects('a generated route that is a benchmark', withRoutes((d) => (d.routes[0].benchmark = true)), 'never a benchmark');
 rejects('a generated route with another source', withRoutes((d) => (d.routes[0].s = 'baci')), 'source id "atlas"');

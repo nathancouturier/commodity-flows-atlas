@@ -457,7 +457,9 @@ class LaneAndProfileTests(unittest.TestCase):
             port = ln["discharge"][0]
             self.assertNotEqual(port, "TRSSX", ln["id"])
             self.assertEqual(port, "TRERE" if ln["o"] in ("RUS", "UKR", "ROU", "BGR", "GEO", "MDA") else "TRISK", ln["id"])
-            self.assertEqual(f["ports"][port]["basis"], "page names the cargo", ln["id"])
+            # the page names the steel works, not the cargo (package FNCE: the basis says so, the source link stays)
+            self.assertEqual(f["ports"][port]["basis"], "page names the plant, not the cargo", ln["id"])
+            self.assertEqual(f["ports"][port]["s"], "wikipedia", ln["id"])
 
     def test_south_africa_exports_chromite_and_ferro_chromium_first(self):
         zaf = load("countries/profiles/ZAF.json")

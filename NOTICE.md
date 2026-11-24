@@ -318,6 +318,8 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   pipeline](https://en.wikipedia.org/wiki/Trans_Mountain_pipeline).
 - Passages closed to the routing (Kanmon Strait) (`pipeline/freight/routing.py`, 1):
   [関門海峡](https://ja.wikipedia.org/wiki/%E9%96%A2%E9%96%80%E6%B5%B7%E5%B3%A1) (Japanese Wikipedia).
+- River legs of the ports up a river that the sea network does not follow (Rouen) (`pipeline/freight/river_legs.py`, 1):
+  [Port de Rouen](https://fr.wikipedia.org/wiki/Port_de_Rouen) (French Wikipedia).
 <!-- wikipedia-articles:end -->
 
 ## Points taken from OpenStreetMap: ODbL 1.0

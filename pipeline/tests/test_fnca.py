@@ -160,7 +160,10 @@ class A3Turkey(unittest.TestCase):
         for r in rows.values():
             self.assertEqual(set(r.families), {"ferrous-scrap", "pig-iron", "dri"})
             self.assertTrue(r.url.startswith("https://en.wikipedia.org/wiki/"), r.url)
-        self.assertEqual(rows["TRISK"].role, "discharge")
+        # FNCE: the page gives no direction, so Iskenderun is a row for both roles, as Eregli (it was a discharge row, and the exports of scrap and
+        # pig iron to the Mediterranean loaded at Izmir, the general port)
+        self.assertEqual(rows["TRISK"].role, "both")
+        self.assertEqual(rows["TRERE"].role, "both")
 
     def test_the_black_sea_partners_take_eregli_and_the_others_iskenderun(self):
         for g in ("ferrous-scrap", "pig-iron", "dri"):

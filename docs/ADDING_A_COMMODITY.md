@@ -149,6 +149,14 @@ lines, the search, the price drawer; no "undefined", "NaN", empty block or conso
   left 3 to 5% of room), rounded, with the measure in the comment.
 - Wikipedia refuses the research client with a 429: write the class of a lane as an Atlas assumption, say no page was read. It answers again after a minute or two: one page at a time, slowly, and the API (`api.php`) stays refused, so read the pages themselves; the French pages (`fr.wikipedia.org`, CC BY-SA 4.0) are accepted as rows where the English one does not exist (Rouen, La Rochelle, Nantes-Saint-Nazaire).
 - A country with two coasts needs a coast rule (`COAST_RULES` of `gateways/coasts.py`, kind `basin`: Canada, France, Turkey) and a row of its general-cargo ports on each coast, or every lane of the country loads or discharges at the first row (France: Fos for NW Europe, Turkey: Mersin for the Black Sea). A rule limited to some segments or groups leaves the others on the first row.
+- A port more than 50 km from the coast and the sea network (a port up an estuary: Rouen, 53 km up the Seine) is snapped by the router to the
+  nearest node, which can be on another stretch of coast, and every lane through it reads short and starts at sea. Give it a row in
+  `RIVER_LEGS` of `pipeline/freight/river_legs.py` (the node of the network at the river's mouth, the length of the leg in km and the page that
+  gives it, with its sentence): `routing.route()` then starts the route at the mouth, adds the leg to every distance and draws the first
+  segment straight, and the lane, route and Route finder pages say so. `test_ports.py` fails for a port of a flow's gateway that is farther than 50 km and has no leg.
+- A gateway row whose page names the plant that the port serves (a steel works, a refinery of alumina) and not the cargo takes an eighth element,
+  `"plant"`: its basis reads "page names the plant, not the cargo" in both directions, and the source link stays. Read the note of every row you add:
+  a row whose own note says the page names no cargo is such a row.
 - Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the 120-route cap and drops published routes: use `LATER_GROUPS`.
 - `GROUPS_OF` in `build_freight.py` also sums the volumes of the hand-written routes: leave the new groups out of it.
 - The "up to" figures of the chokepoint estimates of earlier groups move a little when a group is added (PortWatch caps are

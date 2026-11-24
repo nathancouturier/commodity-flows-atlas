@@ -37,6 +37,7 @@ TITLES = {
     "pipeline/freight/vessel_rules.py": "Draught limits of straits and laden draughts of vessel classes (the draught rule)",
     "pipeline/freight/modes.py": "Sea, transit, mixed and land rules (sea neighbours, sea outlets, overland blocs, LNG terminals)",
     "pipeline/freight/routing.py": "Passages closed to the routing (Kanmon Strait)",
+    "pipeline/freight/river_legs.py": "River legs of the ports up a river that the sea network does not follow (Rouen)",
 }
 LANGS = {"ja": "Japanese", "fr": "French", "es": "Spanish", "pt": "Portuguese", "de": "German", "ru": "Russian", "zh": "Chinese"}
 
@@ -122,6 +123,7 @@ def table_urls():
     src = open(os.path.join(ROOT, "pipeline", "freight", "routing.py"), encoding="utf-8").read()
     out["pipeline/freight/routing.py"] = urls_in(src, []) or (
         ["https://ja.wikipedia.org/wiki/%E9%96%A2%E9%96%80%E6%B5%B7%E5%B3%A1"] if "関門海峡" in src else [])
+    out["pipeline/freight/river_legs.py"] = [leg["url"] for leg in importlib.import_module("river_legs").RIVER_LEGS.values()]
     res = {}
     for path, us in out.items():
         seen = {}

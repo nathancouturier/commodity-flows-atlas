@@ -80,13 +80,29 @@ class E1RiverLegTable(unittest.TestCase):
         for c in RL.RIVER_LEGS:
             self.assertGreater(P.sea_km(c), 50, c)
 
-    def test_bremen_is_in_no_pairs_file_or_lane_file(self):
-        for sub in ("pairs", "lanes"):
-            d = os.path.join(DATA, "freight", sub)
-            for f in sorted(os.listdir(d)):
-                doc = load("freight", sub, f)
-                ids = {p[0] for p in doc["ports"]} if sub == "pairs" else set(doc["ports"])
-                self.assertNotIn("DEBRE", ids, (sub, f))
+    def test_the_ports_of_the_tables_between_20_and_50_km_are_listed_and_have_no_leg(self):
+        """Ho Chi Minh City and the like: reported, not changed (FNCE). A port that comes into a table in this band is a decision for the owner:
+        add it here with its distance, or give it a leg."""
+        codes = {r.code for rs in P.G.values() for r in rs} | {c for t in P.LEGACY_P.values() for c in t.values()} \
+            | {row[0] for t in P.TRANSIT.values() for row in t.values()}
+        band = {c: round(P.sea_km(c)) for c in codes if P._known(c) and c not in P.MANUAL and 20 <= P.sea_km(c) <= 50}
+        manual = {c: round(P.sea_km(c)) for c in codes if c in P.MANUAL and 20 <= P.sea_km(c) <= 50}
+        # Calcutta (transit port of Nepal and Bhutan), Ho Chi Minh City, Campana, Kashima, Yangon, and Das Island (an island: the terminal is the island)
+        self.assertEqual(band, {"INCCU": 48, "VNSGN": 44, "ARCMP": 42, "JPKSM": 26, "MMRGN": 22, "AEDAS": 41})
+        self.assertEqual(manual, {"QAHAL": 36})  # Halul Island: an island, the terminal is the island
+        self.assertFalse(set(band) & set(RL.RIVER_LEGS))
+
+    def test_bremen_is_an_open_point_it_is_an_option_of_some_lanes_and_never_a_main_port(self):
+        """Bremen is 55 km from the network (the Weser) and has no leg: no page was read for its length, so the distance of the options
+        through it leaves the river out. It is the other port of an open choice of German lanes, never the main port of a lane or a
+        pair (reported to the owner). When it gets a leg, move it to RIVER_LEGS and delete this test."""
+        self.assertNotIn("DEBRE", RL.RIVER_LEGS)
+        d = os.path.join(DATA, "freight")
+        for f in sorted(os.listdir(os.path.join(d, "pairs"))):
+            self.assertNotIn("DEBRE", {p[0] for p in load("freight", "pairs", f)["ports"]}, f)
+        for f in sorted(os.listdir(os.path.join(d, "lanes"))):
+            for lane in load("freight", "lanes", f)["lanes"]:
+                self.assertNotIn("DEBRE", lane["load"] + lane["discharge"], lane["id"])
 
     def test_the_note_names_the_leg_the_mouth_the_length_and_the_straight_line(self):
         n = RL.note(RL.RIVER_LEGS["FRURO"], "Rouen")
@@ -133,7 +149,8 @@ class E1Routing(unittest.TestCase):
         self.assertEqual((g[-1], g[-2]), ([round(ROUEN[0], 2), round(ROUEN[1], 2)], [round(HONFLEUR[0], 2), round(HONFLEUR[1], 2)]))
         # a port with no leg keeps the plain simplification
         h = RT.summary(RT.plan(at("FRLEH"), at("NLRTM"), ["supramax"]), geometry=True)["g"]
-        self.assertEqual(h[0], [round(at("FRLEH")[0], 2), round(at("FRLEH")[1], 2)])
+        node = RT.route(at("FRLEH"), at("NLRTM")).coords[0]   # the node the port snaps to: the line of a port with no leg starts there, as before
+        self.assertEqual(h[0], [round(node[0], 2), round(node[1], 2)])
 
     def test_every_alternative_and_every_parallel_option_carries_the_leg(self):
         china = at("CNTAO")
@@ -248,6 +265,18 @@ class E1DataFiles(unittest.TestCase):
 class E2PlantBasis(unittest.TestCase):
     PLANT_ROWS = {("TUR", "TRERE"), ("TUR", "TRISK"), ("BRA", "BRVLC")}
 
+    def test_turkish_exports_of_the_three_groups_load_at_the_steel_works_by_the_coast_rule(self):
+        """The page gives no direction: Iskenderun is a row for both roles (it was a discharge row, and the exports to the Mediterranean loaded at
+        Izmir, the general port of the country). The Black Sea partners take Eregli, the others Iskenderun, with the basis of the row."""
+        roles = {r.code: r.role for r in P.G["TUR"] if r.code in ("TRERE", "TRISK")}
+        self.assertEqual(roles, {"TRERE": "both", "TRISK": "both"})
+        for g in ("ferrous-scrap", "pig-iron", "dri"):
+            self.assertEqual(P.assign("TUR", "ESP", g).main.load, "TRISK", g)
+            self.assertEqual(P.assign("TUR", "ROU", g).main.load, "TRERE", g)
+            self.assertEqual(P.basis_of("TUR", g, "load", "TRISK"), P.BASIS_PLANT)
+        for g in ("ferro-silicon", "chromium-ore"):
+            self.assertNotIn(P.assign("TUR", "ESP", g).main.load, ("TRERE", "TRISK"), g)
+
     def test_the_basis_is_after_the_other_direction_in_the_order_of_the_bases(self):
         self.assertEqual(P.BASIS_PLANT, "page names the plant, not the cargo")
         self.assertEqual(list(P.BASES).index(P.BASIS_PLANT), list(P.BASES).index(P.BASIS_OTHER) + 1)
@@ -281,7 +310,7 @@ class E2PlantBasis(unittest.TestCase):
             self.assertEqual(P.source_of("TUR", group, "load", "TRISK"), ("wikipedia", "https://en.wikipedia.org/wiki/Erdemir"))
             self.assertEqual(P.source_of("TUR", group, "discharge", "TRISK"), ("wikipedia", "https://en.wikipedia.org/wiki/Erdemir"))
         # the source link stays, the groups the rows do not name are untouched
-        self.assertEqual(P.basis_of("TUR", "steel", "load", P.gateway("TUR", "steel", "load")), P.BASIS_GENERAL)
+        self.assertNotEqual(P.basis_of("TUR", "steel", "load", P.gateway("TUR", "steel", "load")), P.BASIS_PLANT)
         self.assertEqual(P.basis_of("BRA", "alumina", "load", "BRVLC"), P.BASIS_PLANT)
         self.assertEqual(P.source_of("BRA", "alumina", "load", "BRVLC")[0], "wikipedia")
         self.assertEqual(P.basis_of("BRA", "iron-ore", "load", "BRTUB"), P.BASIS_PAGE)
@@ -312,6 +341,40 @@ class E2PlantBasis(unittest.TestCase):
                 self.assertEqual(lane["basis"], P.BASIS_PLANT, (g, c))
                 self.assertEqual(lane["s"], "wikipedia")
                 self.assertTrue(lane["url"])
+
+    def test_turkish_exports_load_at_the_steel_works_in_the_files_and_methodology_counts_them(self):
+        n = 0
+        for g in ("ferrous-scrap", "pig-iron", "dri"):
+            p = load("freight", "pairs", g + ".json")
+            cols = p["cols"]
+            for r in p["rows"]:
+                x = dict(zip(cols, r))
+                if x["o"] == "TUR" and x["m"] in (0, 1) and x["load"] >= 0:
+                    self.assertIn(p["ports"][x["load"]][0], ("TRISK", "TRERE"), (g, x["d"]))
+                    n += 1
+        self.assertGreaterEqual(n, 14)
+        self.assertIn(f"package FNCE, {n} pairs", read("METHODOLOGY.md"))
+
+    def test_the_methodology_shares_by_basis_are_the_files(self):
+        """Share of 2024 pair-end tonnage by basis (METHODOLOGY section 3), recomputed from the pairs files as the text says."""
+        from collections import defaultdict
+        tot, n = defaultdict(float), 0.0
+        for f in sorted(os.listdir(os.path.join(DATA, "freight", "pairs"))):
+            p = load("freight", "pairs", f)
+            for r in p["rows"]:
+                o, d, kt, m, lo, di = r[:6]
+                if m not in (0, 1):
+                    continue
+                for idx, k in ((lo, 4), (di, 5)):
+                    n += kt / 1000.0
+                    tot["no port" if idx < 0 else (p["bases"][p["ports"][idx][k]] if p["ports"][idx][k] is not None else "none")] += kt / 1000.0
+        meth = read("METHODOLOGY.md")
+        self.assertIn(f"two ends, {round(n):,} Mt", meth)
+        for key, word in (("page names the cargo", "page names the cargo"), ("port used before, no page read", "port used before"),
+                          ("general port of the country", "general port"), ("nearest seaport", "nearest seaport"),
+                          ("page names the cargo in the other direction", "other direction"), (P.BASIS_PLANT, "page names the plant"),
+                          ("no port", "no port (not routed)")):
+            self.assertIn(f"{word} {100 * tot[key] / n:.1f}%", meth.replace("\n  ", " "), key)
 
     def test_the_web_lists_the_basis_wherever_it_lists_the_bases(self):
         self.assertIn("'page names the plant, not the cargo'", read("web", "src", "lib", "freight.ts"))

@@ -159,6 +159,9 @@ class G11(unittest.TestCase):
                         if basis == ports.BASIS_PAGE:
                             self.assertIn(code, {r.code for r in rows if r.families & set(fams)
                                                  and (role is None or r.role in (role, "both"))})
+                        elif basis == ports.BASIS_PLANT:
+                            # a row of the family that is marked as naming the plant (package FNCE), in either role: the page gives no direction
+                            self.assertIn(code, {r.code for r in rows if r.families & set(fams) and r.basis == ports.BASIS_PLANT})
                         elif basis == ports.BASIS_OTHER:
                             self.assertIn(code, {r.code for r in rows if r.families & set(fams)})
                             self.assertNotIn(seg, ports.ENERGY_SEGMENTS)

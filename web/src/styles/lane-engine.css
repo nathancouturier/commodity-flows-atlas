@@ -27,6 +27,7 @@
   font-weight: 600;
 }
 .le-src a,
+.le-river a,
 .le-transit a {
   color: var(--accent);
   text-decoration: underline;

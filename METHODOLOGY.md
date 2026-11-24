@@ -472,16 +472,20 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "page names the cargo" (a row whose page names this cargo at the port; it includes rows whose
     note records that the page does not give the direction or the period);
   - "page names the cargo in the other direction";
+  - "page names the plant, not the cargo" (a row whose page names the steel works, the alumina refinery or another plant
+    that the port serves, and not the cargo of the berth; the page gives no direction, so the row is one basis in both; the
+    source link stays; package FNCE: Karadeniz Eregli and Iskenderun for scrap, pig iron and direct-reduced iron, and the
+    port of Barcarena for alumina);
   - "general port of the country";
   - "port used before, no page read" (the earlier table; shown as "no source page yet");
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
-  two ends, 16,565 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
-  transit port is one more port): page names the cargo 67.8%, port used before 22.5%, general port
-  5.6%, nearest seaport 2.2%, other direction 1.1%, no port (not routed) 0.7% (recomputed after package FNCA,
-  from the pairs files; the figures were 69.7%, 22.4%, 4.1%, 2.2%, 1.1% and 0.6% of 15,847 Mt after package FL1,
-  and 0.8% had no port before package L1). Most rows cite a Wikipedia article. The United States crude and
+  two ends, 16,591 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  transit port is one more port): page names the cargo 67.6%, port used before 22.5%, general port
+  5.7%, nearest seaport 2.2%, other direction 1.1%, page names the plant 0.2%, no port (not routed) 0.7% (recomputed after
+  package FNCE, from the pairs files; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
+  plant basis, and 69.7%, 22.4%, 4.1%, 2.2%, 1.1% and 0.6% of 15,847 Mt after package FL1; 0.8% had no port before package L1). Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
   Malaysia, India and Thailand are the refinery towns of the EIA country briefs (a refinery is the
@@ -505,7 +509,9 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   for ammonia and soya meal, and Le Havre as the general port; Asia, the Gulf, East Africa and Oceania take the
   grain port of Rouen, whose page names China as its first destination, and Fos for the other cargoes; three rules,
   for grain, for the oils and fertilisers, and for general cargo); Turkey for scrap, pig iron and direct-reduced iron
-  (Karadeniz Eregli for the partners of the Black Sea, Iskenderun for the others). A rule that needs a product distinction
+  (Karadeniz Eregli for the partners of the Black Sea, Iskenderun for the others; both rows serve the two directions, since the
+  page gives none, so that Turkish exports of the three groups to the Mediterranean load at Iskenderun and no longer at Izmir, the
+  general port of the country: package FNCE, 14 pairs). A rule that needs a product distinction
   that customs data do not make is not written (HS codes do not separate coking from thermal coal).
 - **Coast options**. Where neither a single gateway nor a rule decides, a pair keeps up to three
   options per end. The main option is the principal gateway, not the shortest route ("nearest
@@ -521,6 +527,21 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   the Johor Strait, blocked by the Johor–Singapore Causeway, and the Kanmon Strait between Honshu
   and Kyushu (fairway 12 m deep in 2016, Japanese Wikipedia; too shallow for the bulk carriers and
   tankers the atlas routes).
+- **River legs** (`pipeline/freight/river_legs.py`, package FNCE). The sea network ends on the coast, and a port far up a
+  river has no node near it: the router used to snap Rouen, 53 km from the network, to a node on the coast near Dieppe, so
+  every lane from Rouen started at sea and left the Seine out of its distance (barley from France to the Netherlands read
+  196 nm, less than Le Havre to Rotterdam, 246 nm). A port of the table `RIVER_LEGS` (port, river, the node of the
+  network at the river's mouth, the length of the leg in km, the page and its sentence) is routed from that node, and the leg
+  is added to the distance of the main route and of every alternative and parallel option (`routing.route()`, which every
+  plan goes through, so the days follow). The drawn line starts at the port's own point and runs to the mouth in one straight
+  segment, not along the river; the lane, route and Route finder pages say so, with the page. Rouen: French Wikipedia, Port
+  de Rouen, "L'activité portuaire se répartit tout au long de la Seine entre Rouen et Honfleur sur environ 120 km", read on
+  24 November 2026: 120 km, 65 nm; the mouth is the node of the network nearest to Honfleur, which is 8 to 10 nm up the
+  estuary from the node of Le Havre, so a route from Rouen is longer than the same route from Le Havre by the leg and that
+  stretch. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
+  (`test_ports.py`) requires a leg for every port of a flow's gateway that is more than 50 km from the coast and the network;
+  the other ports of the tables at 20 to 50 km from the network (estuary and river ports, and islands) are listed in
+  `test_fnce.py`, which fails when one more comes into a table, and are not changed.
 - **Passages crossed** are found geometrically. A gate is a short line drawn across a strait,
   canal or cape, both ends on land: 20 gates (`GATES`), the two capes as meridians 0.03 degree off
   20 E and 69 W so that no network node lies on them ("Cape Horn" includes the Strait of
@@ -1418,7 +1439,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   oils show such a port with the basis "general port of the country", as no page read names either oil there (`GENERAL_BASIS` in `ports.py`; no port changed).
   France has Rouen and La Pallice for grain, oilseeds and meal (French Wikipedia: Rouen "the first European port for cereals", 12.7 Mt in 2023, with China,
   Morocco and Algeria as its main destinations; La Rochelle "second French port for cereal exports") and Montoir for soya meal, chosen against Fos by the
-  partner (coast rule `fra-coast-grain`): barley from France to the Netherlands is 196 nm from Rouen, not 2,092 nm from Fos. Generated corridors: the eight groups of lanes share a cap of
+  partner (coast rule `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; the router had snapped Rouen to the coast near Dieppe and read 196 nm: package FNCE), not 2,092 nm from Fos. Generated corridors: the eight groups of lanes share a cap of
   10 routes (`LATER_GROUPS`), so that no earlier route moved.
 - **Metal bulks** (package NC3, audit A-010). Six pages are new (ferrous scrap, pig iron and DRI, chromium, ferro-alloys,
   molybdenum, graphite) and the metallurgical coal page holds the customs tables and lanes of coke. Every HS 1992 code is in

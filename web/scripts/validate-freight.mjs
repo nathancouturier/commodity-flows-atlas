@@ -284,6 +284,7 @@ function validateRoutes(routes, pairDocs, chokepoints, bad) {
     for (const id of r.via ?? []) if (!chokepoints.has(id)) bad('routes.json', `${at}: via names "${id}", which is not a chokepoint`);
     for (const l of r.viaAlt ?? []) for (const id of l) if (!chokepoints.has(id)) bad('routes.json', `${at}: viaAlt names "${id}", which is not a chokepoint`);
     if (r.cargoNote !== undefined && (typeof r.cargoNote !== 'string' || !r.cargoNote)) bad('routes.json', `${at}: cargoNote is empty`);
+    for (const x of r.rivers ?? []) if (riverProblem(x) || !x.port) bad('routes.json', `${at}: rivers entry ${riverProblem(x) ?? 'has no port'}`);
     // an entry without `g` lists the customs groups of its commodity (`gs`): the site matches a lane to a route by group, never by commodity alone
     for (const c of r.corridor ?? []) if (!c.g && !(Array.isArray(c.gs) && c.gs.length)) bad('routes.json', `${at}: a corridor entry has neither a customs group (g) nor a list of them (gs)`);
     if (r.definition) checkDefinition(at, r, routes, bad);
