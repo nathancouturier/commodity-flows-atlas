@@ -67,7 +67,7 @@ const routeItems = routes.map((r) => ({
   id: r.id,
   label: r.name,
   order: `${r.benchmark ? 0 : 1}${r.name}`,
-  d: prepare([r.name], [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, 'freight route', ...r.cargoes.map((k) => commodityName[k] ?? k)]),
+  d: prepare([r.name], [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, 'freight route', ...r.cargoes.map((k) => commodityName[k] ?? k)], r.cargoes.map((k) => commodityName[k] ?? k)),
 }));
 
 test('"DRI": the routes that carry DRI come before the "Dried pulses" routes, which are still listed', () => {
@@ -82,10 +82,10 @@ test('"DRI": the routes that carry DRI come before the "Dried pulses" routes, wh
 });
 
 test('a prefix of another word comes after every item that has the word whole, in every kind, and is not hidden', () => {
-  const mk = (kind, label, names, extra = []) => ({ kind, id: label, label, order: label, d: prepare(names, [], extra) });
+  const mk = (kind, label, names, extra = [], cargo = []) => ({ kind, id: label, label, order: label, d: prepare(names, [], extra, cargo) });
   const items = [
-    mk('route', 'Dried pulses: A to B', ['Dried pulses: A to B'], ['Pulses']),
-    mk('route', 'Pig iron: C to D', ['Pig iron: C to D'], ['Pig iron & DRI']),
+    mk('route', 'Dried pulses: A to B', ['Dried pulses: A to B'], ['Pulses'], ['Pulses']),
+    mk('route', 'Pig iron: C to D', ['Pig iron: C to D'], ['Pig iron & DRI'], ['Pig iron & DRI']),
     mk('route', 'DRI: E to F', ['DRI: E to F']),
   ];
   assert.deepEqual(matchKind(tokens('dri'), items, 'route').map((m) => m.item.label), ['DRI: E to F', 'Pig iron: C to D', 'Dried pulses: A to B']);
@@ -96,4 +96,63 @@ test('a prefix of another word comes after every item that has the word whole, i
   assert.equal(g[0].kind, 'route');
   assert.equal(g[0].tier, 3);
   assert.equal(g[0].total, 3);
+});
+
+// package FNCG (review GV7B.3): a whole word counts as a promotion only in the names, the codes and the cargo names of an item, not in its ports or regions
+test('"chi": the routes of China come before the route whose port is Ho Chi Minh City', () => {
+  const found = matchKind(tokens('chi'), routeItems, 'route');
+  assert.ok(found.length > 3);
+  assert.match(found[0].item.label, /^China/, found.slice(0, 5).map((m) => m.item.label).join(' | '));
+  // the route of the review is still listed, after them
+  assert.ok(found.some((m) => /Ho Chi Minh/i.test(m.item.d.x.join(' '))), 'a route with the port is found');
+  const port = found.find((m) => /ho chi minh/.test(m.item.d.x.join(' ')));
+  assert.equal(port.whole, false, 'a port does not make a whole-word match');
+});
+
+test('a whole word of a cargo name still counts: "DRI" finds the routes of the pig iron cargo first', () => {
+  const found = matchKind(tokens('dri'), routeItems, 'route');
+  assert.equal(found[0].whole, true);
+  assert.ok(found[0].item.d.k.some((k) => /dri/.test(k)));
+});
+
+// ---- the queries of the review (GV6C.3, GV6C.4), on the catalogue and the aliases as the site builds them
+const countries = JSON.parse(fs.readFileSync(path.join(here, '../../data/countries/index.json'), 'utf8'));
+const countryItems = countries.map((c) => ({ kind: 'country', id: c.c, label: c.name, order: c.name, d: prepare([c.name], [c.c, c.a2 ?? ''], [c.region ?? '', 'country']) }));
+const all = [...items, ...countryItems];
+const groups = (q) => groupKinds(tokens(q), all, 6);
+
+test('the trade abbreviations of the ferro-alloys find the ferro-alloys page', () => {
+  for (const q of ['FeCr', 'FeMn', 'SiMn', 'FeSi', 'FeMo']) assert.deepEqual(find(q).slice(0, 1), ['ferro-alloys'], q);
+});
+
+test('"AN" finds the nitrogen page first, not the corn page through "brewing and distilling dregs"', () => {
+  assert.deepEqual(find('AN').slice(0, 1), ['urea']);
+  assert.equal(groups('AN')[0].items[0].id, 'urea');
+  assert.ok(!ALIASES.corn.some((a) => /\band\b/.test(a)), 'no corn alias has the word "and"');
+  assert.ok(ALIASES.corn.includes('brewing dregs') && ALIASES.corn.includes('distilling dregs'));
+  assert.ok(find('dregs').includes('corn'));
+});
+
+test('"can": Canada comes first, the nitrogen page has no bare "CAN" alias, "calcium ammonium nitrate" is kept', () => {
+  assert.ok(!ALIASES.urea.includes('CAN'));
+  assert.deepEqual(find('calcium ammonium nitrate').slice(0, 1), ['urea']);
+  for (const q of ['can', 'CAN']) {
+    const g = groups(q);
+    assert.equal(g[0].kind, 'country', q);
+    assert.equal(g[0].items[0].id, 'CAN', q);
+  }
+});
+
+test('"fertiliser" and "fertilizer" give the same pages in the same order', () => {
+  assert.deepEqual(find('fertiliser'), find('fertilizer'));
+  assert.deepEqual(find('fertiliser').slice(0, 5).sort(), ['npk', 'phosphate', 'potash', 'sulphur', 'urea']);
+});
+
+test('the other queries of the review keep their first page: HMS, moly, sulfur, canola oil, lentils', () => {
+  assert.deepEqual(find('HMS').slice(0, 1), ['ferrous-scrap']);
+  assert.deepEqual(find('moly').slice(0, 1), ['molybdenum']);
+  assert.deepEqual(find('sulfur').slice(0, 1), ['sulphur']);
+  assert.deepEqual(find('canola oil').slice(0, 1), ['rapeseed']);
+  assert.deepEqual(find('lentils').slice(0, 1), ['pulses']);
+  assert.deepEqual(find('DRI'), ['pig-iron']);
 });

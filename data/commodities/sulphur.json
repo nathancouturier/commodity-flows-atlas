@@ -230,7 +230,7 @@
    {
     "c": "CHE",
     "v": 0.14,
-    "n": "Atlas estimate: 97% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 97% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -304,7 +304,7 @@
    {
     "c": "LBR",
     "v": 0.0278,
-    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 22 t for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -460,7 +460,7 @@
    {
     "c": "TUN",
     "v": 0.572,
-    "n": "Atlas estimate: 62% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 62% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024

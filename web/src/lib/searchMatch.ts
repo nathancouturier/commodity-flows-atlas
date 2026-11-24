@@ -27,11 +27,14 @@ export interface Searchable {
   c: string[];
   /** secondary text (operator, country, route ends): a weaker match */
   x: string[];
+  /** the names of the cargoes or commodities the item is about (they are also in `x`): with the names and the codes, the only words that make a whole-word match a promotion */
+  k: string[];
 }
 
-export function prepare(names: string[], codes: string[] = [], extra: string[] = []): Searchable {
+/** `cargo`: the cargo or commodity names of the item, in `extra` as well (a route's ports and regions are in `extra` only). */
+export function prepare(names: string[], codes: string[] = [], extra: string[] = [], cargo: string[] = []): Searchable {
   const uniq = (l: string[]) => [...new Set(l.map(norm).filter(Boolean))];
-  return { n: uniq(names), c: uniq(codes), x: uniq(extra) };
+  return { n: uniq(names), c: uniq(codes), x: uniq(extra), k: uniq(cargo) };
 }
 
 /** Greatest edit distance tolerated for a typed word of this length. */
@@ -138,9 +141,13 @@ export interface Rank {
   whole: boolean;
 }
 
-/** Every typed word is a whole word of a name, a code or the secondary text: "dri" is a word of "Pig iron & DRI", the beginning of "Dried pulses". */
+/**
+ * Every typed word is a whole word of a name, a code or a cargo name of the item: "dri" is a word of "Pig iron & DRI", the beginning of
+ * "Dried pulses". A word found only in the rest of the secondary text (a port, a region, a country, an operator) does not count: "chi" is
+ * a whole word of the port "Ho Chi Minh City", and it must not put that route before the routes of China.
+ */
 export function wholeWords(q: string[], d: Searchable): boolean {
-  const words = new Set([...d.n, ...d.x].flatMap((p) => p.split(' ')));
+  const words = new Set([...d.n, ...(d.k ?? [])].flatMap((p) => p.split(' ')));
   return q.length > 0 && q.every((t) => words.has(t) || d.c.includes(t));
 }
 

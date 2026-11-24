@@ -908,7 +908,7 @@
      {
       "c": "RUS",
       "v": 0.0974,
-      "n": "Atlas estimate: 79% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 79% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024
@@ -1074,7 +1074,7 @@
      {
       "c": "NGA",
       "v": 0.0732,
-      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024
@@ -1114,7 +1114,7 @@
      {
       "c": "EGY",
       "v": 0.0478,
-      "n": "Atlas estimate: 80% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 80% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024
@@ -1134,7 +1134,7 @@
      {
       "c": "DZA",
       "v": 0.0376,
-      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024

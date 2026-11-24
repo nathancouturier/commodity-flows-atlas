@@ -211,7 +211,7 @@
    {
     "c": "TWN",
     "v": 0.0507,
-    "n": "Atlas estimate: 64% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 64% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024,
@@ -694,7 +694,7 @@
      {
       "c": "CRI",
       "v": 0.000992,
-      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024,
@@ -990,7 +990,7 @@
      {
       "c": "HKG",
       "v": 0.0033,
-      "n": "Atlas estimate: 54% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 54% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024,

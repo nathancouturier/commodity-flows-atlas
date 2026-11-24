@@ -3,9 +3,9 @@ import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { AltRouting, HistFlag, PortRef, PortRiver } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
-import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openVesselClass, vesselById, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openFreightView, openVesselClass, vesselById, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
-import { Section, shortSource } from '../ui';
+import { Section, WayBack, shortSource } from '../ui';
 import { TimeChart, type TimeMarker } from '../charts/TimeChart';
 import '../../styles/lane-engine.css';
 
@@ -36,6 +36,9 @@ export function useFreightCatalogue() {
 }
 
 export const publisher = (s: string) => sources.value[s]?.publisher ?? s;
+
+/** A freight route that the catalogue lacks (a generated id that a rebuild dropped, an old link): the Freight view is the way back. */
+export const FreightWayBack = () => <WayBack onClick={openFreightView}>Routes by vessel class</WayBack>;
 
 export function openCommodity(k: string) {
   if (!commodityMeta(k)) return;

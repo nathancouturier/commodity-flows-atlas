@@ -8,7 +8,7 @@ import '../styles/views.css';
 import { selection, select, type SheetSnap } from '../lib/store';
 import { detailTitle, unknownKind } from '../lib/view';
 import { takePageFocus } from '../lib/pageFocus';
-import { CloseIcon, Placeholder, Skeleton } from './ui';
+import { CloseIcon, Placeholder, Skeleton, WayBack } from './ui';
 import { DetailActions } from './DetailActions';
 
 const CountryView = lazy(() => import('./views/CountryView'));
@@ -33,6 +33,7 @@ function UnknownView({ kind, id }: { kind: string; id: string }) {
       <div class="panel-scroll">
         <Placeholder>
           Unknown {kind}: {id}. It is not in the atlas catalogue.
+          {kind === 'commodity' && <WayBack onClick={() => select(null)}>All commodities</WayBack>}
         </Placeholder>
       </div>
     </>

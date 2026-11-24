@@ -153,16 +153,21 @@ class B1CapAgainstPortWatch(unittest.TestCase):
                 regime = BF.cap_regime(r["value"], r["reference"], BF.alert_reason(alerts, c["id"], r["year"]))
                 seen[regime] += 1
                 where = (c["id"], e["p"], regime)
-                self.assertNotIn("not capped at PortWatch's volume here", e["f"]["n"] if regime != "none" else "", where)
+                # GV6D.1: the note of the ship type is on the passage, once, and no longer in the note of each estimate
+                self.assertNotIn("PortWatch's volume", e["f"]["n"], where)
+                tn = (c.get("typeNotes") or {}).get(typ)
+                if tn:
+                    self.assertEqual(tn["regime"], regime, where)
+                    self.assertEqual(tn["capped"], sum(1 for x in c["estimates"] if BF.vessel_type(x["p"]) == typ and "capped" in (x.get("hi") or {}).get("n", "")), where)
                 if regime == "sub":
-                    self.assertNotIn("capped at the whole of PortWatch's volume", e["f"]["n"], where)
+                    self.assertTrue(not tn or tn["regime"] == "sub", where)
                 elif regime == "whole":
-                    self.assertIn("capped at the whole of PortWatch's volume", e["f"]["n"], where)
+                    self.assertIn("cannot exceed the whole of PortWatch's volume", tn["n"] if tn else "", where)
                     self.assertNotIn("less the 'at least' tonnage", (e.get("hi") or {}).get("n", ""), where)
                     # a group cannot exceed the whole volume of its ship type (rounded as the file prints it), nor go under its own "at least"
                     self.assertLessEqual(e["mt"][1], max(e["mt"][0], r["reference"] + 0.0006 * r["reference"]), where)
                 else:
-                    self.assertIn("not capped at PortWatch's volume here", e["f"]["n"], where)
+                    self.assertIn("not capped at PortWatch's volume here", tn["n"] if tn else "", where)
                     self.assertNotIn("capped at IMF", (e.get("hi") or {}).get("n", ""), where)
         self.assertGreater(seen["sub"], 10)
         self.assertGreater(seen["whole"], 50)
@@ -231,6 +236,7 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         year = {"dry": pw_dry, "tanker": 500.0, "cargo": 500.0}
         pw = {"bosphorus": {2024: year, 2023: dict(year, dry=200.0)}}  # the best year is far above the atlas's tonnage: no K9 flag
         BF.chokepoint_shares(chk, pairs, pw, {}, {}, 2024, alerts)
+        self.passage = chk[0]  # its `typeNotes` are read by the tests
         return {e["p"]: e for e in chk[0]["estimates"]}, BF
 
     def test_rule_below_and_above_the_threshold(self):
@@ -238,13 +244,16 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         above, BF = self._shares(100.0)
         self.assertEqual(above["wheat"]["mt"], [40.0, 70.0])  # the whole volume (100 Mt) is above the 70 Mt: the cap does not bite
         self.assertNotIn("capped at", above["wheat"]["hi"]["n"])
-        self.assertIn("capped at the whole of PortWatch's volume", above["wheat"]["f"]["n"])
-        self.assertNotIn("not capped at PortWatch's volume here", above["wheat"]["f"]["n"])
+        note = self.passage["typeNotes"]["dry"]
+        self.assertEqual(note["regime"], "whole")
+        self.assertIn("cannot exceed the whole of PortWatch's volume of these ships (100 Mt)", note["n"])
+        self.assertNotIn("not capped at PortWatch's volume here", note["n"])
+        self.assertNotIn("PortWatch", above["wheat"]["f"]["n"])  # the note of the type is on the passage, not in the estimate (GV6D.1)
         below, _ = self._shares(110.0)
         self.assertEqual(below["wheat"]["mt"], [40.0, 60.0])  # 110 less the 50 Mt of corn
         self.assertIn("capped at IMF PortWatch's estimate", below["wheat"]["hi"]["n"])
         self.assertIn("less the 'at least' tonnage of the atlas's other dry bulk groups", below["wheat"]["hi"]["n"])
-        self.assertNotIn("capped at the whole", below["wheat"]["f"]["n"])
+        self.assertNotIn("typeNotes", self.passage)  # 90 Mt against 110: under PW_NEAR, nothing to say about the type
         # on the line: at exactly PW_NEAR the subtraction still applies (the rule is "at most")
         edge, _ = self._shares(90.0 / BF.PW_NEAR)
         self.assertLess(edge["wheat"]["mt"][1], 70.0)
@@ -260,7 +269,13 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         self.assertIn("which this cargo cannot exceed; without the cap, 70", n)
         self.assertNotIn("less the", n)
         self.assertNotIn("other dry bulk groups", n)
-        self.assertIn("capped at the whole of PortWatch's volume of these ships", whole["wheat"]["f"]["n"])
+        note = self.passage["typeNotes"]["dry"]
+        self.assertIn("cannot exceed the whole of PortWatch's volume of these ships (60 Mt)", note["n"])
+        self.assertIn("not reduced by the other groups' 'at least' tonnage", note["n"])
+        # G12: the cap is said as a rule, and says where it binds: here no group is cut (wheat's 70 Mt is cut to 60, corn has no "up to")
+        self.assertIn("binds only where a figure is tagged 'capped at PortWatch volume': 1 of the 2 dry bulk groups", note["n"])
+        self.assertEqual((note["capped"], note["groups"]), (1, 2))
+        self.assertNotIn("capped at the whole of PortWatch's volume", note["n"])
         # a volume under the group's own "at least": the group keeps its "at least" and has no "up to"
         under, _ = self._shares(30.0)
         self.assertEqual(under["wheat"]["mt"], [40.0, 40.0])
@@ -271,12 +286,13 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         shares, BF = self._shares(60.0, alerts=alert)
         self.assertEqual(shares["wheat"]["mt"], [40.0, 70.0])
         self.assertNotIn("capped at", shares["wheat"]["hi"]["n"])
-        n = shares["wheat"]["f"]["n"]
+        n = self.passage["typeNotes"]["dry"]["n"]
+        self.assertEqual(self.passage["typeNotes"]["dry"]["regime"], "none")
         self.assertIn("not capped at PortWatch's volume here", n)
         self.assertIn("normal route", n)
         # the alert counts only when the atlas is above PortWatch's volume: between PW_NEAR and the volume the whole-volume cap applies
         near, _ = self._shares(100.0, alerts=alert)
-        self.assertIn("capped at the whole of PortWatch's volume", near["wheat"]["f"]["n"])
+        self.assertIn("cannot exceed the whole of PortWatch's volume", self.passage["typeNotes"]["dry"]["n"])
         self.assertEqual(BF.cap_regime(90.0, 100.0, "an alert"), "whole")
         self.assertEqual(BF.cap_regime(110.0, 100.0, "an alert"), "none")
         self.assertEqual(BF.cap_regime(110.0, 100.0, None), "whole")
@@ -308,13 +324,18 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         """No alert explains it: the note says the assumed ports, routes or ship types probably overstate it, not "the tonnage of the normal
         route". An alert on the passage keeps the existing wording."""
         no_alert, _ = self._shares(80.0)
-        n = no_alert["wheat"]["f"]["n"]
-        self.assertIn("probably overstate it", n)
-        self.assertIn("ports, routes or ship types", n)
-        self.assertNotIn("tonnage of the normal route", n)
+        note = self.passage["typeNotes"]["dry"]
+        for n in (note["line"], note["n"]):
+            self.assertIn("probably overstate the passage", n)
+            self.assertIn("ports, routes or ship types", n)
+            self.assertNotIn("tonnage of the normal route", n)
+        # GV6D.1: said once, on the passage; PortWatch's volume is an estimate and the atlas's groups are a part of the cargo
+        self.assertIn("an estimate made from ship movements", note["n"])
+        self.assertIn("the atlas's groups are not all the cargo these ships carry", note["n"])
+        self.assertNotIn("PortWatch", no_alert["wheat"]["f"]["n"])
         alert = [{"chokepoints": ["bosphorus"], "since": "2023", "title": "A diversion", "text": "Ships sailed around. More.", "src": None}]
         with_alert, _ = self._shares(80.0, alerts=alert)
-        n = with_alert["wheat"]["f"]["n"]
+        n = self.passage["typeNotes"]["dry"]["n"]
         self.assertIn("tonnage of the normal route, not the 2024 traffic", n)
         self.assertIn("A diversion", n)
 
@@ -323,12 +344,19 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         Red Sea wording."""
         chk = {c["id"]: c for c in load(DATA, "freight", "chokepoints.json")}
         for cp in ("bosphorus", "gibraltar"):
-            n = next(e for e in chk[cp]["estimates"] if e["p"] == "wheat")["f"]["n"]
-            self.assertIn("no alert explains it", n, cp)
-            self.assertNotIn("tonnage of the normal route", n, cp)
-        n = next(e for e in chk["suez"]["estimates"] if e["p"] == "wheat")["f"]["n"]
+            note = chk[cp]["typeNotes"]["dry"]
+            self.assertEqual((note["cmp"], note["regime"]), ("above", "whole"), cp)
+            self.assertIn("with no alert that explains it", note["n"], cp)
+            self.assertNotIn("tonnage of the normal route", note["n"], cp)
+            self.assertGreater(note["low"], note["ref"], cp)  # the atlas's own sum is above PortWatch's volume: it is a flag, not a bound
+            # the line of the page is short and carries the comparison; no estimate repeats it (GV6D.1)
+            self.assertLess(len(note["line"]), 220, cp)
+            for e in chk[cp]["estimates"]:
+                self.assertNotIn("PortWatch's", e["f"]["n"], (cp, e["p"]))
+        n = chk["suez"]["typeNotes"]["dry"]["n"]
         self.assertIn("tonnage of the normal route", n)
         self.assertIn("Red Sea diversions", n)
+        self.assertEqual(chk["suez"]["typeNotes"]["dry"]["regime"], "none")
 
     def test_methodology_counts_the_entries_of_the_file(self):
         """The count of estimates in METHODOLOGY is the count of the file, and the rule of the cap is written there."""

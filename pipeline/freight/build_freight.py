@@ -24,6 +24,7 @@ import sys
 import time
 from collections import defaultdict
 from datetime import date, timedelta
+from decimal import ROUND_HALF_UP, Decimal
 from urllib.parse import unquote
 
 import pandas as pd
@@ -127,15 +128,32 @@ def mt(v):
     return f"{v:,.0f} Mt" if v >= 10 else f"{v:.1f} Mt" if v >= 1 else f"{v:.2f} Mt"
 
 
+def sig3(v):
+    """v to three significant digits, a half rounded up on the decimal figure as the page does (Intl.NumberFormat of the
+    shortest decimal of the number): 5.865 is 5.87, where f"{5.865:.3g}" gives 5.86 because the binary double lies just below."""
+    d = Decimal(repr(float(v)))
+    if d == 0:
+        return 0.0
+    return float(d.quantize(Decimal(1).scaleb(d.adjusted() - 2), rounding=ROUND_HALF_UP))
+
+
 def mtn(v):
     """A tonnage of the notes under the chokepoint estimates, to three significant digits like the page that prints
     them (a total of 1,000 Mt or more keeps its integer digits)."""
-    return f"{v:,.0f} Mt" if v >= 1000 else f"{float(f'{v:.3g}'):,.10g} Mt"
+    return f"{v:,.0f} Mt" if v >= 1000 else f"{sig3(v):,.10g} Mt"
+
+
+def mtp(v):
+    """A tonnage that the page prints too (the headline of an estimate and its range): three significant digits, always, so the
+    figure of a note and the figure of the page are the same one (GV6D.9). Give it the figure as the file stores it."""
+    return f"{sig3(v):,.10g} Mt"
 
 
 def ktn(v):
-    """A tonnage (Mt) of the notes of a group under 1 Mt a year, in kt with one decimal like its lane file."""
-    return f"{v * 1e3:,.1f} kt" if v * 1e3 >= 0.05 else "under 0.1 kt"
+    """A tonnage (Mt) of the notes of a group under 1 Mt a year, in kt with one decimal like its lane file and the page
+    (a half rounded up, as sig3 does)."""
+    kt = Decimal(repr(round(v * 1e3, 6))).quantize(Decimal("0.1"), rounding=ROUND_HALF_UP)
+    return f"{kt:,} kt" if kt else "under 0.1 kt"
 
 
 def mt3(v):
@@ -269,6 +287,50 @@ def alert_reason(alerts, cid, latest):
     return None
 
 
+def passage_type_note(typ, kind, low, ref, best, best_y, year, reason, regime, capped, groups):
+    """The note of a ship type at a passage, written once on the passage record (`typeNotes`, GV6D.1) and not in the note of each estimate:
+    where the "at least" tonnage of the atlas for the type is above IMF PortWatch's volume of the same year, or within PW_NEAR of it, and
+    what the cap on the "up to" figures of the type is (`regime`, see cap_regime). kind: "best" (above K9_MAX of PortWatch's best
+    year), "alert" (above its volume of the year, an alert explains it), "noalert" (above it, none does), "near" (within PW_NEAR of it).
+    `line` is the line the page prints; `n` the reason, which it folds. capped: groups whose "up to" figure is cut at PortWatch's volume;
+    groups: groups of the type that have an estimate here."""
+    name = TYPE_NAME[typ]
+    head = name[0].upper() + name[1:]
+    vs = f"IMF PortWatch's {mtn(ref)} for all {name} ships in {year}" if ref is not None else ""  # only the "best" kind can lack a figure of the year, and it does not use this
+    pw_est = (f"IMF PortWatch's volume is an estimate made from ship movements ({mtn(ref) + f' in {year}; ' if ref is not None else ''}"
+              f"{mtn(best)} in {best_y}, its best full year since {PW_FIRST_YEAR})")
+    subset = "the atlas's groups are not all the cargo these ships carry"
+    if kind == "alert":
+        s = (f"{head}: 'at least' {mtn(low)}, above {vs}; the atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
+             f"route, not the {year} traffic.")
+        n = (f"{pw_est}, and {subset}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal route, not the "
+             f"{year} traffic. {reason}")
+    elif kind == "near":
+        s = f"{head}: 'at least' {mtn(low)} is {low / ref:.0%} of {vs}; the ports or routes the atlas assumes may overstate the passage."
+        n = (f"{pw_est}, and {subset}, so an 'at least' tonnage this close to it leaves little room: the ports or routes the atlas assumes "
+             "may overstate the passage")
+    elif kind == "noalert":
+        s = f"{head}: 'at least' {mtn(low)}, above {vs}; the ports, routes or ship types the atlas assumes probably overstate the passage."
+        n = (f"{pw_est}, and {subset}, so a tonnage of the atlas above it, with no alert that explains it, means that the ports, routes or "
+             "ship types the atlas assumes probably overstate the passage")
+    else:
+        s = (f"{head}: 'at least' {mtn(low)}, above {K9_MAX:.0%} of PortWatch's best full year since {PW_FIRST_YEAR} for all {name} ships "
+             f"({mtn(best)} in {best_y}); the ports or routes the atlas assumes probably overstate the passage.")
+        n = (f"{pw_est}, and {subset}, so a tonnage of the atlas more than {K9_MAX - 1:.0%} above its best year means that the ports or routes "
+             "the atlas assumes probably overstate the passage")
+    if regime == "whole":
+        # the cap by subtraction compares the atlas with PortWatch: it says nothing once the two are this close
+        n += (f". The 'up to' figure of a group cannot exceed the whole of PortWatch's volume of these ships ({mtn(ref)}), and is not reduced by "
+              f"the other groups' 'at least' tonnage, because the atlas's own tonnage is above {PW_NEAR:.0%} of that volume and the two are too "
+              f"close to compare. The cap binds only where a figure is tagged 'capped at PortWatch volume': "
+              f"{'none' if not capped else capped} of the {groups} {name} groups with an estimate at this passage")
+    elif regime == "none":
+        n += (". The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages of the normal route, "
+              f"and the {year} traffic is not a ceiling for them")
+    return {"name": name, "y": year, "low": round(low, 1), "ref": None if ref is None else round(ref, 1), "best": round(best, 1),
+            "bestY": best_y, "cmp": "near" if kind == "near" else "above", "regime": regime, "capped": capped, "groups": groups, "line": s, "n": n}
+
+
 def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
     """`estimates` of every chokepoint and the K9 records of the passages with a PortWatch counter."""
     k9 = []
@@ -298,8 +360,8 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                     by_type[typ][2][(g, r["o"], r["d"])] += r["t"]
             per_group[g] = (typ, seaborne_rows, low, high, alt_by)
         # the passage against PortWatch, by vessel type: a note on the shares of a type whose "at least" tonnage is
-        # above PortWatch's volume of the same year, and the K9 records
-        type_note = {}
+        # above PortWatch's volume of the same year (written once on the passage, `typeNotes`), and the K9 records
+        type_args = {}
         reason_cp = alert_reason(alerts, cid, latest)
         regime = {typ: cap_regime(by_type[typ][0], pw_y.get(typ), reason_cp) if own else None for typ in TYPES}
         if c.get("portwatch") and vols:
@@ -313,45 +375,33 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                         f"against {mt3(ref) if ref is not None else 'no figure'} for all {TYPE_NAME[typ]} ships in IMF PortWatch {latest} "
                         f"(best full year since {PW_FIRST_YEAR}: {mt3(best)} in {by})")
                 level = "qa"
-                above = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mtn(low)}) is above "
-                         f"IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships" + (f" in {latest} ({mtn(ref)}; " if ref is not None else " (")
-                         + f"{mtn(best)} in {by}, its best full year since {PW_FIRST_YEAR})")
                 if cid in K9_NO_COMPARISON:
                     text += f"; the PortWatch counter is the {c.get('portwatchLabel') or 'part of the passage'}: no comparison is valid"
                 elif low > K9_MAX * best:
                     level = "flag"
                     text += (f"; above {K9_MAX:.0%} of the best year: the ports or routes the atlas assumes probably overstate it. "
                              "Largest pairs: " + ", ".join(f"{label_of(g)} {K._name(o)} to {K._name(d)} {mt(v)}" for (g, o, d), v in top))
-                    type_note[typ] = f"{above}: the assumed ports or routes probably overstate it"
+                    type_args[typ] = "best"
                 elif ref is not None and low > ref:
                     level = "flag"
                     reason = reason_cp
                     if reason:
                         text += f"; above PortWatch's {latest} volume: the atlas routes cargo on the normal itinerary. {reason}"
-                        type_note[typ] = (f"{above}. The atlas routes cargo on the normal itinerary, so this is the tonnage of the normal "
-                                          f"route, not the {latest} traffic. {reason}")
+                        type_args[typ] = "alert"
                     else:
                         # no diversion explains it: the assumed ports, routes or ship types are the likely cause
                         text += (f"; above PortWatch's {latest} volume and no alert explains it: the ports, routes or ship types the atlas "
                                  "assumes probably overstate it")
-                        type_note[typ] = f"{above}, and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it"
+                        type_args[typ] = "noalert"
                 elif ref and low > PW_NEAR * ref:
-                    type_note[typ] = (f"The 'at least' tonnage of all {TYPE_NAME[typ]} cargo of the atlas through this passage ({mtn(low)}) is "
-                                      f"{low / ref:.0%} of IMF PortWatch's estimate for all {TYPE_NAME[typ]} ships in {latest} ({mtn(ref)}), "
-                                      f"although the atlas's groups are not all the cargo these ships carry: the ports or routes the atlas "
-                                      "assumes may overstate it")
-                if regime[typ] == "whole" and typ in type_note:
-                    # the cap by subtraction compares the atlas with PortWatch: it says nothing once the two are this close
-                    type_note[typ] += (f". The 'up to' figures of these groups are capped at the whole of PortWatch's volume of these ships "
-                                       f"({mtn(ref)}), not at that volume less the other groups' 'at least' tonnage, because the atlas's own "
-                                       f"tonnage is above {PW_NEAR:.0%} of it and the two are too close to compare")
-                elif regime[typ] == "none" and typ in type_note:
-                    type_note[typ] += (". The 'up to' figures of these groups are not capped at PortWatch's volume here: they are tonnages "
-                                       f"of the normal route, and the {latest} traffic is not a ceiling for them")
+                    type_args[typ] = "near"
+                if typ in type_args:
+                    type_args[typ] = (type_args[typ], low, ref, best, by)
                 k9.append({"check": "K9", "kind": "passage", "group": None, "year": latest, "chokepoint": cid, "type": typ,
                            "value": round(low, 1), "high": round(high, 1), "reference": None if ref is None else round(ref, 1),
                            "best": round(best, 1), "bestYear": by, "ratio": round(low / best, 2), "level": level, "text": text})
         # second pass: the entries
+        capped_n = defaultdict(int)
         for g, (typ, seaborne_rows, low, high, alt_by) in per_group.items():
             p = pairs[g]
             sea = p["seaborne"]
@@ -370,13 +420,17 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                 continue
             label = label_of(g)
             tn = mtn if sea >= BL.SMALL_MT else ktn  # a group under 1 Mt is printed in kt, as its lane and commodity pages
+            # the figures of the estimate as the file stores them (`mt`) and as the page prints them: the note says the same figure (GV6D.9)
+            tf = mtp if tn is mtn else ktn
+            digits = lambda v: 1 if v >= 10 else 3 if tn is mtn else 4
+            low_s, hi_s, high_s = round(low, digits(low)), round(hi_pub, digits(hi_pub)), round(high, digits(high))
             # the part that has to cross rounds to nothing at the precision printed (e["mt"] below): said in words, not "at least 0.0"
             zero = round(low, 3 if tn is mtn else 4) == 0
             if zero:
                 n = [f"no cargo has to cross it: no recorded seaborne pair of the {tn(sea)} of seaborne {label} has an assumed route that has to "
                      f"cross this passage (CEPII BACI {latest}, Atlas routing)"]
             else:
-                n = [f"at least {tn(low)} of {tn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
+                n = [f"at least {tf(low_s)} of {tn(sea)} of seaborne {label}: {DEFINITION} (CEPII BACI {latest}, Atlas routing)"]
             unr = sum(r["t"] for r in seaborne_rows if r["load"] == -1)
             if unr >= 0.05:
                 n.append(f"{tn(unr)} of seaborne {label} could not be routed (no gateway, no sourced transit port, or one port at both ends)")
@@ -387,17 +441,15 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             if names:
                 n.append(f"Exports that customs data do not record for {latest}, or record only in part, are missing: {', '.join(names)} "
                          "(see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)")
-            if typ in type_note:
-                n.append(type_note[typ])
             e = {"k": BL.COMMODITY.get(g, g), "p": g,
                  "f": {"v": round(100 * low / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": ". ".join(n)},
-                 "mt": [round(low, 1 if low >= 10 else 3 if tn is mtn else 4), round(hi_pub, 1 if hi_pub >= 10 else 3 if tn is mtn else 4)]}
+                 "mt": [low_s, hi_s]}
             if round(100 * hi_pub / sea, 1) > e["f"]["v"]:
                 top = sorted(alt_by.items(), key=lambda x: -x[1])[:3]
                 top = [x for x in top if x[1] >= 0.005] or top[:1]
                 adds = ("adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on "
                         "another coast (largest: " + ", ".join(f"{K._name(o)} {tn(v)}" for o, v in top) + ")")
-                hn = f"up to {tn(high)}{' may cross it' if zero else ''}: {adds}"
+                hn = f"up to {tf(high_s)}{' may cross it' if zero else ''}: {adds}"
                 if hi_pub < high:
                     others = by_type[typ][0] - low
                     if regime[typ] == "whole":
@@ -405,9 +457,10 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
                     else:
                         less = (f" less the 'at least' tonnage of the atlas's other {TYPE_NAME[typ]} groups ({mtn(others)})" if others >= 0.05 else
                                 f" (the atlas's other {TYPE_NAME[typ]} groups have almost no 'at least' tonnage here)")
-                    hn = (f"up to {tn(hi_pub)}{' may cross it' if zero else ''}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
+                    hn = (f"up to {tf(hi_s)}{' may cross it' if zero else ''}: capped at IMF PortWatch's estimate of the cargo of all {TYPE_NAME[typ]} ships through the "
                           f"passage in {latest} ({mtn(pw_t)}, IMF PortWatch, data adapted){less}, which this cargo "
-                          f"cannot exceed; without the cap, {tn(high)}: {adds}")
+                          f"cannot exceed; without the cap, {tf(high_s)}: {adds}")
+                    capped_n[typ] += 1
                 e["hi"] = {"v": round(100 * hi_pub / sea, 1), "u": "%", "y": latest, "s": "atlas", "n": hn}
             est.append(e)
         est.sort(key=lambda e: -e["f"]["v"])
@@ -415,6 +468,12 @@ def chokepoint_shares(chk, pairs, pw, active, unrec, latest, alerts=None):
             c["estimates"] = est
         else:
             c.pop("estimates", None)
+        notes = {typ: passage_type_note(typ, *args, latest, reason_cp, regime[typ], capped_n[typ], sum(vessel_type(e["p"]) == typ for e in est))
+                 for typ, args in type_args.items()}
+        if notes:
+            c["typeNotes"] = {typ: notes[typ] for typ in TYPES if typ in notes}
+        else:
+            c.pop("typeNotes", None)
     return k9
 
 

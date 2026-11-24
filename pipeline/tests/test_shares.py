@@ -329,12 +329,16 @@ class Shares(unittest.TestCase):
                 continue
             seen.add((r["chokepoint"], r["type"]))
             self.assertEqual(r["level"], "flag", r)
-            for e in chokepoint(r["chokepoint"]).get("estimates", []):
-                if vtype(e["p"]) == r["type"]:
-                    self.assertIn("IMF PortWatch's estimate for all", e["f"]["n"], (r["chokepoint"], e["p"]))
-                    self.assertRegex(e["f"]["n"], r"normal itinerary|probably overstate", (r["chokepoint"], e["p"]))
-                    if r["chokepoint"] in ("suez", "bab-el-mandeb") and r["value"] <= 1.1 * r["best"]:
-                        self.assertIn("Red Sea diversions", e["f"]["n"], (r["chokepoint"], e["p"]))
+            # GV6D.1: the note of the ship type is written once on the passage (`typeNotes`), not in each of its estimates
+            cp = chokepoint(r["chokepoint"])
+            if cp.get("estimates") and any(vtype(e["p"]) == r["type"] for e in cp["estimates"]):
+                tn = cp["typeNotes"][r["type"]]
+                self.assertIn("IMF PortWatch's", tn["line"], (r["chokepoint"], r["type"]))
+                self.assertRegex(tn["line"], r"normal itinerary|probably overstate", (r["chokepoint"], r["type"]))
+                if r["chokepoint"] in ("suez", "bab-el-mandeb") and r["value"] <= 1.1 * r["best"]:
+                    self.assertIn("Red Sea diversions", tn["n"], (r["chokepoint"], r["type"]))
+            for e in cp.get("estimates", []):
+                self.assertNotIn("PortWatch", e["f"]["n"], (r["chokepoint"], e["p"]))
         print("\nGE6.1: passages above PortWatch's volume of the same year:", sorted(seen))
         self.assertIn(("suez", "tanker"), seen)
         self.assertIn(("bab-el-mandeb", "dry"), seen)

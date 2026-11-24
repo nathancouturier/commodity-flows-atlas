@@ -3,11 +3,11 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
-import { corridorHas, lacksSpeed, laneChipLabels, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
+import { LANE_GROUPS, corridorHas, lacksSpeed, laneChipLabels, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
-import { AltBox, CommodityChips, HistoryChart, PortSource, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners, WayBack } from '../ui';
+import { AltBox, CommodityChips, HistoryChart, PortSource, RiverNotes, ViaSection, VesselChip, openCommodity, publisher, useFreightCatalogue, useLoaded } from './shared';
 import '../../styles/lane-engine.css';
 
 interface Loaded { file: LaneFile; lane: Lane }
@@ -69,8 +69,11 @@ export default function LaneView({ id }: { id: string }) {
   );
   if (d === undefined)
     return (<>{head('Seaborne lane')}<div class="panel-scroll"><Skeleton lines={7} /></div></>);
+  // the page of the lane's commodity, when its id names one: the way back from a lane that the files no longer have
+  const group = id.split(':')[0];
+  const page = commodityMeta(group) ? group : Object.keys(LANE_GROUPS).find((k) => LANE_GROUPS[k].includes(group) && commodityMeta(k));
   if (d === null)
-    return (<>{head('Seaborne lane')}<div class="panel-scroll"><Placeholder>This lane is not in the atlas.</Placeholder></div></>);
+    return (<>{head('Seaborne lane')}<div class="panel-scroll"><Placeholder>This lane is not in the atlas.{page && <WayBack onClick={() => openCommodity(page)}>{`${commodityMeta(page)?.name} page`}</WayBack>}</Placeholder></div></>);
 
   const { file, lane } = d;
   const meta = commodityMeta(lane.k);

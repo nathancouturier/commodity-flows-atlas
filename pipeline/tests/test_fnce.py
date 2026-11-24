@@ -106,8 +106,12 @@ class E1RiverLegTable(unittest.TestCase):
 
     def test_the_note_names_the_leg_the_mouth_the_length_and_the_straight_line(self):
         n = RL.note(RL.RIVER_LEGS["FRURO"], "Rouen")
-        for part in ("Rouen is up the Seine", "about 65 nm", "Honfleur", "120 km", "Port de Rouen", "one straight segment"):
+        for part in ("Rouen is 65 nm up the Seine from Honfleur", "120 km", "Port de Rouen page", "included in the distance", "the line runs straight from the port to Honfleur"):
             self.assertIn(part, n)
+        # GV7B.7: one sentence and no second naming of the page (the link follows the note): about a line and a half at 1440 px
+        self.assertEqual(n, "Rouen is 65 nm up the Seine from Honfleur (120 km, Port de Rouen page): included in the distance; the line runs straight from the port to Honfleur.")
+        self.assertLess(len(n), 160)
+        self.assertNotIn("Wikipedia", n)
         pub = RL.public("FRURO", "Rouen")
         self.assertEqual((pub["nm"], pub["km"], pub["river"], pub["mouth"]), (65, 120, "Seine", "Honfleur"))
         self.assertIsNone(RL.public("FRLEH", "Le Havre"))
@@ -212,7 +216,7 @@ class E1DataFiles(unittest.TestCase):
                 used += 1
                 riv = p["rivers"]["FRURO"]
                 self.assertEqual((riv["nm"], riv["km"], riv["river"], riv["mouth"]), (65, 120, "Seine", "Honfleur"), f)
-                self.assertIn("one straight segment", riv["n"])
+                self.assertIn("the line runs straight from the port to Honfleur", riv["n"])
                 self.assertEqual(set(p["rivers"]), {"FRURO"})
             else:
                 self.assertNotIn("rivers", p, f)
@@ -247,7 +251,7 @@ class E1DataFiles(unittest.TestCase):
         for r in hit:
             self.assertEqual(r["rivers"][0]["port"], "Rouen")
             self.assertEqual(r["rivers"][0]["nm"], 65)
-            self.assertIn("one straight segment", r["rivers"][0]["n"])
+            self.assertIn("the line runs straight from the port to Honfleur", r["rivers"][0]["n"])
             self.assertIn("Rouen", [*r["from"]["ports"], *r["to"]["ports"]])
         # and no route that does not use Rouen says it
         for r in routes:
@@ -259,7 +263,7 @@ class E1DataFiles(unittest.TestCase):
             self.assertIn("<RiverNotes", read("web", "src", "components", "views", f + ".tsx"), f)
         self.assertIn("<RiverNotes", read("web", "src", "components", "RouteFinder.tsx"))
         self.assertIn("river: file.rivers?.[p[0]]", read("web", "src", "lib", "freight.ts"))
-        self.assertIn("one straight segment", RL.note(RL.RIVER_LEGS["FRURO"], "Rouen"))
+        self.assertIn("the line runs straight from the port to Honfleur", RL.note(RL.RIVER_LEGS["FRURO"], "Rouen"))
 
 
 class E2PlantBasis(unittest.TestCase):

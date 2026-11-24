@@ -1615,7 +1615,7 @@
    {
     "c": "ZAF",
     "v": 0.14,
-    "n": "Atlas estimate: 57% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 57% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -1966,7 +1966,7 @@
    {
     "c": "VNM",
     "v": 1.07,
-    "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page); No crude oil from Kuwait to Vietnam is recorded in customs data for 2024 (9.01 Mt in 2023, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
+    "n": "Atlas estimate: 61% of this tonnage is estimated from the declared value (customs declared 0.00298 Mt for these flows; declared value divided by a reference unit value, see the notes of the page); No crude oil from Kuwait to Vietnam is recorded in customs data for 2024 (9.01 Mt in 2023, CEPII BACI). Incomplete declarations by both sides may be the cause; it is not established here.",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -1982,7 +1982,7 @@
    {
     "c": "TGO",
     "v": 0.845,
-    "n": "Atlas estimate: 83% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 83% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024
@@ -2014,7 +2014,7 @@
    {
     "c": "LCA",
     "v": 0.394,
-    "n": "Atlas estimate: 63% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "n": "Atlas estimate: 63% of this tonnage is estimated from the declared value (customs declared 0.00203 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
     "est": true,
     "s": "atlas",
     "y": 2024

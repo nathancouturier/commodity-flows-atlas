@@ -131,13 +131,15 @@ const COUNTRY_ALIASES: Record<string, string[]> = {
 
 /** Trade names of the products that a commodity page holds besides the one in its name (the fertiliser pages hold several customs groups). */
 const COMMODITY_ALIASES: Record<string, string[]> = {
-  urea: ['ammonia', 'ammonium nitrate', 'calcium ammonium nitrate', 'CAN', 'ammonium nitrate with limestone', 'UAN', 'urea ammonium nitrate', 'ammonium sulphate', 'ammonium sulfate', 'nitrogen fertiliser', 'nitrogen fertilizer', 'fertiliser', 'fertilizer'],
-  phosphate: ['phosphate rock', 'DAP', 'diammonium phosphate', 'MAP', 'monoammonium phosphate', 'TSP', 'triple superphosphate', 'superphosphate', 'phosphoric acid', 'phosphate fertiliser', 'fertilizer'],
-  potash: ['potassium chloride', 'muriate of potash', 'MOP', 'SOP', 'sulphate of potash', 'potassium sulphate', 'potassium sulfate', 'potassium fertiliser', 'fertilizer'],
+  // no bare "CAN": it is the code of Canada, and it put this page and rapeseed above the country for "can"; "AN" is the usual short name of ammonium nitrate
+  urea: ['ammonia', 'ammonium nitrate', 'AN', 'calcium ammonium nitrate', 'ammonium nitrate with limestone', 'UAN', 'urea ammonium nitrate', 'ammonium sulphate', 'ammonium sulfate', 'nitrogen fertiliser', 'nitrogen fertilizer', 'fertiliser', 'fertilizer'],
+  // the five fertiliser pages have both spellings as a bare alias, so that "fertiliser" and "fertilizer" give the same pages in the same order
+  phosphate: ['phosphate rock', 'DAP', 'diammonium phosphate', 'MAP', 'monoammonium phosphate', 'TSP', 'triple superphosphate', 'superphosphate', 'phosphoric acid', 'phosphate fertiliser', 'phosphate fertilizer', 'fertiliser', 'fertilizer'],
+  potash: ['potassium chloride', 'muriate of potash', 'MOP', 'SOP', 'sulphate of potash', 'potassium sulphate', 'potassium sulfate', 'potassium fertiliser', 'potassium fertilizer', 'fertiliser', 'fertilizer'],
   sulphur: ['sulfur', 'brimstone', 'fertiliser', 'fertilizer'],
   // the grains and oilseeds (M-023): the pages hold the oils, meals and flour too
   wheat: ['wheat flour', 'flour'],
-  corn: ['maize', 'distillers grains', 'DDGS', 'brewers grains', 'brewing and distilling dregs'],
+  corn: ['maize', 'distillers grains', 'DDGS', 'brewers grains', 'brewing dregs', 'distilling dregs'],
   barley: ['malting barley', 'feed barley'],
   sorghum: ['milo', 'grain sorghum'],
   sunflower: ['sunflower seed', 'sunflower oil', 'sunflower meal', 'safflower oil'],
@@ -149,7 +151,7 @@ const COMMODITY_ALIASES: Record<string, string[]> = {
   'ferrous-scrap': ['scrap', 'steel scrap', 'iron scrap', 'metal scrap', 'ferrous waste', 'recycled steel', 'HMS', 'heavy melting scrap', 'shredded scrap'],
   'pig-iron': ['pig iron', 'DRI', 'HBI', 'hot briquetted iron', 'direct reduced iron', 'direct-reduced iron', 'sponge iron', 'spongy iron', 'spiegeleisen'],
   chromium: ['chromite', 'chrome', 'chrome ore', 'chromium ore'],
-  'ferro-alloys': ['ferroalloys', 'ferro alloys', 'ferrochrome', 'ferrochromium', 'ferro-chromium', 'ferromanganese', 'ferro-manganese', 'silicomanganese', 'silico-manganese', 'ferrosilicon', 'ferro-silicon', 'ferromolybdenum', 'ferrovanadium', 'ferroniobium', 'ferrotungsten', 'ferrotitanium'],
+  'ferro-alloys': ['ferroalloys', 'ferro alloys', 'FeCr', 'FeMn', 'SiMn', 'FeSi', 'FeMo', 'ferrochrome', 'ferrochromium', 'ferro-chromium', 'ferromanganese', 'ferro-manganese', 'silicomanganese', 'silico-manganese', 'ferrosilicon', 'ferro-silicon', 'ferromolybdenum', 'ferrovanadium', 'ferroniobium', 'ferrotungsten', 'ferrotitanium'],
   'met-coal': ['coke', 'metallurgical coke', 'semi-coke', 'coking coal'],
   molybdenum: ['molybdenite', 'moly', 'molybdenum concentrate'],
   graphite: ['natural graphite', 'flake graphite'],
@@ -235,7 +237,7 @@ function companyItems(map: CompanyMap | null, shipping: ShippingCompanies | null
     out.push(
       make(
         'company', slug, c.name, joinSub('Company', c.hq ? countryName(c.hq) : '', what),
-        prepare([c.name, ...nameForms(c.name)], [], [c.hq ? countryName(c.hq) : '', c.role, ...kNames, ...segWords, ...(seg.length ? ['shipping'] : []), 'company']),
+        prepare([c.name, ...nameForms(c.name)], [], [c.hq ? countryName(c.hq) : '', c.role, ...kNames, ...segWords, ...(seg.length ? ['shipping'] : []), 'company'], kNames),
         c.name, open,
       ),
     );
@@ -279,7 +281,7 @@ async function build(): Promise<Item[]> {
       make(
         // an ended route says so: "C10" finds the ended C10_14 and the C10_182 that replaced it, with the same badge
         'route', r.id, r.name, joinSub(kindText, vesselName(r.vclass), r.discontinued ? 'ended' : ''),
-        prepare([r.name], code ? [r.id, code] : [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, vesselName(r.vclass), 'freight route', ...r.cargoes.map((k) => commodityMeta(k)?.name ?? k)]),
+        prepare([r.name], code ? [r.id, code] : [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, vesselName(r.vclass), 'freight route', ...r.cargoes.map((k) => commodityMeta(k)?.name ?? k)], r.cargoes.map((k) => commodityMeta(k)?.name ?? k)),
         `${r.benchmark ? 0 : 1}${r.name}`, () => select({ kind: 'route', id: r.id }), badge || undefined,
       ),
     );
@@ -300,7 +302,7 @@ async function build(): Promise<Item[]> {
     out.push(
       make(
         'infra', `${p.id}:${p.type}`, p.name, joinSub(type, countryName(p.c), p.operator),
-        prepare([p.name, ...(akaOf.get(`${p.type}:${p.id}`) ?? [])], [p.id], [p.operator ?? '', countryName(p.c), type, ...(p.cs ?? []).map(countryName), ...p.k.map((k) => commodityMeta(k)?.name ?? k)]),
+        prepare([p.name, ...(akaOf.get(`${p.type}:${p.id}`) ?? [])], [p.id], [p.operator ?? '', countryName(p.c), type, ...(p.cs ?? []).map(countryName), ...p.k.map((k) => commodityMeta(k)?.name ?? k)], p.k.map((k) => commodityMeta(k)?.name ?? k)),
         p.name, () => select({ kind: 'infra', id: p.id, layer: p.type }),
       ),
     );
@@ -324,7 +326,7 @@ async function build(): Promise<Item[]> {
   for (const e of events ?? []) {
     out.push(
       make(
-        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.id, ...eventYears(e.date, e.end), e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName), ...(e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)]),
+        'event', e.id, e.title, joinSub(cap(e.kind), e.end ? `${e.date} to ${e.end}` : e.date), prepare([e.title], [e.id], [e.id, ...eventYears(e.date, e.end), e.kind, 'event', ...(e.countries ?? []).map(countryName), ...(e.chokepoints ?? []).map(cpName), ...(e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)], (e.commodities ?? []).map((k) => commodityMeta(k)?.name ?? k)),
         // newest first
         -Date.parse(e.date.length === 4 ? `${e.date}-01-01` : e.date.length === 7 ? `${e.date}-01` : e.date), () => select({ kind: 'event', id: e.id }),
       ),

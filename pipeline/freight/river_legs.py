@@ -44,10 +44,10 @@ def nm_of(leg):
 
 
 def note(leg, port_name):
-    """The sentence of the lane, route and finder pages: what the distance includes and how the leg is drawn."""
-    return (f"{port_name} is up the {leg['river']}, off the sea network: the distance includes about {nm_of(leg)} nm of the {leg['river']} "
-            f"between {leg['mouth_name']} and the port ({leg['km']} km, {leg['page']}), and the line is drawn from the port to "
-            f"{leg['mouth_name']} as one straight segment, not along the river.")
+    """The one sentence of the lane, route and finder pages: the leg (the figures come from the table), that the distance includes it, and
+    that the line is drawn straight to the mouth. The page that gives the length is named once; the page's link follows it (GV7B.7)."""
+    return (f"{port_name} is {nm_of(leg)} nm up the {leg['river']} from {leg['mouth_name']} ({leg['km']} km, {leg['page'].split(', ')[0]} page): "
+            f"included in the distance; the line runs straight from the port to {leg['mouth_name']}.")
 
 
 def public(code, port_name):

@@ -8,7 +8,7 @@ import { GROUP_LABEL, loadRoutes, loadRouteGeo, routeCargoLabels, SEGMENT_LABEL,
 import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
-import { AltBox, CommodityChips, HistoryChart, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { AltBox, CommodityChips, FreightWayBack, HistoryChart, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { EventList } from '../EventList';
 import { RoutePorts } from './RoutePorts';
 import { routeGroups } from '../../lib/infra';
@@ -43,7 +43,7 @@ export default function RouteView({ id }: { id: string }) {
     return (
       <>
         <div class="detail-head"><div class="detail-kicker">Freight route</div><h2 class="detail-title">{id}</h2></div>
-        <div class="panel-scroll"><Placeholder>This route is not in the atlas catalogue.</Placeholder></div>
+        <div class="panel-scroll"><Placeholder>This route is not in the atlas catalogue.<FreightWayBack /></Placeholder></div>
       </>
     );
   return <Body key={route.id} r={route} />;

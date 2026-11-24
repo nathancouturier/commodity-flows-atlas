@@ -1430,32 +1430,32 @@
      {
       "c": "GRC",
       "v": 0.2501,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      },
      {
       "c": "PRT",
       "v": 0.1721,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      },
      {
       "c": "FRA",
       "v": 0.072,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      },
      {
       "c": "BGR",
       "v": 0.0658,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      },
      {
       "c": "ROU",
       "v": 0.0144,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      },
      {
       "c": "HUN",
       "v": 0.0086,
-      "n": "0.0% of the FAOSTAT world total (820 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (820 Mt)"
      }
     ],
     "n": "FAOSTAT crop production (QCL), rice (paddy), calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 2.64 Mt (the world total of FAOSTAT is 820 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. This table is paddy rice, not milled, not the basis of the USDA table: on the map the member states carry the USDA value for the European Union",

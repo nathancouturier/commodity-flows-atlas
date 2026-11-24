@@ -69,6 +69,9 @@ div.lt-row { cursor: default; }
 .est-k { color: var(--ink-0); font-size: var(--fs-sm); }
 .est-v { color: var(--ink-0); font-size: var(--fs-sm); text-align: right; }
 .est-sub { margin-top: 2px; font-size: 11px; line-height: 1.4; color: var(--ink-2); overflow-wrap: anywhere; }
+/* what the atlas's tonnage of a ship type says against PortWatch's, once above the list of estimates */
+.est-type { margin-bottom: 6px; padding-left: 8px; border-left: 2px solid rgba(255, 181, 71, 0.55); }
+.est-type-line { font-size: 11px; line-height: 1.4; color: var(--ink-1); overflow-wrap: anywhere; }
 
 /* a warning that belongs to a whole table, under the table */
 .table-caveat { margin-top: 6px; padding: 4px 8px; border-left: 2px solid rgba(255, 181, 71, 0.55); font-size: 11px; line-height: 1.4; color: var(--ink-1); overflow-wrap: anywhere; }

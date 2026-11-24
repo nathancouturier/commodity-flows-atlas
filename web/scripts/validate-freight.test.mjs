@@ -131,6 +131,19 @@ rejects('a class index out of range', (d) => (d.pairs.rows[0][7] = 3), 'cls = 3'
 rejects('a mode out of range', (d) => (d.pairs.rows[0][3] = 4), 'm = 4');
 rejects('a mask wider than the gate list', (d) => (d.pairs.rows[0][8] = 8), 'via = 8');
 rejects('a row shorter than the columns', (d) => d.pairs.rows[0].pop(), 'values for 11 columns');
+// ---- the note of a ship type, written once on the passage (GV6D.1)
+const withTypeNote = (extra = {}) => (d) => {
+  d.chokepoints[0].estimates = [{ k: 'coal', p: 'coal', f: { v: 1, u: '%', y: 2024, s: 'atlas', n: 'at least 1 Mt of 2 Mt of seaborne coal' }, mt: [1, 1] }];
+  d.chokepoints[0].typeNotes = { dry: { name: 'dry bulk', y: 2024, low: 2, ref: 1, best: 3, bestY: 2023, cmp: 'above', regime: 'whole', capped: 0, groups: 1, line: 'Dry bulk: a line', n: 'The reason', ...extra } };
+};
+test('a note of a ship type on the passage passes', () => {
+  const { errors } = run(withTypeNote());
+  assert.deepEqual(errors, []);
+});
+rejects('a note of an unknown ship type', (d) => { withTypeNote()(d); d.chokepoints[0].typeNotes.ship = d.chokepoints[0].typeNotes.dry; }, 'not a ship type');
+rejects('a note of a ship type without its line', withTypeNote({ line: '' }), 'no line');
+rejects('a note of a ship type with an unknown regime', withTypeNote({ regime: 'half' }), 'regime "half"');
+rejects('a note of a ship type repeated in an estimate', (d) => { withTypeNote()(d); d.chokepoints[0].estimates[0].f.n += ". The 'at least' tonnage is above IMF PortWatch's estimate for all dry bulk ships"; }, 'repeated in the estimate');
 rejects('a gate that is not a chokepoint', (d) => (d.pairs.gates[0] = 'nowhere'), 'gate "nowhere"');
 rejects('more than 31 gates', (d) => (d.pairs.gates = Array.from({ length: 32 }, (_, i) => (i < 3 ? d.pairs.gates[i] : 'suez'))), '32 gates');
 rejects('a lane that names a passage that does not exist', (d) => (d.lane.lanes[0].via = ['atlantis']), '"atlantis"');

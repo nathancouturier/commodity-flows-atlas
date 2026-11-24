@@ -85,6 +85,8 @@ const TOP_LANES = 10;
 
 type Estimate = NonNullable<Chokepoint['estimates']>[number];
 
+const TYPE_ORDER = ['dry', 'tanker', 'cargo'] as const;
+
 /** No cargo has to cross: the "at least" tonnage rounds to nothing at the precision the page prints it (estimateMt). */
 const noneMust = (e: Estimate, small = false) => !!e.mt && (small ? nf1.format(e.mt[0] * 1e3) : mt3(e.mt[0])).replace(/[.,0]/g, '') === '';
 
@@ -126,6 +128,13 @@ function Estimates({ cp, withDefinition, small }: { cp: Chokepoint; withDefiniti
       {withDefinition && <div class="muted small" style={{ marginBottom: '6px' }}>{ESTIMATE_DEFINITION}</div>}
       {/* a route of similar length that the atlas does not count as a choice (or counts as one) */}
       {cp.parallelNote && <div class="muted small" style={{ marginBottom: '6px' }}>{cp.parallelNote}</div>}
+      {/* the atlas's tonnage of a ship type against PortWatch's, once for the passage: the line, then the reason that folds */}
+      {TYPE_ORDER.filter((t) => cp.typeNotes?.[t]).map((t) => (
+        <div class="est-type" key={t}>
+          <div class="est-type-line">{cp.typeNotes![t]!.line}</div>
+          <FoldNote class="est-sub" style={{ marginTop: '2px' }} text={cp.typeNotes![t]!.n} />
+        </div>
+      ))}
       {shown.map((e, i) => {
         const mt = estimateMt(e, !!small?.(e.p));
         const range = !!e.hi && e.hi.v - e.f.v >= 0.05;

@@ -996,7 +996,7 @@ class Baci:
             mostly = es >= 0.5
             if mostly:  # most of the tonnage is the atlas's own estimate (GW3.3): said first, with the method in a few words
                 note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the declared value "
-                                                        f"(customs declared {_fmt(r['t0e'] / div)} {u} for these flows; declared value divided by a reference unit value, see the notes of the page)")
+                                                        f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows; declared value divided by a reference unit value, see the notes of the page)")
             elif es >= 0.10:
                 note = (note + "; " if note else "") + f"{es * 100:.0f}% of tonnage estimated from value"
             ss = r["ts"] / r["t"] if r["t"] else 0
@@ -1664,7 +1664,7 @@ def faostat_eu_production(cid):
         iso = fao_iso(m49, area)
         if not iso or iso not in EU_MEMBERS:
             continue
-        note = f"{v / 1e6 / world:.1%} of the FAOSTAT world total ({_nf(world)} Mt)"
+        note = f"{_pct1(v / 1e6 / world)} of the FAOSTAT world total ({_nf(world)} Mt)"
         if fl in ("E", "X", "I"):
             note += f"; FAO flag: {fl}"
         rows.append((iso, v / 1e6, note))
@@ -1973,7 +1973,7 @@ def main():
                 for r in t["rows"]:
                     lv = eia.s[key].get(_iso_to_eia(r["c"]), {}).get(ly, 0.0) * 1e-3
                     if lv >= 0.01 * r["v"]:
-                        r["n"] = f"of which lignite {_fmt(lv)} Mt ({min(lv / r['v'], 1):.0%})"
+                        r["n"] = f"of which lignite {_fmts(lv, 'Mt')} ({min(lv / r['v'], 1):.0%})"
                 if lw:
                     t["n"] += f"; includes lignite: {_fmt(lw * 1e-3)} Mt of the world total ({lw * 1e-3 / t['world']:.0%}, EIA lignite {word})"
                 set_basis(t, "incl. lignite")
@@ -2615,7 +2615,8 @@ def main():
             else:
                 notes.append("Trade is natural graphite, in powder or flakes (HS 250410) and in other forms (HS 250490), customs gross weight (kt). USGS production and reserves are "
                              "natural graphite as USGS states it, in the file's metric tons (shown in kt). Artificial graphite and graphite articles are not loaded.")
-            notes.append("Price: the World Bank Pink Sheet has none for " + ("molybdenum. The only price on the page is the USGS annual average of molybdic oxide (57% molybdenum), "
+            notes.append("Price: the World Bank Pink Sheet has none for " + ("molybdenum. The only price on the page is the USGS annual average price of US molybdic oxide (MoO3, 57% molybdenum content), "
+                                                                          "in dollars per kilogram: the file does not say whether the kilogram is of the oxide or of the molybdenum in it. The oxide is "
                                                                           "a product made from the concentrates of the tables, not their own price." if cid == "molybdenum" else
                                                                           "graphite. The only prices on the page are the USGS annual average import unit values of three kinds of natural graphite (flake, "
                                                                           "lump and chip, amorphous), United States imports.") + " No monthly series was loaded.")
@@ -3126,6 +3127,19 @@ def _fmt(v):
     if abs(v) >= 10:
         return f"{v:.1f}"
     return f"{v:.2f}"
+
+
+def _fmts(v, u):
+    """`_fmt` with its unit, but a figure that two decimals would write "0.00" (a small row beside a large one) keeps three significant digits,
+    in the smaller unit under 0.001 Mt: "0.00 Mt" is not a figure (GV6C.11)."""
+    if not v:
+        return f"0 {u}"
+    return _nfu(v, u) if round(v, 2) == 0 else f"{_fmt(v)} {u}"
+
+
+def _pct1(x):
+    """A share (0 to 1) with one decimal, "<0.1%" where it rounds to nothing: "0.0%" beside a non-zero figure reads as an error (GV6C.11)."""
+    return "0%" if not x else f"{x:.1%}" if x >= 0.0005 else "<0.1%"
 
 
 def _nf(v):

@@ -212,7 +212,8 @@
 "soybeans",
 "wheat",
 "soymeal",
-"manganese"
+"manganese",
+"potash"
 ],
 "constraints": [
 "Draft limits at US Gulf river terminals, Up-River Parana and Columbia River restrict cargo size (cargo then topped off elsewhere)"
@@ -241,7 +242,7 @@
 "id": "kamsarmax",
 "n": "Benchmarks: the Baltic Panamax routes, defined for an 82,500 dwt ship of Kamsarmax size"
 },
-"notes": "The Baltic Panamax vessel of the benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m, which the atlas files under Kamsarmax by size; the routes are listed here too.",
+"notes": "The Baltic Panamax vessel of the benchmark routes (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m, which the atlas files under Kamsarmax by size; the routes are listed here too. The Atlas puts the class first on the lanes of Canadian potash above 2 Mt a year (an assumption: no page was read for the class of these lanes).",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -295,7 +296,11 @@
 "soybeans",
 "wheat",
 "barley",
-"sorghum"
+"sorghum",
+"soymeal",
+"sugar",
+"rapeseed",
+"pulses"
 ],
 "constraints": [
 "229 m LOA limit set by Kamsar port, Guinea"
@@ -347,7 +352,7 @@
 "gen-wheat-w-australia-r-east-asia",
 "gen-wheat-canada-west-r-east-asia"
 ],
-"notes": "The Baltic's Panamax vessel (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m: a Kamsarmax by size.",
+"notes": "The Baltic's Panamax vessel (P1A_82, P2A_82, P3A_82, P6_82) is an 82,500 dwt ship of 229 m: a Kamsarmax by size. The Atlas also puts the class first on the lanes of grains, oilseeds, meals, pulses and sugar that leave the United States, Brazil, Argentina, Canada or Australia above 1 Mt a year, which is why soybean meal, sugar, rapeseed and pulses are among the cargoes with the grains (an Atlas assumption: no page was read for the class of these lanes).",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -399,10 +404,16 @@
 "ferrous-scrap",
 "chromium",
 "pig-iron",
-"met-coal"
+"met-coal",
+"soymeal",
+"sugar",
+"bauxite",
+"iron-ore",
+"lithium"
 ],
 "cargoLabels": {
-"met-coal": "Coke"
+"met-coal": "Coke",
+"lithium": "Spodumene concentrate (Atlas estimate)"
 },
 "constraints": [
 "Geared; used at ports lacking shore cranes"
@@ -511,7 +522,7 @@
 "id": "ultramax",
 "n": "Benchmarks: the Baltic Supramax routes, defined for a 63,500 dwt ship of Ultramax size"
 },
-"notes": "The typical size, 58,000 dwt, is an Atlas convention: the size in the name of the Baltic's Supramax 58 time-charter average (S10TC), which the Baltic's Guide to Market Benchmarks (December 2025) derives from its 63,500 dwt routes without describing a 58,000 dwt vessel. The Baltic's Standard Supramax is a 63,500 dwt ship, the size the atlas files under Ultramax. The Atlas also puts the class first on the lanes of ferrous scrap, chromite, pig iron, direct-reduced iron and coke (A-010; coke is a group of the Metallurgical coal page, which is why that page is in the list of cargoes), with the Handysize second, as for steel: parcels of a few tens of thousands of tonnes in geared handy bulk carriers. This is an Atlas assumption: no page was read for the class of these lanes.",
+"notes": "The typical size, 58,000 dwt, is an Atlas convention: the size in the name of the Baltic's Supramax 58 time-charter average (S10TC), which the Baltic's Guide to Market Benchmarks (December 2025) derives from its 63,500 dwt routes without describing a 58,000 dwt vessel. The Baltic's Standard Supramax is a 63,500 dwt ship, the size the atlas files under Ultramax. The Atlas also puts the class first on the lanes of ferrous scrap, chromite, pig iron, direct-reduced iron and coke (A-010; coke is a group of the Metallurgical coal page, which is why that page is in the list of cargoes), with the Handysize second, as for steel: parcels of a few tens of thousands of tonnes in geared handy bulk carriers. It is also first on the smaller flows of iron ore, bauxite, alumina, soybean meal and sugar and on the spodumene lanes (the rules of the vessel classes of the lanes). This is an Atlas assumption: no page was read for the class of these lanes.",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -659,7 +670,8 @@
 "ferrous-scrap",
 "chromium",
 "pig-iron",
-"met-coal"
+"met-coal",
+"rice"
 ],
 "cargoLabels": {
 "met-coal": "Coke"
@@ -688,7 +700,7 @@
 "gen-rice-sea-waf",
 "gen-rice-wc-india-sea"
 ],
-"notes": "Baltic Handysize reference ship: 38,200 dwt.",
+"notes": "Baltic Handysize reference ship: 38,200 dwt. The Atlas puts the class first on the lanes of rice (an assumption: no page was read for the class of these lanes).",
 "s": "wikipedia-vessel-classes",
 "speedKn": 11.5,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",
@@ -1473,8 +1485,19 @@
 "coffee",
 "cocoa",
 "cotton",
-"ferro-alloys"
+"ferro-alloys",
+"lead",
+"tin",
+"zinc",
+"lithium",
+"cobalt",
+"rare-earths"
 ],
+"cargoLabels": {
+"lead": "Unwrought lead",
+"zinc": "Unwrought zinc",
+"lithium": "Lithium carbonate & hydroxide"
+},
 "constraints": [
 "Carries cargo in standard containers, not in bulk; ships under 3,000 TEU are called feeders and mostly serve smaller container ports"
 ],
@@ -1489,7 +1512,7 @@
 "gen-cotton-ecsa-n-china",
 "gen-ferro-chromium-s-africa-n-china"
 ],
-"notes": "Size band from the Wikipedia article Container ship (read in November 2026; CC BY-SA 4.0): its size categories run from small feeders of up to 1,000 TEU to ultra-large ships of 14,501 TEU and more, and its infobox gives a capacity of up to 24,000 TEU, so the range starts at 0 and ends at 24,000. The page gives no typical size: the typical size is the middle of the band, an Atlas convention that describes no single lane. The Atlas uses the class first for general cargo that moves in boxes (refined copper, aluminium, coffee, cocoa, cotton, and the ferro-alloys, A-010), with the Handysize second; it is a stand-in for the whole container fleet, not a measured share. The page's canal figures (Panama locks, Suez) belong to particular size categories, so no restriction is applied to the class as a whole. Speed: see the assumed laden service speed.",
+"notes": "Size band from the Wikipedia article Container ship (read in November 2026; CC BY-SA 4.0): its size categories run from small feeders of up to 1,000 TEU to ultra-large ships of 14,501 TEU and more, and its infobox gives a capacity of up to 24,000 TEU, so the range starts at 0 and ends at 24,000. The page gives no typical size: the typical size is the middle of the band, an Atlas convention that describes no single lane. The Atlas uses the class first for general cargo that moves in boxes (refined copper, aluminium, coffee, cocoa, cotton, refined lead and zinc, tin, lithium, cobalt, the rare earths and the ferro-alloys), with the Handysize second; it is a stand-in for the whole container fleet, not a measured share. The page's canal figures (Panama locks, Suez) belong to particular size categories, so no restriction is applied to the class as a whole. Speed: see the assumed laden service speed.",
 "s": "wikipedia",
 "speedKn": 17.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",

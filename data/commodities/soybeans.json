@@ -960,52 +960,52 @@
      {
       "c": "SVK",
       "v": 0.1527,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "DEU",
       "v": 0.1318,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "POL",
       "v": 0.081,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "CZE",
       "v": 0.0737,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "SVN",
       "v": 0.0116,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "ESP",
       "v": 0.0109,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "GRC",
       "v": 0.0025,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "LTU",
       "v": 0.002,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "BGR",
       "v": 0.0006,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      },
      {
       "c": "LUX",
       "v": 0.0001,
-      "n": "0.0% of the FAOSTAT world total (398 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (398 Mt)"
      }
     ],
     "n": "FAOSTAT crop production (QCL), soya beans, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 3.07 Mt (the world total of FAOSTAT is 398 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total",

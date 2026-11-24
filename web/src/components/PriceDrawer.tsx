@@ -58,6 +58,7 @@ import { PriceBoard, PriceStatusLine } from './PriceBoard';
 import { CloseIcon } from './ui';
 import type { FreightEvent } from '../types';
 import '../styles/drawers.css';
+import { seriesCovers } from '../lib/priceWindow';
 
 const PALETTE = ['#3ee6ff', '#ffb547', '#c7a3ff', '#7ee0a1', '#9db7ff'];
 const MAX_SERIES = 3;
@@ -224,9 +225,11 @@ export function PriceDrawer() {
   const realOn = real && realOk;
   // a closed series and the annual series that goes on after it share one real twin: it is loaded once
   const loadIds = realOn ? [...new Set(ids.map((id) => findMeta(id)!.real!))] : ids;
-  // the window of the nominal series is not the window of its real twin (annual, to another year): the chart opens it afresh
+  // the visitor's window is kept across the switch while the series that is loaded covers it; the real twin of a closed monthly series
+  // is annual and ends earlier, and a window that reaches past its end is opened afresh (checked once the series is loaded, below)
+  const recheckView = useRef(false);
   useEffect(() => {
-    resetView.current = true;
+    recheckView.current = true;
   }, [realOn]);
 
   // ---- load the selected series lazily
@@ -300,12 +303,16 @@ export function PriceDrawer() {
   // default window once data is there
   useEffect(() => {
     if (!merged) return;
-    if (resetView.current || !view) {
+    // after the switch to real prices (or back): the window in view, which the new chart is to open on
+    const seen = recheckView.current ? (win ?? view) : null;
+    recheckView.current = false;
+    const outside = !!seen && !seriesCovers(seen, xMin, xMax, DAY_S);
+    if (resetView.current || !view || outside) {
       resetView.current = false;
       const w = { min: Math.max(xMin, xMax - 20 * 365.25 * DAY_S), max: xMax };
       setView(w);
       setWin(w);
-    }
+    } else if (seen) setView({ min: seen.min, max: seen.max });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [merged]);
 

@@ -767,6 +767,15 @@ export function Placeholder(props: { children: ComponentChildren }) {
   return <div class="placeholder">{props.children}</div>;
 }
 
+/** The way back from a page that no longer exists, inside its "not in the atlas" line. */
+export function WayBack(props: { onClick: () => void; children: string }) {
+  return (
+    <div>
+      <button class="act-btn" onClick={props.onClick}>{props.children}</button>
+    </div>
+  );
+}
+
 export function Skeleton(props: { lines?: number }) {
   return (
     <div style={{ display: 'grid', gap: '8px' }}>

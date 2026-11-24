@@ -872,6 +872,6 @@
  "notes": [
   "No lanes: the atlas shows the customs trade of this product as tables only (371 kt of exports in 2024).",
   "Trade is molybdenum ores and concentrates, roasted (HS 261310) and not roasted (HS 261390), customs gross weight (kt): the tonnes of concentrate, not of the molybdenum in it, which is what USGS production and reserves count (kt Mo). Molybdenum oxides, ferro-molybdenum (in the ferro-alloys page) and the metal are not loaded.",
-  "Price: the World Bank Pink Sheet has none for molybdenum. The only price on the page is the USGS annual average of molybdic oxide (57% molybdenum), a product made from the concentrates of the tables, not their own price. No monthly series was loaded."
+  "Price: the World Bank Pink Sheet has none for molybdenum. The only price on the page is the USGS annual average price of US molybdic oxide (MoO3, 57% molybdenum content), in dollars per kilogram: the file does not say whether the kilogram is of the oxide or of the molybdenum in it. The oxide is a product made from the concentrates of the tables, not their own price. No monthly series was loaded."
  ]
 }

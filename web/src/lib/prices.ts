@@ -398,7 +398,7 @@ export const PRICE_COVERAGE_NOTE: Record<string, string> = {
   chromium: 'Annual average price of chromite ore (USGS, United States salient statistics). No monthly series.',
   'ferro-alloys': 'Annual average prices (USGS, United States salient statistics): ferro-chromium, per pound of chromium content, and 75% ferrosilicon, in US cents per pound of silicon. No free series for the other alloys.',
   'ferrous-scrap': 'Annual average price of No. 1 heavy melting scrap only, one grade of the scrap the tables count (USGS, United States). No monthly series.',
-  molybdenum: 'Annual average price of molybdic oxide, a product made from the concentrates the tables count (USGS, United States). No price series for the concentrates.',
+  molybdenum: 'Annual average price of molybdic oxide (57% molybdenum content), in dollars per kilogram: USGS does not say whether the kilogram is of the oxide or of the molybdenum in it (United States). The oxide is a product made from the concentrates the tables count. No price series for the concentrates.',
   graphite: 'Annual average import unit values of three kinds of natural graphite (USGS, United States): flake, lump and chip, and amorphous. No monthly series.',
   // the fertiliser pages hold more products than the Pink Sheet prices (M-022): the note says which ones have a free series
   phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate only; the superphosphate tables hold single and triple together, HS 310310). No free series for MAP or phosphoric acid.',

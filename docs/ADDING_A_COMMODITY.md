@@ -1,7 +1,7 @@
 # Adding a customs group or a commodity page
 
 Written while the fertilisers were added (package NC1, audit M-022), corrected and extended with the grains and oilseeds (package NC2,
-audit M-023) and with the metal bulks (package NC3, audit A-010), and corrected after review by FNCA, FNCB and FNCC. A **customs group** is a set of HS 1992 codes of
+audit M-023) and with the metal bulks (package NC3, audit A-010), and corrected after review by FNCA, FNCB, FNCC, FNCD, FNCE, FNCF and FNCG. A **customs group** is a set of HS 1992 codes of
 `pipeline/trade/hs_map.py`; a **page** is a commodity of `data/commodities/index.json`. A group lives on one page (it may
 be the page's main table, a further pair of tables of it, or the page's lanes). Commands run from the repository root with
 `.venv/bin/python -I`; never run `npm install`, `vite build` or a formatter.
@@ -77,13 +77,19 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
   a line from each), a branch of the chain in `main()` for a new page (trade only: copy `npk` or `pulses`; a PSD crop needs only its
   `TRADE`, `PSD` and `PSD_WHAT` entries), notes with the codes left out, `see.append({"k": page,
   "text": ...})` for a product of another page (drawn "See <page> for <text>."), `name_it()` for titles and KPI labels.
-- A page with no free production table says so in a note (`No production table: ...`); no price series: nothing to write,
-  the page shows "No free price series" by itself. Prices only from the World Bank file (`build_prices.py` `PINK` with its `PINK_DESC`
+- A page with no free production table says so in a note (`No production table: ...`). Prices: look before you write that a page has none. A Pink Sheet series that is
+  already published without a page (`NO_PAGE` of `build_prices.py`: palm kernel oil is there under the key `softs`, so adding its customs groups to the Palm oil page does not
+  attach it) is attached by changing its key in `PINK` to the page's id and deleting its entry of `NO_PAGE`; the page's `PRICE_COVERAGE_NOTE` then says which
+  products of the page the series prices, and METHODOLOGY section 7 (prices) lists it. With no series at all there is nothing to write: the page shows "No free price series" by
+  itself. Prices only from the World Bank file (`build_prices.py` `PINK` with its `PINK_DESC`
   row, `NO_PAGE`, `ADDED`; `PINK_LEFT_OUT` lists the columns the atlas leaves out) and from the USGS file on disk: look first in the price rows of
   `raw/usgs/MCS*_Commodities_Data.csv` (`USGS_PRICES` of `build_prices.py`: one entry for each annual series, with the file's own wording of the statistic, a name that says
   what the file says it is, `OPENS_ON` when a page has several) before you write "no free price series" on a page (FNCC found five pages whose notes said none while the file
   had a price). `PRICE_COVERAGE_NOTE` in `web/src/lib/prices.ts` says which
-  products of a page have a series (the ferro-alloys page has ferro-chromium only). A series that stopped (barley and sorghum, August 2020) is published as it is: `mark_closed()` marks it
+  products of a page have a series (the ferro-alloys page has ferro-chromium and 75% ferrosilicon and no series for the other alloys; the sulphur page has the USGS price of elemental
+  sulphur; the urea page has the Pink Sheet's urea and the USGS price of ammonia, in the file's unit, US dollars per short ton). A USGS row names its unit and its basis in its own words: copy them, and where the
+  row does not say what its unit is a unit of (molybdenum: "dollars per kilogram", of oxide or of contained molybdenum), say so in `UNIT_UNSAID` of `build_prices.py` and in the page's note
+  (`test_fncg.py` G7 checks every label against its row). A year is marked estimated only where its own Notes carry the segment "Estimated.". A series that stopped (barley and sorghum, August 2020) is published as it is: `mark_closed()` marks it
   `closed`, `figures_of()` keeps it for a page that has no other series, the page shows "Last price ... series closed", and the page's note
   (`_price_end()`) says the last month from the published index; run `build_prices.py` before `build_commodities.py` (the rebuild script does). The
   annual workbook goes on after a closed monthly series: `ANNUAL_NOMINAL` publishes the years after its last month as an annual series of its own (`barley-a`), which
@@ -123,8 +129,9 @@ window, README or METHODOLOGY (checked in package NC1). `npx tsc --noEmit` from 
   `test_release_gr4d.py` (METHODOLOGY section 2 and 3 numbers and the "N pairs files" sentence of `build_port_index.py`),
   `test_history.py` (how many tables of the series by year carry an out-of-line year), and for a price series that changes the
   tests of `test_prices.py` (closed series, figures, the rows whose dates overlap) and the `PINK_HEADER` table of `test_prices_raw.py`.
-- METHODOLOGY.md: section 2 (families), 3 (generated corridors, counts), 4 (vessel rules), 10 (what the group holds, basis,
-  limits). DATA_SOURCES.md and NOTICE.md lists are written by `common/sources_table.py` and `common/notice_lists.py`.
+- METHODOLOGY.md: section 2 (families), 3 (generated corridors, counts), 4 (vessel rules), 5 (the chokepoint estimates and their PortWatch cap: a group moves them, and
+  `typeNotes` is the note of a ship type), 7 (prices: a series attached, a unit, a note), 10 (what the group holds, basis,
+  limits). Every number a sentence gives about the groups, the lanes, the routes, the pairs and the estimated rows is read from the files by a test (`test_fncg.py` G9, `test_release_gr4d.py`). DATA_SOURCES.md and NOTICE.md lists are written by `common/sources_table.py` and `common/notice_lists.py`.
 
 Tests of the whole atlas that a new group moves (NC3 found them all): `test_shares.py` (`CARGO` and `TANKER` sets: the vessel type of a group), `test_final_fixes.py` (the
 number of chokepoint estimates), `test_history.py` (size of the series by year, 3.9 MB since FNCB, and the number of tables with an out-of-line year), `test_modes.py` M10,
@@ -144,6 +151,29 @@ After any builder: `git checkout -- data/_status`. Look at `git status --short d
 Browser: `cd web && npx vite --port <port> --strictPort`; open each new page at 1440 and 390 px, the country pages that gain
 lines, the search, the price drawer; no "undefined", "NaN", empty block or console error.
 
+## 7. What the review rounds after the first three packages added (FNCD to FNCG)
+A new group meets these, in the order of the files above:
+- **Caveats** (`pipeline/trade/caveats.py`, `data/freight/caveats.json`, 35 entries): the kinds are `mirror`, `unrecorded`, `break`, `hub`, `landlocked-centre`, `above-production`,
+  `declaration`, `origin-unchecked`, `destination`, `fall` and `no-production`. The entries of `REGISTRY` are written by hand with their text; `landlocked-centre` (a large flow
+  whose declared destination or origin is a landlocked trading centre) and `no-production` (check K14, an exporter with no production in the EIA table) are computed from the data, so a build without `raw/`
+  keeps them (`keep_caveats` of `build_lanes.py`). Look for a pair that is most of a landlocked buyer's imports; the pair is left out of the generated corridors, its tonnes stay in the estimates of the passages.
+- **Dropped origins** (`DROP` of `clean.py`): the exports of a country under a code for a product it cannot have made (Mozambique's coke) are left out by rule 5, listed in `LAST_DROPPED` and in
+  `QA.md`; the page says how much was left out (`_left_out_note`, and the note of a table that holds under 97% of the file) and that the rows are not counted. Read the EIA series of every large exporter of a new group.
+- **The river leg** (`pipeline/freight/river_legs.py`): a port of a flow's gateway farther than 50 km from the sea network needs a row; its note is one sentence and one link.
+- **The port basis "page names the plant, not the cargo"** (an eighth element `"plant"` of a gateway row) for a steel works or a refinery of alumina; a country with two coasts needs a coast rule (`fra-grain-ports`
+  is the rule of French grain: Rouen and La Pallice by partner, an Atlas assumption, with Fos for the Mediterranean side), and the Turkish scrap, pig iron and DRI have Iskenderun as principal and Izmir as the option.
+- **Labels of cargo chips** (`cargoLabels` of the class pages; `web/src/lib/cargoChips.ts`): a lane or a route of one group of a page that has several groups carries the group's own name ("Urea",
+  "Ammonia", "Ferro-chromium") and still opens the page; the group that stands for the whole page (coal of the two coal pages, the seed of "Rapeseed & canola": `WHOLE_PAGE`) keeps the page's name.
+  Every page with a main lane typed in a class (the class that comes first in the lane's `vclass`) is among that class's `cargoes` (`test_fncg.py` G6): add the page to the class when a new group's lanes are typed in it.
+- **The rows that keep their reported tonnage** (`KEEP_REPORTED` of `clean.py`, one reason for each row, and `ESTIMATE_RIGHT` of `test_fncb.py`, the rows that rule 3 or 4 re-estimates and
+  that the estimate is right for; `test_fncb.py` B2 fails on a new row that is in neither): a reason names the other years of the pair and the unit values of the row.
+- **Notes under many tables** (`web/src/lib/commodityTables.ts`, `coverText`): a note that stands under several tables of a page says which tables it covers by their kinds (exporters, importers, production), names the EU member
+  states and the ending stocks, and never calls a further table a "kind"; `web/scripts/table-covers.test.mjs` reads every page.
+- **The passage page** (`typeNotes` of `chokepoints.json`): the comparison with PortWatch's volume is written once on the passage; the notes of the estimates do not repeat it, and the tonnage a note and the page both
+  print is the same figure (`web/scripts/chokepoint-notes.test.mjs`).
+- **Search** (`COMMODITY_ALIASES`): the trade abbreviations a buyer writes ("FeCr", "FeMn", "SiMn", "FeSi", "FeMo", "AN") and both spellings of "fertiliser" on every fertiliser page; no alias that is a country code ("CAN") and no
+  alias with a common word ("and") that other pages are found by. A whole word counts as a promotion only in an item's names, codes and cargo names, not in its ports or regions.
+
 ## Traps met
 - A product whose first customs group has most of its tonnage in a mixed code (scrap: HS 720449 holds three quarters of heading 7204) is shown as the whole code; say it in
   the notes instead of splitting it with a six-digit table the page cannot support for every year.
@@ -160,7 +190,7 @@ lines, the search, the price drawer; no "undefined", "NaN", empty block or conso
 - A gateway row whose page names the plant that the port serves (a steel works, a refinery of alumina) and not the cargo takes an eighth element,
   `"plant"`: its basis reads "page names the plant, not the cargo" in both directions, and the source link stays. Read the note of every row you add:
   a row whose own note says the page names no cargo is such a row.
-- Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the 120-route cap and drops published routes: use `LATER_GROUPS`.
+- Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the cap of 122 generated routes and drops published routes: use `LATER_GROUPS`.
 - `GROUPS_OF` in `build_freight.py` also sums the volumes of the hand-written routes: leave the new groups out of it.
 - The "up to" figures of the chokepoint estimates of earlier groups move a little when a group is added (PortWatch caps are
   shared); this is expected, and so are the alert lists and the country profiles. Nothing else of an earlier group may move.

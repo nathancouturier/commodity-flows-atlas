@@ -148,8 +148,11 @@ class C1AnnualAfterTheClosedSeries(unittest.TestCase):
         self.assertIn("l[0].closed ? l.find((m) => !m.closed && m.unit === l[0].unit)", prices)
         drawer = read("web", "src", "components", "PriceDrawer.tsx")
         self.assertIn("[...new Set(ids.map((id) => findMeta(id)!.real!))]", drawer)
-        # the window of the nominal series is not the window of its real twin: the toggle opens it afresh (the real chart read 2001 to 2020 under "annual 1960 to 2025")
-        self.assertRegex(drawer, r"useEffect\(\(\) => \{\s*resetView\.current = true;\s*\}, \[realOn\]\);")
+        # the real twin is annual and ends earlier (the real chart read 2001 to 2020 under "annual 1960 to 2025"): at the switch the window is opened afresh only where the
+        # loaded series does not cover the window in view (GV6C.6, FNCG); a covered window is kept (web/scripts/price-window.test.mjs)
+        self.assertRegex(drawer, r"useEffect\(\(\) => \{\s*recheckView\.current = true;\s*\}, \[realOn\]\);")
+        self.assertNotRegex(drawer, r"useEffect\(\(\) => \{\s*resetView\.current = true;\s*\}, \[realOn\]\);")
+        self.assertIn("!seriesCovers(seen, xMin, xMax, DAY_S)", drawer)
 
 
 class FakeBuilder:
@@ -404,7 +407,8 @@ class C6CargoLabels(unittest.TestCase):
         for v in load(DATA, "freight", "vessel-classes.json"):
             self.assertTrue(set(v.get("cargoLabels", {})) <= set(v["cargoes"]), v["id"])
             if v["id"] in ("supramax", "handysize"):
-                self.assertEqual(v["cargoLabels"], {"met-coal": "Coke"})  # the Metallurgical coal page is on these classes for its coke group
+                # the Metallurgical coal page is on these classes for its coke group; the Supramax also carries the spodumene lanes of the Lithium page (FNCG, GV6C.7)
+                self.assertEqual(v["cargoLabels"], {"met-coal": "Coke"} | ({"lithium": "Spodumene concentrate (Atlas estimate)"} if v["id"] == "supramax" else {}))
 
     def test_the_view_prints_the_label_and_the_chip_still_opens_the_page(self):
         shared = read("web", "src", "components", "views", "shared.tsx")
@@ -488,11 +492,13 @@ class C9PulsesFlourDregs(unittest.TestCase):
         self.assertIn("the tables of each kind show the latest year only", notes)
 
     def test_the_run_on_list_of_tables_is_said_once(self):
+        # since FNCG the helper is `coverText` of web/src/lib/commodityTables.ts, tested on the built data (web/scripts/table-covers.test.mjs): it no longer says "in total and by kind"
         view = read("web", "src", "components", "views", "CommodityView.tsx")
-        self.assertIn("return `${collapsed} ${listText(words)}${byKind ? ', in total and by kind' : ''}`;", view)
-        self.assertIn("${covers(clauses.get(c)!, 'In the tables of', 'Tables of')}", view)
-        self.assertIn("${covers(series.get(n)!, 'Series by year of', 'Series by year of')}", view)
-        self.assertIn("if (ts.length <= 3) return `${lead} ${listText(ts.map(label))}`;", view)  # up to three tables are named, more are said by kind
+        lib = read("web", "src", "lib", "commodityTables.ts")
+        self.assertIn("${coverText(clauses.get(c)!, 'In the tables of', 'Tables of')}", view)
+        self.assertIn("${coverText(series.get(n)!, 'Series by year of', 'Series by year of')}", view)
+        self.assertIn("if (ts.length <= 3) return `${lead} ${listText(ts.map((t) => tableLabel(t, ts)))}`;", lib)  # up to three tables are named by their titles, more are said by kind
+        self.assertNotIn("in total and by kind", lib.replace('"in total and by kind"', ""))
 
     def test_flour_and_dregs_say_what_the_atlas_does_and_assert_no_share(self):
         for page, word in (("wheat", "flour"), ("corn", "dregs")):

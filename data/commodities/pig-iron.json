@@ -797,7 +797,7 @@
      {
       "c": "BRA",
       "v": 0.0887,
-      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024,
@@ -848,7 +848,7 @@
      {
       "c": "AGO",
       "v": 0.0237,
-      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 25 t for these flows; declared value divided by a reference unit value, see the notes of the page)",
       "est": true,
       "s": "atlas",
       "y": 2024,

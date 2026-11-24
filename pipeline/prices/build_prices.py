@@ -694,7 +694,8 @@ USGS_PRICES = [
     ("usgs-chromite-ore-a", "chromium", "Chromite ore, US salient statistics, annual average", "USD/t", "Chromium", "Price: Chromite ore (gross weight)"),
     ("usgs-ferrochromium-a", "ferro-alloys", "Ferro-chromium (chromium content), US salient statistics, annual average", "USD/lb", "Chromium", "Price: Ferrochromium (chromium content)"),
     ("usgs-heavy-melting-scrap-a", "ferrous-scrap", "Ferrous scrap, No. 1 heavy melting composite, delivered, US, annual average", "USD/t", "Iron And Steel Scrap", "Price, average, delivered, No. 1 heavy melting composite price"),
-    ("usgs-molybdenum-a", "molybdenum", "Molybdenum, US molybdic oxide (57% Mo), annual average", "USD/kg", "Molybdenum", "Price, average, dollars per kilogram"),
+    # the row says "dollars per kilogram" and names the product (molybdic oxide, 57% molybdenum content) but not what the kilogram is of: UNIT_UNSAID
+    ("usgs-molybdenum-a", "molybdenum", "Molybdenum, price of US molybdic oxide (MoO3, 57% molybdenum content), annual average", "USD/kg", "Molybdenum", "Price, average, dollars per kilogram"),
     ("usgs-graphite-flake-a", "graphite", "Natural graphite, flake, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Flake"),
     ("usgs-graphite-lump-a", "graphite", "Natural graphite, lump and chip (Sri Lanka), US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Lump and chip"),
     ("usgs-graphite-amorphous-a", "graphite", "Natural graphite, amorphous, US import unit value, annual average", "USD/t", "Graphite (Natural)", "Price, average unit value of imports, dollars per metric ton at foreign ports: Amorphous"),
@@ -704,6 +705,11 @@ USGS_PRICES = [
     ("usgs-ammonia-a", "urea", "Ammonia, US Gulf Coast, annual average", "USD/short ton", "Nitrogen (Fixed)\u2014Ammonia", "Price, average, free on board Gulf Coast"),
     ("usgs-ferrosilicon-75-a", "ferro-alloys", "Ferrosilicon (75% silicon), US salient statistics, annual average", "US cents/lb", "Silicon", "Price, average, cents per pound of silicon: Ferrosilicon, 75% silicon"),
 ]
+
+
+# Series whose row gives a unit that does not say what it is a unit of (GV6C.9): the basis says so and quotes the header the file gives for its
+# chapter, which speaks of molybdenum content "unless otherwise specified" while the row names the oxide.
+UNIT_UNSAID = {"usgs-molybdenum-a": "whether the kilogram is of molybdic oxide or of contained molybdenum"}
 
 
 def usgs_file(dirpath):
@@ -740,7 +746,9 @@ def usgs_series(path):
         doc = {"id": sid, "freq": "A", "start": str(years[0]), "v": [by[y][0] for y in years]}
         meta = meta_of(sid, k, name, unit, "A", "usgs-mcs", str(years[0]), str(years[-1]),
                        note=f"USGS Mineral Commodity Summaries {edition}, Salient Statistics, statistic 'Price'",
-                       basis=" ".join([first["Statistics_detail"].rstrip(".") + "."] + [n if n.endswith(".") else n + "." for n in notes]),
+                       basis=" ".join([first["Statistics_detail"].rstrip(".") + "."] + [n if n.endswith(".") else n + "." for n in notes]
+                                      + ([f"The file does not say {UNIT_UNSAID[sid]}: the header it gives for the chapter reads \"{first['Other notes'].strip()}\"."]
+                                         if sid in UNIT_UNSAID else [])),
                        est=[[f"{y}-01", f"{y}-12"] for y in est])
         out.append((doc, meta))
     return out, missing

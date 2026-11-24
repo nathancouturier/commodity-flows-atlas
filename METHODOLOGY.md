@@ -154,12 +154,12 @@ is called one where it is shown. The figures below are those of the build from C
   file's `estY` gives that share for every year), a
   ranked table's note when it is 1% or more of world tonnage (from 10%, "includes an Atlas
   estimate", and the world total keeps three significant digits); a country row of which half or
-  more is estimated is itself labelled "Atlas estimate" (with the source id `atlas`). In 2024, 168
-  rows and 74.8 Mt of the lane groups (0.82% of their tonnage) are estimated; the largest are crude
+  more is estimated is itself labelled "Atlas estimate" (with the source id `atlas`). In 2024, 195
+  rows and 74.4 Mt of the lane groups (0.90% of their 8,294 Mt) are estimated (the sea and transit pairs of the pairs files with the flag "estimated from value"); the largest are crude
   oil United Arab Emirates → Thailand (24.5 Mt), wheat Russia → Egypt (11.1 Mt) and copper
   concentrate Chile → China (8.24 Mt). The share of each lane group's 2024 seaborne tonnes that is
-  estimated is the field `est` of its lane file: 33.0% for copper concentrate, 8.0% for wheat, 1.8%
-  for crude oil, 1.3% for LPG, under 1% for every other group.
+  estimated is the field `est` of its lane file: 33.0% for copper concentrate, 10.8% for potassium sulphate, 8.0% for wheat, 2.0% for
+  sulphur, 1.8% for crude oil, 1.3% for LPG, 1.2% for direct-reduced iron, under 1% for every other group.
 - **History rule** (`clean.history_flags`). A year of a pair's 2005–2024 series is blanked only on
   evidence: when rule 7 flagged it, or when it is a sharp one-year change (below 35% or above 2.8×
   both neighbouring years, by more than 2 Mt) whose unit value is off by more than 2.5 times against
@@ -446,7 +446,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     `build_lanes.py`) so that their main set reaches 63% of their seaborne tonnes; the other ferro-alloys (the alloys of seven
     customs codes, 0.58 Mt by sea or via a transit port over 396 pairs, of 0.69 Mt over 483 pairs in all modes: from the cleaned frame that the lane builder reads, with the mode rule of the other ferro-alloys, since this group has no pairs file) would need more than sixty lanes for 63% and have tables and no lanes. Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 36,075 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 36,071 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
@@ -675,7 +675,14 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   The four new corridors of the earlier groups are wheat from North-West Europe to West Africa and within North-West Europe, steel from
   the Black Sea to the Mediterranean and rapeseed from Western Australia to North-West Europe. The 133 hand-written routes are identical to the released ones, field by field, and no pair of a
   released group that has no French end differs from the released pairs files in its ports, class, distance or passages (`test_fncf.py`, from digests of the released files); the notes of the 11 generated routes
-  of the release built on a single pair now say "pair" in the singular. A link to a route that ended shows "This route is not in the atlas catalogue".
+  of the release built on a single pair now say "pair" in the singular. Two kinds of pair of the released groups moved with France's ports without being a
+  French grain or oilseed pair: the three Russian pairs of DAP, potash and urea to France changed their discharge port from Fos to Le Havre (3,267 to 1,422 nm: the
+  fertiliser rule puts Russia on the Atlantic side, for Ust-Luga), and sixteen pairs of sugar (Mauritius, Thailand, Morocco, Algeria, El Salvador, the United Arab
+  Emirates, the Philippines and others, with France, both ways) changed their list of passages with the same ports and the same distance: an open pair now has two
+  French options, Fos and Le Havre, and a passage that only one of them crosses (Gibraltar for most of them, the Cape of Good Hope for France to South Africa) is a
+  passage the pair "may cross" and no longer one it "has to cross". The "at least" tonnes of released sugar at Suez, Bab el-Mandeb and Gibraltar move by a few kt for this
+  reason (`test_fncg.py` G9 lists the sixteen against the released pairs files). A link to a route that ended shows "This route is not in the atlas catalogue" and a
+  button to the Freight view, the list of routes by vessel class.
 
   A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
   zone, importing zone or region), its name is "Cargo: zone to zone", its source is `atlas`, and its page says
@@ -871,55 +878,60 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     PortWatch's volume (`PW_NEAR` in `build_freight.py`). Above that the two sides are too close
     to compare: the atlas's groups are not all the cargo these ships carry, and with the two sides this
     close the room left for each group is only the margin of the assumed ports and routes (the groups
-    added in 2026 took the dry-bulk 'at least' tonnage at the Bosphorus from 89% of PortWatch's
-    volume to 102% and at Gibraltar to 104%, which had emptied the 'up to' figure of every dry
+    added in 2026 took the dry-bulk 'at least' tonnage at the Bosphorus from 88% of PortWatch's
+    volume (179 against 203 Mt) to 102% (207 against 203 Mt) and at Gibraltar from 85% to 103% (394 against 384 Mt), which had emptied the 'up to' figure of every dry
     group there and removed three estimates of the released site). The rule is then one of two:
     - **Whole volume** (`cap_regime` "whole" in `build_freight.py`): the 'up to' figure of a group is
       capped at PortWatch's whole volume of the type in the year, never below the group's own 'at
       least', without subtracting the other groups. A group cannot exceed the whole volume of its
       ship type. In 2024 this is the rule at the Bosphorus, Gibraltar, Hormuz, Panama and Torres
       Strait (tankers or dry bulk, at 90% to 103% of PortWatch's volume), and at Lombok and Makassar
-      (dry bulk, 89% and 94%). It binds on four groups: iron ore at Lombok (up to 950.3 Mt, the
+      (dry bulk, 89% and 94%). It binds on four groups of 138 estimates: iron ore at Lombok (up to 950.3 Mt, the
       whole of PortWatch's dry bulk there) and at Makassar (1,084.7 Mt), LNG and refined products
-      at the Torres Strait (13.5 Mt, the whole of PortWatch's tankers there). The note of the
+      at the Torres Strait (13.5 Mt, the whole of PortWatch's tankers there). The note of such a
       figure says "capped at IMF PortWatch's estimate of the cargo of all ... ships ..., which this
-      cargo cannot exceed" and does not speak of the other groups.
+      cargo cannot exceed" and does not speak of the other groups; the note of the ship type, on the passage, says the rule (a group's
+      'up to' cannot exceed the whole of PortWatch's volume of these ships, N Mt) and on how many groups of the type it binds, the
+      ones the interface tags.
     - **No cap** ("none"): where the 'at least' tonnage of the type is itself above PortWatch's
       volume of the year and an alert on the passage explains it. This is Suez and Bab el-Mandeb
       in 2024 (dry bulk, tankers and, at Bab el-Mandeb, general cargo): the atlas routes cargo on
       the normal itinerary while most ships avoided the Red Sea, so the figures are tonnages of
       the normal route and the year's traffic is not a ceiling for them. The note says so.
-    The floor test (2% of the group or 1 Mt) uses the figure that is published. Where the 'at
-    least' tonnage of a type is above PortWatch's volume of the year, the shares of that type
-    say so: for Suez and Bab el-Mandeb in 2024 the note quotes the atlas's Red Sea alert; where
-    no alert explains it (Bosphorus and Gibraltar dry bulk, Torres Strait tankers) the note
-    says that the ports, routes or ship types the atlas assumes probably overstate it. From 85% of
-    that volume the shares of the type say how close the "at least" tonnage is to it (Panama,
-    tankers, 2024: 97%, 104 Mt against 107 Mt; the assumed ports or routes may overstate it).
-    The interface tags a figure "capped at PortWatch volume" exactly where its note says it was
-    capped (a figure whose cap is its own 'at least' has no 'up to' to tag). Both figures are
+    The floor test (2% of the group or 1 Mt) uses the figure that is published.
+    **The note of a ship type** is written once on the passage record (`typeNotes` of `chokepoints.json`, one object by ship type that has
+    something to say: the 'at least' sum of the type, PortWatch's volume of the year and its best year, the regime of the cap, the number of groups of
+    the type and of those that the cap cuts, a line `line` and its reason `n`), and not in the note of each estimate, where it had been repeated (the same
+    paragraph on 31 rows at the Bosphorus, 38 at Gibraltar and 48 at Suez; the file was 882,538 bytes and is 728,895). The passage page prints the line above the
+    list of estimates, and the reason folds. A type has a note where its 'at least' tonnage is above PortWatch's volume of the year, or from 85% of it. PortWatch's
+    volume is an estimate made from ship movements, and the atlas's groups are not all the cargo these ships carry: where the atlas's own sum is above it, the ports,
+    routes or ship types the atlas assumes probably overstate the passage (Bosphorus and Gibraltar dry bulk, Torres Strait tankers: 207 against 203 Mt, 394 against 384 Mt,
+    13.6 against 13.5 Mt); for Suez and Bab el-Mandeb in 2024 the note quotes the atlas's Red Sea alert instead; from 85% of that volume the note says how close the sum is
+    (Panama, tankers, 2024: 97%, 104 Mt against 107 Mt; the assumed ports or routes may overstate it). The interface tags a figure "capped at PortWatch volume" exactly where
+    its note says it was capped (a figure whose cap is its own 'at least' has no 'up to' to tag). A tonnage that a note and the page both print is the same figure: the
+    note is written from the figure the file stores, to three significant digits with a half rounded up (5.865 Mt is 5.87 in the headline and in the note). Both figures are
     estimates, and the note names both ("IMF PortWatch, data adapted").
   - **Without the raw PortWatch rows** (the scheduled job has none), the volumes by vessel type are
     read from the tracked weekly series (Mt a day times the days of each week inside the year)
-    instead of the daily rows that the committed files come from. For the 20 passages that carry an
-    estimate the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
-    21.1 Mt), so such a build can move a capped figure or a K9 reference by under 1 Mt (Hormuz crude
-    oil "up to": 601.4 or 601.7 Mt).
+    instead of the daily rows that the committed files come from. For the 18 passages that carry an
+    estimate and a PortWatch counter of their own the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
+    21.1 Mt, and Ombai dry bulk, 134.2 against 134.8 Mt), so such a build can move a capped figure or a K9 reference by under 1 Mt (Lombok
+    iron ore "up to": 950.3 Mt from the daily rows, 949.9 Mt from the weekly series).
   - **Check K9** writes, for every passage with a counter, "at least" and "up to" by vessel type
     beside PortWatch's volume of the same year and of its best full year since 2019 (table in
     `QA.md`). A passage is flagged when "at least" is above 110% of the best year (the assumed ports
     or routes probably overstate it) or above the same year's volume. The Danish Straits are not
     compared: PortWatch counts the Oresund only. The check is a report; it never stops a build.
   - **Sunda**: the routing network sends little traffic through the Sunda Strait by itself, so its
-    "at least" figure is a floor of the model (1.9 Mt of all groups in 2024: 1.63 Mt of dry bulk, 0.13
-    of tankers and 0.13 of container and general cargo, against 443 Mt of all ships in PortWatch; the
+    "at least" figure is a floor of the model (3.2 Mt of all groups in 2024: 2.42 Mt of dry bulk, 0.16
+    of tankers and 0.60 of container and general cargo, against 443 Mt of all ships in PortWatch; the
     table of `QA.md` rounds each type to 0.1 Mt), not a statement about traffic; its "up to" figures carry the cargo that may
     use it.
   - **Published figures first**: where EIA publishes a flow for the passage (oil through Hormuz,
     Malacca, Suez and others), it is the headline and the atlas's range is shown below it. `QA.md`
     gives the ratio of the two for crude oil, at 7.33 barrels per tonne: 0.70 for Hormuz and Malacca
     in 2024, 1.24 for Suez and 1.37 for Bab el-Mandeb (where the atlas keeps the normal itinerary).
-  - 2024 examples: Hormuz crude oil at least 27.2% (509 Mt) and up to 32.1% (601 Mt, capped; Saudi
+  - 2024 examples: Hormuz crude oil at least 27.2% (509 Mt) and up to 40.1% (751 Mt, not capped: it is under PortWatch's 915 Mt of tankers; Saudi
     crude for westbound buyers and Emirati crude may load outside the strait); Hormuz LPG 32.3%;
     Malacca crude 31.0% to 41.9%.
   - The cargo table of a chokepoint page lists these pairs one by one (commodity, origin,
@@ -1185,10 +1197,21 @@ totals of the series by year are the same for every country: they are in one fil
   USGS's own estimate and is marked as such. The commodity page shows such a value as "annual average
   2025", with the decimals the file gives (9,000, not 9,000.00), and its change on the previous year;
   it is never presented as a current price. Since package FNCC (review GNC3.5) the same file gives the prices of the metal bulks: chromite ore
-  (gross weight), ferro-chromium (per pound of chromium content), No. 1 heavy melting scrap (delivered composite price), molybdenum (the molybdic
-  oxide price) and the three kinds of natural graphite (flake, lump and chip, amorphous: average unit values of imports), all in the file's section
+  (gross weight), ferro-chromium (per pound of chromium content), No. 1 heavy melting scrap (delivered composite price), molybdenum (the price of US
+  molybdic oxide, 57% molybdenum content) and the three kinds of natural graphite (flake, lump and chip, amorphous: average unit values of imports), all in the file's section
   of United States salient statistics, which the series names say ("US"). Each is attached to its page, and a note under the price button says which
-  product of the page it is the price of (the ferro-alloys page: ferro-chromium only). Monthly series for
+  product of the page it is the price of (the ferro-alloys page: ferro-chromium and 75% ferrosilicon, no series for the other alloys). Package FNCD added three
+  more rows of the same file, each the price of one product of its page and in the file's own unit: elemental sulphur (US dollars per metric ton, "free on board,
+  mine and (or) plant", the sulphur page), ammonia (US dollars per short ton, "free on board Gulf Coast", source Green Markets: no conversion to the metric ton; the
+  urea page, whose own price is the Pink Sheet's urea) and ferrosilicon with 75% silicon (US cents per pound of silicon, source S&P Global Platts Metals Week, mean import
+  prices based on monthly averages; the ferro-alloys page, after ferro-chromium). A year is marked estimated only where its own row's Notes carry the segment
+  "Estimated." (2025 in all of these series): a note that quotes the estimated year of another row is not a mark. Each name and unit is that of its row (checked
+  against `raw/usgs/MCS2026_Commodities_Data.csv` row by row by `test_fncg.py` G7: chromite ore, "dollars per metric ton", gross weight; ferro-chromium, "dollars per
+  pound", chromium content, excluding ferrosilicon chromium; heavy melting scrap, "dollars per metric ton", delivered, Fast Markets AMM; the three graphites, import unit
+  values "dollars per metric ton at foreign ports", flake, lump and chip (Sri Lanka) and amorphous; sulphur, ammonia and ferrosilicon as above). One row does not say what
+  its unit is a unit of: molybdenum's reads "dollars per kilogram", names the product ("U.S. molybdic oxide (MoO3) price, 57% molybdenum content") and sits under a chapter
+  header that reads "Data in metric tons, molybdenum content, unless otherwise specified". The series, its basis and the page's note give the file's words and say that the file
+  does not say whether the kilogram is of the oxide or of the contained molybdenum. Monthly series for
   these commodities exist in the IMF Primary Commodity Prices (in other forms: lithium metal,
   electrolytic manganese, rare-earth carbonate); they are not used, because the terms of use for
   scripted downloads are not confirmed.
@@ -1410,7 +1433,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   (elemental sulphur and the sulphur in sulphuric acid): it is not the tonnage of the traded product. NPK has no production
   table: no free file loaded by the atlas gives it (FAOSTAT's fertiliser tables by nutrient are not loaded yet). The
   World Bank Pink Sheet has prices for phosphate rock, DAP, TSP, urea and potassium chloride only; the pages say that
-  there is no free series for the other products, sulphur and NPK included. A product that matters to a second page has
+  there is no free series for the other products, NPK included (since package FNCD, the sulphur page has the USGS annual price of elemental sulphur and the urea page
+  the USGS annual price of ammonia, section 7). A product that matters to a second page has
   one line on that page that names the first and links to it (`see` in the page file).
   Ports of the liquids and of sulphur: only a gateway row that names the group counts as "page names the cargo", so a
   fertiliser berth is not an ammonia terminal; the engine's fall-backs (the port used before for fertiliser, the general
@@ -1495,7 +1519,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   figures of the steel industry's associations are not loaded (their terms are not settled). The World Bank Pink Sheet has no
   series for any of these products (its steel series is an index of steel products). Since package FNCC the USGS annual prices of chromite, ferro-chromium,
   heavy melting scrap, molybdenum and natural graphite are on their pages (section 7), each with a note saying which product of the page it is the price of; the
-  pig iron and direct-reduced iron page, coke and the other ferro-alloys have no free price series and say so. Ports: the engine's own fall-backs, with their basis; no port was attached to these cargoes. Chromium ore takes the ore rows and
+  pig iron and direct-reduced iron page and coke have no free price series and say so, and the ferro-alloys page has ferro-chromium and, since package FNCD, 75%
+  ferrosilicon, and no series for the other alloys. Ports: the engine's own fall-backs, with their basis; no port was attached to these cargoes. Chromium ore takes the ore rows and
   the port used before, coke only a row that names it (then the port used before for coal), and scrap, pig iron, direct-reduced iron and
   the ferro-alloys the general port of the country, as steel does (the ore fall-backs would have sent the 20 Mt of Turkish scrap
   imports to the nearest seaport of Turkey, Samsun on the Black Sea, by the Bosphorus). Package FNCA (review GNC3.2) gave Turkey, for scrap, pig iron and

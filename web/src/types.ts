@@ -862,6 +862,25 @@ export interface Alert {
   also?: { label: string; url: string }[];
 }
 
+export interface ChokepointTypeNote {
+  name: string;
+  y: number;
+  /** the atlas's "at least" tonnage of the type (Mt) */
+  low: number;
+  /** PortWatch's volume of the type in the year (Mt), when it has one */
+  ref: number | null;
+  /** PortWatch's best full year since 2019 for the type (Mt) and its year */
+  best: number;
+  bestY: number | string;
+  cmp: 'above' | 'near';
+  regime: 'sub' | 'whole' | 'none' | null;
+  capped: number;
+  groups: number;
+  /** the line the page prints, and the reason (folded) */
+  line: string;
+  n: string;
+}
+
 export interface Chokepoint {
   id: string;
   name: string;
@@ -881,6 +900,13 @@ export interface Chokepoint {
   shares?: { k: string; f: Fig }[];
   /** Atlas estimates: share of the seaborne trade of a lane group whose route has to cross it (`f`, "at least") and may cross it (`hi`, "up to"); `mt` = [at least, up to] in Mt */
   estimates?: { k: string; p?: string; f: Fig; hi?: Fig; mt?: [number, number] }[];
+  /**
+   * What the atlas's own tonnage of a ship type says against IMF PortWatch's volume of the same ships, once for the passage and not
+   * in each estimate. Present for the types whose "at least" tonnage is above that volume or within 85% of it. `line` is the line the
+   * page prints, `n` the reason (folded); `regime` is how the "up to" figures of the type are capped ("sub": PortWatch's volume less
+   * the other groups, "whole": the whole volume, "none": not capped); `capped` of the `groups` of the type carry a capped figure.
+   */
+  typeNotes?: Partial<Record<'dry' | 'tanker' | 'cargo', ChokepointTypeNote>>;
   /** a route of similar length around this passage that the atlas does not count as a choice (or counts as one), one sentence */
   parallelNote?: string;
   alternatives?: { label: string; extraNm?: number; extraDays?: number; note?: string }[];

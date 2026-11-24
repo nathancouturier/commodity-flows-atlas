@@ -361,7 +361,7 @@
    {
     "c": "ARM",
     "v": 0.0001,
-    "n": "of which lignite 0.00 Mt (64%)"
+    "n": "of which lignite 64 t (64%)"
    }
   ],
   "n": "EIA International Energy Data, coal production; all coal minus metallurgical coal (EIA), per country; 1000 metric tons converted to Mt; includes lignite: 963.4 Mt of the world total (12%, EIA lignite production)",
@@ -1241,7 +1241,7 @@
    {
     "c": "SAU",
     "v": 0.1402,
-    "n": "of which lignite 0.00 Mt (1%)"
+    "n": "of which lignite 0.00162 Mt (1%)"
    },
    {
     "c": "ISL",
@@ -1254,7 +1254,7 @@
    {
     "c": "LTU",
     "v": 0.1068,
-    "n": "of which lignite 0.00 Mt (1%)"
+    "n": "of which lignite 0.0014 Mt (1%)"
    },
    {
     "c": "KWT",

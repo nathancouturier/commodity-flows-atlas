@@ -487,6 +487,14 @@ export function openVesselClass(id: string, page = true) {
   if (page) select({ kind: 'vessel', id });
 }
 
+/** The Freight view with every route and no page open: the way back from a route that no longer exists (what "All routes" of the Routes by vessel class list does). */
+export function openFreightView() {
+  setFamily('freight');
+  commodity.value = null;
+  vesselClasses.value = new Set();
+  select(null);
+}
+
 // a link that opens a vessel class without its filter (#sel=vessel:vlcc) gets the same Freight view
 {
   const s0 = selection.peek();

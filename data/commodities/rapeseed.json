@@ -581,27 +581,27 @@
      {
       "c": "BEL",
       "v": 0.0357,
-      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (87.9 Mt)"
      },
      {
       "c": "LUX",
       "v": 0.0091,
-      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (87.9 Mt)"
      },
      {
       "c": "SVN",
       "v": 0.0083,
-      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (87.9 Mt)"
      },
      {
       "c": "GRC",
       "v": 0.0066,
-      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (87.9 Mt)"
      },
      {
       "c": "NLD",
       "v": 0.0044,
-      "n": "0.0% of the FAOSTAT world total (87.9 Mt)"
+      "n": "<0.1% of the FAOSTAT world total (87.9 Mt)"
      }
     ],
     "n": "FAOSTAT crop production (QCL), rape or colza seed, calendar year 2024, the 27 member states, tonnes converted to Mt; the shares are of the total of the 27 member states, not of the world: 16.6 Mt (the world total of FAOSTAT is 87.9 Mt). The USDA row 'European Union' in the production table above is another source and another year (a marketing year, with USDA's own definition of the crop): the two are not added up and need not agree. On the map each member state is coloured with its own figure from this table, as its share of the FAOSTAT world total",

@@ -82,7 +82,9 @@ class Notes(unittest.TestCase):
         self.assertEqual(BF.PW_NEAR, 0.85)
         c = next(x for x in load(DATA, "chokepoints.json") if x["id"] == "panama")
         lpg = next(e for e in c["estimates"] if e["p"] == "lpg")
-        self.assertRegex(lpg["f"]["n"], r"is 9\d% of IMF PortWatch's estimate for all tanker ships in 2024")
+        # since FNCG (GV6D.1) the note of the ship type is written once on the passage record, not in each estimate
+        self.assertRegex(c["typeNotes"]["tanker"]["line"], r"is 9\d% of IMF PortWatch's \d+ Mt for all tanker ships in 2024")
+        self.assertNotIn("PortWatch's", lpg["f"]["n"])
         # the K9 record keeps its level: under the volume of the year, a report only
         k9 = [r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"]
               if r["check"] == "K9" and r.get("kind") == "passage" and r["chokepoint"] == "panama" and r["type"] == "tanker"]

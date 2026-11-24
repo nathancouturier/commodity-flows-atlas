@@ -24,6 +24,8 @@ import AgriBlocks from '../AgriBlocks';
 import { reportMonth } from '../CropBalance';
 import { CsvAction } from '../CsvAction';
 import { downloadFlows, flowSources } from '../../lib/blockCsv';
+import { mixedShown } from '../../lib/mixedShown';
+import { KINDS, allTables, coverText, listText, pageTables, sectionTitle, shortName, type Table } from '../../lib/commodityTables';
 
 /**
  * Opens the bottom price drawer on this commodity's series. `none` is true once the price catalogue is
@@ -36,21 +38,6 @@ function usePriceDrawer(id: string): { open: () => void; none: boolean } {
   // prices/figures.json has an entry for every commodity that has a price series: the page does not load the whole index
   const figures = priceFigures.value;
   return { open: () => openPrices({ commodity: id }), none: figures !== null && !figures[id] };
-}
-
-/** What the main trade tables measure when it is not the finished commodity (used when the data file has no `basis`). */
-const TRADE_BASIS: Record<string, string> = {
-  copper: 'ores and concentrates (gross weight)',
-  nickel: 'ores (gross weight)',
-  zinc: 'ores and concentrates (gross weight)',
-  lead: 'ores and concentrates (gross weight)',
-  bauxite: 'bauxite ore',
-};
-
-/** Section title: the wording set by the data file, else the default with what the table measures. */
-function sectionTitle(d: CommodityData, key: 'production' | 'reserves' | 'consumption' | 'exports' | 'imports' | 'flows', base: string, fallback?: string): string {
-  const basis = (key === 'flows' ? undefined : d[key]?.basis) ?? fallback;
-  return d.labels?.[key] ?? (basis ? `${base} — ${basis}` : base);
 }
 
 /** Customs codes do not separate thermal from metallurgical coal: the flows of both coal pages are all coal. */
@@ -364,7 +351,7 @@ function seaborneAt(f: Fig | undefined, file: LaneFile | null | undefined, yr: n
     .replace(/; [\d.]+% of this tonnage estimated from value/, '');
   // each clause is added for the year shown, whether or not the note of the latest year had one
   const add = (base: string, clause: string) => (!clause ? base : base ? base.replace(/(\.?)$/, `; ${clause}$1`) : clause);
-  const withMixed = add(bare, mixed >= 0.005 ? `${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '');
+  const withMixed = add(bare, mixedShown(mixed, file.unit) ? `${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '');
   const withEst = add(withMixed, est ? `${pct(est.share)} of this tonnage estimated from value` : '');
   return { ...f, v: file.seaborne[i], y: yr, n: withEst || undefined };
 }
@@ -416,9 +403,9 @@ function LaneSummary({ id, color }: { id: string; color?: string }) {
                   {last != null ? `${fmt(last)} ${f.unit} seaborne` : '—'} <span class="muted">· {yr} · {active} lanes{at >= 0 ? ' with a flow' : ''}</span>
                 </span>
               </div>
-              {(mixed > 0 || note) && (
+              {(mixedShown(mixed, f.unit) || note) && (
                 <div class="lt-note" style={{ margin: '2px 0 0 0' }}>
-                  {mixed > 0 && <div>Plus {fmt(mixed)} {f.unit} by sea and overland, split not known: not in the seaborne figure.</div>}
+                  {mixedShown(mixed, f.unit) && <div>Plus {fmt(mixed)} {f.unit} by sea and overland, split not known: not in the seaborne figure.</div>}
                   {note && <div>{note}</div>}
                 </div>
               )}
@@ -452,47 +439,6 @@ function KeyInfra({ id }: { id: string }) {
   );
 }
 
-/** The core kinds of table, in the order of the page. */
-const KINDS = ['production', 'consumption', 'exports', 'imports', 'reserves'] as const;
-type Kind = (typeof KINDS)[number];
-/** The word of a kind in the Notes section. */
-const KIND_WORD: Record<string, string> = { production: 'production', refinery: 'refinery output', consumption: 'consumption', exports: 'exporters', imports: 'importers', reserves: 'reserves' };
-
-type Table = { key: string; title: string; data: Ranked };
-
-/** "Top consumers — motor gasoline, EIA 2025" names itself "motor gasoline, EIA 2025" in the line that holds the other tables of its kind. */
-const shortName = (title: string) => title.match(/^Top \w+ — (.+)$/)?.[1] ?? title;
-
-/**
- * The tables of the page by place: each core kind (its main table first, then the extra tables whose key ends with the kind; refinery or
- * smelter output goes with production), the EU member states and the ending stocks (secondary blocks of the crops), and the rest.
- */
-function pageTables(d: CommodityData, id: string) {
-  const kinds = {} as Record<Kind, Table[]>;
-  for (const k of KINDS) {
-    const main = d[k];
-    const fallback = k === 'exports' || k === 'imports' ? TRADE_BASIS[id] : undefined;
-    const base = { production: 'Top producers', consumption: 'Top consumers', exports: 'Top exporters', imports: 'Top importers', reserves: 'Reserves' }[k];
-    kinds[k] = main ? [{ key: k, title: sectionTitle(d, k, base, fallback), data: main }] : [];
-  }
-  const eu: Table[] = [];
-  const stocks: Table[] = [];
-  const other: Table[] = [];
-  for (const x of d.extra ?? []) {
-    const t = { key: x.key, title: x.title, data: x.table };
-    const k = KINDS.find((kk) => x.key === kk || x.key.endsWith(`-${kk}`));
-    if (x.key.startsWith('eu-')) eu.push(t);
-    else if (x.key === 'stocks') stocks.push(t);
-    else if (k) kinds[k].push(t);
-    else other.push(t);
-  }
-  if (d.refinery) kinds.production.push({ key: 'refinery', title: 'Refinery / smelter output', data: d.refinery });
-  return { kinds, eu, stocks, other };
-}
-
-/** "a, b and c". */
-const listText = (xs: string[]) => (xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : (xs[0] ?? ''));
-
 /** A table note without the warning the page prints apart (RankedBlock does the same). */
 function ownNote(t: Ranked): string {
   const cv = t.caveat;
@@ -506,8 +452,6 @@ function ownNote(t: Ranked): string {
  * estimate. The note of an Atlas estimate or conversion is kept whole: it is the method of the figure.
  */
 function sharedNotes(tables: Table[], hist: CommodityHistory | null | undefined) {
-  // in the middle of a sentence: "ending stocks", but "EU member states"
-  const label = (t: Table) => KIND_WORD[t.key] ?? shortName(t.title).replace(/^[A-Z](?![A-Z])/, (c) => c.toLowerCase());
   const count = (m: Map<string, Table[]>, k: string, t: Table) => m.set(k, [...(m.get(k) ?? []), t]);
   const series = new Map<string, Table[]>();
   const clauses = new Map<string, Table[]>();
@@ -529,20 +473,10 @@ function sharedNotes(tables: Table[], hist: CommodityHistory | null | undefined)
     const kept = [parts[0], ...parts.slice(1).filter((c) => !clauseOut.has(c))];
     if (kept.length < parts.length) data[t.key] = { ...t.data, n: [kept.join('; '), t.data.caveat].filter(Boolean).join(' · ') };
   }
-  // a note that stands under many tables is said once for the kinds of table it covers, not as a list of their titles (the pulses page has ten):
-  // "Tables of exporters and importers, in total and by kind", where the tables are the main ones and the further ones of the same kinds
-  const covers = (ts: Table[], lead: string, collapsed: string) => {
-    const kindOf = (t: Table) => KINDS.find((k) => t.key === k || t.key.endsWith(`-${k}`));
-    const wordOf = (t: Table) => { const k = kindOf(t); return k ? KIND_WORD[k] : label(t); };
-    const words = [...new Set(ts.map(wordOf))];
-    if (ts.length <= 3) return `${lead} ${listText(ts.map(label))}`;
-    const isMain = (t: Table) => (KINDS as readonly string[]).includes(t.key);
-    const byKind = ts.some(isMain) && ts.some((t) => !isMain(t));
-    return `${collapsed} ${listText(words)}${byKind ? ', in total and by kind' : ''}`;
-  };
+  // a note that stands under many tables is said once for the tables it covers, not as a list of their titles (the pulses page has ten): see coverText
   const notes = [
-    ...[...clauseOut].map((c) => `${covers(clauses.get(c)!, 'In the tables of', 'Tables of')}: ${c}`),
-    ...[...seriesOut].map((n) => `${covers(series.get(n)!, 'Series by year of', 'Series by year of')}: ${n}`),
+    ...[...clauseOut].map((c) => `${coverText(clauses.get(c)!, 'In the tables of', 'Tables of')}: ${c}`),
+    ...[...seriesOut].map((n) => `${coverText(series.get(n)!, 'Series by year of', 'Series by year of')}: ${n}`),
   ];
   return { data, hists, notes };
 }
@@ -574,7 +508,7 @@ export default function CommodityView({ id }: { id: string }) {
   const ht = (key: string): HistTable | undefined => hist?.t[key];
   const tables = useMemo(() => (d ? pageTables(d, id) : null), [d, id]);
   const shared = useMemo(
-    () => (tables ? sharedNotes([...KINDS.flatMap((k) => tables.kinds[k]), ...tables.other, ...tables.stocks, ...tables.eu], hist) : null),
+    () => (tables ? sharedNotes(allTables(tables), hist) : null),
     [tables, hist],
   );
   // the texts printed above the Notes, in page order: key figures, the open table of each kind, the gap in the customs record,

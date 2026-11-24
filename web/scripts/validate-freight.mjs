@@ -81,6 +81,21 @@ export function validateFreight(root, errors) {
     return;
   }
   const chokepoints = new Set(chk.map((c) => c.id));
+  // the note of a ship type against PortWatch's volume is written once on the passage (`typeNotes`): a known type, a line and its reason,
+  // a known regime of the cap, and no repetition of it in the estimates
+  for (const c of chk) {
+    for (const [t, tn] of Object.entries(c.typeNotes ?? {})) {
+      const at = `chokepoints.json: ${c.id} typeNotes.${t}`;
+      if (!['dry', 'tanker', 'cargo'].includes(t)) errors.push(`freight/${at}: not a ship type of the passage records`);
+      if (typeof tn?.line !== 'string' || !tn.line) errors.push(`freight/${at}: no line`);
+      if (typeof tn?.n !== 'string' || !tn.n) errors.push(`freight/${at}: no reason (n)`);
+      if (!['sub', 'whole', 'none', null].includes(tn?.regime)) errors.push(`freight/${at}: regime "${tn?.regime}" is not sub, whole, none or null`);
+      if (!c.estimates?.length) errors.push(`freight/${at}: a note of a ship type on a passage with no estimate`);
+    }
+    for (const e of c.estimates ?? []) {
+      if (/PortWatch's (?:volume|estimate for all)/.test(e.f?.n ?? '')) errors.push(`freight/chokepoints.json: ${c.id} ${e.p ?? e.k}: the note of the ship type is repeated in the estimate (it belongs to typeNotes)`);
+    }
+  }
   const hasPairs = fs.existsSync(path.join(root, 'freight/pairs'));
   const caveats = read('freight/caveats.json');
   // country codes the atlas can name: the index plus the places customs data use that it has no page for (absent in a small test folder: no check)
