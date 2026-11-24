@@ -554,11 +554,14 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   estuary from the node of Le Havre, so a route from Rouen is longer than the same route from Le Havre by the leg and that
   stretch. The same page gives another figure, "à 80 km de l'estuaire par le fleuve et à 6 heures de navigation": the 80 km are
   to the estuary, the 120 km are to Honfleur, at the far end of the estuary, where the network's node is; the leg is the 120 km,
-  and the days of a lane count it at the lane's speed. Bremen (package FNCH, review GV7B.1), 55 km from the network, is the other
-  port of an open choice of German lanes and never the principal port of a pair: English Wikipedia, Weser, read on 24 November 2026,
-  "It passes through the Hanseatic city of Bremen. Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and
-  Nordenham": 50 km, 27 nm, from the node of Bremerhaven, the one the router already used for Bremen. The page's figure is round and
-  shorter than the 53 km of the straight line from Bremen to that node, so the leg may be a little short. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
+  and the days of a lane count it at the lane's speed. Bremen, since the sixth release: 55 km from the network, it is the other
+  port of an open choice of German lanes and never the principal port of a pair. No page read gives the length of the Weser between Bremen
+  and Bremerhaven: the English Wikipedia page of the river, read on 24 November 2026, says "It passes through the Hanseatic city of Bremen.
+  Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and Nordenham", a distance to the north that is shorter than
+  the straight line between Bremen and the node of Bremerhaven, the one the router already used for Bremen (56.5 km), so it cannot be the
+  length by river between these two points. The leg is that straight line, 56.5 km, 30 nm: an Atlas measure, the segment the map draws,
+  and shorter than the river (the row says `"measure": "straight"`; a test recomputes it from the two points and requires every leg to
+  be at least as long as the straight line between its ends). The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
   (`test_ports.py`) requires a leg for every port of a flow's gateway that is more than 50 km from the coast and the network;
   the other ports of the tables at 20 to 50 km from the network (estuary and river ports, and islands) are listed in
   `test_fnce.py`, which fails when one more comes into a table, and are not changed.

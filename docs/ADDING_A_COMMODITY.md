@@ -186,7 +186,8 @@ A new group meets these, in the order of the files above:
 - A port more than 50 km from the coast and the sea network (a port up an estuary: Rouen, 53 km up the Seine) is snapped by the router to the
   nearest node, which can be on another stretch of coast, and every lane through it reads short and starts at sea. Give it a row in
   `RIVER_LEGS` of `pipeline/freight/river_legs.py` (the node of the network at the river's mouth, the length of the leg in km and the page that
-  gives it, with its sentence): `routing.route()` then starts the route at the mouth, adds the leg to every distance and draws the first
+  gives it, with its sentence; where no page read gives the length by river, `"measure": "straight"` and the straight line between the port and
+  the mouth, which a test recomputes: Bremen): `routing.route()` then starts the route at the mouth, adds the leg to every distance and draws the first
   segment straight, and the lane, route and Route finder pages say so. `test_ports.py` fails for a port of a flow's gateway that is farther than 50 km and has no leg.
 - A gateway row whose page names the plant that the port serves (a steel works, a refinery of alumina) and not the cargo takes an eighth element,
   `"plant"`: its basis reads "page names the plant, not the cargo" in both directions, and the source link stays. Read the note of every row you add:

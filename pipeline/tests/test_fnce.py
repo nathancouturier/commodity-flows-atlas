@@ -56,11 +56,22 @@ class E1RiverLegTable(unittest.TestCase):
                 self.assertGreater(leg["km"], 0)
                 self.assertTrue(leg["url"].startswith("https://"))
                 self.assertEqual(leg["s"], "wikipedia")
-                # the sentence of the page gives the length the table uses
                 figures = [int(x) for x in re.findall(r"(\d+) km", leg["sentence"])]
-                self.assertEqual(figures[0], leg["km"])
-                # FNCH H6: where the page gives a second figure (Rouen: 80 km to the estuary), the sentence says what each one is
-                self.assertEqual(set(figures[1:]), {80, 120} if code == "FRURO" else set())
+                x, y = at(code)
+                straight = P._km(x, y, *leg["mouth"])
+                # GV9A.1: a leg is never shorter than the straight line between the port and the mouth, which is how it is drawn
+                self.assertGreaterEqual(leg["km"] + 0.05, straight)
+                if leg.get("measure") == "straight":
+                    # no page read gives the length by river (Bremen: the page's 50 km is a distance to the north, under the straight line):
+                    # the leg is the straight line itself, typed once and recomputed here from the two points
+                    self.assertAlmostEqual(leg["km"], straight, delta=0.01)
+                    self.assertLess(figures[0], straight)
+                    self.assertIn("straight line", leg["sentence"])
+                else:
+                    # the sentence of the page gives the length the table uses
+                    self.assertEqual(figures[0], leg["km"])
+                    # FNCH H6: where the page gives a second figure (Rouen: 80 km to the estuary), the sentence says what each one is
+                    self.assertEqual(set(figures[1:]), {80, 120} if code == "FRURO" else set())
                 self.assertIn(leg["river"], leg["sentence"])
                 self.assertIn(leg["mouth_name"], leg["sentence"])
                 # the gateway row of Rouen cites the same page (Bremen's leg comes from the page of the river, its row cites the page of the port)
@@ -97,19 +108,23 @@ class E1RiverLegTable(unittest.TestCase):
         self.assertFalse(set(band) & set(RL.RIVER_LEGS))
 
     def test_bremen_has_a_leg_of_the_weser_and_the_distance_of_its_options_includes_it(self):
-        """FNCH H2 (GV7B.1): Bremen is 55 km from the network. Its leg is the 50 km of the Weser that the English Wikipedia page of the river gives
-        (the mouth is Bremerhaven, the node the router already used). It is the other port of an open choice of German lanes, never the main port
-        of a lane or a pair, and a lane that offers it carries the note of the leg."""
+        """FNCH H2 (GV7B.1), corrected after review GV9A.1: Bremen is 55 km from the network. No page read gives the length of the Weser between
+        Bremen and Bremerhaven (the river's page gives 50 km to the north, less than the straight line), so the leg is the straight line between
+        the port and the node of Bremerhaven, the one the router already used: 56.5 km, 30 nm, an Atlas measure. Bremen is the other port of an
+        open choice of German lanes, never the main port of a lane or a pair, and a lane that offers it carries the note of the leg."""
         leg = RL.RIVER_LEGS["DEBRE"]
-        self.assertEqual((leg["river"], leg["mouth_name"], leg["km"], RL.nm_of(leg)), ("Weser", "Bremerhaven", 50, 27))
+        self.assertEqual((leg["river"], leg["mouth_name"], leg["km"], leg["measure"], RL.nm_of(leg)), ("Weser", "Bremerhaven", 56.47, "straight", 30))
         self.assertEqual(RL.leg_at(at("DEBRE"))["code"], "DEBRE")
         sea = RT.route(at("DEHAM"), at("NLRTM")).nm
         brm = RT.route(at("DEBRE"), at("NLRTM"))
-        self.assertEqual(brm.nm, RT.route(leg["mouth"], at("NLRTM")).nm + 27)
+        self.assertEqual(brm.nm, RT.route(leg["mouth"], at("NLRTM")).nm + 30)
         self.assertEqual(brm.coords[0], at("DEBRE"))
-        self.assertEqual((sea, brm.nm), (310, 291))  # Bremen to Rotterdam was 264 nm, 46 nm shorter than Hamburg, with the Weser left out
+        self.assertEqual((sea, brm.nm), (310, 294))  # Bremen to Rotterdam was 264 nm, 46 nm shorter than Hamburg, with the Weser left out
         n = RL.note(leg, "Bremen")
-        self.assertEqual(n, "Bremen is 27 nm up the Weser from Bremerhaven (50 km, Weser page): included in the distance; the line runs straight from the port to Bremerhaven.")
+        self.assertEqual(n, "Bremen is up the Weser from Bremerhaven: the distance includes 30 nm, the straight line drawn between the two "
+                            "(56 km, an Atlas measure: no page read gives the length by river).")
+        self.assertLess(len(n), 180)
+        self.assertNotIn("Wikipedia", n)
         d = os.path.join(DATA, "freight")
         seen = 0
         for f in sorted(os.listdir(os.path.join(d, "pairs"))):

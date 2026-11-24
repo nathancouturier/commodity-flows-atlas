@@ -521,7 +521,9 @@ def version():
         "indo": INDO_PACIFIC, "south_pacific": SOUTH_PACIFIC, "magellan": MAGELLAN_SOUTH_OF,
         "no_panama": sorted(NO_PANAMA), "no_suez": sorted(NO_SUEZ), "cape": sorted(CAPE_PREFERRED),
         "cape_days": CAPE_MAX_EXTRA_DAYS, "ratio": ALT_MAX_RATIO, "draught": VR.DRAUGHT_M,
-        "limits": VR.PASSAGE_LIMIT_M, "speed": VR.SPEED, "searoute": sr.__version__, "code": _code(), "rivers": RL.RIVER_LEGS,
+        "limits": VR.PASSAGE_LIMIT_M, "speed": VR.SPEED, "searoute": sr.__version__, "code": _code(),
+        # what a cached route depends on: the mouth and the leg in whole nautical miles (not the page or its sentence, which only the notes print)
+        "rivers": {c: [leg["mouth"], RL.nm_of(leg)] for c, leg in sorted(RL.RIVER_LEGS.items())},
     }
     return hashlib.sha1(json.dumps(key, sort_keys=True).encode()).hexdigest()[:12]
 

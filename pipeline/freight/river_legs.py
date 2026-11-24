@@ -12,6 +12,12 @@ than the table does.
 Each row: the port code, the river, the mouth (name and the coordinates of a node of the network: a test checks that it is one),
 the length of the leg in km as the page gives it, and the page with the sentence that gives it. The leg in nautical miles is
 the length divided by the nautical mile (pipeline/common/constants.py), rounded.
+
+Where no page read gives the length by river between the port and the mouth, the row says "measure": "straight": its km is the
+straight line between the port's own point and the mouth (ports._km), which is the segment the map draws and is shorter than the
+river. The figure is typed once and a test recomputes it from the two points; the note calls it an Atlas measure. A test also
+requires every leg to be at least as long as the straight line between its two ends (a figure shorter than that cannot be the
+length by river between them: review GV9A.1).
 """
 import os
 import sys
@@ -39,18 +45,24 @@ RIVER_LEGS = {
     },
     # Weser (English Wikipedia, CC BY-SA 4.0, read 24 November 2026), introduction: "The Weser begins at Hannoversch Münden through the
     # confluence of the Werra and Fulda. It passes through the Hanseatic city of Bremen. Its mouth is 50 km (31 mi) further north opposite
-    # the ports of Bremerhaven and Nordenham." The mouth is the node of the network that the router used for Bremen before (Bremerhaven, 53 km
-    # from the town in a straight line: the page's 50 km is a round figure and the leg may be short by a few km; no other free page was read).
+    # the ports of Bremerhaven and Nordenham." The page places Bremen on the Weser above Bremerhaven but gives no length by river between
+    # the two: its 50 km is a distance to the north, shorter than the straight line from the port's point to the node of Bremerhaven that
+    # the router already used for Bremen (56.5 km), so it cannot be the length of the leg (review GV9A.1; a second page, the German
+    # Wikipedia article on the river, was read on the same day and gives no figure for this stretch in the part that could be read).
+    # The leg is therefore the straight line, the segment the map draws: an Atlas measure, shorter than the river.
     "DEBRE": {
         "river": "Weser",
         "mouth_name": "Bremerhaven",
         "mouth": [8.536713, 53.55888],
-        "km": 50,
+        "km": 56.47,  # ports._km between the port's point and the mouth: 56.474 (a test recomputes it)
+        "measure": "straight",
         "s": "wikipedia",
         "url": "https://en.wikipedia.org/wiki/Weser",
         "page": "Weser, English Wikipedia",
         "sentence": "The Weser begins at Hannoversch Münden through the confluence of the Werra and Fulda. It passes through the Hanseatic city of Bremen. "
-                    "Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and Nordenham.",
+                    "Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and Nordenham. "
+                    "(The page gives a distance to the north, not a length by river between Bremen and Bremerhaven: the leg is the straight line "
+                    "between the port and the mouth, 56.5 km.)",
     },
 }
 
@@ -63,6 +75,9 @@ def nm_of(leg):
 def note(leg, port_name):
     """The one sentence of the lane, route and finder pages: the leg (the figures come from the table), that the distance includes it, and
     that the line is drawn straight to the mouth. The page that gives the length is named once; the page's link follows it (GV7B.7)."""
+    if leg.get("measure") == "straight":  # no page read gives the length by river: the straight line, said to be the atlas's own measure
+        return (f"{port_name} is up the {leg['river']} from {leg['mouth_name']}: the distance includes {nm_of(leg)} nm, the straight line drawn "
+                f"between the two ({round(leg['km'])} km, an Atlas measure: no page read gives the length by river).")
     return (f"{port_name} is {nm_of(leg)} nm up the {leg['river']} from {leg['mouth_name']} ({leg['km']} km, {leg['page'].split(', ')[0]} page): "
             f"included in the distance; the line runs straight from the port to {leg['mouth_name']}.")
 
