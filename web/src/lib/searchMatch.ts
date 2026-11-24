@@ -188,6 +188,8 @@ export interface Matchable {
   d: Searchable;
   /** position in the kind's own order (a list with no query) */
   order: string | number;
+  /** among items that match a query equally well, the one with the lower number comes first (default 0); the list with no query ignores it */
+  tie?: number;
 }
 
 /**
@@ -204,7 +206,7 @@ export function matchKind<T extends Matchable>(q: string[], items: T[], kind: st
   }
   return out.sort(
     (a, b) =>
-      (q.length ? Number(b.whole) - Number(a.whole) || b.tier - a.tier || b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
+      (q.length ? Number(b.whole) - Number(a.whole) || b.tier - a.tier || b.s - a.s || (a.item.tie ?? 0) - (b.item.tie ?? 0) : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
   );
 }
 

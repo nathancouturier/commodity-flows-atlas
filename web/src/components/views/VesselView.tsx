@@ -6,7 +6,7 @@ import { load, sourceLabel } from '../../lib/data';
 import { loadRoutes, loadVesselClasses, SEGMENT_COLOR, SEGMENT_LABEL, vesselName } from '../../lib/freight';
 import { select } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder } from '../ui';
-import { CommodityChips, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { CommodityChips, FreightWayBack, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { ShippingCompaniesBlock } from '../Companies';
 
 /** A figure's own page (an article or a service page) when it has one, else the registry entry. */
@@ -148,7 +148,7 @@ export default function VesselView({ id }: { id: string }) {
   if (v === undefined)
     return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Skeleton lines={6} /></div></>);
   if (v === null)
-    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This vessel class is not in the atlas catalogue.</Placeholder></div></>);
+    return (<><div class="detail-head"><div class="detail-kicker">Vessel class</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This vessel class is not in the atlas catalogue.<FreightWayBack /></Placeholder></div></>);
   const u = v.size.u === 'teu' ? 'TEU' : v.size.u;
   const byId = new Map((routes ?? []).map((r) => [r.id, r]));
   const served = v.routes.map((rid) => byId.get(rid)).filter((r): r is Route => !!r);

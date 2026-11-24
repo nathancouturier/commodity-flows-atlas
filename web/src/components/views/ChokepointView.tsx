@@ -6,7 +6,7 @@ import { fig as fmtFig, fmt as fmtNum, pctText } from '../../lib/format';
 import { ESTIMATE_DEFINITION, GROUP_LABEL, chokepointName, loadChokepoints, loadEvents, loadLaneFile, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
 import { getMap } from '../../map/controller';
 import { select } from '../../lib/store';
-import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote } from '../ui';
+import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote, WayBack } from '../ui';
 import { TimeChart, DAY, YEAR, parseDate, parseEnd } from '../charts/TimeChart';
 import type { TimeMarker } from '../charts/TimeChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
@@ -123,13 +123,15 @@ function Estimates({ cp, withDefinition, small }: { cp: Chokepoint; withDefiniti
   if (!rows.length) return null;
   const shown = all ? rows : rows.slice(0, TOP_GROUPS);
   const two = (e: Estimate) => e.p && e.p !== e.k && GROUP_LABEL[e.p];
+  // PortWatch's volume is printed by every ship-type line and behind every capped figure
+  const typeLines = TYPE_ORDER.filter((t) => cp.typeNotes?.[t]);
   return (
     <Section title="Atlas estimates" aside={<span class="num">{rows[0].f.y}</span>}>
       {withDefinition && <div class="muted small" style={{ marginBottom: '6px' }}>{ESTIMATE_DEFINITION}</div>}
       {/* a route of similar length that the atlas does not count as a choice (or counts as one) */}
       {cp.parallelNote && <div class="muted small" style={{ marginBottom: '6px' }}>{cp.parallelNote}</div>}
       {/* the atlas's tonnage of a ship type against PortWatch's, once for the passage: the line, then the reason that folds */}
-      {TYPE_ORDER.filter((t) => cp.typeNotes?.[t]).map((t) => (
+      {typeLines.map((t) => (
         <div class="est-type" key={t}>
           <div class="est-type-line">{cp.typeNotes![t]!.line}</div>
           <FoldNote class="est-sub" style={{ marginTop: '2px' }} text={cp.typeNotes![t]!.n} />
@@ -155,7 +157,7 @@ function Estimates({ cp, withDefinition, small }: { cp: Chokepoint; withDefiniti
         </button>
       )}
       <SourcesLine
-        items={[{ s: rows[0].f.s, y: rows[0].f.y }, { s: 'baci', y: rows[0].f.y }, ...(shown.some(isCapped) ? [{ s: 'portwatch', y: rows[0].f.y }] : [])]}
+        items={[{ s: rows[0].f.s, y: rows[0].f.y }, { s: 'baci', y: rows[0].f.y }, ...(typeLines.length || shown.some(isCapped) ? [{ s: 'portwatch', y: rows[0].f.y }] : [])]}
         n="Atlas routing of every recorded seaborne pair"
       />
     </Section>
@@ -383,7 +385,7 @@ export default function ChokepointView({ id }: { id: string }) {
   if (cp === undefined)
     return (<><div class="detail-head"><div class="detail-kicker">Chokepoint</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Skeleton lines={7} /></div></>);
   if (cp === null)
-    return (<><div class="detail-head"><div class="detail-kicker">Chokepoint</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This chokepoint is not in the atlas catalogue.</Placeholder></div></>);
+    return (<><div class="detail-head"><div class="detail-kicker">Chokepoint</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This chokepoint is not in the atlas catalogue.<WayBack onClick={() => select({ kind: 'board', id: 'chokepoints' })}>All passages</WayBack></Placeholder></div></>);
 
   const FlowRow = ({ k, f, before }: { k: string; f: Fig; before?: Fig[] }) => (
     <div class="flow-row" title={`${sources.value[f.s]?.name ?? f.s} · ${f.y}`}>
