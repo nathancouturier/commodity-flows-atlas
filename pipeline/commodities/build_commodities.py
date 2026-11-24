@@ -1612,8 +1612,8 @@ FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refi
 
 # Headline figures of publishers whose tables are not free to copy: one world total each, cited with publisher, year and link
 # (publisher, publication, figure, unit, year, page read, id in data/sources.json)
-WORLDSTEEL = ("World Steel Association", "press release of 23 January 2026", 1849.4, "Mt", 2025,
-              "https://worldsteel.org/media/press-releases/2026/december-2025-crude-steel-production-2025-global-crude-steel-production/", "worldsteel")
+WORLDSTEEL = ("World Steel Association", "World Steel in Figures 2026, data finalised 8 June 2026", 1848.9, "Mt", 2025,
+              "https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/", "worldsteel")
 WGC_MINE = ("World Gold Council", "Gold Demand Trends, full year 2025 (supply)", 3671.6, "t", 2025,
             "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply", "wgc")
 # Official or press figures read on a page, quoted in a discrepancy note: Guinea's exports and China's imports of tin concentrate
@@ -2437,7 +2437,8 @@ def main():
             wp, wdoc, wv, wu, wy, wurl, _ = WORLDSTEEL
             disc.append(f"Crude steel production {wy}: the USGS estimate is {_nf(pr['world'])} {pr['u']} for the listed countries and 'Other countries' "
                         f"(USGS rounds its world total to {_nf(us.table('Iron And Steel', 'Raw steel')['world'])} {pr['u']}); the {wp} reports {wv:,} {wu} of world crude steel "
-                        f"production for {wy} ({wdoc}, {wurl}). The table shows the USGS figures, which come by country; the {wp}'s own tables are not copied.")
+                        f"production for {wy} ({wdoc}, {wurl}; its press release of 23 January 2026 gave 1,849.4 {wu} before the revision). The table shows the USGS figures, which come by country: "
+                        f"the {wp}'s country table is not reproduced, because its terms of use do not allow it (see the registry of sources).")
             d["summary"]["production"]["n"] += f"; {wp}: {wv:,} {wu} in {wy} (see the discrepancies)"
         elif cid in ("gold", "silver"):
             if _fine_metal(d, baci, cid, disc):
@@ -2580,8 +2581,9 @@ def main():
             notes.append("Trade is pig iron (HS 7201: non-alloy pig iron in two classes of phosphorus content, alloy pig iron and spiegeleisen), customs gross weight. USGS production is pig iron "
                          "by country in Mt, as USGS states it (the countries it names and its 'Other countries' line).")
             notes.append("The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second "
-                         "product with its own customs code, in none of the totals above. No production table for it: USGS gives pig iron and raw steel only, and the producers' "
-                         "association's figures are not loaded (their terms are not settled).")
+                         "product with its own customs code, in none of the totals above. No production table for it: direct-reduced iron by country has no source that the atlas may reproduce. USGS gives pig iron and raw steel "
+                         "only; the World Steel Association publishes it by country, but its terms of use do not allow its tables to be reproduced without written consent, and Midrex's "
+                         "statistics book states no terms of reuse, so neither is copied.")
             notes.append(_note_group(baci, "dri", "Direct-reduced iron and spongy iron (HS 7203)"))
             notes.append("Nickel pig iron has no code of its own: it is declared as ferro-nickel (HS 720260), which is on the nickel page.")
             notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded.")
@@ -3075,6 +3077,13 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
 
 
 # ====================================================================== sources, QA
+# worldsteel: the clause that keeps its country tables out of the atlas (terms of use, full version, read on 24 November 2026)
+WORLDSTEEL_LICENCE = ("Copyright World Steel Association; one world total is cited, with its edition, and none of its tables is copied. Article 6.1 of the "
+                      "worldsteel Terms of Use: its websites and components \"may not be reproduced, used or distributed without the prior written consent "
+                      "of worldsteel\"; for its data subscriptions: \"The data can be used internally but cannot be shared with a third party.\"; "
+                      "World Steel in Figures 2026 states no licence and no attribution wording")
+
+
 def update_sources():
     p = os.path.join(DATA, "sources.json")
     src = json.load(open(p, encoding="utf-8"))
@@ -3094,9 +3103,9 @@ def update_sources():
         {"id": "wna", "name": "World Nuclear Association: World Uranium Mining Production", "publisher": "World Nuclear Association",
          "url": "https://world-nuclear.org/information-library/nuclear-fuel-cycle/mining-of-uranium/world-uranium-mining-production",
          "licence": "Copyright World Nuclear Association; figures cited with attribution (see website terms of use)", "update": "annual"},
-        {"id": "worldsteel", "name": "worldsteel: monthly crude steel production press releases", "publisher": "World Steel Association",
-         "url": "https://worldsteel.org/media/press-releases/", "licence": "Copyright World Steel Association; only the world total is cited, with attribution, and none of its tables is copied",
-         "update": "monthly"},
+        {"id": "worldsteel", "name": "worldsteel: World Steel in Figures and crude steel production press releases", "publisher": "World Steel Association",
+         "url": "https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/", "licence": WORLDSTEEL_LICENCE,
+         "update": "annual (World Steel in Figures, June); monthly (press releases)"},
         {"id": "wgc", "name": "World Gold Council: Gold Demand Trends", "publisher": "World Gold Council",
          "url": "https://www.gold.org/goldhub/research/gold-demand-trends", "licence": "Copyright World Gold Council; only the world total of mine production is cited, with attribution, and none of its tables is copied",
          "update": "quarterly"},
@@ -3124,6 +3133,10 @@ def update_sources():
                                    "EU member-state crop rows are kept in pipeline/cache (pipeline/commodities/fetch_external.py --only crops)"},
              "icco": {"use": "World cocoa production per crop year, beside the FAOSTAT table, and the world grindings of the latest crop year",
                       "licence": "Copyright ICCO; only the world totals of production and of grindings are cited, with attribution, and none of its tables is copied (its country tables are sold by subscription)"},
+             "worldsteel": {"name": "worldsteel: World Steel in Figures and crude steel production press releases",
+                            "url": "https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/", "licence": WORLDSTEEL_LICENCE,
+                            "update": "annual (World Steel in Figures, June); monthly (press releases)",
+                            "use": "World crude steel production in 2025 (1,848.9 Mt, World Steel in Figures 2026), beside the USGS table of the steel page"},
              "giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities"}}
     changed = False
     for s in new:

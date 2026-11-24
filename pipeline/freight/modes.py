@@ -10,7 +10,8 @@ The rules apply in this order and the first that matches wins (PLAN.md 2.1):
   3. LNG              product rule: sea between coastal countries; between land neighbours only when the exporter has
                       a liquefaction terminal and the importer a regasification terminal, else pipeline gas declared
                       as LNG (land)
-  4. MIXED            ordered country pairs whose cargo family moves both by sea and overland
+  4. MIXED            ordered country pairs whose cargo family moves both by sea and overland (KNOWN_SPLIT: the share by sea of a
+                      pair-year that a source measures; mode_of() then gives it, and the builders cut the pair's row in two)
   5. land neighbours  mainland border: land, unless the pair is in SEA_NEIGHBOURS for the cargo family
   6. sea outlet       a landlocked exporter in SEA_OUTLET for the group: transit, to a coastal or a landlocked buyer
                       (Kazakh crude to Austria leaves by the CPC pipeline and sails), unless the buyer is landlocked and
@@ -32,11 +33,15 @@ country is gateway data.
 """
 import json
 import os
+import sys
 from collections import namedtuple
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.join(ROOT, "pipeline", "trade"))
+import us_lpg  # noqa: E402  (the share by vessel of the pair United States to Mexico: the cache of the Census Bureau's export file)
 
-Mode = namedtuple("Mode", "kind basis note url", defaults=(None, None))
+# share: for a mixed pair-year whose split a source measures (KNOWN_SPLIT), the share of its tonnage that went by sea
+Mode = namedtuple("Mode", "kind basis note url share", defaults=(None, None, None))
 Entry = namedtuple("Entry", "families reason url", defaults=(None,))
 
 ALL = "*"
@@ -258,6 +263,33 @@ _MIXED = [
 ]
 MIXED = {e[0]: Entry(frozenset(e[1]), e[2], e[3]) for e in _MIXED}
 
+# ------------------------------------------------------------------ 4b. mixed pairs whose split a source measures
+# (group, exporter, importer) -> (country key of the cache of us_lpg.py, what the share is, source id of the figure). The year is that of
+# the source's file (us_lpg.load()["census"]["year"]): the other years of the pair stay mixed, split not known.
+KnownSplit = namedtuple("KnownSplit", "key what source url")
+KNOWN_SPLIT = {
+    ("lpg", "USA", "MEX"): KnownSplit(
+        "MEX", "vessel shipping weight over the pair's estimated tonnage, both from the US Census Bureau's export detail file; the file gives no "
+        "weight for the other modes and does not name them, and the rest is read as overland (rail, truck and pipeline across the border)",
+        "census-exports", "https://www.census.gov/foreign-trade/reference/products/layouts/exdb.html"),
+}
+
+
+def known_split(o, d, group, year):
+    """(share by sea, KnownSplit) of a pair-year whose split a source measures, else None."""
+    k = KNOWN_SPLIT.get((group, o, d))
+    if k is None or year != us_lpg.load()["census"]["year"]:
+        return None
+    share = us_lpg.sea_share(k.key, int(year))
+    return None if share is None else (min(share, 1.0), k)
+
+
+def split_note(share, k, year, total):
+    """The sentence of the lane, the page and the notes for a pair-year whose split is known; total: the pair's tonnage in all modes, as text."""
+    return (f"In {year}, {share:.0%} of the pair's {total} in all modes went by sea: {k.what}. The other years of this pair are customs totals "
+            "for all modes, with the split not known")
+
+
 # ------------------------------------------------------------------ 7. landlocked ends
 # landlocked exporter -> groups that it ships by sea through a foreign port, also to a coastal buyer of its own bloc and to
 # a landlocked buyer outside its blocs; neighbours (rule 5) and landlocked buyers of its blocs stay land (rule 6)
@@ -350,6 +382,9 @@ def mode_of(o, d, group, year=None):
         return Mode("sea", "product")
     m = MIXED.get((o, d))
     if m and fam in m.families:
+        ks = known_split(o, d, group, year) if year is not None else None
+        if ks:
+            return Mode("mixed", "pair", m.reason, m.url, ks[0])
         return Mode("mixed", "pair", m.reason, m.url)
     if neighbours:
         if lo or ld:

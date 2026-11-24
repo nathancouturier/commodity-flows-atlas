@@ -198,7 +198,7 @@ def frame():
         m = BL.MD.mode_of(*k)
         kinds[k] = m.kind if m else "land"
     df["mode"] = [kinds[k] for k in zip(df["o"], df["d"], df["group"])]
-    return df
+    return BL.split_known(df)
 
 
 def pw_volumes(chk, rows):

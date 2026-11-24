@@ -345,6 +345,26 @@ def mode_of(o, d, group):
     return "sea" if m and m.kind in ("sea", "transit") else "land"
 
 
+def split_known(df):
+    """A pair-year of mode "mixed" whose split a source measures (modes.KNOWN_SPLIT) becomes two rows: its tonnage by sea (mode "sea",
+    `split` = "sea", the lane and the seaborne totals read it) and the rest (mode "land", `split` = "rest"), each with its share of the
+    declared value. The two rows add up to the pair's tonnage, so every total over all modes stays as it was. The rows of the other
+    pair-years are untouched (`split` empty). The checks of K and the caveats read the frame before this cut."""
+    df = df.assign(split="", t_all=float("nan"), sea_share=float("nan"))
+    if df["mode"].eq("mixed").any():
+        keys = [(o, d, g, int(y)) for o, d, g, y in zip(df["o"], df["d"], df["group"], df["year"])]
+        sh = pd.Series([MD.known_split(o, d, g, y)[0] if m == "mixed" and MD.known_split(o, d, g, y) else None
+                        for (o, d, g, y), m in zip(keys, df["mode"])], index=df.index, dtype=float)
+        hit = sh.notna()
+        if hit.any():
+            sea, rest = df[hit].copy(), df[hit].copy()
+            for part, f, mode, tag in ((sea, sh[hit], "sea", "sea"), (rest, 1 - sh[hit], "land", "rest")):
+                part["t_all"], part["sea_share"] = part["t"], sh[hit]
+                part["t"], part["usd"], part["mode"], part["split"] = part["t"] * f, part["usd"] * f, mode, tag
+            df = pd.concat([df[~hit], sea, rest], ignore_index=True)
+    return df
+
+
 # lanes crossing a currently disrupted chokepoint carry a status note (event ids in events.json)
 DISRUPTIONS = [
     ({"bab-el-mandeb", "suez"}, "red-sea-houthi-2023",
@@ -545,14 +565,18 @@ def _mt(v):
     return K._mt(v)
 
 
-def hist_note(flags, years):
-    """Compatibility text of the chart note (the site shows `histNote` until it reads `histFlags`)."""
+def hist_note(flags, years, volume=()):
+    """Compatibility text of the chart note (the site shows `histNote` until it reads `histFlags`). volume: the years whose tonnage is
+    estimated from a volume (rule 10 of clean.py), not from the declared value."""
     by = defaultdict(list)
     for y, f in sorted(flags.items()):
         by[f].append(y)
     parts = []
-    if by.get("est"):
-        parts.append("Atlas estimate (tonnage estimated from declared value) for " + ", ".join(by["est"]))
+    if [y for y in by.get("est", []) if y in volume]:
+        parts.append("Atlas estimate (tonnage from the volume in the United States' own export statistics, not the customs tonnage) for "
+                     + ", ".join(y for y in by["est"] if y in volume))
+    if [y for y in by.get("est", []) if y not in volume]:
+        parts.append("Atlas estimate (tonnage estimated from declared value) for " + ", ".join(y for y in by["est"] if y not in volume))
     if by.get("nodata"):
         parts.append("no customs record for " + ", ".join(by["nodata"]))
     if by.get("suspect"):
@@ -614,7 +638,10 @@ def flow_notes(r, kind, pc, f2, pipelines=()):
     """Notes of the latest-year flow of a pair (lane `flow.n`, and the pairs file's `notes` for a pair without a lane):
     the Atlas estimate, the all-modes note of a mixed pair, the K8 and K2 findings. r: the cleaned row or None."""
     out = []
-    if r is not None and r.imputed:
+    if r is not None and getattr(r, "split", "") == "sea":
+        out.append("The tonnage of this lane is its share by sea. " + MD.split_note(r.sea_share, MD.known_split(r.o, r.d, r.group, int(r.year))[1],
+                                                                                   int(r.year), _mt(r.t_all / 1e6)))
+    if r is not None and (r.imputed or r.flag == "added"):
         out.append(r.enote)
     if kind == "mixed":
         out.append("Customs total for all modes: this trade moves both by sea and overland and the split is not known"
@@ -645,6 +672,8 @@ def main():
         return mcache[k]
 
     df["mode"] = [kind_of(*k) for k in zip(df["o"], df["d"], df["group"], df["year"])]
+    whole = df  # the checks and the caveats read a pair as one row; the lanes and the totals read it cut by mode (split_known)
+    df = split_known(df)
     latest = int(df["year"].max())
     years = list(range(LATEST_MIN_YEAR, latest + 1))
     sea = df[df["mode"].isin(["sea", "transit"])]
@@ -664,8 +693,8 @@ def main():
 
     # checks (single writer of trade_checks.json) and caveats
     ran = set()
-    findings = K.run(df, latest, ran=ran)
-    active = keep_caveats(CV.build(df, findings, latest), previous_caveats(CAVEATS_OUT), ran)
+    findings = K.run(whole, latest, ran=ran)
+    active = keep_caveats(CV.build(whole, findings, latest), previous_caveats(CAVEATS_OUT), ran)
     write_json(CAVEATS_OUT, active)
     write_json(ZONES_OUT, P.zones())
     k2 = {(r["group"], r["o"], r["d"], r["year"]): r for r in findings if r["check"] == "K2"}
@@ -677,6 +706,11 @@ def main():
             year_notes[r["group"]][r["year"]].append(r["text"])
     for r in LAST_DROPPED:
         year_notes[r["group"]][r["year"]].append(None)  # summarised below
+    for r in whole[whole["flag"].str.contains("est-volume", na=False)].itertuples():
+        if r.group in GROUPS:
+            year_notes[r.group][int(r.year)].append(
+                f"{K._name(r.o)} to {K._name(r.d)}: the customs tonnage of {_mt(r.t0 / 1e6)} is the volume in cubic metres read as tonnes; "
+                f"replaced by {_mt(r.t / 1e6)}, an Atlas estimate from the United States' own export statistics (see the lane's note)")
     detour_in = []
 
     os.makedirs(OUT, exist_ok=True)
@@ -691,7 +725,8 @@ def main():
             continue
         rows = {}
         for r in g.itertuples(index=False):
-            rows[(r.o, r.d, int(r.year))] = r
+            if r.split != "rest":  # the rest of a pair cut by split_known is not the pair's row
+                rows[(r.o, r.d, int(r.year))] = r
         gy = g[g["year"] == latest].sort_values("t", ascending=False)
         sea_tot = {y: totals.get((group, y), 0) for y in years}
         tot_latest = sea_tot[latest] or 1
@@ -718,7 +753,7 @@ def main():
         # selection: main set (latest year, floor, cap), mixed lanes, history set
         main, mixed_l = [], []
         for r in gy.itertuples(index=False):
-            if r.t < floor or (r.o, r.d) not in routed:
+            if r.t < floor or (r.o, r.d) not in routed or r.split == "rest":
                 continue
             if r.mode == "mixed":
                 mixed_l.append((r.o, r.d))
@@ -756,15 +791,17 @@ def main():
         lanes, ports_used = [], {}
         for (o, d), lset in [(k, "main") for k in main + mixed_l] + [(k, "history") for k in history]:
             rec = routed[(o, d)]
-            kind = lane_kind(o, d)
             r_latest = rows.get((o, d, latest))
+            # a pair cut by split_known is a sea lane in the year of the split: its tonnage is the share by sea
+            kind = "sea" if r_latest is not None and r_latest.split == "sea" else lane_kind(o, d)
             vlat = float(r_latest.t) if r_latest is not None else 0.0
             a, b = rec["at"][rec["opts"][0][0]], rec["at"][rec["opts"][0][1]]
             s = plan_summary(a, b, rec["classes"], geometry=True)
             speed = VR.speed(rec["classes"][0])
             series = [rows.get((o, d, y)) for y in years]
-            tonnes = [float(x.t) / 1e6 if x is not None else 0.0 for x in series]
-            values = [float(x.usd) if x is not None else 0.0 for x in series]
+            # a pair cut by split_known keeps its history in all modes, as the years before the year of the split: the sea share is in the lane note
+            tonnes = [(float(x.t_all) if x.split == "sea" else float(x.t)) / 1e6 if x is not None else 0.0 for x in series]
+            values = [(float(x.usd) / x.sea_share if x.split == "sea" else float(x.usd)) if x is not None else 0.0 for x in series]
             hflags = [x.flag if x is not None else "" for x in series]
             if first:
                 tonnes = [None if y < first[0] else t for y, t in zip(years, tonnes)]
@@ -775,7 +812,7 @@ def main():
             for i, code in marks.items():
                 flags[str(years[i])] = code
                 x = series[i]
-                if code == "est" and ("uv-repair" in (x.flag or "") or "est-peer" in (x.flag or "")):
+                if code == "est" and any(c in (x.flag or "") for c in ("uv-repair", "est-peer", "est-volume")):
                     notes[str(years[i])] = x.enote
                 elif code == "nodata" and first and years[i] < first[0]:
                     notes[str(years[i])] = f"{years[i]}: no figure, the reading of the customs code starts in {first[0]} (see the lane note)"
@@ -840,7 +877,8 @@ def main():
                 lane["histFlags"] = flags
             if notes:
                 lane["histNotes"] = notes
-            hn = hist_note({k: v for k, v in flags.items() if v != "kept" and not (first and int(k) < first[0])}, years)
+            hn = hist_note({k: v for k, v in flags.items() if v != "kept" and not (first and int(k) < first[0])}, years,
+                           {str(y) for y, x in zip(years, series) if x is not None and x.flag == "est-volume"})
             if first:
                 hn = first[1] + (". " + hn if hn else "")
             if hn:
@@ -950,7 +988,7 @@ def main():
         for r in gy.itertuples(index=False):
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
             f = (F_EST if r.imputed else 0) | (F_CAVEAT if CV.lookup(active, group, r.o, r.d) else 0)
-            f |= (F_LANE if (r.o, r.d) in lane_pairs else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
+            f |= (F_LANE if (r.o, r.d) in lane_pairs and r.split != "rest" else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
             if f & (F_EST | F_CHECK) and not f & F_LANE:
                 # the note the lane would carry, for the pairs that have none (Route finder)
                 fn = flow_notes(r, r.mode, pair_check.get((group, r.o, r.d)), k2.get((group, r.o, r.d, latest)),

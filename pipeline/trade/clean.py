@@ -47,13 +47,29 @@ Rules
      is misdeclared; no source says so). The rule is applied here, after the other rules and with their group median,
      so that lanes, pairs, commodity pages, chokepoint estimates and country profiles read one frame.
 
-Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8) has imputed = True and a note in `enote` that
+  10. Volume read as tonnes (audit C-031): the pairs and years of us_lpg.CORRECTED (the United States' LPG to Mexico, 2021 to 2024) have
+     their tonnage replaced by the all-modes volume of the United States' own statistics (EIA's exports by destination, and the
+     US Census Bureau's export detail file for 2024) times the density of the cargo ("est-volume", an Atlas estimate). CEPII BACI's tonnage
+     of these years is the volume in cubic metres (EIA's propane volume to Mexico in 2023 is 9.749 million m3, the customs tonnage
+     9.742 Mt) and its unit value falls to under 0.6 of the group's; in the years before it is in line with the volume at the density
+     (pipeline/trade/us_lpg.py). A year of the pair that the table does not list is not corrected. The estimate is made after the other
+     rules, so that the group references of the rules above are the ones of the reported figures.
+
+  11. Flows the importer declares and the reconciled file lacks (audit C-042): the pairs of comtrade_tin.ADDED_FLOWS (Myanmar to China, tin
+     ores and concentrates) are taken from China's import declaration, UN Comtrade, in every year of pipeline/cache/comtrade_tin_china.json:
+     CEPII BACI has 39 to 737 t a year for the pair against 76 to 292 kt declared. A year where the customs table holds under a tenth of the
+     declared tonnage has its row replaced, a year with no row gets one ("added", imputed = False: a declared figure, not an estimate; its
+     source is UN Comtrade and the note says so). The group's references are the ones of the rows of the customs table.
+
+Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8, 10) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
 """
 import math
 
 import pandas as pd
 
+import comtrade_tin  # rule 11: the cache of China's import declaration for tin ores and concentrates
+import us_lpg  # rule 10: the cache of the United States' own LPG statistics
 from checks import label  # display names of the groups ("LNG", "crude oil"), one table for every note
 from checks import _name as country_name
 
@@ -244,6 +260,8 @@ def _notes(df, nb):
                       f"{r['uvp'] / puv:.1f} times the {_num(puv)} USD/t of {what} from {country_name(peer)} {where} in {y}; "
                       f"a tonnage declared in contained metal rather than gross weight is a plausible cause, not established here; "
                       f"tonnage = declared value divided by {uve}, that unit value of {country_name(peer)} times {usual}")
+        elif "est-volume" in codes:
+            out[i] = us_lpg.note(r["d"], y, r["t0"], r["usd"] * 1000, r["uv"] * 1000)
         elif "est-missing" in codes:
             out[i] = f"Atlas estimate: tonnage missing in CEPII BACI; declared value {_usd(r['usd'])} divided by {ref}, {uve}"
         elif "est-gross" in codes:
@@ -256,6 +274,33 @@ def _notes(df, nb):
             out[i] = (f"Atlas estimate: CEPII BACI reports {_tonnes(r['t0'])} for {_usd(r['usd'])} ({_num(r['uvp'])} USD/t, "
                       f"{r['uvr']:.2g} times {ref}); tonnage = declared value divided by that unit value, {uve}")
     return pd.Series(out, dtype=object)
+
+
+def _added(df):
+    """Rule 11: the flows of comtrade_tin.ADDED_FLOWS, from China's import declaration, in the years of its cache."""
+    new, drop = [], []
+    for (g, o, d) in comtrade_tin.ADDED_FLOWS:
+        for y in comtrade_tin.years():
+            dec = comtrade_tin.declared(y)
+            if not dec:
+                continue
+            m = (df["group"] == g) & (df["o"] == o) & (df["d"] == d) & (df["year"] == y)
+            have = float(df.loc[m, "t"].sum()) if m.any() else None
+            if have is not None and have >= comtrade_tin.REPLACE_BELOW * dec["t"]:
+                continue
+            drop += list(df.index[m])
+            ref = df.loc[(df["group"] == g) & (df["year"] == y), "uv"].dropna()
+            uv = float(ref.iloc[0]) if len(ref) else float("nan")
+            usd = dec["usd"] / 1000  # thousand USD, as the cache of BACI
+            uvp = usd * 1000 / dec["t"]
+            new.append({"year": y, "group": g, "o": o, "d": d, "t": dec["t"], "usd": usd, "flag": "added", "t0": dec["t"], "imputed": False,
+                        "uvp": uvp, "uv": uv, "uvr": usd / dec["t"] / uv if uv == uv else float("nan"), "uve": float("nan"),
+                        "enote": comtrade_tin.note(y, have)})
+    if not new:
+        return df
+    df = df.drop(index=drop)
+    add = pd.DataFrame(new, index=range(int(df.index.max()) + 1, int(df.index.max()) + 1 + len(new)))
+    return pd.concat([df, add])
 
 
 def year_list(ys):
@@ -417,11 +462,21 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
             nb[i] = (ya, ua, yb, ub, m) if ya < yb else (yb, ub, ya, ua, m)
     else:
         _add_flag(df, df.index.isin(out.index), "uv-suspect-t")
+    # rule 10: a pair-year whose tonnage is the volume read as tonnes; before rule 9, which leaves estimated rows alone
+    for (g, o, d), years in us_lpg.CORRECTED.items():
+        for i in df.index[(df["group"] == g) & (df["o"] == o) & (df["d"] == d) & df["year"].isin(years) & ~df["imputed"].astype(bool)]:
+            e = us_lpg.estimate(d, int(df.at[i, "year"]))
+            if e is not None:
+                df.at[i, "t"] = e["t"]
+                df.at[i, "uve"] = df.at[i, "usd"] * 1000 / e["t"]
+                df.at[i, "imputed"] = True
+                df.at[i, "flag"] = "est-volume"
     # rule 9: after every estimate, so that the group reference of the other rules is the same as before the rule existed
     low = (df["uvp"].astype(float) < df["group"].map(DROP_LOW_UV).astype(float)) & ~df["imputed"].astype(bool)
     cut = df[low]
     df = df[~low].copy()
     df["enote"] = _notes(df, nb).reindex(df.index)
+    df = _added(df)
 
     del LAST_DROPPED[:]
     if len(dropped):
@@ -459,7 +514,7 @@ def history_flags(tonnes, values, flags=None, min_abs=2.0):
     """
     out, marks = list(tonnes), {}
     codes = [set((f or "").split("+")) for f in (flags or [""] * len(tonnes))]
-    est = {"est-missing", "est-gross", "est-uv", "uv-repair", "est-peer"}
+    est = {"est-missing", "est-gross", "est-uv", "uv-repair", "est-peer", "est-volume"}
 
     def uv(i):
         t, v = tonnes[i], values[i]

@@ -1,0 +1,380 @@
+{
+ "source": "UN Comtrade",
+ "url": "https://comtradeapi.un.org/public/v1/preview/C/A/HS",
+ "reporter": "China",
+ "flow": "imports",
+ "hs": "260900",
+ "unit": "t, net weight; USD, CIF",
+ "retrieved": "2026-11-24",
+ "years": {
+  "2017": {
+   "world": {
+    "t": 295421.134,
+    "usd": 923176447,
+    "est": true,
+    "origins": 13
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 292544.955,
+    "usd": 910388594,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 292544.955,
+     "usd": 910388594,
+     "est": false
+    },
+    {
+     "c": "RUS",
+     "t": 916.029,
+     "usd": 6379049,
+     "est": false
+    },
+    {
+     "c": "BRA",
+     "t": 801.361,
+     "usd": 1179153,
+     "est": false
+    },
+    {
+     "c": "LAO",
+     "t": 758.523,
+     "usd": 3928639,
+     "est": false
+    },
+    {
+     "c": "NGA",
+     "t": 134.341,
+     "usd": 558615,
+     "est": false
+    }
+   ]
+  },
+  "2018": {
+   "world": {
+    "t": 221830.518,
+    "usd": 738615899,
+    "est": false,
+    "origins": 16
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 218703.73,
+    "usd": 716360379,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 218703.73,
+     "usd": 716360379,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 1460.972,
+     "usd": 13857513,
+     "est": false
+    },
+    {
+     "c": "RUS",
+     "t": 683.562,
+     "usd": 4073262,
+     "est": false
+    },
+    {
+     "c": "LAO",
+     "t": 516.93,
+     "usd": 2842187,
+     "est": false
+    },
+    {
+     "c": "BRA",
+     "t": 191.536,
+     "usd": 284857,
+     "est": false
+    }
+   ]
+  },
+  "2019": {
+   "world": {
+    "t": 178170.696,
+    "usd": 660877215,
+    "est": true,
+    "origins": 16
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 167642.02,
+    "usd": 577087340,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 167642.02,
+     "usd": 577087340,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 6793.869,
+     "usd": 64125778,
+     "est": false
+    },
+    {
+     "c": "LAO",
+     "t": 1458.638,
+     "usd": 8502106,
+     "est": false
+    },
+    {
+     "c": "RUS",
+     "t": 1374.531,
+     "usd": 7468759,
+     "est": false
+    },
+    {
+     "c": "MYS",
+     "t": 313.38,
+     "usd": 349121,
+     "est": false
+    }
+   ]
+  },
+  "2020": {
+   "world": {
+    "t": 158197.574,
+    "usd": 554686042,
+    "est": false,
+    "origins": 13
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 145076.52,
+    "usd": 446808091,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 145076.52,
+     "usd": 446808091,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 6668.393,
+     "usd": 55730461,
+     "est": false
+    },
+    {
+     "c": "COD",
+     "t": 1768.716,
+     "usd": 16594932,
+     "est": false
+    },
+    {
+     "c": "LAO",
+     "t": 1611.717,
+     "usd": 9496533,
+     "est": false
+    },
+    {
+     "c": "VNM",
+     "t": 948.971,
+     "usd": 8470864,
+     "est": false
+    }
+   ]
+  },
+  "2021": {
+   "world": {
+    "t": 184199.553,
+    "usd": 1319377074,
+    "est": true,
+    "origins": 24
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 147136.01,
+    "usd": 757467960,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 147136.01,
+     "usd": 757467960,
+     "est": false
+    },
+    {
+     "c": "COD",
+     "t": 12499.817,
+     "usd": 224901420,
+     "est": false
+    },
+    {
+     "c": "BOL",
+     "t": 8894.905,
+     "usd": 100567958,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 8649.334,
+     "usd": 147471819,
+     "est": false
+    },
+    {
+     "c": "LAO",
+     "t": 2022.095,
+     "usd": 18878684,
+     "est": false
+    }
+   ]
+  },
+  "2022": {
+   "world": {
+    "t": 243629.143,
+    "usd": 2040245230,
+    "est": true,
+    "origins": 26
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 187260.21,
+    "usd": 1116941888,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 187260.21,
+     "usd": 1116941888,
+     "est": false
+    },
+    {
+     "c": "COD",
+     "t": 23522.24,
+     "usd": 462688474,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 11541.237,
+     "usd": 187748311,
+     "est": false
+    },
+    {
+     "c": "NGA",
+     "t": 3044.291,
+     "usd": 71224867,
+     "est": false
+    },
+    {
+     "c": "THA",
+     "t": 2958.305,
+     "usd": 45299747,
+     "est": false
+    }
+   ]
+  },
+  "2023": {
+   "world": {
+    "t": 248476.793,
+    "usd": 1502179493,
+    "est": false,
+    "origins": 30
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 180505.42,
+    "usd": 744883336,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 180505.42,
+     "usd": 744883336,
+     "est": false
+    },
+    {
+     "c": "COD",
+     "t": 27414.85,
+     "usd": 411156565,
+     "est": false
+    },
+    {
+     "c": "BOL",
+     "t": 8480.436,
+     "usd": 26745094,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 7877.931,
+     "usd": 100613196,
+     "est": false
+    },
+    {
+     "c": "MYS",
+     "t": 6815.586,
+     "usd": 5676523,
+     "est": false
+    }
+   ]
+  },
+  "2024": {
+   "world": {
+    "t": 158490.691,
+    "usd": 1667747071,
+    "est": true,
+    "origins": 30
+   },
+   "myanmar": {
+    "c": "MMR",
+    "t": 76459.38,
+    "usd": 447909594,
+    "est": false
+   },
+   "top": [
+    {
+     "c": "MMR",
+     "t": 76459.38,
+     "usd": 447909594,
+     "est": false
+    },
+    {
+     "c": "COD",
+     "t": 33902.58,
+     "usd": 601163279,
+     "est": false
+    },
+    {
+     "c": "AUS",
+     "t": 15861.18,
+     "usd": 244726026,
+     "est": false
+    },
+    {
+     "c": "NGA",
+     "t": 10016.941,
+     "usd": 178864344,
+     "est": false
+    },
+    {
+     "c": "BOL",
+     "t": 7407.632,
+     "usd": 52433070,
+     "est": false
+    }
+   ]
+  }
+ },
+ "myanmar_exports": {}
+}
