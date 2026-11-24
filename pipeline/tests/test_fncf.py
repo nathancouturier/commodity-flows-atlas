@@ -131,9 +131,10 @@ class F2RussianGrainForFrance(unittest.TestCase):
 
 
 class F3FrenchGrainPorts(unittest.TestCase):
-    NAMED = ("CHN", "MAR", "DZA")
+    # the eleven partners of the Rouen page (FNCI: China, Morocco, Algeria and the eight "less common destinations")
+    NAMED = ("CHN", "MAR", "DZA", "MRT", "MEX", "THA", "IND", "COL", "MDG", "USA", "ZAF")
     SEAS = ("GBR", "IRL", "BEL", "NLD", "DEU", "DNK", "NOR", "SWE", "FIN", "ISL", "POL", "LTU", "LVA", "EST")
-    OTHER = ("PRT", "SEN", "NGA", "ZAF", "BRA", "USA", "MEX", "SAU", "JPN", "KOR", "AUS", "KEN")
+    OTHER = ("PRT", "SEN", "NGA", "BRA", "ARG", "SAU", "JPN", "KOR", "AUS", "KEN", "CAN", "VEN", "GHA", "VNM")
 
     def test_the_principal_port_is_chosen_by_the_partner_and_the_other_port_is_an_option_of_every_partner(self):
         """FNCH H1: no page gives the split between the two ports, so no partner outside the Mediterranean side is given one port only."""
@@ -148,6 +149,25 @@ class F3FrenchGrainPorts(unittest.TestCase):
             a = P.assign("FRA", c, "wheat")
             self.assertEqual((a.main.load, {o.load for o in a.options}), ("FRFOS", {"FRFOS"}), c)
         self.assertEqual({o.load for o in P.assign("FRA", "SAU", "wheat").options}, {"FRURO", "FRLPE"})  # a partner left open keeps both ports
+
+    def test_the_eleven_partners_of_the_rouen_page_are_read_before_the_basin_of_la_pallice(self):
+        """FNCI (GV8A.1): the United States, Mexico and Colombia are in the basin of La Pallice; the named set must come first in the rule, and none of
+        the eleven may be on the Mediterranean side."""
+        rule = next(r for r in P.COAST_RULES if r["id"] == "fra-grain-ports")
+        order = list(rule["basins"])
+        self.assertLess(order.index("rouen-named"), order.index("la-pallice"))
+        self.assertLess(order.index("med"), order.index("rouen-named"))
+        self.assertEqual(set(self.NAMED), set(rule["basins"]["rouen-named"]))
+        for c in self.NAMED:
+            self.assertNotIn(c, rule["basins"]["med"], c)
+            first = next(b for b, members in rule["basins"].items() if c in members)
+            self.assertEqual(first, "rouen-named", c)
+            self.assertEqual(P._apply_rule(rule, "FRA", "wheat", "load", c, None, False), ("ports", ["FRURO", "FRLPE"]), c)
+        self.assertEqual(len(set(self.NAMED)), 11)
+        # the page's sentence is in the reason, and the page's tonnages are said to be the whole port's
+        for word in ("Mauritania", "Mexico", "Thailand", "India", "Colombia", "Madagascar", "the United States", "South Africa", "not of grain"):
+            self.assertIn(word, rule["reason"], word)
+        self.assertNotIn("names China, Morocco and Algeria as its main destinations", rule["reason"])
 
     def test_the_lane_pages_of_the_partners_of_the_two_ports_print_both_distances_and_the_principal_is_the_one_of_the_rule(self):
         seen = {}

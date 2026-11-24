@@ -407,10 +407,13 @@ FRA_ATLANTIC_FERT = FRA_ATLANTIC_SIDE | {"RUS", "BLR"}
 # nearest French port (1,817 nm to Fos, 3,469 nm to Rouen). FNCF, review GV6A.1.
 FRA_GRAIN_MED_SIDE = FRA_MED_SIDE | {"RUS"}
 # Exports of grain, oilseeds and meal: which of the two grain ports of the pages read is the principal one (FNCF, review GV6A.2). The Rouen page
-# names China, Morocco and Algeria as its main destinations; the partners of the Channel, the North Sea and the Baltic are nearer Rouen than La Pallice
-# (Rouen is the port that the page calls the first European port for cereals). Every other partner that is not on the Mediterranean side takes La Pallice,
-# the second French port for cereal exports, on the Atlantic coast. This is an Atlas assumption: no page gives the split between the two ports.
-FRA_GRAIN_ROUEN_NAMED = {"CHN", "MAR", "DZA"}
+# names eleven partners of the port in 2023: China, Morocco and Algeria as its main trading partners and, as "less common destinations", Mauritania,
+# Mexico, Thailand, India, Colombia, Madagascar, the United States and South Africa (the page's tonnages are those of the whole port with each of
+# the first three, not of grain). The partners of the Channel, the North Sea and the Baltic are nearer Rouen than La Pallice (Rouen is the port that
+# the page calls the first European port for cereals). Every other partner that is not on the Mediterranean side takes La Pallice, the second French
+# port for cereal exports, on the Atlantic coast. This is an Atlas assumption: no page gives the split between the two ports. The named set is
+# tested before the basin of La Pallice, which holds the United States, Mexico and Colombia (the basins are read in the order written).
+FRA_GRAIN_ROUEN_NAMED = {"CHN", "MAR", "DZA", "MRT", "MEX", "THA", "IND", "COL", "MDG", "USA", "ZAF"}
 FRA_GRAIN_ROUEN_SEAS = {"GBR", "IRL", "BEL", "NLD", "DEU", "DNK", "NOR", "SWE", "FIN", "ISL", "POL", "LTU", "LVA", "EST"}
 FRA_GRAIN_GROUPS = {"wheat", "barley", "corn", "sorghum", "rice", "pulses", "rapeseed", "soybeans", "sunflower-seed", "soymeal", "sunflower-meal", "rapeseed-meal"}
 
@@ -498,11 +501,13 @@ COAST_RULES = [
         "zones": {"med": ["med"]},
         "ports": {"rouen-named": ["FRURO", "FRLPE"], "rouen": ["FRURO", "FRLPE"], "la-pallice": ["FRLPE", "FRURO"], "la-pallice-open": ["FRLPE", "FRURO"]},
         "reason": "Atlas assumption: no page gives the split of French grain exports between Rouen and La Pallice, by partner or in total. The Rouen page "
-                  "(French Wikipedia, 2023) names China, Morocco and Algeria as its main destinations and calls Rouen the first European port for cereals, "
-                  "and the La Rochelle page calls La Pallice the second French port for cereal exports. So the principal port is Rouen for China, Morocco "
-                  "and Algeria and for the partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, "
+                  "(French Wikipedia, 2023) names China, Morocco and Algeria as the main trading partners of the port, adds that in 2023 it also exported to "
+                  "less common destinations such as Mauritania, Mexico, Thailand, India, Colombia, Madagascar, the United States and South Africa, and calls "
+                  "Rouen the first European port for cereals; the La Rochelle page calls La Pallice the second French port for cereal exports. The page's "
+                  "tonnages are those of the whole port with each partner, not of grain. So the principal port is Rouen for the eleven partners that the "
+                  "page names and for the partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, "
                   "Germany, the Nordic and Baltic countries, Poland), and La Pallice for every other partner on the Atlantic side or left open (the Atlantic "
-                  "coast of Europe, West and southern Africa, the Americas, the Middle East and the rest of Asia). Since no page says that a partner is "
+                  "coast of Europe, West and Central Africa, the Americas, the Middle East and the rest of Asia). Since no page says that a partner is "
                   "served by one port only, the other port is an option of every one of these partners: a lane page prints both distances and says "
                   "that no source gives the split. The Mediterranean and Black Sea partners, Russia included, take Fos",
         "src": "atlas", "url": None,
