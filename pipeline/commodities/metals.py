@@ -622,7 +622,7 @@ def transit_notes(B, docs):
                 key = f"{cid}/{ik}/{iso}"
                 why = TRANSIT_REVIEWED.get((cid, ik, iso))
                 top = _main_origin(B, g, iso)
-                TRANSIT_REPORT.append((key, f"{B.cname(iso)}, imports of {what}" + (f": {top[1]:.0%} of the tonnes recorded into it come from {B.cname(top[0])}"
+                TRANSIT_REPORT.append((key, f"{B.cname(iso)}, imports of {what}" + (f"; largest origin {B.cname(top[0])}, {top[1]:.0%} of the tonnes recorded into it"
                                                                                         f"{', overland' if top[2] else ''}" if top else ""), bool(why)))
                 if not why:
                     continue
