@@ -818,22 +818,37 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     figure of a group is capped at PortWatch's volume of its type in the same year less the "at
     least" tonnage of the other groups of that type, and never below the group's own "at least"
     (Taiwan Strait iron ore: at least 3.0%, up to 64.9%, capped at PortWatch's 1,061 Mt of dry bulk
-    in 2024). The cap is applied only while the 'at least' tonnage of the type is at most 85% of
-    PortWatch's volume (`PW_NEAR` in `build_freight.py`). Above that the comparison says nothing:
-    the atlas's groups are not all the cargo these ships carry, and with the two sides this close
-    the room left for each group is only the margin of the assumed ports and routes (the groups
+    in 2024). That subtraction is used only while the 'at least' tonnage of the type is at most 85% of
+    PortWatch's volume (`PW_NEAR` in `build_freight.py`). Above that the two sides are too close
+    to compare: the atlas's groups are not all the cargo these ships carry, and with the two sides this
+    close the room left for each group is only the margin of the assumed ports and routes (the groups
     added in 2026 took the dry-bulk 'at least' tonnage at the Bosphorus from 89% of PortWatch's
     volume to 102% and at Gibraltar to 104%, which had emptied the 'up to' figure of every dry
-    group there and removed three estimates of the released site). The uncapped 'up to' figure is
-    then published, and the floor test (2% of the group or 1 Mt) uses the figure that is
-    published. The note of the type says so. Where the 'at least' tonnage of a type is itself
-    above PortWatch's volume of the year, the shares of that type say so: for Suez and Bab
-    el-Mandeb in 2024 this is because the atlas routes cargo on the normal itinerary while most
-    ships avoided the Red Sea (the note quotes the atlas's Red Sea alert); where no alert explains
-    it (Bosphorus and Gibraltar dry bulk, Torres Strait tankers) the note says that the ports,
-    routes or ship types the atlas assumes probably overstate it. From 85% of that volume the
-    shares of the type say how close the "at least" tonnage is to it (Panama, tankers, 2024: 97%,
-    104 Mt against 107 Mt; the assumed ports or routes may overstate it). Both figures are
+    group there and removed three estimates of the released site). The rule is then one of two:
+    - **Whole volume** (`cap_regime` "whole" in `build_freight.py`): the 'up to' figure of a group is
+      capped at PortWatch's whole volume of the type in the year, never below the group's own 'at
+      least', without subtracting the other groups. A group cannot exceed the whole volume of its
+      ship type. In 2024 this is the rule at the Bosphorus, Gibraltar, Hormuz, Panama and Torres
+      Strait (tankers or dry bulk, at 90% to 103% of PortWatch's volume), and at Lombok and Makassar
+      (dry bulk, 89% and 94%). It binds on four groups: iron ore at Lombok (up to 950.3 Mt, the
+      whole of PortWatch's dry bulk there) and at Makassar (1,084.7 Mt), LNG and refined products
+      at the Torres Strait (13.5 Mt, the whole of PortWatch's tankers there). The note of the
+      figure says "capped at IMF PortWatch's estimate of the cargo of all ... ships ..., which this
+      cargo cannot exceed" and does not speak of the other groups.
+    - **No cap** ("none"): where the 'at least' tonnage of the type is itself above PortWatch's
+      volume of the year and an alert on the passage explains it. This is Suez and Bab el-Mandeb
+      in 2024 (dry bulk, tankers and, at Bab el-Mandeb, general cargo): the atlas routes cargo on
+      the normal itinerary while most ships avoided the Red Sea, so the figures are tonnages of
+      the normal route and the year's traffic is not a ceiling for them. The note says so.
+    The floor test (2% of the group or 1 Mt) uses the figure that is published. Where the 'at
+    least' tonnage of a type is above PortWatch's volume of the year, the shares of that type
+    say so: for Suez and Bab el-Mandeb in 2024 the note quotes the atlas's Red Sea alert; where
+    no alert explains it (Bosphorus and Gibraltar dry bulk, Torres Strait tankers) the note
+    says that the ports, routes or ship types the atlas assumes probably overstate it. From 85% of
+    that volume the shares of the type say how close the "at least" tonnage is to it (Panama,
+    tankers, 2024: 97%, 104 Mt against 107 Mt; the assumed ports or routes may overstate it).
+    The interface tags a figure "capped at PortWatch volume" exactly where its note says it was
+    capped (a figure whose cap is its own 'at least' has no 'up to' to tag). Both figures are
     estimates, and the note names both ("IMF PortWatch, data adapted").
   - **Without the raw PortWatch rows** (the scheduled job has none), the volumes by vessel type are
     read from the tracked weekly series (Mt a day times the days of each week inside the year)

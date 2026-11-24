@@ -1,7 +1,8 @@
 """Tests of the second correction package after the review of the three commodity packages (FNCB): the figures and estimates of the new groups.
 
-B1  the "up to" figure of a chokepoint estimate is capped at PortWatch's volume only while the atlas's "at least" tonnage of the vessel type
-    is at most PW_NEAR of it; the estimates of the released site are all still published
+B1  the "up to" figure of a chokepoint estimate: PortWatch's volume less the other groups while the atlas's "at least" tonnage of the vessel
+    type is at most PW_NEAR of it, PortWatch's whole volume of the type above that, no cap under an explaining alert (FNCD, D1); the
+    estimates of the released site are all still published
 B2  the value rules of clean.py keep the reported tonnage of a sowing-seed flow, and the estimates of the new groups are listed one by one
 B3  coke is one product priced by the tonne: the Mozambique to India row of 2016 is repaired as a flagged Atlas estimate
 B4  ammonium nitrate with limestone (HS 310240) and the two-nutrient compounds (310551, 310559, 310560) are loaded
@@ -132,13 +133,15 @@ class B1CapAgainstPortWatch(unittest.TestCase):
             self.assertLess(e["mt"][0], low_max)
             self.assertGreater(e["mt"][1], 2 * e["mt"][0], (g, e["mt"]))  # "up to" is well above "at least", not equal to it
 
-    def test_the_cap_is_not_applied_above_pw_near(self):
-        """In the files: where the "at least" tonnage of a type is above PW_NEAR of PortWatch's volume, no figure of that type is capped
-        and the note of the type says so; below it, a capped figure is still capped."""
+    def test_the_regime_of_every_passage_and_type_in_the_files(self):
+        """In the files (FNCD, D1): at most PW_NEAR of PortWatch's volume the cap is by subtraction; above it no "up to" figure of the type
+        exceeds PortWatch's whole volume of the type, and the note says so; where the atlas is above PortWatch's volume and an alert explains
+        it, there is no cap and the note says that."""
         import build_freight as BF
         k9 = {(r["chokepoint"], r["type"]): r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"]
               if r["check"] == "K9" and r.get("kind") == "passage"}
-        seen_above = seen_below = 0
+        alerts = load(DATA, "freight", "alerts.json")
+        seen = {"sub": 0, "whole": 0, "none": 0}
         for c in load(DATA, "freight", "chokepoints.json"):
             if not c.get("portwatch") or c.get("portwatchLabel"):
                 continue
@@ -147,16 +150,75 @@ class B1CapAgainstPortWatch(unittest.TestCase):
                 r = k9.get((c["id"], typ))
                 if not r or not r["reference"]:
                     continue
-                capped = "hi" in e and "capped at" in e["hi"]["n"]
-                if r["value"] > BF.PW_NEAR * r["reference"]:
-                    seen_above += 1
-                    self.assertFalse(capped, (c["id"], e["p"]))
-                    self.assertIn("not capped at PortWatch's volume here", e["f"]["n"], (c["id"], e["p"]))
+                regime = BF.cap_regime(r["value"], r["reference"], BF.alert_reason(alerts, c["id"], r["year"]))
+                seen[regime] += 1
+                where = (c["id"], e["p"], regime)
+                self.assertNotIn("not capped at PortWatch's volume here", e["f"]["n"] if regime != "none" else "", where)
+                if regime == "sub":
+                    self.assertNotIn("capped at the whole of PortWatch's volume", e["f"]["n"], where)
+                elif regime == "whole":
+                    self.assertIn("capped at the whole of PortWatch's volume", e["f"]["n"], where)
+                    self.assertNotIn("less the 'at least' tonnage", (e.get("hi") or {}).get("n", ""), where)
+                    # a group cannot exceed the whole volume of its ship type (rounded as the file prints it), nor go under its own "at least"
+                    self.assertLessEqual(e["mt"][1], max(e["mt"][0], r["reference"] + 0.0006 * r["reference"]), where)
                 else:
-                    seen_below += capped
-                    self.assertNotIn("not capped at PortWatch's volume here", e["f"]["n"], (c["id"], e["p"]))
-        self.assertGreater(seen_above, 100)
-        self.assertGreater(seen_below, 10)
+                    self.assertIn("not capped at PortWatch's volume here", e["f"]["n"], where)
+                    self.assertNotIn("capped at IMF", (e.get("hi") or {}).get("n", ""), where)
+        self.assertGreater(seen["sub"], 10)
+        self.assertGreater(seen["whole"], 50)
+        self.assertGreater(seen["none"], 50)
+
+    def test_the_twelve_passages_and_types_above_the_threshold(self):
+        """The passages and vessel types above PW_NEAR of PortWatch's volume in the files, and the regime of each."""
+        import build_freight as BF
+        alerts = load(DATA, "freight", "alerts.json")
+        chk = {c["id"]: c for c in load(DATA, "freight", "chokepoints.json")}
+        got = {}
+        for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"]:
+            if r["check"] == "K9" and r.get("kind") == "passage" and r["reference"]:
+                c = chk[r["chokepoint"]]
+                if c.get("portwatch") and not c.get("portwatchLabel") and r["value"] > BF.PW_NEAR * r["reference"]:
+                    got[(r["chokepoint"], r["type"])] = BF.cap_regime(r["value"], r["reference"], BF.alert_reason(alerts, r["chokepoint"], r["year"]))
+        self.assertEqual(got, {("bab-el-mandeb", "dry"): "none", ("suez", "dry"): "none", ("bab-el-mandeb", "tanker"): "none",
+                               ("suez", "tanker"): "none", ("bab-el-mandeb", "cargo"): "none", ("gibraltar", "dry"): "whole",
+                               ("bosphorus", "dry"): "whole", ("torres", "tanker"): "whole", ("panama", "tanker"): "whole",
+                               ("makassar", "dry"): "whole", ("hormuz", "tanker"): "whole", ("lombok", "dry"): "whole"})
+
+    def test_the_four_released_estimates_that_exceeded_their_ship_type(self):
+        """FNCB published Lombok and Makassar iron ore and Torres LNG and refined products above PortWatch's whole volume of the ship type."""
+        chk = {c["id"]: {e["p"]: e for e in c.get("estimates") or []} for c in load(DATA, "freight", "chokepoints.json")}
+        self.assertEqual(chk["lombok"]["iron-ore"]["mt"][1], 950.3)
+        self.assertEqual(chk["makassar"]["iron-ore"]["mt"][1], 1084.7)
+        self.assertEqual(chk["torres"]["lng"]["mt"][1], 13.5)
+        self.assertEqual(chk["torres"]["refined-products"]["mt"][1], 13.5)
+        self.assertEqual(chk["hormuz"]["crude-oil"]["mt"][1], 750.7)  # not touched by the whole-volume cap (it is under 915 Mt)
+        self.assertEqual(chk["panama"]["crude-oil"]["mt"][1], 43.8)
+        self.assertIn("capped at IMF PortWatch's estimate", chk["lombok"]["iron-ore"]["hi"]["n"])
+        self.assertNotIn("other", chk["lombok"]["iron-ore"]["hi"]["n"].split("without the cap")[0])
+
+    def test_the_tag_of_the_web_shows_exactly_where_a_figure_is_capped(self):
+        """ChokepointView tags a figure whose `hi` note matches /capped/i: that must be the figures whose published "up to" is under the
+        uncapped sum (and only those)."""
+        import build_freight as BF
+        pairs = BF.load_pairs()
+        n = 0
+        for c in load(DATA, "freight", "chokepoints.json"):
+            if c["id"] not in BF.RT.GATES:
+                continue
+            for e in c.get("estimates") or []:
+                rows = [r for r in pairs[e["p"]]["rows"] if r["m"] in (0, 1)]
+                low = sum(r["t"] for r in rows if c["id"] in r["via"])
+                alt = {}
+                for r in rows:
+                    if c["id"] in r["alt"]:
+                        alt[r["o"]] = alt.get(r["o"], 0.0) + r["t"]
+                high = low + sum(alt.values())
+                digits = 1 if high >= 10 else 3
+                cut = e["mt"][1] < round(high, digits) - 0.0006 * max(1.0, high)
+                tagged = bool(re.search("capped", (e.get("hi") or {}).get("n", ""), re.I))
+                self.assertEqual(tagged, cut, (c["id"], e["p"], e["mt"], round(high, 3)))
+                n += cut
+        self.assertGreater(n, 10)
 
     def _shares(self, pw_dry, alerts=None):
         """chokepoint_shares of two dry groups at the Bosphorus: wheat 40 Mt at least and 30 Mt that may cross, corn 50 Mt at least."""
@@ -172,23 +234,60 @@ class B1CapAgainstPortWatch(unittest.TestCase):
         return {e["p"]: e for e in chk[0]["estimates"]}, BF
 
     def test_rule_below_and_above_the_threshold(self):
-        # 90 Mt at least in all: PW_NEAR x 100 = 85 Mt, so no cap at 100 Mt; at 110 Mt (93.5) the cap applies
+        # 90 Mt at least in all: PW_NEAR x 100 = 85 Mt, so above the threshold at 100 Mt; at 110 Mt (93.5) the subtraction applies
         above, BF = self._shares(100.0)
-        self.assertEqual(above["wheat"]["mt"], [40.0, 70.0])
+        self.assertEqual(above["wheat"]["mt"], [40.0, 70.0])  # the whole volume (100 Mt) is above the 70 Mt: the cap does not bite
         self.assertNotIn("capped at", above["wheat"]["hi"]["n"])
-        self.assertIn("not capped at PortWatch's volume here", above["wheat"]["f"]["n"])
+        self.assertIn("capped at the whole of PortWatch's volume", above["wheat"]["f"]["n"])
+        self.assertNotIn("not capped at PortWatch's volume here", above["wheat"]["f"]["n"])
         below, _ = self._shares(110.0)
         self.assertEqual(below["wheat"]["mt"], [40.0, 60.0])  # 110 less the 50 Mt of corn
         self.assertIn("capped at IMF PortWatch's estimate", below["wheat"]["hi"]["n"])
-        self.assertNotIn("not capped at PortWatch's volume here", below["wheat"]["f"]["n"])
-        # on the line: at exactly PW_NEAR the cap still applies (the rule is "at most")
+        self.assertIn("less the 'at least' tonnage of the atlas's other dry bulk groups", below["wheat"]["hi"]["n"])
+        self.assertNotIn("capped at the whole", below["wheat"]["f"]["n"])
+        # on the line: at exactly PW_NEAR the subtraction still applies (the rule is "at most")
         edge, _ = self._shares(90.0 / BF.PW_NEAR)
         self.assertLess(edge["wheat"]["mt"][1], 70.0)
 
+    def test_the_whole_volume_cap_above_the_threshold(self):
+        """Above PW_NEAR the cap is PortWatch's whole volume of the type, never below the group's own "at least"; the subtraction is not used
+        and the note does not speak of the other groups."""
+        whole, _ = self._shares(60.0)  # 90 Mt at least against 60 Mt: the atlas is above PortWatch and no alert explains it
+        self.assertEqual(whole["wheat"]["mt"], [40.0, 60.0])  # not 60 less the 50 Mt of corn, which would be under the 40 Mt at least
+        self.assertEqual(whole["corn"]["mt"], [50.0, 50.0])  # no "up to" above its "at least" to cap
+        n = whole["wheat"]["hi"]["n"]
+        self.assertIn("capped at IMF PortWatch's estimate of the cargo of all dry bulk ships through the passage in 2024", n)
+        self.assertIn("which this cargo cannot exceed; without the cap, 70", n)
+        self.assertNotIn("less the", n)
+        self.assertNotIn("other dry bulk groups", n)
+        self.assertIn("capped at the whole of PortWatch's volume of these ships", whole["wheat"]["f"]["n"])
+        # a volume under the group's own "at least": the group keeps its "at least" and has no "up to"
+        under, _ = self._shares(30.0)
+        self.assertEqual(under["wheat"]["mt"], [40.0, 40.0])
+        self.assertNotIn("hi", under["wheat"])
+
+    def test_no_cap_where_an_alert_explains_a_tonnage_above_portwatch(self):
+        alert = [{"chokepoints": ["bosphorus"], "since": "2023", "title": "A diversion", "text": "Ships sailed around. More.", "src": None}]
+        shares, BF = self._shares(60.0, alerts=alert)
+        self.assertEqual(shares["wheat"]["mt"], [40.0, 70.0])
+        self.assertNotIn("capped at", shares["wheat"]["hi"]["n"])
+        n = shares["wheat"]["f"]["n"]
+        self.assertIn("not capped at PortWatch's volume here", n)
+        self.assertIn("normal route", n)
+        # the alert counts only when the atlas is above PortWatch's volume: between PW_NEAR and the volume the whole-volume cap applies
+        near, _ = self._shares(100.0, alerts=alert)
+        self.assertIn("capped at the whole of PortWatch's volume", near["wheat"]["f"]["n"])
+        self.assertEqual(BF.cap_regime(90.0, 100.0, "an alert"), "whole")
+        self.assertEqual(BF.cap_regime(110.0, 100.0, "an alert"), "none")
+        self.assertEqual(BF.cap_regime(110.0, 100.0, None), "whole")
+        self.assertEqual(BF.cap_regime(85.0, 100.0, None), "sub")
+        self.assertIsNone(BF.cap_regime(85.0, None, None))
+
     def test_the_floor_uses_the_published_figure(self):
         """Wheat has no "at least" tonnage and 30 Mt that may cross; corn has 5.2 Mt at least. With 6 Mt of PortWatch for the type (corn is
-        above 85% of it: no cap) wheat keeps its 30 Mt and is published; with 7 Mt (5.95) it is capped at 7 less 5.2; with 6 Mt and
-        5.05 Mt of corn the cap leaves 0.95 Mt, under the floor of 1 Mt and 2%: no entry."""
+        above 85% of it: the whole volume is the cap) wheat is capped at 6 Mt and is published; with 7 Mt (5.95) it is capped at 7 less 5.2;
+        with 6 Mt and 5.05 Mt of corn the cap leaves 0.95 Mt, under the floor of 1 Mt and 2%: no entry; with 0.9 Mt of PortWatch for the type
+        and no other cargo the cap is 0.9 Mt, under the floor too."""
         import build_freight as BF
         def row(o, d, t, via=(), alt=()):
             return {"m": 0, "t": t, "via": set(via), "alt": set(alt), "o": o, "d": d, "load": 0}
@@ -198,10 +297,11 @@ class B1CapAgainstPortWatch(unittest.TestCase):
             chk = [{"id": "bosphorus", "name": "Turkish Straits", "portwatch": True}]
             BF.chokepoint_shares(chk, pairs, {"bosphorus": {2024: {"dry": pw_dry, "tanker": 500.0, "cargo": 500.0}}}, {}, {}, 2024, None)
             return {e["p"]: e for e in chk[0].get("estimates", [])}
-        self.assertEqual(run(5.2, 6.0)["wheat"]["mt"], [0.0, 30.0])
-        self.assertEqual(run(5.2, 5.5)["wheat"]["mt"], [0.0, 30.0])
+        self.assertEqual(run(5.2, 6.0)["wheat"]["mt"], [0.0, 6.0])
+        self.assertEqual(run(5.2, 5.5)["wheat"]["mt"], [0.0, 5.5])
         self.assertEqual(run(5.2, 7.0)["wheat"]["mt"], [0.0, 1.8])
         self.assertNotIn("wheat", run(5.05, 6.0))
+        self.assertNotIn("wheat", run(0.0, 0.9))
         self.assertIn("corn", run(5.05, 6.0))
 
     def test_note_of_a_type_above_portwatch(self):

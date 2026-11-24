@@ -207,8 +207,9 @@ class ChokepointNotes(unittest.TestCase):
         # groups had taken under the floor are back, and the two fertiliser groups (ammonium nitrate with limestone, two-nutrient compounds) add their own: 968
         self.assertEqual((n, passages), (968, 20))
         # These four were under the floor on the released site because the PortWatch cap had emptied their "up to" figure (Suez and Bab el-Mandeb
-        # dry bulk and tankers, Torres Strait tankers: the atlas's "at least" tonnage is above PortWatch's volume there). Since package FNCB the cap is
-        # not applied above 85% of PortWatch's volume and the floor reads the figure that is published, so they are published, with their note.
+        # dry bulk and tankers, Torres Strait tankers: the atlas's "at least" tonnage is above PortWatch's volume there). Since package FNCB the cap by
+        # subtraction is not applied above 85% of PortWatch's volume (FNCD: the whole volume of the type caps it there, no cap under an alert) and the floor reads the
+        # figure that is published, so they are published, with their note.
         back = {("suez", "soybeans"), ("bab-el-mandeb", "soybeans"), ("bab-el-mandeb", "soymeal"), ("torres", "palm-oil")}
         have = {(c["id"], e["p"]) for c in load("freight/chokepoints.json") for e in c.get("estimates") or []}
         self.assertEqual(back & have, back)

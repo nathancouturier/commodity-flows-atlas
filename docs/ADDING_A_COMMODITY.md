@@ -153,8 +153,10 @@ lines, the search, the price drawer; no "undefined", "NaN", empty block or conso
 - `GROUPS_OF` in `build_freight.py` also sums the volumes of the hand-written routes: leave the new groups out of it.
 - The "up to" figures of the chokepoint estimates of earlier groups move a little when a group is added (PortWatch caps are
   shared); this is expected, and so are the alert lists and the country profiles. Nothing else of an earlier group may move.
-  Since FNCB the cap is applied only while the "at least" tonnage of the vessel type is at most 85% of PortWatch's volume (`PW_NEAR`): a group added to a type that is near the
-  volume can no longer empty the "up to" figures of the others, and `test_fncb.py` B1 lists the 599 estimates of the released site that must stay.
+  The cap of the "up to" figure is by subtraction (PortWatch's volume less the "at least" tonnage of the other groups) only while the "at least" tonnage of the vessel type is at most 85% of
+  PortWatch's volume (`PW_NEAR`); above that it is PortWatch's whole volume of the type, never below the group's own "at least"; and there is no cap where the type is above PortWatch's
+  volume and an alert on the passage explains it (`cap_regime` in `build_freight.py`). A group added to a type that is near the volume can no longer empty the "up to" figures of
+  the others, nor exceed its ship type, and `test_fncb.py` B1 lists the 599 estimates of the released site that must stay.
 - An extra table key that does not end with `-exports`, `-imports`, `-production` is left out of the country pages.
 - Rows below 1,000 t and 1 million USD are not in the cache; a table's world total is the cleaned cache, 2 to 10% from the
   archive's own sum for products with many small flows or missing tonnage (estimated from value, said in the note).

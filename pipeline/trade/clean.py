@@ -9,9 +9,10 @@ Rules
   3. Gross unit errors (unit value < 1/100 or > 100x the group-year median, any size): re-estimated
      the same way. This catches kg/t slips such as rare earths Turkey -> Benin. A row with a tonnage and no
      declared value (USD 0) is not an error of this kind: its tonnage is kept as reported and flagged "no-value".
-     The groups of UV_KEPT_GROUPS (sunflower seed: seed for sowing at about USD 12,000 a tonne and oil seed at about
-     USD 1,300 are one code) and the rows of KEEP_REPORTED (one by one, with the reason) keep their reported
-     tonnage and are flagged "uv-suspect-t", as the isolated unit-value anomalies of rule 7 are in the "flag" mode.
+     In the groups of UV_KEPT_GROUPS (sunflower seed: seed priced at 11,000 to 14,000 USD/t by some French pairs and oil seed at
+     about USD 1,300, the group's median, are one code) a row whose unit value is above the group reference keeps its reported
+     tonnage; below it rule 3 applies as everywhere. The rows of KEEP_REPORTED (one by one, with the reason) keep their reported
+     tonnage too. Both are flagged "uv-suspect-t", as the isolated unit-value anomalies of rule 7 are in the "flag" mode.
   4. Moderate inconsistencies (unit value < 1/3 or > 3x the median, flows > USD 50 million) are
      re-estimated ONLY for homogeneous groups (crude oil, LNG, LPG, grains, oilseeds...). Ore and
      concentrate groups mix grades worth 40 to 2,000 USD/t (e.g. laterite vs sulphide nickel), so
@@ -75,9 +76,13 @@ DROP_LOW_UV = {"lithium": LITHIUM_MIN_UV}  # group -> minimum reported unit valu
 # "new-pair" (rule 6) or "low-uv" (rule 9)
 LAST_DROPPED = []
 
-# Rules 3 and 4 do not apply to a group priced by kinds that lie more than 100 times apart: sunflower seed is seed for sowing (about
-# USD 12,000 a tonne from France, every year) and oil seed (about USD 1,300) under one code, so the group median is no reference for a
-# pair. The reported tonnage stands and the row is flagged "uv-suspect-t". (Rule 4 already leaves it out: see HOMOGENEOUS.)
+# Rule 3 does not apply, above the group reference, to a group whose pairs are priced by kinds that lie ten times apart: in 2024 the
+# group's median is 1,289 USD/t (France's exports as a whole 1,021 USD/t, to Spain, Belgium, Germany and the Netherlands at 420 to 590) while France to Romania,
+# Hungary and Ukraine declare 10,900 to 13,900 USD/t, which the atlas reads as seed for sowing under the same code (a hypothesis: the
+# code does not separate them). The group median is then no reference for such a pair: its reported tonnage stands and the row is
+# flagged "uv-suspect-t". Below the reference there is no such reason (Canada to Trinidad and Tobago 2010 at under 13 USD/t, Kazakhstan to
+# Russia 2012 at 7 USD/t are errors of tonnage or value) and rule 3 re-estimates the row as for every group. (Rule 4 leaves the group
+# out already: see HOMOGENEOUS.)
 UV_KEPT_GROUPS = {"sunflower-seed"}
 # Rows of the groups added with M-022, M-023 and A-010 that rule 3 or 4 would re-estimate to more than 50 kt and to more than five times
 # the pair's own median of the other years (27 rows, listed by test_fncb.py B2: France to Russia sunflower seed is one, kept by
@@ -352,9 +357,9 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     # a bulk row that is a gross error against either reference stays one (coal MOZ-POL 2019: 201 Mt at 0.94 USD/t)
     gross = pos & df["uv"].notna() & ((ratio < 0.01) | (ratio > 100) | (bulk & ((plain < 0.01) | (plain > 100))))
     moderate = has_t & df["group"].isin(HOMOGENEOUS) & (df["usd"] > 50_000) & ((ratio < 1 / 3) | (ratio > 3)) & df["uv"].notna()
-    # rules 3 and 4 leave a row alone that is in KEEP_REPORTED or belongs to UV_KEPT_GROUPS: reported tonnage kept, flagged
+    # rules 3 and 4 leave a row alone that is in KEEP_REPORTED or, above the group reference, in UV_KEPT_GROUPS: reported tonnage kept, flagged
     keys = pd.MultiIndex.from_frame(df[["group", "o", "d", "year"]])
-    keep = (gross | moderate) & ~miss & (df["group"].isin(UV_KEPT_GROUPS) | keys.isin(list(KEEP_REPORTED)))
+    keep = (gross | moderate) & ~miss & ((df["group"].isin(UV_KEPT_GROUPS) & (ratio > 1)) | keys.isin(list(KEEP_REPORTED)))
     gross, moderate = gross & ~keep, moderate & ~keep
     fix = miss | gross | moderate
     _add_flag(df, keep, "uv-suspect-t")

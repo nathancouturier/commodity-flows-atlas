@@ -140,6 +140,12 @@ def portwatch(cid):
     return out
 
 
+def cid_alert(cid):
+    """A curated alert on the passage that was active in YEAR (the reason for a tonnage above PortWatch's volume)."""
+    import build_freight as BF
+    return BF.alert_reason(load_json(os.path.join(ROOT, "data", "freight", "alerts.json")), cid, YEAR) is not None
+
+
 def k9():
     return [r for r in load_json(CHECKS)["findings"] if r["check"] == "K9"]
 
@@ -362,7 +368,8 @@ class Shares(unittest.TestCase):
     def test_GE6_8_cap_leaves_room_for_other_groups(self):
         """Review GE6, finding 8: the upper figure is capped at PortWatch's volume of the type less the "at least"
         tonnage of the other groups of that type, never below the group's own "at least". Package FNCB: only while the type's
-        "at least" tonnage is at most PW_NEAR of PortWatch's volume; above it the upper figure is not capped."""
+        "at least" tonnage is at most PW_NEAR of PortWatch's volume; package FNCD: above it the upper figure is capped at the whole volume of
+        the type (never below the group's own "at least"), and not at all where an alert explains a tonnage above that volume."""
         import build_freight as BF
         n = 0
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
@@ -377,7 +384,10 @@ class Shares(unittest.TestCase):
                 typ = vtype(e["p"])
                 room = max(low[e["p"]], pw[typ] - (t[typ] - low[e["p"]]))
                 if t[typ] > BF.PW_NEAR * pw[typ] + 0.05:
-                    self.assertFalse("hi" in e and "capped at" in e["hi"]["n"], (c["id"], e["p"]))
+                    if t[typ] > pw[typ] and cid_alert(c["id"]):
+                        self.assertFalse("hi" in e and "capped at" in e["hi"]["n"], (c["id"], e["p"]))
+                    else:
+                        self.assertLessEqual(e["mt"][1], max(low[e["p"]], pw[typ]) + 0.15, (c["id"], e["p"]))
                     continue
                 self.assertLessEqual(e["mt"][1], room + 0.15, (c["id"], e["p"], room))
                 if "hi" in e and "capped" in e["hi"]["n"]:
