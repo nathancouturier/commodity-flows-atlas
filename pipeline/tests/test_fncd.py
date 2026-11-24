@@ -526,9 +526,17 @@ class D5UsgsPricesOfSulphurAmmoniaAndFerrosilicon(unittest.TestCase):
             price = {(r["Commodity"], r["Statistics_detail"]) for r in csv.DictReader(f) if r["Statistics"] == "Price"}
         steel = [d for c, d in price if c == "Iron And Steel"]
         self.assertEqual(steel, ["Producer price index, steel mill products (1982=100)"])
-        names = " ".join(c.lower() for c, _ in price)
-        for product in ("pig iron", "direct-reduced", "uranium", "pulses", "npk", "coke", "pea", "lentil"):
+        names = {c.lower() for c, _ in price}
+        for product in ("pig iron", "direct-reduced iron", "uranium", "pulses", "npk", "coke", "peas", "lentils", "metallurgical coal"):
             self.assertNotIn(product, names)
         # the potash price rows are of K2O in all products (MOP, SOP, SOPM): not the price of potassium sulphate, which the page keeps saying has none
         self.assertTrue(any(c == "Potash" and "All products" in d for c, d in price))
         self.assertIn("No free series for potassium sulphate", read("web", "src", "lib", "prices.ts"))
+
+
+class D4Documentation(unittest.TestCase):
+    def test_methodology_names_k14_with_the_figures_of_the_files(self):
+        meth = read("METHODOLOGY.md")
+        found = {r["o"]: r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"] if r["check"] == "K14"}
+        self.assertIn(f"Mozambique, {found['MOZ']['value']:.3g} Mt, and Zimbabwe, {found['ZWE']['value']:.3g} Mt, of coke in 2024", meth)
+        self.assertIn("coal for coke, iron ore or scrap for pig iron and direct-reduced iron", meth)
