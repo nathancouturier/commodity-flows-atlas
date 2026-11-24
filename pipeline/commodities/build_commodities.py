@@ -3171,6 +3171,18 @@ def qa_dropped(baci):
     return out + [""] if rows else out + ["- none", ""]
 
 
+def qa_transit():
+    """The rows that the importer-in-transit detector (metals.transit_notes) found, with what the page prints for each."""
+    out = ["## Importers in transit", "",
+           "Rows that fit the detector of `metals.transit_notes` (an importer of at least 10% of the table's world imports with no production line, no "
+           "export line of note, and most of its imports overland). A note is printed only for the rows of the reviewed table `TRANSIT_REVIEWED`; "
+           "the other rows are \"detected, no note\": an overland delivery to a neighbour that uses the product is the plain reading, and nothing in the "
+           "tables on disk tells such a row from Mozambique's.", ""]
+    for key, what, noted in MET.TRANSIT_REPORT:
+        out.append(f"- {key}: {what}; " + ("note printed (reviewed row)" if noted else "detected, no note (an overland delivery to a neighbour that uses the product is the plain reading)"))
+    return out + ([""] if MET.TRANSIT_REPORT else ["- none", ""])
+
+
 def qa_draughts():
     have = sorted(VR.DRAUGHT_M)
     none = sorted(set(VR.SPEED) - set(VR.DRAUGHT_M))
@@ -3214,6 +3226,7 @@ def write_qa(index, docs, baci=None, hist=None):
         for t in docs[e["id"]].get("discrepancies", []):
             lines.append(f"- {e['id']}: {t}")
     lines += qa_checks()
+    lines += qa_transit()
     if baci is not None:
         lines += qa_dropped(baci)
     lines += qa_draughts()

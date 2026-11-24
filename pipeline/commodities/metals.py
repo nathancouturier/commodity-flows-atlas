@@ -541,6 +541,22 @@ def hub_notes(B, docs):
 TRANSIT_MIN_SHARE = 0.10
 TRANSIT_MAX_EXPORT = 0.10
 TRANSIT_LAND_SHARE = 0.5
+# The rule is a detector: it finds the rows that fit the three tests, and prints a note only for the rows of this table, each reviewed
+# against the files of the atlas (FNCD, D3). Two of the four rows it finds in the tables of this release are wrong readings: Saudi
+# Arabia's imports of direct-reduced iron from Oman and Canada's imports of MAP from the United States are an overland delivery to a
+# neighbour that uses the product, the plain reading, and nothing in the tables on disk tells them apart from Mozambique's. Those get no
+# note and are listed in QA.md ("detected, no note"). (page, table key, country) -> the reason, written after reading each clause in the
+# files: the product comes overland from South Africa, the first producer in the USGS table of the Chromium page; Mozambique has no line
+# in that table; its own exports of the product in the customs data are next to nothing. test_fncd.py checks each clause against the pages.
+TRANSIT_REVIEWED = {
+    ("chromium", "imports", "MOZ"): (
+        "the ore comes overland from South Africa, the first producer in the USGS table of this page; Mozambique has no line in that table; and "
+        "its own exports of ore in the customs data are next to nothing"),
+    ("ferro-alloys", "imports", "MOZ"): (
+        "the alloy comes overland from South Africa, the first producer of chromium ore in the USGS table of the Chromium page; Mozambique has no "
+        "line in that table; and its own exports of ferro-chromium in the customs data are next to nothing"),
+}
+TRANSIT_REPORT = []  # the rows the rule found in the last transit_notes() call: (key, text, noted), for QA.md
 TRANSIT_NEW_PAGES = ("sulphur", "npk", "barley", "sorghum", "sunflower", "pulses", "rapeseed", "ferrous-scrap", "pig-iron", "chromium",
                      "ferro-alloys", "molybdenum", "graphite")
 PAIR_LAND = 3  # the mode code of a land pair in data/freight/pairs/<group>.json (sea, transit, mixed, land)
@@ -560,10 +576,28 @@ def _land_share(B, group, iso):
     return sum(r[ix["kt"]] for r in rows if r[ix["m"]] == PAIR_LAND) / tot if tot else None
 
 
+def _main_origin(B, group, iso):
+    """(origin, its share of the tonnes recorded into `iso`, whether they move overland) of the largest origin in the pairs file, or None."""
+    try:
+        with open(os.path.join(B.DATA, "freight", "pairs", f"{group}.json"), encoding="utf-8") as f:
+            doc = json.load(f)
+    except (OSError, ValueError):
+        return None
+    ix = {c: j for j, c in enumerate(doc["cols"])}
+    rows = [r for r in doc["rows"] if r[ix["d"]] == iso]
+    tot = sum(r[ix["kt"]] for r in rows)
+    if not tot:
+        return None
+    top = max(rows, key=lambda r: r[ix["kt"]])
+    return top[ix["o"]], top[ix["kt"]] / tot, top[ix["m"]] == PAIR_LAND
+
+
 def transit_notes(B, docs):
-    """The note of a large importer that has no production and no export line of the product and receives it overland: what the
-    customs data record, and that these tonnes may be cargo in transit to a port and not the country's own use. Returns the rows it fired on."""
+    """The rows of a large importer that has no production and no export line of the product and receives it overland, found by the
+    detector; the rows of TRANSIT_REVIEWED get a note: what the customs data record, that these tonnes may be cargo in transit to a port and
+    not the country's own use, and the reason of the review. Returns the rows that got a note; every detected row is in TRANSIT_REPORT."""
     done = []
+    TRANSIT_REPORT.clear()
     for cid, d in docs.items():
         if not d:
             continue
@@ -584,14 +618,21 @@ def transit_notes(B, docs):
                 land = _land_share(B, g, iso)
                 if land is None or land < TRANSIT_LAND_SHARE or "possible reading" in (r.get("n") or ""):
                     continue
-                r["n"] = B.joinn(r.get("n"), f"{B.cname(iso)} is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as "
-                                 "arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here)")
-                # the row note is a tooltip: the page says it in its notes too, with the product the table counts
                 what = (B.TRADE[cid][2] if ik == "imports" and cid in B.TRADE else next((w for gg, st, _, w in B.EXTRA_GROUPS.get(cid, []) if st + "-imports" == ik), g))
+                key = f"{cid}/{ik}/{iso}"
+                why = TRANSIT_REVIEWED.get((cid, ik, iso))
+                top = _main_origin(B, g, iso)
+                TRANSIT_REPORT.append((key, f"{B.cname(iso)}, imports of {what}" + (f": {top[1]:.0%} of the tonnes recorded into it come from {B.cname(top[0])}"
+                                                                                        f"{', overland' if top[2] else ''}" if top else ""), bool(why)))
+                if not why:
+                    continue
+                r["n"] = B.joinn(r.get("n"), f"{B.cname(iso)} is not a producer or an exporter of this product in these tables, and the customs data record most of its imports as "
+                                 f"arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here): {why}")
+                # the row note is a tooltip: the page says it in its notes too, with the product the table counts
                 d.setdefault("notes", []).append(
                     f"{B.cname(iso)} is among the importers of {what} although it is neither a producer nor an exporter of it in the tables of this page, and the customs data record most of its "
-                    "imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here).")
-                done.append(f"{cid}/{ik}/{iso}")
+                    f"imports as arriving overland: these tonnes may be cargo in transit to a port, and not the country's own use (a possible reading, not established here): {why}.")
+                done.append(key)
     return done
 
 

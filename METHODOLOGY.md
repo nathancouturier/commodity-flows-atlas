@@ -48,9 +48,13 @@ is called one where it is shown. The figures below are those of the build from C
      re-estimated the same way; for a bulk group, a row that fails against either the plain or
      the tonne-weighted median is one (coal Mozambique → Poland 2019: 201 Mt declared at 0.94 USD/t).
      Example: rare earths Turkey → Benin. A row with a tonnage and no declared value keeps its
-     tonnage and is flagged `no-value` (3 rows). The groups of `UV_KEPT_GROUPS` (sunflower seed: seed for sowing at about
-     USD 12,000 a tonne and oil seed at about USD 1,300 under one code, so the group median is no reference for a pair) and the
-     rows of `KEEP_REPORTED` keep their reported tonnage and are flagged `uv-suspect-t`: France → Russia sunflower seed 2024
+     tonnage and is flagged `no-value` (3 rows). In the groups of `UV_KEPT_GROUPS` (sunflower seed: in 2024 the group's median
+     is USD 1,289 a tonne and France's exports as a whole USD 1,021, but France → Romania, Hungary and Ukraine declare USD 10,900 to
+     13,900, which the atlas reads as seed for sowing under the same code, a hypothesis since the code does not separate them, so the
+     group median is no reference for such a pair) a row whose unit value is above the group reference keeps its reported tonnage
+     and is flagged `uv-suspect-t`; below the reference rule 3 applies as for every group (Canada → Trinidad and Tobago 2010 at under
+     USD 13 a tonne, Kazakhstan → Russia 2012 at USD 7, Tanzania → Kenya 2020 and Uganda → Kenya 2017 are errors of tonnage or value).
+     The rows of `KEEP_REPORTED` keep their reported tonnage too: France → Russia sunflower seed 2024
      (292 t for USD 112 million) was an 87 kt estimate, a main flow and a lane of the headline year. `KEEP_REPORTED` is the one table
      of the rows of the new groups that rules 3 and 4 would re-estimate to more than 50 kt and five times the pair's own median of the other
      years (27 rows in all years: 20 kept as reported, the 19 of the table and France → Russia sunflower seed, and 7 re-estimated, each
@@ -1532,15 +1536,20 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     it never fired for Mozambique, which customs data record as the second importer of chromium ore and of ferro-chromium (South African ore and alloy,
     received overland) with no production and no material export. A row of an import table gets a note when the country has at least 10% of the
     table's world imports, no line in the page's production tables, no export line of note (under 1.5% of the world exports and under a tenth of its own
-    imports) and most of its imports are overland in the pairs file of the group (`m` = land). The note says what the customs data record, and that
-    these tonnes may be cargo in transit to a port and not the country's own use, as a reading and not as a finding: it carries no figure of its own. The
-    page repeats it in its notes (a row note is a tooltip) and the country profile line carries it. The overland test keeps the rule off the importers that
-    consume the product and receive it by sea (Japan's coking coal, Morocco's ammonia and sulphur). It reads the tables of the groups that the three
-    commodity packages added. Three pages were read for a statement that South African chromite is shipped through Maputo: the Port of Maputo article
-    says that its record volumes of 2023 came largely from South African mines and that transit cargo is a large part of the traffic of the ports of
-    Mozambique, and does not name chromite, so no source is cited and the wording stays a possible reading. The rule fires on four rows in this release:
-    chromium ore and ferro-chromium of Mozambique, and, by the same test, the imports of direct-reduced iron of Saudi Arabia (from Oman) and of MAP of Canada
-    (from the United States), which are probably the countries' own use: the owner is asked whether to keep the rule that general.
+    imports) and most of its imports are overland in the pairs file of the group (`m` = land). The rule is a detector: it prints a note only for the rows of
+    a reviewed table (`TRANSIT_REVIEWED`), because it cannot tell from the tables on disk a transit country from a neighbour that uses the product. It
+    finds four rows in this release. Two are reviewed: Mozambique's imports of chromium ore (Chromium page) and of ferro-chromium (Ferro-alloys page).
+    The note says what the customs data record, that these tonnes may be cargo in transit to a port and not the country's own use, as a reading and not as a
+    finding, and why the row was kept: the ore and the alloy come overland from South Africa, the first producer in the USGS table of the Chromium page;
+    Mozambique has no line in that table; and its own exports of both products in the customs data are next to nothing (each clause is checked against the
+    built pages by `test_fncd.py`). The note carries no figure of its own. The page repeats it in its notes (a row note is a tooltip) and the country profile line
+    carries it. The other two rows (Saudi Arabia's imports of direct-reduced iron from Oman and Canada's imports of MAP from the United States) are an
+    overland delivery to a neighbour that uses the product, the plain reading: they get no note and are listed in `pipeline/commodities/QA.md` as "detected,
+    no note". The overland test keeps the rule off the importers that consume the product and receive it by sea (Japan's coking coal, Morocco's ammonia and
+    sulphur). It reads the tables of the groups that the three commodity packages added. Three pages were read for a statement that South African chromite
+    is shipped through Maputo: the Port of Maputo article says that its record volumes of 2023 came largely from South African mines and that transit
+    cargo is a large part of the traffic of the ports of Mozambique, and does not name chromite, so no source is cited and the wording stays a possible
+    reading.
 - **USDA crops: forecast, estimate, balances, EU member states, Russian grain** (audit M-076, M-025, M-024, C-104, C-045).
   - *Year rule*, in `_latest_inputs()` of `build_commodities.py` and nowhere else: the page shows the newest marketing year the PSD
     file holds (`PSD_MY`, 2026/27 in the November 2026 file), which USDA publishes as its forecast of the year in progress, and

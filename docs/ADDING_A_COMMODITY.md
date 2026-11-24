@@ -32,8 +32,8 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
   `python pipeline/trade/extract_baci.py raw/baci/BACI_HS92_V202601.zip /tmp/new_flows.csv.gz 2002`; check that every
   earlier group is identical (`DataFrame.equals` on the rows of the old groups), then copy over `pipeline/cache/baci_flows.csv.gz`.
 - `clean.py` `HOMOGENEOUS` only for one product priced by the product tonne (else only the gross-error rule applies; coke is one, since FNCB: the Mozambique to India row of 2016 stood at 65 Mt for 4 USD per tonne without it). A group priced by kinds that lie
-  more than 100 times apart (sunflower seed: sowing seed at 12,000 USD/t, oil seed at 1,300) goes in `UV_KEPT_GROUPS`: rules 3 and 4 leave its reported tonnage and flag the row
-  `uv-suspect-t`. After the first cleaning run list the rows that rules 3 and 4 re-estimate to more than 50 kt and five times the pair's median of the other years (the test
+  ten times apart (sunflower seed: some French pairs at 11,000 to 14,000 USD/t, the group median at 1,300) goes in `UV_KEPT_GROUPS`: rules 3 and 4 leave the reported tonnage of a row whose
+  unit value is above the group reference and flag it `uv-suspect-t`; below the reference rule 3 applies as everywhere. After the first cleaning run list the rows that rules 3 and 4 re-estimate to more than 50 kt and five times the pair's median of the other years (the test
   `test_fncb.py` B2 does it): decide each one, keep the reported tonnage through `KEEP_REPORTED` (one row, one reason) or say in the test why the estimate is right;
   `checks.py` `LABEL` for a group whose name is not its id with hyphens turned into spaces ("UAN", "MAP"), and `PSD_GROUPS` of `checks.py`
   for a group that has a USDA PSD commodity (the customs-against-USDA checks).
