@@ -97,6 +97,10 @@ HOMOGENEOUS = {
     # one product each, priced by the product tonne (M-022). Not NPK (a mix of grades), phosphoric acid (declared by the tonne of acid
     # or of P2O5) nor sulphur (crude and sublimed sulphur, at very different prices): only the gross errors of rule 3 are corrected
     "potassium-sulphate", "monoammonium-phosphate", "superphosphates", "ammonia", "ammonium-nitrate", "uan", "ammonium-sulphate",
+    # the grains, oils and meals added with M-023: a grade of one product each. Not sunflower seed (oil seed, seed for sowing
+    # and snack seed are priced far apart), pulses (peas, lentils, chickpeas and beans), wheat flour nor brewing and distilling dregs
+    # (distillers' grains and brewers' grains in one code): only the gross errors of rule 3 are corrected for these
+    "barley", "sorghum", "sunflower-oil", "rapeseed-oil", "sunflower-meal", "rapeseed-meal",
 }
 
 # (group, exporter, importer or None for any) -> reason

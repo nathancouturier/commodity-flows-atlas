@@ -171,6 +171,9 @@ SEGMENT = {
     "nickel-ore": "ore", "zinc-ore": "ore", "lead-ore": "ore", "coal": "coal", "crude-oil": "crude",
     "refined-products": "products", "lng": "lng", "lpg": "lpg", "wheat": "grain", "corn": "grain",
     "soybeans": "grain", "soymeal": "grain", "rice": "grain", "sugar": "grain", "rapeseed": "grain",
+    # the grains, oilseeds and products added with M-023: the grain rows of the tables for the dry cargo, the vegetable-oil rows for the oils
+    "barley": "grain", "sorghum": "grain", "sunflower-seed": "grain", "sunflower-meal": "grain", "rapeseed-meal": "grain",
+    "pulses": "grain", "sunflower-oil": "vegoil", "rapeseed-oil": "vegoil",
     "soyoil": "vegoil", "palm-oil": "vegoil", "potash": "fert", "phosphate-rock": "fert", "dap": "fert",
     "urea": "fert", "steel": "box", "copper-refined": "box", "aluminium": "box", "coffee": "box",
     # the other fertilisers (M-022): the fertiliser rows of the tables, as the products above

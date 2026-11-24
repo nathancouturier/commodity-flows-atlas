@@ -181,7 +181,18 @@ SPLITS = {  # group -> {derived group: (hs6 codes, label)}
                        "copper-7402": (("740200",), "unrefined copper, anodes and blister (HS 7402)")},
     "aluminium": {"aluminium-760110": (("760110",), "unwrought aluminium, not alloyed (HS 760110)"),
                   "aluminium-760120": (("760120",), "unwrought aluminium alloys (HS 760120)")},
+    # the dried pulses by kind (audit M-023): the six-digit rows of HS 0713 are the kinds the customs code names
+    "pulses": {"pulses-peas": (("071310",), "dried peas (HS 071310)"),
+               "pulses-chickpeas": (("071320",), "dried chickpeas (HS 071320)"),
+               "pulses-beans": (("071331", "071332", "071333", "071339", "071350"),
+                                "dried beans, with broad and horse beans (HS 071331 to 071339, 071350)"),
+               "pulses-lentils": (("071340",), "dried lentils (HS 071340)"),
+               "pulses-other": (("071390",), "other dried pulses (HS 071390)")},
 }
+# page-table key stem and name in the titles of each kind of pulse
+PULSE_KINDS = {"pulses-peas": ("peas", "Dried peas"), "pulses-chickpeas": ("chickpeas", "Dried chickpeas"),
+               "pulses-beans": ("beans", "Dried beans"), "pulses-lentils": ("lentils", "Dried lentils"),
+               "pulses-other": ("other-pulses", "Other dried pulses")}
 
 
 def derive_groups(baci, B, path=HS6_DETAIL):
@@ -405,6 +416,28 @@ def hs_split_tables(B, docs, baci, years):
             "the feed of refineries). The apparent consumption table uses HS 7403 only.")
 
 
+def pulse_tables(B, docs, baci, years):
+    """The dried pulses by kind (HS 0713): exporters and importers of peas, chickpeas, beans, lentils and the other pulses, each pair of
+    the main tables split between the kinds by the six-digit rows of the same pair (derive_groups), and a note with the tonnes of each."""
+    d = docs.get("pulses")
+    if not d or B.BACI_YEAR not in years:
+        return
+    extra = d.setdefault("extra", [])
+    for sg, (codes, label) in SPLITS["pulses"].items():
+        stem, name = PULSE_KINDS[sg]
+        for side, word in (("exports", "exporters"), ("imports", "importers")):
+            t, _ = baci.ranked(sg, side, "Mt", 1e6, label)
+            t.pop("_hist", None)
+            t.pop("_hn", None)
+            B.set_basis(t, "gross weight")
+            extra.append({"key": f"{stem}-{side}", "title": f"{name} {word}", "table": t})
+    tons = {sg: baci.group(sg)["t"].sum() / 1e6 for sg in SPLITS["pulses"]}
+    parts = ", ".join(f"{PULSE_KINDS[sg][1].lower()} {v:.1f} Mt" for sg, v in tons.items())
+    d.setdefault("notes", []).append(
+        f"By kind, {B.BACI_YEAR} (CEPII BACI, the main tables' {sum(tons.values()):.1f} Mt split by the six-digit rows): {parts}. The kinds are the codes' own words: "
+        "HS 071350 (broad and horse beans) is counted with the beans, and HS 071390 holds every pulse that has no code of its own.")
+
+
 def add_values(B, docs, index):
     """`usd` (customs value, USD) and `uv` (USD per tonne) on the rows of the trade tables of the metals pages, from the declared values
     of the cleaned customs frame. A table that is not customs data, or a row whose tonnage is 10% or more estimated, has no unit value."""
@@ -512,6 +545,7 @@ def metal_pages(B, docs, us, baci, index):
     """Entry point. Returns a short report (for the log)."""
     years = derive_groups(baci, B)
     hs_split_tables(B, docs, baci, years)
+    pulse_tables(B, docs, baci, years)
     rep = consumption_tables(B, docs, us, baci)
     iron_content(B, docs, us)
     us_blocks(B, docs, us)

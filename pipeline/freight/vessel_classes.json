@@ -246,7 +246,9 @@
    "met-coal",
    "corn",
    "soybeans",
-   "wheat"
+   "wheat",
+   "barley",
+   "sorghum"
   ],
   "constraints": [
    "229 m LOA limit set by Kamsar port, Guinea"
@@ -296,7 +298,12 @@
    "zinc",
    "lead",
    "npk",
-   "sulphur"
+   "sulphur",
+   "barley",
+   "sorghum",
+   "sunflower",
+   "rapeseed",
+   "pulses"
   ],
   "constraints": [
    "Geared; used at ports lacking shore cranes"
@@ -440,7 +447,12 @@
    "lead",
    "aluminium",
    "npk",
-   "sulphur"
+   "sulphur",
+   "barley",
+   "sorghum",
+   "sunflower",
+   "rapeseed",
+   "pulses"
   ],
   "constraints": [
    "Can call at shallow ports and use own cranes"
@@ -772,7 +784,9 @@
   "cargoes": [
    "refined-products",
    "palm-oil",
-   "soyoil"
+   "soyoil",
+   "sunflower",
+   "rapeseed"
   ],
   "constraints": [
    "Clean products: the Baltic's MR routes carry cargoes of 35,000 to 40,000 t"
@@ -868,7 +882,9 @@
    "palm-oil",
    "soyoil",
    "urea",
-   "phosphate"
+   "phosphate",
+   "sunflower",
+   "rapeseed"
   ],
   "constraints": [
    "Coated or stainless-steel tanks cleaned between cargoes; besides chemicals it carries palm oil, vegetable oils, tallow, caustic soda and methanol (Wikipedia, Chemical tanker)",
@@ -882,7 +898,7 @@
   "routes": [
    "indo-malay-india-palm-oil"
   ],
-  "notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). It is also first on the lanes of UAN solution (the Urea & nitrogen page) and of phosphoric acid (the Phosphate page), the Handy tanker second: liquids that are not dry bulk. This is an Atlas assumption: no page was read for the class of these lanes.",
+  "notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil, and the sunflower and rapeseed oils of M-023), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). It is also first on the lanes of UAN solution (the Urea & nitrogen page) and of phosphoric acid (the Phosphate page), the Handy tanker second: liquids that are not dry bulk. This is an Atlas assumption: no page was read for the class of these lanes.",
   "s": "wikipedia-vessel-classes"
  },
  {

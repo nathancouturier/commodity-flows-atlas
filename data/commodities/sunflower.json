@@ -1,0 +1,3526 @@
+{
+ "id": "sunflower",
+ "summary": {
+  "production": {
+   "v": 63.164,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  },
+  "consumption": {
+   "v": 61.359,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 3.891,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country"
+  },
+  "seaborne": {
+   "v": 2.19,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (sunflower-seed) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.24 Mt that move both by sea and overland (split not known) are not in it; 5% of this tonnage estimated from value"
+  }
+ },
+ "production": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 63.164,
+  "rows": [
+   {
+    "c": "RUS",
+    "v": 20.4
+   },
+   {
+    "c": "UKR",
+    "v": 13.0
+   },
+   {
+    "c": "EU27",
+    "v": 9.725
+   },
+   {
+    "c": "ARG",
+    "v": 7.8
+   },
+   {
+    "c": "KAZ",
+    "v": 3.0
+   },
+   {
+    "c": "CHN",
+    "v": 2.23
+   },
+   {
+    "c": "TUR",
+    "v": 1.8
+   },
+   {
+    "c": "ZAF",
+    "v": 1.07
+   },
+   {
+    "c": "USA",
+    "v": 1.045
+   },
+   {
+    "c": "MDA",
+    "v": 1.0
+   },
+   {
+    "c": "SRB",
+    "v": 0.65
+   },
+   {
+    "c": "MMR",
+    "v": 0.39
+   },
+   {
+    "c": "BOL",
+    "v": 0.38
+   },
+   {
+    "c": "IND",
+    "v": 0.113
+   },
+   {
+    "c": "BRA",
+    "v": 0.1
+   },
+   {
+    "c": "PAK",
+    "v": 0.085
+   },
+   {
+    "c": "CAN",
+    "v": 0.072
+   },
+   {
+    "c": "EGY",
+    "v": 0.05
+   },
+   {
+    "c": "IRN",
+    "v": 0.045
+   },
+   {
+    "c": "PRY",
+    "v": 0.04
+   },
+   {
+    "c": "UZB",
+    "v": 0.04
+   },
+   {
+    "c": "URY",
+    "v": 0.035
+   },
+   {
+    "c": "MAR",
+    "v": 0.028
+   },
+   {
+    "c": "AUS",
+    "v": 0.027
+   },
+   {
+    "c": "CHE",
+    "v": 0.015
+   },
+   {
+    "c": "MKD",
+    "v": 0.008
+   },
+   {
+    "c": "MEX",
+    "v": 0.006
+   },
+   {
+    "c": "CHL",
+    "v": 0.005
+   },
+   {
+    "c": "ISR",
+    "v": 0.004
+   },
+   {
+    "c": "BIH",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "consumption": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 61.359,
+  "rows": [
+   {
+    "c": "RUS",
+    "v": 19.005
+   },
+   {
+    "c": "UKR",
+    "v": 12.775
+   },
+   {
+    "c": "EU27",
+    "v": 10.215
+   },
+   {
+    "c": "ARG",
+    "v": 6.775
+   },
+   {
+    "c": "KAZ",
+    "v": 2.8
+   },
+   {
+    "c": "TUR",
+    "v": 2.7
+   },
+   {
+    "c": "CHN",
+    "v": 1.72
+   },
+   {
+    "c": "USA",
+    "v": 1.168
+   },
+   {
+    "c": "ZAF",
+    "v": 1.037
+   },
+   {
+    "c": "SRB",
+    "v": 0.562
+   },
+   {
+    "c": "MDA",
+    "v": 0.498
+   },
+   {
+    "c": "MMR",
+    "v": 0.4
+   },
+   {
+    "c": "BOL",
+    "v": 0.378
+   },
+   {
+    "c": "BLR",
+    "v": 0.175
+   },
+   {
+    "c": "PAK",
+    "v": 0.145
+   },
+   {
+    "c": "IND",
+    "v": 0.122
+   },
+   {
+    "c": "BRA",
+    "v": 0.11
+   },
+   {
+    "c": "UZB",
+    "v": 0.105
+   },
+   {
+    "c": "BIH",
+    "v": 0.1
+   },
+   {
+    "c": "IRN",
+    "v": 0.092
+   },
+   {
+    "c": "EGY",
+    "v": 0.07
+   },
+   {
+    "c": "CAN",
+    "v": 0.065
+   },
+   {
+    "c": "GBR",
+    "v": 0.06
+   },
+   {
+    "c": "MAR",
+    "v": 0.048
+   },
+   {
+    "c": "MEX",
+    "v": 0.04
+   },
+   {
+    "c": "PRY",
+    "v": 0.04
+   },
+   {
+    "c": "AUS",
+    "v": 0.037
+   },
+   {
+    "c": "URY",
+    "v": 0.036
+   },
+   {
+    "c": "CHE",
+    "v": 0.02
+   },
+   {
+    "c": "SAU",
+    "v": 0.015
+   },
+   {
+    "c": "ISR",
+    "v": 0.014
+   },
+   {
+    "c": "NOR",
+    "v": 0.014
+   },
+   {
+    "c": "MKD",
+    "v": 0.01
+   },
+   {
+    "c": "CHL",
+    "v": 0.006
+   },
+   {
+    "c": "COL",
+    "v": 0.002
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "exports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 3.891,
+  "rows": [
+   {
+    "c": "ARG",
+    "v": 0.9
+   },
+   {
+    "c": "CHN",
+    "v": 0.6
+   },
+   {
+    "c": "RUS",
+    "v": 0.6
+   },
+   {
+    "c": "EU27",
+    "v": 0.55,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.31 Mt of exports, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "MDA",
+    "v": 0.5
+   },
+   {
+    "c": "KAZ",
+    "v": 0.325
+   },
+   {
+    "c": "SRB",
+    "v": 0.1
+   },
+   {
+    "c": "TUR",
+    "v": 0.1
+   },
+   {
+    "c": "UKR",
+    "v": 0.1
+   },
+   {
+    "c": "CAN",
+    "v": 0.04
+   },
+   {
+    "c": "USA",
+    "v": 0.034
+   },
+   {
+    "c": "ZAF",
+    "v": 0.03
+   },
+   {
+    "c": "CHL",
+    "v": 0.003
+   },
+   {
+    "c": "EGY",
+    "v": 0.003
+   },
+   {
+    "c": "MKD",
+    "v": 0.002
+   },
+   {
+    "c": "BIH",
+    "v": 0.001
+   },
+   {
+    "c": "IND",
+    "v": 0.001
+   },
+   {
+    "c": "IRN",
+    "v": 0.001
+   },
+   {
+    "c": "UZB",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.31 Mt of exports, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 3.312,
+   "intra": 2.876,
+   "extra": 0.4364
+  }
+ },
+ "imports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 3.489,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 1.2,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "TUR",
+    "v": 1.0
+   },
+   {
+    "c": "BLR",
+    "v": 0.175
+   },
+   {
+    "c": "USA",
+    "v": 0.175
+   },
+   {
+    "c": "KAZ",
+    "v": 0.15
+   },
+   {
+    "c": "CHN",
+    "v": 0.13
+   },
+   {
+    "c": "BIH",
+    "v": 0.1
+   },
+   {
+    "c": "UZB",
+    "v": 0.07
+   },
+   {
+    "c": "PAK",
+    "v": 0.06
+   },
+   {
+    "c": "GBR",
+    "v": 0.06
+   },
+   {
+    "c": "IRN",
+    "v": 0.05
+   },
+   {
+    "c": "RUS",
+    "v": 0.05
+   },
+   {
+    "c": "MEX",
+    "v": 0.035
+   },
+   {
+    "c": "CAN",
+    "v": 0.03
+   },
+   {
+    "c": "UKR",
+    "v": 0.03
+   },
+   {
+    "c": "EGY",
+    "v": 0.025
+   },
+   {
+    "c": "MAR",
+    "v": 0.02
+   },
+   {
+    "c": "SRB",
+    "v": 0.02
+   },
+   {
+    "c": "SAU",
+    "v": 0.015
+   },
+   {
+    "c": "NOR",
+    "v": 0.014
+   },
+   {
+    "c": "AUS",
+    "v": 0.01
+   },
+   {
+    "c": "BRA",
+    "v": 0.01
+   },
+   {
+    "c": "MMR",
+    "v": 0.01
+   },
+   {
+    "c": "IND",
+    "v": 0.01
+   },
+   {
+    "c": "ISR",
+    "v": 0.01
+   },
+   {
+    "c": "MDA",
+    "v": 0.01
+   },
+   {
+    "c": "CHE",
+    "v": 0.005
+   },
+   {
+    "c": "CHL",
+    "v": 0.004
+   },
+   {
+    "c": "MKD",
+    "v": 0.004
+   },
+   {
+    "c": "COL",
+    "v": 0.002
+   },
+   {
+    "c": "ZAF",
+    "v": 0.002
+   },
+   {
+    "c": "ARG",
+    "v": 0.001
+   },
+   {
+    "c": "BOL",
+    "v": 0.001
+   },
+   {
+    "c": "URY",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; Customs data (CEPII BACI 2024), the 27 member states together: 3.67 Mt of imports, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 3.671,
+   "intra": 2.876,
+   "extra": 0.7948
+  }
+ },
+ "extra": [
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 3.312,
+    "rows": [
+     {
+      "c": "ROU",
+      "v": 1.2,
+      "n": "of which 1.1 Mt to other member states and 0.0988 Mt to countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.5989,
+      "n": "of which 0.488 Mt to other member states and 0.111 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.5689,
+      "n": "of which 0.374 Mt to other member states and 0.195 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.3993,
+      "n": "of which 0.394 Mt to other member states and 0.00527 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.1764,
+      "n": "of which 0.176 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0931,
+      "n": "of which 0.0771 Mt to other member states and 0.0159 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0668,
+      "n": "of which 0.0628 Mt to other member states and 0.00401 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.0561,
+      "n": "of which 0.0536 Mt to other member states and 0.00255 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.0446,
+      "n": "of which 0.0446 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.0358,
+      "n": "of which 0.0348 Mt to other member states and 0.00101 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0272,
+      "n": "of which 0.0255 Mt to other member states and 0.00173 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0191,
+      "n": "of which 0.0191 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0064,
+      "n": "of which 0.00555 Mt to other member states and 0.807 kt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.0056,
+      "n": "of which 0.00557 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0032,
+      "n": "of which 0.00316 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0029,
+      "n": "of which 0.00285 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0025,
+      "n": "of which 0.00246 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0017,
+      "n": "of which 0.00171 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0014,
+      "n": "of which 0.00134 Mt to other member states and 0.111 kt to countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.0012,
+      "n": "of which 0.00123 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.001,
+      "n": "of which 0.702 kt to other member states and 0.256 kt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.31 Mt, of which 2.88 Mt to other member states and 0.436 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.42 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 5.422,
+    "split": {
+     "total": 3.312,
+     "intra": 2.876,
+     "extra": 0.4364
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 3.671,
+    "rows": [
+     {
+      "c": "BGR",
+      "v": 0.6946,
+      "n": "of which 0.502 Mt from other member states and 0.193 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.5624,
+      "n": "of which 0.504 Mt from other member states and 0.0586 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.3612,
+      "n": "of which 0.056 Mt from other member states and 0.305 Mt from countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.3311,
+      "n": "of which 0.304 Mt from other member states and 0.0269 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.316,
+      "n": "of which 0.234 Mt from other member states and 0.0825 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.2109,
+      "n": "of which 0.203 Mt from other member states and 0.00758 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.2023,
+      "n": "of which 0.2 Mt from other member states and 0.00212 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.1833,
+      "n": "of which 0.16 Mt from other member states and 0.0235 Mt from countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.1795,
+      "n": "of which 0.178 Mt from other member states and 0.00108 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.1623,
+      "n": "of which 0.158 Mt from other member states and 0.00382 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.1459,
+      "n": "of which 0.13 Mt from other member states and 0.0154 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.1137,
+      "n": "of which 0.113 Mt from other member states and 0.9 kt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.0519,
+      "n": "of which 0.0403 Mt from other member states and 0.0115 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0501,
+      "n": "of which 0.0145 Mt from other member states and 0.0356 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0246,
+      "n": "of which 0.0246 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0213,
+      "n": "of which 0.02 Mt from other member states and 0.00133 Mt from countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.0182,
+      "n": "of which 0 Mt from other member states and 0.0182 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0128,
+      "n": "of which 0.00985 Mt from other member states and 0.00297 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.0128,
+      "n": "of which 0.0128 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0063,
+      "n": "of which 0.00367 Mt from other member states and 0.00267 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0052,
+      "n": "of which 0.00481 Mt from other member states and 0.411 kt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0019,
+      "n": "of which 0.00189 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0015,
+      "n": "of which 0 Mt from other member states and 0.00149 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0009,
+      "n": "of which 0.88 kt from other member states and 0 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, sunflower seed (HS 120600): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 3.67 Mt, of which 2.88 Mt from other member states and 0.795 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 5.42 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 5.422,
+    "split": {
+     "total": 3.671,
+     "intra": 2.876,
+     "extra": 0.7948
+    }
+   }
+  },
+  {
+   "key": "sunflower-oil-exports",
+   "title": "Sunflower and safflower oil exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 17.698,
+    "rows": [
+     {
+      "c": "UKR",
+      "v": 5.888
+     },
+     {
+      "c": "RUS",
+      "v": 4.586
+     },
+     {
+      "c": "TUR",
+      "v": 1.043
+     },
+     {
+      "c": "NLD",
+      "v": 0.812
+     },
+     {
+      "c": "ARG",
+      "v": 0.803
+     },
+     {
+      "c": "HUN",
+      "v": 0.7491
+     },
+     {
+      "c": "BGR",
+      "v": 0.5133
+     },
+     {
+      "c": "KAZ",
+      "v": 0.4714
+     },
+     {
+      "c": "FRA",
+      "v": 0.4565
+     },
+     {
+      "c": "ROU",
+      "v": 0.2331
+     },
+     {
+      "c": "ESP",
+      "v": 0.2295
+     },
+     {
+      "c": "POL",
+      "v": 0.1987
+     },
+     {
+      "c": "BEL",
+      "v": 0.1648
+     },
+     {
+      "c": "SRB",
+      "v": 0.1586
+     },
+     {
+      "c": "DEU",
+      "v": 0.1504
+     },
+     {
+      "c": "MDA",
+      "v": 0.1443
+     },
+     {
+      "c": "BOL",
+      "v": 0.1121
+     },
+     {
+      "c": "EGY",
+      "v": 0.0995
+     },
+     {
+      "c": "MYS",
+      "v": 0.0897
+     },
+     {
+      "c": "CZE",
+      "v": 0.081
+     },
+     {
+      "c": "SVN",
+      "v": 0.0752
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0562
+     },
+     {
+      "c": "BIH",
+      "v": 0.0488
+     },
+     {
+      "c": "EST",
+      "v": 0.0437
+     },
+     {
+      "c": "ITA",
+      "v": 0.0412
+     },
+     {
+      "c": "AUT",
+      "v": 0.0386
+     },
+     {
+      "c": "MEX",
+      "v": 0.0378
+     },
+     {
+      "c": "SAU",
+      "v": 0.0308
+     },
+     {
+      "c": "ARE",
+      "v": 0.0301
+     },
+     {
+      "c": "HRV",
+      "v": 0.0268
+     },
+     {
+      "c": "USA",
+      "v": 0.0254
+     },
+     {
+      "c": "LVA",
+      "v": 0.0249
+     },
+     {
+      "c": "PRT",
+      "v": 0.0206
+     },
+     {
+      "c": "IND",
+      "v": 0.0191
+     },
+     {
+      "c": "UZB",
+      "v": 0.0174
+     },
+     {
+      "c": "NPL",
+      "v": 0.0172
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0152
+     },
+     {
+      "c": "MKD",
+      "v": 0.0132
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0106
+     },
+     {
+      "c": "CHE",
+      "v": 0.01
+     },
+     {
+      "c": "TZA",
+      "v": 0.0098
+     },
+     {
+      "c": "SWE",
+      "v": 0.0086
+     },
+     {
+      "c": "OMN",
+      "v": 0.0082
+     },
+     {
+      "c": "LTU",
+      "v": 0.0079
+     },
+     {
+      "c": "LUX",
+      "v": 0.0078
+     },
+     {
+      "c": "GBR",
+      "v": 0.0068
+     },
+     {
+      "c": "SVK",
+      "v": 0.0053
+     },
+     {
+      "c": "LBN",
+      "v": 0.0051
+     },
+     {
+      "c": "MAR",
+      "v": 0.0051
+     },
+     {
+      "c": "TUN",
+      "v": 0.0048
+     },
+     {
+      "c": "GRC",
+      "v": 0.0044
+     },
+     {
+      "c": "CYP",
+      "v": 0.0041
+     },
+     {
+      "c": "ECU",
+      "v": 0.004
+     },
+     {
+      "c": "AZE",
+      "v": 0.004
+     },
+     {
+      "c": "UGA",
+      "v": 0.0028
+     },
+     {
+      "c": "BLR",
+      "v": 0.0028
+     },
+     {
+      "c": "IDN",
+      "v": 0.0027
+     },
+     {
+      "c": "CHN",
+      "v": 0.0024
+     },
+     {
+      "c": "IRL",
+      "v": 0.002
+     },
+     {
+      "c": "KEN",
+      "v": 0.002
+     },
+     {
+      "c": "CAN",
+      "v": 0.002
+     },
+     {
+      "c": "GTM",
+      "v": 0.002
+     },
+     {
+      "c": "SGP",
+      "v": 0.0017
+     },
+     {
+      "c": "FIN",
+      "v": 0.0011
+     },
+     {
+      "c": "AUS",
+      "v": 0.0011
+     },
+     {
+      "c": "DZA",
+      "v": 0.001
+     },
+     {
+      "c": "ALB",
+      "v": 0.0006
+     },
+     {
+      "c": "KOR",
+      "v": 0.0006
+     }
+    ],
+    "n": "CEPII BACI HS92 sunflower-seed or safflower oil, crude and other (HS 151211, 151219), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "sunflower-oil-imports",
+   "title": "Sunflower and safflower oil importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 17.698,
+    "rows": [
+     {
+      "c": "IND",
+      "v": 3.379
+     },
+     {
+      "c": "TUR",
+      "v": 1.413
+     },
+     {
+      "c": "CHN",
+      "v": 1.031
+     },
+     {
+      "c": "ESP",
+      "v": 0.9335
+     },
+     {
+      "c": "NLD",
+      "v": 0.9211
+     },
+     {
+      "c": "ITA",
+      "v": 0.9149
+     },
+     {
+      "c": "EGY",
+      "v": 0.7189
+     },
+     {
+      "c": "BEL",
+      "v": 0.5648
+     },
+     {
+      "c": "POL",
+      "v": 0.5338
+     },
+     {
+      "c": "IRQ",
+      "v": 0.5287
+     },
+     {
+      "c": "ROU",
+      "v": 0.479
+     },
+     {
+      "c": "DEU",
+      "v": 0.4241
+     },
+     {
+      "c": "BGR",
+      "v": 0.3853
+     },
+     {
+      "c": "FRA",
+      "v": 0.3848
+     },
+     {
+      "c": "UZB",
+      "v": 0.3044
+     },
+     {
+      "c": "SAU",
+      "v": 0.2187
+     },
+     {
+      "c": "GBR",
+      "v": 0.2144
+     },
+     {
+      "c": "USA",
+      "v": 0.1906
+     },
+     {
+      "c": "DJI",
+      "v": 0.1899
+     },
+     {
+      "c": "ZAF",
+      "v": 0.1669
+     },
+     {
+      "c": "LBN",
+      "v": 0.1447
+     },
+     {
+      "c": "IRN",
+      "v": 0.1374
+     },
+     {
+      "c": "MYS",
+      "v": 0.1366
+     },
+     {
+      "c": "GRC",
+      "v": 0.1336
+     },
+     {
+      "c": "PRT",
+      "v": 0.1308
+     },
+     {
+      "c": "CHL",
+      "v": 0.1287
+     },
+     {
+      "c": "KAZ",
+      "v": 0.1188
+     },
+     {
+      "c": "SYR",
+      "v": 0.1015
+     },
+     {
+      "c": "LBY",
+      "v": 0.0961
+     },
+     {
+      "c": "ARE",
+      "v": 0.0945
+     },
+     {
+      "c": "AUT",
+      "v": 0.0771
+     },
+     {
+      "c": "CZE",
+      "v": 0.0761
+     },
+     {
+      "c": "JOR",
+      "v": 0.0737
+     },
+     {
+      "c": "MDA",
+      "v": 0.0685
+     },
+     {
+      "c": "TUN",
+      "v": 0.0677
+     },
+     {
+      "c": "AZE",
+      "v": 0.0667
+     },
+     {
+      "c": "ECU",
+      "v": 0.0662
+     },
+     {
+      "c": "ISR",
+      "v": 0.0658
+     },
+     {
+      "c": "MEX",
+      "v": 0.065
+     },
+     {
+      "c": "TJK",
+      "v": 0.0642
+     },
+     {
+      "c": "AUS",
+      "v": 0.063
+     },
+     {
+      "c": "EST",
+      "v": 0.0625
+     },
+     {
+      "c": "HRV",
+      "v": 0.0623
+     },
+     {
+      "c": "SDN",
+      "v": 0.0611
+     },
+     {
+      "c": "MAR",
+      "v": 0.0587
+     },
+     {
+      "c": "BIH",
+      "v": 0.0546
+     },
+     {
+      "c": "SVK",
+      "v": 0.0543
+     },
+     {
+      "c": "PSE",
+      "v": 0.0543
+     },
+     {
+      "c": "SWE",
+      "v": 0.053
+     },
+     {
+      "c": "CHE",
+      "v": 0.0516
+     },
+     {
+      "c": "CAN",
+      "v": 0.0514
+     },
+     {
+      "c": "SGP",
+      "v": 0.0511
+     },
+     {
+      "c": "GEO",
+      "v": 0.0474
+     },
+     {
+      "c": "COL",
+      "v": 0.0456
+     },
+     {
+      "c": "BRA",
+      "v": 0.0436
+     },
+     {
+      "c": "MKD",
+      "v": 0.043
+     },
+     {
+      "c": "AFG",
+      "v": 0.0417
+     },
+     {
+      "c": "KOR",
+      "v": 0.038
+     },
+     {
+      "c": "PER",
+      "v": 0.0379
+     },
+     {
+      "c": "SVN",
+      "v": 0.0375
+     },
+     {
+      "c": "NPL",
+      "v": 0.0351
+     },
+     {
+      "c": "YEM",
+      "v": 0.0345
+     },
+     {
+      "c": "LTU",
+      "v": 0.0339
+     },
+     {
+      "c": "HUN",
+      "v": 0.0332
+     },
+     {
+      "c": "CYP",
+      "v": 0.0328
+     },
+     {
+      "c": "SEN",
+      "v": 0.0322
+     },
+     {
+      "c": "ARM",
+      "v": 0.0294
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0293
+     },
+     {
+      "c": "ALB",
+      "v": 0.0256
+     },
+     {
+      "c": "CUB",
+      "v": 0.0247
+     },
+     {
+      "c": "TWN",
+      "v": 0.0246
+     },
+     {
+      "c": "IRL",
+      "v": 0.0233
+     },
+     {
+      "c": "THA",
+      "v": 0.0218
+     },
+     {
+      "c": "SRB",
+      "v": 0.0213
+     },
+     {
+      "c": "BWA",
+      "v": 0.0213
+     },
+     {
+      "c": "NAM",
+      "v": 0.021
+     },
+     {
+      "c": "QAT",
+      "v": 0.0179
+     },
+     {
+      "c": "DNK",
+      "v": 0.0178
+     },
+     {
+      "c": "URY",
+      "v": 0.0168
+     },
+     {
+      "c": "JPN",
+      "v": 0.0167
+     },
+     {
+      "c": "LVA",
+      "v": 0.0166
+     },
+     {
+      "c": "PAK",
+      "v": 0.0148
+     },
+     {
+      "c": "MUS",
+      "v": 0.0144
+     },
+     {
+      "c": "GHA",
+      "v": 0.0128
+     },
+     {
+      "c": "COD",
+      "v": 0.0127
+     },
+     {
+      "c": "GIN",
+      "v": 0.0127
+     },
+     {
+      "c": "KWT",
+      "v": 0.0122
+     },
+     {
+      "c": "UKR",
+      "v": 0.0121
+     },
+     {
+      "c": "NZL",
+      "v": 0.0119
+     },
+     {
+      "c": "OMN",
+      "v": 0.0114
+     },
+     {
+      "c": "MNE",
+      "v": 0.0113
+     },
+     {
+      "c": "NOR",
+      "v": 0.011
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0107
+     },
+     {
+      "c": "TKM",
+      "v": 0.0104
+     },
+     {
+      "c": "TZA",
+      "v": 0.0098
+     },
+     {
+      "c": "MDG",
+      "v": 0.0094
+     },
+     {
+      "c": "BGD",
+      "v": 0.0094
+     },
+     {
+      "c": "PRY",
+      "v": 0.0089
+     },
+     {
+      "c": "ERI",
+      "v": 0.0078
+     },
+     {
+      "c": "VEN",
+      "v": 0.0076
+     },
+     {
+      "c": "PHL",
+      "v": 0.0075
+     },
+     {
+      "c": "LSO",
+      "v": 0.0071
+     },
+     {
+      "c": "GTM",
+      "v": 0.0069
+     },
+     {
+      "c": "BHR",
+      "v": 0.0068
+     },
+     {
+      "c": "SUR",
+      "v": 0.0068
+     },
+     {
+      "c": "MRT",
+      "v": 0.0067
+     },
+     {
+      "c": "GUY",
+      "v": 0.0063
+     },
+     {
+      "c": "IDN",
+      "v": 0.0061
+     },
+     {
+      "c": "SOM",
+      "v": 0.006
+     },
+     {
+      "c": "KEN",
+      "v": 0.006
+     },
+     {
+      "c": "RWA",
+      "v": 0.0057
+     },
+     {
+      "c": "DOM",
+      "v": 0.0051
+     },
+     {
+      "c": "HKG",
+      "v": 0.005
+     },
+     {
+      "c": "CRI",
+      "v": 0.0048
+     },
+     {
+      "c": "CIV",
+      "v": 0.0046
+     },
+     {
+      "c": "PYF",
+      "v": 0.0034
+     },
+     {
+      "c": "VNM",
+      "v": 0.0034
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0031
+     },
+     {
+      "c": "MMR",
+      "v": 0.0027
+     },
+     {
+      "c": "TGO",
+      "v": 0.0025
+     },
+     {
+      "c": "MLT",
+      "v": 0.0025
+     },
+     {
+      "c": "PNG",
+      "v": 0.0023
+     },
+     {
+      "c": "MDV",
+      "v": 0.0022
+     },
+     {
+      "c": "CMR",
+      "v": 0.0018
+     },
+     {
+      "c": "NCL",
+      "v": 0.0017
+     },
+     {
+      "c": "DZA",
+      "v": 0.0016
+     },
+     {
+      "c": "PAN",
+      "v": 0.0015
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0015
+     },
+     {
+      "c": "HND",
+      "v": 0.0015
+     },
+     {
+      "c": "LKA",
+      "v": 0.0014
+     },
+     {
+      "c": "GMB",
+      "v": 0.0013
+     },
+     {
+      "c": "ETH",
+      "v": 0.0013
+     },
+     {
+      "c": "AGO",
+      "v": 0.0013
+     },
+     {
+      "c": "SYC",
+      "v": 0.001
+     },
+     {
+      "c": "LUX",
+      "v": 0.0009
+     },
+     {
+      "c": "UGA",
+      "v": 0.0009
+     },
+     {
+      "c": "KHM",
+      "v": 0.0008
+     },
+     {
+      "c": "AND",
+      "v": 0.0008
+     },
+     {
+      "c": "FIN",
+      "v": 0.0007
+     },
+     {
+      "c": "SLV",
+      "v": 0.0005
+     }
+    ],
+    "n": "CEPII BACI HS92 sunflower-seed or safflower oil, crude and other (HS 151211, 151219), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "sunflower-meal-exports",
+   "title": "Sunflower meal exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 11.501,
+    "rows": [
+     {
+      "c": "UKR",
+      "v": 4.452
+     },
+     {
+      "c": "RUS",
+      "v": 2.056
+     },
+     {
+      "c": "ARG",
+      "v": 1.022
+     },
+     {
+      "c": "HUN",
+      "v": 0.6757
+     },
+     {
+      "c": "BGR",
+      "v": 0.488
+     },
+     {
+      "c": "NLD",
+      "v": 0.3768
+     },
+     {
+      "c": "KAZ",
+      "v": 0.3508
+     },
+     {
+      "c": "ROU",
+      "v": 0.3064
+     },
+     {
+      "c": "TZA",
+      "v": 0.2012
+     },
+     {
+      "c": "LVA",
+      "v": 0.1926
+     },
+     {
+      "c": "ESP",
+      "v": 0.1008
+     },
+     {
+      "c": "FRA",
+      "v": 0.0959
+     },
+     {
+      "c": "BOL",
+      "v": 0.0948
+     },
+     {
+      "c": "SVN",
+      "v": 0.0943
+     },
+     {
+      "c": "BEL",
+      "v": 0.088
+     },
+     {
+      "c": "SRB",
+      "v": 0.086
+     },
+     {
+      "c": "CYP",
+      "v": 0.0768
+     },
+     {
+      "c": "CZE",
+      "v": 0.0748
+     },
+     {
+      "c": "DEU",
+      "v": 0.0731
+     },
+     {
+      "c": "MDA",
+      "v": 0.0708
+     },
+     {
+      "c": "LTU",
+      "v": 0.0668
+     },
+     {
+      "c": "POL",
+      "v": 0.0571
+     },
+     {
+      "c": "EST",
+      "v": 0.0508
+     },
+     {
+      "c": "TUR",
+      "v": 0.0492
+     },
+     {
+      "c": "USA",
+      "v": 0.0358
+     },
+     {
+      "c": "BIH",
+      "v": 0.0311
+     },
+     {
+      "c": "AUT",
+      "v": 0.0255
+     },
+     {
+      "c": "IRL",
+      "v": 0.0222
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0211
+     },
+     {
+      "c": "GBR",
+      "v": 0.0191
+     },
+     {
+      "c": "BLR",
+      "v": 0.0182
+     },
+     {
+      "c": "HRV",
+      "v": 0.0174
+     },
+     {
+      "c": "PRT",
+      "v": 0.017
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0158
+     },
+     {
+      "c": "ITA",
+      "v": 0.0153
+     },
+     {
+      "c": "CHE",
+      "v": 0.0143
+     },
+     {
+      "c": "LUX",
+      "v": 0.0139
+     },
+     {
+      "c": "MWI",
+      "v": 0.0065
+     },
+     {
+      "c": "ARE",
+      "v": 0.0056
+     },
+     {
+      "c": "GRC",
+      "v": 0.0047
+     },
+     {
+      "c": "UGA",
+      "v": 0.0043
+     },
+     {
+      "c": "DNK",
+      "v": 0.0034
+     },
+     {
+      "c": "CHN",
+      "v": 0.0021
+     },
+     {
+      "c": "SVK",
+      "v": 0.0017
+     },
+     {
+      "c": "ISR",
+      "v": 0.0017
+     },
+     {
+      "c": "SWE",
+      "v": 0.0014
+     },
+     {
+      "c": "BRA",
+      "v": 0.0013
+     }
+    ],
+    "n": "CEPII BACI HS92 oil-cake and other solid residues of sunflower seed oil extraction (HS 230630), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "sunflower-meal-imports",
+   "title": "Sunflower meal importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 11.501,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 2.139
+     },
+     {
+      "c": "TUR",
+      "v": 1.515
+     },
+     {
+      "c": "FRA",
+      "v": 0.9065
+     },
+     {
+      "c": "NLD",
+      "v": 0.8536
+     },
+     {
+      "c": "ITA",
+      "v": 0.8026
+     },
+     {
+      "c": "POL",
+      "v": 0.6354
+     },
+     {
+      "c": "DEU",
+      "v": 0.5199
+     },
+     {
+      "c": "MAR",
+      "v": 0.4998
+     },
+     {
+      "c": "GBR",
+      "v": 0.3694
+     },
+     {
+      "c": "ISR",
+      "v": 0.2686
+     },
+     {
+      "c": "LVA",
+      "v": 0.2463
+     },
+     {
+      "c": "ESP",
+      "v": 0.2224
+     },
+     {
+      "c": "BEL",
+      "v": 0.2103
+     },
+     {
+      "c": "EGY",
+      "v": 0.1822
+     },
+     {
+      "c": "UZB",
+      "v": 0.1623
+     },
+     {
+      "c": "LTU",
+      "v": 0.1557
+     },
+     {
+      "c": "KEN",
+      "v": 0.146
+     },
+     {
+      "c": "DNK",
+      "v": 0.1432
+     },
+     {
+      "c": "IRL",
+      "v": 0.1146
+     },
+     {
+      "c": "IND",
+      "v": 0.1029
+     },
+     {
+      "c": "NOR",
+      "v": 0.0697
+     },
+     {
+      "c": "GRC",
+      "v": 0.0671
+     },
+     {
+      "c": "AUT",
+      "v": 0.0643
+     },
+     {
+      "c": "CYP",
+      "v": 0.0612
+     },
+     {
+      "c": "ROU",
+      "v": 0.0592
+     },
+     {
+      "c": "COL",
+      "v": 0.0561
+     },
+     {
+      "c": "NZL",
+      "v": 0.0509
+     },
+     {
+      "c": "URY",
+      "v": 0.0442
+     },
+     {
+      "c": "HRV",
+      "v": 0.0436
+     },
+     {
+      "c": "CHL",
+      "v": 0.0432
+     },
+     {
+      "c": "SVK",
+      "v": 0.0417
+     },
+     {
+      "c": "VNM",
+      "v": 0.0392
+     },
+     {
+      "c": "THA",
+      "v": 0.0375
+     },
+     {
+      "c": "TJK",
+      "v": 0.0352
+     },
+     {
+      "c": "CZE",
+      "v": 0.035
+     },
+     {
+      "c": "IRN",
+      "v": 0.0348
+     },
+     {
+      "c": "AZE",
+      "v": 0.0333
+     },
+     {
+      "c": "SWE",
+      "v": 0.0324
+     },
+     {
+      "c": "HUN",
+      "v": 0.0315
+     },
+     {
+      "c": "PRT",
+      "v": 0.0305
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0302
+     },
+     {
+      "c": "PER",
+      "v": 0.0287
+     },
+     {
+      "c": "CHE",
+      "v": 0.0261
+     },
+     {
+      "c": "USA",
+      "v": 0.0259
+     },
+     {
+      "c": "GEO",
+      "v": 0.0253
+     },
+     {
+      "c": "EST",
+      "v": 0.0228
+     },
+     {
+      "c": "SVN",
+      "v": 0.0227
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0219
+     },
+     {
+      "c": "BIH",
+      "v": 0.0212
+     },
+     {
+      "c": "ARM",
+      "v": 0.0195
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0178
+     },
+     {
+      "c": "SRB",
+      "v": 0.0132
+     },
+     {
+      "c": "ARE",
+      "v": 0.0128
+     },
+     {
+      "c": "CAN",
+      "v": 0.0117
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0105
+     },
+     {
+      "c": "TUN",
+      "v": 0.01
+     },
+     {
+      "c": "BWA",
+      "v": 0.0091
+     },
+     {
+      "c": "UKR",
+      "v": 0.0066
+     },
+     {
+      "c": "MKD",
+      "v": 0.0057
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0056
+     },
+     {
+      "c": "BGR",
+      "v": 0.0049
+     },
+     {
+      "c": "KHM",
+      "v": 0.0047
+     },
+     {
+      "c": "MYS",
+      "v": 0.0045
+     },
+     {
+      "c": "ALB",
+      "v": 0.0042
+     },
+     {
+      "c": "RWA",
+      "v": 0.004
+     },
+     {
+      "c": "MMR",
+      "v": 0.0037
+     },
+     {
+      "c": "FIN",
+      "v": 0.0032
+     },
+     {
+      "c": "MNE",
+      "v": 0.0029
+     },
+     {
+      "c": "IRQ",
+      "v": 0.0029
+     },
+     {
+      "c": "NAM",
+      "v": 0.0025
+     },
+     {
+      "c": "MWI",
+      "v": 0.0015
+     },
+     {
+      "c": "SYR",
+      "v": 0.0014
+     },
+     {
+      "c": "IDN",
+      "v": 0.0012
+     },
+     {
+      "c": "JOR",
+      "v": 0.0012
+     },
+     {
+      "c": "MLT",
+      "v": 0.0011
+     },
+     {
+      "c": "HKG",
+      "v": 0.0011
+     },
+     {
+      "c": "AFG",
+      "v": 0.0011
+     },
+     {
+      "c": "BGD",
+      "v": 0.0011
+     }
+    ],
+    "n": "CEPII BACI HS92 oil-cake and other solid residues of sunflower seed oil extraction (HS 230630), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "sunflower-oil-production",
+   "title": "Sunflower oil producers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 23.75,
+    "rows": [
+     {
+      "c": "RUS",
+      "v": 7.558
+     },
+     {
+      "c": "UKR",
+      "v": 5.418
+     },
+     {
+      "c": "EU27",
+      "v": 3.846
+     },
+     {
+      "c": "ARG",
+      "v": 2.674
+     },
+     {
+      "c": "KAZ",
+      "v": 1.132
+     },
+     {
+      "c": "TUR",
+      "v": 1.077
+     },
+     {
+      "c": "ZAF",
+      "v": 0.417
+     },
+     {
+      "c": "CHN",
+      "v": 0.264
+     },
+     {
+      "c": "SRB",
+      "v": 0.222
+     },
+     {
+      "c": "MDA",
+      "v": 0.196
+     },
+     {
+      "c": "USA",
+      "v": 0.181
+     },
+     {
+      "c": "BOL",
+      "v": 0.156
+     },
+     {
+      "c": "MMR",
+      "v": 0.131
+     },
+     {
+      "c": "BLR",
+      "v": 0.073
+     },
+     {
+      "c": "PAK",
+      "v": 0.05
+     },
+     {
+      "c": "BRA",
+      "v": 0.045
+     },
+     {
+      "c": "BIH",
+      "v": 0.042
+     },
+     {
+      "c": "UZB",
+      "v": 0.042
+     },
+     {
+      "c": "IND",
+      "v": 0.038
+     },
+     {
+      "c": "IRN",
+      "v": 0.027
+     },
+     {
+      "c": "EGY",
+      "v": 0.025
+     },
+     {
+      "c": "GEO",
+      "v": 0.023
+     },
+     {
+      "c": "MAR",
+      "v": 0.018
+     },
+     {
+      "c": "AUS",
+      "v": 0.016
+     },
+     {
+      "c": "URY",
+      "v": 0.016
+     },
+     {
+      "c": "PRY",
+      "v": 0.015
+     },
+     {
+      "c": "GBR",
+      "v": 0.014
+     },
+     {
+      "c": "CHE",
+      "v": 0.009
+     },
+     {
+      "c": "GTM",
+      "v": 0.007
+     },
+     {
+      "c": "ISR",
+      "v": 0.006
+     },
+     {
+      "c": "MKD",
+      "v": 0.005
+     },
+     {
+      "c": "LBN",
+      "v": 0.004
+     },
+     {
+      "c": "CHL",
+      "v": 0.003
+     }
+    ],
+    "n": "USDA PSD, Oil, Sunflowerseed, sunflower oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "sunflower-oil-consumption",
+   "title": "Sunflower oil consumers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 21.766,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 5.488
+     },
+     {
+      "c": "IND",
+      "v": 3.63
+     },
+     {
+      "c": "RUS",
+      "v": 2.7
+     },
+     {
+      "c": "TUR",
+      "v": 1.415
+     },
+     {
+      "c": "CHN",
+      "v": 1.411
+     },
+     {
+      "c": "IRN",
+      "v": 0.975
+     },
+     {
+      "c": "EGY",
+      "v": 0.65
+     },
+     {
+      "c": "IRQ",
+      "v": 0.625
+     },
+     {
+      "c": "ARG",
+      "v": 0.567
+     },
+     {
+      "c": "UKR",
+      "v": 0.47
+     },
+     {
+      "c": "ZAF",
+      "v": 0.445
+     },
+     {
+      "c": "UZB",
+      "v": 0.345
+     },
+     {
+      "c": "USA",
+      "v": 0.335
+     },
+     {
+      "c": "KAZ",
+      "v": 0.28
+     },
+     {
+      "c": "GBR",
+      "v": 0.268
+     },
+     {
+      "c": "SAU",
+      "v": 0.18
+     },
+     {
+      "c": "LBN",
+      "v": 0.17
+     },
+     {
+      "c": "MMR",
+      "v": 0.136
+     },
+     {
+      "c": "SYR",
+      "v": 0.13
+     },
+     {
+      "c": "CHL",
+      "v": 0.12
+     },
+     {
+      "c": "BLR",
+      "v": 0.115
+     },
+     {
+      "c": "LBY",
+      "v": 0.1
+     },
+     {
+      "c": "MAR",
+      "v": 0.09
+     },
+     {
+      "c": "SRB",
+      "v": 0.085
+     },
+     {
+      "c": "AUS",
+      "v": 0.08
+     },
+     {
+      "c": "BRA",
+      "v": 0.08
+     },
+     {
+      "c": "GEO",
+      "v": 0.078
+     },
+     {
+      "c": "ISR",
+      "v": 0.075
+     },
+     {
+      "c": "JOR",
+      "v": 0.075
+     },
+     {
+      "c": "COL",
+      "v": 0.064
+     },
+     {
+      "c": "CHE",
+      "v": 0.059
+     },
+     {
+      "c": "CAN",
+      "v": 0.056
+     },
+     {
+      "c": "MDA",
+      "v": 0.056
+     },
+     {
+      "c": "DZA",
+      "v": 0.055
+     },
+     {
+      "c": "PAK",
+      "v": 0.05
+     },
+     {
+      "c": "BIH",
+      "v": 0.047
+     },
+     {
+      "c": "PER",
+      "v": 0.04
+     },
+     {
+      "c": "MKD",
+      "v": 0.038
+     },
+     {
+      "c": "URY",
+      "v": 0.034
+     },
+     {
+      "c": "MEX",
+      "v": 0.025
+     },
+     {
+      "c": "TWN",
+      "v": 0.025
+     },
+     {
+      "c": "PRY",
+      "v": 0.023
+     },
+     {
+      "c": "CUB",
+      "v": 0.02
+     },
+     {
+      "c": "JPN",
+      "v": 0.017
+     },
+     {
+      "c": "NOR",
+      "v": 0.013
+     },
+     {
+      "c": "BOL",
+      "v": 0.01
+     },
+     {
+      "c": "GTM",
+      "v": 0.01
+     },
+     {
+      "c": "VEN",
+      "v": 0.006
+     }
+    ],
+    "n": "USDA PSD, Oil, Sunflowerseed, sunflower oil domestic consumption, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "sunflower-meal-production",
+   "title": "Sunflower meal producers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 25.025,
+    "rows": [
+     {
+      "c": "RUS",
+      "v": 7.519
+     },
+     {
+      "c": "UKR",
+      "v": 5.204
+     },
+     {
+      "c": "EU27",
+      "v": 4.918
+     },
+     {
+      "c": "ARG",
+      "v": 2.69
+     },
+     {
+      "c": "TUR",
+      "v": 1.347
+     },
+     {
+      "c": "KAZ",
+      "v": 1.104
+     },
+     {
+      "c": "ZAF",
+      "v": 0.425
+     },
+     {
+      "c": "CHN",
+      "v": 0.401
+     },
+     {
+      "c": "SRB",
+      "v": 0.224
+     },
+     {
+      "c": "USA",
+      "v": 0.22
+     },
+     {
+      "c": "MDA",
+      "v": 0.2
+     },
+     {
+      "c": "BOL",
+      "v": 0.157
+     },
+     {
+      "c": "MMR",
+      "v": 0.128
+     },
+     {
+      "c": "BLR",
+      "v": 0.084
+     },
+     {
+      "c": "PAK",
+      "v": 0.053
+     },
+     {
+      "c": "IND",
+      "v": 0.049
+     },
+     {
+      "c": "BIH",
+      "v": 0.046
+     },
+     {
+      "c": "BRA",
+      "v": 0.045
+     },
+     {
+      "c": "UZB",
+      "v": 0.045
+     },
+     {
+      "c": "IRN",
+      "v": 0.034
+     },
+     {
+      "c": "EGY",
+      "v": 0.032
+     },
+     {
+      "c": "MAR",
+      "v": 0.02
+     },
+     {
+      "c": "AUS",
+      "v": 0.017
+     },
+     {
+      "c": "PRY",
+      "v": 0.014
+     },
+     {
+      "c": "GBR",
+      "v": 0.014
+     },
+     {
+      "c": "URY",
+      "v": 0.013
+     },
+     {
+      "c": "CHE",
+      "v": 0.008
+     },
+     {
+      "c": "ISR",
+      "v": 0.006
+     },
+     {
+      "c": "MKD",
+      "v": 0.005
+     },
+     {
+      "c": "CHL",
+      "v": 0.003
+     }
+    ],
+    "n": "USDA PSD, Meal, Sunflowerseed, sunflower meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "sunflower-meal-consumption",
+   "title": "Sunflower meal consumers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 23.685,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 6.66
+     },
+     {
+      "c": "RUS",
+      "v": 4.85
+     },
+     {
+      "c": "CHN",
+      "v": 3.391
+     },
+     {
+      "c": "TUR",
+      "v": 2.3
+     },
+     {
+      "c": "UKR",
+      "v": 1.875
+     },
+     {
+      "c": "ARG",
+      "v": 0.65
+     },
+     {
+      "c": "BLR",
+      "v": 0.53
+     },
+     {
+      "c": "MAR",
+      "v": 0.52
+     },
+     {
+      "c": "GBR",
+      "v": 0.44
+     },
+     {
+      "c": "ZAF",
+      "v": 0.375
+     },
+     {
+      "c": "KAZ",
+      "v": 0.25
+     },
+     {
+      "c": "USA",
+      "v": 0.207
+     },
+     {
+      "c": "UZB",
+      "v": 0.19
+     },
+     {
+      "c": "EGY",
+      "v": 0.18
+     },
+     {
+      "c": "SRB",
+      "v": 0.17
+     },
+     {
+      "c": "ISR",
+      "v": 0.146
+     },
+     {
+      "c": "MMR",
+      "v": 0.138
+     },
+     {
+      "c": "IND",
+      "v": 0.124
+     },
+     {
+      "c": "IRN",
+      "v": 0.099
+     },
+     {
+      "c": "URY",
+      "v": 0.073
+     },
+     {
+      "c": "NOR",
+      "v": 0.07
+     },
+     {
+      "c": "MDA",
+      "v": 0.065
+     },
+     {
+      "c": "CHL",
+      "v": 0.058
+     },
+     {
+      "c": "PAK",
+      "v": 0.053
+     },
+     {
+      "c": "BRA",
+      "v": 0.045
+     },
+     {
+      "c": "CHE",
+      "v": 0.038
+     },
+     {
+      "c": "BIH",
+      "v": 0.035
+     },
+     {
+      "c": "BOL",
+      "v": 0.03
+     },
+     {
+      "c": "PER",
+      "v": 0.03
+     },
+     {
+      "c": "THA",
+      "v": 0.03
+     },
+     {
+      "c": "PRY",
+      "v": 0.019
+     },
+     {
+      "c": "AUS",
+      "v": 0.017
+     },
+     {
+      "c": "MKD",
+      "v": 0.015
+     },
+     {
+      "c": "CAN",
+      "v": 0.012
+     }
+    ],
+    "n": "USDA PSD, Meal, Sunflowerseed, sunflower meal domestic consumption, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 4.496,
+    "rows": [
+     {
+      "c": "RUS",
+      "v": 1.737
+     },
+     {
+      "c": "ARG",
+      "v": 0.933
+     },
+     {
+      "c": "EU27",
+      "v": 0.589
+     },
+     {
+      "c": "UKR",
+      "v": 0.353
+     },
+     {
+      "c": "CHN",
+      "v": 0.223
+     },
+     {
+      "c": "TUR",
+      "v": 0.164
+     },
+     {
+      "c": "USA",
+      "v": 0.155
+     },
+     {
+      "c": "KAZ",
+      "v": 0.079
+     },
+     {
+      "c": "ZAF",
+      "v": 0.06
+     },
+     {
+      "c": "MDA",
+      "v": 0.051
+     },
+     {
+      "c": "SRB",
+      "v": 0.045
+     },
+     {
+      "c": "CAN",
+      "v": 0.023
+     },
+     {
+      "c": "BOL",
+      "v": 0.019
+     },
+     {
+      "c": "PAK",
+      "v": 0.016
+     },
+     {
+      "c": "EGY",
+      "v": 0.012
+     },
+     {
+      "c": "IRN",
+      "v": 0.01
+     },
+     {
+      "c": "UZB",
+      "v": 0.009
+     },
+     {
+      "c": "CHL",
+      "v": 0.007
+     },
+     {
+      "c": "BIH",
+      "v": 0.005
+     },
+     {
+      "c": "MEX",
+      "v": 0.005
+     },
+     {
+      "c": "MMR",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Oilseed, Sunflowerseed, sunflower seed ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  }
+ ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "area",
+    "label": "Harvested area",
+    "u": "Mha",
+    "v": [
+     30.269,
+     33.093
+    ]
+   },
+   {
+    "k": "yield",
+    "label": "Yield",
+    "u": "t/ha",
+    "v": [
+     1.83,
+     1.91
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: world production divided by world harvested area, both as USDA PSD publishes them"
+   },
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     55.34,
+     63.164
+    ]
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     2.55,
+     3.093
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     54.857,
+     61.359
+    ]
+   },
+   {
+    "k": "use-Crush",
+    "label": "Crush",
+    "u": "Mt",
+    "v": [
+     49.991,
+     56.18
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Feed Waste Dom. Cons.",
+    "label": "Feed and waste use",
+    "u": "Mt",
+    "v": [
+     2.856,
+     3.019
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-Food Use Dom. Cons.",
+    "label": "Food use",
+    "u": "Mt",
+    "v": [
+     2.01,
+     2.16
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     4.32,
+     3.891
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     3.093,
+     4.496
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     5.6,
+     7.3
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     0.183,
+     0.223
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     2.91,
+     4.273
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     11.6,
+     13.0
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     5.5,
+     7.2
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Oilseed, Sunflowerseed: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+ },
+ "flows": [
+  {
+   "o": "ROU",
+   "d": "BGR",
+   "v": 0.4727,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 219434000,
+   "uv": 464,
+   "mode": "land"
+  },
+  {
+   "o": "MDA",
+   "d": "ROU",
+   "v": 0.2887,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 137636000,
+   "uv": 477,
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "ESP",
+   "v": 0.1954,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 115525000,
+   "uv": 591,
+   "mode": "mixed",
+   "lane": "sunflower-seed:FRA-ESP",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
+  },
+  {
+   "o": "ROU",
+   "d": "NLD",
+   "v": 0.193,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 118711000,
+   "uv": 615,
+   "mode": "sea",
+   "lane": "sunflower-seed:ROU-NLD"
+  },
+  {
+   "o": "RUS",
+   "d": "KAZ",
+   "v": 0.1795,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 61142000,
+   "uv": 341,
+   "mode": "land"
+  },
+  {
+   "o": "BGR",
+   "d": "NLD",
+   "v": 0.1496,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 93135000,
+   "uv": 623,
+   "mode": "sea",
+   "lane": "sunflower-seed:BGR-NLD"
+  },
+  {
+   "o": "ROU",
+   "d": "PRT",
+   "v": 0.1456,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 71946000,
+   "uv": 494,
+   "mode": "sea",
+   "lane": "sunflower-seed:ROU-PRT"
+  },
+  {
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 0.1427,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 72776000,
+   "uv": 510,
+   "mode": "land"
+  },
+  {
+   "o": "MDA",
+   "d": "TUR",
+   "v": 0.1327,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 64771000,
+   "uv": 488,
+   "mode": "land"
+  },
+  {
+   "o": "ROU",
+   "d": "HUN",
+   "v": 0.1098,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 62182000,
+   "uv": 566,
+   "mode": "land"
+  },
+  {
+   "o": "SVK",
+   "d": "CZE",
+   "v": 0.1079,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 44690000,
+   "uv": 414,
+   "mode": "land"
+  },
+  {
+   "o": "MDA",
+   "d": "BGR",
+   "v": 0.105,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 67914000,
+   "uv": 647,
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "BEL",
+   "v": 0.1019,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 50042000,
+   "uv": 491,
+   "mode": "land"
+  },
+  {
+   "o": "HUN",
+   "d": "ITA",
+   "v": 0.0997,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 37195000,
+   "uv": 373,
+   "mode": "land"
+  },
+  {
+   "o": "ROU",
+   "d": "FRA",
+   "v": 0.0986,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 59663000,
+   "uv": 605,
+   "mode": "sea",
+   "lane": "sunflower-seed:ROU-FRA"
+  },
+  {
+   "o": "FRA",
+   "d": "DEU",
+   "v": 0.0897,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 49530000,
+   "uv": 552,
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "RUS",
+   "v": 0.0871,
+   "u": "Mt",
+   "y": 2024,
+   "s": "atlas",
+   "usd": 112313000,
+   "mode": "sea",
+   "lane": "sunflower-seed:FRA-RUS",
+   "est": true,
+   "n": "Atlas estimate: CEPII BACI reports 292 t for USD 112 million, a unit value more than 100 times the 2024 median unit value of sunflower seed; tonnage = declared value divided by the 2024 median unit value of sunflower seed, 1,289 USD/t"
+  },
+  {
+   "o": "FRA",
+   "d": "NLD",
+   "v": 0.0838,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 35285000,
+   "uv": 421,
+   "mode": "sea",
+   "lane": "sunflower-seed:FRA-NLD"
+  },
+  {
+   "o": "HUN",
+   "d": "AUT",
+   "v": 0.0802,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 37945000,
+   "uv": 473,
+   "mode": "land"
+  },
+  {
+   "o": "BGR",
+   "d": "DEU",
+   "v": 0.0779,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 69858000,
+   "uv": 897,
+   "mode": "sea",
+   "lane": "sunflower-seed:BGR-DEU"
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.323
+   },
+   "top3": 0.6827,
+   "hhi": 1909,
+   "eq": 5.2,
+   "k": 30,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "ARG",
+    "p": 0.2313
+   },
+   "top3": 0.5397,
+   "hhi": 1468,
+   "eq": 6.8,
+   "k": 19,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.3439
+   },
+   "top3": 0.6807,
+   "hhi": 2114,
+   "eq": 4.7,
+   "k": 34,
+   "cov": 1.0
+  },
+  "sunflower-oil-exports": {
+   "top1": {
+    "c": "UKR",
+    "p": 0.3327
+   },
+   "top3": 0.6508,
+   "hhi": 1904,
+   "eq": 5.3,
+   "k": 68,
+   "cov": 1.0
+  },
+  "sunflower-oil-imports": {
+   "top1": {
+    "c": "IND",
+    "p": 0.1909
+   },
+   "top3": 0.329,
+   "hhi": 629,
+   "eq": 15.9,
+   "k": 140,
+   "cov": 1.0
+  },
+  "sunflower-meal-exports": {
+   "top1": {
+    "c": "UKR",
+    "p": 0.3871
+   },
+   "top3": 0.6547,
+   "hhi": 1990,
+   "eq": 5.0,
+   "k": 47,
+   "cov": 0.9999
+  },
+  "sunflower-meal-imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.186
+   },
+   "top3": 0.3965,
+   "hhi": 798,
+   "eq": 12.5,
+   "k": 78,
+   "cov": 1.0
+  },
+  "sunflower-oil-production": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.3182
+   },
+   "top3": 0.7083,
+   "hhi": 1973,
+   "eq": 5.1,
+   "k": 33,
+   "cov": 1.0
+  },
+  "sunflower-oil-consumption": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2521
+   },
+   "top3": 0.543,
+   "hhi": 1217,
+   "eq": 8.2,
+   "k": 48,
+   "cov": 1.0
+  },
+  "sunflower-meal-production": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.3005
+   },
+   "top3": 0.7049,
+   "hhi": 1894,
+   "eq": 5.3,
+   "k": 30,
+   "cov": 1.0
+  },
+  "sunflower-meal-consumption": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2812
+   },
+   "top3": 0.6291,
+   "hhi": 1601,
+   "eq": 6.2,
+   "k": 34,
+   "cov": 1.0
+  },
+  "stocks": {
+   "top1": {
+    "c": "RUS",
+    "p": 0.3863
+   },
+   "top3": 0.7249,
+   "hhi": 2214,
+   "eq": 4.5,
+   "k": 21,
+   "cov": 1.0
+  }
+ },
+ "see": [
+  {
+   "k": "rapeseed",
+   "text": "the rapeseed and canola seed, oil and meal"
+  }
+ ],
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "The main trade tables are sunflower seed (HS 120600), customs gross weight; oil seed, seed for sowing and snack seed are not told apart in the code. ",
+  "The oil and the meal are two more customs groups, each its own code, gross weight, in none of the totals of another: sunflower-seed or safflower oil (HS 151211, 151219), and sunflower-seed oil-cake and other solid residues (HS 230630). Safflower oil is in the oil code with sunflower oil and customs data do not separate them; the USDA oil table is sunflower oil only.",
+  "Sunflower and safflower oil (HS 151211, 151219), 2024 (CEPII BACI): world 17.70 Mt gross weight; top exporters Ukraine 5.89 Mt, Russia 4.59 Mt, Turkey 1.04 Mt.",
+  "Sunflower meal (HS 230630), 2024 (CEPII BACI): world 11.50 Mt gross weight; top exporters Ukraine 4.45 Mt, Russia 2.06 Mt, Argentina 1.02 Mt.",
+  "Production and domestic use of the oil and the meal are USDA PSD tables of marketing years (the Oil and Meal commodities of the file), shown under the seed's; the world balance (area, stocks) is the seed's. Customs tonnage of the oil and the meal is a calendar year, so the two sources differ in year and basis.",
+  "The price series is the oil's, not the seed's or the meal's: the Pink Sheet gives sunflower oil only; there is no free series for the seed or the meal."
+ ],
+ "discrepancies": [
+  "World exports: USDA PSD 2025/26 4.3 Mt (sum of reporting countries, EU excl. intra-trade) vs BACI 2024 5.4 Mt (-20%); different year and basis (marketing year vs calendar year; BACI includes intra-EU trade, PSD does not); the tables show USDA PSD."
+ ]
+}

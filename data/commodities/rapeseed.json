@@ -893,6 +893,1542 @@
    }
   },
   {
+   "key": "rapeseed-oil-exports",
+   "title": "Rapeseed, canola and mustard oil exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 10.393,
+    "rows": [
+     {
+      "c": "CAN",
+      "v": 3.539
+     },
+     {
+      "c": "DEU",
+      "v": 1.205
+     },
+     {
+      "c": "RUS",
+      "v": 1.166
+     },
+     {
+      "c": "FRA",
+      "v": 0.6273
+     },
+     {
+      "c": "BLR",
+      "v": 0.5004
+     },
+     {
+      "c": "ARE",
+      "v": 0.4893
+     },
+     {
+      "c": "NLD",
+      "v": 0.475
+     },
+     {
+      "c": "BEL",
+      "v": 0.4344
+     },
+     {
+      "c": "CZE",
+      "v": 0.3111
+     },
+     {
+      "c": "UKR",
+      "v": 0.2922
+     },
+     {
+      "c": "AUS",
+      "v": 0.2218
+     },
+     {
+      "c": "DNK",
+      "v": 0.1506
+     },
+     {
+      "c": "POL",
+      "v": 0.1497
+     },
+     {
+      "c": "MYS",
+      "v": 0.0741
+     },
+     {
+      "c": "EST",
+      "v": 0.0717
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0643
+     },
+     {
+      "c": "PRY",
+      "v": 0.0531
+     },
+     {
+      "c": "ROU",
+      "v": 0.0483
+     },
+     {
+      "c": "USA",
+      "v": 0.0434
+     },
+     {
+      "c": "HUN",
+      "v": 0.043
+     },
+     {
+      "c": "AUT",
+      "v": 0.0418
+     },
+     {
+      "c": "ESP",
+      "v": 0.0335
+     },
+     {
+      "c": "GBR",
+      "v": 0.0321
+     },
+     {
+      "c": "SVK",
+      "v": 0.0321
+     },
+     {
+      "c": "BGR",
+      "v": 0.0316
+     },
+     {
+      "c": "URY",
+      "v": 0.0292
+     },
+     {
+      "c": "SWE",
+      "v": 0.0283
+     },
+     {
+      "c": "LVA",
+      "v": 0.0275
+     },
+     {
+      "c": "CHN",
+      "v": 0.0212
+     },
+     {
+      "c": "SRB",
+      "v": 0.0201
+     },
+     {
+      "c": "LTU",
+      "v": 0.0181
+     },
+     {
+      "c": "HRV",
+      "v": 0.0145
+     },
+     {
+      "c": "ITA",
+      "v": 0.0115
+     },
+     {
+      "c": "TUR",
+      "v": 0.0095
+     },
+     {
+      "c": "SGP",
+      "v": 0.0085
+     },
+     {
+      "c": "FIN",
+      "v": 0.0077
+     },
+     {
+      "c": "BIH",
+      "v": 0.0077
+     },
+     {
+      "c": "PRT",
+      "v": 0.0075
+     },
+     {
+      "c": "SVN",
+      "v": 0.0061
+     },
+     {
+      "c": "CHE",
+      "v": 0.0054
+     },
+     {
+      "c": "IND",
+      "v": 0.005
+     },
+     {
+      "c": "ARG",
+      "v": 0.005
+     },
+     {
+      "c": "CHL",
+      "v": 0.0049
+     },
+     {
+      "c": "GRC",
+      "v": 0.0039
+     },
+     {
+      "c": "JPN",
+      "v": 0.0038
+     },
+     {
+      "c": "IRL",
+      "v": 0.0034
+     },
+     {
+      "c": "BGD",
+      "v": 0.0028
+     },
+     {
+      "c": "MEX",
+      "v": 0.0023
+     },
+     {
+      "c": "PAK",
+      "v": 0.0021
+     },
+     {
+      "c": "HKG",
+      "v": 0.0019
+     },
+     {
+      "c": "SAU",
+      "v": 0.0012
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0012
+     },
+     {
+      "c": "CYP",
+      "v": 0.001
+     },
+     {
+      "c": "HND",
+      "v": 0.0005
+     }
+    ],
+    "n": "CEPII BACI HS92 rape, colza or mustard oil, crude and other (HS 151410, 151490), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "rapeseed-oil-imports",
+   "title": "Rapeseed, canola and mustard oil importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 10.393,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 3.441
+     },
+     {
+      "c": "CHN",
+      "v": 1.834
+     },
+     {
+      "c": "NLD",
+      "v": 1.092
+     },
+     {
+      "c": "BEL",
+      "v": 0.547
+     },
+     {
+      "c": "NOR",
+      "v": 0.4732
+     },
+     {
+      "c": "DEU",
+      "v": 0.3998
+     },
+     {
+      "c": "SWE",
+      "v": 0.2249
+     },
+     {
+      "c": "MEX",
+      "v": 0.2106
+     },
+     {
+      "c": "GBR",
+      "v": 0.1771
+     },
+     {
+      "c": "POL",
+      "v": 0.1704
+     },
+     {
+      "c": "AUT",
+      "v": 0.1623
+     },
+     {
+      "c": "ESP",
+      "v": 0.1603
+     },
+     {
+      "c": "FRA",
+      "v": 0.1403
+     },
+     {
+      "c": "KOR",
+      "v": 0.1261
+     },
+     {
+      "c": "ITA",
+      "v": 0.1243
+     },
+     {
+      "c": "LVA",
+      "v": 0.097
+     },
+     {
+      "c": "MYS",
+      "v": 0.0842
+     },
+     {
+      "c": "ISR",
+      "v": 0.0841
+     },
+     {
+      "c": "DNK",
+      "v": 0.0766
+     },
+     {
+      "c": "LTU",
+      "v": 0.0694
+     },
+     {
+      "c": "NZL",
+      "v": 0.0691
+     },
+     {
+      "c": "CHL",
+      "v": 0.0679
+     },
+     {
+      "c": "IRL",
+      "v": 0.0523
+     },
+     {
+      "c": "HUN",
+      "v": 0.05
+     },
+     {
+      "c": "HKG",
+      "v": 0.041
+     },
+     {
+      "c": "SVK",
+      "v": 0.0404
+     },
+     {
+      "c": "FIN",
+      "v": 0.0355
+     },
+     {
+      "c": "PHL",
+      "v": 0.0332
+     },
+     {
+      "c": "CZE",
+      "v": 0.0284
+     },
+     {
+      "c": "TWN",
+      "v": 0.0264
+     },
+     {
+      "c": "EST",
+      "v": 0.0219
+     },
+     {
+      "c": "BGR",
+      "v": 0.0219
+     },
+     {
+      "c": "SGP",
+      "v": 0.0184
+     },
+     {
+      "c": "CAN",
+      "v": 0.0156
+     },
+     {
+      "c": "BRA",
+      "v": 0.0152
+     },
+     {
+      "c": "CHE",
+      "v": 0.0143
+     },
+     {
+      "c": "AUS",
+      "v": 0.0136
+     },
+     {
+      "c": "VNM",
+      "v": 0.0134
+     },
+     {
+      "c": "PAK",
+      "v": 0.0125
+     },
+     {
+      "c": "IDN",
+      "v": 0.0093
+     },
+     {
+      "c": "COL",
+      "v": 0.009
+     },
+     {
+      "c": "SAU",
+      "v": 0.0087
+     },
+     {
+      "c": "GRC",
+      "v": 0.0085
+     },
+     {
+      "c": "JPN",
+      "v": 0.008
+     },
+     {
+      "c": "ARE",
+      "v": 0.0067
+     },
+     {
+      "c": "TUN",
+      "v": 0.0062
+     },
+     {
+      "c": "IND",
+      "v": 0.0062
+     },
+     {
+      "c": "SVN",
+      "v": 0.0046
+     },
+     {
+      "c": "THA",
+      "v": 0.004
+     },
+     {
+      "c": "BIH",
+      "v": 0.0037
+     },
+     {
+      "c": "HRV",
+      "v": 0.0036
+     },
+     {
+      "c": "PRT",
+      "v": 0.0032
+     },
+     {
+      "c": "TUR",
+      "v": 0.003
+     },
+     {
+      "c": "MAC",
+      "v": 0.0027
+     },
+     {
+      "c": "DOM",
+      "v": 0.0026
+     },
+     {
+      "c": "ROU",
+      "v": 0.0021
+     },
+     {
+      "c": "HND",
+      "v": 0.0019
+     },
+     {
+      "c": "ISL",
+      "v": 0.0018
+     },
+     {
+      "c": "TJK",
+      "v": 0.0016
+     },
+     {
+      "c": "GTM",
+      "v": 0.0015
+     },
+     {
+      "c": "ARG",
+      "v": 0.0012
+     },
+     {
+      "c": "KEN",
+      "v": 0.0012
+     },
+     {
+      "c": "MAR",
+      "v": 0.0012
+     },
+     {
+      "c": "EGY",
+      "v": 0.001
+     },
+     {
+      "c": "SLV",
+      "v": 0.0009
+     },
+     {
+      "c": "UKR",
+      "v": 0.0009
+     },
+     {
+      "c": "PAN",
+      "v": 0.0007
+     },
+     {
+      "c": "GUY",
+      "v": 0.0005
+     },
+     {
+      "c": "CRI",
+      "v": 0.0004
+     }
+    ],
+    "n": "CEPII BACI HS92 rape, colza or mustard oil, crude and other (HS 151410, 151490), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "rapeseed-meal-exports",
+   "title": "Rapeseed meal exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 14.475,
+    "rows": [
+     {
+      "c": "CAN",
+      "v": 5.768
+     },
+     {
+      "c": "IND",
+      "v": 1.615
+     },
+     {
+      "c": "DEU",
+      "v": 1.579
+     },
+     {
+      "c": "BEL",
+      "v": 0.7763
+     },
+     {
+      "c": "POL",
+      "v": 0.6921
+     },
+     {
+      "c": "ARE",
+      "v": 0.5583
+     },
+     {
+      "c": "RUS",
+      "v": 0.4095
+     },
+     {
+      "c": "FRA",
+      "v": 0.3961
+     },
+     {
+      "c": "CZE",
+      "v": 0.344
+     },
+     {
+      "c": "NLD",
+      "v": 0.3321
+     },
+     {
+      "c": "UKR",
+      "v": 0.2527
+     },
+     {
+      "c": "ROU",
+      "v": 0.2399
+     },
+     {
+      "c": "LTU",
+      "v": 0.1409
+     },
+     {
+      "c": "BLR",
+      "v": 0.1351
+     },
+     {
+      "c": "BGR",
+      "v": 0.1259
+     },
+     {
+      "c": "DNK",
+      "v": 0.1031
+     },
+     {
+      "c": "GRC",
+      "v": 0.0978
+     },
+     {
+      "c": "LVA",
+      "v": 0.0928
+     },
+     {
+      "c": "AUT",
+      "v": 0.0687
+     },
+     {
+      "c": "SVK",
+      "v": 0.0632
+     },
+     {
+      "c": "CYP",
+      "v": 0.0619
+     },
+     {
+      "c": "LUX",
+      "v": 0.0531
+     },
+     {
+      "c": "CHE",
+      "v": 0.0511
+     },
+     {
+      "c": "HUN",
+      "v": 0.049
+     },
+     {
+      "c": "ESP",
+      "v": 0.0488
+     },
+     {
+      "c": "FIN",
+      "v": 0.0475
+     },
+     {
+      "c": "KAZ",
+      "v": 0.047
+     },
+     {
+      "c": "AUS",
+      "v": 0.0429
+     },
+     {
+      "c": "GBR",
+      "v": 0.0418
+     },
+     {
+      "c": "SWE",
+      "v": 0.0368
+     },
+     {
+      "c": "EST",
+      "v": 0.0326
+     },
+     {
+      "c": "PRY",
+      "v": 0.0283
+     },
+     {
+      "c": "IRL",
+      "v": 0.0216
+     },
+     {
+      "c": "PRT",
+      "v": 0.0193
+     },
+     {
+      "c": "NPL",
+      "v": 0.0173
+     },
+     {
+      "c": "SVN",
+      "v": 0.0134
+     },
+     {
+      "c": "CHN",
+      "v": 0.0125
+     },
+     {
+      "c": "ITA",
+      "v": 0.0115
+     },
+     {
+      "c": "SRB",
+      "v": 0.0103
+     },
+     {
+      "c": "BIH",
+      "v": 0.0065
+     },
+     {
+      "c": "SGP",
+      "v": 0.0059
+     },
+     {
+      "c": "USA",
+      "v": 0.0052
+     },
+     {
+      "c": "TUR",
+      "v": 0.0043
+     },
+     {
+      "c": "JPN",
+      "v": 0.0042
+     },
+     {
+      "c": "HRV",
+      "v": 0.004
+     },
+     {
+      "c": "ARG",
+      "v": 0.0036
+     },
+     {
+      "c": "BRA",
+      "v": 0.0022
+     },
+     {
+      "c": "NGA",
+      "v": 0.0016
+     }
+    ],
+    "n": "CEPII BACI HS92 oil-cake and other solid residues of rape or colza seed oil extraction (HS 230640), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "rapeseed-meal-imports",
+   "title": "Rapeseed meal importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 14.475,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 3.773
+     },
+     {
+      "c": "CHN",
+      "v": 2.678
+     },
+     {
+      "c": "NLD",
+      "v": 0.9436
+     },
+     {
+      "c": "ESP",
+      "v": 0.751
+     },
+     {
+      "c": "DEU",
+      "v": 0.703
+     },
+     {
+      "c": "FRA",
+      "v": 0.6435
+     },
+     {
+      "c": "BGD",
+      "v": 0.4872
+     },
+     {
+      "c": "DNK",
+      "v": 0.4452
+     },
+     {
+      "c": "KOR",
+      "v": 0.4328
+     },
+     {
+      "c": "THA",
+      "v": 0.3947
+     },
+     {
+      "c": "GBR",
+      "v": 0.3607
+     },
+     {
+      "c": "ISR",
+      "v": 0.3402
+     },
+     {
+      "c": "FIN",
+      "v": 0.2521
+     },
+     {
+      "c": "VNM",
+      "v": 0.2263
+     },
+     {
+      "c": "NOR",
+      "v": 0.2132
+     },
+     {
+      "c": "IRL",
+      "v": 0.2024
+     },
+     {
+      "c": "SWE",
+      "v": 0.1668
+     },
+     {
+      "c": "AUT",
+      "v": 0.1358
+     },
+     {
+      "c": "CHE",
+      "v": 0.12
+     },
+     {
+      "c": "HUN",
+      "v": 0.1103
+     },
+     {
+      "c": "PRT",
+      "v": 0.0989
+     },
+     {
+      "c": "TUR",
+      "v": 0.0977
+     },
+     {
+      "c": "ITA",
+      "v": 0.0891
+     },
+     {
+      "c": "POL",
+      "v": 0.0867
+     },
+     {
+      "c": "CZE",
+      "v": 0.0814
+     },
+     {
+      "c": "BEL",
+      "v": 0.0801
+     },
+     {
+      "c": "LTU",
+      "v": 0.0759
+     },
+     {
+      "c": "LVA",
+      "v": 0.0604
+     },
+     {
+      "c": "MAR",
+      "v": 0.0443
+     },
+     {
+      "c": "IDN",
+      "v": 0.0364
+     },
+     {
+      "c": "SVN",
+      "v": 0.0349
+     },
+     {
+      "c": "KHM",
+      "v": 0.0338
+     },
+     {
+      "c": "SVK",
+      "v": 0.0311
+     },
+     {
+      "c": "SAU",
+      "v": 0.0258
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0192
+     },
+     {
+      "c": "UZB",
+      "v": 0.0191
+     },
+     {
+      "c": "IND",
+      "v": 0.0173
+     },
+     {
+      "c": "HRV",
+      "v": 0.0157
+     },
+     {
+      "c": "URY",
+      "v": 0.0141
+     },
+     {
+      "c": "EST",
+      "v": 0.014
+     },
+     {
+      "c": "ROU",
+      "v": 0.0125
+     },
+     {
+      "c": "MMR",
+      "v": 0.0125
+     },
+     {
+      "c": "PHL",
+      "v": 0.0123
+     },
+     {
+      "c": "MYS",
+      "v": 0.0088
+     },
+     {
+      "c": "TWN",
+      "v": 0.0082
+     },
+     {
+      "c": "LUX",
+      "v": 0.0074
+     },
+     {
+      "c": "GRC",
+      "v": 0.0069
+     },
+     {
+      "c": "NZL",
+      "v": 0.0069
+     },
+     {
+      "c": "TUN",
+      "v": 0.0062
+     },
+     {
+      "c": "ARE",
+      "v": 0.0061
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0059
+     },
+     {
+      "c": "JPN",
+      "v": 0.0058
+     },
+     {
+      "c": "BGR",
+      "v": 0.0052
+     },
+     {
+      "c": "CAN",
+      "v": 0.0034
+     },
+     {
+      "c": "RUS",
+      "v": 0.0029
+     },
+     {
+      "c": "OMN",
+      "v": 0.0019
+     },
+     {
+      "c": "MEX",
+      "v": 0.0018
+     },
+     {
+      "c": "KWT",
+      "v": 0.0016
+     },
+     {
+      "c": "NER",
+      "v": 0.0016
+     },
+     {
+      "c": "AZE",
+      "v": 0.0013
+     }
+    ],
+    "n": "CEPII BACI HS92 oil-cake and other solid residues of rape or colza seed oil extraction (HS 230640), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "rapeseed-oil-production",
+   "title": "Rapeseed oil producers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 38.248,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 10.836
+     },
+     {
+      "c": "CHN",
+      "v": 7.8
+     },
+     {
+      "c": "CAN",
+      "v": 5.868
+     },
+     {
+      "c": "IND",
+      "v": 4.261
+     },
+     {
+      "c": "RUS",
+      "v": 1.911
+     },
+     {
+      "c": "USA",
+      "v": 0.991
+     },
+     {
+      "c": "JPN",
+      "v": 0.9
+     },
+     {
+      "c": "GBR",
+      "v": 0.742
+     },
+     {
+      "c": "BGD",
+      "v": 0.704
+     },
+     {
+      "c": "UKR",
+      "v": 0.697
+     },
+     {
+      "c": "AUS",
+      "v": 0.623
+     },
+     {
+      "c": "BLR",
+      "v": 0.579
+     },
+     {
+      "c": "PAK",
+      "v": 0.573
+     },
+     {
+      "c": "MEX",
+      "v": 0.54
+     },
+     {
+      "c": "ARE",
+      "v": 0.513
+     },
+     {
+      "c": "KAZ",
+      "v": 0.171
+     },
+     {
+      "c": "IRN",
+      "v": 0.138
+     },
+     {
+      "c": "ZAF",
+      "v": 0.099
+     },
+     {
+      "c": "CHL",
+      "v": 0.069
+     },
+     {
+      "c": "URY",
+      "v": 0.061
+     },
+     {
+      "c": "TUR",
+      "v": 0.06
+     },
+     {
+      "c": "PRY",
+      "v": 0.052
+     },
+     {
+      "c": "CHE",
+      "v": 0.033
+     },
+     {
+      "c": "ETH",
+      "v": 0.018
+     },
+     {
+      "c": "NOR",
+      "v": 0.006
+     },
+     {
+      "c": "KOR",
+      "v": 0.002
+     },
+     {
+      "c": "VNM",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Oil, Rapeseed, rapeseed oil production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "rapeseed-oil-consumption",
+   "title": "Rapeseed oil consumers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 37.732,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 10.75
+     },
+     {
+      "c": "CHN",
+      "v": 9.9
+     },
+     {
+      "c": "USA",
+      "v": 4.687
+     },
+     {
+      "c": "IND",
+      "v": 4.28
+     },
+     {
+      "c": "CAN",
+      "v": 2.04
+     },
+     {
+      "c": "JPN",
+      "v": 0.905
+     },
+     {
+      "c": "GBR",
+      "v": 0.83
+     },
+     {
+      "c": "MEX",
+      "v": 0.78
+     },
+     {
+      "c": "BGD",
+      "v": 0.704
+     },
+     {
+      "c": "PAK",
+      "v": 0.62
+     },
+     {
+      "c": "NOR",
+      "v": 0.52
+     },
+     {
+      "c": "AUS",
+      "v": 0.305
+     },
+     {
+      "c": "RUS",
+      "v": 0.22
+     },
+     {
+      "c": "CHL",
+      "v": 0.17
+     },
+     {
+      "c": "IRN",
+      "v": 0.16
+     },
+     {
+      "c": "KOR",
+      "v": 0.16
+     },
+     {
+      "c": "ZAF",
+      "v": 0.094
+     },
+     {
+      "c": "ISR",
+      "v": 0.08
+     },
+     {
+      "c": "ARE",
+      "v": 0.075
+     },
+     {
+      "c": "NZL",
+      "v": 0.07
+     },
+     {
+      "c": "TUR",
+      "v": 0.06
+     },
+     {
+      "c": "CHE",
+      "v": 0.058
+     },
+     {
+      "c": "IDN",
+      "v": 0.055
+     },
+     {
+      "c": "BLR",
+      "v": 0.04
+     },
+     {
+      "c": "HKG",
+      "v": 0.037
+     },
+     {
+      "c": "TWN",
+      "v": 0.035
+     },
+     {
+      "c": "KAZ",
+      "v": 0.031
+     },
+     {
+      "c": "ETH",
+      "v": 0.019
+     },
+     {
+      "c": "VNM",
+      "v": 0.011
+     },
+     {
+      "c": "MAR",
+      "v": 0.01
+     },
+     {
+      "c": "PRY",
+      "v": 0.007
+     },
+     {
+      "c": "URY",
+      "v": 0.007
+     },
+     {
+      "c": "TUN",
+      "v": 0.006
+     },
+     {
+      "c": "UKR",
+      "v": 0.004
+     },
+     {
+      "c": "ARG",
+      "v": 0.002
+     }
+    ],
+    "n": "USDA PSD, Oil, Rapeseed, rapeseed oil domestic consumption, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "rapeseed-meal-production",
+   "title": "Rapeseed meal producers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 54.687,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 14.706
+     },
+     {
+      "c": "CHN",
+      "v": 11.802
+     },
+     {
+      "c": "CAN",
+      "v": 7.954
+     },
+     {
+      "c": "IND",
+      "v": 6.664
+     },
+     {
+      "c": "RUS",
+      "v": 2.89
+     },
+     {
+      "c": "USA",
+      "v": 1.422
+     },
+     {
+      "c": "JPN",
+      "v": 1.25
+     },
+     {
+      "c": "GBR",
+      "v": 1.027
+     },
+     {
+      "c": "BGD",
+      "v": 0.972
+     },
+     {
+      "c": "UKR",
+      "v": 0.967
+     },
+     {
+      "c": "AUS",
+      "v": 0.87
+     },
+     {
+      "c": "PAK",
+      "v": 0.843
+     },
+     {
+      "c": "BLR",
+      "v": 0.838
+     },
+     {
+      "c": "MEX",
+      "v": 0.779
+     },
+     {
+      "c": "ARE",
+      "v": 0.692
+     },
+     {
+      "c": "KAZ",
+      "v": 0.29
+     },
+     {
+      "c": "IRN",
+      "v": 0.18
+     },
+     {
+      "c": "ZAF",
+      "v": 0.137
+     },
+     {
+      "c": "CHL",
+      "v": 0.094
+     },
+     {
+      "c": "TUR",
+      "v": 0.084
+     },
+     {
+      "c": "URY",
+      "v": 0.076
+     },
+     {
+      "c": "PRY",
+      "v": 0.067
+     },
+     {
+      "c": "CHE",
+      "v": 0.045
+     },
+     {
+      "c": "ETH",
+      "v": 0.024
+     },
+     {
+      "c": "NOR",
+      "v": 0.007
+     },
+     {
+      "c": "KOR",
+      "v": 0.004
+     },
+     {
+      "c": "ARG",
+      "v": 0.001
+     },
+     {
+      "c": "MAR",
+      "v": 0.001
+     },
+     {
+      "c": "VNM",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Meal, Rapeseed, rapeseed meal production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
+   "key": "rapeseed-meal-consumption",
+   "title": "Rapeseed meal consumers",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 54.28,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 14.7
+     },
+     {
+      "c": "CHN",
+      "v": 14.502
+     },
+     {
+      "c": "USA",
+      "v": 5.85
+     },
+     {
+      "c": "IND",
+      "v": 5.32
+     },
+     {
+      "c": "RUS",
+      "v": 1.75
+     },
+     {
+      "c": "CAN",
+      "v": 1.575
+     },
+     {
+      "c": "GBR",
+      "v": 1.47
+     },
+     {
+      "c": "BGD",
+      "v": 1.446
+     },
+     {
+      "c": "JPN",
+      "v": 1.246
+     },
+     {
+      "c": "PAK",
+      "v": 0.83
+     },
+     {
+      "c": "AUS",
+      "v": 0.8
+     },
+     {
+      "c": "MEX",
+      "v": 0.785
+     },
+     {
+      "c": "BLR",
+      "v": 0.545
+     },
+     {
+      "c": "KOR",
+      "v": 0.43
+     },
+     {
+      "c": "THA",
+      "v": 0.4
+     },
+     {
+      "c": "VNM",
+      "v": 0.4
+     },
+     {
+      "c": "TUR",
+      "v": 0.274
+     },
+     {
+      "c": "ISR",
+      "v": 0.27
+     },
+     {
+      "c": "NOR",
+      "v": 0.225
+     },
+     {
+      "c": "UKR",
+      "v": 0.21
+     },
+     {
+      "c": "IRN",
+      "v": 0.18
+     },
+     {
+      "c": "CHE",
+      "v": 0.17
+     },
+     {
+      "c": "ARE",
+      "v": 0.152
+     },
+     {
+      "c": "ZAF",
+      "v": 0.137
+     },
+     {
+      "c": "KAZ",
+      "v": 0.13
+     },
+     {
+      "c": "IDN",
+      "v": 0.12
+     },
+     {
+      "c": "CHL",
+      "v": 0.094
+     },
+     {
+      "c": "MAR",
+      "v": 0.086
+     },
+     {
+      "c": "URY",
+      "v": 0.086
+     },
+     {
+      "c": "PRY",
+      "v": 0.042
+     },
+     {
+      "c": "TWN",
+      "v": 0.03
+     },
+     {
+      "c": "ETH",
+      "v": 0.024
+     },
+     {
+      "c": "ARG",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Meal, Rapeseed, rapeseed meal domestic consumption, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  },
+  {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
@@ -1452,6 +2988,94 @@
    "k": 22,
    "cov": 1.0
   },
+  "rapeseed-oil-exports": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.3405
+   },
+   "top3": 0.5687,
+   "hhi": 1569,
+   "eq": 6.4,
+   "k": 54,
+   "cov": 1.0
+  },
+  "rapeseed-oil-imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.3311
+   },
+   "top3": 0.6126,
+   "hhi": 1611,
+   "eq": 6.2,
+   "k": 69,
+   "cov": 1.0
+  },
+  "rapeseed-meal-exports": {
+   "top1": {
+    "c": "CAN",
+    "p": 0.3985
+   },
+   "top3": 0.6191,
+   "hhi": 1936,
+   "eq": 5.2,
+   "k": 48,
+   "cov": 1.0
+  },
+  "rapeseed-meal-imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2607
+   },
+   "top3": 0.5109,
+   "hhi": 1200,
+   "eq": 8.3,
+   "k": 60,
+   "cov": 1.0
+  },
+  "rapeseed-oil-production": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2833
+   },
+   "top3": 0.6407,
+   "hhi": 1637,
+   "eq": 6.1,
+   "k": 27,
+   "cov": 1.0
+  },
+  "rapeseed-oil-consumption": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2849
+   },
+   "top3": 0.6715,
+   "hhi": 1837,
+   "eq": 5.4,
+   "k": 35,
+   "cov": 1.0
+  },
+  "rapeseed-meal-production": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2689
+   },
+   "top3": 0.6302,
+   "hhi": 1610,
+   "eq": 6.2,
+   "k": 29,
+   "cov": 1.0
+  },
+  "rapeseed-meal-consumption": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2708
+   },
+   "top3": 0.6458,
+   "hhi": 1709,
+   "eq": 5.9,
+   "k": 33,
+   "cov": 1.0
+  },
   "stocks": {
    "top1": {
     "c": "CHN",
@@ -1464,8 +3088,20 @@
    "cov": 1.0
   }
  },
+ "see": [
+  {
+   "k": "sunflower",
+   "text": "the sunflower seed, oil and meal"
+  }
+ ],
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "The main trade tables are rapeseed (HS 120500), customs gross weight. ",
+  "The oil and the meal are two more customs groups, each its own code, gross weight, in none of the totals of another: rape, colza or mustard oil (HS 151410, 151490), and rape or colza seed oil-cake and other solid residues (HS 230640). Mustard oil is in the oil code with rapeseed and canola oil and customs data do not separate them; the USDA oil table is rapeseed oil only.",
+  "Rapeseed, canola and mustard oil (HS 151410, 151490), 2024 (CEPII BACI): world 10.39 Mt gross weight; top exporters Canada 3.54 Mt, Germany 1.20 Mt, Russia 1.17 Mt.",
+  "Rapeseed meal (HS 230640), 2024 (CEPII BACI): world 14.47 Mt gross weight; top exporters Canada 5.77 Mt, India 1.61 Mt, Germany 1.58 Mt.",
+  "Production and domestic use of the oil and the meal are USDA PSD tables of marketing years (the Oil and Meal commodities of the file), shown under the seed's; the world balance (area, stocks) is the seed's. Customs tonnage of the oil and the meal is a calendar year, so the two sources differ in year and basis.",
+  "The price series is the oil's, not the seed's or the meal's: the Pink Sheet gives rapeseed oil only; there is no free series for the seed or the meal.",
   "Customs data record 0.221 Mt of rapeseed exports from Russia in 2024 (CEPII BACI); USDA PSD gives 0.8 Mt for 2023/24 and 0.85 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 72% below the first and 74% below the second. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ],
  "discrepancies": [

@@ -235,6 +235,8 @@ function checkPriceFigures(dir, idx) {
   }
   const live = new Map();
   for (const m of idx) if (!m.hidden && !m.closed && m.stats && m.k !== 'freight' && !m.fam && !live.has(m.k)) live.set(m.k, m);
+  // a commodity whose only series is closed (barley and sorghum, which the World Bank stopped in 2020) keeps its closed series as its figure
+  for (const m of idx) if (!m.hidden && m.closed && m.stats && m.k !== 'freight' && !m.fam && !live.has(m.k)) live.set(m.k, m);
   for (const [k, m] of live) {
     const f = figures[k];
     if (!f) errors.push(`prices/figures.json: no figure for ${k}`);

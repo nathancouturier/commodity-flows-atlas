@@ -2191,6 +2191,539 @@
    }
   },
   {
+   "key": "dregs-exports",
+   "title": "Brewing and distilling dregs exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.079,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 11.065
+     },
+     {
+      "c": "BRA",
+      "v": 0.5506
+     },
+     {
+      "c": "DEU",
+      "v": 0.4044
+     },
+     {
+      "c": "NLD",
+      "v": 0.3563
+     },
+     {
+      "c": "IND",
+      "v": 0.3496
+     },
+     {
+      "c": "BEL",
+      "v": 0.2913
+     },
+     {
+      "c": "HUN",
+      "v": 0.2798
+     },
+     {
+      "c": "CAN",
+      "v": 0.1949
+     },
+     {
+      "c": "AUT",
+      "v": 0.155
+     },
+     {
+      "c": "AUS",
+      "v": 0.1269
+     },
+     {
+      "c": "IRL",
+      "v": 0.118
+     },
+     {
+      "c": "RUS",
+      "v": 0.1161
+     },
+     {
+      "c": "FRA",
+      "v": 0.1137
+     },
+     {
+      "c": "SGP",
+      "v": 0.1113
+     },
+     {
+      "c": "ARG",
+      "v": 0.1066
+     },
+     {
+      "c": "CHE",
+      "v": 0.1042
+     },
+     {
+      "c": "BGR",
+      "v": 0.0817
+     },
+     {
+      "c": "SVK",
+      "v": 0.0813
+     },
+     {
+      "c": "POL",
+      "v": 0.0781
+     },
+     {
+      "c": "GBR",
+      "v": 0.0572
+     },
+     {
+      "c": "CZE",
+      "v": 0.0462
+     },
+     {
+      "c": "SWE",
+      "v": 0.034
+     },
+     {
+      "c": "LVA",
+      "v": 0.0256
+     },
+     {
+      "c": "UKR",
+      "v": 0.0234
+     },
+     {
+      "c": "KOR",
+      "v": 0.0208
+     },
+     {
+      "c": "MDA",
+      "v": 0.0206
+     },
+     {
+      "c": "ROU",
+      "v": 0.0196
+     },
+     {
+      "c": "VNM",
+      "v": 0.0143
+     },
+     {
+      "c": "EGY",
+      "v": 0.0129
+     },
+     {
+      "c": "HRV",
+      "v": 0.0118
+     },
+     {
+      "c": "DNK",
+      "v": 0.0116
+     },
+     {
+      "c": "CHN",
+      "v": 0.0112
+     },
+     {
+      "c": "LTU",
+      "v": 0.0107
+     },
+     {
+      "c": "PRT",
+      "v": 0.0107
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0096
+     },
+     {
+      "c": "LAO",
+      "v": 0.0094
+     },
+     {
+      "c": "PRY",
+      "v": 0.0081
+     },
+     {
+      "c": "ESP",
+      "v": 0.0066
+     },
+     {
+      "c": "TUR",
+      "v": 0.0061
+     },
+     {
+      "c": "SRB",
+      "v": 0.006
+     },
+     {
+      "c": "BLR",
+      "v": 0.0045
+     },
+     {
+      "c": "NPL",
+      "v": 0.004
+     },
+     {
+      "c": "FIN",
+      "v": 0.0039
+     },
+     {
+      "c": "SVN",
+      "v": 0.0039
+     },
+     {
+      "c": "ITA",
+      "v": 0.0012
+     }
+    ],
+    "n": "CEPII BACI HS92 brewing or distilling dregs and waste, the code of distillers' dried grains (HS 230330), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "dregs-imports",
+   "title": "Brewing and distilling dregs importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.079,
+    "rows": [
+     {
+      "c": "MEX",
+      "v": 2.065
+     },
+     {
+      "c": "KOR",
+      "v": 1.468
+     },
+     {
+      "c": "VNM",
+      "v": 1.294
+     },
+     {
+      "c": "TUR",
+      "v": 1.17
+     },
+     {
+      "c": "IDN",
+      "v": 0.9838
+     },
+     {
+      "c": "CAN",
+      "v": 0.6817
+     },
+     {
+      "c": "IRL",
+      "v": 0.5235
+     },
+     {
+      "c": "GBR",
+      "v": 0.5074
+     },
+     {
+      "c": "JPN",
+      "v": 0.449
+     },
+     {
+      "c": "NZL",
+      "v": 0.44
+     },
+     {
+      "c": "ISR",
+      "v": 0.4031
+     },
+     {
+      "c": "NLD",
+      "v": 0.3959
+     },
+     {
+      "c": "COL",
+      "v": 0.3885
+     },
+     {
+      "c": "ESP",
+      "v": 0.3702
+     },
+     {
+      "c": "FRA",
+      "v": 0.2887
+     },
+     {
+      "c": "THA",
+      "v": 0.2716
+     },
+     {
+      "c": "MAR",
+      "v": 0.2682
+     },
+     {
+      "c": "CHN",
+      "v": 0.2644
+     },
+     {
+      "c": "TWN",
+      "v": 0.2331
+     },
+     {
+      "c": "PHL",
+      "v": 0.2105
+     },
+     {
+      "c": "DEU",
+      "v": 0.2043
+     },
+     {
+      "c": "BGD",
+      "v": 0.1876
+     },
+     {
+      "c": "POL",
+      "v": 0.1745
+     },
+     {
+      "c": "USA",
+      "v": 0.1553
+     },
+     {
+      "c": "BEL",
+      "v": 0.1266
+     },
+     {
+      "c": "ITA",
+      "v": 0.1195
+     },
+     {
+      "c": "HND",
+      "v": 0.1037
+     },
+     {
+      "c": "EGY",
+      "v": 0.1007
+     },
+     {
+      "c": "KHM",
+      "v": 0.0949
+     },
+     {
+      "c": "URY",
+      "v": 0.0836
+     },
+     {
+      "c": "CRI",
+      "v": 0.0808
+     },
+     {
+      "c": "GTM",
+      "v": 0.0745
+     },
+     {
+      "c": "ECU",
+      "v": 0.065
+     },
+     {
+      "c": "MYS",
+      "v": 0.0642
+     },
+     {
+      "c": "SVK",
+      "v": 0.0631
+     },
+     {
+      "c": "SLV",
+      "v": 0.0566
+     },
+     {
+      "c": "CZE",
+      "v": 0.0558
+     },
+     {
+      "c": "HUN",
+      "v": 0.0524
+     },
+     {
+      "c": "AUT",
+      "v": 0.0505
+     },
+     {
+      "c": "PRT",
+      "v": 0.0481
+     },
+     {
+      "c": "DNK",
+      "v": 0.0462
+     },
+     {
+      "c": "NPL",
+      "v": 0.0376
+     },
+     {
+      "c": "CHE",
+      "v": 0.0375
+     },
+     {
+      "c": "HRV",
+      "v": 0.0336
+     },
+     {
+      "c": "SRB",
+      "v": 0.0213
+     },
+     {
+      "c": "LKA",
+      "v": 0.0209
+     },
+     {
+      "c": "TUN",
+      "v": 0.0195
+     },
+     {
+      "c": "LUX",
+      "v": 0.0192
+     },
+     {
+      "c": "CHL",
+      "v": 0.0191
+     },
+     {
+      "c": "NIC",
+      "v": 0.0153
+     },
+     {
+      "c": "JAM",
+      "v": 0.0143
+     },
+     {
+      "c": "SAU",
+      "v": 0.0119
+     },
+     {
+      "c": "SWE",
+      "v": 0.0116
+     },
+     {
+      "c": "ARE",
+      "v": 0.0114
+     },
+     {
+      "c": "ROU",
+      "v": 0.0113
+     },
+     {
+      "c": "GRC",
+      "v": 0.0107
+     },
+     {
+      "c": "LVA",
+      "v": 0.0092
+     },
+     {
+      "c": "LAO",
+      "v": 0.0082
+     },
+     {
+      "c": "OMN",
+      "v": 0.0079
+     },
+     {
+      "c": "BIH",
+      "v": 0.0077
+     },
+     {
+      "c": "GEO",
+      "v": 0.0066
+     },
+     {
+      "c": "PER",
+      "v": 0.0065
+     },
+     {
+      "c": "SVN",
+      "v": 0.0063
+     },
+     {
+      "c": "MMR",
+      "v": 0.0062
+     },
+     {
+      "c": "CYP",
+      "v": 0.0061
+     },
+     {
+      "c": "IND",
+      "v": 0.004
+     },
+     {
+      "c": "RUS",
+      "v": 0.0036
+     },
+     {
+      "c": "PAK",
+      "v": 0.0032
+     },
+     {
+      "c": "PAN",
+      "v": 0.003
+     },
+     {
+      "c": "LBY",
+      "v": 0.0029
+     },
+     {
+      "c": "LTU",
+      "v": 0.0027
+     },
+     {
+      "c": "UZB",
+      "v": 0.0027
+     },
+     {
+      "c": "QAT",
+      "v": 0.0024
+     },
+     {
+      "c": "AZE",
+      "v": 0.0019
+     },
+     {
+      "c": "ARM",
+      "v": 0.0019
+     },
+     {
+      "c": "BHR",
+      "v": 0.0016
+     },
+     {
+      "c": "JOR",
+      "v": 0.0014
+     },
+     {
+      "c": "BGR",
+      "v": 0.0012
+     },
+     {
+      "c": "SGP",
+      "v": 0.0011
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0007
+     },
+     {
+      "c": "NOR",
+      "v": 0.0004,
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     }
+    ],
+    "n": "CEPII BACI HS92 brewing or distilling dregs and waste, the code of distillers' dried grains (HS 230330), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
@@ -3088,6 +3621,28 @@
    "k": 116,
    "cov": 1.0
   },
+  "dregs-exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.7338
+   },
+   "top3": 0.7971,
+   "hhi": 5431,
+   "eq": 1.8,
+   "k": 45,
+   "cov": 1.0
+  },
+  "dregs-imports": {
+   "top1": {
+    "c": "MEX",
+    "p": 0.1369
+   },
+   "top3": 0.3201,
+   "hhi": 575,
+   "eq": 17.4,
+   "k": 81,
+   "cov": 1.0
+  },
   "stocks": {
    "top1": {
     "c": "CHN",
@@ -3102,6 +3657,7 @@
  },
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "The tables under the USDA tables are brewing or distilling dregs and waste (HS 230330), customs gross weight (CEPII BACI). This one code holds distillers' dried grains (DDGS, the residue of grain ethanol and spirits) with brewers' grains and other dregs and waste: customs data do not tell them apart, so the tables are not a DDGS series. They are not added to the grain tables above. Brewing and distilling dregs and waste (HS 230330), 2024 (CEPII BACI): world 15.08 Mt gross weight; top exporters United States 11.07 Mt, Brazil 0.55 Mt, Germany 0.40 Mt. A large part of this trade moves in bags and containers, so the atlas draws no lanes for it. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.",
   "Customs data record 2.24 Mt of corn exports from Russia in 2024 (CEPII BACI), of which 0.0212 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Lebanon 0.0163 Mt, Israel 0.00491 Mt) and 2.22 Mt is as reported; USDA PSD gives 6.6 Mt for 2023/24 and 3 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 66% below the first and 25% below the second. On the tonnage as reported alone (2.22 Mt) the gap is 66% below the first and 26% below the second. Importers that took corn from Russia in 2019 to 2021 and have none recorded in 2024: Iran (0.917 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ],
  "discrepancies": [

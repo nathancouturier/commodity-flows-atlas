@@ -131,7 +131,10 @@ FAMILY = {
     "copper-ore": "drybulk", "nickel-ore": "drybulk", "zinc-ore": "drybulk", "spodumene": "drybulk",
     "wheat": "grain", "corn": "grain", "soybeans": "grain", "soymeal": "grain", "rice": "grain", "sugar": "grain",
     "rapeseed": "grain",
-    "soyoil": "vegoil", "palm-oil": "vegoil",
+    # the grains, oilseeds and products added with M-023: dry cargo like the grains above, the oils like soybean and palm oil
+    "barley": "grain", "sorghum": "grain", "sunflower-seed": "grain", "sunflower-meal": "grain", "rapeseed-meal": "grain",
+    "pulses": "grain",
+    "soyoil": "vegoil", "palm-oil": "vegoil", "sunflower-oil": "vegoil", "rapeseed-oil": "vegoil",
     "potash": "fert", "phosphate-rock": "fert", "dap": "fert", "urea": "fert",
     # the other fertilisers (M-022): the same geographic rule. Ammonia, UAN and phosphoric acid are liquids and sulphur is
     # a dry bulk, but the mode of a pair depends on the land borders and the ports, not on the cargo; the ship of each

@@ -135,6 +135,14 @@ const COMMODITY_ALIASES: Record<string, string[]> = {
   phosphate: ['phosphate rock', 'DAP', 'diammonium phosphate', 'MAP', 'monoammonium phosphate', 'TSP', 'triple superphosphate', 'superphosphate', 'phosphoric acid', 'phosphate fertiliser', 'fertilizer'],
   potash: ['potassium chloride', 'muriate of potash', 'MOP', 'SOP', 'sulphate of potash', 'potassium sulphate', 'potassium sulfate', 'potassium fertiliser', 'fertilizer'],
   sulphur: ['sulfur', 'brimstone'],
+  // the grains and oilseeds (M-023): the pages hold the oils, meals and flour too
+  wheat: ['wheat flour', 'flour'],
+  corn: ['maize', 'distillers grains', 'distillers dried grains', 'DDGS', 'brewers grains', 'brewing and distilling dregs'],
+  barley: ['malting barley', 'feed barley'],
+  sorghum: ['milo', 'grain sorghum'],
+  sunflower: ['sunflower seed', 'sunflower oil', 'sunflower meal', 'safflower oil'],
+  rapeseed: ['rapeseed oil', 'canola oil', 'rapeseed meal', 'canola meal', 'colza', 'mustard oil'],
+  pulses: ['peas', 'chickpeas', 'lentils', 'beans', 'dried beans', 'legumes', 'garbanzo'],
   npk: ['compound fertiliser', 'compound fertilizer', 'NPK', 'fertiliser', 'fertilizer'],
 };
 

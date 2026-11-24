@@ -56,7 +56,8 @@ def classes(group, o, d, tonnes, nm):
         return ["supramax", "panamax"]
     if group in ("copper-ore", "zinc-ore", "nickel-ore", "lead-ore", "nickel-int"):
         return ["supramax", "handysize"]
-    if group in ("wheat", "corn", "soybeans", "soymeal", "rapeseed", "sugar"):
+    if group in ("wheat", "corn", "soybeans", "soymeal", "rapeseed", "sugar", "barley", "sorghum", "sunflower-seed", "sunflower-meal",
+                 "rapeseed-meal", "pulses"):
         if o in ("UKR", "RUS", "ROU", "BGR") and d not in ASIA_FAR:
             return ["supramax", "handysize"]
         if o in ("USA", "BRA", "ARG", "CAN", "AUS") and mt > 1:
@@ -76,7 +77,7 @@ def classes(group, o, d, tonnes, nm):
         # Not dry bulk (M-022): UAN solution and phosphoric acid are liquids carried in chemical tankers (an Atlas assumption, no
         # page read for the class of these lanes); the Handy tanker, the size of the chemical tanker band, second
         return ["chemical-tanker", "handy-tanker"]
-    if group in ("soyoil", "palm-oil"):
+    if group in ("soyoil", "palm-oil", "sunflower-oil", "rapeseed-oil"):
         # vegetable oils move in chemical tankers; the Baltic assesses them basis 40,000 t shipments (Baltic Chemical
         # and Agricultural Oil Assessments page), an MR-size cargo, so the MR comes first (see vessel_classes.json)
         return ["mr", "chemical-tanker"]

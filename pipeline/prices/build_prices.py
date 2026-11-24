@@ -76,11 +76,15 @@ PINK = {
     "Soybean oil": ("soyoil-m", "soyoil", "Soybean oil", "USD/t"),
     "Soybean meal": ("soymeal-m", "soymeal", "Soybean meal", "USD/t"),
     "Rapeseed oil": ("rapeseed-oil-m", "rapeseed", "Rapeseed oil", "USD/t"),
-    "Sunflower oil": ("sunflower-oil-m", "sunflower-oil", "Sunflower oil", "USD/t"),
+    "Sunflower oil": ("sunflower-oil-m", "sunflower", "Sunflower oil", "USD/t"),
     "Coconut oil": ("coconut-oil-m", "coconut-oil", "Coconut oil", "USD/t"),
     "Groundnut oil": ("groundnut-oil-m", "groundnut-oil", "Groundnut oil", "USD/t"),
     "Fish meal": ("fish-meal-m", "fish-meal", "Fish meal", "USD/t"),
     "Maize": ("maize-m", "corn", "Maize (US Gulf)", "USD/t"),
+    # barley and sorghum (M-023): the Pink Sheet series stop in August 2020; they are published to that month and marked closed
+    # by mark_closed(), which says so on the page
+    "Barley": ("barley-m", "barley", "Barley (feed, US; Canadian before May 2012)", "USD/t"),
+    "Sorghum": ("sorghum-m", "sorghum", "Sorghum (US Gulf)", "USD/t"),
     "Rice, Thai 5%": ("rice-thai-m", "rice", "Rice, Thai 5%", "USD/t"),
     "Rice, Thai 25%": ("rice-thai25-m", "rice", "Rice, Thai 25%", "USD/t"),
     "Rice, Thai A.1": ("rice-thai-a1-m", "rice", "Rice, Thai 100% broken (A.1)", "USD/t"),
@@ -108,11 +112,10 @@ PINK = {
     "Silver": ("silver-m", "silver", "Silver", "USD/troy oz"),
 }
 
-# Pink Sheet columns left out, and why (M-066): barley and sorghum stop in August 2020; tea, rubber, timber, meat,
-# bananas, oranges, shrimp, tobacco and groundnuts belong to no commodity or product of the atlas.
+# Pink Sheet columns left out, and why (M-066): tea, rubber, timber, meat, bananas, oranges, shrimp, tobacco and
+# groundnuts belong to no commodity or product of the atlas. Barley and sorghum stop in August 2020 and were left out
+# for that; they are published, closed, since M-023 gave them a page.
 PINK_LEFT_OUT = {
-    "Barley": "the series stops in August 2020",
-    "Sorghum": "the series stops in August 2020",
     "Groundnuts": "no atlas commodity or close product",
     "Tea, avg 3 auctions": "no atlas commodity",
     "Tea, Colombo": "no atlas commodity",
@@ -139,7 +142,6 @@ PINK_LEFT_OUT = {
 # not linked to a page. Value: the family they are grouped with.
 NO_PAGE = {
     "index": "index",
-    "sunflower-oil": "softs",
     "coconut-oil": "softs",
     "palm-kernel-oil": "softs",
     "groundnut-oil": "softs",
@@ -172,6 +174,8 @@ PINK_DESC = {
     "Groundnut oil": "Peanut (Groundnut) oil",
     "Fish meal": "Fish meal",
     "Maize": "Maize (U.S.)",
+    "Barley": "Barley (U.S.)",
+    "Sorghum": "Sorghum (US)",
     "Rice, Thai 5%": "Rice (Thailand), 5% broken",
     "Rice, Thai 25%": "Rice (Thailand), 25% broken",
     "Rice, Thai A.1": "Rice (Thailand), 100% broken",
@@ -824,10 +828,14 @@ def figures_of(metas):
     """What the key figure on a commodity page needs, one entry per commodity: the board figures and the label of its
     first series (the one the page opens on). The page loads this small file and not the whole index."""
     out = {}
-    for m in metas:
-        if m.get("hidden") or m.get("closed") or m["k"] in NO_PAGE or m["k"] == "freight" or m["k"] in out or "stats" not in m:
-            continue
-        out[m["k"]] = {k: v for k, v in m.items() if k in ("id", "k", "name", "unit", "freq", "s", "start", "end", "basis", "est", "stats", "closed")}
+    # a closed series gives way to a live one of its commodity; a commodity whose only series is closed (barley and sorghum, M-023) keeps it,
+    # with `closed` set, so that its page says when the series stops instead of saying that there is none
+    for closed in (False, True):
+        for m in metas:
+            if (m.get("hidden") or bool(m.get("closed")) != closed or m["k"] in NO_PAGE or m["k"] == "freight" or m["k"] in out
+                    or "stats" not in m):
+                continue
+            out[m["k"]] = {k: v for k, v in m.items() if k in ("id", "k", "name", "unit", "freq", "s", "start", "end", "basis", "est", "stats", "closed")}
     return out
 
 

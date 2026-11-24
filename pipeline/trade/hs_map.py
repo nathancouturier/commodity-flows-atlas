@@ -61,6 +61,28 @@ HS = {
     "cotton": ["520100"],
     "palm-oil": ["151110", "151190"],
     "rapeseed": ["120500"],
+    # the grains, oilseeds and their products that were missing (audit M-023). One code, one group. HS 1992 words, from the
+    # product code list of CEPII BACI: 100300 barley (malting and feed barley are not told apart), 100700 grain sorghum,
+    # 120600 sunflower seeds (oil seed and seed for sowing and eating are not told apart), 151211 and 151219 sunflower-seed OR
+    # safflower oil (crude and other: safflower oil is in the same codes), 151410 and 151490 rape, colza OR mustard oil (the
+    # same), 230630 and 230640 the oil-cake and other solid residues of sunflower and of rape or colza seed oil extraction
+    # (meals and pellets), 110100 wheat or meslin flour, 230330 brewing or distilling dregs and waste (distillers' dried grains
+    # are in it, with brewers' grains and other waste: one code for all of them), 0713 dried leguminous vegetables.
+    # Left out: malt (1107), oats (1004), rye (1002), the other flours and groats (1102-1104), starches (1108), safflower and
+    # other oilseeds (1207), cotton, groundnut, palm kernel and coconut oils and meals (the next packages), 0708 fresh pulses.
+    "barley": ["100300"],
+    "sorghum": ["100700"],
+    "sunflower-seed": ["120600"],
+    "sunflower-oil": ["151211", "151219"],
+    "sunflower-meal": ["230630"],
+    "rapeseed-oil": ["151410", "151490"],
+    "rapeseed-meal": ["230640"],
+    "wheat-flour": ["110100"],
+    "brewing-distilling-dregs": ["230330"],
+    # dried leguminous vegetables, shelled: peas 071310, chickpeas 071320, beans 071331 (mung and urd), 071332 (adzuki),
+    # 071333 (kidney), 071339 (other beans), 071350 (broad and horse beans), lentils 071340, other 071390 (cowpeas, pigeon
+    # peas and every other pulse). The kinds are read from the six-digit rows (pipeline/commodities/metals.py SPLITS)
+    "pulses": ["071310", "071320", "071331", "071332", "071333", "071339", "071340", "071350", "071390"],
     "potash": ["310420"],
     "potassium-sulphate": ["310430"],  # sulphate of potash (SOP): second group of the potash page
     "phosphate-rock": ["251010", "251020"],

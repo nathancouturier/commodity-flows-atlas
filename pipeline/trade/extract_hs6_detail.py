@@ -1,7 +1,7 @@
 """
-Six-digit detail of the groups whose two codes are different products, from a CEPII BACI HS92 zip: refined copper
+Six-digit detail of the groups whose codes are different products, from a CEPII BACI HS92 zip: refined copper
 (HS 7403, cathodes and refined forms) against unrefined copper (HS 7402, anodes and blister), and unwrought aluminium
-not alloyed (HS 760110) against alloys (HS 760120). The main extract (extract_baci.py) adds the codes of a group; this
+not alloyed (HS 760110) against alloys (HS 760120), and the dried pulses (HS 0713) by kind (audit M-023). The main extract (extract_baci.py) adds the codes of a group; this
 one keeps them apart, so that the commodity pages can split a pair's tonnage between them (audit C-043, M-017).
 
     python pipeline/trade/extract_hs6_detail.py raw/baci/BACI_HS92_V202601.zip pipeline/cache/baci_hs6_detail.csv.gz [first_year]
@@ -18,7 +18,7 @@ import pandas as pd
 sys.path.insert(0, __file__.rsplit("/", 1)[0])
 from hs_map import HS  # noqa: E402
 
-GROUPS = ("copper-refined", "aluminium")
+GROUPS = ("copper-refined", "aluminium", "pulses")
 CODES = {c: g for g in GROUPS for c in HS[g]}
 
 zpath, out = sys.argv[1], sys.argv[2]

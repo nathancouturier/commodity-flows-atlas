@@ -72,7 +72,8 @@ CLASS_SHARE_NAME = {"capesize": "Capesize, Newcastlemax and VLOC", "vlcc": "VLCC
 # gateway segment is general cargo ("box" in ports.py: steel, refined copper, aluminium, coffee, cocoa, cotton; metal
 # and soft families of modes.py) are compared with PortWatch's container, general-cargo and ro-ro ships; the others
 # with its dry-bulk ships. An entry is written when the "up to" tonnage is at least 2% of the group or 1 Mt.
-TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil", "ammonia", "uan", "phosphoric-acid"}
+TANKER_GROUPS = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil", "ammonia", "uan", "phosphoric-acid",
+                 "sunflower-oil", "rapeseed-oil"}
 CARGO_GROUPS = {g for g, s in P.SEGMENT.items() if s == "box"}
 TYPES = ("dry", "tanker", "cargo")
 TYPE_NAME = {"dry": "dry bulk", "tanker": "tanker", "cargo": "container, general cargo and ro-ro"}

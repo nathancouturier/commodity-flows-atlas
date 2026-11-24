@@ -293,7 +293,9 @@
 "met-coal",
 "corn",
 "soybeans",
-"wheat"
+"wheat",
+"barley",
+"sorghum"
 ],
 "constraints": [
 "229 m LOA limit set by Kamsar port, Guinea"
@@ -312,6 +314,7 @@
 "P5_82",
 "P7",
 "P8",
+"gen-barley-w-australia-n-china",
 "gen-corn-ecsa-med",
 "gen-corn-us-gulf-caribbean",
 "gen-corn-ecsa-japan-korea",
@@ -319,7 +322,10 @@
 "gen-corn-ecsa-meg",
 "gen-corn-ecsa-wcsa",
 "gen-corn-ecsa-waf",
+"gen-pulses-canada-west-wc-india",
 "gen-rapeseed-canada-west-n-china",
+"gen-rapeseed-meal-canada-west-n-china",
+"gen-sorghum-us-gulf-n-china",
 "gen-soybeans-ecsa-med",
 "gen-soymeal-ecsa-sea",
 "gen-soymeal-ecsa-med",
@@ -384,7 +390,12 @@
 "zinc",
 "lead",
 "npk",
-"sulphur"
+"sulphur",
+"barley",
+"sorghum",
+"sunflower",
+"rapeseed",
+"pulses"
 ],
 "constraints": [
 "Geared; used at ports lacking shore cranes"
@@ -415,6 +426,8 @@
 "gen-ammonium-nitrate-baltic-ecsa",
 "gen-ammonium-sulphate-n-china-ecsa",
 "gen-ammonium-sulphate-n-china-sea",
+"gen-barley-black-sea-red-sea",
+"gen-barley-black-sea-med",
 "gen-coal-sea-sea",
 "gen-coal-sea-japan-korea",
 "gen-copper-ore-wcsa-japan-korea",
@@ -459,6 +472,8 @@
 "gen-sulphur-canada-west-n-china",
 "gen-sulphur-meg-wc-india",
 "gen-sulphur-meg-nw-europe",
+"gen-sunflower-meal-black-sea-med",
+"gen-sunflower-seed-black-sea-nw-europe",
 "gen-superphosphates-waf-ecsa",
 "gen-urea-med-med",
 "gen-wheat-black-sea-sea",
@@ -612,7 +627,12 @@
 "lead",
 "aluminium",
 "npk",
-"sulphur"
+"sulphur",
+"barley",
+"sorghum",
+"sunflower",
+"rapeseed",
+"pulses"
 ],
 "constraints": [
 "Can call at shallow ports and use own cranes"
@@ -1016,7 +1036,9 @@
 "cargoes": [
 "refined-products",
 "palm-oil",
-"soyoil"
+"soyoil",
+"sunflower",
+"rapeseed"
 ],
 "constraints": [
 "Clean products: the Baltic's MR routes carry cargoes of 35,000 to 40,000 t"
@@ -1043,6 +1065,7 @@
 "gen-palm-oil-sea-n-china",
 "gen-palm-oil-sea-med",
 "gen-palm-oil-sea-sea",
+"gen-rapeseed-oil-nw-europe-nw-europe",
 "gen-refined-products-sea-sea",
 "gen-refined-products-med-med",
 "gen-refined-products-nw-europe-nw-europe",
@@ -1053,7 +1076,8 @@
 "gen-refined-products-us-gulf-r-central-america",
 "gen-refined-products-med-r-europe",
 "gen-refined-products-black-sea-r-europe",
-"gen-refined-products-japan-korea-r-east-asia"
+"gen-refined-products-japan-korea-r-east-asia",
+"gen-sunflower-oil-black-sea-med"
 ],
 "notes": "The Baltic's standard MR is a 50,000 dwt ship; TC2_37 cargo 37,000 t, TC10 and TC11 40,000 t (Baltic Exchange, Guide to Market Benchmarks, December 2025). The Atlas puts the class first on vegetable-oil lanes: the Baltic assesses vegetable-oil freight basis 40,000 t shipments on chemical tankers (Baltic Chemical and Agricultural Oil Assessments), a cargo the size of the MR benchmark cargoes.",
 "s": "baltic",
@@ -1153,7 +1177,9 @@
 "palm-oil",
 "soyoil",
 "urea",
-"phosphate"
+"phosphate",
+"sunflower",
+"rapeseed"
 ],
 "constraints": [
 "Coated or stainless-steel tanks cleaned between cargoes; besides chemicals it carries palm oil, vegetable oils, tallow, caustic soda and methanol (Wikipedia, Chemical tanker)",
@@ -1169,7 +1195,7 @@
 "gen-phosphoric-acid-waf-wc-india",
 "gen-uan-black-sea-us-gulf"
 ],
-"notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). It is also first on the lanes of UAN solution (the Urea & nitrogen page) and of phosphoric acid (the Phosphate page), the Handy tanker second: liquids that are not dry bulk. This is an Atlas assumption: no page was read for the class of these lanes.",
+"notes": "The Atlas puts the class second on vegetable-oil lanes (palm oil, soybean oil, and the sunflower and rapeseed oils of M-023), after the MR: the Baltic's 40,000 t vegetable-oil basis is larger than the largest chemical tanker on the Wikipedia scale (35,000 dwt) and the size of an MR cargo, which is why the MR comes first. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). It is also first on the lanes of UAN solution (the Urea & nitrogen page) and of phosphoric acid (the Phosphate page), the Handy tanker second: liquids that are not dry bulk. This is an Atlas assumption: no page was read for the class of these lanes.",
 "s": "wikipedia-vessel-classes",
 "speedKn": 12.0,
 "speedNote": "Atlas assumption: an assumed typical laden service speed of the class, not a measured speed and not from a published source. It is used for laden days (distance divided by speed) on routes and in the Route finder",

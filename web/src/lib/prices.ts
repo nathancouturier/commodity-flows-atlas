@@ -394,6 +394,9 @@ export const PRICE_COVERAGE_NOTE: Record<string, string> = {
   phosphate: 'Monthly prices (World Bank): phosphate rock, DAP and TSP (triple superphosphate). No free series for MAP or phosphoric acid.',
   urea: 'Monthly price (World Bank): urea only. No free series for ammonia, ammonium nitrate, UAN or ammonium sulphate.',
   potash: 'Monthly price (World Bank): potassium chloride only. No free series for potassium sulphate.',
+  // the oilseed pages hold the seed, the oil and the meal (M-023): the price is the oil's
+  rapeseed: 'Monthly price (World Bank): rapeseed oil only, the price of the oil and not of the seed. No free series for rapeseed seed or meal.',
+  sunflower: 'Monthly price (World Bank): sunflower oil only, the price of the oil and not of the seed. No free series for sunflower seed or meal.',
 };
 
 /** "uranium", "rare earths": a catalogue name inside a sentence (acronyms such as LNG keep their capitals). */

@@ -2162,6 +2162,1052 @@
    }
   },
   {
+   "key": "flour-exports",
+   "title": "Wheat flour exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 13.074,
+    "rows": [
+     {
+      "c": "TUR",
+      "v": 3.004
+     },
+     {
+      "c": "KAZ",
+      "v": 1.846
+     },
+     {
+      "c": "UZB",
+      "v": 1.116
+     },
+     {
+      "c": "DEU",
+      "v": 1.065
+     },
+     {
+      "c": "EGY",
+      "v": 0.7184
+     },
+     {
+      "c": "ARG",
+      "v": 0.3987
+     },
+     {
+      "c": "RUS",
+      "v": 0.3348
+     },
+     {
+      "c": "ITA",
+      "v": 0.3255
+     },
+     {
+      "c": "BEL",
+      "v": 0.2975
+     },
+     {
+      "c": "CMR",
+      "v": 0.2868,
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "USA",
+      "v": 0.2345
+     },
+     {
+      "c": "VNM",
+      "v": 0.2173
+     },
+     {
+      "c": "CAN",
+      "v": 0.2123
+     },
+     {
+      "c": "SRB",
+      "v": 0.185
+     },
+     {
+      "c": "FRA",
+      "v": 0.1734
+     },
+     {
+      "c": "GBR",
+      "v": 0.163
+     },
+     {
+      "c": "HUN",
+      "v": 0.1579
+     },
+     {
+      "c": "JPN",
+      "v": 0.1456
+     },
+     {
+      "c": "ESP",
+      "v": 0.1304
+     },
+     {
+      "c": "CHN",
+      "v": 0.1164
+     },
+     {
+      "c": "NLD",
+      "v": 0.1141
+     },
+     {
+      "c": "POL",
+      "v": 0.1116
+     },
+     {
+      "c": "IND",
+      "v": 0.1091
+     },
+     {
+      "c": "AUT",
+      "v": 0.1004
+     },
+     {
+      "c": "SVK",
+      "v": 0.0844
+     },
+     {
+      "c": "ARE",
+      "v": 0.0662
+     },
+     {
+      "c": "IDN",
+      "v": 0.0659
+     },
+     {
+      "c": "UKR",
+      "v": 0.0641
+     },
+     {
+      "c": "KWT",
+      "v": 0.0617
+     },
+     {
+      "c": "BGR",
+      "v": 0.0592
+     },
+     {
+      "c": "UGA",
+      "v": 0.0568
+     },
+     {
+      "c": "DOM",
+      "v": 0.0564
+     },
+     {
+      "c": "MYS",
+      "v": 0.055
+     },
+     {
+      "c": "MEX",
+      "v": 0.0549
+     },
+     {
+      "c": "SGP",
+      "v": 0.0523
+     },
+     {
+      "c": "LUX",
+      "v": 0.0472
+     },
+     {
+      "c": "PRT",
+      "v": 0.0446
+     },
+     {
+      "c": "TZA",
+      "v": 0.0425
+     },
+     {
+      "c": "LKA",
+      "v": 0.042
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0397
+     },
+     {
+      "c": "CZE",
+      "v": 0.0394
+     },
+     {
+      "c": "DZA",
+      "v": 0.038
+     },
+     {
+      "c": "BIH",
+      "v": 0.0356
+     },
+     {
+      "c": "AUS",
+      "v": 0.0338
+     },
+     {
+      "c": "SLV",
+      "v": 0.0333
+     },
+     {
+      "c": "LSO",
+      "v": 0.0297
+     },
+     {
+      "c": "KEN",
+      "v": 0.027
+     },
+     {
+      "c": "MDA",
+      "v": 0.026
+     },
+     {
+      "c": "FJI",
+      "v": 0.0247
+     },
+     {
+      "c": "HND",
+      "v": 0.024
+     },
+     {
+      "c": "TWN",
+      "v": 0.023
+     },
+     {
+      "c": "LVA",
+      "v": 0.022
+     },
+     {
+      "c": "KOR",
+      "v": 0.0194
+     },
+     {
+      "c": "GRC",
+      "v": 0.0192
+     },
+     {
+      "c": "THA",
+      "v": 0.0154
+     },
+     {
+      "c": "URY",
+      "v": 0.0135
+     },
+     {
+      "c": "HRV",
+      "v": 0.0128
+     },
+     {
+      "c": "MUS",
+      "v": 0.0122
+     },
+     {
+      "c": "EST",
+      "v": 0.0119
+     },
+     {
+      "c": "SVN",
+      "v": 0.0119
+     },
+     {
+      "c": "LTU",
+      "v": 0.0114
+     },
+     {
+      "c": "PRY",
+      "v": 0.0108
+     },
+     {
+      "c": "CRI",
+      "v": 0.0105
+     },
+     {
+      "c": "GHA",
+      "v": 0.0093
+     },
+     {
+      "c": "DNK",
+      "v": 0.0092
+     },
+     {
+      "c": "MOZ",
+      "v": 0.009
+     },
+     {
+      "c": "MAR",
+      "v": 0.0087
+     },
+     {
+      "c": "CHE",
+      "v": 0.008
+     },
+     {
+      "c": "TGO",
+      "v": 0.0076
+     },
+     {
+      "c": "AGO",
+      "v": 0.0058
+     },
+     {
+      "c": "ROU",
+      "v": 0.0057
+     },
+     {
+      "c": "VCT",
+      "v": 0.0053
+     },
+     {
+      "c": "BRB",
+      "v": 0.0043
+     },
+     {
+      "c": "VEN",
+      "v": 0.0042
+     },
+     {
+      "c": "NIC",
+      "v": 0.0037
+     },
+     {
+      "c": "IRL",
+      "v": 0.0034
+     },
+     {
+      "c": "OMN",
+      "v": 0.0032
+     },
+     {
+      "c": "GTM",
+      "v": 0.0031
+     },
+     {
+      "c": "SWE",
+      "v": 0.0026
+     },
+     {
+      "c": "GRD",
+      "v": 0.0026
+     },
+     {
+      "c": "NZL",
+      "v": 0.0022
+     },
+     {
+      "c": "FIN",
+      "v": 0.0021
+     },
+     {
+      "c": "COG",
+      "v": 0.0021
+     },
+     {
+      "c": "LBN",
+      "v": 0.0021
+     },
+     {
+      "c": "COL",
+      "v": 0.0017
+     },
+     {
+      "c": "LCA",
+      "v": 0.0016
+     },
+     {
+      "c": "MKD",
+      "v": 0.0015
+     },
+     {
+      "c": "ISR",
+      "v": 0.0014
+     },
+     {
+      "c": "TTO",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 wheat or meslin flour (HS 110100), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
+   "key": "flour-imports",
+   "title": "Wheat flour importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 13.074,
+    "rows": [
+     {
+      "c": "AFG",
+      "v": 2.35
+     },
+     {
+      "c": "IRQ",
+      "v": 1.006
+     },
+     {
+      "c": "NLD",
+      "v": 0.6628
+     },
+     {
+      "c": "UZB",
+      "v": 0.4821
+     },
+     {
+      "c": "FRA",
+      "v": 0.4427
+     },
+     {
+      "c": "SDN",
+      "v": 0.4149
+     },
+     {
+      "c": "USA",
+      "v": 0.3362
+     },
+     {
+      "c": "SYR",
+      "v": 0.3267
+     },
+     {
+      "c": "BRA",
+      "v": 0.3001
+     },
+     {
+      "c": "CAF",
+      "v": 0.2868,
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)"
+     },
+     {
+      "c": "SOM",
+      "v": 0.2695
+     },
+     {
+      "c": "IRL",
+      "v": 0.2418
+     },
+     {
+      "c": "DJI",
+      "v": 0.1836
+     },
+     {
+      "c": "MDG",
+      "v": 0.1721
+     },
+     {
+      "c": "CHN",
+      "v": 0.1616
+     },
+     {
+      "c": "BEL",
+      "v": 0.1579
+     },
+     {
+      "c": "CAN",
+      "v": 0.1542
+     },
+     {
+      "c": "THA",
+      "v": 0.1521
+     },
+     {
+      "c": "HKG",
+      "v": 0.1509
+     },
+     {
+      "c": "VEN",
+      "v": 0.1493
+     },
+     {
+      "c": "DEU",
+      "v": 0.1487
+     },
+     {
+      "c": "ROU",
+      "v": 0.1445
+     },
+     {
+      "c": "LKA",
+      "v": 0.1365
+     },
+     {
+      "c": "PSE",
+      "v": 0.1303
+     },
+     {
+      "c": "ESP",
+      "v": 0.1251
+     },
+     {
+      "c": "CUB",
+      "v": 0.1247
+     },
+     {
+      "c": "GHA",
+      "v": 0.1107
+     },
+     {
+      "c": "AUT",
+      "v": 0.1035
+     },
+     {
+      "c": "BOL",
+      "v": 0.1019
+     },
+     {
+      "c": "MYS",
+      "v": 0.0997
+     },
+     {
+      "c": "PRT",
+      "v": 0.0978
+     },
+     {
+      "c": "CZE",
+      "v": 0.0942
+     },
+     {
+      "c": "YEM",
+      "v": 0.0884
+     },
+     {
+      "c": "MEX",
+      "v": 0.0868
+     },
+     {
+      "c": "IDN",
+      "v": 0.0812
+     },
+     {
+      "c": "SGP",
+      "v": 0.081
+     },
+     {
+      "c": "SSD",
+      "v": 0.0784
+     },
+     {
+      "c": "HUN",
+      "v": 0.0749
+     },
+     {
+      "c": "GBR",
+      "v": 0.0747
+     },
+     {
+      "c": "GEO",
+      "v": 0.0703
+     },
+     {
+      "c": "COD",
+      "v": 0.0702
+     },
+     {
+      "c": "SLE",
+      "v": 0.0694
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0675
+     },
+     {
+      "c": "BIH",
+      "v": 0.0675
+     },
+     {
+      "c": "SVK",
+      "v": 0.0656
+     },
+     {
+      "c": "PHL",
+      "v": 0.0653
+     },
+     {
+      "c": "HTI",
+      "v": 0.0641
+     },
+     {
+      "c": "DNK",
+      "v": 0.0637
+     },
+     {
+      "c": "POL",
+      "v": 0.0628
+     },
+     {
+      "c": "ERI",
+      "v": 0.0604
+     },
+     {
+      "c": "MKD",
+      "v": 0.0596
+     },
+     {
+      "c": "TJK",
+      "v": 0.0596
+     },
+     {
+      "c": "SAU",
+      "v": 0.0594
+     },
+     {
+      "c": "PNG",
+      "v": 0.059
+     },
+     {
+      "c": "ARE",
+      "v": 0.0588
+     },
+     {
+      "c": "KEN",
+      "v": 0.0545
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0536
+     },
+     {
+      "c": "GTM",
+      "v": 0.0513
+     },
+     {
+      "c": "HRV",
+      "v": 0.0509
+     },
+     {
+      "c": "ITA",
+      "v": 0.0495
+     },
+     {
+      "c": "MNE",
+      "v": 0.0494
+     },
+     {
+      "c": "NER",
+      "v": 0.0463
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0461
+     },
+     {
+      "c": "LTU",
+      "v": 0.0428
+     },
+     {
+      "c": "BEN",
+      "v": 0.042
+     },
+     {
+      "c": "ARM",
+      "v": 0.0413
+     },
+     {
+      "c": "TKM",
+      "v": 0.0395
+     },
+     {
+      "c": "GRC",
+      "v": 0.0373
+     },
+     {
+      "c": "CHL",
+      "v": 0.0336
+     },
+     {
+      "c": "ISR",
+      "v": 0.0313
+     },
+     {
+      "c": "LSO",
+      "v": 0.0312
+     },
+     {
+      "c": "TCD",
+      "v": 0.0298
+     },
+     {
+      "c": "PRK",
+      "v": 0.0288
+     },
+     {
+      "c": "GNB",
+      "v": 0.0281
+     },
+     {
+      "c": "TUR",
+      "v": 0.0281
+     },
+     {
+      "c": "ALB",
+      "v": 0.0263
+     },
+     {
+      "c": "QAT",
+      "v": 0.0263
+     },
+     {
+      "c": "GNQ",
+      "v": 0.0259
+     },
+     {
+      "c": "MDV",
+      "v": 0.0255
+     },
+     {
+      "c": "MDA",
+      "v": 0.0249
+     },
+     {
+      "c": "AUS",
+      "v": 0.0229
+     },
+     {
+      "c": "RUS",
+      "v": 0.0223
+     },
+     {
+      "c": "HND",
+      "v": 0.0222
+     },
+     {
+      "c": "EGY",
+      "v": 0.022
+     },
+     {
+      "c": "KHM",
+      "v": 0.0202
+     },
+     {
+      "c": "AZE",
+      "v": 0.0198
+     },
+     {
+      "c": "SVN",
+      "v": 0.0183
+     },
+     {
+      "c": "BHR",
+      "v": 0.0182
+     },
+     {
+      "c": "LUX",
+      "v": 0.0176
+     },
+     {
+      "c": "VNM",
+      "v": 0.0175
+     },
+     {
+      "c": "LBY",
+      "v": 0.0175
+     },
+     {
+      "c": "ETH",
+      "v": 0.0174
+     },
+     {
+      "c": "KOR",
+      "v": 0.0173
+     },
+     {
+      "c": "MMR",
+      "v": 0.0173
+     },
+     {
+      "c": "TWN",
+      "v": 0.0169
+     },
+     {
+      "c": "TLS",
+      "v": 0.0168
+     },
+     {
+      "c": "PYF",
+      "v": 0.0165
+     },
+     {
+      "c": "CHE",
+      "v": 0.0163
+     },
+     {
+      "c": "GMB",
+      "v": 0.016
+     },
+     {
+      "c": "COM",
+      "v": 0.0149
+     },
+     {
+      "c": "LVA",
+      "v": 0.0145
+     },
+     {
+      "c": "SLV",
+      "v": 0.0143
+     },
+     {
+      "c": "BRN",
+      "v": 0.0114
+     },
+     {
+      "c": "CMR",
+      "v": 0.0107
+     },
+     {
+      "c": "NZL",
+      "v": 0.0103
+     },
+     {
+      "c": "BRB",
+      "v": 0.0099
+     },
+     {
+      "c": "MAC",
+      "v": 0.0097
+     },
+     {
+      "c": "COG",
+      "v": 0.0096
+     },
+     {
+      "c": "DZA",
+      "v": 0.0093
+     },
+     {
+      "c": "TTO",
+      "v": 0.0091
+     },
+     {
+      "c": "NIC",
+      "v": 0.009
+     },
+     {
+      "c": "SWE",
+      "v": 0.009
+     },
+     {
+      "c": "VUT",
+      "v": 0.0089
+     },
+     {
+      "c": "MLT",
+      "v": 0.0088
+     },
+     {
+      "c": "DOM",
+      "v": 0.0088
+     },
+     {
+      "c": "STP",
+      "v": 0.0087
+     },
+     {
+      "c": "WSM",
+      "v": 0.0087
+     },
+     {
+      "c": "CYP",
+      "v": 0.0086
+     },
+     {
+      "c": "BGR",
+      "v": 0.0086
+     },
+     {
+      "c": "SRB",
+      "v": 0.0084
+     },
+     {
+      "c": "BFA",
+      "v": 0.0082
+     },
+     {
+      "c": "AGO",
+      "v": 0.0076
+     },
+     {
+      "c": "TGO",
+      "v": 0.0076
+     },
+     {
+      "c": "MWI",
+      "v": 0.0064
+     },
+     {
+      "c": "SUR",
+      "v": 0.006
+     },
+     {
+      "c": "TZA",
+      "v": 0.006
+     },
+     {
+      "c": "LAO",
+      "v": 0.0057
+     },
+     {
+      "c": "BHS",
+      "v": 0.0055
+     },
+     {
+      "c": "PAN",
+      "v": 0.0052
+     },
+     {
+      "c": "FIN",
+      "v": 0.0048
+     },
+     {
+      "c": "CYM",
+      "v": 0.0048
+     },
+     {
+      "c": "EST",
+      "v": 0.0047
+     },
+     {
+      "c": "BDI",
+      "v": 0.0044
+     },
+     {
+      "c": "GUY",
+      "v": 0.0043
+     },
+     {
+      "c": "TON",
+      "v": 0.0042
+     },
+     {
+      "c": "CRI",
+      "v": 0.0041
+     },
+     {
+      "c": "GIN",
+      "v": 0.004
+     },
+     {
+      "c": "BWA",
+      "v": 0.0036
+     },
+     {
+      "c": "LBN",
+      "v": 0.0036
+     },
+     {
+      "c": "SYC",
+      "v": 0.0034
+     },
+     {
+      "c": "KIR",
+      "v": 0.0033
+     },
+     {
+      "c": "PER",
+      "v": 0.0032
+     },
+     {
+      "c": "ATG",
+      "v": 0.003
+     },
+     {
+      "c": "NGA",
+      "v": 0.0028
+     },
+     {
+      "c": "URY",
+      "v": 0.0027
+     },
+     {
+      "c": "JOR",
+      "v": 0.0027
+     },
+     {
+      "c": "BLZ",
+      "v": 0.0026
+     },
+     {
+      "c": "NCL",
+      "v": 0.0025
+     },
+     {
+      "c": "NOR",
+      "v": 0.0024
+     },
+     {
+      "c": "JPN",
+      "v": 0.0024
+     },
+     {
+      "c": "SLB",
+      "v": 0.0023
+     },
+     {
+      "c": "LBR",
+      "v": 0.0023
+     },
+     {
+      "c": "UKR",
+      "v": 0.0022
+     },
+     {
+      "c": "RWA",
+      "v": 0.002
+     },
+     {
+      "c": "UGA",
+      "v": 0.002
+     },
+     {
+      "c": "ISL",
+      "v": 0.002
+     },
+     {
+      "c": "KWT",
+      "v": 0.0018
+     },
+     {
+      "c": "GAB",
+      "v": 0.0018
+     },
+     {
+      "c": "CPV",
+      "v": 0.0017
+     },
+     {
+      "c": "SWZ",
+      "v": 0.0015
+     },
+     {
+      "c": "ABW",
+      "v": 0.0015
+     },
+     {
+      "c": "GRD",
+      "v": 0.0014
+     },
+     {
+      "c": "GRL",
+      "v": 0.0012
+     },
+     {
+      "c": "ZWE",
+      "v": 0.0011
+     },
+     {
+      "c": "BTN",
+      "v": 0.001
+     }
+    ],
+    "n": "CEPII BACI HS92 wheat or meslin flour (HS 110100), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight"
+   }
+  },
+  {
    "key": "stocks",
    "title": "Ending stocks",
    "table": {
@@ -3051,6 +4097,28 @@
    "k": 123,
    "cov": 1.0
   },
+  "flour-exports": {
+   "top1": {
+    "c": "TUR",
+    "p": 0.2298
+   },
+   "top3": 0.4563,
+   "hhi": 954,
+   "eq": 10.5,
+   "k": 89,
+   "cov": 1.0
+  },
+  "flour-imports": {
+   "top1": {
+    "c": "AFG",
+    "p": 0.1797
+   },
+   "top3": 0.3074,
+   "hhi": 505,
+   "eq": 19.8,
+   "k": 165,
+   "cov": 1.0
+  },
   "stocks": {
    "top1": {
     "c": "CHN",
@@ -3065,6 +4133,7 @@
  },
  "notes": [
   "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to the grain tables above, and the flour is not converted to wheat. Wheat flour (HS 110100), 2024 (CEPII BACI): world 13.07 Mt gross weight; top exporters Turkey 3.00 Mt, Kazakhstan 1.85 Mt, Uzbekistan 1.12 Mt. A large part of flour trade moves in bags or boxes, so the atlas draws no lanes for it. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.",
   "Customs data record 34.5 Mt of wheat exports from Russia in 2024 (CEPII BACI), of which 11.6 Mt is an Atlas estimate (the tonnage computed by the atlas from the declared value where the declared tonnage was implausible: Egypt 11.1 Mt, Nigeria 0.55 Mt) and 22.9 Mt is as reported; USDA PSD gives 55.5 Mt for 2023/24 and 43 Mt for 2024/25. These flows may rest on importers' declarations alone, so that destinations which do not report are missing; this is not established here. The published customs figure is 38% below the first and 20% below the second. On the tonnage as reported alone (22.9 Mt) the gap is 59% below the first and 47% below the second. Importers that took wheat from Russia in 2019 to 2021 and have none recorded in 2024: Bangladesh (1.75 Mt a year on average), Iran (1.24 Mt a year on average), Sudan (1 Mt a year on average), Yemen (0.93 Mt a year on average), DR Congo (0.548 Mt a year on average); the flows and lanes to them are zero in 2024. The flows and lanes carry the customs figures (an Atlas estimate is marked as such); no further tonnage is added to bring them to the USDA figure."
  ]
 }

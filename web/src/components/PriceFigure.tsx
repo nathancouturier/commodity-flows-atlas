@@ -29,6 +29,7 @@ export function PriceFigure({ commodity }: { commodity: string }) {
   const annual = isAnnualSeries(m);
   const when = annual ? st.last.t.slice(0, 4) : fmtDate(st.last.t);
   const late = isLate(m);
+  const closed = !!m.closed; // the publisher stopped the series (barley, sorghum): its last price is not a current one
   const y = st.chg?.y;
   const what = m.freq === 'D' ? 'daily spot' : annual ? `${annualWord(m)} ${when}` : 'monthly average';
   const est = m.freq !== 'D' && inEstimate(m, lastStamp(st.last.t));
@@ -39,7 +40,7 @@ export function PriceFigure({ commodity }: { commodity: string }) {
       {/* data-src: read by "Copy citation" (lib/cite.ts), like a source line */}
       <div class="kpi" title={`${m.name} · ${sourceLabel(m.s)} · ${what}${annual ? '' : ` · ${when}`}${m.basis ? ' · ' + m.basis : ''}`} data-src={m.s} data-y={st.last.t.slice(0, 4)}>
         <div class="kpi-label">
-          {annual ? `Annual average ${when}` : 'Latest price'} · {name}
+          {annual ? `Annual average ${when}` : closed ? 'Last price' : 'Latest price'} · {name}
         </div>
         <div class="kpi-value num">
           {fmtSeriesValue(m, st.last.v)}
@@ -58,6 +59,7 @@ export function PriceFigure({ commodity }: { commodity: string }) {
             </>
           )}
           {late ? ' · late' : ''}
+          {closed ? ' · series closed' : ''}
         </div>
       </div>
       {y != null && (

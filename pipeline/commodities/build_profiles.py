@@ -96,6 +96,7 @@ SOVEREIGN_NAME = {"United States of America": "the United States", "United Kingd
 VALUE_GROUPS = {
     "thermal-coal": [], "copper": ["copper-ore"], "bauxite": ["bauxite"], "nickel": ["nickel-ore"],
     "zinc": ["zinc-ore"], "lead": ["lead-ore"], "tin": ["tin-metal"], "phosphate": ["phosphate-rock"], "met-coal": [],
+    "sunflower": ["sunflower-seed"],
 }
 COAL = ("thermal-coal", "met-coal")
 ALL_COAL = "Coal (all types)"
@@ -105,7 +106,9 @@ ALL_COAL = "Coal (all types)"
 TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nickel": "Nickel ore", "lead": "Lead concentrate",
                "bauxite": "Bauxite", "cobalt": "Cobalt intermediates and metal", "tin": "Tin (unwrought)",
                # the pages that hold several traded products (M-022): the main line says which one it is
-               "phosphate": "Phosphate rock", "urea": "Urea", "potash": "Potassium chloride (potash)"}
+               "phosphate": "Phosphate rock", "urea": "Urea", "potash": "Potassium chloride (potash)",
+               # the grains and oilseeds that now hold their products too (M-023)
+               "wheat": "Wheat (grain)", "corn": "Corn (grain)", "rapeseed": "Rapeseed", "sunflower": "Sunflower seed"}
 PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
 # Names of HS4 headings. The heading texts of the HS are not reused: the free list on disk is UN Comtrade's, whose terms
@@ -225,7 +228,9 @@ def load_json(path):
 # group of the customs frame -> atlas commodity, for the groups that have no pairs table (the pairs tables carry their own)
 GROUP_K = {"natural-gas": "natural-gas", "uranium": "uranium", "zinc-metal": "zinc", "lead-ore": "lead", "lead-metal": "lead",
            "tin-ore": "tin", "tin-metal": "tin", "lithium": "lithium", "cobalt": "cobalt", "rare-earths": "rare-earths",
-           "gold": "gold", "silver": "silver", "pgm": "pgm"}
+           "gold": "gold", "silver": "silver", "pgm": "pgm",
+           # the products of the grain pages that have no lanes (M-023)
+           "wheat-flour": "wheat", "brewing-distilling-dregs": "corn"}
 # A traded product of a commodity: its exports and imports tables (section or extra key), the customs group of its
 # partners, and the production table that would carry the country if it produced it (None: the atlas has none).
 # The main table of each commodity is added in products() with the group MAIN_GROUP gives.
@@ -246,10 +251,16 @@ PRODUCTS = [
     ("phosphate", "superphosphates-exports", "superphosphates-imports", "superphosphates", None),
     ("phosphate", "phosphoric-acid-exports", "phosphoric-acid-imports", "phosphoric-acid", None),
     ("potash", "sop-exports", "sop-imports", "potassium-sulphate", None),
+    ("wheat", "flour-exports", "flour-imports", "wheat-flour", None),
+    ("corn", "dregs-exports", "dregs-imports", "brewing-distilling-dregs", None),
+    ("sunflower", "sunflower-oil-exports", "sunflower-oil-imports", "sunflower-oil", "sunflower-oil-production"),
+    ("sunflower", "sunflower-meal-exports", "sunflower-meal-imports", "sunflower-meal", "sunflower-meal-production"),
+    ("rapeseed", "rapeseed-oil-exports", "rapeseed-oil-imports", "rapeseed-oil", "rapeseed-oil-production"),
+    ("rapeseed", "rapeseed-meal-exports", "rapeseed-meal-imports", "rapeseed-meal", "rapeseed-meal-production"),
 ]
 # the customs group of a commodity's main trade table; None: the table is not customs data (EIA) and has no partners here
 MAIN_GROUP = {"copper": "copper-ore", "nickel": "nickel-ore", "zinc": "zinc-ore", "lead": "lead-ore", "tin": "tin-metal",
-              "phosphate": "phosphate-rock", "thermal-coal": None, "met-coal": None, "natural-gas": None}
+              "sunflower": "sunflower-seed", "phosphate": "phosphate-rock", "thermal-coal": None, "met-coal": None, "natural-gas": None}
 # precious metals: declared value, not gross weight, is the basis of the partner shares (dore and bullion weigh alike)
 VALUE_SHARE_GROUPS = {"gold", "silver", "pgm"}
 # Extra tables of a commodity file. Every one gives lines: its section is the last word of its key (extra_section), its
@@ -286,6 +297,18 @@ EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined 
               "phosphoric-acid-imports": ("imports", "phosphoric-acid", "Phosphoric acid"),
               "sop-exports": ("exports", "potassium-sulphate", "Potassium sulphate (SOP)"),
               "sop-imports": ("imports", "potassium-sulphate", "Potassium sulphate (SOP)"),
+              # the products of the grain and oilseed pages (audit M-023)
+              "flour-exports": ("exports", "wheat-flour", "Wheat flour"), "flour-imports": ("imports", "wheat-flour", "Wheat flour"),
+              "dregs-exports": ("exports", "brewing-distilling-dregs", "Brewing and distilling dregs"),
+              "dregs-imports": ("imports", "brewing-distilling-dregs", "Brewing and distilling dregs"),
+              "sunflower-oil-exports": ("exports", "sunflower-oil", "Sunflower and safflower oil"),
+              "sunflower-oil-imports": ("imports", "sunflower-oil", "Sunflower and safflower oil"),
+              "sunflower-meal-exports": ("exports", "sunflower-meal", "Sunflower meal"),
+              "sunflower-meal-imports": ("imports", "sunflower-meal", "Sunflower meal"),
+              "rapeseed-oil-exports": ("exports", "rapeseed-oil", "Rapeseed, canola and mustard oil"),
+              "rapeseed-oil-imports": ("imports", "rapeseed-oil", "Rapeseed, canola and mustard oil"),
+              "rapeseed-meal-exports": ("exports", "rapeseed-meal", "Rapeseed meal"),
+              "rapeseed-meal-imports": ("imports", "rapeseed-meal", "Rapeseed meal"),
               "k2o-production": ("production", "", "Potash (K2O content)"),
               # the 27 member states of the EU, beside USDA's single European Union row (FAOSTAT production, customs trade); the tables
               # are `norank` and their `world` is the EU total: the share of a line is read on `worldAll`, the world total of its source

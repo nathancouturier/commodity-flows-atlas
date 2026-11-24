@@ -79,6 +79,10 @@ GROUPS = {
     # the other fertilisers and sulphur (M-022); ammonia, UAN and phosphoric acid are liquids (vessel_rules.py)
     "potassium-sulphate": "Mt", "monoammonium-phosphate": "Mt", "superphosphates": "Mt", "phosphoric-acid": "Mt", "npk": "Mt",
     "ammonia": "Mt", "ammonium-nitrate": "Mt", "uan": "Mt", "ammonium-sulphate": "Mt", "sulphur": "Mt",
+    # the grains, oilseeds and products added with M-023: the oils sail in tankers, the rest as grain in dry bulk (vessel_rules.py).
+    # Wheat flour and brewing and distilling dregs go in bags and boxes for a large part: tables only, no lanes
+    "barley": "Mt", "sorghum": "Mt", "sunflower-seed": "Mt", "sunflower-oil": "Mt", "sunflower-meal": "Mt",
+    "rapeseed-oil": "Mt", "rapeseed-meal": "Mt", "pulses": "Mt",
 }
 # atlas commodity id for each group (the site loads lanes by commodity)
 COMMODITY = {
@@ -88,6 +92,8 @@ COMMODITY = {
     "lead-ore": "lead", "lead-metal": "lead", "zinc-metal": "zinc", "tin-metal": "tin", "tin-ore": "tin",
     "potassium-sulphate": "potash", "monoammonium-phosphate": "phosphate", "superphosphates": "phosphate",
     "phosphoric-acid": "phosphate", "ammonia": "urea", "ammonium-nitrate": "urea", "uan": "urea", "ammonium-sulphate": "urea",
+    "sunflower-seed": "sunflower", "sunflower-oil": "sunflower", "sunflower-meal": "sunflower",
+    "rapeseed-oil": "rapeseed", "rapeseed-meal": "rapeseed",
 }
 LABEL = {
     "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
@@ -100,6 +106,9 @@ LABEL = {
     "potassium-sulphate": "Potassium sulphate (SOP)", "monoammonium-phosphate": "MAP", "superphosphates": "Superphosphates",
     "phosphoric-acid": "Phosphoric acid", "ammonia": "Ammonia", "ammonium-nitrate": "Ammonium nitrate", "uan": "UAN solution",
     "ammonium-sulphate": "Ammonium sulphate",
+    # what each code holds in HS 1992 (the oils' codes hold two oils each; pulses are every dried leguminous vegetable, shelled)
+    "sunflower-seed": "Sunflower seed", "sunflower-oil": "Sunflower and safflower oil", "sunflower-meal": "Sunflower meal",
+    "rapeseed-oil": "Rapeseed, canola and mustard oil", "rapeseed-meal": "Rapeseed meal", "pulses": "Dried pulses",
 }
 # Groups that are an Atlas estimate by construction (a read of a customs code that mixes products, hs_map.SPLIT): their
 # flows, lane file and pairs file carry the source id "atlas" and this note of the method.
@@ -129,6 +138,8 @@ CAP = {
     "rare-earths": 30,
     "potassium-sulphate": 40, "monoammonium-phosphate": 60, "superphosphates": 40, "phosphoric-acid": 40, "npk": 80,
     "ammonia": 60, "ammonium-nitrate": 40, "uan": 40, "ammonium-sulphate": 60, "sulphur": 60,
+    "barley": 80, "sorghum": 40, "sunflower-seed": 60, "sunflower-oil": 60, "sunflower-meal": 60, "rapeseed-oil": 60,
+    "rapeseed-meal": 40, "pulses": 80,
 }
 # The minor metals trade in parcels of a few thousand tonnes (tin, cobalt, lithium and rare-earth groups hold 0.1 to
 # 0.7 Mt a year in all) and unwrought lead and zinc over hundreds of small pairs: their floor is lower, so that the main
@@ -138,7 +149,10 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002,
          # potassium sulphate (1.5 Mt over 193 seaborne pairs, 54 kt at most) and ammonium nitrate (a few large pairs over 300 small
          # ones): the default floor kept 21% and 57% of their seaborne tonnes in the main set (M-022)
-         "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02}
+         "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,
+         # sunflower seed (2.2 Mt by sea over 358 pairs) and rapeseed oil (2.8 Mt over 323 pairs) trade in parcels of a few tens of
+         # thousands of tonnes: the default floor kept 49% and 35% of their seaborne tonnes in the main set (M-023)
+         "sunflower-seed": 0.01, "rapeseed-oil": 0.01}
 FLOOR_DEFAULT = 0.05
 # history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
 # three years before the latest, so that a new BACI year moves the window)

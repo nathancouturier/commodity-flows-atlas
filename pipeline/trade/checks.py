@@ -60,6 +60,9 @@ PSD_GROUPS = {
     "wheat": "Wheat", "corn": "Corn", "soybeans": "Oilseed, Soybean", "soymeal": "Meal, Soybean", "soyoil": "Oil, Soybean",
     "rice": "Rice, Milled", "palm-oil": "Oil, Palm", "rapeseed": "Oilseed, Rapeseed", "cotton": "Cotton",
     "sugar": "Sugar, Centrifugal", "coffee": "Coffee, Green",
+    # the grains, oilseeds and products added with M-023 (HS 1512 and 1514 also hold safflower and mustard oil; PSD does not)
+    "barley": "Barley", "sorghum": "Sorghum", "sunflower-seed": "Oilseed, Sunflowerseed", "sunflower-oil": "Oil, Sunflowerseed",
+    "sunflower-meal": "Meal, Sunflowerseed", "rapeseed-oil": "Oil, Rapeseed", "rapeseed-meal": "Meal, Rapeseed",
 }
 # kt per PSD unit: 1000 bales of 480 lb, 1000 bags of 60 kg (pipeline/common/constants.py)
 PSD_KT = {"(1000 480 lb. Bales)": CN.KT_PER_1000_COTTON_BALES, "(1000 60 KG BAGS)": CN.KT_PER_1000_COFFEE_BAGS, "(1000 MT)": 1.0}
@@ -84,7 +87,9 @@ USGS_UNIT = {"potash": " K2O", "urea": " of nitrogen"}
 LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm-oil": "palm oil", "iron-ore": "iron ore",
          "phosphate-rock": "phosphate rock", "soymeal": "soybean meal", "soyoil": "soybean oil", "lng": "LNG", "lpg": "LPG",
          "dap": "DAP", "nickel-int": "nickel intermediates", "uan": "UAN", "npk": "NPK",
-         "monoammonium-phosphate": "MAP", "potassium-sulphate": "potassium sulphate (SOP)"}
+         "monoammonium-phosphate": "MAP", "potassium-sulphate": "potassium sulphate (SOP)",
+         # what the code holds in HS 1992 (M-023): two oils in each oil code, every dried pulse in the pulses code
+         "sunflower-oil": "sunflower and safflower oil", "rapeseed-oil": "rapeseed, canola and mustard oil", "pulses": "dried pulses"}
 
 
 def label(g):

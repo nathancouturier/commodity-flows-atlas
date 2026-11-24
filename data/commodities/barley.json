@@ -1,0 +1,1914 @@
+{
+ "id": "barley",
+ "summary": {
+  "production": {
+   "v": 161.05,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Barley, barley production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  },
+  "consumption": {
+   "v": 156.11,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Barley, barley domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 33.242,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Barley, barley exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 32.9 Mt"
+  },
+  "seaborne": {
+   "v": 29.47,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (barley) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 1.07 Mt that move both by sea and overland (split not known) are not in it"
+  }
+ },
+ "production": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 161.05,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 52.15
+   },
+   {
+    "c": "RUS",
+    "v": 19.0
+   },
+   {
+    "c": "AUS",
+    "v": 18.0
+   },
+   {
+    "c": "CAN",
+    "v": 10.0
+   },
+   {
+    "c": "TUR",
+    "v": 8.8
+   },
+   {
+    "c": "UKR",
+    "v": 7.0
+   },
+   {
+    "c": "GBR",
+    "v": 6.1
+   },
+   {
+    "c": "ARG",
+    "v": 5.1
+   },
+   {
+    "c": "KAZ",
+    "v": 3.85
+   },
+   {
+    "c": "IRN",
+    "v": 3.5
+   },
+   {
+    "c": "USA",
+    "v": 2.518
+   },
+   {
+    "c": "ETH",
+    "v": 2.5
+   },
+   {
+    "c": "MAR",
+    "v": 2.4
+   },
+   {
+    "c": "CHN",
+    "v": 2.3
+   },
+   {
+    "c": "SYR",
+    "v": 2.3
+   },
+   {
+    "c": "DZA",
+    "v": 2.0
+   },
+   {
+    "c": "IND",
+    "v": 1.796
+   },
+   {
+    "c": "BLR",
+    "v": 1.2
+   },
+   {
+    "c": "IRQ",
+    "v": 1.12
+   },
+   {
+    "c": "AZE",
+    "v": 1.115
+   },
+   {
+    "c": "URY",
+    "v": 0.95
+   },
+   {
+    "c": "MEX",
+    "v": 0.85
+   },
+   {
+    "c": "TUN",
+    "v": 0.7
+   },
+   {
+    "c": "KGZ",
+    "v": 0.65
+   },
+   {
+    "c": "BRA",
+    "v": 0.6
+   },
+   {
+    "c": "NOR",
+    "v": 0.6
+   },
+   {
+    "c": "SRB",
+    "v": 0.575
+   },
+   {
+    "c": "ZAF",
+    "v": 0.41
+   },
+   {
+    "c": "NZL",
+    "v": 0.35
+   },
+   {
+    "c": "MDA",
+    "v": 0.245
+   },
+   {
+    "c": "JPN",
+    "v": 0.23
+   },
+   {
+    "c": "PER",
+    "v": 0.23
+   },
+   {
+    "c": "CHE",
+    "v": 0.19
+   },
+   {
+    "c": "TJK",
+    "v": 0.17
+   },
+   {
+    "c": "CHL",
+    "v": 0.16
+   },
+   {
+    "c": "UZB",
+    "v": 0.155
+   },
+   {
+    "c": "MKD",
+    "v": 0.14
+   },
+   {
+    "c": "AFG",
+    "v": 0.105
+   },
+   {
+    "c": "LBY",
+    "v": 0.1
+   },
+   {
+    "c": "ARM",
+    "v": 0.09
+   },
+   {
+    "c": "EGY",
+    "v": 0.09
+   },
+   {
+    "c": "BIH",
+    "v": 0.08
+   },
+   {
+    "c": "JOR",
+    "v": 0.07
+   },
+   {
+    "c": "TKM",
+    "v": 0.07
+   },
+   {
+    "c": "KOR",
+    "v": 0.069
+   },
+   {
+    "c": "ERI",
+    "v": 0.065
+   },
+   {
+    "c": "GEO",
+    "v": 0.055
+   },
+   {
+    "c": "ZWE",
+    "v": 0.055
+   },
+   {
+    "c": "BOL",
+    "v": 0.05
+   },
+   {
+    "c": "PAK",
+    "v": 0.045
+   },
+   {
+    "c": "KEN",
+    "v": 0.03
+   },
+   {
+    "c": "LBN",
+    "v": 0.03
+   },
+   {
+    "c": "YEM",
+    "v": 0.03
+   },
+   {
+    "c": "ALB",
+    "v": 0.017
+   },
+   {
+    "c": "ISR",
+    "v": 0.014
+   },
+   {
+    "c": "ECU",
+    "v": 0.012
+   },
+   {
+    "c": "SAU",
+    "v": 0.012
+   },
+   {
+    "c": "COL",
+    "v": 0.007
+   },
+   {
+    "c": "OMN",
+    "v": 0.002
+   },
+   {
+    "c": "BTN",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Barley, barley production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "consumption": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 156.11,
+  "rows": [
+   {
+    "c": "EU27",
+    "v": 46.2
+   },
+   {
+    "c": "CHN",
+    "v": 15.9
+   },
+   {
+    "c": "RUS",
+    "v": 15.2
+   },
+   {
+    "c": "TUR",
+    "v": 8.5
+   },
+   {
+    "c": "CAN",
+    "v": 6.75
+   },
+   {
+    "c": "GBR",
+    "v": 6.05
+   },
+   {
+    "c": "IRN",
+    "v": 5.8
+   },
+   {
+    "c": "AUS",
+    "v": 5.4
+   },
+   {
+    "c": "SAU",
+    "v": 4.925
+   },
+   {
+    "c": "UKR",
+    "v": 3.5
+   },
+   {
+    "c": "USA",
+    "v": 2.94
+   },
+   {
+    "c": "MAR",
+    "v": 2.85
+   },
+   {
+    "c": "ETH",
+    "v": 2.6
+   },
+   {
+    "c": "DZA",
+    "v": 2.3
+   },
+   {
+    "c": "KAZ",
+    "v": 2.3
+   },
+   {
+    "c": "SYR",
+    "v": 2.05
+   },
+   {
+    "c": "IND",
+    "v": 1.95
+   },
+   {
+    "c": "ARG",
+    "v": 1.7
+   },
+   {
+    "c": "IRQ",
+    "v": 1.45
+   },
+   {
+    "c": "BRA",
+    "v": 1.4
+   },
+   {
+    "c": "MEX",
+    "v": 1.4
+   },
+   {
+    "c": "JPN",
+    "v": 1.335
+   },
+   {
+    "c": "BLR",
+    "v": 1.25
+   },
+   {
+    "c": "TUN",
+    "v": 1.18
+   },
+   {
+    "c": "AZE",
+    "v": 1.125
+   },
+   {
+    "c": "LBY",
+    "v": 1.1
+   },
+   {
+    "c": "JOR",
+    "v": 0.9
+   },
+   {
+    "c": "KGZ",
+    "v": 0.66
+   },
+   {
+    "c": "URY",
+    "v": 0.66
+   },
+   {
+    "c": "NOR",
+    "v": 0.61
+   },
+   {
+    "c": "SRB",
+    "v": 0.505
+   },
+   {
+    "c": "ZAF",
+    "v": 0.475
+   },
+   {
+    "c": "NZL",
+    "v": 0.355
+   },
+   {
+    "c": "PER",
+    "v": 0.345
+   },
+   {
+    "c": "COL",
+    "v": 0.335
+   },
+   {
+    "c": "ARE",
+    "v": 0.3
+   },
+   {
+    "c": "UZB",
+    "v": 0.3
+   },
+   {
+    "c": "ISR",
+    "v": 0.27
+   },
+   {
+    "c": "QAT",
+    "v": 0.25
+   },
+   {
+    "c": "VNM",
+    "v": 0.25
+   },
+   {
+    "c": "TJK",
+    "v": 0.245
+   },
+   {
+    "c": "CHE",
+    "v": 0.24
+   },
+   {
+    "c": "YEM",
+    "v": 0.23
+   },
+   {
+    "c": "KWT",
+    "v": 0.2
+   },
+   {
+    "c": "KOR",
+    "v": 0.16
+   },
+   {
+    "c": "CHL",
+    "v": 0.155
+   },
+   {
+    "c": "ARM",
+    "v": 0.135
+   },
+   {
+    "c": "EGY",
+    "v": 0.13
+   },
+   {
+    "c": "LBN",
+    "v": 0.13
+   },
+   {
+    "c": "MKD",
+    "v": 0.125
+   },
+   {
+    "c": "BIH",
+    "v": 0.115
+   },
+   {
+    "c": "AFG",
+    "v": 0.11
+   },
+   {
+    "c": "THA",
+    "v": 0.1
+   },
+   {
+    "c": "MDA",
+    "v": 0.09
+   },
+   {
+    "c": "TKM",
+    "v": 0.07
+   },
+   {
+    "c": "ERI",
+    "v": 0.065
+   },
+   {
+    "c": "ZWE",
+    "v": 0.065
+   },
+   {
+    "c": "GEO",
+    "v": 0.058
+   },
+   {
+    "c": "OMN",
+    "v": 0.052
+   },
+   {
+    "c": "PAK",
+    "v": 0.052
+   },
+   {
+    "c": "BOL",
+    "v": 0.05
+   },
+   {
+    "c": "ECU",
+    "v": 0.047
+   },
+   {
+    "c": "ALB",
+    "v": 0.042
+   },
+   {
+    "c": "PHL",
+    "v": 0.03
+   },
+   {
+    "c": "TWN",
+    "v": 0.03
+   },
+   {
+    "c": "KEN",
+    "v": 0.008
+   },
+   {
+    "c": "BTN",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Barley, barley domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "exports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 33.242,
+  "rows": [
+   {
+    "c": "AUS",
+    "v": 12.0
+   },
+   {
+    "c": "EU27",
+    "v": 7.2,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 15.8 Mt of exports, of which 9.18 Mt to other member states and 6.63 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "CAN",
+    "v": 3.3
+   },
+   {
+    "c": "ARG",
+    "v": 3.2
+   },
+   {
+    "c": "RUS",
+    "v": 3.2
+   },
+   {
+    "c": "UKR",
+    "v": 1.7
+   },
+   {
+    "c": "KAZ",
+    "v": 1.5
+   },
+   {
+    "c": "GBR",
+    "v": 0.5
+   },
+   {
+    "c": "URY",
+    "v": 0.2
+   },
+   {
+    "c": "MDA",
+    "v": 0.15
+   },
+   {
+    "c": "USA",
+    "v": 0.109
+   },
+   {
+    "c": "SRB",
+    "v": 0.06
+   },
+   {
+    "c": "TUR",
+    "v": 0.05
+   },
+   {
+    "c": "KEN",
+    "v": 0.025
+   },
+   {
+    "c": "MKD",
+    "v": 0.015
+   },
+   {
+    "c": "AZE",
+    "v": 0.01
+   },
+   {
+    "c": "IND",
+    "v": 0.01
+   },
+   {
+    "c": "AFG",
+    "v": 0.005
+   },
+   {
+    "c": "ZAF",
+    "v": 0.005
+   },
+   {
+    "c": "GEO",
+    "v": 0.002
+   },
+   {
+    "c": "BLR",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Barley, barley exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 32.9 Mt; Customs data (CEPII BACI 2024), the 27 member states together: 15.8 Mt of exports, of which 9.18 Mt to other member states and 6.63 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 15.816,
+   "intra": 9.183,
+   "extra": 6.633
+  }
+ },
+ "imports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 31.589,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 13.5
+   },
+   {
+    "c": "SAU",
+    "v": 4.9
+   },
+   {
+    "c": "IRN",
+    "v": 2.3
+   },
+   {
+    "c": "JPN",
+    "v": 1.15
+   },
+   {
+    "c": "LBY",
+    "v": 1.0
+   },
+   {
+    "c": "JOR",
+    "v": 0.85
+   },
+   {
+    "c": "BRA",
+    "v": 0.8
+   },
+   {
+    "c": "EU27",
+    "v": 0.7,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 10.7 Mt of imports, of which 9.18 Mt from other member states and 1.54 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "MEX",
+    "v": 0.525
+   },
+   {
+    "c": "MAR",
+    "v": 0.5
+   },
+   {
+    "c": "TUN",
+    "v": 0.45
+   },
+   {
+    "c": "DZA",
+    "v": 0.4
+   },
+   {
+    "c": "COL",
+    "v": 0.33
+   },
+   {
+    "c": "USA",
+    "v": 0.327
+   },
+   {
+    "c": "IRQ",
+    "v": 0.3
+   },
+   {
+    "c": "ARE",
+    "v": 0.3
+   },
+   {
+    "c": "ISR",
+    "v": 0.25
+   },
+   {
+    "c": "QAT",
+    "v": 0.25
+   },
+   {
+    "c": "VNM",
+    "v": 0.25
+   },
+   {
+    "c": "KWT",
+    "v": 0.2
+   },
+   {
+    "c": "GBR",
+    "v": 0.2
+   },
+   {
+    "c": "YEM",
+    "v": 0.2
+   },
+   {
+    "c": "IND",
+    "v": 0.15
+   },
+   {
+    "c": "TUR",
+    "v": 0.15
+   },
+   {
+    "c": "UZB",
+    "v": 0.15
+   },
+   {
+    "c": "CAN",
+    "v": 0.125
+   },
+   {
+    "c": "PER",
+    "v": 0.115
+   },
+   {
+    "c": "ETH",
+    "v": 0.1
+   },
+   {
+    "c": "LBN",
+    "v": 0.1
+   },
+   {
+    "c": "SYR",
+    "v": 0.1
+   },
+   {
+    "c": "THA",
+    "v": 0.1
+   },
+   {
+    "c": "KOR",
+    "v": 0.09
+   },
+   {
+    "c": "TJK",
+    "v": 0.07
+   },
+   {
+    "c": "ZAF",
+    "v": 0.06
+   },
+   {
+    "c": "ARM",
+    "v": 0.05
+   },
+   {
+    "c": "BLR",
+    "v": 0.05
+   },
+   {
+    "c": "KAZ",
+    "v": 0.05
+   },
+   {
+    "c": "OMN",
+    "v": 0.05
+   },
+   {
+    "c": "RUS",
+    "v": 0.05
+   },
+   {
+    "c": "CHE",
+    "v": 0.05
+   },
+   {
+    "c": "EGY",
+    "v": 0.04
+   },
+   {
+    "c": "ECU",
+    "v": 0.035
+   },
+   {
+    "c": "BIH",
+    "v": 0.03
+   },
+   {
+    "c": "PHL",
+    "v": 0.03
+   },
+   {
+    "c": "TWN",
+    "v": 0.03
+   },
+   {
+    "c": "ALB",
+    "v": 0.025
+   },
+   {
+    "c": "AZE",
+    "v": 0.025
+   },
+   {
+    "c": "KGZ",
+    "v": 0.025
+   },
+   {
+    "c": "AFG",
+    "v": 0.01
+   },
+   {
+    "c": "NOR",
+    "v": 0.01
+   },
+   {
+    "c": "ZWE",
+    "v": 0.01
+   },
+   {
+    "c": "PAK",
+    "v": 0.007
+   },
+   {
+    "c": "GEO",
+    "v": 0.005
+   },
+   {
+    "c": "NZL",
+    "v": 0.005
+   },
+   {
+    "c": "SRB",
+    "v": 0.005
+   },
+   {
+    "c": "KEN",
+    "v": 0.003
+   },
+   {
+    "c": "MKD",
+    "v": 0.001
+   },
+   {
+    "c": "TKM",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Barley, barley imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Imports') the world total is 32.0 Mt; Customs data (CEPII BACI 2024), the 27 member states together: 10.7 Mt of imports, of which 9.18 Mt from other member states and 1.54 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 10.72,
+   "intra": 9.183,
+   "extra": 1.537
+  }
+ },
+ "extra": [
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 15.816,
+    "rows": [
+     {
+      "c": "FRA",
+      "v": 5.616,
+      "n": "of which 3.1 Mt to other member states and 2.52 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 3.359,
+      "n": "of which 2.33 Mt to other member states and 1.03 Mt to countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 2.401,
+      "n": "of which 0.453 Mt to other member states and 1.95 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 1.011,
+      "n": "of which 0.868 Mt to other member states and 0.142 Mt to countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.8064,
+      "n": "of which 0.324 Mt to other member states and 0.483 Mt to countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.4144,
+      "n": "of which 0.403 Mt to other member states and 0.0116 Mt to countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.3818,
+      "n": "of which 0.24 Mt to other member states and 0.142 Mt to countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.3234,
+      "n": "of which 0.273 Mt to other member states and 0.0505 Mt to countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.3162,
+      "n": "of which 0.264 Mt to other member states and 0.0527 Mt to countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.1872,
+      "n": "of which 0.0652 Mt to other member states and 0.122 Mt to countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.1712,
+      "n": "of which 0.153 Mt to other member states and 0.018 Mt to countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.1336,
+      "n": "of which 0.134 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.1328,
+      "n": "of which 0.0904 Mt to other member states and 0.0424 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.1258,
+      "n": "of which 0.126 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.1028,
+      "n": "of which 0.0945 Mt to other member states and 0.00826 Mt to countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.0893,
+      "n": "of which 0.0797 Mt to other member states and 0.00959 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0851,
+      "n": "of which 0.0833 Mt to other member states and 0.00185 Mt to countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.0356,
+      "n": "of which 0 Mt to other member states and 0.0356 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0293,
+      "n": "of which 0.0293 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0203,
+      "n": "of which 0.0203 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.0185,
+      "n": "of which 0.00541 Mt to other member states and 0.0131 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0174,
+      "n": "of which 0.0174 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0157,
+      "n": "of which 0.0124 Mt to other member states and 0.00329 Mt to countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0096,
+      "n": "of which 0.00964 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.0061,
+      "n": "of which 0.00609 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.0034,
+      "n": "of which 0.00335 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0033,
+      "n": "of which 0 Mt to other member states and 0.00326 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, barley (HS 100300): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 15.8 Mt, of which 9.18 Mt to other member states and 6.63 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 38.9 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 38.896,
+    "split": {
+     "total": 15.816,
+     "intra": 9.183,
+     "extra": 6.633
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 10.72,
+    "rows": [
+     {
+      "c": "NLD",
+      "v": 2.471,
+      "n": "of which 2.31 Mt from other member states and 0.163 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 1.697,
+      "n": "of which 1.59 Mt from other member states and 0.104 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 1.611,
+      "n": "of which 1.11 Mt from other member states and 0.499 Mt from countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 1.311,
+      "n": "of which 1.26 Mt from other member states and 0.0518 Mt from countries outside the EU"
+     },
+     {
+      "c": "ITA",
+      "v": 0.7889,
+      "n": "of which 0.742 Mt from other member states and 0.0471 Mt from countries outside the EU"
+     },
+     {
+      "c": "IRL",
+      "v": 0.4958,
+      "n": "of which 0.341 Mt from other member states and 0.155 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.4264,
+      "n": "of which 0.359 Mt from other member states and 0.0672 Mt from countries outside the EU"
+     },
+     {
+      "c": "DNK",
+      "v": 0.345,
+      "n": "of which 0.328 Mt from other member states and 0.0166 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.3271,
+      "n": "of which 0.237 Mt from other member states and 0.0899 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.2539,
+      "n": "of which 0.254 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "CYP",
+      "v": 0.2355,
+      "n": "of which 0.0306 Mt from other member states and 0.205 Mt from countries outside the EU"
+     },
+     {
+      "c": "GRC",
+      "v": 0.1413,
+      "n": "of which 0.076 Mt from other member states and 0.0653 Mt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.1263,
+      "n": "of which 0.0985 Mt from other member states and 0.0278 Mt from countries outside the EU"
+     },
+     {
+      "c": "SWE",
+      "v": 0.1156,
+      "n": "of which 0.0874 Mt from other member states and 0.0283 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0773,
+      "n": "of which 0.0773 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.0642,
+      "n": "of which 0.0603 Mt from other member states and 0.00388 Mt from countries outside the EU"
+     },
+     {
+      "c": "HRV",
+      "v": 0.0556,
+      "n": "of which 0.047 Mt from other member states and 0.00863 Mt from countries outside the EU"
+     },
+     {
+      "c": "CZE",
+      "v": 0.0413,
+      "n": "of which 0.0413 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LVA",
+      "v": 0.0265,
+      "n": "of which 0.0221 Mt from other member states and 0.0044 Mt from countries outside the EU"
+     },
+     {
+      "c": "SVN",
+      "v": 0.0236,
+      "n": "of which 0.0236 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.021,
+      "n": "of which 0.021 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LTU",
+      "v": 0.0182,
+      "n": "of which 0.0182 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "FIN",
+      "v": 0.0161,
+      "n": "of which 0.0161 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "MLT",
+      "v": 0.0124,
+      "n": "of which 0.0124 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "EST",
+      "v": 0.01,
+      "n": "of which 0.01 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "BGR",
+      "v": 0.0071,
+      "n": "of which 0.00713 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "LUX",
+      "v": 0.0012,
+      "n": "of which 0.0012 Mt from other member states and 0 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, barley (HS 100300): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 10.7 Mt, of which 9.18 Mt from other member states and 1.54 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 38.9 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 38.896,
+    "split": {
+     "total": 10.72,
+     "intra": 9.183,
+     "extra": 1.537
+    }
+   }
+  },
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 24.46,
+    "rows": [
+     {
+      "c": "EU27",
+      "v": 5.883
+     },
+     {
+      "c": "UKR",
+      "v": 3.499
+     },
+     {
+      "c": "AUS",
+      "v": 1.911
+     },
+     {
+      "c": "USA",
+      "v": 1.243
+     },
+     {
+      "c": "RUS",
+      "v": 1.212
+     },
+     {
+      "c": "GBR",
+      "v": 1.087
+     },
+     {
+      "c": "CAN",
+      "v": 1.015
+     },
+     {
+      "c": "TUR",
+      "v": 0.979
+     },
+     {
+      "c": "SAU",
+      "v": 0.893
+     },
+     {
+      "c": "ARG",
+      "v": 0.877
+     },
+     {
+      "c": "JOR",
+      "v": 0.731
+     },
+     {
+      "c": "IRN",
+      "v": 0.682
+     },
+     {
+      "c": "DZA",
+      "v": 0.501
+     },
+     {
+      "c": "KAZ",
+      "v": 0.482
+     },
+     {
+      "c": "SYR",
+      "v": 0.423
+     },
+     {
+      "c": "CHN",
+      "v": 0.394
+     },
+     {
+      "c": "ZAF",
+      "v": 0.264
+     },
+     {
+      "c": "MEX",
+      "v": 0.251
+     },
+     {
+      "c": "URY",
+      "v": 0.224
+     },
+     {
+      "c": "MAR",
+      "v": 0.18
+     },
+     {
+      "c": "IND",
+      "v": 0.176
+     },
+     {
+      "c": "JPN",
+      "v": 0.165
+     },
+     {
+      "c": "IRQ",
+      "v": 0.156
+     },
+     {
+      "c": "BRA",
+      "v": 0.144
+     },
+     {
+      "c": "TUN",
+      "v": 0.12
+     },
+     {
+      "c": "BLR",
+      "v": 0.117
+     },
+     {
+      "c": "AZE",
+      "v": 0.092
+     },
+     {
+      "c": "ETH",
+      "v": 0.079
+     },
+     {
+      "c": "SRB",
+      "v": 0.069
+     },
+     {
+      "c": "LBY",
+      "v": 0.063
+     },
+     {
+      "c": "NOR",
+      "v": 0.062
+     },
+     {
+      "c": "COL",
+      "v": 0.058
+     },
+     {
+      "c": "KGZ",
+      "v": 0.056
+     },
+     {
+      "c": "NZL",
+      "v": 0.043
+     },
+     {
+      "c": "UZB",
+      "v": 0.043
+     },
+     {
+      "c": "PER",
+      "v": 0.039
+     },
+     {
+      "c": "CHL",
+      "v": 0.035
+     },
+     {
+      "c": "ISR",
+      "v": 0.032
+     },
+     {
+      "c": "CHE",
+      "v": 0.028
+     },
+     {
+      "c": "BIH",
+      "v": 0.025
+     },
+     {
+      "c": "TJK",
+      "v": 0.025
+     },
+     {
+      "c": "ARM",
+      "v": 0.021
+     },
+     {
+      "c": "KOR",
+      "v": 0.016
+     },
+     {
+      "c": "MDA",
+      "v": 0.016
+     },
+     {
+      "c": "MKD",
+      "v": 0.013
+     },
+     {
+      "c": "TKM",
+      "v": 0.011
+     },
+     {
+      "c": "AFG",
+      "v": 0.008
+     },
+     {
+      "c": "VNM",
+      "v": 0.006
+     },
+     {
+      "c": "PAK",
+      "v": 0.005
+     },
+     {
+      "c": "ZWE",
+      "v": 0.004
+     },
+     {
+      "c": "KEN",
+      "v": 0.001
+     },
+     {
+      "c": "LBN",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Barley, barley ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  }
+ ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "area",
+    "label": "Harvested area",
+    "u": "Mha",
+    "v": [
+     44.402,
+     46.845
+    ]
+   },
+   {
+    "k": "yield",
+    "label": "Yield",
+    "u": "t/ha",
+    "v": [
+     3.48,
+     3.44
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: world production divided by world harvested area, both as USDA PSD publishes them"
+   },
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     154.4,
+     161.05
+    ]
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     18.313,
+     21.165
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     150.17,
+     156.1
+    ]
+   },
+   {
+    "k": "use-Feed Dom. Consumption",
+    "label": "Feed use",
+    "u": "Mt",
+    "v": [
+     104.41,
+     109.79
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-FSI Consumption",
+    "label": "Food, seed and industrial use",
+    "u": "Mt",
+    "v": [
+     45.762,
+     46.318
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     37.067,
+     33.242
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     21.165,
+     24.46
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     14.1,
+     15.7
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     0.494,
+     0.394
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     20.671,
+     24.066
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     3.0,
+     2.5
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     15.5,
+     17.2
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Barley: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+ },
+ "flows": [
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 5.027,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1369316000,
+   "uv": 272,
+   "mode": "sea",
+   "lane": "barley:AUS-CHN"
+  },
+  {
+   "o": "RUS",
+   "d": "SAU",
+   "v": 2.04,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 510630000,
+   "uv": 250,
+   "mode": "sea",
+   "lane": "barley:RUS-SAU"
+  },
+  {
+   "o": "FRA",
+   "d": "CHN",
+   "v": 1.955,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 457904000,
+   "uv": 234,
+   "mode": "sea",
+   "lane": "barley:FRA-CHN"
+  },
+  {
+   "o": "CAN",
+   "d": "CHN",
+   "v": 1.854,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 488690000,
+   "uv": 264,
+   "mode": "sea",
+   "lane": "barley:CAN-CHN"
+  },
+  {
+   "o": "ARG",
+   "d": "CHN",
+   "v": 1.534,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 342924000,
+   "uv": 224,
+   "mode": "sea",
+   "lane": "barley:ARG-CHN"
+  },
+  {
+   "o": "FRA",
+   "d": "BEL",
+   "v": 1.375,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 361320000,
+   "uv": 263,
+   "mode": "land"
+  },
+  {
+   "o": "DEU",
+   "d": "NLD",
+   "v": 1.357,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 300926000,
+   "uv": 222,
+   "mode": "land"
+  },
+  {
+   "o": "UKR",
+   "d": "CHN",
+   "v": 1.254,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 219074000,
+   "uv": 175,
+   "mode": "sea",
+   "lane": "barley:UKR-CHN"
+  },
+  {
+   "o": "ARG",
+   "d": "BRA",
+   "v": 0.8559,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 248987000,
+   "uv": 291,
+   "mode": "sea",
+   "lane": "barley:ARG-BRA"
+  },
+  {
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 0.7901,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 140506000,
+   "uv": 178,
+   "mode": "land"
+  },
+  {
+   "o": "RUS",
+   "d": "CHN",
+   "v": 0.7794,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 177101000,
+   "uv": 227,
+   "mode": "mixed",
+   "lane": "barley:RUS-CHN",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
+  },
+  {
+   "o": "ROU",
+   "d": "SAU",
+   "v": 0.7355,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 139733000,
+   "uv": 190,
+   "mode": "sea",
+   "lane": "barley:ROU-SAU"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 0.7221,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 210064000,
+   "uv": 291,
+   "mode": "sea",
+   "lane": "barley:AUS-JPN"
+  },
+  {
+   "o": "FRA",
+   "d": "NLD",
+   "v": 0.6886,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 166036000,
+   "uv": 241,
+   "mode": "sea",
+   "lane": "barley:FRA-NLD"
+  },
+  {
+   "o": "KAZ",
+   "d": "IRN",
+   "v": 0.548,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 90986000,
+   "uv": 166,
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
+  },
+  {
+   "o": "FRA",
+   "d": "DEU",
+   "v": 0.5443,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 164535000,
+   "uv": 302,
+   "mode": "land"
+  },
+  {
+   "o": "CAN",
+   "d": "JPN",
+   "v": 0.4591,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 110128000,
+   "uv": 240,
+   "mode": "sea",
+   "lane": "barley:CAN-JPN"
+  },
+  {
+   "o": "HUN",
+   "d": "ITA",
+   "v": 0.401,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 64993000,
+   "uv": 162,
+   "mode": "land"
+  },
+  {
+   "o": "UKR",
+   "d": "ESP",
+   "v": 0.3975,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 68140000,
+   "uv": 171,
+   "mode": "sea",
+   "lane": "barley:UKR-ESP"
+  },
+  {
+   "o": "DEU",
+   "d": "MAR",
+   "v": 0.3951,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 86929000,
+   "uv": 220,
+   "mode": "sea",
+   "lane": "barley:DEU-MAR"
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.3238
+   },
+   "top3": 0.5536,
+   "hhi": 1452,
+   "eq": 6.9,
+   "k": 60,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "AUS",
+    "p": 0.361
+   },
+   "top3": 0.6769,
+   "hhi": 2106,
+   "eq": 4.7,
+   "k": 21,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.4274
+   },
+   "top3": 0.6553,
+   "hhi": 2180,
+   "eq": 4.6,
+   "k": 58,
+   "cov": 1.0
+  },
+  "stocks": {
+   "top1": {
+    "c": "EU27",
+    "p": 0.2405
+   },
+   "top3": 0.4617,
+   "hhi": 1011,
+   "eq": 9.9,
+   "k": 52,
+   "cov": 1.0
+  }
+ },
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "Trade is barley (HS 100300), customs gross weight. USDA PSD gives production, use, trade and stocks of marketing years; the customs table is a calendar year. Malting and feed barley are not told apart in the customs code; malt (HS 1107), barley flours and worked barley grains (HS 1104) are not loaded.",
+  "Price: the only free price file the atlas loads, the World Bank Pink Sheet, has a barley series that stops in August 2020; it is published to that month and marked closed. No free series after it was found."
+ ]
+}

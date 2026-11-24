@@ -458,7 +458,8 @@
   "blurb": "The most traded grain; Black Sea, EU, North America and Australia export.",
   "unit": "Mt",
   "hs": [
-   "1001"
+   "1001",
+   "110100"
   ],
   "has": [
    "production",
@@ -476,7 +477,8 @@
   "blurb": "Feed grain; the US, Brazil, Argentina and Ukraine supply most exports.",
   "unit": "Mt",
   "hs": [
-   "1005"
+   "1005",
+   "230330"
   ],
   "has": [
    "production",
@@ -486,6 +488,42 @@
    "flows"
   ],
   "rank": 25
+ },
+ {
+  "id": "barley",
+  "name": "Barley",
+  "family": "softs",
+  "blurb": "Feed and malting grain; Australia, the EU, Canada, Argentina and Russia lead exports.",
+  "unit": "Mt",
+  "hs": [
+   "1003"
+  ],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 26
+ },
+ {
+  "id": "sorghum",
+  "name": "Sorghum",
+  "family": "softs",
+  "blurb": "Feed and food grain of hot, dry regions; the US, Australia, Brazil and Argentina supply the exports.",
+  "unit": "Mt",
+  "hs": [
+   "1007"
+  ],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 27
  },
  {
   "id": "soybeans",
@@ -503,7 +541,7 @@
    "imports",
    "flows"
   ],
-  "rank": 26
+  "rank": 28
  },
  {
   "id": "soymeal",
@@ -521,7 +559,7 @@
    "imports",
    "flows"
   ],
-  "rank": 27
+  "rank": 29
  },
  {
   "id": "soyoil",
@@ -539,7 +577,7 @@
    "imports",
    "flows"
   ],
-  "rank": 28
+  "rank": 30
  },
  {
   "id": "rice",
@@ -557,7 +595,23 @@
    "imports",
    "flows"
   ],
-  "rank": 29
+  "rank": 31
+ },
+ {
+  "id": "pulses",
+  "name": "Pulses",
+  "family": "softs",
+  "blurb": "Dried peas, chickpeas, beans and lentils; Canada, Australia, Russia and Myanmar lead exports.",
+  "unit": "Mt",
+  "hs": [
+   "0713"
+  ],
+  "has": [
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 32
  },
  {
   "id": "sugar",
@@ -575,7 +629,7 @@
    "imports",
    "flows"
   ],
-  "rank": 30
+  "rank": 33
  },
  {
   "id": "coffee",
@@ -593,7 +647,7 @@
    "imports",
    "flows"
   ],
-  "rank": 31
+  "rank": 34
  },
  {
   "id": "cocoa",
@@ -610,7 +664,7 @@
    "imports",
    "flows"
   ],
-  "rank": 32
+  "rank": 35
  },
  {
   "id": "cotton",
@@ -628,7 +682,7 @@
    "imports",
    "flows"
   ],
-  "rank": 33
+  "rank": 36
  },
  {
   "id": "palm-oil",
@@ -646,16 +700,19 @@
    "imports",
    "flows"
   ],
-  "rank": 34
+  "rank": 37
  },
  {
-  "id": "rapeseed",
-  "name": "Rapeseed & canola",
+  "id": "sunflower",
+  "name": "Sunflower",
   "family": "softs",
-  "blurb": "Oilseed grown in Canada, the EU and Australia.",
+  "blurb": "Seed, oil and meal; Ukraine and Russia supply most of the oil and meal in trade.",
   "unit": "Mt",
   "hs": [
-   "1205"
+   "1206",
+   "151211",
+   "151219",
+   "230630"
   ],
   "has": [
    "production",
@@ -664,7 +721,27 @@
    "imports",
    "flows"
   ],
-  "rank": 35
+  "rank": 38
+ },
+ {
+  "id": "rapeseed",
+  "name": "Rapeseed & canola",
+  "family": "softs",
+  "blurb": "Oilseed grown in Canada, the EU and Australia, with its oil and meal.",
+  "unit": "Mt",
+  "hs": [
+   "1205",
+   "1514",
+   "230640"
+  ],
+  "has": [
+   "production",
+   "consumption",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 39
  },
  {
   "id": "potash",
@@ -683,7 +760,7 @@
    "imports",
    "flows"
   ],
-  "rank": 36,
+  "rank": 40,
   "sub": "Fertilisers"
  },
  {
@@ -706,7 +783,7 @@
    "imports",
    "flows"
   ],
-  "rank": 37,
+  "rank": 41,
   "sub": "Fertilisers"
  },
  {
@@ -728,7 +805,7 @@
    "imports",
    "flows"
   ],
-  "rank": 38,
+  "rank": 42,
   "sub": "Fertilisers"
  },
  {
@@ -747,7 +824,7 @@
    "imports",
    "flows"
   ],
-  "rank": 39,
+  "rank": 43,
   "sub": "Fertilisers"
  },
  {
@@ -764,7 +841,7 @@
    "imports",
    "flows"
   ],
-  "rank": 40,
+  "rank": 44,
   "sub": "Fertilisers"
  }
 ]

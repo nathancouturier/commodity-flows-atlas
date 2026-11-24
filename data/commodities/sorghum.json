@@ -1,0 +1,1617 @@
+{
+ "id": "sorghum",
+ "summary": {
+  "production": {
+   "v": 61.447,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sorghum, sorghum production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+  },
+  "consumption": {
+   "v": 60.556,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sorghum, sorghum domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries"
+  },
+  "exports": {
+   "v": 9.548,
+   "u": "Mt",
+   "y": "2026/27 forecast",
+   "s": "usda-psd",
+   "n": "USDA PSD, Sorghum, sorghum exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 9.37 Mt"
+  },
+  "seaborne": {
+   "v": 9.54,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (sorghum) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country; 0.10 Mt that move both by sea and overland (split not known) are not in it"
+  }
+ },
+ "production": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 61.447,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 8.0
+   },
+   {
+    "c": "NGA",
+    "v": 7.0
+   },
+   {
+    "c": "USA",
+    "v": 6.953
+   },
+   {
+    "c": "IND",
+    "v": 4.7
+   },
+   {
+    "c": "ETH",
+    "v": 4.1
+   },
+   {
+    "c": "MEX",
+    "v": 3.6
+   },
+   {
+    "c": "ARG",
+    "v": 3.2
+   },
+   {
+    "c": "CHN",
+    "v": 3.1
+   },
+   {
+    "c": "SDN",
+    "v": 3.0
+   },
+   {
+    "c": "AUS",
+    "v": 2.3
+   },
+   {
+    "c": "BFA",
+    "v": 1.9
+   },
+   {
+    "c": "NER",
+    "v": 1.9
+   },
+   {
+    "c": "MLI",
+    "v": 1.6
+   },
+   {
+    "c": "CMR",
+    "v": 1.2
+   },
+   {
+    "c": "BOL",
+    "v": 1.05
+   },
+   {
+    "c": "TCD",
+    "v": 0.85
+   },
+   {
+    "c": "EGY",
+    "v": 0.785
+   },
+   {
+    "c": "TZA",
+    "v": 0.75
+   },
+   {
+    "c": "EU27",
+    "v": 0.675
+   },
+   {
+    "c": "SSD",
+    "v": 0.65
+   },
+   {
+    "c": "GHA",
+    "v": 0.4
+   },
+   {
+    "c": "YEM",
+    "v": 0.37
+   },
+   {
+    "c": "TGO",
+    "v": 0.3
+   },
+   {
+    "c": "ZWE",
+    "v": 0.3
+   },
+   {
+    "c": "UGA",
+    "v": 0.27
+   },
+   {
+    "c": "BEN",
+    "v": 0.25
+   },
+   {
+    "c": "PRY",
+    "v": 0.19
+   },
+   {
+    "c": "SEN",
+    "v": 0.19
+   },
+   {
+    "c": "RWA",
+    "v": 0.18
+   },
+   {
+    "c": "MOZ",
+    "v": 0.15
+   },
+   {
+    "c": "ERI",
+    "v": 0.14
+   },
+   {
+    "c": "ZAF",
+    "v": 0.13
+   },
+   {
+    "c": "KEN",
+    "v": 0.12
+   },
+   {
+    "c": "SAU",
+    "v": 0.12
+   },
+   {
+    "c": "MRT",
+    "v": 0.09
+   },
+   {
+    "c": "SLV",
+    "v": 0.085
+   },
+   {
+    "c": "SOM",
+    "v": 0.085
+   },
+   {
+    "c": "CIV",
+    "v": 0.07
+   },
+   {
+    "c": "GIN",
+    "v": 0.065
+   },
+   {
+    "c": "SLE",
+    "v": 0.065
+   },
+   {
+    "c": "HTI",
+    "v": 0.06
+   },
+   {
+    "c": "BWA",
+    "v": 0.05
+   },
+   {
+    "c": "THA",
+    "v": 0.05
+   },
+   {
+    "c": "UKR",
+    "v": 0.05
+   },
+   {
+    "c": "URY",
+    "v": 0.05
+   },
+   {
+    "c": "PAK",
+    "v": 0.04
+   },
+   {
+    "c": "GTM",
+    "v": 0.035
+   },
+   {
+    "c": "BDI",
+    "v": 0.03
+   },
+   {
+    "c": "NIC",
+    "v": 0.027
+   },
+   {
+    "c": "GNB",
+    "v": 0.025
+   },
+   {
+    "c": "CAF",
+    "v": 0.02
+   },
+   {
+    "c": "IRN",
+    "v": 0.02
+   },
+   {
+    "c": "UZB",
+    "v": 0.02
+   },
+   {
+    "c": "LSO",
+    "v": 0.015
+   },
+   {
+    "c": "VEN",
+    "v": 0.015
+   },
+   {
+    "c": "ZMB",
+    "v": 0.014
+   },
+   {
+    "c": "ECU",
+    "v": 0.01
+   },
+   {
+    "c": "COD",
+    "v": 0.009
+   },
+   {
+    "c": "GMB",
+    "v": 0.005
+   },
+   {
+    "c": "HND",
+    "v": 0.005
+   },
+   {
+    "c": "MAR",
+    "v": 0.004
+   },
+   {
+    "c": "IRQ",
+    "v": 0.003
+   },
+   {
+    "c": "COL",
+    "v": 0.002
+   },
+   {
+    "c": "TWN",
+    "v": 0.002
+   },
+   {
+    "c": "DOM",
+    "v": 0.001
+   },
+   {
+    "c": "SWZ",
+    "v": 0.001
+   },
+   {
+    "c": "PER",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Sorghum, sorghum production, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "consumption": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 60.556,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 10.4
+   },
+   {
+    "c": "NGA",
+    "v": 6.9
+   },
+   {
+    "c": "BRA",
+    "v": 6.0
+   },
+   {
+    "c": "IND",
+    "v": 4.5
+   },
+   {
+    "c": "ETH",
+    "v": 4.2
+   },
+   {
+    "c": "MEX",
+    "v": 4.0
+   },
+   {
+    "c": "USA",
+    "v": 3.811
+   },
+   {
+    "c": "SDN",
+    "v": 3.05
+   },
+   {
+    "c": "BFA",
+    "v": 1.9
+   },
+   {
+    "c": "NER",
+    "v": 1.9
+   },
+   {
+    "c": "MLI",
+    "v": 1.7
+   },
+   {
+    "c": "ARG",
+    "v": 1.5
+   },
+   {
+    "c": "CMR",
+    "v": 1.215
+   },
+   {
+    "c": "BOL",
+    "v": 1.05
+   },
+   {
+    "c": "TCD",
+    "v": 0.84
+   },
+   {
+    "c": "EU27",
+    "v": 0.819
+   },
+   {
+    "c": "EGY",
+    "v": 0.79
+   },
+   {
+    "c": "TZA",
+    "v": 0.75
+   },
+   {
+    "c": "SSD",
+    "v": 0.675
+   },
+   {
+    "c": "GHA",
+    "v": 0.4
+   },
+   {
+    "c": "YEM",
+    "v": 0.37
+   },
+   {
+    "c": "ZWE",
+    "v": 0.325
+   },
+   {
+    "c": "TGO",
+    "v": 0.3
+   },
+   {
+    "c": "RWA",
+    "v": 0.26
+   },
+   {
+    "c": "BEN",
+    "v": 0.25
+   },
+   {
+    "c": "UGA",
+    "v": 0.25
+   },
+   {
+    "c": "KEN",
+    "v": 0.235
+   },
+   {
+    "c": "SEN",
+    "v": 0.19
+   },
+   {
+    "c": "ERI",
+    "v": 0.17
+   },
+   {
+    "c": "MOZ",
+    "v": 0.15
+   },
+   {
+    "c": "ZAF",
+    "v": 0.145
+   },
+   {
+    "c": "AUS",
+    "v": 0.13
+   },
+   {
+    "c": "SAU",
+    "v": 0.125
+   },
+   {
+    "c": "SOM",
+    "v": 0.11
+   },
+   {
+    "c": "MRT",
+    "v": 0.09
+   },
+   {
+    "c": "SLV",
+    "v": 0.085
+   },
+   {
+    "c": "CIV",
+    "v": 0.071
+   },
+   {
+    "c": "GIN",
+    "v": 0.065
+   },
+   {
+    "c": "SLE",
+    "v": 0.065
+   },
+   {
+    "c": "HTI",
+    "v": 0.063
+   },
+   {
+    "c": "PRY",
+    "v": 0.061
+   },
+   {
+    "c": "BWA",
+    "v": 0.055
+   },
+   {
+    "c": "JPN",
+    "v": 0.05
+   },
+   {
+    "c": "URY",
+    "v": 0.05
+   },
+   {
+    "c": "THA",
+    "v": 0.049
+   },
+   {
+    "c": "TWN",
+    "v": 0.047
+   },
+   {
+    "c": "PAK",
+    "v": 0.045
+   },
+   {
+    "c": "GTM",
+    "v": 0.035
+   },
+   {
+    "c": "BDI",
+    "v": 0.03
+   },
+   {
+    "c": "NIC",
+    "v": 0.027
+   },
+   {
+    "c": "GNB",
+    "v": 0.025
+   },
+   {
+    "c": "PHL",
+    "v": 0.025
+   },
+   {
+    "c": "CAF",
+    "v": 0.02
+   },
+   {
+    "c": "IRN",
+    "v": 0.02
+   },
+   {
+    "c": "UKR",
+    "v": 0.02
+   },
+   {
+    "c": "GBR",
+    "v": 0.02
+   },
+   {
+    "c": "UZB",
+    "v": 0.02
+   },
+   {
+    "c": "LSO",
+    "v": 0.015
+   },
+   {
+    "c": "VEN",
+    "v": 0.015
+   },
+   {
+    "c": "ZMB",
+    "v": 0.014
+   },
+   {
+    "c": "ECU",
+    "v": 0.01
+   },
+   {
+    "c": "ISR",
+    "v": 0.01
+   },
+   {
+    "c": "COD",
+    "v": 0.009
+   },
+   {
+    "c": "CHL",
+    "v": 0.005
+   },
+   {
+    "c": "GMB",
+    "v": 0.005
+   },
+   {
+    "c": "HND",
+    "v": 0.005
+   },
+   {
+    "c": "MAR",
+    "v": 0.005
+   },
+   {
+    "c": "SWZ",
+    "v": 0.004
+   },
+   {
+    "c": "IRQ",
+    "v": 0.004
+   },
+   {
+    "c": "KOR",
+    "v": 0.003
+   },
+   {
+    "c": "COL",
+    "v": 0.002
+   },
+   {
+    "c": "DOM",
+    "v": 0.001
+   },
+   {
+    "c": "PER",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Sorghum, sorghum domestic consumption/use, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+  "rel": "2026-11",
+  "yk": "forecast"
+ },
+ "exports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 9.548,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 3.175
+   },
+   {
+    "c": "AUS",
+    "v": 2.2
+   },
+   {
+    "c": "BRA",
+    "v": 2.1
+   },
+   {
+    "c": "ARG",
+    "v": 1.7
+   },
+   {
+    "c": "PRY",
+    "v": 0.13
+   },
+   {
+    "c": "IND",
+    "v": 0.05
+   },
+   {
+    "c": "NGA",
+    "v": 0.05
+   },
+   {
+    "c": "UGA",
+    "v": 0.05
+   },
+   {
+    "c": "UKR",
+    "v": 0.03
+   },
+   {
+    "c": "EU27",
+    "v": 0.01,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 0.254 Mt of exports, of which 0.242 Mt to other member states and 0.0125 Mt to countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "KEN",
+    "v": 0.01
+   },
+   {
+    "c": "ZAF",
+    "v": 0.01
+   },
+   {
+    "c": "BOL",
+    "v": 0.005
+   },
+   {
+    "c": "BFA",
+    "v": 0.005
+   },
+   {
+    "c": "CHN",
+    "v": 0.005
+   },
+   {
+    "c": "SDN",
+    "v": 0.005
+   },
+   {
+    "c": "TZA",
+    "v": 0.005
+   },
+   {
+    "c": "URY",
+    "v": 0.005
+   },
+   {
+    "c": "EGY",
+    "v": 0.001
+   },
+   {
+    "c": "MEX",
+    "v": 0.001
+   },
+   {
+    "c": "THA",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Sorghum, sorghum exports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Exports') the world total is 9.37 Mt; Customs data (CEPII BACI 2024), the 27 member states together: 0.254 Mt of exports, of which 0.242 Mt to other member states and 0.0125 Mt to countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 0.2544,
+   "intra": 0.2419,
+   "extra": 0.0125
+  }
+ },
+ "imports": {
+  "y": "2026/27",
+  "s": "usda-psd",
+  "u": "Mt",
+  "world": 8.61,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 7.2
+   },
+   {
+    "c": "MEX",
+    "v": 0.4
+   },
+   {
+    "c": "EU27",
+    "v": 0.15,
+    "n": "Customs data (CEPII BACI 2024), the 27 member states together: 0.276 Mt of imports, of which 0.242 Mt from other member states and 0.034 Mt from countries outside the EU; the USDA row counts trade outside the EU only"
+   },
+   {
+    "c": "KEN",
+    "v": 0.125
+   },
+   {
+    "c": "BRA",
+    "v": 0.1
+   },
+   {
+    "c": "ETH",
+    "v": 0.1
+   },
+   {
+    "c": "RWA",
+    "v": 0.08
+   },
+   {
+    "c": "JPN",
+    "v": 0.05
+   },
+   {
+    "c": "SDN",
+    "v": 0.05
+   },
+   {
+    "c": "TWN",
+    "v": 0.045
+   },
+   {
+    "c": "ERI",
+    "v": 0.03
+   },
+   {
+    "c": "UGA",
+    "v": 0.03
+   },
+   {
+    "c": "TCD",
+    "v": 0.025
+   },
+   {
+    "c": "NER",
+    "v": 0.025
+   },
+   {
+    "c": "PHL",
+    "v": 0.025
+   },
+   {
+    "c": "SOM",
+    "v": 0.025
+   },
+   {
+    "c": "SSD",
+    "v": 0.025
+   },
+   {
+    "c": "GBR",
+    "v": 0.02
+   },
+   {
+    "c": "CMR",
+    "v": 0.015
+   },
+   {
+    "c": "NGA",
+    "v": 0.015
+   },
+   {
+    "c": "ZAF",
+    "v": 0.015
+   },
+   {
+    "c": "ISR",
+    "v": 0.01
+   },
+   {
+    "c": "ZWE",
+    "v": 0.01
+   },
+   {
+    "c": "BWA",
+    "v": 0.005
+   },
+   {
+    "c": "CHL",
+    "v": 0.005
+   },
+   {
+    "c": "PAK",
+    "v": 0.005
+   },
+   {
+    "c": "SAU",
+    "v": 0.005
+   },
+   {
+    "c": "URY",
+    "v": 0.005
+   },
+   {
+    "c": "SWZ",
+    "v": 0.003
+   },
+   {
+    "c": "HTI",
+    "v": 0.003
+   },
+   {
+    "c": "KOR",
+    "v": 0.003
+   },
+   {
+    "c": "BOL",
+    "v": 0.001
+   },
+   {
+    "c": "CIV",
+    "v": 0.001
+   },
+   {
+    "c": "IRQ",
+    "v": 0.001
+   },
+   {
+    "c": "MAR",
+    "v": 0.001
+   },
+   {
+    "c": "PRY",
+    "v": 0.001
+   },
+   {
+    "c": "USA",
+    "v": 0.001
+   }
+  ],
+  "n": "USDA PSD, Sorghum, sorghum imports, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries; EU counted as one entity (intra-EU trade excluded); local marketing years, which start in different months by country; on the trade-year basis (PSD 'TY Imports') the world total is 8.61 Mt; Customs data (CEPII BACI 2024), the 27 member states together: 0.276 Mt of imports, of which 0.242 Mt from other member states and 0.034 Mt from countries outside the EU; the USDA row counts trade outside the EU only",
+  "rel": "2026-11",
+  "yk": "forecast",
+  "eu": {
+   "y": 2024,
+   "s": "baci",
+   "u": "Mt",
+   "total": 0.2759,
+   "intra": 0.2419,
+   "extra": 0.034
+  }
+ },
+ "extra": [
+  {
+   "key": "eu-exports",
+   "title": "EU member states, exports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 0.2544,
+    "rows": [
+     {
+      "c": "FRA",
+      "v": 0.1324,
+      "n": "of which 0.121 Mt to other member states and 0.0109 Mt to countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.0968,
+      "n": "of which 0.0968 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.01,
+      "n": "of which 0.00839 Mt to other member states and 0.0016 Mt to countries outside the EU"
+     },
+     {
+      "c": "SVK",
+      "v": 0.0059,
+      "n": "of which 0.00592 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.0036,
+      "n": "of which 0.00361 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0021,
+      "n": "of which 0.00212 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.002,
+      "n": "of which 0.00203 Mt to other member states and 0 Mt to countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.0016,
+      "n": "of which 0.00157 Mt to other member states and 0 Mt to countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, grain sorghum (HS 100700): customs exports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.254 Mt, of which 0.242 Mt to other member states and 0.0125 Mt to countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 10.1 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 10.058,
+    "split": {
+     "total": 0.2544,
+     "intra": 0.2419,
+     "extra": 0.0125
+    }
+   }
+  },
+  {
+   "key": "eu-imports",
+   "title": "EU member states, imports (customs data)",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 0.2759,
+    "rows": [
+     {
+      "c": "ITA",
+      "v": 0.1038,
+      "n": "of which 0.0885 Mt from other member states and 0.0153 Mt from countries outside the EU"
+     },
+     {
+      "c": "ESP",
+      "v": 0.0968,
+      "n": "of which 0.0873 Mt from other member states and 0.00955 Mt from countries outside the EU"
+     },
+     {
+      "c": "BEL",
+      "v": 0.0188,
+      "n": "of which 0.0188 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "DEU",
+      "v": 0.0151,
+      "n": "of which 0.0151 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "POL",
+      "v": 0.0124,
+      "n": "of which 0.00802 Mt from other member states and 0.00438 Mt from countries outside the EU"
+     },
+     {
+      "c": "NLD",
+      "v": 0.0088,
+      "n": "of which 0.00878 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "PRT",
+      "v": 0.0079,
+      "n": "of which 0.00788 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "AUT",
+      "v": 0.0072,
+      "n": "of which 0.00719 Mt from other member states and 0 Mt from countries outside the EU"
+     },
+     {
+      "c": "ROU",
+      "v": 0.0032,
+      "n": "of which 0 Mt from other member states and 0.00316 Mt from countries outside the EU"
+     },
+     {
+      "c": "FRA",
+      "v": 0.0016,
+      "n": "of which 0 Mt from other member states and 0.00163 Mt from countries outside the EU"
+     },
+     {
+      "c": "HUN",
+      "v": 0.0002,
+      "n": "of which 0.229 kt from other member states and 0 Mt from countries outside the EU"
+     }
+    ],
+    "n": "CEPII BACI 2024, grain sorghum (HS 100700): customs imports of the 27 member states, all destinations, trade between members included; the shares are of the total of the 27 member states, not of the world: 0.276 Mt, of which 0.242 Mt from other member states and 0.034 Mt from countries outside the EU. USDA's 'European Union' row of the table above counts trade outside the EU only (and is a marketing year of its own). On the map each member state carries the USDA value for the European Union, not a figure of this table: customs figures that include trade between members would stand beside USDA's, on one scale, as if they measured the same thing (the customs world total is 10.1 Mt)",
+    "scope": "EU",
+    "scopeLabel": "EU member states",
+    "norank": true,
+    "noMap": true,
+    "worldAll": 10.058,
+    "split": {
+     "total": 0.2759,
+     "intra": 0.2419,
+     "extra": 0.034
+    }
+   }
+  },
+  {
+   "key": "stocks",
+   "title": "Ending stocks",
+   "table": {
+    "y": "2026/27",
+    "s": "usda-psd",
+    "u": "Mt",
+    "world": 3.868,
+    "rows": [
+     {
+      "c": "USA",
+      "v": 0.856
+     },
+     {
+      "c": "BRA",
+      "v": 0.562
+     },
+     {
+      "c": "IND",
+      "v": 0.313
+     },
+     {
+      "c": "CHN",
+      "v": 0.271
+     },
+     {
+      "c": "MEX",
+      "v": 0.208
+     },
+     {
+      "c": "NGA",
+      "v": 0.205
+     },
+     {
+      "c": "MLI",
+      "v": 0.191
+     },
+     {
+      "c": "AUS",
+      "v": 0.182
+     },
+     {
+      "c": "ARG",
+      "v": 0.162
+     },
+     {
+      "c": "BOL",
+      "v": 0.157
+     },
+     {
+      "c": "SDN",
+      "v": 0.136
+     },
+     {
+      "c": "NER",
+      "v": 0.121
+     },
+     {
+      "c": "BFA",
+      "v": 0.115
+     },
+     {
+      "c": "TCD",
+      "v": 0.087
+     },
+     {
+      "c": "ETH",
+      "v": 0.073
+     },
+     {
+      "c": "ZAF",
+      "v": 0.04
+     },
+     {
+      "c": "TZA",
+      "v": 0.039
+     },
+     {
+      "c": "SSD",
+      "v": 0.031
+     },
+     {
+      "c": "EU27",
+      "v": 0.029
+     },
+     {
+      "c": "UGA",
+      "v": 0.024
+     },
+     {
+      "c": "KEN",
+      "v": 0.016
+     },
+     {
+      "c": "UKR",
+      "v": 0.015
+     },
+     {
+      "c": "EGY",
+      "v": 0.014
+     },
+     {
+      "c": "ZWE",
+      "v": 0.007
+     },
+     {
+      "c": "RWA",
+      "v": 0.006
+     },
+     {
+      "c": "GTM",
+      "v": 0.003
+     },
+     {
+      "c": "URY",
+      "v": 0.003
+     },
+     {
+      "c": "JPN",
+      "v": 0.001
+     },
+     {
+      "c": "NIC",
+      "v": 0.001
+     }
+    ],
+    "n": "USDA PSD, Sorghum, sorghum ending stocks, market year 2026/27, forecast (USDA report of November 2026); world = sum of reporting countries",
+    "rel": "2026-11",
+    "yk": "forecast"
+   }
+  }
+ ],
+ "balance": {
+  "s": "usda-psd",
+  "years": [
+   {
+    "y": "2025/26",
+    "yk": "estimate",
+    "rel": "2026-11"
+   },
+   {
+    "y": "2026/27",
+    "yk": "forecast",
+    "rel": "2026-11"
+   }
+  ],
+  "rows": [
+   {
+    "k": "area",
+    "label": "Harvested area",
+    "u": "Mha",
+    "v": [
+     39.732,
+     40.556
+    ]
+   },
+   {
+    "k": "yield",
+    "label": "Yield",
+    "u": "t/ha",
+    "v": [
+     1.59,
+     1.52
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: world production divided by world harvested area, both as USDA PSD publishes them"
+   },
+   {
+    "k": "production",
+    "label": "Production",
+    "u": "Mt",
+    "v": [
+     63.018,
+     61.447
+    ]
+   },
+   {
+    "k": "begin",
+    "label": "Beginning stocks",
+    "u": "Mt",
+    "v": [
+     4.686,
+     3.915
+    ]
+   },
+   {
+    "k": "use",
+    "label": "Domestic use",
+    "u": "Mt",
+    "v": [
+     63.249,
+     60.556
+    ]
+   },
+   {
+    "k": "use-Feed Dom. Consumption",
+    "label": "Feed use",
+    "u": "Mt",
+    "v": [
+     26.419,
+     23.997
+    ],
+    "sub": true
+   },
+   {
+    "k": "use-FSI Consumption",
+    "label": "Food, seed and industrial use",
+    "u": "Mt",
+    "v": [
+     36.83,
+     36.559
+    ],
+    "sub": true
+   },
+   {
+    "k": "exports",
+    "label": "Exports",
+    "u": "Mt",
+    "v": [
+     9.957,
+     9.548
+    ]
+   },
+   {
+    "k": "stocks",
+    "label": "Ending stocks",
+    "u": "Mt",
+    "v": [
+     3.915,
+     3.868
+    ]
+   },
+   {
+    "k": "stu",
+    "label": "Stocks-to-use",
+    "u": "%",
+    "v": [
+     6.2,
+     6.4
+    ],
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stocks-cn",
+    "label": "Ending stocks, China",
+    "u": "Mt",
+    "v": [
+     0.376,
+     0.271
+    ],
+    "sub": true
+   },
+   {
+    "k": "stocks-x",
+    "label": "Ending stocks, world excluding China",
+    "u": "Mt",
+    "v": [
+     3.539,
+     3.597
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: the world sum minus China, both USDA PSD figures of the same market year"
+   },
+   {
+    "k": "stu-cn",
+    "label": "Stocks-to-use, China",
+    "u": "%",
+    "v": [
+     3.6,
+     2.6
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate)"
+   },
+   {
+    "k": "stu-x",
+    "label": "Stocks-to-use, world excluding China",
+    "u": "%",
+    "v": [
+     6.7,
+     7.2
+    ],
+    "sub": true,
+    "s": "atlas",
+    "y": "2025/26 and 2026/27",
+    "n": "Computed by the atlas: USDA PSD ending stocks divided by domestic use of the same market year (two published figures; not an estimate); China's stocks and use taken out of both"
+   }
+  ],
+  "n": "USDA PSD, Sorghum: the world is the sum of the countries USDA lists (it gives no world row); domestic use is the PSD attribute 'Domestic Consumption'. Stocks-to-use is ending stocks divided by domestic use, exports not counted. The PSD file carries no label: the atlas calls the newest marketing year the forecast and the one before it the estimate (the atlas's words; USDA's World Agricultural Production circular, https://apps.fas.usda.gov/psdonline/circulars/production.pdf, heads the same two years 'Prel.' and 'Proj.' in its tables)"
+ },
+ "flows": [
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 5.385,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1586154000,
+   "uv": 295,
+   "mode": "sea",
+   "lane": "sorghum:USA-CHN"
+  },
+  {
+   "o": "AUS",
+   "d": "CHN",
+   "v": 2.007,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 526672000,
+   "uv": 262,
+   "mode": "sea",
+   "lane": "sorghum:AUS-CHN"
+  },
+  {
+   "o": "ARG",
+   "d": "CHN",
+   "v": 1.099,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 244472000,
+   "uv": 223,
+   "mode": "sea",
+   "lane": "sorghum:ARG-CHN"
+  },
+  {
+   "o": "USA",
+   "d": "ETH",
+   "v": 0.1847,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 42701000,
+   "uv": 231,
+   "mode": "sea",
+   "transit": {
+    "port": "DJJIB",
+    "c": "DJI",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Djibouti"
+   },
+   "lane": "sorghum:USA-ETH"
+  },
+  {
+   "o": "BRA",
+   "d": "ZAF",
+   "v": 0.1493,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 31796000,
+   "uv": 213,
+   "mode": "sea",
+   "lane": "sorghum:BRA-ZAF"
+  },
+  {
+   "o": "USA",
+   "d": "ERI",
+   "v": 0.126,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 34734000,
+   "uv": 276,
+   "mode": "sea",
+   "lane": "sorghum:USA-ERI"
+  },
+  {
+   "o": "FRA",
+   "d": "ESP",
+   "v": 0.0873,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 21861000,
+   "uv": 250,
+   "mode": "mixed",
+   "lane": "sorghum:FRA-ESP",
+   "n": "customs total for all modes: this trade moves both by sea and overland and the split is not known"
+  },
+  {
+   "o": "USA",
+   "d": "SDN",
+   "v": 0.0788,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 20668000,
+   "uv": 262,
+   "mode": "sea",
+   "lane": "sorghum:USA-SDN"
+  },
+  {
+   "o": "HUN",
+   "d": "ITA",
+   "v": 0.0756,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 14888000,
+   "uv": 197,
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "JPN",
+   "v": 0.0754,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 24155000,
+   "uv": 320,
+   "mode": "sea",
+   "lane": "sorghum:AUS-JPN"
+  },
+  {
+   "o": "AUS",
+   "d": "TWN",
+   "v": 0.0555,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 16771000,
+   "uv": 302,
+   "mode": "sea",
+   "lane": "sorghum:AUS-TWN"
+  },
+  {
+   "o": "USA",
+   "d": "JPN",
+   "v": 0.0441,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 15189000,
+   "uv": 345,
+   "mode": "sea"
+  },
+  {
+   "o": "UGA",
+   "d": "RWA",
+   "v": 0.0405,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5627000,
+   "uv": 139,
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "SSD",
+   "v": 0.039,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 9710000,
+   "uv": 249,
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
+  },
+  {
+   "o": "TZA",
+   "d": "UGA",
+   "v": 0.0358,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 8005000,
+   "uv": 224,
+   "mode": "land"
+  },
+  {
+   "o": "PRY",
+   "d": "BRA",
+   "v": 0.0349,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5251000,
+   "uv": 151,
+   "mode": "land"
+  },
+  {
+   "o": "USA",
+   "d": "DJI",
+   "v": 0.031,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 7307000,
+   "uv": 236,
+   "mode": "sea"
+  },
+  {
+   "o": "ZAF",
+   "d": "BWA",
+   "v": 0.0307,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 13229000,
+   "uv": 431,
+   "mode": "land"
+  },
+  {
+   "o": "AUS",
+   "d": "KEN",
+   "v": 0.0294,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 10966000,
+   "uv": 373,
+   "mode": "sea"
+  },
+  {
+   "o": "USA",
+   "d": "SOM",
+   "v": 0.0286,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 7112000,
+   "uv": 248,
+   "mode": "sea"
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.1302
+   },
+   "top3": 0.3573,
+   "hhi": 697,
+   "eq": 14.3,
+   "k": 67,
+   "cov": 1.0
+  },
+  "exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.3325
+   },
+   "top3": 0.7829,
+   "hhi": 2440,
+   "eq": 4.1,
+   "k": 21,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.8362
+   },
+   "top3": 0.9001,
+   "hhi": 7025,
+   "eq": 1.4,
+   "k": 37,
+   "cov": 1.0
+  },
+  "stocks": {
+   "top1": {
+    "c": "USA",
+    "p": 0.2213
+   },
+   "top3": 0.4475,
+   "hhi": 997,
+   "eq": 10.0,
+   "k": 29,
+   "cov": 1.0
+  }
+ },
+ "notes": [
+  "Flows are BACI calendar-2024 customs flows; ranked trade tables are USDA PSD market year 2026/27, a forecast (trader reference). Years differ.",
+  "Trade is grain sorghum (HS 100700), customs gross weight. USDA PSD gives production, use, trade and stocks of marketing years; the customs table is a calendar year. Sweet sorghum, broomcorn and forage sorghum are not in the code or are not told apart; sorghum flour and groats are not loaded.",
+  "Price: the only free price file the atlas loads, the World Bank Pink Sheet, has a grain sorghum series that stops in August 2020; it is published to that month and marked closed. No free series after it was found."
+ ]
+}

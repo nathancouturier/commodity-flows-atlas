@@ -1378,6 +1378,11 @@ TRADE = {
     "urea": ("urea", MT, "urea (HS 310210)"),
     "npk": ("npk", MT, "NPK compound fertilisers (HS 310520)"),
     "sulphur": ("sulphur", MT, "sulphur: crude or unrefined, sublimed, precipitated and colloidal (HS 250310, 250390, 280200)"),
+    # the grains, oilseeds and pulses added with M-023 (barley, sorghum and the sunflower seed have PSD balances; pulses have none)
+    "barley": ("barley", MT, "barley (HS 100300)"),
+    "sorghum": ("sorghum", MT, "grain sorghum (HS 100700)"),
+    "sunflower": ("sunflower-seed", MT, "sunflower seed (HS 120600)"),
+    "pulses": ("pulses", MT, "dried pulses, shelled (HS 0713)"),
 }
 
 PSD = {  # id -> PSD commodity, domestic-consumption attribute, exports attr
@@ -1392,15 +1397,19 @@ PSD = {  # id -> PSD commodity, domestic-consumption attribute, exports attr
     "cotton": ("Cotton", "Domestic Use", "Exports", "Imports"),
     "palm-oil": ("Oil, Palm", "Domestic Consumption", "Exports", "Imports"),
     "rapeseed": ("Oilseed, Rapeseed", "Domestic Consumption", "Exports", "Imports"),
+    "barley": ("Barley", "Domestic Consumption", "Exports", "Imports"),
+    "sorghum": ("Sorghum", "Domestic Consumption", "Exports", "Imports"),
+    "sunflower": ("Oilseed, Sunflowerseed", "Domestic Consumption", "Exports", "Imports"),
 }
 # sub-heading of the commodity list under "Softs & agriculture" (index.json `sub`, shown by SidePanel.tsx before the first commodity that has it)
 INDEX_SUB = {"potash": "Fertilisers", "phosphate": "Fertilisers", "urea": "Fertilisers", "npk": "Fertilisers", "sulphur": "Fertilisers"}
 
-# Customs groups that are a further pair of trade tables of a fertiliser page (audit M-022): page id -> [(customs group, stem of the table keys,
-# name in the table titles, what the code holds)]. The keys are "<stem>-exports" and "<stem>-imports": the page lists them under its
-# exporters and importers, the country pages draw a line from each, and build_profiles.py EXTRA_SIDE names the customs group of the line.
-# Each code belongs to one group and each group to one page (pipeline/trade/hs_map.py); a page that needs a product of another page links to it.
-FERT_EXTRA = {
+# Customs groups that are a further pair of trade tables of a page (the fertilisers, audit M-022; the products of the grains and oilseeds,
+# M-023): page id -> [(customs group, stem of the table keys, name in the table titles, what the code holds)]. The keys are "<stem>-exports"
+# and "<stem>-imports": the page lists them under its exporters and importers, the country pages draw a line from each, and
+# build_profiles.py EXTRA_SIDE names the customs group of the line. Each code belongs to one group and each group to one page
+# (pipeline/trade/hs_map.py); a page that needs a product of another page links to it.
+EXTRA_GROUPS = {
     "urea": [
         ("ammonia", "ammonia", "Ammonia", "anhydrous ammonia (HS 281410)"),
         ("ammonium-nitrate", "ammonium-nitrate", "Ammonium nitrate", "ammonium nitrate, solid or in solution (HS 310230)"),
@@ -1416,11 +1425,34 @@ FERT_EXTRA = {
     "potash": [
         ("potassium-sulphate", "sop", "Potassium sulphate (SOP)", "potassium sulphate, SOP (HS 310430)"),
     ],
+    # wheat flour and the dregs are tables only: bagged or boxed for a large part, so no lanes (pipeline/freight/build_lanes.py GROUPS)
+    "wheat": [
+        ("wheat-flour", "flour", "Wheat flour", "wheat or meslin flour (HS 110100)"),
+    ],
+    "corn": [
+        ("brewing-distilling-dregs", "dregs", "Brewing and distilling dregs", "brewing or distilling dregs and waste, the code of distillers' dried grains (HS 230330)"),
+    ],
+    "sunflower": [
+        ("sunflower-oil", "sunflower-oil", "Sunflower and safflower oil", "sunflower-seed or safflower oil, crude and other (HS 151211, 151219)"),
+        ("sunflower-meal", "sunflower-meal", "Sunflower meal", "oil-cake and other solid residues of sunflower seed oil extraction (HS 230630)"),
+    ],
+    "rapeseed": [
+        ("rapeseed-oil", "rapeseed-oil", "Rapeseed, canola and mustard oil", "rape, colza or mustard oil, crude and other (HS 151410, 151490)"),
+        ("rapeseed-meal", "rapeseed-meal", "Rapeseed meal", "oil-cake and other solid residues of rape or colza seed oil extraction (HS 230640)"),
+    ],
+}
+# USDA PSD production and use of the oil and the meal of a seed page (M-023): page id -> [(PSD commodity, stem of the keys, name in the titles,
+# what the table counts)]; keys "<stem>-production" and "<stem>-consumption", the stems of EXTRA_GROUPS. The seed is the page's main PSD table.
+PSD_EXTRA = {
+    "sunflower": [("Oil, Sunflowerseed", "sunflower-oil", "Sunflower oil", "sunflower oil"),
+                  ("Meal, Sunflowerseed", "sunflower-meal", "Sunflower meal", "sunflower meal")],
+    "rapeseed": [("Oil, Rapeseed", "rapeseed-oil", "Rapeseed oil", "rapeseed oil"),
+                 ("Meal, Rapeseed", "rapeseed-meal", "Rapeseed meal", "rapeseed meal")],
 }
 PSD_WHAT = {
     "wheat": "wheat", "corn": "corn", "soybeans": "soybeans", "soymeal": "soybean meal", "soyoil": "soybean oil",
     "rice": "milled rice", "sugar": "centrifugal sugar (raw value)", "coffee": "green coffee (all forms, green-bean equivalent)",
-    "cotton": "cotton", "palm-oil": "palm oil", "rapeseed": "rapeseed",
+    "cotton": "cotton", "palm-oil": "palm oil", "rapeseed": "rapeseed", "barley": "barley", "sorghum": "sorghum", "sunflower": "sunflower seed",
 }
 
 # What a table measures when its tonnage is not the finished commodity, or when production and trade
@@ -2026,6 +2058,11 @@ def main():
             g = add_baci_trade(d, cid, notes, disc)
             summ(d, "exports", d["exports"], "NPK compound fertilisers (HS 310520), BACI, product weight")
             seaborne(d, g)
+        elif cid == "pulses":
+            # trade only: the USDA PSD file has no pulses and no other file on disk gives their production (audit M-023)
+            g = add_baci_trade(d, cid, notes, disc)
+            summ(d, "exports", d["exports"], "dried pulses, shelled (HS 0713), BACI, gross weight")
+            seaborne(d, g)
         # ------------------------------------------------------------ softs
         elif cid == "cocoa":
             d["production"] = faostat_cocoa()
@@ -2132,10 +2169,14 @@ def main():
                            n=f"CEPII BACI HS92 tubes, pipes and hollow profiles of iron or steel (HS 7304 to 7306), {BACI_YEAR}, all transport modes, gross weight; "
                              "from the four-digit customs extract, without the cleaning rules of the other trade tables; not part of the steel totals above")
                 extra.append({"key": "tubes-exports", "title": "Tube and pipe exporters (HS 7304 to 7306, not in the totals above)", "table": set_basis(t, "gross weight")})
-        for g2, stem, nm, what2 in FERT_EXTRA.get(cid, []):
+        for g2, stem, nm, what2 in EXTRA_GROUPS.get(cid, []):
             for side, word in (("exports", "exporters"), ("imports", "importers")):
                 t, _ = baci.ranked(g2, side, *MT, what2)
                 extra.append({"key": f"{stem}-{side}", "title": f"{nm} {word}", "table": set_basis(t, "gross weight")})
+        for com2, stem, nm, what2 in PSD_EXTRA.get(cid, []):
+            for attr, key, word in (("Production", "production", "producers"), ("Domestic Consumption", "consumption", "consumers")):
+                t, _ = psd.ranked(com2, attr, f"{what2} {'production' if key == 'production' else 'domestic consumption'}")
+                extra.append({"key": f"{stem}-{key}", "title": f"{nm} {word}", "table": t})
         if cid in PSD:
             com = PSD[cid][0]
             try:
@@ -2231,7 +2272,7 @@ def main():
         elif cid == "phosphate":
             notes.append("The main trade tables are natural phosphates (HS 2510), gross weight; USGS production is marketable phosphate rock. "
                          "The tables under them are the phosphate fertilisers and the acid, each its own customs code, gross weight, and none is in the totals of another.")
-            for g2, _, _, what2 in FERT_EXTRA[cid]:
+            for g2, _, _, what2 in EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("HS 310310 holds all the superphosphates, single and triple (TSP), in one code. HS 310540 holds MAP and its mixtures with DAP. "
                          "HS 280920 is the acid, a liquid, which the lanes treat as chemical-tanker cargo: the typical class is an Atlas assumption, as for every lane. "
@@ -2343,7 +2384,7 @@ def main():
             notes.append("The main trade tables are urea (HS 310210). The tables under them are ammonia, ammonium nitrate, UAN and ammonium sulphate, each its own customs code, "
                          "gross weight (product tonnes, not tonnes of nitrogen), and none is in the totals of another. The ammonia producers table above is plant output "
                          "in tonnes of nitrogen: it is not the ammonia trade in tonnes of product.")
-            for g2, _, _, what2 in FERT_EXTRA[cid]:
+            for g2, _, _, what2 in EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("Ammonia is carried refrigerated in gas carriers and UAN solution as a liquid in chemical tankers: they are not dry bulk, and the lanes give them "
                          "the typical classes of those ships (an Atlas assumption, no page read for it); their ports are the general port of the country unless a page names the cargo. "
@@ -2364,7 +2405,7 @@ def main():
             fn = faostat_potash_note(baci, k2o)
             if fn:
                 notes.append(fn)
-            for g2, _, _, what2 in FERT_EXTRA[cid]:
+            for g2, _, _, what2 in EXTRA_GROUPS[cid]:
                 notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
             notes.append("The tables for potassium sulphate (SOP, HS 310430) are a second product with its own customs code, gross weight, in none of the totals above. "
                          "Crude natural potassium salts (HS 310410) and the other potassic fertilisers (HS 310490) are not loaded.")
@@ -2384,6 +2425,50 @@ def main():
                          "the trade tables are tonnes of the product shipped, so the two are not on one basis.")
             notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no sulphur series, and no other free one was found.")
             see.append({"k": "phosphate", "text": "phosphate rock, the phosphate fertilisers and phosphoric acid"})
+        elif cid == "wheat":
+            notes.append("The tables under the USDA tables are wheat or meslin flour (HS 110100), customs gross weight (CEPII BACI), a product of its own: they are not added to "
+                         "the grain tables above, and the flour is not converted to wheat. " + _note_group(baci, "wheat-flour", "Wheat flour (HS 110100)") +
+                         " A large part of flour trade moves in bags or boxes, so the atlas draws no lanes for it. Semolina and groats (HS 1103), starch (HS 1108) and gluten (HS 1109) are not loaded.")
+        elif cid == "corn":
+            notes.append("The tables under the USDA tables are brewing or distilling dregs and waste (HS 230330), customs gross weight (CEPII BACI). This one code holds distillers' dried grains "
+                         "(DDGS, the residue of grain ethanol and spirits) with brewers' grains and other dregs and waste: customs data do not tell them apart, so the tables are not a DDGS "
+                         "series. They are not added to the grain tables above. " + _note_group(baci, "brewing-distilling-dregs", "Brewing and distilling dregs and waste (HS 230330)") +
+                         " A large part of this trade moves in bags and containers, so the atlas draws no lanes for it. Corn gluten feed and meal and the other residues of starch manufacture (HS 230310) are not loaded.")
+        elif cid in ("barley", "sorghum"):
+            kind = "barley" if cid == "barley" else "grain sorghum"
+            code = "100300" if cid == "barley" else "100700"
+            notes.append(f"Trade is {kind} (HS {code}), customs gross weight. USDA PSD gives production, use, trade and stocks of marketing years; the customs table is a calendar year. "
+                         + ("Malting and feed barley are not told apart in the customs code; malt (HS 1107), barley flours and worked barley grains (HS 1104) are not loaded." if cid == "barley"
+                            else "Sweet sorghum, broomcorn and forage sorghum are not in the code or are not told apart; sorghum flour and groats are not loaded."))
+            end = _price_end(f"{cid}-m")
+            if end:
+                notes.append(f"Price: the only free price file the atlas loads, the World Bank Pink Sheet, has a {kind} series that stops in {end}; it is published to that month and marked closed. "
+                             "No free series after it was found.")
+            else:
+                notes.append(f"No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no current {kind} series, and no other free one was found.")
+        elif cid in ("sunflower", "rapeseed"):
+            sun = cid == "sunflower"
+            seed, oil, meal = ("sunflower seed (HS 120600)", "sunflower-seed or safflower oil (HS 151211, 151219)", "sunflower-seed oil-cake and other solid residues (HS 230630)") if sun else (
+                "rapeseed (HS 120500)", "rape, colza or mustard oil (HS 151410, 151490)", "rape or colza seed oil-cake and other solid residues (HS 230640)")
+            go, gm = ("sunflower-oil", "sunflower-meal") if sun else ("rapeseed-oil", "rapeseed-meal")
+            notes.append(f"The tables of the seed are USDA PSD (marketing years); its flows and seaborne figure are customs data for {seed}, gross weight (CEPII BACI); oil seed, "
+                         "seed for sowing and snack seed are not told apart in the code. " if sun else
+                         f"The tables of the seed are USDA PSD (marketing years); its flows and seaborne figure are customs data for {seed}, gross weight (CEPII BACI). ")
+            notes.append(f"The oil and the meal are two more customs groups, each its own code, gross weight, in none of the totals of another: {oil}, and {meal}. "
+                         + ("Safflower oil is in the oil code with sunflower oil and customs data do not separate them; the USDA oil table is sunflower oil only."
+                            if sun else "Mustard oil is in the oil code with rapeseed and canola oil and customs data do not separate them; the USDA oil table is rapeseed oil only."))
+            notes.append(_note_group(baci, go, ("Sunflower and safflower oil" if sun else "Rapeseed, canola and mustard oil") + (" (HS 151211, 151219)" if sun else " (HS 151410, 151490)")))
+            notes.append(_note_group(baci, gm, ("Sunflower meal" if sun else "Rapeseed meal") + (" (HS 230630)" if sun else " (HS 230640)")))
+            notes.append("Production and domestic use of the oil and the meal are USDA PSD tables of marketing years (the Oil and Meal commodities of the file), shown under the seed's; "
+                         "the world balance (area, stocks) is the seed's. Customs tonnage of the oil and the meal is a calendar year, so the two sources differ in year and basis.")
+            notes.append("The price series is the oil's, not the seed's or the meal's: the Pink Sheet gives "
+                         + ("sunflower oil" if sun else "rapeseed oil") + " only; there is no free series for the seed or the meal.")
+            see.append({"k": "rapeseed" if sun else "sunflower", "text": "the " + ("rapeseed and canola seed, oil and meal" if sun else "sunflower seed, oil and meal")})
+        elif cid == "pulses":
+            notes.append("Trade is the dried leguminous vegetables of HS 0713, shelled, customs gross weight: peas (HS 071310), chickpeas (HS 071320), beans (HS 071331 to 071339 and the broad "
+                         "and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (cowpeas, pigeon peas and every pulse the code does not name). Each pair of the main "
+                         "tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI), from 2019; the tables of each kind follow the main tables.")
+            notes.append("No production table: the USDA PSD file has no pulses, and no other file loaded by the atlas gives the production of dried pulses.")
 
         if cid in BASIS:
             pb, tb = BASIS[cid]
@@ -2512,6 +2597,16 @@ def eia_country(code):
 
 def _iso_to_eia(iso):
     return "XKS" if iso == "KOS" else iso
+
+
+def _price_end(sid):
+    """The last month of a price series as the atlas published it ("August 2020"), from data/prices/index.json, or None."""
+    try:
+        with open(os.path.join(DATA, "prices", "index.json"), encoding="utf-8") as f:
+            m = next((x for x in json.load(f) if x["id"] == sid), None)
+    except (OSError, ValueError):
+        return None
+    return f"{MONTHS[int(m['end'][5:7]) - 1]} {m['end'][:4]}" if m else None
 
 
 def _note_group(baci, g, label):

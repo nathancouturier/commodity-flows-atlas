@@ -27,7 +27,8 @@ FOOD = ("wheat", "corn", "soybeans", "soymeal", "rice", "sugar", "rapeseed", "pa
 FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "copper-refined": 0.02, "zinc-ore": 0.02,
          "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
          "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002,  # L1: minor metals
-         "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02}  # NC1: the groups whose default floor left their main set under the coverage floor
+         "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,  # NC1: the groups whose default floor left their main set under the coverage floor
+         "sunflower-seed": 0.01, "rapeseed-oil": 0.01}  # NC2: the same, for two groups of the grains and oilseeds
 BUILT = os.path.isdir(PAIRS) and os.path.exists(os.path.join(ROOT, "data", "freight", "caveats.json"))
 need_build = unittest.skipUnless(BUILT, "build_lanes.py has not written the pairs files yet")
 
