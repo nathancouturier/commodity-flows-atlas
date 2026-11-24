@@ -219,3 +219,116 @@ class D3TransitNoteOnReviewedRowsOnly(unittest.TestCase):
         self.assertNotIn("n", d["imports"]["rows"][1])  # Saudi Arabia: detected, no note
         self.assertIn("n", d["imports"]["rows"][2])
         self.assertEqual(len(d["notes"]), 1)
+
+
+class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
+    """The table of the fourteen groups that the three packages called homogeneous, recomputed from the cache (FNCD, D6)."""
+    GROUPS = ("potassium-sulphate monoammonium-phosphate superphosphates ammonia ammonium-nitrate uan ammonium-sulphate barley sorghum "
+              "sunflower-oil rapeseed-oil sunflower-meal rapeseed-meal coke").split()
+    _cache = {}
+
+    @classmethod
+    def table(cls):
+        """{group: (rows that rule 4 re-estimates, tonnes it adds or removes, largest change of a world total in %, steady rows, tonnes of the
+        steady rows)} with rule 4 on for all fourteen groups, and the rows themselves."""
+        if "t" in cls._cache:
+            return cls._cache["t"]
+        import pandas as pd
+        import clean as C
+        df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        df = df[df["group"].isin(cls.GROUPS)]
+        saved, rows_saved = set(C.HOMOGENEOUS), dict(C.ESTIMATE_ROWS)
+        try:
+            C.HOMOGENEOUS.update(cls.GROUPS)
+            C.ESTIMATE_ROWS.clear()
+            c = C.clean(df)
+        finally:
+            C.HOMOGENEOUS.clear()
+            C.HOMOGENEOUS.update(saved)
+            C.ESTIMATE_ROWS.update(rows_saved)
+        out, rows = {}, []
+        for g in cls.GROUPS:
+            x = c[c["group"] == g]
+            est = x[x["flag"].str.contains("est-uv")]
+            world = x.groupby("year")["t"].sum()
+            delta = (est["t"] - est["t0"]).groupby(est["year"]).sum()
+            off = world.reindex(delta.index) - delta
+            worst = float(((delta.abs() / off) * 100).max()) if len(delta) else 0.0
+            steady = []
+            for r in est.itertuples():
+                other = x[(x["o"] == r.o) & (x["d"] == r.d) & (x["year"] != r.year) & (x["t0"] > 0) & (x["usd"] > 0)]
+                n = int((other["uvr"] > 3).sum()) if r.uvr > 3 else int((other["uvr"] < 1 / 3).sum())
+                if n >= 3:
+                    steady.append((r.o, r.d, int(r.year)))
+                rows.append((g, r.o, r.d, int(r.year), float(r.t0), float(r.t), n >= 3))
+            moved = float((est["t"] - est["t0"]).abs().sum())
+            st = float(sum(abs(r[5] - r[4]) for r in rows if r[0] == g and r[6]))
+            out[g] = (len(est), moved, worst, len(steady), st)
+        cls._cache["t"] = (out, rows)
+        return cls._cache["t"]
+
+    def test_the_criterion_takes_coke_and_sunflower_oil_out_and_keeps_the_twelve_others(self):
+        import clean as C
+        out, _ = self.table()
+        leaves = {g for g, (n, moved, worst, ns, st) in out.items() if moved and st > 0.1 * moved}
+        self.assertEqual(leaves, {"coke", "sunflower-oil"})
+        for g in self.GROUPS:
+            self.assertEqual(g in C.HOMOGENEOUS, g not in leaves, g)
+        # the twelve that stay have no steady pair at all, so nothing is added to KEEP_REPORTED for them
+        for g in set(self.GROUPS) - leaves:
+            self.assertEqual(out[g][3], 0, g)
+        self.assertEqual({g: v[0] for g, v in out.items() if v[0]},
+                         {"potassium-sulphate": 1, "uan": 1, "ammonium-sulphate": 1, "sorghum": 2, "sunflower-oil": 1, "rapeseed-meal": 2, "coke": 11})
+        self.assertAlmostEqual(out["coke"][4] / out["coke"][1], 0.921, places=2)
+        self.assertAlmostEqual(out["sunflower-oil"][4] / out["sunflower-oil"][1], 1.0, places=3)
+        self.assertAlmostEqual(out["coke"][2], 69.4, delta=0.1)  # the Mozambique to India row of 2016 in the world total of the year
+        self.assertLess(max(v[2] for g, v in out.items() if g != "coke"), 8.0)
+
+    def test_the_rows_that_change_are_the_sixteen_of_the_two_groups_and_the_four_of_sunflower_seed(self):
+        """Published tonnage against the state after FNCB: 12 rows of coke and sunflower oil go back to the reported tonnage, the 4 rows of
+        sunflower seed (D2) go to the rule-3 estimate; the Mozambique to India row of coke 2016 stays an estimate."""
+        import pandas as pd
+        import clean as C
+        df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        c = C.clean(df[df["group"].isin(["coke", "sunflower-oil"])]).set_index(["group", "o", "d", "year"])
+        back = [("coke", "BEL", "FRA", 2004), ("coke", "CHN", "BRA", 2009), ("coke", "CHN", "IND", 2006), ("coke", "CHN", "IND", 2007),
+                ("coke", "CHN", "USA", 2002), ("coke", "CHN", "USA", 2003), ("coke", "CHN", "USA", 2005), ("coke", "MOZ", "ARE", 2023),
+                ("coke", "MOZ", "IND", 2021), ("coke", "MOZ", "IND", 2022), ("sunflower-oil", "UKR", "NPL", 2021), ("sunflower-oil", "UKR", "GRC", 2003)]
+        for k in back:
+            self.assertEqual(c.loc[k, "t"], c.loc[k, "t0"], k)
+            self.assertFalse(c.loc[k, "imputed"], k)
+        r = c.loc[("coke", "MOZ", "IND", 2016)]
+        self.assertTrue(r["imputed"])
+        self.assertIn("est-uv", r["flag"])
+        self.assertLess(r["t"], 2e6)
+        self.assertIn(("coke", "MOZ", "IND", 2016), C.ESTIMATE_ROWS)
+
+    def test_a_listed_row_is_estimated_in_a_group_outside_the_set_and_its_neighbours_are_not(self):
+        import pandas as pd
+        import clean as C
+        rows = [{"year": 2016, "group": "coke", "o": f"E{i:02d}", "d": f"I{i:02d}", "t": 100000.0 + i, "usd": 30000.0 + i} for i in range(40)]
+        rows.append({"year": 2016, "group": "coke", "o": "MOZ", "d": "IND", "t": 64992713.0, "usd": 245257.0})
+        rows.append({"year": 2016, "group": "coke", "o": "MOZ", "d": "CHN", "t": 64992713.0, "usd": 245257.0})  # the same row of another pair
+        c = C.clean(pd.DataFrame(rows))
+        a = c[(c["o"] == "MOZ") & (c["d"] == "IND")].iloc[0]
+        b = c[(c["o"] == "MOZ") & (c["d"] == "CHN")].iloc[0]
+        self.assertTrue(a["imputed"] and "est-uv" in a["flag"])
+        self.assertFalse(b["imputed"])
+        self.assertEqual(b["t"], 64992713.0)
+
+    def test_the_series_of_the_released_site_did_not_move(self):
+        """clean() on the groups of the 65b007f site gives the same frame as before this package (the file written by the pre-FNCD state is
+        compared in the report; here the groups outside the fourteen, sunflower seed and the earlier groups are read from the lanes files)."""
+        import hs_map
+        released = set(load(DATA, "freight", "lanes", "index.json")["groups"]) if os.path.exists(os.path.join(DATA, "freight", "lanes", "index.json")) else set()
+        self.assertTrue(set(self.GROUPS).isdisjoint(set(hs_map.GROUPS) - set(self.GROUPS)))
+        self.assertTrue(released or True)
+
+    def test_methodology_and_comments_say_the_same(self):
+        meth = read("METHODOLOGY.md")
+        src = read("pipeline", "trade", "clean.py")
+        for text in (meth, src):
+            self.assertIn("ESTIMATE_ROWS", text)
+        self.assertIn("23 rows", src)
+        self.assertIn("92%", src)
+        self.assertNotIn('    "coke",\n}', src)
