@@ -289,7 +289,9 @@ class E1DataFiles(unittest.TestCase):
 
 
 class E2PlantBasis(unittest.TestCase):
-    PLANT_ROWS = {("TUR", "TRERE"), ("TUR", "TRISK"), ("BRA", "BRVLC")}
+    # FNCH H5 (GV7B.5): the loading of refined products at the refinery towns of the EIA briefs (the brief names the refinery, not the berth, and says
+    # nothing of which refinery exports)
+    PLANT_ROWS = {("TUR", "TRERE"), ("TUR", "TRISK"), ("BRA", "BRVLC"), ("MYS", "MYPEN"), ("MYS", "MYPDI"), ("IND", "INBOM"), ("IND", "INVAD")}
 
     def test_turkish_exports_of_the_three_groups_load_at_the_steel_works_by_the_coast_rule(self):
         """The page gives no direction: Iskenderun is a row for both roles (it was a discharge row, and the exports to the Mediterranean loaded at
@@ -318,7 +320,8 @@ class E2PlantBasis(unittest.TestCase):
         sentences takes the basis; the others of the scan are rows whose page names the cargo or the place and are left."""
         decided = ("the page names the plant, not its port or the cargo it takes",       # Iskenderun
                    "operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo)",  # Eregli
-                   "That the cargo leaves from the Vila do Conde terminals is read from the two pages together")  # Alunorte
+                   "That the cargo leaves from the Vila do Conde terminals is read from the two pages together",  # Alunorte
+                   "and does not say which refinery exports")  # Pengerang, Port Dickson, Mumbai, Vadinar (FNCH)
         for iso, rs in P.G.items():
             for r in rs:
                 said = any(s in (r.note or "") for s in decided)
