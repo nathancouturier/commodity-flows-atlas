@@ -512,6 +512,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     script takes its `User-Agent` from; the address is written in no file of the repository. The company
     entries without a figure will be read on sec.gov under these rules in a later round.
   - **Pace.** Several packages may run at the same time.
+  - **Lines under the charts.** "Drag to zoom · double-click to reset" and the like stay under the charts of the
+    passage pages and of the price drawer: the rule against hint text does not cover them.
   - The owner downloaded by hand and handed over four files that the machine could not fetch: Queensland's coal
     sales and coal production workbooks, the historical tables of Australia's Resources and Energy Quarterly
     (all CC BY 4.0) and the World Port Index of the US National Geospatial-Intelligence Agency (public domain).
@@ -848,10 +850,7 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     today, as the owner set it.
 20. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
     the fourth release from the disruptions of passages.
-21. **Hint text under charts.** The owner's rule is no hint text. The charts of the passage pages and of the
-    price drawer print "Drag to zoom · double-click to reset" under them, as they did before the audit: keep
-    these lines, or remove them too?
-22. The choices listed above, each reversible.
+21. The choices listed above, each reversible.
 
 ## Update jobs
 
