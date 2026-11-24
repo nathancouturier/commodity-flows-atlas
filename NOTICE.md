@@ -133,7 +133,7 @@ replaced by one from another source, it leaves this notice.
 The articles below are cited by rows of the trade engine's tables (English Wikipedia unless stated). The list is
   generated from the rows themselves (the `url` of every gateway, transit and manual-port row, the source strings of the
   draught tables, the URL of every mode-list entry) by `pipeline/common/notice_lists.py`, not typed, and
-  `pipeline/tests/test_engine.py` checks that it is complete. 196 distinct articles:
+  `pipeline/tests/test_engine.py` checks that it is complete. 197 distinct articles:
 
 - Gateway ports for grain, vegetable oil, fertiliser and general cargo (`pipeline/freight/gateways/food.py`, 71):
   [Apapa](https://en.wikipedia.org/wiki/Apapa); [Aqaba](https://en.wikipedia.org/wiki/Aqaba); [Bandar Imam
@@ -318,8 +318,9 @@ The articles below are cited by rows of the trade engine's tables (English Wikip
   pipeline](https://en.wikipedia.org/wiki/Trans_Mountain_pipeline).
 - Passages closed to the routing (Kanmon Strait) (`pipeline/freight/routing.py`, 1):
   [関門海峡](https://ja.wikipedia.org/wiki/%E9%96%A2%E9%96%80%E6%B5%B7%E5%B3%A1) (Japanese Wikipedia).
-- River legs of the ports up a river that the sea network does not follow (Rouen) (`pipeline/freight/river_legs.py`, 1):
-  [Port de Rouen](https://fr.wikipedia.org/wiki/Port_de_Rouen) (French Wikipedia).
+- River legs of the ports up a river that the sea network does not follow (Rouen, Bremen)
+  (`pipeline/freight/river_legs.py`, 2): [Weser](https://en.wikipedia.org/wiki/Weser); [Port de
+  Rouen](https://fr.wikipedia.org/wiki/Port_de_Rouen) (French Wikipedia).
 <!-- wikipedia-articles:end -->
 
 ## Points taken from OpenStreetMap: ODbL 1.0

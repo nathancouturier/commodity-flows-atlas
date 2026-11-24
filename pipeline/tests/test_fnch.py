@@ -51,38 +51,52 @@ class H4MixedTonnageNote(unittest.TestCase):
         self.assertEqual(B._fmts(5.71, "kt", under=0.05), "5.71 kt")
         self.assertEqual(B._fmts(0.0004, "Mt"), "0.4 kt")  # the other callers are as before
 
-    def test_every_file_that_moves_the_tonnage_says_it_from_the_threshold_and_not_below(self):
-        """The note of the seaborne figure of each catalogue page, read from data/commodities: the sentence is there when the lane file's mixed
-        tonnage is at least 0.005 Mt (5 kt in a kt file), and not otherwise."""
-        said = missing = checked = 0
-        for f in sorted(glob.glob(os.path.join(DATA, "freight", "lanes", "*.json"))):
-            lg = load(f)
+    def test_every_page_says_the_tonnage_from_the_threshold_and_not_below(self):
+        """The note of the seaborne figure of each catalogue page (data/commodities/*.json, summary.seaborne), against the mixed tonnage of the lane
+        file of its group: the sentence is there when the tonnage is at least 0.005 Mt (5 kt in a kt file), and not otherwise."""
+        said = silent = 0
+        for f in sorted(glob.glob(os.path.join(DATA, "commodities", "*.json"))):
+            doc = load(f)
+            sb = ((doc.get("summary") or {}).get("seaborne")) if isinstance(doc, dict) else None
+            m = re.search(r"seaborne subset of BACI flows \(([\w-]+)\)", (sb or {}).get("n") or "")
+            if not m:
+                continue
+            lg = load(DATA, "freight", "lanes", m.group(1) + ".json")
             mx = (lg.get("mixed") or [0])[-1]
             u = lg.get("unit") or "Mt"
-            thr = 0.005 * (1000 if u == "kt" else 1)
-            page = os.path.join(DATA, "commodities", lg["group"] + ".json")
-            if not os.path.exists(page):
-                continue
-            n = (load(page).get("seaborne") or {}).get("n") or ""
-            checked += 1
-            if mx and mx >= thr:
-                self.assertIn("that move both by sea and overland (split not known) are not in it", n, lg["group"])
-                m = re.search(r"; ([\d.,]+) (Mt|kt) that move both", n)
-                self.assertEqual(m.group(2), u, lg["group"])
-                self.assertAlmostEqual(float(m.group(1).replace(",", "")), mx, delta=max(mx * 0.005, 0.00005), msg=lg["group"])  # three significant digits
+            n = sb["n"]
+            if mx and mx >= 0.005 * (1000 if u == "kt" else 1):
+                self.assertIn("that move both by sea and overland (split not known) are not in it", n, f)
+                x = re.search(r"; ([\d.,]+) (Mt|kt) that move both", n)
+                self.assertEqual(x.group(2), u, f)
+                # three significant digits under the old threshold (0.05 Mt, 50 kt), the figures of the note as they were above it
+                self.assertEqual(x.group(1), B._fmts(mx, u, under=0.05).split(" ")[0], f)
+                if mx < 0.05 * (1000 if u == "kt" else 1):
+                    self.assertAlmostEqual(float(x.group(1)), mx, delta=mx * 0.005, msg=f)
                 said += 1
             else:
-                self.assertNotIn("move both by sea and overland", n, lg["group"])
-                missing += 1
-        self.assertGreater(checked, 40)
-        self.assertGreater(said, 10)
-        self.assertGreater(missing, 5)
+                self.assertNotIn("move both by sea and overland", n, f)
+                silent += 1
+        self.assertGreater(said, 20)
+        self.assertGreater(silent, 5)
 
-    def test_the_groups_below_the_old_threshold_now_have_the_sentence(self):
-        """Twelve groups were between 0.005 and 0.05 Mt (5 and 50 kt): their page says it now."""
-        for g, expected in (("palm-oil", "0.0102 Mt"), ("ammonium-sulphate", "0.0167 Mt"), ("cobalt", "5.71 kt")):
-            n = load(DATA, "commodities", g + ".json")["seaborne"]["n"]
-            self.assertIn(f"; {expected} that move both by sea and overland (split not known) are not in it", n, g)
+    def test_the_pages_below_the_old_threshold_have_the_sentence_now(self):
+        """Six pages had a mixed tonnage between 0.005 and 0.05 Mt (5 and 50 kt) and said nothing: chromium, cobalt, ferro-alloys, manganese, palm oil, urea."""
+        for k, expected in (("palm-oil", "0.0102 Mt"), ("urea", "0.0385 Mt"), ("cobalt", "5.71 kt"), ("chromium", "0.0196 Mt"), ("ferro-alloys", "0.0242 Mt"),
+                            ("manganese", "0.047 Mt")):
+            n = load(DATA, "commodities", k + ".json")["summary"]["seaborne"]["n"]
+            self.assertIn(f"; {expected} that move both by sea and overland (split not known) are not in it", n, k)
+
+
+class H3FreightNote(unittest.TestCase):
+    def test_the_freight_block_prints_the_sentence_of_the_profile_in_its_note(self):
+        """The sentence that says what the percentage after a port is is written in every profile (freight.note) and printed in the note of the block."""
+        src = read("web", "src", "components", "views", "CountryBlocks.tsx")
+        self.assertIn("{fr.note ??", src)
+        self.assertEqual(src.count("cp-fr-note"), 1)
+        for iso in ("FRA", "TUR", "MYS"):
+            note = load(DATA, "countries", "profiles", iso + ".json")["freight"]["note"]
+            self.assertIn("The percentage after a port is the share of the seaborne tonnes", note)
 
 
 class H7Readme(unittest.TestCase):

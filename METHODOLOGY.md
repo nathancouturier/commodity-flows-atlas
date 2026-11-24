@@ -484,16 +484,17 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "page names the plant, not the cargo" (a row whose page names the steel works, the alumina refinery or another plant
     that the port serves, and not the cargo of the berth; the page gives no direction, so the row is one basis in both; the
     source link stays; package FNCE: Karadeniz Eregli and Iskenderun for scrap, pig iron and direct-reduced iron, and the
-    port of Barcarena for alumina);
+    port of Barcarena for alumina; package FNCH: the loading of refined products at Pengerang, Port Dickson, Mumbai and
+    Vadinar, whose EIA brief names the refineries by town and does not say which of them exports);
   - "general port of the country";
   - "port used before, no page read" (the earlier table; shown as "no source page yet");
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
   two ends, 16,588 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
-  transit port is one more port): page names the cargo 67.6%, port used before 22.5%, general port
-  5.7%, nearest seaport 2.2%, other direction 1.1%, page names the plant 0.2%, no port (not routed) 0.7% (recomputed after
-  package FNCF, from the pairs files; after package FNCE they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,591 Mt; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
+  transit port is one more port): page names the cargo 67.3%, port used before 22.5%, general port
+  5.7%, nearest seaport 2.2%, other direction 1.1%, page names the plant 0.4%, no port (not routed) 0.7% (recomputed after
+  package FNCH, from the pairs files, when the four refinery rows of products loading, Pengerang, Port Dickson, Mumbai and Vadinar, took the plant basis; after package FNCF they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,588 Mt; after package FNCE they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,591 Mt; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
   plant basis, and 69.7%, 22.4%, 4.1%, 2.2%, 1.1% and 0.6% of 15,847 Mt after package FL1; 0.8% had no port before package L1). Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
@@ -554,7 +555,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   port of an open choice of German lanes and never the principal port of a pair: English Wikipedia, Weser, read on 24 November 2026,
   "It passes through the Hanseatic city of Bremen. Its mouth is 50 km (31 mi) further north opposite the ports of Bremerhaven and
   Nordenham": 50 km, 27 nm, from the node of Bremerhaven, the one the router already used for Bremen. The page's figure is round and
-  shorter than the 53 km of the straight line from Bremen to that node, so the leg is a lower bound. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
+  shorter than the 53 km of the straight line from Bremen to that node, so the leg may be a little short. The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
   (`test_ports.py`) requires a leg for every port of a flow's gateway that is more than 50 km from the coast and the network;
   the other ports of the tables at 20 to 50 km from the network (estuary and river ports, and islands) are listed in
   `test_fnce.py`, which fails when one more comes into a table, and are not changed.

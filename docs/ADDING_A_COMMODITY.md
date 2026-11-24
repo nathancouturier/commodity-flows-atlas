@@ -145,7 +145,7 @@ Builders in this order: `geo/adjacency.py`, `freight/build_lanes.py`, `freight/b
 `infrastructure/route_assets.py`, `freight/build_alerts.py`, `prices/build_prices.py`, `companies/build_companies.py`,
 `commodities/build_commodities.py`, `commodities/build_profiles.py`, `common/sources_table.py`, `common/notice_lists.py`; then
 `node web/scripts/validate-data.mjs`, `validate-freight.mjs`, `validate-infra.mjs`, `npm test --prefix web`,
-`python -m unittest discover -s pipeline/tests -p "test_*.py"` (about 3 minutes), `npx tsc --noEmit` in `web/`.
+`python -m unittest discover -s pipeline/tests -p "test_*.py"` (about 4 minutes), `npx tsc --noEmit` in `web/`.
 After any builder: `git checkout -- data/_status`. Look at `git status --short data/` and `du -sk data` (budget in
 `web/scripts/check-size.mjs`; the series by year of `data/commodities/history` have a 3 MB budget in `validate-data.mjs`).
 Browser: `cd web && npx vite --port <port> --strictPort`; open each new page at 1440 and 390 px, the country pages that gain

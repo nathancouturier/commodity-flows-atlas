@@ -252,8 +252,9 @@ class E1DataFiles(unittest.TestCase):
             if "FRURO" in doc["ports"]:
                 riv = doc["ports"]["FRURO"]["river"]
                 self.assertEqual((riv["nm"], riv["river"]), (65, "Seine"), f)
-            else:
-                self.assertTrue(all("river" not in p for p in doc["ports"].values()), f)
+            # a port with a leg carries the note of the table, and no other port has one (Bremen since FNCH)
+            for code, port in doc["ports"].items():
+                self.assertEqual(port.get("river"), RL.public(code, port["name"]), (f, code))
             for lane in doc["lanes"]:
                 for alt in [lane] + list(lane.get("alts") or []):
                     if alt is lane and lane["load"][0] == "FRURO":
@@ -363,12 +364,12 @@ class E2PlantBasis(unittest.TestCase):
                     seen.add((f[:-5], port[0]))
         groups = {g for g, _ in seen}
         self.assertTrue({"ferrous-scrap", "pig-iron", "dri", "alumina"} <= groups, seen)
-        self.assertEqual({c for _, c in seen}, {"TRERE", "TRISK", "BRVLC"})
+        self.assertEqual({c for _, c in seen}, {"TRERE", "TRISK", "BRVLC", "MYPEN"})  # MYPEN: FNCH (the products pairs of Malaysia; the other three refinery rows are in the lane files only)
         for g, c in seen:
             lane = load("freight", "lanes", g + ".json")["ports"].get(c)
             if lane:
                 self.assertEqual(lane["basis"], P.BASIS_PLANT, (g, c))
-                self.assertEqual(lane["s"], "wikipedia")
+                self.assertEqual(lane["s"], "eia-cab" if c == "MYPEN" else "wikipedia")
                 self.assertTrue(lane["url"])
 
     def test_turkish_exports_load_at_the_steel_works_in_the_files_and_methodology_counts_them(self):

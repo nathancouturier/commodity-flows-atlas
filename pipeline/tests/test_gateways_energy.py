@@ -113,8 +113,9 @@ class G10Rows(unittest.TestCase):
     def test_row_shape(self):
         for iso3, lst in EN.G.items():
             for r in lst:
-                self.assertEqual(len(r), 7, (iso3, r))
-                code, zone, fams, role, src, url, note = r
+                self.assertIn(len(r), (7, 8), (iso3, r))  # an eighth element is "plant" (FNCE, FNCH)
+                self.assertTrue(len(r) == 7 or r[7] == "plant", (iso3, r))
+                code, zone, fams, role, src, url, note = r[:7]
                 self.assertTrue(set(fams) and set(fams) <= FAMILIES, (iso3, r))
                 self.assertIn(role, ROLES, (iso3, r))
                 self.assertIn(zone, PLAN_ZONES | set(EN.EXTRA_ZONES) | COASTS_ZONES, (iso3, r))
@@ -647,7 +648,9 @@ class FE4dRefineries(unittest.TestCase):
             self.assertEqual([r[0] for r in rows], codes, (iso3, fam, role))
             c = self.ports.candidates(iso3, "crude-oil" if fam == "crude" else "refined-products", role)
             self.assertEqual([x[0] for x in c][:len(codes)], codes, (iso3, fam, role))
-            self.assertEqual({x[2] for x in c}, {self.ports.BASIS_PAGE}, (iso3, fam, role))
+            # the rows that say the page does not name which refinery exports have the plant basis (FNCH, GV7B.5)
+            expected = {self.ports.BASIS_PLANT if len(r) > 7 else self.ports.BASIS_PAGE for r in rows}
+            self.assertEqual({x[2] for x in c[:len(codes)]}, expected, (iso3, fam, role))
 
     def test_the_largest_place_is_the_principal_port(self):
         self.assertEqual(principal("IDN", "crude", "discharge")[0], "IDBPN")   # Balikpapan 360 against Cilacap 348

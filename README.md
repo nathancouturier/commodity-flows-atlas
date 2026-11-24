@@ -64,7 +64,7 @@ one before wrote):
 | # | Command | What it writes |
 |---|---|---|
 | 1 | `python pipeline/geo/adjacency.py` | borders and coasts: `pipeline/cache/adjacency.json`, `data/countries/places.json` (seconds) |
-| 2 | `python pipeline/freight/build_lanes.py` | lanes, pairs, caveats and zones under `data/freight/`; the caches `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `route_cache.json`, `geom_cache.json`, `trade_checks.json` (about 8 minutes cold, under a minute with warm route caches) |
+| 2 | `python pipeline/freight/build_lanes.py` | lanes, pairs, caveats and zones under `data/freight/`; the caches `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `route_cache.json`, `geom_cache.json`, `trade_checks.json` (about 20 minutes cold, under 2 minutes with warm route caches) |
 | 3 | `python pipeline/freight/build_freight.py` | routes, chokepoints and their shares, chokepoint cargo tables, PortWatch series, vessel classes; check K9 in `trade_checks.json` |
 | 4 | `python pipeline/commodities/build_commodities.py`, then `python pipeline/commodities/build_profiles.py` | `data/commodities/*.json`, `pipeline/commodities/QA.md`, `data/countries/profiles/*.json`, `data/countries/years.json` |
 | 5 | `node web/scripts/validate-data.mjs` | nothing: checks the data files |
@@ -76,7 +76,7 @@ key), so the next lane build is a cold one. The methods are in [`METHODOLOGY.md`
 
 **Tests.** The pipeline has unit and data tests under `pipeline/tests/` (Python `unittest`, no extra dependency).
 Run them from the repository root with
-`python -m unittest discover -s pipeline/tests -p "test_*.py"` (about a minute); a test that needs a file of `raw/`
+`python -m unittest discover -s pipeline/tests -p "test_*.py"` (about 4 minutes); a test that needs a file of `raw/`
 or a built file that is absent is skipped. The data tests read the built files, so run them after the builders. The
 site's checks are `node web/scripts/validate-data.mjs`, its own tests `node web/scripts/validate-freight.test.mjs` and
 `node web/scripts/validate-infra.test.mjs` (all of them: `cd web && npm test`), and `cd web && npx tsc --noEmit`. The
