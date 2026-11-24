@@ -161,7 +161,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "C5",
-   "cargo": "160,000 or 170,000 t iron ore, within 10% either way at the owner's choice",
+   "cargo": "iron ore, 160,000 t or 170,000 t, within 10% either way at the owner's choice",
    "load": "West Australia",
    "discharge": "Qingdao",
    "state": "active",
@@ -437,7 +437,7 @@
   "definition": {
    "code": "C9_182",
    "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
-   "load": "Amsterdam-Rotterdam-Antwerp range or passing Passero",
+   "load": "Amsterdam-Rotterdam-Antwerp range, or on passing Passero",
    "discharge": "China-Japan range",
    "duration": "about 65 days",
    "tc": true,
@@ -555,14 +555,14 @@
    "ports": []
   },
   "cargoNote": "The Baltic definition (Guide to Market Benchmarks) names no cargo, only delivery and redelivery areas and a duration. These are cargoes typical of the class in the atlas (iron ore and coal, the cargoes of the atlas's Capesize voyage routes), not part of the definition; no corridor is attached.",
-  "notes": "Backhaul time-charter trip of the 182,000 dwt Capesize from the Far East to Europe, loading in Australia, Indonesia, the US west coast, South Africa or Brazil; it weighs 12.5% in the Capesize timecharter average. The definition names no loading port: the line is drawn as a laden leg from Port Hedland to Rotterdam, an atlas choice.",
+  "notes": "Backhaul time-charter trip of the 182,000 dwt Capesize from the Far East to Europe, loading in Brazil, South Africa, the US west coast, Indonesia or Australia; it weighs 12.5% in the Capesize timecharter average. The definition names no loading port: the line is drawn as a laden leg from Port Hedland to Rotterdam, an atlas choice.",
   "s": "baltic",
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "C16_182",
    "vessel": "Baltic standard Capesize (BCI182): 182,000 dwt",
-   "load": "North China-South Japan range, trip via Australia, Indonesia, US west coast, South Africa or Brazil",
-   "discharge": "UK-Continent-Mediterranean within Skaw-Passero range",
+   "load": "Between North China and South Japan; the trip may go by Brazil, South Africa, the US west coast, Indonesia or Australia",
+   "discharge": "Skaw-Passero range: the UK, the Continent or the Mediterranean",
    "duration": "65 days",
    "tc": true,
    "state": "active",
@@ -640,7 +640,7 @@
    "code": "P2A_82",
    "vessel": "Baltic standard Panamax (BPI82): 82,500 dwt",
    "load": "Skaw-Gibraltar range",
-   "discharge": "Hong Kong-South Korea range including Taiwan",
+   "discharge": "From Hong Kong to South Korea, Taiwan included",
    "duration": "75-85 days",
    "tc": true,
    "state": "active",
@@ -874,7 +874,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "P7",
-   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), within 10% either way at the owner's choice",
+   "cargo": "66,000 t of HSS (heavy grain, soya and sorghum), within 10% either way at the owner's choice",
    "load": "Mississippi river",
    "discharge": "Qingdao",
    "state": "active",
@@ -930,7 +930,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "P8",
-   "cargo": "66,000 t heavy grain, soya and sorghum (HSS), within 10% either way at the owner's choice",
+   "cargo": "66,000 t of HSS (heavy grain, soya and sorghum), within 10% either way at the owner's choice",
    "load": "Santos",
    "discharge": "Qingdao",
    "state": "active",
@@ -1005,7 +1005,7 @@
    "code": "S1C_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
    "load": "South West Pass (US Gulf)",
-   "discharge": "North China-South Japan (Shanghai-Tokyo bay range)",
+   "discharge": "Between North China and South Japan (Shanghai to Tokyo Bay)",
    "duration": "50-55 days",
    "tc": true,
    "state": "active",
@@ -1046,7 +1046,7 @@
   "definition": {
    "code": "S2_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
-   "load": "North China (Shanghai-Dalian range), Australian or transpacific round voyage",
+   "load": "Round voyage, Australian or transpacific, from North China (Shanghai to Dalian)",
    "discharge": "North China (Shanghai-Dalian range)",
    "duration": "40-50 days",
    "tc": true,
@@ -1213,7 +1213,7 @@
   "definition": {
    "code": "S1B_63",
    "vessel": "Baltic standard Supramax (BSI63): 63,500 dwt",
-   "load": "Passing Canakkale, trip via the Mediterranean or Black Sea",
+   "load": "Trip by the Mediterranean or the Black Sea, on passing Canakkale",
    "discharge": "China-South Korea range",
    "duration": "40-50 days",
    "tc": true,
@@ -1639,7 +1639,7 @@
   "definition": {
    "code": "HS5_38",
    "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
-   "load": "Krabi-Campha range including Malaysia, Indonesia and the Philippines",
+   "load": "Malaysia, Indonesia and the Philippines, within the range from Krabi to Campha",
    "discharge": "Singapore-Japan range including China",
    "duration": "30-45 days",
    "tc": true,
@@ -1720,7 +1720,7 @@
    "code": "HS7_38",
    "vessel": "Baltic standard Handysize (BHSI38): 38,200 dwt",
    "load": "North China-South Korea-Japan range",
-   "discharge": "Krabi-Campha range including Malaysia, Indonesia and the Philippines",
+   "discharge": "Malaysia, Indonesia and the Philippines, within the range from Krabi to Campha",
    "duration": "25-30 days",
    "tc": true,
    "state": "active",
@@ -2377,7 +2377,7 @@
   "notes": "Kuwaiti crude or dirty products to Singapore, heated to 135 F.",
   "definition": {
    "code": "TD8",
-   "cargo": "80,000 t crude oil and/or dirty petroleum products",
+   "cargo": "crude oil or dirty petroleum products, 80,000 t",
    "load": "Mena al Ahmadi",
    "discharge": "Singapore",
    "state": "active",
@@ -3301,7 +3301,7 @@
   "shareNa": "Its flow is counted on TC5 (same Gulf–Japan products corridor), not twice",
   "definition": {
    "code": "TC1",
-   "cargo": "75,000 t clean products and naphtha condensate",
+   "cargo": "75,000 t of clean petroleum products and naphtha condensate",
    "load": "Ras Tanura",
    "discharge": "Yokohama",
    "state": "active",
@@ -3366,7 +3366,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC5",
-   "cargo": "55,000 t clean products, unleaded gasoline and naphtha condensate",
+   "cargo": "55,000 t of clean petroleum products: unleaded gasoline or naphtha condensate",
    "load": "Ras Tanura",
    "discharge": "Yokohama",
    "state": "active",
@@ -3417,7 +3417,7 @@
   "shareNa": "Its flow is counted on the Middle East – Europe diesel/jet route, not twice",
   "definition": {
    "code": "TC8",
-   "cargo": "65,000 t clean products, unleaded gasoline and middle distillate",
+   "cargo": "65,000 t of clean petroleum products: unleaded gasoline or middle distillate",
    "load": "Jubail",
    "discharge": "Rotterdam",
    "state": "active",
@@ -3587,7 +3587,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "TC20",
-   "cargo": "90,000 t clean products, unleaded gasoline and middle distillate",
+   "cargo": "90,000 t of clean petroleum products: unleaded gasoline or middle distillate",
    "load": "Jubail",
    "discharge": "Rotterdam",
    "state": "active",
@@ -3646,7 +3646,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC2_37",
-   "cargo": "37,000 t clean products and unleaded gasoline",
+   "cargo": "37,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Rotterdam",
    "discharge": "New York",
    "state": "active",
@@ -3703,7 +3703,7 @@
   "notes": "Algerian products across the Mediterranean; one of the six routes of the Baltic Clean Tanker Index.",
   "definition": {
    "code": "TC6",
-   "cargo": "30,000 t clean products and unleaded gasoline",
+   "cargo": "30,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Skikda",
    "discharge": "Lavera",
    "state": "active",
@@ -3809,7 +3809,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC9",
-   "cargo": "30,000 t clean products, unleaded gasoline and diesel (middle distillate)",
+   "cargo": "30,000 t of clean petroleum products: unleaded gasoline or diesel (middle distillate)",
    "load": "Primorsk",
    "discharge": "Le Havre",
    "state": "ended",
@@ -3865,7 +3865,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC10",
-   "cargo": "40,000 t clean products and unleaded gasoline",
+   "cargo": "40,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Yeosu",
    "discharge": "Los Angeles",
    "state": "active",
@@ -4028,7 +4028,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC14",
-   "cargo": "38,000 t clean products, unleaded gasoline and diesel",
+   "cargo": "38,000 t of clean petroleum products: unleaded gasoline or diesel",
    "load": "Houston",
    "discharge": "Amsterdam",
    "state": "active",
@@ -4092,7 +4092,7 @@
   "notes": "MR products from the Gulf to East Africa.",
   "definition": {
    "code": "TC17",
-   "cargo": "35,000 t (the product is not named)",
+   "cargo": "35,000 t, with no product named",
    "load": "Jubail",
    "discharge": "Dar es Salaam",
    "state": "active",
@@ -4147,7 +4147,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC18",
-   "cargo": "38,000 t clean products and unleaded gasoline",
+   "cargo": "38,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Houston",
    "discharge": "Santos",
    "state": "active",
@@ -4262,7 +4262,7 @@
   "parcelUnit": "t",
   "definition": {
    "code": "TC21",
-   "cargo": "38,000 t clean products and unleaded gasoline",
+   "cargo": "38,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Houston",
    "discharge": "Pozos Colorados",
    "state": "active",
@@ -4308,7 +4308,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC22",
-   "cargo": "35,000 t clean products and unleaded gasoline",
+   "cargo": "35,000 t of clean petroleum products, including unleaded gasoline",
    "load": "Yeosu",
    "discharge": "Botany Bay",
    "state": "active",
@@ -4365,7 +4365,7 @@
   "url": "https://www.balticexchange.com/content/dam/balticexchange/consumer/data-services-/documents-/ocean-bulk/GMB.pdf",
   "definition": {
    "code": "TC23",
-   "cargo": "30,000 t clean products, unleaded gasoline and diesel",
+   "cargo": "30,000 t of clean petroleum products: unleaded gasoline or diesel",
    "load": "Amsterdam-Rotterdam-Antwerp",
    "discharge": "UK-Continent",
    "state": "active",
@@ -4416,13 +4416,13 @@
     ]
    }
   ],
-  "notes": "Round voyage from Gladstone via Tokyo on the Baltic 174,000 cbm carrier burning LNG, live since December 2023 (Baltic Exchange circular 35/23). The 160,000 cbm series ceased in 2025 (Guide to Market Benchmarks, version 7.09).",
+  "notes": "Round voyage from Gladstone via Tokyo on the Baltic 174,000 cbm carrier burning LNG, live since December 2023 (Baltic Exchange circular 35/23). The 160,000 cbm series ceased in 2025 (the Baltic guide, version 7.09).",
   "s": "baltic-circulars",
   "url": "https://www.balticexchange.com/en/data-services/Circulars/market-announcements-/category-a/2023/circular-35-23---new-index--blng1-174--blng2-174--blng3-174-goes.html",
   "definition": {
    "code": "BLNG1-174",
    "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
-   "load": "Gladstone (delivery and redelivery), round voyage via Tokyo",
+   "load": "Delivery and redelivery at Gladstone; the round voyage goes via Tokyo",
    "discharge": "Gladstone",
    "duration": "22 days",
    "tc": true,
@@ -4487,7 +4487,7 @@
   "definition": {
    "code": "BLNG2-174",
    "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
-   "load": "Sabine (delivery and redelivery), round voyage via Isle of Grain",
+   "load": "Delivery and redelivery at Sabine; the round voyage goes via the Isle of Grain",
    "discharge": "Sabine",
    "duration": "28 days",
    "tc": true,
@@ -4548,7 +4548,7 @@
   "definition": {
    "code": "BLNG3-174",
    "vessel": "Baltic LNG carrier (LNGC174): 174,000 cbm",
-   "load": "Sabine (delivery and redelivery), round voyage via Tokyo through the Panama Canal",
+   "load": "Delivery and redelivery at Sabine; the round voyage goes via Tokyo, through the Panama Canal",
    "discharge": "Sabine",
    "duration": "53 days",
    "tc": true,
@@ -4739,7 +4739,7 @@
    "vessel": "Time-charter equivalent on the Baltic VLGC (VLGC84): 84,000 cbm",
    "cargo": "44,000 t fully refrigerated LPG, within 5% either way at the owner's choice",
    "load": "Houston",
-   "discharge": "Chiba (via the Panama Canal, 2 days of waiting included)",
+   "discharge": "Chiba, reached through the Panama Canal with 2 days of waiting counted",
    "state": "active",
    "stateNote": "Listed on the Baltic Exchange gas services page",
    "stateUrl": "https://www.balticexchange.com/en/data-services/market-information0/gas-services.html",

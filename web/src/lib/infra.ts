@@ -2,7 +2,7 @@
  * What an infrastructure asset says, read from the schema of pipeline/infrastructure/README.md: its figures
  * (capacity and output, each with its own year), its status, and what the History year changes.
  */
-import type { InfraFigure, InfraOutput, InfraProps } from '../types';
+import type { InfraFigure, InfraOutput, InfraProps, Route } from '../types';
 import { loadOptional } from './data';
 
 /**
@@ -17,6 +17,33 @@ export const loadPortIndex = () => (portIndex ??= loadOptional<{ ports: PortInde
 export function portRowOf(rows: PortIndexRow[], name: string, c?: string | null): PortIndexRow | undefined {
   const same = rows.filter((p) => p.name === name);
   return same.find((p) => p.c === c) ?? (same.length === 1 ? same[0] : undefined);
+}
+
+/** The customs groups of a commodity that are not its own id (pipeline/freight/build_freight.py, GROUPS_OF). */
+const GROUPS_OF: Record<string, string[]> = {
+  'thermal-coal': ['coal'],
+  'met-coal': ['coal'],
+  copper: ['copper-ore'],
+  nickel: ['nickel-ore'],
+  phosphate: ['phosphate-rock', 'dap'],
+  lithium: ['spodumene'],
+};
+
+/** The customs groups a route carries: those its corridor names, else those of its cargoes. A lane id starts with its group. */
+export function routeGroups(r: Pick<Route, 'corridor' | 'cargoes'>): string[] {
+  const out = new Set<string>();
+  for (const c of r.corridor ?? []) {
+    if (c.g) out.add(c.g);
+    for (const g of c.gs ?? []) out.add(g);
+  }
+  if (!out.size) for (const k of r.cargoes) for (const g of GROUPS_OF[k] ?? [k]) out.add(g);
+  return [...out];
+}
+
+/** The largest lane through a port of a commodity the route carries (the index lists a port's largest lanes first), or null. */
+export function laneOfGroups(row: PortIndexRow | undefined, groups: string[]): string | null {
+  const lanes = row ? (row.lanes ?? (row.lane ? [row.lane] : [])) : [];
+  return lanes.find((l) => groups.includes(l.slice(0, l.indexOf(':')))) ?? null;
 }
 
 export const STATUS_LABEL: Record<string, string> = {
@@ -64,8 +91,20 @@ export function statusText(status?: string, asOf?: string): string {
   return asOf && status && status !== 'not-stated' ? `${label} as of ${monthYear(asOf)}` : label;
 }
 
-/** The year printed beside a figure: its own, or "year not stated". Never the date the page was read. */
-export const yearText = (f: { y?: number | null }): string => (f.y != null ? String(f.y) : 'year not stated');
+/**
+ * The year printed beside a figure: its own; where the page states none, the year the page was read, said as such
+ * ("read 2026"), never as the year of the figure; "year not stated" only for a feature that has neither.
+ */
+export const yearText = (f: { y?: number | null }, read?: string): string => {
+  if (f.y != null) return String(f.y);
+  const r = read ? yearOfDate(read) : null;
+  return r != null ? `read ${r}` : 'year not stated';
+};
+
+/** "2016 · Wikipedia", or "Wikipedia · read 2026" where the figure has no year of its own. */
+export function yearSource(f: { y?: number | null }, source: string, read?: string): string {
+  return f.y != null || !read || yearOfDate(read) == null ? `${yearText(f, read)} · ${source}` : `${source} · ${yearText(f, read)}`;
+}
 
 /**
  * The source as a reader sees it. An id that stands for many publishers ("Trade press (see the page linked on each

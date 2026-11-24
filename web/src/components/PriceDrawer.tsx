@@ -163,6 +163,8 @@ export function PriceDrawer() {
   const [h, setH] = useState(160);
   const [board, setBoard] = useState(false);
   const [real, setReal] = useState(false);
+  // with three series the source lines fold under one line, so that the plot keeps its height
+  const [srcOpen, setSrcOpen] = useState(false);
   const boardOpen = useRef(false);
   boardOpen.current = board;
   const chartBox = useRef<HTMLDivElement>(null);
@@ -531,7 +533,7 @@ export function PriceDrawer() {
   return (
     <section
       ref={rootRef}
-      class={`pd glass${open ? ' open' : ''}${data.length >= 2 ? ' pd-tall' : ''}${board ? ' pd-board-open' : ''}`}
+      class={`pd glass${open ? ' open' : ''}${data.length >= 2 ? ' pd-tall' : ''}${data.length > 2 ? ' pd-tall3' : ''}${board ? ' pd-board-open' : ''}`}
       aria-label="Price explorer"
       aria-hidden={!open}
     >
@@ -723,7 +725,12 @@ export function PriceDrawer() {
                   {devHint(data.find((_, i) => roles[i] === 'own')?.meta, data.find((_, i) => roles[i] === 'off')?.meta)}
                 </div>
               )}
-              {data.map((d, i) => (
+              {data.length > 2 && (
+                <button class="pd-src-fold" aria-expanded={srcOpen} onClick={() => setSrcOpen(!srcOpen)}>
+                  {srcOpen ? '▾' : '▸'} Sources of the {data.length} series
+                </button>
+              )}
+              {(data.length <= 2 || srcOpen) && data.map((d, i) => (
                 <div key={d.meta.id} class="pd-src" style={{ '--c': colors[i] }}>
                   <i />
                   <span>

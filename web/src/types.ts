@@ -1167,9 +1167,27 @@ export interface InfraProps {
   /** ports: the largest ship or the deepest berth a page states */
   limits?: PortLimits;
   /** ports: the largest vessel class of the atlas each segment can take by the published limits (derived by the atlas) */
-  maxClass?: { dry?: string; tanker?: string; gas?: string; n: string };
+  maxClass?: PortMaxClass;
   /** ids of the price series quoted at this place (data/prices/index.json) */
   prices?: string[];
+}
+
+/** The class a segment of a port can take (pipeline/infrastructure/port_limits.py): one class, or two when the rules disagree. */
+export interface PortClassEntry {
+  id: string;
+  /** the limit is above the band of the largest class of the segment */
+  orLarger?: true;
+  /** "By deadweight", "By the 14 m draught" */
+  by: string;
+  /** one sentence: what the class rests on */
+  basis: string;
+}
+export interface PortMaxClass {
+  dry?: { classes: PortClassEntry[] };
+  tanker?: { classes: PortClassEntry[] };
+  gas?: { classes: PortClassEntry[] };
+  /** the method, an Atlas estimate */
+  n: string;
 }
 
 /** Physical limits of a port: metres and deadweight tonnes, as a page states them. */

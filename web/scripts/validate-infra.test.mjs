@@ -258,7 +258,8 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     return p;
   };
   const lim = { draught: 18.2, dwt: 200000, depth: true, seg: 'dry', cls: 'capesize', at: 'Berth 1', n: 'Berth 1 at high tide', s: 'wikipedia', url: 'https://en.wikipedia.org/wiki/Port', y: 2025 };
-  const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: 'capesize', n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
+  const one = { id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' };
+  const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: { classes: [{ id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' }] }, n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
   assert.deepEqual(ok.errors, [], ok.all);
   const cases = {
     'bad locode': [{ locode: 'RU PRI' }, /"locode" must be/],
@@ -273,10 +274,16 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     'named class of another segment': [{ limits: { ...lim, seg: 'tanker', cls: 'capesize' } }, /not a class of the segment "tanker"/],
     'named class unknown': [{ limits: { ...lim, cls: 'megamax' } }, /limits\.cls "megamax"/],
     'depth without a draught': [{ limits: { dwt: 1e5, depth: true, n: 'x', s: 'wikipedia', url: lim.url } }, /limits\.depth must be true/],
-    'class without limits': [{ maxClass: { dry: 'capesize', n: 'x' } }, /derived from "limits"/],
-    'class of no segment': [{ limits: lim, maxClass: { bulk: 'capesize', n: 'x' } }, /maxClass\.bulk is not a segment/],
-    'unknown class': [{ limits: lim, maxClass: { dry: 'megamax', n: 'x' } }, /"megamax" is not a vessel class/],
-    'class without method': [{ limits: lim, maxClass: { dry: 'capesize' } }, /needs "n"/],
+    'class without limits': [{ maxClass: { dry: { classes: [one] }, n: 'x' } }, /derived from "limits"/],
+    'class of no segment': [{ limits: lim, maxClass: { bulk: { classes: [one] }, n: 'x' } }, /maxClass\.bulk is not a segment/],
+    'unknown class': [{ limits: lim, maxClass: { dry: { classes: [{ ...one, id: 'megamax' }] }, n: 'x' } }, /"megamax" is not a vessel class/],
+    'class of another segment': [{ limits: lim, maxClass: { tanker: { classes: [one] }, n: 'x' } }, /not a class of that segment/],
+    'segment without its classes': [{ limits: lim, maxClass: { dry: 'capesize', n: 'x' } }, /must hold one class, or two/],
+    'three classes': [{ limits: lim, maxClass: { dry: { classes: [one, { ...one, id: 'vloc' }, { ...one, id: 'kamsarmax' }] }, n: 'x' } }, /must hold one class, or two/],
+    'class without basis': [{ limits: lim, maxClass: { dry: { classes: [{ id: 'capesize', by: 'By deadweight' }] }, n: 'x' } }, /needs "by" and "basis"/],
+    'or larger as a word': [{ limits: lim, maxClass: { dry: { classes: [{ ...one, orLarger: 'yes' }] }, n: 'x' } }, /orLarger can only be true/],
+    'the same class twice': [{ limits: lim, maxClass: { dry: { classes: [one, one] }, n: 'x' } }, /same class twice/],
+    'class without method': [{ limits: lim, maxClass: { dry: { classes: [one] } } }, /needs "n"/],
     'unknown price series': [{ prices: ['brent-x'] }, /price series "brent-x"/],
   };
   for (const [name, [extra, re]] of Object.entries(cases)) {

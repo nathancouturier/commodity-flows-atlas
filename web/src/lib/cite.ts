@@ -20,7 +20,8 @@ const POINTER = /see the page linked/i;
  * link is kept with its address, so that the article the page rests on is named, without the lead word or the arrow glyph.
  */
 function handWrittenSources(panel: Element): string[] {
-  const out: string[] = [];
+  // one entry per source and address: a page that names the same article on two lines (the limits and the foot of a port page) cites it once
+  const out: { base: string; read?: string }[] = [];
   for (const line of panel.querySelectorAll('.src-line:not([data-src]):not([data-srcs])')) {
     const clean = (t: string | null) => (t ?? '').replace(/↗/g, '').replace(/\s+/g, ' ').trim();
     const text = clean(line.textContent);
@@ -28,15 +29,19 @@ function handWrittenSources(panel: Element): string[] {
     if (!/^Sources?:/i.test(text)) continue;
     const links = [...line.querySelectorAll('a')].map((a) => ({ text: clean(a.textContent), href: a.href }));
     for (const seg of text.replace(/^Sources?:\s*/i, '').split(' · ')) {
-      const t = seg.trim();
+      // a sentence that follows a source on its line is a remark, not a source; the citation adds its own full stop
+      const t = seg.trim().replace(/^(read [A-Za-z]+ \d{4})\..*$/i, '$1').replace(/\.+$/, '');
       if (!t) continue;
       const l = links.find((x) => x.text === t);
       // "read November 2026" belongs to the source before it
-      if (/^read /i.test(t) && out.length) out[out.length - 1] += `, ${t}`;
-      else out.push(l?.href ? `${t} (${l.href})` : t);
+      if (/^read /i.test(t) && out.length) out[out.length - 1].read ??= t;
+      else {
+        const base = l?.href ? `${t} (${l.href})` : t;
+        if (!out.some((o) => o.base === base)) out.push({ base });
+      }
     }
   }
-  return out;
+  return out.map((o) => (o.read ? `${o.base}, ${o.read}` : o.base));
 }
 
 /** Source ids of the page with their years, in the order the page shows them. */

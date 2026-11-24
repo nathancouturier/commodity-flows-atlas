@@ -1463,8 +1463,8 @@ The mines, smelters, ports, storage hubs, fields, refineries, LNG terminals and 
 `data/infrastructure/` are a hand-curated sample, not an inventory: each asset was picked because it
 is large, well known or needed to read a flow, and an absent asset means nothing about whether it
 exists. No script rebuilds the files. Capacity (nameplate) and output (a measured figure of a year)
-are separate fields, each with its own year; a capacity whose source gives no year is shown with
-"year not stated". The status of an asset is "operating" only when a dated page says it runs, and
+are separate fields, each with its own year; a figure whose source gives no year is shown with the
+year the page was read, as such ("Wikipedia · read 2026"), never as the year of the figure. The status of an asset is "operating" only when a dated page says it runs, and
 "not stated" when no page read says so; it is never assumed. The rules, units and sources are in
 [`pipeline/infrastructure/README.md`](pipeline/infrastructure/README.md).
 
@@ -1474,7 +1474,8 @@ port, a lane port and the asset are one place: the route page links its ports to
 lists the routes that name it and the largest lanes that load or discharge there. The generated routes name the
 ports of the trade engine, in its spellings ("Pusan", "Odessa"): the alias table of
 `pipeline/infrastructure/route_assets.py` links them to the asset; a port of a generated route that is no asset
-links, as the search does, to the largest lane through it, and a port that is neither stays plain text. Positions
+links to the largest lane through it of a commodity the route carries (a steel route does not open a coal lane),
+and a port that is neither, or that has no such lane, stays plain text. Positions
 come from the IMF PortWatch ports database (IMF terms of use; no vessel count or traffic figure is taken from it), or,
 for a place it does not list, from OpenStreetMap or Wikipedia; a database point stands for the whole port, so a port
 of several terminals is marked "Approximate location", and only a single terminal is placed on its site. A port's
@@ -1485,17 +1486,21 @@ its `n` says so.
 
 Largest class by the published limits (Atlas estimate). Where a page gives the limits of a port (the deepest
 berth, or the largest ship by draught, length, beam or deadweight), `pipeline/infrastructure/port_limits.py`
-derives the largest class of `pipeline/freight/vessel_classes.json` that each segment of the port (dry bulk,
-tankers, gas) can take, on four rules. (1) No class from a depth alone: a class is derived only when the page gives
-a size of ship (deadweight, length or beam); a channel or berth depth is shown as a limit ("Depth") and gives no
-class. (2) A limit stated for one kind of berth (an oil berth) is compared for that segment only. (3) A class with a
-standard vessel (`std`) fits when that vessel is no larger than every limit given; a class without one is compared
-by its typical deadweight (`size.typical`) with the port's deadweight limit, and is never placed above a smaller
-class whose standard vessel does not fit; a class measured in cubic metres is compared only through a standard
-vessel. The note of the result says, for each class shown, on which basis it was compared. (4) Only the page's
-maximum is a limit, never a stated minimum, and where the page itself names the class the berths take ("for
-Capesize ships"), the class is that statement. The result is never presented as the port's own statement: a larger
-ship may call part-laden, with the tide or at another berth.
+derives the class of `pipeline/freight/vessel_classes.json` that each segment of the port (dry bulk, tankers, gas)
+can take, with two rules that the page of the port shows with their basis. (1) By deadweight: the class whose size
+band (`size.min` to `size.max`, in dwt) holds the port's deadweight limit; above the band of the largest class of the
+segment, that class "or larger"; not above the smallest band, no class. Where bands overlap (Newcastlemax lies across
+the Capesize and VLOC bands; Aframax and LR2 share one) the widest band stands for the class, so a nested class is
+never chosen. (2) By dimensions: when the page gives a draught, a length or a beam, the largest class whose standard
+vessel (`std`) is no larger in every one of those dimensions that both give; a class whose standard vessel has none of
+them is not compared, and the note names it. When the two rules give the same class, or only one applies, the page
+shows that class and its basis; when they differ it shows both with their basis ("By deadweight: VLOC. By the 14 m
+draught: Ultramax.") and no single class. No class comes from a depth alone: a class needs a deadweight, a length or
+a beam, and a channel or berth depth is shown as a limit ("Depth") that can only rule a class out. A limit stated
+for one kind of berth (an oil berth) is compared for that segment only; only the page's maximum is a limit, never a
+stated minimum; and where the page itself names the class the berths take ("for Capesize ships"), the class is that
+statement. The result is never presented as the port's own statement: a larger ship may call part-laden, with the
+tide or at another berth.
 
 Storage hubs. Cushing (Oklahoma) and Mont Belvieu (Texas), the delivery points of the atlas's WTI and propane
 prices, are assets of their own type. Cushing's figure is the EIA's working storage capacity of 31 March 2024, in

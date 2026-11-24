@@ -35,8 +35,21 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Port_Hedland"
     },
     "maxClass": {
-     "dry": "newcastlemax",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Newcastlemax, compared by its typical deadweight (185,000 dwt) with the deadweight limit (320,000 dwt)."
+     "dry": {
+      "classes": [
+       {
+        "id": "vloc",
+        "by": "By deadweight",
+        "basis": "The 320,000 dwt limit is in the VLOC band (200,000 to 400,000 dwt)."
+       },
+       {
+        "id": "capesize",
+        "by": "By the 19.8 m depth",
+        "basis": "Its standard vessel is within every limit given; the next larger class compared, VLOC, has a 22 m draught."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. Not compared by dimensions, for want of a draught, length or beam of their standard vessel: Newcastlemax, Panamax, Supramax."
     }
    },
    "geometry": {
@@ -1065,8 +1078,16 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Novorossiysk"
     },
     "maxClass": {
-     "tanker": "suezmax",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: Suezmax, compared by its standard vessel (160,000 dwt). The limits are those of the tanker berths: no class for the other cargoes."
+     "tanker": {
+      "classes": [
+       {
+        "id": "vlcc",
+        "by": "By deadweight",
+        "basis": "The 250,000 dwt limit is in the VLCC band (200,000 to 320,000 dwt)."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. The limits are those of the tanker berths: no class for the other cargoes."
     }
    },
    "geometry": {
@@ -1505,8 +1526,17 @@
      "url": "https://en.wikipedia.org/wiki/Hound_Point"
     },
     "maxClass": {
-     "tanker": "vlcc",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its standard vessel (300,000 dwt)."
+     "tanker": {
+      "classes": [
+       {
+        "id": "vlcc",
+        "orLarger": true,
+        "by": "By deadweight",
+        "basis": "The 350,000 dwt limit is above the VLCC band (200,000 to 320,000 dwt), the largest of the segment."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide."
     }
    },
    "geometry": {
@@ -1692,8 +1722,16 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Primorsk"
     },
     "maxClass": {
-     "tanker": "aframax",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: Aframax, compared by its standard vessel (115,000 dwt)."
+     "tanker": {
+      "classes": [
+       {
+        "id": "suezmax",
+        "by": "By deadweight and the 55 m beam",
+        "basis": "The 150,000 dwt limit is in the Suezmax band (120,000 to 200,000 dwt). Its standard vessel is within every limit given; no larger class has one to compare."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. Not compared by dimensions, for want of a draught, length or beam of their standard vessel: VLCC, Aframax, LR2, LR1, MR, Handy tanker, Chemical tanker."
     }
    },
    "geometry": {
@@ -2770,8 +2808,16 @@
      "url": "https://en.wikipedia.org/wiki/Paradip_Port"
     },
     "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Capesize, the class the page itself names for these berths. The limits are those of the dry bulk berths: no class for the other cargoes."
+     "dry": {
+      "classes": [
+       {
+        "id": "capesize",
+        "by": "Named by the page",
+        "basis": "The page itself names this class for these berths."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. The limits are those of the dry bulk berths: no class for the other cargoes."
     }
    },
    "geometry": {
@@ -2991,8 +3037,16 @@
      "url": "https://en.wikipedia.org/wiki/Kandla_Port"
     },
     "maxClass": {
-     "dry": "kamsarmax",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Kamsarmax, compared by its standard vessel (229 m long, 14.43 m draught). The limits are those of the dry bulk berths: no class for the other cargoes. Not compared, for want of a standard vessel or of a deadweight limit: Panamax, Supramax."
+     "dry": {
+      "classes": [
+       {
+        "id": "kamsarmax",
+        "by": "By the 14.5 m draught and the 255 m length",
+        "basis": "Its standard vessel is within every limit given; the next larger class compared, Capesize, has a 18.2 m draught and a 292 m length."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. The limits are those of the dry bulk berths: no class for the other cargoes. Not compared by dimensions, for want of a draught, length or beam of their standard vessel: Newcastlemax, Panamax, Supramax."
     }
    },
    "geometry": {
@@ -4322,8 +4376,21 @@
      "url": "https://en.wikipedia.org/wiki/Port_of_Taman"
     },
     "maxClass": {
-     "dry": "panamax",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Panamax, compared by its typical deadweight (74,000 dwt) with the deadweight limit (220,000 dwt)."
+     "dry": {
+      "classes": [
+       {
+        "id": "vloc",
+        "by": "By deadweight",
+        "basis": "The 220,000 dwt limit is in the VLOC band (200,000 to 400,000 dwt)."
+       },
+       {
+        "id": "ultramax",
+        "by": "By the 14 m draught",
+        "basis": "Its standard vessel is within every limit given; the next larger class compared, Kamsarmax, has a 14.43 m draught."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide. Not compared by dimensions, for want of a draught, length or beam of their standard vessel: Newcastlemax, Panamax, Supramax."
     }
    },
    "geometry": {
@@ -4649,8 +4716,16 @@
      "url": "https://en.wikipedia.org/wiki/Tanjung_Bara"
     },
     "maxClass": {
-     "dry": "capesize",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Dry bulk: Capesize, the class the page itself names for these berths."
+     "dry": {
+      "classes": [
+       {
+        "id": "capesize",
+        "by": "Named by the page",
+        "basis": "The page itself names this class for these berths."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide."
     }
    },
    "geometry": {
@@ -4770,8 +4845,17 @@
      "url": "https://en.wikipedia.org/wiki/Louisiana_Offshore_Oil_Port"
     },
     "maxClass": {
-     "tanker": "vlcc",
-     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A larger ship may call part-laden, at another berth or with the tide. Tankers: VLCC, compared by its standard vessel (300,000 dwt)."
+     "tanker": {
+      "classes": [
+       {
+        "id": "vlcc",
+        "orLarger": true,
+        "by": "By deadweight",
+        "basis": "The 635,000 dwt limit is above the VLCC band (200,000 to 320,000 dwt), the largest of the segment."
+       }
+      ]
+     },
+     "n": "Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide."
     }
    },
    "geometry": {

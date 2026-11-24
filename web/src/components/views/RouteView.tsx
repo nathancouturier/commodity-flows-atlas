@@ -11,6 +11,7 @@ import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '.
 import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { EventList } from '../EventList';
 import { RoutePorts } from './RoutePorts';
+import { routeGroups } from '../../lib/infra';
 import { RouteRates } from './RouteRates';
 
 export default function RouteView({ id }: { id: string }) {
@@ -45,7 +46,7 @@ export default function RouteView({ id }: { id: string }) {
         <div class="panel-scroll"><Placeholder>This route is not in the atlas catalogue.</Placeholder></div>
       </>
     );
-  return <Body r={route} />;
+  return <Body key={route.id} r={route} />;
 }
 
 function Body({ r }: { r: Route }) {
@@ -76,6 +77,7 @@ function Body({ r }: { r: Route }) {
   const leg = !!(r.roundVoyage || r.drawnAs);
   const parcel = r.parcel != null ? `${fmt(r.parcel)}${r.parcelMax ? `–${fmt(r.parcelMax)}` : ''} ${r.parcelUnit ?? 't'}` : null;
   const dfn = r.definition;
+  const groups = routeGroups(r);
   const fromPort = r.from.ports.join(' / ') || r.from.region;
   const toPort = r.to.ports.join(' / ') || r.to.region;
   return (
@@ -142,12 +144,12 @@ function Body({ r }: { r: Route }) {
         )}
         <Section title="From → To">
           <div class="ft">
-            <div class="ft-row"><span class="ft-k">From</span><span><b>{r.from.region}</b>{r.from.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.from.ports} assets={r.from.assets} c={r.ends?.[0]} /></span>}</span></div>
-            <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.to.ports} assets={r.to.assets} c={r.ends?.[1]} /></span>}</span></div>
+            <div class="ft-row"><span class="ft-k">From</span><span><b>{r.from.region}</b>{r.from.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.from.ports} assets={r.from.assets} c={r.ends?.[0]} groups={groups} /></span>}</span></div>
+            <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.to.ports} assets={r.to.assets} c={r.ends?.[1]} groups={groups} /></span>}</span></div>
           </div>
         </Section>
         {r.finder && (
-          <Section title="In the Route finder">
+          <Section fold title="In the Route finder">
             <p class="prose">
               The distance above is for this route's own ports. The Route finder shows the largest recorded pair of this corridor, {countryName(r.finder.o)} to {countryName(r.finder.d)} ({fmt(r.finder.mt)} Mt in {r.finder.y}), between that pair's typical ports, {r.finder.from} and {r.finder.to}: {fmt(r.finder.nm)} nm.
               {(r.finder.nm > 1.5 * r.distanceNm || r.finder.nm < r.distanceNm / 1.5) && ' The two distances differ by more than half: that pair does not use this route\'s ports.'}
@@ -175,7 +177,7 @@ function Body({ r }: { r: Route }) {
         )}
         <RouteRates r={r} />
         {r.notes && (
-          <Section title="Notes">
+          <Section fold title="Notes">
             <p class="prose">{r.notes}</p>
           </Section>
         )}
@@ -183,9 +185,10 @@ function Body({ r }: { r: Route }) {
         {dfn ? (
           <DefinitionBlock d={dfn} />
         ) : (
-          <Section title="Definition">
+          // a route without a definition has only its source: no heading over a line that defines nothing
+          <section class="section">
             <SourceLine s={r.s} />
-          </Section>
+          </section>
         )}
       </div>
     </>
@@ -212,7 +215,7 @@ const STATE_LABEL = { active: 'Active', suspended: 'Suspended', ended: 'Ended' }
 /** The benchmark's definition as published: what it prices, its status and the indices it weighs in (no index value). */
 function DefinitionBlock({ d }: { d: BenchmarkDefinition }) {
   return (
-    <Section title="Baltic definition">
+    <Section fold title="Baltic definition" aside={<span class="muted">{STATE_LABEL[d.state]}</span>}>
       <div class="ft">
         <div class="ft-row ft-wide"><span class="ft-k">Code</span><span><b>{d.code}</b></span></div>
         {d.vessel && <div class="ft-row ft-wide"><span class="ft-k">Vessel</span><span>{d.vessel}</span></div>}
@@ -258,8 +261,9 @@ function DefinitionBlock({ d }: { d: BenchmarkDefinition }) {
       </div>
       <div class="src-line">
         Source:{' '}
-        <a href={d.url} target="_blank" rel="noopener">{d.doc}</a> · read {d.read}. The definition is the Baltic Exchange's, summarised here in the atlas's words; the atlas is not affiliated with the Baltic Exchange. Index values are proprietary and are not shown.
+        <a href={d.url} target="_blank" rel="noopener">{d.doc}</a> · read {d.read}
       </div>
+      <div class="muted small">The definition is the Baltic Exchange's, summarised here in the atlas's words; the atlas is not affiliated with the Baltic Exchange. Index values are proprietary and are not shown.</div>
     </Section>
   );
 }

@@ -289,8 +289,24 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
         else {
           for (const k of Object.keys(m)) {
             if (k === 'n') continue;
-            if (!SEGMENTS.includes(k)) shape(`${at}: maxClass.${k} is not a segment (${SEGMENTS.join(', ')})`);
-            else if (classes.size && !classes.has(m[k])) shape(`${at}: maxClass.${k} "${m[k]}" is not a vessel class`);
+            if (!SEGMENTS.includes(k)) {
+              shape(`${at}: maxClass.${k} is not a segment (${SEGMENTS.join(', ')})`);
+              continue;
+            }
+            // one class, or two with their basis when the deadweight and the dimensions disagree
+            const list = m[k] && Array.isArray(m[k].classes) ? m[k].classes : null;
+            if (!list || list.length < 1 || list.length > 2) {
+              shape(`${at}: maxClass.${k}.classes must hold one class, or two with their basis`);
+              continue;
+            }
+            for (const e of list) {
+              if (!e || typeof e !== 'object') shape(`${at}: maxClass.${k}.classes holds a value that is no class entry`);
+              else if (classes.size && !classes.has(e.id)) shape(`${at}: maxClass.${k} "${e.id}" is not a vessel class`);
+              else if (classSegment.size && classSegment.get(e.id) !== k) shape(`${at}: maxClass.${k} "${e.id}" is not a class of that segment`);
+              else if (typeof e.by !== 'string' || !e.by || typeof e.basis !== 'string' || !e.basis) shape(`${at}: maxClass.${k} "${e.id}" needs "by" and "basis"`);
+              else if (e.orLarger !== undefined && e.orLarger !== true) shape(`${at}: maxClass.${k} "${e.id}": orLarger can only be true`);
+            }
+            if (list.length === 2 && list[0].id === list[1].id) shape(`${at}: maxClass.${k} gives the same class twice`);
           }
         }
       }

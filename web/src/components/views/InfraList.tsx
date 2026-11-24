@@ -8,7 +8,7 @@ import type { InfraType } from '../../types';
 import { commodityMeta, countryName, sourceLabel } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { readCapacity, type CapacityRead, type Form } from '../../lib/capacity';
-import { figureText, isOperating, OUTPUT_LABEL, yearText } from '../../lib/infra';
+import { figureText, isOperating, OUTPUT_LABEL, yearSource, yearText } from '../../lib/infra';
 import { lowerName } from '../../lib/prices';
 import { select } from '../../lib/store';
 import { infraColor, infraRef, type InfraFeature } from '../../map/modules/infrastructure';
@@ -184,11 +184,11 @@ export function InfraList(props: { items: InfraFeature[]; commodity?: string; sh
                                 <StatusBadge status={p.status} />
                               </>
                             )}
-                            {fig && <span class="row-detail">{fig.planned ? 'planned capacity, ' : fig.kind === 'capacity' ? '' : `${OUTPUT_LABEL[fig.kind].toLowerCase()} `}{yearText(fig)} · {shortSource(p.s)}</span>}
+                            {fig && <span class="row-detail">{fig.planned ? 'planned capacity, ' : fig.kind === 'capacity' ? '' : `${OUTPUT_LABEL[fig.kind].toLowerCase()} `}{yearSource(fig, shortSource(p.s), p.read)}</span>}
                           </>
                         ) : undefined
                       }
-                      tip={`${sourceLabel(p.s)}${fig ? ` · ${yearText(fig)}` : ''}${fig?.n ? ` · ${fig.n}` : ''}${fig?.orig ? ` · source: ${fig.orig}` : ''}`}
+                      tip={`${sourceLabel(p.s)}${fig ? ` · ${yearText(fig, p.read)}` : ''}${fig?.n ? ` · ${fig.n}` : ''}${fig?.orig ? ` · source: ${fig.orig}` : ''}`}
                       onClick={() => select(infraRef(f))}
                     />
                   );

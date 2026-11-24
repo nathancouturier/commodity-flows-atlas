@@ -242,15 +242,19 @@ async function build(): Promise<Item[]> {
       make('country', c.c, c.name, c.region ?? 'Country', prepare([c.name, ...(COUNTRY_ALIASES[c.c] ?? [])], [c.c, (c as { a2?: string }).a2 ?? ''], [c.region ?? '', 'country']), c.name, () => select({ kind: 'country', id: c.c }), c.c),
     );
   }
+  // a short code that two routes share (C14 and C14_182, C10_14 and C10_182) would be one badge on both: those show their full id
+  const shortCodes = new Map<string, number>();
+  for (const r of routes ?? []) if (r.benchmark) shortCodes.set(r.id.split('_')[0], (shortCodes.get(r.id.split('_')[0]) ?? 0) + 1);
   for (const r of routes ?? []) {
     const code = r.benchmark ? r.id.split('_')[0] : '';
+    const badge = code && (shortCodes.get(code) ?? 0) > 1 && r.id !== code ? r.id : code;
     const kindText = r.benchmark ? 'Benchmark route' : 'Atlas corridor';
     out.push(
       make(
         // an ended route says so: "C10" finds the ended C10_14 and the C10_182 that replaced it, with the same badge
         'route', r.id, r.name, joinSub(kindText, vesselName(r.vclass), r.discontinued ? 'ended' : ''),
         prepare([r.name], code ? [r.id, code] : [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, vesselName(r.vclass), 'freight route', ...r.cargoes.map((k) => commodityMeta(k)?.name ?? k)]),
-        `${r.benchmark ? 0 : 1}${r.name}`, () => select({ kind: 'route', id: r.id }), code || undefined,
+        `${r.benchmark ? 0 : 1}${r.name}`, () => select({ kind: 'route', id: r.id }), badge || undefined,
       ),
     );
   }

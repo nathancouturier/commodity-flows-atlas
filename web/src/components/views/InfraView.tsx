@@ -1,12 +1,12 @@
 /** One infrastructure asset: mine, smelter, port, storage hub, field, refinery, LNG terminal or pipeline. */
 import { useEffect } from 'preact/hooks';
-import type { InfraType, PortLimits, Route } from '../../types';
+import type { InfraType, PortLimits, PortMaxClass, Route } from '../../types';
 import { countryName, sourceLabel, sources, commodityMeta } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { GROUP_LABEL, loadRoutes } from '../../lib/freight';
 import { loadPriceIndex, openPrices, type PriceMeta } from '../../lib/prices';
 import { figuresOf } from '../../lib/capacity';
-import { OUTPUT_LABEL, STATUS_LABEL, figureText, loadPortIndex, monthYear, sourceText, stateAt, yearText, type Figure, type PortIndexRow } from '../../lib/infra';
+import { OUTPUT_LABEL, STATUS_LABEL, figureText, loadPortIndex, monthYear, sourceText, stateAt, yearSource, yearText, type Figure, type PortIndexRow } from '../../lib/infra';
 import { flyToBounds, flyToLine } from '../../map/controller';
 import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { select, year } from '../../lib/store';
@@ -30,8 +30,12 @@ const LIMIT_LABEL: [keyof PortLimits, string, string][] = [
 ];
 
 /** The limits a page states (largest ship or deepest berth) and the largest class of the atlas they allow. */
-function PortLimitsSection({ lim, maxClass }: { lim: PortLimits; maxClass?: { dry?: string; tanker?: string; gas?: string; n: string } }) {
-  const classes = maxClass ? (['dry', 'tanker', 'gas'] as const).filter((k) => maxClass[k]) : [];
+const SEGMENT_NAME = { dry: 'Dry bulk', tanker: 'Tankers', gas: 'Gas carriers' } as const;
+
+function PortLimitsSection({ lim, maxClass, read }: { lim: PortLimits; maxClass?: PortMaxClass; read?: string }) {
+  const segs = maxClass ? (['dry', 'tanker', 'gas'] as const).filter((k) => maxClass[k]) : [];
+  // two classes in one segment: the deadweight and the dimensions disagree, so the page names no single class
+  const split = segs.some((k) => maxClass![k]!.classes.length > 1);
   return (
     <Section title="Limits">
       <div class="kpis">
@@ -40,20 +44,32 @@ function PortLimitsSection({ lim, maxClass }: { lim: PortLimits; maxClass?: { dr
             key={k}
             label={k === 'draught' && lim.depth ? 'Depth' : label}
             value={`${k === 'dwt' ? fmt(lim[k] as number) : (lim[k] as number).toLocaleString('en-US', { maximumFractionDigits: 3 })} ${u}`}
-            sub={`${lim.y ?? 'year not stated'} · ${shortSource(lim.s)}`}
+            sub={yearSource(lim, shortSource(lim.s), read)}
             note={lim.at}
           />
         ))}
       </div>
       <p class="infra-limits-note">{lim.n}</p>
-      {classes.length > 0 && (
+      {segs.length > 0 && (
         <div class="infra-maxclass">
-          <div class="muted small">Largest class by the published limits; derived by the atlas</div>
-          <div class="chips">
-            {classes.map((k) => (
-              <VesselChip key={k} id={maxClass![k]!} />
-            ))}
+          <div class="muted small">
+            {split ? 'Largest class by the published limits: the two rules differ; derived by the atlas' : 'Largest class by the published limits; derived by the atlas'}
           </div>
+          {segs.map((k) => (
+            <div key={k} class="infra-maxclass-seg">
+              {segs.length > 1 && <div class="muted small">{SEGMENT_NAME[k]}</div>}
+              {maxClass![k]!.classes.map((e) => (
+                <div key={e.id} class="infra-maxclass-row">
+                  <div class="chips">
+                    <span class="muted small">{e.by}:</span>
+                    <VesselChip id={e.id} />
+                    {e.orLarger && <span class="small">or larger</span>}
+                  </div>
+                  <div class="muted small">{e.basis}</div>
+                </div>
+              ))}
+            </div>
+          ))}
           <div class="muted small">{maxClass!.n}</div>
         </div>
       )}
@@ -99,7 +115,7 @@ function UsesSections({ uses }: { uses: Uses }) {
   return (
     <>
       {uses.routes.length > 0 && (
-        <Section title="Routes" aside={<span class="muted num">{uses.routes.length}</span>}>
+        <Section fold title="Routes" aside={<span class="muted num">{uses.routes.length}</span>}>
           {uses.routes.map((r) => (
             <button class="list-btn" key={r.id} onClick={() => select({ kind: 'route', id: r.id })}>
               <span class="grow">{r.name}</span>
@@ -109,7 +125,7 @@ function UsesSections({ uses }: { uses: Uses }) {
         </Section>
       )}
       {uses.lanes.length > 0 && (
-        <Section title="Lanes">
+        <Section fold title="Lanes" aside={<span class="muted num">{uses.lanes.length}</span>}>
           {uses.lanes.map((id) => (
             <button class="list-btn" key={id} onClick={() => select({ kind: 'lane', id })}>
               <span class="grow">{laneName(id)}</span>
@@ -119,7 +135,7 @@ function UsesSections({ uses }: { uses: Uses }) {
         </Section>
       )}
       {uses.prices.length > 0 && (
-        <Section title="Price series quoted at this place">
+        <Section fold title="Price series quoted at this place" aside={<span class="muted num">{uses.prices.length}</span>}>
           {uses.prices.map((m) => (
             <button class="list-btn" key={m.id} onClick={() => openPrices({ series: [m.id] })}>
               <span class="grow">{m.name}</span>
@@ -133,15 +149,15 @@ function UsesSections({ uses }: { uses: Uses }) {
 }
 
 /** A figure with its own year, what it counts and, when it was converted, the source's own figure. */
-function FigureKpi({ label, fig, s }: { label: string; fig: Figure; s: string }) {
+function FigureKpi({ label, fig, s, read }: { label: string; fig: Figure; s: string; read?: string }) {
   const note = [fig.n, fig.orig ? `source: ${fig.orig}` : ''].filter(Boolean).join(' · ');
   return (
     <Kpi
       label={label}
       value={figureText(fig, fmt)}
-      sub={`${yearText(fig)} · ${shortSource(s)}`}
+      sub={yearSource(fig, shortSource(s), read)}
       note={note || undefined}
-      title={`${figureText(fig, fmt)} · ${yearText(fig)} · ${sourceLabel(s)}`}
+      title={`${figureText(fig, fmt)} · ${yearText(fig, read)} · ${sourceLabel(s)}`}
       span
     />
   );
@@ -214,8 +230,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
       </div>
       <div class="panel-scroll">
         <div class="kpis">
-          {figs.capacity && <FigureKpi label={figs.capacity.planned ? 'Planned capacity' : 'Capacity'} fig={figs.capacity} s={p.s} />}
-          {figs.output && <FigureKpi label={OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL]} fig={figs.output} s={p.s} />}
+          {figs.capacity && <FigureKpi label={figs.capacity.planned ? 'Planned capacity' : 'Capacity'} fig={figs.capacity} s={p.s} read={p.read} />}
+          {figs.output && <FigureKpi label={OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL]} fig={figs.output} s={p.s} read={p.read} />}
           {p.opened != null && <Kpi label="Opened" value={String(p.opened)} />}
           {p.length_km != null && <Kpi label="Length" value={`${fmt(p.length_km)} km`} />}
           {p.product && <Kpi label="Carries" value={p.product} />}
@@ -235,8 +251,8 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
             <p class="prose">{p.note}</p>
           </Section>
         )}
-        {p.limits && <PortLimitsSection lim={p.limits} maxClass={p.maxClass} />}
-        {uses && <UsesSections uses={uses} />}
+        {p.limits && <PortLimitsSection lim={p.limits} maxClass={p.maxClass} read={p.read} />}
+        {uses && <UsesSections key={`${p.type}:${p.id}`} uses={uses} />}
         <Section title="Location">
           {p.coord === 'approx' && <p class="infra-approx">Approximate location</p>}
           <button class="list-btn" onClick={() => select({ kind: 'country', id: p.c })}>

@@ -131,8 +131,8 @@ export default function VesselView({ id }: { id: string }) {
   const z = v.size;
 
   const short = (s: string) => (s === 'wikipedia' ? 'Wikipedia' : publisher(s));
-  const rangeSub = z.s === 'atlas' ? `${u} · Atlas convention` : `${u} · ${short(z.s ?? v.s)}${z.y ? ` · ${z.y}` : ''}`;
-  const typicalSub = z.typicalS === 'atlas' ? 'Atlas convention' : `${short(z.typicalS ?? v.s)}${z.typicalY ? ` · ${z.typicalY}` : ''}`;
+  const rangeSub = z.s === 'atlas' ? `${u} · Atlas convention${z.y ? ` · ${z.y}` : ''}` : `${u} · ${short(z.s ?? v.s)}${z.y ? ` · ${z.y}` : ''}`;
+  const typicalSub = z.typicalS === 'atlas' ? `Atlas convention${z.typicalY ? ` · ${z.typicalY}` : ''}` : `${short(z.typicalS ?? v.s)}${z.typicalY ? ` · ${z.typicalY}` : ''}`;
   return (
     <>
       <div class="detail-head" style={{ '--kicker': SEGMENT_COLOR[v.segment] }}>
@@ -156,13 +156,13 @@ export default function VesselView({ id }: { id: string }) {
           {v.fleet && <Kpi label="Fleet" f={v.fleet} note={v.fleet.n} span />}
         </div>
         {z.n && (
-          <Section title="Size band">
+          <Section key={`${v.id}-band`} fold title="Size band">
             <p class="prose small">{z.n}</p>
             <PageLine s={z.s} url={z.url} y={z.y} />
           </Section>
         )}
         {v.std && (
-          <Section title={v.std.s === 'baltic' ? 'Standard vessel (Baltic Exchange)' : 'Typical ship'}>
+          <Section key={`${v.id}-std`} fold title={v.std.s === 'baltic' ? 'Standard vessel (Baltic Exchange)' : 'Typical ship'}>
             <StdBlock std={v.std} u={v.size.u} assumed={v.speed?.v ?? v.speedKn} />
           </Section>
         )}
@@ -174,7 +174,7 @@ export default function VesselView({ id }: { id: string }) {
             </button>
           </Section>
         )}
-        <Section title="World fleet">
+        <Section key={`${v.id}-fleet`} fold title="World fleet">
           <FleetBlock v={v} />
         </Section>
         <ShippingCompaniesBlock v={v} />
@@ -209,7 +209,7 @@ export default function VesselView({ id }: { id: string }) {
           </Section>
         )}
         {v.notes && (
-          <Section title="Notes">
+          <Section key={`${v.id}-notes`} fold title="Notes">
             <p class="prose">{v.notes}</p>
           </Section>
         )}

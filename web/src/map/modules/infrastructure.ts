@@ -116,8 +116,8 @@ export function infraRef(f: InfraFeature) {
 }
 
 /** One tooltip line of a figure: "Capacity 1,950 kt/y · 2025 · concentrate". */
-function figureLine(label: string, f: Figure): string {
-  const bits = [yearText(f), f.n, f.orig ? `source: ${f.orig}` : ''].filter(Boolean).join(' · ');
+function figureLine(label: string, f: Figure, read?: string): string {
+  const bits = [yearText(f, read), f.n, f.orig ? `source: ${f.orig}` : ''].filter(Boolean).join(' · ');
   return `<div class="num">${esc(label)} ${esc(figureText(f, fmt))}</div><div class="muted">${esc(bits)}</div>`;
 }
 
@@ -137,8 +137,8 @@ export function infraTooltip(f: InfraFeature): string {
     `<div class="muted">${esc(INFRA_META[p.type]?.label ?? p.type)} · ${esc(countryName(p.c))}${statusLine ? ` · ${esc(statusLine)}` : ''}</div>` +
     (p.coord === 'approx' ? '<div class="muted">Approximate location</div>' : '') +
     (p.operator ? `<div class="muted">${esc(p.operator)}</div>` : '') +
-    (figs.capacity ? figureLine('Capacity', figs.capacity) : '') +
-    (figs.output ? figureLine(OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL], figs.output) : '') +
+    (figs.capacity ? figureLine('Capacity', figs.capacity, p.read) : '') +
+    (figs.output ? figureLine(OUTPUT_LABEL[figs.output.kind as keyof typeof OUTPUT_LABEL], figs.output, p.read) : '') +
     `<div class="src-line">${source}</div>`
   );
 }

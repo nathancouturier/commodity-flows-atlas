@@ -42,7 +42,7 @@ export function RouteRates({ r }: { r: Route }) {
   const seg = segmentOf(r.vclass);
   const dry = seg === 'dry';
   return (
-    <Section title="Freight rate">
+    <Section fold title="Freight rate">
       <p class="prose rr-p">
         {r.benchmark ? 'The Baltic Exchange assessment of this route is proprietary: the atlas does not show it.' : 'Baltic Exchange rate assessments are proprietary: the atlas shows none.'}{' '}
         <a class="port-link" href={BALTIC_URL} target="_blank" rel="noopener">Baltic Exchange indices</a>

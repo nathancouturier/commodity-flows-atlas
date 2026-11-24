@@ -131,9 +131,13 @@ class StandardVessel(unittest.TestCase):
                 self.assertNotIn(phrase, s["n"], cid)
             self.assertLessEqual(len(s["n"]), 220, cid)
         for sid in ("baltic", "baltic-circulars"):
-            self.assertIn("verdict pending", SOURCES[sid]["licence"], sid)
-        for sid in ("baltic", "baltic-circulars"):
-            self.assertIn("without the prior written consent of the Baltic", SOURCES[sid]["licence"], sid)
+            lic = SOURCES[sid]["licence"]
+            self.assertIn("without the prior written consent of the Baltic", lic, sid)
+            # what a visitor reads: the terms, what the atlas does, no internal remark (GR5S.1)
+            for w in ("in its own words", "each with a link", "no index value", "offers no download", "not affiliated"):
+                self.assertIn(w, lic, sid)
+            self.assertNotIn("verdict", lic, sid)
+            self.assertNotIn("owner", lic, sid)
 
 
 class TypicalSize(unittest.TestCase):

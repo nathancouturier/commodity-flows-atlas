@@ -902,6 +902,23 @@
   .pd.pd-tall {
     height: clamp(390px, 46vh, 530px);
   }
+  .pd.pd-tall3 {
+    height: clamp(440px, 50vh, 560px);
+  }
+}
+/* three series: the plot keeps at least 180 px (its box less the axis); the source lines fold under one line and scroll when opened */
+.pd.pd-tall3 .pd-main .pd-chart {
+  min-height: 200px;
+}
+.pd-src-fold {
+  align-self: flex-start;
+  padding: 0;
+  text-align: left;
+  font: inherit;
+  color: var(--ink-1);
+}
+.pd-src-fold:hover {
+  color: var(--ink-0);
 }
 
 /* notes in the main column: no series for the commodity, partial coverage */

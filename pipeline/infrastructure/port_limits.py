@@ -1,51 +1,60 @@
 """
-The largest vessel class of the atlas that each port can take, by the limits a page gives for the port.
+The vessel class of the atlas that each port can take, by the limits a page gives for the port.
 
     python pipeline/infrastructure/port_limits.py        # writes `maxClass` on the ports of data/infrastructure/ports.geojson
 
 Input   data/infrastructure/ports.geojson         `limits` of a port: {draught, loa, beam (metres), dwt (tonnes), seg, cls,
                                                   depth, at, n, s, url, y}
-        pipeline/freight/vessel_classes.json      `std` of a class: its standard vessel {draught, loa, beam, dwt}; `size`:
-                                                  its band and typical size (`typical`, in `u`: dwt, cbm, teu)
-Output  `maxClass` on each port with limits: {"dry" | "tanker" | "gas": class id, "n": method} (Atlas estimate)
+        pipeline/freight/vessel_classes.json      `size` of a class: its band `min` to `max` in `u` (dwt, cbm or teu);
+                                                  `std`: its standard vessel {draught, loa, beam, dwt}
+Output  `maxClass` on each port with limits: {"dry" | "tanker" | "gas": {"classes": [...]}, "n": method} (Atlas estimate).
+        Each entry of `classes` is {"id": class id, "orLarger"?: true, "by": "By deadweight", "basis": one sentence}.
+        One entry: the class of the segment. Two entries: the two rules disagree, so the page shows both with their
+        basis and no single class.
 
-The rules:
-- No class from a depth alone. A class is derived only when the page gives a size of ship: its deadweight, length or
-  beam. A draught, a channel depth or a berth depth is shown as a limit and gives no class on its own (a depth is an
-  upper bound of a ship's draught, so it can still rule a class out).
-- A limit stated for one kind of berth (`limits.seg`: dry, tanker or gas) is compared for that segment only: the oil
-  berth of a port that also loads grain says nothing of its grain berths.
-- A class with a standard vessel fits when that vessel is no larger than the port's limit in every dimension that both
-  give. A class without one is compared by its typical deadweight (`size.typical` when `size.u` is dwt) with the
-  port's deadweight limit, and is never placed above a smaller class whose standard vessel does not fit. A class
-  measured in cubic metres without a standard vessel is not compared.
+The rules, for each segment the port handles (its commodities `k`: gas for LNG and LPG, tankers for oil and vegetable
+oils, dry bulk for the rest):
+- By deadweight. The class whose size band (`size.min` to `size.max`, unit dwt) contains the port's deadweight limit,
+  the upper edge included and the lower edge not, so that a limit of 80,000 dwt is Panamax and not Kamsarmax. Where
+  several bands contain the limit, the widest band is the class: Newcastlemax (185,000 to 210,000 dwt) lies across the
+  Capesize and VLOC bands and is never chosen, and Aframax and LR2 share one band (the one listed first, Aframax,
+  stands for both). A limit above the band of the largest class of the segment gives that class "or larger"; a limit
+  not above the smallest band gives no class. Classes measured in cubic metres or TEU have no deadweight band.
+- By dimensions. When the page gives a draught, a length or a beam, the largest class of the segment whose standard
+  vessel (`std`) is no larger than the limit in every one of those dimensions that both give. A class whose standard
+  vessel has none of them is not compared, and the note names it. A water depth is entered as a draught (`depth`):
+  it is an upper bound of a ship's draught, so it can rule a class out, but it never gives a class on its own.
+- Only a size of ship (deadweight, length or beam) opens the way to a class: a draught, a channel depth or a berth depth
+  alone gives none.
+- Both rules give the same class, or only one applies: that class, with its basis. They disagree: both, each with its
+  basis, and no single class. A deadweight limit below the smallest band gives no class at all.
 - Where the page itself names the class of ship the berths take (`limits.cls`: "for Capesize ships"), the class is
-  that statement.
-The largest class that fits is the port's class for each segment the port handles (its commodities `k`: gas for LNG and
-LPG, tankers for oil and vegetable oils, dry bulk for the rest), and `n` says for each class on which basis it was
-compared. This is a derivation of the atlas, not the port's own statement: a larger ship may call part-laden, at an
-offshore berth or with the tide, and a limit stated for one berth says nothing of the others. Nothing is guessed: a port
-without limits gets no class, and the class is removed when no class fits.
+  that statement. A limit stated for one kind of berth (`limits.seg`: dry, tanker or gas) is compared for that segment
+  only: the oil berth of a port that also loads grain says nothing of its grain berths.
+This is a derivation of the atlas, not the port's own statement: a larger ship may call part-laden, at an offshore berth
+or with the tide, and a limit stated for one berth says nothing of the others. Nothing is guessed: a port without limits
+gets no class.
 """
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PORTS = os.path.join(ROOT, "data", "infrastructure", "ports.geojson")
 CLASSES = os.path.join(ROOT, "pipeline", "freight", "vessel_classes.json")
-DIMS = ("draught", "loa", "beam", "dwt")
+DIMS = ("draught", "loa", "beam")  # the dimensions of a ship compared with a standard vessel
+WORD = {"draught": "draught", "loa": "length", "beam": "beam"}
 SHIP_DIMS = ("loa", "beam", "dwt")  # a size of ship: without one of them, no class (a depth alone gives none)
 GAS = {"lng", "lpg"}
 TANKER = {"crude-oil", "refined-products", "palm-oil", "soyoil"}
 SEGMENTS = ("dry", "tanker", "gas")
 SEGMENT_LABEL = {"dry": "Dry bulk", "tanker": "Tankers", "gas": "Gas carriers"}
 BERTH_LABEL = {"dry": "dry bulk", "tanker": "tanker", "gas": "gas"}
-NOTE = ("Atlas estimate, derived from the limits the page gives; not the port's own statement. A class is derived only "
-        "where the page gives a size of ship (deadweight, length or beam), never from a depth alone. A class with a "
-        "standard vessel fits when that vessel is no larger than every limit given; a class without one is compared by "
-        "its typical deadweight with the deadweight limit, and is never placed above a smaller class whose standard "
-        "vessel does not fit. A larger ship may call part-laden, at another berth or with the tide.")
+NOTE = ("Atlas estimate, derived from the limits the page gives; not the port's own statement. By deadweight: the class "
+        "whose size band holds the deadweight limit (\"or larger\" above the largest band; where bands overlap, the widest). "
+        "By dimensions: the largest class whose standard vessel is no larger than the draught, length and beam given. "
+        "No class from a depth alone. A larger ship may call part-laden, at another berth or with the tide.")
 
 
 def _num(x):
@@ -64,64 +73,103 @@ def segments_of(k):
     return [s for s in SEGMENTS if s in out]
 
 
-def fits(std, limits):
-    """Whether a standard vessel fits the limits: False when it exceeds one of them; True when it is within all and at
-    least one of them is a size of ship; None when nothing compares (a draught or a depth alone can rule out, not in)."""
-    shared = [d for d in DIMS if _num(std.get(d)) and _num(limits.get(d))]
-    if any(std[d] > limits[d] for d in shared):
-        return False
-    return True if any(d in SHIP_DIMS for d in shared) else None
-
-
-def typical_dwt(c):
-    """The typical deadweight of a class (`size.typical` when its unit is dwt), or None."""
+def _band(c):
+    """(min, max) of the dwt band of a class, or None (a class measured in cbm or teu, or without a band)."""
     size = c.get("size") if isinstance(c.get("size"), dict) else {}
-    return size["typical"] if size.get("u") == "dwt" and _num(size.get("typical")) else None
+    if size.get("u") == "dwt" and _num(size.get("min")) and _num(size.get("max")):
+        return size["min"], size["max"]
+    return None
 
 
 def _weight(c):
-    std = c.get("std") if isinstance(c.get("std"), dict) else None
-    if std and _num(std.get("dwt")):
+    """What orders the classes of a segment: the deadweight of the standard vessel, else the typical size."""
+    std = c.get("std") if isinstance(c.get("std"), dict) else {}
+    if _num(std.get("dwt")):
         return std["dwt"]
-    return typical_dwt(c)
+    size = c.get("size") if isinstance(c.get("size"), dict) else {}
+    return size.get("typical") if _num(size.get("typical")) else 0
 
 
-def largest_class(limits, classes, segment):
-    """(class, basis, classes not compared) for the largest class of a segment that fits the limits; class is None when
-    none fits. `basis` is "std" (its standard vessel) or "typical" (its typical deadweight)."""
+def class_by_deadweight(dwt, classes, segment):
+    """(class, or_larger, band) for the class of a segment whose band holds the limit; (None, False, None) when the
+    limit is not above the smallest band or no class of the segment has a deadweight band."""
+    banded = [(c, _band(c)) for c in classes if c.get("segment") == segment and _band(c)]
+    if not banded or dwt <= min(b[0] for _, b in banded):
+        return None, False, None
+    top = max(banded, key=lambda cb: cb[1][1])
+    if dwt > top[1][1]:
+        return top[0], True, top[1]
+    inside = [cb for cb in banded if cb[1][0] < dwt <= cb[1][1]]
+    if not inside:
+        return None, False, None
+    # the widest band; on a tie the class listed first (max keeps the first of equal keys)
+    c, b = max(inside, key=lambda cb: cb[1][1] - cb[1][0])
+    return c, False, b
+
+
+def _shared(std, limits):
+    return [d for d in DIMS if _num(std.get(d)) and _num(limits.get(d))]
+
+
+def class_by_dimensions(limits, classes, segment):
+    """(class, excluded, not compared) for the largest class of a segment whose standard vessel is within every
+    dimension (draught, length, beam) that it and the page both give. `excluded` is (class, dimensions that rule out)
+    for the next larger class compared, or None; `not compared` lists the classes with no dimension in common."""
     cands = [c for c in classes if c.get("segment") == segment]
-    with_std = [c for c in cands if isinstance(c.get("std"), dict)]
-    failed = [_weight(c) for c in with_std if fits(c["std"], limits) is False and _weight(c) is not None]
-    verdicts, skipped = [], []
+    fit, out, skipped = [], [], []  # the list of classes not compared is of use only when some class was compared
     for c in cands:
-        w = _weight(c)
-        if isinstance(c.get("std"), dict):
-            ok = fits(c["std"], limits)
-            basis = "std"
-        elif typical_dwt(c) is not None and any(f <= typical_dwt(c) for f in failed):
-            ok, basis = False, "typical"  # never placed above a smaller class whose standard vessel does not fit
-        elif typical_dwt(c) is not None and _num(limits.get("dwt")):
-            ok = typical_dwt(c) <= limits["dwt"]
-            basis = "typical"
-        else:
-            ok, basis = None, None
-        if ok is None or w is None:
+        std = c.get("std") if isinstance(c.get("std"), dict) else {}
+        shared = _shared(std, limits)
+        if not shared:
             skipped.append(c)
-        elif ok:
-            verdicts.append((w, c, basis))
-    if not verdicts:
-        return None, None, skipped
-    w, c, basis = max(verdicts, key=lambda v: v[0])
-    return c, basis, skipped
+        elif any(std[d] > limits[d] for d in shared):
+            out.append((c, [d for d in shared if std[d] > limits[d]]))
+        else:
+            fit.append(c)
+    if not fit:
+        return None, None, skipped if out else []
+    best = max(fit, key=_weight)
+    larger = [(c, ds) for c, ds in out if _weight(c) > _weight(best)]
+    excluded = min(larger, key=lambda cd: _weight(cd[0])) if larger else None
+    return best, excluded, skipped
 
 
-def _basis_text(c, basis, limits):
-    if basis == "std":
-        std = c["std"]
-        unit = {"draught": "m draught", "loa": "m long", "beam": "m beam", "dwt": "dwt"}
-        dims = [f"{_fmt(std[d])} {unit[d]}" for d in ("dwt", "loa", "beam", "draught") if _num(std.get(d)) and _num(limits.get(d))]
-        return f"compared by its standard vessel ({', '.join(dims)})"
-    return f"compared by its typical deadweight ({_fmt(typical_dwt(c))} dwt) with the deadweight limit ({_fmt(limits['dwt'])} dwt)"
+def _dim_text(d, limits):
+    v = _fmt(limits[d])
+    if d == "draught":
+        return f"the {v} m depth" if limits.get("depth") else f"the {v} m draught"
+    return f"the {v} m {WORD[d]}"
+
+
+def _join(parts):
+    return parts[0] if len(parts) == 1 else ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
+def _name(c):
+    """The name of a class in a sentence: without the alternative names in brackets (VLOC, not VLOC (Valemax/Guaibamax))."""
+    return re.sub(r"\s*\(.*\)$", "", c.get("name", c["id"]))
+
+
+def _dwt_entry(c, or_larger, band, limits):
+    if or_larger:
+        basis = (f"The {_fmt(limits['dwt'])} dwt limit is above the {_name(c)} band ({_fmt(band[0])} to {_fmt(band[1])} dwt), "
+                 "the largest of the segment.")
+    else:
+        basis = f"The {_fmt(limits['dwt'])} dwt limit is in the {_name(c)} band ({_fmt(band[0])} to {_fmt(band[1])} dwt)."
+    return {"id": c["id"], **({"orLarger": True} if or_larger else {}), "by": "By deadweight", "basis": basis}
+
+
+def _dim_entry(c, excluded, limits):
+    if excluded:
+        ex, dims = excluded
+        by = f"By {_join([_dim_text(d, limits) for d in dims])}"
+        what = _join([f"a {_fmt(ex['std'][d])} m {WORD[d]}" for d in dims])
+        basis = f"Its standard vessel is within every limit given; the next larger class compared, {_name(ex)}, has {what}."
+    else:
+        given = [d for d in DIMS if _num(c["std"].get(d)) and _num(limits.get(d))]
+        by = f"By {_join([_dim_text(d, limits) for d in given])}"
+        basis = "Its standard vessel is within every limit given; no larger class has one to compare."
+    return {"id": c["id"], "by": by, "basis": basis}
 
 
 def max_class(props, classes):
@@ -136,28 +184,44 @@ def max_class(props, classes):
     if seg_only:
         segs = [s for s in segs if s == seg_only]
     ship_size = any(_num(lim.get(d)) for d in SHIP_DIMS)
-    out, lines, skipped = {}, [], []
+    out, skipped = {}, []
     for seg in segs:
         if named and named.get("segment") == seg:
-            out[seg] = named["id"]
-            lines.append(f"{SEGMENT_LABEL[seg]}: {named.get('name', named['id'])}, the class the page itself names for these berths.")
+            out[seg] = {"classes": [{"id": named["id"], "by": "Named by the page",
+                                     "basis": "The page itself names this class for these berths."}]}
             continue
         if not ship_size:
             continue
-        c, basis, sk = largest_class(lim, classes, seg)
-        if c is None:
-            continue
-        out[seg] = c["id"]
-        lines.append(f"{SEGMENT_LABEL[seg]}: {c.get('name', c['id'])}, {_basis_text(c, basis, lim)}.")
-        skipped += [s for s in sk if s["id"] != c["id"]]
+        entries = []
+        dwt_none = False
+        if _num(lim.get("dwt")):
+            c, or_larger, band = class_by_deadweight(lim["dwt"], classes, seg)
+            if c:
+                entries.append(_dwt_entry(c, or_larger, band, lim))
+            elif band is None and any(_band(x) for x in classes if x.get("segment") == seg):
+                dwt_none = True  # a limit not above the smallest band: no class, whatever the dimensions say
+        if not dwt_none:
+            c, excluded, sk = class_by_dimensions(lim, classes, seg)
+            skipped += sk
+            if c:
+                e = _dim_entry(c, excluded, lim)
+                if entries and entries[0]["id"] == e["id"]:
+                    entries[0] = {**entries[0], "by": f"{entries[0]['by']} and {e['by'][3:]}", "basis": f"{entries[0]['basis']} {e['basis']}"}
+                else:
+                    entries.append(e)
+        if entries:
+            out[seg] = {"classes": entries}
     if not out:
         return None
-    note = " ".join([NOTE, *lines])
+    note = NOTE
     other = [s for s in segments_of(props.get("k")) if s not in segs]
     if seg_only and other:
         note += f" The limits are those of the {BERTH_LABEL[seg_only]} berths: no class for the other cargoes."
+    shown = {e["id"] for v in out.values() for e in v["classes"]}
+    skipped = [s for s in skipped if s["id"] not in shown]
     if skipped:
-        note += f" Not compared, for want of a standard vessel or of a deadweight limit: {', '.join(s.get('name', s['id']) for s in skipped)}."
+        note += (" Not compared by dimensions, for want of a draught, length or beam of their standard vessel: "
+                 + ", ".join(_name(s) for s in skipped) + ".")
     return {**out, "n": note}
 
 
