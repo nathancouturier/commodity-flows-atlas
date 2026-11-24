@@ -175,6 +175,21 @@ A new group meets these, in the order of the files above:
 - **Search** (`COMMODITY_ALIASES`): the trade abbreviations a buyer writes ("FeCr", "FeMn", "SiMn", "FeSi", "FeMo", "AN") and both spellings of "fertiliser" on every fertiliser page; no alias that is a country code ("CAN") and no
   alias with a common word ("and") that other pages are found by. A whole word counts as a promotion only in an item's names, codes and cargo names, not in its ports or regions.
 
+## 8. A pair or a year that another source corrects (since the seventh release)
+Three listed tables of the trade layer move a customs figure on the evidence of another free source; each is explicit, pair by pair, and each row says so in its note.
+- **Tonnage replaced** (`us_lpg.CORRECTED`, cleaning rule 10): a pair-year whose customs tonnage is the volume read as tonnes (LPG, United States to Mexico). Read the
+  other source's series for every year first (`pipeline/trade/us_lpg.py`: its cache holds only what the page prints), correct only the years where the tonnage and
+  the unit value both leave the range of the years before, and say in the page which years are corrected and which could not be checked. A pair checked and left
+  alone (Canada) gets its note too.
+- **Flow added** (`comtrade_tin.ADDED_FLOWS`, cleaning rule 11): a flow that the importer declares and the reconciled file lacks (tin concentrate, Myanmar to China). The
+  row is flagged `added`, is not an estimate, carries the source's attribution in its note and moves with the mode rules (overland: no lane). A figure of UN
+  Comtrade is printed in a few small tables only, with "Source: UN Comtrade"; its answers stay in raw/.
+- **Split known** (`modes.KNOWN_SPLIT`): a mixed pair-year whose share by sea a source measures. `modes.mode_of(o, d, group, year)` returns the share for that year;
+  `build_lanes.split_known` cuts the row into a sea row and an overland row after the checks, in `build_lanes.py` and in `build_freight.frame()`, so that the lane, the
+  seaborne totals, the passage estimates and the country pages read the share; the page's flow note says it (`modes.split_note`).
+For a table of figures that another country's own statistics give beside the customs tables (the LNG page), keep the customs tables as they are, put the
+cross-check in an extra table that the country profiles leave out (`build_profiles.NO_PROFILE`), and cite the edition and the attribution the publisher asks for.
+
 ## Traps met
 - A product whose first customs group has most of its tonnage in a mixed code (scrap: HS 720449 holds three quarters of heading 7204) is shown as the whole code; say it in
   the notes instead of splitting it with a six-digit table the page cannot support for every year.

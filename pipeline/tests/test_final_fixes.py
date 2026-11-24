@@ -149,8 +149,9 @@ class NoRepositoryInTheTexts(unittest.TestCase):
                     key = path.rsplit("/", 1)[-1]
                     if key in ("url", "src") or o.startswith("http") or (registry and key in ("access", "use")):
                         return
-                    if CODE_WORDS.search(o):
-                        bad.append((os.path.relpath(p, DATA), path[-40:], CODE_WORDS.search(o).group(0)))
+                    text = re.sub(r"https?://\S+", "", o)  # a link inside a sentence is a link, not a repository path
+                    if CODE_WORDS.search(text):
+                        bad.append((os.path.relpath(p, DATA), path[-40:], CODE_WORDS.search(text).group(0)))
                 elif isinstance(o, dict):
                     for k, v in o.items():
                         walk(v, f"{path}/{k}")
@@ -184,7 +185,7 @@ class ChokepointNotes(unittest.TestCase):
                          ["40.6 Mt", "126 Mt", "0.906 Mt", "6.27 Mt", "1,874 Mt", "10 Mt", "22.1 Mt"])
         chk = {c["id"]: c for c in load("freight/chokepoints.json")}
         lpg = next(e for e in chk["hormuz"]["estimates"] if e["p"] == "lpg")
-        self.assertTrue(lpg["f"]["n"].startswith("at least 40.6 Mt of 126 Mt of seaborne LPG"), lpg["f"]["n"][:80])
+        self.assertTrue(lpg["f"]["n"].startswith("at least 40.6 Mt of 130 Mt of seaborne LPG"), lpg["f"]["n"][:80])
         self.assertEqual(lpg["mt"][0], 40.6)  # the page prints the same figure
 
     def test_the_floor_applies_to_the_up_to_figure_the_page_prints(self):

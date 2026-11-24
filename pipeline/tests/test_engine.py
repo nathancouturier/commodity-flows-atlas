@@ -116,6 +116,12 @@ class FlowTables(unittest.TestCase):
                 r = rows.get((f["o"], f["d"]))
                 self.assertIsNotNone(r, key)
                 checked += 1
+                rest = {(o, d): k for o, d, k in pf.get("rest", [])}.get((f["o"], f["d"]))
+                if rest is not None:  # a pair whose split is known: the row holds the part by sea, the page flow the customs total for all modes
+                    self.assertEqual(f.get("mode"), "mixed", key)
+                    self.assertEqual(r[ci["m"]], 0, key)
+                    self.assertAlmostEqual(f["v"], (r[ci["kt"]] + rest) / 1e3, delta=0.01, msg=key)
+                    continue
                 self.assertEqual(f.get("mode"), M_NAME[r[ci["m"]]], key)
                 kt = r[ci["kt"]]
                 v = f["v"] / 1e3 if f.get("u") == "kt" else f["v"]  # tin, cobalt, lithium and rare earths are in kt

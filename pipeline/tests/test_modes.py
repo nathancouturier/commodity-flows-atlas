@@ -103,7 +103,7 @@ class ModeTests(unittest.TestCase):
         self.assertEqual(kind("USA", "MEX", "steel"), "land")
         self.assertMt("crude-oil", "MEX", "USA", 26.50)
         self.assertMt("refined-products", "USA", "MEX", 30.10)
-        self.assertMt("lpg", "USA", "MEX", 9.33)
+        self.assertMt("lpg", "USA", "MEX", 5.28)  # the customs tonnage (9.33 Mt) is a volume read as tonnes: cleaning rule 10 (test_w3a.py)
         self.assertMt("corn", "USA", "MEX", 7.77)
         self.assertMt("steel", "USA", "MEX", 3.92)
 
@@ -163,7 +163,9 @@ class ModeTests(unittest.TestCase):
         # package FNCB adds the two fertiliser groups (ammonium nitrate with limestone 9.2 Mt, two-nutrient compounds 11.0 Mt), 20.2 Mt after clean(), and keeps
         # 0.1 Mt of sunflower seed as reported where rule 3 had estimated it (UV_KEPT_GROUPS): 20.1 Mt more in all
         # package FNCF leaves Mozambique's coke out of the frame (clean.DROP): 1.6 Mt of 2024 (1.63 Mt in the extract), by sea or overland
-        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5 + 20.1 - 1.6, delta=1)
+        # the seventh release: cleaning rule 10 takes 4.05 Mt off the United States to Mexico LPG pair (9.33 Mt reported, 5.28 Mt) and rule 11 adds 0.08 Mt
+        # of tin concentrate from Myanmar to China (test_w3a.py)
+        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5 + 20.1 - 1.6 - 4.05 + 0.08, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

@@ -358,6 +358,11 @@ LINE_SECTIONS = ("exports", "imports", "production", "consumption", "reserves", 
 TOP10_SECTIONS = ("production", "exports", "imports")
 
 
+# Extra tables whose rows are not a country's own figure in a section (the origins of China's imports, the exports of two countries beside their customs
+# figures, the markets of Australia's exports): the page shows them, the country profiles do not
+NO_PROFILE = {"tin-china-declared", "lng-own-statistics", "lng-australia-markets"}
+
+
 def extra_section(key):
     """The profile section of an extra table, from the last word of its key: refined-exports, coke-production, stocks,
     nuclear-capacity. None for a key that names no section (the table is then left out, with a warning)."""
@@ -559,6 +564,8 @@ def main():
     for k, d in tables.items():
         sections = [(sec, d.get(sec), None, None, sec) for sec in SECTIONS]
         for ex in d.get("extra") or []:
+            if ex["key"] in NO_PROFILE:
+                continue
             side = extra_section(ex["key"])
             if side is None:
                 print(f"WARNING: {k} extra table {ex['key']}: its key names no section, left out")
@@ -743,6 +750,8 @@ def main():
         pf = load_json(f)
         cols = pf["cols"]
         rows = [dict(zip(cols, r)) for r in pf["rows"]]
+        # the overland part of a pair whose split is known (its row holds the part by sea): a land row, with no route and no estimate
+        rows += [{"o": o, "d": d, "kt": kt, "m": 3, "load": -1, "dis": -1, "nm": 0, "cls": -1, "via": 0, "alt": 0, "f": 0} for o, d, kt in pf.get("rest", [])]
         df = pd.DataFrame(rows)
         df["t"] = df["kt"] * 1000.0
         df["est"] = (df["f"].astype(int) & 1).astype(bool)

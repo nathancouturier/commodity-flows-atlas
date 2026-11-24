@@ -376,5 +376,12 @@
    ]
   }
  },
+ "no_net_weight": {
+  "2016": {
+   "estimated_quantity_t": 81673.9,
+   "usd": 814646987,
+   "myanmar_estimated_quantity_t": 80707.3
+  }
+ },
  "myanmar_exports": {}
 }

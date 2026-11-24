@@ -185,7 +185,8 @@ def load_pairs(path=None):
             x["alt"] = {g for i, g in enumerate(gates) if x["alt"] >> i & 1} - x["via"]
             x["cls"] = classes[x["cls"]] if x["cls"] >= 0 else None
             rows.append(x)
-        out[p["group"]] = {"k": p["k"], "y": p["y"], "seaborne": p["seaborne"] / 1e3, "rows": rows, "ports": p["ports"]}
+        out[p["group"]] = {"k": p["k"], "y": p["y"], "seaborne": p["seaborne"] / 1e3, "rows": rows, "ports": p["ports"],
+                           "rest": {(o, d) for o, d, _ in p.get("rest", [])}}
     return out
 
 
@@ -840,7 +841,10 @@ def main():
     gen, gen_report = GR.generate(
         pairs, {g: p["ports"] for g, p in pairs.items()}, hand, zones, lambda code: P.port(code)["at"], cargo_names,
         {r["id"]: r["name"] for r in defs}, K._name,
-        excluded={(e["group"], e["o"], e["d"]) for e in active.values() if e["kind"] == "landlocked-centre"})
+        excluded={(e["group"], e["o"], e["d"]) for e in active.values() if e["kind"] == "landlocked-centre"}
+        # a pair whose split by mode is known has its sea part in the table, a part of a customs total: no corridor is built from it (the
+        # routes of the released site stay the same, the generated ones being capped by tonnes)
+        | {(g, o, d) for g, p in pairs.items() for o, d in p["rest"]})
     defs = defs + gen
 
     routes, feats = [], []

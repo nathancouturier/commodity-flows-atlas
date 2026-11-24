@@ -54,7 +54,7 @@ def _check(rows, year, reporter, flow):
 def build():
     with open(os.path.join(RAW, "reference", "partnerAreas.json"), encoding="utf-8") as f:
         iso = {a["PartnerCode"]: a["PartnerCodeIsoAlpha3"] for a in json.load(f)["results"]}
-    years, stamp = {}, []
+    years, stamp, no_weight = {}, [], {}
     for path in sorted(glob.glob(os.path.join(RAW, "tin-china-imports", "[0-9][0-9][0-9][0-9].json"))):
         y = int(os.path.basename(path)[:4])
         rows = _rows(path)
@@ -62,6 +62,12 @@ def build():
         stamp.append(os.path.getmtime(path))
         world = next(r for r in rows if r["partnerCode"] == WORLD)
         parts = [r for r in rows if r["partnerCode"] != WORLD]
+        if world["netWgt"] == 0:
+            # an answer that carries no net weight (2016 and before: Comtrade gives a quantity it estimated and a value): the year is not used, and said so
+            mm0 = [r for r in parts if r["partnerCode"] == MYANMAR]
+            no_weight[str(y)] = {"estimated_quantity_t": round(world["qty"] / 1e3, 1), "usd": round(world["primaryValue"]),
+                                 "myanmar_estimated_quantity_t": round(mm0[0]["qty"] / 1e3, 1) if mm0 else None}
+            continue
         assert abs(sum(r["netWgt"] for r in parts) - world["netWgt"]) < 1.0, (y, "the origins do not add up to the World row")
         parts.sort(key=lambda r: -r["netWgt"])
         item = lambda r: {"c": iso[r["partnerCode"]], "t": round(r["netWgt"] / 1e3, 3), "usd": round(r["primaryValue"]),  # noqa: E731
@@ -82,7 +88,7 @@ def build():
                         "world_t": round(world[0]["netWgt"] / 1e3, 3) if world else None, "rows": len(rows)}
     doc = {"source": "UN Comtrade", "url": URL, "reporter": "China", "flow": "imports", "hs": "260900", "unit": "t, net weight; USD, CIF",
            "retrieved": datetime.datetime.fromtimestamp(max(stamp), datetime.timezone.utc).date().isoformat(), "years": dict(sorted(years.items())),
-           "myanmar_exports": dict(sorted(mexp.items()))}
+           "no_net_weight": dict(sorted(no_weight.items())), "myanmar_exports": dict(sorted(mexp.items()))}
     with open(CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(doc, f, indent=1)
         f.write("\n")

@@ -6,7 +6,7 @@
    "u": "Mt",
    "y": 2025,
    "s": "usgs-mcs",
-   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 1,823 Mt, on which the shares of the table are computed; World Steel Association: 1,849.4 Mt in 2025 (see the discrepancies)"
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 1,823 Mt, on which the shares of the table are computed; World Steel Association: 1,848.9 Mt in 2025 (see the discrepancies)"
   },
   "exports": {
    "v": 382.54,
@@ -3078,6 +3078,6 @@
   "USGS names 11 producing countries; every other producer is in its 'Other countries' line (230 Mt), which the page shows apart from the countries it names but does not draw as rows."
  ],
  "discrepancies": [
-  "Crude steel production 2025: the USGS estimate is 1,823 Mt for the listed countries and 'Other countries' (USGS rounds its world total to 1,900 Mt); the World Steel Association reports 1,849.4 Mt of world crude steel production for 2025 (press release of 23 January 2026, https://worldsteel.org/media/press-releases/2026/december-2025-crude-steel-production-2025-global-crude-steel-production/). The table shows the USGS figures, which come by country; the World Steel Association's own tables are not copied."
+  "Crude steel production 2025: the USGS estimate is 1,823 Mt for the listed countries and 'Other countries' (USGS rounds its world total to 1,900 Mt); the World Steel Association reports 1,848.9 Mt of world crude steel production for 2025 (World Steel in Figures 2026, data finalised 8 June 2026, https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/; its press release of 23 January 2026 gave 1,849.4 Mt before the revision). The table shows the USGS figures, which come by country: the World Steel Association's country table is not reproduced, because its terms of use do not allow it (see the registry of sources)."
  ]
 }

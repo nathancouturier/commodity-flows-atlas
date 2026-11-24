@@ -144,8 +144,45 @@ is called one where it is shown. The figures below are those of the build from C
      `pipeline/commodities/QA.md` with the rows of rule 6, and the lithium page and the lane file's year
      notes say which flows are left out and why. On the 2002–2024 cache the rule drops 33 rows in 15 years;
      in 2024 the two flows above, 15.1 kt of the 504.3 kt of the group.
-- **Tonnage estimated from value is an Atlas estimate.** Every row whose tonnage rules 2, 3, 4, 7 or
-  8 re-estimate carries a note that starts with "Atlas estimate" and gives the method, the declared
+  10. **A volume read as tonnes: LPG from the United States to Mexico** (`us_lpg.CORRECTED`, flag `est-volume`). CEPII BACI gives
+     9.33 Mt for this pair in 2024 at 252 USD/t, 0.39 times the group's median unit value; the US Census Bureau's export detail file
+     (EXDB, December 2024) gives 9.36 million m3 of propane for it, and the customs tonnage of 2023 (9.74 Mt) is EIA's volume of propane exported
+     to Mexico that year (9.75 million m3). The customs tonnage of these years is the volume in cubic metres read as tonnes: a plausible
+     cause, not established. EIA's exports by destination (propane, normal butane, isobutane, in thousand barrels a day, from the Census Bureau's
+     customs data) run from 2004: from 2004 to 2020 the customs tonnage of the pair is 0.6 to 1.2 times the tonnage of EIA's volumes at the density
+     of the cargo, and its unit value 0.5 to 1.4 times the group's; in 2021 to 2024 it is 1.5 to 1.9 times and 0.39 to 0.56 times. The tonnage of
+     2021, 2022, 2023 and 2024 is therefore replaced by the volume of the United States' own statistics times the density of the cargo (an Atlas
+     estimate, source id `atlas`, the note of the row gives both figures): EIA's volumes for 2021 to 2023, the Census file's own quantity for
+     2024, at the densities of the Census file (the shipping weight of the cargo that went wholly by vessel over its quantity: 505.5 kg/m3 for
+     propane, 582 for the butanes). The pair reads 4.94, 5.31, 5.06 and 5.28 Mt in 2021 to 2024 (customs 7.44, 7.87, 9.74 and 9.33 Mt), and world LPG
+     trade 128.8, 138.8, 131.1 and 140.8 Mt (customs 131.3, 141.3, 135.8 and 144.8 Mt in the released file). The years 2004 to 2020 are as
+     reported; 2002 and 2003 cannot be checked (EIA's series start in 2004). The same check was made for the United States to Canada: from 2015 the
+     customs tonnage is 1.1 to 2.0 times the tonnage of EIA's volumes, against 0.5 to 1.2 before, and the unit value falls under two thirds of the
+     group's, but EIA's figures for Canada are whole numbers of thousand barrels a day that are small, and three of the ten years stay inside the
+     earlier range: no year is replaced, and the LPG page says so. The Census file also gives the three Asian buyers a vessel tonnage
+     (Japan 14.6 Mt, China 10.3 Mt, South Korea 5.30 Mt) that differs from CEPII BACI's pairs (6.17, 18.0 and 7.18 Mt) while the sums agree within
+     4%: those pairs are not changed, and the page says so. The estimate is made after the other rules, with their reference unit values,
+     before rule 9; the cache is `pipeline/cache/us_lpg_volumes.json` (what `pipeline/trade/us_lpg.py` reads from raw/census and raw/eia). The Census file
+     (a 78 MB zip) and the EIA pages are downloaded by hand and no scheduled job fetches them: the data are for the calendar year 2024 and the EIA
+     release of 30 October 2026, and a later year is read by putting the new file in raw/ and running the script again.
+  11. **Flows that the importer declares and the reconciled file lacks: tin ores and concentrates from Myanmar to China**
+     (`comtrade_tin.ADDED_FLOWS`, flag `added`). China declares 76 to 293 kt of tin ores and concentrates (HS 260900) from Myanmar in each of
+     2017 to 2024 (UN Comtrade, public preview, China as reporter, imports; net weight), the first origin every year and 48% to 99% of its
+     imports; CEPII BACI, in the extract the atlas reads (flows under 1,000 t and USD 1 million are dropped), has at most 1.6 kt a year of this pair in those
+     years (161 t in 2023, no row in 2021, 2022 and 2024).
+     The cause of the gap is not established. The atlas takes the flow from China's declaration, year by year, pair by pair: a year in which the
+     customs file holds under a tenth of the declared tonnage has its row added or replaced (2023: 161 t replaced by 180.5 kt), the value being
+     the CIF value that China declares, and each row says in its note that it comes from China's import declaration, UN Comtrade, and not from CEPII
+     BACI. It is a declared figure, not an estimate (`imputed` false, no "Atlas estimate" mark). Only this pair is listed; every other cell where
+     the two sources differ (Brazil in 2023 and 2024, DR Congo's value in 2022, Bolivia) is left as BACI has it. The years before 2017 keep
+     BACI's figures: the answer of 2016 carries no net weight, and the years before were not loaded, so the series of the pair breaks between 2016
+     and 2017. Myanmar to China moves overland (the countries share a border and neither is landlocked): no sea lane and no passage. Myanmar's
+     own export declaration was not loaded. The cache `pipeline/cache/comtrade_tin_china.json` holds, for each year, China's declared total, the
+     Myanmar figure and the five largest origins, with the flag of an estimated net weight; the answers stay in raw/, under UN Comtrade's terms. The calls
+     (one per year, two minutes apart, no key) are made by hand; no scheduled job makes them, and a year is added by fetching it and running
+     `pipeline/trade/comtrade_tin.py` again.
+- **Tonnage estimated from value is an Atlas estimate.** Every row whose tonnage rules 2, 3, 4, 7, 8 or
+  10 re-estimate carries a note that starts with "Atlas estimate" and gives the method, the declared
   value and the tonnage customs reported. Where such a figure is shown on its own (a lane's flow, a
   row of a flow table) it has the source id `atlas` and `est: true`, the site prints "Atlas
   estimate" beside it and rounds it to two significant digits at display (the data keep full
@@ -309,6 +346,14 @@ URL, returned with the mode; an entry without a URL is an unsourced assumption. 
   rail; part may sail from the Trans Mountain pipeline's Westridge terminal, in a share not known),
   India → Bangladesh refined products 1.8 Mt (India–Bangladesh Friendship Pipeline).
 - `MIXED` and `SEA_OUTLET`: rules 4 and 6 above.
+- A mixed pair-year whose split a source measures (`KNOWN_SPLIT`): the United States → Mexico LPG pair in 2024, 72% by sea. The US Census
+  Bureau's export detail file gives a shipping weight for the cargo that went by vessel only (3.81 Mt) and no weight for the other modes, which it
+  does not name; the total tonnage of the pair is its quantity (10.43 million m3) times its density (cleaning rule 10), 5.28 Mt, so the share by
+  sea is 72% (by value, 72%: the file's vessel value over its total value, which does not need the density). `mode_of(o, d, group, year)` returns it
+  for that year only; the lane builders cut the pair into two rows that add up to its tonnage, 3.81 Mt by sea (mode sea: the lane, the seaborne totals,
+  the chokepoint estimates, the corridor volumes and the country pages read it) and 1.47 Mt overland (mode land), after the checks and the caveats,
+  which read the pair as one row. The lane keeps its history in all modes, as the years before, and its note says the share, its source and that the
+  other years are customs totals with the split not known. The rest is read as overland; the file does not say which mode carried it.
 - Overland blocs (`BLOCS`): Europe (with Russia, Belarus, Ukraine, Moldova and Turkey), the
   1520 mm broad-gauge rail network (the former Soviet Union, Finland, Mongolia, and Poland as an
   assumption), Southern, East and West Africa, South America, South Asia, mainland Southeast Asia,
@@ -1115,8 +1160,9 @@ totals of the series by year are the same for every country: they are in one fil
   them together). If the exports, imports and totals are not all of one year, the year of the customs
   frame, the basket is left out. *Names of the headings*: the atlas does not reuse the HS heading texts.
   The free list read for them, UN Comtrade's reference tables, is under UN Comtrade's "Policy on
-  Comtrade Data Use" (read 23 November 2026), which allows internal use only and no re-dissemination
-  without UNSD's permission. A heading is therefore named, with its code, from the six-digit
+  Comtrade Data Use" (read 23 November 2026 and again 24 November 2026), which provides the data for internal use and no re-dissemination without UNSD's permission,
+  except, by its page on re-dissemination, "limited amounts of UN Comtrade data in a few tables, graphs, visualization", with the attribution "Source:
+  UN Comtrade": a list of all the headings is more than that, and is not copied (the tin page prints a few figures under the same exemption). A heading is therefore named, with its code, from the six-digit
   descriptions under it in CEPII BACI's product list (Etalab Open Licence 2.0), never from one of them
   alone: one subheading gives its own words; subheadings that share their first part give that part
   with the words they all share after it ("Vehicles: transport of goods", HS 8704), or the kinds they
@@ -1380,8 +1426,17 @@ source; where the atlas converts a figure or estimates it, the figure says so.
 - **Natural gas** is ranked on EIA's dry natural gas exports and imports in bcm (pipeline and LNG
   together), not on customs tonnes, which are unreliable for pipeline gas.
 - **LNG**: the headline world total is the industry's (GIIGNL annual report, 2026 edition: world LNG
-  trade 428 Mt in 2025 and 406 Mt in 2024; IGU World LNG Report 2025: 411.24 Mt in 2024), with
-  publisher and year beside it. The country tables are customs tonnage (371.32 Mt in 2024), below
+  trade 428 Mt in 2025 and 406 Mt in 2024; IGU World LNG Report, 2026 edition: 437.0 Mt in 2025), with
+  publisher and year beside it. The two reports forbid reproducing their tables (GIIGNL: "Reproduction of the contents of this publication in any
+  manner whatsoever is prohibited without prior consent of the copyright owners"; IGU: "No part of this publication may be reproduced [...]
+  without the prior permission of the copyright owner"; the registry quotes both): their country tables are not copied. Two tables beside the
+  customs tables give the exports of the two exporters whose own statistics are open, with the customs figure of each in its note: Australia, 81.24 Mt in
+  2024 (Australian Government, Resources and Energy Quarterly, December 2025, table 41, CC BY 4.0, the department's estimate), and the United States,
+  90.9 Mt (EIA's 4,367 bcf, converted at 48.03 bcf per Mt, an Atlas conversion), against 78.7 Mt and 73.3 Mt in the customs data; and Australia's
+  five principal markets of the workbook (China 26.74, Japan 25.52, South Korea 11.57, Taiwan 8.07, India 0.12 Mt) beside the customs figure of each
+  pair. It is a cross-check, not a ranking, and the customs tables stay as they are: no open source for the other exporters is loaded. The workbook is
+  downloaded by hand (no scheduled job fetches it): a newer edition put in `raw/australia/disr-req` and `pipeline/trade/aus_req_lng.py` run again
+  refresh the small cache, and the page says the edition it reads. The country tables are customs tonnage (371.32 Mt in 2024), below
   the industry totals because customs data miss the cargoes of some countries, so they are shown
   as an order, with no rank (`norank`); the country profiles print no rank for them either.
 - **Precious metals** (gold, silver, platinum-group metals): trade is shown in fine-metal equivalent,
@@ -1722,7 +1777,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     build year, whose flows and lanes therefore show 0. The page shows it once, above the flows (`gaps` of the commodity file). The
     atlas does not scale the flows or lanes to the USDA total.
 - **Publishers cited for a headline figure only**: GIIGNL and IGU (world LNG trade), the World Steel
-  Association (world crude steel production, 1,849.4 Mt in 2025), the World Gold Council (world mine
+  Association (world crude steel production, 1,848.9 Mt in 2025, World Steel in Figures 2026, data finalised 8 June 2026, which revised the 1,849.4 Mt of its press release of 23 January 2026; its terms of use do not allow its country table to be reproduced without written consent, a clause that the registry records, so the steel page keeps the USGS table), the World Gold Council (world mine
   production) and the International Cocoa Organization (world cocoa bean production and world grindings per crop
   year). Each figure carries its publisher, year and link and stands beside the atlas's table; their
   tables are not copied.

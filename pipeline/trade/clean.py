@@ -280,6 +280,8 @@ def _added(df):
     """Rule 11: the flows of comtrade_tin.ADDED_FLOWS, from China's import declaration, in the years of its cache."""
     new, drop = [], []
     for (g, o, d) in comtrade_tin.ADDED_FLOWS:
+        if not (df["group"] == g).any():  # a frame without the group (a test frame, another builder's subset) gets nothing added
+            continue
         for y in comtrade_tin.years():
             dec = comtrade_tin.declared(y)
             if not dec:

@@ -107,11 +107,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 32.3,
+"v": 31.3,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 40.6 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+"n": "at least 40.6 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 40.6,
@@ -1123,28 +1123,6 @@
 }
 },
 {
-"k": "lpg",
-"p": "lpg",
-"f": {
-"v": 15.2,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 19.2 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
-},
-"mt": [
-19.2,
-22.7
-],
-"hi": {
-"v": 18.1,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 22.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Qatar 0.74 Mt, the United Arab Emirates 0.64 Mt, Saudi Arabia 0.613 Mt)"
-}
-},
-{
 "k": "ferro-alloys",
 "p": "silico-manganese",
 "f": {
@@ -1164,6 +1142,28 @@
 "y": 2024,
 "s": "atlas",
 "n": "up to 0.45 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: India 0.0379 Mt)"
+}
+},
+{
+"k": "lpg",
+"p": "lpg",
+"f": {
+"v": 14.8,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 19.2 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+},
+"mt": [
+19.2,
+22.7
+],
+"hi": {
+"v": 17.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "up to 22.7 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Qatar 0.74 Mt, the United Arab Emirates 0.64 Mt, Saudi Arabia 0.613 Mt)"
 }
 },
 {
@@ -2689,28 +2689,6 @@
 }
 },
 {
-"k": "lpg",
-"p": "lpg",
-"f": {
-"v": 15.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "at least 18.8 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
-},
-"mt": [
-18.8,
-22.6
-],
-"hi": {
-"v": 18.0,
-"u": "%",
-"y": 2024,
-"s": "atlas",
-"n": "up to 22.6 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Qatar 0.74 Mt, the United Arab Emirates 0.64 Mt, Saudi Arabia 0.613 Mt)"
-}
-},
-{
 "k": "ferro-alloys",
 "p": "ferro-manganese",
 "f": {
@@ -2730,6 +2708,28 @@
 "y": 2024,
 "s": "atlas",
 "n": "up to 0.273 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: India 0.0234 Mt)"
+}
+},
+{
+"k": "lpg",
+"p": "lpg",
+"f": {
+"v": 14.5,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "at least 18.8 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+},
+"mt": [
+18.8,
+22.6
+],
+"hi": {
+"v": 17.4,
+"u": "%",
+"y": 2024,
+"s": "atlas",
+"n": "up to 22.6 Mt: adds the pairs that may cross it or a parallel passage of similar length, or may load or discharge on another coast (largest: Qatar 0.74 Mt, the United Arab Emirates 0.64 Mt, Saudi Arabia 0.613 Mt)"
 }
 },
 {
@@ -4538,14 +4538,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 126 Mt of seaborne LPG has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 130 Mt of seaborne LPG has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0,
 4.522
 ],
 "hi": {
-"v": 3.6,
+"v": 3.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -5450,7 +5450,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.399 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.399 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 0.399,
@@ -7402,11 +7402,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 1.9,
+"v": 1.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.37 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.37 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
 },
 "mt": [
 2.37,
@@ -8678,11 +8678,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 1.9,
+"v": 1.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 2.37 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
+"n": "at least 2.37 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted"
 },
 "mt": [
 2.367,
@@ -8874,11 +8874,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 33.1,
+"v": 32.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 41.6 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 41.6 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 41.6,
@@ -11280,7 +11280,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.8 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.8 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 1.795,
@@ -12451,11 +12451,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 6.0,
+"v": 5.8,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 7.49 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 7.49 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 7.494,
@@ -13357,11 +13357,11 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 5.3,
+"v": 5.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 6.62 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 6.62 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 6.622,
@@ -14496,7 +14496,7 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 1.53 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 1.53 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 1.53,
@@ -14746,14 +14746,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.253 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+"n": "at least 0.253 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0.253,
 19.5
 ],
 "hi": {
-"v": 15.5,
+"v": 15.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -17073,14 +17073,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 0.817 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
+"n": "at least 0.817 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends)"
 },
 "mt": [
 0.817,
 18.9
 ],
 "hi": {
-"v": 15.0,
+"v": 14.6,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -17488,18 +17488,18 @@
 "k": "lpg",
 "p": "lpg",
 "f": {
-"v": 2.6,
+"v": 2.5,
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "at least 3.26 Mt of 126 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+"n": "at least 3.26 Mt of 130 Mt of seaborne LPG: every recorded seaborne pair whose assumed route has to cross this passage. Pairs that can use a parallel passage of similar length, pairs split between coasts, mixed sea-and-land pairs and trades that customs data do not record are not in it (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 3.26,
 3.981
 ],
 "hi": {
-"v": 3.2,
+"v": 3.1,
 "u": "%",
 "y": 2024,
 "s": "atlas",
@@ -18836,14 +18836,14 @@
 "u": "%",
 "y": 2024,
 "s": "atlas",
-"n": "no cargo has to cross it: no recorded seaborne pair of the 126 Mt of seaborne LPG has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
+"n": "no cargo has to cross it: no recorded seaborne pair of the 130 Mt of seaborne LPG has an assumed route that has to cross this passage (CEPII BACI 2024, Atlas routing). 0.256 Mt of seaborne LPG could not be routed (no gateway, no sourced transit port, or one port at both ends). 0.423 Mt of LPG that moves both by sea and overland (split not known) would cross it by sea and is not counted. Exports that customs data do not record for 2024, or record only in part, are missing: Iran (see the caveat of each origin; before the gap, the routes to their main buyers cross this passage or may cross it)"
 },
 "mt": [
 0,
 19.3
 ],
 "hi": {
-"v": 15.3,
+"v": 14.9,
 "u": "%",
 "y": 2024,
 "s": "atlas",

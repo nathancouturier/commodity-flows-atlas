@@ -638,11 +638,11 @@ def flow_notes(r, kind, pc, f2, pipelines=()):
     """Notes of the latest-year flow of a pair (lane `flow.n`, and the pairs file's `notes` for a pair without a lane):
     the Atlas estimate, the all-modes note of a mixed pair, the K8 and K2 findings. r: the cleaned row or None."""
     out = []
+    if r is not None and (r.imputed or r.flag == "added"):
+        out.append(r.enote)
     if r is not None and getattr(r, "split", "") == "sea":
         out.append("The tonnage of this lane is its share by sea. " + MD.split_note(r.sea_share, MD.known_split(r.o, r.d, r.group, int(r.year))[1],
                                                                                    int(r.year), _mt(r.t_all / 1e6)))
-    if r is not None and (r.imputed or r.flag == "added"):
-        out.append(r.enote)
     if kind == "mixed":
         out.append("Customs total for all modes: this trade moves both by sea and overland and the split is not known"
                    + (". Pipelines on this border in the atlas: " + "; ".join(pipelines) if pipelines else ""))
@@ -985,10 +985,14 @@ def main():
         pport, pcls, prow, puse, pnotes = {}, {}, [], {"load": defaultdict(set), "discharge": defaultdict(set)}, {}
         landlocked = set()  # ends of routed rows that reach the sea through a foreign port and have no coast
         lane_pairs = set(main) | set(mixed_l)
+        rest_rows = []  # the overland part of the pairs that split_known cut: the row of the pair carries the part by sea
         for r in gy.itertuples(index=False):
+            if r.split == "rest":
+                rest_rows.append([r.o, r.d, kt(r.t)])
+                continue
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
             f = (F_EST if r.imputed else 0) | (F_CAVEAT if CV.lookup(active, group, r.o, r.d) else 0)
-            f |= (F_LANE if (r.o, r.d) in lane_pairs and r.split != "rest" else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
+            f |= (F_LANE if (r.o, r.d) in lane_pairs else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
             if f & (F_EST | F_CHECK) and not f & F_LANE:
                 # the note the lane would carry, for the pairs that have none (Route finder)
                 fn = flow_notes(r, r.mode, pair_check.get((group, r.o, r.d)), k2.get((group, r.o, r.d, latest)),
@@ -1037,6 +1041,8 @@ def main():
             "gates": gates,
             "cols": ["o", "d", "kt", "m", "load", "dis", "nm", "cls", "via", "alt", "f"],
             "rows": prow,
+            # a pair whose split by mode is known has its row for the part by sea; the rest of its tonnage went overland (the file's country pages count it so)
+            **({"rest": rest_rows} if rest_rows else {}),
             "notes": pnotes,
             # the ends above with no coast at all; another end whose port lies in a third country has a coast (DR Congo)
             "landlocked": sorted(landlocked),

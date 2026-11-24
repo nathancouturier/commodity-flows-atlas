@@ -51,7 +51,7 @@ class FullLines(unittest.TestCase):
             if not isinstance(d, dict):
                 continue
             tables = [(sec, d.get(sec)) for sec in ("exports", "imports", "production", "consumption", "reserves", "refinery")]
-            tables += [(P.extra_section(x["key"]), x["table"]) for x in d.get("extra") or []]
+            tables += [(P.extra_section(x["key"]), x["table"]) for x in d.get("extra") or [] if x["key"] not in P.NO_PROFILE]  # tables left out of the profiles on purpose
             for sec, t in tables:
                 if not t or not isinstance(t, dict) or not t.get("rows"):
                     continue

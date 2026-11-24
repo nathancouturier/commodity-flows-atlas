@@ -1,0 +1,19 @@
+{
+ "source": "Department of Industry, Science and Resources, Resources and Energy Quarterly",
+ "edition": "December 2025",
+ "url": "https://www.industry.gov.au/sites/default/files/2025-12/resources-and-energy-quarterly-december-2025-historical-data.xlsx",
+ "attribution": "Department of Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.",
+ "licence": "CC BY 4.0",
+ "year": 2024,
+ "unit": "Mt",
+ "total": 81.2415,
+ "markets": {
+  "JPN": 25.5169,
+  "CHN": 26.7431,
+  "KOR": 11.5732,
+  "TWN": 8.0666,
+  "IND": 0.1247
+ },
+ "total_note": "n Department of Industry, Science, and Resources estimates.",
+ "table_source": "Source: ABS, International Trade in Goods and Services, Australia, cat. no. 5368.0; International Trade Centre International Trade Statistics 2001\u20132021."
+}

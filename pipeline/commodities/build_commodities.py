@@ -150,6 +150,9 @@ import metals as MET  # noqa: E402  (metals pages: apparent consumption, concent
 import monthly as MO  # noqa: E402  (monthly EIA series of the energy pages, data/commodities/monthly)
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "freight"))
 import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mixed or land)
+import us_lpg  # noqa: E402  (United States LPG exports to Mexico and Canada: EIA volumes and the Census Bureau's export file)
+import aus_req_lng  # noqa: E402  (Australia's LNG exports by market, Resources and Energy Quarterly: the LNG page's cross-check)
+import comtrade_tin  # noqa: E402  (China's declared imports of tin ores and concentrates, UN Comtrade: the tin page's table)
 import ports as PT  # noqa: E402  (sourced transit ports of landlocked countries)
 import vessel_rules as VR  # noqa: E402
 from build_lanes import FIRST_YEAR as LANE_FIRST_YEAR  # noqa: E402  (first year a page supports the reading of a group, with the reason)
@@ -920,6 +923,7 @@ class Baci:
         fix = df["imputed"]
         df["t_est"] = df["t"].where(fix, 0.0)
         df["t0_est"] = df["t0"].where(fix, 0.0)  # what the customs data declared for the rows the atlas re-estimated
+        df["t_vol"] = df["t"].where(df["flag"] == "est-volume", 0.0)  # the part of it that is a volume of the United States' own statistics (rule 10)
         self.df = df
         self.dropped = list(LAST_DROPPED)  # rows that clean() dropped, for QA.md
         self.peer = dict(PEER_RATIO)  # rule 8: usual ratio of an exporter to its peer, for the page notes
@@ -983,9 +987,11 @@ class Baci:
         """year: another year of the cleaned frame, same rules and the same estimate marks (the series by country, history.py)."""
         d = self.group(g, year)
         col = "o" if side == "exports" else "d"
-        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"), usd=("usd", "sum")).sort_values("t", ascending=False)
+        agg = d.groupby(col).agg(t=("t", "sum"), te=("t_est", "sum"), tv=("t_vol", "sum"), t0e=("t0_est", "sum"), ts=("t_susp", "sum"),
+                                 usd=("usd", "sum")).sort_values("t", ascending=False)
         world = agg["t"].sum() / div
         est_share = agg["te"].sum() / agg["t"].sum() if agg["t"].sum() else 0
+        vol_share = agg["tv"].sum() / agg["t"].sum() if agg["t"].sum() else 0  # estimated from a volume (rule 10), not from the declared value
         rows, usd_by, es_by, t_by = [], {}, {}, {}
         for code, r in agg.iterrows():
             iso = None if code in EXTRA_CODES else self.iso(code)  # ranked tables (and country profiles) list countries of the index only
@@ -999,20 +1005,30 @@ class Baci:
             if code in BACI_OVERRIDE:
                 note = f"BACI code {code} ('Other Asia, nes'), reported as Taiwan"
             mostly = es >= 0.5
-            if mostly:  # most of the tonnage is the atlas's own estimate (GW3.3): said first, with the method in a few words
+            by_volume = bool(r["t"]) and r["tv"] / r["t"] >= es / 2  # most of the estimate is a volume of the United States' own statistics
+            if mostly and by_volume:
+                note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the volume in the United States' own export statistics "
+                                                        f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows, the volume in cubic metres read as tonnes; see the notes of the page)")
+            elif mostly:  # most of the tonnage is the atlas's own estimate (GW3.3): said first, with the method in a few words
                 note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the declared value "
                                                         f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows; declared value divided by a reference unit value, see the notes of the page)")
             elif es >= 0.10:
-                note = (note + "; " if note else "") + f"{es * 100:.0f}% of tonnage estimated from value"
+                note = (note + "; " if note else "") + (f"{es * 100:.0f}% of tonnage estimated from the volume in the United States' own export statistics" if by_volume
+                                                        else f"{es * 100:.0f}% of tonnage estimated from value")
             ss = r["ts"] / r["t"] if r["t"] else 0
             if ss >= 0.10:
                 note = (note + "; " if note else "") + f"{ss * 100:.0f}% of tonnage from flows with implausible unit values ({_kept_why(g)})"
             rows.append((iso, r["t"] / div, note, mostly))
         n = [f"CEPII BACI HS92 {what}, {year}, all transport modes, gross weight",
              "world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"]
+        val_share = est_share - vol_share
         if est_share >= 0.10:  # a total that holds a tenth or more of estimated tonnage says so, and keeps three digits
-            n.append(f"includes an Atlas estimate: {est_share * 100:.0f}% of world tonnage is estimated from the declared value where the "
-                     "reported tonnage is missing or inconsistent (world total rounded)")
+            n.append(f"includes an Atlas estimate: {est_share * 100:.0f}% of world tonnage is estimated "
+                     + ("from the declared value where the reported tonnage is missing or inconsistent" if vol_share < 0.01 else
+                        f"({vol_share * 100:.0f}% from the volume in the United States' own export statistics, the rest from the declared value)") + " (world total rounded)")
+        elif vol_share >= 0.01:
+            n.append(f"{est_share * 100:.0f}% of world tonnage estimated: {vol_share * 100:.0f}% from the volume in the United States' own export statistics"
+                     + (f", {val_share * 100:.0f}% from value where missing or inconsistent" if val_share >= 0.005 else ""))
         elif est_share >= 0.01:
             n.append(f"{est_share * 100:.0f}% of world tonnage estimated from value where missing or inconsistent")
         if extra:
@@ -1077,6 +1093,9 @@ class Baci:
             notes = []
             if kind == "transit" and not transit and not mode_all:
                 notes.append("sea through a foreign port (not specified)")
+            elif kind == "mixed" and not mode_all and MD.known_split(r["o"], r["d"], g, BACI_YEAR):
+                ks = MD.known_split(r["o"], r["d"], g, BACI_YEAR)
+                notes.append("customs total for all modes: " + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u)))
             elif kind == "mixed" and not mode_all:
                 notes.append("customs total for all modes: this trade moves both by sea and overland and the split is not known")
             if r["est"]:
@@ -1616,11 +1635,9 @@ WORLDSTEEL = ("World Steel Association", "World Steel in Figures 2026, data fina
               "https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/", "worldsteel")
 WGC_MINE = ("World Gold Council", "Gold Demand Trends, full year 2025 (supply)", 3671.6, "t", 2025,
             "https://www.gold.org/goldhub/research/gold-demand-trends/gold-demand-trends-full-year-2025/supply", "wgc")
-# Official or press figures read on a page, quoted in a discrepancy note: Guinea's exports and China's imports of tin concentrate
+# Official or press figures read on a page, quoted in a discrepancy note: Guinea's exports
 GUINEA_EXPORTS = ("official data seen by Reuters, in Hellenic Shipping News, January 2026", 182.8, 2025,
                   "https://www.hellenicshippingnews.com/guineas-bauxite-exports-jump-25-to-183-million-tons-in-2025-on-chinese-demand/")
-CHINA_TIN_ORE = ("SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs", 150.8, 75.3,
-                 "https://news.metal.com/en/newscontent/103438801")
 # Pages read for the exporters whose HS 253090 rows are read as spodumene concentrate shipped to China (GW3.11): exporter -> (what
 # the page says, publisher and date, link). The ABS page is ABS_LITHIUM.
 SPODUMENE_PAGES = {
@@ -1900,6 +1917,9 @@ def main():
                     + f" ({BACI_YEAR}). Incomplete declarations by importers are a plausible cause; it is not established here. Atlas conversion: {GAS_FACTOR}."))
             notes += [f"LNG volumes are in Mt, with bcm in brackets on the headline figures. Atlas conversion: {GAS_FACTOR}. "
                       "No production table: liquefaction output is not in the loaded sources."]
+            own_tables, own_notes = lng_own_statistics(baci)
+            d["extra"] = d.get("extra", []) + own_tables
+            notes += own_notes
         elif cid == "natural-gas":
             d["production"] = eia.ranked(("26-1", "BCM"), "bcm", 1.0, "dry natural gas production")
             d["consumption"] = eia.ranked(("26-2", "BCM"), "bcm", 1.0, "dry natural gas consumption")
@@ -1947,6 +1967,7 @@ def main():
                            f"EIA's own world total in tonnes is {eia.lpg_us['world'][int(cs['y'])]['eia']:,.2f} Mt.")
             summ(d, "exports", d["exports"])
             seaborne(d, g)
+            notes += lpg_us_notes(baci)
             # production: EIA's LPG series end in 2014, so that table is dated; natural gas plant liquids (ethane, propane, butanes and heavier
             # liquids recovered from gas) run to the latest year and are LPG's main supply, but are not LPG alone
             lt = eia.ranked(("67-1", "TBPD"), "kb/d", 1.0, "liquefied petroleum gases production",
@@ -2334,15 +2355,11 @@ def main():
                 mmr = d["production"]["rows"][ranks.index("MMR")]["v"]
                 notes.append(f"Myanmar ranks {ranks.index('MMR') + 1} in the USGS production table ({_nf(mmr)} t Sn in {d['production']['y']}); "
                              "mining in Wa State, its main tin area, was suspended from 1 August 2023 (see the events).")
+            tt, tnotes = tin_china_declared(baci)
+            d["extra"] = d.get("extra", []) + [{"key": "tin-china-declared", "title": f"China's declared imports of tin ores and concentrates by origin ({comtrade_tin.load()['source']})",
+                                                "table": tt}]
+            notes += tnotes
             tin = baci.group("tin-ore", 2024)
-            mm = tin[(tin["o"] == "MMR") & (tin["d"] == "CHN")]["t"].sum() / 1e3
-            cn = tin[tin["d"] == "CHN"]["t"].sum() / 1e3
-            sp, sworld, smmr, surl = CHINA_TIN_ORE
-            if cn and mm < 0.1 * smmr:
-                disc.append(f"Tin concentrate from Myanmar to China, 2024: customs data (BACI, HS 2609) record {mm:.1f} kt from Myanmar and {cn:.1f} kt for China's imports from all origins. "
-                            f"Chinese customs figures reported by {sp}, give about {sworld} kt of tin ores and concentrates imported in January to November 2024, {smmr} kt of it from Myanmar "
-                            f"({surl}). The Myanmar flow is missing from the BACI extract and the world figure for tin concentrate is probably too low; the cause is not established here. "
-                            "Comparing with China's own import declarations (UN Comtrade) needs an API key that the atlas does not have.")
             cog = tin[tin["o"] == "COG"]
             cod = tin[tin["o"] == "COD"]
             listed = {r[0] for r in us.table("Tin", "Mine production")["rows"]}
@@ -3077,6 +3094,17 @@ def _pgm(d, us, baci, notes, summ, seaborne, add_baci_trade, disc, cid):
 
 
 # ====================================================================== sources, QA
+# GIIGNL and IGU: the sentences of their reports that keep their country tables out of the atlas (read on 24 November 2026)
+GIIGNL_LICENCE = ("Public PDF, (c) GIIGNL; one world total and the order the report gives are cited, with attribution, and none of its country tables is "
+                  "copied. Page 2 of the report: \"Reproduction of the contents of this publication in any manner whatsoever is prohibited without prior "
+                  "consent of the copyright owners.\"")
+IGU_LICENCE = ("Copyright International Gas Union; one world total is cited, with attribution, and none of its tables is copied. Page 1 of the report: "
+               "\"No part of this publication may be reproduced, stored in retrieval systems or transmitted in any form or by any means [...] without "
+               "the prior permission of the copyright owner.\"")
+
+DISR_LICENCE = ("CC BY 4.0 (Creative Commons Attribution 4.0 International, as the About sheet of the workbook states); attribution as it asks: \"Department of "
+                "Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"")
+
 # worldsteel: the clause that keeps its country tables out of the atlas (terms of use, full version, read on 24 November 2026)
 WORLDSTEEL_LICENCE = ("Copyright World Steel Association; one world total is cited, with its edition, and none of its tables is copied. Article 6.1 of the "
                       "worldsteel Terms of Use: its websites and components \"may not be reproduced, used or distributed without the prior written consent "
@@ -3118,14 +3146,40 @@ def update_sources():
         {"id": "nrcan-units", "name": "Conversion factors and common units to be used for North American Cooperation on Energy Information",
          "publisher": "Natural Resources Canada", "url": UNITS_URL, "licence": "Government of Canada web content; a conversion factor is cited with attribution (reuse terms to be confirmed)",
          "update": "irregular (page dated 16 January 2025)", "access": "Web page, read by hand", "use": "Atlas conversion of LNG tonnes to cubic metres of gas"},
+        {"id": "igu-lng-report-2026", "name": "IGU World LNG Report 2026 (2025 data)", "publisher": "International Gas Union",
+         "url": "https://igu.org/igu-reports/2026-world-lng-report", "licence": IGU_LICENCE, "update": "annual (2026 edition posted 7 July 2026)",
+         "access": "Web page and PDF, read by hand", "use": "World LNG trade in 2025 (437.0 Mt), beside the customs total of the LNG page"},
+        {"id": "disr-req", "name": "Resources and Energy Quarterly, December 2025: principal markets for Australia's commodity exports (table 41)",
+         "publisher": "Department of Industry, Science and Resources, Commonwealth of Australia",
+         "url": "https://www.industry.gov.au/sites/default/files/2025-12/resources-and-energy-quarterly-december-2025-historical-data.xlsx",
+         "licence": DISR_LICENCE,
+         "update": "quarterly (the workbook of December 2025: calendar years to 2024)",
+         "access": "Historical data workbook downloaded by hand (the site refuses scripted downloads); table 41 read by pipeline/trade/aus_req_lng.py into a small cache, never by a scheduled job",
+         "use": "Australia's LNG exports in 2024 by principal market, beside the customs figures of the LNG page"},
+        {"id": "comtrade", "name": "UN Comtrade (public preview): China's imports of tin ores and concentrates, HS 260900",
+         "publisher": "United Nations Statistics Division, UN Comtrade", "url": "https://comtradeapi.un.org/public/v1/preview/C/A/HS",
+         "licence": "UN Comtrade's policy on re-dissemination (https://uncomtrade.org/docs/re-dissemination-of-data/): permission is not required for the "
+                    "\"Publication of limited amounts of UN Comtrade data in a few tables, graphs, visualization in printed or digital platform\"; attribution: "
+                    "\"Source: UN Comtrade.\" The answers are not published as files",
+         "update": "annual (one call per year)",
+         "access": "Public preview endpoint, no key, one call per year, two minutes apart, by hand; the few figures the page prints are kept in "
+                   "pipeline/cache/comtrade_tin_china.json, the answers stay in raw/ and are never fetched by a scheduled job",
+         "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI lacks"},
+        {"id": "census-exports", "name": "US Census Bureau, USA Trade Online: export detail file (EXDB), December 2024",
+         "publisher": "U.S. Census Bureau, Foreign Trade Division", "url": "https://www.census.gov/foreign-trade/data/dataproducts.html",
+         "licence": "US Government data: the data-products page says that all international trade data products previously available by subscription are "
+                    "now available to the public at no cost; no copyright is claimed. Not endorsed or certified by the Census Bureau",
+         "update": "monthly (the December file holds the calendar year)",
+         "access": "EXDB2412.ZIP downloaded by hand; only the LPG codes are read, by pipeline/trade/us_lpg.py, into a small cache",
+         "use": "Quantity and vessel shipping weight of United States LPG exports in 2024: the tonnage of the pair United States to Mexico and its share by sea"},
+        {"id": "eia-exports-destination", "name": "EIA Exports by Destination: propane, normal butane and isobutane (annual, thousand barrels per day)",
+         "publisher": "U.S. Energy Information Administration", "url": "https://www.eia.gov/dnav/pet/pet_move_expc_a_EPLLPA_EEX_mbblpd_a.htm",
+         "licence": "Public domain (US Government)", "update": "annual (release of 30 October 2026)",
+         "access": "Web pages read by hand, the history page of each series; a small cache holds the series of Mexico and Canada (pipeline/trade/us_lpg.py)",
+         "use": "Volume of United States LPG exports to Mexico and Canada, 2004 to 2025, to date the break in the customs tonnage of the pair United States to Mexico"},
         {"id": "wilhelmsen-lpg-sizes", "name": "Wilhelmsen: LPG vessel management (size categories of LPG carriers)", "publisher": "Wilh. Wilhelmsen",
          "url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management", "licence": "Public web page; a size band is cited with attribution (terms to be confirmed)",
          "update": "irregular", "access": "Web page, read by hand", "use": "Size band of the mid-size gas carrier class"},
-        {"id": "igu-lng-report-2025", "name": "IGU World LNG Report 2025 (2024 data)", "publisher": "International Gas Union",
-         "url": "https://igu.org/igu-reports/2025-world-lng-report",
-         "licence": "Copyright International Gas Union; the page states no reuse terms (its Terms & Conditions were not read), so only one world total is cited, with attribution (terms to be confirmed)",
-         "update": "annual (posted 22 May 2025)", "access": "Web page, read by hand",
-         "use": "World LNG trade in 2024 (411.24 Mt), beside the customs total of the LNG page"},
     ]
     # fields of an existing entry that the builder corrects (the registry is otherwise only added to)
     fixes = {"faostat": {"use": "Cocoa production; production of wheat, maize, rice, soya beans, rape or colza seed and sugar beet of the 27 member states of the European Union",
@@ -3137,12 +3191,18 @@ def update_sources():
                             "url": "https://worldsteel.org/data/world-steel-in-figures/world-steel-in-figures-2026/", "licence": WORLDSTEEL_LICENCE,
                             "update": "annual (World Steel in Figures, June); monthly (press releases)",
                             "use": "World crude steel production in 2025 (1,848.9 Mt, World Steel in Figures 2026), beside the USGS table of the steel page"},
-             "giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities"}}
+             "giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities",
+                             "licence": GIIGNL_LICENCE},
+             "disr-req": {"licence": DISR_LICENCE}}
+    retired = {"igu-lng-report-2025": "the 2026 edition of the IGU report (igu-lng-report-2026) is the one the LNG page cites"}
     changed = False
     for s in new:
         if s["id"] not in have:
             src.append(s)
             changed = True
+    if any(s["id"] in retired for s in src):
+        src[:] = [s for s in src if s["id"] not in retired]
+        changed = True
     for s in src:
         for k, v in fixes.get(s["id"], {}).items():
             if s.get(k) != v:
@@ -3357,14 +3417,14 @@ def write_qa(index, docs, baci=None, hist=None):
 # Figures quoted from publications. Each carries its publisher and year and is printed with them; the world
 # totals stand beside the customs total of the LNG page, none is used in a table of countries. GIIGNL: read in the
 # 2026 edition of its annual report (source id "giignl-2026"), which gives 2025 and, as the year before, 2024.
-# IGU: https://igu.org/igu-reports/2025-world-lng-report (source id "igu-lng-report-2025")
+# IGU: the 2026 edition of its World LNG Report, which gives 2025 (source id "igu-lng-report-2026"); neither publisher's country table is copied
 LNG_URL = {"GIIGNL": "https://www.worldlngsummit.com/media/5stjrkng/2026-giignl-annual-report.pdf",
-           "IGU": "https://igu.org/igu-reports/2025-world-lng-report"}
+           "IGU": "https://igu.org/igu-reports/2026-world-lng-report"}
 LNG_REFERENCE = [
     # (publisher, publication, figure, unit, year, what)
     ("GIIGNL", "Annual Report 2026 edition", 428, "Mt", 2025, "world LNG trade"),
     ("GIIGNL", "Annual Report 2026 edition", 406, "Mt", 2024, "world LNG trade"),
-    ("IGU", "World LNG Report 2025", 411.24, "Mt", 2024, "world LNG trade"),
+    ("IGU", "World LNG Report 2026 edition", 437.0, "Mt", 2025, "world LNG trade"),
     ("GIIGNL", "Annual Report 2026 edition", 109, "Mt", 2025, "exports of the United States, which the report calls the world's dominant LNG exporter"),
 ]
 # U.S. Energy Information Administration, "Liquefied U.S. Natural Gas Exports, Annual" (series NG.N9133US2.A of the
@@ -3383,6 +3443,142 @@ GAS_FACTOR = (f"1 Mt of LNG = {BCF_PER_MT_LNG:.2f} bcf = {BCM_PER_MT_LNG:.2f} bc
 EIA_RUSSIA_URL = "https://www.eia.gov/international/analysis/country/RUS"
 EIA_RUSSIA = {"rank": "fourth-largest", "total_year": 2023, "total_mbd": 1.9, "share_year": 2024,
               "shares": [("Türkiye", 17), ("China", 11), ("Singapore", 8), ("the United Arab Emirates", 8), ("India", 8), ("Brazil", 8)]}
+
+
+def lng_own_statistics(baci):
+    """The LNG page's cross-check: the exports of the two exporters whose own statistics are open, beside the customs figure of each, and the
+    exports of Australia by market. Returns (extra tables, notes). Not a ranking, and not used by any other table of the page."""
+    a = aus_req_lng.load()
+    y = a["year"]
+    if y != BACI_YEAR or EIA_US_LNG["year"] != y:
+        raise SystemExit(f"LNG own statistics: Australia {y}, EIA {EIA_US_LNG['year']} and the customs year {BACI_YEAR} are not the same year")
+    exp = baci.totals("lng", "exports")
+    pair = baci.group("lng", y).groupby(["o", "d"])["t"].sum() / 1e6
+    us_mt = EIA_US_LNG["mmcf"] / 1e3 / BCF_PER_MT_LNG
+    share = lambda own, cust: f"{cust / own:.0%} of the exporter's own figure"  # noqa: E731
+    r_aus = ("AUS", a["total"], f"{a['source']}, {a['edition']}, calendar year {y}: the department's estimate (footnote n of its table 41). "
+             f"Customs data (CEPII BACI): {_fmt(exp['AUS'])} Mt, {share(a['total'], exp['AUS'])}.")
+    r_us = ("USA", us_mt, f"EIA, liquefied U.S. natural gas exports (series {EIA_US_LNG['series']}, public domain): {EIA_US_LNG['mmcf'] / 1e3:,.0f} bcf in {y}, "
+            f"converted at {BCF_PER_MT_LNG:.2f} bcf per Mt (Atlas conversion). Customs data (CEPII BACI): {_fmt(exp['USA'])} Mt, {share(us_mt, exp['USA'])}.")
+    own = ranked([r_aus, r_us], y, "atlas",  "Mt", digits=3,
+                 n=("Exports of LNG as the exporting country's own statistics give them, beside the customs figure of each (CEPII BACI): Australia's "
+                    "Resources and Energy Quarterly, and the United States' EIA series converted to tonnes. A cross-check of the customs tables, not a ranking: "
+                    "the atlas has found no open source for the other exporters. The definitions differ (the customs figures are the reconciled declarations of "
+                    "the exporter and the importer), and the customs tables of this page stay as they are"))
+    own["norank"] = True
+    for r in own["rows"]:
+        if r["c"] == "USA":
+            r["conv"] = True
+    own["conv"] = "the United States row is an Atlas conversion of EIA's volume of gas in billion cubic feet, at the factor named in its note"
+    mk = ranked([(c, v, f"Customs data (CEPII BACI), Australia to {cname(c)}: {_fmt(float(pair.get(('AUS', c), 0)))} Mt")
+                 for c, v in a["markets"].items()], y, "disr-req", "Mt", world=a["total"],
+                n=(f"Resources and Energy Quarterly, {a['edition']}, table 41 (calendar year {y}, volume): the five principal markets that the table lists for LNG "
+                   f"(fixed, not re-ranked each year); the other markets are not given by the source. {a['total_note'].replace('n ', 'Footnote n: ', 1)} "
+                   f"{a['table_source']} Attribution: {a['attribution']}"))
+    mk["norank"] = True
+    tables = [{"key": "lng-own-statistics", "title": f"Exports in the exporting country's own statistics, {y} (a cross-check, not a ranking)", "table": own},
+              {"key": "lng-australia-markets", "title": f"Australia's LNG exports by market, {y} (Resources and Energy Quarterly)", "table": mk}]
+    notes = [f"Own statistics against customs: Australia's Resources and Energy Quarterly gives {_fmt(a['total'])} Mt of LNG exports in {y} against {_fmt(exp['AUS'])} Mt in the customs "
+             f"table, and EIA's series for the United States {_fmt(us_mt)} Mt (Atlas conversion) against {_fmt(exp['USA'])} Mt. No open source for the other exporters is loaded, so "
+             "the customs tables stay the atlas's figures for them. " + a["attribution"] + " The workbook is downloaded by hand (the department's site refuses scripted downloads) "
+             f"and is not refreshed by the scheduled updates: the page reads the {a['edition']} edition until a newer workbook is downloaded."]
+    return tables, notes
+
+
+def tin_china_declared(baci):
+    """China's declared imports of tin ores and concentrates (UN Comtrade) by origin in the latest year of its cache, with the series of each year
+    in the history, and the notes on the flow Myanmar to China that the atlas adds to the customs table (rule 11 of clean.py). Returns (table, notes)."""
+    c = comtrade_tin.load()
+    ys = comtrade_tin.years()
+    y = ys[-1]
+
+    def table(yr):
+        x = c["years"][str(yr)]
+        top = list(x["top"])
+        if x["myanmar"] and all(r["c"] != "MMR" for r in top):
+            top.append(x["myanmar"])
+        rows = [(r["c"], r["t"] / 1e3, ("UN Comtrade estimated the net weight of this row" if r["est"] else None)) for r in top]
+        t = ranked(rows, yr, "comtrade", "kt", world=x["world"]["t"] / 1e3,
+                   n=(f"UN Comtrade (public preview), China as reporter, imports of HS 260900 (tin ores and concentrates), {yr}: net weight as China declares it, "
+                      f"from {x['world']['origins']} origins; the table lists the five largest and Myanmar"
+                      + ("; Comtrade's total for the year is an estimate (the origins add up to it)" if x["world"]["est"] else "") + ". Source: UN Comtrade"))
+        t["norank"] = True
+        return set_basis(t, "ores and concentrates, net weight declared by China")
+
+    t = table(y)
+    t["_hist"] = (ys, table)
+    first = ys[0]
+    mm = {yr: c["years"][str(yr)]["myanmar"] for yr in ys}
+    raw = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
+    raw = raw[(raw["group"] == "tin-ore") & (raw["o"] == "MMR") & (raw["d"] == "CHN")].set_index("year")["t"]
+    # the years in which the customs file has no row of the pair, or one under a tenth of the declared tonnage (the rows rule 11 adds or replaces)
+    moved = [yr for yr in ys if raw.get(yr, 0) < comtrade_tin.REPLACE_BELOW * mm[yr]["t"]]
+    first_all = all(c["years"][str(yr)]["top"][0]["c"] == "MMR" for yr in ys)
+    notes = [f"Tin ores and concentrates (HS 260900): China declares {_fmt(mm[y]['t'] / 1e3)} kt from Myanmar in {y}, {_fmt(mm[y - 1]['t'] / 1e3)} kt in {y - 1} and "
+             f"{_fmt(mm[y - 2]['t'] / 1e3)} kt in {y - 2} ({mm[y]['t'] / c['years'][str(y)]['world']['t']:.0%} of its imports in {y}"
+             + (f", the first origin in every year from {ys[0]} to {y}" if first_all else "") + "), where the reconciled customs file the atlas uses, CEPII BACI, has "
+             f"at most {_fmt(max(raw.get(yr, 0) for yr in moved) / 1e3)} kt a year of this pair in {_years(moved)} (its extract drops flows under 1,000 t and USD 1 million, so "
+             f"{_years([yr for yr in moved if yr not in raw.index])} have no row there). The atlas therefore adds "
+             f"the flow from China's import declaration (UN Comtrade) to its customs table in {_years(moved)}: a listed correction, pair by pair "
+             "(the Methodology, section 1, cleaning rule 11), flagged on each row. The flow moves overland: no sea lane, no passage. "
+             f"The declared figures are net weight and a CIF value, not BACI's reconciled figures, and the series of the customs tables starts from the declaration in "
+             f"{ys[0]}: the years before keep BACI's figures, so the series breaks between {ys[0] - 1} and {ys[0]}"
+             + "".join(f". UN Comtrade's answer for {nw} carries no net weight, only a quantity that it estimated ({_fmt(v['estimated_quantity_t'] / 1e3)} kt, of which "
+                       f"{_fmt(v['myanmar_estimated_quantity_t'] / 1e3)} kt from Myanmar) and a value, so it is not used" for nw, v in c.get("no_net_weight", {}).items())
+             + f"; the years before {min([ys[0]] + [int(k) for k in c.get('no_net_weight', {})])} are not loaded.",
+             "The table of China's declared imports shows the five largest origins and Myanmar for the year, and its history the same countries in each year. "
+             "Its total is China's, not the world's, and Comtrade's total of some years is an estimate. It is a small part of the declaration, printed with "
+             "the attribution Source: UN Comtrade; the answers are not published as files."]
+    return t, notes
+
+
+def lpg_us_notes(baci):
+    """Notes of the LPG page on the United States' exports to Mexico and Canada, and on its three Asian buyers (rule 10 of clean.py), from the
+    cache of pipeline/trade/us_lpg.py and the cleaned frame."""
+    df, c = baci.df, us_lpg.load()["census"]
+    lp = df[(df["group"] == "lpg") & (df["o"] == "USA")]
+
+    def row(d, y):
+        r = lp[(lp["d"] == d) & (lp["year"] == y)]
+        return r.iloc[0] if len(r) else None
+
+    fixed = sorted(int(y) for y in lp[(lp["d"] == "MEX") & (lp["flag"] == "est-volume")]["year"])
+    ok = [y for y in range(2004, min(fixed)) if row("MEX", y) is not None and us_lpg.estimate("MEX", y)]
+    ratio = [row("MEX", y)["t0"] / us_lpg.estimate("MEX", y)["t"] for y in ok]
+    notes = [
+        "United States to Mexico: " + "; ".join(f"{y} {_fmt(row('MEX', y)['t0'] / 1e6)} Mt in CEPII BACI, {_fmt(row('MEX', y)['t'] / 1e6)} Mt here" for y in fixed)
+        + f". From {fixed[0]} the customs tonnage of the pair is the volume of the cargo in cubic metres, a volume read as tonnes being a plausible cause (not established here): "
+        f"in {max(fixed) - 1} it is {_fmt(row('MEX', max(fixed) - 1)['t0'] / 1e6)} Mt for {_fmt(us_lpg.estimate('MEX', max(fixed) - 1)['m3'] / 1e3)} million m3 in EIA's exports "
+        f"of propane and butanes to Mexico, its unit value ({row('MEX', max(fixed))['uvp']:,.0f} USD/t in {max(fixed)}) is {row('MEX', max(fixed))['uvp'] / (row('MEX', max(fixed))['uv'] * 1000):.2f} "
+        f"times the group's median unit value, and the US Census Bureau's export detail file gives {_fmt(sum(c['pairs']['MEX']['qty_m3'].values()) / 1e6)} million m3 in {c['year']}. "
+        "The tonnage of these years is the volume of the United States' own statistics (EIA's propane, normal butane and isobutane exports, which come from the Census Bureau's "
+        f"customs data) times the density of the cargo in the Census file ({c['density_kg_m3']['2711120010']:.0f} kg/m3 for propane, {c['density_kg_m3']['2711130000']:.0f} for butanes), an Atlas estimate; "
+        f"in {c['year']} it is the Census file's own quantity. From 2004 to {min(fixed) - 1} the customs tonnage is {min(ratio):.1f} to {max(ratio):.1f} times the tonnage from EIA's volumes: "
+        "it is left as reported. 2002 and 2003 cannot be checked (EIA's series start in 2004) and are left as reported.",
+        f"United States to Mexico, mode: in {c['year']} the Census file gives a shipping weight for the cargo that went by vessel only, {_fmt(c['pairs']['MEX']['vessel_t'] / 1e6)} Mt, "
+        f"{c['pairs']['MEX']['vessel_t'] / c['pairs']['MEX']['total_t']:.0%} of the pair's {_fmt(c['pairs']['MEX']['total_t'] / 1e6)} Mt (the file gives no total weight: the total is its "
+        "quantity times its density); the atlas reads the rest as overland, and the lane of the pair is that sea share. The other years of the pair stay customs totals for all modes, "
+        "with the split not known.",
+    ]
+    can = [(y, row("CAN", y)) for y in range(2004, BACI_YEAR + 1) if row("CAN", y) is not None and us_lpg.estimate("CAN", y)]
+    r_before = [r["t0"] / us_lpg.estimate("CAN", y)["t"] for y, r in can if y < 2015]
+    r_after = [r["t0"] / us_lpg.estimate("CAN", y)["t"] for y, r in can if y >= 2015]
+    cn = c["pairs"]["CAN"]
+    r24 = row("CAN", c["year"])
+    notes.append(
+        f"United States to Canada: checked and not corrected. CEPII BACI gives {_fmt(r24['t0'] / 1e3)} kt in {c['year']}; the Census file's quantity of propane and butanes "
+        f"({_fmt(sum(cn['qty_m3'].values()) / 1e6)} million m3, the same as EIA's) is about {_fmt(cn['total_t'] / 1e3)} kt at the file's densities. From 2015 the customs tonnage is "
+        f"{min(r_after):.1f} to {max(r_after):.1f} times the tonnage from EIA's volumes (against {min(r_before):.1f} to {max(r_before):.1f} from 2004 to 2014) and its unit value is under two thirds "
+        "of the group's, as in Mexico's case, but EIA's figures for Canada are small whole numbers of thousand barrels a day and the years do not all leave the range of the earlier ones, "
+        "so no year is replaced.")
+    jp = {i: c["pairs"][i]["vessel_t"] for i in ("JPN", "CHN", "KOR")}
+    cu = {i: float(row(i, c["year"])["t"]) for i in jp}
+    notes.append(
+        f"LPG from the United States to Japan, China and South Korea, {c['year']}: the US Census Bureau's export file gives vessel shipping weights of {_fmt(jp['JPN'] / 1e6)}, "
+        f"{_fmt(jp['CHN'] / 1e6)} and {_fmt(jp['KOR'] / 1e6)} Mt ({_fmt(sum(jp.values()) / 1e6)} Mt together); CEPII BACI gives {_fmt(cu['JPN'] / 1e6)}, {_fmt(cu['CHN'] / 1e6)} and "
+        f"{_fmt(cu['KOR'] / 1e6)} Mt ({_fmt(sum(cu.values()) / 1e6)} Mt together, {abs(sum(cu.values()) / sum(jp.values()) - 1):.0%} apart). The two sources split the cargo among the three "
+        "buyers differently; the atlas keeps CEPII BACI's pairs.")
+    return notes
 
 
 def _and(names):

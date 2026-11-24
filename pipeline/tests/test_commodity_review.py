@@ -242,16 +242,16 @@ class Notes(unittest.TestCase):
     def test_references_carry_their_link(self):
         lng = load("commodities/lng.json")
         text = lng["summary"]["exports"]["n"]
-        self.assertIn("https://igu.org/igu-reports/2025-world-lng-report", text)
+        self.assertIn("https://igu.org/igu-reports/2026-world-lng-report", text)
         self.assertIn("worldlngsummit.com", text)
         ru = " ".join(load("commodities/refined-products.json")["notes"])
         self.assertIn("https://www.eia.gov/international/analysis/country/RUS", ru)
 
     def test_sources_exist_and_say_what_they_allow(self):
         src = {s["id"]: s for s in load("sources.json")}
-        igu = src["igu-lng-report-2025"]
-        self.assertEqual(igu["url"], "https://igu.org/igu-reports/2025-world-lng-report")
-        self.assertIn("terms to be confirmed", igu["licence"])  # the page states no terms: none is guessed
+        igu = src["igu-lng-report-2026"]
+        self.assertEqual(igu["url"], "https://igu.org/igu-reports/2026-world-lng-report")
+        self.assertIn("without the prior permission of the copyright owner", igu["licence"])  # the clause of the report, quoted: its tables are not copied
         self.assertIn("World LNG trade", src["giignl-2026"]["use"])
         # every source id of a commodity file is in the registry
         for f in os.listdir(os.path.join(DATA, "commodities")):

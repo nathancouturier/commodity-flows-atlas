@@ -1569,7 +1569,7 @@
  ],
  "notes": [
   "Trade is pig iron (HS 7201: non-alloy pig iron in two classes of phosphorus content, alloy pig iron and spiegeleisen), customs gross weight. USGS production is pig iron by country in Mt, as USGS states it (the countries it names and its 'Other countries' line).",
-  "The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second product with its own customs code, in none of the totals above. No production table for it: USGS gives pig iron and raw steel only, and the producers' association's figures are not loaded (their terms are not settled).",
+  "The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second product with its own customs code, in none of the totals above. No production table for it: direct-reduced iron by country has no source that the atlas may reproduce. USGS gives pig iron and raw steel only; the World Steel Association publishes it by country, but its terms of use do not allow its tables to be reproduced without written consent, and Midrex's statistics book states no terms of reuse, so neither is copied.",
   "Direct-reduced iron and spongy iron (HS 7203), 2024 (CEPII BACI): world 16.17 Mt gross weight; top exporters Oman 4.31 Mt, Russia 2.48 Mt, Trinidad and Tobago 1.67 Mt.",
   "Nickel pig iron has no code of its own: it is declared as ferro-nickel (HS 720260), which is on the nickel page.",
   "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded."

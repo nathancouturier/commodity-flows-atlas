@@ -85,8 +85,9 @@ class CleanTests(unittest.TestCase):
         df = frame("drop")
         for y in (2021, 2023):
             self.assertLessEqual(mt(df, "lpg", "QAT", year=y), 11, y)
-        self.assertAlmostEqual(mt(df, "lpg", year=2021), 131.2, delta=1)
-        self.assertAlmostEqual(mt(df, "lpg", year=2023), 135.8, delta=1)
+        # 131.3 and 135.8 Mt with the customs tonnage of the United States to Mexico; 128.8 and 131.1 once cleaning rule 10 replaces it (test_w3a.py)
+        self.assertAlmostEqual(mt(df, "lpg", year=2021), 128.8, delta=1)
+        self.assertAlmostEqual(mt(df, "lpg", year=2023), 131.1, delta=1)
         C.clean(raw()[raw().group == "lpg"], lpg_dedup="drop")  # LAST_DROPPED holds the rows of the last call
         dropped = pd.DataFrame(C.LAST_DROPPED)
         self.assertEqual(len(dropped[dropped.year == 2021]), 19)
@@ -154,7 +155,7 @@ class CleanTests(unittest.TestCase):
         self.assertEqual(C.despike([10, 1, 10])[1], [1])
         # every row whose tonnage is estimated carries the note that says so
         self.assertTrue(df[df.imputed].enote.str.startswith("Atlas estimate").all())
-        self.assertTrue(df[~df.imputed].enote.isna().all())
+        self.assertTrue(df[~df.imputed & (df.flag != "added")].enote.isna().all())  # a row added by rule 11 is declared, not estimated, and has its note too
         # wheat RUS-EGY 2024 (tonnage missing in BACI): estimated from value, note with the declared value
         r = row(df, "wheat", "RUS", "EGY", 2024)
         self.assertTrue(r.imputed)

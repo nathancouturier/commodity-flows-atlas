@@ -3,7 +3,7 @@
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
 - Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 122 in all, and 20 more for the 10 groups of a later package, and 10 more for the 8 groups of a later package, and 10 more for the 9 groups of a later package, and 6 more for the 2 groups of a later package. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 168 generated routes over 71 groups, 8,294 Mt of seaborne trade. Named by hand-written routes: 43.5%. With the generated routes: 65.0%.
+- 168 generated routes over 71 groups, 8,298 Mt of seaborne trade. Named by hand-written routes: 43.5%. With the generated routes: 65.0%.
 - 11 of 71 groups reach the target; 60 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
@@ -38,7 +38,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | lead-ore | 2.3 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lithium | 0.5 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lng | 369.2 | 41.5 | 69.9 | 9 | the remaining corridors are each under 7.4 Mt, or mostly named by hand-written routes, or have no routed port |
-| lpg | 125.8 | 37.5 | 71.1 | 6 |  |
+| lpg | 129.7 | 36.4 | 71.9 | 7 |  |
 | manganese | 42.3 | 0.0 | 68.9 | 3 | the cap of 122 generated routes left out 1 corridor |
 | monoammonium-phosphate | 12.1 | 0.0 | 34.0 | 2 | the cap of 20 generated routes for the groups added with it left out 4 corridors |
 | nickel-fe | 10.1 | 0.0 | 88.7 | 1 |  |
@@ -66,7 +66,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | soyoil | 11.0 | 28.2 | 28.2 | 0 | the cap of 122 generated routes left out 3 corridors |
 | spodumene | 5.0 | 73.8 | 73.8 | 0 |  |
 | steel | 287.0 | 0.0 | 44.9 | 12 | the cap of 12 routes per group was reached |
-| sugar | 58.9 | 0.0 | 55.0 | 8 | the cap of 122 generated routes left out 4 corridors |
+| sugar | 58.9 | 0.0 | 51.0 | 7 | the cap of 122 generated routes left out 5 corridors |
 | sulphur | 42.5 | 0.0 | 61.2 | 8 | the cap of 20 generated routes for the groups added with it left out 1 corridor |
 | sunflower-meal | 7.9 | 0.0 | 37.8 | 1 | the cap of 10 generated routes for the groups added with it left out 3 corridors |
 | sunflower-oil | 11.6 | 0.0 | 32.3 | 1 | the cap of 10 generated routes for the groups added with it left out 4 corridors |
@@ -80,7 +80,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | zinc-metal | 3.6 | 0.0 | 0.0 | 0 | the cap of 122 generated routes left out 1 corridor |
 | zinc-ore | 9.2 | 0.0 | 0.0 | 0 | the cap of 122 generated routes left out 6 corridors |
 
-## Corridors the cap left out (205)
+## Corridors the cap left out (206)
 
 Mt are the tonnes of the corridor that no hand-written route names. The corridors of a group are listed in the order they were chosen.
 
@@ -250,6 +250,7 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - soyoil: Soybean oil: East coast South America to India and Bangladesh, east coast, 0.7 Mt
 - soyoil: Soybean oil: East coast South America to North China, 0.6 Mt
 - soyoil: Soybean oil: the Mediterranean to the rest of Europe, 0.6 Mt
+- sugar: Sugar within South-East Asia, 2.3 Mt
 - sugar: Sugar: Eastern Australia to Japan and Korea, 1.9 Mt
 - sugar: Sugar: East coast South America to India and Bangladesh, east coast, 1.6 Mt
 - sugar: Sugar: East coast South America to Canada east, 1.4 Mt

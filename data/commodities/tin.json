@@ -814,6 +814,43 @@
   "usd": 6063484000,
   "uv": 27300
  },
+ "extra": [
+  {
+   "key": "tin-china-declared",
+   "title": "China's declared imports of tin ores and concentrates by origin (UN Comtrade)",
+   "table": {
+    "y": 2024,
+    "s": "comtrade",
+    "u": "kt",
+    "world": 158.49,
+    "rows": [
+     {
+      "c": "MMR",
+      "v": 76.459
+     },
+     {
+      "c": "COD",
+      "v": 33.903
+     },
+     {
+      "c": "AUS",
+      "v": 15.861
+     },
+     {
+      "c": "NGA",
+      "v": 10.017
+     },
+     {
+      "c": "BOL",
+      "v": 7.408
+     }
+    ],
+    "n": "UN Comtrade (public preview), China as reporter, imports of HS 260900 (tin ores and concentrates), 2024: net weight as China declares it, from 30 origins; the table lists the five largest and Myanmar; Comtrade's total for the year is an estimate (the origins add up to it). Source: UN Comtrade",
+    "norank": true,
+    "basis": "ores and concentrates, net weight declared by China"
+   }
+  }
+ ],
  "flows": [
   {
    "o": "IDN",
@@ -1129,17 +1166,29 @@
    "eq": 16.9,
    "k": 60,
    "cov": 1.0
+  },
+  "tin-china-declared": {
+   "top1": {
+    "c": "MMR",
+    "p": 0.4824
+   },
+   "top3": 0.7964,
+   "hhi": 2947,
+   "eq": 3.4,
+   "k": 5,
+   "cov": 0.9064
   }
  },
  "notes": [
-  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.12 Mt gross weight; top exporters DR Congo 0.03 Mt, Australia 0.02 Mt, Nigeria 0.02 Mt.",
+  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.20 Mt gross weight; top exporters Myanmar 0.08 Mt, DR Congo 0.03 Mt, Australia 0.02 Mt.",
   "Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure).",
   "Myanmar ranks 8 in the USGS production table (12,000 t Sn in 2025); mining in Wa State, its main tin area, was suspended from 1 August 2023 (see the events).",
+  "Tin ores and concentrates (HS 260900): China declares 76.5 kt from Myanmar in 2024, 180.5 kt in 2023 and 187.3 kt in 2022 (48% of its imports in 2024, the first origin in every year from 2017 to 2024), where the reconciled customs file the atlas uses, CEPII BACI, has at most 1.57 kt a year of this pair in 2017 to 2024 (its extract drops flows under 1,000 t and USD 1 million, so 2021 to 2022 and 2024 have no row there). The atlas therefore adds the flow from China's import declaration (UN Comtrade) to its customs table in 2017 to 2024: a listed correction, pair by pair (METHODOLOGY.md, section 1, cleaning rule 11), flagged on each row. The flow moves overland: no sea lane, no passage. The declared figures are net weight and a CIF value, not BACI's reconciled figures, and the series of the customs tables starts from the declaration in 2017: the years before keep BACI's figures, so the series breaks between 2016 and 2017. UN Comtrade's answer for 2016 carries no net weight, only a quantity that it estimated (81.7 kt, of which 80.7 kt from Myanmar) and a value, so it is not used; the years before 2016 are not loaded.",
+  "The table of China's declared imports shows the five largest origins and Myanmar for the year, and its history the same countries in each year. Its total is China's, not the world's, and Comtrade's total of some years is an estimate. It is a small part of the declaration, printed with the attribution Source: UN Comtrade; the answers are not published as files.",
   "Republic of the Congo is recorded as an exporter of tin concentrate (7.7 kt in 2024, 18,887 USD/t) but is not a tin producer in the USGS table, while DR Congo is (17,732 USD/t). Relabelling of DR Congo material is a possible cause; it is not established here.",
   "Unwrought tin (HS 8001): the tables hold 0.222 Mt, 97% of the 0.229 Mt that the customs file records for these codes in 2024 (gross weight). The difference: 0.00715 Mt are pairs under the threshold of the extract (1,000 t and USD 1 million; 331 of the 1,386 pairs of the file are kept)."
  ],
  "discrepancies": [
-  "Netherlands to Hungary: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups).",
-  "Tin concentrate from Myanmar to China, 2024: customs data (BACI, HS 2609) record 0.0 kt from Myanmar and 92.1 kt for China's imports from all origins. Chinese customs figures reported by SMM (Shanghai Metals Market), 23 December 2024, quoting China's General Administration of Customs, give about 150.8 kt of tin ores and concentrates imported in January to November 2024, 75.3 kt of it from Myanmar (https://news.metal.com/en/newscontent/103438801). The Myanmar flow is missing from the BACI extract and the world figure for tin concentrate is probably too low; the cause is not established here. Comparing with China's own import declarations (UN Comtrade) needs an API key that the atlas does not have."
+  "Netherlands to Hungary: 3.13 kt of tin-metal in 2024 (reported tonnage implies 416 USD/t, i.e. 0.0139x the tin-metal group-year median unit value: possible misreport, kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)."
  ]
 }
