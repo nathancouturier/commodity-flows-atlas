@@ -146,6 +146,10 @@ FAMILY = {
     # groups outside the lane model (M-100): the same geographic rule as the metals
     "uranium": "metal", "lithium": "metal", "cobalt": "metal", "rare-earths": "metal",
     "tin-ore": "metal", "tin-metal": "metal", "lead-ore": "metal", "lead-metal": "metal", "zinc-metal": "metal",
+    # the metal bulks added with A-010: the same geographic rule. Chromite and coke are dry bulk like the ores and the coal above; scrap, pig
+    # iron and direct-reduced iron are the steel industry's raw materials (the family of steel); the ferro-alloys are metal like ferro-nickel (the other ferro-alloys, HS 7202 with no group of their own, have no lanes)
+    "chromium-ore": "drybulk", "coke": "drybulk", "ferrous-scrap": "metal", "pig-iron": "metal", "dri": "metal",
+    "ferro-chromium": "metal", "ferro-manganese": "metal", "silico-manganese": "metal", "ferro-silicon": "metal",
 }
 # Deliberately without a family, so without a mode: gold, silver and platinum-group metals. The audit suggests air
 # freight but no source was read; a badge would be a published claim.

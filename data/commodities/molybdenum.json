@@ -1,0 +1,877 @@
+{
+ "id": "molybdenum",
+ "summary": {
+  "production": {
+   "v": 260.0,
+   "u": "kt Mo",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, molybdenum mine production, contained molybdenum; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 17000.0,
+   "u": "kt Mo",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, molybdenum reserves, contained molybdenum; USGS world total is rounded; the country lines of the source add up to 17,421 kt Mo, more than the published world total of 17,000 kt Mo: shares are computed on the sum"
+  },
+  "exports": {
+   "v": 371.24,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 molybdenum ores and concentrates, roasted or not (HS 261310, 261390), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  }
+ },
+ "kpis": {
+  "production": "World production (kt of contained molybdenum)",
+  "reserves": "World reserves (kt of contained molybdenum)",
+  "exports": "World exports (kt of molybdenum ores and concentrates)"
+ },
+ "labels": {
+  "production": "Top producers — kt of contained molybdenum",
+  "reserves": "Reserves — kt of contained molybdenum",
+  "exports": "Top exporters — kt of molybdenum ores and concentrates, gross weight",
+  "imports": "Top importers — kt of molybdenum ores and concentrates, gross weight"
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Mo",
+  "world": 260.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 97.0
+   },
+   {
+    "c": "CHL",
+    "v": 42.0
+   },
+   {
+    "c": "USA",
+    "v": 40.0
+   },
+   {
+    "c": "PER",
+    "v": 39.0
+   },
+   {
+    "c": "MEX",
+    "v": 17.0
+   },
+   {
+    "c": "ARM",
+    "v": 5.3
+   },
+   {
+    "c": "KAZ",
+    "v": 4.3
+   },
+   {
+    "c": "MNG",
+    "v": 4.2
+   },
+   {
+    "c": "IRN",
+    "v": 3.3
+   },
+   {
+    "c": "CAN",
+    "v": 2.2
+   },
+   {
+    "c": "UZB",
+    "v": 2.0
+   },
+   {
+    "c": "RUS",
+    "v": 1.3
+   },
+   {
+    "c": "AUS",
+    "v": 1.0
+   },
+   {
+    "c": "PRK",
+    "v": 0.8
+   },
+   {
+    "c": "KOR",
+    "v": 0.5
+   }
+  ],
+  "n": "USGS MCS 2026, molybdenum mine production, contained molybdenum; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "contained molybdenum"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt Mo",
+  "world": 17421.0,
+  "worldPublished": 17000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 7800.0
+   },
+   {
+    "c": "USA",
+    "v": 3500.0
+   },
+   {
+    "c": "CHL",
+    "v": 2600.0
+   },
+   {
+    "c": "RUS",
+    "v": 1100.0
+   },
+   {
+    "c": "PER",
+    "v": 1000.0
+   },
+   {
+    "c": "AUS",
+    "v": 760.0
+   },
+   {
+    "c": "ARM",
+    "v": 150.0
+   },
+   {
+    "c": "MEX",
+    "v": 130.0
+   },
+   {
+    "c": "PRK",
+    "v": 78.0
+   },
+   {
+    "c": "CAN",
+    "v": 64.0
+   },
+   {
+    "c": "IRN",
+    "v": 43.0
+   },
+   {
+    "c": "UZB",
+    "v": 21.0
+   },
+   {
+    "c": "MNG",
+    "v": 10.0
+   },
+   {
+    "c": "KOR",
+    "v": 8.0
+   },
+   {
+    "c": "KAZ",
+    "v": 7.0
+   }
+  ],
+  "n": "USGS MCS 2026, molybdenum reserves, contained molybdenum; USGS world total is rounded; the country lines of the source add up to 17,421 kt Mo, more than the published world total of 17,000 kt Mo: shares are computed on the sum",
+  "other": 150.0,
+  "hidden": {
+   "v": 89.0,
+   "k": 5,
+   "from": 10,
+   "n": "5 further countries named by USGS (Iran, Uzbekistan, Mongolia, South Korea and Kazakhstan), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
+  "basis": "contained molybdenum"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 371.24,
+  "rows": [
+   {
+    "c": "PER",
+    "v": 81.014,
+    "usd": 1629094000,
+    "uv": 20100
+   },
+   {
+    "c": "CHL",
+    "v": 79.128,
+    "usd": 1923544000,
+    "uv": 24300
+   },
+   {
+    "c": "USA",
+    "v": 59.198,
+    "usd": 1252103000,
+    "uv": 21200
+   },
+   {
+    "c": "NLD",
+    "v": 36.556,
+    "usd": 863268000,
+    "uv": 23600
+   },
+   {
+    "c": "MEX",
+    "v": 28.417,
+    "usd": 737474000,
+    "uv": 26000
+   },
+   {
+    "c": "CHN",
+    "v": 15.93,
+    "usd": 427580000,
+    "uv": 26800
+   },
+   {
+    "c": "ARM",
+    "v": 12.712,
+    "usd": 243130000,
+    "uv": 19100
+   },
+   {
+    "c": "KAZ",
+    "v": 9.728,
+    "usd": 171713000,
+    "uv": 17700
+   },
+   {
+    "c": "MNG",
+    "v": 7.246,
+    "usd": 130478000,
+    "uv": 18000
+   },
+   {
+    "c": "BEL",
+    "v": 5.627,
+    "usd": 144415000,
+    "uv": 25700
+   },
+   {
+    "c": "KOR",
+    "v": 5.615,
+    "usd": 74266000,
+    "uv": 13200
+   },
+   {
+    "c": "THA",
+    "v": 5.427,
+    "usd": 106649000,
+    "uv": 19700
+   },
+   {
+    "c": "AUS",
+    "v": 3.966,
+    "usd": 79717000,
+    "uv": 20100
+   },
+   {
+    "c": "BRA",
+    "v": 2.917,
+    "usd": 16699000,
+    "uv": 5720
+   },
+   {
+    "c": "CAN",
+    "v": 2.871,
+    "usd": 61064000,
+    "uv": 21300
+   },
+   {
+    "c": "DEU",
+    "v": 2.46,
+    "usd": 23171000,
+    "uv": 9420
+   },
+   {
+    "c": "JPN",
+    "v": 1.884,
+    "n": "67% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 16031000,
+    "uv": 8510
+   },
+   {
+    "c": "PRK",
+    "v": 1.734,
+    "usd": 15116000,
+    "uv": 8720
+   },
+   {
+    "c": "VNM",
+    "v": 1.673,
+    "usd": 45892000,
+    "uv": 27400
+   },
+   {
+    "c": "GBR",
+    "v": 1.406,
+    "usd": 39509000,
+    "uv": 28100
+   },
+   {
+    "c": "ARE",
+    "v": 1.271,
+    "usd": 23885000,
+    "uv": 18800
+   },
+   {
+    "c": "MMR",
+    "v": 0.681,
+    "usd": 8963000,
+    "uv": 13200
+   },
+   {
+    "c": "GEO",
+    "v": 0.656,
+    "usd": 11441000,
+    "uv": 17400
+   },
+   {
+    "c": "LTU",
+    "v": 0.539,
+    "usd": 1066000,
+    "uv": 1980
+   },
+   {
+    "c": "IRN",
+    "v": 0.509,
+    "usd": 14108000,
+    "uv": 27700
+   },
+   {
+    "c": "SAU",
+    "v": 0.504,
+    "usd": 1801000,
+    "uv": 3570
+   },
+   {
+    "c": "POL",
+    "v": 0.499,
+    "usd": 1276000,
+    "uv": 2560
+   },
+   {
+    "c": "TWN",
+    "v": 0.35,
+    "usd": 10126000,
+    "uv": 28900
+   },
+   {
+    "c": "TUR",
+    "v": 0.322,
+    "usd": 8728000,
+    "uv": 27100
+   },
+   {
+    "c": "SGP",
+    "v": 0.102,
+    "usd": 1163000,
+    "uv": 11400
+   },
+   {
+    "c": "CHE",
+    "v": 0.099,
+    "usd": 2374000,
+    "uv": 24000
+   },
+   {
+    "c": "LUX",
+    "v": 0.096,
+    "usd": 2685000,
+    "uv": 28000
+   },
+   {
+    "c": "KHM",
+    "v": 0.061,
+    "usd": 1256000,
+    "uv": 21000
+   },
+   {
+    "c": "IND",
+    "v": 0.039,
+    "usd": 1067000,
+    "uv": 27000
+   }
+  ],
+  "n": "CEPII BACI HS92 molybdenum ores and concentrates, roasted or not (HS 261310, 261390), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight",
+  "usd": 8090852000,
+  "uv": 21800
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 371.24,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 57.241,
+    "usd": 1040478000,
+    "uv": 18200
+   },
+   {
+    "c": "KOR",
+    "v": 41.485,
+    "usd": 1043536000,
+    "uv": 25200
+   },
+   {
+    "c": "CHL",
+    "v": 40.087,
+    "usd": 841597000,
+    "uv": 21000
+   },
+   {
+    "c": "NLD",
+    "v": 36.588,
+    "usd": 849605000,
+    "uv": 23200
+   },
+   {
+    "c": "USA",
+    "v": 29.677,
+    "usd": 610188000,
+    "uv": 20600
+   },
+   {
+    "c": "JPN",
+    "v": 28.737,
+    "usd": 781356000,
+    "uv": 27200
+   },
+   {
+    "c": "BRA",
+    "v": 24.261,
+    "usd": 381699000,
+    "uv": 15700
+   },
+   {
+    "c": "BEL",
+    "v": 23.054,
+    "usd": 545107000,
+    "uv": 23600
+   },
+   {
+    "c": "IND",
+    "v": 16.183,
+    "usd": 456393000,
+    "uv": 28200
+   },
+   {
+    "c": "GBR",
+    "v": 14.787,
+    "usd": 395710000,
+    "uv": 26800
+   },
+   {
+    "c": "THA",
+    "v": 13.894,
+    "usd": 203254000,
+    "uv": 14600
+   },
+   {
+    "c": "VNM",
+    "v": 8.336,
+    "usd": 33262000,
+    "uv": 3990
+   },
+   {
+    "c": "SWE",
+    "v": 7.167,
+    "usd": 185075000,
+    "uv": 25800
+   },
+   {
+    "c": "FIN",
+    "v": 5.821,
+    "usd": 111417000,
+    "uv": 19100
+   },
+   {
+    "c": "ITA",
+    "v": 5.715,
+    "usd": 148635000,
+    "uv": 26000
+   },
+   {
+    "c": "AUT",
+    "v": 2.985,
+    "usd": 83992000,
+    "uv": 28100
+   },
+   {
+    "c": "DEU",
+    "v": 2.284,
+    "usd": 60235000,
+    "uv": 26400
+   },
+   {
+    "c": "ESP",
+    "v": 2.069,
+    "usd": 55500000,
+    "uv": 26800
+   },
+   {
+    "c": "RUS",
+    "v": 2.012,
+    "usd": 40066000,
+    "uv": 19900
+   },
+   {
+    "c": "FRA",
+    "v": 1.561,
+    "usd": 38208000,
+    "uv": 24500
+   },
+   {
+    "c": "MYS",
+    "v": 1.0,
+    "usd": 16491000,
+    "uv": 16500
+   },
+   {
+    "c": "TWN",
+    "v": 0.929,
+    "usd": 24221000,
+    "uv": 26100
+   },
+   {
+    "c": "HKG",
+    "v": 0.887,
+    "usd": 15001000,
+    "uv": 16900
+   },
+   {
+    "c": "CAN",
+    "v": 0.785,
+    "usd": 22027000,
+    "uv": 28100
+   },
+   {
+    "c": "CHE",
+    "v": 0.627,
+    "usd": 13555000,
+    "uv": 21600
+   },
+   {
+    "c": "TUR",
+    "v": 0.574,
+    "usd": 15987000,
+    "uv": 27900
+   },
+   {
+    "c": "SVN",
+    "v": 0.565,
+    "usd": 15307000,
+    "uv": 27100
+   },
+   {
+    "c": "MEX",
+    "v": 0.536,
+    "usd": 23717000,
+    "uv": 44200
+   },
+   {
+    "c": "ARM",
+    "v": 0.406,
+    "usd": 11286000,
+    "uv": 27800
+   },
+   {
+    "c": "POL",
+    "v": 0.384,
+    "usd": 10747000,
+    "uv": 28000
+   },
+   {
+    "c": "ZAF",
+    "v": 0.28,
+    "usd": 8290000,
+    "uv": 29600
+   },
+   {
+    "c": "ROU",
+    "v": 0.132,
+    "usd": 3732000,
+    "uv": 28300
+   },
+   {
+    "c": "AUS",
+    "v": 0.1,
+    "usd": 2678000,
+    "uv": 26800
+   },
+   {
+    "c": "LUX",
+    "v": 0.088,
+    "usd": 2500000,
+    "uv": 28000
+   }
+  ],
+  "n": "CEPII BACI HS92 molybdenum ores and concentrates, roasted or not (HS 261310, 261390), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ores and concentrates, gross weight",
+  "usd": 8090852000,
+  "uv": 21800
+ },
+ "flows": [
+  {
+   "o": "PER",
+   "d": "CHL",
+   "v": 32.13,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 677771000,
+   "uv": 21100
+  },
+  {
+   "o": "PER",
+   "d": "USA",
+   "v": 21.242,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 415030000,
+   "uv": 19500
+  },
+  {
+   "o": "PER",
+   "d": "CHN",
+   "v": 20.684,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 390200000,
+   "uv": 18900
+  },
+  {
+   "o": "USA",
+   "d": "NLD",
+   "v": 20.039,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 462160000,
+   "uv": 23100
+  },
+  {
+   "o": "CHL",
+   "d": "JPN",
+   "v": 19.036,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 507178000,
+   "uv": 26600
+  },
+  {
+   "o": "USA",
+   "d": "GBR",
+   "v": 12.334,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 348160000,
+   "uv": 28200
+  },
+  {
+   "o": "CHL",
+   "d": "BRA",
+   "v": 12.078,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 330101000,
+   "uv": 27300
+  },
+  {
+   "o": "MEX",
+   "d": "KOR",
+   "v": 11.211,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 310407000,
+   "uv": 27700
+  },
+  {
+   "o": "CHL",
+   "d": "KOR",
+   "v": 10.14,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 251822000,
+   "uv": 24800
+  },
+  {
+   "o": "CHL",
+   "d": "IND",
+   "v": 8.385,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 253114000,
+   "uv": 30200
+  },
+  {
+   "o": "CHL",
+   "d": "CHN",
+   "v": 8.095,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 120022000,
+   "uv": 14800
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 7.913,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 208813000,
+   "uv": 26400
+  },
+  {
+   "o": "USA",
+   "d": "BRA",
+   "v": 7.129,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 16179000,
+   "uv": 2270
+  },
+  {
+   "o": "NLD",
+   "d": "SWE",
+   "v": 6.85,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 175825000,
+   "uv": 25700
+  },
+  {
+   "o": "CHL",
+   "d": "NLD",
+   "v": 6.563,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 147222000,
+   "uv": 22400
+  },
+  {
+   "o": "KAZ",
+   "d": "CHN",
+   "v": 5.813,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 101585000,
+   "uv": 17500
+  },
+  {
+   "o": "USA",
+   "d": "CHN",
+   "v": 5.679,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 108951000,
+   "uv": 19200
+  },
+  {
+   "o": "MNG",
+   "d": "CHN",
+   "v": 5.471,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 96417000,
+   "uv": 17600
+  },
+  {
+   "o": "CHL",
+   "d": "BEL",
+   "v": 5.427,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 111452000,
+   "uv": 20500
+  },
+  {
+   "o": "NLD",
+   "d": "BEL",
+   "v": 5.413,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 204472000,
+   "uv": 37800
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3731
+   },
+   "top3": 0.6885,
+   "hhi": 2170,
+   "eq": 4.6,
+   "k": 15,
+   "cov": 0.9996
+  },
+  "reserves": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.4477
+   },
+   "top3": 0.7979,
+   "hhi": 2725,
+   "eq": 3.7,
+   "k": 15,
+   "cov": 0.9914
+  },
+  "exports": {
+   "top1": {
+    "c": "PER",
+    "p": 0.2182
+   },
+   "top3": 0.5908,
+   "hhi": 1392,
+   "eq": 7.2,
+   "k": 34,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.1542
+   },
+   "top3": 0.3739,
+   "hhi": 846,
+   "eq": 11.8,
+   "k": 34,
+   "cov": 1.0
+  }
+ },
+ "see": [
+  {
+   "k": "ferro-alloys",
+   "text": "ferro-molybdenum, in the group of the other ferro-alloys"
+  }
+ ],
+ "notes": [
+  "No lanes: the atlas shows the customs trade of this product as tables only (371 kt of exports in 2024).",
+  "Trade is molybdenum ores and concentrates, roasted (HS 261310) and not roasted (HS 261390), customs gross weight (kt): the tonnes of concentrate, not of the molybdenum in it, which is what USGS production and reserves count (kt Mo). Molybdenum oxides, ferro-molybdenum (in the ferro-alloys page) and the metal are not loaded.",
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for molybdenum, and no other free one was loaded."
+ ]
+}

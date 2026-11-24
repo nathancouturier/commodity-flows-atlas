@@ -156,7 +156,8 @@
    "270112",
    "270119",
    "270210",
-   "270220"
+   "270220",
+   "2704"
   ],
   "has": [
    "production",
@@ -186,6 +187,40 @@
   "rank": 9
  },
  {
+  "id": "ferrous-scrap",
+  "name": "Ferrous scrap",
+  "family": "metals",
+  "blurb": "Recycled steel for the furnaces of steelmakers and foundries; the United States, the United Kingdom and Germany lead exports and Turkey leads imports.",
+  "unit": "Mt",
+  "hs": [
+   "7204"
+  ],
+  "has": [
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 10
+ },
+ {
+  "id": "pig-iron",
+  "name": "Pig iron & DRI",
+  "family": "metals",
+  "blurb": "Pig iron and direct-reduced iron, the iron units that steelmakers use besides scrap; Brazil and Russia lead pig iron exports, Oman and Russia lead direct-reduced iron.",
+  "unit": "Mt",
+  "hs": [
+   "7201",
+   "7203"
+  ],
+  "has": [
+   "production",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 11
+ },
+ {
   "id": "copper",
   "name": "Copper",
   "family": "metals",
@@ -204,7 +239,7 @@
    "imports",
    "flows"
   ],
-  "rank": 10
+  "rank": 12
  },
  {
   "id": "aluminium",
@@ -222,7 +257,7 @@
    "imports",
    "flows"
   ],
-  "rank": 11
+  "rank": 13
  },
  {
   "id": "bauxite",
@@ -241,7 +276,7 @@
    "imports",
    "flows"
   ],
-  "rank": 12
+  "rank": 14
  },
  {
   "id": "nickel",
@@ -262,7 +297,7 @@
    "imports",
    "flows"
   ],
-  "rank": 13
+  "rank": 15
  },
  {
   "id": "zinc",
@@ -281,7 +316,7 @@
    "imports",
    "flows"
   ],
-  "rank": 14
+  "rank": 16
  },
  {
   "id": "lead",
@@ -300,7 +335,7 @@
    "imports",
    "flows"
   ],
-  "rank": 15
+  "rank": 17
  },
  {
   "id": "tin",
@@ -319,7 +354,7 @@
    "imports",
    "flows"
   ],
-  "rank": 16
+  "rank": 18
  },
  {
   "id": "lithium",
@@ -339,7 +374,7 @@
    "imports",
    "flows"
   ],
-  "rank": 17
+  "rank": 19
  },
  {
   "id": "cobalt",
@@ -358,7 +393,7 @@
    "imports",
    "flows"
   ],
-  "rank": 18
+  "rank": 20
  },
  {
   "id": "rare-earths",
@@ -377,7 +412,7 @@
    "imports",
    "flows"
   ],
-  "rank": 19
+  "rank": 21
  },
  {
   "id": "manganese",
@@ -395,7 +430,90 @@
    "imports",
    "flows"
   ],
-  "rank": 20
+  "rank": 22
+ },
+ {
+  "id": "chromium",
+  "name": "Chromium",
+  "family": "metals",
+  "blurb": "Chromite ore for ferro-chromium and stainless steel; South Africa supplies most of the world and China buys most of it.",
+  "unit": "Mt",
+  "hs": [
+   "2610"
+  ],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 23
+ },
+ {
+  "id": "ferro-alloys",
+  "name": "Ferro-alloys",
+  "family": "metals",
+  "blurb": "The ferro-alloys that steel is made with: ferro-chromium, ferro-manganese, silico-manganese, ferro-silicon and others; ferro-nickel is on the nickel page.",
+  "unit": "Mt",
+  "hs": [
+   "720211",
+   "720219",
+   "720221",
+   "720229",
+   "720230",
+   "720241",
+   "720249",
+   "720250",
+   "720270",
+   "720280",
+   "720291",
+   "720292",
+   "720293",
+   "720299"
+  ],
+  "has": [
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 24
+ },
+ {
+  "id": "molybdenum",
+  "name": "Molybdenum",
+  "family": "metals",
+  "blurb": "Alloying metal for steels, mined as a by-product of copper and in its own mines; ores and concentrates are traded.",
+  "unit": "kt Mo",
+  "hs": [
+   "2613"
+  ],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 25
+ },
+ {
+  "id": "graphite",
+  "name": "Graphite",
+  "family": "metals",
+  "blurb": "Natural flake and powder graphite for refractories, steelmaking and battery anodes; China leads production.",
+  "unit": "kt",
+  "hs": [
+   "2504"
+  ],
+  "has": [
+   "production",
+   "reserves",
+   "exports",
+   "imports",
+   "flows"
+  ],
+  "rank": 26
  },
  {
   "id": "gold",
@@ -413,7 +531,7 @@
    "imports",
    "flows"
   ],
-  "rank": 21
+  "rank": 27
  },
  {
   "id": "silver",
@@ -431,7 +549,7 @@
    "imports",
    "flows"
   ],
-  "rank": 22
+  "rank": 28
  },
  {
   "id": "pgm",
@@ -449,7 +567,7 @@
    "imports",
    "flows"
   ],
-  "rank": 23
+  "rank": 29
  },
  {
   "id": "wheat",
@@ -468,7 +586,7 @@
    "imports",
    "flows"
   ],
-  "rank": 24
+  "rank": 30
  },
  {
   "id": "corn",
@@ -487,7 +605,7 @@
    "imports",
    "flows"
   ],
-  "rank": 25
+  "rank": 31
  },
  {
   "id": "barley",
@@ -505,7 +623,7 @@
    "imports",
    "flows"
   ],
-  "rank": 26
+  "rank": 32
  },
  {
   "id": "sorghum",
@@ -523,7 +641,7 @@
    "imports",
    "flows"
   ],
-  "rank": 27
+  "rank": 33
  },
  {
   "id": "soybeans",
@@ -541,7 +659,7 @@
    "imports",
    "flows"
   ],
-  "rank": 28
+  "rank": 34
  },
  {
   "id": "soymeal",
@@ -559,7 +677,7 @@
    "imports",
    "flows"
   ],
-  "rank": 29
+  "rank": 35
  },
  {
   "id": "soyoil",
@@ -577,7 +695,7 @@
    "imports",
    "flows"
   ],
-  "rank": 30
+  "rank": 36
  },
  {
   "id": "rice",
@@ -595,7 +713,7 @@
    "imports",
    "flows"
   ],
-  "rank": 31
+  "rank": 37
  },
  {
   "id": "pulses",
@@ -611,7 +729,7 @@
    "imports",
    "flows"
   ],
-  "rank": 32
+  "rank": 38
  },
  {
   "id": "sugar",
@@ -629,7 +747,7 @@
    "imports",
    "flows"
   ],
-  "rank": 33
+  "rank": 39
  },
  {
   "id": "coffee",
@@ -647,7 +765,7 @@
    "imports",
    "flows"
   ],
-  "rank": 34
+  "rank": 40
  },
  {
   "id": "cocoa",
@@ -664,7 +782,7 @@
    "imports",
    "flows"
   ],
-  "rank": 35
+  "rank": 41
  },
  {
   "id": "cotton",
@@ -682,7 +800,7 @@
    "imports",
    "flows"
   ],
-  "rank": 36
+  "rank": 42
  },
  {
   "id": "palm-oil",
@@ -700,7 +818,7 @@
    "imports",
    "flows"
   ],
-  "rank": 37
+  "rank": 43
  },
  {
   "id": "sunflower",
@@ -721,7 +839,7 @@
    "imports",
    "flows"
   ],
-  "rank": 38
+  "rank": 44
  },
  {
   "id": "rapeseed",
@@ -741,7 +859,7 @@
    "imports",
    "flows"
   ],
-  "rank": 39
+  "rank": 45
  },
  {
   "id": "potash",
@@ -760,8 +878,8 @@
    "imports",
    "flows"
   ],
-  "rank": 40,
-  "sub": "Fertilisers"
+  "sub": "Fertilisers",
+  "rank": 46
  },
  {
   "id": "phosphate",
@@ -783,8 +901,8 @@
    "imports",
    "flows"
   ],
-  "rank": 41,
-  "sub": "Fertilisers"
+  "sub": "Fertilisers",
+  "rank": 47
  },
  {
   "id": "urea",
@@ -805,8 +923,8 @@
    "imports",
    "flows"
   ],
-  "rank": 42,
-  "sub": "Fertilisers"
+  "sub": "Fertilisers",
+  "rank": 48
  },
  {
   "id": "sulphur",
@@ -824,8 +942,8 @@
    "imports",
    "flows"
   ],
-  "rank": 43,
-  "sub": "Fertilisers"
+  "sub": "Fertilisers",
+  "rank": 49
  },
  {
   "id": "npk",
@@ -841,7 +959,7 @@
    "imports",
    "flows"
   ],
-  "rank": 44,
-  "sub": "Fertilisers"
+  "sub": "Fertilisers",
+  "rank": 50
  }
 ]

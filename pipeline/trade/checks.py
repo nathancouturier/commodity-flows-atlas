@@ -89,7 +89,9 @@ LABEL = {"crude-oil": "crude oil", "refined-products": "refined products", "palm
          "dap": "DAP", "nickel-int": "nickel intermediates", "uan": "UAN", "npk": "NPK",
          "monoammonium-phosphate": "MAP", "potassium-sulphate": "potassium sulphate (SOP)",
          # what the code holds in HS 1992 (M-023): two oils in each oil code, every dried pulse in the pulses code
-         "sunflower-oil": "sunflower and safflower oil", "rapeseed-oil": "rapeseed, canola and mustard oil", "pulses": "dried pulses"}
+         "sunflower-oil": "sunflower and safflower oil", "rapeseed-oil": "rapeseed, canola and mustard oil", "pulses": "dried pulses",
+         # the metal bulks of A-010: the group id is not the product's name
+         "dri": "direct-reduced iron", "chromium-ore": "chromium ore", "coke": "coke and semi-coke", "ferro-alloys-other": "other ferro-alloys"}
 
 
 def label(g):

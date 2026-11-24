@@ -81,10 +81,12 @@ def classes(group, o, d, tonnes, nm):
         # vegetable oils move in chemical tankers; the Baltic assesses them basis 40,000 t shipments (Baltic Chemical
         # and Agricultural Oil Assessments page), an MR-size cargo, so the MR comes first (see vessel_classes.json)
         return ["mr", "chemical-tanker"]
-    if group in ("steel",):
+    if group in ("steel", "ferrous-scrap", "chromium-ore", "pig-iron", "dri", "coke"):
+        # steel and the metal bulks of A-010 (scrap, chromite, pig iron, direct-reduced iron, coke): parcels of a few tens of thousands of tonnes
+        # in geared handy bulk carriers, an Atlas assumption like the classes of the other lanes
         return ["supramax", "handysize"]
     if group in ("copper-refined", "aluminium", "coffee", "cocoa", "cotton", "lead-metal", "zinc-metal", "tin-metal",
-                 "tin-ore", "cobalt", "lithium", "rare-earths"):
+                 "tin-ore", "cobalt", "lithium", "rare-earths", "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"):
         return ["container", "handysize"]
     if group == "lng":
         return ["lng"]

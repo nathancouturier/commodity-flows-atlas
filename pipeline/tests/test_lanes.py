@@ -28,7 +28,8 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          "aluminium": 0.03, "soyoil": 0.03, "lead-ore": 0.02, "lead-metal": 0.01, "zinc-metal": 0.015,
          "tin-metal": 0.001, "tin-ore": 0.002, "cobalt": 0.002, "lithium": 0.005, "rare-earths": 0.002,  # L1: minor metals
          "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,  # NC1: the groups whose default floor left their main set under the coverage floor
-         "sunflower-seed": 0.01, "rapeseed-oil": 0.01}  # NC2: the same, for two groups of the grains and oilseeds
+         "sunflower-seed": 0.01, "rapeseed-oil": 0.01,  # NC2: the same, for two groups of the grains and oilseeds
+         "ferro-manganese": 0.02, "silico-manganese": 0.02, "ferro-silicon": 0.005}  # NC3: the same, for three ferro-alloys
 BUILT = os.path.isdir(PAIRS) and os.path.exists(os.path.join(ROOT, "data", "freight", "caveats.json"))
 need_build = unittest.skipUnless(BUILT, "build_lanes.py has not written the pairs files yet")
 
@@ -179,7 +180,7 @@ class Selection(unittest.TestCase):
         # made Belarusian potash to China a mixed pair: 2,400 / 182 / 35 before, 2,629 / 276 / 38 after
         # package NC1 added ten groups of fertilisers and sulphur: 3,001 / 387 / 42
         # package NC2 added eight groups of grains, oilseeds and pulses: 3,317 / 469 / 57
-        self.assertTrue(3200 <= main <= 3400, main)
+        self.assertTrue(3500 <= main <= 3800, main)  # 3,317 before the nine groups of metal bulks of package NC3 (A-010)
         self.assertTrue(420 <= hist_ <= 520, hist_)
         self.assertTrue(50 <= mixed <= 65, mixed)
 
@@ -203,7 +204,7 @@ class Pairs(unittest.TestCase):
         # since package L1 added the minor metals (23,853 rows with 34 groups, 25,849 with 42, 25,847 once cleaning rule 9 dropped two lithium pairs)
         # 52 groups since package NC1 added the fertilisers and sulphur (29,135 rows)
         # 60 groups since package NC2 added the grains, oilseeds and pulses (32,475 rows)
-        self.assertTrue(32200 <= n <= 32800, n)
+        self.assertTrue(35200 <= n <= 35700, n)  # 32,475 pairs before the nine groups of metal bulks of package NC3 (A-010)
 
     def test_P02_seaborne_rows_routed(self):
         for g, o, d, kt, m in (("coal", "USA", "CHN", 12092, None), ("coal", "CAN", "CHN", 9529, None),
@@ -245,7 +246,7 @@ class Pairs(unittest.TestCase):
         print(f"\nP05: pairs folder {raw / 1024:.0f} KB raw, {gz / 1024:.0f} KB gzip, largest file {big / 1024:.0f} KB")
         self.assertLessEqual(raw, 1.75 * 1024 * 1024)  # 1.5 MB before package NC2 added eight groups (1.6 MB with them)
         self.assertLessEqual(big, 230 * 1024)
-        self.assertLessEqual(gz, 560 * 1024)  # 380 KB before package L1 added eight groups (406 KB with them), 466 KB with the ten groups of package NC1, 519 KB with the eight of NC2
+        self.assertLessEqual(gz, 640 * 1024)  # 380 KB before package L1 added eight groups (406 KB with them), 466 KB with the ten groups of package NC1, 519 KB with the eight of NC2, 570 KB with the nine of NC3
 
     def test_P06_indexes_and_masks(self):
         cps = {c["id"] for c in load_json(os.path.join(ROOT, "data", "freight", "chokepoints.json"))}

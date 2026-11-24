@@ -1,0 +1,1927 @@
+{
+ "id": "ferrous-scrap",
+ "summary": {
+  "exports": {
+   "v": 99.893,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "ferrous waste and scrap (HS 7204), BACI, gross weight"
+  },
+  "seaborne": {
+   "v": 67.6,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (ferrous-scrap) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
+  }
+ },
+ "kpis": {
+  "exports": "World exports (Mt of scrap)"
+ },
+ "labels": {
+  "exports": "Top exporters — Mt of ferrous scrap, gross weight",
+  "imports": "Top importers — Mt of ferrous scrap, gross weight"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 99.893,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 14.413,
+    "usd": 6114579000,
+    "uv": 424
+   },
+   {
+    "c": "GBR",
+    "v": 8.055,
+    "usd": 3363011000,
+    "uv": 417
+   },
+   {
+    "c": "DEU",
+    "v": 7.982,
+    "usd": 4372203000,
+    "uv": 548
+   },
+   {
+    "c": "FRA",
+    "v": 6.73,
+    "usd": 2683882000,
+    "uv": 399
+   },
+   {
+    "c": "JPN",
+    "v": 6.63,
+    "usd": 2589541000,
+    "uv": 391
+   },
+   {
+    "c": "NLD",
+    "v": 5.685,
+    "usd": 2924797000,
+    "uv": 514
+   },
+   {
+    "c": "CAN",
+    "v": 4.855,
+    "usd": 1963187000,
+    "uv": 404
+   },
+   {
+    "c": "BEL",
+    "v": 3.736,
+    "usd": 1575394000,
+    "uv": 422
+   },
+   {
+    "c": "POL",
+    "v": 3.094,
+    "usd": 1347802000,
+    "uv": 436
+   },
+   {
+    "c": "CZE",
+    "v": 2.619,
+    "usd": 874748000,
+    "uv": 334
+   },
+   {
+    "c": "AUS",
+    "v": 2.451,
+    "usd": 1060013000,
+    "uv": 432
+   },
+   {
+    "c": "SWE",
+    "v": 1.664,
+    "usd": 675347000,
+    "uv": 406
+   },
+   {
+    "c": "DNK",
+    "v": 1.473,
+    "usd": 582928000,
+    "uv": 396
+   },
+   {
+    "c": "ROU",
+    "v": 1.4,
+    "usd": 581008000,
+    "uv": 415
+   },
+   {
+    "c": "AUT",
+    "v": 1.299,
+    "usd": 550327000,
+    "uv": 424
+   },
+   {
+    "c": "LTU",
+    "v": 1.269,
+    "usd": 551507000,
+    "uv": 434
+   },
+   {
+    "c": "HKG",
+    "v": 1.24,
+    "usd": 456157000,
+    "uv": 368
+   },
+   {
+    "c": "MEX",
+    "v": 1.168,
+    "usd": 563599000,
+    "uv": 483
+   },
+   {
+    "c": "HUN",
+    "v": 0.9649,
+    "usd": 363930000,
+    "uv": 377
+   },
+   {
+    "c": "SGP",
+    "v": 0.9405,
+    "usd": 416025000,
+    "uv": 442
+   },
+   {
+    "c": "RUS",
+    "v": 0.9387,
+    "usd": 375371000,
+    "uv": 400
+   },
+   {
+    "c": "ITA",
+    "v": 0.9231,
+    "usd": 520192000,
+    "uv": 564
+   },
+   {
+    "c": "CHE",
+    "v": 0.8392,
+    "usd": 341431000,
+    "uv": 407
+   },
+   {
+    "c": "ARE",
+    "v": 0.82,
+    "usd": 423562000,
+    "uv": 517
+   },
+   {
+    "c": "ESP",
+    "v": 0.8099,
+    "usd": 421065000,
+    "uv": 520
+   },
+   {
+    "c": "VEN",
+    "v": 0.7606,
+    "usd": 310609000,
+    "uv": 408
+   },
+   {
+    "c": "SVK",
+    "v": 0.7363,
+    "usd": 284304000,
+    "uv": 386
+   },
+   {
+    "c": "BRA",
+    "v": 0.7306,
+    "usd": 274353000,
+    "uv": 376
+   },
+   {
+    "c": "SVN",
+    "v": 0.7256,
+    "usd": 236914000,
+    "uv": 326
+   },
+   {
+    "c": "FIN",
+    "v": 0.7004,
+    "usd": 286771000,
+    "uv": 409
+   },
+   {
+    "c": "NZL",
+    "v": 0.6384,
+    "usd": 273630000,
+    "uv": 429
+   },
+   {
+    "c": "NOR",
+    "v": 0.6267,
+    "usd": 275231000,
+    "uv": 439
+   },
+   {
+    "c": "IRL",
+    "v": 0.5753,
+    "usd": 198929000,
+    "uv": 346
+   },
+   {
+    "c": "LBN",
+    "v": 0.5408,
+    "usd": 195398000,
+    "uv": 361
+   },
+   {
+    "c": "BGR",
+    "v": 0.5405,
+    "usd": 227141000,
+    "uv": 420
+   },
+   {
+    "c": "DOM",
+    "v": 0.4911,
+    "usd": 149014000,
+    "uv": 303
+   },
+   {
+    "c": "CHL",
+    "v": 0.4705,
+    "usd": 189775000,
+    "uv": 403
+   },
+   {
+    "c": "THA",
+    "v": 0.4442,
+    "usd": 366757000,
+    "uv": 826
+   },
+   {
+    "c": "HRV",
+    "v": 0.4385,
+    "usd": 163998000,
+    "uv": 374
+   },
+   {
+    "c": "MYS",
+    "v": 0.4372,
+    "usd": 342545000,
+    "uv": 784
+   },
+   {
+    "c": "KOR",
+    "v": 0.4026,
+    "usd": 296392000,
+    "uv": 736
+   },
+   {
+    "c": "PRT",
+    "v": 0.3714,
+    "usd": 169680000,
+    "uv": 457
+   },
+   {
+    "c": "LBY",
+    "v": 0.3678,
+    "usd": 146042000,
+    "uv": 397
+   },
+   {
+    "c": "ZAF",
+    "v": 0.3627,
+    "usd": 145250000,
+    "uv": 401
+   },
+   {
+    "c": "BHR",
+    "v": 0.3611,
+    "usd": 189827000,
+    "uv": 526
+   },
+   {
+    "c": "LVA",
+    "v": 0.3483,
+    "usd": 128182000,
+    "uv": 368
+   },
+   {
+    "c": "EST",
+    "v": 0.3247,
+    "usd": 144477000,
+    "uv": 445
+   },
+   {
+    "c": "ISR",
+    "v": 0.3158,
+    "usd": 132762000,
+    "uv": 420
+   },
+   {
+    "c": "UKR",
+    "v": 0.2977,
+    "usd": 96894000,
+    "uv": 325
+   },
+   {
+    "c": "YEM",
+    "v": 0.2934,
+    "usd": 113144000,
+    "uv": 386
+   },
+   {
+    "c": "TUR",
+    "v": 0.2614,
+    "usd": 268023000,
+    "uv": 1030
+   },
+   {
+    "c": "PAN",
+    "v": 0.2588,
+    "usd": 79967000,
+    "uv": 309
+   },
+   {
+    "c": "KWT",
+    "v": 0.226,
+    "usd": 104984000,
+    "uv": 465
+   },
+   {
+    "c": "KAZ",
+    "v": 0.2122,
+    "usd": 117050000,
+    "uv": 552
+   },
+   {
+    "c": "PHL",
+    "v": 0.2037,
+    "usd": 126729000,
+    "uv": 622
+   },
+   {
+    "c": "BIH",
+    "v": 0.1948,
+    "usd": 72749000,
+    "uv": 373
+   },
+   {
+    "c": "SRB",
+    "v": 0.1642,
+    "usd": 65517000,
+    "uv": 399
+   },
+   {
+    "c": "GRC",
+    "v": 0.1611,
+    "usd": 85049000,
+    "uv": 528
+   },
+   {
+    "c": "HND",
+    "v": 0.1582,
+    "usd": 63212000,
+    "uv": 399
+   },
+   {
+    "c": "TWN",
+    "v": 0.1478,
+    "usd": 153232000,
+    "uv": 1040
+   },
+   {
+    "c": "VNM",
+    "v": 0.1443,
+    "usd": 158836000,
+    "uv": 1100
+   },
+   {
+    "c": "CRI",
+    "v": 0.1397,
+    "usd": 51059000,
+    "uv": 365
+   },
+   {
+    "c": "MOZ",
+    "v": 0.1391,
+    "usd": 45913000,
+    "uv": 330
+   },
+   {
+    "c": "CHN",
+    "v": 0.1279,
+    "usd": 62809000,
+    "uv": 491
+   },
+   {
+    "c": "LUX",
+    "v": 0.1202,
+    "usd": 39438000,
+    "uv": 328
+   },
+   {
+    "c": "NAM",
+    "v": 0.1112,
+    "usd": 40391000,
+    "uv": 363
+   },
+   {
+    "c": "PER",
+    "v": 0.1107,
+    "usd": 51867000,
+    "uv": 468
+   },
+   {
+    "c": "CYP",
+    "v": 0.1104,
+    "usd": 41301000,
+    "uv": 374
+   },
+   {
+    "c": "MAC",
+    "v": 0.1063,
+    "usd": 16942000,
+    "uv": 159
+   },
+   {
+    "c": "TTO",
+    "v": 0.0957,
+    "usd": 33770000,
+    "uv": 353
+   },
+   {
+    "c": "ISL",
+    "v": 0.0915,
+    "usd": 29946000,
+    "uv": 327
+   },
+   {
+    "c": "MLT",
+    "v": 0.0907,
+    "usd": 39057000,
+    "uv": 431
+   },
+   {
+    "c": "PRY",
+    "v": 0.0855,
+    "usd": 26182000,
+    "uv": 306
+   },
+   {
+    "c": "NIC",
+    "v": 0.0815,
+    "usd": 26742000,
+    "uv": 328
+   },
+   {
+    "c": "BOL",
+    "v": 0.0815,
+    "n": "14% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 30929000,
+    "uv": 379
+   },
+   {
+    "c": "BRN",
+    "v": 0.0814,
+    "usd": 5378000,
+    "uv": 66.1
+   },
+   {
+    "c": "ALB",
+    "v": 0.0638,
+    "usd": 26362000,
+    "uv": 413
+   },
+   {
+    "c": "SEN",
+    "v": 0.0638,
+    "usd": 29760000,
+    "uv": 467
+   },
+   {
+    "c": "SYR",
+    "v": 0.0613,
+    "usd": 15307000,
+    "uv": 250
+   },
+   {
+    "c": "VGB",
+    "v": 0.0611,
+    "usd": 23817000,
+    "uv": 390
+   },
+   {
+    "c": "COG",
+    "v": 0.0595,
+    "usd": 24674000,
+    "uv": 415
+   },
+   {
+    "c": "MKD",
+    "v": 0.0594,
+    "usd": 29752000,
+    "uv": 501
+   },
+   {
+    "c": "IRN",
+    "v": 0.0594,
+    "usd": 24042000,
+    "uv": 405
+   },
+   {
+    "c": "IDN",
+    "v": 0.0543,
+    "usd": 77903000,
+    "uv": 1440
+   },
+   {
+    "c": "SAU",
+    "v": 0.054,
+    "usd": 78133000,
+    "uv": 1450
+   },
+   {
+    "c": "MDA",
+    "v": 0.0492,
+    "usd": 17693000,
+    "uv": 360
+   },
+   {
+    "c": "MAR",
+    "v": 0.0467,
+    "usd": 28525000,
+    "uv": 611
+   },
+   {
+    "c": "MUS",
+    "v": 0.0462,
+    "usd": 13233000,
+    "uv": 286
+   },
+   {
+    "c": "ZWE",
+    "v": 0.0456,
+    "usd": 12601000,
+    "uv": 277
+   },
+   {
+    "c": "KHM",
+    "v": 0.0437,
+    "usd": 11576000,
+    "uv": 265
+   },
+   {
+    "c": "MNE",
+    "v": 0.041,
+    "usd": 19964000,
+    "uv": 486
+   },
+   {
+    "c": "SSD",
+    "v": 0.0404,
+    "usd": 21910000,
+    "uv": 542
+   },
+   {
+    "c": "KEN",
+    "v": 0.0395,
+    "usd": 22965000,
+    "uv": 581
+   },
+   {
+    "c": "BWA",
+    "v": 0.0388,
+    "usd": 12361000,
+    "uv": 318
+   },
+   {
+    "c": "GNQ",
+    "v": 0.0382,
+    "usd": 15103000,
+    "uv": 396
+   },
+   {
+    "c": "TUN",
+    "v": 0.0381,
+    "usd": 18056000,
+    "uv": 475
+   },
+   {
+    "c": "MMR",
+    "v": 0.0375,
+    "usd": 13136000,
+    "uv": 350
+   },
+   {
+    "c": "JAM",
+    "v": 0.0372,
+    "usd": 13983000,
+    "uv": 375
+   },
+   {
+    "c": "GTM",
+    "v": 0.0356,
+    "usd": 9457000,
+    "uv": 265
+   },
+   {
+    "c": "OMN",
+    "v": 0.0337,
+    "usd": 17658000,
+    "uv": 523
+   },
+   {
+    "c": "SOM",
+    "v": 0.0335,
+    "usd": 12500000,
+    "uv": 373
+   },
+   {
+    "c": "BGD",
+    "v": 0.0314,
+    "usd": 35732000,
+    "uv": 1140
+   },
+   {
+    "c": "SLV",
+    "v": 0.0311,
+    "usd": 8645000,
+    "uv": 278
+   },
+   {
+    "c": "SUR",
+    "v": 0.0296,
+    "usd": 11717000,
+    "uv": 396
+   },
+   {
+    "c": "BHS",
+    "v": 0.0269,
+    "usd": 9113000,
+    "uv": 338
+   },
+   {
+    "c": "PNG",
+    "v": 0.0269,
+    "usd": 8895000,
+    "uv": 331
+   },
+   {
+    "c": "SLE",
+    "v": 0.0258,
+    "usd": 10380000,
+    "uv": 402
+   },
+   {
+    "c": "IND",
+    "v": 0.0249,
+    "usd": 12587000,
+    "uv": 506
+   },
+   {
+    "c": "TJK",
+    "v": 0.0243,
+    "usd": 6886000,
+    "uv": 283
+   },
+   {
+    "c": "HTI",
+    "v": 0.0239,
+    "usd": 8766000,
+    "uv": 366
+   },
+   {
+    "c": "BRB",
+    "v": 0.0238,
+    "usd": 13962000,
+    "uv": 587
+   },
+   {
+    "c": "MDV",
+    "v": 0.0231,
+    "usd": 7499000,
+    "uv": 325
+   },
+   {
+    "c": "MRT",
+    "v": 0.023,
+    "usd": 9648000,
+    "uv": 419
+   },
+   {
+    "c": "GMB",
+    "v": 0.0222,
+    "usd": 8482000,
+    "uv": 382
+   },
+   {
+    "c": "GUY",
+    "v": 0.021,
+    "usd": 5913000,
+    "uv": 282
+   },
+   {
+    "c": "EGY",
+    "v": 0.0205,
+    "usd": 32314000,
+    "uv": 1580
+   },
+   {
+    "c": "LKA",
+    "v": 0.0178,
+    "usd": 9330000,
+    "uv": 524
+   },
+   {
+    "c": "COL",
+    "v": 0.0173,
+    "usd": 19936000,
+    "uv": 1150
+   },
+   {
+    "c": "GHA",
+    "v": 0.0169,
+    "usd": 10036000,
+    "uv": 593
+   },
+   {
+    "c": "FJI",
+    "v": 0.0156,
+    "usd": 8726000,
+    "uv": 560
+   },
+   {
+    "c": "COD",
+    "v": 0.0149,
+    "usd": 9184000,
+    "uv": 616
+   },
+   {
+    "c": "PAK",
+    "v": 0.0147,
+    "usd": 21487000,
+    "uv": 1460
+   },
+   {
+    "c": "CUW",
+    "v": 0.0127,
+    "usd": 5097000,
+    "uv": 401
+   },
+   {
+    "c": "SWZ",
+    "v": 0.0122,
+    "usd": 4882000,
+    "uv": 402
+   },
+   {
+    "c": "GUM",
+    "v": 0.0121,
+    "usd": 5129000,
+    "uv": 423
+   },
+   {
+    "c": "MWI",
+    "v": 0.0113,
+    "usd": 6710000,
+    "uv": 592
+   },
+   {
+    "c": "LSO",
+    "v": 0.0113,
+    "usd": 1941000,
+    "uv": 172
+   },
+   {
+    "c": "QAT",
+    "v": 0.0105,
+    "usd": 15469000,
+    "uv": 1470
+   },
+   {
+    "c": "NGA",
+    "v": 0.01,
+    "usd": 10644000,
+    "uv": 1070
+   },
+   {
+    "c": "BLZ",
+    "v": 0.0095,
+    "usd": 2089000,
+    "uv": 220
+   },
+   {
+    "c": "JOR",
+    "v": 0.0089,
+    "usd": 4648000,
+    "uv": 525
+   },
+   {
+    "c": "SXM",
+    "v": 0.0087,
+    "usd": 3224000,
+    "uv": 369
+   },
+   {
+    "c": "BFA",
+    "v": 0.0083,
+    "usd": 834000,
+    "uv": 100
+   },
+   {
+    "c": "CPV",
+    "v": 0.0077,
+    "usd": 3102000,
+    "uv": 401
+   },
+   {
+    "c": "GEO",
+    "v": 0.0077,
+    "usd": 4570000,
+    "uv": 596
+   },
+   {
+    "c": "GRL",
+    "v": 0.0069,
+    "usd": 952000,
+    "uv": 138
+   },
+   {
+    "c": "ABW",
+    "v": 0.0067,
+    "usd": 2637000,
+    "uv": 391
+   },
+   {
+    "c": "GIN",
+    "v": 0.0066,
+    "usd": 2602000,
+    "uv": 394
+   },
+   {
+    "c": "GAB",
+    "v": 0.0065,
+    "usd": 2690000,
+    "uv": 412
+   },
+   {
+    "c": "ECU",
+    "v": 0.0061,
+    "usd": 5058000,
+    "uv": 833
+   },
+   {
+    "c": "COM",
+    "v": 0.0054,
+    "n": "24% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 1645000,
+    "uv": 303
+   },
+   {
+    "c": "AND",
+    "v": 0.0052,
+    "usd": 1477000,
+    "uv": 285
+   },
+   {
+    "c": "CUB",
+    "v": 0.0048,
+    "usd": 2336000,
+    "uv": 488
+   },
+   {
+    "c": "MLI",
+    "v": 0.0045,
+    "n": "72% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 543000,
+    "uv": 121
+   },
+   {
+    "c": "CYM",
+    "v": 0.004,
+    "usd": 1097000,
+    "uv": 273
+   },
+   {
+    "c": "ASM",
+    "v": 0.0034,
+    "usd": 1523000,
+    "uv": 442
+   },
+   {
+    "c": "SYC",
+    "v": 0.0032,
+    "usd": 1597000,
+    "uv": 495
+   },
+   {
+    "c": "PYF",
+    "v": 0.0029,
+    "usd": 382000,
+    "uv": 133
+   },
+   {
+    "c": "ARM",
+    "v": 0.0028,
+    "usd": 5245000,
+    "uv": 1870
+   },
+   {
+    "c": "MNP",
+    "v": 0.0025,
+    "usd": 728000,
+    "uv": 296
+   },
+   {
+    "c": "NPL",
+    "v": 0.0023,
+    "usd": 1317000,
+    "uv": 564
+   },
+   {
+    "c": "UZB",
+    "v": 0.0023,
+    "usd": 3732000,
+    "uv": 1650
+   },
+   {
+    "c": "TZA",
+    "v": 0.0022,
+    "usd": 1954000,
+    "uv": 879
+   },
+   {
+    "c": "TLS",
+    "v": 0.002,
+    "usd": 421000,
+    "uv": 207
+   },
+   {
+    "c": "VCT",
+    "v": 0.0019,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 18000,
+    "uv": 9.3
+   },
+   {
+    "c": "IRQ",
+    "v": 0.0015,
+    "usd": 463000,
+    "uv": 300
+   },
+   {
+    "c": "AGO",
+    "v": 0.0015,
+    "usd": 2615000,
+    "uv": 1780
+   },
+   {
+    "c": "KGZ",
+    "v": 0.0015,
+    "usd": 3083000,
+    "uv": 2110
+   },
+   {
+    "c": "SDN",
+    "v": 0.0015,
+    "usd": 558000,
+    "uv": 383
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0014,
+    "usd": 1235000,
+    "uv": 866
+   },
+   {
+    "c": "LAO",
+    "v": 0.0014,
+    "usd": 256000,
+    "uv": 184
+   },
+   {
+    "c": "URY",
+    "v": 0.001,
+    "usd": 1056000,
+    "uv": 1080
+   },
+   {
+    "c": "DZA",
+    "v": 0.0008,
+    "usd": 1224000,
+    "uv": 1600
+   },
+   {
+    "c": "CIV",
+    "v": 0.0006,
+    "usd": 1014000,
+    "uv": 1710
+   }
+  ],
+  "n": "CEPII BACI HS92 ferrous waste and scrap (HS 7204), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ferrous waste and scrap, gross weight",
+  "usd": 43845138000,
+  "uv": 439
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 99.893,
+  "rows": [
+   {
+    "c": "TUR",
+    "v": 20.906,
+    "usd": 8422181000,
+    "uv": 403
+   },
+   {
+    "c": "IND",
+    "v": 8.728,
+    "usd": 4830178000,
+    "uv": 553
+   },
+   {
+    "c": "ITA",
+    "v": 5.759,
+    "usd": 2447477000,
+    "uv": 425
+   },
+   {
+    "c": "USA",
+    "v": 4.701,
+    "usd": 1949050000,
+    "uv": 415
+   },
+   {
+    "c": "DEU",
+    "v": 4.64,
+    "usd": 1873052000,
+    "uv": 404
+   },
+   {
+    "c": "VNM",
+    "v": 4.518,
+    "usd": 1574492000,
+    "uv": 348
+   },
+   {
+    "c": "BGD",
+    "v": 4.415,
+    "usd": 1593079000,
+    "uv": 361
+   },
+   {
+    "c": "EGY",
+    "v": 4.18,
+    "usd": 1578441000,
+    "uv": 378
+   },
+   {
+    "c": "BEL",
+    "v": 3.905,
+    "usd": 2574805000,
+    "uv": 659
+   },
+   {
+    "c": "PAK",
+    "v": 3.123,
+    "usd": 1342028000,
+    "uv": 430
+   },
+   {
+    "c": "ESP",
+    "v": 3.054,
+    "usd": 1309084000,
+    "uv": 429
+   },
+   {
+    "c": "TWN",
+    "v": 2.856,
+    "usd": 1318839000,
+    "uv": 462
+   },
+   {
+    "c": "NLD",
+    "v": 2.677,
+    "usd": 1397612000,
+    "uv": 522
+   },
+   {
+    "c": "KOR",
+    "v": 2.416,
+    "usd": 1241578000,
+    "uv": 514
+   },
+   {
+    "c": "MEX",
+    "v": 1.925,
+    "usd": 802687000,
+    "uv": 417
+   },
+   {
+    "c": "LUX",
+    "v": 1.889,
+    "usd": 657379000,
+    "uv": 348
+   },
+   {
+    "c": "THA",
+    "v": 1.459,
+    "usd": 494040000,
+    "uv": 339
+   },
+   {
+    "c": "PRT",
+    "v": 1.45,
+    "usd": 515004000,
+    "uv": 355
+   },
+   {
+    "c": "FRA",
+    "v": 1.345,
+    "usd": 547850000,
+    "uv": 407
+   },
+   {
+    "c": "MAR",
+    "v": 1.29,
+    "usd": 510673000,
+    "uv": 396
+   },
+   {
+    "c": "IDN",
+    "v": 1.169,
+    "usd": 425065000,
+    "uv": 364
+   },
+   {
+    "c": "POL",
+    "v": 0.9887,
+    "usd": 346191000,
+    "uv": 350
+   },
+   {
+    "c": "AUT",
+    "v": 0.9478,
+    "usd": 434785000,
+    "uv": 459
+   },
+   {
+    "c": "PER",
+    "v": 0.9054,
+    "usd": 361815000,
+    "uv": 400
+   },
+   {
+    "c": "SVN",
+    "v": 0.8159,
+    "usd": 416661000,
+    "uv": 511
+   },
+   {
+    "c": "GRC",
+    "v": 0.8088,
+    "usd": 320205000,
+    "uv": 396
+   },
+   {
+    "c": "MYS",
+    "v": 0.7326,
+    "usd": 268084000,
+    "uv": 366
+   },
+   {
+    "c": "CAN",
+    "v": 0.7227,
+    "usd": 225092000,
+    "uv": 311
+   },
+   {
+    "c": "FIN",
+    "v": 0.7025,
+    "usd": 1064769000,
+    "uv": 1520
+   },
+   {
+    "c": "CHN",
+    "v": 0.5268,
+    "usd": 318004000,
+    "uv": 604
+   },
+   {
+    "c": "NOR",
+    "v": 0.475,
+    "usd": 160219000,
+    "uv": 337
+   },
+   {
+    "c": "CHE",
+    "v": 0.4495,
+    "usd": 174867000,
+    "uv": 389
+   },
+   {
+    "c": "CZE",
+    "v": 0.4327,
+    "usd": 167545000,
+    "uv": 387
+   },
+   {
+    "c": "LTU",
+    "v": 0.3981,
+    "usd": 148596000,
+    "uv": 373
+   },
+   {
+    "c": "DNK",
+    "v": 0.3798,
+    "usd": 146602000,
+    "uv": 386
+   },
+   {
+    "c": "GBR",
+    "v": 0.2873,
+    "usd": 139653000,
+    "uv": 486
+   },
+   {
+    "c": "HRV",
+    "v": 0.2718,
+    "usd": 88797000,
+    "uv": 327
+   },
+   {
+    "c": "MDA",
+    "v": 0.2621,
+    "usd": 102565000,
+    "uv": 391
+   },
+   {
+    "c": "SAU",
+    "v": 0.2569,
+    "usd": 96748000,
+    "uv": 377
+   },
+   {
+    "c": "MKD",
+    "v": 0.2248,
+    "usd": 88759000,
+    "uv": 395
+   },
+   {
+    "c": "PHL",
+    "v": 0.2055,
+    "usd": 79762000,
+    "uv": 388
+   },
+   {
+    "c": "ARE",
+    "v": 0.1989,
+    "usd": 78522000,
+    "uv": 395
+   },
+   {
+    "c": "SVK",
+    "v": 0.1894,
+    "usd": 72859000,
+    "uv": 385
+   },
+   {
+    "c": "GTM",
+    "v": 0.1798,
+    "usd": 63318000,
+    "uv": 352
+   },
+   {
+    "c": "SWE",
+    "v": 0.1756,
+    "usd": 181196000,
+    "uv": 1030
+   },
+   {
+    "c": "RUS",
+    "v": 0.1537,
+    "usd": 42325000,
+    "uv": 275
+   },
+   {
+    "c": "BGR",
+    "v": 0.1386,
+    "usd": 56929000,
+    "uv": 411
+   },
+   {
+    "c": "ECU",
+    "v": 0.1384,
+    "usd": 50022000,
+    "uv": 362
+   },
+   {
+    "c": "LVA",
+    "v": 0.1293,
+    "usd": 51582000,
+    "uv": 399
+   },
+   {
+    "c": "UGA",
+    "v": 0.1267,
+    "usd": 71473000,
+    "uv": 564
+   },
+   {
+    "c": "SGP",
+    "v": 0.1254,
+    "usd": 57368000,
+    "uv": 458
+   },
+   {
+    "c": "EST",
+    "v": 0.1193,
+    "usd": 66137000,
+    "uv": 554
+   },
+   {
+    "c": "HUN",
+    "v": 0.1147,
+    "usd": 43940000,
+    "uv": 383
+   },
+   {
+    "c": "KEN",
+    "v": 0.1097,
+    "usd": 46025000,
+    "uv": 420
+   },
+   {
+    "c": "ROU",
+    "v": 0.096,
+    "usd": 35557000,
+    "uv": 370
+   },
+   {
+    "c": "HKG",
+    "v": 0.0781,
+    "usd": 62519000,
+    "uv": 800
+   },
+   {
+    "c": "JPN",
+    "v": 0.0699,
+    "usd": 143458000,
+    "uv": 2050
+   },
+   {
+    "c": "IRL",
+    "v": 0.0667,
+    "usd": 4802000,
+    "uv": 72.0
+   },
+   {
+    "c": "SRB",
+    "v": 0.0631,
+    "usd": 24237000,
+    "uv": 384
+   },
+   {
+    "c": "ALB",
+    "v": 0.0549,
+    "usd": 20104000,
+    "uv": 366
+   },
+   {
+    "c": "ZAF",
+    "v": 0.0463,
+    "usd": 7534000,
+    "uv": 163
+   },
+   {
+    "c": "COL",
+    "v": 0.0406,
+    "usd": 11263000,
+    "uv": 277
+   },
+   {
+    "c": "OMN",
+    "v": 0.0359,
+    "usd": 17718000,
+    "uv": 493
+   },
+   {
+    "c": "BOL",
+    "v": 0.0299,
+    "usd": 8559000,
+    "uv": 286
+   },
+   {
+    "c": "UZB",
+    "v": 0.0268,
+    "usd": 7559000,
+    "uv": 282
+   },
+   {
+    "c": "AUS",
+    "v": 0.0252,
+    "usd": 11289000,
+    "uv": 448
+   },
+   {
+    "c": "BRA",
+    "v": 0.02,
+    "usd": 10150000,
+    "uv": 509
+   },
+   {
+    "c": "BTN",
+    "v": 0.019,
+    "usd": 3122000,
+    "uv": 164
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0126,
+    "usd": 7027000,
+    "uv": 560
+   },
+   {
+    "c": "NIC",
+    "v": 0.0119,
+    "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+    "est": true,
+    "s": "atlas",
+    "y": 2024,
+    "usd": 5001000
+   },
+   {
+    "c": "LAO",
+    "v": 0.0114,
+    "usd": 4186000,
+    "uv": 366
+   },
+   {
+    "c": "MRT",
+    "v": 0.0068,
+    "usd": 410000,
+    "uv": 59.9
+   },
+   {
+    "c": "BHR",
+    "v": 0.0066,
+    "usd": 2731000,
+    "uv": 417
+   },
+   {
+    "c": "RWA",
+    "v": 0.0064,
+    "usd": 3639000,
+    "uv": 566
+   },
+   {
+    "c": "BFA",
+    "v": 0.0064,
+    "n": "74% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 170000,
+    "uv": 26.6
+   },
+   {
+    "c": "BLZ",
+    "v": 0.006,
+    "usd": 2227000,
+    "uv": 373
+   },
+   {
+    "c": "TGO",
+    "v": 0.0057,
+    "usd": 393000,
+    "uv": 69.0
+   },
+   {
+    "c": "PRY",
+    "v": 0.0055,
+    "usd": 1189000,
+    "uv": 217
+   },
+   {
+    "c": "NZL",
+    "v": 0.0053,
+    "usd": 1301000,
+    "uv": 248
+   },
+   {
+    "c": "BIH",
+    "v": 0.0046,
+    "usd": 1924000,
+    "uv": 423
+   },
+   {
+    "c": "PAN",
+    "v": 0.0039,
+    "usd": 2809000,
+    "uv": 712
+   },
+   {
+    "c": "NPL",
+    "v": 0.0032,
+    "usd": 1278000,
+    "uv": 394
+   },
+   {
+    "c": "CHL",
+    "v": 0.0032,
+    "usd": 1520000,
+    "uv": 469
+   },
+   {
+    "c": "GHA",
+    "v": 0.0026,
+    "usd": 441000,
+    "uv": 168
+   },
+   {
+    "c": "SUR",
+    "v": 0.0023,
+    "usd": 375000,
+    "uv": 163
+   },
+   {
+    "c": "HND",
+    "v": 0.002,
+    "usd": 174000,
+    "uv": 86.0
+   },
+   {
+    "c": "CYP",
+    "v": 0.0019,
+    "usd": 181000,
+    "uv": 93.4
+   },
+   {
+    "c": "TTO",
+    "v": 0.0019,
+    "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+    "usd": 18000,
+    "uv": 9.3
+   },
+   {
+    "c": "PRK",
+    "v": 0.0018,
+    "usd": 378000,
+    "uv": 215
+   },
+   {
+    "c": "AZE",
+    "v": 0.0015,
+    "usd": 463000,
+    "uv": 300
+   },
+   {
+    "c": "SEN",
+    "v": 0.0014,
+    "usd": 80000,
+    "uv": 59
+   },
+   {
+    "c": "TZA",
+    "v": 0.0013,
+    "usd": 669000,
+    "uv": 504
+   },
+   {
+    "c": "MUS",
+    "v": 0.0013,
+    "usd": 194000,
+    "uv": 154
+   },
+   {
+    "c": "IRN",
+    "v": 0.0012,
+    "usd": 425000,
+    "uv": 345
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0011,
+    "usd": 34000,
+    "uv": 31
+   },
+   {
+    "c": "SLV",
+    "v": 0.001,
+    "usd": 297000,
+    "uv": 293
+   },
+   {
+    "c": "VEN",
+    "v": 0.001,
+    "usd": 377000,
+    "uv": 377
+   },
+   {
+    "c": "ARG",
+    "v": 0.0008,
+    "usd": 1347000,
+    "uv": 1660
+   }
+  ],
+  "n": "CEPII BACI HS92 ferrous waste and scrap (HS 7204), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ferrous waste and scrap, gross weight",
+  "usd": 43845138000,
+  "uv": 439
+ },
+ "flows": [
+  {
+   "o": "USA",
+   "d": "TUR",
+   "v": 4.533,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1895437000,
+   "uv": 418,
+   "mode": "sea",
+   "lane": "ferrous-scrap:USA-TUR"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 3.259,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1297095000,
+   "uv": 398,
+   "mode": "land"
+  },
+  {
+   "o": "NLD",
+   "d": "TUR",
+   "v": 2.733,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1111994000,
+   "uv": 407,
+   "mode": "sea",
+   "lane": "ferrous-scrap:NLD-TUR"
+  },
+  {
+   "o": "JPN",
+   "d": "VNM",
+   "v": 2.601,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 891876000,
+   "uv": 343,
+   "mode": "sea",
+   "lane": "ferrous-scrap:JPN-VNM"
+  },
+  {
+   "o": "GBR",
+   "d": "TUR",
+   "v": 2.265,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 939247000,
+   "uv": 415,
+   "mode": "sea",
+   "lane": "ferrous-scrap:GBR-TUR"
+  },
+  {
+   "o": "USA",
+   "d": "BGD",
+   "v": 1.843,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 656163000,
+   "uv": 356,
+   "mode": "sea",
+   "lane": "ferrous-scrap:USA-BGD"
+  },
+  {
+   "o": "USA",
+   "d": "MEX",
+   "v": 1.816,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 759923000,
+   "uv": 418,
+   "mode": "land"
+  },
+  {
+   "o": "JPN",
+   "d": "KOR",
+   "v": 1.8,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 778823000,
+   "uv": 433,
+   "mode": "sea",
+   "lane": "ferrous-scrap:JPN-KOR"
+  },
+  {
+   "o": "FRA",
+   "d": "BEL",
+   "v": 1.733,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 901343000,
+   "uv": 520,
+   "mode": "land"
+  },
+  {
+   "o": "FRA",
+   "d": "ESP",
+   "v": 1.733,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 621776000,
+   "uv": 359,
+   "mode": "land"
+  },
+  {
+   "o": "GBR",
+   "d": "EGY",
+   "v": 1.711,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 612592000,
+   "uv": 358,
+   "mode": "sea",
+   "lane": "ferrous-scrap:GBR-EGY"
+  },
+  {
+   "o": "DEU",
+   "d": "NLD",
+   "v": 1.643,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 681959000,
+   "uv": 415,
+   "mode": "land"
+  },
+  {
+   "o": "DEU",
+   "d": "ITA",
+   "v": 1.572,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 752998000,
+   "uv": 479,
+   "mode": "sea",
+   "lane": "ferrous-scrap:DEU-ITA"
+  },
+  {
+   "o": "USA",
+   "d": "IND",
+   "v": 1.373,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 778544000,
+   "uv": 567,
+   "mode": "sea",
+   "lane": "ferrous-scrap:USA-IND"
+  },
+  {
+   "o": "BEL",
+   "d": "TUR",
+   "v": 1.314,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 535382000,
+   "uv": 408,
+   "mode": "sea",
+   "lane": "ferrous-scrap:BEL-TUR"
+  },
+  {
+   "o": "USA",
+   "d": "TWN",
+   "v": 1.181,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 517735000,
+   "uv": 438,
+   "mode": "sea",
+   "lane": "ferrous-scrap:USA-TWN"
+  },
+  {
+   "o": "LTU",
+   "d": "TUR",
+   "v": 1.119,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 456354000,
+   "uv": 408,
+   "mode": "sea",
+   "lane": "ferrous-scrap:LTU-TUR"
+  },
+  {
+   "o": "CZE",
+   "d": "DEU",
+   "v": 1.091,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 344214000,
+   "uv": 315,
+   "mode": "land"
+  },
+  {
+   "o": "DEU",
+   "d": "BEL",
+   "v": 1.091,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 860698000,
+   "uv": 789,
+   "mode": "land"
+  },
+  {
+   "o": "MEX",
+   "d": "USA",
+   "v": 1.025,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 458499000,
+   "uv": 447,
+   "mode": "land"
+  }
+ ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption: Apparent",
+    "u": "Mt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 55.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 57.0,
+      "est": true
+     }
+    ],
+    "n": "Defined as home scrap + purchased scrap + imports - exports ± adjustments for industry stock changes."
+   }
+  ]
+ },
+ "concentration": {
+  "exports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1443
+   },
+   "top3": 0.3048,
+   "hhi": 545,
+   "eq": 18.3,
+   "k": 164,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "TUR",
+    "p": 0.2093
+   },
+   "top3": 0.3543,
+   "hhi": 728,
+   "eq": 13.7,
+   "k": 98,
+   "cov": 1.0,
+   "est": true
+  }
+ },
+ "see": [
+  {
+   "k": "steel",
+   "text": "steel products, and the steel production that scrap feeds"
+  },
+  {
+   "k": "pig-iron",
+   "text": "pig iron and direct-reduced iron, the other iron units of the steel industry"
+  }
+ ],
+ "notes": [
+  "Trade is HS 7204, the whole heading of ferrous waste and scrap, customs gross weight: cast iron (HS 720410), stainless steel (HS 720421), other alloy steel (HS 720429), tinned iron or steel (HS 720430), turnings, shavings and the like (HS 720441), remelting scrap ingots (HS 720450) and the scrap that no other code names (HS 720449). The grades are not told apart in the tables. Scrap of the other metals and the granules and powders of HS 7205 are not loaded; the steel page leaves out HS 7201 to 7205 too.",
+  "No production table: the USGS file gives ferrous scrap for the United States only (the block below), and no other free file loaded by the atlas gives the scrap generated or consumed by country. The industry's yearly reviews of scrap trade and use are not loaded (their terms are not settled).",
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no ferrous scrap series, and no other free one was loaded."
+ ]
+}

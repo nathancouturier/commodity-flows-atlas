@@ -108,6 +108,8 @@ US_NAMES = {  # atlas id -> (salient statistics names of the USGS file, names of
     "lithium": (["Lithium"], ["LITHIUM"]), "cobalt": (["Cobalt"], ["COBALT"]), "rare-earths": (["Rare Earths"], ["RARE EARTHS, compounds and metals"]),
     "manganese": (["Manganese"], ["MANGANESE"]), "gold": (["Gold"], []), "silver": (["Silver"], ["SILVER"]),
     "pgm": (["Platinum", "Palladium"], ["PLATINUM", "PALLADIUM"]),
+    # the metal bulks (A-010): the United States figures of the USGS file, where it has them (scrap: the only figures it gives of scrap)
+    "chromium": (["Chromium"], ["CHROMIUM, all forms"]), "ferrous-scrap": (["Iron And Steel Scrap"], []),
 }
 US_UNIT = {"thousand metric tons": "kt", "metric tons": "t", "million metric tons": "Mt", "kilograms": "kg"}
 _USGS_CACHE = {}
@@ -475,7 +477,7 @@ def add_values(B, docs, index):
 HUB_PAIRS = {"iron-ore": ("exports", "imports"), "copper": ("exports", "imports", "refined-exports", "refined-imports"),
              "bauxite": ("exports", "imports"), "nickel": ("exports", "imports"),
              "zinc": ("exports", "imports"), "lead": ("exports", "imports"), "tin": ("exports", "imports"), "manganese": ("exports", "imports"),
-             "cobalt": ("exports", "imports"), "aluminium": ("exports", "imports")}
+             "cobalt": ("exports", "imports"), "aluminium": ("exports", "imports"), "chromium": ("exports", "imports")}
 HUB_MIN_SHARE = 0.015  # of the table, on both sides
 HUB_MIN_RATIO = 0.5    # the smaller of the two tonnages over the larger
 ORE_WORDS = re.compile(r"\bores?\b|concentrates?|bauxite")

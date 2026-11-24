@@ -44,6 +44,8 @@ const FLOOR = {
   'potassium-sulphate': 0.01, 'ammonium-nitrate': 0.02,
   // sunflower seed and rapeseed oil trade in small parcels (build_lanes.py FLOOR, package NC2)
   'sunflower-seed': 0.01, 'rapeseed-oil': 0.01,
+  // the ferro-alloys, which trade in parcels of a few thousand tonnes (build_lanes.py FLOOR, package NC3)
+  'ferro-manganese': 0.02, 'silico-manganese': 0.02, 'ferro-silicon': 0.005,
 };
 const floorOf = (g) => FLOOR[g] ?? 0.05;
 

@@ -40,6 +40,35 @@ HS = {
     "gold": ["710811", "710812", "710813"],
     "silver": ["710610", "710691", "710692"],
     "pgm": ["711011", "711019", "711021", "711029", "711031", "711039", "711041", "711049"],
+    # the metal bulks that were missing (audit A-010). One code, one group; the words are those of the product code list of CEPII BACI
+    # (HS 1992). 7204 is the whole heading of ferrous waste and scrap: cast iron (720410), stainless (720421), other alloy steel
+    # (720429), tinned (720430), turnings, shavings and the like (720441), the rest of the scrap (720449: three quarters of the
+    # heading) and remelting scrap ingots (720450). 261000 chromium ores and concentrates (chromite). 270400 coke and semi-coke of
+    # coal, lignite or peat, retort carbon: the coal pages hold the coal codes, not this one. 7201 non-alloy pig iron (720110 and
+    # 720120 by phosphorus content), alloy pig iron and spiegeleisen (720130, 720140). 7203 ferrous products obtained by direct
+    # reduction of iron ore (720310) and spongy ferrous products and iron of 99.94% purity or more (720390). Left out: 7205 granules
+    # and powders of pig iron and steel (they stay out of the steel group too, see STEEL_EXCLUDE) and the scrap of the other
+    # metals.
+    "ferrous-scrap": ["720410", "720421", "720429", "720430", "720441", "720449", "720450"],
+    "chromium-ore": ["261000"],
+    "pig-iron": ["720110", "720120", "720130", "720140"],
+    "dri": ["720310", "720390"],
+    "coke": ["270400"],
+    # The ferro-alloys of heading 7202 by alloy, with ferro-nickel (720260, group nickel-fe above) left on the nickel page: ferro-chromium
+    # (720241 more than 4% of carbon, 720249 4% or less), ferro-manganese (720211 more than 2% of carbon, 720219 2% or less),
+    # ferro-silico-manganese (720230), ferro-silicon (720221 more than 55% of silicon, 720229 55% or less), and the other ferro-alloys
+    # together: ferro-silico-chromium (720250), ferro-molybdenum (720270), ferro-tungsten and ferro-silico-tungsten (720280),
+    # ferro-titanium and ferro-silico-titanium (720291), ferro-vanadium (720292), ferro-niobium (720293) and the ferro-alloys n.e.s. (720299)
+    "ferro-chromium": ["720241", "720249"],
+    "ferro-manganese": ["720211", "720219"],
+    "silico-manganese": ["720230"],
+    "ferro-silicon": ["720221", "720229"],
+    "ferro-alloys-other": ["720250", "720270", "720280", "720291", "720292", "720293", "720299"],
+    # molybdenum ores and concentrates, roasted (261310) and other (261390), and natural graphite, in powder or flakes (250410) and in other
+    # forms (250490): trade tables of their own pages, no lanes. Left out: molybdenum oxides and hydroxides (2825), ferro-molybdenum
+    # (720270, in the ferro-alloys group above), artificial graphite (3801) and graphite articles (6815)
+    "molybdenum-ore": ["261310", "261390"],
+    "graphite": ["250410", "250490"],
     # ---------------------------------------------------------------- softs & fertilisers
     "wheat": ["100110", "100190"],
     "corn": ["100590"],

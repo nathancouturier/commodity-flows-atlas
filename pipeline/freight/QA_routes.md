@@ -2,9 +2,9 @@
 
 Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at each build; do not edit. Method: METHODOLOGY.md, section 3, "Generated corridors".
 
-- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all, and 20 more for the 10 groups of a later package, and 10 more for the 8 groups of a later package. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
-- 150 generated routes over 60 groups, 8,140 Mt of seaborne trade. Named by hand-written routes: 44.3%. With the generated routes: 65.4%.
-- 10 of 60 groups reach the target; 50 are short of it.
+- Target: 70% of the seaborne tonnes of each customs group named by routes. Caps: 12 generated routes per group, 120 in all, and 20 more for the 10 groups of a later package, and 10 more for the 8 groups of a later package, and 10 more for the 9 groups of a later package. Floors: 0.5 Mt and 2% of the group's seaborne tonnes of a corridor not named by hand-written routes, at least 50% of the corridor's own tonnes outside them.
+- 160 generated routes over 69 groups, 8,283 Mt of seaborne trade. Named by hand-written routes: 43.5%. With the generated routes: 64.9%.
+- 10 of 69 groups reach the target; 59 are short of it.
 
 | Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |
 |---|---:|---:|---:|---:|---|
@@ -15,16 +15,23 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | ammonium-sulphate | 18.4 | 0.0 | 53.4 | 2 | the cap of 20 generated routes for the groups added with it left out 5 corridors |
 | barley | 29.5 | 0.0 | 39.4 | 3 | the cap of 10 generated routes for the groups added with it left out 7 corridors |
 | bauxite | 181.3 | 60.7 | 83.2 | 1 |  |
+| chromium-ore | 18.8 | 0.0 | 63.9 | 1 | the cap of 10 generated routes for the groups added with it left out 1 corridor |
 | coal | 1,377.3 | 47.2 | 71.4 | 5 |  |
 | cobalt | 0.7 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 1 corridor |
 | cocoa | 3.1 | 0.0 | 34.5 | 1 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | coffee | 7.3 | 0.0 | 13.0 | 1 | the cap of 120 generated routes left out 3 corridors |
+| coke | 26.0 | 0.0 | 15.8 | 1 | the cap of 10 generated routes for the groups added with it left out 11 corridors |
 | copper-ore | 37.2 | 40.9 | 51.8 | 1 | the cap of 120 generated routes left out 6 corridors |
 | copper-refined | 10.3 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 5 corridors |
 | corn | 149.4 | 21.3 | 72.3 | 10 |  |
 | cotton | 7.7 | 0.0 | 12.4 | 1 | the cap of 120 generated routes left out 4 corridors |
 | crude-oil | 1,874.4 | 54.4 | 70.7 | 7 |  |
 | dap | 17.5 | 11.2 | 24.1 | 1 | the cap of 120 generated routes left out 9 corridors |
+| dri | 9.2 | 0.0 | 16.5 | 1 | the cap of 10 generated routes for the groups added with it left out 4 corridors |
+| ferro-chromium | 5.3 | 0.0 | 27.6 | 1 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| ferro-manganese | 1.6 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| ferro-silicon | 1.8 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
+| ferrous-scrap | 67.6 | 0.0 | 43.0 | 5 | the cap of 10 generated routes for the groups added with it left out 7 corridors |
 | iron-ore | 1,635.5 | 72.1 | 72.1 | 0 |  |
 | lead-metal | 2.7 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | lead-ore | 2.3 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
@@ -40,6 +47,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | palm-oil | 41.0 | 18.0 | 42.8 | 3 | the cap of 120 generated routes left out 7 corridors |
 | phosphate-rock | 34.3 | 8.3 | 40.6 | 3 | the cap of 120 generated routes left out 8 corridors |
 | phosphoric-acid | 6.4 | 0.0 | 34.9 | 1 | the cap of 20 generated routes for the groups added with it left out 2 corridors |
+| pig-iron | 9.8 | 0.0 | 33.9 | 1 | the cap of 10 generated routes for the groups added with it left out 3 corridors |
 | potash | 41.9 | 26.9 | 51.0 | 3 | the cap of 120 generated routes left out 7 corridors |
 | potassium-sulphate | 1.5 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | pulses | 18.5 | 0.0 | 11.4 | 1 | the cap of 10 generated routes for the groups added with it left out 10 corridors |
@@ -49,6 +57,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | rare-earths | 0.1 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | refined-products | 960.6 | 18.3 | 53.1 | 12 | the cap of 12 routes per group was reached |
 | rice | 49.9 | 0.0 | 54.2 | 5 | the cap of 120 generated routes left out 6 corridors |
+| silico-manganese | 2.7 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | sorghum | 9.5 | 0.0 | 56.4 | 1 | the cap of 10 generated routes for the groups added with it left out 1 corridor |
 | soybeans | 157.2 | 66.4 | 72.3 | 1 |  |
 | soymeal | 61.4 | 12.1 | 66.3 | 7 | the cap of 120 generated routes left out 2 corridors |
@@ -69,7 +78,7 @@ Written by `pipeline/freight/build_freight.py` (step `generated_routes.py`) at e
 | zinc-metal | 3.6 | 0.0 | 0.0 | 0 | the remaining corridors are each under 0.5 Mt, or mostly named by hand-written routes, or have no routed port |
 | zinc-ore | 9.2 | 0.0 | 0.0 | 0 | the cap of 120 generated routes left out 6 corridors |
 
-## Corridors the cap left out (179)
+## Corridors the cap left out (205)
 
 Mt are the tonnes of the corridor that no hand-written route names. The corridors of a group are listed in the order they were chosen.
 
@@ -117,10 +126,22 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - barley: Barley within North-West Europe, 1.1 Mt
 - barley: Barley within East coast South America, 1.0 Mt
 - barley: Barley: the Mediterranean to North-West Europe, 0.9 Mt
+- chromium-ore: Chromium ore: Southern Africa to South-East Asia, 1.6 Mt
 - cobalt: Cobalt: East Africa to North China, 0.6 Mt
 - coffee: Coffee: East coast South America to the Mediterranean, 0.6 Mt
 - coffee: Coffee: South-East Asia to Europe, 0.8 Mt
 - coffee: Coffee: East coast South America to North America, 0.5 Mt
+- coke: Coke and semi-coke: South-East Asia to India and Bangladesh, east coast, 2.5 Mt
+- coke: Coke and semi-coke: the Caribbean and north coast of South America to East coast South America, 2.0 Mt
+- coke: Coke and semi-coke: East Africa to India and Bangladesh, east coast, 1.1 Mt
+- coke: Coke and semi-coke within South-East Asia, 1.0 Mt
+- coke: Coke and semi-coke: North China to Japan and Korea, 0.9 Mt
+- coke: Coke and semi-coke: North China to India and Bangladesh, east coast, 0.8 Mt
+- coke: Coke and semi-coke: the Baltic to India and Bangladesh, east coast, 0.8 Mt
+- coke: Coke and semi-coke: South-East Asia to the Mediterranean, 0.7 Mt
+- coke: Coke and semi-coke: Japan and Korea to North-West Europe, 0.7 Mt
+- coke: Coke and semi-coke: the Caribbean and north coast of South America to North-West Europe, 0.7 Mt
+- coke: Coke and semi-coke: North China to North-West Europe, 0.6 Mt
 - copper-ore: Copper concentrate: Mexico, Pacific coast to North China, 1.6 Mt
 - copper-ore: Copper concentrate: South-East Asia to Japan and Korea, 1.2 Mt
 - copper-ore: Copper concentrate: the Black Sea to North China, 1.1 Mt
@@ -145,6 +166,17 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - dap: DAP: West Africa to North-West Europe, 0.6 Mt
 - dap: DAP: West Africa to the rest of Africa, 0.5 Mt
 - dap: DAP: the Baltic to Central America and the Caribbean, 0.5 Mt
+- dri: Direct-reduced iron: the Baltic to the Red Sea, 1.4 Mt
+- dri: Direct-reduced iron: the Black Sea to the Mediterranean, 1.2 Mt
+- dri: Direct-reduced iron: US Gulf to the Mediterranean, 0.9 Mt
+- dri: Direct-reduced iron: the Mediterranean to North-West Europe, 0.5 Mt
+- ferrous-scrap: Ferrous scrap: US Gulf to India and Bangladesh, east coast, 3.2 Mt
+- ferrous-scrap: Ferrous scrap within Japan and Korea, 1.8 Mt
+- ferrous-scrap: Ferrous scrap within North-West Europe, 1.8 Mt
+- ferrous-scrap: Ferrous scrap: the Black Sea to the Mediterranean, 1.7 Mt
+- ferrous-scrap: Ferrous scrap: Eastern Australia to India and Bangladesh, east coast, 1.7 Mt
+- ferrous-scrap: Ferrous scrap: North-West Europe to India and Bangladesh, east coast, 1.5 Mt
+- ferrous-scrap: Ferrous scrap: Middle East Gulf to South Asia, 1.4 Mt
 - manganese: Manganese: West Africa to India and Bangladesh, east coast, 2.3 Mt
 - monoammonium-phosphate: MAP: West Africa to Western Australia, 1.0 Mt
 - monoammonium-phosphate: MAP: Middle East Gulf to East coast South America, 0.7 Mt
@@ -178,6 +210,9 @@ Mt are the tonnes of the corridor that no hand-written route names. The corridor
 - phosphate-rock: Phosphate rock: the Mediterranean to North China, 1.0 Mt
 - phosphoric-acid: Phosphoric acid: West Africa to the Mediterranean, 0.7 Mt
 - phosphoric-acid: Phosphoric acid: the Red Sea to India and Pakistan, west coast, 0.6 Mt
+- pig-iron: Pig iron: the Black Sea to the Mediterranean, 2.0 Mt
+- pig-iron: Pig iron: the Black Sea to US Gulf, 1.0 Mt
+- pig-iron: Pig iron: Southern Africa to Europe, 0.5 Mt
 - potash: Potash: the Baltic to US Gulf, 1.5 Mt
 - potash: Potash: the Mediterranean to East coast South America, 1.3 Mt
 - potash: Potash: the Baltic to India and Pakistan, west coast, 1.1 Mt

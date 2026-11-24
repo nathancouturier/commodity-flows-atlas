@@ -40,12 +40,15 @@ AUDIT_GROUPS = frozenset({"crude-oil", "iron-ore", "coal", "refined-products", "
                           "wheat", "potash", "soybeans"})
 # Groups added to the atlas after the cap above was set, each package with a cap of its own: (groups, cap). Their first corridors are kept first,
 # as for AUDIT_GROUPS, and the corridors kept for the earlier groups do not move when a group is added (a shared cap would drop routes that
-# are published). M-022: the other fertilisers and sulphur (20 routes); M-023: the grains, oilseeds and their products (10).
+# are published). M-022: the other fertilisers and sulphur (20 routes); M-023: the grains, oilseeds and their products (10); A-010: the metal bulks (10).
 LATER_GROUPS = [(frozenset({"potassium-sulphate", "monoammonium-phosphate", "superphosphates", "phosphoric-acid", "npk", "ammonia",
                             "ammonium-nitrate", "uan", "ammonium-sulphate", "sulphur"}), 20),
                # M-023: the grains, oilseeds and products added after the fertilisers, 10 routes in all for the whole package
                (frozenset({"barley", "sorghum", "sunflower-seed", "sunflower-oil", "sunflower-meal", "rapeseed-oil", "rapeseed-meal",
-                           "pulses"}), 10)]
+                           "pulses"}), 10),
+               # A-010: the metal bulks (scrap, chromite, pig iron, direct-reduced iron, coke and the ferro-alloys), 10 routes in all for the package
+               (frozenset({"ferrous-scrap", "chromium-ore", "pig-iron", "dri", "coke", "ferro-chromium", "ferro-manganese", "silico-manganese",
+                           "ferro-silicon"}), 10)]
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).

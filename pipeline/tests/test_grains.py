@@ -43,6 +43,8 @@ NEW = {
     "brewing-distilling-dregs": (["230330"], "corn", "dregs", False),
 }
 OILS = ("sunflower-oil", "rapeseed-oil")
+NC3_GROUPS = tuple(f"gen-{g}-" for g in ("ferrous-scrap", "chromium-ore", "pig-iron", "dri", "coke", "ferro-chromium", "ferro-manganese",
+                                         "silico-manganese", "ferro-silicon"))
 LANES = [g for g, v in NEW.items() if v[3]]
 
 # Tonnes of every group that existed before M-023 in the customs cache, the ten groups of the fertilisers of M-022 included: (all years,
@@ -241,7 +243,8 @@ class EngineTests(unittest.TestCase):
         gen = [r for r in routes if r.get("generated")]
         ids = [r["id"] for r in gen if r["id"].startswith(tuple(f"gen-{g}-" for g in LANES))]
         self.assertTrue(1 <= len(ids) <= 10, ids)
-        self.assertEqual(len(gen), 120 + 20 + len(ids))
+        later = [r for r in gen if r["id"].startswith(NC3_GROUPS)]  # the 10 routes of package NC3 (A-010) have a cap of their own
+        self.assertEqual(len(gen) - len(later), 120 + 20 + len(ids))
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
 
@@ -258,8 +261,9 @@ class CacheTests(unittest.TestCase):
         for g in NEW:
             self.assertGreater(self.totals[g][2][2024], 5e6, g)
 
-    def test_the_cache_holds_the_groups_before_and_the_new_ones_only(self):
-        self.assertEqual(set(self.totals), set(BEFORE) | set(NEW))
+    def test_the_cache_holds_the_groups_before_and_the_new_ones(self):
+        # the groups of the later packages (the metal bulks of NC3, A-010) are in the cache too: test_metal_bulks.py lists them
+        self.assertTrue(set(BEFORE) | set(NEW) <= set(self.totals))
 
 
 class PageTests(unittest.TestCase):

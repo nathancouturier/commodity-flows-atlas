@@ -1,0 +1,1580 @@
+{
+ "id": "pig-iron",
+ "summary": {
+  "production": {
+   "v": 1300.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 1,238 Mt, on which the shares of the table are computed"
+  },
+  "exports": {
+   "v": 10.63,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 pig iron, alloy pig iron and spiegeleisen (HS 7201), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 9.85,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (pig-iron) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
+  }
+ },
+ "kpis": {
+  "production": "World production (Mt of pig iron)",
+  "exports": "World exports (Mt of pig iron)"
+ },
+ "labels": {
+  "production": "Top producers — Mt of pig iron",
+  "exports": "Top exporters — Mt of pig iron, gross weight",
+  "imports": "Top importers — Mt of pig iron, gross weight"
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 1238.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 830.0
+   },
+   {
+    "c": "IND",
+    "v": 98.0
+   },
+   {
+    "c": "JPN",
+    "v": 59.0
+   },
+   {
+    "c": "RUS",
+    "v": 47.0
+   },
+   {
+    "c": "KOR",
+    "v": 41.0
+   },
+   {
+    "c": "BRA",
+    "v": 28.0
+   },
+   {
+    "c": "DEU",
+    "v": 25.0
+   },
+   {
+    "c": "USA",
+    "v": 21.0
+   },
+   {
+    "c": "VNM",
+    "v": 14.0
+   },
+   {
+    "c": "TUR",
+    "v": 10.0
+   },
+   {
+    "c": "IRN",
+    "v": 4.0
+   }
+  ],
+  "n": "USGS MCS 2026, pig iron production; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 1,238 Mt, while the rounded world total of 1,300 Mt is 5.0% above that sum: shares are computed on the sum; 'Other countries' is the USGS line for the producers it does not list (61 Mt)",
+  "other": 61.0,
+  "hidden": {
+   "v": 4.0,
+   "k": 1,
+   "from": 10,
+   "n": "1 further country named by USGS (Iran), listed after the first rows; not part of USGS's 'Other countries' line"
+  },
+  "worldPublished": 1300.0,
+  "basis": "pig iron, product weight"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 10.63,
+  "rows": [
+   {
+    "c": "BRA",
+    "v": 3.874,
+    "usd": 1819747000,
+    "uv": 470
+   },
+   {
+    "c": "RUS",
+    "v": 2.226,
+    "usd": 959956000,
+    "uv": 431
+   },
+   {
+    "c": "UKR",
+    "v": 1.312,
+    "usd": 524286000,
+    "uv": 399
+   },
+   {
+    "c": "ZAF",
+    "v": 0.7566,
+    "usd": 299016000,
+    "uv": 395
+   },
+   {
+    "c": "IDN",
+    "v": 0.4599,
+    "usd": 439846000,
+    "uv": 956
+   },
+   {
+    "c": "IND",
+    "v": 0.2676,
+    "usd": 120592000,
+    "uv": 451
+   },
+   {
+    "c": "KAZ",
+    "v": 0.2591,
+    "usd": 105539000,
+    "uv": 407
+   },
+   {
+    "c": "LVA",
+    "v": 0.1604,
+    "usd": 70840000,
+    "uv": 442
+   },
+   {
+    "c": "CAN",
+    "v": 0.1534,
+    "usd": 75790000,
+    "uv": 494
+   },
+   {
+    "c": "JPN",
+    "v": 0.1285,
+    "usd": 57749000,
+    "uv": 449
+   },
+   {
+    "c": "DEU",
+    "v": 0.1272,
+    "usd": 65585000,
+    "uv": 516
+   },
+   {
+    "c": "SAU",
+    "v": 0.1073,
+    "usd": 61216000,
+    "uv": 570
+   },
+   {
+    "c": "GBR",
+    "v": 0.1017,
+    "usd": 31382000,
+    "uv": 308
+   },
+   {
+    "c": "NOR",
+    "v": 0.082,
+    "usd": 38991000,
+    "uv": 476
+   },
+   {
+    "c": "FRA",
+    "v": 0.0668,
+    "usd": 38711000,
+    "uv": 580
+   },
+   {
+    "c": "MOZ",
+    "v": 0.066,
+    "usd": 13937000,
+    "uv": 211
+   },
+   {
+    "c": "NLD",
+    "v": 0.0599,
+    "usd": 30190000,
+    "uv": 504
+   },
+   {
+    "c": "AUT",
+    "v": 0.0521,
+    "usd": 25089000,
+    "uv": 481
+   },
+   {
+    "c": "BEL",
+    "v": 0.0437,
+    "usd": 24431000,
+    "uv": 559
+   },
+   {
+    "c": "MYS",
+    "v": 0.0432,
+    "n": "42% of tonnage estimated from value",
+    "usd": 19873000
+   },
+   {
+    "c": "KOR",
+    "v": 0.0365,
+    "usd": 8298000,
+    "uv": 227
+   },
+   {
+    "c": "ARG",
+    "v": 0.0327,
+    "usd": 14497000,
+    "uv": 443
+   },
+   {
+    "c": "ITA",
+    "v": 0.0265,
+    "usd": 11029000,
+    "uv": 417
+   },
+   {
+    "c": "AGO",
+    "v": 0.0247,
+    "usd": 12278000,
+    "uv": 498
+   },
+   {
+    "c": "POL",
+    "v": 0.0243,
+    "usd": 7845000,
+    "uv": 323
+   },
+   {
+    "c": "TWN",
+    "v": 0.0224,
+    "usd": 12842000,
+    "uv": 573
+   },
+   {
+    "c": "SVK",
+    "v": 0.0202,
+    "usd": 7931000,
+    "uv": 393
+   },
+   {
+    "c": "SWE",
+    "v": 0.0166,
+    "usd": 6697000,
+    "uv": 403
+   },
+   {
+    "c": "SRB",
+    "v": 0.0153,
+    "usd": 4452000,
+    "uv": 292
+   },
+   {
+    "c": "CZE",
+    "v": 0.0101,
+    "usd": 7126000,
+    "uv": 708
+   },
+   {
+    "c": "ARE",
+    "v": 0.0096,
+    "usd": 5352000,
+    "uv": 559
+   },
+   {
+    "c": "TUR",
+    "v": 0.0094,
+    "usd": 3980000,
+    "uv": 422
+   },
+   {
+    "c": "CHN",
+    "v": 0.0069,
+    "usd": 3926000,
+    "uv": 566
+   },
+   {
+    "c": "IRN",
+    "v": 0.0068,
+    "usd": 3010000,
+    "uv": 441
+   },
+   {
+    "c": "DZA",
+    "v": 0.0052,
+    "usd": 2127000,
+    "uv": 405
+   },
+   {
+    "c": "VNM",
+    "v": 0.005,
+    "usd": 2236000,
+    "uv": 446
+   },
+   {
+    "c": "SVN",
+    "v": 0.0032,
+    "usd": 1464000,
+    "uv": 453
+   },
+   {
+    "c": "ESP",
+    "v": 0.0026,
+    "usd": 992000,
+    "uv": 388
+   },
+   {
+    "c": "ROU",
+    "v": 0.0014,
+    "usd": 300000,
+    "uv": 214
+   },
+   {
+    "c": "USA",
+    "v": 0.0012,
+    "usd": 262000,
+    "uv": 215
+   },
+   {
+    "c": "PRT",
+    "v": 0.0005,
+    "usd": 1415000,
+    "uv": 2710
+   },
+   {
+    "c": "AUS",
+    "v": 0.0003,
+    "usd": 1833000,
+    "uv": 6070
+   },
+   {
+    "c": "DNK",
+    "v": 0.0002,
+    "usd": 1165000,
+    "uv": 7660
+   }
+  ],
+  "n": "CEPII BACI HS92 pig iron, alloy pig iron and spiegeleisen (HS 7201), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "pig iron, gross weight",
+  "usd": 4943823000,
+  "uv": 465
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 10.63,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 4.717,
+    "usd": 2103901000,
+    "uv": 446
+   },
+   {
+    "c": "TUR",
+    "v": 1.497,
+    "usd": 627703000,
+    "uv": 419
+   },
+   {
+    "c": "ITA",
+    "v": 1.343,
+    "usd": 536945000,
+    "uv": 400
+   },
+   {
+    "c": "NLD",
+    "v": 0.41,
+    "usd": 204781000,
+    "uv": 499
+   },
+   {
+    "c": "CHN",
+    "v": 0.2961,
+    "usd": 373424000,
+    "uv": 1260
+   },
+   {
+    "c": "IND",
+    "v": 0.243,
+    "usd": 103826000,
+    "uv": 427
+   },
+   {
+    "c": "DEU",
+    "v": 0.2254,
+    "usd": 108509000,
+    "uv": 481
+   },
+   {
+    "c": "ESP",
+    "v": 0.2161,
+    "usd": 102461000,
+    "uv": 474
+   },
+   {
+    "c": "TWN",
+    "v": 0.2003,
+    "usd": 104800000,
+    "uv": 523
+   },
+   {
+    "c": "KOR",
+    "v": 0.1665,
+    "usd": 76379000,
+    "uv": 459
+   },
+   {
+    "c": "MEX",
+    "v": 0.163,
+    "usd": 73568000,
+    "uv": 451
+   },
+   {
+    "c": "POL",
+    "v": 0.1583,
+    "usd": 73500000,
+    "uv": 464
+   },
+   {
+    "c": "FRA",
+    "v": 0.1242,
+    "usd": 68507000,
+    "uv": 551
+   },
+   {
+    "c": "BEL",
+    "v": 0.1066,
+    "usd": 52386000,
+    "uv": 491
+   },
+   {
+    "c": "ZAF",
+    "v": 0.066,
+    "usd": 13937000,
+    "uv": 211
+   },
+   {
+    "c": "JPN",
+    "v": 0.0628,
+    "usd": 33281000,
+    "uv": 530
+   },
+   {
+    "c": "CZE",
+    "v": 0.0627,
+    "usd": 32201000,
+    "uv": 513
+   },
+   {
+    "c": "THA",
+    "v": 0.0626,
+    "usd": 26765000,
+    "uv": 428
+   },
+   {
+    "c": "VNM",
+    "v": 0.0523,
+    "usd": 18076000,
+    "uv": 346
+   },
+   {
+    "c": "KEN",
+    "v": 0.0514,
+    "usd": 24220000,
+    "uv": 471
+   },
+   {
+    "c": "NPL",
+    "v": 0.0513,
+    "usd": 22041000,
+    "uv": 430
+   },
+   {
+    "c": "BGD",
+    "v": 0.0507,
+    "n": "36% of tonnage estimated from value",
+    "usd": 21000000
+   },
+   {
+    "c": "SWE",
+    "v": 0.0338,
+    "usd": 17387000,
+    "uv": 514
+   },
+   {
+    "c": "OMN",
+    "v": 0.0314,
+    "usd": 9657000,
+    "uv": 307
+   },
+   {
+    "c": "ROU",
+    "v": 0.0237,
+    "usd": 6253000,
+    "uv": 264
+   },
+   {
+    "c": "SVK",
+    "v": 0.0218,
+    "usd": 10320000,
+    "uv": 472
+   },
+   {
+    "c": "ARG",
+    "v": 0.0195,
+    "usd": 9762000,
+    "uv": 501
+   },
+   {
+    "c": "BGR",
+    "v": 0.0172,
+    "usd": 7220000,
+    "uv": 419
+   },
+   {
+    "c": "GBR",
+    "v": 0.0172,
+    "usd": 8011000,
+    "uv": 465
+   },
+   {
+    "c": "AUT",
+    "v": 0.0163,
+    "usd": 7246000,
+    "uv": 445
+   },
+   {
+    "c": "FIN",
+    "v": 0.014,
+    "usd": 7058000,
+    "uv": 505
+   },
+   {
+    "c": "SVN",
+    "v": 0.0136,
+    "usd": 5836000,
+    "uv": 429
+   },
+   {
+    "c": "MAR",
+    "v": 0.0105,
+    "usd": 4184000,
+    "uv": 400
+   },
+   {
+    "c": "DNK",
+    "v": 0.0104,
+    "usd": 4492000,
+    "uv": 433
+   },
+   {
+    "c": "HUN",
+    "v": 0.0084,
+    "usd": 3085000,
+    "uv": 366
+   },
+   {
+    "c": "SAU",
+    "v": 0.0076,
+    "usd": 6216000,
+    "uv": 821
+   },
+   {
+    "c": "HRV",
+    "v": 0.007,
+    "usd": 2975000,
+    "uv": 423
+   },
+   {
+    "c": "PAK",
+    "v": 0.0068,
+    "usd": 3367000,
+    "uv": 492
+   },
+   {
+    "c": "CHE",
+    "v": 0.0061,
+    "usd": 3571000,
+    "uv": 582
+   },
+   {
+    "c": "IDN",
+    "v": 0.006,
+    "usd": 3574000,
+    "uv": 593
+   },
+   {
+    "c": "AUS",
+    "v": 0.0052,
+    "usd": 2816000,
+    "uv": 540
+   },
+   {
+    "c": "EGY",
+    "v": 0.0041,
+    "usd": 2083000,
+    "uv": 506
+   },
+   {
+    "c": "KAZ",
+    "v": 0.0034,
+    "usd": 2241000,
+    "uv": 657
+   },
+   {
+    "c": "AZE",
+    "v": 0.003,
+    "usd": 1715000,
+    "uv": 563
+   },
+   {
+    "c": "ISL",
+    "v": 0.0027,
+    "usd": 2184000,
+    "uv": 822
+   },
+   {
+    "c": "BTN",
+    "v": 0.0025,
+    "usd": 1118000,
+    "uv": 450
+   },
+   {
+    "c": "ARE",
+    "v": 0.0025,
+    "usd": 2079000,
+    "uv": 843
+   },
+   {
+    "c": "MYS",
+    "v": 0.0024,
+    "usd": 1366000,
+    "uv": 578
+   },
+   {
+    "c": "BHR",
+    "v": 0.0018,
+    "usd": 2450000,
+    "uv": 1400
+   },
+   {
+    "c": "DZA",
+    "v": 0.0016,
+    "usd": 734000,
+    "uv": 456
+   },
+   {
+    "c": "LUX",
+    "v": 0.0011,
+    "usd": 375000,
+    "uv": 332
+   },
+   {
+    "c": "LKA",
+    "v": 0.0011,
+    "usd": 751000,
+    "uv": 710
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0011,
+    "usd": 1486000,
+    "uv": 1410
+   }
+  ],
+  "n": "CEPII BACI HS92 pig iron, alloy pig iron and spiegeleisen (HS 7201), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "pig iron, gross weight",
+  "usd": 4943823000,
+  "uv": 465
+ },
+ "extra": [
+  {
+   "key": "dri-exports",
+   "title": "Direct-reduced iron exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 16.17,
+    "rows": [
+     {
+      "c": "OMN",
+      "v": 4.313,
+      "usd": 790828000,
+      "uv": 183
+     },
+     {
+      "c": "RUS",
+      "v": 2.479,
+      "usd": 875410000,
+      "uv": 353
+     },
+     {
+      "c": "TTO",
+      "v": 1.672,
+      "usd": 634703000,
+      "uv": 379
+     },
+     {
+      "c": "USA",
+      "v": 1.641,
+      "usd": 593323000,
+      "uv": 362
+     },
+     {
+      "c": "IND",
+      "v": 1.466,
+      "usd": 496153000,
+      "uv": 338
+     },
+     {
+      "c": "SWE",
+      "v": 1.396,
+      "usd": 236995000,
+      "uv": 170
+     },
+     {
+      "c": "LBY",
+      "v": 0.7722,
+      "usd": 263311000,
+      "uv": 341
+     },
+     {
+      "c": "MYS",
+      "v": 0.6296,
+      "usd": 232292000,
+      "uv": 369
+     },
+     {
+      "c": "VEN",
+      "v": 0.3152,
+      "usd": 105496000,
+      "uv": 335
+     },
+     {
+      "c": "IRN",
+      "v": 0.2269,
+      "usd": 56711000,
+      "uv": 250
+     },
+     {
+      "c": "DZA",
+      "v": 0.2193,
+      "usd": 39597000,
+      "uv": 181
+     },
+     {
+      "c": "QAT",
+      "v": 0.1731,
+      "usd": 66434000,
+      "uv": 384
+     },
+     {
+      "c": "BEL",
+      "v": 0.1512,
+      "usd": 62384000,
+      "uv": 413
+     },
+     {
+      "c": "ARE",
+      "v": 0.1194,
+      "usd": 37457000,
+      "uv": 314
+     },
+     {
+      "c": "BHR",
+      "v": 0.0908,
+      "usd": 30855000,
+      "uv": 340
+     },
+     {
+      "c": "BRA",
+      "v": 0.0887,
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024,
+      "usd": 33464000
+     },
+     {
+      "c": "CHN",
+      "v": 0.069,
+      "usd": 38888000,
+      "uv": 563
+     },
+     {
+      "c": "CAN",
+      "v": 0.0624,
+      "usd": 12931000,
+      "uv": 207
+     },
+     {
+      "c": "POL",
+      "v": 0.0582,
+      "usd": 9366000,
+      "uv": 161
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0352,
+      "usd": 12278000,
+      "uv": 348
+     },
+     {
+      "c": "ITA",
+      "v": 0.0313,
+      "usd": 12575000,
+      "uv": 402
+     },
+     {
+      "c": "UGA",
+      "v": 0.0276,
+      "usd": 11963000,
+      "uv": 434
+     },
+     {
+      "c": "UZB",
+      "v": 0.027,
+      "usd": 9126000,
+      "uv": 338
+     },
+     {
+      "c": "AGO",
+      "v": 0.0237,
+      "n": "Atlas estimate: 100% of this tonnage is estimated from the declared value (customs declared 0.00 Mt for these flows; declared value divided by a reference unit value, see the notes of the page)",
+      "est": true,
+      "s": "atlas",
+      "y": 2024,
+      "usd": 8936000
+     },
+     {
+      "c": "KAZ",
+      "v": 0.0211,
+      "usd": 2968000,
+      "uv": 141
+     },
+     {
+      "c": "FRA",
+      "v": 0.0119,
+      "usd": 11953000,
+      "uv": 1000
+     },
+     {
+      "c": "AUT",
+      "v": 0.0109,
+      "usd": 4627000,
+      "uv": 423
+     },
+     {
+      "c": "EGY",
+      "v": 0.0102,
+      "usd": 1308000,
+      "uv": 128
+     },
+     {
+      "c": "KWT",
+      "v": 0.0065,
+      "usd": 1495000,
+      "uv": 230
+     },
+     {
+      "c": "NLD",
+      "v": 0.0056,
+      "usd": 1700000,
+      "uv": 302
+     },
+     {
+      "c": "CIV",
+      "v": 0.005,
+      "usd": 2100000,
+      "uv": 420
+     },
+     {
+      "c": "GBR",
+      "v": 0.0031,
+      "usd": 1177000,
+      "uv": 381
+     },
+     {
+      "c": "BOL",
+      "v": 0.0029,
+      "usd": 356000,
+      "uv": 123
+     },
+     {
+      "c": "JPN",
+      "v": 0.0013,
+      "usd": 7022000,
+      "uv": 5290
+     },
+     {
+      "c": "TWN",
+      "v": 0.0011,
+      "usd": 452000,
+      "uv": 430
+     },
+     {
+      "c": "ESP",
+      "v": 0.0007,
+      "usd": 1088000,
+      "uv": 1630
+     },
+     {
+      "c": "CZE",
+      "v": 0.0004,
+      "usd": 1317000,
+      "uv": 2950
+     },
+     {
+      "c": "DEU",
+      "v": 0.0004,
+      "usd": 1229000,
+      "uv": 2940
+     },
+     {
+      "c": "KOR",
+      "v": 0.0001,
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 1159000,
+      "uv": 15000
+     }
+    ],
+    "n": "CEPII BACI HS92 direct-reduced iron and other spongy ferrous products (HS 7203), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 4711427000,
+    "uv": 291
+   }
+  },
+  {
+   "key": "dri-imports",
+   "title": "Direct-reduced iron importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 16.17,
+    "rows": [
+     {
+      "c": "SAU",
+      "v": 5.822,
+      "usd": 1090589000,
+      "uv": 187
+     },
+     {
+      "c": "USA",
+      "v": 1.554,
+      "usd": 639959000,
+      "uv": 412
+     },
+     {
+      "c": "TUR",
+      "v": 1.048,
+      "usd": 374442000,
+      "uv": 357
+     },
+     {
+      "c": "NPL",
+      "v": 0.9866,
+      "usd": 308594000,
+      "uv": 313
+     },
+     {
+      "c": "DEU",
+      "v": 0.899,
+      "usd": 194367000,
+      "uv": 216
+     },
+     {
+      "c": "ITA",
+      "v": 0.6608,
+      "usd": 233728000,
+      "uv": 354
+     },
+     {
+      "c": "AUT",
+      "v": 0.5702,
+      "usd": 221416000,
+      "uv": 388
+     },
+     {
+      "c": "IND",
+      "v": 0.5168,
+      "usd": 181375000,
+      "uv": 351
+     },
+     {
+      "c": "MEX",
+      "v": 0.4802,
+      "usd": 183996000,
+      "uv": 383
+     },
+     {
+      "c": "CHN",
+      "v": 0.377,
+      "usd": 105661000,
+      "uv": 280
+     },
+     {
+      "c": "BGD",
+      "v": 0.3443,
+      "usd": 121848000,
+      "uv": 354
+     },
+     {
+      "c": "VNM",
+      "v": 0.31,
+      "usd": 127582000,
+      "uv": 412
+     },
+     {
+      "c": "KWT",
+      "v": 0.2947,
+      "usd": 107414000,
+      "uv": 364
+     },
+     {
+      "c": "ESP",
+      "v": 0.2618,
+      "usd": 99697000,
+      "uv": 381
+     },
+     {
+      "c": "KOR",
+      "v": 0.2559,
+      "usd": 89177000,
+      "uv": 348
+     },
+     {
+      "c": "BEL",
+      "v": 0.2439,
+      "usd": 88713000,
+      "uv": 364
+     },
+     {
+      "c": "FRA",
+      "v": 0.2223,
+      "usd": 98304000,
+      "uv": 442
+     },
+     {
+      "c": "POL",
+      "v": 0.2035,
+      "usd": 73083000,
+      "uv": 359
+     },
+     {
+      "c": "EGY",
+      "v": 0.2017,
+      "usd": 79162000,
+      "uv": 392
+     },
+     {
+      "c": "NLD",
+      "v": 0.1747,
+      "usd": 32632000,
+      "uv": 187
+     },
+     {
+      "c": "IDN",
+      "v": 0.11,
+      "usd": 33557000,
+      "uv": 305
+     },
+     {
+      "c": "PRT",
+      "v": 0.0888,
+      "usd": 32063000,
+      "uv": 361
+     },
+     {
+      "c": "UZB",
+      "v": 0.0772,
+      "usd": 25361000,
+      "uv": 329
+     },
+     {
+      "c": "AZE",
+      "v": 0.0631,
+      "usd": 22200000,
+      "uv": 352
+     },
+     {
+      "c": "SWE",
+      "v": 0.0601,
+      "usd": 11121000,
+      "uv": 185
+     },
+     {
+      "c": "BTN",
+      "v": 0.0597,
+      "usd": 19111000,
+      "uv": 320
+     },
+     {
+      "c": "BRA",
+      "v": 0.0502,
+      "usd": 19068000,
+      "uv": 380
+     },
+     {
+      "c": "SVN",
+      "v": 0.0389,
+      "usd": 14910000,
+      "uv": 383
+     },
+     {
+      "c": "KEN",
+      "v": 0.033,
+      "usd": 14052000,
+      "uv": 426
+     },
+     {
+      "c": "MAR",
+      "v": 0.0215,
+      "usd": 8187000,
+      "uv": 381
+     },
+     {
+      "c": "JPN",
+      "v": 0.0214,
+      "usd": 13317000,
+      "uv": 622
+     },
+     {
+      "c": "PAK",
+      "v": 0.0174,
+      "usd": 6939000,
+      "uv": 399
+     },
+     {
+      "c": "RUS",
+      "v": 0.016,
+      "usd": 1601000,
+      "uv": 100
+     },
+     {
+      "c": "CAN",
+      "v": 0.0158,
+      "usd": 6306000,
+      "uv": 399
+     },
+     {
+      "c": "MYS",
+      "v": 0.0145,
+      "usd": 5908000,
+      "uv": 407
+     },
+     {
+      "c": "THA",
+      "v": 0.0128,
+      "usd": 3803000,
+      "uv": 298
+     },
+     {
+      "c": "GRC",
+      "v": 0.0112,
+      "usd": 4211000,
+      "uv": 375
+     },
+     {
+      "c": "OMN",
+      "v": 0.0065,
+      "usd": 2275000,
+      "uv": 350
+     },
+     {
+      "c": "MLI",
+      "v": 0.005,
+      "usd": 2100000,
+      "uv": 420
+     },
+     {
+      "c": "HRV",
+      "v": 0.0044,
+      "usd": 1784000,
+      "uv": 404
+     },
+     {
+      "c": "CZE",
+      "v": 0.004,
+      "usd": 1860000,
+      "uv": 462
+     },
+     {
+      "c": "MDG",
+      "v": 0.003,
+      "usd": 1713000,
+      "uv": 563
+     },
+     {
+      "c": "GEO",
+      "v": 0.0029,
+      "usd": 864000,
+      "uv": 300
+     },
+     {
+      "c": "BHR",
+      "v": 0.0026,
+      "usd": 2191000,
+      "uv": 828
+     },
+     {
+      "c": "SVK",
+      "v": 0.0015,
+      "usd": 1601000,
+      "uv": 1080
+     },
+     {
+      "c": "DNK",
+      "v": 0.0004,
+      "usd": 1229000,
+      "uv": 2940
+     },
+     {
+      "c": "KHM",
+      "v": 0.0002,
+      "usd": 1209000,
+      "uv": 5020
+     },
+     {
+      "c": "GBR",
+      "v": 0.0002,
+      "usd": 1147000,
+      "uv": 5460
+     }
+    ],
+    "n": "CEPII BACI HS92 direct-reduced iron and other spongy ferrous products (HS 7203), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 4711427000,
+    "uv": 291
+   }
+  }
+ ],
+ "flows": [
+  {
+   "o": "BRA",
+   "d": "USA",
+   "v": 3.305,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1515633000,
+   "uv": 459,
+   "mode": "sea",
+   "lane": "pig-iron:BRA-USA"
+  },
+  {
+   "o": "UKR",
+   "d": "USA",
+   "v": 0.9502,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 374993000,
+   "uv": 395,
+   "mode": "sea",
+   "lane": "pig-iron:UKR-USA"
+  },
+  {
+   "o": "RUS",
+   "d": "TUR",
+   "v": 0.9365,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 385077000,
+   "uv": 411,
+   "mode": "sea",
+   "lane": "pig-iron:RUS-TUR"
+  },
+  {
+   "o": "RUS",
+   "d": "ITA",
+   "v": 0.7696,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 327630000,
+   "uv": 426,
+   "mode": "sea",
+   "lane": "pig-iron:RUS-ITA"
+  },
+  {
+   "o": "BRA",
+   "d": "NLD",
+   "v": 0.2965,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 150908000,
+   "uv": 509,
+   "mode": "sea",
+   "lane": "pig-iron:BRA-NLD"
+  },
+  {
+   "o": "IDN",
+   "d": "CHN",
+   "v": 0.2847,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 369239000,
+   "uv": 1300,
+   "mode": "sea",
+   "lane": "pig-iron:IDN-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "ITA",
+   "v": 0.2785,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 85607000,
+   "uv": 307,
+   "mode": "sea",
+   "lane": "pig-iron:ZAF-ITA"
+  },
+  {
+   "o": "KAZ",
+   "d": "TUR",
+   "v": 0.2487,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 101355000,
+   "uv": 408,
+   "mode": "sea",
+   "n": "sea through a foreign port (not specified)"
+  },
+  {
+   "o": "ZAF",
+   "d": "USA",
+   "v": 0.1354,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 60695000,
+   "uv": 448,
+   "mode": "sea",
+   "lane": "pig-iron:ZAF-USA"
+  },
+  {
+   "o": "RUS",
+   "d": "IND",
+   "v": 0.1268,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 53180000,
+   "uv": 419,
+   "mode": "sea",
+   "lane": "pig-iron:RUS-IND"
+  },
+  {
+   "o": "RUS",
+   "d": "TWN",
+   "v": 0.124,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 66587000,
+   "uv": 537,
+   "mode": "sea",
+   "lane": "pig-iron:RUS-TWN"
+  },
+  {
+   "o": "IND",
+   "d": "USA",
+   "v": 0.1141,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 54043000,
+   "uv": 473,
+   "mode": "sea",
+   "lane": "pig-iron:IND-USA"
+  },
+  {
+   "o": "LVA",
+   "d": "ITA",
+   "v": 0.1122,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 49086000,
+   "uv": 437,
+   "mode": "sea",
+   "lane": "pig-iron:LVA-ITA"
+  },
+  {
+   "o": "UKR",
+   "d": "TUR",
+   "v": 0.1025,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 41812000,
+   "uv": 408,
+   "mode": "sea",
+   "lane": "pig-iron:UKR-TUR"
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 0.0993,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 48524000,
+   "uv": 489,
+   "mode": "land"
+  },
+  {
+   "o": "UKR",
+   "d": "ITA",
+   "v": 0.0933,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 39295000,
+   "uv": 421,
+   "mode": "sea",
+   "lane": "pig-iron:UKR-ITA"
+  },
+  {
+   "o": "GBR",
+   "d": "MEX",
+   "v": 0.0865,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 27212000,
+   "uv": 315,
+   "mode": "sea",
+   "lane": "pig-iron:GBR-MEX"
+  },
+  {
+   "o": "RUS",
+   "d": "KOR",
+   "v": 0.0733,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 34523000,
+   "uv": 471,
+   "mode": "sea",
+   "lane": "pig-iron:RUS-KOR"
+  },
+  {
+   "o": "IDN",
+   "d": "IND",
+   "v": 0.073,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 30825000,
+   "uv": 422,
+   "mode": "sea",
+   "lane": "pig-iron:IDN-IND"
+  },
+  {
+   "o": "JPN",
+   "d": "KOR",
+   "v": 0.0729,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 32552000,
+   "uv": 447,
+   "mode": "sea",
+   "lane": "pig-iron:JPN-KOR"
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.6704
+   },
+   "top3": 0.7973,
+   "hhi": 4620,
+   "eq": 2.2,
+   "k": 11,
+   "cov": 0.9507
+  },
+  "exports": {
+   "top1": {
+    "c": "BRA",
+    "p": 0.3644
+   },
+   "top3": 0.6973,
+   "hhi": 2013,
+   "eq": 5.0,
+   "k": 43,
+   "cov": 0.9999
+  },
+  "imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.4437
+   },
+   "top3": 0.7109,
+   "hhi": 2379,
+   "eq": 4.2,
+   "k": 53,
+   "cov": 1.0
+  },
+  "dri-exports": {
+   "top1": {
+    "c": "OMN",
+    "p": 0.2667
+   },
+   "top3": 0.5234,
+   "hhi": 1363,
+   "eq": 7.3,
+   "k": 39,
+   "cov": 0.9999,
+   "est": true
+  },
+  "dri-imports": {
+   "top1": {
+    "c": "SAU",
+    "p": 0.36
+   },
+   "top3": 0.521,
+   "hhi": 1579,
+   "eq": 6.3,
+   "k": 48,
+   "cov": 1.0
+  }
+ },
+ "see": [
+  {
+   "k": "steel",
+   "text": "steel products"
+  },
+  {
+   "k": "ferrous-scrap",
+   "text": "ferrous scrap, the other raw material of the furnaces"
+  },
+  {
+   "k": "iron-ore",
+   "text": "iron ore, which pig iron and direct-reduced iron are made from"
+  }
+ ],
+ "notes": [
+  "Trade is pig iron (HS 7201: non-alloy pig iron in two classes of phosphorus content, alloy pig iron and spiegeleisen), customs gross weight. USGS production is pig iron by country in Mt, as USGS states it (the countries it names and its 'Other countries' line).",
+  "The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second product with its own customs code, in none of the totals above. No production table for it: the USGS file gives pig iron and raw steel only, and the producers' association's figures are not loaded (their terms are not settled).",
+  "Direct-reduced iron and spongy iron (HS 7203), 2024 (CEPII BACI): world 16.17 Mt gross weight; top exporters Oman 4.31 Mt, Russia 2.48 Mt, Trinidad and Tobago 1.67 Mt.",
+  "Nickel pig iron has no code of its own: it is declared as ferro-nickel (HS 720260), which is on the nickel page.",
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded."
+ ]
+}

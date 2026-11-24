@@ -47,7 +47,8 @@ class Groups(unittest.TestCase):
     def test_codes(self):
         exact, prefixes = hs_map.build_lookup()
         self.assertEqual(hs_map.group_of("720260", exact, prefixes), "nickel-fe")
-        self.assertIsNone(hs_map.group_of("720230", exact, prefixes))  # other ferro-alloys stay out (not steel either)
+        # the other ferro-alloys are in groups of their own since A-010 (the ferro-alloys page): only ferro-nickel is in nickel-fe, and none is steel
+        self.assertEqual(hs_map.group_of("720230", exact, prefixes), "silico-manganese")
         self.assertEqual(hs_map.split_group("253090", "AUS", "CHN"), "spodumene")
         self.assertEqual(hs_map.split_group("253090", "AUS", "JPN"), "minerals-nes")
         self.assertEqual(hs_map.split_group("253090", "ZAF", "CHN"), "minerals-nes")

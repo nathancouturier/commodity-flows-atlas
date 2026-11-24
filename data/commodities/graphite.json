@@ -1,0 +1,760 @@
+{
+ "id": "graphite",
+ "summary": {
+  "production": {
+   "v": 1800.0,
+   "u": "kt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, natural graphite mine production; 2025 values are USGS estimates; USGS world total is rounded"
+  },
+  "reserves": {
+   "v": 310000.0,
+   "u": "kt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, natural graphite reserves; USGS world total is rounded; not given as a number by USGS (W = withheld): Austria (s), Germany (s), Ukraine (s), United States (s)"
+  },
+  "exports": {
+   "v": 449.05,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 natural graphite, in powder or flakes and in other forms (HS 250410, 250490), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  }
+ },
+ "kpis": {
+  "production": "World production (kt of natural graphite)",
+  "reserves": "World reserves (kt of natural graphite)",
+  "exports": "World exports (kt of natural graphite)"
+ },
+ "labels": {
+  "production": "Top producers — kt of natural graphite",
+  "reserves": "Reserves — kt of natural graphite",
+  "exports": "Top exporters — kt of natural graphite, gross weight",
+  "imports": "Top importers — kt of natural graphite, gross weight"
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt",
+  "world": 1800.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 1400.0
+   },
+   {
+    "c": "MDG",
+    "v": 80.0
+   },
+   {
+    "c": "TZA",
+    "v": 75.0
+   },
+   {
+    "c": "BRA",
+    "v": 65.0
+   },
+   {
+    "c": "MOZ",
+    "v": 60.0
+   },
+   {
+    "c": "RUS",
+    "v": 25.0
+   },
+   {
+    "c": "IND",
+    "v": 17.0
+   },
+   {
+    "c": "CAN",
+    "v": 8.0
+   },
+   {
+    "c": "PRK",
+    "v": 8.0
+   },
+   {
+    "c": "NOR",
+    "v": 6.6
+   },
+   {
+    "c": "LKA",
+    "v": 3.2
+   },
+   {
+    "c": "TUR",
+    "v": 2.2
+   },
+   {
+    "c": "UKR",
+    "v": 0.8
+   },
+   {
+    "c": "MEX",
+    "v": 0.74
+   },
+   {
+    "c": "KOR",
+    "v": 0.5
+   },
+   {
+    "c": "VNM",
+    "v": 0.5
+   },
+   {
+    "c": "AUT",
+    "v": 0.2
+   },
+   {
+    "c": "DEU",
+    "v": 0.14
+   }
+  ],
+  "n": "USGS MCS 2026, natural graphite mine production; 2025 values are USGS estimates; USGS world total is rounded",
+  "basis": "natural graphite, as USGS states it"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "kt",
+  "world": 310000.0,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 100000.0
+   },
+   {
+    "c": "BRA",
+    "v": 74000.0
+   },
+   {
+    "c": "MDG",
+    "v": 27000.0
+   },
+   {
+    "c": "MOZ",
+    "v": 25000.0
+   },
+   {
+    "c": "TZA",
+    "v": 18000.0
+   },
+   {
+    "c": "RUS",
+    "v": 14000.0
+   },
+   {
+    "c": "VNM",
+    "v": 9700.0
+   },
+   {
+    "c": "IND",
+    "v": 8600.0
+   },
+   {
+    "c": "TUR",
+    "v": 6900.0
+   },
+   {
+    "c": "CAN",
+    "v": 5900.0
+   },
+   {
+    "c": "MEX",
+    "v": 3100.0
+   },
+   {
+    "c": "PRK",
+    "v": 2000.0
+   },
+   {
+    "c": "KOR",
+    "v": 1800.0
+   },
+   {
+    "c": "LKA",
+    "v": 1500.0
+   },
+   {
+    "c": "NOR",
+    "v": 600.0
+   }
+  ],
+  "n": "USGS MCS 2026, natural graphite reserves; USGS world total is rounded; not given as a number by USGS (W = withheld): Austria (s), Germany (s), Ukraine (s), United States (s)",
+  "basis": "natural graphite, as USGS states it"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 449.05,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 172.69,
+    "usd": 308054000,
+    "uv": 1780
+   },
+   {
+    "c": "MDG",
+    "v": 83.208,
+    "usd": 59319000,
+    "uv": 713
+   },
+   {
+    "c": "MOZ",
+    "v": 79.024,
+    "usd": 43131000,
+    "uv": 546
+   },
+   {
+    "c": "TZA",
+    "v": 37.192,
+    "usd": 18203000,
+    "uv": 489
+   },
+   {
+    "c": "DEU",
+    "v": 14.496,
+    "usd": 26886000,
+    "uv": 1850
+   },
+   {
+    "c": "CAN",
+    "v": 11.501,
+    "usd": 15975000,
+    "uv": 1390
+   },
+   {
+    "c": "BRA",
+    "v": 9.549,
+    "usd": 19621000,
+    "uv": 2050
+   },
+   {
+    "c": "USA",
+    "v": 9.156,
+    "usd": 12502000,
+    "uv": 1370
+   },
+   {
+    "c": "NOR",
+    "v": 9.114,
+    "usd": 8503000,
+    "uv": 933
+   },
+   {
+    "c": "MEX",
+    "v": 6.781,
+    "usd": 5745000,
+    "uv": 847
+   },
+   {
+    "c": "KOR",
+    "v": 5.116,
+    "usd": 13416000,
+    "uv": 2620
+   },
+   {
+    "c": "NLD",
+    "v": 2.266,
+    "usd": 2433000,
+    "uv": 1070
+   },
+   {
+    "c": "ESP",
+    "v": 1.666,
+    "usd": 697000,
+    "uv": 418
+   },
+   {
+    "c": "AUT",
+    "v": 1.434,
+    "usd": 1703000,
+    "uv": 1190
+   },
+   {
+    "c": "UKR",
+    "v": 1.394,
+    "usd": 168000,
+    "uv": 121
+   },
+   {
+    "c": "UGA",
+    "v": 1.224,
+    "usd": 103000,
+    "uv": 84.2
+   },
+   {
+    "c": "CZE",
+    "v": 1.153,
+    "usd": 1041000,
+    "uv": 903
+   },
+   {
+    "c": "LKA",
+    "v": 1.007,
+    "usd": 1673000,
+    "uv": 1660
+   },
+   {
+    "c": "JPN",
+    "v": 0.781,
+    "usd": 5650000,
+    "uv": 7230
+   },
+   {
+    "c": "GBR",
+    "v": 0.294,
+    "usd": 1054000,
+    "uv": 3590
+   }
+  ],
+  "n": "CEPII BACI HS92 natural graphite, in powder or flakes and in other forms (HS 250410, 250490), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "natural graphite, gross weight",
+  "usd": 545877000,
+  "uv": 1220
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "kt",
+  "world": 449.05,
+  "rows": [
+   {
+    "c": "USA",
+    "v": 70.303,
+    "usd": 143386000,
+    "uv": 2040
+   },
+   {
+    "c": "CHN",
+    "v": 59.656,
+    "usd": 28725000,
+    "uv": 482
+   },
+   {
+    "c": "IND",
+    "v": 57.926,
+    "usd": 35843000,
+    "uv": 619
+   },
+   {
+    "c": "DEU",
+    "v": 48.818,
+    "usd": 67415000,
+    "uv": 1380
+   },
+   {
+    "c": "JPN",
+    "v": 44.704,
+    "usd": 73839000,
+    "uv": 1650
+   },
+   {
+    "c": "KOR",
+    "v": 28.737,
+    "usd": 39261000,
+    "uv": 1370
+   },
+   {
+    "c": "IDN",
+    "v": 15.64,
+    "usd": 13012000,
+    "uv": 832
+   },
+   {
+    "c": "AUT",
+    "v": 15.198,
+    "usd": 15534000,
+    "uv": 1020
+   },
+   {
+    "c": "BEL",
+    "v": 13.621,
+    "usd": 8256000,
+    "uv": 606
+   },
+   {
+    "c": "TUR",
+    "v": 12.667,
+    "usd": 13281000,
+    "uv": 1050
+   },
+   {
+    "c": "POL",
+    "v": 12.653,
+    "usd": 38361000,
+    "uv": 3030
+   },
+   {
+    "c": "SVN",
+    "v": 11.104,
+    "usd": 3371000,
+    "uv": 304
+   },
+   {
+    "c": "CAN",
+    "v": 7.972,
+    "usd": 6189000,
+    "uv": 776
+   },
+   {
+    "c": "NLD",
+    "v": 7.507,
+    "usd": 8204000,
+    "uv": 1090
+   },
+   {
+    "c": "TWN",
+    "v": 6.267,
+    "usd": 10547000,
+    "uv": 1680
+   },
+   {
+    "c": "ESP",
+    "v": 5.056,
+    "usd": 4659000,
+    "uv": 921
+   },
+   {
+    "c": "GBR",
+    "v": 5.009,
+    "usd": 4091000,
+    "uv": 817
+   },
+   {
+    "c": "CZE",
+    "v": 3.568,
+    "usd": 3443000,
+    "uv": 965
+   },
+   {
+    "c": "FRA",
+    "v": 3.525,
+    "usd": 7455000,
+    "uv": 2110
+   },
+   {
+    "c": "MEX",
+    "v": 3.183,
+    "usd": 4694000,
+    "uv": 1470
+   },
+   {
+    "c": "IRN",
+    "v": 3.142,
+    "usd": 1262000,
+    "uv": 402
+   },
+   {
+    "c": "ITA",
+    "v": 2.718,
+    "usd": 3997000,
+    "uv": 1470
+   },
+   {
+    "c": "THA",
+    "v": 2.466,
+    "usd": 1421000,
+    "uv": 576
+   },
+   {
+    "c": "RUS",
+    "v": 2.151,
+    "usd": 1747000,
+    "uv": 812
+   },
+   {
+    "c": "ARE",
+    "v": 1.91,
+    "usd": 1054000,
+    "uv": 552
+   },
+   {
+    "c": "VNM",
+    "v": 1.35,
+    "usd": 1447000,
+    "uv": 1070
+   },
+   {
+    "c": "SWE",
+    "v": 1.06,
+    "usd": 3723000,
+    "uv": 3510
+   },
+   {
+    "c": "PAK",
+    "v": 1.053,
+    "usd": 474000,
+    "uv": 450
+   },
+   {
+    "c": "HUN",
+    "v": 0.085,
+    "usd": 1186000,
+    "uv": 14000
+   }
+  ],
+  "n": "CEPII BACI HS92 natural graphite, in powder or flakes and in other forms (HS 250410, 250490), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "natural graphite, gross weight",
+  "usd": 545877000,
+  "uv": 1220
+ },
+ "flows": [
+  {
+   "o": "CHN",
+   "d": "JPN",
+   "v": 41.14,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 68908000,
+   "uv": 1670
+  },
+  {
+   "o": "CHN",
+   "d": "USA",
+   "v": 33.214,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 97861000,
+   "uv": 2950
+  },
+  {
+   "o": "CHN",
+   "d": "KOR",
+   "v": 28.737,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 39261000,
+   "uv": 1370
+  },
+  {
+   "o": "TZA",
+   "d": "CHN",
+   "v": 28.097,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 12935000,
+   "uv": 460
+  },
+  {
+   "o": "MDG",
+   "d": "IND",
+   "v": 19.779,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 16173000,
+   "uv": 818
+  },
+  {
+   "o": "MDG",
+   "d": "CHN",
+   "v": 19.019,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 7733000,
+   "uv": 407
+  },
+  {
+   "o": "CHN",
+   "d": "DEU",
+   "v": 18.358,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 31408000,
+   "uv": 1710
+  },
+  {
+   "o": "MOZ",
+   "d": "IND",
+   "v": 18.136,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 7903000,
+   "uv": 436
+  },
+  {
+   "o": "CAN",
+   "d": "USA",
+   "v": 10.487,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 14515000,
+   "uv": 1380
+  },
+  {
+   "o": "MOZ",
+   "d": "CHN",
+   "v": 10.471,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 4450000,
+   "uv": 425
+  },
+  {
+   "o": "CHN",
+   "d": "IND",
+   "v": 10.204,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 4824000,
+   "uv": 473
+  },
+  {
+   "o": "MOZ",
+   "d": "IDN",
+   "v": 10.191,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 4845000,
+   "uv": 475
+  },
+  {
+   "o": "MDG",
+   "d": "DEU",
+   "v": 9.21,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 9719000,
+   "uv": 1060
+  },
+  {
+   "o": "TZA",
+   "d": "IND",
+   "v": 9.095,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5268000,
+   "uv": 579
+  },
+  {
+   "o": "MOZ",
+   "d": "DEU",
+   "v": 8.564,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5882000,
+   "uv": 687
+  },
+  {
+   "o": "MDG",
+   "d": "USA",
+   "v": 8.484,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 8566000,
+   "uv": 1010
+  },
+  {
+   "o": "MOZ",
+   "d": "AUT",
+   "v": 8.102,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5369000,
+   "uv": 663
+  },
+  {
+   "o": "MDG",
+   "d": "BEL",
+   "v": 7.861,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 2083000,
+   "uv": 265
+  },
+  {
+   "o": "MOZ",
+   "d": "USA",
+   "v": 7.817,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 5971000,
+   "uv": 764
+  },
+  {
+   "o": "MOZ",
+   "d": "SVN",
+   "v": 7.418,
+   "u": "kt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1906000,
+   "uv": 257
+  }
+ ],
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.7778
+   },
+   "top3": 0.8639,
+   "hhi": 6114,
+   "eq": 1.6,
+   "k": 18,
+   "cov": 0.9738
+  },
+  "reserves": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3226
+   },
+   "top3": 0.6484,
+   "hhi": 1833,
+   "eq": 5.5,
+   "k": 15,
+   "cov": 0.9616
+  },
+  "exports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.3846
+   },
+   "top3": 0.7458,
+   "hhi": 2235,
+   "eq": 4.5,
+   "k": 20,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "USA",
+    "p": 0.1566
+   },
+   "top3": 0.4184,
+   "hhi": 915,
+   "eq": 10.9,
+   "k": 29,
+   "cov": 1.0
+  }
+ },
+ "notes": [
+  "No lanes: the atlas shows the customs trade of this product as tables only (449 kt of exports in 2024).",
+  "Trade is natural graphite, in powder or flakes (HS 250410) and in other forms (HS 250490), customs gross weight (kt). USGS production and reserves are natural graphite as USGS states it, in the file's metric tons (shown in kt). Artificial graphite and graphite articles are not loaded.",
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for graphite, and no other free one was loaded."
+ ]
+}

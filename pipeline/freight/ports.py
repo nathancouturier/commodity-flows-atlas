@@ -183,6 +183,10 @@ SEGMENT = {
     # minor metals and chemicals that sail in bags, drums or containers (M-015): general cargo, as refined copper
     "lead-metal": "box", "zinc-metal": "box", "tin-metal": "box", "tin-ore": "box", "cobalt": "box", "lithium": "box",
     "rare-earths": "box",
+    # the metal bulks added with A-010: chromite, scrap, pig iron and direct-reduced iron sail in bulk (the ore rows and fall-backs, the dry-bulk
+    # comparison of the chokepoint estimates), coke with the coal rows; the ferro-alloys are general cargo or containers like the minor metals
+    "chromium-ore": "ore", "ferrous-scrap": "ore", "pig-iron": "ore", "dri": "ore", "coke": "coal",
+    "ferro-chromium": "box", "ferro-manganese": "box", "silico-manganese": "box", "ferro-silicon": "box",
 }
 
 _FALLBACK = {"ore": ["ore", "any"], "coal": ["coal", "any"], "metcoal": ["metcoal", "coal", "any"]}
@@ -323,7 +327,8 @@ def segment(group):
 # fertiliser jetty, bagged and bulk product) says nothing of a refrigerated ammonia terminal, of a liquid terminal for UAN
 # or phosphoric acid, or of a sulphur berth. Only a row that names the group counts as "page names the cargo"; otherwise the
 # engine's own fall-backs give the general port of the country (no port is attached to these cargoes on the atlas's authority).
-OWN_FAMILY = {"sugar", "ammonia", "uan", "phosphoric-acid", "sulphur"}
+# Coke (A-010) is the same: a page that names a coal terminal says nothing of coke.
+OWN_FAMILY = {"sugar", "ammonia", "uan", "phosphoric-acid", "sulphur", "coke"}
 
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
 BASIS_PAGE = "page names the cargo"
@@ -338,7 +343,8 @@ GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
 # Groups of the "box" segment (minor metals and chemicals, package L1) whose box rows name containers or general cargo, not
 # the product: such a row is a general port of the country for them, not a page that names the cargo (review GL1.6). A
 # row that names the group itself keeps "page names the cargo".
-BOX_GENERAL = frozenset({"lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths"})
+BOX_GENERAL = frozenset({"lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths",
+                         "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"})
 
 # Oil, gas and ore terminals that the audit found carrying other cargo (plan 2.4, test G01; C-020 for Tubarao and
 # Saldanha Bay): the legacy table and the nearest-port search may give them only for the cargo they serve.

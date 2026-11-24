@@ -144,6 +144,14 @@ const COMMODITY_ALIASES: Record<string, string[]> = {
   rapeseed: ['rapeseed oil', 'canola oil', 'rapeseed meal', 'canola meal', 'colza', 'mustard oil'],
   pulses: ['peas', 'chickpeas', 'lentils', 'beans', 'dried beans', 'legumes', 'garbanzo'],
   npk: ['compound fertiliser', 'compound fertilizer', 'NPK', 'fertiliser', 'fertilizer'],
+  // the metal bulks (A-010): the trade names of the raw materials of steel and of the ferro-alloys, as a buyer writes them
+  'ferrous-scrap': ['scrap', 'steel scrap', 'iron scrap', 'metal scrap', 'ferrous waste', 'recycled steel'],
+  'pig-iron': ['pig iron', 'DRI', 'direct reduced iron', 'direct-reduced iron', 'sponge iron', 'spongy iron', 'spiegeleisen'],
+  chromium: ['chromite', 'chrome', 'chrome ore', 'chromium ore'],
+  'ferro-alloys': ['ferroalloys', 'ferro alloys', 'ferrochrome', 'ferrochromium', 'ferro-chromium', 'ferromanganese', 'ferro-manganese', 'silicomanganese', 'silico-manganese', 'ferrosilicon', 'ferro-silicon', 'ferromolybdenum', 'ferrovanadium', 'ferroniobium', 'ferrotungsten', 'ferrotitanium'],
+  'met-coal': ['coke', 'metallurgical coke', 'semi-coke', 'coking coal'],
+  molybdenum: ['molybdenite', 'moly', 'molybdenum concentrate'],
+  graphite: ['natural graphite', 'flake graphite'],
 };
 
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);

@@ -38,7 +38,9 @@ TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil",
 # general cargo: compared with PortWatch's container, general-cargo and ro-ro ships (review GE6, finding 7)
 CARGO = {"steel", "copper-refined", "aluminium", "coffee", "cocoa", "cotton",
          # package L1: the minor metals that sail as general cargo
-         "lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths"}
+         "lead-metal", "zinc-metal", "tin-metal", "tin-ore", "cobalt", "lithium", "rare-earths",
+         # package NC3: the ferro-alloys that sail as general cargo (scrap, chromite, pig iron, DRI and coke are dry bulk)
+         "ferro-chromium", "ferro-manganese", "silico-manganese", "ferro-silicon"}
 
 
 def vtype(g):

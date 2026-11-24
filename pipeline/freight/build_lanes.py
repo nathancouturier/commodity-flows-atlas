@@ -83,6 +83,9 @@ GROUPS = {
     # Wheat flour and brewing and distilling dregs go in bags and boxes for a large part: tables only, no lanes
     "barley": "Mt", "sorghum": "Mt", "sunflower-seed": "Mt", "sunflower-oil": "Mt", "sunflower-meal": "Mt",
     "rapeseed-oil": "Mt", "rapeseed-meal": "Mt", "pulses": "Mt",
+    # the metal bulks added with A-010: scrap, chromite, pig iron, direct-reduced iron and coke sail in bulk, the ferro-alloys as general cargo
+    "ferrous-scrap": "Mt", "chromium-ore": "Mt", "pig-iron": "Mt", "dri": "Mt", "coke": "Mt",
+    "ferro-chromium": "Mt", "ferro-manganese": "Mt", "silico-manganese": "Mt", "ferro-silicon": "Mt",
 }
 # atlas commodity id for each group (the site loads lanes by commodity)
 COMMODITY = {
@@ -94,6 +97,8 @@ COMMODITY = {
     "phosphoric-acid": "phosphate", "ammonia": "urea", "ammonium-nitrate": "urea", "uan": "urea", "ammonium-sulphate": "urea",
     "sunflower-seed": "sunflower", "sunflower-oil": "sunflower", "sunflower-meal": "sunflower",
     "rapeseed-oil": "rapeseed", "rapeseed-meal": "rapeseed",
+    "chromium-ore": "chromium", "dri": "pig-iron", "coke": "met-coal",
+    "ferro-chromium": "ferro-alloys", "ferro-manganese": "ferro-alloys", "silico-manganese": "ferro-alloys", "ferro-silicon": "ferro-alloys",
 }
 LABEL = {
     "coal": "Coal (all types)", "copper-ore": "Copper concentrate", "copper-refined": "Refined & blister copper",
@@ -109,6 +114,12 @@ LABEL = {
     # what each code holds in HS 1992 (the oils' codes hold two oils each; pulses are every dried leguminous vegetable, shelled)
     "sunflower-seed": "Sunflower seed", "sunflower-oil": "Sunflower and safflower oil", "sunflower-meal": "Sunflower meal",
     "rapeseed-oil": "Rapeseed, canola and mustard oil", "rapeseed-meal": "Rapeseed meal", "pulses": "Dried pulses",
+    # what each code holds in HS 1992 (A-010): heading 7204 is every ferrous waste and scrap; 7203 also holds spongy ferrous products and
+    # iron of 99.94% purity or more; 2704 is coke and semi-coke of coal, lignite or peat; the last ferro-alloy group is every alloy
+    # of heading 7202 that has no group of its own, ferro-nickel excepted
+    "ferrous-scrap": "Ferrous scrap", "chromium-ore": "Chromium ore (chromite)", "pig-iron": "Pig iron",
+    "dri": "Direct-reduced iron and spongy iron", "coke": "Coke and semi-coke", "ferro-chromium": "Ferro-chromium",
+    "ferro-manganese": "Ferro-manganese", "silico-manganese": "Silico-manganese", "ferro-silicon": "Ferro-silicon",
 }
 # Groups that are an Atlas estimate by construction (a read of a customs code that mixes products, hs_map.SPLIT): their
 # flows, lane file and pairs file carry the source id "atlas" and this note of the method.
@@ -140,6 +151,8 @@ CAP = {
     "ammonia": 60, "ammonium-nitrate": 40, "uan": 40, "ammonium-sulphate": 60, "sulphur": 60,
     "barley": 80, "sorghum": 40, "sunflower-seed": 60, "sunflower-oil": 60, "sunflower-meal": 60, "rapeseed-oil": 60,
     "rapeseed-meal": 40, "pulses": 80,
+    "ferrous-scrap": 80, "chromium-ore": 30, "pig-iron": 40, "dri": 30, "coke": 60,
+    "ferro-chromium": 40, "ferro-manganese": 40, "silico-manganese": 40, "ferro-silicon": 60,
 }
 # The minor metals trade in parcels of a few thousand tonnes (tin, cobalt, lithium and rare-earth groups hold 0.1 to
 # 0.7 Mt a year in all) and unwrought lead and zinc over hundreds of small pairs: their floor is lower, so that the main
@@ -152,7 +165,12 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          "potassium-sulphate": 0.01, "ammonium-nitrate": 0.02,
          # sunflower seed (2.2 Mt by sea over 358 pairs) and rapeseed oil (2.8 Mt over 323 pairs) trade in parcels of a few tens of
          # thousands of tonnes: the default floor kept 49% and 35% of their seaborne tonnes in the main set (M-023)
-         "sunflower-seed": 0.01, "rapeseed-oil": 0.01}
+         "sunflower-seed": 0.01, "rapeseed-oil": 0.01,
+         # the ferro-alloys (A-010) trade in parcels of a few thousand tonnes: ferro-manganese and silico-manganese (1.6 and 2.7 Mt by sea over
+         # 146 and 217 pairs) and ferro-silicon (1.8 Mt over 266 pairs) kept 39%, 45% and 31% of their seaborne tonnes in the main set at the
+         # default floor; ferro-silicon, more scattered, needs a lower floor than the other two. The other ferro-alloys (0.6 Mt over 396 pairs, seven
+         # codes of different alloys) reach no coverage at a floor that leaves a readable set: they have tables and no lanes
+         "ferro-manganese": 0.02, "silico-manganese": 0.02, "ferro-silicon": 0.005}
 FLOOR_DEFAULT = 0.05
 # history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
 # three years before the latest, so that a new BACI year moves the window)

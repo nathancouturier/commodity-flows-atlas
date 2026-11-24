@@ -1,0 +1,879 @@
+{
+ "id": "chromium",
+ "summary": {
+  "production": {
+   "v": 51.0,
+   "u": "Mt",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, world total as published (rounded); the countries it names and its 'Other countries' line add up to 50.9 Mt, on which the shares of the table are computed"
+  },
+  "reserves": {
+   "v": 540.0,
+   "u": "Mt Cr2O3",
+   "y": 2025,
+   "s": "usgs-mcs",
+   "n": "USGS MCS 2026, chromium reserves, Cr2O3 content; USGS world total is rounded; USGS reports the world total as a minimum (>540,000)"
+  },
+  "exports": {
+   "v": 28.083,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "CEPII BACI HS92 chromium ores and concentrates (HS 2610), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)"
+  },
+  "seaborne": {
+   "v": 18.78,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "n": "seaborne subset of BACI flows (chromium-ore) under the atlas's mode rule (method in the About window): trade by sea, or by sea through a foreign port for a landlocked country"
+  }
+ },
+ "kpis": {
+  "production": "World production (Mt of ore)",
+  "reserves": "World reserves (Mt Cr2O3)",
+  "exports": "World exports (Mt of ore)"
+ },
+ "labels": {
+  "production": "Top producers — Mt of chromite ore, gross weight",
+  "reserves": "Reserves — Mt of Cr2O3 content",
+  "exports": "Top exporters — Mt of chromium ore, gross weight",
+  "imports": "Top importers — Mt of chromium ore, gross weight"
+ },
+ "production": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt",
+  "world": 50.9,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 23.0
+   },
+   {
+    "c": "TUR",
+    "v": 9.0
+   },
+   {
+    "c": "KAZ",
+    "v": 7.0
+   },
+   {
+    "c": "IND",
+    "v": 3.0
+   },
+   {
+    "c": "BRA",
+    "v": 2.0
+   },
+   {
+    "c": "ZWE",
+    "v": 2.0
+   },
+   {
+    "c": "FIN",
+    "v": 1.9
+   }
+  ],
+  "n": "USGS MCS 2026, chromite mine production, gross weight; 2025 values are USGS estimates; USGS world total is rounded; the countries and USGS 'Other countries' add up to 50.9 Mt, while the rounded world total of 51 Mt is 0.2% above that sum: shares are computed on the sum; Mine production and ore reserves are reported in gross weight",
+  "other": 3.0,
+  "worldPublished": 51.0,
+  "basis": "chromite ore, gross weight"
+ },
+ "reserves": {
+  "y": 2025,
+  "s": "usgs-mcs",
+  "u": "Mt Cr2O3",
+  "world": 540.0,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 110.0
+   },
+   {
+    "c": "KAZ",
+    "v": 100.0
+   },
+   {
+    "c": "ZWE",
+    "v": 78.0
+   },
+   {
+    "c": "IND",
+    "v": 27.0
+   },
+   {
+    "c": "FIN",
+    "v": 16.0
+   },
+   {
+    "c": "TUR",
+    "v": 5.7
+   },
+   {
+    "c": "BRA",
+    "v": 1.0
+   },
+   {
+    "c": "USA",
+    "v": 0.63
+   }
+  ],
+  "n": "USGS MCS 2026, chromium reserves, Cr2O3 content; USGS world total is rounded; USGS reports the world total as a minimum (>540,000)",
+  "basis": "Cr2O3 content"
+ },
+ "exports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 28.083,
+  "rows": [
+   {
+    "c": "ZAF",
+    "v": 23.391,
+    "usd": 7687759000,
+    "uv": 329
+   },
+   {
+    "c": "TUR",
+    "v": 1.385,
+    "usd": 440193000,
+    "uv": 318
+   },
+   {
+    "c": "ZWE",
+    "v": 1.31,
+    "usd": 381444000,
+    "uv": 291
+   },
+   {
+    "c": "PAK",
+    "v": 0.4102,
+    "usd": 134658000,
+    "uv": 328
+   },
+   {
+    "c": "ALB",
+    "v": 0.382,
+    "usd": 113932000,
+    "uv": 298
+   },
+   {
+    "c": "KAZ",
+    "v": 0.2942,
+    "usd": 113723000,
+    "uv": 387
+   },
+   {
+    "c": "OMN",
+    "v": 0.2366,
+    "usd": 55408000,
+    "uv": 234
+   },
+   {
+    "c": "PNG",
+    "v": 0.1724,
+    "usd": 55274000,
+    "uv": 321
+   },
+   {
+    "c": "MDG",
+    "v": 0.1343,
+    "usd": 35342000,
+    "uv": 263
+   },
+   {
+    "c": "PHL",
+    "v": 0.1039,
+    "usd": 39885000,
+    "uv": 384
+   },
+   {
+    "c": "ARE",
+    "v": 0.0573,
+    "usd": 16996000,
+    "uv": 297
+   },
+   {
+    "c": "NLD",
+    "v": 0.046,
+    "usd": 15524000,
+    "uv": 338
+   },
+   {
+    "c": "MOZ",
+    "v": 0.0413,
+    "usd": 14436000,
+    "uv": 349
+   },
+   {
+    "c": "CHN",
+    "v": 0.0386,
+    "usd": 17860000,
+    "uv": 463
+   },
+   {
+    "c": "IRN",
+    "v": 0.0273,
+    "usd": 8466000,
+    "uv": 311
+   },
+   {
+    "c": "BRA",
+    "v": 0.0203,
+    "usd": 4100000,
+    "uv": 201
+   },
+   {
+    "c": "DEU",
+    "v": 0.0185,
+    "usd": 9584000,
+    "uv": 517
+   },
+   {
+    "c": "RUS",
+    "v": 0.0037,
+    "usd": 1170000,
+    "uv": 315
+   },
+   {
+    "c": "SGP",
+    "v": 0.0035,
+    "usd": 1241000,
+    "uv": 359
+   },
+   {
+    "c": "SDN",
+    "v": 0.0029,
+    "usd": 779000,
+    "uv": 265
+   },
+   {
+    "c": "USA",
+    "v": 0.0018,
+    "usd": 1283000,
+    "uv": 695
+   },
+   {
+    "c": "POL",
+    "v": 0.0016,
+    "usd": 1377000,
+    "uv": 865
+   },
+   {
+    "c": "IND",
+    "v": 0.001,
+    "usd": 634000,
+    "uv": 619
+   }
+  ],
+  "n": "CEPII BACI HS92 chromium ores and concentrates (HS 2610), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ore, gross weight",
+  "usd": 9151068000,
+  "uv": 326
+ },
+ "imports": {
+  "y": 2024,
+  "s": "baci",
+  "u": "Mt",
+  "world": 28.083,
+  "rows": [
+   {
+    "c": "CHN",
+    "v": 15.183,
+    "usd": 5721406000,
+    "uv": 377
+   },
+   {
+    "c": "MOZ",
+    "v": 8.807,
+    "usd": 1982171000,
+    "uv": 225
+   },
+   {
+    "c": "IDN",
+    "v": 1.405,
+    "usd": 631300000,
+    "uv": 449
+   },
+   {
+    "c": "HKG",
+    "v": 0.4991,
+    "usd": 92644000,
+    "uv": 186
+   },
+   {
+    "c": "SGP",
+    "v": 0.3601,
+    "usd": 66357000,
+    "uv": 184
+   },
+   {
+    "c": "RUS",
+    "v": 0.3319,
+    "usd": 133796000,
+    "uv": 403
+   },
+   {
+    "c": "ARE",
+    "v": 0.2766,
+    "usd": 61358000,
+    "uv": 222
+   },
+   {
+    "c": "IND",
+    "v": 0.2433,
+    "usd": 80537000,
+    "uv": 331
+   },
+   {
+    "c": "SWE",
+    "v": 0.1496,
+    "usd": 41344000,
+    "uv": 276
+   },
+   {
+    "c": "TUR",
+    "v": 0.1468,
+    "usd": 53296000,
+    "uv": 363
+   },
+   {
+    "c": "NLD",
+    "v": 0.1102,
+    "usd": 36098000,
+    "uv": 328
+   },
+   {
+    "c": "ZAF",
+    "v": 0.109,
+    "usd": 53877000,
+    "uv": 494
+   },
+   {
+    "c": "DEU",
+    "v": 0.0855,
+    "usd": 31020000,
+    "uv": 363
+   },
+   {
+    "c": "USA",
+    "v": 0.0614,
+    "usd": 32871000,
+    "uv": 536
+   },
+   {
+    "c": "JPN",
+    "v": 0.0524,
+    "usd": 24203000,
+    "uv": 462
+   },
+   {
+    "c": "BEL",
+    "v": 0.028,
+    "usd": 13169000,
+    "uv": 470
+   },
+   {
+    "c": "ITA",
+    "v": 0.0223,
+    "usd": 8020000,
+    "uv": 360
+   },
+   {
+    "c": "OMN",
+    "v": 0.019,
+    "usd": 5003000,
+    "uv": 264
+   },
+   {
+    "c": "ESP",
+    "v": 0.0178,
+    "usd": 7476000,
+    "uv": 420
+   },
+   {
+    "c": "GEO",
+    "v": 0.0167,
+    "usd": 6396000,
+    "uv": 382
+   },
+   {
+    "c": "AUT",
+    "v": 0.0154,
+    "usd": 7536000,
+    "uv": 488
+   },
+   {
+    "c": "TWN",
+    "v": 0.0147,
+    "usd": 7669000,
+    "uv": 523
+   },
+   {
+    "c": "GBR",
+    "v": 0.0131,
+    "usd": 6503000,
+    "uv": 496
+   },
+   {
+    "c": "BRA",
+    "v": 0.0121,
+    "usd": 5629000,
+    "uv": 464
+   },
+   {
+    "c": "VGB",
+    "v": 0.0098,
+    "usd": 2188000,
+    "uv": 223
+   },
+   {
+    "c": "CHE",
+    "v": 0.0094,
+    "usd": 2835000,
+    "uv": 303
+   },
+   {
+    "c": "FRA",
+    "v": 0.009,
+    "usd": 3610000,
+    "uv": 400
+   },
+   {
+    "c": "ZMB",
+    "v": 0.0089,
+    "usd": 1477000,
+    "uv": 166
+   },
+   {
+    "c": "CAN",
+    "v": 0.0077,
+    "usd": 4878000,
+    "uv": 630
+   },
+   {
+    "c": "CHL",
+    "v": 0.0075,
+    "usd": 4334000,
+    "uv": 581
+   },
+   {
+    "c": "MYS",
+    "v": 0.0071,
+    "usd": 2278000,
+    "uv": 323
+   },
+   {
+    "c": "KOR",
+    "v": 0.0068,
+    "usd": 2622000,
+    "uv": 388
+   },
+   {
+    "c": "SYC",
+    "v": 0.0061,
+    "usd": 886000,
+    "uv": 146
+   },
+   {
+    "c": "UKR",
+    "v": 0.0053,
+    "usd": 3022000,
+    "uv": 567
+   },
+   {
+    "c": "MEX",
+    "v": 0.0052,
+    "usd": 2888000,
+    "uv": 558
+   },
+   {
+    "c": "AUS",
+    "v": 0.0047,
+    "usd": 2142000,
+    "uv": 453
+   },
+   {
+    "c": "POL",
+    "v": 0.0045,
+    "usd": 2079000,
+    "uv": 461
+   },
+   {
+    "c": "PER",
+    "v": 0.0038,
+    "usd": 2126000,
+    "uv": 559
+   },
+   {
+    "c": "SVK",
+    "v": 0.0028,
+    "usd": 1796000,
+    "uv": 631
+   },
+   {
+    "c": "ROU",
+    "v": 0.0014,
+    "usd": 685000,
+    "uv": 486
+   },
+   {
+    "c": "ARG",
+    "v": 0.0013,
+    "usd": 909000,
+    "uv": 689
+   },
+   {
+    "c": "LVA",
+    "v": 0.0011,
+    "usd": 474000,
+    "uv": 439
+   },
+   {
+    "c": "ZWE",
+    "v": 0.001,
+    "usd": 160000,
+    "uv": 158
+   }
+  ],
+  "n": "CEPII BACI HS92 chromium ores and concentrates (HS 2610), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+  "basis": "ore, gross weight",
+  "usd": 9151068000,
+  "uv": 326
+ },
+ "flows": [
+  {
+   "o": "ZAF",
+   "d": "CHN",
+   "v": 12.004,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 4724629000,
+   "uv": 394,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "MOZ",
+   "v": 8.266,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 1893214000,
+   "uv": 229,
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "IDN",
+   "v": 1.283,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 582316000,
+   "uv": 454,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-IDN"
+  },
+  {
+   "o": "TUR",
+   "d": "CHN",
+   "v": 1.067,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 326949000,
+   "uv": 306,
+   "mode": "sea",
+   "lane": "chromium-ore:TUR-CHN"
+  },
+  {
+   "o": "ZWE",
+   "d": "CHN",
+   "v": 0.6487,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 236097000,
+   "uv": 364,
+   "mode": "sea",
+   "transit": {
+    "port": "MZBEW",
+    "c": "MOZ",
+    "s": "wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Port_of_Beira"
+   },
+   "lane": "chromium-ore:ZWE-CHN"
+  },
+  {
+   "o": "ZWE",
+   "d": "MOZ",
+   "v": 0.5403,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 88957000,
+   "uv": 165,
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "HKG",
+   "v": 0.4737,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 86957000,
+   "uv": 184,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-HKG"
+  },
+  {
+   "o": "PAK",
+   "d": "CHN",
+   "v": 0.3638,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 113173000,
+   "uv": 311,
+   "mode": "sea",
+   "lane": "chromium-ore:PAK-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "SGP",
+   "v": 0.3573,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 65902000,
+   "uv": 184,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-SGP"
+  },
+  {
+   "o": "ALB",
+   "d": "CHN",
+   "v": 0.3199,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 93486000,
+   "uv": 292,
+   "mode": "sea",
+   "lane": "chromium-ore:ALB-CHN"
+  },
+  {
+   "o": "KAZ",
+   "d": "RUS",
+   "v": 0.2942,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 113723000,
+   "uv": 387,
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "ARE",
+   "v": 0.2669,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 59243000,
+   "uv": 222,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-ARE"
+  },
+  {
+   "o": "OMN",
+   "d": "CHN",
+   "v": 0.2351,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 54685000,
+   "uv": 233,
+   "mode": "sea",
+   "lane": "chromium-ore:OMN-CHN"
+  },
+  {
+   "o": "ZAF",
+   "d": "IND",
+   "v": 0.2277,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 73692000,
+   "uv": 324,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-IND"
+  },
+  {
+   "o": "PNG",
+   "d": "CHN",
+   "v": 0.1724,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 55274000,
+   "uv": 321,
+   "mode": "sea",
+   "lane": "chromium-ore:PNG-CHN"
+  },
+  {
+   "o": "TUR",
+   "d": "SWE",
+   "v": 0.1496,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 41344000,
+   "uv": 276,
+   "mode": "sea",
+   "lane": "chromium-ore:TUR-SWE"
+  },
+  {
+   "o": "ZAF",
+   "d": "TUR",
+   "v": 0.1387,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 49482000,
+   "uv": 357,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-TUR"
+  },
+  {
+   "o": "MDG",
+   "d": "CHN",
+   "v": 0.1311,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 34716000,
+   "uv": 265,
+   "mode": "sea",
+   "lane": "chromium-ore:MDG-CHN"
+  },
+  {
+   "o": "ZWE",
+   "d": "ZAF",
+   "v": 0.109,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 53877000,
+   "uv": 494,
+   "mode": "land"
+  },
+  {
+   "o": "ZAF",
+   "d": "NLD",
+   "v": 0.104,
+   "u": "Mt",
+   "y": 2024,
+   "s": "baci",
+   "usd": 33775000,
+   "uv": 325,
+   "mode": "sea",
+   "lane": "chromium-ore:ZAF-NLD"
+  }
+ ],
+ "us": {
+  "s": "usgs-mcs",
+  "consumption": [
+   {
+    "label": "Consumption (includes recycling): Apparent",
+    "u": "kt",
+    "vals": [
+     {
+      "y": 2024,
+      "v": 442.0,
+      "est": false
+     },
+     {
+      "y": 2025,
+      "v": 480.0,
+      "est": true
+     }
+    ],
+    "n": "Defined for 2021-22 as production (from mines and secondary) + imports - exports ± adjustments for Government and industry stock changes. Beginning in 2023, Government stock changes no longer included."
+   }
+  ],
+  "reliance": [
+   {
+    "what": "Chromium, all forms",
+    "pct": "79",
+    "y": 2025,
+    "src": "South Africa, Kazakhstan, Finland, Canada",
+    "srcYears": "2021 to 2024",
+    "n": "Descending order of import share."
+   }
+  ]
+ },
+ "concentration": {
+  "production": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.4519
+   },
+   "top3": 0.7662,
+   "hhi": 2623,
+   "eq": 3.8,
+   "k": 7,
+   "cov": 0.9411
+  },
+  "reserves": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.2037
+   },
+   "top3": 0.5333,
+   "hhi": 1001,
+   "eq": 10.0,
+   "k": 8,
+   "cov": 0.6265
+  },
+  "exports": {
+   "top1": {
+    "c": "ZAF",
+    "p": 0.8329
+   },
+   "top3": 0.9289,
+   "hhi": 6990,
+   "eq": 1.4,
+   "k": 23,
+   "cov": 1.0
+  },
+  "imports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.5406
+   },
+   "top3": 0.9043,
+   "hhi": 3941,
+   "eq": 2.5,
+   "k": 43,
+   "cov": 1.0
+  }
+ },
+ "see": [
+  {
+   "k": "ferro-alloys",
+   "text": "ferro-chromium, the alloy that most chromite is smelted into"
+  }
+ ],
+ "notes": [
+  "Trade is chromium ores and concentrates (HS 2610), customs gross weight, the chromite of the steel and chemical industries. USGS mine production is in the same gross weight (thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: the file also gives reserves in ore, but for 2024, an earlier year than the rest of the table, and the page does not show them.",
+  "Ferro-chromium (HS 720241, 720249) and ferro-silico-chromium are alloys of the ferro-alloys page, not of this one; chromium metal and chromium chemicals are not loaded.",
+  "No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for chromium, and no other free one was loaded."
+ ]
+}

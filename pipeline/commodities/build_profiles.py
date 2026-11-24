@@ -97,6 +97,8 @@ VALUE_GROUPS = {
     "thermal-coal": [], "copper": ["copper-ore"], "bauxite": ["bauxite"], "nickel": ["nickel-ore"],
     "zinc": ["zinc-ore"], "lead": ["lead-ore"], "tin": ["tin-metal"], "phosphate": ["phosphate-rock"], "met-coal": [],
     "sunflower": ["sunflower-seed"],
+    # the metal bulks (A-010): the main table of the page is one group (the ferro-alloys page opens on ferro-chromium)
+    "chromium": ["chromium-ore"], "ferro-alloys": ["ferro-chromium"], "molybdenum": ["molybdenum-ore"],
 }
 COAL = ("thermal-coal", "met-coal")
 ALL_COAL = "Coal (all types)"
@@ -108,7 +110,10 @@ TRADE_LABEL = {"copper": "Copper concentrate", "zinc": "Zinc concentrate", "nick
                # the pages that hold several traded products (M-022): the main line says which one it is
                "phosphate": "Phosphate rock", "urea": "Urea", "potash": "Potassium chloride (potash)",
                # the grains and oilseeds that now hold their products too (M-023)
-               "wheat": "Wheat (grain)", "corn": "Corn (grain)", "rapeseed": "Rapeseed", "sunflower": "Sunflower seed"}
+               "wheat": "Wheat (grain)", "corn": "Corn (grain)", "rapeseed": "Rapeseed", "sunflower": "Sunflower seed",
+               # the metal bulks (A-010)
+               "chromium": "Chromium ore", "ferro-alloys": "Ferro-chromium", "pig-iron": "Pig iron", "molybdenum": "Molybdenum ore and concentrate",
+               "graphite": "Natural graphite"}
 PRODUCTION_LABEL = {"bauxite": "Bauxite", "urea": "Ammonia"}
 
 # Names of HS4 headings. The heading texts of the HS are not reused: the free list on disk is UN Comtrade's, whose terms
@@ -230,7 +235,9 @@ GROUP_K = {"natural-gas": "natural-gas", "uranium": "uranium", "zinc-metal": "zi
            "tin-ore": "tin", "tin-metal": "tin", "lithium": "lithium", "cobalt": "cobalt", "rare-earths": "rare-earths",
            "gold": "gold", "silver": "silver", "pgm": "pgm",
            # the products of the grain pages that have no lanes (M-023)
-           "wheat-flour": "wheat", "brewing-distilling-dregs": "corn"}
+           "wheat-flour": "wheat", "brewing-distilling-dregs": "corn",
+           # the groups of the metal bulks that have no lanes (A-010)
+           "ferro-alloys-other": "ferro-alloys", "molybdenum-ore": "molybdenum", "graphite": "graphite"}
 # A traded product of a commodity: its exports and imports tables (section or extra key), the customs group of its
 # partners, and the production table that would carry the country if it produced it (None: the atlas has none).
 # The main table of each commodity is added in products() with the group MAIN_GROUP gives.
@@ -257,10 +264,18 @@ PRODUCTS = [
     ("sunflower", "sunflower-meal-exports", "sunflower-meal-imports", "sunflower-meal", "sunflower-meal-production"),
     ("rapeseed", "rapeseed-oil-exports", "rapeseed-oil-imports", "rapeseed-oil", "rapeseed-oil-production"),
     ("rapeseed", "rapeseed-meal-exports", "rapeseed-meal-imports", "rapeseed-meal", "rapeseed-meal-production"),
+    # the metal bulks (A-010)
+    ("pig-iron", "dri-exports", "dri-imports", "dri", None),
+    ("met-coal", "coke-customs-exports", "coke-customs-imports", "coke", None),
+    ("ferro-alloys", "ferro-manganese-exports", "ferro-manganese-imports", "ferro-manganese", None),
+    ("ferro-alloys", "silico-manganese-exports", "silico-manganese-imports", "silico-manganese", None),
+    ("ferro-alloys", "ferro-silicon-exports", "ferro-silicon-imports", "ferro-silicon", None),
+    ("ferro-alloys", "ferro-alloys-other-exports", "ferro-alloys-other-imports", "ferro-alloys-other", None),
 ]
 # the customs group of a commodity's main trade table; None: the table is not customs data (EIA) and has no partners here
 MAIN_GROUP = {"copper": "copper-ore", "nickel": "nickel-ore", "zinc": "zinc-ore", "lead": "lead-ore", "tin": "tin-metal",
-              "sunflower": "sunflower-seed", "phosphate": "phosphate-rock", "thermal-coal": None, "met-coal": None, "natural-gas": None}
+              "sunflower": "sunflower-seed", "phosphate": "phosphate-rock", "thermal-coal": None, "met-coal": None, "natural-gas": None,
+              "chromium": "chromium-ore", "ferro-alloys": "ferro-chromium", "molybdenum": "molybdenum-ore"}
 # precious metals: declared value, not gross weight, is the basis of the partner shares (dore and bullion weigh alike)
 VALUE_SHARE_GROUPS = {"gold", "silver", "pgm"}
 # Extra tables of a commodity file. Every one gives lines: its section is the last word of its key (extra_section), its
@@ -309,6 +324,18 @@ EXTRA_SIDE = {"refined-exports": ("exports", "copper-refined", "Copper (refined 
               "rapeseed-oil-imports": ("imports", "rapeseed-oil", "Rapeseed, canola and mustard oil"),
               "rapeseed-meal-exports": ("exports", "rapeseed-meal", "Rapeseed meal"),
               "rapeseed-meal-imports": ("imports", "rapeseed-meal", "Rapeseed meal"),
+              # the metal bulks (A-010)
+              "dri-exports": ("exports", "dri", "Direct-reduced iron"), "dri-imports": ("imports", "dri", "Direct-reduced iron"),
+              "coke-customs-exports": ("exports", "coke", "Coke and semi-coke (customs data)"),
+              "coke-customs-imports": ("imports", "coke", "Coke and semi-coke (customs data)"),
+              "ferro-manganese-exports": ("exports", "ferro-manganese", "Ferro-manganese"),
+              "ferro-manganese-imports": ("imports", "ferro-manganese", "Ferro-manganese"),
+              "silico-manganese-exports": ("exports", "silico-manganese", "Silico-manganese"),
+              "silico-manganese-imports": ("imports", "silico-manganese", "Silico-manganese"),
+              "ferro-silicon-exports": ("exports", "ferro-silicon", "Ferro-silicon"),
+              "ferro-silicon-imports": ("imports", "ferro-silicon", "Ferro-silicon"),
+              "ferro-alloys-other-exports": ("exports", "ferro-alloys-other", "Other ferro-alloys"),
+              "ferro-alloys-other-imports": ("imports", "ferro-alloys-other", "Other ferro-alloys"),
               "k2o-production": ("production", "", "Potash (K2O content)"),
               # the 27 member states of the EU, beside USDA's single European Union row (FAOSTAT production, customs trade); the tables
               # are `norank` and their `world` is the EU total: the share of a line is read on `worldAll`, the world total of its source

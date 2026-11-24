@@ -1383,6 +1383,13 @@ TRADE = {
     "sorghum": ("sorghum", MT, "grain sorghum (HS 100700)"),
     "sunflower": ("sunflower-seed", MT, "sunflower seed (HS 120600)"),
     "pulses": ("pulses", MT, "dried pulses, shelled (HS 0713)"),
+    # the metal bulks added with A-010. The ferro-alloys page opens on ferro-chromium, the largest of its alloys, the others follow as extra tables
+    "ferrous-scrap": ("ferrous-scrap", MT, "ferrous waste and scrap (HS 7204)"),
+    "pig-iron": ("pig-iron", MT, "pig iron, alloy pig iron and spiegeleisen (HS 7201)"),
+    "chromium": ("chromium-ore", MT, "chromium ores and concentrates (HS 2610)"),
+    "ferro-alloys": ("ferro-chromium", MT, "ferro-chromium (HS 720241, 720249)"),
+    "molybdenum": ("molybdenum-ore", KT, "molybdenum ores and concentrates, roasted or not (HS 261310, 261390)"),
+    "graphite": ("graphite", KT, "natural graphite, in powder or flakes and in other forms (HS 250410, 250490)"),
 }
 
 PSD = {  # id -> PSD commodity, domestic-consumption attribute, exports attr
@@ -1440,6 +1447,24 @@ EXTRA_GROUPS = {
         ("rapeseed-oil", "rapeseed-oil", "Rapeseed, canola and mustard oil", "rape, colza or mustard oil, crude and other (HS 151410, 151490)"),
         ("rapeseed-meal", "rapeseed-meal", "Rapeseed meal", "oil-cake and other solid residues of rape or colza seed oil extraction (HS 230640)"),
     ],
+    # the metal bulks (A-010). Direct-reduced iron is the second group of the pig iron page; coke (HS 270400, customs data) is a group of the
+    # metallurgical coal page, beside the EIA tables of metallurgical coke (stem "coke-customs": the keys "coke-exports" and "coke-imports" are EIA's);
+    # the ferro-alloys other than ferro-chromium, which opens the page, are the four further pairs of its tables. Ferro-nickel (HS 720260) stays on the
+    # nickel page, where its group already is
+    "pig-iron": [
+        ("dri", "dri", "Direct-reduced iron", "direct-reduced iron and other spongy ferrous products (HS 7203)"),
+    ],
+    "met-coal": [
+        ("coke", "coke-customs", "Coke and semi-coke (customs data)", "coke and semi-coke of coal, lignite or peat (HS 270400)"),
+    ],
+    "ferro-alloys": [
+        ("ferro-manganese", "ferro-manganese", "Ferro-manganese", "ferro-manganese (HS 720211, 720219)"),
+        ("silico-manganese", "silico-manganese", "Silico-manganese", "ferro-silico-manganese (HS 720230)"),
+        ("ferro-silicon", "ferro-silicon", "Ferro-silicon", "ferro-silicon (HS 720221, 720229)"),
+        ("ferro-alloys-other", "ferro-alloys-other", "Other ferro-alloys", "the other ferro-alloys of heading 7202: ferro-silico-chromium, ferro-molybdenum, "
+                                                                          "ferro-tungsten and ferro-silico-tungsten, ferro-titanium and ferro-silico-titanium, ferro-vanadium, "
+                                                                          "ferro-niobium and the ferro-alloys not elsewhere specified (HS 720250, 720270, 720280, 720291, 720292, 720293, 720299)"),
+    ],
 }
 # USDA PSD production and use of the oil and the meal of a seed page (M-023): page id -> [(PSD commodity, stem of the keys, name in the titles,
 # what the table counts)]; keys "<stem>-production" and "<stem>-consumption", the stems of EXTRA_GROUPS. The seed is the page's main PSD table.
@@ -1478,6 +1503,13 @@ BASIS = {
     "phosphate": ("marketable phosphate rock", "phosphate rock, gross weight"),
     "sulphur": ("sulphur content, all forms", "sulphur, gross weight"),
     "npk": (None, "compound fertilisers, product weight"),
+    # the metal bulks (A-010): the trade of ores and scrap is gross weight; USGS gives the mine production of chromite in gross weight too
+    "ferrous-scrap": (None, "ferrous waste and scrap, gross weight"),
+    "pig-iron": ("pig iron, product weight", "pig iron, gross weight"),
+    "chromium": ("chromite ore, gross weight", "ore, gross weight"),
+    "ferro-alloys": (None, "ferro-alloys, gross weight"),
+    "molybdenum": ("contained molybdenum", "ores and concentrates, gross weight"),
+    "graphite": ("natural graphite, as USGS states it", "natural graphite, gross weight"),
 }
 # second trade tables (key prefix -> basis); their titles already name the product
 EXTRA_BASIS = {"refined": "gross weight", "int": "gross weight", "alumina": "gross weight", "metal": "gross weight", "ferro": "gross weight"}
@@ -1535,11 +1567,21 @@ USGS = {
                       reserves=("Phosphate Rock", "Reserves", "Mt", 1e-3, "phosphate rock reserves")),
     "urea": dict(production=("Nitrogen", "Plant production", "Mt N", 1e-3, "ammonia plant production, nitrogen content (urea feedstock; not urea output)")),
     "sulphur": dict(production=("Sulfur", "Production, all forms", "Mt S", 1e-3, "sulphur production, all forms, in sulphur content")),
+    # the metal bulks (A-010). Chromium: the file's world table gives mine production in gross weight (thousand metric tons) and reserves twice: in
+    # ore (for 2024, an older year than the rest of the table) and in Cr2O3 content (2025); the reserves shown are the Cr2O3 content, the year of the
+    # production. Pig iron: the world table of "Iron And Steel" (million metric tons, by country). Molybdenum and graphite: mine production and reserves
+    "chromium": dict(production=("Chromium", "Mine production", "Mt", 1e-3, "chromite mine production, gross weight"),
+                     reserves=("Chromium", "Reserves: Cr2O3 content", "Mt Cr2O3", 1e-3, "chromium reserves, Cr2O3 content")),
+    "pig-iron": dict(production=("Iron And Steel", "Pig iron", "Mt", 1.0, "pig iron production")),
+    "molybdenum": dict(production=("Molybdenum", "Mine production", "kt Mo", 1e-3, "molybdenum mine production, contained molybdenum"),
+                       reserves=("Molybdenum", "Reserves (thousand metric tons)", "kt Mo", 1.0, "molybdenum reserves, contained molybdenum")),
+    "graphite": dict(production=("Graphite (Natural)", "Mine production", "kt", 1e-3, "natural graphite mine production"),
+                     reserves=("Graphite (Natural)", "Reserves", "kt", 1e-3, "natural graphite reserves")),
 }
 
 
 # USGS tables listed in full, with the line "Other countries" as the last row: (commodity id, section)
-FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refinery")}
+FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refinery"), ("pig-iron", "production")}
 
 # Headline figures of publishers whose tables are not free to copy: one world total each, cited with publisher, year and link
 # (publisher, publication, figure, unit, year, page read, id in data/sources.json)
@@ -2012,6 +2054,9 @@ def main():
                 t = eia.ranked(key, "Mt", 1e-3, f"metallurgical coke {sec}; 1000 metric tons converted to Mt")
                 extra_first.append({"key": f"coke-{sec}", "title": f"Metallurgical coke {'producers' if sec == 'production' else sec[:-1] + 'ers'}, EIA {t['y']}", "table": t})
             name_it(d, "flows", f"Main flows — all coal, customs data {BACI_YEAR}")
+            notes.append(_note_group(baci, "coke", "Coke and semi-coke (HS 270400, customs data)") + " The tables of customs coke follow the EIA tables of metallurgical coke: the two sources "
+                         "differ in what they count (EIA's coke is metallurgical coke by country; HS 2704 is every coke and semi-coke of coal, lignite or peat) and are not added. "
+                         "Customs coke is not in the coal tables above, whose code list is the coal codes only, and the coal lanes do not hold it: the coke lanes are listed apart.")
             notes += [f"Flows are BACI coal flows (HS 2701) from {_and([cname(c) for c in ('AUS', 'USA', 'CAN', 'MNG', 'RUS')])}: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
                       "Seaborne total omitted: the lane file covers all coal and cannot be split.",
                       "Exports/imports tables are EIA metallurgical coal (not BACI)."]
@@ -2062,6 +2107,11 @@ def main():
             # trade only: the USDA PSD file has no pulses and no other file on disk gives their production (audit M-023)
             g = add_baci_trade(d, cid, notes, disc)
             summ(d, "exports", d["exports"], "dried pulses, shelled (HS 0713), BACI, gross weight")
+            seaborne(d, g)
+        elif cid in ("ferrous-scrap", "ferro-alloys"):
+            # trade only: the USGS file has no world table by country for ferrous scrap (United States figures only) nor for the ferro-alloys (A-010)
+            g = add_baci_trade(d, cid, notes, disc)
+            summ(d, "exports", d["exports"], f"{TRADE[cid][2]}, BACI, gross weight")
             seaborne(d, g)
         # ------------------------------------------------------------ softs
         elif cid == "cocoa":
@@ -2230,6 +2280,7 @@ def main():
             if len(baci.group("nickel-fe")):
                 notes.append(_note_group(baci, "nickel-fe", "Ferro-nickel, including nickel pig iron declared as ferro-nickel (HS 720260)"))
             notes.append("Trade tables are nickel ores and concentrates in gross weight (Mt); production and reserves are contained nickel (kt Ni).")
+            see.append({"k": "ferro-alloys", "text": "the other ferro-alloys of HS 7202 (ferro-chromium, ferro-manganese, silico-manganese, ferro-silicon and the rest); ferro-nickel is on this page"})
             ore = baci.group("nickel-ore")
             ore = ore[ore["t0"] > 0]
             lat, sul = ore[ore["uvp"] < 300], ore[ore["uvp"] >= 300]
@@ -2374,6 +2425,7 @@ def main():
             notes.append("USGS production is usable ore (gross weight); reserves are crude ore. Iron-content figures (Australia ~600 Mt Fe in 2025) are in the USGS data but not shown.")
         elif cid == "manganese":
             notes.append("Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table.")
+            see.append({"k": "ferro-alloys", "text": "ferro-manganese and silico-manganese, the manganese alloys"})
         elif cid == "urea":
             ut, unotes = faostat_urea(baci)
             d["extra"] = d.get("extra", []) + [{"key": "urea-production", "title": "Urea producers — Mt of urea, product weight", "table": ut}]
@@ -2469,6 +2521,59 @@ def main():
                          "and horse beans of HS 071350), lentils (HS 071340) and the other pulses of HS 071390 (cowpeas, pigeon peas and every pulse the code does not name). Each pair of the main "
                          "tables is split between the kinds in proportion to the six-digit rows of the same pair (CEPII BACI), from 2019; the tables of each kind follow the main tables.")
             notes.append("No production table: the USDA PSD file has no pulses, and no other file loaded by the atlas gives the production of dried pulses.")
+        elif cid == "ferrous-scrap":
+            notes.append("Trade is HS 7204, the whole heading of ferrous waste and scrap, customs gross weight: cast iron (HS 720410), stainless steel (HS 720421), other alloy steel (HS 720429), "
+                         "tinned iron or steel (HS 720430), turnings, shavings and the like (HS 720441), remelting scrap ingots (HS 720450) and the scrap that no other code names (HS 720449). "
+                         "The grades are not told apart in the tables. Scrap of the other metals and the granules and powders of HS 7205 are not loaded; the steel page leaves out HS 7201 to 7205 too.")
+            notes.append("No production table: USGS gives ferrous scrap for the United States only (the block below), and no other free file loaded by the atlas gives the "
+                         "scrap generated or consumed by country. The industry's yearly reviews of scrap trade and use are not loaded (their terms are not settled).")
+            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has no ferrous scrap series, and no other free one was loaded.")
+            see.append({"k": "steel", "text": "steel products, and the steel production that scrap feeds"})
+            see.append({"k": "pig-iron", "text": "pig iron and direct-reduced iron, the other iron units of the steel industry"})
+        elif cid == "pig-iron":
+            notes.append("Trade is pig iron (HS 7201: non-alloy pig iron in two classes of phosphorus content, alloy pig iron and spiegeleisen), customs gross weight. USGS production is pig iron "
+                         "by country in Mt, as USGS states it (the countries it names and its 'Other countries' line).")
+            notes.append("The tables for direct-reduced iron (HS 7203: iron ore reduced in lumps, pellets or similar forms, with the spongy ferrous products and iron of 99.94% purity or more) are a second "
+                         "product with its own customs code, in none of the totals above. No production table for it: USGS gives pig iron and raw steel only, and the producers' "
+                         "association's figures are not loaded (their terms are not settled).")
+            notes.append(_note_group(baci, "dri", "Direct-reduced iron and spongy iron (HS 7203)"))
+            notes.append("Nickel pig iron has no code of its own: it is declared as ferro-nickel (HS 720260), which is on the nickel page.")
+            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for pig iron or direct-reduced iron, and no other free one was loaded.")
+            see.append({"k": "steel", "text": "steel products"})
+            see.append({"k": "ferrous-scrap", "text": "ferrous scrap, the other raw material of the furnaces"})
+            see.append({"k": "iron-ore", "text": "iron ore, which pig iron and direct-reduced iron are made from"})
+        elif cid == "chromium":
+            notes.append("Trade is chromium ores and concentrates (HS 2610), customs gross weight, the chromite of the steel and chemical industries. USGS mine production is in the same gross weight "
+                         "(thousand metric tons in the file, shown in Mt); USGS reserves are in Cr2O3 content, not in ore: USGS also gives reserves in ore, but for 2024, an earlier year than the rest of "
+                         "the table, and the page does not show them.")
+            notes.append("Ferro-chromium (HS 720241, 720249) and ferro-silico-chromium are alloys of the ferro-alloys page, not of this one; chromium metal and chromium chemicals are not loaded.")
+            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for chromium, and no other free one was loaded.")
+            see.append({"k": "ferro-alloys", "text": "ferro-chromium, the alloy that most chromite is smelted into"})
+        elif cid == "ferro-alloys":
+            tot = sum(sum(baci.totals(g2, "exports").values()) for g2 in ["ferro-chromium"] + [x[0] for x in EXTRA_GROUPS[cid]])
+            notes.append(f"Trade is the ferro-alloys of HS 7202 other than ferro-nickel, customs gross weight, by alloy, {_nf(tot)} Mt of exports in {BACI_YEAR} in all. The page opens on "
+                         "ferro-chromium, the largest alloy, and its key figure is that alloy's; ferro-manganese, silico-manganese, ferro-silicon and the other ferro-alloys together "
+                         "follow as tables of their own. The tables are not added to each other in any total of the page, and the figures are the weight of the alloy, not of the metal it holds.")
+            for g2, _, _, what2 in [("ferro-chromium", None, None, TRADE[cid][2])] + EXTRA_GROUPS[cid]:
+                notes.append(_note_group(baci, g2, what2[0].upper() + what2[1:]))
+            notes.append("Ferro-nickel and nickel pig iron (HS 720260) are on the nickel page, where their group already was: no tonne is counted twice. The steel page leaves out HS 7201 to 7205.")
+            notes.append("No production table: USGS has no world table of the ferro-alloys. No free price series: the World Bank Pink Sheet, the only price file the atlas loads, "
+                         "has none for them, and no other free one was loaded.")
+            see.append({"k": "nickel", "text": "ferro-nickel and nickel pig iron (HS 720260)"})
+            see.append({"k": "chromium", "text": "chromium ore, the raw material of ferro-chromium"})
+            see.append({"k": "manganese", "text": "manganese ore, the raw material of ferro-manganese and silico-manganese"})
+        elif cid in ("molybdenum", "graphite"):
+            ex = d["exports"]
+            notes.append(f"No lanes: the atlas shows the customs trade of this product as tables only ({_nf(ex['world'])} {ex['u']} of exports in {BACI_YEAR}).")
+            if cid == "molybdenum":
+                notes.append("Trade is molybdenum ores and concentrates, roasted (HS 261310) and not roasted (HS 261390), customs gross weight (kt): the tonnes of concentrate, not of the "
+                             "molybdenum in it, which is what USGS production and reserves count (kt Mo). Molybdenum oxides, ferro-molybdenum (in the ferro-alloys page) and the metal are not loaded.")
+                see.append({"k": "ferro-alloys", "text": "ferro-molybdenum, in the group of the other ferro-alloys"})
+            else:
+                notes.append("Trade is natural graphite, in powder or flakes (HS 250410) and in other forms (HS 250490), customs gross weight (kt). USGS production and reserves are "
+                             "natural graphite as USGS states it, in the file's metric tons (shown in kt). Artificial graphite and graphite articles are not loaded.")
+            notes.append("No free price series: the World Bank Pink Sheet, the only price file the atlas loads, has none for "
+                         f"{'molybdenum' if cid == 'molybdenum' else 'graphite'}, and no other free one was loaded.")
 
         if cid in BASIS:
             pb, tb = BASIS[cid]
@@ -2493,6 +2598,29 @@ def main():
             elif cid == "npk":
                 name_it(d, "exports", "Top exporters — Mt of NPK fertilisers, product weight", "World exports (Mt of NPK)")
                 name_it(d, "imports", "Top importers — Mt of NPK fertilisers, product weight")
+            elif cid == "ferrous-scrap":
+                name_it(d, "exports", "Top exporters — Mt of ferrous scrap, gross weight", "World exports (Mt of scrap)")
+                name_it(d, "imports", "Top importers — Mt of ferrous scrap, gross weight")
+            elif cid == "pig-iron":
+                name_it(d, "production", "Top producers — Mt of pig iron", "World production (Mt of pig iron)")
+                name_it(d, "exports", "Top exporters — Mt of pig iron, gross weight", "World exports (Mt of pig iron)")
+                name_it(d, "imports", "Top importers — Mt of pig iron, gross weight")
+            elif cid == "chromium":
+                set_basis(d["reserves"], "Cr2O3 content")
+                name_it(d, "production", "Top producers — Mt of chromite ore, gross weight", "World production (Mt of ore)")
+                name_it(d, "reserves", "Reserves — Mt of Cr2O3 content", "World reserves (Mt Cr2O3)")
+                name_it(d, "exports", "Top exporters — Mt of chromium ore, gross weight", "World exports (Mt of ore)")
+                name_it(d, "imports", "Top importers — Mt of chromium ore, gross weight")
+            elif cid == "ferro-alloys":
+                name_it(d, "exports", "Top exporters — Mt of ferro-chromium, gross weight", "World exports (Mt of ferro-chromium)")
+                name_it(d, "imports", "Top importers — Mt of ferro-chromium, gross weight")
+            elif cid in ("molybdenum", "graphite"):
+                what = "contained molybdenum" if cid == "molybdenum" else "natural graphite"
+                name_it(d, "production", f"Top producers — kt of {what}", f"World production (kt of {what})")
+                name_it(d, "reserves", f"Reserves — kt of {what}", f"World reserves (kt of {what})")
+                ore = "molybdenum ores and concentrates" if cid == "molybdenum" else "natural graphite"
+                name_it(d, "exports", f"Top exporters — kt of {ore}, gross weight", f"World exports (kt of {ore})")
+                name_it(d, "imports", f"Top importers — kt of {ore}, gross weight")
             elif cid == "potash":
                 set_basis(d["reserves"], "K2O content")
                 name_it(d, "production", "Top producers — Mt of potassium chloride equivalent (Atlas conversion)", "World production (Mt KCl equivalent)")

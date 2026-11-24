@@ -987,6 +987,12 @@
    "est": true
   }
  },
+ "see": [
+  {
+   "k": "ferro-alloys",
+   "text": "ferro-manganese and silico-manganese, the manganese alloys"
+  }
+ ],
  "notes": [
   "Trade is manganese ore (HS 2602), gross weight (Mt); USGS production is shown in kt as in the USGS table."
  ]

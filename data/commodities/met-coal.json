@@ -1165,6 +1165,891 @@
     ],
     "n": "EIA International Energy Data, metallurgical coke imports; 1000 metric tons converted to Mt; world total as published by EIA (all countries)"
    }
+  },
+  {
+   "key": "coke-customs-exports",
+   "title": "Coke and semi-coke (customs data) exporters",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 34.542,
+    "rows": [
+     {
+      "c": "CHN",
+      "v": 8.592,
+      "usd": 2208700000,
+      "uv": 257
+     },
+     {
+      "c": "POL",
+      "v": 5.233,
+      "usd": 1744060000,
+      "uv": 333
+     },
+     {
+      "c": "IDN",
+      "v": 5.223,
+      "usd": 1487945000,
+      "uv": 285
+     },
+     {
+      "c": "COL",
+      "v": 4.244,
+      "usd": 1255311000,
+      "uv": 296
+     },
+     {
+      "c": "USA",
+      "v": 1.746,
+      "usd": 570261000,
+      "uv": 327
+     },
+     {
+      "c": "MOZ",
+      "v": 1.626,
+      "usd": 256561000,
+      "uv": 158
+     },
+     {
+      "c": "JPN",
+      "v": 1.553,
+      "usd": 525285000,
+      "uv": 338
+     },
+     {
+      "c": "RUS",
+      "v": 1.204,
+      "usd": 318128000,
+      "uv": 264
+     },
+     {
+      "c": "ZWE",
+      "v": 0.8928,
+      "usd": 170148000,
+      "uv": 191
+     },
+     {
+      "c": "DEU",
+      "v": 0.8374,
+      "usd": 326432000,
+      "uv": 390
+     },
+     {
+      "c": "CZE",
+      "v": 0.5872,
+      "usd": 263803000,
+      "uv": 449
+     },
+     {
+      "c": "AUS",
+      "v": 0.5336,
+      "usd": 178930000,
+      "uv": 335
+     },
+     {
+      "c": "ITA",
+      "v": 0.3473,
+      "usd": 140735000,
+      "uv": 405
+     },
+     {
+      "c": "BIH",
+      "v": 0.253,
+      "usd": 84387000,
+      "uv": 333
+     },
+     {
+      "c": "NLD",
+      "v": 0.1604,
+      "usd": 50953000,
+      "uv": 318
+     },
+     {
+      "c": "IND",
+      "v": 0.1457,
+      "usd": 46491000,
+      "uv": 319
+     },
+     {
+      "c": "TUR",
+      "v": 0.1388,
+      "usd": 30954000,
+      "uv": 223
+     },
+     {
+      "c": "HUN",
+      "v": 0.1332,
+      "usd": 51034000,
+      "uv": 383
+     },
+     {
+      "c": "FRA",
+      "v": 0.1256,
+      "usd": 42120000,
+      "uv": 335
+     },
+     {
+      "c": "KAZ",
+      "v": 0.1144,
+      "usd": 29225000,
+      "uv": 255
+     },
+     {
+      "c": "ESP",
+      "v": 0.1044,
+      "usd": 56929000,
+      "uv": 545
+     },
+     {
+      "c": "ZAF",
+      "v": 0.0983,
+      "usd": 36628000,
+      "uv": 373
+     },
+     {
+      "c": "CAN",
+      "v": 0.0812,
+      "usd": 20441000,
+      "uv": 252
+     },
+     {
+      "c": "FIN",
+      "v": 0.0734,
+      "usd": 20648000,
+      "uv": 281
+     },
+     {
+      "c": "SWE",
+      "v": 0.0636,
+      "usd": 22344000,
+      "uv": 351
+     },
+     {
+      "c": "BEL",
+      "v": 0.0635,
+      "usd": 26398000,
+      "uv": 416
+     },
+     {
+      "c": "CHL",
+      "v": 0.063,
+      "usd": 15153000,
+      "uv": 241
+     },
+     {
+      "c": "HKG",
+      "v": 0.0615,
+      "usd": 12598000,
+      "uv": 205
+     },
+     {
+      "c": "TWN",
+      "v": 0.0483,
+      "usd": 11061000,
+      "uv": 229
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0462,
+      "usd": 11076000,
+      "uv": 240
+     },
+     {
+      "c": "GBR",
+      "v": 0.0383,
+      "usd": 12641000,
+      "uv": 330
+     },
+     {
+      "c": "NGA",
+      "v": 0.0299,
+      "usd": 4210000,
+      "uv": 141
+     },
+     {
+      "c": "IRN",
+      "v": 0.0136,
+      "usd": 6334000,
+      "uv": 466
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0133,
+      "usd": 4991000,
+      "uv": 377
+     },
+     {
+      "c": "UKR",
+      "v": 0.0107,
+      "usd": 4370000,
+      "uv": 407
+     },
+     {
+      "c": "IRL",
+      "v": 0.0087,
+      "usd": 4247000,
+      "uv": 486
+     },
+     {
+      "c": "MNG",
+      "v": 0.0076,
+      "usd": 1124000,
+      "uv": 147
+     },
+     {
+      "c": "MYS",
+      "v": 0.0058,
+      "usd": 1623000,
+      "uv": 282
+     },
+     {
+      "c": "BRA",
+      "v": 0.0056,
+      "usd": 253000,
+      "uv": 45.5
+     },
+     {
+      "c": "UGA",
+      "v": 0.005,
+      "usd": 224000,
+      "uv": 45.0
+     },
+     {
+      "c": "GEO",
+      "v": 0.0019,
+      "usd": 400000,
+      "uv": 206
+     },
+     {
+      "c": "EGY",
+      "v": 0.0017,
+      "usd": 473000,
+      "uv": 274
+     },
+     {
+      "c": "QAT",
+      "v": 0.0017,
+      "usd": 256000,
+      "uv": 151
+     },
+     {
+      "c": "ARG",
+      "v": 0.0015,
+      "usd": 581000,
+      "uv": 383
+     },
+     {
+      "c": "AUT",
+      "v": 0.0014,
+      "usd": 208000,
+      "uv": 146
+     },
+     {
+      "c": "HRV",
+      "v": 0.0011,
+      "usd": 236000,
+      "uv": 208
+     },
+     {
+      "c": "VEN",
+      "v": 0.0011,
+      "usd": 123000,
+      "uv": 111
+     },
+     {
+      "c": "SVK",
+      "v": 0.0011,
+      "usd": 158000,
+      "uv": 145
+     }
+    ],
+    "n": "CEPII BACI HS92 coke and semi-coke of coal, lignite or peat (HS 270400), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 10057191000,
+    "uv": 291
+   }
+  },
+  {
+   "key": "coke-customs-imports",
+   "title": "Coke and semi-coke (customs data) importers",
+   "table": {
+    "y": 2024,
+    "s": "baci",
+    "u": "Mt",
+    "world": 34.542,
+    "rows": [
+     {
+      "c": "IND",
+      "v": 6.501,
+      "usd": 1818866000,
+      "uv": 280
+     },
+     {
+      "c": "BRA",
+      "v": 3.17,
+      "usd": 990212000,
+      "uv": 312
+     },
+     {
+      "c": "IDN",
+      "v": 2.586,
+      "usd": 509406000,
+      "uv": 197
+     },
+     {
+      "c": "DEU",
+      "v": 2.435,
+      "usd": 817851000,
+      "uv": 336
+     },
+     {
+      "c": "MYS",
+      "v": 1.632,
+      "usd": 416852000,
+      "uv": 255
+     },
+     {
+      "c": "TUR",
+      "v": 1.431,
+      "usd": 446369000,
+      "uv": 312
+     },
+     {
+      "c": "GBR",
+      "v": 1.384,
+      "usd": 484726000,
+      "uv": 350
+     },
+     {
+      "c": "CAN",
+      "v": 1.217,
+      "usd": 385552000,
+      "uv": 317
+     },
+     {
+      "c": "BEL",
+      "v": 1.09,
+      "usd": 256800000,
+      "uv": 236
+     },
+     {
+      "c": "ZAF",
+      "v": 0.9896,
+      "usd": 210352000,
+      "uv": 213
+     },
+     {
+      "c": "VNM",
+      "v": 0.9034,
+      "usd": 240929000,
+      "uv": 267
+     },
+     {
+      "c": "JPN",
+      "v": 0.8617,
+      "usd": 273637000,
+      "uv": 318
+     },
+     {
+      "c": "FRA",
+      "v": 0.8343,
+      "usd": 401355000,
+      "uv": 481
+     },
+     {
+      "c": "AUT",
+      "v": 0.7544,
+      "usd": 182047000,
+      "uv": 241
+     },
+     {
+      "c": "UKR",
+      "v": 0.643,
+      "usd": 214438000,
+      "uv": 333
+     },
+     {
+      "c": "KAZ",
+      "v": 0.6334,
+      "usd": 162383000,
+      "uv": 256
+     },
+     {
+      "c": "ARE",
+      "v": 0.5945,
+      "usd": 87261000,
+      "uv": 147
+     },
+     {
+      "c": "MEX",
+      "v": 0.4402,
+      "usd": 137419000,
+      "uv": 312
+     },
+     {
+      "c": "SRB",
+      "v": 0.4382,
+      "usd": 158655000,
+      "uv": 362
+     },
+     {
+      "c": "AUS",
+      "v": 0.4309,
+      "usd": 143591000,
+      "uv": 333
+     },
+     {
+      "c": "ESP",
+      "v": 0.4237,
+      "usd": 134244000,
+      "uv": 317
+     },
+     {
+      "c": "NOR",
+      "v": 0.3871,
+      "usd": 144306000,
+      "uv": 373
+     },
+     {
+      "c": "CZE",
+      "v": 0.3079,
+      "usd": 79304000,
+      "uv": 258
+     },
+     {
+      "c": "OMN",
+      "v": 0.273,
+      "usd": 76238000,
+      "uv": 279
+     },
+     {
+      "c": "ROU",
+      "v": 0.266,
+      "usd": 109986000,
+      "uv": 413
+     },
+     {
+      "c": "USA",
+      "v": 0.2271,
+      "usd": 53786000,
+      "uv": 237
+     },
+     {
+      "c": "NLD",
+      "v": 0.2258,
+      "usd": 56868000,
+      "uv": 252
+     },
+     {
+      "c": "ARG",
+      "v": 0.2238,
+      "usd": 75032000,
+      "uv": 335
+     },
+     {
+      "c": "KOR",
+      "v": 0.2018,
+      "usd": 63350000,
+      "uv": 314
+     },
+     {
+      "c": "BGR",
+      "v": 0.2005,
+      "usd": 63011000,
+      "uv": 314
+     },
+     {
+      "c": "POL",
+      "v": 0.1962,
+      "usd": 66828000,
+      "uv": 341
+     },
+     {
+      "c": "ITA",
+      "v": 0.1791,
+      "usd": 51061000,
+      "uv": 285
+     },
+     {
+      "c": "PHL",
+      "v": 0.1587,
+      "usd": 33677000,
+      "uv": 212
+     },
+     {
+      "c": "BIH",
+      "v": 0.1472,
+      "usd": 45444000,
+      "uv": 309
+     },
+     {
+      "c": "CHN",
+      "v": 0.1457,
+      "usd": 23714000,
+      "uv": 163
+     },
+     {
+      "c": "FIN",
+      "v": 0.1409,
+      "usd": 50174000,
+      "uv": 356
+     },
+     {
+      "c": "SVK",
+      "v": 0.1282,
+      "usd": 49031000,
+      "uv": 382
+     },
+     {
+      "c": "TWN",
+      "v": 0.1233,
+      "usd": 47544000,
+      "uv": 386
+     },
+     {
+      "c": "HRV",
+      "v": 0.1178,
+      "usd": 30762000,
+      "uv": 261
+     },
+     {
+      "c": "SWE",
+      "v": 0.1119,
+      "usd": 48685000,
+      "uv": 435
+     },
+     {
+      "c": "DZA",
+      "v": 0.1088,
+      "usd": 35174000,
+      "uv": 323
+     },
+     {
+      "c": "GEO",
+      "v": 0.1018,
+      "usd": 46401000,
+      "uv": 456
+     },
+     {
+      "c": "PAK",
+      "v": 0.1007,
+      "usd": 37878000,
+      "uv": 376
+     },
+     {
+      "c": "ZMB",
+      "v": 0.0999,
+      "usd": 21098000,
+      "uv": 211
+     },
+     {
+      "c": "GAB",
+      "v": 0.0955,
+      "usd": 19704000,
+      "uv": 206
+     },
+     {
+      "c": "BTN",
+      "v": 0.0953,
+      "usd": 30055000,
+      "uv": 315
+     },
+     {
+      "c": "MAR",
+      "v": 0.0906,
+      "usd": 16926000,
+      "uv": 187
+     },
+     {
+      "c": "SAU",
+      "v": 0.0861,
+      "usd": 35703000,
+      "uv": 415
+     },
+     {
+      "c": "EGY",
+      "v": 0.0572,
+      "usd": 22334000,
+      "uv": 390
+     },
+     {
+      "c": "DOM",
+      "v": 0.0532,
+      "usd": 6265000,
+      "uv": 118
+     },
+     {
+      "c": "SVN",
+      "v": 0.0455,
+      "usd": 13527000,
+      "uv": 297
+     },
+     {
+      "c": "BGD",
+      "v": 0.0383,
+      "usd": 8533000,
+      "uv": 223
+     },
+     {
+      "c": "UZB",
+      "v": 0.0348,
+      "usd": 10218000,
+      "uv": 293
+     },
+     {
+      "c": "NCL",
+      "v": 0.033,
+      "usd": 10178000,
+      "uv": 308
+     },
+     {
+      "c": "RUS",
+      "v": 0.0307,
+      "usd": 14883000,
+      "uv": 485
+     },
+     {
+      "c": "NER",
+      "v": 0.0299,
+      "usd": 4210000,
+      "uv": 141
+     },
+     {
+      "c": "ALB",
+      "v": 0.0298,
+      "usd": 8653000,
+      "uv": 290
+     },
+     {
+      "c": "COD",
+      "v": 0.0286,
+      "usd": 8176000,
+      "uv": 286
+     },
+     {
+      "c": "MOZ",
+      "v": 0.0219,
+      "usd": 440000,
+      "uv": 20.1
+     },
+     {
+      "c": "SGP",
+      "v": 0.0207,
+      "usd": 5645000,
+      "uv": 273
+     },
+     {
+      "c": "THA",
+      "v": 0.0205,
+      "usd": 6331000,
+      "uv": 309
+     },
+     {
+      "c": "LTU",
+      "v": 0.0156,
+      "usd": 6494000,
+      "uv": 415
+     },
+     {
+      "c": "KWT",
+      "v": 0.0146,
+      "usd": 4220000,
+      "uv": 290
+     },
+     {
+      "c": "HUN",
+      "v": 0.0132,
+      "usd": 7579000,
+      "uv": 575
+     },
+     {
+      "c": "PRT",
+      "v": 0.0118,
+      "usd": 4777000,
+      "uv": 406
+     },
+     {
+      "c": "AGO",
+      "v": 0.0106,
+      "usd": 1778000,
+      "uv": 168
+     },
+     {
+      "c": "IRN",
+      "v": 0.0103,
+      "usd": 1998000,
+      "uv": 193
+     },
+     {
+      "c": "ISL",
+      "v": 0.0099,
+      "usd": 4719000,
+      "uv": 475
+     },
+     {
+      "c": "NPL",
+      "v": 0.0089,
+      "usd": 1685000,
+      "uv": 190
+     },
+     {
+      "c": "LAO",
+      "v": 0.0062,
+      "usd": 2206000,
+      "uv": 354
+     },
+     {
+      "c": "AZE",
+      "v": 0.0057,
+      "usd": 1630000,
+      "uv": 288
+     },
+     {
+      "c": "URY",
+      "v": 0.0056,
+      "usd": 253000,
+      "uv": 45.5
+     },
+     {
+      "c": "KEN",
+      "v": 0.005,
+      "usd": 224000,
+      "uv": 45.0
+     },
+     {
+      "c": "NZL",
+      "v": 0.0044,
+      "usd": 1703000,
+      "uv": 386
+     },
+     {
+      "c": "DNK",
+      "v": 0.0042,
+      "usd": 2409000,
+      "uv": 580
+     },
+     {
+      "c": "MDA",
+      "v": 0.0035,
+      "usd": 765000,
+      "uv": 216
+     },
+     {
+      "c": "KHM",
+      "v": 0.0032,
+      "usd": 960000,
+      "uv": 305
+     },
+     {
+      "c": "MMR",
+      "v": 0.0028,
+      "usd": 466000,
+      "uv": 164
+     },
+     {
+      "c": "BLR",
+      "v": 0.0028,
+      "usd": 1455000,
+      "uv": 521
+     },
+     {
+      "c": "MWI",
+      "v": 0.0027,
+      "usd": 796000,
+      "uv": 291
+     },
+     {
+      "c": "BDI",
+      "v": 0.0026,
+      "usd": 332000,
+      "uv": 128
+     },
+     {
+      "c": "CUB",
+      "v": 0.0021,
+      "usd": 486000,
+      "uv": 229
+     },
+     {
+      "c": "HKG",
+      "v": 0.0021,
+      "n": "100% of tonnage from flows with implausible unit values (kept as reported: only gross errors (a unit value over 100 times off) are corrected outside the homogeneous groups)",
+      "usd": 13000,
+      "uv": 6.2
+     },
+     {
+      "c": "GIN",
+      "v": 0.002,
+      "usd": 669000,
+      "uv": 329
+     },
+     {
+      "c": "SYR",
+      "v": 0.0018,
+      "usd": 815000,
+      "uv": 445
+     },
+     {
+      "c": "KGZ",
+      "v": 0.0018,
+      "usd": 850000,
+      "uv": 474
+     },
+     {
+      "c": "MNG",
+      "v": 0.0017,
+      "usd": 662000,
+      "uv": 384
+     },
+     {
+      "c": "CHL",
+      "v": 0.0015,
+      "usd": 581000,
+      "uv": 383
+     },
+     {
+      "c": "VEN",
+      "v": 0.0015,
+      "usd": 60000,
+      "uv": 40
+     },
+     {
+      "c": "GHA",
+      "v": 0.0014,
+      "usd": 542000,
+      "uv": 377
+     },
+     {
+      "c": "CHE",
+      "v": 0.0014,
+      "usd": 698000,
+      "uv": 488
+     },
+     {
+      "c": "NGA",
+      "v": 0.0014,
+      "usd": 485000,
+      "uv": 349
+     },
+     {
+      "c": "IRL",
+      "v": 0.0012,
+      "usd": 680000,
+      "uv": 551
+     },
+     {
+      "c": "COL",
+      "v": 0.0011,
+      "usd": 123000,
+      "uv": 111
+     }
+    ],
+    "n": "CEPII BACI HS92 coke and semi-coke of coal, lignite or peat (HS 270400), 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "basis": "gross weight",
+    "usd": 10057191000,
+    "uv": 291
+   }
   }
  ],
  "flows": [
@@ -1494,9 +2379,32 @@
    "eq": 16.0,
    "k": 70,
    "cov": 1.0
+  },
+  "coke-customs-exports": {
+   "top1": {
+    "c": "CHN",
+    "p": 0.2487
+   },
+   "top3": 0.5514,
+   "hhi": 1329,
+   "eq": 7.5,
+   "k": 48,
+   "cov": 1.0001
+  },
+  "coke-customs-imports": {
+   "top1": {
+    "c": "IND",
+    "p": 0.1882
+   },
+   "top3": 0.3548,
+   "hhi": 678,
+   "eq": 14.8,
+   "k": 94,
+   "cov": 1.0
   }
  },
  "notes": [
+  "Coke and semi-coke (HS 270400, customs data), 2024 (CEPII BACI): world 34.54 Mt gross weight; top exporters China 8.59 Mt, Poland 5.23 Mt, Indonesia 5.22 Mt. The tables of customs coke follow the EIA tables of metallurgical coke: the two sources differ in what they count (EIA's coke is metallurgical coke by country; HS 2704 is every coke and semi-coke of coal, lignite or peat) and are not added. Customs coke is not in the coal tables above, whose code list is the coal codes only, and the coal lanes do not hold it: the coke lanes are listed apart.",
   "Flows are BACI coal flows (HS 2701) from Australia, United States, Canada, Mongolia and Russia: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
   "Seaborne total omitted: the lane file covers all coal and cannot be split.",
   "Exports/imports tables are EIA metallurgical coal (not BACI)."
