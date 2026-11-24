@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-23, after the fourth release of audit fixes_
+_Last updated: 2026-11-24, after the fifth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -18,9 +18,79 @@ released. This file is updated at each release.
 | 2 | Trade-flow engine: sea or land rule, lane selection, typical ports, routing, chokepoint shares, Route finder | done, released on 23 November |
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
-| 5 | Hand-curated layers | infrastructure schema, statuses and 207 added assets, and the 80 events checked against their sources, released on 23 November; ports, companies, Baltic routes and vessel classes pending |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation released on 23 November (fourth release); freight rates, port data and port pages, forecasts, new commodities pending |
-| all | Pipeline alerts, validator, tests in CI, documentation | in progress: 923 unit tests, data validators, generated notices, one module for constants, methodology kept in step with each package |
+| 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, forecasts, new commodities |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,073 unit tests. Nothing of it has run on GitHub yet: the first real runs are those of this week |
+
+## Fifth release (24 November 2026): what changed
+
+Six packages, six independent reviews (65 findings, 22 of them important), six fix packages and one more for a
+source whose terms forbid its use, then a rebuild of everything together and a review of the site on the
+production build.
+
+### Baltic benchmark routes
+
+- 90 benchmark routes (60 before), each compared with the Baltic Exchange's Guide to Market Benchmarks (version
+  7.09) and its circulars: 85 active, 5 ended. The ports of 14 routes were wrong and are corrected; 30 routes were
+  missing, among them the two grain routes, all the Supramax routes of the time-charter average, the 182,000 dwt
+  Capesize routes and four routes in service since January 2026.
+- Each benchmark page has a definition table (vessel, cargo and quantity, load and discharge, duration, index and
+  weight, status with its date and document). An ended route says when it ended and links to its successor.
+- A definition says only what its document says: for 19 dirty-tanker routes the document gives a tonnage and no
+  cargo, and the page says so; crude oil is the atlas's reading.
+- Port names that were resolved to the wrong place are corrected and no line crosses land where one did (TD6
+  across the Corinth isthmus). A line still starts at a node of the sea-lane network, up to about 90 km from
+  its port.
+- 253 routes in all: 90 benchmarks, 43 other routes written by hand, 120 generated corridors (their ids did not
+  change). 207 have a corridor share and 213 a history; named routes cover 66.2% of seaborne tonnes.
+
+### Vessel classes
+
+- 20 classes (a chemical tanker class for vegetable oils). 14 have a standard vessel with its source and year:
+  four dry classes from the Baltic Exchange's dry page, nine tanker and gas classes from the guide, one from
+  Wikipedia. Speed and fuel a day, laden and in ballast, where the document gives them.
+- A "World fleet" block per class: ships, deadweight and average age of the ship type (UNCTADstat, CC BY 3.0
+  IGO), with the sentence that the fleet of a commercial class is not published for free.
+- Size bands of a segment no longer overlap or leave a hole; every size has a page or is marked as an Atlas
+  convention. Wherever a lane or a non-benchmark route shows a class, it says "typical".
+
+### Ports, terminals, storage
+
+- 190 ports (36 before) and a new type, storage hub (Cushing, Mont Belvieu). 172 of the 214 ports named by the
+  routes are assets and can be clicked from the route page; most of the others open the largest lane through
+  them, and a few stay plain text.
+- 20 ports have published limits; 9 of them have a "largest class", derived by the atlas only when the page
+  gives a dimension of a ship (never from a depth alone), and labelled as a derivation.
+- A commodity tag on a port rests on a page or on the atlas's own routes and lanes; 8 ports whose cargo no page
+  supported were removed.
+
+### Companies
+
+- 403 entries for 269 companies (247 entries before), 88 with a dated figure read on the company's own report
+  or filing (3 before), 357 with ownership; the year shown is the year of the fact and the month of reading is
+  apart. 32 shipping companies on the class pages. No superlative without a figure; a sanction only from an
+  official notice read, with its date.
+- Companies are in the search. A company links to the assets it operates.
+
+### Freight indicators
+
+- The US series is named for what it is (a producer price index of the BLS, not a freight rate) and is fetched
+  from the BLS, without a key. Two long indicators were added, each labelled "not a freight rate": the Dallas Fed
+  index of global real economic activity (monthly since 1968) and the New York Fed Global Supply Chain Pressure
+  Index (since 1998).
+- No ocean freight rate in USD per tonne is stored: each USDA dataset credits a private firm and carries no
+  licence. The four grain routes link to them. Every route page says that Baltic values are proprietary.
+
+### Update jobs and checks
+
+- A step that times out, crashes or is cancelled is recorded as a failure; a weekly check opens an issue for a
+  source that went stale without failing; the three jobs can no longer overwrite each other's status; a refused
+  push, a discarded update and a site that was not republished each open one issue.
+- A guard compares each update with the last commit (a price ten times too large, a table that lost a tenth of
+  its rows); replayed over 69,629 real updates it refuses five.
+- The checks (type check, tests, validators, build and size) run before every publication. They do not run on a
+  push to a working branch, and Dependabot pull requests are switched off, so that no e-mail is sent for work in
+  progress.
 
 ## Fourth release (23 November 2026): what changed
 
@@ -256,11 +326,11 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 ## What the atlas contains today
 
 - **Freight (the core)**
-  - 19 vessel classes (dry bulk, tankers, gas carriers, and one container class for the bagged and
-    boxed cargoes: cotton, coffee, cocoa, refined metals).
-  - 223 routes: 60 Baltic benchmarks, 43 heavy non-benchmark routes written by hand and 120 Atlas
-    corridors generated from customs pairs. 194 have a corridor share of seaborne trade and 197 a
-    2005 to 2024 volume history; 29 say why they have none.
+  - 20 vessel classes (dry bulk, tankers, gas carriers, and one container class for the bagged and
+    boxed cargoes), 14 with a standard vessel, each with the world fleet of its ship type.
+  - 253 routes: 90 Baltic benchmarks (85 active, 5 ended) with their definition, 43 heavy
+    non-benchmark routes written by hand and 120 Atlas corridors generated from customs pairs. 207 have
+    a corridor share of seaborne trade and 213 a 2005 to 2024 volume history; the others say why.
   - 42 customs groups with seaborne lanes on real sea routes: 2,617 main lanes, 35 mixed lanes,
     271 history-only lanes; a table of 25,847 recorded pairs (18,992 by sea, 2,182 through a transit
     port, 63 mixed, 4,610 overland).
@@ -272,18 +342,19 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   - 80 disruption events from 2008 to 2026, each text read against the pages it cites, linked to
     commodities, countries and assets, and three alert banners whose severity and lists follow the
     data.
+  - 32 shipping companies by segment.
 - **39 commodities**: production and reserves (USGS, EIA), agriculture (USDA PSD, FAOSTAT), trade
   and flows (CEPII BACI 2024), every country in every table, series by country and year, monthly
-  energy series, crop balances, metals consumption estimates, 247 company entries.
-- **501 infrastructure assets** (fields, refineries, LNG terminals, pipelines, mines, smelters,
-  ports).
+  energy series, crop balances, metals consumption estimates, 403 company entries (88 with a dated figure).
+- **657 infrastructure assets**: 190 ports, 175 mines, 108 LNG terminals, 68 refineries, 44 smelters,
+  39 fields, 31 pipelines, 2 storage hubs.
 - **Country pages** for 239 countries and territories and for the European Union (224 with figures).
-- **Prices**: 136 series (World Bank monthly since 1960 and annual real prices, World Bank price
-  indices, EIA daily, USGS annual, one freight cost index), a price board, lookup by date.
-- **Search** over every kind of page, CSV downloads with source and licence on each row, copy link
-  and copy citation.
+- **Prices**: 138 series (World Bank monthly since 1960 and annual real prices, World Bank price
+  indices, EIA daily, USGS annual, three freight indicators), a price board, lookup by date.
+- **Search** over every kind of page, companies included, CSV downloads with source and licence on each
+  row, copy link and copy citation.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
-- **48 registered third-party sources**, every one free to read, plus the atlas's own entry for its
+- **55 registered third-party sources**, every one free to read, plus the atlas's own entry for its
   estimates and conversions.
 
 ## Decisions of the owner
@@ -392,19 +463,64 @@ These were needed to finish the work; each is reversible.
      estimated above its customs gross weight is printed as that weight (gold, Switzerland to China: 365 t).
    - The block of an event page is titled "Impact"; a sentence that is background and not a consequence sits in
      "What happened".
+10. Fifth release, each reversible:
+   - Benchmark definitions are taken from the Baltic Exchange's own guide and circulars, stated as facts in the
+     atlas's words with a link, never an index value (see the open question on the Baltic's terms). The Veson
+     page is no longer used or linked: its terms forbid both.
+   - A benchmark that would have removed a generated corridor has no corridor of its own and links to that
+     corridor (TC11, TC22); the grain route P8 counts soybeans only. This keeps the 120 generated ids stable.
+   - The four routes of January 2026 are filed under Handy tanker although their parcels (12,500 to 15,000 t)
+     are much smaller than that class's typical ship; two of them are drawn from a nearby port (Stavanger for
+     Kaarsto, Le Havre for Port Jerome).
+   - Vessel classes: one class added (chemical tanker); Handymax and post-Panamax are not classes of their own
+     (the Supramax band starts at 40,000 dwt and the Capesize band at 85,000 dwt); the typical sizes of Panamax
+     (74,000 dwt) and Supramax (58,000 dwt) are Atlas conventions. Laden days keep the atlas's assumed service
+     speed, which is lower than the speed of the standard vessel, and the page says so.
+   - Largest class of a port: derived only when the page gives a dimension of a ship; a class without a standard
+     vessel is compared by its typical deadweight; tanker classes are ranked by deadweight across crude and
+     product classes (Primorsk, 150,000 dwt, shows Aframax). Six coal ports keep a coal tag although their page
+     does not say thermal or metallurgical.
+   - Ports are drawn at every zoom like every other asset: with 190 of them the world view is crowded,
+     especially on a phone. Nothing was hidden or shrunk.
+   - Companies: a figure covers one commodity only (a volume that covers several is in the text); a share in
+     `parent` is the one the cited page states; a former owner is not matched to an asset. Sanction marks come
+     from OFAC and UK notices only.
+   - Freight indicators: the published BLS series is still the copy taken earlier through FRED, because the BLS
+     refused every request on the days of the work (quota without a key); its note says so and the weekly job
+     replaces it as the BLS answers.
+   - Update jobs: the checks do not run on a push to a working branch; Dependabot pull requests are switched off
+     (`open-pull-requests-limit: 0`); the downloader identifies itself as `data-update-script/1.0
+     (python-requests)`; the yearly downloads are kept between runs as a workflow artifact for 90 days; the guard
+     refuses a positive price that moves beyond its own largest past move (never wider than a factor of five) and
+     checks a series that crosses zero on its shape only.
 
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
+- **None of the reworked update jobs has run on GitHub yet.** They were tested with simulated repositories, a
+  mocked GitHub and a fresh clone under Python 3.12; the first real runs are the PortWatch job (Wednesday 25
+  November 2026, 19:17 UTC) and the prices job (the same day, 21:43 UTC). What only a real run can confirm is
+  listed in `docs/UPDATING.md`.
+- The BLS freight series is still the copy taken through FRED until the BLS API answers; if the keyless quota is
+  always exhausted on GitHub's shared addresses, the series stops advancing and an issue opens after three runs.
+- No freight rate in USD per tonne and no Baltic value: the atlas has routes, definitions and two long
+  indicators, not rates.
 - Events: 37 of the 80 events still cite a Wikipedia article as one of their pages; one (the cobalt export
   suspension of the Democratic Republic of the Congo) rests on a trade-press page that asks for a free account
   after three articles.
-- The new mechanism of the weekly PortWatch job (restore the daily table from the last run's artifact, download
-  only the new days) was tested with a simulated GitHub; its first real run is Wednesday 25 November 2026.
-- Infrastructure: 238 of 501 assets have no status; 95 of the 129 new mines and smelters are placed on the nearest
-  town; the potash figures of Qarhan and the Dead Sea Works do not say whether they are KCl or K2O and are listed
-  with the K2O figures; alumina refineries, steel plants and nitrogen plants have no asset type yet; two assets at
-  Kolwezi share one point.
+- Infrastructure: 394 of 657 assets have no status (most of the new ports); 30 of the 190 ports have a figure and
+  20 have limits; two storage hubs only; refineries, pipelines, fields, alumina refineries, steel plants and
+  nitrogen plants remain a sample; 95 mines and smelters are placed on the nearest town.
+- Benchmark routes: TD32 and TC24 are not in the atlas (their definition could not be read, or names no port);
+  there is no page per index (the route page lists the index, its members and weights); a line starts up to
+  about 90 km from its port; the shortest sea path between the Black Sea and the Ionian Sea still crosses the
+  Corinth isthmus in the lanes and the Route finder (corrected on the benchmark line only).
+- Vessel classes: six classes have no standard vessel (Newcastlemax, Panamax, Supramax, chemical tanker, mid-size
+  gas carrier, container ship); the Bosporus and the Great Belt have no sourced limit; the fleet, age and
+  orderbook of a commercial class are not published for free.
+- Companies: 315 of 403 entries have no figure (the company publishes none, or its report was not read: sec.gov
+  is not fetched); shipping has 32 companies, 7 with a fleet figure, no container line and no Greek owner; there
+  is no page per company.
 - Metals production by year: the USGS file on disk holds two years only; earlier editions are not downloaded.
 - Metals consumption is an Atlas estimate (production plus imports minus exports of the same product) for three
   metals only; a large importer with no production line is named in the note, not ranked.
@@ -417,66 +533,101 @@ These were needed to finish the work; each is reversible.
   Singapore, and Chinese concentrates.
 - 48.5 Mt of 2024 seaborne tonnage is not routed: 31.4 Mt between a landlocked country without a sourced
   transit port and its overseas partners, 17.1 Mt for which no page supports a port.
-- Named routes cover 66.0% of seaborne tonnes; 10 of the 42 customs groups reach the 70% aimed at.
+- Named routes cover 66.2% of seaborne tonnes; 10 of the 42 customs groups reach the 70% aimed at.
 - No measured split of a country's trade between its coasts or ports, and none of a trade between
   vessel classes: these are options and typical classes, not shares.
-- Proved oil and gas reserves, refining capacity and freight rates are not in the atlas yet (the publishers
-  whose tables are free to read do not allow them to be copied; another source is needed).
+- Proved oil and gas reserves and refining capacity are not in the atlas yet (the publishers whose tables are
+  free to read do not allow them to be copied; another source is needed).
 - Cocoa and coffee have no product tables yet (beans, butter, powder, roasted), although the customs groups
   exist.
-- CEPII BACI is refreshed by hand once a year: the publisher can refuse automated downloads.
+- CEPII BACI is refreshed by hand once a year: the publisher can refuse automated downloads; a monthly check
+  opens an issue when a newer version exists.
 - The country files weigh 9 MB in the repository (one per country, loaded one at a time by the site).
-- Left from the last review of the site, all minor: the search for "iran war" finds two of the seven events of
-  the 2026 war (the others do not hold the word; a tag on the events would settle it); a typo that fits two names
-  equally lists them in alphabetical order ("irak" shows Iran before Iraq); the long method sentence of the gold,
-  silver and platinum tables is printed under the key figure and again under each table; the title of a selected
-  event is cut beside an open panel at about 1,100 px (the full title is in the tooltip).
+- Left from the review of the fourth release, all minor: the search for "iran war" finds two of the seven events
+  of the 2026 war; a typo that fits two names equally lists them in alphabetical order; the long method sentence
+  of the gold, silver and platinum tables is printed under the key figure and again under each table; the title
+  of a selected event is cut beside an open panel at about 1,100 px (the full title is in the tooltip).
 
 ## Open questions for the owner
 
-1. Free accounts that would replace estimates with measured figures, if the owner creates them:
-   UN Comtrade (importer-side quantities for Chilean copper, tin and lithium; key stored as the
-   repository secret `COMTRADE_API_KEY`), US Census USA Trade Online (LPG from the United States
-   to Mexico by transport mode), FRED (the US deep-sea freight producer price index, secret
-   `FRED_API_KEY`).
-2. Baltic Capesize routes C10_14 and C14: reported as ended on 24 December 2025, not confirmed on
-   two public pages; both are shown with the note "status not confirmed".
-3. Licence of the documentation files (README, METHODOLOGY, DATA_SOURCES, NOTICE): not decided.
-4. The choices listed above.
-5. Global Energy Monitor publishes asset inventories under CC BY 4.0 (refineries, coal mines, steel plants, LNG
-   terminals, with coordinates, capacity and status). Their download needs a short form with an e-mail address: if
-   the owner downloads the files, the infrastructure layer can move from a sample to an inventory.
-6. Where should a second entry point to the chokepoint status board go (it opens from any chokepoint page)? The top
-   bar and the Controls panel were left as the owner fixed them.
-7. The raw World Bank workbooks contain a sheet the publisher probably did not mean to ship ("Mismatch Details", a
-   comparison of barley and sorghum cells): the atlas does not read it; mentioned for the record.
-8. Official names of the four-digit customs headings: the texts of UN Comtrade are for internal use only. The
-   atlas derives its names from the CEPII BACI product list. Asking the United Nations Statistics Division for
-   permission is the owner's call.
-9. Should a commodity filter the freight routes drawn on the map (audit point A-070)? Every route stays drawn
-   today, as the owner set it.
-10. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
-    this release from the disruptions of passages; they are filed under the existing kinds for now.
-11. SEC EDGAR (company filings, public domain) asks automated readers to state a contact e-mail address. One
-    package of 23 November read about thirty filings with a placeholder address, which it should not have done:
-    the figures are public facts and an independent reviewer compared them with the saved copies, but no further
-    automated read of sec.gov is made. Either the owner gives an address he accepts to send to the SEC, or the
-    same reports are read on the companies' own sites only (slower, and some sites refuse automated readers).
-12. The scheduled downloads identify themselves to the sources. Today the string names the project; the audit
-    (C-140) suggests naming the project with the repository address as a contact, which puts the owner's account
-    name in every request. Until the owner decides, the downloader will send a plain client name without the
-    project.
-13. Realised time-charter earnings per day, published each quarter by listed shipowners, would give a rate
-    history by vessel class without any Baltic value. They can only be entered by hand, outside the automatic
-    updates: does the owner accept a quarterly manual entry?
-14. The World Port Index of the US National Geospatial-Intelligence Agency (public domain; depths and maximum ship
-    sizes of about 3,700 ports) answers HTTP 503 from this machine. If the owner downloads `UpdatedPub150.csv`
-    by hand from msi.nga.mil and adds it to the repository, the port limits can be filled from it.
+Decisions that weigh most, first.
+
+1. **The Baltic Exchange's website terms.** Clause 5.1 says that no part of its website or content "may be copied
+   or reproduced (except for your personal use), shared with third parties ... or used to create any derivative
+   work ... without the prior written consent of the Baltic". The atlas states the definitions of 90 benchmark
+   routes, their index weights and status, and the figures of 13 standard vessels as facts, in its own words,
+   each with a link to the document; it shows no index value and says it is not affiliated. Three options:
+   keep the facts with attribution (the present state, and what the audit recommended); ask the Baltic Exchange
+   for written consent; or remove what comes only from its site (the definition tables, the weights, the
+   standard vessels and the typical sizes taken from them). The registry records the clause and that the verdict
+   is pending.
+2. **Alerts arrive as GitHub issues only.** Please check that issues are enabled on the repository and that you
+   watch it; otherwise no signal of a failing update reaches you. The first real runs of the reworked jobs are
+   this week: a first run may show a defect that no simulation could.
+3. **The BLS.** (a) Its copyright page refuses automated readers: please open
+   https://www.bls.gov/opub/copyright-information.htm in a browser and confirm that its data may be reused with a
+   citation (the registry relies on the tag "Public Domain: Citation Requested" of FRED's page of the series).
+   (b) If the keyless quota of its API stays exhausted on GitHub's shared addresses, the series needs a free BLS
+   registration key, which only the owner can create.
+4. **SEC EDGAR** asks automated readers for a contact e-mail address. One package of 23 November read about
+   thirty filings with a placeholder address, which it should not have done; no automated read of sec.gov is made
+   any more. Either the owner gives an address he accepts to send to the SEC, or the same reports are read on the
+   companies' own sites only (several refuse automated readers, so some companies stay without a figure).
+5. **The map with 190 ports.** Every asset is drawn at every zoom and every type is on by default, as the owner
+   decided; the world view is now crowded, most of all on a phone. One option inside those decisions: draw the
+   port icons smaller at the lowest zooms. Nothing was changed.
+6. **Dependabot pull requests** are switched off (each one is a notification e-mail). Turn them on (one grouped
+   pull request a month per ecosystem)? Branch protection of `main`, required checks and Dependabot security
+   updates are repository settings only the owner can change.
+7. **Identification of the scheduled downloads.** The downloader sends a plain client name. The audit (C-140)
+   suggests naming the project with the repository address as a contact, which puts the owner's account name in
+   every request: one line to change if wanted.
+8. **Freight rates.** (a) USDA's grain ocean rates credit private firms (O'Neil Commodity Consulting; ESALQ/USP
+   for Brazil; CFTS Kyiv for Ukraine) and carry no licence: ask USDA (GTRContactUs@usda.gov) whether they may be
+   republished? (b) The Bank of Japan asks to be notified by e-mail of a service that uses its series: would the
+   owner send that notice? (c) Realised time-charter earnings per day, published each quarter by listed
+   shipowners, would give a rate history by class without any Baltic value, but only by hand: is a quarterly
+   manual entry acceptable?
+9. **Free accounts** that would replace estimates with measured figures, if the owner creates them: UN Comtrade
+   (importer-side quantities for Chilean copper, tin and lithium; key stored as the repository secret
+   `COMTRADE_API_KEY`), US Census USA Trade Online (LPG from the United States to Mexico by transport mode), an
+   EIA API key (a fallback for the EIA bulk file). The `FRED_API_KEY` secret is no longer read and can be deleted.
+10. **Files the owner could download by hand**: the World Port Index of the US National Geospatial-Intelligence
+    Agency (`UpdatedPub150.csv` on msi.nga.mil, public domain; it answers HTTP 503 from here) for port limits;
+    Global Energy Monitor's inventories (CC BY 4.0, behind a form with an e-mail address) to move the
+    infrastructure layer from a sample to an inventory.
+11. The IMF PortWatch ports table (names, positions, codes of about 2,000 ports) is kept in the repository under
+    the IMF's terms of use, with credit; commercial reuse would need the IMF's permission. Accept?
+12. Benchmark routes: give TC11 and TC22 their own corridor (two generated corridors would disappear and their
+    addresses with them)? Add TD32 and TC24 once their definition can be read? A page per index?
+13. Companies: also show EU designations and OFAC's sectoral lists as sanction marks? Accept "cargoes" or "TBtu"
+    as units (Cheniere and Venture Global publish LNG that way)? Ask Cochilco for its terms of reuse (one figure
+    is cited with a link)?
+14. Containers: still neither in scope nor declared out of scope (audit point C-056); the class page says what it
+    is.
+15. Licence of the documentation files (README, METHODOLOGY, DATA_SOURCES, NOTICE): not decided.
+16. Where should a second entry point to the chokepoint status board go (it opens from any chokepoint page)?
+17. Official names of the four-digit customs headings: the texts of UN Comtrade are for internal use only; the
+    atlas derives its names from the CEPII BACI product list.
+18. Should a commodity filter the freight routes drawn on the map (audit point A-070)? Every route stays drawn
+    today, as the owner set it.
+19. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
+    the fourth release from the disruptions of passages.
+20. The choices listed above, each reversible.
 
 ## Update jobs
 
-- Prices: Wednesdays at 21:43 UTC, after the EIA's weekly release, with a retry on Thursdays at 09:43 UTC.
-  PortWatch: Wednesdays at 19:17 UTC. Annual sources: the 15th of each month. Each job also writes the "What
-  changed" digest and its Atom feed.
-- A GitHub issue opens only after a source fails several runs in a row; no e-mail is sent.
+- Prices (World Bank, EIA, the three freight indicators): Wednesdays at 21:43 UTC, after the EIA's weekly
+  release, with a retry on Thursdays at 09:43 UTC. PortWatch: Wednesdays at 19:17 UTC. Yearly sources and the
+  check of the CEPII BACI version: the 15th of each month at 22:17 UTC. Each job also writes the "What changed"
+  digest and its Atom feed.
+- Data freshness check: Mondays at 13:37 UTC. Watcher of the yearly pages read by hand: the 3rd of each month.
+- The three update jobs share one queue and commit only the paths they write; the checks run before each
+  publication; a data job always ends green.
+- Signals, all as GitHub issues, never an e-mail from a failed run of a data job: "Data update failing: <source>"
+  (after one, two or three runs according to the source), "Data update discarded by the data checks", "Data
+  update not pushed", "Site not republished: a check failed", "Data stale: <source>", "Watcher failing:
+  <workflow>", "New release available: <source>". A push to `main` whose checks or deployment fail is red and
+  GitHub e-mails the person who pushed, as for any repository.
+- `docs/UPDATING.md` describes each job, the yearly refresh of CEPII BACI by hand, and what to look at.
 - If `main` is ever protected, GitHub Actions must be allowed to push to it.
