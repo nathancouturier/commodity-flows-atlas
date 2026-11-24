@@ -16,7 +16,9 @@ is called one where it is shown. The figures below are those of the build from C
   both 1,000 t and USD 1 million dropped; the totals of every group and year before that threshold are kept in
   `pipeline/cache/baci_group_totals.csv`, and a commodity page whose tables hold under 97% of the customs file's total in the latest year says so
   in its notes, with both figures and the part due to the threshold and the part due to the cleaning rules (in the 2024 build: natural graphite, three of
-  the ferro-alloy groups, rare-earth metals, lithium, silver, unwrought tin and crude oil); lanes and their history start in 2005. The 2.4 GB database is
+  the ferro-alloy groups, rare-earth metals, lithium, silver, unwrought tin, crude oil, coke and unwrought zinc; the note is written for every group that a page shows as a table,
+  the groups built by hand on a page included, package FNCF: unwrought zinc holds 5.06 Mt of the 10.1 Mt of the file, one row, Spain to Mexico, 5.02 Mt for
+  USD 61 million, being estimated at 0.021 Mt by rule 3, and coke 32.9 Mt of 34.6 Mt, 1.63 Mt being Mozambique's); lanes and their history start in 2005. The 2.4 GB database is
   not in the repository: a new version is downloaded when CEPII publishes one, normally by hand
   (see the README).
 - **Commodity groups**: HS six-digit codes are grouped per commodity in
@@ -68,9 +70,13 @@ is called one where it is shown. The figures below are those of the build from C
      or removes over all years (a re-estimated row whose pair declares, in at least three other years, a unit value
      beyond the same factor 3 on the same side: the estimate would erase the pair's own level); coke and sunflower
      oil are out for that reason (below, section on the new groups). A row of `ESTIMATE_ROWS`
-     (Mozambique → India 2016, coke) is treated as rule 4 treats a homogeneous group, whatever its group.
-  5. **Known misclassifications** are dropped. Example: Israeli pipeline gas to Egypt and Jordan
-     declared as LNG (Israel has no liquefaction plant).
+     is treated as rule 4 treats a homogeneous group, whatever its group; the table is empty since package FNCF (its one row, Mozambique → India 2016 in
+     coke, is dropped by rule 5 with the rest of Mozambique's coke).
+  5. **Known misclassifications** are dropped (`DROP`, listed in `pipeline/commodities/QA.md`). Examples: Israeli pipeline gas to Egypt and Jordan
+     declared as LNG (Israel has no liquefaction plant), and all of Mozambique's exports under the coke code, in every year and to every destination
+     (package FNCF): the EIA series of coke production (International Energy Data, series 21-1, the one that check K14 reads) gives Mozambique zero in every
+     year of the file, so the tonnes are probably coal declared under the coke code, a hypothesis that no source establishes. The coke page says what was left out
+     (1.63 Mt in the customs file of 2024, 16 years from 2005) and that these rows are not counted.
   6. **Qatari LPG in 2021 and 2023** (`DROP_NEW_PAIRS`). Customs data give Qatar about 10 Mt of LPG
      exports a year from 2018 to 2024, except in 2021 and 2023, when pairs that have no LPG in either
      neighbouring year add 29.0 Mt (19 rows, reported tonnage) and 26.5 Mt (12 rows, 11 of them
@@ -183,7 +189,7 @@ is called one where it is shown. The figures below are those of the build from C
   | K11 | the atlas's own infrastructure layers | an LNG exporter with no export terminal in the layer, a crude importer of 1 Mt or more with no refinery in it (QA file only: the layers are hand-built and incomplete) |
   | K12 | the gateways | a pair of 0.5 Mt or more whose main route is more than 2.5× the great-circle distance of its ports (QA file only: it points at a wrong gateway) |
   | K13 | the usual unit value of the product (tonne-weighted median of the group-year) | a pair of one product (unwrought metals, alumina, coke, pig iron, direct-reduced iron...) declared under half of it, 10 kt or more and 1% of the group; the caveat names the cheaper product that may be declared under the code: scrap or alloy by default, coal for coke, iron ore or scrap for pig iron and direct-reduced iron |
-  | K14 | EIA production of the product (coke: series 21-1, with the coal series 130-1 and 130-4 of the Metallurgical coal page) | an exporter of 1% or more of the group's recorded exports that has a series in the EIA file and no production in its latest year (package FNCD: Mozambique, 1.63 Mt, and Zimbabwe, 0.893 Mt, of coke in 2024); a country with no series is not reported. The note on the row, the page and the lanes says what the customs data record and what the EIA series reads, and that the tonnes may be another product declared under the code (coal where the page's EIA tables show the country as a coal exporter or producer): a possible reading, not established here |
+  | K14 | EIA production of the product (coke: series 21-1, with the coal series 130-1 and 130-4 of the Metallurgical coal page) | an exporter of 1% or more of the group's recorded exports that has a series in the EIA file and no production in its latest year (package FNCD found Mozambique, 1.63 Mt, and Zimbabwe, 0.893 Mt, of coke in 2024; since package FNCF Mozambique's coke is dropped by rule 5 of section 1 and the check finds Zimbabwe only); a country with no series is not reported. The note on the row, the page and the lanes says what the customs data record and what the EIA series reads, and that the tonnes may be another product declared under the code (coal where the page's EIA tables show the country as a coal exporter or producer): a possible reading, not established here |
 
 - **No "provisional" label on the latest year.** Neither CEPII's BACI page nor the readme of the
   release says that the latest year is provisional or will be revised, and the pairs that halve
@@ -200,7 +206,10 @@ is called one where it is shown. The figures below are those of the build from C
   (Iranian urea, Belarusian, Uzbek and Turkmen potash), flows that rest on importers' declarations
   (Russian grain and refined products, with the USDA export figures beside), unchecked origins
   (LPG from Oman and the United Arab Emirates to China), the Mexican S19 destination, and re-export
-  hubs (refined products of the Netherlands, Belgium and Singapore; Dutch crude). 25 are active for
+  hubs (refined products of the Netherlands, Belgium and Singapore; Dutch crude), and the declared destination or origin that is a landlocked trading centre
+  (kind `landlocked-centre`, package FNCF: Qatar → Switzerland sulphur, 1.13 Mt, 23.5% of Qatar's exports and 98.8% of Switzerland's imports; Zambia → Switzerland refined
+  copper; Malaysia → Switzerland and Switzerland → Malaysia iron ore; the cargo probably ends, or started, elsewhere, a possible reading; the tonnes stay in the
+  tables and are counted at the passages of the route to the declared country, and no generated route is built from the pair). 35 are active for
   2024. They are shown on the lane, the flow rows, the commodity tables, the country profiles, the
   Route finder and the notes of the chokepoint shares. Rules of writing: every number in a caveat
   is filled by the builder from the data (none is typed in the registry); a cause is worded as a
@@ -313,14 +322,14 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (71 lane groups, 36,075 pairs, 9,660.6 Mt): sea 8,110.1 Mt (25,925 pairs), sea via a
-transit port 185.5 Mt (2,725 pairs), sea and overland 317.5 Mt (109 pairs), land 1,047.5 Mt (7,316
-pairs). Seaborne: 8,295.6 Mt. (69 groups, 35,456 pairs and 9,640.5 Mt before the two fertiliser groups of package FNCB
+**2024 by mode** (71 lane groups, 36,071 pairs, 9,659.0 Mt): sea 8,108.5 Mt (25,922 pairs), sea via a
+transit port 185.5 Mt (2,725 pairs), sea and overland 317.5 Mt (109 pairs), land 1,047.5 Mt (7,315
+pairs). Seaborne: 8,294.0 Mt. (69 groups, 35,456 pairs and 9,640.5 Mt before the two fertiliser groups of package FNCB
 (ammonium nitrate with limestone and the two-nutrient compounds) were added, 60 groups, 32,475 pairs and 9,436.0 Mt before the nine groups of metal bulks of
 package NC3 were added, 52 groups, 29,135 pairs and 9,303.6 Mt before the eight groups of grains, oilseeds
 and pulses, 42 groups, 25,847 pairs and 9,154.1 Mt before the ten groups of fertilisers
 and sulphur, and 34 groups, 23,853 pairs and 9,140.4 Mt before the eight groups of
-minor metals; Belarusian potash to China, 2.9 Mt, is sea via a transit port.)
+minor metals; Belarusian potash to China, 2.9 Mt, is sea via a transit port. Package FNCF takes 1.6 Mt of Mozambique's coke out of the 2024 frame, 8,295.6 Mt of seaborne trade before.)
 
 **Sea via a transit port.** The foreign port of a landlocked country is gateway data
 (`TRANSIT` in `pipeline/freight/gateways/energy.py`), one sourced row per country and cargo (a customs
@@ -481,10 +490,10 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
-  two ends, 16,591 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  two ends, 16,588 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
   transit port is one more port): page names the cargo 67.6%, port used before 22.5%, general port
   5.7%, nearest seaport 2.2%, other direction 1.1%, page names the plant 0.2%, no port (not routed) 0.7% (recomputed after
-  package FNCE, from the pairs files; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
+  package FNCF, from the pairs files; after package FNCE they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,591 Mt; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
   plant basis, and 69.7%, 22.4%, 4.1%, 2.2%, 1.1% and 0.6% of 15,847 Mt after package FL1; 0.8% had no port before package L1). Most rows cite a Wikipedia article. The United States crude and
   products ports of entry come from the EIA company-level imports file (2024); the crude discharge
   ports of Indonesia, Malaysia, Japan, South Korea and India and the products load ports of
@@ -507,11 +516,12 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   Mediterranean and the Black Sea take Fos, the countries of the Atlantic, the North Sea, the Baltic and
   the Americas take the Channel and Atlantic ports named by pages, Rouen and La Pallice for grain, Montoir
   for ammonia and soya meal, and Le Havre as the general port; Asia, the Gulf, East Africa and Oceania take the
-  grain port of Rouen, whose page names China as its first destination, and Fos for the other cargoes; three rules,
-  for grain, for the oils and fertilisers, and for general cargo); Turkey for scrap, pig iron and direct-reduced iron
-  (Karadeniz Eregli for the partners of the Black Sea, Iskenderun for the others; both rows serve the two directions, since the
-  page gives none, so that Turkish exports of the three groups to the Mediterranean load at Iskenderun and no longer at Izmir, the
-  general port of the country: package FNCE, 14 pairs). A rule that needs a product distinction
+  grain ports of Rouen and La Pallice and Fos for the other cargoes; four rules, for the grain exports by port (`fra-grain-ports`, package FNCF: see the
+  grain paragraph of the new groups below), for the other grain flows, for the oils and fertilisers, and for general cargo); Turkey for scrap, pig iron and direct-reduced iron
+  (Karadeniz Eregli for the partners of the Black Sea, Iskenderun and Izmir, the general port of the country on the Aegean, for the others, the page naming the
+  steel works and not where scrap lands: Iskenderun is the principal port and Izmir the option of every pair of the Mediterranean basin, so that the lane
+  page says that no source gives the split, package FNCF; both rows serve the two directions, since the page gives none, so that Turkish exports of the
+  three groups to the Mediterranean load at Iskenderun and no longer at Izmir alone: package FNCE, 14 pairs). A rule that needs a product distinction
   that customs data do not make is not written (HS codes do not separate coking from thermal coal).
 - **Coast options**. Where neither a single gateway nor a rule decides, a pair keeps up to three
   options per end. The main option is the principal gateway, not the shortest route ("nearest
@@ -620,8 +630,8 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   handy tankers; 13 kn for Suezmax, Aframax, LR1 and LR2; 15.5 kn for VLGCs; 12 kn for mid-size gas
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
-- **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 103 hand-written
-  routes name 43.5% of the 8,296 Mt of 2024 seaborne tonnes of the 71 customs groups. For the rest, the pairs table
+- **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 133 hand-written
+  routes name 43.5% of the 8,294 Mt of 2024 seaborne tonnes of the 71 customs groups. For the rest, the pairs table
   is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
   discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
   that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
@@ -630,7 +640,9 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   corridor needs at least 0.5 Mt and 2% of its group outside the hand-written corridors, and at least half of its own
   tonnes outside them. What the zone-to-zone corridors leave out is grouped again with the importing zones merged into
   regions (Europe, East Asia, and so on: an Atlas grouping listed in the code). Unrouted pairs (no gateway, no sea
-  route) are in no corridor. The cap on the whole atlas is 120 generated routes: the map draws every route, and a larger
+  route) are in no corridor, and neither is a pair that carries a caveat of the kind `landlocked-centre` (a declared destination or origin that is a landlocked
+  trading centre, package FNCF: Qatar → Switzerland sulphur no longer makes a corridor and a route "Sulphur: Qatar to Switzerland"; the next sulphur corridor, from the
+  US Gulf to the east coast of South America, takes its place in the 20 routes of the package). The cap on the whole atlas is 122 generated routes (120 on the released site, see below): the map draws every route, and a larger
   number made the world view unreadable even with the generated lines drawn thinner (about 120 more lines on top of the
   hand-written ones, 133 in November 2026). When the lists exceed it, the first corridor of each group that the audit's entries on named routes name is
   kept first (crude oil, iron ore, coal, refined products, LNG, steel, manganese, alumina, sugar, rice, rapeseed,
@@ -644,8 +656,8 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   sulphur ten routes and ammonia one): 20 routes for the fertilisers and sulphur of package NC1, 10 for the eight groups
   of grains, oilseeds and pulses of package NC2, 10 for the nine groups of metal bulks of package NC3 (ferrous scrap, chromium
   ore, pig iron, direct-reduced iron, coke and four ferro-alloys), and 6 for ammonium nitrate with limestone and the two-nutrient compounds of
-  package FNCB. The result for 2024 is 166
-  generated routes (120, 20, 10, 10 and 6) over 71 groups beside 133 hand-written ones (299 routes), and 64.9% of the seaborne tonnes named (all
+  package FNCB. The result for 2024 is 168
+  generated routes (122, 20, 10, 10 and 6) over 71 groups beside 133 hand-written ones (301 routes), and 65.0% of the seaborne tonnes named (all
   groups; 43.5% by the hand-written routes alone): eleven of the 71 groups reach 70% (iron
   ore, coal, crude oil, LPG, corn, soybeans, bauxite, chromium ore, ferro-nickel, nickel ore and spodumene); the others stay short of
   it, among them steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
@@ -653,12 +665,17 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   metals: no generated route). `pipeline/freight/QA_routes.md`, written at each build, gives each
   group with its coverage, its reason when it is under the target, and the corridors the cap left out.
   The corridors are made from the zone of each pair's ports, so when France got its Channel and Atlantic ports (package FNCA) the
-  corridors of the earlier groups that hold French pairs moved with them: of the 120 generated routes of the earlier groups, nine
-  changed in their tonnes, pairs and history (cocoa, coffee, soybeans, soymeal, steel, sugar and wheat) and four are no longer
-  generated: two whose corridor was French (steel from the Mediterranean to North-West Europe, wheat from the Mediterranean to
-  West Africa) and two that the cap of 120 gave up for four new corridors of the same groups (sugar from South-East Asia to South-East
-  Asia, wheat from West Canada to East Asia); the new corridors are wheat from North-West Europe to West Africa and within North-West Europe, steel from
-  the Black Sea to the Mediterranean and rapeseed from Western Australia to North-West Europe.
+  corridors of the earlier groups that hold French pairs moved with them: of the 120 generated routes of the released site, nine
+  changed in their tonnes, pairs and history (cocoa, coffee, soybeans, two of soymeal, two of steel, sugar from East Coast South America to the Mediterranean, and wheat within the Mediterranean, `gen-wheat-med-med`,
+  which is now French wheat to Egypt: Fos to Alexandria, 1,451 nm, instead of France to Algeria, 539 nm) and two are no longer generated, both because their corridor was French and
+  French steel and wheat load at other ports now: `gen-steel-med-nw-europe` (steel from the Mediterranean to North-West Europe) and `gen-wheat-med-waf` (wheat from the Mediterranean to
+  West Africa). Two routes that the first version of package FNCA had also lost, `gen-sugar-sea-sea` (sugar within South-East Asia, 2.3 Mt) and
+  `gen-wheat-canada-west-r-east-asia` (wheat from West Canada to East Asia, 3.8 Mt), had been pushed out by the cap of 120 and by the cap of 12 routes of the wheat group, not by anything on their side; since
+  package FNCF (review GV6A.3) the cap of the whole atlas is 122 (at 121 the sugar corridor is still out) and wheat may keep a thirteenth corridor (`GROUP_CAP_MORE`), so that every generated route of the released site whose corridor still exists is generated again.
+  The four new corridors of the earlier groups are wheat from North-West Europe to West Africa and within North-West Europe, steel from
+  the Black Sea to the Mediterranean and rapeseed from Western Australia to North-West Europe. The 133 hand-written routes are identical to the released ones, field by field, and no pair of a
+  released group that has no French end differs from the released pairs files in its ports, class, distance or passages (`test_fncf.py`, from digests of the released files); the notes of the 11 generated routes
+  of the release built on a single pair now say "pair" in the singular. A link to a route that ended shows "This route is not in the atlas catalogue".
 
   A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
   zone, importing zone or region), its name is "Cargo: zone to zone", its source is `atlas`, and its page says
@@ -836,8 +853,8 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     load or discharge on another coast (the note names the largest origins);
   - both are shares of the group's seaborne tonnes, the figure of the commodity page, not of the
     routed tonnes. Where the two agree, one figure is shown. An entry is written when the "up to" figure
-    that the page prints (after the PortWatch cap below) is at least 2% of the group or 1 Mt: 968
-    entries over 20 passages in 2024 (Hormuz: 38 groups).
+    that the page prints (after the PortWatch cap below) is at least 2% of the group or 1 Mt: 967
+    entries over 20 passages in 2024 (Hormuz: 37 groups).
   - **What is missing**, stated in each note: the seaborne tonnage of the group that could not be
     routed, the mixed pairs that would cross the passage by sea (not counted), and the origins
     whose exports customs data do not record or record only in part (caveats), named when the
@@ -1401,14 +1418,14 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   (`OWN_FAMILY` in `ports.py`). Ammonia, UAN, phosphoric acid and sulphur keep the port used before for the fertilisers of the same
   country ahead of the general port (`LEGACY_OWN_FAMILY`; package FNCA, review GNC1.1): Saudi ammonia and sulphur load at Jubail, as
   Saudi DAP, MAP and urea do, not at Jeddah on the Red Sea, where four of the 20 generated corridors had been drawn from; the lanes of Russia (Ust-Luga),
-  Canada (Vancouver) and India (Mundra) follow the same rule, and the basis printed is "port used before, no page read". Trinidad and Tobago has no
+  Canada (Vancouver) and India (Mundra) follow the same rule for the loading end only (package FNCF, review GV6A.5: the discharge port of these four groups is the general port of the country, so that Mexican phosphoric acid for Canada lands at Montreal and no longer at Vancouver through Panama), and the basis printed is "port used before, no page read". Trinidad and Tobago has no
   such entry: its ammonia and UAN load at Point Fortin, the port that its urea and DAP use too. For France, one page names ammonia
   (Montoir-de-Bretagne, "a berth reserved for liquid bulk lets acids, ammonia, molasses, diester and carbon dioxide transit"); no page read names UAN,
   phosphoric acid, sulphur, vegetable oils or dry fertiliser at a French port, so the general ports answer, Fos and Le Havre, by the coast rule. The groups have lanes under their page (`COMMODITY` in `build_lanes.py`); SOP, whose trade is spread over
   193 small seaborne pairs, has a lower floor (0.01 Mt, `FLOOR` of `build_lanes.py`): its lanes cover 69% of its seaborne tonnes (the `coverage` of its lane file;
   the default floor of 0.05 Mt kept 21%). Generated corridors: the new groups have a cap of their own, 20
-  routes (`LATER_GROUPS` in `generated_routes.py`), so that the 120 routes of the earlier groups stay as they were (package FNCA moved the ports of
-  France, which changed nine of those routes and replaced four: see the generated corridors, section 3).
+  routes (`LATER_GROUPS` in `generated_routes.py`), so that the routes of the earlier groups do not depend on them (package FNCA moved the ports of
+  France, which changed nine of the released routes and ended two: see the generated corridors, section 3).
 - **Grains, oilseeds and pulses** (package NC2, audit M-023). Four pages are new (barley, sorghum, sunflower, pulses) and the
   wheat, corn and rapeseed pages hold more products. Every HS 1992 code is in one group and every group on one page
   (`pipeline/trade/hs_map.py`); the groups, with the wording of the official list of CEPII BACI, are: barley (100300; malting
@@ -1439,8 +1456,17 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   oils show such a port with the basis "general port of the country", as no page read names either oil there (`GENERAL_BASIS` in `ports.py`; no port changed).
   France has Rouen and La Pallice for grain, oilseeds and meal (French Wikipedia: Rouen "the first European port for cereals", 12.7 Mt in 2023, with China,
   Morocco and Algeria as its main destinations; La Rochelle "second French port for cereal exports") and Montoir for soya meal, chosen against Fos by the
-  partner (coast rule `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; the router had snapped Rouen to the coast near Dieppe and read 196 nm: package FNCE), not 2,092 nm from Fos. Generated corridors: the eight groups of lanes share a cap of
-  10 routes (`LATER_GROUPS`), so that no earlier route moved.
+  partner (coast rules `fra-grain-ports` and `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; the router had snapped Rouen to the coast near Dieppe and read 196 nm: package FNCE), not 2,092 nm from Fos.
+  The two pages give figures for the ports and none for the split between them: Rouen "12.7 Mt in 2023 (50% of French exports)" of cereals for the whole port, La Pallice 3.0 to 3.5 Mt a year of
+  cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the partners
+  that the Rouen page names (China, Morocco, Algeria) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
+  Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, West and southern
+  Africa, the Americas, the Middle East and the rest of Asia); the pairs that were left open keep both ports, the other as an option, and Fos stays the port
+  of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). The split between the two
+  ports is the atlas's rule, not a measured share. In 2024 the atlas loads 11.3 Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, 3.5 Mt at La Pallice and 0.9 Mt
+  at Fos (14.8 Mt at Rouen, none at La Pallice and 0.9 Mt at Fos before the rule, against 12.7 Mt of cereals for the whole port of Rouen on its page); the lanes of La Pallice carry
+  no river leg (the leg of the Seine is for Rouen). Generated corridors: the eight groups of lanes share a cap of
+  10 routes (`LATER_GROUPS`).
 - **Metal bulks** (package NC3, audit A-010). Six pages are new (ferrous scrap, pig iron and DRI, chromium, ferro-alloys,
   molybdenum, graphite) and the metallurgical coal page holds the customs tables and lanes of coke. Every HS 1992 code is in
   one group and every group on one page (`pipeline/trade/hs_map.py`); the groups, with the wording of the official list of
@@ -1474,26 +1500,33 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   the ferro-alloys the general port of the country, as steel does (the ore fall-backs would have sent the 20 Mt of Turkish scrap
   imports to the nearest seaport of Turkey, Samsun on the Black Sea, by the Bosphorus). Package FNCA (review GNC3.2) gave Turkey, for scrap, pig iron and
   direct-reduced iron, the ports of its two steel works named by the Erdemir page (Karadeniz Eregli on the Black Sea, Iskenderun on the Mediterranean; the page names
-  the works and the port of Eregli, not the cargo, and the basis printed is the table's "page names the cargo"), chosen by the partner (coast rule `tur-coast`: the Black
-  Sea partners take Eregli, the others Iskenderun), because Mersin, the only general port, is on the far coast from the Black Sea partners. Turkish chromite keeps Samsun
-  (no page read names a chromite port: 1.5 Mt at the Bosphorus), and the ferro-alloys the general port; the Aegean and Marmara have no row (the Aliaga page names
-  no steel works and the Derince page names vehicles). Scrap, pig iron and
+  the works and the port of Eregli, not the cargo, and the basis printed is "page names the plant, not the cargo", package FNCE), chosen by the partner (coast rule `tur-coast`: the Black
+  Sea partners take Eregli, the others Iskenderun, with the general port of Izmir as the second option since package FNCF, review GV6A.4), because Mersin, the only other general port, is on the far coast from the Black Sea partners. Turkish chromite keeps Samsun
+  (no page read names a chromite port: 1.5 Mt at the Bosphorus), and the ferro-alloys the general port; the Aegean and Marmara have no row of their own (the Aliaga page names
+  no steel works and the Derince page names vehicles). The Erdemir page names the steel works and not where scrap lands, so the share that the Turkey page prints for a
+  port (Iskenderun 89.9% of the scrap imports) is the share of the atlas's tonnes that its typical port carries, an allocation by rule, and the freight block says so before its figures
+  (`freight.note` of the profile). Scrap, pig iron and
   direct-reduced iron sail in bulk carriers all the same, and the chokepoint estimates compare them with the dry-bulk ships of PortWatch. Molybdenum and graphite are tables only, without lanes. The shared cleaning rules apply only the
   gross-error rule to these groups (rule 3 of section 1): none is a single graded product, except coke (HS 2704), one product priced by the tonne. Mozambique →
   India 2016, 65 Mt declared for USD 245 million (4 USD/t), had tripled the world and seaborne series of that year (91.8 and 83.3 Mt against 31.6 and 22.9 Mt in
-  2015) (review GNC3.8); it is a flagged Atlas estimate of 1.3 Mt, and the world series reads 28.1 Mt. Package FNCB repaired it by putting coke in rule 4;
-  package FNCD (D6) checked rule 4 on the fourteen groups of the three packages that it covered, with one criterion: where the pairs that rule 4 would
-  re-estimate declare, in at least three other years, a unit value beyond the factor 3 on the same side, and carry more than a tenth of the tonnes that rule 4
-  adds or removes over all years, the group leaves the set. Rule 4 re-estimates 19 rows in 7 of the 14 groups (potassium sulphate 1, UAN 1, ammonium
-  sulphate 1, sorghum 2, sunflower oil 1, rapeseed meal 2, coke 11) and none in the 7 others (the largest change of a world total of a year is 8.0%, sorghum 2019); no
-  re-estimated row of the 5 groups that stay belongs to such a pair. For coke 7 of the 11 rows do (92% of the tonnes: China → United States 2002, 2003
-  and 2005, Mozambique → India 2016, 2021 and 2022, Mozambique → United Arab Emirates 2023), and for sunflower oil the one row (Ukraine → Nepal 2021), so
-  both groups leave the set and keep the reported tonnage of their rows, except Mozambique → India 2016, which is listed in `ESTIMATE_ROWS`. The 11 rows
-  that go back to their reported tonnage (coke: Belgium → France 2004, China → Brazil 2009, China → India 2006 and 2007, China → United States 2002,
-  2003 and 2005, Mozambique → United Arab Emirates 2023, Mozambique → India 2021 and 2022; sunflower oil Ukraine → Nepal 2021) add 3.5 Mt to the
-  world coke series of 2021 and 7.7 Mt to that of 2022 (Mozambique → India, 3.8 and 8.7 Mt at 26 and 56 USD/t, which the page notes read as possibly coal declared
-  under the coke code), and move the other years by under 3.5 Mt (sunflower oil by 0.04 Mt in 2021). Coke, pig iron and direct-reduced iron are in the unit-value check K13. Generated corridors: the nine
-  groups with lanes share a cap of 10 routes (`LATER_GROUPS`), so that no earlier route moved.
+  2015) (review GNC3.8). Package FNCB repaired it as a flagged Atlas estimate (1.3 Mt) by putting coke in rule 4; package FNCD (D6) checked rule 4 on the
+  fourteen groups of the three packages that it covered, with one criterion: where the pairs that rule 4 would re-estimate declare, in at least three other years,
+  a unit value beyond the factor 3 on the same side, and carry more than a tenth of the tonnes that rule 4 adds or removes over all years, the group leaves the
+  set. Rule 4 re-estimates 15 rows in 7 of the 14 groups (potassium sulphate 1, UAN 1, ammonium sulphate 1, sorghum 2, sunflower oil 1, rapeseed meal 2, coke 7) and
+  none in the 7 others (the largest change of a world total of a year is 8.0%, sorghum 2019); no re-estimated row of the 5 groups that stay belongs to such a pair.
+  For coke 3 of the 7 rows do (33% of the tonnes: China → United States 2002, 2003 and 2005), and for sunflower oil the one row (Ukraine → Nepal 2021), so both
+  groups leave the set and keep the reported tonnage of their rows (coke: Belgium → France 2004, China → Brazil 2009, China → India 2006 and 2007, China → United States 2002, 2003
+  and 2005; sunflower oil Ukraine → Nepal 2021). China → Brazil 2009, 108 kt declared at 825 USD/t, is one of them (review GV6B.3): the pair's own unit value is 467 to 518 USD/t in 2008 and
+  2010 to 2012, the years of the Chinese export tax, so the criterion keeps the reported tonnage rather than the 340 kt that rule 4 would estimate.
+  Package FNCF (the owner's decision on FNCD's first question) drops all of Mozambique's coke by rule 5 of section 1 (`DROP`): the EIA series of coke production gives
+  Mozambique none in any year, and its exports under the code (16 years, 2005 to 2024: 65.2 Mt in 2016, 65.0 Mt of it to India at 4 USD/t, 3.8 and 8.7 Mt at 26 and 56 USD/t to India in 2021
+  and 2022, 1.63 Mt in 2024) are probably coal declared under the coke code, a hypothesis that no source establishes. The world coke series reads
+  26.6 Mt in 2016 (was 28.1), 28.3 in 2017 (39.8), 32.2 in 2021 (38.6), 31.5 in 2022 (41.5) and
+  32.9 in 2024 (34.5), and India's coke imports of 2024 5.4 Mt (6.5). The coke page says what was left out (1.63 Mt in the customs file of 2024) and that these rows
+  are not counted, and its note on the tables that hold under 97% of the file agrees with it. After the rule the customs series of the page is above the EIA export table of the same page
+  in 17 of the 20 years 2005 to 2024 (below it in 2006, 2007 and 2016), and more than 10% above it in 2008, 2009, 2010, 2011, 2012, 2019, 2022 and 2023: the two sources count different things
+  (HS 2704 is every coke and semi-coke of coal, lignite or peat; EIA's table is metallurgical coke by country) and the atlas does not reconcile them. Coke, pig iron and direct-reduced iron are in the unit-value check K13. Generated corridors: the nine
+  groups with lanes share a cap of 10 routes (`LATER_GROUPS`).
 - **"Other countries"**: where USGS lists producers in full, its own "Other countries" line is shown
   as the last row, apart from the countries it names; countries it names beyond the first ten rows
   are counted in a separate line, not in "Other countries". **Shares on the sum of the lines**
@@ -1582,8 +1615,9 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     finds four rows in this release. Two are reviewed: Mozambique's imports of chromium ore (Chromium page) and of ferro-chromium (Ferro-alloys page).
     The note says what the customs data record, that these tonnes may be cargo in transit to a port and not the country's own use, as a reading and not as a
     finding, and why the row was kept: the ore and the alloy come overland from South Africa, the first producer in the USGS table of the Chromium page;
-    Mozambique has no line in that table; and its own exports of both products in the customs data are next to nothing (each clause is checked against the
-    built pages by `test_fncd.py`). The note carries no figure of its own. The page repeats it in its notes (a row note is a tooltip) and the country profile line
+    Mozambique has no line in that table (each clause is checked against the built pages by `test_fncd.py`). The note computes what the country's own
+    exports are from its row of the exporters table, never "not an exporter" (package FNCF, review GV6C.1): "has no production line in the tables of this page and exports of
+    41 kt (0.15% of the world exports, 0.47% of its own imports)" for the chromium ore, 21 kt (0.27%, 1.8%) for the ferro-chromium. The page repeats it in its notes (a row note is a tooltip) and the country profile line
     carries it. The other two rows (Saudi Arabia's imports of direct-reduced iron from Oman and Canada's imports of MAP from the United States) are an
     overland delivery to a neighbour that uses the product, the plain reading: they get no note and are listed in `pipeline/commodities/QA.md` as "detected,
     no note". The overland test keeps the rule off the importers that consume the product and receive it by sea (Japan's coking coal, Morocco's ammonia and
@@ -1591,6 +1625,11 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     is shipped through Maputo: the Port of Maputo article says that its record volumes of 2023 came largely from South African mines and that transit
     cargo is a large part of the traffic of the ports of Mozambique, and does not name chromite, so no source is cited and the wording stays a possible
     reading.
+    The same kind of note is written for an importer that is the transit port of a landlocked country in the engine's transit tables (`TRANSIT` of
+    `gateways/energy.py`), where the customs figure reads like that country's own trade (package FNCF): Djibouti, second importer of the two-nutrient compound
+    fertilisers in 2024 (1.64 Mt, 0.04 Mt in 2015), is the port that the transit table gives Ethiopia ("Principal maritime outlet for Ethiopia's trade", Wikipedia, Port
+    of Djibouti), and no import of the product by Ethiopia is recorded in 2024 (0.96 Mt in 2023); the row and the page say that some of these tonnes may be Ethiopian cargo declared
+    at the port, a possible reading, not established here.
 - **USDA crops: forecast, estimate, balances, EU member states, Russian grain** (audit M-076, M-025, M-024, C-104, C-045).
   - *Year rule*, in `_latest_inputs()` of `build_commodities.py` and nowhere else: the page shows the newest marketing year the PSD
     file holds (`PSD_MY`, 2026/27 in the November 2026 file), which USDA publishes as its forecast of the year in progress, and

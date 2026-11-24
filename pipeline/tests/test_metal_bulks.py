@@ -286,7 +286,9 @@ class EngineTests(unittest.TestCase):
         gen = [r for r in routes if r.get("generated")]
         ids = [r["id"] for r in gen if r["id"].startswith(tuple(f"gen-{g}-" for g in LANES))]
         self.assertTrue(1 <= len(ids) <= 10, ids)
-        self.assertEqual(len(gen), 120 + 20 + 10 + len(ids) + 6)  # + the 6 routes of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds)
+        # the cap of the first package is 122 since FNCF (generated_routes.TOTAL_CAP: the two released routes that the cap of 120 gave up are back);
+        # + the 6 routes of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds)
+        self.assertEqual(len(gen), GR.TOTAL_CAP + 20 + 10 + len(ids) + 6)
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
 
@@ -326,12 +328,18 @@ class PageTests(unittest.TestCase):
         cache is within 3% of it (a tonnage missing in the archive is estimated from its value)."""
         import pandas as pd
         from clean import clean
+        from clean import DROP
         df = pd.read_csv(CACHE)
         df = df[df["group"].isin(NEW)]
         cleaned = clean(df)
         for g in NEW:
             want = cleaned[(cleaned["group"] == g) & (cleaned["year"] == 2024)]["t"].sum() / 1e6
-            raw = df[(df["group"] == g) & (df["year"] == 2024)]["t"].sum() / 1e6
+            # the rows that clean() drops as misclassified (Mozambique's coke, FNCF) are in the cache and in no table
+            out = pd.Series(False, index=df.index)
+            for (dg, do, dd), _ in DROP.items():
+                out |= (df["group"] == dg) & (df["o"] == do) & ((df["d"] == dd) if dd else True)
+            kept = df[~out]
+            raw = kept[(kept["group"] == g) & (kept["year"] == 2024)]["t"].sum() / 1e6
             self.assertLess(abs(raw - want) / want, 0.03, (g, raw, want))
             for side in ("exports", "imports"):
                 t = self.table(g, side)

@@ -49,9 +49,11 @@ class A1LegacyPortOfTheFertilisers(unittest.TestCase):
         """Saudi ammonia, UAN, phosphoric acid and sulphur load at Jubail like Saudi DAP, MAP and urea, not at Jeddah on the Red Sea."""
         self.assertEqual(set(LEGACY_FERT), set(P.LEGACY_OWN_FAMILY))
         self.assertTrue(P.LEGACY_OWN_FAMILY <= P.OWN_FAMILY)
+        # the legacy entry is the exporter's own port: for the role "load" only (FNCF, review GV6A.5: it landed Mexican phosphoric acid for Canada at
+        # Vancouver); the discharge port of these groups is the general port of the country, as before package FNCA
         for g in LEGACY_FERT:
-            for role in ("load", "discharge"):
-                self.assertEqual(P.candidates("SAU", g, role), [("SAJUB", None, P.BASIS_LEGACY)], (g, role))
+            self.assertEqual(P.candidates("SAU", g, "load"), [("SAJUB", None, P.BASIS_LEGACY)], g)
+            self.assertNotIn("SAJUB", [c[0] for c in P.candidates("SAU", g, "discharge")], g)
         for g in ("urea", "dap", "monoammonium-phosphate"):
             self.assertEqual(P.candidates("SAU", g, "load")[0][0], "SAJUB", g)
 
@@ -104,10 +106,10 @@ class A2France(unittest.TestCase):
 
     def test_the_coast_rules_choose_the_port_by_the_partner(self):
         a = P.assign
-        self.assertEqual((a("FRA", "NLD", "barley").main.load, a("FRA", "NLD", "barley").rule), ("FRURO", "fra-coast-grain"))
+        self.assertEqual((a("FRA", "NLD", "barley").main.load, a("FRA", "NLD", "barley").rule), ("FRURO", "fra-grain-ports"))
         self.assertEqual(a("FRA", "ITA", "wheat").main.load, "FRFOS")
         self.assertEqual(a("FRA", "CHN", "wheat").main.load, "FRURO")  # the Rouen page names China among its destinations
-        self.assertEqual(a("FRA", "DZA", "wheat").main.load, "FRURO")  # ... and Algeria and Morocco
+        self.assertEqual(a("FRA", "DZA", "wheat").main.load, "FRURO")  # ... and Algeria and Morocco (rule fra-grain-ports, FNCF: both ports stay options)
         self.assertEqual(a("NLD", "FRA", "uan").main.discharge, "FRLEH")
         self.assertEqual(a("ITA", "FRA", "uan").main.discharge, "FRFOS")
         self.assertEqual(a("FRA", "BEL", "sunflower-oil").main.load, "FRLEH")
@@ -120,7 +122,7 @@ class A2France(unittest.TestCase):
 
     def test_the_rules_are_written_for_a_known_port_in_each_zone(self):
         ids = {r["id"] for r in P.COAST_RULES if r["country"] == "FRA"}
-        self.assertEqual(ids, {"fra-coast-grain", "fra-coast", "fra-coast-box"})
+        self.assertEqual(ids, {"fra-grain-ports", "fra-coast-grain", "fra-coast", "fra-coast-box"})  # fra-grain-ports: FNCF, exports of grain by port
         for r in P.COAST_RULES:
             if r["country"] == "FRA":
                 for zones in r["zones"].values():

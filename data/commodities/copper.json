@@ -1128,6 +1128,7 @@
      {
       "c": "ZMB",
       "v": 1.078,
+      "n": "Customs data record 0.492 Mt of refined copper from Zambia to Switzerland in 2024 (45.6% of Zambia's recorded exports and 99.2% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair.",
       "usd": 9928168000,
       "uv": 9210
      },
@@ -1693,6 +1694,7 @@
      {
       "c": "CHE",
       "v": 0.4959,
+      "n": "Customs data record 0.492 Mt of refined copper from Zambia to Switzerland in 2024 (45.6% of Zambia's recorded exports and 99.2% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair.",
       "usd": 4686447000,
       "uv": 9450
      },
@@ -2442,6 +2444,7 @@
   "Refined copper (HS 7403, 7402), 2024 (CEPII BACI): world 12.08 Mt gross weight; top exporters DR Congo 2.21 Mt, Chile 2.16 Mt, Zambia 1.08 Mt.",
   "Chile's copper concentrate: customs data declare some of it at 3,988 to 10,220 USD per tonne in 2024, against about 2,195 for Peru's concentrate to the same destinations; a tonnage declared in contained copper rather than gross weight is a plausible cause, not established here. Where Chile's unit value is more than 1.8 times Peru's (to the same destination when Peru ships 50 kt or more there, otherwise Peru's average of the year), the tonnage is an Atlas estimate: the declared value divided by Peru's unit value times 1.125, the median ratio of Chile's unit value to Peru's in the 10 years in which Chile's declarations are in line (2002, 2009, 2014 to 2020 and 2023). Chile then exports 12.44 Mt instead of the 4.95 Mt declared, and Chile to China 8.24 Mt instead of 2.79 Mt. Importers' own declarations (UN Comtrade) would measure it; the atlas has no access key for them.",
   "Trade tables are copper ores and concentrates in gross weight (Mt), not contained copper; USGS production is contained copper (kt Cu). The refinery table is USGS refined copper production (primary and secondary).",
+  "Customs data record 0.492 Mt of refined copper from Zambia to Switzerland in 2024 (45.6% of Zambia's recorded exports and 99.2% of Switzerland's recorded imports, CEPII BACI). Switzerland has no coast and is a trading centre for commodities, so the cargo probably ends elsewhere and the customs record only the declared country: a possible reading, not established here. The tonnes stay in the tables and are counted at the passages of the route to its declared destination; no generated route is built from this pair.",
   "The 'refined and blister copper' tables add HS 7403 (refined copper, 10.0 Mt in 2024) and HS 7402 (unrefined copper and anodes, 2.0 Mt, the feed of refineries). The apparent consumption table uses HS 7403 only."
  ]
 }

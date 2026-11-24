@@ -189,7 +189,9 @@ class C2TransitImporter(unittest.TestCase):
         self.assertIn("not the country's own use", note)
         self.assertIn("a possible reading, not established here", note)
         self.assertIn("Mozambique", note)
-        self.assertNotRegex(note, r"\d")  # a reading with no figure of its own
+        # FNCF (review GV6C.1): the row says what its own exports are, from the table: 0.04 Mt of 24.44 Mt of the world's, and of its 8.8 Mt of imports
+        self.assertIn("has no production line in the tables of this page and exports of 40 kt (0.16% of the world exports, 0.45% of its own imports)", note)
+        self.assertNotIn("not a producer or an exporter", note)
         page = d["notes"][-1]  # the row note is a tooltip: the page says it too, with the product of the table
         self.assertIn("importers of chromium ores and concentrates (HS 2610)", page)
         self.assertIn("a possible reading, not established here", page)

@@ -354,9 +354,10 @@ NEW_GROUPS = set("""
 # group) and 4 re-estimated, each for the reason given here (FNCD, D6, took coke out of rule 4: the three rows of China to the United States and the
 # row of sunflower oil from Ukraine to Greece are no longer on the list)
 ESTIMATE_RIGHT = {
-    ("sulphur", "CHE", "ZMB", 2012): "the pair's declared value is steady (USD 37, 45, 41 and 28 million in 2011 to 2014) while the tonnage is missing or under 2 kt; "
-                                     "the estimate (206 kt) follows Zambia's imports of 226, 402, 445 and 374 kt",
-    ("dri", "MYS", "TWN", 2003): "the estimate (131 kt) is the tonnage of 2002 (129 kt) for the same value, and Taiwan's imports are 162 and 161 kt in 2002 and 2003",
+    ("sulphur", "CHE", "ZMB", 2012): "the pair's declared value is steady (USD 37, 45, 41 and 28 million in 2011 to 2014) while its tonnage is 2.0 kt in 2011 (kept as reported: "
+                                     "the unit value is under 100 times the group's, so rule 3 does not apply) and 0.2 kt or missing in 2012 to 2014; the 2012 estimate (206 kt) "
+                                     "puts Zambia's imports at 402 kt, against 226, 445 and 374 kt in 2011, 2013 and 2014 (the pair is estimated at 244 and 152 kt in 2013 and 2014 too)",
+    ("dri", "MYS", "TWN", 2003): "the value (USD 16.9 million) is close to that of 2002 (USD 15.0 million, 129 kt) and the estimate (131 kt) is that year's tonnage; Taiwan's imports are 162 and 161 kt in 2002 and 2003",
     ("sulphur", "USA", "CHL", 2004): "the value (USD 5.3 million) is that of 2003 (5.4 million, 61 kt); the estimate (59 kt) puts Chile's imports at 62 kt, against 80 and 24 kt in the years around",
     ("sulphur", "SAU", "PNG", 2019): "the estimate (87 kt) puts Papua New Guinea's imports at 159 kt, against 134, 130 and 123 kt in 2021 to 2023",
 }
@@ -450,32 +451,30 @@ class B2ValueRulesKeepSowingSeed(unittest.TestCase):
 
 
 class B3Coke(unittest.TestCase):
-    def test_coke_pig_iron_and_dri_are_not_homogeneous_and_the_2016_row_is_listed(self):
+    def test_coke_pig_iron_and_dri_are_not_homogeneous_and_mozambique_is_dropped(self):
         """FNCB put coke in HOMOGENEOUS; package FNCD (D6) took it out again (steady pairs carry 92% of the tonnes that rule 4 moves: test_fncd.py) and
-        holds the Mozambique to India row of 2016 in ESTIMATE_ROWS."""
+        held the Mozambique to India row of 2016 in ESTIMATE_ROWS; package FNCF drops all of Mozambique's coke (rule 5, test_fncf.py), so the table is empty."""
         import clean as C
         for g in ("coke", "pig-iron", "dri"):
             self.assertNotIn(g, C.HOMOGENEOUS)
-        self.assertIn(("coke", "MOZ", "IND", 2016), C.ESTIMATE_ROWS)
+        self.assertIn(("coke", "MOZ", None), C.DROP)
+        self.assertEqual(C.ESTIMATE_ROWS, {})
 
     def test_unit_value_check_covers_coke_pig_iron_and_dri(self):
         import checks as K
         for g in ("coke", "pig-iron", "dri"):
             self.assertIn(g, K.UV_GROUPS)
 
-    def test_a_coke_row_at_four_dollars_a_tonne_is_a_flagged_estimate(self):
-        """GNC3.8: Mozambique to India 2016, 65 Mt for USD 245 million, tripled the 2016 coke series."""
+    def test_a_coke_row_at_four_dollars_a_tonne_from_mozambique_is_left_out(self):
+        """GNC3.8: Mozambique to India 2016, 65 Mt for USD 245 million, tripled the 2016 coke series; FNCB estimated it, FNCF leaves Mozambique's coke
+        out of the frame with the rest of its exports under the code (clean.DROP)."""
         import pandas as pd
         import clean as C
         rows = [{"year": 2016, "group": "coke", "o": f"E{i:02d}", "d": f"I{i:02d}", "t": 100000.0 + i, "usd": 30000.0 + i} for i in range(40)]  # 300 USD/t
         rows.append({"year": 2016, "group": "coke", "o": "MOZ", "d": "IND", "t": 64992713.0, "usd": 245257.0})
         c = C.clean(pd.DataFrame(rows))
-        r = c[(c["o"] == "MOZ") & (c["d"] == "IND")].iloc[0]
-        self.assertTrue(r["imputed"])
-        self.assertIn("est-uv", r["flag"])
-        self.assertTrue(r["enote"].startswith("Atlas estimate"))
-        self.assertLess(r["t"], 2e6)
-        self.assertEqual(r["t0"], 64992713.0)
+        self.assertTrue(c[c["o"] == "MOZ"].empty)
+        self.assertEqual(len(c), 40)
 
     def test_the_published_coke_series_has_no_spike_in_2016(self):
         d = load(DATA, "freight", "lanes", "coke.json")

@@ -1601,6 +1601,8 @@ HAND_GROUPS = {
     "bauxite": [("alumina", "alumina (HS 281820)")],
     "zinc": [("zinc-metal", "unwrought zinc (HS 7901)")],
 }
+# the stem of the keys of the extra tables of a hand group ("refined-exports"): the key of an EXTRA_GROUPS entry is its own second element
+HAND_STEMS = {"copper-refined": "refined", "nickel-int": "int", "nickel-fe": "ferro", "alumina": "alumina", "zinc-metal": "metal"}
 FULL_TABLE = {("steel", "production"), ("gold", "production"), ("bauxite", "refinery"), ("pig-iron", "production")}
 
 # Headline figures of publishers whose tables are not free to copy: one world total each, cited with publisher, year and link
@@ -3543,21 +3545,22 @@ def landlocked_centre_notes(docs, baci):
     for e in baci.caveats.values():
         if e["kind"] != "landlocked-centre":
             continue
-        for cid, xs in EXTRA_GROUPS.items():
-            for g2, stem, *_ in xs:
-                d = docs.get(cid)
-                if g2 != e["group"] or not d:
-                    continue
-                found = False
-                for sec, c in (("exports", e["o"]), ("imports", e["d"])):
-                    t = next((x["table"] for x in d.get("extra") or [] if x["key"] == f"{stem}-{sec}"), None)
-                    r = next((r for r in (t or {}).get("rows", []) if r["c"] == c), None)
-                    if r is not None:
-                        r["n"] = joinn(r.get("n"), e["text"])
-                        found = True
-                d.setdefault("notes", [])
-                if found and e["text"] not in d["notes"]:
-                    d["notes"].append(e["text"])
+        groups = [(cid, g2, stem) for cid, xs in EXTRA_GROUPS.items() for g2, stem, *_ in xs] + \
+                 [(cid, g2, HAND_STEMS[g2]) for cid, xs in HAND_GROUPS.items() for g2, _ in xs]
+        for cid, g2, stem in groups:
+            d = docs.get(cid)
+            if g2 != e["group"] or not d:
+                continue
+            found = False
+            for sec, c in (("exports", e["o"]), ("imports", e["d"])):
+                t = next((x["table"] for x in d.get("extra") or [] if x["key"] == f"{stem}-{sec}"), None)
+                r = next((r for r in (t or {}).get("rows", []) if r["c"] == c), None)
+                if r is not None:
+                    r["n"] = joinn(r.get("n"), e["text"])
+                    found = True
+            d.setdefault("notes", [])
+            if found and e["text"] not in d["notes"]:
+                d["notes"].append(e["text"])
 
 
 # An importer that is the transit port of a landlocked country in the engine's transit tables (pipeline/freight/gateways/energy.py TRANSIT), where the
@@ -3586,10 +3589,14 @@ def transit_port_notes(docs, baci):
         v0 = before[before["d"] == iso]["t"].sum() / 1e6
         own = baci.group(g, BACI_YEAR)
         own = own[own["d"] == land]["t"].sum() / 1e6
+        prev = baci.group(g, BACI_YEAR - 1)
+        prev = prev[prev["d"] == land]["t"].sum() / 1e6
+        own_text = (f"{cname(land)}'s own recorded imports of this product are {own:.2f} Mt in {BACI_YEAR}" if own >= 0.005 else
+                    f"no import of this product by {cname(land)} is recorded in {BACI_YEAR}" + (f", against {prev:.2f} Mt in {BACI_YEAR - 1}" if prev >= 0.005 else ""))
         what = next((w for gg, _, _, w in EXTRA_GROUPS.get(cid, []) if gg == g), g)
         text = (f"Customs data record {row['v']:.2f} Mt of {what} imported by {cname(iso)} in {BACI_YEAR} (rank {i + 1}, {row['v'] / t['world']:.1%} of the world imports), "
                 f"against {v0:.2f} Mt in {y0}. {cname(iso)} is the port that the atlas's transit tables give {cname(land)}, which has no coast ({tr[3]}: {'Wikipedia' if tr[1] == 'wikipedia' else tr[1]}, {tr[2]}), "
-                f"and {cname(land)}'s own recorded imports of this product are {own:.2f} Mt in {BACI_YEAR}: some of these tonnes may be cargo for {cname(land)} declared at the port, "
+                f"and {own_text}: some of these tonnes may be cargo for {cname(land)} declared at the port, "
                 "a possible reading, not established here")
         row["n"] = joinn(row.get("n"), text)
         d.setdefault("notes", [])
@@ -3628,7 +3635,7 @@ def metal_row_notes(docs, baci):
     r, k = find("copper", None, "CHE", "refined-imports")
     zm = pair("copper-refined", "ZMB", "CHE")
     # the registry caveat of the pair (landlocked_centre_notes) says it with the shares of both countries: this note stays only without it
-    if r and zm >= 0.5 * r["v"] and "copper-refined-zmb-che" not in baci.caveats:
+    if r and zm >= 0.5 * r["v"] and "copper-refined-zmb-che" not in getattr(baci, "caveats", {}):
         put("copper", None, "CHE", f"rank {k}: {zm:.2f} Mt of it comes from Zambia. Switzerland is a commodity-trading centre, so this may be metal bought by traders "
             f"based there rather than metal used there ({hint})", "refined-imports")
     # aluminium: the Netherlands and Malaysia among the exporters

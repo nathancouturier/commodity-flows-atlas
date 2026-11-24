@@ -126,8 +126,10 @@ class D3TransitNoteOnReviewedRowsOnly(unittest.TestCase):
         import metals as MET
         self.assertEqual(set(MET.TRANSIT_REVIEWED), {("chromium", "imports", "MOZ"), ("ferro-alloys", "imports", "MOZ")})
         for why in MET.TRANSIT_REVIEWED.values():
-            for clause in ("overland from South Africa", "first producer", "Mozambique has no line in that table", "exports", "next to nothing"):
+            # the exports of the country are not in the reason since FNCF: the note computes them from the row of the exporters table (test_fncf.py F9)
+            for clause in ("overland from South Africa", "first producer", "Mozambique has no line in that table"):
                 self.assertIn(clause, why)
+            self.assertNotIn("next to nothing", why)
             self.assertNotRegex(why, r"\d")
 
     def test_the_note_is_on_the_two_rows_their_pages_and_their_profile_lines_and_nowhere_else(self):
@@ -283,40 +285,45 @@ class D6RuleFourOnTheHomogeneousGroups(unittest.TestCase):
         for g in set(self.GROUPS) - leaves:
             self.assertEqual(out[g][3], 0, g)
         self.assertEqual({g: v[0] for g, v in out.items() if v[0]},
-                         {"potassium-sulphate": 1, "uan": 1, "ammonium-sulphate": 1, "sorghum": 2, "sunflower-oil": 1, "rapeseed-meal": 2, "coke": 11})
-        self.assertAlmostEqual(out["coke"][4] / out["coke"][1], 0.921, places=2)
+                         {"potassium-sulphate": 1, "uan": 1, "ammonium-sulphate": 1, "sorghum": 2, "sunflower-oil": 1, "rapeseed-meal": 2, "coke": 7})
+        # package FNCF: Mozambique's coke (four of the eleven rows of FNCD, 92% of the tonnes) is out of the frame (clean.DROP); the three rows of China to the
+        # United States, whose pair declares its own price level in at least three other years, still carry a third of the tonnes that rule 4 would move
+        self.assertAlmostEqual(out["coke"][4] / out["coke"][1], 0.332, places=2)
         self.assertAlmostEqual(out["sunflower-oil"][4] / out["sunflower-oil"][1], 1.0, places=3)
-        self.assertAlmostEqual(out["coke"][2], 69.4, delta=0.1)  # the Mozambique to India row of 2016 in the world total of the year
+        self.assertLess(out["coke"][2], 10.0)
         self.assertLess(max(v[2] for g, v in out.items() if g != "coke"), 8.0)
 
     def test_the_rows_that_change_are_those_of_coke_and_sunflower_oil_and_the_four_of_sunflower_seed(self):
         """Published tonnage against the state after FNCB: 11 rows of coke and sunflower oil go back to the reported tonnage, the 4 rows of
-        sunflower seed (D2) go to the rule-3 estimate; the Mozambique to India row of coke 2016 stays an estimate."""
+        sunflower seed (D2) go to the rule-3 estimate; the Mozambique rows of coke (2021, 2022, 2023 and the row of 2016 among them) are out of the frame
+        since FNCF (clean.DROP) and no longer on the list."""
         import pandas as pd
         import clean as C
         df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
         c = C.clean(df[df["group"].isin(["coke", "sunflower-oil"])]).set_index(["group", "o", "d", "year"])
         back = [("coke", "BEL", "FRA", 2004), ("coke", "CHN", "BRA", 2009), ("coke", "CHN", "IND", 2006), ("coke", "CHN", "IND", 2007),
-                ("coke", "CHN", "USA", 2002), ("coke", "CHN", "USA", 2003), ("coke", "CHN", "USA", 2005), ("coke", "MOZ", "ARE", 2023),
-                ("coke", "MOZ", "IND", 2021), ("coke", "MOZ", "IND", 2022), ("sunflower-oil", "UKR", "NPL", 2021), ("sunflower-oil", "UKR", "GRC", 2003)]
+                ("coke", "CHN", "USA", 2002), ("coke", "CHN", "USA", 2003), ("coke", "CHN", "USA", 2005),
+                ("sunflower-oil", "UKR", "NPL", 2021), ("sunflower-oil", "UKR", "GRC", 2003)]
         for k in back:
             self.assertEqual(c.loc[k, "t"], c.loc[k, "t0"], k)
             self.assertFalse(c.loc[k, "imputed"], k)
-        r = c.loc[("coke", "MOZ", "IND", 2016)]
-        self.assertTrue(r["imputed"])
-        self.assertIn("est-uv", r["flag"])
-        self.assertLess(r["t"], 2e6)
-        self.assertIn(("coke", "MOZ", "IND", 2016), C.ESTIMATE_ROWS)
+        self.assertNotIn("MOZ", set(c.reset_index()["o"][c.reset_index()["group"] == "coke"]))  # FNCF: all of Mozambique's coke is out of the frame
+        self.assertEqual(C.ESTIMATE_ROWS, {})
 
     def test_a_listed_row_is_estimated_in_a_group_outside_the_set_and_its_neighbours_are_not(self):
+        """The table is empty since FNCF (Mozambique's coke is dropped): the mechanism is tried with a row of another origin."""
         import pandas as pd
         import clean as C
         rows = [{"year": 2016, "group": "coke", "o": f"E{i:02d}", "d": f"I{i:02d}", "t": 100000.0 + i, "usd": 30000.0 + i} for i in range(40)]
-        rows.append({"year": 2016, "group": "coke", "o": "MOZ", "d": "IND", "t": 64992713.0, "usd": 245257.0})
-        rows.append({"year": 2016, "group": "coke", "o": "MOZ", "d": "CHN", "t": 64992713.0, "usd": 245257.0})  # the same row of another pair
-        c = C.clean(pd.DataFrame(rows))
-        a = c[(c["o"] == "MOZ") & (c["d"] == "IND")].iloc[0]
-        b = c[(c["o"] == "MOZ") & (c["d"] == "CHN")].iloc[0]
+        rows.append({"year": 2016, "group": "coke", "o": "ZZZ", "d": "IND", "t": 64992713.0, "usd": 245257.0})
+        rows.append({"year": 2016, "group": "coke", "o": "ZZZ", "d": "CHN", "t": 64992713.0, "usd": 245257.0})  # the same row of another pair
+        C.ESTIMATE_ROWS[("coke", "ZZZ", "IND", 2016)] = "a test row"
+        try:
+            c = C.clean(pd.DataFrame(rows))
+        finally:
+            del C.ESTIMATE_ROWS[("coke", "ZZZ", "IND", 2016)]
+        a = c[(c["o"] == "ZZZ") & (c["d"] == "IND")].iloc[0]
+        b = c[(c["o"] == "ZZZ") & (c["d"] == "CHN")].iloc[0]
         self.assertTrue(a["imputed"] and "est-uv" in a["flag"])
         self.assertFalse(b["imputed"])
         self.assertEqual(b["t"], 64992713.0)
@@ -371,18 +378,20 @@ class D4CokeExportersWithoutProduction(unittest.TestCase):
     def caveats(self):
         return load(DATA, "freight", "caveats.json")
 
-    def test_k14_finds_mozambique_and_zimbabwe_in_the_customs_table_and_only_them(self):
-        """The exporters of the customs coke table with at least 1% of its world total that have no coke production in the EIA table of the page."""
+    def test_k14_finds_zimbabwe_in_the_customs_table_and_only_it(self):
+        """The exporters of the customs coke table with at least 1% of its world total that have no coke production in the EIA table of the page.
+        FNCD found Mozambique and Zimbabwe; since FNCF Mozambique's coke is out of the frame (clean.DROP) and K14 finds Zimbabwe only."""
         met = load(DATA, "commodities", "met-coal.json")
         ex = {x["key"]: x["table"] for x in met["extra"]}
         cust, prod = ex["coke-customs-exports"], ex["coke-production"]
         have = {r["c"] for r in prod["rows"]}
         big = [r["c"] for r in cust["rows"] if r["v"] >= 0.01 * cust["world"]]
-        self.assertEqual([c for c in big if c not in have], ["MOZ", "ZWE"])
+        self.assertEqual([c for c in big if c not in have], ["ZWE"])
         first15 = [r["c"] for r in cust["rows"][:15]]
-        self.assertEqual([c for c in first15 if c not in have], ["MOZ", "ZWE"])  # every other exporter of the first fifteen has production
+        self.assertEqual([c for c in first15 if c not in have], ["ZWE"])  # every other exporter of the first fifteen has production
+        self.assertNotIn("MOZ", [r["c"] for r in cust["rows"]])
         found = [r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"] if r["check"] == "K14"]
-        self.assertEqual(sorted(r["o"] for r in found), ["MOZ", "ZWE"])
+        self.assertEqual(sorted(r["o"] for r in found), ["ZWE"])
         for r in found:
             row = next(x for x in cust["rows"] if x["c"] == r["o"])
             self.assertAlmostEqual(r["value"], row["v"], places=2)
@@ -406,7 +415,8 @@ class D4CokeExportersWithoutProduction(unittest.TestCase):
         cv = self.caveats()
         met = load(DATA, "commodities", "met-coal.json")
         cust = next(x["table"] for x in met["extra"] if x["key"] == "coke-customs-exports")
-        for iso, coal in (("MOZ", "show Mozambique exporting"), ("ZWE", "give Zimbabwe a production of")):
+        self.assertNotIn("nop-coke-MOZ", cv)
+        for iso, coal in (("ZWE", "give Zimbabwe a production of"),):
             e = cv[f"nop-coke-{iso}"]
             self.assertEqual((e["kind"], e["group"], e["o"], e["d"]), ("no-production", "coke", iso, None))
             for part in ("Customs data record", "of coke and semi-coke exported from", "(CEPII BACI, HS 2704)", "gives", "no coke production in 2025",
@@ -417,30 +427,26 @@ class D4CokeExportersWithoutProduction(unittest.TestCase):
             self.assertIn(e["text"], met["notes"])
             prof = load(DATA, "countries", "profiles", iso + ".json")
             self.assertTrue(any(g["id"] == f"nop-coke-{iso}" for g in prof["gaps"]), iso)
-        self.assertIn("its series reads 0 in every year from 1980 to 2025", cv["nop-coke-MOZ"]["text"])
         self.assertIn("last reads 5 kt in 2023", cv["nop-coke-ZWE"]["text"])
-        self.assertIn("6.5 Mt in 2025", cv["nop-coke-MOZ"]["text"])
         self.assertIn("1.25 Mt in 2025 and no exports", cv["nop-coke-ZWE"]["text"])
         # no other exporter of the table has the note
         notes = [r["c"] for r in cust["rows"] if "no coke production" in (r.get("n") or "")]
-        self.assertEqual(sorted(notes), ["MOZ", "ZWE"])
+        self.assertEqual(sorted(notes), ["ZWE"])
 
     def test_the_lanes_of_the_exporters_carry_the_caveat(self):
-        """Mozambique's lanes carry it (the pair with its own K13 caveat keeps that one: an entry for the pair wins over one for the origin).
-        Zimbabwe has no coke lane: its tonnes go overland (South Africa, Zambia, Congo DR), so its note is on the page and the country page."""
+        """Mozambique has no coke lane since FNCF (its coke is out of the frame). Zimbabwe has none either: its tonnes go overland (South Africa,
+        Zambia, Congo DR), so its note is on the page and the country page."""
         lanes = load(DATA, "freight", "lanes", "coke.json")["lanes"]
-        mine = [ln for ln in lanes if ln["o"] == "MOZ"]
-        self.assertTrue(mine)
-        for ln in mine:
-            self.assertIn(ln.get("caveat"), ("nop-coke-MOZ", "uv-coke-MOZ-ARE"), (ln["d"], ln.get("caveat")))
-        self.assertTrue(any(ln.get("caveat") == "nop-coke-MOZ" for ln in mine))
-        self.assertEqual([ln for ln in lanes if ln["o"] == "ZWE"], [])
-        # another exporter's lanes do not
-        self.assertFalse(any((ln.get("caveat") or "").startswith("nop-") for ln in lanes if ln["o"] not in ("MOZ", "ZWE")))
+        self.assertEqual([ln for ln in lanes if ln["o"] in ("MOZ", "ZWE")], [])
+        # no lane of the group carries the caveat of an origin without production
+        self.assertFalse(any((ln.get("caveat") or "").startswith("nop-") for ln in lanes))
 
     def test_the_wording_of_the_low_unit_value_caveat_depends_on_the_group(self):
         cv = self.caveats()
-        coke, dri, alu = cv["uv-coke-MOZ-ARE"]["text"], cv["uv-dri-DZA-DEU"]["text"], cv["uv-aluminium-USA-MYS"]["text"]
+        import caveats as CV
+        # the one coke pair of the file was Mozambique to the United Arab Emirates, out of the frame since FNCF: the wording is tried on a made-up finding
+        coke = CV._low_unit_value({"group": "coke", "text": "Coke from A to B: 1 Mt", "year": 2024, "unitValue": 70.0})
+        dri, alu = cv["uv-dri-DZA-DEU"]["text"], cv["uv-aluminium-USA-MYS"]["text"]
         self.assertIn("Material priced like coal, or another cheaper product, declared under this code is a plausible cause; it is not established here.", coke)
         self.assertNotIn("scrap or alloy", coke)
         self.assertIn("Material priced like iron ore or scrap, or another cheaper product, declared under this code", dri)
@@ -538,5 +544,9 @@ class D4Documentation(unittest.TestCase):
     def test_methodology_names_k14_with_the_figures_of_the_files(self):
         meth = read("METHODOLOGY.md")
         found = {r["o"]: r for r in load(ROOT, "pipeline", "cache", "trade_checks.json")["findings"] if r["check"] == "K14"}
-        self.assertIn(f"Mozambique, {found['MOZ']['value']:.3g} Mt, and Zimbabwe, {found['ZWE']['value']:.3g} Mt, of coke in 2024", meth)
+        # FNCD found Mozambique and Zimbabwe; since FNCF Mozambique's coke is dropped by rule 5 and the check finds Zimbabwe only (the Mozambique figure of the
+        # sentence is the history of the check, 1.63 Mt of the customs file, and no longer a figure of the finding)
+        self.assertEqual(sorted(found), ["ZWE"])
+        self.assertIn(f"Zimbabwe, {found['ZWE']['value']:.3g} Mt, of coke in 2024", meth)
+        self.assertIn("since package FNCF Mozambique's coke is dropped by rule 5", meth)
         self.assertIn("coal for coke, iron ore or scrap for pig iron and direct-reduced iron", meth)

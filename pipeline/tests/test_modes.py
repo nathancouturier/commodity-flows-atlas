@@ -162,7 +162,8 @@ class ModeTests(unittest.TestCase):
         # package NC3 adds the nine groups of metal bulks, 204.5 Mt after clean()
         # package FNCB adds the two fertiliser groups (ammonium nitrate with limestone 9.2 Mt, two-nutrient compounds 11.0 Mt), 20.2 Mt after clean(), and keeps
         # 0.1 Mt of sunflower seed as reported where rule 3 had estimated it (UV_KEPT_GROUPS): 20.1 Mt more in all
-        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5 + 20.1, delta=1)
+        # package FNCF leaves Mozambique's coke out of the frame (clean.DROP): 1.6 Mt of 2024 (1.63 Mt in the extract), by sea or overland
+        self.assertAlmostEqual(tot.sum(), 9140.4 + 13.7 + 149.5 + 132.4 + 204.5 + 20.1 - 1.6, delta=1)
         self.assertEqual(set(tot.index), {"sea", "transit", "mixed", "land"})
 
     def test_M11_seaborne_by_group(self):

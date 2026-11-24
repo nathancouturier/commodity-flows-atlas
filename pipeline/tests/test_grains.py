@@ -245,7 +245,8 @@ class EngineTests(unittest.TestCase):
         self.assertTrue(1 <= len(ids) <= 10, ids)
         # the 10 routes of package NC3 (A-010) and the 6 of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds) have a cap of their own
         later = [r for r in gen if r["id"].startswith(NC3_GROUPS + ("gen-ammonium-nitrate-limestone-", "gen-npk-two-nutrient-"))]
-        self.assertEqual(len(gen) - len(later), 120 + 20 + len(ids))
+        # the cap of the first package is 122 since FNCF (generated_routes.TOTAL_CAP: the two released routes that the cap of 120 gave up are back)
+        self.assertEqual(len(gen) - len(later), GR.TOTAL_CAP + 20 + len(ids))
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
 

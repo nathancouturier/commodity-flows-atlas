@@ -205,7 +205,8 @@ class ChokepointNotes(unittest.TestCase):
         # (the Bosphorus entries of sulphur, ammonia and UAN went under the floor; the other estimates moved), and France loads on the Channel: 935
         # package FNCB: the cap of the "up to" figure is applied only below PW_NEAR (85%) of PortWatch's volume of the type, so the estimates that the new dry-bulk
         # groups had taken under the floor are back, and the two fertiliser groups (ammonium nitrate with limestone, two-nutrient compounds) add their own: 968
-        self.assertEqual((n, passages), (968, 20))
+        # package FNCF: Mozambique's coke is left out of the frame (clean.DROP), and its Hormuz entry of coke goes under the floor: 967
+        self.assertEqual((n, passages), (967, 20))
         # These four were under the floor on the released site because the PortWatch cap had emptied their "up to" figure (Suez and Bab el-Mandeb
         # dry bulk and tankers, Torres Strait tankers: the atlas's "at least" tonnage is above PortWatch's volume there). Since package FNCB the cap by
         # subtraction is not applied above 85% of PortWatch's volume (FNCD: the whole volume of the type caps it there, no cap under an alert) and the floor reads the

@@ -94,21 +94,21 @@ UV_KEPT_GROUPS = {"sunflower-seed"}
 # with its other years (sulphur Switzerland to Zambia 2012, DRI Malaysia to Taiwan 2003, sulphur United States to Chile 2004,
 # sulphur Saudi Arabia to Papua New Guinea 2019); the reasons are in the test.
 KEEP_REPORTED = {
-    ("coke", "ZWE", "COD", 2006): "tonnage in line with the years around (11 and 230 kt); the value (USD 680 million, 150 to 400 times the neighbours) is the odd figure",
-    ("ammonium-sulphate", "USA", "PER", 2017): "tonnage in line with the pair's other years (50 to 185 kt); the value is five times theirs",
+    ("coke", "ZWE", "COD", 2006): "tonnage in line with the years around (11 and 230 kt); the value (USD 680 million, 382 and 145 times the USD 1.8 and 4.7 million of 2005 and 2007) is the odd figure",
+    ("ammonium-sulphate", "USA", "PER", 2017): "tonnage in line with the pair's other years (22 to 185 kt); the value (USD 110 million) is five times the median of theirs (USD 21.5 million)",
     ("ammonia", "NGA", "BGD", 2010): "one other year only (28.5 kt, USD 9 million); the estimate (546 kt) is 19 times its tonnage, the reported 125 kt 4 times",
     ("sorghum", "ITA", "ETH", 2017): "this pair's unit value is 640 to 750 USD/t in every year it is recorded from 2012: the group median (220) is no reference for it",
     ("monoammonium-phosphate", "RUS", "PAK", 2005): "the pair's unit value is 775 and 590 in the next two years, like the 886 of the row: tonnage and value agree",
-    ("ammonium-sulphate", "UKR", "DZA", 2015): "tonnage in line with the pair's only other year (3.4 kt); the value is 80 times that year's",
-    ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 50 times theirs",
-    ("dri", "CHN", "SAU", 2018): "the estimate (181 kt) is four times the pair's largest year (48 kt); value and tonnage are both at odds with the years around",
-    ("dri", "CHN", "SAU", 2019): "the estimate (66 kt) is more than the pair's largest year (48 kt); value and tonnage are both at odds with the years around",
+    ("ammonium-sulphate", "UKR", "DZA", 2015): "tonnage in line with the pair's only other year (3.4 kt); the value is 81 times that year's",
+    ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 45 to 204 times theirs (USD 0.4 to 1.7 million)",
+    ("dri", "CHN", "SAU", 2018): "no tonnage is recorded and the value (USD 60 million) is above that of every other year (USD 4.5 to 39.7 million); the estimate (181 kt) is 3.7 times the pair's largest year (48 kt)",
+    ("dri", "CHN", "SAU", 2019): "no tonnage is recorded; the estimate (66 kt) is 1.4 times the pair's largest year (48 kt)",
     ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 240 times that year's",
-    ("sulphur", "MYS", "KOR", 2003): "the pair's unit value is 1,100 to 1,450 USD/t in 2004 to 2007, 16 times the group median: the estimate (121 kt) is 16 times the tonnage of the next year (7.5 kt)",
-    ("graphite", "JPN", "MEX", 2002): "the estimate (99 kt) would be the whole of Mexico's graphite imports of 2002 (102 kt, against 1 to 5 kt in every other year) and of Japan's exports (101 kt, against 1 to 7 kt)",
+    ("sulphur", "MYS", "KOR", 2003): "the pair's unit value is 1,089 to 1,447 USD/t in 2004 to 2007, 14 to 18 times the group median of 2003 (80): the estimate (121 kt) is 16 times the tonnage of 2004 (7.6 kt)",
+    ("graphite", "JPN", "MEX", 2002): "the estimate (99 kt) would be the whole of Mexico's graphite imports of 2002 (102 kt, against 1 to 5 kt in every other year) and of Japan's exports (101 kt, against 0.7 to 7.3 kt)",
     ("ammonium-sulphate", "CHL", "AGO", 2014): "the estimate (99 kt) is Chile's only recorded export of the product and puts Angola's imports at 116 kt, against 5 to 58 kt in the other years",
-    ("npk-two-nutrient", "CMR", "NGA", 2002): "Cameroon's recorded exports of the product are 34 t, 6 kt and 1.7 kt in its three years; the estimate (115 kt) is 20 times the largest",
-    ("coke", "LBY", "USA", 2004): "Libya's only recorded coke export in 21 years: the estimate (82 kt) has no other year to stand on",
+    ("npk-two-nutrient", "CMR", "NGA", 2002): "Cameroon's recorded exports of the product are 34 t, 6 kt and 1.7 kt in its three years; the estimate (115 kt) is 19 times the largest",
+    ("coke", "LBY", "USA", 2004): "Libya's only recorded coke export in the 23 years of the cache (2002 to 2024): the estimate (82 kt) has no other year to stand on",
     ("ferrous-scrap", "BWA", "VNM", 2013): "the estimate (64 kt) would put Botswana's scrap exports at 94 kt, against 8 to 45 kt in the other years",
     ("dri", "GBR", "USA", 2004): "the pair's other years are about 600 t; the estimate (62 kt) has nothing to stand on",
     ("ferrous-scrap", "VEN", "CAN", 2002): "the pair's other years are 1.7 to 3.9 kt; the value (USD 7.5 million) is 4 to 36 times theirs",
@@ -148,11 +148,13 @@ HOMOGENEOUS = {
     # three times the group's in four other years, a price level of its own that the estimate would erase
     "barley", "sorghum", "rapeseed-oil", "sunflower-meal", "rapeseed-meal",
     # Not coke and semi-coke (HS 2704, FNCD D6), although it is one product priced by the tonne (its unit values span a factor 4 from the
-    # 5th to the 95th percentile, 140 to 600 USD/t in 2024): seven of the eleven rows that rule 4 would re-estimate, which carry 92% of the tonnes
-    # it adds or removes, belong to pairs that declare a unit value beyond the factor 3 of the same side in at least three other years
-    # (China to the United States, Mozambique to India and to the United Arab Emirates): the estimate would erase their own price level.
-    # Only the gross errors of rule 3 are corrected for coke, as for pig iron and direct-reduced iron (several grades). Mozambique's exports,
-    # the pair that FNCB repaired, are out of the frame altogether (DROP, FNCF)
+    # 5th to the 95th percentile, 140 to 600 USD/t in 2024): when FNCD decided it, seven of the eleven rows that rule 4 would re-estimate, which carried
+    # 92% of the tonnes it adds or removes, belonged to pairs that declare a unit value beyond the factor 3 of the same side in at least three other
+    # years (China to the United States, Mozambique to India and to the United Arab Emirates): the estimate would erase their own price level.
+    # Since FNCF Mozambique's exports are out of the frame altogether (DROP): of the seven rows left, the three of China to the United States carry
+    # 33% of the tonnes rule 4 would move, still over a tenth, so coke stays out of the set. China to Brazil 2009 (108 kt at 825 USD/t, the pair's own
+    # level being 467 to 518 in the years around) is therefore not re-estimated: the reported tonnage stays (review GV6B.3).
+    # Only the gross errors of rule 3 are corrected for coke, as for pig iron and direct-reduced iron (several grades).
 }
 # Rows re-estimated by rule 4 in a group that is not in HOMOGENEOUS: (group, exporter, importer, year) -> reason. A row listed here is
 # treated as rule 4 treats a row of a homogeneous group (unit value beyond 3 times the group's, flow of more than USD 50 million; flag

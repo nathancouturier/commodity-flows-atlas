@@ -599,12 +599,13 @@ def previous_caveats(path):
 
 def keep_caveats(active, previous, ran):
     """Active caveats, plus the previous entries whose check reads raw/ and did not run this time (a download that
-    failed must not remove a warning); the entry must still be in the registry. Registry order."""
+    failed must not remove a warning); the entry must still be in the registry (the entries of check K14, one per exporter, are built from the data and are
+    in the registry while their group is in K.NO_PRODUCTION: FNCF, review GV6B.1, a build without the EIA file dropped them). Registry order."""
     order = [e[0] for e in CV.REGISTRY]
     out = dict(active)
     for cid, e in previous.items():
-        if (cid not in out and cid in order and isinstance(e, dict) and e.get("check") in K.RAW_CHECKS
-                and e.get("check") not in ran):
+        if (cid not in out and isinstance(e, dict) and e.get("check") in K.RAW_CHECKS and e.get("check") not in ran
+                and (cid in order or (e.get("kind") == "no-production" and e.get("group") in K.NO_PRODUCTION))):
             out[cid] = e
     return {cid: out[cid] for cid in sorted(out, key=lambda c: order.index(c) if c in order else len(order))}
 
