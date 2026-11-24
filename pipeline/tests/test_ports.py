@@ -19,6 +19,7 @@ sys.path.insert(0, FREIGHT)
 import searoute as sr  # noqa: E402
 
 import ports  # noqa: E402
+import river_legs  # noqa: E402
 import vessel_rules  # noqa: E402
 
 
@@ -188,8 +189,9 @@ class G11(unittest.TestCase):
                 bad.append((g, c, role, code))
             elif basis == ports.BASIS_NEAREST and not ports.is_seaport(code):
                 bad.append((g, c, role, code))
-            elif code not in ports.MANUAL and code not in ("FRURO",) and ports.sea_km(code) > 50:  # river ports up an estuary: Ho Chi Minh City 44 km
-                # (Rouen, 53 km up the Seine, is the grain port that the page names for France: FNCA)
+            elif code not in ports.MANUAL and ports.sea_km(code) > 50 and code not in river_legs.RIVER_LEGS:
+                # a port far up a river must have a river leg (river_legs.py), or the router snaps it to a node on another stretch of coast
+                # (Rouen, 53 km up the Seine, went to Dieppe: FNCE); Ho Chi Minh City, 44 km up the Saigon, is under the limit
                 bad.append((g, c, role, code, round(ports.sea_km(code))))
         self.assertEqual(bad, [])
 

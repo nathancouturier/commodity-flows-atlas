@@ -385,7 +385,7 @@ export function search(query: string, items: Item[], scope: Kind | null): Group[
   const q = tokens(query);
   if (scope) {
     const m = matchKind(q, items, scope);
-    return m.length ? [{ kind: scope, label: KINDS[KIND_ORDER[scope]].label, items: m.map((x) => x.item), total: m.length, tier: m[0].tier }] : [];
+    return m.length ? [{ kind: scope, label: KINDS[KIND_ORDER[scope]].label, items: m.map((x) => x.item), total: m.length, tier: Math.max(...m.map((x) => x.tier)) as Tier }] : [];
   }
   if (!q.length) return [];
   return groupKinds(q, items, PER_GROUP).map((g) => ({ kind: g.kind as Kind, label: KINDS[KIND_ORDER[g.kind as Kind]].label, items: g.items, total: g.total, tier: g.tier }));

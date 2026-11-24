@@ -134,6 +134,14 @@ export function exactWords(q: string[], items: { d: Searchable; kind?: string }[
 export interface Rank {
   s: number;
   tier: Tier;
+  /** every typed word is a whole word (or a whole code) of the item, not the beginning of a longer one */
+  whole: boolean;
+}
+
+/** Every typed word is a whole word of a name, a code or the secondary text: "dri" is a word of "Pig iron & DRI", the beginning of "Dried pulses". */
+export function wholeWords(q: string[], d: Searchable): boolean {
+  const words = new Set([...d.n, ...d.x].flatMap((p) => p.split(' ')));
+  return q.length > 0 && q.every((t) => words.has(t) || d.c.includes(t));
 }
 
 /**
@@ -142,14 +150,14 @@ export interface Rank {
  * Every word has to match, in the name, a code or the secondary text. `exact`: the words not to look for with a typo (exactWords).
  */
 export function rank(q: string[], d: Searchable, exact?: Set<string>): Rank {
-  if (!q.length) return { s: 1, tier: 1 };
+  if (!q.length) return { s: 1, tier: 1, whole: false };
   // a code typed whole with its suffix ("S15_63", "P1A_82"): its words are not each a word of the item
-  if (q.length > 1 && d.c.includes(q.join(' '))) return { s: 160, tier: 4 };
+  if (q.length > 1 && d.c.includes(q.join(' '))) return { s: 160, tier: 4, whole: true };
   let sum = 0;
   let lvl = 4;
   for (const t of q) {
     const h = tokenScore(t, d, !exact?.has(t));
-    if (!h.s) return { s: 0, tier: 0 };
+    if (!h.s) return { s: 0, tier: 0, whole: false };
     sum += h.s;
     lvl = Math.min(lvl, h.lvl);
   }
@@ -161,7 +169,7 @@ export function rank(q: string[], d: Searchable, exact?: Set<string>): Rank {
   } else if (d.n.some((n) => n.startsWith(`${whole} `))) bonus = q.length > 1 ? 20 : 15;
   else if (d.n.some((n) => ` ${n} `.includes(` ${whole} `))) bonus = q.length > 1 ? 20 : 12;
   else if (d.n.some((n) => n.startsWith(whole))) bonus = 6;
-  return { s: sum / q.length + bonus, tier: lvl as Tier };
+  return { s: sum / q.length + bonus, tier: lvl as Tier, whole: wholeWords(q, d) };
 }
 
 export const score = (q: string[], d: Searchable): number => rank(q, d).s;
@@ -175,9 +183,13 @@ export interface Matchable {
   order: string | number;
 }
 
-/** The items of one kind that match, best first (tier, then score, then the kind's own order); with no query, the kind's own order. */
-export function matchKind<T extends Matchable>(q: string[], items: T[], kind: string, exact = exactWords(q, items)): { item: T; s: number; tier: Tier }[] {
-  const out: { item: T; s: number; tier: Tier }[] = [];
+/**
+ * The items of one kind that match, best first; with no query, the kind's own order. An item that has every typed word whole comes
+ * before one that has a word only as the beginning of another ("DRI": the pig iron and DRI routes, then the "Dried pulses" ones,
+ * which are not hidden); inside each, tier, then score, then the kind's own order.
+ */
+export function matchKind<T extends Matchable>(q: string[], items: T[], kind: string, exact = exactWords(q, items)): { item: T; s: number; tier: Tier; whole: boolean }[] {
+  const out: { item: T; s: number; tier: Tier; whole: boolean }[] = [];
   for (const it of items) {
     if (it.kind !== kind) continue;
     const r = rank(q, it.d, exact);
@@ -185,9 +197,11 @@ export function matchKind<T extends Matchable>(q: string[], items: T[], kind: st
   }
   return out.sort(
     (a, b) =>
-      (q.length ? b.tier - a.tier || b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
+      (q.length ? Number(b.whole) - Number(a.whole) || b.tier - a.tier || b.s - a.s : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
   );
 }
+
+const groupTier = (m: { tier: Tier }[]): Tier => Math.max(...m.map((x) => x.tier)) as Tier;
 
 /**
  * The kinds that have a match, best group first: by the tier of its best item, then by TIE_ORDER (not by the raw score:
@@ -198,7 +212,8 @@ export function groupKinds<T extends Matchable>(q: string[], items: T[], per: nu
   const exact = exactWords(q, items);
   for (const kind of TIE_ORDER) {
     const m = matchKind(q, items, kind, exact);
-    if (m.length) out.push({ kind, items: m.slice(0, per).map((x) => x.item), total: m.length, tier: m[0].tier, s: m[0].s });
+    // the group is as good as its best item, which is not the first when a whole-word item of a lower tier leads it
+    if (m.length) out.push({ kind, items: m.slice(0, per).map((x) => x.item), total: m.length, tier: groupTier(m), s: Math.max(...m.filter((x) => x.tier === groupTier(m)).map((x) => x.s)) });
   }
   return out.sort((a, b) => b.tier - a.tier || TIE_ORDER.indexOf(a.kind as (typeof TIE_ORDER)[number]) - TIE_ORDER.indexOf(b.kind as (typeof TIE_ORDER)[number]) || b.s - a.s);
 }

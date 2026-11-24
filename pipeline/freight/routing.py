@@ -8,6 +8,8 @@ policy (METHODOLOGY.md, section 3).
   classes: regions always avoided, the Cape Horn rule, canal limits and draught limits of the primary class,
   the Cape preference of the largest classes, the parallel passages (`via` / `viaAlt`) and the alternatives
   shown to the reader.
+- A port up a river that the network does not follow (river_legs.py: Rouen) is routed from the mouth of the river by route(): the
+  leg is added to every distance, the line starts at the port.
 - Caches written from these results carry a version key `_v` (`load_cache()` / `save_cache()`): a cache built
   with other gates, thresholds, draught tables, speeds, rule code or another searoute release is discarded at load.
 
@@ -25,6 +27,7 @@ import searoute as sr
 from searoute.searoute import setup_M
 from shapely.geometry import LineString
 
+import river_legs as RL
 import vessel_rules as VR
 
 # id -> segment [(lon, lat), (lon, lat)]. The two cape gates sit 0.03 degree off 20 E and 69 W because the
@@ -193,9 +196,13 @@ def unwrap(coords):
 
 
 def line(coords):
-    """Published form of a route line: simplified, rounded, longitudes continuous (as build_lanes.py)."""
-    ls = LineString(coords).simplify(0.05, preserve_topology=False)
-    return unwrap([[round(x, 2), round(y, 2)] for x, y in ls.coords])
+    """Published form of a route line: simplified, rounded, longitudes continuous (as build_lanes.py). The port of a river leg
+    (river_legs.py) stays the end of the line and the mouth of its river the next vertex: the leg is one straight segment that
+    the simplification must not fold into the sea path."""
+    head = [coords[0]] if RL.leg_at(coords[0]) else []
+    tail = [coords[-1]] if RL.leg_at(coords[-1]) else []
+    ls = LineString(coords[len(head):len(coords) - len(tail)]).simplify(0.05, preserve_topology=False)
+    return unwrap([[round(x, 2), round(y, 2)] for x, y in head + list(ls.coords) + tail])
 
 
 # ------------------------------------------------------------------ tagged network
@@ -249,15 +256,9 @@ def nodes_on_gates(M=None):
 _routes = {}
 
 
-def route(a, b, avoid=()):
-    """Shortest sea route from a to b ([lon, lat]) that crosses none of the gates or regions in `avoid`.
-
-    Returns Route(coords, nm, via) with the raw searoute line, or None (silently) when no such route exists.
-    """
-    avoid = frozenset(avoid)
-    k = (round(a[0], 4), round(a[1], 4), round(b[0], 4), round(b[1], 4), avoid)
-    if k in _routes:
-        return _routes[k]
+def _sea_route(a, b, avoid):
+    """Shortest sea route from a to b ([lon, lat], both on or near the network) that crosses none of the gates or regions in
+    `avoid`: Route(coords, nm, via) with the raw searoute line, or None (silently) when no such route exists."""
     M = graph()
     touched = []
     for g in avoid:
@@ -276,11 +277,34 @@ def route(a, b, avoid=()):
             else:
                 data["passage"] = old
     c = r["geometry"]["coordinates"]
-    out = None
     if len(c) >= 2:
-        out = Route(c, round(r["properties"]["length"]), crossings(c))
-    _routes[k] = out
-    return out
+        return Route(c, round(r["properties"]["length"]), crossings(c))
+    return None
+
+
+def route(a, b, avoid=()):
+    """Shortest sea route from a to b ([lon, lat]) that crosses none of the gates or regions in `avoid`.
+
+    Returns Route(coords, nm, via) with the raw searoute line, or None (silently) when no such route exists.
+    A port of river_legs.RIVER_LEGS is routed from the mouth of its river: the leg (whole nautical miles) is added to the
+    distance and the line starts (or ends) at the port itself, joined to the mouth by one straight segment. Every route
+    and every alternative goes through here, so they all carry the leg.
+    """
+    avoid = frozenset(avoid)
+    k = (round(a[0], 4), round(a[1], 4), round(b[0], 4), round(b[1], 4), avoid)
+    if k in _routes:
+        return _routes[k]
+    la, lb = RL.leg_at(a), RL.leg_at(b)
+    r = _sea_route(la["mouth"] if la else a, lb["mouth"] if lb else b, avoid)
+    if r and (la or lb):
+        coords, nm = [list(p) for p in r.coords], r.nm
+        if la:
+            coords, nm = [list(a)] + coords, nm + la["nm"]
+        if lb:
+            coords, nm = coords + [list(b)], nm + lb["nm"]
+        r = Route(coords, nm, crossings(coords))
+    _routes[k] = r
+    return r
 
 
 # ------------------------------------------------------------------ policy
@@ -497,7 +521,7 @@ def version():
         "indo": INDO_PACIFIC, "south_pacific": SOUTH_PACIFIC, "magellan": MAGELLAN_SOUTH_OF,
         "no_panama": sorted(NO_PANAMA), "no_suez": sorted(NO_SUEZ), "cape": sorted(CAPE_PREFERRED),
         "cape_days": CAPE_MAX_EXTRA_DAYS, "ratio": ALT_MAX_RATIO, "draught": VR.DRAUGHT_M,
-        "limits": VR.PASSAGE_LIMIT_M, "speed": VR.SPEED, "searoute": sr.__version__, "code": _code(),
+        "limits": VR.PASSAGE_LIMIT_M, "speed": VR.SPEED, "searoute": sr.__version__, "code": _code(), "rivers": RL.RIVER_LEGS,
     }
     return hashlib.sha1(json.dumps(key, sort_keys=True).encode()).hexdigest()[:12]
 

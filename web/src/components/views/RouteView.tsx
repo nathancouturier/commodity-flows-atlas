@@ -4,11 +4,11 @@ import type { BenchmarkDefinition, Route } from '../../types';
 import { commodityMeta, countryName } from '../../lib/data';
 import { select } from '../../lib/store';
 import { fmt, fig as fmtFig } from '../../lib/format';
-import { GROUP_LABEL, loadRoutes, loadRouteGeo, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { GROUP_LABEL, loadRoutes, loadRouteGeo, routeCargoLabels, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
-import { AltBox, CommodityChips, HistoryChart, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { AltBox, CommodityChips, HistoryChart, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { EventList } from '../EventList';
 import { RoutePorts } from './RoutePorts';
 import { routeGroups } from '../../lib/infra';
@@ -147,6 +147,7 @@ function Body({ r }: { r: Route }) {
             <div class="ft-row"><span class="ft-k">From</span><span><b>{r.from.region}</b>{r.from.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.from.ports} assets={r.from.assets} c={r.ends?.[0]} groups={groups} /></span>}</span></div>
             <div class="ft-row"><span class="ft-k">To</span><span><b>{r.to.region}</b>{r.to.ports.length > 0 && <span class="muted"> · <RoutePorts ports={r.to.ports} assets={r.to.assets} c={r.ends?.[1]} groups={groups} /></span>}</span></div>
           </div>
+          <RiverNotes rivers={r.rivers ?? []} />
         </Section>
         {r.finder && (
           <Section fold title="In the Route finder">
@@ -162,7 +163,7 @@ function Body({ r }: { r: Route }) {
         </Section>
         {r.cargoes.length > 0 && (
           <Section title="Cargoes">
-            <CommodityChips ids={r.cargoes} />
+            <CommodityChips ids={r.cargoes} labels={routeCargoLabels(r)} />
             {r.cargoNote && <div class="muted small" style={{ marginTop: '6px' }}>{r.cargoNote}</div>}
           </Section>
         )}

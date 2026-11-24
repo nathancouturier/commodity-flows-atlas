@@ -33,7 +33,7 @@ const SETS = ['main', 'history'];
 const MODES = ['mixed'];
 const BASES = ['single', 'rule', 'measured', 'open'];
 /** Why a port is used (pipeline/freight/ports.py, BASES): the values of a pairs file's `bases` and of a lane file's port `basis`. */
-const PORT_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'general port of the country', 'port used before, no page read', 'nearest seaport'];
+const PORT_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'page names the plant, not the cargo', 'general port of the country', 'port used before, no page read', 'nearest seaport'];
 const COLS = ['o', 'd', 'kt', 'm', 'load', 'dis', 'nm', 'cls', 'via', 'alt', 'f'];
 /** Smallest tonnage (Mt) of a main lane: 0.05 unless the group is listed (PLAN 2.2). */
 const FLOOR = {
@@ -50,6 +50,15 @@ const FLOOR = {
   'ferro-manganese': 0.02, 'silico-manganese': 0.02, 'ferro-silicon': 0.005,
 };
 const floorOf = (g) => FLOOR[g] ?? 0.05;
+/** The river leg of a port up a river (pipeline/freight/river_legs.py): what a lane file's port (`river`) and a pairs file's `rivers` carry. */
+const riverProblem = (r) =>
+  !r || typeof r !== 'object'
+    ? 'is not an object'
+    : !(Number.isInteger(r.nm) && r.nm > 0) || !(r.km > 0) || [r.river, r.mouth, r.s, r.url, r.n].some((x) => typeof x !== 'string' || !x)
+      ? 'needs river, mouth, km, nm (whole, above 0), s, url and n'
+      : !/straight/.test(r.n) || !r.n.includes(`${r.nm} nm`)
+        ? 'its note must give the leg in nm and say that the leg is drawn straight'
+        : null;
 
 export function validateFreight(root, errors) {
   const read = (rel) => {
@@ -113,6 +122,12 @@ export function validateFreight(root, errors) {
     // the file's `bases`, null when no pair uses the port in that role
     if (doc.bases !== undefined && !(Array.isArray(doc.bases) && doc.bases.every((b) => typeof b === 'string'))) bad(file, 'bases is not a list of strings');
     else for (const b of doc.bases ?? []) if (!PORT_BASES.includes(b)) bad(file, `bases names "${b}", which is not one of the port bases of ports.py`);
+    // the ports up a river, by code: the pairs of the file through them include the leg
+    for (const [id, r] of Object.entries(doc.rivers ?? {})) {
+      const why = riverProblem(r);
+      if (why) bad(file, `rivers.${id} ${why}`);
+      if (!doc.ports.some((p) => p[0] === id)) bad(file, `rivers.${id}: not a port of the file`);
+    }
     for (const p of doc.ports) {
       for (const i of [4, 5]) if (Array.isArray(p) && p[i] != null && !(Number.isInteger(p[i]) && p[i] >= 0 && p[i] < (doc.bases?.length ?? 0))) bad(file, `port ${p[0]}: basis index ${p[i]} is not in bases`);
       if (knownCountries && Array.isArray(p) && !knownCountries.has(p[2])) bad(file, `port ${p[0]}: country "${p[2]}" is not in countries/index.json or places.json`);
@@ -175,6 +190,7 @@ export function validateFreight(root, errors) {
     if (hasPairs && !pairGroups.has(group)) bad(file, `no pairs file freight/pairs/${f}`);
     const ports = doc.ports ?? {};
     for (const [id, port] of Object.entries(ports)) if (port?.basis !== undefined && !PORT_BASES.includes(port.basis)) bad(file, `port ${id}: basis "${port.basis}" is not one of the port bases of ports.py`);
+    for (const [id, port] of Object.entries(ports)) if (port?.river !== undefined && riverProblem(port.river)) bad(file, `port ${id}: river ${riverProblem(port.river)}`);
     const ids = new Set();
     const mains = new Set();
     mainLanes.set(group, mains);

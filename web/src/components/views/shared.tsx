@@ -1,6 +1,6 @@
 /** Helpers shared by the freight detail views. */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import type { AltRouting, HistFlag, PortRef } from '../../types';
+import type { AltRouting, HistFlag, PortRef, PortRiver } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
 import { fmt } from '../../lib/format';
 import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openVesselClass, vesselById, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
@@ -114,7 +114,7 @@ export function RouteStrip(props: { from: string; to: string; via: string[]; non
 
 /**
  * Where the atlas read a port: the source page of its gateway row. The basis adds a short qualifier where it matters (a page that
- * names the cargo in the other direction, the country's general port). A port with no page read says so; for a pair that is not
+ * names the cargo in the other direction, the plant the port serves, the country's general port). A port with no page read says so; for a pair that is not
  * drawn, only the file's own basis decides, and nothing is printed when it names a page that is not linked here.
  * `settled` is false while the lane file that carries the links is still loading.
  */
@@ -133,6 +133,25 @@ export function PortSource({ p, basis, settled = true, cls = 'le-src' }: { p?: P
   }
   const unsourced = p ? true : b != null && !SOURCED_BASES.includes(b);
   return settled && unsourced ? <span class={`${cls} muted`}> · no source page yet</span> : null;
+}
+
+/**
+ * The ports of a lane, route or pair that are up a river (pipeline/freight/river_legs.py): the distance includes the leg and the
+ * line is drawn straight from the port to the mouth. One sentence per port, with the page that gives the length.
+ */
+export function RiverNotes({ rivers }: { rivers: (PortRiver | undefined | null)[] }) {
+  const seen = new Set<string>();
+  const list = rivers.filter((r): r is PortRiver => !!r && !seen.has(r.n) && !!seen.add(r.n));
+  if (!list.length) return null;
+  return (
+    <>
+      {list.map((r) => (
+        <div class="muted small le-river" key={r.n} style={{ marginTop: '6px' }}>
+          {r.n} <a href={r.url} target="_blank" rel="noopener">{shortSource(r.s).replace(/\s*\(.*\)$/, '')}</a>
+        </div>
+      ))}
+    </>
+  );
 }
 
 /**

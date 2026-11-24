@@ -3,8 +3,9 @@
  * All loaders are cached by lib/data.ts.
  */
 import { computed, signal } from '@preact/signals';
-import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortwatchSeries, Route, Segment, VesselClass } from '../types';
+import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortRiver, PortwatchSeries, Route, Segment, VesselClass } from '../types';
 import { load } from './data';
+import { groupChipLabels, routeChipLabels } from './cargoChips';
 import { atlasKind } from './format';
 import { commodity, family, layers, select, selection, setFamily, toggleLayer, vesselClasses } from './store';
 
@@ -116,6 +117,8 @@ export interface PairPort {
   zone: string | null;
   /** why the atlas uses the port (PortRef.basis), when the file says */
   basis?: string;
+  /** the port is up a river: the distance of the pair includes the leg */
+  river?: PortRiver;
 }
 
 /** One row of a pairs file, decoded. */
@@ -183,7 +186,7 @@ export function decodePairs(file: PairsFile): Pair[] {
     const p = i >= 0 ? file.ports[i] : undefined;
     if (!p) return null;
     const b = discharge && p.length > 5 ? p[5] : p[4];
-    return { id: p[0], name: p[1], c: p[2], zone: p[3] ?? null, basis: b != null ? file.bases?.[b] : undefined };
+    return { id: p[0], name: p[1], c: p[2], zone: p[3] ?? null, basis: b != null ? file.bases?.[b] : undefined, river: file.rivers?.[p[0]] };
   };
   return file.rows.map((r) => {
     const f = Number(r[ix.f] ?? 0);
@@ -302,11 +305,12 @@ export function altLists(flat: string[]): string[][] {
 }
 
 /** A port's source link is printed for these bases of a port (the page was read); the others read "no source page yet". */
-export const SOURCED_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'general port of the country'];
+export const SOURCED_BASES = ['page names the cargo', 'page names the cargo in the other direction', 'page names the plant, not the cargo', 'general port of the country'];
 
 /** What a sourced port's basis adds to its source link, where it matters. */
 export const BASIS_QUALIFIER: Record<string, string> = {
   'page names the cargo in the other direction': 'page names this cargo in the other direction',
+  'page names the plant, not the cargo': 'page names the plant, not the cargo',
   'general port of the country': 'general port of the country',
 };
 
@@ -358,6 +362,11 @@ export const GROUP_LABEL: Record<string, string> = {
   'tin-metal': 'Unwrought tin',
   'tin-ore': 'Tin concentrate',
 };
+
+/** Chip labels of a lane's commodity page when the lane is one product of it (see cargoChips.ts). */
+export const laneChipLabels = (l: { k: string; p?: string }) => groupChipLabels(l.k, l.p, LANE_GROUPS, GROUP_LABEL);
+/** Chip labels of a route's cargo page when its corridor is one product of it. */
+export const routeCargoLabels = (r: { corridor?: { k: string; g?: string }[] }) => routeChipLabels(r.corridor, LANE_GROUPS, GROUP_LABEL);
 
 /** The Route finder offers one "Coal" for thermal and metallurgical coal: customs data do not separate them. */
 export const finderCommodity = (k: string) => (k === 'thermal-coal' || k === 'met-coal' ? 'coal' : k);

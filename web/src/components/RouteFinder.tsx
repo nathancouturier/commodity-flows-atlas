@@ -39,7 +39,7 @@ import { fmt, pct, sig2 } from '../lib/format';
 import { rfCommodity, rfDest, rfFrom, rfGroup, rfOrigin, routeFinderOpen, select } from '../lib/store';
 import { isSheetLayout } from '../map/controller';
 import { SourceLine } from './ui';
-import { PortSource } from './views/shared';
+import { PortSource, RiverNotes } from './views/shared';
 import '../styles/finder.css';
 
 /** One "Coal" entry covers both coal commodities: customs data do not separate thermal and metallurgical coal. */
@@ -579,6 +579,7 @@ function Answer({
               <dd>{disIds.length ? portsOf(disIds) : 'n/a'}</dd>
             </div>
           </dl>
+          <RiverNotes rivers={[...loadIds, ...disIds, ...(shown?.opts ?? []).flatMap((o) => [o.load, o.discharge])].map((id) => laneFile?.ports[id]?.river ?? [pair.load, pair.dis].find((p) => p?.id === id)?.river)} />
           {shown?.opts && shown.opts.length > 0 && (
             <>
               <div class="rf-sub">Other port options</div>

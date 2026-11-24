@@ -219,7 +219,7 @@ ENERGY_SEGMENTS = ("crude", "products", "lpg", "lng")
 # ------------------------------------------------------------------ the new tables
 # pipeline/freight/gateways/{food,coasts,energy}.py each expose G = {iso3: [row, ...]} with plain tuples
 #   (code, zone, families, role, src, url, note)
-# plus, optionally, MANUAL_EXTRA (ports missing from searoute, same shape as MANUAL), RENAME (display names),
+# and, optionally, an eighth element "plant": the page names the plant that the port serves, not the cargo (BASIS_PLANT), plus, optionally, MANUAL_EXTRA (ports missing from searoute, same shape as MANUAL), RENAME (display names),
 # ZONES / ZONE_OCEAN (coasts only), COAST_RULES (coasts only) and TRANSIT (energy only).
 # A module that does not exist yet is skipped; a module that exists is loaded strictly.
 import importlib  # noqa: E402
@@ -230,7 +230,7 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 if _HERE not in sys.path:
     sys.path.insert(0, _HERE)
 
-Gw = namedtuple("Gw", "code zone families role src url note")
+Gw = namedtuple("Gw", "code zone families role src url note basis", defaults=(None,))
 Option = namedtuple("Option", "load discharge w")
 Assignment = namedtuple("Assignment", "main options basis rule", defaults=(None,))
 ROLES = ("load", "discharge", "both")
@@ -248,10 +248,12 @@ def _gw(row):
     if isinstance(row, Gw):
         return row
     if isinstance(row, dict):
-        row = (row["code"], row.get("zone"), row["families"], row["role"], row.get("src"), row.get("url"), row.get("note"))
-    code, zone, fams, role, src, url, note = row
+        row = (row["code"], row.get("zone"), row["families"], row["role"], row.get("src"), row.get("url"), row.get("note"), row.get("basis"))
+    code, zone, fams, role, src, url, note, *kind = row
     fams = frozenset([fams] if isinstance(fams, str) else fams)
-    return Gw(code, zone, fams, role, src, url, note)
+    if kind and kind[0] not in (None, "plant"):
+        raise ValueError(f"gateway row {code}: the eighth element is 'plant' or nothing, not {kind[0]!r}")
+    return Gw(code, zone, fams, role, src, url, note, BASIS_PLANT if kind and kind[0] == "plant" else None)
 
 
 def load_modules(names=MODULES):
@@ -342,10 +344,14 @@ LEGACY_OWN_FAMILY = {"ammonia", "uan", "phosphoric-acid", "sulphur"}
 # Basis of a gateway, published next to the port by the lane builder. The loader tries them in this order.
 BASIS_PAGE = "page names the cargo"
 BASIS_OTHER = "page names the cargo in the other direction"
+# A row marked "plant" (eighth element): the page names the plant or works that the port serves (a steel works, its own port), not
+# the cargo of the berth. The port is still the one the page gives, for the family and in both directions (the page gives no
+# direction), but the lane page does not print "page names the cargo" for it.
+BASIS_PLANT = "page names the plant, not the cargo"
 BASIS_GENERAL = "general port of the country"
 BASIS_LEGACY = "port used before, no page read"
 BASIS_NEAREST = "nearest seaport"
-BASES = (BASIS_PAGE, BASIS_OTHER, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)  # strongest first
+BASES = (BASIS_PAGE, BASIS_OTHER, BASIS_PLANT, BASIS_GENERAL, BASIS_LEGACY, BASIS_NEAREST)  # strongest first
 
 # Segments that may fall back on the country's general-cargo ("box") row: food, fertiliser, metals, general cargo.
 GENERAL_SEGMENTS = {"grain", "vegoil", "fert", "box"}
@@ -409,7 +415,7 @@ def candidates(iso3, group, role=None):
     def add(rows, basis):
         for r in rows:
             if r.code not in seen:
-                out.append((r.code, r.zone, basis))
+                out.append((r.code, r.zone, r.basis or basis))  # a row that names a plant keeps that basis in either direction
                 seen.add(r.code)
 
     add(_rows(iso3, group, role), BASIS_PAGE)
@@ -449,10 +455,10 @@ def basis_of(iso3, group, role, code):
             return basis
     if group in GENERAL_BASIS and not any(r.code == code and group in r.families for r in _rows(iso3, group)):
         return BASIS_GENERAL if any(r.code == code for r in _rows(iso3, group) + _box_rows(iso3)) else BASIS_LEGACY
-    if any(r.code == code for r in _rows(iso3, group, role)):
-        return BASIS_PAGE
-    if any(r.code == code for r in _rows(iso3, group)):
-        return BASIS_OTHER
+    for rows, basis in ((_rows(iso3, group, role), BASIS_PAGE), (_rows(iso3, group), BASIS_OTHER)):
+        row = next((r for r in rows if r.code == code), None)
+        if row:
+            return row.basis or basis
     if any(r.code == code for r in _box_rows(iso3)):
         return BASIS_GENERAL
     return BASIS_LEGACY
@@ -464,6 +470,8 @@ def source_of(iso3, group, role, code):
     basis = basis_of(iso3, group, role, code)
     if basis == BASIS_PAGE:
         rows = _rows(iso3, group, role)
+    elif basis == BASIS_PLANT:
+        rows = _rows(iso3, group, role) + _rows(iso3, group)
     elif basis == BASIS_OTHER:
         rows = _rows(iso3, group)
     elif basis == BASIS_GENERAL:

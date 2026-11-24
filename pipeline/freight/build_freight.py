@@ -858,6 +858,9 @@ def main():
         nm, via = s["nm"], s["via"]
         out.update({"distanceNm": nm, "speedKn": spd, "days": round(nm / (spd * 24), 1), "via": via, "viaAlt": s["viaAlt"],
                     "a": pa["at"], "b": pb["at"]})
+        rivers = [{"port": pt["name"], **BL.RL.public(c, pt["name"])} for c, pt in ((a, pa), (b, pb)) if c in BL.RL.RIVER_LEGS]
+        if rivers:  # a port up a river (river_legs.py): the distance includes the leg and the line is straight to the mouth
+            out["rivers"] = rivers
         if not r.get("_pair"):
             # the country of a terminal the table or an asset records (an offshore terminal is often nearer another country's coast)
             out["_ends"] = [p["c"] if len(p["c"]) == 3 else None for p in (pa, pb)]

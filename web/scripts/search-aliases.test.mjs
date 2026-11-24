@@ -8,7 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { matchKind, prepare, tokens } from '../src/lib/searchMatch.ts';
+import { groupKinds, matchKind, prepare, tokens } from '../src/lib/searchMatch.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const src = fs.readFileSync(path.join(here, '../src/lib/search.ts'), 'utf8');
@@ -56,4 +56,44 @@ test('the commodity list (index.json rank) has sulphur before NPK, as the finder
   assert.ok(rank.sulphur < rank.npk);
   const freight = fs.readFileSync(path.join(here, '../src/lib/freight.ts'), 'utf8');
   assert.ok(freight.indexOf("  sulphur: ['sulphur'],") < freight.indexOf("  npk: ['npk', 'npk-two-nutrient'],"));
+});
+
+// package FNCE (review of FNCC): "DRI" is a whole word of the pig iron page's name and alias, and the beginning of "Dried"
+const routes = JSON.parse(fs.readFileSync(path.join(here, '../../data/freight/routes.json'), 'utf8'));
+const commodityName = Object.fromEntries((Array.isArray(index) ? index : index.commodities).map((c) => [c.id, c.name]));
+// as search.ts makes a route item: the name, and the ends, the vessel class and the cargo pages' names as secondary text
+const routeItems = routes.map((r) => ({
+  kind: 'route',
+  id: r.id,
+  label: r.name,
+  order: `${r.benchmark ? 0 : 1}${r.name}`,
+  d: prepare([r.name], [], [r.from.region, r.to.region, ...r.from.ports, ...r.to.ports, 'freight route', ...r.cargoes.map((k) => commodityName[k] ?? k)]),
+}));
+
+test('"DRI": the routes that carry DRI come before the "Dried pulses" routes, which are still listed', () => {
+  const found = matchKind(tokens('DRI'), routeItems, 'route');
+  const ids = found.map((m) => m.item.label);
+  const dried = ids.filter((l) => /^Dried /.test(l));
+  const dri = found.filter((m) => !/^Dried /.test(m.item.label));
+  assert.ok(dried.length >= 1, 'the Dried pulses routes are not hidden');
+  assert.ok(dri.length >= 1 && dri.every((m) => m.whole), 'there are routes with DRI as a whole word');
+  assert.ok(found.filter((m) => /^Dried /.test(m.item.label)).every((m) => !m.whole));
+  assert.ok(ids.indexOf(dri.at(-1).item.label) < ids.indexOf(dried[0]), `${ids.join(' | ')}`);
+});
+
+test('a prefix of another word comes after every item that has the word whole, in every kind, and is not hidden', () => {
+  const mk = (kind, label, names, extra = []) => ({ kind, id: label, label, order: label, d: prepare(names, [], extra) });
+  const items = [
+    mk('route', 'Dried pulses: A to B', ['Dried pulses: A to B'], ['Pulses']),
+    mk('route', 'Pig iron: C to D', ['Pig iron: C to D'], ['Pig iron & DRI']),
+    mk('route', 'DRI: E to F', ['DRI: E to F']),
+  ];
+  assert.deepEqual(matchKind(tokens('dri'), items, 'route').map((m) => m.item.label), ['DRI: E to F', 'Pig iron: C to D', 'Dried pulses: A to B']);
+  // no whole-word item: the order is the one of the tiers, as before
+  assert.deepEqual(matchKind(tokens('drie'), items, 'route').map((m) => m.item.label), ['Dried pulses: A to B']);
+  // the group is as good as its best item, so a whole word found only in the secondary text does not lower the group
+  const g = groupKinds(tokens('dri'), items, 5);
+  assert.equal(g[0].kind, 'route');
+  assert.equal(g[0].tier, 3);
+  assert.equal(g[0].total, 3);
 });

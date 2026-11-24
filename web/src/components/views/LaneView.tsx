@@ -3,11 +3,11 @@ import { useEffect } from 'preact/hooks';
 import type { CaveatsFile, HistFlag, LaneFile, Lane, LaneTransit, Route } from '../../types';
 import { countryName, commodityMeta } from '../../lib/data';
 import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
-import { corridorHas, lacksSpeed, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
+import { corridorHas, lacksSpeed, laneChipLabels, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
-import { AltBox, CommodityChips, HistoryChart, PortSource, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
+import { AltBox, CommodityChips, HistoryChart, PortSource, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import '../../styles/lane-engine.css';
 
 interface Loaded { file: LaneFile; lane: Lane }
@@ -215,6 +215,7 @@ export default function LaneView({ id }: { id: string }) {
               </div>
             )}
             {basisNote && <div class="muted small" style={{ marginTop: '6px' }}>{basisNote}</div>}
+            <RiverNotes rivers={[...lane.load, ...lane.discharge, ...opts.flatMap((o) => [o.load, o.discharge])].map((id) => file.ports[id]?.river)} />
           </Section>
         )}
         <ViaSection from={loadP[0] ?? countryName(lane.o)} to={disP[0] ?? countryName(lane.d)} via={lane.via} viaAlt={lane.viaAlt} />
@@ -238,7 +239,7 @@ export default function LaneView({ id }: { id: string }) {
           </Section>
         )}
         <Section title="Commodity">
-          <CommodityChips ids={[lane.k]} />
+          <CommodityChips ids={[lane.k]} labels={laneChipLabels(lane)} />
         </Section>
       </div>
     </>

@@ -121,7 +121,7 @@ G = {
         ("BRPMA", "ecsa", ("iron-ore",), "load", "wikipedia", W + "Ponta_da_Madeira",
          "Ponta da Madeira, Sao Luis (Maranhao): a private Vale port, 'a large iron ore loading port', one of the few terminals suited to the ultra large Valemax ships. Second iron-ore gateway after Tubarao (the shares are not documented, so the options are open)"),
         ("BRVLC", "ecsa", ("alumina",), "load", "wikipedia", W + "Barcarena,_Par%C3%A1",
-         "Barcarena (Para) has a port, and the page shows Norsk Hydro's Alunorte facility (the alumina refinery, Wikipedia: Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together"),
+         "Barcarena (Para) has a port, and the page shows Norsk Hydro's Alunorte facility (the alumina refinery, Wikipedia: Barcarena water contamination); searoute names the port Vila do Conde. That the cargo leaves from the Vila do Conde terminals is read from the two pages together", "plant"),
         ("BRVIX", "ecsa", ("spodumene",), "load", "trade-press", "https://diariodocomercio.com.br/economia/sigma-exporta-maior-carregamento-litio-minas/",
          "Diario do Comercio (6 February 2024, read on 23 November 2026): about 22,000 t of Sigma Lithium's 'green lithium' from the Grota do Cirilo complex 'were shipped to the Port of Vitoria, in Espirito Santo, bound for China' (translated from Portuguese)"),
     ],
@@ -213,13 +213,13 @@ G = {
     # ------------------------------------------------------------------ Africa
     # FNCA (review GNC3.2): the steel works of Turkey sit on three coasts and the groups that feed them (scrap, pig iron, direct-reduced iron) had only the
     # general port of the country (Mersin), so the largest flows from the Black Sea were refused as "port on the other coast". The pages are the English
-    # Wikipedia, read on 24 November 2026: they name the steel works and the port that serves them, not the cargo of the berth (the basis of these
-    # rows reads "page names the cargo", which is the table's word for a row of the group: the note says what the page says).
+    # Wikipedia, read on 24 November 2026: they name the steel works and the port that serves them, not the cargo of the berth. FNCE: the eighth
+    # element "plant" gives these rows their own basis, "page names the plant, not the cargo", in both directions (the page gives none).
     "TUR": [
         ("TRERE", "black-sea", ("ferrous-scrap", "pig-iron", "dri"), "both", "wikipedia", W + "Erdemir",
-         "Erdemir: its main steel plant is at Karadeniz Eregli on the Black Sea shore and 'operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo); the Eregli page says the town is 'the home of Erdemir, an important steel plant of Turkey' with a large natural harbour"),
+         "Erdemir: its main steel plant is at Karadeniz Eregli on the Black Sea shore and 'operates a large seaport, the Port of Erdemir, to import and export materials' (the page names no cargo); the Eregli page says the town is 'the home of Erdemir, an important steel plant of Turkey' with a large natural harbour", "plant"),
         ("TRISK", "med", ("ferrous-scrap", "pig-iron", "dri"), "discharge", "wikipedia", W + "Erdemir",
-         "Erdemir 'also acquired the steel plant at Iskenderun, Hatay Province in southern Turkey' (Isdemir, named on the page among the largest emitters of the country's steelmakers); the page names the plant, not its port or the cargo it takes"),
+         "Erdemir 'also acquired the steel plant at Iskenderun, Hatay Province in southern Turkey' (Isdemir, named on the page among the largest emitters of the country's steelmakers); the page names the plant, not its port or the cargo it takes", "plant"),
     ],
     "ZAF": [
         ("ZARCB", "s-africa", ("coal",), "load", "wikipedia", W + "Port_of_Richards_Bay",

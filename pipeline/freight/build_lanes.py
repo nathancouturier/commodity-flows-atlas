@@ -46,6 +46,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import modes as MD  # noqa: E402
 import ports as P  # noqa: E402
+import river_legs as RL  # noqa: E402
 import routing as RT  # noqa: E402
 import vessel_rules as VR  # noqa: E402
 
@@ -317,6 +318,9 @@ def port_entry(code, use):
     out = {"id": code, "name": p["name"], "c": port_iso3(code), "at": p["at"], "zone": m.get("zone"), "basis": basis, "s": src}
     if url:
         out["url"] = url
+    river = RL.public(code, p["name"])
+    if river:  # a port up a river: the distance of every lane through it includes the leg (river_legs.py)
+        out["river"] = river
     return out
 
 
@@ -987,6 +991,9 @@ def main():
                       + [max(BASIS_RANK[b] for b in puse[role][c]) if puse[role].get(c) else None for role in ("load", "discharge")]
                       for c in pport],
             "bases": list(P.BASES),
+            # the ports above that are up a river: the distance of every pair through them includes the leg (river_legs.py)
+            **({"rivers": {c: RL.public(c, P.port(c)["name"]) for c, _ in sorted(pport.items(), key=lambda x: x[1]) if c in RL.RIVER_LEGS}}
+               if any(c in RL.RIVER_LEGS for c in pport) else {}),
             "classes": list(pcls),
             "gates": gates,
             "cols": ["o", "d", "kt", "m", "load", "dis", "nm", "cls", "via", "alt", "f"],

@@ -630,6 +630,20 @@ export interface FleetFile {
   types: { name: string; ships: Fig | null; dwt: Fig | null; age: Fig | null; hist: { years: number[]; ships: (number | null)[]; dwt: (number | null)[] } }[];
 }
 
+/** A port up a river that the sea network does not follow (pipeline/freight/river_legs.py): every distance through it includes the leg. */
+export interface PortRiver {
+  river: string;
+  /** where the sea route of the atlas joins the river */
+  mouth: string;
+  km: number;
+  /** the leg in nautical miles, included in the distances; the line is drawn straight from the port to the mouth */
+  nm: number;
+  s: string;
+  url: string;
+  /** the sentence the pages print */
+  n: string;
+}
+
 export interface PortRef {
   id: string;
   name: string;
@@ -642,9 +656,11 @@ export interface PortRef {
   url?: string;
   /**
    * why the atlas uses this port: "page names the cargo", "page names the cargo in the other direction",
-   * "general port of the country", "port used before, no page read" or "nearest seaport"
+   * "page names the plant, not the cargo", "general port of the country", "port used before, no page read" or "nearest seaport"
    */
   basis?: string;
+  /** set for a port up a river: the distance of every lane through it includes the leg */
+  river?: PortRiver;
 }
 
 export interface AltRouting {
@@ -675,6 +691,8 @@ export interface Route {
   standIn?: string;
   /** the largest recorded pair of the corridor as the Route finder runs it, when its ports are not the route's own (distance in nm) */
   finder?: { g: string; o: string; d: string; mt: number; y: number; from: string; to: string; nm: number };
+  /** the ports of the route that are up a river: the distance includes the leg and the line is drawn straight from the port to the mouth */
+  rivers?: (PortRiver & { port: string })[];
   vclass: string;
   cargoes: string[];
   /** why the cargoes are typical of the class and not those of the benchmark's definition */
@@ -1079,6 +1097,8 @@ export interface PairsFile {
   ports: [string, string, string, string | null, (number | null)?, (number | null)?][];
   /** why a port is used, see PortRef.basis */
   bases?: string[];
+  /** the ports of the file that are up a river, by code: the distance of every pair through them includes the leg */
+  rivers?: Record<string, PortRiver>;
   /** for estimated or checked pairs that have no lane: the note the lane would carry, keyed "<o>-<d>" */
   notes?: Record<string, string>;
   classes: string[];
