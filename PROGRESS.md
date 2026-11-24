@@ -20,13 +20,14 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, forecasts, new commodities |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,073 unit tests. Nothing of it has run on GitHub yet: the first real runs are those of this week |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests. Nothing of it has run on GitHub yet: the first real runs are those of this week |
 
 ## Fifth release (24 November 2026): what changed
 
 Six packages, six independent reviews (65 findings, 22 of them important), six fix packages and one more for a
 source whose terms forbid its use, then a rebuild of everything together and a review of the site on the
-production build.
+production build (10 findings, three of them important: an internal remark shown in the Sources window, the
+largest class of three ports, pages that had grown too long; all corrected, then checked by a second reviewer).
 
 ### Baltic benchmark routes
 
@@ -60,7 +61,8 @@ production build.
   routes are assets and can be clicked from the route page; most of the others open the largest lane through
   them, and a few stay plain text.
 - 20 ports have published limits; 9 of them have a "largest class", derived by the atlas only when the page
-  gives a dimension of a ship (never from a depth alone), and labelled as a derivation.
+  gives a dimension of a ship (never from a depth alone), and labelled as a derivation. It never contradicts the
+  limit printed above it: where deadweight and draught point to different classes, both are shown.
 - A commodity tag on a port rests on a page or on the atlas's own routes and lanes; 8 ports whose cargo no page
   supported were removed.
 
@@ -476,10 +478,17 @@ These were needed to finish the work; each is reversible.
      (the Supramax band starts at 40,000 dwt and the Capesize band at 85,000 dwt); the typical sizes of Panamax
      (74,000 dwt) and Supramax (58,000 dwt) are Atlas conventions. Laden days keep the atlas's assumed service
      speed, which is lower than the speed of the standard vessel, and the page says so.
-   - Largest class of a port: derived only when the page gives a dimension of a ship; a class without a standard
-     vessel is compared by its typical deadweight; tanker classes are ranked by deadweight across crude and
-     product classes (Primorsk, 150,000 dwt, shows Aframax). Six coal ports keep a coal tag although their page
-     does not say thermal or metallurgical.
+   - Largest class of a port: derived only when the page gives a dimension of a ship, never from a depth alone.
+     By deadweight it is the class whose size band holds the limit ("or larger" beyond the largest band: LOOP,
+     Hound Point); by dimensions it is the largest class whose standard vessel fits the draught, length and beam
+     given. When the two differ, the page shows both with their basis and no single class (Port Hedland, Taman).
+     Six coal ports keep a coal tag although their page does not say thermal or metallurgical.
+   - Route, class and port pages fold their secondary blocks to one line, as commodity and country pages do: the
+     Baltic definition, the Route finder paragraph, the freight rate and the notes of a route; the size band, the
+     standard vessel, the world fleet and the shipping companies of a class; the routes, lanes and price series
+     of a port. A folded block is not part of "Copy citation".
+   - A port of a route that is not an asset links to the largest lane through it of a cargo the route carries,
+     or stays plain text.
    - Ports are drawn at every zoom like every other asset: with 190 of them the world view is crowded,
      especially on a phone. Nothing was hidden or shrunk.
    - Companies: a figure covers one commodity only (a volume that covers several is in the text); a share in
