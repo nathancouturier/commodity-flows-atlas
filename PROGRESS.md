@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-24, after the fifth release of audit fixes_
+_Last updated: 2026-11-24, after the sixth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -16,11 +16,131 @@ released. This file is updated at each release.
 |---|---|---|
 | 1 | Visible defects of the site and quick data fixes | done, released on 22 November |
 | 2 | Trade-flow engine: sea or land rule, lane selection, typical ports, routing, chokepoint shares, Route finder | done, released on 23 November |
-| 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November |
+| 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November. Left for the next release, with the sources found and the files on disk: tin (China's declared imports from Myanmar), LPG from the United States to Mexico, pig iron production, a cross-check of LNG exports, metallurgical coal by pair |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, forecasts, new commodities |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, a voyage calculator, forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+
+## Sixth release (24 November 2026): what changed
+
+Twelve commodity pages and 29 customs groups with sea lanes were added from data already on disk (audit points
+M-022, M-023 and A-010), in three packages. The work went through five rounds of independent review on frozen
+copies of the tree (28, 37, 13, 11 and 13 findings; 23 of the 102 important), nine fix packages and one
+correction by the orchestrator. Every finding was decided: corrected, or listed below as left for later. In the
+last round one reviewer found that the river leg given to Bremen was shorter than the straight line it is drawn
+as (corrected), and two reviewers on the release candidate (one on the last package, one on the whole site: every
+commodity page, 30 country pages, 30 passages, 60 routes and 60 lanes, 173 links followed) found nothing
+important.
+
+### New commodities
+
+- **Fertilisers and sulphur** (M-022). Ammonia, ammonium nitrate, ammonium nitrate with limestone, UAN and
+  ammonium sulphate join urea on "Urea & nitrogen"; MAP, superphosphates and phosphoric acid join phosphate rock
+  and DAP on "Phosphate"; potassium sulphate joins potash. Two pages are new: Sulphur (with USGS production) and
+  NPK fertilisers (compounds with three and with two nutrients). Each product has its exporters, importers and
+  lanes, and the largest have a generated route.
+- **Grains, oilseeds and pulses** (M-023). Four pages are new: Barley, Sorghum, Sunflower (seed, oil and meal)
+  and Pulses. Rapeseed gains its oil and meal; wheat gains flour and corn its distillers' dregs (trade tables
+  only). Left from the audit point: palm kernel and coconut oils, malt, oats, and a barley price after 2020
+  other than the World Bank's annual average.
+- **Metal bulks** (A-010). Six pages are new: Ferrous scrap, Pig iron & DRI, Chromium, Ferro-alloys
+  (ferro-chromium, ferro-manganese, silico-manganese, ferro-silicon and the others), Molybdenum and Graphite.
+  Coke is a product of the Metallurgical coal page. Molybdenum, graphite and the "other ferro-alloys" have
+  tables and flows on the map but no sea lanes yet.
+- Largest new seaborne groups in 2024 (customs data, the atlas's sea-or-land rule): ferrous scrap 67.6 Mt, sulphur 42.5 Mt, barley 29.5 Mt, coke and semi-coke 24.4 Mt, chromium ore (chromite) 18.8 Mt, pulses 18.5 Mt, ammonium sulphate 18.4 Mt, ammonia 15.9 Mt.
+- A commodity is now added by following `docs/ADDING_A_COMMODITY.md`, written from these three packages and
+  corrected after each review round.
+
+### Prices
+
+- 154 series (138 before). Barley and sorghum, whose monthly World Bank series stopped in August 2020, are shown
+  to that date and continued by the World Bank's annual average.
+- Ten annual prices of the USGS Mineral Commodity Summaries, each named for what the file says it is (United
+  States, annual, the file's own unit and source): chromite ore, ferro-chromium, 75% ferrosilicon, heavy
+  melting scrap, molybdenum (molybdic oxide), three kinds of natural graphite, sulphur and ammonia. A page no
+  longer says that no free price exists when one of these is its product.
+
+### Ports and routes
+
+- **France has two seaboards.** Until now every French pair used Fos or Le Havre. Grain, oilseeds and meal now
+  load at Rouen or La Pallice: Rouen for the eleven countries its page names and for the Channel, the North Sea
+  and the Baltic, La Pallice for the other partners outside the Mediterranean, Fos for the Mediterranean and
+  the Black Sea. No source gives the split, so the rule is an Atlas assumption and both ports are shown as
+  options with their distances (in 2024 the rule puts 12.3 Mt of cereals at Rouen, 2.5 Mt at La Pallice and
+  0.9 Mt at Fos). Fertilisers and general cargo take Le Havre on the Atlantic side and Fos on the Mediterranean
+  side; ammonia lands at Montoir. Of the 25,847 pairs of the fifth release, 286 changed port, distance or
+  class, all with France at one end, and 16 more changed passages only; no other pair of the earlier groups
+  moved.
+- **River legs.** A port far up a river gets the river added to its sea distance and days: Rouen (65 nm of the
+  Seine, from the page of the port) and Bremen (30 nm, the straight line to Bremerhaven, an Atlas measure
+  because no page read gives the river distance). The leg is drawn as one straight segment and the lane page
+  says so.
+- **A new port basis**, "page names the plant, not the cargo", for ports whose page names a steel works, a
+  refinery or an alumina plant and not the cargo handled: the two Turkish steel-works ports, Vila do Conde for
+  alumina and five refinery ports for the loading of refined products (Pengerang, Port Dickson, Mumbai, Vadinar,
+  Siracha).
+- **Turkey**: scrap, pig iron and direct-reduced iron use the ports of the two steel works a page names (Eregli
+  for the Black Sea partners, Iskenderun for the others, with Izmir as an option).
+- **Declarations by trading centres.** A pair that is most of a landlocked buyer's imports (sulphur from Qatar
+  to Switzerland, 1.13 Mt; refined copper from Zambia to Switzerland; iron ore between Malaysia and
+  Switzerland) carries a caveat that the cargo probably ends elsewhere, and no generated route is named after
+  it.
+- **Generated routes**: 168 (120 before). The earlier groups keep their own cap, raised from 120 to 122 so
+  that the routes of the fifth release stay; the new groups have caps of their own (20, 10, 10 and 6). Of the
+  253 routes of the fifth release, 251 keep their address; two ended with the French ports
+  (`gen-steel-med-nw-europe`, `gen-wheat-med-waf`: their addresses open a page that says so, with a way back)
+  and nine changed content. 301 routes in all; named routes cover 65.0% of seaborne tonnes.
+
+### Figures and cleaning rules
+
+- Mozambique's "coke" (1.63 Mt in 2024, mostly to India) is left out of the coke tables, lanes, passage
+  estimates and history: the EIA series gives the country no coke production in any year since 1980 and
+  6.5 Mt of metallurgical coal exports in 2025. The page says what was left out and why. Zimbabwe's (0.9 Mt)
+  is kept, with a note that customs data and the EIA series disagree and that neither reading is established.
+- A table that holds less than 97% of the customs file says so and names the cause (unwrought zinc: one row,
+  Spain to Mexico, declared at 5 Mt for USD 61 million).
+- Rows whose own price level explains a low or high unit value keep their reported tonnage (a reviewed list,
+  each row with its reason); sunflower seed for sowing keeps its tonnage above the reference price only.
+- Notes computed from the data, each marked "a possible reading, not established here": Mozambique's imports
+  of chromium ore and ferro-chromium (transit from South Africa), Djibouti's imports of compound fertilisers
+  (cargo for Ethiopia).
+
+### Passage estimates
+
+- 967 estimates at 20 passages (599 before). The comparison with IMF PortWatch is printed once per ship type
+  above the list, no longer under every row (the file weighs 729 kB; it had grown to 883 kB).
+- The cap of an "up to" figure now has three cases: where the atlas's "at least" tonnage of a ship type is at
+  most 85% of PortWatch's volume, the cap is that volume less the other groups (as before); above 85%, the
+  whole volume of the ship type; and where the atlas's tonnage exceeds PortWatch's volume and an alert explains
+  it (the Red Sea), no cap, because the figures are tonnages of the normal route.
+- Of the 599 estimates of the fifth release, 42 "at least" figures moved (the French ports: Gibraltar,
+  Dover, the Danish Straits) and 89 "up to" figures (the new cap, and the new groups counted before it).
+  The largest: Makassar iron ore up to 1,085 Mt (896), Hormuz crude oil up to 751 Mt or 40.1% (601 Mt, 32.1%),
+  Panama crude oil up to 43.8 Mt (7.3), and Suez and Bab el-Mandeb, whose "up to" figures are printed again
+  (crude oil at Bab el-Mandeb up to 223 Mt).
+
+### Pages and search
+
+- A cargo chip names the product when its page holds several (a route of ammonia reads "Ammonia", not "Urea &
+  nitrogen"); vessel class pages list every commodity typed in the class.
+- Search: trade names and abbreviations (DRI, HMS, FeCr, SiMn, AN, UAN, MAP, SOP, canola oil, sulfur and
+  sulphur); a whole word in a name ranks before the beginning of another word; "fertiliser" and "fertilizer"
+  give the five fertiliser pages in the order of the tonnage traded.
+- The page of an address that does not exist offers a way back (routes, lanes, commodities, passages, vessel
+  classes). The price window is kept when switching between nominal and real prices. A share that rounds to
+  nothing reads "<0.1%", not "0.0%". Country pages say what the percentage after a port is: an allocation by
+  the atlas's rules, not a count of what the port handles.
+
+### Checks
+
+- 1,403 unit tests (1,077 at the fifth release) and 50 web tests (9); the whole suite passes on a copy
+  without the raw downloads, as on GitHub. Five browser suites pass on the production build, and the checks of
+  GitHub were reproduced on a fresh clone before the push.
+- Two slips of the source scouts of the next round, to know about: one request was sent to an address of
+  worldsteel after its robots file had been read as disallowing everything (only a login redirect came back),
+  and two PDF reports of the EIA were read under a path its robots file disallows (their figures are not
+  used). The rule is in every brief: a disallowed path is not read, even once.
 
 ## Fifth release (24 November 2026): what changed
 
@@ -331,31 +451,38 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 - **Freight (the core)**
   - 20 vessel classes (dry bulk, tankers, gas carriers, and one container class for the bagged and
     boxed cargoes), 14 with a standard vessel, each with the world fleet of its ship type.
-  - 253 routes: 90 Baltic benchmarks (85 active, 5 ended) with their definition, 43 heavy
-    non-benchmark routes written by hand and 120 Atlas corridors generated from customs pairs. 207 have
-    a corridor share of seaborne trade and 213 a 2005 to 2024 volume history; the others say why.
-  - 42 customs groups with seaborne lanes on real sea routes: 2,617 main lanes, 35 mixed lanes,
-    271 history-only lanes; a table of 25,847 recorded pairs (18,992 by sea, 2,182 through a transit
-    port, 63 mixed, 4,610 overland).
+  - 301 routes: 90 Baltic benchmarks (85 active, 5 ended) with their definition, 43 heavy
+    non-benchmark routes written by hand and 168 Atlas corridors generated from customs pairs. 255 have
+    a corridor share of seaborne trade and 261 a 2005 to 2024 volume history; the others say why.
+  - 71 customs groups with seaborne lanes on real sea routes: 3,734 main lanes, 58 mixed lanes,
+    572 history-only lanes; a table of 36,071 recorded pairs (25,922 by sea, 2,725 through a transit
+    port, 109 mixed, 7,315 overland). Two ports up a river (Rouen, Bremen) carry a river leg.
   - A route finder for every recorded pair.
   - 30 chokepoint pages: the 28 passages counted by IMF PortWatch (weekly series since 2019,
     vessels and estimated cargo tonnes), plus the Singapore Strait and Cape Horn; 20 of them carry
-    Atlas estimates of the cargo that has to cross or may cross (599 estimates); a status board of
-    all passages.
+    Atlas estimates of the cargo that has to cross or may cross (967 estimates), compared with
+    IMF PortWatch's volume once per ship type; a status board of all passages.
   - 80 disruption events from 2008 to 2026, each text read against the pages it cites, linked to
     commodities, countries and assets, and three alert banners whose severity and lists follow the
     data.
   - 32 shipping companies by segment.
-- **39 commodities**: production and reserves (USGS, EIA), agriculture (USDA PSD, FAOSTAT), trade
+- **51 commodities**: production and reserves (USGS, EIA), agriculture (USDA PSD, FAOSTAT), trade
   and flows (CEPII BACI 2024), every country in every table, series by country and year, monthly
   energy series, crop balances, metals consumption estimates, 403 company entries (88 with a dated figure).
+  Energy (7): Crude oil, Refined products, LNG, Natural gas, LPG, Thermal coal, Uranium.
+  Metals and minerals (23): Iron ore, Metallurgical coal, Steel, Ferrous scrap, Pig iron & DRI, Copper,
+  Aluminium, Bauxite & alumina, Nickel, Zinc, Lead, Tin, Lithium, Cobalt, Rare earths, Manganese, Chromium,
+  Ferro-alloys, Molybdenum, Graphite, Gold, Silver, Platinum group metals.
+  Agriculture and fertilisers (21): Wheat, Corn, Barley, Sorghum, Soybeans, Soybean meal, Soybean oil, Rice,
+  Pulses, Sugar, Coffee, Cocoa, Cotton, Palm oil, Sunflower, Rapeseed & canola, Potash, Phosphate, Urea &
+  nitrogen, Sulphur, NPK fertilisers.
 - **657 infrastructure assets**: 190 ports, 175 mines, 108 LNG terminals, 68 refineries, 44 smelters,
   39 fields, 31 pipelines, 2 storage hubs.
-- **Country pages** for 239 countries and territories and for the European Union (224 with figures).
-- **Prices**: 138 series (World Bank monthly since 1960 and annual real prices, World Bank price
-  indices, EIA daily, USGS annual, three freight indicators), a price board, lookup by date.
-- **Search** over every kind of page, companies included, CSV downloads with source and licence on each
-  row, copy link and copy citation.
+- **Country pages** for 239 countries and territories and for the European Union (227 with figures).
+- **Prices**: 154 series (World Bank monthly since 1960, annual averages and annual real prices, World
+  Bank price indices, EIA daily, USGS annual, three freight indicators), a price board, lookup by date.
+- **Search** over every kind of page, companies included, with trade names and abbreviations; CSV
+  downloads with source and licence on each row, copy link and copy citation.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
 - **55 registered third-party sources**, every one free to read, plus the atlas's own entry for its
   estimates and conversions.
@@ -531,13 +658,61 @@ These were needed to finish the work; each is reversible.
      refuses a positive price that moves beyond its own largest past move (never wider than a factor of five) and
      checks a series that crosses zero on its shape only.
 
+11. Sixth release, each reversible:
+   - **French ports.** Grain, oilseeds and meal load at Rouen or La Pallice by partner: Rouen for the countries
+     its page names (China, Morocco, Algeria and eight less usual destinations) and for the Channel, the North
+     Sea and the Baltic; La Pallice for the other partners outside the Mediterranean; both ports are shown as
+     options, and the percentages on the France page are an allocation by this rule, not a count. The rule
+     puts 2.5 Mt of cereals at La Pallice in 2024, under the 3.0 to 3.5 Mt a year of its page, and 12.3 Mt at
+     Rouen. Fertilisers and general cargo: Le Havre on the Atlantic side, Fos on the Mediterranean side. Oil,
+     coal and ore are unchanged.
+   - **Turkey.** Scrap, pig iron and direct-reduced iron: Eregli for the Black Sea partners, Iskenderun for the
+     others, Izmir as an option, in both directions. The page read names the steel works, not the cargo, and the
+     lane page says so.
+   - **Russian, Saudi, Canadian and Indian fertilisers** of the new groups load at the port the earlier
+     fertiliser groups already used (Ust-Luga, Jubail, Vancouver, Mundra), for every destination.
+   - **A river leg** is added for a port more than 50 km from the sea network: from a page that gives the
+     length by river (Rouen, 120 km to Honfleur) or, where no page read gives it, the straight line between the
+     port and the river's mouth, labelled an Atlas measure (Bremen, 56 km). It is drawn as one straight segment.
+     Ports between 20 and 50 km (Calcutta, Ho Chi Minh City, Campana, Yangon and others) have none.
+   - **The cap of an "up to" figure at a passage** has three cases (the other groups' tonnage subtracted up to
+     85% of IMF PortWatch's volume for the ship type; the whole volume above; no cap under an alert that
+     explains an excess). The 85% is the atlas's own threshold.
+   - **Mozambique's coke** is dropped as coal declared under the coke code (no coke production in the EIA series
+     in any year since 1980); **Zimbabwe's** is kept with a note that customs data and the EIA series disagree.
+   - **Rows kept as reported against the value rule**: a reviewed list (18 rows, each with its reason) of pairs
+     whose own price level is steady and far from the group's; sunflower seed keeps its reported tonnage above
+     the reference price only (seed for sowing); coke and sunflower oil are not treated as homogeneous groups.
+   - **Declarations by trading centres**: four pairs with Switzerland carry a caveat and name no generated
+     route; their tonnes are still counted at the passages of the route to the declared destination.
+   - **Notes that offer a reading**, each marked as not established: Mozambique's imports of chromium ore and
+     ferro-chromium (transit from South Africa), Djibouti's imports of compound fertilisers (cargo for
+     Ethiopia).
+   - **Generated routes.** The earlier groups keep their cap (122, 120 before; wheat may have a thirteenth
+     corridor) so that the routes of the fifth release stay; the new groups have their own (20 for fertilisers
+     and sulphur, 10 for grains and oilseeds, 10 for metal bulks, 6 for the two fertiliser groups added by the
+     review). Two routes of the fifth release ended and nine changed content, all through the French ports.
+   - **Prices.** A USGS annual price is published under the product, country, unit and source that the file
+     gives, never as a market benchmark; the unit of the molybdenum price is quoted as the file gives it, which
+     does not say whether the kilogram is of oxide or of contained metal. Barley and sorghum continue as annual
+     averages after their monthly series stopped.
+   - **Search and chips.** A whole word in a name, a code or a cargo name ranks before the beginning of another
+     word; "fertiliser" and "fertilizer" give the five fertiliser pages in the order of the tonnage traded
+     (Urea & nitrogen, Phosphate, Potash, Sulphur, NPK). A chip names the product when its page holds several,
+     except on the two coal pages and "Rapeseed & canola".
+   - **Vessel class pages** list a commodity when a main lane is typed in the class first; the classes that only
+     serve a cargo second are not listed.
+   - A port whose page names a plant and not the cargo keeps that port, under the basis "page names the plant,
+     not the cargo" (eight rows: two steel works, an alumina plant, five refineries).
+
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
 - **None of the reworked update jobs has run on GitHub yet.** They were tested with simulated repositories, a
   mocked GitHub and a fresh clone under Python 3.12; the first real runs are the PortWatch job (Wednesday 25
   November 2026, 19:17 UTC) and the prices job (the same day, 21:43 UTC). What only a real run can confirm is
-  listed in `docs/UPDATING.md`.
+  listed in `docs/UPDATING.md`. Before the sixth release the price build was run as the job runs it, without
+  the annual files that GitHub does not have: the 154 series came out identical, in the same order.
 - The BLS freight series is still the copy taken through FRED until the BLS API answers; if the keyless quota is
   always exhausted on GitHub's shared addresses, the series stops advancing and an issue opens after three runs.
 - No freight rate in USD per tonne and no Baltic value: the atlas has routes, definitions and two long
@@ -565,12 +740,35 @@ These were needed to finish the work; each is reversible.
   margin are not built (they need a conversion factor or a yield).
 - Trade flows are customs data for 2024; the 2026 disruptions appear in events, banners, monthly energy series
   and PortWatch traffic, not in the flows.
-- Typical ports are assumptions: 22.4% of the pair-end tonnage still uses a port with no page
+- Typical ports are assumptions: 22.5% of the pair-end tonnage still uses a port with no page
   read, the largest being Japanese and South Korean coal and ore ports, products at Houston and
-  Singapore, and Chinese concentrates.
-- 48.5 Mt of 2024 seaborne tonnage is not routed: 31.4 Mt between a landlocked country without a sourced
-  transit port and its overseas partners, 17.1 Mt for which no page supports a port.
-- Named routes cover 66.2% of seaborne tonnes; 10 of the 42 customs groups reach the 70% aimed at.
+  Singapore, and Chinese concentrates; 0.5% uses a port whose page names a plant and not the cargo.
+- 61.2 Mt of 2024 seaborne tonnage is not routed: 40.6 Mt between a landlocked country without a sourced
+  transit port and its overseas partners, 15.2 Mt with no sea route or one under 50 nm (mostly Malaysian
+  refined products to Singapore), 5.5 Mt for which no page supports a port on the right coast.
+- Named routes cover 65.0% of seaborne tonnes; eleven of the 71 customs groups reach the 70% aimed at.
+- **The atlas's assumptions overstate two passages.** Its "at least" tonnage of dry bulk is above IMF PortWatch's
+  whole dry bulk volume at Gibraltar (394 Mt against 384 Mt) and at the Bosphorus (207 Mt against 203 Mt), and the pages say so.
+  The first suspects: ferrous scrap to Turkey, typed as dry bulk and sent through Gibraltar from the United
+  States and north-west Europe; Moroccan sulphur and phosphate fertilisers; Black Sea barley and sunflower
+  meal; Turkish chromium ore sent through Samsun.
+- Russian fertilisers of every kind leave from Ust-Luga whatever the destination; French oil, coal and ore
+  still use the general ports of the country; Trinidad's ammonia has no port page; a river leg exists for two
+  ports only, Bremen's being a straight line because no page read gives the river distance.
+- New pages without everything the others have: molybdenum, graphite and the "other ferro-alloys" have no sea
+  lanes; wheat flour and distillers' dregs are trade tables only; NPK, pig iron and DRI, coke and the alloys
+  other than ferro-chromium and ferrosilicon have no free price; the USGS prices are annual and for the United
+  States.
+- METHODOLOGY.md still names the work packages and reviews of this release (FNCA to FNCI, GV6 and so on) and
+  keeps figures of intermediate states that were never published: an editing pass is planned. The sentence that
+  defines "at least" is repeated under each of the 967 passage estimates.
+- Left from the last review round of the sixth release, all minor: the search for "sulfate" opens "Urea &
+  nitrogen" first while "sulphate" opens Potash; a lane whose principal port comes from a coast rule and that
+  has an option no longer says that a rule chose it; the price board lists the daily and monthly series that
+  are still published (the sixteen new series, annual or closed, open from their commodity page and from the
+  search); the year of an annual price is in the label of its key figure, not in its source line; the
+  Singapore Strait page cites IMF PortWatch although it has no counter of its own; the Crude oil page carries
+  one hint sentence ("Click a producer to open its page"), to be removed.
 - No measured split of a country's trade between its coasts or ports, and none of a trade between
   vessel classes: these are options and typical classes, not shares.
 - Proved oil and gas reserves and refining capacity are not in the atlas yet (the publishers whose tables are
@@ -650,7 +848,10 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     today, as the owner set it.
 20. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
     the fourth release from the disruptions of passages.
-21. The choices listed above, each reversible.
+21. **Hint text under charts.** The owner's rule is no hint text. The charts of the passage pages and of the
+    price drawer print "Drag to zoom · double-click to reset" under them, as they did before the audit: keep
+    these lines, or remove them too?
+22. The choices listed above, each reversible.
 
 ## Update jobs
 

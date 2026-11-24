@@ -594,7 +594,7 @@ class F7MozambiqueCoke(unittest.TestCase):
         import clean as C
         why = C.KEEP_REPORTED
         self.assertIn("382 and 145 times the USD 1.8 and 4.7 million", why[("coke", "ZWE", "COD", 2006)])
-        self.assertIn("45 to 204 times theirs", why[("ammonium-nitrate", "FRA", "OMN", 2010)])
+        self.assertIn("45 to 201 times theirs", why[("ammonium-nitrate", "FRA", "OMN", 2010)])  # 77.548 / 1.709 and / 0.385 (review GV9B.3)
         self.assertIn("in the 23 years of the cache (2002 to 2024)", why[("coke", "LBY", "USA", 2004)])
         self.assertIn("0.7 to 7.3 kt", why[("graphite", "JPN", "MEX", 2002)])
         self.assertIn("81 times", why[("ammonium-sulphate", "UKR", "DZA", 2015)])

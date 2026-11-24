@@ -82,8 +82,8 @@ is called one where it is shown. The figures below are those of the build from C
   6. **Qatari LPG in 2021 and 2023** (`DROP_NEW_PAIRS`). Customs data give Qatar about 10 Mt of LPG
      exports a year from 2018 to 2024, except in 2021 and 2023, when pairs that have no LPG in either
      neighbouring year add 29.0 Mt (19 rows, reported tonnage) and 26.5 Mt (12 rows, 11 of them
-     with the tonnage estimated from value). Those rows are dropped (owner's decision, 22 November
-     2026) and listed in `pipeline/commodities/QA.md`: Qatar's LPG exports then read 10.1 Mt in both
+     with the tonnage estimated from value). Those rows are dropped (a choice made without the owner at the
+     second release) and listed in `pipeline/commodities/QA.md`: Qatar's LPG exports then read 10.1 Mt in both
      years, and world LPG 131.3 and 135.8 Mt. Several of the rows equal the LNG row of the same
      pair and year (Qatar → Italy 2021: 4.81 Mt of "LPG", 4.84 Mt of LNG), which suggests LNG cargoes
      recorded a second time under the LPG code. That cause is a hypothesis; no source states it.
@@ -1499,8 +1499,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the eleven partners
   that the Rouen page names (China, Morocco and Algeria, then, as destinations "less common" in 2023, Mauritania, Mexico, Thailand, India, Colombia, Madagascar, the United States and
   South Africa: the principle of the engine is that the page names the partner at a port, so that port; the first version had the first three only) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
-  Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, West and Central
-  Africa, the Americas other than Mexico, Colombia and the United States, the Middle East and the rest of Asia); and Fos stays the port
+  Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, the rest of Africa
+  outside the Mediterranean, the Americas other than Mexico, Colombia and the United States, the Middle East, the rest of Asia and Oceania); and Fos stays the port
   of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). No page says that a partner is served by
   one of the two ports only, so the other port is an option of every one of these partners (package FNCH): the lane page prints both distances and says that no source gives the
   split (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 17 and 7, carry the other port as an option;

@@ -66,7 +66,7 @@ S19_UNSPECIFIED = {("crude-oil", "IRN"): 2019}
 # (group, exporter) -> years in which the pairs with no flow in both neighbouring years are dropped.
 # Qatari LPG reads about 10 Mt a year except 39.0 Mt in 2021 and 36.9 Mt in 2023, on pairs that have
 # no LPG in the years around; several equal the LNG row of the same pair and year. Hypothesis (no
-# source states it): LNG cargoes recorded a second time under the LPG code. Owner decision O7: drop.
+# source states it): LNG cargoes recorded a second time under the LPG code. A choice made without the owner (second release): drop.
 DROP_NEW_PAIRS = {("lpg", "QAT"): (2021, 2023)}
 LPG_DEDUP = "drop"  # "drop" | "flag"
 # Rule 9. Lithium carbonate and hydroxide trade at thousands of USD per tonne: a flow of the group declared below this unit
@@ -100,7 +100,7 @@ KEEP_REPORTED = {
     ("sorghum", "ITA", "ETH", 2017): "this pair's unit value is 640 to 750 USD/t in every year it is recorded from 2012: the group median (220) is no reference for it",
     ("monoammonium-phosphate", "RUS", "PAK", 2005): "the pair's unit value is 775 and 590 in the next two years, like the 886 of the row: tonnage and value agree",
     ("ammonium-sulphate", "UKR", "DZA", 2015): "tonnage in line with the pair's only other year (3.4 kt); the value is 81 times that year's",
-    ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 45 to 204 times theirs (USD 0.4 to 1.7 million)",
+    ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 45 to 201 times theirs (USD 0.4 to 1.7 million)",
     ("dri", "CHN", "SAU", 2018): "no tonnage is recorded and the value (USD 60 million) is above that of every other year (USD 3.1 to 39.6 million); the estimate (181 kt) is 3.7 times the pair's largest year (48 kt)",
     ("dri", "CHN", "SAU", 2019): "no tonnage is recorded; the estimate (66 kt) is 1.4 times the pair's largest year (48 kt)",
     ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 240 times that year's",

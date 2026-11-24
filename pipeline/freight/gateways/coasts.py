@@ -507,7 +507,7 @@ COAST_RULES = [
                   "tonnages are those of the whole port with each partner, not of grain. So the principal port is Rouen for the eleven partners that the "
                   "page names and for the partners of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands, "
                   "Germany, the Nordic and Baltic countries, Poland), and La Pallice for every other partner on the Atlantic side or left open (the Atlantic "
-                  "coast of Europe, West and Central Africa, the Americas, the Middle East and the rest of Asia). Since no page says that a partner is "
+                  "coast of Europe, the rest of Africa outside the Mediterranean, the Americas, the Middle East, the rest of Asia and Oceania). Since no page says that a partner is "
                   "served by one port only, the other port is an option of every one of these partners: a lane page prints both distances and says "
                   "that no source gives the split. The Mediterranean and Black Sea partners, Russia included, take Fos",
         "src": "atlas", "url": None,
