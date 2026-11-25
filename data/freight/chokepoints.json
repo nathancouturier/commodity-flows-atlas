@@ -752,16 +752,16 @@
 }
 },
 "traffic": {
-"v": 3.5,
+"v": 3.3,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 92.3/day; 2025 average 85.5/day"
 },
 "trafficVol": {
-"v": 0.053,
+"v": 0.059,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.69 Mt/day; 2025 average 3.22 Mt/day"
 },
@@ -2305,16 +2305,16 @@
 }
 ],
 "traffic": {
-"v": 224.1,
+"v": 221.9,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 220.1/day; 2025 average 234.5/day"
 },
 "trafficVol": {
-"v": 8.44,
+"v": 8.33,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 8.32 Mt/day; 2025 average 9.07 Mt/day"
 },
@@ -5126,16 +5126,16 @@
 }
 ],
 "traffic": {
-"v": 31.0,
+"v": 31.8,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 30.4/day; 2025 average 31.9/day"
 },
 "trafficVol": {
-"v": 1.14,
+"v": 1.24,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.10 Mt/day; 2025 average 1.27 Mt/day"
 },
@@ -6208,16 +6208,16 @@
 }
 },
 "traffic": {
-"v": 37.8,
+"v": 37.7,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 37.5/day; 2025 average 35.8/day"
 },
 "trafficVol": {
-"v": 3.08,
+"v": 3.05,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.66 Mt/day; 2025 average 2.96 Mt/day"
 },
@@ -7475,16 +7475,16 @@
 "n": "Volume-weighted median over 144 mapped lanes that use this passage, at each lane's typical laden speed"
 },
 "traffic": {
-"v": 43.7,
+"v": 44.8,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 73.7/day; 2025 average 38.5/day"
 },
 "trafficVol": {
-"v": 1.85,
+"v": 1.9,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.35 Mt/day; 2025 average 1.39 Mt/day"
 },
@@ -8787,16 +8787,16 @@
 "n": "Volume-weighted median over 143 mapped lanes that use this passage, at each lane's typical laden speed"
 },
 "traffic": {
-"v": 27.0,
+"v": 26.5,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 74.0/day; 2025 average 33.5/day"
 },
 "trafficVol": {
-"v": 0.936,
+"v": 0.957,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.37 Mt/day; 2025 average 1.20 Mt/day"
 },
@@ -9687,16 +9687,16 @@
 "n": "Volume-weighted median over 32 mapped lanes that use this passage, at each lane's typical laden speed"
 },
 "traffic": {
-"v": 27.9,
+"v": 27.6,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 30.2/day; 2025 average 31.1/day"
 },
 "trafficVol": {
-"v": 0.796,
+"v": 0.783,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.820 Mt/day; 2025 average 0.894 Mt/day"
 },
@@ -10524,16 +10524,16 @@
 }
 },
 "traffic": {
-"v": 48.0,
+"v": 46.9,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 96.7/day; 2025 average 92.4/day"
 },
 "trafficVol": {
-"v": 0.558,
+"v": 0.553,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.14 Mt/day; 2025 average 1.16 Mt/day"
 },
@@ -11385,16 +11385,16 @@
 }
 ],
 "traffic": {
-"v": 41.0,
+"v": 39.7,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 45.3/day; 2025 average 47.1/day"
 },
 "trafficVol": {
-"v": 0.0961,
+"v": 0.0945,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.0973 Mt/day; 2025 average 0.110 Mt/day"
 },
@@ -12622,16 +12622,16 @@
 }
 },
 "traffic": {
-"v": 126.9,
+"v": 129.2,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 146.4/day; 2025 average 135.4/day"
 },
 "trafficVol": {
-"v": 3.47,
+"v": 3.54,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 4.11 Mt/day; 2025 average 3.54 Mt/day"
 },
@@ -13697,16 +13697,16 @@
 }
 ],
 "traffic": {
-"v": 162.4,
+"v": 167.0,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 174.7/day; 2025 average 174.7/day"
 },
 "trafficVol": {
-"v": 3.42,
+"v": 3.38,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.55 Mt/day; 2025 average 3.57 Mt/day"
 },
@@ -14527,16 +14527,16 @@
 }
 ],
 "traffic": {
-"v": 83.0,
+"v": 78.4,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 49.1/day; 2025 average 89.5/day"
 },
 "trafficVol": {
-"v": 5.12,
+"v": 4.77,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.03 Mt/day; 2025 average 5.68 Mt/day"
 },
@@ -16126,16 +16126,16 @@
 }
 ],
 "traffic": {
-"v": 221.9,
+"v": 230.3,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 239.9/day; 2025 average 238.8/day"
 },
 "trafficVol": {
-"v": 5.51,
+"v": 5.57,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 5.61 Mt/day; 2025 average 5.94 Mt/day"
 },
@@ -17243,16 +17243,16 @@
 }
 ],
 "traffic": {
-"v": 203.6,
+"v": 200.9,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 234.1/day; 2025 average 219.4/day"
 },
 "trafficVol": {
-"v": 2.89,
+"v": 2.87,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.92 Mt/day; 2025 average 3.14 Mt/day"
 },
@@ -18164,14 +18164,14 @@
 "traffic": {
 "v": 51.4,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 58.4/day; 2025 average 46.4/day"
 },
 "trafficVol": {
-"v": 3.2,
+"v": 3.17,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 3.18 Mt/day; 2025 average 2.87 Mt/day"
 },
@@ -19622,16 +19622,16 @@
 }
 ],
 "traffic": {
-"v": 94.5,
+"v": 102.2,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 75.1/day; 2025 average 66.4/day"
 },
 "trafficVol": {
-"v": 6.35,
+"v": 6.52,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 4.44 Mt/day; 2025 average 4.12 Mt/day"
 },
@@ -19649,16 +19649,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 155.6,
+"v": 153.9,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 182.6/day; 2025 average 170.4/day"
 },
 "trafficVol": {
-"v": 5.91,
+"v": 5.89,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 5.84 Mt/day; 2025 average 6.21 Mt/day"
 },
@@ -19676,16 +19676,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 50.9,
+"v": 49.4,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 44.8/day; 2025 average 47.9/day"
 },
 "trafficVol": {
-"v": 1.19,
+"v": 1.11,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 1.06 Mt/day; 2025 average 1.17 Mt/day"
 },
@@ -19705,14 +19705,14 @@
 "traffic": {
 "v": 0.1,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 8.2/day; 2025 average 13.8/day"
 },
 "trafficVol": {
-"v": 7.39e-05,
+"v": 2.56e-05,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.0151 Mt/day; 2025 average 0.0681 Mt/day"
 },
@@ -19730,16 +19730,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 4.4,
+"v": 4.6,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 4.4/day; 2025 average 4.0/day"
 },
 "trafficVol": {
-"v": 0.163,
+"v": 0.18,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.136 Mt/day; 2025 average 0.138 Mt/day"
 },
@@ -19757,16 +19757,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 50.8,
+"v": 52.0,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 50.2/day; 2025 average 33.5/day"
 },
 "trafficVol": {
-"v": 3.21,
+"v": 3.36,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 2.66 Mt/day; 2025 average 1.87 Mt/day"
 },
@@ -19784,16 +19784,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 38.9,
+"v": 33.9,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 43.5/day; 2025 average 45.7/day"
 },
 "trafficVol": {
-"v": 0.894,
+"v": 0.757,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.903 Mt/day; 2025 average 1.01 Mt/day"
 },
@@ -19910,16 +19910,16 @@
 }
 ],
 "traffic": {
-"v": 8.2,
+"v": 8.3,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.6/day; 2025 average 10.5/day"
 },
 "trafficVol": {
-"v": 0.641,
+"v": 0.605,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.405 Mt/day; 2025 average 0.805 Mt/day"
 },
@@ -19937,16 +19937,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 11.8,
+"v": 11.5,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.4/day; 2025 average 11.0/day"
 },
 "trafficVol": {
-"v": 0.348,
+"v": 0.315,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.247 Mt/day; 2025 average 0.287 Mt/day"
 },
@@ -19964,16 +19964,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 15.4,
+"v": 15.5,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 15.1/day; 2025 average 15.7/day"
 },
 "trafficVol": {
-"v": 0.279,
+"v": 0.266,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.245 Mt/day; 2025 average 0.275 Mt/day"
 },
@@ -19991,16 +19991,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 11.8,
+"v": 12.1,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 10.9/day; 2025 average 9.3/day"
 },
 "trafficVol": {
-"v": 0.289,
+"v": 0.331,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.305 Mt/day; 2025 average 0.220 Mt/day"
 },
@@ -20479,16 +20479,16 @@
 }
 },
 "traffic": {
-"v": 9.0,
+"v": 9.2,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 9.5/day; 2025 average 9.5/day"
 },
 "trafficVol": {
-"v": 0.186,
+"v": 0.215,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.190 Mt/day; 2025 average 0.201 Mt/day"
 },
@@ -20506,16 +20506,16 @@
 "summary": "One of the 28 passages counted by IMF PortWatch. Traffic only: the atlas's mapped lanes are not tagged with this passage and it holds no published flow statistics for it.",
 "s": "portwatch",
 "traffic": {
-"v": 1.6,
+"v": 1.2,
 "u": "vessels/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Tankers, dry bulk, container, general cargo and ro-ro (IMF PortWatch daily transits); 2023 average 0.7/day; 2025 average 1.0/day"
 },
 "trafficVol": {
-"v": 0.0249,
+"v": 0.0151,
 "u": "Mt/day",
-"y": "28 days to 2026-11-15",
+"y": "28 days to 2026-11-22",
 "s": "portwatch",
 "n": "Estimated trade volume of the vessels counted (IMF PortWatch estimate, not a customs statistic); 2023 average 0.00989 Mt/day; 2025 average 0.0192 Mt/day"
 },
