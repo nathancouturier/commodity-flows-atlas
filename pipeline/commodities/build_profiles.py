@@ -755,8 +755,10 @@ def main():
         pf = load_json(f)
         cols = pf["cols"]
         rows = [dict(zip(cols, r)) for r in pf["rows"]]
-        # the overland part of a pair whose split is known (its row holds the part by sea): a land row, with no route and no estimate
-        rows += [{"o": o, "d": d, "kt": kt, "m": 3, "load": -1, "dis": -1, "nm": 0, "cls": -1, "via": 0, "alt": 0, "f": 0} for o, d, kt in pf.get("rest", [])]
+        # the overland part of a pair whose split is known (its row holds the part by sea): a land row, with no route, that is an estimate when its
+        # pair is: the pair's tonnage in all modes is the estimate, of which the row of the pair holds the part by sea (flags 1 and 32: build_lanes.F_EST, F_VOLUME)
+        by_pair = {(r["o"], r["d"]): int(r["f"]) & (1 | 32) for r in rows}
+        rows += [{"o": o, "d": d, "kt": kt, "m": 3, "load": -1, "dis": -1, "nm": 0, "cls": -1, "via": 0, "alt": 0, "f": by_pair[(o, d)]} for o, d, kt in pf.get("rest", [])]
         df = pd.DataFrame(rows)
         df["t"] = df["kt"] * 1000.0
         df["est"] = (df["f"].astype(int) & 1).astype(bool)
