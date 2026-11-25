@@ -907,7 +907,7 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   pages and never less than 8 seconds between two requests (a test keeps it from being made faster), NOTICE.md
   quotes the terms and the decision, and the weekly traffic per port will be loaded the same way, a few ports
   at a time.
-- 25 November 2026, three answers:
+- 25 November 2026, four answers:
   - **EIA daily spot prices.** The owner opened the EIA's table of petroleum spot prices in a browser and read
     the line under it: "Source: Refinitiv". The EIA's definitions page of the natural gas prices gives "Spot
     Price: Refinitiv, an LSEG business." No page read says whether prices credited to Refinitiv may be
@@ -920,8 +920,14 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   - **The World Port Index's page.** The owner opened the publisher's page again on 25 November 2026 and sent
     what it shows: "MSI IS CURRENTLY UNDER MAINTENANCE", with "Please take advantage of the helpful resources
     linked here", among them a link "World Port Index CSV"; no terms of use, no copyright notice and no edition
-    are on the page. The terms of the file therefore stay "to be confirmed"; the publisher's own file can
-    replace the Internet Archive's copy when the owner downloads it from that link.
+    are on the page. The terms of the file therefore stay "to be confirmed". The link did not give the file when
+    the owner tried it, and the Wayback Machine's availability service, asked the same day, names the capture of
+    29 September 2026 as the closest to that day: the atlas already uses the latest archived copy.
+  - **Two choices put to him.** Asked whether the voyage calculator may start from the speed and fuel of the
+    Baltic standard vessels, and whether the port series that read very low (Odesa, Kharg Island) should stay
+    on the pages, the owner asked why they would not be kept. He was given the reasons against (the Baltic
+    Exchange's terms restrict the reuse of its content; a visitor may take a low count for the port's real
+    traffic) and asked for no change: both stay as they are, with PortWatch's own warning under every series.
 
 ## Choices made without the owner, to confirm
 

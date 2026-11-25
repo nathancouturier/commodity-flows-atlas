@@ -573,6 +573,20 @@ def run_block(text, step_name):
     raise KeyError(step_name)
 
 
+class JobLimits(unittest.TestCase):
+    """A job that reaches its own limit is cancelled before its last step can record anything: a red run, and an e-mail. Each update job
+    therefore holds the limits of its steps and fifteen minutes more, for the steps that have none (checkout, the set-up of Python
+    and Node, the finish action)."""
+
+    def test_every_update_job_holds_the_limits_of_its_steps_and_fifteen_minutes_more(self):
+        for name in ("update-prices.yml", "update-portwatch.yml", "update-annual.yml"):
+            steps, job_limit = workflow_steps(_text(".github", "workflows", name))
+            limits = [int(x["timeout-minutes"]) for x in steps if "timeout-minutes" in x]
+            self.assertTrue(limits, name)
+            self.assertIsNotNone(job_limit, name)
+            self.assertGreaterEqual(job_limit, sum(limits) + 15, f"{name}: the job stops at {job_limit} minutes, its steps may take {sum(limits)}")
+
+
 class PortStepInTheJob(unittest.TestCase):
     """The PortWatch job has a second step for the port series. Its shape is read from the workflow; what the finish action does with
     each way that step can end is run on a copy of the data in a temporary repository (the shell of the action as it is in action.yml:

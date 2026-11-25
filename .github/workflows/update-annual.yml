@@ -34,7 +34,8 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 240
+    # the limits of the steps (10 + 10 + 205 + 5) plus 15 minutes for the steps that have none: a job limit that is hit is a red run
+    timeout-minutes: 245
     outputs:
       deploy: ${{ steps.finish.outputs.deploy }}
     steps:
