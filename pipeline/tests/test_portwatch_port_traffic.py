@@ -1456,7 +1456,10 @@ class SizeStop(Env):
         self.assertIn("size_kb", status.get(S.SOURCE)["state"])
 
     def test_from_ninety_per_cent_the_run_warns_in_its_summary_and_in_the_status_and_still_writes(self):
-        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(0.93)):
+        # outside GitHub Actions the line starts "WARNING: " (on a runner it is an annotation, "::warning::": the next test); the
+        # checks themselves run on a runner, so the variable is taken out here: the test may not depend on where it runs
+        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(0.93)), mock.patch.dict(os.environ):
+            os.environ.pop("GITHUB_ACTIONS", None)
             res = self.run_script(today=date(2026, 11, 25))
         self.assertIsNone(res["error"])
         self.assertTrue(res["written"])

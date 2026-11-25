@@ -163,7 +163,12 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   repository; nothing of it is in the repository or was run. The last reader, by a mistaken path, wrote for a
   few minutes in the working folder instead of its own copy (links, two copied folders, one changed line of a
   script) and undid it; the folder was then compared with the committed state and was identical, and the checks
-  that count for publication run on a fresh clone of the commit. And the weekly step was built before the first
+  that count for publication run on a fresh clone of the commit. The first push of this release failed its
+  checks on GitHub and was not deployed (the site stayed as it was): one test of the port script expected the
+  size warning as it is printed outside GitHub ("WARNING: ..."), and on GitHub's machines the script prints it
+  as an annotation ("::warning::..."), so the test passed everywhere but there. The test no longer depends on
+  where it runs, and the fresh-clone rehearsal of the checks now sets the variables a GitHub machine sets. And
+  the weekly step was built before the first
   scheduled run of the job in its present form (25 November, 19:17 UTC) had been seen: nothing of it was
   published before that run.
 - **The two weekly jobs ran on GitHub for the first time in their reworked form on 25 November 2026**, on the
